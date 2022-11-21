@@ -347,7 +347,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		html2.getElement().setAttribute("role", "application");
 		html2.addDomHandler(event -> {
 			// don't kill Ctrl+V or write V
-			if (controlDown(event)
+		if (controlDown(event)
 					&& (event.getCharCode() == 'v'
 							|| event.getCharCode() == 'V')
 					|| isLeftAltDown()) {
@@ -392,6 +392,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			}
 
 			int code = convertToJavaKeyCode(event.getNativeEvent());
+
+			if (isShortcutToPrevent(event, code)) {
+				event.preventDefault();
+			}
+
 			boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
 					getModifiers(event), getChar(event.getNativeEvent())));
 			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
@@ -415,6 +420,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			}
 
 		}, KeyDownEvent.getType());
+	}
+
+	private boolean isShortcutToPrevent(KeyDownEvent event, int code) {
+		return controlDown(event) && event.isShiftKeyDown()
+				&& (code == JavaKeyCodes.VK_B || code == JavaKeyCodes.VK_M);
 	}
 
 	/** Read position in current */

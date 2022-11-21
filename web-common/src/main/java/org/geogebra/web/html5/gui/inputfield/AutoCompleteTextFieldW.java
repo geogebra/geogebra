@@ -238,8 +238,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				int etype = DOM.eventGetType(event);
 				if (isShortcutToPrevent(event)) {
 					event.preventDefault();
-					event.stopPropagation();
-					Log.debug("EventToPrevent");
 				}
 
 				if (isSelected(etype)) {
