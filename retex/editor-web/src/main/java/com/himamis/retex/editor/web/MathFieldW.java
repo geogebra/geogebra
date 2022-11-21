@@ -393,7 +393,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 			int code = convertToJavaKeyCode(event.getNativeEvent());
 
-			if (isShortcutToPrevent(event, code)) {
+			if (isShortcutDefaultPrevented(event.getNativeEvent())) {
 				event.preventDefault();
 			}
 
@@ -422,8 +422,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}, KeyDownEvent.getType());
 	}
 
-	private boolean isShortcutToPrevent(KeyDownEvent event, int code) {
-		return controlDown(event) && event.isShiftKeyDown()
+	/**
+	 * Checks if the default action of a key combination snould be prevented.
+	 * @param event to check.
+	 * @return if the default action should be prevented.
+	 */
+	public static boolean isShortcutDefaultPrevented(NativeEvent event) {
+		int code = convertToJavaKeyCode(event);
+		return event.getCtrlKey() && event.getShiftKey()
 				&& (code == JavaKeyCodes.VK_B || code == JavaKeyCodes.VK_M);
 	}
 
@@ -502,7 +508,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            native event
 	 * @return java key code
 	 */
-	int convertToJavaKeyCode(NativeEvent evt) {
+	static int convertToJavaKeyCode(NativeEvent evt) {
 
 		int keyCodeGWT = evt.getKeyCode();
 
