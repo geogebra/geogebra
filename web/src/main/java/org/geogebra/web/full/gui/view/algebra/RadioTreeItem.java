@@ -45,6 +45,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentToast;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.HasHelpButton;
@@ -381,10 +382,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected boolean updateValuePanel(String text) {
 		boolean ret = outputPanel.updateValuePanel(geo, text, latex,
-				getFontSize(), app.getActivity());
+				getFontSize());
 		if (geo != null && AlgebraItem.shouldShowSymbolicOutputButton(geo)) {
 			addControls();
-			AlgebraOutputPanel.createSymbolicButton(controls, geo, app.getActivity());
+			AlgebraOutputPanel.createSymbolicButton(controls, geo);
 		} else if (controls != null) {
 			AlgebraOutputPanel.removeSymbolicButton(controls);
 		}
@@ -482,7 +483,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 
 			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
-			outputPanel.addArrowPrefix(app.getActivity());
+			outputPanel.addArrowPrefix();
 			outputPanel.addValuePanel();
 
 			if (content.getWidgetIndex(definitionValuePanel) == -1) {
@@ -548,7 +549,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			updateFont(content);
 
 			Image arrow = new NoDragImage(
-					app.getActivity().getOutputPrefixIcon(), 24, 24);
+					MaterialDesignResources.INSTANCE.equal_sign_white(), 24, 24);
 			arrow.setStyleName("arrowOutputImg");
 			content.insert(arrow, 0);
 		}
