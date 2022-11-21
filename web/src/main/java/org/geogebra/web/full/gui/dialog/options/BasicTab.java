@@ -9,6 +9,7 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMax
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.properties.impl.graphics.RightAngleProperty;
 import org.geogebra.common.properties.impl.graphics.TooltipProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
@@ -24,7 +25,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 
 public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
@@ -66,7 +66,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	protected ComponentCheckbox cbAxisLabelItalic;
 	protected FlowPanel miscPanel;
 	private EuclidianOptionsModel model;
-	ListBox rightAngleStyleListBox;
+	CompDropDown rightAngleStyleListBox;
 	CompDropDown lbTooltips;
 
 	/**
@@ -447,13 +447,14 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 						.setFor(lbTooltips);
 		tooltips.addStyleName("dropDownLabel");
 
-		rightAngleStyleListBox = new ListBox();
-		updateRightAngleCombo();
-		rightAngleStyleListBox
-				.setSelectedIndex(optionsEuclidianW.view.getRightAngleStyle());
+		RightAngleProperty angleProperty = new RightAngleProperty(optionsEuclidianW.loc,
+				optionsEuclidianW.app);
+		rightAngleStyleListBox = new CompDropDown(optionsEuclidianW.app, angleProperty);
 		rightAngleStyleLabel = new FormLabel(
 				optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":")
 						.setFor(rightAngleStyleListBox);
+		rightAngleStyleLabel.addStyleName("dropDownLabel");
+
 		miscPanel = new FlowPanel();
 		add(miscTitle);
 
@@ -498,17 +499,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 								}
 							});
 		});
-
-		rightAngleStyleListBox.addChangeHandler(event -> model.applyRightAngleStyle(
-				rightAngleStyleListBox.getSelectedIndex()));
 	}
 
-	private void updateRightAngleCombo() {
-		rightAngleStyleListBox.clear();
-		for (String s : model.fillRightAngleCombo()) {
-			rightAngleStyleListBox.addItem(s);
-		}
-	}
 
 	protected void fillMiscPanel() {
 		miscPanel.add(
@@ -544,10 +536,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		lbTooltips.setLabels();
 		cbShowMouseCoords.setLabels();
 
-		int index = rightAngleStyleListBox.getSelectedIndex();
-
-		updateRightAngleCombo();
-		rightAngleStyleListBox.setSelectedIndex(index);
+		rightAngleStyleListBox.setLabels();
 
 		consProtocolTitle.setText(optionsEuclidianW.loc
 				.getMenu("ConstructionProtocolNavigation"));
