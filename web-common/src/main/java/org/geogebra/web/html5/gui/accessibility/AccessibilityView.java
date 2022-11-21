@@ -144,8 +144,7 @@ public class AccessibilityView implements View {
 	 *            element to select
 	 */
 	protected void select(GeoElement geo) {
-		app.getSelectionManager().clearSelectedGeos();
-		app.getSelectionManager().addSelectedGeo(geo);
+		app.getSelectionManager().setKeyboardSelection(geo);
 	}
 
 	private void addControl(AccessibleWidget widget, AccessibleWidget prevWidget) {
