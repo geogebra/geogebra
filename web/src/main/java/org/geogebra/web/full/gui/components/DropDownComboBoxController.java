@@ -110,7 +110,7 @@ public class DropDownComboBoxController implements SetLabels {
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
 		dropDown.clear();
 		for (AriaMenuItem menuItem : menuItems) {
-			if (menuItem.getText() != GroupedEnumerableProperty.DIVIDER) {
+			if (!menuItem.getText().equals(GroupedEnumerableProperty.DIVIDER)) {
 				dropDown.addItem(menuItem);
 			} else {
 				dropDown.addDivider();
