@@ -152,9 +152,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 */
 	protected void updateCardVisibility(List<Material> result) {
 		card.updateVisibility(result.get(0));
-		if (card instanceof MaterialCard) {
-			((MaterialCard) card).setThumbnail(result.get(0));
-		}
+		card.setThumbnail(result.get(0));
 	}
 
 	/**
