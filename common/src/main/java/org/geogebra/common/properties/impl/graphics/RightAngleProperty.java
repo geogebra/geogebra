@@ -17,6 +17,11 @@ public class RightAngleProperty extends AbstractEnumerableProperty {
 	};
 	private final App app;
 
+	/**
+	 * right angle style property
+	 * @param localization - localization
+	 * @param app - application
+	 */
 	public RightAngleProperty(Localization localization, App app) {
 		super(localization, "Labeling");
 		this.app = app;
