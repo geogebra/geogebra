@@ -29,7 +29,8 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		if (sup != null) {
 			ret.append(' ');
 			if (isDegrees(sup)) {
-				ret.append(sup);
+				ret.append("1".equals(base) ? ScreenReader.getDegree(loc)
+						: ScreenReader.getDegrees(loc));
 			} else {
 				ScreenReader.appendPower(ret, sup, loc);
 			}
@@ -44,6 +45,13 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	@Override
 	public String transformBrackets(String left, String base, String right) {
+		if ("|".equals(left) && "|".equals(right)) {
+			return "start absolute value " + base + " end absolute value";
+		}
+		if (base.isEmpty() && ScreenReader.getOpenParenthesis().equals(left)
+				&& ScreenReader.getCloseParenthesis().equals(right)) {
+			return "empty parentheses";
+		}
 		return readBracket(left) + base + readBracket(right);
 	}
 
@@ -74,5 +82,38 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 	@Override
 	public String nroot(String base, String root) {
 		return ScreenReader.nroot(base, root, loc);
+	}
+
+	@Override
+	public String parenthesis(String paren) {
+		return "parenthesis";
+	}
+
+	@Override
+	public String getLigature(String toString) {
+		switch (toString) {
+		case "``":
+		case "''":
+			return "\"";
+		default: return toString;
+		}
+	}
+
+	@Override
+	public String convertToReadable(String s) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			char character = s.charAt(i);
+			if (character == '_') {
+				sb.append(" subscript ");
+			} else {
+				String str = convertCharacter(character);
+				if (!"".equals(str)) {
+					sb.append(str);
+				}
+			}
+		}
+
+		return sb.toString();
 	}
 }

@@ -220,7 +220,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		if (isSymbolicMode() && tpl1.getStringType() != StringType.LATEX) {
-			return getTextForEditor(StringTemplate.editTemplate);
+			return getTextForEditor(tpl1.isScreenReader() ? tpl1 : StringTemplate.editTemplate);
 		}
 		return getText();
 	}

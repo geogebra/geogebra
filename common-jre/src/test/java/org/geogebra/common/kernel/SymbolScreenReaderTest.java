@@ -105,6 +105,8 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		GeoNumeric slider = addSlider("a = 10");
 		slider.setCaption("$β=%v°$");
 		shouldRead(slider, readSlider("beta equals 10 degrees"));
+		slider.setValue(-5);
+		shouldRead(slider, readSliderUpOnly("beta equals  minus 5 degrees"));
 	}
 
 	@Test
@@ -224,7 +226,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	public void testPointWithDegrees() {
 		GeoPoint point = add("A=(1; 15°)");
 		shouldRead(point, "Point A  equals  open parenthesis 1 semicolon "
-				+ " 15 degrees  close parenthesis"
+				+ " 15 degrees close parenthesis"
 				+ " Press the arrow keys to move the object"
 				+ " Press enter to edit Press tab to select controls");
 	}

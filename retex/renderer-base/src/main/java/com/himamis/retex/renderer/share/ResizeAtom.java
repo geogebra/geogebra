@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a scaled Atom.
  */
-public class ResizeAtom extends Atom {
+public class ResizeAtom extends Atom implements HasTrueBase {
 
 	private Atom base;
 	private TeXLength width;
@@ -107,5 +109,10 @@ public class ResizeAtom extends Atom {
 	@Override
 	public int getLimits() {
 		return base.getLimits();
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

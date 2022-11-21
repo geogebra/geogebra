@@ -112,7 +112,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 			if (i == list.getSelectedIndex()) {
 				options.getElement().setAttribute("aria-activedescendant", optionId);
 			}
-			option.setText(list.getItemDisplayString(i, StringTemplate.screenReader));
+			option.setText(list.getItemDisplayString(i, StringTemplate.screenReaderAscii));
 			option.getElement().setAttribute("role", "option");
 			final int idx = i;
 			option.addDomHandler(e -> {
@@ -145,7 +145,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 	}
 
 	private void updateText() {
-		button.setText(list.getSelectedItemDisplayString(StringTemplate.screenReader));
+		button.setText(list.getSelectedItemDisplayString(StringTemplate.screenReaderAscii));
 	}
 
 	@Override

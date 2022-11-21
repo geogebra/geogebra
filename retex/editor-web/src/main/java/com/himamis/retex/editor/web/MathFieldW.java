@@ -232,6 +232,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setAriaLabel(String label) {
 		Element target = getElementForAriaLabel();
 		if (target != null) {
+			expressionReader.debug(label);
 			target.setAttribute("aria-label", label);
 		}
 	}
@@ -1110,8 +1111,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public String getDescription() {
 		if (expressionReader != null) {
 			return ScreenReaderSerializer.fullDescription(
-					expressionReader,
-				mathFieldInternal.getEditorState().getRootComponent());
+				mathFieldInternal.getEditorState().getRootComponent(),
+					expressionReader.getAdapter());
 		}
 		return "";
 	}

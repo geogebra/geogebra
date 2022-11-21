@@ -168,7 +168,7 @@ public class AuralTextTest {
 	public void readComma() {
 		GeoElementND[] pointA = add("A = (1,2)");
 		assertEquals("open parenthesis 1 comma 2 close parenthesis",
-				pointA[0].toValueString(StringTemplate.screenReader).trim());
+				pointA[0].toValueString(StringTemplate.screenReaderAscii).trim());
 	}
 
 	@Test
