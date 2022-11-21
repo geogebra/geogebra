@@ -226,5 +226,7 @@ abstract public class ImageManager {
 	 * @param geo - text defining the image
 	 * @param fillable - set image filling for this geo
 	 */
-	public abstract void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable);
+	public void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable) {
+		// only works on platforms with SVG support (web, desktop)
+	};
 }
