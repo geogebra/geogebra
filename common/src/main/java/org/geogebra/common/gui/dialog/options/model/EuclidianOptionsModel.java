@@ -83,7 +83,7 @@ public class EuclidianOptionsModel {
 		view.setAxesColor(col);
 	}
 
-	private EuclidianSettings getSettings() {
+	public EuclidianSettings getSettings() {
 		if (view == app.getEuclidianView1()) {
 			return app.getSettings().getEuclidian(1);
 		}

@@ -9,7 +9,9 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMax
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.properties.impl.graphics.TooltipProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -65,7 +67,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	protected FlowPanel miscPanel;
 	private EuclidianOptionsModel model;
 	ListBox rightAngleStyleListBox;
-	ListBox lbTooltips;
+	CompDropDown lbTooltips;
 
 	/**
 	 * @param optionsEuclidianW
@@ -437,11 +439,13 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbShowMouseCoords = new ComponentCheckbox(optionsEuclidianW.loc, false,
 				"ShowMouseCoordinates", model::applyMouseCoords);
 		// show tooltips
-		lbTooltips = new ListBox();
-		fillTooltipCombo();
+		TooltipProperty tooltipProperty = new TooltipProperty(optionsEuclidianW.loc,
+				model.getSettings(), optionsEuclidianW.view);
+		lbTooltips = new CompDropDown(optionsEuclidianW.app, tooltipProperty);
 		tooltips = new FormLabel(
 				optionsEuclidianW.loc.getMenu("Tooltips") + ":")
 						.setFor(lbTooltips);
+		tooltips.addStyleName("dropDownLabel");
 
 		rightAngleStyleListBox = new ListBox();
 		updateRightAngleCombo();
@@ -495,9 +499,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 							});
 		});
 
-		lbTooltips.addChangeHandler(event -> model.applyTooltipMode(
-				lbTooltips.getSelectedIndex()));
-
 		rightAngleStyleListBox.addChangeHandler(event -> model.applyRightAngleStyle(
 				rightAngleStyleListBox.getSelectedIndex()));
 	}
@@ -539,13 +540,11 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		miscTitle.setText(optionsEuclidianW.loc.getMenu("Miscellaneous"));
 		backgroundColorLabel.setText(
 				optionsEuclidianW.loc.getMenu("BackgroundColor") + ":");
-		int index = lbTooltips.getSelectedIndex();
 
-		fillTooltipCombo();
-		lbTooltips.setSelectedIndex(index);
+		lbTooltips.setLabels();
 		cbShowMouseCoords.setLabels();
 
-		index = rightAngleStyleListBox.getSelectedIndex();
+		int index = rightAngleStyleListBox.getSelectedIndex();
 
 		updateRightAngleCombo();
 		rightAngleStyleListBox.setSelectedIndex(index);
@@ -566,13 +565,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		rightAngleStyleLabel.setText(
 				optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":");
-	}
-
-	private void fillTooltipCombo() {
-		lbTooltips.clear();
-		for (String item : model.fillTooltipCombo()) {
-			lbTooltips.addItem(item);
-		}
 	}
 
 	/**
