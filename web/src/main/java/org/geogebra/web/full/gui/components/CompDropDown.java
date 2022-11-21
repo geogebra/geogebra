@@ -78,7 +78,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
-		controller.setChangeHandler(() -> updateSelectionText());
+		controller.addChangeHandler(this::updateSelectionText);
 		updateSelectionText();
 	}
 
@@ -141,14 +141,14 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	}
 
 	/**
-	 * update selection text
+	 * This should be called automatically when an item is selected (by user or programmatically)
 	 */
-	public void updateSelectionText() {
+	private void updateSelectionText() {
 		selectedOption.setText(controller.getSelectedText());
 	}
 
-	public void setChangeHandler(Runnable changeHandler) {
-		controller.setChangeHandler(changeHandler);
+	public void addChangeHandler(Runnable changeHandler) {
+		controller.addChangeHandler(changeHandler);
 	}
 
 	/**
@@ -167,7 +167,11 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		return fullWidth;
 	}
 
+	/**
+	 * @param dropdownIndex selected index
+	 */
 	public void setSelectedIndex(int dropdownIndex) {
 		controller.setSelectedOption(dropdownIndex);
+		updateSelectionText();
 	}
 }

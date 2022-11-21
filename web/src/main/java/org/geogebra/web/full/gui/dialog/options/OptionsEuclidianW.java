@@ -156,8 +156,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			EnumerableProperty pointCaptProperty = new PointCapturingProperty(app,
 					app.getLocalization());
 			pointCapturingStyle = new CompDropDown(app, pointCaptProperty);
-			pointCapturingStyle.setChangeHandler(() -> {
-				pointCapturingStyle.updateSelectionText();
+			pointCapturingStyle.addChangeHandler(() -> {
 				app.setUnsaved();
 				app.storeUndoInfo();
 			});
@@ -206,7 +205,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			mainPanel.add(lblGridType);
 			lblGridType.setStyleName("panelTitle");
 			
-			lbGridType.setChangeHandler(() -> {
+			lbGridType.addChangeHandler(() -> {
 				int type = view.getSettings().getGridType();
 				view.setGridType(type);
 				if (type == EuclidianView.GRID_POLAR) {
@@ -223,7 +222,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			ncbGridTickX = new ComponentCombobox(app, "", Arrays.asList("1",
 					Unicode.PI_STRING, PI_HALF_STRING));
-			ncbGridTickX.setChangeHandler(() -> {
+			ncbGridTickX.addChangeHandler(() -> {
 				model.applyGridTicks(ncbGridTickX.getSelectedText(), 0);
 				ncbGridTickX.updateSelectionText(ncbGridTickX.getSelectedText());
 				updateView();
@@ -231,7 +230,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	
 			ncbGridTickY = new ComponentCombobox(app, "", Arrays.asList("1",
 					Unicode.PI_STRING, PI_HALF_STRING));
-			ncbGridTickY.setChangeHandler(() -> {
+			ncbGridTickY.addChangeHandler(() -> {
 					model.applyGridTicks(ncbGridTickY.getSelectedText(), 1);
 					ncbGridTickY.updateSelectionText(ncbGridTickY.getSelectedText());
 					updateView();
@@ -241,7 +240,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					Arrays.asList(Unicode.PI_STRING + "/12",
 					Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
 					Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2"));
-			cbGridTickAngle.setChangeHandler(() -> {
+			cbGridTickAngle.addChangeHandler(() -> {
 					model.applyGridTickAngle(cbGridTickAngle.getSelectedText());
 					cbGridTickAngle.updateSelectionText(cbGridTickAngle.getSelectedText());
 					updateView();

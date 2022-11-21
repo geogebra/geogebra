@@ -60,7 +60,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(appW, this, items, this::onClose);
-		controller.setChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
+		controller.addChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
 		updateSelectionText(controller.getSelectedText());
 	}
 
@@ -195,8 +195,8 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 		updateSelectionText(controller.getSelectedText());
 	}
 
-	public void setChangeHandler(Runnable handler) {
-		controller.setChangeHandler(handler);
+	public void addChangeHandler(Runnable handler) {
+		controller.addChangeHandler(handler);
 	}
 
 	public int getSelectedIndex() {
