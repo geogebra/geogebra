@@ -61,6 +61,7 @@ public class TeXBuilder {
 	};
 
 	private MathSequence currentField;
+	private int currentOffset;
 	private HashMap<Atom, MathComponent> atomToComponent;
 	private final TeXParser parser;
 	private final TeXSerializer teXSerializer;
@@ -104,7 +105,7 @@ public class TeXBuilder {
 				ra.add(tmp);
 				continue;
 			} else if (argument1 instanceof MathCharPlaceholder) {
-				Atom box = getPlaceholderBox();
+				Atom box = getCharPlaceholder(argument1);
 				atomToComponent.put(box, argument1);
 				ra.add(box);
 				continue;
@@ -126,6 +127,11 @@ public class TeXBuilder {
 		}
 
 		return ra;
+	}
+
+	private Atom getCharPlaceholder(MathComponent argument1) {
+		int index = argument1.getParentIndex();
+		return index == currentOffset ? getInvisiblePlaceholder(): getPlaceholderBox();
 	}
 
 	private Atom getPlaceholderAtom(MathSequence mathFormula) {
@@ -460,8 +466,10 @@ public class TeXBuilder {
 	 *            selected field
 	 * @return atom representing the whole sequence
 	 */
-	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
+	public Atom build(MathSequence rootComponent, MathSequence currentField1,
+			int currentOffset, boolean textMode) {
 		this.currentField = currentField1;
+		this.currentOffset = currentOffset;
 		this.atomToComponent = new HashMap<>();
 		Atom root = build(rootComponent);
 		if (textMode) {

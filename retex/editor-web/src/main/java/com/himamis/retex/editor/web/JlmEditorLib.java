@@ -65,7 +65,7 @@ public class JlmEditorLib extends JlmLib {
 		try {
 			MathFormula formula = new Parser(new MetaModel()).parse(ascii);
 			texFormula.root = new TeXBuilder().build(formula.getRootComponent(),
-					null, false);
+					null, -1, false);
 		} catch (ParseException e) {
 			FactoryProvider.debugS("Invalid input " + ascii);
 		}
