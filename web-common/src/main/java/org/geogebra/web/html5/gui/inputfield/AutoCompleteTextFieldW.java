@@ -236,6 +236,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			@Override
 			public void onBrowserEvent(Event event) {
 				int etype = DOM.eventGetType(event);
+				if (isShortcutToPrevent(event)) {
+					event.preventDefault();
+					event.stopPropagation();
+					Log.debug("EventToPrevent");
+				}
+
 				if (isSelected(etype)) {
 					handleSelectedEvent(event);
 					return;
@@ -253,14 +259,22 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
-				if ((etype == Event.ONKEYUP
+				if (((etype == Event.ONKEYUP
 						|| etype == Event.ONKEYPRESS)
-						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
+						&& event.getKeyCode() == KeyCodes.KEY_ENTER)) {
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
 					endOnscreenKeyboardEditing();
 				}
+			}
+
+			private boolean isShortcutToPrevent(Event event) {
+				boolean isCtrlShift = event.getCtrlKey() && event.getShiftKey();
+				int keyCode = event.getKeyCode();
+				return isCtrlShift
+						&& (keyCode == KeyCodes.KEY_B
+							|| keyCode == KeyCodes.KEY_M);
 			}
 
 			private boolean isSelected(int eventType) {
