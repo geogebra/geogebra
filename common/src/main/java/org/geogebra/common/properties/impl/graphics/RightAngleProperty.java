@@ -28,7 +28,7 @@ public class RightAngleProperty extends AbstractEnumerableProperty {
 		setValuesAndLocalize(new String[]{
 				"Off",
 				"\u25a1",
-				"\u2219",
+				"\u25CF",
 				"\u2335"
 		});
 	}
