@@ -501,7 +501,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		});
 	}
 
-
 	protected void fillMiscPanel() {
 		miscPanel.add(
 				LayoutUtilW.panelRow(backgroundColorLabel, btBackgroundColor));
