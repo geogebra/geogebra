@@ -29,6 +29,7 @@
 package com.himamis.retex.editor.share.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.model.inspect.Inspecting;
@@ -39,7 +40,7 @@ import com.himamis.retex.editor.share.model.traverse.Traversing;
  *
  * @author Bea Petrovicova
  */
-abstract public class MathContainer extends MathComponent {
+abstract public class MathContainer extends MathComponent implements Iterable<MathComponent> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -516,5 +517,10 @@ abstract public class MathContainer extends MathComponent {
 
 		return arguments.get(i) instanceof MathCharacter
 				&& ((MathCharacter) arguments.get(i)).getUnicode() == ',';
+	}
+
+	@Override
+	public Iterator<MathComponent> iterator() {
+		return arguments.iterator();
 	}
 }
