@@ -51,6 +51,13 @@ public class ComponentDropDownPopup {
 	}
 
 	/**
+	 * add divider
+	 */
+	public void addDivider() {
+		menu.addVerticalSeparator();
+	}
+
+	/**
 	 * @param element
 	 *            element where clicks should not collapse the selection
 	 */

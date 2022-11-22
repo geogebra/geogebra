@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.GroupedEnumerableProperty;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -108,7 +109,11 @@ public class DropDownComboBoxController implements SetLabels {
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
 		dropDown.clear();
 		for (AriaMenuItem menuItem : menuItems) {
-			dropDown.addItem(menuItem);
+			if (!menuItem.getText().equals(GroupedEnumerableProperty.DIVIDER)) {
+				dropDown.addItem(menuItem);
+			} else {
+				dropDown.addDivider();
+			}
 		}
 	}
 
