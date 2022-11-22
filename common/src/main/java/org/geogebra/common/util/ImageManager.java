@@ -228,5 +228,5 @@ abstract public class ImageManager {
 	 */
 	public void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable) {
 		// only works on platforms with SVG support (web, desktop)
-	};
+	}
 }
