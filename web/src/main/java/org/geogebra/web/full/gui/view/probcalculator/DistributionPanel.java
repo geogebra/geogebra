@@ -165,6 +165,9 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 		DistributionTypeProperty distTypeProperty = new DistributionTypeProperty(loc, view);
 		String comboLbl = getApp().getConfig().hasDistributionView() ? "Distribution" : null;
 		comboDistribution = new CompDropDown(getApp(), comboLbl, distTypeProperty);
+		if (getApp().getConfig().hasDistributionView()) {
+			comboDistribution.setFullWidth(true);
+		}
 		comboDistribution.addStyleName("comboDistribution");
 		parent.add(comboDistribution);
 	}
