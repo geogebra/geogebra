@@ -38,15 +38,16 @@ public class JSONParserGGT {
 	 */
 	public Material toMaterial(JSONObject obj, boolean setLocalValues) {
 		Material.MaterialType type = MaterialType.ggb;
-		if (getString(obj, "type").length() > 0) {
-			try {
-				if ("ggs-template".equals(getString(obj, "type"))) {
-					type = MaterialType.ggsTemplate;
-				} else {
-					type = MaterialType.valueOf(getString(obj, "type"));
+		String typeString = obj.optString("type");
+		if (typeString != null && typeString.length() > 0) {
+			if ("ggs-template".equals(typeString)) {
+				type = MaterialType.ggsTemplate;
+			} else {
+				try {
+					type = MaterialType.valueOf(typeString);
+				} catch (Throwable t) {
+					Log.error("Unknown material type:" + typeString);
 				}
-			} catch (Throwable t) {
-				Log.error("Unknown material type:" + getString(obj, "type"));
 			}
 		}
 		String IDs = getString(obj, "id");
@@ -79,30 +80,49 @@ public class JSONParserGGT {
 		}
 
 		material.setVisibility(getString(obj, "visibility"));
-		material.setMultiuser(getBoolean(obj, "multiuser", false));
-		material.setSharedWithGroup(getBoolean(obj, "shared_with_group", false));
+		material.setMultiuser(getBoolean(obj, "multiuser", false)); // MOW
+		material.setSharedWithGroup(getBoolean(obj, "shared_with_group", false)); // MOW
 		material.setFileName(getString(obj, "fileUrl"));
+
 		material.setSharingKey(sharingKey);
 		material.setURL(getString(obj, "url"));
-		String thumbUrl = getString(obj, "thumbUrl");
-		material.setThumbnailUrl(
-				StringUtil.empty(thumbUrl) ? getString(obj, "thumbnail")
-						: thumbUrl.replace("$1", ""));
+		material.setPreviewURL(obj.optString("previewUrl"));
+		String thumbnail = obj.optString("thumbnail");
+		if (thumbnail != null && thumbnail.startsWith("data:image/png;base64,")) {
+			material.setThumbnailBase64(thumbnail);
+		} else {
+			String thumbUrl = getString(obj, "thumbUrl").replace("$1", "");
+			if (thumbUrl.startsWith("http://") || thumbUrl.startsWith("https://")) {
+				material.setThumbnailUrl(thumbUrl);
+			} else {
+				thumbnail = obj.optString("thumbnail");
+				material.setThumbnailUrl(thumbnail);
+			}
+		}
 		material.setLanguage(getString(obj, "language"));
 
 		material.setBase64(getString(obj, "ggbBase64"));
-		material.setDeleted(getBoolean(obj, "deleted", false));
+		material.setDeleted(getStringBoolean(obj, "deleted", false));
 		material.setFromAnotherDevice(
-				getBoolean(obj, "from_another_device", false));
-		material.setIs3d(getStringBoolean(obj, "is3d", false));
-		material.setSpreadsheet(getStringBoolean(obj, "spreadsheet", false));
-		material.setCas(getStringBoolean(obj, "cas", false));
-		material.setGraphics2(getStringBoolean(obj, "graphics2", false));
-		material.setConstprot(getStringBoolean(obj, "constprot", false));
-		material.setPropcalc(getStringBoolean(obj, "propcalc", false));
-		material.setDataanalysis(getStringBoolean(obj, "dataanalysis", false));
-		material.setFuncinsp(getStringBoolean(obj, "funcinsp", false));
-		material.setMacro(getStringBoolean(obj, "macro", false));
+				getStringBoolean(obj, "from_another_device", false));
+		JSONObject settings = obj.optJSONObject("settings");
+		if (settings != null) {
+			copySettings(settings, material);
+		}
+		JSONObject views = obj.optJSONObject("views");
+		if (views != null) {
+			copyViews(views, material);
+		} else {
+			material.setIs3d(getNumericBoolean(obj, "is3d", false));
+			material.setCas(getNumericBoolean(obj, "cas", false));
+			material.setSpreadsheet(getNumericBoolean(obj, "spreadsheet", false));
+			material.setGraphics2(getNumericBoolean(obj, "graphics2", false));
+			material.setConstprot(getNumericBoolean(obj, "constprot", false));
+			material.setPropcalc(getNumericBoolean(obj, "propcalc", false));
+			material.setDataanalysis(getNumericBoolean(obj, "dataanalysis", false));
+			material.setFuncinsp(getNumericBoolean(obj, "funcinsp", false));
+			material.setMacro(getNumericBoolean(obj, "macro", false));
+		}
 		material.setElemcntApplet(getInt(obj, "elemcnt_applet", -1));
 		material.setViewerID(getInt(obj, "viewerID", -1));
 		if (setLocalValues) {
@@ -132,15 +152,30 @@ public class JSONParserGGT {
 		}
 		material.setHeight(getInt(settings, "height", 600));
 		material.setWidth(getInt(settings, "width", 800));
-		material.setShowToolbar(getBoolean(settings, "showToolBar", false));
-		material.setAllowStylebar(getBoolean(settings, "allowStyleBar", false));
-		material.setShowMenu(getBoolean(settings, "showMenuBar", false));
-		material.setShowInputbar(getBoolean(settings, "showAlgebraInput", false));
-		material.setShiftDragZoom(getBoolean(settings, "enableShiftDragZoom", false));
-		material.setRightClick(getBoolean(settings, "enableRightClick", false));
-		material.setShowResetIcon(getBoolean(settings, "showResetIcon", false));
-		material.setUndoRedo(getBoolean(settings, "enableUndoRedo", false));
-		material.setShowZoomButtons(getBoolean(settings, "showZoomButtons", false));
+		material.setShowToolbar(getStringBoolean(settings, "showToolBar", false));
+		material.setAllowStylebar(getStringBoolean(settings, "allowStyleBar", false));
+		material.setShowMenu(getStringBoolean(settings, "showMenuBar", false));
+		material.setShowInputbar(getStringBoolean(settings, "showAlgebraInput", false));
+		material.setShiftDragZoom(getStringBoolean(settings, "enableShiftDragZoom", false));
+		material.setRightClick(getStringBoolean(settings, "enableRightClick", false));
+		material.setShowResetIcon(getStringBoolean(settings, "showResetIcon", false));
+		material.setUndoRedo(getStringBoolean(settings, "enableUndoRedo", false));
+		material.setShowZoomButtons(getStringBoolean(settings, "showZoomButtons", false));
+	}
+
+	/**
+	 * Copy view settings from "views" object to material.
+	 * @param views the "views" dictionary of a GeoGebra Applet ("type": "G") JSON object.
+	 * @param material the material onto which to copy the view settings.
+	 */
+	public static void copyViews(JSONObject views, Material material) {
+		material.setIs3d(getBoolean(views, "is3D", false));
+		material.setSpreadsheet(getBoolean(views, "SV", false));
+		material.setCas(getBoolean(views, "CV", false));
+		material.setPropcalc(getBoolean(views, "PC", false));
+		material.setDataanalysis(getBoolean(views, "DA", false));
+		material.setFuncinsp(getBoolean(views, "FI", false));
+		material.setMacro(getBoolean(views, "macro", false));
 	}
 
 	private static String getAppName(JSONObject obj) {
@@ -161,54 +196,42 @@ public class JSONParserGGT {
 		}
 	}
 
-	private static boolean getBoolean(JSONObject obj, String string,
-			boolean def) {
-		if (!obj.has(string)) {
-			return def;
-		}
-		Object str = null;
-		try {
-			str = obj.get(string);
-		} catch (Exception e) {
-			// ignore
-		}
-		if (str == null || "".equals(str)) {
-			return def;
-		}
-		return Boolean.parseBoolean(str.toString());
-	}
-
-	private static String getString(JSONObject obj, String string) {
-		Object str = obj.opt(string);
-		if (str == null || "false".equals(str.toString())) {
-			return "";
-		}
-		return str.toString();
-	}
-
-	private static int getInt(JSONObject obj, String string, int def) {
-		Object str = obj.opt(string);
-		if (str == null || "".equals(str)) {
-			return def;
-		}
-		return Integer.parseInt(str.toString());
-	}
-
 	private static boolean getStringBoolean(JSONObject obj, String name,
 			boolean def) {
-		if (!obj.has(name)) {
+		String value = obj.optString(name);
+		if (value == null || "".equals(value)) {
 			return def;
 		}
-		String value = null;
-		try {
-			value = obj.getString(name);
-			if ("".equals(value)) {
-				return def;
-			}
-		} catch (Exception e) {
-			// ignore
+		return Boolean.parseBoolean(value);
+	}
+
+	private static boolean getNumericBoolean(JSONObject obj, String name,
+			boolean def) {
+		String value = obj.optString(name);
+		if (value == null || "".equals(value)) {
+			return def;
 		}
 		return "0".equals(value) ? false : true;
+	}
+
+	private static boolean getBoolean(JSONObject obj, String name, boolean def) {
+		return obj.optBoolean(name, def);
+	}
+
+	private static String getString(JSONObject obj, String name) {
+		String value = obj.optString(name);
+		if (value == null || "".equals(value)) {
+			return "";
+		}
+		return value;
+	}
+
+	private static int getInt(JSONObject obj, String name, int def) {
+		String value = obj.optString(name);
+		if (value == null || "".equals(value)) {
+			return def;
+		}
+		return Integer.parseInt(value);
 	}
 
 	/**
