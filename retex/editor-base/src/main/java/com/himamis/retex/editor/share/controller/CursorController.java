@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -84,7 +85,17 @@ public class CursorController {
 			lastField(editorState, mathContainer);
 		} else {
 			editorState.decCurrentOffset();
+			if (isPrevCharPlaceholder(editorState)) {
+				editorState.decCurrentOffset();
+			}
 		}
+	}
+
+	private static boolean isPrevCharPlaceholder(EditorState editorState) {
+		MathSequence currentField = editorState.getCurrentField();
+		int offset = editorState.getCurrentOffset();
+		return offset > 0
+				&& currentField.getArgument(offset - 1) instanceof MathCharPlaceholder;
 	}
 
 	/**
