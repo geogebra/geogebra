@@ -162,7 +162,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.util.Unicode;
 
 import elemental2.core.ArrayBuffer;
 import elemental2.core.Uint8Array;

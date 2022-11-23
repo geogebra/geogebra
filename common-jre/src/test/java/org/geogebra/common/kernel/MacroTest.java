@@ -88,8 +88,6 @@ public class MacroTest extends BaseUnitTest {
 
 	@Test
 	public void testMacroEditing() {
-		StringBuilder sb = new StringBuilder();
-
 		// test openEditMacro
 		GeoElement a = addMacroCommand("A=(1,2)");
 		GeoElement b = addMacroCommand("B=(3,4)");
@@ -110,7 +108,7 @@ public class MacroTest extends BaseUnitTest {
 		Assert.assertEquals(3, input[1].getLabelPosition().getX(), .001);
 		Assert.assertEquals(4, input[1].getLabelPosition().getY(), .001);
 		Assert.assertEquals("f", output[0].getLabel(StringTemplate.defaultTemplate));
-
+		StringBuilder sb = new StringBuilder();
 		editMacro.getXML(sb);
 		String xml1 = sb.toString();
 		Assert.assertTrue(xml1.contains("label=\"A\""));
