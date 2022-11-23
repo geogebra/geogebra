@@ -109,23 +109,24 @@ public final class MyImageW implements MyImage {
 	}
 
 	@Override
-	public MyImage tint(GColor objectColor) {
+	public MyImage tint(GColor color, Runnable onLoad) {
 		if (!svg) {
 			return this;
 		}
-		if (tinted == null || !Objects.equals(tinted.color, objectColor)) {
-			tinted = createTinted(objectColor);
-			tinted.color = objectColor;
+		if (tinted == null || !Objects.equals(tinted.color, color)) {
+			tinted = createTinted(color, onLoad);
+			tinted.color = color;
 		}
 		return tinted;
 	}
 
-	private MyImageW createTinted(GColor color) {
+	private MyImageW createTinted(GColor color, Runnable onLoad) {
 		try {
 			String dataUrl = img.src;
 			String svg = DomGlobal.atob(dataUrl.substring(dataUrl.indexOf(",") + 1));
 			String svgRes = SVGResourcePrototype.createFilled(color.toString(), svg);
 			HTMLImageElement img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
+			img.addEventListener("load", evt -> onLoad.run());
 			img.src = StringUtil.svgMarker + DomGlobal.btoa(svgRes);
 			return new MyImageW(img, true);
 		} catch (RuntimeException ex) {

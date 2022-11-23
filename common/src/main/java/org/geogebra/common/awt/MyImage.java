@@ -20,7 +20,12 @@ public interface MyImage {
 
 	String toLaTeXStringBase64();
 
-	default MyImage tint(GColor objectColor) {
+	/**
+	 * @param color color
+	 * @param onLoad called when tinted image ready (needed in Web)
+	 * @return tinted copy of this image
+	 */
+	default MyImage tint(GColor color, Runnable onLoad) {
 		return this;
 	}
 }

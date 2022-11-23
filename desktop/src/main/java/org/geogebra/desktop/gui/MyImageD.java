@@ -258,16 +258,16 @@ public class MyImageD implements MyImageJre {
 	}
 
 	@Override
-	public MyImage tint(GColor objectColor) {
+	public MyImage tint(GColor color, Runnable onLoad) {
 		if (svg == null) {
 			return this;
 		}
-		if (tinted == null || !Objects.equals(tinted.color, objectColor)) {
+		if (tinted == null || !Objects.equals(tinted.color, color)) {
 			if (tinted != null) {
 				SVGCache.getSVGUniverse().removeDocument(tinted.uri);
 			}
-			tinted = createTinted(objectColor);
-			tinted.color = objectColor;
+			tinted = createTinted(color);
+			tinted.color = color;
 		}
 		return tinted;
 	}
