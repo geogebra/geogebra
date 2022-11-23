@@ -43,4 +43,9 @@ abstract class AbstractAppConfig implements AppConfig {
     public int getMainGraphicsViewId() {
         return App.VIEW_EUCLIDIAN;
     }
+
+	@Override
+	public boolean hasOneVarStatistics() {
+		return true;
+	}
 }

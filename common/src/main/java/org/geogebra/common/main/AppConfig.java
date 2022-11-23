@@ -336,4 +336,6 @@ public interface AppConfig extends Serializable {
 	 * @return ID of the main graphics view (EV, EV 3D or probability)
 	 */
 	int getMainGraphicsViewId();
+
+	boolean hasOneVarStatistics();
 }

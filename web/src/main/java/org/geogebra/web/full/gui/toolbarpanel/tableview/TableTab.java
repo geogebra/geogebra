@@ -37,14 +37,20 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 		this.table = table;
 		TestHarness.setAttr(table, "TV_table");
 		table.setStyleName("tvTable", true);
-		if (toolbarPanel.getDecorator() != null) {
+		if (isScientific()) {
 			addStyleName("panelScientificDefaults");
-			((StickyValuesTable)table).disableShaded();
+			((StickyValuesTable)table).disableShadedColumns();
 			table.addStyleName("scientific");
+		} else {
+			this.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
 		}
+
 		CustomScrollbar.apply(this);
-		this.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
 		buildEmptyTablePanel();
+	}
+
+	private boolean isScientific() {
+		return toolbarPanel.getDecorator() != null;
 	}
 
 	private void buildEmptyTablePanel() {
