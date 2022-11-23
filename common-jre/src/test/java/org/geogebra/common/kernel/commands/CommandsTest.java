@@ -1303,6 +1303,8 @@ public class CommandsTest {
 	@Test
 	public void cmdDegree() {
 		t("Degree[x^4 + 2 x^2]", "4");
+		t("Degree[0x]", "0");
+		t("Degree[x^2-x^2+x+1]", "1");
 	}
 
 	@Test
@@ -4392,5 +4394,11 @@ public class CommandsTest {
 	public void cmdZMean2Estimate() {
 		t("ZMean2Estimate[ {1,2,3,4,5}, {1,2,3,4,5}, 13, 50, 42 ]", "?");
 		t("ZMean2Estimate[ 42, 42, 4, 13, 50, 42, 4 ]", "?");
+	}
+
+	@Test
+	public void productDegree() {
+		t("f(x)=x^3-Product(Sequence(x+k,k,1,-1,-1))", "x^(3) - (((x + 1) * (x)) * (x - 1))");
+		t("Degree(f)", "1");
 	}
 }
