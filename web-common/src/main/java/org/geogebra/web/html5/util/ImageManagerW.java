@@ -92,7 +92,8 @@ public class ImageManagerW extends ImageManager {
 		GuiResourcesSimpleImpl res = (GuiResourcesSimpleImpl) GuiResourcesSimple.INSTANCE;
 		SVGResource image = (SVGResource) res.getResource(geo.getTextString());
 		if (image != null) {
-			String fileName = applyImage(image.getName(), image.getSafeUri().asString(), kernel);
+			String fileName = applyImage(image.getName() + ".svg",
+					image.getSafeUri().asString(), kernel);
 			fillable.setFillType(FillType.IMAGE);
 			fillable.setImageFileName(fileName);
 			fillable.setAlphaValue(1.0f);
