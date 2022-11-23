@@ -39,6 +39,8 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 		table.setStyleName("tvTable", true);
 		if (toolbarPanel.getDecorator() != null) {
 			addStyleName("panelScientificDefaults");
+			((StickyValuesTable)table).disableShaded();
+			table.addStyleName("scientific");
 		}
 		CustomScrollbar.apply(this);
 		this.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);

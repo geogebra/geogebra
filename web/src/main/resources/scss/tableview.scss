@@ -113,6 +113,11 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 			}
 		}
 
+		.hide3Dot.content {
+			button {
+				visibility: hidden;
+ 			}
+		}
 		@-webkit-keyframes addColumn {
 			0% {min-width: 0px;}
 			100% {min-width: 120px;}
@@ -381,5 +386,12 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
+	}
+
+	.scientific.tvTable {
+		table {
+			width: 100%;
+		}
+
 	}
 }

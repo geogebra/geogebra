@@ -44,7 +44,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	protected final TableValuesModel tableModel;
 	protected final TableValuesView view;
 	private final AppW app;
-	private final HeaderCell headerCell = new HeaderCell();
+	private final HeaderCell headerCell = new HeaderCell(true);
+	private final HeaderCell headerCellWithNoMenu = new HeaderCell(false);
 	private boolean transitioning;
 	private ContextMenuTV contextMenu;
 	private final TableEditor editor;
@@ -52,6 +53,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private int rowsChange = 0;
 	private int columnsChange = 0;
 	private int removedColumnByUser = -1;
+	private boolean shaded = true;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
@@ -59,19 +61,27 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private static class HeaderCell {
 		private final String value;
+		private final FlowPanel main;
 
 		/**
 		 * Header
 		 */
-		HeaderCell() {
-			FlowPanel p = new FlowPanel();
-			p.setStyleName("content");
-			p.add(new Label("%s"));
-			StandardButton btn = new StandardButton(MaterialDesignResources.INSTANCE
+		HeaderCell(boolean menu) {
+			main = new FlowPanel();
+			main.setStyleName("content");
+			main.add(new Label("%s"));
+			StandardButton menuButton = new StandardButton(MaterialDesignResources.INSTANCE
 					.more_vert_black(), 24);
-			TestHarness.setAttr(btn, "btn_tvHeader3dot");
-			p.add(btn);
-			value = p.getElement().getString();
+			TestHarness.setAttr(menuButton, "btn_tvHeader3dot");
+			main.add(menuButton);
+			if (!menu) {
+				removeMenuButton();
+			}
+			value = main.getElement().getString();
+		}
+
+		void removeMenuButton() {
+			main.addStyleName("hide3Dot");
 		}
 
 		/**
@@ -157,10 +167,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
-		addEmptyColumn(0);
-		addEmptyColumn(1);
-		if (columnsChange < 0) {
-			addEmptyColumn(2);
+		if (shaded) {
+			addEmptyColumn(0);
+			addEmptyColumn(1);
+			if (columnsChange < 0) {
+				addEmptyColumn(2);
+			}
 		}
 	}
 
@@ -230,7 +242,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
 		String headerHTMLName = TableUtil.getHeaderHtml(tableModel, columnIndex);
-		return headerCell.getHtmlHeader(headerHTMLName);
+		return headerCellWithNoMenu.getHtmlHeader(headerHTMLName);
 	}
 
 	@Override
@@ -239,8 +251,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int row = 0; row < tableModel.getRowCount(); row++) {
 			rows.add(new TVRowData(row, tableModel));
 		}
-		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
-		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+		if (shaded) {
+			rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+			rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+		}
 		if (rowsChange < 0) {
 			for (int i = 0; i < Math.abs(rowsChange); i++) {
 				rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
@@ -486,5 +500,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	public int getColumnsChange() {
 		return columnsChange;
+	}
+
+	/**
+	 * Disable shaded style.
+	 */
+	public void disableShaded() {
+		shaded = false;
+		Dom.toggleClass(getTable(), "shaded", shaded);
 	}
 }
