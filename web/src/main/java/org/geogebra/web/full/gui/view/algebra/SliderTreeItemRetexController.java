@@ -5,13 +5,12 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -20,11 +19,12 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  *
  */
-public class SliderTreeItemRetexController extends LatexTreeItemController
-		implements ValueChangeHandler<Double> {
+public class SliderTreeItemRetexController extends LatexTreeItemController {
 
 	private SliderTreeItemRetex slider;
 	private boolean hasUnsavedChanges;
+	private Timer debounce;
+	private Double targetValue;
 
 	/**
 	 * @param item
@@ -159,15 +159,24 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 				&& !isWidgetHit(slider.getMinMax(), x, y);
 	}
 
-	@Override
-	public void onValueChange(ValueChangeEvent<Double> event) {
+	/**
+	 * Handle slider drag
+	 * @param val slider value
+	 */
+	public void onValueChange(double val) {
+		if (debounce != null && debounce.isRunning()) {
+			targetValue = val;
+			return;
+		}
+		targetValue = Double.NaN;
+		getDebounceTimer().schedule(200);
 		slider.expandSize(slider.getWidthForEdit());
 		if (isEditing()) {
 			stopEdit();
 		}
 
 		GeoNumeric numeric = slider.getNum();
-		numeric.setValue(event.getValue());
+		numeric.setValue(val);
 		numeric.updateCascade();
 		hasUnsavedChanges = true;
 		if (!numeric.isAnimating()) {
@@ -180,6 +189,20 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		}
 		// updates other views (e.g. Euclidian)
 		getApp().getKernel().notifyRepaint();
+	}
+
+	private Timer getDebounceTimer() {
+		if (debounce == null) {
+			debounce = new Timer() {
+				@Override
+				public void run() {
+					if (!Double.isNaN(targetValue)) {
+						onValueChange(targetValue);
+					}
+				}
+			};
+		}
+		return debounce;
 	}
 
 	/**

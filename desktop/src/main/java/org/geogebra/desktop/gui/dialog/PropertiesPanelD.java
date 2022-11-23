@@ -131,7 +131,7 @@ import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.properties.AnimationSpeedPanel;
 import org.geogebra.desktop.gui.properties.AnimationStepPanel;
-import org.geogebra.desktop.gui.properties.SliderPanelD;
+import org.geogebra.desktop.gui.properties.SliderPropertiesPanelD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
@@ -207,7 +207,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private TextPropertyPanel textFieldSizePanel;
 	private TextFieldAlignmentPanel textFieldAlignmentPanel;
 	private AnimationSpeedPanel animSpeedPanel;
-	private SliderPanelD sliderPanel;
+	private SliderPropertiesPanelD sliderPanel;
 	private SlopeTriangleSizePanel slopeTriangleSizePanel;
 	private StartPointPanel startPointPanel;
 	private CornerPointsPanel cornerPointsPanel;
@@ -279,7 +279,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		allowReflexAnglePanel = new AllowReflexAnglePanel();
 
-		sliderPanel = new SliderPanelD(app, this, false, true);
+		sliderPanel = new SliderPropertiesPanelD(app, this, false, true);
 		showObjectPanel = new ShowObjectPanel();
 		selectionAllowed = getCheckboxPanel(new SelectionAllowedModel(null, app));
 		showTrimmedIntersectionLines = getCheckboxPanel(

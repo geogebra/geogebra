@@ -47,7 +47,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Markus Hohenwarter
  */
-public class SliderPanelD extends JPanel
+public class SliderPropertiesPanelD extends JPanel
 		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
 		SetLabels, UpdateFonts, ISliderOptionsListener, ChangeListener {
 	/**
@@ -93,7 +93,7 @@ public class SliderPanelD extends JPanel
 	 * @param useTabbedPane whether to use tabs
 	 * @param includeRandom whether to add checkbox for random
 	 */
-	public SliderPanelD(AppD app, PropertiesPanelD propPanel,
+	public SliderPropertiesPanelD(AppD app, PropertiesPanelD propPanel,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		this.loc = app.getLocalization();

@@ -25,7 +25,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -182,13 +182,13 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		setWidget(mainWidget);
 
-		opacitySlider.addChangeHandler(event -> model.applyOpacity(opacitySlider.getValue()));
+		opacitySlider.addValueChangeHandler(event -> model.applyOpacity(opacitySlider.getValue()));
 
-		ChangeHandler angleAndDistanceHandler = event -> model.applyAngleAndDistance(
+		ValueChangeHandler<Integer> angleAndDistanceHandler = event -> model.applyAngleAndDistance(
 				angleSlider.getValue(), distanceSlider.getValue());
 
-		angleSlider.addChangeHandler(angleAndDistanceHandler);
-		distanceSlider.addChangeHandler(angleAndDistanceHandler);
+		angleSlider.addValueChangeHandler(angleAndDistanceHandler);
+		distanceSlider.addValueChangeHandler(angleAndDistanceHandler);
 
 		tfInsertUnicode.addBlurHandler(event -> {
 			String symbolText = tfInsertUnicode.getText();

@@ -25,7 +25,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
-import org.geogebra.web.full.gui.properties.SliderPanelW;
+import org.geogebra.web.full.gui.properties.SliderPropertiesPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -45,7 +45,7 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 	final static public int INTEGER = 2;
 	private AutoCompleteTextFieldW tfLabel;
 	private RadioButtonPanel<Integer> angleRadioButtonPanel;
-	private SliderPanelW sliderPanel;
+	private SliderPropertiesPanelW sliderPanel;
 
 	private GeoElement geoResult;
 	private GeoNumeric number;
@@ -126,7 +126,7 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 				this::onSliderTypeChange);
 		contentWidget.add(angleRadioButtonPanel);
 
-		sliderPanel = new SliderPanelW((AppW) app, true, true);
+		sliderPanel = new SliderPropertiesPanelW((AppW) app, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
 
 		Label nameLabel = new Label(loc.getMenu("Name"));
