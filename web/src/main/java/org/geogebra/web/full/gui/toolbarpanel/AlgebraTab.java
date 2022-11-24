@@ -62,16 +62,14 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			algebrap.setAlwaysShowScrollBars(false);
 			algebrap.add(wrapper);
 			algebrap.addStyleName("algebraPanel");
-			if (getDecorator() != null) {
-				Panel decoratedAvScrollPanel = getDecorator().decorate(algebrap, (AppW) app);
-				add(decoratedAvScrollPanel);
-			} else {
-				add(algebrap);
-			}
-
+			add(decorate(algebrap));
 			CustomScrollbar.apply(this);
 			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}
+	}
+
+	private Panel decorate(ScrollPanel algebrap) {
+		return getDecorator().decorate(algebrap, (AppW) app);
 	}
 
 	private DockPanelDecorator getDecorator() {
@@ -112,9 +110,8 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			logo.onResize(aview, toolbarPanel.getTabHeight());
 			scrollToActiveItem();
 		}
-		if (getDecorator() != null) {
-			getDecorator().onResize(aview, getOffsetHeight());
-		}
+
+		getDecorator().onResize(aview, getOffsetHeight());
 	}
 
 	/**

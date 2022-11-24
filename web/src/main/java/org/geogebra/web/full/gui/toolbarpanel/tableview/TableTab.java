@@ -14,8 +14,6 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
-import com.google.gwt.dom.client.Style;
-
 /**
  * Tab of Table Values View.
  * 
@@ -37,20 +35,13 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 		this.table = table;
 		TestHarness.setAttr(table, "TV_table");
 		table.setStyleName("tvTable", true);
-		if (isScientific()) {
-			addStyleName("panelScientificDefaults");
-			((StickyValuesTable)table).disableShadedColumns();
-			table.addStyleName("scientific");
-		} else {
-			this.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
-		}
-
+		decorate();
 		CustomScrollbar.apply(this);
 		buildEmptyTablePanel();
 	}
 
-	private boolean isScientific() {
-		return toolbarPanel.getDecorator() != null;
+	private void decorate() {
+		toolbarPanel.getDecorator().decorateTableTab(this, table);
 	}
 
 	private void buildEmptyTablePanel() {
