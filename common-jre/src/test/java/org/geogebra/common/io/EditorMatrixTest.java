@@ -62,8 +62,4 @@ public class EditorMatrixTest {
 	public void testCaretShouldStayInsideOnDownArrow() {
 		checker.matrixFromParser(matrix3x3).repeatKey(JavaKeyCodes.VK_DOWN, 20).checkPath(0, 6, 0);
 	}
-	@Test
-	public void testSerialize() {
-		checker.matrixFromParser(matrix3x3).repeatKey(JavaKeyCodes.VK_LEFT, 1).serializeAs("");
-	}
 }

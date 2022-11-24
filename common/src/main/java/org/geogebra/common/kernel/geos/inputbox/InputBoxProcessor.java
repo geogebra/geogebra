@@ -79,7 +79,10 @@ public class InputBoxProcessor {
 	}
 
 	private String eraseQuestionMark(String text) {
-		return text != null ? text.replace("?", "") : "";
+		if (text == null) {
+			return "";
+		}
+		return text.replace("?,", ",").replace(",?", ",");
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {

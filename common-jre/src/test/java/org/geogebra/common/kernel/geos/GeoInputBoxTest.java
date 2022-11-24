@@ -94,7 +94,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
         add("m1 = {{1, 2, 3}, {4, 5, 6}}");
         GeoInputBox inputBox = add("InputBox(m1)");
         inputBox.setSymbolicMode(true, false);
-        assertEquals("\\left(\\begin{array}{rrr}1&2&3\\\\4&5&6\\\\ \\end{array}\\right)",
+        assertEquals("\\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\end{pmatrix}",
 				inputBox.getText());
     }
 

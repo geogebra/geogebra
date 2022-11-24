@@ -613,7 +613,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void testComplexMatrices() {
 		add("m = {{1, i},{i, 2}}");
 		GeoInputBox inputBox = add("InputBox(m)");
-		assertEquals("\\left(\\begin{array}{rr}1&i\\\\i&2\\\\ \\end{array}\\right)",
+		assertEquals("\\begin{pmatrix} 1 & i \\\\ i & 2 \\end{pmatrix}",
 				inputBox.getText());
 	}
 
