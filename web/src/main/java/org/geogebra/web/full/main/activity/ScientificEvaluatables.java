@@ -11,7 +11,10 @@ public class ScientificEvaluatables {
 	private GeoEvaluatable functionF;
 	private GeoEvaluatable functionG;
 
-
+	/**
+	 *
+	 * @param construction {@link Construction}
+	 */
 	public ScientificEvaluatables(Construction construction) {
 		functionF = createFunction(construction, "f");
 		functionG = createFunction(construction, "g");
@@ -38,13 +41,13 @@ public class ScientificEvaluatables {
 	/**
 	 * Add evaluatables to the table of values.
 	 *
-	 * @param values
+	 * @param table to add to
 	 */
-	public void addToTV(TableValues values) {
-		values.addAndShow((GeoElement) functionF);
-		values.addAndShow((GeoElement) functionG);
+	public void addToTableOfValues(TableValues table) {
+		table.addAndShow((GeoElement) functionF);
+		table.addAndShow((GeoElement) functionG);
 		try {
-			values.setValues(-2, 2, 1);
+			table.setValues(-2, 2, 1);
 		} catch (InvalidValuesException e) {
 			throw new RuntimeException(e);
 		}

@@ -51,8 +51,9 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	private void initTableOfValues(AppW app) {
-		ScientificEvaluatables evaluatables = new ScientificEvaluatables(app.getKernel().getConstruction());
-		evaluatables.addToTV(((GuiManagerW) app.getGuiManager()).getTableValuesView());
+		ScientificEvaluatables functions = new ScientificEvaluatables(
+				app.getKernel().getConstruction());
+		functions.addToTableOfValues(((GuiManagerW) app.getGuiManager()).getTableValuesView());
 	}
 
 	private static void initHeaderButtons(AppW app) {
