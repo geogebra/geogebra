@@ -43,7 +43,6 @@ public class AngleArcSizeModel extends OptionsModel {
 			}
 			angle.updateVisualStyleRepaint(GProperty.ANGLE_STYLE);
 		}
-		storeUndoInfo();
 	}
 
 	@Override

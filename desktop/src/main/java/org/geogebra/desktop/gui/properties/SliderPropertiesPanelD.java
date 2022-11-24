@@ -40,6 +40,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
+import org.geogebra.desktop.gui.util.SliderUtil;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -116,6 +117,7 @@ public class SliderPropertiesPanelD extends JPanel
 		sliderLineOpacity.setPaintTicks(true);
 		sliderLineOpacity.setPaintLabels(true);
 		sliderLineOpacity.setSnapToTicks(true);
+		SliderUtil.addValueChangeListener(sliderLineOpacity, val -> model.storeUndoInfo());
 		sliderLineOpacity.addChangeListener(this);
 
 		cbSliderFixed = new JCheckBox("", true);
@@ -514,12 +516,10 @@ public class SliderPropertiesPanelD extends JPanel
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == sliderLineOpacity) {
-			if (!sliderLineOpacity.getValueIsAdjusting()) {
-				model.applyTransparency(sliderLineOpacity.getValue());
-				btnLineColor.setForeground(
-						GColorD.getAwtColor(
-								getColorWithOpacity(model.getLineColor())));
-			}
+			model.applyTransparency(sliderLineOpacity.getValue());
+			btnLineColor.setForeground(
+					GColorD.getAwtColor(
+							getColorWithOpacity(model.getLineColor())));
 		}
 	}
 }

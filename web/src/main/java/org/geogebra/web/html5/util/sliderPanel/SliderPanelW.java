@@ -6,7 +6,6 @@ import org.geogebra.common.util.DoubleUtil;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -47,7 +46,6 @@ public class SliderPanelW extends FlowPanel {
 		setMaximum(max, degrees);
 		add(maxLabel);
 		setStyleName("optionsSlider");
-		slider.addInputHandler(() -> slider.notifyValueChangeHandlers());
 	}
 
 	public Double getValue() {
@@ -121,16 +119,8 @@ public class SliderPanelW extends FlowPanel {
 		}
 	}
 
-	public void addValueChangeHandler(ValueChangeHandler<Double> handler) {
-		slider.addValueChangeHandler(handler);
-	}
-
 	public void setValue(Double value) {
-		slider.setValue(value, false);
-	}
-
-	public void setValue(Double value, boolean fireEvents) {
-		slider.setValue(value, fireEvents);
+		slider.setValue(value);
 	}
 
 	/**

@@ -35,7 +35,6 @@ public abstract class SliderAbstract<T> extends FocusWidget {
 		Dom.addEventListener(range, "input", evt -> handler.onSliderInput());
 	}
 
-	// @Override
 	public T getValue() {
 		return convert(range.getValue());
 	}
@@ -70,15 +69,7 @@ public abstract class SliderAbstract<T> extends FocusWidget {
 	}
 
 	public void setValue(T value) {
-		setValue(value, false);
-	}
-
-	public void setValue(T value, boolean fireEvents) {
-		setSliderValue(String.valueOf(value));
-	}
-
-	private void setSliderValue(String value) {
-		range.setValue(value);
+		range.setValue(String.valueOf(value));
 	}
 
 	/**

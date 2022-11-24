@@ -252,7 +252,8 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 		sliderTransparency = new SliderPanel(0, 100);
 		sliderTransparency.setTickSpacing(5);
 		sliderTransparency.setValue(40);
-		sliderTransparency.addValueChangeHandler(event -> applyTransparency());
+		sliderTransparency.addInputHandler(event -> applyTransparency());
+		sliderTransparency.addValueChangeHandler(val -> model.storeUndoInfo());
 	}
 
 	private void createLineThicknessTextField(AppW app) {

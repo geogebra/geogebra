@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
+import java.util.function.Consumer;
+
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -58,9 +60,12 @@ public class SliderPanel extends FlowPanel implements SliderInputHandler {
 		slider.addValueChangeHandler(handler);
 	}
 
+	public void addInputHandler(Consumer<Integer> handler) {
+		slider.addInputHandler(() -> handler.accept(slider.getValue()));
+	}
+
 	@Override
 	public void onSliderInput() {
-		slider.notifyValueChangeHandlers();
 		sliderLabel.setText(this.getValue() + "");
 	}
 
@@ -68,7 +73,7 @@ public class SliderPanel extends FlowPanel implements SliderInputHandler {
 	 * @param value slider value
 	 */
 	public void setValue(Integer value) {
-		slider.setValue(value, false);
+		slider.setValue(value);
 		sliderLabel.setText(this.getValue() + "");
 	}
 

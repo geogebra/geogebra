@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog.options;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
@@ -182,13 +183,17 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		setWidget(mainWidget);
 
-		opacitySlider.addValueChangeHandler(event -> model.applyOpacity(opacitySlider.getValue()));
+		opacitySlider.addInputHandler(model::applyOpacity);
+		ValueChangeHandler<Integer> storeUndo = val -> model.storeUndoInfo();
+		opacitySlider.addValueChangeHandler(storeUndo);
 
-		ValueChangeHandler<Integer> angleAndDistanceHandler = event -> model.applyAngleAndDistance(
+		Consumer<Integer> angleAndDistanceHandler = val -> model.applyAngleAndDistance(
 				angleSlider.getValue(), distanceSlider.getValue());
 
-		angleSlider.addValueChangeHandler(angleAndDistanceHandler);
-		distanceSlider.addValueChangeHandler(angleAndDistanceHandler);
+		angleSlider.addInputHandler(angleAndDistanceHandler);
+		angleSlider.addValueChangeHandler(storeUndo);
+		distanceSlider.addInputHandler(angleAndDistanceHandler);
+		distanceSlider.addValueChangeHandler(storeUndo);
 
 		tfInsertUnicode.addBlurHandler(event -> {
 			String symbolText = tfInsertUnicode.getText();
