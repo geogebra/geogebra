@@ -224,7 +224,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					Unicode.PI_STRING, PI_HALF_STRING));
 			ncbGridTickX.addChangeHandler(() -> {
 				model.applyGridTicks(ncbGridTickX.getSelectedText(), 0);
-				ncbGridTickX.updateSelectionText(ncbGridTickX.getSelectedText());
 				updateView();
 			});
 	
@@ -232,7 +231,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					Unicode.PI_STRING, PI_HALF_STRING));
 			ncbGridTickY.addChangeHandler(() -> {
 					model.applyGridTicks(ncbGridTickY.getSelectedText(), 1);
-					ncbGridTickY.updateSelectionText(ncbGridTickY.getSelectedText());
 					updateView();
 			});
 
@@ -242,7 +240,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2"));
 			cbGridTickAngle.addChangeHandler(() -> {
 					model.applyGridTickAngle(cbGridTickAngle.getSelectedText());
-					cbGridTickAngle.updateSelectionText(cbGridTickAngle.getSelectedText());
 					updateView();
 			});
 			
