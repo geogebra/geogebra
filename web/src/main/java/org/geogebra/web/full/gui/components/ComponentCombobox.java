@@ -16,6 +16,7 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -60,8 +61,8 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(appW, this, items, this::onClose);
-		controller.addChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
-		updateSelectionText(controller.getSelectedText());
+		controller.addChangeHandler(() -> updateSelectionText(getSelectedText()));
+		updateSelectionText(getSelectedText());
 	}
 
 	private void buildGUI() {
@@ -70,7 +71,12 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 
 		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null, false);
 		inputTextField.addStyleName("textField");
-		inputTextField.addKeyUpHandler((event) -> controller.onInputChange());
+		inputTextField.addKeyUpHandler((event) -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				controller.onInputChange();
+			}
+		});
+		inputTextField.addBlurHandler(event -> controller.onInputChange());
 
 		if (labelTextKey != null) {
 			labelText = new FormLabel().setFor(inputTextField);
@@ -172,7 +178,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 
 	private void resetTextField() {
 		if (inputTextField.getText().isEmpty()) {
-			inputTextField.setText(controller.getSelectedText());
+			inputTextField.setText(getSelectedText());
 		}
 	}
 
@@ -192,7 +198,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 			labelText.setText(appW.getLocalization().getMenu(labelTextKey));
 		}
 		controller.setLabels();
-		updateSelectionText(controller.getSelectedText());
+		updateSelectionText(getSelectedText());
 	}
 
 	public void addChangeHandler(Runnable handler) {
