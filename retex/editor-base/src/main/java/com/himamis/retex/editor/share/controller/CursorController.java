@@ -25,6 +25,10 @@ public class CursorController {
 	 * @return whether we moved right
 	 */
 	public static boolean nextCharacter(EditorState editorState) {
+		if (isLastPlaceholder(editorState)) {
+			return false;
+		}
+
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset < currentField.size()) {
@@ -33,6 +37,13 @@ public class CursorController {
 		} else {
 			return nextField(editorState);
 		}
+	}
+
+	private static boolean isLastPlaceholder(EditorState editorState) {
+		int currentOffset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
+		return currentOffset == currentField.size() - 1
+				&& currentField.getArgument(currentOffset) instanceof MathCharPlaceholder;
 	}
 
 	private static boolean nextCharacterInCurrentField(
