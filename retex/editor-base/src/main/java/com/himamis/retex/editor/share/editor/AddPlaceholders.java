@@ -9,6 +9,10 @@ import com.himamis.retex.editor.share.model.MathSequence;
 
 public class AddPlaceholders {
 
+	/**
+	 * Searches and adds possible character placeholders in mathComponent.
+	 * @param mathComponent to add in possible placeholders.
+	 */
 	public void process(MathComponent mathComponent) {
 		if (mathComponent instanceof MathArray) {
 			MathArray array = (MathArray) mathComponent;
@@ -22,7 +26,6 @@ public class AddPlaceholders {
 				if (isComma(last)) {
 					addPlaceholder(sequence, 0);
 				}
-
 
 				for (int i = 1; i < size; i++) {
 					MathComponent argument = sequence.getArgument(i);

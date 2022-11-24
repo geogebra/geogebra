@@ -139,5 +139,6 @@ public abstract class SerializerAdapter implements Serializer {
 	abstract void serialize(MathArray array, StringBuilder stringBuilder);
 
 	abstract void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder);
+
 	abstract void serialize(MathCharPlaceholder placeholder, StringBuilder stringBuilder);
 }

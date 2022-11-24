@@ -131,7 +131,7 @@ public class TeXBuilder {
 
 	private Atom getCharPlaceholder(MathComponent argument1) {
 		int index = argument1.getParentIndex();
-		return index == currentOffset ? getInvisiblePlaceholder(): getPlaceholderBox();
+		return index == currentOffset ? getInvisiblePlaceholder() : getPlaceholderBox();
 	}
 
 	private Atom getPlaceholderAtom(MathSequence mathFormula) {

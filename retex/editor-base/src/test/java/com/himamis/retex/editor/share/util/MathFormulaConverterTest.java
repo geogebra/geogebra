@@ -58,5 +58,6 @@ public class MathFormulaConverterTest {
 	@Test
 	public void testConvertEmptyPoint() {
 		assertEquals("\\left({" + PLACEHOLDER1
-				+ "," + PLACEHOLDER1 + "}\\right)", converter.convert("(,)") );	}
+				+ "," + PLACEHOLDER1 + "}\\right)", converter.convert("(,)") );
+	}
 }

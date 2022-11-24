@@ -12,6 +12,7 @@ public class MathFormulaConverter {
 	private final Parser parser;
 	private final TeXSerializer texSerializer;
 	private final AddPlaceholders placeholders;
+
 	/**
 	 * Constructor
 	 */

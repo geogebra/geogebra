@@ -49,7 +49,6 @@ class InputBoxRenderer {
 
 		linkedGeoText = linkedGeoText.replace(Unicode.IMAGINARY, 'i');
 
-
 		if (isTextUndefined(linkedGeoText)) {
 			return "";
 		}
