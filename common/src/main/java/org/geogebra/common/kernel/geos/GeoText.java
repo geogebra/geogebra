@@ -646,7 +646,7 @@ public class GeoText extends GeoElement
 	private String getXMLlocation() {
 		StringBuilder sb = new StringBuilder();
 
-		if (hasAbsoluteScreenLocation) {
+		if (hasAbsoluteScreenLocation && startPoint == null) {
 			sb.append("\t<absoluteScreenLocation x=\"");
 			sb.append(labelOffsetX);
 			sb.append("\" y=\"");

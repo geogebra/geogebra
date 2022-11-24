@@ -873,6 +873,9 @@ public class GeoNumeric extends GeoElement
 			sb.append(sliderBlobSize);
 			sb.append("\"/>\n");
 		}
+		if (startPoint != null && !startPoint.isAbsoluteStartPoint()) {
+			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
+		}
 	}
 
 	@Override

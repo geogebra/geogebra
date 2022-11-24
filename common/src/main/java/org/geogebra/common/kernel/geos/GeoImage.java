@@ -584,12 +584,13 @@ public class GeoImage extends GeoElement implements Locateable,
 			sb.append("\t<centered val=\"true\"/>\n");
 		}
 
-		if (hasAbsoluteScreenLocation) {
+		if (hasAbsoluteScreenLocation
+				&& (corners[0] == null || corners[0].isAbsoluteStartPoint())) {
 			getXMLabsScreenLoc(sb);
 		} else {
 			// store location of corners
 			for (int i = 0; i < corners.length; i++) {
-				XMLBuilder.getCornerPointXML(sb, i, corners);
+				XMLBuilder.getCornerPointXML(sb, i, corners, isAbsoluteScreenLocActive());
 			}
 		}
 

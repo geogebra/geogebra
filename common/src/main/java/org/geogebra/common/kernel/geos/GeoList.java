@@ -1597,6 +1597,9 @@ public class GeoList extends GeoElement
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
 		}
+		if (startPoint != null) {
+			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
+		}
 	}
 
 	/**
