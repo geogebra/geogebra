@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 
@@ -89,15 +91,15 @@ public class ScreenReaderBuilder {
 	/**
 	 * @param root formula to append
 	 */
-	public void appendLaTeX(String root) {
+	public void appendLaTeX(String root, App app) {
 		TeXFormula texFormula = new TeXFormula();
 		texFormula.setLaTeX(root);
-		append(getTexAtomSerializer().serialize(texFormula.root));
+		append(getTexAtomSerializer(app).serialize(texFormula.root));
 	}
 
-	private TeXAtomSerializer getTexAtomSerializer() {
+	private TeXAtomSerializer getTexAtomSerializer(App app) {
 		if (texAtomSerializer == null) {
-			texAtomSerializer = new TeXAtomSerializer(new ScreenReaderSerializationAdapter(loc));
+			texAtomSerializer = new TeXAtomSerializer(ScreenReader.getSerializationAdapter(app));
 		}
 		return texAtomSerializer;
 	}
@@ -110,7 +112,7 @@ public class ScreenReaderBuilder {
 	 * Appends the label in readable form.
 	 * @param label to append.
 	 */
-	public void appendLabel(String label) {
+	public void appendLabel(String label, App app) {
 		if (label == null) {
 			return;
 		}
@@ -118,7 +120,7 @@ public class ScreenReaderBuilder {
 		if (label.endsWith("'")) {
 			convertPrimes(label, loc, sb);
 		} else {
-			sb.append(ScreenReader.convertToReadable(label, loc));
+			sb.append(ScreenReader.convertToReadable(label, app));
 		}
 	}
 
@@ -163,11 +165,16 @@ public class ScreenReaderBuilder {
 	}
 
 	protected void appendDegreeIfNeeded(GeoElementND geo, String valueString) {
-		append(degreeReplaced(geo, valueString, " "));
+		if (geo.getKernel().getApplication().getScreenReaderTemplate().getStringType()
+				== ExpressionNodeConstants.StringType.SCREEN_READER_ASCII) {
+			append(degreeReplaced(geo, valueString, " "));
+		} else {
+			append(valueString);
+		}
 	}
 
 	protected void appendLatexDegreeIfNeeded(GeoElement geo, String valueString) {
-		appendLaTeX(degreeReplaced(geo, valueString, "\\ "));
+		appendLaTeX(valueString, geo.getKernel().getApplication());
 		appendSpace();
 	}
 

@@ -159,4 +159,8 @@ public class ToggleButton extends FocusWidget {
 		}
 	}
 
+	public void updateIcons(ResourcePrototype svgUp, ResourcePrototype svgDown) {
+		this.svgUp = svgUp;
+		this.svgDown = svgDown;
+	}
 }

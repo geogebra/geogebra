@@ -35,16 +35,6 @@ public interface GeoGebraActivity {
 	void start(AppW app);
 
 	/**
-	 * @return icon for numeric toggle button
-	 */
-	SVGResource getNumericIcon();
-
-	/**
-	 * @return output prefix icon
-	 */
-	SVGResource getOutputPrefixIcon();
-
-	/**
 	 * Build title bar for a dock panel.
 	 *
 	 * @param dockPanelW

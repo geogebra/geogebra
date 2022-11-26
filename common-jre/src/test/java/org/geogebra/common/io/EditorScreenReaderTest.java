@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import java.util.Objects;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.ScreenReader;
@@ -78,10 +80,10 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testIncompleteSqrt() {
 		checkReader("sqrt(x+)",
-				"start of formula start square root x plus end square root",
+				"start of formula start square root x plus end root",
 				"start of square root before x", "after x before plus",
 				"end of square root after plus",
-				"end of formula start square root x plus end square root");
+				"end of formula start square root x plus end root");
 	}
 
 	@Test
@@ -120,10 +122,10 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testCbrt() {
 		checkReader("cbrt(x+1)",
-				"start of formula start cube root x plus 1 end cube root",
+				"start of formula start cube root x plus 1 end root",
 				"start of cube root before x", "after x before plus",
 				"after plus before 1", "end of cube root after 1",
-				"end of formula start cube root x plus 1 end cube root");
+				"end of formula start cube root x plus 1 end root");
 	}
 
 	@Test
@@ -147,12 +149,12 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testQuotes() {
 		checkReader("\"a{b}c\"",
-				"start of formula \"a\\{b\\}c\"",
-				"start of quotes before a", "after a before \\{",
-				"after \\{ before b", "after b before \\}",
-				"after \\} before c",
+				"start of formula \"a open brace b close brace c\"",
+				"start of quotes before a", "after a before open brace",
+				"after open brace before b", "after b before close brace",
+				"after close brace before c",
 				"end of quotes after c",
-				"end of formula \"a\\{b\\}c\"");
+				"end of formula \"a open brace b close brace c\"");
 	}
 
 	@Test
@@ -167,36 +169,36 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testReaderSqrt() {
 		checkReader("1+sqrt(x^2+2x+1/x+33)",
-				"start of formula 1 plus start square root x squared plus 2 times"
-						+ " x plus start fraction 1 over x end fraction plus 33 end square root",
+				"start of formula 1 plus start square root x squared plus 2x"
+						+ " plus start fraction 1 over x end fraction plus 33 end root",
 				"after 1 before plus", "after plus before square root",
 				"start of square root before x( squared)?",
 				"after x before superscript", "start of superscript before 2",
 				"end of superscript after 2", "after x squared before plus",
-				"after plus before 2( times )?x", "after 2 before x",
-				"after 2( times )?x before plus", "after plus before fraction",
+				"after plus before 2x", "after 2 before x",
+				"after 2x before plus", "after plus before fraction",
 				"start of numerator before 1", "end of numerator after 1",
 				"start of denominator before x", "end of denominator after x",
 				"after fraction before plus", "after plus before 33",
 				"after 3 before 3", "end of square root after 33",
-				"end of formula 1 plus start square root x squared plus 2 times "
-						+ "x plus start fraction 1 over x end fraction plus 33 end square root");
+				"end of formula 1 plus start square root x squared plus 2"
+						+ "x plus start fraction 1 over x end fraction plus 33 end root");
 	}
 
 	@Test
 	public void testReaderSqrt2() {
 		checkReader("sqrt(x)",
-				"start of formula start square root x end square root",
+				"start of formula start square root x end root",
 				"start of square root before x", "end of square root after x",
-				"end of formula start square root x end square root");
+				"end of formula start square root x end root");
 	}
 
 	@Test
 	public void testReaderSqrtPi() {
 		checkReader("sqrt(" + Unicode.pi + ")",
-				"start of formula start square root pi end square root",
+				"start of formula start square root pi end root",
 				"start of square root before pi", "end of square root after pi",
-				"end of formula start square root pi end square root");
+				"end of formula start square root pi end root");
 	}
 
 	@Test
@@ -232,16 +234,15 @@ public class EditorScreenReaderTest {
 		SyntaxAdapterImpl adapter = new SyntaxAdapterImpl(app.kernel);
 		final MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), adapter);
 		MathFieldInternal mfi = mathField.getInternal();
-		mfi.setFormula(mf);
+		mfi.setFormula(Objects.requireNonNull(mf));
 		CursorController.firstField(mfi.getEditorState());
 		mfi.update();
 		ExpressionReader er = ScreenReader.getExpressionReader(app);
-		for (int i = 0; i < output.length; i++) {
-
+		for (String s : output) {
 			String readerOutput = mfi.getEditorState().getDescription(er)
 					.replaceAll(" +", " ");
-			if (!readerOutput.matches(output[i])) {
-				Assert.assertEquals(output[i], readerOutput);
+			if (!readerOutput.matches(s)) {
+				Assert.assertEquals(s, readerOutput);
 			}
 			CursorController.nextCharacter(mfi.getEditorState());
 			mfi.update();

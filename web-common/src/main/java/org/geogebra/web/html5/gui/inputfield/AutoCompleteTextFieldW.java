@@ -236,6 +236,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			@Override
 			public void onBrowserEvent(Event event) {
 				int etype = DOM.eventGetType(event);
+				if (MathFieldW.isShortcutDefaultPrevented(event)) {
+					event.preventDefault();
+				}
+
 				if (isSelected(etype)) {
 					handleSelectedEvent(event);
 					return;
@@ -261,6 +265,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					event.stopPropagation();
 					endOnscreenKeyboardEditing();
 				}
+			}
+
+			private boolean isShortcutToPrevent(Event event) {
+				boolean isCtrlShift = event.getCtrlKey() && event.getShiftKey();
+				int keyCode = event.getKeyCode();
+				return isCtrlShift
+						&& (keyCode == KeyCodes.KEY_B
+							|| keyCode == KeyCodes.KEY_M);
 			}
 
 			private boolean isSelected(int eventType) {

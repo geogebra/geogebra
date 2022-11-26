@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
@@ -52,5 +55,12 @@ public class CommandFilterTest extends BaseUnitTest {
 			}
 
 		}
+	}
+
+	@Test
+	public void noCasCommandsInSuiteAndClassic() {
+		List<String> integralsClassic = getApp().getCommandDictionary().getCompletions("Integ");
+		// should not contain IntegralSymbolic
+		assertEquals(Arrays.asList("Integral", "IntegralBetween"), integralsClassic);
 	}
 }

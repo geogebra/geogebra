@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 
@@ -43,10 +44,8 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		SimplePanel background = new SimplePanel();
 		background.addStyleName("background");
 		SimplePanel checkMark = new SimplePanel();
-		checkMark.getElement().setInnerHTML("<svg class=\"checkmarkSvg\" "
-				+ "viewBox=\"0 0 24 24\"><path class=\"checkmarkPath\" "
-				+ "fill=\"none\" stroke=\"white\" d=\"M1.73,12.91 8.1,19.28 22.79,4.59\">"
-				+ "</path></svg>");
+		checkMark.getElement().setInnerHTML(MaterialDesignResources
+				.INSTANCE.check_white().getSVG());
 		checkMark.addStyleName("checkmark");
 		checkbox.add(background);
 		checkbox.add(checkMark);

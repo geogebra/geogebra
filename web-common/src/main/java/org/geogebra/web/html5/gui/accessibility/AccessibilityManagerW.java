@@ -5,6 +5,7 @@ import java.util.TreeSet;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
+import org.geogebra.common.gui.GeoTabber;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -133,6 +134,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void setTabOverGeos() {
 		geoTabber.setFocused(true);
+		app.getSelectionManager().resetKeyboardSelection();
 	}
 
 	@Override

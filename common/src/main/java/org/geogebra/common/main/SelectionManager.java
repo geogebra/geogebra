@@ -99,6 +99,7 @@ public class SelectionManager {
 	private ArrayList<GeoElement> tempMoveGeoList;
 	private GeoBoolean tempSelectedBoolean;
 	private GeoElement focusedGroupElement;
+	private boolean keyboardSelection = false;
 
 	/**
 	 * @param kernel
@@ -151,6 +152,23 @@ public class SelectionManager {
 		if (updateSelection) {
 			updateSelection();
 		}
+	}
+
+	/**
+	 * Select an element and switch selection mode to keyboard
+	 * @param geo construction element selected by keyboard
+	 */
+	public void setKeyboardSelection(GeoElement geo) {
+		keyboardSelection = true;
+		clearSelectedGeos(false);
+		addSelectedGeo(geo);
+	}
+
+	/**
+	 * Switch selection mode from keyboard to mouse
+	 */
+	public void resetKeyboardSelection() {
+		keyboardSelection = false;
 	}
 
 	/**
@@ -684,6 +702,7 @@ public class SelectionManager {
 	 * @return if select was successful or not.
 	 */
 	final public boolean selectNextGeo() {
+		keyboardSelection = true;
 		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
 		if (tabbingOrder.size() == 0) {
 			return false;
@@ -750,6 +769,7 @@ public class SelectionManager {
 	 * @return whether selection was successful
 	 */
 	final public boolean selectPreviousGeo() {
+		keyboardSelection = true;
 		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
 		if (tabbingOrder.size() == 0) {
 			return false;
@@ -1354,5 +1374,17 @@ public class SelectionManager {
 
 	public void setTempSelectedBoolean(GeoBoolean tempSelectedBoolean) {
 		this.tempSelectedBoolean = tempSelectedBoolean;
+	}
+
+	/**
+	 * @param geo construction element
+	 * @return whether it needs outline
+	 */
+	public boolean isKeyboardFocused(GeoElement geo) {
+		if (geo.getApp().showToolBar()) {
+			return geo.doHighlighting();
+		} else {
+			return keyboardSelection && selectedGeos.contains(geo);
+		}
 	}
 }

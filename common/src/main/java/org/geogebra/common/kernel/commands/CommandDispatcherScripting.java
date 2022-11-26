@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.scripting.CmdSetDecoration;
 import org.geogebra.common.kernel.scripting.CmdSetDynamicColor;
 import org.geogebra.common.kernel.scripting.CmdSetFilling;
 import org.geogebra.common.kernel.scripting.CmdSetFixed;
+import org.geogebra.common.kernel.scripting.CmdSetImage;
 import org.geogebra.common.kernel.scripting.CmdSetLabelMode;
 import org.geogebra.common.kernel.scripting.CmdSetLayer;
 import org.geogebra.common.kernel.scripting.CmdSetLevelOfDetail;
@@ -199,6 +200,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdRunClickScript(kernel);
 		case RunUpdateScript:
 			return new CmdRunUpdateScript(kernel);
+		case SetImage:
+			return new CmdSetImage(kernel);
 		// case DensityPlot:
 		// return new CmdDensityPlot(kernel);
 		default:

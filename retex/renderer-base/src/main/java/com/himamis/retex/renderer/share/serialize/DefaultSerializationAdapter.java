@@ -5,15 +5,19 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 	@Override
 	public String subscriptContent(String base, String sub, String sup) {
 		StringBuilder sb = new StringBuilder(base);
-		if (sub != null) {
+		if (sub != null && !sub.isEmpty()) {
 			if (sub.length() > 1) {
-				sb.append("_{" + sub + "}");
+				sb.append("_{").append(sub).append("}");
 			} else {
-				sb.append("_" + sub);
+				sb.append("_").append(sub);
 			}
 		}
-		if (sup != null) {
-			sb.append("^(").append(sup).append(')');
+		if (sup != null && !sup.isEmpty()) {
+			if (sup.equals("\u2218")) {
+				sb.append("°");
+			} else {
+				sb.append("^(").append(sup).append(')');
+			}
 		}
 		return sb.toString();
 	}
@@ -27,8 +31,12 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 		return "sqrt(" + base + ")";
 	}
 
+	@Override
 	public String convertCharacter(char character) {
-		return character + "";
+		if ('\u00b7' == character) {
+			return "\u00d7";
+		}
+		return String.valueOf(character);
 	}
 
 	@Override
@@ -41,5 +49,20 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 	public String nroot(String base, String root) {
 		return "nroot(" + base + ","
 				+ root + ")";
+	}
+
+	@Override
+	public String parenthesis(String paren) {
+		return paren;
+	}
+
+	@Override
+	public String getLigature(String toString) {
+		return toString;
+	}
+
+	@Override
+	public String convertToReadable(String s) {
+		return s;
 	}
 }

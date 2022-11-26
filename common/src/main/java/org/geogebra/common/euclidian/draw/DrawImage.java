@@ -339,6 +339,11 @@ public class DrawImage extends Drawable {
 		}
 	}
 
+	@Override
+	public boolean isHighlighted() {
+		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
+	}
+
 	private void drawHighlighting(GGraphics2D g3) {
 		// draw parallelogram around edge
 		double offX = HIGHLIGHT_OFFSET

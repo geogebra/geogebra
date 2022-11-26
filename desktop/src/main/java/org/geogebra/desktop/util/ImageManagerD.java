@@ -37,6 +37,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.FileExtensions;
@@ -59,6 +63,8 @@ public class ImageManagerD extends ImageManager {
 	private Hashtable<String, ImageIcon> iconTable = new Hashtable<>();
 	private Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
 	private static Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
+
+	private Hashtable<String, ImageResourceD> fillableImgs = new Hashtable<>();
 
 	private Toolkit toolKit;
 	private MediaTracker tracker;
@@ -543,5 +549,43 @@ public class ImageManagerD extends ImageManager {
 			Log.debug(urlBase64.substring(0, 10) + " not supported");
 		}
 
+	}
+
+	@Override
+	public void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable) {
+		if (fillableImgs.isEmpty()) {
+			fillImages();
+		}
+		String imgName = geo.getTextStringSafe();
+		String fileName = fillableImgs.get(imgName) != null
+				? fillableImgs.get(imgName).getFilename() : "";
+		if (!fileName.isEmpty()) {
+			fillable.setImageFileName(fileName);
+			fillable.setAlphaValue(1.0f);
+			fillable.updateVisualStyleRepaint(GProperty.HATCHING);
+		}
+	}
+
+	private void fillImages() {
+		fillableImgs.put("pause", GuiResourcesD.FILLING_PAUSE);
+		fillableImgs.put("play", GuiResourcesD.FILLING_PLAY);
+		fillableImgs.put("stop", GuiResourcesD.FILLING_STOP);
+		fillableImgs.put("replay", GuiResourcesD.FILLING_REPLAY);
+		fillableImgs.put("skip_next", GuiResourcesD.FILLING_SKIP_NEXT);
+		fillableImgs.put("skip_previous", GuiResourcesD.FILLING_SKIP_PREVIOUS);
+		fillableImgs.put("loop", GuiResourcesD.FILLING_LOOP);
+		fillableImgs.put("zoom_in", GuiResourcesD.FILLING_ZOOM_IN);
+		fillableImgs.put("zoom_out", GuiResourcesD.FILLING_ZOOM_OUT);
+		fillableImgs.put("close", GuiResourcesD.FILLING_CLOSE);
+		fillableImgs.put("arrow_up", GuiResourcesD.FILLING_ARROW_UP);
+		fillableImgs.put("arrow_down", GuiResourcesD.FILLING_ARROW_DOWN);
+		fillableImgs.put("arrow_back", GuiResourcesD.FILLING_ARROW_BACK);
+		fillableImgs.put("arrow_forward", GuiResourcesD.FILLING_ARROW_FORWARD);
+		fillableImgs.put("fast_forward", GuiResourcesD.FILLING_FAST_FORWARD);
+		fillableImgs.put("fast_rewind", GuiResourcesD.FILLING_FAST_REWIND);
+		fillableImgs.put("zoom_to_fit", GuiResourcesD.FILLING_ZOOM_TO_FIT);
+		fillableImgs.put("center_view", GuiResourcesD.FILLING_CENTER_VIEW);
+		fillableImgs.put("help", GuiResourcesD.FILLING_HELP);
+		fillableImgs.put("settings", GuiResourcesD.FILLING_SETTINGS);
 	}
 }
