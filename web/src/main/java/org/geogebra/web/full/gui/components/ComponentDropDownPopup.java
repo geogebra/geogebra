@@ -147,7 +147,8 @@ public class ComponentDropDownPopup {
 	}
 
 	private void showAtBottomOfAnchor(int popupHeight, int spaceBottom) {
-		showAtPoint(anchor.getAbsoluteLeft(), anchor.getElement().getAbsoluteBottom());
+		int bottom = (int) (anchor.getElement().getAbsoluteBottom() - app.getAbsTop());
+		showAtPoint(anchor.getAbsoluteLeft(), bottom);
 		if (popupHeight > spaceBottom) {
 			setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
 		}
