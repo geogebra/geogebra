@@ -170,15 +170,10 @@ public class MathSequence extends MathContainer {
 		if (size() == 1 && getArgument(0) instanceof MathSequence) {
 			MathSequence arg0 = (MathSequence) getArgument(0);
 			clearArguments();
-			for (int i = 0; i < arg0.size(); i++) {
-				addArgument(arg0.getArgument(i));
+			for (MathComponent child: arg0) {
+				addArgument(child);
 			}
 		}
-	}
-
-	@Override
-	public MathSequence wrap() {
-		return this;
 	}
 
 	public int getArgumentCount() {

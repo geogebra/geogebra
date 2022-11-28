@@ -730,14 +730,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
-	 * @param formula
-	 *            editor content
-	 */
-	public void setFormula(MathFormula formula) {
-		this.mathFieldInternal.setFormula(formula);
-	}
-
-	/**
 	 * @return editor content
 	 */
 	public MathFormula getFormula() {
@@ -1107,11 +1099,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	protected void setLeftAltDown(boolean leftAltDown) {
 		this.leftAltDown = leftAltDown;
-	}
-
-	@Override
-	public void parse(String text) {
-		mathFieldInternal.parse(text);
 	}
 
 	/**

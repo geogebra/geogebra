@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Objects;
 
 import org.geogebra.common.AppCommonFactory;
@@ -13,9 +15,15 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -226,6 +234,22 @@ public class EditorScreenReaderTest {
 				"after 2 before times", "after times before pi",
 				"after p before i", "after pi before times",
 				"after times before x", "end of formula 2 times pi times x");
+	}
+
+	@Test
+	public void shouldNotRemoveCommasForPoints() throws ParseException {
+		Parser p = new Parser(new MetaModel());
+		MathFormula mf = p.parse("(1,2)");
+		MathSequence argument = ((MathArray) mf.getRootComponent()
+				.getArgument(0)).getArgument(0);
+		StringBuilder desc = new StringBuilder();
+		for (MathComponent comp: argument) {
+			desc.append(ScreenReaderSerializer.fullDescription(comp, null));
+		}
+		assertEquals("1,2", desc.toString());
+		GeoGebraSerializer gs = new GeoGebraSerializer();
+		gs.setComma("");
+		assertEquals(gs.serialize(mf), "(1,2)");
 	}
 
 	private static void checkReader(String input, String... output) {

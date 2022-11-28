@@ -65,8 +65,8 @@ public class RemoveContainer {
 				MathSequence prev = function
 						.getArgument(currentField.getParentIndex() - 1);
 				int len = prev.size();
-				for (int i = 0; i < currentField.size(); i++) {
-					prev.addArgument(currentField.getArgument(i));
+				for (MathComponent child: currentField) {
+					prev.addArgument(child);
 				}
 				function.removeArgument(currentField.getParentIndex());
 				editorState.setCurrentField(prev);

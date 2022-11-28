@@ -449,7 +449,7 @@ public class TeXBuilder {
 	 *            selected field
 	 * @return atom representing the whole sequence
 	 */
-	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
+	public Atom build(MathComponent rootComponent, MathSequence currentField1, boolean textMode) {
 		this.currentField = currentField1;
 		this.atomToComponent = new HashMap<>();
 		Atom root = build(rootComponent);

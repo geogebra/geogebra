@@ -123,11 +123,6 @@ public class MathFieldCommon implements MathField {
 	}
 
 	@Override
-	public void parse(String str) {
-		// stub
-	}
-
-	@Override
 	public MathFieldInternal getInternal() {
 		return internal;
 	}
