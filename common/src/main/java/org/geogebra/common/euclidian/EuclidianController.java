@@ -387,7 +387,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private long lastPointerRelease;
 	private boolean animationButtonPressed = false;
 	private boolean textfieldHasFocus = false;
-	private MyButton pressedButton;
+	private DrawButtonWidget pressedButton;
 	private Coords tmpCoordsL4;
 	private Coords mouseLocRW;
 	private TextDispatcher textDispatcher;

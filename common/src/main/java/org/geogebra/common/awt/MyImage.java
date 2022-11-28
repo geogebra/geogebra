@@ -21,11 +21,12 @@ public interface MyImage {
 	String toLaTeXStringBase64();
 
 	/**
+	 * Tries to tint the image with given color and return a result.
+	 * Works for the preset SVGs that we use in buttons, may work with other SVGs.
+	 * Returns null on platforms that don't support SVGs.
 	 * @param color color
 	 * @param onLoad called when tinted image ready (needed in Web)
-	 * @return tinted copy of this image
+	 * @return tinted copy of this image if possible, null if not
 	 */
-	default MyImage tint(GColor color, Runnable onLoad) {
-		return this;
-	}
+	MyImage tintedSVG(GColor color, Runnable onLoad);
 }

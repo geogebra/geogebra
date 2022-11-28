@@ -15,10 +15,8 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.security.MessageDigest;
-import java.util.Objects;
 import java.util.UUID;
 
-import javax.annotation.CheckForNull;
 import javax.imageio.ImageIO;
 
 import org.geogebra.common.awt.GColor;
@@ -46,8 +44,6 @@ public class MyImageD implements MyImageJre {
 	private URI uri;
 	// SVG as XML
 	private final StringBuilder svg;
-	private MyImageD tinted;
-	private @CheckForNull GColor color;
 
 	/**
 	 * @param img bitmap image
@@ -258,21 +254,10 @@ public class MyImageD implements MyImageJre {
 	}
 
 	@Override
-	public MyImage tint(GColor color, Runnable onLoad) {
+	public MyImage tintedSVG(GColor color, Runnable onLoad) {
 		if (svg == null) {
-			return this;
+			return null;
 		}
-		if (tinted == null || !Objects.equals(tinted.color, color)) {
-			if (tinted != null) {
-				SVGCache.getSVGUniverse().removeDocument(tinted.uri);
-			}
-			tinted = createTinted(color);
-			tinted.color = color;
-		}
-		return tinted;
-	}
-
-	private MyImageD createTinted(GColor color) {
 		SVGUniverse universe = SVGCache.getSVGUniverse();
 		try {
 			ByteArrayInputStream stream = new ByteArrayInputStream(svg.toString()
@@ -285,7 +270,7 @@ public class MyImageD implements MyImageJre {
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
 		}
-		return this;
+		return null;
 	}
 
 }

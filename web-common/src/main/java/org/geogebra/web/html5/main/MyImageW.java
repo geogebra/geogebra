@@ -1,9 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import java.util.Objects;
-
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
@@ -31,8 +27,6 @@ public final class MyImageW implements MyImage {
 	private int width;
 	private int height;
 	private final boolean svg;
-	private MyImageW tinted;
-	private @CheckForNull GColor color;
 
 	/**
 	 * @param im
@@ -109,18 +103,10 @@ public final class MyImageW implements MyImage {
 	}
 
 	@Override
-	public MyImage tint(GColor color, Runnable onLoad) {
+	public MyImage tintedSVG(GColor color, Runnable onLoad) {
 		if (!svg) {
-			return this;
+			return null;
 		}
-		if (tinted == null || !Objects.equals(tinted.color, color)) {
-			tinted = createTinted(color, onLoad);
-			tinted.color = color;
-		}
-		return tinted;
-	}
-
-	private MyImageW createTinted(GColor color, Runnable onLoad) {
 		try {
 			String dataUrl = img.src;
 			String svg = DomGlobal.atob(dataUrl.substring(dataUrl.indexOf(",") + 1));
@@ -130,7 +116,7 @@ public final class MyImageW implements MyImage {
 			img.src = StringUtil.svgMarker + DomGlobal.btoa(svgRes);
 			return new MyImageW(img, true);
 		} catch (RuntimeException ex) {
-			return this;
+			return null;
 		}
 	}
 }
