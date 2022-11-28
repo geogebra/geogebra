@@ -301,6 +301,7 @@ public class EuclidianPen implements GTimerListener {
 
 				GPoint p = new GPoint(locationX, locationY);
 				penPoints.add(p);
+				previewPoints.add(0, p);
 			}
 			penPoints.add(newPoint);
 		} else {
