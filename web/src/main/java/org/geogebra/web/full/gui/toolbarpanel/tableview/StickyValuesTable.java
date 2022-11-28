@@ -52,6 +52,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private int rowsChange = 0;
 	private int columnsChange = 0;
 	private int removedColumnByUser = -1;
+	private boolean shadedColumns = true;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
@@ -64,14 +65,14 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 * Header
 		 */
 		HeaderCell() {
-			FlowPanel p = new FlowPanel();
-			p.setStyleName("content");
-			p.add(new Label("%s"));
-			StandardButton btn = new StandardButton(MaterialDesignResources.INSTANCE
+			FlowPanel main = new FlowPanel();
+			main.setStyleName("content");
+			main.add(new Label("%s"));
+			StandardButton menuButton = new StandardButton(MaterialDesignResources.INSTANCE
 					.more_vert_black(), 24);
-			TestHarness.setAttr(btn, "btn_tvHeader3dot");
-			p.add(btn);
-			value = p.getElement().getString();
+			TestHarness.setAttr(menuButton, "btn_tvHeader3dot");
+			main.add(menuButton);
+			value = main.getElement().getString();
 		}
 
 		/**
@@ -157,10 +158,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
-		addEmptyColumn(0);
-		addEmptyColumn(1);
-		if (columnsChange < 0) {
-			addEmptyColumn(2);
+		if (shadedColumns) {
+			addEmptyColumn(0);
+			addEmptyColumn(1);
+			if (columnsChange < 0) {
+				addEmptyColumn(2);
+			}
 		}
 	}
 
@@ -239,8 +242,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int row = 0; row < tableModel.getRowCount(); row++) {
 			rows.add(new TVRowData(row, tableModel));
 		}
+
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+
 		if (rowsChange < 0) {
 			for (int i = 0; i < Math.abs(rowsChange); i++) {
 				rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
@@ -486,5 +491,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	public int getColumnsChange() {
 		return columnsChange;
+	}
+
+	/**
+	 * Disable shaded style.
+	 */
+	public void disableShadedColumns() {
+		shadedColumns = false;
 	}
 }

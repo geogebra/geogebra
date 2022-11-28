@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 
@@ -10,6 +12,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Adds the scientific header to AV panel.
@@ -47,5 +50,16 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 				.shouldHaveSmallScreenLayout();
 		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificSmallScreen",
 				"panelScientificDefaults", smallScreen);
+	}
+
+	@Override
+	public void decorateTableTab(Widget tab, StickyTable<?> table) {
+		tab.addStyleName("panelScientificDefaults");
+		disableShadedColumns((StickyValuesTable) table);
+		table.addStyleName("scientific");
+	}
+
+	private void disableShadedColumns(StickyValuesTable table) {
+		table.disableShadedColumns();
 	}
 }

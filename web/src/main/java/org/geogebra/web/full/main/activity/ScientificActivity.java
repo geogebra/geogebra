@@ -6,6 +6,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
@@ -46,6 +47,13 @@ public class ScientificActivity extends BaseActivity {
 		app.forceEnglishCommands();
 		app.setRightClickEnabledForAV(false);
 		app.getAppletFrame().updateArticleHeight();
+		initTableOfValues(app);
+	}
+
+	private void initTableOfValues(AppW app) {
+		ScientificEvaluatables functions = new ScientificEvaluatables(
+				app.getKernel().getConstruction());
+		functions.addToTableOfValues(((GuiManagerW) app.getGuiManager()).getTableValuesView());
 	}
 
 	private static void initHeaderButtons(AppW app) {

@@ -175,4 +175,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean hasEuclidianView() {
 		return false;
 	}
+
+	@Override
+	public boolean hasOneVarStatistics() {
+		return false;
+	}
 }
