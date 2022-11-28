@@ -20,7 +20,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -886,7 +885,6 @@ public class ToolbarPanel extends FlowPanel
 			openAlgebra(fade);
 			return;
 		}
-		Log.debug("yikes!");
 
 		switchTab(TabIds.TABLE, fade);
 		setMoveMode();

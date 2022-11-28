@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
+import org.geogebra.web.full.gui.toolbarpanel.DefineFunctionsDialogTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -18,6 +19,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -30,6 +32,7 @@ import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 import elemental2.dom.NodeList;
 import jsinterop.base.Js;
@@ -99,6 +102,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		tableModel.registerListener(this);
 		editor = new TableEditor(this, app);
 		reset();
+		addSciCalcUIElements();
 		addHeadClickHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
 			if (el != null && (el.hasClassName("button") || el.getParentNode() != null
@@ -136,6 +140,26 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			}
 			return false;
 		});
+	}
+
+	private void addSciCalcUIElements() {
+		if (!app.getConfig().hasOneVarStatistics()) {
+			SimplePanel btnHolder = new SimplePanel();
+			btnHolder.addStyleName("btnRow");
+
+			StandardButton btn = new StandardButton("Define functions");
+			btn.addStyleName("materialTextButton");
+			btnHolder.add(btn);
+			getElement().insertBefore(btnHolder.getElement(), getElement().getChild(0)) ;
+
+			btn.addFastClickHandler((event) -> openDefineFunctions());
+		}
+	}
+
+	private void openDefineFunctions() {
+		DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
+		DefineFunctionsDialogTV defFuncDialog = new DefineFunctionsDialogTV(app, data);
+		defFuncDialog.show();
 	}
 
 	private boolean isColumnEditable(int column) {

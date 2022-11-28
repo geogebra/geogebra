@@ -400,7 +400,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				}
 			}
 		}
-
 	}
 	.shaded:after {
 				content: '';
@@ -413,6 +412,15 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				pointer-events: none;
 				background: none,
 					linear-gradient(to top, #fff 20px, colors.$transparent-white 52px, colors.$transparent-white);
+		}
+	}
+	.btnRow {
+		height: 44px;
+
+		.materialTextButton {
+			position: absolute;
+			right: 0px;
+			margin-right: 8px;
 		}
 	}
 }
