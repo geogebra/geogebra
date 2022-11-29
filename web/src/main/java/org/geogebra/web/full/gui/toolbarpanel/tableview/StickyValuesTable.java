@@ -158,7 +158,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void openDefineFunctions() {
 		DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
-		DefineFunctionsDialogTV defFuncDialog = new DefineFunctionsDialogTV(app, data);
+		DefineFunctionsDialogTV defFuncDialog = new DefineFunctionsDialogTV(app, data, view);
 		defFuncDialog.show();
 	}
 

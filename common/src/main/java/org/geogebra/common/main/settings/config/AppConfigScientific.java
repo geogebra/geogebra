@@ -72,7 +72,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public boolean isEnableStructures() {
-		return false;
+		return true;
 	}
 
 	@Override
