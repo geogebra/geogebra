@@ -3,7 +3,7 @@ package org.geogebra.web.html5.export;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
-@JsType(namespace = JsPackage.GLOBAL, isNative = true, name="canvasToSvg")
+@JsType(namespace = JsPackage.GLOBAL, isNative = true, name = "canvasToSvg")
 public class Canvas2Svg {
 
 	@SuppressWarnings("unused")
