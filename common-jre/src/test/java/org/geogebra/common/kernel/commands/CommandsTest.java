@@ -37,6 +37,7 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -441,14 +442,14 @@ public class CommandsTest {
 		t("pi1a", "12.566370614359172");
 		t("pie", "8.539734222673566");
 		t("pii", "3.141592653589793ί");
-		t("pix", "(" + PI_STRING + " * x)");
+		t("pix", "(pi * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
 		t("f(" + theta_STRING + ")=sin " + theta_STRING, "sin(" + theta_STRING + ")");
 		t("f(" + theta_STRING + ")=sin" + theta_STRING, "sin(" + theta_STRING + ")");
 		t("f(t)=sin t", "sin(t)");
 		t("f(t)=sint", "sin(t)");
-		t("x" + PI_STRING, "(x * " + PI_STRING + ")");
+		t("x" + PI_STRING, "(x * pi)");
 		t("xdeg", "x" + DEGREE_STRING);
 		t("sinxdeg", "sin(x" + DEGREE_STRING + ")");
 	}
@@ -1302,6 +1303,8 @@ public class CommandsTest {
 	@Test
 	public void cmdDegree() {
 		t("Degree[x^4 + 2 x^2]", "4");
+		t("Degree[0x]", "0");
+		t("Degree[x^2-x^2+x+1]", "1");
 	}
 
 	@Test
@@ -1545,9 +1548,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdExtremum() {
+		t("ZoomIn[-5,-5,5,5]");
 		tRound("Extremum[ sin(x), 1, 7 ]",
 				"(1.5708, 1)", "(4.71239, -1)");
 		tRound("Extremum[ x^3-3x ]", "(-1, 2)", "(1, -2)");
+		tRound("Extremum[ nroot(x^(3) - 3x, 3) ]",
+				"(-1, 1.25992)", "(1, -1.25992)");
 		// TODO t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
 	}
 
@@ -3448,6 +3454,15 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdSetImage() {
+		app.setImageManager(Mockito.mock(ImageManager.class));
+		t("c:x^2+y^2=1", unicode("x^2 + y^2 = 1"));
+		t("pic=ToolImage(2)");
+		t("SetImage(c, pic)");
+		t("SetImage(c, \"play\")");
+	}
+
+	@Test
 	public void cmdSetLabelMode() {
 		t("SetLabelMode[ Polygon[(1,1),(2,1/2),4], 42 ]");
 	}
@@ -3621,6 +3636,8 @@ public class CommandsTest {
 		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
 		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
 		t("Sequence[ i, i, 3, 5 ]", "{3, 4, 5}");
+		t("Sequence[ i, i, 3.6, 7.9, 1 ]", "{3.6, 4.6, 5.6, 6.6, 7.6}");
+		t("Sequence[ i, i, 3.2, 7.2, 1 ]", "{3.2, 4.2, 5.2, 6.2, 7.2}");
 		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
 		t("Sequence(Angle((0,1,0),(0,0,0),(1,0,0),Vector((0,0,1))),k,1,2)",
 				"{270*" + DEGREE_STRING + ", 270*" + DEGREE_STRING + "}");
@@ -3657,15 +3674,27 @@ public class CommandsTest {
 	@Test
 	public void cmdShowAxes() {
 		t("ShowAxes[]");
+		assertTrue(app.getSettings().getEuclidian(1).getShowAxis(1));
+		assertTrue(app.getEuclidianView1().getShowAxis(1));
 		t("ShowAxes[false]");
+		assertFalse(app.getSettings().getEuclidian(1).getShowAxis(1));
+		assertFalse(app.getEuclidianView1().getShowAxis(1));
 		t("ShowAxes[2,true]");
+		assertTrue(app.getSettings().getEuclidian(2).getShowAxis(1));
+		t("ShowAxes[2,false]");
+		assertFalse(app.getSettings().getEuclidian(2).getShowAxis(1));
 	}
 
 	@Test
 	public void cmdShowGrid() {
 		t("ShowGrid[]");
+		assertTrue(app.getSettings().getEuclidian(1).getShowGrid());
+		assertTrue(app.getEuclidianView1().getShowGrid());
 		t("ShowGrid[false]");
+		assertFalse(app.getSettings().getEuclidian(1).getShowGrid());
+		assertFalse(app.getEuclidianView1().getShowGrid());
 		t("ShowGrid[2,true]");
+		assertTrue(app.getSettings().getEuclidian(2).getShowGrid());
 	}
 
 	@Test
@@ -4365,5 +4394,11 @@ public class CommandsTest {
 	public void cmdZMean2Estimate() {
 		t("ZMean2Estimate[ {1,2,3,4,5}, {1,2,3,4,5}, 13, 50, 42 ]", "?");
 		t("ZMean2Estimate[ 42, 42, 4, 13, 50, 42, 4 ]", "?");
+	}
+
+	@Test
+	public void productDegree() {
+		t("f(x)=x^3-Product(Sequence(x+k,k,1,-1,-1))", "x^(3) - (((x + 1) * (x)) * (x - 1))");
+		t("Degree(f)", "1");
 	}
 }

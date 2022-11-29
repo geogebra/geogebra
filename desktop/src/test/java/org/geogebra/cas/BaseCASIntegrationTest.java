@@ -113,14 +113,7 @@ public class BaseCASIntegrationTest {
 			if (keepInput) {
 				f.setEvalCommand("Keepinput");
 			}
-			if (!f.hasVariablesOrCommands()) {
-				kernel.getConstruction().addToConstructionList(f, false);
-				f.computeOutput();
-				f.setLabelOfTwinGeo();
-			} else {
-				kernel.getConstruction().removeFromConstructionList(f);
-				KernelCAS.dependentCasCell(f);
-			}
+			processCasCell(f);
 
 			boolean includesNumericCommand = false;
 			HashSet<Command> commands = new HashSet<>();
@@ -156,6 +149,17 @@ public class BaseCASIntegrationTest {
 
 		MatcherAssert.assertThat(result, equalToIgnoreWhitespaces(logger, input,
 				expectedResult, validResults));
+	}
+
+	protected void processCasCell(GeoCasCell f) {
+		if (!f.hasVariablesOrCommands()) {
+			kernel.getConstruction().addToConstructionList(f, false);
+			f.computeOutput();
+			f.setLabelOfTwinGeo();
+		} else {
+			kernel.getConstruction().removeFromConstructionList(f);
+			KernelCAS.dependentCasCell(f);
+		}
 	}
 
 	/**

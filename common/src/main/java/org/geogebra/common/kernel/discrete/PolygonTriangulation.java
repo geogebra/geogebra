@@ -620,6 +620,16 @@ public class PolygonTriangulation {
 			return get(i);
 		}
 
+		@Override
+		public boolean equals(Object other) {
+			return super.equals(other);
+		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
+		}
+
 	}
 
 	private static class PolygonPoints extends TreeSet<Point> {
@@ -967,8 +977,9 @@ public class PolygonTriangulation {
 		// check if (angle sum) == (n-2)*pi
 		debug((deltaSum * 180 / Math.PI) + " , "
 				+ (pointLengthMinus2 - 2) * 180);
+		double precision = polygon.kernel.getStandardPrecision();
 		convex = convex && DoubleUtil.isEqual(Math.abs(deltaSum),
-				pointLengthMinus2 * Math.PI);
+				pointLengthMinus2 * Math.PI, precision);
 
 		if (convex) {
 			if (positive) {
@@ -2008,10 +2019,7 @@ public class PolygonTriangulation {
 		// (seg1.orientation*180/Math.PI)) + Unicode.degreeChar +
 		// ")"+","+seg2+"("+((int)
 		// (seg2.orientation*180/Math.PI)) + Unicode.degreeChar + ")");
-		if (seg1.orientation < seg2.orientation) {
-			return true;
-		}
-		return false;
+		return seg1.orientation < seg2.orientation;
 	}
 
 	/**

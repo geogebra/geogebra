@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 package org.geogebra.desktop.cas.view;
 
 import java.awt.BasicStroke;
@@ -30,7 +31,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellRenderer;
 
 import org.geogebra.common.cas.view.CASTable;
@@ -150,30 +150,26 @@ public class CASTableD extends JTable implements CASTable {
 
 		// tableModel listener to resize the column width after row updates
 		// note: this only adjusts column 0
-		tableModel.addTableModelListener(new TableModelListener() {
+		tableModel.addTableModelListener(e -> {
+			if (e.getType() == TableModelEvent.UPDATE
+					|| e.getType() == TableModelEvent.DELETE) {
+				TableCellRenderer tableCellRenderer;
+				int prefWidth = 0;
+				// iterate through all rows and get max preferred width
+				for (int r = 0; r < getRowCount(); r++) {
+					tableCellRenderer = getCellRenderer(r, 0);
+					int w = prepareRenderer(tableCellRenderer, r, 0)
+							.getPreferredSize().width;
+					prefWidth = Math.max(prefWidth, w);
+				}
 
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				if (e.getType() == TableModelEvent.UPDATE
-						|| e.getType() == TableModelEvent.DELETE) {
-					TableCellRenderer tableCellRenderer;
-					int prefWidth = 0;
-					// iterate through all rows and get max preferred width
-					for (int r = 0; r < getRowCount(); r++) {
-						tableCellRenderer = getCellRenderer(r, 0);
-						int w = prepareRenderer(tableCellRenderer, r, 0)
-								.getPreferredSize().width;
-						prefWidth = Math.max(prefWidth, w);
-					}
-
-					// adjust the width
-					if (prefWidth != getTable().getColumnModel().getColumn(0)
-							.getPreferredWidth()) {
-						getTable().getColumnModel().getColumn(0)
-								.setPreferredWidth(prefWidth);
-						getTable().getColumnModel().getColumn(0)
-								.setMinWidth(prefWidth);
-					}
+				// adjust the width
+				if (prefWidth != getTable().getColumnModel().getColumn(0)
+						.getPreferredWidth()) {
+					getTable().getColumnModel().getColumn(0)
+							.setPreferredWidth(prefWidth);
+					getTable().getColumnModel().getColumn(0)
+							.setMinWidth(prefWidth);
 				}
 			}
 		});
@@ -688,13 +684,10 @@ public class CASTableD extends JTable implements CASTable {
 
 		// use invokeLater to prevent the scrollpane from stealing the focus
 		// when scrollbars are made visible
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				boolean success = editCellAt(editRow, COL_CAS_CELLS);
-				if (success) {
-					editor.setInputAreaFocused();
-				}
+		SwingUtilities.invokeLater(() -> {
+			boolean success = editCellAt(editRow, COL_CAS_CELLS);
+			if (success) {
+				editor.setInputAreaFocused();
 			}
 		});
 	}
@@ -727,8 +720,8 @@ public class CASTableD extends JTable implements CASTable {
 	public boolean getScrollableTracksViewportWidth() {
 		if (autoResizeMode != AUTO_RESIZE_OFF) {
 			if (getParent() instanceof JViewport) {
-				return (((JViewport) getParent())
-						.getWidth() > getPreferredSize().width);
+				return getParent()
+						.getWidth() > getPreferredSize().width;
 			}
 		}
 		return false;
@@ -842,11 +835,11 @@ public class CASTableD extends JTable implements CASTable {
 		if (getEditingRow() >= 0) {
 			return getEditingRow();
 		}
-		return (getRowCount() - 1);
+		return getRowCount() - 1;
 	}
 
 	/** dash pattern for selection */
-	final static float dash1[] = { 2f, 1f };
+	final static float[] dash1 = { 2f, 1f };
 	/** dashed stroke for selection */
 	final static BasicStroke dashed = new BasicStroke(1.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);

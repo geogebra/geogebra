@@ -21,6 +21,10 @@ public class MyToggleButtonD extends JButton {
 	private static final long serialVersionUID = 1L;
 	private int myHeight;
 
+	/**
+	 * @param icon icon
+	 * @param height height
+	 */
 	public MyToggleButtonD(ImageIcon icon, int height) {
 		super(icon);
 		initButton(height);
@@ -29,6 +33,9 @@ public class MyToggleButtonD extends JButton {
 		setIcon(GeoGebraIconD.ensureIconSize(icon, d));
 	}
 
+	/**
+	 * @param height height in pixels
+	 */
 	public MyToggleButtonD(int height) {
 		super();
 		initButton(height);

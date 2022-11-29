@@ -657,6 +657,10 @@ public class EuclidianViewW extends EuclidianView implements
 		super.settingsChanged(settings);
 	}
 
+	public EuclidianPanelWAbstract getDockPanel() {
+		return evPanel;
+	}
+
 	/**
 	 * @return new panel
 	 */

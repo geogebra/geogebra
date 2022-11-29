@@ -295,6 +295,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/mode_symbolic_white.svg")
 	SVGResource modeToggleSymbolic();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/fraction_white.svg")
+	SVGResource fraction_white();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/speed_up_black.svg")
 	SVGResource speed_up_black();
 
@@ -391,6 +394,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/baseline-table_chart-24px-black.svg")
 	SVGResource toolbar_table_view_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/distribution.svg")
+	SVGResource toolbar_distribution();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_filter_list_black_24px.svg")
 	SVGResource filter_list_black();
@@ -531,6 +537,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-people-24px.svg")
 	SVGResource mow_card_shared();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-groups-24px.svg")
+	SVGResource mow_card_multiuser();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-lock-24px.svg")
 	SVGResource mow_card_private();

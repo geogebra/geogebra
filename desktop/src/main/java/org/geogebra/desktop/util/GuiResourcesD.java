@@ -96,6 +96,14 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	FILLING_FAST_REWIND("/org/geogebra/common/icons/svg/common/fast_rewind.svg"),
 
+	FILLING_ZOOM_TO_FIT("/org/geogebra/common/icons/svg/common/zoom_to_fit.svg"),
+
+	FILLING_CENTER_VIEW("/org/geogebra/common/icons/svg/common/center_view.svg"),
+
+	FILLING_HELP("/org/geogebra/common/icons/svg/common/help.svg"),
+
+	FILLING_SETTINGS("/org/geogebra/common/icons/svg/common/settings.svg"),
+
 	NAV_FASTFORWARD64("/gui/images/64px/nav_fastforward.png"),
 
 	NAV_REWIND64("/gui/images/64px/nav_rewind.png"),
@@ -362,37 +370,53 @@ public enum GuiResourcesD implements ImageResourceD {
 	FOLDER("/gui/images/folder.png"), TEXT_X_GENERIC(
 			"/gui/images/text-x-generic.png"),
 
-	STYLEBAR_START_ARROW("/org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_arrow.svg"),
+	STYLEBAR_START_ARROW("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_arrow.svg"),
 
-	STYLEBAR_START_ARROW_FILLED("/org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_arrow_filled.svg"),
+	STYLEBAR_START_ARROW_FILLED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_arrow_filled.svg"),
 
-	STYLEBAR_START_CIRCLE("/org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_circle.svg"),
+	STYLEBAR_START_CIRCLE("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_circle.svg"),
 
-	STYLEBAR_START_CIRCLE_OUTLINED("/org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_circle_outlined.svg"),
+	STYLEBAR_START_CIRCLE_OUTLINED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_circle_outlined.svg"),
 
-	STYLEBAR_START_DEFAULT("/org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_default.svg"),
+	STYLEBAR_START_DEFAULT("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_default.svg"),
 
-	STYLEBAR_START_LINE("/org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_line.svg"),
+	STYLEBAR_START_LINE("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_line.svg"),
 
-	STYLEBAR_START_SQUARE("/org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_square.svg"),
+	STYLEBAR_START_SQUARE("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_square.svg"),
 
-	STYLEBAR_START_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_square_outlined.svg"),
+	STYLEBAR_START_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_square_outlined.svg"),
 
-	STYLEBAR_END_ARROW("/org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_arrow.svg"),
+	STYLEBAR_END_ARROW("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_arrow.svg"),
 
-	STYLEBAR_END_ARROW_FILLED("/org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_arrow_filled.svg"),
+	STYLEBAR_END_ARROW_FILLED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_arrow_filled.svg"),
 
-	STYLEBAR_END_CIRCLE("/org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_circle.svg"),
+	STYLEBAR_END_CIRCLE("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_circle.svg"),
 
-	STYLEBAR_END_CIRCLE_OUTLINED("/org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_circle_outlined.svg"),
+	STYLEBAR_END_CIRCLE_OUTLINED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_circle_outlined.svg"),
 
-	STYLEBAR_END_DEFAULT("/org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_default.svg"),
+	STYLEBAR_END_DEFAULT("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_default.svg"),
 
-	STYLEBAR_END_LINE("/org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_line.svg"),
+	STYLEBAR_END_LINE("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_line.svg"),
 
-	STYLEBAR_END_SQUARE("/org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_square.svg"),
+	STYLEBAR_END_SQUARE("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_square.svg"),
 
-	STYLEBAR_END_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_square_outlined.svg");
+	STYLEBAR_END_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/"
+			+ "web/stylingbar/segmentEnd/end_square_outlined.svg");
 
 	private String filename;
 

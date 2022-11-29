@@ -33,10 +33,9 @@ import org.geogebra.desktop.main.AppD;
 public class TextPreviewPanelD extends TextPreviewer {
 
 	/**
-	 * @param kernel
+	 * @param kernel kernel
 	 */
 	public TextPreviewPanelD(Kernel kernel) {
-
 		super(kernel);
 	}
 
@@ -57,11 +56,10 @@ public class TextPreviewPanelD extends TextPreviewer {
 	 * the bounding box dimensions and must use dummy containers to estimate
 	 * these dimensions.
 	 * 
-	 * @param previewGeo
+	 * @param previewGeo preview element
 	 */
 	@Override
 	protected void updateViewportSize(GeoText previewGeo) {
-
 		Dimension d = new Dimension();
 		ImageIcon testIcon = new ImageIcon();
 		JTextPane dummyText = new JTextPane();

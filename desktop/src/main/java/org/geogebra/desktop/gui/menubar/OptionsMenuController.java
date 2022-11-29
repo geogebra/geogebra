@@ -1,31 +1,38 @@
 package org.geogebra.desktop.gui.menubar;
 
-import org.geogebra.common.gui.menubar.MenuFactory;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
 import org.geogebra.common.gui.menubar.MenuInterface;
-import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.OptionsMenu;
-import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.util.Util;
+import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 public class OptionsMenuController {
 
-	private RadioButtonMenuBar menuDecimalPlaces;
-	private RadioButtonMenuBar menuLabeling;
-	private App app;
+	private RadioButtonMenuBarD menuDecimalPlaces;
+	private RadioButtonMenuBarD menuLabeling;
+	private final App app;
 	Kernel kernel;
-	private MenuFactory menuFactory;
-	private OptionsMenu optionsMenu;
+	private final OptionsMenu optionsMenu;
 
-	public OptionsMenuController(App app, MenuFactory menuFactory) {
+	/**
+	 * @param app application
+	 */
+	public OptionsMenuController(App app) {
 		this.app = app;
 		kernel = app.getKernel();
-		this.menuFactory = menuFactory;
 		this.optionsMenu = new OptionsMenu(app.getLocalization());
 	}
 
+	/**
+	 * @param cmd command
+	 */
 	public void processActionPerformed(String cmd) {
 		// decimal places
 		if (cmd.endsWith("decimals")) {
@@ -98,40 +105,41 @@ public class OptionsMenuController {
 	/**
 	 * @return newSubmenu
 	 */
-	public RadioButtonMenuBar newSubmenu() {
-		return this.menuFactory.newSubmenu();
+	public RadioButtonMenuBarD newSubmenu() {
+		return new RadioButtonMenuBarD(app);
 	}
 
-	public void addDecimalPlacesMenu(MenuInterface menu) {
+	/**
+	 * Add decimal places menu
+	 * @param menu options menu
+	 */
+	public void addDecimalPlacesMenu(OptionsMenuD menu) {
 		menuDecimalPlaces = newSubmenu();
-
-		/*
-		 * int max_dec = 15; String[] strDecimalSpaces = new String[max_dec +
-		 * 1]; String[] strDecimalSpacesAC = new String[max_dec + 1]; for (int
-		 * i=0; i <= max_dec; i++){ strDecimalSpaces[i] = Integer.toString(i);
-		 * strDecimalSpacesAC[i] = i + " decimals"; }
-		 */
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
-		menuDecimalPlaces.addRadioButtonMenuItems((MyActionListener) menu,
+		menuDecimalPlaces.addRadioButtonMenuItems(menu,
 				strDecimalSpaces, App.getStrDecimalSpacesAC(), 0, false);
 
-		menuFactory.addMenuItem(menu, "Rounding", true, menuDecimalPlaces);
+		addMenuItem(menu, "Rounding", menuDecimalPlaces);
 
 		updateMenuDecimalPlaces();
 	}
 
-	public void addLabelingMenu(MenuInterface menu) {
+	/**
+	 * Add labeling menu
+	 * @param menu options menu
+	 */
+	public void addLabelingMenu(OptionsMenuD menu) {
 		menuLabeling = newSubmenu();
 
 		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
 				"Labeling.pointsOnly" };
 		String[] lastr = { "0_labeling", "1_labeling", "2_labeling",
 				"3_labeling" };
-		menuLabeling.addRadioButtonMenuItems((MyActionListener) menu, lstr,
+		menuLabeling.addRadioButtonMenuItems(menu, lstr,
 				lastr, 0, true);
 
-		menuFactory.addMenuItem(menu, "Labeling", true, menuLabeling);
+		addMenuItem(menu, "Labeling", menuLabeling);
 
 		updateMenuLabeling();
 	}
@@ -149,8 +157,12 @@ public class OptionsMenuController {
 		menuLabeling.setSelected(labelVisibility.getValue());
 	}
 
-	public void addFontSizeMenu(MenuInterface menu) {
-		RadioButtonMenuBar submenu = newSubmenu();
+	/**
+	 * Add font size menu
+	 * @param menu options menu
+	 */
+	public void addFontSizeMenu(OptionsMenuD menu) {
+		RadioButtonMenuBarD submenu = newSubmenu();
 
 		// String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt",
 		// "24 pt",
@@ -170,11 +182,31 @@ public class OptionsMenuController {
 			fontActionCommands[i] = Util.menuFontSizes(i) + " pt";
 		}
 
-		submenu.addRadioButtonMenuItems((MyActionListener) menu, fsfi,
+		submenu.addRadioButtonMenuItems(menu, fsfi,
 				fontActionCommands, pos, false);
-		menuFactory.addMenuItem(menu, "FontSize", true, submenu);
+		addMenuItem(menu, "FontSize", submenu);
 	}
 
+	private void addMenuItem(MenuInterface parentMenu, String key,
+			MenuInterface subMenu) {
+		ImageResourceD res = null;
+		if ("Labeling".equals(key)) {
+			res = GuiResourcesD.MODE_SHOWHIDELABEL;
+		}
+		if ("FontSize".equals(key)) {
+			res = GuiResourcesD.FONT;
+		}
+		if (res != null) {
+			((JMenuItem) subMenu).setIcon(((AppD) app).getMenuIcon(res));
+		}
+		((JMenuItem) subMenu).setText(app.getLocalization().getMenu(key));
+		((JMenu) parentMenu).add((JMenuItem) subMenu);
+
+	}
+
+	/**
+	 * Update the menu
+	 */
 	public void update() {
 		updateMenuDecimalPlaces();
 		// updateMenuViewDescription();

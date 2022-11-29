@@ -49,6 +49,8 @@ public final class GColor implements GPaint {
 	public static final GColor GRAY = newColor(128, 128, 128);
 	/** DARK_GRAY */
 	public static final GColor DARK_GRAY = newColor(68, 68, 68);
+	/** Highlight */
+	public static final GColor HIGHLIGHT_GRAY = newColor(114, 114, 114);
 	/** PURPLE */
 	public static final GColor PURPLE = newColor(102, 102, 255);
 	/** PURPLE A400 */
@@ -109,6 +111,7 @@ public final class GColor implements GPaint {
 	public static final GColor MIND_MAP_CONNECTION = newColorRGB(0xDEDEDE);
 
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
+	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer

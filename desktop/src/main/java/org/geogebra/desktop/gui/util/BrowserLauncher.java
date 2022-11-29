@@ -29,7 +29,7 @@ public class BrowserLauncher {
 	 *            website URL
 	 */
 	public static void openURL(String url) {
-
+		Log.debug("opening URL:" + url);
 		try {
 
 			if (Desktop.isDesktopSupported()) {
@@ -53,8 +53,7 @@ public class BrowserLauncher {
 				// replace file:/c:/Program Files/etc
 				// by file:///c:\Program Files\etc
 				String fixedURL = url;
-				if (fixedURL.indexOf("file:") == 0) // local URL
-				{
+				if (fixedURL.indexOf("file:") == 0) { // local URL
 					fixedURL = fixedURL.replaceAll("file:///", ""); // remove
 					// file:///
 					// from the start

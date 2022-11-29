@@ -25,7 +25,8 @@ public class AutoCompletion {
 
 	private final static int POPUP_ROW_COUNT_FOR_FILE_CHOOSER = 8;
 
-	private final static FileChooserCompletionListCellRenderer FC_CELL_RENDERER = new FileChooserCompletionListCellRenderer();
+	private final static FileChooserCompletionListCellRenderer FC_CELL_RENDERER
+			= new FileChooserCompletionListCellRenderer();
 
 	private final static boolean caseInsensitivePaths = initCaseInsenitvePaths();
 
@@ -78,12 +79,7 @@ public class AutoCompletion {
 				// java.io.FileFilter
 				final javax.swing.filechooser.FileFilter fileChooserFileFilter = fileChooser
 						.getFileFilter();
-				FileFilter fileFilter = new FileFilter() {
-					@Override
-					public boolean accept(File pathname) {
-						return fileChooserFileFilter.accept(pathname);
-					}
-				};
+				FileFilter fileFilter = fileChooserFileFilter::accept;
 				// All visible items in the file chooser are possible options
 				File[] options = fileChooser.getCurrentDirectory()
 						.listFiles(fileFilter);
@@ -92,7 +88,8 @@ public class AutoCompletion {
 				if (options == null) {
 					return null;
 				}
-				CompletionProvider<File> completionProvider = new SortedArrayCompletionProvider<File>(
+				CompletionProvider<File> completionProvider
+						= new SortedArrayCompletionProvider<File>(
 						options, caseInsensitiveCompletion) {
 					@Override
 					public String toString(File option) {

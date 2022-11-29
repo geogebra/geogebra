@@ -135,7 +135,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
-				initText, false);
+				initText);
 		inputDialog.show();
 	}
 
@@ -168,8 +168,8 @@ public class DialogManagerW extends DialogManager
 	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		DialogData data = new DialogData("Redefine");
 		ComponentInputDialog redefineInputDialog = new ComponentInputDialog((AppW) app, data,
-				false, false, handler, geo.getNameDescription(), str,
-				true);
+				false, false, handler, geo.getNameDescription(), str
+		);
 		redefineInputDialog.show();
 	}
 
@@ -221,7 +221,10 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showCalcChooser(boolean autoHide) {
 		hideCalcChooser(); // remove any previous chooser
-		calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
+		if (calcSwitcher == null) {
+			calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
+		}
+		calcSwitcher.buildGUI();
 		calcSwitcher.show();
 	}
 
@@ -377,8 +380,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
-				(AppW) app, message, data, initText, handler, changingSign,
-				checkBoxText);
+				(AppW) app, message, data, initText, handler, changingSign);
 		extrudeInputDialog.show();
 	}
 

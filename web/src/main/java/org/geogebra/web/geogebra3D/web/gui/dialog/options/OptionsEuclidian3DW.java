@@ -53,7 +53,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		private FlowPanel boxSizePanel;
 		private Label clippingOptionsTitle;
 		private Label boxSizeTitle;
-		private RadioButtonPanel clippingRadioBtnPanel;
+		private RadioButtonPanel<Integer> clippingRadioBtnPanel;
 		private ComponentCheckbox cbUseLight;
 
 		/**
@@ -145,14 +145,16 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			boxSizeTitle.setStyleName("panelTitle");
 			boxSizePanel = new FlowPanel();
 
-			clippingRadioBtnPanel = new RadioButtonPanel(loc,
+			clippingRadioBtnPanel = new RadioButtonPanel<>(loc,
 					Arrays.asList(
-							newClippingButtonData("BoxSize.small", false,
+							newClippingButtonData("BoxSize.small",
 									GeoClippingCube3D.REDUCTION_SMALL),
-							newClippingButtonData("BoxSize.medium", true,
+							newClippingButtonData("BoxSize.medium",
 									GeoClippingCube3D.REDUCTION_MEDIUM),
-							newClippingButtonData("BoxSize.large", false,
-									GeoClippingCube3D.REDUCTION_LARGE)));
+							newClippingButtonData("BoxSize.large",
+									GeoClippingCube3D.REDUCTION_LARGE)),
+					get3dview().getSettings().getClippingReduction(),
+					this::setClippingAndRepaint);
 
 			boxSizePanel.add(clippingRadioBtnPanel);
 
@@ -160,10 +162,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			indent(boxSizePanel);
 		}
 
-		private RadioButtonData newClippingButtonData(String label, boolean selected,
+		private RadioButtonData<Integer> newClippingButtonData(String label,
 				int value) {
-			return new RadioButtonData(label, selected,
-					() -> setClippingAndRepaint(value));
+			return new RadioButtonData<>(label, value);
 		}
 
 		private void setClippingAndRepaint(int clippingType) {
@@ -185,12 +186,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			cbShowClipping.setSelected(get3dview().showClippingCube());
 
 			int flag = get3dview().getClippingReduction();
-			clippingRadioBtnPanel.setValueOfNthRadioButton(0,
-					flag == GeoClippingCube3D.REDUCTION_SMALL);
-			clippingRadioBtnPanel.setValueOfNthRadioButton(1,
-					flag == GeoClippingCube3D.REDUCTION_MEDIUM);
-			clippingRadioBtnPanel.setValueOfNthRadioButton(2,
-					flag == GeoClippingCube3D.REDUCTION_LARGE);
+			clippingRadioBtnPanel.setValue(flag);
 		}
 
 		@Override

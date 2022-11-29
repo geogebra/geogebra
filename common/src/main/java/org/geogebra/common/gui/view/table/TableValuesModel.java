@@ -57,6 +57,12 @@ public interface TableValuesModel {
 	String getHeaderAt(int column);
 
 	/**
+	 * Set the header of the first column
+	 * @param valuesHeader name
+	 */
+	void setValuesHeader(String valuesHeader);
+
+	/**
 	 * Returns the numeric value at the specified location.
 	 * @param row row of the entry
 	 * @param column column of the entry
@@ -102,4 +108,11 @@ public interface TableValuesModel {
 	 * @return geo element
 	 */
 	GeoNumeric createValue(double value);
+
+	/**
+	 * Sets up the GeoList object so that it can become the x values column.
+	 * @param xValues The GeoList to become the x values column.
+	 * @return The x values column with all the necessary settings set.
+	 */
+	GeoList setupXValues(GeoList xValues);
 }

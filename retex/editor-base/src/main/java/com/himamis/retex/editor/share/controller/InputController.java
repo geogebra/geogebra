@@ -661,6 +661,7 @@ public class InputController {
 			} else if (ch == parent.getCloseKey() && !MathArray.isLocked(parent)) {
 				// in non-protected containers when the closing key is pressed
 				// move out of the container
+				moveOutOfArray(currentField, currentOffset);
 				currentOffset = parent.getParentIndex() + 1;
 				currentField = (MathSequence) parent.getParent();
 			} else {
@@ -734,6 +735,20 @@ public class InputController {
 		}
 		editorState.setCurrentField(currentField);
 		editorState.setCurrentOffset(currentOffset);
+	}
+
+	private void moveOutOfArray(MathSequence currentField, int currentOffset) {
+		MathComponent parent = currentField.getParent();
+		if (parent.getParent() instanceof MathSequence) {
+			int counter = 1;
+			while (currentField.size() > currentOffset) {
+				MathComponent component = currentField
+						.getArgument(currentOffset);
+				currentField.delArgument(currentOffset);
+				parent.getParent().addArgument(parent.getParentIndex() + counter, component);
+				counter++;
+			}
+		}
 	}
 
 	private static void insertReverse(MathContainer parent, int parentIndex,
@@ -868,14 +883,13 @@ public class InputController {
 
 	private void deleteSingleArg(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
-		if (!editorState.getCurrentField().isArgumentProtected(currentOffset - 1)) {
-			editorState.getCurrentField().delArgument(currentOffset - 1);
+		MathSequence currentField = editorState.getCurrentField();
+		if (!currentField.isArgumentProtected(currentOffset - 1)) {
+			currentField.delArgument(currentOffset - 1);
 			editorState.decCurrentOffset();
-			MathSequence currentField = editorState.getCurrentField();
-			int offset = editorState.getCurrentOffset();
-			if (currentField.getArgument(offset) instanceof MathFunction) {
-				RemoveContainer.fuseMathFunction(editorState,
-						(MathFunction) currentField.getArgument(offset));
+			MathComponent component = currentField.getArgument(editorState.getCurrentOffset());
+			if (component instanceof MathFunction) {
+				RemoveContainer.fuseMathFunction(editorState, (MathFunction) component);
 			}
 		}
 	}
@@ -1353,7 +1367,7 @@ public class InputController {
 		}
 	}
 
-	private static class FunctionPower {
+	public static class FunctionPower {
 		/** subscript or superscript*/
 		public MathFunction script;
 		public String name;

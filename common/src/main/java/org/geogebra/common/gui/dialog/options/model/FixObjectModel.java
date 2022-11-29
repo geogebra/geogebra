@@ -17,6 +17,11 @@ public class FixObjectModel extends BooleanOptionModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "FixObject";
+	}
+
+	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 		return geo.isFixable() && (!app.getConfig().isObjectDraggingRestricted()

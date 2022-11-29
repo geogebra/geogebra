@@ -268,7 +268,7 @@ public class Parser implements ParserInterface {
         if (enableStructures) {
             return def;
         }
-        throw new MyError(loc, "InvalidInput");
+        throw new MyError(loc, MyError.Errors.InvalidInput);
     }
 
     private MyDouble parseDouble(String image, boolean percent) {

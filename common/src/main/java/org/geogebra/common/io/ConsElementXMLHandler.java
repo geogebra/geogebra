@@ -15,6 +15,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -84,7 +85,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.JsReference;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
@@ -492,13 +493,14 @@ public class ConsElementXMLHandler {
 
 	private boolean handleListeners(LinkedHashMap<String, String> attrs) {
 		try {
+			ScriptManager scriptManager = app.getScriptManager();
 			if ("objectUpdate".equals(attrs.get("type"))) {
-				app.getScriptManager().getUpdateListenerMap().put(geo,
-						JsReference.fromName(attrs.get("val")));
+				scriptManager.getUpdateListenerMap().put(geo,
+						scriptManager.fromName(attrs.get("val")));
 			}
 			if ("objectClick".equals(attrs.get("type"))) {
-				app.getScriptManager().getClickListenerMap().put(geo,
-						JsReference.fromName(attrs.get("val")));
+				scriptManager.getClickListenerMap().put(geo,
+						scriptManager.fromName(attrs.get("val")));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -1672,7 +1674,7 @@ public class ConsElementXMLHandler {
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier
 
-			if (geo.isIndependent() && geo.getDefinition() == null) {
+			if (needsValuesFromXML(geo)) {
 				double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
 						StringUtil.parseDouble(attrs.get("A1")),
 						StringUtil.parseDouble(attrs.get("A2")),
@@ -1690,17 +1692,21 @@ public class ConsElementXMLHandler {
 			if (!setEigenvectorsCalled) {
 				quadric.hideIfNotSphere();
 			}
-		} else if (geo.isGeoConic() && geo.getDefinition() == null) {
+		} else if (geo.isGeoConic()) {
 			GeoConicND conic = (GeoConicND) geo;
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier
-			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
-					StringUtil.parseDouble(attrs.get("A1")),
-					StringUtil.parseDouble(attrs.get("A2")),
-					StringUtil.parseDouble(attrs.get("A3")),
-					StringUtil.parseDouble(attrs.get("A4")),
-					StringUtil.parseDouble(attrs.get("A5")) };
-			conic.setMatrix(matrix);
+			if (needsValuesFromXML(geo)) {
+				double[] matrix = {StringUtil.parseDouble(attrs.get("A0")),
+						StringUtil.parseDouble(attrs.get("A1")),
+						StringUtil.parseDouble(attrs.get("A2")),
+						StringUtil.parseDouble(attrs.get("A3")),
+						StringUtil.parseDouble(attrs.get("A4")),
+						StringUtil.parseDouble(attrs.get("A5"))};
+				conic.setMatrix(matrix);
+			} else {
+				conic.ensureClassified();
+			}
 		}
 	}
 
@@ -1957,7 +1963,7 @@ public class ConsElementXMLHandler {
 			// set eigenvectors, but don't classify conic now
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
-			if (conic.isIndependent()) {
+			if (needsValuesFromXML(geo)) {
 				conic.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
 						StringUtil.parseDouble(attrs.get("y0")),
 						StringUtil.parseDouble(attrs.get("z0")),
@@ -1971,6 +1977,11 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean needsValuesFromXML(GeoElement geo) {
+		return (geo.isIndependent() && geo.getDefinition() == null)
+				|| (geo.getParentAlgorithm() instanceof SetRandomValue);
+	}
+
 	private void handleEigenvectors(LinkedHashMap<String, String> attrs) {
 		if (!geo.isGeoQuadric()) {
 			handleEigenvectorsConic(attrs);
@@ -1982,7 +1993,7 @@ public class ConsElementXMLHandler {
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
 			setEigenvectorsCalled = true;
-			if (geo.isIndependent() && geo.getDefinition() == null) {
+			if (needsValuesFromXML(geo)) {
 				quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
 						StringUtil.parseDouble(attrs.get("y0")),
 						StringUtil.parseDouble(attrs.get("z0")),
@@ -2088,7 +2099,8 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean isUndefinedGeoNumber() {
-		if (!geo.isGeoNumeric()) {
+		// we should show undefined integrals
+		if (!geo.isGeoNumeric() || !geo.isIndependent()) {
 			return false;
 		}
 

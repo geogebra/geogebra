@@ -46,6 +46,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
@@ -61,6 +62,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
@@ -145,6 +147,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -173,11 +176,8 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -470,12 +470,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				// dp.getKeyboardListener().setFocus(true);
 				listener.ensureEditing();
 				listener.setFocus(true);
-				if (isKeyboardNeeded() && (getExam() == null
+				if (getAppletFrame().appNeedsKeyboard() && (getExam() == null
 						|| getExam().getStart() > 0)) {
 					getAppletFrame().showKeyBoard(true, listener, true);
 				}
 			}
-			if (!isKeyboardNeeded()) {
+			if (!getAppletFrame().appNeedsKeyboard()) {
 				getAppletFrame().showKeyBoard(false, null, true);
 			}
 
@@ -599,8 +599,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					.updateContent();
 		}
 		getAppletFrame().setNotesMode(getMode());
-
-		updateToolbarClosedState(getConfig().getSubAppCode());
 	}
 
 	private void resetAllToolbars() {
@@ -662,20 +660,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public void showErrorDialog(String title, String negBtn, String posBtn,
-			String message, Runnable posBtnAction) {
-		DialogData data = new DialogData(title, negBtn, posBtn);
-		ComponentDialog dialog = new ComponentDialog(this, data, false, true);
-		FlowPanel messagePanel = new FlowPanel();
-		String[] lines = message.split("\n");
-		for (String item : lines) {
-			messagePanel.add(new Label(item));
-		}
-		dialog.addDialogContent(messagePanel);
-		if (posBtnAction != null) {
-			dialog.setOnPositiveAction(posBtnAction::run);
-		}
-		dialog.show();
+	public ErrorHandler getDefaultErrorHandler() {
+		return new ErrorHandlerW(this);
 	}
 
 	@Override
@@ -873,6 +859,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 								getGgbApi().setBase64(material.getBase64());
 							}
 							setActiveMaterial(material);
+							if (material.isMultiuser()) {
+								getShareController().startMultiuser(material.getSharingKeyOrId());
+							}
 							ensureSupportedModeActive();
 						} else {
 							onError.callback(Errors.LoadFileFailed.getKey());
@@ -965,7 +954,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			Runnable r = () -> {
 				executeCommand(command, info, callback);
 			};
-			getAsyncManager().scheduleCallback(r);
+			getAsyncManager().runOrSchedule(r);
 		}
 	}
 
@@ -975,6 +964,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(command, false,
 							ErrorHelper.silent(), info, callback);
+		} catch (CommandNotLoadedError err) {
+			throw err;
 		} catch (Throwable throwable) {
 			Log.error("Error evaluating input: " + command);
 		}
@@ -1296,6 +1287,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setCurrentFile(null);
 		resetUI();
 		clearMedia();
+		getEventDispatcher().dispatchEvent(EventType.LOAD_PAGE, null);
 	}
 
 	@Override
@@ -1571,11 +1563,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 
-		getScriptManager().ggbOnInit(); // put this here from Application
-										// constructor because we have to delay
-										// scripts until the EuclidianView is
-										// shown
-
 		getEuclidianView1().synCanvasSize();
 
 		if (!appletParameters.getDataParamFitToScreen()) {
@@ -1613,7 +1600,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
-		onOpenFile();
+
 		showStartTooltip(null);
 		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
@@ -1622,9 +1609,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
+		getScriptManager().ggbOnInit(); // should be only called after coord system is ready
+		onOpenFile();
 		if (!asSlide) {
 			// should run after coord system changed
 			initUndoInfoSilent();
+		} else {
+			getEventDispatcher().dispatchEvent(EventType.LOAD_PAGE, null);
 		}
 		restoreCurrentUndoHistory();
 	}
@@ -1642,7 +1633,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						getGuiManager().getLayout());
 
 		LayoutW layout = getGuiManager().getLayout();
-		updateAvVisibility(forcedPerspective, fromXml);
+		updateAvVisibilityAndTab(forcedPerspective, fromXml);
 		if (!StringUtil.empty(fromXml.getToolbarDefinition())) {
 			layout.updateLayout(forcedPerspective, fromXml.getToolbarDefinition());
 		} else {
@@ -1653,8 +1644,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			unbundledToolbar.updateContent();
 		}
 
-		layout.getDockManager().setActiveTab(fromXml);
-
 		if (isPortrait()) {
 			getGuiManager().getLayout().getDockManager().adjustViews(true);
 		}
@@ -1662,15 +1651,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setupToolbarPanelVisibility(fromXml.getDockPanelData());
 	}
 
-	private void updateAvVisibility(Perspective forcedPerspective, Perspective fromXml) {
+	private void updateAvVisibilityAndTab(Perspective forcedPerspective, Perspective fromXml) {
 		DockPanelData[] oldDockPanelData = fromXml.getDockPanelData();
 		DockPanelData[] dockPanelData = forcedPerspective.getDockPanelData();
 
 		int oldAlgebra = findDockPanelData(oldDockPanelData, App.VIEW_ALGEBRA);
-		int oldEuclidian = findDockPanelData(oldDockPanelData,
-				isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
-		int euclidian = findDockPanelData(dockPanelData,
-				isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
+		int algebra = findDockPanelData(dockPanelData, App.VIEW_ALGEBRA);
+		int viewId = getConfig().getMainGraphicsViewId();
+		int oldEuclidian = findDockPanelData(oldDockPanelData, viewId);
+		int euclidian = findDockPanelData(dockPanelData, viewId);
 
 		double algebraWidth = 0;
 		double euclidianWidth = 0;
@@ -1683,10 +1672,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		} else {
 			dockPanelData[euclidian].setVisible(false);
 		}
-
 		if (algebraWidth != 0 || euclidianWidth != 0) {
 			forcedPerspective.getSplitPaneData()[0]
 					.setDivider(algebraWidth / (algebraWidth + euclidianWidth));
+		}
+		if (algebra != -1 && oldAlgebra != -1) {
+			dockPanelData[algebra].setTabId(oldDockPanelData[oldAlgebra].getTabId());
 		}
 	}
 
@@ -1992,13 +1983,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void centerAndResizePopups() {
-		for (Widget w : popups) {
+		for (HasHide w : popups) {
 			if (w instanceof ComponentDialog) {
 					((GPopupPanel) w).centerAndResize(
 						this.getAppletFrame().getKeyboardHeight());
-			}
-			if (w instanceof ResizeHandler) {
-				((ResizeHandler) w).onResize(null);
 			}
 		}
 	}
@@ -2323,7 +2311,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			});
 		} else {
 			afterMaterialRestored();
-			updateToolbarClosedState(subAppCode);
 		}
 		getEventDispatcher().dispatchEvent(new Event(EventType.SWITCH_CALC, null, subAppCode));
 	}
@@ -2436,17 +2423,5 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void clearSubAppCons() {
 		constructionJson.clear();
-	}
-
-	private void updateToolbarClosedState(String subAppCode) {
-		if ("probability".equals(subAppCode)) {
-			DockPanel avPanel = getGuiManager().getLayout().getDockManager()
-					.getPanel(VIEW_ALGEBRA);
-			if (avPanel instanceof ToolbarDockPanelW) {
-				hideKeyboard();
-				((ToolbarDockPanelW) avPanel).getToolbar().close(true, 0);
-				((ToolbarDockPanelW) avPanel).getToolbar().setAVIconNonSelect(isExam());
-			}
-		}
 	}
 }

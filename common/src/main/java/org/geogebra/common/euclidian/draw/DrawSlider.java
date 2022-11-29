@@ -59,6 +59,7 @@ public class DrawSlider extends Drawable {
 
 	private static final GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
+	GBasicStroke highlightStroke = AwtFactory.getPrototype().newBasicStroke(2);
 
 	private double[] coords = new double[2];
 
@@ -205,16 +206,17 @@ public class DrawSlider extends Drawable {
 
 			if (isHighlighted()) {
 				g2.fill(circleHighlight);
-				g2.setStroke(borderStroke);
+				g2.setPaint(geo.getObjectColor());
+				g2.setStroke(highlightStroke);
 				g2.draw(circleHighlight);
 			} else {
 				g2.fill(circleOuter);
 				g2.setStroke(borderStroke);
 				g2.draw(circleOuter);
+				g2.setPaint(geo.getObjectColor());
 			}
 
 			// draw a dot
-			g2.setPaint(geo.getObjectColor());
 			g2.fill(circle);
 
 			// black stroke

@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -56,7 +57,6 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -109,6 +109,7 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
@@ -211,14 +212,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private final GLookAndFeelI laf;
 
-	protected ArrayList<Widget> popups = new ArrayList<>();
+	protected ArrayList<HasHide> popups = new ArrayList<>();
 	// protected GeoGebraFrame frame = null;
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
 	private boolean toolLoadedFromStorage;
 	private BrowserStorage storage;
-	private boolean keyboardNeeded;
 	private final ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
 	private int appletWidth = 0;
@@ -283,13 +283,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		dropHandlers.addEventListener(DomGlobal.window, "resize", event -> {
 			fitSizeToScreen();
 			windowResized();
-			closePopupsInRegistry();
 		});
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
-			Browser.addMutationObserver(getParent(
-					getAppletParameters().getParamScaleContainerClass()),
-					this::checkScaleContainer);
+			getGlobalHandlers().add(
+					Browser.addMutationObserver(getParent(
+							getAppletParameters().getParamScaleContainerClass()),
+							this::checkScaleContainer));
 		}
 		if (getAppletParameters().getDataParamApp()) {
 			initializeAnalytics();
@@ -2137,7 +2137,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param widget
 	 *            popup
 	 */
-	public void registerPopup(Widget widget) {
+	public void registerPopup(HasHide widget) {
 		popups.add(widget);
 	}
 
@@ -2165,8 +2165,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Close popups, keep tooltips
 	 */
 	public void closePopupsNoTooltips() {
-		for (Widget widget : popups) {
-			widget.setVisible(false);
+		for (HasHide widget : popups) {
+			widget.hide();
 		}
 		popups.clear();
 	}
@@ -2176,7 +2176,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            element that can be cliked without closingpopups
 	 */
 	public void addAsAutoHidePartnerForPopups(Element el) {
-		for (Widget popup : popups) {
+		for (HasHide popup : popups) {
 			if (popup instanceof GPopupPanel
 					&& ((GPopupPanel) popup).isModal()) {
 				((GPopupPanel) popup).addAutoHidePartner(el);
@@ -2436,11 +2436,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (this.getErrorHandler() != null) {
 			this.getErrorHandler().showError(msg);
 		}
-	}
-
-	@Override
-	public ErrorHandler getDefaultErrorHandler() {
-		return new ErrorHandlerW(this);
 	}
 
 	@Override
@@ -2704,21 +2699,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param b
-	 *            whether keyboard is needed
-	 */
-	public void setKeyboardNeeded(boolean b) {
-		this.keyboardNeeded = b;
-	}
-
-	/**
-	 * @return whether keyboard is needed for current perspective
-	 */
-	public boolean isKeyboardNeeded() {
-		return keyboardNeeded;
-	}
-
-	/**
 	 * @param perspective
 	 *            perspective
 	 */
@@ -2743,6 +2723,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return whether file operations (open / save) are allowed
 	 */
+	public boolean enableOnlineFileFeatures() {
+		return this.appletParameters.getDataParamEnableFileFeatures()
+				&& getLAF() != null && getLAF().hasLoginButton();
+	}
+
 	public boolean enableFileFeatures() {
 		return this.appletParameters.getDataParamEnableFileFeatures();
 	}
@@ -3541,5 +3526,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			lastFocusableWidget.getElement().setInnerText("");
 			lastFocusableWidget.getElement().focus();
 		}
+	}
+
+	@Override
+	public StringTemplate getScreenReaderTemplate() {
+		return getAppletParameters().getParamScreenReaderMode(NavigatorUtil.isMobile()
+					|| NavigatorUtil.isMacOS())
+				? StringTemplate.screenReaderAscii
+				: StringTemplate.screenReaderUnicode;
 	}
 }

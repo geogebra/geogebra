@@ -1,14 +1,16 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.util.DoubleUtil;
 import org.junit.Test;
 
 public class GlitchesTest extends BaseUnitTest {
+
+	private final GeoFunctionConverter converter = new GeoFunctionConverter();
 
 	@Test
 	public void testZeroDividedBySinXShouldNotContainInfinity() {
@@ -20,7 +22,7 @@ public class GlitchesTest extends BaseUnitTest {
 	@Test
 	public void oneDividedByZeroTimeXShouldBeEmpty() {
 		withHiResFunction("1/(0x)");
-		assertEquals(0, gp.getLog().size());
+		assertEquals(1, gp.getLog().size());
 	}
 
 	@Test
@@ -28,7 +30,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
 		withFunction("0(1/x)");
-		assertEquals(102, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y, 0))
+		assertEquals(101, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y, 0))
 				.count());
 	}
 
@@ -37,7 +39,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
 		withFunction("0/(0/tan(x))");
-		assertEquals(0, gp.getLog().size());
+		assertEquals(1, gp.getLog().size());
 	}
 
 	@Test
@@ -45,7 +47,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1E15, 1E15, -1E15, -1E15);
 		withScreenSize(50, 50);
 		withFunction("tan(x)");
-		assertEquals(102, gp.getLog().size());
+		assertEquals(101, gp.getLog().size());
 	}
 
 	@Test
@@ -53,14 +55,6 @@ public class GlitchesTest extends BaseUnitTest {
 		withDefaultScreen();
 		withFunction("1/x");
 		assertEquals(0, gp.getLog().stream().filter(e -> Double.isInfinite(e.y)).count());
-	}
-
-	@Test
-	public void testSignum() {
-		withDefaultScreen();
-		withFunction("If(x < 0, -1, 1)");
-		assertNotEquals(0, gp.getLog().size());
-
 	}
 
 	IntervalPathPlotterMock gp;
@@ -82,7 +76,7 @@ public class GlitchesTest extends BaseUnitTest {
 
 	void withFunction(String functionString) {
 		gp = new IntervalPathPlotterMock(bounds);
-		plotter = new IntervalPlotter(bounds, gp);
+		plotter = new IntervalPlotter(converter, bounds, gp);
 		GeoFunction function = add(functionString);
 		plotter.enableFor(function);
 	}
@@ -91,12 +85,6 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-5000, 5000, 6000, -4000);
 		withScreenSize(1920, 1280);
 		withFunction(description);
-	}
-
-	@Test
-	public void ifCommandShouldNotBeEmpty() {
-		withHiResFunction("If(x< 0, 1)");
-		assertNotEquals(0, gp.getLog().size());
 	}
 
 }

@@ -112,4 +112,9 @@ public interface EuclidianViewBounds {
 	 * @return if interval y is within the bounds.
 	 */
 	boolean isOnView(Interval y);
+
+	/**
+	 * @return 1/getYScale()
+	 */
+	double getInvYscale();
 }

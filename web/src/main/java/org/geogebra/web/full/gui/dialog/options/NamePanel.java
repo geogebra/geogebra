@@ -65,7 +65,7 @@ class NamePanel extends OptionPanel
 		setModel(model);
 
 		// name field: no auto-completion
-		InputPanelW inputPanelName = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW inputPanelName = new InputPanelW(null, app, 1, -1, false);
 		tfName = inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
 		tfName.addBlurHandler(event -> {
@@ -81,7 +81,7 @@ class NamePanel extends OptionPanel
 		});
 
 		// definition field: non auto complete input panel
-		InputPanelW inputPanelDef = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW inputPanelDef = new InputPanelW(null, app, 1, -1, false);
 		tfDefinition = inputPanelDef.getTextComponent();
 		tfDefinition.setAutoComplete(false);
 
@@ -95,10 +95,9 @@ class NamePanel extends OptionPanel
 		});
 
 		// caption field: non auto complete input panel
-		InputPanelW inputPanelCap = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW inputPanelCap = new InputPanelW(null, app, 1, -1, false);
 		tfCaption = inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
-
 		tfCaption.addBlurHandler(event -> doCaptionChanged());
 		tfCaption.addKeyHandler(e -> {
 			if (e.isEnterKey()) {
@@ -220,7 +219,10 @@ class NamePanel extends OptionPanel
 		}
 	}
 
-	private void updateDef(GeoElementND geo) {
+	/**
+	 * @param geo construction element
+	 */
+	public void updateDefinition(GeoElementND geo) {
 		errorPanel.clear();
 		model.getDefInputHandler().setGeoElement(geo);
 		tfDefinition.setText(ObjectNameModel.getDefText(geo));
@@ -253,7 +255,7 @@ class NamePanel extends OptionPanel
 
 	@Override
 	public void updateDefLabel() {
-		updateDef(model.getCurrentGeo());
+		updateDefinition(model.getCurrentGeo());
 		Localization loc = app.getLocalization();
 		if (model.getCurrentGeo().isIndependent()) {
 			defLabel.setText(loc.getMenu("Value") + ":");
@@ -297,5 +299,4 @@ class NamePanel extends OptionPanel
 		dynamicCaptionPanel.updatePanel(geos);
 		return super.updatePanel(geos);
 	}
-
 }

@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.scripting.CmdSetDecoration;
 import org.geogebra.common.kernel.scripting.CmdSetDynamicColor;
 import org.geogebra.common.kernel.scripting.CmdSetFilling;
 import org.geogebra.common.kernel.scripting.CmdSetFixed;
+import org.geogebra.common.kernel.scripting.CmdSetImage;
 import org.geogebra.common.kernel.scripting.CmdSetLabelMode;
 import org.geogebra.common.kernel.scripting.CmdSetLayer;
 import org.geogebra.common.kernel.scripting.CmdSetLevelOfDetail;
@@ -42,8 +43,7 @@ import org.geogebra.common.kernel.scripting.CmdSetTooltipMode;
 import org.geogebra.common.kernel.scripting.CmdSetTrace;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.kernel.scripting.CmdSetVisibleInView;
-import org.geogebra.common.kernel.scripting.CmdShowAxes;
-import org.geogebra.common.kernel.scripting.CmdShowGrid;
+import org.geogebra.common.kernel.scripting.CmdShowAxesOrGrid;
 import org.geogebra.common.kernel.scripting.CmdShowHideLayer;
 import org.geogebra.common.kernel.scripting.CmdShowLabel;
 import org.geogebra.common.kernel.scripting.CmdSlider;
@@ -175,9 +175,9 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 		case SetVisibleInView:
 			return new CmdSetVisibleInView(kernel);
 		case ShowAxes:
-			return new CmdShowAxes(kernel);
+			return new CmdShowAxesOrGrid(kernel, Commands.ShowAxes);
 		case ShowGrid:
-			return new CmdShowGrid(kernel);
+			return new CmdShowAxesOrGrid(kernel, Commands.ShowGrid);
 		case SlowPlot:
 			return new CmdSlowPlot(kernel);
 		case ToolImage:
@@ -200,6 +200,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdRunClickScript(kernel);
 		case RunUpdateScript:
 			return new CmdRunUpdateScript(kernel);
+		case SetImage:
+			return new CmdSetImage(kernel);
 		// case DensityPlot:
 		// return new CmdDensityPlot(kernel);
 		default:

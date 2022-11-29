@@ -33,7 +33,7 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	/**
 	 * Construct a new sub-menu and assign the application attribute.
 	 * 
-	 * @param app
+	 * @param app application
 	 * @param key
 	 *            The title of this menu
 	 */
@@ -56,8 +56,8 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	/**
 	 * Set the shortcut for a menu item.
 	 * 
-	 * @param mi
-	 * @param acc
+	 * @param mi menu item
+	 * @param acc keyboard shortcut
 	 */
 	protected void setMenuShortCutAccelerator(JMenuItem mi, char acc) {
 		KeyStroke ks = KeyStroke.getKeyStroke(acc,
@@ -69,8 +69,8 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * Set the shortcut for a menu item which requires SHIFT to be pressed as
 	 * well.
 	 * 
-	 * @param mi
-	 * @param acc
+	 * @param mi menu item
+	 * @param acc keyboard shortcut
 	 */
 	protected void setMenuShortCutShiftAccelerator(JMenuItem mi, char acc) {
 		KeyStroke ks = KeyStroke.getKeyStroke(acc,
@@ -83,8 +83,8 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * Set the shortcut for a menu item which requires SHIFT + ALT to be pressed
 	 * as well.
 	 * 
-	 * @param mi
-	 * @param acc
+	 * @param mi menu item
+	 * @param acc keyboard shortcut
 	 */
 	protected void setMenuShortCutShiftAltAccelerator(JMenuItem mi, char acc) {
 		KeyStroke ks = KeyStroke.getKeyStroke(acc,

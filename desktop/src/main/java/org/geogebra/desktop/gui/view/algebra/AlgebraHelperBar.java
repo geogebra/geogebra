@@ -48,7 +48,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	protected PopupMenuButtonD toggleTypeTreeMode;
 	protected PopupMenuButtonD toggleDescriptionMode;
 
-	private JPopupMenu treeModeMenu, descriptionMenu;
+	private JPopupMenu treeModeMenu;
+	private JPopupMenu descriptionMenu;
 
 	private LocalizationD loc;
 
@@ -60,8 +61,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	/**
 	 * Helper bar.
 	 * 
-	 * @param algebraView
-	 * @param app
+	 * @param algebraView algebra view
+	 * @param app application
 	 */
 	public AlgebraHelperBar(AlgebraViewD algebraView, AppD app) {
 		this.algebraView = algebraView;
@@ -111,17 +112,17 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void update() {
 		removeAll();
 		addButtons();
 		updateLabels();
 	}
 
-	public void updateStates() {
-
+	private void updateStates() {
 		toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
-		// toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
-		// toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
 	}
 
 	/**
@@ -177,12 +178,9 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			final SortMode sort = sortModes[i];
 			mi.setText(loc.getMenu(sort.toString()));
 
-			mi.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					algebraView.setTreeMode(sort);
-					buildTreeModeMenu();
-				}
+			mi.addActionListener(e -> {
+				algebraView.setTreeMode(sort);
+				buildTreeModeMenu();
 			});
 			mi.setSelected(algebraView.getTreeMode() == sortModes[i]);
 			treeModeMenu.add(mi);
@@ -215,13 +213,10 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			mi.setBackground(Color.white);
 			mi.setText(modes[i]);
 			final int current = i;
-			mi.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					app.getKernel().setAlgebraStyle(current);
-					app.getKernel().updateConstruction(false);
-					buildDescriptionMenu();
-				}
+			mi.addActionListener(e -> {
+				app.getKernel().setAlgebraStyle(current);
+				app.getKernel().updateConstruction(false);
+				buildDescriptionMenu();
 			});
 			mi.setSelected(algebraView.getTreeMode() == SortMode.DEPENDENCY);
 			descriptionMenu.add(mi);

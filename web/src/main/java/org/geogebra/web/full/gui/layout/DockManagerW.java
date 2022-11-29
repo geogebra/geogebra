@@ -1654,22 +1654,24 @@ public class DockManagerW extends DockManager {
 	}
 
 	private double getMinHeight(DockPanelW toolbar, boolean orientationChanged) {
-		double minHeight = toolbar.getMinVHeight(app.getAppletFrame().isKeyboardShowing());
+		boolean keyboardShowing = app.getAppletFrame().isKeyboardShowing();
+		double minHeight = toolbar.getMinVHeight(keyboardShowing);
 		KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
-		if (!orientationChanged || keyboardManager == null) {
+		if (orientationChanged || keyboardManager == null) {
 			return minHeight;
 		}
 		int draggerOffset = app.isUnbundled() ? 16 : 0;
-		return Math.max(minHeight,
-				toolbar.getOffsetHeight()
-						- keyboardManager.estimateHiddenKeyboardHeight() + draggerOffset);
+		int keyboardHeight = keyboardShowing ? keyboardManager.estimateHiddenKeyboardHeight() : 0;
+		return Math.max(minHeight, toolbar.getOffsetHeight() - keyboardHeight + draggerOffset);
 	}
 
 	private void adjustEuclidianViewSafeArea() {
 		int margin = EuclidianView.MINIMUM_SAFE_AREA;
 		int left = portrait == ExtendedBoolean.TRUE || !app.isUnbundled() ? 0 : 16;
 		EdgeInsets edgeInsets = new EdgeInsets(left + margin, margin, margin, margin);
-		getFocusedEuclidianPanel().getEuclidianView().setSafeAreaInsets(edgeInsets);
+		if (focusedEuclidianDockPanel != null) {
+			focusedEuclidianDockPanel.getEuclidianView().setSafeAreaInsets(edgeInsets);
+		}
 	}
 
 	/**

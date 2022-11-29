@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoSequence;
+import org.geogebra.common.kernel.algos.AlgoTakeString;
 import org.geogebra.common.kernel.algos.AlgoTextCorner;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -53,6 +54,7 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
@@ -231,8 +233,8 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
-		super.setVisualStyle(geo, setAuxiliaryProperty);
+	public void setBasicVisualStyle(GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 		if (!geo.isGeoText()) {
 			return;
 		}
@@ -435,7 +437,7 @@ public class GeoText extends GeoElement
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		// https://help.geogebra.org/topic/fixed-list-list-with-text-objects
-		if (tpl1.hasType(StringType.SCREEN_READER)) {
+		if (tpl1.hasType(StringType.SCREEN_READER_ASCII)) {
 			return getAuralText();
 		}
 		return getTextStringSafe();
@@ -1065,16 +1067,14 @@ public class GeoText extends GeoElement
 		boundingBox.setRect(x, y, w, h);
 	}
 
-	/**
-	 * @return tue if bounding box is not correct anymore
-	 */
-	public final boolean isNeedsUpdatedBoundingBox() {
+	@Override
+	public final boolean needsUpdatedBoundingBox() {
 		return needsUpdatedBoundingBox;
 	}
 
 	/**
 	 * @param needsUpdatedBoundingBox
-	 *            true to make sure this object upates itself
+	 *            true to make sure this object updates itself
 	 */
 	@Override
 	public final void setNeedsUpdatedBoundingBox(
@@ -1401,6 +1401,9 @@ public class GeoText extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
+		if (isTextCommand && getParentAlgorithm() instanceof AlgoTakeString) {
+			return DescriptionMode.DEFINITION_VALUE;
+		}
 		return DescriptionMode.VALUE;
 	}
 
@@ -1524,7 +1527,7 @@ public class GeoText extends GeoElement
 		if (isLaTeX()) {
 			ret = getAuralTextLaTeX();
 		} else {
-			ret = ScreenReader.convertToReadable(getTextString(), getLoc());
+			ret = ScreenReader.convertToReadable(getTextString(), app);
 		}
 		return ret;
 	}
@@ -1535,10 +1538,9 @@ public class GeoText extends GeoElement
 	public String getAuralTextLaTeX() {
 		kernel.getApplication().getDrawEquation()
 				.checkFirstCall(kernel.getApplication());
-		// TeXAtomSerializer makes formula human readable.
+		// TeXAtomSerializer makes formula human-readable.
 		TeXFormula tf = getTeXFormula();
-		ScreenReaderSerializationAdapter adapter =
-				new ScreenReaderSerializationAdapter(kernel.getLocalization());
+		SerializationAdapter adapter = ScreenReader.getSerializationAdapter(app);
 		return new TeXAtomSerializer(adapter).serialize(tf.root);
 	}
 

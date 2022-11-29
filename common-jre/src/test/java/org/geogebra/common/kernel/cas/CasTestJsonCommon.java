@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -26,9 +27,13 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.CASTestLogger;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Runs categorized tests from giacTests.js
+ *
+ * Note: no need for Before / BeforeClass, testCat clears everything
+ */
 public abstract class CasTestJsonCommon {
 
 	protected static HashMap<String, ArrayList<CasTest>> testcases = new HashMap<>();
@@ -151,9 +156,12 @@ public abstract class CasTestJsonCommon {
 		if (testcases.get(name) == null) {
 			Assert.fail("No testcase for " + name);
 		}
-		ArrayList<CasTest> cases = testcases.get(name);
+		ArrayList<CasTest> cases = testcases.remove(name);
+		runCases(cases);
+	}
+
+	protected void runCases(ArrayList<CasTest> cases) {
 		Assert.assertNotEquals(0, cases.size());
-		testcases.remove(name);
 		StringBuilder[] failures = new StringBuilder[] { new StringBuilder(),
 				new StringBuilder() };
 		for (CasTest cmd : cases) {
@@ -221,10 +229,8 @@ public abstract class CasTestJsonCommon {
 								validResults));
 				return;
 			} catch (Throwable t) {
-				// if (!(t instanceof AssertionError)) {
-				Log.debug(t);
-				// }
 				if (i == expectedResult.length - 1) {
+					Log.debug(t);
 					failures[0].append(expectedResult[0] == null ? "null"
 							: normalizeExpected(expectedResult[0]));
 					failures[0].append(" input: ").append(input).append('\n');
@@ -279,14 +285,6 @@ public abstract class CasTestJsonCommon {
 					.append(stElement.getLineNumber()).append("\n");
 		}
 		return sts.toString();
-	}
-
-	/**
-	 * Kill all CAS cells.
-	 */
-	@Before
-	public void clearConstruction() {
-		app.getKernel().clearConstruction(true);
 	}
 
 	/**
@@ -671,6 +669,7 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testMedian() {
 		testCat("Median");
+		testCat("Median.2");
 	}
 
 	@Test
@@ -721,6 +720,17 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testNSolve() {
 		testCat("NSolve");
+	}
+
+	@Test
+	public void testNSolveFlaky() {
+		// 50 is a tradeoff between speed and probability of spotting the bug
+		// increase to 5000 for deterministic but slow test
+		for (int i = 0; i < 50; i++) {
+			runCases(testcases.get("NSolveFlaky"));
+			((CASgiac) app.getKernel().getGeoGebraCAS().getCurrentCAS()).clearCache();
+		}
+		testcases.remove("NSolveFlaky");
 	}
 
 	@Test
@@ -871,6 +881,7 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testSampleSD() {
 		testCat("stdevp.1");
+		testCat("stdevp.2");
 		testCat("SampleSD.1");
 	}
 
@@ -882,6 +893,7 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testSD() {
 		testCat("stdev.1");
+		testCat("stdev.2");
 		testCat("SD.1");
 	}
 

@@ -46,7 +46,7 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 	/**
 	 * Construct CAS option panel.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public OptionsCASD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
@@ -67,7 +67,6 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 	 *         calling setLabels()
 	 */
 	private void initGUI() {
-		JPanel timeoutPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(10, 1));
 
@@ -85,6 +84,7 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 		cbShowNavigation.addActionListener(this);
 		cbShowNavigation.setSelected(casSettings.getShowExpAsRoots());
 
+		JPanel timeoutPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		timeoutPanel.add(timeoutLabel);
 		timeoutPanel.add(cbTimeout);
 

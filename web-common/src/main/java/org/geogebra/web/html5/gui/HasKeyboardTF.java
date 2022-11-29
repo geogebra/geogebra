@@ -58,13 +58,6 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	void setValue(String text);
 
 	/**
-	 * get text of textfield
-	 * 
-	 * @return text
-	 */
-	String getValue();
-
-	/**
 	 * @param handler
 	 *            FocusHandler
 	 * @return HandlerRegistration
@@ -78,4 +71,5 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	 */
 	HandlerRegistration addBlurHandler(BlurHandler handler);
 
+	void onBackSpace();
 }

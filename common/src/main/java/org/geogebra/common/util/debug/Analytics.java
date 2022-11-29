@@ -45,7 +45,7 @@ public abstract class Analytics {
 		if (INSTANCE != null) {
 			INSTANCE.recordEvent(name, params);
 		} else {
-			Log.debug("Analytics is not set, event with name '" + name + "' cannot be recored");
+			Log.trace("Analytics is not set, event with name '" + name + "' cannot be recored");
 		}
 	}
 

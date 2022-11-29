@@ -1,7 +1,9 @@
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -16,9 +18,11 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm for spline.
@@ -134,6 +138,46 @@ public class AlgoSpline extends AlgoElement {
 			}
 		}
 		parametersValues[length - 1] = 1;
+	}
+
+	/**
+	 * @return amount of poitns that are stationary (not free)
+	 */
+	@Override
+	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
+		ArrayList<GeoElementND> freeInputPoints = view.getFreeInputPoints(this);
+		Log.error((inputList.size() == freeInputPoints.size())
+				|| (!freeInputPoints.isEmpty() && freeInputPoints.get(0) == inputList));
+		return (inputList.size() == freeInputPoints.size())
+				|| (!freeInputPoints.isEmpty() && freeInputPoints.get(0) == inputList);
+	}
+
+	/**
+	 * @return list of all free input points
+	 */
+	@Override
+	public ArrayList<GeoElementND> getFreeInputPoints() {
+		ArrayList<GeoElementND> freeInputPoints = new ArrayList<>(inputList.size());
+		boolean allIndependent = true;
+		boolean hasLabel = false;
+		for (int i = 0; i < inputList.size(); i++) {
+			if (inputList.get(i).isGeoPoint()
+					&& (inputList.get(i).isMoveable()
+					|| inputList.get(i).isIndependent())) {
+				freeInputPoints.add(inputList.get(i));
+				allIndependent &= inputList.get(i).isIndependent();
+				hasLabel |= inputList.get(i).isLabelSet();
+			}
+		}
+
+		if (!allIndependent) {
+			freeInputPoints.clear();
+		}
+		if (!hasLabel) {
+			freeInputPoints.clear();
+			freeInputPoints.add(inputList);
+		}
+		return freeInputPoints;
 	}
 
 	private static double calculate(double x, double[] m) {

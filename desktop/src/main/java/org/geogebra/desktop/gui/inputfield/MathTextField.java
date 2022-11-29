@@ -18,16 +18,13 @@ public class MathTextField extends MyTextFieldD implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private GeoGebraKeys ggbKeys;
+	private final GeoGebraKeys ggbKeys;
 
+	/**
+	 * @param app application
+	 */
 	public MathTextField(AppD app) {
 		super(app);
-		ggbKeys = new GeoGebraKeys();
-		addKeyListener(this);
-	}
-
-	public MathTextField(AppD app, int length) {
-		super(app, length);
 		ggbKeys = new GeoGebraKeys();
 		addKeyListener(this);
 	}

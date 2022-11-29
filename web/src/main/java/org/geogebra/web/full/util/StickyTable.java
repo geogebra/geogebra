@@ -106,32 +106,6 @@ public abstract class StickyTable<T> extends FlowPanel {
 	}
 
 	/**
-	 * Adds a new column
-	 */
-	protected abstract void addColumn();
-
-	/**
-	 * Decreases the number of columns by removing the last column.
-	 */
-	protected void decreaseColumnNumber() {
-		// In AbstractCellTable model each column remembers its index
-		// so deleting last column and let dataProvider do the rest we need.
-		cellTable.removeColumn(cellTable.getColumnCount() - 1);
-		reset();
-	}
-
-	/**
-	 * Called when user adds a column.
-	 */
-	public void onColumnAdded() {
-		addColumn();
-
-		// Safest way to keep integrity at load.
-		// Note that CellTable is highly optimized so no heavy overload.
-		reset();
-	}
-
-	/**
 	 * @param data
 	 *            to fill with.
 	 */
@@ -281,5 +255,13 @@ public abstract class StickyTable<T> extends FlowPanel {
 		public TableSectionElement getTableHeadElement() {
 			return super.getTableHeadElement();
 		}
+	}
+
+	/**
+	 * Sets height of the values to be able to scroll.
+	 * @param height - to set.
+	 */
+	public void setHeight(int height) {
+		setBodyHeight(height);
 	}
 }

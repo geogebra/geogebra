@@ -58,8 +58,8 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	/*************************************
 	 * Constructor
 	 * 
-	 * @param app
-	 * @param statDialog
+	 * @param app application
+	 * @param statDialog stats dialog
 	 */
 	public StatisticsPanel(AppD app, DataAnalysisViewD statDialog) {
 

@@ -394,6 +394,7 @@ public abstract class CommandDispatcher {
 			case TurtleDown:
 			case RunClickScript:
 			case RunUpdateScript:
+			case SetImage:
 				// case DensityPlot:
 				return getScriptingDispatcher().dispatch(command, kernel);
 

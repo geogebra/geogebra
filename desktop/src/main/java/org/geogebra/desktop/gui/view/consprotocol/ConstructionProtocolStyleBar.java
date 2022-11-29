@@ -47,7 +47,9 @@ public class ConstructionProtocolStyleBar extends JToolBar
 	PopupMenuButtonD btnColumns;
 	/** Options button */
 	PopupMenuButtonD btnOptions;
-	private JButton btnExport, btnPrint, btnHelp;
+	private JButton btnExport;
+	private JButton btnPrint;
+	private JButton btnHelp;
 	/** Item for Show only breakpoints option */
 	JCheckBoxMenuItem miShowOnlyBreakpoints;
 	/** Item for Colorful protocol option */
@@ -140,23 +142,14 @@ public class ConstructionProtocolStyleBar extends JToolBar
 				loc.getMenu("ShowOnlyBreakpoints"));
 		miShowOnlyBreakpoints.setSelected(
 				app.getKernel().getConstruction().showOnlyBreakpoints());
-		miShowOnlyBreakpoints.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cpView.showOnlyBreakpointsAction();
-			}
-		});
+		miShowOnlyBreakpoints.addActionListener(e -> cpView.showOnlyBreakpointsAction());
 		btnOptions.addPopupMenuItem(miShowOnlyBreakpoints);
 
 		miColorfulConstructionProtocol = new JCheckBoxMenuItem(
 				loc.getMenu("ColorfulConstructionProtocol"));
 		miColorfulConstructionProtocol.setSelected(cpView.getUseColors());
-		miColorfulConstructionProtocol.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cpView.setUseColors(!cpView.getUseColors());
-			}
-		});
+		miColorfulConstructionProtocol.addActionListener(
+				e -> cpView.setUseColors(!cpView.getUseColors()));
 		btnOptions.addPopupMenuItem(miColorfulConstructionProtocol);
 		add(btnOptions);
 
@@ -183,17 +176,14 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		// Help button
 		btnHelp = new JButton(app.getScaledIcon(GuiResourcesD.HELP));
 		// btnHelp.setToolTipText(loc.getPlainTooltip("FastHelp"));
-		btnHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.getGuiManager().openHelp("Construction_Protocol");
-					}
-				};
-				runner.start();
-			}
+		btnHelp.addActionListener(e -> {
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					app.getGuiManager().openHelp("Construction_Protocol");
+				}
+			};
+			runner.start();
 		});
 		add(btnHelp);
 

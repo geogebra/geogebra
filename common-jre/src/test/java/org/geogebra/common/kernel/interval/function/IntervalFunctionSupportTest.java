@@ -1,11 +1,9 @@
 package org.geogebra.common.kernel.interval.function;
 
-import static org.geogebra.common.kernel.interval.function.IntervalFunction.isSupported;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class IntervalFunctionSupportTest extends BaseUnitTest {
@@ -33,7 +31,6 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 		shouldBeSupported("log10(x)");
 		shouldBeSupported("log(x)");
 		shouldBeSupported("sin(x)^3");
-		shouldBeSupported("x * ((1, 1) * (1, 1))");
 		shouldBeSupported("sin(x)^(2/3)");
 		shouldBeSupported("sin(x)^2.141");
 		shouldBeSupported("x^(-2)");
@@ -45,7 +42,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 
 	private void shouldBeSupported(String command) {
 		assertTrue(command + " has not supported",
-				isSupported(add(command)));
+				IntervalFunctionSupport.isSupported(add(command)));
 	}
 
 	@Test
@@ -61,7 +58,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 
 	private void shouldBeNotSupported(String command) {
 		assertFalse(command + " has supported, but it should not",
-				isSupported(add(command)));
+				IntervalFunctionSupport.isSupported(add(command)));
 	}
 
 	@Test
@@ -84,73 +81,36 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 	}
 
 	@Test
-	@Ignore("APPS-4170")
-	public void supportIf() {
-		shouldBeSupported("If[x < 1, 0]");
-		shouldBeSupported("If[x < 1, 2x]");
-		shouldBeSupported("If[x < 1, x + 1]");
-		shouldBeSupported("If[1 < x, x + 1]");
-		shouldBeSupported("If[x != 1, x + 1]");
-	}
-
-	@Test
-	@Ignore("APPS-4170")
-	public void supportIfWithAndInterval() {
-		shouldBeSupported("If[0 < x < 1, x + 1]");
-		shouldBeSupported("If[0 < x < sin(1), x + 1]");
-	}
-
-	@Test
-	public void unsupportedIfWithAndInterval() {
+	public void ifsShouldBeNotSupported() {
+		shouldBeNotSupported("If[x < 1, 0]");
+		shouldBeNotSupported("If[x < 1, 2x]");
+		shouldBeNotSupported("If[x < 1, x + 1]");
+		shouldBeNotSupported("If[1 < x, x + 1]");
+		shouldBeNotSupported("If[x != 1, x + 1]");
+		shouldBeNotSupported("If[0 < x < 1, x + 1]");
+		shouldBeNotSupported("If[0 < x < sin(1), x + 1]");
 		shouldBeNotSupported("If[3x < x < 1, x + 1]");
 		shouldBeNotSupported("If[0 < sin(x) < 2, x + 1]");
 		shouldBeNotSupported("If[3x < x <= x, x + 1]");
-	}
-
-	@Test
-	@Ignore("APPS-4170")
-	public void supportIfWithConstantFromExpression() {
-		shouldBeSupported("If[sin(2) < x, x^2]");
-		shouldBeSupported("If[x < sin(2), x^2]");
-	}
-
-	@Test
-	public void unsupportedIfs() {
+		shouldBeNotSupported("If[sin(2) < x, x^2]");
+		shouldBeNotSupported("If[x < sin(2), x^2]");
 		shouldBeNotSupported("If[sin(x) < 0, x + 1]");
 		shouldBeNotSupported("If[0 < sin(x), x + 1]");
 		shouldBeNotSupported("If[x < 1, 2x + x^3");
 		shouldBeNotSupported("If[1 < x, 2x + x^3");
-	}
-
-	@Test
-	@Ignore("APPS-4170")
-	public void supportIfElse() {
-		shouldBeSupported("If[x < 1, x, x + 1]");
-		shouldBeSupported("If[x != 1, x, x + 1]");
-		shouldBeSupported("If[-1 < x < 1, x, x + 1]");
-		shouldBeSupported("If[-1 + cos(1) < x < sin(2), x, x + 1]");
-	}
-
-	@Test
-	public void unsupportedIfElse() {
+		shouldBeNotSupported("If[x < 1, x, x + 1]");
+		shouldBeNotSupported("If[x != 1, x, x + 1]");
+		shouldBeNotSupported("If[-1 < x < 1, x, x + 1]");
+		shouldBeNotSupported("If[-1 + cos(1) < x < sin(2), x, x + 1]");
 		shouldBeNotSupported("If[sin(x) < 0, 0, 1]");
 		shouldBeNotSupported("If[x < 1, x * sin(x), x + 1]");
 		shouldBeNotSupported("If[x < 1, x, x * sin(x)]");
 		shouldBeNotSupported("If[x < 1, x/tan(x), x * sin(x)]");
 		shouldBeNotSupported("If[x < 1, x * sin(x) + 1]");
-	}
-
-	@Test
-	@Ignore("APPS-4170")
-	public void supportIfList() {
-		shouldBeSupported("if(x < -2, -2, x > 0, 4)");
-		shouldBeSupported("if(x < -2, -2, x > 0, 4, 2)");
-		shouldBeSupported("if(x < -2, x + 1, x > 0, x^4)");
-		shouldBeSupported("if(-4 < x < -2, 3x, 2 < x < 4, 4x)");
-	}
-
-	@Test
-	public void unsupportedIfList() {
+		shouldBeNotSupported("if(x < -2, -2, x > 0, 4)");
+		shouldBeNotSupported("if(x < -2, -2, x > 0, 4, 2)");
+		shouldBeNotSupported("if(x < -2, x + 1, x > 0, x^4)");
+		shouldBeNotSupported("if(-4 < x < -2, 3x, 2 < x < 4, 4x)");
 		shouldBeNotSupported("if(x < -2, x * (ln(x)), x > 0, x^4)");
 		shouldBeNotSupported("if(sin(x) < 0, 1, cos(x) > 0, x^4)");
 	}

@@ -17,7 +17,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
-import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -231,7 +230,7 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void setAlphaFunc() {
-		jogl.getGL2().glAlphaFunc(GL.GL_NOTEQUAL, 0);// pixels with alpha=0
+		jogl.getGL2().glAlphaFunc(GL.GL_NOTEQUAL, 0); // pixels with alpha=0
 															// are not drawn
 		// jogl.getGL2().glAlphaFunc(GLlocal.GL_GREATER, 0.8f);//pixels with
 		// alpha=0 are not drawn
@@ -250,8 +249,12 @@ public class RendererImplGL2 extends RendererImpl
 		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 	}
 
-	private int orthoLeft, orthoRight, orthoBottom, orthoTop;
-	private double orthoFar, orthoNear;
+	private int orthoLeft;
+	private int orthoRight;
+	private int orthoBottom;
+	private int orthoTop;
+	private double orthoFar;
+	private double orthoNear;
 
 	/*
 	 * (non-Javadoc)
@@ -622,17 +625,6 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void bindBufferForIndices(int buffer) {
 		// TODO Auto-generated method stub
-
-	}
-
-	public boolean drawQuadric(int type) {
-		return type != GeoQuadricNDConstants.QUADRIC_ELLIPSOID
-				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER
-				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID
-				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET
-				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS
-				&& type != GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER
-				&& type != GeoQuadricNDConstants.QUADRIC_PARABOLOID;
 	}
 
 	@Override
@@ -705,7 +697,7 @@ public class RendererImplGL2 extends RendererImpl
 	}
 	
 	@Override
-	public void setLayer(int layer){
+	public void setLayer(int layer) {
 		setPolygonOffset(-layer * 0.05f, -layer * 10);
 	}
 

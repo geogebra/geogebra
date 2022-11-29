@@ -14,6 +14,15 @@ public class InputDialogRotateAxis extends InputDialogRotateD {
 
 	GeoLineND[] lines;
 
+	/**
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param polys selected polygons
+	 * @param lines selected lines
+	 * @param selGeos selected geos
+	 * @param ec controller
+	 */
 	public InputDialogRotateAxis(AppD app, String title, InputHandler handler,
 			GeoPolygon[] polys, GeoLineND[] lines, GeoElement[] selGeos,
 			EuclidianController ec) {

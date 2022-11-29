@@ -10,6 +10,7 @@ import com.himamis.retex.editor.share.controller.PlaceholderController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
 import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
+import com.himamis.retex.editor.share.input.adapter.PlainStringInput;
 import com.himamis.retex.editor.share.input.adapter.StringAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
 import com.himamis.retex.editor.share.util.CommandParser;
@@ -30,7 +31,7 @@ public class KeyboardInputAdapter {
 
 		adapters.add(new StringAdapter(times, "*"));
 		adapters.add(new StringAdapter(minus, "-"));
-		adapters.add(new StringAdapter(divide, "/"));
+		adapters.add(new PlainStringInput(divide + "", "/"));
 		adapters.add(new StringAdapter("10^", "10^"));
 		adapters.add(new StringAdapter("a_n", "_"));
 		adapters.add(new StringAdapter(e + "^", e + "^"));
@@ -136,7 +137,8 @@ public class KeyboardInputAdapter {
 				mfi.getInputController().newBraces(editorState, '(');
 				mfi.notifyAndUpdate("(");
 				PlaceholderController.insertPlaceholders(editorState,
-						splitCommand.subList(1, splitCommand.size()));
+						splitCommand.subList(1, splitCommand.size()),
+						splitCommand.get(0));
 			}
 
 			@Override
@@ -166,10 +168,8 @@ public class KeyboardInputAdapter {
 	}
 
 	/**
-	 * @param mathFieldInternal
-	 *            editor
-	 * @param input
-	 *            input
+	 * @param mathFieldInternal editor
+	 * @param input input
 	 */
 	public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {
 		if (input == null) {
@@ -189,10 +189,8 @@ public class KeyboardInputAdapter {
 	}
 
 	/**
-	 * @param mathFieldInternal
-	 *            editor
-	 * @param commandName
-	 *            command name
+	 * @param mathFieldInternal editor
+	 * @param commandName command name
 	 */
 	public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {
 		commandAdapter.commit(mathFieldInternal, commandName);

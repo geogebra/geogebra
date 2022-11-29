@@ -76,12 +76,37 @@
 		border-right: 1px solid #CCCCCC;
 		padding: 0px 0px;
 	}
+
+	.geogebraweb-table-spreadsheet .checkboxPanel {
+		.checkbox {
+			width: 12px;
+			height: 12px;
+
+			.background {
+				width:12px;
+				height: 12px;
+				top: 0;
+				left: 0;
+			}
+
+			.checkmark {
+				left: 1px;
+				top: -4px;
+				width: 10px;
+				height: 10px;
+			}
+
+			.hoverBg{
+				display: none;
+			}
+		}
+	}
 	
 	.geogebraweb-popup-spreadsheet {
 		z-index: z-index.$z-spreadsheet-popup;
 	}
  
-	.buttonSpreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet {
+	.buttonSpreadsheet,.geogebraweb-select-spreadsheet {
 		position: relative;
 		z-index: z-index.$z-spreadsheet-button;
 	}
@@ -96,12 +121,7 @@
 			text-align:center;
 		}
 	}
-	
-	.geogebraweb-checkbox-spreadsheet {
-		display: -moz-inline-box;
-		display: inline-block;
-	}
-	
+
 	.geogebraweb-select-spreadsheet {
 		width: 100%;
 	}
@@ -109,17 +129,31 @@
 	.geogebraweb-selectionframe-spreadsheet {
 		z-index: z-index.$z-spreadsheet-selection-frame;
 		border-style: solid;
-		/*border-width: 2px;*/
-		border-color: #0000FF;
+		border-width: 2px;
+		border-color: var(--ggb-primary-color);
 		-ms-touch-action: none; /* prevent scrolling on IE tablets */
 	}
-	
-	.SpreadsheetEditorCell input, .SpreadsheetEditorCell input[type="text"] {
-		border-radius: 0px;
-		box-sizing: content-box;
-		-webkit-box-sizing: content-box;
-		padding: 1px 1px;
-		margin: -3px;	
+
+	.editorPanel {
+		box-shadow: 0 2px 6px 2px rgb(60 64 67 / 15%);
+	}
+
+	.SpreadsheetEditorCell, .SpreadsheetEditorCell .fieldContainer {
+		height: 100%;
+	}
+
+	.SpreadsheetEditorCell input[type="text"].gwt-SuggestBox {
+		border-radius: 0;
+		border-width: 0;
+		height: 100%;
+		&:focus {
+			border: 2px var(--ggb-primary-color) solid;
+		}
+	}
+
+	.SpreadsheetEditorCell .cursorOverlay {
+		height: 100%;
+		padding: 4px;
 	}
 	
 	.SpreadsheetStyleBar td:last-child {
@@ -128,5 +162,12 @@
 	
 	.SpreadsheetWrapView {
 		background-color: #FFFFFF;
+	}
+
+	.spreadsheetDot {
+		z-index: z-index.$z-spreadsheet-dot;
+		borderTop: 1px solid white;
+		borderLeft: 1px solid white;
+		background-color: var(--ggb-primary-color);
 	}
 }

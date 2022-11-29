@@ -249,6 +249,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		iconList.add(res.arrow_back());
 		iconList.add(res.fast_forward());
 		iconList.add(res.fast_rewind());
+		iconList.add(res.zoom_to_fit());
+		iconList.add(res.center_view());
+		iconList.add(res.help());
+		iconList.add(res.settings());
 
 		iconNameList = new ArrayList<>();
 		for (SVGResource ir : iconList) {
@@ -291,7 +295,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnOpenFile.addStyleName("openFileBtn");
 		btnClearImage.addStyleName("clearImgBtn");
 		btnOpenFile.addFastClickHandler(event ->
-				UploadImagePanel.getUploadButton((AppW) app, this::applyImage).click());
+				UploadImagePanel.getUploadButton(app, this::applyImage).click());
+		btnOpenFile.setEnabled(app.enableFileFeatures());
 
 		btnPanel.add(btnImage);
 		btnPanel.add(btnClearImage);

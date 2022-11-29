@@ -2,12 +2,11 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.interval.function.IntervalTuple;
-import org.geogebra.common.kernel.interval.samplers.ConditionalFunctionSampler;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
-import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
 
 /**
  * Function plotter based on interval arithmetic
@@ -18,14 +17,18 @@ public class IntervalPlotter {
 	private final EuclidianViewBounds evBounds;
 	private final IntervalPathPlotter gp;
 	private boolean enabled;
-	private IntervalPlotModel model = null;
-	private boolean updateAll = true;
+	private IntervalFunctionModel model = null;
+
 	private IntervalPlotController controller;
+	private final GeoFunctionConverter converter;
+	private IntervalPath path;
 
 	/**
 	 * Creates a disabled plotter
 	 */
-	public IntervalPlotter(EuclidianViewBounds bounds, IntervalPathPlotter pathPlotter) {
+	public IntervalPlotter(GeoFunctionConverter converter, EuclidianViewBounds bounds,
+			IntervalPathPlotter pathPlotter) {
+		this.converter = converter;
 		this.evBounds = bounds;
 		this.gp = pathPlotter;
 		this.enabled = false;
@@ -35,53 +38,39 @@ public class IntervalPlotter {
 	 * Enables plotter without controller
 	 */
 	public void enableFor(GeoFunction function) {
+		build(function);
+		enable();
+	}
+
+	private void enable() {
 		enabled = true;
-		createModel(function);
-		createController();
-		needsUpdateAll();
-		update();
+		model.update();
 	}
 
 	/**
 	 * Enables plotter
 	 */
-	public void enableFor(GeoFunction function, EuclidianController euclidianController) {
-		enabled = true;
-		createModel(function);
-		createController();
-		this.controller.attachEuclidianController(euclidianController);
-		needsUpdateAll();
-		update();
+	public void enableFor(GeoFunction function, EuclidianView view) {
+		build(function);
+		this.controller.attachEuclidianView(view);
+		enable();
 	}
 
-	private void createController() {
-		this.controller = new IntervalPlotController(model);
-	}
-
-	private void createModel(GeoFunction function) {
-		IntervalTuple range = new IntervalTuple(evBounds.domain(), evBounds.range());
-		IntervalFunctionSampler sampler = createSampler(function, range);
-		model = new IntervalPlotModel(range, sampler, evBounds);
-		IntervalPath path = new IntervalPath(gp, evBounds, model);
-		model.setPath(path);
-	}
-
-	private IntervalFunctionSampler createSampler(GeoFunction function, IntervalTuple range) {
-		return function.isGeoFunctionConditional()
-				? new ConditionalFunctionSampler(function, range, evBounds)
-				: new FunctionSampler(function, range, evBounds);
+	private void build(GeoFunction function) {
+		IntervalTupleList tuples = new IntervalTupleList();
+		IntervalFunctionData data = new IntervalFunctionData(function, converter, evBounds, tuples);
+		FunctionSampler sampler = new FunctionSampler(data, evBounds);
+		QueryFunctionData query = new QueryFunctionDataImpl(tuples);
+		path = new IntervalPath(gp, evBounds, query);
+		model = new IntervalFunctionModelImpl(data, sampler, evBounds, path);
+		this.controller = new IntervalPlotController(model, function);
 	}
 
 	/**
 	 * Update path to draw.
 	 */
 	public void update() {
-		if (updateAll) {
-			model.updateAll();
-			updateAll = false;
-		} else {
-			model.update();
-		}
+		model.update();
 	}
 
 	/**
@@ -119,13 +108,13 @@ public class IntervalPlotter {
 	 * @return point of label
 	 */
 	public GPoint getLabelPoint() {
-		return model.getLabelPoint();
+		return path.getLabelPoint();
 	}
 
 	/**
 	 * Call it when plotter needs a full update
 	 */
 	public void needsUpdateAll() {
-		updateAll = true;
+		model.needsResampling();
 	}
 }

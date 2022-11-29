@@ -68,12 +68,11 @@ public class MaterialRestAPI implements BackendAPI {
 		try {
 			JSONTokener tokener = new JSONTokener(response);
 			JSONObject user = new JSONObject(tokener).getJSONObject("user");
-			guser.setRealName(user.getString("displayname"));
-			guser.setUserName(user.getString("username"));
+			guser.setUserName(user.getString("displayname"));
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
 			guser.setStudent(!"1".equals(user.getString("isTeacher")));
-			guser.setLanguage(user.getString("lang_ui"));
+			guser.setLanguage(user.optString("langUi"));
 			ArrayList<GroupIdentifier> allGroups = new ArrayList<>();
 			addGroups(user, "allClasses", allGroups, GroupIdentifier.GroupCategory.CLASS);
 			addGroups(user, "allCourses", allGroups, GroupIdentifier.GroupCategory.COURSE);
@@ -149,7 +148,8 @@ public class MaterialRestAPI implements BackendAPI {
 						op.onEvent(new LoginEvent(user, false, automatic, responseStr));
 						return;
 					}
-
+					String auth = request.getResponseHeader("Authorization");
+					user.setJWTToken(auth.replace("Bearer ", ""));
 					op.onEvent(new LoginEvent(user, true, automatic, responseStr));
 				} catch (Exception e) {
 					Log.error(e.getMessage());
@@ -335,7 +335,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 	@Override
 	public void uploadMaterial(String tubeID, String visibility, String text, String base64,
-			MaterialCallbackI materialCallback, MaterialType type) {
+			MaterialCallbackI materialCallback, MaterialType type, boolean isMultiuser) {
 		JSONObject request = new JSONObject();
 		try {
 			request.put("visibility", visibility); // per docs "S" is the only
@@ -344,6 +344,8 @@ public class MaterialRestAPI implements BackendAPI {
 			request.put("file", base64);
 			if (StringUtil.emptyOrZero(tubeID)) {
 				request.put("type", type.toString());
+			} else if (service.hasMultiuser()) {
+				request.put("multiuser", isMultiuser);
 			}
 		} catch (JSONException e) {
 			materialCallback.onError(e);

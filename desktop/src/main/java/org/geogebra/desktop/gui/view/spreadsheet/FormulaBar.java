@@ -19,6 +19,7 @@ import javax.swing.JToolBar;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -31,7 +32,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 public class FormulaBar extends JToolBar
-		implements ActionListener, FocusListener {
+		implements ActionListener, FocusListener, SetLabels {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private SpreadsheetViewD view;
@@ -45,8 +46,10 @@ public class FormulaBar extends JToolBar
 
 	private MyCellEditorSpreadsheet editor;
 
-	private int row, column;
-
+	/**
+	 * @param app application
+	 * @param view spreadsheet
+	 */
 	public FormulaBar(AppD app, SpreadsheetViewD view) {
 
 		this.app = app;
@@ -111,40 +114,41 @@ public class FormulaBar extends JToolBar
 
 		@Override
 		public void insertUpdate(DocumentEvent documentEvent) {
-			updateCellEditor(documentEvent);
+			updateCellEditor();
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent documentEvent) {
-			updateCellEditor(documentEvent);
+			updateCellEditor();
 		}
 
-		private void updateCellEditor(DocumentEvent documentEvent) {
-
+		private void updateCellEditor() {
 			((MyTableD) view.getSpreadsheetTable())
 					.updateEditor(fldFormula.getText());
 		}
 	};
 
+	/**
+	 * @param text text value
+	 */
 	public void setEditorText(String text) {
 		if (!fldFormula.hasFocus() || table.isDragging2) {
 			fldFormula.setText(text);
 		}
 	}
 
+	/**
+	 * Update UI
+	 */
 	public void update() {
-
-		// Application.debug("formula bar update");
-
 		if (table.isSelectNone()) {
 			fldCellName.setText("");
 			fldFormula.setText("");
-			// Application.debug("nothing selected");
 			return;
 		}
 
-		row = table.minSelectionRow;
-		column = table.minSelectionColumn;
+		int row = table.minSelectionRow;
+		int column = table.minSelectionColumn;
 
 		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column,
 				row);
@@ -159,14 +163,11 @@ public class FormulaBar extends JToolBar
 			// column);
 			cellContents = cellGeo.getRedefineString(true, false);
 			int index = cellContents.indexOf("=");
-			if ((!cellGeo.isGeoText())) {
+			if (!cellGeo.isGeoText()) {
 				if (index == -1) {
 					cellContents = "=" + cellContents;
 				}
 			}
-		} else {
-			// Application.debug("empty cell selected at: " + row + " ," +
-			// column);
 		}
 
 		fldFormula.removeActionListener(this);
@@ -254,24 +255,26 @@ public class FormulaBar extends JToolBar
 		}
 	}
 
+	/**
+	 * @param font font
+	 */
 	public void updateFonts(Font font) {
 		fldFormula.setFont(font);
 		fldCellName.setFont(font);
 		updateIcons();
 		repaint();
-
 	}
 
-	public void updateIcons() {
+	private void updateIcons() {
 		btnCancelFormula.setIcon(app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btnAcceptFormula.setIcon(app.getScaledIcon(GuiResourcesD.APPLY));
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		btnAcceptFormula.setToolTipText(loc.getMenu("Apply"));
 		btnCancelFormula.setToolTipText(loc.getMenu("Cancel"));
-
 	}
 
 	public boolean editorHasFocus() {

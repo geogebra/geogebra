@@ -3,8 +3,9 @@ package org.geogebra.web.full.gui.inputbar;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorLogger;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 
 /**
@@ -12,7 +13,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
  * 
  * @author Zbynek
  */
-public final class WarningErrorHandler implements ErrorHandler {
+public final class WarningErrorHandler implements ErrorLogger {
 	private static String undefinedVariables;
 	private final App app2;
 	private final HasHelpButton input;
@@ -80,5 +81,10 @@ public final class WarningErrorHandler implements ErrorHandler {
 	 */
 	public static void setUndefinedValiables(String undefinedValiables) {
 		WarningErrorHandler.undefinedVariables = undefinedValiables;
+	}
+
+	@Override
+	public void log(Throwable e) {
+		Log.trace(e.getMessage());
 	}
 }

@@ -33,6 +33,11 @@ public class JoinLines {
 		double rightDiff = neighbours.hasRight()
 				? Math.abs(neighbours.currentYHigh() - neighbours.rightYHigh())
 				: Double.POSITIVE_INFINITY;
+		if (DoubleUtil.isEqual(0, leftDiff, Kernel.MAX_PRECISION)) {
+			toTopCurrentXLow(neighbours);
+		} else if (DoubleUtil.isEqual(0, rightDiff, Kernel.MAX_PRECISION)) {
+			toTopCurrentXHigh(neighbours);
+		} else
 		if (leftDiff < rightDiff) {
 			toTopLeft(neighbours);
 		} else {
@@ -63,33 +68,59 @@ public class JoinLines {
 	 * @param neighbours {@link TupleNeighbours}
 	 */
 	public void toBottom(TupleNeighbours neighbours) {
-		double leftDiff = neighbours.hasLeft()
-				? Math.abs(neighbours.currentYLow() - neighbours.leftYLow())
-				: Double.NEGATIVE_INFINITY;
-		double rightDiff = neighbours.hasRight()
-				? Math.abs(neighbours.currentYLow() - neighbours.rightYLow())
-				: Double.NEGATIVE_INFINITY;
-		if (DoubleUtil.isEqual(0, leftDiff, Kernel.MAX_PRECISION)) {
-			toStraightBottom1(neighbours);
-		} else if (DoubleUtil.isEqual(0, rightDiff, Kernel.MAX_PRECISION)) {
-			toStraightBottom2(neighbours);
-		} else
-			if (leftDiff < rightDiff) {
+		double yLeftDiff = getLeftScreenDifference(neighbours);
+		double yRightDiff = getRightScreenDifference(neighbours);
+
+		if (DoubleUtil.isEqual(0, yLeftDiff)) {
+			toBottomCurrentXLow(neighbours);
+		} else if (DoubleUtil.isEqual(0, yRightDiff)) {
+			toBottomCurrentXHigh(neighbours);
+		} else if (yLeftDiff < yRightDiff) {
 			toBottomLeft(neighbours);
 		} else {
 			toBottomRight(neighbours);
 		}
 	}
 
-	private void toStraightBottom1(TupleNeighbours neighbours) {
+	private double getLeftScreenDifference(TupleNeighbours neighbours) {
+		if (!neighbours.hasLeft()) {
+			return -1;
+		}
+
+		double diff = Math.abs(neighbours.currentYLow() - neighbours.leftYLow());
+		return bounds.toScreenCoordYd(diff);
+	}
+
+	private double getRightScreenDifference(TupleNeighbours neighbours) {
+		if (!neighbours.hasRight()) {
+			return -1;
+		}
+
+		double diff = Math.abs(neighbours.currentYLow() - neighbours.rightYLow());
+		return bounds.toScreenCoordYd(diff);
+	}
+
+	private void toBottomCurrentXLow(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.currentXLow(), neighbours.currentYLow(),
 				neighbours.currentXLow(), bounds.getYmin());
 
 	}
 
-	private void toStraightBottom2(TupleNeighbours neighbours) {
+	private void toBottomCurrentXHigh(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
 				neighbours.currentXHigh(), bounds.getYmin());
+
+	}
+
+	private void toTopCurrentXLow(TupleNeighbours neighbours) {
+		gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYHigh(),
+				neighbours.currentXLow(), bounds.getYmax());
+
+	}
+
+	private void toTopCurrentXHigh(TupleNeighbours neighbours) {
+		gp.segment(bounds, neighbours.rightXHigh(), neighbours.rightYHigh(),
+				neighbours.currentXHigh(), bounds.getYmax());
 
 	}
 
@@ -116,9 +147,9 @@ public class JoinLines {
 
 		if (neighbours.currentYLow() > -INFINITY_DISPLAYED) {
 			if (neighbours.isRightInfinite()) {
-				gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYLow(),
+				double y1 = neighbours.hasLeft() ? neighbours.leftYLow() : neighbours.currentYLow();
+				gp.segment(bounds, neighbours.currentXLow(), y1,
 						neighbours.currentXLow(), bounds.getYmin());
-
 			} else {
 				toBottom(neighbours);
 			}

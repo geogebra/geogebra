@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OptionType;
@@ -92,6 +93,7 @@ import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.util.InputKeyboardButtonW;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -100,6 +102,7 @@ import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
+import org.geogebra.web.full.gui.view.probcalculator.TabbedProbCalcView;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
@@ -185,6 +188,7 @@ public class GuiManagerW extends GuiManager
 	private TemplateChooserController templateController;
 
 	private Runnable runAfterLogin;
+	private InputKeyboardButtonW inputKeyboardButton = null;
 
 	/**
 	 *
@@ -581,7 +585,8 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public View getProbabilityCalculator() {
 		if (probCalculator == null) {
-			setProbCalculator(new ProbabilityCalculatorViewW(getApp()));
+			setProbCalculator(app.isSuite() ? ProbabilityCalculatorViewW.create(getApp())
+					: new TabbedProbCalcView(getApp()));
 		}
 
 		return probCalculator;
@@ -1846,7 +1851,7 @@ public class GuiManagerW extends GuiManager
 			ComponentDialog dialog = new ComponentDialog((AppW) app, data, false, true);
 			ComponentInputField inputTextField = new ComponentInputField((AppW) app,
 					"", "", "", getApp().getExportTitle() + extension, -1, 1,
-					false, "");
+					"");
 			dialog.addDialogContent(inputTextField);
 			dialog.setOnPositiveAction(() -> {
 				String filename = inputTextField.getText();
@@ -2070,9 +2075,11 @@ public class GuiManagerW extends GuiManager
 				.getInputTreeItem() != null) {
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
-			input.insertMath(string);
-			input.setFocus(true);
-			input.ensureEditing();
+			if (input != null) {
+				input.insertMath(string);
+				input.setFocus(true);
+				input.ensureEditing();
+			}
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().getTextField().autocomplete(string);
 			getAlgebraInput().getTextField().setFocus(true);
@@ -2087,9 +2094,11 @@ public class GuiManagerW extends GuiManager
 				&& getApp().getInputPosition() == InputPosition.algebraView) {
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
-			input.setText(string);
-			input.setFocus(true);
-			input.ensureEditing();
+			if (input != null) {
+				input.setText(string);
+				input.setFocus(true);
+				input.ensureEditing();
+			}
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().setText(string);
 			getAlgebraInput().getTextField().setFocus(true);
@@ -2291,5 +2300,13 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean isAlgebraViewActive() {
 		return getUnbundledToolbar().getAlgebraTab().isActive();
+	}
+
+	@Override
+	public InputKeyboardButton getInputKeyboardButton() {
+		if (inputKeyboardButton == null) {
+			inputKeyboardButton = new InputKeyboardButtonW(getApp());
+		}
+		return inputKeyboardButton;
 	}
 }

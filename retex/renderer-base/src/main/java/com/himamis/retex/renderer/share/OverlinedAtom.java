@@ -46,10 +46,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing another atom with a horizontal line above it
  */
-public class OverlinedAtom extends Atom {
+public class OverlinedAtom extends Atom implements HasTrueBase {
 
 	// base atom to be overlined
 	private final Atom base;
@@ -57,6 +59,11 @@ public class OverlinedAtom extends Atom {
 	public OverlinedAtom(Atom f) {
 		base = f;
 		type = TeXConstants.TYPE_ORDINARY;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 
 	@Override

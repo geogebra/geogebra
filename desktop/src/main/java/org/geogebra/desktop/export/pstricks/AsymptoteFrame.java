@@ -16,13 +16,13 @@ import org.geogebra.common.util.FileExtensions;
 public class AsymptoteFrame extends ExportFrame {
 	private static final long serialVersionUID = 1L;
 	protected JComboBox comboFontSizeMore;
-	final String[] format = { "LaTeX (article class)", "LaTeX (beamer class)" },
-			fontsizelist = { "7", "8", "9", "10", "11", "12" };
+	final String[] format = { "LaTeX (article class)", "LaTeX (beamer class)" };
+	final String[] fontsizelist = { "7", "8", "9", "10", "11", "12" };
 
 	/**
 	 * Initializes GUI.
 	 * 
-	 * @param ggb2asy
+	 * @param ggb2asy ggb -> Asymptote converter
 	 */
 	public AsymptoteFrame(final GeoGebraToAsymptote ggb2asy) {
 		super(ggb2asy,

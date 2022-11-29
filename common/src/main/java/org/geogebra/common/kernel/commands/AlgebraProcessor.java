@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -495,7 +496,7 @@ public class AlgebraProcessor {
 			handler.showError(exception.getMessage());
 			callback.callback(geo);
 		} catch (Exception e) {
-			handler.showError(e.getMessage());
+			ErrorHelper.handleException(e, app, handler);
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Error e) {
@@ -634,7 +635,7 @@ public class AlgebraProcessor {
 				}
 			}
 		} else {
-			throw new MyError(loc, "NameUsed", newLabel);
+			throw new MyError(loc, Errors.NameUsed, newLabel);
 		}
 
 		cons.registerFunctionVariable(null);
@@ -2220,16 +2221,12 @@ public class AlgebraProcessor {
 				&& type2.getGeoClassType().equals(GeoClass.ANGLE)) {
 			return true;
 		}
-        if (type2.getGeoClassType().equals(GeoClass.LIST)
+		if (type2.getGeoClassType().equals(GeoClass.LIST)
 				&& type.getGeoClassType().equals(GeoClass.VECTOR)) {
-            return true;
-        }
-        if (type.getGeoClassType().equals(GeoClass.LIST)
-				&& type2.getGeoClassType().equals(GeoClass.VECTOR)) {
-            return true;
-        }
-
-        return false;
+			return true;
+		}
+		return type.getGeoClassType().equals(GeoClass.LIST)
+				&& type2.getGeoClassType().equals(GeoClass.VECTOR);
 	}
 
 	/**
@@ -2874,7 +2871,7 @@ public class AlgebraProcessor {
 		if (equ.getRHS().containsFreeFunctionVariable(Unicode.theta_STRING)
 				|| equ.getRHS()
 						.containsFreeFunctionVariable(Unicode.theta_STRING)) {
-			throw new MyError(loc, "InvalidEquation");
+			throw new MyError(loc, Errors.InvalidEquation);
 		}
 
 	}
@@ -3262,8 +3259,10 @@ public class AlgebraProcessor {
 			} else {
 				ret = new GeoNumeric(cons, value);
 			}
+			if (val instanceof MySpecialDouble) {
+				((GeoNumeric) ret).setExactValue(val.toDecimal());
+			}
 			ret.setDefinition(n);
-
 		} else {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
@@ -3800,12 +3799,12 @@ public class AlgebraProcessor {
 	}
 
 	private void maybeLogCommandValidatedEvent(Command command, EvalInfo info, boolean validated) {
-		if (kernel.isSilentMode()) {
+		if (kernel.isSilentMode() || info == null || !info.useAnalytics()) {
 			return;
 		}
 		String commandName = command.getName();
 		String validatedParam = validated ? Analytics.Param.OK : Analytics.Param.ERROR;
-		boolean isRedefinition = info != null && info.isRedefinition();
+		boolean isRedefinition = info.isRedefinition();
 		String objectCreation = isRedefinition ? Analytics.Param.REDEFINED : Analytics.Param.NEW;
 
 		Map<String, Object> params = new HashMap<>();

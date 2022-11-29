@@ -395,36 +395,36 @@ public class DrawLine extends SetDrawable implements Previewable {
 		case LEFT:
 			xLabel = 5;
 			if (2 * y < view.getHeight()) {
-				yLabel = y + 16 + (int) (16 * (gx / gy));
+				yLabel = y + 16 + (int) (16 * k);
 			} else {
-				yLabel = y - 8 + (int) (16 * (gx / gy));
+				yLabel = y - 8 + (int) (16 * k);
 			}
 			break;
 
 		case RIGHT:
 			xLabel = view.getWidth() - 15;
 			if (2 * y < view.getHeight()) {
-				yLabel = y + 16 - (int) (16 * (gx / gy));
+				yLabel = y + 16 - (int) (16 * k);
 			} else {
-				yLabel = y - 8 - (int) (16 * (gx / gy));
+				yLabel = y - 8 - (int) (16 * k);
 			}
 			break;
 
 		case TOP:
 			yLabel = 15;
 			if (2 * x < view.getWidth()) {
-				xLabel = x + 8 + (int) (16 * (gy / gx));
+				xLabel = x + 8 + (int) (16 * k);
 			} else {
-				xLabel = x - 16 + (int) (16 * (gy / gx));
+				xLabel = x - 16 + (int) (16 * k);
 			}
 			break;
 
 		case BOTTOM:
 			yLabel = view.getHeight() - 5;
 			if (2 * x < view.getWidth()) {
-				xLabel = x + 8 - (int) (16 * (gy / gx));
+				xLabel = x + 8 - (int) (16 * k);
 			} else {
-				xLabel = x - 16 - (int) (16 * (gy / gx));
+				xLabel = x - 16 - (int) (16 * k);
 			}
 			break;
 		}

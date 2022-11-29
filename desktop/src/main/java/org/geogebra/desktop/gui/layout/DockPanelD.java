@@ -167,7 +167,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * A button which brings the panel back to the main window.
 	 */
-	private JButton unwindowButton, unwindowButton2;
+	private JButton unwindowButton;
+	private JButton unwindowButton2;
 
 	/**
 	 * Button used to show / hide the style bar in the titlePanel.
@@ -530,8 +531,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	}
 
 	private void createButtons() {
-		int iconSize = 16;// app.getScaledIconSize();
-
 		int toggleSize = (int) Math.round(app.getScaledIconSize() * 0.75);
 		// button to show/hide styling bar and the title panel buttons
 		toggleStyleBarButton = new JButton();
@@ -562,6 +561,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		unwindowButton.setFocusPainted(false);
 		unwindowButton.setContentAreaFilled(false);
 		unwindowButton.setBorderPainted(false);
+		int iconSize = 16; // app.getScaledIconSize();
 		unwindowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to insert the view in the main window
@@ -873,7 +873,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * Change the toolbar mode for panels open in a separate frame.
 	 * 
-	 * @param mode
+	 * @param mode mode
 	 */
 	public void setToolbarMode(int mode) {
 		if (toolbarContainer != null && isVisible() && isOpenInFrame()
@@ -1200,7 +1200,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * If this view should open in a frame. Has no immediate effect.
 	 * 
-	 * @param openInFrame
+	 * @param openInFrame to open in frame
 	 */
 	public void setOpenInFrame(boolean openInFrame) {
 		this.openInFrame = openInFrame;
@@ -1216,7 +1216,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * If the stylebar of this view should be visible. Has no immediate effect.
 	 * 
-	 * @param showStyleBar
+	 * @param showStyleBar to show stylebar
 	 */
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
@@ -1247,7 +1247,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 				return false;
 			}
 		}
-		return (showStyleBar || !titlePanel.isVisible());
+		return showStyleBar || !titlePanel.isVisible();
 	}
 
 	public void setFrameBounds(Rectangle frameBounds) {
@@ -1367,10 +1367,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 				}
 				setActiveToolBar();
 			}
-		}
-
-		else {
-
 		}
 
 		// call callback methods for focus changes
@@ -1506,7 +1502,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * this panel has a panel normally the default toolbar string is used. This
 	 * is used for backward compability. Has no visible effect.
 	 * 
-	 * @param toolbarString
+	 * @param toolbarString toolbar definition
 	 */
 	public void setToolbarString(String toolbarString) {
 		if (toolbarString == null && hasToolbar()) {
@@ -1682,9 +1678,11 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 	public void addToToolbar(int mode) {
 		this.toolbarString = ToolBar.addMode(toolbarString, mode);
-
 	}
 
+	/**
+	 * Update icons for font size
+	 */
 	public void updateIcons() {
 		if (toggleStyleBarButton == null) {
 			return;

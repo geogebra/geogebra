@@ -15,6 +15,7 @@ import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.HlineAtom;
 import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.OverlinedAtom;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
@@ -42,6 +43,7 @@ public class TeXAtomSerializer {
 		Degree,
 		Degrees
 	}
+
 	/**
 	 * @param ad
 	 *            adapter
@@ -61,10 +63,11 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof NthRoot) {
 			NthRoot nRoot = (NthRoot) root;
-			if (nRoot.getRoot() == null) {
+			String index = nRoot.getRoot() == null ? "" : serialize(nRoot.getRoot());
+			if (index.isEmpty()) {
 				return adapter.sqrt(serialize(nRoot.getTrueBase()));
 			}
-			return adapter.nroot(serialize(nRoot.getTrueBase()), serialize(nRoot.getRoot()));
+			return adapter.nroot(serialize(nRoot.getTrueBase()), index);
 		}
 		if (root instanceof CharAtom) {
 			CharAtom ch = (CharAtom) root;
@@ -98,11 +101,8 @@ public class TeXAtomSerializer {
 		if (root instanceof SymbolAtom) {
 
 			SymbolAtom ch = (SymbolAtom) root;
-			String out = adapter.convertCharacter(ch.getUnicode());
-			if ("\u00b7".equals(out)) {
-				return "*";
-			}
-			return out;
+
+			return adapter.convertCharacter(ch.getUnicode());
 
 		}
 		if (root instanceof RowAtom) {
@@ -111,7 +111,7 @@ public class TeXAtomSerializer {
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
 			}
-			return sb.toString();
+			return adapter.getLigature(sb.toString());
 		}
 		if (root instanceof AccentedAtom) {
 			SymbolAtom accent = ((AccentedAtom) root).getAccent();
@@ -180,7 +180,11 @@ public class TeXAtomSerializer {
 		if (root instanceof BigOperatorAtom) {
 			return serializeBigOperator((BigOperatorAtom) root);
 		}
-		
+
+		if (root instanceof OverlinedAtom) {
+			return "Segment " + serialize(((OverlinedAtom) root).getTrueBase());
+		}
+
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
 		// TODO: probably more atoms need to implement HasTrueBase
 		if (root instanceof HasTrueBase) {
@@ -191,6 +195,7 @@ public class TeXAtomSerializer {
 			}
 			return serialize(trueBase);
 		}
+
 		if (root instanceof BigDelimiterAtom) {
 			return serialize(((BigDelimiterAtom) root).getDelimiter());
 		}

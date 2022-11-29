@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.TableSettings;
+import org.geogebra.common.util.DoubleUtil;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -31,6 +32,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
+	private String valuesHeader = "x";
 
 	/**
 	 * Construct a SimpleTableValuesModel.
@@ -42,8 +44,20 @@ class SimpleTableValuesModel implements TableValuesModel {
 		this.listeners = new ArrayList<>();
 		this.columns = new ArrayList<>();
 		this.collector = new ModelEventCollector();
-
+		GeoList values = getValueList();
+		if (values.size() == 0 && settings.getValuesStep() != 0) {
+			fillValueList(values);
+			settings.resetMinMaxStep();
+		}
 		initializeModel();
+	}
+
+	private void fillValueList(GeoList values) {
+		double[] range = DoubleUtil.range(settings.getValuesMin(),
+				settings.getValuesMax(), settings.getValuesStep());
+		for (Double d: range) {
+			values.add(new GeoNumeric(kernel.getConstruction(), d));
+		}
 	}
 
 	@Override
@@ -87,9 +101,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 	@Override
 	public String getHeaderAt(int column) {
 		if (column == 0) {
-			return "x";
+			return valuesHeader;
 		}
 		return columns.get(column).getHeader();
+	}
+
+	@Override
+	public void setValuesHeader(String valuesHeader) {
+		this.valuesHeader = valuesHeader;
 	}
 
 	/**
@@ -242,9 +261,17 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	public GeoList getValueList() {
 		if (settings.getValueList() == null) {
-			settings.setValueList(new GeoList(kernel.getConstruction()));
+			GeoList xValues = setupXValues(new GeoList(kernel.getConstruction()));
+			settings.setValueList(xValues);
 		}
 		return settings.getValueList();
+	}
+
+	@Override
+	public GeoList setupXValues(GeoList xValues) {
+		xValues.setAuxiliaryObject(true);
+		xValues.setCanBeRemovedAsInput(false);
+		return xValues;
 	}
 
 	private void initializeModel() {
@@ -326,11 +353,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public void set(GeoElement element, GeoList column, int rowIndex) {
-		collector.startCollection(this);
 		int columnIndex = getEvaluatableIndex(column);
 		if (columnIndex == -1) {
 			return;
 		}
+		collector.startCollection(this);
 		ensureCapacity(column, rowIndex);
 		column.setListElement(rowIndex, element);
 		column.setDefinition(null);

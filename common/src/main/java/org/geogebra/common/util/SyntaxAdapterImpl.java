@@ -77,6 +77,20 @@ public class SyntaxAdapterImpl implements SyntaxAdapter {
 		return exp;
 	}
 
+	/**
+	 * Like convert, but assumes the text is one of the math formats
+	 * @param exp expression in MathML or LaTeX syntax
+	 * @return expression in GGB syntax
+	 */
+	public String convertMath(String exp) {
+		// might start <math> or <mrow> etc
+		if (exp.startsWith("<")) {
+			return convertMathMLoGGB(exp);
+		} else  {
+			return convertLaTeXtoGGB(exp);
+		}
+	}
+
 	@Override
 	public boolean isFunction(String casName) {
 		Operation operation = kernel.getApplication().getParserFunctions(true).get(casName, 1);

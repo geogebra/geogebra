@@ -905,8 +905,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				this.updateBoundObjects();
 			}
 
-			app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
-					.setJsonArgument(getCoordinates()));
+			if (evNo != 2 || (evNo == 2 && app.hasEuclidianView2EitherShowingOrNot(1))) {
+				app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
+						.setJsonArgument(getCoordinates()));
+			}
 		}
 		// tell kernel
 		if (evNo != EVNO_GENERAL) {
@@ -2026,7 +2028,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private static boolean needsSynchUpdate(GeoElement geo, boolean tracing) {
 		// Keep update of input boxes synchronous #4416
-		return (geo.isGeoText() && ((GeoText) geo).isNeedsUpdatedBoundingBox())
+		return (geo.isGeoText() && ((GeoText) geo).needsUpdatedBoundingBox())
 				|| geo.isGeoInputBox()
 				|| (geo.getTrace() && !tracing)
 				|| geo.isMask()
@@ -2192,7 +2194,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return geo.isEuclidianVisible()
 
 					|| (geo.isGeoText() && ((GeoText) geo)
-							.isNeedsUpdatedBoundingBox())
+							.needsUpdatedBoundingBox())
 					|| (geo.isGeoAngle() && geo.getParentAlgorithm() instanceof AlgoAngle);
 		}
 		return false;
@@ -2708,7 +2710,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
+	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algoParent) {
 		return companion.getFreeInputPoints(algoParent);
 	}
 
@@ -4054,13 +4056,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			g2.draw(tempLine);
 
 			// radial lines
-			for (double a = angleStep; a < Math.PI; a = a + angleStep) {
-
-				if (Math.abs(a - (Math.PI / 2)) < 0.0001) {
+			for (int idx = 1; idx * angleStep < Math.PI; idx ++) {
+				double angle = idx * angleStep;
+				if (Math.abs(angle - (Math.PI / 2)) < 0.0001) {
 					// vertical axis
 					tempLine.setLine(getXZero(), 0, getXZero(), getHeight());
 				} else {
-					m = Math.tan(a);
+					m = Math.tan(angle);
 					y1 = (m * (getXZero())) + getYZero();
 					y2 = (m * (getXZero() - getWidth())) + getYZero();
 					tempLine.setLine(0, y1, getWidth(), y2);
@@ -5632,7 +5634,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// init grid's line type
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(GColor.BLACK);
+		setAxesColor(GColor.DEFAULT_AXES_COLOR);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
 
@@ -5674,6 +5676,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return whether stylebar of this view exists
 	 */
+	@Override
 	public final boolean hasStyleBar() {
 		return styleBar != null;
 	}
@@ -5816,6 +5819,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return whether dynamic stylebar exists
 	 */
+	@Override
 	public final boolean hasDynamicStyleBar() {
 		return dynamicStyleBar != null;
 	}

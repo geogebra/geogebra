@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -107,9 +108,14 @@ public class TextInputDialogD extends InputDialogD
 	// GUI
 	private JCheckBox cbLaTeX;
 	private JToolBar toolBar;
-	private JPanel previewPanel, editPanel, toolPanel;
-	private PopupMenuButtonD btInsertLaTeX, btInsertUnicode, btInsertGeo;
-	private JLabel previewHeader, editHeader;
+	private JPanel previewPanel;
+	private JPanel editPanel;
+	private JPanel toolPanel;
+	private PopupMenuButtonD btInsertLaTeX;
+	private PopupMenuButtonD btInsertUnicode;
+	private PopupMenuButtonD btInsertGeo;
+	private JLabel previewHeader;
+	private JLabel editHeader;
 
 	// text handling fields
 	private GeoText editGeo;
@@ -138,13 +144,13 @@ public class TextInputDialogD extends InputDialogD
 	/**
 	 * Input Dialog for a GeoText object
 	 * 
-	 * @param app2
-	 * @param title
-	 * @param editGeo
-	 * @param startPoint
-	 * @param cols
-	 * @param rows
-	 * @param isTextMode
+	 * @param app2 application
+	 * @param title title
+	 * @param editGeo edited geo
+	 * @param startPoint text position
+	 * @param cols columns
+	 * @param rows rows
+	 * @param isTextMode text mode
 	 */
 	public TextInputDialogD(App app2, String title, GeoText editGeo,
 			GeoPointND startPoint, boolean rw, int cols, int rows,
@@ -183,12 +189,7 @@ public class TextInputDialogD extends InputDialogD
 		setLabels(title);
 		undo = new UndoManager();
 		doc = editor.getDocument();
-		doc.addUndoableEditListener(new UndoableEditListener() {
-			@Override
-			public void undoableEditHappened(UndoableEditEvent e) {
-				undo.addEdit(e.getEdit());
-			}
-		});
+		doc.addUndoableEditListener(e -> undo.addEdit(e.getEdit()));
 
 		editor.getActionMap().put("Undo", new AbstractAction("Undo") {
 
@@ -247,8 +248,6 @@ public class TextInputDialogD extends InputDialogD
 	}
 
 	private void createAdditionalGUI() {
-
-		showSymbolTablePopup(false);
 
 		// create LaTeX checkbox
 		cbLaTeX = new JCheckBox();
@@ -473,14 +472,7 @@ public class TextInputDialogD extends InputDialogD
 
 		JMenuItem menuItem = new JMenuItem();
 		laTexButtonTitleMap.put("Space", menuItem);
-		menuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				insertString(" \\; ");
-			}
-
-		});
+		menuItem.addActionListener(arg0 -> insertString(" \\; "));
 		btInsertLaTeX.addPopupMenuItem(menuItem);
 
 		isBtnInsertLatexLoaded = true;
@@ -488,7 +480,7 @@ public class TextInputDialogD extends InputDialogD
 
 	}
 
-	public void updateInsertLaTeXButtonLabels() {
+	private void updateInsertLaTeXButtonLabels() {
 		if (!isBtnInsertLatexLoaded) {
 			return;
 		}
@@ -541,22 +533,18 @@ public class TextInputDialogD extends InputDialogD
 		// add a list selection listener that will insert a selected geo into
 		// the editor
 		geoList.getSelectionModel()
-				.addListSelectionListener(new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						if (!e.getValueIsAdjusting()) {
-							String label = (String) geoList.getSelectedValue();
-							if (label != null && e.getFirstIndex() == 0) {
-								insertEmptyDynamicText();
-							} else {
-								insertGeoElement(
-										app.getKernel().lookupLabel(label));
-							}
-							btInsertGeo.handlePopupActionEvent();
-							geoList.getSelectionModel().clearSelection();
+				.addListSelectionListener(e -> {
+					if (!e.getValueIsAdjusting()) {
+						String label = (String) geoList.getSelectedValue();
+						if (label != null && e.getFirstIndex() == 0) {
+							insertEmptyDynamicText();
+						} else {
+							insertGeoElement(
+									app.getKernel().lookupLabel(label));
 						}
+						btInsertGeo.handlePopupActionEvent();
+						geoList.getSelectionModel().clearSelection();
 					}
-
 				});
 
 		// create a popup button and add the list to it
@@ -583,7 +571,7 @@ public class TextInputDialogD extends InputDialogD
 	// Recent symbol buttons
 	// =============================================================
 
-	public JToolBar createRecentSymbolTable() {
+	private JToolBar createRecentSymbolTable() {
 
 		recentSymbolList = ((GuiManagerD) app.getGuiManager())
 				.getRecentSymbolList();
@@ -620,6 +608,9 @@ public class TextInputDialogD extends InputDialogD
 		return p;
 	}
 
+	/**
+	 * @param newSymbol symbol
+	 */
 	public void addRecentSymbol(String newSymbol) {
 		if (!recentSymbolList.contains(newSymbol)) {
 			this.recentSymbolList.add(0, newSymbol);
@@ -772,33 +763,29 @@ public class TextInputDialogD extends InputDialogD
 				isLaTeX = cbLaTeX.isSelected();
 				editOccurred = false;
 				getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX),
-						this, new AsyncOperation<Boolean>() {
+						this, finished -> {
+							editOccurred = false;
 
-							@Override
-							public void callback(Boolean finished) {
-								editOccurred = false;
+							if (wrappedDialog.isShowing()) {
+								// text dialog window is used and open
 
-								if (wrappedDialog.isShowing()) {
-									// text dialog window is used and open
-
-									if (isTextMode) {
-										// don't set mode
-										setVisibleForTools(!finished);
-									} else {
-										setVisible(!finished);
-									}
-
-									if (isTextMode) {
-										app.setMode(
-												EuclidianConstants.MODE_TEXT);
-										return;
-									}
-								}
-								if (finished) {
-									app.setMode(EuclidianConstants.MODE_MOVE);
+								if (isTextMode) {
+									// don't set mode
+									setVisibleForTools(!finished);
+								} else {
+									setVisible(!finished);
 								}
 
+								if (isTextMode) {
+									app.setMode(
+											EuclidianConstants.MODE_TEXT);
+									return;
+								}
 							}
+							if (finished) {
+								app.setMode(EuclidianConstants.MODE_MOVE);
+							}
+
 						});
 
 			}
@@ -854,7 +841,7 @@ public class TextInputDialogD extends InputDialogD
 				}
 			}
 
-			if ((e.isAltDown() || AppD.isAltDown(e))) {
+			if (e.isAltDown() || AppD.isAltDown(e)) {
 				switch (e.getKeyCode()) {
 				default:
 					// do nothing
@@ -1010,25 +997,19 @@ public class TextInputDialogD extends InputDialogD
 	 */
 	public void applyModifications() {
 		if (editOccurred) {
-			editOccurred = false;// do this first to ensure no circular call
+			editOccurred = false; // do this first to ensure no circular call
 			getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX), this,
-					new AsyncOperation<Boolean>() {
-
-						@Override
-						public void callback(Boolean obj) {
-							editOccurred = false;
-
-						}
-					});
+					obj -> editOccurred = false);
 		}
 	}
 
+	/**
+	 * Handle document event
+	 */
 	public void handleDocumentEvent() {
-
 		if (handlingDocumentEventOff) {
 			return;
 		}
-
 		editOccurred = true;
 		updatePreviewText();
 	}
@@ -1150,28 +1131,24 @@ public class TextInputDialogD extends InputDialogD
 			try {
 				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
 						inputValue, true, true, TextInputDialogD.this,
-						new AsyncOperation<GeoElementND>() {
+						obj -> {
+							if (obj instanceof GeoText) {
+								// update editGeo
+								GeoText newText = (GeoText) obj;
+								editGeo = newText;
 
-							@Override
-							public void callback(GeoElementND obj) {
-								if (obj instanceof GeoText) {
-									// update editGeo
-									GeoText newText = (GeoText) obj;
-									editGeo = newText;
+								// make sure newText is using correct LaTeX
+								// setting
+								newText.setLaTeX(isLaTeX, true);
 
-									// make sure newText is using correct LaTeX
-									// setting
-									newText.setLaTeX(isLaTeX, true);
-
-									if (newText.getParentAlgorithm() != null) {
-										newText.getParentAlgorithm().update();
-									} else {
-										newText.updateRepaint();
-									}
-
-									app.doAfterRedefine(newText);
-									callback.callback(obj != null);
+								if (newText.getParentAlgorithm() != null) {
+									newText.getParentAlgorithm().update();
+								} else {
+									newText.updateRepaint();
 								}
+
+								app.doAfterRedefine(newText);
+								callback.callback(obj != null);
 							}
 						});
 
@@ -1193,100 +1170,95 @@ public class TextInputDialogD extends InputDialogD
 		app.setMoveMode();
 	}
 
-	public AsyncOperation<GeoElementND[]> getCallback(
+	protected AsyncOperation<GeoElementND[]> getCallback(
 			final AsyncOperation<Boolean> callback) {
-		// TODO Auto-generated method stub
-		return new AsyncOperation<GeoElementND[]>() {
+		return ret -> {
+			if (ret != null && ret[0] instanceof GeoText) {
+				Kernel kernel = ret[0].getKernel();
+				GeoText t = (GeoText) ret[0];
+				t.setLaTeX(isLaTeX, true);
 
-			@Override
-			public void callback(GeoElementND[] ret) {
-				if (ret != null && ret[0] instanceof GeoText) {
-					Kernel kernel = ret[0].getKernel();
-					GeoText t = (GeoText) ret[0];
-					t.setLaTeX(isLaTeX, true);
-
-					// make sure for new LaTeX texts we get nice "x"s
-					if (isLaTeX) {
-						t.setSerifFont(true);
-					}
-
-					EuclidianViewInterfaceCommon activeView = kernel
-							.getApplication().getActiveEuclidianView();
-
-					if (startPoint.isLabelSet()) {
-						t.checkVisibleIn3DViewNeeded();
-						try {
-							t.setStartPoint(startPoint);
-						} catch (Exception e) {
-							// circular def: ignore
-						}
-					} else {
-
-						// changed to RealWorld
-						// not absolute
-						// startpoint contains mouse coords
-						// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
-						// euclidianView.toScreenCoordY(startPoint.inhomY));
-						// t.setAbsoluteScreenLocActive(true);
-						if (rw) {
-							Coords coords = startPoint.getInhomCoordsInD3();
-							t.setRealWorldLoc(
-									activeView.toRealWorldCoordX(coords.getX()),
-									activeView
-											.toRealWorldCoordY(coords.getY()));
-							t.setAbsoluteScreenLocActive(false);
-						} else {
-							Coords coords = startPoint.getInhomCoordsInD3();
-							t.setAbsoluteScreenLoc((int) coords.getX(),
-									(int) coords.getY());
-							t.setAbsoluteScreenLocActive(true);
-
-						}
-
-						// when not a point clicked, show text only in active
-						// view
-						if (activeView.isEuclidianView3D()) {
-							// we need to add it to 3D view since by default
-							// it may not
-							kernel.getApplication().addToViews3D(t);
-							app.removeFromEuclidianView(t);
-							t.setVisibleInViewForPlane(false);
-							kernel.getApplication().removeFromViewsForPlane(t);
-						} else if (activeView.isDefault2D()) {
-							if (kernel.getApplication()
-									.isEuclidianView3Dinited()) {
-								kernel.getApplication().removeFromViews3D(t);
-							} else {
-								t.removeViews3D();
-							}
-							t.setVisibleInViewForPlane(false);
-							kernel.getApplication().removeFromViewsForPlane(t);
-						} else { // view for plane
-							app.removeFromEuclidianView(t);
-							if (kernel.getApplication()
-									.isEuclidianView3Dinited()) {
-								kernel.getApplication().removeFromViews3D(t);
-							} else {
-								t.removeViews3D();
-							}
-							t.setVisibleInViewForPlane(true);
-							kernel.getApplication().addToViewsForPlane(t);
-						}
-					}
-
-					// make sure (only) the output of the text tool is selected
-					activeView.getEuclidianController()
-							.memorizeJustCreatedGeos(ret);
-
-					t.updateRepaint();
-					app.storeUndoInfo();
-					callback.callback(true);
-					return;
+				// make sure for new LaTeX texts we get nice "x"s
+				if (isLaTeX) {
+					t.setSerifFont(true);
 				}
-				callback.callback(false);
-				return;
 
+				EuclidianViewInterfaceCommon activeView = kernel
+						.getApplication().getActiveEuclidianView();
+
+				if (startPoint.isLabelSet()) {
+					t.checkVisibleIn3DViewNeeded();
+					try {
+						t.setStartPoint(startPoint);
+					} catch (Exception e) {
+						// circular def: ignore
+					}
+				} else {
+
+					// changed to RealWorld
+					// not absolute
+					// startpoint contains mouse coords
+					// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
+					// euclidianView.toScreenCoordY(startPoint.inhomY));
+					// t.setAbsoluteScreenLocActive(true);
+					if (rw) {
+						Coords coords = startPoint.getInhomCoordsInD3();
+						t.setRealWorldLoc(
+								activeView.toRealWorldCoordX(coords.getX()),
+								activeView
+										.toRealWorldCoordY(coords.getY()));
+						t.setAbsoluteScreenLocActive(false);
+					} else {
+						Coords coords = startPoint.getInhomCoordsInD3();
+						t.setAbsoluteScreenLoc((int) coords.getX(),
+								(int) coords.getY());
+						t.setAbsoluteScreenLocActive(true);
+
+					}
+
+					// when not a point clicked, show text only in active
+					// view
+					if (activeView.isEuclidianView3D()) {
+						// we need to add it to 3D view since by default
+						// it may not
+						kernel.getApplication().addToViews3D(t);
+						app.removeFromEuclidianView(t);
+						t.setVisibleInViewForPlane(false);
+						kernel.getApplication().removeFromViewsForPlane(t);
+					} else if (activeView.isDefault2D()) {
+						if (kernel.getApplication()
+								.isEuclidianView3Dinited()) {
+							kernel.getApplication().removeFromViews3D(t);
+						} else {
+							t.removeViews3D();
+						}
+						t.setVisibleInViewForPlane(false);
+						kernel.getApplication().removeFromViewsForPlane(t);
+					} else { // view for plane
+						app.removeFromEuclidianView(t);
+						if (kernel.getApplication()
+								.isEuclidianView3Dinited()) {
+							kernel.getApplication().removeFromViews3D(t);
+						} else {
+							t.removeViews3D();
+						}
+						t.setVisibleInViewForPlane(true);
+						kernel.getApplication().addToViewsForPlane(t);
+					}
+				}
+
+				// make sure (only) the output of the text tool is selected
+				activeView.getEuclidianController()
+						.memorizeJustCreatedGeos(ret);
+
+				t.updateRepaint();
+				app.storeUndoInfo();
+				callback.callback(true);
+				return;
 			}
+			callback.callback(false);
+			return;
+
 		};
 	}
 
@@ -1307,7 +1279,6 @@ public class TextInputDialogD extends InputDialogD
 
 	public void reset() {
 		this.editOccurred = false;
-
 	}
 
 }

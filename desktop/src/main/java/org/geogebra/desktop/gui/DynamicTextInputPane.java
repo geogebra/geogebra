@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -423,8 +421,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		JPopupMenu contextMenu;
 
 		/**
-		 * @param app
-		 * @param id
+		 * @param app application
+		 * @param id input dialog
 		 */
 		public DynamicTextField(AppD app, TextInputDialogD id) {
 			super(app);
@@ -472,7 +470,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			int height = (int) getPreferredSize().getHeight();
 			int borderHeight = getBorder().getBorderInsets(this).top;
 			int aboveBaseline = maxAscent + borderHeight;
-			float alignmentY = (float) (aboveBaseline) / ((float) (height));
+			float alignmentY = aboveBaseline / ((float) height);
 			setAlignmentY(alignmentY);
 
 			// document listener to update enclosing text pane
@@ -522,7 +520,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if ((e.isAltDown() || AppD.isAltDown(e))) {
+				if (e.isAltDown() || AppD.isAltDown(e)) {
 					switch (e.getKeyCode()) {
 					default:
 						// do nothing
@@ -544,26 +542,18 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			JCheckBoxMenuItem item = new JCheckBoxMenuItem(
 					app.getLocalization().getMenu("Value"));
 			item.setSelected(mode == MODE_VALUE);
-			item.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					mode = MODE_VALUE;
-					id.handleDocumentEvent();
-
-				}
+			item.addActionListener(arg0 -> {
+				mode = MODE_VALUE;
+				id.handleDocumentEvent();
 			});
 			contextMenu.add(item);
 
 			item = new JCheckBoxMenuItem(
 					app.getLocalization().getMenu("Definition"));
 			item.setSelected(mode == MODE_DEFINITION);
-			item.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					mode = MODE_DEFINITION;
-					id.handleDocumentEvent();
-
-				}
+			item.addActionListener(arg0 -> {
+				mode = MODE_DEFINITION;
+				id.handleDocumentEvent();
 			});
 			contextMenu.add(item);
 			/*
@@ -576,7 +566,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			contextMenu.add(item);
 
 			app.setComponentOrientation(contextMenu);
-
 		}
 	}
 

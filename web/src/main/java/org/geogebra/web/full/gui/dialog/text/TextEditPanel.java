@@ -266,7 +266,7 @@ public class TextEditPanel extends VerticalPanel
 	 * @param text - content as HTML
 	 */
 	public void setText(String text) {
-		editor.setHTML(text);
+		editor.getElement().setInnerHTML(text);
 	}
 
 	/**

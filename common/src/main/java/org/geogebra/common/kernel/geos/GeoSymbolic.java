@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -64,6 +65,7 @@ public class GeoSymbolic extends GeoElement
 	private int pointSize;
 	private boolean symbolicMode;
 	private MyArbitraryConstant constant;
+	private boolean wrapInNumeric = false;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -245,7 +247,6 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
-
 		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
 			casResult = tryNumericCommand(casInput, casResult);
 		}
@@ -306,14 +307,6 @@ public class GeoSymbolic extends GeoElement
 			return result;
 		}
 
-		if (Commands.Solve.name().equals(casInput.getName())) {
-			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
-			Command input = getCasInput(getDefinition().deepCopy(kernel)
-					.traverse(FunctionExpander.newFunctionExpander(this)));
-			result = evaluateGeoGebraCAS(input, constant);
-			return result;
-		}
-
 		Command numericVersion = new Command(kernel, "Numeric", false);
 		numericVersion.addArgument(casInput.wrap());
 		String numResult = evaluateGeoGebraCAS(numericVersion, constant);
@@ -323,6 +316,14 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		return result;
+	}
+
+	public void setWrapInNumeric(boolean input) {
+		wrapInNumeric = input;
+	}
+
+	public boolean shouldWrapInNumeric() {
+		return wrapInNumeric;
 	}
 
 	private boolean isTopLevelCommandNumeric() {
@@ -600,6 +601,7 @@ public class GeoSymbolic extends GeoElement
 
 	private ExpressionNode getNodeFromInput() {
 		ExpressionNode node = getDefinition().deepCopy(kernel)
+				.traverse(new FunctionExpander())
 				.traverse(createPrepareDefinition())
 				.wrap();
 		node.setLabel(null);
@@ -691,8 +693,8 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	final public void setVisualStyle(final GeoElement geo, boolean copyAux) {
-		super.setVisualStyle(geo, copyAux);
+	final public void setBasicVisualStyle(final GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 		if (geo instanceof PointProperties) {
 			setPointSize(((PointProperties) geo).getPointSize());
 			setPointStyle(((PointProperties) geo).getPointStyle());
@@ -921,7 +923,7 @@ public class GeoSymbolic extends GeoElement
 		sb.append("\t<variables val=\"");
 		for (FunctionVariable variable : fVars) {
 			sb.append(prefix);
-			sb.append(StringUtil.encodeXML(variable.getSetVarString()));
+			StringUtil.encodeXML(sb, variable.getSetVarString());
 			prefix = ",";
 		}
 		sb.append("\"/>\n");
@@ -1067,17 +1069,15 @@ public class GeoSymbolic extends GeoElement
 
 	/**
 	 * @param value value
-	 * @return True if the unwrapped value's twin is a GeoList.
-	 *        Returns false if the value is null
-	 *        or if the unwrapped value is not a GeoSymbolic
-	 *        or if the unwrapped value's twin is not a GeoList.
+	 * @return True iff the value can be unwrapped to a ListValue,
+	 *     using both unwrap and unwrapSymbolic
 	 */
-	public static boolean hasListTwin(ExpressionValue value) {
+	public static boolean isWrappedList(ExpressionValue value) {
 		if (value == null) {
 			return false;
 		}
 		ExpressionValue unwrapped = value.unwrap();
-		return unwrapped instanceof GeoSymbolic
-				&& ((GeoSymbolic) unwrapped).getTwinGeo().isGeoList();
+		return unwrapped instanceof ListValue || (unwrapped instanceof GeoSymbolic
+				&& ((GeoSymbolic) unwrapped).unwrapSymbolic().isGeoList()) ;
 	}
 }

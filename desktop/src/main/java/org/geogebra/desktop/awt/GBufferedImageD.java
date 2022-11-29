@@ -10,7 +10,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.plugin.GgbAPID;
 
 public class GBufferedImageD implements GBufferedImage {
-	private BufferedImage impl;
+	private final BufferedImage impl;
 
 	public GBufferedImageD(int width, int height, int imageType) {
 		impl = new BufferedImage(width, height, imageType);
@@ -30,6 +30,10 @@ public class GBufferedImageD implements GBufferedImage {
 		return impl.getHeight();
 	}
 
+	/**
+	 * @param im wrapped image
+	 * @return native image
+	 */
 	public static BufferedImage getAwtBufferedImage(GBufferedImage im) {
 		if (im == null) {
 			return null;

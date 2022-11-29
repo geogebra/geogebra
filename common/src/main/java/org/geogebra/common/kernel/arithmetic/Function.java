@@ -642,6 +642,9 @@ public class Function extends FunctionNVar
 				}
 				break;
 			case NROOT:
+				if (!rootFindingSimplification) {
+					break;
+				}
 				if (node.getRight().isConstant() && !ExpressionNode
 						.isConstantDouble(node.getRight(), 0)) {
 					return addPolynomialFactors(node.getLeft(), l, symbolic,
@@ -785,6 +788,8 @@ public class Function extends FunctionNVar
 		}
 		if (!symbolic) {
 			double[] coeffValues = new double[terms];
+			// shorten [5,0,0] to [5] but keep [0] as is
+			int validCoeffs = Math.min(1, coeff.length);
 			for (int i = 0; i < coeff.length; i++) {
 				if (coeff[i][0] instanceof ExpressionNode) {
 					coeffValues[i] = coeff[i][0].evaluateDouble(); // for ticket
@@ -794,9 +799,11 @@ public class Function extends FunctionNVar
 					coeffValues[i] = coeff[i][0] instanceof NumberValue
 							? coeff[i][0].evaluateDouble() : 0;
 				}
-
+				if (coeffValues[i] != 0) {
+					validCoeffs = i + 1;
+				}
 			}
-			polyFun = new PolyFunction(coeffValues);
+			polyFun = new PolyFunction(coeffValues, validCoeffs);
 		} else {
 			ExpressionNode[] coeffExpr = new ExpressionNode[terms];
 			for (int i = 0; i < coeff.length; i++) {
@@ -815,16 +822,14 @@ public class Function extends FunctionNVar
 	 */
 	private ExpressionNode evaluateToExpressionNode(String str) {
 		try {
-			ExpressionNode en = kernel.getParser().parseExpression(str);
+			ValidExpression en = kernel.getParser().parseGiac(str);
 			en.resolveVariables(new EvalInfo(false));
-			if (en.containsFreeFunctionVariable(null)) {
+			if (!(en instanceof ExpressionNode)
+				|| ((ExpressionNode) en).containsFreeFunctionVariable(null)) {
 				return null;
 			}
-			return en;
-		} catch (Exception e) {
-			Log.debug(e);
-			return null;
-		} catch (Error e) {
+			return (ExpressionNode) en;
+		} catch (Exception | Error e) {
 			Log.debug(e);
 			return null;
 		}

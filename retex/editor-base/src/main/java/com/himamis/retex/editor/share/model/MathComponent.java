@@ -96,7 +96,7 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
 	/**
 	 * @return this wrapped in MathSequence TODO unused?
 	 */
-	public MathComponent wrap() {
+	public MathSequence wrap() {
 		MathSequence seq = new MathSequence();
 		seq.addArgument(this);
 		return seq;

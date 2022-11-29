@@ -17,10 +17,16 @@ import org.geogebra.desktop.main.AppD;
  */
 public class InputDialogSegmentFixedD extends InputDialogD {
 
-	private GeoPointND geoPoint1;
+	private final GeoPointND geoPoint1;
+	private final Kernel kernel;
 
-	private Kernel kernel;
-
+	/**
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param point1 start point
+	 * @param kernel kernel
+	 */
 	public InputDialogSegmentFixedD(AppD app, String title,
 			InputHandler handler, GeoPointND point1, Kernel kernel) {
 		super(app, app.getLocalization().getMenu("Length"), title, "", false,
@@ -52,13 +58,7 @@ public class InputDialogSegmentFixedD extends InputDialogD {
 	private void processInput() {
 		new SegmentHandler(geoPoint1, kernel).doSegmentFixedAsync(
 				inputPanel.getText(), (NumberInputHandler) getInputHandler(),
-				this, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisibleForTools(!ok);
-					}
-				});
+				this, ok -> setVisibleForTools(!ok));
 	}
 
 	@Override

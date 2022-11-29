@@ -23,7 +23,6 @@ public class PropertiesDockPanel extends DockPanelD
 	private PropertiesViewD view;
 	private boolean closed;
 
-
 	/**
 	 * @param app
 	 *            application

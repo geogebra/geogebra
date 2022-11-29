@@ -33,10 +33,15 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	protected AppD app;
 	protected final AlgebraTree view;
 	protected Kernel kernel;
-	private ImageIcon iconShown, iconHidden;
+	private ImageIcon iconShown;
+	private ImageIcon iconHidden;
 
 	private ImageIcon latexIcon;
 
+	/**
+	 * @param app application
+	 * @param view AV
+	 */
 	public MyRendererForAlgebraTree(AppD app, AlgebraTree view) {
 		setOpaque(true);
 		this.app = app;
@@ -47,6 +52,9 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		this.setIconTextGap(8);
 	}
 
+	/**
+	 * Update icons
+	 */
 	public void update() {
 		setIconShown(app.getScaledIcon(GuiResourcesD.ALGEBRA_SHOWN));
 		setIconHidden(app.getScaledIcon(GuiResourcesD.ALGEBRA_HIDDEN));
@@ -55,18 +63,15 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		setClosedIcon(app.getScaledIcon(GuiResourcesD.TREE_CLOSED));
 
 		latexIcon = new ImageIcon();
-
 	}
 
 	/**
-	 * 
 	 * @param geo
 	 *            geo
-	 * @param node
+	 * @param node tree node
 	 * @return description of the geo
 	 */
 	protected String getDescription(GeoElement geo, GeoMutableTreeNode node) {
-
 		return geo.getLabelTextOrHTML();
 	}
 

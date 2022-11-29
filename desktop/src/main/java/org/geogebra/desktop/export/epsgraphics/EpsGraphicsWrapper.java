@@ -205,7 +205,7 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	@Override
 	public void drawImage(Image image, int x, int y) {
 		if (image instanceof BufferedImage) {
-			impl.drawImage(new GBufferedImageD(((BufferedImage) image)), x, y);
+			impl.drawImage(new GBufferedImageD((BufferedImage) image), x, y);
 		}
 	}
 

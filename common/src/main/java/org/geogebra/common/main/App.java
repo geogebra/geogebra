@@ -101,6 +101,10 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionFactory;
+import org.geogebra.common.main.exam.restriction.RestrictExam;
+import org.geogebra.common.main.exam.restriction.Restrictable;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -446,6 +450,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private final AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
+	private RestrictExam restrictions;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -2657,6 +2662,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		useFullGui = true;
 	}
 
+	@Override
+	public boolean isUsingFullGui() {
+		return useFullGui;
+	}
+
 	/**
 	 * @return where to show the inputBar (respective inputBox)
 	 */
@@ -3927,17 +3937,32 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		this.exam = exam;
 	}
 
+	public void setNewExam() {
+		setNewExam(ExamRegion.GENERIC);
+	}
+
 	/**
 	 * Initializes a new ExamEnvironment instance.
 	 */
-	public void setNewExam() {
+	public void setNewExam(ExamRegion region) {
 		ExamEnvironment examEnvironment = newExamEnvironment();
+		examEnvironment.setExamRegion(region);
+		initRestrictions(region);
+		examEnvironment.setRestrictionModel(restrictions.getModel());
 		setExam(examEnvironment);
-		examEnvironment.setAppNameWith(getConfig());
+		examEnvironment.setConfig(getConfig());
 		CommandDispatcher commandDispatcher =
 				getKernel().getAlgebraProcessor().getCommandDispatcher();
 		examEnvironment.setCommandDispatcher(commandDispatcher);
 		updateExam(examEnvironment);
+	}
+
+	private void initRestrictions(ExamRegion region) {
+		RestrictExam oldRestrictions = restrictions;
+		restrictions = ExamRestrictionFactory.create(region);
+		if (oldRestrictions != null) {
+			oldRestrictions.getRestrictables().forEach(restrictions::register);
+		}
 	}
 
 	protected ExamEnvironment newExamEnvironment() {
@@ -3950,6 +3975,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void startExam() {
 		setupExamEnvironment();
 		getExam().setStart((new Date()).getTime());
+		restrictions.enable();
 	}
 
 	private void setupExamEnvironment() {
@@ -4052,6 +4078,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public Layout getLayout() {
 		return getGuiManager() == null ? null : getGuiManager().getLayout();
+	}
+
+	public StringTemplate getScreenReaderTemplate() {
+		return StringTemplate.screenReaderAscii;
+	}
+
+	public void clearRestictions() {
+		restrictions.disable();
 	}
 
 	/**
@@ -4248,11 +4282,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void examWelcome() {
 		// overridden in platforms supporting exam
-	}
-
-	public void showErrorDialog(String title, String negBtn, String posBtn,
-			String message, Runnable posBtnAction) {
-		// overridden in web
 	}
 
 	/**
@@ -4559,7 +4588,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public AccessibilityManagerInterface getAccessibilityManager() {
 
 		if (accessibilityManager == null) {
-			accessibilityManager = new AccessibilityManagerNoGui();
+			accessibilityManager = new AccessibilityManagerNoGui(this);
 		}
 
 		return accessibilityManager;
@@ -5026,5 +5055,17 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	@Override
 	public MyImage getInternalImageAdapter(String filename, int width, int height) {
 		return null;
+	}
+
+	/**
+	 * Register a component to be restriced during exam
+	 *
+	 * @param restrictable the component to restrict.
+	 */
+	public void registerRestrictable(Restrictable restrictable) {
+		if (restrictions == null) {
+			restrictions = ExamRestrictionFactory.create(null);
+		}
+		restrictions.register(restrictable);
 	}
 }

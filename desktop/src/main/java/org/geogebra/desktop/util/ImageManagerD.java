@@ -37,6 +37,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.FileExtensions;
@@ -60,10 +64,12 @@ public class ImageManagerD extends ImageManager {
 	private Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
 	private static Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
 
+	private Hashtable<String, ImageResourceD> fillableImgs = new Hashtable<>();
+
 	private Toolkit toolKit;
 	private MediaTracker tracker;
 
-	private int maxIconSize = 64;// DEFAULT_ICON_SIZE;
+	private int maxIconSize = 64; // DEFAULT_ICON_SIZE;
 
 	/**
 	 * Creates a new ImageManager for the given JFrame.
@@ -75,13 +81,6 @@ public class ImageManagerD extends ImageManager {
 
 	public ImageManagerD() {
 		toolKit = Toolkit.getDefaultToolkit();
-		// for test code only
-	}
-
-	public void clearAllImages() {
-		iconTable.clear();
-		internalImageTable.clear();
-		externalImageTable.clear();
 	}
 
 	/**
@@ -105,6 +104,12 @@ public class ImageManagerD extends ImageManager {
 		return getImageIcon(fileName, borderColor, null);
 	}
 
+	/**
+	 * @param fileName filename
+	 * @param borderColor border color
+	 * @param background background color
+	 * @return image with border  and background
+	 */
 	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor,
 			Color background) {
 		ImageIcon icon = iconTable.get(fileName.getFilename());
@@ -119,7 +124,10 @@ public class ImageManagerD extends ImageManager {
 		return icon;
 	}
 
-	// draw a line around the image
+	/**
+	 * draw a line around the image
+	 * @return image with border
+	 */
 	public static Image addBorder(Image im, Color borderColor,
 			Color background) {
 		if (borderColor == null) {
@@ -160,6 +168,10 @@ public class ImageManagerD extends ImageManager {
 		return img;
 	}
 
+	/**
+	 * @param fileName0 filename
+	 * @param img image
+	 */
 	public void addExternalImage(String fileName0, MyImageJre img) {
 		Log.error("adding " + fileName0);
 		if (fileName0 != null && img != null) {
@@ -177,6 +189,11 @@ public class ImageManagerD extends ImageManager {
 		}
 	}
 
+	/**
+	 * Lookup image by path, normalize extension
+	 * @param fileName0 file path
+	 * @return image
+	 */
 	public static MyImageD getExternalImage(String fileName0) {
 		String fileName = fileName0;
 		// GIF saved as PNG in .ggb files so need to change extension
@@ -185,19 +202,8 @@ public class ImageManagerD extends ImageManager {
 			fileName = StringUtil.changeFileExtension(fileName,
 					FileExtensions.PNG);
 		}
-
-		// Log.debug("retrieving filename = " + fileName);
-		MyImageD ret = externalImageTable.get(fileName);
-		// Log.debug("(ret == null)" + (ret == null));
-		return ret;
+		return externalImageTable.get(fileName);
 	}
-
-	/*
-	 * private class FileNamePair { File file; String name;
-	 * 
-	 * FileNamePair(File file, String name) { this.file = file; this.name =
-	 * name; } }
-	 */
 
 	/**
 	 * get image for icons and other automatically add "/org/geogebra/desktop"
@@ -228,7 +234,7 @@ public class ImageManagerD extends ImageManager {
 	/**
 	 * return image from the full path name
 	 * 
-	 * @param name
+	 * @param name image path
 	 * @return image from the full path name
 	 */
 	protected Image getImageResource(String name) {
@@ -257,7 +263,10 @@ public class ImageManagerD extends ImageManager {
 		return img;
 	}
 
-	// This method returns a buffered image with the contents of an image
+	/**
+	 * @param image base image
+	 * @return a buffered image with the contents of an image
+	 */
 	public static BufferedImage toBufferedImage(Image image) {
 		// Determine if the image has transparent pixels; for this method's
 		// implementation, see e661 Determining If an Image Has Transparent
@@ -271,6 +280,11 @@ public class ImageManagerD extends ImageManager {
 
 	}
 
+	/**
+	 * @param image0 base image
+	 * @param transparency see java.awt.Transparency
+	 * @return buffered image
+	 */
 	public static BufferedImage toBufferedImage(Image image0,
 			int transparency) {
 		if (image0 instanceof BufferedImage) {
@@ -319,7 +333,10 @@ public class ImageManagerD extends ImageManager {
 		return bimage;
 	}
 
-	// This method returns true if the specified image has transparent pixels
+	/**
+	 * @param image image
+	 * @return true if the specified image has transparent pixels
+	 */
 	public static boolean hasAlpha(Image image) {
 		// If buffered image, the color model is readily available
 		if (image instanceof BufferedImage) {
@@ -333,6 +350,7 @@ public class ImageManagerD extends ImageManager {
 		try {
 			pg.grabPixels();
 		} catch (InterruptedException e) {
+			// ignore
 		}
 
 		// Get the image's color model
@@ -345,6 +363,12 @@ public class ImageManagerD extends ImageManager {
 		return cm.hasAlpha();
 	}
 
+	/**
+	 * @param icon base icon
+	 * @param width new width
+	 * @param height new height
+	 * @return scaled icon
+	 */
 	public static ImageIcon getScaledIcon(ImageIcon icon, int width,
 			int height) {
 		if (icon.getIconWidth() == width && icon.getIconHeight() == height) {
@@ -354,6 +378,12 @@ public class ImageManagerD extends ImageManager {
 		return new ImageIcon(scaledImage);
 	}
 
+	/**
+	 * @param img base image
+	 * @param width new width
+	 * @param height new height
+	 * @return scaled image
+	 */
 	public static Image getScaledImage(Image img, int width, int height) {
 		// scale image
 		BufferedImage scaledImage = new BufferedImage(width, height,
@@ -366,27 +396,36 @@ public class ImageManagerD extends ImageManager {
 		return scaledImage;
 	}
 
+	/**
+	 * @param res resource
+	 * @param app application
+	 * @return full path (md5 folder + filename)
+	 */
 	public String createImage(ImageResourceD res, App app) {
 		Image im = getImageResource(res);
 		BufferedImage image = ImageManagerD.toBufferedImage(im);
-		String fileName = createImage(new MyImageD(image),
+		return createImage(new MyImageD(image),
 				"tool.png", app);
-		return fileName;
 	}
 
+	/**
+	 * @param modeText mode name
+	 * @return mode icon
+	 */
 	public ImageResourceD getToolImageResource(String modeText) {
 		String filename = "mode_" + StringUtil.toLowerCaseUS(modeText) + ".png";
 		String path = getToolbarIconPath() + filename;
 		return new ImageResourceDImpl(path);
 	}
 
+	/**
+	 * @return path to folder with toolbar icons for current font size
+	 */
 	public String getToolbarIconPath() {
 		if (getMaxIconSize() <= 32) {
 			return "/org/geogebra/common/icons_toolbar/p32/";
 		}
-
 		return "/org/geogebra/common/icons_toolbar/p64/";
-
 	}
 
 	public void setMaxIconSizeAsPt(int points) {
@@ -408,11 +447,16 @@ public class ImageManagerD extends ImageManager {
 		return maxIconSize;
 	}
 
+	/**
+	 * @param image image
+	 * @param imageFileName filename
+	 * @param app application
+	 * @return full path (md5 folder + filename)
+	 */
 	public String createImage(MyImageD image, String imageFileName, App app) {
 		String fileName = imageFileName;
-		MyImageD img = image;
 		try {
-			String zip_directory = img.getMD5();
+			String zip_directory = image.getMD5();
 
 			String fn = fileName;
 			int index = fileName.lastIndexOf(File.separator);
@@ -425,29 +469,12 @@ public class ImageManagerD extends ImageManager {
 			// filename will be of form
 			// "a04c62e6a065b47476607ac815d022cc/filename.ext"
 			fileName = zip_directory + "/" + fn;
-
-			/*
-			 * 
-			 * // write and reload image to make sure we can save it // without
-			 * problems ByteArrayOutputStream os = new ByteArrayOutputStream();
-			 * getXMLio().writeImageToStream(os, fileName, img); os.flush();
-			 * ByteArrayInputStream is = new
-			 * ByteArrayInputStream(os.toByteArray());
-			 * 
-			 * // reload the image img = ImageIO.read(is); is.close();
-			 * os.close();
-			 * 
-			 * 
-			 * 
-			 * setDefaultCursor(); if (img == null) {
-			 * showError("LoadFileFailed"); return null; }
-			 */
 			// make sure this filename is not taken yet
 			MyImageD oldImg = ImageManagerD.getExternalImage(fileName);
 			if (oldImg != null) {
 				// image with this name exists already
-				if ((oldImg.getWidth() == img.getWidth())
-						&& (oldImg.getHeight() == img.getHeight())) {
+				if ((oldImg.getWidth() == image.getWidth())
+						&& (oldImg.getHeight() == image.getHeight())) {
 					// same size and filename => we consider the images as equal
 					return fileName;
 				}
@@ -468,7 +495,7 @@ public class ImageManagerD extends ImageManager {
 				} while (ImageManagerD.getExternalImage(fileName) != null);
 			}
 
-			addExternalImage(fileName, img);
+			addExternalImage(fileName, image);
 
 			return fileName;
 		} catch (Exception e) {
@@ -522,5 +549,43 @@ public class ImageManagerD extends ImageManager {
 			Log.debug(urlBase64.substring(0, 10) + " not supported");
 		}
 
+	}
+
+	@Override
+	public void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable) {
+		if (fillableImgs.isEmpty()) {
+			fillImages();
+		}
+		String imgName = geo.getTextStringSafe();
+		String fileName = fillableImgs.get(imgName) != null
+				? fillableImgs.get(imgName).getFilename() : "";
+		if (!fileName.isEmpty()) {
+			fillable.setImageFileName(fileName);
+			fillable.setAlphaValue(1.0f);
+			fillable.updateVisualStyleRepaint(GProperty.HATCHING);
+		}
+	}
+
+	private void fillImages() {
+		fillableImgs.put("pause", GuiResourcesD.FILLING_PAUSE);
+		fillableImgs.put("play", GuiResourcesD.FILLING_PLAY);
+		fillableImgs.put("stop", GuiResourcesD.FILLING_STOP);
+		fillableImgs.put("replay", GuiResourcesD.FILLING_REPLAY);
+		fillableImgs.put("skip_next", GuiResourcesD.FILLING_SKIP_NEXT);
+		fillableImgs.put("skip_previous", GuiResourcesD.FILLING_SKIP_PREVIOUS);
+		fillableImgs.put("loop", GuiResourcesD.FILLING_LOOP);
+		fillableImgs.put("zoom_in", GuiResourcesD.FILLING_ZOOM_IN);
+		fillableImgs.put("zoom_out", GuiResourcesD.FILLING_ZOOM_OUT);
+		fillableImgs.put("close", GuiResourcesD.FILLING_CLOSE);
+		fillableImgs.put("arrow_up", GuiResourcesD.FILLING_ARROW_UP);
+		fillableImgs.put("arrow_down", GuiResourcesD.FILLING_ARROW_DOWN);
+		fillableImgs.put("arrow_back", GuiResourcesD.FILLING_ARROW_BACK);
+		fillableImgs.put("arrow_forward", GuiResourcesD.FILLING_ARROW_FORWARD);
+		fillableImgs.put("fast_forward", GuiResourcesD.FILLING_FAST_FORWARD);
+		fillableImgs.put("fast_rewind", GuiResourcesD.FILLING_FAST_REWIND);
+		fillableImgs.put("zoom_to_fit", GuiResourcesD.FILLING_ZOOM_TO_FIT);
+		fillableImgs.put("center_view", GuiResourcesD.FILLING_CENTER_VIEW);
+		fillableImgs.put("help", GuiResourcesD.FILLING_HELP);
+		fillableImgs.put("settings", GuiResourcesD.FILLING_SETTINGS);
 	}
 }

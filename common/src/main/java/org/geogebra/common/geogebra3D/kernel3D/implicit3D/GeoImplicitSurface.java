@@ -150,11 +150,11 @@ public class GeoImplicitSurface extends GeoElement3D
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
 		FunctionVariable z = new FunctionVariable(kernel, "z");
-		VariableReplacer repl = VariableReplacer.getReplacer(kernel);
+		VariableReplacer repl = kernel.getVariableReplacer();
 
-		VariableReplacer.addVars("x", x);
-		VariableReplacer.addVars("y", y);
-		VariableReplacer.addVars("z", z);
+		repl.addVars("x", x);
+		repl.addVars("y", y);
+		repl.addVars("z", z);
 
 		functionExpression.traverse(repl);
 

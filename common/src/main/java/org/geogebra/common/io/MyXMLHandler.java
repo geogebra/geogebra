@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -457,11 +458,15 @@ public class MyXMLHandler implements DocHandler {
 		return null;
 	}
 
-	private void startDataAnalysisElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+	private void startDataAnalysisElement(String eName, LinkedHashMap<String, String> attrs) {
 		DataAnalysisSettings das = app.getSettings().getDataAnalysis();
 		if ("item".equals(eName)) {
-			das.addItem(attrs.get("ranges"));
+			if (attrs.get("ranges") != null) {
+				das.addItem(attrs.get("ranges"));
+			}
+			if (attrs.get("frequencies") != null) {
+				das.setFrequencies(attrs.get("frequencies"));
+			}
 		}
 	}
 
@@ -949,6 +954,9 @@ public class MyXMLHandler implements DocHandler {
 
 			boolean isCumulative = parseBoolean(attrs.get("isCumulative"));
 			app.getSettings().getProbCalcSettings().setCumulative(isCumulative);
+
+			boolean isOverlayActive = parseBoolean(attrs.get("isOverlayActive"));
+			app.getSettings().getProbCalcSettings().setOverlayActive(isOverlayActive);
 
 			// get parameters from comma delimited string
 			String parmString = attrs.get("parameters");
@@ -3556,12 +3564,14 @@ public class MyXMLHandler implements DocHandler {
 					}
 				}
 			}
+			boolean isTableXValues = label != null && xValuesLabel != null
+					&& label.equals(xValuesLabel);
+			SymbolicMode mode = isTableXValues ? SymbolicMode.NONE : kernel.getSymbolicMode();
 
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
-									.withSymbolicMode(
-											kernel.getSymbolicMode()));
+									.withSymbolicMode(mode));
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {

@@ -30,7 +30,7 @@ public final class FunctionSoundD extends FunctionSound
 	/**
 	 * Constructs instance of FunctionSound
 	 * 
-	 * @throws Exception
+	 * @throws Exception when initialization fails
 	 */
 	public FunctionSoundD() throws Exception {
 		super();
@@ -74,11 +74,11 @@ public final class FunctionSoundD extends FunctionSound
 	 * to t = max in seconds. The function is assumed to have range [-1,1] and
 	 * will be clipped to this range otherwise.
 	 * 
-	 * @param geoFunction
-	 * @param min
-	 * @param max
-	 * @param sampleRate
-	 * @param bitDepth
+	 * @param geoFunction function
+	 * @param min min x value
+	 * @param max max x value
+	 * @param sampleRate rate
+	 * @param bitDepth depth
 	 */
 
 	@Override
@@ -104,7 +104,7 @@ public final class FunctionSoundD extends FunctionSound
 	/**
 	 * Pauses/resumes sound generation
 	 * 
-	 * @param doPause
+	 * @param doPause whether to pause
 	 */
 	@Override
 	public void pause(boolean doPause) {
@@ -230,11 +230,10 @@ public final class FunctionSoundD extends FunctionSound
 		 * Shapes ends of waveform to fade sound data TODO: is this actually
 		 * working?
 		 * 
-		 * @param peakValue
-		 * @param isFadeOut
+		 * @param peakValue pake value
+		 * @param isFadeOut whether it's fading out
 		 */
 		private void doFade(short peakValue, boolean isFadeOut) {
-
 			byte[] fadeBuf = getFadeBuffer(peakValue, isFadeOut);
 			sdl.write(fadeBuf, 0, fadeBuf.length);
 		}
@@ -245,9 +244,6 @@ public final class FunctionSoundD extends FunctionSound
 		public void stopSound() {
 			stopped = true;
 		}
-
 	}
-	// ================================
-	// END SoundThread class
 
 }

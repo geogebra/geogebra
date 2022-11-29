@@ -46,7 +46,6 @@ import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
 
-
 /**
  * App for testing: does not use Swing
  *
@@ -85,12 +84,14 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public MyImageJre getExportImage(double thumbnailPixelsX,
 			double thumbnailPixelsY) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public MyImageJre getExternalImage(String fileName) {
 		// TODO Auto-generated method stub
 		return null;
@@ -252,45 +253,16 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		}
 
 		@Override
-		public boolean writePNGtoFile(String filename,
-				double exportScale, boolean transparent, double DPI,
-				boolean greyscale) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public void handleSlideAction(String eventType, String pageIdx, String appStat) {
-			// stub
-		}
-
-		@Override
-		public void selectSlide(String pageIdx) {
-			// stub
-		}
-
-		@Override
-		public void previewRefresh() {
-			// stub
-		}
-
-		@Override
-		public void setAlgebraOptions(Object options) {
-			// stub
-		}
-
-		@Override
 		protected void exportPNGClipboard(boolean transparent, int DPI,
 				double exportScale, EuclidianView ev) {
-			// TODO Auto-generated method stub
+			// stub
 
 		}
 
 		@Override
 		protected void exportPNGClipboardDPIisNaN(boolean transparent,
 				double exportScale, EuclidianView ev) {
-			// TODO Auto-generated method stub
-
+			// stub
 		}
 
 		@Override

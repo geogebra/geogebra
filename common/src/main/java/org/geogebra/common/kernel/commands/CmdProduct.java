@@ -54,7 +54,7 @@ public class CmdProduct extends CommandProcessor {
 		GeoList list = (GeoList) arg[0];
 		switch (n) {
 		case 1:
-			if (list.get(0).isMatrix()) {
+			if (!list.isEmptyList() && list.get(0).isMatrix()) {
 				AlgoProductMatrices algo = new AlgoProductMatrices(cons,
 						c.getLabel(), list);
 

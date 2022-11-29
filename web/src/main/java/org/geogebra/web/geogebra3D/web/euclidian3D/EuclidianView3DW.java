@@ -72,11 +72,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private int objectsWaitingForNewRepaint = 0;
 
-	private boolean readyToRender = false;
-
 	private ReaderWidget screenReader;
-
-	private final AppW appW = (AppW) super.app;
 
 	/**
 	 * constructor
@@ -208,14 +204,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
-	/**
-	 * tells the view that all is ready for GL rendering
-	 */
-	public void setReadyToRender() {
-		readyToRender = true;
-		repaintView();
-	}
-
 	@Override
 	public void setToolTipText(String plainTooltip) {
 		// TODO Auto-generated method stub
@@ -277,7 +265,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		if (webGLcanvas == null) {
 			return new RendererWnoWebGL(this);
 		}
-		return new RendererWithImplW(this, webGLcanvas);
+		return new RendererWithImplW(this, webGLcanvas,
+				((AppW) app).getAppletParameters().getDataParamTransparentGraphics());
 	}
 
 	@Override
@@ -413,7 +402,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		this.updateBackgroundIfNecessary();
 
 		// paint(this.g2p);
-		if (readyToRender) {
+		if (renderer.isReadyToRender()) {
 			renderer.drawScene();
 		}
 
@@ -589,7 +578,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
 		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
 			if (((Widget) dynamicStylebar).getParent() == null) {
-				appW.getGuiManager().addStylebar(this, dynamicStylebar);
+				((AppW) app).getGuiManager().addStylebar(this, dynamicStylebar);
 			}
 		}
 	}
@@ -597,7 +586,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	protected EuclidianStyleBar newDynamicStyleBar() {
 		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
-			return appW.getGuiManager().newDynamicStylebar(this);
+			return ((AppW) app).getGuiManager().newDynamicStylebar(this);
 		}
 		return null;
 	}

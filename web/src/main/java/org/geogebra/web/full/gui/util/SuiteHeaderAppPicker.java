@@ -27,6 +27,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	public SuiteHeaderAppPicker(AppW app) {
 		this.appW = app;
 		createAppPickerButton(app);
+		setExpanded(false);
 	}
 
 	/**
@@ -51,7 +52,16 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		setIconAndLabel(GeoGebraConstants.GRAPHING_APPCODE);
 		setStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
-		addFastClickHandler(event -> suitePopup.showPopup());
+		suitePopup.addCloseHandler(close -> setExpanded(false));
+		addFastClickHandler(event -> {
+			setExpanded(true);
+			suitePopup.showPopup();
+		});
+		appW.registerRestrictable(suitePopup);
+	}
+
+	private void setExpanded(boolean expanded) {
+		getElement().setAttribute("aria-expanded", String.valueOf(expanded));
 	}
 
 	/**
@@ -78,5 +88,4 @@ public class SuiteHeaderAppPicker extends StandardButton {
 
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
-
 }

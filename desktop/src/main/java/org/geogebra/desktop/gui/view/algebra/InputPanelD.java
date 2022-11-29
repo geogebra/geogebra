@@ -48,17 +48,27 @@ public class InputPanelD extends JPanel
 	// =====================================
 	// Constructors
 
-	public InputPanelD(String initText, AppD app, int columns,
-			boolean autoComplete) {
-		this(initText, app, 1, columns, true, true, null,
+	/**
+	 * @param initText initial text
+	 * @param app application
+	 * @param columns columns
+	 * @param autoComplete whether to allow autocomplete
+	 */
+	public InputPanelD(String initText, AppD app, int columns, boolean autoComplete) {
+		this(initText, app, 1, columns, true, null,
 				DialogType.GeoGebraEditor);
 		AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
 		atf.setAutoComplete(autoComplete);
 	}
 
+	/**
+	 * @param initText initial text
+	 * @param app application
+	 * @param columns columns
+	 */
 	public InputPanelD(String initText, AppD app, int rows, int columns,
 			boolean showSymbolPopupIcon) {
-		this(initText, app, rows, columns, showSymbolPopupIcon, false, null,
+		this(initText, app, rows, columns, showSymbolPopupIcon, null,
 				DialogType.GeoGebraEditor);
 		if (textComponent instanceof AutoCompleteTextFieldD) {
 			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
@@ -66,14 +76,28 @@ public class InputPanelD extends JPanel
 		}
 	}
 
+	/**
+	 * @param initText initial text
+	 * @param app application
+	 * @param columns columns
+	 */
 	public InputPanelD(String initText, AppD app, int rows, int columns,
 			boolean showSymbolPopupIcon, DialogType type) {
-		this(initText, app, rows, columns, showSymbolPopupIcon, false, null,
+		this(initText, app, rows, columns, showSymbolPopupIcon, null,
 				type);
 	}
 
+	/**
+	 * @param initText initial text
+	 * @param app application
+	 * @param rows rows
+	 * @param columns columns
+	 * @param showSymbolPopupIcon show popup icon?
+	 * @param keyListener keyboard listener
+	 * @param type dialog type
+	 */
 	public InputPanelD(String initText, AppD app, int rows, int columns,
-			boolean showSymbolPopupIcon, boolean showSymbolButtons,
+			boolean showSymbolPopupIcon,
 			KeyListener keyListener, DialogType type) {
 
 		this.app = app;
@@ -219,13 +243,6 @@ public class InputPanelD extends JPanel
 	public void focusLost(FocusEvent e) {
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
 				!(e.getOppositeComponent() instanceof VirtualKeyboardD));
-	}
-
-	// TODO Hide/show popup button options
-	public void showSpecialChars(boolean flag) {
-		// popupTableButton.setVisible(flag);
-		// for(int i=0; i < symbolButton.length; i++)
-		// symbolButton[i].setVisible(false);
 	}
 
 	/** end history list cell renderer **/

@@ -2,6 +2,7 @@ package org.geogebra.desktop.gui.nssavepanel;
 
 public class NSSavePanel {
 	public static boolean loaded = false;
+
 	static {
 		try {
 			System.loadLibrary("nssavepanel");

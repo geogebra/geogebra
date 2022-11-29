@@ -22,10 +22,11 @@ class CheckboxPanel extends OptionPanel
 	private String title;
 	private UpdateTabs tabs;
 
-	public CheckboxPanel(AppD app, final String title, UpdateTabs tabs, BooleanOptionModel model) {
-		this(app, title, tabs);
+	public CheckboxPanel(AppD app, UpdateTabs tabs, BooleanOptionModel model) {
+		this(app, model.getTitle(), tabs);
 		this.model = model;
 		model.setListener(this);
+		app.setFlowLayoutOrientation(this);
 	}
 
 	public CheckboxPanel(AppD app, final String title, UpdateTabs tabs) {

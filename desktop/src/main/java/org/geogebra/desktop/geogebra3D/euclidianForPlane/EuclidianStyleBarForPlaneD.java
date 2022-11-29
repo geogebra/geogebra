@@ -59,8 +59,8 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 			ArrayList<GeoElement> targetGeos) {
 
 		if (source.equals(btnCenterAndOrientation)) {
-			EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion) ((EuclidianView) ev)
-					.getCompanion();
+			EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion)
+					((EuclidianView) ev).getCompanion();
 			companion.updateCenterAndOrientationRegardingView();
 			companion.updateScaleRegardingView();
 		} else {

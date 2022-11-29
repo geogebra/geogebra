@@ -233,5 +233,4 @@ public class ManagerGLList extends Manager {
 		return 0;
 	}
 
-
 }

@@ -11,6 +11,10 @@ public class GFontRenderContextD extends GFontRenderContext {
 		impl = frc;
 	}
 
+	/**
+	 * @param frc cross-platform FRC
+	 * @return native FRC
+	 */
 	public static FontRenderContext getAwtFrc(GFontRenderContext frc) {
 		if (!(frc instanceof GFontRenderContextD)) {
 			return null;

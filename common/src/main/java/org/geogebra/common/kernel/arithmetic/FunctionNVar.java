@@ -437,10 +437,8 @@ public class FunctionNVar extends ValidExpression
 		} else if (ev instanceof FunctionalNVar) {
 			expression = ((FunctionalNVar) ev).getFunctionExpression();
 			fVars = ((FunctionalNVar) ev).getFunctionVariables();
-		} else if (ev instanceof MyList && ((MyList) ev).isMatrix()) {
-			return true;
 		} else {
-			return false;
+			return ev instanceof MyList && ((MyList) ev).isMatrix();
 		}
 		return true;
 	}
@@ -464,7 +462,7 @@ public class FunctionNVar extends ValidExpression
 			return true;
 		}
 		for (FunctionVariable fVar : fVars) {
-			if (expression.contains(fVar)) {
+			if (expression.containsDeep(fVar)) {
 				return false;
 			}
 		}

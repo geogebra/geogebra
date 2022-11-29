@@ -8,14 +8,32 @@ import org.geogebra.common.kernel.interval.IntervalConstants;
  *
  */
 
-public class IntervalPlotSettings {
+public final class IntervalPlotSettings {
 
 	/**
 	 *
-	 * @return if model shoud check its x range and re-evaluate them.
-	 * Set it to false to debug line joins.
+	 * @return if model should check its x range and re-evaluate them.
+	 * Set it false to debug line joins.
 	 */
-	static boolean isUpdateEnabled() {
+	static boolean isUpdateOnMoveEnabled() {
+		return true;
+	}
+
+	/**
+	 *
+	 * @return if model should check its x range and re-evaluate them.
+	 * Set it false to debug line joins.
+	 */
+	static boolean isUpdateOnMoveStopEnabled() {
+		return true;
+	}
+
+	/**
+	 *
+	 * @return if model should check its x range and re-evaluate them.
+	 * Set it false to debug line joins.
+	 */
+	static boolean isUpdateOnZoomStopEnabled() {
 		return true;
 	}
 
@@ -23,7 +41,19 @@ public class IntervalPlotSettings {
 	 * Limit the data to the given x range to plot.
 	 * Useful to debug glitches.
 	 */
-	static Interval visisbleXRange() {
+	static Interval visibleXRange() {
 		return IntervalConstants.undefined();
+	}
+
+	private IntervalPlotSettings() {
+		throw new IllegalArgumentException("Should be not initialized");
+	}
+
+	/**
+	 *
+	 * @return if data should resampled on view settings (practically: width) change
+	 */
+	public static boolean isUpdateOnSettingsChangeEnabled() {
+		return true;
 	}
 }

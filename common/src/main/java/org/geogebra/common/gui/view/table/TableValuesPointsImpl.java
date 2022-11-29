@@ -96,7 +96,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
-		for (int row = firstRow; row <= lastRow; row++) {
+		for (int row = lastRow; row >= firstRow; row--) {
 			notifyRowRemoved(row);
 		}
 	}
@@ -233,8 +233,10 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	private void removePointsFromList(int column) {
-		removePoints(column);
-		points.remove(column);
+		if (points.size() > column) {
+			removePoints(column);
+			points.remove(column);
+		}
 	}
 
 	@Override

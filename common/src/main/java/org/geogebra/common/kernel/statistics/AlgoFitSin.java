@@ -605,15 +605,9 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	private final static boolean nearmaxmin(double a, double b, int state,
 			int current, double max, double min) {
 		if ((state == 1) && (current == -1)) { // A real max-change?
-			if (max > a + NOISEKILLER * b) {
-				return true;
-			}
-			return false;
+			return max > a + NOISEKILLER * b;
 		} else if ((state == -1) && (current == 1)) { // A real min-change?
-			if (min < a - NOISEKILLER * b) {
-				return true;
-			}
-			return false;
+			return min < a - NOISEKILLER * b;
 		} else {
 			return false; // Should not happen...
 		}

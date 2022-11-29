@@ -182,14 +182,11 @@ public class ToolNameIconPanelD extends JPanel {
 						GridBagConstraints.CENTER, GridBagConstraints.NONE,
 						new Insets(0, 0, 0, 0), 0, 0));
 		btIconFile.setText(loc.getMenu("Icon") + " ...");
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String fileName = ((GuiManagerD) app.getGuiManager())
-						.getImageFromFile();
-				if (fileName != null) {
-					setIconFileName(fileName);
-				}
+		ActionListener ac = e -> {
+			String fileName = ((GuiManagerD) app.getGuiManager())
+					.getImageFromFile();
+			if (fileName != null) {
+				setIconFileName(fileName);
 			}
 		};
 
@@ -202,27 +199,22 @@ public class ToolNameIconPanelD extends JPanel {
 						new Insets(0, 0, 0, 0), 0, 0));
 		cbShowInToolBar.setText(loc.getMenu("ShowInToolBar"));
 		cbShowInToolBar.setSelected(true);
-		ActionListener ac2 = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean active = cbShowInToolBar.isSelected();
-				labelIcon.setEnabled(active);
-				btIconFile.setEnabled(active);
-				updateMacro();
+		ActionListener ac2 = e -> {
+			boolean active = cbShowInToolBar.isSelected();
+			labelIcon.setEnabled(active);
+			btIconFile.setEnabled(active);
+			updateMacro();
 
-				if (editHappens) {
-					int macroId = (macro.getKernel().getMacroID(macro)
-							+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
-					if (active) {
-						((GuiManagerD) app.getGuiManager())
-								.refreshCustomToolsInToolBar();
-					} else {
-						((GuiManagerD) app.getGuiManager())
-								.removeFromToolbarDefinition(macroId);
-					}
-					app.updateToolBar();
-					app.updateMenubar();
+			if (editHappens) {
+				int macroId = macro.getKernel().getMacroID(macro)
+						+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
+				if (active) {
+					app.getGuiManager().refreshCustomToolsInToolBar();
+				} else {
+					app.getGuiManager().removeFromToolbarDefinition(macroId);
 				}
+				app.updateToolBar();
+				app.updateMenubar();
 			}
 		};
 		cbShowInToolBar.addActionListener(ac2);
@@ -231,8 +223,8 @@ public class ToolNameIconPanelD extends JPanel {
 	/**
 	 * Uses the textfields in this dialog to set the currently shown macro.
 	 * 
-	 * @see #init()
-	 * 
+	 * @see #init(ToolManagerDialogD, Macro) 
+	 *
 	 */
 	private void updateMacro() {
 		if (macro == null) {
@@ -331,16 +323,6 @@ public class ToolNameIconPanelD extends JPanel {
 	}
 
 	/**
-	 * Sets command name
-	 * 
-	 * @param commandName
-	 *            command name
-	 */
-	public void setCommandName(String commandName) {
-		tfCmdName.setText(commandName);
-	}
-
-	/**
 	 * Gets tool name
 	 * 
 	 * @return tool name
@@ -352,7 +334,7 @@ public class ToolNameIconPanelD extends JPanel {
 	/**
 	 * Sets tool name
 	 * 
-	 * @param toolName
+	 * @param toolName tool name
 	 */
 	public void setToolName(String toolName) {
 		tfToolName.setText(toolName);

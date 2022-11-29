@@ -285,7 +285,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private boolean hasLoginButton() {
-		return app.enableFileFeatures();
+		return app.enableOnlineFileFeatures();
 	}
 
 	private void removeUserSignIn() {
@@ -395,6 +395,15 @@ public class MainMenu extends FlowPanel
 						GuiResources.INSTANCE.arrow_submenu_right().getSafeUri().asString());
 		arrowSubmenu.add(arrow);
 		w.getElement().appendChild(arrowSubmenu.getElement());
+	}
+
+	/**
+	 * @param icon - icon
+	 * @return image of icon
+	 */
+	public static Element getImage(ResourcePrototype icon) {
+		NoDragImage img = new NoDragImage(icon, 20, 20);
+		return img.getElement();
 	}
 
 	/**

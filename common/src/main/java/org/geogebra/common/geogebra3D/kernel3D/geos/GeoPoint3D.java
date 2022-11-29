@@ -188,8 +188,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
-		super.setVisualStyle(geo, setAuxiliaryProperty);
+	public void setBasicVisualStyle(GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 		if (geo.isGeoPoint()) {
 			setPointSize(((GeoPointND) geo).getPointSize());
 			setPointStyle(((GeoPointND) geo).getPointStyle());

@@ -14,7 +14,7 @@ public class SVGPreprocessor implements ImagePreprocessor {
 	private final XMLUtil xml = new XMLUtil();
 
 	@Override
-	public boolean match(FileExtensions extension) {
+	public boolean match(FileExtensions extension, int size) {
 		return SVGUtil.match(extension);
 	}
 

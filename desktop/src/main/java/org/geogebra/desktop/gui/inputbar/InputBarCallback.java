@@ -11,11 +11,17 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
 public class InputBarCallback implements AsyncOperation<GeoElementND[]> {
-	private App app;
-	private AutoCompleteTextFieldD inputField;
-	private String input;
-	private int oldStep;
+	private final App app;
+	private final AutoCompleteTextFieldD inputField;
+	private final String input;
+	private final int oldStep;
 
+	/**
+	 * @param app app
+	 * @param inputField input field
+	 * @param input input to be evaluated
+	 * @param oldStep construction step
+	 */
 	public InputBarCallback(App app, AutoCompleteTextFieldD inputField,
 			String input, int oldStep) {
 		this.app = app;

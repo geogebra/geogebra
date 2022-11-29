@@ -52,6 +52,7 @@ public class AccessibilityView implements View {
 	public AccessibilityView(final AppW app, BaseWidgetFactory sliderFactory) {
 		this.app = app;
 		this.controls = sliderFactory.newPanel();
+		controls.setStyleName("accessibilityView");
 		this.sliderFactory = sliderFactory;
 		widgets = new HashMap<>();
 		app.getKernel().attach(this);
@@ -143,8 +144,7 @@ public class AccessibilityView implements View {
 	 *            element to select
 	 */
 	protected void select(GeoElement geo) {
-		app.getSelectionManager().clearSelectedGeos();
-		app.getSelectionManager().addSelectedGeo(geo);
+		app.getSelectionManager().setKeyboardSelection(geo);
 	}
 
 	private void addControl(AccessibleWidget widget, AccessibleWidget prevWidget) {
@@ -307,7 +307,7 @@ public class AccessibilityView implements View {
 		String label = el.getAttribute("aria-label");
 		el.removeAttribute("aria-label");
 		el.setAttribute("aria-valuetext",
-				app.getKernel().format(value, StringTemplate.screenReader) + " " + unit);
+				app.getKernel().format(value, StringTemplate.screenReaderAscii) + " " + unit);
 		DomGlobal.setTimeout(ignore -> el.setAttribute("aria-label", label),
 				1000);
 	}

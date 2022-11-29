@@ -8,6 +8,7 @@
  the Free Software Foundation.
  
  */
+
 package org.geogebra.desktop.gui.util;
 
 import java.awt.event.ActionEvent;
@@ -27,9 +28,15 @@ public class HelpAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
-	private String articleName;
+	private final AppD app;
+	private final String articleName;
 
+	/**
+	 * @param app application
+	 * @param icon icon
+	 * @param name name
+	 * @param articleName help article name
+	 */
 	public HelpAction(AppD app, ImageIcon icon, String name,
 			String articleName) {
 		super(name, icon);

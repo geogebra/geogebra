@@ -37,7 +37,6 @@ import org.geogebra.desktop.main.AppD;
 public class EuclidianController3DD extends EuclidianController3D
 		implements EuclidianControllerListeners {
 
-
 	private int defaultInitialDelay;
 
 	/***********************************************

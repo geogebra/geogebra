@@ -11,6 +11,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class MacApplicationListener
 		implements com.apple.eawt.ApplicationListener {
 
+	/**
+	 * Initialize the listener
+	 */
 	public static void initMacApplicationListener() {
 		com.apple.eawt.Application app = new com.apple.eawt.Application();
 		app.addApplicationListener(new MacApplicationListener());
@@ -104,12 +107,9 @@ public class MacApplicationListener
 			handleOpenFile(ev);
 		} else {
 			GeoGebraFrame
-					.doWithActiveInstance(new NewInstanceListener() {
-						@Override
-						public void newInstance(GeoGebraFrame wnd) {
-							if (!wnd.isShowing()) {
-								wnd.setVisible(true);
-							}
+					.doWithActiveInstance(wnd -> {
+						if (!wnd.isShowing()) {
+							wnd.setVisible(true);
 						}
 					});
 		}

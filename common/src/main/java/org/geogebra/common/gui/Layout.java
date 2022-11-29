@@ -83,7 +83,7 @@ public abstract class Layout implements SettingListener {
 		perspectives.add(graphing3D);
 
 		boolean needAV = app.isSuite();
-		Perspective probability = createProbabilityPerspective(avPercent, defToolbar, needAV);
+		Perspective probability = createProbabilityPerspective(app, spData, defToolbar, needAV);
 		perspectives.add(probability);
 
 		if (app.isWhiteboardActive()) {
@@ -175,6 +175,11 @@ public abstract class Layout implements SettingListener {
 
 	private static DockPanelData.TabIds getGeometryTabId(App app) {
 		return app.isUnbundled() ? DockPanelData.TabIds.TOOLS : DockPanelData.TabIds.ALGEBRA;
+	}
+
+	private static DockPanelData.TabIds getProbabilityTabId(App app) {
+		return app.isUnbundled() ? DockPanelData.TabIds.DISTRIBUTION
+				: DockPanelData.TabIds.ALGEBRA;
 	}
 
 	private static Perspective createSpreadsheetPerspective(String defToolbar) {
@@ -280,17 +285,17 @@ public abstract class Layout implements SettingListener {
 				InputPosition.algebraView);
 	}
 
-	private static Perspective createProbabilityPerspective(double avPercent, String defToolbar,
-			boolean needAV) {
+	private static Perspective createProbabilityPerspective(App app, DockSplitPaneData[] spData,
+			String defToolbar, boolean needAV) {
 		DockPanelData[] dpData = new DockPanelData[7];
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false,
 				false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "3",
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1,1",
 				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, needAV, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
-				"1,3", 200);
+				app.isPortrait() ? "1" : "3", 200).setTabId(getProbabilityTabId(app));
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
@@ -308,12 +313,8 @@ public abstract class Layout implements SettingListener {
 				"1,1", 500);
 		dpData[0] = new DockPanelData(App.VIEW_PROBABILITY_CALCULATOR, null,
 				true, false, false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 600), "1",
-				500);
-
-		DockSplitPaneData[] spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", avPercent,
-				SwingConstants.HORIZONTAL_SPLIT);
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 600),
+				app.isPortrait() ? "3" : "1", 500);
 
 		return new Perspective(Perspective.PROBABILITY, spData, dpData,
 				defToolbar, false, false, true, false, true,
@@ -495,7 +496,7 @@ public abstract class Layout implements SettingListener {
 	 *            xml builder
 	 */
 	public void getCurrentPerspectiveXML(StringBuilder sb) {
-		/**
+		/*
 		 * Create a temporary perspective which is used to store the layout of
 		 * the document at the moment. This perspective isn't accessible through
 		 * the menu and will be removed as soon as the document was saved with
@@ -526,7 +527,7 @@ public abstract class Layout implements SettingListener {
 
 		sb.append("\t</perspectives>\n");
 
-		/**
+		/*
 		 * Certain user elements should be just saved as preferences and not if
 		 * a document is saved normally as they just depend on the preferences
 		 * of the user.

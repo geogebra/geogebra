@@ -28,18 +28,6 @@ public class MyParseError extends MyError {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates new MyError
-	 * 
-	 * @param loc
-	 *            localization
-	 * @param errorName
-	 *            error name (should be a key in error.properties)
-	 */
-	public MyParseError(Localization loc, String errorName) {
-		super(loc, errorName);
-	}
-
-	/**
 	 * @param loc
 	 *            localization
 	 * @param message

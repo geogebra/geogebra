@@ -860,12 +860,8 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) left).containsCasEvaluableFunction()) {
 			return true;
 		}
-		if ((right instanceof ExpressionNode)
-				&& ((ExpressionNode) right).containsCasEvaluableFunction()) {
-			return true;
-		}
-
-		return false;
+		return (right instanceof ExpressionNode)
+				&& ((ExpressionNode) right).containsCasEvaluableFunction();
 	}
 
 	/**
@@ -881,12 +877,8 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) left).containsGeoFunctionNVar()) {
 			return true;
 		}
-		if ((right instanceof ExpressionNode)
-				&& ((ExpressionNode) right).containsGeoFunctionNVar()) {
-			return true;
-		}
-
-		return false;
+		return (right instanceof ExpressionNode)
+				&& ((ExpressionNode) right).containsGeoFunctionNVar();
 	}
 
 	/**
@@ -1178,10 +1170,8 @@ public class ExpressionNode extends ValidExpression
 		if (leaf) {
 			if (left.isExpressionNode()) {
 				return ((ExpressionNode) left).hasOperations();
-			} else if (left instanceof MyVecNDNode) {
-				return true;
 			} else {
-				return false;
+				return left instanceof MyVecNDNode;
 			}
 		}
 
@@ -1231,20 +1221,6 @@ public class ExpressionNode extends ValidExpression
 	@Override
 	final public boolean isLeaf() {
 		return leaf; // || operation == NO_OPERATION;
-	}
-
-	/**
-	 * @return true if this is leaf containing only GeoElement
-	 */
-	final public boolean isSingleGeoElement() {
-		return leaf && left.isGeoElement();
-	}
-
-	/**
-	 * @return left subexpression as GeoElement
-	 */
-	final public GeoElement getSingleGeoElement() {
-		return (GeoElement) left;
 	}
 
 	/**
@@ -3011,9 +2987,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether the top-level operation is IF / IF_ELSE / IF_LIST
 	 */
 	public boolean isConditional() {
-		return operation == Operation.IF || operation == Operation.IF_SHORT
-				|| operation == Operation.IF_ELSE
-				|| operation == Operation.IF_LIST;
+		return operation.isConditional();
 	}
 
 	/**
@@ -3396,11 +3370,8 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) left).isStringAddition()) {
 			return true;
 		}
-		if (right instanceof ExpressionNode
-				&& ((ExpressionNode) right).isStringAddition()) {
-			return true;
-		}
-		return false;
+		return right instanceof ExpressionNode
+				&& ((ExpressionNode) right).isStringAddition();
 	}
 
 	/**

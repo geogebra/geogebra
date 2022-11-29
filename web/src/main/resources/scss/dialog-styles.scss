@@ -16,12 +16,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		input[type="number"]:focus,
 		.GeoGebraFrame .gwt-TextBox:focus, .GeoGebraFrame select:focus,
 		textarea:focus, .GeoGebraFrame .gwt-TextArea:focus,
-		iframe.objectPropertiesTextEditor:focus,
+		.objectPropertiesTextEditor:focus,
 		input[type="number"]:focus:not([readonly]),
 		.gwt-TextBox:focus:not([readonly]),
 		textarea:focus:not([readonly]),
 		.gwt-TextArea:focus:not([readonly]),
-		iframe.objectPropertiesTextEditor:focus:not([readonly]) {
+		.objectPropertiesTextEditor:focus:not([readonly]) {
 			border: 1px colors.$teal-default solid;
 		}
 		select:focus:not([readonly]) {
@@ -248,6 +248,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.textEditor {
 			margin-right: 16px;
 			margin-top: 10px;
+			padding: 4px;
 		}
 
 		.gwt-DisclosurePanel {
@@ -956,6 +957,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding-bottom: 24px;
 			color: colors.$text-secondary;
 		}
+
+		.radioButton {
+			margin: 6px 0;
+		}
 	}
 
 	.dialogComponent.examExitConfDialog {
@@ -1261,7 +1266,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 				.switch {
 					margin: auto 0px auto auto;
-					top: 0px;
 				}
 			}
 
@@ -1323,12 +1327,31 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					}
 				}
 			}
+
+			&.disabled {
+				.linkImg {
+					opacity: 0.38;
+				}
+
+				.textPanel {
+					.linkShareOnOff {
+						color: colors.$text-disabled;
+					}
+					.linkShareHelp {
+						color: colors.$text-disabled;
+					}
+				}
+
+				.switch {
+					opacity: 0.38;
+				}
+			}
 		}
 
 		.shareLinkAvailableInfo {
 			color: colors.$text-secondary;
 			max-width: 474px;
-			margin: 14px 24px 0px 24px;
+			margin: 16px 24px 0px 24px;
 			font-size: 87%;
 		}
 	}
@@ -1576,11 +1599,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.sliderDialog {
 		max-width: 504px;
 
-		.gwt-RadioButton [type="radio"]+label {
-			padding-left: 35px;
+		.radioButtonPanel {
+			display: flex;
 
-			&:after {
-				background-color: colors.$teal-default;
+			.radioButton {
+			 	margin-right: 20px;
 			}
 		}
 
@@ -1603,12 +1626,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.inputDialogComponent.angleInputDialog {
+		.radioButtonPanel {
+			display: flex;
 
-		.gwt-RadioButton {
-			margin-right: 20px;
-
-			label {
-				padding-left: 35px;
+			.radioButton {
+				margin-right: 20px;
 			}
 		}
 	}
@@ -1620,11 +1642,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding-right: 0px;
 		}
 
-		.gwt-RadioButton {
-			margin-right: 20px;
+		.radioButtonPanel {
+			display: flex;
 
-			label {
-				padding-left: 26px;
+			.radioButton {
+				margin-right: 20px;
 			}
 		}
 	}
@@ -1693,7 +1715,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				&.selected .imgHolder {
-					background-color: colors.$selected-calc-btn-bg;
+					background-color: colors.$purple-highlight;
 				}
 			}
 		}
@@ -1779,6 +1801,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					color: colors.$text-secondary;
 					font-size: 12px;
 				}
+			}
+
+			.dropDown {
+				width: 100%;
 			}
 		}
 	}
@@ -2034,5 +2060,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 			}
 		}
+	}
+
+	.dynamicText {
+		border: 2px lightgray solid;
+		background: wheat;
+		cursor: pointer;
+		margin-left: 1px;
+		margin-right: 1px;
+		vertical-align: middle;
+		min-width: 10px;
 	}
 }

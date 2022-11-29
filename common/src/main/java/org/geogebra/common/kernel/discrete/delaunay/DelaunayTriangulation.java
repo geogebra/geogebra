@@ -308,10 +308,7 @@ public class DelaunayTriangulation {
 		if (t1P3.equals(t2P3)) {
 			counter++;
 		}
-		if (counter >= 2) {
-			return true;
-		}
-		return false;
+		return counter >= 2;
 	}
 
 	// update the neighbors of the addedTriangle and deletedTriangle

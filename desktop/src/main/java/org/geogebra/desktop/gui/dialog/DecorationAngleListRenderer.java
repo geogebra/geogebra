@@ -34,7 +34,6 @@ public class DecorationAngleListRenderer extends JPanel
 
 	public DecorationAngleListRenderer() {
 		setOpaque(true);
-		// setPreferredSize(new Dimension(50,20));
 	}
 
 	@Override

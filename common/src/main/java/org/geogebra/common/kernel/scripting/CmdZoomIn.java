@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -65,8 +67,9 @@ public class CmdZoomIn extends CmdScripting {
 			return zoomIn2(arg, c, arg[0].evaluateDouble(), this);
 		case 4:
 			arg = resArgs(c);
-			for (int i = 0; i < 4; i++) {
-				if (!(arg[i] instanceof NumberValue)) {
+			for (int i = 0; i < n; i++) {
+				if (!(arg[i] instanceof NumberValue)
+						|| !MyDouble.isFinite(arg[i].evaluateDouble())) {
 					throw argErr(c, arg[i]);
 				}
 			}
@@ -92,7 +95,7 @@ public class CmdZoomIn extends CmdScripting {
 
 		case 6:
 			arg = resArgs(c);
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < n; i++) {
 				if (!(arg[i] instanceof NumberValue)
 						|| !MyDouble.isFinite(arg[i].evaluateDouble())) {
 					throw argErr(c, arg[i]);
@@ -103,20 +106,25 @@ public class CmdZoomIn extends CmdScripting {
 				return new GeoElement[0];
 			}
 
-			/*
-			 * Dynamic zoom not supported for 3D View
-			 * 
-			 * EuclidianView3DInterface view3D = app.getEuclidianView3D(); EuclidianSettings
-			 * evs3D = view3D.getSettings();
-			 * 
-			 * 
-			 * // eg ZoomIn(a, a, a, 4, 4, 4) evs3D.setXminObject((GeoNumeric) arg[0],
-			 * false); evs3D.setYminObject((GeoNumeric) arg[1], false);
-			 * evs3D.setZminObject((GeoNumeric) arg[2], false);
-			 * evs3D.setXmaxObject((GeoNumeric) arg[3], false);
-			 * evs3D.setYmaxObject((GeoNumeric) arg[4], true);
-			 * evs3D.setZmaxObject((GeoNumeric) arg[5], true);
-			 */
+			EuclidianSettings3D evs3D =
+					(EuclidianSettings3D) app.getEuclidianView3D().getSettings();
+			if (evs3D != null) {
+				evs3D.setUpdateScaleOrigin(false);
+				for (int i = 0; i < n; i++) {
+					if (Inspecting.dynamicGeosFinder.check(arg[i])) {
+						evs3D.setUpdateScaleOrigin(true);
+						break;
+					}
+				}
+
+				// eg ZoomIn(a, a, a, 4, 4, 4)
+				evs3D.setXminObject((GeoNumeric) arg[0], false);
+				evs3D.setYminObject((GeoNumeric) arg[1], false);
+				evs3D.setZminObject((GeoNumeric) arg[2], false);
+				evs3D.setXmaxObject((GeoNumeric) arg[3], false);
+				evs3D.setYmaxObject((GeoNumeric) arg[4], false);
+				evs3D.setZmaxObject((GeoNumeric) arg[5], true);
+			}
 
 			double xMin = arg[0].evaluateDouble();
 			double yMin = arg[1].evaluateDouble();

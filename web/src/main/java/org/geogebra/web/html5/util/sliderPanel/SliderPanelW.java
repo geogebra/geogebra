@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Panel containing a slider.
@@ -93,7 +94,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		if (parts[1] == null) {
 			label.setText(parts[0]);
 		} else {
-			label.setText(parts[0] + "\u00D7 10");
+			label.setText(parts[0] + Unicode.MULTIPLY + " 10");
 			Element exponent = DOM.createElement("sup");
 			exponent.setInnerText(parts[1]);
 			label.getElement().appendChild(exponent);

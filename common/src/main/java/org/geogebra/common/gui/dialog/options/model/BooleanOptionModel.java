@@ -47,4 +47,6 @@ public abstract class BooleanOptionModel extends OptionsModel {
 	public void setListener(IBooleanOptionListener listener) {
 		this.listener = listener;
 	}
+
+	public abstract String getTitle();
 }

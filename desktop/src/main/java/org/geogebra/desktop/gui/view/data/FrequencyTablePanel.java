@@ -20,8 +20,9 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 	// private int mode;
 	protected StatTable statTable;
 
-	// private StatPanelSettings settings;
-
+	/**
+	 * @param app application
+	 */
 	public FrequencyTablePanel(AppD app) {
 		this.app = app;
 
@@ -33,12 +34,14 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 		statTable.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
 				SystemColor.controlShadow));
 		setBorder(BorderFactory.createEmptyBorder());
-
 	}
 
+	/**
+	 * @param algo frequency algo
+	 * @param useClasses whether to use classes for data
+	 */
 	public void setTableFromGeoFrequencyTable(AlgoFrequencyTable algo,
 			boolean useClasses) {
-
 		String[] strValue = algo.getValueString();
 		String[] strFrequency = algo.getFrequencyString();
 		String[] strHeader = algo.getHeaderString();

@@ -3,12 +3,19 @@ package org.geogebra.common.gui;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
 
 /**
  * Dummy implementation for desktop/mobile
  */
 public final class AccessibilityManagerNoGui
 		implements AccessibilityManagerInterface {
+
+	private final App app;
+
+	public AccessibilityManagerNoGui(App app) {
+		this.app = app;
+	}
 
 	@Override
 	public boolean focusNext() {
@@ -69,7 +76,7 @@ public final class AccessibilityManagerNoGui
 
 	@Override
 	public void setTabOverGeos() {
-		// not used
+		app.getSelectionManager().resetKeyboardSelection();
 	}
 
 	@Override

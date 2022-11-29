@@ -24,7 +24,8 @@ public class MediaSubMenu extends SubMenuPanel {
 		boolean graspableMath = Browser.isGraspableMathEnabled();
 		boolean h5p = app.getVendorSettings().isH5PEnabled()
 				&& app.getLoginOperation().isLoggedIn();
-		super.createPanelRow(ToolBar.getNotesMediaToolBar(graspableMath, h5p));
+		boolean fileFeaturesEnabled = app.enableFileFeatures();
+		super.createPanelRow(ToolBar.getNotesMediaToolBar(graspableMath, h5p, fileFeaturesEnabled));
 		makeButtonsAccessible(AccessibilityGroup.NOTES_TOOL_MEDIA);
 	}
 

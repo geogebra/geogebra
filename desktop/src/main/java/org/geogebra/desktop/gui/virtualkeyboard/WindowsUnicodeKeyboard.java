@@ -11,16 +11,7 @@ import java.awt.event.KeyEvent;
  */
 public class WindowsUnicodeKeyboard extends Keyboard {
 
-	private Robot windowsRobot;
-
-	/**
-	 * @param robot
-	 *            robot
-	 */
-	public WindowsUnicodeKeyboard(Robot robot) {
-		super(robot);
-		this.windowsRobot = robot;
-	}
+	private final Robot windowsRobot;
 
 	/**
 	 * @throws AWTException

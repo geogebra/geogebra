@@ -154,7 +154,7 @@ public class GeoAudio extends GeoMedia {
 		super.getStyleXML(sb);
 		if (src != null) {
 			sb.append("\t<audio src=\"");
-			sb.append(StringUtil.encodeXML(src));
+			StringUtil.encodeXML(sb, src);
 			sb.append("\"/>\n");
 		}
 	}

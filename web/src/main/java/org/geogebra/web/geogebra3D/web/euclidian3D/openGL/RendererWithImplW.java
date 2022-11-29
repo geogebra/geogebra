@@ -4,14 +4,12 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ColorMask;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
-import org.gwtproject.timer.client.Timer;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
@@ -37,17 +35,19 @@ public class RendererWithImplW extends Renderer implements
 	/** context */
 	protected WebGLRenderingContext glContext;
 	private double ratio = 1;
-	private Timer loopTimer;
+	private boolean readyToRender = false;
+	private double loopTimer;
 
 	/**
 	 * @param view
 	 *            3D view
 	 * @param c
 	 *            canvas
+	 * @param transparent whether to use transparent background
 	 */
-	public RendererWithImplW(EuclidianView3D view, Canvas c) {
+	public RendererWithImplW(EuclidianView3D view, Canvas c, boolean transparent) {
 		super(view, RendererType.SHADER);
-
+		this.transparent = transparent;
 		webGLCanvas = c;
 
 		setRendererImpl(new RendererImplShadersW(this, view3D));
@@ -55,14 +55,16 @@ public class RendererWithImplW extends Renderer implements
 		createGLContext(false);
 
 		// when window is unload, dispose openGL stuff
-		DomGlobal.window.addEventListener("unload", event -> dispose());
-
+		((AppW) view.getApplication()).getGlobalHandlers().addEventListener(DomGlobal.window,
+				"unload", event -> dispose());
 	}
 
-	/**
-	 * Dispose context when tab closed
-	 */
-	protected void dispose() {
+	@Override
+	public void dispose() {
+		readyToRender = false;
+		DomGlobal.clearInterval(loopTimer);
+		webGLCanvas = null;
+		glContext = null;
 		getRendererImpl().dispose();
 	}
 
@@ -209,7 +211,7 @@ public class RendererWithImplW extends Renderer implements
 			glContext = getBufferedContext(webGLCanvas.getElement());
 
 		} else {
-			glContext = getWebGLContext(webGLCanvas);
+			glContext = getWebGLContext(webGLCanvas.getElement(), transparent);
 			((RendererImplShadersW) getRendererImpl()).setGL(glContext);
 		}
 		if (glContext == null) {
@@ -217,9 +219,16 @@ public class RendererWithImplW extends Renderer implements
 		}
 	}
 
-	protected static WebGLRenderingContext getWebGLContext(Canvas webGLCanvas) {
-		return (WebGLRenderingContext) webGLCanvas
-				.getContext("experimental-webgl");
+	protected static WebGLRenderingContext getWebGLContext(Element element, boolean transparent) {
+		HTMLCanvasElement canvas = Js.uncheckedCast(element);
+
+		JsPropertyMap<Object> options = JsPropertyMap.of();
+		if (transparent) {
+			options.set("premultipliedAlpha", false);
+		} else {
+			options.set("alpha", 0);
+		}
+		return Js.uncheckedCast(canvas.getContext("experimental-webgl", options));
 	}
 
 	private static WebGLRenderingContext getBufferedContext(
@@ -262,31 +271,24 @@ public class RendererWithImplW extends Renderer implements
 	}
 
 	private void start() {
-
-		((EuclidianView3DW) view3D).setReadyToRender();
-
+		if (readyToRender) {
+			view3D.repaintView();
+			return;
+		}
+		readyToRender = true;
+		view3D.repaintView();
 		// use loop timer for e.g. automatic rotation
-		loopTimer = new Timer() {
-			@Override
-			public void run() {
-				if (view3D.isAnimated()) {
-					view3D.repaintView();
-				}
+		loopTimer = DomGlobal.setInterval(p0 -> {
+			if (view3D.isAnimated()) {
+				view3D.repaintView();
 			}
-		};
-		loopTimer.scheduleRepeating(CoordSystemAnimation.DELAY);
+		}, CoordSystemAnimation.DELAY);
 
 	}
 
 	@Override
-	public void drawScene() {
-
-		super.drawScene();
-
-		// clear alpha channel to 1.0 to avoid transparency to html background
-		getRendererImpl().setColorMask(ColorMask.ALPHA);
-		clearColorBuffer();
-		getRendererImpl().setColorMask(ColorMask.ALL);
+	public boolean isReadyToRender() {
+		return readyToRender;
 	}
 
 	/**

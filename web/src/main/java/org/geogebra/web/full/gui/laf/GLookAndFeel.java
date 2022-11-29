@@ -220,8 +220,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 
 	@Override
 	public boolean hasLoginButton() {
-		// only in web
-		return true;
+		return Browser.isNotCrossOriginIframe();
 	}
 
 }

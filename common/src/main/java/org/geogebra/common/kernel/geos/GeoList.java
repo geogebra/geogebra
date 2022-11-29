@@ -444,9 +444,8 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void setVisualStyle(final GeoElement style,
-			boolean setAuxiliaryProperty) {
-		super.setVisualStyle(style, setAuxiliaryProperty);
+	public void setBasicVisualStyle(final GeoElement style) {
+		super.setBasicVisualStyle(style);
 
 		// set point style
 		if (style instanceof PointProperties) {
@@ -462,7 +461,7 @@ public class GeoList extends GeoElement
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = elements.get(i);
 			if (!geo.isLabelSet()) {
-				geo.setVisualStyle(style, setAuxiliaryProperty);
+				geo.setBasicVisualStyle(style);
 			}
 		}
 	}
@@ -1941,9 +1940,9 @@ public class GeoList extends GeoElement
 	 * 4)}
 	 */
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints(
+	public ArrayList<GeoElementND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
-		final ArrayList<GeoPointND> al = new ArrayList<>();
+		final ArrayList<GeoElementND> al = new ArrayList<>();
 
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
@@ -1955,11 +1954,11 @@ public class GeoList extends GeoElement
 				}
 
 			} else {
-				final ArrayList<GeoPointND> al2 = geo.getFreeInputPoints(view);
+				final ArrayList<GeoElementND> al2 = geo.getFreeInputPoints(view);
 
 				if (al2 != null) {
 					for (int j = 0; j < al2.size(); j++) {
-						final GeoPointND p = al2.get(j);
+						final GeoElementND p = al2.get(j);
 						// make sure duplicates aren't added
 						if (!al.contains(p)) {
 							al.add(p);
@@ -3060,6 +3059,16 @@ public class GeoList extends GeoElement
 		}
 	}
 
+	/**
+	 * resets definition for dependent GeoLists
+	 */
+	public void resetDefinitionDependentList() {
+		super.resetDefinition();
+		for (int i = 0; i < size(); i++) {
+			this.elements.get(i).resetDefinition();
+		}
+	}
+
 	@Override
 	public GeoElementND doAnimationStep(double frameRate, GeoList parent) {
 		if (size() > selectedIndex) {
@@ -3186,13 +3195,13 @@ public class GeoList extends GeoElement
 		} else {
 			displayString = geoItem.toValueString(tpl);
 		}
-		if (tpl.hasType(StringType.SCREEN_READER) && geoItem.isGeoText()
+		if (tpl.isScreenReader() && geoItem.isGeoText()
 				&& CanvasDrawable.isLatexString(displayString)) {
 			displayString = ((GeoText) geoItem).getAuralTextLaTeX();
 		}
 
 		if (StringUtil.empty(displayString)
-				&& tpl.getStringType() == StringType.SCREEN_READER) {
+				&& tpl.isScreenReader()) {
 			return kernel.getLocalization().getMenuDefault("EmptyItem", "empty element");
 		}
 
@@ -3224,7 +3233,7 @@ public class GeoList extends GeoElement
 	@Override
 	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
 		if (drawAsComboBox && size() > 0) {
-			String item = getSelectedItemDisplayString(StringTemplate.screenReader);
+			String item = getSelectedItemDisplayString(getApp().getScreenReaderTemplate());
 			sb.append(loc.getPlainDefault("ElementASelected",
 					"element %0 selected", item));
 		}
@@ -3280,7 +3289,7 @@ public class GeoList extends GeoElement
 	public String getAuralTextAsOpened() {
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		sb.append(getSelectedItemDisplayString(StringTemplate.screenReader));
+		sb.append(getSelectedItemDisplayString(getApp().getScreenReaderTemplate()));
 		sb.appendSpace();
 		sb.append(getIndexDescription(getSelectedIndex()));
 		sb.endSentence();

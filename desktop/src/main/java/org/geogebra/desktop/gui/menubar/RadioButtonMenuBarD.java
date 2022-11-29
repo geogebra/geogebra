@@ -2,20 +2,17 @@ package org.geogebra.desktop.gui.menubar;
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
-import org.geogebra.common.gui.menubar.MyActionListener;
-import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
+import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
-public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
+public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,13 +20,22 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 
 	private ButtonGroup buttonGroup;
 
+	/**
+	 * @param application application
+	 */
 	public RadioButtonMenuBarD(App application) {
 		super();
 		app = (AppD) application;
 	}
 
-	@Override
-	public void addRadioButtonMenuItems(final MyActionListener alistener,
+	/**
+	 * @param alistener listener
+	 * @param items items
+	 * @param actionCommands commands
+	 * @param selectedPos selected position
+	 * @param changeText whether to translate the options
+	 */
+	public void addRadioButtonMenuItems(final OptionsMenuD alistener,
 			String[] items, String[] actionCommands, int selectedPos,
 			boolean changeText) {
 
@@ -41,7 +47,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 			if ("---".equals(items[i])) {
 				addSeparator();
 			} else {
-				String text = (changeText)
+				String text = changeText
 						? app.getLocalization().getMenu(items[i]) : items[i];
 				mi = new JRadioButtonMenuItem(text);
 				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
@@ -50,17 +56,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 					mi.setSelected(true);
 				}
 				mi.setActionCommand(actionCommands[i]);
-				if (alistener instanceof ActionListener) {
-					mi.addActionListener((ActionListener) alistener);
-				} else {
-					mi.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							alistener.actionPerformed(e.getActionCommand());
-						}
-
-					});
-				}
+				mi.addActionListener(alistener);
 
 				buttonGroup.add(mi);
 				add(mi);
@@ -68,7 +64,9 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 		}
 	}
 
-	@Override
+	/**
+	 * @param pos selected position
+	 */
 	public void setSelected(int pos) {
 
 		if (pos == -1) { // unselect all
@@ -78,8 +76,8 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 			if (item instanceof JRadioButtonMenuItem) {
 				((JRadioButtonMenuItem) item).setSelected(true);
 			} else {
-				Log.debug(
-						"Bad construction of radiobutton menu. All item must be an instance of JRadioButtonMenuItem.");
+				Log.debug("Bad construction of radiobutton menu. "
+						+ "All item must be an instance of JRadioButtonMenuItem.");
 			}
 		}
 	}

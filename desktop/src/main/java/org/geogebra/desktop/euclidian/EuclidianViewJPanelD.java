@@ -21,6 +21,10 @@ public class EuclidianViewJPanelD extends JPanel
 
 	EuclidianView view;
 
+	/**
+	 * @param view view
+	 * @param addListeners whether to add mouse listeners
+	 */
 	public EuclidianViewJPanelD(EuclidianView view, boolean addListeners) {
 		this.view = view;
 
@@ -41,9 +45,7 @@ public class EuclidianViewJPanelD extends JPanel
 	}
 
 	public EuclidianViewJPanelD(EuclidianView view) {
-
 		this(view, true);
-
 	}
 
 	protected Color bgColor;

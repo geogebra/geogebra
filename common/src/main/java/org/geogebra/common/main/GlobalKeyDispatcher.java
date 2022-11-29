@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -307,8 +308,17 @@ public abstract class GlobalKeyDispatcher {
 				double radius = Math.hypot(posX, posY);
 
 				if (DoubleUtil.isZero(diff[0])) {
-					diff[0] = MyMath.signedNextMultiple(diff[1], xGrid * Math.cos(angle));
-					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid * Math.sin(angle));
+
+					double radiusIncrement = diff[1] > 0 ? xGrid : -xGrid;
+
+					if (DoubleUtil.isZero(radius)) {
+						diff[0] = radiusIncrement;
+						diff[1] = 0;
+					} else {
+						diff[0] = radiusIncrement * Math.cos(angle);
+						diff[1] = radiusIncrement * Math.sin(angle);
+					}
+
 				} else {
 					double angleIncrement = Math.signum(diff[0])
 							* app.getActiveEuclidianView().getGridDistances(2);
@@ -646,9 +656,6 @@ public abstract class GlobalKeyDispatcher {
 							App.VIEW_CONSTRUCTION_PROTOCOL);
 					consumed = true;
 				}
-			} else {
-				selection.selectAll(selection.getSelectedLayer());
-				consumed = true;
 			}
 			break;
 
@@ -739,6 +746,7 @@ public abstract class GlobalKeyDispatcher {
 		case M:
 			if (isShiftDown) {
 				app.copyFullHTML5ExportToClipboard();
+				consumed = true;
 			} else {
 				// Ctrl-M: standard view
 				app.setStandardView();
@@ -749,6 +757,7 @@ public abstract class GlobalKeyDispatcher {
 			// copy base64 string to clipboard
 			if (isShiftDown) {
 				app.copyBase64ToClipboard();
+				consumed = true;
 			}
 			break;
 
@@ -1663,7 +1672,7 @@ public abstract class GlobalKeyDispatcher {
 		// use increment of A
 		if (!geo.isGeoNumeric() && !geo.isGeoPoint()) {
 
-			ArrayList<GeoPointND> freeInputPoints = geo
+			ArrayList<GeoElementND> freeInputPoints = geo
 					.getFreeInputPoints(app.getActiveEuclidianView());
 
 			if (freeInputPoints != null && freeInputPoints.size() > 0) {

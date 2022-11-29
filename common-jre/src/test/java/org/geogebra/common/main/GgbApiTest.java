@@ -171,6 +171,24 @@ public class GgbApiTest {
 	}
 
 	@Test
+	public void testRenameObject() {
+		api.evalCommand("a=1");
+
+		assertFalse(api.renameObject("a", "$"));
+		assertFalse(api.renameObject("a", "$$"));
+		assertFalse(api.renameObject("a", "$1"));
+		assertFalse(api.renameObject("a", "$$1"));
+		assertFalse(api.renameObject("a", "$b"));
+		assertFalse(api.renameObject("a", "$b=2"));
+		assertFalse(api.renameObject("a", "b=2"));
+		assertFalse(api.renameObject("a", "1"));
+		assertFalse(api.renameObject("a", "1b"));
+
+		assertTrue(api.renameObject("a", "b"));
+		assertTrue(api.renameObject("b", Unicode.Alpha + ""));
+	}
+
+	@Test
 	public void testGrid() {
 		api.setGridVisible(false);
 		assertFalse(api.getGridVisible());

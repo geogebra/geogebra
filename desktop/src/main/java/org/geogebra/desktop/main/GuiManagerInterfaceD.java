@@ -66,4 +66,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	boolean loadURL(String urlString, boolean suppressErrorMsg);
 
 	void showURLinBrowser(String strURL);
+
+	void updateToolbarDefinition();
 }

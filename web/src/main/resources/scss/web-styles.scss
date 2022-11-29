@@ -297,6 +297,11 @@
 		&.subMenuLeftSidePopup {
 			box-shadow: none;
 		}
+
+		&.optionsPopup {
+			margin-top: 5px;
+			padding: 0px;
+		}
 	}
 
 	.gwt-DecoratedPopupPanel .popupMiddleCenter {
@@ -350,6 +355,46 @@
 		box-sizing: border-box;
 		line-height: normal;
 		text-align: left;
+	}
+
+	.menubarSMART .GeoGebraMenuBar .gwt-MenuItem.checkboxMenuItem {
+		padding: 0 4px;
+	}
+
+	.checkboxItem {
+		img {
+			margin-right: 8px;
+			padding: 4px 0px;
+		}
+
+		.checkboxPanel {
+			.checkbox {
+				width: 30px;
+				height: 30px;
+			}
+
+			.background {
+				top: 6px;
+				left: 6px;
+				width: 18px;
+				height: 18px;
+			}
+
+			.hoverBg {
+				display: none;
+			}
+
+			.checkmark {
+				left: 8px;
+				top: 6px;
+				width: 14px;
+				height: 14px;
+			}
+
+			.checkboxLbl {
+				margin: 6px 0 0 8px;
+			}
+		}
 	}
 
 	.gwt-StackPanel .gwt-StackPanelItem:hover {
@@ -878,11 +923,6 @@
 		text-align: left;
 	}
 
-	.editorPanel {
-		padding-top: 1px;
-		padding-left: 1px;
-	}
-
 	/**
 	 * The view buttons for these stylebars should take all the remaining place
 	 * so that they will be right aligned
@@ -1043,6 +1083,11 @@
 		margin-right: 10px;
 		display: inline-block;
 		width: 30%;
+	}
+
+	.dialogContent .sliderWidthPanel .AutoCompleteTextFieldW .fieldContainer {
+		@extends .dialogContent .sliderWidthPanel div;
+		width: 100%;
 	}
 
 	.dialogContent .sliderIntervalPanel .gwt-Label {
@@ -1727,10 +1772,17 @@
 	.numberInput {
 		width: 70px;
 		margin-right: 20px;
-	}
+
+		.matKeyboardOpenBtn {
+			display: none;
+    	}
+    }
 
 	.optionsInput table {
 		display: inline-table;
+		button {
+				display: none;
+			}
 	}
 
 	.textOptionsToolBar {
@@ -1765,10 +1817,6 @@
 
 	.textOptionsToolBar .gwt-ToggleButton {
 		display: inline-block;
-	}
-
-	iframe.objectPropertiesTextEditor {
-		margin-bottom: 10px;
 	}
 
 	.colorComponent {
@@ -1840,6 +1888,10 @@
 	.advanced-TextButtonPanel {
 		position: relative;
 		margin: 3px 0;
+
+		.matKeyboardOpenBtn {
+			display: none;
+		}
 	}
 
 	.advanced-TextButtonPanel input[disabled=""] {
@@ -1870,9 +1922,7 @@
 		margin: 0;
 		padding: 0;
 	}
-	.probCalcViewTab {
-		margin-left: 10px;
-	}
+
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
 		// no scrollbar for main panel, only for value table
 		overflow: hidden;
@@ -1933,49 +1983,49 @@
 		float: right;
 	}
 
-	.controlPanel {
-		float: left;
-		overflow: auto;
+	.distrPanel {
+		display: grid;
 	}
 
-	.controlPanel .groupEnd {
-		margin-right: 30px;
-	}
-
-	.cbPanel, .intervalPanel {
-		padding: 5px 0;
-		float: left;
-		white-space: nowrap;
+	.comboParamPanel, .resultPanel {
 		display: flex;
 		flex-wrap: wrap;
+		line-height: 52px;
+	}
+
+	.comboParamPanel, .intervalPanel {
+		padding: 8px 0;
+		float: left;
+		white-space: nowrap;
+		flex-wrap: wrap;
 		align-items: center;
-		& > * {
-			margin-top: 8px;
-		}
 	}
 
 	.parameterPanel, .resultPanel {
 		display: flex;
 		align-items: center;
+
+		.mathTextField {
+			min-width: 64px;
+			width: 64px;
+		}
+
+		.holder .gwt-Label {
+			line-height: 36px;
+		}
 	}
 
-	.controlPanel > div.clear {
-		padding: 0;
-		margin: 0;
-	}
-
-	.cbPanel .gwt-ToggleButton, .cbPanel .gwt-ListBox {
+	.comboParamPanel .MyToggleButton, .comboParamPanel .gwt-ListBox {
 		display: inline-block;
 		margin-right: 10px;
 	}
 
-	.cbPanel .gwt-ToggleButton {
-		float: left;
+	.parameterPanel > *, .resultPanel > *, .parameterPanel .holder > * {
+		margin: 0 5px;
 	}
 
-	.parameterPanel > *, .resultPanel > * {
-		display: inline-block;
-		margin: 0 5px;
+	.distrPanelClassic .holder {
+		display: flex;
 	}
 
 	/* --------- STATISTICS CALCULATOR --------------- */
@@ -2020,6 +2070,21 @@
 	.StatisticsCalculatorW .gwt-ListBox, .StatisticsCalculatorW .gwt-RadioButton {
 		display: inline-block;
 		margin: 3px 5px;
+	}
+
+	.StatisticsCalculatorW .AutoCompleteTextFieldW, .daRegressionPanel .AutoCompleteTextFieldW{
+		border-bottom: 1px solid colors.$black-36;
+
+		input[type=text].gwt-SuggestBox {
+			border: none;
+			box-shadow: none;
+			padding-left: 4px;
+			border-radius: 0px;
+		}
+
+		&.kbdInput {
+			border-color: colors.$teal-default;
+		}
 	}
 
 	.StatisticsCalculatorW .radioButtonPanel {
@@ -2090,7 +2155,7 @@
 	}
 
 	.StatisticsCalculatorW .resultPane {
-		margin-top: 5px;
+		margin: 5px;
 	}
 
 	.resultPane table td {
@@ -2102,7 +2167,6 @@
 		margin-top: 20px;
 		padding-bottom: 5px;
 		color: #6666FF;
-		display: block;
 		border-bottom: 1px solid #CCCCFF;
 	}
 
@@ -2123,12 +2187,6 @@
 		z-index: z-index.$z-open-screen-header-bar;
 		width: 100%;
 		margin-bottom: 1px;
-	}
-
-	.optionsPopup {
-		float: right;
-		background: none;
-		box-shadow: none;
 	}
 
 	.headerFirst {
@@ -2355,6 +2413,10 @@
 		max-width: 100px;
 		border: 1px solid;
 		border-collapse: collapse;
+
+		.checkboxPanel .checkboxLbl {
+			margin-left: 0;
+		}
 	}
 
 	.daRegressionData table {

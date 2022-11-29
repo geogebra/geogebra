@@ -41,10 +41,7 @@ public final class DrawText extends Drawable {
 	 * minimum height of editor
 	 */
 	public static final int MIN_EDITOR_HEIGHT = 20;
-	/**
-	 * color used to draw rectangle around text when highlighted
-	 */
-	public static final GColor HIGHLIGHT_COLOR = GColor.LIGHT_GRAY;
+
 	public static final int DEFAULT_MARGIN = 3;
 
 	private GeoText text;
@@ -94,7 +91,7 @@ public final class DrawText extends Drawable {
 	@Override
 	public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible && !text.isNeedsUpdatedBoundingBox()) {
+		if (!isVisible && !text.needsUpdatedBoundingBox()) {
 			// Corner[Element[text
 			return;
 		}
@@ -107,10 +104,10 @@ public final class DrawText extends Drawable {
 
 		final boolean textChanged = labelDesc == null || !labelDesc.equals(newText)
 				|| isLaTeX != text.isLaTeX()
-				|| text.isNeedsUpdatedBoundingBox() != needsBoundingBoxOld;
+				|| text.needsUpdatedBoundingBox() != needsBoundingBoxOld;
 		labelDesc = newText;
 		isLaTeX = text.isLaTeX();
-		needsBoundingBoxOld = text.isNeedsUpdatedBoundingBox();
+		needsBoundingBoxOld = text.needsUpdatedBoundingBox();
 
 		// compute location of text
 		updateLabelPosition();
@@ -134,7 +131,7 @@ public final class DrawText extends Drawable {
 			updateLabelRectangle();
 			if (hasAlignment()) {
 				handleTextAlignment();
-				if (text.isNeedsUpdatedBoundingBox()) {
+				if (text.needsUpdatedBoundingBox()) {
 					updateLabelRectangle(); // recompute again to make Corner correct
 				}
 			}
@@ -152,7 +149,7 @@ public final class DrawText extends Drawable {
 		if (geo.getBackgroundColor() != null) {
 			return true;
 		}
-		return (text.isNeedsUpdatedBoundingBox() || hasAlignment()) && (changed
+		return (text.needsUpdatedBoundingBox() || hasAlignment()) && (changed
 				|| text.getKernel().getForceUpdatingBoundingBox()
 				|| text.getBoundingBox() == null);
 	}
@@ -245,8 +242,8 @@ public final class DrawText extends Drawable {
 			// draw label rectangle
 			if (isHighlighted()) {
 				g2.setStroke(rectangleStroke);
-				g2.setPaint(HIGHLIGHT_COLOR);
-				g2.draw(labelRectangle);
+				g2.setPaint(GColor.HIGHLIGHT_GRAY);
+				drawHighlightRect(g2);
 			}
 		}
 	}
@@ -387,5 +384,10 @@ public final class DrawText extends Drawable {
 	 */
 	public GFont getTextFont() {
 		return textFont;
+	}
+
+	@Override
+	public boolean isHighlighted() {
+		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
 	}
 }
