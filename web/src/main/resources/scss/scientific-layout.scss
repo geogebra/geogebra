@@ -63,6 +63,8 @@
 
     .panelScientificDefaults {
         @extend %sheetOfPaper;
+        position: absolute;
+        top: 0;
         &>div {
             margin-bottom: 0;
             border-bottom-right-radius: 0px;
@@ -134,6 +136,10 @@
             animation-name: fadeOutOpacity;
             animation-timing-function: ease-out;
         }
+    }
+
+    .avNameLogo {
+    	margin-bottom: 0;
     }
 }
 

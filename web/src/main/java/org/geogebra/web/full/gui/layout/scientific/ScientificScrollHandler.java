@@ -18,8 +18,8 @@ public class ScientificScrollHandler
 	 * Estimated scrollbar width in desktop browsers; can overestimate a bit
 	 */
 	private static final int SCROLLBAR_WIDTH = 20;
-	private AppW app;
-	private Panel panel;
+	private final AppW app;
+	private final Panel panel;
 
 	/**
 	 * @param app

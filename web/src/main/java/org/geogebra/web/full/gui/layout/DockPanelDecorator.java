@@ -5,7 +5,6 @@ import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -23,7 +22,7 @@ public interface DockPanelDecorator {
 	 *            application
 	 * @return wrapped panel
 	 */
-	Panel decorate(ScrollPanel algebrap, AppW app);
+	Panel decorate(Panel algebrap, AppW app);
 
 	void onResize(AlgebraViewW aview, int offsetHeight);
 
@@ -34,4 +33,6 @@ public interface DockPanelDecorator {
 	 * @param table to decorate.
 	 */
 	void decorateTableTab(Widget tab, StickyTable<?> table);
+
+	int getTabHeight(int tabHeight);
 }

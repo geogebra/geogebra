@@ -4,7 +4,7 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.view.probcalculator.DistributionPanelSuite;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 
-public class DistributionTab extends ToolbarPanel.ToolbarTab {
+public class DistributionTab extends ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
 	private DistributionPanelSuite distrPanel;

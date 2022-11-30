@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.layout.scientific;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
@@ -22,8 +23,12 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	private ScrollPanel algebraScrollPanel;
 
 	@Override
-	public Panel decorate(ScrollPanel algebraPanel, AppW appW) {
-		this.algebraScrollPanel = algebraPanel;
+	public Panel decorate(Panel wrapper, AppW appW) {
+		algebraScrollPanel = new ScrollPanel();
+		algebraScrollPanel.setWidth("100%");
+		algebraScrollPanel.add(wrapper);
+		algebraScrollPanel.addStyleName("algebraPanel");
+		CustomScrollbar.apply(algebraScrollPanel);
 		return buildAndStylePanel(appW);
 	}
 
@@ -57,6 +62,11 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		tab.addStyleName("panelScientificDefaults");
 		disableShadedColumns((StickyValuesTable) table);
 		table.addStyleName("scientific");
+	}
+
+	@Override
+	public int getTabHeight(int tabHeight) {
+		return tabHeight - 40;
 	}
 
 	private void disableShadedColumns(StickyValuesTable table) {

@@ -10,12 +10,11 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
  * Algebra tab of tool panel
  */
-public class AlgebraTab extends ToolbarPanel.ToolbarTab {
+public class AlgebraTab extends ToolbarTab {
 
 	private static final int SCROLLBAR_WIDTH = 8; // 8px in FF, 4px in Chrome => take 8px
 	final private App app;
@@ -56,19 +55,13 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			aview = av;
 			wrapper.add(aview);
 			wrapper.add(logo);
-
-			ScrollPanel algebrap = new ScrollPanel();
-			algebrap.setWidth("100%");
-			algebrap.setAlwaysShowScrollBars(false);
-			algebrap.add(wrapper);
-			algebrap.addStyleName("algebraPanel");
-			add(decorate(algebrap));
+			add(decorate(wrapper));
 			CustomScrollbar.apply(this);
 			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}
 	}
 
-	private Panel decorate(ScrollPanel algebrap) {
+	private Panel decorate(Panel algebrap) {
 		return getDecorator().decorate(algebrap, (AppW) app);
 	}
 
@@ -104,14 +97,25 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		super.onResize();
 		int tabWidth = this.toolbarPanel.getTabWidth();
 		setWidth(tabWidth + "px");
-		if (aview != null) {
-			aview.setUserWidth(tabWidth);
-			aview.resize(tabWidth - SCROLLBAR_WIDTH);
-			logo.onResize(aview, toolbarPanel.getTabHeight());
-			scrollToActiveItem();
+		DockPanelDecorator decorator = getDecorator();
+		resizeAlgebraView(tabWidth);
+
+		decorator.onResize(aview, getOffsetHeight());
+	}
+
+	private void resizeAlgebraView(int tabWidth) {
+		if (aview == null) {
+			return;
 		}
 
-		getDecorator().onResize(aview, getOffsetHeight());
+		aview.setUserWidth(tabWidth);
+		aview.resize(tabWidth - SCROLLBAR_WIDTH);
+		logo.onResize(aview, getTabHeight());
+		scrollToActiveItem();
+	}
+
+	public int getTabHeight() {
+		return getDecorator().getTabHeight(toolbarPanel.getTabHeight());
 	}
 
 	/**

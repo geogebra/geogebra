@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 /**
  * tab of tools
  */
-public class ToolsTab extends ToolbarPanel.ToolbarTab {
+public class ToolsTab extends ToolbarTab {
 
 	/**
 	 *

@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.full.util.StickyTable;
@@ -19,7 +20,7 @@ import org.geogebra.web.shared.components.infoError.InfoErrorData;
  * 
  * @author laszlo
  */
-public class TableTab extends ToolbarPanel.ToolbarTab {
+public class TableTab extends ToolbarTab {
 
 	private final StickyTable<?> table;
 	private final ToolbarPanel toolbarPanel;
@@ -58,8 +59,12 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 			setWidget(emptyPanel);
 		} else  {
 			setWidget(table);
-			table.setHeight(toolbarPanel.getTabHeight());
+			table.setHeight(getTabHeight());
 		}
+	}
+
+	private int getTabHeight() {
+		return toolbarPanel.getDecorator().getTabHeight(toolbarPanel.getTabHeight());
 	}
 
 	private boolean isEmptyProbabilityTable() {
