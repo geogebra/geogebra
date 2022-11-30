@@ -893,6 +893,17 @@ public class GeoList extends GeoElement
 		return sb;
 	}
 
+	private StringBuilder appendElementsForXml(StringBuilder sb) {
+		for (int i = 0; i < elements.size(); i++) {
+			final GeoElement geo = elements.get(i);
+			if (i != 0) {
+				sb.append(',');
+			}
+			StringUtil.encodeXML(sb, geo.getLabel(StringTemplate.xmlTemplate));
+		}
+		return sb;
+	}
+
 	@Override
 	public boolean isGeoList() {
 		return true;
@@ -925,13 +936,15 @@ public class GeoList extends GeoElement
 				sb.append('}');
 			} else if (getDefinition() != null) {
 				getDefinitionXML(sb);
+			} else if (!isDefined) {
+				sb.append('?');
 			} else {
-				StringUtil.encodeXML(sb,
-						toValueString(StringTemplate.xmlTemplate));
+				sb.append('{');
+				appendElementsForXml(sb);
+				sb.append('}');
 			}
 			if (getTableColumn() != -1) {
-				sb.append("\" type=\"");
-				sb.append("list");
+				sb.append("\" type=\"list");
 			}
 			sb.append("\"/>\n");
 		}
