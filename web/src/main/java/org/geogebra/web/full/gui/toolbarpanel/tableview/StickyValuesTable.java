@@ -148,7 +148,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			SimplePanel btnHolder = new SimplePanel();
 			btnHolder.addStyleName("btnRow");
 
-			StandardButton btn = new StandardButton("Define functions");
+			StandardButton btn = new StandardButton(app.getLocalization()
+					.getMenu("DefineFunctions"));
 			btn.addStyleName("materialTextButton");
 			btnHolder.add(btn);
 			getElement().insertBefore(btnHolder.getElement(), getElement().getChild(0)) ;
