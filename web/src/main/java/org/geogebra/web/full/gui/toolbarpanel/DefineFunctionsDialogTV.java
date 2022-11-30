@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
@@ -19,7 +20,7 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 	private final TableValuesView view;
 	private MathTextFieldW f;
 	private MathTextFieldW g;
-	private boolean errorOccured = false;
+	private boolean errorOccurred = false;
 
 	/**
 	 * dialog constructor
@@ -34,11 +35,11 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 	}
 
 	private void buildGUI() {
-		f = addFunctionRow("f(x)");
-		g = addFunctionRow("g(x)");
+		f = addFunctionRow("f(x)=", 1);
+		g = addFunctionRow("g(x)=", 2);
 	}
 
-	private MathTextFieldW addFunctionRow(String functionLbl) {
+	private MathTextFieldW addFunctionRow(String functionLbl, int idx) {
 		FlowPanel functionPanel = new FlowPanel();
 		functionPanel.addStyleName("functionPanel");
 
@@ -46,6 +47,8 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 		functionPanel.add(funcLbl);
 
 		MathTextFieldW funcField = new MathTextFieldW(app);
+		funcField.addBlurHandler((event) -> processInput(funcField, idx));
+		funcField.addChangeHandler(() -> processInput(funcField, idx));
 		functionPanel.add(funcField);
 		addDialogContent(functionPanel);
 
@@ -54,27 +57,45 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 
 	@Override
 	public void onPositiveAction() {
-		GeoEvaluatable geo = view.getEvaluatable(1);
-		if (geo instanceof GeoFunction) {
-				EvalInfo info =  new EvalInfo(!app.getKernel().getConstruction().isSuppressLabelsActive(),
-						false, false);
-				app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
-						f.getText(), info, false, null, this);
-				Dom.toggleClass(f.asWidget(),"errorStyle", errorOccured);
-				if (!errorOccured) {
-					hide();
-				}
+		boolean fHasError = processInput(f, 1);
+		boolean gHasError = processInput(g, 2);
+		if (!fHasError && !gHasError) {
+			hide();
 		}
+	}
+
+	private boolean processInput(MathTextFieldW field, int idx) {
+		resetError();
+		if (field.getText().isEmpty()) {
+			field.asWidget().getParent().removeStyleName("error");
+			return false;
+		}
+
+		GeoEvaluatable geo = view.getEvaluatable(idx);
+		if (geo instanceof GeoFunction) {
+			EvalInfo info =  new EvalInfo(!app.getKernel().getConstruction().isSuppressLabelsActive(),
+					false, false);
+			try {
+				app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
+						field.getText(), info, false, null, this);
+				app.storeUndoInfo();
+			} catch (Error e) {
+				Log.error("Error happened on processing the input");
+			} finally {
+				Dom.toggleClass(field.asWidget().getParent(), "error", errorOccurred);
+			}
+		}
+		return errorOccurred;
 	}
 
 	@Override
 	public void showError(String msg) {
-		errorOccured = true;
+		errorOccurred = true;
 	}
 
 	@Override
 	public void showCommandError(String command, String message) {
-		errorOccured = true;
+		errorOccurred = true;
 	}
 
 	@Override
@@ -84,12 +105,12 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 
 	@Override
 	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
-		errorOccured = true;
+		errorOccurred = true;
 		return false;
 	}
 
 	@Override
 	public void resetError() {
-		errorOccured = false;
+		errorOccurred = false;
 	}
 }

@@ -56,6 +56,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private int columnsChange = 0;
 	private int removedColumnByUser = -1;
 	private boolean shadedColumns = true;
+	DefineFunctionsDialogTV defFuncDialog;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
@@ -157,8 +158,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void openDefineFunctions() {
-		DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
-		DefineFunctionsDialogTV defFuncDialog = new DefineFunctionsDialogTV(app, data, view);
+		if (defFuncDialog == null) {
+			DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
+			defFuncDialog = new DefineFunctionsDialogTV(app, data, view);
+		}
 		defFuncDialog.show();
 	}
 
