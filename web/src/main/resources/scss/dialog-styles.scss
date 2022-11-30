@@ -1602,7 +1602,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			display: flex;
 
 			.radioButton {
-			 	margin-right: 20px;
+				margin-right: 20px;
 			}
 		}
 
@@ -2087,17 +2087,17 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
-        .functionPanel.focusState {
+		.functionPanel.focusState {
 			.mathTextField {
 				margin-bottom: 0;
 				border-bottom: 2px solid colors.$purple-default;
 			}
-        }
+		}
 
-        .functionPanel.error {
-        	.mathTextField {
-        		border-bottom: 2px solid colors.$error;
-        	}
-        }
+		.functionPanel.error {
+			.mathTextField {
+				border-bottom: 2px solid colors.$error;
+			}
+		}
 	}
 }

@@ -73,11 +73,13 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 
 		GeoEvaluatable geo = view.getEvaluatable(idx);
 		if (geo instanceof GeoFunction) {
-			EvalInfo info =  new EvalInfo(!app.getKernel().getConstruction().isSuppressLabelsActive(),
-					false, false);
+			EvalInfo info = new EvalInfo(!app.getKernel().getConstruction()
+					.isSuppressLabelsActive(), false, false);
 			try {
+				app.getKernel().getAlgebraProcessor().setEnableStructures(true);
 				app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
 						field.getText(), info, false, null, this);
+				app.getKernel().getAlgebraProcessor().setEnableStructures(false);
 				app.storeUndoInfo();
 			} catch (Error e) {
 				Log.error("Error happened on processing the input");
