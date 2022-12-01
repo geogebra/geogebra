@@ -65,6 +65,7 @@
         @extend %sheetOfPaper;
         position: absolute;
         top: 0;
+        height: auto; // this lets the grey background grow.
         &>div {
             margin-bottom: 0;
             border-bottom-right-radius: 0px;

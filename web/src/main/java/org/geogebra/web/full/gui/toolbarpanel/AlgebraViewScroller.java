@@ -12,7 +12,6 @@ public class AlgebraViewScroller {
 	private final AlgebraViewW view;
 
 	/**
-	 *
 	 * @param panel to scroll
 	 * @param view the algebra view inside the panel.
 	 */

@@ -52,10 +52,18 @@ public class LogoAndName implements IsWidget, SetLabels {
 		boolean showLogo = !app.getAppletFrame().isKeyboardShowing();
 		panel.setVisible(showLogo);
 		if (showLogo) {
-			int minHeight = parentHeight - panel.getOffsetHeight() - LOGO_MARGIN;
-			aView.getElement().getStyle().setProperty("minHeight", minHeight + "px");
+			placeLogoToBottom(aView, parentHeight);
 		} else {
-			aView.getElement().getStyle().clearProperty("minHeight");
+			removeLogoFromBottom(aView);
 		}
+	}
+
+	private void removeLogoFromBottom(AlgebraViewW aView) {
+		aView.getElement().getStyle().clearProperty("minHeight");
+	}
+
+	private void placeLogoToBottom(AlgebraViewW aView, int parentHeight) {
+		int minHeight = parentHeight - panel.getOffsetHeight() - LOGO_MARGIN;
+		aView.getElement().getStyle().setProperty("minHeight", minHeight + "px");
 	}
 }

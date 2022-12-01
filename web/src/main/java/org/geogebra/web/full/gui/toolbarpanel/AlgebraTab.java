@@ -98,16 +98,15 @@ public class AlgebraTab extends ToolbarTab {
 		int tabWidth = this.toolbarPanel.getTabWidth();
 		setWidth(tabWidth + "px");
 		DockPanelDecorator decorator = getDecorator();
+		decorator.onResize(aview, getTabHeight());
 		resizeAlgebraView(tabWidth);
 
-		decorator.onResize(aview, getOffsetHeight());
 	}
 
 	private void resizeAlgebraView(int tabWidth) {
 		if (aview == null) {
 			return;
 		}
-
 		aview.setUserWidth(tabWidth);
 		aview.resize(tabWidth - SCROLLBAR_WIDTH);
 		logo.onResize(aview, getTabHeight());
