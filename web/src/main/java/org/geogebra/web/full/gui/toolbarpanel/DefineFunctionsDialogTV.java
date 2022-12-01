@@ -43,11 +43,11 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 	}
 
 	private void buildGUI() {
-		f = addFunctionRow("f(x)=", 1);
-		g = addFunctionRow("g(x)=", 2);
+		f = addFunctionRow("f(x)=");
+		g = addFunctionRow("g(x)=");
 	}
 
-	private MathTextFieldW addFunctionRow(String functionLbl, int idx) {
+	private MathTextFieldW addFunctionRow(String functionLbl) {
 		FlowPanel functionPanel = new FlowPanel();
 		functionPanel.addStyleName("functionPanel");
 
