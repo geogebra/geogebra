@@ -4,7 +4,6 @@ import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.util.StickyTable;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 
@@ -19,8 +18,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
+	// TODO to find out where is this come from.
+	public static final int TAB_HEIGHT_DIFFERENCE = 40;
 	private FlowPanel main;
-	private FlowPanel panel;
 
 	@Override
 	public Panel decorate(Panel wrapper, AppW appW) {
@@ -32,7 +32,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	private Panel buildAndStylePanel(AppW app) {
-		panel = new FlowPanel();
+		FlowPanel panel = new FlowPanel();
 		stylePanel(panel);
 		panel.add(main);
 		main.addStyleName("algebraPanelScientific");
@@ -50,13 +50,26 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void onResize(AlgebraViewW aView, int offsetHeight) {
-		GeoGebraFrameW appletFrame = aView.getApp().getAppletFrame();
-		boolean smallScreen = appletFrame
-				.shouldHaveSmallScreenLayout();
+		toggleSmallScreen(aView.getApp().getAppletFrame()
+				.shouldHaveSmallScreenLayout());
+	}
+
+	private void toggleSmallScreen(boolean smallScreen) {
 		Dom.toggleClass(main, "algebraPanelScientificSmallScreen",
 				"panelScientificDefaults", smallScreen);
 	}
 
+	@Override
+	public void resizeTable(StickyTable<?> table, int tabHeight) {
+		table.setHeight(tabHeight - TAB_HEIGHT_DIFFERENCE);
+		toggleSmallScreen(false);
+	}
+
+	@Override
+	public void resizeTableSmallScreen(StickyTable<?> table, int tabHeight) {
+		resizeTable(table, tabHeight - TAB_HEIGHT_DIFFERENCE);
+		toggleSmallScreen(true);
+	}
 	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
 		tab.addStyleName("panelScientificDefaults");
@@ -66,7 +79,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public int getTabHeight(int tabHeight) {
-		return tabHeight - 40;
+		return tabHeight - TAB_HEIGHT_DIFFERENCE;
 	}
 
 	private void disableShadedColumns(StickyValuesTable table) {

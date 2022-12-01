@@ -4,13 +4,14 @@ import java.util.function.Supplier;
 
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.full.util.StickyTable;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
@@ -24,6 +25,7 @@ public class TableTab extends ToolbarTab {
 
 	private final StickyTable<?> table;
 	private final ToolbarPanel toolbarPanel;
+	private final AppW app;
 	private ComponentInfoErrorPanel emptyPanel;
 
 	/**
@@ -34,6 +36,7 @@ public class TableTab extends ToolbarTab {
 		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
 		this.table = table;
+		this.app = toolbarPanel.getApp();
 		TestHarness.setAttr(table, "TV_table");
 		table.setStyleName("tvTable", true);
 		decorate();
@@ -48,13 +51,13 @@ public class TableTab extends ToolbarTab {
 	private void buildEmptyTablePanel() {
 		InfoErrorData data = new InfoErrorData("TableValuesEmptyTitle",
 				"TableDiscreteDistribution");
-		emptyPanel = new ComponentInfoErrorPanel(toolbarPanel.getApp().getLocalization(),
+		emptyPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				data, MaterialDesignResources.INSTANCE.toolbar_table_view_black(), null);
 	}
 
 	@Override
 	protected void onActive() {
-		if (toolbarPanel.getApp().getConfig().hasDistributionView()
+		if (app.getConfig().hasDistributionView()
 				&& isEmptyProbabilityTable()) {
 			setWidget(emptyPanel);
 		} else  {
@@ -68,8 +71,8 @@ public class TableTab extends ToolbarTab {
 	}
 
 	private boolean isEmptyProbabilityTable() {
-		if (toolbarPanel.getApp().getConfig().hasDistributionView()) {
-			ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
+		if (app.getConfig().hasDistributionView()) {
+			ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) app
 					.getGuiManager().getProbabilityCalculator();
 			return !view.hasTableView();
 		}
@@ -103,12 +106,18 @@ public class TableTab extends ToolbarTab {
 
 		setWidth(w + "px");
 		setHeight(h + "px");
-		table.setHeight(h);
+		resizeTable(h);
+	}
 
-		boolean smallScreen = toolbarPanel.getApp().getAppletFrame()
+	private void resizeTable(int tabHeight) {
+		boolean smallScreen = app.getAppletFrame()
 				.shouldHaveSmallScreenLayout();
-		Dom.toggleClass(this, "algebraPanelScientificSmallScreen",
-				"panelScientificDefaults", smallScreen);
+		DockPanelDecorator decorator = toolbarPanel.getDecorator();
+		if (smallScreen) {
+			decorator.resizeTable(table, tabHeight);
+		} else {
+			decorator.resizeTableSmallScreen(table, tabHeight);
+		}
 	}
 
 	/**

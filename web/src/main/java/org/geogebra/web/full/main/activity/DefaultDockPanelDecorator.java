@@ -30,4 +30,13 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 		return 0;
 	}
 
+	@Override
+	public void resizeTable(StickyTable<?> table, int tabHeight) {
+		table.setHeight(tabHeight);
+	}
+
+	@Override
+	public void resizeTableSmallScreen(StickyTable<?> table, int tabHeight) {
+		resizeTable(table, tabHeight);
+	}
 }
