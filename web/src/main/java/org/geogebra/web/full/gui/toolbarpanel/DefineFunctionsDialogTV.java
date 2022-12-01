@@ -33,6 +33,13 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 		this.view = view;
 		addStyleName("defineFunctionsDialog");
 		buildGUI();
+		if (!app.isWhiteboardActive()) {
+			app.registerPopup(this);
+		}
+		this.addCloseHandler(event -> {
+			app.unregisterPopup(this);
+			app.hideKeyboard();
+		});
 	}
 
 	private void buildGUI() {
@@ -93,12 +100,12 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 				app.getKernel().getAlgebraProcessor().setEnableStructures(true);
 				app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
 						field.getText(), info, false, null, this);
-				app.getKernel().getAlgebraProcessor().setEnableStructures(false);
 				app.storeUndoInfo();
 			} catch (Error e) {
 				Log.error("Error happened on processing the input");
 			} finally {
 				Dom.toggleClass(field.asWidget().getParent(), "error", errorOccurred);
+				app.getKernel().getAlgebraProcessor().setEnableStructures(false);
 			}
 		}
 		return errorOccurred;
