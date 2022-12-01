@@ -78,7 +78,27 @@ public final class CommandFilterFactory {
 	 */
 	public static CommandFilter createMmsFilter() {
 		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
-		nameFilter.addCommands(Commands.Polygon,
+		nameFilter.addCommands(Commands.Axes, Commands.Focus,
+				Commands.DelaunayTriangulation, Commands.Difference,
+				Commands.Rotate, Commands.TriangleCenter,
+				Commands.Envelope, Commands.Ends,
+				Commands.SemiMajorAxisLength, Commands.SemiMinorAxisLength,
+				Commands.MajorAxis, Commands.Height, Commands.InteriorAngles,
+				Commands.InverseBinomial, Commands.InverseCauchy, Commands.InverseChiSquared,
+				Commands.InverseExponential, Commands.InverseFDistribution,
+				Commands.InverseGamma, Commands.InverseHyperGeometric,
+				Commands.InverseLaplace, Commands.InverseLogistic, Commands.InverseLogNormal,
+				Commands.InverseNormal, Commands.InversePascal, Commands.InversePoisson,
+				Commands.InverseTDistribution, Commands.InverseWeibull, Commands.InverseZipf,
+				Commands.ConjugateDiameter, Commands.ConvexHull, Commands.ShortestDistance,
+				Commands.Curve, Commands.Barycenter, Commands.MinimumSpanningTree,
+				Commands.Center, Commands.MinorAxis, Commands.Net, Commands.Top,
+				Commands.Surface, Commands.Prove, Commands.ProveDetails,
+				Commands.Point, Commands.PointIn, Commands.IntersectPath,
+				Commands.IntersectConic, Commands.Centroid, Commands.Side,
+				Commands.Sector, Commands.Reflect, Commands.Spline,
+				Commands.Stretch, Commands.Dilate, Commands.Bottom,
+				Commands.Translate, Commands.Shear, Commands.Polygon,
 				Commands.Arc, Commands.Circle, Commands.CircleSector,
 				Commands.CircleArc, Commands.OsculatingCircle, Commands.Cubic,
 				Commands.Polygon, Commands.Line, Commands.Segment, Commands.Ray,
@@ -93,11 +113,10 @@ public final class CommandFilterFactory {
 				Commands.PolyLine, Commands.ConeInfinite, Commands.CylinderInfinite,
 				Commands.Tetrahedron, Commands.CircumcircleArc, Commands.CircumcircleSector,
 				Commands.Cube, Commands.Roots, Commands.ComplexRoot, Commands.Root,
-				Commands.RootList, Commands.Extremum, Commands.TurningPoint,
-				Commands.Length, Commands.Perimeter, Commands.Volume, Commands.Plane,
+				Commands.RootList, Commands.Volume, Commands.Plane,
 				Commands.OrthogonalPlane,
 				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
-				Commands.Intersect, Commands.IsTangent, Commands.IsInRegion);
+				Commands.IsTangent, Commands.IsInRegion);
 		addBooleanCommands(nameFilter);
 		return new EnglishCommandFilter(nameFilter);
 	}

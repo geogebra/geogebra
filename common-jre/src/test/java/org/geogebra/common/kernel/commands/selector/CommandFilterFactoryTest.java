@@ -67,6 +67,7 @@ public class CommandFilterFactoryTest {
 		assertAllowed(false, Commands.AreEqual);
 		assertAllowed(false, Commands.Hyperbola);
 		assertAllowed(true, Commands.Slope);
+		assertAllowed(true, Commands.Intersect);
 	}
 
 	private void assertAllowed(boolean shouldAllow, Commands command) {
