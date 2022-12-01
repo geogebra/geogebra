@@ -123,9 +123,10 @@ public class AlgebraItem {
 	 *            element
 	 * @return whether element is a numeric that can be written as a fraction
 	 */
-	public static boolean isGeoFraction(GeoElement geo) {
-		return geo instanceof GeoNumeric && geo.getDefinition() != null
-				&& geo.getDefinition().isFraction();
+	public static boolean isGeoFraction(GeoElementND geo) {
+		GeoElementND value = geo.unwrapSymbolic();
+		return value instanceof GeoNumeric && value.getDefinition() != null
+				&& value.getDefinition().isFraction();
 	}
 
 	/**
