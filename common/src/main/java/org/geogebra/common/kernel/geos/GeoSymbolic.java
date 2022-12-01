@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -461,7 +462,9 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean supportsVariables(Command command) {
-		return !Commands.Solutions.getCommand().equals(command.getName());
+		return !Commands.Solutions.getCommand().equals(command.getName())
+				&& !(value.unwrap() instanceof MyList)
+				&& !(value.unwrap() instanceof MyVecNode);
 	}
 
 	@Override
