@@ -71,6 +71,7 @@ public class InputBoxProcessor {
 				inputBox.setTempUserInput(eraseQuestionMark(inputText),
 						eraseQuestionMark(content.getLaTeX()));
 			}
+
 			linkedGeo.setUndefined();
 			makeGeoIndependent();
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
@@ -82,7 +83,7 @@ public class InputBoxProcessor {
 		if (text == null) {
 			return "";
 		}
-		return text.replace("?,", ",").replace(",?", ",");
+		return text.replace("?", "");
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
