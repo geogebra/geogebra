@@ -17,8 +17,8 @@ import org.geogebra.common.util.debug.Log;
 public final class Util {
 
 	/** available font sizes (will be reused in OptionsAdvanced) */
-	final private static int[] MENU_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28,
-			32, 48 };
+	final private static int[] MENU_FONT_SIZES = { 6, 8, 10, 12, 14, 16, 18,
+			20, 24, 28, 32, 48 };
 
 	/**
 	 * used when value is needed through a callback
