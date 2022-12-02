@@ -1140,7 +1140,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public void resizeContent(Panel content) {
 		int height = getComponentInteriorHeight() - navHeightIfShown();
-		if (height > 0) {;
+		if (height > 0) {
 			content.setHeight(height + "px");
 		}
 	}

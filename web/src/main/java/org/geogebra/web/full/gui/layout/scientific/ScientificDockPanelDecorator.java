@@ -70,6 +70,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		resizeTable(table, tabHeight - TAB_HEIGHT_DIFFERENCE);
 		toggleSmallScreen(true);
 	}
+
 	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
 		tab.addStyleName("panelScientificDefaults");
