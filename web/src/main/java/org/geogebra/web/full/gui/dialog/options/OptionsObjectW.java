@@ -71,7 +71,7 @@ import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
 import org.geogebra.web.full.gui.properties.OptionPanel;
-import org.geogebra.web.full.gui.properties.SliderPanelW;
+import org.geogebra.web.full.gui.properties.SliderPropertiesPanelW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -803,7 +803,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	private OptionsTab addSliderTab() {
 		OptionsTab tab = makeOptionsTab("Slider");
-		SliderPanelW sliderPanel = new SliderPanelW(getAppW(), false, true);
+		SliderPropertiesPanelW sliderPanel = new SliderPropertiesPanelW(getAppW(), false, true);
 		tab.add(sliderPanel);
 		return tab;
 	}

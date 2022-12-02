@@ -94,7 +94,8 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 			getSlider().setStep(num.getAnimationStep());
 
-			getSlider().addValueChangeHandler(getSliderController());
+			getSlider().getSlider().addInputHandler(() ->
+					getSliderController().onValueChange(getSlider().getValue()));
 			ClickEndHandler.init(getSlider(), new ClickEndHandler() {
 				@Override
 				public void onClickEnd(int x, int y, PointerEventType type) {

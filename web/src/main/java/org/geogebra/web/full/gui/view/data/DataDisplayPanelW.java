@@ -296,7 +296,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		sliderNumClasses.setTickSpacing(1);
 
-		sliderNumClasses.addChangeHandler(event -> {
+		sliderNumClasses.addInputHandler(() -> {
 			getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
 			fldNumClasses.setText("" + getModel().getSettings()
 					.getNumClasses());

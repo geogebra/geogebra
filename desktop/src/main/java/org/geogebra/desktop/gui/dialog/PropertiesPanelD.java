@@ -131,11 +131,12 @@ import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.properties.AnimationSpeedPanel;
 import org.geogebra.desktop.gui.properties.AnimationStepPanel;
-import org.geogebra.desktop.gui.properties.SliderPanelD;
+import org.geogebra.desktop.gui.properties.SliderPropertiesPanelD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
+import org.geogebra.desktop.gui.util.SliderUtil;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -207,7 +208,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private TextPropertyPanel textFieldSizePanel;
 	private TextFieldAlignmentPanel textFieldAlignmentPanel;
 	private AnimationSpeedPanel animSpeedPanel;
-	private SliderPanelD sliderPanel;
+	private SliderPropertiesPanelD sliderPanel;
 	private SlopeTriangleSizePanel slopeTriangleSizePanel;
 	private StartPointPanel startPointPanel;
 	private CornerPointsPanel cornerPointsPanel;
@@ -279,7 +280,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		allowReflexAnglePanel = new AllowReflexAnglePanel();
 
-		sliderPanel = new SliderPanelD(app, this, false, true);
+		sliderPanel = new SliderPropertiesPanelD(app, this, false, true);
 		showObjectPanel = new ShowObjectPanel();
 		selectionAllowed = getCheckboxPanel(new SelectionAllowedModel(null, app));
 		showTrimmedIntersectionLines = getCheckboxPanel(
@@ -1683,6 +1684,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			updateSliderFonts();
 
 			slider.addChangeListener(this);
+			SliderUtil.addValueChangeListener(slider, d -> model.storeUndoInfo());
 
 			add(slider);
 		}
@@ -1716,9 +1718,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 */
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			if (!slider.getValueIsAdjusting()) {
-				model.applyChanges(slider.getValue());
-			}
+			model.applyChangesNoUndo(slider.getValue());
 		}
 
 		@Override
@@ -1927,6 +1927,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			// slider.setFont(app.getSmallFont());
 			slider.addChangeListener(this);
+			SliderUtil.addValueChangeListener(slider, val -> model.storeUndoInfo());
 
 			/*
 			 * setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -1965,9 +1966,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 */
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			if (!slider.getValueIsAdjusting()) {
-				model.applyChanges(slider.getValue());
-			}
+			model.applyChangesNoUndo(slider.getValue());
 		}
 
 		@Override
@@ -2045,6 +2044,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			 * BorderFactory.createEmptyBorder(3,5,0,5)));
 			 * add(Box.createRigidArea(new Dimension(5,0))); add(sizeLabel);
 			 */
+			SliderUtil.addValueChangeListener(slider, d -> model.storeUndoInfo());
 			add(slider);
 		}
 
@@ -2079,9 +2079,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 */
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			if (!slider.getValueIsAdjusting()) {
-				model.applyChanges(slider.getValue());
-			}
+			model.applyChanges(slider.getValue());
 		}
 
 		@Override
@@ -2143,6 +2141,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			thicknessSlider.setPaintTicks(true);
 			thicknessSlider.setPaintLabels(true);
 			thicknessSlider.setSnapToTicks(true);
+			SliderUtil.addValueChangeListener(thicknessSlider, val -> model.storeUndoInfo());
 
 			/*
 			 * Dimension dim = slider.getPreferredSize(); dim.width =
@@ -2158,7 +2157,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			opacitySlider.setPaintTicks(true);
 			opacitySlider.setPaintLabels(true);
 			opacitySlider.setSnapToTicks(true);
-
+			SliderUtil.addValueChangeListener(opacitySlider, val -> model.storeUndoInfo());
 			opacitySlider.addChangeListener(this);
 
 			updateSliderFonts();
@@ -2247,15 +2246,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		@Override
 		public void stateChanged(ChangeEvent e) {
 			if (e.getSource() == thicknessSlider) {
-				if (!thicknessSlider.getValueIsAdjusting()) {
-					model.applyThickness(thicknessSlider.getValue());
-				}
+				model.applyThickness(thicknessSlider.getValue());
 			} else if (e.getSource() == opacitySlider) {
-				if (!opacitySlider.getValueIsAdjusting()) {
-					int value = (int) ((opacitySlider.getValue() / 100.0f)
-							* 255);
-					model.applyOpacity(value);
-				}
+				int value = (int) ((opacitySlider.getValue() / 100.0f)
+						* 255);
+				model.applyOpacity(value);
 			}
 		}
 

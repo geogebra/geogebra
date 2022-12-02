@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.ListBox;
  * 
  * @author Markus Hohenwarter
  */
-public class SliderPanelW extends OptionPanel implements ISliderOptionsListener {
+public class SliderPropertiesPanelW extends OptionPanel implements ISliderOptionsListener {
 
 	private SliderModel model;
 	private AngleTextFieldW tfMin;
@@ -81,7 +81,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	 * @param includeRandom
 	 *            true if include random
 	 */
-	public SliderPanelW(final AppW app,
+	public SliderPropertiesPanelW(final AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
@@ -252,7 +252,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		sliderTransparency = new SliderPanel(0, 100);
 		sliderTransparency.setTickSpacing(5);
 		sliderTransparency.setValue(40);
-		sliderTransparency.addChangeHandler(event -> applyTransparency());
+		sliderTransparency.addInputHandler(event -> applyTransparency());
+		sliderTransparency.addValueChangeHandler(val -> model.storeUndoInfo());
 	}
 
 	private void createLineThicknessTextField(AppW app) {

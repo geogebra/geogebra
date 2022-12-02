@@ -17,8 +17,6 @@ import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -31,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PopupMenuButtonW extends StandardButton
-		implements ChangeHandler, SliderInputHandler {
+		implements SliderInputHandler {
 
 	/**
 	 * App
@@ -336,12 +334,6 @@ public class PopupMenuButtonW extends StandardButton
 	}
 
 	@Override
-	public void onChange(ChangeEvent event) {
-		onSliderInput();
-		app.storeUndoInfo();
-	}
-
-	@Override
 	public void onSliderInput() {
 		if (mySlider != null) {
 			setSliderValue(mySlider.getValue());
@@ -404,9 +396,12 @@ public class PopupMenuButtonW extends StandardButton
 	private void initSlider() {
 		mySlider = new Slider(0, 100);
 		mySlider.setTickSpacing(5);
-		mySlider.addChangeHandler(this);
+		mySlider.addValueChangeHandler(evt -> {
+			onSliderInput();
+			app.storeUndoInfo();
+		});
 
-		Slider.addInputHandler(mySlider.getElement(), this);
+		mySlider.addInputHandler(this);
 
 		sliderLabel = new Label();
 		sliderPanel = new FlowPanel();

@@ -37,7 +37,7 @@ import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.desktop.gui.properties.SliderPanelD;
+import org.geogebra.desktop.gui.properties.SliderPropertiesPanelD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -61,7 +61,7 @@ public class SliderDialogD extends Dialog
 	private JCheckBox cbRandom;
 
 	private final AppD app;
-	private SliderPanelD sliderPanel;
+	private SliderPropertiesPanelD sliderPanel;
 
 	private GeoElement geoResult;
 	private GeoNumeric number;
@@ -153,7 +153,7 @@ public class SliderDialogD extends Dialog
 		topPanel.add(radioPanel, app.getLocalization().borderWest());
 
 		// slider panels
-		sliderPanel = new SliderPanelD(app, null, true, false);
+		sliderPanel = new SliderPropertiesPanelD(app, null, true, false);
 		JPanel slPanel = new JPanel(new BorderLayout(0, 0));
 		GeoElement[] geos = { number };
 		slPanel.add(sliderPanel.updatePanel(geos), BorderLayout.CENTER);
