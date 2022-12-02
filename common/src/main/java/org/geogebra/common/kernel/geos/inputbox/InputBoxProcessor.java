@@ -83,7 +83,12 @@ public class InputBoxProcessor {
 		if (text == null) {
 			return "";
 		}
-		return text.replace("?", "");
+
+		return shouldReplaceQuestionMark() ? text.replace("?", "") : text;
+	}
+
+	private boolean shouldReplaceQuestionMark() {
+		return linkedGeo.hasSpecialEditor();
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {

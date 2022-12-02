@@ -59,6 +59,11 @@ public class TeXBuilder {
 			return "SELECTION";
 		}
 	};
+	public static final double DEFAULT_PLACEHOLDER_Y_SCALE = 1.6;
+
+	// With default and medium text size, "(" open bracket disappears
+	// when followed by a placeholder for (,).
+	private static final double CHAR_PLACEHOLDER_Y_SCALE = 1.5;
 
 	private MathSequence currentField;
 	private int currentOffset;
@@ -131,7 +136,7 @@ public class TeXBuilder {
 
 	private Atom getCharPlaceholder(MathComponent argument1) {
 		int index = argument1.getParentIndex();
-		return index == currentOffset ? getInvisiblePlaceholder() : getPlaceholderBox();
+		return index == currentOffset ? getInvisiblePlaceholder() : getPlaceholderBox(CHAR_PLACEHOLDER_Y_SCALE);
 	}
 
 	private Atom getPlaceholderAtom(MathSequence mathFormula) {
@@ -174,8 +179,12 @@ public class TeXBuilder {
 	}
 
 	private Atom getPlaceholderBox() {
+		return getPlaceholderBox(DEFAULT_PLACEHOLDER_Y_SCALE);
+	}
+
+	private Atom getPlaceholderBox(double yScale) {
 		return new ColorAtom(
-				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
+				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, yScale),
 				FactoryProvider.getInstance().getGraphicsFactory()
 						.createColor(TeXSerializer.placeholderColor),
 				null
