@@ -637,6 +637,16 @@ public class Macro {
 	}
 
 	/**
+	 * Returns the name of the macro through which it is identified during
+	 * the communication between the original app and the editing tab.
+	 *
+	 * @return name of the macro
+	 */
+	public String getEditName() {
+		return getCommandName();
+	}
+
+	/**
 	 * Returns toolname, if empty, returns command name.
 	 * 
 	 * @return Toolname, if empty, returns command name.

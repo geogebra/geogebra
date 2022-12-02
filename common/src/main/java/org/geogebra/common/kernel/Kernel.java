@@ -4458,12 +4458,19 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Removes a macro from the kernel.
 	 */
 	public void removeMacro(Macro macro) {
+		if (macro == null) {
+			return;
+		}
 		if (macroManager != null) {
 			macroManager.removeMacro(macro);
 		}
 
 		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null,
 				macro.getCommandName()));
+	}
+
+	public void removeMacro(String macroName) {
+		removeMacro(getMacro(macroName));
 	}
 
 	/**
@@ -4490,8 +4497,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return if the command name was really set
 	 */
 	public boolean setMacroCommandName(Macro macro, String cmdName) {
-		boolean nameUsed = macroManager.getMacro(cmdName) != null;
-		if (nameUsed || cmdName == null || cmdName.length() == 0) {
+		if (macroManager.getMacro(cmdName) != null
+				|| cmdName == null || cmdName.length() == 0) {
 			return false;
 		}
 
@@ -4523,7 +4530,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * 
 	 * @return macro construction XML
 	 */
-	public String getMacroXML(ArrayList<Macro> macros) {
+	public String getMacroXML(List<Macro> macros) {
 		if (hasMacros()) {
 			return MacroManager.getMacroXML(macros);
 		}

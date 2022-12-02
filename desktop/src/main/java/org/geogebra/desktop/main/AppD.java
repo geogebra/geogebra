@@ -4420,7 +4420,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// as it was hard to copy macro classes, let's use
 		// strings, but how to load them into the application?
 		try {
-			getXMLio().processXMLString(ad.getMacroXML(), false, true);
+			getXMLio().processXMLString(ad.getAllMacrosXML(), false, true);
 
 			// alternative solution
 			// app.addMacroXML(ad.getKernel().getMacroXML(

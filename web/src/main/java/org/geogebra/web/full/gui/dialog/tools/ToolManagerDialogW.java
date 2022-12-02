@@ -22,6 +22,7 @@ import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogLi
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -40,6 +41,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.URL;
 
 public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDialogListener,
 		ToolNameIconPanelW.MacroChangeListener, MultiSelectButtonsPannel.ButtonsListener {
@@ -51,6 +53,8 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	MacroListBox toolList;
 
 	private ToolNameIconPanelW macroPanel;
+
+	StandardButton openButton;
 
 	private static class MacroListBox extends ListBox {
 		List<Macro> macros;
@@ -86,7 +90,6 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 			}
 			macros.set(idx, macro);
 			setItemText(idx, getMacroText(macro));
-
 		}
 
 		public void addMacro(Macro macro) {
@@ -232,12 +235,13 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 		return new MultiSelectButtonsPannel(this);
 	}
 
-	private void addStyledButton(SVGResource img, FlowPanel rootPanel,
+	private StandardButton addStyledButton(SVGResource img, FlowPanel rootPanel,
 			String label, FastClickHandler clickHandler) {
 		StandardButton btn = new StandardButton(img, label, 18);
 		btn.addFastClickHandler(clickHandler);
 		btn.addStyleName("containedButton");
 		rootPanel.add(btn);
+		return btn;
 	}
 
 	private void initGUI() {
@@ -260,9 +264,12 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 		panel.add(toolButtonPanel);
 
 		if (appw.has(Feature.TOOL_EDITOR)) {
-			addStyledButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+			openButton = addStyledButton(
+					MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
 					toolButtonPanel, loc.getMenu("Open"),
-					w -> this.openTools());
+					w -> this.openMacroEditingTab()
+			);
+			openButton.setEnabled(false);
 		}
 
 		addStyledButton(MaterialDesignResources.INSTANCE.save_black(), toolButtonPanel,
@@ -281,14 +288,29 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	}
 
 	private void updateMacroPanel() {
-		macroPanel.setMacro(toolList.getSelectedMacro());
+		Macro selectedMacro = toolList.getSelectedMacro();
+		openButton.setEnabled(
+				!appw.isOpenedForMacroEditing()
+				&& selectedMacro != null
+				&& !appw.storageContainsMacro(selectedMacro.getEditName())
+		);
+		macroPanel.setMacro(selectedMacro);
 	}
 
-	private void openTools() {
+	private void openMacroEditingTab() {
 		appw.setWaitCursor();
-		appw.storeMacro(toolList.getSelectedMacro(), false);
-		appw.getFileManager().open(DomGlobal.location.href, "");
+		Macro selectedMacro = toolList.getSelectedMacro();
+		if (selectedMacro != null && !appw.storageContainsMacro(selectedMacro.getEditName())) {
+			appw.storeMacro(selectedMacro);
 
+			MaterialsManagerI fm = appw.getFileManager();
+			if (fm != null) {
+				URL url = new URL(DomGlobal.location.href);
+				url.searchParams.append(AppW.EDIT_MACRO_URL_PARAM_NAME,
+						selectedMacro.getEditName());
+				fm.open(url.toString(), "");
+			}
+		}
 		appw.setDefaultCursor();
 		hide();
 	}
@@ -362,6 +384,9 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	@Override
 	public void onMacroChange(Macro macro) {
 		Macro m = toolList.getSelectedMacro();
+		if (m == null) {
+			return;
+		}
 		m.setCommandName(macro.getCommandName());
 		m.setToolName(macro.getToolName());
 		m.setToolHelp(macro.getToolHelp());
@@ -373,15 +398,16 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	@Override
 	public void onShowToolChange(Macro macro) {
 		onMacroChange(macro);
-		boolean active = macro.isShowInToolBar();
-		Macro m = toolList.getSelectedMacro();
-
-		if (active) {
+		if (macro.isShowInToolBar()) {
 			appw.getGuiManager().refreshCustomToolsInToolBar();
 		} else {
-			int macroID = m.getKernel().getMacroID(m)
-					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
-			appw.getGuiManager().removeFromToolbarDefinition(macroID);
+			Macro selectedMacro = toolList.getSelectedMacro();
+			if (selectedMacro != null) {
+				appw.getGuiManager().removeFromToolbarDefinition(
+						selectedMacro.getKernel().getMacroID(selectedMacro)
+						+ EuclidianConstants.MACRO_MODE_ID_OFFSET
+				);
+			}
 		}
 		GuiManagerW gm = (GuiManagerW) appw.getGuiManager();
 		gm.setGeneralToolBarDefinition(gm.getCustomToolbarDefinition());
