@@ -445,7 +445,8 @@ public class GeoSymbolic extends GeoElement
 			List<String> localVariables = getDefinition().getLocalVariables();
 			return localVariables.stream().map((var) -> new FunctionVariable(kernel, var))
 					.collect(Collectors.toList());
-		} else if (def instanceof Command && supportsVariables((Command) def)) {
+		} else if (def instanceof Command && shouldShowFunctionVariablesInOutputFor((Command) def)
+				&& !valueIsListOrPoint()) {
 			return collectVariables();
 		} else if (getDefinition().containsFreeFunctionVariable(null)) {
 			return collectVariables();
@@ -461,10 +462,12 @@ public class GeoSymbolic extends GeoElement
 		return Arrays.asList(functionVarCollector.buildVariables(kernel));
 	}
 
-	private boolean supportsVariables(Command command) {
-		return !Commands.Solutions.getCommand().equals(command.getName())
-				&& !(value.unwrap() instanceof MyList)
-				&& !(value.unwrap() instanceof MyVecNode);
+	private static boolean shouldShowFunctionVariablesInOutputFor(Command command) {
+		return !Commands.Solutions.getCommand().equals(command.getName()); // APPS-1821, APPS-2190
+	}
+
+	private boolean valueIsListOrPoint() {
+		return value.unwrap() instanceof MyList || value.unwrap() instanceof MyVecNode; // APPS-4396
 	}
 
 	@Override
