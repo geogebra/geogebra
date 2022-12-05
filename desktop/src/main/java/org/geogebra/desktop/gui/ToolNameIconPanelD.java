@@ -182,15 +182,13 @@ public class ToolNameIconPanelD extends JPanel {
 						GridBagConstraints.CENTER, GridBagConstraints.NONE,
 						new Insets(0, 0, 0, 0), 0, 0));
 		btIconFile.setText(loc.getMenu("Icon") + " ...");
-		ActionListener ac = e -> {
-			String fileName = ((GuiManagerD) app.getGuiManager())
-					.getImageFromFile();
+
+		btIconFile.addActionListener(e -> {
+			String fileName = ((GuiManagerD) app.getGuiManager()).getImageFromFile();
 			if (fileName != null) {
 				setIconFileName(fileName);
 			}
-		};
-
-		btIconFile.addActionListener(ac);
+		});
 
 		cbShowInToolBar = new JCheckBox();
 		add(cbShowInToolBar,
@@ -199,25 +197,25 @@ public class ToolNameIconPanelD extends JPanel {
 						new Insets(0, 0, 0, 0), 0, 0));
 		cbShowInToolBar.setText(loc.getMenu("ShowInToolBar"));
 		cbShowInToolBar.setSelected(true);
-		ActionListener ac2 = e -> {
+		cbShowInToolBar.addActionListener(e -> {
 			boolean active = cbShowInToolBar.isSelected();
 			labelIcon.setEnabled(active);
 			btIconFile.setEnabled(active);
 			updateMacro();
 
 			if (editHappens) {
-				int macroId = macro.getKernel().getMacroID(macro)
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 				if (active) {
 					app.getGuiManager().refreshCustomToolsInToolBar();
 				} else {
-					app.getGuiManager().removeFromToolbarDefinition(macroId);
+					app.getGuiManager().removeFromToolbarDefinition(
+							macro.getKernel().getMacroID(macro)
+									+ EuclidianConstants.MACRO_MODE_ID_OFFSET
+					);
 				}
 				app.updateToolBar();
 				app.updateMenubar();
 			}
-		};
-		cbShowInToolBar.addActionListener(ac2);
+		});
 	}
 
 	/**
@@ -241,9 +239,7 @@ public class ToolNameIconPanelD extends JPanel {
 		String cmdName = getCommandName();
 		if (!macro.getCommandName().equals(cmdName)) {
 			// try to change
-			boolean cmdNameChanged = app.getKernel().setMacroCommandName(macro,
-					cmdName);
-			if (!cmdNameChanged) {
+			if (!app.getKernel().setMacroCommandName(macro, cmdName)) {
 				// name used by macro: undo textfield change
 				tfCmdName.setText(macro.getCommandName());
 			}
@@ -417,9 +413,7 @@ public class ToolNameIconPanelD extends JPanel {
 			if (!parsed.equals(tfCmdName.getText())) {
 				tfCmdName.setText(parsed);
 			}
-		} catch (Error err) {
-			tfCmdName.setText(defaultToolName());
-		} catch (Exception ex) {
+		} catch (Error | Exception err) {
 			tfCmdName.setText(defaultToolName());
 		}
 		updateMacro();

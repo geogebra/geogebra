@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -150,6 +151,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 
 		startPoint.setCoords(min, (min / sd) - mean / sd, 1.0);
 		endPoint.setCoords(max, (max / sd) - mean / sd, 1.0);
+		GeoVec3D.lineThroughPoints(startPoint, endPoint, seg);
 		seg.calcLength();
 
 		return seg;

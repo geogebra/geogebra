@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog.options;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
@@ -25,7 +26,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -182,13 +183,17 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		setWidget(mainWidget);
 
-		opacitySlider.addChangeHandler(event -> model.applyOpacity(opacitySlider.getValue()));
+		opacitySlider.addInputHandler(model::applyOpacity);
+		ValueChangeHandler<Integer> storeUndo = val -> model.storeUndoInfo();
+		opacitySlider.addValueChangeHandler(storeUndo);
 
-		ChangeHandler angleAndDistanceHandler = event -> model.applyAngleAndDistance(
+		Consumer<Integer> angleAndDistanceHandler = val -> model.applyAngleAndDistance(
 				angleSlider.getValue(), distanceSlider.getValue());
 
-		angleSlider.addChangeHandler(angleAndDistanceHandler);
-		distanceSlider.addChangeHandler(angleAndDistanceHandler);
+		angleSlider.addInputHandler(angleAndDistanceHandler);
+		angleSlider.addValueChangeHandler(storeUndo);
+		distanceSlider.addInputHandler(angleAndDistanceHandler);
+		distanceSlider.addValueChangeHandler(storeUndo);
 
 		tfInsertUnicode.addBlurHandler(event -> {
 			String symbolText = tfInsertUnicode.getText();

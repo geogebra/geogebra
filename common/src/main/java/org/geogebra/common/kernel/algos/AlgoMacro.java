@@ -470,19 +470,15 @@ public class AlgoMacro extends AlgoElement
 	 */
 	private void initLocateable(Locateable macroLocateable,
 			Locateable locateable) {
-		GeoPointND[] macroStartPoints = macroLocateable.getStartPoints();
-		if (macroStartPoints == null) {
-			return;
-		}
+		int startPointCount = macroLocateable.getStartPointCount();
 
 		try {
-			for (int i = 0; i < macroStartPoints.length; i++) {
-				GeoPointND point = (GeoPointND) getAlgoGeo(macroStartPoints[i]);
-				locateable.initStartPoint(point, i);
-
-				// Application.debug("set start point: " + locateable + " => " +
-				// point + "(" + point.cons +")");
-
+			for (int i = 0; i < startPointCount; i++) {
+				GeoElementND startPoint = macroLocateable.getStartPoint(i);
+				if (startPoint != null) {
+					GeoPointND point = (GeoPointND) getAlgoGeo(startPoint);
+					locateable.initStartPoint(point, i);
+				}
 			}
 		} catch (Exception e) {
 			Log.debug("AlgoMacro.initLocateable:");

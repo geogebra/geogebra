@@ -197,9 +197,7 @@ public class ToolNameIconPanelW extends FlowPanel {
 		String cmdName = getCommandName();
 		if (!macro.getCommandName().equals(cmdName)) {
 			// try to change
-			boolean cmdNameChanged = app.getKernel().setMacroCommandName(macro,
-			        cmdName);
-			if (!cmdNameChanged) {
+			if (!app.getKernel().setMacroCommandName(macro, cmdName)) {
 				// name used by macro: undo textfield change
 				tfCmdName.setInputText(macro.getCommandName());
 			}

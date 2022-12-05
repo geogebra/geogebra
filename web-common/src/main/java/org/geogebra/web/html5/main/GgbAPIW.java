@@ -279,9 +279,9 @@ public class GgbAPIW extends GgbAPI {
 	 * @param callback
 	 *            callback
 	 */
-	public void getMacrosBase64(boolean includeThumbnail,
+	public void getAllMacrosBase64(boolean includeThumbnail,
 			StringConsumer callback) {
-		GgbFile archiveContent = createMacrosArchive();
+		GgbFile archiveContent = createAllMacrosArchive();
 		getZippedBase64Async(archiveContent, callback);
 	}
 
@@ -381,10 +381,19 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @return base64 for ggt file
+	 * @return base64 string for the archived and zipped macros
 	 */
-	public String getMacrosBase64() {
-		GgbFile archiveContent = createMacrosArchive();
+	public String getAllMacrosBase64() {
+		GgbFile archiveContent = createAllMacrosArchive();
+		return getZippedBase64Sync(archiveContent);
+	}
+
+	/**
+	 * @param macro is the macro that needs to be archived and zipped
+	 * @return base64 string for the given macro
+	 */
+	public String getMacroBase64(Macro macro) {
+		GgbFile archiveContent = createMacroArchive(macro);
 		return getZippedBase64Sync(archiveContent);
 	}
 
@@ -422,7 +431,7 @@ public class GgbAPIW extends GgbAPI {
 		((ImageManagerW) app.getImageManager())
 				.adjustConstructionImages(getConstruction());
 		String constructionXml = getApplication().getXML();
-		String macroXml = getApplication().getMacroXMLorEmpty();
+		String allMacrosXml = getApplication().getAllMacrosXMLorEmpty();
 		StringBuilder defaults2d = new StringBuilder();
 		StringBuilder defaults3d = null;
 		if (app.is3D()) {
@@ -432,9 +441,9 @@ public class GgbAPIW extends GgbAPI {
 				.getDefaultsXML(defaults2d, defaults3d);
 		String geogebraJavascript = getKernel().getLibraryJavaScript();
 
-		if (!"".equals(macroXml)) {
+		if (!"".equals(allMacrosXml)) {
 			writeMacroImages(archiveContent);
-			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
+			archiveContent.put(MyXMLio.XML_FILE_MACRO, allMacrosXml);
 		}
 
 		if (defaults2d.length() > 0) {
@@ -517,14 +526,31 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @return archive with macros + icons
+	 * Creates an archive with all the macros
+	 * @return archive containing all macros and their icons
 	 */
-	public GgbFile createMacrosArchive() {
+	public GgbFile createAllMacrosArchive() {
 		GgbFile archiveContent = new GgbFile("");
 		writeMacroImages(archiveContent);
-		String macroXml = getApplication().getMacroXMLorEmpty();
-		if (!"".equals(macroXml)) {
+		String allMacrosXml = getApplication().getAllMacrosXMLorEmpty();
+		if (!"".equals(allMacrosXml)) {
 			writeMacroImages(archiveContent);
+			archiveContent.put(MyXMLio.XML_FILE_MACRO, allMacrosXml);
+		}
+		return archiveContent;
+	}
+
+	/**
+	 * Creates an archive with the given macro
+	 * @param macro is the macro that the archive needs to contain
+	 * @return archive containing the given macro and its icon
+	 */
+	public GgbFile createMacroArchive(Macro macro) {
+		GgbFile archiveContent = new GgbFile("");
+		writeMacroImage(archiveContent, macro);
+		String macroXml = getApplication().getMacroXMLorEmpty(macro);
+		if (!"".equals(macroXml)) {
+			writeMacroImage(archiveContent, macro);
 			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
 		}
 		return archiveContent;
@@ -595,7 +621,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	public void getZippedMacrosAsync(final FileConsumer clb) {
-		getCompressed(createMacrosArchive(), clb);
+		getCompressed(createAllMacrosArchive(), clb);
 	}
 
 	private void getCompressed(GgbFile arch, FileConsumer clb) {
@@ -649,9 +675,13 @@ public class GgbAPIW extends GgbAPI {
 	private void writeMacroImages(GgbFile archive) {
 		if (kernel.hasMacros()) {
 			ArrayList<Macro> macros = kernel.getAllMacros();
-			((ImageManagerW) app.getImageManager()).writeMacroImages(macros,
-					archive);
+			((ImageManagerW) app.getImageManager()).writeMacroImages(macros, archive);
 		}
+	}
+
+	private void writeMacroImage(GgbFile archive, Macro macro) {
+		((ImageManagerW) app.getImageManager())
+				.writeMacroImages(Arrays.asList(macro), archive);
 	}
 
 	/**

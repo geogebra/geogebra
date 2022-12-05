@@ -785,7 +785,8 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
+			slider.addInputHandler(event -> model.applyChangesNoUndo(slider.getValue()));
+			slider.addValueChangeHandler(event -> model.storeUndoInfo());
 		}
 
 		@Override
@@ -882,8 +883,9 @@ public class OptionsTab extends FlowPanel {
 			// slider.setSnapToTicks(true);
 			lineThicknessPanel.add(thicknessSlider);
 
-			thicknessSlider.addChangeHandler(
+			thicknessSlider.addInputHandler(
 					event -> model.applyThickness(thicknessSlider.getValue()));
+			thicknessSlider.addValueChangeHandler(val -> model.storeUndoInfo());
 			opacitySliderLabel = new Label();
 
 			FlowPanel lineOpacityPanel = new FlowPanel();
@@ -896,10 +898,11 @@ public class OptionsTab extends FlowPanel {
 			// opacitySlider.setSnapToTicks(true);
 			lineOpacityPanel.add(opacitySlider);
 
-			opacitySlider.addChangeHandler(event -> {
+			opacitySlider.addInputHandler(event -> {
 				int value = (int) ((opacitySlider.getValue() / 100.0) * 255);
 				model.applyOpacity(value);
 			});
+			opacitySlider.addValueChangeHandler(val -> model.storeUndoInfo());
 
 			stylePanel = new FlowPanel();
 			stylePanel.setStyleName("optionsPanel");
@@ -1005,7 +1008,8 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
+			slider.addInputHandler(model::applyChanges);
+			slider.addValueChangeHandler(event -> model.storeUndoInfo());
 		}
 
 		@Override
@@ -1040,7 +1044,8 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
+			slider.addInputHandler(event -> model.applyChangesNoUndo(slider.getValue()));
+			slider.addValueChangeHandler(val -> model.storeUndoInfo());
 		}
 
 		@Override

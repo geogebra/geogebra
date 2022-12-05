@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -608,15 +607,11 @@ public class RelativeCopy {
 		String[] startPoints = null;
 		if (value instanceof Locateable) {
 			Locateable loc = (Locateable) value;
+			startPoints = new String[loc.getStartPointCount()];
 
-			GeoPointND[] pts = loc.getStartPoints();
-
-			if (pts != null) {
-
-				startPoints = new String[pts.length];
-
-				for (int i = 0; i < pts.length; i++) {
-					startPoints[i] = ((GeoElement) pts[i])
+			for (int i = 0; i < loc.getStartPointCount(); i++) {
+				if (loc.getStartPoint(i) != null) {
+					startPoints[i] = loc.getStartPoint(i)
 							.getLabel(highPrecision);
 
 					if (GeoElementSpreadsheet.spreadsheetPattern

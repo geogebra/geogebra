@@ -1,9 +1,9 @@
 package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.jre.gui.MyImageJre;
 
-public class MyImageCommon implements MyImage {
+public class MyImageCommon implements MyImageJre {
 	@Override
 	public int getWidth() {
 		return 64;
@@ -27,5 +27,15 @@ public class MyImageCommon implements MyImage {
 	@Override
 	public String toLaTeXStringBase64() {
 		return "";
+	}
+
+	@Override
+	public String getSVG() {
+		return "<svg/>";
+	}
+
+	@Override
+	public boolean hasNonNullImplementation() {
+		return false;
 	}
 }

@@ -2666,6 +2666,7 @@ public class CommandsTest {
 	public void cmdNormalQuantilePlot() {
 		t("NormalQuantilePlot[ {2,3,4}]",
 				"{(2, -0.8193286198336103), (3, 0), (4, 0.8193286198336103), 2.8284271247461903}");
+		t("Slope(Element(NormalQuantilePlot[ {2,3,4}],4))", "1");
 	}
 
 	@Test
@@ -2807,6 +2808,7 @@ public class CommandsTest {
 	@Test
 	public void cmdParseToNumber() {
 		t("ParseToNumber[ \"7\"]", "7");
+		t("ParseToNumber[ \"/\"]", "NaN");
 		t("n1 = 5", "5");
 		t("txt = \"6\"", "6");
 		t("ParseToNumber[ n1, txt ]", "6"); // valid

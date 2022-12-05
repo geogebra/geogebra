@@ -40,6 +40,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
+import org.geogebra.desktop.gui.util.SliderUtil;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -47,7 +48,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Markus Hohenwarter
  */
-public class SliderPanelD extends JPanel
+public class SliderPropertiesPanelD extends JPanel
 		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
 		SetLabels, UpdateFonts, ISliderOptionsListener, ChangeListener {
 	/**
@@ -93,7 +94,7 @@ public class SliderPanelD extends JPanel
 	 * @param useTabbedPane whether to use tabs
 	 * @param includeRandom whether to add checkbox for random
 	 */
-	public SliderPanelD(AppD app, PropertiesPanelD propPanel,
+	public SliderPropertiesPanelD(AppD app, PropertiesPanelD propPanel,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -116,6 +117,7 @@ public class SliderPanelD extends JPanel
 		sliderLineOpacity.setPaintTicks(true);
 		sliderLineOpacity.setPaintLabels(true);
 		sliderLineOpacity.setSnapToTicks(true);
+		SliderUtil.addValueChangeListener(sliderLineOpacity, val -> model.storeUndoInfo());
 		sliderLineOpacity.addChangeListener(this);
 
 		cbSliderFixed = new JCheckBox("", true);
@@ -514,12 +516,10 @@ public class SliderPanelD extends JPanel
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == sliderLineOpacity) {
-			if (!sliderLineOpacity.getValueIsAdjusting()) {
-				model.applyTransparency(sliderLineOpacity.getValue());
-				btnLineColor.setForeground(
-						GColorD.getAwtColor(
-								getColorWithOpacity(model.getLineColor())));
-			}
+			model.applyTransparency(sliderLineOpacity.getValue());
+			btnLineColor.setForeground(
+					GColorD.getAwtColor(
+							getColorWithOpacity(model.getLineColor())));
 		}
 	}
 }

@@ -27,6 +27,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.URL;
+import jsinterop.base.JsPropertyMap;
+
 /**
  * Dialog to create a new user defined tool
  */
@@ -65,7 +70,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 		toolModel = new ToolCreationDialogModel(app, this);
 
-		Macro appMacro = app.getMacro();
+		Macro appMacro = app.getEditMacro();
 		if (appMacro != null) {
 			this.setFromMacro(appMacro); // TODO
 		}
@@ -289,8 +294,8 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 	private void finish() {
 		final App appToSave;
-		if (appw.getMacro() != null) {
-			appToSave = appw.getMacro().getKernel().getApplication();
+		if (appw.getEditMacro() != null) {
+			appToSave = appw.getEditMacro().getKernel().getApplication();
 		} else {
 			appToSave = appw;
 		}
@@ -337,8 +342,27 @@ public class ToolCreationDialogW extends ComponentDialog implements
 			dialog.show();
 		}
 
-		if (appw.isToolLoadedFromStorage()) {
-			appw.storeMacro(appw.getMacro(), true);
+		if (appw.isOpenedForMacroEditing()) {
+			Macro editMacro = toolModel.getNewTool();
+			String editMacroName = editMacro.getEditName();
+			String editMacroPreviousName = appw.getEditMacroPreviousName();
+			if (!editMacroPreviousName.equals(editMacroName)) {
+				appw.removeMacro(editMacroPreviousName);
+				appw.storeMacro(editMacro);
+				appw.setEditMacroPreviousName(editMacroName);
+				DomGlobal.document.title = editMacroName;
+				URL url = new URL(DomGlobal.location.href);
+				if (url.searchParams != null) {
+					url.searchParams.set(AppW.EDIT_MACRO_URL_PARAM_NAME, editMacroName);
+					appw.updateURL(url);
+				}
+			}
+			StringBuilder xml = new StringBuilder();
+			editMacro.getXML(xml);
+			JsPropertyMap<Object> message = JsPropertyMap.of();
+			message.set(AppW.EDITED_MACRO_NAME_KEY, editMacroName);
+			message.set(AppW.EDITED_MACRO_XML_KEY, xml.toString());
+			DomGlobal.window.opener.postMessage(Global.JSON.stringify(message), "*");
 		}
 		if (success) {
 			setVisible(false);

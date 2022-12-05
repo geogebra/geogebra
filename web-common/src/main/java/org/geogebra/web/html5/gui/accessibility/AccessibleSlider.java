@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
-import org.geogebra.web.html5.util.sliderPanel.SliderWI;
 
 /**
  * Accessibility adapter for sliders
@@ -61,7 +60,7 @@ public class AccessibleSlider implements AccessibleWidget, HasSliders {
 		updateNumericRange(slider);
 	}
 
-	private void updateNumericRange(SliderWI range) {
+	private void updateNumericRange(SliderW range) {
 		double intervalMin = numeric.getIntervalMin();
 		double intervalMax = numeric.getIntervalMax();
 		double step = numeric.getAnimationStep();

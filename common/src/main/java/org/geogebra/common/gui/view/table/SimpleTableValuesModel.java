@@ -380,12 +380,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public boolean isEmptyValue(GeoElement element) {
-		return element instanceof GeoText && "".equals(((GeoText) element).getTextString());
+		// empty texts may be saved in files before APPS-4468
+		return (element instanceof GeoText && "".equals(((GeoText) element).getTextString()))
+				|| (element.isGeoNumeric() && element.isIndependent() && !element.isDefined());
 	}
 
 	@Override
 	public GeoElement createEmptyValue() {
-		return new GeoText(kernel.getConstruction(), "");
+		return new GeoNumeric(kernel.getConstruction(), Double.NaN);
 	}
 
 	@Override

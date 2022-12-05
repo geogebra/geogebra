@@ -305,7 +305,6 @@ public class SliderModel extends OptionsModel {
 			num.setBackgroundColor(colorWithTransparency);
 			num.updateVisualStyleRepaint(GProperty.COLOR);
 		}
-		storeUndoInfo();
 	}
 
 	/**

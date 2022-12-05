@@ -12,6 +12,14 @@ public abstract class NumberOptionsModel extends OptionsModel {
 	protected abstract int getValueAt(int index);
 
 	public boolean applyChanges(int value) {
+		if (applyChangesNoUndo(value)) {
+			storeUndoInfo();
+			return true;
+		}
+		return false;
+	}
+
+	public boolean applyChangesNoUndo(int value) {
 		if (!hasGeos()) {
 			return false;
 		}
@@ -19,7 +27,6 @@ public abstract class NumberOptionsModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			apply(i, value);
 		}
-		storeUndoInfo();
 		return true;
 	}
 }

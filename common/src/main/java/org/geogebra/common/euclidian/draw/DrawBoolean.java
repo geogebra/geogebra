@@ -105,8 +105,8 @@ public final class DrawBoolean extends Drawable {
 	}
 
 	private void updateLabel() {
-		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;
+		xLabel = geoBool.getAbsoluteScreenLocX();
+		yLabel = geoBool.getAbsoluteScreenLocY();
 		int size = view.getBooleanSize();
 		int prefSize = size + 12;
 		labelRectangle.setBounds(xLabel, yLabel,
@@ -119,8 +119,8 @@ public final class DrawBoolean extends Drawable {
 			g2.setFont(view.getFontPoint());
 
 			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
-					isHighlighted(), g2, geoBool.labelOffsetX + LEGACY_OFFSET,
-					geoBool.labelOffsetY + LEGACY_OFFSET, view.getBooleanSize());
+					isHighlighted(), g2, geoBool.getAbsoluteScreenLocX() + LEGACY_OFFSET,
+					geoBool.getAbsoluteScreenLocY() + LEGACY_OFFSET, view.getBooleanSize());
 
 			if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 				getDynamicCaption().draw(g2);
@@ -132,7 +132,7 @@ public final class DrawBoolean extends Drawable {
 
 				textWidth = d.getWidth();
 
-				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
+				int posX = geoBool.getAbsoluteScreenLocX() + checkBoxIcon.getIconWidth()
 						+ LABEL_MARGIN_LATEX + LEGACY_OFFSET;
 				int posY = getCaptionY(true, d.getHeight());
 
@@ -158,7 +158,7 @@ public final class DrawBoolean extends Drawable {
 					int height = (int) Math
 							.round(layout.getBounds().getHeight());
 					textWidth = width;
-					int left = geoBool.labelOffsetX
+					int left = geoBool.getAbsoluteScreenLocX()
 							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN_TEXT + LEGACY_OFFSET;
 					int top = getCaptionY(false, height);
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
@@ -172,9 +172,9 @@ public final class DrawBoolean extends Drawable {
 
 	@Override
 	public int getCaptionY(boolean latex, int height) {
-		return latex ? geoBool.labelOffsetY
+		return latex ? geoBool.getAbsoluteScreenLocY()
 				+ (checkBoxIcon.getIconHeight() - height) / 2 + LEGACY_OFFSET
-				: geoBool.labelOffsetY
+				: geoBool.getAbsoluteScreenLocY()
 				+ (checkBoxIcon.getIconHeight() + height) / 2 + LEGACY_OFFSET;
 	}
 
