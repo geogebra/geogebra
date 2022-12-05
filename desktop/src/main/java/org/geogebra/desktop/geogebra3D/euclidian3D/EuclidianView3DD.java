@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -118,17 +117,7 @@ public class EuclidianView3DD extends EuclidianView3D
 		// set stereo on/off
 		getCompanion().setIsStereoBuffered(((App3D) app).isStereo3D());
 
-		// we don't want shaders with win os < vista
-		if (!AppD.WINDOWS_VISTA_OR_EARLIER) {
-			return new RendererCheckGLVersionD(this, canUseCanvas());
-		}
-
-		if (app.useShaders()) {
-			return new RendererCheckGLVersionD(this, true, RendererType.SHADER);
-		}
-
-		return new RendererCheckGLVersionD(this, canUseCanvas(), RendererType.GL2);
-
+		return new RendererCheckGLVersionD(this, canUseCanvas());
 	}
 
 	private boolean canUseCanvas() {

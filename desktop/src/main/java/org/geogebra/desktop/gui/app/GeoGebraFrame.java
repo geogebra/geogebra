@@ -284,7 +284,7 @@ public class GeoGebraFrame extends JFrame
 
 		// Fixing #3772. TODO: This could be moved to somewhat later (to have
 		// proper logging), but *before* any GUI operations.
-		if (AppD.WINDOWS_VISTA_OR_LATER) {
+		if (AppD.WINDOWS) {
 			try {
 				AppId.setCurrentProcessExplicitAppUserModelID("geogebra.AppId");
 				System.out.println("AppID = "

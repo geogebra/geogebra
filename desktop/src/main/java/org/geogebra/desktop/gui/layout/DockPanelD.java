@@ -361,7 +361,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 *         the "checkbox bug"
 	 */
 	public ImageIcon getIcon() {
-		if (AppD.WINDOWS_VISTA_OR_LATER) {
+		if (AppD.WINDOWS) {
 			return null;
 		}
 		return app.getEmptyIcon();

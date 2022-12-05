@@ -1608,7 +1608,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * shown in Vista, Win 7
 	 */
 	public void setEmptyIcon(JCheckBoxMenuItem cb) {
-		if (!WINDOWS_VISTA_OR_LATER) {
+		if (!WINDOWS) {
 			cb.setIcon(getEmptyIcon());
 		}
 	}
@@ -4079,19 +4079,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public static final boolean MAC_OS = OS.startsWith("mac");
 	public static final boolean WINDOWS = OS.startsWith("windows");
 	public static final boolean LINUX = OS.startsWith("linux");
-
-	// make sure still works in the future on eg Windows 10/11
-	// note Java 7u40 returns "Windows 8" for Windows 8.1 and Windows 10
-	private static final boolean WINDOWS_XP_OR_EARLIER = OS
-			.startsWith("windows 2000") || OS.startsWith("windows 95")
-			|| OS.startsWith("windows 98") || OS.startsWith("windows nt")
-			|| OS.startsWith("windows xp");
-
-	public static final boolean WINDOWS_VISTA_OR_LATER = WINDOWS
-			&& !WINDOWS_XP_OR_EARLIER;
-
-	public static final boolean WINDOWS_VISTA_OR_EARLIER = WINDOWS_XP_OR_EARLIER
-			|| OS.startsWith("windows vista");
 
 	/**
 	 * @return true if running on Mac OS Big Sur or later versions.
