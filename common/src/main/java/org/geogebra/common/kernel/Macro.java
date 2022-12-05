@@ -238,14 +238,15 @@ public class Macro {
 			// these points must be part of the macro construction
 			if (output[i] instanceof Locateable) {
 				Locateable loc = (Locateable) output[i];
-				GeoPointND[] points = loc.getStartPoints();
-				if (points != null) {
-					for (int k = 0; k < points.length; k++) {
-						outputParents.add((GeoElement) points[k]);
-						((GeoElement) points[k])
-								.addPredecessorsToSet(outputParents, false);
+				int pointCount = loc.getStartPointCount();
+				for (int k = 0; k < pointCount; k++) {
+					GeoElement point = (GeoElement) loc.getStartPoint(k);
+					if (point != null) {
+						outputParents.add(point);
+						point.addPredecessorsToSet(outputParents, false);
 					}
 				}
+
 			}
 		}
 		// 2) and 3) get intersection of inputChildren and outputParents

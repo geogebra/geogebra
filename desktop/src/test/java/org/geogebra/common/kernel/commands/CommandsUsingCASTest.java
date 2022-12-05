@@ -369,9 +369,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		img.setImageFileName(fn);
 		app.getImageManager().setCornersFromSelection(img, app);
 		img.setLabel("picT");
-		img.getCorner(0).setCoords(0, 0, 1);
-		img.getCorner(1).setCoords(10, 0, 1);
-		img.getCorner(1).updateCascade();
+		img.getStartPoint(0).setCoords(0, 0, 1);
+		img.getStartPoint(1).setCoords(10, 0, 1);
+		img.getStartPoint(1).updateCascade();
 		tRound("Corner(picT,1)", "(0, 0)");
 		tRound("Corner(picT,2)", "(10, 0)");
 		tRound("Corner(picT,3)", "(10, 10)");

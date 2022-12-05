@@ -31,7 +31,6 @@ import org.geogebra.common.gui.util.DropDownListener;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.main.App;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -115,8 +114,8 @@ public final class DrawDropDownList extends CanvasDrawable
 		// eg: size changed etc
 		labelDesc = getLabelText();
 
-		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;
+		xLabel = geoList.getAbsoluteScreenLocX();
+		yLabel = geoList.getAbsoluteScreenLocY();
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 			getDynamicCaption().update();
 		}
@@ -203,9 +202,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	private void initScreenLocation() {
 		geoList.setScreenLocation(Math.min(xLabel, boxLeft),
 				Math.min(yLabel, boxTop));
-		ScreenLocation screenLocation = geoList.getScreenLocation();
-		screenLocation.initWidth(boxWidth);
-		screenLocation.initHeight(boxHeight);
 	}
 
 	private int alignTextToBottom(GGraphics2D g2, int top, int height,

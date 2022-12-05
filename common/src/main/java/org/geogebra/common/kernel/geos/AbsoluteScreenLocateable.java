@@ -13,13 +13,13 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.Locateable;
 
 /**
  * Interface for GeoElements that have an absolute screen position (GeoImage,
  * GeoText, GeoNumeric)
  */
-public interface AbsoluteScreenLocateable extends GeoElementND {
+public interface AbsoluteScreenLocateable extends Locateable {
 	/**
 	 * @param x
 	 *            x offset (in pixels)
