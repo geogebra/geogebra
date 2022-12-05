@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import static com.himamis.retex.renderer.share.platform.FactoryProvider.debugS;
+
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.StringTemplate;
@@ -15,17 +17,21 @@ import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.serializer.TeXBuilder;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.MathFormulaConverter;
+import com.himamis.retex.renderer.share.Atom;
 
 class EditorChecker {
 	private MathFieldCommon mathField;
 	private EditorTyper typer;
 	private App app;
-
 	protected EditorChecker(App app) {
 		this(app, new MetaModel());
 	}
@@ -57,6 +63,27 @@ class EditorChecker {
 			Assert.assertEquals(output, "Exception: " + e.toString());
 		}
 
+	}
+
+	public EditorChecker checkPlaceholders(int... indices) {
+		MathFieldInternal mathFieldInternal = mathField.getInternal();
+		mathFieldInternal.update();
+		EditorState editorState = mathFieldInternal.getEditorState();
+		MathSequence currentField = editorState.getCurrentField();
+		MathArray array = (MathArray) currentField.getArgument(0);
+		MathSequence argument = array.getArgument(0);
+		TeXBuilder builder = new TeXBuilder();
+		ArrayList<Integer> path = CursorController.getPath(editorState);
+		debugS("P: " + path);
+		Atom atom = builder.build(getRootComponent(), currentField, editorState.getCurrentOffset(),
+				false);
+		MathComponent component = builder.getComponent(atom);
+
+//		for (int index: indices) {
+//			boolean placeholder = component instanceof MathCharPlaceholder;
+//			assertTrue(component + " is not a placeholder at " + index, placeholder);
+//		}
+   		return this;
 	}
 
 	public void checkRaw(String output) {
@@ -115,6 +142,18 @@ class EditorChecker {
 			mathField.getInternal().setFormula(formula);
 		} catch (Exception e) {
 			Assert.fail("Problem parsing: " + input);
+		}
+		return this;
+	}
+
+	public EditorChecker convertFormula(String input) {
+		try {
+			MathFormulaConverter converter =
+					new MathFormulaConverter(mathField.getMetaModel());
+			mathField.getInternal().setFormula(converter.buildFormula(input));
+
+		} catch (com.himamis.retex.editor.share.io.latex.ParseException e) {
+			throw new RuntimeException(e);
 		}
 		return this;
 	}

@@ -13,11 +13,14 @@ public class MathFormulaConverter {
 	private final TeXSerializer texSerializer;
 	private final AddPlaceholders placeholders;
 
+	public MathFormulaConverter() {
+		this(new MetaModel());
+	}
+
 	/**
 	 * Constructor
 	 */
-	public MathFormulaConverter() {
-		MetaModel model = new MetaModel();
+	public MathFormulaConverter(MetaModel model) {
 		parser = new Parser(model);
 		texSerializer = new TeXSerializer();
 		placeholders = new AddPlaceholders();
