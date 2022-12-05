@@ -32,7 +32,6 @@ import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 import elemental2.dom.NodeList;
 import jsinterop.base.Js;
@@ -103,7 +102,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		tableModel.registerListener(this);
 		editor = new TableEditor(this, app);
 		reset();
-		addSciCalcUIElements();
 		addHeadClickHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
 			if (el != null && (el.hasClassName("button") || el.getParentNode() != null
@@ -143,22 +141,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		});
 	}
 
-	private void addSciCalcUIElements() {
-		if (!app.getConfig().hasOneVarStatistics()) {
-			SimplePanel btnHolder = new SimplePanel();
-			btnHolder.addStyleName("btnRow");
-
-			StandardButton btn = new StandardButton(app.getLocalization()
-					.getMenu("DefineFunctions"));
-			btn.addStyleName("materialTextButton");
-			btnHolder.add(btn);
-			getElement().insertBefore(btnHolder.getElement(), getElement().getChild(0)) ;
-
-			btn.addFastClickHandler((event) -> openDefineFunctions());
-		}
-	}
-
-	private void openDefineFunctions() {
+	@Override
+	public void openDefineFunctions() {
 		if (defFuncDialog == null) {
 			DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
 			defFuncDialog = new DefineFunctionsDialogTV(app, data, view);

@@ -22,7 +22,7 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void decorateTableTab(Widget tab, StickyTable<?> table) {
+	public void decorateTableTab(Widget tab, StickyTable<?> table, AppW app) {
 		tab.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
 	}
 }

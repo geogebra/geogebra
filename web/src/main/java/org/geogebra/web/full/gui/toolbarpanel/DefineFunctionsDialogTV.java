@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -87,19 +89,20 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 
 	private boolean processInput(MathTextFieldW field, int idx) {
 		resetError();
-		if (field.getText().isEmpty()) {
-			field.asWidget().getParent().removeStyleName("error");
-			return false;
+		GeoEvaluatable geo = view.getEvaluatable(idx);
+		String input = field.getText();
+		if (input.isEmpty()) {
+			input = geo.getLabel(StringTemplate.defaultTemplate) + "("
+					+ ((VarString) geo).getVarString(StringTemplate.defaultTemplate) + ")=?";
 		}
 
-		GeoEvaluatable geo = view.getEvaluatable(idx);
 		if (geo instanceof GeoFunction) {
 			EvalInfo info = new EvalInfo(!app.getKernel().getConstruction()
 					.isSuppressLabelsActive(), false, false);
 			try {
 				app.getKernel().getAlgebraProcessor().setEnableStructures(true);
 				app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
-						field.getText(), info, false, null, this);
+						input, info, false, null, this);
 				app.storeUndoInfo();
 			} catch (Error e) {
 				Log.error("Error happened on processing the input");

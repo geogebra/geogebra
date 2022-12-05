@@ -32,6 +32,7 @@ public interface DockPanelDecorator {
 	 *
 	 * @param tab to decorate.
 	 * @param table to decorate.
+	 * @param app application
 	 */
-	void decorateTableTab(Widget tab, StickyTable<?> table);
+	void decorateTableTab(Widget tab, StickyTable<?> table, AppW app);
 }
