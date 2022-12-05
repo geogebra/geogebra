@@ -137,4 +137,14 @@ public class AlgebraItemTest extends BaseUnitTest {
         assertThat(AlgebraItem.getPreviewFormula(point, StringTemplate.latexTemplate),
                 endsWith("\\left(1 | 2 \\right)"));
     }
+
+    @Test
+    public void testIsGeoFraction() {
+        GeoElement fraction1 = add("1+1/3");
+        GeoElement fraction2 = add("-5/3");
+        GeoElement solve = add("Solve(2x=3)");
+        assertThat(AlgebraItem.isGeoFraction(fraction1), is(true));
+        assertThat(AlgebraItem.isGeoFraction(fraction2), is(true));
+        assertThat(AlgebraItem.isGeoFraction(solve), is(false));
+    }
 }

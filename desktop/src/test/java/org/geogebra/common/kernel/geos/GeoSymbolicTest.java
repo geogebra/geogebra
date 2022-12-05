@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -33,7 +34,6 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
@@ -1908,5 +1908,17 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testInvalidTrigInput() {
 		GeoSymbolic invalid = add("tan^(-1)");
 		assertThat(invalid, is(nullValue()));
+	}
+
+	/**
+	 * like {@link AlgebraItemTest#testIsGeoFraction}, but for GeoSymbolic
+	 */
+	@Test
+	public void testIsGeoFraction() {
+		GeoElement fraction = add("1+1/3");
+		GeoElement solve2 = add("Solve(2x=3,x)");
+		assertThat(fraction, instanceOf(GeoSymbolic.class));
+		assertThat(AlgebraItem.isGeoFraction(fraction), is(true));
+		assertThat(AlgebraItem.isGeoFraction(solve2), is(false));
 	}
 }
