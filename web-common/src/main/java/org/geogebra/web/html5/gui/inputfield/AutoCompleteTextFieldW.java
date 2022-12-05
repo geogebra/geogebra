@@ -1368,13 +1368,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.getValueBox().selectAll();
 	}
 
-	/**
-	 * Adds key handler to the tetxtfield
-	 *
-	 * @param handler
-	 *            Keypresshandler
-	 * @return registration
-	 */
+	@Override
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 		return textField.getValueBox().addKeyPressHandler(handler);
 	}

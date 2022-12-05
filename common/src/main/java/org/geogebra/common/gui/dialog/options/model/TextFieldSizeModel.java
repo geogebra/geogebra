@@ -16,7 +16,7 @@ public class TextFieldSizeModel extends TextPropertyModel {
 	}
 
 	@Override
-	public void updateProperties() {
+	public String getText() {
 		GeoInputBox temp, geo0 = getTextFieldAt(0);
 		boolean equalSize = true;
 
@@ -28,9 +28,9 @@ public class TextFieldSizeModel extends TextPropertyModel {
 		}
 
 		if (equalSize) {
-			listener.setText(geo0.getLength() + "");
+			return geo0.getLength() + "";
 		} else {
-			listener.setText("");
+			return "";
 		}
 	}
 
@@ -47,8 +47,8 @@ public class TextFieldSizeModel extends TextPropertyModel {
 				geo.setLength((int) value.getDouble());
 				geo.updateRepaint();
 			}
+			storeUndoInfo();
 		}
-		storeUndoInfo();
 	}
 
 	@Override

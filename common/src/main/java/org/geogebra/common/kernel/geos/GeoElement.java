@@ -2121,9 +2121,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return animation step as geo
 	 */
 	public NumberValue getAnimationStepObject() {
-		if (animationIncrement == null) {
-			return null;
-		}
 		return animationIncrement;
 	}
 

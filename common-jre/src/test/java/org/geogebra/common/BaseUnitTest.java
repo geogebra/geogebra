@@ -7,6 +7,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -234,15 +235,15 @@ public class BaseUnitTest {
 	 * @param val expected value (for default template)
 	 * @return construction element matcher
 	 */
-	public static TypeSafeMatcher<GeoElementND> hasValue(String val) {
-		return new TypeSafeMatcher<GeoElementND>() {
+	public static TypeSafeMatcher<ExpressionValue> hasValue(String val) {
+		return new TypeSafeMatcher<ExpressionValue>() {
 			@Override
-			protected boolean matchesSafely(GeoElementND item) {
+			protected boolean matchesSafely(ExpressionValue item) {
 				return val.equals(item.toValueString(StringTemplate.defaultTemplate));
 			}
 
 			@Override
-			public void describeMismatchSafely(GeoElementND item, Description description) {
+			public void describeMismatchSafely(ExpressionValue item, Description description) {
 				description.appendText("had value ").appendValue(item
 						.toValueString(StringTemplate.defaultTemplate));
 			}

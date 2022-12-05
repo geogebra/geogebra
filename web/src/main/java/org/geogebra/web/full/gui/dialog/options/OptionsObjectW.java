@@ -58,6 +58,7 @@ import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import org.geogebra.common.gui.dialog.options.model.VerticalIncrementModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.kernel.Kernel;
@@ -884,6 +885,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		tab.addModel(new ConicEqnModel(app));
 		tab.addModel(new AnimationSpeedModel(getAppW()));
 		tab.addModel(new AnimationStepModel(getAppW()));
+		tab.addModel(new VerticalIncrementModel(getAppW()));
 		return tab;
 	}
 

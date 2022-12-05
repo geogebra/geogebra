@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -478,5 +479,15 @@ public class XMLBuilder {
 			sb.append(alignment.toString());
 			sb.append("\"/>\n");
 		}
+	}
+
+	/**
+	 * @param sb builder
+	 * @param verticalIncrement vertical increment
+	 */
+	public static void appendVerticalIncrement(StringBuilder sb, NumberValue verticalIncrement) {
+		sb.append("<incrementY val=\"");
+		StringUtil.encodeXML(sb, verticalIncrement.getLabel(StringTemplate.xmlTemplate));
+		sb.append("\"/>");
 	}
 }
