@@ -1341,7 +1341,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 */
 	public String getImageFromFile(File imageFile0) {
 		File imageFile = imageFile0;
-		MyImageD img = new MyImageD();
 		try {
 			getApp().setWaitCursor();
 			if (imageFile == null) {
@@ -1424,7 +1423,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			String fileName = imageFile.getCanonicalPath();
 
 			// load image
-			img.load(imageFile);
+
+			MyImageD img = MyImageD.load(imageFile);
 
 			String ret = getApp().createImage(img, fileName);
 			getApp().setDefaultCursor();

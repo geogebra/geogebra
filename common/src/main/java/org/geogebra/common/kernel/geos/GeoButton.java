@@ -51,8 +51,6 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 	private boolean fixedSize = false;
 
-	private Observer observer;
-
 	/**
 	 * Creates new button
 	 * 
@@ -508,17 +506,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 */
 	public void setFixedSize(boolean fixedSize) {
 		this.fixedSize = fixedSize;
-		if (observer != null) {
-			observer.notifySizeChanged();
-		}
-	}
-
-	/**
-	 * @param observer
-	 *            object watching size of this button
-	 */
-	public void setObserver(Observer observer) {
-		this.observer = observer;
+		getKernel().notifyRepaint();
 	}
 
 	/** Object watching size of a button */
