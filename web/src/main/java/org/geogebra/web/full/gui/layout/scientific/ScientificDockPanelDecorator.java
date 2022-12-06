@@ -20,6 +20,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	// TODO to find out where is this come from.
 	public static final int TAB_HEIGHT_DIFFERENCE = 40;
+	public static final int TABLE_HEIGHT_DIFFERENCE = 64;
 	private FlowPanel main;
 	private Widget tableTab;
 	private StickyTable<?> table;
@@ -63,13 +64,14 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void resizeTable(int tabHeight) {
-		table.setHeight(tabHeight - TAB_HEIGHT_DIFFERENCE - 20);
+		table.setHeight(tabHeight - TABLE_HEIGHT_DIFFERENCE);
+		tableTab.setHeight((tabHeight + TAB_HEIGHT_DIFFERENCE) + "px");
 		toggleSmallScreen(tableTab, false);
 	}
 
 	@Override
 	public void resizeTableSmallScreen(int tabHeight) {
-		resizeTable(tabHeight - TAB_HEIGHT_DIFFERENCE);
+		resizeTable(tabHeight);
 		toggleSmallScreen(tableTab, true);
 	}
 
