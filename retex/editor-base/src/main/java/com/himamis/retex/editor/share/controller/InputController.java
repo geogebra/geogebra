@@ -13,6 +13,7 @@ import com.himamis.retex.editor.share.meta.MetaFunction;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -887,11 +888,33 @@ public class InputController {
 		if (!currentField.isArgumentProtected(currentOffset - 1)) {
 			currentField.delArgument(currentOffset - 1);
 			editorState.decCurrentOffset();
-			MathComponent component = currentField.getArgument(editorState.getCurrentOffset());
+			int offset = editorState.getCurrentOffset();
+			MathComponent component = currentField.getArgument(offset);
+			if (component == null) {
+				MathComponent prev = currentField.getArgument(offset - 1);
+				if (isCommaOrNull(prev)) {
+					currentField.addArgument(offset, new MathCharPlaceholder());
+				}
+			}
 			if (component instanceof MathFunction) {
 				RemoveContainer.fuseMathFunction(editorState, (MathFunction) component);
+			} else if (component instanceof MathCharacter) {
+				MathCharacter character = (MathCharacter) component;
+				if (character.isUnicode(',')) {
+					MathComponent prev = currentField.getArgument(offset - 1);
+					MathComponent next = currentField.getArgument(offset + 1);
+					if (isCommaOrNull(prev)) {
+						currentField.addArgument(offset, new MathCharPlaceholder());
+					}
+				}
 			}
 		}
+	}
+
+	private boolean isCommaOrNull(MathComponent prev) {
+		return prev == null ||
+				(prev instanceof MathCharacter
+						&& ((MathCharacter) prev).isUnicode(','));
 	}
 
 	private static void extendBrackets(MathArray array, EditorState state) {

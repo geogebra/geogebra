@@ -51,12 +51,86 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testPoint() {
+	public void testPointOnDelete() {
 		checker.convertFormula(point3D)
 				.typeKey(JavaKeyCodes.VK_DELETE)
-				.checkPlaceholders("1|,2,3")
+				.checkPlaceholders("|,2,3");
+	}
+
+
+	@Test
+	public void testPointOnDeleteAnRight() {
+		checker.convertFormula(point3D)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.right(1)
+				.checkPlaceholders("_,2,3");
+	}
+
+	@Test
+	public void testPointOnDeleteAnRightDeleteAgain() {
+		checker.convertFormula(point3D)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.right(1)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.checkPlaceholders("_,|,3");
+	}
+	@Test
+	public void testPointOnDeleteAnRightDeleteAgainAndBack() {
+		checker.convertFormula(point3D)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.right(1)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.left(1)
+				.checkPlaceholders("|,_,3");
+	}
+
+	@Test
+	public void testDeleteFromMultiChars2D() {
+		checker.convertFormula("(123,789)")
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.right(1)
+				.checkPlaceholders("_,789");
+
+	}
+
+	@Test
+	public void testDeleteFromMultiCharsFromEnd2D() {
+		checker.convertFormula("(123,789)")
+				.right(4)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.left(1)
+				.checkPlaceholders("123,_");
+	}
+
+	@Test
+	public void testDeleteFromMultiCharsFromMiddle3D() {
+		checker.convertFormula("(123,456,789)")
+				.right(4)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.left(1)
+				.checkPlaceholders("123,_,789");
+	}
+
+	@Test
+	public void testDeleteFromMultiChars() {
+		checker.convertFormula("(123,456,789)")
 				.right(2)
-				.checkPlaceholders("1|,2,3")
-		;
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.right(1)
+				.checkPlaceholders("12,456,789");
+	}
+
+	@Test
+	public void testDeleteFromMultiCharsFromBeginning() {
+		checker.convertFormula("(123,456,789)")
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.checkPlaceholders("23,456,789");
+
 	}
 }
