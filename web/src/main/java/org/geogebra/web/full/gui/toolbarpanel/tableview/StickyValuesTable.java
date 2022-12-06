@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
+import org.geogebra.web.full.gui.toolbarpanel.DefineFunctionsDialogTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -18,6 +19,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -53,6 +55,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private int columnsChange = 0;
 	private int removedColumnByUser = -1;
 	private boolean shadedColumns = true;
+	DefineFunctionsDialogTV defFuncDialog;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
@@ -136,6 +139,15 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			}
 			return false;
 		});
+	}
+
+	@Override
+	public void openDefineFunctions() {
+		if (defFuncDialog == null) {
+			DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
+			defFuncDialog = new DefineFunctionsDialogTV(app, data, view);
+		}
+		defFuncDialog.show();
 	}
 
 	private boolean isColumnEditable(int column) {

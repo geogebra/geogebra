@@ -5,6 +5,7 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -12,6 +13,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -53,10 +55,21 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void decorateTableTab(Widget tab, StickyTable<?> table) {
+	public void decorateTableTab(Widget tab, StickyTable<?> table, AppW app) {
 		tab.addStyleName("panelScientificDefaults");
 		disableShadedColumns((StickyValuesTable) table);
 		table.addStyleName("scientific");
+
+		SimplePanel btnHolder = new SimplePanel();
+		btnHolder.addStyleName("btnRow");
+
+		StandardButton btn = new StandardButton(app.getLocalization()
+				.getMenu("DefineFunctions"));
+		btn.addStyleName("materialTextButton");
+		btnHolder.add(btn);
+		table.getElement().insertBefore(btnHolder.getElement(), table.getElement().getChild(0)) ;
+
+		btn.addFastClickHandler((event) -> table.openDefineFunctions());
 	}
 
 	private void disableShadedColumns(StickyValuesTable table) {
