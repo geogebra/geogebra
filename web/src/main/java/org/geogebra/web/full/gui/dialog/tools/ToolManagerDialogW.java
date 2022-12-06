@@ -21,7 +21,6 @@ import org.geogebra.common.gui.dialog.ToolManagerDialogModel;
 import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -263,14 +262,12 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 		toolButtonPanel.addStyleName("toolButtons");
 		panel.add(toolButtonPanel);
 
-		if (appw.has(Feature.TOOL_EDITOR)) {
-			openButton = addStyledButton(
-					MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
-					toolButtonPanel, loc.getMenu("Open"),
-					w -> this.openMacroEditingTab()
-			);
-			openButton.setEnabled(false);
-		}
+		openButton = addStyledButton(
+				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+				toolButtonPanel, loc.getMenu("Open"),
+				w -> this.openMacroEditingTab()
+		);
+		openButton.setEnabled(false);
 
 		addStyledButton(MaterialDesignResources.INSTANCE.save_black(), toolButtonPanel,
 				loc.getMenu("Save"), w -> this.saveTools());

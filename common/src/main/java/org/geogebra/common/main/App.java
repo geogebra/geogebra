@@ -3743,9 +3743,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case LOCALSTORAGE_FILES:
 			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getPlatform());
 
-		case TOOL_EDITOR:
-			return prerelease;
-
 		// TRAC-4845
 		case LOG_AXES:
 			return prerelease;
