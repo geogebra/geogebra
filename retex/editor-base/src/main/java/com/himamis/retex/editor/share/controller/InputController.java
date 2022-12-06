@@ -885,36 +885,38 @@ public class InputController {
 	private void deleteSingleArg(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
 		MathSequence currentField = editorState.getCurrentField();
-		if (!currentField.isArgumentProtected(currentOffset - 1)) {
-			currentField.delArgument(currentOffset - 1);
-			editorState.decCurrentOffset();
-			int offset = editorState.getCurrentOffset();
-			MathComponent component = currentField.getArgument(offset);
-			if (component == null) {
-				MathComponent prev = currentField.getArgument(offset - 1);
-				if (isCommaOrNull(prev)) {
-					currentField.addArgument(offset, new MathCharPlaceholder());
-				}
-			}
-			if (component instanceof MathFunction) {
-				RemoveContainer.fuseMathFunction(editorState, (MathFunction) component);
-			} else if (component instanceof MathCharacter) {
-				MathCharacter character = (MathCharacter) component;
-				if (character.isUnicode(',')) {
-					MathComponent prev = currentField.getArgument(offset - 1);
-					MathComponent next = currentField.getArgument(offset + 1);
-					if (isCommaOrNull(prev)) {
-						currentField.addArgument(offset, new MathCharPlaceholder());
-					}
-				}
-			}
+		if (currentField.isArgumentProtected(currentOffset - 1)) {
+			return;
+		}
+
+		currentField.delArgument(currentOffset - 1);
+		editorState.decCurrentOffset();
+		onDelete(editorState, currentField);
+	}
+
+	private void onDelete(EditorState editorState, MathSequence currentField) {
+		int offset = editorState.getCurrentOffset();
+		MathComponent component = currentField.getArgument(offset);
+		if (isCommaOrNull(component)) {
+			addPlaceholderIfNeeded(currentField, offset);
+		}
+
+		if (component instanceof MathFunction) {
+			RemoveContainer.fuseMathFunction(editorState, (MathFunction) component);
 		}
 	}
 
-	private boolean isCommaOrNull(MathComponent prev) {
-		return prev == null ||
-				(prev instanceof MathCharacter
-						&& ((MathCharacter) prev).isUnicode(','));
+	private boolean isCommaOrNull(MathComponent component) {
+		return component == null ||
+				(component instanceof MathCharacter
+						&& ((MathCharacter) component).isUnicode(','));
+	}
+
+	private void addPlaceholderIfNeeded(MathSequence currentField, int offset) {
+		MathComponent prev = currentField.getArgument(offset - 1);
+		if (isCommaOrNull(prev)) {
+			currentField.addArgument(offset, new MathCharPlaceholder());
+		}
 	}
 
 	private static void extendBrackets(MathArray array, EditorState state) {

@@ -127,6 +127,47 @@ public class EditorPointTest {
 	}
 
 	@Test
+	public void testDeleteFromMultiCharsFromBeginWithBackspace() {
+		checker.convertFormula("(123,456,789)")
+				.right(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.right(1)
+				.checkPlaceholders("_,456,789");
+	}
+
+	@Test
+	public void testDeleteFromMultiCharsWithBackspace() {
+		checker.convertFormula("(123,456,789)")
+				.right(11)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.left(1)
+				.checkPlaceholders("123,456,_");
+	}
+
+	@Test
+	public void testDeleteFromMultiCharsFromMidleWithBackspace() {
+		checker.convertFormula("(123,456,789)")
+				.right(7)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.left(1)
+				.checkPlaceholders("123,_,789");
+	}
+
+	@Test
+	public void testDeleteOneFromMultiCharsFromMidleWithBackspace() {
+		checker.convertFormula("(123,456,789)")
+				.right(6)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkPlaceholders("123,46,789");
+	}
+
+	@Test
 	public void testDeleteFromMultiCharsFromBeginning() {
 		checker.convertFormula("(123,456,789)")
 				.typeKey(JavaKeyCodes.VK_DELETE)
