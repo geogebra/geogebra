@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DefaultDockPanelDecorator implements DockPanelDecorator {
-	private Widget tab;
 	private StickyTable<?> table;
 
 	@Override
@@ -25,7 +24,6 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
-		this.tab = tab;
 		this.table = table;
 		tab.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
 	}
