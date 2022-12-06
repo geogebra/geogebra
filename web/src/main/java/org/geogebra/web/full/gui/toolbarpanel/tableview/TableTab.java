@@ -114,9 +114,9 @@ public class TableTab extends ToolbarTab {
 				.shouldHaveSmallScreenLayout();
 		DockPanelDecorator decorator = toolbarPanel.getDecorator();
 		if (smallScreen) {
-			decorator.resizeTable(table, tabHeight);
+			decorator.resizeTableSmallScreen(tabHeight);
 		} else {
-			decorator.resizeTableSmallScreen(table, tabHeight);
+			decorator.resizeTable(tabHeight);
 		}
 	}
 

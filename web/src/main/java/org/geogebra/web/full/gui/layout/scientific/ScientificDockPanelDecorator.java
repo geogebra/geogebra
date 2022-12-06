@@ -21,6 +21,8 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	// TODO to find out where is this come from.
 	public static final int TAB_HEIGHT_DIFFERENCE = 40;
 	private FlowPanel main;
+	private Widget tableTab;
+	private StickyTable<?> table;
 
 	@Override
 	public Panel decorate(Panel wrapper, AppW appW) {
@@ -50,29 +52,31 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void onResize(AlgebraViewW aView, int offsetHeight) {
-		toggleSmallScreen(aView.getApp().getAppletFrame()
+		toggleSmallScreen(main, aView.getApp().getAppletFrame()
 				.shouldHaveSmallScreenLayout());
 	}
 
-	private void toggleSmallScreen(boolean smallScreen) {
-		Dom.toggleClass(main, "algebraPanelScientificSmallScreen",
+	private void toggleSmallScreen(Widget w, boolean smallScreen) {
+		Dom.toggleClass(w, "algebraPanelScientificSmallScreen",
 				"panelScientificDefaults", smallScreen);
 	}
 
 	@Override
-	public void resizeTable(StickyTable<?> table, int tabHeight) {
-		table.setHeight(tabHeight - TAB_HEIGHT_DIFFERENCE);
-		toggleSmallScreen(false);
+	public void resizeTable(int tabHeight) {
+		table.setHeight(tabHeight - TAB_HEIGHT_DIFFERENCE - 20);
+		toggleSmallScreen(tableTab, false);
 	}
 
 	@Override
-	public void resizeTableSmallScreen(StickyTable<?> table, int tabHeight) {
-		resizeTable(table, tabHeight - TAB_HEIGHT_DIFFERENCE);
-		toggleSmallScreen(true);
+	public void resizeTableSmallScreen(int tabHeight) {
+		resizeTable(tabHeight - TAB_HEIGHT_DIFFERENCE);
+		toggleSmallScreen(tableTab, true);
 	}
 
 	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
+		tableTab = tab;
+		this.table = table;
 		tab.addStyleName("panelScientificDefaults");
 		disableShadedColumns((StickyValuesTable) table);
 		table.addStyleName("scientific");

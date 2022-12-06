@@ -44,16 +44,14 @@ public interface DockPanelDecorator {
 	/**
 	 * Resizes the table on normal screen.
 	 *
-	 * @param table to resize.
 	 * @param tabHeight the tab height where the table is on.
 	 */
-	void resizeTable(StickyTable<?> table, int tabHeight);
+	void resizeTable(int tabHeight);
 
 	/**
 	 * Resizes the table on small screen.
-	 *
-	 * @param table to resize.
+
 	 * @param tabHeight the tab height where the table is on.
 	 */
-	void resizeTableSmallScreen(StickyTable<?> table, int tabHeight);
+	void resizeTableSmallScreen(int tabHeight);
 }
