@@ -108,4 +108,8 @@ public class ResizeAtom extends Atom {
 	public int getLimits() {
 		return base.getLimits();
 	}
+
+	public Atom getResizedBase() {
+		return base;
+	}
 }

@@ -1,6 +1,6 @@
 package org.geogebra.common.io;
 
-import static com.himamis.retex.renderer.share.platform.FactoryProvider.debugS;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
@@ -17,8 +17,6 @@ import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathArray;
-import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
@@ -27,6 +25,12 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.MathFormulaConverter;
 import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.CharAtom;
+import com.himamis.retex.renderer.share.ColorAtom;
+import com.himamis.retex.renderer.share.PhantomAtom;
+import com.himamis.retex.renderer.share.ResizeAtom;
+import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.SymbolAtom;
 
 class EditorChecker {
 	private MathFieldCommon mathField;
@@ -44,7 +48,7 @@ class EditorChecker {
 
 	public void checkAsciiMath(String output) {
 		MathSequence rootComponent = getRootComponent();
-		Assert.assertEquals(output,
+		assertEquals(output,
 				GeoGebraSerializer.serialize(rootComponent));
 		// clean the checker after typing
 		fromParser("");
@@ -57,42 +61,65 @@ class EditorChecker {
 
 		try {
 			ExpressionNode en = parse(exp);
-			Assert.assertEquals(output, en.toString(StringTemplate.defaultTemplate));
+			assertEquals(output, en.toString(StringTemplate.defaultTemplate));
 		} catch (ParseException e) {
 			Log.debug(e);
-			Assert.assertEquals(output, "Exception: " + e.toString());
+			assertEquals(output, "Exception: " + e.toString());
 		}
 
 	}
 
-	public EditorChecker checkPlaceholders(int... indices) {
+	public EditorChecker checkPlaceholders(String expected) {
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		mathFieldInternal.update();
 		EditorState editorState = mathFieldInternal.getEditorState();
 		MathSequence currentField = editorState.getCurrentField();
-		MathArray array = (MathArray) currentField.getArgument(0);
-		MathSequence argument = array.getArgument(0);
 		TeXBuilder builder = new TeXBuilder();
-		ArrayList<Integer> path = CursorController.getPath(editorState);
-		debugS("P: " + path);
-		Atom atom = builder.build(getRootComponent(), currentField, editorState.getCurrentOffset(),
+		RowAtom atom = (RowAtom) builder.build(currentField, currentField, editorState.getCurrentOffset(),
 				false);
-		MathComponent component = builder.getComponent(atom);
 
-//		for (int index: indices) {
-//			boolean placeholder = component instanceof MathCharPlaceholder;
-//			assertTrue(component + " is not a placeholder at " + index, placeholder);
-//		}
-   		return this;
+		assertEquals(expected, serializeRow(atom));
+  		return this;
+	}
+
+	private String serializeRow(RowAtom row) {
+		StringBuilder sb = new StringBuilder();
+		for (Atom atom: row.getElements()) {
+			sb.append(serializeAtom(atom));
+		}
+		return sb.toString();
+	}
+
+	private String serializeAtom(Atom atom) {
+		if (atom instanceof PhantomAtom) {
+			return "|";
+		}
+
+		if (atom instanceof ColorAtom) {
+			return "_";
+		}
+
+		if (atom instanceof CharAtom) {
+			return ((CharAtom) atom).getCharacter() + "";
+		}
+
+		if (atom instanceof SymbolAtom) {
+			return ((SymbolAtom) atom).getUnicode() + "";
+		}
+
+		if (atom instanceof ResizeAtom) {
+			return serializeAtom(((ResizeAtom)atom).getResizedBase());
+		}
+		return null;
 	}
 
 	public void checkRaw(String output) {
 		MathSequence rootComponent = getRootComponent();
-		Assert.assertEquals(output, rootComponent + "");
+		assertEquals(output, rootComponent + "");
 	}
 
 	public void checkLength(int length) {
-		Assert.assertEquals(length, getRootComponent().size());
+		assertEquals(length, getRootComponent().size());
 	}
 
 	private MathSequence getRootComponent() {
@@ -151,7 +178,8 @@ class EditorChecker {
 			MathFormulaConverter converter =
 					new MathFormulaConverter(mathField.getMetaModel());
 			mathField.getInternal().setFormula(converter.buildFormula(input));
-
+			mathField.getInternal().getFormula().getRootComponent().setProtected();
+			mathField.getInternal().setLockedCaretPath();
 		} catch (com.himamis.retex.editor.share.io.latex.ParseException e) {
 			throw new RuntimeException(e);
 		}
@@ -193,7 +221,7 @@ class EditorChecker {
 
 	public void serializeAs(String latex) {
 		TeXSerializer teXSerializer = new TeXSerializer();
-		Assert.assertEquals(latex,
+		assertEquals(latex,
 				teXSerializer.serialize(mathField.getInternal().getFormula()));
 	}
 

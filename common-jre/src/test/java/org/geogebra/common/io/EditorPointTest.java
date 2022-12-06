@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorPointTest {
@@ -32,13 +33,30 @@ public class EditorPointTest {
 	@Test
 	public void testInitialEmptyPoint() {
 		checker.convertFormula(emptyPoint3D)
-				.checkPlaceholders(0, 2, 4);
+				.checkPlaceholders("|,_,_");
 	}
 
 	@Test
-	public void testEmptyPointWithCursor() {
+	public void testEmptyPointWithCursorInTheMiddle() {
+		checker.convertFormula(emptyPoint3D)
+				.right(1)
+				.checkPlaceholders("_,|,_");
+	}
+
+	@Test
+	public void testEmptyPointWithCursorLast() {
 		checker.convertFormula(emptyPoint3D)
 				.right(2)
-				.checkPlaceholders(0, 2, 4);
+				.checkPlaceholders("_,_,|");
+	}
+
+	@Test
+	public void testPoint() {
+		checker.convertFormula(point3D)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.checkPlaceholders("1|,2,3")
+				.right(2)
+				.checkPlaceholders("1|,2,3")
+		;
 	}
 }
