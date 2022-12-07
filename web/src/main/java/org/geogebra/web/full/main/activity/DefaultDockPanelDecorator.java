@@ -30,7 +30,7 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public int getTabHeight(int tabHeight) {
-		return 0;
+		return tabHeight;
 	}
 
 	@Override

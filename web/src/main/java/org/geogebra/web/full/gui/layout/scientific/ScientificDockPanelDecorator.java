@@ -4,6 +4,7 @@ import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.util.StickyTable;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 
@@ -24,17 +25,19 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	private FlowPanel main;
 	private Widget tableTab;
 	private StickyTable<?> table;
+	private AppW app;
 
 	@Override
 	public Panel decorate(Panel wrapper, AppW appW) {
+		this.app = appW;
 		main = new FlowPanel();
 		main.setWidth("100%");
 		main.add(wrapper);
 		main.addStyleName("algebraPanel");
-		return buildAndStylePanel(appW);
+		return buildAndStylePanel();
 	}
 
-	private Panel buildAndStylePanel(AppW app) {
+	private Panel buildAndStylePanel() {
 		FlowPanel panel = new FlowPanel();
 		stylePanel(panel);
 		panel.add(main);
@@ -53,8 +56,8 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void onResize(AlgebraViewW aView, int offsetHeight) {
-		toggleSmallScreen(main, aView.getApp().getAppletFrame()
-				.shouldHaveSmallScreenLayout());
+		GeoGebraFrameW frame = app.getAppletFrame();
+		toggleSmallScreen(main, frame.shouldHaveSmallScreenLayout());
 	}
 
 	private void toggleSmallScreen(Widget w, boolean smallScreen) {
@@ -64,9 +67,16 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void resizeTable(int tabHeight) {
-		table.setHeight(tabHeight - TABLE_HEIGHT_DIFFERENCE);
+		table.setHeight(getTableHeight(tabHeight));
 		tableTab.setHeight((tabHeight + TAB_HEIGHT_DIFFERENCE) + "px");
 		toggleSmallScreen(tableTab, false);
+	}
+
+	private int getTableHeight(int tableHeight) {
+		return app.getAppletFrame().isKeyboardShowing()
+				? getTabHeight(tableHeight)
+				: tableHeight - TABLE_HEIGHT_DIFFERENCE;
+
 	}
 
 	@Override

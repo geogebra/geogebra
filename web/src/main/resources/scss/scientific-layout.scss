@@ -3,6 +3,10 @@
 
 .GeoGebraFrame {
 
+	.tab.scientific {
+		background-color: colors.$gray-background;
+	}
+
     .algebraPanelScientificSmallScreen {
         padding-top: 8px;
         box-sizing: border-box;
@@ -65,7 +69,6 @@
         @extend %sheetOfPaper;
         position: absolute;
         top: 0;
-        height: auto; // this lets the grey background grow.
         &>div {
             margin-bottom: 0;
             border-bottom-right-radius: 0px;
