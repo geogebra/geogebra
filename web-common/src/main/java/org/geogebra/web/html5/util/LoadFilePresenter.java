@@ -155,24 +155,12 @@ public class LoadFilePresenter {
 		}
 		if (app.getGuiManager() != null) {
 			if (perspective.startsWith("search:")) {
-				app.setCloseBrowserCallback(new Runnable() {
-
-					@Override
-					public void run() {
-						deferredOpenEmpty(app);
-					}
-				});
+				app.setCloseBrowserCallback(() -> deferredOpenEmpty(app));
 				app.openSearch(perspective.substring("search:".length()));
 				return true;
 
 			} else if (perspective.startsWith("customize:")) {
-				app.setCloseBrowserCallback(new Runnable() {
-
-					@Override
-					public void run() {
-						finishEmptyLoading(app, null);
-					}
-				});
+				app.setCloseBrowserCallback(() -> finishEmptyLoading(app, null));
 				app.showCustomizeToolbarGUI();
 				return true;
 			} else {
@@ -288,12 +276,7 @@ public class LoadFilePresenter {
 	 *            application
 	 */
 	private static void preloadParser(final AppW app) {
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				app.getParserFunctions();
-			}
-		});
+		app.invokeLater(app::getParserFunctions);
 	}
 
 	/**

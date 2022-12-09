@@ -16,7 +16,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -656,61 +655,58 @@ public class ToolCreationDialogD extends Dialog
 		centerPanel.add(outputButtonPanel, loc.borderEast());
 
 		// listener for buttons
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Object src = e.getSource();
-				DefaultListModel listModel = (DefaultListModel) list.getModel();
-				int[] selIndices = list.getSelectedIndices();
-				if (src == btUp && selIndices != null) {
-					for (int i = 0; i < selIndices.length; i++) {
-						int index = selIndices[i];
-						if (index > 0) {
-							Object ob = listModel.get(index);
-							listModel.remove(index);
-							listModel.add(index - 1, ob);
-							selIndices[i] = index - 1;
-						}
+		ActionListener ac = e -> {
+			Object src = e.getSource();
+			DefaultListModel listModel = (DefaultListModel) list.getModel();
+			int[] selIndices = list.getSelectedIndices();
+			if (src == btUp && selIndices != null) {
+				for (int i = 0; i < selIndices.length; i++) {
+					int index = selIndices[i];
+					if (index > 0) {
+						Object ob = listModel.get(index);
+						listModel.remove(index);
+						listModel.add(index - 1, ob);
+						selIndices[i] = index - 1;
 					}
-					list.setSelectedIndices(selIndices);
-				} else if (src == btDown && selIndices != null) {
-					for (int i = selIndices.length - 1; i >= 0; i--) {
-						int index = selIndices[i];
-						if (index < listModel.size() - 1) {
-							Object ob = listModel.get(index);
-							listModel.remove(index);
-							listModel.add(index + 1, ob);
-							selIndices[i] = index + 1;
-						}
+				}
+				list.setSelectedIndices(selIndices);
+			} else if (src == btDown && selIndices != null) {
+				for (int i = selIndices.length - 1; i >= 0; i--) {
+					int index = selIndices[i];
+					if (index < listModel.size() - 1) {
+						Object ob = listModel.get(index);
+						listModel.remove(index);
+						listModel.add(index + 1, ob);
+						selIndices[i] = index + 1;
 					}
-					list.setSelectedIndices(selIndices);
-				} else if (src == btRemove && selIndices != null) {
-					NameDescriptionComparator comparator = new NameDescriptionComparator();
-					for (int i = selIndices.length - 1; i >= 0; i--) {
-						if (cbAdd != null) {
-							DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbAdd
-									.getModel();
+				}
+				list.setSelectedIndices(selIndices);
+			} else if (src == btRemove && selIndices != null) {
+				NameDescriptionComparator comparator = new NameDescriptionComparator();
+				for (int i = selIndices.length - 1; i >= 0; i--) {
+					if (cbAdd != null) {
+						DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbAdd
+								.getModel();
 
-							if (!allowMultiple) {
-								// take from list and insert sorted into
-								// add-combobox
-								GeoElement geo = (GeoElement) listModel
-										.elementAt(selIndices[i]);
-								int k = 0;
-								for (; k < cbModel.getSize(); k++) {
-									GeoElement cbGeo = (GeoElement) cbModel
-											.getElementAt(k);
-									if (comparator.compare(geo, cbGeo) <= 0) {
-										break;
-									}
+						if (!allowMultiple) {
+							// take from list and insert sorted into
+							// add-combobox
+							GeoElement geo = (GeoElement) listModel
+									.elementAt(selIndices[i]);
+							int k = 0;
+							for (; k < cbModel.getSize(); k++) {
+								GeoElement cbGeo = (GeoElement) cbModel
+										.getElementAt(k);
+								if (comparator.compare(geo, cbGeo) <= 0) {
+									break;
 								}
-								cbModel.insertElementAt(geo, k);
 							}
+							cbModel.insertElementAt(geo, k);
 						}
-
-						// remove from list
-						listModel.remove(selIndices[i]);
 					}
+
+					// remove from list
+					listModel.remove(selIndices[i]);
 				}
 			}
 		};

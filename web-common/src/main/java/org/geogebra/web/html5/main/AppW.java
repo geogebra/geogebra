@@ -563,14 +563,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean loadXML(final String xml) throws Exception {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					getXMLio().processXMLString(xml, true, false);
-				} catch (Exception e) {
-					Log.debug(e);
-				}
+		Runnable r = () -> {
+			try {
+				getXMLio().processXMLString(xml, true, false);
+			} catch (Exception e) {
+				Log.debug(e);
 			}
 		};
 
@@ -1004,7 +1001,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void invokeLater(final Runnable runnable) {
-		Scheduler.get().scheduleDeferred(() -> runnable.run());
+		Scheduler.get().scheduleDeferred(runnable::run);
 	}
 
 	@Override
@@ -3399,13 +3396,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * between tabs, in iOS safari for resizing.
 	 */
 	public void deferredForceResize() {
-		invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				EuclidianViewW.forceResize(getEuclidianView1());
-			}
-		});
+		invokeLater(() -> EuclidianViewW.forceResize(getEuclidianView1()));
 
 	}
 
@@ -3548,12 +3539,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void updateVoiceover() {
 		if (Browser.needsAccessibilityView()) {
-			invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					getAccessibilityView().rebuild();
-				}
-			});
+			invokeLater(() -> getAccessibilityView().rebuild());
 		}
 	}
 

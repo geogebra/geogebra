@@ -1317,12 +1317,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 * Schedule background update.
 	 */
 	public void deferredUpdateBackground() {
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				updateBackgroundImage();
-			}
-		});
+		app.invokeLater(this::updateBackgroundImage);
 	}
 
 	private class DrawLaTeXCallBack implements Runnable {
