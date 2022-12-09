@@ -130,7 +130,7 @@ public class UndoCommand {
 				//TODO: maybe these actions should also take care of reloading
 				// the correct information without replay?
 				if (action == EventType.CLEAR_PAGE || action == EventType.REMOVE_PAGE) {
-					undoManager.replayActions(slideID, UndoCommand.this);
+					undoManager.replayActions(slideID, this);
 				}
 			});
 		} else {

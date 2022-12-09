@@ -211,7 +211,7 @@ public class CASgiacW extends CASgiac {
 
 			kernel.getApplication().invokeLater(() -> {
 				Log.debug(versionString + " is already loaded");
-				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+				kernel.getApplication().getGgbApi().initCAS();
 			});
 
 			return;
