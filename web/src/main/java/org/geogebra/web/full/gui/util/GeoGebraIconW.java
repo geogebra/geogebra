@@ -130,25 +130,6 @@ public class GeoGebraIconW {
 	}
 
 	/**
-	 * 
-	 * @param symbol
-	 *            {@code String}
-	 * @param fgColor
-	 *            {@link GColor}
-	 * @param bgColor
-	 *            {@link GColor}
-	 * @return {@link ImageOrText}
-	 */
-	public static ImageOrText createTextSymbolIcon(String symbol,
-	        GColor fgColor, GColor bgColor) {
-		ImageOrText ret = new ImageOrText();
-		ret.setText(symbol);
-		ret.setFgColor(fgColor);
-		ret.setBgColor(bgColor);
-		return ret;
-	}
-
-	/**
 	 * @return {@link ImageOrText} Empty icon
 	 */
 	public static ImageOrText createNullSymbolIcon() {

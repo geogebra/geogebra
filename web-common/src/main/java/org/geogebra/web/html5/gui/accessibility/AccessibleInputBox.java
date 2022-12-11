@@ -10,8 +10,8 @@ import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class AccessibleInputBox implements AccessibleWidget {

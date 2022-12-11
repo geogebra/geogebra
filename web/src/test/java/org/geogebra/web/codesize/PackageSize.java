@@ -1,13 +1,13 @@
 package org.geogebra.web.codesize;
 
+import java.util.HashMap;
+
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.util.file.FileIO;
 import org.junit.Test;
-
-import com.google.gwt.dev.util.collect.HashMap;
 
 public class PackageSize {
 

@@ -56,9 +56,8 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.core.Global;
 import elemental2.core.JsArray;
@@ -841,7 +840,7 @@ public class GgbAPIW extends GgbAPI {
 	 * it removes the style elements injected by the applet too.
 	 */
 	public void removeApplet() {
-		((AppW) app).getGeoGebraElement().removeFromParent();
+		((AppW) app).getGeoGebraElement().getElement().removeFromParent();
 		((AppW) app).getAppletFrame().remove();
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();

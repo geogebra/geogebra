@@ -5,8 +5,7 @@ import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanO
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.properties.OptionPanel;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 public class CheckboxPanel extends OptionPanel implements
 		IBooleanOptionListener {

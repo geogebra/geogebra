@@ -22,10 +22,9 @@ import org.geogebra.web.full.gui.dialog.MediaInputPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.user.client.DOM;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NodeList;
+import org.gwtproject.user.client.DOM;
 
 import elemental2.dom.DomGlobal;
 

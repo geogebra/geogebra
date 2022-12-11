@@ -4,10 +4,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.resources.client.ImageResource;
-
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Image;
 
 /**
  * A KeyBoardButton with functional character. This button doesn't insert a

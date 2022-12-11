@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import java.util.Date;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
@@ -13,11 +11,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogUtil;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.ui.FlowPanel;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.FlowPanel;
-
+import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;
 
 public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
@@ -191,7 +188,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	@Override
 	public void setTitle() {
 		// suggest for the user the current date as title
-		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date());
+		String currentDate = DateTimeFormat.format(new JsDate());
 		app.getSaveController().updateSaveTitle(getInputField()
 						.getTextComponent(), currentDate);
 		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());

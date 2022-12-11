@@ -1,8 +1,9 @@
 package com.himamis.retex.editor.web;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.RootPanel;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.RootPanel;
+
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;

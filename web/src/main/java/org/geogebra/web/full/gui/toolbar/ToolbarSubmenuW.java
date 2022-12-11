@@ -13,11 +13,10 @@ import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.dom.client.Style.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Submenu for ModeToggleMenu. This extension is needed so that this FlowPanel

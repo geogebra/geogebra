@@ -4,12 +4,11 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseEvent;
+import org.gwtproject.event.dom.client.TouchStartEvent;
 
 /**
  * @author Laszlo

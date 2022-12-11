@@ -2,9 +2,8 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
  * Header for numbered rows

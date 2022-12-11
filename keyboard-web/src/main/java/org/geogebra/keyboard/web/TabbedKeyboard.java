@@ -26,11 +26,11 @@ import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
 import org.geogebra.keyboard.web.factory.KeyboardInputBox;
 import org.geogebra.keyboard.web.factory.KeyboardMow;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
+import org.gwtproject.dom.client.Style.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**

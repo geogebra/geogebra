@@ -8,10 +8,10 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.RootPanel;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.

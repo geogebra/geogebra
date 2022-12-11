@@ -14,12 +14,11 @@ import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ScrollEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ScrollEvent;
+import org.gwtproject.event.dom.client.TouchMoveEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * contains all available materials

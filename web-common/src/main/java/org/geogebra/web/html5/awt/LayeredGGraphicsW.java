@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.awt;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Style;
 
 public class LayeredGGraphicsW extends GGraphics2DW {
 

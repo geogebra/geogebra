@@ -25,11 +25,10 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.event.logical.shared.ValueChangeHandler;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
 
 public class FillingPanel extends OptionPanel implements IFillingListener {
 	FillingModel model;

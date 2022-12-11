@@ -15,9 +15,8 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
-
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.ComplexPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
  * A PopupPanel in the bottom left corner of the application which represents a

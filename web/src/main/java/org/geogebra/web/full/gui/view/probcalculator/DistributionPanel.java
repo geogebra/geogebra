@@ -12,17 +12,16 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.gui.util.ToggleButton;
-
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.OptionElement;
-import com.google.gwt.dom.client.SelectElement;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.NodeList;
+import org.gwtproject.dom.client.OptionElement;
+import org.gwtproject.dom.client.SelectElement;
+import org.gwtproject.event.dom.client.ChangeEvent;
+import org.gwtproject.event.dom.client.ChangeHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.Widget;
 
 public class DistributionPanel extends FlowPanel implements ChangeHandler, InsertHandler {
 	private ProbabilityCalculatorViewW view;

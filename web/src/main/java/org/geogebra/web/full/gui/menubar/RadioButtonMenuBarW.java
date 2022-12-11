@@ -6,9 +6,8 @@ import org.geogebra.web.full.gui.components.radiobutton.ComponentRadioButton;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.Command;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.Command;
 
 /**
  * An implementation of a radio button menu bar.

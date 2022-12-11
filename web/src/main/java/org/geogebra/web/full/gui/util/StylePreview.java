@@ -6,9 +6,8 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.Composite;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.Composite;
 
 /**
  * Widget to show line with thickness and style.

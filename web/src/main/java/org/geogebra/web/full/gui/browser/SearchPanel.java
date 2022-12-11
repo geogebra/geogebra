@@ -12,10 +12,9 @@ import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
-
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TextBox;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.TextBox;
 
 /**
  * Panel for Search in GeoGebraTube

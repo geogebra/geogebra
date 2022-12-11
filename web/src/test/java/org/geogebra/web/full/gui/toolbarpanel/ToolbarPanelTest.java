@@ -16,12 +16,12 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
+import org.gwtproject.user.client.ui.ResizeComposite;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwtmockito.WithClassesToStub;
 
 @RunWith(GgbMockitoTestRunner.class)
@@ -38,7 +38,6 @@ public class ToolbarPanelTest {
 	}
 
 	private AppWFull mockApp() {
-		AppMocker.useProviderForSchedulerImpl();
 		app = AppMocker.mockGraphing(getClass());
 		app.setShowToolBar(true);
 		return app;

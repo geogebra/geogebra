@@ -1,13 +1,12 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseDownHandler;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.event.dom.client.TouchStartHandler;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Listener for MouseDown and TouchStart

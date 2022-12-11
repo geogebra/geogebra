@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
-import com.google.gwt.safehtml.shared.UriUtils;
+import org.gwtproject.resources.client.ImageResource;
 
 public final class ImageResourceConverter {
 
@@ -13,17 +13,8 @@ public final class ImageResourceConverter {
 	 * @param image new style image
 	 * @return old style image
 	 */
-	public static com.google.gwt.resources.client.ImageResource
-			convertToOldImageResource(org.gwtproject.resources.client.ImageResource image) {
-		return new com.google.gwt.resources.client.impl.ImageResourcePrototype(
-				image.getName(),
-				UriUtils.fromTrustedString(image.getSafeUri().asString()),
-				image.getLeft(),
-				image.getTop(),
-				image.getWidth(),
-				image.getHeight(),
-				image.isAnimated(),
-				false
-		);
+	public static ImageResource
+			convertToOldImageResource(ImageResource image) {
+		return image;
 	}
 }

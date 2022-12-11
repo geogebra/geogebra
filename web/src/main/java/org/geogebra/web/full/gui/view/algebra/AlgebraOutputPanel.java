@@ -13,12 +13,12 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HTML;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**

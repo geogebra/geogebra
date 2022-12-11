@@ -14,9 +14,8 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ProfilePanel;
-
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Button;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Header panel for File > Open, using old (=not material) design

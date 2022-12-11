@@ -7,13 +7,12 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
+import org.gwtproject.aria.client.Roles;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.aria.client.Roles;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class StandardButton extends Widget implements HasResource {
 	private ResourcePrototype icon;

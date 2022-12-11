@@ -5,9 +5,8 @@ import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
 import org.geogebra.web.full.gui.util.ExamSaveDialog;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Material card

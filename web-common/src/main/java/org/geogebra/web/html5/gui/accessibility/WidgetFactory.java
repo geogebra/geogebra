@@ -2,12 +2,11 @@ package org.geogebra.web.html5.gui.accessibility;
 
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.client.Style.Overflow;
+import org.gwtproject.dom.client.Style.Position;
+import org.gwtproject.dom.client.Style.Unit;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Creates widgets for navigating the construction with Voiceover (iOS) or

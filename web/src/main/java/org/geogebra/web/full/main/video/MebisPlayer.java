@@ -1,9 +1,8 @@
 package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.euclidian.draw.DrawVideo;
-
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Player for videos hosted by Mebis.

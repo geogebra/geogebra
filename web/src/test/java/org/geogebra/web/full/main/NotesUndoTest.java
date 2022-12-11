@@ -244,8 +244,8 @@ public class NotesUndoTest {
 	@Before
 	public void init() {
 		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
+			app = AppMocker
+					.mockApplet(new AppletParameters("notes"));
 	}
 
 	/**

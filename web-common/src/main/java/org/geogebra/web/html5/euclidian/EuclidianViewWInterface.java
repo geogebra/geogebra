@@ -10,9 +10,8 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * interface for EuclidianViewW / EuclidianView3DW

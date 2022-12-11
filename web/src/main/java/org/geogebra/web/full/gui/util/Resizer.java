@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style.Unit;
 
 /**
  * Resizing utilities

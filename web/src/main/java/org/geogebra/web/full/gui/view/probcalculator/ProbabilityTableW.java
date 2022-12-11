@@ -7,10 +7,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.web.full.gui.view.data.StatTableW;
 import org.geogebra.web.full.gui.view.data.StatTableW.MyTable;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * @author gabor

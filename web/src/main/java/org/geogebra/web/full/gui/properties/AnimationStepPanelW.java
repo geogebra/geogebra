@@ -5,9 +5,8 @@ import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.full.gui.AngleTextFieldW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class AnimationStepPanelW extends OptionPanel 
 implements ITextFieldListener {

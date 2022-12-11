@@ -6,8 +6,7 @@ import java.util.List;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 public class DropDownComboBoxController implements SetLabels {
 	private Widget parent;

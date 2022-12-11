@@ -22,13 +22,12 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.TextBox;
 
 /**
  * GUI Element showing a Material as search Result

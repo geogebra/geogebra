@@ -14,13 +14,12 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * ProbablityCalculatorView for web
@@ -360,7 +359,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				: Math.max(maxHeight, 40);
 		getPlotPanel().setPreferredSize(new Dimension(width, height));
 		getPlotPanel().getCanvasElement().getStyle().setMarginTop((maxHeight - height) / 2.0,
-				Style.Unit.PX);
+				Unit.PX);
 		getPlotPanel().repaintView();
 		getPlotPanel().getEuclidianController().calculateEnvironment();
 	}

@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GDimension;
@@ -93,6 +92,7 @@ import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.util.DateTimeFormat;
 import org.geogebra.web.full.gui.util.InputKeyboardButtonW;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
@@ -131,16 +131,15 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
-
+import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URL;
 
@@ -276,7 +275,7 @@ public class GuiManagerW extends GuiManager
 		removePopup();
 		final SpreadsheetContextMenuW contextMenu = new SpreadsheetContextMenuW(
 				mt);
-		currentPopup = (AttachedToDOM) contextMenu.getMenuContainer();
+		currentPopup = contextMenu.getMenuContainer();
 		return contextMenu;
 	}
 
@@ -1872,7 +1871,7 @@ public class GuiManagerW extends GuiManager
 
 	private void exportGGBDirectly() {
 		String extension = ((AppW) app).getFileExtension();
-		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date())
+		String currentDate = DateTimeFormat.format(new JsDate())
 				+ extension;
 		String filename = getApp().isMebis() ? currentDate : getApp().getExportTitle() + extension;
 		exportGgb(filename, extension);

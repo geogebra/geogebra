@@ -13,12 +13,13 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.geogebra.web.util.file.FileIO;
+import org.gwtproject.user.client.ui.ResizeComposite;
+import org.gwtproject.user.client.ui.RootPanel;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
@@ -32,6 +33,11 @@ public class LoadFromJsonFileTest {
 			"src/test/java/org/geogebra/web/html5/main/inRegion.json";
 
 	private AppWFull app;
+
+	@Before
+	public void initAssertions() {
+		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
+	}
 
 	@Test
 	public void checkPanelIsClosed() {
@@ -53,7 +59,6 @@ public class LoadFromJsonFileTest {
 	}
 
 	private void initAppFromFile() {
-		AppMocker.useProviderForSchedulerImpl();
 		AppletParameters articleElement =
 				new AppletParameters("graphing");
 		String json = FileIO.load(CLOSED_AV_JSON_PATH);

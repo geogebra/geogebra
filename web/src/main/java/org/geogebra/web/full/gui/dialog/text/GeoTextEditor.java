@@ -12,15 +12,15 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FocusWidget;
+import org.gwtproject.user.client.ui.PopupPanel;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.DomGlobal;

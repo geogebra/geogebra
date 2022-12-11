@@ -4,10 +4,9 @@ import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.gui.AngleTextFieldW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.user.client.Event;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.user.client.Event;
 
 /**
  * Connector for keyboard and simple textbox

@@ -11,10 +11,10 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Widget;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Widget;
 
 public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	private final ToggleButton button;

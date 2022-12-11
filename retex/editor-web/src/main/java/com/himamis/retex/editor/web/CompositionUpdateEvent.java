@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package com.himamis.retex.editor.web;
 
-import com.google.gwt.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.DomEvent;
 
 import jsinterop.base.Js;
 

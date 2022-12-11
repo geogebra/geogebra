@@ -2,8 +2,7 @@ package org.geogebra.web.html5;
 
 import org.geogebra.common.util.InjectJsInterop;
 import org.geogebra.gwtutil.JsConsumer;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import elemental2.core.Function;

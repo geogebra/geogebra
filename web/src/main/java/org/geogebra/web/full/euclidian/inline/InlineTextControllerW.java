@@ -28,10 +28,9 @@ import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.EditorChangeListener;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 import org.geogebra.web.richtext.impl.CarotaUtil;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Web implementation of the inline text controller.

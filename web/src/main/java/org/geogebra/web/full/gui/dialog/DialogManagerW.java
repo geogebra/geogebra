@@ -60,12 +60,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.user.client.ui.FileUpload;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.PopupPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 import elemental2.dom.File;
 

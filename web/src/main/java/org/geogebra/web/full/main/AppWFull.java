@@ -171,15 +171,15 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.client.Style.Position;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.Global;
@@ -287,7 +287,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		checkExamPerspective();
 		afterCoreObjectsInited();
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(geoGebraElement);
+		Browser.removeDefaultContextMenu(geoGebraElement.getElement());
 		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
 			setupHeader();

@@ -8,12 +8,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.dom.client.IFrameElement;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.dom.client.IFrameElement;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Frame;
+import org.gwtproject.user.client.ui.Label;
 
 import elemental2.dom.HTMLIFrameElement;
 import elemental2.dom.HTMLImageElement;

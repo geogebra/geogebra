@@ -24,15 +24,14 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.client.Style.Unit;
+import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.resources.client.ImageResource;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
 
 /**
  * Dialog for online saving

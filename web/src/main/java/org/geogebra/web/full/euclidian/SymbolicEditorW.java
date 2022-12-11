@@ -20,13 +20,13 @@ import org.geogebra.web.html5.gui.accessibility.AccessibleInputBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.gwtproject.animation.client.AnimationScheduler;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.event.dom.client.ChangeEvent;
+import org.gwtproject.event.dom.client.ChangeHandler;
 
-import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.renderer.share.TeXFont;
 
