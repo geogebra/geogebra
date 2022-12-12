@@ -30,10 +30,12 @@ import org.geogebra.common.util.debug.Log;
  */
 public class InputBoxProcessor {
 
-	private GeoInputBox inputBox;
+	private final GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private final Kernel kernel;
-	private AlgebraProcessor algebraProcessor;
+	private final AlgebraProcessor algebraProcessor;
+
+	private final UserInputConverter userInputConverter = new UserInputConverter();
 
 	/**
 	 * @param inputBox
@@ -208,8 +210,19 @@ public class InputBoxProcessor {
 			defineText = defineText.replace('I', 'i');
 		}
 
-		return defineText;
+		return emptyToUndefined(defineText);
 	}
+
+	private String emptyToUndefined(String text) {
+		if (!linkedGeo.hasSpecialEditor()) {
+			return text;
+		}
+		if (linkedGeo.isGeoPoint()) {
+			return userInputConverter.pointToUndefined(text);
+		}
+		return userInputConverter.matrixToUndefined(text);
+	}
+
 
 	private String buildListText(EditorContent content) {
 		if (linkedGeo instanceof GeoVectorND) {
