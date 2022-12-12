@@ -4,6 +4,7 @@ import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.util.StickyTable;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -12,8 +13,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,19 +20,29 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
-	private ScrollPanel algebraScrollPanel;
+	// TODO to find out where is this come from.
+	public static final int TAB_HEIGHT_DIFFERENCE = 40;
+	public static final int TABLE_HEIGHT_DIFFERENCE = 64;
+	private FlowPanel main;
+	private Widget tableTab;
+	private StickyTable<?> table;
+	private AppW app;
 
 	@Override
-	public Panel decorate(ScrollPanel algebraPanel, AppW appW) {
-		this.algebraScrollPanel = algebraPanel;
-		return buildAndStylePanel(appW);
+	public Panel decorate(Panel wrapper, AppW appW) {
+		this.app = appW;
+		main = new FlowPanel();
+		main.setWidth("100%");
+		main.add(wrapper);
+		main.addStyleName("algebraPanel");
+		return buildAndStylePanel();
 	}
 
-	private Panel buildAndStylePanel(AppW app) {
+	private Panel buildAndStylePanel() {
 		FlowPanel panel = new FlowPanel();
 		stylePanel(panel);
-		panel.add(algebraScrollPanel);
-		algebraScrollPanel.addStyleName("algebraPanelScientific");
+		panel.add(main);
+		main.addStyleName("algebraPanelScientific");
 
 		ScientificScrollHandler scrollController = new ScientificScrollHandler(
 				app, panel);
@@ -48,14 +57,39 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void onResize(AlgebraViewW aView, int offsetHeight) {
-		boolean smallScreen = aView.getApp().getAppletFrame()
-				.shouldHaveSmallScreenLayout();
-		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificSmallScreen",
+		GeoGebraFrameW frame = app.getAppletFrame();
+		toggleSmallScreen(main, frame.shouldHaveSmallScreenLayout());
+	}
+
+	private void toggleSmallScreen(Widget w, boolean smallScreen) {
+		Dom.toggleClass(w, "algebraPanelScientificSmallScreen",
 				"panelScientificDefaults", smallScreen);
 	}
 
 	@Override
-	public void decorateTableTab(Widget tab, StickyTable<?> table, AppW app) {
+	public void resizeTable(int tabHeight) {
+		table.setHeight(getTableHeight(tabHeight));
+		tableTab.setHeight((tabHeight + TAB_HEIGHT_DIFFERENCE) + "px");
+		toggleSmallScreen(tableTab, false);
+	}
+
+	private int getTableHeight(int tableHeight) {
+		return app.getAppletFrame().isKeyboardShowing()
+				? getTabHeight(tableHeight)
+				: tableHeight - TABLE_HEIGHT_DIFFERENCE;
+
+	}
+
+	@Override
+	public void resizeTableSmallScreen(int tabHeight) {
+		resizeTable(tabHeight);
+		toggleSmallScreen(tableTab, true);
+	}
+
+	@Override
+	public void decorateTableTab(Widget tab, StickyTable<?> table) {
+		tableTab = tab;
+		this.table = table;
 		tab.addStyleName("panelScientificDefaults");
 		disableShadedColumns((StickyValuesTable) table);
 		table.addStyleName("scientific");
@@ -70,6 +104,11 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		table.getElement().insertBefore(btnHolder.getElement(), table.getElement().getChild(0)) ;
 
 		btn.addFastClickHandler((event) -> table.openDefineFunctions());
+	}
+
+	@Override
+	public int getTabHeight(int tabHeight) {
+		return tabHeight - TAB_HEIGHT_DIFFERENCE;
 	}
 
 	private void disableShadedColumns(StickyValuesTable table) {

@@ -7,13 +7,14 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DefaultDockPanelDecorator implements DockPanelDecorator {
+	private StickyTable<?> table;
+
 	@Override
-	public Panel decorate(ScrollPanel scrollPanel, AppW app) {
-		return scrollPanel;
+	public Panel decorate(Panel panel, AppW app) {
+		return panel;
 	}
 
 	@Override
@@ -22,7 +23,23 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void decorateTableTab(Widget tab, StickyTable<?> table, AppW app) {
+	public void decorateTableTab(Widget tab, StickyTable<?> table) {
+		this.table = table;
 		tab.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
+	}
+
+	@Override
+	public int getTabHeight(int tabHeight) {
+		return tabHeight;
+	}
+
+	@Override
+	public void resizeTable(int tabHeight) {
+		table.setHeight(tabHeight);
+	}
+
+	@Override
+	public void resizeTableSmallScreen(int tabHeight) {
+		resizeTable(tabHeight);
 	}
 }

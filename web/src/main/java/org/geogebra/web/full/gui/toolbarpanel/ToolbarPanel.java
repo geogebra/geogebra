@@ -9,7 +9,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.Perspective;
@@ -58,11 +57,9 @@ import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
-import elemental2.dom.EventListener;
 
 /**
  * @author Laszlo Gal
@@ -1167,7 +1164,7 @@ public class ToolbarPanel extends FlowPanel
 	 * Sets if current tab should animate or not.
 	 * @param fade to set.
 	 */
-	private void setFadeTabs(boolean fade) {
+	void setFadeTabs(boolean fade) {
 		tabAlgebra.setFade(fade);
 		if (tabTools != null) {
 			tabTools.setFade(fade);
@@ -1384,57 +1381,6 @@ public class ToolbarPanel extends FlowPanel
 			active.getElement().removeClassName("ggbScreenshot");
 			callback.run();
 		});
-	}
-
-	/**
-	 * Base class for Toolbar Tabs-
-	 * @author Laszlo
-	 */
-	public abstract static class ToolbarTab extends ScrollPanel implements ShowableTab, SetLabels {
-		/** Constructor */
-		public ToolbarTab(ToolbarPanel parent) {
-			setSize("100%", "100%");
-			setAlwaysShowScrollBars(false);
-
-			EventListener onTransitionEnd = evt -> parent.setFadeTabs(false);
-			Dom.addEventListener(this.getElement(), "transitionend",
-					onTransitionEnd);
-		}
-
-		@Override
-		public void onResize() {
-			setHeight("100%");
-			getContainerElement().getStyle().setHeight(100, Style.Unit.PCT);
-		}
-
-		/**
-		 * Set tab the active one.
-		 * @param active to set.
-		 */
-		public void setActive(boolean active) {
-			Dom.toggleClass(this, "tab", "tab-hidden", active);
-			if (active) {
-				onActive();
-			}
-		}
-
-		/**
-		 * Sets if tab should fade during animation or not.
-		 * @param fade to set.
-		 */
-		public void setFade(boolean fade) {
-			setStyleName("tabFade", fade);
-		}
-
-		/**
-		 * Called when tab is activated.
-		 */
-		protected abstract void onActive();
-
-		public boolean isActive() {
-			return getElement().hasClassName("tab");
-		}
-
 	}
 
 	public void setAVIconNonSelect(boolean exam) {
