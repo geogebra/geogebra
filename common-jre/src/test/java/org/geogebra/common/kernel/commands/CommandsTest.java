@@ -3556,6 +3556,7 @@ public class CommandsTest {
 				get("A").getObjectColor().toString());
 		Assert.assertEquals("A,A1",
 				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
+		Assert.assertEquals(2, app.getKernel().getConstruction().steps());
 	}
 
 	@Test
