@@ -160,6 +160,15 @@ public class EditorPointTest {
 	}
 
 	@Test
+	public void testTypeToMiddleOfEmptyPoint() {
+		checker.convertFormula(emptyPoint3D)
+				.right(1)
+				.type("4")
+				.typeKey(JavaKeyCodes.VK_ENTER)
+				.checkPlaceholders("_,4,_");
+	}
+
+	@Test
 	public void testDeleteOneFromMultiCharsFromMidleWithBackspace() {
 		checker.convertFormula("(123,456,789)")
 				.right(6)
