@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.function.Supplier;
 
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
@@ -141,5 +142,14 @@ public class TableTab extends ToolbarTab {
 			return ((StickyValuesTable) table).getKeyboardListener();
 		}
 		return fallback.get();
+	}
+
+	/**
+	 * Open function define dialog for table if table is empty
+	 */
+	public void openDialogIfEmpty() {
+		if (((TableValuesView) app.getGuiManager().getTableValuesView()).hasNoDefinedFunctions()) {
+			table.openDefineFunctions();
+		}
 	}
 }

@@ -1386,4 +1386,13 @@ public class ToolbarPanel extends FlowPanel
 	public void setAVIconNonSelect(boolean exam) {
 		navRail.setAVIconNonSelect(exam);
 	}
+
+	/**
+	 * Open function define dialog for table if table is empty
+	 */
+	public void openTableFunctionDialogIfEmpty() {
+		if (tabTable != null) {
+			tabTable.openDialogIfEmpty();
+		}
+	}
 }

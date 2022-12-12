@@ -178,6 +178,9 @@ class NavigationRail extends FlowPanel {
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(true);
 		toolbarPanel.openTableView(null, isOpen());
+		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+			toolbarPanel.openTableFunctionDialogIfEmpty();
+		}
 	}
 
 	/**
