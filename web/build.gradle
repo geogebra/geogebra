@@ -366,9 +366,10 @@ task createDraftBundleZip (type: Zip, dependsOn: 'compileSass') {
 task minifyLibs() {
     doLast {
         def libDir = "src/main/resources/org/geogebra/web/"
-        def libs = ["resources/js/rewrite_pHYs", "pub/js/canvas-to-svg.umd", "pub/js/canvas2pdf", "pub/js/whammy"]
+        def libDirCommon = "../web-common/$libDir"
+        def libs = ["$libDirCommon/resources/js/rewrite_pHYs", "$libDir/pub/js/canvas2pdf", "$libDir/pub/js/whammy"]
         libs.each({lib ->
-            def command = ['npx', 'terser', "${libDir}${lib}.js", "-o", "${libDir}${lib}.min.js",
+            def command = ['npx', 'terser', "${lib}.js", "-o", "${lib}.min.js",
             '--compress', '--mangle', '--comments', '/license/']
             exec { commandLine Os.isFamily(Os.FAMILY_WINDOWS) ? ['cmd', '/c'] + command : command}
         })

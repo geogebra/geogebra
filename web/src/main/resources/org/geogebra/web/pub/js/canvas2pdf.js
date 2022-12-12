@@ -62,7 +62,7 @@
 
 		// IE11 doesn't have String.startsWith()
 		var startsWith = function(data, input) {
-			return data.substring(0, input.length) === input;
+			return data.length >= input.length && data.substring(0, input.length) === input;
 		}
 
 		if (!startsWith(value, "rgb") && !startsWith(value, "hsl")) {
@@ -125,7 +125,7 @@
 		this.textBaseline = 'alphabetic';
 
 		var parseFont = function() {
-			var regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:%|in|[cem]m|ex|p[ctx])))?\s*([-,'"\sa-z]+?)\s*$/i;
+			var regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-_,\'\"\sa-z0-9]+?)\s*$/i;
 			var fontPart = regex.exec(_this.font);
 
 			if (!fontPart) {
@@ -396,6 +396,7 @@
 
 	canvas2pdf.PdfContext.prototype.createPattern = function(image) {
 		this.doc.imageTileLoad(image);
+		return {setTransform: () => {}};
 	};
 
 	/**
@@ -564,11 +565,11 @@
 		}
 	};
 
-	PDFKitMini.prototype.textAdd = function(a, b, c) {
+	PDFKitMini.prototype.textAdd = function(x, y, text) {
 		var state = this.textStyle.clone();
-		this.setFont(state)
+		this.setFont(state);
 
-		this.currentPage.textAdd(a, b, c, state)
+		this.currentPage.textAdd(x, y, text, state);
 	};
 
 	PDFKitMini.prototype.imageLoadFromCanvas = function(a, scale) {
@@ -871,14 +872,12 @@
 	};
 
 	PDFPage.prototype.setAlpha = function(a) {
-		if (a != this.currentAlpha) {
-			if (this.alphas.indexOf(a) == -1) {
-				this.alphas.push(a);
-			}
-			var index = this.alphas.indexOf(a);
-			this.pdfStream.addText("/Alpha" + index + " gs ");
-			this.currentAlpha = a
+		if (this.alphas.indexOf(a) == -1) {
+			this.alphas.push(a);
 		}
+		var index = this.alphas.indexOf(a);
+		this.pdfStream.addText("/Alpha" + index + " gs ");
+		this.currentAlpha = a
 	};
 
 	PDFPage.prototype.moveTo = function(x, y) {

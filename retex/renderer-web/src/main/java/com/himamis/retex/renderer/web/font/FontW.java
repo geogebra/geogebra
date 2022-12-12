@@ -100,7 +100,7 @@ public abstract class FontW implements AsyncLoadedFont {
 
 	@Override
 	public boolean isEqual(Font f) {
-		return name.equals(((FontW) f).name) && style == ((FontW) f).style
+		return f != null && name.equals(((FontW) f).name) && style == ((FontW) f).style
 				&& size == ((FontW) f).size;
 	}
 

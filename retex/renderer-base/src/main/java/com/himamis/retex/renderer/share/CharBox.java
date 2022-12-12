@@ -117,7 +117,7 @@ public class CharBox extends Box {
 
 		}
 		Font oldFont = g2.getFont();
-		if (!oldFont.isEqual(font)) {
+		if (!font.isEqual(oldFont)) {
 			g2.setFont(font);
 		}
 
@@ -125,7 +125,7 @@ public class CharBox extends Box {
 
 		g2.drawChars(arr, 0, 1, 0, 0);
 
-		if (!oldFont.isEqual(font)) {
+		if (!font.isEqual(oldFont)) {
 			g2.setFont(oldFont);
 		}
 		g2.restoreTransformation();
