@@ -22,6 +22,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -960,6 +961,11 @@ public class ConstructionDefaults implements SettingListener {
 
 			if (geo instanceof GeoFunction) {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
+			}
+
+			if (geo instanceof GeoButton && geo.getBackgroundColor() == null) {
+				geo.setBackgroundColor(GeoGebraColorConstants.GEOGEBRA_ACCENT);
+				geo.setObjColor(GColor.WHITE);
 			}
 
 			if (!isReset) {
