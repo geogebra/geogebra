@@ -19,7 +19,6 @@ public class AddPlaceholders {
 			int columns = array.columns();
 			if (columns == 1) {
 				MathSequence sequence = array.getArgument(0);
-
 				MathComponent last = sequence.getArgument(0);
 				int size = sequence.size();
 
@@ -37,9 +36,7 @@ public class AddPlaceholders {
 				if (isComma(last)) {
 					appendPlaceholder(sequence);
 				}
-
 			}
-
 		}
 	}
 

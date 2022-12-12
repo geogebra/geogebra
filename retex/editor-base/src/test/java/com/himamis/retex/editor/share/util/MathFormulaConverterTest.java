@@ -60,4 +60,15 @@ public class MathFormulaConverterTest {
 		assertEquals("\\left({" + PLACEHOLDER1
 				+ "," + PLACEHOLDER1 + "}\\right)", converter.convert("(,)"));
 	}
+	@Test
+	public void testConvertHalfEmptyPoint() {
+		assertEquals("\\left({123," + PLACEHOLDER1 + "}\\right)",
+				converter.convert("(123,)"));
+	}
+
+	@Test
+	public void testConvertHalfEmptyPoint2() {
+		assertEquals("\\left({" + PLACEHOLDER1 + ",456}\\right)",
+				converter.convert("(,456)"));
+	}
 }
