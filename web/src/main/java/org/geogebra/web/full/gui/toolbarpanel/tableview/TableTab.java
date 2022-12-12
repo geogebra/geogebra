@@ -45,7 +45,7 @@ public class TableTab extends ToolbarTab {
 	}
 
 	private void decorate() {
-		toolbarPanel.getDecorator().decorateTableTab(this, table, toolbarPanel.getApp());
+		toolbarPanel.getDecorator().decorateTableTab(this, table);
 	}
 
 	private void buildEmptyTablePanel() {
