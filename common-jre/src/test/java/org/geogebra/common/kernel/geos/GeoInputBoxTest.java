@@ -858,15 +858,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void noQuestionMarkOnBadInputInMatrix() {
-		add("l1 = {{1}, {2}}");
-		GeoInputBox input = add("InputBox(l1)");
-		String updated = "{{3},}";
-		input.updateLinkedGeo("{{3},?}");
-		assertEquals(updated, input.getTempUserEvalInput());
-	}
-
-	@Test
 	public void linesShouldPreserveQuestionMarkOnBadInput() {
 		add("a(x, y) = ?x + ?y");
 		GeoInputBox input = add("InputBox(a)");

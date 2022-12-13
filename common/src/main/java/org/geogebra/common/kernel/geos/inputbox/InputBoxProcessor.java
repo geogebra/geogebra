@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollectionSymbolic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -156,7 +157,7 @@ public class InputBoxProcessor {
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,
 				new InputBoxCallback(inputBox), errorHandler);
-	}
+ 	}
 
 	private EvalInfo buildEvalInfo() {
 		return new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
@@ -217,10 +218,13 @@ public class InputBoxProcessor {
 		if (!linkedGeo.hasSpecialEditor()) {
 			return text;
 		}
-		if (linkedGeo.isGeoPoint()) {
+		if (linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()) {
 			return userInputConverter.pointToUndefined(text);
 		}
-		return userInputConverter.matrixToUndefined(text);
+		if ((linkedGeo.isGeoList() && ((GeoList)linkedGeo).isMatrix())) {
+			return userInputConverter.matrixToUndefined(text);
+		}
+		return text;
 	}
 
 

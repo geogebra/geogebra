@@ -15,7 +15,6 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.inputbox.UserInputConverter;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
@@ -593,11 +592,11 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("m1 = {{1}, {2}}");
 		GeoInputBox inputBox = add("InputBox(m1)");
 		inputBox.setSymbolicMode(false);
-		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "}, {3}}");
+		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "},{3}}");
 		assertEquals("{{i},{3}}", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(true);
-		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "}, {3}}");
+		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "},{3}}");
 		assertEquals("{{i},{3}}", inputBox.getTextForEditor());
 	}
 
@@ -643,22 +642,10 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void empty2DPointToUndefined() {
-		UserInputConverter converter = new UserInputConverter();
-		assertEquals("(?,?)", converter.pointToUndefined("(,)"));
-	}
-
-	@Test
-	public void empty3DPointToUndefined() {
-		UserInputConverter converter = new UserInputConverter();
-		assertEquals("(?,?,?)", converter.pointToUndefined("(,,)"));
-	}
-
-	@Test
-	public void empty2DMatrixToUndefined() {
-		UserInputConverter converter = new UserInputConverter();
-
-		assertEquals("{{?,?},{?,?}}",
-				converter.matrixToUndefined("{{,},{,}}"));
+	public void testEmptyVectorShouldNotRaiseError() {
+		add("u = (?,?,?)");
+		GeoInputBox inputBox = add("InputBox(u)");
+		inputBox.updateLinkedGeo("(,,)");
+		assertFalse(inputBox.hasError());
 	}
 }
