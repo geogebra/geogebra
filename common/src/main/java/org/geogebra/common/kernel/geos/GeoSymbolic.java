@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -225,11 +226,13 @@ public class GeoSymbolic extends GeoElement
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
 
 		String casResult = calculateCasResult(casInput);
-		setSymbolicMode(!isTopLevelCommandNumeric(), false);
 
 		casOutputString = casResult;
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
+
+		setSymbolicMode(!isTopLevelCommandNumeric()
+				&& SymbolicUtil.isValueDefined(this), false);
 
 		setFunctionVariables();
 

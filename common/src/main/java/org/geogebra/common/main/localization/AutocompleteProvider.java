@@ -66,6 +66,8 @@ public class AutocompleteProvider {
 		}
 		String syntaxString;
 		if (isCas()) {
+			app.getLocalization().getCommandSyntax()
+					.setSyntaxFilter(app.getConfig().newCommandSyntaxFilter());
 			syntaxString = app.getLocalization()
 					.getCommandSyntaxCAS(cmdInt);
 		} else {
