@@ -173,4 +173,10 @@ public class SymbolicUtil {
 		}
 		return false;
 	}
+
+
+	public static boolean evaluatesToFraction(GeoElement geo) {
+		return geo instanceof GeoSymbolic
+				&& ((ExpressionNode) ((GeoSymbolic) geo).getValue()).isFraction();
+	}
 }
