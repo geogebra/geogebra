@@ -609,4 +609,11 @@ public abstract class ValidExpression
 	public boolean isOperation(Operation operation) {
 		return false;
 	}
+
+	/**
+	 * @return whether this contains Command instances
+	 */
+	public boolean containsCommands() {
+		return inspect(t -> t instanceof Command);
+	}
 }
