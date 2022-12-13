@@ -57,8 +57,6 @@ public final class GColor implements GPaint {
 	public static final GColor PURPLE_A400 = newColor(213, 0, 249);
 	/** GEOGEBRA_BLUE */
 	public static final GColor GEOGEBRA_BLUE = newColor(153, 153, 255);
-	/** MOW PURPLE */
-	public static final GColor MOW_PURPLE = newColor(163, 136, 212);
 	/** MOW MEBIS TEAL */
 	public static final GColor MOW_MEBIS_TEAL = newColor(0, 168, 213);
 	/** MOW MEBIS TEAL with alpha */
@@ -111,6 +109,7 @@ public final class GColor implements GPaint {
 	public static final GColor MIND_MAP_CONNECTION = newColorRGB(0xDEDEDE);
 
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
+	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer

@@ -3616,7 +3616,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void moveVector() {
+	protected void moveVectorNoUpdate() {
 		view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
 		view3D.getHittingDirection(tmpCoordsForDirection);
 		if (translateDirection == null) {
@@ -3667,7 +3667,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
     @Override
-    protected void moveDependent(boolean repaint) {
+    protected void moveDependent() {
         if (isTranslateablePoint()) {
             Coords end = moveDependentPoint();
             doMoveDependent(end);
@@ -3773,8 +3773,8 @@ public abstract class EuclidianController3D extends EuclidianController {
     }
 
 	@Override
-	protected void movePointWithOffset(boolean repaint) {
-		companion.movePoint(repaint, null);
+	protected void movePointWithOffset() {
+		companion.movePoint(null);
 	}
 
 	@Override
@@ -4333,40 +4333,38 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void scaleXAxis(boolean repaint) {
-		scaleAxis(repaint);
+	protected void scaleXAxis() {
+		scaleAxis();
 	}
 
 	@Override
-	protected void scaleYAxis(boolean repaint) {
-		scaleAxis(repaint);
+	protected void scaleYAxis() {
+		scaleAxis();
 	}
 
 	@Override
-	protected void scaleZAxis(boolean repaint) {
-		scaleAxis(repaint);
+	protected void scaleZAxis() {
+		scaleAxis();
 	}
 
-	private void scaleAxis(boolean repaint) {
-		if (repaint) {
-			GPoint centeredMouse = new GPoint();
-			view3D.setCenteredPosition(mouseLoc, centeredMouse);
-			double distance = getDistanceForScale(centeredMouse.x, centeredMouse.y);
+	private void scaleAxis() {
+		GPoint centeredMouse = new GPoint();
+		view3D.setCenteredPosition(mouseLoc, centeredMouse);
+		double distance = getDistanceForScale(centeredMouse.x, centeredMouse.y);
 
-			// when mouse is close to origin
-			if (scaleDistanceInPixelsStart > 0) {
-				if (distance < MIN_MOUSE_MOVE_FOR_AXIS_SCALE) {
-					distance = MIN_MOUSE_MOVE_FOR_AXIS_SCALE;
-				}
-			} else {
-				if (distance > -MIN_MOUSE_MOVE_FOR_AXIS_SCALE) {
-					distance = -MIN_MOUSE_MOVE_FOR_AXIS_SCALE;
-				}
+		// when mouse is close to origin
+		if (scaleDistanceInPixelsStart > 0) {
+			if (distance < MIN_MOUSE_MOVE_FOR_AXIS_SCALE) {
+				distance = MIN_MOUSE_MOVE_FOR_AXIS_SCALE;
 			}
-
-			view3D.setCoordSystemFromAxisScale(distance / scaleDistanceInPixelsStart, scaleOld,
-					moveMode);
+		} else {
+			if (distance > -MIN_MOUSE_MOVE_FOR_AXIS_SCALE) {
+				distance = -MIN_MOUSE_MOVE_FOR_AXIS_SCALE;
+			}
 		}
+
+		view3D.setCoordSystemFromAxisScale(distance / scaleDistanceInPixelsStart, scaleOld,
+				moveMode);
 	}
 
 	@Override

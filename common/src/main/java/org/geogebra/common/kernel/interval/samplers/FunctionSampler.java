@@ -65,11 +65,13 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public void extend(Interval domain) {
 		if (domainInfo.hasZoomedOut(domain)) {
 			extendDataBothSide(domain);
+
 		} else if (domainInfo.hasPannedLeft(domain)) {
 			extendDataToLeft(domain);
 		} else if (domainInfo.hasPannedRight(domain)) {
 			extendDataToRight(domain);
 		}
+		processAsymptotes(data.tuples());
 		domainInfo.update(domain);
 	}
 

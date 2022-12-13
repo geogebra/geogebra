@@ -80,7 +80,7 @@ public class ComponentDropDown extends FlowPanel {
 		if (dropDown.isOpened()) {
 			dropDown.close();
 		} else {
-			dropDown.show();
+			dropDown.positionAsDropDown();
 		}
 	}
 

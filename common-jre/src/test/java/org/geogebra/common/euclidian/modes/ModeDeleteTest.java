@@ -6,6 +6,8 @@ import org.geogebra.common.euclidian.BaseControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.jre.util.ScientificFormat;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.junit.Test;
 
 public class ModeDeleteTest extends BaseControllerTest {
@@ -59,6 +61,44 @@ public class ModeDeleteTest extends BaseControllerTest {
 		assertEquals("Polyline[(2.2000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
 						+ " (4.0000E0,-2.0000E0), (?,?), true]",
 				getDefinition());
+	}
+
+	@Test
+	public void shouldNotDeleteFixedObjects() {
+		getApp().setAppletFlag(true);
+		setMode(EuclidianConstants.MODE_DELETE);
+		add("a:x=1");
+		add("SetFixed(a,true)");
+		click(50, 50);
+		checkContent("a: x = 1");
+		getApp().setAppletFlag(false);
+		resetMouseLocation();
+		click(50, 50);
+		checkContent();
+	}
+
+	@Test
+	public void shouldDeleteAngles() {
+		getApp().setAppletFlag(true);
+		add("Angle((1,-2),(1,-1),(2,-1))");
+		setMode(EuclidianConstants.MODE_DELETE);
+		click(60, 60);
+		checkContent();
+	}
+
+	@Test
+	public void shouldNotDeleteFixedSliders() {
+		getApp().setAppletFlag(true);
+		setMode(EuclidianConstants.MODE_DELETE);
+		GeoElement slider = add("a=Slider(-1,1)");
+		((GeoNumeric) slider).setSliderFixed(true);
+		add("SetCoords(a,50,50)");
+		click(50, 50);
+		checkContent("a = 0");
+		getApp().setAppletFlag(false);
+		resetMouseLocation();
+		click(50, 50);
+		checkContent();
 	}
 
 	private String getDefinition() {

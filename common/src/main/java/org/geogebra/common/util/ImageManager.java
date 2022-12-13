@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.QDParser;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
@@ -149,8 +151,8 @@ abstract public class ImageManager {
 		double screenHeight = ev.toRealWorldCoordY(
 				(double) (ev.getHeight()) + 1) - ev.toRealWorldCoordY(0.0);
 
-		GeoPoint point1 = geoImage.getCorner(0);
-		GeoPoint point2 = geoImage.getCorner(1);
+		GeoPoint point1 = geoImage.getStartPoint(0);
+		GeoPoint point2 = geoImage.getStartPoint(1);
 		GeoPoint point3 = new GeoPoint(app.getKernel().getConstruction());
 		geoImage.calculateCornerPoint(point3, 3);
 
@@ -217,5 +219,14 @@ abstract public class ImageManager {
 
 	public String getExternalImageSrc(String name) {
 		return name;
+	}
+
+	/**
+	 * @param kernel - kernel
+	 * @param geo - text defining the image
+	 * @param fillable - set image filling for this geo
+	 */
+	public void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable) {
+		// only works on platforms with SVG support (web, desktop)
 	}
 }

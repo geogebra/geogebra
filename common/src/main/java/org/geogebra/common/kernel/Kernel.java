@@ -393,7 +393,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// MOB-1304 cache axes numbers
 	private final HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
 
-	private Traversing.VariableReplacer variableReplacer;
+	private final Traversing.VariableReplacer variableReplacer;
 	private final GeoFunctionConverter functionConverter = new GeoFunctionConverter();
 
 	/**
@@ -410,7 +410,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		getExpressionNodeEvaluator();
 
 		setManager3D(newManager3D(this));
-		variableReplacer = new Traversing.VariableReplacer(this);
 	}
 
 	/**
@@ -426,6 +425,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		geoFactory = factory;
 		arithmeticFactory = new ArithmeticFactory();
 		scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(this);
+		variableReplacer = new Traversing.VariableReplacer(this);
 	}
 
 	/**
@@ -1133,7 +1133,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	final public void formatSigned(double x, StringBuilder sb,
 			StringTemplate tpl) {
-		boolean screenReader = tpl.hasType(StringType.SCREEN_READER);
+		boolean screenReader = tpl.hasType(StringType.SCREEN_READER_ASCII);
 		if (x >= 0.0d) {
 			sb.append(screenReader ? " plus " : "+ ");
 			sb.append(format(x, tpl));
@@ -2262,14 +2262,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				// converted from radians
 				sbFormatAngle.append(
 						format(DoubleUtil.checkDecimalFraction(phi, precision), tpl));
-
 				if (tpl.hasType(StringType.GEOGEBRA_XML)) {
 					sbFormatAngle.append("*");
 				}
-
 				if (!isMinusOnRight) {
 					if (tpl.hasCASType()) {
 						sbFormatAngle.append("*pi/180");
+					} else if (tpl.isScreenReader()) {
+						boolean singular = "1".equals(sbFormatAngle.toString());
+						sbFormatAngle.append(' ').append(singular
+								? tpl.getDegree() : tpl.getDegrees());
 					} else {
 						sbFormatAngle.append(Unicode.DEGREE_CHAR);
 					}
@@ -4456,12 +4458,19 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Removes a macro from the kernel.
 	 */
 	public void removeMacro(Macro macro) {
+		if (macro == null) {
+			return;
+		}
 		if (macroManager != null) {
 			macroManager.removeMacro(macro);
 		}
 
 		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null,
 				macro.getCommandName()));
+	}
+
+	public void removeMacro(String macroName) {
+		removeMacro(getMacro(macroName));
 	}
 
 	/**
@@ -4488,8 +4497,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return if the command name was really set
 	 */
 	public boolean setMacroCommandName(Macro macro, String cmdName) {
-		boolean nameUsed = macroManager.getMacro(cmdName) != null;
-		if (nameUsed || cmdName == null || cmdName.length() == 0) {
+		if (macroManager.getMacro(cmdName) != null
+				|| cmdName == null || cmdName.length() == 0) {
 			return false;
 		}
 
@@ -4521,7 +4530,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * 
 	 * @return macro construction XML
 	 */
-	public String getMacroXML(ArrayList<Macro> macros) {
+	public String getMacroXML(List<Macro> macros) {
 		if (hasMacros()) {
 			return MacroManager.getMacroXML(macros);
 		}

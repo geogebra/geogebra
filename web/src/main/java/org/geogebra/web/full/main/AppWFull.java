@@ -182,7 +182,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import elemental2.dom.URL;
+import elemental2.webstorage.StorageEvent;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -289,6 +294,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		startActivity();
+
+		setPurpose();
 	}
 
 	private void setupHeader() {
@@ -378,6 +385,67 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void startActivity() {
 		initActivity();
 		activity.start(this);
+	}
+
+	/**
+	 * Makes a difference between the original app and the app that is opened for macro editing.
+	 */
+	private void setPurpose() {
+		URL url = new URL(DomGlobal.location.href);
+		if (url.searchParams != null) {
+			setOpenedForMacroEditing(false);
+			String editMacroName = url.searchParams.get(EDIT_MACRO_URL_PARAM_NAME);
+			if (editMacroName != null) {
+				if (storageContainsMacro(editMacroName)) {
+					setOpenedForMacroEditing(true);
+				} else {
+					url.searchParams.delete(EDIT_MACRO_URL_PARAM_NAME);
+					updateURL(url);
+				}
+			}
+			if (isOpenedForMacroEditing()) {
+				getKernel().removeAllMacros();
+				restoreMacro(editMacroName);
+				registerOpenFileListener(() -> openEditMacroFromStorage(editMacroName));
+				// Close the tab if the macro is removed from local storage
+				DomGlobal.window.addEventListener("storage", event -> {
+					StorageEvent storageEvent = (StorageEvent) event;
+					if (storageEvent.newValue == null
+							&& createStorageMacroKey(getEditMacro().getEditName())
+							.equals(storageEvent.key)) {
+						DomGlobal.window.close();
+					}
+				});
+				// Before the tab is closed, remove the macro from local storage
+				// in order to let the original app open the macro editing again.
+				DomGlobal.window.addEventListener("beforeunload", event -> {
+					removeMacroFromStorage(getEditMacro().getEditName());
+				});
+			} else {
+				removeAllMacrosFromStorage();
+				// Close all the editing tabs when the original app is closed.
+				DomGlobal.window.addEventListener("beforeunload", event -> {
+					removeAllMacrosFromStorage();
+				});
+				// After the macro is edited and the save button is pressed, the editing tab
+				// sends a message to the original app containing the XML of the edited macro.
+				getGlobalHandlers().addEventListener(DomGlobal.window, "message", event -> {
+					String editedMacroMessage = Js.asPropertyMap(event).get("data").toString();
+					try {
+						JsPropertyMap<Object> messageProperties =
+								Js.asPropertyMap(Global.JSON.parse(editedMacroMessage));
+						getKernel().removeMacro(messageProperties
+								.get(EDITED_MACRO_NAME_KEY).toString());
+						if (addMacroXML(messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
+							setXML(getXML(), true);
+						}
+					} catch (Throwable err) {
+						Log.debug("Error occurred while updating the macro XML: " + err.getMessage()
+								+ "\nEdited macro message: " + editedMacroMessage);
+					}
+				});
+			}
+		}
 	}
 
 	/**
@@ -1287,6 +1355,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setCurrentFile(null);
 		resetUI();
 		clearMedia();
+		getEventDispatcher().dispatchEvent(EventType.LOAD_PAGE, null);
 	}
 
 	@Override
@@ -1562,11 +1631,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 
-		getScriptManager().ggbOnInit(); // put this here from Application
-										// constructor because we have to delay
-										// scripts until the EuclidianView is
-										// shown
-
 		getEuclidianView1().synCanvasSize();
 
 		if (!appletParameters.getDataParamFitToScreen()) {
@@ -1604,7 +1668,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
-		onOpenFile();
+
 		showStartTooltip(null);
 		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
@@ -1613,9 +1677,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
+		getScriptManager().ggbOnInit(); // should be only called after coord system is ready
+		onOpenFile();
 		if (!asSlide) {
 			// should run after coord system changed
 			initUndoInfoSilent();
+		} else {
+			getEventDispatcher().dispatchEvent(EventType.LOAD_PAGE, null);
 		}
 		restoreCurrentUndoHistory();
 	}

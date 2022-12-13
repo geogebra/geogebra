@@ -363,15 +363,15 @@ public class EditorState {
 			if (prev == null) {
 				return er
 						.localize("start of formula %0",
-								ScreenReaderSerializer.fullDescription(er,
-										currentField))
+								ScreenReaderSerializer.fullDescription(
+										currentField, er.getAdapter()))
 						.trim();
 			}
 			if (next == null) {
 				return er
 						.localize("end of formula %0",
-								ScreenReaderSerializer.fullDescription(er,
-										currentField))
+								ScreenReaderSerializer.fullDescription(
+										currentField, er.getAdapter()))
 						.trim();
 			}
 		}
@@ -398,7 +398,8 @@ public class EditorState {
 			sb.append(describeNext(next, er));
 		} else if (endOfFunctionName()) {
 			sb.append(
-					er.localize(ExpRelation.BEFORE.toString(), "parenthesis"));
+					er.localize(ExpRelation.BEFORE.toString(),
+							er.getAdapter().parenthesis("(")));
 		}
 		return sb.toString().trim();
 	}
@@ -454,7 +455,7 @@ public class EditorState {
 			if (sb.length() > 0 && !isInsideQuotes()) {
 				try {
 					return er.localize(ExpRelation.AFTER.toString(),
-							er.mathExpression(sb.reverse().toString()));
+							mathExpression(sb.reverse().toString(), er));
 				} catch (Exception e) {
 					FactoryProvider.getInstance()
 							.debug("Invalid: " + sb.reverse());
@@ -474,7 +475,7 @@ public class EditorState {
 			if (sb.length() > 0 && !isInsideQuotes()) {
 				try {
 					return er.localize(ExpRelation.BEFORE.toString(),
-							er.mathExpression(sb.toString()));
+							mathExpression(sb.toString(), er));
 				} catch (Exception e) {
 					// no math alt text, fall back to reading as is
 				}
@@ -483,18 +484,26 @@ public class EditorState {
 		return describe(ExpRelation.BEFORE, parent, er);
 	}
 
+	private String mathExpression(String math, ExpressionReader er) {
+		StringBuilder sb = new StringBuilder(math.length());
+		for (int i = 0; i < math.length(); i++) {
+			sb.append(er.getAdapter().convertCharacter(math.charAt(i)));
+		}
+		return sb.toString();
+	}
+
 	private static String describe(ExpRelation pattern, MathComponent prev,
 			ExpressionReader er) {
-		String name = describe(pattern, prev, -1);
+		String name = describe(pattern, prev, -1, er);
 		if (name != null) {
 			return er.localize(pattern.toString(), name);
 		}
 		return er.localize(pattern.toString(),
-				ScreenReaderSerializer.fullDescription(er, prev));
+				ScreenReaderSerializer.fullDescription(prev, er.getAdapter()));
 	}
 
 	private static String describe(ExpRelation pattern, MathComponent prev,
-			int index) {
+			int index, ExpressionReader er) {
 		if (prev instanceof MathFunction) {
 			switch (((MathFunction) prev).getName()) {
 			case FRAC:
@@ -525,9 +534,13 @@ public class EditorState {
 			if (((MathArray) prev).getOpenKey() == '"') {
 				return "quotes";
 			}
-			return pattern == ExpRelation.BEFORE
-					|| pattern == ExpRelation.AFTER ? "parenthesis"
-							: "parentheses";
+			switch (pattern) {
+			case AFTER:
+				return er.getAdapter().parenthesis(")");
+			case BEFORE:
+				return er.getAdapter().parenthesis("(");
+			default: return "parentheses";
+			}
 		}
 		return null;
 	}
@@ -536,7 +549,7 @@ public class EditorState {
 			ExpressionReader er) {
 		if (parent instanceof MathFunction) {
 			String name = describe(pattern, parent,
-					parent.indexOf(currentField));
+					parent.indexOf(currentField), er);
 			if (name != null && name.isEmpty()) {
 				return "";
 			}

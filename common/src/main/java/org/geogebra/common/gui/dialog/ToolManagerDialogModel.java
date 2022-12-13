@@ -100,7 +100,7 @@ public class ToolManagerDialogModel {
 				listener.removeMacroFromToolbar(kernel.getMacroID(macro)
 						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
 
-				kernel.removeMacro(macro);
+				app.removeMacro(macro);
 				listener.refreshCustomToolsInToolBar();
 				deletedMacros.add(macro);
 				didDeletion = true;

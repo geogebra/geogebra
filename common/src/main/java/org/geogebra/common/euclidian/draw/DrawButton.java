@@ -14,9 +14,9 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.DrawButtonWidget;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.MyButton;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -35,7 +35,7 @@ public final class DrawButton extends Drawable {
 
 	private String oldCaption;
 	/** button "component" */
-	public MyButton myButton;
+	public DrawButtonWidget myButton;
 
 	/**
 	 * @param view
@@ -47,7 +47,7 @@ public final class DrawButton extends Drawable {
 		this.view = view;
 		this.geoButton = geoButton;
 		geo = geoButton;
-		myButton = new MyButton(geoButton, view);
+		myButton = new DrawButtonWidget(geoButton, view);
 
 		update();
 	}

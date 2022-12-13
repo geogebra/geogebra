@@ -163,7 +163,7 @@ public class GeoEmbed extends GeoWidget {
 		sb.append(appName);
 		if (!StringUtil.empty(url)) {
 			sb.append("\" url=\"");
-			sb.append(StringUtil.encodeXML(url));
+			StringUtil.encodeXML(sb, url);
 		}
 		sb.append("\"/>\n");
 		sb.append("\t<contentSize width=\"");
@@ -175,9 +175,9 @@ public class GeoEmbed extends GeoWidget {
 		for (Map.Entry<String, String> entry : getSettings()) {
 			sb.append(' ')
 				.append(entry.getKey())
-				.append("=\"")
-				.append(StringUtil.encodeXML(entry.getValue()))
-				.append('\"');
+				.append("=\"");
+				StringUtil.encodeXML(sb, entry.getValue());
+			sb.append('\"');
 		}
 		sb.append("/>\n");
 	}

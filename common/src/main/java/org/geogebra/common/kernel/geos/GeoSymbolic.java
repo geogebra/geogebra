@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -65,6 +66,7 @@ public class GeoSymbolic extends GeoElement
 	private int pointSize;
 	private boolean symbolicMode;
 	private MyArbitraryConstant constant;
+	private boolean wrapInNumeric = false;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -224,11 +226,13 @@ public class GeoSymbolic extends GeoElement
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
 
 		String casResult = calculateCasResult(casInput);
-		setSymbolicMode(!isTopLevelCommandNumeric(), false);
 
 		casOutputString = casResult;
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
+
+		setSymbolicMode(!isTopLevelCommandNumeric()
+				&& SymbolicUtil.isValueDefined(this), false);
 
 		setFunctionVariables();
 
@@ -246,7 +250,6 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
-
 		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
 			casResult = tryNumericCommand(casInput, casResult);
 		}
@@ -307,14 +310,6 @@ public class GeoSymbolic extends GeoElement
 			return result;
 		}
 
-		if (Commands.Solve.name().equals(casInput.getName())) {
-			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
-			Command input = getCasInput(getDefinition().deepCopy(kernel)
-					.traverse(FunctionExpander.newFunctionExpander(this)));
-			result = evaluateGeoGebraCAS(input, constant);
-			return result;
-		}
-
 		Command numericVersion = new Command(kernel, "Numeric", false);
 		numericVersion.addArgument(casInput.wrap());
 		String numResult = evaluateGeoGebraCAS(numericVersion, constant);
@@ -324,6 +319,14 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		return result;
+	}
+
+	public void setWrapInNumeric(boolean input) {
+		wrapInNumeric = input;
+	}
+
+	public boolean shouldWrapInNumeric() {
+		return wrapInNumeric;
 	}
 
 	private boolean isTopLevelCommandNumeric() {
@@ -601,6 +604,7 @@ public class GeoSymbolic extends GeoElement
 
 	private ExpressionNode getNodeFromInput() {
 		ExpressionNode node = getDefinition().deepCopy(kernel)
+				.traverse(new FunctionExpander())
 				.traverse(createPrepareDefinition())
 				.wrap();
 		node.setLabel(null);
@@ -922,7 +926,7 @@ public class GeoSymbolic extends GeoElement
 		sb.append("\t<variables val=\"");
 		for (FunctionVariable variable : fVars) {
 			sb.append(prefix);
-			sb.append(StringUtil.encodeXML(variable.getSetVarString()));
+			StringUtil.encodeXML(sb, variable.getSetVarString());
 			prefix = ",";
 		}
 		sb.append("\"/>\n");

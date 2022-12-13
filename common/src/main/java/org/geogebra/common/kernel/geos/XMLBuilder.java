@@ -294,7 +294,8 @@ public class XMLBuilder {
 	 * @param corners
 	 *            corners
 	 */
-	public static void getCornerPointXML(StringBuilder sb, int number, GeoPointND[] corners) {
+	public static void getCornerPointXML(StringBuilder sb, int number, GeoPointND[] corners,
+			boolean isAbsolute) {
 		if (corners[number] == null) {
 			return;
 		}
@@ -310,6 +311,9 @@ public class XMLBuilder {
 			sb.append(" exp=\"");
 			StringUtil.encodeXML(sb, corners[number].getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");
+		}
+		if (isAbsolute) {
+			sb.append(" absolute=\"true\"");
 		}
 		sb.append("/>\n");
 	}

@@ -63,7 +63,9 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 		AlgebraProcessor ap = kernel.getAlgebraProcessor();
 		if (cmd == Commands.ParseToNumber) {
 			num = ap.evaluateToNumeric(text.getTextString(), true);
-			updateReferences(num.getDefinition());
+			if (num != null) {
+				updateReferences(num.getDefinition());
+			}
 		} else if (vars == null) {
 			num = ap.evaluateToFunction(text.getTextString(), true);
 			if (num != null) {

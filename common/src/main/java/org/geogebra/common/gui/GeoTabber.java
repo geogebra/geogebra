@@ -1,7 +1,5 @@
-package org.geogebra.web.html5.gui.accessibility;
+package org.geogebra.common.gui;
 
-import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 

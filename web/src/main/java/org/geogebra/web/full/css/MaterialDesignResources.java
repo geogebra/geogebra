@@ -295,6 +295,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/mode_symbolic_white.svg")
 	SVGResource modeToggleSymbolic();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/fraction_white.svg")
+	SVGResource fraction_white();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/speed_up_black.svg")
 	SVGResource speed_up_black();
 

@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.MyImage;
@@ -67,8 +66,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	// for absolute screen location
 	private int screenX;
 	private int screenY;
-	private int[] cornerScreenX = new int[2];
-	private int[] cornerScreenY = new int[2];
 	private boolean hasAbsoluteScreenLocation = false;
 
 	// corner points for transformations
@@ -83,6 +80,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	//ruler or protractor
 	private boolean isMeasurementTool = false;
+	private boolean needBoundingBoxUpdate;
 
 	/**
 	 * Creates new image
@@ -169,13 +167,8 @@ public class GeoImage extends GeoElement implements Locateable,
 		hasAbsoluteScreenLocation = img.hasAbsoluteScreenLocation;
 
 		if (hasAbsoluteScreenLocation) {
-			if (kernel.getApplication().isWhiteboardActive()) {
-				cornerScreenX[0] = img.cornerScreenX[0];
-				cornerScreenY[0] = img.cornerScreenY[0];
-			} else {
-				screenX = img.screenX;
-				screenY = img.screenY;
-			}
+			screenX = img.screenX;
+			screenY = img.screenY;
 		} else {
 			hasChangeableLocation = true;
 			for (int i = 0; i < corners.length; i++) {
@@ -386,7 +379,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		// absolute screen position should be deactivated
-		setAbsoluteScreenLocActive(false);
 		updateHasAbsoluteLocation();
 	}
 
@@ -396,8 +388,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	private void updateHasAbsoluteLocation() {
 		hasChangeableLocation = true;
-		for (int i = 0; i < corners.length; i++) {
-			if (!(corners[i] == null || corners[i].isAbsoluteStartPoint())) {
+		for (GeoPoint corner : corners) {
+			if (!(corner == null || corner.isAbsoluteStartPoint())) {
 				hasChangeableLocation = false;
 				return;
 			}
@@ -428,24 +420,32 @@ public class GeoImage extends GeoElement implements Locateable,
 		return corners[0];
 	}
 
-	@Override
+	/**
+	 * @return all corners
+	 */
 	public GeoPoint[] getStartPoints() {
 		return corners;
 	}
 
 	/**
 	 * Returns n-th corner point
-	 * 
+	 *
 	 * @param number
-	 *            1 for boottom left, others clockwise
+	 *            0 for bottom left, 1 bottom right, 2 top left
 	 * @return corner point
 	 */
-	final public GeoPoint getCorner(int number) {
+	@Override
+	final public GeoPoint getStartPoint(int number) {
 		return corners[number];
 	}
 
 	@Override
-	final public boolean hasAbsoluteLocation() {
+	final public int getStartPointCount() {
+		return corners.length;
+	}
+
+	@Override
+	final public boolean hasStaticLocation() {
 		return hasChangeableLocation;
 	}
 
@@ -465,13 +465,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	final public void setInterpolate(boolean flag) {
 		interpolate = flag;
-	}
-
-	@Override
-	public void setWaitForStartPoint() {
-		// this can be ignored for an image
-		// as the position of its startpoint
-		// is irrelevant for the rest of the construction
 	}
 
 	@Override
@@ -572,8 +565,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	protected void getStyleXML(StringBuilder sb) {
 		// name of image file
 		sb.append("\t<file name=\"");
-		sb.append(StringUtil
-				.encodeXML(this.getGraphicsAdapter().getImageFileName()));
+		StringUtil.encodeXML(sb, this.getGraphicsAdapter().getImageFileName());
 		sb.append("\"/>\n");
 
 		// name of image file
@@ -592,12 +584,13 @@ public class GeoImage extends GeoElement implements Locateable,
 			sb.append("\t<centered val=\"true\"/>\n");
 		}
 
-		if (hasAbsoluteScreenLocation) {
+		if (hasAbsoluteScreenLocation
+				&& (corners[0] == null || corners[0].isAbsoluteStartPoint())) {
 			getXMLabsScreenLoc(sb);
 		} else {
 			// store location of corners
 			for (int i = 0; i < corners.length; i++) {
-				XMLBuilder.getCornerPointXML(sb, i, corners);
+				XMLBuilder.getCornerPointXML(sb, i, corners, isAbsoluteScreenLocActive());
 			}
 		}
 
@@ -633,9 +626,10 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
-		if (kernel.getApplication().isWhiteboardActive()) {
-			setAbsoluteScreenLoc(x, y, 0);
+		if (corners[0] != null) {
+			corners[0].getLocateableList().remove(this);
 		}
+		corners[0] = null;
 		screenX = x;
 		screenY = y;
 		if (!hasScreenLocation() && (x != 0 && y != 0)) {
@@ -643,57 +637,14 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
-	/**
-	 * Sets the offset of i. corner.
-	 * 
-	 * @param x
-	 *            x offset (in pixels)
-	 * @param y
-	 *            y offset (in pixels)
-	 * @param i
-	 *            i number of corner
-	 */
-	public void setAbsoluteScreenLoc(int x, int y, int i) {
-		cornerScreenX[i] = x;
-		cornerScreenY[i] = y;
-		if (!hasScreenLocation() && (x != 0 && y != 0) && i == 0) {
-			setScreenLocation(x, y);
-		}
-	}
-
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return kernel.getApplication().isWhiteboardActive()
-				? getAbsoluteScreenLocX(0) : screenX;
+		return corners[0] != null ? (int) corners[0].getInhomX() : screenX;
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return kernel.getApplication().isWhiteboardActive()
-				? getAbsoluteScreenLocY(0) : screenY;
-	}
-
-	/**
-	 * Gets the x offset of i. corner.
-	 * 
-	 * @param i
-	 *            index
-	 * @return corner x screen coord
-	 */
-	public int getAbsoluteScreenLocX(int i) {
-		return cornerScreenX[i];
-	}
-
-	/**
-	 * Gets the y offset of i. corner.
-	 * 
-	 * @param i
-	 *            index
-	 * @return corner y screen coord
-	 */
-	public int getAbsoluteScreenLocY(int i) {
-		return cornerScreenY[i];
-
+		return corners[0] != null ? (int) corners[0].getInhomY() : screenY;
 	}
 
 	@Override
@@ -764,14 +715,13 @@ public class GeoImage extends GeoElement implements Locateable,
 		if (flag) {
 			if (!kernel.getApplication().isWhiteboardActive()) {
 				// remove startpoints
-				for (int i = 0; i < 3; i++) {
+				for (int i = 1; i < 3; i++) {
 					if (corners[i] != null) {
 						corners[i].getLocateableList().unregisterLocateable(this);
 					}
 				}
 				if (corners[0] != null) {
-					corners[0] = corners[0].copy();
-					hasChangeableLocation = true;
+					hasChangeableLocation = corners[0].isAbsoluteStartPoint();
 				}
 				corners[1] = null;
 				corners[2] = null;
@@ -1090,7 +1040,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view) {
 
-		if (hasAbsoluteLocation()) {
+		if (hasStaticLocation()) {
 			return false;
 		}
 
@@ -1108,7 +1058,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public ArrayList<GeoElementND> getFreeInputPoints(
 			EuclidianViewInterfaceSlim view) {
-		if (hasAbsoluteLocation()) {
+		if (hasStaticLocation()) {
 			return null;
 		}
 
@@ -1154,17 +1104,6 @@ public class GeoImage extends GeoElement implements Locateable,
 			}
 			corners[i].setCoords(vec);
 		}
-
-	}
-
-	/**
-	 * Clears the image
-	 */
-	public void clearFillImage() {
-		this.getGraphicsAdapter()
-				.setImageOnly(AwtFactory.getPrototype().newMyImage(pixelWidth,
-						pixelHeight, GBufferedImage.TYPE_INT_ARGB));
-		this.updateRepaint();
 
 	}
 
@@ -1470,5 +1409,14 @@ public class GeoImage extends GeoElement implements Locateable,
 				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
 			}
 		}
+	}
+
+	@Override
+	public boolean needsUpdatedBoundingBox() {
+		return needBoundingBoxUpdate;
+	}
+
+	public void setNeedsBoundingBoxUpdate(boolean needsUpdate) {
+		needBoundingBoxUpdate = needsUpdate;
 	}
 }

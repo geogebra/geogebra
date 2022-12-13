@@ -53,16 +53,6 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public SVGResource getNumericIcon() {
-		return MaterialDesignResources.INSTANCE.modeToggleNumeric();
-	}
-
-	@Override
-	public SVGResource getOutputPrefixIcon() {
-		return MaterialDesignResources.INSTANCE.arrow_black();
-	}
-
-	@Override
 	public void initStylebar(DockPanelW dockPanelW) {
 		dockPanelW.initGraphicsSettingsButton();
 	}

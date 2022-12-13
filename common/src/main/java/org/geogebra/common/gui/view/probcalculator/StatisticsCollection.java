@@ -210,7 +210,7 @@ public class StatisticsCollection {
 		for (int column = 0; column < chiSquareData[0].length; column++) {
 			sb.append("<entry val=\"");
 			if (chiSquareData[row][column] != null) {
-				sb.append(StringUtil.encodeXML(chiSquareData[row][column]));
+				StringUtil.encodeXML(sb, chiSquareData[row][column]);
 			}
 			sb.append("\"/>\n");
 		}

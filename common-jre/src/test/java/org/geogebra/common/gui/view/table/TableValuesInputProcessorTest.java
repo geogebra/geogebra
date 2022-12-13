@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.undo.UndoManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,14 +58,13 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 
 	private void assertValue(String value, int index) {
 		GeoElement element = list.get(index);
-		assertTrue(element instanceof GeoNumeric);
+		assertThat(element, instanceOf(GeoNumeric.class));
 		assertThat(element.toString(StringTemplate.defaultTemplate), is(value));
 	}
 
 	private void assertEmptyInput(int index) {
 		GeoElement element = list.get(index);
-		assertTrue(element instanceof GeoText);
-		assertThat(((GeoText) element).getTextString(), is(""));
+		assertTrue(model.isEmptyValue(element));
 	}
 
 	@Test
@@ -74,9 +75,10 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 
 	private void assertEmptyInput(String input) {
 		GeoElement element = list.get(0);
-		assertTrue(element instanceof GeoText);
-		assertEquals(input, ((GeoText) element).getTextString());
-
+		assert element.getParentAlgorithm() != null;
+		GeoElementND parent = element.getParentAlgorithm().getInput(0);
+		assertThat(parent, instanceOf(GeoText.class));
+		assertEquals(input, ((GeoText) parent).getTextString());
 	}
 
 	@Test
@@ -240,6 +242,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertThat(cellContent, equalTo("2"));
 
 		processor.processInput("invalid", view.getValues(), 0);
+
 		undoManager.storeUndoInfo();
 		undoManager.undo();
 		TableValuesCell cell = model.getCellAt(0, 0);
@@ -296,5 +299,15 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		cell = model.getCellAt(0, 1);
 		assertThat(cell.getInput(), equalTo("invalid"));
 		assertThat(cell.isErroneous(), is(true));
+	}
+
+	@Test
+	public void processedValuesUsableInCommands() {
+		processor.processInput("1", list, 0);
+		processor.processInput("2", list, 1);
+		processor.processInput("1", list, 2);
+
+		GeoElement unique = add("Unique(x_1)");
+		assertThat(unique, hasValue("{1, 2}"));
 	}
 }

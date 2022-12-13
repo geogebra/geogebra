@@ -1040,6 +1040,7 @@ public class Ggb2giac {
 		p("mean.1", listToNumber("mean"));
 		p("Mean.1", listToNumber("mean"));
 		p("Median.1", "median(%0)");
+		p("Median.2", "median(%0, %1)");
 
 		pOptimize("Min", "min", "fMin");
 		pOptimize("Max", "max", "fMax");
@@ -1068,7 +1069,7 @@ public class Ggb2giac {
 						+
 						// eg NSolve[a^4+34a^3 = 34]
 						// regroup() added for
-						// NSolve[BC^2=4^2+3^2-2*4*3*cos(50degrees)]
+						// NSolve[BC^2=4^2+3^2-2*4*3*cos(50deg)]
 						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(regroup(ggbnsans),ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],"
 						+ "when(dim(ggbnsans)==0,{},seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1))][3])],"
 						+ "ggbnsans][2])");
@@ -1231,9 +1232,10 @@ public class Ggb2giac {
 		// stdevp / stdev different way round in Giac!
 		p("SampleSD.1", listToNumber("stddevp"));
 		p("stdev.1", listToNumber("stddevp"));
+		p("stdev.2", "normal(stddevp(%0, %1))");
 		p("SD.1", listToNumber("stddev"));
 		p("stdevp.1", listToNumber("stddev"));
-
+		p("stdevp.2", "normal(stddev(%0, %1))");
 		p("Defined.1", "%0!=?");
 		p("Sort.1", "sort(%0)");
 		p("Shuffle.1", "randperm(%0)");

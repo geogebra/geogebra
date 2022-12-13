@@ -114,7 +114,7 @@ public final class CommandFilterFactory {
 				Commands.CircleArc, Commands.CircularSector, Commands.CircleSector,
 				Commands.CircumcircularArc, Commands.CircumcircleArc, Commands.CircumcircularSector,
 				Commands.CircumcircleSector, Commands.Cubic, Commands.Direction,
-				Commands.Distance, Commands.Envelope, Commands.IntersectPath,
+				Commands.Envelope, Commands.IntersectPath,
 				Commands.Locus, Commands.LocusEquation, Commands.Midpoint,
 				Commands.Point, Commands.Polygon, Commands.Polyline,
 				Commands.PolyLine, Commands.ProveDetails, Commands.Ray,
@@ -123,7 +123,7 @@ public final class CommandFilterFactory {
 				// Transformation Commands
 				Commands.Rotate, Commands.Shear, Commands.Translate,
 				// Statistics Commands
-				Commands.Fit, Commands.Spearman, Commands.SumSquaredErrors,
+				Commands.Spearman, Commands.SumSquaredErrors,
 				// Probability commands
 				Commands.Bernoulli,
 				// Conic Commands

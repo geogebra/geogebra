@@ -32,4 +32,9 @@ public class TrimmedIntersectionLinesModel extends BooleanOptionModel {
 		geo.updateRepaint();
 
 	}
+
+	@Override
+	public String getTitle() {
+		return "ShowTrimmed";
+	}
 }

@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
@@ -387,11 +388,17 @@ class DragController {
 	private void onDrop() {
 		dropAnimTimer.cancel();
 		if (index() >= 0) {
-			app.dispatchEvent(new Event(EventType.MOVE_SLIDE, null,
-					index() + "," + getDropIndex() + ""));
-			cards.reorder(index(), getDropIndex());
+			boolean moved = index() != getDropIndex();
+			if (moved) {
+				Event evt = new Event(EventType.MOVE_PAGE, null,
+						dragged == null ? "" : dragged.getID());
+				HashMap<String, Object> args = new HashMap<>();
+				args.put("to", getDropIndex());
+				app.dispatchEvent(evt.setJsonArgument(args));
+				cards.reorder(index(), getDropIndex());
+			}
 			getListener().update();
-			cards.clickPage(index(), false);
+			cards.clickPage(index(), !moved);
 		}
 		cancelDrag();
 	}

@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -235,14 +234,8 @@ public class LayoutAbsoluteGeos {
 	}
 
 	private static void setAbsoluteScreenLoc(AbsoluteScreenLocateable absGeo,
-			int x,
-			int y) {
-		if (absGeo instanceof GeoBoolean) {
-			((GeoBoolean) absGeo).setAbsoluteScreenLoc(x, y, true);
-		} else {
+			int x, int y) {
 			absGeo.setAbsoluteScreenLoc(x, y);
-		}
-
 	}
 
 	private static int maxUnusedX(ArrayList<GRectangle> usedPositions, int yTop,

@@ -145,6 +145,10 @@ public class MyVec3DNode extends ValidExpression
 		return z;
 	}
 
+	public boolean hasSphericalCoords() {
+		return mode == Kernel.COORD_SPHERICAL;
+	}
+
 	private void setCoords(ExpressionValue x, ExpressionValue y,
 			ExpressionValue z) {
 		this.x = x;
@@ -193,7 +197,8 @@ public class MyVec3DNode extends ValidExpression
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return stringifier.toString(tpl);
+		return hasSphericalCoords()
+				? stringifier.toString(tpl, VectorPrintingMode.Polar) : stringifier.toString(tpl);
 	}
 
 	@Override

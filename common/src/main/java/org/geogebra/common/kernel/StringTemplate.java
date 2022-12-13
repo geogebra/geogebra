@@ -376,12 +376,20 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * GGB-2454
 	 */
-	public static final StringTemplate screenReader = new StringTemplate(
+	public static final StringTemplate screenReaderAscii = new StringTemplate(
 			"screenReader");
 
 	static {
-		screenReader.setType(StringType.SCREEN_READER);
-		screenReader.localizeCmds = true;
+		screenReaderAscii.setType(StringType.SCREEN_READER_ASCII);
+		screenReaderAscii.localizeCmds = true;
+	}
+
+	public static final StringTemplate screenReaderUnicode = new StringTemplate(
+			"screenReaderUnicode");
+
+	static {
+		screenReaderUnicode.setType(StringType.SCREEN_READER_UNICODE);
+		screenReaderUnicode.localizeCmds = true;
 	}
 
 	/**
@@ -630,7 +638,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			printFormImaginary = "i";
 			break;
 
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			printFormPI = " pi ";
 			printFormImaginary = " i ";
 			break;
@@ -1356,7 +1364,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param loc localization
 	 */
 	public void getPlus(StringBuilder sb, Localization loc) {
-		if (stringType == StringType.SCREEN_READER) {
+		if (stringType == StringType.SCREEN_READER_ASCII) {
 			sb.append(ScreenReader.getPlus(loc));
 		} else {
 			appendOptionalSpace(sb);
@@ -1371,7 +1379,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param loc localization
 	 */
 	public void getMinus(StringBuilder sb, Localization loc) {
-		if (stringType == StringType.SCREEN_READER) {
+		if (stringType == StringType.SCREEN_READER_ASCII) {
 			sb.append(ScreenReader.getMinus(loc));
 		} else {
 			appendOptionalSpace(sb);
@@ -1384,7 +1392,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ( or \left(
 	 */
 	public String leftBracket() {
-		if (stringType == StringType.SCREEN_READER) {
+		if (stringType == StringType.SCREEN_READER_ASCII) {
 			return ScreenReader.getOpenParenthesis();
 		}
 		return left() + "(";
@@ -1394,7 +1402,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ) or \right)
 	 */
 	public String rightBracket() {
-		if (stringType == StringType.SCREEN_READER) {
+		if (stringType == StringType.SCREEN_READER_ASCII) {
 			return ScreenReader.getCloseParenthesis();
 		}
 		return right() + ")";
@@ -1867,7 +1875,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-					case SCREEN_READER:
+					case SCREEN_READER_ASCII:
 						showMultiplicationSign = true;
 						break;
 
@@ -1963,7 +1971,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-					case SCREEN_READER:
+					case SCREEN_READER_ASCII:
 						sb.append(multiplicationSign(loc));
 						break;
 
@@ -2062,12 +2070,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 				&& rightStr.charAt(0) == loc.getZero()
 				+ 1)))
 
-				|| rightStr.equals(Unicode.DEGREE_STRING)) {
+				|| rightStr.equals(getDegree())) {
 
 			boolean isMinusOnRight = loc.isMinusOnRight(this);
-
+			String degSymbol = "1".equals(leftStr) ? getDegree() : getDegrees();
 			if (isMinusOnRight) {
-				sb.append(Unicode.DEGREE_STRING);
+				sb.append(degSymbol);
 			}
 
 			if (!left.isLeaf()) {
@@ -2079,7 +2087,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 
 			if (!isMinusOnRight) {
-				sb.append(Unicode.DEGREE_STRING);
+				sb.append(degSymbol);
 			}
 		}
 	}
@@ -2138,7 +2146,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// space for multiplication
 			return !forEditorParser ? " * " : "*";
 
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return ScreenReader.getTimes(loc);
 
 		default:
@@ -2228,7 +2236,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			ScreenReader.fraction(sb, leftStr, rightStr, loc);
 
 			break;
@@ -2791,188 +2799,188 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return leftStr || rightStr for this string type
 	 */
 	public String powerString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm,
-			Localization loc) {
-		if (stringType.equals(StringType.CONTENT_MATHML)) {
-			StringBuilder sb = new StringBuilder();
+		String leftStr, String rightStr, boolean valueForm,
+		Localization loc) {
+		StringBuilder sb;
+		switch (stringType) {
+		case CONTENT_MATHML:
+			sb = new StringBuilder();
 			MathmlTemplate.mathml(sb, "<power/>", leftStr, rightStr);
 			return sb.toString();
-		} else if (stringType.equals(StringType.SCREEN_READER)) {
+		case SCREEN_READER_ASCII:
 			return ScreenReader.power(leftStr, rightStr, loc);
+		case GIAC:
+			return powerStringGiac(leftStr, rightStr, left, right, valueForm);
 
-		} else {
-			StringBuilder sb = new StringBuilder();
-
+		case LATEX:
+		case LIBRE_OFFICE:
+		default:
 			// support for sin^2(x)
 			if ((stringType.equals(StringType.LATEX) || stringType.equals(StringType.GEOGEBRA))
 					&& left.isExpressionNode() && isTrigFunction((ExpressionNode) left)
 					&& right.isConstant()) {
-				boolean latex = stringType.equals(StringType.LATEX);
-
 				double indexD = right.evaluateDouble();
 
 				// only positive integers
 				// sin^-1(x) is arcsin
 				// sin^-2(x) not standard notation
 				if (indexD > 0 && DoubleUtil.isInteger(indexD)) {
-					int index = (int) Math.round(indexD);
-					String leftStrTrimmed = leftStr.trim();
-
-					int spaceIndex = leftStrTrimmed.indexOf(latex ? ' ' : '(');
-					sb.append(leftStrTrimmed, 0, spaceIndex);
-
-					if (latex) {
-						sb.append(" ^{");
-						sb.append(rightStr);
-						sb.append("}");
-					} else {
-						// alternative using Unicode
-						sb.append(StringUtil.numberToIndex(index));
-					}
-					// everything except the "\\sin " or "sin"
-					sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
-
-					return sb.toString();
+					return trigPowerString(leftStr, rightStr, indexD);
 				}
 			}
+			sb = new StringBuilder();
 
-			switch (stringType) {
+			// left wing
+			if ((leftStr.charAt(0) != '-') && // no unary
+					isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
+					|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
+				// e^x
 
-			case GIAC:
+				// we might need more brackets here #4764
+				sb.append(leftStr);
+			} else {
+				appendWithBrackets(sb, leftStr);
+			}
+			break;
+		}
 
-				// if user types e^(ln(4.93)/1.14)
-				// ie not Unicode.EULER_STRING
-				// then it's ggbtmpvare here
-				// Unicode.EULER_STRING is changed to just e
-
-				// check for Unicode.EULER_STRING just in case
-
-				if ("e".equals(leftStr)
-						|| Unicode.EULER_STRING.equals(leftStr)) {
-					sb.append("exp(");
-					sb.append(rightStr);
-					sb.append(")");
-					break;
-				}
-
-				if (right.isExpressionNode() && ((ExpressionNode) right)
-						.getOperation() == Operation.DIVIDE
-						&& right.isConstant()) {
-					ExpressionNode enR = (ExpressionNode) right;
-
-					// was simplify(surd, causes problems
-					// GGB-321
-					sb.append("surd(");
-					sb.append(leftStr);
-					sb.append(',');
-					// #4186: make sure we send value string to CAS
-					sb.append(expToString(enR.getRight(), valueForm));
-					sb.append(")");
-					sb.append("^(");
-					sb.append(expToString(enR.getLeft(), valueForm));
-					sb.append(")");
-
-				} else {
-
-					sb.append("(");
-					sb.append(leftStr);
-
-					// if list && !matrix
-					if (left.evaluatesToList()
-							&& left.getListDepth() != 2) {
-						// make sure {1,2,3}^2 gives {1,4,9} rather than 14
-						sb.append(").^(");
-					} else {
-						sb.append(")^(");
-					}
-
-					sb.append(rightStr);
-					sb.append(")");
-				}
-
-				break;
-
-			case LATEX:
-			case LIBRE_OFFICE:
-			default:
-
-				/*
-				 * removed Michael Borcherds 2009-02-08 doesn't work eg m=1 g(x)
-				 * = (x - 1)^m (x - 3)
-				 *
-				 *
-				 * // check for 1 in exponent if (isEqualString(right, 1,
-				 * !valueForm)) { sb.append(leftStr); break; } //
-				 */
-
-				// left wing
-				if ((leftStr.charAt(0) != '-') && // no unary
-						isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
-						|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
-					// e^x
-
-					// we might need more brackets here #4764
-					sb.append(leftStr);
-				} else {
-					appendWithBrackets(sb, leftStr);
-				}
+		// right wing
+		switch (stringType) {
+		case LATEX:
+		case LIBRE_OFFICE:
+			// print x^1 as x
+			if ("1".equals(rightStr)) {
 				break;
 			}
+			sb.append('^');
 
-			// right wing
-			switch (stringType) {
-			case LATEX:
-			case LIBRE_OFFICE:
-				// print x^1 as x
-				if ("1".equals(rightStr)) {
-					break;
-				}
-				sb.append('^');
+			// add brackets for eg a^b^c -> a^(b^c)
+			boolean addParentheses = right.isOperation(Operation.POWER);
 
-				// add brackets for eg a^b^c -> a^(b^c)
-				boolean addParentheses = right.isOperation(Operation.POWER);
+			sb.append('{');
+			if (addParentheses) {
+				appendWithBrackets(sb, rightStr);
+			} else {
+				sb.append(rightStr);
+			}
+			sb.append('}');
+			break;
+		// rightStr already done in Giac
+		case GIAC:
+			break;
+		case PSTRICKS:
+		case PGF:
+		case GEOGEBRA_XML:
+			sb.append('^');
+			appendWithBrackets(sb, rightStr);
+			break;
 
-				sb.append('{');
-				if (addParentheses) {
-					appendWithBrackets(sb, rightStr);
-				} else {
+		default:
+			if ((isSinglePowerArg(right) && !isFraction(right))
+					|| ((ExpressionNode
+					.opID(right) > Operation.POWER.ordinal())
+					&& (ExpressionNode.opID(right) != Operation.EXP
+							.ordinal()))) {
+				// not +, -, *, /, ^, e^x
+				try {
+					// display integer powers as unicode superscript
+					int i = Integer.parseInt(rightStr);
+					StringUtil.numberToIndex(i, sb);
+				} catch (RuntimeException e) {
+					sb.append('^');
 					sb.append(rightStr);
 				}
-				sb.append('}');
-				break;
-			// rightStr already done in Giac
-			case GIAC:
-				break;
-			case PSTRICKS:
-			case PGF:
-			case GEOGEBRA_XML:
+
+			} else {
 				sb.append('^');
 				appendWithBrackets(sb, rightStr);
-				break;
-
-			default:
-				if ((isSinglePowerArg(right) && !isFraction(right))
-						|| ((ExpressionNode
-						.opID(right) > Operation.POWER.ordinal())
-						&& (ExpressionNode.opID(right) != Operation.EXP
-								.ordinal()))) {
-					// not +, -, *, /, ^, e^x
-					try {
-						// display integer powers as unicode superscript
-						int i = Integer.parseInt(rightStr);
-						StringUtil.numberToIndex(i, sb);
-					} catch (RuntimeException e) {
-						sb.append('^');
-						sb.append(rightStr);
-					}
-
-				} else {
-					sb.append('^');
-					appendWithBrackets(sb, rightStr);
-				}
 			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Assumes that the string type is LaTeX or GGB, will not work for other types.
+	 * @param leftStr base
+	 * @param rightStr power
+	 * @param indexD power as double (for unicode transform)
+	 * @return e.g. sin^2(x)
+	 */
+	private String trigPowerString(String leftStr, String rightStr, double indexD) {
+		boolean latex = stringType.equals(StringType.LATEX);
+		int index = (int) Math.round(indexD);
+		String leftStrTrimmed = leftStr.trim();
+		StringBuilder sb = new StringBuilder();
+		int spaceIndex = leftStrTrimmed.indexOf(latex ? ' ' : '(');
+		sb.append(leftStrTrimmed, 0, spaceIndex);
+
+		if (latex) {
+			sb.append(" ^{");
+			sb.append(rightStr);
+			sb.append("}");
+		} else {
+			// alternative using Unicode
+			sb.append(StringUtil.numberToIndex(index));
+		}
+		// everything except the "\\sin " or "sin"
+		sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
+
+		return sb.toString();
+	}
+
+	private String powerStringGiac(String leftStr, String rightStr,
+			ExpressionValue left, ExpressionValue right, boolean valueForm) {
+		StringBuilder sb = new StringBuilder();
+		// if user types e^(ln(4.93)/1.14)
+		// ie not Unicode.EULER_STRING
+		// then it's ggbtmpvare here
+		// Unicode.EULER_STRING is changed to just e
+
+		// check for Unicode.EULER_STRING just in case
+
+		if ("e".equals(leftStr)
+				|| Unicode.EULER_STRING.equals(leftStr)) {
+			sb.append("exp(");
+			sb.append(rightStr);
+			sb.append(")");
 			return sb.toString();
 		}
+
+		if (right.isExpressionNode() && ((ExpressionNode) right)
+				.getOperation() == Operation.DIVIDE
+				&& right.isConstant()) {
+			ExpressionNode enR = (ExpressionNode) right;
+
+			// was simplify(surd, causes problems
+			// GGB-321
+			sb.append("surd(");
+			sb.append(leftStr);
+			sb.append(',');
+			// #4186: make sure we send value string to CAS
+			sb.append(expToString(enR.getRight(), valueForm));
+			sb.append(")");
+			sb.append("^(");
+			sb.append(expToString(enR.getLeft(), valueForm));
+			sb.append(")");
+
+		} else {
+
+			sb.append("(");
+			sb.append(leftStr);
+
+			// if list && !matrix
+			if (left.evaluatesToList()
+					&& left.getListDepth() != 2) {
+				// make sure {1,2,3}^2 gives {1,4,9} rather than 14
+				sb.append(").^(");
+			} else {
+				sb.append(")^(");
+			}
+
+			sb.append(rightStr);
+			sb.append(")");
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -3230,7 +3238,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void leftCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\left\\{");
-		} else if (hasType(StringType.SCREEN_READER)) {
+		} else if (hasType(StringType.SCREEN_READER_ASCII)) {
 			sb.append(ScreenReader.getOpenBrace());
 		} else {
 			sb.append("{");
@@ -3246,7 +3254,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void rightCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\right\\}");
-		} else if (hasType(StringType.SCREEN_READER)) {
+		} else if (hasType(StringType.SCREEN_READER_ASCII)) {
 			sb.append(ScreenReader.getCloseBrace());
 		} else {
 			sb.append("}");
@@ -3508,10 +3516,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "pi/180";
 		case LATEX:
 			return "^{\\circ}";
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return "degree";
 		}
 		return Unicode.DEGREE_STRING;
+	}
+
+	public String getDegrees() {
+		return stringType == StringType.SCREEN_READER_ASCII ? "degrees" : getDegree();
 	}
 
 	/**
@@ -3523,7 +3535,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "euler\\_gamma";
 		case LATEX:
 			return "\\mathit{e_{\\gamma}}";
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return "euler gamme";
 		}
 		return Unicode.EULER_GAMMA_STRING;
@@ -3538,7 +3550,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "e";
 		case LATEX:
 			return "\\textit{e}";
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return "euler number";
 		}
 		return Unicode.EULER_STRING;
@@ -3568,7 +3580,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		switch (stringType) {
 		case LATEX:
 			return "\\, = \\,";
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return " equals ";
 		default:
 			return " = ";
@@ -3612,7 +3624,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param localization localization
 	 */
 	public void getCommaOptionalSpace(StringBuilder sb, Localization localization) {
-		if (hasType(StringType.SCREEN_READER)) {
+		if (hasType(StringType.SCREEN_READER_ASCII)) {
 			sb.append(ScreenReader.getComma());
 		} else {
 			sb.append(localization.getComma());
@@ -3622,5 +3634,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public boolean isForEditorParser() {
 		return forEditorParser;
+	}
+
+	/**
+	 * @return whether this is for one of the screenreaders (ASCII or Unicode)
+	 */
+	public boolean isScreenReader() {
+		return stringType == StringType.SCREEN_READER_ASCII
+				|| stringType == StringType.SCREEN_READER_UNICODE;
 	}
 }

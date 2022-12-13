@@ -1,8 +1,11 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.resources.SVGResourcePrototype;
 
 import com.google.gwt.canvas.client.Canvas;
 
@@ -19,11 +22,11 @@ import jsinterop.base.Js;
  */
 public final class MyImageW implements MyImage {
 
-	private HTMLImageElement img;
+	private final HTMLImageElement img;
 	private HTMLCanvasElement canv;
 	private int width;
 	private int height;
-	private boolean svg;
+	private final boolean svg;
 
 	/**
 	 * @param im
@@ -97,5 +100,23 @@ public final class MyImageW implements MyImage {
 	public String toLaTeXStringBase64() {
 		return "\\imagebasesixtyfour{" + getWidth() + "}{" + getHeight() + "}{"
 				+ img.src + "}";
+	}
+
+	@Override
+	public MyImage tintedSVG(GColor color, Runnable onLoad) {
+		if (!svg) {
+			return null;
+		}
+		try {
+			String dataUrl = img.src;
+			String svg = DomGlobal.atob(dataUrl.substring(dataUrl.indexOf(",") + 1));
+			String svgRes = SVGResourcePrototype.createFilled(color.toString(), svg);
+			HTMLImageElement img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
+			img.addEventListener("load", evt -> onLoad.run());
+			img.src = StringUtil.svgMarker + DomGlobal.btoa(svgRes);
+			return new MyImageW(img, true);
+		} catch (RuntimeException ex) {
+			return null;
+		}
 	}
 }

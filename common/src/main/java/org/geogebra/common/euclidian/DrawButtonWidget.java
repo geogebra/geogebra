@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import java.util.Objects;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -12,7 +14,6 @@ import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
-import org.geogebra.common.kernel.geos.GeoButton.Observer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
@@ -23,7 +24,7 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Replaces Swing button in DrawButton
  */
-public class MyButton implements Observer {
+public class DrawButtonWidget {
 
 	private GeoButton geoButton;
 	private EuclidianView view;
@@ -43,6 +44,9 @@ public class MyButton implements Observer {
 	private double textWidth;
 	private boolean firstCall = true;
 	private final ButtonHighlightArea halo;
+	private MyImage tinted;
+	private GColor lastTintColor;
+	private String lastTintImage;
 
 	private final static int MARGIN_TOP = 6;
 	private final static int MARGIN_BOTTOM = 5;
@@ -55,14 +59,13 @@ public class MyButton implements Observer {
 	 * @param view
 	 *            view
 	 */
-	public MyButton(GeoButton button, EuclidianView view) {
+	public DrawButtonWidget(GeoButton button, EuclidianView view) {
 		this.geoButton = button;
 		this.view = view;
 		this.styleSettings = view.getApplication().getSettings().getStyle();
 
 		this.x = 20;
 		this.y = 20;
-		geoButton.setObserver(this);
 		halo = new ButtonHighlightArea(this);
 	}
 
@@ -281,7 +284,13 @@ public class MyButton implements Observer {
 		g.scale(scale, scale);
 
 		// the parameters x and y don't work in desktop for SVGs
-		g.drawImage(im, 0, 0);
+		if (!Objects.equals(lastTintColor, geoButton.getObjectColor())
+			|| !Objects.equals(lastTintImage, geoButton.getImageFileName())) {
+			tinted = im.tintedSVG(geoButton.getObjectColor(), view::repaintView);
+			lastTintColor = geoButton.getObjectColor();
+			lastTintImage = geoButton.getImageFileName();
+		}
+		g.drawImage(tinted == null ? im : tinted, 0, 0);
 
 		g.restoreTransform();
 	}
@@ -504,26 +513,6 @@ public class MyButton implements Observer {
 	 */
 	public boolean getDraggedOrContext() {
 		return draggedOrContext;
-	}
-
-	/**
-	 * @return whether the button has fixed size
-	 */
-	public boolean isFixedSize() {
-		return geoButton.isFixedSize();
-	}
-
-	/**
-	 * @param fixedSize
-	 *            change the button to have fixed size
-	 */
-	public void setFixedSize(boolean fixedSize) {
-		geoButton.setFixedSize(fixedSize);
-	}
-
-	@Override
-	public void notifySizeChanged() {
-		geoButton.getKernel().notifyRepaint();
 	}
 
 	/**

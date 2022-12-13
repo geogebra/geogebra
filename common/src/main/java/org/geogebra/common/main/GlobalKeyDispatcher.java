@@ -746,6 +746,7 @@ public abstract class GlobalKeyDispatcher {
 		case M:
 			if (isShiftDown) {
 				app.copyFullHTML5ExportToClipboard();
+				consumed = true;
 			} else {
 				// Ctrl-M: standard view
 				app.setStandardView();
@@ -756,6 +757,7 @@ public abstract class GlobalKeyDispatcher {
 			// copy base64 string to clipboard
 			if (isShiftDown) {
 				app.copyBase64ToClipboard();
+				consumed = true;
 			}
 			break;
 

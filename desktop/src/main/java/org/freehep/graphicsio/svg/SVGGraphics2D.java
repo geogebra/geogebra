@@ -530,7 +530,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 *            Properties for <g> tag
 	 */
 	private void writePathIterator(PathIterator pi, Properties style) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		// write style
 		result.append("<g ");
@@ -561,7 +561,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	protected void writeImage(RenderedImage image, AffineTransform xform,
 			Color bkg) throws IOException {
 
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		result.append("<image x=\"0\" y=\"0\" " + "width=\"");
 		result.append(image.getWidth());
@@ -654,7 +654,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 				getTransformedString(xform, result.toString()))));
 	}
 
-	protected void appendElementTitleAndDescription(StringBuffer ap) {
+	protected void appendElementTitleAndDescription(StringBuilder ap) {
 		// over-ridden in SVGExtensions
 	}
 

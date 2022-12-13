@@ -102,4 +102,9 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	public void toggleFullscreen(boolean full) {
 		// nothing to do
 	}
+
+	@Override
+	public boolean hasLoginButton() {
+		return true;
+	}
 }

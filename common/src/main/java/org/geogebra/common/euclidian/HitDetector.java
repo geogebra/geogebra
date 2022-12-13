@@ -131,7 +131,7 @@ public class HitDetector {
 	/**
 	 * @return button from hits, closest to the user
 	 */
-	public MyButton getHitButton() {
+	public DrawButtonWidget getHitButton() {
 		int size = hits.size();
 		for (int i = size - 1; i >= 0; i--) {
 			GeoElement geoElement = hits.get(i);

@@ -223,7 +223,7 @@ public class LaTeXSerializationTest {
 		checkLaTeX("f\\left(x\\right)=\\sin\\left(x\\right)", "f(x)=sin(x)");
 		checkLaTeX("r\\ =\\ g^{\\theta}",
 				"r = g^(" + Unicode.theta_STRING + ")");
-		checkLaTeX("7\\cdot 6", "7*6");
+		checkLaTeX("7\\cdot 6", "7" + Unicode.MULTIPLY + "6");
 		checkLaTeX("7\\times 6", "7" + Unicode.MULTIPLY + "6");
 		checkLaTeX("\\left( \\alpha + \\beta \\right)",
 				"(" + Unicode.alpha + "+" + Unicode.beta + ")");

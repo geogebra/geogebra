@@ -98,9 +98,10 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		}
 		if (expr.isExpressionNode()) {
 			ExpressionNode node = expr.wrap();
-			if (node.getOperation() == Operation.DIVIDE) {
-				solveDivision(node.getRight(), result);
-			}
+			if (node.getOperation() == Operation.DIVIDE
+					&& node.getRight().wrap().containsFreeFunctionVariable(null)) {
+					solveDivision(node.getRight(), result);
+				}
 			solveExpr(node.getLeft(), result);
 			solveExpr(node.getRight(), result);
 		}

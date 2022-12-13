@@ -6,9 +6,10 @@ import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -24,7 +25,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Output part of AV item
  */
 public class AlgebraOutputPanel extends FlowPanel {
-	private FlowPanel valuePanel;
+	private final FlowPanel valuePanel;
 	private Canvas valCanvas;
 
 	/**
@@ -53,13 +54,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	/**
 	 * add arrow prefix for av output
-	 * 
-	 * @param activity
-	 *            app specific activity
 	 */
-	void addArrowPrefix(GeoGebraActivity activity) {
+	void addArrowPrefix() {
 		final Image arrow = new NoDragImage(
-				activity.getOutputPrefixIcon(), 24);
+				MaterialDesignResources.INSTANCE.equal_sign_black(), 24);
 		arrow.setStyleName("arrowOutputImg");
 		add(arrow);
 	}
@@ -74,32 +72,22 @@ public class AlgebraOutputPanel extends FlowPanel {
 	}
 
 	/**
-	 * @param parent
-	 *            parent panel
-	 * @param geo
-	 *            geoelement
-	 * @param activity activity for the spceific app
+	 * @param parent parent panel
+	 * @param geo geoelement
 	 */
 	public static void createSymbolicButton(FlowPanel parent,
-			final GeoElement geo, GeoGebraActivity activity) {
-		ToggleButton btnSymbolic = null;
-		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
-				btnSymbolic = (ToggleButton) parent.getWidget(i);
-			}
-		}
+			final GeoElement geo) {
+
+		ToggleButton btnSymbolic = getSymbolicButtonIfExists(parent);
+
 		if (btnSymbolic == null) {
-			btnSymbolic = new ToggleButton(activity.getNumericIcon(),
-					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-			final ToggleButton btn = btnSymbolic;
-			ClickStartHandler.init(btnSymbolic, new ClickStartHandler(true, true) {
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					btn.setSelected(AlgebraItem.toggleSymbolic(geo));
-				}
-			});
+			btnSymbolic = newSymbolicButton(geo);
 		}
+
+		updateSymbolicIcons(geo, btnSymbolic);
+
 		btnSymbolic.addStyleName("symbolicButton");
+
 		if ((Unicode.CAS_OUTPUT_NUMERIC + "")
 				.equals(AlgebraItem.getOutputPrefix(geo))) {
 			btnSymbolic.setSelected(false);
@@ -111,6 +99,40 @@ public class AlgebraOutputPanel extends FlowPanel {
 		parent.add(btnSymbolic);
 	}
 
+	private static void updateSymbolicIcons(GeoElement geo, ToggleButton btnSymbolic) {
+		if (AlgebraItem.isGeoFraction(geo)) {
+			btnSymbolic.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
+					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
+			Dom.toggleClass(btnSymbolic, "show-fraction", !btnSymbolic.isSelected());
+		} else {
+			btnSymbolic.updateIcons(MaterialDesignResources.INSTANCE.equal_sign_white(),
+					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
+		}
+	}
+
+	private static ToggleButton newSymbolicButton(GeoElement geo) {
+		final ToggleButton btn = new ToggleButton();
+
+		ClickStartHandler.init(btn, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				boolean symbolic = SymbolicUtil.toggleSymbolic(geo);
+				btn.setSelected(symbolic);
+				Dom.toggleClass(btn, "show-fraction", !symbolic);
+			}
+		});
+		return btn;
+	}
+
+	private static ToggleButton getSymbolicButtonIfExists(FlowPanel parent) {
+		for (int i = 0; i < parent.getWidgetCount(); i++) {
+			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
+				return (ToggleButton) parent.getWidget(i);
+			}
+		}
+		return null;
+	}
+
 	static void removeSymbolicButton(FlowPanel parent) {
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
 			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
@@ -120,20 +142,14 @@ public class AlgebraOutputPanel extends FlowPanel {
 	}
 
 	/**
-	 * @param geo1
-	 *            geoelement
-	 * @param text
-	 *            text content
-	 * @param latex
-	 *            whether the text is LaTeX
-	 * @param fontSize
-	 *            size in pixels
-	 * @param activity
-	 *            activity of the specific app
+	 * @param geo1 geoelement
+	 * @param text text content
+	 * @param latex whether the text is LaTeX
+	 * @param fontSize size in pixels
 	 * @return whether update was successful (AV has value panel)
 	 */
 	boolean updateValuePanel(GeoElement geo1, String text,
-			boolean latex, int fontSize, GeoGebraActivity activity) {
+			boolean latex, int fontSize) {
 		if (geo1 == null || geo1
 				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE) {
 			return false;
@@ -144,10 +160,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 					.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
 				addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
 			} else {
-				addArrowPrefix(activity);
+				addArrowPrefix();
 			}
 		} else {
-			addArrowPrefix(activity);
+			addArrowPrefix();
 		}
 
 		valuePanel.clear();

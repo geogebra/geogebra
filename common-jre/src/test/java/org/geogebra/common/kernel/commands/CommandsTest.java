@@ -37,6 +37,7 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -1302,6 +1303,8 @@ public class CommandsTest {
 	@Test
 	public void cmdDegree() {
 		t("Degree[x^4 + 2 x^2]", "4");
+		t("Degree[0x]", "0");
+		t("Degree[x^2-x^2+x+1]", "1");
 	}
 
 	@Test
@@ -2663,6 +2666,7 @@ public class CommandsTest {
 	public void cmdNormalQuantilePlot() {
 		t("NormalQuantilePlot[ {2,3,4}]",
 				"{(2, -0.8193286198336103), (3, 0), (4, 0.8193286198336103), 2.8284271247461903}");
+		t("Slope(Element(NormalQuantilePlot[ {2,3,4}],4))", "1");
 	}
 
 	@Test
@@ -2804,6 +2808,7 @@ public class CommandsTest {
 	@Test
 	public void cmdParseToNumber() {
 		t("ParseToNumber[ \"7\"]", "7");
+		t("ParseToNumber[ \"/\"]", "NaN");
 		t("n1 = 5", "5");
 		t("txt = \"6\"", "6");
 		t("ParseToNumber[ n1, txt ]", "6"); // valid
@@ -3448,6 +3453,15 @@ public class CommandsTest {
 	public void cmdSetFixed() {
 		t("SetFixed[ Polygon[(1,1),(2,1/2),4], false ]");
 		t("SetFixed[ Polygon[(1,1),(2,1/2),4], false, true ]");
+	}
+
+	@Test
+	public void cmdSetImage() {
+		app.setImageManager(Mockito.mock(ImageManager.class));
+		t("c:x^2+y^2=1", unicode("x^2 + y^2 = 1"));
+		t("pic=ToolImage(2)");
+		t("SetImage(c, pic)");
+		t("SetImage(c, \"play\")");
 	}
 
 	@Test
@@ -4382,5 +4396,11 @@ public class CommandsTest {
 	public void cmdZMean2Estimate() {
 		t("ZMean2Estimate[ {1,2,3,4,5}, {1,2,3,4,5}, 13, 50, 42 ]", "?");
 		t("ZMean2Estimate[ 42, 42, 4, 13, 50, 42, 4 ]", "?");
+	}
+
+	@Test
+	public void productDegree() {
+		t("f(x)=x^3-Product(Sequence(x+k,k,1,-1,-1))", "x^(3) - (((x + 1) * (x)) * (x - 1))");
+		t("Degree(f)", "1");
 	}
 }

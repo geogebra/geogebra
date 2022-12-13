@@ -1,5 +1,7 @@
 package org.geogebra.common.util.clipper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 class OutRec {
 	int Idx;
 
@@ -25,6 +27,8 @@ class OutRec {
 		return a * 0.5;
 	}
 
+	@SuppressFBWarnings(value = "SA_FIELD_SELF_ASSIGNMENT",
+			justification = "https://github.com/spotbugs/spotbugs/issues/2258")
 	public void fixHoleLinkage() {
 		// skip if an outermost polygon or
 		// already already points to the correct FirstLeft ...

@@ -1001,12 +1001,28 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().unregisterClickListener(JSFunctionName);
 	}
 
-	public void handleSlideAction(Object eventType, Object pageIdx, Object appState) {
-		getGgbAPI().handleSlideAction(eventType + "", pageIdx + "", appState + "");
+	public void handlePageAction(Object eventType, Object pageIdx, Object appState) {
+		getGgbAPI().handlePageAction(eventType + "", pageIdx + "", appState);
 	}
 
-	public void selectSlide(Object pageIdx) {
-		getGgbAPI().selectSlide(pageIdx + "");
+	public void selectPage(Object pageIdx) {
+		getGgbAPI().selectPage(pageIdx + "");
+	}
+
+	public String getActivePage() {
+		return getGgbAPI().getActivePage();
+	}
+
+	public JsArray<String> getPages() {
+		return new JsArray<>(getGgbAPI().getPages());
+	}
+
+	public PageContent getPageContent(String pageId) {
+		return getGgbAPI().getPageContent(pageId);
+	}
+
+	public void setPageContent(String pageId, PageContent content) {
+		getGgbAPI().setPageContent(pageId, content);
 	}
 
 	public void updateOrdering(String labels) {

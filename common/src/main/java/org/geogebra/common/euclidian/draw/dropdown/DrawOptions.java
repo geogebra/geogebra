@@ -28,6 +28,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 	private final OptionItemList items;
 
 	private boolean visible;
+	private boolean clickStarted;
 
 	DrawOptions(DrawDropDownList drawDropDownList,
 			DropDownModel model, EuclidianView view,
@@ -126,16 +127,18 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		if (scroller.isActive() && !scroller.isDragging()) {
 			drawDropDownList.dropDown.startClickTimer(x, y);
 		}
+		clickStarted = true;
 		return true;
 	}
 
 	boolean onClick(int x, int y) {
 		OptionItem item = items.at(x, y);
 
-		if (item == null) {
+		if (item == null || !clickStarted) {
 			return false;
 		}
 		chooseItem(item.getIndex());
+		clickStarted = false;
 		return true;
 	}
 
@@ -234,6 +237,8 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 			updateVisibleRange();
 			range.selectStart();
 			updateHovering();
+		} else {
+			clickStarted = false;
 		}
 
 		view.repaintView();

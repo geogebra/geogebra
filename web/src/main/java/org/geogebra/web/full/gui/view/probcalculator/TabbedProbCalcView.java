@@ -4,10 +4,11 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -23,9 +24,12 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	private Label lblMeanSigma;
 	private static final int CONTROL_PANEL_HEIGHT = 180;
 	private static final int TABLE_PADDING_AND_SCROLLBAR = 32;
+	private static final int DEFAULT_MENU_WIDTH = 208;
+	private static final int BTN_SIZE = 36; // includes margin
 
 	/**
-	 * @param app creates new probabilitycalculatorView
+	 * Creates new probability calculator view
+	 * @param app application
 	 */
 	public TabbedProbCalcView(AppW app) {
 		super(app);
@@ -47,55 +51,51 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	}
 
 	private void buildButtons() {
-		GPopupMenuW btnExport = createExportMenu();
 		lblMeanSigma = new Label();
 		lblMeanSigma.addStyleName("lblMeanSigma");
 		plotPanelOptions.add(lblMeanSigma);
-		if (!getApp().isExam() && app.getConfig().getAppCode().equals("classic")) {
-			plotPanelOptions.add(btnExport.getPopupMenu());
+		if (!getApp().isExam()) {
+			ToggleButton btnExport = createExportMenu();
+			btnExport.addStyleName("probCalcStylbarBtn");
+			plotPanelOptions.add(btnExport);
 		}
 	}
 
-	private GPopupMenuW createExportMenu() {
-		GPopupMenuW btnExport = new GPopupMenuW((AppW) app, true) {
-			@Override
-			public int getPopupLeft() {
-				return getPopupMenu().getAbsoluteLeft();
-			}
-		};
-		btnExport.getPopupMenu().addStyleName("probCalcStylbarBtn");
-
-		AriaMenuBar menu = new AriaMenuBar();
+	private ToggleButton createExportMenu() {
+		GPopupMenuW menuExport = new GPopupMenuW((AppW) app, true);
+		menuExport.getPopupMenu().addStyleName("probCalcStylbarBtn");
 
 		if (!getApp().isApplet()) {
-			AriaMenuItem miToGraphich = new AriaMenuItem(
-					loc.getMenu("CopyToGraphics"), false,
-					() -> exportToEVAction.execute());
-
-			menu.addItem(miToGraphich);
+			addExportItem(menuExport, "CopyToGraphics", exportToEVAction);
 		}
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
-			AriaMenuItem miAsPicture = new AriaMenuItem(
-					loc.getMenu("ExportAsPicture"), false, () -> {
-				String url = getPlotPanel()
-						.getExportImageDataUrl(3, true, false);
-				((AppW) getApp()).getFileManager()
-						.showExportAsPictureDialog(url,
-								getApp().getExportTitle(),
-								"png", "ExportAsPicture", getApp());
-			});
-			menu.addItem(miAsPicture);
+			addExportItem(menuExport, "ExportAsPicture", this::showExportDialog);
 		}
-
-		String image = "<img src=\""
-				+ MaterialDesignResources.INSTANCE.prob_calc_export().getSafeUri()
-				.asString()
-				+ "\" >";
-		btnExport.addItem(new AriaMenuItem(image, true, menu));
-		btnExport.getPopupMenu().removeStyleName("gwt-MenuBar");
-		btnExport.getPopupMenu().addStyleName("gwt-ToggleButton");
-		btnExport.getPopupMenu().addStyleName("MyToggleButton");
+		ToggleButton btnExport = new ToggleButton(MaterialDesignResources.INSTANCE
+				.prob_calc_export());
+		btnExport.addFastClickHandler(e -> {
+			if (menuExport.isMenuShown()) {
+				menuExport.hide();
+			} else {
+				menuExport.show(btnExport, BTN_SIZE - DEFAULT_MENU_WIDTH, BTN_SIZE);
+			}
+		});
+		menuExport.getPopupPanel().addAutoHidePartner(btnExport.getElement());
+		menuExport.getPopupPanel().addCloseHandler(i -> btnExport.setSelected(false));
 		return btnExport;
+	}
+
+	private void showExportDialog() {
+		String url = getPlotPanel().getExportImageDataUrl(3, true, false);
+		((AppW) getApp()).getFileManager().showExportAsPictureDialog(url,
+				getApp().getExportTitle(), "png", "ExportAsPicture", getApp());
+	}
+
+	private void addExportItem(GPopupMenuW exportMenu, String title,
+			Scheduler.ScheduledCommand copyCmd) {
+		AriaMenuItem item = new AriaMenuItem(loc.getMenu(title), false, copyCmd);
+		item.addStyleName("no-image");
+		exportMenu.addItem(item);
 	}
 
 	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
@@ -180,12 +180,11 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	@Override
 	protected void addRemoveTable(boolean showTable) {
+		FlowPanel tablePanel = ((ProbabilityTableW) getTable()).getWrappedPanel();
 		if (showTable) {
-			mainSplitPane
-					.add(((ProbabilityTableW) getTable()).getWrappedPanel());
+			mainSplitPane.add(tablePanel);
 		} else {
-			mainSplitPane
-					.remove(((ProbabilityTableW) getTable()).getWrappedPanel());
+			mainSplitPane.remove(tablePanel);
 		}
 		tabResized();
 	}

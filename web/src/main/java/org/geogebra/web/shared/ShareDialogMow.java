@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -93,7 +94,7 @@ public class ShareDialogMow extends ComponentDialog
 	}
 
 	private void updateMaterial(String visibility) {
-		boolean isMultiuser = multiuserSwitch.isSwitchOn()
+		boolean isMultiuser = multiuserSwitch != null && multiuserSwitch.isSwitchOn()
 				&& !multiuserSharePanel.getElement().hasClassName("disabled");
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
 				material.getSharingKeyOrId(), visibility,
@@ -103,7 +104,7 @@ public class ShareDialogMow extends ComponentDialog
 		boolean currentlyEditing = activeMaterial != null
 				&& material.getSharingKeyOrId().equals(activeMaterial.getSharingKeyOrId());
 		if (material.isMultiuser() && !isMultiuser) {
-			app.getShareController().terminateMultiuser(material, callback);
+			app.getShareController().saveAndTerminateMultiuser(material, callback);
 		} else if (!material.isMultiuser() && isMultiuser && currentlyEditing) {
 			app.getShareController().startMultiuser(material.getSharingKeyOrId());
 		}
@@ -151,8 +152,7 @@ public class ShareDialogMow extends ComponentDialog
 		scrollPanel.add(groups);
 		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 
-		Dom.toggleClass(multiuserSharePanel, "disabled",
-				!isSharedGroupOrLink());
+		updateMultiuserSharePanel();
 	}
 
 	private void addGroup(FlowPanel groupsPanel, GroupIdentifier groupDesc, boolean shared) {
@@ -180,7 +180,9 @@ public class ShareDialogMow extends ComponentDialog
 			buildGroupPanel(dialogContent);
 		}
 		buildShareByLinkPanel(dialogContent, shareURL);
-		buildMultiuserPanel(dialogContent);
+		if (!StringUtil.empty(((AppW) app).getAppletParameters().getParamMultiplayerUrl())) {
+			buildMultiuserPanel(dialogContent);
+		}
 		buildSharingAvailableInfo(dialogContent);
 		addDialogContent(dialogContent);
 	}
@@ -281,8 +283,7 @@ public class ShareDialogMow extends ComponentDialog
 			sharedWithGroupCounter--;
 		}
 
-		Dom.toggleClass(multiuserSharePanel, "disabled", !isSharedGroupOrLink());
-
+		updateMultiuserSharePanel();
 	}
 
 	private void buildSharingAvailableInfo(FlowPanel dialogContent) {
@@ -330,9 +331,14 @@ public class ShareDialogMow extends ComponentDialog
 				getLinkBox().setFocus(true);
 			});
 		}
-		Dom.toggleClass(multiuserSharePanel, "disabled",
-				!isSharedGroupOrLink());
+		updateMultiuserSharePanel();
 		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
+	}
+
+	private void updateMultiuserSharePanel() {
+		if (multiuserSharePanel != null) {
+			Dom.toggleClass(multiuserSharePanel, "disabled", !isSharedGroupOrLink());
+		}
 	}
 
 	private String getLinkShareHelpLabelTextKey() {

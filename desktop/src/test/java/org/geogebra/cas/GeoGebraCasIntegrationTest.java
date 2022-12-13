@@ -670,12 +670,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		}
 	}
 
-	/* Integral */
-
-	/* Indefinite Integral */
-
-	/* LeftSide */
-
 	@Test
 	public void leftSide_0() {
 		in("lsa:x+y+z=1");
@@ -703,14 +697,14 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("RightSide[lsd]", "1");
 	}
 
-	@Test
-	/**
+	/*
 	 * Tests for Solve(line/circle/quadric) defined in the Algebra View
-	 * 
-	 * https://dev.geogebra.org/trac/changeset/67205
-	 * https://dev.geogebra.org/trac/changeset/67218
-	 * 
+	 *
+	 * https://github.com/geogebra/geogebra/commit/af712ee2754
+	 * https://github.com/geogebra/geogebra/commit/aa8a80bb3e3
+	 *
 	 */
+	@Test
 	public void solveAlgebraView() {
 		in("solveline1:y=x");
 		in("solveline2:y=-x");
@@ -2708,10 +2702,24 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void testInequalityLabel() {
-		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-		f.setInput("b:= x<3");
-		f.computeOutput();
+		GeoCasCell f = add("b:= x<3");
 		f.plot();
 		assertThat(f.getTwinGeo().getLabel(StringTemplate.defaultTemplate), equalTo("b"));
+	}
+
+	private GeoCasCell add(String s) {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput(s);
+		processCasCell(f);
+		return f;
+	}
+
+	@Test
+	public void listFunctionEvaluation() {
+		add("h(x):=exp(x) (-exp(x)+4)-3 (exp(x))^(2)");
+		add("l1:={ln(2)}");
+		add("l2:={1,2,3}");
+		t("h(l1)", "{-8}");
+		t("Numeric[h(l2),5]", "{-18.683, -188.84, -1533.4}");
 	}
 }

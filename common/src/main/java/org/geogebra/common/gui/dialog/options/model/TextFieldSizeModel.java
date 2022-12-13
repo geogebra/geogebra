@@ -1,16 +1,11 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.error.ErrorHelper;
 
-public class TextFieldSizeModel extends OptionsModel {
-	private ITextFieldListener listener;
+public class TextFieldSizeModel extends TextPropertyModel {
 
-	public void setListener(ITextFieldListener listener) {
-		this.listener = listener;
-	}
 
 	public TextFieldSizeModel(App app) {
 		super(app);
@@ -37,16 +32,15 @@ public class TextFieldSizeModel extends OptionsModel {
 		} else {
 			listener.setText("");
 		}
-
 	}
 
-	public void applyChanges(final String strValue) {
-
-		applyChanges(app.getKernel().getAlgebraProcessor()
-				.evaluateToNumeric(strValue, ErrorHelper.silent()));
+	@Override
+	public String getTitle() {
+		return "TextfieldLength";
 	}
 
-	public void applyChanges(NumberValue value) {
+	@Override
+	public void applyChanges(GeoNumberValue value, String str) {
 		if (value != null && !Double.isNaN(value.getDouble())) {
 			for (int i = 0; i < getGeosLength(); i++) {
 				GeoInputBox geo = getTextFieldAt(i);
@@ -60,11 +54,6 @@ public class TextFieldSizeModel extends OptionsModel {
 	@Override
 	public boolean isValidAt(int index) {
 		return (getGeoAt(index) instanceof GeoInputBox);
-	}
-
-	@Override
-	public PropertyListener getListener() {
-		return listener;
 	}
 
 }

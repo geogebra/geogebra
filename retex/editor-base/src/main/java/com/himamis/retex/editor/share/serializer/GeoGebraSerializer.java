@@ -245,8 +245,8 @@ public class GeoGebraSerializer implements Serializer {
 		if (mathSequence == null) {
 			return;
 		}
-		for (int i = 0; i < mathSequence.size(); i++) {
-			serialize(mathSequence.getArgument(i), stringBuilder);
+		for (MathComponent arg: mathSequence) {
+			serialize(arg, stringBuilder);
 		}
 	}
 
