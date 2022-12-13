@@ -68,6 +68,16 @@ public class CommandFilterFactoryTest {
 		assertAllowed(false, Commands.Hyperbola);
 		assertAllowed(true, Commands.Slope);
 		assertAllowed(true, Commands.Intersect);
+		// disabled commands that have different english and internal name
+		assertAllowed(false, Commands.DelaunayTriangulation);
+		assertAllowed(false, Commands.SemiMajorAxisLength);
+		assertAllowed(false, Commands.SemiMinorAxisLength);
+		assertAllowed(false, Commands.MajorAxis);
+		assertAllowed(false, Commands.ConjugateDiameter);
+		assertAllowed(false, Commands.Curve);
+		assertAllowed(false, Commands.MinorAxis);
+		assertAllowed(false, Commands.Side);
+		assertAllowed(false, Commands.Reflect);
 	}
 
 	private void assertAllowed(boolean shouldAllow, Commands command) {
