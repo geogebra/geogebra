@@ -57,7 +57,6 @@ public class EditorPointTest {
 				.checkPlaceholders("|,2,3");
 	}
 
-
 	@Test
 	public void testPointOnDeleteAnRight() {
 		checker.convertFormula(point3D)
@@ -74,6 +73,7 @@ public class EditorPointTest {
 				.typeKey(JavaKeyCodes.VK_DELETE)
 				.checkPlaceholders("_,|,3");
 	}
+
 	@Test
 	public void testPointOnDeleteAnRightDeleteAgainAndBack() {
 		checker.convertFormula(point3D)

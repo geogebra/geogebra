@@ -23,7 +23,6 @@ public class UserInputConverter {
 		return "(" + replaceCommas(inside(text)) + ")";
 	}
 
-
 	private boolean noBrackets(String text) {
 		return !(text.startsWith("(") && text.endsWith(")"));
 	}

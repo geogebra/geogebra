@@ -33,9 +33,10 @@ import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 
 class EditorChecker {
-	private MathFieldCommon mathField;
-	private EditorTyper typer;
-	private App app;
+	private final MathFieldCommon mathField;
+	private final EditorTyper typer;
+	private final App app;
+
 	protected EditorChecker(App app) {
 		this(app, new MetaModel());
 	}
@@ -64,7 +65,7 @@ class EditorChecker {
 			assertEquals(output, en.toString(StringTemplate.defaultTemplate));
 		} catch (ParseException e) {
 			Log.debug(e);
-			assertEquals(output, "Exception: " + e.toString());
+			assertEquals(output, "Exception: " + e);
 		}
 
 	}
@@ -75,11 +76,11 @@ class EditorChecker {
 		EditorState editorState = mathFieldInternal.getEditorState();
 		MathSequence currentField = editorState.getCurrentField();
 		TeXBuilder builder = new TeXBuilder();
-		RowAtom atom = (RowAtom) builder.build(currentField, currentField, editorState.getCurrentOffset(),
-				false);
-
+		RowAtom atom =
+				(RowAtom) builder.build(currentField, currentField, editorState.getCurrentOffset(),
+						false);
 		assertEquals(expected, serializeRow(atom));
-  		return this;
+		return this;
 	}
 
 	private String serializeRow(RowAtom row) {
@@ -108,7 +109,7 @@ class EditorChecker {
 		}
 
 		if (atom instanceof ResizeAtom) {
-			return serializeAtom(((ResizeAtom)atom).getResizedBase());
+			return serializeAtom(((ResizeAtom) atom).getResizedBase());
 		}
 		return null;
 	}
