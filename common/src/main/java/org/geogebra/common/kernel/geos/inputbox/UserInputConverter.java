@@ -8,7 +8,6 @@ import java.util.List;
  * eg (,,) -> (?,?,?)
  */
 public class UserInputConverter {
-	private int otherCharCount;
 
 	/**
 	 * Converts incomplete but probably valid input of a point
@@ -18,20 +17,12 @@ public class UserInputConverter {
 	 * @return the completed input for AlgebraProcessor.
 	 */
 	public String pointToUndefined(String text) {
-		reset();
 		if (noBrackets(text) || noCommas(text)) {
 			return text;
 		}
 		return "(" + replaceCommas(inside(text)) + ")";
 	}
 
-	private void reset() {
-		otherCharCount = 0;
-	}
-
-	public boolean hasError() {
-		return otherCharCount != 0;
-	}
 
 	private boolean noBrackets(String text) {
 		return !(text.startsWith("(") && text.endsWith(")"));
@@ -45,7 +36,7 @@ public class UserInputConverter {
 		return text.substring(1, text.length() - 1);
 	}
 
-	String replaceCommas(String text) {
+	private String replaceCommas(String text) {
 		String[] items = text.split(",", -1);
 		String separator = "";
 		StringBuilder sb = new StringBuilder();
@@ -55,9 +46,6 @@ public class UserInputConverter {
 				sb.append("?");
 			} else {
 				sb.append(item);
-				if (!"?".equals(item)) {
-					otherCharCount++;
-				}
 			}
 			separator = ",";
 		}
