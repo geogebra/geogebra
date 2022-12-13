@@ -451,4 +451,15 @@ public class TableValuesView implements TableValues, SettingListener {
 		app.storeUndoInfo();
 	}
 
+	/**
+	 * @return whether all columns other than x are undefined
+	 */
+	public boolean hasNoDefinedFunctions() {
+		for (int i = 1; i < model.getColumnCount(); i++) {
+			if (model.getEvaluatable(i).isDefined()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
