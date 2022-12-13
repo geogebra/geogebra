@@ -45,7 +45,7 @@ public class AddPlaceholders {
 	}
 
 	private boolean isComma(MathComponent mathComponent) {
-		if ((mathComponent instanceof MathCharacter)) {
+		if (mathComponent instanceof MathCharacter) {
 			return ",".equals(((MathCharacter) mathComponent).getTexName());
 		}
 

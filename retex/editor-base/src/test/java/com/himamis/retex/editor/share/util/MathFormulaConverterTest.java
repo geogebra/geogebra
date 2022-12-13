@@ -74,6 +74,7 @@ public class MathFormulaConverterTest {
 						+ PLACEHOLDER1 + "}\\right)",
 				converter.convert("(4,,)"));
 	}
+
 	@Test
 	public void testConvertSemiEmptyPointNumberInMiddle() {
 		assertEquals("\\left({" + PLACEHOLDER1 + ",4,"

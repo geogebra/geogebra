@@ -157,7 +157,7 @@ public class InputBoxProcessor {
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,
 				new InputBoxCallback(inputBox), errorHandler);
- 	}
+	}
 
 	private EvalInfo buildEvalInfo() {
 		return new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
@@ -221,12 +221,11 @@ public class InputBoxProcessor {
 		if (linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()) {
 			return userInputConverter.pointToUndefined(text);
 		}
-		if ((linkedGeo.isGeoList() && ((GeoList)linkedGeo).isMatrix())) {
+		if (linkedGeo.isGeoList() && ((GeoList) linkedGeo).isMatrix()) {
 			return userInputConverter.matrixToUndefined(text);
 		}
 		return text;
 	}
-
 
 	private String buildListText(EditorContent content) {
 		if (linkedGeo instanceof GeoVectorND) {

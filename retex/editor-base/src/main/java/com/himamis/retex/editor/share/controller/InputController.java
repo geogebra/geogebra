@@ -907,8 +907,8 @@ public class InputController {
 	}
 
 	private boolean isCommaOrNull(MathComponent component) {
-		return component == null ||
-				(component instanceof MathCharacter
+		return component == null
+				|| (component instanceof MathCharacter
 						&& ((MathCharacter) component).isUnicode(','));
 	}
 

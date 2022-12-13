@@ -648,4 +648,13 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("(,,)");
 		assertFalse(inputBox.hasError());
 	}
+
+	@Test
+	public void testSemiCompletePointShouldRaiseError() {
+		add("A = (?,?)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(1,?)");
+		assertTrue(inputBox.hasError());
+
+	}
 }

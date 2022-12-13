@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.geos.inputbox.UserInputConverter;
 import org.junit.Test;
@@ -41,5 +43,29 @@ public class UserInputConverterTest {
 		assertEquals("?,?,?,?,?", converter.replaceCommas(",,,,"));
 		assertEquals("1,?", converter.replaceCommas("1,"));
 		assertEquals("1, 2", converter.replaceCommas("1, 2"));
+	}
+
+	@Test
+	public void testHasNoErrorInEmptyPoint() {
+		converter.pointToUndefined("(,)");
+		assertFalse(converter.hasError());
+	}
+
+	@Test
+	public void testHasErrorInSemiDefinedPoint() {
+		converter.pointToUndefined("(3,)");
+		assertTrue(converter.hasError());
+	}
+
+	@Test
+	public void testHasNoErrorInEmptyMatrix() {
+		converter.pointToUndefined("{{,},{,}}");
+		assertFalse(converter.hasError());
+	}
+
+	@Test
+	public void testHasErrorInSemiDefinedMatrix() {
+		converter.pointToUndefined("{{1,},{,}}");
+		assertTrue(converter.hasError());
 	}
 }
