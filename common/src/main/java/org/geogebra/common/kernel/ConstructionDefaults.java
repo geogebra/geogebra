@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
@@ -963,7 +964,8 @@ public class ConstructionDefaults implements SettingListener {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
 			}
 
-			if (geo instanceof GeoButton && geo.getBackgroundColor() == null) {
+			if (geo instanceof GeoButton && !(geo instanceof GeoInputBox)
+					&& geo.getBackgroundColor() == null) {
 				geo.setBackgroundColor(GeoGebraColorConstants.GEOGEBRA_ACCENT);
 				geo.setObjColor(GColor.WHITE);
 			}
