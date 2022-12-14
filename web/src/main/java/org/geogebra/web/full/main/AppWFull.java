@@ -693,6 +693,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			dockPanel.getToolbar().reset();
 			dockPanel.tryBuildZoomPanel();
 		}
+		if (activity instanceof ScientificActivity) {
+			((ScientificActivity) activity).initTableOfValues(this);
+		}
 	}
 
 	/**

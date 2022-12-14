@@ -50,7 +50,11 @@ public class ScientificActivity extends BaseActivity {
 		initTableOfValues(app);
 	}
 
-	private void initTableOfValues(AppW app) {
+	/**
+	 * init table values
+	 * @param app see {@link AppW}
+	 */
+	public void initTableOfValues(AppW app) {
 		ScientificEvaluatables functions = new ScientificEvaluatables(
 				app.getKernel().getConstruction());
 		functions.addToTableOfValues(((GuiManagerW) app.getGuiManager()).getTableValuesView());

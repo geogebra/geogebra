@@ -139,4 +139,12 @@ public class DefineFunctionsDialogTV extends ComponentDialog implements ErrorHan
 	public void resetError() {
 		errorOccurred = false;
 	}
+
+	/**
+	 * reset field to empty
+	 */
+	public void resetFields() {
+		f.setText("");
+		g.setText("");
+	}
 }

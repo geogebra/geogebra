@@ -45,6 +45,15 @@ public class TableTab extends ToolbarTab {
 		buildEmptyTablePanel();
 	}
 
+	/**
+	 * reset define function dialog
+	 */
+	public void reset() {
+		if (table instanceof StickyValuesTable) {
+			((StickyValuesTable) table).resetDialog();
+		}
+	}
+
 	private void decorate() {
 		toolbarPanel.getDecorator().decorateTableTab(this, table);
 	}

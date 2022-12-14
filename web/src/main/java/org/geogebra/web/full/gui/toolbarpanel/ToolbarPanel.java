@@ -472,6 +472,9 @@ public class ToolbarPanel extends FlowPanel
 		lastOpenWidth = null;
 		hideDragger();
 		navRail.reset();
+		if (tabTable != null) {
+			tabTable.reset();
+		}
 		resizeTabs();
 		setHeadingHeight(0);
 	}
