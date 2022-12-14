@@ -1,8 +1,10 @@
 package org.geogebra.common.util;
 
+import org.apache.commons.math3.analysis.function.Exp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -176,7 +178,13 @@ public class SymbolicUtil {
 
 
 	public static boolean evaluatesToFraction(GeoElement geo) {
-		return geo instanceof GeoSymbolic
-				&& ((ExpressionNode) ((GeoSymbolic) geo).getValue()).isFraction();
+		if (geo instanceof GeoSymbolic) {
+			GeoSymbolic symbolic = (GeoSymbolic) geo;
+			ExpressionValue value = symbolic.getValue();
+			if (value instanceof ExpressionNode) {
+				return ((ExpressionNode) value).isFraction();
+			}
+		}
+		return false;
 	}
 }
