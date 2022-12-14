@@ -1921,4 +1921,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(AlgebraItem.isGeoFraction(fraction), is(true));
 		assertThat(AlgebraItem.isGeoFraction(solve2), is(false));
 	}
+
+	@Test
+	public void testEvaluatesToFraction() {
+		GeoElement element = add("1/2");
+		assertThat(AlgebraItem.evaluatesToFraction(element), is(true));
+		element = add("0.5");
+		assertThat(AlgebraItem.evaluatesToFraction(element), is(true));
+		element = add("1");
+		assertThat(AlgebraItem.evaluatesToFraction(element), is(false));
+	}
 }

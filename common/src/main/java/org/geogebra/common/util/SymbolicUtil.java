@@ -175,16 +175,4 @@ public class SymbolicUtil {
 		}
 		return false;
 	}
-
-
-	public static boolean evaluatesToFraction(GeoElement geo) {
-		if (geo instanceof GeoSymbolic) {
-			GeoSymbolic symbolic = (GeoSymbolic) geo;
-			ExpressionValue value = symbolic.getValue();
-			if (value instanceof ExpressionNode) {
-				return ((ExpressionNode) value).isFraction();
-			}
-		}
-		return false;
-	}
 }

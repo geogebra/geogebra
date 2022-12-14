@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
@@ -603,5 +604,19 @@ public class AlgebraItem {
 		return geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
+	}
+
+	public static boolean evaluatesToFraction(GeoElement geo) {
+		if (geo instanceof GeoSymbolic) {
+			GeoSymbolic symbolic = (GeoSymbolic) geo;
+			ExpressionValue value = symbolic.getValue();
+			if (value instanceof ExpressionNode) {
+				return ((ExpressionNode) value).isFraction();
+			}
+		} else if (geo instanceof GeoNumeric) {
+			GeoNumeric numeric = (GeoNumeric) geo;
+			return isGeoFraction(numeric);
+		}
+		return false;
 	}
 }
