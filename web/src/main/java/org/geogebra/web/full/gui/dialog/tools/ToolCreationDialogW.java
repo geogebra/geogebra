@@ -124,7 +124,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		FlowPanel inputObjectPanel = createInputOutputPanel(inputAddLB,
 				inputLB, false);
 
-		toolNameIconPanel = new ToolNameIconPanelW(appw);
+		toolNameIconPanel = new ToolNameIconPanelW(appw, this);
 		toolNameIconPanel.addStyleName("toolCreationDialogTab");
 
 		// Create tabPanel and add Selectionhandler

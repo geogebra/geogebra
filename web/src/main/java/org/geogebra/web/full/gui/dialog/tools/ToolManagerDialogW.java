@@ -273,7 +273,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 				loc.getMenu("Save"), w -> this.saveTools());
 
 		// name & icon
-		macroPanel = new ToolNameIconPanelW(appw);
+		macroPanel = new ToolNameIconPanelW(appw, this);
 		macroPanel.setMacroChangeListener(this);
 		panel.add(macroPanel);
 
