@@ -482,4 +482,8 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 *            polygon
 	 */
 	void pointChanged(GeoPolygon polygon);
+
+	NumberValue getVerticalIncrement();
+
+	void setVerticalIncrement(NumberValue step);
 }

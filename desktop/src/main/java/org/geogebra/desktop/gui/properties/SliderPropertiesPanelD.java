@@ -27,6 +27,7 @@ import javax.swing.event.ChangeListener;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
+import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.SliderModel;
 import org.geogebra.common.gui.dialog.options.model.SliderModel.ISliderOptionsListener;
 import org.geogebra.common.kernel.Kernel;
@@ -202,8 +203,9 @@ public class SliderPropertiesPanelD extends JPanel
 		JPanel opacityPanel = LayoutUtil.flowPanel(lblLineOpacity, sliderLineOpacity);
 		lineSliderStylePanel.add(opacityPanel);
 		// add increment to intervalPanel
-		stepPanel = new AnimationStepPanel(app);
-		stepPanel.setPartOfSliderPanel();
+		AnimationStepModel model = new AnimationStepModel(app);
+		stepPanel = new AnimationStepPanel(model, app);
+		model.setPartOfSlider(true);
 		intervalPanel.add(stepPanel);
 		speedPanel = new AnimationSpeedPanel(app);
 		speedPanel.setPartOfSliderPanel();

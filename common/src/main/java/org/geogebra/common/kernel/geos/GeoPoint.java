@@ -145,6 +145,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	private Coords tmpCoords;
 
 	private ArrayList<GeoElement> incidenceList;
+	private NumberValue verticalIncrement;
 
 	/**
 	 * create an undefined GeoPoint
@@ -1786,7 +1787,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// don't save default
 			// sb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
-
+		if (verticalIncrement != null) {
+			XMLBuilder.appendVerticalIncrement(sb, verticalIncrement);
+		}
 		XMLBuilder.appendPointProperties(sb, this);
 	}
 
@@ -2953,5 +2956,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		setCoords2D(resx, resy, resz);
 		updateCoordsFrom2D(false);
 		pp.t = param;
+	}
+
+	@Override
+	public NumberValue getVerticalIncrement() {
+		return this.verticalIncrement;
+	}
+
+	@Override
+	public void setVerticalIncrement(NumberValue step) {
+		this.verticalIncrement = step;
 	}
 }

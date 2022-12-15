@@ -122,6 +122,7 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 				}
 				geo.updateVisualStyleRepaint(GProperty.POSITION);
 			}
+			storeUndoInfo();
 		}
 	}
 
@@ -130,7 +131,7 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 	protected abstract void setCoord(AbsoluteScreenLocateable geo, int coord);
 
 	@Override
-	public void updateProperties() {
+	public String getText() {
 		AbsoluteScreenLocateable temp, geo0 = (AbsoluteScreenLocateable) getGeoAt(0);
 		boolean equalCoord = true;
 
@@ -142,9 +143,9 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 		}
 
 		if (equalCoord) {
-			listener.setText(getCoordStr(geo0) + "");
+			return getCoordStr(geo0);
 		} else {
-			listener.setText("");
+			return "";
 		}
 	}
 
