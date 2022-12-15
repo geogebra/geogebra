@@ -2121,9 +2121,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return animation step as geo
 	 */
 	public NumberValue getAnimationStepObject() {
-		if (animationIncrement == null) {
-			return null;
-		}
 		return animationIncrement;
 	}
 
@@ -6927,10 +6924,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!StringUtil.empty(getCaptionSimple())) {
 			if (CanvasDrawable.isLatexString(caption)) {
 				String myCaption = getCaption(StringTemplate.latexTemplate);
-				sb.appendLatexDegreeIfNeeded(this, myCaption);
+				sb.appendLaTeX(myCaption, app);
+				sb.appendSpace();
 			} else {
-				String myCaption = getCaption(StringTemplate.screenReader);
-				String convertedCaption = ScreenReader.convertToReadable(myCaption, getLoc());
+				String myCaption = getCaption(app.getScreenReaderTemplate());
+				String convertedCaption = ScreenReader.convertToReadable(myCaption, app);
 				sb.appendDegreeIfNeeded(this, convertedCaption);
 			}
 			sb.endSentence();
@@ -6947,7 +6945,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void addAuralLabel(ScreenReaderBuilder sb) {
-		sb.appendLabel(getLabelSimple());
+		sb.appendLabel(getLabelSimple(), app);
 		sb.endSentence();
 	}
 
@@ -7033,7 +7031,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String getAuralExpression() {
-		return toValueString(StringTemplate.screenReader);
+		return toValueString(getApp().getScreenReaderTemplate());
 	}
 
 	/**

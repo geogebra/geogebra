@@ -109,7 +109,7 @@ class EditorChecker {
 		}
 
 		if (atom instanceof ResizeAtom) {
-			return serializeAtom(((ResizeAtom) atom).getResizedBase());
+			return serializeAtom(((ResizeAtom) atom).getTrueBase());
 		}
 		return null;
 	}

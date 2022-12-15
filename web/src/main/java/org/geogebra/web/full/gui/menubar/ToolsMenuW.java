@@ -45,7 +45,7 @@ public class ToolsMenuW extends Submenu {
 
 		addItem(MainMenu.getMenuBarHtml(
 				MaterialDesignResources.INSTANCE.tools_create_black(),
-				loc.getMenu(getApp().isToolLoadedFromStorage() ? "Tool.SaveAs"
+				loc.getMenu(getApp().isOpenedForMacroEditing() ? "Tool.SaveAs"
 						: "Tool.CreateNew")),
 				true, new MenuCommand(getApp()) {
 

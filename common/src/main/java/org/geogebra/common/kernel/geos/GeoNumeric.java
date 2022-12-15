@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.AnimationManager;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
@@ -50,6 +51,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -123,7 +125,6 @@ public class GeoNumeric extends GeoElement
 	private double sliderWidth = this instanceof GeoAngle
 			? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
 	private double sliderBlobSize = DEFAULT_SLIDER_BLOB_SIZE;
-	private SliderPosition sliderPos;
 	private boolean sliderFixed = false;
 	private boolean sliderHorizontal = true;
 	private double animationValue = Double.NaN;
@@ -147,6 +148,7 @@ public class GeoNumeric extends GeoElement
 	private boolean showExtendedAV = true;
 	private static volatile Comparator<GeoNumberValue> comparator;
 	private BigDecimal exactValue;
+	private GeoPointND startPoint;
 
 	/**
 	 * Creates new GeoNumeric
@@ -295,7 +297,7 @@ public class GeoNumeric extends GeoElement
 				}
 
 				// init screen location
-				if (sliderPos == null) {
+				if (startPoint == null) {
 					initScreenLocation();
 				}
 
@@ -350,20 +352,21 @@ public class GeoNumeric extends GeoElement
 			count++;
 		}
 
-		sliderPos = new SliderPosition();
-
+		startPoint = new GeoPoint(cons);
+		int x, y;
 		if (isAbsoluteScreenLocActive()) {
 			EuclidianViewInterfaceSlim ev = kernel.getApplication()
 					.getActiveEuclidianView();
 			EdgeInsets insets = ev.getSafeAreaInsets();
-			sliderPos.x = insets.getLeft() + 30;
-			sliderPos.y = insets.getTop() + 50 + 40 * count;
+			x = insets.getLeft() + 30;
+			y = insets.getTop() + 50 + 40 * count;
 			// make sure slider is visible on screen
-			sliderPos.y = (int) (sliderPos.y / 400) * 10 + sliderPos.y % 400;
+			y = (y / 400) * 10 + y % 400;
 		} else {
-			sliderPos.x = -5;
-			sliderPos.y = 10 - count;
+			x = -5;
+			y = 10 - count;
 		}
+		startPoint.setCoords(x, y, 1);
 	}
 
 	private int countSliders() {
@@ -799,7 +802,6 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean isFixable() {
-		// visible slider should not be fixable if whiteboard doesn't active
 		return !isSetEuclidianVisible() && !isDefaultGeo();
 	}
 
@@ -853,11 +855,11 @@ public class GeoNumeric extends GeoElement
 
 		sb.append(" width=\"");
 		sb.append(sliderWidth);
-		if (sliderPos != null) {
+		if (startPoint != null) {
 			sb.append("\" x=\"");
-			sb.append(sliderPos.x);
+			sb.append(startPoint.getInhomX());
 			sb.append("\" y=\"");
-			sb.append(sliderPos.y);
+			sb.append(startPoint.getInhomY());
 		}
 		sb.append("\" fixed=\"");
 		sb.append(sliderFixed);
@@ -870,6 +872,9 @@ public class GeoNumeric extends GeoElement
 			sb.append("\t<pointSize val=\"");
 			sb.append(sliderBlobSize);
 			sb.append("\"/>\n");
+		}
+		if (startPoint != null && !startPoint.isAbsoluteStartPoint()) {
+			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 		}
 	}
 
@@ -978,11 +983,10 @@ public class GeoNumeric extends GeoElement
 		if (!force && sliderFixed) {
 			return;
 		}
-		if (sliderPos == null) {
-			sliderPos = new SliderPosition();
+		if (startPoint == null) {
+			startPoint = new GeoPoint(cons);
 		}
-		sliderPos.x = x;
-		sliderPos.y = y;
+		startPoint.setCoords(x, y, 1);
 		if (origSliderX == null) {
 			origSliderX = x;
 			origSliderY = y;
@@ -1039,7 +1043,7 @@ public class GeoNumeric extends GeoElement
 	 * @return x-coord of the slider
 	 */
 	public final double getSliderX() {
-		return sliderPos == null ? 0 : sliderPos.x;
+		return startPoint == null ? 0 : startPoint.getInhomX();
 	}
 
 	/**
@@ -1048,7 +1052,7 @@ public class GeoNumeric extends GeoElement
 	 * @return y-coord of the slider
 	 */
 	public final double getSliderY() {
-		return sliderPos == null ? 0 : sliderPos.y;
+		return startPoint == null ? 0 : startPoint.getInhomY();
 	}
 
 	/**
@@ -1076,7 +1080,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public final boolean isLockedPosition() {
-		return sliderFixed;
+		return getParentAlgorithm() == null ? sliderFixed : super.isLockedPosition();
 	}
 
 	/**
@@ -1129,31 +1133,34 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return sliderPos == null ? 0 : (int) sliderPos.x;
+		return startPoint == null ? 0
+				: (int) (hasAbsoluteScreenLocation ? startPoint.getInhomX()
+				: app.getActiveEuclidianView().toScreenCoordX(startPoint.getInhomX()));
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return sliderPos == null ? 0 : (int) sliderPos.y;
+		return startPoint == null ? 0
+				: (int) (hasAbsoluteScreenLocation ? startPoint.getInhomY()
+				: app.getActiveEuclidianView().toScreenCoordY(startPoint.getInhomY()));
 	}
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
-		if (sliderPos == null) {
-			sliderPos = new SliderPosition();
+		if (startPoint == null) {
+			startPoint = new GeoPoint(cons, true);
 		}
-		sliderPos.x = x;
-		sliderPos.y = y;
+		startPoint.setCoords(x, y, 1);
 	}
 
 	@Override
 	public double getRealWorldLocX() {
-		return sliderPos == null ? 0 : sliderPos.x;
+		return startPoint == null ? 0 : startPoint.getInhomX();
 	}
 
 	@Override
 	public double getRealWorldLocY() {
-		return sliderPos == null ? 0 : sliderPos.y;
+		return startPoint == null ? 0 : startPoint.getInhomY();
 	}
 
 	@Override
@@ -1850,10 +1857,10 @@ public class GeoNumeric extends GeoElement
 		if (!showExtendedAV) {
 			return;
 		}
-		SliderPosition old = sliderPos;
+		GeoPointND old = startPoint;
 		setEuclidianVisible(true);
 		setEuclidianVisible(false);
-		sliderPos = old;
+		startPoint = old;
 
 	}
 
@@ -1992,11 +1999,11 @@ public class GeoNumeric extends GeoElement
 		sb.appendSpace();
 
 		if (!addAuralCaption(sb)) {
-			sb.append(ScreenReader.convertToReadable(getLabelSimple(), getLoc()));
+			sb.append(ScreenReader.convertToReadable(getLabelSimple(), app));
 		}
 
 		if (!getRawCaption().contains("%v")) {
-			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
+			sb.append(getLabelDelimiterWithSpace(getApp().getScreenReaderTemplate()));
 			String valueString = toValueString(StringTemplate.defaultTemplate);
 			sb.appendDegreeIfNeeded(this, valueString);
 		}
@@ -2123,5 +2130,54 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		return toLaTeXString(symbolic || symbolicContext, tpl);
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+		}
+
+		// set new location
+		if (p == null) {
+			if (startPoint != null) {
+				startPoint = startPoint.copy();
+			}
+		} else {
+			startPoint = p;
+
+			// add new dependencies
+			startPoint.getLocateableList().registerLocateable(this);
+		}
+	}
+
+	@Override
+	public GeoPointND getStartPoint() {
+		return this.startPoint;
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
+		setStartPoint(p);
+	}
+
+	@Override
+	public void initStartPoint(GeoPointND p, int number) {
+		startPoint = p;
+	}
+
+	@Override
+	public boolean hasStaticLocation() {
+		return false;
+	}
+
+	@Override
+	public boolean isAlwaysFixed() {
+		return false;
+	}
+
+	@Override
+	public void updateLocation() {
+		update();
 	}
 }

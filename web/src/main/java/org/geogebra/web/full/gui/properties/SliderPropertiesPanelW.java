@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.properties;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
+import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.SliderModel;
 import org.geogebra.common.gui.dialog.options.model.SliderModel.ISliderOptionsListener;
 import org.geogebra.common.kernel.Kernel;
@@ -10,10 +11,10 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.web.full.gui.AngleTextFieldW;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.CheckboxPanel;
+import org.geogebra.web.full.gui.dialog.options.OptionsTab;
 import org.geogebra.web.full.gui.dialog.options.model.ExtendedAVModel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -32,11 +33,11 @@ import com.google.gwt.user.client.ui.ListBox;
  * 
  * @author Markus Hohenwarter
  */
-public class SliderPanelW extends OptionPanel implements ISliderOptionsListener {
+public class SliderPropertiesPanelW extends OptionPanel implements ISliderOptionsListener {
 
 	private SliderModel model;
-	private AngleTextFieldW tfMin;
-	private AngleTextFieldW tfMax;
+	private AutoCompleteTextFieldW tfMin;
+	private AutoCompleteTextFieldW tfMax;
 	private AutoCompleteTextFieldW tfWidth;
 	private AutoCompleteTextFieldW tfBlobSize;
 	private AutoCompleteTextFieldW tfLineThickness;
@@ -60,7 +61,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private ComponentCheckbox cbRandom;
 	private ListBox lbSliderHorizontal;
 
-	private AnimationStepPanelW stepPanel;
+	private OptionsTab.TextPropertyPanel stepPanel;
 	private AnimationSpeedPanelW speedPanel;
 	private Kernel kernel;
 	private FlowPanel intervalPanel;
@@ -81,7 +82,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	 * @param includeRandom
 	 *            true if include random
 	 */
-	public SliderPanelW(final AppW app,
+	public SliderPropertiesPanelW(final AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
@@ -117,9 +118,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 		positionPanel.add(lbSliderHorizontal);
 
-		tfMin = new AngleTextFieldW(6, app);
-		tfMin.addKeyDownHandler(event -> {
-			if (event.getNativeEvent().getKeyCode() == 13) {
+		tfMin = new AutoCompleteTextFieldW(-1, app);
+		tfMin.prepareShowSymbolButton(false);
+		tfMin.addKeyHandler(event -> {
+			if (event.isEnterKey()) {
 				applyMin();
 			}
 		});
@@ -127,9 +129,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		
 		tfMin.addBlurHandler(event -> applyMin());
 
-		tfMax = new AngleTextFieldW(6, app);
-		tfMax.addKeyDownHandler(event -> {
-			if (event.getNativeEvent().getKeyCode() == 13) {
+		tfMax = new AutoCompleteTextFieldW(-1, app);
+		tfMax.prepareShowSymbolButton(false);
+		tfMax.addKeyHandler(event -> {
+			if (event.isEnterKey()) {
 				applyMax();
 			}
 		});
@@ -171,11 +174,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		lineStyleTitleLbl = new Label();
 
 		FlowPanel minPanel = new FlowPanel();
+		minPanel.setStyleName("inlineOption");
 		minPanel.add(minLabel);
 		minPanel.add(tfMin);
 		intervalPanel.add(minPanel);
 
 		FlowPanel maxPanel = new FlowPanel();
+		maxPanel.setStyleName("inlineOption");
 		maxPanel.add(maxLabel);
 		maxPanel.add(tfMax);
 		intervalPanel.add(maxPanel);
@@ -191,8 +196,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		createSliderStylePanel();
 
 		// add increment to intervalPanel
-		stepPanel = new AnimationStepPanelW(app);
-		stepPanel.setPartOfSliderPanel();
+		AnimationStepModel animationModel = new AnimationStepModel(app);
+		stepPanel = new OptionsTab.TextPropertyPanel(animationModel, app, false);
+		animationModel.setPartOfSlider(true);
+		stepPanel.getWidget().getElement().setClassName("inlineOption");
 		intervalPanel.add(stepPanel.getWidget());
 
 		speedPanel = new AnimationSpeedPanelW(app);
@@ -252,7 +259,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		sliderTransparency = new SliderPanel(0, 100);
 		sliderTransparency.setTickSpacing(5);
 		sliderTransparency.setValue(40);
-		sliderTransparency.addChangeHandler(event -> applyTransparency());
+		sliderTransparency.addInputHandler(event -> applyTransparency());
+		sliderTransparency.addValueChangeHandler(val -> model.storeUndoInfo());
 	}
 
 	private void createLineThicknessTextField(AppW app) {

@@ -225,6 +225,8 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 
 		if (getTextField() == null) {
+			updateLabel();
+			updateLabelSize();
 			return;
 		}
 
@@ -252,18 +254,7 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 
 		// show hide label by setting text
-		if (geo.isLabelVisible()) {
-			// get caption to show r
-			String caption = geo.getCaption(StringTemplate.defaultTemplate);
-			if (!caption.equals(oldCaption)) {
-				oldCaption = caption;
-				labelDesc = caption; // GeoElement.indicesToHTML(caption, true);
-			}
-
-		}
-
-		setLabelFontSize((int) (view.getFontSize()
-				* getGeoInputBox().getFontSizeMultiplier()));
+		updateLabel();
 		if (isSelectedForInput()) {
 			updateGeoInputBox();
 			updateStyle(getTextField());
@@ -273,6 +264,12 @@ public class DrawInputBox extends CanvasDrawable {
 
 		view.getViewTextField().revalidateBox();
 
+		updateLabelSize();
+
+		view.getViewTextField().setBoxBounds(labelRectangle);
+	}
+
+	private void updateLabelSize() {
 		xLabel = getGeoInputBox().getScreenLocX(view);
 		yLabel = getGeoInputBox().getScreenLocY(view);
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
@@ -280,8 +277,19 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredWidth(), getPreferredHeight());
+	}
 
-		view.getViewTextField().setBoxBounds(labelRectangle);
+	private void updateLabel() {
+		if (geo.isLabelVisible()) {
+			// get caption to show r
+			String caption = geo.getCaption(StringTemplate.defaultTemplate);
+			if (!caption.equals(oldCaption)) {
+				oldCaption = caption;
+				labelDesc = caption; // GeoElement.indicesToHTML(caption, true);
+			}
+		}
+		setLabelFontSize((int) (view.getFontSize()
+				* getGeoInputBox().getFontSizeMultiplier()));
 	}
 
 	private void updateGeoInputBox() {

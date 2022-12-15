@@ -514,7 +514,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void onModeChange(PlotType plotType1, PlotType plotType2) {
 		dataPanel = null;
 		buildStatisticsPanel();
-		Log.error("" + plotType1);
 		setDataPlotPanels(plotType1, plotType2);
 		updateLayout();
 	}

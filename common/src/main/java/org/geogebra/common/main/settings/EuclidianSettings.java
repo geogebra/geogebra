@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
@@ -192,11 +193,6 @@ public class EuclidianSettings extends AbstractSettings {
 		size = null;
 
 		gridDistances = null;
-		// length might be 2 or 3
-		for (int i = 0; i < axisNumberingDistances.length; i++) {
-			axisNumberingDistances[i] = null;
-		}
-
 		xminObject = null;
 		xmaxObject = null;
 		yminObject = null;
@@ -212,65 +208,23 @@ public class EuclidianSettings extends AbstractSettings {
 		gridType = EuclidianView.GRID_CARTESIAN_WITH_SUBGRID;
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
-
-		// length might be 2 or 3
-		for (int i = 0; i < showAxesNumbers.length; i++) {
-			showAxesNumbers[i] = true;
-		}
-
-		// length might be 2 or 3
-		for (int i = 0; i < axesLabels.length; i++) {
-			axesLabels[i] = null;
-		}
-
-		// length might be 2 or 3
-		for (int i = 0; i < axesUnitLabels.length; i++) {
-			axesUnitLabels[i] = null;
-		}
-
-		// length might be 2 or 3
-		for (int i = 0; i < piAxisUnit.length; i++) {
-			piAxisUnit[i] = false;
-		}
-
-		// length might be 2 or 3
-		for (int i = 0; i < axesTickStyles.length; i++) {
-			axesTickStyles[i] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
-		}
-
-		// for axes labeling with numbers
-		// length might be 2 or 3
-		for (int i = 0; i < automaticAxesNumberingDistances.length; i++) {
-			automaticAxesNumberingDistances[i] = true;
-		}
-
-		// length might be 2 or 3
-		for (int i = 0; i < automaticAxesNumberingDistances.length; i++) {
-			automaticAxesNumberingDistances[i] = true;
-		}
-
 		// distances between grid lines
 		automaticGridDistance = true;
 
 		// length might be 2 or 3
-		for (int i = 0; i < axisCross.length; i++) {
-			axisCross[i] = 0;
-		}
-
-		// length might be 2 or 3
-		for (int i = 0; i < positiveAxes.length; i++) {
-			positiveAxes[i] = false;
-		}
-
-		// length might be 2 or 3
-		for (int i = 0; i < selectionAllowed.length; i++) {
-			selectionAllowed[i] = true;
-		}
-
-		// length might be 2 or 3
-		for (int i = 0; i < showAxes.length; i++) {
-			showAxes[i] = true;
-		}
+		Arrays.fill(axisNumberingDistances, null);
+		Arrays.fill(showAxesNumbers, true);
+		Arrays.fill(axesLabels, null);
+		Arrays.fill(axesUnitLabels, null);
+		Arrays.fill(piAxisUnit, false);
+		Arrays.fill(axesTickStyles, EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR);
+		// for axes labeling with numbers
+		Arrays.fill(automaticAxesNumberingDistances, true);
+		Arrays.fill(automaticAxesNumberingDistances, true);
+		Arrays.fill(axisCross, 0);
+		Arrays.fill(positiveAxes, false);
+		Arrays.fill(selectionAllowed, true);
+		Arrays.fill(showAxes, true);
 
 		showGrid = false;
 
@@ -956,14 +910,16 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param dimension
-	 *            preferred view size
+	 * @param dimension - preferred view size
+	 * @return true if preferred size changed
 	 */
-	public void setPreferredSize(GDimension dimension) {
+	public boolean setPreferredSize(GDimension dimension) {
 		if (!Objects.equals(preferredSize, dimension)) {
 			preferredSize = dimension;
 			settingChanged();
+			return true;
 		}
+		return false;
 	}
 
 	public void setPreferredSizeNoFire(GDimension dimension) {

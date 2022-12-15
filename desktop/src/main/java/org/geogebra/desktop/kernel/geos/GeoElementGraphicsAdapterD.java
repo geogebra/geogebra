@@ -29,8 +29,7 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		}
 
 		if (imageFileName.startsWith("/org/geogebra")) {
-			image = new MyImageD();
-			((MyImageD) image).loadAsSvg(imageFileName);
+			image = MyImageD.loadAsSvg(imageFileName);
 		} else {
 			image = app.getExternalImageAdapter(imageFileName, 0, 0);
 		}
@@ -47,8 +46,7 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		setImageFileNameOnly(fileName);
 
 		if (fileName.startsWith("/org/geogebra")) { // internal image
-			image = new MyImageD();
-			((MyImageD) image).loadAsSvg(imageFileName);
+			image = MyImageD.loadAsSvg(imageFileName);
 		} else {
 			image = app.getExternalImageAdapter(fileName, 0, 0);
 		}

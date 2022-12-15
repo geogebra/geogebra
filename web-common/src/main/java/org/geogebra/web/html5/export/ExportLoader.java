@@ -38,7 +38,7 @@ public final class ExportLoader {
 		if (getCanvas2Svg() != null) {
 			callback.run();
 		} else {
-			load(callback, "canvas2svg");
+			load(callback, "canvas-to-svg.umd");
 		}
 	}
 

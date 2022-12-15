@@ -284,8 +284,6 @@ public enum Commands implements CommandsConstants,
 
 	IntegralBetween(TABLE_FUNCTION),
 
-	IntegralSymbolic(TABLE_FUNCTION),
-
 	LowerSum(TABLE_FUNCTION),
 
 	LeftSum(TABLE_FUNCTION),
@@ -903,6 +901,8 @@ public enum Commands implements CommandsConstants,
 
 	Repeat(TABLE_SCRIPTING),
 
+	SetImage(TABLE_SCRIPTING),
+
 	// =============================================================
 	// discrete math
 	// =============================================================
@@ -1137,6 +1137,8 @@ public enum Commands implements CommandsConstants,
 	CIFactor(TABLE_CAS),
 
 	IFactor(TABLE_ALGEBRA),
+
+	IntegralSymbolic(TABLE_CAS),
 
 	CommonDenominator(TABLE_ALGEBRA),
 

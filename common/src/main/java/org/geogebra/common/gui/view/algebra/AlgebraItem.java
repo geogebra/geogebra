@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -96,7 +97,8 @@ public class AlgebraItem {
 		if (text1 == null) {
 			return text2 != null;
 		}
-		return !text1.equals(text2);
+		return !text1.equals(text2)
+				&& !GeoFunction.isUndefined(text1) && !GeoFunction.isUndefined(text2);
 	}
 
 	private static boolean allRHSareIntegers(GeoList geo) {
@@ -123,9 +125,10 @@ public class AlgebraItem {
 	 *            element
 	 * @return whether element is a numeric that can be written as a fraction
 	 */
-	public static boolean isGeoFraction(GeoElement geo) {
-		return geo instanceof GeoNumeric && geo.getDefinition() != null
-				&& geo.getDefinition().isFraction();
+	public static boolean isGeoFraction(GeoElementND geo) {
+		GeoElementND value = geo.unwrapSymbolic();
+		return value instanceof GeoNumeric && value.getDefinition() != null
+				&& value.getDefinition().isFraction();
 	}
 
 	/**

@@ -531,7 +531,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 	private int laguerreAll(double[] eqn) {
 		// for fast evaluation of polynomial (used for root polishing)
-		PolyFunction polyFunc = new PolyFunction(eqn);
+		PolyFunction polyFunc = new PolyFunction(eqn, eqn.length);
 		PolyFunction derivFunc = polyFunc.getDerivative();
 
 		Complex[] complexRoots = null;

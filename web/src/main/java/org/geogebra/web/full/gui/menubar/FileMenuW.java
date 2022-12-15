@@ -64,12 +64,16 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void buildFileMenu() {
-		addFileNewItem();
-		addOpenFileItem();
-		addSaveItem();
-		addSeparator();
+		if (getApp().enableOnlineFileFeatures()) {
+			addFileNewItem();
+			addOpenFileItem();
+			addSaveItem();
+			addSeparator();
+		}
 		addExportImageItem();
-		addShareItem();
+		if (getApp().enableOnlineFileFeatures()) {
+			addShareItem();
+		}
 		addDownloadAsItem();
 		addPrintItem();
 	}

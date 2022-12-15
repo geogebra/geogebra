@@ -446,8 +446,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			maxLabel = new Label("100");
 			sp.add(maxLabel);
 			add(sp);
-			slider.addChangeHandler(event -> onSliderInput());
-			Slider.addInputHandler(slider.getElement(), this);
+			slider.addInputHandler(this);
 		}
 
 		@Override

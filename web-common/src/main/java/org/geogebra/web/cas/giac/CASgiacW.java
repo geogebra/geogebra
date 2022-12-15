@@ -209,12 +209,9 @@ public class CASgiacW extends CASgiac {
 
 		if (nativeCASloaded()) {
 
-			kernel.getApplication().invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					Log.debug(versionString + " is already loaded");
-					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-				}
+			kernel.getApplication().invokeLater(() -> {
+				Log.debug(versionString + " is already loaded");
+				kernel.getApplication().getGgbApi().initCAS();
 			});
 
 			return;

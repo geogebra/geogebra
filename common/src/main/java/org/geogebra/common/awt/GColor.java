@@ -57,8 +57,6 @@ public final class GColor implements GPaint {
 	public static final GColor PURPLE_A400 = newColor(213, 0, 249);
 	/** GEOGEBRA_BLUE */
 	public static final GColor GEOGEBRA_BLUE = newColor(153, 153, 255);
-	/** MOW PURPLE */
-	public static final GColor MOW_PURPLE = newColor(163, 136, 212);
 	/** MOW MEBIS TEAL */
 	public static final GColor MOW_MEBIS_TEAL = newColor(0, 168, 213);
 	/** MOW MEBIS TEAL with alpha */

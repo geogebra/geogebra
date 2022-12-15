@@ -84,6 +84,9 @@ pipeline {
                         sh label: 'test', script: "./gradlew :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }
+                    post {
+                        always { deleteDir() }
+                    }
                 }
                 stage('linux') {
                     agent {label 'Ubuntu'}
@@ -91,12 +94,18 @@ pipeline {
                         sh label: 'test', script: "./gradlew :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }
+                    post {
+                        always { deleteDir() }
+                    }
                 }
                 stage('windows') {
                     agent {label 'winbuild'}
                     steps {
                         bat label: 'test', script: ".\\gradlew.bat :desktop:test"
                         junit '**/build/test-results/test/*.xml'
+                    }
+                    post {
+                        always { deleteDir() }
                     }
                 }
             }

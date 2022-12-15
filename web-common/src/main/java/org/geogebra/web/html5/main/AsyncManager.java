@@ -82,35 +82,32 @@ public class AsyncManager {
 		for (AsyncModule module : preload) {
 			module.prefetch();
 		}
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				for (AsyncModule module : preload) {
-					switch (module) {
-					case DISCRETE:
-						cmdDispatcher.getDiscreteDispatcher();
-						break;
-					case SCRIPTING:
-						cmdDispatcher.getScriptingDispatcher();
-						break;
-					case ADVANCED:
-						cmdDispatcher.getAdvancedDispatcher();
-						break;
-					case STATS:
-						cmdDispatcher.getStatsDispatcher();
-						break;
-					case PROVER:
-						cmdDispatcher.getProverDispatcher();
-						break;
-					case CAS:
-						cmdDispatcher.getCASDispatcher();
-						break;
-					case SPATIAL:
-						cmdDispatcher.get3DDispatcher();
-						break;
-					default:
-						Log.debug("Tring to preload nonexistent module: " + module);
-					}
+		Runnable r = () -> {
+			for (AsyncModule module : preload) {
+				switch (module) {
+				case DISCRETE:
+					cmdDispatcher.getDiscreteDispatcher();
+					break;
+				case SCRIPTING:
+					cmdDispatcher.getScriptingDispatcher();
+					break;
+				case ADVANCED:
+					cmdDispatcher.getAdvancedDispatcher();
+					break;
+				case STATS:
+					cmdDispatcher.getStatsDispatcher();
+					break;
+				case PROVER:
+					cmdDispatcher.getProverDispatcher();
+					break;
+				case CAS:
+					cmdDispatcher.getCASDispatcher();
+					break;
+				case SPATIAL:
+					cmdDispatcher.get3DDispatcher();
+					break;
+				default:
+					Log.debug("Tring to preload nonexistent module: " + module);
 				}
 			}
 		};

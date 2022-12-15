@@ -13,12 +13,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.util.Charsets;
@@ -32,19 +35,22 @@ import org.geogebra.desktop.util.UtilD;
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGUniverse;
+import com.kitfox.svg.xml.StyleAttribute;
 
 public class MyImageD implements MyImageJre {
 
-	private Image img;
+	private final Image img;
 	private SVGDiagram diagram;
+	private URI uri;
 	// SVG as XML
-	private StringBuilder svg;
+	private final StringBuilder svg;
 
+	/**
+	 * @param img bitmap image
+	 */
 	public MyImageD(Image img) {
 		this.img = img;
-	}
-
-	public MyImageD() {
+		this.svg = null;
 	}
 
 	/**
@@ -56,19 +62,23 @@ public class MyImageD implements MyImageJre {
 	public MyImageD(String svgStr, String name) {
 		svg = new StringBuilder(svgStr.length());
 		svg.append(svgStr);
-
-		InputStream stream = null;
-
-		stream = new ByteArrayInputStream(svgStr.getBytes(Charsets.getUtf8()));
+		img = null;
+		InputStream stream = new ByteArrayInputStream(svgStr.getBytes(Charsets.getUtf8()));
 
 		SVGUniverse universe = SVGCache.getSVGUniverse();
-		URI uri;
 		try {
 			uri = universe.loadSVG(stream, name);
 			diagram = universe.getDiagram(uri);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private MyImageD(StringBuilder svgStr, SVGDiagram diagram, URI uri) {
+		this.svg = svgStr;
+		this.diagram = diagram;
+		this.img = null;
+		this.uri = uri;
 	}
 
 	/**
@@ -102,11 +112,15 @@ public class MyImageD implements MyImageJre {
 	/**
 	 * Loads internal image as SVG
 	 * @param filename internal path (/org/geogebra/...)
+	 * @return SVG image
 	 */
-	public void loadAsSvg(String filename) {
-		InputStream in = getClass().getResourceAsStream(filename);
+	public static MyImageD loadAsSvg(String filename) {
+		return loadAsSvg(MyImageD.class.getResourceAsStream(filename),
+				MyImageD.class.getResource(filename));
+	}
 
-		svg = new StringBuilder();
+	private static MyImageD loadAsSvg(InputStream in, URL url) {
+		StringBuilder svg = new StringBuilder();
 		try (BufferedReader reader = new BufferedReader(
 				new InputStreamReader(in, Charsets.getUtf8()))) {
 			for (String line = reader
@@ -119,43 +133,22 @@ public class MyImageD implements MyImageJre {
 		}
 
 		svg = new StringBuilder(ImageManager.fixSVG(svg.toString()));
-		URL url = getClass().getResource(filename);
 		SVGUniverse universe = SVGCache.getSVGUniverse();
 		URI uri = universe.loadSVG(url);
-		diagram = universe.getDiagram(uri);
+		SVGDiagram diagram = universe.getDiagram(uri);
+		return new MyImageD(svg, diagram, uri);
 	}
 
 	/**
 	 * @param imageFile image to load
 	 * @throws IOException when I/O problem occurs
+	 * @return SVG image
 	 */
-	public void load(File imageFile) throws IOException {
-
+	public static MyImageD load(File imageFile) throws IOException {
 		if (StringUtil.toLowerCaseUS(imageFile.getName()).endsWith(".svg")) {
-
-			svg = new StringBuilder((int) imageFile.length());
-			BufferedReader reader = null;
-			try {
-				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(imageFile), Charsets.getUtf8()));
-				for (String line = reader
-						.readLine(); line != null; line = reader.readLine()) {
-					svg.append(line);
-					svg.append('\n');
-				}
-			} finally {
-				if (reader != null) {
-					reader.close();
-				}
-			}
-			svg = new StringBuilder(ImageManager.fixSVG(svg.toString()));
-			URL url = imageFile.toURI().toURL();
-			SVGUniverse universe = SVGCache.getSVGUniverse();
-			URI uri = universe.loadSVG(url);
-			diagram = universe.getDiagram(uri);
-
+			return loadAsSvg(Files.newInputStream(imageFile.toPath()), imageFile.toURI().toURL());
 		} else {
-			img = ImageIO.read(imageFile);
+			return new MyImageD(ImageIO.read(imageFile));
 		}
 	}
 
@@ -256,6 +249,26 @@ public class MyImageD implements MyImageJre {
 
 		if (bi != null) {
 			return new MyImageD(bi);
+		}
+		return null;
+	}
+
+	@Override
+	public MyImage tintedSVG(GColor color, Runnable onLoad) {
+		if (svg == null) {
+			return null;
+		}
+		SVGUniverse universe = SVGCache.getSVGUniverse();
+		try {
+			ByteArrayInputStream stream = new ByteArrayInputStream(svg.toString()
+					.getBytes(Charsets.getUtf8()));
+			URI uri = universe.loadSVG(stream, UUID.randomUUID() + "-tint.svg");
+			SVGDiagram diagram = universe.getDiagram(uri);
+			StyleAttribute fill = diagram.getRoot().getPresAbsolute("fill");
+			fill.setStringValue(color.toString());
+			return new MyImageD(svg, diagram, uri);
+		} catch (Exception e) {
+			Log.debug(e.getMessage());
 		}
 		return null;
 	}

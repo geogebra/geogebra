@@ -4,7 +4,9 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -80,6 +82,12 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testConvertTanSquaredXInverse() {
+		IntervalNodeFunction function = convert("1/(tan^(2)(x))");
+		assertEquals(whole(), function.value(around(Math.PI / 2, 1E-7)));
+	}
+
+	@Test
 	public void testUndefinedInFunction() {
 		add("b=2");
 		addAvInput("SetValue(b, ?)");
@@ -120,5 +128,12 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	private IntervalNodeFunction convert(String functionString) {
 		GeoFunction geoFunction = add(functionString);
 		return converter.convert(geoFunction);
+	}
+
+	@Test
+	public void testNormal() {
+		GeoFunction f = add("Normal(1, 2, x, false)");
+		IntervalNodeFunction g = converter.convert(f);
+		assertEquivalent(x -> new Interval(f.value(x)), g, 0, 10);
 	}
 }

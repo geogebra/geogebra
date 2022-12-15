@@ -27,8 +27,10 @@ public interface ExpressionNodeConstants {
 		CONTENT_MATHML,
 		/** OGP */
 		OGP,
-		/** GGB-2454 for screen reader */
-		SCREEN_READER;
+		/** GGB-2454 for screen reader expanding "+" to "plus" etc. */
+		SCREEN_READER_ASCII,
+		/** screen reader keeping math symbols as is */
+		SCREEN_READER_UNICODE;
 
 		/**
 		 * @return whether this is giac type

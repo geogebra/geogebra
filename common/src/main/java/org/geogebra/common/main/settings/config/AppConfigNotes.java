@@ -68,4 +68,14 @@ public class AppConfigNotes extends AppConfigDefault {
 	public boolean hasLabelForDescription() {
 		return true;
 	}
+
+	@Override
+	public boolean showAxesOnFileNew() {
+		return false;
+	}
+
+	@Override
+	public boolean showGridOnFileNew() {
+		return false;
+	}
 }

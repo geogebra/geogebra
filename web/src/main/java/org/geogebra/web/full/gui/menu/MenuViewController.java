@@ -197,9 +197,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 
 	private boolean hasLoginButton(AppW app) {
 		return app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
-				&& (!app.isMebis())
-				&& app.enableFileFeatures()
-				&& app.getLAF().hasLoginButton();
+				&& !app.isMebis()
+				&& app.enableOnlineFileFeatures();
 	}
 
 	private void registerListeners(AppW app) {

@@ -16,7 +16,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,8 +37,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.BevelBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -51,7 +48,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
 import org.geogebra.desktop.main.AppD;
@@ -89,7 +85,7 @@ public class ToolCreationDialogD extends Dialog
 		this.loc = app.getLocalization();
 		initLists();
 		initGUI();
-		Macro appMacro = app.getMacro();
+		Macro appMacro = app.getEditMacro();
 		if (appMacro != null) {
 			this.setFromMacro(appMacro);
 		}
@@ -212,40 +208,40 @@ public class ToolCreationDialogD extends Dialog
 	 * @version 2010-05-26
 	 */
 	private void finish() {
+		if (newTool != null) {
+			newTool.setCommandName(namePanel.getCommandName());
+			newTool.setToolName(namePanel.getToolName());
+			newTool.setToolHelp(namePanel.getToolHelp());
+			newTool.setShowInToolBar(namePanel.showInToolBar());
+			newTool.setIconFileName(namePanel.getIconFileName());
 
-		newTool.setCommandName(namePanel.getCommandName());
-		newTool.setToolName(namePanel.getToolName());
-		newTool.setToolHelp(namePanel.getToolHelp());
-		newTool.setShowInToolBar(namePanel.showInToolBar());
-		newTool.setIconFileName(namePanel.getIconFileName());
+			AppD appToSave = app;
+			if (app.getEditMacro() != null) {
+				appToSave = (AppD) app.getEditMacro().getKernel().getApplication();
+			}
 
-		AppD appToSave = app;
-		if (app.getMacro() != null) {
-			appToSave = (AppD) app.getMacro().getKernel().getApplication();
+			Kernel kernel = appToSave.getKernel();
+			Macro macro = kernel.getMacro(namePanel.getCommandName());
+			// check if command name is not used already by another macro
+			if (macro != null) {
+				overwriteMacro(macro);
+				return;
+			}
+
+			kernel.addMacro(newTool);
+			// make sure new macro command gets into dictionary
+			appToSave.updateCommandDictionary();
+
+			// set macro mode
+			if (newTool.isShowInToolBar()) {
+				int mode = kernel.getMacroID(newTool)
+						+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
+				appToSave.getGuiManager().addToToolbarDefinition(mode);
+				appToSave.updateToolBar();
+				appToSave.setMode(mode);
+			}
 		}
-
-		Kernel kernel = appToSave.getKernel();
-		String cmdName = namePanel.getCommandName();
-		// check if command name is not used already by another macro
-		if (kernel.getMacro(cmdName) != null) {
-			overwriteMacro(kernel.getMacro(cmdName));
-			return;
-		}
-
-		kernel.addMacro(newTool);
-		// make sure new macro command gets into dictionary
-		appToSave.updateCommandDictionary();
-
-		// set macro mode
-		if (newTool.isShowInToolBar()) {
-			int mode = kernel.getMacroID(newTool)
-					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
-			((GuiManagerD) appToSave.getGuiManager())
-					.addToToolbarDefinition(mode);
-			appToSave.updateToolBar();
-			appToSave.setMode(mode);
-		}
-		if (app.getMacro() != null) {
+		if (app.getEditMacro() != null) {
 			app.getFrame().setVisible(false);
 		}
 		app.showMessage(loc.getMenu("Tool.CreationSuccess"));
@@ -283,15 +279,15 @@ public class ToolCreationDialogD extends Dialog
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
-			if (app.getMacro() != null) {
-				kernel.removeMacro(app.getMacro());
+			if (app.getEditMacro() != null) {
+				kernel.removeMacro(app.getEditMacro());
 			} else {
 				kernel.removeMacro(macro);
 			}
 			if (appToSave.addMacroXML(sb.toString())) {
 				// successfully saved, quitting
 				appToSave.setXML(appToSave.getXML(), true);
-				if (app.getMacro() != null) {
+				if (app.getEditMacro() != null) {
 					app.setSaved();
 					app.exit();
 				} else {
@@ -514,7 +510,7 @@ public class ToolCreationDialogD extends Dialog
 		btNext.addActionListener(ac);
 		btBack.addActionListener(ac);
 
-		ChangeListener cl = e -> {
+		tabbedPane.addChangeListener(e -> {
 			int tab = tabbedPane.getSelectedIndex();
 			btBack.setEnabled(tab > 0);
 
@@ -537,8 +533,7 @@ public class ToolCreationDialogD extends Dialog
 				break;
 			default:
 			}
-		};
-		tabbedPane.addChangeListener(cl);
+		});
 		return btPanel;
 	}
 

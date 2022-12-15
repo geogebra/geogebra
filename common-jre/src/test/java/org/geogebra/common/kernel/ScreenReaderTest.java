@@ -29,7 +29,7 @@ public class ScreenReaderTest {
 	private static void tsc(String string, String string2) {
 		GeoElementND geo = eval(string);
 		Assert.assertEquals(string2,
-				geo.toValueString(StringTemplate.screenReader).trim().replaceAll(" +", " "));
+				geo.toValueString(StringTemplate.screenReaderAscii).trim().replaceAll(" +", " "));
 	}
 
 	private static GeoElementND eval(String string) {
@@ -83,5 +83,11 @@ public class ScreenReaderTest {
 	public void testFraction() {
 		tsc("1/2", "0.5");
 		tsc("1+1/2", "start fraction 3 over 2 end fraction");
+	}
+
+	@Test
+	public void testDegree() {
+		tsc("x + pi deg", "x plus pi degrees");
+		tsc("pi deg", "pi degrees");
 	}
 }

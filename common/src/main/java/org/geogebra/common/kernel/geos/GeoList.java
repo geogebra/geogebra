@@ -138,6 +138,7 @@ public class GeoList extends GeoElement
 	private boolean wasDefinedWithCurlyBrackets = true;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
+	private GeoPointND startPoint;
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -893,6 +894,17 @@ public class GeoList extends GeoElement
 		return sb;
 	}
 
+	private StringBuilder appendElementsForXml(StringBuilder sb) {
+		for (int i = 0; i < elements.size(); i++) {
+			final GeoElement geo = elements.get(i);
+			if (i != 0) {
+				sb.append(',');
+			}
+			StringUtil.encodeXML(sb, geo.getLabel(StringTemplate.xmlTemplate));
+		}
+		return sb;
+	}
+
 	@Override
 	public boolean isGeoList() {
 		return true;
@@ -925,13 +937,15 @@ public class GeoList extends GeoElement
 				sb.append('}');
 			} else if (getDefinition() != null) {
 				getDefinitionXML(sb);
+			} else if (!isDefined) {
+				sb.append('?');
 			} else {
-				StringUtil.encodeXML(sb,
-						toValueString(StringTemplate.xmlTemplate));
+				sb.append('{');
+				appendElementsForXml(sb);
+				sb.append('}');
 			}
 			if (getTableColumn() != -1) {
-				sb.append("\" type=\"");
-				sb.append("list");
+				sb.append("\" type=\"list");
 			}
 			sb.append("\"/>\n");
 		}
@@ -1595,6 +1609,9 @@ public class GeoList extends GeoElement
 
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
+		}
+		if (startPoint != null) {
+			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 		}
 	}
 
@@ -2286,12 +2303,12 @@ public class GeoList extends GeoElement
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return labelOffsetX;
+		return startPoint == null ? labelOffsetX : (int) startPoint.getInhomX();
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return labelOffsetY;
+		return startPoint == null ? labelOffsetY : (int) startPoint.getInhomY();
 	}
 
 	@Override
@@ -3195,13 +3212,13 @@ public class GeoList extends GeoElement
 		} else {
 			displayString = geoItem.toValueString(tpl);
 		}
-		if (tpl.hasType(StringType.SCREEN_READER) && geoItem.isGeoText()
+		if (tpl.isScreenReader() && geoItem.isGeoText()
 				&& CanvasDrawable.isLatexString(displayString)) {
 			displayString = ((GeoText) geoItem).getAuralTextLaTeX();
 		}
 
 		if (StringUtil.empty(displayString)
-				&& tpl.getStringType() == StringType.SCREEN_READER) {
+				&& tpl.isScreenReader()) {
 			return kernel.getLocalization().getMenuDefault("EmptyItem", "empty element");
 		}
 
@@ -3233,7 +3250,7 @@ public class GeoList extends GeoElement
 	@Override
 	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
 		if (drawAsComboBox && size() > 0) {
-			String item = getSelectedItemDisplayString(StringTemplate.screenReader);
+			String item = getSelectedItemDisplayString(getApp().getScreenReaderTemplate());
 			sb.append(loc.getPlainDefault("ElementASelected",
 					"element %0 selected", item));
 		}
@@ -3289,7 +3306,7 @@ public class GeoList extends GeoElement
 	public String getAuralTextAsOpened() {
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		sb.append(getSelectedItemDisplayString(StringTemplate.screenReader));
+		sb.append(getSelectedItemDisplayString(getApp().getScreenReaderTemplate()));
 		sb.appendSpace();
 		sb.append(getIndexDescription(getSelectedIndex()));
 		sb.endSentence();
@@ -3392,5 +3409,57 @@ public class GeoList extends GeoElement
 
 	private boolean isUndefinedList() {
 		return !elements.isEmpty() && elements().noneMatch(GeoElement::isDefined);
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+		}
+
+		// set new location
+		if (p == null) {
+			if (startPoint != null) {
+				startPoint = startPoint.copy();
+			}
+
+			labelOffsetX = 0;
+			labelOffsetY = 0;
+		} else {
+			startPoint = p;
+
+			// add new dependencies
+			startPoint.getLocateableList().registerLocateable(this);
+		}
+	}
+
+	@Override
+	public GeoPointND getStartPoint() {
+		return startPoint;
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
+		setStartPoint(p);
+	}
+
+	@Override
+	public void initStartPoint(GeoPointND p, int number) {
+		this.startPoint = p;
+	}
+
+	@Override
+	public boolean hasStaticLocation() {
+		return false;
+	}
+
+	@Override
+	public boolean isAlwaysFixed() {
+		return false;
+	}
+
+	@Override
+	public void updateLocation() {
+		update();
 	}
 }

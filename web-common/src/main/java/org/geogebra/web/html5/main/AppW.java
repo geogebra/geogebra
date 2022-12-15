@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -169,13 +170,16 @@ import elemental2.dom.EventTarget;
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
+import elemental2.dom.URL;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
-	public static final String STORAGE_MACRO_KEY = "storedMacro";
-	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
-
+	public static final String STORAGE_ALL_MACROS_KEY = "storedMacros";
+	public static final String STORAGE_MACRO_KEY_PREFIX = "storedMacro_";
+	public static final String EDIT_MACRO_URL_PARAM_NAME = "editMacroName";
+	public static final String EDITED_MACRO_NAME_KEY = "editedMacroName";
+	public static final String EDITED_MACRO_XML_KEY = "editedMacroXML";
 	private static final int LOWER_HEIGHT = 350;
 	/*
 	 * Note: the following numbers need to be in sync with deploygbb to scale
@@ -215,8 +219,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// protected GeoGebraFrame frame = null;
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
-
-	private boolean toolLoadedFromStorage;
+	private boolean openedForMacroEditing = false;
 	private BrowserStorage storage;
 	private final ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
@@ -560,14 +563,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean loadXML(final String xml) throws Exception {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					getXMLio().processXMLString(xml, true, false);
-				} catch (Exception e) {
-					Log.debug(e);
-				}
+		Runnable r = () -> {
+			try {
+				getXMLio().processXMLString(xml, true, false);
+			} catch (Exception e) {
+				Log.debug(e);
 			}
 		};
 
@@ -1001,7 +1001,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void invokeLater(final Runnable runnable) {
-		Scheduler.get().scheduleDeferred(() -> runnable.run());
+		Scheduler.get().scheduleDeferred(runnable::run);
 	}
 
 	@Override
@@ -1089,68 +1089,155 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param macro
-	 *            Macro need to be stored.
-	 * @param writeBack
-	 *            Is it a new one or a modification.
+	 * Stores all the macros from the app in the storage
 	 */
-	public void storeMacro(Macro macro, boolean writeBack) {
+	public void storeAllMacros() {
 		createStorage();
-		if (storage == null) {
+		String allMacrosB64 = getGgbApi().getAllMacrosBase64();
+		storage.setItem(STORAGE_ALL_MACROS_KEY, allMacrosB64);
+	}
+
+	/**
+	 * Stores the given macro in the storage
+	 * @param macro is the macro that needs to be stored
+	 */
+	public void storeMacro(Macro macro) {
+		if (macro == null) {
 			return;
 		}
-
-		String b64 = getGgbApi().getMacrosBase64();
-
-		storage.setItem(STORAGE_MACRO_ARCHIVE, b64);
-
-		storage.setItem(STORAGE_MACRO_KEY, macro.getToolName());
+		createStorage();
+		String macroB64 = getGgbApi().getMacroBase64(macro);
+		storage.setItem(createStorageMacroKey(macro.getEditName()), macroB64);
 	}
 
+	/**
+	 * Returns the macro with the given name from the storage
+	 * @param macroName is the name of the macro that needs to be returned
+	 * @return the macro with the given name
+	 */
+	public String getMacroFromStorage(String macroName) {
+		return storage.getItem(createStorageMacroKey(macroName));
+	}
+
+	/**
+	 * Removes the macro with the given name from the storage
+	 * @param macroName is the name of the macro that needs to be removed from the storage
+	 */
+	public void removeMacroFromStorage(String macroName) {
+		storage.removeItem(createStorageMacroKey(macroName));
+	}
+
+	/**
+	 * Removes all macros from the storage
+	 */
+	public void removeAllMacrosFromStorage() {
+		createStorage();
+		for (int i = 0; i < storage.getLength(); i++) {
+			if (storage.key(i).startsWith(STORAGE_MACRO_KEY_PREFIX)) {
+				storage.removeItem(storage.key(i));
+			}
+		}
+	}
+
+	/**
+	 * Removes the given macro from the app and the storage
+	 * @param macro is the macro that needs to be removed
+	 */
+	@Override
+	public void removeMacro(Macro macro) {
+		super.removeMacro(macro);
+		removeMacroFromStorage(macro.getEditName());
+	}
+
+	/**
+	 * Removes the macro with the given name from the app and the storage
+	 * @param macroName is the name of the macro that needs to be removed
+	 */
+	@Override
+	public void removeMacro(String macroName) {
+		super.removeMacro(macroName);
+		removeMacroFromStorage(macroName);
+	}
+
+	/**
+	 * Removes all the macros from the app and the storage
+	 */
+	@Override
+	public void removeAllMacros() {
+		super.removeAllMacros();
+		removeAllMacrosFromStorage();
+	}
+
+	/**
+	 * Initializes the storage
+	 */
 	protected void createStorage() {
 		if (storage == null) {
-			storage = BrowserStorage.SESSION;
+			storage = BrowserStorage.LOCAL;
 		}
 	}
 
+	/**
+	 * Checks if there is any macro in the storage
+	 * @return whether there is any macro in the storage
+	 */
 	protected boolean hasMacroToRestore() {
 		createStorage();
-		if (storage != null) {
-			return storage.getItem(STORAGE_MACRO_ARCHIVE) != null;
+		for (int i = 0; i < storage.getLength(); i++) {
+			if (storage.key(i).startsWith(STORAGE_MACRO_KEY_PREFIX)) {
+				return true;
+			}
 		}
-
 		return false;
 	}
 
-	protected void restoreMacro() {
-		createStorage();
-		if (storage != null) {
-			if (storage.getItem(STORAGE_MACRO_ARCHIVE) != null) {
-				getKernel().removeAllMacros();
-				String b64 = storage.getItem(STORAGE_MACRO_ARCHIVE);
-				getGgbApi().setBase64(b64);
-			}
+	/**
+	 * Creates a storage key with the given macro name
+	 * @param macroName is the name of the macro that the key will belong to
+	 * @return the storage key belonging to the macro with the given name
+	 */
+	public String createStorageMacroKey(String macroName) {
+		return STORAGE_MACRO_KEY_PREFIX + macroName;
+	}
+
+	/**
+	 * Checks if the macro with the given name is in the storage
+	 * @param macroName is the name of the macro that needs to be checked
+	 * @return whether the storage contains the macro with the given name
+	 */
+	public boolean storageContainsMacro(String macroName) {
+		return getMacroFromStorage(macroName) != null;
+	}
+
+	/**
+	 * Restores the macro with the given name from the storage
+	 * @param macroName is the name of the macro that needs to be restored
+	 */
+	public void restoreMacro(String macroName) {
+		if (storageContainsMacro(macroName)) {
+			getGgbApi().setBase64(getMacroFromStorage(macroName));
 		}
 	}
 
-	protected boolean openMacroFromStorage() {
+	/**
+	 * Opens the macro that needs to be edited from storage
+	 * @param editMacroName is the name of the macro that needs to be edited
+	 * @return whether the opening was successful
+	 */
+	public boolean openEditMacroFromStorage(String editMacroName) {
 		createStorage();
-
-		if (storage != null) {
-			if (storage.getItem(STORAGE_MACRO_KEY) != null) {
-				String macroName = storage.getItem(STORAGE_MACRO_KEY);
-				try {
-					Macro editMacro = getKernel().getMacro(macroName);
-					openMacro(editMacro);
-					DomGlobal.document.title = macroName;
-					setToolLoadedFromStorage(true);
+		if (storageContainsMacro(editMacroName)) {
+			try {
+				Macro editMacro = getKernel().getMacro(editMacroName);
+				if (editMacro != null) {
+					openEditMacro(editMacro);
+					DomGlobal.document.title = editMacroName;
 					return true;
-				} catch (Exception e) {
-					Log.debug(e);
 				}
+			} catch (Exception e) {
+				Log.debug(e);
 			}
 		}
-
 		return false;
 	}
 
@@ -2652,12 +2739,23 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return !getNetworkOperation().isOnline();
 	}
 
-	public boolean isToolLoadedFromStorage() {
-		return toolLoadedFromStorage;
+	public boolean isOpenedForMacroEditing() {
+		return openedForMacroEditing;
 	}
 
-	public void setToolLoadedFromStorage(boolean toolLoadedFromStorage) {
-		this.toolLoadedFromStorage = toolLoadedFromStorage;
+	public void setOpenedForMacroEditing(boolean openedForMacroEditing) {
+		this.openedForMacroEditing = openedForMacroEditing;
+	}
+
+	/**
+	 * Updates the URL of the window
+	 * @param url the new URL
+	 */
+	public void updateURL(URL url) {
+		if (url != null) {
+			DomGlobal.window.history
+					.replaceState(null, DomGlobal.document.title, url.toString());
+		}
 	}
 
 	/**
@@ -2722,6 +2820,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return whether file operations (open / save) are allowed
 	 */
+	public boolean enableOnlineFileFeatures() {
+		return this.appletParameters.getDataParamEnableFileFeatures()
+				&& getLAF() != null && getLAF().hasLoginButton();
+	}
+
 	public boolean enableFileFeatures() {
 		return this.appletParameters.getDataParamEnableFileFeatures();
 	}
@@ -3293,13 +3396,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * between tabs, in iOS safari for resizing.
 	 */
 	public void deferredForceResize() {
-		invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				EuclidianViewW.forceResize(getEuclidianView1());
-			}
-		});
+		invokeLater(() -> EuclidianViewW.forceResize(getEuclidianView1()));
 
 	}
 
@@ -3442,12 +3539,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void updateVoiceover() {
 		if (Browser.needsAccessibilityView()) {
-			invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					getAccessibilityView().rebuild();
-				}
-			});
+			invokeLater(() -> getAccessibilityView().rebuild());
 		}
 	}
 
@@ -3520,5 +3612,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			lastFocusableWidget.getElement().setInnerText("");
 			lastFocusableWidget.getElement().focus();
 		}
+	}
+
+	@Override
+	public StringTemplate getScreenReaderTemplate() {
+		return getAppletParameters().getParamScreenReaderMode(NavigatorUtil.isMobile()
+					|| NavigatorUtil.isMacOS())
+				? StringTemplate.screenReaderAscii
+				: StringTemplate.screenReaderUnicode;
 	}
 }
