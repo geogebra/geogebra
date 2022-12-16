@@ -245,6 +245,33 @@ public class AlgebraItem {
 	}
 
 	/**
+	 *
+	 * @param element geoElement
+	 * @param template String template which should be used for the latex preview formula
+	 * @return Latex string for the input preview
+	 */
+	public static String getPreviewLatexForGeoElement(GeoElement element, StringTemplate template) {
+		String latex = getPreviewFormula(element, template);
+
+		if (latex != null) {
+			return latex;
+		}
+
+		//APPS-4553 Logic from RadioTreeItem.getTextForEditing() for consistency
+		if (needsPacking(element)) {
+			return element.getLaTeXDescriptionRHS(false, StringTemplate.numericLatex);
+		} else if (!element.isAlgebraLabelVisible()) {
+			return element.getDefinition(StringTemplate.numericLatex);
+		}
+
+		boolean substituteNumbers = element instanceof GeoNumeric && element.isSimple();
+		return element.getLaTeXAlgebraDescriptionWithFallback(
+				substituteNumbers
+						|| (element instanceof GeoNumeric && element.isSimple()),
+				StringTemplate.numericLatex, true);
+	}
+
+	/**
 	 * @param geo1
 	 *            element
 	 * @param builder
