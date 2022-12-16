@@ -2,7 +2,13 @@ package org.geogebra.common.gui.view.algebra.contextmenu.impl;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.TreeSet;
+
+import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -10,7 +16,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,8 +55,8 @@ public class CreateSliderTest extends BaseSymbolicTest {
 		GeoSymbolic symbolic = add("45°");
 		createSlider.execute(symbolic);
 		GeoAngle angle = (GeoAngle) lookup(Unicode.alpha + "");
-		Assert.assertTrue(DoubleUtil.isEqual(angle.getIntervalMin(), 0));
-		Assert.assertTrue(DoubleUtil.isEqual(angle.getIntervalMax(), 2 * Math.PI));
+		assertTrue(DoubleUtil.isEqual(angle.getIntervalMin(), 0));
+		assertTrue(DoubleUtil.isEqual(angle.getIntervalMax(), 2 * Math.PI));
 	}
 
 	@Test
@@ -101,7 +106,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 
 		app.setXML(app.getXML(), true);
 		GeoNumeric element = (GeoNumeric) lookup("a");
-		Assert.assertTrue(element.isShowingExtendedAV());
+		assertTrue(element.isShowingExtendedAV());
 	}
 
 	@Test
@@ -114,5 +119,16 @@ public class CreateSliderTest extends BaseSymbolicTest {
 
 		GeoNumeric numeric = (GeoNumeric) lookup("b");
 		assertThat(numeric.isSliderable(), is(true));
+	}
+
+	@Test
+	public void testAutoCreateSlider() {
+		Variable var = new Variable(kernel, "n");
+		Traversing.ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
+				this.kernel, new TreeSet<>(), null);
+		kernel.getConstruction().setSuppressLabelCreation(true);
+		var.traverse(replacer);
+		GeoElement geo = kernel.lookupLabel("n");
+		assertNotNull(geo);
 	}
 }
