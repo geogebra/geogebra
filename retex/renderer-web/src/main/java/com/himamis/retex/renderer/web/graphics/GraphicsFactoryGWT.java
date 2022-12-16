@@ -41,7 +41,11 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web.graphics;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
@@ -57,6 +61,9 @@ import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
 public class GraphicsFactoryGWT extends GraphicsFactory {
+
+	private static final int MAX_CACHED_IMAGES = 50;
+	private Map<String, HTMLImageElement> cache;
 
 	@Override
 	public BasicStroke createBasicStroke(double width, int cap, int join,
@@ -75,10 +82,23 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 		return new ImageW(canvas, width, height, type);
 	}
 
+	@Override
 	public Image createImage(String base64, int width, int height) {
-		HTMLImageElement img = (HTMLImageElement) DomGlobal.document.createElement("img");
-		img.src = base64;
+		if (cache == null) {
+			// linked so that we can easily remove oldest
+			cache = new LinkedHashMap<>();
+		}
+		HTMLImageElement img = cache.computeIfAbsent(base64, this::createImageElement);
+		if (cache.size() > MAX_CACHED_IMAGES) {
+			cache.remove(cache.keySet().iterator().next());
+		}
 		return new ImageWImg(img, width, height);
+	}
+
+	private HTMLImageElement createImageElement(String url) {
+		HTMLImageElement el = (HTMLImageElement) DomGlobal.document.createElement("img");
+		el.src = url;
+		return el;
 	}
 
 	@Override
