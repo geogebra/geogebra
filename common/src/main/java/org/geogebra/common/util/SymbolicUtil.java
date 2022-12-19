@@ -1,10 +1,8 @@
 package org.geogebra.common.util;
 
-import org.apache.commons.math3.analysis.function.Exp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -154,8 +152,8 @@ public class SymbolicUtil {
 			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
 				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
 			}
-			((HasSymbolicMode) geo).setSymbolicMode(
-					!((HasSymbolicMode) geo).isSymbolicMode(), true);
+			HasSymbolicMode hasSymbolicGeo = (HasSymbolicMode) geo;
+			hasSymbolicGeo.setSymbolicMode(!hasSymbolicGeo.isSymbolicMode(), true);
 
 			if (geo instanceof GeoSymbolic) {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
@@ -170,7 +168,7 @@ public class SymbolicUtil {
 			}
 
 			geo.updateRepaint();
-			return ((HasSymbolicMode) geo).isSymbolicMode();
+			return hasSymbolicGeo.isSymbolicMode();
 
 		}
 		return false;

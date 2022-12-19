@@ -36,23 +36,27 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class AlgebraItem {
 
+	public enum CASOutputType {
+		NUMERIC, SYMBOLIC
+	}
+
 	/**
 	 * @param geo
 	 *            element
 	 * @return arrow or approx, depending on symbolic/numeric nature of the
 	 *         element
 	 */
-	public static String getOutputPrefix(GeoElement geo) {
+	public static CASOutputType getCASOutputType(GeoElement geo) {
 		if (geo instanceof HasSymbolicMode
 				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
 			if (!(geo.getParentAlgorithm() instanceof AlgoSolve)
 					|| ((AlgoSolve) geo.getParentAlgorithm())
 							.getClassName() == Commands.NSolve) {
-				return Unicode.CAS_OUTPUT_NUMERIC + "";
+				return CASOutputType.NUMERIC;
 			}
 		}
 
-		return getSymbolicPrefix(geo.getKernel());
+		return CASOutputType.SYMBOLIC;
 	}
 
 	/**
@@ -606,6 +610,11 @@ public class AlgebraItem {
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
 
+	/**
+	 * Return true if the geo element has an output value that is a fraction
+	 * @param geo element
+	 * @return
+	 */
 	public static boolean evaluatesToFraction(GeoElement geo) {
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
