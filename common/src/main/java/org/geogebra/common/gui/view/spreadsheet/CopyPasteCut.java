@@ -329,15 +329,14 @@ public abstract class CopyPasteCut {
 			// sort according to the construction index
 			// so that objects are pasted in the correct order
 			Arrays.sort(constructionIndexes, 0, count, getComparator());
-
+			RelativeCopy relativeCopy = new RelativeCopy(kernel);
 			// do the pasting
 			for (int i = 0; i < count; i++) {
 				Record r = constructionIndexes[i];
 				int ix = r.getx1();
 				int iy = r.gety1();
-				values2[ix][iy] = RelativeCopy.doCopyNoStoringUndoInfo0(kernel,
-						app, values1[ix][iy], values2[ix][iy], r.getx2(),
-						r.gety2());
+				values2[ix][iy] = relativeCopy.doCopyNoStoringUndoInfo0(values1[ix][iy],
+						values2[ix][iy], r.getx2(), r.gety2());
 
 			}
 
@@ -459,6 +458,7 @@ public abstract class CopyPasteCut {
 			}
 			GeoElementND[][] values2 = new GeoElement[data.length][];
 			int maxLen = -1;
+			RelativeCopy relativeCopy = new RelativeCopy(kernel);
 			for (int row = row1; row < row1 + data.length; ++row) {
 				if (row < 0 || row > maxRow) {
 					continue;
@@ -496,10 +496,9 @@ public abstract class CopyPasteCut {
 					} else {
 						GeoElement value0 = RelativeCopy.getValue(app, column,
 								row);
-						values2[iy][ix] = RelativeCopy
+						values2[iy][ix] = relativeCopy
 								.prepareAddingValueToTableNoStoringUndoInfo(
-										kernel, app, data[iy][ix], value0,
-										column, row, true);
+										data[iy][ix], value0, column, row, true);
 						// values2[iy][ix].setAuxiliaryObject(values2[iy][ix].isGeoNumeric());
 						values2[iy][ix].setAuxiliaryObject(true);
 

@@ -1,11 +1,13 @@
 package org.geogebra.common.gui.view.spreadsheet;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.test.TestErrorHandler;
 import org.junit.Test;
 
 public class RelativeCopyTest extends BaseUnitTest {
@@ -29,5 +31,13 @@ public class RelativeCopyTest extends BaseUnitTest {
 		new RelativeCopy(getKernel()).doDragCopy(0, 0, 0, 0,
 				0, 1, 0, 1);
 		assertEquals(lookup("A2").getShowObjectCondition(), b);
+	}
+
+	@Test
+	public void numericCopy() {
+		add("A1=1");
+		new RelativeCopy(getKernel(), TestErrorHandler.INSTANCE).doDragCopy(0, 0, 0, 0,
+				0, 1, 0, 1);
+		assertThat(lookup("A2"), hasValue("1"));
 	}
 }
