@@ -89,7 +89,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		btnSymbolic.addStyleName("symbolicButton");
 
-		if (AlgebraItem.getCASOutputType((geo)) == AlgebraItem.CASOutputType.NUMERIC) {
+		if (AlgebraItem.getCASOutputType(geo) == AlgebraItem.CASOutputType.NUMERIC) {
 			btnSymbolic.setSelected(false);
 		} else {
 			btnSymbolic.setSelected(true);
