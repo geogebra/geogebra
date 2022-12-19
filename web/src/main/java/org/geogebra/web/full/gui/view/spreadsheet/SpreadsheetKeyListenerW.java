@@ -51,6 +51,12 @@ public class SpreadsheetKeyListenerW
 
 	@Override
 	public void onKeyDown(KeyDownEvent e) {
+		if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
+			app.moveFocusToLastWidget();
+			table.setSelection(null);
+			table.selectionChanged();
+			return; // quit before we stop propagation
+		}
 		e.stopPropagation();
 		GlobalKeyDispatcherW.setDownKeys(e);
 		// cancel as this may prevent the keyPress in some browsers
