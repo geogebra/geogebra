@@ -29,8 +29,6 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.SymbolicUtil;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 /**
  * Utitlity class for AV items
  */

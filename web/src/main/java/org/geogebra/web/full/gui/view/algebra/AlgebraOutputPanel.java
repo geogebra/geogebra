@@ -190,7 +190,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		return true;
 	}
-	
+
 	private String getNumericPrefix() {
 		return Unicode.CAS_OUTPUT_NUMERIC + "";
 	}
