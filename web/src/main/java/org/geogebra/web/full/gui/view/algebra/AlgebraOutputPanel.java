@@ -190,17 +190,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		return true;
 	}
-
-	private String getOutputPrefix(GeoElement geo) {
-		switch (AlgebraItem.getCASOutputType(geo)) {
-		case SYMBOLIC:
-			return getSymbolicPrefix(geo.getKernel());
-		case NUMERIC:
-			return getNumericPrefix();
-		}
-		return "";
-	}
-
+	
 	private String getNumericPrefix() {
 		return Unicode.CAS_OUTPUT_NUMERIC + "";
 	}

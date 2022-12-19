@@ -55,7 +55,6 @@ public class AlgebraItem {
 				return CASOutputType.NUMERIC;
 			}
 		}
-
 		return CASOutputType.SYMBOLIC;
 	}
 
@@ -207,10 +206,8 @@ public class AlgebraItem {
 		if ("".equals(element.getDefinition(StringTemplate.defaultTemplate))) {
 			duplicate = element.getValueForInputBar();
 		} else {
-			duplicate = element
-					.getDefinitionNoLabel(StringTemplate.editorTemplate);
+			duplicate = element.getDefinitionNoLabel(StringTemplate.editorTemplate);
 		}
-
 		return duplicate;
 	}
 
@@ -232,7 +229,6 @@ public class AlgebraItem {
 				outputText = element.getAlgebraDescriptionRHSLaTeX();
 			}
 		}
-
 		return outputText;
 	}
 
@@ -600,9 +596,9 @@ public class AlgebraItem {
 	}
 
 	/**
-	 * Return true if the geo element has an output value that is a fraction
+	 * Check if a geo element has an output value that is a fraction.
 	 * @param geo element
-	 * @return
+	 * @return `true` if the geo element has an output value that is a fraction
 	 */
 	public static boolean evaluatesToFraction(GeoElement geo) {
 		if (geo instanceof GeoSymbolic) {
