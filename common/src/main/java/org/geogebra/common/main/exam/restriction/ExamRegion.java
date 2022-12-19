@@ -26,6 +26,22 @@ public enum ExamRegion {
 			// no specific restrictions
 		}
 	},
+	BAYERN_CAS() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "Bayern CAS Abitur";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "Bayern";
+		}
+
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+			model.setSubAppCodes(G3D_APPCODE);
+		}
+	},
 	NIEDERSACHSEN() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
