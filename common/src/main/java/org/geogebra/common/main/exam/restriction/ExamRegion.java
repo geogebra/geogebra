@@ -41,7 +41,7 @@ public enum ExamRegion {
 
 		@Override
 		public String getShortDisplayName(Localization loc, AppConfig config) {
-			return "Bayern";
+			return "Bayern CAS Abitur";
 		}
 
 		@Override
