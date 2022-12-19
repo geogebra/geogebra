@@ -247,11 +247,10 @@ public class AlgebraItem {
 	/**
 	 *
 	 * @param element geoElement
-	 * @param template String template which should be used for the latex preview formula
 	 * @return Latex string for the input preview
 	 */
-	public static String getPreviewLatexForGeoElement(GeoElement element, StringTemplate template) {
-		String latex = getPreviewFormula(element, template);
+	public static String getPreviewLatexForGeoElement(GeoElement element) {
+		String latex = getPreviewFormula(element, StringTemplate.numericLatex);
 
 		if (latex != null) {
 			return latex;
