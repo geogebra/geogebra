@@ -40,6 +40,7 @@ import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
@@ -1279,6 +1280,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
+
+		app.updateKeyBoardField(this);
 	}
 
 	@Override
