@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -88,8 +89,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		btnSymbolic.addStyleName("symbolicButton");
 
-		if ((Unicode.CAS_OUTPUT_NUMERIC + "")
-				.equals(AlgebraItem.getOutputPrefix(geo))) {
+		if (AlgebraItem.getCASOutputType((geo)) == AlgebraItem.CASOutputType.NUMERIC) {
 			btnSymbolic.setSelected(false);
 		} else {
 			btnSymbolic.setSelected(true);
@@ -156,9 +156,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 		clear();
 		if (AlgebraItem.shouldShowSymbolicOutputButton(geo1)) {
-			if (AlgebraItem.getOutputPrefix(geo1)
-					.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
-				addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
+			if (AlgebraItem.getCASOutputType(geo1) == AlgebraItem.CASOutputType.NUMERIC) {
+				addPrefixLabel(getNumericPrefix(), latex);
 			} else {
 				addArrowPrefix();
 			}
@@ -190,6 +189,31 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 
 		return true;
+	}
+
+	private String getOutputPrefix(GeoElement geo) {
+		switch (AlgebraItem.getCASOutputType(geo)) {
+		case SYMBOLIC:
+			return getSymbolicPrefix(geo.getKernel());
+		case NUMERIC:
+			return getNumericPrefix();
+		}
+		return "";
+	}
+
+	private String getNumericPrefix() {
+		return Unicode.CAS_OUTPUT_NUMERIC + "";
+	}
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @return symbolic prefix (depends on RTL/LTR)
+	 */
+	private String getSymbolicPrefix(Kernel kernel) {
+		return kernel.getLocalization().rightToLeftReadingOrder
+				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
+				: Unicode.CAS_OUTPUT_PREFIX + "";
 	}
 
 	/**

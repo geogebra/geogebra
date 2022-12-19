@@ -180,17 +180,6 @@ public class AlgebraItem {
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
-	 * @return symbolic prefix (depends on RTL/LTR)
-	 */
-	public static String getSymbolicPrefix(Kernel kernel) {
-		return kernel.getLocalization().rightToLeftReadingOrder
-				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
-				: Unicode.CAS_OUTPUT_PREFIX + "";
-	}
-
-	/**
 	 * @param geo
 	 *            element
 	 * @return whether element is part of packed output (including header)
