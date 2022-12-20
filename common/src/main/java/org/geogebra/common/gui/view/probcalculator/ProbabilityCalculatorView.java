@@ -622,8 +622,6 @@ public abstract class ProbabilityCalculatorView
 			xLow = getDependentNumber(lowPlusOffset).getNumber();
 			xMin = xLow;
 			xMax = xHigh.getNumber();
-			cons.removeFromConstructionList(xMax.getParentAlgorithm());
-			cons.removeFromConstructionList(xMin.getParentAlgorithm());
 		}
 
 		if (isTwoTailedMode()) {
@@ -799,8 +797,8 @@ public abstract class ProbabilityCalculatorView
 	 * Creates the integral graph by the given mode.
 	 */
 	protected void createIntegral() {
-		GeoNumberValue xLowOutput = getXOutputFrom(xAxis.lowPoint());
-		GeoNumberValue xHighOutput = getXOutputFrom(xAxis.highPoint());
+		GeoNumberValue xLowOutput = getXOutputFrom(xAxis.getLowExpression());
+		GeoNumberValue xHighOutput = getXOutputFrom(xAxis.getHighExpression());
 		if (isTwoTailedMode()) {
 			GeoNumeric minX = new GeoNumeric(cons, Double.NEGATIVE_INFINITY);
 			GeoNumeric maxX = new GeoNumeric(cons, Double.POSITIVE_INFINITY);
@@ -811,6 +809,7 @@ public abstract class ProbabilityCalculatorView
 			addTwoTailedGraph();
 		} else {
 			integral = createIntegral(xLowOutput, xHighOutput);
+			setConditionToShow(integral);
 			removeTwoTailedGraph();
 		}
 	}
@@ -856,7 +855,6 @@ public abstract class ProbabilityCalculatorView
 
 		AlgoIntegralDefinite algoIntegral = new AlgoIntegralDefinite(
 				cons, (GeoFunction) densityCurve, low, high, f);
-		setConditionToShow(algoIntegral);
 		cons.removeFromConstructionList(algoIntegral);
 
 		GeoElement output = algoIntegral.getOutput(0);
@@ -869,20 +867,19 @@ public abstract class ProbabilityCalculatorView
 		return output;
 	}
 
-	private void setConditionToShow(AlgoIntegralDefinite algoIntegral) {
+	private void setConditionToShow(GeoElement integral) {
 		AlgoDependentBoolean cond = new AlgoDependentBoolean(kernel.getConstruction(),
-				new ExpressionNode(kernel, low, Operation.LESS_EQUAL, high));
+				new ExpressionNode(kernel, xAxis.getLowExpression(), Operation.LESS_EQUAL,
+						xAxis.getHighExpression()));
 		try {
-			algoIntegral.getOutput(0).setShowObjectCondition(cond.getGeoBoolean());
+			integral.setShowObjectCondition(cond.getGeoBoolean());
 		} catch (CircularDefinitionException e) {
 			// cannot happen because condition is not depending on integral
 		}
 	}
 
-	private GeoNumberValue getXOutputFrom(GeoPoint point) {
-		ExpressionNode node = new ExpressionNode(kernel, point,
-				Operation.XCOORD, null);
-		AlgoDependentNumber x = new AlgoDependentNumber(cons, node,
+	private GeoNumberValue getXOutputFrom(ExpressionNode pointCoord) {
+		AlgoDependentNumber x = new AlgoDependentNumber(cons, pointCoord,
 				false);
 		cons.removeFromConstructionList(x);
 		return (GeoNumberValue) x.getOutput(0);
