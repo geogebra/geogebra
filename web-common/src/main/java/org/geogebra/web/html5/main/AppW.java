@@ -3621,4 +3621,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				? StringTemplate.screenReaderAscii
 				: StringTemplate.screenReaderUnicode;
 	}
+
+	@Override
+	public void resetCommandDict() {
+		super.resetCommandDict();
+		setLabels(); // rebuilds input help panel
+	}
 }
