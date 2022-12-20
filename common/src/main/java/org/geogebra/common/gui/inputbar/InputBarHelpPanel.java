@@ -51,7 +51,7 @@ public class InputBarHelpPanel {
 	 *            category index
 	 * @return commands tree map
 	 */
-	final static public TreeSet<String> getCommandTreeMap(
+	static public TreeSet<String> getCommandTreeMap(
 			App app, Comparator<String> comparator, int index) {
 
 		LowerCaseDictionary[] subDict = app.getSubCommandDictionary();
@@ -62,7 +62,7 @@ public class InputBarHelpPanel {
 
 		TreeSet<String> cmdTree = new TreeSet<>(comparator);
 
-		Iterator<?> it = subDict[index].getIterator();
+		Iterator<String> it = subDict[index].getIterator();
 		while (it.hasNext()) {
 			String cmd = subDict[index].get(it.next());
 			if (cmd != null && cmd.length() > 0) {
@@ -80,13 +80,13 @@ public class InputBarHelpPanel {
 	 *            String comparator
 	 * @return all commands tree set
 	 */
-	final static public TreeSet<String> getAllCommandsTreeSet(App app,
+	static public TreeSet<String> getAllCommandsTreeSet(App app,
 			Comparator<String> comparator) {
 
 		TreeSet<String> treeSet = new TreeSet<>(comparator);
 
 		LowerCaseDictionary dict = app.getCommandDictionary();
-		Iterator<?> it = dict.getIterator();
+		Iterator<String> it = dict.getIterator();
 		while (it.hasNext()) {
 			String cmdName = dict.get(it.next());
 			if (cmdName != null && cmdName.length() > 0) {
