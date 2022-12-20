@@ -194,11 +194,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 		return Unicode.CAS_OUTPUT_NUMERIC + "";
 	}
 
-//	private String getSymbolicPrefix(Kernel kernel) {
-//		return kernel.getLocalization().rightToLeftReadingOrder
-//				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
-//				: Unicode.CAS_OUTPUT_PREFIX + "";
-//	}
+	/*
+	private String getSymbolicPrefix(Kernel kernel) {
+		return kernel.getLocalization().rightToLeftReadingOrder
+				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
+				: Unicode.CAS_OUTPUT_PREFIX + "";
+	}
+	*/
 
 	/**
 	 * @param text
