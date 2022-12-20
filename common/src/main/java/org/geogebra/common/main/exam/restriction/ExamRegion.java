@@ -70,6 +70,7 @@ public enum ExamRegion {
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setSubAppCodes(G3D_APPCODE);
+			model.setCommandFilter(CommandFilterFactory.createBayernCasFilter());
 		}
 
 		@Override
