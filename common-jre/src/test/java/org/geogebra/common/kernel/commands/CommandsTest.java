@@ -1712,7 +1712,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFractionText() {
-		t("FractionText[ 42 ]", "42");
+		t("FractionText[ 4/6 ]", " \\frac{ 2 }{ 3 } ");
+		t("FractionText[ -4/6 ]", " \\frac{ -2 }{ 3 } ");
 		t("FractionText[ (1,1) ]", "{ \\left( 1,1 \\right) }");
 	}
 
