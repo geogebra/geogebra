@@ -49,33 +49,12 @@ public enum ExamRegion {
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setSubAppCodes(G3D_APPCODE);
-		}
-
-		@Override
-		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			model.setDefaultAppCode(CAS_APPCODE);
-		}
-	},
-	NIEDERSACHSEN() {
-		@Override
-		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Niedersachsen Abitur";
-		}
-
-		@Override
-		public String getShortDisplayName(Localization loc, AppConfig config) {
-			return "Niedersachsen";
-		}
-
-		@Override
-		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(G3D_APPCODE);
 			model.setCommandFilter(CommandFilterFactory.createBayernCasFilter());
 		}
 
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			model.setDefaultAppCode(GRAPHING_APPCODE);
+			model.setDefaultAppCode(CAS_APPCODE);
 		}
 	},
 	MMS() {
@@ -98,6 +77,27 @@ public enum ExamRegion {
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
 			model.setDefaultAppCode(CAS_APPCODE);
+		}
+	},
+	NIEDERSACHSEN() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "Niedersachsen Abitur";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "Niedersachsen";
+		}
+
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+			model.setSubAppCodes(G3D_APPCODE);
+		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			model.setDefaultAppCode(GRAPHING_APPCODE);
 		}
 	};
 
