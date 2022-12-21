@@ -51,7 +51,7 @@ public final class RegressionSpecification {
 			addSpec(Regression.EXP, 0, "a \\cdot e^{b\\ x}", "ab");
 			addSpec(Regression.GROWTH, 0, "a \\cdot b^x", "ab");
 			addSpec(Regression.SIN, 0, "a \\cdot \\sin(b\\ x + c) + d", "dabc");
-			addSpec(Regression.LOGISTIC, 0, "\\frac{a}{1 + b\\cdot e^{-c\\ x}}", "bac");
+			addSpec(Regression.LOGISTIC, 0, "\\frac{a}{1 + b\\cdot e^{-c\\ x}}", "bca");
 		}
 		return specs.stream().filter(spec -> spec.coeffOrdering.length() <= listSize)
 				.collect(Collectors.toList());
