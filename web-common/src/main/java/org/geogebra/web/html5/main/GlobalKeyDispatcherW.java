@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -27,6 +28,7 @@ import com.google.gwt.user.client.EventListener;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
+import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Handles keyboard events.
@@ -37,6 +39,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 
+	private static boolean rightAltDown = false;
+
+	private static boolean leftAltDown = false;
+
 	private boolean escPressed = false;
 
 	/**
@@ -44,6 +50,20 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public static boolean getControlDown() {
 		return controlDown;
+	}
+
+	/**
+	 * @return whether rightAlt is pressed
+	 */
+	public static boolean isRightAltDown() {
+		return rightAltDown;
+	}
+
+	/**
+	 * @return whether leftAlt is pressed
+	 */
+	public static boolean isLeftAltDown() {
+		return leftAltDown;
 	}
 
 	/**
@@ -61,6 +81,23 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public static void setDownKeys(KeyEvent<? extends EventHandler> ev) {
 		setDownKeys(ev.isControlKeyDown(), ev.isShiftKeyDown());
+	}
+
+	/**
+	 * setting left & right alt flags
+	 * @param ev event
+	 * @param down flag indicating if key was down or released
+	 */
+	public static void setDownAltKeys(KeyEvent<? extends EventHandler> ev, boolean down) {
+		if (MathFieldW.isRightAlt(ev.getNativeEvent())) {
+			rightAltDown = down;
+		}
+		if (MathFieldW.isLeftAlt(ev.getNativeEvent())) {
+			if (leftAltDown != down) {
+				Log.warn("Left alt down: " + down);
+			}
+			leftAltDown = down;
+		}
 	}
 
 	/**
