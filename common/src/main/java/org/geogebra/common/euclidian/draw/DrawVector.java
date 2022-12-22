@@ -33,6 +33,8 @@ import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.VectorHeadStyle;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -53,15 +55,15 @@ public class DrawVector extends Drawable implements Previewable {
 	private boolean traceDrawingNeeded = false;
 
 	private GLine2D line;
-	private double[] coordsA = new double[2];
-	private double[] coordsB = new double[2];
-	private double[] coordsV = new double[2];
+	private final double[] coordsA = new double[2];
+	private final double[] coordsB = new double[2];
+	private final double[] coordsV = new double[2];
 	private GGeneralPath gp; // for arrow
 	private boolean arrowheadVisible;
 	private boolean lineVisible;
 	private ArrayList<GeoPointND> points;
-	private GPoint2D endPoint = new GPoint2D();
-	private GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
+	private final GPoint2D endPoint = new GPoint2D();
+	private final GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 
 	/**
 	 * Creates new DrawVector
@@ -254,17 +256,45 @@ public class DrawVector extends Drawable implements Previewable {
 		if (isVisible) {
 
 			if (length > 0) {
-				coordsV[0] /= 4.0;
-				coordsV[1] /= 4.0;
-
-				gp.moveTo(coordsB[0], coordsB[1]); // end point
-				gp.lineTo(coordsF[0] - coordsV[1], coordsF[1] + coordsV[0]);
-				gp.lineTo(coordsF[0] + coordsV[1], coordsF[1] - coordsV[0]);
-				gp.closePath();
+				drawArrow(coordsF);
 			}
 
 			arrowheadVisible = onscreenB || view.intersects(gp);
 		}
+	}
+
+	private void drawArrow(double[] coordsF) {
+		coordsV[0] /= 4.0;
+		coordsV[1] /= 4.0;
+		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
+
+		double x = coordsF[0];
+		double y = coordsF[1];
+		int lineThickness = geo.getLineThickness();
+		double arrowSideX = x - lineThickness;
+
+		gp.moveTo(x, y); // end point
+		gp.lineTo(arrowSideX, y - lineThickness);
+		gp.closePath();
+//
+//		switch (headStyle) {
+//
+//		case DEFAULT:
+//			gp.moveTo(x, y); // end point
+//			gp.lineTo(coordsF[0] - coordsV[1], coordsF[1] + coordsV[0]);
+//			gp.lineTo(coordsF[0] + coordsV[1], coordsF[1] - coordsV[0]);
+//			break;
+//		case ARROW:
+//			gp.moveTo(arrowSideX, y - lineThickness);
+//			gp.lineTo(x, y); // end point
+//			break;
+//		case ARROW_FILLED:
+//			gp.lineTo(arrowSideX, y - lineThickness);
+//			gp.closePath();
+//			break;
+//		}
+//
+//		gp.closePath();
 	}
 
 	@Override
@@ -279,7 +309,7 @@ public class DrawVector extends Drawable implements Previewable {
 			}
 
 			if (isHighlighted()) {
-				g2.setPaint(((GeoElement) v).getSelColor());
+				g2.setPaint(v.getSelColor());
 				g2.setStroke(selStroke);
 				if (lineVisible) {
 					g2.draw(line);
@@ -297,7 +327,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 			if (labelVisible) {
 				g2.setFont(view.getFontVector());
-				g2.setPaint(((GeoElement) v).getLabelColor());
+				g2.setPaint(v.getLabelColor());
 				drawLabel(g2);
 			}
 		}
