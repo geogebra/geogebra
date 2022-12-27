@@ -135,7 +135,7 @@ public class AlgebraItemTest extends BaseUnitTest {
         getApp().setGraphingConfig();
         getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_AUSTRIAN);
         GeoPoint point = getKernel().getAlgoDispatcher().point(1, 2, false);
-        assertThat(AlgebraItem.getPreviewFormula(point, StringTemplate.latexTemplate),
+        assertThat(AlgebraItem.getPreviewLatexForGeoElement(point),
                 endsWith("\\left(1 | 2 \\right)"));
     }
 

@@ -503,7 +503,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_VALUE);
 		t("1+1");
 		GeoElement geo = getGeo("a");
-		String previewFormula = AlgebraItem.getPreviewFormula(geo, StringTemplate.defaultTemplate);
+		String previewFormula = AlgebraItem.getPreviewLatexForGeoElement(geo);
 		assertEquals("\\text{a = 2}", previewFormula);
 	}
 

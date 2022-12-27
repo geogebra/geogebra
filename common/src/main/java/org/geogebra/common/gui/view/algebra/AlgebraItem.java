@@ -610,7 +610,7 @@ public class AlgebraItem {
 	 *            the GeoElement for what we need to get the preview for AV
 	 * @return the preview string for the given geoelement if there is any
 	 */
-	public static String getPreviewFormula(GeoElement element,
+	private static String getPreviewFormula(GeoElement element,
 			StringTemplate stringTemplate) {
 		Settings settings = element.getApp().getSettings();
 		int algebraStyle = settings.getAlgebra().getStyle();
