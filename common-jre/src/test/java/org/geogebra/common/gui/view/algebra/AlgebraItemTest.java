@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 
@@ -146,5 +147,20 @@ public class AlgebraItemTest extends BaseUnitTest {
         assertThat(AlgebraItem.isGeoFraction(fraction1), is(true));
         assertThat(AlgebraItem.isGeoFraction(fraction2), is(true));
         assertThat(AlgebraItem.isGeoFraction(solve), is(false));
+    }
+
+    @Test
+    public void testGetDefinitionReturnsLabeled() {
+        GeoElement element = add("A=(1,2)");
+        String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
+        assertThat(definition, is("A=(1,2)"));
+    }
+
+    @Test
+    public void testGetDefinitionReturnsUnalabeled() {
+        GeoElement element = add("A=(1,2)");
+        new LabelController().hideLabel(element);
+        String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
+        assertThat(definition, is("(1,2)"));
     }
 }

@@ -245,6 +245,16 @@ public class AlgebraItem {
 	}
 
 	/**
+	 * Returns the definition string for the geo element in the input row of the Algebra View.
+	 * @param element geo element
+	 * @return definition text in LaTeX
+	 */
+	public static String getDefinitionLatexForGeoElement(GeoElement element) {
+		return element.isAlgebraLabelVisible() ? element.getDefinitionForEditor() : element
+				.getDefinitionNoLabel(StringTemplate.editorTemplate);
+	}
+
+	/**
 	 *
 	 * @param element geoElement
 	 * @return Latex string for the input preview
