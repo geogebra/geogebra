@@ -255,9 +255,9 @@ public class AlgebraItem {
 	}
 
 	/**
-	 *
-	 * @param element geoElement
-	 * @return Latex string for the input preview
+	 * Returns the preview string for the geo element in the input row of the Algebra View.
+	 * @param element geo element
+	 * @return input preview string in LaTeX
 	 */
 	public static String getPreviewLatexForGeoElement(GeoElement element) {
 		String latex = getPreviewFormula(element, StringTemplate.numericLatex);
