@@ -157,7 +157,7 @@ public class AlgebraItemTest extends BaseUnitTest {
     }
 
     @Test
-    public void testGetDefinitionReturnsUnalabeled() {
+    public void testGetDefinitionReturnsUnlabeled() {
         GeoElement element = add("A=(1,2)");
         new LabelController().hideLabel(element);
         String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
