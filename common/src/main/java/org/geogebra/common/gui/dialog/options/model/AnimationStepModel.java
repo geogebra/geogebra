@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -27,7 +28,7 @@ public class AnimationStepModel extends TextPropertyModel {
 	}
 
 	@Override
-	public void updateProperties() {
+	public String getText() {
 
 		// check if properties have same values
 		GeoElement temp, geo0 = getGeoAt(0);
@@ -56,20 +57,20 @@ public class AnimationStepModel extends TextPropertyModel {
 			GeoElement stepGeo = GeoElement.as(step);
 			if (onlyAngles && (stepGeo == null
 					|| (!stepGeo.isLabelSet() && stepGeo.isIndependent()))) {
-				listener.setText(app.getKernel()
+				return app.getKernel()
 						.formatAngle(geo0.getAnimationStep(), highPrecision,
 								((GeoAngle) geo0)
 										.getAngleStyle() == AngleStyle.UNBOUNDED)
-						.toString());
+						.toString();
 			} else {
 				boolean autostep = false;
 				if (geo0.isGeoNumeric()) {
 					autostep = ((GeoNumeric) geo0).isAutoStep();
 				}
-				listener.setText(autostep ? "" : step.getLabel(highPrecision));
+				return autostep ? "" : step.getLabel(highPrecision);
 			}
 		} else {
-			listener.setText("");
+			return "";
 		}
 
 	}
@@ -97,7 +98,7 @@ public class AnimationStepModel extends TextPropertyModel {
 			} else if (value != null) {
 				geo.setAnimationStep(value);
 			}
-			geo.updateRepaint();
+			geo.updateVisualStyleRepaint(GProperty.COMBINED);
 		}
 		storeUndoInfo();
 	}

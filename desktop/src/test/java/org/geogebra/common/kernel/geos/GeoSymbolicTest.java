@@ -697,6 +697,21 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("f(x)"));
 	}
 
+	@Test
+	public void testNoFunctionVariableLabelInCommandWithNoFunctionOutput() {
+		GeoSymbolic function = createGeoWithHiddenLabel("x*x");
+		showLabel(function);
+		GeoSymbolic extremum = add("A = Extremum(f)");
+		assertTrue(extremum.getAlgebraDescriptionDefault().startsWith("A ="));
+		clean();
+
+		createGeoWithHiddenLabel("g(x)=x*ℯ^(-x)");
+		GeoSymbolic inflectionPoint = add("A = InflectionPoint(g)");
+		GeoSymbolic element = add("B = Element(A,1)");
+		assertTrue(inflectionPoint.getAlgebraDescriptionDefault().startsWith("A ="));
+		assertTrue(element.getAlgebraDescriptionDefault().startsWith("B ="));
+	}
+
 	private void testOutputLabel(String input, String outputStartsWith) {
 		GeoSymbolic geo = createGeoWithHiddenLabel(input);
 		assertTrue(geo.getTwinGeo() instanceof GeoFunction);

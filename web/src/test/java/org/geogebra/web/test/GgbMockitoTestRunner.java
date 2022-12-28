@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
 import com.himamis.retex.editor.web.ClickAdapterW;
+import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.ImageW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -63,6 +64,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Canvas.class);
         StubGenerator.replaceMethodWithMock(JLMContextHelper.class, "as",
                 JLMContext2d.class);
+        StubGenerator.replaceMethodWithMock(Graphics2DW.class, "initFontParser",
+                Void.class);
         StubGenerator.replaceMethodWithMock(GraphicsFactoryGWT.class, "createImage",
                 ImageW.class);
         StubGenerator.replaceMethodWithMock(RendererWithImplW.class, "getWebGLContext",

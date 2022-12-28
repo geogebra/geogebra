@@ -21,7 +21,6 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetModeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -90,7 +89,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private MyCellEditorW editor;
 
 	/** copy/paste utility */
-	private CopyPasteCut copyPasteCut;
+	private final CopyPasteCut copyPasteCut;
 
 	// protected SpreadsheetColumnControllerW.ColumnHeaderRenderer
 	// columnHeaderRenderer;
@@ -110,7 +109,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	private ArrayList<CellRange> selectedCellRanges;
+	private final ArrayList<CellRange> selectedCellRanges;
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
@@ -133,7 +132,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected HashSet<Integer> selectedColumnSet = new HashSet<>();
 	protected HashSet<Integer> selectedRowSet = new HashSet<>();
 
-	private int selectionType = MyTableInterface.CELL_SELECT;
+	private int selectionType;
 
 	private GColor selectionRectangleColor = SELECTED_RECTANGLE_COLOR;
 
@@ -153,10 +152,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
 	// after a repaint in MyTable.
-	private HashSet<GPoint> cellResizeHeightSet;
-	private HashSet<GPoint> cellResizeWidthSet;
+	private final HashSet<GPoint> cellResizeHeightSet;
+	private final HashSet<GPoint> cellResizeWidthSet;
 
-	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
+	private final ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
 	private boolean doRecordRowHeights = true;
 
 	private int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
@@ -189,11 +188,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private Grid upperLeftCorner;
 
-	private Grid upperRightCorner;
-
 	private FlowPanel headerRow;
-
-	private Grid lowerLeftCorner;
 
 	private FlowPanel ssGridContainer;
 
@@ -210,8 +205,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private boolean autoScrolls = true;
 
 	private boolean isSelectAll = false;
-	private boolean isSelectNone = false;
-	private GRectangle targetcellFrame;
 
 	private SpreadsheetController controller;
 
@@ -408,7 +401,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		s.setLeft(0, Unit.PX);
 
 		// ----- upper right corner
-		upperRightCorner = new Grid(1, 1);
+		Grid upperRightCorner = new Grid(1, 1);
 		upperRightCorner.setText(0, 0, "xxx");
 		upperRightCorner.getElement().addClassName(
 		        "geogebraweb-table-spreadsheet");
@@ -426,7 +419,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		s.setRight(0, Unit.PX);
 
 		// ----- lower left corner
-		lowerLeftCorner = new Grid(1, 1);
+		Grid lowerLeftCorner = new Grid(1, 1);
 		upperRightCorner.setText(0, 0, "9999");
 		lowerLeftCorner.getElement().addClassName(
 		        "geogebraweb-table-spreadsheet-lowerLeftCorner");
@@ -605,13 +598,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public SpreadsheetTableModel getModel() {
 		return tableModel;
-	}
-
-	/**
-	 * @return GWT widget
-	 */
-	public Grid getTableImpl() {
-		return ssGrid;
 	}
 
 	@Override
@@ -954,12 +940,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			selectedRowSet.clear();
 			selectedCellRanges.add(0, newSelection);
 		} else { // ctrl-select
-			/*
-			 * // return if we have already ctrl-selected this range for
-			 * (CellRange cr : selectedCellRanges) { if
-			 * (cr.equals(newSelection)){ Log.debug("reutrned"); return; } }
-			 */
-
 			// handle dragging
 			if (selectedCellRanges.get(0).hasSameAnchor(newSelection)) {
 				selectedCellRanges.remove(0);
@@ -991,15 +971,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
 		maxSelectionRow = newSelection.getMaxRow();
-
-		// newSelection.debug();
-		// printSelectionParameters();
-
-		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1)) {
-			setSelectNone(false);
-		}
-
-		// TODO if (changedAnchor && !isEditing()) view.updateFormulaBar();
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
@@ -1066,64 +1037,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		renderSelectionDeferred();
 		columnHeader.renderSelection();
 		rowHeader.renderSelection();
-
-		// ?//getColumnModel().getSelectionModel().setSelectionInterval(column,
-		// column);
-		// ?//getSelectionModel().setSelectionInterval(row, row);
-	}
-
-	/*
-	 * public void setSelectionRectangle(CellRange cr){
-	 * 
-	 * if (cr == null){ this.minSelectionColumn = -1; this.minSelectionRow = -1;
-	 * this.maxSelectionColumn = -1; this.maxSelectionRow = -1; return; }
-	 * 
-	 * this.minSelectionColumn = cr.getMinColumn(); this.minSelectionRow =
-	 * cr.getMinRow(); this.maxSelectionColumn = cr.getMaxColumn();
-	 * this.maxSelectionRow = cr.getMaxRow(); this.repaint();
-	 * 
-	 * }
-	 */
-
-	/*
-	 * public void setTraceSelectionRectangle() {
-	 * 
-	 * if (view.getSelectedTrace() == null) { cellFrame = null; } else {
-	 * 
-	 * int c1 = view.getSelectedTrace().traceColumn1; int r1 =
-	 * view.getSelectedTrace().traceRow1; int c2 =
-	 * view.getSelectedTrace().traceColumn2; int r2 =
-	 * view.getSelectedTrace().doRowLimit ? view.getSelectedTrace().traceRow2 :
-	 * getRowCount();
-	 * 
-	 * Point point1 = getPixel(c1,r1, true); Point point2 = getPixel(c2,r2,
-	 * false);
-	 * 
-	 * cellFrame.setFrameFromDiagonal(point1, point2);
-	 * 
-	 * // scroll to upper left corner of rectangle
-	 * scrollRectToVisible(table.getCellRect(r1,c1, true));
-	 * 
-	 * } repaint();
-	 * 
-	 * }
-	 */
-
-	/**
-	 * @param cellName
-	 *            cell name
-	 * @return whether a cell was selected
-	 */
-	public boolean setSelection(String cellName) {
-		if (cellName == null) {
-			return setSelection(-1, -1, -1, -1);
-		}
-
-		GPoint newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
-		if (newCell.x != -1 && newCell.y != -1) {
-			return setSelection(newCell.x, newCell.y);
-		}
-		return false;
 	}
 
 	@Override
@@ -1142,18 +1055,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            max column
 	 * @param r2
 	 *            max row
-	 * @return success
 	 */
-	public boolean setSelection(int c1, int r1, int c2, int r2) {
+	public void setSelection(int c1, int r1, int c2, int r2) {
 		CellRange cr = new CellRange(app, c1, r1, c2, r2);
-		if (!cr.isValid()) {
-			return false;
+		if (cr.isValid()) {
+			setSelection(cr);
 		}
-
-		// ArrayList<CellRange> list = new ArrayList<CellRange>();
-		// list.add(cr);
-
-		return setSelection(cr);
 	}
 
 	@Override
@@ -1302,20 +1209,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		anchorSelectionColumn = col0;
 		leadSelectionColumn = col1;
 		selectionChanged();
-	}
-
-	@Override
-	public boolean isSelectNone() {
-		return isSelectNone;
-	}
-
-	private void setSelectNone(boolean isSelectNone) {
-		this.isSelectNone = isSelectNone;
-
-		if (isSelectNone) {
-			setSelection(-1, -1, -1, -1);
-			// TODO//view.updateFormulaBar();
-		}
 	}
 
 	@Override
@@ -1525,17 +1418,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			return null;
 		}
 		return new Rectangle(min.x, min.y, max.x - min.x, max.y - min.y);
-	}
-
-	// target selection frame
-	// =============================
-
-	public GRectangle getTargetcellFrame() {
-		return targetcellFrame;
-	}
-
-	public void setTargetcellFrame(GRectangle targetcellFrame) {
-		this.targetcellFrame = targetcellFrame;
 	}
 
 	/**
@@ -2048,9 +1930,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		else {
-			// Clear the targetcellFrame and ensure the selection rectangle
 			// color is standard
-			targetcellFrame = null;
 			this.setSelectionRectangleColor(GColor.BLUE);
 		}
 
@@ -2502,42 +2382,42 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public void updateSelectionFrame(boolean visible, boolean showDragHandle,
 	        GPoint corner1, GPoint corner2) {
-
-		if (selectionFrame == null || corner1 == null || corner2 == null) {
+		if (selectionFrame == null) {
 			return;
 		}
-
-		int borderWidth = 2;
-
-		// forcing a hide/show is needed to make Chrome redraw
 		selectionFrame.setVisible(false);
+		if (!visible) {
+			blueDot.setVisible(false);
+		} else if (corner1 != null && corner2 != null) {
+			showSelectionFrame(corner1, corner2, showDragHandle);
+		}
+	}
 
-		if (visible) {
-			int x1 = Math.min(corner1.x, corner2.x);
-			int x2 = Math.max(corner1.x, corner2.x);
-			int y1 = Math.min(corner1.y, corner2.y);
-			int y2 = Math.max(corner1.y, corner2.y);
-			int h = y2 - y1 - 2 * borderWidth;
-			int w = x2 - x1 - 2 * borderWidth;
-			if (w >= 0 && h >= 0) {
-				int ssTop = gridPanel.getAbsoluteTop();
-				int ssLeft = gridPanel.getAbsoluteLeft();
+	private void showSelectionFrame(GPoint corner1, GPoint corner2, boolean showDragHandle) {
+		int borderWidth = 2;
+		int x1 = Math.min(corner1.x, corner2.x);
+		int x2 = Math.max(corner1.x, corner2.x);
+		int y1 = Math.min(corner1.y, corner2.y);
+		int y2 = Math.max(corner1.y, corner2.y);
+		int h = y2 - y1 - 2 * borderWidth;
+		int w = x2 - x1 - 2 * borderWidth;
+		if (w >= 0 && h >= 0) {
+			int ssTop = gridPanel.getAbsoluteTop();
+			int ssLeft = gridPanel.getAbsoluteLeft();
 
-				selectionFrame.setWidth(w + "px");
-				selectionFrame.setHeight(h + "px");
+			selectionFrame.setWidth(w + "px");
+			selectionFrame.setHeight(h + "px");
 
-				gridPanel.setWidgetPosition(selectionFrame, x1 - ssLeft,
-						y1 - ssTop);
+			gridPanel.setWidgetPosition(selectionFrame, x1 - ssLeft,
+					y1 - ssTop);
 
-				blueDot.setVisible(showDragHandle);
-				if (showDragHandle) {
-					gridPanel.setWidgetPosition(blueDot,
-							x2 - ssLeft - MyTableW.DOT_SIZE / 2 - 1,
-							y2 - ssTop - MyTableW.DOT_SIZE / 2 - 1);
-				}
-
-				selectionFrame.setVisible(true);
+			blueDot.setVisible(showDragHandle);
+			if (showDragHandle) {
+				gridPanel.setWidgetPosition(blueDot,
+						x2 - ssLeft - MyTableW.DOT_SIZE / 2 - 1,
+						y2 - ssTop - MyTableW.DOT_SIZE / 2 - 1);
 			}
+			selectionFrame.setVisible(true);
 		}
 	}
 

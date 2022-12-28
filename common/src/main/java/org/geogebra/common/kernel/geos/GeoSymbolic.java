@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -447,7 +448,8 @@ public class GeoSymbolic extends GeoElement
 			List<String> localVariables = getDefinition().getLocalVariables();
 			return localVariables.stream().map((var) -> new FunctionVariable(kernel, var))
 					.collect(Collectors.toList());
-		} else if (def instanceof Command && supportsVariables((Command) def)) {
+		} else if (def instanceof Command && shouldShowFunctionVariablesInOutputFor((Command) def)
+				&& !valueIsListOrPoint()) {
 			return collectVariables();
 		} else if (getDefinition().containsFreeFunctionVariable(null)) {
 			return collectVariables();
@@ -463,8 +465,12 @@ public class GeoSymbolic extends GeoElement
 		return Arrays.asList(functionVarCollector.buildVariables(kernel));
 	}
 
-	private boolean supportsVariables(Command command) {
-		return !Commands.Solutions.getCommand().equals(command.getName());
+	private static boolean shouldShowFunctionVariablesInOutputFor(Command command) {
+		return !Commands.Solutions.getCommand().equals(command.getName()); // APPS-1821, APPS-2190
+	}
+
+	private boolean valueIsListOrPoint() {
+		return value.unwrap() instanceof MyList || value.unwrap() instanceof MyVecNode; // APPS-4396
 	}
 
 	@Override
