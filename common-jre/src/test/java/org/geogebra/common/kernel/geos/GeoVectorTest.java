@@ -46,7 +46,7 @@ public class GeoVectorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGetXmlWithDefaultHead() {
+	public void testDefaultHeadShouldNotAppearInXml() {
 		GeoVector vector = addAvInput("v = (1, 2)");
 		assertThat(vector.getXML(), not(containsString("\t<headStyle")));
 	}

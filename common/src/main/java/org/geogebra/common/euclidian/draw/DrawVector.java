@@ -20,32 +20,27 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
-import org.geogebra.common.euclidian.clipping.ClipLine;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.geos.VectorHeadStyle;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.MyMath;
 
 /**
  * 
  * @author Markus
  */
-public class DrawVector extends Drawable implements Previewable {
+public class DrawVector extends Drawable implements Previewable, VectorVisibility {
 
 	private GeoVectorND v;
 	private GeoPointND P;
@@ -59,11 +54,12 @@ public class DrawVector extends Drawable implements Previewable {
 	private final double[] coordsB = new double[2];
 	private final double[] coordsV = new double[2];
 	private GGeneralPath gp; // for arrow
-	private boolean arrowheadVisible;
+	private boolean headVisible;
 	private boolean lineVisible;
 	private ArrayList<GeoPointND> points;
 	private final GPoint2D endPoint = new GPoint2D();
-	private final GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
+
+	private DrawVectorStyle style;
 
 	/**
 	 * Creates new DrawVector
@@ -77,8 +73,12 @@ public class DrawVector extends Drawable implements Previewable {
 		this.view = view;
 		this.v = v;
 		geo = (GeoElement) v;
-
+		createVectorStyle();
 		update();
+	}
+
+	private void createVectorStyle() {
+		this.style = new DrawDefaultVectorStyle(this, view);
 	}
 
 	/**
@@ -92,6 +92,7 @@ public class DrawVector extends Drawable implements Previewable {
 		this.points = points;
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_VECTOR);
+		createVectorStyle();
 		updatePreview();
 	}
 
@@ -178,124 +179,9 @@ public class DrawVector extends Drawable implements Previewable {
 	 * Sets the line and arrow of the vector.
 	 */
 	private void setArrow(double lineThickness) {
-		// screen coords of start and end point of vector
-		final boolean onscreenA = view.toScreenCoords(coordsA);
-		final boolean onscreenB = view.toScreenCoords(coordsB);
-		coordsV[0] = coordsB[0] - coordsA[0];
-		coordsV[1] = coordsB[1] - coordsA[1];
-
-		// calculate endpoint F at base of arrow
-
-		double factor = getFactor(lineThickness);
-
-		double length = MyMath.length(coordsV[0], coordsV[1]);
-
-		// decrease arrowhead size if it's longer than the vector
-		if (length < factor) {
-			factor = length;
-		}
-
-		if (length > 0.0) {
-			coordsV[0] = (coordsV[0] * factor) / length;
-			coordsV[1] = (coordsV[1] * factor) / length;
-		}
-		double[] coordsF = new double[2];
-		coordsF[0] = coordsB[0] - coordsV[0];
-		coordsF[1] = coordsB[1] - coordsV[1];
-
-		// set clipped line
-		if (line == null) {
-			line = AwtFactory.getPrototype().newLine2D();
-		}
-		lineVisible = true;
-
-		if (onscreenA && onscreenB) {
-			// A and B on screen
-			line.setLine(coordsA[0], coordsA[1], coordsF[0], coordsF[1]);
-		} else {
-			// A or B off screen
-			// clip at screen, that's important for huge coordinates
-			// check if any of vector is on-screen
-			GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
-					coordsA[1], coordsB[0], coordsB[1],
-					view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
-					view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
-					view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
-					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE,
-					tmpClipPoints);
-			if (clippedPoints == null) {
-				isVisible = false;
-				lineVisible = false;
-				arrowheadVisible = false;
-			} else {
-
-				// now re-clip at A and F
-				clippedPoints = ClipLine.getClipped(coordsA[0], coordsA[1],
-						coordsF[0], coordsF[1], -EuclidianStatic.CLIP_DISTANCE,
-						view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
-						-EuclidianStatic.CLIP_DISTANCE,
-						view.getHeight() + EuclidianStatic.CLIP_DISTANCE,
-						tmpClipPoints);
-				if (clippedPoints != null) {
-					line.setLine(clippedPoints[0].getX(),
-							clippedPoints[0].getY(), clippedPoints[1].getX(),
-							clippedPoints[1].getY());
-				} else {
-					lineVisible = false;
-				}
-			}
-		}
-
-		// add triangle if visible
-		if (gp == null) {
-			gp = AwtFactory.getPrototype().newGeneralPath();
-		} else {
-			gp.reset();
-		}
-
-		if (isVisible) {
-
-			if (length > 0) {
-				drawArrow(coordsF);
-			}
-
-			arrowheadVisible = onscreenB || view.intersects(gp);
-		}
+		style.update(coordsA, coordsB, coordsV, lineThickness);
 	}
 
-	private void drawArrow(double[] coordsF) {
-		coordsV[0] /= 4.0;
-		coordsV[1] /= 4.0;
-		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
-
-		double x = coordsF[0];
-		double y = coordsF[1];
-		int lineThickness = geo.getLineThickness();
-		double arrowSideX = x - lineThickness;
-
-		gp.moveTo(x, y); // end point
-		gp.lineTo(arrowSideX, y - lineThickness);
-		gp.closePath();
-//
-//		switch (headStyle) {
-//
-//		case DEFAULT:
-//			gp.moveTo(x, y); // end point
-//			gp.lineTo(coordsF[0] - coordsV[1], coordsF[1] + coordsV[0]);
-//			gp.lineTo(coordsF[0] + coordsV[1], coordsF[1] - coordsV[0]);
-//			break;
-//		case ARROW:
-//			gp.moveTo(arrowSideX, y - lineThickness);
-//			gp.lineTo(x, y); // end point
-//			break;
-//		case ARROW_FILLED:
-//			gp.lineTo(arrowSideX, y - lineThickness);
-//			gp.closePath();
-//			break;
-//		}
-//
-//		gp.closePath();
-	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
@@ -311,19 +197,15 @@ public class DrawVector extends Drawable implements Previewable {
 			if (isHighlighted()) {
 				g2.setPaint(v.getSelColor());
 				g2.setStroke(selStroke);
-				if (lineVisible) {
-					g2.draw(line);
-				}
+//				if (lineVisible) {
+//					g2.draw(line);
+//				}
 			}
 
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			if (lineVisible) {
-				g2.draw(line);
-			}
-			if (arrowheadVisible) {
-				g2.fill(gp);
-			}
+
+			style.draw(g2);
 
 			if (labelVisible) {
 				g2.setFont(view.getFontVector());
@@ -340,7 +222,7 @@ public class DrawVector extends Drawable implements Previewable {
 		if (lineVisible) {
 			g2.draw(line);
 		}
-		if (arrowheadVisible) {
+		if (headVisible) {
 			g2.fill(gp);
 		}
 	}
@@ -407,12 +289,7 @@ public class DrawVector extends Drawable implements Previewable {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
-			if (arrowheadVisible) {
-				g2.fill(gp);
-			}
-			if (lineVisible) {
-				g2.draw(line);
-			}
+			g2.fill(style.getShape());
 		}
 	}
 
@@ -423,20 +300,17 @@ public class DrawVector extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		return (lineVisible && line.intersects(x - 3, y - 3, 6, 6))
-				|| (arrowheadVisible && gp.intersects(x - 3, y - 3, 6, 6));
+		return style.getShape().intersects(x - 3, y - 3, 6, 6);
 	}
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
-		return (lineVisible && rect.contains(line.getBounds()))
-				|| (arrowheadVisible && rect.contains(gp.getBounds()));
+		return rect.contains(style.getShape().getBounds());
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return (lineVisible && line.intersects(rect))
-				|| (arrowheadVisible && gp.intersects(rect));
+		return rect.intersects(style.getShape().getBounds());
 	}
 
 	/**
@@ -444,21 +318,57 @@ public class DrawVector extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
-			return null;
-		}
-		GRectangle ret = null;
-		if (lineVisible && line != null) {
-			ret = line.getBounds();
-		}
+		return style.getShape().getBounds();
+		//		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
+//			return null;
+//		}
+//		GRectangle ret = null;
+//		if (lineVisible && line != null) {
+//			ret = line.getBounds();
+//		}
+//
+//		if (headVisible) {
+//			ret = (ret == null)
+//					? AwtFactory.getPrototype().newRectangle(gp.getBounds())
+//					: AwtFactory.getPrototype()
+//							.newRectangle(ret.union(gp.getBounds()));
+//		}
+//
+//		return ret;
+	}
 
-		if (arrowheadVisible) {
-			ret = (ret == null)
-					? AwtFactory.getPrototype().newRectangle(gp.getBounds())
-					: AwtFactory.getPrototype()
-							.newRectangle(ret.union(gp.getBounds()));
-		}
 
-		return ret;
+	@Override
+	public void setVisible(boolean visible) {
+		this.isVisible = visible;
+	}
+
+	@Override
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+	@Override
+	public void setLineVisible(boolean lineVisible) {
+		this.lineVisible = lineVisible;
+	}
+
+	@Override
+	public boolean isLineVisible() {
+		return lineVisible;
+	}
+
+	@Override
+	public void setHeadVisible(boolean headVisible) {
+		this.headVisible = headVisible;
+	}
+
+	@Override
+	public boolean isHeadVisible() {
+		return headVisible;
+	}
+
+	public GBasicStroke getObjStroke() {
+		return objStroke;
 	}
 }
