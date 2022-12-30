@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.main.AppD;
 
+import com.himamis.retex.editor.share.util.AltKeys;
+
 public class SpreadsheetKeyListenerD implements KeyListener {
 
 	private final AppD app;
@@ -398,7 +400,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 			//$FALL-THROUGH$
 		default:
 			if (!Character.isIdentifierIgnorable(e.getKeyChar())
-					&& !editor.isEditing() && !(ctrlDown || e.isAltDown())) {
+					&& !editor.isEditing() && isValidKeyCombination(e)) {
 				letterOrDigitTyped();
 			} else {
 				e.consume();
@@ -406,6 +408,14 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 			break;
 
 		}
+	}
+
+	private boolean isValidKeyCombination(KeyEvent e) {
+		return !e.isControlDown() && (!e.isAltDown() || isSpecialCharacter(e));
+	}
+
+	private boolean isSpecialCharacter(KeyEvent e) {
+		return AltKeys.isGeoGebraShortcut(e.getKeyCode(), e.isShiftDown(), false);
 	}
 
 	private void letterOrDigitTyped() {
