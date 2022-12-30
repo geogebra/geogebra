@@ -1099,7 +1099,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			case "normal":
 				return AppKeyboardType.SUITE;
 			case "notes":
-				return AppKeyboardType.MOW;
+				return AppKeyboardType.NOTES;
+			case "solver":
+				return AppKeyboardType.SOLVER;
 			default:
 				return AppKeyboardType.SCIENTIFIC;
 			}
