@@ -123,7 +123,7 @@ public class AlgoDependentEquationList extends AlgoElement
 
 			GeoElement element = kernel.getAlgebraProcessor()
 					.processEquation(eq, eq.wrap(), true,
-							new EvalInfo(false))[0];
+							new EvalInfo(false), null)[0];
 
 			if (element != null) {
 				list.add(element);

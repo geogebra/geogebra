@@ -99,7 +99,7 @@ public class AlgoTriangleCurve extends AlgoElement
 		eq.setForceImplicitPoly();
 		eq.initEquation();
 		boolean flag = cons.isSuppressLabelsActive();
-		dd = new AlgoDependentImplicitPoly(cons, eq, eq.wrap(), false);
+		dd = new AlgoDependentImplicitPoly(cons, eq, eq.wrap(), false, null);
 
 		cons.removeFromConstructionList(dd);
 		poly = ((AlgoElement) dd).getOutput()[0];

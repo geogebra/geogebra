@@ -253,7 +253,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 	@Override
 	public GeoElement[] processImplicitPoly(Equation equ,
-			ExpressionNode definition, EvalInfo info) {
+			ExpressionNode definition, EvalInfo info, ExpressionValue evaluatedDef) {
 
 		if (app.has(Feature.IMPLICIT_SURFACES) || equ.isForcedQuadric() || equ.isForcedPlane()) {
 			Polynomial lhs = equ.getNormalForm();
@@ -277,7 +277,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			}
 		}
 
-		return super.processImplicitPoly(equ, definition, info);
+		return super.processImplicitPoly(equ, definition, info, evaluatedDef);
 	}
 
 }

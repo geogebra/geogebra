@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -9,6 +10,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
@@ -300,6 +302,17 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("g:x + 1", "x + 1");
 		t("f + g", "?");
 		t("g + f", "?");
+	}
+
+	@Test
+	public void elementOfShouldBeRay() {
+		add("l1={Ray((0,0),(1,1)),Ray((1,2),(2,4))}");
+		add("a=Slider(1,2,1)");
+		GeoLine el = add("r=l1(a)");
+		assertEquals(el.getTypeString(), "Ray");
+		add("SetValue(a,2)");
+		assertThat(el, hasValue("-2x + y = 0"));
+		assertThat(el.getStartPoint(), hasValue("(1, 2)"));
 	}
 
 	@Test
