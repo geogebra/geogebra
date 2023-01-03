@@ -82,7 +82,7 @@ public class CommandFilterFactoryTest {
 
 	@Test
 	public void testBayernCasCommandFilter() {
-		filter = CommandFilterFactory.createMmsFilter();
+		filter = CommandFilterFactory.createBayernCasFilter();
 		assertAllowed(false, Commands.Plane);
 	}
 
