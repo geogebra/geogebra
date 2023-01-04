@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
@@ -14,25 +15,26 @@ import org.geogebra.common.util.MyMath;
 
 public class DrawDefaultVectorStyle implements DrawVectorStyle {
 
-	private GLine2D line;
+	private final GLine2D line;
 	private double[] coordsA;
 	private double[] coordsB;
 	private double[] coordsV;
-	private GGeneralPath gpArrow; // for arrow
+	private final GGeneralPath gpArrow;
 
-	private final DrawVector drawVector;
 	private final EuclidianView view;
 	private final VectorVisibility visibility;
 	private final GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 	private GArea area;
 
-	public DrawDefaultVectorStyle(DrawVector drawVector, EuclidianView view) {
-		this.drawVector = drawVector;
+	public DrawDefaultVectorStyle(VectorVisibility visibility, EuclidianView view) {
 		this.view = view;
-		this.visibility = drawVector;
+		this.visibility = visibility;
+		line = AwtFactory.getPrototype().newLine2D();
+		gpArrow = AwtFactory.getPrototype().newGeneralPath();
 	}
 
-	public void update(double[] coordsA, double[] coordsB, double[] coordsV, double lineThickness) {
+	public void update(double[] coordsA, double[] coordsB, double[] coordsV,
+			double lineThickness, GBasicStroke stroke) {
 // screen coords of start and end point of vector
 		this.coordsA = coordsA;
 		this.coordsB = coordsB;
@@ -60,10 +62,6 @@ public class DrawDefaultVectorStyle implements DrawVectorStyle {
 		coordsF[0] = this.coordsB[0] - this.coordsV[0];
 		coordsF[1] = this.coordsB[1] - this.coordsV[1];
 
-		// set clipped line
-		if (line == null) {
-			line = AwtFactory.getPrototype().newLine2D();
-		}
 		visibility.setLineVisible(true);
 
 		if (onscreenA && onscreenB) {
@@ -102,22 +100,20 @@ public class DrawDefaultVectorStyle implements DrawVectorStyle {
 		}
 
 		// add triangle if visible
-		if (gpArrow == null) {
-			gpArrow = AwtFactory.getPrototype().newGeneralPath();
-		} else {
-			gpArrow.reset();
-		}
 		if (visibility.isVisible()) {
-			area = AwtFactory.getPrototype().newArea();
-			GShape strokedLine = drawVector.getObjStroke().createStrokedShape(line, 255);
-			area.add(GCompositeShape.toArea(strokedLine));
-
-			if (length > 0) {
-				drawHead(coordsF);
-				area.add(GCompositeShape.toArea(gpArrow));
-			}
-
+			createVectorShape(stroke, length, coordsF);
 			visibility.setHeadVisible(onscreenB || view.intersects(gpArrow));
+		}
+	}
+
+	private void createVectorShape(GBasicStroke stroke, double length, double[] coordsF) {
+		area = AwtFactory.getPrototype().newArea();
+		GShape strokedLine = stroke.createStrokedShape(line, 255);
+		area.add(GCompositeShape.toArea(strokedLine));
+
+		if (length > 0) {
+			drawHead(coordsF);
+			area.add(GCompositeShape.toArea(gpArrow));
 		}
 	}
 
@@ -125,10 +121,12 @@ public class DrawDefaultVectorStyle implements DrawVectorStyle {
 		coordsV[0] = coordsB[0] - coordsA[0];
 		coordsV[1] = coordsB[1] - coordsA[1];
 	}
+
 	private void drawHead(double[] coordsF) {
 		coordsV[0] /= 4.0;
 		coordsV[1] /= 4.0;
 
+		gpArrow.reset();
 		gpArrow.moveTo(coordsB[0], coordsB[1]); // end point
 		gpArrow.lineTo(coordsF[0] - coordsV[1], coordsF[1] + coordsV[0]);
 		gpArrow.lineTo(coordsF[0] + coordsV[1], coordsF[1] - coordsV[0]);

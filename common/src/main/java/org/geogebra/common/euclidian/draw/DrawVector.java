@@ -20,10 +20,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GBasicStroke;
-import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
@@ -43,17 +40,14 @@ import org.geogebra.common.util.DoubleUtil;
 public class DrawVector extends Drawable implements Previewable, VectorVisibility {
 
 	private GeoVectorND v;
-	private GeoPointND P;
 
 	private boolean isVisible;
 	private boolean labelVisible;
 	private boolean traceDrawingNeeded = false;
 
-	private GLine2D line;
 	private final double[] coordsA = new double[2];
 	private final double[] coordsB = new double[2];
 	private final double[] coordsV = new double[2];
-	private GGeneralPath gp; // for arrow
 	private boolean headVisible;
 	private boolean lineVisible;
 	private ArrayList<GeoPointND> points;
@@ -109,9 +103,9 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		Coords coords;
 
 		// start point in real world coords
-		P = v.getStartPoint();
-		if (P != null && !P.isInfinite()) {
-			coords = view.getCoordsForView(P.getInhomCoordsInD3());
+		GeoPointND startPoint = v.getStartPoint();
+		if (startPoint != null && !startPoint.isInfinite()) {
+			coords = view.getCoordsForView(startPoint.getInhomCoordsInD3());
 			if (!DoubleUtil.isZero(coords.getZ())) {
 				isVisible = false;
 				return;
@@ -137,7 +131,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		coordsB[1] = coordsA[1] + coordsV[1];
 
 		// set line and arrow of vector and converts all coords to screen
-		setArrow(v.getLineThickness());
+		style.update(coordsA, coordsB, coordsV, v.getLineThickness(), objStroke);
 
 		// label position
 		if (labelVisible) {
@@ -175,56 +169,64 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		return lineThickness < 8 ? 12.0 + lineThickness : 3 * lineThickness;
 	}
 
-	/**
-	 * Sets the line and arrow of the vector.
-	 */
-	private void setArrow(double lineThickness) {
-		style.update(coordsA, coordsB, coordsV, lineThickness);
-	}
-
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (isVisible) {
-			if (traceDrawingNeeded) {
-				traceDrawingNeeded = false;
-				GGraphics2D g2d = view.getBackgroundGraphics();
-				if (g2d != null) {
-					drawTrace(g2d);
-				}
-			}
-
-			if (isHighlighted()) {
-				g2.setPaint(v.getSelColor());
-				g2.setStroke(selStroke);
-//				if (lineVisible) {
-//					g2.draw(line);
-//				}
-			}
-
-			g2.setPaint(getObjectColor());
-			g2.setStroke(objStroke);
-
-			style.draw(g2);
-
-			if (labelVisible) {
-				g2.setFont(view.getFontVector());
-				g2.setPaint(v.getLabelColor());
-				drawLabel(g2);
-			}
+		if (!isVisible) {
+			return;
 		}
+
+		if (traceDrawingNeeded) {
+			drawTraceToBackground();
+		}
+
+		if (isHighlighted()) {
+			drawHighlight(g2);
+		}
+
+		drawVectorShape(g2);
+
+		if (labelVisible) {
+			drawVectorLabel(g2);
+		}
+
+	}
+
+	private void drawTraceToBackground() {
+		traceDrawingNeeded = false;
+		drawTrace(view.getBackgroundGraphics());
 	}
 
 	@Override
 	protected final void drawTrace(GGraphics2D g2) {
+		if (g2 == null) {
+			return;
+		}
+
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		if (lineVisible) {
-			g2.draw(line);
+		g2.fill(style.getShape());
+	}
+
+	private void drawHighlight(GGraphics2D g2) {
+		g2.setPaint(v.getSelColor());
+		g2.setStroke(selStroke);
+		if (isVisible) {
+			g2.draw(style.getShape());
 		}
-		if (headVisible) {
-			g2.fill(gp);
-		}
+	}
+
+	private void drawVectorShape(GGraphics2D g2) {
+		g2.setPaint(getObjectColor());
+		g2.setStroke(objStroke);
+
+		style.draw(g2);
+	}
+
+	private void drawVectorLabel(GGraphics2D g2) {
+		g2.setFont(view.getFontVector());
+		g2.setPaint(v.getLabelColor());
+		drawLabel(g2);
 	}
 
 	@Override
@@ -244,7 +246,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		double xRW = xRWmouse;
 		double yRW = yRWmouse;
 		if (isVisible) {
-			// double xRW = view.toRealWorldCoordX(x);
+			// double 	xRW = view.toRealWorldCoordX(x);
 			// double yRW = view.toRealWorldCoordY(y);
 
 			// round angle to nearest 15 degrees if alt pressed
@@ -279,7 +281,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 			coordsB[0] = xRW;
 			coordsB[1] = yRW;
-			setArrow(1);
+			style.update(coordsA, coordsB, coordsV, 1, objStroke);
 		}
 	}
 
@@ -319,22 +321,6 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	@Override
 	final public GRectangle getBounds() {
 		return style.getShape().getBounds();
-		//		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
-//			return null;
-//		}
-//		GRectangle ret = null;
-//		if (lineVisible && line != null) {
-//			ret = line.getBounds();
-//		}
-//
-//		if (headVisible) {
-//			ret = (ret == null)
-//					? AwtFactory.getPrototype().newRectangle(gp.getBounds())
-//					: AwtFactory.getPrototype()
-//							.newRectangle(ret.union(gp.getBounds()));
-//		}
-//
-//		return ret;
 	}
 
 
@@ -368,7 +354,4 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		return headVisible;
 	}
 
-	public GBasicStroke getObjStroke() {
-		return objStroke;
-	}
 }
