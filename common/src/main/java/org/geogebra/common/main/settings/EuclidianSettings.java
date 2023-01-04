@@ -145,7 +145,7 @@ public class EuclidianSettings extends AbstractSettings {
 	protected App app;
 	protected int dimension;
 
-	private BackgroundType backgroundType = BackgroundType.RULER;
+	private BackgroundType backgroundType = BackgroundType.NONE;
 
 	private double bgRulerGap = 50;
 
@@ -1505,6 +1505,15 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setBackgroundType(BackgroundType backgroundType) {
 		this.backgroundType = backgroundType;
+		if (backgroundType == BackgroundType.ISOMETRIC) {
+			gridType = EuclidianView.GRID_ISOMETRIC;
+			setShowGridSetting(true);
+		} else if (backgroundType == BackgroundType.POLAR) {
+			gridType = EuclidianView.GRID_POLAR;
+			setShowGridSetting(true);
+		} else if (backgroundType != BackgroundType.NONE) {
+			setShowGridSetting(false);
+		}
 		settingChanged();
 	}
 

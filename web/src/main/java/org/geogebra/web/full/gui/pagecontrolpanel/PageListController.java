@@ -57,6 +57,7 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
+import elemental2.dom.DomGlobal;
 import jsinterop.base.Any;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -153,6 +154,11 @@ public class PageListController implements PageListControllerInterface,
 				// load last status of file
 				saveMaterialProperties();
 				app.resetPerspectiveParam();
+				// in case page was added through API, thumbnail may be outdated
+				app.registerOpenFileListener(() -> {
+					DomGlobal.requestAnimationFrame(ignore -> slides.get(i).updatePreviewImage());
+					return true;
+				});
 				app.loadGgbFile(slides.get(i).getFile(), true);
 				restoreMaterialProperties();
 				// to clear ruler and protractor selection
