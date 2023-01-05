@@ -28,6 +28,8 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.VectorHeadStyle;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -51,8 +53,9 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	private ArrayList<GeoPointND> points;
 	private final GPoint2D endPoint = new GPoint2D();
 
-	private DrawVectorStyle style;
+	private DrawVectorStyle drawVectorShape;
 	private DrawVectorProperties properties;
+	private VectorShape vectorShape;
 
 	/**
 	 * Creates new DrawVector
@@ -71,7 +74,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	}
 
 	private void createVectorStyle() {
-		this.style = new DrawDefaultVectorStyle(this, view);
+		this.drawVectorShape = new DrawVectorShape(this, view);
 	}
 
 	/**
@@ -131,7 +134,9 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 		// set line and arrow of vector and converts all coords to screen
 		properties = getProperties();
-		style.update(properties);
+		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
+
+		drawVectorShape.update(properties, headStyle.createShape(properties));
 
 		// label position
 		if (labelVisible) {
@@ -210,14 +215,14 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		g2.fill(style.getShape());
+		g2.fill(drawVectorShape.getShape());
 	}
 
 	private void drawHighlight(GGraphics2D g2) {
 		g2.setPaint(v.getSelColor());
 		g2.setStroke(selStroke);
 		if (isVisible) {
-			g2.draw(style.getShape());
+			g2.draw(drawVectorShape.getShape());
 		}
 	}
 
@@ -225,7 +230,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 
-		style.draw(g2);
+		drawVectorShape.draw(g2);
 	}
 
 	private void drawVectorLabel(GGraphics2D g2) {
@@ -286,7 +291,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 			coordsB[0] = xRW;
 			coordsB[1] = yRW;
-			style.update(getProperties());
+			drawVectorShape.update(getProperties(), vectorShape);
 		}
 	}
 
@@ -296,7 +301,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
-			g2.fill(style.getShape());
+			g2.fill(drawVectorShape.getShape());
 		}
 	}
 
@@ -307,17 +312,17 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		return style.getShape().intersects(x - 3, y - 3, 6, 6);
+		return drawVectorShape.getShape().intersects(x - 3, y - 3, 6, 6);
 	}
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
-		return rect.contains(style.getShape().getBounds());
+		return rect.contains(drawVectorShape.getShape().getBounds());
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return rect.intersects(style.getShape().getBounds());
+		return rect.intersects(drawVectorShape.getShape().getBounds());
 	}
 
 	/**
@@ -325,7 +330,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		return style.getShape().getBounds();
+		return drawVectorShape.getShape().getBounds();
 	}
 
 

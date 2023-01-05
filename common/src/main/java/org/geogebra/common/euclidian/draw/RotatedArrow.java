@@ -1,4 +1,4 @@
-package org.geogebra.common.euclidian.draw;
+	package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
@@ -13,6 +13,7 @@ public class RotatedArrow {
 	private final double lineThickness;
 	private final GBasicStroke stroke;
 	private final GGeneralPath arrow;
+	private boolean filled;
 
 	public RotatedArrow(GLine2D line, double lineThickness, GBasicStroke stroke) {
 		this.line = line;
@@ -38,7 +39,6 @@ public class RotatedArrow {
 		arrow.moveTo(x, y);
 
 		arrow.lineTo(arrowSideX, y + lineThickness);
-		boolean filled = true;
 		if (filled) {
 			arrow.lineTo(arrowSideX, y - lineThickness);
 			arrow.closePath();
@@ -61,5 +61,9 @@ public class RotatedArrow {
 		trans.translate(transX, transY);
 		trans.rotate(angle);
 		trans.translate(-transX, -transY);
+	}
+
+	public void setFilled(boolean filled) {
+		this.filled = filled;
 	}
 }
