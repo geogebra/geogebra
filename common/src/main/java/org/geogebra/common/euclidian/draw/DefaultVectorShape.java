@@ -16,6 +16,11 @@ public class DefaultVectorShape implements VectorShape {
 	}
 
 	@Override
+	public DrawVectorProperties properties() {
+		return properties;
+	}
+
+	@Override
 	public GLine2D body() {
 		double arrowBaseX = properties.getEndX() - properties.getNormalVectorX();
 		double arrowBaseY = properties.getEndY() - properties.getNormalVectorY();

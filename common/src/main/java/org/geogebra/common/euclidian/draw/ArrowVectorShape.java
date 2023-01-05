@@ -15,6 +15,11 @@ public class ArrowVectorShape implements VectorShape {
 	}
 
 	@Override
+	public DrawVectorProperties properties() {
+		return properties;
+	}
+
+	@Override
 	public GLine2D body() {
 		line.setLine(properties.getStartX(), properties.getStartY(),
 				properties.getEndX(), properties.getEndY());

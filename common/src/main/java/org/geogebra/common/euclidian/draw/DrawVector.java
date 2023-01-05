@@ -135,8 +135,8 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		// set line and arrow of vector and converts all coords to screen
 		properties = getProperties();
 		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
-
-		drawVectorShape.update(properties, headStyle.createShape(properties));
+		vectorShape = headStyle.createShape(properties);
+		drawVectorShape.update(vectorShape);
 
 		// label position
 		if (labelVisible) {
@@ -291,7 +291,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 			coordsB[0] = xRW;
 			coordsB[1] = yRW;
-			drawVectorShape.update(getProperties(), vectorShape);
+			drawVectorShape.update(vectorShape);
 		}
 	}
 

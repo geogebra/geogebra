@@ -30,8 +30,8 @@ public class DrawVectorShape implements DrawVectorStyle {
 		arrow = AwtFactory.getPrototype().newGeneralPath();
 	}
 
-	public void update(DrawVectorProperties properties, VectorShape vectorShape) {
-		this.properties = properties;
+	public void update(VectorShape vectorShape) {
+		this.properties = vectorShape.properties();
 		final boolean onscreenA = view.toScreenCoords(properties.getStartCoords());
 		final boolean onscreenB = view.toScreenCoords(properties.getEndCoords());
 		properties.normalize();
