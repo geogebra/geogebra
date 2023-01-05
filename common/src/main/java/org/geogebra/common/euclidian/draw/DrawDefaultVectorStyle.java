@@ -11,43 +11,38 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.util.MyMath;
 
 public class DrawDefaultVectorStyle implements DrawVectorStyle {
 
 	private final GLine2D line;
-	private double[] coordsA;
-	private double[] coordsB;
-	private double[] coordsV;
-	private final GGeneralPath gpArrow;
+	private final GGeneralPath arrow;
 
 	private final EuclidianView view;
 	private final VectorVisibility visibility;
 	private final GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 	private GArea area;
+	private boolean headVisible = true;
+	private DrawVectorProperties properties;
 
 	public DrawDefaultVectorStyle(VectorVisibility visibility, EuclidianView view) {
 		this.view = view;
 		this.visibility = visibility;
 		line = AwtFactory.getPrototype().newLine2D();
-		gpArrow = AwtFactory.getPrototype().newGeneralPath();
+		arrow = AwtFactory.getPrototype().newGeneralPath();
 	}
 
-	public void update(double[] coordsA, double[] coordsB, double[] coordsV,
-			double lineThickness, GBasicStroke stroke) {
+	public void update(DrawVectorProperties properties) {
 // screen coords of start and end point of vector
-		this.coordsA = coordsA;
-		this.coordsB = coordsB;
-		this.coordsV = coordsV;
-		final boolean onscreenA = view.toScreenCoords(this.coordsA);
-		final boolean onscreenB = view.toScreenCoords(this.coordsB);
-		normalizeVector();
+		this.properties = properties;
+		final boolean onscreenA = view.toScreenCoords(properties.getStartCoords());
+		final boolean onscreenB = view.toScreenCoords(properties.getEndCoords());
+		properties.normalize();
 
 		// calculate endpoint F at base of arrow
 
-		double factor = DrawVector.getFactor(lineThickness);
+		double factor = DrawVector.getFactor(properties.getLineThickness());
 
-		double length = MyMath.length(this.coordsV[0], this.coordsV[1]);
+		double length = properties.length();
 
 		// decrease arrowhead size if it's longer than the vector
 		if (length < factor) {
@@ -55,24 +50,22 @@ public class DrawDefaultVectorStyle implements DrawVectorStyle {
 		}
 
 		if (length > 0.0) {
-			this.coordsV[0] = (this.coordsV[0] * factor) / length;
-			this.coordsV[1] = (this.coordsV[1] * factor) / length;
+			properties.scaleNormalVector(factor);
 		}
 		double[] coordsF = new double[2];
-		coordsF[0] = this.coordsB[0] - this.coordsV[0];
-		coordsF[1] = this.coordsB[1] - this.coordsV[1];
-
-		visibility.setLineVisible(true);
+		coordsF[0] = properties.getEndX() - properties.getNormalVectorX();
+		coordsF[1] = properties.getEndY() - properties.getNormalVectorY();
 
 		if (onscreenA && onscreenB) {
 			// A and B on screen
-			line.setLine(this.coordsA[0], this.coordsA[1], coordsF[0], coordsF[1]);
+			line.setLine(properties.getStartX(), properties.getStartY(),
+					coordsF[0], coordsF[1]);
 		} else {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
 			// check if any of vector is on-screen
-			GPoint2D[] clippedPoints = ClipLine.getClipped(this.coordsA[0],
-					this.coordsA[1], this.coordsB[0], this.coordsB[1],
+			GPoint2D[] clippedPoints = ClipLine.getClipped(properties.getStartX(),
+					properties.getStartY(), properties.getEndX(), properties.getEndY(),
 					view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
 					view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
 					view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
@@ -82,8 +75,9 @@ public class DrawDefaultVectorStyle implements DrawVectorStyle {
 				visibility.setVisible(false);
 			} else {
 
-				// now re-clip at A and F
-				clippedPoints = ClipLine.getClipped(this.coordsA[0], this.coordsA[1],
+				// n ow re-clip at A and F
+				clippedPoints = ClipLine.getClipped(properties.getStartX(),
+						properties.getStartY(),
 						coordsF[0], coordsF[1], -EuclidianStatic.CLIP_DISTANCE,
 						view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
 						-EuclidianStatic.CLIP_DISTANCE,
@@ -94,15 +88,15 @@ public class DrawDefaultVectorStyle implements DrawVectorStyle {
 							clippedPoints[0].getY(), clippedPoints[1].getX(),
 							clippedPoints[1].getY());
 				} else {
-					visibility.setHeadVisible(false);
+					headVisible = false;
 				}
 			}
 		}
 
 		// add triangle if visible
 		if (visibility.isVisible()) {
-			createVectorShape(stroke, length, coordsF);
-			visibility.setHeadVisible(onscreenB || view.intersects(gpArrow));
+			createVectorShape(properties.getStroke(), length, coordsF);
+			headVisible = onscreenB || view.intersects(arrow);
 		}
 	}
 
@@ -111,27 +105,14 @@ public class DrawDefaultVectorStyle implements DrawVectorStyle {
 		GShape strokedLine = stroke.createStrokedShape(line, 255);
 		area.add(GCompositeShape.toArea(strokedLine));
 
-		if (length > 0) {
-			drawHead(coordsF);
-			area.add(GCompositeShape.toArea(gpArrow));
+		if (length > 0 && headVisible) {
+//			drawHead(coordsF);
+			RotatedArrow rotatedArrow = new RotatedArrow(line, properties.getLineThickness(),
+					stroke);
+			area.add(GCompositeShape.toArea(rotatedArrow.get()));
 		}
 	}
 
-	private void normalizeVector() {
-		coordsV[0] = coordsB[0] - coordsA[0];
-		coordsV[1] = coordsB[1] - coordsA[1];
-	}
-
-	private void drawHead(double[] coordsF) {
-		coordsV[0] /= 4.0;
-		coordsV[1] /= 4.0;
-
-		gpArrow.reset();
-		gpArrow.moveTo(coordsB[0], coordsB[1]); // end point
-		gpArrow.lineTo(coordsF[0] - coordsV[1], coordsF[1] + coordsV[0]);
-		gpArrow.lineTo(coordsF[0] + coordsV[1], coordsF[1] - coordsV[0]);
-		gpArrow.closePath();
-	}
 
 	@Override
 	public void draw(GGraphics2D g2) {

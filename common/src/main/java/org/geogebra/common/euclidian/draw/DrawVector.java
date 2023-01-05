@@ -48,12 +48,11 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	private final double[] coordsA = new double[2];
 	private final double[] coordsB = new double[2];
 	private final double[] coordsV = new double[2];
-	private boolean headVisible;
-	private boolean lineVisible;
 	private ArrayList<GeoPointND> points;
 	private final GPoint2D endPoint = new GPoint2D();
 
 	private DrawVectorStyle style;
+	private DrawVectorProperties properties;
 
 	/**
 	 * Creates new DrawVector
@@ -131,7 +130,8 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		coordsB[1] = coordsA[1] + coordsV[1];
 
 		// set line and arrow of vector and converts all coords to screen
-		style.update(coordsA, coordsB, coordsV, v.getLineThickness(), objStroke);
+		properties = getProperties();
+		style.update(properties);
 
 		// label position
 		if (labelVisible) {
@@ -156,6 +156,11 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 				// view.updateBackground();
 			}
 		}
+	}
+
+	private DrawVectorProperties getProperties() {
+		return new DrawVectorProperties(coordsA, coordsB, coordsV, v.getLineThickness(),
+				objStroke);
 	}
 
 	/**
@@ -281,7 +286,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 			coordsB[0] = xRW;
 			coordsB[1] = yRW;
-			style.update(coordsA, coordsB, coordsV, 1, objStroke);
+			style.update(getProperties());
 		}
 	}
 
@@ -333,25 +338,4 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	public boolean isVisible() {
 		return isVisible;
 	}
-
-	@Override
-	public void setLineVisible(boolean lineVisible) {
-		this.lineVisible = lineVisible;
-	}
-
-	@Override
-	public boolean isLineVisible() {
-		return lineVisible;
-	}
-
-	@Override
-	public void setHeadVisible(boolean headVisible) {
-		this.headVisible = headVisible;
-	}
-
-	@Override
-	public boolean isHeadVisible() {
-		return headVisible;
-	}
-
 }
