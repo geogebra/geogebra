@@ -93,9 +93,13 @@ public class ShareDialogMow extends ComponentDialog
 		});
 	}
 
-	private void updateMaterial(String visibility) {
-		boolean isMultiuser = multiuserSwitch != null && multiuserSwitch.isSwitchOn()
+	private boolean isMultiuserSwitchOn() {
+		return multiuserSwitch != null && multiuserSwitch.isSwitchOn()
 				&& !multiuserSharePanel.getElement().hasClassName("disabled");
+	}
+
+	private void updateMaterial(String visibility) {
+		boolean isMultiuser = isMultiuserSwitchOn();
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
 				material.getSharingKeyOrId(), visibility,
 				material.getTitle(), null, callback,
