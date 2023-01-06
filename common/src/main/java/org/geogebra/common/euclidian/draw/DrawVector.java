@@ -97,49 +97,32 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		if (!isVisible) {
 			return;
 		}
+
 		labelVisible = geo.isLabelVisible();
-
 		updateStrokes(v);
-
-		Coords coords;
 
 		if (!updateStartPoint()) {
 			return;
 		}
-
-		// vector
-		coords = view.getCoordsForView(v.getCoordsInD3());
-		if (is3DCoords(coords)) {
-			isVisible = false;
+		if (!updateVector()) {
 			return;
 		}
-		coordsV[0] = coords.getX();
-		coordsV[1] = coords.getY();
+		updateEndPoint();
+		updateShape();
+		if (labelVisible) {
+			updateLabelPosition();
+		}
+		updateTrace();
+	}
 
-		// end point
-		coordsB[0] = coordsA[0] + coordsV[0];
-		coordsB[1] = coordsA[1] + coordsV[1];
-
-		// set line and arrow of vector and converts all coords to screen
+	private void updateShape() {
 		DrawVectorProperties properties = getProperties();
 		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
 		vectorShape = headStyle.createShape(properties);
 		drawVectorShape.update(vectorShape);
+	}
 
-		// label position
-		if (labelVisible) {
-			labelDesc = geo.getLabelDescription();
-			// note that coordsV was normalized in setArrow()
-			xLabel = (int) ((coordsA[0] + coordsB[0]) / 2.0 + coordsV[1]);
-			yLabel = (int) ((coordsA[1] + coordsB[1]) / 2.0 - coordsV[0]);
-			addLabelOffset();
-		}
-
-		// draw trace
-		// a vector is a Locateable, and it might
-		// happen that there are several update() calls
-		// before the new trace should be drawn
-		// so the actual drawing is moved to draw()
+	private void updateTrace() {
 		traceDrawingNeeded = v.getTrace();
 		if (v.getTrace()) {
 			isTracing = true;
@@ -148,6 +131,31 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 				isTracing = false;
 			}
 		}
+	}
+
+	private void updateLabelPosition() {
+		labelDesc = geo.getLabelDescription();
+		// note that coordsV was normalized in setArrow()
+		xLabel = (int) ((coordsA[0] + coordsB[0]) / 2.0 + coordsV[1]);
+		yLabel = (int) ((coordsA[1] + coordsB[1]) / 2.0 - coordsV[0]);
+		addLabelOffset();
+	}
+
+	private void updateEndPoint() {
+		coordsB[0] = coordsA[0] + coordsV[0];
+		coordsB[1] = coordsA[1] + coordsV[1];
+	}
+
+	private boolean updateVector() {
+		Coords coords;
+		coords = view.getCoordsForView(v.getCoordsInD3());
+		if (is3DCoords(coords)) {
+			isVisible = false;
+			return false;
+		}
+		coordsV[0] = coords.getX();
+		coordsV[1] = coords.getY();
+		return true;
 	}
 
 	private boolean updateStartPoint() {
