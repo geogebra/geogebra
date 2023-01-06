@@ -349,9 +349,9 @@ svg.icon.left {
 }
 
 .GeoGebraFrame .settingsBtnScientific {
-	position: relative;
-    margin: 6px;
-    float: right;
+position: relative;
+	margin: 6px;
+	float: right;
 }
 
 .GeoGebraFrame .undoBtnScientific {
