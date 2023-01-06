@@ -103,24 +103,13 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 		Coords coords;
 
-		// start point in real world coords
-		GeoPointND startPoint = v.getStartPoint();
-		if (startPoint != null && !startPoint.isInfinite()) {
-			coords = view.getCoordsForView(startPoint.getInhomCoordsInD3());
-			if (!DoubleUtil.isZero(coords.getZ())) {
-				isVisible = false;
-				return;
-			}
-			coordsA[0] = coords.getX();
-			coordsA[1] = coords.getY();
-		} else {
-			coordsA[0] = 0;
-			coordsA[1] = 0;
+		if (!updateStartPoint()) {
+			return;
 		}
 
 		// vector
 		coords = view.getCoordsForView(v.getCoordsInD3());
-		if (!DoubleUtil.isZero(coords.getZ())) {
+		if (is3DCoords(coords)) {
 			isVisible = false;
 			return;
 		}
@@ -159,6 +148,31 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 				isTracing = false;
 			}
 		}
+	}
+
+	private boolean updateStartPoint() {
+		// start point in real world coords
+		if (isStartPointValid()) {
+			Coords coords = view.getCoordsForView(v.getStartPoint().getInhomCoordsInD3());
+			if (is3DCoords(coords)) {
+				isVisible = false;
+				return false;
+			}
+			coordsA[0] = coords.getX();
+			coordsA[1] = coords.getY();
+		} else {
+			coordsA[0] = 0;
+			coordsA[1] = 0;
+		}
+		return true;
+	}
+
+	private static boolean is3DCoords(Coords coords) {
+		return !DoubleUtil.isZero(coords.getZ());
+	}
+
+	private boolean isStartPointValid() {
+		return v.getStartPoint() != null && !v.getStartPoint().isInfinite();
 	}
 
 	private DrawVectorProperties getProperties() {
