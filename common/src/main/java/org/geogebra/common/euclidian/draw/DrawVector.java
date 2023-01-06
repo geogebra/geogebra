@@ -54,7 +54,6 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	private final GPoint2D endPoint = new GPoint2D();
 
 	private DrawVectorStyle drawVectorShape;
-	private DrawVectorProperties properties;
 	private VectorShape vectorShape;
 
 	/**
@@ -93,7 +92,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			return;
@@ -133,7 +132,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		coordsB[1] = coordsA[1] + coordsV[1];
 
 		// set line and arrow of vector and converts all coords to screen
-		properties = getProperties();
+		DrawVectorProperties properties = getProperties();
 		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
 		vectorShape = headStyle.createShape(properties);
 		drawVectorShape.update(vectorShape);
@@ -148,7 +147,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		}
 
 		// draw trace
-		// a vector is a Locateable and it might
+		// a vector is a Locateable, and it might
 		// happen that there are several update() calls
 		// before the new trace should be drawn
 		// so the actual drawing is moved to draw()
@@ -158,7 +157,6 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				// view.updateBackground();
 			}
 		}
 	}
@@ -173,7 +171,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	 *            vector thickness
 	 * @return arrow size
 	 */
-	static final public double getFactor(double lineThickness) {
+	public static double getFactor(double lineThickness) {
 
 		// changed to make arrow-heads a bit bigger for line thickness 8-13
 		return lineThickness < 8 ? 12.0 + lineThickness : 3 * lineThickness;
@@ -240,7 +238,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	}
 
 	@Override
-	final public void updatePreview() {
+	public final void updatePreview() {
 		isVisible = points.size() == 1;
 		if (isVisible) {
 			// start point
@@ -252,12 +250,10 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	}
 
 	@Override
-	final public void updateMousePos(double xRWmouse, double yRWmouse) {
+	public final void updateMousePos(double xRWmouse, double yRWmouse) {
 		double xRW = xRWmouse;
 		double yRW = yRWmouse;
 		if (isVisible) {
-			// double 	xRW = view.toRealWorldCoordX(x);
-			// double yRW = view.toRealWorldCoordY(y);
 
 			// round angle to nearest 15 degrees if alt pressed
 			if (points.size() == 1
@@ -270,7 +266,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 				// round angle to nearest 15 degrees
-				angle = Math.round(angle / 15) * 15;
+				angle = Math.round(angle / 15) * 15.0;
 
 				xRW = px + radius * Math.cos(angle * Math.PI / 180);
 				yRW = py + radius * Math.sin(angle * Math.PI / 180);
@@ -281,10 +277,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 				view.getEuclidianController().setLineEndPoint(null);
 			}
 
-			// set start and end point in real world coords
-			// GeoPoint P = (GeoPoint) points.get(0);
-			// P.getInhomCoords(coordsA);
-			if (points.size() > 0) {
+			if (!points.isEmpty()) {
 				view.getCoordsForView(points.get(0).getInhomCoordsInD3())
 						.get(coordsA);
 			}
@@ -296,7 +289,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	}
 
 	@Override
-	final public void drawPreview(GGraphics2D g2) {
+	public final void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
@@ -311,12 +304,12 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public final boolean hit(int x, int y, int hitThreshold) {
 		return drawVectorShape.getShape().intersects(x - 3, y - 3, 6, 6);
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return rect.contains(drawVectorShape.getShape().getBounds());
 	}
 
@@ -329,7 +322,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		return drawVectorShape.getShape().getBounds();
 	}
 
