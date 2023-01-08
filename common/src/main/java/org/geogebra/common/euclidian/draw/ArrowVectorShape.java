@@ -6,16 +6,16 @@ import org.geogebra.common.factories.AwtFactory;
 
 public class ArrowVectorShape implements VectorShape {
 	private final GLine2D line;
-	private final DrawVectorProperties properties;
+	private final DrawVectorModel properties;
 	private boolean filled = false;
 
-	public ArrowVectorShape(DrawVectorProperties properties) {
+	public ArrowVectorShape(DrawVectorModel properties) {
 		this.properties = properties;
 		line = AwtFactory.getPrototype().newLine2D();
 	}
 
 	@Override
-	public DrawVectorProperties properties() {
+	public DrawVectorModel properties() {
 		return properties;
 	}
 

@@ -7,23 +7,23 @@ import org.geogebra.common.factories.AwtFactory;
 
 public class DefaultVectorShape implements VectorShape {
 
-	private final DrawVectorProperties properties;
+	private final DrawVectorModel properties;
 	private final GLine2D line;
 
-	public DefaultVectorShape(DrawVectorProperties properties) {
+	public DefaultVectorShape(DrawVectorModel properties) {
 		this.properties = properties;
 		line = AwtFactory.getPrototype().newLine2D();
 	}
 
 	@Override
-	public DrawVectorProperties properties() {
+	public DrawVectorModel properties() {
 		return properties;
 	}
 
 	@Override
 	public GLine2D body() {
-		double arrowBaseX = properties.getEndX() - properties.getNormalVectorX();
-		double arrowBaseY = properties.getEndY() - properties.getNormalVectorY();
+		double arrowBaseX = properties.getEndX() - properties.getPositionVectorX();
+		double arrowBaseY = properties.getEndY() - properties.getPositionVectorY();
 		line.setLine(properties.getStartX(), properties.getStartY(),
 				arrowBaseX, arrowBaseY);
 		return line;
@@ -32,13 +32,13 @@ public class DefaultVectorShape implements VectorShape {
 	@Override
 	public GShape head() {
 		GGeneralPath arrow = AwtFactory.getPrototype().newGeneralPath();
-		double vX = properties.getNormalVectorX() / 4.0;
-		double vY = properties.getNormalVectorY() / 4.0;
+		double vX = properties.getPositionVectorX() / 4.0;
+		double vY = properties.getPositionVectorY() / 4.0;
 
 
 		double[] coordsF = new double[2];
-		coordsF[0] = properties.getEndX() - properties.getNormalVectorX();
-		coordsF[1] = properties.getEndY() - properties.getNormalVectorY();
+		coordsF[0] = properties.getEndX() - properties.getPositionVectorX();
+		coordsF[1] = properties.getEndY() - properties.getPositionVectorY();
 
 		arrow.reset();
 		arrow.moveTo(properties.getEndX(), properties.getEndY());

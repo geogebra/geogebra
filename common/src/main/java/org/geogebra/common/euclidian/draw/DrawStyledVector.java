@@ -12,7 +12,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 
-public class DrawVectorShape implements DrawVectorStyle {
+public class DrawStyledVector implements DrawVectorStyle {
 
 	private GLine2D line;
 	private final GGeneralPath arrow;
@@ -22,9 +22,9 @@ public class DrawVectorShape implements DrawVectorStyle {
 	private final GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 	private GArea area;
 	private boolean headVisible = true;
-	private DrawVectorProperties properties;
+	private DrawVectorModel properties;
 
-	public DrawVectorShape(VectorVisibility visibility, EuclidianView view) {
+	public DrawStyledVector(VectorVisibility visibility, EuclidianView view) {
 		this.view = view;
 		this.visibility = visibility;
 		arrow = AwtFactory.getPrototype().newGeneralPath();
@@ -34,22 +34,7 @@ public class DrawVectorShape implements DrawVectorStyle {
 		this.properties = vectorShape.properties();
 		final boolean onscreenA = view.toScreenCoords(properties.getStartCoords());
 		final boolean onscreenB = view.toScreenCoords(properties.getEndCoords());
-		properties.normalize();
-
-		// calculate endpoint F at base of arrow
-
-		double factor = DrawVector.getFactor(properties.getLineThickness());
-
-		double length = properties.length();
-
-		// decrease arrowhead size if it's longer than the vector
-		if (length < factor) {
-			factor = length;
-		}
-
-		if (length > 0.0) {
-			properties.scaleNormalVector(factor);
-		}
+		properties.update();
 
 		if (onscreenA && onscreenB) {
 			line = vectorShape.body();
@@ -59,12 +44,12 @@ public class DrawVectorShape implements DrawVectorStyle {
 
 		// add triangle if visible
 		if (visibility.isVisible()) {
-			createVectorShape(properties.getStroke(), length, vectorShape);
+			createVectorShape(properties.getStroke(), properties.length(), vectorShape);
 			headVisible = onscreenB || view.intersects(arrow);
 		}
 	}
 
-	private void clipVector(DrawVectorProperties properties, double arrowBaseX, double arrowBaseY) {
+	private void clipVector(DrawVectorModel properties, double arrowBaseX, double arrowBaseY) {
 		// A or B off screen
 		// clip at screen, that's important for huge coordinates
 		// check if any of vector is on-screen

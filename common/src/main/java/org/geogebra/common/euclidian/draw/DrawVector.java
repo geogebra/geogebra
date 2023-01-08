@@ -47,14 +47,13 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	private boolean labelVisible;
 	private boolean traceDrawingNeeded = false;
 
-	private final double[] coordsA = new double[2];
-	private final double[] coordsB = new double[2];
-	private final double[] coordsV = new double[2];
+	private final double[] tmpCoords = new double[2];
 	private ArrayList<GeoPointND> points;
 	private final GPoint2D endPoint = new GPoint2D();
 
-	private DrawVectorStyle drawVectorShape;
+	private final DrawVectorStyle drawStyledVector;
 	private VectorShape vectorShape;
+	private final DrawVectorModel model = new DrawVectorModel();
 
 	/**
 	 * Creates new DrawVector
@@ -68,12 +67,8 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		this.view = view;
 		this.v = v;
 		geo = (GeoElement) v;
-		createVectorStyle();
+		this.drawStyledVector = new DrawStyledVector(this, this.view);
 		update();
-	}
-
-	private void createVectorStyle() {
-		this.drawVectorShape = new DrawVectorShape(this, view);
 	}
 
 	/**
@@ -87,7 +82,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		this.points = points;
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_VECTOR);
-		createVectorStyle();
+		this.drawStyledVector = new DrawStyledVector(this, this.view);
 		updatePreview();
 	}
 
@@ -107,19 +102,46 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		if (!updateVector()) {
 			return;
 		}
-		updateEndPoint();
+		model.calculateEndCoords();
 		updateShape();
 		if (labelVisible) {
+			labelDesc = geo.getLabelDescription();
 			updateLabelPosition();
 		}
 		updateTrace();
 	}
 
+	private boolean updateStartPoint() {
+		// start point in real world coords
+		if (isStartPointValid()) {
+			Coords coords = view.getCoordsForView(v.getStartPoint().getInhomCoordsInD3());
+			if (is3DCoords(coords)) {
+				isVisible = false;
+				return false;
+			}
+			model.setStartCoords(coords.getX(), coords.getY());
+		} else {
+			model.setStartCoords(0, 0);
+		}
+		return true;
+	}
+
+	private boolean updateVector() {
+		Coords coords;
+		coords = view.getCoordsForView(v.getCoordsInD3());
+		if (is3DCoords(coords)) {
+			isVisible = false;
+			return false;
+		}
+		model.setVectorCoords(coords.getX(), coords.getY());
+		return true;
+	}
+
 	private void updateShape() {
-		DrawVectorProperties properties = getProperties();
+		model.update(v.getLineThickness(), objStroke);
 		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
-		vectorShape = headStyle.createShape(properties);
-		drawVectorShape.update(vectorShape);
+		vectorShape = headStyle.createShape(model);
+		drawStyledVector.update(vectorShape);
 	}
 
 	private void updateTrace() {
@@ -134,45 +156,8 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	}
 
 	private void updateLabelPosition() {
-		labelDesc = geo.getLabelDescription();
-		// note that coordsV was normalized in setArrow()
-		xLabel = (int) ((coordsA[0] + coordsB[0]) / 2.0 + coordsV[1]);
-		yLabel = (int) ((coordsA[1] + coordsB[1]) / 2.0 - coordsV[0]);
+		model.updateLabelPosition(this);
 		addLabelOffset();
-	}
-
-	private void updateEndPoint() {
-		coordsB[0] = coordsA[0] + coordsV[0];
-		coordsB[1] = coordsA[1] + coordsV[1];
-	}
-
-	private boolean updateVector() {
-		Coords coords;
-		coords = view.getCoordsForView(v.getCoordsInD3());
-		if (is3DCoords(coords)) {
-			isVisible = false;
-			return false;
-		}
-		coordsV[0] = coords.getX();
-		coordsV[1] = coords.getY();
-		return true;
-	}
-
-	private boolean updateStartPoint() {
-		// start point in real world coords
-		if (isStartPointValid()) {
-			Coords coords = view.getCoordsForView(v.getStartPoint().getInhomCoordsInD3());
-			if (is3DCoords(coords)) {
-				isVisible = false;
-				return false;
-			}
-			coordsA[0] = coords.getX();
-			coordsA[1] = coords.getY();
-		} else {
-			coordsA[0] = 0;
-			coordsA[1] = 0;
-		}
-		return true;
 	}
 
 	private static boolean is3DCoords(Coords coords) {
@@ -181,11 +166,6 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 	private boolean isStartPointValid() {
 		return v.getStartPoint() != null && !v.getStartPoint().isInfinite();
-	}
-
-	private DrawVectorProperties getProperties() {
-		return new DrawVectorProperties(coordsA, coordsB, coordsV, v.getLineThickness(),
-				objStroke);
 	}
 
 	/**
@@ -235,14 +215,14 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		g2.fill(drawVectorShape.getShape());
+		g2.fill(drawStyledVector.getShape());
 	}
 
 	private void drawHighlight(GGraphics2D g2) {
 		g2.setPaint(v.getSelColor());
 		g2.setStroke(selStroke);
 		if (isVisible) {
-			g2.draw(drawVectorShape.getShape());
+			g2.draw(drawStyledVector.getShape());
 		}
 	}
 
@@ -250,7 +230,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 
-		drawVectorShape.draw(g2);
+		drawStyledVector.draw(g2);
 	}
 
 	private void drawVectorLabel(GGraphics2D g2) {
@@ -265,9 +245,9 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		if (isVisible) {
 			// start point
 			view.getCoordsForView(points.get(0).getInhomCoordsInD3())
-					.get(coordsA);
-			coordsB[0] = coordsA[0];
-			coordsB[1] = coordsA[1];
+					.get(tmpCoords);
+			model.setStartCoords(tmpCoords[0], tmpCoords[1]);
+			model.setEndCoords(tmpCoords[0], tmpCoords[1]);
 		}
 	}
 
@@ -301,12 +281,12 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 			if (!points.isEmpty()) {
 				view.getCoordsForView(points.get(0).getInhomCoordsInD3())
-						.get(coordsA);
+						.get(tmpCoords);
+				model.setStartCoords(tmpCoords[0], tmpCoords[1]);
 			}
 
-			coordsB[0] = xRW;
-			coordsB[1] = yRW;
-			drawVectorShape.update(vectorShape);
+			model.setEndCoords(xRW, yRW);
+			drawStyledVector.update(vectorShape);
 		}
 	}
 
@@ -316,7 +296,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
-			g2.fill(drawVectorShape.getShape());
+			g2.fill(drawStyledVector.getShape());
 		}
 	}
 
@@ -327,17 +307,17 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 	@Override
 	public final boolean hit(int x, int y, int hitThreshold) {
-		return drawVectorShape.getShape().intersects(x - 3, y - 3, 6, 6);
+		return drawStyledVector.getShape().intersects(x - 3, y - 3, 6, 6);
 	}
 
 	@Override
 	public final boolean isInside(GRectangle rect) {
-		return rect.contains(drawVectorShape.getShape().getBounds());
+		return rect.contains(drawStyledVector.getShape().getBounds());
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return rect.intersects(drawVectorShape.getShape().getBounds());
+		return rect.intersects(drawStyledVector.getShape().getBounds());
 	}
 
 	/**
@@ -345,7 +325,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	 */
 	@Override
 	public final GRectangle getBounds() {
-		return drawVectorShape.getShape().getBounds();
+		return drawStyledVector.getShape().getBounds();
 	}
 
 
