@@ -278,7 +278,7 @@ public class DoubleUtil {
 	 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
 	 * otherwise x is returned.
 	 * 
-	 * @param x
+	 * @param val
 	 *            input number
 	 * @param precision
 	 *            specifies how many decimals digits are accepted in results --
@@ -287,32 +287,32 @@ public class DoubleUtil {
 	 *         is less than this kernel's minimal precision
 	 */
 	
-	final public static double checkDecimalFraction(double x, double precision) {
+	public static double checkDecimalFraction(double val, double precision) {
 		double prec = Math.pow(10,
 				Math.floor(Math.log(Math.abs(precision)) / Math.log(10)));
 	
-		double fracVal = x * Kernel.INV_MIN_PRECISION;
+		double fracVal = val * Kernel.INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
 
 		if (isEqual(fracVal, roundVal, Kernel.STANDARD_PRECISION * prec)) {
 			return roundVal / Kernel.INV_MIN_PRECISION;
 		}
-		return x;
+		return val;
 	}
 
 	/**
-	 * @param x
-	 *            x
-	 * @return close decimal fraction or x if there is not one
+	 * @param val
+	 *            real number
+	 * @return close decimal fraction or val if there is not one
 	 */
-	final public static double checkDecimalFraction(double x) {
-		double fracVal = x * Kernel.INV_MIN_PRECISION;
+	public static double checkDecimalFraction(double val) {
+		double fracVal = val * Kernel.INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
 
 		if (isEqual(fracVal, roundVal, Kernel.STANDARD_PRECISION)) {
 			return roundVal / Kernel.INV_MIN_PRECISION;
 		}
-		return x;
+		return val;
 	}
 
 	/**
