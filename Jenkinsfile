@@ -15,6 +15,7 @@ def getChangelog() {
 def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
 def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
+def gradleCmd = 'docker run --ipc=host --shm-size=1gb -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD:/work openjdk:11.0.16-jdk ./gradlew'
 
 def s3uploadDefault = { dir, pattern, encoding ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
@@ -55,10 +56,10 @@ pipeline {
                expression {return !isGiac}
             }
             steps {
-                sh label: 'test', script: "./gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test :keyboard-scientific:test"
-                sh label: 'static analysis', script: './gradlew pmdMain spotbugsMain -x common:spotbugsMain  -x renderer-base:spotbugsMain --max-workers=1'
-                sh label: 'spotbugs common', script: './gradlew :common:spotbugsMain'
-                sh label: 'code style', script: './gradlew :web:cpdCheck checkStyleMain checkStyleTest'
+                sh label: 'test', script: "$gradleCmd :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test :keyboard-scientific:test"
+                sh label: 'static analysis', script: "$gradleCmd pmdMain spotbugsMain -x common:spotbugsMain  -x renderer-base:spotbugsMain --max-workers=1"
+                sh label: 'spotbugs common', script: "$gradleCmd :common:spotbugsMain"
+                sh label: 'code style', script: "$gradleCmd :web:cpdCheck checkStyleMain checkStyleTest"
                 junit '**/build/test-results/test/*.xml'
                 recordIssues tools: [
                     cpd(pattern: '**/build/reports/cpd/cpdCheck.xml')
@@ -81,7 +82,7 @@ pipeline {
                 stage('mac') {
                     agent {label 'mac'}
                     steps {
-                        sh label: 'test', script: "./gradlew :desktop:test"
+                        sh label: 'test', script: "$gradleCmd :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }
                     post {
@@ -91,7 +92,7 @@ pipeline {
                 stage('linux') {
                     agent {label 'Ubuntu'}
                     steps {
-                        sh label: 'test', script: "./gradlew :desktop:test"
+                        sh label: 'test', script: "$gradleCmd :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }
                     post {
