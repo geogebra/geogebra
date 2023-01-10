@@ -71,7 +71,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		Translateable, PointRotateable, Mirrorable, Dilateable,
 		MatrixTransformable, Transformable, GeoVectorND, SpreadsheetTraceable,
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasHeadStyle {
 
 	private GeoPointND startPoint;
 
@@ -1116,10 +1116,12 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return movedGeo;
 	}
 
+	@Override
 	public VectorHeadStyle getHeadStyle() {
 		return headStyle;
 	}
 
+	@Override
 	public void setHeadStyle(VectorHeadStyle headStyle) {
 		this.headStyle = headStyle;
 	}

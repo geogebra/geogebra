@@ -28,7 +28,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasHeadStyle;
 import org.geogebra.common.kernel.geos.VectorHeadStyle;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -142,7 +142,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	}
 
 	private VectorShape vectorShape() {
-		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
+		VectorHeadStyle headStyle = ((HasHeadStyle) geo).getHeadStyle();
 		return headStyle.createShape(model);
 	}
 
