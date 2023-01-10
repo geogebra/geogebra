@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom used in array mode to write on several columns.
  */
-public class MulticolumnAtom extends Atom {
+public class MulticolumnAtom extends Atom implements HasTrueBase {
 
 	protected int n;
 	protected ArrayOptions options;
@@ -100,5 +102,10 @@ public class MulticolumnAtom extends Atom {
 		Box b = cols.createBox(env);
 		b.type = TeXConstants.TYPE_MULTICOLUMN;
 		return b;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return cols;
 	}
 }

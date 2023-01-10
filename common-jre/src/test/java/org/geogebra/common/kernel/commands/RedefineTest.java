@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -532,6 +533,19 @@ public class RedefineTest extends BaseUnitTest {
 		reload();
 		p = lookup("P");
 		assertThat(p, hasValue("(1.55, 3.11)"));
+	}
+
+	@Test
+	public void sumShouldWorkAfterReload() {
+		add("n=1");
+		add("texts=First({\"foo\"}, n)");
+		GeoText sum = add("sum=Sum(texts)");
+		assertThat(sum, hasValue("foo"));
+		add("SetValue(n,0)");
+		reload();
+		assertThat(lookup("sum"), hasValue(""));
+		add("SetValue(n,1)");
+		assertThat(lookup("sum"), hasValue("foo"));
 	}
 
 	/**
