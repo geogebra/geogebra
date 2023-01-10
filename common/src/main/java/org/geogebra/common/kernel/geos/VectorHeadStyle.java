@@ -8,15 +8,15 @@ import org.geogebra.common.euclidian.draw.VectorShape;
 public enum VectorHeadStyle {
 	DEFAULT {
 		@Override
-		public VectorShape createShape(DrawVectorModel properties) {
-			return new DefaultVectorShape(properties);
+		public VectorShape createShape(DrawVectorModel model) {
+			return new DefaultVectorShape(model);
 		}
 	}, ARROW {
 		@Override
-		public VectorShape createShape(DrawVectorModel properties) {
-			return new ArrowVectorShape(properties);
+		public VectorShape createShape(DrawVectorModel model) {
+			return new ArrowVectorShape(model);
 		}
 	};
 
-	public abstract VectorShape createShape(DrawVectorModel properties);
+	public abstract VectorShape createShape(DrawVectorModel model);
 }

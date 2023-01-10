@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.MyMath;
 
 public class DrawVectorModel {
@@ -88,8 +89,8 @@ public class DrawVectorModel {
 
 		double factor = DrawVector.getFactor(lineThickness);
 
-		double length = length();
 
+		double length = length();
 		// decrease arrowhead size if it's longer than the vector
 		if (length < factor) {
 			factor = length;
@@ -102,9 +103,16 @@ public class DrawVectorModel {
 	}
 
 	public void updateLabelPosition(Drawable drawable) {
-		// note that coordsV was normalized in setArrow()
-		drawable.xLabel = (int) ((coordsA[0] + coordsB[0]) / 2.0 + coordsV[1]);
-		drawable.yLabel = (int) ((coordsA[1] + coordsB[1]) / 2.0 - coordsV[0]);
+		drawable.xLabel = (int) (xMiddle() + (coordsV[1] / 4.0));
+		drawable.yLabel = (int) (yMiddle() - (coordsV[0] / 4.0));
+	}
+
+	private double yMiddle() {
+		return (coordsA[1] + coordsB[1]) / 2.0;
+	}
+
+	private double xMiddle() {
+		return (coordsA[0] + coordsB[0]) / 2.0;
 	}
 
 	public void calculateEndCoords() {
@@ -120,5 +128,13 @@ public class DrawVectorModel {
 	public void setVectorCoords(double x, double y) {
 		coordsV[0] = x;
 		coordsV[1] = y;
+	}
+
+	public boolean isStartOnScreen(EuclidianView view) {
+		return view.toScreenCoords(coordsA);
+	}
+
+	public boolean isEndOnScreen(EuclidianView view) {
+		return view.toScreenCoords(coordsB);
 	}
 }

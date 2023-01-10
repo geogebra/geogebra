@@ -1,19 +1,17 @@
 	package org.geogebra.common.euclidian.draw;
 
-import org.geogebra.common.awt.GAffineTransform;
-import org.geogebra.common.awt.GArea;
-import org.geogebra.common.awt.GBasicStroke;
-import org.geogebra.common.awt.GGeneralPath;
-import org.geogebra.common.awt.GLine2D;
-import org.geogebra.common.awt.GShape;
-import org.geogebra.common.factories.AwtFactory;
+	import org.geogebra.common.awt.GAffineTransform;
+	import org.geogebra.common.awt.GBasicStroke;
+	import org.geogebra.common.awt.GGeneralPath;
+	import org.geogebra.common.awt.GLine2D;
+	import org.geogebra.common.awt.GShape;
+	import org.geogebra.common.factories.AwtFactory;
 
 public class RotatedArrow {
 	private final GLine2D line;
 	private final double lineThickness;
 	private final GBasicStroke stroke;
 	private final GGeneralPath arrow;
-	private boolean filled;
 
 	public RotatedArrow(GLine2D line, double lineThickness, GBasicStroke stroke) {
 		this.line = line;
@@ -35,25 +33,15 @@ public class RotatedArrow {
 
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
 		initRotateTrans(getAngle(), x, y, t);
+
 		arrow.reset();
 		arrow.moveTo(x, y);
-
 		arrow.lineTo(arrowSideX, y + lineThickness);
-		if (filled) {
-			arrow.lineTo(arrowSideX, y - lineThickness);
-			arrow.closePath();
-		} else {
-			arrow.moveTo(arrowSideX, y - lineThickness);
-			arrow.lineTo(x, y);
-		}
+		arrow.moveTo(arrowSideX, y - lineThickness);
+		arrow.lineTo(x, y);
+
 		GShape strokedArrow = stroke.createStrokedShape(arrow, 255);
-		GShape transformedArrow = t.createTransformedShape(strokedArrow);
-		if (filled) {
-			GArea area = GCompositeShape.toArea(transformedArrow);
-			area.add(GCompositeShape.toArea(t.createTransformedShape(arrow)));
-			return area;
-		}
-		return transformedArrow;
+		return t.createTransformedShape(strokedArrow);
 	}
 
 	private void initRotateTrans(double angle, double transX, double transY,
@@ -61,9 +49,5 @@ public class RotatedArrow {
 		trans.translate(transX, transY);
 		trans.rotate(angle);
 		trans.translate(-transX, -transY);
-	}
-
-	public void setFilled(boolean filled) {
-		this.filled = filled;
 	}
 }

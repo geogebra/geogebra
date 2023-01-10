@@ -52,7 +52,6 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	private final GPoint2D endPoint = new GPoint2D();
 
 	private final DrawVectorStyle drawStyledVector;
-	private VectorShape vectorShape;
 	private final DrawVectorModel model = new DrawVectorModel();
 
 	/**
@@ -139,9 +138,12 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 
 	private void updateShape() {
 		model.update(v.getLineThickness(), objStroke);
+		drawStyledVector.update(vectorShape());
+	}
+
+	private VectorShape vectorShape() {
 		VectorHeadStyle headStyle = ((GeoVector) geo).getHeadStyle();
-		vectorShape = headStyle.createShape(model);
-		drawStyledVector.update(vectorShape);
+		return headStyle.createShape(model);
 	}
 
 	private void updateTrace() {
@@ -256,7 +258,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		double xRW = xRWmouse;
 		double yRW = yRWmouse;
 		if (isVisible) {
-
+			model.update(1, objStroke);
 			// round angle to nearest 15 degrees if alt pressed
 			if (points.size() == 1
 					&& view.getEuclidianController().isAltDown()) {
@@ -286,7 +288,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 			}
 
 			model.setEndCoords(xRW, yRW);
-			drawStyledVector.update(vectorShape);
+			drawStyledVector.update(vectorShape());
 		}
 	}
 

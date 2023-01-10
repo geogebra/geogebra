@@ -6,40 +6,34 @@ import org.geogebra.common.factories.AwtFactory;
 
 public class ArrowVectorShape implements VectorShape {
 	private final GLine2D line;
-	private final DrawVectorModel properties;
-	private boolean filled = false;
+	private final DrawVectorModel model;
 
-	public ArrowVectorShape(DrawVectorModel properties) {
-		this.properties = properties;
+	public ArrowVectorShape(DrawVectorModel model) {
+		this.model = model;
 		line = AwtFactory.getPrototype().newLine2D();
 	}
 
 	@Override
-	public DrawVectorModel properties() {
-		return properties;
+	public DrawVectorModel model() {
+		return model;
 	}
 
 	@Override
 	public GLine2D body() {
-		line.setLine(properties.getStartX(), properties.getStartY(),
-				properties.getEndX(), properties.getEndY());
+		line.setLine(model.getStartX(), model.getStartY(),
+				model.getEndX(), model.getEndY());
 		return line;
 	}
 
 	@Override
 	public GShape head() {
-		RotatedArrow rotatedArrow = new RotatedArrow(line, properties.getLineThickness(),
-				properties.getStroke());
-		rotatedArrow.setFilled(filled);
+		RotatedArrow rotatedArrow = new RotatedArrow(line, model.getLineThickness(),
+				model.getStroke());
 		return rotatedArrow.get();
 	}
 
 	@Override
 	public GLine2D clippedBody() {
 		return body();
-	}
-
-	public void setFilled(boolean filled) {
-		this.filled = filled;
 	}
 }

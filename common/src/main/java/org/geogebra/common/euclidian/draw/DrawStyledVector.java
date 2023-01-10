@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
-import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -15,28 +14,23 @@ import org.geogebra.common.factories.AwtFactory;
 public class DrawStyledVector implements DrawVectorStyle {
 
 	private GLine2D line;
-	private final GGeneralPath arrow;
-
 	private final EuclidianView view;
 	private final VectorVisibility visibility;
 	private final GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 	private GArea area;
-	private boolean headVisible = true;
-	private DrawVectorModel properties;
 
 	public DrawStyledVector(VectorVisibility visibility, EuclidianView view) {
 		this.view = view;
 		this.visibility = visibility;
-		arrow = AwtFactory.getPrototype().newGeneralPath();
 	}
 
 	public void update(VectorShape vectorShape) {
-		this.properties = vectorShape.properties();
-		final boolean onscreenA = view.toScreenCoords(properties.getStartCoords());
-		final boolean onscreenB = view.toScreenCoords(properties.getEndCoords());
-		properties.update();
+		DrawVectorModel model = vectorShape.model();
+		final boolean startOnScreen = model.isStartOnScreen(view);
+		final boolean endOnScreen = model.isEndOnScreen(view);
+		model.update();
 
-		if (onscreenA && onscreenB) {
+		if (startOnScreen && endOnScreen) {
 			line = vectorShape.body();
 		} else {
 			line = vectorShape.clippedBody();
@@ -44,8 +38,7 @@ public class DrawStyledVector implements DrawVectorStyle {
 
 		// add triangle if visible
 		if (visibility.isVisible()) {
-			createVectorShape(properties.getStroke(), properties.length(), vectorShape);
-			headVisible = onscreenB || view.intersects(arrow);
+			createVectorShape(model.getStroke(), model.length(), vectorShape);
 		}
 	}
 
@@ -76,8 +69,6 @@ public class DrawStyledVector implements DrawVectorStyle {
 				line.setLine(clippedPoints[0].getX(),
 						clippedPoints[0].getY(), clippedPoints[1].getX(),
 						clippedPoints[1].getY());
-			} else {
-				headVisible = false;
 			}
 		}
 	}
@@ -87,7 +78,7 @@ public class DrawStyledVector implements DrawVectorStyle {
 		GShape strokedLine = stroke.createStrokedShape(line, 255);
 		area.add(GCompositeShape.toArea(strokedLine));
 
-		if (length > 0 && headVisible) {
+		if (length > 0) {
 			area.add(GCompositeShape.toArea(vectorShape.head()));
 		}
 	}

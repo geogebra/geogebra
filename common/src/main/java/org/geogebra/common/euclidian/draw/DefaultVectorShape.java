@@ -16,7 +16,7 @@ public class DefaultVectorShape implements VectorShape {
 	}
 
 	@Override
-	public DrawVectorModel properties() {
+	public DrawVectorModel model() {
 		return properties;
 	}
 
