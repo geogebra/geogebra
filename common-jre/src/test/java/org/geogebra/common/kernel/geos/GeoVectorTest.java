@@ -56,11 +56,4 @@ public class GeoVectorTest extends BaseUnitTest {
 		vector.setHeadStyle(VectorHeadStyle.ARROW);
 		assertThat(vector.getXML(), containsString("\t<headStyle val=\"1\"/>"));
 	}
-
-	@Test
-	public void testGetXmlWithArrowFilledHead() {
-		GeoVector vector = addAvInput("v = (1, 2)");
-		vector.setHeadStyle(VectorHeadStyle.ARROW_FILLED);
-		assertThat(vector.getXML(), containsString("\t<headStyle val=\"2\"/>"));
-	}
 }

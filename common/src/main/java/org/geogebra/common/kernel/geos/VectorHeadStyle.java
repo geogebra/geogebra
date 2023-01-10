@@ -16,13 +16,6 @@ public enum VectorHeadStyle {
 		public VectorShape createShape(DrawVectorModel properties) {
 			return new ArrowVectorShape(properties);
 		}
-	}, ARROW_FILLED {
-		@Override
-		public VectorShape createShape(DrawVectorModel properties) {
-			ArrowVectorShape shape = new ArrowVectorShape(properties);
-			shape.setFilled(true);
-			return shape;
-		}
 	};
 
 	public abstract VectorShape createShape(DrawVectorModel properties);

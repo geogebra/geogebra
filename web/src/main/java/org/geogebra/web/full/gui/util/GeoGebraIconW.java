@@ -32,9 +32,8 @@ public class GeoGebraIconW {
 
 
 	private static final SVGResource[] vectorHeadStyleIcons = {
-			matIcons.stylingbar_end_default(),
-			matIcons.stylingbar_end_arrow(), matIcons.stylingbar_end_arrow_filled(),
-	};
+			matIcons.stylingbar_end_arrow_filled(),
+			matIcons.stylingbar_end_arrow()};
 
 	private static final SVGResource[] gridStyleIcons = {
 			matIcons.stylebar_empty(), matIcons.grid_black(),
