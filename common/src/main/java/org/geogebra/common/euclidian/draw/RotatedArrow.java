@@ -13,7 +13,13 @@ public class RotatedArrow {
 	private final GBasicStroke stroke;
 	private final GGeneralPath arrow;
 
-	public RotatedArrow(GLine2D line, double lineThickness, GBasicStroke stroke) {
+	/**
+	 *
+	 * @param line vector line to attach arrow.
+	 * @param lineThickness the thickness of the line.
+	 * @param stroke to make the arrow of.
+	 */
+	RotatedArrow(GLine2D line, double lineThickness, GBasicStroke stroke) {
 		this.line = line;
 		this.lineThickness = lineThickness;
 		this.stroke = stroke;
@@ -26,7 +32,11 @@ public class RotatedArrow {
 		return Math.atan2(deltaY, deltaX);
 	}
 
-	public GShape get() {
+	/**
+	 *
+	 * @return the result shape.
+	 */
+	GShape get() {
 		double x = line.getX2();
 		double y = line.getY2();
 		double arrowSideX = x - lineThickness;

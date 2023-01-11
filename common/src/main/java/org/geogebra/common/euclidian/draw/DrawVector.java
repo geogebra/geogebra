@@ -39,7 +39,7 @@ import org.geogebra.common.util.DoubleUtil;
  * 
  * @author Markus
  */
-public class DrawVector extends Drawable implements Previewable, VectorVisibility {
+public class DrawVector extends Drawable implements Previewable, DrawableVisibility {
 
 	private GeoVectorND v;
 
@@ -51,7 +51,7 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	private ArrayList<GeoPointND> points;
 	private final GPoint2D endPoint = new GPoint2D();
 
-	private final DrawVectorStyle drawStyledVector;
+	private final DrawStyledVector drawStyledVector;
 	private final DrawVectorModel model = new DrawVectorModel();
 
 	/**
@@ -180,7 +180,6 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 		// changed to make arrow-heads a bit bigger for line thickness 8-13
 		return lineThickness < 8 ? 12.0 + lineThickness : 3 * lineThickness;
 	}
-
 
 	@Override
 	public void draw(GGraphics2D g2) {
@@ -329,7 +328,6 @@ public class DrawVector extends Drawable implements Previewable, VectorVisibilit
 	public final GRectangle getBounds() {
 		return drawStyledVector.getShape().getBounds();
 	}
-
 
 	@Override
 	public void setVisible(boolean visible) {

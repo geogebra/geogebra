@@ -50,6 +50,7 @@ public class GeoVectorTest extends BaseUnitTest {
 		GeoVector vector = addAvInput("v = (1, 2)");
 		assertThat(vector.getXML(), not(containsString("\t<headStyle")));
 	}
+
 	@Test
 	public void testGetXmlWithArrowHead() {
 		GeoVector vector = addAvInput("v = (1, 2)");

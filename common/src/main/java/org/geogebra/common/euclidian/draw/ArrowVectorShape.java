@@ -8,6 +8,10 @@ public class ArrowVectorShape implements VectorShape {
 	private final GLine2D line;
 	private final DrawVectorModel model;
 
+	/**
+	 *
+	 * @param model {@link DrawVectorModel}
+	 */
 	public ArrowVectorShape(DrawVectorModel model) {
 		this.model = model;
 		line = AwtFactory.getPrototype().newLine2D();
@@ -30,10 +34,5 @@ public class ArrowVectorShape implements VectorShape {
 		RotatedArrow rotatedArrow = new RotatedArrow(line, model.getLineThickness(),
 				model.getStroke());
 		return rotatedArrow.get();
-	}
-
-	@Override
-	public GLine2D clippedBody() {
-		return body();
 	}
 }

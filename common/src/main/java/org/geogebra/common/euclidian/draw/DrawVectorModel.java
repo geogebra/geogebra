@@ -12,86 +12,83 @@ public class DrawVectorModel {
 	private int lineThickness;
 	private GBasicStroke objStroke;
 
-	public void update(int lineThickness, GBasicStroke objStroke) {
+	void update(int lineThickness, GBasicStroke objStroke) {
 		this.lineThickness = lineThickness;
 		this.objStroke = objStroke;
 	}
 
-	public void setStartCoords(double x, double y) {
+	void setStartCoords(double x, double y) {
 		coordsA[0] = x;
 		coordsA[1] = y;
 	}
 
-	public double getStartX() {
+	double getStartX() {
 		return coordsA[0];
 	}
 
-	public double getStartY() {
+	double getStartY() {
 		return coordsA[1];
 	}
-	public double getEndX() {
+
+	double getEndX() {
 		return coordsB[0];
 	}
 
-	public double getEndY() {
+	double getEndY() {
 		return coordsB[1];
 	}
 
-	public double getPositionVectorX() {
+	double getPositionVectorX() {
 		return coordsV[0];
 
 	}
 
-	public double getPositionVectorY() {
+	double getPositionVectorY() {
 		return coordsV[1];
 	}
 
-	public double[] getStartCoords() {
+	double[] getStartCoords() {
 		return coordsA;
 	}
 
-	public double[] getEndCoords() {
+	double[] getEndCoords() {
 		return coordsB;
 	}
 
-	public double[] getPositionVectorCoords() {
+	double[] getPositionVectorCoords() {
 		return coordsV;
 	}
 
-	public double getLineThickness() {
+	double getLineThickness() {
 		return lineThickness;
 	}
 
-	public double length() {
+	double length() {
 		return MyMath.length(this.coordsV[0], this.coordsV[1]);
 	}
 
-	public void normalize() {
+	void normalize() {
 		coordsV[0] = coordsB[0] - coordsA[0];
 		coordsV[1] = coordsB[1] - coordsA[1];
 	}
 
-	public void scalePositionVector(double factor) {
+	void scalePositionVector(double factor) {
 		double length = length();
 		this.coordsV[0] = (this.coordsV[0] * factor) / length;
 		this.coordsV[1] = (this.coordsV[1] * factor) / length;
 
 	}
 
-	public GBasicStroke getStroke() {
+	GBasicStroke getStroke() {
 		return objStroke;
 	}
 
-	public void update() {
+	void update() {
 		normalize();
 
-		// calculate endpoint F at base of arrow
-
 		double factor = DrawVector.getFactor(lineThickness);
-
-
 		double length = length();
-		// decrease arrowhead size if it's longer than the vector
+
 		if (length < factor) {
 			factor = length;
 		}
@@ -102,7 +99,7 @@ public class DrawVectorModel {
 
 	}
 
-	public void updateLabelPosition(Drawable drawable) {
+	void updateLabelPosition(Drawable drawable) {
 		drawable.xLabel = (int) (xMiddle() + (coordsV[1] / 4.0));
 		drawable.yLabel = (int) (yMiddle() - (coordsV[0] / 4.0));
 	}
@@ -115,26 +112,26 @@ public class DrawVectorModel {
 		return (coordsA[0] + coordsB[0]) / 2.0;
 	}
 
-	public void calculateEndCoords() {
+	void calculateEndCoords() {
 		coordsB[0] = coordsA[0] + coordsV[0];
 		coordsB[1] = coordsA[1] + coordsV[1];
 	}
 
-	public void setEndCoords(double x, double y) {
+	void setEndCoords(double x, double y) {
 		coordsB[0] = x;
 		coordsB[1] = y;
 	}
 
-	public void setVectorCoords(double x, double y) {
+	void setVectorCoords(double x, double y) {
 		coordsV[0] = x;
 		coordsV[1] = y;
 	}
 
-	public boolean isStartOnScreen(EuclidianView view) {
+	boolean isStartOnScreen(EuclidianView view) {
 		return view.toScreenCoords(coordsA);
 	}
 
-	public boolean isEndOnScreen(EuclidianView view) {
+	boolean isEndOnScreen(EuclidianView view) {
 		return view.toScreenCoords(coordsB);
 	}
 }

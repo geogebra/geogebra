@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
-public interface VectorVisibility {
+public interface DrawableVisibility {
 	void setVisible(boolean visible);
+
 	boolean isVisible();
 }

@@ -5,26 +5,33 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
 
+/**
+ * Draws the vector with the default head
+ */
 public class DefaultVectorShape implements VectorShape {
 
-	private final DrawVectorModel properties;
+	private final DrawVectorModel model;
 	private final GLine2D line;
 
-	public DefaultVectorShape(DrawVectorModel properties) {
-		this.properties = properties;
+	/**
+	 *
+	 * @param model {@link DrawVectorModel}
+	 */
+	public DefaultVectorShape(DrawVectorModel model) {
+		this.model = model;
 		line = AwtFactory.getPrototype().newLine2D();
 	}
 
 	@Override
 	public DrawVectorModel model() {
-		return properties;
+		return model;
 	}
 
 	@Override
 	public GLine2D body() {
-		double arrowBaseX = properties.getEndX() - properties.getPositionVectorX();
-		double arrowBaseY = properties.getEndY() - properties.getPositionVectorY();
-		line.setLine(properties.getStartX(), properties.getStartY(),
+		double arrowBaseX = model.getEndX() - model.getPositionVectorX();
+		double arrowBaseY = model.getEndY() - model.getPositionVectorY();
+		line.setLine(model.getStartX(), model.getStartY(),
 				arrowBaseX, arrowBaseY);
 		return line;
 	}
@@ -32,24 +39,18 @@ public class DefaultVectorShape implements VectorShape {
 	@Override
 	public GShape head() {
 		GGeneralPath arrow = AwtFactory.getPrototype().newGeneralPath();
-		double vX = properties.getPositionVectorX() / 4.0;
-		double vY = properties.getPositionVectorY() / 4.0;
-
+		double vX = model.getPositionVectorX() / 4.0;
+		double vY = model.getPositionVectorY() / 4.0;
 
 		double[] coordsF = new double[2];
-		coordsF[0] = properties.getEndX() - properties.getPositionVectorX();
-		coordsF[1] = properties.getEndY() - properties.getPositionVectorY();
+		coordsF[0] = model.getEndX() - model.getPositionVectorX();
+		coordsF[1] = model.getEndY() - model.getPositionVectorY();
 
 		arrow.reset();
-		arrow.moveTo(properties.getEndX(), properties.getEndY());
+		arrow.moveTo(model.getEndX(), model.getEndY());
 		arrow.lineTo(coordsF[0] - vY, coordsF[1] + vX);
 		arrow.lineTo(coordsF[0] + vY, coordsF[1] - vX);
 		arrow.closePath();
 		return arrow;
-	}
-
-	@Override
-	public GLine2D clippedBody() {
-		return body();
 	}
 }
