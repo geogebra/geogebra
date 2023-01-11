@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
@@ -48,7 +49,15 @@ public class DrawStyledVector {
 		}
 	}
 
-	GShape getShape() {
-		return area;
+	public GRectangle getBounds() {
+		return area.getBounds();
+	}
+
+	public boolean intersects(int x1, int y1, int w, int h) {
+		return area.intersects(x1, y1, w, h);
+	}
+
+	public void fill(GGraphics2D g2) {
+		g2.fill(area);
 	}
 }

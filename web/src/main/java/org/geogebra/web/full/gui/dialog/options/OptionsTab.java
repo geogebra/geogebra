@@ -317,7 +317,7 @@ public class OptionsTab extends FlowPanel {
 			return ssp;
 		}
 		if (m instanceof VectorHeadStyleModel) {
-			return new VectorHeadStylePanel(((VectorHeadStyleModel) m), app);
+			return new VectorHeadStylePanel((VectorHeadStyleModel) m, app);
 		}
 
 		if (m instanceof TextOptionsModel) {

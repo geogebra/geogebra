@@ -192,10 +192,10 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 		}
 
 		if (isHighlighted()) {
-			drawHighlight(g2);
+			highlightStyledVector(g2);
 		}
 
-		drawVectorShape(g2);
+		drawStyledVector(g2);
 
 		if (labelVisible) {
 			drawVectorLabel(g2);
@@ -216,21 +216,18 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		g2.fill(drawStyledVector.getShape());
+		drawStyledVector.fill(g2);
 	}
 
-	private void drawHighlight(GGraphics2D g2) {
+	private void highlightStyledVector(GGraphics2D g2) {
 		g2.setPaint(v.getSelColor());
 		g2.setStroke(selStroke);
-		if (isVisible) {
-			g2.draw(drawStyledVector.getShape());
-		}
+		drawStyledVector.draw(g2);
 	}
 
-	private void drawVectorShape(GGraphics2D g2) {
+	private void drawStyledVector(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-
 		drawStyledVector.draw(g2);
 	}
 
@@ -297,7 +294,7 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
-			g2.fill(drawStyledVector.getShape());
+			drawStyledVector.fill(g2);
 		}
 	}
 
@@ -308,17 +305,17 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 
 	@Override
 	public final boolean hit(int x, int y, int hitThreshold) {
-		return drawStyledVector.getShape().intersects(x - 3, y - 3, 6, 6);
+		return drawStyledVector.intersects(x - 3, y - 3, 6, 6);
 	}
 
 	@Override
 	public final boolean isInside(GRectangle rect) {
-		return rect.contains(drawStyledVector.getShape().getBounds());
+		return rect.contains(drawStyledVector.getBounds());
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return rect.intersects(drawStyledVector.getShape().getBounds());
+		return rect.intersects(drawStyledVector.getBounds());
 	}
 
 	/**
@@ -326,7 +323,7 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 	 */
 	@Override
 	public final GRectangle getBounds() {
-		return drawStyledVector.getShape().getBounds();
+		return drawStyledVector.getBounds();
 	}
 
 	@Override

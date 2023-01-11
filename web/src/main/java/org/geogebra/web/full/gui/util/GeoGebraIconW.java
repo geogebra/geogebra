@@ -30,7 +30,6 @@ public class GeoGebraIconW {
 			matIcons.stylingbar_end_circle_outlined(), matIcons.stylingbar_end_circle()
 	};
 
-
 	private static final SVGResource[] vectorHeadStyleIcons = {
 			matIcons.stylingbar_end_arrow_filled(),
 			matIcons.stylingbar_end_arrow()};
