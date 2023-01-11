@@ -7,7 +7,8 @@ import org.geogebra.web.full.gui.applet.FrameWithHeaderAndKeyboard;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 
 /**
  * Shows and hides a panel. If the panel is an AnimatingPanel then the transition (showing/hiding)
@@ -79,8 +80,8 @@ public class PanelTransitioner {
 
 	private void setupPanel() {
 		currentPanel.getElement().getStyle().setZIndex(Z_INDEX);
-		currentPanel.getElement().getStyle().setTop(0, Style.Unit.PX);
-		currentPanel.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		currentPanel.getElement().getStyle().setTop(0, Unit.PX);
+		currentPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		final int oldHeight = mainFrame.getOffsetHeight();
 		final int oldWidth = mainFrame.getOffsetWidth();
 		currentPanel.setHeight(oldHeight + "px");

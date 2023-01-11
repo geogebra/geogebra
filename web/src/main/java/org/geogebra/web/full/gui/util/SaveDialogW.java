@@ -27,7 +27,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.resources.client.ImageResource;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -179,7 +179,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 			providerPopup.setSelectedIndex(((AppW) app).getFileManager()
 			        .getFileProvider() == Provider.LOCAL ? 1 : 0);
 		}
-		providerPopup.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		providerPopup.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
 		visibilityPanel.add(providerPopup);
 		visibilityPanel.add(listBox);

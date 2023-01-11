@@ -25,7 +25,7 @@ import org.geogebra.web.resources.StyleInjector;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.OutlineStyle;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
@@ -393,11 +393,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static void setBorder(Element ae, Element gfE,
 			String dpBorder, int px) {
-		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
-		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		ae.getStyle().setBorderWidth(0, Unit.PX);
+		ae.getStyle().setBorderStyle(BorderStyle.SOLID);
 		ae.getStyle().setBorderColor(dpBorder);
-		gfE.getStyle().setBorderWidth(px, Style.Unit.PX);
-		gfE.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		gfE.getStyle().setBorderWidth(px, Unit.PX);
+		gfE.getStyle().setBorderStyle(BorderStyle.SOLID);
 		gfE.getStyle().setBorderColor(dpBorder);
 		ae.getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}

@@ -50,7 +50,8 @@ import org.geogebra.web.resources.SVGResource;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Float;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.layout.client.Layout;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.user.client.DOM;
@@ -172,8 +173,8 @@ public class ToolbarPanel extends FlowPanel
 	private void setUndoPosition(double top, double left) {
 		assert undoRedoPanel != null;
 		undoRedoPanel.setVisible(true);
-		undoRedoPanel.getElement().getStyle().setTop(top, Style.Unit.PX);
-		undoRedoPanel.getElement().getStyle().setLeft(left, Style.Unit.PX);
+		undoRedoPanel.getElement().getStyle().setTop(top, Unit.PX);
+		undoRedoPanel.getElement().getStyle().setLeft(left, Unit.PX);
 	}
 
 	/**
@@ -334,7 +335,7 @@ public class ToolbarPanel extends FlowPanel
 				.toolbar_close_landscape_black();
 		StandardButton close = new StandardButton(icon, null, 24, 24);
 		close.addStyleName("flatButton");
-		close.getElement().getStyle().setFloat(Style.Float.RIGHT);
+		close.getElement().getStyle().setFloat(Float.RIGHT);
 		close.addFastClickHandler(source -> {
 			navRail.setAnimating(true);
 			showOppositeView();

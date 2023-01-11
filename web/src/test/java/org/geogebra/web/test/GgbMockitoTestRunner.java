@@ -14,6 +14,7 @@ import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.resources.SVGResourcePrototype;
 import org.geogebra.web.resources.StyleInjector;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -49,6 +50,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
      * Works by reloading the test class using a custom classloader and substituting the reference.
      *
      * @param unitTestClass test class
+     * @throws InitializationError if the test class is malformed.
      */
     public GgbMockitoTestRunner(Class<?> unitTestClass) throws InitializationError {
         super(unitTestClass);
@@ -118,5 +120,11 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         classesToStub.remove(FlowPanel.class);
         classesToStub.add(TextAreaElement.class);
         return classesToStub;
+    }
+
+    @Override
+    public void run(final RunNotifier notifier) {
+        getTestClass().getJavaClass().getClassLoader().setDefaultAssertionStatus(false);
+        super.run(notifier);
     }
 }

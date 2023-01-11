@@ -135,7 +135,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
@@ -627,8 +627,8 @@ public class GuiManagerW extends GuiManager
 			root.setPixelSize(width - horizontalSpace, height - verticalSpace);
 			root.onResize();
 		} else {
-			geogebraFrame.getStyle().setHeight(height, Style.Unit.PX);
-			geogebraFrame.getStyle().setWidth(width, Style.Unit.PX);
+			geogebraFrame.getStyle().setHeight(height, Unit.PX);
+			geogebraFrame.getStyle().setWidth(width, Unit.PX);
 			getApp().getEuclidianViewpanel().setPixelSize(width, height);
 
 			// maybe onResize is OK too

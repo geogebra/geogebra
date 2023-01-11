@@ -21,7 +21,7 @@ import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -257,7 +257,7 @@ public class TextEditPanel extends VerticalPanel
 		leftPanel.add(btnLatex);
 
 		toolBar = new FlowPanel();
-		toolBar.getElement().getStyle().setFloat(Style.Float.LEFT);
+		toolBar.getElement().getStyle().setFloat(Float.LEFT);
 		toolBar.getElement().getStyle().setFontSize(80, Unit.PCT);
 		toolBar.add(leftPanel);
 	}
