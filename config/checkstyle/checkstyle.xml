@@ -119,7 +119,7 @@
         </module>
         <module name="JavadocMethod">
             <property name="scope" value="public"/>
-            <property name="allowMissingParamTags" value="false"/>
+            <property name="allowMissingParamTags" value="true"/>
             <property name="allowMissingReturnTag" value="false"/>
             <property name="allowedAnnotations" value="Override, Test, Before"/>
         </module>

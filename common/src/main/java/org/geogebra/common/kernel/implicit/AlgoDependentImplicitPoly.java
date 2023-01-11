@@ -38,6 +38,24 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	/**
 	 * Creates new implicit polynomial from equation. This algo may also return
 	 * line or conic.
+	 *
+	 * @param c
+	 *            construction
+	 * @param simplify
+	 *            whether we can evaluate the coefficients
+	 * @param equ
+	 *            equation
+	 * @param definition
+	 *            definition node
+	 */
+	public AlgoDependentImplicitPoly(Construction c, Equation equ,
+			ExpressionNode definition, boolean simplify) {
+		this(c, equ, definition, simplify, null);
+	}
+
+	/**
+	 * Creates new implicit polynomial from equation. This algo may also return
+	 * line or conic.
 	 * 
 	 * @param c
 	 *            construction

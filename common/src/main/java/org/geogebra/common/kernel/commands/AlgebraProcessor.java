@@ -2296,7 +2296,7 @@ public class AlgebraProcessor {
 
 		// Equation in x,y (linear or quadratic are valid): line or conic
 		else if (ve instanceof Equation) {
-			ret = processEquation((Equation) ve, ve.wrap(), info, null);
+			ret = processEquationOrAssignment((Equation) ve, ve.wrap(), info, null);
 		}
 
 		// explicit Function in one variable
@@ -2675,8 +2675,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Processes given equation to an array containing single line / conic /
-	 * implicit polynomial. Throws MyError for degree 0 equations, eg. 1=2 or
-	 * x=x.
+	 * implicit polynomial. May throws MyError for degree 0 equations (see allowConstant)
 	 *
 	 * @param equ
 	 *            equation
@@ -2699,20 +2698,9 @@ public class AlgebraProcessor {
 	/**
 	 * Processes given equation to an array containing single line / conic /
 	 * implicit polynomial. Throws MyError for degree 0 equations, eg. 1=2 or
-	 * x=x.
-	 *
-	 * @param equ
-	 *            equation
-	 * @param def
-	 *            definition node (not same as equation in case of list1(2))
-	 * @param info
-	 *            processing information
-	 * @param evaluatedDef evaluated definition, used as type hint (used as type hint)
-	 * @return line, conic, implicit poly or plane
-	 * @throws MyError
-	 *             e.g. for invalid operation
+	 * x=x. Special handling for equations like z=7 that may be handled as assignment.
 	 */
-	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
+	private GeoElement[] processEquationOrAssignment(Equation equ, ExpressionNode def,
 			EvalInfo info, ExpressionValue evaluatedDef) throws MyError {
 		if (!enableStructures()) {
 			throw new MyError(loc, Errors.InvalidInput);
@@ -2788,23 +2776,7 @@ public class AlgebraProcessor {
 				kernel.getConstruction().isFileLoading(), info, evaluatedDef);
 	}
 
-	/**
-	 * @param equ
-	 *            equation
-	 * @param def
-	 *            defining expression (either wrapped equation or something like
-	 *            list1(1))
-	 * @param allowConstant
-	 *            true to allow equations like 2=3 or x=x, false to throw
-	 *            MyError for those
-	 * @param info
-	 *            evaluation flags
-	 * @param evaluatedDef result of evaluation of the definition (usedas type hint)
-	 * @return line, conic, implicit poly or plane
-	 * @throws MyError
-	 *             e.g. for invalid operation
-	 */
-	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
+	private GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			boolean allowConstant, EvalInfo info, ExpressionValue evaluatedDef) throws MyError {
 		equ.initEquation();
 
@@ -3109,7 +3081,7 @@ public class AlgebraProcessor {
 			} else if (leaf instanceof Equation) {
 				Equation eqn = (Equation) leaf;
 				eqn.setLabels(n.getLabels());
-				return processEquation(eqn, n, info, null);
+				return processEquationOrAssignment(eqn, n, info, null);
 			} else if (leaf instanceof Function) {
 				Function fun = (Function) leaf;
 				fun.setLabels(n.getLabels());
@@ -3210,7 +3182,7 @@ public class AlgebraProcessor {
 			Equation eq = ((EquationValue) eval).getEquation();
 			eq.setFunctionDependent(true);
 			eq.setLabel(n.getLabel());
-			return processEquation(eq, n, info, eval);
+			return processEquationOrAssignment(eq, n, info, eval);
 		} else if (eval instanceof Function) {
 			return processFunction((Function) eval, info);
 		} else if (eval instanceof FunctionNVar) {
