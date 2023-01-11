@@ -48,7 +48,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'build', state: 'pending'
                 writeFile file: 'changes.csv', text: getChangelog()
-                sh label: 'build web', script: "./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
+                sh label: 'build web', script: "$gradleCmd :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
             }
         }
         stage('tests and reports') {
@@ -82,7 +82,8 @@ pipeline {
                 stage('mac') {
                     agent {label 'mac'}
                     steps {
-                        sh label: 'test', script: "$gradleCmd :desktop:test"
+                        // NOT using docker to make sure this runs Giac for Mac
+                        sh label: 'test', script: "./gradlew :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }
                     post {
@@ -102,6 +103,7 @@ pipeline {
                 stage('windows') {
                     agent {label 'winbuild'}
                     steps {
+                        // NOT using docker to make sure this runs Giac for Windows
                         bat label: 'test', script: ".\\gradlew.bat :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }
