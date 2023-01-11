@@ -17,7 +17,7 @@ import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.user.client.DOM;
@@ -138,8 +138,8 @@ public class AccessibleDropDown implements AccessibleWidget {
 		if (drawable instanceof CanvasDrawable) {
 			GRectangle bounds = ((CanvasDrawable) drawable).getBounds();
 			if (bounds != null) {
-				button.getElement().getStyle().setTop(bounds.getMinY(), Style.Unit.PX);
-				button.getElement().getStyle().setLeft(bounds.getMinX(), Style.Unit.PX);
+				button.getElement().getStyle().setTop(bounds.getMinY(), Unit.PX);
+				button.getElement().getStyle().setLeft(bounds.getMinX(), Unit.PX);
 			}
 		}
 	}

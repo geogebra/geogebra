@@ -1,8 +1,5 @@
 package org.geogebra.web.full.euclidian.inline;
 
-import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
-import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
-
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -31,6 +28,8 @@ import org.geogebra.web.richtext.impl.EventThrottle;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.DOM;
 
 import elemental2.core.Global;
@@ -123,7 +122,7 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public boolean isInEditMode() {
-		return VISIBLE.getCssName().equals(style.getVisibility());
+		return Visibility.VISIBLE.getCssName().equals(style.getVisibility());
 	}
 
 	@Override
@@ -156,7 +155,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void toForeground(int x, int y) {
 		if (style != null) {
-			style.setVisibility(VISIBLE);
+			style.setVisibility(Visibility.VISIBLE);
 			tableImpl.startEditing(x, y);
 		}
 	}
@@ -167,7 +166,7 @@ public class InlineTableControllerW implements InlineTableController {
 			if (isInEditMode()) {
 				table.unlockForMultiuser();
 			}
-			style.setVisibility(HIDDEN);
+			style.setVisibility(Visibility.HIDDEN);
 			tableImpl.stopEditing();
 			tableImpl.removeSelection();
 		}
@@ -357,19 +356,19 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public void setLocation(int x, int y) {
-		style.setLeft(x, Style.Unit.PX);
-		style.setTop(y, Style.Unit.PX);
+		style.setLeft(x, Unit.PX);
+		style.setTop(y, Unit.PX);
 	}
 
 	@Override
 	public void setWidth(double width) {
-		style.setWidth(width, Style.Unit.PX);
+		style.setWidth(width, Unit.PX);
 		tableImpl.setWidth(width);
 	}
 
 	@Override
 	public void setHeight(double height) {
-		style.setHeight(height, Style.Unit.PX);
+		style.setHeight(height, Unit.PX);
 		tableImpl.setHeight(height);
 	}
 
@@ -404,7 +403,7 @@ public class InlineTableControllerW implements InlineTableController {
 
 		style = tableElement.getStyle();
 		style.setProperty("transformOrigin", "0 0");
-		style.setVisibility(HIDDEN);
+		style.setVisibility(Visibility.HIDDEN);
 		tableImpl = Carota.get().getTable().create(tableElement);
 		tableImpl.setExternalPaint(true);
 		tableImpl.init(2, 2);

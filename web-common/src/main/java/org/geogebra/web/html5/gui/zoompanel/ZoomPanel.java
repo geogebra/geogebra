@@ -19,7 +19,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -425,7 +425,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 		if (homeBtn != null) {
 			// change style directly, aria-hidden + visibility should depend on zoom
-			Style.Display display = zoomButtonsVisible ? Style.Display.BLOCK : Style.Display.NONE;
+			Display display = zoomButtonsVisible ? Display.BLOCK : Display.NONE;
 			homeBtn.getElement().getStyle().setDisplay(display);
 		}
 	}

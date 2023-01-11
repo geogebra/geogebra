@@ -16,7 +16,7 @@ import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.PersistablePanel;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -68,7 +68,7 @@ public class NotesLayout implements SetLabels {
 	}
 
 	private void movePageControlButtonDown() {
-		pageControlButton.getElement().getStyle().setBottom(0, Style.Unit.PX);
+		pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
 		pageControlButton.removeStyleName("narrowscreen");
 	}
 

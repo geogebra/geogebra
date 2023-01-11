@@ -31,6 +31,8 @@ import org.geogebra.web.richtext.impl.CarotaUtil;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -141,7 +143,7 @@ public class InlineTextControllerW implements InlineTextController {
 		widget.addStyleName(INVISIBLE);
 		EventUtil.stopPointerEvents(widget.getElement(), btn -> btn <= 0);
 		style = widget.getElement().getStyle();
-		style.setPosition(Style.Position.ABSOLUTE);
+		style.setPosition(Position.ABSOLUTE);
 		Element editorElement = editor.getWidget().getElement();
 		parent.appendChild(editorElement);
 		// re-parent the textarea to make sure focus stays in view (MOW-1330)
@@ -184,7 +186,7 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	private void updateVerticalAlign() {
-		style.setPaddingTop(getValignPadding(), Style.Unit.PX);
+		style.setPaddingTop(getValignPadding(), Unit.PX);
 	}
 
 	@Override
@@ -195,8 +197,8 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void setLocation(int x, int y) {
-		style.setLeft(x, Style.Unit.PX);
-		style.setTop(y, Style.Unit.PX);
+		style.setLeft(x, Unit.PX);
+		style.setTop(y, Unit.PX);
 	}
 
 	@Override
@@ -215,13 +217,13 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void setWidth(int width) {
-		style.setWidth(width, Style.Unit.PX);
+		style.setWidth(width, Unit.PX);
 		editor.setWidth(width);
 	}
 
 	@Override
 	public void setHeight(int height) {
-		style.setHeight(height, Style.Unit.PX);
+		style.setHeight(height, Unit.PX);
 	}
 
 	@Override
