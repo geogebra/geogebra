@@ -174,7 +174,7 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -1102,7 +1102,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			case "normal":
 				return AppKeyboardType.SUITE;
 			case "notes":
-				return AppKeyboardType.MOW;
+				return AppKeyboardType.NOTES;
+			case "solver":
+				return AppKeyboardType.SOLVER;
 			default:
 				return AppKeyboardType.SCIENTIFIC;
 			}
@@ -1924,7 +1926,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 			getGuiManager().refreshDraggingViews();
 			oldSplitLayoutPanel.getElement().getStyle()
-					.setOverflow(Style.Overflow.HIDDEN);
+					.setOverflow(Overflow.HIDDEN);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (menuViewController != null) {
@@ -1975,7 +1977,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				this.splitPanelWrapper.remove(frame.getMenuBar(this));
 			}
 			oldSplitLayoutPanel.getElement().getStyle()
-					.setOverflow(Style.Overflow.VISIBLE);
+					.setOverflow(Overflow.VISIBLE);
 		}
 		this.menuShowing = false;
 

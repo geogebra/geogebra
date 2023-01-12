@@ -121,4 +121,7 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/atomic_pre.svg")
 	SVGResource atomic_pre();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/mixed_number.svg")
+	SVGResource mixed_number();
 }

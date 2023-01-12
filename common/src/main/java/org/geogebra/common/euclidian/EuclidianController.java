@@ -6546,6 +6546,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				} else if (!geo0.isProtected(EventType.UPDATE)
 						&& !(geo0.isGeoBoolean() && geo0.isIndependent()) && geo0.isRedefineable()
 						&& !geo0.isGeoButton()
+						&& !view.isPlotPanel()
 						&& !(geo0.isGeoList() && ((GeoList) geo0).drawAsComboBox())) {
 					getDialogManager().showRedefineDialog(hits.get(0), true);
 				}

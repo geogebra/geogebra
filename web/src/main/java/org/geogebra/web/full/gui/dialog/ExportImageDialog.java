@@ -11,6 +11,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Label;
@@ -118,8 +119,8 @@ public class ExportImageDialog extends ComponentDialog {
 				IFrameElement iframe = iframePDF.getElement().cast();
 
 				Style style = iframe.getStyle();
-				style.setHeight(600, Style.Unit.PX);
-				style.setWidth(600, Style.Unit.PX);
+				style.setHeight(600, Unit.PX);
+				style.setWidth(600, Unit.PX);
 
 				iframe.setFrameBorder(0);
 				iframe.setTabIndex(-1);

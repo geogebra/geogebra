@@ -36,7 +36,8 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -941,17 +942,17 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			//* as it is deprecated, may cause CSS challenges later 
 			clipDiv.getStyle().setProperty("clip", "rect(1em 1em 1em 1em)");
 			//* top/left will be specified dynamically, depending on scrollbar
-			clipDiv.getStyle().setHeight(1, Style.Unit.PX);
-			clipDiv.getStyle().setWidth(1, Style.Unit.PX);
-			clipDiv.getStyle().setPosition(Style.Position.RELATIVE);
-			clipDiv.getStyle().setTop(-100, Style.Unit.PCT);
+			clipDiv.getStyle().setHeight(1, Unit.PX);
+			clipDiv.getStyle().setWidth(1, Unit.PX);
+			clipDiv.getStyle().setPosition(Position.RELATIVE);
+			clipDiv.getStyle().setTop(-100, Unit.PCT);
 			clipDiv.setClassName("textAreaClip");
-			hiddenTextArea.getStyle().setWidth(1, Style.Unit.PX);
-			hiddenTextArea.getStyle().setPadding(0, Style.Unit.PX);
+			hiddenTextArea.getStyle().setWidth(1, Unit.PX);
+			hiddenTextArea.getStyle().setPadding(0, Unit.PX);
 			hiddenTextArea.getStyle().setProperty("border", "0");
 			hiddenTextArea.getStyle().setProperty("minHeight", "0");
 			//prevent messed up scrolling in FF/IE
-			hiddenTextArea.getStyle().setHeight(1, Style.Unit.PX);
+			hiddenTextArea.getStyle().setHeight(1, Unit.PX);
 			RootPanel.getBodyElement().appendChild(hiddenTextArea);
 			if (NavigatorUtil.isMobile()) {
 				hiddenTextArea.setAttribute("readonly", "true");

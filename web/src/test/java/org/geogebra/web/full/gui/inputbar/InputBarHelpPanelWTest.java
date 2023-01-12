@@ -4,7 +4,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -48,8 +47,4 @@ public class InputBarHelpPanelWTest {
                 .showOnlineHelpButton(false);
     }
 
-    @Before
-    public void rootPanel() {
-        this.getClass().getClassLoader().setDefaultAssertionStatus(false);
-    }
 }

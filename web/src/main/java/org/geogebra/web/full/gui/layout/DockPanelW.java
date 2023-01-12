@@ -28,7 +28,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -535,7 +535,7 @@ public abstract class DockPanelW extends ResizeComposite
 		 * Create new dock panel
 		 */
 		public MyDockLayoutPanel() {
-			super(Style.Unit.PX);
+			super(Unit.PX);
 			addStyleName("ggbdockpanelhack");
 			addAttachHandler(evt -> {
 				if (evt.isAttached()) {

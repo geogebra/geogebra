@@ -333,7 +333,7 @@ public class FormulaEditor extends View implements MathField {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int desiredWidth = Math.max(getWidthForIconWithPadding(), Math.round(mMinWidth));
-        final int desiredHeight = (int) (Math.max(getMinHeight(), mTeXIcon.getIconHeight()) + 0.5);
+        final int desiredHeight = (int) (Math.max(getMinHeight(), getDesiredHeightForTeXIcon()) + 0.5);
 
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -369,6 +369,13 @@ public class FormulaEditor extends View implements MathField {
         } else {
             drawShiftedWithTexIcon(canvas, mShiftX, mFormulaPreviewTeXIcon);
         }
+    }
+
+    private int getDesiredHeightForTeXIcon() {
+        if (mFormulaPreviewTeXIcon != null) {
+            return mFormulaPreviewTeXIcon.getIconHeight();
+        }
+        return mTeXIcon.getIconHeight();
     }
 
     protected void drawShifted(Canvas canvas, int shiftX) {

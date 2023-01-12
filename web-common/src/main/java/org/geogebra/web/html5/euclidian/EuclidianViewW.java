@@ -71,7 +71,8 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -586,9 +587,9 @@ public class EuclidianViewW extends EuclidianView implements
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getElement().getParentElement().getStyle()
-			        .setWidth(width, Style.Unit.PX);
+			        .setWidth(width, Unit.PX);
 			g2p.getElement().getParentElement().getStyle()
-			        .setHeight(height, Style.Unit.PX);
+			        .setHeight(height, Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
 			Log.debug("Problem with the parent element of the canvas");
@@ -686,7 +687,7 @@ public class EuclidianViewW extends EuclidianView implements
 		attachView();
 
 		if (getViewID() == App.VIEW_EUCLIDIAN || getViewID() == App.VIEW_EUCLIDIAN2) {
-			g2p.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			g2p.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		}
 
 		euclidiancontroller.setView(this);
@@ -1451,7 +1452,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (overlayGraphics == null) {
 			Canvas pCanvas = Canvas.createIfSupported();
 			overlayGraphics = new GGraphics2DW(pCanvas);
-			overlayGraphics.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			overlayGraphics.getElement().getStyle().setPosition(Position.ABSOLUTE);
 			overlayGraphics.setDevicePixelRatio(appW.getPixelRatio());
 			g2p.getElement().getParentElement()
 					.appendChild(overlayGraphics.getElement());

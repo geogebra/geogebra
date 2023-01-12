@@ -17,7 +17,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -79,7 +79,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// button panel
 		FlowPanel pnlButton = new FlowPanel();
-		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
+		pnlButton.getElement().getStyle().setFloat(Float.RIGHT);
 
 		// create help button
 		btnOnlineHelp = new StandardButton(app.getLocalization().getMenu("ShowOnlineHelp"));

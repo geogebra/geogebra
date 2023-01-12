@@ -45,8 +45,14 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
+import com.google.gwt.dom.client.Style.Visibility;
+import com.google.gwt.dom.client.Style.WhiteSpace;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -227,7 +233,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		for (int i = 0; i < getColumnCount(); ++i) {
 			// TODO//getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
 			ssGrid.getColumnFormatter().getElement(i).getStyle()
-			        .setWidth(preferredColumnWidth, Style.Unit.PX);
+			        .setWidth(preferredColumnWidth, Unit.PX);
 		}
 
 		// add cell renderer & editors
@@ -358,8 +364,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		dragFrame = new SimplePanel();
 		dragFrame.getElement().getStyle().setZIndex(5);
 		dragFrame.getElement().getStyle()
-		        .setBorderStyle(Style.BorderStyle.SOLID);
-		dragFrame.getElement().getStyle().setBorderWidth(2, Style.Unit.PX);
+		        .setBorderStyle(BorderStyle.SOLID);
+		dragFrame.getElement().getStyle().setBorderWidth(2, Unit.PX);
 		dragFrame.getElement().getStyle()
 		        .setBorderColor(GColor.GRAY.toString());
 		dragFrame.setVisible(false);
@@ -371,9 +377,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		dummyTable = new Grid(1, 1);
 		dummyTable.getElement().getStyle()
-		        .setVisibility(Style.Visibility.HIDDEN);
+		        .setVisibility(Visibility.HIDDEN);
 		dummyTable.setText(0, 0, "x");
-		dummyTable.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		dummyTable.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		dummyTable.getElement().getStyle().setTop(0, Unit.PX);
 		dummyTable.getElement().getStyle().setLeft(0, Unit.PX);
 		dummyTable.getElement().addClassName("geogebraweb-table-spreadsheet");
@@ -396,7 +402,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		s.setWidth(leftCornerWidth, Unit.PX);
 		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
 		//s.setColor(BACKGROUND_COLOR_HEADER.toString());
-		s.setPosition(Style.Position.ABSOLUTE);
+		s.setPosition(Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
 
@@ -414,7 +420,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		s.setWidth(rightCornerWidth, Unit.PX);
 		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
 		//s.setColor(BACKGROUND_COLOR_HEADER.toString());
-		s.setPosition(Style.Position.ABSOLUTE);
+		s.setPosition(Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setRight(0, Unit.PX);
 
@@ -430,33 +436,33 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		s.setHeight(lowerLeftCornerHeight - 2, Unit.PX);
 		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
 
-		s.setPosition(Style.Position.ABSOLUTE);
+		s.setPosition(Position.ABSOLUTE);
 		s.setLeft(0, Unit.PX);
 		s.setBottom(0, Unit.PX);
 
 		// ---- corner containers
 		cornerContainerUpperLeft = new FlowPanel();
 		cornerContainerUpperLeft.getElement().getStyle()
-		        .setDisplay(Style.Display.BLOCK);
+		        .setDisplay(Display.BLOCK);
 		cornerContainerUpperLeft.add(upperLeftCorner);
 		cornerContainerLowerLeft = new FlowPanel();
 		cornerContainerLowerLeft.getElement().getStyle()
-		        .setDisplay(Style.Display.BLOCK);
+		        .setDisplay(Display.BLOCK);
 		cornerContainerLowerLeft.add(lowerLeftCorner);
 		cornerContainerUpperRight = new FlowPanel();
 		cornerContainerUpperRight.getElement().getStyle()
-		        .setDisplay(Style.Display.BLOCK);
+		        .setDisplay(Display.BLOCK);
 		cornerContainerUpperRight.add(upperRightCorner);
 
 		// ---- column header
 		columnHeader = new SpreadsheetColumnHeaderW(app, this);
 		s = columnHeader.getContainer().getElement().getStyle();
-		s.setPosition(Style.Position.RELATIVE);
+		s.setPosition(Position.RELATIVE);
 
 		columnHeaderContainer = new FlowPanel();
 		s = columnHeaderContainer.getElement().getStyle();
 		s.setDisplay(Display.BLOCK);
-		s.setOverflow(Style.Overflow.HIDDEN);
+		s.setOverflow(Overflow.HIDDEN);
 		s.setMarginLeft(leftCornerWidth, Unit.PX);
 		s.setMarginRight(rightCornerWidth, Unit.PX);
 		columnHeaderContainer.add(columnHeader.getContainer());
@@ -464,14 +470,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// ------ row header
 		rowHeader = new SpreadsheetRowHeaderW(app, this);
 		s = rowHeader.getContainer().getElement().getStyle();
-		s.setPosition(Style.Position.RELATIVE);
+		s.setPosition(Position.RELATIVE);
 
 		rowHeaderContainer = new FlowPanel();
 		s = rowHeaderContainer.getElement().getStyle();
 		s.setDisplay(Display.BLOCK);
 		s.setMarginBottom(lowerLeftCornerHeight, Unit.PX);
-		s.setOverflow(Style.Overflow.HIDDEN);
-		s.setPosition(Style.Position.ABSOLUTE);
+		s.setOverflow(Overflow.HIDDEN);
+		s.setPosition(Position.ABSOLUTE);
 		// s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
 
@@ -481,7 +487,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// spreadsheet table
 		ssGrid = new Grid(tableModel.getRowCount(), tableModel.getColumnCount());
 		gridPanel = new AbsolutePanel();
-		gridPanel.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		gridPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		gridPanel.add(ssGrid);
 		gridPanel.add(selectionFrame);
 		gridPanel.add(dragFrame);
@@ -493,7 +499,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		ssGridContainer = new FlowPanel();
 		s = ssGridContainer.getElement().getStyle();
-		s.setVerticalAlign(Style.VerticalAlign.TOP);
+		s.setVerticalAlign(VerticalAlign.TOP);
 		s.setDisplay(Display.INLINE_BLOCK);
 		s.setMarginLeft(leftCornerWidth, Unit.PX);
 		ssGridContainer.add(scroller);
@@ -501,16 +507,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// create table header row
 		headerRow = new FlowPanel();
 		headerRow.getElement().getStyle()
-		        .setWhiteSpace(Style.WhiteSpace.NOWRAP);
+		        .setWhiteSpace(WhiteSpace.NOWRAP);
 		headerRow.add(cornerContainerUpperLeft);
 		headerRow.add(columnHeaderContainer);
 		headerRow.add(cornerContainerUpperRight);
 
 		// create table row
 		FlowPanel tableRow = new FlowPanel();
-		tableRow.getElement().getStyle().setWhiteSpace(Style.WhiteSpace.NOWRAP);
+		tableRow.getElement().getStyle().setWhiteSpace(WhiteSpace.NOWRAP);
 		tableRow.getElement().getStyle()
-		        .setVerticalAlign(Style.VerticalAlign.TOP);
+		        .setVerticalAlign(VerticalAlign.TOP);
 		tableRow.add(rowHeaderContainer);
 		tableRow.add(ssGridContainer);
 
@@ -533,18 +539,18 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int leftCornerWidth = SpreadsheetViewW.ROW_HEADER_WIDTH;
 
 		if (showColumnHeader) {
-			headerRow.getElement().getStyle().setDisplay(Style.Display.BLOCK);
+			headerRow.getElement().getStyle().setDisplay(Display.BLOCK);
 		} else {
-			headerRow.getElement().getStyle().setDisplay(Style.Display.NONE);
+			headerRow.getElement().getStyle().setDisplay(Display.NONE);
 		}
 
 		if (showRowHeader) {
 			cornerContainerUpperLeft.getElement().getStyle()
-			        .setDisplay(Style.Display.BLOCK);
+			        .setDisplay(Display.BLOCK);
 			cornerContainerLowerLeft.getElement().getStyle()
-			        .setDisplay(Style.Display.BLOCK);
+			        .setDisplay(Display.BLOCK);
 			rowHeaderContainer.getElement().getStyle()
-			        .setDisplay(Style.Display.BLOCK);
+			        .setDisplay(Display.BLOCK);
 			ssGridContainer.getElement().getStyle()
 			        .setMarginLeft(leftCornerWidth, Unit.PX);
 			columnHeaderContainer.getElement().getStyle()
@@ -552,11 +558,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		} else {
 			cornerContainerUpperLeft.getElement().getStyle()
-			        .setDisplay(Style.Display.NONE);
+			        .setDisplay(Display.NONE);
 			cornerContainerLowerLeft.getElement().getStyle()
-			        .setDisplay(Style.Display.NONE);
+			        .setDisplay(Display.NONE);
 			rowHeaderContainer.getElement().getStyle()
-			        .setDisplay(Style.Display.NONE);
+			        .setDisplay(Display.NONE);
 			ssGridContainer.getElement().getStyle().setMarginLeft(0, Unit.PX);
 			columnHeaderContainer.getElement().getStyle()
 			        .setMarginLeft(0, Unit.PX);
@@ -792,7 +798,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		for (int col = oldColumnCount; col < tableModel.getColumnCount(); ++col) {
 			ssGrid.getColumnFormatter().getElement(col).getStyle()
-			        .setWidth(preferredColumnWidth, Style.Unit.PX);
+			        .setWidth(preferredColumnWidth, Unit.PX);
 		}
 
 		columnHeader.updateColumnCount();
@@ -1625,7 +1631,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		if (column >= 0) {
 			ssGrid.getColumnFormatter().getElement(column).getStyle()
-			        .setWidth(width2, Style.Unit.PX);
+			        .setWidth(width2, Unit.PX);
 			if (showColumnHeader) {
 				columnHeader.setColumnWidth(column, width2);
 			}
@@ -1678,7 +1684,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected void setRowHeightCallback(int row, int rowHeight2) {
 		if (row >= 0) {
 			ssGrid.getRowFormatter().getElement(row).getStyle()
-					.setHeight(rowHeight2, Style.Unit.PX);
+					.setHeight(rowHeight2, Unit.PX);
 
 			if (showRowHeader) {
 				syncRowHeaderHeight(row);
@@ -1805,7 +1811,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			int resultWidth = Math.max(tableColumn.getOffsetWidth(),
 			        prefElement.getOffsetWidth());
 			// TODO this. getIntercellSpacing ().width
-			tableColumn.getStyle().setWidth(resultWidth, Style.Unit.PX);
+			tableColumn.getStyle().setWidth(resultWidth, Unit.PX);
 
 			columnHeader.setColumnWidth(col, resultWidth);
 		}
@@ -1856,7 +1862,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// so we get the actual header from view
 		// TODO//view.getTableHeader().setResizingColumn(tableColumn);
 		// TODO getIntercellSpacing().width
-		tableColumn.getStyle().setWidth(prefWidth, Style.Unit.PX);
+		tableColumn.getStyle().setWidth(prefWidth, Unit.PX);
 
 		columnHeader.setColumnWidth(column, prefWidth);
 	}

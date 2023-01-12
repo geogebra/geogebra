@@ -45,6 +45,8 @@ public enum Tag {
 
 	ATOMIC_POST("$atomicpost"),
 
+	MIXED_NUMBER("mixedNumber"),
+
 	APPLY,
 
 	ABS("abs"),

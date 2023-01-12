@@ -47,7 +47,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -1268,6 +1268,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
+
+		app.updateKeyBoardField(this);
 	}
 
 	@Override
@@ -1514,15 +1516,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
-	private Style.TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
+	private TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
 		switch (alignment) {
 		default:
 		case LEFT:
-				return Style.TextAlign.LEFT;
+				return TextAlign.LEFT;
 		case CENTER:
-				return Style.TextAlign.CENTER;
+				return TextAlign.CENTER;
 		case RIGHT:
-				return Style.TextAlign.RIGHT;
+				return TextAlign.RIGHT;
 		}
 	}
 }

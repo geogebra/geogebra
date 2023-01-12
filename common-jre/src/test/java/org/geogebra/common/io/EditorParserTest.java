@@ -92,6 +92,11 @@ public class EditorParserTest {
 	}
 
 	@Test
+	public void mixedNumber() {
+		parsesAs("3\u2064(1)/(2)", "3\u2064((1)/(2))");
+	}
+
+	@Test
 	public void symbolLaTeXShouldParse() {
 		AppCommon appCommon = AppCommonFactory.create();
 		Kernel kernel = appCommon.getKernel();

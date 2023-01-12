@@ -538,6 +538,9 @@ public class EuclidianControllerCompanion {
 	 */
 	public void movePoint(AbstractEvent event) {
 		Coords oldCoords = ec.movedGeoPoint.getCoordsInD3();
+		if (ec.getMovedGeoPoint().isGeoElement3D()) {
+			oldCoords = oldCoords.copy();
+		}
 		ec.movedGeoPoint.setCoords(DoubleUtil.checkDecimalFraction(ec.xRW),
 				DoubleUtil.checkDecimalFraction(ec.yRW), 1.0);
 

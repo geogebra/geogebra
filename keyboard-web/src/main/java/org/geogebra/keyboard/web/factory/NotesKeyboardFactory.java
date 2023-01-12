@@ -3,14 +3,14 @@ package org.geogebra.keyboard.web.factory;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.MowSpecialSymbolsKeyboardFactory;
 
-public final class KeyboardMow extends KeyboardFactory {
+public final class NotesKeyboardFactory extends KeyboardFactory {
 
-	public static final KeyboardMow INSTANCE = new KeyboardMow();
+	public static final NotesKeyboardFactory INSTANCE = new NotesKeyboardFactory();
 
 	/**
 	 * Keyboard layout for MOW
 	 */
-	private KeyboardMow() {
+	private NotesKeyboardFactory() {
 		super();
 		setSpecialSymbolsKeyboardFactory(new MowSpecialSymbolsKeyboardFactory());
 	}

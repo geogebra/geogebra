@@ -113,6 +113,14 @@ public class GeoGebraSerializer implements Serializer {
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append("))");
 			break;
+		case MIXED_NUMBER:
+			serialize(mathFunction.getArgument(0), stringBuilder);
+			stringBuilder.append("\u2064((");
+			serialize(mathFunction.getArgument(1), stringBuilder);
+			stringBuilder.append(")/(");
+			serialize(mathFunction.getArgument(2), stringBuilder);
+			stringBuilder.append("))");
+			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
 				appendSingleArg("log", mathFunction, stringBuilder, 1);

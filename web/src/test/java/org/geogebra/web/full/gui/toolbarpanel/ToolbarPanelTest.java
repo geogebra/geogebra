@@ -34,13 +34,12 @@ public class ToolbarPanelTest {
 
 	@Before
 	public void setUp() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 		toolbarPanel = spy(new ToolbarPanel(mockApp(), new DefaultDockPanelDecorator()));
 	}
 
 	private AppWFull mockApp() {
 		AppMocker.useProviderForSchedulerImpl();
-		app = AppMocker.mockGraphing(getClass());
+		app = AppMocker.mockGraphing();
 		app.setShowToolBar(true);
 		return app;
 	}

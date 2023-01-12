@@ -24,7 +24,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
@@ -126,8 +126,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 				Label toast = new Label(app.getLocalization().getMenu("UseNumbersOnly"));
 				toast.addStyleName("errorToast");
 				toast.getElement().setId("errorToastID");
-				toast.getElement().getStyle().setLeft(el.getAbsoluteRight() + 8, Style.Unit.PX);
-				toast.getElement().getStyle().setTop(el.getAbsoluteTop() - 66, Style.Unit.PX);
+				toast.getElement().getStyle().setLeft(el.getAbsoluteRight() + 8, Unit.PX);
+				toast.getElement().getStyle().setTop(el.getAbsoluteTop() - 66, Unit.PX);
 				app.getAppletFrame().add(toast);
 			}
 			return false;
