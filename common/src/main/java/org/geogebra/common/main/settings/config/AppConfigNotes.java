@@ -56,7 +56,7 @@ public class AppConfigNotes extends AppConfigDefault {
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
-		return AppKeyboardType.MOW;
+		return AppKeyboardType.NOTES;
 	}
 
 	@Override

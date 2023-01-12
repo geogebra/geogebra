@@ -18,6 +18,9 @@ import org.geogebra.web.html5.main.MyImageW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.FontStyle;
+import com.google.gwt.dom.client.Style.FontWeight;
+import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -87,22 +90,22 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		        CellFormat.FORMAT_FONTSTYLE);
 		s.setFontSize(app.getFontSize(), Unit.PX);
 		if (fontStyle == null) {
-			s.setFontStyle(Style.FontStyle.NORMAL);
-			s.setFontWeight(Style.FontWeight.NORMAL);
+			s.setFontStyle(FontStyle.NORMAL);
+			s.setFontWeight(FontWeight.NORMAL);
 
 		} else {
 			if (fontStyle == CellFormat.STYLE_ITALIC
 			        || fontStyle == CellFormat.STYLE_BOLD_ITALIC) {
-				s.setFontStyle(Style.FontStyle.ITALIC);
+				s.setFontStyle(FontStyle.ITALIC);
 			} else {
-				s.setFontStyle(Style.FontStyle.NORMAL);
+				s.setFontStyle(FontStyle.NORMAL);
 			}
 
 			if (fontStyle == CellFormat.STYLE_BOLD
 			        || fontStyle == CellFormat.STYLE_BOLD_ITALIC) {
-				s.setFontWeight(Style.FontWeight.BOLD);
+				s.setFontWeight(FontWeight.BOLD);
 			} else {
-				s.setFontWeight(Style.FontWeight.NORMAL);
+				s.setFontWeight(FontWeight.NORMAL);
 			}
 		}
 
@@ -477,7 +480,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			}, MouseDownEvent.getType());
 
 			fp.add(checkbox);
-			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
+			fp.getElement().getStyle().setTextAlign(TextAlign.CENTER);
 
 			checkbox.setDisabled(!cellGeo.isIndependent());
 			checkbox.setSelected(((GeoBoolean) cellGeo).getBoolean());

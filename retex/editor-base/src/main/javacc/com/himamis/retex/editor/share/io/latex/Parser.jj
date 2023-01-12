@@ -62,7 +62,7 @@ public class Parser {
 	}
 
 	private static MetaCharacter createMetaCharacter(String character, MetaModel metaModel) {
-		MetaCharacter metaCharacter = null;
+		MetaCharacter metaCharacter;
 		if (metaModel.isOperator(character)) {
 			metaCharacter = metaModel.getOperator(character);
 		} else if (metaModel.isSymbol(character)) {
@@ -133,7 +133,7 @@ PARSER_END(Parser)
 	| < LFLOOR : "\u230a" >
 	| < RFLOOR : "\u230b" >
 	| < QUOTE_START : "\""> : IN_QUOTE
-	| < SQRT : "sqrt(" >
+	| < SQRT : "sqrt(" | "\u221A(" >
 	| < CBRT : "cbrt(" >
 	| < NROOT : "nroot(" >
 	| < LOG : "log(" >
@@ -170,36 +170,36 @@ void mathContainer(MathContainer currentField) : {}
 
 void atomicWrapper(MathContainer currentField) : {}
 {
-	(
-		power(currentField)
+
+	power(currentField)
 	|
-		superscript(currentField)
+	superscript(currentField)
 	|
-		subscript(currentField)
+	subscript(currentField)
 	|
-		fraction(currentField)
+	fraction(currentField)
 	|
-		nroot(currentField)
+	nroot(currentField)
 	|
-		log(currentField)
+	log(currentField)
 	|
-		defintSumProduct(currentField)
+	defintSumProduct(currentField)
 	|
-		atomicPrePost(currentField)
+	atomicPrePost(currentField)
 	|
-		absVecLimeq(currentField)
+	absVecLimeq(currentField)
 	|
-		LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
-		absVerticalBar(currentField)
+	LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
+	absVerticalBar(currentField)
 	|
-		arrayParantheses(currentField)
+	arrayParantheses(currentField)
 	|
-		arrayFloorCeil(currentField)
+	arrayFloorCeil(currentField)
 	|
-		arrayCurly(currentField)
+	arrayCurly(currentField)
 	|
-		quotes(currentField)
-	)
+	quotes(currentField)
+
 }
 
 void mathContainerWithCommas(MathContainer currentField) : {}
@@ -287,7 +287,7 @@ void fraction(MathContainer currentField) :
 		mathAtomOrPower(mathSequence);
 		mathSequence.removeBrackets();
 		fraction.setArgument(1, mathSequence);
-		currentField.addArgument(fraction);
+		ArgumentHelper.addFraction(currentField, fraction, metaModel);
 	}
 }
 
@@ -368,6 +368,9 @@ void absVecLimeq(MathContainer currentField) : {
 	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ> | symbol = <SQRT> | symbol = <CBRT>) {
 		// cut off the parentheses from the end
 		String image = symbol.image.substring(0, symbol.image.length() - 1);
+		if (image.equals("\u221A")) {
+			image = "sqrt";
+		}
 		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(image)));
 		MathSequence param1 = new MathSequence();
 		mathContainerWithCommas(param1);
@@ -462,7 +465,7 @@ void arrayCurly(MathContainer currentField) :
 		mathArray = new MathArray(metaModel.getArray(Tag.CURLY), 0);
 		currentField.addArgument(mathArray);
 	}
-	(mathContainer(mathSequence))
+	mathContainer(mathSequence)
 	{
 		mathArray.addArgument(mathSequence);
 		mathSequence = new MathSequence();

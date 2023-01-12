@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.components;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class ComponentToast extends GPopupPanel {
@@ -43,7 +43,7 @@ public class ComponentToast extends GPopupPanel {
 		getRootPanel().add(this);
 		addStyleName("fadeIn");
 		int toastWidth = app.isPortrait() ? width - 16 : width;
-		getElement().getStyle().setWidth(toastWidth - 2 * TOAST_PADDING, Style.Unit.PX);
+		getElement().getStyle().setWidth(toastWidth - 2 * TOAST_PADDING, Unit.PX);
 		int distAVBottomKeyboardTop = (int) (app.getHeight() - bottom
 				- ((AppW) app).getAppletFrame().getKeyboardHeight());
 		setPopupPosition(left, distAVBottomKeyboardTop >= getOffsetHeight()

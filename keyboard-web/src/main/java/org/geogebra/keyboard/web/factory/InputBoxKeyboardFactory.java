@@ -16,7 +16,7 @@ import org.geogebra.keyboard.web.factory.model.inputbox.math.FunctionMathKeyboar
 import org.geogebra.keyboard.web.factory.model.inputbox.math.IneqBoolMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.VectorMatrixMathKeyboardFactory;
 
-public class KeyboardInputBox extends KeyboardFactory {
+public class InputBoxKeyboardFactory extends KeyboardFactory {
 
 	private InputBoxType inputBoxType;
 	private List<String> functionVars;
@@ -26,7 +26,7 @@ public class KeyboardInputBox extends KeyboardFactory {
 	 * @param inputBoxType type of geo lined to the inputbox
 	 * @param functionVars function vars in case of a function
 	 */
-	public KeyboardInputBox(InputBoxType inputBoxType, List<String> functionVars) {
+	public InputBoxKeyboardFactory(InputBoxType inputBoxType, List<String> functionVars) {
 		this.inputBoxType = inputBoxType;
 		this.functionVars = functionVars;
 		init();
@@ -49,7 +49,7 @@ public class KeyboardInputBox extends KeyboardFactory {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		KeyboardInputBox that = (KeyboardInputBox) o;
+		InputBoxKeyboardFactory that = (InputBoxKeyboardFactory) o;
 		return inputBoxType == that.inputBoxType && Objects
 				.equals(functionVars, that.functionVars);
 	}

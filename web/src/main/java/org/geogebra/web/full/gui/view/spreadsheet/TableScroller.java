@@ -5,7 +5,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
@@ -249,7 +249,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	 */
 	public void setShowHScrollBar(boolean showHScrollBar) {
 		getScrollableElement().getStyle().setOverflowX(
-		        showHScrollBar ? Style.Overflow.AUTO : Style.Overflow.HIDDEN);
+		        showHScrollBar ? Overflow.AUTO : Overflow.HIDDEN);
 	}
 
 	/**
@@ -257,7 +257,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	 */
 	public void setShowVScrollBar(boolean showVScrollBar) {
 		getScrollableElement().getStyle().setOverflowY(
-		        showVScrollBar ? Style.Overflow.AUTO : Style.Overflow.HIDDEN);
+		        showVScrollBar ? Overflow.AUTO : Overflow.HIDDEN);
 	}
 
 }

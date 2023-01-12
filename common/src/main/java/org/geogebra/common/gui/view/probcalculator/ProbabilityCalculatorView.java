@@ -8,18 +8,19 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.data.PlotSettings;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoListLength;
-import org.geogebra.common.kernel.algos.AlgoMax;
 import org.geogebra.common.kernel.algos.AlgoMin;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoRayPointVector;
@@ -306,13 +307,6 @@ public abstract class ProbabilityCalculatorView
 		}
 		if (probMode != PROB_RIGHT && getHigh() >= plotSettings.xMax) {
 			setHighDefault();
-		}
-		if (getHigh() == getLow() && !isDiscreteProbability()) {
-			if (getHigh() < getDefaultHigh()) {
-				setHighDefault();
-			} else {
-				setLowDefault();
-			}
 		}
 	}
 
@@ -626,10 +620,8 @@ public abstract class ProbabilityCalculatorView
 			xMax = xLow;
 		} else {
 			xLow = getDependentNumber(lowPlusOffset).getNumber();
-			xMin = new AlgoMin(cons, xLow, xHigh.getNumber()).getResult();
-			xMax = new AlgoMax(cons, xLow, xHigh.getNumber()).getResult();
-			cons.removeFromConstructionList(xMax.getParentAlgorithm());
-			cons.removeFromConstructionList(xMin.getParentAlgorithm());
+			xMin = xLow;
+			xMax = xHigh.getNumber();
 		}
 
 		if (isTwoTailedMode()) {
@@ -805,22 +797,19 @@ public abstract class ProbabilityCalculatorView
 	 * Creates the integral graph by the given mode.
 	 */
 	protected void createIntegral() {
-		GeoNumberValue xLowOutput = getXOutputFrom(xAxis.lowPoint());
-		GeoNumberValue xHighOutput = getXOutputFrom(xAxis.highPoint());
+		GeoNumberValue xLowOutput = getXOutputFrom(xAxis.getLowExpression());
+		GeoNumberValue xHighOutput = getXOutputFrom(xAxis.getHighExpression());
 		if (isTwoTailedMode()) {
 			GeoNumeric minX = new GeoNumeric(cons, Double.NEGATIVE_INFINITY);
 			GeoNumeric maxX = new GeoNumeric(cons, Double.POSITIVE_INFINITY);
-			AlgoMin lowX = new AlgoMin(cons, xLowOutput, xHighOutput);
-			AlgoMax highX = new AlgoMax(cons, xLowOutput, xHighOutput);
 			cons.removeFromConstructionList(minX);
 			cons.removeFromConstructionList(maxX);
-			integralLeft = createIntegral(minX, lowX.getResult());
-			integralRight = createIntegral(highX.getResult(), maxX);
+			integralLeft = createIntegral(minX, xLowOutput);
+			integralRight = createIntegral(xHighOutput, maxX);
 			addTwoTailedGraph();
-			cons.removeFromConstructionList(lowX);
-			cons.removeFromConstructionList(highX);
 		} else {
 			integral = createIntegral(xLowOutput, xHighOutput);
+			setConditionToShow(integral);
 			removeTwoTailedGraph();
 		}
 	}
@@ -878,10 +867,19 @@ public abstract class ProbabilityCalculatorView
 		return output;
 	}
 
-	private GeoNumberValue getXOutputFrom(GeoPoint point) {
-		ExpressionNode node = new ExpressionNode(kernel, point,
-				Operation.XCOORD, null);
-		AlgoDependentNumber x = new AlgoDependentNumber(cons, node,
+	private void setConditionToShow(GeoElement integral) {
+		AlgoDependentBoolean cond = new AlgoDependentBoolean(kernel.getConstruction(),
+				new ExpressionNode(kernel, xAxis.getLowExpression(), Operation.LESS_EQUAL,
+						xAxis.getHighExpression()));
+		try {
+			integral.setShowObjectCondition(cond.getGeoBoolean());
+		} catch (CircularDefinitionException e) {
+			// cannot happen because condition is not depending on integral
+		}
+	}
+
+	private GeoNumberValue getXOutputFrom(ExpressionNode pointCoord) {
+		AlgoDependentNumber x = new AlgoDependentNumber(cons, pointCoord,
 				false);
 		cons.removeFromConstructionList(x);
 		return (GeoNumberValue) x.getOutput(0);
@@ -1425,8 +1423,6 @@ public abstract class ProbabilityCalculatorView
 			return;
 		}
 
-		xAxis.swapIfNeeded();
-
 		if (geo.equals(xAxis.lowPoint())) {
 			if (isValidInterval(xAxis.lowPoint().getInhomX(), getHigh())) {
 				low = asNumeric(xAxis.lowPoint(), low);
@@ -1555,9 +1551,6 @@ public abstract class ProbabilityCalculatorView
 	 * @return whether interval is valid for given mode
 	 */
 	public boolean isValidInterval(double xLow, double xHigh) {
-		if (isTwoTailedMode()) {
-			return xLow <= xHigh;
-		}
 		// don't allow non-integer bounds for discrete dist.
 		if (probManager.isDiscrete(selectedDist)
 				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh)) {

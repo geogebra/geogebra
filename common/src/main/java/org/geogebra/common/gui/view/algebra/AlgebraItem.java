@@ -245,6 +245,42 @@ public class AlgebraItem {
 	}
 
 	/**
+	 * Returns the definition string for the geo element in the input row of the Algebra View.
+	 * @param element geo element
+	 * @return definition text in LaTeX
+	 */
+	public static String getDefinitionLatexForGeoElement(GeoElement element) {
+		return element.isAlgebraLabelVisible() ? element.getDefinitionForEditor() : element
+				.getDefinitionNoLabel(StringTemplate.editorTemplate);
+	}
+
+	/**
+	 * Returns the preview string for the geo element in the input row of the Algebra View.
+	 * @param element geo element
+	 * @return input preview string in LaTeX
+	 */
+	public static String getPreviewLatexForGeoElement(GeoElement element) {
+		String latex = getPreviewFormula(element, StringTemplate.numericLatex);
+
+		if (latex != null) {
+			return latex;
+		}
+
+		//APPS-4553 Logic from RadioTreeItem.getTextForEditing() for consistency
+		if (needsPacking(element)) {
+			return element.getLaTeXDescriptionRHS(false, StringTemplate.numericLatex);
+		} else if (!element.isAlgebraLabelVisible()) {
+			return element.getDefinition(StringTemplate.numericLatex);
+		}
+
+		boolean substituteNumbers = element instanceof GeoNumeric && element.isSimple();
+		return element.getLaTeXAlgebraDescriptionWithFallback(
+				substituteNumbers
+						|| (element instanceof GeoNumeric && element.isSimple()),
+				StringTemplate.numericLatex, true);
+	}
+
+	/**
 	 * @param geo1
 	 *            element
 	 * @param builder
@@ -574,7 +610,7 @@ public class AlgebraItem {
 	 *            the GeoElement for what we need to get the preview for AV
 	 * @return the preview string for the given geoelement if there is any
 	 */
-	public static String getPreviewFormula(GeoElement element,
+	private static String getPreviewFormula(GeoElement element,
 			StringTemplate stringTemplate) {
 		Settings settings = element.getApp().getSettings();
 		int algebraStyle = settings.getAlgebra().getStyle();

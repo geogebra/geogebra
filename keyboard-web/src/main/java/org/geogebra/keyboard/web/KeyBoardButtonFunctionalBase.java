@@ -85,15 +85,13 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 *            - text is inserted
 	 * @param handler
 	 *            {@link ClickHandler}
-	 * @param addSupSyle
-	 *            - true if add sup style
 	 * @param loc
 	 *            localization
 	 * @param altText
 	 *            alternate text for icon
 	 */
 	public KeyBoardButtonFunctionalBase(SVGResource svg, String feedback,
-			ButtonHandler handler, boolean addSupSyle, Localization loc,
+			ButtonHandler handler, Localization loc,
 			String altText) {
 		super(handler);
 
@@ -104,9 +102,6 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.image.getElement().setAttribute("role", "img");
 		this.feedback = feedback;
 		add(this.image);
-		if (addSupSyle) {
-			addStyleName("sup");
-		}
 		getElement().setAttribute("aria-label", altTextTranslated);
 	}
 

@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 
@@ -134,7 +135,7 @@ public class AlgebraItemTest extends BaseUnitTest {
         getApp().setGraphingConfig();
         getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_AUSTRIAN);
         GeoPoint point = getKernel().getAlgoDispatcher().point(1, 2, false);
-        assertThat(AlgebraItem.getPreviewFormula(point, StringTemplate.latexTemplate),
+        assertThat(AlgebraItem.getPreviewLatexForGeoElement(point),
                 endsWith("\\left(1 | 2 \\right)"));
     }
 
@@ -146,5 +147,20 @@ public class AlgebraItemTest extends BaseUnitTest {
         assertThat(AlgebraItem.isGeoFraction(fraction1), is(true));
         assertThat(AlgebraItem.isGeoFraction(fraction2), is(true));
         assertThat(AlgebraItem.isGeoFraction(solve), is(false));
+    }
+
+    @Test
+    public void testGetDefinitionLabeled() {
+        GeoElement element = add("A=(1,2)");
+        String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
+        assertThat(definition, is("A=(1,2)"));
+    }
+
+    @Test
+    public void testGetDefinitionUnlabeled() {
+        GeoElement element = add("A=(1,2)");
+        new LabelController().hideLabel(element);
+        String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
+        assertThat(definition, is("(1,2)"));
     }
 }

@@ -25,8 +25,6 @@ public interface MyTableInterface {
 
 	public void selectionChanged();
 
-	public boolean isSelectNone();
-
 	public boolean setSelection(int i, int j);
 
 	public boolean isSelectAll();

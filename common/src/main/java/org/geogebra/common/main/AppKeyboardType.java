@@ -3,11 +3,13 @@ package org.geogebra.common.main;
 public enum AppKeyboardType {
 	SCIENTIFIC,
 
-	MOW,
+	NOTES,
 
 	GRAPHING,
 
 	GEOMETRY,
 
-	SUITE
+	SUITE,
+
+	SOLVER
 }

@@ -106,7 +106,7 @@ public class RegressionSpecificationTest extends BaseUnitTest {
 	@Test
 	public void testLogisticRegression() {
 		assertEquals("\\frac{a}{1 + b\\cdot e^{-c\\ x}},"
-				+ " a = 1.5, b = 258.98, c = 105.06, R\u00b2 = 1", getRegressionValues(8));
+				+ " a = 105.06, b = 258.98, c = 1.5, R\u00b2 = 1", getRegressionValues(8));
 		assertEquals("105.06 / (1 + 258.98" + Unicode.EULER_STRING + "^(-1.5x))",
 				getRegressionFormula(8));
 	}

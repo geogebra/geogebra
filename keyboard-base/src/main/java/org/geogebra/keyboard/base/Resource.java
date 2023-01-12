@@ -4,69 +4,78 @@ package org.geogebra.keyboard.base;
  * The items correspond to {@link ResourceType#DEFINED_CONSTANT}.
  */
 public enum Resource {
-    POWA2,
+    POWA2("altText.Square"),
 
-    POWAB,
+    POWAB("altText.Power"),
 
-    EMPTY_IMAGE,
+    EMPTY_IMAGE(""),
 
-    BACKSPACE_DELETE,
+    BACKSPACE_DELETE("altText.Backspace"),
 
-    RETURN_ENTER,
+    RETURN_ENTER("altText.Enter"),
 
-    LEFT_ARROW,
+    LEFT_ARROW("altText.LeftArrow"),
 
-    RIGHT_ARROW,
+    RIGHT_ARROW("altText.RightArrow"),
 
-    UP_ARROW,
+    UP_ARROW("altText.UpArrow"),
 
-    DOWN_ARROW,
+    DOWN_ARROW("altText.DownArrow"),
 
-    LOG_10,
+    LOG_10("altText.log10"),
 
-    LOG_B,
+    LOG_B("altText.LogB"),
 
-    POWE_X,
+    POWE_X("altText.PowE"),
 
-    POW10_X,
+    POW10_X("altText.PowTen"),
 
-    N_ROOT,
+    N_ROOT("altText.Root"),
 
-    A_N,
+    A_N("altText.Subscript"),
 
-    ABS,
+    ABS("altText.Abs"),
 
-    FLOOR,
+    FLOOR("altText.Floor"),
 
-    CEIL,
+    CEIL("altText.Ceil"),
 
-    CAPS_LOCK,
+    CAPS_LOCK("altText.CapsLockInactive"),
 
-    CAPS_LOCK_ENABLED,
+    CAPS_LOCK_ENABLED("altText.CapsLockActive"),
 
-    INTEGRAL,
+    INTEGRAL("Integral"),
 
-    DERIVATIVE,
+    DERIVATIVE("Derivative"),
 
-    ROOT,
+    ROOT("altText.SquareRoot"),
 
-    LANGUAGE,
+    LANGUAGE(""),
 
-    FRACTION,
+    FRACTION("altText.Fraction"),
 
-    INVERSE,
+    INVERSE("altText.Inverse"),
 
-    DEFINITE_INTEGRAL,
+    DEFINITE_INTEGRAL("altText.DefiniteIntegral"),
 
-    SUM,
+    SUM("altText.Sum"),
 
-    PRODUCT,
+    PRODUCT("altText.Product"),
 
-    LIM,
+    LIM("altText.Lim"),
 
-    VECTOR,
+    VECTOR("altText.Vector"),
 
-    ATOMIC_POST,
+    ATOMIC_POST("altText.AtomicPost"),
 
-    ATOMIC_PRE
+    ATOMIC_PRE("altText.AtomicPre"),
+
+    MIXED_NUMBER("altText.MixedNumber");
+
+    public final String altText;
+
+    Resource(String altText) {
+        this.altText = altText;
+    }
+
 }

@@ -18,21 +18,21 @@ public class AppWFullTest {
 	@Test
 	public void graphingUsesProtectiveFilter() {
 		ToStringConverter<GeoElement> outputFilter =
-				AppMocker.mockGraphing(getClass()).getLabelDescriptionConverter();
+				AppMocker.mockGraphing().getLabelDescriptionConverter();
 		assertThat(outputFilter instanceof ProtectiveLabelDescriptionConverter, is(true));
 	}
 
 	@Test
 	public void geometryUsesNoFilter() {
 		ToStringConverter<GeoElement> outputFilter =
-				AppMocker.mockGeometry(getClass()).getLabelDescriptionConverter();
+				AppMocker.mockGeometry().getLabelDescriptionConverter();
 		assertThat(outputFilter instanceof DefaultLabelDescriptionConverter, is(true));
 	}
 
 	@Test
 	public void casUsesNoFilter() {
 		ToStringConverter<GeoElement> outputFilter =
-				AppMocker.mockCas(getClass()).getLabelDescriptionConverter();
+				AppMocker.mockCas().getLabelDescriptionConverter();
 		assertThat(outputFilter instanceof DefaultLabelDescriptionConverter, is(true));
 	}
 }
