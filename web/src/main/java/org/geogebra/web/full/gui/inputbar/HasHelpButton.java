@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.inputbar;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.IsWidget;
 
 /**
  * UI element with help button

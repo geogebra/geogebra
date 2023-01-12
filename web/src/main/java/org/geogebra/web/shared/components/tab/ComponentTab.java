@@ -4,13 +4,12 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 public class ComponentTab extends FlowPanel implements RequiresResize {
 	private Localization loc;

@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.safehtml.shared.SafeHtml;
+import org.gwtproject.safehtml.shared.SafeHtml;
 
 import elemental2.dom.HTMLElement;
 

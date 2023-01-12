@@ -1,6 +1,6 @@
 package org.geogebra.web.solver;
 
-import com.google.gwt.user.client.ui.HTML;
+import org.gwtproject.user.client.ui.HTML;
 
 /**
  * Progressbar using native HTML5 element

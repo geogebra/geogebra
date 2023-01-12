@@ -2,9 +2,8 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.ImageResourceConverter;
-
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Tree;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.user.client.ui.Tree;
 
 /** Helper class to hide default tree images for collapse / expand */
 public class TreeImages implements Tree.Resources {

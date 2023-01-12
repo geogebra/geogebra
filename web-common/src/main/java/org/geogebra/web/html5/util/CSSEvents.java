@@ -1,8 +1,7 @@
 package org.geogebra.web.html5.util;
 
 import org.geogebra.regexp.shared.RegExp;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;

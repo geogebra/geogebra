@@ -20,16 +20,15 @@ import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style.Float;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.style.shared.Float;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.FocusEvent;
+import org.gwtproject.event.dom.client.FocusHandler;
+import org.gwtproject.user.client.ui.DisclosurePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Panel to manage editing of GeoText strings.

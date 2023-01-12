@@ -4,8 +4,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 class MultiSelectButtonsPannel extends FlowPanel {
 	public interface ButtonsListener {

@@ -3,7 +3,7 @@ package org.geogebra.web.full.javax.swing;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.Command;
+import org.gwtproject.user.client.Command;
 
 /**
  * @author csilla

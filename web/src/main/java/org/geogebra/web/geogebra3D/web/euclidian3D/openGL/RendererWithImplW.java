@@ -10,9 +10,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;

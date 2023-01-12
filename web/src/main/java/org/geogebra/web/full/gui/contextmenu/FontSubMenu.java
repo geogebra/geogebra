@@ -7,9 +7,8 @@ import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Submenu for Font item in 3-dot menu of inline text

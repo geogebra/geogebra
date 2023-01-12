@@ -8,11 +8,10 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
+import org.gwtproject.user.client.ui.ListBox;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.google.gwt.user.client.ui.ListBox;
 
 /**
  * Tests for Undo with multiple slides

@@ -4,8 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.web.full.gui.HeaderView;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 class HeaderedMenuView extends FlowPanel {
 

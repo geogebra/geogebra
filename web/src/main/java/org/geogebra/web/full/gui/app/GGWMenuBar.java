@@ -2,11 +2,10 @@ package org.geogebra.web.full.gui.app;
 
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.main.AppWFull;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Composite;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Wrap MainMenu in composite

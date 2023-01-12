@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.IsWidget;
 
 /**
  * Utility class for widget layout.

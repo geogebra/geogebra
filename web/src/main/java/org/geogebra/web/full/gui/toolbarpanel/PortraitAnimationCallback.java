@@ -4,8 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style.Overflow;
+import org.gwtproject.dom.style.shared.Overflow;
 
 /**
  * Callback for tool panel opening/closing in portrait mode

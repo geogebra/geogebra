@@ -16,7 +16,7 @@
 
 package org.geogebra.web.full.gui.advanced.client.ui.widget.combo;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
+import org.gwtproject.event.dom.client.ChangeEvent;
 
 /**
  * This event extends the standard <code>ChangeEvent</code> class to provide

@@ -5,8 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
-
-import com.google.gwt.canvas.client.Canvas;
+import org.gwtproject.canvas.client.Canvas;
 
 /**
  * (dummy) renderer for 3D view, for browsers that don't support webGL

@@ -1,11 +1,10 @@
 package org.geogebra.web.html5.gui;
 
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
-
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.Button;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
 
 public class BaseWidgetFactory {
 	/**
