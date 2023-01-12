@@ -35,4 +35,9 @@ public class ArrowVectorShape implements VectorShape {
 				model.getStroke());
 		return rotatedArrow.get();
 	}
+
+	@Override
+	public GLine2D clipLine(int width, int height) {
+		return body();
+	}
 }

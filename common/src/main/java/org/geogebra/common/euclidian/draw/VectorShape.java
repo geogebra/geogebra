@@ -26,4 +26,10 @@ public interface VectorShape {
 	 */
 	GShape head();
 
+	/**
+	 * @param width of the visible area.
+	 * @param height of the visible area.
+	 * @return the clipped line.
+	 */
+	GLine2D clipLine(int width, int height);
 }
