@@ -91,7 +91,7 @@ public class CmdProduct extends CommandProcessor {
 	private GeoElement[] productGeneric(GeoElement geoElement, GeoNumeric limit,
 			Command c) {
 		GeoList list = (GeoList) geoElement;
-		FoldComputer computer = CmdSum.getComputer(list);
+		FoldComputer computer = CmdSum.getFoldComputer(list);
 
 		if (computer != null) {
 			AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, c.getLabel(),
