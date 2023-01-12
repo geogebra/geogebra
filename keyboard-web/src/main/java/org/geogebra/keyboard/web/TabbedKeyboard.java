@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.LocalizationI;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -58,7 +59,7 @@ public class TabbedKeyboard extends FlowPanel
 	/**
 	 * localization
 	 */
-	Localization locale;
+	LocalizationI locale;
 	private boolean isSmallKeyboard;
 	/**
 	 * application
@@ -159,7 +160,7 @@ public class TabbedKeyboard extends FlowPanel
 		createSpecialSymbolsKeyboard(factory);
 		createGreekKeyboard(factory);
 
-		switcher.select(KeyboardType.NUMBERS);
+		selectNumberTab();
 		layout();
 	}
 
@@ -168,8 +169,13 @@ public class TabbedKeyboard extends FlowPanel
 		createDefaultKeyboard();
 		createFunctionsKeyboard();
 		createLocalizedAbcKeyboard(false);
-		switcher.select(KeyboardType.NUMBERS);
+		selectNumberTab();
 		layout();
+	}
+
+	private void selectNumberTab() {
+		switcher.select(processField != null && processField.requestsAns() ? KeyboardType.NUMBERS
+				: KeyboardType.NUMBERS_DEFAULT);
 	}
 
 	private void createAnsMathKeyboard() {
@@ -494,7 +500,7 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private KeyBoardButtonBase functionButton(WeightedButton button) {
-		Localization loc = hasKeyboard.getLocalization();
+		LocalizationI loc = hasKeyboard.getLocalization();
 		String resourceName = button.getResourceName();
 		ButtonHandler bh = this;
 		Resource resource = Resource.EMPTY_IMAGE;
@@ -694,7 +700,8 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	public void buildGUI() {
 		this.tabs = new FlowPanel();
-		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
+		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC
+			|| hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
 			buildGUIScientific();
 		} else {
 			buildGUIGgb();

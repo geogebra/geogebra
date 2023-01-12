@@ -11,8 +11,8 @@ import org.geogebra.common.util.TimeFormatAdapter;
 public class TimeFormat implements TimeFormatAdapter {
 
     @Override
-    public String format(Locale locale, String pattern, long timeMs) {
-		return String.format(locale, pattern,
+    public String format(String localeStr, String pattern, long timeMs) {
+		return String.format(new Locale(localeStr), pattern,
 				TimeUnit.MILLISECONDS.toMinutes(timeMs),
 				TimeUnit.MILLISECONDS.toSeconds(timeMs) - TimeUnit.MINUTES
 						.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeMs))

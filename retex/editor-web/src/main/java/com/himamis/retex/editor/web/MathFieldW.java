@@ -1200,7 +1200,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param parentPanel
 	 *            panel to be scrolled
 	 */
-	public void scrollParentHorizontally(FlowPanel parentPanel) {
+	public void scrollParentHorizontally(Widget parentPanel) {
 		MathFieldScroller.scrollHorizontallyToCursor(parentPanel,
 				rightMargin, lastIcon.getCursorX());
 	}

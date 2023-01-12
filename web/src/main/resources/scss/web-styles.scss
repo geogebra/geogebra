@@ -90,26 +90,6 @@
 		font-size: 80%;
 	}
 
-	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
-	.inputHelp-detailPanelTitle .button, .optionsPopup .gwt-Button, .customizeToolbarButtonPanel .button,
-	.buttonSpreadsheet {
-		border-radius: 5px;
-		border: 1px solid #6161FF;
-		color: #6161FF;
-		background: none;
-		font-size: 110%;
-		padding: 4px 15px;
-		box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 0 2px rgba(204, 204, 204, 0.5);
-		cursor: pointer;
-		margin-left: 5px;
-		min-height: 0;
-
-		&.downloadBtn {
-			float: right;
-			width: 64px;
-		}
-	}
-
 	/* Pop-up Exam Mode Dialog */
 
 	.ExamCheckboxPanel {
