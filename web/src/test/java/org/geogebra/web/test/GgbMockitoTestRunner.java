@@ -22,7 +22,6 @@ import org.gwtproject.dom.client.SelectElement;
 import org.gwtproject.dom.client.TextAreaElement;
 import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.safehtml.shared.SafeUri;
-import org.gwtproject.touch.client.TouchScroller;
 import org.gwtproject.user.cellview.client.CellBasedWidgetImplStandard;
 import org.gwtproject.user.cellview.client.CellList;
 import org.gwtproject.user.cellview.client.CellTable;
@@ -180,7 +179,6 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         classes.add(DOMImplStandard.class);
         classes.add(DomEvent.Type.class);
         classes.add(SchedulerImpl.class);
-        classes.add(TouchScroller.class);
         classes.add(FocusImpl.class);
         classes.add(JsDate.class);
         classes.add(CellBasedWidgetImplStandard.class);

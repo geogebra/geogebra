@@ -13,7 +13,6 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -324,8 +323,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		if (tb.getStyleName().indexOf("headerTable") > 0) {
 			sb.append(SafeHtmlUtils
 					.fromSafeConstant("<div class=\"CP_popupImage\">"));
-			sb.append(AbstractImagePrototype.create(ImageResourceConverter
-					.convertToOldImageResource(GuiResources.INSTANCE.menu_dots())).getSafeHtml());
+			sb.append(AbstractImagePrototype.create(GuiResources.INSTANCE.menu_dots())
+					.getSafeHtml());
 			sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 		}
 

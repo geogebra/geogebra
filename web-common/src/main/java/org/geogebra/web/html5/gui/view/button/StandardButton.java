@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
-import org.gwtproject.aria.client.Roles;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Label;
@@ -126,7 +125,7 @@ public class StandardButton extends Widget implements HasResource {
 		this.getElement().appendChild(new Label(label).getElement());
 		btnImage.setPresentation();
 
-		Roles.getButtonRole().removeAriaPressedState(getElement());
+		getElement().removeAttribute("aria-pressed");
 	}
 
 	private void buildColorIcon() {
@@ -158,7 +157,7 @@ public class StandardButton extends Widget implements HasResource {
 			this.getElement().appendChild(new Label(label).getElement());
 		}
 
-		Roles.getButtonRole().removeAriaPressedState(getElement());
+		getElement().removeAttribute("aria-pressed");
 	}
 
 	/**
@@ -231,7 +230,7 @@ public class StandardButton extends Widget implements HasResource {
 			btnImage.setPresentation();
 		}
 		AriaHelper.setLabel(this, altText);
-		Roles.getButtonRole().removeAriaPressedState(getElement());
+		getElement().removeAttribute("aria-pressed");
 	}
 
 	@Override

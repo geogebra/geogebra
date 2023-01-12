@@ -16,7 +16,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
-import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
@@ -75,10 +74,8 @@ public class TextEditPanel extends VerticalPanel
 		previewer = advancedPanel.getPreviewer();
 
 		disclosurePanel = new DisclosurePanel(
-				ImageResourceConverter
-						.convertToOldImageResource(GuiResources.INSTANCE.triangle_down()),
-				ImageResourceConverter
-						.convertToOldImageResource(GuiResources.INSTANCE.triangle_right()),
+				GuiResources.INSTANCE.triangle_down(),
+				GuiResources.INSTANCE.triangle_right(),
 				loc.getMenu("Advanced"));
 		disclosurePanel.setContent(advancedPanel);
 		disclosurePanel.getContent().removeStyleName("content");

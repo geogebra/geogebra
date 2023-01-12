@@ -734,13 +734,11 @@ public class PageListController implements PageListControllerInterface,
 		if (dragCtrl.move(t.getClientY(), true)) {
 			event.preventDefault();
 			event.stopPropagation();
-			listener.getScrollPanel().setTouchScrollingDisabled(true);
 		}
 	}
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		listener.getScrollPanel().setTouchScrollingDisabled(false);
 		dragCtrl.stop();
 	}
 

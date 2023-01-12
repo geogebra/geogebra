@@ -45,7 +45,6 @@ import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
-import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
 import org.geogebra.web.full.gui.util.SaveDialogW;
@@ -566,8 +565,7 @@ public class DialogManagerW extends DialogManager
 	private static PopupPanel createLoadingAnimation() {
 		PopupPanel anim = new PopupPanel();
 		anim.addStyleName("loadinganimation");
-		anim.add(new Image(ImageResourceConverter
-				.convertToOldImageResource(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner())));
+		anim.add(new Image(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner()));
 		return anim;
 	}
 
