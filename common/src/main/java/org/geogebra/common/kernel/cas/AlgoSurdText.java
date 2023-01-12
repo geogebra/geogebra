@@ -276,7 +276,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				numer = -numer;
 				sBuilder.append("-");
 			}
-			AlgoFractionText.appendFraction(sBuilder, tpl,
+			AlgoFractionText.appendFraction(sBuilder,
 					kernel.format(numer, tpl), kernel.format(denom, tpl));
 
 		}
