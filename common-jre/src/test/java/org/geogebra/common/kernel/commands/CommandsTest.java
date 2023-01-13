@@ -1303,6 +1303,8 @@ public class CommandsTest {
 	@Test
 	public void cmdDegree() {
 		t("Degree[x^4 + 2 x^2]", "4");
+		t("Degree[0x]", "0");
+		t("Degree[x^2-x^2+x+1]", "1");
 	}
 
 	@Test
@@ -1710,7 +1712,10 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFractionText() {
-		t("FractionText[ 42 ]", "42");
+		t("FractionText[ 4/6 ]", " \\frac{ 2 }{ 3 } ");
+		t("FractionText[ -4/6 ]", " \\frac{ -2 }{ 3 } ");
+		t("FractionText[ 4/6, false ]", " \\frac{ 2 }{ 3 } ");
+		t("FractionText[ -4/6 , false ]", "- \\frac{ 2 }{ 3 } ");
 		t("FractionText[ (1,1) ]", "{ \\left( 1,1 \\right) }");
 	}
 
@@ -2664,6 +2669,7 @@ public class CommandsTest {
 	public void cmdNormalQuantilePlot() {
 		t("NormalQuantilePlot[ {2,3,4}]",
 				"{(2, -0.8193286198336103), (3, 0), (4, 0.8193286198336103), 2.8284271247461903}");
+		t("Slope(Element(NormalQuantilePlot[ {2,3,4}],4))", "1");
 	}
 
 	@Test
@@ -2805,6 +2811,7 @@ public class CommandsTest {
 	@Test
 	public void cmdParseToNumber() {
 		t("ParseToNumber[ \"7\"]", "7");
+		t("ParseToNumber[ \"/\"]", "NaN");
 		t("n1 = 5", "5");
 		t("txt = \"6\"", "6");
 		t("ParseToNumber[ n1, txt ]", "6"); // valid
@@ -3552,6 +3559,7 @@ public class CommandsTest {
 				get("A").getObjectColor().toString());
 		Assert.assertEquals("A,A1",
 				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
+		Assert.assertEquals(2, app.getKernel().getConstruction().steps());
 	}
 
 	@Test
@@ -4392,5 +4400,11 @@ public class CommandsTest {
 	public void cmdZMean2Estimate() {
 		t("ZMean2Estimate[ {1,2,3,4,5}, {1,2,3,4,5}, 13, 50, 42 ]", "?");
 		t("ZMean2Estimate[ 42, 42, 4, 13, 50, 42, 4 ]", "?");
+	}
+
+	@Test
+	public void productDegree() {
+		t("f(x)=x^3-Product(Sequence(x+k,k,1,-1,-1))", "x^(3) - (((x + 1) * (x)) * (x - 1))");
+		t("Degree(f)", "1");
 	}
 }

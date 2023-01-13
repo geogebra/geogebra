@@ -45,13 +45,13 @@ public class PolyFunction
 	}
 
 	/**
-	 * 
 	 * @param c
 	 *            coefficients
+	 * @param validCoeffs number of coefficients to copy (further ones considered zeros)
 	 */
-	public PolyFunction(double[] c) {
-		coeffs = new double[c.length];
-		for (int i = 0; i < c.length; i++) {
+	public PolyFunction(double[] c, int validCoeffs) {
+		coeffs = new double[validCoeffs];
+		for (int i = 0; i < validCoeffs; i++) {
 			coeffs[i] = c[i];
 		}
 		degree = coeffs.length - 1;

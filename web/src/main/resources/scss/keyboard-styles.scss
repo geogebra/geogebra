@@ -145,6 +145,8 @@ $purple-default: #6557D2;
 		display: block;
 		div {
 			text-align: center;
+			line-height: 24px;
+			max-height: 24px; /** needed for log_10 */
 		}
 
 		&.ripple:after {
@@ -159,7 +161,9 @@ $purple-default: #6557D2;
 		border-radius: 5px;
 		border-bottom: 1px solid;
 		border-bottom-color: $new-keyboard-button-border; 
-		padding: 9px 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
 
 		&.sub {
 			padding: 6.5px;

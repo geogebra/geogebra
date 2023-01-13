@@ -9,7 +9,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,14 +24,6 @@ import com.google.gwt.user.client.ui.ListBox;
 public class ClearAllActionTest {
 
 	private static AppWFull app;
-
-	/**
-	 * Make sure asserts don't kill the tests
-	 */
-	@Before
-	public void rootPanel() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
-	}
 
 	/**
 	 * Undo / redo with a single slide.

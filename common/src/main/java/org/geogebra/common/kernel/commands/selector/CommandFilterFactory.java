@@ -42,34 +42,83 @@ public final class CommandFilterFactory {
 
 	private static CommandFilter createGraphingNameFilter() {
 		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
-		nameFilter.addCommands(Commands.PerpendicularVector, Commands.OrthogonalVector,
+		nameFilter.addCommands(Commands.OrthogonalVector,
 				Commands.UnitOrthogonalVector, Commands.UnitVector, Commands.Cross, Commands.Dot,
-				Commands.Reflect, Commands.Mirror, Commands.AngleBisector,
-				Commands.AngularBisector, Commands.Angle, Commands.ConjugateDiameter,
-				Commands.Diameter, Commands.LinearEccentricity, Commands.Excentricity,
-				Commands.MajorAxis, Commands.FirstAxis, Commands.MinorAxis, Commands.SecondAxis,
-				Commands.SemiMajorAxisLength, Commands.FirstAxisLength,
-				Commands.SemiMinorAxisLength, Commands.SecondAxisLength,
-				Commands.Relation, Commands.AffineRatio, Commands.Arc, Commands.AreCollinear,
-				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
-				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular, Commands.Area,
-				Commands.Barycenter, Commands.Centroid, Commands.CircularArc, Commands.CircleArc,
-				Commands.CircularSector, Commands.CircleSector, Commands.CircumcircularArc,
-				Commands.CircumcircleArc, Commands.CircumcircularSector,
-				Commands.CircumcircleSector, Commands.Circumference, Commands.ClosestPoint,
+				Commands.Mirror, Commands.AngularBisector, Commands.Angle,
+				Commands.Diameter, Commands.Excentricity,
+				Commands.FirstAxis, Commands.SecondAxis,
+				Commands.FirstAxisLength, Commands.SecondAxisLength,
+				Commands.Relation, Commands.AffineRatio, Commands.Arc, Commands.Area,
+				Commands.Barycenter, Commands.Centroid, Commands.CircleArc,
+				Commands.CircleSector, Commands.CircumcircleArc, Commands.CircumcircleSector,
+				Commands.Circumference, Commands.ClosestPoint,
 				Commands.ClosestPointRegion, Commands.CrossRatio, Commands.Cubic,
 				Commands.Direction, Commands.Distance, Commands.Envelope, Commands.IntersectPath,
 				Commands.Locus, Commands.LocusEquation, Commands.Midpoint, Commands.Perimeter,
-				Commands.PerpendicularBisector, Commands.LineBisector, Commands.PerpendicularLine,
-				Commands.OrthogonalLine, Commands.Polygon,
+				Commands.LineBisector, Commands.OrthogonalLine, Commands.Polygon,
 				Commands.Prove, Commands.ProveDetails, Commands.Radius, Commands.RigidPolygon,
 				Commands.Sector, Commands.Segment, Commands.Slope, Commands.Tangent,
 				Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
-				Commands.Vertex, Commands.Polynomial, Commands.TaylorPolynomial,
+				Commands.Vertex, Commands.Polynomial,
 				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
 				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
 				Commands.Division, Commands.IsVertexForm);
+		addBooleanCommands(nameFilter);
 		return nameFilter;
+	}
+
+	private static void addBooleanCommands(CommandNameFilterSet nameFilter) {
+		nameFilter.addCommands(Commands.AreCollinear,
+				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
+				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular);
+	}
+
+	/**
+	 * @return filer for IQB MMS exam
+	 */
+	public static CommandFilter createMmsFilter() {
+		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		nameFilter.addCommands(Commands.Axes, Commands.Focus,
+				Commands.DelauneyTriangulation, Commands.Difference,
+				Commands.Rotate, Commands.TriangleCenter,
+				Commands.Envelope, Commands.Ends,
+				Commands.FirstAxisLength, Commands.SecondAxisLength,
+				Commands.FirstAxis, Commands.Height, Commands.InteriorAngles,
+				Commands.InverseBinomial, Commands.InverseCauchy, Commands.InverseChiSquared,
+				Commands.InverseExponential, Commands.InverseFDistribution,
+				Commands.InverseGamma, Commands.InverseHyperGeometric,
+				Commands.InverseLaplace, Commands.InverseLogistic, Commands.InverseLogNormal,
+				Commands.InverseNormal, Commands.InversePascal, Commands.InversePoisson,
+				Commands.InverseTDistribution, Commands.InverseWeibull, Commands.InverseZipf,
+				Commands.Diameter, Commands.ConvexHull, Commands.ShortestDistance,
+				Commands.CurveCartesian, Commands.Barycenter, Commands.MinimumSpanningTree,
+				Commands.Center, Commands.SecondAxis, Commands.Net, Commands.Top,
+				Commands.Surface, Commands.Prove, Commands.ProveDetails,
+				Commands.Point, Commands.PointIn, Commands.IntersectPath,
+				Commands.IntersectConic, Commands.Centroid, Commands.QuadricSide,
+				Commands.Sector, Commands.Mirror, Commands.Spline,
+				Commands.Stretch, Commands.Dilate, Commands.Bottom,
+				Commands.Translate, Commands.Shear, Commands.Polygon,
+				Commands.Arc, Commands.Circle, Commands.CircleSector,
+				Commands.CircleArc, Commands.OsculatingCircle, Commands.Cubic,
+				Commands.Polygon, Commands.Line, Commands.Segment, Commands.Ray,
+				Commands.Ellipse, Commands.LineBisector, Commands.OrthogonalLine,
+				Commands.Asymptote, Commands.RigidPolygon, Commands.Tangent,
+				Commands.AngularBisector,
+				Commands.Pyramid, Commands.Prism, Commands.Cone, Commands.Cylinder,
+				Commands.Sphere, Commands.TriangleCurve, Commands.Semicircle,
+				Commands.ImplicitCurve, Commands.Conic, Commands.Icosahedron, Commands.Hyperbola,
+				Commands.Parabola, Commands.Incircle, Commands.Directrix, Commands.Octahedron,
+				Commands.Locus, Commands.LocusEquation, Commands.Polar,
+				Commands.PolyLine, Commands.ConeInfinite, Commands.CylinderInfinite,
+				Commands.Tetrahedron, Commands.CircumcircleArc, Commands.CircumcircleSector,
+				Commands.Cube, Commands.Roots, Commands.ComplexRoot, Commands.Root,
+				Commands.RootList, Commands.Volume, Commands.Plane,
+				Commands.OrthogonalPlane,
+				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
+				Commands.IsTangent, Commands.IsInRegion);
+		addBooleanCommands(nameFilter);
+		return new EnglishCommandFilter(nameFilter);
 	}
 
 	/**
@@ -110,13 +159,13 @@ public final class CommandFilterFactory {
 				// Vector And Matrix Commands
 				Commands.ApplyMatrix,
 				//Geometry Commands
-				Commands.Angle, Commands.Centroid, Commands.CircularArc,
-				Commands.CircleArc, Commands.CircularSector, Commands.CircleSector,
-				Commands.CircumcircularArc, Commands.CircumcircleArc, Commands.CircumcircularSector,
+				Commands.Angle, Commands.Centroid,
+				Commands.CircleArc, Commands.CircleSector,
+				Commands.CircumcircleArc,
 				Commands.CircumcircleSector, Commands.Cubic, Commands.Direction,
-				Commands.Distance, Commands.Envelope, Commands.IntersectPath,
+				Commands.Envelope, Commands.IntersectPath,
 				Commands.Locus, Commands.LocusEquation, Commands.Midpoint,
-				Commands.Point, Commands.Polygon, Commands.Polyline,
+				Commands.Point, Commands.Polygon,
 				Commands.PolyLine, Commands.ProveDetails, Commands.Ray,
 				Commands.RigidPolygon, Commands.Sector, Commands.Segment,
 				Commands.Slope, Commands.TriangleCurve, Commands.Vertex,
@@ -127,7 +176,7 @@ public final class CommandFilterFactory {
 				// Probability commands
 				Commands.Bernoulli,
 				// Conic Commands
-				Commands.Axes, Commands.Center, Commands.ConjugateDiameter,
+				Commands.Axes, Commands.Center,
 				Commands.Diameter, Commands.Focus,
 				// Chart Commands
 				Commands.BarChart, Commands.BoxPlot, Commands.ContingencyTable,
@@ -143,18 +192,17 @@ public final class CommandFilterFactory {
 				// List Commands
 				Commands.Zip,
 				// Text Commands
-				Commands.ContinuedFraction, Commands.FormulaText, Commands.LaTeX,
+				Commands.ContinuedFraction, Commands.LaTeX,
 				Commands.FractionText, Commands.SurdText, Commands.TableText,
 				Commands.Text, Commands.UnicodeToLetter,
 				// Logical Commands
-				Commands.IsDefined, Commands.Defined,
-				Commands.Relation,
+				Commands.Defined, Commands.Relation,
 				// Optimization Command
 				Commands.Maximize, Commands.Minimize,
 				// Scripting Commands
 				Commands.AttachCopyToView, Commands.Button, Commands.Checkbox,
 				Commands.CopyFreeObject, Commands.Delete, Commands.GetTime,
-				Commands.InputBox, Commands.Textfield, Commands.Pan,
+				Commands.Textfield, Commands.Pan,
 				Commands.ParseToFunction, Commands.ParseToNumber, Commands.PlaySound,
 				Commands.Rename, Commands.Repeat, Commands.RunClickScript,
 				Commands.RunUpdateScript, Commands.SelectObjects, Commands.SetActiveView,
@@ -173,10 +221,10 @@ public final class CommandFilterFactory {
 				Commands.Bottom, Commands.Cone, Commands.Cube,
 				Commands.Cylinder, Commands.Dodecahedron, Commands.Ends,
 				Commands.Height, Commands.Icosahedron,
-				Commands.InfiniteCone, Commands.InfiniteCylinder, Commands.IntersectConic,
+				Commands.ConeInfinite, Commands.CylinderInfinite, Commands.IntersectConic,
 				Commands.Net, Commands.Octahedron,
 				Commands.Plane, Commands.PlaneBisector, Commands.Prism,
-				Commands.Pyramid, Commands.Side, Commands.Sphere,
+				Commands.Pyramid, Commands.Sphere,
 				Commands.Surface, Commands.Tetrahedron, Commands.Top,
 				Commands.Volume, Commands.QuadricSide, Commands.OrthogonalPlane,
 				// SpreadSheet Commands
@@ -184,7 +232,7 @@ public final class CommandFilterFactory {
 				Commands.ColumnName, Commands.FillCells, Commands.FillColumn,
 				Commands.FillRow, Commands.Row
 			);
-		return commandNameFilter;
+		return new EnglishCommandFilter(commandNameFilter);
 	}
 
 	/**

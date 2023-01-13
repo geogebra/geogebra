@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
@@ -51,8 +52,15 @@ public class SpreadsheetKeyListenerW
 
 	@Override
 	public void onKeyDown(KeyDownEvent e) {
+		if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
+			app.moveFocusToLastWidget();
+			table.setSelection(null);
+			table.selectionChanged();
+			return; // quit before we stop propagation
+		}
 		e.stopPropagation();
 		GlobalKeyDispatcherW.setDownKeys(e);
+		GlobalKeyDispatcherW.setDownAltKeys(e, true);
 		// cancel as this may prevent the keyPress in some browsers
 		// hopefully it is enough to preventDefault in onKeyPress
 		// e.preventDefault();
@@ -144,10 +152,12 @@ public class SpreadsheetKeyListenerW
 				GlobalKeyDispatcher.toggleAlgebraStyle(app);
 				e.preventDefault();
 			} else {
+				if (e.isAltKeyDown()) {
+					e.preventDefault(); // prevent default Alt+D
+				}
 				letterOrDigitTyped();
 			}
 			break;
-
 		case GWTKeycodes.KEY_DELETE:
 		case GWTKeycodes.KEY_BACKSPACE:
 			if (!editor.isEditing()) {
@@ -217,7 +227,10 @@ public class SpreadsheetKeyListenerW
 			}
 			//$FALL-THROUGH$
 		default:
-			if (!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
+			if (!editor.isEditing() && isValidKeyCombination(e)) {
+				if (GlobalKeyDispatcherW.isLeftAltDown() && preventDefaultAction(e)) {
+					e.preventDefault();
+				}
 				letterOrDigitTyped();
 			}
 		}
@@ -619,5 +632,19 @@ public class SpreadsheetKeyListenerW
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		GlobalKeyDispatcherW.setDownKeys(event);
+		GlobalKeyDispatcherW.setDownAltKeys(event, false);
+	}
+
+	private boolean isValidKeyCombination(KeyDownEvent e) {
+		return !e.isControlKeyDown() && (!e.isAltKeyDown() || isSpecialCharacter(e));
+	}
+
+	private boolean isSpecialCharacter(KeyDownEvent e) {
+		return AltKeys.isGeoGebraShortcut(e.getNativeKeyCode(), e.isShiftKeyDown(), true);
+	}
+
+	private boolean preventDefaultAction(KeyDownEvent e) {
+		return e.isAltKeyDown()
+				&& AltKeys.isGeoGebraShortcut(e.getNativeKeyCode(), e.isShiftKeyDown(), true);
 	}
 }

@@ -246,7 +246,7 @@ public class ColorTable {
 		} else {
 			final String number = "\\s*(((\\d+)(\\.\\d*)?)|(\\.\\d+))(%)?\\s*";
 			final Matcher rgbMatch = Pattern.compile(
-					"rgb\\(" + number + "," + number + "," + number + "\\)",
+					"rgba?\\(" + number + "," + number + "," + number + "(," + number + ")?\\)",
 					Pattern.CASE_INSENSITIVE).matcher("");
 
 			rgbMatch.reset(val);
@@ -254,10 +254,13 @@ public class ColorTable {
 				float rr = Float.parseFloat(rgbMatch.group(1));
 				float gg = Float.parseFloat(rgbMatch.group(7));
 				float bb = Float.parseFloat(rgbMatch.group(13));
+				String alpha = rgbMatch.group(20);
+				float aa = alpha == null || alpha.isEmpty() ? 1 : Float.parseFloat(alpha);
 				rr /= "%".equals(rgbMatch.group(6)) ? 100 : 255;
 				gg /= "%".equals(rgbMatch.group(12)) ? 100 : 255;
 				bb /= "%".equals(rgbMatch.group(18)) ? 100 : 255;
-				retVal = new Color(rr, gg, bb);
+				aa /= "%".equals(rgbMatch.group(25)) ? 100 : 1;
+				retVal = new Color(rr, gg, bb, aa);
 			} else {
 				Color lookupCol = ColorTable.instance().lookupColor(val);
 				if (lookupCol != null) {

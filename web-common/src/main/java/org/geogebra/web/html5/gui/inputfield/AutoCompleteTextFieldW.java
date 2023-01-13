@@ -29,7 +29,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
@@ -48,7 +47,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -128,8 +127,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	private @CheckForNull CursorOverlay cursorOverlay;
 
-    private boolean rightAltDown;
-	private boolean leftAltDown;
 	private final AutocompleteProviderClassic inputSuggestions;
 	private final FlowPanel main = new FlowPanel();
 	private boolean keyboardButtonEnabled = true;
@@ -787,15 +784,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (!isTabEnabled()) {
 			return;
 		}
-		if (MathFieldW.isRightAlt(e.getNativeEvent())) {
-			rightAltDown = true;
+		GlobalKeyDispatcherW.setDownAltKeys(e, true);
+
+		if (GlobalKeyDispatcherW.isLeftAltDown()) {
+			e.preventDefault();
 		}
-		if (MathFieldW.isLeftAlt(e.getNativeEvent())) {
-			leftAltDown = true;
-		}
-		if (leftAltDown) {
-			Log.debug("TODO: preventDefault");
-		}
+
 		int keyCode = e.getNativeKeyCode();
 		app.getGlobalKeyDispatcher();
 		if (keyCode == GWTKeycodes.KEY_F1
@@ -855,6 +849,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void onKeyUp(KeyUpEvent e) {
+		GlobalKeyDispatcherW.setDownAltKeys(e, false);
 		int keyCode = e.getNativeKeyCode();
 		// we don't want to trap AltGr
 		// as it is used eg for entering {[}] is some locales
@@ -933,7 +928,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			e.stopPropagation();
 			break;
-
 		case GWTKeycodes.KEY_ZERO:
 		case GWTKeycodes.KEY_ONE:
 		case GWTKeycodes.KEY_TWO:
@@ -950,15 +944,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			//$FALL-THROUGH$
 		default:
-			if (MathFieldW.isRightAlt(e.getNativeEvent())) {
-				rightAltDown = true;
-			}
-			if (MathFieldW.isLeftAlt(e.getNativeEvent())) {
-				leftAltDown = true;
-			}
+
 			// check for eg alt-a for alpha
 			// check for eg alt-shift-a for upper case alpha
-			if (e.isAltKeyDown() && !rightAltDown) {
+			if (GlobalKeyDispatcherW.isLeftAltDown()) {
 
 				String s = AltKeys.getAltSymbols(keyCode, e.isShiftKeyDown(),
 						true);
@@ -1279,6 +1268,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
+
+		app.updateKeyBoardField(this);
 	}
 
 	@Override
@@ -1368,13 +1359,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.getValueBox().selectAll();
 	}
 
-	/**
-	 * Adds key handler to the tetxtfield
-	 *
-	 * @param handler
-	 *            Keypresshandler
-	 * @return registration
-	 */
+	@Override
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 		return textField.getValueBox().addKeyPressHandler(handler);
 	}
@@ -1531,15 +1516,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
-	private Style.TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
+	private TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
 		switch (alignment) {
 		default:
 		case LEFT:
-				return Style.TextAlign.LEFT;
+				return TextAlign.LEFT;
 		case CENTER:
-				return Style.TextAlign.CENTER;
+				return TextAlign.CENTER;
 		case RIGHT:
-				return Style.TextAlign.RIGHT;
+				return TextAlign.RIGHT;
 		}
 	}
 }

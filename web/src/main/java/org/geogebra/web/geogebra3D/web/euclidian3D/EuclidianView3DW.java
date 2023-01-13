@@ -42,7 +42,7 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -555,9 +555,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getElement().getParentElement().getStyle()
-					.setWidth(width, Style.Unit.PX);
+					.setWidth(width, Unit.PX);
 			g2p.getElement().getParentElement().getStyle()
-					.setHeight(height, Style.Unit.PX);
+					.setHeight(height, Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
 			Log.debug("Problem with the parent element of the canvas");

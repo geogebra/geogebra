@@ -246,22 +246,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		wrappedPanel.removeAll();
 		wrappedPanel.setLayout(new BorderLayout());
 		wrappedPanel.add(tabbedPane, BorderLayout.CENTER);
-
-		/*
-		 * //restore default button if (!app.isApplet()) { JPanel panel = new
-		 * JPanel(new FlowLayout(FlowLayout.LEFT));
-		 * 
-		 * restoreDefaultsButton = new JButton();
-		 * restoreDefaultsButton.addActionListener(new ActionListener() { public
-		 * void actionPerformed(ActionEvent e) {
-		 * 
-		 * AbstractApplication.error("not implemented yet");
-		 * 
-		 * } });
-		 * 
-		 * panel.add(restoreDefaultsButton); add(panel, BorderLayout.SOUTH); }
-		 */
-
 	}
 
 	protected void addTabs() {

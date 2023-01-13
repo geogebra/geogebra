@@ -19,7 +19,7 @@ public class MaterialVisibilityPropertyTest {
 
 	@Before
 	public void setUp() {
-		app = AppMocker.mockGraphing(getClass());
+		app = AppMocker.mockGraphing();
 		property = new MaterialVisibilityProperty(app.getLocalization());
 	}
 

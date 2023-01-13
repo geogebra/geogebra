@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
@@ -175,8 +175,8 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	static void onError(GeoImage gi) {
-		gi.getCorner(0).remove();
-		gi.getCorner(1).remove();
+		gi.getStartPoint(0).remove();
+		gi.getStartPoint(1).remove();
 		gi.remove();
 		gi.getKernel().notifyRepaint();
 	}
@@ -431,7 +431,7 @@ public class ImageManagerW extends ImageManager {
 	 * @param archive
 	 *            archive
 	 */
-	public void writeMacroImages(ArrayList<Macro> macros, GgbFile archive) {
+	public void writeMacroImages(List<Macro> macros, GgbFile archive) {
 		if (macros == null) {
 			return;
 		}

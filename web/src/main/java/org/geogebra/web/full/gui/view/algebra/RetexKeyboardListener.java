@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.web.MathFieldW;
 
@@ -40,7 +40,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 	}
 
 	@Override
-	public UIObject asWidget() {
+	public Widget asWidget() {
 		return canvas;
 	}
 

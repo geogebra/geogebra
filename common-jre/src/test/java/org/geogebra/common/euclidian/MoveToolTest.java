@@ -83,6 +83,15 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
+	public void drag3dPointWithDependencies() {
+		add("A=(1,-1,0)");
+		add("B=2A");
+		dragStart(50, 50);
+		dragEnd(100, 150);
+		checkContent("A = (2, -3, 0)", "B = (4, -6, 0)");
+	}
+
+	@Test
 	public void moveButton() {
 		GeoElement furniture = add("furniture=Button()");
 		assertFurnitureDragBehavior(furniture);

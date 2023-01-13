@@ -38,29 +38,27 @@ public class AppMocker {
 		}
 	}
 
-	public static AppWFull mockGraphing(Class<?> testClass) {
-		return mockApp("graphing", testClass);
+	public static AppWFull mockGraphing() {
+		return mockApp("graphing");
 	}
 
-	public static AppWFull mockCas(Class<?> testClass) {
-		return mockApp("cas", testClass);
+	public static AppWFull mockCas() {
+		return mockApp("cas");
 	}
 
-	public static AppWFull mockGeometry(Class<?> testClass) {
-		return mockApp("geometry", testClass);
+	public static AppWFull mockGeometry() {
+		return mockApp("geometry");
 	}
 
-	public static AppWFull mockNotes(Class<?> testClass) {
-		return mockApp("notes", testClass);
+	public static AppWFull mockNotes() {
+		return mockApp("notes");
 	}
 
 	/**
 	 * @param appName app name
-	 * @param testClass class
 	 * @return mock app
 	 */
-	private static AppWFull mockApp(String appName, Class<?> testClass) {
-		testClass.getClassLoader().setDefaultAssertionStatus(false);
+	private static AppWFull mockApp(String appName) {
 		return mockApplet(new AppletParameters(appName));
 	}
 

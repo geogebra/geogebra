@@ -58,6 +58,7 @@ import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import org.geogebra.common.gui.dialog.options.model.VerticalIncrementModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.kernel.Kernel;
@@ -73,7 +74,7 @@ import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
 import org.geogebra.web.full.gui.properties.OptionPanel;
-import org.geogebra.web.full.gui.properties.SliderPanelW;
+import org.geogebra.web.full.gui.properties.SliderPropertiesPanelW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -796,7 +797,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	private OptionsTab addSliderTab() {
 		OptionsTab tab = makeOptionsTab("Slider");
-		SliderPanelW sliderPanel = new SliderPanelW(getAppW(), false, true);
+		SliderPropertiesPanelW sliderPanel = new SliderPropertiesPanelW(getAppW(), false, true);
 		tab.add(sliderPanel);
 		return tab;
 	}
@@ -877,6 +878,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		tab.addModel(new ConicEqnModel(app));
 		tab.addModel(new AnimationSpeedModel(getAppW()));
 		tab.addModel(new AnimationStepModel(getAppW()));
+		tab.addModel(new VerticalIncrementModel(getAppW()));
 		return tab;
 	}
 

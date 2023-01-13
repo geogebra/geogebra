@@ -49,6 +49,13 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.numberInput {
 			border: none;
 			box-shadow: none;
+			width: 70px;
+			margin-right: 20px;
+			position: relative;
+
+			.matKeyboardOpenBtn {
+				display: none;
+			}
 		}
 
 		.optionsPanel.inlineOption {
@@ -190,6 +197,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					border-bottom: 1px solid colors.$tool-border;
 				}
 			}
+		}
+
+		.cursorOverlay span {
+			font-size: 90%;
 		}
 
 		.AutoCompleteTextFieldW {

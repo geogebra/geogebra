@@ -419,6 +419,11 @@ public class TeXBuilder {
 			ScriptsAtom scriptsAtom = new ScriptsAtom(EmptyAtom.get(), arg1, arg2,
 					TeXConstants.Align.RIGHT);
 			return wrap(scriptsAtom, arg3);
+		case MIXED_NUMBER:
+			Atom whole = build(argument.getArgument(0));
+			Atom frac = new FractionAtom(build(argument.getArgument(1)),
+					build(argument.getArgument(2)));
+			return wrap(whole, frac);
 		default:
 			StringBuilder functionName = new StringBuilder();
 			teXSerializer.serialize(argument.getArgument(0), functionName);
@@ -449,7 +454,7 @@ public class TeXBuilder {
 	 *            selected field
 	 * @return atom representing the whole sequence
 	 */
-	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
+	public Atom build(MathComponent rootComponent, MathSequence currentField1, boolean textMode) {
 		this.currentField = currentField1;
 		this.atomToComponent = new HashMap<>();
 		Atom root = build(rootComponent);

@@ -151,8 +151,8 @@ abstract public class ImageManager {
 		double screenHeight = ev.toRealWorldCoordY(
 				(double) (ev.getHeight()) + 1) - ev.toRealWorldCoordY(0.0);
 
-		GeoPoint point1 = geoImage.getCorner(0);
-		GeoPoint point2 = geoImage.getCorner(1);
+		GeoPoint point1 = geoImage.getStartPoint(0);
+		GeoPoint point2 = geoImage.getStartPoint(1);
 		GeoPoint point3 = new GeoPoint(app.getKernel().getConstruction());
 		geoImage.calculateCornerPoint(point3, 3);
 

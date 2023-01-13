@@ -66,6 +66,14 @@ public class SymbolicUtil {
 		return !GeoFunction.isUndefined(valueString);
 	}
 
+	/**
+	 * @param symbolic GeoSymbolic input
+	 * @return true if the value of the symbolic is defined
+	 */
+	public static boolean isValueDefined(GeoSymbolic symbolic) {
+		return isDefined(getValueString(symbolic));
+	}
+
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
 		GeoSymbolic opposite = new GeoSymbolic(symbolic.getConstruction());
 		opposite.setDefinition(symbolic.getDefinition().deepCopy(symbolic.getKernel()));
@@ -84,7 +92,7 @@ public class SymbolicUtil {
 	 */
 	public static void handleSolveNSolve(GeoSymbolic symbolic) {
 		if (isSolve(symbolic)) {
-			if (!isDefined(getValueString(symbolic))
+			if (!isValueDefined(symbolic)
 					&& isDefined(getOppositeValueString(symbolic))) {
 				toggleNumericSolve(symbolic);
 				if (Commands.Solve.name()
@@ -93,7 +101,7 @@ public class SymbolicUtil {
 				}
 			}
 
-			if (isDefined(getValueString(symbolic))
+			if (isValueDefined(symbolic)
 					&& !isDefined(getOppositeValueString(symbolic))) {
 				if (Commands.Solve.name()
 						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {

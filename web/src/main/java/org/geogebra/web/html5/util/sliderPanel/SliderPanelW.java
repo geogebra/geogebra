@@ -6,27 +6,20 @@ import org.geogebra.common.util.DoubleUtil;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.HasChangeHandlers;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Panel containing a slider.
  */
-public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
-		HasValue<Double> {
+public class SliderPanelW extends FlowPanel {
 
-	private SliderWI slider;
-	private Label minLabel;
-	private Label maxLabel;
-	private Kernel kernel;
+	private final SliderW slider;
+	private final Label minLabel;
+	private final Label maxLabel;
+	private final Kernel kernel;
 	private String[] parts = new String[2];
 	private Double currentMin = null;
 	private Double currentMax = null;
@@ -55,7 +48,6 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		setStyleName("optionsSlider");
 	}
 
-	@Override
 	public Double getValue() {
 		return slider.getValue();
 	}
@@ -67,7 +59,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	 *            true if slider should be disabled
 	 */
 	public void disableSlider(boolean disable) {
-		((SliderW) slider).disableSlider(disable);
+		slider.setEnabled(!disable);
 	}
 
 	/**
@@ -127,25 +119,8 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		}
 	}
 
-	@Override
-	public HandlerRegistration addValueChangeHandler(
-			ValueChangeHandler<Double> handler) {
-		return slider.addValueChangeHandler(handler);
-	}
-
-	@Override
 	public void setValue(Double value) {
-		slider.setValue(value, false);
-	}
-
-	@Override
-	public void setValue(Double value, boolean fireEvents) {
-		slider.setValue(value, fireEvents);
-	}
-
-	@Override
-	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
-		return slider.addChangeHandler(handler);
+		slider.setValue(value);
 	}
 
 	/**
@@ -160,7 +135,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		slider.asWidget().getElement().getStyle().setWidth(w, Unit.PX);
 	}
 
-	public Widget getSlider() {
-		return slider.asWidget();
+	public SliderW getSlider() {
+		return slider;
 	}
 }

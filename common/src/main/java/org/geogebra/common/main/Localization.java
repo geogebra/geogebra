@@ -1520,7 +1520,7 @@ public abstract class Localization {
 		return Errors.InvalidInput.getError(this);
 	}
 
-	protected LocalizedCommandSyntax getCommandSyntax() {
+	public LocalizedCommandSyntax getCommandSyntax() {
 		return commandSyntax;
 	}
 

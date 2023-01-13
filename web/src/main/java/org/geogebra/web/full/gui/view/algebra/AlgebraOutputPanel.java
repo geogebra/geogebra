@@ -100,7 +100,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 	}
 
 	private static void updateSymbolicIcons(GeoElement geo, ToggleButton btnSymbolic) {
-		if (geo.getDefinition().isFraction()) {
+		if (AlgebraItem.isGeoFraction(geo)) {
 			btnSymbolic.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
 			Dom.toggleClass(btnSymbolic, "show-fraction", !btnSymbolic.isSelected());

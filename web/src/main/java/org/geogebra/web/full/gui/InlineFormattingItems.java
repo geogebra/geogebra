@@ -38,7 +38,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -312,7 +312,7 @@ public class InlineFormattingItems {
 		AriaMenuItem menuItem = factory.newAriaMenuItem(loc.getMenu(text), false,
 				command);
 		menuItem.getElement().getStyle()
-				.setPaddingLeft(16, Style.Unit.PX);
+				.setPaddingLeft(16, Unit.PX);
 		menu.addItem(menuItem);
 	}
 

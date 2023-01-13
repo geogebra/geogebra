@@ -253,7 +253,7 @@ public class MoveGeos {
 		} else if (geo1.isGeoText()) {
 			// check for GeoText with unlabeled start point
 			final GeoText movedGeoText = (GeoText) geo1;
-			if (movedGeoText.hasAbsoluteLocation()) {
+			if (movedGeoText.hasStaticLocation()) {
 				// absolute location: change location
 				final GeoPointND locPoint = movedGeoText
 						.getStartPoint();

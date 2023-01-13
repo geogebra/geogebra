@@ -14,6 +14,7 @@ import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.resources.SVGResourcePrototype;
 import org.geogebra.web.resources.StyleInjector;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -28,6 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
 import com.himamis.retex.editor.web.ClickAdapterW;
+import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.ImageW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -48,6 +50,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
      * Works by reloading the test class using a custom classloader and substituting the reference.
      *
      * @param unitTestClass test class
+     * @throws InitializationError if the test class is malformed.
      */
     public GgbMockitoTestRunner(Class<?> unitTestClass) throws InitializationError {
         super(unitTestClass);
@@ -63,6 +66,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Canvas.class);
         StubGenerator.replaceMethodWithMock(JLMContextHelper.class, "as",
                 JLMContext2d.class);
+        StubGenerator.replaceMethodWithMock(Graphics2DW.class, "initFontParser",
+                Void.class);
         StubGenerator.replaceMethodWithMock(GraphicsFactoryGWT.class, "createImage",
                 ImageW.class);
         StubGenerator.replaceMethodWithMock(RendererWithImplW.class, "getWebGLContext",
@@ -115,5 +120,11 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         classesToStub.remove(FlowPanel.class);
         classesToStub.add(TextAreaElement.class);
         return classesToStub;
+    }
+
+    @Override
+    public void run(final RunNotifier notifier) {
+        getTestClass().getJavaClass().getClassLoader().setDefaultAssertionStatus(false);
+        super.run(notifier);
     }
 }

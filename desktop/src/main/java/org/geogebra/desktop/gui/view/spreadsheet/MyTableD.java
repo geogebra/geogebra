@@ -891,7 +891,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	private boolean isSelectAll = false;
 	private boolean isSelectNone = false;
 
-	@Override
 	public boolean isSelectNone() {
 		return isSelectNone;
 	}

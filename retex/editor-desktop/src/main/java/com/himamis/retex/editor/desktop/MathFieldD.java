@@ -203,11 +203,6 @@ public class MathFieldD extends JLabel implements MathField {
 		return false;
 	}
 
-	@Override
-	public void parse(String text) {
-		mathFieldInternal.parse(text);
-	}
-
 	public MathFieldInternal getInternal() {
 		return this.mathFieldInternal;
 	}
