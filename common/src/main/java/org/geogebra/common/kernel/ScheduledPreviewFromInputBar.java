@@ -67,7 +67,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 			if (kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV
 					&& ve.inspect(Inspecting.vectorDivisionFinder)) {
-				throw new MyError(kernel.getLocalization(), "IllegalDivision");
+				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalDivision);
 			}
 
 			if (ve != null) {
@@ -84,7 +84,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		}
 		// maxLength is not written if the first preview computed
 		// needed in Android with old phones, probably some other thread
-		// makes the compute too long (so false positive)
+		// makes the computation too long (so false positive)
 		if (notFirstInput && System.currentTimeMillis() > start + 200) {
 			maxLength = str.length();
 			validInput = null;

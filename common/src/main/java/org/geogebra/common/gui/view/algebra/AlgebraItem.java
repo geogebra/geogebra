@@ -4,13 +4,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -27,6 +27,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
+import org.geogebra.common.util.SymbolicUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -34,36 +35,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Utitlity class for AV items
  */
 public class AlgebraItem {
-
-	/**
-	 * Changes the symbolic flag of a geo or its parent algo
-	 *
-	 * @param geo
-	 *            element that we want to change
-	 * @return whether it's symbolic after toggle
-	 */
-	public static boolean toggleSymbolic(GeoElement geo) {
-		if (geo instanceof HasSymbolicMode) {
-			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
-				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
-			}
-			((HasSymbolicMode) geo).setSymbolicMode(
-					!((HasSymbolicMode) geo).isSymbolicMode(), true);
-
-			if (geo instanceof GeoSymbolic) {
-				GeoSymbolic symbolic = (GeoSymbolic) geo;
-				if (isSymbolicSolve(symbolic)) {
-					toggleNumeric(symbolic);
-					symbolic.setDescriptionNeedsUpdateInAV(true);
-				}
-			}
-
-			geo.updateRepaint();
-			return ((HasSymbolicMode) geo).isSymbolicMode();
-
-		}
-		return false;
-	}
 
 	/**
 	 * @param geo
@@ -96,8 +67,11 @@ public class AlgebraItem {
 		}
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
-			if (isSymbolicSolve(symbolic)) {
-				return isSymbolicSolveDiffers(symbolic);
+			if (symbolic.shouldWrapInNumeric()) {
+				return true;
+			}
+			if (SymbolicUtil.isSolve(symbolic)) {
+				return SymbolicUtil.isSymbolicSolveDiffers(symbolic);
 			} else if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
 				return false;
 			}
@@ -123,7 +97,8 @@ public class AlgebraItem {
 		if (text1 == null) {
 			return text2 != null;
 		}
-		return !text1.equals(text2);
+		return !text1.equals(text2)
+				&& !GeoFunction.isUndefined(text1) && !GeoFunction.isUndefined(text2);
 	}
 
 	private static boolean allRHSareIntegers(GeoList geo) {
@@ -150,9 +125,10 @@ public class AlgebraItem {
 	 *            element
 	 * @return whether element is a numeric that can be written as a fraction
 	 */
-	public static boolean isGeoFraction(GeoElement geo) {
-		return geo instanceof GeoNumeric && geo.getDefinition() != null
-				&& geo.getDefinition().isFraction();
+	public static boolean isGeoFraction(GeoElementND geo) {
+		GeoElementND value = geo.unwrapSymbolic();
+		return value instanceof GeoNumeric && value.getDefinition() != null
+				&& value.getDefinition().isFraction();
 	}
 
 	/**
@@ -266,6 +242,42 @@ public class AlgebraItem {
 		}
 
 		return outputText;
+	}
+
+	/**
+	 * Returns the definition string for the geo element in the input row of the Algebra View.
+	 * @param element geo element
+	 * @return definition text in LaTeX
+	 */
+	public static String getDefinitionLatexForGeoElement(GeoElement element) {
+		return element.isAlgebraLabelVisible() ? element.getDefinitionForEditor() : element
+				.getDefinitionNoLabel(StringTemplate.editorTemplate);
+	}
+
+	/**
+	 * Returns the preview string for the geo element in the input row of the Algebra View.
+	 * @param element geo element
+	 * @return input preview string in LaTeX
+	 */
+	public static String getPreviewLatexForGeoElement(GeoElement element) {
+		String latex = getPreviewFormula(element, StringTemplate.numericLatex);
+
+		if (latex != null) {
+			return latex;
+		}
+
+		//APPS-4553 Logic from RadioTreeItem.getTextForEditing() for consistency
+		if (needsPacking(element)) {
+			return element.getLaTeXDescriptionRHS(false, StringTemplate.numericLatex);
+		} else if (!element.isAlgebraLabelVisible()) {
+			return element.getDefinition(StringTemplate.numericLatex);
+		}
+
+		boolean substituteNumbers = element instanceof GeoNumeric && element.isSimple();
+		return element.getLaTeXAlgebraDescriptionWithFallback(
+				substituteNumbers
+						|| (element instanceof GeoNumeric && element.isSimple()),
+				StringTemplate.numericLatex, true);
 	}
 
 	/**
@@ -598,7 +610,7 @@ public class AlgebraItem {
 	 *            the GeoElement for what we need to get the preview for AV
 	 * @return the preview string for the given geoelement if there is any
 	 */
-	public static String getPreviewFormula(GeoElement element,
+	private static String getPreviewFormula(GeoElement element,
 			StringTemplate stringTemplate) {
 		Settings settings = element.getApp().getSettings();
 		int algebraStyle = settings.getAlgebra().getStyle();
@@ -629,46 +641,5 @@ public class AlgebraItem {
 		return geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
-	}
-
-	private static boolean isSymbolicSolve(GeoSymbolic symbolic) {
-		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
-		return topLevelCommand != null
-				&& (Commands.Solve.getCommand().equals(topLevelCommand.getName())
-				|| Commands.NSolve.getCommand().equals(topLevelCommand.getName()));
-	}
-
-	private static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
-		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
-		Commands original = Commands.Solve.getCommand()
-				.equals(topLevelCommand.getName()) ? Commands.Solve : Commands.NSolve;
-
-		Commands opposite = original == Commands.Solve ? Commands.NSolve : Commands.Solve;
-
-		String textOriginal = symbolic.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
-
-		topLevelCommand.setName(opposite.getCommand());
-		symbolic.computeOutput();
-		String textOpposite = symbolic.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
-
-		boolean isOppositeDefined = symbolic.getTwinGeo() != null
-				? symbolic.getTwinGeo().isDefined()
-				: symbolic.isDefined();
-
-		topLevelCommand.setName(original.getCommand());
-		symbolic.computeOutput();
-
-		return isOppositeDefined && !textOriginal.equals(textOpposite);
-	}
-
-	private static void toggleNumeric(GeoSymbolic symbolic) {
-		Commands opposite = Commands.NSolve.getCommand()
-				.equals(symbolic.getDefinition().getTopLevelCommand().getName())
-				? Commands.Solve : Commands.NSolve;
-
-		symbolic.getDefinition().getTopLevelCommand().setName(opposite.getCommand());
-		symbolic.computeOutput();
 	}
 }

@@ -25,6 +25,7 @@ import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
@@ -60,7 +61,7 @@ public abstract class AlgoElement extends ConstructionElement
 	private static TreeSet<AlgoElement> tempSet;
 	/** input elements */
 	public GeoElement[] input;
-	private ArrayList<GeoPointND> freeInputPoints;
+	private ArrayList<GeoElementND> freeInputPoints;
 	private boolean protectedInput = false;
 	private AlgoElement updateAfterAlgo;
 
@@ -207,8 +208,12 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 	}
 
+	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
+		return view.getFreeInputPoints(this).size() == input.length;
+	}
+
 	/**
-	 * OutputHandler can manage several different output types, each with
+	 * OutputHandler can manage several output types, each with
 	 * increasing length. For each occurring type, you need one OutputHandler in
 	 * the Subclass (or OutputHandler&lt;GeoElement&gt; if the type doesn't
 	 * matter). <br>
@@ -1123,7 +1128,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * 
 	 * @return list of moveable input points
 	 */
-	public ArrayList<GeoPointND> getFreeInputPoints() {
+	public ArrayList<GeoElementND> getFreeInputPoints() {
 		if (this instanceof AlgoLocusStroke) {
 			return new ArrayList<>(0);
 		}
@@ -1520,7 +1525,7 @@ public abstract class AlgoElement extends ConstructionElement
 				sb.append("=\"");
 
 				GeoElementND inputGeo = getInput(i);
-				String cmd = StringUtil.encodeXML(inputGeo.getLabel(tpl));
+				String cmd = inputGeo.getLabel(tpl);
 
 				// ensure a vector stays a vector!
 				// eg g:X = (-5, 5) + t (4, -3)
@@ -1531,11 +1536,11 @@ public abstract class AlgoElement extends ConstructionElement
 					// eg g:X = (-5, 5) + t (4, -3)
 					sb.append("Vector["); // in XML, so don't want this
 											// translated
-					sb.append(cmd);
+					StringUtil.encodeXML(sb, cmd);
 					sb.append("]");
 				} else {
 					// standard case
-					sb.append(cmd);
+					StringUtil.encodeXML(sb, cmd);
 				}
 
 				sb.append("\"");
@@ -1649,7 +1654,7 @@ public abstract class AlgoElement extends ConstructionElement
 				|| getOutput(0) instanceof GeoText)
 				&& ((SetRandomValue) this).canSetRandomValue()) {
 			sb.append(" randomResult=\"");
-			sb.append(StringUtil.encodeXML(getOutput(0).toOutputValueString(tpl)));
+			StringUtil.encodeXML(sb, getOutput(0).toOutputValueString(tpl));
 			sb.append("\"");
 		}
 

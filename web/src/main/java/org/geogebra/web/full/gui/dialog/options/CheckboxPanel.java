@@ -13,13 +13,12 @@ public class CheckboxPanel extends OptionPanel implements
 	private final ComponentCheckbox checkbox;
 
 	/**
-	 * @param title - title
 	 * @param loc - localization
 	 * @param m - model
 	 */
-	public CheckboxPanel(final String title, Localization loc,
+	public CheckboxPanel(Localization loc,
 			BooleanOptionModel m) {
-		this(title, loc);
+		this(m.getTitle(), loc);
 		setModel(m);
 		m.setListener(this);
 	}

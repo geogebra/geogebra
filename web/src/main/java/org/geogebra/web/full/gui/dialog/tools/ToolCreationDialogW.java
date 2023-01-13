@@ -21,11 +21,16 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.OptionElement;
 import com.google.gwt.dom.client.SelectElement;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.URL;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Dialog to create a new user defined tool
@@ -65,7 +70,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 		toolModel = new ToolCreationDialogModel(app, this);
 
-		Macro appMacro = app.getMacro();
+		Macro appMacro = app.getEditMacro();
 		if (appMacro != null) {
 			this.setFromMacro(appMacro); // TODO
 		}
@@ -119,7 +124,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		FlowPanel inputObjectPanel = createInputOutputPanel(inputAddLB,
 				inputLB, false);
 
-		toolNameIconPanel = new ToolNameIconPanelW(appw);
+		toolNameIconPanel = new ToolNameIconPanelW(appw, this);
 		toolNameIconPanel.addStyleName("toolCreationDialogTab");
 
 		// Create tabPanel and add Selectionhandler
@@ -234,7 +239,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 			tabPanel.selectTab(getSelectedTab() - 1)
 		);
 		btBack.setEnabled(false);
-		btBack.getElement().getStyle().setMargin(3, Style.Unit.PX);
+		btBack.getElement().getStyle().setMargin(3, Unit.PX);
 
 		btNext = new StandardButton(loc.getMenu("Next") + " >");
 		btNext.addStyleName("materialOutlinedButton ");
@@ -289,8 +294,8 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 	private void finish() {
 		final App appToSave;
-		if (appw.getMacro() != null) {
-			appToSave = appw.getMacro().getKernel().getApplication();
+		if (appw.getEditMacro() != null) {
+			appToSave = appw.getEditMacro().getKernel().getApplication();
 		} else {
 			appToSave = appw;
 		}
@@ -337,8 +342,27 @@ public class ToolCreationDialogW extends ComponentDialog implements
 			dialog.show();
 		}
 
-		if (appw.isToolLoadedFromStorage()) {
-			appw.storeMacro(appw.getMacro(), true);
+		if (appw.isOpenedForMacroEditing()) {
+			Macro editMacro = toolModel.getNewTool();
+			String editMacroName = editMacro.getEditName();
+			String editMacroPreviousName = appw.getEditMacroPreviousName();
+			if (!editMacroPreviousName.equals(editMacroName)) {
+				appw.removeMacro(editMacroPreviousName);
+				appw.storeMacro(editMacro);
+				appw.setEditMacroPreviousName(editMacroName);
+				DomGlobal.document.title = editMacroName;
+				URL url = new URL(DomGlobal.location.href);
+				if (url.searchParams != null) {
+					url.searchParams.set(AppW.EDIT_MACRO_URL_PARAM_NAME, editMacroName);
+					appw.updateURL(url);
+				}
+			}
+			StringBuilder xml = new StringBuilder();
+			editMacro.getXML(xml);
+			JsPropertyMap<Object> message = JsPropertyMap.of();
+			message.set(AppW.EDITED_MACRO_NAME_KEY, editMacroName);
+			message.set(AppW.EDITED_MACRO_XML_KEY, xml.toString());
+			DomGlobal.window.opener.postMessage(Global.JSON.stringify(message), "*");
 		}
 		if (success) {
 			setVisible(false);

@@ -50,11 +50,16 @@ public class SVGResourcePrototype implements SVGResource {
 
 	@Override
 	public SVGResource withFill(String color) {
-		String filled = createFilled(color);
+		String filled = createFilled(color, svg);
 		return new SVGResourcePrototype(name, filled);
 	}
 
-	private String createFilled(String color) {
+	/**
+	 * @param color CSS color
+	 * @param svg SVG content
+	 * @return filled SVG
+	 */
+	public static String createFilled(String color, String svg) {
 		Document doc = parser.parseFromString(svg, "image/svg+xml");
 		CSSStyleDeclaration style = Js.uncheckedCast(Js.asPropertyMap(doc)
 				.nestedGet("rootElement.style"));

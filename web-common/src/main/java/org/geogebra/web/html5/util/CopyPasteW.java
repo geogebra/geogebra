@@ -445,7 +445,7 @@ public class CopyPasteW extends CopyPaste {
 		elemental2.dom.Element target = Js.uncheckedCast(tgt);
 		return "INPUT".equalsIgnoreCase(target.tagName)
 				|| "TEXTAREA".equalsIgnoreCase(target.tagName)
-				|| "BR".equalsIgnoreCase(target.tagName);
+				|| "BR".equalsIgnoreCase(target.tagName) || target.hasAttribute("contenteditable");
 	}
 
 	private static void readBlob(Blob blob, AsyncOperation<String> callback) {

@@ -59,24 +59,16 @@ public abstract class InputDialogRotateD extends AngleInputDialogD
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				processInput(new AsyncOperation<String>() {
-
-					@Override
-					public void callback(String obj) {
-						setVisibleForTools(obj == null);
-						if (obj != null) {
-							defaultRotateAngle = obj;
-						}
+				processInput(obj -> {
+					setVisibleForTools(obj == null);
+					if (obj != null) {
+						defaultRotateAngle = obj;
 					}
 				});
 			} else if (source == btApply) {
-				processInput(new AsyncOperation<String>() {
+				processInput(obj -> {
+					// TODO Auto-generated method stub
 
-					@Override
-					public void callback(String obj) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 			} else if (source == btCancel) {
 				setVisibleForTools(false);

@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.CSSEvents;
@@ -65,7 +66,7 @@ public class PageListPanel
 		addStyleName("mowPageControlPanel");
 		addPlusButton();
 		addContentPanel();
-		addNewPreviewCard(true);
+		addNewPreviewCard(true, "main");
 		frame.add(this);
 		setVisible(false);
 		addBitlessDomHandler(pageController, TouchStartEvent.getType());
@@ -91,10 +92,12 @@ public class PageListPanel
 				MaterialDesignResources.INSTANCE.add_white(), null, 24);
 		plusButton.setStyleName("mowFloatingButton");
 		plusButton.addStyleName("mowPlusButton");
+		// make sure clicking + does not select slides
+		ClickStartHandler.initDefaults(plusButton, false, true);
 		plusButton.addFastClickHandler(source -> {
-			app.dispatchEvent(new Event(EventType.ADD_SLIDE,
-					null, null));
-			loadNewPage(false);
+			String id = PageListController.nextID();
+			app.dispatchEvent(new Event(EventType.ADD_PAGE, null, id));
+			loadNewPage(false, id);
 		});
 		add(plusButton);
 		showPlusButton(false);
@@ -106,11 +109,15 @@ public class PageListPanel
 	 * @param selected
 	 *            whether to select it
 	 */
-	public void loadNewPage(boolean selected) {
-		int index = addNewPreviewCard(selected);
+	public void loadNewPage(boolean selected, String id) {
+		int index = addNewPreviewCard(selected, id);
 		pageController.loadNewPage(index);
-		app.getUndoManager().storeAction(EventType.ADD_SLIDE, index + "",
+		app.getUndoManager().storeAction(EventType.ADD_PAGE, index + "",
 						pageController.getSlide(index).getID());
+	}
+
+	public void loadNewPage(boolean selected) {
+		loadNewPage(selected, PageListController.nextID());
 	}
 
 	/**
@@ -177,9 +184,9 @@ public class PageListPanel
 	 * 
 	 * @return index of new slide
 	 */
-	protected int addNewPreviewCard(boolean selected) {
+	protected int addNewPreviewCard(boolean selected, String id) {
 		int index = pageController.getSlideCount();
-		pageController.addNewPreviewCard(selected, index, new GgbFile());
+		pageController.addNewPreviewCard(selected, index, new GgbFile(id));
 		addPreviewCard(pageController.getCard(index));
 		return index;
 	}
@@ -221,12 +228,12 @@ public class PageListPanel
 		String id = pageController.getSlide(index).getID();
 		if (index == 0 && pageController.getSlideCount() == 1) {
 			app.getUndoManager().storeActionWithSlideId(
-					EventType.CLEAR_SLIDE, id, new String[]{id});
+					EventType.CLEAR_PAGE, id, new String[]{id});
 			pageController.loadNewPage(0);
 		} else {
 			pageController.removeSlide(index);
 			app.getUndoManager()
-					.storeActionWithSlideId(EventType.REMOVE_SLIDE, id, new String[]{index + "", id,
+					.storeActionWithSlideId(EventType.REMOVE_PAGE, id, new String[]{index + "", id,
 							pageController.getSlideCount() + ""});
 			updateIndexes(index);
 			// load new slide
@@ -268,7 +275,7 @@ public class PageListPanel
 	@Override
 	public void reset() {
 		contentPanel.clear();
-		addNewPreviewCard(true);
+		addNewPreviewCard(true, "main");
 	}
 
 	/**

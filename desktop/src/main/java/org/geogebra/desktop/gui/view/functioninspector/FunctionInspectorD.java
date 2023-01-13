@@ -258,12 +258,7 @@ public class FunctionInspectorD extends FunctionInspector
 		modelInterval.setRowCount(pointCount);
 		tableInterval.setModel(modelInterval);
 		tableInterval.getSelectionModel()
-				.addListSelectionListener(new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						getModel().updateIntervalGeoVisiblity();
-					}
-				});
+				.addListSelectionListener(e -> getModel().updateIntervalGeoVisiblity());
 
 		lblGeoName = new JLabel(getModel().getTitleString());
 		lblGeoName.setFont(getAppD().getBoldFont());
@@ -305,18 +300,15 @@ public class FunctionInspectorD extends FunctionInspector
 		btnRemoveColumn.addActionListener(this);
 
 		btnHelp = new JButton();
-		btnHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						((GuiManagerD) app.getGuiManager())
-								.openHelp("Function_Inspector_Tool");
-					}
-				};
-				runner.start();
-			}
+		btnHelp.addActionListener(e -> {
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					((GuiManagerD) app.getGuiManager())
+							.openHelp("Function_Inspector_Tool");
+				}
+			};
+			runner.start();
 		});
 		btnHelp.setFocusable(false);
 		updateIcons();
@@ -650,13 +642,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 		// copy to spreadsheet
 		JMenuItem mi = new JMenuItem(loc.getMenu("CopyToSpreadsheet"));
-		mi.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doCopyToSpreadsheet();
-			}
-		});
+		mi.addActionListener(e -> doCopyToSpreadsheet());
 		mi.setEnabled(((GuiManagerD) app.getGuiManager()).hasSpreadsheetView());
 		btnOptions.addPopupMenuItem(mi);
 
@@ -814,13 +800,7 @@ public class FunctionInspectorD extends FunctionInspector
 		tabPanel.addTab("Interval", intervalTabPanel);
 		tabPanel.addTab("Point", pointTabPanel);
 
-		tabPanel.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent evt) {
-				updateTabPanels();
-			}
-
-		});
+		tabPanel.addChangeListener(evt -> updateTabPanels());
 
 	}
 

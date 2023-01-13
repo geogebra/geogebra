@@ -10,6 +10,7 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -330,7 +331,6 @@ public class GeoGebraFrameFull
 	 */
 	private void addKeyboard(final MathKeyboardListener textField, boolean animated) {
 		final VirtualKeyboardGUI keyboard = getOnScreenKeyboard(textField);
-
 		this.setKeyboardShowing(true);
 
 		updateMoreButton(keyboard, textField);
@@ -518,12 +518,15 @@ public class GeoGebraFrameFull
 				&& keyboardListener instanceof RadioTreeItem)) {
 			return keyboardListener != null;
 		}
-		return app.isKeyboardNeeded()
+		return appNeedsKeyboard()
 				&& (textField != null && textField.hasFocus()
 				|| keyboardListener != null && keyboardListener.hasFocus());
 	}
 
-	private boolean appNeedsKeyboard() {
+	/**
+	 * @return whether app has a view capable of keyboard input
+	 */
+	public boolean appNeedsKeyboard() {
 		if (app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView
 				&& app.showView(App.VIEW_ALGEBRA)) {
@@ -542,14 +545,15 @@ public class GeoGebraFrameFull
 	public void refreshKeyboard() {
 		if (isKeyboardShowing()) {
 			final VirtualKeyboardW keyBoard = getOnScreenKeyboard(null);
-			if (app.isKeyboardNeeded()) {
+			if (appNeedsKeyboard() && isKeyboardAutofocus()) {
 				ensureKeyboardDeferred();
 				add(keyBoard);
 			} else {
 				removeKeyboard();
 			}
 		} else {
-			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()
+			if (app != null && appNeedsKeyboard()
+					&& isKeyboardAutofocus()
 					&& isKeyboardWantedFromStorage()) {
 				if (!app.isStartedWithFile()
 						&& !app.getAppletParameters().preventFocus()) {
@@ -574,7 +578,7 @@ public class GeoGebraFrameFull
 					getOnScreenKeyboard(null).showOnFocus();
 					app.adjustScreen(true);
 				}
-			} else if (app != null && app.isKeyboardNeeded()) {
+			} else if (app != null && appNeedsKeyboard()) {
 				if (!isKeyboardWantedFromStorage()) {
 					showKeyboardButton(null);
 				} else {
@@ -582,6 +586,12 @@ public class GeoGebraFrameFull
 				}
 			}
 		}
+	}
+
+	private boolean isKeyboardAutofocus() {
+		DockPanelW dp = getGuiManager().getLayout().getDockManager()
+				.getPanelForKeyboard();
+		return dp != null && dp.getKeyboardListener() != null;
 	}
 
 	private KeyboardManager getKeyboardManager() {
@@ -745,7 +755,11 @@ public class GeoGebraFrameFull
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
 		}
-		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
+		Material mat = app.getActiveMaterial();
+		boolean isMultiuserMat = mat != null && mat.isMultiuser();
+		if (app.getAppletParameters().getDataParamEnableUndoRedo()
+			&& (app.getAppletParameters().getParamMultiplayerUrl().isEmpty()
+			|| !isMultiuserMat)) {
 			add(notesLayout.getUndoRedoButtons());
 		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
@@ -790,6 +804,18 @@ public class GeoGebraFrameFull
 	private void initNotesLayoutIfNull(AppW app) {
 		if (notesLayout == null) {
 			notesLayout = new NotesLayout(app);
+		}
+	}
+
+	/**
+	 * show/hide visibility depending on multiuser status
+	 * @param add - add undo/redo when not multiuser, remove otherwise
+	 */
+	public void updateUndoRedoButtonVisibility(boolean add) {
+		if (add) {
+			add(notesLayout.getUndoRedoButtons());
+		} else {
+			remove(notesLayout.getUndoRedoButtons());
 		}
 	}
 

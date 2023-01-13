@@ -2180,4 +2180,11 @@ public enum Operation {
 		return this == IF || this == IF_SHORT;
 	}
 
+	/**
+	 * @return if this operation is any kind of conditional one.
+	 */
+	public boolean isConditional() {
+		return isIf() || this == IF_ELSE || this == IF_LIST;
+	}
+
 }

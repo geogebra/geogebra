@@ -60,7 +60,6 @@ import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntegralODE;
-import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.Algos;
@@ -1993,6 +1992,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		case SEGMENT:
 		case SEGMENT3D:
 		case TEXT:
+		case CURVE_CARTESIAN:
+		case CURVE_CARTESIAN3D:
 			return hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view));
 
@@ -2009,10 +2010,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			if (hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view))) {
 				// check if first free input point is start point of vector
-				final ArrayList<GeoPointND> freeInputPoints = getFreeInputPoints(
+				final ArrayList<GeoElementND> freeInputPoints = getFreeInputPoints(
 						view);
 				if (freeInputPoints.size() > 0) {
-					final GeoPointND firstInputPoint = freeInputPoints.get(0);
+					final GeoElementND firstInputPoint = freeInputPoints.get(0);
 					final GeoPointND startPoint = ((Locateable) this)
 							.getStartPoint();
 					return firstInputPoint == startPoint;
@@ -2027,7 +2028,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints(
+	public ArrayList<GeoElementND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
 		if (algoParent == null) {
 			return null;
@@ -2045,25 +2046,20 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (algoParent == null) {
 			return false;
 		}
-		// special case for edge of polygon
-		if (algoParent instanceof AlgoJoinPointsSegment
-				&& (view.getFreeInputPoints(algoParent).size() == 2)) {
-			return true;
-		}
 
-		return view.getFreeInputPoints(algoParent)
-				.size() == algoParent.input.length;
+		return algoParent.hasOnlyFreeInputPoints(view);
 	}
 
 	private static boolean containsOnlyMoveableGeos(
-			final ArrayList<GeoPointND> geos) {
+			final ArrayList<GeoElementND> geos) {
 		if ((geos == null) || (geos.size() == 0)) {
 			return false;
 		}
 
-		for (int i = 0; i < geos.size(); i++) {
-			final GeoElement geo = (GeoElement) geos.get(i);
-			if (!geo.isMoveable()) {
+		for (final GeoElementND geo : geos) {
+			// in case of lists we checked that they are movable points
+			// when filtering algo inputs already
+			if (!geo.isMoveable() && !geo.isGeoList()) {
 				return false;
 			}
 		}
@@ -2125,9 +2121,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return animation step as geo
 	 */
 	public NumberValue getAnimationStepObject() {
-		if (animationIncrement == null) {
-			return null;
-		}
 		return animationIncrement;
 	}
 
@@ -2370,7 +2363,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			setLabel(newLabel); // now we rename
 			return true;
 		} else {
-			throw new MyError(getLoc(), "NameUsed", newLabel);
+			throw new MyError(getLoc(), MyError.Errors.NameUsed, newLabel);
 		}
 	}
 
@@ -4474,7 +4467,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void getExpressionXML(StringBuilder sb) {
 		if (isIndependent() && definition != null && getDefaultGeoType() < 0) {
 			sb.append("<expression label=\"");
-			sb.append(StringUtil.encodeXML(label));
+			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
 			getDefinitionXML(sb);
 			// expression
@@ -6931,10 +6924,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!StringUtil.empty(getCaptionSimple())) {
 			if (CanvasDrawable.isLatexString(caption)) {
 				String myCaption = getCaption(StringTemplate.latexTemplate);
-				sb.appendLatexDegreeIfNeeded(this, myCaption);
+				sb.appendLaTeX(myCaption, app);
+				sb.appendSpace();
 			} else {
-				String myCaption = getCaption(StringTemplate.screenReader);
-				String convertedCaption = ScreenReader.convertToReadable(myCaption, getLoc());
+				String myCaption = getCaption(app.getScreenReaderTemplate());
+				String convertedCaption = ScreenReader.convertToReadable(myCaption, app);
 				sb.appendDegreeIfNeeded(this, convertedCaption);
 			}
 			sb.endSentence();
@@ -6951,7 +6945,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void addAuralLabel(ScreenReaderBuilder sb) {
-		sb.appendLabel(getLabelSimple());
+		sb.appendLabel(getLabelSimple(), app);
 		sb.endSentence();
 	}
 
@@ -7037,7 +7031,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String getAuralExpression() {
-		return toValueString(StringTemplate.screenReader);
+		return toValueString(getApp().getScreenReaderTemplate());
 	}
 
 	/**

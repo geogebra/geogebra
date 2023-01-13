@@ -49,10 +49,20 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.numberInput {
 			border: none;
 			box-shadow: none;
+			width: 70px;
+			margin-right: 20px;
+			position: relative;
+
+			.matKeyboardOpenBtn {
+				display: none;
+			}
 		}
 
-		.optionsPanel.segmentStyle {
+		.optionsPanel.inlineOption {
 			display: inline-block;
+			.fieldContainer {
+				width: 112px;
+			}
 		}
 
 		.panelRowIndent,
@@ -174,6 +184,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					border-bottom: 1px solid colors.$tool-border;
 				}
 			}
+		}
+
+		.cursorOverlay span {
+			font-size: 90%;
 		}
 
 		.AutoCompleteTextFieldW {
@@ -418,7 +432,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			margin-top: 8px !important;
 		}
 
-		iframe.objectPropertiesTextEditor {
+		.objectPropertiesTextEditor {
 			border: colors.$tool-border solid 1px;
 			background: colors.$white;
 			padding: 4px 5px;
@@ -428,6 +442,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			-moz-box-sizing: border-box;
 			font-size: 90%;
 			box-shadow: none;
+			margin-bottom: 10px;
 		}
 	}
 

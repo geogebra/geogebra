@@ -207,13 +207,10 @@ class MyJToggleButton extends JToggleButton
 			// which ensures that the menu is displayed after user released the
 			// mouse
 			if (showMenuTimer == null) {
-				showMenuTimer = new Timer(1000, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e1) {
-						menu.setPopupVisible(true);
-						showMenuTimer.stop();
+				showMenuTimer = new Timer(1000, e1 -> {
+					menu.setPopupVisible(true);
+					showMenuTimer.stop();
 
-					}
 				});
 				showMenuTimer.setRepeats(false);
 			}

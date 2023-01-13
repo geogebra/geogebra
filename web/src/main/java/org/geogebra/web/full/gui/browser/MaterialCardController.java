@@ -12,6 +12,7 @@ import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.SaveControllerW;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;
@@ -48,6 +49,8 @@ public class MaterialCardController implements OpenFileListener {
 		app.getViewW().processFileName(material.getFileName());
 		updateActiveMaterial();
 		app.getGuiManager().getBrowseView().close();
+		((GeoGebraFrameFull) app.getAppletFrame())
+				.updateUndoRedoButtonVisibility(!material.isMultiuser());
 	}
 
 	private void updateActiveMaterial() {

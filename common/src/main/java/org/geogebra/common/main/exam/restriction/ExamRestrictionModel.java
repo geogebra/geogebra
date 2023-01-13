@@ -4,13 +4,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 
 /**
  * Model containing the exam restrictions.
  */
 public class ExamRestrictionModel {
 	private List<String> subAppCodes = Collections.emptyList();
+	private String defaultAppCode;
+	private CommandFilter commandFilter;
 
 	void setSubAppCodes(String... list) {
 		subAppCodes = Arrays.asList(list);
@@ -31,7 +33,15 @@ public class ExamRestrictionModel {
 	 * (before starting exam) is restricted
 	 */
 	public String getDefaultAppCode() {
-		return GeoGebraConstants.GRAPHING_APPCODE;
+		return defaultAppCode;
+	}
+
+	/**
+	 * define default sub application code on exam mode start
+	 * @param subAppCode - default sub app code
+	 */
+	public void setDefaultAppCode(String subAppCode) {
+		defaultAppCode = subAppCode;
 	}
 
 	/**
@@ -40,5 +50,13 @@ public class ExamRestrictionModel {
 	 */
 	public boolean hasSubApps() {
 		return !subAppCodes.isEmpty();
+	}
+
+	public CommandFilter getCommandFilter() {
+		return commandFilter;
+	}
+
+	public void setCommandFilter(CommandFilter graphingCommandFilter) {
+		this.commandFilter = graphingCommandFilter;
 	}
 }

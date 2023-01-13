@@ -65,7 +65,7 @@ public class CustomColorDialog extends ComponentDialog {
 				slider.setValue(Integer.parseInt(spinner.getValue()));
 				preview.update();
 			});
-			slider.addChangeHandler(event -> {
+			slider.addInputHandler(() -> {
 				spinner.setValue(slider.getValue().toString());
 				preview.update();
 			});

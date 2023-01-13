@@ -4,6 +4,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -14,8 +15,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ComponentDropDownPopup {
 	private static final int OFFSET_X = 0;
-	private static final int POPUP_PADDING = 8;
-	private static final int MARGIN_FROM_SCREEN = 32;
+	public static final int POPUP_PADDING = 8;
+	public static final int MARGIN_FROM_SCREEN = 32;
 	private GPopupMenuW menu;
 	private int selectedIndex;
 	private Widget anchor;
@@ -23,22 +24,26 @@ public class ComponentDropDownPopup {
 	private AppW app;
 
 	/**
-	 *
+	 * Popup constructor for dropdown and combobox
 	 * @param app        {@link AppW}
 	 * @param itemHeight Height of an item in list
 	 * @param anchor     to align the selected item.
 	 */
-	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor) {
+	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor, Runnable onClose) {
 		this.app = app;
 		this.itemHeight = itemHeight;
 		this.anchor = anchor;
 		menu = new GPopupMenuW(app);
 		menu.getPopupPanel().addStyleName("dropDownPopup");
-		app.registerAutoclosePopup(menu.getPopupPanel());
+		menu.getPopupPanel().addCloseHandler(event -> {
+			menu.getPopupPanel().removeStyleName("show");
+			if (onClose != null) {
+				onClose.run();
+			}
+		});
 	}
 
 	/**
-	 *
 	 * @param item to add
 	 */
 	public void addItem(AriaMenuItem item) {
@@ -74,7 +79,7 @@ public class ComponentDropDownPopup {
 	 * Opens DropDown at the top of the widget positioning selected item at the
 	 * center.
 	 */
-	void show() {
+	public void positionAsDropDown() {
 		int popupTop = (int) (getAnchorTop() - getSelectedItemTop() - app.getAbsTop());
 		int popupTopWithMargin = Math.max(popupTop, MARGIN_FROM_SCREEN);
 		int appBottom = (int) (app.getAbsTop() + app.getHeight());
@@ -99,11 +104,51 @@ public class ComponentDropDownPopup {
 				if (popupTop < MARGIN_FROM_SCREEN) {
 					// selected item not on screen, scroll popup
 					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
-					menu.getPopupPanel().getElement().setScrollTop(getSelectedItemTop()
-							- diffAnchorPopupTop);
+					setScrollTop(getSelectedItemTop() - diffAnchorPopupTop);
 				}
 			}
 		}
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
+	}
+
+	/**
+	 * Opens ComboBox at the bottom of the anchor if there is enough space,
+	 * on top of the anchor otherwise.
+	 */
+	public void positionAsComboBox() {
+		int spaceBottom = (int) (app.getHeight()
+				- anchor.getElement().getAbsoluteBottom());
+		int spaceTop = anchor.getElement().getAbsoluteTop() - MARGIN_FROM_SCREEN;
+		int minSpaceBottom = 3 * getItemHeight() + MARGIN_FROM_SCREEN + POPUP_PADDING;
+		int popupHeight = getPopupHeight();
+
+		if (spaceBottom < minSpaceBottom) {
+			showAtTopOfAnchor(popupHeight, spaceTop);
+		} else {
+			showAtBottomOfAnchor(popupHeight, spaceBottom);
+		}
+	}
+
+	private void showAtTopOfAnchor(int popupHeight, int spaceTop) {
+		int popupTop = popupHeight > spaceTop ? (int) app.getAbsTop() + MARGIN_FROM_SCREEN
+				: anchor.asWidget().getAbsoluteTop() - popupHeight;
+		showAtPoint(anchor.getAbsoluteLeft(), popupTop);
+
+		if (popupHeight > spaceTop) {
+			setHeightAndScrollTop(spaceTop);
+		}
+	}
+
+	private void showAtBottomOfAnchor(int popupHeight, int spaceBottom) {
+		showAtPoint(anchor.getAbsoluteLeft(), anchor.getElement().getAbsoluteBottom());
+		if (popupHeight > spaceBottom) {
+			setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
+		}
+	}
+
+	private void setHeightAndScrollTop(int height) {
+		setHeightInPx(height);
+		setScrollTop(getSelectedItemTop());
 	}
 
 	private int getSelectedItemTop() {
@@ -149,7 +194,8 @@ public class ComponentDropDownPopup {
 	 * Hide the material dropdown popup
 	 */
 	public void close() {
-		menu.hideMenu();
+		menu.getPopupPanel().removeStyleName("show");
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().hide());
 	}
 
 	/**
@@ -157,5 +203,23 @@ public class ComponentDropDownPopup {
 	 */
 	public void clear() {
 		menu.clearItems();
+	}
+
+	/**
+	 * show popup at x,y position
+	 * @param x - horizontal pos
+	 * @param y - vertical pos
+	 */
+	private void showAtPoint(int x, int  y) {
+		menu.showAtPoint(x, y);
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
+	}
+
+	private int getItemHeight() {
+		return itemHeight;
+	}
+
+	private void setScrollTop(int scrollTop) {
+		menu.getPopupPanel().getElement().setScrollTop(scrollTop);
 	}
 }

@@ -462,7 +462,7 @@ public class FunctionNVar extends ValidExpression
 			return true;
 		}
 		for (FunctionVariable fVar : fVars) {
-			if (expression.contains(fVar)) {
+			if (expression.containsDeep(fVar)) {
 				return false;
 			}
 		}

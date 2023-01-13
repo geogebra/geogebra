@@ -4,10 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.util.DoubleUtil;
 import org.junit.Test;
 
 public class GlitchesTest extends BaseUnitTest {
+
+	private final GeoFunctionConverter converter = new GeoFunctionConverter();
 
 	@Test
 	public void testZeroDividedBySinXShouldNotContainInfinity() {
@@ -73,7 +76,7 @@ public class GlitchesTest extends BaseUnitTest {
 
 	void withFunction(String functionString) {
 		gp = new IntervalPathPlotterMock(bounds);
-		plotter = new IntervalPlotter(bounds, gp);
+		plotter = new IntervalPlotter(converter, bounds, gp);
 		GeoFunction function = add(functionString);
 		plotter.enableFor(function);
 	}

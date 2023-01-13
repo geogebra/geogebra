@@ -67,7 +67,9 @@ public class OpenFileView extends HeaderFileView
 						.getSafeUri().asString(),
 				app.getLocalization().getMenu("OpenFileView.LocalFile"));
 		openFileBtn.setAcceptedFileType(app.getFileExtension());
-		buttonPanel.add(openFileBtn);
+		if (app.enableFileFeatures()) {
+			buttonPanel.add(openFileBtn);
+		}
 
 		addGoogleDriveButton(buttonPanel);
 		common.addToContent(buttonPanel);

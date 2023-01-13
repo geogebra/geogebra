@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -30,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -745,6 +747,7 @@ public abstract class GlobalKeyDispatcher {
 		case M:
 			if (isShiftDown) {
 				app.copyFullHTML5ExportToClipboard();
+				consumed = true;
 			} else {
 				// Ctrl-M: standard view
 				app.setStandardView();
@@ -755,6 +758,7 @@ public abstract class GlobalKeyDispatcher {
 			// copy base64 string to clipboard
 			if (isShiftDown) {
 				app.copyBase64ToClipboard();
+				consumed = true;
 			}
 			break;
 
@@ -1493,9 +1497,10 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
-			double increment = getIncrement(geos);
-			double[] diff = new double[] { changeValX * increment,
-					changeValY * increment, changeValZ * increment};
+			double[] diff = getIncrement(geos);
+			diff[0] *= changeValX;
+			diff[1] *= changeValY;
+			diff[2] *= changeValZ;
 			moved = handleArrowKeyMovement(geos, diff);
 			hasUnsavedGeoChanges = true;
 		}
@@ -1661,19 +1666,25 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
-	private double getIncrement(ArrayList<GeoElement> geos) {
-		GeoElement geo = geos.get(0);
-		double increment = geo.getAnimationStep();
-
+	private double[] getIncrement(ArrayList<? extends GeoElementND> geos) {
+		GeoElementND geo = geos.get(0);
+		double[] increment = {geo.getAnimationStep(), geo.getAnimationStep(),
+				geo.getAnimationStep()};
+		if (geo.isGeoPoint()) {
+			NumberValue verticalIncrement = ((GeoPointND) geo).getVerticalIncrement();
+			if (verticalIncrement != null) {
+				increment[1] = verticalIncrement.getDouble();
+			}
+		}
 		// eg for Polygon(A,B,C)
 		// use increment of A
 		if (!geo.isGeoNumeric() && !geo.isGeoPoint()) {
 
-			ArrayList<GeoPointND> freeInputPoints = geo
+			ArrayList<GeoElementND> freeInputPoints = geo
 					.getFreeInputPoints(app.getActiveEuclidianView());
 
 			if (freeInputPoints != null && freeInputPoints.size() > 0) {
-				increment = freeInputPoints.get(0).getAnimationStep();
+				return getIncrement(freeInputPoints);
 			}
 
 		}

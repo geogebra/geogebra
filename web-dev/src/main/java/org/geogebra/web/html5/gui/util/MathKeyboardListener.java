@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 
 public interface MathKeyboardListener {
 
@@ -12,7 +12,7 @@ public interface MathKeyboardListener {
 
 	void ensureEditing();
 
-	UIObject asWidget();
+	Widget asWidget();
 
 	String getText();
 

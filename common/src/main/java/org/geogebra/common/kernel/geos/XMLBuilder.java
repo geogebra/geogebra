@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -294,7 +295,8 @@ public class XMLBuilder {
 	 * @param corners
 	 *            corners
 	 */
-	public static void getCornerPointXML(StringBuilder sb, int number, GeoPointND[] corners) {
+	public static void getCornerPointXML(StringBuilder sb, int number, GeoPointND[] corners,
+			boolean isAbsolute) {
 		if (corners[number] == null) {
 			return;
 		}
@@ -310,6 +312,9 @@ public class XMLBuilder {
 			sb.append(" exp=\"");
 			StringUtil.encodeXML(sb, corners[number].getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");
+		}
+		if (isAbsolute) {
+			sb.append(" absolute=\"true\"");
 		}
 		sb.append("/>\n");
 	}
@@ -474,5 +479,15 @@ public class XMLBuilder {
 			sb.append(alignment.toString());
 			sb.append("\"/>\n");
 		}
+	}
+
+	/**
+	 * @param sb builder
+	 * @param verticalIncrement vertical increment
+	 */
+	public static void appendVerticalIncrement(StringBuilder sb, NumberValue verticalIncrement) {
+		sb.append("<incrementY val=\"");
+		StringUtil.encodeXML(sb, verticalIncrement.getLabel(StringTemplate.xmlTemplate));
+		sb.append("\"/>");
 	}
 }

@@ -1,6 +1,8 @@
 package org.geogebra.web.shared.components.infoError;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
@@ -9,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class ComponentInfoErrorPanel extends FlowPanel {
 	private Localization loc;
+	private StandardButton actionButton;
 
 	/**
 	 * info/error panel constructor
@@ -49,11 +52,19 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 		}
 
 		if (data.getActionButtonText() != null) {
-			StandardButton actionButton =
+			actionButton =
 					new StandardButton(loc.getMenu(data.getActionButtonText()));
 			actionButton.addStyleName("dialogContainedButton");
-			actionButton.addFastClickHandler(source -> buttonAction.run());
+			actionButton.addFastClickHandler(source -> {
+					if (!actionButton.getStyleName().contains("disabled")) {
+						buttonAction.run();
+					}
+			});
 			add(actionButton);
 		}
+	}
+
+	public void disableActionButton(boolean disabled) {
+		Dom.toggleClass(actionButton, "disabled", disabled);
 	}
 }

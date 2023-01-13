@@ -85,6 +85,13 @@ public class KeyboardInputAdapter {
 			}
 		});
 
+		adapters.add(new StringInput("mixedNumber") {
+			@Override
+			public void commit(MathFieldInternal mfi, String input) {
+				commitFunction(mfi, "mixedNumber");
+			}
+		});
+
 		adapters.add(new StringInput("log_{10}") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {

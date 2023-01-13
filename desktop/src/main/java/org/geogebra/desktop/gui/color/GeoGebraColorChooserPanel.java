@@ -315,6 +315,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	class CustomButtonActionListener implements ActionListener {
 
 		JColorChooser chooser;
+		ActionListener okActionListener =
+				(e) -> customSwatchPanel.addCustomColor(chooser.getColor());
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -331,15 +333,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 					app.getLocalization().getMenu("ChooseColor"), true, chooser,
 					okActionListener, null);
 			dialog.setVisible(true);
-
 		}
-
-		ActionListener okActionListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent actionEvent) {
-				customSwatchPanel.addCustomColor(chooser.getColor());
-			}
-		};
 
 	}
 

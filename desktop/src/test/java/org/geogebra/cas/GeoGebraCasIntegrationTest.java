@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assume.assumeFalse;
 
 import java.util.HashSet;
+import java.util.Locale;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.view.CASCellProcessor;
@@ -670,12 +671,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		}
 	}
 
-	/* Integral */
-
-	/* Indefinite Integral */
-
-	/* LeftSide */
-
 	@Test
 	public void leftSide_0() {
 		in("lsa:x+y+z=1");
@@ -703,14 +698,14 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("RightSide[lsd]", "1");
 	}
 
-	@Test
-	/**
+	/*
 	 * Tests for Solve(line/circle/quadric) defined in the Algebra View
-	 * 
-	 * https://dev.geogebra.org/trac/changeset/67205
-	 * https://dev.geogebra.org/trac/changeset/67218
-	 * 
+	 *
+	 * https://github.com/geogebra/geogebra/commit/af712ee2754
+	 * https://github.com/geogebra/geogebra/commit/aa8a80bb3e3
+	 *
 	 */
+	@Test
 	public void solveAlgebraView() {
 		in("solveline1:y=x");
 		in("solveline2:y=-x");
@@ -2282,7 +2277,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void casRundbrief_Figure5_1() {
 		// Suppress output using semicolon.
 		// Warning: This does not affect the output here!
-		// Therefore this test does not test suppression of the output,
+		// Therefore, this test does not test suppression of the output,
 		// but just semicolon at the end of the input not breaking anything
 		// here.
 		t("f(x) := (2x^2 - 3x + 4) / 2;", "x^(2) - 3 / 2 * x + 2");
@@ -2708,10 +2703,41 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void testInequalityLabel() {
-		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-		f.setInput("b:= x<3");
-		f.computeOutput();
+		GeoCasCell f = add("b:= x<3");
 		f.plot();
 		assertThat(f.getTwinGeo().getLabel(StringTemplate.defaultTemplate), equalTo("b"));
+	}
+
+	private GeoCasCell add(String s) {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput(s);
+		processCasCell(f);
+		return f;
+	}
+
+	@Test
+	public void listFunctionEvaluation() {
+		add("h(x):=exp(x) (-exp(x)+4)-3 (exp(x))^(2)");
+		add("l1:={ln(2)}");
+		add("l2:={1,2,3}");
+		t("h(l1)", "{-8}");
+		t("Numeric[h(l2),5]", "{-18.683, -188.84, -1533.4}");
+	}
+
+	@Test
+	public void matrixFunctionEvaluation() {
+		add("f(x):=x^2");
+		t("f({{1,1},{0,1}})", "{{1,2},{0,1}}");
+	}
+
+	@Test
+	public void listCommandFunctionEvaluation() {
+		getApp().setLanguage(Locale.US);
+		tk("H(KL):=Sequence( {{Element(KL,j) (1,0,0)},{Element(KL,j) (0,1,0)},"
+				+ "{Element(KL,j) (0,0,1)},{1}},j,1,Length(KL) );",
+				"Sequence({{Element(KL, j) * (1, 0, 0)}, {Element(KL, j) * (0, 1, 0)},"
+						+ " {Element(KL, j) * (0, 0, 1)}, {1}}, j, 1, Length(KL))");
+		t("H({(1,2,3),(4,5,6),(7,8,9)})",
+				"{{{1}, {2}, {3}, {1}}, {{4}, {5}, {6}, {1}}, {{7}, {8}, {9}, {1}}}");
 	}
 }

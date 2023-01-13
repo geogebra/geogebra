@@ -54,6 +54,7 @@ import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
+import org.geogebra.desktop.gui.util.SliderUtil;
 import org.geogebra.desktop.gui.view.spreadsheet.MyTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -249,19 +250,6 @@ class FillingPanelD extends JPanel
 		this.add(transparencyPanel);
 		this.add(hatchFillPanel);
 		this.add(imagePanel);
-	}
-
-	/**
-	 * @param enabled enabled flag
-	 */
-	public void setAllEnabled(boolean enabled) {
-		Component[] c = this.getComponents();
-		for (Component panel : c) {
-			Component[] subc = ((JPanel) panel).getComponents();
-			for (Component component : subc) {
-				component.setEnabled(enabled);
-			}
-		}
 	}
 
 	@Override
@@ -506,8 +494,11 @@ class FillingPanelD extends JPanel
 		cbFillType.addActionListener(this);
 		cbFillInverse.addActionListener(this);
 		opacitySlider.addChangeListener(this);
+		SliderUtil.addValueChangeListener(opacitySlider, val -> model.storeUndoInfo());
 		angleSlider.addChangeListener(this);
+		SliderUtil.addValueChangeListener(angleSlider, val -> model.storeUndoInfo());
 		distanceSlider.addChangeListener(this);
+		SliderUtil.addValueChangeListener(distanceSlider, val -> model.storeUndoInfo());
 
 		if (model.hasGeoButton()) {
 			int index = 0;
@@ -558,11 +549,8 @@ class FillingPanelD extends JPanel
 			app.getKernel().notifyRepaint();
 			return;
 		}
-		if (!angleSlider.getValueIsAdjusting()
-				&& !distanceSlider.getValueIsAdjusting()) {
-			model.applyAngleAndDistance(angleSlider.getValue(),
-					distanceSlider.getValue());
-		}
+		model.applyAngleAndDistance(angleSlider.getValue(),
+				distanceSlider.getValue());
 	}
 
 	/**

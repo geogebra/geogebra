@@ -56,7 +56,7 @@ public class AppConfigNotes extends AppConfigDefault {
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
-		return AppKeyboardType.MOW;
+		return AppKeyboardType.NOTES;
 	}
 
 	@Override
@@ -67,5 +67,15 @@ public class AppConfigNotes extends AppConfigDefault {
 	@Override
 	public boolean hasLabelForDescription() {
 		return true;
+	}
+
+	@Override
+	public boolean showAxesOnFileNew() {
+		return false;
+	}
+
+	@Override
+	public boolean showGridOnFileNew() {
+		return false;
 	}
 }

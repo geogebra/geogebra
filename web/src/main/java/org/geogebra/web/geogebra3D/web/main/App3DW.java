@@ -1,5 +1,6 @@
 package org.geogebra.web.geogebra3D.web.main;
 
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -63,10 +64,12 @@ public class App3DW {
 	 */
 	static final public void ggwGraphicsView3DDimChanged(AppW app, int width,
 			int height) {
-		app.getSettings().getEuclidian(3).setPreferredSize(
-				AwtFactory.getPrototype().newDimension(width, height));
-
+		GDimension dimension = AwtFactory.getPrototype().newDimension(width, height);
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
+		if (!app.getSettings().getEuclidian(3).setPreferredSize(
+				dimension)) {
+			view.setPreferredSize(dimension);
+		}
 		view.setCoordinateSpaceSize(width, height);
 		view.doRepaint2();
 	}

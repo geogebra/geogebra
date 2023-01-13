@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.test.TestStringUtil.unicode;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Test;
@@ -107,5 +109,26 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
                         + "- 12 * x - y^(4) + y^(2) + 36, y = 4)");
         t("Tangent((1,1), x^2+y^2=1)",
                 "{x = 1, y = 1}");
+    }
+
+    @Test
+    public void cmdFit() {
+        t("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]",
+                unicode("x^(2) + 1"));
+
+        t("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
+                unicode("-2 + x^(2) + 3 * y"));
+
+    }
+
+    @Test
+    public void cmdDistance() {
+        t("Distance[(0,0),(1,1)]", "sqrt(2)");
+        t("Distance[(0,0,0),(1,1,1)]", "sqrt(3)");
+        t("Distance[y=x, (0,1)]", "0.7071067811865476");
+        t("Distance[y=x, y=x+2]", "1.414213562373095");
+        t("Distance[(0,0),x^2+1]", "1");
+        t("Distance[(0,0,0), x+y+x=2]", "0.894427190999916");
+        t("Distance[(0,0),1]", "?");
     }
 }

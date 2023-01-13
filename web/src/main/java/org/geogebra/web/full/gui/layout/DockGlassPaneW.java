@@ -10,7 +10,7 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -62,9 +62,9 @@ public class DockGlassPaneW extends AbsolutePanel
 
 		previewPanel = new SimplePanel();
 		previewPanel.getElement().getStyle()
-		        .setBorderWidth(BORDER_WIDTH, Style.Unit.PX);
+		        .setBorderWidth(BORDER_WIDTH, Unit.PX);
 		previewPanel.getElement().getStyle()
-		        .setBorderStyle(Style.BorderStyle.SOLID);
+		        .setBorderStyle(BorderStyle.SOLID);
 		previewPanel.getElement().getStyle().setBorderColor("gray");
 
 		previewPanel.setVisible(false);

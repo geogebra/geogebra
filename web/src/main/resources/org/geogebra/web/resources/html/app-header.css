@@ -334,8 +334,9 @@ svg.icon.left {
 }
 
 .GeoGebraFrame .flatButtonHeader.settingsBtnScientific {
-    margin: 6px;
-    float: right;
+	position: relative;
+	margin: 6px;
+	float: right;
 }
 
 .GeoGebraFrame .undoBtnScientific {

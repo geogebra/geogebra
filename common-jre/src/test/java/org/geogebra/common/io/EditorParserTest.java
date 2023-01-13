@@ -84,6 +84,19 @@ public class EditorParserTest {
 	}
 
 	@Test
+	public void unicodeSqrtParseTest() {
+		parsesAs("r(2) / r(x) = 4".replace('r', Unicode.SQUARE_ROOT),
+				"((sqrt(2))/(sqrt(x))) = 4");
+		parsesAs("r2 / rx = 4".replace('r', Unicode.SQUARE_ROOT),
+				"((r2)/(rx)) = 4".replace('r', Unicode.SQUARE_ROOT));
+	}
+
+	@Test
+	public void mixedNumber() {
+		parsesAs("3\u2064(1)/(2)", "3\u2064((1)/(2))");
+	}
+
+	@Test
 	public void symbolLaTeXShouldParse() {
 		AppCommon appCommon = AppCommonFactory.create();
 		Kernel kernel = appCommon.getKernel();

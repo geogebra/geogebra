@@ -55,16 +55,6 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public SVGResource getNumericIcon() {
-		return MaterialDesignResources.INSTANCE.equal_sign_white();
-	}
-
-	@Override
-	public SVGResource getOutputPrefixIcon() {
-		return MaterialDesignResources.INSTANCE.equal_sign_black();
-	}
-
-	@Override
 	public void initStylebar(DockPanelW dockPanelW) {
 		dockPanelW.showStyleBarPanel(false);
 	}

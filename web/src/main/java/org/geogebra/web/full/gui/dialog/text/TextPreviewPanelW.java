@@ -18,7 +18,7 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -174,7 +174,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 		public MyEuclidianViewPanelForTextPreviewPanelW() {
 			super();
 			canvas = Canvas.createIfSupported();
-			canvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			canvas.getElement().getStyle().setPosition(Position.ABSOLUTE);
 			canvas.getElement().getStyle().setZIndex(0);
 			add(canvas);
 		}

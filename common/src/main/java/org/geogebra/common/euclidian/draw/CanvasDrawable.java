@@ -318,8 +318,9 @@ public abstract class CanvasDrawable extends Drawable {
 			return false;
 		}
 		double top = getLabelTop();
+		int height = getLabelHeight();
 		return x > xLabel && x < xLabel + labelSize.x && y > top
-				&& y < top + getLabelHeight();
+				&& y < top + height;
 	}
 
 	/**

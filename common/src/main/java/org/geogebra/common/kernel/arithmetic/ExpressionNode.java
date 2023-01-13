@@ -1224,20 +1224,6 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * @return true if this is leaf containing only GeoElement
-	 */
-	final public boolean isSingleGeoElement() {
-		return leaf && left.isGeoElement();
-	}
-
-	/**
-	 * @return left subexpression as GeoElement
-	 */
-	final public GeoElement getSingleGeoElement() {
-		return (GeoElement) left;
-	}
-
-	/**
 	 * @return true if given value is an imaginary unit
 	 */
 	public static boolean isImaginaryUnit(ExpressionValue value) {
@@ -3001,9 +2987,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether the top-level operation is IF / IF_ELSE / IF_LIST
 	 */
 	public boolean isConditional() {
-		return operation == Operation.IF || operation == Operation.IF_SHORT
-				|| operation == Operation.IF_ELSE
-				|| operation == Operation.IF_LIST;
+		return operation.isConditional();
 	}
 
 	/**

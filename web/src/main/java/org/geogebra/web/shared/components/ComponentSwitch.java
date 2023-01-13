@@ -40,7 +40,7 @@ public class ComponentSwitch extends FlowPanel {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				setSwitchOn(!isSwitchOn());
-				updateSwitchStyle();
+				runCallback();
 			}
 		});
 	}
@@ -58,6 +58,7 @@ public class ComponentSwitch extends FlowPanel {
 	 */
 	public void setSwitchOn(boolean isSwitchOn) {
 		this.isSwitchOn = isSwitchOn;
+		updateSwitchStyle();
 	}
 
 	/**
@@ -65,7 +66,6 @@ public class ComponentSwitch extends FlowPanel {
 	 */
 	public void updateSwitchStyle() {
 		Dom.toggleClass(this, "on", "off", isSwitchOn());
-		runCallback();
 	}
 
 	/**

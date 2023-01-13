@@ -90,31 +90,28 @@ public class UndoManagerD extends UndoManager {
 	 */
 	synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
 		// avoid security problems calling from JavaScript ie setUndoPoint()
-		AccessController.doPrivileged(new PrivilegedAction<Object>() {
-			@Override
-			public Object run() {
-				try {
-					// perform the security-sensitive operation here
-					// save to file
-					AppState appStateToAdd = new FileAppState(undoXML);
+		AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+			try {
+				// perform the security-sensitive operation here
+				// save to file
+				AppState appStateToAdd = new FileAppState(undoXML);
 
-					// insert undo info
-					UndoCommand command = new UndoCommand(appStateToAdd);
-					maybeStoreUndoCommand(command);
-					pruneStateList();
-					app.getEventDispatcher().dispatchEvent(
-							new Event(EventType.STOREUNDO));
+				// insert undo info
+				UndoCommand command = new UndoCommand(appStateToAdd);
+				maybeStoreUndoCommand(command);
+				pruneStateList();
+				app.getEventDispatcher().dispatchEvent(
+						new Event(EventType.STOREUNDO));
 
-				} catch (Exception e) {
-					Log.debug("storeUndoInfo: " + e.toString());
-					e.printStackTrace();
-				} catch (java.lang.OutOfMemoryError err) {
-					Log.debug("UndoManager.storeUndoInfo: " + err.toString());
-					err.printStackTrace();
-				}
-
-				return null;
+			} catch (Exception e) {
+				Log.debug("storeUndoInfo: " + e.toString());
+				e.printStackTrace();
+			} catch (OutOfMemoryError err) {
+				Log.debug("UndoManager.storeUndoInfo: " + err.toString());
+				err.printStackTrace();
 			}
+
+			return null;
 		});
 
 		onStoreUndo();

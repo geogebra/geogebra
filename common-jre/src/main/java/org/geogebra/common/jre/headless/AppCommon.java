@@ -74,6 +74,7 @@ public class AppCommon extends App {
 	private AppConfig config;
 	private CASFactory casFactory = new CASFactoryDummy();
 	private boolean appletFlag = false;
+	private ImageManager imageManager;
 
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
 	    this(loc, awtFactory, new AppConfigDefault());
@@ -296,7 +297,7 @@ public class AppCommon extends App {
 
     @Override
     public ImageManager getImageManager() {
-        return null;
+        return imageManager;
     }
 
     @Override
@@ -335,14 +336,15 @@ public class AppCommon extends App {
 
 			@Override
 			public MyImage getFillImage() {
-				// stub
-				return null;
+				return new MyImageCommon();
 			}
 
 			@Override
 			public void setImageFileName(String fileName) {
-				// stub
-
+				this.imageFileName = fileName;
+				if (fileName != null) {
+					setImageOnly(new MyImageCommon());
+				}
 			}
 
 			@Override
@@ -777,5 +779,9 @@ public class AppCommon extends App {
 	@Override
 	public boolean isUnbundledGeometry() {
 		return "geometry".equals(getConfig().getAppCode());
+	}
+
+	public void setImageManager(ImageManager imgManager) {
+		imageManager = imgManager;
 	}
 }

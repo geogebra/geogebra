@@ -3,40 +3,48 @@ package org.geogebra.common.kernel.interval.operators;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.divide;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 
 public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
+
+	private final IntervalNodeEvaluator evaluator;
+
+	/**
+	 *
+	 * @param evaluator {@link IntervalNodeEvaluator}
+	 */
+	public IntervalMiscOperandsImpl(IntervalNodeEvaluator evaluator) {
+		this.evaluator = evaluator;
+	}
 
 	@Override
 	public Interval exp(Interval interval) {
 		if (!interval.isUndefined()) {
-			interval.set(RMath.expLow(interval.getLow()),
+			return new Interval(RMath.expLow(interval.getLow()),
 					RMath.expHigh(interval.getHigh()));
 		}
-		return interval;
+		return IntervalConstants.undefined();
 	}
 
 	@Override
 	public Interval log(Interval interval) {
 		if (!interval.isUndefined()) {
-			if (interval.getHigh() < 0) {
-				interval.setUndefined();
-			} else {
+			if (interval.getHigh() >= 0) {
 				double low = interval.getLow();
-				interval.set(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
+				return new Interval(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
 						RMath.logHigh(interval.getHigh()));
 			}
 		}
-		return interval;
+		return IntervalConstants.undefined();
 	}
 
 	@Override
 	public Interval log2(Interval interval) {
 		if (!interval.isUndefined()) {
-			Interval logExp2 = IntervalOperands.log(new Interval(2, 2));
-			return divide(log(interval), logExp2);
+			Interval logExp2 = evaluator.log(new Interval(2, 2));
+			return evaluator.divide(log(interval), logExp2);
 		}
 
 		return interval;
@@ -45,8 +53,8 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval log10(Interval interval) {
 		if (!interval.isUndefined()) {
-			Interval logExp10 = IntervalOperands.log(new Interval(10, 10));
-			return divide(log(interval), logExp10);
+			Interval logExp10 = evaluator.log(new Interval(10, 10));
+			return evaluator.divide(log(interval), logExp10);
 		}
 
 		return interval;

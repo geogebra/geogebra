@@ -141,7 +141,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.add(preview);
 		sizePanel.add(slider);
 		colorPanel.add(sizePanel);
-		slider.addValueChangeHandler(event -> sliderValueChanged(event.getValue()));
+		slider.getSlider().addInputHandler(() -> sliderValueChanged(slider.getValue()));
 		new FocusableWidget(AccessibilityGroup.NOTES_PEN_THICKNESS_SLIDER,
 				null, slider.getSlider()).attachTo(app);
 	}

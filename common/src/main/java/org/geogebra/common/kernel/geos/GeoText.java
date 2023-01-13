@@ -54,6 +54,7 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
@@ -212,8 +213,8 @@ public class GeoText extends GeoElement
 		}
 		try {
 			if (gt.startPoint != null) {
-				if (gt.hasAbsoluteLocation()) {
-					if (this.startPoint != null && this.hasAbsoluteLocation()) {
+				if (gt.hasStaticLocation()) {
+					if (this.startPoint != null && this.hasStaticLocation()) {
 						// just use the value
 						this.startPoint.set(gt.startPoint);
 					} else {
@@ -305,17 +306,6 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public void removeStartPoint(GeoPointND p) {
-		if (startPoint == p) {
-			try {
-				setStartPoint(null);
-			} catch (Exception e) {
-				// cannot happen
-			}
-		}
-	}
-
-	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 		// don't allow this if it's eg Text["hello",(2,3)]
 		if (alwaysFixed) {
@@ -348,9 +338,6 @@ public class GeoText extends GeoElement
 
 			// add new dependencies
 			startPoint.getLocateableList().registerLocateable(this);
-
-			// absolute screen position should be deactivated
-			setAbsoluteScreenLocActive(false);
 		}
 	}
 
@@ -377,26 +364,8 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public GeoPointND[] getStartPoints() {
-		if (startPoint == null) {
-			return null;
-		}
-
-		GeoPointND[] ret = new GeoPointND[1];
-		ret[0] = startPoint;
-		return ret;
-	}
-
-	@Override
-	public boolean hasAbsoluteLocation() {
+	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
-	}
-
-	@Override
-	public void setWaitForStartPoint() {
-		// this can be ignored for a text
-		// as the position of its startpoint
-		// is irrelevant for the rest of the construction
 	}
 
 	@Override
@@ -436,7 +405,7 @@ public class GeoText extends GeoElement
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		// https://help.geogebra.org/topic/fixed-list-list-with-text-objects
-		if (tpl1.hasType(StringType.SCREEN_READER)) {
+		if (tpl1.hasType(StringType.SCREEN_READER_ASCII)) {
 			return getAuralText();
 		}
 		return getTextStringSafe();
@@ -678,7 +647,7 @@ public class GeoText extends GeoElement
 	private String getXMLlocation() {
 		StringBuilder sb = new StringBuilder();
 
-		if (hasAbsoluteScreenLocation) {
+		if (hasAbsoluteScreenLocation && startPoint == null) {
 			sb.append("\t<absoluteScreenLocation x=\"");
 			sb.append(labelOffsetX);
 			sb.append("\" y=\"");
@@ -687,7 +656,7 @@ public class GeoText extends GeoElement
 		} else {
 			// location of text
 			if (startPoint != null) {
-				startPoint.appendStartPointXML(sb);
+				startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 
 				if (labelOffsetX != 0 || labelOffsetY != 0) {
 					sb.append("\t<labelOffset");
@@ -782,12 +751,12 @@ public class GeoText extends GeoElement
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return labelOffsetX;
+		return startPoint == null ? labelOffsetX : (int) startPoint.getInhomX();
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return labelOffsetY;
+		return startPoint == null ? labelOffsetY : (int) startPoint.getInhomY();
 	}
 
 	@Override
@@ -1066,16 +1035,14 @@ public class GeoText extends GeoElement
 		boundingBox.setRect(x, y, w, h);
 	}
 
-	/**
-	 * @return tue if bounding box is not correct anymore
-	 */
-	public final boolean isNeedsUpdatedBoundingBox() {
+	@Override
+	public final boolean needsUpdatedBoundingBox() {
 		return needsUpdatedBoundingBox;
 	}
 
 	/**
 	 * @param needsUpdatedBoundingBox
-	 *            true to make sure this object upates itself
+	 *            true to make sure this object updates itself
 	 */
 	@Override
 	public final void setNeedsUpdatedBoundingBox(
@@ -1355,14 +1322,14 @@ public class GeoText extends GeoElement
 
 	@Override
 	protected boolean isVisibleInView3DNotSet() {
-		if (isVisibleInView(App.VIEW_EUCLIDIAN) && !hasAbsoluteLocation()) {
+		if (isVisibleInView(App.VIEW_EUCLIDIAN) && !hasStaticLocation()) {
 			// visible: we set it
 			visibleInView3D = ExtendedBoolean.TRUE;
 			return true;
 		}
 
 		if (kernel.getApplication().getActiveEuclidianView()
-				.isEuclidianView3D() && hasAbsoluteLocation()) {
+				.isEuclidianView3D() && hasStaticLocation()) {
 			// visible only in 3D view
 			try {
 				kernel.getApplication().removeFromEuclidianView(this);
@@ -1528,7 +1495,7 @@ public class GeoText extends GeoElement
 		if (isLaTeX()) {
 			ret = getAuralTextLaTeX();
 		} else {
-			ret = ScreenReader.convertToReadable(getTextString(), getLoc());
+			ret = ScreenReader.convertToReadable(getTextString(), app);
 		}
 		return ret;
 	}
@@ -1539,10 +1506,9 @@ public class GeoText extends GeoElement
 	public String getAuralTextLaTeX() {
 		kernel.getApplication().getDrawEquation()
 				.checkFirstCall(kernel.getApplication());
-		// TeXAtomSerializer makes formula human readable.
+		// TeXAtomSerializer makes formula human-readable.
 		TeXFormula tf = getTeXFormula();
-		ScreenReaderSerializationAdapter adapter =
-				new ScreenReaderSerializationAdapter(kernel.getLocalization());
+		SerializationAdapter adapter = ScreenReader.getSerializationAdapter(app);
 		return new TeXAtomSerializer(adapter).serialize(tf.root);
 	}
 

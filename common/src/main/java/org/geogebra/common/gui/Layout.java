@@ -290,12 +290,12 @@ public abstract class Layout implements SettingListener {
 		DockPanelData[] dpData = new DockPanelData[7];
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false,
 				false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "3",
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1,1",
 				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, needAV, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
-				"1,3", 200).setTabId(getProbabilityTabId(app));
+				app.isPortrait() ? "1" : "3", 200).setTabId(getProbabilityTabId(app));
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
@@ -313,8 +313,8 @@ public abstract class Layout implements SettingListener {
 				"1,1", 500);
 		dpData[0] = new DockPanelData(App.VIEW_PROBABILITY_CALCULATOR, null,
 				true, false, false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 600), "1",
-				500);
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 600),
+				app.isPortrait() ? "3" : "1", 500);
 
 		return new Perspective(Perspective.PROBABILITY, spData, dpData,
 				defToolbar, false, false, true, false, true,
@@ -496,7 +496,7 @@ public abstract class Layout implements SettingListener {
 	 *            xml builder
 	 */
 	public void getCurrentPerspectiveXML(StringBuilder sb) {
-		/**
+		/*
 		 * Create a temporary perspective which is used to store the layout of
 		 * the document at the moment. This perspective isn't accessible through
 		 * the menu and will be removed as soon as the document was saved with
@@ -527,7 +527,7 @@ public abstract class Layout implements SettingListener {
 
 		sb.append("\t</perspectives>\n");
 
-		/**
+		/*
 		 * Certain user elements should be just saved as preferences and not if
 		 * a document is saved normally as they just depend on the preferences
 		 * of the user.

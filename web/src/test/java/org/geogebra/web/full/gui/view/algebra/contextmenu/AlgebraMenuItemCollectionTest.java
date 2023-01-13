@@ -22,7 +22,7 @@ public class AlgebraMenuItemCollectionTest {
 
 	@Before
 	public void setUp() {
-		app = AppMocker.mockGraphing(getClass());
+		app = AppMocker.mockGraphing();
 		statisticsAction = new StatisticsAction();
 	}
 

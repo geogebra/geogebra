@@ -16,7 +16,7 @@ import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.PersistablePanel;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,7 +27,7 @@ public class NotesLayout implements SetLabels {
 	private final AppW appW;
 	private final @CheckForNull ToolbarMow toolbar;
 	private StandardButton pageControlButton;
-	private PageListPanel pageControlPanel;
+	private @CheckForNull PageListPanel pageControlPanel;
 	/** panel containing undo and redo */
 	private PersistablePanel undoRedoPanel;
 	/** undo button */
@@ -64,11 +64,11 @@ public class NotesLayout implements SetLabels {
 	 * make sure style is touch also on whiteboard
 	 */
 	protected void setTouchStyleForCards() {
-		pageControlPanel.setIsTouch();
+		getPageControlPanel().setIsTouch();
 	}
 
 	private void movePageControlButtonDown() {
-		pageControlButton.getElement().getStyle().setBottom(0, Style.Unit.PX);
+		pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
 		pageControlButton.removeStyleName("narrowscreen");
 	}
 
@@ -146,13 +146,17 @@ public class NotesLayout implements SetLabels {
 		EuclidianController ec = appW.getActiveEuclidianView().getEuclidianController();
 		ec.widgetsToBackground();
 
+		getPageControlPanel().open();
+		appW.getPageController().updatePreviewImage();
+		deselectDragButton();
+	}
+
+	private PageListPanel getPageControlPanel() {
 		if (pageControlPanel == null) {
 			pageControlPanel = ((AppWFull) appW).getAppletFrame()
 					.getPageControlPanel();
 		}
-		pageControlPanel.open();
-		appW.getPageController().updatePreviewImage();
-		deselectDragButton();
+		return pageControlPanel;
 	}
 
 	protected void deselectDragButton() {

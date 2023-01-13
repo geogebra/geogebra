@@ -15,12 +15,10 @@ public class EnableDynamicCaptionPanel extends CheckboxPanel {
 	 * @param tabs parent tabbed view
 	 */
 	public EnableDynamicCaptionPanel(AppD app, AutoCompleteTextFieldD textField,
-			ComboPanel combo, UpdateTabs tabs) {
-		super(app, "UseTextAsCaption", tabs,
-				new EnableDynamicCaptionModel(null, app));
+			ComboPanel combo, UpdateTabs tabs, EnableDynamicCaptionModel model) {
+		super(app, tabs, model);
 		this.textField = textField;
 		this.combo = combo;
-		app.setFlowLayoutOrientation(this);
 	}
 
 	@Override

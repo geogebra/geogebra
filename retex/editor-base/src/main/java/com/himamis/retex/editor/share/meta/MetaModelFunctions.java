@@ -86,6 +86,11 @@ class MetaModelFunctions {
 		functions.add(createFunction(Tag.VEC, "\\vec", new MetaParameter[] {
 				MetaParameter.BASIC
 		}));
+		functions.add(
+				createFunctionInsert(Tag.MIXED_NUMBER, "", 3,
+						new MetaParameter[] {
+								MetaParameter.BASIC, createParameterDown(2), createParameterUp(1)
+						}));
 
 		functions.add(
 				createFunctionInsert(Tag.ATOMIC_PRE, "\\atomicpre", 0,

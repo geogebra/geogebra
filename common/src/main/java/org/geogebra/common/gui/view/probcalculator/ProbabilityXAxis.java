@@ -95,19 +95,6 @@ public class ProbabilityXAxis {
 	}
 
 	/**
-	 * Swap the two axis points if they are not the right order.
-	 */
-	public void swapIfNeeded() {
-		if (lowPoint != null && highPoint != null
-				&& !Double.isInfinite(lowPoint.getInhomX())
-				&& lowPoint.getInhomX() > highPoint.getInhomX()) {
-			GeoPoint swap = lowPoint;
-			lowPoint = highPoint;
-			highPoint = swap;
-		}
-	}
-
-	/**
 	 * Show/hide both points together.
 	 * @param b whether to show or not.
 	 */

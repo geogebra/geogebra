@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.textbox;
 
 import org.geogebra.common.util.TextObject;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 
 import com.google.gwt.dom.client.Document;
@@ -89,6 +90,9 @@ public class GTextBox extends TextBox
 			isShiftKeyDown = nativeEvent.getShiftKey();
 			isControlKeyDown = nativeEvent.getCtrlKey();
 			isMetaKeyDown = nativeEvent.getMetaKey();
+			if (GlobalKeyDispatcherW.isLeftAltDown()) {
+				nativeEvent.preventDefault();
+			}
 		}
 	}
 

@@ -119,6 +119,11 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 	}
 
 	@Override
+	public double getInvYscale() {
+		return view.getInvYscale();
+	}
+
+	@Override
 	public String toString() {
 		return "EuclidianViewBoundsImp{"
 				+ "xmin=" + getXmin()

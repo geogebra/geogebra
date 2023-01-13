@@ -1078,9 +1078,9 @@
 
 	/*-------- SLIDER DIALOG ------------------------*/
 
-	.dialogContent .sliderIntervalPanel div,
-	.dialogContent .sliderWidthPanel div {
-		margin-right: 10px;
+	.dialogContent .sliderIntervalPanel .inlineOption,
+	.dialogContent .sliderWidthPanel .inlineOption {
+		margin: 8px 8px 0 0;
 		display: inline-block;
 		width: 30%;
 	}
@@ -1769,15 +1769,6 @@
 		min-width: 100px;
 	}
 
-	.numberInput {
-		width: 70px;
-		margin-right: 20px;
-
-		.matKeyboardOpenBtn {
-			display: none;
-    	}
-    }
-
 	.optionsInput table {
 		display: inline-table;
 		button {
@@ -1817,10 +1808,6 @@
 
 	.textOptionsToolBar .gwt-ToggleButton {
 		display: inline-block;
-	}
-
-	iframe.objectPropertiesTextEditor {
-		margin-bottom: 10px;
 	}
 
 	.colorComponent {

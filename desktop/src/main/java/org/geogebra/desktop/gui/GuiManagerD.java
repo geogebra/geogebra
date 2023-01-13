@@ -11,14 +11,17 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,6 +145,10 @@ import com.himamis.retex.editor.share.util.Unicode;
 @SuppressWarnings("javadoc")
 public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
+	public static final DataFlavor urlFlavor = getFlavor(
+			"application/x-java-url; class=java.net.URL");
+	public static final DataFlavor uriListFlavor = getFlavor(
+			"text/uri-list; class=java.lang.String");
 	private final static boolean USE_COMPRESSED_VIEW = true;
 	private final static int CV_UPDATES_PER_SECOND = 3;
 
@@ -165,6 +172,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private DataAnalysisViewD dataView;
 
 	private String lastFilenameOfSaveDialog;
+	private WindowsUnicodeKeyboard kb = null;
+	// Actions
+	private AbstractAction showAxesAction;
+	private AbstractAction showGridAction;
+	private AbstractAction undoAction;
+	private AbstractAction redoAction;
+	private final LocalizationD loc;
 
 	/**
 	 * Returns last filename that was used in save dialog (may be for .png,
@@ -185,18 +199,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return null;
 	}
 
-	public static final DataFlavor urlFlavor = getFlavor(
-			"application/x-java-url; class=java.net.URL");
-	public static final DataFlavor uriListFlavor = getFlavor(
-			"text/uri-list; class=java.lang.String");
-
-	// Actions
-	private AbstractAction showAxesAction;
-	private AbstractAction showGridAction;
-	private AbstractAction undoAction;
-	private AbstractAction redoAction;
-	private final LocalizationD loc;
-
+	/**
+	 * @param app application
+	 */
 	public GuiManagerD(AppD app) {
 		super(app);
 		this.loc = app.getLocalization();
@@ -309,26 +314,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	protected Euclidian2DockPanel newEuclidian2DockPanel(int idx) {
 		return new Euclidian2DockPanel(getApp(), null, idx);
-	}
-
-	public void clearPreferences() {
-		if ((getApp()).isSaved() || getApp().saveCurrentFile()) {
-			getApp().setWaitCursor();
-			GeoGebraPreferencesD.getPref().clearPreferences(getApp());
-
-			// clear custom toolbar definition
-			strCustomToolbarDefinition = null;
-
-			GeoGebraPreferencesD.getPref().loadXMLPreferences(getApp()); // this
-																			// will
-			// load the
-			// default
-			// settings
-			getApp().setLanguage(getApp().getMainComponent().getLocale());
-			getApp().updateContentPaneAndSize();
-			getApp().setDefaultCursor();
-			getApp().setUndoActive(true);
-		}
 	}
 
 	@Override
@@ -669,11 +654,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
+	/**
+	 * @return input bar
+	 */
 	public JComponent getAlgebraInput() {
 		if (algebraInput == null) {
 			algebraInput = new AlgebraInputD(getApp());
 		}
-
 		return algebraInput;
 	}
 
@@ -700,6 +687,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return getToolbarPanel();
 	}
 
+	/**
+	 * @return toolbar panel
+	 */
 	public ToolbarContainer getToolbarPanel() {
 		if (toolbarPanel == null) {
 			toolbarPanel = new ToolbarContainer(getApp(), true);
@@ -789,6 +779,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return constructionProtocolView != null;
 	}
 
+	/**
+	 * @return default toolbar definition
+	 */
 	public String getDefaultToolbarString() {
 		if (toolbarPanel == null) {
 			return "";
@@ -1112,8 +1105,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return ret;
 	}
 
+	/**
+	 * @param currentColor pre-selected color
+	 * @return chosen color
+	 */
 	public Color showColorChooser(GColor currentColor) {
-
 		try {
 			GeoGebraColorChooser chooser = new GeoGebraColorChooser(getApp());
 			chooser.setColor(GColorD.getAwtColor(currentColor));
@@ -1203,7 +1199,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				fileName = "clipboard.png"; // extension determines what format
 				// it will be in ggb file
 
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				getApp().setDefaultCursor();
 				e.printStackTrace();
 				getApp().showError(Errors.PasteImageFailed);
@@ -1310,7 +1306,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException | IOException | UnsupportedFlavorException
+				| URISyntaxException | ClassNotFoundException e) {
 			getApp().setDefaultCursor();
 			e.printStackTrace();
 			return null;
@@ -1344,7 +1341,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 */
 	public String getImageFromFile(File imageFile0) {
 		File imageFile = imageFile0;
-		MyImageD img = new MyImageD();
 		try {
 			getApp().setWaitCursor();
 			if (imageFile == null) {
@@ -1427,7 +1423,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			String fileName = imageFile.getCanonicalPath();
 
 			// load image
-			img.load(imageFile);
+
+			MyImageD img = MyImageD.load(imageFile);
 
 			String ret = getApp().createImage(img, fileName);
 			getApp().setDefaultCursor();
@@ -1640,7 +1637,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				promptOverwrite, dirsOnly);
 	}
 
-	public File showSaveDialog(final FileExtensions[] fileExtensions,
+	private File showSaveDialog(final FileExtensions[] fileExtensions,
 			File selectedFile0, String[] fileDescriptions,
 			boolean promptOverwrite, boolean dirsOnly) {
 		boolean done = false;
@@ -2349,11 +2346,17 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
+	/**
+	 * @return show axes action
+	 */
 	public AbstractAction getShowAxesAction() {
 		initActions();
 		return showAxesAction;
 	}
 
+	/**
+	 * @return show grid action
+	 */
 	public AbstractAction getShowGridAction() {
 		initActions();
 		return showGridAction;
@@ -2399,7 +2402,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void showURLinBrowser(URL url) {
-		Log.debug("opening URL:" + url.toExternalForm());
 		BrowserLauncher.openURL(url.toExternalForm());
 	}
 
@@ -2441,11 +2443,17 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return ret;
 	}
 
+	/**
+	 * @return redo action
+	 */
 	public AbstractAction getRedoAction() {
 		initActions();
 		return redoAction;
 	}
 
+	/**
+	 * @return undo action
+	 */
 	public AbstractAction getUndoAction() {
 		initActions();
 		return undoAction;
@@ -2484,6 +2492,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		frame.setTitle(sb.toString());
 	}
 
+	/**
+	 * @return app frame
+	 */
 	public JFrame createFrame() {
 		GeoGebraFrame wnd = new GeoGebraFrame();
 		wnd.setGlassPane(layout.getDockManager().getGlassPane());
@@ -2492,6 +2503,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return wnd;
 	}
 
+	/**
+	 * Close all apps
+	 */
 	public static synchronized void exitAll() {
 		ArrayList<GeoGebraFrame> insts = GeoGebraFrame.getInstances();
 		GeoGebraFrame[] instsCopy = new GeoGebraFrame[insts.size()];
@@ -2513,6 +2527,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	VirtualKeyboardListener currentKeyboardListener = null;
 
+	/**
+	 * @param keyboardListener current textfield
+	 * @param autoClose whether setting to null may hide the keyboard
+	 */
 	public void setCurrentTextfield(VirtualKeyboardListener keyboardListener,
 			boolean autoClose) {
 		currentKeyboardListener = keyboardListener;
@@ -2532,8 +2550,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
-	WindowsUnicodeKeyboard kb = null;
-
+	/**
+	 * @param text text
+	 * @param altPressed alt pressed?
+	 * @param ctrlPressed ctrl pressed?
+	 * @param shiftPressed shift pressed?
+	 */
 	public void insertStringIntoTextfield(String text, boolean altPressed,
 			boolean ctrlPressed, boolean shiftPressed) {
 
@@ -2553,7 +2575,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 
 			kb.doType(altPressed, ctrlPressed, shiftPressed, text);
-
 		}
 	}
 
@@ -2579,12 +2600,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return virtualKeyboard;
 	}
 
+	/**
+	 * @return whether keyboard is visible
+	 */
 	public boolean showVirtualKeyboard() {
-		if (virtualKeyboard == null) {
-			return false;
-		}
-
-		return virtualKeyboard.isVisible();
+		return virtualKeyboard != null && virtualKeyboard.isVisible();
 	}
 
 	@Override
@@ -2599,6 +2619,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	// TextInputDialog recent symbol list
 	private ArrayList<String> recentSymbolList;
 
+	/**
+	 * @return list of recently used symbols
+	 */
 	public ArrayList<String> getRecentSymbolList() {
 		if (recentSymbolList == null) {
 			recentSymbolList = new ArrayList<>();
@@ -2610,6 +2633,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return recentSymbolList;
 	}
 
+	/**
+	 * Set font for container and all children recursively
+	 * @param c top level container
+	 * @param font font
+	 */
 	public static void setFontRecursive(Container c, Font font) {
 		Component[] components = c.getComponents();
 		for (Component com : components) {
@@ -2626,6 +2654,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return inputHelpPanel != null;
 	}
 
+	/**
+	 * Rebuild command help panel
+	 * @param forCAS whether to include CAS commands
+	 */
 	public void reInitHelpPanel(boolean forCAS) {
 		if (inputHelpPanel != null) {
 			if (forCAS) {

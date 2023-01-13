@@ -15,7 +15,7 @@ class DerivativeCreator {
 	}
 
 	private boolean isDerivativeChar(char ch) {
-		return ch == '\'' || ch == '‘' || ch == '’';
+		return ch == '\'' || ch == '\u2018' || ch == '\u2019';
 	}
 
 	ExpressionValue getDerivative(String funcName) {

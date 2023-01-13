@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -538,7 +537,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		AbsoluteScreenLocateable loc = (AbsoluteScreenLocateable) geo;
 		if (loc.isAbsoluteScreenLocActive()) {
 			loc.setAbsoluteScreenLoc((int) Math.round(x), (int) Math.round(y));
-		} else if (geo instanceof Locateable) {
+		} else {
 			GeoPoint corner = new GeoPoint(kernel.getConstruction());
 			EuclidianView ev = app.getEuclidianView1();
 			if (geo.isVisibleInView(ev.getViewID())
@@ -551,7 +550,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			corner.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y),
 					1);
 			try {
-				((Locateable) loc).setStartPoint(corner, index);
+				loc.setStartPoint(corner, index);
 			} catch (CircularDefinitionException e) {
 				// TODO Auto-generated catch block
 				Log.debug(e);
@@ -2250,7 +2249,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public String getScreenReaderOutput(String label) {
 		GeoElement geo = kernel.lookupLabel(label);
-		return geo.toValueString(StringTemplate.screenReader);
+		return geo.toValueString(StringTemplate.screenReaderAscii);
 	}
 
 	/**

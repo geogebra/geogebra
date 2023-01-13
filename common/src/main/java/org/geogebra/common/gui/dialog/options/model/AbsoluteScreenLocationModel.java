@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -14,7 +15,6 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
 	public AbsoluteScreenLocationModel(App app) {
 		super(null, app);
-		// TODO Auto-generated constructor stub
 	}
 
 	private AbsoluteScreenLocateable getAbsoluteScreenLocateable(int index) {
@@ -23,7 +23,6 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		// TODO Auto-generated method stub
 		return getGeoAt(index).isPinned();
 	}
 
@@ -45,25 +44,33 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 		storeUndoInfo();
 	}
 
+	@Override
+	public String getTitle() {
+		return "AbsoluteScreenLocation";
+	}
+
 	public static void setAbsolute(AbsoluteScreenLocateable geo,
 			boolean value, EuclidianViewInterfaceCommon ev) {
 		if (value) {
-			// convert real world to screen coords
-			int x = ev.toScreenCoordX(geo.getRealWorldLocX());
-			int y = ev.toScreenCoordY(geo.getRealWorldLocY());
 			if (!geo.isAbsoluteScreenLocActive()) {
+				// convert real world to screen coords
+				int x = ev.toScreenCoordX(geo.getRealWorldLocX());
+				int y = ev.toScreenCoordY(geo.getRealWorldLocY());
 				geo.setAbsoluteScreenLoc(x, y);
 			}
 		} else {
-			// convert screen coords to real world
-			double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
-			double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
 			if (geo.isAbsoluteScreenLocActive()) {
+				// convert screen coords to real world
+				double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
+				double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
 				geo.setRealWorldLoc(x, y);
 			}
 		}
 		geo.setAbsoluteScreenLocActive(value);
-		geo.updateRepaint();
+		if (geo.needsUpdatedBoundingBox()) {
+			geo.updateCascade();
+		}
+		geo.updateVisualStyleRepaint(GProperty.POSITION);
 	}
 
 	@Override

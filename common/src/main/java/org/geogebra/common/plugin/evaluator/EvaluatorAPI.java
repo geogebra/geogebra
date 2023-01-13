@@ -16,13 +16,13 @@ import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.serializer.Serializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 
 /**
  * API class for the Evaluator object.
@@ -34,7 +34,6 @@ public class EvaluatorAPI {
 	private static final String EVAL_KEY = "eval";
 	private static final String ALT_TEXT_KEY = "altText";
 	private static final String NAN = "NaN";
-	private final ExpressionReader expressionReader;
 
 	private final MathFieldInternal mathFieldInternal;
 	private final Serializer flatSerializer;
@@ -43,6 +42,7 @@ public class EvaluatorAPI {
 	private final Parser parser;
 	private final EvalInfo evalInfo;
 	private StepSolver stepSolver;
+	private final SerializationAdapter serializationAdapter;
 
 	/**
 	 * Create a new Evaluator API
@@ -57,7 +57,7 @@ public class EvaluatorAPI {
 		this.flatSerializer = new GeoGebraSerializer();
 		this.latexSerializer = new TeXSerializer();
 		this.evalInfo = createEvalInfo();
-		expressionReader = ScreenReader.getExpressionReader(kernel.getApplication());
+		this.serializationAdapter = ScreenReader.getSerializationAdapter(kernel.getApplication());
 		stepSolver = (text, type, parser) -> {
 			Log.error("Step solver not loaded");
 			return null;
@@ -93,8 +93,8 @@ public class EvaluatorAPI {
 	}
 
 	private String getAltTextString() {
-		return ScreenReaderSerializer.fullDescription(expressionReader,
-				getMathFormula().getRootComponent());
+		return ScreenReaderSerializer.fullDescription(
+				getMathFormula().getRootComponent(), serializationAdapter);
 	}
 
 	private MathFormula getMathFormula() {

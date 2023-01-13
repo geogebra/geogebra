@@ -928,7 +928,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 				sb.append(ScreenReader.nroot(leftStr, rightStr, loc));
 				break;
 			case GEOGEBRA_XML:
@@ -987,7 +987,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 		case SQRT_SHORT:
 		case SQRT:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 				sb.append(ScreenReader.getStartSqrt(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndSqrt(loc));
@@ -1021,7 +1021,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case CBRT:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 				sb.append(ScreenReader.getStartCbrt(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndCbrt(loc));
@@ -1056,7 +1056,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case ABS:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 				sb.append(ScreenReader.getStartAbs(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndAbs(loc));
@@ -1560,17 +1560,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			Log.debug("Operation not resolved");
 			//$FALL-THROUGH$
 		case FUNCTION:
-
-			if (stringType.isGiac() && right instanceof ListValue) {
-				// TODO: does this ever get called?
-
+			if (stringType.isGiac() && right instanceof ListValue && left instanceof Function) {
 				ListValue list = (ListValue) right;
 
-				// eg seq(sin({4,5,6}[j]),j,0,2)
+				// eg seq(subst(sin(x),x,{4,5,6}[j]),j,0,2)
 				// DON'T USE i (sqrt(-1) in Giac)
-				sb.append("seq(");
+				sb.append("seq(subst(");
 				sb.append(leftStr);
-				sb.append('(');
+				sb.append(',');
+				sb.append(((Function) left).getVarString(tpl));
+				sb.append(',');
 				sb.append(rightStr);
 				sb.append("[j]),j,0,");
 				sb.append(list.size() - 1);
@@ -2050,7 +2049,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, mathml, leftStr, null);
 		} else {
 			switch (tpl.getStringType()) {
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 
 				if (altText == null) {
 					sb.append(loc.getFunction(key));

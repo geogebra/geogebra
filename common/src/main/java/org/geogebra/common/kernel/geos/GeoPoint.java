@@ -145,6 +145,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	private Coords tmpCoords;
 
 	private ArrayList<GeoElement> incidenceList;
+	private NumberValue verticalIncrement;
 
 	/**
 	 * create an undefined GeoPoint
@@ -1786,28 +1787,31 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// don't save default
 			// sb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
-
+		if (verticalIncrement != null) {
+			XMLBuilder.appendVerticalIncrement(sb, verticalIncrement);
+		}
 		XMLBuilder.appendPointProperties(sb, this);
 	}
 
 	@Override
-	public void appendStartPointXML(StringBuilder sb) {
+	public void appendStartPointXML(StringBuilder sb, boolean absPosition) {
 		sb.append("\t<startPoint ");
 
 		if (isAbsoluteStartPoint()) {
 			sb.append("x=\"");
 			sb.append(x);
-			sb.append("\"");
-			sb.append(" y=\"");
+			sb.append("\" y=\"");
 			sb.append(y);
-			sb.append("\"");
-			sb.append(" z=\"");
+			sb.append("\" z=\"");
 			sb.append(z);
 			sb.append("\"");
 		} else {
 			sb.append("exp=\"");
 			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");
+		}
+		if (absPosition) {
+			sb.append(" absolute=\"true\"");
 		}
 		sb.append("/>\n");
 	}
@@ -2377,10 +2381,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			locateableList = ((GeoPointND) oldGeo).getLocateableList();
 			for (Locateable locPoint : locateableList) {
-				GeoPointND[] pts = locPoint.getStartPoints();
-				for (int i = 0; i < pts.length; i++) {
-					if (pts[i] == (GeoPoint) oldGeo) {
-						pts[i] = this;
+				for (int i = 0; i < locPoint.getStartPointCount(); i++) {
+					if (locPoint.getStartPoint(i) == oldGeo) {
+						locPoint.initStartPoint(this, i);
 					}
 				}
 				locPoint.toGeoElement().updateRepaint();
@@ -2876,8 +2879,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public void addAuralValue(ScreenReaderBuilder sb) {
-		String valueString = toValueString(StringTemplate.screenReader);
-		String converted = ScreenReader.convertToReadable("=" + valueString, getLoc());
+		String valueString = toValueString(getApp().getScreenReaderTemplate());
+		String converted = ScreenReader.convertToReadable("=" + valueString, app);
 		sb.appendDegreeIfNeeded(this, converted);
 	}
 
@@ -2903,7 +2906,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
 		sbWithValue.appendDegreeIfNeeded(geoPoint,
-				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(), loc));
+				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(),
+						geoPoint.getKernel().getApplication()));
 		return loc.getPlain("PointAMovedToB",
 				sb.toString(),
 				sbWithValue.toString());
@@ -2952,5 +2956,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		setCoords2D(resx, resy, resz);
 		updateCoordsFrom2D(false);
 		pp.t = param;
+	}
+
+	@Override
+	public NumberValue getVerticalIncrement() {
+		return this.verticalIncrement;
+	}
+
+	@Override
+	public void setVerticalIncrement(NumberValue step) {
+		this.verticalIncrement = step;
 	}
 }

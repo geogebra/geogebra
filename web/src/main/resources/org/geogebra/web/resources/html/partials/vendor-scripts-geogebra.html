@@ -26,6 +26,11 @@ function addAppletPreview(tubeid){
 	document.body.appendChild(previewDiv);
 }
 
+function isEmbed() {
+	return location.search.split(/[?&]/).indexOf("embed") >=0
+			|| location.pathname.match(/\/lti\//)
+			|| window.parent != window;
+}
 </script>
 <!-- Google Analytics (Start) -->
 	<script type="text/javascript">

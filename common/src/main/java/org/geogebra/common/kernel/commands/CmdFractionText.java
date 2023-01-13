@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.AlgoFractionTextPoint;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -36,20 +37,27 @@ public class CmdFractionText extends CommandProcessor {
 			if (arg[0] instanceof GeoNumberValue) {
 
 				AlgoFractionText algo = new AlgoFractionText(cons,
-						(GeoNumberValue) arg[0]);
+						(GeoNumberValue) arg[0], null);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				return new GeoElement[]{ algo.getResult() };
 			} else if (arg[0].isGeoPoint()) {
-
 				AlgoFractionTextPoint algo = new AlgoFractionTextPoint(cons,
-						c.getLabel(), (GeoPointND) arg[0]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+						(GeoPointND) arg[0]);
+				algo.getResult().setLabel(c.getLabel());
+				return new GeoElement[]{ algo.getResult() };
 			}
 			throw argErr(c, arg[0]);
-
+		case 2:
+			if (!(arg[0] instanceof GeoNumberValue)) {
+				throw argErr(c, arg[0]);
+			}
+			if (!(arg[1] instanceof GeoBoolean)) {
+				throw argErr(c, arg[1]);
+			}
+			AlgoFractionText algo = new AlgoFractionText(cons,
+					(GeoNumberValue) arg[0], (GeoBoolean) arg[1]);
+			algo.getResult().setLabel(c.getLabel());
+			return new GeoElement[]{ algo.getResult() };
 		default:
 			throw argNumErr(c);
 		}

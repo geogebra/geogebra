@@ -206,28 +206,7 @@ public class FunctionExpander implements Traversing {
 
 				}
 				if (fv != null) {
-					ExpressionValue argument = en.getRight().wrap()
-							.getCopy(en.getKernel()).traverse(this).unwrap();
-					ExpressionValue ithArg = argument;
-					VariableReplacer vr = en
-							.getKernel().getVariableReplacer();
-
-					// variables have to be replaced with one traversing
-					// or else replacing f(x,y) with f(y,x)
-					// will result in f(x, x)
-					for (int i = 0; i < fv.length; i++) {
-						if (en.getOperation() == Operation.FUNCTION_NVAR || surfaceNoComplex) {
-							if (argument instanceof MyList
-									&& ((MyList) argument).size() == fv.length) {
-								ithArg = ((MyList) argument).getListElement(i);
-							} else {
-								ithArg = VectorArithmetic.computeCoord(argument.wrap(), i);
-							}
-						}
-						vr.addVars(fv[i].getSetVarString(), ithArg);
-					}
-					en2 = en2.traverse(vr).wrap();
-					return en2;
+					return replaceFunctionVariables(en, en2, fv, surfaceNoComplex);
 				}
 			} else if (en.getOperation() == Operation.DERIVATIVE) {
 				// should not get there
@@ -290,6 +269,45 @@ public class FunctionExpander implements Traversing {
 		}
 
 		return ev;
+	}
+
+	private ExpressionValue replaceFunctionVariables(ExpressionNode en, ExpressionNode en2,
+			FunctionVariable[] fv, boolean surfaceNoComplex) {
+		ExpressionValue argument = en.getRight().wrap()
+				.getCopy(en.getKernel()).traverse(this).unwrap();
+		ExpressionValue ithArg = argument;
+		VariableReplacer vr = en
+				.getKernel().getVariableReplacer();
+
+		// some heuristic to apply f(list) piecewise for simple functions, see APPS-4510
+		if (en.isOperation(Operation.FUNCTION) && isListNotMatrix(argument)
+				&& !en2.containsCommands()) {
+			return new ExpressionNode(en.getKernel(), new Function(en2, fv[0]),
+					Operation.FUNCTION, argument);
+		}
+		// variables have to be replaced with one traversing
+		// or else replacing f(x,y) with f(y,x)
+		// will result in f(x, x)
+		for (int i = 0; i < fv.length; i++) {
+			if (en.getOperation() == Operation.FUNCTION_NVAR || surfaceNoComplex) {
+				ithArg = getElement(argument, i, fv.length);
+			}
+			vr.addVars(fv[i].getSetVarString(), ithArg);
+		}
+		return en2.traverse(vr).wrap();
+	}
+
+	private boolean isListNotMatrix(ExpressionValue argument) {
+		return (argument instanceof MyList) && !((MyList) argument).isMatrix();
+	}
+
+	private ExpressionValue getElement(ExpressionValue argument, int i, int argLength) {
+		if (argument instanceof MyList
+				&& ((MyList) argument).size() == argLength) {
+			return ((MyList) argument).getListElement(i);
+		} else {
+			return VectorArithmetic.computeCoord(argument.wrap(), i);
+		}
 	}
 
 	private boolean hasLowerConstructionIndex(GeoElement element) {

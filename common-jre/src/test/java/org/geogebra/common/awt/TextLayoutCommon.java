@@ -1,13 +1,26 @@
 package org.geogebra.common.awt;
 
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 
 public class TextLayoutCommon implements GTextLayout {
 
+	private final GFont font;
+	private final String string;
+
+	/**
+	 * @param font font
+	 * @param string string
+	 */
+	public TextLayoutCommon(GFont font, String string) {
+		this.font = font;
+		this.string = string;
+	}
+
 	@Override
 	public double getAdvance() {
-		return 0;
+		return new StringUtil().estimateLength(string, font);
 	}
 
 	@Override
@@ -17,7 +30,7 @@ public class TextLayoutCommon implements GTextLayout {
 
 	@Override
 	public double getAscent() {
-		return 0;
+		return 0.8 * font.getSize();
 	}
 
 	@Override
@@ -27,7 +40,7 @@ public class TextLayoutCommon implements GTextLayout {
 
 	@Override
 	public double getDescent() {
-		return 0;
+		return 0.2 * font.getSize();
 	}
 
 }

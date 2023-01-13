@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.table.column;
 
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -39,6 +40,10 @@ public class TableValuesListColumn extends AbstractTableValuesColumn {
 		GeoElement element = list.get(row);
 		if (element instanceof GeoText) {
 			return ((GeoText) element).getTextString();
+		}
+		AlgoElement parentAlgo = element.getParentAlgorithm();
+		if (parentAlgo != null && parentAlgo.getInput(0) instanceof GeoText) {
+			return ((GeoText) parentAlgo.getInput(0)).getTextString();
 		}
 		return super.getInputValue(row);
 	}

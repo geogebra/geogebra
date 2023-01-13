@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -214,6 +215,7 @@ public class ShareControllerW implements ShareController {
 
 	@Override
 	public void startMultiuser(String sharingKey) {
+		getFrame().updateUndoRedoButtonVisibility(false);
 		onMultiplayerLoad(sharingKey, ((ScriptManagerW) app.getScriptManager()).getApi(),
 				mp -> {
 					multiplayer = Js.uncheckedCast(mp);
@@ -222,37 +224,57 @@ public class ShareControllerW implements ShareController {
 				});
 	}
 
+	private GeoGebraFrameFull getFrame() {
+		return  ((AppWFull) app).getAppletFrame();
+	}
+
 	@Override
-	public void terminateMultiuser(Material mat, MaterialCallbackI after) {
-		String sharingKey = mat.getSharingKeyOrId();
-		Material activeMaterial = app.getActiveMaterial();
-		if (multiplayer != null && activeMaterial != null
-				&& activeMaterial.getSharingKey().equals(sharingKey)) {
-			multiplayer.terminate();
-			multiplayer = null;
-		} else {
+	public void saveAndTerminateMultiuser(Material mat, MaterialCallbackI after) {
+		if (!terminateActiveMultiuser(mat)) {
 			// temporary instance, do not store
 			AppletParameters parameters = new AppletParameters(
 					app.getAppletParameters().getDataParamAppName());
 			AppWFull appF = (AppWFull) app;
 			Element el = DOM.createElement("div");
+			GDimension currentSize = app.getActiveEuclidianView().getSettings().getPreferredSize();
 			GeoGebraFrameFull fr = new GeoGebraFrameFull(
 					appF.getAppletFrame().getAppletFactory(), appF.getLAF(),
 					appF.getDevice(), GeoGebraElement.as(el), parameters);
 			fr.setOnLoadCallback(exportedApi -> {
-
-				onMultiplayerLoad(sharingKey, exportedApi,
+				fr.getApp().getActiveEuclidianView().getSettings().setPreferredSize(currentSize);
+				onMultiplayerLoad(mat.getSharingKeyOrId(), exportedApi,
 						mp -> saveAndTerminate(Js.uncheckedCast(mp), fr.getApp(), mat, after));
 			});
 			fr.runAsyncAfterSplash();
-
 		}
+	}
+
+	@Override
+	public void terminateMultiuser(Material mat, MaterialCallbackI after) {
+		if (!terminateActiveMultiuser(mat)) {
+			// temporary instance, do not store
+			onMultiplayerLoad(mat.getSharingKeyOrId(), null,
+						mp -> Js.<GGBMultiplayer>uncheckedCast(mp).terminate());
+		}
+	}
+
+	private boolean terminateActiveMultiuser(Material mat) {
+		String sharingKey = mat.getSharingKeyOrId();
+		Material activeMaterial = app.getActiveMaterial();
+		if (multiplayer != null && activeMaterial != null
+				&& activeMaterial.getSharingKey().equals(sharingKey)) {
+			multiplayer.terminate();
+			getFrame().updateUndoRedoButtonVisibility(true);
+			multiplayer = null;
+			return true;
+		}
+		return false;
 	}
 
 	private void saveAndTerminate(GGBMultiplayer mp, AppW otherApp, Material mat,
 			MaterialCallbackI after) {
-		mp.addConnectionChangeListener(connected -> {
-			if (connected) {
+		mp.addConnectionChangeListener(evt -> {
+			if (evt.connected) {
 				MaterialCallback cb = new MaterialCallback() {
 					@Override
 					public void onLoaded(List<Material> result, Pagination meta) {

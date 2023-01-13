@@ -157,6 +157,6 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	protected boolean isExternalLoginAllowed() {
-		return app.getLAF().isExternalLoginAllowed();
+		return app.getLAF() == null || app.getLAF().isExternalLoginAllowed();
 	}
 }

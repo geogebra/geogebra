@@ -122,7 +122,8 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * execute share action
 	 */
 	protected void onShare() {
-		if (app.getActiveMaterial() != null && app.getActiveMaterial()
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial != null && activeMaterial
 				.getSharingKeyOrId().equals(material.getSharingKeyOrId())) {
 			app.getShareController().share(); // make sure we save unsaved changes
 			return;

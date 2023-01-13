@@ -44,6 +44,9 @@ subprojects {
 				}
 			}
 		}
+		tasks.matching {it.class.name.contains('SpotBugs')}.each {
+			it.reports { xml.enabled = true }
+		}
 	}
 }
 

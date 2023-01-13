@@ -110,7 +110,7 @@ public class ViewW {
 				}
 			});
 
-			Log.debug("GGB file uzipped and post-processed in "
+			Log.debug("GGB file unzipped and post-processed in "
 					+ (System.currentTimeMillis() - t) + "ms");
 
 			maybeLoadFile(archiveContent);

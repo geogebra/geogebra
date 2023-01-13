@@ -8,10 +8,6 @@ import org.geogebra.common.main.App;
 
 public class IneqStyleModel extends BooleanOptionModel {
 
-	public interface IIneqStyleListener extends IBooleanOptionListener {
-		void enableFilling(boolean value);
-	}
-
 	public IneqStyleModel(App app) {
 		super(null, app);
 	}
@@ -43,13 +39,15 @@ public class IneqStyleModel extends BooleanOptionModel {
 
 		if (equalFix) {
 			getListener().updateCheckbox(geo0.showOnAxis());
-			if (geo0.showOnAxis()) {
-				((IIneqStyleListener) getListener()).enableFilling(false);
-			}
 		} else {
 			getListener().updateCheckbox(false);
 		}
 
+	}
+
+	@Override
+	public String getTitle() {
+		return "ShowOnXAxis";
 	}
 
 	@Override

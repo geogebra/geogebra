@@ -44,6 +44,7 @@
 package com.himamis.retex.renderer.web.font;
 
 import java.util.Map;
+import java.util.Objects;
 
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
@@ -100,7 +101,7 @@ public abstract class FontW implements AsyncLoadedFont {
 
 	@Override
 	public boolean isEqual(Font f) {
-		return name.equals(((FontW) f).name) && style == ((FontW) f).style
+		return f != null && Objects.equals(name, ((FontW) f).name) && style == ((FontW) f).style
 				&& size == ((FontW) f).size;
 	}
 

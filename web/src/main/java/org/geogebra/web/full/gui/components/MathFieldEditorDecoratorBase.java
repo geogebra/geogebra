@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.himamis.retex.editor.web.MathFieldW;
 
 public abstract class MathFieldEditorDecoratorBase {
@@ -58,7 +59,7 @@ public abstract class MathFieldEditorDecoratorBase {
 	 * @param value to set.
 	 */
 	protected void setLeft(double value) {
-		style.setLeft(value, Style.Unit.PX);
+		style.setLeft(value, Unit.PX);
 	}
 
 	/**
@@ -67,7 +68,7 @@ public abstract class MathFieldEditorDecoratorBase {
 	 * @param value to set.
 	 */
 	public void setTop(double value) {
-		style.setTop(value, Style.Unit.PX);
+		style.setTop(value, Unit.PX);
 	}
 
 	/**
@@ -76,7 +77,7 @@ public abstract class MathFieldEditorDecoratorBase {
 	 * @param value to set.
 	 */
 	protected void setWidth(double value) {
-		style.setWidth(value, Style.Unit.PX);
+		style.setWidth(value, Unit.PX);
 	}
 
 	/**
@@ -85,7 +86,7 @@ public abstract class MathFieldEditorDecoratorBase {
 	 * @param value to set.
 	 */
 	protected void setHeight(double value) {
-		style.setHeight(value, Style.Unit.PX);
+		style.setHeight(value, Unit.PX);
 	}
 
 }
