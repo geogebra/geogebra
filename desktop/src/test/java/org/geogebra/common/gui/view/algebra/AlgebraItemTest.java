@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.scientific.LabelController;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,5 +36,12 @@ public class AlgebraItemTest extends BaseSymbolicTest {
 		GeoElement function = add("f(x) = x+1");
 		assertEquals(AlgebraItem.getPreviewLatexForGeoElement(function), "f\\left(x \\"
 				+ "right)\\, = \\,x + 1");
+	}
+
+	@Test
+	public void testTextLatexPreview() {
+		GeoElement geo = add("t = \"text\"");
+		new LabelController().hideLabel(geo);
+		assertEquals(AlgebraItem.getPreviewLatexForGeoElement(geo), "text");
 	}
 }
