@@ -1,7 +1,6 @@
 package org.geogebra.web.shared.components.infoError;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -10,7 +9,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class ComponentInfoErrorPanel extends FlowPanel {
-	private Localization loc;
+	private final Localization loc;
 	private StandardButton actionButton;
 
 	/**
