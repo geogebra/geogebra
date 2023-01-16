@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.HasDebugString;
@@ -471,6 +472,19 @@ public abstract class ValidExpression
 			@Override
 			public boolean check(ExpressionValue v) {
 				return v instanceof FunctionVariable;
+			}
+		});
+	}
+
+	/**
+	 * @return check whether expression contains dummy varaible
+	 */
+	public final boolean containsGeoDummyVariable() {
+		return this.inspect(new Inspecting() {
+
+			@Override
+			public boolean check(ExpressionValue v) {
+				return v instanceof GeoDummyVariable;
 			}
 		});
 	}

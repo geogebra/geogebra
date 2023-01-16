@@ -3,8 +3,11 @@ package org.geogebra.common.util;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
@@ -178,6 +181,20 @@ public class SymbolicUtil {
 			geo.updateRepaint();
 			return ((HasSymbolicMode) geo).isSymbolicMode();
 
+		}
+		return false;
+	}
+
+	/**
+	 * @param expression to be checked
+	 * @return true if numeric approximation should be calculated
+	 */
+	public static boolean shouldComputeNumericValue(ExpressionValue expression) {
+		if (expression != null && expression.isNumberValue()
+				&& !expression.wrap().containsGeoDummyVariable()) {
+			ExpressionValue unwrapped = expression.unwrap();
+			return !(unwrapped instanceof NumberValue && !((NumberValue) unwrapped).isDefined())
+					&& !(unwrapped instanceof GeoDummyVariable);
 		}
 		return false;
 	}
