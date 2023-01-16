@@ -8,7 +8,7 @@ import org.geogebra.common.scientific.LabelController;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AlgebraItemTest extends BaseSymbolicTest {
+public class AlgebraItemPreviewLaTeXTest extends BaseSymbolicTest {
 
 	@Before
 	public void clean() {
