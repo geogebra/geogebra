@@ -22,12 +22,23 @@
         position: relative;
      }
 
+     &.smallScreen .undoRedoCntScientific, &.smallScreen .settingsBtnScientific {
+         margin: 0;
+     }
+
     .undoRedoSettingsPanelScientific {
         @extend %paperWidth;
         position: relative;
         clear: both;
         height: 48px;
         margin: auto;
+        padding-left: 72px;
+    }
+
+    &.portrait, &.smallScreen {
+        .undoRedoSettingsPanelScientific {
+            padding-left: 0;
+        }
     }
 
     .scientificSettingsView {
