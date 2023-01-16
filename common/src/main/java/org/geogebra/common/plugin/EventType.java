@@ -120,7 +120,7 @@ public enum EventType {
 	RENAME_PAGE("renamePage"),
 
 	/** duplicate page (whiteboard): source index, target ID, source ID */
-	PASTE_PAGE("pastePagee"),
+	PASTE_PAGE("pastePage"),
 
 	/** Move page: sourceindex, target index */
 	MOVE_PAGE("movePage"),

@@ -2445,7 +2445,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				(Consumer<String>) val2 -> es.setGridColor(GColor.parseHexColor(val2)));
 		opts.ifPropertySet("axesColor",
 				(Consumer<String>) val2 -> es.setAxesColor(GColor.parseHexColor(val2)));
-
+		opts.ifIntPropertySet("rulerType", es::setRulerType);
 		opts.ifObjectPropertySet("axes", axes -> {
 			for (char axis = 'x'; axis <= 'z'; axis++) {
 				final int axisNo = axis - 'x';
@@ -2517,6 +2517,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		opts.setProperty("bgColor", StringUtil.toHtmlColor(es.getBackground()));
 		opts.setProperty("gridColor", StringUtil.toHtmlColor(es.getGridColor()));
 		opts.setProperty("axesColor", StringUtil.toHtmlColor(es.getAxesColor()));
+		opts.setProperty("rulerType", es.getBackgroundType().value());
 
 		JsObjectWrapper axes = createWrapper();
 		for (char axis = 'x'; axis <= 'z'; axis++) {

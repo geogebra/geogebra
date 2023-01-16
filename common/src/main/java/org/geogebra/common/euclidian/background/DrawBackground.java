@@ -53,7 +53,6 @@ public class DrawBackground {
 		updateRulerGap();
 		gap = settings.getBackgroundRulerGap();
 		width = RULING_BASE_WIDTH;
-		view.getSettings().setGridType(view.GRID_NOT_SHOWN);
 		switch (settings.getBackgroundType()) {
 		case RULER:
 			drawRuledBackground(g2);
@@ -68,10 +67,8 @@ public class DrawBackground {
 			drawSquaredBackground(g2);
 			break;
 		case ISOMETRIC:
-			selectGridType(EuclidianView.GRID_ISOMETRIC);
-			break;
 		case POLAR:
-			selectGridType(EuclidianView.GRID_POLAR);
+			// do nothing; uses standard grid paint
 			break;
 		case SVG:
 		case ELEMENTARY12:
@@ -84,11 +81,6 @@ public class DrawBackground {
 		default:
 			break;
 		}
-	}
-
-	private void selectGridType(int gridType) {
-		view.getSettings().showGrid(true);
-		view.getSettings().setGridType(gridType);
 	}
 
 	private void drawSVG(GGraphics2D g2) {

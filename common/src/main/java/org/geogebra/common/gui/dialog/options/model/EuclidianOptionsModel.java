@@ -372,7 +372,7 @@ public class EuclidianOptionsModel {
 
 		listener.updateBackgroundColor(getBackgroundColor());
 		EuclidianSettings es = view.getSettings();
-		listener.updateRuler(es.getBackgroundType().value(), es.getBgRulerColor(),
+		listener.updateRuler(es.getBackgroundType(), es.getBgRulerColor(),
 				es.getRulerLineStyle(), es.isRulerBold());
 		int ind = view.getAllowToolTips();
 		int idx = -1;
@@ -432,12 +432,6 @@ public class EuclidianOptionsModel {
 
 		for (String item : gridTypes) {
 			listener.addGridTypeItem(item);
-		}
-	}
-
-	public void fillRulingCombo() {
-		for (BackgroundType type : BackgroundType.rulingOptions) {
-			listener.addRulerTypeItem(getTitleForRulingType(type), type);
 		}
 	}
 
@@ -576,8 +570,6 @@ public class EuclidianOptionsModel {
 
 		GColor getEuclidianBackground(int viewNumber);
 
-		void addRulerTypeItem(String item, BackgroundType type);
-
 		void enableAxesRatio(boolean value);
 
 		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
@@ -614,7 +606,7 @@ public class EuclidianOptionsModel {
 
 		void addAngleOptionItem(String item);
 
-		void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold);
+		void updateRuler(BackgroundType typeIdx, GColor color, int lineStyle, boolean bold);
 	}
 
 	/**
@@ -628,7 +620,7 @@ public class EuclidianOptionsModel {
 		settings.setBackgroundType(type);
 	}
 
-	private String getTransKeyForRulingType(BackgroundType rulingType) {
+	public String getTransKeyForRulingType(BackgroundType rulingType) {
 		switch (rulingType) {
 			case RULER:
 				return "Ruled";
@@ -653,10 +645,5 @@ public class EuclidianOptionsModel {
 			default:
 				return "NoRuling";
 		}
-	}
-
-	private String getTitleForRulingType(BackgroundType rulingType) {
-		Localization loc = app.getLocalization();
-		return loc.getMenu(getTransKeyForRulingType(rulingType));
 	}
 }
