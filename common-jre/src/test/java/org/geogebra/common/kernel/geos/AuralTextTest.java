@@ -118,6 +118,10 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\sqrt[3]{x}\")", "start cube root x end root", "edit");
 		aural("LaTeX(\"\\frac{x}{2}\")", "start fraction x over 2 end fraction", "edit");
 		aural("LaTeX(\"\\vec{x}\")", " vector x", "edit");
+		aural("LaTeX(\"\\ogonek{x}\")", "x with ogonek", "edit");
+		aural("LaTeX(\"\\cedilla{x}\")", "x with cedilla", "edit");
+		aural("LaTeX(\"\\displaylines{x\\\\y}\")", "x y", "edit");
+		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
 		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",
 				"edit");
 		aural("LaTeX(\"\\bgcolor{red}{\\text{not red text}}\")", "not red text",
@@ -147,7 +151,6 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\widehat{p}\")", "p with \u0302", "edit");
 		aural("LaTeX(\"\\underline{p}j\")", "pj", "edit");
-
 	}
 
 	@Test

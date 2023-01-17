@@ -45,11 +45,13 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a middle atom which must be rounded by a left and right
  * delimiter.
  */
-public class MiddleAtom extends Atom {
+public class MiddleAtom extends Atom implements HasTrueBase {
 
 	private Atom base;
 	private Box box = StrutBox.getEmpty();
@@ -75,5 +77,10 @@ public class MiddleAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		return box;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

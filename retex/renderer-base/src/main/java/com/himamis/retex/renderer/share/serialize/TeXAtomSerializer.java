@@ -1,29 +1,41 @@
 package com.himamis.retex.renderer.share.serialize;
 
-import com.himamis.retex.renderer.share.AccentedAtom;
 import com.himamis.retex.renderer.share.ArrayAtom;
 import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.BigDelimiterAtom;
 import com.himamis.retex.renderer.share.BigOperatorAtom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
+import com.himamis.retex.renderer.share.CedillaAtom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
+import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
+import com.himamis.retex.renderer.share.GraphicsAtom;
+import com.himamis.retex.renderer.share.GraphicsAtomBase64;
+import com.himamis.retex.renderer.share.HVruleAtom;
+import com.himamis.retex.renderer.share.HasUnderOver;
 import com.himamis.retex.renderer.share.HlineAtom;
 import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
+import com.himamis.retex.renderer.share.MHeightAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.OgonekAtom;
 import com.himamis.retex.renderer.share.OverlinedAtom;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.RuleAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
+import com.himamis.retex.renderer.share.SetLengthAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.Symbols;
+import com.himamis.retex.renderer.share.TextCircledAtom;
+import com.himamis.retex.renderer.share.TheAtom;
 import com.himamis.retex.renderer.share.TypedAtom;
-import com.himamis.retex.renderer.share.VRowAtom;
+import com.himamis.retex.renderer.share.VlineAtom;
+import com.himamis.retex.renderer.share.mhchem.CEEmptyAtom;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
@@ -36,7 +48,7 @@ public class TeXAtomSerializer {
 	public static final String DEGREE = "\u2218";
 	public static final String HYPERBOLICS = "sinh cosh tanh coth sech csch";
 	public static final String TRIGONOMETRICS = "sin cos tan cot sec csc" + HYPERBOLICS;
-	private SerializationAdapter adapter;
+	private final SerializationAdapter adapter;
 
 	private enum DegreePlural {
 		None,
@@ -95,15 +107,16 @@ public class TeXAtomSerializer {
 			return " ";
 		}
 		if (root instanceof EmptyAtom || root instanceof BreakMarkAtom
-				|| root instanceof PhantomAtom) {
+				|| root instanceof PhantomAtom || root instanceof HlineAtom
+				|| root instanceof SetLengthAtom || root instanceof CursorAtom
+				|| root instanceof VlineAtom || root instanceof CEEmptyAtom
+				|| root instanceof RuleAtom || root instanceof GraphicsAtom
+				|| root instanceof GraphicsAtomBase64 || root instanceof HVruleAtom
+				|| root instanceof MHeightAtom || root instanceof TheAtom) {
 			return "";
 		}
 		if (root instanceof SymbolAtom) {
-
-			SymbolAtom ch = (SymbolAtom) root;
-
-			return adapter.convertCharacter(ch.getUnicode());
-
+			return serializeSymbol((SymbolAtom) root);
 		}
 		if (root instanceof RowAtom) {
 			RowAtom row = (RowAtom) root;
@@ -113,16 +126,24 @@ public class TeXAtomSerializer {
 			}
 			return adapter.getLigature(sb.toString());
 		}
-		if (root instanceof AccentedAtom) {
-			SymbolAtom accent = ((AccentedAtom) root).getAccent();
-			String content = serialize(((AccentedAtom) root).getBase());
+		if (root instanceof IsAccentedAtom) {
+			Atom accent = ((IsAccentedAtom) root).getAccent();
+			String content = serialize(((IsAccentedAtom) root).getTrueBase());
 			if (accent == Symbols.VEC) {
 				return " vector " + content;
 			}
-			return content + " with " + accent.getUnicode();
+			return content + " with " + serialize(accent);
 		}
-		if (root instanceof VRowAtom) {
-			VRowAtom row = (VRowAtom) root;
+		if (root instanceof TextCircledAtom) {
+			return "circled " + serialize(((TextCircledAtom) root).getTrueBase());
+		}
+		if (root instanceof HasUnderOver) {
+			return serialize(((HasUnderOver) root).getUnderOver())
+					+ (((HasUnderOver) root).isUnder() ? " under " : " over ")
+					+ serialize(((HasUnderOver) root).getTrueBase());
+		}
+		if (root instanceof HasElements) {
+			HasElements row = (HasElements) root;
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
@@ -130,9 +151,8 @@ public class TeXAtomSerializer {
 			}
 			return sb.toString();
 		}
-
-		if (root instanceof HlineAtom) {
-			return "";
+		if (root instanceof HasCharacter) {
+			return ((HasCharacter) root).getCharacter();
 		}
 
 		if (root instanceof ColorAtom) {
@@ -150,31 +170,7 @@ public class TeXAtomSerializer {
 
 		// serialise table to eg {{1,2,3},{3,4,5}}
 		if (root instanceof ArrayAtom) {
-			ArrayAtom atom = (ArrayAtom) root;
-			ArrayOfAtoms matrix = atom.getMatrix();
-			int rows = matrix.getRows();
-			int cols = matrix.getCols();
-
-			StringBuilder sb = new StringBuilder();
-			sb.append('{');
-			for (int row = 0; row < rows; row++) {
-				sb.append('{');
-				for (int col = 0; col < cols; col++) {
-					sb.append(serialize(matrix.get(row, col)));
-
-					if (col < cols - 1) {
-						sb.append(",");
-					}
-				}
-				sb.append("}");
-
-				if (row < rows - 1) {
-					sb.append(",");
-				}
-			}
-			sb.append('}');
-
-			return sb.toString();
+			return serializeArray(((ArrayAtom) root).getMatrix());
 		}
 
 		if (root instanceof BigOperatorAtom) {
@@ -186,7 +182,6 @@ public class TeXAtomSerializer {
 		}
 
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
-		// TODO: probably more atoms need to implement HasTrueBase
 		if (root instanceof HasTrueBase) {
 			Atom trueBase = ((HasTrueBase) root).getTrueBase();
 			DegreePlural degreePlural = checkDegrees(trueBase);
@@ -199,11 +194,49 @@ public class TeXAtomSerializer {
 		if (root instanceof BigDelimiterAtom) {
 			return serialize(((BigDelimiterAtom) root).getDelimiter());
 		}
-
+		if (root == null) {
+			return "";
+		}
 		FactoryProvider.debugS("Unhandled atom:"
-				+ (root == null ? "null" : (root.getClass() + " " + root.toString())));
+				+ (root.getClass() + " " + root.toString()));
 
 		return "?";
+	}
+
+	private String serializeArray(ArrayOfAtoms matrix) {
+		int rows = matrix.getRows();
+		int cols = matrix.getCols();
+
+		StringBuilder sb = new StringBuilder();
+		sb.append('{');
+		for (int row = 0; row < rows; row++) {
+			sb.append('{');
+			for (int col = 0; col < cols; col++) {
+				sb.append(serialize(matrix.get(row, col)));
+
+				if (col < cols - 1) {
+					sb.append(",");
+				}
+			}
+			sb.append("}");
+
+			if (row < rows - 1) {
+				sb.append(",");
+			}
+		}
+		sb.append('}');
+
+		return sb.toString();
+	}
+
+	private String serializeSymbol(SymbolAtom symbol) {
+		if (symbol == CedillaAtom.CEDILLA) {
+			return "cedilla";
+		}
+		if (symbol == OgonekAtom.OGONEK) {
+			return "ogonek";
+		}
+		return adapter.convertCharacter(symbol.getUnicode());
 	}
 
 	private DegreePlural checkDegrees(Atom trueBase) {

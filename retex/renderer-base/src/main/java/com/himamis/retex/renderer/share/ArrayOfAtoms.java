@@ -310,4 +310,8 @@ public class ArrayOfAtoms implements AtomConsumer {
 
 		return s;
 	}
+
+	public Atom getFirstColumnElement(int i) {
+		return array.size() > i && !array.get(i).isEmpty() ? get(i, 0) : null;
+	}
 }
