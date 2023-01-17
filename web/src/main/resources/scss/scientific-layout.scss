@@ -35,6 +35,19 @@
         padding-left: 72px;
     }
 
+    &.landscape {
+       .undoRedoSettingsPanelScientific {
+           max-width: calc(100% - 120px);
+       }
+    }
+
+    &.smallScreen {
+       .undoRedoSettingsPanelScientific {
+           max-width: calc(100% - 36px);
+           height: 36px;
+       }
+    }
+
     &.portrait, &.smallScreen {
         .undoRedoSettingsPanelScientific {
             padding-left: 0;
