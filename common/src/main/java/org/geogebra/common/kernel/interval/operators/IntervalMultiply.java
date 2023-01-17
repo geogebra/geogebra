@@ -29,7 +29,7 @@ public class IntervalMultiply {
 			return IntervalConstants.whole();
 		}
 
-		if (interval.isZero() || other.isZero()) {
+		if (interval.isZeroWithDelta(0) || other.isZeroWithDelta(0)) {
 			return IntervalConstants.zero();
 		}
 

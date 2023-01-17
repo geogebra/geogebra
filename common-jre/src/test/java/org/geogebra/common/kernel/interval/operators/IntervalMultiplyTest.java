@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval.operators;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
@@ -72,6 +73,11 @@ public class IntervalMultiplyTest {
 		mulByZeroShouldBeZero(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 		mulByZeroShouldBeZero(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 		mulByZeroShouldBeZero(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+	}
+
+	@Test
+	public void bigNumberMultiplyByNearZeroShouldNotBeZero() {
+		assertEquals(evaluator.multiply(interval(1E-15), interval(1E15)), one());
 	}
 
 	private void mulByZeroShouldBeZero(double a1, double a2) {
