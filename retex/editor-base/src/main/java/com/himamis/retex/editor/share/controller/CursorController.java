@@ -25,7 +25,7 @@ public class CursorController {
 	 * @return whether we moved right
 	 */
 	public static boolean nextCharacter(EditorState editorState) {
-		if (isLastPlaceholder(editorState)) {
+		if (isLastPlaceholderInProtectedParent(editorState)) {
 			return false;
 		}
 
@@ -39,10 +39,11 @@ public class CursorController {
 		}
 	}
 
-	private static boolean isLastPlaceholder(EditorState editorState) {
+	private static boolean isLastPlaceholderInProtectedParent(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
-		return currentOffset == currentField.size() - 1
+		return InputController.isCommaInSequence(currentField)
+				&& currentOffset == currentField.size() - 1
 				&& currentField.getArgument(currentOffset) instanceof MathCharPlaceholder;
 	}
 
@@ -96,7 +97,7 @@ public class CursorController {
 			lastField(editorState, mathContainer);
 		} else {
 			editorState.decCurrentOffset();
-			if (isPrevCharPlaceholder(editorState)) {
+			if (isPrevCharPlaceholder(editorState)  && !editorState.isInFraction()) {
 				editorState.decCurrentOffset();
 			}
 		}

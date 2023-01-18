@@ -558,4 +558,13 @@ public class EditorState {
 
 		return describe(pattern, parent, er);
 	}
+
+	/**
+	 *
+	 * @return whether current field is inside a fraction or not.
+	 */
+	public boolean isInFraction() {
+		MathContainer parent = currentField.getParent();
+		return parent != null && parent.hasTag(Tag.FRAC);
+	}
 }

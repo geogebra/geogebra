@@ -895,10 +895,10 @@ public class InputController {
 	}
 
 	private void onDelete(EditorState editorState, MathSequence currentField) {
-		int offset = editorState.getCurrentOffset();
-		MathComponent component = currentField.getArgument(offset);
-		if (isCommaOrNull(component)) {
-			addPlaceholderIfNeeded(currentField, offset);
+		int currentOffset = editorState.getCurrentOffset();
+		MathComponent component = currentField.getArgument(currentOffset);
+		if (isCommaInSequence(currentField) && isCommaOrNull(component)) {
+			addPlaceholderIfNeeded(currentField, currentOffset);
 		}
 
 		if (component instanceof MathFunction) {
@@ -906,15 +906,27 @@ public class InputController {
 		}
 	}
 
+	static boolean isCommaInSequence(MathSequence sequence) {
+		for (MathComponent component: sequence) {
+			if (isComma(component)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private boolean isCommaOrNull(MathComponent component) {
-		return component == null
-				|| (component instanceof MathCharacter
-						&& ((MathCharacter) component).isUnicode(','));
+		return component == null || isComma(component);
+	}
+
+	private static boolean isComma(MathComponent component) {
+		return component instanceof MathCharacter
+				&& ((MathCharacter) component).isUnicode(',');
 	}
 
 	private void addPlaceholderIfNeeded(MathSequence currentField, int offset) {
-		MathComponent prev = currentField.getArgument(offset - 1);
-		if (isCommaOrNull(prev)) {
+		if (isCommaOrNull(currentField.getArgument(offset - 1))) {
 			currentField.addArgument(offset, new MathCharPlaceholder());
 		}
 	}

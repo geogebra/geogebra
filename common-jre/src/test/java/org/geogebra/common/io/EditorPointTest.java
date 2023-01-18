@@ -13,7 +13,7 @@ public class EditorPointTest {
 	private static final String point3D = "(1,2,3)";
 	private static final String emptyPoint3D = "(,,)";
 	private static EditorChecker checker;
-	private static AppCommon app = AppCommonFactory.create();
+	private static final AppCommon app = AppCommonFactory.create();
 
 	/**
 	 * Reset LaTeX factory
@@ -48,6 +48,22 @@ public class EditorPointTest {
 		checker.convertFormula(emptyPoint3D)
 				.right(2)
 				.checkPlaceholders("_,_,|");
+	}
+
+	@Test
+	public void testEmptyPointWithCursorLastMoreRightPress() {
+		checker.convertFormula(emptyPoint3D)
+				.right(2)
+				.right(1)
+				.checkPlaceholders("_,_,|");
+	}
+
+	@Test
+	public void testEmptyPointWithCursorBeginMoreLeftPress() {
+		checker.convertFormula(emptyPoint3D)
+				.right(2)
+				.left(4)
+				.checkPlaceholders("|,_,_");
 	}
 
 	@Test
@@ -180,7 +196,47 @@ public class EditorPointTest {
 	public void testDeleteFromMultiCharsFromBeginning() {
 		checker.convertFormula("(123,456,789)")
 				.typeKey(JavaKeyCodes.VK_DELETE)
+				.typeKey(JavaKeyCodes.VK_RIGHT)
 				.checkPlaceholders("23,456,789");
+
+	}
+
+	@Test
+	public void testDeleteFromFractionAndUp() {
+		checker.type("1/2")
+			.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.typeKey(JavaKeyCodes.VK_UP)
+			.checkRaw("MathSequence[FnFRAC[MathSequence[1], MathSequence[]]]");
+	}
+
+	@Test
+	public void testDeleteEntireFraction() {
+		checker.type("1/2")
+			.repeatKey(JavaKeyCodes.VK_BACK_SPACE, 4)
+			.checkRaw("MathSequence[]");
+	}
+
+	@Test
+	public void testDeleteFromFractionBrackets() {
+		checker.type("1/(2)")
+			.repeatKey(JavaKeyCodes.VK_BACK_SPACE, 6)
+			.checkRaw("MathSequence[]");
+	}
+
+	@Test
+	public void testRightArrowCanExitFraction() {
+		checker.type("1/(2)")
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.right(2)
+				.checkPath(1);
+	}
+
+	@Test
+	public void checkBackspace() {
+		checker.type("a b(")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkRaw("MathSequence[FnAPPLY[MathSequence[a, b], MathSequence[]]]");
 
 	}
 }
