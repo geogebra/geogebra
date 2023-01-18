@@ -22,12 +22,36 @@
         position: relative;
      }
 
+     &.smallScreen .undoRedoCntScientific, &.smallScreen .settingsBtnScientific {
+         margin: 0;
+     }
+
     .undoRedoSettingsPanelScientific {
         @extend %paperWidth;
         position: relative;
         clear: both;
         height: 48px;
         margin: auto;
+        padding-left: 72px;
+    }
+
+    &.landscape {
+       .undoRedoSettingsPanelScientific {
+           max-width: calc(100% - 120px);
+       }
+    }
+
+    &.smallScreen {
+       .undoRedoSettingsPanelScientific {
+           max-width: calc(100% - 36px);
+           height: 36px;
+       }
+    }
+
+    &.portrait, &.smallScreen {
+        .undoRedoSettingsPanelScientific {
+            padding-left: 0;
+        }
     }
 
     .scientificSettingsView {
