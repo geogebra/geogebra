@@ -31,6 +31,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
+import org.geogebra.common.main.exam.restriction.Restrictable;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -39,7 +41,7 @@ import com.google.j2objc.annotations.Weak;
  * Runs commands and handles string to command processor conversion.
  *
  */
-public abstract class CommandDispatcher {
+public abstract class CommandDispatcher implements Restrictable {
 
 	/** kernel **/
 	@Weak
@@ -84,6 +86,7 @@ public abstract class CommandDispatcher {
 
 	/** number of visible tables */
 	public static final int tableCount = 20;
+	private CommandFilter examFilter;
 
 	/**
 	 * Returns localized name of given command set
@@ -1005,5 +1008,26 @@ public abstract class CommandDispatcher {
 	 */
 	public boolean isCASAllowed() {
 		return isAllowedByNameFilter(Commands.Solve);
+	}
+
+	@Override
+	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
+		return model.getCommandFilter() != null;
+	}
+
+	@Override
+	public void setExamRestrictionModel(ExamRestrictionModel model) {
+		if (model == null) {
+			removeCommandFilter(examFilter);
+			examFilter = null;
+		} else {
+			examFilter = model.getCommandFilter();
+			addCommandFilter(model.getCommandFilter());
+		}
+	}
+
+	@Override
+	public void applyExamRestrictions() {
+		app.resetCommandDict();
 	}
 }

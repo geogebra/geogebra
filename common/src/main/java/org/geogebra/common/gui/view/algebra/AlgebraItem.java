@@ -270,6 +270,9 @@ public class AlgebraItem {
 		if (needsPacking(element)) {
 			return element.getLaTeXDescriptionRHS(false, StringTemplate.numericLatex);
 		} else if (!element.isAlgebraLabelVisible()) {
+			if (isTextItem(element)) {
+				return element.getLaTeXdescription();
+			}
 			return element.getDefinition(StringTemplate.numericLatex);
 		}
 

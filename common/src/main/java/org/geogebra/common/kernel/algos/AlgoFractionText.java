@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -28,6 +29,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoFractionText extends AlgoElement {
 
+	private GeoBoolean singleFraction;
 	private GeoNumberValue num; // input
 	private GeoText text; // output
 
@@ -41,9 +43,10 @@ public class AlgoFractionText extends AlgoElement {
 	 * @param num
 	 *            input number
 	 */
-	public AlgoFractionText(Construction cons, GeoNumberValue num) {
+	public AlgoFractionText(Construction cons, GeoNumberValue num, GeoBoolean singleFraction) {
 		super(cons);
 		this.num = num;
+		this.singleFraction = singleFraction;
 
 		text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text
@@ -61,9 +64,11 @@ public class AlgoFractionText extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[1];
-		input[0] = num.toGeoElement();
-
+		if (singleFraction == null) {
+			input = new GeoElement[]{num.toGeoElement()};
+		} else {
+			input  = new GeoElement[]{num.toGeoElement(), singleFraction};
+		}
 		setOutputLength(1);
 		setOutput(0, text);
 		setDependencies(); // done by AlgoElement
@@ -86,16 +91,10 @@ public class AlgoFractionText extends AlgoElement {
 					Kernel.STANDARD_PRECISION);
 
 			sb.setLength(0);
-			appendFormula(sb, frac, tpl, kernel);
+			boolean asSingleFraction = singleFraction == null || singleFraction.getBoolean();
+			appendFormula(sb, frac, tpl, asSingleFraction, kernel);
 
 			text.setTextString(sb.toString());
-
-			/*
-			 * break; case LATEX: sb.setLength(0); appendLaTeX(sb, frac, tpl,
-			 * kernel); text.setTextString(sb.toString()); break;
-			 * 
-			 * }
-			 */
 			text.setLaTeX(true, false);
 
 		} else {
@@ -201,15 +200,13 @@ public class AlgoFractionText extends AlgoElement {
 	/**
 	 * @param sb
 	 *            builder
-	 * @param tpl
-	 *            template
 	 * @param left
 	 *            numerator
 	 * @param right
 	 *            denominator
 	 */
 	public static void appendFraction(StringBuilder sb,
-			StringTemplate tpl, String left, String right) {
+			String left, String right) {
 		sb.append(" \\frac{ ");
 		sb.append(left);
 		sb.append(" }{ ");
@@ -247,13 +244,17 @@ public class AlgoFractionText extends AlgoElement {
 	 *            kernel
 	 */
 	public static void appendFormula(StringBuilder sb, double[] frac,
-			StringTemplate tpl, Kernel kernel) {
+			StringTemplate tpl, boolean asSingleFraction, Kernel kernel) {
 		if (frac[1] == 1) { // integer
 			sb.append(kernel.format(frac[0], tpl));
 		} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
 			appendInfinity(sb, tpl, frac[0]);
 		} else {
-			appendFraction(sb, tpl,
+			if (!asSingleFraction && frac[0] < 0) {
+				frac[0] *= -1;
+				sb.append('-');
+			}
+			appendFraction(sb,
 					kernel.format(DoubleUtil.checkDecimalFraction(frac[0]), tpl),
 					kernel.format(DoubleUtil.checkDecimalFraction(frac[1]), tpl));
 		}

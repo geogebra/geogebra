@@ -84,6 +84,7 @@
 	float: left;
 	box-sizing: border-box;
 	border-radius: 50%;
+	position: relative;
 }
 
 .GeoGebraFrame .flatButtonHeader img {
@@ -349,8 +350,9 @@ svg.icon.left {
 }
 
 .GeoGebraFrame .settingsBtnScientific {
-    margin: 6px;
-    float: right;
+	position: relative;
+	margin: 6px;
+	float: right;
 }
 
 .GeoGebraFrame .undoBtnScientific {
