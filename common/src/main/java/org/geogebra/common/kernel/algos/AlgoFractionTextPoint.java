@@ -38,18 +38,11 @@ public class AlgoFractionTextPoint extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param p
 	 *            point
 	 */
-	public AlgoFractionTextPoint(Construction cons, String label,
-			GeoPointND p) {
-		this(cons, p);
-		text.setLabel(label);
-	}
 
-	AlgoFractionTextPoint(Construction cons, GeoPointND p) {
+	public AlgoFractionTextPoint(Construction cons, GeoPointND p) {
 		super(cons);
 		this.p = p;
 
@@ -101,12 +94,12 @@ public class AlgoFractionTextPoint extends AlgoElement {
 
 			sb.setLength(0);
 			sb.append("{ \\left( ");
-			AlgoFractionText.appendFormula(sb, xCoord, tpl, kernel);
+			AlgoFractionText.appendFormula(sb, xCoord, tpl, true, kernel);
 			sb.append(',');
-			AlgoFractionText.appendFormula(sb, yCoord, tpl, kernel);
+			AlgoFractionText.appendFormula(sb, yCoord, tpl, true, kernel);
 			if (p.getDimension() == 3) {
 				sb.append(',');
-				AlgoFractionText.appendFormula(sb, zCoord, tpl, kernel);
+				AlgoFractionText.appendFormula(sb, zCoord, tpl, true, kernel);
 			}
 			sb.append(" \\right) }");
 

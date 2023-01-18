@@ -336,7 +336,7 @@ TOKEN :  {
   | < PARALLEL: "\u2225" >
   | < PERPENDICULAR: ("\u22a5" | "\u27c2") >
   | < EQUAL:    ("=" | "%=") > // %= for Giac
-  | < PLUS:     "+" >
+  | < PLUS:     ("+" | "\u2064" ) >
   | < MINUS:    ("-"  | "\u2013" | "\u2212") >
   | < PLUSMINUS:    ("\u00b1") >
   | < SUPERSCRIPT_MINUS: "\u207b" >

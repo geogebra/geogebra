@@ -341,6 +341,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			TestHarness.setAttr(lbRulerType, "rulingDropdown");
 			lblRulerType = new FormLabel(loc.getMenu("Ruling"))
 					.setFor(lbRulerType);
+			for (BackgroundType type : BackgroundType.rulingOptions) {
+				addRulerTypeItem(model.getTransKeyForRulingType(type), type);
+			}
 			lbRulerType.setListener((dropdown, index) -> {
 				model.applyRulerType(BackgroundType.rulingOptions.get(index));
 				updateView();
@@ -471,10 +474,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			if (!gridOptions) {
 				lblRulerType.setText(loc.getMenu("Ruling") + ":");
-				int idx1 = lbRulerType.getSelectedIndex();
-				lbRulerType.clear();
-				model.fillRulingCombo();
-				lbRulerType.setSelectedIndex(idx1);
 			}
 		}
 		
@@ -582,16 +581,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btGridColor.setIcon(content);
 		}
 
-		/**
-		 * @param item
-		 *            add drop-down menu item with text
-		 */
-		public void addRulerTypeItem(String item, BackgroundType type) {
-			if (gridOptions) {
-				return;
-			}
+		private void addRulerTypeItem(String titleTransKey, BackgroundType type) {
 			ImageResource background = getResourceForBackgroundType(type);
-			lbRulerType.addItem(item, background);
+			lbRulerType.addItem(titleTransKey, background);
 		}
 
 		private ImageResource getResourceForBackgroundType(BackgroundType type) {
@@ -635,8 +627,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		/**
 		 * Update ruler properties.
 		 * 
-		 * @param typeIdx
-		 *            The type.
+		 * @param bgType
+		 *            The background type.
 		 * @param color
 		 *            to set.
 		 * @param lineStyle
@@ -644,11 +636,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		 * @param bold
 		 *            true if the lines should be bold.
 		 */
-		public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
+		public void updateRuler(BackgroundType bgType, GColor color, int lineStyle, boolean bold) {
 			if (gridOptions) {
 				return;
 			}
-			BackgroundType bgType = BackgroundType.fromInt(typeIdx);
 			setRulerType(BackgroundType.rulingOptions.indexOf(bgType));
 			if (bgType == BackgroundType.NONE || bgType.isSVG()) {
 				stylePanel.setVisible(false);
@@ -965,16 +956,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	@Override
-	public void addRulerTypeItem(String item, BackgroundType type) {
-		if (gridTab == null) {
-			return;
-		}
-
-		gridTab.addRulerTypeItem(item, type);
-	}
-
-	@Override
-	public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
+	public void updateRuler(BackgroundType typeIdx, GColor color, int lineStyle, boolean bold) {
 		gridTab.updateRuler(typeIdx, color, lineStyle, bold);
 	}
 

@@ -5,7 +5,7 @@ import java.util.List;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -49,8 +49,8 @@ public class StepAlternative extends VerticalPanel {
             getWidget(i).setVisible(visible);
             getWidget(i).getElement().getParentElement()
                     .getParentElement().getStyle()
-                    .setDisplay(visible ? Style.Display.BLOCK
-                            : Style.Display.NONE);
+                    .setDisplay(visible ? Display.BLOCK
+                            : Display.NONE);
         }
 
         if (needsRender) {

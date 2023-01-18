@@ -21,7 +21,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.OptionElement;
 import com.google.gwt.dom.client.SelectElement;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -124,7 +124,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		FlowPanel inputObjectPanel = createInputOutputPanel(inputAddLB,
 				inputLB, false);
 
-		toolNameIconPanel = new ToolNameIconPanelW(appw);
+		toolNameIconPanel = new ToolNameIconPanelW(appw, this);
 		toolNameIconPanel.addStyleName("toolCreationDialogTab");
 
 		// Create tabPanel and add Selectionhandler
@@ -239,7 +239,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 			tabPanel.selectTab(getSelectedTab() - 1)
 		);
 		btBack.setEnabled(false);
-		btBack.getElement().getStyle().setMargin(3, Style.Unit.PX);
+		btBack.getElement().getStyle().setMargin(3, Unit.PX);
 
 		btNext = new StandardButton(loc.getMenu("Next") + " >");
 		btNext.addStyleName("materialOutlinedButton ");

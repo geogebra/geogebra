@@ -279,13 +279,15 @@ public class FunctionExpander implements Traversing {
 		VariableReplacer vr = en
 				.getKernel().getVariableReplacer();
 
-		// variables have to be replaced with one traversing
-		// or else replacing f(x,y) with f(y,x)
-		// will result in f(x, x)
-		if (en.getOperation() == Operation.FUNCTION && argument instanceof MyList) {
+		// some heuristic to apply f(list) piecewise for simple functions, see APPS-4510
+		if (en.isOperation(Operation.FUNCTION) && isListNotMatrix(argument)
+				&& !en2.containsCommands()) {
 			return new ExpressionNode(en.getKernel(), new Function(en2, fv[0]),
 					Operation.FUNCTION, argument);
 		}
+		// variables have to be replaced with one traversing
+		// or else replacing f(x,y) with f(y,x)
+		// will result in f(x, x)
 		for (int i = 0; i < fv.length; i++) {
 			if (en.getOperation() == Operation.FUNCTION_NVAR || surfaceNoComplex) {
 				ithArg = getElement(argument, i, fv.length);
@@ -293,6 +295,10 @@ public class FunctionExpander implements Traversing {
 			vr.addVars(fv[i].getSetVarString(), ithArg);
 		}
 		return en2.traverse(vr).wrap();
+	}
+
+	private boolean isListNotMatrix(ExpressionValue argument) {
+		return (argument instanceof MyList) && !((MyList) argument).isMatrix();
 	}
 
 	private ExpressionValue getElement(ExpressionValue argument, int i, int argLength) {

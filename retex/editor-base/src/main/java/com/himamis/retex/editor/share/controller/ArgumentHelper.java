@@ -1,5 +1,9 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.function.Predicate;
+
+import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -92,19 +96,26 @@ public class ArgumentHelper {
 		MathSequence field = (MathSequence) container
 				.getArgument(container.getInsertIndex());
 
+		int offset = passCharacters(currentField, currentOffset, field, MathCharacter::isWordBreak);
+		editorState.setCurrentOffset(offset);
+	}
+
+	private static int passCharacters(MathSequence currentField, int initialOffset,
+			MathSequence field, Predicate<MathCharacter> condition) {
+		int currentOffset = initialOffset;
 		while (currentOffset > 0 && currentField
 				.getArgument(currentOffset - 1) instanceof MathCharacter) {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(currentOffset - 1);
-			if (character.isWordBreak()) {
+			if (condition.test(character)) {
 				break;
 			}
 			currentField.delArgument(currentOffset - 1);
 			currentOffset--;
 			field.addArgument(0, character);
 		}
-		editorState.setCurrentOffset(currentOffset);
+		return currentOffset;
 	}
 
 	/**
@@ -132,5 +143,28 @@ public class ArgumentHelper {
 			stringBuilder.insert(0, character.getUnicodeString());
 		}
 		return stringBuilder.toString();
+	}
+
+	/**
+	 * Removes the whole number part from parent container and attaches it to the mixed number
+	 * @param parent parent container
+	 * @param fraction fractional part of the mixed number
+	 * @param model model
+	 */
+	public static void addFraction(MathContainer parent, MathFunction fraction, MetaModel model) {
+		if (parent instanceof MathSequence && parent.size() > 0
+				&& "\u2064".equals(parent.getArgument(parent.size() - 1).toString())) {
+			MathFunction mixed = new MathFunction(model.getGeneral(Tag.MIXED_NUMBER));
+			MathSequence whole = new MathSequence();
+			parent.delArgument(parent.size() - 1);
+			passCharacters((MathSequence) parent, parent.size() - 1, whole,
+					c -> !java.lang.Character.isDigit(c.getUnicode()));
+			mixed.setArgument(0, whole);
+			mixed.setArgument(1, fraction.getArgument(0));
+			mixed.setArgument(2, fraction.getArgument(1));
+			parent.addArgument(mixed);
+		} else {
+			parent.addArgument(fraction);
+		}
 	}
 }

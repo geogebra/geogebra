@@ -64,8 +64,11 @@ import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.font.FontWrapper;
 
 import elemental2.core.JsArray;
+import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
@@ -78,6 +81,11 @@ public class Graphics2DW implements Graphics2DInterface {
 	private FontW font;
 
 	private DrawingFinishedCallback drawingFinishedCallback;
+	private static final CSSStyleDeclaration FONT_PARSER = initFontParser();
+
+	public static CSSStyleDeclaration initFontParser() {
+		return ((HTMLElement) DomGlobal.document.createElement("div")).style;
+	}
 
 	public Graphics2DW(CanvasRenderingContext2D context) {
 		this.context = JLMContextHelper.as(context);
@@ -103,7 +111,9 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	private void initFont() {
-		font = new DefaultFont(context.getFont(), Font.PLAIN,
+		FONT_PARSER.font = context.getFont();
+		String fontFamily = FONT_PARSER.fontFamily;
+		font = new DefaultFont(fontFamily, Font.PLAIN,
 				(int) Math.round(FontLoader.PIXELS_PER_POINT));
 	}
 

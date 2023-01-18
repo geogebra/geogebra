@@ -25,11 +25,21 @@ public abstract class TextPropertyModel extends OptionsModel {
 	public void applyChanges(String text) {
 		if (!StringUtil.empty(text)) {
 			applyChanges(app.getKernel().getAlgebraProcessor()
+
 					.evaluateToNumeric(text, ErrorHelper.silent()), text);
+		} else if(!getText().isEmpty()) {
+			applyChanges((GeoNumberValue) null, text);
 		}
 	}
 
+	@Override
+	public void updateProperties() {
+		listener.setText(getText());
+	}
+
 	protected abstract void applyChanges(GeoNumberValue val, String str);
+
+	protected abstract String getText();
 
 	public abstract String getTitle();
 }

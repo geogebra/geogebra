@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.Transformable;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -106,6 +107,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	// region
 	private Region region;
 	private RegionParameters regionParameters;
+
+	private NumberValue verticalIncrement;
+
 	/** 2D x-coord when point is on a region */
 	private double x2D = 0;
 	/** 2D y-coord when point is on a region */
@@ -1111,7 +1115,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		sb.append("\t<pointSize val=\"");
 		sb.append(pointSize);
 		sb.append("\"/>\n");
-
+		if (verticalIncrement != null) {
+			XMLBuilder.appendVerticalIncrement(sb, verticalIncrement);
+		}
 	}
 
 	@Override
@@ -2251,6 +2257,16 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 		setRegion(oldRegion);
+	}
+
+	@Override
+	public NumberValue getVerticalIncrement() {
+		return verticalIncrement;
+	}
+
+	@Override
+	public void setVerticalIncrement(NumberValue step) {
+		this.verticalIncrement = step;
 	}
 
 }

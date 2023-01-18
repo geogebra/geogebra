@@ -3,7 +3,7 @@ package org.geogebra.web.richtext.impl;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.EditorChangeListener;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -36,7 +36,7 @@ public class CarotaEditor implements Editor {
 		String origin = "-" + padding + "px ";
 		html.getElement().getStyle().setProperty("transformOrigin", origin + origin);
 		html.getElement().getStyle().setProperty("boxSizing", "border-box");
-		html.getElement().getStyle().setMargin(8, Style.Unit.PX);
+		html.getElement().getStyle().setMargin(8, Unit.PX);
 		return html;
 	}
 

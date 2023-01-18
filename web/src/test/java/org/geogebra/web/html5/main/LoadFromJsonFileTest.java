@@ -63,7 +63,6 @@ public class LoadFromJsonFileTest {
 	}
 
 	private ToolbarPanel initToolbarFromApp() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
 		ToolbarDockPanelW toolbarDockPanel =
 				(ToolbarDockPanelW) dockManager.getPanel(App.VIEW_ALGEBRA);

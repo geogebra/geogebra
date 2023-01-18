@@ -2,6 +2,7 @@ package org.geogebra.web.html5.awt;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 
 public class LayeredGGraphicsW extends GGraphics2DW {
 
@@ -14,7 +15,7 @@ public class LayeredGGraphicsW extends GGraphics2DW {
 	public LayeredGGraphicsW(Canvas canvas) {
 		super(canvas);
 		Style style = canvas.getCanvasElement().getStyle();
-		style.setPosition(Style.Position.RELATIVE);
+		style.setPosition(Position.RELATIVE);
 		parentStyle = canvas.getParent().getElement().getStyle();
 	}
 

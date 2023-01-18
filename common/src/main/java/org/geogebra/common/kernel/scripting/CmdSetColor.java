@@ -143,59 +143,69 @@ public class CmdSetColor extends CmdScripting {
 		default:
 			throw argNumErr(c);
 		}
+
 	}
 
 	private GColor fromRGB(Command c, int offset) {
 		EvalInfo argInfo = new EvalInfo(false);
-		GeoElement r = resArg(c.getArgument(offset), argInfo)[0];
-		GeoElement g = resArg(c.getArgument(offset + 1), argInfo)[0];
-		GeoElement b = resArg(c.getArgument(offset + 2), argInfo)[0];
-		int red, blue, green;
-		if (r.isNumberValue()) {
-			red = MyDouble.normalize0to255(r.evaluateDouble());
-		} else {
-			throw argErr(c, r);
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+
+		try {
+			cons.setSuppressLabelCreation(true);
+			GeoElement r = resArg(c.getArgument(offset), argInfo)[0];
+			GeoElement g = resArg(c.getArgument(offset + 1), argInfo)[0];
+			GeoElement b = resArg(c.getArgument(offset + 2), argInfo)[0];
+
+			int red, blue, green;
+			if (r.isNumberValue()) {
+				red = MyDouble.normalize0to255(r.evaluateDouble());
+			} else {
+				throw argErr(c, r);
+			}
+			if (g.isNumberValue()) {
+				green = MyDouble.normalize0to255(g.evaluateDouble());
+			} else {
+				throw argErr(c, g);
+			}
+			if (b.isNumberValue()) {
+				blue = MyDouble.normalize0to255(b.evaluateDouble());
+			} else {
+				throw argErr(c, b);
+			}
+			return GColor.newColor(red, green, blue);
+		} finally {
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
-		if (g.isNumberValue()) {
-			green = MyDouble.normalize0to255(g.evaluateDouble());
-		} else {
-			throw argErr(c, g);
-		}
-		if (b.isNumberValue()) {
-			blue = MyDouble.normalize0to255(b.evaluateDouble());
-		} else {
-			throw argErr(c, b);
-		}
-		return GColor.newColor(red, green, blue);
 	}
 
 	private GColor fromText(Command c, int offset) {
 		EvalInfo argInfo = new EvalInfo(false);
 		ExpressionNode[] args = c.getArguments();
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		GeoElement color;
+		GColor ret;
+
 		try {
 			// resolve second argument
-			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			args[offset].resolveVariables(argInfo);
 			color = resArg(args[offset], argInfo)[0];
-			cons.setSuppressLabelCreation(oldMacroMode);
+
 		} catch (Error e) {
-			// if there's a problem with the second argument, just wrap in
-			// quotes in case it's a color
-			// eg SetColor[A,blue] rather than SetColor[A,"blue"]
-			color = new GeoText(cons,
-					args[offset].toString(StringTemplate.defaultTemplate));
+		// if there's a problem with the second argument, just wrap in
+		// quotes in case it's a color
+		// eg SetColor[A,blue] rather than SetColor[A,"blue"]
+		color = new GeoText(cons,
+				args[offset].toString(StringTemplate.defaultTemplate));
+		} finally {
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
+
 		if (!color.isGeoText()) {
 			throw argErr(c, color);
 		}
 
-		GColor ret;
-
-		String colorText = trim(
-				color.toValueString(StringTemplate.defaultTemplate));
-
+		String colorText = trim(color.toValueString(StringTemplate.defaultTemplate));
 		if (colorText.startsWith("#")) {
 
 			if (colorText.length() != 7 && colorText.length() != 9) {
@@ -216,19 +226,16 @@ public class CmdSetColor extends CmdScripting {
 				// to set opacity of background color
 				rgb = colorText.substring(3);
 				alpha = Integer.parseInt(colorText.substring(1, 3), 16);
-
 			}
 
 			red = Integer.parseInt(rgb.substring(0, 2), 16);
 			green = Integer.parseInt(rgb.substring(2, 4), 16);
 			blue = Integer.parseInt(rgb.substring(4, 6), 16);
-
 			ret = GColor.newColor(red, green, blue, alpha);
-
 		} else {
-
 			ret = GeoGebraColorConstants.getGeogebraColor(app, colorText);
 		}
+
 		if (ret == null && !background) {
 			throw argErr(c, color);
 		}
@@ -244,6 +251,5 @@ public class CmdSetColor extends CmdScripting {
 		EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
 		view.getSettings().setBackground(col);
 		view.updateBackground();
-
 	}
 }

@@ -9,7 +9,7 @@ import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -101,7 +101,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
 
 		public MyTabLayoutPanel() {
-			super(30, Style.Unit.PX);
+			super(30, Unit.PX);
 			this.addDomHandler(this, ClickEvent.getType());
 		}
 

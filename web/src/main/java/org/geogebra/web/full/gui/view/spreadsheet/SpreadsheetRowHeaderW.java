@@ -14,6 +14,8 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -94,7 +96,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		grid.getElement().addClassName("geogebraweb-table-spreadsheet");
 
 		grid.getColumnFormatter().getElement(0).getStyle()
-				.setWidth(SpreadsheetViewW.ROW_HEADER_WIDTH, Style.Unit.PX);
+				.setWidth(SpreadsheetViewW.ROW_HEADER_WIDTH, Unit.PX);
 
 		for (int row = 0; row < grid.getRowCount(); row++) {
 			initializeCell(row);
@@ -106,8 +108,8 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		addPasteHandlerTo(focusPanel.getTextarea(), this);
 
 		Style s = focusPanel.getElement().getStyle();
-		// s.setDisplay(Style.Display.NONE);
-		s.setPosition(Style.Position.ABSOLUTE);
+		// s.setDisplay(Display.NONE);
+		s.setPosition(Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
 
@@ -161,11 +163,11 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 	}
 
 	private void setRowResizeCursor() {
-		grid.getElement().getStyle().setCursor(Style.Cursor.ROW_RESIZE);
+		grid.getElement().getStyle().setCursor(Cursor.ROW_RESIZE);
 	}
 
 	private void setDefaultCursor() {
-		grid.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+		grid.getElement().getStyle().setCursor(Cursor.DEFAULT);
 	}
 
 	/**
@@ -180,7 +182,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		}
 
 		grid.getRowFormatter().getElement(rowIndex).getStyle()
-				.setHeight(rowHeight, Style.Unit.PX);
+				.setHeight(rowHeight, Unit.PX);
 	}
 
 	/**
@@ -465,10 +467,10 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 				SpreadsheetMouseListenerW.getAbsoluteY(event, app));
 		int r = this.getResizingRow(p, getBoundary(e.getType()));
 		if (r >= 0
-				&& !getCursor().equals(Style.Cursor.ROW_RESIZE.getCssName())) {
+				&& !getCursor().equals(Cursor.ROW_RESIZE.getCssName())) {
 			setRowResizeCursor();
 		} else if (r < 0
-				&& !getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
+				&& !getCursor().equals(Cursor.DEFAULT.getCssName())) {
 			setDefaultCursor();
 		}
 

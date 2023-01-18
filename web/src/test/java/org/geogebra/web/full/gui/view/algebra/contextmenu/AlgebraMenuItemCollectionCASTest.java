@@ -22,7 +22,7 @@ public class AlgebraMenuItemCollectionCASTest {
 
 	@Before
 	public void setUp() {
-		AppWFull app = AppMocker.mockCas(getClass());
+		AppWFull app = AppMocker.mockCas();
 		itemCollection = new AlgebraMenuItemCollectionCAS(app.getAlgebraView());
 	}
 

@@ -216,12 +216,17 @@ public class ShareControllerW implements ShareController {
 
 	@Override
 	public void startMultiuser(String sharingKey) {
+		getFrame().updateUndoRedoButtonVisibility(false);
 		onMultiplayerLoad(sharingKey, ((ScriptManagerW) app.getScriptManager()).getApi(),
 				mp -> {
 					multiplayer = Js.uncheckedCast(mp);
 					multiplayer.addUserChangeListener(this::handleMultiuserChange);
 					multiplayer.start(app.getLoginOperation().getUserName());
 				});
+	}
+
+	private GeoGebraFrameFull getFrame() {
+		return  ((AppWFull) app).getAppletFrame();
 	}
 
 	@Override
@@ -260,6 +265,7 @@ public class ShareControllerW implements ShareController {
 		if (multiplayer != null && activeMaterial != null
 				&& activeMaterial.getSharingKey().equals(sharingKey)) {
 			multiplayer.terminate();
+			getFrame().updateUndoRedoButtonVisibility(true);
 			multiplayer = null;
 			return true;
 		}

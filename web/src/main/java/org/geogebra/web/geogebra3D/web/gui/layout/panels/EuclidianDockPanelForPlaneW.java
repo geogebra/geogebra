@@ -14,7 +14,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -78,7 +78,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
-			eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+			eview1.getElement().getStyle().setPosition(Position.RELATIVE);
 			eview1.getElement().getStyle().setZIndex(0);
 			euclidianpanel.getAbsolutePanel().add(eview1);
 		}

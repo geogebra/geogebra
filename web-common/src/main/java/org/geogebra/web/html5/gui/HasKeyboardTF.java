@@ -4,6 +4,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
@@ -71,5 +72,16 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	 */
 	HandlerRegistration addBlurHandler(BlurHandler handler);
 
+	/**
+	 * Adds key handler to the tetxtfield
+	 *
+	 * @param handler
+	 *            Keypresshandler
+	 * @return registration
+	 */
+	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler);
+
 	void onBackSpace();
+
+	void setText(String text);
 }
