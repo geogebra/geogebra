@@ -11,11 +11,11 @@ import org.geogebra.common.util.TimeFormatAdapter;
 public class TimeFormat implements TimeFormatAdapter {
 
     @Override
-    public String format(String localeStr, String pattern, long timeMs) {
-		return String.format(new Locale(localeStr), pattern,
-				TimeUnit.MILLISECONDS.toMinutes(timeMs),
-				TimeUnit.MILLISECONDS.toSeconds(timeMs) - TimeUnit.MINUTES
-						.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeMs))
+    public String format(String localeStr, long timeIntervalMs) {
+		return String.format(new Locale(localeStr), "%02d:%02d",
+				TimeUnit.MILLISECONDS.toMinutes(timeIntervalMs),
+				TimeUnit.MILLISECONDS.toSeconds(timeIntervalMs) - TimeUnit.MINUTES
+						.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeIntervalMs))
         );
     }
 }
