@@ -113,7 +113,12 @@ public class JoinLines {
 	}
 
 	private void toTopCurrentXLow(TupleNeighbours neighbours) {
-		gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYHigh(),
+		double y1 = neighbours.leftYHigh();
+		if (y1 > bounds.getYmax()) {
+			return;
+		}
+
+		gp.segment(bounds, neighbours.currentXLow(), y1,
 				neighbours.currentXLow(), bounds.getYmax());
 
 	}
@@ -125,7 +130,12 @@ public class JoinLines {
 	}
 
 	private void toBottomLeft(TupleNeighbours neighbours) {
-		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
+		double y1 = neighbours.currentYLow();
+		if (y1 < bounds.getYmin()) {
+			return;
+		}
+
+		gp.segment(bounds, neighbours.rightXHigh(), y1,
 				neighbours.currentXHigh(), bounds.getYmin());
 	}
 
