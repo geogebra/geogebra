@@ -21,6 +21,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.serializer.Serializer;
+import com.himamis.retex.editor.share.serializer.SolverSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 
@@ -30,6 +31,7 @@ import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 public class EvaluatorAPI {
 
 	private static final String LATEX_KEY = "latex";
+	private static final String SOLVER_KEY = "solver";
 	private static final String ASCII_CONTENT_KEY = "content";
 	private static final String EVAL_KEY = "eval";
 	private static final String ALT_TEXT_KEY = "altText";
@@ -38,6 +40,8 @@ public class EvaluatorAPI {
 	private final MathFieldInternal mathFieldInternal;
 	private final Serializer flatSerializer;
 	private final Serializer latexSerializer;
+
+	private final Serializer solverSerializer;
 	private final AlgebraProcessor algebraProcessor;
 	private final Parser parser;
 	private final EvalInfo evalInfo;
@@ -56,6 +60,7 @@ public class EvaluatorAPI {
 		this.parser = kernel.getParser();
 		this.flatSerializer = new GeoGebraSerializer();
 		this.latexSerializer = new TeXSerializer();
+		this.solverSerializer = new SolverSerializer();
 		this.evalInfo = createEvalInfo();
 		this.serializationAdapter = ScreenReader.getSerializationAdapter(kernel.getApplication());
 		stepSolver = (text, type, parser) -> {
@@ -79,6 +84,7 @@ public class EvaluatorAPI {
 
 		String flatString = getFlatString(formula);
 		String latexString = getLatexString(formula);
+		String solverString = getSolverString(formula);
 		String evalString = getEvalString(flatString);
 		String altTextString = getAltTextString();
 
@@ -86,6 +92,7 @@ public class EvaluatorAPI {
 
 		map.put(ASCII_CONTENT_KEY, flatString);
 		map.put(LATEX_KEY, latexString);
+		map.put(SOLVER_KEY, solverString);
 		map.put(EVAL_KEY, evalString);
 		map.put(ALT_TEXT_KEY, altTextString);
 
@@ -107,6 +114,10 @@ public class EvaluatorAPI {
 
 	private String getLatexString(MathFormula formula) {
 		return latexSerializer.serialize(formula);
+	}
+
+	private String getSolverString(MathFormula formula) {
+		return solverSerializer.serialize(formula);
 	}
 
 	private ValidExpression parseString(String flatString) {
