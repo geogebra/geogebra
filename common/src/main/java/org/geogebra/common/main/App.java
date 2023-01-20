@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
+import java.util.function.Predicate;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -132,7 +133,6 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -1247,19 +1247,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Deletes selected objects
 	 */
 	public void deleteSelectedObjects(boolean isCut) {
-		deleteSelectedObjects(isCut, new GPredicate<GeoElement>() {
-			@Override
-			public boolean test(GeoElement geo) {
-				return !geo.isProtected(EventType.REMOVE);
-			}
-		});
+		deleteSelectedObjects(isCut, geo -> !geo.isProtected(EventType.REMOVE));
 	}
 
 	/**
 	 * Deletes some of the selected objects
 	 * @param filter which geos to delete
 	 */
-	public void deleteSelectedObjects(boolean isCut, GPredicate<GeoElement> filter) {
+	public void deleteSelectedObjects(boolean isCut, Predicate<GeoElement> filter) {
 		if (letDelete()) {
 			// also delete just created geos if possible
 			ArrayList<GeoElement> geos2 = new ArrayList<>(getActiveEuclidianView()
