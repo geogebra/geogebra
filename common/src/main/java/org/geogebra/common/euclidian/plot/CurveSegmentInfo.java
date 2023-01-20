@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.plot;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 
 /**
  * Class to query basic information for a segment about to draw
@@ -49,11 +50,13 @@ public class CurveSegmentInfo {
 	 * @param diff left-right difference in pixels.
 	 * @param prevDiff the
 	 */
-	public void update(double[] evalLeft, double[] evalRight, double[] diff, double[] prevDiff) {
+	public void update(double[] evalLeft, double[] evalRight, double[] diff, double[] prevDiff,
+			CurveEvaluable curve) {
 		offScreen = view.isSegmentOffView(evalLeft, evalRight);
-		distanceOK = offScreen || isDistanceOK(diff);
+		boolean horizontalDistanceOK = diff[0] < curve.getMinDistX();
+		distanceOK = offScreen || isDistanceOK(diff) || horizontalDistanceOK;
 		angleOK = isAngleOK(prevDiff, diff, offScreen
-				? MAX_BEND_OFF_SCREEN : MAX_BEND);
+				? MAX_BEND_OFF_SCREEN : MAX_BEND) || horizontalDistanceOK;
 
 	}
 

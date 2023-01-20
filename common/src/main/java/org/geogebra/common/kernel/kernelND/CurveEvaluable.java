@@ -84,4 +84,7 @@ public interface CurveEvaluable {
 	 */
 	public GeoElement toGeoElement();
 
+	default double getMinDistX() {
+		return 0;
+	}
 }
