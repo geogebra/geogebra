@@ -601,28 +601,29 @@ public enum TestGeo {
 	 * @return whether objec.set(setter) will run OK
 	 */
 	public static boolean canSet(GeoElement object, GeoElement setter) {
-		return gen(getSpecificTest(object), getSpecificTest(setter));
+		return getSpecificTest(setter).isSubtypeOrEqual(getSpecificTest(object));
 	}
 
-	private static boolean gen(TestGeo first, TestGeo second) {
-		if (first == second) {
+	private boolean isSubtypeOrEqual(TestGeo other) {
+		if (other == this) {
 			return true;
 		}
-		switch (first) {
+		switch (other) {
 		case GEONUMERIC:
-			return gen(GEOANGLE, second) || gen(GEOBOOLEAN, second);
+			return isSubtypeOrEqual(GEOANGLE) || isSubtypeOrEqual(GEOBOOLEAN);
 		case GEOFUNCTION:
-			return gen(GEONUMERIC, second) || gen(GEOLINE, second);
+			return isSubtypeOrEqual(GEONUMERIC) || isSubtypeOrEqual(GEOLINE);
 		case GEOFUNCTIONNVAR:
-			return gen(GEOFUNCTION, second);
+			return isSubtypeOrEqual(GEOFUNCTION);
 		case GEOCONIC:
-			return gen(GEOLINE, second);
-		case GEOIMPLICIT:
-			return gen(GEOCONIC, second);
 		case GEOPLANEND:
-			return gen(GEOLINE, second);
+			return isSubtypeOrEqual(GEOLINE);
+		case GEOIMPLICIT:
+			return isSubtypeOrEqual(GEOCONIC);
 		case GEOPOINT:
-			return gen(GEONUMERIC, second);
+			return isSubtypeOrEqual(GEONUMERIC);
+		case GEOPOINTND:
+			return isSubtypeOrEqual(GEOPOINT);
 		default:
 			break;
 		}

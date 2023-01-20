@@ -165,6 +165,22 @@ public class GeoList extends GeoElement
 		// setBackgroundColor(GColor.WHITE);
 	}
 
+	/**
+	 * @param elements list elements
+	 * @return the most generic element (one that can be set by others)
+	 */
+	public static GeoElement getGenericElement(ArrayList<GeoElement> elements) {
+		GeoElement result = elements.get(0);
+		// create output GeoElement of same type as ifGeo
+		int i = 1;
+		while (i < elements.size()
+				&& TestGeo.canSet(elements.get(i), result)) {
+			result = elements.get(i);
+			i++;
+		}
+		return result;
+	}
+
 	@Override
 	public void setParentAlgorithm(final AlgoElement algo) {
 		super.setParentAlgorithm(algo);
@@ -2917,7 +2933,7 @@ public class GeoList extends GeoElement
 			return new GeoNumeric(cons);
 		}
 		// list not zero length
-		return get(0).copyInternal(cons);
+		return getGenericElement(elements).copyInternal(cons);
 	}
 
 	@Override
