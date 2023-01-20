@@ -15,7 +15,9 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.commands.CmdFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -27,14 +29,15 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoFunctionInterval extends AlgoElement {
 
-	private GeoFunctionable f; // input
-	private NumberValue a; // input
-	private NumberValue b; // input
-	private GeoElement ageo;
-	private GeoElement bgeo;
-	private GeoFunction g; // output g
+	private final GeoFunctionable f; // input
+	private final NumberValue a; // input
+	private final NumberValue b; // input
+	private final GeoElement ageo;
+	private final GeoElement bgeo;
+	private final GeoFunction g; // output g
 	private ExpressionNode exp; // current expression of f
 	// (needed to notice change of f)
+	private final ExpressionNode condition; //for serialization only
 
 	/**
 	 * @param cons
@@ -54,9 +57,8 @@ public class AlgoFunctionInterval extends AlgoElement {
 		this.b = b;
 		ageo = a.toGeoElement();
 		bgeo = b.toGeoElement();
-
-		// g = new GeoFunction(cons); // output
-		// g = new GeoFunction(cons); // output
+		FunctionVariable fv = f.getFunction().getFunctionVariable();
+		condition = CmdFunction.buildInterval(kernel, a, fv, b);
 
 		g = f instanceof GeoFunction ? ((GeoFunction) f).copy()
 				: new GeoFunction(cons);
@@ -127,4 +129,7 @@ public class AlgoFunctionInterval extends AlgoElement {
 				ageo.getLabel(tpl), bgeo.getLabel(tpl));
 	}
 
+	public ExpressionNode getCondition() {
+		return condition;
+	}
 }

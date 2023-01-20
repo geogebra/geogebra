@@ -1176,7 +1176,10 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void handlePageAction(String eventType, String pageIdx, Object appState) {
-		((AppW) app).getPageController().handlePageAction(eventType, pageIdx, appState);
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		if (pageController != null) {
+			pageController.handlePageAction(eventType, pageIdx, appState);
+		}
 	}
 
 	@Override
