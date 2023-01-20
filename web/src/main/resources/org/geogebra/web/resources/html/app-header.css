@@ -84,6 +84,7 @@
 	float: left;
 	box-sizing: border-box;
 	border-radius: 50%;
+	position: relative;
 }
 
 .GeoGebraFrame .flatButtonHeader img {
