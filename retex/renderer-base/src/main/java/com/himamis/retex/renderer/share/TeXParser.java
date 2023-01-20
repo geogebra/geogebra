@@ -2663,11 +2663,6 @@ public class TeXParser {
 			case '@':
 				// @{\pi} \pi is the column separator
 				++pos;
-				if (parseString.charAt(pos) == '{' && parseString.charAt(pos) == '}') {
-					pos += 2;
-					options.addSeparator(new EmptyAtom());
-					break;
-				}
 				final String code = getGroupAsArgument();
 				final SingleAtomConsumer cons = new SingleAtomConsumer();
 				addConsumer(cons);
@@ -2678,7 +2673,9 @@ public class TeXParser {
 				parse();
 				pop(); // remove cons from the stack
 				final Atom sep = cons.get();
-				options.addSeparator(sep);
+				if (sep != null) {
+					options.addSeparator(sep);
+				} // else: @{} is valid LaTeX, but is ignored in JLM
 				break;
 			case '*':
 				// *{num}{str}
