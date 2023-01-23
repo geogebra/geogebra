@@ -180,4 +180,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean hasOneVarStatistics() {
 		return false;
 	}
+
+
 }

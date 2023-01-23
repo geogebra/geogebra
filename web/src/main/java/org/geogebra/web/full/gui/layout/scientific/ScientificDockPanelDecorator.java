@@ -26,7 +26,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	public static final int TABLE_HEIGHT_DIFFERENCE = 64;
 	private FlowPanel main;
 	private Widget tableTab;
-	private StickyTable<?> table;
+	private StickyValuesTable table;
 	private AppW app;
 
 	@Override
@@ -88,11 +88,16 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
+	public void reset() {
+		table.resetDialog();
+	}
+
+	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
 		tableTab = tab;
-		this.table = table;
+		this.table = (StickyValuesTable) table;
 		tab.addStyleName("panelScientificDefaults");
-		disableShadedColumns((StickyValuesTable) table);
+		disableShadedColumns(this.table);
 		table.addStyleName("scientific");
 
 		SimplePanel btnHolder = new SimplePanel();

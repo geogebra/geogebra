@@ -54,4 +54,9 @@ public interface DockPanelDecorator {
 	 * @param tabHeight the tab height where the table is on.
 	 */
 	void resizeTableSmallScreen(int tabHeight);
+
+	/**
+	 * Resets tab.
+	 */
+	void reset();
 }

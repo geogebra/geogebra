@@ -1,7 +1,5 @@
-package org.geogebra.web.full.main.activity;
+package org.geogebra.common.gui.view.table;
 
-import org.geogebra.common.gui.view.table.InvalidValuesException;
-import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -12,8 +10,9 @@ public class ScientificEvaluatables {
 	private GeoEvaluatable functionG;
 
 	/**
-	 *
 	 * @param construction {@link Construction}
+	 * @param labelF
+	 * @param labelG
 	 */
 	public ScientificEvaluatables(Construction construction) {
 		functionF = createFunction(construction, "f");
@@ -50,6 +49,12 @@ public class ScientificEvaluatables {
 			table.setValues(-2, 2, 1);
 		} catch (InvalidValuesException e) {
 			throw new RuntimeException(e);
+		} finally {
+			noUndoForInitialTableValues();
 		}
+	}
+
+	private void noUndoForInitialTableValues() {
+		functionF.getApp().getUndoManager().clearUndoInfo();
 	}
 }
