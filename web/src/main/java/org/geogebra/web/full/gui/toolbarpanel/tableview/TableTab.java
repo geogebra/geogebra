@@ -157,6 +157,7 @@ public class TableTab extends ToolbarTab {
 	 */
 	public void openDialogIfEmpty() {
 		if (((TableValuesView) app.getGuiManager().getTableValuesView()).hasNoDefinedFunctions()) {
+			app.storeUndoInfo();
 			table.openDefineFunctions();
 		}
 	}
