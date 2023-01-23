@@ -190,11 +190,14 @@ public class SymbolicUtil {
 	 * @return true if numeric approximation should be calculated
 	 */
 	public static boolean shouldComputeNumericValue(ExpressionValue expression) {
-		if (expression != null && expression.isNumberValue()
-				&& !expression.wrap().containsGeoDummyVariable()) {
+		if (expression != null && expression.isNumberValue()) {
 			ExpressionValue unwrapped = expression.unwrap();
-			return !(unwrapped instanceof NumberValue && !((NumberValue) unwrapped).isDefined())
-					&& !(unwrapped instanceof GeoDummyVariable);
+			if (unwrapped instanceof GeoDummyVariable) {
+				return false;
+			}
+			if (unwrapped instanceof NumberValue) {
+				return ((NumberValue) unwrapped).isDefined();
+			}
 		}
 		return false;
 	}

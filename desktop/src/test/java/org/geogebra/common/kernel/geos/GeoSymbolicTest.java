@@ -660,7 +660,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testFunctionCalculateNumeric() {
+	public void testShouldComputeNumericValue() {
 		GeoSymbolic geo = add("f(x)=a*x");
 		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(false));
 		add("b=10");

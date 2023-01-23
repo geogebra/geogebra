@@ -477,19 +477,6 @@ public abstract class ValidExpression
 	}
 
 	/**
-	 * @return check whether expression contains dummy varaible
-	 */
-	public final boolean containsGeoDummyVariable() {
-		return this.inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v instanceof GeoDummyVariable;
-			}
-		});
-	}
-
-	/**
 	 * @param name
 	 *            variable name
 	 * @return deep check for function variable with given name
