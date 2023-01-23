@@ -1,8 +1,8 @@
 package org.geogebra.common.gui.view.table;
 
-import org.geogebra.common.gui.view.table.dimensions.LaTeXTextSizeMeasurer;
 import static org.junit.Assert.*;
 
+import org.geogebra.common.gui.view.table.dimensions.LaTeXTextSizeMeasurer;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class LaTeXTextSizeMeasurerTests {
 	@Test
 	public void testValidFormula() {
 		int width = measurer.getWidth("10");
-		assert(width > 0);
+		assertTrue(width > 0);
 	}
 
 	/** APPS-4584 */
