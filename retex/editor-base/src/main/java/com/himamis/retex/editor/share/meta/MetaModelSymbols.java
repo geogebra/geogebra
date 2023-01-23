@@ -168,6 +168,8 @@ class MetaModelSymbols {
 				"\\not\\leftrightarrow{}", '\u21ae'));
 		collection.addComponent(
 				createOperator("\\times{}", '\u2a2f'));
+		collection.addComponent(createOperator("*", "\\times{}", Unicode.MULTIPLY));
+		collection.addComponent(createOperator(Unicode.DIVIDE + "", "\\div{}", Unicode.DIVIDE));
 
 		return collection;
 	}
