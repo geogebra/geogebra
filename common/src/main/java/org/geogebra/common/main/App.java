@@ -452,7 +452,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private final AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
-	private RestrictExam restrictions;
+	protected RestrictExam restrictions;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -5127,7 +5127,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void registerRestrictable(Restrictable restrictable) {
 		if (restrictions == null) {
-			restrictions = ExamRestrictionFactory.create(null);
+			ExamEnvironment exam = getExam();
+			ExamRegion region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
+
+			restrictions = ExamRestrictionFactory.create(region);
 		}
 		restrictions.register(restrictable);
 	}
