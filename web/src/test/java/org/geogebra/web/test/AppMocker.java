@@ -39,6 +39,7 @@ public class AppMocker {
 		}
 
 	}
+	
 	public static AppWFull mockGraphing() {
 		return mockApp("graphing");
 	}

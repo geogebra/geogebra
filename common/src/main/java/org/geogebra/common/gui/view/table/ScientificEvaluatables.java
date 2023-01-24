@@ -53,7 +53,7 @@ public class ScientificEvaluatables {
 		}
 	}
 
-	private void storeInitialUndoInfo()	{
+	private void storeInitialUndoInfo() {
 		App app = functionF.getApp();
 		app.getUndoManager().clearUndoInfo();
 		app.storeUndoInfo();
