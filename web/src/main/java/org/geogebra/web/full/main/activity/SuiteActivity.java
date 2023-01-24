@@ -30,7 +30,8 @@ public class SuiteActivity extends BaseActivity {
 	@Override
 	public void start(AppW app) {
 		super.start(app);
-		if (app.getConfig().getSubAppCode() != null) {
+		if (app.getConfig() != null
+				&& app.getConfig().getSubAppCode() != null) {
 			switch (app.getConfig().getSubAppCode()) {
 			case GeoGebraConstants.CAS_APPCODE:
 				app.getKernel().getGeoGebraCAS().initCurrentCAS();
