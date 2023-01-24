@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
+
 import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
@@ -52,6 +54,8 @@ public class DrawButtonWidget {
 	private final static int MARGIN_BOTTOM = 5;
 	private final static int MARGIN_LEFT = 10;
 	private final static int MARGIN_RIGHT = 10;
+
+	//private final static int DEFAULT_BUTTON_HEIGHT = 36;
 
 	/**
 	 * @param button
@@ -145,9 +149,9 @@ public class DrawButtonWidget {
 		currentWidth = Math.max(currentWidth,
 				imgWidth + (MARGIN_LEFT + MARGIN_RIGHT));
 
-		int currentHeight = Math.max((int) (textHeight + imgHeight + imgGap
-				+ (MARGIN_TOP + MARGIN_BOTTOM)),
-				minSize);
+		int currentHeight = Math.max(Math.max((int) (textHeight + imgHeight + imgGap
+		+ (MARGIN_TOP + MARGIN_BOTTOM)), DEFAULT_BUTTON_HEIGHT),
+		minSize);
 
 		// Initial offset for subimage if button has fixed size
 		int startX = 0;
