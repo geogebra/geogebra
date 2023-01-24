@@ -489,7 +489,6 @@ public abstract class ValidExpression
 		});
 	}
 
-
 	/**
 	 * @param name
 	 *            variable name
