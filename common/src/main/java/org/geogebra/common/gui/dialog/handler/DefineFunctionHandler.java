@@ -18,6 +18,7 @@ public class DefineFunctionHandler implements ErrorHandler {
 	}
 
 	public void handle(String text, GeoEvaluatable geo) {
+		errorOccurred = false;
 		String input = text.isEmpty() ? undefinedText(geo) : text;
 
 		if (geo instanceof GeoFunction) {
