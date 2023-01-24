@@ -614,10 +614,7 @@ public class ExamEnvironment {
 		commandDispatcher.addCommandArgumentFilter(examCommandFilter);
 	}
 
-	/**
-	 * Prepares the exam for starting.
-	 */
-	public void setupExamEnvironment() {
+	public void prepareExamForStarting() {
 		enableExamCommandFilter();
 		setShowSyntax(false);
 	}

@@ -385,7 +385,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private ParserFunctions pf;
 	private ParserFunctions pfInputBox;
 	private SpreadsheetTraceManager traceManager;
+
+	// Exam
 	private ExamEnvironment exam;
+	protected RestrictExam restrictions;
 
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
@@ -452,7 +455,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private final AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
-	protected RestrictExam restrictions;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -4017,7 +4019,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		CommandDispatcher commandDispatcher =
 				getKernel().getAlgebraProcessor().getCommandDispatcher();
 		examEnvironment.setCommandDispatcher(commandDispatcher);
-		updateExam(examEnvironment);
+		examEnvironment.setCopyPaste(getCopyPaste());
+	}
+
+	protected ExamEnvironment newExamEnvironment() {
+		return new ExamEnvironment(getLocalization());
 	}
 
 	private void initRestrictions(ExamRegion region) {
@@ -4028,21 +4034,34 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
-	protected ExamEnvironment newExamEnvironment() {
-		return new ExamEnvironment(getLocalization());
+	/**
+	 * Register a component to be restriced during exam
+	 *
+	 * @param restrictable the component to restrict.
+	 */
+	public void registerRestrictable(Restrictable restrictable) {
+		if (restrictions == null) {
+			ExamEnvironment exam = getExam();
+			ExamRegion region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
+			restrictions = ExamRestrictionFactory.create(region);
+		}
+		restrictions.register(restrictable);
 	}
 
 	/**
 	 * Start exam with current timestamp.
 	 */
 	public void startExam() {
-		setupExamEnvironment();
+		getExam().prepareExamForStarting();
 		getExam().setStart((new Date()).getTime());
 		restrictions.enable();
 	}
 
-	private void setupExamEnvironment() {
-		getExam().setupExamEnvironment();
+	/**
+	 * Show exam welcome message.
+	 */
+	public void examWelcome() {
+		// overridden in platforms supporting exam
 	}
 
 	/**
@@ -4147,7 +4166,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return StringTemplate.screenReaderAscii;
 	}
 
-	public void clearRestictions() {
+	public void clearRestrictions() {
 		restrictions.disable();
 	}
 
@@ -4338,13 +4357,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				}
 			}
 		}
-	}
-
-	/**
-	 * Show exam welcome message.
-	 */
-	public void examWelcome() {
-		// overridden in platforms supporting exam
 	}
 
 	/**
@@ -5065,12 +5077,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		ExamEnvironment examEnvironment = getExam();
 		if (examEnvironment != null) {
 			examEnvironment.setCommandDispatcher(commandDispatcher);
-			updateExam(examEnvironment);
+			examEnvironment.setCopyPaste(getCopyPaste());
 		}
-	}
-
-	protected void updateExam(@Nonnull ExamEnvironment examEnvironment) {
-		examEnvironment.setCopyPaste(getCopyPaste());
 	}
 
 	@Override
@@ -5118,20 +5126,5 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	@Override
 	public MyImage getInternalImageAdapter(String filename, int width, int height) {
 		return null;
-	}
-
-	/**
-	 * Register a component to be restriced during exam
-	 *
-	 * @param restrictable the component to restrict.
-	 */
-	public void registerRestrictable(Restrictable restrictable) {
-		if (restrictions == null) {
-			ExamEnvironment exam = getExam();
-			ExamRegion region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
-
-			restrictions = ExamRestrictionFactory.create(region);
-		}
-		restrictions.register(restrictable);
 	}
 }
