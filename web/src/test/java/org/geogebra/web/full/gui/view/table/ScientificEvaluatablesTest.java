@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.view.table;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
-import org.geogebra.common.gui.view.table.ScientificEvaluatables;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.StringTemplate;
@@ -24,13 +23,7 @@ public class ScientificEvaluatablesTest {
 	@Before
 	public void setUp() {
 		app = AppMocker.mockScientific();
-		view = new TableValuesView(app.kernel);
-		app.kernel.attach(view);
-		model = view.getTableValuesModel();
-		view.clearView();
-		ScientificEvaluatables evaluatables =
-				new ScientificEvaluatables(app.kernel.getConstruction());
-		evaluatables.addToTableOfValues(view);
+		view = (TableValuesView)app.getGuiManager().getTableValuesView();
 		app.getUndoManager().storeUndoInfo();
 	}
 
@@ -62,6 +55,7 @@ public class ScientificEvaluatablesTest {
 		DefineFunctionHandler handler = new DefineFunctionHandler(app);
 		handler.handle(fBody, f());
 		handler.handle(gBody, g());
+		app.storeUndoInfo();
 
 	}
 
@@ -71,8 +65,8 @@ public class ScientificEvaluatablesTest {
 
 	@Test
 	public void testChangeAndUndo() {
-		changeColumns("x", "2x");
-		tableShouldContain("x", "2x");
+		changeColumns("4x", "2x + 1");
+		tableShouldContain("4x", "2x + 1");
 		app.getUndoManager().undo();
 		tableShouldContain("?", "?");
 	}
