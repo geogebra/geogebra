@@ -50,6 +50,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	private final LabelController labelController;
 	private final HashSet<GeoElementND> elements;
 	private final TableValuesInputProcessor processor;
+	private boolean algebraLabelVisibleCheck = true;
 
 	/**
 	 * Create a new Table Value View.
@@ -91,7 +92,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void ensureHasLabel(GeoEvaluatable evaluatable) {
-		labelController.ensureColumnHasLabel(evaluatable);
+		if (algebraLabelVisibleCheck) {
+			labelController.ensureHasLabel(evaluatable);
+		} else {
+			labelController.ensureHasLabelNoAlgebra(evaluatable);
+		}
 	}
 
 	@Override
@@ -461,5 +466,13 @@ public class TableValuesView implements TableValues, SettingListener {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Disable checking algebraLabelVisible
+	 * for Scientific data table.
+	 */
+	public void noAlgebraLabelVisibleCheck() {
+		this.algebraLabelVisibleCheck = false;
 	}
 }

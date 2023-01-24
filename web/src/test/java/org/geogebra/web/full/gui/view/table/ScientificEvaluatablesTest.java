@@ -3,10 +3,11 @@ package org.geogebra.web.full.gui.view.table;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
-import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.ScientificEvaluatables;
+import org.geogebra.common.gui.view.table.TableValuesModel;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
@@ -17,12 +18,19 @@ import org.junit.runner.RunWith;
 @RunWith(GgbMockitoTestRunner.class)
 public class ScientificEvaluatablesTest {
 	private AppW app;
-	private TableValues tableValues;
+	protected TableValuesView view;
+	protected TableValuesModel model;
 
 	@Before
 	public void setUp() {
 		app = AppMocker.mockScientific();
-		tableValues = ((GuiManagerW) app.getGuiManager()).getTableValuesView();
+		view = new TableValuesView(app.kernel);
+		app.kernel.attach(view);
+		model = view.getTableValuesModel();
+		view.clearView();
+		ScientificEvaluatables evaluatables =
+				new ScientificEvaluatables(app.kernel.getConstruction());
+		evaluatables.addToTableOfValues(view);
 		app.getUndoManager().storeUndoInfo();
 	}
 
@@ -37,11 +45,11 @@ public class ScientificEvaluatablesTest {
 	}
 
 	private GeoEvaluatable g() {
-		return tableValues.getEvaluatable(2);
+		return view.getEvaluatable(2);
 	}
 
 	private GeoEvaluatable f() {
-		return tableValues.getEvaluatable(1);
+		return view.getEvaluatable(1);
 	}
 
 	@Test

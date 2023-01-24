@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.gui.view.table.ScientificEvaluatables;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -59,7 +60,10 @@ public class ScientificActivity extends BaseActivity {
 		ScientificEvaluatables functions = new ScientificEvaluatables(
 				app.getKernel().getConstruction());
 		app.getKernel().getAlgebraProcessor().setEnableStructures(true);
-		functions.addToTableOfValues(((GuiManagerW) app.getGuiManager()).getTableValuesView());
+		TableValuesView tableValuesView =
+				(TableValuesView) ((GuiManagerW) app.getGuiManager()).getTableValuesView();
+		tableValuesView.noAlgebraLabelVisibleCheck();
+		functions.addToTableOfValues(tableValuesView);
 	}
 
 	private static void initHeaderButtons(AppW app) {

@@ -70,7 +70,7 @@ public class LabelController {
 	 * @param elementND
 	 *            construction element
 	 */
-	public void ensureColumnHasLabel(GeoElementND elementND) {
+	public void ensureHasLabelNoAlgebra(GeoElementND elementND) {
 		GeoElement element = asGeoElement(elementND);
 		if (element != null && !element.isLabelSet()) {
 			showLabel(element);
