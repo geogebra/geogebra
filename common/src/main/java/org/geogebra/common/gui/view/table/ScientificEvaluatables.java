@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.App;
 
 public class ScientificEvaluatables {
 	private GeoEvaluatable functionF;
@@ -50,11 +51,13 @@ public class ScientificEvaluatables {
 		} catch (InvalidValuesException e) {
 			throw new RuntimeException(e);
 		} finally {
-			noUndoForInitialTableValues();
+			storeInitialUndoInfo();
 		}
 	}
 
-	private void noUndoForInitialTableValues() {
-		functionF.getApp().getUndoManager().clearUndoInfo();
+	private void storeInitialUndoInfo()	{
+		App app = functionF.getApp();
+		app.getUndoManager().clearUndoInfo();
+		app.storeUndoInfo();
 	}
 }
