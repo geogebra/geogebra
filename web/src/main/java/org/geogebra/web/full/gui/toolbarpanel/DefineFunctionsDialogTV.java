@@ -95,7 +95,6 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 		return defineFunctionHandler.hasErrorOccurred();
 	}
 
-
 	/**
 	 * reset field to empty
 	 */

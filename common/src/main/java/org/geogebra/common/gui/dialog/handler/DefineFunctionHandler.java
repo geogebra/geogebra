@@ -9,14 +9,26 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Class to handle functions change in Scientific Table View
+ */
 public class DefineFunctionHandler implements ErrorHandler {
 	private final App app;
 	private boolean errorOccurred;
 
+	/**
+	 *
+	 * @param app {@link App}
+	 */
 	public DefineFunctionHandler(App app) {
 		this.app = app;
 	}
 
+	/**
+	 * Redefine the geo according to the text input.
+	 * @param text input to process.
+	 * @param geo to redefine.
+	 */
 	public void handle(String text, GeoEvaluatable geo) {
 		errorOccurred = false;
 		String input = text.isEmpty() ? undefinedText(geo) : text;

@@ -12,8 +12,6 @@ public class ScientificEvaluatables {
 
 	/**
 	 * @param construction {@link Construction}
-	 * @param labelF
-	 * @param labelG
 	 */
 	public ScientificEvaluatables(Construction construction) {
 		functionF = createFunction(construction, "f");
