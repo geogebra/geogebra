@@ -13,7 +13,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.editor.web.MathFieldW;
+import com.himamis.retex.renderer.web.CreateLibrary;
+import com.himamis.retex.renderer.web.JlmApi;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 import elemental2.dom.DomGlobal;
@@ -33,6 +36,7 @@ public class EditorEntry implements EntryPoint {
 		new StyleInjector(baseUrl)
 				.inject("css", "editor");
 		Opentype.setFontBaseUrl(baseUrl);
+		CreateLibrary.exportLibrary(new JlmApi(new JlmEditorLib()));
 		RenderGgbElement.setRenderGGBElement((el, callback) -> {
 			EditorListener listener = new EditorListener();
 
