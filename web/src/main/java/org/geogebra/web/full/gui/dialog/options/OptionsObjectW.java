@@ -58,6 +58,7 @@ import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import org.geogebra.common.gui.dialog.options.model.VectorHeadStyleModel;
 import org.geogebra.common.gui.dialog.options.model.VerticalIncrementModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
@@ -195,11 +196,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	private class ShowConditionPanel extends OptionPanel
 			implements IShowConditionListener, ErrorHandler, Command {
-		private ShowConditionModel model;
-		private FormLabel title;
-		private AutoCompleteTextFieldW tfCondition;
+		private final ShowConditionModel model;
+		private final FormLabel title;
+		private final AutoCompleteTextFieldW tfCondition;
 
-		private FlowPanel errorPanel;
+		private final FlowPanel errorPanel;
 
 		public ShowConditionPanel() {
 			// this.propPanel = propPanel;
@@ -283,9 +284,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	class ReflexAnglePanel extends OptionPanel implements IReflexAngleListener {
 		ReflexAngleModel model;
-		private FlowPanel mainWidget;
-		private FormLabel intervalLabel;
-		private ListBox intervalLB;
+		private final FlowPanel mainWidget;
+		private final FormLabel intervalLabel;
+		private final ListBox intervalLB;
 
 		public ReflexAnglePanel() {
 			model = new ReflexAngleModel(app, isDefaults);
@@ -355,17 +356,17 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			implements IColorFunctionListener, Command {
 
 		ColorFunctionModel model;
-		private InputPanelW inputPanelA;
-		private AutoCompleteTextFieldW tfRed;
-		private AutoCompleteTextFieldW tfGreen;
-		private AutoCompleteTextFieldW tfBlue;
-		private AutoCompleteTextFieldW tfAlpha;
-		private Label btRemove;
-		private Label title;
-		private FormLabel nameLabelR;
-		private FormLabel nameLabelG;
-		private FormLabel nameLabelB;
-		private FormLabel nameLabelA;
+		private final InputPanelW inputPanelA;
+		private final AutoCompleteTextFieldW tfRed;
+		private final AutoCompleteTextFieldW tfGreen;
+		private final AutoCompleteTextFieldW tfBlue;
+		private final AutoCompleteTextFieldW tfAlpha;
+		private final Label btRemove;
+		private final Label title;
+		private final FormLabel nameLabelR;
+		private final FormLabel nameLabelG;
+		private final FormLabel nameLabelB;
+		private final FormLabel nameLabelA;
 
 		ListBox cbColorSpace;
 		int colorSpace = GeoElement.COLORSPACE_RGB;
@@ -580,7 +581,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			implements IGraphicsViewLocationListener {
 		ViewLocationModel model;
 
-		private Label title;
+		private final Label title;
 		ComponentCheckbox cbGraphicsView;
 		ComponentCheckbox cbGraphicsView2;
 		ComponentCheckbox cbGraphicsView3D;
@@ -834,12 +835,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		DecoSegmentModel decoSegment = new DecoSegmentModel(app);
 		SegmentStyleModel segmentStartStyle = new SegmentStyleModel(app, true);
 		SegmentStyleModel segmentEndStyle = new SegmentStyleModel(app, false);
+		VectorHeadStyleModel vectorHeadStyleModel = new VectorHeadStyleModel(app);
 
 		tab.addModel(ptSize).addModel(ptStyle).addModel(lod).addModel(lineStyle)
 				.addModel(drawArrows).addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
 				.addModel(tfSize).addModel(alignModel).addModel(buttonSize)
 				.addModel(filling).addModel(interpol).addModel(decoAngle)
-				.addModel(segmentStartStyle).addModel(segmentEndStyle).addModel(decoSegment);
+				.addModel(segmentStartStyle).addModel(segmentEndStyle).addModel(decoSegment)
+				.addModel(vectorHeadStyleModel);
 		return tab;
 	}
 
