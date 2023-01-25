@@ -202,10 +202,10 @@ public class CurvePlotterOriginal {
 			// segment from last point off screen?
 			segOffScreen = view.isSegmentOffView(eval0, eval1);
 			// pixel distance from last point OK?
-			distanceOK = segOffScreen || isDistanceOK(diff);
+			distanceOK = segOffScreen || isDistanceOK(diff) || diff[0] < curve.getMinDistX();
 			// angle from last segment OK?
 			angleOK = isAngleOK(prevDiff, diff, segOffScreen
-					? MAX_BEND_OFF_SCREEN : MAX_BEND);
+					? MAX_BEND_OFF_SCREEN : MAX_BEND) || diff[0] < curve.getMinDistX();
 
 			// bisect interval as long as max bisection depth not reached & ...
 			while (depth < MAX_DEFINED_BISECTIONS
@@ -256,10 +256,10 @@ public class CurvePlotterOriginal {
 				// segment from last point off screen?
 				segOffScreen = view.isSegmentOffView(eval0, eval1);
 				// pixel distance from last point OK?
-				distanceOK = segOffScreen || isDistanceOK(diff);
+				distanceOK = segOffScreen || isDistanceOK(diff) || diff[0] < curve.getMinDistX();
 				// angle from last segment OK?
 				angleOK = isAngleOK(prevDiff, diff, segOffScreen
-						? MAX_BEND_OFF_SCREEN : MAX_BEND);
+						? MAX_BEND_OFF_SCREEN : MAX_BEND) || diff[0] < curve.getMinDistX();
 
 			} // end of while-loop for interval bisections
 

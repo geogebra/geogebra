@@ -160,8 +160,8 @@ public class SymbolicUtil {
 			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
 				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
 			}
-			((HasSymbolicMode) geo).setSymbolicMode(
-					!((HasSymbolicMode) geo).isSymbolicMode(), true);
+			HasSymbolicMode hasSymbolicGeo = (HasSymbolicMode) geo;
+			hasSymbolicGeo.setSymbolicMode(!hasSymbolicGeo.isSymbolicMode(), true);
 
 			if (geo instanceof GeoSymbolic) {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
@@ -176,7 +176,7 @@ public class SymbolicUtil {
 			}
 
 			geo.updateRepaint();
-			return ((HasSymbolicMode) geo).isSymbolicMode();
+			return hasSymbolicGeo.isSymbolicMode();
 
 		}
 		return false;

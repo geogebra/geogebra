@@ -1,5 +1,6 @@
 package org.geogebra.test.euclidian.plot;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
@@ -9,6 +10,7 @@ import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotterOriginal;
 import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
+import org.geogebra.test.OrderingComparison;
 import org.junit.Test;
 
 public class CurvePlotterTest extends BaseUnitTest {
@@ -46,7 +48,7 @@ public class CurvePlotterTest extends BaseUnitTest {
 
 	@Test
 	public void testSinXPowerOf4() {
-		resultShouldBeTheSame(add("sin(x^4)"), -50, 50);
+		resultShouldBeTheSame(add("sin(x^4)"), -50, 50, 7000);
 	}
 
 	@Test
@@ -66,6 +68,11 @@ public class CurvePlotterTest extends BaseUnitTest {
 	}
 
 	protected void resultShouldBeTheSame(CurveEvaluable f, double tMin, double tMax) {
+		resultShouldBeTheSame(f, tMin, tMax, 1500);
+	}
+
+	protected void resultShouldBeTheSame(CurveEvaluable f, double tMin, double tMax,
+			int maxEvaluations) {
 		PathPlotterMock gp = new PathPlotterMock();
 		PathPlotterMock gpExpected = new PathPlotterMock();
 
@@ -75,7 +82,7 @@ public class CurvePlotterTest extends BaseUnitTest {
 
 		GPoint pointActual = CurvePlotter.plotCurve(f, tMin, tMax, view,
 				gp, true, Gap.MOVE_TO);
-
+		assertThat(gp.size(), OrderingComparison.lessThan(maxEvaluations));
 		assertEquals(gpExpected, gp);
 		assertEquals(pointExpected, pointActual);
 	}

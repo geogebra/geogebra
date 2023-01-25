@@ -162,7 +162,7 @@ public class CurveSegmentPlotter {
 	// to avoid multiple evaluations at the same position.
 	private boolean plotBisectorAlgo() {
 		do {
-			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
+			info.update(evalLeft, evalRight, params.diff, params.prevDiff, curve);
 			// bisect interval as long as max bisection depth not reached & ...
 			while (params.hasMaxDepthNotReached()
 					&& (info.isDistanceOrAngleInvalid()
@@ -185,7 +185,7 @@ public class CurveSegmentPlotter {
 				params.updateDiff(evalLeft, evalRight);
 				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros + 1 : 0;
 
-				info.update(evalLeft, evalRight, params.diff, params.prevDiff);
+				info.update(evalLeft, evalRight, params.diff, params.prevDiff, curve);
 
 			} // end of while-loop for interval bisections
 

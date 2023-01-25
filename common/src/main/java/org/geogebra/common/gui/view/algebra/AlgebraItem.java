@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
@@ -29,12 +30,14 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.SymbolicUtil;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 /**
  * Utitlity class for AV items
  */
 public class AlgebraItem {
+
+	public enum CASOutputType {
+		NUMERIC, SYMBOLIC
+	}
 
 	/**
 	 * @param geo
@@ -42,17 +45,16 @@ public class AlgebraItem {
 	 * @return arrow or approx, depending on symbolic/numeric nature of the
 	 *         element
 	 */
-	public static String getOutputPrefix(GeoElement geo) {
+	public static CASOutputType getCASOutputType(GeoElement geo) {
 		if (geo instanceof HasSymbolicMode
 				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
 			if (!(geo.getParentAlgorithm() instanceof AlgoSolve)
 					|| ((AlgoSolve) geo.getParentAlgorithm())
 							.getClassName() == Commands.NSolve) {
-				return Unicode.CAS_OUTPUT_NUMERIC + "";
+				return CASOutputType.NUMERIC;
 			}
 		}
-
-		return getSymbolicPrefix(geo.getKernel());
+		return CASOutputType.SYMBOLIC;
 	}
 
 	/**
@@ -177,17 +179,6 @@ public class AlgebraItem {
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
-	 * @return symbolic prefix (depends on RTL/LTR)
-	 */
-	public static String getSymbolicPrefix(Kernel kernel) {
-		return kernel.getLocalization().rightToLeftReadingOrder
-				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
-				: Unicode.CAS_OUTPUT_PREFIX + "";
-	}
-
-	/**
 	 * @param geo
 	 *            element
 	 * @return whether element is part of packed output (including header)
@@ -215,10 +206,8 @@ public class AlgebraItem {
 		if ("".equals(element.getDefinition(StringTemplate.defaultTemplate))) {
 			duplicate = element.getValueForInputBar();
 		} else {
-			duplicate = element
-					.getDefinitionNoLabel(StringTemplate.editorTemplate);
+			duplicate = element.getDefinitionNoLabel(StringTemplate.editorTemplate);
 		}
-
 		return duplicate;
 	}
 
@@ -240,7 +229,6 @@ public class AlgebraItem {
 				outputText = element.getAlgebraDescriptionRHSLaTeX();
 			}
 		}
-
 		return outputText;
 	}
 
@@ -270,6 +258,9 @@ public class AlgebraItem {
 		if (needsPacking(element)) {
 			return element.getLaTeXDescriptionRHS(false, StringTemplate.numericLatex);
 		} else if (!element.isAlgebraLabelVisible()) {
+			if (isTextItem(element)) {
+				return element.getLaTeXdescription();
+			}
 			return element.getDefinition(StringTemplate.numericLatex);
 		}
 
@@ -641,5 +632,24 @@ public class AlgebraItem {
 		return geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
+	}
+
+	/**
+	 * Check if a geo element has an output value that is a fraction.
+	 * @param geo element
+	 * @return `true` if the geo element has an output value that is a fraction
+	 */
+	public static boolean evaluatesToFraction(GeoElement geo) {
+		if (geo instanceof GeoSymbolic) {
+			GeoSymbolic symbolic = (GeoSymbolic) geo;
+			ExpressionValue value = symbolic.getValue();
+			if (value instanceof ExpressionNode) {
+				return ((ExpressionNode) value).isFraction();
+			}
+		} else if (geo instanceof GeoNumeric) {
+			GeoNumeric numeric = (GeoNumeric) geo;
+			return isGeoFraction(numeric);
+		}
+		return false;
 	}
 }

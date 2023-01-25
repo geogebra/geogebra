@@ -89,4 +89,8 @@ public class PathPlotterMock implements PathPlotter {
 	public int hashCode() {
 		return result().hashCode();
 	}
+
+	public int size() {
+		return log.size();
+	}
 }

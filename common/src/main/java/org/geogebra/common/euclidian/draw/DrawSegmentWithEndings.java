@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.geos.SegmentStyle;
 
 public class DrawSegmentWithEndings {
 	private GLine2D line;
-	private DrawSegment drawSegment;
+	private final DrawSegment drawSegment;
 	private int lineThickness;
 	private int posX;
 	private int posY;
@@ -51,9 +51,9 @@ public class DrawSegmentWithEndings {
 		GArea subtractedLine = substractFromLine(solidStart, solidEnd);
 		GShape outlinedStart = createOutlinedStart(startStyle);
 		GShape outlinedEnd = createOutlinedEnd(endStyle);
-		GShape lineWithEnds = union(subtractedLine,
-				outlinedStart == null ? solidStart : outlinedStart,
-				outlinedEnd == null ? solidEnd : outlinedEnd);
+		GShape[] shapes = new GShape[]{outlinedStart == null ? solidStart : outlinedStart,
+				outlinedEnd == null ? solidEnd : outlinedEnd};
+		GShape lineWithEnds = GCompositeShape.union(subtractedLine, shapes);
 		return lineWithEnds;
 	}
 
@@ -73,7 +73,7 @@ public class DrawSegmentWithEndings {
 		GShape solidStart = createSolidStart(startStyle);
 		GShape solidEnd = createSolidEnd(endStyle);
 		GArea subtractedLine = substractFromLine(solidStart, solidEnd);
-		GShape lineWithEnds = union(subtractedLine, solidStart, solidEnd);
+		GShape lineWithEnds = GCompositeShape.union(subtractedLine, solidStart, solidEnd);
 		return lineWithEnds;
 	}
 
@@ -96,21 +96,12 @@ public class DrawSegmentWithEndings {
 		drawSegment.fillShape(g2, lineWithEnds);
 	}
 
-	private GShape union(GArea composite, GShape... shapes) {
-		for (GShape shape : shapes) {
-			if (shape != null) {
-				composite.add(toArea(shape));
-			}
-		}
-		return composite;
-	}
-
 	private GArea substractFromLine(GShape... shapes) {
 		GShape strokedLine = drawSegment.getObjStroke().createStrokedShape(line, 255);
-		GArea area = toArea(strokedLine);
+		GArea area = GCompositeShape.toArea(strokedLine);
 		for (GShape shape : shapes) {
 			if (shape != null) {
-				area.subtract(toArea(shape));
+				area.subtract(GCompositeShape.toArea(shape));
 			}
 		}
 		return area;
@@ -154,10 +145,6 @@ public class DrawSegmentWithEndings {
 		GShape strokedShape = drawSegment.getDecoStroke().createStrokedShape(line2D, 255);
 		GShape rotatedLine = t.createTransformedShape(strokedShape);
 		return rotatedLine;
-	}
-
-	private GArea toArea(GShape shape) {
-		return AwtFactory.getPrototype().newArea(shape);
 	}
 
 	private void initRotateTrans(double angle, double transX, double transY,
@@ -256,8 +243,8 @@ public class DrawSegmentWithEndings {
 		GShape strokedArrow = createStrokedShape(arrowPath);
 		GShape transformedArrow = t.createTransformedShape(strokedArrow);
 		if (filled) {
-			GArea area = toArea(transformedArrow);
-			area.add(toArea(t.createTransformedShape(arrowPath)));
+			GArea area = GCompositeShape.toArea(transformedArrow);
+			area.add(GCompositeShape.toArea(t.createTransformedShape(arrowPath)));
 			return area;
 		}
 		return transformedArrow;
