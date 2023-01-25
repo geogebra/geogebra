@@ -3,8 +3,7 @@ package org.geogebra.web.tablet;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
-import org.geogebra.web.html5.GeoGebraGlobal;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
@@ -49,8 +48,8 @@ public class Tablet implements EntryPoint {
 	}
 
 	private void exportGGBElementRenderer() {
-		GeoGebraGlobal.setRenderGGBElement(this::renderArticleElement);
-		GeoGebraFrameW.renderGGBElementReady();
+		RenderGgbElement.setRenderGGBElement(this::renderArticleElement);
+		RenderGgbElement.renderGGBElementReady();
 	}
 
 	/**

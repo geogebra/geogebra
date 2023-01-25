@@ -2,6 +2,7 @@ package org.geogebra.web.editor;
 
 import org.geogebra.keyboard.web.TabbedKeyboard;
 
+import com.himamis.retex.editor.share.serializer.SolverSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.TeXFormula;
@@ -39,11 +40,12 @@ public class EditorApi {
 	}
 
 	/**
-	 * @return state, contains formula in LaTeX, AsciiMath [TODO and solver] syntax
+	 * @return state, contains formula in LaTeX, AsciiMath and solver syntax
 	 */
 	public Object getEditorState() {
 		JsPropertyMap<Object> jsObject = JsPropertyMap.of();
 		jsObject.set("latex", new TeXSerializer().serialize(mathField.getFormula()));
+		jsObject.set("solver", new SolverSerializer().serialize(mathField.getFormula()));
 		jsObject.set("content", mathField.getText());
 		return jsObject;
 	}
