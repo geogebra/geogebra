@@ -80,7 +80,7 @@ public class StatsDialogTV extends ComponentDialog {
 	public void addRegressionChooserHasError(List<RegressionSpecification> available,
 			List<StatisticGroup> initialRegression) {
 		List<String> items = new ArrayList<>();
-		available.forEach(spec -> items.add(spec.getLabel()));
+		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
 
 		CompDropDown regressionChooser = new CompDropDown((AppW) app,
 				app.getLocalization().getMenu("RegressionModel"), items);

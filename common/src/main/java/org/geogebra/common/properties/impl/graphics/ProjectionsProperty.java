@@ -39,12 +39,8 @@ public class ProjectionsProperty extends AbstractEnumerableProperty
 		super(localization, "Projection");
 		this.view = view;
 		this.euclidianSettings = euclidianSettings;
-		setValuesAndLocalize(new String[] {
-				"stylebar.ParallelProjection",
-				"stylebar.PerspectiveProjection",
-				"stylebar.GlassesProjection",
-				"stylebar.ObliqueProjection"
-		});
+		setValues("stylebar.ParallelProjection", "stylebar.PerspectiveProjection",
+				"stylebar.GlassesProjection", "stylebar.ObliqueProjection");
 	}
 
 	@Override

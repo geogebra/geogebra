@@ -88,7 +88,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLabelingItem() {
-			EnumerableProperty property = new LabelingProperty(app.getLocalization(),
+			LabelingProperty property = new LabelingProperty(app.getLocalization(),
 					app.getSettings().getLabelSettings());
 			labelingDropDown = new CompDropDown(app, null, property);
 			lblLabeling = new FormLabel(

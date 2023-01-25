@@ -23,11 +23,7 @@ public class CoordinatesProperty extends AbstractEnumerableProperty {
     public CoordinatesProperty(Kernel kernel, Localization localization) {
         super(localization, "Coordinates");
         this.kernel = kernel;
-        setValuesAndLocalize(new String[]{
-                "A = (x, y)",
-                "A(x | y)",
-                "A: (x, y)"
-        });
+        setValues("A = (x, y)", "A(x | y)", "A: (x, y)");
     }
 
     @Override

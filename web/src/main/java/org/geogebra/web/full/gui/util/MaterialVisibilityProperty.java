@@ -34,9 +34,9 @@ public class MaterialVisibilityProperty extends AbstractEnumerableProperty {
 	public void update(MaterialVisibility visibility) {
 		Log.debug("Property is updated to " + visibility);
 		if (visibility == MaterialVisibility.Public) {
-			setValuesAndLocalize("Private", "Shared", "Public");
+			setValues("Private", "Shared", "Public");
 		} else {
-			setValuesAndLocalize("Private", "Shared");
+			setValues("Private", "Shared");
 		}
 		setValueSafe("", visibility.getIndex());
 	}

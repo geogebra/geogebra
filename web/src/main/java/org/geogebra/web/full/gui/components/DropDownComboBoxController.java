@@ -125,7 +125,6 @@ public class DropDownComboBoxController implements SetLabels {
 	public void setLabels() {
 		if (property != null) {
 			setElements(Arrays.asList(property.getValues()));
-			setSelectedOption(property.getIndex());
 		} else {
 			setElements(items);
 		}
