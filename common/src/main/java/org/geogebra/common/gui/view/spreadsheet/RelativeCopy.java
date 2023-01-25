@@ -49,7 +49,7 @@ public class RelativeCopy {
 	// protected MyTable table;
 	protected static final RegExp pattern2 = RegExp
 			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
-	private static GeoElementND redefinedElement;
+	private GeoElementND redefinedElement;
 
 	/**
 	 * @param kernel

@@ -6,8 +6,8 @@ plugins {
 
 ext.gwtCompilerVersion = '2.10.0'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 gwt {
 	maxHeapSize = '2000M'

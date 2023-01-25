@@ -41,13 +41,13 @@ eclipse.classpath.file {
 }
 
 compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 }
 
 compileTestJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 }
 
 dependencies {
@@ -58,7 +58,6 @@ dependencies {
     implementation project(':input3D:impl')
     implementation project(':giac-jni')
     implementation 'netscape.javascript:jsobject:1',
-            'com.apple:mac_extensions:20040714',
             'com.ogprover:OpenGeoProver:20120725',
             'com.sun:jna:4.1.0'
 

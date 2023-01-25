@@ -4,8 +4,8 @@ plugins {
 }
 description 'Platform independent supplementary files for graphics support'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 dependencies {
     implementation project(':common')

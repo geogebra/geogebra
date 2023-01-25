@@ -4,8 +4,8 @@ plugins {
 
 project.setDescription('Parts of GeoGebra related to input devices (standard)')
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 dependencies {
 	implementation project(':common')
