@@ -23,7 +23,7 @@ public class ScientificEvaluatablesTest {
 	@Before
 	public void setUp() {
 		app = AppMocker.mockScientific();
-		view = (TableValuesView)app.getGuiManager().getTableValuesView();
+		view = (TableValuesView) app.getGuiManager().getTableValuesView();
 		app.getUndoManager().storeUndoInfo();
 	}
 
