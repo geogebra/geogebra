@@ -1,5 +1,7 @@
 package org.geogebra.web.full.main.activity;
 
+import java.util.Objects;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
@@ -30,8 +32,7 @@ public class SuiteActivity extends BaseActivity {
 	@Override
 	public void start(AppW app) {
 		super.start(app);
-		if (app.getConfig() != null
-				&& app.getConfig().getSubAppCode() != null) {
+		if (app != null && app.getConfig() != null && app.getConfig().getSubAppCode() != null) {
 			switch (app.getConfig().getSubAppCode()) {
 			case GeoGebraConstants.CAS_APPCODE:
 				app.getKernel().getGeoGebraCAS().initCurrentCAS();
