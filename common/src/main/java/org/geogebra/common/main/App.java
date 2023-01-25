@@ -12,7 +12,6 @@ import java.util.Random;
 import java.util.Vector;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;

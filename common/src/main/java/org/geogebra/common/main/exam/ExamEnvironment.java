@@ -614,6 +614,9 @@ public class ExamEnvironment {
 		commandDispatcher.addCommandArgumentFilter(examCommandFilter);
 	}
 
+	/**
+	 * Prepares the command related restrictions for the exam
+	 */
 	public void prepareExamForStarting() {
 		enableExamCommandFilter();
 		setShowSyntax(false);
