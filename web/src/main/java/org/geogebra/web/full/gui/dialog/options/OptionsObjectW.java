@@ -976,8 +976,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public LabelStyleProperty(LabelPanel labelPanel) {
 			super(app.getLocalization(), "");
 			this.labelPanel = labelPanel;
-			setValuesAndLocalize("Name", "NameAndValue",
-					"Value", "Caption", "CaptionAndValue");
+			setValues("Name", "NameAndValue", "Value", "Caption", "CaptionAndValue");
 		}
 
 		@Override
