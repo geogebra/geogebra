@@ -39,17 +39,18 @@ public class TableValuesView implements TableValues, SettingListener {
 	private static final int MAX_ROWS = 200;
 
 	@Weak
-	private Kernel kernel;
+	private final Kernel kernel;
 	@Weak
-	private App app;
+	private final App app;
 	@Weak
-	private TableSettings settings;
+	private final TableSettings settings;
 
-	private SimpleTableValuesModel model;
+	private final SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
-	private LabelController labelController;
-	private HashSet<GeoElementND> elements;
-	private TableValuesInputProcessor processor;
+	private final LabelController labelController;
+	private final HashSet<GeoElementND> elements;
+	private final TableValuesInputProcessor processor;
+	private boolean algebraLabelVisibleCheck = true;
 
 	/**
 	 * Create a new Table Value View.
@@ -91,7 +92,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void ensureHasLabel(GeoEvaluatable evaluatable) {
-		labelController.ensureHasLabel(evaluatable);
+		if (algebraLabelVisibleCheck) {
+			labelController.ensureHasLabel(evaluatable);
+		} else {
+			labelController.ensureHasLabelNoAlgebra(evaluatable);
+		}
 	}
 
 	@Override
@@ -461,5 +466,13 @@ public class TableValuesView implements TableValues, SettingListener {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Disable checking algebraLabelVisible
+	 * for Scientific data table.
+	 */
+	public void noAlgebraLabelVisibleCheck() {
+		this.algebraLabelVisibleCheck = false;
 	}
 }

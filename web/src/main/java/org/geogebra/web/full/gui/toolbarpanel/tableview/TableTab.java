@@ -46,12 +46,10 @@ public class TableTab extends ToolbarTab {
 	}
 
 	/**
-	 * reset define function dialog
+	 * Resets tab GUI
 	 */
 	public void reset() {
-		if (table instanceof StickyValuesTable) {
-			((StickyValuesTable) table).resetDialog();
-		}
+		toolbarPanel.getDecorator().reset();
 	}
 
 	private void decorate() {

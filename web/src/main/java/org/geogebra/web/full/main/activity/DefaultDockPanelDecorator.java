@@ -42,4 +42,9 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 	public void resizeTableSmallScreen(int tabHeight) {
 		resizeTable(tabHeight);
 	}
+
+	@Override
+	public void reset() {
+		// nothing to do.
+	}
 }

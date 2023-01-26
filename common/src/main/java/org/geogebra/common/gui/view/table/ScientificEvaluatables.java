@@ -1,18 +1,16 @@
-package org.geogebra.web.full.main.activity;
+package org.geogebra.common.gui.view.table;
 
-import org.geogebra.common.gui.view.table.InvalidValuesException;
-import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.App;
 
 public class ScientificEvaluatables {
 	private GeoEvaluatable functionF;
 	private GeoEvaluatable functionG;
 
 	/**
-	 *
 	 * @param construction {@link Construction}
 	 */
 	public ScientificEvaluatables(Construction construction) {
@@ -50,6 +48,14 @@ public class ScientificEvaluatables {
 			table.setValues(-2, 2, 1);
 		} catch (InvalidValuesException e) {
 			throw new RuntimeException(e);
+		} finally {
+			storeInitialUndoInfo();
 		}
+	}
+
+	private void storeInitialUndoInfo() {
+		App app = functionF.getApp();
+		app.getUndoManager().clearUndoInfo();
+		app.storeUndoInfo();
 	}
 }
