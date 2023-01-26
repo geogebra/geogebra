@@ -353,7 +353,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 					&& (event.getCharCode() == 'v'
 							|| event.getCharCode() == 'V')
 					|| isLeftAltDown()) {
-
 				event.stopPropagation();
 			} else {
 				if (event.getUnicodeCharCode() > 31) {
@@ -1044,9 +1043,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.mathFieldInternal.setPlainTextMode(plainText);
 	}
 
-	/**
-	 * Remove focus and call blur handler.
-	 */
+	@Override
 	public void blur() {
 		this.inputTextArea.setFocus(false);
 		if (this.onTextfieldBlur != null) {
