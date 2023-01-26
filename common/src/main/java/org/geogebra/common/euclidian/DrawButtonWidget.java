@@ -55,7 +55,7 @@ public class DrawButtonWidget {
 	private final static int MARGIN_LEFT = 10;
 	private final static int MARGIN_RIGHT = 10;
 
-	//private final static int DEFAULT_BUTTON_HEIGHT = 36;
+	private final static int DEFAULT_TEXT_HEIGHT = 24;
 
 	/**
 	 * @param button
@@ -149,9 +149,9 @@ public class DrawButtonWidget {
 		currentWidth = Math.max(currentWidth,
 				imgWidth + (MARGIN_LEFT + MARGIN_RIGHT));
 
-		int currentHeight = Math.max(Math.max((int) (textHeight + imgHeight + imgGap
-		+ (MARGIN_TOP + MARGIN_BOTTOM)), DEFAULT_BUTTON_HEIGHT),
-		minSize);
+		int currentHeight = (int) textHeight == DEFAULT_TEXT_HEIGHT ? DEFAULT_BUTTON_HEIGHT
+				: Math.max((int) (textHeight + imgHeight + imgGap + (MARGIN_TOP + MARGIN_BOTTOM)),
+				minSize);
 
 		// Initial offset for subimage if button has fixed size
 		int startX = 0;
