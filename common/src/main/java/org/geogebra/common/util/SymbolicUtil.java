@@ -191,16 +191,13 @@ public class SymbolicUtil {
 	public static boolean shouldComputeNumericValue(ExpressionValue expression) {
 		if (expression != null && expression.isNumberValue()) {
 			ExpressionValue unwrapped = expression.unwrap();
-
 			if (expression.wrap().containsGeoDummyVariable()) {
 				return false;
 			}
-
 			if (unwrapped instanceof NumberValue) {
 				return ((NumberValue) unwrapped).isDefined();
-			} else {
-				return true;
 			}
+			return true;
 		}
 		return false;
 	}
