@@ -480,13 +480,7 @@ public abstract class ValidExpression
 	 * @return true if this expression contains a dummy variable.
 	 */
 	public final boolean containsGeoDummyVariable() {
-		return this.inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v instanceof GeoDummyVariable;
-			}
-		});
+		return this.inspect(v -> v instanceof GeoDummyVariable);
 	}
 
 	/**
