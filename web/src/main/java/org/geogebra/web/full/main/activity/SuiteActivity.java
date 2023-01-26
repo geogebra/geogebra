@@ -13,7 +13,6 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection3D;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Activity class for the GeoGebra Suite app
@@ -25,20 +24,6 @@ public class SuiteActivity extends BaseActivity {
 	 */
 	public SuiteActivity(String subAppCode, boolean casDisabled) {
 		super(getAppConfig(subAppCode, casDisabled));
-	}
-
-	@Override
-	public void start(AppW app) {
-		super.start(app);
-		if (app != null && app.getConfig() != null && app.getConfig().getSubAppCode() != null) {
-			switch (app.getConfig().getSubAppCode()) {
-			case GeoGebraConstants.CAS_APPCODE:
-				app.getKernel().getGeoGebraCAS().initCurrentCAS();
-				break;
-			default:
-				break;
-			}
-		}
 	}
 
 	private static AppConfig getAppConfig(String subAppCode, boolean casDisabled) {
