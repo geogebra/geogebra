@@ -68,18 +68,24 @@ public class EnvArray {
 
 	public static final class RowSep extends EmptyAtom {
 
-		private RowSep() {
+		private final TeXLength minHeight;
+
+		public RowSep(TeXLength minHeight) {
+			this.minHeight = minHeight;
 		}
 
 		public static RowSep get() {
-			return new RowSep();
+			return new RowSep(null);
 		}
 
 		@Override
 		public Atom duplicate() {
-			return setFields(new RowSep());
+			return setFields(new RowSep(minHeight));
 		}
 
+		public TeXLength getMinHeight() {
+			return minHeight;
+		}
 	}
 
 	public static final class CellColor extends EmptyAtom {
