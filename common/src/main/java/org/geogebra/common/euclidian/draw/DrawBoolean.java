@@ -251,7 +251,9 @@ public final class DrawBoolean extends Drawable {
 					BORDER_DIAMETER);
 			// Draw rounded border
 			if (!checked) {
-				g.setColor(disabled ? GeoGebraColorConstants.DISABLED_BORDER : GeoGebraColorConstants.DEFAULT_BORDER);
+				g.setColor(disabled
+						? GeoGebraColorConstants.DISABLED_BORDER
+						: GeoGebraColorConstants.DEFAULT_BORDER);
 				g.drawRoundRect(x + 1, y + 1, CHECKBOX_SIZE - 2,
 						CHECKBOX_SIZE - 2, BORDER_DIAMETER, BORDER_DIAMETER);
 			}
