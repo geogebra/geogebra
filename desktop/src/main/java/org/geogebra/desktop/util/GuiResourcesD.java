@@ -104,7 +104,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	FILLING_SETTINGS("/org/geogebra/common/icons/svg/common/settings.svg"),
 
-	ADD("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg"),
+	ADD("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg"),
 
 	REMOVE("org/geogebra/common/icons/svg/common/remove.svg"),
 
