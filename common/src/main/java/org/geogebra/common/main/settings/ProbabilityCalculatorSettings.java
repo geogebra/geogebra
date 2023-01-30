@@ -217,6 +217,8 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		isOverlayActive = false;
 		low = null;
 		high = null;
+		distributionType = Dist.NORMAL;
+		probMode = 0;
 		settingChanged();
 	}
 }
