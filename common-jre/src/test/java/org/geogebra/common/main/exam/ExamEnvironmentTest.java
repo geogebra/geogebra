@@ -106,7 +106,7 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 	private void testSetCasEnabled(boolean enabled) {
 		boolean casDefaultState = isCasEnabled();
 		examEnvironment.setCasEnabled(enabled, casSettings);
-		examEnvironment.setupExamEnvironment();
+		examEnvironment.prepareExamForStarting();
 		if (enabled) {
 			assertThat(isCasEnabled(), is(true));
 		} else {

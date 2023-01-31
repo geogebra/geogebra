@@ -156,12 +156,12 @@ public class ArgumentHelper {
 				&& "\u2064".equals(parent.getArgument(parent.size() - 1).toString())) {
 			MathFunction mixed = new MathFunction(model.getGeneral(Tag.MIXED_NUMBER));
 			MathSequence whole = new MathSequence();
-			parent.delArgument(parent.size() - 1);
 			passCharacters((MathSequence) parent, parent.size() - 1, whole,
 					c -> !java.lang.Character.isDigit(c.getUnicode()));
 			mixed.setArgument(0, whole);
 			mixed.setArgument(1, fraction.getArgument(0));
 			mixed.setArgument(2, fraction.getArgument(1));
+			parent.delArgument(parent.size() - 1);
 			parent.addArgument(mixed);
 		} else {
 			parent.addArgument(fraction);

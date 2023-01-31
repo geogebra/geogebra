@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
 
@@ -37,7 +38,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	/**
 	 * Creates new implicit polynomial from equation. This algo may also return
 	 * line or conic.
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param simplify
@@ -49,6 +50,25 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 */
 	public AlgoDependentImplicitPoly(Construction c, Equation equ,
 			ExpressionNode definition, boolean simplify) {
+		this(c, equ, definition, simplify, null);
+	}
+
+	/**
+	 * Creates new implicit polynomial from equation. This algo may also return
+	 * line or conic.
+	 * 
+	 * @param c
+	 *            construction
+	 * @param simplify
+	 *            whether we can evaluate the coefficients
+	 * @param equ
+	 *            equation
+	 * @param definition
+	 *            definition node
+	 * @param evaluatedDef result of evaluation of the definition node
+	 */
+	public AlgoDependentImplicitPoly(Construction c, Equation equ,
+			ExpressionNode definition, boolean simplify, ExpressionValue evaluatedDef) {
 		super(c, false);
 		equation = equ;
 		if (equation.isFunctionDependent()) {
@@ -75,7 +95,11 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		switch (deg) {
 		// linear equation -> LINE
 		case 1:
-			geoElement = new GeoLine(c);
+			if (evaluatedDef.unwrap() instanceof GeoLine) {
+				geoElement = ((GeoLine) evaluatedDef.unwrap()).copy();
+			} else {
+				geoElement = new GeoLine(c);
+			}
 			break;
 		// quadratic equation -> CONIC
 		case 2:
@@ -137,11 +161,13 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	}
 
 	private void compute(boolean first) {
+		EquationValue evalDef = null;
 		if (!first) {
 			boolean recomputeCoeff = false;
 			if (equation != geoElement.getDefinition().unwrap()) {
-				equation = ((EquationValue) geoElement.getDefinition()
-						.evaluate(StringTemplate.defaultTemplate))
+				evalDef = ((EquationValue) geoElement.getDefinition()
+						.evaluate(StringTemplate.defaultTemplate));
+				equation = evalDef
 								.getEquation();
 				equation.setFunctionDependent(true);
 				recomputeCoeff = true;
@@ -186,6 +212,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 					replaceGeoElement(new GeoLine(getConstruction()));
 					setLine();
 				}
+			}
+			if (evalDef instanceof GeoRay) {
+				geoElement.set((GeoElementND) evalDef);
 			}
 			break;
 		// quadratic equation -> CONIC

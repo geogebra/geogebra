@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.io.ObjectLabelHandler;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
@@ -15,6 +16,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
+import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Response;
 
@@ -105,24 +107,28 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	private void onPaste() {
 		hide();
 		String url = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
+		String objects = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE_OBJECTS);
+		String targetID = PageListController.nextID();
 		DomGlobal.fetch(url).then(Response::text).then(text -> {
 			app.dispatchEvent(new Event(EventType.PASTE_PAGE)
-					.setJsonArgument(getPasteJson(text)));
-			frame.getPageControlPanel().pastePage(card, text);
+					.setJsonArgument(getPasteJson(text, targetID, objects)));
+			frame.getPageControlPanel().pastePage(card, targetID, text);
 			return null;
 		}).catch_(err -> {
 			// paste data from previous session -> delete
 			BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE);
+			BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE_OBJECTS);
 			paste.setEnabled(false);
 			return null;
 		});
 	}
 
-	protected Map<String, Object> getPasteJson(String content) {
+	protected Map<String, Object> getPasteJson(String content, String targetId, String objects) {
 		Map<String, Object> pasteJson = new HashMap<>();
-		pasteJson.put("cardIdx", card.getPageIndex());
+		pasteJson.put("argument", targetId);
+		pasteJson.put("to", card.getPageIndex() + 1);
 		pasteJson.put("ggbFile", content);
-
+		pasteJson.put("targets", Global.JSON.parse(objects));
 		return pasteJson;
 	}
 
@@ -130,7 +136,11 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 		hide();
 		frame.getPageControlPanel().saveSlide(card);
 		String blob = CopyPasteW.asBlobURL(app.getGgbApi().toJson(card.getFile()));
+		String[] objects = ObjectLabelHandler.findObjectNames(
+				card.getFile().get("geogebra.xml").string);
 		BrowserStorage.LOCAL.setItem(BrowserStorage.COPY_SLIDE, blob);
+		BrowserStorage.LOCAL.setItem(BrowserStorage.COPY_SLIDE_OBJECTS,
+				Global.JSON.stringify(objects));
 	}
 
 	@Override

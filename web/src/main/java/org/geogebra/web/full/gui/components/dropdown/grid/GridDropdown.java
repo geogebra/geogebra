@@ -29,13 +29,13 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 
 	private GridDropdownListener listener;
 
-	private AppW app;
+	private final AppW app;
 
 	private StandardButton button;
 	private Grid view;
 	private GPopupPanel popup;
 
-	private List<GridItem> items = new ArrayList<>();
+	private final List<GridItem> items = new ArrayList<>();
 	private int selectedIndex = UNSELECTED_INDEX;
 
 	/**
@@ -57,17 +57,17 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 	 */
 	static class GridItem {
 		ImageResource resource;
-		String title;
+		String titleTransKey;
 
 		/**
 		 * Creates a new GridItem.
 		 *
 		 * @param resource image
-		 * @param title title
+		 * @param titleTransKey title translation key
 		 */
-		GridItem(ImageResource resource, String title) {
+		GridItem(ImageResource resource, String titleTransKey) {
 			this.resource = resource;
-			this.title = title;
+			this.titleTransKey = titleTransKey;
 		}
 	}
 
@@ -122,7 +122,7 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 	private void updateSelectedIndex() {
 		String title = "";
 		if (selectedIndex >= 0) {
-			title = items.get(selectedIndex).title;
+			title = app.getLocalization().getMenu(items.get(selectedIndex).titleTransKey);
 		}
 		button.setText(title);
 	}
@@ -130,11 +130,11 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 	/**
 	 * Adds an item to the dropdown.
 	 *
-	 * @param title title of the cell
+	 * @param titleTransKey title of the cell
 	 * @param resource image to display
 	 */
-	public void addItem(String title, ImageResource resource) {
-		items.add(new GridItem(resource, title));
+	public void addItem(String titleTransKey, ImageResource resource) {
+		items.add(new GridItem(resource, titleTransKey));
 		if (items.size() == 1) {
 			setSelectedIndex(0);
 		}
@@ -198,7 +198,7 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 
 		Label title = new Label();
 		title.addStyleName("title");
-		title.setText(item.title);
+		title.setText(app.getLocalization().getMenu(item.titleTransKey));
 		panel.add(title);
 
 		return panel;

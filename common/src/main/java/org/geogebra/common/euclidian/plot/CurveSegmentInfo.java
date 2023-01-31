@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.plot;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 
 /**
  * Class to query basic information for a segment about to draw
@@ -23,6 +24,7 @@ public class CurveSegmentInfo {
 	private boolean distanceOK;
 	private boolean angleOK;
 	private boolean offScreen;
+	private boolean reachedminStep;
 
 	/**
 	 * Constructor
@@ -49,12 +51,13 @@ public class CurveSegmentInfo {
 	 * @param diff left-right difference in pixels.
 	 * @param prevDiff the
 	 */
-	public void update(double[] evalLeft, double[] evalRight, double[] diff, double[] prevDiff) {
+	public void update(double[] evalLeft, double[] evalRight, double[] diff, double[] prevDiff,
+			CurveEvaluable curve) {
 		offScreen = view.isSegmentOffView(evalLeft, evalRight);
+		reachedminStep = Math.abs(diff[0]) < curve.getMinDistX();
 		distanceOK = offScreen || isDistanceOK(diff);
 		angleOK = isAngleOK(prevDiff, diff, offScreen
 				? MAX_BEND_OFF_SCREEN : MAX_BEND);
-
 	}
 
 	/**
@@ -115,5 +118,9 @@ public class CurveSegmentInfo {
 			}
 			return det < bend * innerProduct;
 		}
+	}
+
+	public boolean hasNotReachedMinStep() {
+		return !reachedminStep;
 	}
 }

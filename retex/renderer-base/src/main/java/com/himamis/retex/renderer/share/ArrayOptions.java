@@ -53,11 +53,16 @@ public final class ArrayOptions {
 	public static final class Option {
 
 		private final TeXConstants.Align alignment;
+		private final TeXConstants.Align vertAlignment;
+		private final TeXLength minWidth;
 		private List<Atom> separators;
 
-		Option(final TeXConstants.Align alignment) {
+		Option(final TeXConstants.Align alignment, final TeXConstants.Align vertAlignment,
+				final TeXLength minWidth) {
 			this.alignment = alignment;
+			this.vertAlignment = vertAlignment;
 			this.separators = new ArrayList<>();
+			this.minWidth = minWidth;
 		}
 
 		public TeXConstants.Align getAlignment() {
@@ -104,6 +109,14 @@ public final class ArrayOptions {
 			}
 
 			return a;
+		}
+
+		public TeXLength getMinWidth() {
+			return minWidth;
+		}
+
+		public TeXConstants.Align getVertAlignment() {
+			return vertAlignment;
 		}
 	}
 
@@ -168,10 +181,15 @@ public final class ArrayOptions {
 	}
 
 	public ArrayOptions addAlignment(final TeXConstants.Align alignment) {
+		return addAlignment(alignment, TeXConstants.Align.TOP, null);
+	}
+
+	public ArrayOptions addAlignment(final TeXConstants.Align alignment,
+			TeXConstants.Align vertAlignment, TeXLength minWidth) {
 		if (options.isEmpty() || last().isAlignment()) {
 			addSeparator(VlineAtom.getEmpty());
 		}
-		options.add(new Option(alignment));
+		options.add(new Option(alignment, vertAlignment, minWidth));
 		return this;
 	}
 
@@ -182,7 +200,7 @@ public final class ArrayOptions {
 	public ArrayOptions addSeparator(final Atom a) {
 		final int s = options.size();
 		if (s == 0) {
-			final Option o = new Option(TeXConstants.Align.INVALID);
+			final Option o = new Option(TeXConstants.Align.INVALID, TeXConstants.Align.TOP, null);
 			o.separators.add(a);
 			options.add(o);
 		} else {
@@ -217,5 +235,13 @@ public final class ArrayOptions {
 			}
 		}
 		return s + " size:" + options.size();
+	}
+
+	public TeXLength getMinWidth(int j) {
+		return options.get(j + 1).getMinWidth();
+	}
+
+	public TeXConstants.Align getVertAlignment(int j) {
+		return options.get(j + 1).getVertAlignment();
 	}
 }

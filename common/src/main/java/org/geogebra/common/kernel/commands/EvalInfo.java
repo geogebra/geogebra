@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
 import java.util.TreeMap;
+import java.util.function.Predicate;
 
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
-import org.geogebra.common.util.GPredicate;
 
 /**
  * Flags and auxiliary information used for evaluation of an expression
@@ -29,7 +29,7 @@ public class EvalInfo {
 	private boolean allowMultiLetterVariables = true;
 	private boolean keepDefinition = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
-	private GPredicate<String> labelFilter;
+	private Predicate<String> labelFilter;
 	private RuleCollection redefinitionRule;
 	private MyArbitraryConstant constant;
 	private boolean isRedefinition = false;
@@ -358,13 +358,7 @@ public class EvalInfo {
 	 */
 	public EvalInfo withLabelRedefinitionAllowedFor(final String string) {
 		EvalInfo copy = copy();
-		copy.labelFilter = new GPredicate<String>() {
-
-			@Override
-			public boolean test(String t) {
-				return t == null || t.equals(string);
-			}
-		};
+		copy.labelFilter = t -> t == null || t.equals(string);
 		return copy;
 	}
 

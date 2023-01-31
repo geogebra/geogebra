@@ -2,9 +2,12 @@ package org.geogebra.test.euclidian.plot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.PathPlotter;
+import org.geogebra.common.jre.util.NumberFormat;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.matrix.CoordSys;
@@ -12,6 +15,7 @@ import org.geogebra.common.util.StringUtil;
 
 public class PathPlotterMock implements PathPlotter {
 	private List<String> log = new ArrayList<>();
+	NumberFormat nf = new NumberFormat("#.###", 5);
 
 	@Override
 	public void drawTo(double[] pos, SegmentType lineTo) {
@@ -24,7 +28,7 @@ public class PathPlotterMock implements PathPlotter {
 	}
 
 	protected void addLog(String message, double[] pos) {
-		log.add(message + " " + pos[0] + ", " + pos[1]);
+		log.add(message + " " + nf.format(pos[0]) + ", " + nf.format(pos[1]));
 	}
 
 	@Override
@@ -88,5 +92,13 @@ public class PathPlotterMock implements PathPlotter {
 	@Override
 	public int hashCode() {
 		return result().hashCode();
+	}
+
+	public int size() {
+		return log.size();
+	}
+
+	public String filter(Predicate<String> test) {
+		return log.stream().filter(test).collect(Collectors.joining(","));
 	}
 }

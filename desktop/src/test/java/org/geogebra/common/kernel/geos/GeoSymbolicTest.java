@@ -660,6 +660,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testShouldComputeNumericValue() {
+		GeoSymbolic geo = add("f(x)=x");
+		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(false));
+		geo = add("f(x)=a*x");
+		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(false));
+		add("b=10");
+		geo = add("g(x)=b*x");
+		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(false));
+		geo = add("g(2)");
+		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(true));
+	}
+
+	@Test
 	public void testFunctionsWithApostrophe() {
 		testOutputLabelOfFunctionsWithApostrophe("Integral(x)", "x");
 		testOutputLabelOfFunctionsWithApostrophe("TaylorPolynomial(x^2, 3, 1)", "6");
@@ -1935,5 +1948,23 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(fraction, instanceOf(GeoSymbolic.class));
 		assertThat(AlgebraItem.isGeoFraction(fraction), is(true));
 		assertThat(AlgebraItem.isGeoFraction(solve2), is(false));
+	}
+
+	@Test
+	public void testEvaluatesToFraction() {
+		GeoElement element = add("1/2");
+		assertThat(AlgebraItem.evaluatesToFraction(element), is(true));
+		element = add("0.5");
+		assertThat(AlgebraItem.evaluatesToFraction(element), is(true));
+		element = add("1");
+		assertThat(AlgebraItem.evaluatesToFraction(element), is(false));
+	}
+
+	@Test
+	public void testCASGeoType() {
+		GeoElement element = add("1/2");
+		assertThat(AlgebraItem.getCASOutputType(element), is(AlgebraItem.CASOutputType.SYMBOLIC));
+		element = add("Slider(0,1)");
+		assertThat(AlgebraItem.getCASOutputType(element), is(AlgebraItem.CASOutputType.NUMERIC));
 	}
 }

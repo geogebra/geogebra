@@ -1271,12 +1271,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	@Override
-	public void addRulerTypeItem(String item, BackgroundType type) {
-		// implemented in web
-	}
-
-	@Override
-	public void updateRuler(int typeIdx, GColor color, int lineStyle,
+	public void updateRuler(BackgroundType typeIdx, GColor color, int lineStyle,
 			boolean bold) {
 		// implemented in web
 	}

@@ -1,9 +1,10 @@
-package org.geogebra.web.full.gui.pagecontrolpanel;
+package org.geogebra.common.io;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import org.geogebra.common.io.DocHandler;
+import org.geogebra.common.util.StringUtil;
 
 public class ObjectLabelHandler implements DocHandler {
 
@@ -38,5 +39,23 @@ public class ObjectLabelHandler implements DocHandler {
 
 	public String[] getObjectNames() {
 		return labels.toArray(new String[0]);
+	}
+
+	/**
+	 * @param string construction XML
+	 * @return list of object names
+	 */
+	public static String[] findObjectNames(String string) {
+		if (StringUtil.empty(string)) {
+			return new String[0];
+		}
+		QDParser qd = new QDParser();
+		ObjectLabelHandler handler = new ObjectLabelHandler();
+		try {
+			qd.parse(handler, new StringReader(string));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return handler.getObjectNames();
 	}
 }

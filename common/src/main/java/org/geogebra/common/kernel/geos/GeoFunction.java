@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoDistancePointObject;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
+import org.geogebra.common.kernel.algos.AlgoFunctionInterval;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -2609,6 +2610,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 				if (!isDefined()) {
 					ret = "?";
+				} else if (interval && tpl.hasType(StringType.LATEX)
+						&& getParentAlgorithm() instanceof AlgoFunctionInterval) {
+					ret = getSingleCondition(
+							((AlgoFunctionInterval) getParentAlgorithm()).getCondition(),
+							getFunctionExpression(), substituteNumbers).toString();
 				} else {
 					ret = substituteNumbers ? getFunction().toValueString(tpl)
 							: getParentAlgorithm().getDefinition(tpl);
@@ -2623,18 +2629,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			ret = toOutputValueString(tpl);
 		}
 
-		/*
-		 * we don't want to deal with list braces in here since
-		 * GeoList.toOutputValueString() takes care of it
-		 */
-
-		if (tpl.hasType(StringType.LATEX)) {
-			if ((Unicode.INFINITY + "").equals(ret)) {
-				ret = "\\infty";
-			} else if ((Unicode.MINUS_INFINITY_STRING).equals(ret)) {
-				ret = "-\\infty";
-			}
-		}
 		if (shortLHS != null && tpl.allowShortLhs()) {
 			return shortLHS + " = " + ret;
 		}
@@ -2690,27 +2684,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	public String conditionalLaTeX(boolean substituteNumbers,
 			StringTemplate tpl) {
-		StringBuilder sbLaTeX = new StringBuilder();
+		StringBuilder sbLaTeX;
 		ExpressionNode expr = getFunctionExpression();
 		if (expr.getOperation().isIf()
 				&& !expr.getRight().wrap().isConditional()) {
-			if (substituteNumbers) {
-				sbLaTeX.append(expr.getRight()
-						.toValueString(StringTemplate.latexTemplate));
-				sbLaTeX.append(", \\;\\;\\;\\; \\left(");
-				sbLaTeX.append(expr.getLeft()
-						.toValueString(StringTemplate.latexTemplate));
-			} else {
-				sbLaTeX.append(
-						expr.getRight().toString(StringTemplate.latexTemplate));
-				sbLaTeX.append(", \\;\\;\\;\\; \\left(");
-				sbLaTeX.append(
-						expr.getLeft().toString(StringTemplate.latexTemplate));
-			}
-
-			sbLaTeX.append(" \\right)");
-
+			sbLaTeX = getSingleCondition(expr.getLeft(), expr.getRight(), substituteNumbers);
 		} else {
+			sbLaTeX = new StringBuilder();
 			ArrayList<ExpressionNode> cases = new ArrayList<>();
 			ArrayList<Bounds> conditions = new ArrayList<>();
 			boolean complete = Bounds.collectCases(expr, cases, conditions,
@@ -2770,6 +2750,27 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 
 		return sbLaTeX.toString().replace("\\questeq", "=");
+	}
+
+	private StringBuilder getSingleCondition(ExpressionValue condition,
+			ExpressionValue expression, boolean substituteNumbers) {
+		StringBuilder sbLaTeX = new StringBuilder();
+		if (substituteNumbers) {
+			sbLaTeX.append(expression
+					.toValueString(StringTemplate.latexTemplate));
+			sbLaTeX.append(", \\;\\;\\;\\; \\left(");
+			sbLaTeX.append(condition
+					.toValueString(StringTemplate.latexTemplate));
+		} else {
+			sbLaTeX.append(
+					expression.toString(StringTemplate.latexTemplate));
+			sbLaTeX.append(", \\;\\;\\;\\; \\left(");
+			sbLaTeX.append(
+					condition.toString(StringTemplate.latexTemplate));
+		}
+
+		sbLaTeX.append(" \\right)");
+		return sbLaTeX;
 	}
 
 	@Override
@@ -3089,5 +3090,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (app.hasEuclidianView2(1)) {
 			app.getEuclidianView2(1).getEuclidianController().removeZoomerAnimationListener(this);
 		}
+	}
+
+	@Override
+	public double getMinDistX() {
+		return 0.1; // max. 16 evaluations per pixel -- does not freeze the app
+		// and still looks OK with sin(x^x)
 	}
 }

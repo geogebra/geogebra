@@ -335,8 +335,9 @@ public class ShareControllerW implements ShareController {
 				String paramMultiplayerUrl = app.getAppletParameters().getParamMultiplayerUrl();
 				JavaScriptInjector.inject(MultiplayerResources.INSTANCE.multiplayer());
 				JsPropertyMap<?> config = JsPropertyMap.of("collabUrl", paramMultiplayerUrl);
-
-				GGBMultiplayer multiplayer = new GGBMultiplayer(api, sharingKey, config,
+				String hostname = DomGlobal.location.hostname;
+				String teamId = hostname.replaceAll("\\W", "") + "_" + sharingKey;
+				GGBMultiplayer multiplayer = new GGBMultiplayer(api, teamId, config,
 						loggedInUser.getJWTToken());
 				callback.accept(multiplayer);
 			}
