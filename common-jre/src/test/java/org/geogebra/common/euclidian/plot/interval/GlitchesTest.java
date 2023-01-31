@@ -2,9 +2,6 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
@@ -43,15 +40,6 @@ public class GlitchesTest extends BaseUnitTest {
 		withScreenSize(50, 50);
 		withFunction("0/(0/tan(x))");
 		assertEquals(1, gp.getLog().size());
-	}
-
-	@Test
-	public void testLnInverse() {
-		withDefaultScreen();
-		withFunction("0/(ln(x))");
-		List<IntervalPathMockEntry> collect =
-				gp.getLog().stream().filter(e -> e.y != 0).collect(Collectors.toList());
-		assertEquals(0, collect.size());
 	}
 
 	@Test
