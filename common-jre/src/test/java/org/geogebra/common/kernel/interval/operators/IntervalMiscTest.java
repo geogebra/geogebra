@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.interval.operators;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.apache.commons.math3.util.FastMath.nextAfter;
+import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
@@ -150,5 +151,12 @@ public class IntervalMiscTest {
 	public void testMin() {
 		assertEquals(interval(-1, 1),
 				Interval.min(interval(-1, 1), interval(5, 7)));
+	}
+
+	@Test
+	public void testLogXInverseAzZero() {
+		Interval x = aroundZero();
+		Interval xInverse = evaluator.multiplicativeInverse(x);
+		assertEquals(interval(9.210340371976182, POSITIVE_INFINITY), evaluator.log(xInverse));
 	}
 }

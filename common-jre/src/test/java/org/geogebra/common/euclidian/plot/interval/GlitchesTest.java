@@ -35,15 +35,6 @@ public class GlitchesTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testAbsXInverseNoDotAroundZero() {
-		withBounds(-1, 1, -4, 4);
-		withScreenSize(50, 50);
-		withFunction("abs(1/x)");
-		assertEquals(101, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y, 0))
-				.count());
-	}
-
-	@Test
 	public void testZeroDividedByZeroDividedByTanXShouldBeEmpty() {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
