@@ -6,6 +6,8 @@ import static org.apache.commons.math3.util.FastMath.nextAfter;
 import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
@@ -158,5 +160,11 @@ public class IntervalMiscTest {
 		Interval x = aroundZero();
 		Interval xInverse = evaluator.multiplicativeInverse(x);
 		assertEquals(interval(9.210340371976182, POSITIVE_INFINITY), evaluator.log(xInverse));
+	}
+
+	@Test
+	public void testZeroDividedByLnAroundOne() {
+		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(0.985375))));
+		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(1.015625))));
 	}
 }

@@ -26,7 +26,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 		}
 
 		if (interval.isInverted()) {
-			return evaluator.computeInverted(interval, this::exp);
+			return evaluator.computeUnaryInverted(interval, this::exp);
 		}
 
 		return new Interval(RMath.expLow(interval.getLow()),
@@ -36,7 +36,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval log(Interval interval) {
 		if (interval.isInverted()) {
-			return evaluator.computeInverted(interval, this::log);
+			return evaluator.computeUnaryInverted(interval, this::log);
 		}
 
 		if (!interval.isUndefined() && interval.getHigh() >= 0) {
