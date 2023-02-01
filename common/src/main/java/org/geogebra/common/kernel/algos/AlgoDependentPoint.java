@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -45,7 +44,7 @@ public class AlgoDependentPoint extends AlgoElement
 	private PVariable[] botanaVars;
 	private PPolynomial[] botanaPolynomials;
 
-	private GeoVec2D temp;
+	private VectorValue temp;
 
 	/**
 	 * Creates new dependent point algo
@@ -120,13 +119,13 @@ public class AlgoDependentPoint extends AlgoElement
 	public final void compute() {
 		try {
 			temp = ((VectorValue) P.getDefinition()
-					.evaluate(StringTemplate.defaultTemplate)).getVector();
-			if (Double.isInfinite(temp.getX())
-					|| Double.isInfinite(temp.getY())) {
+					.evaluate(StringTemplate.defaultTemplate));
+			if (Double.isInfinite(temp.getInhomX())
+					|| Double.isInfinite(temp.getInhomY())) {
 				P.setUndefined();
 			} else {
 				ExpressionNode def = P.getDefinition();
-				P.setCoords(temp.getX(), temp.getY(), 1.0);
+				P.setCoords(temp.getInhomX(), temp.getInhomY(), 1.0);
 				P.setDefinition(def);
 			}
 

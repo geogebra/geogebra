@@ -235,6 +235,16 @@ public class MyVecNode extends ValidExpression
 		}
 	}
 
+	@Override
+	public double getInhomX() {
+		return x.evaluateDouble();
+	}
+
+	@Override
+	public double getInhomY() {
+		return y.evaluateDouble();
+	}
+
 	// could be vector or point
 	@Override
 	public ValueType getValueType() {
