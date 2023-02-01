@@ -434,10 +434,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					try {
 						JsPropertyMap<Object> messageProperties =
 								Js.asPropertyMap(Global.JSON.parse(editedMacroMessage));
-						getKernel().removeMacro(messageProperties
-								.get(EDITED_MACRO_NAME_KEY).toString());
-						if (addMacroXML(messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
-							setXML(getXML(), true);
+						Object macroName = messageProperties
+								.get(EDITED_MACRO_NAME_KEY);
+						if (macroName != null) {
+							getKernel().removeMacro(macroName.toString());
+							if (addMacroXML(
+									messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
+								setXML(getXML(), true);
+							}
 						}
 					} catch (Throwable err) {
 						Log.debug("Error occurred while updating the macro XML: " + err.getMessage()

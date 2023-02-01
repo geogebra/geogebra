@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 
 /**
  * Updates, adds and removes embedded applets.
@@ -108,7 +108,7 @@ public interface EmbedManager {
 	 * @param action
 	 *            event type
 	 */
-	void executeAction(EventType action);
+	void executeAction(ActionType action);
 
 	/**
 	 * Move embeds to chache so that they don't need rebuilding during undo
@@ -151,14 +151,6 @@ public interface EmbedManager {
 	 * @param content embed content as JSON
 	 */
 	void setContent(int embedID, String content);
-
-	/**
-	 * @param action
-	 *            action to be executed
-	 * @param id
-	 *            embed ID
-	 */
-	void embeddedAction(EventType action, String id);
 
 	void setContentSync(String label, String base64);
 

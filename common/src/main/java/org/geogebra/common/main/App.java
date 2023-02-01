@@ -117,7 +117,10 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.undo.DefaultDeletionExecutor;
+import org.geogebra.common.main.undo.DeletionExecutor;
 import org.geogebra.common.main.undo.UndoManager;
+import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -1260,15 +1263,17 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			ArrayList<GeoElement> geos2 = new ArrayList<>(getActiveEuclidianView()
 					.getEuclidianController().getJustCreatedGeos());
 			geos2.addAll(selection.getSelectedGeos());
+			DeletionExecutor recorder = isWhiteboardActive() ? new UndoableDeletionExecutor()
+					: new DefaultDeletionExecutor();
 			for (GeoElement geo : geos2) {
 				if (filter.test(geo)) {
 					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
 					if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
-						for (GeoElement ge : geo.getParentAlgorithm().input) {
-							ge.removeOrSetUndefinedIfHasFixedDescendent();
+						for (GeoElement ancestor : geo.getParentAlgorithm().input) {
+							recorder.delete(ancestor);
 						}
 					}
-					geo.removeOrSetUndefinedIfHasFixedDescendent();
+					recorder.delete(geo);
 				}
 			}
 
@@ -1276,7 +1281,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					.clearJustCreatedGeos();
 			getActiveEuclidianView().getEuclidianController()
 					.clearSelectionAndRectangle();
-			storeUndoInfoAndStateForModeStarting();
+			if (recorder.storeUndoAction(kernel)) {
+				setUnsaved();
+			}
 		}
 	}
 

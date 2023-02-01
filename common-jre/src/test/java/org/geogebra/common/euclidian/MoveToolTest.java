@@ -135,6 +135,17 @@ public class MoveToolTest extends BaseControllerTest {
 		assertCanDrag(furniture, true); // right-click only; no left-dragging of dropdowns
 	}
 
+	@Test
+	public void undoMoving() {
+		getApp().setUndoActive(true);
+		add("A = (1, -1)");
+		dragStart(50, 50);
+		dragEnd(100, 150);
+		checkContent("A = (2, -3)");
+		getApp().getKernel().undo();
+		checkContent("A = (1, -1)");
+	}
+
 	private void assertFurnitureDragBehavior(GeoElement furniture) {
 		add("SetFixed(furniture,true)");
 		assertCannotDrag(furniture);

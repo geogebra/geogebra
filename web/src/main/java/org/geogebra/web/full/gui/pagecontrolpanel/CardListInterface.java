@@ -48,5 +48,7 @@ public interface CardListInterface {
 	void open();
 
 	void updateContentPanelHeight();
+
+	void updateIndexes(int index);
 }
 

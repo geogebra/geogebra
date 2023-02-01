@@ -1,7 +1,7 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
 
@@ -18,7 +18,7 @@ public class GraspableEmbedElement extends EmbedElement {
 
 	private GMCanvas api;
 	private String content;
-	private EmbedManagerW embedManager;
+	private final EmbedManagerW embedManager;
 
 	/**
 	 * @param widget
@@ -91,10 +91,10 @@ public class GraspableEmbedElement extends EmbedElement {
 	}
 
 	@Override
-	public void executeAction(EventType action) {
-		if (action == EventType.UNDO) {
+	public void executeAction(ActionType action) {
+		if (action == ActionType.UNDO) {
 			api.controller.undo();
-		} else if (action == EventType.REDO) {
+		} else if (action == ActionType.REDO) {
 			api.controller.redo();
 		}
 	}

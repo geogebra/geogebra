@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.VideoManager;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
@@ -72,7 +73,7 @@ public abstract class UndoManager {
 				state = cmd;
 				break;
 			}
-			if ((cmd.getAction() == EventType.PASTE_PAGE)
+			if ((cmd.getAction() == ActionType.PASTE_PAGE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
 				state = cmd;
@@ -99,8 +100,8 @@ public abstract class UndoManager {
 		while (iterator.hasPrevious()) {
 			UndoCommand cmd = iterator.previous();
 			steps++;
-			if ((cmd.getAction() == EventType.ADD_PAGE
-					|| cmd.getAction() == EventType.PASTE_PAGE)
+			if ((cmd.getAction() == ActionType.ADD_PAGE
+					|| cmd.getAction() == ActionType.PASTE_PAGE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
 
@@ -123,7 +124,7 @@ public abstract class UndoManager {
 	 *            action type
 	 * @param args event arguments
 	 */
-	public void executeAction(EventType action, String... args) {
+	public void executeAction(ActionType action, String... args) {
 		for (ActionExecutor executor: executors) {
 			if (executor.executeAction(action, args)) {
 				return;
@@ -322,7 +323,7 @@ public abstract class UndoManager {
 	public AppState extractFromCommand(UndoCommand cmd) {
 		if (cmd == null) {
 			return null;
-		} else if (cmd.getAction() == EventType.PASTE_PAGE) {
+		} else if (cmd.getAction() == ActionType.PASTE_PAGE) {
 			return extractStateFromFile(cmd.getArgs()[2]);
 		} else {
 			return cmd.getAppState();
@@ -388,7 +389,7 @@ public abstract class UndoManager {
 		}
 		EmbedManager manager = app.getEmbedManager();
 		if (manager != null) {
-			manager.executeAction(EventType.EMBEDDED_PRUNE_STATE_LIST);
+			manager.executeAction(ActionType.EMBEDDED_PRUNE_STATE_LIST);
 		}
 		// debugStates();
 	}
@@ -445,8 +446,13 @@ public abstract class UndoManager {
 	 * @param args
 	 *            action arguments
 	 */
-	public void storeAction(EventType action, String... args) {
-		storeActionWithSlideId(action, null, args);
+	public void storeAction(ActionType action, String... args) {
+		storeActionWithSlideId(null, action, args, null, new String[0]);
+	}
+
+	public void storeAction(ActionType action, String[] args, ActionType undoAction,
+			String... undoArgs) {
+		storeActionWithSlideId(null, action, args, undoAction, undoArgs);
 	}
 
 	/**
@@ -454,8 +460,9 @@ public abstract class UndoManager {
 	 * @param slideID slide ID
 	 * @param args action arguments
 	 */
-	public void storeActionWithSlideId(EventType action, String slideID, String[] args) {
-		iterator.add(new UndoCommand(action, slideID, args));
+	public void storeActionWithSlideId(String slideID, ActionType action,  String[] args,
+			ActionType undoAction, String[] undoArgs) {
+		iterator.add(new UndoCommand(slideID, action, args, undoAction, undoArgs));
 		this.pruneStateList();
 		onStoreUndo();
 	}
@@ -498,7 +505,8 @@ public abstract class UndoManager {
 			xml = arg.getXML();
 		}
 
-		storeUndoableAction(EventType.ADD, arg.getLabelSimple(), xml);
+		storeUndoableAction(ActionType.ADD, new String[]{xml}, ActionType.REMOVE,
+				arg.getLabelSimple());
 	}
 
 	/**
@@ -506,26 +514,15 @@ public abstract class UndoManager {
 	 * @param type action type
 	 * @param args arguments
 	 */
-	public void storeUndoableAction(EventType type, String... args) {
+	public void storeUndoableAction(ActionType action, String[] args, ActionType type,
+			String... undoArgs) {
 		app.setUnsaved();
-		storeActionWithSlideId(type, app.getSlideID(), args);
+		storeActionWithSlideId(app.getSlideID(), action, args, type, undoArgs);
 		app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
 	}
 
 	public void addActionExecutor(ActionExecutor executor) {
 		executors.add(executor);
-	}
-
-	/**
-	 * @param action action type
-	 * @param args action arguments
-	 */
-	public void undoAction(EventType action, String[] args) {
-		for (ActionExecutor executor: executors) {
-			if (executor.undoAction(action, args)) {
-				return;
-			}
-		}
 	}
 
 	/**

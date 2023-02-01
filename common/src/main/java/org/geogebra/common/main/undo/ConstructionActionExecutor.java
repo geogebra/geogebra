@@ -1,7 +1,7 @@
 package org.geogebra.common.main.undo;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 
 public class ConstructionActionExecutor
 		implements ActionExecutor {
@@ -13,28 +13,27 @@ public class ConstructionActionExecutor
 	}
 	
 	@Override
-	public boolean executeAction(EventType action, String... args) {
-		if (action == EventType.REMOVE) {
-			app.getGgbApi().deleteObject(args[0]);
-		} else if (action == EventType.ADD) {
-			app.getGgbApi().evalXML(args[1]);
-		} else if (action == EventType.UPDATE) {
-			app.getGgbApi().evalXML(args[2]);
+	public boolean executeAction(ActionType action, String... args) {
+		if (action == ActionType.REMOVE) {
+			for (String arg: args) {
+				app.getGgbApi().deleteObject(arg);
+			}
+		} else if (action == ActionType.ADD) {
+			for (String arg: args) {
+				app.getGgbApi().evalXML(arg);
+			}
+			app.getActiveEuclidianView().invalidateDrawableList();
+		} else if (action == ActionType.UPDATE) {
+			for (String arg: args) {
+				if (arg.charAt(0) == '<') {
+					app.getGgbApi().evalXML(arg);
+				} else {
+					app.getGgbApi().evalCommand(arg);
+				}
+			}
 		} else {
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public boolean undoAction(EventType action, String... args) {
-		if (action == EventType.ADD) {
-			executeAction(EventType.REMOVE, args[0]);
-			return true;
-		} else if (action == EventType.UPDATE) {
-			executeAction(EventType.UPDATE, args[0], args[2], args[1]);
-			return true;
-		}
-		return false;
 	}
 }

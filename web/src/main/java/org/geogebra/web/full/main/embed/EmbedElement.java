@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.embed;
 
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
@@ -75,7 +75,7 @@ public class EmbedElement {
 	 * @param action
 	 *            action type
 	 */
-	public void executeAction(EventType action) {
+	public void executeAction(ActionType action) {
 		// only for GGB and GM
 	}
 

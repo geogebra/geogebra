@@ -163,6 +163,7 @@ import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.media.VideoManager;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -437,6 +438,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final GeoPriorityComparator priorityComparator;
 	private RotateBoundingBox rotateBoundingBox;
+	private HashMap<GeoElement, String> oldDefinition = new HashMap<>();
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -6056,8 +6058,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		splitSelectedStrokes(true);
 		ArrayList<GeoElement> moveMultipleObjectsList = companion
 				.removeParentsOfView(getAppSelectedGeos());
-
+		storeDefinitions(moveMultipleObjectsList);
 		MoveGeos.moveObjects(moveMultipleObjectsList, translationVec, tmpCoordsL3, null, view);
+	}
+
+	private void storeDefinitions(ArrayList<GeoElement> moveMultipleObjectsList) {
+		for (GeoElement geo: moveMultipleObjectsList) {
+			oldDefinition.put(geo, getDefintion(geo));
+		}
 	}
 
 	protected double getStartPointX() {
@@ -6630,6 +6638,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		else {
 			handleMovedElementFree(type);
 		}
+	}
+
+	private String getDefintion(GeoElement movedGeoElement) {
+		return movedGeoElement.getLabelSimple() + ":"
+				+ movedGeoElement.getRedefineString(false, true, StringTemplate.xmlTemplate);
 	}
 
 	final protected boolean handleMovedElementDependentWithChangeableParent() {
@@ -7472,6 +7485,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (mode == EuclidianConstants.MODE_SELECT_MOW
 				&& event.isRightClick()) {
 			return;
+		}
+		if (oldDefinition.isEmpty()) {
+			storeDefinitions(getAppSelectedGeos());
 		}
 		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
@@ -9031,6 +9047,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		widgetsToBackground();
 		view.hideSymbolicEditor();
+		oldDefinition.clear();
 
 		if (lastPointerRelease + EuclidianConstants.DOUBLE_CLICK_DELAY
 				> System.currentTimeMillis() && lastMouseUpLoc != null
@@ -9852,7 +9869,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setResizedShape(null);
 		} else if (isMultiResize) { // resize, multi selection
 			view.resetHitHandler();
-			storeUndoInfo();
+			if (oldDefinition.isEmpty()) {
+				storeUndoInfo();
+			} else {
+				storeUpdateAction();
+			}
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());
 		}
@@ -10126,9 +10147,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			// check movedGeoElement.isLabelSet() to stop moving points
 			// in Probability Calculator triggering Undo
-			changedKernel = ((movedGeoElement != null)
+			boolean labeledGeoMoved = ((movedGeoElement != null)
 					&& movedGeoElement.isLabelSet()) && (moveMode != MOVE_NONE)
 					&& modeTriggersUndoOnDragGeo(mode);
+			if (labeledGeoMoved) {
+				if (!oldDefinition.isEmpty()) {
+					storeUpdateAction();
+				} else {
+					changedKernel = true;
+				}
+			}
 			movedGeoElement = null;
 			rotGeoElement = null;
 
@@ -10224,6 +10252,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		endOfWrapMouseReleased(hits, event);
 
 		draggingOccurredBeforeRelease = false;
+	}
+
+	private void storeUpdateAction() {
+		List<String> actions = new ArrayList<>(oldDefinition.size());
+		List<String> undoActions = new ArrayList<>(oldDefinition.size());
+		for (Map.Entry<GeoElement, String> entry: oldDefinition.entrySet()) {
+			actions.add(getDefintion(entry.getKey()));
+			undoActions.add(entry.getValue());
+		}
+		kernel.getConstruction().getUndoManager()
+				.storeUndoableAction(ActionType.UPDATE, actions.toArray(new String[0]),
+						ActionType.UPDATE, undoActions.toArray(new String[0]));
 	}
 
 	private void focusGroupElement(GeoElement geo) {

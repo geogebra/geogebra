@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
@@ -362,17 +361,18 @@ public class LayerManager {
 	}
 
 	private void sortByOrder(List<GeoElement> copy) {
-		Collections.sort(copy, new Comparator<GeoElement>() {
-			@Override
-			public int compare(GeoElement a, GeoElement b) {
-				if (isPasted(a) && !isPasted(b)) {
-					return 1;
-				}
-				if (isPasted(b) && !isPasted(a)) {
-					return -1;
-				}
+		copy.sort((a, b) -> {
+			if (isPasted(a) && !isPasted(b)) {
+				return 1;
+			}
+			if (isPasted(b) && !isPasted(a)) {
+				return -1;
+			}
+			if (a.getOrdering() - b.getOrdering() != 0) {
 				return a.getOrdering() - b.getOrdering();
 			}
+			// delete, undo => the *new* element with the same ordering should be lower
+			return b.getConstructionIndex() - a.getConstructionIndex();
 		});
 	}
 
