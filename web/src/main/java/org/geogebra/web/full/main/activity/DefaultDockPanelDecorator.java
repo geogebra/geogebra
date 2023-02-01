@@ -13,7 +13,7 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 	private StickyTable<?> table;
 
 	@Override
-	public Panel decorate(Panel panel, AppW app) {
+	public Panel decorate(Widget algebraTab, Panel panel, AppW app) {
 		return panel;
 	}
 

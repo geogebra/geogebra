@@ -27,15 +27,18 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	private FlowPanel main;
 	private Widget tableTab;
 	private StickyValuesTable table;
+	private Widget algebraTab;
 	private AppW app;
 
 	@Override
-	public Panel decorate(Panel wrapper, AppW appW) {
+	public Panel decorate(Widget algebraTab, Panel wrapper, AppW appW) {
+		this.algebraTab = algebraTab;
 		this.app = appW;
 		main = new FlowPanel();
 		main.setWidth("100%");
 		main.add(wrapper);
 		main.addStyleName("algebraPanel");
+		algebraTab.setStyleName("scientific");
 		return buildAndStylePanel();
 	}
 
@@ -65,6 +68,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	private void toggleSmallScreen(Widget w, boolean smallScreen) {
 		Dom.toggleClass(w, "algebraPanelScientificSmallScreen",
 				"panelScientificDefaults", smallScreen);
+		Dom.toggleClass(algebraTab, "scientific", !smallScreen);
 	}
 
 	@Override

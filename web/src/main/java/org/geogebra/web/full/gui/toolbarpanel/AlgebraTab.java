@@ -62,7 +62,7 @@ public class AlgebraTab extends ToolbarTab {
 	}
 
 	private Panel decorate(Panel algebrap) {
-		return getDecorator().decorate(algebrap, (AppW) app);
+		return getDecorator().decorate(this, algebrap, (AppW) app);
 	}
 
 	private DockPanelDecorator getDecorator() {
