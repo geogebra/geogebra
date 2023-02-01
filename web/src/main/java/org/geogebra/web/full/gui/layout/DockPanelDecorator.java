@@ -15,14 +15,12 @@ public interface DockPanelDecorator {
 	/**
 	 * Wraps the view panel in another panel together with additional UI (e.g.
 	 * algebra header)
-	 * 
-	 * @param algebrap
-	 *            algebra scroll panel
-	 * @param app
-	 *            application
+	 * @param algebraTab the algebra tab itself.
+	 * @param algebrap algebra scroll panel
+	 * @param app application
 	 * @return wrapped panel
 	 */
-	Panel decorate(Panel algebrap, AppW app);
+	Panel decorate(Widget algebraTab, Panel algebrap, AppW app);
 
 	void onResize(AlgebraViewW aview, int offsetHeight);
 

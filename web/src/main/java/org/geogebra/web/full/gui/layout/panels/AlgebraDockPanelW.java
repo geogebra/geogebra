@@ -66,7 +66,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		if (decorator == null) {
 			return algebrap;
 		}
-		return decorator.decorate(algebrap, app);
+		return decorator.decorate(this, algebrap, app);
 	}
 
 	@Override
