@@ -124,6 +124,7 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
 		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",
 				"edit");
+		aural("LaTeX(\"a\\Vert b\")", "a\u2225b", "edit");
 		aural("LaTeX(\"\\bgcolor{red}{\\text{not red text}}\")", "not red text",
 				"edit");
 		aural("TableText({{1,2,3},{3,4,5}})", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
