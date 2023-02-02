@@ -91,4 +91,11 @@ public interface MathField {
 	 * @return the cross-platform representation of this field
 	 */
 	MathFieldInternal getInternal();
+
+	/**
+	 * Remove focus and call blur handler.
+	 */
+	default void blur() {
+		// implemented in web
+	}
 }

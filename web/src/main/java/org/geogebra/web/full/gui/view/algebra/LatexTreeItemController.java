@@ -249,6 +249,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public boolean onEscape() {
+		if (autocomplete != null && autocomplete.isSuggesting()) {
+			autocomplete.hide();
+			return true;
+		}
 		if (item.geo != null || StringUtil.empty(item.getText())) {
 			onBlur(null);
 			app.getAccessibilityManager().focusGeo(item.geo);
