@@ -295,22 +295,27 @@ class FillingPanelD extends JPanel
 		imgFileNameList = new ArrayList<>();
 
 		imgFileNameList.add(null); // for delete
-		imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
 		imgFileNameList.add(GuiResourcesD.FILLING_PLAY);
+		imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
 		imgFileNameList.add(GuiResourcesD.FILLING_STOP);
-		imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
-		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
+		imgFileNameList.add(GuiResourcesD.FILLING_FAST_REWIND);
+		imgFileNameList.add(GuiResourcesD.FILLING_FAST_FORWARD);
 		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_PREVIOUS);
+		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
 		imgFileNameList.add(GuiResourcesD.FILLING_LOOP);
-		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
-		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_OUT);
-		imgFileNameList.add(GuiResourcesD.FILLING_CLOSE);
+		imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
+		imgFileNameList.add(GuiResourcesD.UNDO);
+		imgFileNameList.add(GuiResourcesD.REDO);
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_UP);
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_DOWN);
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_BACK);
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_FORWARD);
-		imgFileNameList.add(GuiResourcesD.FILLING_FAST_FORWARD);
-		imgFileNameList.add(GuiResourcesD.FILLING_FAST_REWIND);
+		imgFileNameList.add(GuiResourcesD.REMOVE);
+		imgFileNameList.add(GuiResourcesD.ADD);
+		imgFileNameList.add(GuiResourcesD.CHECK_MARK);
+		imgFileNameList.add(GuiResourcesD.FILLING_CLOSE);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_OUT);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
 		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_TO_FIT);
 		imgFileNameList.add(GuiResourcesD.FILLING_CENTER_VIEW);
 		imgFileNameList.add(GuiResourcesD.FILLING_HELP);
