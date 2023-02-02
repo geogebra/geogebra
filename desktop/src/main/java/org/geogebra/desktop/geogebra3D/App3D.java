@@ -473,6 +473,7 @@ public class App3D extends AppD {
 	@Override
 	public EuclidianView3D getEuclidianView3D() {
 		if (this.euclidianView3D == null) {
+			setWaitCursor();
 			initEuclidianController3D();
 			if (euclidianController3D.hasInput3D()) {
 				euclidianView3D = new EuclidianViewInput3D(
@@ -481,6 +482,7 @@ public class App3D extends AppD {
 				euclidianView3D = new EuclidianView3DD(euclidianController3D,
 						getSettings().getEuclidian(3));
 			}
+			setDefaultCursor();
 		}
 		return euclidianView3D;
 	}
