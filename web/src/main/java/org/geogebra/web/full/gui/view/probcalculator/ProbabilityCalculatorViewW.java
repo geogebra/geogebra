@@ -19,7 +19,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -271,23 +270,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		Scheduler.get().scheduleDeferred(this::tabResized);
 		if (getResultPanel() != null) {
 			updateResult(getResultPanel());
-		}
-	}
-
-	/**
-	 * handle distribution selection
-	 * @param comboDistribution - distribution drop-down
-	 */
-	public void changeDistribution(ListBox comboDistribution) {
-		if (!selectedDist
-				.equals(this.getReverseDistributionMap().get(comboDistribution
-						.getValue(comboDistribution.getSelectedIndex())))) {
-			selectedDist = getReverseDistributionMap().get(comboDistribution
-					.getValue(comboDistribution.getSelectedIndex()));
-			parameters = ProbabilityManager.getDefaultParameters(selectedDist, cons);
-			setProbabilityCalculator(selectedDist, parameters,
-					isCumulative);
-			tabResized();
 		}
 	}
 
