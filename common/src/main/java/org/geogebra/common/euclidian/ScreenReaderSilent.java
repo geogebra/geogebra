@@ -16,4 +16,9 @@ public class ScreenReaderSilent implements ScreenReaderAdapter {
 	public void readDelayed(String text) {
 		// silent
 	}
+
+	@Override
+	public void cancelReadDelayed() {
+		// silent
+	}
 }

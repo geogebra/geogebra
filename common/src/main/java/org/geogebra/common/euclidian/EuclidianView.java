@@ -6245,6 +6245,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
+			getScreenReader().cancelReadDelayed();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {
