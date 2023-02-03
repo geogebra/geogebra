@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -444,6 +446,7 @@ public class ConsElementXMLHandler {
 		} else if (geo instanceof GeoButton) {
 			geo.setBackgroundColor(GColor.WHITE);
 			geo.setObjColor(GColor.BLACK);
+			((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
 		}
 	}
 
