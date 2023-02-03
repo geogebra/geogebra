@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
+
 /**
  * An atom with representing an L with a caron.
  */
-public class FcscoreAtom extends Atom {
+public class FcscoreAtom extends Atom implements HasCharacter {
 
 	private int N;
 
@@ -78,5 +80,10 @@ public class FcscoreAtom extends Atom {
 		} else {
 			return new FcscoreAtom(n);
 		}
+	}
+
+	@Override
+	public String getCharacter() {
+		return "|||||".substring(0, N);
 	}
 }

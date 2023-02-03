@@ -52,7 +52,7 @@ package com.himamis.retex.renderer.share;
  * and/or an atom under it (if not null) seperated by a kern and in a smaller
  * size depending on "underScriptSize"
  */
-public class UnderOverAtom extends Atom {
+public class UnderOverAtom extends Atom implements HasUnderOver {
 
 	// base, underscript and overscript
 	private final Atom base;
@@ -102,7 +102,7 @@ public class UnderOverAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		// create boxes in right style and calculate maximum width
-		Box b = (base == null ? StrutBox.getEmpty() : base.createBox(env));
+		Box b = base == null ? StrutBox.getEmpty() : base.createBox(env);
 		Box o = null;
 		Box u = null;
 		double max = b.getWidth();
@@ -174,5 +174,18 @@ public class UnderOverAtom extends Atom {
 	@Override
 	public int getLimits() {
 		return base.getLimits();
+	}
+
+	public Atom getUnderOver() {
+		return over == null ? under : over;
+	}
+
+	public boolean isUnder() {
+		return over == null;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

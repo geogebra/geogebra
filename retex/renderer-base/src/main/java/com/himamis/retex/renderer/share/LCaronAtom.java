@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
+
 /**
  * An atom with representing an L with a caron.
  */
-public class LCaronAtom extends Atom {
+public class LCaronAtom extends Atom implements HasCharacter {
 
 	private static final SymbolAtom APOS = SymbolAtom.get("textapos");
 	private boolean upper;
@@ -71,5 +73,10 @@ public class LCaronAtom extends Atom {
 					.createBox(env));
 		hb.add(A);
 		return hb;
+	}
+
+	@Override
+	public String getCharacter() {
+		return "\u013E";
 	}
 }
