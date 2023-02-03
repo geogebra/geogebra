@@ -339,39 +339,17 @@
 			padding-top: 24px;
 			overflow-y: auto;
 			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
 
 			.infoErrorPanel {
-				margin: 80px 0 40px 0;
+				margin-bottom: 60px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				flex-grow: 1;
 			}
 
-			.fileViewButtonPanel {
-				margin-left: 24px;
-				.containedButton {
-					form {
-						height: 0;
-						
-						input {
-							cursor: pointer;
-							position: relative;
-							top: -48px;
-							right: 0px; 
-							width: 100%; 
-							height: header.$button_height;
-							font-size: 0px;
-							opacity: 0; 
-						}
-					}	
-				}
-				.buttonMargin16 {
-					margin-left: 16px;
-				}
-				.buttonMargin24 {
-					margin-left: 24px;
-				}
-				.hover {
-					background-color: colors.$mow_card_background_hover;
-				}
-			}
 			.center {
 				margin: 0px auto;
 			}
@@ -403,7 +381,7 @@
 					float: left;
 					border-radius: 2px;
 					margin: 0 16px 16px 0;
-					height: 206px;
+					height: 220px;
 					width: 232px;
 					background-color: colors.$mow_material_card_bgd;
 					box-shadow: 0 1px 1px 0 colors.$black-14, 0 2px 1px -1px colors.$black-12, 0 1px 3px 0 colors.$black-20;
@@ -415,7 +393,6 @@
 					}
 
 					.cardImgPanel {
-						width: 232px;
 						height: 120px;
 						margin: 0px;
 						background-repeat: no-repeat;
@@ -424,42 +401,44 @@
 				
 					.cardInfoPanel {
 						position: relative;
+						height: 100px;
 						
 						.cardTitle {
 							font-size: 125%;
 							color: colors.$text-primary;
-							line-height: 1;
+							line-height: 22px;
 							letter-spacing: 0.25px;
-							padding: 8px 24px 1px 16px;
+							padding: 8px 16px 0 16px;
+							margin-bottom: 12px;
 							text-overflow: ellipsis;
 							font-weight: 500;
-							max-height: 40px;
+							height: 44px;
 							overflow: hidden;
-							white-space: nowrap;
+							-webkit-line-clamp: 2;
+							display: -webkit-box;
+							-webkit-box-orient: vertical;
 						}	
 					
 						.cardAuthor {
 							font-size: 87.5%;
 							color: colors.$text-secondary;
-							line-height: 20px;
+							line-height: 24px;
 							letter-spacing: 0.25px;
-							padding: 6px 0px 12px 16px;
+							padding: 0px 0px 12px 16px;
 							text-overflow: ellipsis;
-							position: absolute;
 							font-weight: 400;
-							top: 48px;
 							overflow: hidden;
 							white-space: nowrap;
-							width: 178px;
+							width: 182px;
 						}
 						
 						.mowMoreButton {
 							position: absolute;
-							top: 48px;
-							height: 24px !important;
+							right: 0;
+							bottom: 0;
+							height: 24px;
 							width: 24px;
-							right: 0px;
-							padding: 4px 6px 10px 8px;
+							padding: 0px 6px 12px 8px;
 							opacity: 0.54;
 							cursor: pointer;
 
@@ -472,24 +451,19 @@
 						}
 					
 						.visibilityPanel {
-							position: absolute;
-							top: 48px; 
-
 							.gwt-Label {
 								font-size: 88%;
 								color: colors.$text-secondary;
-								line-height: 20px;
+								line-height: 24px;
 								letter-spacing: 0.25px;
 								text-overflow: ellipsis;
 								font-weight: 400;
-								padding-top: 2px;
-								padding-bottom: 2px;
-								margin: 5px 0px 9px 0px;
+								margin: 0 0px 12px 0px;
 							}
 
 							img {
 								opacity: 0.54;
-								margin: 4px 8px 10px 16px;
+								margin: 0 8px 12px 16px;
 							}
 						}
 					}
@@ -552,7 +526,6 @@
 				.fileViewButtonPanel {
 					display: table;
 					border-collapse: separate;
-					//border-spacing: 24px 0px;
 				}
 				.extendedFAB {
 					cursor: pointer;
@@ -624,13 +597,126 @@
 		}
 	}
 
+	.openFileView .fileViewContentPanel.mebisEmptyFileView {
+		display: inline;
+		top: calc(50% - 166px); // 284 / 2 + 24
+	}
+
+	.openFileView .fileViewContentPanel.compact {
+		.materialPanel {
+			padding-left: 8px;
+		}
+
+		.materialCard {
+			width: 168px;
+			height: 174px;
+			margin: 0 8px 8px 0;
+
+			.cardImgPanel {
+				height: 94px;
+			}
+
+			.cardInfoPanel {
+				height: 80px;
+
+				.cardTitle {
+					height: 36px;
+					padding: 8px 12px 0 12px;
+					margin-bottom: 4px;
+					font-size: 100%;
+					line-height: 18px;
+				}
+
+				.cardAuthor {
+					height: 20px;
+					line-height: 20px;
+					padding: 0px 0px 12px 12px;
+					width: 122px;
+				}
+
+				.visibilityPanel {
+					img {
+						margin: 0 4px 8px 12px;
+					}
+					.gwt-Label {
+						line-height: 20px;
+						margin: 2px 0 10px 0;
+					}
+				}
+
+				.mowMoreButton {
+					padding: 0px 6px 8px 4px;
+				}
+			}
+		}
+	}
+
 	.openFileView.examTemporaryFiles {
 		.materialPanel {
 			top: 16px;
 
 			.materialCard {
-				height: 174px; // 206px - 32px
+				height: 188px;
+
+				.cardInfoPanel {
+					height: 68px;
+
+					.cardTitle {
+						padding: 8px 16px 0px 16px;
+					}
+
+					.cardAuthor {
+						display: none;
+					}
+				}
 			}
+		}
+	}
+
+	.openFileView.examTemporaryFiles .compact {
+		.materialPanel {
+			.materialCard {
+				height: 146px;
+
+				.cardInfoPanel {
+					height: 52px;
+
+					.cardTitle {
+						padding: 8px 12px 0 12px;
+					}
+				}
+			}
+		}
+	}
+
+	.fileViewButtonPanel {
+		margin-left: 24px;
+		.containedButton {
+			form {
+				height: 0;
+				input {
+					cursor: pointer;
+					position: relative;
+					top: -48px;
+					right: 0px;
+					width: 100%;
+					height: header.$button_height;
+					font-size: 0px;
+					opacity: 0;
+				}
+			}
+		}
+
+		.buttonMargin16 {
+			margin-left: 16px;
+		}
+
+		.buttonMargin24 {
+			margin-left: 24px;
+		}
+
+		.hover {
+			background-color: colors.$mow_card_background_hover;
 		}
 	}
 }
