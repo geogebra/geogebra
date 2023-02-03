@@ -111,7 +111,7 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
 	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
-	public static final GColor DEFAULT_INPUTBOX_BORDER = newColor(148,148,148);
+	public static final GColor DEFAULT_INPUTBOX_BORDER = newColor(148, 148, 148);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
@@ -646,7 +646,7 @@ public final class GColor implements GPaint {
 		} else {
 			hslValues[2] -= 0.2;
 		}
-		int rgb[] = hslToRgb(hslValues[0], hslValues[1], hslValues[2]);
+		int[] rgb = hslToRgb(hslValues[0], hslValues[1], hslValues[2]);
 		return newColor(rgb[0], rgb[1], rgb[2]);
 	}
 
@@ -669,29 +669,35 @@ public final class GColor implements GPaint {
 		} else {
 			float q = l < 0.5f ? l * (1 + s) : l + s - l * s;
 			float p = 2 * l - q;
-			r = hueToRgb(p, q, h + 1f/3f);
+			r = hueToRgb(p, q, h + 1f / 3f);
 			g = hueToRgb(p, q, h);
-			b = hueToRgb(p, q, h - 1f/3f);
+			b = hueToRgb(p, q, h - 1f / 3f);
 		}
 		int[] rgb = {to255(r), to255(g), to255(b)};
 		return rgb;
 	}
-	private static int to255(float v) { return (int)Math.min(255,256*v); }
+
+	private static int to255(float v) {
+		return (int) Math.min(255, 256 * v);
+	}
 
 	/** Helper method that converts hue to rgb */
 	public static float hueToRgb(float p, float q, float t) {
-		if (t < 0f)
-			t += 1f;
-		if (t > 1f)
-			t -= 1f;
-		if (t < 1f/6f) {
-			return p + (q - p) * 6f * t;
+		float tt = t;
+		if (tt < 0f) {
+			tt += 1f;
 		}
-		if (t < 1f/2f) {
+		if (tt > 1f) {
+			tt -= 1f;
+		}
+		if (tt < 1f / 6f) {
+			return p + (q - p) * 6f * tt;
+		}
+		if (tt < 1f / 2f) {
 			return q;
 		}
-		if (t < 2f/3f) {
-			return p + (q - p) * (2f/3f - t) * 6f;
+		if (tt < 2f / 3f) {
+			return p + (q - p) * (2f / 3f - tt) * 6f;
 		}
 		return p;
 	}
