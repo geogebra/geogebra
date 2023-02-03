@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
@@ -47,12 +48,12 @@ public class CmdTableText extends CommandProcessor {
 																	// need to
 																	// wrap
 					GeoElement[] ret = {
-							tableText(c.getLabel(), arg, (GeoList) arg[0], null) };
+							tableText(c.getLabel(), arg, (GeoList) arg[0], null, null) };
 					return ret;
 				}
 				list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null) };
+					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null, null) };
 					return ret;
 				}
 				throw argErr(c, arg[0]);
@@ -68,14 +69,14 @@ public class CmdTableText extends CommandProcessor {
 																	// need to
 																	// wrap
 					GeoElement[] ret = { tableText(c.getLabel(), arg,
-							(GeoList) arg[0], (GeoText) arg[1]) };
+							(GeoList) arg[0], (GeoText) arg[1], null) };
 					return ret;
 				}
 				list = wrapInList(kernel, arg, arg.length - 1,
 						GeoClass.DEFAULT);
 				if (list != null) {
 					GeoElement[] ret = {
-							tableText(c.getLabel(), arg, list, (GeoText) arg[1]) };
+							tableText(c.getLabel(), arg, list, (GeoText) arg[1], null) };
 					return ret;
 				}
 				throw argErr(c, arg[0]);
@@ -86,7 +87,7 @@ public class CmdTableText extends CommandProcessor {
 				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null) };
+					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null, null) };
 					return ret;
 				}
 			}
@@ -100,7 +101,7 @@ public class CmdTableText extends CommandProcessor {
 
 				GeoList list = convertToMatrix((GeoList) arg[0], maxSize);
 
-				GeoElement[] ret = { tableText(c.getLabel(), arg, list, null) };
+				GeoElement[] ret = { tableText(c.getLabel(), arg, list, null, null) };
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
@@ -115,7 +116,7 @@ public class CmdTableText extends CommandProcessor {
 
 				GeoList list = convertToMatrix((GeoList) arg[0], maxSize);
 
-				GeoElement[] ret = { tableText(c.getLabel(), arg, list, (GeoText) arg[1]) };
+				GeoElement[] ret = { tableText(c.getLabel(), arg, list, (GeoText) arg[1], null) };
 				return ret;
 			}
 
@@ -128,13 +129,39 @@ public class CmdTableText extends CommandProcessor {
 						GeoClass.DEFAULT);
 				if (list != null) {
 					GeoElement[] ret = { tableText(c.getLabel(), arg, list,
-							(GeoText) arg[arg.length - 1]) };
+							(GeoText) arg[arg.length - 1], null) };
 					return ret;
+				}
+			} else if (arg[arg.length - 1].isGeoNumeric()) { //min width (and height)
+				int amountNumerics = arg[arg.length - 2].isGeoNumeric() ? 2 : 1;
+				GeoNumeric[] minWidthHeight = new GeoNumeric[amountNumerics];
+				minWidthHeight[0] = (GeoNumeric) arg[arg.length - 1];
+				if (amountNumerics == 2) {
+					minWidthHeight[0] = (GeoNumeric) arg[arg.length - 2];
+					minWidthHeight[1] = (GeoNumeric) arg[arg.length - 1];
+				}
+
+				if (arg[arg.length - amountNumerics - 1].isGeoText()) {
+					list = wrapInList(kernel, arg, arg.length - amountNumerics - 1,
+							GeoClass.DEFAULT);
+					if (list != null) {
+						GeoElement[] ret = { tableText(c.getLabel(), arg, list,
+								(GeoText) arg[arg.length - amountNumerics - 1], minWidthHeight) };
+						return ret;
+					}
+				} else {
+					list = wrapInList(kernel, arg, arg.length - amountNumerics,
+							GeoClass.DEFAULT);
+					if (list != null) {
+						GeoElement[] ret = {tableText(c.getLabel(), arg, list, null,
+								minWidthHeight)};
+						return ret;
+					}
 				}
 			} else {
 				list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null) };
+					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null, null) };
 					return ret;
 				}
 			}
@@ -172,8 +199,9 @@ public class CmdTableText extends CommandProcessor {
 	 *            matrix parameters
 	 * @return table text
 	 */
-	final public GeoText tableText(String label, GeoElement[] arg, GeoList list, GeoText args) {
-		AlgoTableText algo = new AlgoTableText(cons, arg, label, list, args);
+	final public GeoText tableText(String label, GeoElement[] arg, GeoList list, GeoText args,
+			GeoNumeric[] minWidthHeight) {
+		AlgoTableText algo = new AlgoTableText(cons, arg, label, list, args, minWidthHeight);
 		GeoText text = algo.getResult();
 		return text;
 	}
