@@ -26,7 +26,7 @@ public class IntervalSinCos {
 
 	Interval cos(Interval interval) {
 		if (interval.isInverted()) {
-			Interval result = evaluator.computeInverted(cos(interval.extractLow()),
+			Interval result = evaluator.unionInvertedResults(cos(interval.extractLow()),
 					cos(interval.extractHigh()));
 			return result.isUndefined() ? defaultInterval() : result;
 		}
