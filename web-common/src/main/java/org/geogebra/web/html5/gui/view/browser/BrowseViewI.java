@@ -1,9 +1,5 @@
 package org.geogebra.web.html5.gui.view.browser;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -17,18 +13,11 @@ public interface BrowseViewI {
 
 	void clearMaterials();
 
-	void disableMaterials();
-
-	void onSearchResults(final List<Material> response,
-	        final ArrayList<Chapter> chapters);
-
 	void close();
 
 	void displaySearchResults(final String query);
 
 	void refreshMaterial(final Material material, final boolean isLocal);
-
-	void rememberSelected(final MaterialListElementI materialElement);
 
 	void setLabels();
 

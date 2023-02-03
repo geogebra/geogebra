@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.gui.dialog;
 
+import java.util.ArrayList;
+import java.util.TreeSet;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -136,5 +139,22 @@ public class ButtonDialogModel {
 	 */
 	public void setLinkedGeo(GeoElement geo) {
 		linkedGeo = geo;
+	}
+
+	/**
+	 * @return objects that can be linked to an input box
+	 */
+	public ArrayList<GeoElement> getLinkableObjects() {
+		ArrayList<GeoElement> options = new ArrayList<>();
+		options.add(null);
+		// combo box to link GeoElement to TextField
+		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
+				.getGeoSetNameDescriptionOrder();
+		for (GeoElement geo : sortedSet) {
+			if (!geo.isGeoImage() && !(geo.isGeoButton()) && !(geo.isGeoBoolean())) {
+				options.add(geo);
+			}
+		}
+		return options;
 	}
 }

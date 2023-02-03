@@ -267,7 +267,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-clear-24px.svg")
 	SVGResource clear();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
 	SVGResource add_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add_purple.svg")
@@ -547,6 +547,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-public-24px.svg")
 	SVGResource mow_card_public();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/link_black_24dp.svg")
+	SVGResource resource_card_shared();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/lightbulb_outline_black_24px.svg")
 	SVGResource mow_lightbulb();
 
@@ -554,7 +557,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	SVGResource move_canvas();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
 	SVGResource newFileMenu();
 
 	@Override
@@ -687,4 +690,16 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/camera_white.svg")
 	SVGResource camera_white();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/folder_black_24dp.svg")
+	SVGResource open_local_file();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/drive_icon_24px.svg")
+	SVGResource google_drive();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/login_black_24dp.svg")
+	SVGResource login();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/visibility_black_24dp.svg")
+	SVGResource visibility();
 }

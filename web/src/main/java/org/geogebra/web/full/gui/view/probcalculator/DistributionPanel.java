@@ -7,28 +7,21 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
-import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.OptionElement;
-import com.google.gwt.dom.client.SelectElement;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DistributionPanel extends FlowPanel implements ChangeHandler, InsertHandler {
+public class DistributionPanel extends FlowPanel implements InsertHandler {
 	private ProbabilityCalculatorViewW view;
 	private Localization loc;
-	private ListBox comboDistribution;
-	private HandlerRegistration comboDistributionHandler;
+	private CompDropDown comboDistribution;
 	private ToggleButton cumulativeWidget;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
@@ -147,6 +140,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		Widget parent = field.asWidget().getParent();
 		if (parent != null) {
 			parent.removeStyleName("errorStyle");
+			parent.removeStyleName("errorStyle");
 		}
 	}
 
@@ -168,63 +162,24 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	 * @param parent - parent panel
 	 */
 	public void buildDistrComboBox(FlowPanel parent) {
-		comboDistribution = new ListBox();
+		DistributionTypeProperty distTypeProperty = new DistributionTypeProperty(loc, view);
+		String comboLbl = getApp().getConfig().hasDistributionView() ? "Distribution" : null;
+		comboDistribution = new CompDropDown(getApp(), comboLbl, distTypeProperty);
+		if (getApp().getConfig().hasDistributionView()) {
+			comboDistribution.setFullWidth(true);
+		}
 		comboDistribution.addStyleName("comboDistribution");
-		comboDistributionHandler = comboDistribution.addChangeHandler(this);
-
-		setDistributionComboBoxMenu();
 		parent.add(comboDistribution);
 	}
 
-	@Override
-	public void onChange(ChangeEvent event) {
-		if (comboDistribution.getSelectedIndex() > -1) {
-			view.changeDistribution(comboDistribution);
-		}
-	}
-
-	/**
-	 * update distribution combo-box
-	 */
-	public void setDistributionComboBoxMenu() {
-		comboDistributionHandler.removeHandler();
-		comboDistribution.clear();
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.NORMAL));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.STUDENT));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.CHISQUARE));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.F));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.EXPONENTIAL));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.CAUCHY));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.WEIBULL));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.GAMMA));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.LOGNORMAL));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.LOGISTIC));
-
-		comboDistribution.addItem(view.SEPARATOR);
-		NodeList<OptionElement> options = SelectElement.as(comboDistribution.getElement())
-				.getOptions();
-		options.getItem(options.getLength() - 1)
-				.setAttribute("disabled", "disabled");
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.BINOMIAL));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.PASCAL));
-		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.POISSON));
-		comboDistribution.addItem(getDistribution(
-				ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC));
-
-		ListBoxApi.select(getDistribution(view.getSelectedDist()),
-				comboDistribution);
-		comboDistribution.addChangeHandler(this);
-	}
-
-	private String getDistribution(ProbabilityCalculatorSettings.Dist dist) {
-		return view.getDistributionMap().get(dist);
+	private AppW getApp() {
+		return (AppW) view.getApp();
 	}
 
 	/**
 	 * update the whole gui
 	 */
 	public void updateGUI() {
-		setDistributionComboBoxMenu();
 		updateCumulative();
 		updateParameters();
 		modeGroup.setMode(view.getProbMode());
@@ -238,7 +193,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	 * update translation
 	 */
 	public void setLabels() {
-		setDistributionComboBoxMenu();
+		comboDistribution.setLabels();
 		if (cumulativeWidget != null) {
 			cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
 		}

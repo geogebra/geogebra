@@ -48,10 +48,12 @@ package com.himamis.retex.renderer.share;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.himamis.retex.renderer.share.serialize.HasElements;
+
 /**
  * An atom representing a vertical row of other atoms.
  */
-public class OoalignAtom extends Atom {
+public class OoalignAtom extends Atom implements HasElements {
 
 	private final List<Atom> column;
 
@@ -83,4 +85,8 @@ public class OoalignAtom extends Atom {
 		return new OoalignBox(l);
 	}
 
+	@Override
+	public Atom getElement(int index) {
+		return index < column.size() ? column.get(index) : null;
+	}
 }

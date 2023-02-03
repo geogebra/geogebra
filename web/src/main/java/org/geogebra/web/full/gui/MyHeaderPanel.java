@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.HeaderPanel;
 
 /**
  * Common code for whole screen GUIs such as material browser
- *
  */
 public abstract class MyHeaderPanel extends HeaderPanel implements SetLabels {
 

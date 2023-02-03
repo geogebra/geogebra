@@ -20,9 +20,14 @@ public class LaTeXTextSizeMeasurer implements TextSizeMeasurer {
 
 	@Override
 	public int getWidth(String text) {
-		TeXFormula formula = new TeXFormula(text);
-		TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, fontSize);
-		icon.setInsets(new Insets(1, 1, 1, 1));
-		return icon.getIconWidth();
+		try {
+			TeXFormula formula = new TeXFormula(text);  // this may throw (for invalid formulas)
+			TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, fontSize);
+			icon.setInsets(new Insets(1, 1, 1, 1));
+			return icon.getIconWidth();
+		} catch (Exception ex) {
+			// don't propagate exceptions from formula parsing (e.g., APPS-4584)
+		}
+		return 0;
 	}
 }

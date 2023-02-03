@@ -1,7 +1,11 @@
 package org.geogebra.common.jre.util;
 
+import java.io.UnsupportedEncodingException;
+
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.Reflection;
+import org.geogebra.common.util.URLEncoder;
 import org.geogebra.regexp.server.JavaRegExpFactory;
 import org.geogebra.regexp.shared.RegExpFactory;
 
@@ -18,5 +22,17 @@ public abstract class UtilFactoryJre extends UtilFactory  {
 	@Override
 	public Reflection newReflection(Class clazz) {
 		return new ReflectionJre(clazz);
+	}
+
+	@Override
+	public URLEncoder newURLEncoder() {
+		return urlComponent -> {
+			try {
+				return java.net.URLEncoder.encode(urlComponent, Charsets.UTF_8);
+			} catch (UnsupportedEncodingException e) {
+				// cannot happen, UTF-8 supported everywhere
+			}
+			return urlComponent;
+		};
 	}
 }

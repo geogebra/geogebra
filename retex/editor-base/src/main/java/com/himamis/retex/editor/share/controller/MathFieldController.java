@@ -136,8 +136,8 @@ public class MathFieldController {
 			texBuilder.enablePlaceholder(true);
 			return renderer;
 		} catch (Throwable t) {
-			FactoryProvider
-					.debugS("" + (t.getCause() != null ? t.getCause() : t));
+			FactoryProvider.getInstance()
+					.debug(t.getCause() != null ? t.getCause() : t);
 		}
 		return null;
 	}
@@ -171,8 +171,8 @@ public class MathFieldController {
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
 		} catch (Throwable t) {
-			FactoryProvider
-					.debugS("" + (t.getCause() != null ? t.getCause() : t));
+			FactoryProvider.getInstance()
+					.debug(t.getCause() != null ? t.getCause() : t);
 		}
 	}
 

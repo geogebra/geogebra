@@ -1,10 +1,9 @@
 package org.geogebra.web.shared.ggtapi.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
 
@@ -19,7 +18,7 @@ public abstract class MaterialCallback implements MaterialCallbackI {
 	}
 
 	@Override
-	public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+	public void onLoaded(List<Material> result, Pagination meta) {
 		// onLoaded(result);
 	}
 

@@ -660,6 +660,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testShouldComputeNumericValue() {
+		GeoSymbolic geo = add("f(x)=x");
+		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(false));
+		geo = add("f(x)=a*x");
+		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(false));
+		add("b=10");
+		geo = add("g(x)=b*x");
+		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(false));
+		geo = add("g(2)");
+		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(true));
+	}
+
+	@Test
 	public void testFunctionsWithApostrophe() {
 		testOutputLabelOfFunctionsWithApostrophe("Integral(x)", "x");
 		testOutputLabelOfFunctionsWithApostrophe("TaylorPolynomial(x^2, 3, 1)", "6");

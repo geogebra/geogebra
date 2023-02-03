@@ -61,7 +61,7 @@ public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty 
 			values.add(map.get(distribution));
 		}
 
-		setValuesAndLocalize(values.toArray(new String[0]));
+		setValues(values.toArray(new String[0]));
 	}
 
 	@Override

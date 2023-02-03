@@ -9,10 +9,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
- * @author csilla
- * 
- *         material design switch component
- *
+ * material design switch component
  */
 public class ComponentSwitch extends FlowPanel {
 	private SimplePanel track;

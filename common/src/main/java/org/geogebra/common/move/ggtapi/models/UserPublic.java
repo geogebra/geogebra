@@ -13,52 +13,28 @@ public class UserPublic implements Serializable {
 	 * Serialization needed for Android.
 	 */
 	private static final long serialVersionUID = 1L;
-	private String username;
 	private int id;
-	private String displayname;
+	private String displayName;
 
 	/**
 	 * public user information
 	 */
 	public UserPublic() {
-		this.username = "";
 		this.id = -1;
-		this.displayname = "";
+		this.displayName = "";
 	}
 
 	/**
 	 * Public user information
 	 * 
-	 * @param username
-	 *            The username
 	 * @param id
 	 *            Unique user ID
-	 * @param displayname
+	 * @param displayName
 	 *            The real name if specified, same as username otherwise
 	 */
-	public UserPublic(String username, int id, String displayname) {
-		this.username = username;
+	public UserPublic(int id, String displayName) {
 		this.id = id;
-		this.displayname = displayname;
-	}
-
-	/**
-	 * Get username
-	 * 
-	 * @return username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-	/**
-	 * Set user name
-	 * 
-	 * @param username
-	 *            the username
-	 */
-	public void setUsername(String username) {
-		this.username = username;
+		this.displayName = displayName;
 	}
 
 	/**
@@ -85,17 +61,8 @@ public class UserPublic implements Serializable {
 	 * 
 	 * @return The real name if specified, same as username otherwise
 	 */
-	public String getDisplayname() {
-		return displayname;
+	public String getDisplayName() {
+		return displayName;
 	}
 
-	/**
-	 * Set users display name
-	 * 
-	 * @param displayname
-	 *            The real name if specified, same as username otherwise
-	 */
-	public void setDisplayname(String displayname) {
-		this.displayname = displayname;
-	}
 }

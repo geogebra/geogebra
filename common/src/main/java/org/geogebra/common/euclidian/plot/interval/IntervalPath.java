@@ -120,12 +120,14 @@ public class IntervalPath {
 	private void drawNormalInfinity(IntervalTuple tuple) {
 		Interval x = tuple.x();
 		Interval y = tuple.y();
-		if (Double.isInfinite(y.getHigh())) {
+		if (bounds.range().contains(y.getLow()) && Double.isInfinite(y.getHigh())) {
 			gp.leftToTop(bounds, x, y);
 			lastY.set(0);
-		} else {
+		} else if (bounds.range().contains(y.getHigh())) {
 			gp.leftToBottom(bounds, x, y);
 			lastY.set(bounds.getHeight());
+		} else {
+			lastY.setUndefined();
 		}
 	}
 

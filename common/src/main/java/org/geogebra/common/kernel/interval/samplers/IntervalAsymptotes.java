@@ -40,14 +40,12 @@ public class IntervalAsymptotes {
 	}
 
 	private void handleConstant() {
-		if (uniqueElements().count() == 1) {
+		if (uniqueElements(2).count() == 1) {
 			return;
 		}
-		List<Interval> list = uniqueElements().collect(Collectors.toList());
+		List<Interval> list = uniqueElements(2).collect(Collectors.toList());
 		Interval constValue = list.get(0).isWhole() ? list.get(1) : list.get(0);
-		samples.forEach(t -> {
-			t.set(t.x(), constValue);
-		});
+		samples.forEach(t -> t.set(t.x(), constValue));
 	}
 
 	private void handlePeaks() {
@@ -59,17 +57,17 @@ public class IntervalAsymptotes {
 	}
 
 	boolean isConstant() {
-		long count = uniqueElements().count();
+		long count = uniqueElements(3).count();
 		return count == 1
 				|| (count == 2 && hasWholeValues());
 	}
 
 	private boolean hasWholeValues() {
-		return samples.stream().filter(t -> t.y().isWhole()).count() != 0;
+		return samples.stream().anyMatch(t -> t.y().isWhole());
 	}
 
-	private Stream<Interval> uniqueElements() {
-		return samples.stream().map(t -> t.y()).distinct();
+	private Stream<Interval> uniqueElements(int limit) {
+		return samples.stream().map(t -> t.y()).distinct().limit(limit);
 	}
 
 	private boolean isPeak(int index) {

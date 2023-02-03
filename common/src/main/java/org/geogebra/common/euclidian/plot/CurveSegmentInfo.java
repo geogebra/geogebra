@@ -24,6 +24,7 @@ public class CurveSegmentInfo {
 	private boolean distanceOK;
 	private boolean angleOK;
 	private boolean offScreen;
+	private boolean reachedminStep;
 
 	/**
 	 * Constructor
@@ -53,11 +54,10 @@ public class CurveSegmentInfo {
 	public void update(double[] evalLeft, double[] evalRight, double[] diff, double[] prevDiff,
 			CurveEvaluable curve) {
 		offScreen = view.isSegmentOffView(evalLeft, evalRight);
-		boolean horizontalDistanceOK = diff[0] < curve.getMinDistX();
-		distanceOK = offScreen || isDistanceOK(diff) || horizontalDistanceOK;
+		reachedminStep = Math.abs(diff[0]) < curve.getMinDistX();
+		distanceOK = offScreen || isDistanceOK(diff);
 		angleOK = isAngleOK(prevDiff, diff, offScreen
-				? MAX_BEND_OFF_SCREEN : MAX_BEND) || horizontalDistanceOK;
-
+				? MAX_BEND_OFF_SCREEN : MAX_BEND);
 	}
 
 	/**
@@ -118,5 +118,9 @@ public class CurveSegmentInfo {
 			}
 			return det < bend * innerProduct;
 		}
+	}
+
+	public boolean hasNotReachedMinStep() {
+		return !reachedminStep;
 	}
 }

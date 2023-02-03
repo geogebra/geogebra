@@ -17,4 +17,6 @@ public interface ScreenReaderAdapter {
 	 *            tect to be read
 	 */
     void readDelayed(String text);
+
+	void cancelReadDelayed();
 }
