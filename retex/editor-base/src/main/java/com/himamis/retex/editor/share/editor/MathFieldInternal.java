@@ -344,7 +344,6 @@ public class MathFieldInternal
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0
 				&& (keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) == 0;
 		if (alt) {
-
 			int keyCode = keyEvent.getKeyCode();
 
 			// eg Alt-94 for ^ with NumLock On

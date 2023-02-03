@@ -45,15 +45,16 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.IsAccentedAtom;
+
 /**
  * An atom with a cedilla.
  */
-public class CedillaAtom extends Atom {
+public class CedillaAtom extends Atom implements IsAccentedAtom {
 
 	private Atom base;
-	private static final SymbolAtom CEDILLA = SymbolAtom
+	public static final SymbolAtom CEDILLA = SymbolAtom
 			.get("jlatexmathcedilla");
-
 
 	public CedillaAtom(Atom base) {
 		this.base = base;
@@ -85,5 +86,15 @@ public class CedillaAtom extends Atom {
 		vb.setHeight(b.getHeight());
 		vb.setDepth(f - b.getHeight());
 		return vb;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
+
+	@Override
+	public Atom getAccent() {
+		return CEDILLA;
 	}
 }

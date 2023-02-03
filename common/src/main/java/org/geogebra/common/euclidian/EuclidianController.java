@@ -6163,11 +6163,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (hit != null) {
 					if (hit.isGeoButton() && !(hit.isGeoInputBox())) {
 						checkBoxOrButtonJustHitted = true;
-						if (!app.showView(App.VIEW_PROPERTIES)) {
-							selection.removeSelectedGeo(hit, true, false); // make
-							// sure doesn't get selected
-							app.updateSelection(false);
-						}
+						deselectIfPropertiesNotShowing(hit);
 					} else if (hit.isGeoBoolean()) {
 						if (mode == EuclidianConstants.MODE_SELECT) {
 							return false;
@@ -6176,12 +6172,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						if (!isCheckboxFixed(bool)) { // otherwise changed on
 							// mouse down
 							hitCheckBox(bool);
-							if (!app.showView(App.VIEW_PROPERTIES)) {
-								selection.removeSelectedGeo(bool, true, false); // make
-								// sure doesn't get selected
-								app.updateSelection(false);
-								bool.updateCascade();
-							}
+							deselectIfPropertiesNotShowing(bool);
+							bool.updateCascade();
 						}
 					} else {
 						GeoElement geo1 = chooseGeo(hits, true);
@@ -6201,6 +6193,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		return changedKernel;
+	}
+
+	private void deselectIfPropertiesNotShowing(GeoElement hit) {
+		if (!app.showView(App.VIEW_PROPERTIES) && selection.getSelectedGeos().contains(hit)) {
+			selection.removeSelectedGeo(hit, true, false); // make
+			// sure doesn't get selected
+			app.updateSelection(false);
+		}
 	}
 
 	private boolean createInlineObject(boolean selPreview, GeoInlineFactory factory) {

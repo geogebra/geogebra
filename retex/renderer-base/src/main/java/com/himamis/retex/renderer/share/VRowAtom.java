@@ -53,11 +53,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 import com.himamis.retex.renderer.share.TeXConstants.Align;
+import com.himamis.retex.renderer.share.serialize.HasElements;
 
 /**
  * An atom representing a vertical row of other atoms.
  */
-public class VRowAtom extends Atom {
+public class VRowAtom extends Atom implements HasElements {
 
 	// atoms to be displayed horizontally next to eachother
 	protected List<Atom> elements;
@@ -206,7 +207,7 @@ public class VRowAtom extends Atom {
 		return vb;
 	}
 
-	public Atom getElement(int i) {
-		return i < elements.size() ? elements.get(i) : null;
+	public Atom getElement(int index) {
+		return index < elements.size() ? elements.get(index) : null;
 	}
 }

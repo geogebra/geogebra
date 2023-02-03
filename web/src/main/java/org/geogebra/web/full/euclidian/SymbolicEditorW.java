@@ -175,7 +175,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	@Override
 	public boolean onEscape() {
-		resetChanges();
+		applyAndHide();
 		return true;
 	}
 

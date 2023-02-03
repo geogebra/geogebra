@@ -46,11 +46,12 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.commands.Command0A;
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
 
 /**
  * An atom representing ddots.
  */
-public class DdotsAtom extends Atom {
+public class DdotsAtom extends Atom implements HasCharacter {
 
 	public DdotsAtom() {
 		this.type = TeXConstants.TYPE_INNER;
@@ -82,5 +83,10 @@ public class DdotsAtom extends Atom {
 		vb.setDepth(0);
 
 		return vb;
+	}
+
+	@Override
+	public String getCharacter() {
+		return "\u22F1";
 	}
 }

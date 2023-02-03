@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
+
 /**
  * An atom with representing an IJ.
  */
-public class IJAtom extends Atom {
+public class IJAtom extends Atom implements HasCharacter {
 
 	private boolean upper;
 
@@ -66,5 +68,10 @@ public class IJAtom extends Atom {
 		hb.add(new SpaceAtom(Unit.EM, -0.065f, 0, 0).createBox(env));
 		hb.add(J);
 		return hb;
+	}
+
+	@Override
+	public String getCharacter() {
+		return upper ? "IJ" : "ij";
 	}
 }

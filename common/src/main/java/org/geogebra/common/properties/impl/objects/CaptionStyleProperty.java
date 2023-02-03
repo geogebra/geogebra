@@ -18,14 +18,6 @@ public class CaptionStyleProperty extends AbstractEnumerableProperty {
 
 	private static final int LABEL_HIDDEN = 0;
 
-	private static final String[] captionStyleNames = {
-			"Hidden",
-			"Name",
-			"NameAndValue",
-			"Value",
-			"Caption"
-	};
-
 	private static final List<Integer> labelModes = Arrays.asList(
 			GeoElementND.LABEL_DEFAULT,
 			GeoElementND.LABEL_NAME,
@@ -40,7 +32,7 @@ public class CaptionStyleProperty extends AbstractEnumerableProperty {
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.Caption");
 		delegate = new CaptionStyleDelegate(geoElement);
-		setValuesAndLocalize(captionStyleNames);
+		setValues("Hidden", "Name", "NameAndValue", "Value", "Caption");
 	}
 
 	@Override

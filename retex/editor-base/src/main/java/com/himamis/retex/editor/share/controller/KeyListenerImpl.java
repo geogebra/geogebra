@@ -26,7 +26,6 @@ public class KeyListenerImpl {
 	 * @return whether event was handled
 	 */
 	public boolean onKeyPressed(KeyEvent keyEvent, EditorState editorState) {
-		
 		// Ctrl, not AltGr
 		boolean ctrlPressed = ((keyEvent.getKeyModifiers()
 				& KeyEvent.CTRL_MASK) > 0)
@@ -61,8 +60,8 @@ public class KeyListenerImpl {
 			}
 			return false;
 		case JavaKeyCodes.VK_ESCAPE:
-			// see details in GGB-2235
-			// inputController.escSymbol(editorState);
+			// if math field doesn't have its own escape handler, blur it
+			inputController.getMathField().blur();
 			return true;
 		case JavaKeyCodes.VK_HOME:
 			if (shiftPressed) {

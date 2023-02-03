@@ -411,7 +411,7 @@ public class TeXParser {
 			case '\u0006':
 			case '\u0007':
 			case '\u0008':
-			case '\u0009':
+			case '\t':
 				++pos;
 				break;
 			case '\n':
@@ -421,7 +421,7 @@ public class TeXParser {
 				//skipWhites();
 				break;
 			case '\u000B':
-			case '\u000C':
+			case '\f':
 			case '\r':
 			case '\u000E':
 			case '\u000F':
@@ -1789,13 +1789,11 @@ public class TeXParser {
 			stack.peek().rbrace(this);
 		} else {
 			final AtomConsumer ac = stack.peek();
-			if (!(ac instanceof GroupConsumer))
-			{
+			if (!(ac instanceof GroupConsumer)) {
 				throw new ParseException(this,
 						"Closing '}' doesn't match any opening '{'");
 			} else if (!((GroupConsumer) ac).close(this,
-					TeXConstants.Opener.LBRACE))
-			{
+					TeXConstants.Opener.LBRACE)) {
 
 				throw new ParseException(this,
 						"Closing '}' is not matching an opening '{'");
@@ -1805,7 +1803,7 @@ public class TeXParser {
 
 	public boolean hasGroupConsumer(final TeXConstants.Opener opener) {
 		final AtomConsumer ac = stack.peek();
-		if ((ac instanceof GroupConsumer)) {
+		if (ac instanceof GroupConsumer) {
 			final GroupConsumer gc = (GroupConsumer) ac;
 			return gc.getOpener() == opener;
 		}
@@ -1818,7 +1816,7 @@ public class TeXParser {
 
 	private GroupConsumer getGroupConsumerOption() {
 		for (AtomConsumer ac : stack) {
-			if ((ac instanceof GroupConsumer)) {
+			if (ac instanceof GroupConsumer) {
 				final GroupConsumer gc = (GroupConsumer) ac;
 				if (gc.getOpener() == TeXConstants.Opener.LSQBRACKET) {
 					return gc;
@@ -2242,7 +2240,7 @@ public class TeXParser {
 							return new DoubleOrInt(negative ? -x : x);
 						} else if (c == '%') {
 							++pos;
-							final double x = (intPart) / 100.;
+							final double x = intPart / 100.;
 							return new DoubleOrInt(negative ? -x : x);
 						} else {
 							return new DoubleOrInt(
@@ -2635,10 +2633,6 @@ public class TeXParser {
 		while (pos < len) {
 			final char c = parseString.charAt(pos);
 			switch (c) {
-			case 'c':
-				++pos;
-				options.addAlignment(TeXConstants.Align.CENTER);
-				break;
 			case 'l':
 				++pos;
 				options.addAlignment(TeXConstants.Align.LEFT);
@@ -2646,6 +2640,22 @@ public class TeXParser {
 			case 'r':
 				++pos;
 				options.addAlignment(TeXConstants.Align.RIGHT);
+				break;
+			case 'p':
+				++pos;
+				options.addAlignment(TeXConstants.Align.LEFT, TeXConstants.Align.TOP, getArgAsLength());
+				break;
+			case 'L': // JLM specific; avoids need for \newcolumntype
+				++pos;
+				options.addAlignment(TeXConstants.Align.LEFT, TeXConstants.Align.CENTER, getArgAsLength());
+				break;
+			case 'C': // JLM specific; avoids need for \newcolumntype
+				++pos;
+				options.addAlignment(TeXConstants.Align.CENTER, TeXConstants.Align.CENTER, getArgAsLength());
+				break;
+			case 'R': // JLM specific; avoids need for \newcolumntype
+				++pos;
+				options.addAlignment(TeXConstants.Align.RIGHT, TeXConstants.Align.CENTER, getArgAsLength());
 				break;
 			case '|':
 				options.addVline(getNumberOf('|'));
@@ -2663,7 +2673,9 @@ public class TeXParser {
 				parse();
 				pop(); // remove cons from the stack
 				final Atom sep = cons.get();
-				options.addSeparator(sep);
+				if (sep != null) {
+					options.addSeparator(sep);
+				} // else: @{} is valid LaTeX, but is ignored in JLM
 				break;
 			case '*':
 				// *{num}{str}
@@ -2686,6 +2698,10 @@ public class TeXParser {
 			case '}':
 				++pos;
 				return;
+			case '{':
+				// parsing {p{10cm}c{10cm}} should complain about { after c, not the trailing }
+				throw new ParseException(this, "Unexpected {");
+			case 'c':
 			default:
 				++pos;
 				options.addAlignment(TeXConstants.Align.CENTER);

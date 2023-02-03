@@ -48,6 +48,7 @@ package com.himamis.retex.renderer.share.commands;
 import com.himamis.retex.renderer.share.Column;
 import com.himamis.retex.renderer.share.EnvArray;
 import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.exception.ParseException;
 
@@ -68,7 +69,8 @@ public class CommandCr extends Command {
 			tp.close();
 		}
 		if (tp.isArrayMode()) {
-			tp.addToConsumer(EnvArray.RowSep.get());
+			TeXLength minHeight = tp.getOptionAsLength(null);
+			tp.addToConsumer(new EnvArray.RowSep(minHeight));
 		} else {
 			final RowAtom ra = tp.steal();
 			if (ra == null) {

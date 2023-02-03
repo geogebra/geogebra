@@ -11,7 +11,8 @@ import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.util.HttpRequestW;
 import org.geogebra.web.html5.util.ProverW;
-import org.geogebra.web.html5.util.URLEncoderW;
+
+import elemental2.core.Global;
 
 /**
  * Web implementations for various utils
@@ -27,7 +28,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
 	public URLEncoder newURLEncoder() {
-		return new URLEncoderW();
+		return Global::encodeURIComponent;
 	}
 
 	@Override

@@ -823,19 +823,6 @@ public class InputController {
 	}
 
 	/**
-	 * Insert symbol.
-	 *
-	 * @param editorState
-	 *            current state
-	 */
-	public void escSymbol(EditorState editorState) {
-		editorState.getRootComponent().clearArguments();
-		editorState.setCurrentField(editorState.getRootComponent());
-		editorState.setCurrentOffset(0);
-		editorState.resetSelection();
-	}
-
-	/**
 	 * Remove character left to the cursor
 	 *
 	 * @param editorState

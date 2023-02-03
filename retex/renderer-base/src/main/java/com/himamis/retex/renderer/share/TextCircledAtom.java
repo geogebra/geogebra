@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom with representing an t with a caron.
  */
-public class TextCircledAtom extends Atom {
+public class TextCircledAtom extends Atom implements HasTrueBase {
 
 	private Atom at;
 
@@ -66,5 +68,10 @@ public class TextCircledAtom extends Atom {
 		hb.add(new StrutBox(-hb.getWidth(), 0, 0, 0));
 		hb.add(circle);
 		return hb;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return at;
 	}
 }

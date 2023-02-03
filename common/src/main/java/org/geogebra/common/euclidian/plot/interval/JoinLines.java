@@ -8,6 +8,7 @@ import org.geogebra.common.util.DoubleUtil;
  * Joining lines based on tuples in the correct way
  */
 public class JoinLines {
+	public static final int VERTICAL_MARGIN = 5;
 	private final EuclidianViewBounds bounds;
 	private final IntervalPathPlotter gp;
 	private static final double INFINITY_DISPLAYED = Kernel.INV_MAX_DOUBLE_PRECISION;
@@ -113,24 +114,52 @@ public class JoinLines {
 	}
 
 	private void toTopCurrentXLow(TupleNeighbours neighbours) {
-		gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYHigh(),
+		double y = neighbours.leftYHigh();
+		if (isOffScreenTop(y)) {
+			return;
+		}
+
+		gp.segment(bounds, neighbours.currentXLow(), y,
 				neighbours.currentXLow(), bounds.getYmax());
 
 	}
 
+	private boolean isOffScreenTop(double y) {
+		return y > bounds.getYmax() + VERTICAL_MARGIN;
+	}
+
 	private void toTopCurrentXHigh(TupleNeighbours neighbours) {
-		gp.segment(bounds, neighbours.rightXHigh(), neighbours.rightYHigh(),
+		double y = neighbours.rightYHigh();
+		if (isOffScreenTop(y)) {
+			return;
+		}
+
+		gp.segment(bounds, neighbours.rightXHigh(), y,
 				neighbours.currentXHigh(), bounds.getYmax());
 
 	}
 
 	private void toBottomLeft(TupleNeighbours neighbours) {
-		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
+		double y = neighbours.currentYLow();
+		if (isOffScreenBottom(y)) {
+			return;
+		}
+
+		gp.segment(bounds, neighbours.rightXHigh(), y,
 				neighbours.currentXHigh(), bounds.getYmin());
 	}
 
+	private boolean isOffScreenBottom(double y) {
+		return y < bounds.getYmin() - VERTICAL_MARGIN;
+	}
+
 	private void toBottomRight(TupleNeighbours neighbours) {
-		gp.segment(bounds, neighbours.currentXLow(), neighbours.currentYLow(),
+		double y = neighbours.currentYLow();
+		if (isOffScreenBottom(y)) {
+			return;
+		}
+
+		gp.segment(bounds, neighbours.currentXLow(), y,
 				neighbours.currentXHigh(), bounds.getYmin());
 	}
 

@@ -420,8 +420,7 @@ public class TabbedKeyboard extends FlowPanel
 		}
 		if ((Unicode.DIVIDE + "").equals(name)) {
 			// division button in scientific
-			return new KeyBoardButtonBase(Unicode.DIVIDE + "",
-					Unicode.DIVIDE + "", b);
+			return new KeyBoardButtonBase(Unicode.DIVIDE + "", "/", b);
 		}
 		if ("/".equals(name)) {
 			// division button in graphing
