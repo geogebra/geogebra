@@ -52,6 +52,7 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -6063,6 +6064,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void storeDefinitions(ArrayList<GeoElement> moveMultipleObjectsList) {
+		if (moveMultipleObjectsList.stream().anyMatch(
+				g -> g instanceof Locateable || g instanceof GeoWidget)) {
+			// moving buttons/images etc cannot use definition -> fall back to XML undo
+			return;
+		}
 		for (GeoElement geo: moveMultipleObjectsList) {
 			oldDefinition.put(geo, getDefintion(geo));
 		}
