@@ -37,11 +37,12 @@ public class RangePropertyCollection<T extends RangeProperty<V>, V extends Numbe
 
 	@Override
 	public void setValue(V value) {
-		setProperties(value);
+		doSetProperties(value);
 	}
 
 	@Override
 	void setPropertyValue(T property, V value) {
 		property.setValue(value);
 	}
+
 }

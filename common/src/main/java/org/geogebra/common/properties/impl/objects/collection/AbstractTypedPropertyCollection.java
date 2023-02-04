@@ -1,10 +1,13 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.impl.ObservableProperty;
 
-abstract class AbstractTypedPropertyCollection<T extends Property, S> implements Property {
+abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
+		ObservableProperty {
 
 	private final T[] properties;
+	private PropertyObserver propertyObserver;
 
 	AbstractTypedPropertyCollection(T[] properties) {
 		if (properties.length == 0) {
@@ -38,8 +41,20 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 	}
 
 	protected void setProperties(S value) {
+		doSetProperties(value);
+		if (propertyObserver != null) {
+			propertyObserver.onChange();
+		}
+	}
+
+	protected void doSetProperties(S value) {
 		for (T element : properties) {
 			setPropertyValue(element, value);
 		}
+	}
+
+	@Override
+	public void setObserver(PropertyObserver propertyObserver) {
+		this.propertyObserver = propertyObserver;
 	}
 }
