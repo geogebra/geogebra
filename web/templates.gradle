@@ -39,10 +39,22 @@ def partials = { code, appPartials ->
     return code
 }
 
-def replaceVendor = { htmlContent, vendor ->
-    return htmlContent.replace("<!--VENDOR-->", vendor)
-            .replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-${vendor.toLowerCase()}.html"))
-            .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
+def replaceVendor = { htmlContent, vendor, offline ->
+    htmlContent = htmlContent.replace("<!--VENDOR-->", vendor)
+    if (vendor == "Mebis") {
+        htmlContent = htmlContent.replace("<!--PRECONNECT-->", "")
+    } else {
+        htmlContent = htmlContent.replace("<!--PRECONNECT-->", !offline ?
+                "<link rel=\"preconnect\" href=\"https://cdn.geogebra.org\">"
+                : template("partials/preconnect.html"))
+    }
+    htmlContent = htmlContent.replace("<!--VENDOR SCRIPTS-->",
+            template("partials/vendor-scripts-${vendor.toLowerCase()}.html"))
+    if (!offline) {
+        htmlContent = htmlContent.replace("<script async src='https://www.google-analytics.com/analytics.js'></script>",
+            "");
+    }
+    return htmlContent
 }
 
 def getCss = { ->
@@ -67,7 +79,7 @@ ext.handlebars = { raw ->
 ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
     def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
     def inlinedCss = inlineCss ? getCss() : ""
-    return replaceVendor(html, "GeoGebra")
+    return replaceVendor(html, "GeoGebra", offline)
             .replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
             .replace("<!--PRELOADED CSS-->", inlinedCss)
@@ -103,7 +115,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def firebaseAppId = app.firebaseAppId ?: ""
     def measurementId = app.measurementId ?: ""
     def piwikpro = vendor == "Mebis" ? "" : template("partials/piwikpro.html")
-    return replaceVendor(html, vendor)
+    return replaceVendor(html, vendor, offline)
             .replace("<!--PIWIK PRO-->", piwikpro)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px')
