@@ -686,7 +686,7 @@ public final class GColor implements GPaint {
 	 @param p
 	 @param q
 	 @param t
-	 return */
+	 @return color */
 	public static float hueToRgb(float p, float q, float t) {
 		float tt = t;
 		if (tt < 0f) {
