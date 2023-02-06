@@ -969,6 +969,9 @@ public class ConstructionDefaults implements SettingListener {
 				geo.setBackgroundColor(GeoGebraColorConstants.GEOGEBRA_ACCENT);
 				geo.setObjColor(GColor.WHITE);
 			}
+			if (geo instanceof GeoInputBox) {
+				geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
+			}
 
 			if (!isReset) {
 				// set to highest used layer

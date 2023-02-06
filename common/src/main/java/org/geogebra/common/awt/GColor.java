@@ -112,6 +112,7 @@ public final class GColor implements GPaint {
 	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
 	public static final GColor DEFAULT_INPUTBOX_BORDER = newColor(148, 148, 148);
+	public static final GColor DEFAULT_INPUTBOX_TEXT = newColorRGB(0x252525);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
@@ -661,7 +662,7 @@ public final class GColor implements GPaint {
 	 * @param l       The lightness
 	 * @return int array, the RGB representation
 	 */
-	public static int[] hslToRgb(float h, float s, float l){
+	public static int[] hslToRgb(float h, float s, float l) {
 		float r, g, b;
 
 		if (s == 0f) {
@@ -681,7 +682,11 @@ public final class GColor implements GPaint {
 		return (int) Math.min(255, 256 * v);
 	}
 
-	/** Helper method that converts hue to rgb */
+	/** Helper method that converts hue to rgb
+	 @param p
+	 @param q
+	 @param t
+	 return */
 	public static float hueToRgb(float p, float q, float t) {
 		float tt = t;
 		if (tt < 0f) {

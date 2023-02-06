@@ -688,4 +688,9 @@ public class DrawInputBox extends CanvasDrawable {
 	public GColor getBorderColor() {
 		return borderCol;
 	}
+
+	@Override
+	public boolean isHighlighted() {
+		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
+	}
 }

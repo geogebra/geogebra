@@ -444,6 +444,8 @@ public class ConsElementXMLHandler {
 		} else if (geo instanceof GeoButton) {
 			geo.setBackgroundColor(GColor.WHITE);
 			geo.setObjColor(GColor.BLACK);
+		} else if (geo instanceof GeoInputBox) {
+			geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
 		}
 	}
 
