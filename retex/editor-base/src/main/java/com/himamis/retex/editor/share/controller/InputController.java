@@ -1361,11 +1361,13 @@ public class InputController {
 	 *
 	 * @param shiftDown
 	 *            whether shift is pressed
+	 * @return tab handling
 	 */
-	public void handleTab(boolean shiftDown) {
+	public boolean handleTab(boolean shiftDown) {
 		if (mathField != null) {
-			mathField.getInternal().onTab(shiftDown);
+			return mathField.getInternal().onTab(shiftDown);
 		}
+		return true;
 	}
 
 	public static class FunctionPower {

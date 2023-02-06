@@ -161,7 +161,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		applyChanges();
+		return true;
 	}
 }

@@ -180,9 +180,9 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		applyAndHide();
-		((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
+		return ((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
 	}
 
 	@Override
