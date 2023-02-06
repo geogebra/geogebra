@@ -21,7 +21,6 @@ package org.geogebra.common.kernel.geos;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -379,9 +378,8 @@ public class GeoNumeric extends GeoElement
 
 		numbers.addAll(angles);
 
-		Iterator<GeoElement> it = numbers.iterator();
-		while (it.hasNext()) {
-			GeoNumeric num = (GeoNumeric) it.next();
+		for (GeoElement number : numbers) {
+			GeoNumeric num = (GeoNumeric) number;
 			if (num.isSlider()) {
 				count++;
 			}
@@ -648,11 +646,7 @@ public class GeoNumeric extends GeoElement
 				// if label starts with c_
 				// look up if it is stored as constant
 				GeoNumeric geo = this.cons.lookupConstantLabel(label);
-				if (geo != null) {
-					this.setSendValueToCas(false);
-				} else {
-					this.setSendValueToCas(true);
-				}
+				this.setSendValueToCas(geo == null);
 			}
 			if (!sendValueToCas) {
 				return "(" + Kernel.TMP_VARIABLE_PREFIX + label + ")";
@@ -1324,8 +1318,7 @@ public class GeoNumeric extends GeoElement
 	public void update(boolean drag) {
 		super.update(drag);
 		if (minMaxListeners != null) {
-			for (int i = 0; i < minMaxListeners.size(); i++) {
-				GeoNumeric geo = minMaxListeners.get(i);
+			for (GeoNumeric geo : minMaxListeners) {
 				geo.resolveMinMax();
 			}
 		}
@@ -1508,26 +1501,22 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns a comparator for NumberValue objects. If equal, doesn't return
-	 * zero (otherwise TreeSet deletes duplicates)
+	 * zero (otherwise TreeSet deletes duplicates, e.g. in Sort[{a,a}])
 	 * 
 	 * @return 1 if first is greater (or same but sooner in construction), -1
 	 *         otherwise
 	 */
 	public static Comparator<GeoNumberValue> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<GeoNumberValue>() {
-				@Override
-				public int compare(GeoNumberValue itemA, GeoNumberValue itemB) {
-
-					double comp = itemA.getDouble() - itemB.getDouble();
-					if (DoubleUtil.isZero(comp)) {
-						// don't return 0 for equal objects, otherwise the
-						// TreeSet deletes duplicates
-						return itemA.getConstructionIndex() > itemB
-								.getConstructionIndex() ? -1 : 1;
-					}
-					return comp < 0 ? -1 : +1;
+			comparator = (itemA, itemB) -> {
+				double comp = itemA.getDouble() - itemB.getDouble();
+				if (DoubleUtil.isZero(comp)) {
+					// don't return 0 for equal objects, otherwise the
+					// TreeSet deletes duplicates
+					return itemA.getConstructionIndex() > itemB
+							.getConstructionIndex() ? -1 : 1;
 				}
+				return comp < 0 ? -1 : +1;
 			};
 		}
 
@@ -1654,6 +1643,14 @@ public class GeoNumeric extends GeoElement
 				}
 			}
 		}
+		for (GeoElement animating: cons.getGeoSetConstructionOrder()) {
+			if (animating.getAnimationSpeedObject() == num) {
+				animating.setAnimationSpeedObject(this);
+			}
+			if (animating.getAnimationStepObject() == num) {
+				animating.setAnimationStep(this);
+			}
+		}
 	}
 
 	@Override
@@ -1750,27 +1747,7 @@ public class GeoNumeric extends GeoElement
 		// automatic labelling:
 		// if algebra window open -> all labels
 		// else -> no labels
-		boolean visible = false;
-		switch (labelingStyle) {
-		case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON:
-			visible = true;
-			break;
-
-		case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF:
-			visible = false;
-			break;
-
-		case ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY:
-			// we want sliders and angles to be labeled always
-			visible = true;
-			break;
-
-		default:
-		case ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS:
-			// don't change anything
-			visible = true;
-			break;
-		}
+		boolean visible = labelingStyle != ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 
 		if (visible) {
 			labelMode = LABEL_NAME_VALUE;
