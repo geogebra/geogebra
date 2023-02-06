@@ -231,9 +231,7 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
 
-		setSymbolicMode(!isTopLevelCommandNumeric()
-				&& SymbolicUtil.isValueDefined(this), false);
-
+		setSymbolicMode();
 		setFunctionVariables();
 
 		isTwinUpToDate = false;
@@ -419,8 +417,13 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
+	private void setSymbolicMode() {
+		boolean isValueDefined = isCasValueDefined();
+		setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+	}
+
 	private void setFunctionVariables() {
-		if (!fVars.isEmpty()) {
+		if (!fVars.isEmpty() || !SymbolicUtil.isValueDefined(this)) {
 			return;
 		}
 		Iterable<FunctionVariable> variables = computeFunctionVariables();
@@ -1078,5 +1081,9 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue unwrapped = value.unwrap();
 		return unwrapped instanceof ListValue || (unwrapped instanceof GeoSymbolic
 				&& ((GeoSymbolic) unwrapped).unwrapSymbolic().isGeoList()) ;
+	}
+
+	private boolean isCasValueDefined() {
+		return !value.inspect(Inspecting.isUndefinedInspector);
 	}
 }
