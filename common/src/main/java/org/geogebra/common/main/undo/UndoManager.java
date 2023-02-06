@@ -42,6 +42,7 @@ public abstract class UndoManager {
 	private List<UndoInfoStoredListener> undoInfoStoredListeners;
 	private ArrayList<UndoPossibleListener> mListener = new ArrayList<>();
 	private final List<ActionExecutor> executors = new ArrayList<>();
+	private boolean allowCheckpoints = true;
 
 	/**
 	 * @param cons
@@ -265,6 +266,9 @@ public abstract class UndoManager {
 		if (!app.isUndoActive()) {
 			return false;
 		}
+		if (!allowCheckpoints && iterator.hasPrevious()) {
+			return undoInfoList.get(iterator.previousIndex()).getAction() != null;
+		}
 		return iterator.nextIndex() > 1;
 	}
 
@@ -276,6 +280,9 @@ public abstract class UndoManager {
 	public boolean redoPossible() {
 		if (!app.isUndoActive()) {
 			return false;
+		}
+		if (!allowCheckpoints && iterator.hasNext()) {
+			return undoInfoList.get(iterator.nextIndex()).getAction() != null;
 		}
 		return iterator.hasNext();
 	}
@@ -623,5 +630,9 @@ public abstract class UndoManager {
 			listener.undoPossible(undoPossible());
 			listener.redoPossible(redoPossible());
 		}
+	}
+	
+	public void setAllowCheckpoints(boolean val) {
+		this.allowCheckpoints = val;
 	}
 }
