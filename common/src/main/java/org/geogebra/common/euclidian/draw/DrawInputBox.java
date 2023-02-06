@@ -66,6 +66,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private GFont textFont;
 	private TextRenderer textRenderer;
 	private GDimension labelDimension = null;
+	private GColor borderCol = null;
 
 	/**
 	 * @param view
@@ -678,5 +679,13 @@ public class DrawInputBox extends CanvasDrawable {
 	int getHeightForLabel(String label) {
 		return isLatexString(label) && labelDimension != null ? labelDimension.getHeight()
 				: getLabelTextHeight();
+	}
+
+	public void setBorderColor(GColor borderColor) {
+		borderCol = borderColor;
+	}
+
+	public GColor getBorderColor() {
+		return borderCol;
 	}
 }
