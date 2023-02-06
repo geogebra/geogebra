@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
@@ -546,6 +547,18 @@ public class RedefineTest extends BaseUnitTest {
 		assertThat(lookup("sum"), hasValue(""));
 		add("SetValue(n,1)");
 		assertThat(lookup("sum"), hasValue("foo"));
+	}
+
+	@Test
+	public void speedAndStepShouldBeReplacedOnRedefine() {
+		GeoNumeric slider = add("slider=Slider(0,1,1)");
+		GeoNumeric speed = add("speed=1");
+		slider.setAnimationStep(speed);
+		slider.setAnimationSpeedObject(speed);
+		add("inv=2");
+		add("speed=1/inv"); // turn speed into a dependent object
+		assertThat(slider.getAnimationSpeedObject(), is(lookup("speed")));
+		assertThat(slider.getAnimationStepObject(), is(lookup("speed")));
 	}
 
 	/**
