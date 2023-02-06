@@ -9,6 +9,7 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -17,34 +18,14 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  * Serializes internal formulas representation into GeoGebra string
  *
  */
-public class GeoGebraSerializer implements Serializer {
+public class GeoGebraSerializer extends SerializerAdapter {
 
-	private static final GeoGebraSerializer defaultSerializer = new GeoGebraSerializer();
+	private static final GeoGebraSerializer
+			defaultSerializer = new GeoGebraSerializer();
 
 	private String leftBracket = "[";
 	private String rightBracket = "]";
 	private String comma = ",";
-
-	@Override
-	public String serialize(MathFormula formula) {
-		MathSequence sequence = formula.getRootComponent();
-		StringBuilder stringBuilder = new StringBuilder();
-		serialize(sequence, stringBuilder);
-		return stringBuilder.toString();
-	}
-
-	private void serialize(MathComponent mathComponent,
-			StringBuilder stringBuilder) {
-		if (mathComponent instanceof MathCharacter) {
-			serialize((MathCharacter) mathComponent, stringBuilder);
-		} else if (mathComponent instanceof MathFunction) {
-			serialize((MathFunction) mathComponent, stringBuilder);
-		} else if (mathComponent instanceof MathArray) {
-			serialize((MathArray) mathComponent, stringBuilder);
-		} else if (mathComponent instanceof MathSequence) {
-			serialize((MathSequence) mathComponent, stringBuilder);
-		}
-	}
 
 	/**
 	 * @param c
@@ -57,7 +38,8 @@ public class GeoGebraSerializer implements Serializer {
 		return sb.toString();
 	}
 
-	private void serialize(MathCharacter mathCharacter,
+	@Override
+	void serialize(MathCharacter mathCharacter,
 			StringBuilder stringBuilder) {
 		char unicode = mathCharacter.getUnicode();
 		if (unicode == ',' && !isCommaNeeded(mathCharacter)) {
@@ -88,7 +70,8 @@ public class GeoGebraSerializer implements Serializer {
 		return false;
 	}
 
-	private void serialize(MathFunction mathFunction,
+	@Override
+	void serialize(MathFunction mathFunction,
 			StringBuilder stringBuilder) {
 		Tag mathFunctionName = mathFunction.getName();
 		switch (mathFunctionName) {
@@ -115,11 +98,11 @@ public class GeoGebraSerializer implements Serializer {
 			break;
 		case MIXED_NUMBER:
 			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append("\u2064((");
+			stringBuilder.append("\u2064(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append("))");
+			stringBuilder.append(")");
 			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
@@ -209,7 +192,8 @@ public class GeoGebraSerializer implements Serializer {
 		}
 	}
 
-	private void serialize(MathArray mathArray,
+	@Override
+	void serialize(MathArray mathArray,
 			StringBuilder stringBuilder) {
 		char openKey = mathArray.getOpenKey();
 		String open;
@@ -248,7 +232,13 @@ public class GeoGebraSerializer implements Serializer {
 		}
 	}
 
-	private void serialize(MathSequence mathSequence,
+	@Override
+	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
+		//no placeholders
+	}
+
+	@Override
+	void serialize(MathSequence mathSequence,
 			StringBuilder stringBuilder) {
 		if (mathSequence == null) {
 			return;

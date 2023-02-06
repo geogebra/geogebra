@@ -22,8 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -55,7 +54,6 @@ public class ButtonDialogD extends Dialog
 	private JTextComponent tfScript;
 	// private DefaultListModel listModel;
 	private ButtonDialogModel model;
-	private DefaultComboBoxModel comboModel;
 
 	private JButton btOK;
 	private JButton btCancel;
@@ -116,34 +114,25 @@ public class ButtonDialogD extends Dialog
 		captionPanel.add(ip);
 
 		// combo box to link GeoElement to TextField
-		comboModel = new DefaultComboBoxModel();
-		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
-
-		final JComboBox cbAdd = new JComboBox(comboModel);
+		DefaultComboBoxModel<GeoElement> comboModel = new DefaultComboBoxModel<>();
+		final JComboBox<GeoElement> cbAdd = new JComboBox<>(comboModel);
 
 		if (model.isTextField()) {
 			// lists for combo boxes to select input and output objects
 			// fill combobox models
-			Iterator<GeoElement> it = sortedSet.iterator();
-			comboModel.addElement(null);
-			FontMetrics fm = getFontMetrics(getFont());
 
+			FontMetrics fm = getFontMetrics(getFont());
+			ArrayList<GeoElement> options = model.getLinkableObjects();
 			// minimum width
 			// make sure if there are just objects with short descriptions
 			// eg sliders
 			// then they display OK
 			int width = app.getGUIFontSize() * 10;
-
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				if (!geo.isGeoImage() && !(geo.isGeoButton())
-						&& !(geo.isGeoBoolean())) {
-					comboModel.addElement(geo);
-					String str = geo.toString(StringTemplate.defaultTemplate);
-					if (width < fm.stringWidth(str)) {
-						width = fm.stringWidth(str);
-					}
+			for (GeoElement geo : options) {
+				comboModel.addElement(geo);
+				String str = geo == null ? "" : geo.toString(StringTemplate.defaultTemplate);
+				if (width < fm.stringWidth(str)) {
+					width = fm.stringWidth(str);
 				}
 			}
 

@@ -45,7 +45,9 @@
 
 package com.himamis.retex.renderer.share;
 
-public class MathchoiceAtom extends Atom {
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
+public class MathchoiceAtom extends Atom implements HasTrueBase {
 
 	private final Atom d;
 	private final Atom t;
@@ -83,5 +85,10 @@ public class MathchoiceAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		return chose(env).createBox(env);
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return d; // t,t,s,ss should only differ in style, for semantics we can pick either one
 	}
 }

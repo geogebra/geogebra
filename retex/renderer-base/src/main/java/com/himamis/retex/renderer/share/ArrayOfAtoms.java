@@ -46,6 +46,7 @@
 package com.himamis.retex.renderer.share;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 
@@ -56,6 +57,7 @@ public class ArrayOfAtoms implements AtomConsumer {
 	protected ArrayList<ArrayList<Color>> colors;
 	protected ArrayList<Color> rowcolors;
 	protected ArrayList<Atom> currentRow;
+	protected HashMap<Integer, TeXLength> minHeights = new HashMap<>();
 	public int col;
 	protected int row;
 	protected boolean oneColumn = false;
@@ -141,6 +143,10 @@ public class ArrayOfAtoms implements AtomConsumer {
 		} else if (a instanceof EnvArray.RowSep) {
 			currentRow.add(ra.simplify());
 			currentRow = new ArrayList<Atom>();
+			TeXLength minHeight = ((EnvArray.RowSep) a).getMinHeight();
+			if (minHeight != null) {
+				minHeights.put(array.size(), minHeight);
+			}
 			array.add(currentRow);
 			ra = new RowAtom();
 			++row;
@@ -309,5 +315,9 @@ public class ArrayOfAtoms implements AtomConsumer {
 		}
 
 		return s;
+	}
+
+	public Atom getFirstColumnElement(int i) {
+		return array.size() > i && !array.get(i).isEmpty() ? get(i, 0) : null;
 	}
 }

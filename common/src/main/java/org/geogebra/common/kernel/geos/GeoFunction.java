@@ -3091,4 +3091,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			app.getEuclidianView2(1).getEuclidianController().removeZoomerAnimationListener(this);
 		}
 	}
+
+	@Override
+	public double getMinDistX() {
+		return 0.1; // max. 16 evaluations per pixel -- does not freeze the app
+		// and still looks OK with sin(x^x)
+	}
 }

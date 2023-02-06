@@ -45,12 +45,14 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.IsAccentedAtom;
+
 /**
  * An atom with an ogonek.
  */
-public class OgonekAtom extends Atom {
+public class OgonekAtom extends Atom implements IsAccentedAtom {
 
-	private static final SymbolAtom OGONEK = SymbolAtom.get("ogonek");
+	public static final SymbolAtom OGONEK = SymbolAtom.get("ogonek");
 	private Atom base;
 
 	public OgonekAtom(Atom base) {
@@ -82,5 +84,15 @@ public class OgonekAtom extends Atom {
 		vb.setHeight(b.getHeight());
 		vb.setDepth(f - b.getHeight());
 		return vb;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
+
+	@Override
+	public Atom getAccent() {
+		return OGONEK;
 	}
 }

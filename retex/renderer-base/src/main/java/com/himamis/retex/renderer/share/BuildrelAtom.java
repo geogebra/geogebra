@@ -51,7 +51,7 @@ package com.himamis.retex.renderer.share;
  * and/or an atom under it (if not null) seperated by a kern and in a smaller
  * size depending on "underScriptSize"
  */
-public class BuildrelAtom extends Atom {
+public class BuildrelAtom extends Atom implements HasUnderOver {
 
 	// base, underscript and overscript
 	private final Atom base;
@@ -120,4 +120,18 @@ public class BuildrelAtom extends Atom {
 		return b;
 	}
 
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
+
+	@Override
+	public Atom getUnderOver() {
+		return over;
+	}
+
+	@Override
+	public boolean isUnder() {
+		return false;
+	}
 }

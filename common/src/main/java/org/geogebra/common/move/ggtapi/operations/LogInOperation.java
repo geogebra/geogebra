@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.debug.Log;
@@ -273,4 +274,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		}
 		dispatchEvent(event);
 	}
+
+	public abstract MaterialRestAPI getResourcesAPI();
+
 }

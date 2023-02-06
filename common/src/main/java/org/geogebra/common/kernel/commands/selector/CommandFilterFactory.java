@@ -122,6 +122,15 @@ public final class CommandFilterFactory {
 	}
 
 	/**
+	 * @return filer for Bayern CAS exam
+	 */
+	public static CommandFilter createBayernCasFilter() {
+		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		nameFilter.addCommands(Commands.Plane);
+		return new EnglishCommandFilter(nameFilter);
+	}
+
+	/**
 	 * @return name filter for apps with no CAS
 	 */
 	public static CommandFilter createNoCasCommandFilter() {

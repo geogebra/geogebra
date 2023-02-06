@@ -45,7 +45,9 @@
 
 package com.himamis.retex.renderer.share;
 
-public class HeightDepthAtom extends Atom {
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
+public class HeightDepthAtom extends Atom implements HasTrueBase {
 
 	final TeXLength height;
 	final TeXLength depth;
@@ -64,5 +66,10 @@ public class HeightDepthAtom extends Atom {
 		b.setHeight(height.getValue(env));
 		b.setDepth(depth.getValue(env));
 		return b;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

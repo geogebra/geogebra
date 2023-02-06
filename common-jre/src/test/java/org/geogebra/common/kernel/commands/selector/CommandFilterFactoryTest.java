@@ -80,6 +80,12 @@ public class CommandFilterFactoryTest {
 		assertAllowed(false, Commands.Reflect);
 	}
 
+	@Test
+	public void testBayernCasCommandFilter() {
+		filter = CommandFilterFactory.createBayernCasFilter();
+		assertAllowed(false, Commands.Plane);
+	}
+
 	private void assertAllowed(boolean shouldAllow, Commands command) {
 		assertEquals(command + (shouldAllow ? " should" : " should not") + " be allowed",
 				shouldAllow, filter.isCommandAllowed(command));

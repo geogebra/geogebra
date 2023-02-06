@@ -74,7 +74,7 @@ public class IntervalAlgebra {
 
 		if (interval.isInverted()) {
 
-			return evaluator.computeInverted(evaluator.pow(interval.extractLow(), power),
+			return evaluator.unionInvertedResults(evaluator.pow(interval.extractLow(), power),
 					evaluator.pow(interval.extractHigh(), power));
 		}
 
@@ -179,7 +179,7 @@ public class IntervalAlgebra {
 			if (extractedHigh.isUndefined()) {
 				return undefined();
 			}
-			return evaluator.computeInverted(extractedLow, extractedHigh);
+			return evaluator.unionInvertedResults(extractedLow, extractedHigh);
 		}
 
 		double low = powLow(interval.getLow(), other.getLow());

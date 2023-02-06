@@ -13,14 +13,6 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public class EquationFormProperty extends AbstractEnumerableProperty {
 
-	private static final String[] equationFormNames = {
-			"ImplicitLineEquation",
-			"ExplicitLineEquation",
-			"ParametricForm",
-			"GeneralLineEquation",
-			"InputForm"
-	};
-
 	private final GeoElementDelegate delegate;
 
 	/***/
@@ -28,7 +20,8 @@ public class EquationFormProperty extends AbstractEnumerableProperty {
 			throws NotApplicablePropertyException {
 		super(localization, "Equation");
 		delegate = new EquationFormDelegate(element);
-		setValuesAndLocalize(equationFormNames);
+		setValues("ImplicitLineEquation", "ExplicitLineEquation", "ParametricForm",
+				"GeneralLineEquation", "InputForm");
 	}
 
 	@Override
