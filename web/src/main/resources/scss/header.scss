@@ -67,17 +67,6 @@ $button_hover_transition: background-color 0.15s;
 			}
 		}
 
-		.signInIcon {
-			opacity: 0.54;
-			margin-left: 8px;
-			padding: 12px;
-			cursor: pointer;
-
-			&:hover{
-				opacity: 1;
-			}
-		}
-
 		.profilePanel {
 			padding: 12px;
 			margin: 0 12px 0 32px;
@@ -97,6 +86,17 @@ $button_hover_transition: background-color 0.15s;
 			font-weight: normal;
 			margin: 20px 0px;
 			line-height: 1;
+		}
+	}
+
+	.signInIcon {
+		opacity: 0.54;
+		margin-left: 8px;
+		padding: 12px;
+		cursor: pointer;
+
+		&:hover{
+			opacity: 1;
 		}
 	}
 
