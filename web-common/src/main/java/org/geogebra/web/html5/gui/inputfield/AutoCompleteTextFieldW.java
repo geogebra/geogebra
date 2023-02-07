@@ -1441,7 +1441,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
 		} else {
 			GColor borderCol = bgColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
-					: GColor.getBorderColBasedOnBg(bgColor);
+					: GColor.getBorderColorFrom(bgColor);
 			g2.setColor(borderCol);
 			if (borderCol != GColor.DEFAULT_INPUTBOX_BORDER) {
 				drawTextField.setBorderColor(borderCol);
