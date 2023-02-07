@@ -66,7 +66,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private GFont textFont;
 	private TextRenderer textRenderer;
 	private GDimension labelDimension = null;
-	private GColor borderCol = null;
+	private GColor borderColor = null;
 
 	/**
 	 * @param view
@@ -682,11 +682,11 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	public void setBorderColor(GColor borderColor) {
-		borderCol = borderColor;
+		this.borderColor = borderColor;
 	}
 
 	public GColor getBorderColor() {
-		return borderCol;
+		return borderColor;
 	}
 
 	@Override

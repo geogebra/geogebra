@@ -640,7 +640,7 @@ public final class GColor implements GPaint {
 	 * @param bgColor - background color
 	 * @return adjusted color
 	 */
-	public static GColor getBorderColBasedOnBg(GColor bgColor) {
+	public static GColor getBorderColorFrom(GColor bgColor) {
 		float[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
 		if (hslValues[2] > 0.4) {
 			hslValues[2] -= 0.3;

@@ -1051,7 +1051,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
 		} else {
 			GColor borderCol = bgColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
-					: GColor.getBorderColBasedOnBg(bgColor);
+					: GColor.getBorderColorFrom(bgColor);
 			g2.setPaint(borderCol);
 		}
 		g2.drawRect(left, top, width, height);
