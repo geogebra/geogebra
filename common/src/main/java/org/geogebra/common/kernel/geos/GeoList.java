@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -306,14 +307,11 @@ public class GeoList extends GeoElement
 	}
 
 	private GeoElement getCopyForList(final GeoElement geo) {
-		if (geo.isLabelSet()) {
-			// take original element
-			return geo;
-		}
 		// create a copy of geo
 		final GeoElement ret = geo.copyInternal(cons);
 		ret.setParentAlgorithm(getParentAlgorithm());
-		if (geo.getDefinition() != null) {
+		if (geo.getDefinition() != null
+				&& !geo.getDefinition().inspect(Inspecting.dynamicGeosFinder)) {
 			ret.setDefinition(geo.getDefinition().deepCopy(kernel));
 		}
 		return ret;

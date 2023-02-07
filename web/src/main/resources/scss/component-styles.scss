@@ -800,6 +800,90 @@
 		display: inline-grid;
 	}
 
+	.searchBar {
+		display: inline-flex;
+		height: 44px;
+		width: 100%;
+		max-width: 720px;
+		background-color: colors.$white-5-overlay;
+		margin: 10px auto;
+		box-sizing: border-box;
+		border-radius: 22px;
+		border: 2px solid transparent;
+		transition: border 200ms ease-in-out, background-color 200ms ease-in-out;
+
+		.flatButtonHeader {
+			margin: auto 2px;
+
+			&:hover img {
+				opacity: 1;
+			}
+		}
+
+		.searchInputField {
+			width: 100%;
+			margin-right: 10px;
+
+			.TextField {
+				margin: 10px 0 10px 14px;
+				padding: 0px;
+				width: calc(100% - 14px) !important;
+				border: none;
+				border-radius: 0;
+				box-shadow: unset;
+				background-color: transparent;
+				height: 20px;
+				display: flex;
+				color: colors.$text-primary;
+			}
+
+			input[type=text]:focus:not([readonly]) {
+				border: none;
+			}
+		}
+
+		&.focusState {
+			border-sizing: box;
+			border: solid 2px colors.$mow_dark;
+			background-color: white;
+		}
+	}
+
+	.flatButtonHeader {
+        padding: 6px;
+        cursor: pointer;
+        height: 36px;
+        float: left;
+        box-sizing: border-box;
+        border-radius: 50%;
+        transition: background-color 150ms ease 0ms;
+        position: relative;
+
+        img {
+        	opacity: 0.54;
+        }
+
+        &:focus, &:hover, &.selected {
+            background-color: colors.$hover-calc-btn-bg;
+        }
+     }
+
+	.searchBar.compact {
+		max-width: 488px;
+		height: 36px;
+		margin: 6px auto;
+
+		.flatButtonHeader {
+			height: 32px;
+			padding: 4px;
+			margin: 0px;
+		}
+
+		.TextField {
+			margin: 6px 0 6px 14px;
+		}
+	}
+
 	.toast {
 		position: absolute;
 		background-color: colors.$toast-background;
@@ -847,6 +931,12 @@
 				margin: 8px 8px 0 0;
 				color: colors.$text-primary;
 			}
+
+			&.noLabel {
+				.selectedOption {
+					margin-top: 20px;
+				}
+			}
 		}
 
 		.arrow {
@@ -854,6 +944,11 @@
 			height: 20px;
 			margin: 18px 0 10px auto;
 			opacity: 0.54;
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
 		}
 
 		&:hover {
@@ -905,7 +1000,6 @@
 	}
 
 	.combobox {
-		margin-top: 40px;
 		width: fit-content;
 		min-width: 64px;
 		height: 50px;
@@ -1005,6 +1099,7 @@
 					cursor: default;
 					color: colors.$black-36;
 					background-color: colors.$white;
+					border: none;
 				}
 			}
 

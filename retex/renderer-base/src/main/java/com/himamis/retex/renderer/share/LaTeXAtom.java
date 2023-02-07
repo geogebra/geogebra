@@ -45,11 +45,13 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
+
 /**
  * An atom representing whitespace. The dimension values can be set using
  * different unit types.
  */
-public class LaTeXAtom extends Atom {
+public class LaTeXAtom extends Atom implements HasCharacter {
 
 	public LaTeXAtom() {
 	}
@@ -86,4 +88,8 @@ public class LaTeXAtom extends Atom {
 		return hb;
 	}
 
+	@Override
+	public String getCharacter() {
+		return "LaTeX";
+	}
 }

@@ -28,12 +28,7 @@ public class PointCapturingProperty extends AbstractEnumerableProperty {
     public PointCapturingProperty(App app, Localization localization) {
         super(localization, "PointCapturing");
         this.app = app;
-        setValuesAndLocalize(new String[]{
-                "Labeling.automatic",
-                "SnapToGrid",
-                "FixedToGrid",
-                "Off"
-        });
+        setValues("Labeling.automatic", "SnapToGrid", "FixedToGrid", "Off");
     }
 
     @Override

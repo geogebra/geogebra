@@ -46,6 +46,7 @@ public class TemporaryCard extends FlowPanel {
 		Material material = controller.getMaterial();
 		app.getGgbApi().setBase64(material.getBase64());
 		controller.onOpenFile();
+		app.getGuiManager().getBrowseView().close();
 	}
 
 	private void initGui() {

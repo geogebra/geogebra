@@ -164,7 +164,8 @@ public class CurveSegmentPlotter {
 		do {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff, curve);
 			// bisect interval as long as max bisection depth not reached & ...
-			while (params.hasMaxDepthNotReached()
+			while (params.hasNotReachedMaxDepth()
+					&& info.hasNotReachedMinStep()
 					&& (info.isDistanceOrAngleInvalid()
 							|| params.isStepTooBig(maxParamStep))
 					&& params.isDiffZerosLimitNotReached()) {

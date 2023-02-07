@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasElements;
+
 /**
  * An atom representing a vertical row of other atoms.
  */
-public class MultlineAtom extends Atom {
+public class MultlineAtom extends Atom implements HasElements {
 
 	public static final SpaceAtom vsep_in = new SpaceAtom(Unit.EX, 0.,
 			1., 0.);
@@ -124,4 +126,8 @@ public class MultlineAtom extends Atom {
 		return vb;
 	}
 
+	@Override
+	public Atom getElement(int index) {
+		return column.getFirstColumnElement(index);
+	}
 }

@@ -2,9 +2,9 @@
 @use 'z-index';
 
 $header_shadow:
-    0 4px 5px 0 colors.$black-14,
-    0 1px 10px 0 colors.$black-12,
-    0 2px 4px -1px colors.$black-20;
+	0 4px 5px 0 colors.$black-14,
+	0 1px 10px 0 colors.$black-12,
+	0 2px 4px -1px colors.$black-20;
 $header_height: 64px;
 $small_header_height: 48px;
 $button_height: 36px;
@@ -13,9 +13,10 @@ $button_hover_transition: background-color 0.15s;
 .GeoGebraFrame {
 
 	.headerView {
-	    height: $header_height;
-	    line-height: $header_height;
-	    position: relative;
+		display: flex;
+		height: $header_height;
+		line-height: $header_height;
+		position: relative;
 		top: 0px;
 		left: 0px;
 		width: 100%;
@@ -34,53 +35,122 @@ $button_hover_transition: background-color 0.15s;
 				opacity: 0.87;
 			}
 			.gwt-Image {
-			    vertical-align: middle;
+				vertical-align: middle;
 			}
 		}
 		.headerCaption {
-            display: inline-block;
-        	font-size: 125%;
-        	vertical-align: middle;
-        	color: colors.$text-primary;
-        	letter-spacing: 0.25px;
-        }
-        > .headerCaption:first-child {
-            margin-left: 16px;
-        }
+			display: inline-block;
+			font-size: 125%;
+			vertical-align: middle;
+			color: colors.$text-primary;
+			letter-spacing: 0.25px;
+			margin-right: 32px;
+		}
+		> .headerCaption:first-child {
+			margin-left: 16px;
+		}
+
+		.signIn {
+			text-transform: uppercase;
+			margin: 16px 12px 16px 32px;
+			padding: 4px 8px;
+			line-height: 24px;
+			min-width: fit-content;
+			border-radius: 2px;
+			cursor: pointer;
+			color: black;
+			opacity: 0.87;
+
+			&:hover{
+				opacity: 0.87;
+				background-color: colors.$hover-calc-btn-bg;
+			}
+		}
+
+		.signInIcon {
+			opacity: 0.54;
+			margin-left: 8px;
+			padding: 12px;
+			cursor: pointer;
+
+			&:hover{
+				opacity: 1;
+			}
+		}
+
+		.profilePanel {
+			padding: 12px;
+			margin: 0 12px 0 32px;
+			width: 64px;
+		}
+
+		.examInfoBtn {
+			right: 0;
+			position: absolute;
+			margin: 14px 18px;
+		}
+
+		.examTimer {
+			right: 72px;
+			position: absolute;
+			font-size: 24px;
+			font-weight: normal;
+			margin: 20px 0px;
+			line-height: 1;
+		}
 	}
 
 	%compactHeaderViewShared {
-        .headerBackButton {
-            vertical-align: middle;
-            padding: 8px 8px;
-            margin: auto 4px;
-        }
-        .headerCaption {
-            margin: 0px;
-        }
-    }
+		.headerBackButton {
+			vertical-align: middle;
+			padding: 8px 8px;
+			margin: auto 4px;
+		}
+		.headerCaption {
+			margin: 0 8px 0 0;
+		}
+	}
 
 	.smallHeaderView {
-        @extend %compactHeaderViewShared;
-    	height: $small_header_height;
-        line-height: $small_header_height;
-        .headerBackButton {
-            margin-left: 8px;
-            margin-right: 24px;
-        }
-    }
+		@extend %compactHeaderViewShared;
+		height: $small_header_height;
+		line-height: $small_header_height;
+		.headerBackButton {
+			margin-left: 8px;
+			margin-right: 24px;
+		}
 
-    .droppedHeaderView {
-        box-shadow: none;
-    }
+		.profilePanel {
+			height: 36px;
+			margin: 0 0 0 8px;
+			padding: 6px;
 
-    .compactHeaderView {
-        @extend %compactHeaderViewShared;
-        .headerCaption {
-            font-size: 112.5%;
-        }
-        .headerBackButton {
-            margin: auto 8px;
-        }
-    }
+			.profileImage {
+				width: 36px;
+				height: 36px !important;
+			}
+		}
+
+		.examTimer {
+			margin: 12px 0;
+		}
+
+		.examInfoBtn {
+			margin: 6px 18px;
+		}
+	}
+
+	.droppedHeaderView {
+		box-shadow: none;
+	}
+
+	.compactHeaderView {
+		@extend %compactHeaderViewShared;
+		.headerCaption {
+			font-size: 112.5%;
+		}
+		.headerBackButton {
+			margin: auto 8px;
+		}
+	}
 }

@@ -17,8 +17,7 @@ public class RatioUnitProperty extends AbstractEnumerableProperty {
     RatioUnitProperty(Localization localization, EuclidianView3D view3D) {
         super(localization, "Settings.Unit");
         this.view3D = view3D;
-        setValuesAndLocalize(new String[]{"Unit.cm", "Unit.inch"});
-
+        setValues("Unit.cm", "Unit.inch");
     }
 
     @Override

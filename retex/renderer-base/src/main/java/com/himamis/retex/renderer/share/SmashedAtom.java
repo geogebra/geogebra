@@ -45,13 +45,16 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a smashed atom (i.e. with no height and no depth).
  */
-public class SmashedAtom extends Atom {
+public class SmashedAtom extends Atom implements HasTrueBase {
 
 	private Atom at;
-	private boolean h = true, d = true;
+	private boolean h = true;
+	private boolean d = true;
 
 	public SmashedAtom(Atom at, char opt) {
 		this.at = at;
@@ -78,4 +81,8 @@ public class SmashedAtom extends Atom {
 		return b;
 	}
 
+	@Override
+	public Atom getTrueBase() {
+		return at;
+	}
 }

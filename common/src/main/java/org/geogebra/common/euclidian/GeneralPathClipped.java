@@ -278,7 +278,7 @@ public class GeneralPathClipped implements GShape {
 	 * @param segmentType
 	 *            path segment type
 	 */
-	protected final void addPoint(double x, double y, SegmentType segmentType) {
+	protected void addPoint(double x, double y, SegmentType segmentType) {
 		if (Double.isNaN(y)) {
 			return;
 		}

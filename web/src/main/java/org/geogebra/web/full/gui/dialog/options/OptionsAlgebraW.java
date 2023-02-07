@@ -1,33 +1,26 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
+import org.geogebra.common.properties.impl.algebra.SortByProperty;
+import org.geogebra.common.properties.impl.general.AngleUnitProperty;
+import org.geogebra.common.properties.impl.general.CoordinatesProperty;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * @author csilla
- *
- */
 public class OptionsAlgebraW
 		implements OptionPanelW, SetLabels, SettingListener {
 
@@ -38,30 +31,21 @@ public class OptionsAlgebraW
 	 */
 	protected MultiRowsTabPanel tabPanel;
 
-	/**
-	 * @author csilla
-	 *
-	 */
-	protected class AlgebraTab extends FlowPanel
-			implements ChangeHandler {
+	protected class AlgebraTab extends FlowPanel {
 		private FlowPanel optionsPanel;
 		private Label lblShow;
 		private ComponentCheckbox showAuxiliaryObjects;
-		private ListBox sortMode;
-		private AlgebraStyleListBox description;
+		private CompDropDown sortMode;
+		private CompDropDown description;
 		private FormLabel lblCoordStyle;
-		private ListBox coordStyle;
+		private CompDropDown coordStyle;
 		private FormLabel lblSortMode;
 		private FormLabel lblDescriptionMode;
-		private final List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
-			SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
 		@Nullable
-		private ListBox angleUnit;
-
+		private CompDropDown angleUnit;
 		@Nullable
 		private FormLabel lblAngleUnit;
-
 		@Nullable
 		private FlowPanel angleUnitRow;
 
@@ -83,18 +67,9 @@ public class OptionsAlgebraW
 					false, "AuxiliaryObjects",
 					getApp()::setShowAuxiliaryObjects);
 
-			sortMode = new ListBox();
-			lblSortMode = new FormLabel().setFor(sortMode);
-			lblSortMode.addStyleName("panelTitle");
-			lblDescriptionMode = new FormLabel().setFor(sortMode);
-			lblDescriptionMode.addStyleName("panelTitle");
-
-			description = new AlgebraStyleListBox(getApp(), false);
-			coordStyle = new ListBox();
-			lblCoordStyle = new FormLabel(
-					getApp().getLocalization().getMenu("Coordinates") + ":")
-							.setFor(coordStyle);
-
+			buildSortByUI();
+			buildDescriptionUI();
+			buildCoordStyleUI();
 			rebuildAngleUnit();
 
 			optionsPanel.add(lblShow);
@@ -105,26 +80,46 @@ public class OptionsAlgebraW
 			optionsPanel.add(LayoutUtilW.panelRowIndent(description));
 
 			optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
-			coordStyle.addChangeHandler(this);
 			if (angleUnitRow != null && angleUnit != null) {
 				optionsPanel.add(angleUnitRow);
-				angleUnit.addChangeHandler(this);
 			}
-			sortMode.addChangeHandler(this);
-			description.addChangeHandler(event -> {
-				int idx = getDescription().getSelectedIndex();
-				getApp().getSettings().getAlgebra().setStyle(
-							AlgebraSettings.getStyleModeAt(idx));
-					getApp().getKernel().updateConstruction(false);
-				});
 			setLabels();
+		}
+
+		private void buildSortByUI() {
+			EnumerableProperty sortProperty = new SortByProperty(app.getGuiManager()
+					.getAlgebraView(), app.getLocalization());
+			sortMode = new CompDropDown(app, sortProperty);
+			lblSortMode = new FormLabel().setFor(sortMode);
+			lblSortMode.addStyleName("panelTitle");
+			lblDescriptionMode = new FormLabel().setFor(sortMode);
+			lblDescriptionMode.addStyleName("panelTitle");
+		}
+
+		private void buildDescriptionUI() {
+			EnumerableProperty descriptionProperty = new AlgebraDescriptionProperty(
+					app.getKernel(), app.getLocalization());
+			description = new CompDropDown(app, descriptionProperty);
+		}
+
+		private void buildCoordStyleUI() {
+			EnumerableProperty coordProperty = new CoordinatesProperty(app.getKernel(),
+					app.getLocalization());
+			coordStyle = new CompDropDown(app, coordProperty);
+			lblCoordStyle = new FormLabel(
+					getApp().getLocalization().getMenu("Coordinates") + ":")
+					.setFor(coordStyle);
+			lblCoordStyle.addStyleName("dropDownLabel");
 		}
 
 		private void rebuildAngleUnit() {
 			if (app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow == null) {
-				angleUnit = new ListBox();
+				EnumerableProperty angleProperty = new AngleUnitProperty(app.getKernel(),
+						app.getLocalization());
+				angleUnit = new CompDropDown(app, angleProperty);
 				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
 				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
+				lblAngleUnit.addStyleName("dropDownLabel");
 				angleUnitRow = LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit);
 				optionsPanel.add(angleUnitRow);
 			} else if (!app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow != null) {
@@ -136,38 +131,11 @@ public class OptionsAlgebraW
 		}
 
 		/**
-		 * @return sort mode combo box
-		 */
-		public ListBox getSortMode() {
-			return sortMode;
-		}
-
-		/**
-		 * @return coord style combo box
-		 */
-		public ListBox getCoordStyle() {
-			return coordStyle;
-		}
-
-		/**
-		 * @return angle unit combo box
-		 */
-		@Nullable
-		public ListBox getAngleUnit() {
-			return angleUnit;
-		}
-
-		/**
 		 * update sort mode combo box
 		 */
 		public void updateSortMode() {
-			sortMode.clear();
-			for (SortMode mode : supportedModes) {
-				sortMode.addItem(
-						getApp().getLocalization().getMenu(mode.toString()));
-			}
-			SortMode selectedMode = getApp().getAlgebraView().getTreeMode();
-			sortMode.setSelectedIndex(supportedModes.indexOf(selectedMode));
+			sortMode.setLabels();
+			sortMode.resetToDefault();
 		}
 
 		/**
@@ -177,13 +145,8 @@ public class OptionsAlgebraW
 			lblCoordStyle
 					.setText(getApp().getLocalization().getMenu("Coordinates")
 							+ ":");
-			coordStyle.clear();
-			coordStyle
-					.addItem(getApp().getLocalization().getMenu("A = (x, y)"));
-			coordStyle.addItem(getApp().getLocalization().getMenu("A(x | y)"));
-			coordStyle.addItem(getApp().getLocalization().getMenu("A: (x, y)"));
-			coordStyle.setSelectedIndex(getApp().getKernel().getCoordStyle());
-			getApp().getKernel().updateConstruction(false);
+			coordStyle.setLabels();
+			coordStyle.resetToDefault();
 		}
 
 		/**
@@ -196,28 +159,16 @@ public class OptionsAlgebraW
 
 			lblAngleUnit
 					.setText(getApp().getLocalization().getMenu("AngleUnit") + ":");
-			angleUnit.clear();
-			angleUnit.addItem(getApp().getLocalization().getMenu("Degree"));
-			angleUnit.addItem(getApp().getLocalization().getMenu("Radiant"));
-			angleUnit.addItem(getApp().getLocalization()
-					.getMenu("DegreesMinutesSeconds"));
-			int index;
-			switch (getApp().getKernel().getAngleUnit()) {
-				case Kernel.ANGLE_RADIANT:
-					index = 1;
-					break;
-				case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
-					index = 2;
-					break;
-				case Kernel.ANGLE_DEGREE:
-				default:
-					index = 0;
-					break;
-			}
-			angleUnit.setSelectedIndex(index);
+			angleUnit.setLabels();
+			angleUnit.resetToDefault();
+		}
 
-			getApp().getKernel().updateConstruction(false);
-			getApp().setUnsaved();
+		/**
+		 * update description dropdown
+		 */
+		public void updateDescription() {
+			description.setLabels();
+			description.resetToDefault();
 		}
 
 		/**
@@ -227,24 +178,8 @@ public class OptionsAlgebraW
 			rebuildAngleUnit();
 			showAuxiliaryObjects.setSelected(getApp().showAuxiliaryObjects);
 			updateSortMode();
-			description.update();
+			updateDescription();
 			updateCoordStyle();
-			updateAngleUnit();
-		}
-
-		/**
-		 * @return description combo box
-		 */
-		public AlgebraStyleListBox getDescription() {
-			return description;
-		}
-
-		/**
-		 * @param description
-		 *            - list of description style
-		 */
-		public void setDescription(AlgebraStyleListBox description) {
-			this.description = description;
 		}
 
 		/**
@@ -256,39 +191,6 @@ public class OptionsAlgebraW
 			lblSortMode.setText(getApp().getLocalization().getMenu("SortBy"));
 			lblDescriptionMode.setText(
 					getApp().getLocalization().getMenu("AlgebraDescriptions"));
-		}
-
-		@Override
-		public void onChange(ChangeEvent event) {
-			Object source = event.getSource();
-			if (source == getSortMode()) {
-				int i = getSortMode().getSelectedIndex();
-				getApp().getSettings().getAlgebra()
-						.setTreeMode(supportedModes.get(i));
-			} else if (source == getCoordStyle()) {
-				int i = getCoordStyle().getSelectedIndex();
-				getApp().getKernel().setCoordStyle(i);
-				getApp().getKernel().updateConstruction(false);
-			} else if (source == getAngleUnit() && getAngleUnit() != null) {
-				int i = getAngleUnit().getSelectedIndex();
-
-				int unit;
-				switch (i) {
-					case 1:
-						unit = Kernel.ANGLE_RADIANT;
-						break;
-					case 2:
-						unit = Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
-						break;
-					case 0:
-					default:
-						unit = Kernel.ANGLE_DEGREE;
-						break;
-				}
-				getApp().getKernel().setAngleUnit(unit);
-				getApp().getKernel().updateConstruction(false);
-				getApp().setUnsaved();
-			}
 		}
 	}
 
@@ -351,7 +253,7 @@ public class OptionsAlgebraW
 	public void setLabels() {
 		algebraTab.setLabels();
 		algebraTab.updateSortMode();
-		algebraTab.getDescription().update();
+		algebraTab.updateDescription();
 		algebraTab.updateCoordStyle();
 		algebraTab.updateAngleUnit();
 	}

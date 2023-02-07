@@ -118,18 +118,39 @@ public class Ggb2giac {
 
 		// Giac syntax coeffs(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y,[x,y],[2,0])
 		// Coefficients(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y)
+		//2 vars with eq in 2nd degree -> conic, 3 vars with eq in 2nd degree -> quadric, everything else is a polynomial
 		String coeffsString = "[[coeffsarg:=%0],"
 				// rearrange equation to LHS-(RHS)
-				+ "[coeffsarg:=when(coeffsarg[0]==equal,left(coeffsarg)-right(coeffsarg),coeffsarg)]"
+		+ "[coeffsarg:=when(coeffsarg[0]==equal,left(coeffsarg)-right(coeffsarg),coeffsarg)],"
+		+ "[eqV:=[x,y,z] intersect lname(coeffsarg)],"
+		+ "when(coeffsarg[0]==equal,"
+			+ "?"
+			+ ","
+			+ "when(is_polynomial(coeffsarg),"
+				+"when(degree(subst(coeffsarg,[x=t,y=t,z=t]))==2,"
+					+ "when(size(eqV)==2,"
+						+ "ggbcoeffconic(coeffsarg)"
+						+ ","
+						+ "when(size(eqV)==3,ggbcoeffquadric(coeffsarg),coeffs(coeffsarg))"
+						+ ")"
+					+ ","
+					+ "coeffs(coeffsarg)"
+					+ ")"
+				+ ","
+				+ "{}"
+				+ ")"
+			+	 ")"
+		+ "][-1]";
 
-				+ ",when(coeffsarg[0]==equal,?,when(is_polynomial(coeffsarg),when(degree(coeffsarg,x)==2&&degree(coeffsarg,y)==2,"
-				// special syntax for conics / quadrics
-				// in x,y only (parameter ignored)
-				+ "when(length(lname(coeffsarg))==2,ggbcoeffconic(coeffsarg),ggbcoeffquadric(coeffsarg))"
-				+ ",coeffs(coeffsargREPLACEME)),{}))][-1]";
 
-		p("Coefficients.1", coeffsString.replace("REPLACEME", ""));
-		p("Coefficients.2", coeffsString.replace("REPLACEME", ",%1"));
+		String coeffs2String = "[[coeffsarg:=%0],"
+				// rearrange equation to LHS-(RHS)
+				+ "[coeffsarg:=when(coeffsarg[0]==equal,left(coeffsarg)-right(coeffsarg),coeffsarg)],"
+				+ "when(coeffsarg[0]==equal,?,when(is_polynomial(coeffsarg),coeffs(coeffsarg,%1),{}))"
+				+ "][-1]";
+
+		p("Coefficients.1", coeffsString);
+		p("Coefficients.2", coeffs2String);
 
 		p("CompleteSquare.1",
 				" [[ggbcmpsqarg0:=expand(%0)],when(size(simplify(%0))<=3,"

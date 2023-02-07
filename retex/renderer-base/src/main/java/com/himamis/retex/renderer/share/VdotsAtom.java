@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
+
 /**
  * An atom representing vdots.
  */
-public class VdotsAtom extends Atom {
+public class VdotsAtom extends Atom implements HasCharacter {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
@@ -65,5 +67,10 @@ public class VdotsAtom extends Atom {
 		vb.setHeight(d + h);
 
 		return vb;
+	}
+
+	@Override
+	public String getCharacter() {
+		return "\u22EE";
 	}
 }

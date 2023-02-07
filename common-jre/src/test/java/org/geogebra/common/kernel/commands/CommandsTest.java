@@ -1385,14 +1385,16 @@ public class CommandsTest {
 
 	@Test
 	public void cmdDifference() {
-		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
+		tRound("diff_{1}=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
 				"3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
 				"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1");
-		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
+		assertNotNull(app.getKernel().lookupLabel("diff_{1}"));
+		tRound("symDiff=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
 				"3", "3", "(3, 3)", "(1, 3)", "(1, 2)", "(2, 2)",
 				"(2, 1)", "(3, 1)", "(2, 1)", "(1, 1)", "(1, 2)",
 				"(0, 2)", "(0, 0)", "(2, 0)", "2", "1", "1", "1", "1",
 				"2", "1", "1", "1", "2", "2", "1");
+		assertNotNull(app.getKernel().lookupLabel("symDiff_{1}"));
 	}
 
 	@Test

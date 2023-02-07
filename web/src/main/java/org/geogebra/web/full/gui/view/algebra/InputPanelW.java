@@ -31,8 +31,6 @@ public class InputPanelW extends FlowPanel {
 	public InputPanelW(App app, int columns,
 	        boolean autoComplete) {
 		super();
-		//setHorizontalAlignment(ALIGN_CENTER);
-		//setVerticalAlignment(ALIGN_MIDDLE);
 		addStyleName("InputPanel");
 
 		textComponent = new AutoCompleteTextFieldW(columns, app);

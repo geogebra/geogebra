@@ -25,7 +25,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Zoltan Kovacs 
  */
 public class HttpRequestD extends HttpRequest {
-	private String answer;
+
 	/**
 	 * current timeout for HTTP requests
 	 */
@@ -42,7 +42,7 @@ public class HttpRequestD extends HttpRequest {
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 
 				@Override
-				protected Void doInBackground() throws Exception {
+				protected Void doInBackground() {
 					sendRequestPostSync(method, url, post, callback);
 					return null;
 				}
@@ -89,10 +89,10 @@ public class HttpRequestD extends HttpRequest {
 
 				osw.write(post);
 				osw.flush();
-				answer = readOutput(huc.getInputStream());
+				setResponseText(readOutput(huc.getInputStream()));
 				osw.close();
 			} else {
-				answer = readOutput(huc.getInputStream());
+				setResponseText(readOutput(huc.getInputStream()));
 			}
 
 			if (callback != null) {
@@ -116,16 +116,6 @@ public class HttpRequestD extends HttpRequest {
 			ex.printStackTrace();
 			Log.error(ex.getMessage());
 		}
-	}
-
-	/**
-	 * Gets a response from a remote HTTP server
-	 *
-	 * @return the full textual content of the result after the request
-	 *         processed (the output page itself)
-	 */
-	public String getResponse() {
-		return answer;
 	}
 
 	/**
