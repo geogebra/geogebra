@@ -1440,7 +1440,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			g2.setStroke(EuclidianStatic.getStroke(2,
 					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
 		} else {
-			g2.setPaint(GColor.BLACK);
+			GColor borderColor = bgColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
+					: GColor.getBorderColorFrom(bgColor);
+			g2.setColor(borderColor);
+			if (borderColor != GColor.DEFAULT_INPUTBOX_BORDER) {
+				drawTextField.setBorderColor(borderColor);
+			}
 		}
 
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);

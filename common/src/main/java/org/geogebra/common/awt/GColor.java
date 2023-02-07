@@ -111,6 +111,9 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
 	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
+	public static final GColor DEFAULT_INPUTBOX_BORDER = newColor(148, 148, 148);
+	public static final GColor DEFAULT_INPUTBOX_TEXT = newColorRGB(0x252525);
+
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
 	 * directly to
@@ -630,5 +633,118 @@ public final class GColor implements GPaint {
 			Log.error("Invalid color code");
 			return null;
 		}
+	}
+
+	/**
+	 * Calculate adjusted color based on luminance
+	 * @param bgColor - background color
+	 * @return adjusted color
+	 */
+	public static GColor getBorderColorFrom(GColor bgColor) {
+		float[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+		if (hslValues[2] > 0.4) {
+			hslValues[2] -= 0.3;
+		} else {
+			hslValues[2] -= 0.2;
+		}
+		int[] rgb = hslToRgb(hslValues[0], hslValues[1], hslValues[2]);
+		return newColor(rgb[0], rgb[1], rgb[2]);
+	}
+
+	/**
+	 * Converts an HSL color value to RGB. Conversion formula
+	 * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+	 * Assumes h, s, and l are contained in the set [0, 1] and
+	 * returns r, g, and b in the set [0, 255].
+	 *
+	 * @param h - hue
+	 * @param s - saturation
+	 * @param l - lightness
+	 * @return int array, the RGB representation
+	 */
+	public static int[] hslToRgb(float h, float s, float l) {
+		float r, g, b;
+
+		if (s == 0f) {
+			r = g = b = l; // achromatic
+		} else {
+			float q = l < 0.5f ? l * (1 + s) : l + s - l * s;
+			float p = 2 * l - q;
+			r = hueToRgb(p, q, h + 1f / 3f);
+			g = hueToRgb(p, q, h);
+			b = hueToRgb(p, q, h - 1f / 3f);
+		}
+		int[] rgb = {to255(r), to255(g), to255(b)};
+		return rgb;
+	}
+
+	private static int to255(float v) {
+		return (int) Math.min(255, 256 * v);
+	}
+
+	/** Helper method that converts hue to rgb
+	 @param p - p
+	 @param q - q
+	 @param t - t
+	 @return color */
+	public static float hueToRgb(float p, float q, float t) {
+		float tt = t;
+		if (tt < 0f) {
+			tt += 1f;
+		}
+		if (tt > 1f) {
+			tt -= 1f;
+		}
+		if (tt < 1f / 6f) {
+			return p + (q - p) * 6f * tt;
+		}
+		if (tt < 1f / 2f) {
+			return q;
+		}
+		if (tt < 2f / 3f) {
+			return p + (q - p) * (2f / 3f - tt) * 6f;
+		}
+		return p;
+	}
+
+	/**
+	 * Converts an RGB color value to HSL.
+	 * Assumes r, g, and b in the set [0, 255] and
+	 * returns h, s, and l contained in the set [0, 1]
+	 *
+	 * @param pR - red
+	 * @param pG - green
+	 * @param pB - blue
+	 * @return float array, the HSL representation
+	 */
+	public static float[] rgbToHsl(int pR, int pG, int pB) {
+		float r = pR / 255f;
+		float g = pG / 255f;
+		float b = pB / 255f;
+
+		float max = (r > g && r > b) ? r : (g > b) ? g : b;
+		float min = (r < g && r < b) ? r : (g < b) ? g : b;
+
+		float h, s, l;
+		l = (max + min) / 2.0f;
+
+		if (max == min) {
+			h = s = 0.0f;
+		} else {
+			float d = max - min;
+			s = (l > 0.5f) ? d / (2.0f - max - min) : d / (max + min);
+
+			if (r > g && r > b) {
+				h = (g - b) / d + (g < b ? 6.0f : 0.0f);
+			} else if (g > b) {
+				h = (b - r) / d + 2.0f;
+			} else {
+				h = (r - g) / d + 4.0f;
+			}
+			h /= 6.0f;
+		}
+
+		float[] hsl = {h, s, l};
+		return hsl;
 	}
 }
