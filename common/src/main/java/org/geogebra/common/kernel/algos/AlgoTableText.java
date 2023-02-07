@@ -492,7 +492,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	}
 
 	/**
-	 * Adds the justification, lowercase/uppercase if minimum height is not specified/is specified
+	 * Adds the justification, lowercase/uppercase if minimum width is not specified/is specified
 	 * @param c Column
 	 */
 	private void addJustification(int c) {
