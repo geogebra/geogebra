@@ -31,6 +31,9 @@ public class EvaluatorActivity extends BaseActivity {
 	public void start(AppW appW) {
 		super.start(appW);
 		editor = new EvaluatorEditor(appW);
+		if (appW.getAppletParameters().hasAttribute("showKeyboardOnFocus")) {
+			appW.getAppletParameters().setAttribute("showKeyboardOnFocus", "true");
+		}
 		GeoGebraFrameW frame = appW.getAppletFrame();
 		frame.clear();
 		frame.add(editor);
