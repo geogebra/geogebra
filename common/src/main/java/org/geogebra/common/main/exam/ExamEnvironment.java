@@ -615,9 +615,9 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * Prepares the exam for starting.
+	 * Prepares the command related restrictions for the exam
 	 */
-	public void setupExamEnvironment() {
+	public void prepareExamForStarting() {
 		enableExamCommandFilter();
 		setShowSyntax(false);
 	}

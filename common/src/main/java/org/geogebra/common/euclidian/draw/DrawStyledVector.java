@@ -86,7 +86,7 @@ public class DrawStyledVector {
 	}
 
 	public boolean intersects(int x1, int y1, int w, int h) {
-		return area.intersects(x1, y1, w, h);
+		return area != null && area.intersects(x1, y1, w, h);
 	}
 
 	public void fill(GGraphics2D g2) {

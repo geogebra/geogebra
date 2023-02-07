@@ -73,6 +73,8 @@ import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
 
+import elemental2.dom.DomGlobal;
+
 public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
 		KeyDownHandler, KeyUpHandler, KeyPressHandler,
@@ -506,6 +508,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			cursorOverlay = new CursorOverlay();
 			addFocusHandler(evt -> addDummyCursor());
 			addBlurHandler(evt -> removeDummyCursor());
+			DomGlobal.setInterval(event -> updateCursorOverlay(), 200);
 			if (geoUsedForInputBox != null) {
 				setTextAlignmentsForInputBox(geoUsedForInputBox.getAlignment());
 			}
@@ -1189,7 +1192,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private int getSelectionStart() {
-		return getText().indexOf(textField.getValueBox().getSelectedText());
+		return textField.getValueBox().getCursorPos();
 	}
 
 	@Override

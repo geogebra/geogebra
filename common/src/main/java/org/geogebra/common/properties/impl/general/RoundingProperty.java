@@ -33,7 +33,7 @@ public class RoundingProperty extends AbstractEnumerableProperty {
         setupValues(localization);
     }
 
-    private void setupValues(Localization localization) {
+    private String[] setupValues(Localization localization) {
         String[] values = localization.getRoundingMenu();
         ArrayList<String> list = new ArrayList<>(values.length - 1);
         for (int i = 0; i < values.length; i++) {
@@ -48,6 +48,12 @@ public class RoundingProperty extends AbstractEnumerableProperty {
         String[] array = new String[list.size()];
 
         setValues(list.toArray(array));
+        return list.toArray(array);
+    }
+
+    @Override
+    public String[] getValues() {
+        return setupValues(app.getLocalization());
     }
 
     @Override

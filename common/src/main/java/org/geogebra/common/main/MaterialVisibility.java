@@ -44,4 +44,21 @@ public enum MaterialVisibility {
 		}
 		return Private;
 	}
+
+	/**
+	 *
+	 * @param index representation
+	 * @return the corresponding enum.
+	 */
+	public static MaterialVisibility value(int index) {
+		switch (index) {
+		case 1:
+			return MaterialVisibility.Shared;
+		case 2:
+			return MaterialVisibility.Public;
+		case 0:
+		default:
+			return MaterialVisibility.Private;
+		}
+	}
 }

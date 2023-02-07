@@ -587,5 +587,10 @@ public class ImageManagerD extends ImageManager {
 		fillableImgs.put("center_view", GuiResourcesD.FILLING_CENTER_VIEW);
 		fillableImgs.put("help", GuiResourcesD.FILLING_HELP);
 		fillableImgs.put("settings", GuiResourcesD.FILLING_SETTINGS);
+		fillableImgs.put("undo", GuiResourcesD.UNDO);
+		fillableImgs.put("redo", GuiResourcesD.REDO);
+		fillableImgs.put("remove", GuiResourcesD.REMOVE);
+		fillableImgs.put("add", GuiResourcesD.ADD);
+		fillableImgs.put("check_mark", GuiResourcesD.CHECK_MARK);
 	}
 }

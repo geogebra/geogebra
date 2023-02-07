@@ -45,7 +45,9 @@
 
 package com.himamis.retex.renderer.share;
 
-public class PodAtom extends Atom {
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
+public class PodAtom extends Atom implements HasTrueBase {
 
 	private final Atom a;
 	private final double x;
@@ -72,5 +74,10 @@ public class PodAtom extends Atom {
 		}
 
 		return hb;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return a;
 	}
 }

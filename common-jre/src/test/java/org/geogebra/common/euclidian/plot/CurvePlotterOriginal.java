@@ -190,7 +190,7 @@ public class CurvePlotterOriginal {
 		int depth = 0;
 		double t = t1;
 		double left = t1;
-		boolean distanceOK, angleOK, segOffScreen;
+		boolean distanceOK, angleOK, segOffScreen, minDistReached;
 
 		// Actual plotting algorithm:
 		// use bisection for interval until we reach
@@ -202,14 +202,16 @@ public class CurvePlotterOriginal {
 			// segment from last point off screen?
 			segOffScreen = view.isSegmentOffView(eval0, eval1);
 			// pixel distance from last point OK?
-			distanceOK = segOffScreen || isDistanceOK(diff) || diff[0] < curve.getMinDistX();
+			minDistReached =  diff[0] < curve.getMinDistX();
+			distanceOK = segOffScreen || isDistanceOK(diff);
 			// angle from last segment OK?
 			angleOK = isAngleOK(prevDiff, diff, segOffScreen
-					? MAX_BEND_OFF_SCREEN : MAX_BEND) || diff[0] < curve.getMinDistX();
+					? MAX_BEND_OFF_SCREEN : MAX_BEND);
 
 			// bisect interval as long as max bisection depth not reached & ...
 			while (depth < MAX_DEFINED_BISECTIONS
 					// ... distance not ok or angle not ok or step too big
+					&& !minDistReached
 					&& (!distanceOK || !angleOK
 					|| divisors[depth] > max_param_step)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
@@ -255,11 +257,12 @@ public class CurvePlotterOriginal {
 
 				// segment from last point off screen?
 				segOffScreen = view.isSegmentOffView(eval0, eval1);
+				minDistReached = diff[0] < curve.getMinDistX();
 				// pixel distance from last point OK?
-				distanceOK = segOffScreen || isDistanceOK(diff) || diff[0] < curve.getMinDistX();
+				distanceOK = segOffScreen || isDistanceOK(diff);
 				// angle from last segment OK?
 				angleOK = isAngleOK(prevDiff, diff, segOffScreen
-						? MAX_BEND_OFF_SCREEN : MAX_BEND) || diff[0] < curve.getMinDistX();
+						? MAX_BEND_OFF_SCREEN : MAX_BEND);
 
 			} // end of while-loop for interval bisections
 

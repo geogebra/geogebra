@@ -3,6 +3,7 @@ package org.geogebra.web.shared.ggtapi;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
@@ -10,7 +11,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.analytics.LoginAnalytics;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
 import elemental2.core.Global;
@@ -104,14 +104,21 @@ public class LoginOperationW extends LogInOperation {
 	}
 
 	@Override
+	public MaterialRestAPI getResourcesAPI() {
+		if (apiFactory == null) {
+			apiFactory = new BackendAPIFactory(app);
+		}
+		return apiFactory.getResourcesApi();
+	}
+
+	@Override
 	protected String getURLLoginCaller() {
 		return "web";
 	}
 
 	@Override
 	protected String getURLClientInfo() {
-		URLEncoderW enc = new URLEncoderW();
-		return enc.encode("GeoGebra Web Application V"
+		return Global.encodeURIComponent("GeoGebra Web Application V"
 				+ GeoGebraConstants.VERSION_STRING);
 	}
 

@@ -46,11 +46,12 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.commands.Command0A;
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
 
 /**
  * An atom representing iddots.
  */
-public class IddotsAtom extends Atom {
+public class IddotsAtom extends Atom implements HasCharacter {
 
 	public IddotsAtom() {
 		this.type = TeXConstants.TYPE_INNER;
@@ -82,5 +83,10 @@ public class IddotsAtom extends Atom {
 		vb.setDepth(0);
 
 		return vb;
+	}
+
+	@Override
+	public String getCharacter() {
+		return "\u22F0";
 	}
 }

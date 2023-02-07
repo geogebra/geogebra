@@ -246,7 +246,20 @@ public class IntervalNodeEvaluator {
 		return misc.union(interval, other);
 	}
 
-	Interval computeInverted(Interval result1, Interval result2) {
+	/**
+	 * Compute unary operator result if operand is inverted.
+	 *
+	 * @param interval the operand.
+	 * @param operator a unary operator.
+	 * @return unified result
+	 */
+	public Interval computeUnaryInverted(Interval interval, UnaryIntervalOperator operator) {
+		Interval intervalLow = operator.exec(interval.extractLow());
+		Interval intervalHigh = operator.exec(interval.extractHigh());
+		return unionInvertedResults(intervalLow, intervalHigh);
+	}
+
+	Interval unionInvertedResults(Interval result1, Interval result2) {
 		if (result1.equals(result2) || result1.isPositive() && isNegativeOrEmpty(result2)) {
 			return result1;
 		}

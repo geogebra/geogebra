@@ -52,6 +52,8 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 	private boolean fixedSize = false;
 
+	public final static int DEFAULT_BUTTON_HEIGHT = 36;
+
 	/**
 	 * Creates new button
 	 * 

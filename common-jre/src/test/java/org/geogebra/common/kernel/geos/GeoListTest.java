@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
@@ -35,5 +37,16 @@ public class GeoListTest extends BaseUnitTest {
 		assertEquals("\\left\\{0" + Unicode.ELLIPSIS + "a\\right\\}",
 				matrix.getDefinition().unwrap()
 						.toString(StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void setShouldCopyLabeledElements() {
+		GeoList allLists = add("allLists={}");
+		add("c=1");
+		allLists.set(add("{{c}}")); // equivalent to SetValue(allLists,{{c}})
+		add("SetValue(c,42)");
+		StringBuilder sb = new StringBuilder();
+		allLists.getExpressionXML(sb);
+		assertThat(sb.toString(), is("<expression label=\"allLists\" exp=\"{{1}}\"/>\n"));
 	}
 }

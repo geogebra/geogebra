@@ -18,9 +18,10 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
  */
 public class BackendAPIFactory {
 
-	private AppW app;
-	private AppletParameters articleElement;
+	private final AppW app;
+	private final AppletParameters articleElement;
 	private BackendAPI api = null;
+	private MaterialRestAPI restApi = null;
 
 	/**
 	 * @param app The application.
@@ -31,12 +32,23 @@ public class BackendAPIFactory {
 	}
 
 	/**
-	 * @return the backend API suitable for the applicaion.
+	 * @return the backend API suitable for the application (tube or mow-back).
 	 */
 	public BackendAPI get() {
 		createApiIfNeeded();
 		api.setClient(app.getClientInfo());
 		return this.api;
+	}
+
+	/**
+	 * @return REST api for resources
+	 */
+	public MaterialRestAPI getResourcesApi() {
+		if (restApi == null) {
+			restApi = newMaterialRestAPI();
+		}
+		restApi.setClient(app.getClientInfo());
+		return this.restApi;
 	}
 
 	private void createApiIfNeeded() {
