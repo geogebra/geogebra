@@ -657,9 +657,9 @@ public final class GColor implements GPaint {
 	 * Assumes h, s, and l are contained in the set [0, 1] and
 	 * returns r, g, and b in the set [0, 255].
 	 *
-	 * @param h       The hue
-	 * @param s       The saturation
-	 * @param l       The lightness
+	 * @param h - hue
+	 * @param s - saturation
+	 * @param l - lightness
 	 * @return int array, the RGB representation
 	 */
 	public static int[] hslToRgb(float h, float s, float l) {
@@ -683,9 +683,9 @@ public final class GColor implements GPaint {
 	}
 
 	/** Helper method that converts hue to rgb
-	 @param p
-	 @param q
-	 @param t
+	 @param p - p
+	 @param q - q
+	 @param t - t
 	 @return color */
 	public static float hueToRgb(float p, float q, float t) {
 		float tt = t;
