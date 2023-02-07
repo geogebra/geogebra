@@ -54,6 +54,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		if (tableValues.getValues() == list && !list.isLabelSet()) {
 			model.setupXValues(list);
 			list.setLabel(cons.buildIndexedLabel("x", false));
+			cons.removeFromConstructionList(list);
 		}
 	}
 
