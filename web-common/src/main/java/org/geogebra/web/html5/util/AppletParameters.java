@@ -741,4 +741,8 @@ public class AppletParameters {
 	public String getParamMultiplayerUrl() {
 		return getStringDataParam("multiplayerUrl", "");
 	}
+
+	public boolean getParamAllowUndoCheckpoints() {
+		return getBoolDataParam("allowUndoCheckpoints", true);
+	}
 }
