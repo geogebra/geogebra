@@ -68,7 +68,8 @@ public final class GColor implements GPaint {
 	/** MOW GREEN */
 	public static final GColor MOW_GREEN = newColor(46, 125, 50);
 	/** ERROR RED */
-	public static final GColor ERROR_RED = newColor(176, 0, 32);
+	public static final GColor ERROR_RED_BACKGROUND = newColorRGB(0xF1D1D7);
+	public static final GColor ERROR_RED_BORDER = newColorRGB(0xce5c71);
 	/** Table values points color for y values */
 	public static final GColor Y_POINT_COLOR = newColor(76, 66, 161);
 

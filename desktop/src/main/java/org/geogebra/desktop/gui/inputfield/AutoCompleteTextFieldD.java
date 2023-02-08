@@ -999,8 +999,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void requestFocus() {
 		super.requestFocus();
 		if (getDrawTextField() != null && getDrawTextField().hasError()) {
-			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
-					4, 1, 1, true));
+			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
+					2));
 		} else {
 			setDefaultBorder();
 		}
@@ -1046,7 +1046,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		// TF Rectangle
 		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED);
+			g2.setPaint(GColor.ERROR_RED_BORDER);
 			g2.setStroke(EuclidianStatic.getStroke(2,
 					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
 		} else {
