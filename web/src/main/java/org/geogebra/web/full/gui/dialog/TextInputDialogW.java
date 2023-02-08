@@ -79,6 +79,7 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 	private void createTextGUI(boolean showSymbolPopupIcon) {
 		inputPanel = new InputPanelW("", app, rows, cols,
 				showSymbolPopupIcon);
+		inputPanel.getTextComponent().enableGGBKeyboard();
 		((AppW) app).unregisterPopup(this);
 		editor = inputPanel.getTextAreaComponent();
 		if (editor != null) {
