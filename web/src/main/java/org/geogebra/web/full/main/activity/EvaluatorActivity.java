@@ -9,6 +9,7 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExportedApi;
+import org.geogebra.web.html5.util.AppletParameters;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -31,8 +32,9 @@ public class EvaluatorActivity extends BaseActivity {
 	public void start(AppW appW) {
 		super.start(appW);
 		editor = new EvaluatorEditor(appW);
-		if (appW.getAppletParameters().hasAttribute("showKeyboardOnFocus")) {
-			appW.getAppletParameters().setAttribute("showKeyboardOnFocus", "true");
+		AppletParameters appletParameters = appW.getAppletParameters();
+		if (!appletParameters.hasAttribute("showKeyboardOnFocus")) {
+			appletParameters.setAttribute("showKeyboardOnFocus", "true");
 		}
 		GeoGebraFrameW frame = appW.getAppletFrame();
 		frame.clear();
@@ -49,7 +51,7 @@ public class EvaluatorActivity extends BaseActivity {
 			}
 		});
 
-		if (!appW.getAppletParameters().preventFocus()) {
+		if (!appletParameters.preventFocus()) {
 			editor.requestFocus();
 		}
 	}
