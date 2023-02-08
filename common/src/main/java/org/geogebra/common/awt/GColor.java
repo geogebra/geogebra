@@ -120,6 +120,7 @@ public final class GColor implements GPaint {
 	 * https://developer.android.com/reference/android/graphics/Color.html
 	 */
 	private final int valueARGB;
+	private double luminance = -1;
 
 	private static final double FACTOR = 0.7;
 
@@ -275,49 +276,25 @@ public final class GColor implements GPaint {
 	 *         background
 	 */
 	public static GColor updateForWhiteBackground(GColor color) {
-
-		int fgRed = color.getRed();
-		int fgGreen = color.getGreen();
-		int fgBlue = color.getBlue();
-		// prevent endless loop
+		GColor ret = color;
 		int loopCounter = 0;
-		int difference = 5;
-		while (!checkColorRatioWhite(fgRed, fgGreen, fgBlue)
+		while (WHITE.getContrast(ret) < 4.5
 				&& loopCounter < 50) {
 			// create a slightly darker version of the color
-			fgRed = Math.max(fgRed - difference, 0);
-			fgGreen = Math.max(fgGreen - difference, 0);
-			fgBlue = Math.max(fgBlue - difference, 0);
+			int fgRed = Math.max(color.getRed() - 5 * loopCounter, 0);
+			int fgGreen = Math.max(color.getGreen() - 5 * loopCounter, 0);
+			int fgBlue = Math.max(color.getBlue() - 5 * loopCounter, 0);
+			ret = newColor(fgRed, fgGreen, fgBlue);
 			loopCounter++;
 		}
 
-		if (!checkColorRatioWhite(fgRed, fgGreen, fgBlue)) {
+		if (WHITE.getContrast(ret) < 4.5) {
 			// If the color could not be set correctly, the font color is set to
 			// black.
 			return GColor.BLACK;
 		}
 
-		return GColor.newColor(fgRed, fgGreen, fgBlue);
-	}
-
-	/**
-	 * uses the color contrast ratio of the W3C, which can be found at:
-	 * http://www.w3.org/TR/WCAG20-TECHS/G18.html
-	 * http://web.mst.edu/~rhall/web_design/color_readability.html
-	 *
-	 * @param fgRed red
-	 * @param fgGreen green
-	 * @param fgBlue blue
-	 * @return if the contrast ration sufficient (true) or not (false)
-	 */
-	private static boolean checkColorRatioWhite(int fgRed, int fgGreen,
-			int fgBlue) {
-		int diff_hue = 3 * 255 - fgRed - fgBlue - fgGreen;
-
-		double diff_brightness = 255
-				- GColor.getGrayScale(fgGreen, fgRed, fgBlue);
-
-		return diff_brightness > 125 && diff_hue > 500;
+		return ret;
 	}
 
 	/**
@@ -401,7 +378,7 @@ public final class GColor implements GPaint {
 	 *            (0-1)
 	 * @return new color as ARGB
 	 */
-	public static int fromHSBtoRGB(double hue, double saturation,
+	public static GColor newColorHSB(double hue, double saturation,
 			double brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {
@@ -446,7 +423,7 @@ public final class GColor implements GPaint {
 				break;
 			}
 		}
-		return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
+		return newColor(r, g, b);
 	}
 
 	/**
@@ -636,7 +613,7 @@ public final class GColor implements GPaint {
 	}
 
 	/**
-	 * Calculate adjusted color based on luminance
+	 * Calculate darker color, adjustment based on lightness
 	 * @param bgColor - background color
 	 * @return adjusted color
 	 */
@@ -647,8 +624,24 @@ public final class GColor implements GPaint {
 		} else {
 			hslValues[2] -= 0.2;
 		}
-		int[] rgb = hslToRgb(hslValues[0], hslValues[1], hslValues[2]);
-		return newColor(rgb[0], rgb[1], rgb[2]);
+		hslValues[2] = Math.max(hslValues[2], 0);
+		return newColorHSL(hslValues[0], hslValues[1], hslValues[2]);
+	}
+
+	/**
+	 * Calculate brighter color, adjustment based on lightness
+	 * @param bgColor - background color
+	 * @return adjusted color
+	 */
+	public static GColor getBrightBorderColorFrom(GColor bgColor) {
+		float[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+		if (hslValues[2] < 0.6) {
+			hslValues[2] += 0.3;
+		} else {
+			hslValues[2] += 0.2;
+		}
+		hslValues[2] = Math.min(hslValues[2], 1);
+		return newColorHSL(hslValues[0], hslValues[1], hslValues[2]);
 	}
 
 	/**
@@ -662,33 +655,29 @@ public final class GColor implements GPaint {
 	 * @param l - lightness
 	 * @return int array, the RGB representation
 	 */
-	public static int[] hslToRgb(float h, float s, float l) {
-		float r, g, b;
+	public static GColor newColorHSL(double h, double s, double l) {
+		double r, g, b;
 
 		if (s == 0f) {
 			r = g = b = l; // achromatic
 		} else {
-			float q = l < 0.5f ? l * (1 + s) : l + s - l * s;
-			float p = 2 * l - q;
+			double q = l < 0.5f ? l * (1 + s) : l + s - l * s;
+			double p = 2 * l - q;
 			r = hueToRgb(p, q, h + 1f / 3f);
 			g = hueToRgb(p, q, h);
 			b = hueToRgb(p, q, h - 1f / 3f);
 		}
-		int[] rgb = {to255(r), to255(g), to255(b)};
-		return rgb;
+		return newColor(to255(r), to255(g), to255(b));
 	}
 
-	private static int to255(float v) {
+	private static int to255(double v) {
 		return (int) Math.min(255, 256 * v);
 	}
 
 	/** Helper method that converts hue to rgb
-	 @param p - p
-	 @param q - q
-	 @param t - t
 	 @return color */
-	public static float hueToRgb(float p, float q, float t) {
-		float tt = t;
+	private static double hueToRgb(double p, double q, double t) {
+		double tt = t;
 		if (tt < 0f) {
 			tt += 1f;
 		}
@@ -747,4 +736,33 @@ public final class GColor implements GPaint {
 		float[] hsl = {h, s, l};
 		return hsl;
 	}
+
+	/**
+	 * @param other other color
+	 * @return contrast with other color
+	 */
+	public double getContrast(GColor other) {
+		double ratio = (getLuminance() + 0.05) / (other.getLuminance() + 0.05);
+		return ratio < 1.0 ? 1 / ratio : ratio;
+	}
+
+	/**
+	 * See <a href="https://www.w3.org/TR/2008/REC-WCAG20-20081211/#sRGB">WCAG definition</a>
+	 * @return relative luminance
+	 */
+	public double getLuminance() {
+		if (luminance < 0) {
+			double lumR = lumComponent(getRed()), lumG = lumComponent(getGreen()),
+					lumB = lumComponent(getBlue());
+			luminance = 0.2126 * lumR + 0.7152 * lumG + 0.0722 * lumB;
+		}
+		return luminance;
+	}
+
+	private double lumComponent(int val) {
+		double valD = val / 255.0;
+		return valD <= 0.03928 ? valD / 12.92 : Math.pow((valD + 0.055) / 1.055, 2.4);
+	}
 }
+
+// If(x <= 0.03928 , x / 12.92, ((x + 0.055) / 1.055)^2.4)
