@@ -16,13 +16,11 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -38,7 +36,6 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1041,19 +1038,15 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		g2.setPaint(bgColor);
+		GColor backgroundColor = drawTextField.hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
+		g2.setPaint(backgroundColor);
 		g2.fillRect(left, top, width, height);
 
-		// TF Rectangle
-		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED_BORDER);
-			g2.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
-		} else {
-			GColor borderCol = bgColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
-					: GColor.getBorderColorFrom(bgColor);
-			g2.setPaint(borderCol);
-		}
+		GColor borderColor = backgroundColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
+				: GColor.getBorderColorFrom(backgroundColor);
+		g2.setColor(borderColor);
+		drawTextField.setBorderColor(borderColor);
+
 		g2.drawRect(left, top, width, height);
 	}
 
