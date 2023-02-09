@@ -125,7 +125,7 @@ public class MathFieldController {
 		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
 		texBuilder.enablePlaceholder(false);
 		texFormula.root = texBuilder.build(mathFormula.getRootComponent(),
-				currentField, textMode);
+				currentField, -1, textMode);
 
 		try {
 			final TeXIcon renderer = texFormula.new TeXIconBuilder()
@@ -148,7 +148,7 @@ public class MathFieldController {
 		TeXFormula texFormula = new TeXFormula();
 		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
 		texFormula.root = texBuilder.build(mathFormula.getRootComponent(),
-				currentField, textMode);
+				currentField, currentOffset, textMode);
 
 		try {
 			final TeXIcon renderer = texFormula.new TeXIconBuilder()

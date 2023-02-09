@@ -60,6 +60,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.MathFormulaConverter;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -106,6 +107,8 @@ public class MathFieldInternal
 	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
+	private MathFormulaConverter formulaConverter;
+
 	/**
 	 * @param mathField
 	 *            editor component
@@ -118,6 +121,7 @@ public class MathFieldInternal
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
 		mathFieldInternalListeners = new HashSet<>();
+		formulaConverter = new MathFormulaConverter();
 		setupMathField();
 	}
 
@@ -876,9 +880,8 @@ public class MathFieldInternal
 	 *            ASCII math input
 	 */
 	public void parse(String text) {
-		Parser parser = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula formula = parser.parse(text);
+			MathFormula formula = formulaConverter.buildFormula(text);
 			setFormula(formula);
 		} catch (ParseException e) {
 			FactoryProvider.debugS("Problem parsing: " + text);

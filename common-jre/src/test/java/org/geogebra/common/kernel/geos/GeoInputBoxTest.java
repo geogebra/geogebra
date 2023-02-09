@@ -94,7 +94,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
         add("m1 = {{1, 2, 3}, {4, 5, 6}}");
         GeoInputBox inputBox = add("InputBox(m1)");
         inputBox.setSymbolicMode(true, false);
-        assertEquals("\\left(\\begin{array}{rrr}1&2&3\\\\4&5&6\\\\ \\end{array}\\right)",
+        assertEquals("\\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\end{pmatrix}",
 				inputBox.getText());
     }
 
@@ -855,5 +855,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		String updated = "l1 = {3, 4}";
 		input.updateLinkedGeo("3,4");
 		assertEquals(updated, linked.toString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void linesShouldPreserveQuestionMarkOnBadInput() {
+		add("a(x, y) = ?x + ?y");
+		GeoInputBox input = add("InputBox(a)");
+		String updated = "?x + ?y +";
+		input.updateLinkedGeo(updated);
+		assertEquals(updated, input.getTempUserEvalInput());
 	}
 }
