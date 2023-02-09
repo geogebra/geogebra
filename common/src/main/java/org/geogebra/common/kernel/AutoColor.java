@@ -13,7 +13,7 @@ public enum AutoColor {
 	CURVES(new GColor[] { GeoGebraColorConstants.GGB_GREEN,
 			GeoGebraColorConstants.GGB_RED, GColor.BLUE,
 			GeoGebraColorConstants.GGB_ORANGE,
-			GeoGebraColorConstants.GGB_PURPLE, GeoGebraColorConstants.GGB_GRAY,
+			GeoGebraColorConstants.GGB_CLASSIC_PURPLE, GeoGebraColorConstants.GGB_GRAY,
 			GeoGebraColorConstants.GGB_BROWN }), 
 	/** curves, function (graphing) */
 	CURVES_GRAPHING(new GColor[] { GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN,

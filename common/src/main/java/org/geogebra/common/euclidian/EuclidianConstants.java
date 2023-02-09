@@ -183,9 +183,6 @@ public final class EuclidianConstants {
 	/** Best Fit Line */
 	public static final int MODE_FITLINE = 58;
 
-	/** Record to Spreadsheet removed from GeoGebra 5 */
-	// public static final int MODE_RECORD_TO_SPREADSHEET = 59;
-	// GeoGebra 4.0 start
 	/** Insert Button */
 	public static final int MODE_BUTTON_ACTION = 60;
 
@@ -194,9 +191,6 @@ public final class EuclidianConstants {
 
 	/** Pen Tool */
 	public static final int MODE_PEN = 62;
-
-	/** Visual Style, removed */
-	// public static final int MODE_VISUAL_STYLE = 63;
 
 	/** Rigid Polygon */
 	public static final int MODE_RIGID_POLYGON = 64;
@@ -882,7 +876,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_ROOTS:
 			return "Roots";
 
-		/** WHITEBOARD TOOLS */
+		/* WHITEBOARD TOOLS */
 		case EuclidianConstants.MODE_SHAPE_LINE:
 			return "Line.Tool";
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
