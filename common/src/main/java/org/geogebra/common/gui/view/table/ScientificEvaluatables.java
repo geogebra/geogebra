@@ -7,8 +7,9 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 
 public class ScientificEvaluatables {
-	private GeoEvaluatable functionF;
-	private GeoEvaluatable functionG;
+    
+	private GeoFunction functionF;
+	private GeoFunction functionG;
 
 	/**
 	 * @param construction {@link Construction}
@@ -18,22 +19,25 @@ public class ScientificEvaluatables {
 		functionG = createFunction(construction, "g");
 	}
 
-	private GeoEvaluatable createFunction(Construction construction, String label) {
+	/**
+	 * @return function f
+	 */
+	public GeoFunction getFunctionF() {
+		return functionF;
+	}
+
+	/**
+	 * @return function g
+	 */
+	public GeoFunction getFunctionG() {
+		return functionG;
+	}
+
+	private GeoFunction createFunction(Construction construction, String label) {
 		GeoFunction function = new GeoFunction(construction);
 		function.rename(label);
 		function.setAuxiliaryObject(true);
 		return function;
-	}
-
-	/**
-	 * Update the two evaluatables.
-	 *
-	 * @param functionF aka f(x).
-	 * @param functionG aka g(x).
-	 */
-	public void update(GeoEvaluatable functionF, GeoEvaluatable functionG) {
-		this.functionF = functionF;
-		this.functionG = functionG;
 	}
 
 	/**
