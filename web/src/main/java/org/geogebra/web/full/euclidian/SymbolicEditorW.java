@@ -132,12 +132,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	private void colorEditor() {
 		GColor borderCol = getDrawInputBox().getBorderColor();
-		if (borderCol != null) {
+		if (borderCol != null && !getDrawInputBox().hasError()) {
 			editor.getStyle().setBorderColor(borderCol.toString());
 		}
 		if (getDrawInputBox().hasError()) {
-			editor.getStyle().setBorderColor(GColor.ERROR_RED_BORDER.toString());
-			editor.getStyle().setBackgroundColor(GColor.ERROR_RED_BACKGROUND.toString());
+			editor.getStyle().clearBackgroundColor();
+			editor.getStyle().clearBorderColor();
 		}
 	}
 
