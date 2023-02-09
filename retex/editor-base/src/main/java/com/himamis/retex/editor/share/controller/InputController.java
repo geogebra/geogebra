@@ -910,8 +910,7 @@ public class InputController {
 	}
 
 	private boolean isFieldSeparatorOrNull(MathComponent component) {
-		if (component == null) return true;
-		return component.isFieldSeparator();
+		return component == null || component.isFieldSeparator();
 	}
 
 	private void addPlaceholderIfNeeded(MathSequence currentField, int offset) {
