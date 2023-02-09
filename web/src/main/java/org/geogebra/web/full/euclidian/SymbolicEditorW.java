@@ -105,10 +105,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 		decorator.update(bounds, getGeoInputBox());
 		setBaseline(bounds.getY() + bounds.getHeight() / 2d);
-		GColor borderCol = getDrawInputBox().getBorderColor();
-		if (borderCol != null) {
-			editor.getStyle().setBorderColor(borderCol.toString());
-		}
+
+		colorEditor();
 		editor.setVisible(true);
 
 		String text = getGeoInputBox().getTextForEditor();
@@ -130,6 +128,17 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		setProtection();
 
 		Scheduler.get().scheduleDeferred(editor::requestFocus);
+	}
+
+	private void colorEditor() {
+		GColor borderCol = getDrawInputBox().getBorderColor();
+		if (borderCol != null && !getDrawInputBox().hasError()) {
+			editor.getStyle().setBorderColor(borderCol.toString());
+		}
+		if (getDrawInputBox().hasError()) {
+			editor.getStyle().clearBackgroundColor();
+			editor.getStyle().clearBorderColor();
+		}
 	}
 
 	@Override

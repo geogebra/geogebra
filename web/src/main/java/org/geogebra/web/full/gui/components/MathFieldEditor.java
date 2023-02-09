@@ -90,7 +90,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		updatePixelRatio();
 		app.addWindowResizeListener(this::updatePixelRatio);
 
-		getMathField().setBackgroundColor("rgba(255,255,255,0)");
+		if (!main.getStyleName().contains("errorStyle")) {
+			getMathField().setBackgroundColor("rgba(255,255,255,0)");
+		}
 		app.getGlobalHandlers().addEventListener(mathField.asWidget().getElement(),
 				"pointerdown", (evt) -> {
 			app.sendKeyboardEvent(true);
