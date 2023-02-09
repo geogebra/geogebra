@@ -77,30 +77,6 @@
     min-height: 48px;
 }
 
-.GeoGebraFrame .flatButtonHeader {
-	padding: 6px;
-	cursor: pointer;
-	height: 36px;
-	float: left;
-	box-sizing: border-box;
-	border-radius: 50%;
-	position: relative;
-}
-
-.GeoGebraFrame .flatButtonHeader img {
-	opacity: 0.54;	
-}
-
-.GeoGebraFrame .flatButtonHeader:focus,
-.GeoGebraFrame .flatButtonHeader:hover, .GeoGebraFrame .flatButtonHeader.selected {
-	background-color: #e5e5e5;	
-}
-
-.GeoGebraFrame .flatButtonHeader img {
-	width: 24px;
-	height: 24px;
-}
-
 .GeoGebraFrame button {
     border: initial;
     background: initial;
@@ -349,8 +325,7 @@ svg.icon.left {
     color: #000;
 }
 
-.GeoGebraFrame .settingsBtnScientific {
-	position: relative;
+.GeoGebraFrame .flatButtonHeader.settingsBtnScientific {
 	margin: 6px;
 	float: right;
 }
@@ -376,8 +351,14 @@ svg.icon.left {
     display: none;
 }
 
-.compact.GeoGebraFrame .buttons {
+.compact.GeoGebraFrame .shareBtn, .compact.GeoGebraFrame .appsBtn, .compact.GeoGebraFrame .signIn {
     display: none;
+}
+.GeoGebraHeader .signInIcon {
+    display: none;
+}
+.GeoGebraHeader.compact .signInIcon {
+    display: initial;
 }
 
 .compact.GeoGebraFrame .menuBtn {

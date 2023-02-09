@@ -294,7 +294,8 @@ public class DrawButtonWidget {
 			lastTintColor = geoButton.getObjectColor();
 			lastTintImage = geoButton.getImageFileName();
 		}
-		g.drawImage(tinted == null ? im : tinted, 0, 0);
+		g.drawImage(tinted == null || geoButton.getObjectColor() == geoButton.getBackgroundColor()
+				? im : tinted, 0, 0);
 
 		g.restoreTransform();
 	}
