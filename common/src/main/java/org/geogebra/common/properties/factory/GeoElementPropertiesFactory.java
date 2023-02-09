@@ -7,7 +7,11 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.undo.UndoManager;
+import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.ColorProperty;
+import org.geogebra.common.properties.IconsEnumerableProperty;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.ObservableProperty;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
@@ -57,17 +61,17 @@ public class GeoElementPropertiesFactory {
 		addPropertyIfNotNull(properties, createMaxProperty(processor, localization, elements));
 		addPropertyIfNotNull(properties, createStepProperty(processor, localization, elements));
 		addPropertyIfNotNull(properties, createShowObjectProperty(localization, elements));
-		addPropertyIfNotNull(properties, createColorProperty(localization, elements));
-		addPropertyIfNotNull(properties, createPointStyleProperty(localization, elements));
-		addPropertyIfNotNull(properties, createPointSizeProperty(localization, elements));
-		addPropertyIfNotNull(properties, createOpacityProperty(localization, elements));
-		addPropertyIfNotNull(properties, createLineStyleProperty(localization, elements));
-		addPropertyIfNotNull(properties, createThicknessProperty(localization, elements));
+		addPropertyIfNotNull(properties, createColorProp(localization, elements));
+		addPropertyIfNotNull(properties, createPointStyleProp(localization, elements));
+		addPropertyIfNotNull(properties, createPointSizeProp(localization, elements));
+		addPropertyIfNotNull(properties, createOpacityProp(localization, elements));
+		addPropertyIfNotNull(properties, createLineStyleProp(localization, elements));
+		addPropertyIfNotNull(properties, createThicknessProp(localization, elements));
 		addPropertyIfNotNull(properties, createSlopeSizeProperty(localization, elements));
 		addPropertyIfNotNull(properties, createEquationFormProperty(localization, elements));
 		addPropertyIfNotNull(properties, createCaptionStyleProperty(localization, elements));
 		addPropertyIfNotNull(properties, createShowTraceProperty(localization, elements));
-		addPropertyIfNotNull(properties, createFixObjectProperty(localization, elements));
+		addPropertyIfNotNull(properties, createFixObjectProp(localization, elements));
 		addPropertyIfNotNull(properties, createShowInAvProperty(localization, elements));
 		return createPropertiesArray(localization, properties, elements);
 	}
@@ -81,8 +85,8 @@ public class GeoElementPropertiesFactory {
 	public static PropertiesArray createPointStyleProperties(
 			Localization localization, List<GeoElement> elements) {
 		List<ObservableProperty> properties = new ArrayList<>();
-		addPropertyIfNotNull(properties, createPointStyleProperty(localization, elements));
-		addPropertyIfNotNull(properties, createPointSizeProperty(localization, elements));
+		addPropertyIfNotNull(properties, createPointStyleProp(localization, elements));
+		addPropertyIfNotNull(properties, createPointSizeProp(localization, elements));
 		return createPropertiesArray(localization, properties, elements);
 	}
 
@@ -95,7 +99,7 @@ public class GeoElementPropertiesFactory {
 	public static PropertiesArray createLineStyleProperties(
 			Localization localization, List<GeoElement> elements) {
 		List<ObservableProperty> properties = new ArrayList<>();
-		addPropertyIfNotNull(properties, createLineStyleProperty(localization, elements));
+		addPropertyIfNotNull(properties, createLineStyleProp(localization, elements));
 		addPropertyIfNotNull(properties, createThicknessProperty(localization, elements));
 		return createPropertiesArray(localization, properties, elements);
 	}
@@ -106,15 +110,20 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return color property
 	 */
-	public static ColorPropertyCollection<?> createColorProperty(Localization localization,
+	public static ColorProperty createColorProperty(Localization localization,
+			List<GeoElement> elements) {
+		return addUndoObserver(createColorProp(localization, elements), elements);
+	}
+
+	private static ColorPropertyCollection<?> createColorProp(Localization localization,
 			List<GeoElement> elements) {
 		try {
 			List<ElementColorProperty> colorProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				colorProperties.add(new ElementColorProperty(localization, element));
 			}
-			return addUndoObserver(new ColorPropertyCollection<>(
-					colorProperties.toArray(new ElementColorProperty[0])), elements);
+			return new ColorPropertyCollection<>(
+					colorProperties.toArray(new ElementColorProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
@@ -126,15 +135,20 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static BooleanPropertyCollection<?> createFixObjectProperty(Localization localization,
+	public static BooleanProperty createFixObjectProperty(Localization localization,
 			List<GeoElement> elements) {
+		return addUndoObserver(createFixObjectProp(localization, elements), elements);
+	}
+
+	private static BooleanPropertyCollection<?> createFixObjectProp(Localization localization,
+				List<GeoElement> elements) {
 		try {
 			List<FixObjectProperty> fixObjectProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				fixObjectProperties.add(new FixObjectProperty(localization, element));
 			}
-			return addUndoObserver(new BooleanPropertyCollection<>(
-					fixObjectProperties.toArray(new FixObjectProperty[0])), elements);
+			return new BooleanPropertyCollection<>(
+					fixObjectProperties.toArray(new FixObjectProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
@@ -146,15 +160,20 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static IconsEnumerablePropertyCollection<?> createPointStyleProperty(
+	public static IconsEnumerableProperty createPointStyleProperty(Localization localization,
+			List<GeoElement> elements) {
+		return addUndoObserver(createPointStyleProp(localization, elements), elements);
+	}
+
+	private static IconsEnumerablePropertyCollection<?> createPointStyleProp(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<PointStyleProperty> pointStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				pointStyleProperties.add(new PointStyleProperty(localization, element));
 			}
-			return addUndoObserver(new IconsEnumerablePropertyCollection<>(
-					pointStyleProperties.toArray(new PointStyleProperty[0])), elements);
+			return new IconsEnumerablePropertyCollection<>(
+					pointStyleProperties.toArray(new PointStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
@@ -166,15 +185,20 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static RangePropertyCollection<?, ?> createPointSizeProperty(Localization localization,
+	public static RangeProperty<Integer> createPointSizeProperty(Localization localization,
 			List<GeoElement> elements) {
+		return addUndoObserver(createPointSizeProp(localization, elements), elements);
+	}
+
+	private static RangePropertyCollection<?, Integer> createPointSizeProp(
+			Localization localization, List<GeoElement> elements) {
 		try {
 			List<PointSizeProperty> pointSizeProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				pointSizeProperties.add(new PointSizeProperty(localization, element));
 			}
-			return addUndoObserver(new RangePropertyCollection<>(
-					pointSizeProperties.toArray(new PointSizeProperty[0])), elements);
+			return new RangePropertyCollection<>(
+					pointSizeProperties.toArray(new PointSizeProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
@@ -188,13 +212,18 @@ public class GeoElementPropertiesFactory {
 	 */
 	public static RangePropertyCollection<?, ?> createThicknessProperty(Localization localization,
 			List<GeoElement> elements) {
+		return addUndoObserver(createThicknessProp(localization, elements), elements);
+	}
+
+	private static RangePropertyCollection<?, ?> createThicknessProp(Localization localization,
+				List<GeoElement> elements) {
 		try {
 			List<ThicknessProperty> thicknessProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				thicknessProperties.add(new ThicknessProperty(localization, element));
 			}
-			return addUndoObserver(new RangePropertyCollection<>(
-					thicknessProperties.toArray(new ThicknessProperty[0])), elements);
+			return new RangePropertyCollection<>(
+					thicknessProperties.toArray(new ThicknessProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
@@ -206,15 +235,20 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static IconsEnumerablePropertyCollection<?> createLineStyleProperty(
+	public static IconsEnumerableProperty createLineStyleProperty(
+			Localization localization, List<GeoElement> elements) {
+		return addUndoObserver(createLineStyleProp(localization, elements), elements);
+	}
+
+	private static IconsEnumerablePropertyCollection<?> createLineStyleProp(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<LineStyleProperty> lineStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				lineStyleProperties.add(new LineStyleProperty(localization, element));
 			}
-			return addUndoObserver(new IconsEnumerablePropertyCollection<>(
-					lineStyleProperties.toArray(new LineStyleProperty[0])), elements);
+			return new IconsEnumerablePropertyCollection<>(
+					lineStyleProperties.toArray(new LineStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
@@ -270,15 +304,20 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static RangePropertyCollection<OpacityProperty, Integer> createOpacityProperty(
+	public static RangeProperty<Integer> createOpacityProperty(
+			Localization localization, List<GeoElement> elements) {
+		return addUndoObserver(createOpacityProp(localization, elements), elements);
+	}
+
+	private static RangePropertyCollection<OpacityProperty, Integer> createOpacityProp(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<OpacityProperty> opacityProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				opacityProperties.add(new OpacityProperty(localization, element));
 			}
-			return addUndoObserver(new RangePropertyCollection<>(
-					opacityProperties.toArray(new OpacityProperty[0])), elements);
+			return new RangePropertyCollection<>(
+					opacityProperties.toArray(new OpacityProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
@@ -399,7 +438,7 @@ public class GeoElementPropertiesFactory {
 
 	private static <T extends ObservableProperty> T addUndoObserver(T prop,
 			List<GeoElement> geoElements) {
-		if (!geoElements.isEmpty()) {
+		if (!geoElements.isEmpty() && prop != null) {
 			UndoManager undoManager = geoElements.get(0)
 					.getKernel().getConstruction().getUndoManager();
 			prop.setObserver(undoManager::storeUndoInfo);
