@@ -2549,6 +2549,8 @@ var __giac = [
 { cat:"Solve", cmd:"Solve(800 / (199exp(-4000k) + 1)=65.65,k)", result:"{k = -1 / 4000 ln(14687 / 261287)}" },
 { cat:"Solve", cmd:"Solve({x^2+2*x*y-y^2=-32,-3*x^2-2*x*y+3y^2=32},{x,y})", result:"{{x = 4, y = -4}, {x = -4, y = 4}}|OR|{{x = -4, y = 4}, {x = 4, y = -4}}"},
 { cat:"Solve", cmd:"Solve(22044=6000+264*((x+1)^(60)-1)/(x)*(1)/((x+1)^(60))+7000*(1)/((x+1)^(60)))", result:"{x=-1.986444935998,x=0.009423829029231}", round:"{x = -1.99, x = 0.01}"},
+{ cat:"Solve", cmd:"Solve(((1)/(sin(x)))=((5)/(sin(1))),x,0≤x≤pi)", result:"{x = sin⁻¹(1 / 5 sin(1))}" },
+{ cat:"Solve", cmd:"Solve(((4.5)/(sin(x°)))=((7.2)/(sin(50°))),x,0≤x≤180)", result:"{x = 180sin⁻¹(5 / 8 cos(2 / 9 π)) / π, x = (-180 sin⁻¹(5 / 8 cos(2 / 9 π)) + 180π) / π}" },
 { cat:"LCM", cmd:"LCM(Sequence(i, i, 60, 75))", result:"136937561964167764800" },
 { cat:"Sum", cmd:"Sum(Sum(n*m*(1/2)^(n+m),n,0,inf),m,0,inf)", result:"4" },
 { cat:"Evaluate", cmd:"Sum(Sequence(RandomBetween(0, 1),i,1,100))==0", result:"false", notes:"this (or next test) will fail if RandomBetween() gives a constant 0 or 1 throughout" },
