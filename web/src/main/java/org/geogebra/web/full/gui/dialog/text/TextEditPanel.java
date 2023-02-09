@@ -13,18 +13,25 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.full.gui.util.ImageResourceConverter;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.DummyCursor;
+import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -35,7 +42,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Panel to manage editing of GeoText strings.
  */
 public class TextEditPanel extends VerticalPanel
-		implements FastClickHandler, FocusHandler, ITextEditPanel, SetLabels {
+		implements FastClickHandler, FocusHandler, ITextEditPanel, SetLabels, HasKeyboardTF {
 
 	private AppW app;
 	private DynamicTextProcessor dTProcessor;
@@ -56,6 +63,7 @@ public class TextEditPanel extends VerticalPanel
 	private Localization loc;
 	private TextEditAdvancedPanel advancedPanel;
 	private boolean mayDetectLaTeX = true;
+	private DummyCursor dummyCursor;
 
 	/**
 	 * @param app - application
@@ -66,6 +74,7 @@ public class TextEditPanel extends VerticalPanel
 		loc = app.getLocalization();
 
 		dTProcessor = new DynamicTextProcessor(app);
+		dummyCursor = new DummyCursor(this, (AppW) app);
 
 		editor = new GeoTextEditor(app, this);
 		editor.addStyleName("textEditor");
@@ -99,6 +108,13 @@ public class TextEditPanel extends VerticalPanel
 
 		// force a dummy geo to be created on first use
 		setEditGeo(null);
+	}
+
+	/**
+	 * Enable keyboard.
+	 */
+	public void enableGGBKeyboard() {
+		dummyCursor.enableGGBKeyboard();
 	}
 
 	@Override
@@ -262,11 +278,85 @@ public class TextEditPanel extends VerticalPanel
 		toolBar.add(leftPanel);
 	}
 
+	@Override
+	public void startOnscreenKeyboardEditing() {
+		if (Browser.isAndroid()) {
+			addDummyCursor();
+		}
+	}
+
+	@Override
+	public void endOnscreenKeyboardEditing() {
+		if (Browser.isAndroid()) {
+			removeDummyCursor();
+		}
+	}
+
+	@Override
+	public void addDummyCursor() {
+		dummyCursor.add();
+	}
+
+	@Override
+	public int removeDummyCursor() {
+		return dummyCursor.remove();
+	}
+
+	@Override
+	public void setReadOnly(boolean readonly) {
+		getTextArea().editBox.setEditable(!readonly);
+	}
+
+	@Override
+	public int getCursorPos() {
+		return getTextArea().editBox.getCursorPos();
+	}
+
+	@Override
+	public void setCursorPos(int pos) {
+		getTextArea().editBox.setCursorPos(pos);
+	}
+
+	@Override
+	public void setValue(String text) {
+		setText(text);
+	}
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return getTextArea().editBox.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return getTextArea().editBox.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
+		return getTextArea().editBox.addKeyPressHandler(handler);
+	}
+
+	@Override
+	public void onBackSpace() {
+		// TODO
+	}
+
 	/**
 	 * @param text - content as HTML
 	 */
 	public void setText(String text) {
 		editor.getElement().setInnerHTML(text);
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		editor.editBox.setFocus(focus);
+	}
+
+	@Override
+	public void ensureEditing() {
+		//
 	}
 
 	/**
@@ -277,6 +367,21 @@ public class TextEditPanel extends VerticalPanel
 				.buildGeoGebraString(editor.getDynamicTextList(), isLatex()));
 		return dTProcessor.buildGeoGebraString(editor.getDynamicTextList(),
 				isLatex());
+	}
+
+	@Override
+	public boolean needsAutofocus() {
+		return false;
+	}
+
+	@Override
+	public boolean hasFocus() {
+		return editor.editBox.hasFocus();
+	}
+
+	@Override
+	public boolean acceptsCommandInserts() {
+		return false;
 	}
 
 	/**

@@ -17,6 +17,9 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
@@ -79,7 +82,6 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 	private void createTextGUI(boolean showSymbolPopupIcon) {
 		inputPanel = new InputPanelW("", app, rows, cols,
 				showSymbolPopupIcon);
-		inputPanel.getTextComponent().enableGGBKeyboard();
 		((AppW) app).unregisterPopup(this);
 		editor = inputPanel.getTextAreaComponent();
 		if (editor != null) {
@@ -87,6 +89,7 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 			// make sure we resize the dialog if advanced panel opened and not enough space
 			editor.getDisclosurePanel().addOpenHandler(event ->
 					super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight()));
+			editor.enableGGBKeyboard();
 		} else if (inputPanel.getTextComponent() != null) {
 			// this branch probably does not run (rows > 1), educated guess
 			inputPanel.getTextComponent().setText(editGeo.getTextString());
@@ -379,6 +382,19 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 			inputPanel.getTextComponent().setFocus(false);
 			inputPanel.getTextComponent().setFocus(true);
 		}
+		showKeyboard();
+	}
+
+	/**
+	 * Shows the keyboard.
+	 */
+	protected void showKeyboard() {
+		((AppW) app).showKeyboard(editor, true);
+		((AppW) app).updateKeyBoardField(editor);
+		((AppW) app).getKeyboardManager().setOnScreenKeyboardTextField(editor);
+		((AppWFull) app).getAppletFrame()
+				.showKeyBoard(true, editor, false);
+		CancelEventTimer.keyboardSetVisible();
 	}
 
 	@Override

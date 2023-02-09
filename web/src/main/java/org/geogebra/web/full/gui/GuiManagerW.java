@@ -66,6 +66,8 @@ import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
+import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
+import org.geogebra.web.full.gui.dialog.text.TextEditPanelProcessing;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -2024,6 +2026,9 @@ public class GuiManagerW extends GuiManager
 		}
 		if (textField instanceof GTextBox) {
 			return new GTextBoxProcessing((GTextBox) textField);
+		}
+		if (textField instanceof TextEditPanel) {
+			return new TextEditPanelProcessing((TextEditPanel) textField);
 		}
 		if (textField instanceof AutoCompleteTextFieldW) {
 			return new AutocompleteProcessing(

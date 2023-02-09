@@ -118,9 +118,6 @@ public class ScriptArea extends TextArea
 		int end = getSelectionEnd();
 
 		setText(start, end, text);
-		// if (insertHandler != null) {
-		// insertHandler.onInsert(text);
-		// }
 	}
 
 	@Override

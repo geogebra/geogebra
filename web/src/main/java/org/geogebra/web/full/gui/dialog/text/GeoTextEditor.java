@@ -10,6 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontW;
+import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 
@@ -374,5 +375,9 @@ public class GeoTextEditor extends FocusWidget {
 
 	public String getText() {
 		return getElement().getInnerText();
+	}
+
+	public GTextBox getEditor() {
+		return editBox;
 	}
 }
