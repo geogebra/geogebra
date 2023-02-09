@@ -77,6 +77,7 @@ public class TeXBuilder {
 		replacements.put('%', "textpercent");
 		replacements.put('$', "textdollar");
 		replacements.put('&', "textampersand");
+		replacements.put('\u23B8', "vert");
 	}
 
 	/**

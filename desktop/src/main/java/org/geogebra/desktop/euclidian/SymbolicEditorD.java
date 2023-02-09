@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
@@ -62,6 +63,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		boolean textMode = isTextMode();
 		mathField.getInternal().setPlainTextMode(textMode);
+		mathField.getInternal().setAllowAbs(
+				!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
 		if (textMode) {
 			mathField.getInternal().setPlainText(text);
 		} else {

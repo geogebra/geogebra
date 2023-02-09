@@ -8,29 +8,28 @@ import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class VectorPrinter implements Printer {
 
-    private PrintableVector vector;
     private Printer defaultPrinter;
     private Printer editPrinter;
     private Printer latexPrinter;
 
-    VectorPrinter(PrintableVector vector) {
-        this.vector = vector;
-        defaultPrinter = new DefaultVectorPrinter(vector);
-        editPrinter = new EditVectorPrinter(vector);
-        latexPrinter = new LatexVectorPrinter(vector);
+    VectorPrinter() {
+        defaultPrinter = new DefaultVectorPrinter();
+        editPrinter = new EditVectorPrinter();
+        latexPrinter = new LatexVectorPrinter();
     }
 
     @Override
-    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
-        return getPrinterFor(tpl).print(tpl, expressionPrinter);
+    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
+        return getPrinterFor(tpl, vector).print(tpl, expressionPrinter, vector);
     }
 
-    private Printer getPrinterFor(StringTemplate tpl) {
+    private Printer getPrinterFor(StringTemplate tpl, PrintableVector vector) {
         // if the vector is actually a pair of lists
         // then on the definition panel it should be printed simply as (x, y)
         if (GeoSymbolic.isWrappedList(vector.getX()) && GeoSymbolic.isWrappedList(vector.getY())) {
             return defaultPrinter;
-        } else if (tpl == StringTemplate.editorTemplate) {
+        } else if (tpl.isForEditorParser()) {
             return editPrinter;
         } else if (tpl.isLatex()) {
             return latexPrinter;

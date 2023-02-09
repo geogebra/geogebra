@@ -65,7 +65,8 @@ public class MyVecNode extends ValidExpression
 	public MyVecNode(Kernel kernel) {
 		this.kernel = kernel;
 		VectorPrinterMapBuilder builder = new VectorPrinterMapBuilder2D();
-		stringifier = new VectorNodeStringifier(this, builder.build(this));
+		stringifier = new VectorNodeStringifier(this,
+				builder.build(kernel.getApplication().getSettings().getGeneral()));
 		stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
 	}
 

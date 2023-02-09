@@ -6742,7 +6742,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if ((isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
 				&& !"".equals(def0)) {
-			def0 = label + def0.replaceAll(",", " |");
+			def0 = label + def0;
 		}
 		if ("".equals(def0) || (!isDefined() && isIndependent())) {
 			return DescriptionMode.VALUE;
@@ -6754,6 +6754,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		String def = (isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
 				? def0 : addLabelText(def0);
+
 		String val = getAlgebraDescriptionDefault();
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;

@@ -385,4 +385,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
 		mathField.getInternal().setUnhandledArrowListener(listener);
 	}
+
+	public void setAllowAbs(boolean b) {
+		mathField.getInternal().setAllowAbs(b);
+	}
 }

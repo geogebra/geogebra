@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -110,6 +111,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 		boolean textMode = isTextMode();
 		editor.setTextMode(textMode);
+		editor.setAllowAbs(!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
 		if (textMode) {
 			getMathFieldInternal().setPlainText(text);
 		} else {

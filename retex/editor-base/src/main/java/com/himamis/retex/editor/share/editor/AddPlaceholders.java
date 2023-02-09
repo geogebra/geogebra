@@ -2,7 +2,6 @@ package com.himamis.retex.editor.share.editor;
 
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharPlaceholder;
-import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -27,29 +26,25 @@ public class AddPlaceholders {
 		MathComponent first = sequence.getArgument(0);
 		MathComponent last = sequence.getArgument(lastPosition);
 
-		if (isComma(first)) {
+		if (isFieldSeparator(first)) {
 			addPlaceholder(sequence, 0);
 		}
 
-		if (isComma(last)) {
+		if (isFieldSeparator(last)) {
 			appendPlaceholder(sequence);
 		}
 
 		for (int i = 1; i < lastPosition + 1; i++) {
 			MathComponent current = sequence.getArgument(i);
 			MathComponent next = sequence.getArgument(i + 1);
-			if (isComma(current) && isComma(next)) {
+			if (isFieldSeparator(current) && isFieldSeparator(next)) {
 				addPlaceholder(sequence, i + 1);
 			}
 		}
 	}
 
-	private boolean isComma(MathComponent mathComponent) {
-		if (mathComponent instanceof MathCharacter) {
-			return ",".equals(((MathCharacter) mathComponent).getTexName());
-		}
-
-		return false;
+	private boolean isFieldSeparator(MathComponent mathComponent) {
+		return mathComponent != null && mathComponent.isFieldSeparator();
 	}
 
 	private void addPlaceholder(MathSequence sequence, int i) {
