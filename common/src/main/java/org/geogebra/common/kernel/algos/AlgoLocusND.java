@@ -939,9 +939,11 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	@Override
 	public boolean euclidianViewUpdate() {
-		boolean changed = updateScreenBorders();
-		if (changed || !locus.getAlgoUpdateSet().isEmpty()) {
-			update();
+		// if borders changed, update cascade in Construction; if not, do nothing
+		// same if locus itself is hidden but has dependent geos
+		if (updateScreenBorders() || !locus.getAlgoUpdateSet().isEmpty()) {
+			compute();
+			return true;
 		}
 		return false;
 	}
@@ -964,7 +966,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		HashSet<GeoElement> lPParents = new HashSet<>();
 		lPParents.addAll(((GeoElement) locusPoint).getAllPredecessors());
 		mPChildren.retainAll(lPParents);
-		Log.debug("Elements between mover and tracer: " + mPChildren);
+
 		for (GeoElement ge : mPChildren) {
 			AlgoElement ae = ge.getParentAlgorithm();
 			if (ae != null && (ae instanceof AlgoPointOnPath

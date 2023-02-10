@@ -416,9 +416,9 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	public static void add(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
-		c.x = a.x + b.x;
-		c.y = a.y + b.y;
+	public static void add(GeoVec2D a, VectorValue b, GeoVec2D c) {
+		c.x = a.x + b.getInhomX();
+		c.y = a.y + b.getInhomY();
 		if (a.getToStringMode() == Kernel.COORD_COMPLEX
 				|| b.getToStringMode() == Kernel.COORD_COMPLEX) {
 			c.setMode(Kernel.COORD_COMPLEX);
@@ -581,9 +581,9 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	public static void sub(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
-		c.x = a.x - b.x;
-		c.y = a.y - b.y;
+	public static void sub(GeoVec2D a, VectorValue b, GeoVec2D c) {
+		c.x = a.x - b.getInhomX();
+		c.y = a.y - b.getInhomY();
 		if (a.getToStringMode() == Kernel.COORD_COMPLEX
 				|| b.getToStringMode() == Kernel.COORD_COMPLEX) {
 			c.setMode(Kernel.COORD_COMPLEX);
@@ -1185,6 +1185,16 @@ final public class GeoVec2D extends ValidExpression
 	@Override
 	public void setMode(int mode) {
 		this.mode = mode;
+	}
+
+	@Override
+	public double getInhomX() {
+		return x;
+	}
+
+	@Override
+	public double getInhomY() {
+		return y;
 	}
 
 	@Override

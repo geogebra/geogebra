@@ -555,6 +555,16 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
+	public double getInhomX() {
+		return x;
+	}
+
+	@Override
+	public double getInhomY() {
+		return y;
+	}
+
+	@Override
 	public double[] getPointAsDouble() {
 		return new double[] { x, y, 0 };
 	}

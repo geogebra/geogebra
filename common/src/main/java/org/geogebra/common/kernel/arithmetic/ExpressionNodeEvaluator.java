@@ -572,7 +572,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// vector + vector
 		else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
-			GeoVec2D.add(vec, ((VectorValue) rt).getVector(), vec);
+			GeoVec2D.add(vec, (VectorValue) rt, vec);
 			return vec;
 		}
 		// vector + number (for complex addition)
@@ -763,7 +763,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// vector - vector
 		else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
-			GeoVec2D.sub(vec, ((VectorValue) rt).getVector(), vec);
+			GeoVec2D.sub(vec, (VectorValue) rt, vec);
 			return vec;
 		}
 		// 3D vector - 3D vector
