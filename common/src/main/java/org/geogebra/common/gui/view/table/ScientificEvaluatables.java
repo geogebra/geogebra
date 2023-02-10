@@ -20,8 +20,8 @@ public class ScientificEvaluatables {
 
 	private GeoEvaluatable createFunction(Construction construction, String label) {
 		GeoFunction function = new GeoFunction(construction);
-		function.rename(label);
 		function.setAuxiliaryObject(true);
+		function.rename(label);
 		return function;
 	}
 
