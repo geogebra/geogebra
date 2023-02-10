@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.AutoColor;
 import org.junit.Test;
 
-
 public class GColorTest {
 
 	@Test
