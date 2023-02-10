@@ -1631,6 +1631,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (toast != null) {
 				toast.hide();
 			}
+			controller.onBlur(blurEvent);
 		});
 		mf.setOnFocus(focusEvent -> setFocusedStyle(true));
 	}
