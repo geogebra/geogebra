@@ -474,11 +474,6 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
-	/**
-	 * call `Post /users/{user_id}/token` with authentication credentials,
-	 * 	this endpoint generates a token for the user & stores it as a cookie
-	 * 	this fn then reads that cookie and store it in the model
-	 */
 	private void requestCsrfTokenCookie() {
 		if (model.getUserId() != -1) {
 			HttpRequest request = service.createRequest(model);
