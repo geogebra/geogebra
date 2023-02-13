@@ -24,6 +24,9 @@ public abstract class AuthenticationModel {
 	 * token name for user logged in got back from GGT
 	 */
 	protected static final String GGB_TOKEN_KEY_NAME = "token";
+
+	public static final String CSRF_TOKEN_KEY_NAME = "X-CSRF-TOKEN";
+
 	private boolean stayLoggedOut;
 	private boolean loginStarted;
 
@@ -62,6 +65,13 @@ public abstract class AuthenticationModel {
 	public abstract void storeLoginToken(String token);
 
 	/**
+	 * @param token
+	 *            Stores the token in localStorage or with
+	 *            any other client side method.
+	 */
+	public abstract void storeCSRFToken(String csrfToken);
+
+	/**
 	 * @return The stored Token or null if not token stored
 	 */
 	public abstract String getLoginToken();
@@ -71,6 +81,11 @@ public abstract class AuthenticationModel {
 	 * used
 	 */
 	public abstract void clearLoginToken();
+
+	/**
+	 * @return The stored CSRF Token or null if no token stored
+	 */
+	public abstract String getCSRFToken();
 
 	/**
 	 * @param user

@@ -25,6 +25,9 @@ public abstract class HttpRequest implements Cancelable {
 	private String type = "text/plain";
 	private String auth;
 
+	private Boolean requiresCSRF = false;
+
+	private String csrfToken;
 	/**
 	 * Gets a response from a remote HTTP server
 	 *
@@ -99,4 +102,20 @@ public abstract class HttpRequest implements Cancelable {
 	public String getResponseHeader(String name) {
 		return null;
 	}
+
+
+	public void setRequestCSRFHeader(String csrfToken) {
+		this.csrfToken = csrfToken;
+	}
+
+
+	public String getRequestCSRFHeader() { return csrfToken; }
+
+
+	public void setRequiresCSRF(Boolean requires) {
+		this.requiresCSRF = requires;
+	}
+
+
+	public Boolean requiresCSRF() { return requiresCSRF; }
 }

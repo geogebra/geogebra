@@ -18,6 +18,7 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	private static final String GGB_LAST_USER = "last_user";
 	/** token storage */
 	private String authToken = null;
+	private String csrfToken = "";
 	private AppW app;
 	private boolean inited = false;
 
@@ -47,6 +48,24 @@ public class AuthenticationModelW extends AuthenticationModel  {
 			return authToken;
 		}
 		return BrowserStorage.LOCAL.getItem(GGB_TOKEN_KEY_NAME);
+	}
+
+	@Override
+	public void storeCSRFToken(String csrfToken) {
+		if (this.app != null) {
+			ensureInited();
+			this.app.dispatchEvent(new Event(EventType.UPDATE, null, csrfToken));
+		}
+		this.csrfToken = csrfToken;
+		BrowserStorage.LOCAL.setItem(CSRF_TOKEN_KEY_NAME, csrfToken);
+	}
+
+	@Override
+	public String getCSRFToken() {
+		if (!csrfToken.isEmpty()) {
+			return csrfToken;
+		}
+		return BrowserStorage.LOCAL.getItem(CSRF_TOKEN_KEY_NAME);
 	}
 
 	@Override

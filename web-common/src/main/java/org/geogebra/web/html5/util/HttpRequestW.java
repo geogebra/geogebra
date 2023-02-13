@@ -1,8 +1,13 @@
 package org.geogebra.web.html5.util;
 
+import static org.geogebra.common.move.ggtapi.models.AuthenticationModel.CSRF_TOKEN_KEY_NAME;
+
+import org.geogebra.common.util.debug.Log;
+
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import elemental2.dom.XMLHttpRequest;
 
@@ -21,6 +26,10 @@ public class HttpRequestW extends HttpRequest {
 		request.setRequestHeader("Content-type", getType());
 		if (!StringUtil.emptyOrZero(getAuth())) {
 			request.setRequestHeader("Authorization", "Bearer " + getAuth());
+		}
+
+		if (requiresCSRF()) {
+			request.setRequestHeader(CSRF_TOKEN_KEY_NAME, getRequestCSRFHeader());
 		}
 
 		request.onload = (e) -> {

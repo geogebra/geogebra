@@ -17,9 +17,13 @@ import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.HttpMethod;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
 
 /**
  * API connector for the MARVL restful API
@@ -36,15 +40,17 @@ public class MaterialRestAPI implements BackendAPI {
 	private final Service service;
 
 	public static final String marvlUrl = "https://api.geogebra.org/v1.0";
+	public static final String CSRF_TOKEN_COOKIE_NAME = "X-Csrf-Token";
+
+	public String csrfToken = "";
 
 	public static class Tag {
-        public static final String PHONE_2D = "ft.phone-2d";
-        public static final String PHONE_3D = "ft.phone-3d";
+		public static final String PHONE_2D = "ft.phone-2d";
+		public static final String PHONE_3D = "ft.phone-3d";
 	}
 
 	/**
-	 * @param baseURL
-	 *            URL of the API; endpoints append eg. "/materials" to it
+	 * @param baseURL URL of the API; endpoints append eg. "/materials" to it
 	 */
 	public MaterialRestAPI(String baseURL, Service service) {
 		this.baseURL = baseURL;
@@ -57,21 +63,22 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @return HTTP request
 	 */
 	public HttpRequest getItem(String id, MaterialCallbackI callback) {
-		return performRequest("GET", "/materials/" + id, null, new MaterialCallbackI() {
-			@Override
-			public void onLoaded(List<Material> result, Pagination meta) {
-				if (result.size() == 1 && result.get(0).getType() == MaterialType.ws) {
-					getWorksheetItems(result.get(0), callback);
-				} else {
-					callback.onLoaded(result, meta);
-				}
-			}
+		return performRequest(HttpMethod.GET, "/materials/" + id, null,
+				new MaterialCallbackI() {
+					@Override
+					public void onLoaded(List<Material> result, Pagination meta) {
+						if (result.size() == 1 && result.get(0).getType() == MaterialType.ws) {
+							getWorksheetItems(result.get(0), callback);
+						} else {
+							callback.onLoaded(result, meta);
+						}
+					}
 
-			@Override
-			public void onError(Throwable exception) {
-				callback.onError(exception);
-			}
-		});
+					@Override
+					public void onError(Throwable exception) {
+						callback.onError(exception);
+					}
+				});
 	}
 
 	@Override
@@ -118,11 +125,9 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
-	 * @param classList
-	 *            JSON array
+	 * @param classList JSON array
 	 * @return Java array
-	 * @throws JSONException
-	 *             if array contains objects other than strings
+	 * @throws JSONException if array contains objects other than strings
 	 */
 	private static ArrayList<GroupIdentifier> stringList(JSONArray classList,
 			GroupIdentifier.GroupCategory category) throws JSONException {
@@ -134,10 +139,8 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
-	 * @param mat
-	 *            {@link Material}
-	 * @param callback
-	 *            {@link MaterialCallbackI}
+	 * @param mat {@link Material}
+	 * @param callback {@link MaterialCallbackI}
 	 */
 	public void deleteMaterial(final Material mat, final MaterialCallbackI callback) {
 		String json = service.getDeletionJson(mat.getType());
@@ -167,35 +170,36 @@ public class MaterialRestAPI implements BackendAPI {
 			final boolean automatic) {
 
 		HttpRequest request = service.createRequest(model);
-		request.sendRequestPost("GET", baseURL + "/auth", null, new AjaxCallback() {
-			@Override
-			public void onSuccess(String responseStr) {
-				try {
-					MaterialRestAPI.this.availabilityCheckDone = true;
-					MaterialRestAPI.this.available = true;
+		request.sendRequestPost(HttpMethod.GET.name(), baseURL + "/auth", null,
+				new AjaxCallback() {
+					@Override
+					public void onSuccess(String responseStr) {
+						try {
+							MaterialRestAPI.this.availabilityCheckDone = true;
+							MaterialRestAPI.this.available = true;
 
-					// Parse the userdata from the response
-					if (!parseUserDataFromResponse(user, responseStr)) {
-						op.onEvent(new LoginEvent(user, false, automatic, responseStr));
-						return;
+							// Parse the userdata from the response
+							if (!parseUserDataFromResponse(user, responseStr)) {
+								op.onEvent(new LoginEvent(user, false, automatic, responseStr));
+								return;
+							}
+							String auth = request.getResponseHeader("Authorization");
+							user.setJWTToken(auth.replace("Bearer ", ""));
+							op.onEvent(new LoginEvent(user, true, automatic, responseStr));
+						} catch (Exception e) {
+							Log.error(e.getMessage());
+						}
 					}
-					String auth = request.getResponseHeader("Authorization");
-					user.setJWTToken(auth.replace("Bearer ", ""));
-					op.onEvent(new LoginEvent(user, true, automatic, responseStr));
-				} catch (Exception e) {
-					Log.error(e.getMessage());
-				}
-			}
 
-			@Override
-			public void onError(String error) {
-				Log.error(error);
-				MaterialRestAPI.this.availabilityCheckDone = true;
-				MaterialRestAPI.this.available = false;
+					@Override
+					public void onError(String error) {
+						Log.error(error);
+						MaterialRestAPI.this.availabilityCheckDone = true;
+						MaterialRestAPI.this.available = false;
 
-				op.onEvent(new LoginEvent(user, false, automatic, null));
-			}
-		});
+						op.onEvent(new LoginEvent(user, false, automatic, null));
+					}
+				});
 	}
 
 	@Override
@@ -291,11 +295,9 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
-	 * @param responseStr
-	 *            JSON encoded material or list of materials
+	 * @param responseStr JSON encoded material or list of materials
 	 * @return list of materials
-	 * @throws JSONException
-	 *             when structure of JSON is invalid
+	 * @throws JSONException when structure of JSON is invalid
 	 */
 	private List<Material> parseMaterials(String responseStr) throws JSONException {
 		ArrayList<Material> ret = new ArrayList<>();
@@ -331,7 +333,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @return HTTP request
 	 */
 	public HttpRequest getFeaturedMaterials(MaterialCallbackI callback) {
-		return performRequest("GET", "/search/applets?size=" + SEARCH_COUNT,
+		return performRequest(HttpMethod.GET, "/search/applets?size=" + SEARCH_COUNT,
 				null, callback);
 	}
 
@@ -345,7 +347,7 @@ public class MaterialRestAPI implements BackendAPI {
 		String endpoint = "/search/materials?"
 				+ "size=" + SEARCH_COUNT + "&"
 				+ "filter=tag:" + tag;
-		return performRequest("GET", endpoint, null, callback);
+		return performRequest(HttpMethod.GET, endpoint, null, callback);
 	}
 
 	/**
@@ -361,7 +363,7 @@ public class MaterialRestAPI implements BackendAPI {
 			return UtilFactory.getPrototype().newHttpRequest();
 		}
 
-		return performRequest("GET",
+		return performRequest(HttpMethod.GET,
 				"/users/" + model.getUserId()
 						+ "/materials?limit=50&embed=creator&order="
 						+ orderStr(order),
@@ -380,7 +382,7 @@ public class MaterialRestAPI implements BackendAPI {
 			return;
 		}
 
-		performRequest("GET",
+		performRequest(HttpMethod.GET,
 				"/users/" + model.getUserId()
 						+ "/materials?format=page&type=all&limit=50&offset=" + offset
 						+ "&embed=creator&order="
@@ -399,17 +401,36 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
-	private HttpRequest performRequest(final String method, String endpoint, String json,
+	private HttpRequest performRequest(final HttpMethod method, String endpoint, String json,
 			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
+		String token = getCsrfToken();
 
-		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
+		switch (method) {
+		case GET:
+			request.setRequestCSRFHeader(null);
+			break;
+		case PUT:
+		case POST:
+		case PATCH:
+		case DELETE:
+			request.setRequiresCSRF(true);
+			request.setRequestCSRFHeader(token);
+			break;
+		}
+
+		request.sendRequestPost(method.name(), baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {
 					userMaterialsCB
 							.onLoaded(parseMaterials(responseStr), parseMaterialCount(responseStr));
+					String updatedCookie = getCookie(CSRF_TOKEN_COOKIE_NAME);
+
+					if (updatedCookie != token) {
+						model.storeCSRFToken(updatedCookie);
+					}
 				} catch (Exception e) {
 					userMaterialsCB.onError(e);
 				}
@@ -423,13 +444,20 @@ public class MaterialRestAPI implements BackendAPI {
 		return request;
 	}
 
+	private String getCsrfToken() {
+		if (model.getCSRFToken().isEmpty()) {
+			requestCsrfTokenCookie();
+		}
+		return model.getCSRFToken();
+	}
+
 	@Override
 	public void uploadMaterial(String tubeID, String visibility, String text, String base64,
 			MaterialCallbackI materialCallback, MaterialType type, boolean isMultiuser) {
 		JSONObject request = new JSONObject();
 		try {
 			request.put("visibility", visibility); // per docs "S" is the only
-											// supported visibility
+			// supported visibility
 			request.put("title", text);
 			request.put("file", base64);
 			if (StringUtil.emptyOrZero(tubeID)) {
@@ -441,10 +469,42 @@ public class MaterialRestAPI implements BackendAPI {
 			materialCallback.onError(e);
 		}
 		if (!StringUtil.emptyOrZero(tubeID)) {
-			performRequest("PATCH", "/materials/" + tubeID, request.toString(),
+			performRequest(HttpMethod.PATCH, "/materials/" + tubeID, request.toString(),
 					materialCallback);
 		} else {
-			performRequest("POST", "/materials", request.toString(), materialCallback);
+			performRequest(HttpMethod.POST, "/materials", request.toString(), materialCallback);
+		}
+	}
+
+
+	/*
+	call `Post /users/{user_id}/token` with authentication credentials,
+	this endpoint generates a token for the user & stores it as a cookie
+	this fn then reads that cookie and store it in the model
+	 */
+
+	private void requestCsrfTokenCookie() {
+		if (model.getUserId() != -1) {
+			HttpRequest request = service.createRequest(model);
+			request.setContentTypeJson();
+
+			String endpoint = "/users/" + model.getUserId() + "/token";
+			request.sendRequestPost(HttpMethod.POST.name(), baseURL + endpoint, null,
+					new AjaxCallback() {
+						@Override
+						public void onSuccess(String token) {
+							try {
+								model.storeCSRFToken(getCookie(CSRF_TOKEN_COOKIE_NAME));
+							} catch (Exception e) {
+								Log.error(e.getMessage());
+							}
+						}
+
+						@Override
+						public void onError(String error) {
+							Log.error(error);
+						}
+					});
 		}
 	}
 
@@ -459,23 +519,19 @@ public class MaterialRestAPI implements BackendAPI {
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}
-		performRequest("PATCH", "/materials/" + material.getSharingKeyOrId(),
+		performRequest(HttpMethod.PATCH, "/materials/" + material.getSharingKeyOrId(),
 				request.toString(), materialCallback);
 	}
 
 	/**
 	 * Copy existing material.
-	 *
-	 * @param material
-	 *            Current material
-	 * @param title
-	 *            copy title
-	 * @param materialCallback
-	 *            callback
+	 * @param material Current material
+	 * @param title copy title
+	 * @param materialCallback callback
 	 */
 	public void copy(Material material, final String title,
 			final MaterialCallbackI materialCallback) {
-		performRequest("POST", "/materials/" + material.getSharingKeyOrId(), null,
+		performRequest(HttpMethod.POST, "/materials/" + material.getSharingKeyOrId(), null,
 				new MaterialCallbackI() {
 
 					@Override
@@ -494,10 +550,8 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
-	 * @param localization
-	 *            localization
-	 * @param title
-	 *            original title
+	 * @param localization localization
+	 * @param title original title
 	 * @return title with "Copy of" prefix or numeric suffix
 	 */
 	public static String getCopyTitle(Localization localization, String title) {
@@ -527,7 +581,7 @@ public class MaterialRestAPI implements BackendAPI {
 	public void setShared(Material m, GroupIdentifier groupID, boolean shared,
 			final AsyncOperation<Boolean> callback) {
 		HttpRequest request = service.createRequest(model);
-		request.sendRequestPost(shared ? "POST" : "DELETE",
+		request.sendRequestPost(shared ? HttpMethod.POST.name() : HttpMethod.DELETE.name(),
 				baseURL + "/materials/" + m.getSharingKeyOrId() + "/groups/"
 						+ groupID.name + "?category=" + groupID.getCategory(), null,
 				new AjaxCallback() {
@@ -556,7 +610,7 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 		HttpRequest request = service.createRequest(model);
 
-		request.sendRequestPost("GET",
+		request.sendRequestPost(HttpMethod.GET.name(),
 				baseURL + path, null,
 				new AjaxCallback() {
 					@Override
@@ -579,8 +633,7 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
-	 * @param mat
-	 *            material
+	 * @param mat material
 	 * @return true if user owns the given material
 	 */
 	public boolean owns(Material mat) {
@@ -610,7 +663,7 @@ public class MaterialRestAPI implements BackendAPI {
 			return;
 		}
 
-		performRequest("GET",
+		performRequest(HttpMethod.GET,
 				service.getGgsTemplateEndpoint(model.getUserId()),
 				null, templateMaterialsCB);
 	}
@@ -630,32 +683,26 @@ public class MaterialRestAPI implements BackendAPI {
 
 	/**
 	 * Search for materials containing the String query
-	 *
-	 * @param query
-	 *            search String
-	 * @param callback
-	 *            {@link MaterialCallbackI}
+	 * @param query search String
+	 * @param callback {@link MaterialCallbackI}
 	 * @return HTTP request
 	 */
 	public HttpRequest search(String query, MaterialCallbackI callback) {
 		String encodedQuery = UtilFactory.getPrototype().newURLEncoder().encode(query);
-		return performRequest("GET", "/search/applets?size="
+		return performRequest(HttpMethod.GET, "/search/applets?size="
 				+ SEARCH_COUNT + "&query=" + encodedQuery, null, callback);
 	}
 
 	/**
 	 * Get all ggb elements from a worksheet.
-	 *
-	 * @param parent
-	 *            worksheet
-	 * @param materialCallback
-	 *            callback
+	 * @param parent worksheet
+	 * @param materialCallback callback
 	 */
 	public void getWorksheetItems(Material parent, MaterialCallbackI materialCallback) {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
 
-		request.sendRequestPost("GET", baseURL + "/materials/"
+		request.sendRequestPost(HttpMethod.GET.name(), baseURL + "/materials/"
 				+ parent.getSharingKeyOrId(), null, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
@@ -702,5 +749,35 @@ public class MaterialRestAPI implements BackendAPI {
 	public Collection<ResourceAction> getActions(Material material) {
 		return service.getActions(owns(material), model.getLoggedInUser() != null
 				&& !model.getLoggedInUser().isStudent());
+	}
+
+	/**
+	 * @param cookieName name of the cookie we want
+	 * @return the value of the cookie
+	 */
+	private String getCookie(String cookieName) {
+		String docCookie = DomGlobal.document.cookie;
+		if (docCookie != null && !docCookie.isEmpty()) {
+			String[] crumbs = docCookie.split("; ");
+			for (int i = crumbs.length - 1; i >= 0; --i) {
+				String name, value;
+				int eqIdx = crumbs[i].indexOf('=');
+				if (eqIdx == -1) {
+					name = crumbs[i];
+					value = "";
+				} else {
+					name = crumbs[i].substring(0, eqIdx);
+					value = crumbs[i].substring(eqIdx + 1);
+				}
+
+				name = Global.decodeURIComponent(name);
+				value = Global.decodeURIComponent(value);
+
+				if (name == cookieName) {
+					return value;
+				}
+			}
+		}
+		return "";
 	}
 }
