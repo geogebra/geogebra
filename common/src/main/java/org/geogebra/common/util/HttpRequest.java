@@ -28,6 +28,7 @@ public abstract class HttpRequest implements Cancelable {
 	private Boolean requiresCSRF = false;
 
 	private String csrfToken;
+
 	/**
 	 * Gets a response from a remote HTTP server
 	 *
@@ -103,19 +104,19 @@ public abstract class HttpRequest implements Cancelable {
 		return null;
 	}
 
-
 	public void setRequestCSRFHeader(String csrfToken) {
 		this.csrfToken = csrfToken;
 	}
 
-
-	public String getRequestCSRFHeader() { return csrfToken; }
-
+	public String getRequestCSRFHeader() {
+		return csrfToken;
+	}
 
 	public void setRequiresCSRF(Boolean requires) {
 		this.requiresCSRF = requires;
 	}
 
-
-	public Boolean requiresCSRF() { return requiresCSRF; }
+	public Boolean requiresCSRF() {
+		return requiresCSRF;
+	}
 }

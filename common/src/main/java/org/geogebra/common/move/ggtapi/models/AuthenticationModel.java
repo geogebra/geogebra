@@ -58,16 +58,14 @@ public abstract class AuthenticationModel {
 	}
 
 	/**
-	 * @param token
-	 *            The token to store Stores the token in localStorage or with
-	 *            any other client side method.
+	 * @param token The token to store.
+	 * Stores the token in localStorage or with any other client side method.
 	 */
 	public abstract void storeLoginToken(String token);
 
 	/**
-	 * @param token
-	 *            Stores the token in localStorage or with
-	 *            any other client side method.
+	 * @param csrfToken The token to store.
+	 * Stores the token in localStorage or with any other client side method.
 	 */
 	public abstract void storeCSRFToken(String csrfToken);
 

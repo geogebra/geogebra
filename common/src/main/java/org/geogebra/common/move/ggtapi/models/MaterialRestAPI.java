@@ -42,8 +42,6 @@ public class MaterialRestAPI implements BackendAPI {
 	public static final String marvlUrl = "https://api.geogebra.org/v1.0";
 	public static final String CSRF_TOKEN_COOKIE_NAME = "X-Csrf-Token";
 
-	public String csrfToken = "";
-
 	public static class Tag {
 		public static final String PHONE_2D = "ft.phone-2d";
 		public static final String PHONE_3D = "ft.phone-3d";
@@ -428,7 +426,7 @@ public class MaterialRestAPI implements BackendAPI {
 							.onLoaded(parseMaterials(responseStr), parseMaterialCount(responseStr));
 					String updatedCookie = getCookie(CSRF_TOKEN_COOKIE_NAME);
 
-					if (updatedCookie != token) {
+					if (!updatedCookie.equals(token)) {
 						model.storeCSRFToken(updatedCookie);
 					}
 				} catch (Exception e) {
@@ -476,13 +474,11 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
-
-	/*
-	call `Post /users/{user_id}/token` with authentication credentials,
-	this endpoint generates a token for the user & stores it as a cookie
-	this fn then reads that cookie and store it in the model
+	/**
+	 * call `Post /users/{user_id}/token` with authentication credentials,
+	 * 	this endpoint generates a token for the user & stores it as a cookie
+	 * 	this fn then reads that cookie and store it in the model
 	 */
-
 	private void requestCsrfTokenCookie() {
 		if (model.getUserId() != -1) {
 			HttpRequest request = service.createRequest(model);
@@ -773,7 +769,7 @@ public class MaterialRestAPI implements BackendAPI {
 				name = Global.decodeURIComponent(name);
 				value = Global.decodeURIComponent(value);
 
-				if (name == cookieName) {
+				if (name.equals(cookieName)) {
 					return value;
 				}
 			}
