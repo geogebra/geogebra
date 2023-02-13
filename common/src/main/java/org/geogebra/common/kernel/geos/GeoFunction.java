@@ -2352,7 +2352,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return whether output is undefined
 	 */
 	public static boolean isUndefined(String str) {
-		return "?".equals(str) || "{?}".equals(str) || "{}".equals(str) || "{x = ?}".equals(str);
+		return "?".equals(str) || "{?}".equals(str) || "{}".equals(str) || "{x = ?}".equals(str)
+				|| "(?, ?)".equals(str);
 	}
 
 	/**
