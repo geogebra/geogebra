@@ -160,6 +160,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 						app.setMoveMode();
 					}
 					handled = true;
+				} else if (kc == KeyCodes.RIGHT || kc == KeyCodes.LEFT
+					|| kc == KeyCodes.UP || kc == KeyCodes.DOWN) {
+					handled = handleSelectedGeosKeys(event);
 				}
 
 				if (handled) {
