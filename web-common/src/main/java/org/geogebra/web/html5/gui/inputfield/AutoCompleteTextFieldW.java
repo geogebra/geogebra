@@ -1435,7 +1435,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		GColor borderColor = backgroundColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
 				: GColor.getBorderColorFrom(backgroundColor);
 		g2.setColor(borderColor);
-		if (!drawTextField.hasError()) {
+		if (!drawTextField.hasError() && backgroundColor != GColor.WHITE) {
 			drawTextField.setBorderColor(borderColor);
 		}
 
