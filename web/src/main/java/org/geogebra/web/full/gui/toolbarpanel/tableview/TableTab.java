@@ -45,13 +45,6 @@ public class TableTab extends ToolbarTab {
 		buildEmptyTablePanel();
 	}
 
-	/**
-	 * Resets tab GUI
-	 */
-	public void reset() {
-		toolbarPanel.getDecorator().reset();
-	}
-
 	private void decorate() {
 		toolbarPanel.getDecorator().decorateTableTab(this, table);
 	}
@@ -157,7 +150,6 @@ public class TableTab extends ToolbarTab {
 	 */
 	public void openDialogIfEmpty() {
 		if (((TableValuesView) app.getGuiManager().getTableValuesView()).hasNoDefinedFunctions()) {
-			app.storeUndoInfo();
 			table.openDefineFunctions();
 		}
 	}

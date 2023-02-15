@@ -2378,7 +2378,8 @@ public class Construction {
 
 		// if we get here, nothing worked:
 		// possibly auto-create new GeoElement with that name
-		if (allowAutoCreate && getApplication().getKernel()
+		if (allowAutoCreate
+				&& getApplication().getKernel()
 				.getAlgebraProcessor().enableStructures()) {
 			return autoCreateGeoElement(label1);
 		}

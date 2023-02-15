@@ -150,15 +150,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		defFuncDialog.show();
 	}
 
-	/**
-	 * reset dialog fields
-	 */
-	public void resetDialog() {
-		if (defFuncDialog != null) {
-			defFuncDialog.resetFields();
-		}
-	}
-
 	private boolean isColumnEditable(int column) {
 		return view.getEvaluatable(column) instanceof GeoList;
 	}
