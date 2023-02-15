@@ -124,9 +124,16 @@ public class CmdTableText extends CommandProcessor {
 		default:
 			// try to create list of numbers
 			GeoList list;
+			boolean listOfLists = false;
+			if (arg[0].isGeoList() && !arg[1].isGeoList()) {
+				list = (GeoList) arg[0];
+				if (list.size() == 0 || list.get(0).isGeoList()) {
+					listOfLists = true;
+				}
+			}
 			if (arg[arg.length - 1].isGeoText()) {
-				list = wrapInList(kernel, arg, arg.length - 1,
-						GeoClass.DEFAULT);
+					list = listOfLists ? (GeoList) arg[0]
+							: wrapInList(kernel, arg, arg.length - 1, GeoClass.DEFAULT);
 				if (list != null) {
 					GeoElement[] ret = { tableText(c.getLabel(), arg, list,
 							(GeoText) arg[arg.length - 1], null) };
@@ -142,15 +149,17 @@ public class CmdTableText extends CommandProcessor {
 				}
 
 				if (arg[arg.length - amountNumerics - 1].isGeoText()) {
-					list = wrapInList(kernel, arg, arg.length - amountNumerics - 1,
-							GeoClass.DEFAULT);
+					list = listOfLists ? (GeoList) arg[0]
+							: wrapInList(kernel, arg, arg.length - amountNumerics - 1,
+									GeoClass.DEFAULT);
 					if (list != null) {
 						GeoElement[] ret = { tableText(c.getLabel(), arg, list,
 								(GeoText) arg[arg.length - amountNumerics - 1], minWidthHeight) };
 						return ret;
 					}
 				} else {
-					list = wrapInList(kernel, arg, arg.length - amountNumerics,
+					list = listOfLists ? (GeoList) arg[0]
+							: wrapInList(kernel, arg, arg.length - amountNumerics,
 							GeoClass.DEFAULT);
 					if (list != null) {
 						GeoElement[] ret = {tableText(c.getLabel(), arg, list, null,
