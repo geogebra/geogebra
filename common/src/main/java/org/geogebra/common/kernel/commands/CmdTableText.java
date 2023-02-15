@@ -41,17 +41,7 @@ public class CmdTableText extends CommandProcessor {
 
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoList list = (GeoList) arg[0];
-
-				if (list.size() == 0 || list.get(0).isGeoList()) { // list of
-																	// lists: no
-																	// need to
-																	// wrap
-					GeoElement[] ret = {
-							tableText(c.getLabel(), arg, (GeoList) arg[0], null, null) };
-					return ret;
-				}
-				list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
+				GeoList list = wrapInListIfNeeded(arg, 1);
 				if (list != null) {
 					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null, null) };
 					return ret;
@@ -62,18 +52,7 @@ public class CmdTableText extends CommandProcessor {
 
 		case 2:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoText())) {
-				GeoList list = (GeoList) arg[0];
-
-				if (list.size() == 0 || list.get(0).isGeoList()) { // list of
-																	// lists: no
-																	// need to
-																	// wrap
-					GeoElement[] ret = { tableText(c.getLabel(), arg,
-							(GeoList) arg[0], (GeoText) arg[1], null) };
-					return ret;
-				}
-				list = wrapInList(kernel, arg, arg.length - 1,
-						GeoClass.DEFAULT);
+				GeoList list = wrapInListIfNeeded(arg, 1);
 				if (list != null) {
 					GeoElement[] ret = {
 							tableText(c.getLabel(), arg, list, (GeoText) arg[1], null) };
@@ -84,8 +63,7 @@ public class CmdTableText extends CommandProcessor {
 
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 				// two lists, no alignment
-				GeoList list = wrapInList(kernel, arg, arg.length,
-						GeoClass.DEFAULT);
+				GeoList list = wrapInListIfNeeded(arg, 2);
 				if (list != null) {
 					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null, null) };
 					return ret;
@@ -108,6 +86,13 @@ public class CmdTableText extends CommandProcessor {
 
 		case 3:
 			if (arg[0].isGeoList() && arg[1].isGeoText() && arg[2].isGeoNumeric()) {
+				GeoList first = (GeoList) arg[0];
+				if (first.size() == 0 || first.get(0).isGeoList()) {
+					GeoNumeric[] minWidthHeight = {(GeoNumeric) arg[2]};
+					GeoElement[] ret = { tableText(c.getLabel(), arg, first, (GeoText) arg[1],
+							minWidthHeight) };
+					return ret;
+				}
 				int maxSize = (int) arg[2].evaluateDouble();
 
 				if (maxSize <= 0) {
@@ -124,16 +109,8 @@ public class CmdTableText extends CommandProcessor {
 		default:
 			// try to create list of numbers
 			GeoList list;
-			boolean listOfLists = false;
-			if (arg[0].isGeoList() && !arg[1].isGeoList()) {
-				list = (GeoList) arg[0];
-				if (list.size() == 0 || list.get(0).isGeoList()) {
-					listOfLists = true;
-				}
-			}
 			if (arg[arg.length - 1].isGeoText()) {
-					list = listOfLists ? (GeoList) arg[0]
-							: wrapInList(kernel, arg, arg.length - 1, GeoClass.DEFAULT);
+				list = wrapInListIfNeeded(arg, arg.length - 1);
 				if (list != null) {
 					GeoElement[] ret = { tableText(c.getLabel(), arg, list,
 							(GeoText) arg[arg.length - 1], null) };
@@ -149,18 +126,14 @@ public class CmdTableText extends CommandProcessor {
 				}
 
 				if (arg[arg.length - amountNumerics - 1].isGeoText()) {
-					list = listOfLists ? (GeoList) arg[0]
-							: wrapInList(kernel, arg, arg.length - amountNumerics - 1,
-									GeoClass.DEFAULT);
+					list = wrapInListIfNeeded(arg, arg.length - amountNumerics - 1);
 					if (list != null) {
 						GeoElement[] ret = { tableText(c.getLabel(), arg, list,
 								(GeoText) arg[arg.length - amountNumerics - 1], minWidthHeight) };
 						return ret;
 					}
 				} else {
-					list = listOfLists ? (GeoList) arg[0]
-							: wrapInList(kernel, arg, arg.length - amountNumerics,
-							GeoClass.DEFAULT);
+					list = wrapInListIfNeeded(arg, arg.length - amountNumerics);
 					if (list != null) {
 						GeoElement[] ret = {tableText(c.getLabel(), arg, list, null,
 								minWidthHeight)};
@@ -168,7 +141,7 @@ public class CmdTableText extends CommandProcessor {
 					}
 				}
 			} else {
-				list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
+				list = wrapInListIfNeeded(arg, arg.length);
 				if (list != null) {
 					GeoElement[] ret = { tableText(c.getLabel(), arg, list, null, null) };
 					return ret;
@@ -193,6 +166,16 @@ public class CmdTableText extends CommandProcessor {
 		}
 
 		return matrix;
+	}
+
+	private GeoList wrapInListIfNeeded(GeoElement[] arg, int length) {
+		if (length == 1 && arg[0].isGeoList()) {
+			GeoList first = (GeoList) arg[0];
+			if (first.size() == 0 || first.get(0).isGeoList()) {
+				return first;
+			}
+		}
+		return wrapInList(kernel, arg, length, GeoClass.DEFAULT);
 	}
 
 	/**
