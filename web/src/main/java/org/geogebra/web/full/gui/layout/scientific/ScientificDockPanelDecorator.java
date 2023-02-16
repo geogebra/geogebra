@@ -92,11 +92,6 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void reset() {
-		table.resetDialog();
-	}
-
-	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
 		tableTab = tab;
 		this.table = (StickyValuesTable) table;

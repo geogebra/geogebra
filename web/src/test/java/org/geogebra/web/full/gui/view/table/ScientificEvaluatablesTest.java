@@ -56,7 +56,6 @@ public class ScientificEvaluatablesTest {
 		handler.handle(fBody, f());
 		handler.handle(gBody, g());
 		app.storeUndoInfo();
-
 	}
 
 	private void functionShouldBe(String expected, GeoEvaluatable geoEvaluatable) {

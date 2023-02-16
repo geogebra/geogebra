@@ -52,11 +52,11 @@ public class ScientificEvaluatables {
 		} catch (InvalidValuesException e) {
 			throw new RuntimeException(e);
 		} finally {
-			storeInitialUndoInfo();
+			ensureOnlyOneUndoInfo();
 		}
 	}
 
-	private void storeInitialUndoInfo() {
+	private void ensureOnlyOneUndoInfo() {
 		App app = functionF.getApp();
 		app.getUndoManager().clearUndoInfo();
 		app.storeUndoInfo();

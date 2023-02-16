@@ -31,19 +31,19 @@ public class DefineFunctionHandler implements ErrorHandler {
 	 */
 	public void handle(String text, GeoEvaluatable geo) {
 		errorOccurred = false;
-		String input = text.isEmpty() ? undefinedText(geo) : text;
-
+		String input = nameWithVariable(geo) + (text.isEmpty() ? "?" : text);
 		if (geo instanceof GeoFunction) {
 			EvalInfo info = new EvalInfo(!app.getKernel().getConstruction()
-					.isSuppressLabelsActive(), false, false);
+					.isSuppressLabelsActive(), false, false)
+					.withStructures(true);
 			app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
 						input, info, false, null, this);
 		}
 	}
 
-	private String undefinedText(GeoEvaluatable geo) {
+	private String nameWithVariable(GeoEvaluatable geo) {
 		return geo.getLabel(StringTemplate.defaultTemplate) + "("
-				+ ((VarString) geo).getVarString(StringTemplate.defaultTemplate) + ")=?";
+				+ ((VarString) geo).getVarString(StringTemplate.defaultTemplate) + ")=";
 	}
 
 	@Override

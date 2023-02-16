@@ -43,8 +43,4 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 		resizeTable(tabHeight);
 	}
 
-	@Override
-	public void reset() {
-		// nothing to do.
-	}
 }
