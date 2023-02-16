@@ -34,7 +34,7 @@ public class EvalInfo {
 	private MyArbitraryConstant constant;
 	private boolean isRedefinition = false;
 	private boolean useAnalytics;
-	private boolean structures = false;
+	private boolean forceFunctionsEnabled = false;
 
 	/**
 	 * Creates a default evaluation info
@@ -166,7 +166,7 @@ public class EvalInfo {
 		ret.allowMultiLetterVariables = this.allowMultiLetterVariables;
 		ret.isRedefinition = this.isRedefinition;
 		ret.useAnalytics = this.useAnalytics;
-		ret.structures = this.structures;
+		ret.forceFunctionsEnabled = this.forceFunctionsEnabled;
 		return ret;
 	}
 
@@ -512,17 +512,22 @@ public class EvalInfo {
 		return useAnalytics;
 	}
 
-	public boolean isStructures() {
-		return structures;
+	/**
+	 * @return whether to enable functions even if structures are generally disabled
+	 */
+	public boolean isForceFunctionsEnabled() {
+		return forceFunctionsEnabled;
 	}
 
 	/**
-	 * @param structures whether to enable structures.
+	 * Allow processing functions even if structures (vectors, equations)
+	 * are generally disabled.
+	 * @param functionsEnabled whether to enable functions
 	 * @return new eval info
 	 */
-	public EvalInfo withStructures(boolean structures) {
+	public EvalInfo withForceFunctionsEnabled(boolean functionsEnabled) {
 		EvalInfo info = copy();
-		info.structures = structures;
+		info.forceFunctionsEnabled = functionsEnabled;
 		return info;
 	}
 }
