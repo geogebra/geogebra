@@ -33,7 +33,7 @@ public class ScientificEvaluatables {
 	}
 
 	/**
-	 * @return The current definition of function f in the construction.
+	 * @return The current definition of function g in the construction.
 	 */
 	public GeoFunction getFunctionG() {
 		GeoElement element = construction.lookupLabel("g");
