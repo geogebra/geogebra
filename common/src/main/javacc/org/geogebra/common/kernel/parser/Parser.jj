@@ -1176,6 +1176,25 @@ ExpressionValue multterm():
 }
 
 /**
+* mixedNumber = term + divterm
+*/
+ExpressionValue mixedNumber():
+{
+	ExpressionValue ret, f;
+	Token x;
+}
+{
+	ret = divterm()
+	(( x = "\u2064" ) f = divterm()
+		{
+			ret = ret.evaluateDouble() < 0 ? new ExpressionNode(kernel, ret, Operation.PLUS, f)
+			: new ExpressionNode(kernel, ret, Operation.PLUS, f);
+		}
+	)*
+{return ret;}
+}
+
+/**
  * divterm =  unary / unary
  */
 ExpressionValue divterm():

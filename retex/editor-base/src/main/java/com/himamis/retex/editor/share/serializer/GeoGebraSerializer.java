@@ -90,6 +90,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 			break;
 		case FRAC:
+			//stringBuilder.append("\u2064");
 			stringBuilder.append("((");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
