@@ -6,7 +6,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 
 public class ScientificEvaluatables {
-    
+
+	private Construction construction;
+
 	private GeoFunction functionF;
 	private GeoFunction functionG;
 
@@ -14,28 +16,37 @@ public class ScientificEvaluatables {
 	 * @param construction {@link Construction}
 	 */
 	public ScientificEvaluatables(Construction construction) {
+		this.construction = construction;
 		functionF = createFunction(construction, "f");
 		functionG = createFunction(construction, "g");
 	}
 
 	/**
-	 * @return function f
+	 * @return The current definition of function f in the construction.
 	 */
 	public GeoFunction getFunctionF() {
-		return functionF;
+		GeoElement element = construction.lookupLabel("f");
+		if (element instanceof GeoFunction) {
+			return (GeoFunction) element;
+		}
+		return null;
 	}
 
 	/**
-	 * @return function g
+	 * @return The current definition of function f in the construction.
 	 */
 	public GeoFunction getFunctionG() {
-		return functionG;
+		GeoElement element = construction.lookupLabel("g");
+		if (element instanceof GeoFunction) {
+			return (GeoFunction) element;
+		}
+		return null;
 	}
 
 	private GeoFunction createFunction(Construction construction, String label) {
 		GeoFunction function = new GeoFunction(construction);
-		function.rename(label);
 		function.setAuxiliaryObject(true);
+		function.rename(label);
 		return function;
 	}
 
@@ -57,8 +68,7 @@ public class ScientificEvaluatables {
 	}
 
 	private void ensureOnlyOneUndoInfo() {
-		App app = functionF.getApp();
-		app.getUndoManager().clearUndoInfo();
-		app.storeUndoInfo();
+		construction.getUndoManager().clearUndoInfo();
+		construction.storeUndoInfo();
 	}
 }
