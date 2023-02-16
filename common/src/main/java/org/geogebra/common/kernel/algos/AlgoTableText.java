@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.util.StringUtil;
@@ -43,7 +42,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	private GeoList geoList; // input
 	private GeoText text; // output
 	private GeoText args; // input
-	private GeoNumeric[] minWidthHeight; // input min width / min height
+	private double[] minWidthHeight; // input min width / min height
 
 	private GeoList[] geoLists;
 
@@ -133,7 +132,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	 *            table formating, see parseArgs()
 	 */
 	public AlgoTableText(Construction cons, GeoElement[] input, String label, GeoList geoList,
-			GeoText args, GeoNumeric[] minWidthHeight) {
+			GeoText args, double[] minWidthHeight) {
 		this(cons, input, geoList, args, minWidthHeight);
 		text.setLabel(label);
 	}
@@ -149,7 +148,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	 *            table formating, see parseArgs()
 	 */
 	AlgoTableText(Construction cons, GeoElement[] input, GeoList geoList, GeoText args,
-			GeoNumeric[] minWidthHeight) {
+			double[] minWidthHeight) {
 		super(cons);
 		this.input = input;
 		this.geoList = geoList;

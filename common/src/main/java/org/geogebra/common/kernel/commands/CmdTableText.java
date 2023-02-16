@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
@@ -70,7 +70,7 @@ public class CmdTableText extends CommandProcessor {
 				}
 			}
 
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				int maxSize = (int) arg[1].evaluateDouble();
 
 				if (maxSize <= 0) {
@@ -85,10 +85,10 @@ public class CmdTableText extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 3:
-			if (arg[0].isGeoList() && arg[1].isGeoText() && arg[2].isGeoNumeric()) {
+			if (arg[0].isGeoList() && arg[1].isGeoText() && arg[2] instanceof GeoNumberValue) {
 				GeoList first = (GeoList) arg[0];
 				if (first.size() == 0 || first.get(0).isGeoList()) {
-					GeoNumeric[] minWidthHeight = {(GeoNumeric) arg[2]};
+					double[] minWidthHeight = {arg[2].evaluateDouble()};
 					GeoElement[] ret = { tableText(c.getLabel(), arg, first, (GeoText) arg[1],
 							minWidthHeight) };
 					return ret;
@@ -116,13 +116,13 @@ public class CmdTableText extends CommandProcessor {
 							(GeoText) arg[arg.length - 1], null) };
 					return ret;
 				}
-			} else if (arg[arg.length - 1].isGeoNumeric()) { //min width (and height)
-				int amountNumerics = arg[arg.length - 2].isGeoNumeric() ? 2 : 1;
-				GeoNumeric[] minWidthHeight = new GeoNumeric[amountNumerics];
-				minWidthHeight[0] = (GeoNumeric) arg[arg.length - 1];
+			} else if (arg[arg.length - 1] instanceof GeoNumberValue) { //min width (and height)
+				int amountNumerics = arg[arg.length - 2] instanceof GeoNumberValue ? 2 : 1;
+				double[] minWidthHeight = new double[amountNumerics];
+				minWidthHeight[0] = arg[arg.length - 1].evaluateDouble();
 				if (amountNumerics == 2) {
-					minWidthHeight[0] = (GeoNumeric) arg[arg.length - 2];
-					minWidthHeight[1] = (GeoNumeric) arg[arg.length - 1];
+					minWidthHeight[0] = arg[arg.length - 2].evaluateDouble();
+					minWidthHeight[1] = arg[arg.length - 1].evaluateDouble();
 				}
 
 				if (arg[arg.length - amountNumerics - 1].isGeoText()) {
@@ -192,7 +192,7 @@ public class CmdTableText extends CommandProcessor {
 	 * @return table text
 	 */
 	final public GeoText tableText(String label, GeoElement[] arg, GeoList list, GeoText args,
-			GeoNumeric[] minWidthHeight) {
+			double[] minWidthHeight) {
 		AlgoTableText algo = new AlgoTableText(cons, arg, label, list, args, minWidthHeight);
 		GeoText text = algo.getResult();
 		return text;
