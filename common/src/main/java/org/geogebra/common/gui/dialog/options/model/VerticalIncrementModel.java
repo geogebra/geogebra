@@ -28,7 +28,7 @@ public class VerticalIncrementModel extends TextPropertyModel{
 				if (step == null) {
 					step = geo.getAnimationStepObject();
 				}
-				String current = step == null ? "" : step.toString(StringTemplate.editTemplate);
+				String current = step == null ? "" : step.getLabel(StringTemplate.editTemplate);
 				if (val == null) {
 					val = current;
 				} else if (!val.equals(current)) {
