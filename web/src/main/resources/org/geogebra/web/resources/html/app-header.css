@@ -351,8 +351,14 @@ svg.icon.left {
     display: none;
 }
 
-.compact.GeoGebraFrame .buttons {
+.compact.GeoGebraFrame .shareBtn, .compact.GeoGebraFrame .appsBtn, .compact.GeoGebraFrame .signIn {
     display: none;
+}
+.GeoGebraHeader .signInIcon {
+    display: none;
+}
+.GeoGebraHeader.compact .signInIcon {
+    display: initial;
 }
 
 .compact.GeoGebraFrame .menuBtn {

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -76,6 +77,7 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 
 	@Override
 	public void show() {
+		resetFields();
 		showDirectly();
 		f.requestFocus();
 		Scheduler.get().scheduleDeferred(() -> {
@@ -96,10 +98,15 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 	}
 
 	/**
-	 * reset field to empty
+	 * reset fields from construction
 	 */
 	public void resetFields() {
-		f.setText("");
-		g.setText("");
+		f.setText(getInputValue(1));
+		g.setText(getInputValue(2));
+	}
+
+	private String getInputValue(int i) {
+		String value = view.getEvaluatable(i).toValueString(StringTemplate.editorTemplate);
+		return "?".equals(value) ? "" : value;
 	}
 }

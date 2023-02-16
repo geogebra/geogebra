@@ -494,7 +494,9 @@ public class AlgebraProcessor {
 			ErrorHelper.handleError(e, newValue, loc, handler);
 		} catch (ParseException exception) {
 			handler.showError(exception.getMessage());
-			callback.callback(geo);
+			if (callback != null) {
+				callback.callback(geo);
+			}
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (CommandNotLoadedError e) {
@@ -2328,7 +2330,7 @@ public class AlgebraProcessor {
 	 * @return GeoFunction
 	 */
 	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
-		if (!enableStructures()) {
+		if (!enableStructures() && !info.isStructures()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);

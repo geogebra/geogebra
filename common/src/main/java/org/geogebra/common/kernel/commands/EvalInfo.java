@@ -34,6 +34,7 @@ public class EvalInfo {
 	private MyArbitraryConstant constant;
 	private boolean isRedefinition = false;
 	private boolean useAnalytics;
+	private boolean structures = false;
 
 	/**
 	 * Creates a default evaluation info
@@ -165,6 +166,7 @@ public class EvalInfo {
 		ret.allowMultiLetterVariables = this.allowMultiLetterVariables;
 		ret.isRedefinition = this.isRedefinition;
 		ret.useAnalytics = this.useAnalytics;
+		ret.structures = this.structures;
 		return ret;
 	}
 
@@ -508,5 +510,19 @@ public class EvalInfo {
 
 	public boolean useAnalytics() {
 		return useAnalytics;
+	}
+
+	public boolean isStructures() {
+		return structures;
+	}
+
+	/**
+	 * @param structures whether to enable structures.
+	 * @return new eval info
+	 */
+	public EvalInfo withStructures(boolean structures) {
+		EvalInfo info = copy();
+		info.structures = structures;
+		return info;
 	}
 }

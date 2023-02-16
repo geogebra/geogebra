@@ -20,8 +20,8 @@ public class ScientificEvaluatables {
 
 	private GeoEvaluatable createFunction(Construction construction, String label) {
 		GeoFunction function = new GeoFunction(construction);
-		function.rename(label);
 		function.setAuxiliaryObject(true);
+		function.rename(label);
 		return function;
 	}
 
@@ -49,11 +49,11 @@ public class ScientificEvaluatables {
 		} catch (InvalidValuesException e) {
 			throw new RuntimeException(e);
 		} finally {
-			storeInitialUndoInfo();
+			ensureOnlyOneUndoInfo();
 		}
 	}
 
-	private void storeInitialUndoInfo() {
+	private void ensureOnlyOneUndoInfo() {
 		App app = functionF.getApp();
 		app.getUndoManager().clearUndoInfo();
 		app.storeUndoInfo();

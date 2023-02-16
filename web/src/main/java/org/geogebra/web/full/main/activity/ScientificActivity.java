@@ -59,7 +59,6 @@ public class ScientificActivity extends BaseActivity {
 	public void initTableOfValues(AppW app) {
 		ScientificEvaluatables functions = new ScientificEvaluatables(
 				app.getKernel().getConstruction());
-		app.getKernel().getAlgebraProcessor().setEnableStructures(true);
 		TableValuesView tableValuesView =
 				(TableValuesView) ((GuiManagerW) app.getGuiManager()).getTableValuesView();
 		tableValuesView.noAlgebraLabelVisibleCheck();
