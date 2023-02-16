@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.table;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 
 public class ScientificEvaluatables {
 
