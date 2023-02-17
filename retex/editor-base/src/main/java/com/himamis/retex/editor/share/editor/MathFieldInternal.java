@@ -842,8 +842,10 @@ public class MathFieldInternal
 	 * 
 	 * @param shiftDown
 	 *            whether shift is pressed
+	 *
+	 * @return tab handling
 	 */
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		MathSequence currentField = editorState.getCurrentField();
 		int jumpTo = editorState.getCurrentOffset();
 		int dir = shiftDown ? -1 : 1;
@@ -852,12 +854,13 @@ public class MathFieldInternal
 			if (currentField.getArgument(jumpTo) instanceof MathPlaceholder) {
 				editorState.setCurrentOffset(jumpTo);
 				update();
-				return;
+				return true;
 			}
 		} while (jumpTo < currentField.size() && jumpTo >= 0);
 		if (listener != null) {
-			listener.onTab(shiftDown);
+			return listener.onTab(shiftDown);
 		}
+		return true;
 	}
 
 	/**
