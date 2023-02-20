@@ -37,7 +37,7 @@ public class MaterialRestAPI implements BackendAPI {
 	private final Service service;
 
 	public static final String marvlUrl = "https://api.geogebra.org/v1.0";
-	public static final String CSRF_TOKEN_COOKIE_NAME = "X-Csrf-Token";
+	public static final String CSRF_COOKIE_NAME = "X-Csrf-Token";
 
 	public static class Tag {
 		public static final String PHONE_2D = "ft.phone-2d";
@@ -400,51 +400,82 @@ public class MaterialRestAPI implements BackendAPI {
 			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
-		String token = getCsrfToken();
-		Log.error("THE TOKEN IS: " + token);
 
-		switch (method) {
-		case GET:
-			request.setRequestCSRFHeader(null);
-			break;
-		case PUT:
-		case POST:
-		case PATCH:
-		case DELETE:
-			request.setRequiresCSRF(true);
-			request.setRequestCSRFHeader(token);
-			break;
-		}
+		getAndAddCSRFToken(
+				new AjaxCallback() {
+					@Override
+					public void onSuccess(String token) {
+						try {
+							switch (method) {
+							case GET:
+								request.setRequestCSRFHeader(null);
+								break;
+							case PUT:
+							case POST:
+							case PATCH:
+							case DELETE:
+								request.setRequiresCSRF(true);
+								request.setRequestCSRFHeader(token);
+								break;
+							}
 
-		request.sendRequestPost(method.name(), baseURL + endpoint, json, new AjaxCallback() {
-			@Override
-			public void onSuccess(String responseStr) {
-				try {
-					userMaterialsCB
-							.onLoaded(parseMaterials(responseStr), parseMaterialCount(responseStr));
-					String updatedCookie = model.getCookie(CSRF_TOKEN_COOKIE_NAME);
+							request.sendRequestPost(method.name(), baseURL + endpoint, json,
+									new AjaxCallback() {
+								@Override
+								public void onSuccess(String responseStr) {
+									try {
+										userMaterialsCB
+												.onLoaded(parseMaterials(responseStr),
+														parseMaterialCount(responseStr));
+										String updatedCookie = model.getCookie(CSRF_COOKIE_NAME);
 
-					if (!updatedCookie.equals(token)) {
-						model.storeCSRFToken(updatedCookie);
+										if (!updatedCookie.equals(token)) {
+											model.storeCSRFToken(updatedCookie);
+										}
+									} catch (Exception e) {
+										userMaterialsCB.onError(e);
+									}
+								}
+
+								@Override
+								public void onError(String error) {
+									userMaterialsCB.onError(new Exception(error));
+								}
+							});
+						} catch (Exception e) {
+							userMaterialsCB.onError(e);
+						}
 					}
-				} catch (Exception e) {
-					userMaterialsCB.onError(e);
-				}
-			}
 
-			@Override
-			public void onError(String error) {
-				userMaterialsCB.onError(new Exception(error));
-			}
-		});
+					@Override
+					public void onError(String error) {
+						userMaterialsCB.onError(new Exception(error));
+					}
+				}
+		);
 		return request;
 	}
 
-	private String getCsrfToken() {
+	private void getAndAddCSRFToken(AjaxCallback callback) {
 		if (model.getCSRFToken().isEmpty()) {
-			requestCsrfTokenCookie();
+			requestCsrfTokenCookie(new AjaxCallback() {
+				@Override
+				public void onSuccess(String token) {
+					try {
+						callback.onSuccess(token);
+					} catch (Exception e) {
+						callback.onError(e.getMessage());
+					}
+				}
+
+				@Override
+				public void onError(String error) {
+					callback.onError(error);
+				}
+			});
+		} else {
+			callback.onSuccess(model.getCSRFToken());
 		}
-		return model.getCSRFToken();
 	}
 
 	@Override
@@ -472,7 +503,7 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
-	private void requestCsrfTokenCookie() {
+	private void requestCsrfTokenCookie(AjaxCallback callback) {
 		if (model.getUserId() != -1) {
 			HttpRequest request = service.createRequest(model);
 			request.setContentTypeJson();
@@ -483,9 +514,10 @@ public class MaterialRestAPI implements BackendAPI {
 						@Override
 						public void onSuccess(String token) {
 							try {
-								model.storeCSRFToken(model.getCookie(CSRF_TOKEN_COOKIE_NAME));
+								model.storeCSRFToken(model.getCookie(CSRF_COOKIE_NAME));
+								callback.onSuccess(model.getCSRFToken());
 							} catch (Exception e) {
-								Log.error(e.getMessage());
+								callback.onError(e.getMessage());
 							}
 						}
 
@@ -500,7 +532,7 @@ public class MaterialRestAPI implements BackendAPI {
 	/**
 	 * @param material renamed material
 	 * @param materialCallback callback
-	 */ //SHOOFY DA
+	 */
 	public void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback) {
 		JSONObject request = new JSONObject();
 		try {
@@ -717,8 +749,7 @@ public class MaterialRestAPI implements BackendAPI {
 							}
 						}
 					}
-					materialCallback
-							.onLoaded(materials, null);
+					materialCallback.onLoaded(materials, null);
 				} catch (Exception e) {
 					materialCallback.onError(e);
 				}
