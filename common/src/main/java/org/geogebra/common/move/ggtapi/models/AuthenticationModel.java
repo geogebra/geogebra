@@ -30,6 +30,8 @@ public abstract class AuthenticationModel {
 	private boolean stayLoggedOut;
 	private boolean loginStarted;
 
+	private String csrfToken = "";
+
 	/**
 	 * @param loginEvent login event
 	 */
@@ -58,16 +60,10 @@ public abstract class AuthenticationModel {
 	}
 
 	/**
-	 * @param token The token to store.
 	 * Stores the token in localStorage or with any other client side method.
+	 * @param token The token to store.
 	 */
 	public abstract void storeLoginToken(String token);
-
-	/**
-	 * @param csrfToken The token to store.
-	 * Stores the token in localStorage or with any other client side method.
-	 */
-	public abstract void storeCSRFToken(String csrfToken);
 
 	/**
 	 * @return The stored Token or null if not token stored
@@ -81,16 +77,33 @@ public abstract class AuthenticationModel {
 	public abstract void clearLoginToken();
 
 	/**
-	 * @return The stored CSRF Token or null if no token stored
+	 * @param cookieName name of the cookie we want
+	 * @return the value of the cookie
 	 */
-	public abstract String getCSRFToken();
+	public abstract String getCookie(String cookieName);
 
 	/**
-	 * @param user
-	 *            ggb tube user
-	 * @param json
-	 *            from GGT Parses the response, and sets model dependent things
-	 *            (localStorage, etc).
+	 * Stores the token in localStorage or with any other client side method.
+	 * @param csrfToken The token to store.
+	 */
+	public void storeCSRFToken(String csrfToken) {
+		this.csrfToken = csrfToken;
+	}
+
+	/**
+	 * @return The stored CSRF Token or null if no token stored
+	 */
+	public String getCSRFToken() {
+		if (!csrfToken.isEmpty()) {
+			return csrfToken;
+		}
+		return "";
+	}
+
+	/**
+	 * @param user ggb tube user
+	 * @param json from GGT Parses the response, and sets model dependent things
+	 * (localStorage, etc).
 	 */
 	private void onLoginSuccess(GeoGebraTubeUser user, String json) {
 		this.stayLoggedOut = false;
@@ -114,7 +127,7 @@ public abstract class AuthenticationModel {
 
 	/**
 	 * @param user ggb tube user
-	 *            from GGT error happened, cleanup, etc
+	 * from GGT error happened, cleanup, etc
 	 */
 	private void onLoginError(GeoGebraTubeUser user) {
 		this.stayLoggedOut = false;
@@ -125,7 +138,7 @@ public abstract class AuthenticationModel {
 
 	/**
 	 * @return the Username of the currently logged in user or null if no user
-	 *         is logged in
+	 * is logged in
 	 */
 	public String getUserName() {
 		if (loggedInUser != null) {
@@ -146,7 +159,7 @@ public abstract class AuthenticationModel {
 
 	/**
 	 * @return the Username of the currently logged in user or null if no user
-	 *         is logged in
+	 * is logged in
 	 */
 	public int getUserId() {
 		if (loggedInUser != null) {
@@ -157,7 +170,7 @@ public abstract class AuthenticationModel {
 
 	/**
 	 * @return the language of the currently logged in user or empty string if no
-	 *         user is logged in
+	 * user is logged in
 	 */
 	public String getUserLanguage() {
 		if (loggedInUser != null) {
@@ -182,9 +195,7 @@ public abstract class AuthenticationModel {
 
 	/**
 	 * Initialize for offline use (assume last user logged in).
-	 * 
-	 * @param api
-	 *            tube API
+	 * @param api tube API
 	 */
 	public void startOffline(BackendAPI api) {
 		if (this.loadLastUser() != null) {
@@ -235,7 +246,7 @@ public abstract class AuthenticationModel {
 	}
 
 	/**
-	 *  initialize timer
+	 * initialize timer
 	 * @param timer new logout timer
 	 */
 	public void setLogOutTimer(GTimer timer) {

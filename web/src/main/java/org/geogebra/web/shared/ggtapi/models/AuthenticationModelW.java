@@ -4,6 +4,7 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
@@ -18,7 +19,6 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	private static final String GGB_LAST_USER = "last_user";
 	/** token storage */
 	private String authToken = null;
-	private String csrfToken = "";
 	private AppW app;
 	private boolean inited = false;
 
@@ -48,24 +48,6 @@ public class AuthenticationModelW extends AuthenticationModel  {
 			return authToken;
 		}
 		return BrowserStorage.LOCAL.getItem(GGB_TOKEN_KEY_NAME);
-	}
-
-	@Override
-	public void storeCSRFToken(String csrfToken) {
-		if (this.app != null) {
-			ensureInited();
-			this.app.dispatchEvent(new Event(EventType.UPDATE, null, csrfToken));
-		}
-		this.csrfToken = csrfToken;
-		BrowserStorage.LOCAL.setItem(CSRF_TOKEN_KEY_NAME, csrfToken);
-	}
-
-	@Override
-	public String getCSRFToken() {
-		if (!csrfToken.isEmpty()) {
-			return csrfToken;
-		}
-		return BrowserStorage.LOCAL.getItem(CSRF_TOKEN_KEY_NAME);
 	}
 
 	@Override
@@ -105,5 +87,10 @@ public class AuthenticationModelW extends AuthenticationModel  {
 		String encrypted = MD5EncrypterGWTImpl
 				.encrypt(getLoginToken() + "T" + "1581341456" + secret);
 		return DomGlobal.btoa(getLoginToken()) + "|T|" + "1581341456" + "|" + encrypted;
+	}
+
+	@Override
+	public String getCookie(String cookieName) {
+		return Cookies.getCookie(cookieName);
 	}
 }

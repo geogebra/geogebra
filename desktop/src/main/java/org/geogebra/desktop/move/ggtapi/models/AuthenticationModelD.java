@@ -22,10 +22,6 @@ public class AuthenticationModelD extends AuthenticationModel {
 	}
 
 	@Override
-	public void storeCSRFToken(String csrfToken) {
-	//not needed
-	}
-	@Override
 	public String getLoginToken() {
 		String token = GeoGebraPreferencesD.getPref().loadPreference(
 				GeoGebraPreferencesD.USER_LOGIN_TOKEN, TOKEN_NOT_AVAILABLE);
@@ -41,7 +37,7 @@ public class AuthenticationModelD extends AuthenticationModel {
 	}
 
 	@Override
-	public String getCSRFToken() {
+	public String getCookie(String cookieName) {
 		return null;
 	}
 

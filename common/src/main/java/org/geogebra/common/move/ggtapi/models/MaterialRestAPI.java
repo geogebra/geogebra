@@ -22,9 +22,6 @@ import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import elemental2.core.Global;
-import elemental2.dom.DomGlobal;
-
 /**
  * API connector for the MARVL restful API
  */
@@ -404,6 +401,7 @@ public class MaterialRestAPI implements BackendAPI {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
 		String token = getCsrfToken();
+		Log.error("THE TOKEN IS: " + token);
 
 		switch (method) {
 		case GET:
@@ -424,7 +422,7 @@ public class MaterialRestAPI implements BackendAPI {
 				try {
 					userMaterialsCB
 							.onLoaded(parseMaterials(responseStr), parseMaterialCount(responseStr));
-					String updatedCookie = getCookie(CSRF_TOKEN_COOKIE_NAME);
+					String updatedCookie = model.getCookie(CSRF_TOKEN_COOKIE_NAME);
 
 					if (!updatedCookie.equals(token)) {
 						model.storeCSRFToken(updatedCookie);
@@ -485,7 +483,7 @@ public class MaterialRestAPI implements BackendAPI {
 						@Override
 						public void onSuccess(String token) {
 							try {
-								model.storeCSRFToken(getCookie(CSRF_TOKEN_COOKIE_NAME));
+								model.storeCSRFToken(model.getCookie(CSRF_TOKEN_COOKIE_NAME));
 							} catch (Exception e) {
 								Log.error(e.getMessage());
 							}
@@ -502,7 +500,7 @@ public class MaterialRestAPI implements BackendAPI {
 	/**
 	 * @param material renamed material
 	 * @param materialCallback callback
-	 */
+	 */ //SHOOFY DA
 	public void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback) {
 		JSONObject request = new JSONObject();
 		try {
@@ -740,35 +738,5 @@ public class MaterialRestAPI implements BackendAPI {
 	public Collection<ResourceAction> getActions(Material material) {
 		return service.getActions(owns(material), model.getLoggedInUser() != null
 				&& !model.getLoggedInUser().isStudent());
-	}
-
-	/**
-	 * @param cookieName name of the cookie we want
-	 * @return the value of the cookie
-	 */
-	private String getCookie(String cookieName) {
-		String docCookie = DomGlobal.document.cookie;
-		if (docCookie != null && !docCookie.isEmpty()) {
-			String[] crumbs = docCookie.split("; ");
-			for (int i = crumbs.length - 1; i >= 0; --i) {
-				String name, value;
-				int eqIdx = crumbs[i].indexOf('=');
-				if (eqIdx == -1) {
-					name = crumbs[i];
-					value = "";
-				} else {
-					name = crumbs[i].substring(0, eqIdx);
-					value = crumbs[i].substring(eqIdx + 1);
-				}
-
-				name = Global.decodeURIComponent(name);
-				value = Global.decodeURIComponent(value);
-
-				if (name.equals(cookieName)) {
-					return value;
-				}
-			}
-		}
-		return "";
 	}
 }
