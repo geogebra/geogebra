@@ -13,6 +13,7 @@ import com.himamis.retex.editor.share.meta.MetaFunction;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -872,13 +873,49 @@ public class InputController {
 	private void deleteSingleArg(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
 		MathSequence currentField = editorState.getCurrentField();
-		if (!currentField.isArgumentProtected(currentOffset - 1)) {
-			currentField.delArgument(currentOffset - 1);
-			editorState.decCurrentOffset();
-			MathComponent component = currentField.getArgument(editorState.getCurrentOffset());
-			if (component instanceof MathFunction) {
-				RemoveContainer.fuseMathFunction(editorState, (MathFunction) component);
+		if (currentField.isArgumentProtected(currentOffset - 1)) {
+			return;
+		}
+
+		currentField.delArgument(currentOffset - 1);
+		editorState.decCurrentOffset();
+		onDelete(editorState, currentField);
+	}
+
+	private void onDelete(EditorState editorState, MathSequence currentField) {
+		int currentOffset = editorState.getCurrentOffset();
+		MathComponent component = currentField.getArgument(currentOffset);
+		if (isCommaInSequence(currentField) && isCommaOrNull(component)) {
+			addPlaceholderIfNeeded(currentField, currentOffset);
+		}
+
+		if (component instanceof MathFunction) {
+			RemoveContainer.fuseMathFunction(editorState, (MathFunction) component);
+		}
+	}
+
+	static boolean isCommaInSequence(MathSequence sequence) {
+		for (MathComponent component: sequence) {
+			if (isComma(component)) {
+				return true;
 			}
+		}
+
+		return false;
+	}
+
+	private boolean isCommaOrNull(MathComponent component) {
+		return component == null || isComma(component);
+	}
+
+	private static boolean isComma(MathComponent component) {
+		return component instanceof MathCharacter
+				&& ((MathCharacter) component).isUnicode(',');
+	}
+
+	private void addPlaceholderIfNeeded(MathSequence currentField, int offset) {
+		if (isCommaOrNull(currentField.getArgument(offset - 1))) {
+			currentField.addArgument(offset, new MathCharPlaceholder());
 		}
 	}
 
@@ -1348,11 +1385,13 @@ public class InputController {
 	 *
 	 * @param shiftDown
 	 *            whether shift is pressed
+	 * @return tab handling
 	 */
-	public void handleTab(boolean shiftDown) {
+	public boolean handleTab(boolean shiftDown) {
 		if (mathField != null) {
-			mathField.getInternal().onTab(shiftDown);
+			return mathField.getInternal().onTab(shiftDown);
 		}
+		return true;
 	}
 
 	public static class FunctionPower {

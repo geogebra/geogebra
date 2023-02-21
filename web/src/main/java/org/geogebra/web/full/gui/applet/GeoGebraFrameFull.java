@@ -677,9 +677,16 @@ public class GeoGebraFrameFull
 		return isKeyboardShowing() ? keyboardHeight : 0;
 	}
 
-	private static boolean isKeyboardWantedFromStorage() {
-		String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
-		return !"false".equals(wanted);
+	private boolean isKeyboardWantedFromStorage() {
+		String showKeyboardOnFocus = app.getAppletParameters().getParamShowKeyboardOnFocus("auto");
+		if ("false".equals(showKeyboardOnFocus)) {
+			return false;
+		} else if ("true".equals(showKeyboardOnFocus)) {
+			return true;
+		} else {
+			String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
+			return !"false".equals(wanted);
+		}
 	}
 
 	/**

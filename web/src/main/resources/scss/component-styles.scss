@@ -319,18 +319,6 @@
 		}
 	}
 
-	.buttonInactive {
-		position: relative;
-		cursor: default;
-		img {
-			opacity: 0.26;
-		}
-
-		&:hover {
-			background-color: transparent;
-		}
-	}
-
 	/* DROPDOWN COMPONENT */
 	.dropDownSelectorContainer {
 		max-width: 200px;
@@ -866,6 +854,18 @@
         &:focus, &:hover, &.selected {
             background-color: colors.$hover-calc-btn-bg;
         }
+     }
+
+     .buttonInactive {
+     	cursor: default;
+
+     	img {
+     		opacity: 0.26;
+     	}
+
+		&:hover {
+			background-color: transparent;
+		}
      }
 
 	.searchBar.compact {

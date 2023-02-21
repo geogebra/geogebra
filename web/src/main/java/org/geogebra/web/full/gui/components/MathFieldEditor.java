@@ -236,7 +236,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	}
 
 	/**
-	 * Shows or hides the keyboard.
+	 * Shows or hides the keyboard, if user preference allows it
 	 *
 	 * @param show to show or hide the keyboard.
 	 */
@@ -250,6 +250,18 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		} else {
 			frame.doShowKeyBoard(show, retexListener);
 		}
+	}
+
+	/**
+	 * Shows or hides the keyboard.
+	 *
+	 * @param show to show or hide the keyboard.
+	 */
+	public void forceKeyboardVisibility(boolean show) {
+		if (!frame.isKeyboardShowing() && !show) {
+			return;
+		}
+		frame.doShowKeyBoard(show, retexListener);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.algos;
 
+import static org.geogebra.test.OrderingComparison.greaterThan;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -12,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.junit.Test;
 
@@ -43,6 +45,18 @@ public class AlgoSequenceTest extends BaseUnitTest {
 			double val = ((GeoImplicitCurve) list.get(i)).evaluateImplicitCurve(0, 0, 0);
 			assertThat(val, is(i + 1.0));
 		}
+	}
+
+	@Test
+	public void sequenceOfLociShouldChangeOnZoom() {
+		add("ZoomIn(-5,-5,5,5)");
+		add("A=Point(0x+1)");
+		GeoList seq = add("Sequence(Locus(k*A,A),k,1,4)");
+		GeoLocus loc = (GeoLocus) seq.get(3);
+		long ptsBefore = loc.getPoints().stream().filter(pt -> Math.abs(pt.getX()) < 5).count();
+		add("ZoomIn(-100,-100,100,100)");
+		long ptsAfter = loc.getPoints().stream().filter(pt -> Math.abs(pt.getX()) < 5).count();
+		assertThat(ptsBefore, greaterThan(ptsAfter * 10));
 	}
 
 	private String functionPoints(GeoElement geoElement) {

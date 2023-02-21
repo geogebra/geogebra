@@ -28,81 +28,72 @@ public class AlgoToComplexPolar extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param geoPoint
 	 *            input point
 	 * @param coordStyle
 	 *            Kernel.COORD_COMPLEX or COORD_POLAR
 	 */
-	public AlgoToComplexPolar(Construction cons, String label,
+	public AlgoToComplexPolar(Construction cons,
 			GeoPoint geoPoint, int coordStyle) {
 		super(cons);
 		inPoint = geoPoint;
 		outPoint = new GeoPoint(cons);
-		init(coordStyle, outPoint, label);
+		init(coordStyle, outPoint);
 	}
 
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param geoList
 	 *            input list
 	 * @param coordStyle
 	 *            Kernel.COORD_COMPLEX or COORD_POLAR
 	 */
-	public AlgoToComplexPolar(Construction cons, String label, GeoList geoList,
+	public AlgoToComplexPolar(Construction cons, GeoList geoList,
 			int coordStyle) {
 		super(cons);
 		inList = geoList;
 		outPoint = new GeoPoint(cons);
-		init(coordStyle, outPoint, label);
+		init(coordStyle, outPoint);
 	}
 
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param geoNum
 	 *            input number
 	 * @param coordStyle
 	 *            Kernel.COORD_COMPLEX or COORD_POLAR
 	 */
-	public AlgoToComplexPolar(Construction cons, String label,
+	public AlgoToComplexPolar(Construction cons,
 			GeoNumberValue geoNum, int coordStyle) {
 		super(cons);
 		inNumber = geoNum;
 		outPoint = new GeoPoint(cons);
-		init(coordStyle, outPoint, label);
+		init(coordStyle, outPoint);
 	}
 
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param geoVector
 	 *            input vector
 	 * @param coordStyle
 	 *            Kernel.COORD_COMPLEX or COORD_POLAR
 	 */
-	public AlgoToComplexPolar(Construction cons, String label,
+	public AlgoToComplexPolar(Construction cons,
 			GeoVector geoVector, int coordStyle) {
 		super(cons);
 		inVector = geoVector;
 		outVector = new GeoVector(cons);
-		init(coordStyle, outVector, label);
+		init(coordStyle, outVector);
 	}
 
-	private void init(int coordStyle1, GeoElement out, String label) {
+	private void init(int coordStyle1, GeoElement out) {
 		this.coordStyle = coordStyle1;
 		setInputOutput();
 		compute();
 		((VectorValue) out).setMode(coordStyle1);
-		out.setLabel(label);
 	}
 
 	@Override
