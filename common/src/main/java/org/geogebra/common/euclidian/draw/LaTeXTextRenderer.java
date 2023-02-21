@@ -33,10 +33,11 @@ public class LaTeXTextRenderer implements TextRenderer {
 						 double xPos, double yPos) {
 		int textLeft = (int) Math.round(xPos);
 
-		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, text);
+		GDimension textDimension = drawInputBox.measureLatex(graphics, geo,
+				getFont(geo, font), text);
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
-		int textTop = (int) Math.round(yPos + diffToCenter);
+		int textTop = (int) Math.round(yPos + diffToCenter) + 6;
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		int clipWidth = drawInputBox.boxWidth - CLIP_PADDING;
 		if (textDimension.getWidth() > clipWidth) {
@@ -51,15 +52,16 @@ public class LaTeXTextRenderer implements TextRenderer {
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
-		int textHeightWithMargin = textDimension.getHeight() + BOTTOM_OFFSET + MARGIN;
+		int textHeightWithMargin = textDimension.getHeight() + MARGIN;
 		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT);
 	}
 
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
+		GFont gFont = getFont(geo, font);
 		GDimension textDimension =
-				drawInputBox.measureLatex(graphics, geo, font, geo.getDisplayText());
+				drawInputBox.measureLatex(graphics, geo, gFont, geo.getDisplayText());
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
@@ -70,5 +72,14 @@ public class LaTeXTextRenderer implements TextRenderer {
 				(int) Math.round(inputBoxTop),
 				drawInputBox.boxWidth,
 				inputBoxHeight);
+	}
+
+	private GFont getFont(GeoInputBox geo, GFont font) {
+		int baseFontSize = geo.getApp().getSettings()
+				.getFontSettings().getAppFontSize() + 3;
+
+		GFont gFont =
+				font.deriveFont(font.getStyle(), baseFontSize * geo.getFontSizeMultiplier());
+		return gFont;
 	}
 }
