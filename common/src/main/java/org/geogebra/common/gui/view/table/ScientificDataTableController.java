@@ -107,11 +107,8 @@ public final class ScientificDataTableController {
 		if (oldDefinition == null && newDefinition == null) {
 			return false;
 		}
-		if (((oldDefinition != null) && !oldDefinition.equals(newDefinition)) ||
-				((newDefinition != null) && !newDefinition.equals(oldDefinition))) {
-			return true;
-		}
-		return false;
+		return ((oldDefinition != null) && !oldDefinition.equals(newDefinition)) ||
+				((newDefinition != null) && !newDefinition.equals(oldDefinition));
 	}
 
 	/**
