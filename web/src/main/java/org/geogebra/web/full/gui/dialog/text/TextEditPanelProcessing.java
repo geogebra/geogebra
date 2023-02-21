@@ -70,17 +70,16 @@ public class TextEditPanelProcessing implements KeyboardListener {
 	 *            text to be inserted
 	 */
 	private void insertAtEnd(String text) {
-		int caretPos = field.getCursorPos();
-		String oldText = field.getText();
+		int caretPos = field.getTextArea().getEditor().getCursorPos();
+		String oldText = field.getTextArea().getText();
 		String newText = oldText.substring(0, caretPos) + text
 				+ oldText.substring(caretPos);
 		field.setText(newText);
-		field.setCursorPos(caretPos + text.length());
+		field.getTextArea().getEditor().setCursorPos(caretPos + text.length());
 	}
 
 	@Override
 	public void onArrow(ArrowType type) {
-
 		int cursorPos = field.getCursorPos();
 
 		if (type == ArrowType.left && cursorPos > 0) {
