@@ -25,7 +25,7 @@ public class HttpRequestW extends HttpRequest {
 			request.setRequestHeader("Authorization", "Bearer " + getAuth());
 		}
 
-		if (requiresCSRF()) {
+		if (!StringUtil.empty(getRequestCSRFHeader())) {
 			request.setRequestHeader(CSRF_TOKEN_KEY_NAME, getRequestCSRFHeader());
 		}
 

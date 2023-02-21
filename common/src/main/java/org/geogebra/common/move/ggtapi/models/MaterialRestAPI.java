@@ -139,10 +139,8 @@ public class MaterialRestAPI implements BackendAPI {
 	 */
 	public void deleteMaterial(final Material mat, final MaterialCallbackI callback) {
 		String json = service.getDeletionJson(mat.getType());
-		String method = json == null ? "DELETE" : "PATCH";
-		HttpRequest request = service.createRequest(model);
-		request.setContentTypeJson();
-		request.sendRequestPost(method, baseURL + "/materials/" + mat.getSharingKeyOrId(), json,
+		HttpMethod method = json == null ? HttpMethod.DELETE : HttpMethod.PATCH;
+		performWithAuthentication(method, "/materials/" + mat.getSharingKeyOrId(), json,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
@@ -398,81 +396,80 @@ public class MaterialRestAPI implements BackendAPI {
 
 	private HttpRequest performRequest(final HttpMethod method, String endpoint, String json,
 			final MaterialCallbackI userMaterialsCB) {
+
+		AjaxCallback callback = new AjaxCallback() {
+			@Override
+			public void onSuccess(String responseStr) {
+				try {
+					userMaterialsCB
+							.onLoaded(parseMaterials(responseStr),
+									parseMaterialCount(responseStr));
+				} catch (Exception e) {
+					userMaterialsCB.onError(e);
+				}
+			}
+
+			@Override
+			public void onError(String error) {
+				userMaterialsCB.onError(new Exception(error));
+			}
+		};
+
+		if (method == HttpMethod.GET) {
+			HttpRequest request = service.createRequest(model);
+			request.setContentTypeJson();
+			request.sendRequestPost(method.name(), baseURL + endpoint, json,
+					callback);
+			return request;
+		} else {
+			return performWithAuthentication(method, endpoint, json, callback);
+		}
+	}
+
+	private HttpRequest performWithAuthentication(HttpMethod method, String endpoint,
+			String json, AjaxCallback callback) {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
-
-		getAndAddCSRFToken(
-				new AjaxCallback() {
-					@Override
-					public void onSuccess(String token) {
-						try {
-							switch (method) {
-							case GET:
-								request.setRequestCSRFHeader(null);
-								break;
-							case PUT:
-							case POST:
-							case PATCH:
-							case DELETE:
-								request.setRequiresCSRF(true);
-								request.setRequestCSRFHeader(token);
-								break;
-							}
-
-							request.sendRequestPost(method.name(), baseURL + endpoint, json,
-									new AjaxCallback() {
-								@Override
-								public void onSuccess(String responseStr) {
-									try {
-										userMaterialsCB
-												.onLoaded(parseMaterials(responseStr),
-														parseMaterialCount(responseStr));
-										String updatedCookie = model.getCookie(CSRF_COOKIE_NAME);
-
-										if (!updatedCookie.equals(token)) {
-											model.storeCSRFToken(updatedCookie);
-										}
-									} catch (Exception e) {
-										userMaterialsCB.onError(e);
-									}
-								}
-
-								@Override
-								public void onError(String error) {
-									userMaterialsCB.onError(new Exception(error));
-								}
-							});
-						} catch (Exception e) {
-							userMaterialsCB.onError(e);
-						}
-					}
-
-					@Override
-					public void onError(String error) {
-						userMaterialsCB.onError(new Exception(error));
-					}
+		getAndAddCSRFToken(new AjaxCallback() {
+			@Override
+			public void onSuccess(String token) {
+				try {
+					request.setRequestCSRFHeader(token);
+					request.sendRequestPost(method.name(), baseURL + endpoint, json,
+							getCsrfUpdatingCallback(callback));
+				} catch (Exception e) {
+					callback.onError(e.getMessage());
 				}
-		);
+			}
+
+			@Override
+			public void onError(String error) {
+				callback.onError(error);
+			}
+		});
 		return request;
 	}
 
-	private void getAndAddCSRFToken(AjaxCallback callback) {
-		if (model.getCSRFToken().isEmpty()) {
-			requestCsrfTokenCookie(new AjaxCallback() {
-				@Override
-				public void onSuccess(String token) {
-					try {
-						callback.onSuccess(token);
-					} catch (Exception e) {
-						callback.onError(e.getMessage());
-					}
-				}
+	private AjaxCallback getCsrfUpdatingCallback(AjaxCallback callback) {
+		return new AjaxCallback() {
+			@Override
+			public void onSuccess(String response) {
+				callback.onSuccess(response);
+				model.storeCSRFToken(model.getCookie(CSRF_COOKIE_NAME));
+			}
 
-				@Override
-				public void onError(String error) {
-					callback.onError(error);
-				}
-			});
+			@Override
+			public void onError(String error) {
+				callback.onError(error);
+			}
+		};
+	}
+
+	private void getAndAddCSRFToken(AjaxCallback callback) {
+		if (!service.requiresCSRF()) {
+			callback.onSuccess("");
+		} else if (StringUtil.empty(model.getCSRFToken()) && model.getUserId() > -1) {
+			requestCsrfTokenCookie(model.getUserId(), callback);
 		} else {
 			callback.onSuccess(model.getCSRFToken());
 		}
@@ -503,30 +500,24 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
-	private void requestCsrfTokenCookie(AjaxCallback callback) {
-		if (model.getUserId() != -1) {
-			HttpRequest request = service.createRequest(model);
-			request.setContentTypeJson();
+	private void requestCsrfTokenCookie(int userId, AjaxCallback callback) {
+		HttpRequest request = service.createRequest(model);
+		request.setContentTypeJson();
 
-			String endpoint = "/users/" + model.getUserId() + "/token";
-			request.sendRequestPost(HttpMethod.POST.name(), baseURL + endpoint, null,
-					new AjaxCallback() {
-						@Override
-						public void onSuccess(String token) {
-							try {
-								model.storeCSRFToken(model.getCookie(CSRF_COOKIE_NAME));
-								callback.onSuccess(model.getCSRFToken());
-							} catch (Exception e) {
-								callback.onError(e.getMessage());
-							}
-						}
+		String endpoint = "/users/" + userId + "/token";
+		request.sendRequestPost(HttpMethod.POST.name(), baseURL + endpoint, null,
+				new AjaxCallback() {
+					@Override
+					public void onSuccess(String ignore) {
+						model.storeCSRFToken(model.getCookie(CSRF_COOKIE_NAME));
+						callback.onSuccess(model.getCSRFToken());
+					}
 
-						@Override
-						public void onError(String error) {
-							Log.error(error);
-						}
-					});
-		}
+					@Override
+					public void onError(String error) {
+						callback.onError("Could not get CSRF token: " + error);
+					}
+				});
 	}
 
 	/**
@@ -601,9 +592,8 @@ public class MaterialRestAPI implements BackendAPI {
 	 */
 	public void setShared(Material m, GroupIdentifier groupID, boolean shared,
 			final AsyncOperation<Boolean> callback) {
-		HttpRequest request = service.createRequest(model);
-		request.sendRequestPost(shared ? HttpMethod.POST.name() : HttpMethod.DELETE.name(),
-				baseURL + "/materials/" + m.getSharingKeyOrId() + "/groups/"
+		performWithAuthentication(shared ? HttpMethod.POST : HttpMethod.DELETE,
+				"/materials/" + m.getSharingKeyOrId() + "/groups/"
 						+ groupID.name + "?category=" + groupID.getCategory(), null,
 				new AjaxCallback() {
 					@Override

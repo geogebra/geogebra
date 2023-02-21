@@ -25,8 +25,6 @@ public abstract class HttpRequest implements Cancelable {
 	private String type = "text/plain";
 	private String auth;
 
-	private boolean requiresCSRF = false;
-
 	private String csrfToken;
 
 	/**
@@ -110,13 +108,5 @@ public abstract class HttpRequest implements Cancelable {
 
 	public String getRequestCSRFHeader() {
 		return csrfToken;
-	}
-
-	public void setRequiresCSRF(Boolean requires) {
-		this.requiresCSRF = requires;
-	}
-
-	public boolean requiresCSRF() {
-		return requiresCSRF;
 	}
 }

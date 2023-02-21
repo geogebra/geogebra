@@ -94,10 +94,7 @@ public abstract class AuthenticationModel {
 	 * @return The stored CSRF Token or null if no token stored
 	 */
 	public String getCSRFToken() {
-		if (!csrfToken.isEmpty()) {
-			return csrfToken;
-		}
-		return "";
+		return csrfToken;
 	}
 
 	/**
