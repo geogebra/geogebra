@@ -20,13 +20,13 @@ public class ConstructionActionExecutor
 			}
 		} else if (action == ActionType.ADD) {
 			for (String arg: args) {
-				app.getGgbApi().evalXML(arg);
+				evalXML(arg);
 			}
 			app.getActiveEuclidianView().invalidateDrawableList();
 		} else if (action == ActionType.UPDATE) {
 			for (String arg: args) {
 				if (arg.charAt(0) == '<') {
-					app.getGgbApi().evalXML(arg);
+					evalXML(arg);
 				} else {
 					app.getGgbApi().evalCommand(arg);
 				}
@@ -35,5 +35,10 @@ public class ConstructionActionExecutor
 			return false;
 		}
 		return true;
+	}
+
+	private void evalXML(String arg) {
+		app.getGgbApi().evalXML(arg);
+		app.getKernel().notifyRepaint();
 	}
 }

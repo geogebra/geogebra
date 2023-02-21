@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1198,13 +1199,23 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
+	/**
+	 * Remove all corner points of the image.
+	 */
+	public void removeCorners() {
+		for (int i = 1; i < corners.length; i++) {
+			removeCorner(i);
+		}
+	}
+
 	private void removeCorner(int idx) {
 		if (corners[idx] == null || corners[idx].hasChildren()) {
 			return;
 		}
+		if (Inspecting.dynamicGeosFinder.check(corners[idx])) {
+			corners[idx].remove();
+		}
 		setCorner(null, idx);
-		corners[idx].remove();
-		kernel.notifyRemove(corners[idx]);
 		corners[idx] = null;
 	}
 
