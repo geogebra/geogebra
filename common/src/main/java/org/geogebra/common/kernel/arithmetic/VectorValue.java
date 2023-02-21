@@ -47,14 +47,4 @@ public interface VectorValue extends VectorNDValue {
 	 */
 	@Override
 	void setMode(int mode);
-
-	/**
-	 * @return inhomogeneous x-coordinate
-	 */
-	double getInhomX();
-
-	/**
-	 * @return inhomogeneous y-coordinate
-	 */
-	double getInhomY();
 }
