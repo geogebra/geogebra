@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
+import org.geogebra.common.kernel.algos.StyleSensitiveAlgo;
 import org.geogebra.common.kernel.algos.TableAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -6731,6 +6732,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public final void updateVisualStyleRepaint(GProperty prop) {
 		updateVisualStyle(prop);
 		kernel.notifyRepaint();
+		if (algoUpdateSet != null) {
+			ArrayList<AlgoElement> toUpdate = new ArrayList<>();
+			for (AlgoElement algo: algoUpdateSet) {
+				if (algo instanceof StyleSensitiveAlgo
+						&& ((StyleSensitiveAlgo) algo).dependsOnInputStyle(prop)) {
+					toUpdate.add(algo);
+				}
+			}
+			AlgoElement.updateCascadeAlgos(toUpdate);
+		}
 	}
 
 	@Override
