@@ -685,7 +685,7 @@ public class GeoGebraFrameFull
 			return true;
 		} else {
 			String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
-			return !"false".equals(wanted);
+			return wanted != null && !"false".equals(wanted);
 		}
 	}
 
