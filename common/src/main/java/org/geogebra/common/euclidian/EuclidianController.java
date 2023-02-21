@@ -52,7 +52,6 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -164,7 +163,6 @@ import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.media.VideoManager;
-import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -439,7 +437,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final GeoPriorityComparator priorityComparator;
 	private RotateBoundingBox rotateBoundingBox;
-	private HashMap<GeoElement, String> oldDefinition = new HashMap<>();
+	private final UpdateActionStore storeUndo;
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -496,6 +494,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.localization = app.getLocalization();
 		this.priorityComparator = app.getGeoPriorityComparator();
 		spotlightController = new SpotlightController(app);
+		storeUndo = new UpdateActionStore(selection, app.getUndoManager());
 		createCompanions();
 	}
 
@@ -6059,19 +6058,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		splitSelectedStrokes(true);
 		ArrayList<GeoElement> moveMultipleObjectsList = companion
 				.removeParentsOfView(getAppSelectedGeos());
-		storeDefinitions(moveMultipleObjectsList);
+		storeUndo.store(moveMultipleObjectsList);
 		MoveGeos.moveObjects(moveMultipleObjectsList, translationVec, tmpCoordsL3, null, view);
-	}
-
-	private void storeDefinitions(ArrayList<GeoElement> moveMultipleObjectsList) {
-		if (moveMultipleObjectsList.stream().anyMatch(
-				g -> g instanceof Locateable || g instanceof GeoWidget)) {
-			// moving buttons/images etc cannot use definition -> fall back to XML undo
-			return;
-		}
-		for (GeoElement geo: moveMultipleObjectsList) {
-			oldDefinition.put(geo, getDefintion(geo));
-		}
 	}
 
 	protected double getStartPointX() {
@@ -6644,11 +6632,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		else {
 			handleMovedElementFree(type);
 		}
-	}
-
-	private String getDefintion(GeoElement movedGeoElement) {
-		return movedGeoElement.getLabelSimple() + ":"
-				+ movedGeoElement.getRedefineString(false, true, StringTemplate.xmlTemplate);
 	}
 
 	final protected boolean handleMovedElementDependentWithChangeableParent() {
@@ -7492,9 +7475,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& event.isRightClick()) {
 			return;
 		}
-		if (oldDefinition.isEmpty()) {
-			storeDefinitions(getAppSelectedGeos());
-		}
+
+		storeUndo.storeSelection();
+
 		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
 			splitSelectedStrokes(true);
@@ -9053,7 +9036,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		widgetsToBackground();
 		view.hideSymbolicEditor();
-		oldDefinition.clear();
+		storeUndo.clear();
 
 		if (lastPointerRelease + EuclidianConstants.DOUBLE_CLICK_DELAY
 				> System.currentTimeMillis() && lastMouseUpLoc != null
@@ -9871,15 +9854,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
 			}
-			storeUndoInfo();
+			storeUndo.storeUndo();
 			setResizedShape(null);
 		} else if (isMultiResize) { // resize, multi selection
 			view.resetHitHandler();
-			if (oldDefinition.isEmpty()) {
+			if (storeUndo.storeUndo()) {
 				storeUndoInfo();
-			} else {
-				storeUpdateAction();
 			}
+
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());
 		}
@@ -10157,9 +10139,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& movedGeoElement.isLabelSet()) && (moveMode != MOVE_NONE)
 					&& modeTriggersUndoOnDragGeo(mode);
 			if (labeledGeoMoved) {
-				if (!oldDefinition.isEmpty()) {
-					storeUpdateAction();
-				} else {
+				if (storeUndo.storeUndo()) {
 					changedKernel = true;
 				}
 			}
@@ -10258,18 +10238,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		endOfWrapMouseReleased(hits, event);
 
 		draggingOccurredBeforeRelease = false;
-	}
-
-	private void storeUpdateAction() {
-		List<String> actions = new ArrayList<>(oldDefinition.size());
-		List<String> undoActions = new ArrayList<>(oldDefinition.size());
-		for (Map.Entry<GeoElement, String> entry: oldDefinition.entrySet()) {
-			actions.add(getDefintion(entry.getKey()));
-			undoActions.add(entry.getValue());
-		}
-		kernel.getConstruction().getUndoManager()
-				.storeUndoableAction(ActionType.UPDATE, actions.toArray(new String[0]),
-						ActionType.UPDATE, undoActions.toArray(new String[0]));
 	}
 
 	private void focusGroupElement(GeoElement geo) {
