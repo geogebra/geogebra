@@ -37,7 +37,7 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 			app.unregisterPopup(this);
 			app.hideKeyboard();
 		});
-		defineFunctionHandler = new DefineFunctionHandler(app);
+		defineFunctionHandler = new DefineFunctionHandler(app.getKernel());
 	}
 
 	private void buildGUI() {
