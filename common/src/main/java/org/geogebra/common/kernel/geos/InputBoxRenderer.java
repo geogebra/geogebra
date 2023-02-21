@@ -23,7 +23,7 @@ class InputBoxRenderer {
 	}
 
 	String getText() {
-		if (linkedGeo.hasSpecialEditor()) {
+		if (inputBox.isSymbolicMode() && linkedGeo.hasSpecialEditor()) {
 			return formulaConverter.convert(inputBox.getTextForEditor());
 		}
 		if (linkedGeo.isGeoText()) {
