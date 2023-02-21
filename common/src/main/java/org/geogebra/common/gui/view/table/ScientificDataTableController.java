@@ -42,7 +42,9 @@ public final class ScientificDataTableController {
 		g = createFunction(kernel.getConstruction(), "g");
 
 		table.addAndShow(f);
+//		int fIndex = table.getColumn(f); // in case we would need this at some point
 		table.addAndShow(g);
+//		int gIndex = table.getColumn(g); // in case we would need this at some point
 		try {
 			table.setValues(-2, 2, 1);
 		} catch (InvalidValuesException e) {
@@ -105,9 +107,8 @@ public final class ScientificDataTableController {
 		if (oldDefinition == null && newDefinition == null) {
 			return false;
 		}
-		if (oldDefinition == null && newDefinition != null ||
-				oldDefinition != null && newDefinition == null ||
-				!oldDefinition.equals(newDefinition)) {
+		if (((oldDefinition != null) && !oldDefinition.equals(newDefinition)) ||
+				((newDefinition != null) && !newDefinition.equals(oldDefinition))) {
 			return true;
 		}
 		return false;
