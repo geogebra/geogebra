@@ -5220,7 +5220,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			changedKernel = createInlineObject(selectionPreview, GeoInlineText::new);
+			createInlineObject(selectionPreview, GeoInlineText::new);
+			changedKernel = false;
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
@@ -9856,6 +9857,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			storeUndo.storeUndo();
 			setResizedShape(null);
+			decreaseTargets();
+			return;
 		} else if (isMultiResize) { // resize, multi selection
 			view.resetHitHandler();
 			if (storeUndo.storeUndo()) {
@@ -9864,6 +9867,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());
+			decreaseTargets();
+			return;
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {

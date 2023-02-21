@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.FontLoader;
@@ -154,9 +155,11 @@ public class InlineTextControllerW implements InlineTextController {
 		editor.setListener(new EditorChangeListener() {
 			@Override
 			public void onContentChanged(String content) {
-				if (!content.equals(geo.getContent())) {
+				String oldContent = geo.getContent();
+				if (!content.equals(oldContent)) {
+					String oldXML = geo.getXML();
 					geo.setContent(content);
-					geo.getKernel().storeUndoInfo();
+					storeUndoAction(geo, oldContent, oldXML);
 					geo.notifyUpdate();
 				}
 			}
@@ -183,6 +186,17 @@ public class InlineTextControllerW implements InlineTextController {
 				geo.getKernel().notifyRepaint();
 			}
 		});
+	}
+
+	private void storeUndoAction(GeoInline geo, String oldContent, String oldXML) {
+		String newXML = geo.getXML();
+		if (oldContent != null) {
+			geo.getConstruction().getUndoManager()
+					.storeUndoableAction(ActionType.UPDATE,
+							new String[]{newXML}, ActionType.UPDATE, oldXML);
+		} else {
+			geo.getConstruction().getUndoManager().storeAddGeo(geo);
+		}
 	}
 
 	private void updateVerticalAlign() {
