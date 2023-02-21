@@ -553,9 +553,8 @@ public class GeoGebraFrameFull
 			}
 		} else {
 			if (app != null && appNeedsKeyboard()
-					&& isKeyboardAutofocus()
 					&& isKeyboardWantedFromStorage()) {
-				if (!app.isStartedWithFile()
+				if (isKeyboardAutofocus() && !app.isStartedWithFile()
 						&& !app.getAppletParameters().preventFocus()) {
 					if (getKeyboardManager()
 							.isKeyboardClosedByUser()) {
@@ -685,7 +684,7 @@ public class GeoGebraFrameFull
 			return true;
 		} else {
 			String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
-			return wanted != null && !"false".equals(wanted);
+			return !"false".equals(wanted);
 		}
 	}
 
