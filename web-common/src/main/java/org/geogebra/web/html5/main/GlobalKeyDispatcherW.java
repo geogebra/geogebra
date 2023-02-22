@@ -160,6 +160,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 						app.setMoveMode();
 					}
 					handled = true;
+				} else {
+					handled = handleSelectedGeosKeys(event);
 				}
 
 				if (handled) {
