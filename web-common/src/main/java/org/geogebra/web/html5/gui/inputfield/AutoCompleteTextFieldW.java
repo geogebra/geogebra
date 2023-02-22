@@ -1435,11 +1435,17 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		GColor borderColor = backgroundColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
 				: GColor.getBorderColorFrom(backgroundColor);
 		g2.setColor(borderColor);
-		if (!drawTextField.hasError() && backgroundColor != GColor.WHITE) {
-			drawTextField.setBorderColor(borderColor);
-		}
+		setTextFieldBorderColor(backgroundColor, borderColor);
 
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+	}
+
+	private void setTextFieldBorderColor(GColor backgroundColor, GColor borderColor) {
+		if (!drawTextField.hasError() && backgroundColor != GColor.WHITE) {
+			drawTextField.setBorderColor(borderColor);
+		} else if (backgroundColor == GColor.WHITE) {
+			drawTextField.setBorderColor(null);
+		}
 	}
 
 	private boolean hasError() {

@@ -1061,7 +1061,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (backgroundColor == GColor.WHITE) {
 			borderColor = drawTextField.isEditing() ? GColor.DEFAULT_PURPLE
 					: GColor.DEFAULT_INPUTBOX_BORDER;
-
 		} else {
 			borderColor = GColor.getBorderColorFrom(backgroundColor);
 		}
