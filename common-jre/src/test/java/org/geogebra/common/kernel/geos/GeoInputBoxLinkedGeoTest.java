@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -552,6 +553,33 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(A)");
 		inputBox.updateLinkedGeo("(5,-5)");
 		assertThat(point, hasValue("(1, -1)"));
+	}
+
+	@Test
+	public void pointShouldUseAustrianCoords() {
+		getApp().getSettings().getGeneral().setCoordFormat(Kernel.COORD_STYLE_AUSTRIAN);
+		GeoElement point = add("A=(1,2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		assertThat(inputBox.getTextForEditor(), is("(1" + Unicode.verticalLine + "2)"));
+		inputBox.updateLinkedGeo("(5" + Unicode.verticalLine + "-5)");
+		assertThat(point, hasValue("(5 | -5)"));
+	}
+
+	@Test
+	public void pointShouldAcceptEmptyAustrianCoords() {
+		getApp().getSettings().getGeneral().setCoordFormat(Kernel.COORD_STYLE_AUSTRIAN);
+		add("A=(1,2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(" + Unicode.verticalLine + ")");
+		assertThat(inputBox.hasError(), is(false));
+	}
+
+	@Test
+	public void pointShouldAcceptEmptyCoords() {
+		add("A=(1,2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(,)");
+		assertThat(inputBox.hasError(), is(false));
 	}
 
 	@Test

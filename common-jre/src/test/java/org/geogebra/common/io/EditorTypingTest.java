@@ -653,6 +653,25 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testPipeInPointEditor() {
+		checker.setAllowAbs(false);
+		checker.insert("(2,1)").protect().left(42) // go to the left of protected editor
+				.type("3").right(1) // cursor in front of comma
+				.type("|4")
+				.checkAsciiMath("(32,41)");
+	}
+
+	@Test
+	public void testPipeInPointEditorAustrian() {
+		checker.setAllowAbs(false);
+		checker.insert("(2" + Unicode.verticalLine + "1)").protect()
+				.left(42) // go to the left of protected editor
+				.type("3").right(1) // cursor in front of comma
+				.type("|4")
+				.checkAsciiMath("(32" + Unicode.verticalLine + "41)");
+	}
+
+	@Test
 	public void testCommaInMatrixEditor() {
 		checker.insert("{{1,2},{3,4}}").protect().left(42) // go to the left of protected editor
 				.type(",").type(",")

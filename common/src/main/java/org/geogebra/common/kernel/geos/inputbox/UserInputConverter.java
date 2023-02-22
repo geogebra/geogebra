@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.geos.inputbox;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Converts incomplete user input to a string that Algebra Processor can handle without error,
  * eg (,,) -> (?,?,?)
@@ -28,7 +30,7 @@ public class UserInputConverter {
 	}
 
 	private boolean noCommas(String text) {
-		return text.indexOf(',') == -1;
+		return text.indexOf(',') == -1 && text.indexOf(Unicode.verticalLine) == -1;
 	}
 
 	private String inside(String text) {
@@ -36,7 +38,7 @@ public class UserInputConverter {
 	}
 
 	private String replaceCommas(String text) {
-		String[] items = text.split(",", -1);
+		String[] items = text.split("[," + Unicode.verticalLine + "]", -1);
 		String separator = "";
 		StringBuilder sb = new StringBuilder();
 		for (String item: items) {

@@ -7,14 +7,9 @@ import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class GiacPolarPrinter implements Printer {
 
-    private PrintableVector vector;
-
-    GiacPolarPrinter(PrintableVector vector) {
-        this.vector = vector;
-    }
-
     @Override
-    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
+    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
         return "point(("
                 + expressionPrinter.print(vector.getX(), tpl)
                 + ")*cos("
