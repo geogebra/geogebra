@@ -19,6 +19,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 	private static final int BOTTOM_OFFSET = 10;
 	public static final int MARGIN = 4;
 	private static final int CLIP_PADDING = 8;
+	private static final int PADDING = 2;
 
 	@Weak
 	private DrawInputBox drawInputBox;
@@ -37,7 +38,8 @@ public class LaTeXTextRenderer implements TextRenderer {
 				getFont(geo, font), text);
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
-		int textTop = (int) Math.round(yPos + diffToCenter) + 6;
+		int textTop = (int) Math.round(yPos + diffToCenter);
+
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		int clipWidth = drawInputBox.boxWidth - CLIP_PADDING;
 		if (textDimension.getWidth() > clipWidth) {
@@ -47,12 +49,13 @@ public class LaTeXTextRenderer implements TextRenderer {
 		}
 		rect.setRect(textLeft, 0, clipWidth, drawInputBox.getView().getHeight());
 		graphics.setClip(rect);
-		drawInputBox.drawLatex(graphics, geo, font, text, textLeft, textTop, true);
+		drawInputBox.drawLatex(graphics, geo, font, text, textLeft + PADDING,
+				textTop + PADDING, true);
 		graphics.resetClip();
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
-		int textHeightWithMargin = textDimension.getHeight() + MARGIN;
+		int textHeightWithMargin = textDimension.getHeight();
 		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT);
 	}
 
@@ -65,13 +68,13 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
-		double inputBoxTop = drawInputBox.getLabelTop() + ((labelHeight - inputBoxHeight) / 2);
+		double inputBoxTop = drawInputBox.getLabelTop() + ((labelHeight - inputBoxHeight) / PADDING);
 
 		return AwtFactory.getPrototype().newRectangle(
-				drawInputBox.boxLeft,
-				(int) Math.round(inputBoxTop),
-				drawInputBox.boxWidth,
-				inputBoxHeight);
+				drawInputBox.boxLeft + PADDING,
+				(int) Math.round(inputBoxTop) + PADDING,
+				drawInputBox.boxWidth + PADDING,
+				inputBoxHeight + 2 * PADDING);
 	}
 
 	private GFont getFont(GeoInputBox geo, GFont font) {
