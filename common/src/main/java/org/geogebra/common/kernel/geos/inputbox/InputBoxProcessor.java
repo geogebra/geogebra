@@ -91,7 +91,7 @@ public class InputBoxProcessor {
 	}
 
 	private boolean shouldReplaceQuestionMark() {
-		return linkedGeo.hasSpecialEditor();
+		return inputBox.isSymbolicModeWithSpecialEditor();
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
@@ -169,7 +169,7 @@ public class InputBoxProcessor {
 
 	private String preprocess(EditorContent content, StringTemplate tpl) {
 		String defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
-		if (linkedGeo.hasSpecialEditor() && content.hasEntries()) {
+		if (inputBox.isSymbolicModeWithSpecialEditor() && content.hasEntries()) {
 			defineText = buildListText(content);
 		} else if ("?".equals(content.getEditorInput())
 				|| ("".equals(content.getEditorInput()) && !inputBox.isListEditor())) {
@@ -215,7 +215,7 @@ public class InputBoxProcessor {
 	}
 
 	private String emptyToUndefined(String text) {
-		if (!linkedGeo.hasSpecialEditor()) {
+		if (!inputBox.isSymbolicModeWithSpecialEditor()) {
 			return text;
 		}
 		if (linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()) {
