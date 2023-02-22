@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoWidget;
 
 class UndoItem {
@@ -12,17 +13,17 @@ class UndoItem {
 
 	public UndoItem(GeoElement geo) {
 		this.geo = geo;
-		isXml = geo instanceof Locateable || geo instanceof GeoWidget;
+		isXml = geo instanceof Locateable || geo instanceof GeoWidget || geo instanceof GeoInline;
 		previousContent = content();
 	}
 
-	private String getDefintion() {
+	private String getDefinition() {
 		return geo.getLabelSimple() + ":"
 				+ geo.getRedefineString(false, true, StringTemplate.xmlTemplate);
 	}
 
 	public String content() {
-		return isXml ? geo.getXML() : getDefintion();
+		return isXml ? geo.getXML() : getDefinition();
 	}
 
 	public String previousContent() {
