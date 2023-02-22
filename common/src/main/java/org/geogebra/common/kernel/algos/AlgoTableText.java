@@ -42,6 +42,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	private GeoList geoList; // input
 	private GeoText text; // output
 	private GeoText args; // input
+	private GeoNumberValue[] minWidthHeight; // input min width / min height
 
 	private GeoList[] geoLists;
 
@@ -131,8 +132,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	 *            table formating, see parseArgs()
 	 */
 	public AlgoTableText(Construction cons, GeoElement[] input, String label, GeoList geoList,
-			GeoText args) {
-		this(cons, input, geoList, args);
+			GeoText args, GeoNumberValue[] minWidthHeight) {
+		this(cons, input, geoList, args, minWidthHeight);
 		text.setLabel(label);
 	}
 
@@ -146,11 +147,13 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	 * @param args
 	 *            table formating, see parseArgs()
 	 */
-	AlgoTableText(Construction cons, GeoElement[] input, GeoList geoList, GeoText args) {
+	AlgoTableText(Construction cons, GeoElement[] input, GeoList geoList, GeoText args,
+			GeoNumberValue[] minWidthHeight) {
 		super(cons);
 		this.input = input;
 		this.geoList = geoList;
 		this.args = args;
+		this.minWidthHeight = minWidthHeight;
 
 		text = new GeoText(cons);
 		text.setAbsoluteScreenLoc(0, 0);
@@ -419,7 +422,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 						&& charAt(verticalLinesArray, c) == '1') {
 					sb.append("|");
 				}
-				sb.append(getJustificationLaTeX(c)); // "l", "r" or "c"
+				addJustification(c);
 			}
 			if (verticalLines && charAt(verticalLinesArray, columns) == '1') {
 				sb.append("|");
@@ -436,7 +439,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					boolean finalCell = c == columns - 1;
 					addCellLaTeX(c, r, finalCell, tpl, getJustification(c));
 				}
-				sb.append(" \\\\ "); // newline in LaTeX ie \\
+				addNewLine();
 				if (horizontalLines
 						&& (!horizontalLinesJustEdges || r + 1 == rows)
 						&& charAt(horizontalLinesArray, r + 1) == '1') {
@@ -451,8 +454,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 						&& charAt(verticalLinesArray, c) == '1') {
 					sb.append("|");
 				}
-
-				sb.append(getJustificationLaTeX(c)); // "l", "r" or "c"
+				addJustification(c);
 			}
 			if (verticalLines && charAt(verticalLinesArray, rows) == '1') {
 				sb.append("|");
@@ -471,7 +473,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					boolean finalCell = r == rows - 1;
 					addCellLaTeX(c, r, finalCell, tpl, getJustification(c));
 				}
-				sb.append(" \\\\ "); // newline in LaTeX ie \\
+				addNewLine();
 				if (horizontalLines
 						&& (!horizontalLinesJustEdges || c + 1 == columns)
 						&& charAt(horizontalLinesArray, c + 1) == '1') {
@@ -486,6 +488,30 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('}');
+	}
+
+	/**
+	 * Adds the justification, lowercase/uppercase if minimum width is not specified/is specified
+	 * @param c Column
+	 */
+	private void addJustification(int c) {
+		if (minWidthHeight == null) {
+			sb.append(getJustificationLaTeX(c)); // "l", "r" or "c"
+		} else {
+			sb.append(Character.toUpperCase(getJustification(c)) + "{"
+					+ minWidthHeight[0].evaluateDouble() + "}");
+		}
+	}
+
+	/**
+	 * Adds a newLine with minimum height if specified
+	 */
+	private void addNewLine() {
+		if (minWidthHeight != null && minWidthHeight.length == 2) {
+			sb.append("\\\\[" + minWidthHeight[1].evaluateDouble() + "]");
+		} else {
+			sb.append(" \\\\ "); // newline in LaTeX ie \\
+		}
 	}
 
 	/**
