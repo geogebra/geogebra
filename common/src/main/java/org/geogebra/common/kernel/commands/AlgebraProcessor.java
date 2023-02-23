@@ -2330,7 +2330,7 @@ public class AlgebraProcessor {
 	 * @return GeoFunction
 	 */
 	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
-		if (!enableStructures() && !info.isStructures()) {
+		if (!enableStructures() && !info.isForceFunctionsEnabled()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
