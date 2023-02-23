@@ -84,7 +84,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 				GeoList list = algo.getGeoList();
 
 				geo.setColorFunction(list);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint(GProperty.COLOR);
 
 				return new GeoElement[0];
 

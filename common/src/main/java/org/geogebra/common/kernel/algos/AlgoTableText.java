@@ -19,6 +19,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -34,7 +35,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Algo for TableText[matrix], TableText[matrix,args]
  *
  */
-public class AlgoTableText extends AlgoElement implements TableAlgo {
+public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensitiveAlgo {
 	// get the lrc.a%p from middle of ABCDlrc.a%pEFGH
 	private final static RegExp matchLRC = RegExp
 			.compile("([^.%lrcap]*)([.%lrcap]*)([^.%lrcap]*)");
@@ -728,4 +729,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		return AwtFactory.getPrototype().newDimension(rows, columns);
 	}
 
+	@Override
+	public boolean dependsOnInputStyle(GProperty prop) {
+		return prop == GProperty.COLOR || prop == GProperty.COMBINED;
+	}
 }
