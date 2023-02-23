@@ -188,7 +188,7 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static RangePropertyCollection<?, ?> createThicknessProperty(Localization localization,
+	public static RangeProperty<Integer> createThicknessProperty(Localization localization,
 			List<GeoElement> elements) {
 		try {
 			List<ThicknessProperty> thicknessProperties = new ArrayList<>();

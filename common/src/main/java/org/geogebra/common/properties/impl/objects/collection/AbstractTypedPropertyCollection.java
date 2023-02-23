@@ -39,13 +39,8 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 	}
 
 	protected void setProperties(S value) {
-		doSetProperties(value);
-	}
-
-	protected void doSetProperties(S value) {
 		for (T element : properties) {
 			setPropertyValue(element, value);
 		}
 	}
-
 }
