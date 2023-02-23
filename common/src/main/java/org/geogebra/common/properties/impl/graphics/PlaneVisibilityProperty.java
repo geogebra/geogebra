@@ -22,12 +22,12 @@ public class PlaneVisibilityProperty extends AbstractProperty implements Boolean
     }
 
     @Override
-    public boolean getValue() {
+    public Boolean getValue() {
         return euclidianSettings.getShowPlate();
     }
 
     @Override
-    public void setValue(boolean value) {
+    public void setValue(Boolean value) {
         euclidianSettings.setShowPlate(value);
     }
 }

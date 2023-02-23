@@ -28,12 +28,12 @@ public class AxesColoredProperty extends AbstractProperty
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		return euclidianSettings.getHasColoredAxes();
 	}
 
 	@Override
-	public void setValue(boolean value) {
+	public void setValue(Boolean value) {
 		euclidianSettings.setHasColoredAxes(value);
 	}
 }

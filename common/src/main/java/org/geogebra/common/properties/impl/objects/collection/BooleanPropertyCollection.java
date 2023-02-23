@@ -16,7 +16,7 @@ public class BooleanPropertyCollection<T extends BooleanProperty>
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		return getFirstProperty().getValue();
 	}
 
@@ -26,7 +26,7 @@ public class BooleanPropertyCollection<T extends BooleanProperty>
 	}
 
 	@Override
-	public void setValue(boolean value) {
+	public void setValue(Boolean value) {
 		setProperties(value);
 	}
 }

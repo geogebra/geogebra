@@ -10,8 +10,12 @@ import java.util.Collections;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
+import org.geogebra.common.properties.util.PropertiesUtil;
+import org.hamcrest.beans.PropertyUtil;
 import org.junit.Test;
 
 public class FixObjectPropertyTest extends BaseUnitTest {
@@ -40,9 +44,11 @@ public class FixObjectPropertyTest extends BaseUnitTest {
 		getKernel().initUndoInfo();
 		GeoElement point = addAvInput("pt=(1,2)");
 		getApp().storeUndoInfo();
-		BooleanProperty prop = GeoElementPropertiesFactory.createFixObjectProperty(
+		ValuedProperty<Boolean> prop = GeoElementPropertiesFactory.createFixObjectProperty(
 				getApp().getLocalization(), Collections.singletonList(point));
-		assert prop != null;
+		prop = PropertiesUtil.addObserver(prop, new UndoSavingPropertyObserver(
+				getConstruction().getUndoManager()));
+
 		prop.setValue(true);
 		assertThat(point.isLocked(), is(true));
 		getKernel().undo();

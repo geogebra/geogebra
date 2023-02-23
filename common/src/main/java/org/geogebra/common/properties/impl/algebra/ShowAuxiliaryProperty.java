@@ -24,12 +24,12 @@ public class ShowAuxiliaryProperty extends AbstractProperty implements BooleanPr
     }
 
     @Override
-    public boolean getValue() {
+    public Boolean getValue() {
         return app.showAuxiliaryObjects();
     }
 
     @Override
-    public void setValue(boolean value) {
+    public void setValue(Boolean value) {
         app.setShowAuxiliaryObjects(value);
     }
 }

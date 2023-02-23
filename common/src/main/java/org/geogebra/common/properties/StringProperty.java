@@ -3,33 +3,17 @@ package org.geogebra.common.properties;
 /**
  * A property that is represented as a String.
  */
-public interface StringProperty extends Property {
+public interface StringProperty extends ValuedProperty<String> {
 
-    /**
-     * Returns the current value of the property.
-     *
-     * @return the current value of the property
-     */
-    String getValue();
+	/**
+	 * Validates the value and returns a boolean whether it was valid or not.
+	 * @return a boolean whether the value is valid or not
+	 */
+	boolean isValid(String value);
 
-    /**
-     * Set the value of the property.
-     *
-     * @param value the new value for the property
-     */
-    void setValue(String value);
-
-    /**
-     * Validates the value and returns a boolean whether it was valid or not.
-     *
-     * @return a boolean whether the value is valid or not
-     */
-    boolean isValid(String value);
-
-    /**
-     * Returns the error message for invalid input.
-     *
-     * @return the error message for invalid input
-     */
-    String getInvalidInputErrorMessage();
+	/**
+	 * Returns the error message for invalid input.
+	 * @return the error message for invalid input
+	 */
+	String getInvalidInputErrorMessage();
 }

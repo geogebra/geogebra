@@ -20,12 +20,12 @@ public class ShowObjectProperty extends AbstractProperty implements BooleanPrope
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		return element.isEuclidianVisible();
 	}
 
 	@Override
-	public void setValue(boolean show) {
+	public void setValue(Boolean show) {
 		element.setEuclidianVisible(show);
 		element.updateVisualStyleRepaint(GProperty.VISIBLE);
 	}

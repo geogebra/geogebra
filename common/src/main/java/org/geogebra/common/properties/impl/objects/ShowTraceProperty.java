@@ -24,12 +24,12 @@ public class ShowTraceProperty extends AbstractProperty implements BooleanProper
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		return delegate.getElement().getTrace();
 	}
 
 	@Override
-	public void setValue(boolean trace) {
+	public void setValue(Boolean trace) {
 		GeoElement element = delegate.getElement();
 		if (element.isTraceable()) {
 			((Traceable) element).setTrace(trace);

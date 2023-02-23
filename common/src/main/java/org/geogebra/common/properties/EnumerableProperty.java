@@ -3,28 +3,35 @@ package org.geogebra.common.properties;
 /**
  * A property that has enumerable string values.
  */
-public interface EnumerableProperty extends Property {
+public interface EnumerableProperty extends ValuedProperty<Integer> {
 
-    /**
-     * Get the possible localized values for this property.
-     *
-     * @return possible values of the property
-     */
-    String[] getValues();
+	@Override
+	default Integer getValue() {
+		return getIndex();
+	}
 
-    /**
-     * Get the index of the current value.
-     * See {@link EnumerableProperty#getValues()}.
-     *
-     * @return the index of the current value
-     */
-    int getIndex();
+	@Override
+	default void setValue(Integer value) {
+		setIndex(value);
+	}
 
-    /**
-     * Sets the index of the current value.
-     * See {@link EnumerableProperty#getValues()}.
-     *
-     * @param index the index of the current value
-     */
-    void setIndex(int index);
+	/**
+	 * Get the possible localized values for this property.
+	 * @return possible values of the property
+	 */
+	String[] getValues();
+
+	/**
+	 * Get the index of the current value.
+	 * See {@link EnumerableProperty#getValues()}.
+	 * @return the index of the current value
+	 */
+	int getIndex();
+
+	/**
+	 * Sets the index of the current value.
+	 * See {@link EnumerableProperty#getValues()}.
+	 * @param index the index of the current value
+	 */
+	void setIndex(int index);
 }

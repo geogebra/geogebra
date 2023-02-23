@@ -20,12 +20,12 @@ public class ShowInAVProperty extends AbstractProperty implements BooleanPropert
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		return !element.isAuxiliaryObject();
 	}
 
 	@Override
-	public void setValue(boolean show) {
+	public void setValue(Boolean show) {
 		element.setAuxiliaryObject(!show);
 		element.updateRepaint();
 

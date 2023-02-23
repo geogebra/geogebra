@@ -28,7 +28,7 @@ public class AxesLabelsVisibilityProperty extends AbstractProperty
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		String[] axesLabels = euclidianSettings.getAxesLabels();
 		boolean value = false;
 		for (int i = 0; i < euclidianSettings.getDimension(); i++) {
@@ -38,7 +38,7 @@ public class AxesLabelsVisibilityProperty extends AbstractProperty
 	}
 
 	@Override
-	public void setValue(boolean value) {
+	public void setValue(Boolean value) {
 		int length = euclidianSettings.getDimension();
 		for (int i = 0; i < length; i++) {
 			euclidianSettings.setAxisLabel(i,

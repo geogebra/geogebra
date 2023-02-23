@@ -36,7 +36,7 @@ public class AxesNumberingDistanceProperty extends AbstractProperty implements B
     }
 
     @Override
-    public boolean getValue() {
+    public Boolean getValue() {
         boolean[] axesAutomaticDistances = euclidianSettings.getAutomaticAxesNumberingDistances();
 
         for (int i = 0; i < euclidianSettings.getDimension(); i++) {
@@ -48,7 +48,7 @@ public class AxesNumberingDistanceProperty extends AbstractProperty implements B
     }
 
     @Override
-    public void setValue(boolean automatic) {
+    public void setValue(Boolean automatic) {
         if (automatic) {
             setAutoDistance();
         } else {

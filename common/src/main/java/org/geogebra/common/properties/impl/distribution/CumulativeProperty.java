@@ -21,12 +21,12 @@ public class CumulativeProperty extends AbstractProperty implements BooleanPrope
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		return view.isCumulative();
 	}
 
 	@Override
-	public void setValue(boolean value) {
+	public void setValue(Boolean value) {
 		view.setCumulative(value);
 	}
 }

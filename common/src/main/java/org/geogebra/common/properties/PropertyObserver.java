@@ -10,5 +10,5 @@ public interface PropertyObserver {
 	 * Called when the property has changed.
 	 * @param property property
 	 */
-	void onChange(ObservableProperty property);
+	void onChange(Property property);
 }

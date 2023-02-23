@@ -23,12 +23,12 @@ public class FixObjectProperty extends AbstractProperty implements BooleanProper
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		return delegate.getElement().isLocked();
 	}
 
 	@Override
-	public void setValue(boolean fixObject) {
+	public void setValue(Boolean fixObject) {
 		GeoElement element = delegate.getElement();
 		element.setFixed(fixObject);
 	}
