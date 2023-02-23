@@ -589,13 +589,13 @@ public class ExamEnvironment {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
 		if (examStartTime < 0) {
-			return timeFormatter.format(localization.getLocale(), "%02d:%02d",
+			return timeFormatter.format(localization.getLocaleStr(),
 					0);
 		}
 
 		int millis = (int) (timestamp - examStartTime);
 
-		return timeFormatter.format(localization.getLocale(), "%02d:%02d",
+		return timeFormatter.format(localization.getLocaleStr(),
 				millis);
 	}
 
