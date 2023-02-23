@@ -1,13 +1,18 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.geogebra.common.properties.ObservableProperty;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.ObservableProperty;
+import org.geogebra.common.properties.PropertyObserver;
 
 abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 		ObservableProperty {
 
+	private Set<PropertyObserver> observers = new HashSet<>();
+
 	private final T[] properties;
-	private PropertyObserver propertyObserver;
 
 	AbstractTypedPropertyCollection(T[] properties) {
 		if (properties.length == 0) {
@@ -40,11 +45,25 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 		return isEnabled;
 	}
 
+	@Override
+	public void addObserver(PropertyObserver observer) {
+		observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(PropertyObserver observer) {
+		observers.remove(observer);
+	}
+
+	private void notifyObservers() {
+		for (PropertyObserver observer : observers) {
+			observer.onChange(this);
+		}
+	}
+
 	protected void setProperties(S value) {
 		doSetProperties(value);
-		if (propertyObserver != null) {
-			propertyObserver.onChange();
-		}
+		notifyObservers();
 	}
 
 	protected void doSetProperties(S value) {
@@ -53,8 +72,4 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 		}
 	}
 
-	@Override
-	public void setObserver(PropertyObserver propertyObserver) {
-		this.propertyObserver = propertyObserver;
-	}
 }
