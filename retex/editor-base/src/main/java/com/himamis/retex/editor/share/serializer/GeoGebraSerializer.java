@@ -90,20 +90,36 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 			break;
 		case FRAC:
-			//stringBuilder.append("\u2064");
+			boolean isMixedNumber = isMixedNumber(stringBuilder) >= 0;
+			if (isMixedNumber) {
+				stringBuilder.insert(isMixedNumber(stringBuilder), "(");
+				stringBuilder.append("\u2064");
+			}
 			stringBuilder.append("((");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append("))");
+			if (isMixedNumber) {
+				stringBuilder.append(")");
+			}
 			break;
 		case MIXED_NUMBER:
+			boolean isNegative = mathFunction.getArgument(0).getArgument(0) != null
+					&& mathFunction.getArgument(0).getArgument(0).toString().equals("-");
+			if (isNegative) {
+				stringBuilder.append("-");
+			}
+			stringBuilder.append("(");
 			serialize(mathFunction.getArgument(0), stringBuilder);
+			if (isNegative) {
+				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
+			}
 			stringBuilder.append("\u2064(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append(")");
+			stringBuilder.append("))");
 			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
@@ -295,5 +311,26 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 		}
 		return new String[0];
+	}
+
+	/**
+	 * @return Index ( >= 0 ) of where to put an opening parentheses when there is a mixed number in the stringBuilder
+	 * <br> -1 If there is no mixed number
+	 * <br> Opening parentheses needed so e.g. 5 1/2 * 3 does not do the multiplication with 3 first
+	 */
+	private int isMixedNumber(StringBuilder stringBuilder) {
+		boolean isMixedNumber = false;
+		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
+			if (stringBuilder.charAt(i) == 32 && !isMixedNumber) {
+				continue;
+			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
+				isMixedNumber = true;
+			} else if (isMixedNumber) {
+				return i + 1;
+			} else {
+				break;
+			}
+		}
+		return isMixedNumber ? 0 : -1;
 	}
 }
