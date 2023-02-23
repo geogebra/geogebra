@@ -99,6 +99,27 @@ public enum ExamRegion {
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
 			model.setDefaultAppCode(GRAPHING_APPCODE);
 		}
+	},
+	VLAANDEREN() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "Vlaanderen";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "Vlaanderen";
+		}
+
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+			//TODO
+		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			//TODO
+		}
 	};
 
 	public abstract String getDisplayName(Localization loc, AppConfig config);
