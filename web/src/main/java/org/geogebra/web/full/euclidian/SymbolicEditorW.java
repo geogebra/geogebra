@@ -2,6 +2,7 @@ package org.geogebra.web.full.euclidian;
 
 import java.util.HashMap;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -105,6 +106,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 		decorator.update(bounds, getGeoInputBox());
 		setBaseline(bounds.getY() + bounds.getHeight() / 2d);
+
+		colorEditor();
 		editor.setVisible(true);
 
 		String text = getGeoInputBox().getTextForEditor();
@@ -127,6 +130,20 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		setProtection();
 
 		Scheduler.get().scheduleDeferred(editor::requestFocus);
+	}
+
+	private void colorEditor() {
+		GColor borderCol = getDrawInputBox().getBorderColor();
+		if (borderCol != null && !getDrawInputBox().hasError()) {
+			editor.getStyle().setBorderColor(borderCol.toString());
+			return;
+		}
+		if (getDrawInputBox().hasError()) {
+			editor.getStyle().clearBackgroundColor();
+			editor.getStyle().clearBorderColor();
+			return;
+		}
+		editor.getStyle().clearBorderColor();
 	}
 
 	@Override

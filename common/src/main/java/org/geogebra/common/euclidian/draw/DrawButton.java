@@ -87,7 +87,7 @@ public final class DrawButton extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			myButton.setSelected(isHighlighted());
+			myButton.setSelected(geoButton.doHighlighting());
 			myButton.paintComponent(g2, geoButton.getFontSizeMultiplier(),
 					true);
 		}
