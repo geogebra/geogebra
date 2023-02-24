@@ -56,14 +56,14 @@ public class LaTeXTextRenderer implements TextRenderer {
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
-		int textHeightWithMargin = textDimension.getHeight();
+		int textHeightWithMargin = textDimension.getHeight() + MARGIN;
 		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT);
 	}
 
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		GFont gFont = getFont(geo, font, 3);
+		GFont gFont = getFont(geo, font);
 		GDimension textDimension =
 				drawInputBox.measureLatex(graphics, geo, gFont, geo.getDisplayText());
 
@@ -85,5 +85,14 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 		int style = font.getLaTeXStyle(geo.isSerifContent());
 		return font.deriveFont(style, baseFontSize * geo.getFontSizeMultiplier());
+	}
+
+	private GFont getFont(GeoInputBox geo, GFont font) {
+		int baseFontSize = geo.getApp().getSettings()
+				.getFontSettings().getAppFontSize() + 3;
+
+		GFont gFont =
+				font.deriveFont(font.getStyle(), baseFontSize * geo.getFontSizeMultiplier());
+		return gFont;
 	}
 }
