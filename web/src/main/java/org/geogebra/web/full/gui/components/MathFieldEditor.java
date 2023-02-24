@@ -90,7 +90,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		updatePixelRatio();
 		app.addWindowResizeListener(this::updatePixelRatio);
 
-		getMathField().setBackgroundColor("rgba(255,255,255,0)");
+		if (!main.getStyleName().contains("errorStyle")) {
+			getMathField().setBackgroundColor("rgba(255,255,255,0)");
+		}
 		app.getGlobalHandlers().addEventListener(mathField.asWidget().getElement(),
 				"pointerdown", (evt) -> {
 			app.sendKeyboardEvent(true);
@@ -236,7 +238,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	}
 
 	/**
-	 * Shows or hides the keyboard.
+	 * Shows or hides the keyboard, if user preference allows it
 	 *
 	 * @param show to show or hide the keyboard.
 	 */
@@ -250,6 +252,18 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		} else {
 			frame.doShowKeyBoard(show, retexListener);
 		}
+	}
+
+	/**
+	 * Shows or hides the keyboard.
+	 *
+	 * @param show to show or hide the keyboard.
+	 */
+	public void forceKeyboardVisibility(boolean show) {
+		if (!frame.isKeyboardShowing() && !show) {
+			return;
+		}
+		frame.doShowKeyBoard(show, retexListener);
 	}
 
 	/**
@@ -372,5 +386,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
 		mathField.getInternal().setUnhandledArrowListener(listener);
+	}
+
+	public void setAllowAbs(boolean b) {
+		mathField.getInternal().setAllowAbs(b);
 	}
 }

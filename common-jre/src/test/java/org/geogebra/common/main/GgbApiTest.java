@@ -384,7 +384,7 @@ public class GgbApiTest {
 
 	@Test
 	public void testGetValueString() {
-		app.getLocalization().currentLocale = Locale.FRANCE;
+		app.getLocalization().setLocale(Locale.FRANCE);
 		api.evalCommand("f(x) = If(x > 3, x, 3)");
 		assertThat(api.getValueString("f", true), is("f(x) = Si(x > 3, x, 3)"));
 		assertThat(api.getValueString("f", false), is("f(x) = If[x > 3, x, 3]"));

@@ -213,8 +213,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onTab(boolean shiftDown) {
+		public boolean onTab(boolean shiftDown) {
 			// do nothing
+			return true;
 		}
 	}
 }

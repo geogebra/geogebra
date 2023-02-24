@@ -29,7 +29,7 @@ public interface VectorValue extends VectorNDValue {
 	 * @return this vector value as GeoVec2D
 	 */
 	@Override
-	public GeoVec2D getVector();
+	GeoVec2D getVector();
 
 	/**
 	 * Returns coord mode POLAR, COMPLEX or CARTESIAN
@@ -37,7 +37,7 @@ public interface VectorValue extends VectorNDValue {
 	 * @return Kernel.COORD_*
 	 */
 	@Override
-	public int getToStringMode();
+	int getToStringMode();
 
 	/**
 	 * Sets coord mode
@@ -46,5 +46,5 @@ public interface VectorValue extends VectorNDValue {
 	 *            Kernel.COORD_*
 	 */
 	@Override
-	public void setMode(int mode);
+	void setMode(int mode);
 }

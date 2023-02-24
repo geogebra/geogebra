@@ -1600,9 +1600,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			return ",";
 		}
 		StringBuilder sb = new StringBuilder();
-		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN
-			&& !tpl.isForEditorParser()) {
-			sb.append(" |");
+		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
+			tpl.appendOptionalSpace(sb);
+			sb.append(tpl.getPointCoordBar());
 			tpl.appendOptionalSpace(sb);
 		} else {
 			tpl.getCommaOptionalSpace(sb, kernel.getLocalization());
@@ -1712,13 +1712,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
-				if (!tpl.isForEditorParser()) {
-					tpl.appendOptionalSpace(sbBuildValueString);
-					sbBuildValueString.append("|");
-					tpl.appendOptionalSpace(sbBuildValueString);
-					break;
-				}
-
+				tpl.appendOptionalSpace(sbBuildValueString);
+				sbBuildValueString.append(tpl.getPointCoordBar());
+				tpl.appendOptionalSpace(sbBuildValueString);
+				break;
 			default:
 				tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
 			}

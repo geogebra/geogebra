@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollectionSymbolic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -30,10 +31,12 @@ import org.geogebra.common.util.debug.Log;
  */
 public class InputBoxProcessor {
 
-	private GeoInputBox inputBox;
+	private final GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private final Kernel kernel;
-	private AlgebraProcessor algebraProcessor;
+	private final AlgebraProcessor algebraProcessor;
+
+	private final UserInputConverter userInputConverter = new UserInputConverter();
 
 	/**
 	 * @param inputBox
@@ -68,13 +71,27 @@ public class InputBoxProcessor {
 			if ("?".equals(inputText)) {
 				inputBox.setTempUserInput("", "");
 			} else {
-				inputBox.setTempUserInput(inputText, content.getLaTeX());
+				inputBox.setTempUserInput(eraseQuestionMark(inputText),
+						eraseQuestionMark(content.getLaTeX()));
 			}
+
 			linkedGeo.setUndefined();
 			makeGeoIndependent();
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
 		}
+	}
+
+	private String eraseQuestionMark(String text) {
+		if (text == null) {
+			return "";
+		}
+
+		return shouldReplaceQuestionMark() ? text.replace("?", "") : text;
+	}
+
+	private boolean shouldReplaceQuestionMark() {
+		return inputBox.isSymbolicModeWithSpecialEditor();
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
@@ -152,7 +169,7 @@ public class InputBoxProcessor {
 
 	private String preprocess(EditorContent content, StringTemplate tpl) {
 		String defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
-		if (linkedGeo.hasSpecialEditor() && content.hasEntries()) {
+		if (inputBox.isSymbolicModeWithSpecialEditor() && content.hasEntries()) {
 			defineText = buildListText(content);
 		} else if ("?".equals(content.getEditorInput())
 				|| ("".equals(content.getEditorInput()) && !inputBox.isListEditor())) {
@@ -194,7 +211,20 @@ public class InputBoxProcessor {
 			defineText = defineText.replace('I', 'i');
 		}
 
-		return defineText;
+		return emptyToUndefined(defineText);
+	}
+
+	private String emptyToUndefined(String text) {
+		if (!inputBox.isSymbolicModeWithSpecialEditor()) {
+			return text;
+		}
+		if (linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()) {
+			return userInputConverter.pointToUndefined(text);
+		}
+		if (linkedGeo.isGeoList() && ((GeoList) linkedGeo).isMatrix()) {
+			return userInputConverter.matrixToUndefined(text);
+		}
+		return text;
 	}
 
 	private String buildListText(EditorContent content) {

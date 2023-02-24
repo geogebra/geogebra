@@ -11,8 +11,7 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
-import org.geogebra.web.html5.GeoGebraGlobal;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
@@ -71,8 +70,8 @@ public abstract class Web implements EntryPoint {
 	}
 
 	private void exportGGBElementRenderer() {
-		GeoGebraGlobal.setRenderGGBElement(this::renderArticleElement);
-		GeoGebraFrameW.renderGGBElementReady();
+		RenderGgbElement.setRenderGGBElement(this::renderArticleElement);
+		RenderGgbElement.renderGGBElementReady();
 		forwardMessages();
 	}
 

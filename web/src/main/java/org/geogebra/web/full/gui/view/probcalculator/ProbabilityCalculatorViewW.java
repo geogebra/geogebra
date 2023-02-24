@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * ProbablityCalculatorView for web
+ * Probability Calculator View for web
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	public static final String SEPARATOR = "--------------------";

@@ -377,7 +377,7 @@ TOKEN :  {
   | < TRUE:     ( "true" | "True" ) >
   | < FALSE:    ( "false" | "False" ) >
   | < DECIMAL_POINT:    ( "." | "\u066b" ) > // Arabic decimal point
-  | < COMMA:    ( "," | "\u060c" ) > // Arabic comma
+  | < COMMA:    ( "," | "\u060c" | "\u23B8" ) > // Arabic comma, vertical bar for Austrian points
 }
 
 TOKEN : {

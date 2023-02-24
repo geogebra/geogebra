@@ -207,7 +207,7 @@ public class EditorState {
 
 	private void terminateSelectionAtComma(MathContainer commonParent, int from, int to) {
 		for (int j = from; j <= to; j++) {
-			if (commonParent.isComma(j)) {
+			if (commonParent.isFieldSeparator(j)) {
 				if (j == from) {
 					currentSelEnd = currentSelStart = null;
 				} else {
@@ -410,7 +410,7 @@ public class EditorState {
 	public int countCommasBeforeCurrent() {
 		int commas = 0;
 		for (int i = 0; i < currentOffset; i++) {
-			if (currentField.isComma(i)) {
+			if (currentField.isFieldSeparator(i)) {
 				commas++;
 			}
 		}
@@ -423,7 +423,7 @@ public class EditorState {
 	public int countCommasAfterCurrent() {
 		int commas = 0;
 		for (int i = currentOffset; i < currentField.size(); i++) {
-			if (currentField.isComma(i)) {
+			if (currentField.isFieldSeparator(i)) {
 				commas++;
 			}
 		}
@@ -557,5 +557,14 @@ public class EditorState {
 		}
 
 		return describe(pattern, parent, er);
+	}
+
+	/**
+	 *
+	 * @return whether current field is inside a fraction or not.
+	 */
+	public boolean isInFraction() {
+		MathContainer parent = currentField.getParent();
+		return parent != null && parent.hasTag(Tag.FRAC);
 	}
 }

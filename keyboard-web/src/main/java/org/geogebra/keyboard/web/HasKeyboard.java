@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.LocalizationI;
 
 /**
  *
@@ -23,17 +23,12 @@ public interface HasKeyboard {
 	/**
 	 * @return localization
 	 */
-	Localization getLocalization();
+	LocalizationI getLocalization();
 
 	/**
 	 * @return true-if small keyboard needed
 	 */
 	boolean needsSmallKeyboard();
-
-	/**
-	 * update on keyboard close
-	 */
-	void updateViewSizes();
 
 	/**
 	 * @return true if in whiteboard, where keyboard is used for equation editor
