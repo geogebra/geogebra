@@ -83,7 +83,6 @@ public abstract class CanvasDrawable extends Drawable {
 	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
 			String text, int x, int y, boolean isContentOfInputBox) {
 		App app = view.getApplication();
-
 		// eg $\math{x}$ for nice x
 		boolean serif = shouldBeSerif(text, geo0, isContentOfInputBox);
 

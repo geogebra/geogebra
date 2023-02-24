@@ -51,6 +51,7 @@ package com.himamis.retex.renderer.share;
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.exception.ParseException;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -459,6 +460,10 @@ public class TeXFormula {
 
 	public TeXIcon createTeXIcon(int style, double size, int type,
 			Color fgcolor) {
+		FactoryProvider.getInstance().debug("style: " + style
+		 + " size: " + size
+				+ " type: " + type
+		);
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
 				.setFGColor(fgcolor).build();
 	}

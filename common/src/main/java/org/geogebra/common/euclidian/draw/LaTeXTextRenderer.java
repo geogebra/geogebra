@@ -35,8 +35,8 @@ public class LaTeXTextRenderer implements TextRenderer {
 		int textLeft = (int) Math.round(xPos);
 
 		GDimension textDimension = drawInputBox.measureLatex(graphics, geo,
-				getFont(geo, font), text);
-		int inputBoxHeight = calculateInputBoxHeight(textDimension);
+				getFont(geo, font, 3), text);
+		int inputBoxHeight = calculateInputBoxHeight(textDimension) + 2 * PADDING;
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
 		int textTop = (int) Math.round(yPos + diffToCenter);
 
@@ -49,8 +49,9 @@ public class LaTeXTextRenderer implements TextRenderer {
 		}
 		rect.setRect(textLeft, 0, clipWidth, drawInputBox.getView().getHeight());
 		graphics.setClip(rect);
-		drawInputBox.drawLatex(graphics, geo, font, text, textLeft + PADDING,
-				textTop + PADDING, true);
+
+		drawInputBox.drawLatex(graphics, geo, getFont(geo, font, 0), text, textLeft + PADDING,
+				textTop + 2+PADDING, true);
 		graphics.resetClip();
 	}
 
@@ -62,27 +63,27 @@ public class LaTeXTextRenderer implements TextRenderer {
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		GFont gFont = getFont(geo, font);
+		GFont gFont = getFont(geo, font, 3);
 		GDimension textDimension =
 				drawInputBox.measureLatex(graphics, geo, gFont, geo.getDisplayText());
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
-		double inputBoxTop = drawInputBox.getLabelTop() + ((labelHeight - inputBoxHeight) / PADDING);
+		int padding = PADDING;
+		double inputBoxTop = drawInputBox.getLabelTop() + ((labelHeight - inputBoxHeight) / padding);
 
 		return AwtFactory.getPrototype().newRectangle(
-				drawInputBox.boxLeft + PADDING,
-				(int) Math.round(inputBoxTop) + PADDING,
-				drawInputBox.boxWidth + PADDING,
-				inputBoxHeight + 2 * PADDING);
+				drawInputBox.boxLeft,
+				(int) Math.round(inputBoxTop) + padding,
+				drawInputBox.boxWidth,
+				inputBoxHeight + 2 * padding);
 	}
 
-	private GFont getFont(GeoInputBox geo, GFont font) {
+	private GFont getFont(GeoInputBox geo, GFont font, int x) {
 		int baseFontSize = geo.getApp().getSettings()
-				.getFontSettings().getAppFontSize() + 3;
+				.getFontSettings().getAppFontSize() + x;
 
-		GFont gFont =
-				font.deriveFont(font.getStyle(), baseFontSize * geo.getFontSizeMultiplier());
-		return gFont;
+		int style = font.getLaTeXStyle(geo.isSerifContent());
+		return font.deriveFont(style, baseFontSize * geo.getFontSizeMultiplier());
 	}
 }
