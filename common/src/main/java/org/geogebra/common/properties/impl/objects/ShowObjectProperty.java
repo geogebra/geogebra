@@ -9,7 +9,7 @@ import org.geogebra.common.properties.impl.AbstractProperty;
 /**
  * Show object
  */
-public class ShowObjectProperty extends AbstractProperty implements BooleanProperty {
+public class ShowObjectProperty extends AbstractProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElement element;
 
@@ -25,7 +25,7 @@ public class ShowObjectProperty extends AbstractProperty implements BooleanPrope
 	}
 
 	@Override
-	public void setValue(Boolean show) {
+	protected void doSetValue(Boolean show) {
 		element.setEuclidianVisible(show);
 		element.updateVisualStyleRepaint(GProperty.VISIBLE);
 	}

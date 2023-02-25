@@ -5,29 +5,28 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractProperty;
 
-public class PlaneVisibilityProperty extends AbstractProperty implements BooleanProperty {
+public class PlaneVisibilityProperty extends AbstractProperty<Boolean> implements BooleanProperty {
 
-    private EuclidianSettings3D euclidianSettings;
+	private EuclidianSettings3D euclidianSettings;
 
-    /**
-     * Constructs an abstract property.
-     *
-     * @param localization      this is used to localize the name
-     * @param euclidianSettings euclidian settings
-     */
-    public PlaneVisibilityProperty(Localization localization,
-            EuclidianSettings3D euclidianSettings) {
-        super(localization, "ShowPlane");
-        this.euclidianSettings = euclidianSettings;
-    }
+	/**
+	 * Constructs an abstract property.
+	 * @param localization this is used to localize the name
+	 * @param euclidianSettings euclidian settings
+	 */
+	public PlaneVisibilityProperty(Localization localization,
+			EuclidianSettings3D euclidianSettings) {
+		super(localization, "ShowPlane");
+		this.euclidianSettings = euclidianSettings;
+	}
 
-    @Override
-    public Boolean getValue() {
-        return euclidianSettings.getShowPlate();
-    }
+	@Override
+	public Boolean getValue() {
+		return euclidianSettings.getShowPlate();
+	}
 
-    @Override
-    public void setValue(Boolean value) {
-        euclidianSettings.setShowPlate(value);
-    }
+	@Override
+	protected void doSetValue(Boolean value) {
+		euclidianSettings.setShowPlate(value);
+	}
 }

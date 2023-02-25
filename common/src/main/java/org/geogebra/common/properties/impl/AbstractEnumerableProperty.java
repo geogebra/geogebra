@@ -6,7 +6,7 @@ import org.geogebra.common.properties.EnumerableProperty;
 /**
  * Helps implementing enumerable properties. Handles the indexing of values.
  */
-public abstract class AbstractEnumerableProperty extends AbstractProperty
+public abstract class AbstractEnumerableProperty extends AbstractProperty<Integer>
         implements EnumerableProperty {
 
     private String[] values;
@@ -50,6 +50,11 @@ public abstract class AbstractEnumerableProperty extends AbstractProperty
             throw new RuntimeException("Index must be between (0, values.length-1)");
         }
         setValueSafe(values[index], index);
+    }
+
+    @Override
+    protected void doSetValue(Integer value) {
+        setIndex(value);
     }
 
     /**

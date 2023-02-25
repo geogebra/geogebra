@@ -9,7 +9,7 @@ import org.geogebra.common.properties.StringProperty;
 /**
  * Abstract implementation of a Double value property that has the maximal range of a Double value:
  */
-public abstract class AbstractNumericProperty extends AbstractProperty
+public abstract class AbstractNumericProperty extends AbstractProperty<String>
 		implements StringProperty {
 
 	private final NumericPropertyUtil util;
@@ -22,7 +22,7 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 	}
 
 	@Override
-	public void setValue(String value) {
+	protected void doSetValue(String value) {
 		GeoNumberValue numberValue = util.parseInputString(value);
 		setNumberValue(numberValue);
 	}
