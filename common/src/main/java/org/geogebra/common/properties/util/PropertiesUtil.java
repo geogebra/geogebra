@@ -19,16 +19,27 @@ public abstract class PropertiesUtil {
 	 */
 	public static PropertiesArray addObserver(PropertiesArray array, PropertyObserver observer) {
 		Property[] originalProperties = array.getProperties();
-		Property[] newProperties = new Property[originalProperties.length];
+		Property[] newProperties = addObserver(originalProperties, observer);
+		return new PropertiesArray(array.getName(), newProperties);
+	}
+
+	/**
+	 * Adds an observer to the array of properties.
+	 * @param array array of properties
+	 * @param observer property observer
+	 * @return a new properties array
+	 */
+	public static Property[] addObserver(Property[] properties, PropertyObserver observer) {
+		Property[] newProperties = new Property[properties.length];
 		for (int i = 0; i < newProperties.length; i++) {
-			Property property = originalProperties[i];
+			Property property = properties[i];
 			newProperties[i] = property;
 			if (property instanceof ValuedProperty) {
 				ValuedProperty valuedProperty = (ValuedProperty) property;
 				newProperties[i] = addObserver(valuedProperty, observer);
 			}
 		}
-		return new PropertiesArray(array.getName(), newProperties);
+		return newProperties;
 	}
 
 	/**
