@@ -4,7 +4,6 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyObserver;
 import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
-import org.geogebra.common.properties.impl.PropertyObserverDecorator;
 
 public abstract class PropertiesUtil {
 
@@ -15,12 +14,10 @@ public abstract class PropertiesUtil {
 	 * Adds an observer to the array of properties.
 	 * @param array array of properties
 	 * @param observer property observer
-	 * @return a new properties array
 	 */
-	public static PropertiesArray addObserver(PropertiesArray array, PropertyObserver observer) {
+	public static void addObserver(PropertiesArray array, PropertyObserver observer) {
 		Property[] originalProperties = array.getProperties();
-		Property[] newProperties = addObserver(originalProperties, observer);
-		return new PropertiesArray(array.getName(), newProperties);
+		addObserver(originalProperties, observer);
 	}
 
 	/**
@@ -29,17 +26,14 @@ public abstract class PropertiesUtil {
 	 * @param observer property observer
 	 * @return a new properties array
 	 */
-	public static Property[] addObserver(Property[] properties, PropertyObserver observer) {
-		Property[] newProperties = new Property[properties.length];
-		for (int i = 0; i < newProperties.length; i++) {
+	public static void addObserver(Property[] properties, PropertyObserver observer) {
+		for (int i = 0; i < properties.length; i++) {
 			Property property = properties[i];
-			newProperties[i] = property;
 			if (property instanceof ValuedProperty) {
 				ValuedProperty valuedProperty = (ValuedProperty) property;
-				newProperties[i] = addObserver(valuedProperty, observer);
+				addObserver(valuedProperty, observer);
 			}
 		}
-		return newProperties;
 	}
 
 	/**
@@ -48,7 +42,8 @@ public abstract class PropertiesUtil {
 	 * @param observer observer
 	 * @return an observed property
 	 */
-	public static <S> ValuedProperty<S> addObserver(ValuedProperty<S> property, PropertyObserver observer) {
-		return new PropertyObserverDecorator<S>(property, observer);
+	public static <S> void addObserver(ValuedProperty<S> property,
+			PropertyObserver observer) {
+		property.addObserver(observer);
 	}
 }

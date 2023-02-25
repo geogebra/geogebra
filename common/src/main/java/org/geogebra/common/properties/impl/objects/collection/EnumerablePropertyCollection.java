@@ -23,16 +23,11 @@ public class EnumerablePropertyCollection<T extends EnumerableProperty>
 
 	@Override
 	public int getIndex() {
-		return getFirstProperty().getIndex();
+		return getValue();
 	}
 
 	@Override
 	public void setIndex(int index) {
-		setProperties(index);
-	}
-
-	@Override
-	void setPropertyValue(T property, Integer value) {
-		property.setIndex(value);
+		setValue(index);
 	}
 }

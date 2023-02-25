@@ -1,11 +1,17 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import org.geogebra.common.properties.Property;
+import java.util.HashSet;
+import java.util.Set;
 
-abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
-		Property {
+import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyObserver;
+import org.geogebra.common.properties.ValuedProperty;
+
+abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> implements
+		ValuedProperty<S> {
 
 	private final T[] properties;
+	private final Set<PropertyObserver> observers = new HashSet<>();
 
 	AbstractTypedPropertyCollection(T[] properties) {
 		if (properties.length == 0) {
@@ -13,8 +19,6 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 		}
 		this.properties = properties;
 	}
-
-	abstract void setPropertyValue(T property, S value);
 
 	@Override
 	public String getName() {
@@ -38,9 +42,32 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 		return isEnabled;
 	}
 
-	protected void setProperties(S value) {
-		for (T element : properties) {
-			setPropertyValue(element, value);
+	@Override
+	public void addObserver(PropertyObserver observer) {
+		observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(PropertyObserver observer) {
+		observers.remove(observer);
+	}
+
+	private void notifyObservers() {
+		for (PropertyObserver observer : observers) {
+			observer.onChange(this);
 		}
+	}
+
+	@Override
+	public S getValue() {
+		return getFirstProperty().getValue();
+	}
+
+	@Override
+	public void setValue(S value) {
+		for (T property : properties) {
+			property.setValue(value);
+		}
+		notifyObservers();
 	}
 }

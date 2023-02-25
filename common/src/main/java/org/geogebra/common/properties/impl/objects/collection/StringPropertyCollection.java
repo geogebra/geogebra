@@ -16,16 +16,6 @@ public class StringPropertyCollection<T extends StringProperty>
 	}
 
 	@Override
-	public String getValue() {
-		return getFirstProperty().getValue();
-	}
-
-	@Override
-	public void setValue(String value) {
-		setProperties(value);
-	}
-
-	@Override
 	public boolean isValid(String value) {
 		boolean isValid = true;
 		for (StringProperty property : getProperties()) {
@@ -41,10 +31,5 @@ public class StringPropertyCollection<T extends StringProperty>
 			return first.getInvalidInputErrorMessage();
 		}
 		return "";
-	}
-
-	@Override
-	void setPropertyValue(T property, String value) {
-		property.setValue(value);
 	}
 }

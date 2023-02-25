@@ -14,19 +14,4 @@ public class BooleanPropertyCollection<T extends BooleanProperty>
 	public BooleanPropertyCollection(T[] properties) {
 		super(properties);
 	}
-
-	@Override
-	public Boolean getValue() {
-		return getFirstProperty().getValue();
-	}
-
-	@Override
-	void setPropertyValue(T property, Boolean value) {
-		property.setValue(value);
-	}
-
-	@Override
-	public void setValue(Boolean value) {
-		setProperties(value);
-	}
 }
