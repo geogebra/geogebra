@@ -390,7 +390,9 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 	protected void showKeyboard() {
 		((AppW) app).showKeyboard(editor, true);
 		((AppW) app).updateKeyBoardField(editor);
-		((AppW) app).getKeyboardManager().setOnScreenKeyboardTextField(editor);
+		if (((AppW) app).getKeyboardManager() != null) {
+			((AppW) app).getKeyboardManager().setOnScreenKeyboardTextField(editor);
+		}
 		((AppWFull) app).getAppletFrame()
 				.showKeyBoard(true, editor, false);
 		CancelEventTimer.keyboardSetVisible();
