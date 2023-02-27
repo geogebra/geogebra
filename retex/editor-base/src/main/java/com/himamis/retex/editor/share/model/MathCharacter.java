@@ -184,6 +184,11 @@ public class MathCharacter extends MathComponent {
 		return meta.getUnicode() == c;
 	}
 
+	@Override
+	public boolean isFieldSeparator() {
+		return meta.getUnicode() == ',' || meta.getUnicode() == Unicode.verticalLine;
+	}
+
 	public boolean isLetter() {
 		return com.himamis.retex.editor.share.input.Character.isLetter(meta.getUnicode());
 	}

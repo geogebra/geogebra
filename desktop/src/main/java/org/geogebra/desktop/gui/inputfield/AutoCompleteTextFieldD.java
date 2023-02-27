@@ -999,8 +999,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void requestFocus() {
 		super.requestFocus();
 		if (getDrawTextField() != null && getDrawTextField().hasError()) {
-			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
-					4, 1, 1, true));
+			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
+					2));
 		} else {
 			setDefaultBorder();
 		}
@@ -1041,18 +1041,30 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		g2.setPaint(bgColor);
+		GColor backgroundColor = drawTextField.hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
+		g2.setPaint(backgroundColor);
 		g2.fillRect(left, top, width, height);
 
-		// TF Rectangle
-		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED);
+		GColor borderColor = getBorderColor(backgroundColor);
+		g2.setColor(borderColor);
+		drawTextField.setBorderColor(borderColor);
+
+		if (drawTextField.isEditing()) {
 			g2.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
-		} else {
-			g2.setPaint(GColor.TEXT_PRIMARY);
+					EuclidianStyleConstants.LINE_TYPE_FULL, GBasicStroke.JOIN_ROUND));
 		}
 		g2.drawRect(left, top, width, height);
+	}
+
+	private GColor getBorderColor(GColor backgroundColor) {
+		GColor borderColor;
+		if (backgroundColor == GColor.WHITE) {
+			borderColor = drawTextField.isEditing() ? GColor.DEFAULT_PURPLE
+					: GColor.DEFAULT_INPUTBOX_BORDER;
+		} else {
+			borderColor = GColor.getBorderColorFrom(backgroundColor);
+		}
+		return borderColor;
 	}
 
 	/**

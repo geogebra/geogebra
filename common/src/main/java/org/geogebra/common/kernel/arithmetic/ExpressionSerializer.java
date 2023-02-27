@@ -869,7 +869,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				if (tpl == StringTemplate.editorTemplate) {
+				if (tpl.isForEditorParser()) {
 					sb.append("log(10,");
 				} else {
 					sb.append("lg(");
@@ -899,7 +899,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				if (tpl == StringTemplate.editorTemplate) {
+				if (tpl.isForEditorParser()) {
 					sb.append("log(2,");
 				} else {
 					sb.append("ld(");
@@ -933,7 +933,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 			case GEOGEBRA_XML:
 			case GEOGEBRA:
-				if (tpl.isPrintLocalizedCommandNames() && tpl != StringTemplate.editorTemplate) {
+				if (tpl.isPrintLocalizedCommandNames() && !tpl.isForEditorParser()) {
 					sb.append(loc.getFunction("nroot"));
 				} else {
 					sb.append("nroot");

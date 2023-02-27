@@ -42,7 +42,7 @@ public class CursorController {
 	private static boolean isLastPlaceholderInProtectedParent(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
-		return InputController.isCommaInSequence(currentField)
+		return InputController.isFieldSeparatorInSequence(currentField)
 				&& currentOffset == currentField.size() - 1
 				&& currentField.getArgument(currentOffset) instanceof MathCharPlaceholder;
 	}

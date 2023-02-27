@@ -241,4 +241,8 @@ class EditorChecker {
 	public void setForceBracketsAfterFunction() {
 		mathField.getMetaModel().setForceBracketAfterFunction(true);
 	}
+
+	public void setAllowAbs(boolean allowAbs) {
+		mathField.getInternal().setAllowAbs(allowAbs);
+	}
 }

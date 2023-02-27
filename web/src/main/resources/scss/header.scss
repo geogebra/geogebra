@@ -15,7 +15,6 @@ $button_hover_transition: background-color 0.15s;
 	.headerView {
 		display: flex;
 		height: $header_height;
-		line-height: $header_height;
 		position: relative;
 		top: 0px;
 		left: 0px;
@@ -45,6 +44,7 @@ $button_hover_transition: background-color 0.15s;
 			color: colors.$text-primary;
 			letter-spacing: 0.25px;
 			margin-right: 32px;
+			line-height: $header_height;
 		}
 		> .headerCaption:first-child {
 			margin-left: 16px;

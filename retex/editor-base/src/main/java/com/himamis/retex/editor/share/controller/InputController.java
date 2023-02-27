@@ -39,6 +39,7 @@ public class InputController {
 	private boolean plainTextMode = false;
 	private SyntaxAdapter formatConverter;
 	private boolean useSimpleScripts = true;
+	private boolean allowAbs = true;
 
 	/**
 	 * @param metaModel model
@@ -69,6 +70,10 @@ public class InputController {
 
 	public void setUseSimpleScripts(boolean useSimpleScripts) {
 		this.useSimpleScripts = useSimpleScripts;
+	}
+
+	public void setAllowAbs(boolean allowAbs) {
+		this.allowAbs = allowAbs;
 	}
 
 	final static private String getLetter(MathComponent component)
@@ -138,7 +143,7 @@ public class InputController {
 			MathComponent component = currentField.getArgument(index - 1);
 			if (component instanceof MathCharacter) {
 				MathCharacter character = (MathCharacter) component;
-				if (character.isUnicode('=') || character.isUnicode(',')) {
+				if (character.isUnicode('=') || character.isFieldSeparator()) {
 					return index;
 				}
 			}
@@ -570,7 +575,7 @@ public class InputController {
 	}
 
 	private boolean shouldAddBrackets(FunctionPower function, char unicode) {
-		if (unicode == '^' || unicode == '_' || unicode == '|'
+		if (unicode == '^' || unicode == '_' || isAbsDelimiter(unicode)
 				|| Unicode.isSuperscriptDigit(unicode) || unicode == Unicode.SUPERSCRIPT_MINUS) {
 			return false;
 		}
@@ -804,7 +809,7 @@ public class InputController {
 
 	private static int endToken(int from, MathSequence currentField) {
 		for (int i = from; i < currentField.size(); i++) {
-			if (currentField.isComma(i)) {
+			if (currentField.isFieldSeparator(i)) {
 				return i - 1;
 			}
 		}
@@ -885,7 +890,7 @@ public class InputController {
 	private void onDelete(EditorState editorState, MathSequence currentField) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathComponent component = currentField.getArgument(currentOffset);
-		if (isCommaInSequence(currentField) && isCommaOrNull(component)) {
+		if (isFieldSeparatorInSequence(currentField) && isFieldSeparatorOrNull(component)) {
 			addPlaceholderIfNeeded(currentField, currentOffset);
 		}
 
@@ -894,9 +899,9 @@ public class InputController {
 		}
 	}
 
-	static boolean isCommaInSequence(MathSequence sequence) {
+	static boolean isFieldSeparatorInSequence(MathSequence sequence) {
 		for (MathComponent component: sequence) {
-			if (isComma(component)) {
+			if (component.isFieldSeparator()) {
 				return true;
 			}
 		}
@@ -904,17 +909,12 @@ public class InputController {
 		return false;
 	}
 
-	private boolean isCommaOrNull(MathComponent component) {
-		return component == null || isComma(component);
-	}
-
-	private static boolean isComma(MathComponent component) {
-		return component instanceof MathCharacter
-				&& ((MathCharacter) component).isUnicode(',');
+	private boolean isFieldSeparatorOrNull(MathComponent component) {
+		return component == null || component.isFieldSeparator();
 	}
 
 	private void addPlaceholderIfNeeded(MathSequence currentField, int offset) {
-		if (isCommaOrNull(currentField.getArgument(offset - 1))) {
+		if (isFieldSeparatorOrNull(currentField.getArgument(offset - 1))) {
 			currentField.addArgument(offset, new MathCharPlaceholder());
 		}
 	}
@@ -1201,7 +1201,7 @@ public class InputController {
 			} else if (ch == Unicode.SQUARE_ROOT) {
 				newFunction(editorState, "sqrt", false, null);
 				handled = true;
-			} else if (ch == '|') {
+			} else if (isAbsDelimiter(ch)) {
 				newFunction(editorState, "abs");
 				handled = true;
 			} else if (meta.isArrayOpenKey(ch)) {
@@ -1211,7 +1211,7 @@ public class InputController {
 					|| ch == Unicode.BULLET) {
 				newOperator(editorState, '*');
 				handled = true;
-			} else if (ch == ',') {
+			} else if (ch == ',' || (!allowAbs && ch == '|')) {
 				if (preventDimensionChange(editorState)) {
 					if (shouldMoveCursor(editorState)) {
 						CursorController.nextCharacter(editorState);
@@ -1298,7 +1298,7 @@ public class InputController {
 	private boolean shouldMoveCursor(EditorState editorState) {
 		int offset = editorState.getCurrentOffset();
 		MathComponent next = editorState.getCurrentField().getArgument(offset);
-		return next != null && ",".equals(next.toString());
+		return next != null && next.isFieldSeparator();
 	}
 
 	private boolean handleEndBlocks(EditorState editorState, char ch) {
@@ -1322,7 +1322,7 @@ public class InputController {
 
 	private boolean handleEndMathFunction(MathFunction mathFunction,
 			EditorState editorState, char ch) {
-		if (Tag.ABS.equals(mathFunction.getName()) && ch == '|') {
+		if (Tag.ABS.equals(mathFunction.getName()) && isAbsDelimiter(ch)) {
 			MathSequence currentField = editorState.getCurrentField();
 			int offset = editorState.getCurrentOffset();
 			MathComponent prevArg = currentField.getArgument(offset - 1);
@@ -1353,8 +1353,8 @@ public class InputController {
 	private void comma(EditorState editorState) {
 		int offset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
-		if (currentField.getArgument(offset) instanceof MathCharacter
-				&& ((MathCharacter) currentField.getArgument(offset)).isUnicode(',')) {
+		if (currentField.getArgument(offset) != null
+				&& currentField.getArgument(offset).isFieldSeparator()) {
 			CursorController.nextCharacter(editorState);
 			return;
 		}
@@ -1398,5 +1398,9 @@ public class InputController {
 		/** subscript or superscript*/
 		public MathFunction script;
 		public String name;
+	}
+
+	private boolean isAbsDelimiter(char ch) {
+		return allowAbs && ch == '|';
 	}
 }

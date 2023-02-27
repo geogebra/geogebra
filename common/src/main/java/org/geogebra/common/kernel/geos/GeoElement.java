@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
+import org.geogebra.common.kernel.algos.StyleSensitiveAlgo;
 import org.geogebra.common.kernel.algos.TableAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -893,58 +894,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		switch (this.colorSpace) {
 
 		case GeoElement.COLORSPACE_HSB:
-
-			final int rgb = GColor.fromHSBtoRGB(redD, greenD, blueD);
-			redD = (rgb >> 16) & 0xFF;
-			greenD = (rgb >> 8) & 0xFF;
-			blueD = rgb & 0xFF;
-			return GColor.newColor((int) redD, (int) greenD, (int) blueD,
-					alpha);
-
+			return GColor.newColorHSB(redD, greenD, blueD);
 		case GeoElement.COLORSPACE_HSL:
-
-			// algorithm taken from wikipedia article:
-			// http://en.wikipedia.org/wiki/HSL_and_HSV
-
-			final double H = redD * 6;
-			final double S = greenD;
-			final double L = blueD;
-
-			final double C = (1 - Math.abs((2 * L) - 1)) * S;
-			final double X = C * (1 - Math.abs((H % 2) - 1));
-
-			double R1 = 0, G1 = 0, B1 = 0;
-
-			if (H < 1) {
-				R1 = C;
-				G1 = X;
-				B1 = 0;
-			} else if (H < 2) {
-				R1 = X;
-				G1 = C;
-				B1 = 0;
-			} else if (H < 3) {
-				R1 = 0;
-				G1 = C;
-				B1 = X;
-			} else if (H < 4) {
-				R1 = 0;
-				G1 = X;
-				B1 = C;
-			} else if (H < 5) {
-				R1 = X;
-				G1 = 0;
-				B1 = C;
-			} else {
-				R1 = C;
-				G1 = 0;
-				B1 = X;
-			}
-
-			final double m = L - (.5 * C);
-
-			return GColor.newColor((int) ((R1 + m) * 255.0),
-					(int) ((G1 + m) * 255.0), (int) ((B1 + m) * 255.0), alpha);
+			return GColor.newColorHSL(redD, greenD, blueD);
 
 		case GeoElement.COLORSPACE_RGB:
 		default:
@@ -5166,8 +5118,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/*
-	 * ** hightlighting and selecting only for internal purpouses, i.e. this is
-	 * not saved
+	 * hightlighting and selecting only for internal purpouses, i.e. this is not saved
 	 */
 	@Override
 	public boolean setSelected(final boolean flag) {
@@ -6731,6 +6682,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public final void updateVisualStyleRepaint(GProperty prop) {
 		updateVisualStyle(prop);
 		kernel.notifyRepaint();
+		if (algoUpdateSet != null) {
+			ArrayList<AlgoElement> toUpdate = new ArrayList<>();
+			for (AlgoElement algo: algoUpdateSet) {
+				if (algo instanceof StyleSensitiveAlgo
+						&& ((StyleSensitiveAlgo) algo).dependsOnInputStyle(prop)) {
+					toUpdate.add(algo);
+				}
+			}
+			AlgoElement.updateCascadeAlgos(toUpdate);
+		}
 	}
 
 	@Override
@@ -6742,7 +6703,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if ((isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
 				&& !"".equals(def0)) {
-			def0 = label + def0.replaceAll(",", " |");
+			def0 = label + def0;
 		}
 		if ("".equals(def0) || (!isDefined() && isIndependent())) {
 			return DescriptionMode.VALUE;
@@ -6754,6 +6715,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		String def = (isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
 				? def0 : addLabelText(def0);
+
 		String val = getAlgebraDescriptionDefault();
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;

@@ -502,21 +502,21 @@ abstract public class MathContainer extends MathComponent implements Iterable<Ma
 		}
 
 		return getParent() != null && getParent().getParent() != null
-				&& getParent().getParent().isProtected && isComma(i);
+				&& getParent().getParent().isProtected
+				&& arguments.get(i).isFieldSeparator();
 	}
 
 	/**
 	 * Check if the i-th position of this container is a comma
 	 * @param i position to check
-	 * @return whether it is a comma
+	 * @return whether it is a separator (comma or vertical line)
 	 */
-	public boolean isComma(int i) {
+	public boolean isFieldSeparator(int i) {
 		if (i < 0 || i >= arguments.size()) {
 			return false;
 		}
 
-		return arguments.get(i) instanceof MathCharacter
-				&& ((MathCharacter) arguments.get(i)).getUnicode() == ',';
+		return arguments.get(i).isFieldSeparator();
 	}
 
 	@Override

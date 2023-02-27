@@ -55,8 +55,6 @@ public final class GColor implements GPaint {
 	public static final GColor PURPLE = newColor(102, 102, 255);
 	/** PURPLE A400 */
 	public static final GColor PURPLE_A400 = newColor(213, 0, 249);
-	/** GEOGEBRA_BLUE */
-	public static final GColor GEOGEBRA_BLUE = newColor(153, 153, 255);
 	/** MOW MEBIS TEAL */
 	public static final GColor MOW_MEBIS_TEAL = newColor(0, 168, 213);
 	/** MOW MEBIS TEAL with alpha */
@@ -68,7 +66,8 @@ public final class GColor implements GPaint {
 	/** MOW GREEN */
 	public static final GColor MOW_GREEN = newColor(46, 125, 50);
 	/** ERROR RED */
-	public static final GColor ERROR_RED = newColor(176, 0, 32);
+	public static final GColor ERROR_RED_BACKGROUND = newColorRGB(0xF1D1D7);
+	public static final GColor ERROR_RED_BORDER = newColorRGB(0xce5c71);
 	/** Table values points color for y values */
 	public static final GColor Y_POINT_COLOR = newColor(76, 66, 161);
 
@@ -111,12 +110,17 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
 	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
+	public static final GColor DEFAULT_INPUTBOX_BORDER = newColor(148, 148, 148);
+	public static final GColor DEFAULT_INPUTBOX_TEXT = newColorRGB(0x252525);
+	public static final GColor DEFAULT_PURPLE = newColorRGB(0X6557D2);
+
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
 	 * directly to
 	 * https://developer.android.com/reference/android/graphics/Color.html
 	 */
 	private final int valueARGB;
+	private double luminance = -1;
 
 	private static final double FACTOR = 0.7;
 
@@ -272,49 +276,25 @@ public final class GColor implements GPaint {
 	 *         background
 	 */
 	public static GColor updateForWhiteBackground(GColor color) {
-
-		int fgRed = color.getRed();
-		int fgGreen = color.getGreen();
-		int fgBlue = color.getBlue();
-		// prevent endless loop
+		GColor ret = color;
 		int loopCounter = 0;
-		int difference = 5;
-		while (!checkColorRatioWhite(fgRed, fgGreen, fgBlue)
+		while (WHITE.getContrast(ret) < 4.5
 				&& loopCounter < 50) {
 			// create a slightly darker version of the color
-			fgRed = Math.max(fgRed - difference, 0);
-			fgGreen = Math.max(fgGreen - difference, 0);
-			fgBlue = Math.max(fgBlue - difference, 0);
+			int fgRed = Math.max(color.getRed() - 5 * loopCounter, 0);
+			int fgGreen = Math.max(color.getGreen() - 5 * loopCounter, 0);
+			int fgBlue = Math.max(color.getBlue() - 5 * loopCounter, 0);
+			ret = newColor(fgRed, fgGreen, fgBlue);
 			loopCounter++;
 		}
 
-		if (!checkColorRatioWhite(fgRed, fgGreen, fgBlue)) {
+		if (WHITE.getContrast(ret) < 4.5) {
 			// If the color could not be set correctly, the font color is set to
 			// black.
 			return GColor.BLACK;
 		}
 
-		return GColor.newColor(fgRed, fgGreen, fgBlue);
-	}
-
-	/**
-	 * uses the color contrast ratio of the W3C, which can be found at:
-	 * http://www.w3.org/TR/WCAG20-TECHS/G18.html
-	 * http://web.mst.edu/~rhall/web_design/color_readability.html
-	 *
-	 * @param fgRed red
-	 * @param fgGreen green
-	 * @param fgBlue blue
-	 * @return if the contrast ration sufficient (true) or not (false)
-	 */
-	private static boolean checkColorRatioWhite(int fgRed, int fgGreen,
-			int fgBlue) {
-		int diff_hue = 3 * 255 - fgRed - fgBlue - fgGreen;
-
-		double diff_brightness = 255
-				- GColor.getGrayScale(fgGreen, fgRed, fgBlue);
-
-		return diff_brightness > 125 && diff_hue > 500;
+		return ret;
 	}
 
 	/**
@@ -398,7 +378,7 @@ public final class GColor implements GPaint {
 	 *            (0-1)
 	 * @return new color as ARGB
 	 */
-	public static int fromHSBtoRGB(double hue, double saturation,
+	public static GColor newColorHSB(double hue, double saturation,
 			double brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {
@@ -443,7 +423,7 @@ public final class GColor implements GPaint {
 				break;
 			}
 		}
-		return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
+		return newColor(r, g, b);
 	}
 
 	/**
@@ -631,4 +611,158 @@ public final class GColor implements GPaint {
 			return null;
 		}
 	}
+
+	/**
+	 * Calculate darker color, adjustment based on lightness
+	 * @param bgColor - background color
+	 * @return adjusted color
+	 */
+	public static GColor getBorderColorFrom(GColor bgColor) {
+		float[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+		if (hslValues[2] > 0.4) {
+			hslValues[2] -= 0.3;
+		} else {
+			hslValues[2] -= 0.2;
+		}
+		hslValues[2] = Math.max(hslValues[2], 0);
+		return newColorHSL(hslValues[0], hslValues[1], hslValues[2]);
+	}
+
+	/**
+	 * Calculate brighter color, adjustment based on lightness
+	 * @param bgColor - background color
+	 * @return adjusted color
+	 */
+	public static GColor getBrightBorderColorFrom(GColor bgColor) {
+		float[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+		if (hslValues[2] < 0.6) {
+			hslValues[2] += 0.3;
+		} else {
+			hslValues[2] += 0.2;
+		}
+		hslValues[2] = Math.min(hslValues[2], 1);
+		return newColorHSL(hslValues[0], hslValues[1], hslValues[2]);
+	}
+
+	/**
+	 * Converts an HSL color value to RGB. Conversion formula
+	 * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+	 * Assumes h, s, and l are contained in the set [0, 1] and
+	 * returns r, g, and b in the set [0, 255].
+	 *
+	 * @param h - hue
+	 * @param s - saturation
+	 * @param l - lightness
+	 * @return int array, the RGB representation
+	 */
+	public static GColor newColorHSL(double h, double s, double l) {
+		double r, g, b;
+
+		if (s == 0f) {
+			r = g = b = l; // achromatic
+		} else {
+			double q = l < 0.5f ? l * (1 + s) : l + s - l * s;
+			double p = 2 * l - q;
+			r = hueToRgb(p, q, h + 1f / 3f);
+			g = hueToRgb(p, q, h);
+			b = hueToRgb(p, q, h - 1f / 3f);
+		}
+		return newColor(to255(r), to255(g), to255(b));
+	}
+
+	private static int to255(double v) {
+		return (int) Math.min(255, 256 * v);
+	}
+
+	/** Helper method that converts hue to rgb
+	 @return color */
+	private static double hueToRgb(double p, double q, double t) {
+		double tt = t;
+		if (tt < 0f) {
+			tt += 1f;
+		}
+		if (tt > 1f) {
+			tt -= 1f;
+		}
+		if (tt < 1f / 6f) {
+			return p + (q - p) * 6f * tt;
+		}
+		if (tt < 1f / 2f) {
+			return q;
+		}
+		if (tt < 2f / 3f) {
+			return p + (q - p) * (2f / 3f - tt) * 6f;
+		}
+		return p;
+	}
+
+	/**
+	 * Converts an RGB color value to HSL.
+	 * Assumes r, g, and b in the set [0, 255] and
+	 * returns h, s, and l contained in the set [0, 1]
+	 *
+	 * @param pR - red
+	 * @param pG - green
+	 * @param pB - blue
+	 * @return float array, the HSL representation
+	 */
+	public static float[] rgbToHsl(int pR, int pG, int pB) {
+		float r = pR / 255f;
+		float g = pG / 255f;
+		float b = pB / 255f;
+
+		float max = (r > g && r > b) ? r : (g > b) ? g : b;
+		float min = (r < g && r < b) ? r : (g < b) ? g : b;
+
+		float h, s, l;
+		l = (max + min) / 2.0f;
+
+		if (max == min) {
+			h = s = 0.0f;
+		} else {
+			float d = max - min;
+			s = (l > 0.5f) ? d / (2.0f - max - min) : d / (max + min);
+
+			if (r > g && r > b) {
+				h = (g - b) / d + (g < b ? 6.0f : 0.0f);
+			} else if (g > b) {
+				h = (b - r) / d + 2.0f;
+			} else {
+				h = (r - g) / d + 4.0f;
+			}
+			h /= 6.0f;
+		}
+
+		float[] hsl = {h, s, l};
+		return hsl;
+	}
+
+	/**
+	 * @param other other color
+	 * @return contrast with other color
+	 */
+	public double getContrast(GColor other) {
+		double ratio = (getLuminance() + 0.05) / (other.getLuminance() + 0.05);
+		return ratio < 1.0 ? 1 / ratio : ratio;
+	}
+
+	/**
+	 * See <a href="https://www.w3.org/TR/2008/REC-WCAG20-20081211/#sRGB">WCAG definition</a>
+	 * @return relative luminance
+	 */
+	public double getLuminance() {
+		if (luminance < 0) {
+			double lumR = lumComponent(getRed()), lumG = lumComponent(getGreen()),
+					lumB = lumComponent(getBlue());
+			luminance = 0.2126 * lumR + 0.7152 * lumG + 0.0722 * lumB;
+		}
+		return luminance;
+	}
+
+	private double lumComponent(int val) {
+		double valD = val / 255.0;
+		return valD <= 0.03928 ? valD / 12.92 : Math.pow((valD + 0.055) / 1.055, 2.4);
+	}
 }
+
+// If(x <= 0.03928 , x / 12.92, ((x + 0.055) / 1.055)^2.4)

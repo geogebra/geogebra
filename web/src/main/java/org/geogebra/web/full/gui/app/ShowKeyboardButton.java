@@ -5,6 +5,7 @@ import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -33,7 +34,7 @@ public class ShowKeyboardButton extends SimplePanel {
 	 * @param app
 	 *            app
 	 */
-	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
+	public ShowKeyboardButton(final GeoGebraFrameFull listener,
 			final DockManagerW dm, final AppWFull app) {
 		this.addStyleName("matOpenKeyboardBtn");
 		if (app.isApplet() || app.getConfig().getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
@@ -44,9 +45,8 @@ public class ShowKeyboardButton extends SimplePanel {
 		this.add(showKeyboard);
 		TestHarness.setAttr(this, "showKeyboardButton");
 
-		if (listener instanceof ComplexPanel) {
-			((ComplexPanel) listener).add(this);
-		}
+		((ComplexPanel) listener).add(this);
+
 		ClickStartHandler.init(this, new ClickStartHandler(
 				true, true) {
 

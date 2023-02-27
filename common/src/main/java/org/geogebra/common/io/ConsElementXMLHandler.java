@@ -448,6 +448,8 @@ public class ConsElementXMLHandler {
 			geo.setBackgroundColor(GColor.WHITE);
 			geo.setObjColor(GColor.BLACK);
 			((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
+		} else if (geo instanceof GeoInputBox) {
+			geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
 		}
 	}
 

@@ -57,6 +57,8 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\@ ");
 		} else if (" ".equals(name)) {
 			stringBuilder.append("\\nbsp{}");
+		} else if ("\u23B8".equals(name)) {
+			stringBuilder.append("\\vert{}");
 		} else if (lineBreakEnabled && 10 == name.charAt(0)) {
 			stringBuilder.append("\\\\\\vspace{0}");
 		} else if ("n".equals(name) && stringBuilder.length() > 0

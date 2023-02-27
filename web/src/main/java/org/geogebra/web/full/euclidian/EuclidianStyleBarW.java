@@ -129,7 +129,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private ToggleButton btnFixObject;
 
 	private ToggleButton[] toggleBtnList;
-	private ToggleButton[] btnDeleteSizes = new ToggleButton[3];
+	private final ToggleButton[] btnDeleteSizes = new ToggleButton[3];
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
