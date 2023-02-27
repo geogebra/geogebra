@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.undo.UndoManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 
 	private TableValuesView tableValuesView;
 	private ScientificDataTableController controller;
+	private UndoManager undoManager;
 
 	@Before
 	public void setUp() {
@@ -24,6 +26,7 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 		Kernel kernel = app.getKernel();
 		kernel.setUndoActive(true);
 		kernel.initUndoInfo();
+		undoManager = kernel.getConstruction().getUndoManager();
 
 		tableValuesView = new TableValuesView(kernel);
 		kernel.attach(tableValuesView);
@@ -81,6 +84,29 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 		assertTrue(controller.hasFDefinitionErrorOccurred());
 		assertFalse(controller.hasGDefinitionErrorOccurred());
 		assertEquals(0, getUndoHistorySize());
+	}
+
+	public void testUndo() {
+		assertFalse(undoManager.undoPossible());
+
+		// define f
+		assertTrue(controller.defineFunctions("x", null));
+		assertEquals("x", controller.getDefinitionOfF());
+		assertTrue(undoManager.undoPossible());
+
+		// redefine f
+		assertTrue(controller.defineFunctions("3*sqrt(x)", null));
+		assertEquals("3 sqrt(x)", controller.getDefinitionOfF());
+
+		// undo (redefine f)
+		undoManager.undo();
+		assertTrue(undoManager.undoPossible()); // still one more undo step in the history
+		assertEquals("x", controller.getDefinitionOfF());
+
+		// undo (define f)
+		undoManager.undo();
+		assertFalse(undoManager.undoPossible());
+		assertNull(controller.getDefinitionOfF());
 	}
 
 	private int getUndoHistorySize() {
