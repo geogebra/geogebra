@@ -40,8 +40,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		int diff = inputBoxHeight - textDimension.getHeight();
 		double diffToCenter = diff / 2.0;
-		if (inputBoxHeight > DrawInputBox.SYMBOLIC_MIN_HEIGHT  + MARGIN
-		) {
+		if (inputBoxHeight > DrawInputBox.SYMBOLIC_MIN_HEIGHT  + MARGIN) {
 			diffToCenter += PADDING * geo.getFontSizeMultiplier();
 		}
 		int textTop = (int) Math.round(yPos + diffToCenter);

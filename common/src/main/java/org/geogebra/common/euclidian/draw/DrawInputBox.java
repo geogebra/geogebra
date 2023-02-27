@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.InputBoxBounds;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -30,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -68,6 +68,8 @@ public class DrawInputBox extends CanvasDrawable {
 	private GDimension labelDimension = null;
 	private GColor borderColor = null;
 
+	private InputBoxBounds inputBoxBounds;
+
 	/**
 	 * @param view
 	 *            view
@@ -78,6 +80,7 @@ public class DrawInputBox extends CanvasDrawable {
 		this.view = view;
 		this.geoInputBox = geo;
 		this.geo = geo;
+		inputBoxBounds = new InputBoxBounds(geoInputBox);
 
 		if (getTextField() != null) {
 			getTextField().addFocusListener(new InputFieldListener());
@@ -224,7 +227,7 @@ public class DrawInputBox extends CanvasDrawable {
 		} else {
 			textRenderer = new SimpleTextRenderer(view.getApplication(), this);
 		}
-
+		inputBoxBounds.setRenderer(textRenderer);
 		if (getTextField() == null) {
 			updateLabel();
 			updateLabelSize();
@@ -393,8 +396,10 @@ public class DrawInputBox extends CanvasDrawable {
 				: view.getBackgroundCommon();
 
 		AutoCompleteTextField textField = getTextField();
+
 		if (textField != null) {
-			textField.drawBounds(g2, bgColor, getInputFieldBounds(g2));
+			inputBoxBounds.update(view, getLabelTop(), textFont, labelDesc);
+			textField.drawBounds(g2, bgColor, inputBoxBounds.getBounds());
 		}
 	}
 
@@ -405,18 +410,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * @return The bounds of the input box.
 	 */
 	public GRectangle getInputFieldBounds() {
-		return getInputFieldBounds(view.getGraphicsForPen());
-	}
-
-	private GRectangle getInputFieldBounds(GGraphics2D g2) {
-		GRectangle ret = textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
-		int viewHeight = view.getHeight();
-		double labelTop = getLabelTop();
-		if (labelTop > 0 && labelTop < viewHeight) { // window resized -> keep box offscreen
-			ret.setLocation((int) ret.getX(),
-					(int) MyMath.clamp(ret.getMinY(), 0, viewHeight - ret.getHeight()));
-		}
-		return ret;
+		return inputBoxBounds.getBounds();
 	}
 
 	private void drawTextOnCanvas(GGraphics2D g2) {
@@ -427,7 +421,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private void drawText(GGraphics2D g2, String text) {
-		int textTop = (int) Math.round(getInputFieldBounds(g2).getY());
+		int textTop = (int) Math.round(inputBoxBounds.getY());
 		textRenderer.drawText(geoInputBox, g2, textFont, text, getTextLeft(), textTop);
 	}
 
@@ -485,7 +479,7 @@ public class DrawInputBox extends CanvasDrawable {
 	@Override
 	protected boolean hitWidgetBounds(int x, int y) {
 		return geoInputBox.isSymbolicMode()
-			? getInputFieldBounds().contains(x, y)
+			? inputBoxBounds.contains(x, y)
 			: super.hitWidgetBounds(x, y);
 	}
 
@@ -610,8 +604,8 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	public void attachMathField() {
 		hideTextField();
-		view.attachSymbolicEditor(geoInputBox, textRenderer.measureBounds(
-				view.getGraphicsForPen(), geoInputBox,  textFont, labelDesc));
+		inputBoxBounds.update(view, getLabelTop(), textFont, labelDesc);
+		view.attachSymbolicEditor(geoInputBox, inputBoxBounds.getBounds());
 		update();
 		view.repaintView();
 	}
