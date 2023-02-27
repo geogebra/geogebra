@@ -35,7 +35,7 @@ public class DefineFunctionHandler implements ErrorHandler {
 			EvalInfo info = new EvalInfo(!kernel.getConstruction()
 					.isSuppressLabelsActive(), false, false)
 					.withForceFunctionsEnabled(true);
-			app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
+			kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
 						input, info, false, null, this);
 		}
 	}
