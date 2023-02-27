@@ -66,9 +66,6 @@ import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianControllerInput
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import org.geogebra.desktop.geogebra3D.gui.GuiManager3D;
 import org.geogebra.desktop.geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
-import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory;
-import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
-import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
 import org.geogebra.desktop.geogebra3D.util.ImageManager3D;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
@@ -94,10 +91,7 @@ public class App3D extends AppD {
 	 * @param frame frame
 	 */
 	public App3D(CommandLineArguments args, JFrame frame) {
-
 		super(args, frame, null, true, new LocalizationD(3));
-
-		runThreadForCheckInput3D();
 	}
 
 	/**
@@ -106,73 +100,6 @@ public class App3D extends AppD {
 	 */
 	public App3D(CommandLineArguments args, Container comp) {
 		super(args, null, comp, true, new LocalizationD(3));
-
-		runThreadForCheckInput3D();
-	}
-
-	private class ThreadForCheckInput3D extends Thread {
-
-		@Override
-		public void run() {
-			boolean realsenseInited = initRealsense();
-
-			if (!realsenseInited) {
-				initZspace();
-			}
-		}
-
-		private boolean initRealsense() {
-			try {
-				// try to init realsense
-				Input3DFactory.initRealsense();
-				Log.debug("RealSense: Session successfully created");
-
-				// save in prefs
-				setInput3DType(Input3DConstants.PREFS_REALSENSE);
-
-				// show message
-				showRealSenseCongratulations();
-
-				return true;
-			} catch (Input3DException e) {
-				Log.debug(e.getMessage());
-				if (e.getType() == Input3DExceptionType.NOT_UP_TO_DATE) {
-					showRealSenseNotUpToDate(e.getMessage());
-				}
-			}
-
-			return false;
-		}
-
-		private boolean initZspace() {
-			try {
-				// try to init zSpace
-				Log.debug("zSpace: try to init");
-				Input3DFactory.initZSpace();
-				Log.debug("zSpace: successfully detected");
-
-				// save in prefs
-				setInput3DType(Input3DConstants.PREFS_ZSPACE);
-
-				// show message
-				showZSpaceCongratulations();
-
-				return true;
-			} catch (Input3DException e) {
-				Log.debug(e.getMessage());
-			}
-
-			return false;
-		}
-	}
-
-	private void runThreadForCheckInput3D() {
-		if (!tubeLoginIsShowing && AppD.WINDOWS
-				&& getInput3DType().equals(Input3DConstants.PREFS_NONE)) {
-			Log.debug("============ runThreadToCheckInput3D ");
-			Thread t = new ThreadForCheckInput3D();
-			t.start();
-		}
 	}
 
 	/**
@@ -321,7 +248,6 @@ public class App3D extends AppD {
 	@Override
 	public void isShowingLogInDialog() {
 		tubeLoginIsShowing = true;
-		runThreadForCheckInput3D();
 	}
 
 	@Override
@@ -359,53 +285,7 @@ public class App3D extends AppD {
 	}
 
 	private void initEuclidianController3D() {
-
-		Input3D input3D;
-
-		if (AppD.WINDOWS) {
-			// init the 3D euclidian view (with perhaps a specific 3D input)
-			try {
-				input3D = Input3DFactory.createInput3D(this, getInput3DType());
-			} catch (Input3DException e) {
-				if (e.getType() == Input3DExceptionType.INSTALL) {
-					// reset 3D input type, guessing 3d input has been
-					// uninstalled
-					setInput3DType(Input3DConstants.PREFS_NONE);
-				} else if (e.getType() == Input3DExceptionType.NOT_UP_TO_DATE) {
-					showRealSenseNotUpToDate(e.getMessage());
-				}
-				input3D = null;
-				Log.debug("Problem initializing 3D Input:" + e.getMessage());
-			} catch (Throwable e) {
-				input3D = null;
-				Log.debug("Problem initializing 3D Input:" + e.getClass() + " "
-						+ e.getMessage());
-			}
-		} else {
-			input3D = null;
-		}
-
-		// input3D = null;
-		if (input3D != null) {
-			switch (input3D.getDeviceType()) {
-			case HAND:
-				euclidianController3D = new EuclidianControllerHand3D(kernel,
-						input3D);
-				break;
-			case PEN:
-			default:
-				euclidianController3D = new EuclidianControllerInput3D(kernel,
-						input3D);
-				break;
-			}
-
-			// set specific settings
-			input3D.setSpecificSettings(
-					(EuclidianSettings3D) getSettings().getEuclidian(3));
-
-		} else {
-			euclidianController3D = new EuclidianController3DD(kernel);
-		}
+		euclidianController3D = new EuclidianController3DD(kernel);
 	}
 
 	@Override

@@ -37,7 +37,15 @@ eclipse.classpath.file {
 		classpath.entries.removeAll { entry ->
 			entry.kind == 'lib' && entry.path.matches(".*common-jre/build/.*/test") 
 		}
-	}
+
+        // Remove the former native .jar files as direct dependencies:
+        classpath.entries.removeAll { entry -> entry.kind == 'lib' && entry.path.contains('libpxcclr') \
+        && entry.path.contains('-natives-') }
+
+        // Remove the former native .jar files as direct dependencies:
+        classpath.entries.removeAll { entry -> entry.kind == 'lib' && entry.path.contains('zspace') \
+        && entry.path.contains('-natives-') }
+    }
 }
 
 compileJava {
@@ -55,7 +63,6 @@ dependencies {
     implementation project(':common-jre')
     implementation project(':editor-desktop')
     implementation project(':jogl2')
-    implementation project(':input3D:impl')
     implementation project(':giac-jni')
     implementation 'netscape.javascript:jsobject:1',
             'com.apple:mac_extensions:20040714',
