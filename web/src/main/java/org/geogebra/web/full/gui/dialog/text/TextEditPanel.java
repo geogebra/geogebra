@@ -13,7 +13,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
@@ -339,12 +338,10 @@ public class TextEditPanel extends VerticalPanel
 
 	@Override
 	public void onBackSpace() {
-		// TODO
+		//
 	}
 
-	/**
-	 * @param text - content as HTML
-	 */
+	@Override
 	public void setText(String text) {
 		editor.getElement().setInnerHTML(text);
 	}
@@ -359,9 +356,7 @@ public class TextEditPanel extends VerticalPanel
 		//
 	}
 
-	/**
-	 * @return Current editor content converted to a GeoText string.
-	 */
+	@Override
 	public String getText() {
 		Log.debug("ggb text string: " + dTProcessor
 				.buildGeoGebraString(editor.getDynamicTextList(), isLatex()));

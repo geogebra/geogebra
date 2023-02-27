@@ -18,7 +18,6 @@ import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
