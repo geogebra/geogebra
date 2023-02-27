@@ -86,6 +86,7 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 		assertEquals(0, getUndoHistorySize());
 	}
 
+	@Test
 	public void testUndo() {
 		assertFalse(undoManager.undoPossible());
 
