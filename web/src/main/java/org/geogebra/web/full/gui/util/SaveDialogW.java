@@ -268,8 +268,8 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	}
 
 	@Override
-	public void fireActionPerformed(PopupMenuButtonW actionButton) {
-		Provider provider = this.supportedProviders.get(actionButton.getSelectedIndex());
+	public void fireActionPerformed(int selectedIndex) {
+		Provider provider = this.supportedProviders.get(selectedIndex);
 		((AppW) app).getFileManager().setFileProvider(provider);
 
 		visibilityDropDown.setVisible(provider == Provider.TUBE);

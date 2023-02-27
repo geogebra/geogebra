@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.javax.swing.LineThicknessCheckMarkItem;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -17,14 +18,15 @@ public class BorderLineThicknessPopup extends GPopupPanel {
 	private LineThicknessCheckMarkItem thin;
 	private LineThicknessCheckMarkItem thick;
 	private BorderStylePopup parentPopup;
-	private PopupMenuHandler popupHandler;
+	private EuclidianStyleBarW popupHandler;
 
 	/**
 	 * constructor
 	 * @param app see {@link AppW}
+	 * @param parentPopup border style popup
 	 */
 	public BorderLineThicknessPopup(AppW app, BorderStylePopup parentPopup) {
-		super(app.getPanel(), app);
+		super(app.getAppletFrame(), app);
 		setAutoHideEnabled(false);
 		this.parentPopup = parentPopup;
 		addStyleName("mowPopup");
@@ -52,21 +54,8 @@ public class BorderLineThicknessPopup extends GPopupPanel {
 	 * @param popupMenuHandler
 	 *            {@link PopupMenuHandler}
 	 */
-	public void addPopupHandler(PopupMenuHandler popupMenuHandler) {
+	public void addPopupHandler(EuclidianStyleBarW popupMenuHandler) {
 		this.popupHandler = popupMenuHandler;
-	}
-
-	/**
-	 * Pass a popup action event up to the button invoker. If the first button
-	 * click triggered our popup (the click was in the triangle region), then we
-	 * must pass action events from the popup to the invoker
-	 */
-	public void handlePopupActionEvent() {
-		if (popupHandler != null) {
-			popupHandler.fireActionPerformed(parentPopup);
-		}
-
-		hide();
 	}
 
 	private void addClickHandler(LineThicknessCheckMarkItem selectedItem) {
@@ -77,7 +66,11 @@ public class BorderLineThicknessPopup extends GPopupPanel {
 			public void onClickStart(int x, int y, PointerEventType type) {
 				selectThickness(selectedItem.equals(thin),
 						selectedItem.equals(thick));
-				handlePopupActionEvent();
+				if (popupHandler != null) {
+					popupHandler.processSelectionWithUndo(popupHandler::handleBorderStyle);
+				}
+
+				hide();
 			}
 		});
 	}

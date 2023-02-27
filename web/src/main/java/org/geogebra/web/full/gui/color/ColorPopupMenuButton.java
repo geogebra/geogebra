@@ -41,11 +41,12 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	 * @param colorSetType
 	 *            {@code int}
 	 * @param hasSlider
-	 *            {@code boolean}
+	 *            provides geos to make slider action undoable
 	 */
-	public ColorPopupMenuButton(AppW app, int colorSetType, boolean hasSlider) {
+	public ColorPopupMenuButton(AppW app, int colorSetType,
+			boolean hasSlider) {
 		super(app, createDummyIcons(app.isUnbundled() ? 8 : 10), -1,
-				app.isUnbundled() ? 4 : 5, SelectionTable.MODE_ICON);
+				app.isUnbundled() ? 4 : 5, SelectionTable.MODE_ICON, true, hasSlider);
 		this.app = app;
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;
@@ -59,15 +60,15 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 				lookupMap.put(colorSet[i], i);
 			}
 		}
-
-		getMySlider().setMinimum(0);
-		getMySlider().setMaximum(100);
-		getMySlider().setTickSpacing(5);
-		setSliderValue(100);
-		setSliderVisible(hasSlider);
+		if (hasSlider) {
+			getSlider().setMinimum(0);
+			getSlider().setMaximum(100);
+			getSlider().setTickSpacing(5);
+			setSliderValue(100);
+		}
 
 		if (app.isWhiteboardActive()) {
-			if (hasSlider) {
+			if (this.hasSlider) {
 				addSliderTitle();
 			}
 			((ButtonPopupMenu) getMyPopup()).getPanel()
@@ -232,7 +233,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	@Override
 	public void onClick(ClickEvent event) {
 		if (this.hasSlider) {
-			Integer si = getSelectedIndex();
+			int si = getSelectedIndex();
 			defaultColor = getSelectedColor();
 			updateColorTable();
 			setSelectedIndex(si);
@@ -243,7 +244,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	@Override
 	protected void fireActionPerformed() {
 		if (this.hasSlider) {
-			Integer si = getSelectedIndex();
+			int si = getSelectedIndex();
 			defaultColor = getSelectedColor();
 			updateColorTable();
 			setSelectedIndex(si);
