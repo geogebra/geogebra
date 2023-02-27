@@ -3572,7 +3572,7 @@ public class MyXMLHandler implements DocHandler {
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
 									.withSymbolicMode(mode)
-									.withStructures(true));
+									.withForceFunctionsEnabled(true));
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {
