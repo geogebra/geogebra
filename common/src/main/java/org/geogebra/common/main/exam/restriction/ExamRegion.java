@@ -113,7 +113,7 @@ public enum ExamRegion {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			//TODO
+			model.setCommandFilter(CommandFilterFactory.createVlaanderenFilter());
 		}
 
 		@Override
