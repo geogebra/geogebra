@@ -68,7 +68,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private GDimension labelDimension = null;
 	private GColor borderColor = null;
 
-	private InputBoxBounds inputBoxBounds;
+	private final InputBoxBounds inputBoxBounds;
 
 	/**
 	 * @param view

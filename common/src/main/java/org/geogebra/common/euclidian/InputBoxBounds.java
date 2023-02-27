@@ -9,7 +9,7 @@ import org.geogebra.common.util.MyMath;
 
 public class InputBoxBounds {
 	private GRectangle bounds;
-	private GeoInputBox geoInputBox;
+	private final GeoInputBox geoInputBox;
 	private TextRenderer renderer;
 
 	public InputBoxBounds(GeoInputBox geoInputBox) {
