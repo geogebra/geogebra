@@ -4,6 +4,7 @@ import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
@@ -15,8 +16,6 @@ public final class ScientificDataTableController {
 	private Kernel kernel;
 	private DefineFunctionHandler fHandler;
 	private DefineFunctionHandler gHandler;
-	private GeoFunction f;
-	private GeoFunction g;
 
 	/**
 	 * Creates a new instance.
@@ -40,8 +39,8 @@ public final class ScientificDataTableController {
 	 * @param table Functions f and g will be added as columns to this TableValues view.
 	 */
 	public void setup(TableValues table) {
-		f = createFunction(kernel.getConstruction(), "f");
-		g = createFunction(kernel.getConstruction(), "g");
+		GeoFunction f = createFunction(kernel.getConstruction(), "f");
+		GeoFunction g = createFunction(kernel.getConstruction(), "g");
 
 		table.addAndShow(f);
 		// int fIndex = table.getColumn(f); // in case we would need this at some point
@@ -83,6 +82,8 @@ public final class ScientificDataTableController {
 	public boolean defineFunctions(String fInput, String gInput) {
 		fHandler.resetError();
 		gHandler.resetError();
+		GeoFunction f = getFunctionF();
+		GeoFunction g = getFunctionG();
 		boolean fChanged = false;
 		if (fInput != null) {
 			fChanged = defineFunction(fHandler, f, fInput);
@@ -134,23 +135,30 @@ public final class ScientificDataTableController {
 	}
 
 	/**
-	 * @return The current definition of f in the construction.
+	 * @return The current definition of f in the construction, or null if
+	 * a function named "f" does not exist in the construction.
 	 */
 	public GeoFunction getFunctionF() {
-		return getFunction(f, true);
+		return getFunction("f", false);
 	}
 
 	/**
-	 * @return The current definition of g in the construction.
+	 * @return The current definition of g in the construction, or null if
+	 * a function "g" does not exist in the construction.
 	 */
 	public GeoFunction getFunctionG() {
-		return getFunction(g, true);
+		return getFunction("g", false);
 	}
 
-	private GeoFunction getFunction(GeoFunction function, boolean returnNullIfUndefined) {
-		if (function == null) {
+	private GeoFunction getFunction(String label, boolean returnNullIfUndefined) {
+		if (label == null) {
 			return null;
 		}
+		GeoElement element = kernel.lookupLabel(label);
+		if (element == null || !(element instanceof GeoFunction)) {
+			return null;
+		}
+		GeoFunction function = (GeoFunction) element;
 		if (returnNullIfUndefined && !function.isDefined()) {
 			return null;
 		}
@@ -162,11 +170,12 @@ public final class ScientificDataTableController {
 	 * the "f(x) = "), or null if f is undefined.
 	 */
 	public String getDefinitionOfF() {
-		return getDefinitionOf(getFunction(f, false));
+		return getDefinitionOf(getFunction("f", true));
 	}
 
 	/**
-	 * @return True if f is defined (i.e., getDefinitionOfF() returns a non-null value), false otherwise.
+	 * @return True if f is defined (i.e., getDefinitionOfF() returns a non-null value),
+	 * false otherwise.
 	 */
 	public boolean isFDefined() {
 		return getDefinitionOfF() != null;
@@ -177,11 +186,12 @@ public final class ScientificDataTableController {
 	 * the "g(x) = "), or null if g is undefined.
 	 */
 	public String getDefinitionOfG() {
-		return getDefinitionOf(getFunction(g, false));
+		return getDefinitionOf(getFunction("g", true));
 	}
 
 	/**
-	 * @return True if g is defined (i.e., getDefinitionOfG() returns a non-null value), false otherwise.
+	 * @return True if g is defined (i.e., getDefinitionOfG() returns a non-null value),
+	 * false otherwise.
 	 */
 	public boolean isGDefined() {
 		return getDefinitionOfG() != null;

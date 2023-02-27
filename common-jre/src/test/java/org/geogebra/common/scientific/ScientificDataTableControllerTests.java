@@ -97,7 +97,8 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 
 		// redefine f
 		assertTrue(controller.defineFunctions("3*sqrt(x)", null));
-		assertEquals("3 sqrt(x)", controller.getDefinitionOfF());
+		assertEquals("3sqrt(x)", controller.getDefinitionOfF());
+		assertTrue(undoManager.undoPossible());
 
 		// undo (redefine f)
 		undoManager.undo();
