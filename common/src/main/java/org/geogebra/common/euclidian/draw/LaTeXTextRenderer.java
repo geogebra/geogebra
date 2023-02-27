@@ -71,7 +71,8 @@ public class LaTeXTextRenderer implements TextRenderer {
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
 		int padding = PADDING;
-		double inputBoxTop = drawInputBox.getLabelTop() + ((labelHeight - inputBoxHeight) / padding);
+		double inputBoxTop = drawInputBox.getLabelTop()
+			+	((labelHeight - inputBoxHeight) / padding);
 
 		return AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,

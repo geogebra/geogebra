@@ -16,10 +16,21 @@ public class InputBoxBounds {
 		this.geoInputBox = geoInputBox;
 	}
 
+	/**
+	 *
+	 * @return the bounds.
+	 */
 	public GRectangle getBounds() {
 		return bounds;
 	}
 
+	/**
+	 *
+	 * @param view {@link EuclidianView}
+	 * @param labelTop top of the label.
+	 * @param textFont font to display.
+	 * @param labelDesc label description.
+	 */
 	public void update(EuclidianView view, double labelTop, GFont textFont, String labelDesc) {
 		GGraphics2D g2 = view.getGraphicsForPen();
 		bounds = renderer.measureBounds(g2, geoInputBox, textFont, labelDesc);
@@ -31,6 +42,10 @@ public class InputBoxBounds {
 		}
 	}
 
+	/**
+	 *
+	 * @return y coord of the rectangle.
+	 */
 	public double getY() {
 		return bounds.getY();
 	}
@@ -39,6 +54,12 @@ public class InputBoxBounds {
 		this.renderer = renderer;
 	}
 
+	/**
+	 *
+	 * @param x coord.
+	 * @param y coord.
+	 * @return if bounds has (x, y) within.
+	 */
 	public boolean contains(int x, int y) {
 		return bounds.contains(x, y);
 	}
