@@ -29,7 +29,7 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 		kernel.attach(tableValuesView);
 
 		controller = new ScientificDataTableController(kernel);
-		controller.setup(tableValuesView, true);
+		controller.setup(tableValuesView);
 	}
 
 	@Test

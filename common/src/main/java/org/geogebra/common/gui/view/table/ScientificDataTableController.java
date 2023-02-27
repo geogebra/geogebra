@@ -35,9 +35,11 @@ public final class ScientificDataTableController {
 	 * Creates two functions f and g in the kernel's construction,
 	 * and adds them to the table of values.
 	 *
+	 * Note: This method also resets the contruction's undo history.
+	 *
 	 * @param table Functions f and g will be added as columns to this TableValues view.
 	 */
-	public void setup(TableValues table, boolean resetUndoInfo) {
+	public void setup(TableValues table) {
 		f = createFunction(kernel.getConstruction(), "f");
 		g = createFunction(kernel.getConstruction(), "g");
 
@@ -50,10 +52,7 @@ public final class ScientificDataTableController {
 		} catch (InvalidValuesException e) {
 			throw new RuntimeException(e);
 		} finally {
-			if (resetUndoInfo) {
-				kernel.getConstruction().getUndoManager().clearUndoInfo();
-				kernel.getConstruction().storeUndoInfo();
-			}
+			resetUndoInfo();
 		}
 	}
 
@@ -62,6 +61,11 @@ public final class ScientificDataTableController {
 		function.setAuxiliaryObject(true);
 		function.rename(label);
 		return function;
+	}
+
+	private void resetUndoInfo() {
+		kernel.getConstruction().getUndoManager().clearUndoInfo();
+		kernel.getConstruction().storeUndoInfo();
 	}
 
 	/**
