@@ -39,23 +39,9 @@ public class TextEditPanelProcessing implements KeyboardListener {
 
 	@Override
 	public void onBackSpace() {
-		int start = field.getCursorPos();
-		int end = start + field.getTextArea().getEditor().getSelectionLength();
-
-		if (field.getTextArea().getEditor().getSelectionLength() < 1) {
-			// nothing selected -> delete character before cursor
-			end = start;
-			start--;
-		}
-
-		if (start >= 0) {
-			// cursor not at the beginning of text -> delete something
-			String oldText = field.getText();
-			String newText = oldText.substring(0, start)
-					+ oldText.substring(end);
-			field.setText(newText);
-			field.setCursorPos(start);
-		}
+		String oldText = field.getTextArea().getText();
+		String newText = oldText.substring(0, oldText.length() - 1);
+		field.setText(newText);
 	}
 
 	@Override
@@ -70,25 +56,14 @@ public class TextEditPanelProcessing implements KeyboardListener {
 	 *            text to be inserted
 	 */
 	private void insertAtEnd(String text) {
-		int caretPos = field.getTextArea().getEditor().getCursorPos();
 		String oldText = field.getTextArea().getText();
-		String newText = oldText.substring(0, caretPos) + text
-				+ oldText.substring(caretPos);
+		String newText = oldText + text;
 		field.setText(newText);
-		field.getTextArea().getEditor().setCursorPos(caretPos + text.length());
 	}
 
 	@Override
 	public void onArrow(ArrowType type) {
-		int cursorPos = field.getCursorPos();
-
-		if (type == ArrowType.left && cursorPos > 0) {
-			field.setCursorPos(cursorPos - 1);
-		} else if (type == ArrowType.right
-				&& cursorPos < field.getText().length()) {
-			field.setCursorPos(cursorPos + 1);
-		}
-
+		// solve later
 	}
 
 	@Override

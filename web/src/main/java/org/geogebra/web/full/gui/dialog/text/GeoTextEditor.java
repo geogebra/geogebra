@@ -354,7 +354,6 @@ public class GeoTextEditor extends FocusWidget {
 		} else {
 			textEditPopup.hide();
 		}
-
 	}
 
 	protected void createEditPopup() {
