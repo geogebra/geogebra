@@ -155,11 +155,11 @@ public final class ScientificDataTableController {
 			return null;
 		}
 		GeoElement element = kernel.lookupLabel(label);
-		if (element == null || !(element instanceof GeoFunction)) {
+		if (!(element instanceof GeoFunction)) {
 			return null;
 		}
 		GeoFunction function = (GeoFunction) element;
-		if (returnNullIfUndefined && !function.isDefined()) {
+		if (function != null && returnNullIfUndefined && !function.isDefined()) {
 			return null;
 		}
 		return function;
