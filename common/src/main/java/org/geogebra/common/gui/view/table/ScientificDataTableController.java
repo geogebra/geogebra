@@ -42,9 +42,9 @@ public final class ScientificDataTableController {
 		g = createFunction(kernel.getConstruction(), "g");
 
 		table.addAndShow(f);
-//		int fIndex = table.getColumn(f); // in case we would need this at some point
+		// int fIndex = table.getColumn(f); // in case we would need this at some point
 		table.addAndShow(g);
-//		int gIndex = table.getColumn(g); // in case we would need this at some point
+		// int gIndex = table.getColumn(g); // in case we would need this at some point
 		try {
 			table.setValues(-2, 2, 1);
 		} catch (InvalidValuesException e) {
@@ -100,15 +100,17 @@ public final class ScientificDataTableController {
 	 * @param input The new definition for the function.
 	 * @return True if the definition of the function did change, false otherwise.
 	 */
-	private boolean defineFunction(DefineFunctionHandler handler, GeoFunction function, String input) {
+	private boolean defineFunction(DefineFunctionHandler handler,
+			GeoFunction function,
+			String input) {
 		String oldDefinition = getDefinitionOf(function);
 		handler.handle(input, function);
 		String newDefinition = getDefinitionOf(function);
 		if (oldDefinition == null && newDefinition == null) {
 			return false;
 		}
-		return ((oldDefinition != null) && !oldDefinition.equals(newDefinition)) ||
-				((newDefinition != null) && !newDefinition.equals(oldDefinition));
+		return ((oldDefinition != null) && !oldDefinition.equals(newDefinition))
+				|| ((newDefinition != null) && !newDefinition.equals(oldDefinition));
 	}
 
 	/**
