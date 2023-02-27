@@ -34,10 +34,16 @@ public class LaTeXTextRenderer implements TextRenderer {
 						 double xPos, double yPos) {
 		int textLeft = (int) Math.round(xPos);
 
+		GFont font1 = getFont(geo, font, 1);
 		GDimension textDimension = drawInputBox.measureLatex(graphics, geo,
-				getFont(geo, font, 3), text);
-		int inputBoxHeight = calculateInputBoxHeight(textDimension) + 2 * PADDING;
-		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
+				font1, text);
+		int inputBoxHeight = calculateInputBoxHeight(textDimension);
+		int diff = inputBoxHeight - textDimension.getHeight();
+		double diffToCenter = diff / 2.0;
+		if (inputBoxHeight > DrawInputBox.SYMBOLIC_MIN_HEIGHT  + MARGIN
+		) {
+			diffToCenter += PADDING * geo.getFontSizeMultiplier();
+		}
 		int textTop = (int) Math.round(yPos + diffToCenter);
 
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
@@ -50,14 +56,14 @@ public class LaTeXTextRenderer implements TextRenderer {
 		rect.setRect(textLeft, 0, clipWidth, drawInputBox.getView().getHeight());
 		graphics.setClip(rect);
 
-		drawInputBox.drawLatex(graphics, geo, getFont(geo, font, 0), text, textLeft + PADDING,
-				textTop + 2+PADDING, true);
+		drawInputBox.drawLatex(graphics, geo, font1, text, textLeft + PADDING,
+				textTop, true);
 		graphics.resetClip();
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
 		int textHeightWithMargin = textDimension.getHeight() + MARGIN;
-		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT);
+		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT + MARGIN);
 	}
 
 	@Override
@@ -76,7 +82,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 				drawInputBox.boxLeft,
 				(int) Math.round(inputBoxTop) + padding,
 				drawInputBox.boxWidth,
-				inputBoxHeight + 2 * padding);
+				inputBoxHeight);
 	}
 
 	private GFont getFont(GeoInputBox geo, GFont font, int x) {
