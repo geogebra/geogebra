@@ -159,7 +159,7 @@ public final class ScientificDataTableController {
 			return null;
 		}
 		GeoFunction function = (GeoFunction) element;
-		if (function != null && returnNullIfUndefined && !function.isDefined()) {
+		if (returnNullIfUndefined && !function.isDefined()) {
 			return null;
 		}
 		return function;
