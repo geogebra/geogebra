@@ -275,10 +275,6 @@ public class Material implements Comparable<Material>, Serializable {
 		return this.thumbnail;
 	}
 
-	public Date getDate() {
-		return new Date(getTimestampForJava());
-	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
