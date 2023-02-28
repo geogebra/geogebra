@@ -167,4 +167,16 @@ public class IntervalMiscTest {
 		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(0.985375))));
 		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(1.015625))));
 	}
+
+	// APPS-4683
+	@Test
+	public void testZeroDivLnX() {
+		Interval x1 = interval(0.9895833333333334, 1.0);
+		Interval x2 = interval(0.9999999999999999, 1.0104166666666665);
+		Interval log1 = evaluator.log(x1);
+		Interval log2 = evaluator.log(x2);
+		Interval div1 = evaluator.divide(zero(), log1);
+		Interval div2 = evaluator.divide(zero(), log2);
+ 		assertTrue(div1.isWhole() ^ div2.isWhole());
+	}
 }

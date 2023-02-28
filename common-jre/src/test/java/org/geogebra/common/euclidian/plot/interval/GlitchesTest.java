@@ -86,5 +86,4 @@ public class GlitchesTest extends BaseUnitTest {
 		withScreenSize(1920, 1280);
 		withFunction(description);
 	}
-
 }
