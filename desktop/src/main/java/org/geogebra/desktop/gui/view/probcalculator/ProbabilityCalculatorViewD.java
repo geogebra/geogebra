@@ -37,7 +37,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -96,15 +96,16 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private int defaultDividerSize;
 	private ResultPanelD resultPanel;
 
+	private final DistributionTypeProperty distributionType;
+
 	/*************************************************
-	 * 
 	 * Construct ProbabilityCalculator
 	 * 
 	 * @param app application
 	 */
 	public ProbabilityCalculatorViewD(AppD app) {
 		super(app);
-
+		distributionType = new DistributionTypeProperty(loc, this);
 		wrapperPanel = new JPanel();
 
 		createGUIElements();
@@ -407,17 +408,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 						.equals(ListSeparatorRenderer.SEPARATOR)) {
 					comboDistribution.removeActionListener(this);
 					comboDistribution
-							.setSelectedItem(getDistributionMap().get(selectedDist));
+							.setSelectedIndex(distributionType.getIndex());
 					comboDistribution.addActionListener(this);
-				} else if (!selectedDist.equals(this.getReverseDistributionMap()
-						.get(comboDistribution.getSelectedItem()))) {
-
-					selectedDist = getReverseDistributionMap()
-							.get(comboDistribution.getSelectedItem());
-					parameters = ProbabilityManager
-							.getDefaultParameters(selectedDist, cons);
-					this.setProbabilityCalculator(selectedDist, parameters,
-							isCumulative);
+				} else {
+					distributionType.setIndex(comboDistribution.getSelectedIndex());
 				}
 			}
 			wrapperPanel.requestFocus();
@@ -587,10 +581,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		updateLowHighResult();
 		// set distribution combo box
 		comboDistribution.removeActionListener(this);
-		if (!comboDistribution.getSelectedItem()
-				.equals(getDistributionMap().get(selectedDist))) {
+		if (comboDistribution.getSelectedIndex()
+				!= distributionType.getIndex()) {
 			comboDistribution
-					.setSelectedItem(getDistributionMap().get(selectedDist));
+					.setSelectedIndex(distributionType.getIndex());
 		}
 
 		comboDistribution.addActionListener(this);
@@ -679,6 +673,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		if (getTable() != null) {
 			getTable().setLabels();
+			selectProbabilityTableRows(); // update highlighting after table rebuild
 		}
 		if (styleBar != null) {
 			styleBar.setLabels();
@@ -702,27 +697,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		comboDistribution.removeActionListener(this);
 		comboDistribution.removeAllItems();
-		comboDistribution.addItem(getDistributionMap().get(Dist.NORMAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.STUDENT));
-		comboDistribution.addItem(getDistributionMap().get(Dist.CHISQUARE));
-		comboDistribution.addItem(getDistributionMap().get(Dist.F));
-		comboDistribution.addItem(getDistributionMap().get(Dist.EXPONENTIAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.CAUCHY));
-		comboDistribution.addItem(getDistributionMap().get(Dist.WEIBULL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.GAMMA));
-		comboDistribution.addItem(getDistributionMap().get(Dist.LOGNORMAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.LOGISTIC));
+		for (String distName: distributionType.getValues()) {
+			comboDistribution.addItem(distName);
+		}
 
-		comboDistribution.addItem(ListSeparatorRenderer.SEPARATOR);
-
-		comboDistribution.addItem(getDistributionMap().get(Dist.BINOMIAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.PASCAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.POISSON));
-		comboDistribution.addItem(getDistributionMap().get(Dist.HYPERGEOMETRIC));
-
-		comboDistribution.setSelectedItem(getDistributionMap().get(selectedDist));
+		comboDistribution.setSelectedIndex(distributionType.getIndex());
 		comboDistribution.addActionListener(this);
-
 	}
 
 	// ============================================================
