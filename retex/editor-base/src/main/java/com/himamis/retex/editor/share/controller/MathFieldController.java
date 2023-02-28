@@ -177,18 +177,16 @@ public class MathFieldController {
 	}
 
 	/**
-	 * 
+	 * Updates x and y position of CursorBox
 	 * @param mathFormula
 	 *            formula
-	 * @param list
-	 *            output list for subtree indices
 	 * @param currentField
 	 *            current field
 	 * @param currentOffset
 	 *            current offset
 	 */
-	public void getSelectedPath(MathFormula mathFormula,
-			ArrayList<Integer> list, MathSequence currentField,
+	public void updateCursorPosition(MathFormula mathFormula,
+			MathSequence currentField,
 			int currentOffset) {
 		String serializedFormula = texSerializer.serialize(mathFormula,
 				currentField, currentOffset);
