@@ -451,7 +451,7 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
-	private Iterable<FunctionVariable> collectVariables() {
+	protected List<FunctionVariable> collectVariables() {
 		FunctionVarCollector functionVarCollector = FunctionVarCollector
 				.getCollector();
 		getDefinition().traverse(functionVarCollector);
