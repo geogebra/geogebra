@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.TextRenderer;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.util.MyMath;
 
@@ -14,6 +15,7 @@ public class InputBoxBounds {
 
 	public InputBoxBounds(GeoInputBox geoInputBox) {
 		this.geoInputBox = geoInputBox;
+		bounds = AwtFactory.getPrototype().newRectangle();
 	}
 
 	/**
