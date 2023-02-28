@@ -1979,7 +1979,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
 				is("x"));
 
-
 		element = add("x+y");
 		assertThat(element.collectVariables().size(), is(2));
 		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
