@@ -16,7 +16,6 @@ import com.google.j2objc.annotations.Weak;
 public class LaTeXTextRenderer implements TextRenderer {
 
 	// This margin is to match the height of the editor
-	private static final int BOTTOM_OFFSET = 10;
 	public static final int MARGIN = 4;
 	private static final int CLIP_PADDING = 8;
 	private static final int PADDING = 2;
