@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.event.dom.client.KeyUpHandler;
