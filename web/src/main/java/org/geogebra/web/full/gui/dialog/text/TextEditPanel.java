@@ -17,7 +17,6 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.full.gui.util.ImageResourceConverter;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -269,16 +268,12 @@ public class TextEditPanel extends VerticalPanel
 
 	@Override
 	public void startOnscreenKeyboardEditing() {
-		if (Browser.isAndroid()) {
-			addDummyCursor();
-		}
+		// later
 	}
 
 	@Override
 	public void endOnscreenKeyboardEditing() {
-		if (Browser.isAndroid()) {
-			removeDummyCursor();
-		}
+		// later
 	}
 
 	@Override
@@ -328,7 +323,7 @@ public class TextEditPanel extends VerticalPanel
 
 	@Override
 	public void onBackSpace() {
-		//
+		// later
 	}
 
 	@Override
@@ -343,7 +338,7 @@ public class TextEditPanel extends VerticalPanel
 
 	@Override
 	public void ensureEditing() {
-		//
+		// later
 	}
 
 	@Override
