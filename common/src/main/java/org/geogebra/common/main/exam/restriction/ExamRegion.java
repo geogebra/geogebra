@@ -113,12 +113,12 @@ public enum ExamRegion {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			//TODO
+			model.setSubAppCodes(CAS_APPCODE);
 		}
 
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			//TODO
+			model.setDefaultAppCode(GRAPHING_APPCODE);
 		}
 	};
 
