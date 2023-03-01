@@ -61,9 +61,6 @@ public class InputPanelW extends FlowPanel {
 				textAreaComponent.setText(initText);
 			}
 			add(textAreaComponent);
-			if (Browser.isTabletBrowser()) {
-				textAreaComponent.enableGGBKeyboard();
-			}
 		} else {
 			textComponent = new AutoCompleteTextFieldW(columns, app);
 			textComponent.prepareShowSymbolButton(showSymbolPopup);

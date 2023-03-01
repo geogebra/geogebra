@@ -18,7 +18,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -62,7 +61,6 @@ public class TextEditPanel extends VerticalPanel
 	private Localization loc;
 	private TextEditAdvancedPanel advancedPanel;
 	private boolean mayDetectLaTeX = true;
-	private DummyCursor dummyCursor;
 
 	/**
 	 * @param app - application
@@ -73,7 +71,6 @@ public class TextEditPanel extends VerticalPanel
 		loc = app.getLocalization();
 
 		dTProcessor = new DynamicTextProcessor(app);
-		dummyCursor = new DummyCursor(this, (AppW) app);
 
 		editor = new GeoTextEditor(app, this);
 		editor.addStyleName("textEditor");
@@ -107,13 +104,6 @@ public class TextEditPanel extends VerticalPanel
 
 		// force a dummy geo to be created on first use
 		setEditGeo(null);
-	}
-
-	/**
-	 * Enable keyboard.
-	 */
-	public void enableGGBKeyboard() {
-		dummyCursor.enableGGBKeyboard();
 	}
 
 	@Override
@@ -293,12 +283,12 @@ public class TextEditPanel extends VerticalPanel
 
 	@Override
 	public void addDummyCursor() {
-		dummyCursor.add();
+		// later
 	}
 
 	@Override
 	public int removeDummyCursor() {
-		return dummyCursor.remove();
+		return -1;
 	}
 
 	@Override
