@@ -4,13 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.undo.UndoManager;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,6 +47,29 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 		assertNull(controller.getDefinitionOfG());
 		assertFalse(controller.isGDefined());
 		assertEquals(0, getUndoHistorySize());
+	}
+
+	@Test
+	public void testInitialSetupWithExistingFunction() {
+		Kernel kernel = getKernel();
+		Construction construction = kernel.getConstruction();
+		construction.clearConstruction();
+
+		// create a function "f"
+		GeoFunction function = new GeoFunction(construction);
+		function.setAuxiliaryObject(true);
+		function.rename("f");
+
+		// this should cause an exception / conflict
+		controller = new ScientificDataTableController(kernel);
+		try {
+			controller.setup(tableValuesView);
+		} catch (MyError error) {
+			assertEquals("NameUsed", error.getMessage());
+			assertTrue(error.toString().contains("This label is already in use"));
+		} catch (Exception exception) {
+			fail("unexpected exception: " + exception.toString());
+		}
 	}
 
 	@Test

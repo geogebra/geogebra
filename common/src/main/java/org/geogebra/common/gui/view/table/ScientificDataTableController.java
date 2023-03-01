@@ -34,7 +34,7 @@ public final class ScientificDataTableController {
 	 * Creates two functions f and g in the kernel's construction,
 	 * and adds them to the table of values.
 	 *
-	 * Note: This method also resets the contruction's undo history.
+	 * Note: This method also resets the construction's undo history!
 	 *
 	 * @param table Functions f and g will be added as columns to this TableValues view.
 	 */
@@ -136,7 +136,7 @@ public final class ScientificDataTableController {
 
 	/**
 	 * @return The current definition of f in the construction, or null if
-	 * a function named "f" does not exist in the construction.
+	 * f does not exist in the construction.
 	 */
 	public GeoFunction getFunctionF() {
 		return getFunction("f", false);
@@ -144,7 +144,7 @@ public final class ScientificDataTableController {
 
 	/**
 	 * @return The current definition of g in the construction, or null if
-	 * a function "g" does not exist in the construction.
+	 * g does not exist in the construction.
 	 */
 	public GeoFunction getFunctionG() {
 		return getFunction("g", false);
