@@ -1,7 +1,6 @@
 package org.geogebra.common.move.ggtapi.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
