@@ -113,12 +113,13 @@ public enum ExamRegion {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
+			model.setSubAppCodes(CAS_APPCODE);
 			model.setCommandFilter(CommandFilterFactory.createVlaanderenFilter());
 		}
 
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			//TODO
+			model.setDefaultAppCode(GRAPHING_APPCODE);
 		}
 	};
 
