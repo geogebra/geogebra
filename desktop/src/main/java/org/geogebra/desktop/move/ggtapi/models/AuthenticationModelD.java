@@ -37,11 +37,6 @@ public class AuthenticationModelD extends AuthenticationModel {
 	}
 
 	@Override
-	public String getCookie(String cookieName) {
-		return null;
-	}
-
-	@Override
 	protected void storeLastUser(String s) {
 		// TODO Auto-generated method stub
 

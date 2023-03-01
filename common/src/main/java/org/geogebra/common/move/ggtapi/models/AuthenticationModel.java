@@ -80,7 +80,9 @@ public abstract class AuthenticationModel {
 	 * @param cookieName name of the cookie we want
 	 * @return the value of the cookie
 	 */
-	public abstract String getCookie(String cookieName);
+	public String getCookie(String cookieName) {
+		return null;
+	}
 
 	/**
 	 * Stores the token in localStorage or with any other client side method.
