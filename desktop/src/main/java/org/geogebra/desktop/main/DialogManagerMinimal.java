@@ -180,11 +180,6 @@ public class DialogManagerMinimal extends DialogManager {
 
 	}
 
-	public void showLogInDialog() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void showLogOutDialog() {
 		// TODO Auto-generated method stub
 

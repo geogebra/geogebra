@@ -39,7 +39,6 @@ import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -153,8 +152,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public static final String WIKI_MANUAL = "Manual";
 	/** Url for wiki article about CAS */
 	public static final String WIKI_CAS_VIEW = "CAS_View";
-	/** Url for Intel RealSense tutorials */
-	public static final String REALSENSE_TUTORIAL = "https://www.geogebra.org/m/OaGmb7LE";
 
 	/** Url for wiki article about functions */
 	public static final String WIKI_TEXT_TOOL = "Text Tool";
@@ -4076,10 +4073,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (getGuiManager().showView(App.VIEW_DATA_ANALYSIS)) {
 			c.run(App.VIEW_DATA_ANALYSIS, "DataAnalysis");
 		}
-	}
-
-	public String getInput3DType() {
-		return Input3DConstants.PREFS_NONE;
 	}
 
 	/**
