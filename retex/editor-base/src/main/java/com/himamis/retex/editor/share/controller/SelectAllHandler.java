@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.controller;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -45,7 +46,7 @@ public class SelectAllHandler {
 		if (first instanceof MathArray) {
 			MathArray array = (MathArray) first;
 			if (array.isMatrix()) {
-				selectUpToRootComponent();
+				editorState.selectUpToRootComponent();
 			} else {
 				selectListElement(array.getArgument(0));
 			}
@@ -69,6 +70,9 @@ public class SelectAllHandler {
 			MathSequence content = sequenceWithoutBrackets(sequence);
 			setSelectionStart(content.getArgument(firstSeparatorOnLeft(content)));
 			setSelectionEnd(content.getArgument(firstSeparatorOnRight(content)));
+			if (editorState.getSelectionStart() instanceof MathCharPlaceholder) {
+				editorState.setSelectionStart(null);
+			}
 		}
 	}
 
@@ -123,15 +127,5 @@ public class SelectAllHandler {
 		}
 
 		return charIndex == 0 ? 0 : charIndex + 1;
-	}
-
-	private void selectUpToRootComponent() {
-		while (editorState.getSelectionStart().getParent().getParent()
-				!= editorState.getRootComponent()) {
-			editorState.anchor(true);
-			setSelectionStart(editorState.getSelectionStart().getParent());
-		}
-
-		setSelectionEnd(editorState.getSelectionStart());
 	}
 }
