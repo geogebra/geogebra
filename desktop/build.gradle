@@ -37,14 +37,6 @@ eclipse.classpath.file {
 		classpath.entries.removeAll { entry ->
 			entry.kind == 'lib' && entry.path.matches(".*common-jre/build/.*/test") 
 		}
-
-        // Remove the former native .jar files as direct dependencies:
-        classpath.entries.removeAll { entry -> entry.kind == 'lib' && entry.path.contains('libpxcclr') \
-        && entry.path.contains('-natives-') }
-
-        // Remove the former native .jar files as direct dependencies:
-        classpath.entries.removeAll { entry -> entry.kind == 'lib' && entry.path.contains('zspace') \
-        && entry.path.contains('-natives-') }
     }
 }
 

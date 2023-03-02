@@ -49,7 +49,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -196,7 +195,6 @@ import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
-import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.headless.GFileHandler;
@@ -2715,12 +2713,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// **************************************************************************
 
 	/**
-	 * getAllowToolTips
-	 * @return boolean
+	 * @return always true
+	 * @deprecated you should probably call EuclidianView.getAllowToolTips() instead
 	 */
+	@Deprecated
 	public boolean getAllowToolTips() {
-		boolean allowToolTips = true;
-		return allowToolTips;
+		return true;
 	}
 
 	/**
@@ -2836,38 +2834,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		return transparentCursor;
 	}
-
-	// **************************************************************************
-	// EXIT
-	// **************************************************************************
-
-	/**
-	 * // think about this Downloads the latest jar files from the GeoGebra
-	 * server.
-	 *
-	 * private void updateGeoGebra() { try { File dest = new File(codebase +
-	 * Application.JAR_FILE); URL jarURL = new URL(Application.UPDATE_URL +
-	 * Application.JAR_FILE);
-	 * 
-	 * if (dest.exists()) { // check if jarURL is newer then dest try {
-	 * URLConnection connection = jarURL.openConnection(); if
-	 * (connection.getLastModified() <= dest.lastModified()) { showMessage("No
-	 * update available"); return; } } catch (Exception e) { // we don't know if
-	 * the file behind jarURL is newer than dest // so don't do anything
-	 * showMessage("No update available: " + (e.getMessage())); return; } } //
-	 * copy JAR_FILE if (!CopyURLToFile.copyURLToFile(this, jarURL, dest))
-	 * return; // copy properties file dest = new File(codebase +
-	 * Application.PROPERTIES_FILE); jarURL = new URL(Application.UPDATE_URL +
-	 * Application.PROPERTIES_FILE); if (!CopyURLToFile.copyURLToFile(this,
-	 * jarURL, dest)) return; // copy jscl file dest = new File(codebase +
-	 * Application.JSCL_FILE); jarURL = new URL(Application.UPDATE_URL +
-	 * Application.JSCL_FILE); if (!CopyURLToFile.copyURLToFile(this, jarURL,
-	 * dest)) return;
-	 * 
-	 * 
-	 * showMessage("Update finished. Please restart GeoGebra."); } catch
-	 * (Exception e) { showError("Update failed: "+ e.getMessage()); } }
-	 */
 
 	/**
 	 * Clears the current construction. Used for File-New.
@@ -3460,7 +3426,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				Component rootComp = SwingUtilities.getRoot(e.getComponent());
 				if (rootComp instanceof JDialog) {
-					((JDialog) rootComp).setVisible(false);
+					rootComp.setVisible(false);
 					return true;
 				}
 			}
@@ -3664,7 +3630,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		if (this.getErrorHandler() != null) {
 			this.getErrorHandler().showError(msg);
-			return;
 		}
 
 	}
@@ -3978,8 +3943,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void evalJavaScript(App app, String script, String arg)
-			throws Exception {
+	public void evalJavaScript(App app, String script, String arg) {
 		((ScriptManagerD) getScriptManager()).evalJavaScript(app, script, arg);
 	}
 
@@ -4532,41 +4496,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				popupsDone = true;
 
 				EventQueue.invokeLater(() -> {
-					boolean showDockPopup = true;
-
-					LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
-					if (signInOp.isTubeAvailable()
-							&& !signInOp.isLoggedIn()) {
-						showDockPopup = showTubeLogin();
-					}
-
-					if (showDockPopup && isShowDockBar()) {
+					if (isShowDockBar()) {
 						showPerspectivePopup();
 					}
 				});
 			}
 		}
-	}
-
-	protected boolean showTubeLogin() {
-		// for debugging only
-		// force sign-in popup if not logged in
-		// GeoGebraPreferencesD.getPref().savePreference(
-		// GeoGebraPreferencesD.USER_LOGIN_SKIP,
-		// "false");
-
-		boolean showDockPopup = true;
-
-		String skipLogin = GeoGebraPreferencesD.getPref()
-				.loadPreference(GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
-
-		if (!"true".equals(skipLogin)) {
-			showDockPopup = false;
-			GeoGebraPreferencesD.getPref().savePreference(
-					GeoGebraPreferencesD.USER_LOGIN_SKIP, "true");
-		}
-
-		return showDockPopup;
 	}
 
 	protected void showPerspectivePopup() {
@@ -4622,10 +4557,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// nothing to do here
 	}
 
-	public boolean useHugeGuiForInput3D() {
-		return false;
-	}
-
 	/**
 	 * huge size for undo/redo/etc. buttons when huge GUI is needed for some 3D
 	 * inputs
@@ -4650,8 +4581,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private ScheduledFuture<?> handler;
 
 	private PrintPreviewD printPreview;
-
-	private OptionsMenuController optionsMenu;
 
 	private static volatile MessageDigest md5EncrypterD;
 
@@ -5012,10 +4941,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			Log.debug("Export to " + fileName);
 			objBufferedWriter.write(content);
 			objBufferedWriter.close();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -5092,10 +5017,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		return md5EncrypterD;
-	}
-
-	public void isShowingLogInDialog() {
-		// for 3D
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import java.io.File;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -83,32 +82,9 @@ public class App3D extends AppD {
 		super(args, null, comp, true, new LocalizationD(3));
 	}
 
-	boolean input3DPopupShowing = false;
-
-	@Override
-	protected boolean showTubeLogin() {
-		if (input3DPopupShowing) {
-			return true;
-		}
-		return superShowTubeLogin();
-	}
-
-	boolean superShowTubeLogin() {
-		return super.showTubeLogin();
-	}
-
-	@Override
-	protected void showPerspectivePopup() {
-		superShowPerspectivePopup();
-	}
-
-	void superShowPerspectivePopup() {
-		super.showPerspectivePopup();
-	}
-
 	@Override
 	protected void initImageManager(Component component) {
-		imageManager = new ImageManager3D(component, this);
+		imageManager = new ImageManager3D(component);
 	}
 
 	private void initEuclidianController3D() {
@@ -492,34 +468,6 @@ public class App3D extends AppD {
 		}
 
 		return super.handleSpaceKey();
-	}
-
-	@Override
-	public int getToolbarPosition() {
-		if (useHugeGuiForInput3D()) {
-			return SwingConstants.WEST;
-		}
-
-		return super.getToolbarPosition();
-	}
-
-	@Override
-	public int getGUIFontSize() {
-		int size = super.getGUIFontSize();
-		if (size < 24 && useHugeGuiForInput3D()) {
-			return 24;
-		}
-
-		return size;
-	}
-
-	@Override
-	public int getScaledIconSize() {
-		int size = super.getScaledIconSize();
-		if (size < 36 && useHugeGuiForInput3D()) {
-			return 36;
-		}
-		return size;
 	}
 
 	@Override
