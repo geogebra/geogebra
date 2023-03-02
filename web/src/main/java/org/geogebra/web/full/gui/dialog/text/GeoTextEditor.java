@@ -57,7 +57,6 @@ public class GeoTextEditor extends FocusWidget {
 		super(DOM.createDiv());
 		this.app = (AppW) app;
 		this.editPanel = editPanel;
-		getElement().setAttribute("contenteditable", "true");
 		getElement().setAttribute("spellcheck", "false");
 		getElement().setAttribute("oncontextmenu", "return false");
 		getElement().setAttribute("word-wrap", "normal");
