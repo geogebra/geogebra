@@ -727,8 +727,4 @@ public class Interval {
 	public double middle() {
 		return low + getLength() / 2;
 	}
-
-	public boolean isInvertedZero() {
-		return inverted && isZero();
-	}
 }
