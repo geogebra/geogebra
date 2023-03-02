@@ -84,34 +84,25 @@ public class App3D extends AppD {
 	}
 
 	boolean input3DPopupShowing = false;
-	boolean tubeLoginHasToBeShown = false;
-	boolean perspectivePopupHasToBeShown = false;
 
 	@Override
 	protected boolean showTubeLogin() {
 		if (input3DPopupShowing) {
-			tubeLoginHasToBeShown = true;
 			return true;
 		}
 		return superShowTubeLogin();
 	}
 
 	boolean superShowTubeLogin() {
-		tubeLoginHasToBeShown = false;
 		return super.showTubeLogin();
 	}
 
 	@Override
 	protected void showPerspectivePopup() {
-		if (input3DPopupShowing) {
-			perspectivePopupHasToBeShown = true;
-		} else {
-			superShowPerspectivePopup();
-		}
+		superShowPerspectivePopup();
 	}
 
 	void superShowPerspectivePopup() {
-		perspectivePopupHasToBeShown = false;
 		super.showPerspectivePopup();
 	}
 
