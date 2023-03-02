@@ -74,7 +74,7 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * @return filer for IQB MMS exam
+	 * @return filter for IQB MMS exam
 	 */
 	public static CommandFilter createMmsFilter() {
 		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
@@ -122,11 +122,23 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * @return filer for Bayern CAS exam
+	 * @return filter for Bayern CAS exam
 	 */
 	public static CommandFilter createBayernCasFilter() {
 		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
 		nameFilter.addCommands(Commands.Plane);
+		return new EnglishCommandFilter(nameFilter);
+	}
+
+	/**
+	 * @return filter for Vlaanderen exam
+	 */
+	public static CommandFilter createVlaanderenFilter() {
+		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		nameFilter.addCommands(Commands.Derivative, Commands.NDerivative, Commands.Integral,
+				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
+				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
+				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
 		return new EnglishCommandFilter(nameFilter);
 	}
 
