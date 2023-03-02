@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.table;
 
+import java.util.Objects;
+
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -114,8 +116,7 @@ public final class ScientificDataTableController {
 		if (oldDefinition == null && newDefinition == null) {
 			return false;
 		}
-		return ((oldDefinition != null) && !oldDefinition.equals(newDefinition))
-				|| ((newDefinition != null) && !newDefinition.equals(oldDefinition));
+		return !Objects.equals(oldDefinition, newDefinition);
 	}
 
 	/**
