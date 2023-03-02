@@ -1996,4 +1996,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
 				is("z"));
 	}
+
+	@Test
+	public void testFitPolyLabel() {
+		GeoSymbolic geo = createGeoWithHiddenLabel("FitPoly({(1,2),(3,4)},1)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("f(x)"));
+	}
 }
