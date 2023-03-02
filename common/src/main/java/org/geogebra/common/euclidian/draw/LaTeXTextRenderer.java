@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.main.settings.FontSettings;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -22,9 +23,12 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 	@Weak
 	private DrawInputBox drawInputBox;
+	private FontSettings fontSettings;
 
 	LaTeXTextRenderer(DrawInputBox drawInputBox) {
 		this.drawInputBox = drawInputBox;
+		fontSettings = drawInputBox.getGeoInputBox().getApp().getSettings()
+				.getFontSettings();
 	}
 
 	@Override
@@ -33,7 +37,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 						 double xPos, double yPos) {
 		int textLeft = (int) Math.round(xPos);
 
-		GFont font1 = getFont(geo, font, 1);
+		GFont font1 = getFont(geo, font, fontSettings.getAppFontSize() + 1);
 		GDimension textDimension = drawInputBox.measureLatex(graphics, geo,
 				font1, text);
 		double inputBoxHeight = drawInputBox.getInputFieldBounds().getHeight();
@@ -69,26 +73,23 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
-		int padding = PADDING;
 		double inputBoxTop = drawInputBox.getLabelTop() + (labelHeight
-				- inputBoxHeight) / padding;
+				- inputBoxHeight) / 2;
 
 		return AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,
-				(int) Math.round(inputBoxTop) + padding,
+				(int) Math.round(inputBoxTop) + PADDING,
 				drawInputBox.boxWidth,
 				inputBoxHeight);
 	}
 
 	private GFont getFont(GeoInputBox geo, GFont font) {
-		return getFont(geo, font, 3);
+		return getFont(geo, font,
+				fontSettings.getAppFontSize() + 3);
 	}
 
-	private GFont getFont(GeoInputBox geo, GFont font, double x) {
-		double baseFontSize = geo.getApp().getSettings()
-				.getFontSettings().getAppFontSize() + x;
-
+	private GFont getFont(GeoInputBox geo, GFont font, int fontSize) {
 		int style = font.getLaTeXStyle(geo.isSerifContent());
-		return font.deriveFont(style, baseFontSize * geo.getFontSizeMultiplier());
+		return font.deriveFont(style, fontSize * geo.getFontSizeMultiplier());
 	}
 }
