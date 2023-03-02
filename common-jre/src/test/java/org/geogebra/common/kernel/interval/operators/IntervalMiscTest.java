@@ -177,6 +177,6 @@ public class IntervalMiscTest {
 		Interval log2 = evaluator.log(x2);
 		Interval div1 = evaluator.divide(zero(), log1);
 		Interval div2 = evaluator.divide(zero(), log2);
- 		assertTrue(div1.isWhole() ^ div2.isWhole());
+ 		assertTrue(div1.isZero() && div2.isZero());
 	}
 }
