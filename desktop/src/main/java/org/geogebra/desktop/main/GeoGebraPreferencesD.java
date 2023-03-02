@@ -223,25 +223,6 @@ public class GeoGebraPreferencesD {
 	}
 
 	/**
-	 * set 3D input used
-	 * 
-	 * @param type
-	 *            type
-	 */
-	public void setInput3DType(String type) {
-		getPref().savePreference(GeoGebraPreferencesD.INPUT_3D, type);
-	}
-
-	/**
-	 * 
-	 * @return 3D input type currently used, "none" if none
-	 */
-	public String getInput3DType() {
-		return getPref().loadPreference(GeoGebraPreferencesD.INPUT_3D,
-				Input3DConstants.PREFS_NONE);
-	}
-
-	/**
 	 * @return the path of the first file in the file list
 	 */
 	public File getDefaultFilePath() {

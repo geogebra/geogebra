@@ -310,8 +310,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private boolean showDockBar = true;
 	private boolean isDockBarEast = true;
 
-	protected boolean showAlgebraView = true;
-
 	/**
 	 * Preferred application frame size. Used in case frame size needs updating.
 	 */
@@ -322,9 +320,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/** Vertical page margin in cm */
 	public static final double PAGE_MARGIN_Y = (1.8 * 72) / 2.54;
-
-	/** Default icon size */
-	public static final int DEFAULT_ICON_SIZE = 32;
 
 	/**
 	 * made a little darker in ggb40 (problem showing on some projectors)
@@ -1019,8 +1014,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		if (args.containsArg("prover")) {
 			String[] proverOptions = args.getStringValue("prover").split(",");
-			for (int i = 0; i < proverOptions.length; i++) {
-				setProverOption(proverOptions[i]);
+			for (String proverOption : proverOptions) {
+				setProverOption(proverOption);
 			}
 		}
 	}
@@ -1556,14 +1551,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return getEuclidianView1();
 		}
 		return getGuiManager().getActiveEuclidianView();
-	}
-
-	public void setShowAxesSelected(JCheckBoxMenuItem cb) {
-
-	}
-
-	public void setShowGridSelected(JCheckBoxMenuItem cb) {
-
 	}
 
 	// **************************************************************************
@@ -4513,8 +4500,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			showDockPopup = false;
 			GeoGebraPreferencesD.getPref().savePreference(
 					GeoGebraPreferencesD.USER_LOGIN_SKIP, "true");
-
-			getGuiManager().login();
 		}
 
 		return showDockPopup;

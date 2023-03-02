@@ -433,11 +433,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 	}
 
 	@Override
-	public void showLogInDialog() {
-		// No Login Dialog
-	}
-
-	@Override
 	public void showLogOutDialog() {
 		Object[] options = { getLocalization().getMenu("SignOut"),
 				getLocalization().getMenu("Cancel") };
