@@ -22,12 +22,11 @@ public class BorderTextPopup extends BgColorPopup {
 	/**
 	 * @param app {@link AppW}
 	 * @param colorSetType {@code int}
-	 * @param hasSlider {@code boolean}
 	 * @param selection selected geos
 	 */
 	public BorderTextPopup(AppW app, int colorSetType,
-			boolean hasSlider, EuclidianStyleBarSelection selection) {
-		super(app, colorSetType, hasSlider, selection);
+			EuclidianStyleBarSelection selection) {
+		super(app, colorSetType, selection);
 		getMyPopup().addStyleName("borderColPopup");
 		addClickHandler(noBorder);
 		addClickHandler(thin);

@@ -418,6 +418,8 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
+	 * @param app application
+	 * @param geos selected (or default) geos
 	 * @param lineStyleIndex
 	 *            line style index
 	 * @param lineSize
@@ -479,6 +481,8 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
+	 * @param app application
+	 * @param geos selected (or default) geos
 	 * @param color
 	 *            color
 	 * @param alpha
@@ -609,59 +613,57 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * process the action performed
-	 * @param actionCommand - showGrid, showAxes, standardView, pointCapture
-	 * @param targetGeos - elements
-	 * @param ev - view
-	 * @return success
+	 * Set point capturing
+	 * @param ev euclidian view
+	 * @return whether undo needed
 	 */
-	// if all cases will be processed here, instead of
-	// EuclidianStyleBar.processSource, the return value will be unnecessary
-	public static boolean processSourceCommon(String actionCommand,
-			ArrayList<GeoElement> targetGeos, EuclidianViewInterfaceCommon ev) {
+	public static boolean processPointCapture(EuclidianViewInterfaceCommon ev) {
+		int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
+
+		if (mode == 3 || mode == 0) {
+			mode = 3 - mode; // swap 0 and 3
+		}
+		ev.setPointCapturing(mode);
+
+		// update other EV stylebars since this is a global property
+		ev.getApplication().updateStyleBars();
+		return false;
+	}
+
+	/**
+	 * Toggle grid visibility
+	 * @param ev euclidian view
+	 * @return whether undo needed
+	 */
+	public static boolean processGrid(EuclidianViewInterfaceCommon ev) {
 		App app = ev.getApplication();
-		boolean changed = false;
-		if ("showAxes".equals(actionCommand)) {
-			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
-					app);
-			if (evs != null) {
-				changed = evs.setShowAxes(!evs.getShowAxis(0));
-			} else {
-				changed = ev.setShowAxes(!ev.getShowXaxis(), true);
-			}
-			ev.repaint();
-		} else if ("showGrid".equals(actionCommand)) {
-			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
-					app);
-			if (evs != null) {
-				changed = evs.showGrid(!evs.getShowGrid());
-			} else {
-				changed = ev.showGrid(!ev.getShowGrid());
-			}
-			ev.repaint();
-		} else if ("standardView".equals(actionCommand)) {
-			// no parameters, always do this
-			// app.setStandardView();
-			ev.setStandardView(true);
-		} else if ("pointCapture".equals(actionCommand)) {
-			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
-
-			if (mode == 3 || mode == 0) {
-				mode = 3 - mode; // swap 0 and 3
-			}
-			ev.setPointCapturing(mode);
-
-			// update other EV stylebars since this is a global property
-			app.updateStyleBars();
-		}
-
-		if (changed) {
-			app.storeUndoInfo();
+		EuclidianSettings evs = app.getSettings().getEuclidianForView(ev, app);
+		boolean changed;
+		if (evs != null) {
+			changed = evs.showGrid(!evs.getShowGrid());
 		} else {
-			return false;
+			changed = ev.showGrid(!ev.getShowGrid());
 		}
+		ev.repaint();
+		return changed;
+	}
 
-		return true;
+	/**
+	 * Toggle axes visibility
+	 * @param ev view
+	 * @return whether undo needed
+	 */
+	public static boolean processAxes(EuclidianViewInterfaceCommon ev) {
+		boolean changed;
+		App app = ev.getApplication();
+		EuclidianSettings evs = app.getSettings().getEuclidianForView(ev, app);
+		if (evs != null) {
+			changed = evs.setShowAxes(!evs.getShowAxis(0));
+		} else {
+			changed = ev.setShowAxes(!ev.getShowXaxis(), true);
+		}
+		ev.repaint();
+		return changed;
 	}
 
 	/**
