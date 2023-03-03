@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.util.MyMath;
 
 public class InputBoxBounds {
-	private static final int PADDING_Y = 2;
-	private static final int PADDING_X = 2;
+	private static final int PADDING_Y = 4;
+	private static final int PADDING_X = 4;
 	private GRectangle bounds;
 	private final GeoInputBox geoInputBox;
 	private TextRenderer renderer;
