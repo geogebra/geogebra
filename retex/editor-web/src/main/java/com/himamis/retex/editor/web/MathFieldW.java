@@ -114,7 +114,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private Timer focuser;
 	private boolean pasteInstalled = false;
 
-	private final int bottomOffset;
 	private MyTextArea inputTextArea;
 	private SimplePanel clip;
 
@@ -170,7 +169,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 		html = canvas;
-		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setSyntaxAdapter(converter);
@@ -657,7 +655,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	public double getHeightWithMargin() {
-		return lastIcon.getIconHeight() + getMargin(lastIcon) + bottomOffset;
+		return lastIcon.getIconHeight() + getMargin(lastIcon);
 	}
 
 	public int getIconHeight() {
@@ -687,7 +685,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * up to 8
 	 */
 	private double roundUp(double w) {
-
 		return Math.ceil(w * ratio) / ratio;
 	}
 

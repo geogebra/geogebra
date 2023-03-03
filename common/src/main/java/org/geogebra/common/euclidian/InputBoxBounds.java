@@ -9,6 +9,8 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.util.MyMath;
 
 public class InputBoxBounds {
+	private static final int PADDING_Y = 2;
+	private static final int PADDING_X = 2;
 	private GRectangle bounds;
 	private final GeoInputBox geoInputBox;
 	private TextRenderer renderer;
@@ -36,12 +38,27 @@ public class InputBoxBounds {
 	public void update(EuclidianView view, double labelTop, GFont textFont, String labelDesc) {
 		GGraphics2D g2 = view.getGraphicsForPen();
 		bounds = renderer.measureBounds(g2, geoInputBox, textFont, labelDesc);
-		int viewHeight = view.getHeight();
-		if (labelTop > 0 && labelTop < viewHeight) { // window resized -> keep box offscreen
-			bounds.setLocation((int) bounds.getX(),
-					(int) MyMath.clamp(bounds.getMinY(), 0,
-							viewHeight - bounds.getHeight()));
+
+		if (hasWindowResized(labelTop, view.getHeight())) {
+			keepBoxOffscreen(view.getHeight());
 		}
+
+		handlePaddings();
+	}
+
+	private void handlePaddings() {
+		bounds.setSize((int) (bounds.getWidth() - 2 * PADDING_X),
+				(int) (bounds.getHeight() - 2 * PADDING_Y));
+	}
+
+	private void keepBoxOffscreen(int viewHeight) {
+		bounds.setLocation((int) bounds.getX(),
+				(int) MyMath.clamp(bounds.getMinY(), 0,
+						viewHeight - bounds.getHeight()));
+	}
+
+	private boolean hasWindowResized(double labelTop, int viewHeight) {
+		return labelTop > 0 && labelTop < viewHeight;
 	}
 
 	/**
