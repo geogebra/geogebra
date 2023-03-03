@@ -40,11 +40,11 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive) {
 
-		super(cons, labels, inPoly0, inPoly1);
+		super(cons, labels, inPoly0, inPoly1, AlgoPolygonDifference.getOp(exclusive));
 		this.exclusive = exclusive;
 		this.threeArgs = true;
 
-		initiatePolyOperation(AlgoPolygonDifference.getOp(exclusive));
+		initialize(null);
 	}
 
 	/**

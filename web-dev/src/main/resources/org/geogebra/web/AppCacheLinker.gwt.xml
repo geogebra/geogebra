@@ -3,5 +3,6 @@
 
   <define-linker name="appcachelinker" class="org.geogebra.web.linker.AppCacheLinker" />
   <add-linker name="appcachelinker" />
-
+  <define-linker name="standardxsi" class="org.geogebra.web.linker.StandardIframeLinker" />
+  <add-linker name="standardxsi" />
 </module>

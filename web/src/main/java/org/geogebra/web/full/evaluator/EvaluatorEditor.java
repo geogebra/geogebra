@@ -50,7 +50,6 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 		mathFieldEditor.addStyleName("evaluatorEditor");
 		mathFieldEditor.addBlurHandler(this);
 		mathFieldEditor.setFontSize(app.getAppletParameters().getParamFontSize(18));
-		mathFieldEditor.setUseKeyboardButton(false);
 
 		String bgColor = app.getAppletParameters().getDataParamEditorBackgroundColor();
 		String fgColor = app.getAppletParameters().getDataParamEditorForegroundColor();
@@ -115,8 +114,8 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
-		// TODO: implement this.
+	public boolean onTab(boolean shiftDown) {
+		return app.getGlobalKeyDispatcher().handleTab(shiftDown);
 	}
 
 	@Override

@@ -5,13 +5,11 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -27,7 +25,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
@@ -72,6 +69,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
+
+import elemental2.dom.DomGlobal;
 
 public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
@@ -506,6 +505,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			cursorOverlay = new CursorOverlay();
 			addFocusHandler(evt -> addDummyCursor());
 			addBlurHandler(evt -> removeDummyCursor());
+			DomGlobal.setInterval(event -> updateCursorOverlay(), 200);
 			if (geoUsedForInputBox != null) {
 				setTextAlignmentsForInputBox(geoUsedForInputBox.getAlignment());
 			}
@@ -1189,7 +1189,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private int getSelectionStart() {
-		return getText().indexOf(textField.getValueBox().getSelectedText());
+		return textField.getValueBox().getCursorPos();
 	}
 
 	@Override
@@ -1428,19 +1428,28 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		g2.setPaint(bgColor);
+		GColor backgroundColor = hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
+		g2.setPaint(backgroundColor);
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
-		// TF Rectangle
-		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED);
-			g2.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
-		} else {
-			g2.setPaint(GColor.BLACK);
-		}
+		GColor borderColor = backgroundColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
+				: GColor.getBorderColorFrom(backgroundColor);
+		g2.setColor(borderColor);
+		setTextFieldBorderColor(backgroundColor, borderColor);
 
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+	}
+
+	private void setTextFieldBorderColor(GColor backgroundColor, GColor borderColor) {
+		if (!drawTextField.hasError() && backgroundColor != GColor.WHITE) {
+			drawTextField.setBorderColor(borderColor);
+		} else if (backgroundColor == GColor.WHITE) {
+			drawTextField.setBorderColor(null);
+		}
+	}
+
+	private boolean hasError() {
+		return drawTextField != null && drawTextField.hasError();
 	}
 
 	@Override

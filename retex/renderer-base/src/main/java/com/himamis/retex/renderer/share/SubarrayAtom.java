@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasElements;
+
 /**
  * An atom representing a vertical row of other atoms.
  */
-public class SubarrayAtom extends Atom {
+public class SubarrayAtom extends Atom implements HasElements {
 
 	private static final SpaceAtom vsep_in = new SpaceAtom(Unit.EX,
 			0., 0.5, 0.);
@@ -85,4 +87,8 @@ public class SubarrayAtom extends Atom {
 		return vb;
 	}
 
+	@Override
+	public Atom getElement(int index) {
+		return column.getFirstColumnElement(index);
+	}
 }

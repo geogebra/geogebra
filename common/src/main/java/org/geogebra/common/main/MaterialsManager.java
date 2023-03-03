@@ -1,10 +1,9 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
 
@@ -105,7 +104,7 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 
 					@Override
 					public void onLoaded(final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
+							Pagination meta) {
 						if (parseResponse.size() == 1) {
 							mat.setTitle(getTitleFromKey(mat.getTitle()));
 							mat.setLocalID(
@@ -150,12 +149,12 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 
 	@Override
 	public void getFromTube(final int id, final boolean fromAnotherDevice) {
-		getApp().getLoginOperation().getGeoGebraTubeAPI().getItem(id + "",
+		getApp().getLoginOperation().getResourcesAPI().getItem(id + "",
 				new MaterialCallbackI() {
 
 					@Override
 					public void onLoaded(final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
+							Pagination meta) {
 						MaterialsManager.this.notDownloadedFileCount--;
 						// edited on Tube, not edited locally
 						if (parseResponse.size() == 1) {

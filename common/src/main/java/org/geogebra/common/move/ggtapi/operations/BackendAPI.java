@@ -1,30 +1,15 @@
 package org.geogebra.common.move.ggtapi.operations;
 
-import java.util.List;
-
-import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Common interface for backend connectors.
  */
 public interface BackendAPI {
-
-	/**
-	 * Return a specific Material by its ID
-	 *
-	 * @param id
-	 *            int ID or sharing key
-	 * @param callback
-	 *            {@link MaterialCallbackI}
-	 */
-	void getItem(String id, MaterialCallbackI callback);
 
 	/**
 	 * @param logInOperation
@@ -50,14 +35,6 @@ public interface BackendAPI {
 	 * @return success
 	 */
 	boolean parseUserDataFromResponse(GeoGebraTubeUser user, String loadLastUser);
-
-	/**
-	 * @param mat
-	 *            {@link Material}
-	 * @param cb
-	 *            {@link MaterialCallbackI}
-	 */
-	void deleteMaterial(Material mat, MaterialCallbackI cb);
 
 	/**
 	 * Sends a request to the GeoGebraTube API to check if the login token which
@@ -90,14 +67,6 @@ public interface BackendAPI {
 	 *            login token
 	 */
 	void setUserLanguage(String lang, String token);
-
-	/**
-	 * @param id
-	 *            material id
-	 * @param favorite
-	 *            whether to favorite or unfavorite
-	 */
-	void favorite(int id, boolean favorite);
 
 	/**
 	 * TODO only makes sense for Tube API, get it from somewhere else
@@ -142,35 +111,6 @@ public interface BackendAPI {
 	void performTokenLogin(LogInOperation logInOperation, String token);
 
 	/**
-	 * @param cb
-	 *            {@link MaterialCallbackI}
-	 * @param order
-	 *            preferred order
-	 */
-	void getUsersMaterials(MaterialCallbackI cb, MaterialRequest.Order order);
-
-	/**
-	 * Returns materials in the given amount and order
-	 *
-	 * @param callback
-	 *            {@link MaterialCallbackI}
-	 */
-	void getFeaturedMaterials(MaterialCallbackI callback);
-
-	/**
-	 * Get materials of currently logged in user
-	 *
-	 * @param cb
-	 *            callback
-	 * @param order
-	 *            order
-	 */
-	void getUsersOwnMaterials(MaterialCallbackI cb, MaterialRequest.Order order);
-
-	void getUsersAndSharedMaterials(final MaterialCallbackI cb, MaterialRequest.Order order,
-			int offset);
-
-	/**
 	 * Uploads the actual opened application to ggt
 	 *
 	 * @param tubeID - tube id
@@ -185,60 +125,6 @@ public interface BackendAPI {
 			MaterialCallbackI cb, MaterialType type, boolean isMultiuser);
 
 	/**
-	 * to rename materials on ggt; TODO no use of base64
-	 *
-	 * @param material
-	 *            {@link Material}
-	 * @param callback
-	 *            {@link MaterialCallbackI}
-	 */
-	void uploadRenameMaterial(Material material, MaterialCallbackI callback);
-
-	/**
-	 * Copy existing material.
-	 *
-	 * @param material
-	 *            Current material
-	 * @param title
-	 *            copy title
-	 * @param materialCallback
-	 *            callback
-	 */
-	void copy(Material material, String title, MaterialCallbackI materialCallback);
-
-	/**
-	 * Make material (not) shared with a group
-	 *
-	 * @param material
-	 *            material
-	 * @param groupID
-	 *            group identifier
-	 * @param shared
-	 *            whether to share
-	 * @param callback
-	 *            callback; gets true if successful
-	 */
-	void setShared(Material material, GroupIdentifier groupID, boolean shared,
-			AsyncOperation<Boolean> callback);
-
-	/**
-	 * @param materialID
-	 *            material ID
-	 * @param asyncOperation
-	 *            callback; gets list of groups we can share with
-	 * @param category filter only groups in this category; null for no filter
-	 */
-	void getGroups(String materialID, GroupIdentifier.GroupCategory category,
-			AsyncOperation<List<GroupIdentifier>> asyncOperation);
-
-	/**
-	 * @param mat
-	 *            material
-	 * @return true if user owns the given material
-	 */
-	boolean owns(Material mat);
-
-	/**
 	 * @param student
 	 *            whether user is a student
 	 * @return whether user can share files
@@ -250,11 +136,4 @@ public interface BackendAPI {
 	 */
 	boolean anonymousOpen();
 
-	/**
-	 * Get templates of current user
-	 *
-	 * @param cb
-	 *            callback to process the response and fill the template material list
-	 */
-	void getTemplateMaterials(final MaterialCallbackI cb);
 }

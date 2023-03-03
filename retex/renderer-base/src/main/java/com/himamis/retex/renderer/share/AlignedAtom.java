@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a sans serif atom.
  */
-public class AlignedAtom extends Atom {
+public class AlignedAtom extends Atom implements HasTrueBase {
 
 	private final Atom base;
 	private final TeXConstants.Align alignment;
@@ -68,4 +70,8 @@ public class AlignedAtom extends Atom {
 		return base.createBox(env);
 	}
 
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
 }

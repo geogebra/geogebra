@@ -86,7 +86,7 @@ public class ArrayAtom extends Atom {
 		this(array, options, false);
 	}
 
-	public double[] getSepForColumns(double[] cseps) {
+	protected double[] getSepForColumns(double[] cseps) {
 		final int col = matrix.col;
 		double[] lrseps = new double[2 * col];
 		for (int i = 0; i < col; ++i) {
@@ -106,7 +106,7 @@ public class ArrayAtom extends Atom {
 		return lrseps;
 	}
 
-	public double[] getColumnSep(TeXEnvironment env, double width) {
+	protected double[] getColumnSep(TeXEnvironment env, double width) {
 		final int col = matrix.col;
 		final double[] seps = new double[col + 1];
 
@@ -167,6 +167,15 @@ public class ArrayAtom extends Atom {
 			dinit = Math.max(dinit, b.getDepth());
 		}
 
+		final double[] seps = getColumnSep(env, 0. /* not used */);
+		final double[] hseps = getSepForColumns(seps);
+
+		for (int j = 0; j < col; ++j) {
+			TeXLength length = options.getMinWidth(j);
+			if (length != null) {
+				colWidth[j] = length.getValue(env) - (hseps[j * 2] + hseps[j * 2 + 1]);
+			}
+		}
 		for (int i = 0; i < row; ++i) {
 			rowDepth[i] = dinit;
 			rowHeight[i] = hinit;
@@ -195,9 +204,6 @@ public class ArrayAtom extends Atom {
 			}
 			rowHeight[i] *= arraystretch;
 		}
-
-		final double[] seps = getColumnSep(env, 0. /* not used */);
-		final double[] hseps = getSepForColumns(seps);
 
 		for (final MulticolumnAtom multi : listMulti) {
 			final int c = multi.getCol();
@@ -238,8 +244,14 @@ public class ArrayAtom extends Atom {
 
 		for (int i = 0; i < row; ++i) {
 			final HorizontalBox hb = new HorizontalBox();
-			final double rhi = rowHeight[i];
-			final double rdi = rowDepth[i];
+			TeXLength minHeight = matrix.minHeights.get(i + 1);
+			double padding = 0;
+			boolean center = options.getVertAlignment(0) == TeXConstants.Align.CENTER;
+			if (minHeight != null) {
+				padding = Math.max(minHeight.getValue(env) - rowHeight[i] - rowDepth[i] - vsepH, 0);
+			}
+			final double rhi = rowHeight[i] + (center ? padding / 2.0 : 0);
+			final double rdi = rowDepth[i] + (center ? padding / 2.0 : padding);
 			for (int j = 0; j < col; ++j) {
 				final int typ = boxarr[i][j].type;
 				if (typ == TeXConstants.TYPE_HLINE) {
@@ -304,8 +316,8 @@ public class ArrayAtom extends Atom {
 			}
 
 			if (boxarr[i][0].type != TeXConstants.TYPE_HLINE) {
-				hb.setHeight(rowHeight[i]);
-				hb.setDepth(rowDepth[i]);
+				hb.setHeight(rhi);
+				hb.setDepth(rdi);
 				vb.add(hb);
 
 				if (i < row - 1) {

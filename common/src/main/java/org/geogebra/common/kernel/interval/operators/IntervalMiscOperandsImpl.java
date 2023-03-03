@@ -21,22 +21,30 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval exp(Interval interval) {
-		if (!interval.isUndefined()) {
-			return new Interval(RMath.expLow(interval.getLow()),
-					RMath.expHigh(interval.getHigh()));
+		if (interval.isUndefined()) {
+			return IntervalConstants.undefined();
 		}
-		return IntervalConstants.undefined();
+
+		if (interval.isInverted()) {
+			return evaluator.computeUnaryInverted(interval, this::exp);
+		}
+
+		return new Interval(RMath.expLow(interval.getLow()),
+					RMath.expHigh(interval.getHigh()));
 	}
 
 	@Override
 	public Interval log(Interval interval) {
-		if (!interval.isUndefined()) {
-			if (interval.getHigh() >= 0) {
-				double low = interval.getLow();
-				return new Interval(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
-						RMath.logHigh(interval.getHigh()));
-			}
+		if (interval.isInverted()) {
+			return evaluator.computeUnaryInverted(interval, this::log);
 		}
+
+		if (!interval.isUndefined() && interval.getHigh() >= 0) {
+			double low = interval.getLow();
+			return new Interval(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
+					RMath.logHigh(interval.getHigh()));
+		}
+
 		return IntervalConstants.undefined();
 	}
 

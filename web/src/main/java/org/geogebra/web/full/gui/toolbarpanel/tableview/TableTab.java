@@ -43,9 +43,10 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 
 	private void buildEmptyTablePanel() {
 		InfoErrorData data = new InfoErrorData("TableValuesEmptyTitle",
-				"TableDiscreteDistribution");
+				"TableDiscreteDistribution", null,
+				MaterialDesignResources.INSTANCE.toolbar_table_view_black());
 		emptyPanel = new ComponentInfoErrorPanel(toolbarPanel.getApp().getLocalization(),
-				data, MaterialDesignResources.INSTANCE.toolbar_table_view_black(), null);
+				data, null);
 	}
 
 	@Override

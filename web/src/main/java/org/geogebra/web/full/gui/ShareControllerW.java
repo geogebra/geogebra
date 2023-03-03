@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -8,9 +7,9 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -278,7 +277,7 @@ public class ShareControllerW implements ShareController {
 			if (evt.connected) {
 				MaterialCallback cb = new MaterialCallback() {
 					@Override
-					public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+					public void onLoaded(List<Material> result, Pagination meta) {
 						mat.setFileName(result.get(0).getFileName());
 						mp.terminate();
 						if (after != null) {
@@ -309,7 +308,7 @@ public class ShareControllerW implements ShareController {
 	private void handleMultiuserChange(JsArray<Object> users) {
 		if (users.length == 0
 				&& app.getActiveMaterial() != null
-				&& !app.getLoginOperation().getGeoGebraTubeAPI().owns(app.getActiveMaterial())) {
+				&& !app.getLoginOperation().getResourcesAPI().owns(app.getActiveMaterial())) {
 			CollaborationStoppedDialog dialog = new CollaborationStoppedDialog(app);
 			dialog.show();
 		}
@@ -336,8 +335,9 @@ public class ShareControllerW implements ShareController {
 				String paramMultiplayerUrl = app.getAppletParameters().getParamMultiplayerUrl();
 				JavaScriptInjector.inject(MultiplayerResources.INSTANCE.multiplayer());
 				JsPropertyMap<?> config = JsPropertyMap.of("collabUrl", paramMultiplayerUrl);
-
-				GGBMultiplayer multiplayer = new GGBMultiplayer(api, sharingKey, config,
+				String hostname = DomGlobal.location.hostname;
+				String teamId = hostname.replaceAll("\\W", "") + "_" + sharingKey;
+				GGBMultiplayer multiplayer = new GGBMultiplayer(api, teamId, config,
 						loggedInUser.getJWTToken());
 				callback.accept(multiplayer);
 			}

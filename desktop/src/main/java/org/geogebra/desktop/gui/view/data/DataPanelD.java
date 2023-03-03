@@ -7,18 +7,15 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -33,7 +30,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
-import org.geogebra.common.euclidian.draw.DrawBoolean.CheckBoxIcon;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -42,7 +38,6 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -55,7 +50,7 @@ public class DataPanelD extends JPanel
 	private final DataAnalysisControllerD statController;
 
 	private JTable dataTable;
-	private JButton btnEnableAll;
+	private JCheckBox btnEnableAll;
 	private MyRowHeader rowHeader;
 	private JScrollPane scrollPane;
 
@@ -139,13 +134,8 @@ public class DataPanelD extends JPanel
 		scrollPane.setRowHeaderView(rowHeader);
 
 		// create enableAll button and put it in the upper left corner
-		DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);
-		ImageIcon iconUnChecked = cbIcon.createCheckBoxImageIcon(false, false);
-		ImageIcon iconChecked = cbIcon.createCheckBoxImageIcon(true, false);
 
-		btnEnableAll = new JButton();
-		btnEnableAll.setIcon(iconUnChecked);
-		btnEnableAll.setDisabledIcon(iconChecked);
+		btnEnableAll = new JCheckBox();
 		btnEnableAll.setEnabled(false);
 		btnEnableAll.setBorderPainted(false);
 		btnEnableAll.setBackground(GColorD.getAwtColor(
@@ -475,48 +465,39 @@ public class DataPanelD extends JPanel
 
 		class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 			private static final long serialVersionUID = 1L;
-			private ImageIcon iconChecked;
-			private ImageIcon iconUnChecked;
+			private final JPanel panel = new JPanel();
+
+			private final JCheckBox jCheckBox = new JCheckBox();
 
 			RowHeaderRenderer(JTable table) {
-
-				DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);
-				iconUnChecked = cbIcon.createCheckBoxImageIcon(false, false);
-				iconChecked = cbIcon.createCheckBoxImageIcon(true, false);
-
-				setOpaque(true);
-
-				setBorder(BorderFactory.createCompoundBorder(
+				setOpaque(false);
+				setHorizontalAlignment(LEFT);
+				setFont(table.getFont());
+				jCheckBox.setBorder(
+						BorderFactory.createMatteBorder(0, 0, 1, 0,
+								GColorD.getAwtColor(
+										GeoGebraColorConstants.TABLE_GRID_COLOR)));
+				panel.setBorder(BorderFactory.createCompoundBorder(
 						BorderFactory.createMatteBorder(0, 0, 1, 1,
 								GColorD.getAwtColor(
 										GeoGebraColorConstants.TABLE_GRID_COLOR)),
-						BorderFactory.createEmptyBorder(0, 5, 0, 2)));
-
-				setHorizontalAlignment(LEFT);
-				setFont(table.getFont());
+						BorderFactory.createEmptyBorder(0, 0, 1, 0)));
+				panel.add(jCheckBox);
+				panel.add(this);
 			}
 
 			@Override
 			public Component getListCellRendererComponent(JList list,
 					Object value, int index, boolean isSelected,
 					boolean cellHasFocus) {
-
 				setText("" + (index + 1));
-
-				// add/remove icons
-				if ((Boolean) value) {
-					setIcon(iconChecked);
-				} else {
-					setIcon(iconUnChecked);
-				}
-
 				if (!(Boolean) value) {
-					setBackground(DISABLED_BACKGROUND_COLOR);
+					panel.setBackground(DISABLED_BACKGROUND_COLOR);
 				} else {
-					setBackground(TABLE_HEADER_COLOR);
+					panel.setBackground(TABLE_HEADER_COLOR);
 				}
-
-				return this;
+				jCheckBox.setSelected((Boolean) value);
+				return panel;
 			}
 		}
 
@@ -583,31 +564,6 @@ public class DataPanelD extends JPanel
 				}
 			}
 			return true;
-		}
-
-	}
-
-	public static class DataCheckBoxIcon {
-
-		public int csize;
-
-		public DataCheckBoxIcon(int csize) {
-			this.csize = csize;
-		}
-
-		protected ImageIcon createCheckBoxImageIcon(boolean checked,
-				boolean highlighted) {
-
-			DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);
-			BufferedImage image = new BufferedImage(13, 13,
-					BufferedImage.TYPE_INT_ARGB);
-			ImageIcon icon = new ImageIcon(image);
-			Graphics2D g2d = image.createGraphics();
-
-			CheckBoxIcon.paintIcon(checked, highlighted, new GGraphics2DD(g2d),
-					0, 0, cbIcon.csize);
-
-			return icon;
 		}
 
 	}

@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel;
 
+import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -968,6 +970,10 @@ public class ConstructionDefaults implements SettingListener {
 					&& geo.getBackgroundColor() == null) {
 				geo.setBackgroundColor(GeoGebraColorConstants.GEOGEBRA_ACCENT);
 				geo.setObjColor(GColor.WHITE);
+				((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
+			}
+			if (geo instanceof GeoInputBox) {
+				geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
 			}
 
 			if (!isReset) {

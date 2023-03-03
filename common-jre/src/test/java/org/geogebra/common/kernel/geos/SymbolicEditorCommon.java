@@ -37,8 +37,8 @@ class SymbolicEditorCommon extends SymbolicEditor {
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
-
+	public boolean onTab(boolean shiftDown) {
+		return true;
 	}
 
 	@Override
@@ -59,6 +59,11 @@ class SymbolicEditorCommon extends SymbolicEditor {
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
 		setInputBox(geoInputBox);
+	}
+
+	@Override
+	protected void selectEntryAt(int x, int y) {
+		mf.getInternal().selectEntryAt(x, y);
 	}
 
 	@Override

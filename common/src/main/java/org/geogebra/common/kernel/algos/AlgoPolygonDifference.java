@@ -33,11 +33,11 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 	public AlgoPolygonDifference(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive) {
 
-		super(cons, labels, inPoly0, inPoly1);
+		super(cons, labels, inPoly0, inPoly1, getOp(exclusive));
 		this.exclusive = exclusive;
 		this.threeArgs = exclusive != null;
 
-		this.initiatePolyOperation(getOp(exclusive));
+		this.initialize(null);
 
 	}
 

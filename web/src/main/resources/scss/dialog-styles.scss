@@ -56,6 +56,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.printPreview {
 		max-width: 370px;
+
+		.dropDown {
+			width: 100%;
+		}
 	}
 
 	.dialogComponent.customColor {
@@ -114,25 +118,27 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.Checkbox {
 		max-width: 391px;
 
-		.gwt-ListBox {
-			margin-right: 16px;
-			width: calc(100% - 16px) !important;
-		}
-
 		.panelTitle {
-			margin-right: 16px;
 			display: block;
 			cursor: default;
 			color: colors.$teal-default;
 			border-bottom: 1px solid colors.$teal-default;
 		}
 
-		.AutoCompleteTextFieldW {
-			border-bottom: 1px solid colors.$teal-default !important;
+		.panelRow {
+			display: flex;
 		}
 
 		.button img {
 			opacity: 0.54;
+		}
+
+		.dropDown {
+			width: 100%;
+		}
+
+		.gwt-ListBox {
+			min-height: 140px;
 		}
 	}
 
@@ -150,18 +156,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 			width: calc(100% - 16px) !important;
 		}
-
-		.AutoCompleteTextFieldW {
-			border-bottom: 1px solid colors.$teal-default !important;
-		}
 	}
 
 	.dialogComponent.inputboxDialog {
 		max-width: 430px;
 
-		.AutoCompleteTextFieldW {
-			max-width: 382px;
-			border-bottom: 1px solid colors.$teal-default !important;
+		.dropDown {
+			width: 100%;
 		}
 	}
 
@@ -187,6 +188,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			box-shadow: none;
 			border-bottom: 1px solid colors.$teal-default;
 			border-radius: 0px;
+			margin-bottom: 8px;
+
 		}
 
 		.checkboxPanel {
@@ -206,7 +209,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.visibilityPanel {
 			.visibility {
 				position: absolute;
-				bottom: 6px;
+				bottom: 12px;
 				width: 131px;
 				left: 76px;
 				top: auto;
@@ -1910,7 +1913,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogThreeTabs .gwt-TabBarItem {
 		min-width: 30%;
 	}
-
 
 	.perspectivePopup {
 		width: 280px;

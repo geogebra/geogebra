@@ -7,14 +7,9 @@ import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class SphericalPrinter implements Printer {
 
-    private PrintableVector vector;
-
-    SphericalPrinter(PrintableVector vector) {
-        this.vector = vector;
-    }
-
     @Override
-    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
+    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
         return tpl.leftBracket()
                 + expressionPrinter.print(vector.getX(), tpl)
                 + "; "

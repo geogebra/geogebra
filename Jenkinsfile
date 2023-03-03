@@ -56,7 +56,7 @@ pipeline {
                expression {return !isGiac}
             }
             steps {
-                sh label: 'test', script: "$gradleCmd :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test :keyboard-scientific:test"
+                sh label: 'test', script: "$gradleCmd test :common-jre:jacocoTestReport"
                 sh label: 'static analysis', script: "$gradleCmd pmdMain spotbugsMain -x common:spotbugsMain  -x renderer-base:spotbugsMain --max-workers=1"
                 sh label: 'spotbugs common', script: "$gradleCmd :common:spotbugsMain"
                 sh label: 'code style', script: "$gradleCmd :web:cpdCheck checkStyleMain checkStyleTest"

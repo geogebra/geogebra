@@ -64,8 +64,9 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		// TODO handle tab
+		return true;
 	}
 
 	/**

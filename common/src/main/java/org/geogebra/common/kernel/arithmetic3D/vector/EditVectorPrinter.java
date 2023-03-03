@@ -7,14 +7,9 @@ import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class EditVectorPrinter implements Printer {
 
-	private PrintableVector vector;
-
-	EditVectorPrinter(PrintableVector vector) {
-		this.vector = vector;
-	}
-
 	@Override
-	public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
+	public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
 		return printLeftParenthesis()
 				+ expressionPrinter.print(vector.getX(), tpl)
 				+ printDelimiter()

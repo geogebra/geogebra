@@ -46,11 +46,13 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing another atom vertically centered with respect to the
  * axis (determined by a general TeXFont parameter)
  */
-public class VCenteredAtom extends Atom {
+public class VCenteredAtom extends Atom implements HasTrueBase {
 
 	// atom to be centered vertically with respect to the axis
 	private final Atom base;
@@ -128,5 +130,10 @@ public class VCenteredAtom extends Atom {
 	@Override
 	public Atom getBase() {
 		return base.getBase();
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

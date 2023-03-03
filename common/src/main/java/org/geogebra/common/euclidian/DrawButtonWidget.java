@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
+
 import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
@@ -52,6 +54,8 @@ public class DrawButtonWidget {
 	private final static int MARGIN_BOTTOM = 5;
 	private final static int MARGIN_LEFT = 10;
 	private final static int MARGIN_RIGHT = 10;
+
+	private final static int DEFAULT_TEXT_HEIGHT = 24;
 
 	/**
 	 * @param button
@@ -145,9 +149,9 @@ public class DrawButtonWidget {
 		currentWidth = Math.max(currentWidth,
 				imgWidth + (MARGIN_LEFT + MARGIN_RIGHT));
 
-		int currentHeight = Math.max((int) (textHeight + imgHeight + imgGap
-				+ (MARGIN_TOP + MARGIN_BOTTOM)),
-				minSize);
+		int currentHeight = (int) textHeight == DEFAULT_TEXT_HEIGHT && imgHeight == 0
+				? DEFAULT_BUTTON_HEIGHT : Math.max((int) (textHeight + imgHeight + imgGap
+				+ (MARGIN_TOP + MARGIN_BOTTOM)), minSize);
 
 		// Initial offset for subimage if button has fixed size
 		int startX = 0;
@@ -219,7 +223,7 @@ public class DrawButtonWidget {
 					getHeight() - 1, arcSize, arcSize);
 		}
 
-		if (isSelected()) {
+		if (isSelected() && !pressed) {
 			halo.draw(g, widthCorrection, arcSize);
 		}
 
@@ -231,10 +235,11 @@ public class DrawButtonWidget {
 		if (styleSettings.getButtonBorderColor() != null) {
 			g.setColor(styleSettings.getButtonBorderColor());
 		} else {
-			if (bg.equals(GColor.WHITE)) {
-				g.setColor(GColor.BLACK);
+			if (bg.getContrast(view.getBackgroundCommon()) >= 3.0) {
+				g.setColor(bg);
 			} else {
-				g.setColor(isSelected() ? bg.darker().darker() : bg.darker());
+				g.setColor(view.getBackgroundCommon().getLuminance() > 0.5
+						? GColor.getBorderColorFrom(bg) : GColor.getBrightBorderColorFrom(bg));
 			}
 		}
 
@@ -290,7 +295,8 @@ public class DrawButtonWidget {
 			lastTintColor = geoButton.getObjectColor();
 			lastTintImage = geoButton.getImageFileName();
 		}
-		g.drawImage(tinted == null ? im : tinted, 0, 0);
+		g.drawImage(tinted == null || geoButton.getObjectColor() == geoButton.getBackgroundColor()
+				? im : tinted, 0, 0);
 
 		g.restoreTransform();
 	}

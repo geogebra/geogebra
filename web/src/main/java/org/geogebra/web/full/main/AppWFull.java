@@ -73,8 +73,8 @@ import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -905,13 +905,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public final void doOpenMaterial(String id,
 			final AsyncOperation<String> onError) {
-		getLoginOperation().getGeoGebraTubeAPI()
+		getLoginOperation().getResourcesAPI()
 				.getItem(id, new MaterialCallback() {
 
 					@Override
 					public void onLoaded(
 							final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
+							Pagination meta) {
 						if (parseResponse.size() == 1) {
 							Material material = parseResponse.get(0);
 							material.setSyncStamp(
@@ -1095,16 +1095,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public AppKeyboardType getKeyboardType() {
 		if ("evaluator".equals(appletParameters.getDataParamAppName())) {
 			String setting = appletParameters.getParamKeyboardType("normal");
-			switch (setting) {
-			case "normal":
-				return AppKeyboardType.SUITE;
-			case "notes":
-				return AppKeyboardType.NOTES;
-			case "solver":
-				return AppKeyboardType.SOLVER;
-			default:
-				return AppKeyboardType.SCIENTIFIC;
-			}
+			return AppKeyboardType.fromName(setting);
 		}
 		return getConfig().getKeyboardType();
 	}

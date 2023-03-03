@@ -2582,26 +2582,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Sets the global size for checkboxes. Michael Borcherds 2008-05-12
-	 * 
-	 * @param size
-	 *            13 or 26
-	 */
-	public void setBooleanSize(int size) {
-		// only 13 and 26 currently allowed
-		app.setCheckboxSize(size);
-
-		updateAllDrawables(true);
-	}
-
-	/**
-	 * @return size of booleans (13 or 26)
-	 */
-	final public int getBooleanSize() {
-		return app.getCheckboxSize();
-	}
-
-	/**
 	 * @param setto
 	 *            tooltip mode
 	 */
@@ -6245,10 +6225,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
+			getScreenReader().cancelReadDelayed();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {
-				drawInputBox.attachMathField();
+				drawInputBox.attachMathField(null);
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
 			}
@@ -6274,8 +6255,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void refreshTextfieldFocus(GeoInputBox inputBox) {
 		focusTextField(inputBox);
-		viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
-		getTextField().setSelection(0, getTextField().getText().length());
+		if (!inputBox.isSymbolicMode()) {
+			viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
+			getTextField().setSelection(0, getTextField().getText().length());
+		}
 	}
 
 	public ViewTextField getViewTextField() {
@@ -6484,12 +6467,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param bounds
 	 *             where the editor should be attached to.
 	 */
-	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds, GPoint caretPos) {
 		if (symbolicEditor == null) {
 			symbolicEditor = createSymbolicEditor();
 		}
 		if (symbolicEditor != null) {
 			symbolicEditor.attach(geoInputBox, bounds);
+			symbolicEditor.selectEntryAt(caretPos, bounds);
 		}
 	}
 

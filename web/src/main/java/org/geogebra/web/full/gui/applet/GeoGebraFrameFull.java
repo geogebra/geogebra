@@ -22,7 +22,6 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.panel.PanelTransitioner;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -214,6 +213,8 @@ public class GeoGebraFrameFull
 	 * @param panel Shows this full-screen panel.
 	 */
 	public void showPanel(MyHeaderPanel panel) {
+		forceHeaderHidden(true);
+		getApp().setCloseBrowserCallback(() -> forceHeaderHidden(false));
 		panelTransitioner.showPanel(panel);
 	}
 
@@ -250,7 +251,12 @@ public class GeoGebraFrameFull
 		return headerResizer;
 	}
 
-	@Override
+	/**
+	 * @param show
+	 *            true if show
+	 * @param textField
+	 *            {@link MathKeyboardListener}
+	 */
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
 		if (keyboardState == KeyboardState.ANIMATING_IN
@@ -314,6 +320,7 @@ public class GeoGebraFrameFull
 		app.updateSplitPanelHeight();
 
 		keyboardHeight = 0;
+		app.updateViewSizes();
 		keyBoard.remove(() -> {
 			keyBoard.resetKeyboardState();
 			getApp().centerAndResizeViews();
@@ -552,9 +559,8 @@ public class GeoGebraFrameFull
 			}
 		} else {
 			if (app != null && appNeedsKeyboard()
-					&& isKeyboardAutofocus()
 					&& isKeyboardWantedFromStorage()) {
-				if (!app.isStartedWithFile()
+				if (isKeyboardAutofocus() && !app.isStartedWithFile()
 						&& !app.getAppletParameters().preventFocus()) {
 					if (getKeyboardManager()
 							.isKeyboardClosedByUser()) {
@@ -676,9 +682,16 @@ public class GeoGebraFrameFull
 		return isKeyboardShowing() ? keyboardHeight : 0;
 	}
 
-	private static boolean isKeyboardWantedFromStorage() {
-		String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
-		return !"false".equals(wanted);
+	private boolean isKeyboardWantedFromStorage() {
+		String showKeyboardOnFocus = app.getAppletParameters().getParamShowKeyboardOnFocus("auto");
+		if ("false".equals(showKeyboardOnFocus)) {
+			return false;
+		} else if ("true".equals(showKeyboardOnFocus)) {
+			return true;
+		} else {
+			String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
+			return !"false".equals(wanted);
+		}
 	}
 
 	/**
@@ -916,20 +929,6 @@ public class GeoGebraFrameFull
 	}
 
 	/**
-	 * Can be called to handle the back button event.
-	 */
-	public void onBackPressed() {
-		if (isSubPanelOpen() && app != null) {
-			GuiManagerW guiManager = getGuiManager();
-			hidePanel((BrowseGUI) guiManager.getBrowseView());
-		}
-	}
-
-	private boolean isSubPanelOpen() {
-		return panelTransitioner.getCurrentPanel() != null;
-	}
-
-	/**
 	 * Actions performed when menu button is pressed
 	 */
 	private void onMenuButtonPressed() {
@@ -1033,7 +1032,7 @@ public class GeoGebraFrameFull
 
 	@Override
 	protected int getSmallScreenHeaderHeight() {
-		if (isExternalHeaderHidden()) {
+		if (shouldHideHeader()) {
 			return 0;
 		}
 		return getHeaderResizer().getSmallScreenHeight();

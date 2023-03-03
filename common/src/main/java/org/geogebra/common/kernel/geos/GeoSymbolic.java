@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -232,9 +231,7 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
 
-		setSymbolicMode(!isTopLevelCommandNumeric()
-				&& SymbolicUtil.isValueDefined(this), false);
-
+		setSymbolicMode();
 		setFunctionVariables();
 
 		isTwinUpToDate = false;
@@ -360,7 +357,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionValue maybeComputeNumericValue(ExpressionValue casOutput) {
-		if (!shouldComputeNumericValue(casOutput)) {
+		if (!SymbolicUtil.shouldComputeNumericValue(casOutput)) {
 			return null;
 		}
 		Log.debug("GeoSymbolic is a number value, calculating numeric result");
@@ -369,15 +366,6 @@ public class GeoSymbolic extends GeoElement
 		} catch (Exception e) {
 			return null;
 		}
-	}
-
-	private boolean shouldComputeNumericValue(ExpressionValue casOutput) {
-		if (casOutput != null && casOutput.isNumberValue()) {
-			ExpressionValue unwrapped = casOutput.unwrap();
-			return !(unwrapped instanceof NumberValue && !((NumberValue) unwrapped).isDefined())
-					&& !(unwrapped instanceof GeoDummyVariable);
-		}
-		return false;
 	}
 
 	private ExpressionValue computeNumericValue(ExpressionValue casOutput) {
@@ -429,8 +417,13 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
+	private void setSymbolicMode() {
+		boolean isValueDefined = isCasValueDefined();
+		setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+	}
+
 	private void setFunctionVariables() {
-		if (!fVars.isEmpty()) {
+		if (!fVars.isEmpty() || !SymbolicUtil.isValueDefined(this)) {
 			return;
 		}
 		Iterable<FunctionVariable> variables = computeFunctionVariables();
@@ -1088,5 +1081,9 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue unwrapped = value.unwrap();
 		return unwrapped instanceof ListValue || (unwrapped instanceof GeoSymbolic
 				&& ((GeoSymbolic) unwrapped).unwrapSymbolic().isGeoList()) ;
+	}
+
+	private boolean isCasValueDefined() {
+		return !value.inspect(Inspecting.isUndefinedInspector);
 	}
 }
