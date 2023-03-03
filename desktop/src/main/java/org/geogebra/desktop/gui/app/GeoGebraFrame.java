@@ -350,7 +350,7 @@ public class GeoGebraFrame extends JFrame
 	public static void initMacSpecifics() {
 		try {
 			// init mac application listener
-			MacApplicationListener.initMacApplicationListener();
+			new MacApplicationListener().initMacApplicationListener();
 
 			// mac menu bar
 			// System.setProperty("com.apple.macos.useScreenMenuBar", "true");
@@ -527,18 +527,15 @@ public class GeoGebraFrame extends JFrame
 				while ((ze = zis.getNextEntry()) != null) {
 					// get file name
 					String name = ze.getName();
-					FileOutputStream fos = new FileOutputStream(
-							updateDir + File.separator + name);
-					Log.debug("Extracting " + name);
-					try {
+					try (FileOutputStream fos = new FileOutputStream(
+							updateDir + File.separator + name)) {
+						Log.debug("Extracting " + name);
 
 						int l = 0;
 						// write buffer to file
 						while ((l = zis.read(buff)) > 0) {
 							fos.write(buff, 0, l);
 						}
-					} finally {
-						fos.close();
 					}
 				}
 				UtilD.delete(dest);

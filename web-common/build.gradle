@@ -8,8 +8,8 @@ plugins {
 
 description 'Web platform code which does not use the GWT Widgets library'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 evaluationDependsOn(':common')
 evaluationDependsOn(':ggbjdk')

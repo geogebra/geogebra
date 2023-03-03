@@ -18,8 +18,8 @@ publishing {
 	}
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 dependencies {
 	javacc 'net.java.dev.javacc:javacc:7.0.10'
