@@ -1375,8 +1375,8 @@ public abstract class ProbabilityCalculatorView
 				(ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculatorNoFire(pcSettings.getDistributionType(),
 				pcSettings.getParameters(), pcSettings.isCumulative());
+		this.probMode = pcSettings.getProbMode();
 		if (pcSettings.isIntervalSet()) {
-			this.probMode = pcSettings.getProbMode();
 			setLow(pcSettings.getLow());
 			setHigh(pcSettings.getHigh());
 		}
