@@ -7,7 +7,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ColorProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.ElementColorPropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -15,7 +15,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Color property
  */
-public class ElementColorProperty extends AbstractProperty<GColor> implements ColorProperty {
+public class ElementColorProperty extends AbstractValuedProperty<GColor> implements ColorProperty {
 
 	private final GeoElement element;
 	private final GeoElementDelegate delegate;

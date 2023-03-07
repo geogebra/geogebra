@@ -4,12 +4,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /**
  * Show in AV
  */
-public class ShowInAVProperty extends AbstractProperty<Boolean> implements BooleanProperty {
+public class ShowInAVProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElement element;
 

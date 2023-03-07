@@ -6,7 +6,7 @@ import org.geogebra.common.properties.EnumerableProperty;
 /**
  * Helps implementing enumerable properties. Handles the indexing of values.
  */
-public abstract class AbstractEnumerableProperty extends AbstractProperty<Integer>
+public abstract class AbstractEnumerableProperty extends AbstractValuedProperty<Integer>
         implements EnumerableProperty {
 
     private String[] values;

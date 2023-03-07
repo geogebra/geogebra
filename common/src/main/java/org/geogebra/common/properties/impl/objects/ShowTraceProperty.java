@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.ShowTracePropertyDelegate;
@@ -12,7 +12,7 @@ import org.geogebra.common.properties.impl.objects.delegate.ShowTracePropertyDel
 /**
  * Show trace
  */
-public class ShowTraceProperty extends AbstractProperty<Boolean> implements BooleanProperty {
+public class ShowTraceProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElementDelegate delegate;
 

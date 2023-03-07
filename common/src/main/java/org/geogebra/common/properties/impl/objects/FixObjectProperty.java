@@ -3,7 +3,7 @@ package org.geogebra.common.properties.impl.objects;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.FixObjectDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -11,7 +11,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Fix object
  */
-public class FixObjectProperty extends AbstractProperty<Boolean> implements BooleanProperty {
+public class FixObjectProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElementDelegate delegate;
 

@@ -3,12 +3,12 @@ package org.geogebra.common.properties.impl.algebra;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /**
  * Show auxiliary objects property.
  */
-public class ShowAuxiliaryProperty extends AbstractProperty<Boolean> implements BooleanProperty {
+public class ShowAuxiliaryProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
 	private App app;
 

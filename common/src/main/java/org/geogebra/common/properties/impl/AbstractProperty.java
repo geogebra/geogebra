@@ -1,18 +1,12 @@
 package org.geogebra.common.properties.impl;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertyObserver;
-import org.geogebra.common.properties.ValuedProperty;
+import org.geogebra.common.properties.Property;
 
 /**
  * Helper class for implementing the localized name of a property.
  */
-public abstract class AbstractProperty<S> implements ValuedProperty<S> {
-
-	private Set<PropertyObserver> observers = new HashSet<>();
+public class AbstractProperty implements Property {
 
 	private Localization localization;
 	private String name;
@@ -43,29 +37,5 @@ public abstract class AbstractProperty<S> implements ValuedProperty<S> {
 	 */
 	protected Localization getLocalization() {
 		return localization;
-	}
-
-	@Override
-	public void addObserver(PropertyObserver observer) {
-		observers.add(observer);
-	}
-
-	@Override
-	public void removeObserver(PropertyObserver observer) {
-		observers.remove(observer);
-	}
-
-	@Override
-	public final void setValue(S value) {
-		doSetValue(value);
-		notifyObservers();
-	}
-
-	protected abstract void doSetValue(S value);
-
-	private void notifyObservers() {
-		for (PropertyObserver observer : observers) {
-			observer.onChange(this);
-		}
 	}
 }

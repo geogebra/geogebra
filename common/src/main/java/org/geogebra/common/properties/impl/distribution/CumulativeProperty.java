@@ -3,10 +3,10 @@ package org.geogebra.common.properties.impl.distribution;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /** Cumulative property of the distribution view */
-public class CumulativeProperty extends AbstractProperty<Boolean> implements BooleanProperty {
+public class CumulativeProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
 	private final ProbabilityCalculatorView view;
 

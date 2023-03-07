@@ -8,7 +8,7 @@ import org.geogebra.common.properties.RangeProperty;
  * @param <T> numeric type
  */
 public abstract class AbstractRangeProperty<T extends Number & Comparable<T>>
-		extends AbstractProperty<T> implements RangeProperty<T> {
+		extends AbstractValuedProperty<T> implements RangeProperty<T> {
 
 	private final T min;
 	private final T max;

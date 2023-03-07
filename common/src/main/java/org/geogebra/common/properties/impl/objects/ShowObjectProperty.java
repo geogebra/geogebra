@@ -4,12 +4,12 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /**
  * Show object
  */
-public class ShowObjectProperty extends AbstractProperty<Boolean> implements BooleanProperty {
+public class ShowObjectProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElement element;
 

@@ -3,12 +3,12 @@ package org.geogebra.common.properties.impl.graphics;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.StringProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /**
  * This property controls the label on an axis.
  */
-public class AxisLabelProperty extends AbstractProperty<String> implements StringProperty {
+public class AxisLabelProperty extends AbstractValuedProperty<String> implements StringProperty {
 
     private EuclidianSettings euclidianSettings;
     private int axis;
