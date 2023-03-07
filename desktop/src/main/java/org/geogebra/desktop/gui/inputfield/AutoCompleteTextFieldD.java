@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1050,8 +1049,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 		drawTextField.setBorderColor(borderColor);
 
 		if (drawTextField.isEditing()) {
-			g2.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_FULL, GBasicStroke.JOIN_ROUND));
+			//g2.setStroke(EuclidianStatic.getStroke(2,
+			//		EuclidianStyleConstants.LINE_TYPE_FULL, GBasicStroke.JOIN_ROUND));
 		}
 		g2.drawRect(left, top, width, height);
 	}
