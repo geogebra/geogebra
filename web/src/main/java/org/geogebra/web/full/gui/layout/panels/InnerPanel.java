@@ -1,10 +1,9 @@
 package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.web.full.gui.layout.DockPanelW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.RequiresResize;
 
 /**
  * Inner panel for dock panels with navigation.

@@ -8,9 +8,8 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
  * Algebra view marble to show or hide geos

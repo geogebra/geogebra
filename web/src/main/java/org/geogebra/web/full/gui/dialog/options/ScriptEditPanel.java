@@ -6,9 +6,8 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.web.full.gui.dialog.ScriptInputPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TabPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.TabPanel;
 
 /**
  * Scripting editor for Web

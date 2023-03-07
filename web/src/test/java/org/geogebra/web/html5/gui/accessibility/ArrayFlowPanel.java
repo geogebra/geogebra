@@ -2,9 +2,9 @@ package org.geogebra.web.html5.gui.accessibility;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Widget;
 
 final class ArrayFlowPanel extends FlowPanel {
 	private ArrayList<Widget> contents = new ArrayList<>();

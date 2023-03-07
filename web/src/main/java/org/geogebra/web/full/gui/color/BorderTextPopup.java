@@ -10,9 +10,8 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.web.full.javax.swing.LineThicknessCheckMarkItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.VerticalPanel;
 
 public class BorderTextPopup extends BgColorPopup {
 	private LineThicknessCheckMarkItem noBorder;

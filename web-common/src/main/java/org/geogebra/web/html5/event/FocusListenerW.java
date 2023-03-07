@@ -5,11 +5,10 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
-
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.event.dom.client.FocusEvent;
+import org.gwtproject.event.dom.client.FocusHandler;
 
 /**
  * @author judit

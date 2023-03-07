@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.layout;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.layout.client.Layout.Layer;
-import com.google.gwt.user.client.Event;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.layout.client.Layout.Layer;
+import org.gwtproject.user.client.Event;
 
 public class SplitterImpl {
 

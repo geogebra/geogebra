@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.gwtutil.JsConsumer;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.dom.BaseRenderingContext2D;
 import jsinterop.annotations.JsPackage;

@@ -23,9 +23,8 @@ import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.DropHandler;
+import org.gwtproject.event.dom.client.DropEvent;
+import org.gwtproject.event.dom.client.DropHandler;
 
 import elemental2.dom.WheelEvent;
 

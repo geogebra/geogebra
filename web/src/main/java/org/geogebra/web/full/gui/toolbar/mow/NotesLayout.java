@@ -15,10 +15,9 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.PersistablePanel;
-
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.user.client.ui.Widget;
 
 public class NotesLayout implements SetLabels {
 	private final static int MAX_TOOLBAR_WIDTH = 600;

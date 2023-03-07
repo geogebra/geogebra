@@ -1,6 +1,6 @@
 package com.himamis.retex.editor.web;
 
-import com.google.gwt.event.shared.EventHandler;
+import org.gwtproject.event.legacy.shared.EventHandler;
 
 /**
  * Handles CompositionEndEvents (for languages where single letter needs
