@@ -24,9 +24,7 @@ public class UploadImagePanel extends VerticalPanel {
 
 	private final int previewHeight;
 	private final int previewWidth;
-	
-	/** used to reset the uploadImageBtn */
-	//private FormPanel panel;
+
 	private FileUpload uploadImageBtn;
 	private Image previewImg;
 
