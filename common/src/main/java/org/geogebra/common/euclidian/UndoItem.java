@@ -23,7 +23,7 @@ class UndoItem {
 	}
 
 	public String content() {
-		return isXml ? geo.getXML() : getDefinition();
+		return isXml ? geo.getStyleXML() : getDefinition();
 	}
 
 	public String previousContent() {

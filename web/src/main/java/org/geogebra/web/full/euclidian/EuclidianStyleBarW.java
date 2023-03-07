@@ -1123,13 +1123,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 					btnBorderText.selectBorderThickness(borderThickness);
 				}
 			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return new ImageOrText(
-						MaterialDesignResources.INSTANCE.color_border(), 24);
-			}
 		};
+		btnBorderText.setFixedIcon(new ImageOrText(
+				MaterialDesignResources.INSTANCE.color_border(), 24));
 		btnBorderText.setEnableTable(true);
 		setPopupHandlerWithUndoPoint(btnBorderText, this::handleBorderText);
 	}
@@ -1156,13 +1152,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 						geo -> (geo instanceof TextStyle && !geo.isGeoInputBox())
 								|| geo instanceof GeoFormula));
 			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return new ImageOrText(
-						MaterialDesignResources.INSTANCE.color_black(), 24);
-			}
 		};
+		btnTextBgColor.setFixedIcon(new ImageOrText(
+				MaterialDesignResources.INSTANCE.color_black(), 24));
 		btnTextBgColor.setEnableTable(true);
 		setPopupHandlerWithUndoPoint(btnTextBgColor, this::handleTextBackground);
 	}
