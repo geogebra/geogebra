@@ -8,7 +8,8 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 /**
  * This property controls the visibility of the axes.
  */
-public class AxesVisibilityProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
+public class AxesVisibilityProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 
 	private EuclidianSettings euclidianSettings;
 

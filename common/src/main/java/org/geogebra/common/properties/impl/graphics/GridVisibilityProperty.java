@@ -8,7 +8,8 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 /**
  * This property controls the visibility of the grid.
  */
-public class GridVisibilityProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
+public class GridVisibilityProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 
 	private EuclidianSettings euclidianSettings;
 

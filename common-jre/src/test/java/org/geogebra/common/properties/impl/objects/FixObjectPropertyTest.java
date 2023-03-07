@@ -45,9 +45,7 @@ public class FixObjectPropertyTest extends BaseUnitTest {
 		ValuedProperty<Boolean> prop = GeoElementPropertiesFactory.createFixObjectProperty(
 				getApp().getLocalization(), Collections.singletonList(point));
 		assert prop != null;
-		PropertiesUtil.addObserver(prop, new UndoSavingPropertyObserver(
-				getConstruction().getUndoManager()));
-
+		prop.addObserver(new UndoSavingPropertyObserver(getConstruction().getUndoManager()));
 		prop.setValue(true);
 		assertThat(point.isLocked(), is(true));
 		getKernel().undo();

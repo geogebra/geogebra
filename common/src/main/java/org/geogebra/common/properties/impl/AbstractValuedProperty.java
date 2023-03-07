@@ -10,7 +10,8 @@ import org.geogebra.common.properties.ValuedProperty;
 /**
  * Helper class for implementing value setting and getting of a property with listeners.
  */
-public abstract class AbstractValuedProperty<S> extends AbstractProperty implements ValuedProperty<S> {
+public abstract class AbstractValuedProperty<S> extends AbstractProperty
+		implements ValuedProperty<S> {
 
 	private Set<PropertyObserver> observers = new HashSet<>();
 
@@ -41,7 +42,7 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty impleme
 
 	/**
 	 * Implement this to set the value of the property.
-	 * @param value
+	 * @param value property value
 	 */
 	protected abstract void doSetValue(S value);
 

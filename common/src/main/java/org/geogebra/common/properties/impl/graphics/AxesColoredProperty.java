@@ -8,20 +8,18 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 /**
  * This property controls the color of axes.
  */
-public class AxesColoredProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
+public class AxesColoredProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 
 	private EuclidianSettings3D euclidianSettings;
 
 	/**
 	 * Constructs an Axes colored property.
-	 *
-	 * @param localization
-	 *            localization for the title
-	 * @param euclidianSettings
-	 *            euclidian settings
+	 * @param localization localization for the title
+	 * @param euclidianSettings euclidian settings
 	 */
 	public AxesColoredProperty(Localization localization,
-                               EuclidianSettings3D euclidianSettings) {
+			EuclidianSettings3D euclidianSettings) {
 		super(localization, "AxesColored");
 		this.euclidianSettings = euclidianSettings;
 	}
