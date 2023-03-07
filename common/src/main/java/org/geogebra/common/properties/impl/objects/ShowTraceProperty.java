@@ -12,7 +12,7 @@ import org.geogebra.common.properties.impl.objects.delegate.ShowTracePropertyDel
 /**
  * Show trace
  */
-public class ShowTraceProperty extends AbstractProperty implements BooleanProperty {
+public class ShowTraceProperty extends AbstractProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElementDelegate delegate;
 
@@ -29,7 +29,7 @@ public class ShowTraceProperty extends AbstractProperty implements BooleanProper
 	}
 
 	@Override
-	public void setValue(Boolean trace) {
+	public void doSetValue(Boolean trace) {
 		GeoElement element = delegate.getElement();
 		if (element.isTraceable()) {
 			((Traceable) element).setTrace(trace);

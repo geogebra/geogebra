@@ -11,7 +11,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Fix object
  */
-public class FixObjectProperty extends AbstractProperty implements BooleanProperty {
+public class FixObjectProperty extends AbstractProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElementDelegate delegate;
 
@@ -28,7 +28,7 @@ public class FixObjectProperty extends AbstractProperty implements BooleanProper
 	}
 
 	@Override
-	public void setValue(Boolean fixObject) {
+	public void doSetValue(Boolean fixObject) {
 		GeoElement element = delegate.getElement();
 		element.setFixed(fixObject);
 	}

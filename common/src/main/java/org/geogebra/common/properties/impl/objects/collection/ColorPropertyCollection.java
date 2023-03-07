@@ -18,16 +18,6 @@ public class ColorPropertyCollection<T extends ElementColorProperty>
 	}
 
 	@Override
-	public GColor getColor() {
-		return getValue();
-	}
-
-	@Override
-	public void setColor(GColor color) {
-		setValue(color);
-	}
-
-	@Override
 	public GColor[] getColors() {
 		return getFirstProperty().getColors();
 	}

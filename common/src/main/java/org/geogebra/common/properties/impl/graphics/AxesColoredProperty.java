@@ -8,8 +8,7 @@ import org.geogebra.common.properties.impl.AbstractProperty;
 /**
  * This property controls the color of axes.
  */
-public class AxesColoredProperty extends AbstractProperty
-		implements BooleanProperty {
+public class AxesColoredProperty extends AbstractProperty<Boolean> implements BooleanProperty {
 
 	private EuclidianSettings3D euclidianSettings;
 
@@ -33,7 +32,7 @@ public class AxesColoredProperty extends AbstractProperty
 	}
 
 	@Override
-	public void setValue(Boolean value) {
+	public void doSetValue(Boolean value) {
 		euclidianSettings.setHasColoredAxes(value);
 	}
 }

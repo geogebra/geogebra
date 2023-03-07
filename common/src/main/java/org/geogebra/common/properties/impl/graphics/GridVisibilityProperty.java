@@ -8,18 +8,14 @@ import org.geogebra.common.properties.impl.AbstractProperty;
 /**
  * This property controls the visibility of the grid.
  */
-public class GridVisibilityProperty extends AbstractProperty
-		implements BooleanProperty {
+public class GridVisibilityProperty extends AbstractProperty<Boolean> implements BooleanProperty {
 
 	private EuclidianSettings euclidianSettings;
 
 	/**
 	 * Constructs a GridVisibility property.
-	 *
-	 * @param localization
-	 *            localization for the name
-	 * @param euclidianSettings
-	 *            euclidian settings
+	 * @param localization localization for the name
+	 * @param euclidianSettings euclidian settings
 	 */
 	public GridVisibilityProperty(Localization localization,
 			EuclidianSettings euclidianSettings) {
@@ -33,7 +29,7 @@ public class GridVisibilityProperty extends AbstractProperty
 	}
 
 	@Override
-	public void setValue(Boolean value) {
+	public void doSetValue(Boolean value) {
 		euclidianSettings.showGrid(value);
 	}
 }

@@ -15,7 +15,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Color property
  */
-public class ElementColorProperty extends AbstractProperty implements ColorProperty {
+public class ElementColorProperty extends AbstractProperty<GColor> implements ColorProperty {
 
 	private final GeoElement element;
 	private final GeoElementDelegate delegate;
@@ -30,12 +30,12 @@ public class ElementColorProperty extends AbstractProperty implements ColorPrope
 	}
 
 	@Override
-	public GColor getColor() {
+	public GColor getValue() {
 		return element.getObjectColor();
 	}
 
 	@Override
-	public void setColor(GColor color) {
+	public void doSetValue(GColor color) {
 		App app = element.getApp();
 		EuclidianStyleBarStatic.applyColor(
 				color, element.getAlphaValue(), app, app.getSelectionManager().getSelectedGeos());

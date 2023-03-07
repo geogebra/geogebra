@@ -9,7 +9,7 @@ import org.geogebra.common.properties.impl.AbstractProperty;
 /**
  * Show in AV
  */
-public class ShowInAVProperty extends AbstractProperty implements BooleanProperty {
+public class ShowInAVProperty extends AbstractProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElement element;
 
@@ -25,7 +25,7 @@ public class ShowInAVProperty extends AbstractProperty implements BooleanPropert
 	}
 
 	@Override
-	public void setValue(Boolean show) {
+	public void doSetValue(Boolean show) {
 		element.setAuxiliaryObject(!show);
 		element.updateRepaint();
 

@@ -8,8 +8,7 @@ import org.geogebra.common.properties.impl.AbstractProperty;
 /**
  * This property controls the label on an axis.
  */
-public class AxisLabelProperty extends AbstractProperty
-        implements StringProperty {
+public class AxisLabelProperty extends AbstractProperty<String> implements StringProperty {
 
     private EuclidianSettings euclidianSettings;
     private int axis;
@@ -39,7 +38,7 @@ public class AxisLabelProperty extends AbstractProperty
     }
 
     @Override
-    public void setValue(String value) {
+    public void doSetValue(String value) {
         euclidianSettings.setAxisLabel(axis, value);
     }
 

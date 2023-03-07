@@ -7,28 +7,6 @@ import org.geogebra.common.awt.GColor;
  */
 public interface ColorProperty extends ValuedProperty<GColor> {
 
-	@Override
-	default GColor getValue() {
-		return getColor();
-	}
-
-	@Override
-	default void setValue(GColor value) {
-		setColor(value);
-	}
-
-	/**
-	 * The color value of the property.
-	 * @return the color
-	 */
-	GColor getColor();
-
-	/**
-	 * Set the color value of the property.
-	 * @param color the color
-	 */
-	void setColor(GColor color);
-
 	/**
 	 * Get the available colors for this property
 	 * @return color array

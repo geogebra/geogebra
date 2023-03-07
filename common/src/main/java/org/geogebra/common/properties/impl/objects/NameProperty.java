@@ -14,7 +14,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Name
  */
-public class NameProperty extends AbstractProperty implements StringProperty {
+public class NameProperty extends AbstractProperty<String> implements StringProperty {
 
 	private final GeoElementDelegate delegate;
 
@@ -35,7 +35,7 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 	}
 
 	@Override
-	public void setValue(String value) {
+	public void doSetValue(String value) {
 		GeoElement element = delegate.getElement();
 		String oldLabel = element.getLabelSimple();
 		if (value.equals(oldLabel)) {

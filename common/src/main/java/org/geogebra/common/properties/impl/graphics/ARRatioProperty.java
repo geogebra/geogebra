@@ -5,7 +5,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractProperty;
 
-public class ARRatioProperty extends AbstractProperty implements BooleanProperty {
+public class ARRatioProperty extends AbstractProperty<Boolean> implements BooleanProperty {
 
 	private final EuclidianView3D view3D;
 
@@ -25,7 +25,7 @@ public class ARRatioProperty extends AbstractProperty implements BooleanProperty
 	}
 
 	@Override
-	public void setValue(Boolean value) {
+	public void doSetValue(Boolean value) {
 		view3D.setARRatioIsShown(value);
 	}
 }

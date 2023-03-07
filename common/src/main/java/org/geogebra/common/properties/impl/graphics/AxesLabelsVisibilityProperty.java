@@ -8,18 +8,15 @@ import org.geogebra.common.properties.impl.AbstractProperty;
 /**
  * This property controls the visibility of the axis labels.
  */
-public class AxesLabelsVisibilityProperty extends AbstractProperty
+public class AxesLabelsVisibilityProperty extends AbstractProperty<Boolean>
 		implements BooleanProperty {
 
 	private EuclidianSettings euclidianSettings;
 
 	/**
 	 * Constructs an Axes visibility property.
-	 *
-	 * @param localization
-	 *            localization for the title
-	 * @param euclidianSettings
-	 *            euclidian settings
+	 * @param localization localization for the title
+	 * @param euclidianSettings euclidian settings
 	 */
 	public AxesLabelsVisibilityProperty(Localization localization,
 			EuclidianSettings euclidianSettings) {
@@ -38,7 +35,7 @@ public class AxesLabelsVisibilityProperty extends AbstractProperty
 	}
 
 	@Override
-	public void setValue(Boolean value) {
+	public void doSetValue(Boolean value) {
 		int length = euclidianSettings.getDimension();
 		for (int i = 0; i < length; i++) {
 			euclidianSettings.setAxisLabel(i,
