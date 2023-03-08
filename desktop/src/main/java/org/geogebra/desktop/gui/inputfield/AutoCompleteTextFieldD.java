@@ -1002,9 +1002,11 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (getDrawTextField() != null && getDrawTextField().hasError()) {
 			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
 					2, 2, 2, true));
+			setBackground(GColor.ERROR_RED_BACKGROUND);
 		} else {
-			GColor borderColor = drawTextField != null && drawTextField.isEditing()
-					? drawTextField.getBorderColor() : GColor.DEFAULT_PURPLE;
+			GColor borderColor = drawTextField != null
+					&& drawTextField.getGeoElement().getBackgroundColor() == GColor.WHITE
+					? GColor.DEFAULT_PURPLE : drawTextField.getBorderColor();
 			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(borderColor)));
 		}
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
