@@ -11,7 +11,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorPointTest {
 	private static final String point3D = "(1,2,3)";
-	private static final String emptyPoint3D = "(,,)";
+	private static final String emptyPoint3D = "(?,?,?)";
 	private static EditorChecker checker;
 	private static final AppCommon app = AppCommonFactory.create();
 
