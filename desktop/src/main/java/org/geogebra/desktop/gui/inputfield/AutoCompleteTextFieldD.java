@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GBasicStroke;
@@ -999,10 +1000,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void requestFocus() {
 		super.requestFocus();
 		if (getDrawTextField() != null && getDrawTextField().hasError()) {
-			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
-					2));
+			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
+					2, 2, 2, true));
 		} else {
-			setDefaultBorder();
+			GColor borderColor = drawTextField != null && drawTextField.isEditing()
+					? drawTextField.getBorderColor() : GColor.DEFAULT_PURPLE;
+			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(borderColor)));
 		}
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
