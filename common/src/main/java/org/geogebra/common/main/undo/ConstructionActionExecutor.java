@@ -1,5 +1,9 @@
 package org.geogebra.common.main.undo;
 
+import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.draw.DrawInline;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.ActionType;
 
@@ -31,10 +35,25 @@ public class ConstructionActionExecutor
 					app.getGgbApi().evalCommand(arg);
 				}
 			}
+		} else if (action == ActionType.SET_CONTENT) {
+			GeoElement geo = app.getKernel().lookupLabel(args[0]);
+			if (geo instanceof GeoInline) {
+				setContentAndNotify((GeoInline) geo, args[1]);
+			}
 		} else {
 			return false;
 		}
 		return true;
+	}
+
+	private void setContentAndNotify(GeoInline inline, String content) {
+		inline.setContent(content);
+		inline.notifyUpdate();
+		DrawableND drawable = app.getActiveEuclidianView().getDrawableFor(inline);
+		if (drawable instanceof DrawInline) {
+			((DrawInline) drawable).updateContent();
+			app.getKernel().notifyRepaint();
+		}
 	}
 
 	private void evalXML(String arg) {

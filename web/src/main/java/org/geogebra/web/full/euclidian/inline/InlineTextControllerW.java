@@ -157,9 +157,8 @@ public class InlineTextControllerW implements InlineTextController {
 			public void onContentChanged(String content) {
 				String oldContent = geo.getContent();
 				if (!content.equals(oldContent)) {
-					String oldXML = geo.getXML();
 					geo.setContent(content);
-					storeUndoAction(geo, oldContent, oldXML);
+					storeUndoAction(geo, oldContent);
 					geo.notifyUpdate();
 				}
 			}
@@ -188,12 +187,12 @@ public class InlineTextControllerW implements InlineTextController {
 		});
 	}
 
-	private void storeUndoAction(GeoInline geo, String oldContent, String oldXML) {
-		String newXML = geo.getXML();
+	private void storeUndoAction(GeoInline geo, String oldContent) {
 		if (oldContent != null) {
-			geo.getConstruction().getUndoManager()
-					.storeUndoableAction(ActionType.UPDATE,
-							new String[]{newXML}, ActionType.UPDATE, oldXML);
+			String label = geo.getLabelSimple();
+			geo.getConstruction().getUndoManager().storeUndoableAction(ActionType.SET_CONTENT,
+					new String[]{label, geo.getContent()},
+					ActionType.SET_CONTENT, label, oldContent);
 		} else {
 			geo.getConstruction().getUndoManager().storeAddGeo(geo);
 		}
