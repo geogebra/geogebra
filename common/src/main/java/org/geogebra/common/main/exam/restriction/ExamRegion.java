@@ -2,7 +2,6 @@ package org.geogebra.common.main.exam.restriction;
 
 import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
-import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 
 import org.geogebra.common.GeoGebraConstants;
