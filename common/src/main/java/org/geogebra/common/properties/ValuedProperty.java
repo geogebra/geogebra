@@ -6,7 +6,10 @@ package org.geogebra.common.properties;
  */
 public interface ValuedProperty<S> extends Property {
 
-	/** Get the property value */
+	/**
+	 * Get the property value
+	 * @return property value
+	 */
 	S getValue();
 
 	/**
