@@ -168,4 +168,9 @@ public class SymbolicEditorD extends SymbolicEditor {
 		applyChanges();
 		return true;
 	}
+
+	@Override
+	protected void selectEntryAt(int x, int y) {
+		mathField.getInternal().selectEntryAt(x, y);
+	}
 }

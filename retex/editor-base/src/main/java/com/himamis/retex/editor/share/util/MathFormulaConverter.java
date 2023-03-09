@@ -12,6 +12,7 @@ public class MathFormulaConverter {
 	private final Parser parser;
 	private final TeXSerializer texSerializer;
 	private final AddPlaceholders placeholders;
+	private boolean temporaryInput;
 
 	public MathFormulaConverter() {
 		this(new MetaModel());
@@ -36,6 +37,9 @@ public class MathFormulaConverter {
 		try {
 			formula = buildFormula(text);
 		} catch (ParseException ex) {
+			if (temporaryInput) {
+				return text;
+			}
 			throw new RuntimeException(ex);
 		}
 		return texSerializer.serialize(formula);
@@ -51,5 +55,9 @@ public class MathFormulaConverter {
 		MathSequence rootComponent = formula.getRootComponent();
 		placeholders.process(rootComponent.getArgument(0));
 		return formula;
+	}
+
+	public void setTemporaryImput(boolean value) {
+		this.temporaryInput = value;
 	}
 }

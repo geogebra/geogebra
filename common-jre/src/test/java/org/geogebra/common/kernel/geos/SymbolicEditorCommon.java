@@ -62,6 +62,11 @@ class SymbolicEditorCommon extends SymbolicEditor {
 	}
 
 	@Override
+	protected void selectEntryAt(int x, int y) {
+		mf.getInternal().selectEntryAt(x, y);
+	}
+
+	@Override
 	protected void resetChanges() {
 
 	}
