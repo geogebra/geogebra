@@ -57,7 +57,7 @@ public enum ExamRegion {
 			model.setDefaultAppCode(CAS_APPCODE);
 		}
 	},
-	MMS() {
+	/*MMS() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
 			return "Deutschland IQB MMS Abitur";
@@ -78,7 +78,7 @@ public enum ExamRegion {
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
 			model.setDefaultAppCode(CAS_APPCODE);
 		}
-	},
+	},*/
 	NIEDERSACHSEN() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
