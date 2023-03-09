@@ -166,7 +166,7 @@ public class MaterialCardController implements OpenFileListener {
 					});
 		} else {
 			Log.debug("DELETE permanent");
-			this.app.getFileManager().delete(toDelete, toDelete.getId() <= 0,
+			this.app.getFileManager().delete(toDelete, toDelete.getSharingKey() == null,
 					this.deleteCallback);
 		}
 	}
@@ -176,7 +176,7 @@ public class MaterialCardController implements OpenFileListener {
 	}
 
 	private static boolean onlineFile(Material toDelete) {
-		return toDelete.getId() > 0
+		return toDelete.getSharingKey() != null
 				|| !StringUtil.empty(toDelete.getSharingKey());
 	}
 

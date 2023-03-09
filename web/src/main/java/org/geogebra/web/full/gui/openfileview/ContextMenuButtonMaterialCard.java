@@ -86,7 +86,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 
 	private void insertActivity() {
 		app.getLoginOperation().getResourcesAPI()
-				.getItem(material.getId() + "", new MaterialCallback() {
+				.getItem(material.getSharingKey(), new MaterialCallback() {
 
 					@Override
 					public void onLoaded(List<Material> parseResponse,

@@ -2389,7 +2389,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void storeCurrentMaterial() {
 		Material material = getActiveMaterial();
 		if (material == null) {
-			material = new Material(-1, Material.MaterialType.ggb);
+			material = new Material(Material.MaterialType.ggb);
 		}
 		material.setContent(getGgbApi().getFileJSON(false));
 		constructionJson.put(getConfig().getSubAppCode(), material);
@@ -2403,7 +2403,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (oldConstruction != null) {
 				getGgbApi().setFileJSON(oldConstruction);
 			}
-			if (material.getId() != -1) {
+			if (material.getSharingKey() != null) {
 				setActiveMaterial(material);
 				updateMaterialURL(material);
 				return true;
