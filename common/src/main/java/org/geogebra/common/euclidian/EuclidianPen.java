@@ -400,11 +400,10 @@ public class EuclidianPen implements GTimerListener {
 		String label = lastAlgo.getOutput(0).getLabelSimple();
 
 		if (oldXML == null) {
-			app.getUndoManager().storeUndoableAction(ActionType.ADD,
-					new String[]{lastAlgo.getXML()}, ActionType.REMOVE, label);
+			app.getUndoManager().storeAddGeo(lastAlgo.getOutput(0));
 		} else {
-			app.getUndoManager().storeUndoableAction(ActionType.UPDATE,
-					new String[]{lastAlgo.getXML()}, ActionType.UPDATE, oldXML);
+			app.getUndoManager().buildAction(ActionType.UPDATE, lastAlgo.getXML())
+					.withUndo(ActionType.UPDATE, oldXML).withLabels(label).storeAndNotifyUnsaved();
 		}
 	}
 

@@ -20,7 +20,7 @@ public class ConstructionActionExecutor
 	public boolean executeAction(ActionType action, String... args) {
 		if (action == ActionType.REMOVE) {
 			for (String arg: args) {
-				app.getGgbApi().deleteObject(arg);
+				app.getKernel().lookupLabel(arg).remove();
 			}
 		} else if (action == ActionType.ADD) {
 			for (String arg: args) {

@@ -4142,15 +4142,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Restore state from last undo point.
-	 */
-	public void restoreCurrentUndoInfo() {
-		if (undoActive) {
-			cons.restoreCurrentUndoInfo();
-		}
-	}
-
-	/**
 	 * Initialize undo manager if possible.
 	 */
 	public void initUndoInfo() {
@@ -4205,7 +4196,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			storeStateForModeStarting();
 			if (cons.isUndoEnabled()) {
 				// reuse cons.getCurrentUndoXML(true)
-				cons.getUndoManager().storeUndoInfo(false);
+				cons.getUndoManager().storeUndoInfo();
 			}
 		}
 	}

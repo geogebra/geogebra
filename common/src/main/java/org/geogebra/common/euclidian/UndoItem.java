@@ -29,4 +29,8 @@ class UndoItem {
 	public String previousContent() {
 		return previousContent;
 	}
+
+	public String getLabel() {
+		return geo.getLabelSimple();
+	}
 }
