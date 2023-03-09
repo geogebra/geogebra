@@ -121,7 +121,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	public void repaintBox(GGraphics2D g) {
 		GColor bgColor = getGeoInputBox().getBackgroundColor() != null
-				? getGeoInputBox().getBackgroundColor() : view.getBackgroundCommon();
+				? getInputBoxBackgroundColor() : view.getBackgroundCommon();
 
 		g.saveTransform();
 		int boxY = (int) computeTop(box.getHeight());
@@ -137,6 +137,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		g.restoreTransform();
 		g.resetClip();
+	}
+
+	private GColor getInputBoxBackgroundColor() {
+		return getGeoInputBox().hasError() ? GColor.ERROR_RED_BACKGROUND
+				: getGeoInputBox().getBackgroundColor();
 	}
 
 	@Override

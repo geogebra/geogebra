@@ -195,11 +195,9 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		&.errorStyle {
-			border: 2px dashed colors.$error-border;
-
 			.fieldContainer {
 				background-color: colors.$error-background;
-				border: none;
+				border: 2px dashed colors.$error-border;
 			}
 		}
 

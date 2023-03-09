@@ -440,6 +440,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					? drawTextField.getBorderColor().toString() : GColor.DEFAULT_PURPLE.toString());
 		} else {
 			main.getElement().getStyle().clearBackgroundColor();
+			main.getElement().getStyle().clearBorderColor();
 		}
 	}
 

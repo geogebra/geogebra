@@ -999,19 +999,27 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void requestFocus() {
 		super.requestFocus();
-		if (getDrawTextField() != null && getDrawTextField().hasError()) {
-			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
-					2, 2, 2, true));
-			setBackground(GColor.ERROR_RED_BACKGROUND);
+		if (getDrawTextField() != null) {
+			styleTextField();
 		} else {
-			GColor borderColor = drawTextField != null
-					&& drawTextField.getGeoElement().getBackgroundColor() == GColor.WHITE
-					? GColor.DEFAULT_PURPLE : drawTextField.getBorderColor();
-			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(borderColor)));
+			setDefaultBorder();
 		}
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
+		}
+	}
+
+	private void styleTextField() {
+		if (getDrawTextField().hasError()) {
+			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
+					2, 2, 2, true));
+			setBackground(GColor.ERROR_RED_BACKGROUND);
+		} else if (drawTextField != null) {
+			GColor borderColor = drawTextField.getGeoElement().getBackgroundColor()
+					== GColor.WHITE ? GColor.DEFAULT_PURPLE : drawTextField.getBorderColor();
+			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(borderColor)));
+			setBackground(drawTextField.getGeoElement().getBackgroundColor());
 		}
 	}
 
