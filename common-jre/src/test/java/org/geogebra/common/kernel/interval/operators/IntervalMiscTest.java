@@ -179,4 +179,30 @@ public class IntervalMiscTest {
 		Interval div2 = evaluator.divide(zero(), log2);
 		assertTrue(div1.isZero() && div2.isZero());
 	}
+
+	@Test
+	public void lnInverseMultiplyZeroNegativeShouldBeUndefined() {
+		Interval x = interval(NEGATIVE_INFINITY, -IntervalConstants.PRECISION);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(undefined(), multiply);
+	}
+
+	@Test
+	public void lnInverseMultiplyZeroPositiveShouldBeZero() {
+		Interval x = interval(0, POSITIVE_INFINITY);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(zero(), multiply);
+	}
+	@Test
+	public void lnInverseMultiplyZeroAroundOneShouldBeZero() {
+		Interval x = interval(1.0, 1.015625);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(zero(), multiply);
+	}
 }
