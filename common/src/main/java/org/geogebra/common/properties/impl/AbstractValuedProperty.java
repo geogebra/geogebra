@@ -39,19 +39,19 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
     @Override
     public final void setValue(S value) {
         doSetValue(value);
-        notifyObservers(propertyObserver -> propertyObserver.onChange(this));
+        notifyObservers(observer -> observer.onChange(this));
     }
 
     @Override
     public final void startChange() {
         doStartChange();
-        notifyObservers(propertyObserver -> propertyObserver.onStartChange(this));
+        notifyObservers(observer -> observer.onStartChange(this));
     }
 
     @Override
     public final void endChange() {
         doEndChange();
-        notifyObservers(propertyObserver -> propertyObserver.onEndChange(this));
+        notifyObservers(observer -> observer.onEndChange(this));
     }
 
     /**
@@ -74,8 +74,6 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
     }
 
     private void notifyObservers(Consumer<PropertyObserver> eventCall) {
-        for (PropertyObserver observer : observers) {
-            eventCall.accept(observer);
-        }
+        observers.forEach(eventCall);
     }
 }
