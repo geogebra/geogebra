@@ -14,7 +14,6 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GBasicStroke;
@@ -1054,30 +1053,44 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		GColor backgroundColor = drawTextField.hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
+		drawBounds(g2, bgColor, left, top, width, height, drawTextField);
+	}
+
+	/**
+	 * @param g2 graphics
+	 * @param bgColor background color (will be overridden on error)
+	 * @param left horizontal position in view (in pixels)
+	 * @param top vertical position in view (in pixels)
+	 * @param width width in pixels
+	 * @param height height in pixels
+	 * @param drawInputBox associated inputbox
+	 */
+	public static void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
+			int width, int height, DrawInputBox drawInputBox) {
+		GColor backgroundColor = drawInputBox.hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
 		g2.setPaint(backgroundColor);
 		g2.fillRect(left, top, width, height);
 
-		GColor borderColor = getBorderColor(backgroundColor);
+		GColor borderColor = getBorderColor(backgroundColor, drawInputBox);
 		g2.setColor(borderColor);
-		drawTextField.setBorderColor(borderColor);
-		setStrokeStyle(g2);
+		drawInputBox.setBorderColor(borderColor);
+		setStrokeStyle(g2, drawInputBox);
 
 		g2.drawRect(left, top, width, height);
 	}
 
-	private void setStrokeStyle(GGraphics2D g2) {
-		int lineWidth = drawTextField.isEditing() ? 2 : 1;
-		int lineStyle = drawTextField.hasError() ? EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
+	private static void setStrokeStyle(GGraphics2D g2, DrawInputBox drawInputBox) {
+		int lineWidth = drawInputBox.isEditing() ? 2 : 1;
+		int lineStyle = drawInputBox.hasError() ? EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
 				: EuclidianStyleConstants.LINE_TYPE_FULL;
 
 		g2.setStroke(EuclidianStatic.getStroke(lineWidth, lineStyle, GBasicStroke.JOIN_ROUND));
 	}
 
-	private GColor getBorderColor(GColor backgroundColor) {
+	private static GColor getBorderColor(GColor backgroundColor, DrawInputBox drawInputBox) {
 		GColor borderColor;
 		if (backgroundColor == GColor.WHITE) {
-			borderColor = drawTextField.isEditing() ? GColor.DEFAULT_PURPLE
+			borderColor = drawInputBox.isEditing() ? GColor.DEFAULT_PURPLE
 					: GColor.DEFAULT_INPUTBOX_BORDER;
 		} else {
 			borderColor = GColor.getBorderColorFrom(backgroundColor);
