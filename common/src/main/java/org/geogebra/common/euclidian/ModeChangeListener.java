@@ -4,7 +4,7 @@ package org.geogebra.common.euclidian;
  * EV mode change listener
  *
  */
-public interface MyModeChangedListener {
+public interface ModeChangeListener {
 	
 	/**
 	 * @param mode

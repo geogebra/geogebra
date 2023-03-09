@@ -50,6 +50,7 @@ import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -446,7 +447,6 @@ public class MathFieldInternal
 
 	@Override
 	public void onPointerUp(int x, int y) {
-
 		if (scrollOccured) {
 			scrollOccured = false;
 		} else if (longPressOccured) {
@@ -490,13 +490,17 @@ public class MathFieldInternal
 	@Override
 	public void onLongPress(int x, int y) {
 		longPressOccured = true;
+		selectCurrentEntry();
+		mathField.showCopyPasteButtons();
+		mathField.showKeyboard();
+		mathField.requestViewFocus();
+	}
+
+	private void selectCurrentEntry() {
 		if (!mathFormula.isEmpty()) {
 			editorState.selectAll();
 		}
 		mathFieldController.update(mathFormula, editorState, false);
-		mathField.showCopyPasteButtons();
-		mathField.showKeyboard();
-		mathField.requestViewFocus();
 	}
 
 	@Override
@@ -533,11 +537,9 @@ public class MathFieldInternal
 		MathSequence closestComponent = null;
 		int closestOffset = -1;
 		do {
-			ArrayList<Integer> list2 = new ArrayList<>();
-			mathFieldController.getSelectedPath(mathFormula, list2,
+			mathFieldController.updateCursorPosition(mathFormula,
 					editorState.getCurrentField(),
 					editorState.getCurrentOffset());
-			reverse(list2);
 			double currentDist = Math.abs(x - CursorBox.startX)
 					+ Math.abs(y - CursorBox.startY);
 			if (currentDist < dist) {
@@ -545,15 +547,20 @@ public class MathFieldInternal
 				closestComponent = editorState.getCurrentField();
 				closestOffset = editorState.getCurrentOffset();
 			}
-		} while (CursorController.nextCharacter(editorState));
+		} while (CursorController.nextCharacter(editorState, false));
 		if (closestComponent != null) {
-			editorState.setCurrentField(closestComponent);
-			editorState.setCurrentOffset(closestOffset);
-
-			ArrayList<Integer> list2 = new ArrayList<>();
-			mathFieldController.getSelectedPath(mathFormula, list2,
+			moveCaretToClosestValidPoint(closestComponent, closestOffset);
+			mathFieldController.updateCursorPosition(mathFormula,
 					editorState.getCurrentField(),
 					editorState.getCurrentOffset());
+		}
+	}
+
+	private void moveCaretToClosestValidPoint(MathSequence closestComponent, int closestOffset) {
+		editorState.setCurrentField(closestComponent);
+		editorState.setCurrentOffset(closestOffset);
+		if (closestComponent.getArgument(closestOffset - 1) instanceof MathCharPlaceholder) {
+			editorState.setCurrentOffset(closestOffset - 1);
 		}
 	}
 
@@ -984,5 +991,16 @@ public class MathFieldInternal
 
 	public void setAllowAbs(boolean b) {
 		inputController.setAllowAbs(b);
+	}
+
+	/**
+	 * If content is a list/matrix/vector, select list/matrix/vector entry at given position,
+	 * otherwise select everything.
+	 * @param x relative x
+	 * @param y relative y
+	 */
+	public void selectEntryAt(int x, int y) {
+		onPointerUp(x, y);
+		selectCurrentEntry();
 	}
 }

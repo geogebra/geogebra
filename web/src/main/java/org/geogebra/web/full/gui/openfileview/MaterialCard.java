@@ -151,12 +151,15 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		} else {
 			switch (visibility) {
 			case "P":
-				visibiltyImg = new NoDragImage(
-						res.mow_card_private(), 24);
+				visibiltyImg = new NoDragImage(res.mow_card_private(), 24);
 				visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
 				break;
 			case "S":
-				visibiltyImg = new NoDragImage(res.mow_card_shared(), 24);
+				if (app.isMebis()) {
+					visibiltyImg = new NoDragImage(res.mow_card_shared(), 24);
+				} else {
+					visibiltyImg = new NoDragImage(res.resource_card_shared(), 24);
+				}
 				visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
 				break;
 			case "O":

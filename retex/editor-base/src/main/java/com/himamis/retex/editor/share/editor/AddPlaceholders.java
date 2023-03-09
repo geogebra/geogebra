@@ -7,16 +7,22 @@ import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 
 public class AddPlaceholders {
+	private final QuestionMarkRemover questionMarkRemover
+			= new QuestionMarkRemover();
 
 	/**
 	 * Searches and adds possible character placeholders in mathComponent.
 	 * @param mathComponent to add in possible placeholders.
 	 */
 	public void process(MathComponent mathComponent) {
+		questionMarkRemover.process(mathComponent);
 		if (mathComponent instanceof MathArray) {
 			MathArray array = (MathArray) mathComponent;
-			if (array.columns() == 1) {
-				processSequence(array.getArgument(0));
+			if (array.columns() >= 1) {
+				for (int i = 0; i < array.size(); i++) {
+					MathSequence sequence = array.getArgument(i);
+					processSequence(sequence);
+				}
 			}
 		}
 	}

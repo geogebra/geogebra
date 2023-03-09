@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
@@ -121,10 +120,6 @@ public abstract class ProbabilityCalculatorView
 	protected GeoNumberValue[] parameters;
 	protected boolean isCumulative = false;
 
-	// maps for the distribution ComboBox
-	private HashMap<Dist, String> distributionMap;
-	private HashMap<String, Dist> reverseDistributionMap;
-
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
 	private final ProbabilityXAxis xAxis;
@@ -223,8 +218,6 @@ public abstract class ProbabilityCalculatorView
 	 * Update localization arrays
 	 */
 	protected void setLabelArrays() {
-		distributionMap = probManager.getDistributionMap();
-		reverseDistributionMap = probManager.getReverseDistributionMap();
 		if (app.getConfig().hasDistributionView()) {
 			parameterLabels = probManager.getParameterLabelArrayPrefixed(app.getLocalization());
 		} else {
@@ -1382,8 +1375,8 @@ public abstract class ProbabilityCalculatorView
 				(ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculatorNoFire(pcSettings.getDistributionType(),
 				pcSettings.getParameters(), pcSettings.isCumulative());
+		this.probMode = pcSettings.getProbMode();
 		if (pcSettings.isIntervalSet()) {
-			this.probMode = pcSettings.getProbMode();
 			setLow(pcSettings.getLow());
 			setHigh(pcSettings.getHigh());
 		}
@@ -1561,8 +1554,11 @@ public abstract class ProbabilityCalculatorView
 		switch (selectedDist) {
 
 		default:
-			Log.debug("Unknown distribution.");
+			Log.debug("Unknown distribution: " + selectedDist);
 			return true;
+		case STUDENT:
+		case CAUCHY:
+		case LOGISTIC:
 		case NORMAL:
 			return true;
 		case BINOMIAL:
@@ -1577,6 +1573,9 @@ public abstract class ProbabilityCalculatorView
 
 		case CHISQUARE:
 		case EXPONENTIAL:
+		case GAMMA:
+		case WEIBULL:
+		case LOGNORMAL:
 			if (probMode != PROB_LEFT) {
 				isValid = xLow >= 0;
 			}
@@ -1976,29 +1975,8 @@ public abstract class ProbabilityCalculatorView
 				|| (selectedDist == Dist.F && parameters[1].getDouble() < 4));
 	}
 
-	public HashMap<Dist, String> getDistributionMap() {
-		return distributionMap;
-	}
-
-	protected void setDistributionMap(HashMap<Dist, String> distributionMap) {
-		this.distributionMap = distributionMap;
-	}
-
-	public HashMap<String, Dist> getReverseDistributionMap() {
-		return reverseDistributionMap;
-	}
-
-	protected void setReverseDistributionMap(
-			HashMap<String, Dist> reverseDistributionMap) {
-		this.reverseDistributionMap = reverseDistributionMap;
-	}
-
 	public String[][] getParameterLabels() {
 		return parameterLabels;
-	}
-
-	protected void setParameterLabels(String[][] parameterLabels) {
-		this.parameterLabels = parameterLabels;
 	}
 
 	public abstract ProbabilityManager getProbManager();
