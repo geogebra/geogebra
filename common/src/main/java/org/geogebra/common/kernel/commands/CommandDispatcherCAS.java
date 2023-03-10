@@ -83,6 +83,12 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdSolve(kernel, c);
 		case CASLoaded:
 			return new CmdCASLoaded(kernel);
+		case ExtendedGCD:
+		case ModularExponent:
+		case CharacteristicPolynomial:
+		case MinimalPolynomial:
+		case LUDecomposition:
+		case QRDecomposition:
 		default:
 			break;
 		}
