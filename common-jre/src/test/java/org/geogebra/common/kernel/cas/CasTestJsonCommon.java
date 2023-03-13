@@ -1429,4 +1429,34 @@ public abstract class CasTestJsonCommon {
 	public void testQuartile3() {
 		testCat("Q3.1");
 	}
+
+	@Test
+	public void testExtendedGCD2() {
+		testCat("ExtendedGCD.2");
+	}
+
+	@Test
+	public void testModularExponent3() {
+		testCat("ModularExponent.3");
+	}
+
+	@Test
+	public void testCharacteristicPolynomial() {
+		testCat("CharacteristicPolynomial.1");
+	}
+
+	@Test
+	public void testMinimalPolynomial() {
+		testCat("MinimalPolynomial.1");
+	}
+
+	@Test
+	public void testLUDecomposition() {
+		testCat("LUDecomposition.1");
+	}
+
+	@Test
+	public void testQRDecomposition() {
+		testCat("QRDecomposition.1");
+	}
 }

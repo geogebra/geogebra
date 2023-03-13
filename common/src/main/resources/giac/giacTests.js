@@ -2613,6 +2613,14 @@ var __giac = [
 { cat:"Q3.1", cmd:"Quartile3({})", result:"?" },
 { cat:"Solve", cmd:"Solve({a*log(b)=1, a=-1},{a,b})", result:"{{a = -1, b = 1 / 10}}" },
 { cat:"Solve", cmd:"Solve({a k=1,a ℯ^(3 k)=3 ℯ},{a,k})", result:"{{a = 3, k = 1 / 3}}"},
+{ cat:"ExtendedGCD.2", cmd:"ExtendedGCD(240, 46)", result:"{-9, 47, 2}"},
+{ cat:"ExtendedGCD.2", cmd:"ExtendedGCD(x^2 - 1, x + 4)", result:"{1, -x + 4, 15}"},
+{ cat:"ModularExponent.3", cmd:"ModularExponent(5, 12, 13)", result:"1"},
+{ cat:"CharacteristicPolynomial.1", cmd:"CharacteristicPolynomial({{1,2},{3,4}})", result:"x² - 5x - 2"},
+{ cat:"MinimalPolynomial.1", cmd:"MinimalPolynomial({{1,0},{0,1}})", result:"x - 1"},
+{ cat:"LUDecomposition.1", cmd:"LUDecomposition({{1,2},{3,4}})", result:"{{{1, 0}, {0, 1}}, {{1, 0}, {3, 1}}, {{1, 2}, {0, -2}}}"},
+{ cat:"QRDecomposition.1", cmd:"QRDecomposition({{1,2},{3,4}})", result:"{{{1 / sqrt(10), 3 / 5 / (sqrt(10) / 5)}, {3 / sqrt(10), -1 / 5 / (sqrt(10) / 5)}}, {{sqrt(10), 7 / 5 sqrt(10)}, {0, sqrt(10) / 5}}}"},
+
 
 //JSONEND
 
