@@ -32,6 +32,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpreadsheetTraceManager;
+import org.geogebra.common.main.undo.UpdateStyleActionStore;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 
@@ -386,15 +387,14 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void fixObjectCmd(boolean fixed) {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
+		UpdateStyleActionStore store = new UpdateStyleActionStore(geos2);
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			fixGeo(geo1, fixed);
-			geo1.updateRepaint();
+			geo1.updateVisualStyle(GProperty.COMBINED);
 		}
-
-		getGeo().updateVisualStyle(GProperty.COMBINED);
 		app.getKernel().notifyRepaint();
-		app.storeUndoInfo();
+		store.storeUndo();
 	}
 
 	private void fixGeo(GeoElement geo, boolean fixed) {
