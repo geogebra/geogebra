@@ -584,6 +584,22 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		testValidResultCombinations("{{a,b},{c,d}} {{a,b},{c,d}}",
 				"{{a^(2) + b * c, a * b + b * d}, {a * c + c * d, d^(2) + b * c}}",
 				"{{b * c + a^(2), a * b + b * d}, {a * c + c * d, b * c + d^(2)}}");
+		t("ModularExponent(5, 12, 13)", "1");
+		t("CharacteristicPolynomial({{1,2},{3,4}})", "x^(2) - 5 * x - 2");
+		t("MinimalPolynomial({{1,0},{0,1}})", "x - 1");
+		t("LUDecomposition({{1,2},{3,4}})",
+				"{{{1, 0}, {0, 1}}, {{1, 0}, {3, 1}}, {{1, 2}, {0, -2}}}");
+		t("QRDecomposition({{1,2},{3,4}})",
+				"{{{1 / sqrt(10), 3 / 5 / (sqrt(10) / 5)}, "
+				+ "{3 / sqrt(10), -1 / 5 / (sqrt(10) / 5)}}, "
+				+ "{{sqrt(10), 7 / 5 * sqrt(10)}, {0, sqrt(10) / 5}}}");
+	}
+
+	@Test
+	public void testExtendedGCD() {
+		t("ExtendedGCD(240, 46)", "{-9, 47, 2}");
+		GeoSymbolic geo = add("ExtendedGCD(x^2 - 1, x + 4)");
+		assertEquals(geo.toOutputValueString(StringTemplate.defaultTemplate), "{1, -x + 4, 15}");
 	}
 
 	@Test
