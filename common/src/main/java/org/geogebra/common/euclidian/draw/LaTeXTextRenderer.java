@@ -5,9 +5,9 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.main.settings.FontSettings;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -15,34 +15,35 @@ import com.google.j2objc.annotations.Weak;
  * Renders LaTeX as text for the editor.
  */
 public class LaTeXTextRenderer implements TextRenderer {
-
-	// This margin is to match the height of the editor
-	public static final int MARGIN =  2;
 	private static final int CLIP_PADDING = 8;
-	private static final int PADDING = 2;
 
 	@Weak
-	private DrawInputBox drawInputBox;
-	private FontSettings fontSettings;
+	private final DrawInputBox drawInputBox;
+	private final TextRendererSettings settings;
 
-	LaTeXTextRenderer(DrawInputBox drawInputBox) {
+	LaTeXTextRenderer(DrawInputBox drawInputBox, TextRendererSettings settings) {
 		this.drawInputBox = drawInputBox;
-		fontSettings = drawInputBox.getGeoInputBox().getApp().getSettings()
-				.getFontSettings();
+		this.settings = settings;
+	}
+
+	@Override
+	public TextRendererSettings getSettings() {
+		return settings;
 	}
 
 	@Override
 	public void drawText(GeoInputBox geo, GGraphics2D graphics,
 						 GFont font, String text,
 						 double xPos, double yPos) {
-		int textLeft = (int) Math.round(xPos);
+		int textLeft = (int) Math.round(xPos) + settings.getFixMargin();
 
-		GFont font1 = getFont(geo, font, fontSettings.getAppFontSize() + 1);
+		GFont font1 = getFont(geo, font, settings.getBaseFontSize() + 1);
 		GDimension textDimension = drawInputBox.measureLatex(graphics, geo,
 				font1, text);
-		double inputBoxHeight = drawInputBox.getInputFieldBounds().getHeight();
+		double inputBoxHeight = drawInputBox.getInputFieldBounds().getHeight()
+				+ 2 * settings.getFixMargin();
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
-		int textTop = (int) Math.round(yPos + diffToCenter) ;
+		int textTop = (int) Math.round(yPos + diffToCenter) - settings.getFixMargin();
 
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		int clipWidth = drawInputBox.boxWidth - CLIP_PADDING;
@@ -53,21 +54,22 @@ public class LaTeXTextRenderer implements TextRenderer {
 		}
 		rect.setRect(textLeft, 0, clipWidth, drawInputBox.getView().getHeight());
 		graphics.setClip(rect);
-
-		drawInputBox.drawLatex(graphics, geo, font1, text, textLeft + PADDING,
+		drawInputBox.drawLatex(graphics, geo, font1, text, textLeft - settings.getFixMargin(),
 				textTop, true);
+
 		graphics.resetClip();
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
-		int textHeightWithMargin = textDimension.getHeight();
-		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT);
+		int textHeightWithMargin = textDimension.getHeight() + settings.getFixMargin();
+		return Math.max(textHeightWithMargin, settings.getMinHeight()
+				+ 2 * settings.getFixMargin());
 	}
 
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		GFont gFont = getFont(geo, font);
+		GFont gFont = getFont(geo, font, settings.getEditorFontSize());
 		GDimension textDimension =
 				drawInputBox.measureLatex(graphics, geo, gFont, geo.getDisplayText());
 
@@ -78,14 +80,9 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 		return AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,
-				(int) Math.round(inputBoxTop) + PADDING,
+				(int) inputBoxTop,
 				drawInputBox.boxWidth,
 				inputBoxHeight);
-	}
-
-	private GFont getFont(GeoInputBox geo, GFont font) {
-		return getFont(geo, font,
-				fontSettings.getAppFontSize() + 3);
 	}
 
 	private GFont getFont(GeoInputBox geo, GFont font, int fontSize) {

@@ -7,8 +7,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
-import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -46,23 +45,20 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	/**
 	 * Constructor
-	 *
-	 * @param app
-	 *            The application.
+	 * @param app The application.
+	 * @param settings
 	 */
-	public SymbolicEditorW(App app, EuclidianViewW view) {
+	public SymbolicEditorW(App app, EuclidianViewW view, TextRendererSettings settings) {
 		super(app, view);
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
-		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
-		editor.getMathField().setMinHeight(DrawInputBox.SYMBOLIC_MIN_HEIGHT);
-		editor.getMathField().setRightMargin(8);
-		int baseFontSize = app.getSettings()
-				.getFontSettings().getAppFontSize() + 3;
+		editor.getMathField().setFixMargin(settings.getFixMargin());
+		editor.getMathField().setMinHeight(settings.getMinHeight());
+		editor.getMathField().setRightMargin(settings.getRightMargin());
+		editor.getMathField().setBottomOffset(settings.getBottomOffset());
 
-		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
-		editor.setFontSize(baseFontSize);
+		decorator = new SymbolicEditorDecorator(editor, settings.getEditorFontSize());
 	}
 
 	@Override

@@ -21,6 +21,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.InputBoxBounds;
+import org.geogebra.common.euclidian.LatexRendererSettings;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -69,6 +71,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private GColor borderColor = null;
 
 	private final InputBoxBounds inputBoxBounds;
+	private TextRendererSettings rendererSettings;
 
 	/**
 	 * @param view
@@ -222,12 +225,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void update(boolean forView) {
 		isVisible = geo.isEuclidianVisible();
-		if (geoInputBox.isSymbolicMode()) {
-			textRenderer = new LaTeXTextRenderer(this);
-		} else {
-			textRenderer = new SimpleTextRenderer(view.getApplication(), this);
-		}
-		inputBoxBounds.setRenderer(textRenderer);
+		updateRenderer();
 		if (getTextField() == null) {
 			updateLabel();
 			updateLabelSize();
@@ -271,6 +269,20 @@ public class DrawInputBox extends CanvasDrawable {
 		updateLabelSize();
 
 		view.getViewTextField().setBoxBounds(labelRectangle);
+	}
+
+	private void updateRenderer() {
+		if (geoInputBox.isSymbolicMode()) {
+			rendererSettings = LatexRendererSettings.createForInputBox(
+					geoInputBox.getApp().getFontSize());
+			textRenderer = new LaTeXTextRenderer(this, rendererSettings);
+		} else {
+			rendererSettings = new SimpleTextRendererSettings();
+			textRenderer = new SimpleTextRenderer(view.getApplication(), this,
+					rendererSettings);
+		}
+
+		inputBoxBounds.setRenderer(textRenderer);
 	}
 
 	private void updateLabelSize() {
@@ -605,7 +617,8 @@ public class DrawInputBox extends CanvasDrawable {
 	public void attachMathField() {
 		hideTextField();
 		inputBoxBounds.update(view, getLabelTop(), textFont, labelDesc);
-		view.attachSymbolicEditor(geoInputBox, inputBoxBounds.getBounds());
+		view.attachSymbolicEditor(geoInputBox, inputBoxBounds.getBounds(),
+				rendererSettings);
 		update();
 		view.repaintView();
 	}

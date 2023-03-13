@@ -9,12 +9,15 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.util.MyMath;
 
 public class InputBoxBounds {
-	private static final int PADDING_Y = 4;
-	private static final int PADDING_X = 4;
 	private GRectangle bounds;
 	private final GeoInputBox geoInputBox;
 	private TextRenderer renderer;
+	private TextRendererSettings settings;
 
+	/**
+	 *
+	 * @param geoInputBox which bounds belongs of.
+	 */
 	public InputBoxBounds(GeoInputBox geoInputBox) {
 		this.geoInputBox = geoInputBox;
 		bounds = AwtFactory.getPrototype().newRectangle();
@@ -47,8 +50,8 @@ public class InputBoxBounds {
 	}
 
 	private void handlePaddings() {
-		bounds.setSize((int) (bounds.getWidth() - 2 * PADDING_X),
-				(int) (bounds.getHeight() - 2 * PADDING_Y));
+		bounds.setSize((int) (bounds.getWidth() - 2 * settings.getFixMargin()),
+				(int) (bounds.getHeight() - 2 * settings.getFixMargin()));
 	}
 
 	private void keepBoxOffscreen(int viewHeight) {
@@ -69,8 +72,12 @@ public class InputBoxBounds {
 		return bounds.getY();
 	}
 
+	/**
+	 * @param renderer to set.
+	 */
 	public void setRenderer(TextRenderer renderer) {
 		this.renderer = renderer;
+		settings = renderer.getSettings();
 	}
 
 	/**

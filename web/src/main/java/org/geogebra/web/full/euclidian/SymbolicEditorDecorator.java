@@ -34,7 +34,7 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 	}
 
 	private void updateBounds(GRectangle bounds) {
-		double fieldWidth = bounds.getWidth() - PADDING_LEFT;
+		double fieldWidth = bounds.getWidth();
 		setLeft(bounds.getX());
 		setTop(bounds.getY());
 		setWidth(fieldWidth);

@@ -132,6 +132,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int minHeight = 0;
 	private boolean wasPaintedWithCursor;
 	private int rightMargin = 30;
+	private int bottomOffset = 10;
 
 	/**
 	 * @param converter
@@ -655,7 +656,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	public double getHeightWithMargin() {
-		return lastIcon.getIconHeight() + getMargin(lastIcon);
+		return lastIcon.getIconHeight() + getMargin(lastIcon) + bottomOffset;
+	}
+
+	/**
+	 *
+	 * @param bottomOffset to set.
+	 */
+	public void setBottomOffset(int bottomOffset) {
+		this.bottomOffset = bottomOffset;
 	}
 
 	public int getIconHeight() {

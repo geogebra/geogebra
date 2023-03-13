@@ -6460,14 +6460,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Attaches a symbolic-capable editor to the input box
-	 * @param geoInputBox
-	 *             the input box to attach
-	 * @param bounds
-	 *             where the editor should be attached to.
+	 * @param geoInputBox the input box to attach
+	 * @param bounds where the editor should be attached to.
+	 * @param textRendererSettings to set.
 	 */
-	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds,
+			TextRendererSettings textRendererSettings) {
 		if (symbolicEditor == null) {
-			symbolicEditor = createSymbolicEditor();
+			symbolicEditor = createSymbolicEditor(textRendererSettings);
 		}
 		if (symbolicEditor != null) {
 			symbolicEditor.attach(geoInputBox, bounds);
@@ -6487,13 +6487,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	protected SymbolicEditor createSymbolicEditor() {
+	protected SymbolicEditor createSymbolicEditor(TextRendererSettings settings) {
 		// overridden in web and desktop
 		return null;
 	}
 
 	public SymbolicEditor initSymbolicEditor() {
-		return createSymbolicEditor();
+		return createSymbolicEditor(LatexRendererSettings.create(app.getFontSize()));
 	}
 
 	/**
