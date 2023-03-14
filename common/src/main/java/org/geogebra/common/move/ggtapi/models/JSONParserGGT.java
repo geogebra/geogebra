@@ -51,12 +51,7 @@ public class JSONParserGGT {
 			}
 		}
 		String IDs = getString(obj, "id");
-		String sharingKey = null;
-		try {
-			sharingKey = getString(obj, "sharing_key");
-		} catch (RuntimeException e) {
-			sharingKey = IDs;
-		}
+		String sharingKey = IDs;
 
 		Material material = new Material(type);
 
