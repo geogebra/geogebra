@@ -128,7 +128,7 @@ public class FileManagerW extends FileManager {
 				Material mat = JSONParserGGT.parseMaterial(this.stockStore
 				        .getItem(key));
 				if (mat == null) {
-					mat = new Material( MaterialType.ggb);
+					mat = new Material(MaterialType.ggb);
 					mat.setTitle(getTitleFromKey(key));
 				}
 				if (filter.check(mat)

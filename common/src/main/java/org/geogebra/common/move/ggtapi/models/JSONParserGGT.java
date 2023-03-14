@@ -50,8 +50,16 @@ public class JSONParserGGT {
 				}
 			}
 		}
+
 		String IDs = getString(obj, "id");
-		String sharingKey = IDs;
+		int id = -1;
+		String sharingKey = null;
+		try {
+			id = Integer.parseInt(IDs);
+			sharingKey = getString(obj, "sharing_key");
+		} catch (RuntimeException e) {
+			sharingKey = IDs;
+		}
 
 		Material material = new Material(type);
 
