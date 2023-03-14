@@ -16,6 +16,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -560,7 +561,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private void showWidget() {
 		if (geoInputBox.isSymbolicMode()) {
 			recomputeSize();
-			attachMathField();
+			attachMathField(view.getEuclidianController().getMouseLoc());
 			return;
 		}
 
@@ -608,10 +609,10 @@ public class DrawInputBox extends CanvasDrawable {
 	/**
 	 * Attach the symbolic editor
 	 */
-	public void attachMathField() {
+	public void attachMathField(GPoint caretPos) {
 		hideTextField();
 		view.attachSymbolicEditor(geoInputBox, textRenderer.measureBounds(
-				view.getGraphicsForPen(), geoInputBox,  textFont, labelDesc));
+				view.getGraphicsForPen(), geoInputBox,  textFont, labelDesc), caretPos);
 		update();
 		view.repaintView();
 	}
