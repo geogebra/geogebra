@@ -37,7 +37,7 @@ public class AppletParameters {
 		return attributeProvider.getAttribute("data-param-" + attribute);
 	}
 
-	private boolean hasAttribute(String attribute) {
+	public boolean hasAttribute(String attribute) {
 		return attributeProvider.hasAttribute("data-param-" + attribute);
 	}
 
@@ -709,6 +709,10 @@ public class AppletParameters {
 
 	public String getParamDetachKeyboard() {
 		return getStringDataParam("detachKeyboard", "auto");
+	}
+
+	public String getParamShowKeyboardOnFocus(String fallback) {
+		return getStringDataParam("showKeyboardOnFocus", fallback);
 	}
 
 	/**

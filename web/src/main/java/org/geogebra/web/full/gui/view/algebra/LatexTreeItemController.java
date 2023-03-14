@@ -262,7 +262,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		onEnter(false, false);
 		if (item.isInputTreeItem()) {
 			item.addDummyLabel();
@@ -270,10 +270,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 		app.hideKeyboard();
 		if (shiftDown) {
-			app.getAccessibilityManager()
+			return app.getAccessibilityManager()
 					.focusPrevious();
 		} else {
-			app.getAccessibilityManager()
+			return app.getAccessibilityManager()
 					.focusNext();
 		}
 	}

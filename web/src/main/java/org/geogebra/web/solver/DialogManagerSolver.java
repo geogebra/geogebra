@@ -1,4 +1,4 @@
-package org.geogebra.web.editor;
+package org.geogebra.web.solver;
 
 import java.util.ArrayList;
 

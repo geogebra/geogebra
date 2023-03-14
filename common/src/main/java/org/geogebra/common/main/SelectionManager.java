@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -30,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -1381,7 +1383,7 @@ public class SelectionManager {
 	 * @return whether it needs outline
 	 */
 	public boolean isKeyboardFocused(GeoElement geo) {
-		if (geo.getApp().showToolBar()) {
+		if (geo.getApp().showToolBar() && (geo instanceof GeoImage || geo instanceof GeoText)) {
 			return geo.doHighlighting();
 		} else {
 			return keyboardSelection && selectedGeos.contains(geo);

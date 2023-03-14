@@ -3,6 +3,7 @@ package com.himamis.retex.editor.share.serializer;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
@@ -56,6 +57,8 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\@ ");
 		} else if (" ".equals(name)) {
 			stringBuilder.append("\\nbsp{}");
+		} else if ("\u23B8".equals(name)) {
+			stringBuilder.append("\\vert{}");
 		} else if (lineBreakEnabled && 10 == name.charAt(0)) {
 			stringBuilder.append("\\\\\\vspace{0}");
 		} else if ("n".equals(name) && stringBuilder.length() > 0
@@ -155,10 +158,7 @@ public class TeXSerializer extends SerializerAdapter {
 						.substring(lengthBefore, stringBuilder.length()).trim()
 						.replace("\\nbsp", "").replace(cursor, "").isEmpty();
 				if (emptyFormula) {
-					String cursorFix = stringBuilder.toString().replace(cursor,
-							cursorBig);
-					stringBuilder.setLength(0);
-					stringBuilder.append(cursorFix);
+					fixCursor(stringBuilder);
 				}
 			} else {
 				serialize(sequence, stringBuilder, 0, sequence.size());
@@ -172,6 +172,13 @@ public class TeXSerializer extends SerializerAdapter {
 		if (sequence == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
+	}
+
+	private void fixCursor(StringBuilder stringBuilder) {
+		String cursorFix = stringBuilder.toString().replace(cursor,
+				cursorBig);
+		stringBuilder.setLength(0);
+		stringBuilder.append(cursorFix);
 	}
 
 	private String getPlaceholder(MathSequence sequence) {
@@ -408,6 +415,11 @@ public class TeXSerializer extends SerializerAdapter {
 				.append("}")
 				.append(placeholder.getContent())
 				.append("}");
+	}
+
+	@Override
+	void serialize(MathCharPlaceholder placeholder, StringBuilder stringBuilder) {
+		stringBuilder.append(PLACEHOLDER);
 	}
 
 	private static int letterLength(MathSequence symbol, int i) {

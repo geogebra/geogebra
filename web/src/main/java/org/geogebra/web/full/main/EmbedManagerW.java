@@ -79,7 +79,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	private int counter;
 	private final HashMap<Integer, String> content = new HashMap<>();
 	private final HashMap<Integer, String> urls = new HashMap<>();
-
 	private final HashMap<GeoElement, Runnable> errorHandlers = new HashMap<>();
 
 	/**

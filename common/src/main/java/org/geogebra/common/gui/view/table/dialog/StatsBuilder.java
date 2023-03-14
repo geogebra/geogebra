@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Stat;
@@ -57,7 +57,7 @@ public class StatsBuilder {
 		GeoList cleanList = new GeoList(list.getKernel().getConstruction());
 		if (list instanceof GeoList && ((GeoList) list).size() >= 2) {
 			((GeoList) list).elements().filter(
-					(GeoElementND geo) -> geo instanceof GeoNumeric).forEach(cleanList::add);
+					GeoElement::isDefined).forEach(cleanList::add);
 		}
 		return cleanList;
 	}

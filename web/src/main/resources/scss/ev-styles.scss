@@ -231,19 +231,20 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     			}
     		}
 
-    		.checkMarkMenuItem {
-                cursor: pointer;
-                line-height: 32px;
-                display: flex;
-
-    			img {
-    				opacity: 0.54;
-    				position: absolute;
-    				right: 8px;
-    				padding: 4px;
-    			}
-    		}
-    	}
+			.checkMarkMenuItem {
+				cursor: pointer;
+				display: flex;
+				.gwt-HTML {
+					line-height: 32px;
+				}
+				img {
+					opacity: 0.54;
+					position: absolute;
+					right: 8px;
+					padding: 4px;
+				}
+			}
+		}
 	}
 
 	/*point/line style table*/
@@ -572,9 +573,13 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		height: inherit;
 	}
 
-	.AutoCompleteTextFieldW.FromDrawTextFieldNew.errorStyle input[type="text"].TextField,
-		.evInputEditor.errorStyle, .mathTextField.errorStyle {
-		border: 4px colors.$error dotted;
+	.mathTextField.errorStyle {
+		border: 2px colors.$error dashed;
+	}
+
+	.evInputEditor.errorStyle {
+		border: 2px colors.$error-border dashed;
+		background-color: colors.$error-background;
 	}
 
 	.AutoCompleteTextFieldW.FromDrawTextField .TextField {
@@ -666,7 +671,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 	.evInputEditor {
 		position: absolute;
-		border: 1px solid blue;
+		border: 2px solid colors.$purple-default;
 	}
 
 	.accessibilityView {

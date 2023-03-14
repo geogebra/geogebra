@@ -1098,16 +1098,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public AppKeyboardType getKeyboardType() {
 		if ("evaluator".equals(appletParameters.getDataParamAppName())) {
 			String setting = appletParameters.getParamKeyboardType("normal");
-			switch (setting) {
-			case "normal":
-				return AppKeyboardType.SUITE;
-			case "notes":
-				return AppKeyboardType.NOTES;
-			case "solver":
-				return AppKeyboardType.SOLVER;
-			default:
-				return AppKeyboardType.SCIENTIFIC;
-			}
+			return AppKeyboardType.fromName(setting);
 		}
 		return getConfig().getKeyboardType();
 	}

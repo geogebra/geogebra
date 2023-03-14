@@ -130,7 +130,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
 
 	@Override
 	public String getDefinition(StringTemplate tpl) {
-		if (tpl == StringTemplate.editorTemplate) {
+		if (tpl.isForEditorParser()) {
 			return g.toValueString(tpl);
 		} else {
 			return super.getDefinition(tpl);

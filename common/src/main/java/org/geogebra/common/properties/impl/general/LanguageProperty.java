@@ -16,14 +16,14 @@ import com.google.j2objc.annotations.Weak;
 public class LanguageProperty extends AbstractEnumerableProperty {
 
     @Weak
-    private App app;
+    private final App app;
     private OnLanguageSetCallback onLanguageSetCallback;
 
     private Locale[] locales;
     private String[] languageCodes;
 
 	public interface OnLanguageSetCallback {
-		public void run(String lang);
+		void run(String lang);
 	}
 
     /**
@@ -76,9 +76,9 @@ public class LanguageProperty extends AbstractEnumerableProperty {
     @Override
     public int getIndex() {
         Localization localization = getLocalization();
-        Locale locale = localization.getLocale();
+        String locale = localization.getLocaleStr();
         for (int i = 0; i < locales.length; i++) {
-            if (locales[i] != null && locales[i].equals(locale)) {
+            if (locales[i] != null && locales[i].toString().equals(locale)) {
                 return i;
             }
         }

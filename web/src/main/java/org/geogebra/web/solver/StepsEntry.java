@@ -1,7 +1,6 @@
 package org.geogebra.web.solver;
 
 import org.geogebra.common.factories.CASFactoryDummy;
-import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;

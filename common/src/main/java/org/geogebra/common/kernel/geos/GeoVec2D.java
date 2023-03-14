@@ -92,20 +92,6 @@ final public class GeoVec2D extends ValidExpression
 	}
 
 	/**
-	 * Creates new GeoVec2D with coordinates (a[0],a[1])
-	 * 
-	 * @param kernel
-	 *            kernel
-	 * @param a
-	 *            coordinates
-	 */
-	public GeoVec2D(Kernel kernel, double[] a) {
-		this(kernel);
-		x = a[0];
-		y = a[1];
-	}
-
-	/**
 	 * Copy constructor
 	 * 
 	 * @param v
@@ -134,38 +120,6 @@ final public class GeoVec2D extends ValidExpression
 	@Override
 	public void resolveVariables(EvalInfo info) {
 		// do nothing
-	}
-
-	/**
-	 * Creates new GeoVec2D as vector between Points P and Q
-	 * 
-	 * @param kernel
-	 *            kernel
-	 * @param p
-	 *            start point
-	 * @param q
-	 *            end point
-	 */
-	public GeoVec2D(Kernel kernel, GeoPoint p, GeoPoint q) {
-		this(kernel);
-		x = q.getX() - p.getX();
-		y = q.getY() - p.getY();
-	}
-
-	/**
-	 * @param x
-	 *            new x-coord
-	 */
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	/**
-	 * @param y
-	 *            new y-coord
-	 */
-	public void setY(double y) {
-		this.y = y;
 	}
 
 	/**
@@ -394,16 +348,11 @@ final public class GeoVec2D extends ValidExpression
 	}
 
 	/**
-	 * returns this + a
-	 * 
-	 * @param a
-	 *            addend
-	 * @return this + a
+	 * Add value of a
 	 */
-	public GeoVec2D add(GeoVec2D a) {
-		GeoVec2D res = new GeoVec2D(kernel, 0, 0);
-		add(this, a, res);
-		return res;
+	private void add(GeoVec2D a) {
+		x += a.x;
+		y += a.y;
 	}
 
 	/**
@@ -559,19 +508,6 @@ final public class GeoVec2D extends ValidExpression
 	}
 
 	/**
-	 * returns this - a
-	 * 
-	 * @param a
-	 *            subtrahend
-	 * @return this - subtrahend
-	 */
-	public GeoVec2D sub(GeoVec2D a) {
-		GeoVec2D res = new GeoVec2D(kernel, 0, 0);
-		sub(this, a, res);
-		return res;
-	}
-
-	/**
 	 * c = a - b
 	 * 
 	 * @param a
@@ -582,8 +518,8 @@ final public class GeoVec2D extends ValidExpression
 	 *            result
 	 */
 	public static void sub(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
-		c.x = a.x - b.x;
-		c.y = a.y - b.y;
+		c.x = a.x - b.getX();
+		c.y = a.y - b.getY();
 		if (a.getToStringMode() == Kernel.COORD_COMPLEX
 				|| b.getToStringMode() == Kernel.COORD_COMPLEX) {
 			c.setMode(Kernel.COORD_COMPLEX);
@@ -619,15 +555,16 @@ final public class GeoVec2D extends ValidExpression
 	public GeoVec2D ei() {
 		GeoVec2D log = new GeoVec2D(kernel);
 		GeoVec2D.complexLog(this, log);
-		GeoVec2D ret = new GeoVec2D(kernel, MyDouble.EULER_GAMMA, 0).add(log)
-				.add(this);
+		GeoVec2D ret = new GeoVec2D(kernel, MyDouble.EULER_GAMMA, 0);
+		ret.add(log);
+		ret.add(this);
 		GeoVec2D add = new GeoVec2D(kernel, x, y);
 		for (int i = 2; i < MAXIT; i++) {
 			add.mult(this);
 			add.mult((i - 1) / (double) i / i);
-			ret = ret.add(add);
-
+			ret.add(add);
 		}
+		ret.setMode(Kernel.COORD_COMPLEX);
 		return ret;
 	}
 

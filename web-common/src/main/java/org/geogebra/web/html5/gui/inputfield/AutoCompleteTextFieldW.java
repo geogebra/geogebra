@@ -433,8 +433,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setBackground(GColor color) {
-		main.getElement().getStyle()
-				.setBackgroundColor(GColor.getColorString(color));
+		if (!hasError()) {
+			main.getElement().getStyle()
+					.setBackgroundColor(GColor.getColorString(color));
+			main.getElement().getStyle().setBorderColor(drawTextField.getBorderColor() != null
+					? drawTextField.getBorderColor().toString() : GColor.DEFAULT_PURPLE.toString());
+		} else {
+			main.getElement().getStyle().clearBackgroundColor();
+			main.getElement().getStyle().clearBorderColor();
+		}
 	}
 
 	@Override
@@ -1431,19 +1438,32 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		g2.setPaint(bgColor);
+		GColor backgroundColor = hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
+		g2.setPaint(backgroundColor);
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
-		// TF Rectangle
-		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED);
+		GColor borderColor = backgroundColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
+				: GColor.getBorderColorFrom(backgroundColor);
+		g2.setColor(borderColor);
+		setTextFieldBorderColor(backgroundColor, borderColor);
+		if (drawTextField.hasError()) {
 			g2.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
-		} else {
-			g2.setPaint(GColor.BLACK);
+					EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT, GBasicStroke.JOIN_ROUND));
 		}
 
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+	}
+
+	private void setTextFieldBorderColor(GColor backgroundColor, GColor borderColor) {
+		if (!drawTextField.hasError() && backgroundColor != GColor.WHITE) {
+			drawTextField.setBorderColor(borderColor);
+		} else if (backgroundColor == GColor.WHITE) {
+			drawTextField.setBorderColor(null);
+		}
+	}
+
+	private boolean hasError() {
+		return drawTextField != null && drawTextField.hasError();
 	}
 
 	@Override
