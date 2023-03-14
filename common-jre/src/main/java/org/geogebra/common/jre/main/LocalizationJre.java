@@ -33,6 +33,8 @@ public abstract class LocalizationJre extends Localization {
 	// supported GUI languages (from properties files)
 	protected ArrayList<Locale> supportedLocales = null;
 
+	protected Locale currentLocale = Locale.ENGLISH;
+
 	/**
 	 * @param dimension
 	 *            3 for 3D
@@ -57,6 +59,10 @@ public abstract class LocalizationJre extends Localization {
 	 */
 	final public void setApp(App app) {
 		this.app = app;
+	}
+
+	public Locale getLocale() {
+		return currentLocale;
 	}
 
 	@Override
@@ -346,7 +352,9 @@ public abstract class LocalizationJre extends Localization {
 		}
 	}
 
-	@Override
+	/**
+	 * @return list of suported locales
+	 */
 	protected ArrayList<Locale> getSupportedLocales() {
 		return getSupportedLocales(app.has(Feature.ALL_LANGUAGES));
 	}
@@ -397,7 +405,6 @@ public abstract class LocalizationJre extends Localization {
 		return locale.getCountry();
 	}
 
-	@Override
 	protected String getVariant(Locale locale) {
 		return locale.getVariant();
 	}
@@ -422,6 +429,17 @@ public abstract class LocalizationJre extends Localization {
 	public void setLocale(Locale locale) {
 		currentLocale = getClosestSupportedLocale(locale);
 		updateResourceBundles();
+	}
+
+	/**
+	 * @return locale for command translation
+	 */
+	protected Locale getCommandLocale() {
+		Language language = Language.getLanguage(getLanguage());
+		if (areEnglishCommandsForced() || (language != null && !language.hasTranslatedKeyboard())) {
+			return Locale.ENGLISH;
+		}
+		return currentLocale;
 	}
 
 	/**

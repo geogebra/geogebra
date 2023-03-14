@@ -166,10 +166,14 @@ public class ArrayAtom extends Atom {
 			hinit = Math.max(hinit, b.getHeight());
 			dinit = Math.max(dinit, b.getDepth());
 		}
+
+		final double[] seps = getColumnSep(env, 0. /* not used */);
+		final double[] hseps = getSepForColumns(seps);
+
 		for (int j = 0; j < col; ++j) {
 			TeXLength length = options.getMinWidth(j);
 			if (length != null) {
-				colWidth[j] = length.getValue(env);
+				colWidth[j] = length.getValue(env) - (hseps[j * 2] + hseps[j * 2 + 1]);
 			}
 		}
 		for (int i = 0; i < row; ++i) {
@@ -200,9 +204,6 @@ public class ArrayAtom extends Atom {
 			}
 			rowHeight[i] *= arraystretch;
 		}
-
-		final double[] seps = getColumnSep(env, 0. /* not used */);
-		final double[] hseps = getSepForColumns(seps);
 
 		for (final MulticolumnAtom multi : listMulti) {
 			final int c = multi.getCol();
@@ -247,7 +248,7 @@ public class ArrayAtom extends Atom {
 			double padding = 0;
 			boolean center = options.getVertAlignment(0) == TeXConstants.Align.CENTER;
 			if (minHeight != null) {
-				padding = Math.max(minHeight.getValue(env) - rowHeight[i] + rowDepth[i], 0);
+				padding = Math.max(minHeight.getValue(env) - rowHeight[i] - rowDepth[i] - vsepH, 0);
 			}
 			final double rhi = rowHeight[i] + (center ? padding / 2.0 : 0);
 			final double rdi = rowDepth[i] + (center ? padding / 2.0 : padding);

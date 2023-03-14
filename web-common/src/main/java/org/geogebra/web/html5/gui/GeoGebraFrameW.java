@@ -7,7 +7,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -36,7 +35,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.web.MathFieldW;
 
-import elemental2.core.Function;
 import jsinterop.base.Js;
 
 /**
@@ -677,16 +675,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			root.add(this);
 		} else {
 			Log.error("Cannot find article with ID " + element.getId());
-		}
-	}
-
-	/**
-	 * callback when renderGGBElement is ready
-	 */
-	public static void renderGGBElementReady() {
-		Function renderGGBElementReady = GeoGebraGlobal.getRenderGGBElementReady();
-		if (renderGGBElementReady != null) {
-			renderGGBElementReady.call();
 		}
 	}
 

@@ -353,8 +353,9 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		// not needed
+		return true;
 	}
 
 	@Override

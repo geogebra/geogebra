@@ -102,4 +102,10 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
 		return false;
 	}
 
+	/**
+	 * @return whether this is comma or vertical bar
+	 */
+	public boolean isFieldSeparator() {
+		return false;
+	}
 }

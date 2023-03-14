@@ -37,8 +37,8 @@ class SymbolicEditorCommon extends SymbolicEditor {
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
-
+	public boolean onTab(boolean shiftDown) {
+		return true;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -24,6 +25,10 @@ public class CursorController {
 	 * @return whether we moved right
 	 */
 	public static boolean nextCharacter(EditorState editorState) {
+		if (isLastPlaceholderInProtectedParent(editorState)) {
+			return false;
+		}
+
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset < currentField.size()) {
@@ -32,6 +37,14 @@ public class CursorController {
 		} else {
 			return nextField(editorState);
 		}
+	}
+
+	private static boolean isLastPlaceholderInProtectedParent(EditorState editorState) {
+		int currentOffset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
+		return InputController.isFieldSeparatorInSequence(currentField)
+				&& currentOffset == currentField.size() - 1
+				&& currentField.getArgument(currentOffset) instanceof MathCharPlaceholder;
 	}
 
 	private static boolean nextCharacterInCurrentField(
@@ -84,7 +97,17 @@ public class CursorController {
 			lastField(editorState, mathContainer);
 		} else {
 			editorState.decCurrentOffset();
+			if (isPrevCharPlaceholder(editorState)  && !editorState.isInFraction()) {
+				editorState.decCurrentOffset();
+			}
 		}
+	}
+
+	private static boolean isPrevCharPlaceholder(EditorState editorState) {
+		MathSequence currentField = editorState.getCurrentField();
+		int offset = editorState.getCurrentOffset();
+		return offset > 0
+				&& currentField.getArgument(offset - 1) instanceof MathCharPlaceholder;
 	}
 
 	/**

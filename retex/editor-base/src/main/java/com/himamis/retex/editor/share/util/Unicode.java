@@ -45,6 +45,7 @@ public class Unicode {
 
 	final public static char e_GRAVE = '\u00E8';
 	final public static char e_ACUTE = '\u00E9';
+	final public static char verticalLine = '\u23B8';
 
 	/** Unicode symbol for e */
 	final public static char EULER_CHAR = '\u212f';

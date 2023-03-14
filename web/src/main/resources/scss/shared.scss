@@ -190,8 +190,15 @@ $keyboard_button_transition: opacity .3s ease;
 
 	.AutoCompleteTextFieldW.FromDrawTextFieldNew {
 		.fieldContainer {
-			border: 1px solid colors.$input-border;
+			border: 2px solid;
 			border-radius: 5px;
+		}
+
+		&.errorStyle {
+			.fieldContainer {
+				background-color: colors.$error-background;
+				border: 2px dashed colors.$error-border;
+			}
 		}
 
 		input, .cursorOverlay {
@@ -205,24 +212,23 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 	}
 
-	.practiceProgressBar {
-		progress[value] {
-			width: 250px;
-			height: 25px;
+	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
+	.inputHelp-detailPanelTitle .button, .optionsPopup .gwt-Button, .customizeToolbarButtonPanel .button,
+	.buttonSpreadsheet {
+		border-radius: 5px;
+		border: 1px solid #6161FF;
+		color: #6161FF;
+		background: none;
+		font-size: 110%;
+		padding: 4px 15px;
+		box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 0 2px rgba(204, 204, 204, 0.5);
+		cursor: pointer;
+		margin-left: 5px;
+		min-height: 0;
 
-			border-radius: 15px;
-
-			&[progress="good"]::-moz-progress-bar {
-				 background-color: #4CAF50;
-			}
-
-			&[progress="medium"]::-moz-progress-bar {
-				background-color: #ffff00;;
-			}
-
-			&[progress="bad"]::-moz-progress-bar {
-				background-color: #FF1744;
-			}
+		&.downloadBtn {
+			float: right;
+			width: 64px;
 		}
 	}
 }
