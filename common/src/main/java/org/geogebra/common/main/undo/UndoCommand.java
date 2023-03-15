@@ -1,5 +1,6 @@
 package org.geogebra.common.main.undo;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.geogebra.common.plugin.ActionType;
@@ -11,11 +12,12 @@ import org.geogebra.common.plugin.ActionType;
  */
 public class UndoCommand {
 
+	public List<String> labels;
 	private AppState appState;
 	private ActionType action;
 	private String[] args;
-	private ActionType undoAction;
-	private String[] undoArgs;
+	ActionType undoAction;
+	String[] undoArgs;
 	private String slideID;
 
 	/**
@@ -177,5 +179,9 @@ public class UndoCommand {
 			return false;
 		}
 		return Objects.equals(slideID, other.slideID);
+	}
+
+	public boolean hasLabel(String label) {
+		return labels != null && labels.contains(label);
 	}
 }

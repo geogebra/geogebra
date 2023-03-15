@@ -939,6 +939,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		geo.remove();
 		kernel.notifyRepaint();
+		kernel.getConstruction().getUndoManager().removeActionsWithLabel(objName);
 	}
 
 	@Override

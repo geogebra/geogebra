@@ -56,13 +56,17 @@ public class UpdateActionStore {
 	public void storeUpdateAction() {
 		List<String> actions = new ArrayList<>(undoItems.size());
 		List<String> undoActions = new ArrayList<>(undoItems.size());
+		List<String> labels = new ArrayList<>(undoItems.size());
 		for (UndoItem item: undoItems) {
 			actions.add(item.content());
 			undoActions.add(item.previousContent());
+			labels.add(item.getLabel());
 		}
 
-		undoManager.storeUndoableAction(ActionType.UPDATE, actions.toArray(new String[0]),
-						ActionType.UPDATE, undoActions.toArray(new String[0]));
+		undoManager.buildAction(ActionType.UPDATE, actions.toArray(new String[0]))
+				.withUndo(ActionType.UPDATE, undoActions.toArray(new String[0]))
+				.withLabels(labels.toArray(new String[0]))
+				.storeAndNotifyUnsaved();
 	}
 
 	/**

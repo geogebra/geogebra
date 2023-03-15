@@ -190,9 +190,11 @@ public class InlineTextControllerW implements InlineTextController {
 	private void storeUndoAction(GeoInline geo, String oldContent) {
 		if (oldContent != null) {
 			String label = geo.getLabelSimple();
-			geo.getConstruction().getUndoManager().storeUndoableAction(ActionType.SET_CONTENT,
-					new String[]{label, geo.getContent()},
-					ActionType.SET_CONTENT, label, oldContent);
+			geo.getConstruction().getUndoManager()
+					.buildAction(ActionType.SET_CONTENT, label, geo.getContent())
+					.withUndo(ActionType.SET_CONTENT, label, oldContent)
+					.withLabels(label)
+					.storeAndNotifyUnsaved();
 		} else {
 			geo.getConstruction().getUndoManager().storeAddGeo(geo);
 		}
