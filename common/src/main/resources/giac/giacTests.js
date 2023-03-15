@@ -282,7 +282,7 @@ var __giac = [
 { cat:"SolveODE", cmd:"SolveODE[y'=y / x, (1,2)]", result:"y = 2 x" },
 { cat:"SolveODE", cmd:"SolveODE[y''-3y'+2=x, (1,2), (0,2)]", result:"y = -1 / 6 x\u00B2 + 5 / 9 x - 13 / 27 \u212f\u00B3 + 13 / 27 \u212f^(3x) + 29 / 18|OR|y = -1 / 6 x\u00B2 + 5 / 9 x + 13 / 27 \u212f^(3x) - 13 / 27 \u212f\u00B3 + 29 / 18" },
 { cat:"SolveODE", cmd:"SolveODE(y'=2*x*sqrt(y),(-2.54,1))", result:"y = 1 / 4 x⁴ - 11129 / 5000 x² + 123854641 / 25000000"},
-{ cat:"SolveODE", cmd:"SolveODE(y'=9.82-0.002*y^2)", result: "y = (sqrt(4910) c_0 ℯ^(x sqrt(4910) / 250) + sqrt(4910)) / (c_0 ℯ^(x sqrt(4910) / 250) - 1)"},
+{ cat:"SolveODE", cmd:"SolveODE(y'=9.82-0.002*y^2)", result: "y = (sqrt(4910) c_0 ℯ^(x sqrt(4910) / 250) + sqrt(4910)) / (c_0 ℯ^(x sqrt(4910) / 250) - 1)|OR|y = (-sqrt(4910) c_0 - sqrt(4910) ℯ^(x sqrt(4910) / 250)) / (c_0 - ℯ^(x sqrt(4910) / 250))"},
 { cat:"Substitute", cmd:"Substitute[2x + 3y - z, {x=a, y=2, z=b}]", result:"2a + 6 - b|OR|2a - b + 6" },
 { cat:"Substitute", cmd:"Substitute[(3 m - 3)^2 - (m + 3)^2, m, a]", result:"(3a - 3)\u00B2 - (a + 3)\u00B2|OR|8a\u00B2 - 24a" },
 { cat:"Sum", cmd:"Sum[{4,5,7,8,3,2,8,9}]", result:"46" },
