@@ -52,11 +52,9 @@ public class JSONParserGGT {
 		}
 
 		String IDs = getString(obj, "id");
-		int id = -1;
-		String sharingKey = null;
+		String sharingKey = getString(obj, "sharing_key");
 		try {
-			id = Integer.parseInt(IDs);
-			sharingKey = getString(obj, "sharing_key");
+			Integer.parseInt(IDs);
 		} catch (RuntimeException e) {
 			sharingKey = IDs;
 		}

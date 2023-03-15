@@ -81,7 +81,7 @@ public class JSONParserGGTTests {
 		JSONArray elements = root.getJSONArray("elements");
 		JSONObject item = elements.getJSONObject(1);
 		Material material = JSONParserGGT.prototype.toMaterial(item);
-		assertEquals("2463659", material.getSharingKeyOrId());
+		assertEquals("PB9Npbe7", material.getSharingKeyOrId());
 		assertTrue(Material.MaterialType.ggb == material.getType());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.ggb", material.getURL());

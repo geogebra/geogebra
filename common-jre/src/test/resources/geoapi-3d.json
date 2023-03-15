@@ -13,14 +13,14 @@
     "title": "3D Coordinate Systems",
     "elements": [
         {
-            "id": 2463661,
+            "id": "PB9Npbe7",
             "order": 0,
             "type": "T",
             "title": "Description",
             "text": "Here you can choose a coordinate system of Cartesian, Cylindrical or Spherical.  3 surfaces are shown for each system choice.  For Cartesian the surfaces are constant x, y and z values that are adjustable with the sliders.  For cylindrical coordinates the sliders change to constant r, \\theta and z.  Switching to spherical coordinates changes the sliders to r_0, \\theta_0 and \\phi_0.\nA yellow point is also shown where all three surfaces intersect along with its dimensions in the current coordinate system."
         },
         {
-            "id": 2463659,
+            "id": "PB9Npbe7",
             "order": 1,
             "type": "G",
             "title": "3D Coordinate Systems",
