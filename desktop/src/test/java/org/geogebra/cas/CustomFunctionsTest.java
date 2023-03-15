@@ -21,8 +21,12 @@ public class CustomFunctionsTest {
 		raw = evaluateRaw("check_derivative({(1/5*√110+1/2*x^2)^2,(-1/5*√110+1/2*x^2)^2},"
 				+ "point(0,(44/10)))");
 		assertEquals("(1/5*√110+1/2*x^2)^2", raw);
-		assertEquals(evaluateRaw("check_derivative({(-5/2+1/2*x^2)^2},point(-3,4))"),
-				"(-5/2+1/2*x^2)^2");
+		raw = evaluateRaw("check_derivative({(-5/2+1/2*x^2)^2},point(-3,4))");
+		assertEquals("(-5/2+1/2*x^2)^2", raw);
+		raw = evaluateRaw("check_derivative({(-1/2*(a^2+2*√b)+1/2*x^2)^2,"
+				+ "(-1/2*(a^2-2*√b)+1/2*x^2)^2},point(a,b))");
+		assertEquals(raw, "(-1/2*(a^2+2*√b)+1/2*x^2)^2");
+
 	}
 
 	private String evaluateRaw(String input) throws Throwable {
