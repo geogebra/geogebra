@@ -55,7 +55,7 @@ public class UndoManagerTest extends BaseUnitTest {
 		assertThat(getUndoManager().undoPossible(), is(true));
 		getConstruction().undo();
 		assertThat(getUndoManager().undoPossible(), is(false));
-		//assertThat(getUndoManager().redoPossible(), is(true));
+		assertThat(getUndoManager().redoPossible(), is(true));
 		assertThat(lookup("A"), nullValue());
 		getConstruction().redo();
 		assertThat(lookup("A"), hasValue("(1, 1)"));
