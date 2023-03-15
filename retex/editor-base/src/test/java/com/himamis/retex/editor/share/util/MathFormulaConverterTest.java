@@ -32,7 +32,7 @@ public class MathFormulaConverterTest {
 	public void testConvertColumnVectorWithEmptyValue() {
 		assertEquals(BEGIN_PMATRIX + PLACEHOLDER
 						+ " \\\\ 2" + END_PMATRIX,
-				converter.convert("{{}, {2}}"));
+				converter.convert("{{?}, {2}}"));
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class MathFormulaConverterTest {
 	@Test
 	public void testConvertEmpty2DPoint() {
 		assertEquals("\\left({" + PLACEHOLDER1
-				+ "," + PLACEHOLDER1 + "}\\right)", converter.convert("(,)"));
+				+ "," + PLACEHOLDER1 + "}\\right)", converter.convert("(?,?)"));
 	}
 
 	@Test
@@ -88,4 +88,5 @@ public class MathFormulaConverterTest {
 						+ PLACEHOLDER1 + ",4}\\right)",
 				converter.convert("(,,4)"));
 	}
+
 }

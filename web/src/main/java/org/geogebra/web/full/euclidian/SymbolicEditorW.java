@@ -40,7 +40,6 @@ import com.himamis.retex.renderer.share.TeXFont;
 public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
 		BlurHandler, ChangeHandler {
 
-	private static final int EDITOR_PADDING = 2;
 	private GRectangle bounds;
 	private final MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
@@ -225,10 +224,5 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	public boolean onArrowKeyPressed(int keyCode) {
 		editor.scrollHorizontally();
 		return false;
-	}
-
-	@Override
-	public void selectEntryAt(int x, int y) {
-		editor.selectEntryAt(x - EDITOR_PADDING, y - EDITOR_PADDING);
 	}
 }

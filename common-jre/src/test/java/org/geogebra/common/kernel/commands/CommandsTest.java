@@ -4357,6 +4357,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void testZipWithObject() {
+		t("a:x=y", "y = x");
+		t("RemoveUndefined(Zip(Object(xx), xx, {\"y\",\"a\",\"x\"}))", "{y = x}");
+	}
+
+	@Test
 	public void cmdZipf() {
 		intProb("Zipf", "4,3", "3", "0.03145", "0.98673");
 	}
