@@ -183,7 +183,7 @@ public class SaveControllerW implements SaveController {
 	}
 
 	private void syncIdAndType(Material mat) {
-		getAppW().setTubeId(mat.getSharingKeyOrId());
+		getAppW().setTubeId(mat.getSharingKeySafe());
 		setSaveType(mat.getType());
 	}
 
@@ -272,7 +272,7 @@ public class SaveControllerW implements SaveController {
 							} else {
 								materialCallback = newMaterialCB(base64, false);
 							}
-							String key = parseResponse.get(0).getSharingKeyOrId();
+							String key = parseResponse.get(0).getSharingKeySafe();
 							doUploadToGgt(key, visibility,
 									base64,
 									materialCallback, isMultiuser);

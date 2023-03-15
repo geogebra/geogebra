@@ -254,7 +254,7 @@ public class Material implements Serializable {
 	}
 
 	public String getEditUrl() {
-		return GeoGebraConstants.EDIT_URL_BASE + getSharingKeyOrId();
+		return GeoGebraConstants.EDIT_URL_BASE + getSharingKeySafe();
 	}
 
 	public String getLanguage() {
@@ -425,7 +425,7 @@ public class Material implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ID: " + getSharingKeyOrId() + ": (" + this.type
+		return "ID: " + getSharingKeySafe() + ": (" + this.type
 				+ ") (local " + localID + ") "
 				+ "Title: "
 				+ this.title
@@ -706,9 +706,9 @@ public class Material implements Serializable {
 	}
 
 	/**
-	 * @return sharing key if set; otherwise numeric ID
+	 * @return sharing key if set, otherwise empty string
 	 */
-	public String getSharingKeyOrId() {
+	public String getSharingKeySafe() {
 		return sharingKey == null ? "" : sharingKey;
 	}
 

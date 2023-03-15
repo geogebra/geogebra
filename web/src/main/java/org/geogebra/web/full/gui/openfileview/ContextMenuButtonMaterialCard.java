@@ -66,7 +66,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 			break;
 		case VIEW:
 			Browser.openWindow(GeoGebraConstants.GEOGEBRA_WEBSITE
-					+ "m/" + material.getSharingKeyOrId());
+					+ "m/" + material.getSharingKeySafe());
 			break;
 		case COPY:
 			card.copy();
@@ -124,7 +124,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	protected void onShare() {
 		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial != null && activeMaterial
-				.getSharingKeyOrId().equals(material.getSharingKeyOrId())) {
+				.getSharingKeySafe().equals(material.getSharingKeySafe())) {
 			app.getShareController().share(); // make sure we save unsaved changes
 			return;
 		}

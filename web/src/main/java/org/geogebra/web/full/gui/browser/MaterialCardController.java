@@ -92,7 +92,7 @@ public class MaterialCardController implements OpenFileListener {
 
 		MaterialRestAPI api = app.getLoginOperation().getResourcesAPI();
 
-		api.getItem(getMaterial().getSharingKeyOrId(), new MaterialCallback() {
+		api.getItem(getMaterial().getSharingKeySafe(), new MaterialCallback() {
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
 								 Pagination meta) {
@@ -277,7 +277,7 @@ public class MaterialCardController implements OpenFileListener {
 				app.getLoginOperation().getModel().getLoggedInUser();
 		if (material.isMultiuser() && !StringUtil.empty(paramMultiplayerUrl)
 				&& loggedInUser != null) {
-			app.getShareController().startMultiuser(material.getSharingKeyOrId());
+			app.getShareController().startMultiuser(material.getSharingKeySafe());
 		}
 		return true; // one time only
 	}

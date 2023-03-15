@@ -3011,7 +3011,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	public void updateMaterialURL(Material material) {
-		updateMaterialURL(material.getSharingKeyOrId(), material.getTitle());
+		updateMaterialURL(material.getSharingKeySafe(), material.getTitle());
 	}
 
 	/**
