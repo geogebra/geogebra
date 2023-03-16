@@ -385,4 +385,9 @@ public final class DrawText extends Drawable {
 	public GFont getTextFont() {
 		return textFont;
 	}
+
+	@Override
+	public boolean isHighlighted() {
+		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
+	}
 }

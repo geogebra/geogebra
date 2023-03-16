@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -3525,5 +3526,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			lastFocusableWidget.getElement().setInnerText("");
 			lastFocusableWidget.getElement().focus();
 		}
+	}
+
+	@Override
+	public StringTemplate getScreenReaderTemplate() {
+		return getAppletParameters().getParamScreenReaderMode(NavigatorUtil.isMobile()
+					|| NavigatorUtil.isMacOS())
+				? StringTemplate.screenReaderAscii
+				: StringTemplate.screenReaderUnicode;
 	}
 }

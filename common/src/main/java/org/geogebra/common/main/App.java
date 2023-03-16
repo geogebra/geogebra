@@ -4080,6 +4080,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return getGuiManager() == null ? null : getGuiManager().getLayout();
 	}
 
+	public StringTemplate getScreenReaderTemplate() {
+		return StringTemplate.screenReaderAscii;
+	}
+
 	public void clearRestictions() {
 		restrictions.disable();
 	}
@@ -4584,7 +4588,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public AccessibilityManagerInterface getAccessibilityManager() {
 
 		if (accessibilityManager == null) {
-			accessibilityManager = new AccessibilityManagerNoGui();
+			accessibilityManager = new AccessibilityManagerNoGui(this);
 		}
 
 		return accessibilityManager;

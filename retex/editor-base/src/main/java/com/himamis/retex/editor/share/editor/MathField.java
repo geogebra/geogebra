@@ -83,7 +83,9 @@ public interface MathField {
 
 	boolean useCustomPaste();
 
-	void parse(String str);
+	default void parse(String str) {
+		getInternal().parse(str);
+	}
 
 	/**
 	 * @return the cross-platform representation of this field

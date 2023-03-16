@@ -224,6 +224,8 @@ public class TeXBuilder {
 		case '\u2033':
 			return asScript(new RowAtom(parser.getAtomFromUnicode('\u2032', false),
 					parser.getAtomFromUnicode('\u2032', false)));
+		case Unicode.DEGREE_CHAR:
+			return asScript(parser.getAtomFromUnicode('\u2218', false));
 		}
 
 		String replacement = replacements.get(unicode);
@@ -447,7 +449,7 @@ public class TeXBuilder {
 	 *            selected field
 	 * @return atom representing the whole sequence
 	 */
-	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
+	public Atom build(MathComponent rootComponent, MathSequence currentField1, boolean textMode) {
 		this.currentField = currentField1;
 		this.atomToComponent = new HashMap<>();
 		Atom root = build(rootComponent);

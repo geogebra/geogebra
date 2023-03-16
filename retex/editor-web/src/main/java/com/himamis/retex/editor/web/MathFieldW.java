@@ -232,6 +232,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setAriaLabel(String label) {
 		Element target = getElementForAriaLabel();
 		if (target != null) {
+			expressionReader.debug(label);
 			target.setAttribute("aria-label", label);
 		}
 	}
@@ -347,7 +348,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		html2.getElement().setAttribute("role", "application");
 		html2.addDomHandler(event -> {
 			// don't kill Ctrl+V or write V
-			if (controlDown(event)
+		if (controlDown(event)
 					&& (event.getCharCode() == 'v'
 							|| event.getCharCode() == 'V')
 					|| isLeftAltDown()) {
@@ -392,6 +393,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			}
 
 			int code = convertToJavaKeyCode(event.getNativeEvent());
+
+			if (isShortcutDefaultPrevented(event.getNativeEvent())) {
+				event.preventDefault();
+			}
+
 			boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
 					getModifiers(event), getChar(event.getNativeEvent())));
 			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
@@ -415,6 +421,17 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			}
 
 		}, KeyDownEvent.getType());
+	}
+
+	/**
+	 * Checks if the default action of a key combination snould be prevented.
+	 * @param event to check.
+	 * @return if the default action should be prevented.
+	 */
+	public static boolean isShortcutDefaultPrevented(NativeEvent event) {
+		int code = convertToJavaKeyCode(event);
+		return event.getCtrlKey() && event.getShiftKey()
+				&& (code == JavaKeyCodes.VK_B || code == JavaKeyCodes.VK_M);
 	}
 
 	/** Read position in current */
@@ -492,7 +509,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            native event
 	 * @return java key code
 	 */
-	int convertToJavaKeyCode(NativeEvent evt) {
+	static int convertToJavaKeyCode(NativeEvent evt) {
 
 		int keyCodeGWT = evt.getKeyCode();
 
@@ -710,14 +727,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	@Override
 	public Widget asWidget() {
 		return html;
-	}
-
-	/**
-	 * @param formula
-	 *            editor content
-	 */
-	public void setFormula(MathFormula formula) {
-		this.mathFieldInternal.setFormula(formula);
 	}
 
 	/**
@@ -1092,11 +1101,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.leftAltDown = leftAltDown;
 	}
 
-	@Override
-	public void parse(String text) {
-		mathFieldInternal.parse(text);
-	}
-
 	/**
 	 * @return text in GGB syntax
 	 */
@@ -1110,8 +1114,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public String getDescription() {
 		if (expressionReader != null) {
 			return ScreenReaderSerializer.fullDescription(
-					expressionReader,
-				mathFieldInternal.getEditorState().getRootComponent());
+				mathFieldInternal.getEditorState().getRootComponent(),
+					expressionReader.getAdapter());
 		}
 		return "";
 	}
