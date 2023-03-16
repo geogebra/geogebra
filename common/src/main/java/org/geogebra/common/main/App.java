@@ -1244,17 +1244,17 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			geos2.addAll(selection.getSelectedGeos());
 			DeletionExecutor recorder = isWhiteboardActive() ? new UndoableDeletionExecutor()
 					: new DefaultDeletionExecutor();
-			for (GeoElement geo : geos2) {
-				if (filter.test(geo)) {
-					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
-					if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
-						for (GeoElement ancestor : geo.getParentAlgorithm().input) {
+			geos2.stream().filter(filter).forEach(geo -> {
+				boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
+				if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
+					for (GeoElement ancestor : geo.getParentAlgorithm().input) {
+						if (ancestor.isLabelSet()) {
 							recorder.delete(ancestor);
 						}
 					}
-					recorder.delete(geo);
 				}
-			}
+				recorder.delete(geo);
+			});
 
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
