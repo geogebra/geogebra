@@ -219,6 +219,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		high = null;
 		distributionType = Dist.NORMAL;
 		probMode = 0;
+		parameters = new GeoNumeric[0];
 		settingChanged();
 	}
 }
