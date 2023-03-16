@@ -62,7 +62,6 @@ import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
@@ -88,6 +87,9 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.action.SaveExamAction;
+import org.geogebra.web.full.gui.openfileview.OpenFileView;
+import org.geogebra.web.full.gui.openfileview.OpenFileViewMebis;
+import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
@@ -108,6 +110,7 @@ import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
 import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
@@ -135,7 +138,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
@@ -627,8 +630,8 @@ public class GuiManagerW extends GuiManager
 			root.setPixelSize(width - horizontalSpace, height - verticalSpace);
 			root.onResize();
 		} else {
-			geogebraFrame.getStyle().setHeight(height, Style.Unit.PX);
-			geogebraFrame.getStyle().setWidth(width, Style.Unit.PX);
+			geogebraFrame.getStyle().setHeight(height, Unit.PX);
+			geogebraFrame.getStyle().setWidth(width, Unit.PX);
 			getApp().getEuclidianViewpanel().setPixelSize(width, height);
 
 			// maybe onResize is OK too
@@ -1755,12 +1758,12 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * @return {@link BrowseGUI}
+	 * @return {@link BrowseViewI}
 	 */
 	@Override
 	public BrowseViewI getBrowseView(String query) {
 		if (!browseGUIwasLoaded()) {
-			this.browseGUI = this.device.createBrowseView(this.getApp());
+			this.browseGUI = createBrowseView(this.getApp());
 			if (!StringUtil.emptyTrim(query)) {
 				this.browseGUI.displaySearchResults(query);
 			} else {
@@ -1773,8 +1776,25 @@ public class GuiManagerW extends GuiManager
 		return this.browseGUI;
 	}
 
+	private BrowseViewI createBrowseView(AppWFull app) {
+		if (app.isExam()) {
+			return new OpenTemporaryFileView(app);
+		} else {
+			BrowserDevice.FileOpenButton fileOpenButton =
+					new BrowserDevice.FileOpenButton("containedButton");
+			BrowseViewI openFileView;
+			if (app.isMebis()) {
+				openFileView = new OpenFileViewMebis(app, fileOpenButton);
+			} else {
+				openFileView = new OpenFileView(app, fileOpenButton);
+			}
+			fileOpenButton.setOpenFileView(openFileView);
+			return openFileView;
+		}
+	}
+
 	/**
-	 * @return true if {@link BrowseGUI} is not null
+	 * @return true if {@link OpenFileView} is not null
 	 */
 	public boolean browseGUIwasLoaded() {
 		return this.browseGUI != null;
@@ -1901,7 +1921,7 @@ public class GuiManagerW extends GuiManager
 				new Event(EventType.EXPORT, null, "[\"ggt\"]"));
 
 		if (NavigatorUtil.isFirefox()) {
-			getApp().getGgbApi().getMacrosBase64(true,
+			getApp().getGgbApi().getAllMacrosBase64(true,
 					getBase64DownloadCallback(filename));
 		} else {
 			getApp().getGgbApi().getZippedMacrosAsync(

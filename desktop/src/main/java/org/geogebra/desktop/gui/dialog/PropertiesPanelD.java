@@ -58,6 +58,7 @@ import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimatingModel;
+import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import org.geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
@@ -108,6 +109,7 @@ import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import org.geogebra.common.gui.dialog.options.model.VerticalIncrementModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -131,11 +133,12 @@ import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.properties.AnimationSpeedPanel;
 import org.geogebra.desktop.gui.properties.AnimationStepPanel;
-import org.geogebra.desktop.gui.properties.SliderPanelD;
+import org.geogebra.desktop.gui.properties.SliderPropertiesPanelD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
+import org.geogebra.desktop.gui.util.SliderUtil;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -203,11 +206,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private AllowReflexAnglePanel allowReflexAnglePanel;
 	private CheckboxPanel allowOutlyingIntersectionsPanel;
 	private CheckboxPanel auxPanel;
-	private AnimationStepPanel animStepPanel;
+	private TextPropertyPanel animStepPanel;
+	private TextPropertyPanel verticalIncrementPanel;
 	private TextPropertyPanel textFieldSizePanel;
 	private TextFieldAlignmentPanel textFieldAlignmentPanel;
 	private AnimationSpeedPanel animSpeedPanel;
-	private SliderPanelD sliderPanel;
+	private SliderPropertiesPanelD sliderPanel;
 	private SlopeTriangleSizePanel slopeTriangleSizePanel;
 	private StartPointPanel startPointPanel;
 	private CornerPointsPanel cornerPointsPanel;
@@ -279,7 +283,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		allowReflexAnglePanel = new AllowReflexAnglePanel();
 
-		sliderPanel = new SliderPanelD(app, this, false, true);
+		sliderPanel = new SliderPropertiesPanelD(app, this, false, true);
 		showObjectPanel = new ShowObjectPanel();
 		selectionAllowed = getCheckboxPanel(new SelectionAllowedModel(null, app));
 		showTrimmedIntersectionLines = getCheckboxPanel(
@@ -320,7 +324,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		comboBoxPanel = getCheckboxPanel(new ListAsComboModel(app, null));
 		// showView2D = new ShowView2D();
 		auxPanel = getCheckboxPanel(new AuxObjectModel(null, app));
-		animStepPanel = new AnimationStepPanel(app);
+		animStepPanel = new AnimationStepPanel(new AnimationStepModel(app), app);
+		verticalIncrementPanel = new TextPropertyPanel(app, new VerticalIncrementModel(app));
 		symbolicPanel = getCheckboxPanel(new SymbolicModel(app));
 		textFieldSizePanel = new TextPropertyPanel(app, new TextFieldSizeModel(app));
 		textFieldAlignmentPanel = new TextFieldAlignmentPanel(app);
@@ -513,6 +518,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		algebraTabList.add(planeEqnPanel);
 		algebraTabList.add(conicEqnPanel);
 		algebraTabList.add(animStepPanel);
+		algebraTabList.add(verticalIncrementPanel);
 		algebraTabList.add(animSpeedPanel);
 		algebraTabList.add(symbolicPanel);
 		algebraTab = new TabPanel(algebraTabList);
@@ -606,6 +612,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		auxPanel.setLabels();
 		animStepPanel.setLabels();
 		animSpeedPanel.setLabels();
+		verticalIncrementPanel.setLabels();
 		slopeTriangleSizePanel.setLabels();
 		absScreenLocPanel.setLabels();
 		absPositionXPanel.setLabels();
@@ -692,6 +699,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		allowOutlyingIntersectionsPanel.updateFonts();
 		auxPanel.updateFonts();
 		animStepPanel.updateFonts();
+		verticalIncrementPanel.updateFonts();
 		animSpeedPanel.updateFonts();
 		slopeTriangleSizePanel.updateFonts();
 		centerImagePanel.updateFonts();
@@ -1683,6 +1691,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			updateSliderFonts();
 
 			slider.addChangeListener(this);
+			SliderUtil.addValueChangeListener(slider, d -> model.storeUndoInfo());
 
 			add(slider);
 		}
@@ -1716,9 +1725,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 */
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			if (!slider.getValueIsAdjusting()) {
-				model.applyChanges(slider.getValue());
-			}
+			model.applyChangesNoUndo(slider.getValue());
 		}
 
 		@Override
@@ -1927,6 +1934,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			// slider.setFont(app.getSmallFont());
 			slider.addChangeListener(this);
+			SliderUtil.addValueChangeListener(slider, val -> model.storeUndoInfo());
 
 			/*
 			 * setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -1965,9 +1973,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 */
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			if (!slider.getValueIsAdjusting()) {
-				model.applyChanges(slider.getValue());
-			}
+			model.applyChangesNoUndo(slider.getValue());
 		}
 
 		@Override
@@ -2045,6 +2051,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			 * BorderFactory.createEmptyBorder(3,5,0,5)));
 			 * add(Box.createRigidArea(new Dimension(5,0))); add(sizeLabel);
 			 */
+			SliderUtil.addValueChangeListener(slider, d -> model.storeUndoInfo());
 			add(slider);
 		}
 
@@ -2079,9 +2086,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 */
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			if (!slider.getValueIsAdjusting()) {
-				model.applyChanges(slider.getValue());
-			}
+			model.applyChanges(slider.getValue());
 		}
 
 		@Override
@@ -2143,6 +2148,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			thicknessSlider.setPaintTicks(true);
 			thicknessSlider.setPaintLabels(true);
 			thicknessSlider.setSnapToTicks(true);
+			SliderUtil.addValueChangeListener(thicknessSlider, val -> model.storeUndoInfo());
 
 			/*
 			 * Dimension dim = slider.getPreferredSize(); dim.width =
@@ -2158,7 +2164,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			opacitySlider.setPaintTicks(true);
 			opacitySlider.setPaintLabels(true);
 			opacitySlider.setSnapToTicks(true);
-
+			SliderUtil.addValueChangeListener(opacitySlider, val -> model.storeUndoInfo());
 			opacitySlider.addChangeListener(this);
 
 			updateSliderFonts();
@@ -2247,15 +2253,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		@Override
 		public void stateChanged(ChangeEvent e) {
 			if (e.getSource() == thicknessSlider) {
-				if (!thicknessSlider.getValueIsAdjusting()) {
-					model.applyThickness(thicknessSlider.getValue());
-				}
+				model.applyThickness(thicknessSlider.getValue());
 			} else if (e.getSource() == opacitySlider) {
-				if (!opacitySlider.getValueIsAdjusting()) {
-					int value = (int) ((opacitySlider.getValue() / 100.0f)
-							* 255);
-					model.applyOpacity(value);
-				}
+				int value = (int) ((opacitySlider.getValue() / 100.0f)
+						* 255);
+				model.applyOpacity(value);
 			}
 		}
 

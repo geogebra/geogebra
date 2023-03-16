@@ -17,7 +17,7 @@ public class ScreenReaderSerializer {
 	 * @return expression description
 	 */
 	public static String fullDescription(MathComponent expr, SerializationAdapter adapter) {
-		Atom atom = new TeXBuilder().build(expr, null, false);
+		Atom atom = new TeXBuilder().build(expr, null, 0, false);
 		return new TeXAtomSerializer(adapter).serialize(atom);
 	}
 

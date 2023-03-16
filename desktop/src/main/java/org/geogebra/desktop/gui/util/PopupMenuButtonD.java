@@ -328,21 +328,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		mySlider.setPaintLabels(false);
 
 		mySlider.addChangeListener(this);
-		mySlider.addMouseListener(new MouseAdapter() {
-			int dragStartValue;
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (mySlider.getValue() != dragStartValue) {
-					app.storeUndoInfo();
-				}
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				dragStartValue = mySlider.getValue();
-			}
-		});
+		SliderUtil.addValueChangeListener(mySlider, val -> app.storeUndoInfo());
 
 		// set slider dimensions
 		Dimension d = mySlider.getPreferredSize();

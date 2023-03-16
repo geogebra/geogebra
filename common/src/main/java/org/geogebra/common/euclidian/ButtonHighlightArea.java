@@ -9,13 +9,13 @@ import org.geogebra.common.factories.AwtFactory;
  */
 public class ButtonHighlightArea {
 
-	private final MyButton button;
+	private final DrawButtonWidget button;
 
 	/**
 	 * @param button
 	 *            parent button
 	 */
-	public ButtonHighlightArea(MyButton button) {
+	public ButtonHighlightArea(DrawButtonWidget button) {
 		this.button = button;
 	}
 

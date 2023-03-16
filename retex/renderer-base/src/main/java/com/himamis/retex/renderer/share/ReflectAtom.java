@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a reflected Atom.
  */
-public class ReflectAtom extends Atom {
+public class ReflectAtom extends Atom implements HasTrueBase {
 
 	private Atom base;
 
@@ -60,5 +62,10 @@ public class ReflectAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new ReflectBox(base.createBox(env));
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

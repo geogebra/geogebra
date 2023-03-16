@@ -556,13 +556,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				id.handleDocumentEvent();
 			});
 			contextMenu.add(item);
-			/*
-			 * item = new JCheckBoxMenuItem(app.getMenu("Formula"));
-			 * item.setSelected(mode == MODE_FORMULATEXT);
-			 * item.addActionListener(new ActionListener(){ public void
-			 * actionPerformed(ActionEvent arg0) { mode = MODE_FORMULATEXT; }
-			 * });
-			 */
 			contextMenu.add(item);
 
 			app.setComponentOrientation(contextMenu);

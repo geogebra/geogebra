@@ -14,7 +14,6 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -379,8 +378,8 @@ public class ParserTest {
 		checkPointParsedAs("F(1,2,3)", "F", "(1, 2, 3)");
 
 		// parsed as a command when it's not alone
-		assertTrue(parseExpression("(4, 3) + G(1, 2)").inspect(t -> t instanceof Command));
-		assertTrue(parseExpression("G(1, 2) + (3, 4)").inspect(t -> t instanceof Command));
+		assertTrue(parseExpression("(4, 3) + G(1, 2)").containsCommands());
+		assertTrue(parseExpression("G(1, 2) + (3, 4)").containsCommands());
 	}
 
 	private void checkPointParsedAs(String input, String label, String value) {

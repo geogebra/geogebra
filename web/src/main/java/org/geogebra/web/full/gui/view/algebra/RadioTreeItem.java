@@ -80,7 +80,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.syntax.SyntaxController;
@@ -1191,7 +1190,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public UIObject asWidget() {
+	public Widget asWidget() {
 		return main.asWidget();
 	}
 
@@ -1628,10 +1627,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.getInternal().registerMathFieldInternalListener(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getGeoGebraElement().getScaleX());
-		mf.setOnBlur(getLatexController());
-		mf.setOnFocus(focusEvent -> {
-			setFocusedStyle(true);
+		mf.setOnBlur((blurEvent) -> {
+			if (toast != null) {
+				toast.hide();
+			}
+			controller.onBlur(blurEvent);
 		});
+		mf.setOnFocus(focusEvent -> setFocusedStyle(true));
 	}
 
 	private void updateEditorAriaLabel(String text) {
@@ -1666,9 +1668,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			if (isInputTreeItem()) {
 				setItemWidth(getAV().getFullWidth());
-				if (toast != null) {
-					toast.hide();
-				}
 			} else {
 				content.removeStyleName("scrollableTextBox");
 			}

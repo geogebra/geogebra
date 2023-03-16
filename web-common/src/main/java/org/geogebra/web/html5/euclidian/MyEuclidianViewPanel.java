@@ -3,7 +3,7 @@ package org.geogebra.web.html5.euclidian;
 import org.geogebra.common.euclidian.EuclidianView;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 
@@ -27,7 +27,7 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 		canvas = createCanvas();
 		if (canvas != null) {
 			canvas.getElement().getStyle()
-					.setPosition(Style.Position.RELATIVE);
+					.setPosition(Position.RELATIVE);
 			canvas.getElement().getStyle().setZIndex(0);
 			add(canvas);
 		}

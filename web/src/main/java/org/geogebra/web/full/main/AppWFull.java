@@ -73,8 +73,8 @@ import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -174,7 +174,7 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -182,7 +182,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import elemental2.dom.URL;
+import elemental2.webstorage.StorageEvent;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -289,6 +294,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		startActivity();
+
+		setPurpose();
 	}
 
 	private void setupHeader() {
@@ -378,6 +385,67 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void startActivity() {
 		initActivity();
 		activity.start(this);
+	}
+
+	/**
+	 * Makes a difference between the original app and the app that is opened for macro editing.
+	 */
+	private void setPurpose() {
+		URL url = new URL(DomGlobal.location.href);
+		if (url.searchParams != null) {
+			setOpenedForMacroEditing(false);
+			String editMacroName = url.searchParams.get(EDIT_MACRO_URL_PARAM_NAME);
+			if (editMacroName != null) {
+				if (storageContainsMacro(editMacroName)) {
+					setOpenedForMacroEditing(true);
+				} else {
+					url.searchParams.delete(EDIT_MACRO_URL_PARAM_NAME);
+					updateURL(url);
+				}
+			}
+			if (isOpenedForMacroEditing()) {
+				getKernel().removeAllMacros();
+				restoreMacro(editMacroName);
+				registerOpenFileListener(() -> openEditMacroFromStorage(editMacroName));
+				// Close the tab if the macro is removed from local storage
+				DomGlobal.window.addEventListener("storage", event -> {
+					StorageEvent storageEvent = (StorageEvent) event;
+					if (storageEvent.newValue == null
+							&& createStorageMacroKey(getEditMacro().getEditName())
+							.equals(storageEvent.key)) {
+						DomGlobal.window.close();
+					}
+				});
+				// Before the tab is closed, remove the macro from local storage
+				// in order to let the original app open the macro editing again.
+				DomGlobal.window.addEventListener("beforeunload", event -> {
+					removeMacroFromStorage(getEditMacro().getEditName());
+				});
+			} else {
+				removeAllMacrosFromStorage();
+				// Close all the editing tabs when the original app is closed.
+				DomGlobal.window.addEventListener("beforeunload", event -> {
+					removeAllMacrosFromStorage();
+				});
+				// After the macro is edited and the save button is pressed, the editing tab
+				// sends a message to the original app containing the XML of the edited macro.
+				getGlobalHandlers().addEventListener(DomGlobal.window, "message", event -> {
+					String editedMacroMessage = Js.asPropertyMap(event).get("data").toString();
+					try {
+						JsPropertyMap<Object> messageProperties =
+								Js.asPropertyMap(Global.JSON.parse(editedMacroMessage));
+						getKernel().removeMacro(messageProperties
+								.get(EDITED_MACRO_NAME_KEY).toString());
+						if (addMacroXML(messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
+							setXML(getXML(), true);
+						}
+					} catch (Throwable err) {
+						Log.debug("Error occurred while updating the macro XML: " + err.getMessage()
+								+ "\nEdited macro message: " + editedMacroMessage);
+					}
+				});
+			}
+		}
 	}
 
 	/**
@@ -837,13 +905,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public final void doOpenMaterial(String id,
 			final AsyncOperation<String> onError) {
-		getLoginOperation().getGeoGebraTubeAPI()
+		getLoginOperation().getResourcesAPI()
 				.getItem(id, new MaterialCallback() {
 
 					@Override
 					public void onLoaded(
 							final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
+							Pagination meta) {
 						if (parseResponse.size() == 1) {
 							Material material = parseResponse.get(0);
 							material.setSyncStamp(
@@ -1027,14 +1095,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public AppKeyboardType getKeyboardType() {
 		if ("evaluator".equals(appletParameters.getDataParamAppName())) {
 			String setting = appletParameters.getParamKeyboardType("normal");
-			switch (setting) {
-			case "normal":
-				return AppKeyboardType.SUITE;
-			case "notes":
-				return AppKeyboardType.MOW;
-			default:
-				return AppKeyboardType.SCIENTIFIC;
-			}
+			return AppKeyboardType.fromName(setting);
 		}
 		return getConfig().getKeyboardType();
 	}
@@ -1853,7 +1914,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 			getGuiManager().refreshDraggingViews();
 			oldSplitLayoutPanel.getElement().getStyle()
-					.setOverflow(Style.Overflow.HIDDEN);
+					.setOverflow(Overflow.HIDDEN);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (menuViewController != null) {
@@ -1904,7 +1965,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				this.splitPanelWrapper.remove(frame.getMenuBar(this));
 			}
 			oldSplitLayoutPanel.getElement().getStyle()
-					.setOverflow(Style.Overflow.VISIBLE);
+					.setOverflow(Overflow.VISIBLE);
 		}
 		this.menuShowing = false;
 

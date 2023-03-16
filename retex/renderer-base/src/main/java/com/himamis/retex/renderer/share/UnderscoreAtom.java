@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
+
 /**
  * An atom representing an underscore.
  */
-public class UnderscoreAtom extends Atom {
+public class UnderscoreAtom extends Atom implements HasCharacter {
 
 	private final static TeXLength w = new TeXLength(Unit.EM, 0.6);
 	private final static Atom s = new SpaceAtom(
@@ -64,5 +66,10 @@ public class UnderscoreAtom extends Atom {
 		final HorizontalBox hb = new HorizontalBox(s.createBox(env));
 		hb.add(new VerticalBox(new HorizontalRule(drt, w.getValue(env), 0.)));
 		return hb;
+	}
+
+	@Override
+	public String getCharacter() {
+		return "_";
 	}
 }

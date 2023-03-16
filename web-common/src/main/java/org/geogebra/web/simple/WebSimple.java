@@ -3,9 +3,8 @@ package org.geogebra.web.simple;
 import java.util.ArrayList;
 
 import org.geogebra.web.cas.giac.CASFactoryW;
-import org.geogebra.web.html5.GeoGebraGlobal;
+import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 
@@ -34,11 +33,11 @@ public class WebSimple implements EntryPoint {
 	}
 
 	private void exportGGBElementRenderer() {
-		GeoGebraGlobal.setRenderGGBElement((el, callback) -> {
+		RenderGgbElement.setRenderGGBElement((el, callback) -> {
 			GeoGebraFrameSimple.renderArticleElement(GeoGebraElement.as(el), callback,
 					new CASFactoryW());
 		});
-		GeoGebraFrameW.renderGGBElementReady();
+		RenderGgbElement.renderGGBElementReady();
 	}
 
 }

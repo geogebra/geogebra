@@ -29,7 +29,7 @@ public class GgbAPIWTest {
 
 	@Before
 	public void setUp() {
-		AppWFull app = spy(AppMocker.mockGraphing(getClass()));
+		AppWFull app = spy(AppMocker.mockGraphing());
 		toolbarPanel = spyToolbarPanel(app);
 		api = new GgbAPIW(app);
 	}

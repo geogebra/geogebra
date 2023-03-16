@@ -20,7 +20,9 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -28,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
@@ -39,7 +42,7 @@ import org.geogebra.common.util.StringUtil;
  * @author Markus
  */
 public class GeoBoolean extends GeoElement implements BooleanValue,
-		GeoNumberValue, AbsoluteScreenLocateable, HasExtendedAV {
+		GeoNumberValue, AbsoluteScreenLocateable, HasExtendedAV, Locateable {
 
 	private boolean value = false;
 	private boolean isDefined = true;
@@ -47,6 +50,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	private boolean showExtendedAV = true;
 
 	private final List<GeoElement> conditionals;
+	private GeoPointND startPoint;
 
 	/**
 	 * Creates new boolean
@@ -271,6 +275,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		}
 		getScriptTags(sb);
 		getCaptionXML(sb);
+		if (startPoint != null) {
+			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
+		}
 	}
 
 	@Override
@@ -306,12 +313,12 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return labelOffsetX;
+		return startPoint == null ? labelOffsetX : (int) startPoint.getInhomX();
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return labelOffsetY;
+		return startPoint == null ? labelOffsetY : (int) startPoint.getInhomY();
 	}
 
 	@Override
@@ -529,5 +536,57 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		}
 		sb.append(".");
 		return sb.toString();
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+		}
+
+		// set new location
+		if (p == null) {
+			if (startPoint != null) {
+				startPoint = startPoint.copy();
+			}
+
+			labelOffsetX = 0;
+			labelOffsetY = 0;
+		} else {
+			startPoint = p;
+
+			// add new dependencies
+			startPoint.getLocateableList().registerLocateable(this);
+		}
+	}
+
+	@Override
+	public GeoPointND getStartPoint() {
+		return startPoint;
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
+		setStartPoint(p);
+	}
+
+	@Override
+	public void initStartPoint(GeoPointND p, int number) {
+		this.startPoint = p;
+	}
+
+	@Override
+	public boolean hasStaticLocation() {
+		return false;
+	}
+
+	@Override
+	public boolean isAlwaysFixed() {
+		return false;
+	}
+
+	@Override
+	public void updateLocation() {
+		update();
 	}
 }

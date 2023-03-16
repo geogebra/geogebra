@@ -49,6 +49,13 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.numberInput {
 			border: none;
 			box-shadow: none;
+			width: 70px;
+			margin-right: 20px;
+			position: relative;
+
+			.matKeyboardOpenBtn {
+				display: none;
+			}
 		}
 
 		.optionsPanel.inlineOption {
@@ -109,7 +116,20 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 
 		.checkboxHolder {
-			display: block;
+			display: flex;
+			min-height: 40px;
+			flex-wrap: wrap;
+
+			.dropDown {
+				height: 40px;
+				.optionLabelHolder.noLabel .selectedOption {
+					margin-top: 8px;
+				}
+
+				.arrow {
+					margin-top: 6px;
+				}
+			}
 		}
 
 		.gwt-ToggleButton, .button {
@@ -177,6 +197,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					border-bottom: 1px solid colors.$tool-border;
 				}
 			}
+		}
+
+		.cursorOverlay span {
+			font-size: 90%;
 		}
 
 		.AutoCompleteTextFieldW {
@@ -442,6 +466,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		box-sizing: border-box;
 	}
 
+	.dropDownLabel {
+		vertical-align: sub;
+	}
+
 	.propertiesStyleBar {
 		overflow: visible;
 		position: absolute;
@@ -616,6 +644,15 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				display: inline-block;
 				vertical-align: top;
 			}
+		}
+	}
+
+	.tickPanel {
+		.combobox {
+			width: 80px;
+		}
+		.checkboxPanel {
+			margin: 12px 30px 0 0;
 		}
 	}
 }

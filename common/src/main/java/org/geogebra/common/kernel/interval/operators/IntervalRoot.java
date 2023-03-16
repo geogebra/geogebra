@@ -49,7 +49,7 @@ public class IntervalRoot {
 				return compute(interval.uninvert(), n).invert();
 			}
 
-			return evaluator.computeInverted(compute(interval.extractLow(), n),
+			return evaluator.unionInvertedResults(compute(interval.extractLow(), n),
 					compute(interval.extractHigh(), n));
 		}
 

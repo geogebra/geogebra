@@ -12,7 +12,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Combobox for numeric input
  */
 public abstract class NumberListBox extends ComboBoxW {
-	private static final String PI_HALF_STRING = Unicode.PI_STRING + "/2";
+	public static final String PI_HALF_STRING = Unicode.PI_STRING + "/2";
 
 	/**
 	 * @param app

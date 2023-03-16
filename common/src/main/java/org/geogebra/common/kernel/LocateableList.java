@@ -71,12 +71,11 @@ public class LocateableList extends ArrayList<Locateable> {
 	public void doRemove() {
 
 		// copy locateableList into array
-		Object[] locs = toArray();
+		Locateable[] locs = toArray(new Locateable[0]);
 		clear();
 
 		// tell all locateables
-		for (int i = 0; i < locs.length; i++) {
-			Locateable loc = (Locateable) locs[i];
+		for (Locateable loc : locs) {
 			loc.removeStartPoint(point);
 			loc.toGeoElement().updateCascade();
 		}

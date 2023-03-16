@@ -142,6 +142,21 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/ic_pause_circle_outline_black_24px.svg")
 	SVGResource pause_circle();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
+	SVGResource add();
+
+	@Source("org/geogebra/common/icons/svg/common/remove.svg")
+	SVGResource remove();
+
+	@Source("org/geogebra/common/icons/svg/common/undo.svg")
+	SVGResource undo();
+
+	@Source("org/geogebra/common/icons/svg/common/redo.svg")
+	SVGResource redo();
+
+	@Source("org/geogebra/common/icons/svg/common/check_mark.svg")
+	SVGResource check_mark();
+
 	// RULER AND PROTRACTOR
 	@Source("org/geogebra/common/icons/svg/web/ruler_protractor/ruler.svg")
 	SVGResource ruler();

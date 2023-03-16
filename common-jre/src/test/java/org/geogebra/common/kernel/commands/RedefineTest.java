@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -532,6 +534,31 @@ public class RedefineTest extends BaseUnitTest {
 		reload();
 		p = lookup("P");
 		assertThat(p, hasValue("(1.55, 3.11)"));
+	}
+
+	@Test
+	public void sumShouldWorkAfterReload() {
+		add("n=1");
+		add("texts=First({\"foo\"}, n)");
+		GeoText sum = add("sum=Sum(texts)");
+		assertThat(sum, hasValue("foo"));
+		add("SetValue(n,0)");
+		reload();
+		assertThat(lookup("sum"), hasValue(""));
+		add("SetValue(n,1)");
+		assertThat(lookup("sum"), hasValue("foo"));
+	}
+
+	@Test
+	public void speedAndStepShouldBeReplacedOnRedefine() {
+		GeoNumeric slider = add("slider=Slider(0,1,1)");
+		GeoNumeric speed = add("speed=1");
+		slider.setAnimationStep(speed);
+		slider.setAnimationSpeedObject(speed);
+		add("inv=2");
+		add("speed=1/inv"); // turn speed into a dependent object
+		assertThat(slider.getAnimationSpeedObject(), is(lookup("speed")));
+		assertThat(slider.getAnimationStepObject(), is(lookup("speed")));
 	}
 
 	/**

@@ -7,7 +7,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -25,7 +24,7 @@ import org.geogebra.web.resources.StyleInjector;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.OutlineStyle;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
@@ -36,7 +35,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.web.MathFieldW;
 
-import elemental2.core.Function;
 import jsinterop.base.Js;
 
 /**
@@ -224,6 +222,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @return True if the frame is shown in a small window or if it has a compact header.
 	 */
 	public boolean hasSmallWindowOrCompactHeader() {
+		boolean isClassicOrMebis = app != null
+				&& ("classic".equals(app.getConfig().getAppCode()) || app.isMebis());
+		if (isClassicOrMebis) {
+			return hasSmallWindow();
+		}
 		return hasSmallWindow() || isExternalHeaderHidden();
 	}
 
@@ -393,11 +396,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static void setBorder(Element ae, Element gfE,
 			String dpBorder, int px) {
-		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
-		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		ae.getStyle().setBorderWidth(0, Unit.PX);
+		ae.getStyle().setBorderStyle(BorderStyle.SOLID);
 		ae.getStyle().setBorderColor(dpBorder);
-		gfE.getStyle().setBorderWidth(px, Style.Unit.PX);
-		gfE.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		gfE.getStyle().setBorderWidth(px, Unit.PX);
+		gfE.getStyle().setBorderStyle(BorderStyle.SOLID);
 		gfE.getStyle().setBorderColor(dpBorder);
 		ae.getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}
@@ -672,16 +675,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			root.add(this);
 		} else {
 			Log.error("Cannot find article with ID " + element.getId());
-		}
-	}
-
-	/**
-	 * callback when renderGGBElement is ready
-	 */
-	public static void renderGGBElementReady() {
-		Function renderGGBElementReady = GeoGebraGlobal.getRenderGGBElementReady();
-		if (renderGGBElementReady != null) {
-			renderGGBElementReady.call();
 		}
 	}
 

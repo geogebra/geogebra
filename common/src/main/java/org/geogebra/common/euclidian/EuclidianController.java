@@ -170,7 +170,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -387,7 +386,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private long lastPointerRelease;
 	private boolean animationButtonPressed = false;
 	private boolean textfieldHasFocus = false;
-	private MyButton pressedButton;
+	private DrawButtonWidget pressedButton;
 	private Coords tmpCoordsL4;
 	private Coords mouseLocRW;
 	private TextDispatcher textDispatcher;
@@ -417,7 +416,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private final List<CoordSystemListener> zoomerListeners = new LinkedList<>();
 	private final HashMap<GeoElement, CoordSystemAnimationListener> zoomerAnimationListeners =
 			new HashMap<>();
-	private MyModeChangedListener modeChangeListener = null;
+	private ModeChangeListener modeChangeListener = null;
 
 	private SelectionToolPressResult lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 	private GeoElement lastSelectionToolGeoToRemove;
@@ -5670,7 +5669,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					(oldLoc.x + mouseLoc.x) - startLoc.x,
 					(oldLoc.y + mouseLoc.y) - startLoc.y);
 		} else {
-			if (movedGeoText.hasAbsoluteLocation()) {
+			if (movedGeoText.hasStaticLocation()) {
 				// absolute location: change location
 				moveTextAbsoluteLocation();
 
@@ -5704,13 +5703,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			notifyPositionUpdate(movedGeoImage);
 		} else {
-			if (movedGeoImage.hasAbsoluteLocation()) {
+			if (movedGeoImage.hasStaticLocation()) {
 				// absolute location: translate all defined corners
 				double vx = xRW - getStartPointX();
 				double vy = yRW - getStartPointY();
 				movedGeoImage.set(oldImage);
 				for (int i = 0; i < 3; i++) {
-					GeoPoint corner = movedGeoImage.getCorner(i);
+					GeoPoint corner = movedGeoImage.getStartPoint(i);
 					if (corner != null) {
 						corner.setCoords(corner.inhomX + vx, corner.inhomY + vy,
 								1.0);
@@ -5866,11 +5865,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void moveWidget() {
-		// part of snap to grid code
-		movedObject.setAbsoluteScreenLoc(
-				view.toScreenCoordX(xRW - getStartPointX()),
-				view.toScreenCoordY(yRW - getStartPointY()));
-
+		if (movedObject.isAbsoluteScreenLocActive()) {
+			// part of snap to grid code
+			movedObject.setAbsoluteScreenLoc(
+					view.toScreenCoordX(xRW - getStartPointX()),
+					view.toScreenCoordY(yRW - getStartPointY()));
+		} else {
+			movedObject.setRealWorldLoc(xRW, yRW);
+		}
 		notifyPositionUpdate(movedObject);
 	}
 
@@ -6161,11 +6163,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (hit != null) {
 					if (hit.isGeoButton() && !(hit.isGeoInputBox())) {
 						checkBoxOrButtonJustHitted = true;
-						if (!app.showView(App.VIEW_PROPERTIES)) {
-							selection.removeSelectedGeo(hit, true, false); // make
-							// sure doesn't get selected
-							app.updateSelection(false);
-						}
+						deselectIfPropertiesNotShowing(hit);
 					} else if (hit.isGeoBoolean()) {
 						if (mode == EuclidianConstants.MODE_SELECT) {
 							return false;
@@ -6174,12 +6172,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						if (!isCheckboxFixed(bool)) { // otherwise changed on
 							// mouse down
 							hitCheckBox(bool);
-							if (!app.showView(App.VIEW_PROPERTIES)) {
-								selection.removeSelectedGeo(bool, true, false); // make
-								// sure doesn't get selected
-								app.updateSelection(false);
-								bool.updateCascade();
-							}
+							deselectIfPropertiesNotShowing(bool);
+							bool.updateCascade();
 						}
 					} else {
 						GeoElement geo1 = chooseGeo(hits, true);
@@ -6199,6 +6193,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		return changedKernel;
+	}
+
+	private void deselectIfPropertiesNotShowing(GeoElement hit) {
+		if (!app.showView(App.VIEW_PROPERTIES) && selection.getSelectedGeos().contains(hit)) {
+			selection.removeSelectedGeo(hit, true, false); // make
+			// sure doesn't get selected
+			app.updateSelection(false);
+		}
 	}
 
 	private boolean createInlineObject(boolean selPreview, GeoInlineFactory factory) {
@@ -6543,6 +6545,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				} else if (!geo0.isProtected(EventType.UPDATE)
 						&& !(geo0.isGeoBoolean() && geo0.isIndependent()) && geo0.isRedefineable()
 						&& !geo0.isGeoButton()
+						&& !view.isPlotPanel()
 						&& !(geo0.isGeoList() && ((GeoList) geo0).drawAsComboBox())) {
 					getDialogManager().showRedefineDialog(hits.get(0), true);
 				}
@@ -6857,7 +6860,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						movedGeoText.getAbsoluteScreenLocY());
 				startLoc = mouseLoc;
 
-			} else if (movedGeoText.hasAbsoluteLocation()) {
+			} else if (movedGeoText.hasStaticLocation()) {
 				// absolute location: change location
 				GeoPointND loc = movedGeoText.getStartPoint();
 				if (loc == null) {
@@ -6917,7 +6920,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// if vector is dependent or
 			// mouseLoc is closer to the startpoint than to the end
 			// point then move the startpoint of the vector
-			if (movedGeoVector.hasAbsoluteLocation()) {
+			if (movedGeoVector.hasStaticLocation()) {
 				GeoPointND sP = movedGeoVector.getStartPoint();
 				double sx = 0;
 				double sy = 0;
@@ -7241,7 +7244,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						- xRW;
 				transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y)
 						- yRW;
-			} else if (movedGeoImage.hasAbsoluteLocation()) {
+			} else if (movedGeoImage.hasStaticLocation()) {
 				setStartPointLocation();
 				oldImage = movedGeoImage.copy();
 
@@ -10830,12 +10833,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (view != kernel.getLastAttachedEV()) {
 				return previewDrawable;
 			}
-			app.deleteSelectedObjects(false, new GPredicate<GeoElement>() {
-				@Override
-				public boolean test(GeoElement geo) {
-					return !app.isApplet() || !geo.isLockedPosition();
-				}
-			});
+			app.deleteSelectedObjects(false,
+					geo -> !app.isApplet() || !geo.isLockedPosition());
 			break;
 
 		default:
@@ -12113,11 +12112,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	public MyModeChangedListener getModeChangeListener() {
+	public ModeChangeListener getModeChangeListener() {
 		return modeChangeListener;
 	}
 
-	public void setModeChangeListener(MyModeChangedListener modeChangeListener) {
+	public void setModeChangeListener(ModeChangeListener modeChangeListener) {
 		this.modeChangeListener = modeChangeListener;
 	}
 

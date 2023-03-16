@@ -45,11 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
+
 /**
  * An atom with representing an t with a caron.
  */
-public class tcaronAtom extends Atom {
-
+public class tcaronAtom extends Atom implements HasCharacter {
 	private static final SymbolAtom APOS = SymbolAtom.get("textapos");
 
 	public tcaronAtom() {
@@ -64,5 +65,10 @@ public class tcaronAtom extends Atom {
 		hb.add(new SpaceAtom(Unit.EM, -0.3, 0, 0).createBox(env));
 		hb.add(A);
 		return hb;
+	}
+
+	@Override
+	public String getCharacter() {
+		return "\u0165";
 	}
 }

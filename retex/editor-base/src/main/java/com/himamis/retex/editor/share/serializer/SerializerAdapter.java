@@ -1,6 +1,7 @@
 package com.himamis.retex.editor.share.serializer;
 
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -92,7 +93,10 @@ public abstract class SerializerAdapter implements Serializer {
 	 *            output string builder
 	 */
 	public void serialize(MathComponent container, StringBuilder stringBuilder) {
-		if (container instanceof MathCharacter) {
+		if (container instanceof MathCharPlaceholder) {
+			serialize((MathCharPlaceholder) container, stringBuilder);
+
+		} else if (container instanceof MathCharacter) {
 			serialize((MathCharacter) container, stringBuilder);
 
 		} else if (container instanceof MathPlaceholder) {
@@ -135,4 +139,8 @@ public abstract class SerializerAdapter implements Serializer {
 	abstract void serialize(MathArray array, StringBuilder stringBuilder);
 
 	abstract void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder);
+
+	void serialize(MathCharPlaceholder placeholder, StringBuilder stringBuilder) {
+		// only in LaTeX
+	}
 }

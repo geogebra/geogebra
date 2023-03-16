@@ -2582,26 +2582,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Sets the global size for checkboxes. Michael Borcherds 2008-05-12
-	 * 
-	 * @param size
-	 *            13 or 26
-	 */
-	public void setBooleanSize(int size) {
-		// only 13 and 26 currently allowed
-		app.setCheckboxSize(size);
-
-		updateAllDrawables(true);
-	}
-
-	/**
-	 * @return size of booleans (13 or 26)
-	 */
-	final public int getBooleanSize() {
-		return app.getCheckboxSize();
-	}
-
-	/**
 	 * @param setto
 	 *            tooltip mode
 	 */
@@ -6245,6 +6225,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
+			getScreenReader().cancelReadDelayed();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {

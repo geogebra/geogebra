@@ -15,7 +15,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.user.client.DOM;
@@ -107,7 +107,7 @@ public class GeoTextEditor extends FocusWidget {
 	 */
 	public void updateFonts() {
 		int fontSize = app.getSettings().getFontSettings().getAppFontSize();
-		getElement().getStyle().setFontSize(fontSize, Style.Unit.PX);
+		getElement().getStyle().setFontSize(fontSize, Unit.PX);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class GeoTextEditor extends FocusWidget {
 		elem.setPropertyString("type", "button");
 		elem.setPropertyString("value", value);
 		elem.getStyle().setFontSize(app.getSettings().getFontSettings().getAppFontSize(),
-				Style.Unit.PX);
+				Unit.PX);
 		return Js.uncheckedCast(elem);
 	}
 

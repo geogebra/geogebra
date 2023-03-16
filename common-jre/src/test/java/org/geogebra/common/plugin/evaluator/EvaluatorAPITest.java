@@ -6,12 +6,14 @@ import java.util.Map;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.io.EditorTyper;
+import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Tests for the EvaluatorAPI
@@ -26,6 +28,9 @@ public class EvaluatorAPITest extends BaseUnitTest {
 		MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
 		api = new EvaluatorAPI(getKernel(), mathField.getInternal());
 		typer = new EditorTyper(mathField);
+		if (FactoryProvider.getInstance() == null) {
+			FactoryProvider.setInstance(new FactoryProviderCommon());
+		}
 	}
 
 	@Test

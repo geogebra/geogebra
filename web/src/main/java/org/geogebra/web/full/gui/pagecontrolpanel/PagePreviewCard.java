@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.main.Localization;
@@ -69,8 +71,8 @@ public class PagePreviewCard extends FlowPanel
 	 * @return The duplicated card.
 	 */
 	public static PagePreviewCard pasteAfter(PagePreviewCard source,
-			String targetID, String json) {
-		GgbFile file = targetID == null ? new GgbFile() : new GgbFile(targetID);
+			@Nonnull String targetID, String json) {
+		GgbFile file = new GgbFile(targetID);
 		source.app.getViewW().setFileFromJsonString(json, file);
 		return new PagePreviewCard(source.app, source.getPageIndex() + 1,
 				file);

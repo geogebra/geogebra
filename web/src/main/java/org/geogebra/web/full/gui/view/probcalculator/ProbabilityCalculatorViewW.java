@@ -17,13 +17,12 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * ProbablityCalculatorView for web
+ * Probability Calculator View for web
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	public static final String SEPARATOR = "--------------------";
@@ -275,23 +274,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	/**
-	 * handle distribution selection
-	 * @param comboDistribution - distribution drop-down
-	 */
-	public void changeDistribution(ListBox comboDistribution) {
-		if (!selectedDist
-				.equals(this.getReverseDistributionMap().get(comboDistribution
-						.getValue(comboDistribution.getSelectedIndex())))) {
-			selectedDist = getReverseDistributionMap().get(comboDistribution
-					.getValue(comboDistribution.getSelectedIndex()));
-			parameters = ProbabilityManager.getDefaultParameters(selectedDist, cons);
-			setProbabilityCalculator(selectedDist, parameters,
-					isCumulative);
-			tabResized();
-		}
-	}
-
-	/**
 	 * @return whether distribution tab is open
 	 */
 	@Override
@@ -360,7 +342,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				: Math.max(maxHeight, 40);
 		getPlotPanel().setPreferredSize(new Dimension(width, height));
 		getPlotPanel().getCanvasElement().getStyle().setMarginTop((maxHeight - height) / 2.0,
-				Style.Unit.PX);
+				Unit.PX);
 		getPlotPanel().repaintView();
 		getPlotPanel().getEuclidianController().calculateEnvironment();
 	}

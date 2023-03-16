@@ -41,6 +41,7 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web.font;
 
 import com.himamis.retex.renderer.share.platform.font.Font;
@@ -49,11 +50,8 @@ import com.himamis.retex.renderer.share.platform.font.FontLoader;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.font.TextAttributeProvider;
 import com.himamis.retex.renderer.share.platform.font.TextLayout;
-import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 public class FontFactoryGWT extends FontFactory {
-
-	private FontLoaderWrapper fontLoaderWrapper = Opentype.INSTANCE;
 
 	@Override
 	public Font createFont(String name, int style, int size) {
@@ -73,7 +71,7 @@ public class FontFactoryGWT extends FontFactory {
 
 	@Override
 	public FontLoader createFontLoader() {
-		return new FontLoaderW(fontLoaderWrapper);
+		return new FontLoaderW();
 	}
 
 	@Override

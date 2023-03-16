@@ -1385,14 +1385,16 @@ public class CommandsTest {
 
 	@Test
 	public void cmdDifference() {
-		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
+		tRound("diff_{1}=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
 				"3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
 				"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1");
-		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
+		assertNotNull(app.getKernel().lookupLabel("diff_{1}"));
+		tRound("symDiff=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
 				"3", "3", "(3, 3)", "(1, 3)", "(1, 2)", "(2, 2)",
 				"(2, 1)", "(3, 1)", "(2, 1)", "(1, 1)", "(1, 2)",
 				"(0, 2)", "(0, 0)", "(2, 0)", "2", "1", "1", "1", "1",
 				"2", "1", "1", "1", "2", "2", "1");
+		assertNotNull(app.getKernel().lookupLabel("symDiff_{1}"));
 	}
 
 	@Test
@@ -1655,8 +1657,9 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFitLog() {
-		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
-				"1.7791376753366814 + (-0.5108496281733952 * ln(x))");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
+		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
+				"1.77913767533668 - 0.510849628173396ln(x)");
 	}
 
 	@Test
@@ -1667,8 +1670,9 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFitPow() {
-		t("FitPow[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
-				"(2.117291418376159 * x^(-1.0349179205718597))");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
+		t("FitPow[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
+				"2.11729141837616x^-1.03491792057186");
 	}
 
 	@Test
@@ -1712,7 +1716,10 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFractionText() {
-		t("FractionText[ 42 ]", "42");
+		t("FractionText[ 4/6 ]", " \\frac{ 2 }{ 3 } ");
+		t("FractionText[ -4/6 ]", " \\frac{ -2 }{ 3 } ");
+		t("FractionText[ 4/6, false ]", " \\frac{ 2 }{ 3 } ");
+		t("FractionText[ -4/6 , false ]", "- \\frac{ 2 }{ 3 } ");
 		t("FractionText[ (1,1) ]", "{ \\left( 1,1 \\right) }");
 	}
 
@@ -2666,6 +2673,7 @@ public class CommandsTest {
 	public void cmdNormalQuantilePlot() {
 		t("NormalQuantilePlot[ {2,3,4}]",
 				"{(2, -0.8193286198336103), (3, 0), (4, 0.8193286198336103), 2.8284271247461903}");
+		t("Slope(Element(NormalQuantilePlot[ {2,3,4}],4))", "1");
 	}
 
 	@Test
@@ -2807,6 +2815,7 @@ public class CommandsTest {
 	@Test
 	public void cmdParseToNumber() {
 		t("ParseToNumber[ \"7\"]", "7");
+		t("ParseToNumber[ \"/\"]", "NaN");
 		t("n1 = 5", "5");
 		t("txt = \"6\"", "6");
 		t("ParseToNumber[ n1, txt ]", "6"); // valid
@@ -3554,6 +3563,7 @@ public class CommandsTest {
 				get("A").getObjectColor().toString());
 		Assert.assertEquals("A,A1",
 				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
+		Assert.assertEquals(2, app.getKernel().getConstruction().steps());
 	}
 
 	@Test
@@ -3947,6 +3957,18 @@ public class CommandsTest {
 		t("tablesplit=TableText[1..5,\"h\",3]",
 				StringContains.containsString("array"));
 		checkSize("tablesplit", 3, 2);
+		t("tables=TableText[{1,2,3}, {4,5}, \"c\", 100]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{1,2}, {3, 4,5}, \"c\", 100, 120]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{{1,2,3}, {4,5}}, \"c\", 100]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{{1,2}, {3,4,5}}, \"c\", 100, 120]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
 	}
 
 	@Test
@@ -3976,8 +3998,9 @@ public class CommandsTest {
 		t("Tangent[ (1,1), x^2+y^2=1 ]", "y = 1", "x = 1");
 		t("Tangent[ (1,1), sin(x) ]",
 				"y = 0.5403023058681398x + 0.30116867893975674");
-		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]",
-				"y = 22.40252712698299x - 66.207581380949");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision13 instead
+		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]", StringTemplate.maxPrecision13,
+				"y = 22.40252712698x - 66.20758138095");
 	}
 
 	@Test
@@ -4330,6 +4353,13 @@ public class CommandsTest {
 		t("Zip[ i, i, {1, 2} ]", "{1, 2}");
 		t("Zip[ i + j, i, {1, 2}, j, {3, 4} ]", "{4, 6}");
 		t("Zip[ i + j, j, {1, 2}, i, {3, 4} ]", "{4, 6}");
+		t("Zip(2*A,A,{(1,1),(2,3),(4,5,6)})", "{(2, 2, 0), (4, 6, 0), (8, 10, 12)}");
+	}
+
+	@Test
+	public void testZipWithObject() {
+		t("a:x=y", "y = x");
+		t("RemoveUndefined(Zip(Object(xx), xx, {\"y\",\"a\",\"x\"}))", "{y = x}");
 	}
 
 	@Test

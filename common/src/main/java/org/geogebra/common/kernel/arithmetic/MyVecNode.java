@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.vector.VectorNodeStringifier;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilder;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -65,7 +64,8 @@ public class MyVecNode extends ValidExpression
 	public MyVecNode(Kernel kernel) {
 		this.kernel = kernel;
 		VectorPrinterMapBuilder builder = new VectorPrinterMapBuilder2D();
-		stringifier = new VectorNodeStringifier(this, builder.build(this));
+		stringifier = new VectorNodeStringifier(this,
+				builder.build(kernel.getApplication().getSettings().getGeneral()));
 		stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
 	}
 
@@ -141,32 +141,6 @@ public class MyVecNode extends ValidExpression
 		this.y = y;
 	}
 
-	/**
-	 * @return array of coordinates
-	 */
-	final public double[] getCoords() {
-		StringTemplate tpl = StringTemplate.defaultTemplate;
-		// check if both ExpressionNodes represent NumberValues
-		ExpressionValue evx = x.evaluate(tpl);
-		ExpressionValue evy = y.evaluate(tpl);
-		if (!(evx instanceof NumberValue) || !(evy instanceof NumberValue)) {
-			// don't need to throw MyParseError
-			// evx.evaluateDouble() / evy.evaluateDouble() will give NaN
-			Log.debug("evx or evy not a number");
-		}
-
-		if (mode == Kernel.COORD_POLAR) {
-			double r = evx.evaluateDouble();
-			// allow negative radius for US
-			double phi = evy.evaluateDouble();
-			double[] ret = { r * Math.cos(phi), r * Math.sin(phi) };
-			return ret;
-		}
-		// CARTESIAN
-		double[] ret = { evx.evaluateDouble(), evy.evaluateDouble() };
-		return ret;
-	}
-
 	@Override
 	public String toString(StringTemplate tpl) {
 		return hasPolarCoords()
@@ -188,7 +162,15 @@ public class MyVecNode extends ValidExpression
 	 */
 	@Override
 	public GeoVec2D getVector() {
-		GeoVec2D ret = new GeoVec2D(kernel, getCoords());
+		GeoVec2D ret;
+		if (mode == Kernel.COORD_POLAR) {
+			double r = x.evaluateDouble();
+			// allow negative radius for US
+			double phi = y.evaluateDouble();
+			ret = new GeoVec2D(kernel, r * Math.cos(phi), r * Math.sin(phi));
+		} else { // CARTESIAN
+			ret = new GeoVec2D(kernel, x.evaluateDouble(), y.evaluateDouble());
+		}
 		ret.setMode(mode);
 		return ret;
 	}

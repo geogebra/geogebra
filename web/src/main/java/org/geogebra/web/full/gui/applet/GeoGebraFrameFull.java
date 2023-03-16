@@ -10,6 +10,7 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -21,7 +22,6 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.panel.PanelTransitioner;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -213,6 +213,8 @@ public class GeoGebraFrameFull
 	 * @param panel Shows this full-screen panel.
 	 */
 	public void showPanel(MyHeaderPanel panel) {
+		forceHeaderHidden(true);
+		getApp().setCloseBrowserCallback(() -> forceHeaderHidden(false));
 		panelTransitioner.showPanel(panel);
 	}
 
@@ -249,7 +251,12 @@ public class GeoGebraFrameFull
 		return headerResizer;
 	}
 
-	@Override
+	/**
+	 * @param show
+	 *            true if show
+	 * @param textField
+	 *            {@link MathKeyboardListener}
+	 */
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
 		if (keyboardState == KeyboardState.ANIMATING_IN
@@ -313,6 +320,7 @@ public class GeoGebraFrameFull
 		app.updateSplitPanelHeight();
 
 		keyboardHeight = 0;
+		app.updateViewSizes();
 		keyBoard.remove(() -> {
 			keyBoard.resetKeyboardState();
 			getApp().centerAndResizeViews();
@@ -551,9 +559,8 @@ public class GeoGebraFrameFull
 			}
 		} else {
 			if (app != null && appNeedsKeyboard()
-					&& isKeyboardAutofocus()
 					&& isKeyboardWantedFromStorage()) {
-				if (!app.isStartedWithFile()
+				if (isKeyboardAutofocus() && !app.isStartedWithFile()
 						&& !app.getAppletParameters().preventFocus()) {
 					if (getKeyboardManager()
 							.isKeyboardClosedByUser()) {
@@ -675,9 +682,16 @@ public class GeoGebraFrameFull
 		return isKeyboardShowing() ? keyboardHeight : 0;
 	}
 
-	private static boolean isKeyboardWantedFromStorage() {
-		String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
-		return !"false".equals(wanted);
+	private boolean isKeyboardWantedFromStorage() {
+		String showKeyboardOnFocus = app.getAppletParameters().getParamShowKeyboardOnFocus("auto");
+		if ("false".equals(showKeyboardOnFocus)) {
+			return false;
+		} else if ("true".equals(showKeyboardOnFocus)) {
+			return true;
+		} else {
+			String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
+			return !"false".equals(wanted);
+		}
 	}
 
 	/**
@@ -753,7 +767,11 @@ public class GeoGebraFrameFull
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
 		}
-		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
+		Material mat = app.getActiveMaterial();
+		boolean isMultiuserMat = mat != null && mat.isMultiuser();
+		if (app.getAppletParameters().getDataParamEnableUndoRedo()
+			&& (app.getAppletParameters().getParamMultiplayerUrl().isEmpty()
+			|| !isMultiuserMat)) {
 			add(notesLayout.getUndoRedoButtons());
 		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
@@ -798,6 +816,18 @@ public class GeoGebraFrameFull
 	private void initNotesLayoutIfNull(AppW app) {
 		if (notesLayout == null) {
 			notesLayout = new NotesLayout(app);
+		}
+	}
+
+	/**
+	 * show/hide visibility depending on multiuser status
+	 * @param add - add undo/redo when not multiuser, remove otherwise
+	 */
+	public void updateUndoRedoButtonVisibility(boolean add) {
+		if (add) {
+			add(notesLayout.getUndoRedoButtons());
+		} else {
+			remove(notesLayout.getUndoRedoButtons());
 		}
 	}
 
@@ -896,20 +926,6 @@ public class GeoGebraFrameFull
 		if (eventType == Event.ONMOUSEDOWN || eventType == Event.ONTOUCHSTART) {
 			closePopupsAndMaybeMenu(event);
 		}
-	}
-
-	/**
-	 * Can be called to handle the back button event.
-	 */
-	public void onBackPressed() {
-		if (isSubPanelOpen() && app != null) {
-			GuiManagerW guiManager = getGuiManager();
-			hidePanel((BrowseGUI) guiManager.getBrowseView());
-		}
-	}
-
-	private boolean isSubPanelOpen() {
-		return panelTransitioner.getCurrentPanel() != null;
 	}
 
 	/**
@@ -1016,7 +1032,7 @@ public class GeoGebraFrameFull
 
 	@Override
 	protected int getSmallScreenHeaderHeight() {
-		if (isExternalHeaderHidden()) {
+		if (shouldHideHeader()) {
 			return 0;
 		}
 		return getHeaderResizer().getSmallScreenHeight();

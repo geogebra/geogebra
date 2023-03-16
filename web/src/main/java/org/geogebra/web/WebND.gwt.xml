@@ -10,14 +10,9 @@
     <!-- Specify the paths for translatable code                    -->
     <source path="full"/>
     <source path="editor"/>
-    <source path="plugin"/>
     <public path="pub"/>
     <source path='cas'/>
     <source path='shared'/>
-
-    <replace-with class="org.geogebra.web.full.helper.ResourcesInjectorFull">
-        <when-type-is class="org.geogebra.web.html5.js.ResourcesInjector"/>
-    </replace-with>
 
     <set-configuration-property name="devModeRedirectEnabled" value="false"/>
     <!-- Compile only one permutation -->

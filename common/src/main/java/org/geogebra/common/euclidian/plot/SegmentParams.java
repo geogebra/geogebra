@@ -44,7 +44,7 @@ public class SegmentParams {
 	 *
 	 * @return true if max depth of the bisections is not reached yet.
 	 */
-	public boolean hasMaxDepthNotReached() {
+	public boolean hasNotReachedMaxDepth() {
 		return depth < MAX_DEFINED_BISECTIONS;
 	}
 

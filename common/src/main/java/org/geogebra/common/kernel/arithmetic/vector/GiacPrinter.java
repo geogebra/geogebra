@@ -10,24 +10,19 @@ import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class GiacPrinter implements Printer {
 
-    private PrintableVector vector;
-
-    GiacPrinter(PrintableVector vector) {
-        this.vector = vector;
-    }
-
     @Override
-    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
+    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
         StringBuilder sb = new StringBuilder();
-        sb.append(getHead());
+        sb.append(getHead(vector));
         printReGiac(sb, vector.getX(), expressionPrinter, tpl);
         sb.append(",");
         printReGiac(sb, vector.getY(), expressionPrinter, tpl);
-        sb.append(getTail());
+        sb.append(getTail(vector));
         return sb.toString();
     }
 
-    private String getHead() {
+    private String getHead(PrintableVector vector) {
         if (vector.isCASVector()) {
             return "ggbvect[";
         } else if (GeoSymbolic.isWrappedList(vector.getX())
@@ -38,7 +33,7 @@ class GiacPrinter implements Printer {
         }
     }
 
-    private char getTail() {
+    private char getTail(PrintableVector vector) {
         return vector.isCASVector() ? ']' : ')';
     }
 

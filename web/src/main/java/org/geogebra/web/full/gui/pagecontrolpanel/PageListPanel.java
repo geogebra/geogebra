@@ -284,8 +284,8 @@ public class PageListPanel
 	 * @param src
 	 *            to duplicate page at.
 	 */
-	public void pastePage(PagePreviewCard src, String json) {
-		PagePreviewCard dup = pageController.pasteSlideStoreUndo(src, json);
+	public void pastePage(PagePreviewCard src, String targetID, String json) {
+		PagePreviewCard dup = pageController.pasteSlideStoreUndo(src, targetID, json);
 		addPreviewCard(dup);
 		pageController.updatePreviewImage();
 		update();

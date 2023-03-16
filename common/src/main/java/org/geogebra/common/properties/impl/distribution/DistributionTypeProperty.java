@@ -2,13 +2,13 @@ package org.geogebra.common.properties.impl.distribution;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
-import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.properties.impl.AbstractGroupedEnumerableProperty;
 
 /**
@@ -16,28 +16,25 @@ import org.geogebra.common.properties.impl.AbstractGroupedEnumerableProperty;
  */
 public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty {
 
-	private static final List<ProbabilityCalculatorSettings.Dist> CONTINUOUS_DISTRIBUTIONS =
-			Arrays.asList(new ProbabilityCalculatorSettings.Dist[]{
-					ProbabilityCalculatorSettings.Dist.NORMAL,
-					ProbabilityCalculatorSettings.Dist.STUDENT,
-					ProbabilityCalculatorSettings.Dist.CHISQUARE,
-					ProbabilityCalculatorSettings.Dist.F,
-					ProbabilityCalculatorSettings.Dist.EXPONENTIAL,
-					ProbabilityCalculatorSettings.Dist.CAUCHY,
-					ProbabilityCalculatorSettings.Dist.WEIBULL,
-					ProbabilityCalculatorSettings.Dist.GAMMA,
-					ProbabilityCalculatorSettings.Dist.LOGNORMAL,
-					ProbabilityCalculatorSettings.Dist.LOGISTIC
-			});
-	private static final List<ProbabilityCalculatorSettings.Dist> DISCRETE_DISTRIBUTIONS =
-			Arrays.asList(new ProbabilityCalculatorSettings.Dist[]{
-					ProbabilityCalculatorSettings.Dist.BINOMIAL,
-					ProbabilityCalculatorSettings.Dist.PASCAL,
-					ProbabilityCalculatorSettings.Dist.POISSON,
-					ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC,
-			});
+	private static final List<Dist> CONTINUOUS_DISTRIBUTIONS =
+			Arrays.asList(Dist.NORMAL,
+					Dist.STUDENT,
+					Dist.CHISQUARE,
+					Dist.F,
+					Dist.EXPONENTIAL,
+					Dist.CAUCHY,
+					Dist.WEIBULL,
+					Dist.GAMMA,
+					Dist.LOGNORMAL,
+					Dist.LOGISTIC);
+	private static final List<Dist> DISCRETE_DISTRIBUTIONS =
+			Arrays.asList(Dist.BINOMIAL,
+					Dist.PASCAL,
+					Dist.POISSON,
+					Dist.HYPERGEOMETRIC);
 
 	private final ProbabilityCalculatorView view;
+	private HashMap<Dist, String> distributionMap;
 
 	/**
 	 * Constructs an AbstractGroupedEnumerableProperty
@@ -50,23 +47,22 @@ public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty 
 	}
 
 	private void setValues() {
-		ProbabilityManager manager = view.getProbManager();
-		Map<ProbabilityCalculatorSettings.Dist, String> map = manager.getDistributionMap();
+		Map<Dist, String> map = getDistributionMap();
 		ArrayList<String> values = new ArrayList<>();
-		for (ProbabilityCalculatorSettings.Dist distribution : CONTINUOUS_DISTRIBUTIONS) {
-			values.add(map.get(distribution));
+		for (Dist distribution : CONTINUOUS_DISTRIBUTIONS) {
+			values.add(getLocalization().getMenu(map.get(distribution)));
 		}
 		values.add(DIVIDER);
-		for (ProbabilityCalculatorSettings.Dist distribution : DISCRETE_DISTRIBUTIONS) {
-			values.add(map.get(distribution));
+		for (Dist distribution : DISCRETE_DISTRIBUTIONS) {
+			values.add(getLocalization().getMenu(map.get(distribution)));
 		}
 
-		setValuesAndLocalize(values.toArray(new String[0]));
+		setValues(values.toArray(new String[0]));
 	}
 
 	@Override
 	public int getIndex() {
-		ProbabilityCalculatorSettings.Dist selected = view.getSelectedDist();
+		Dist selected = view.getSelectedDist();
 		int index = CONTINUOUS_DISTRIBUTIONS.indexOf(selected);
 		if (index >= 0) {
 			return index;
@@ -77,7 +73,7 @@ public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty 
 
 	@Override
 	protected void setValueSafe(String value, int index) {
-		ProbabilityCalculatorSettings.Dist selectedDist;
+		Dist selectedDist;
 		if (index < CONTINUOUS_DISTRIBUTIONS.size()) {
 			selectedDist = CONTINUOUS_DISTRIBUTIONS.get(index);
 		} else {
@@ -86,5 +82,35 @@ public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty 
 		if (selectedDist != view.getSelectedDist()) {
 			view.setProbabilityCalculator(selectedDist, null, view.isCumulative());
 		}
+	}
+
+	/**
+	 * Creates a hash map that can return a JComboBox menu string for
+	 * distribution type constant Key = display type constant Value = menu item
+	 * string
+	 *
+	 * @return map distribution -&gt; localized name
+	 */
+	private HashMap<Dist, String> getDistributionMap() {
+		if (distributionMap == null) {
+			distributionMap = new HashMap<>();
+
+			distributionMap.put(Dist.NORMAL, "Distribution.Normal");
+			distributionMap.put(Dist.STUDENT, "Distribution.StudentT");
+			distributionMap.put(Dist.CHISQUARE, "Distribution.ChiSquare");
+			distributionMap.put(Dist.F, "Distribution.F");
+			distributionMap.put(Dist.EXPONENTIAL, "Distribution.Exponential");
+			distributionMap.put(Dist.CAUCHY, "Distribution.Cauchy");
+			distributionMap.put(Dist.WEIBULL, "Distribution.Weibull");
+			distributionMap.put(Dist.LOGISTIC, "Distribution.Logistic");
+			distributionMap.put(Dist.LOGNORMAL, "Distribution.Lognormal");
+
+			distributionMap.put(Dist.GAMMA, "Distribution.Gamma");
+			distributionMap.put(Dist.BINOMIAL, "Distribution.Binomial");
+			distributionMap.put(Dist.PASCAL, "Distribution.Pascal");
+			distributionMap.put(Dist.POISSON, "Distribution.Poisson");
+			distributionMap.put(Dist.HYPERGEOMETRIC, "Distribution.Hypergeometric");
+		}
+		return distributionMap;
 	}
 }

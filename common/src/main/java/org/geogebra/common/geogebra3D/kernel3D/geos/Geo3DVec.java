@@ -384,16 +384,14 @@ final public class Geo3DVec extends ValidExpression
 			GeoVecInterface b, GeoVec2D c) {
 
 		if (!DoubleUtil.isZero(a.getZ()) || !DoubleUtil.isZero(b.getZ())) {
-			c.setX(Double.NaN);
-			c.setY(Double.NaN);
+			c.setCoords(Double.NaN, Double.NaN);
 			c.setMode(Kernel.COORD_COMPLEX);
 			return;
 		}
 
 		Complex out = new Complex(a.getX(), a.getY());
 		out = out.multiply(new Complex(b.getX(), b.getY()));
-		c.setX(out.getReal());
-		c.setY(out.getImaginary());
+		c.setCoords(out.getReal(), out.getImaginary());
 
 		c.setMode(Kernel.COORD_COMPLEX);
 	}

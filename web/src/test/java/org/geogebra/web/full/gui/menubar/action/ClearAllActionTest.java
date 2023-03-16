@@ -9,7 +9,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,14 +26,6 @@ public class ClearAllActionTest {
 	private static AppWFull app;
 
 	/**
-	 * Make sure asserts don't kill the tests
-	 */
-	@Before
-	public void rootPanel() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
-	}
-
-	/**
 	 * Undo / redo with a single slide.
 	 */
 	@Test
@@ -45,7 +36,6 @@ public class ClearAllActionTest {
 		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
 		ListBox mockBox = mock(ListBox.class);
 		when(factory.newListBox()).thenReturn(mockBox);
-		app.getDialogManager().setWidgetFactory(factory);
 		ClearAllAction action = new ClearAllAction(true);
 		addObject("x");
 		action.execute(null, app);

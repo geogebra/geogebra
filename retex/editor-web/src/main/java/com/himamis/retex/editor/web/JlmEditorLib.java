@@ -52,8 +52,9 @@ public class JlmEditorLib extends JlmLib {
 					}
 
 					@Override
-					public void onTab(boolean shiftDown) {
+					public boolean onTab(boolean shiftDown) {
 						// TODO Auto-generated method stub
+						return true;
 					}
 				});
 		fld.requestViewFocus();
@@ -65,7 +66,7 @@ public class JlmEditorLib extends JlmLib {
 		try {
 			MathFormula formula = new Parser(new MetaModel()).parse(ascii);
 			texFormula.root = new TeXBuilder().build(formula.getRootComponent(),
-					null, false);
+					null, -1, false);
 		} catch (ParseException e) {
 			FactoryProvider.debugS("Invalid input " + ascii);
 		}

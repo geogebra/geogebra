@@ -34,7 +34,6 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		model = new LineStyleModel(app);
 		model.setListener(this);
 		this.setKeepVisible(false);
-		getMySlider().addChangeHandler(event -> model.applyThickness(getSliderValue()));
 	}
 
 	@Override

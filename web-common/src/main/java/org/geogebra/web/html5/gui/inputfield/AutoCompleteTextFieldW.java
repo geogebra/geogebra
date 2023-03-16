@@ -29,7 +29,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
@@ -48,7 +47,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -73,6 +72,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
+
+import elemental2.dom.DomGlobal;
 
 public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
@@ -128,8 +129,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	private @CheckForNull CursorOverlay cursorOverlay;
 
-    private boolean rightAltDown;
-	private boolean leftAltDown;
 	private final AutocompleteProviderClassic inputSuggestions;
 	private final FlowPanel main = new FlowPanel();
 	private boolean keyboardButtonEnabled = true;
@@ -434,8 +433,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setBackground(GColor color) {
-		main.getElement().getStyle()
-				.setBackgroundColor(GColor.getColorString(color));
+		if (!hasError()) {
+			main.getElement().getStyle()
+					.setBackgroundColor(GColor.getColorString(color));
+			main.getElement().getStyle().setBorderColor(drawTextField.getBorderColor() != null
+					? drawTextField.getBorderColor().toString() : GColor.DEFAULT_PURPLE.toString());
+		} else {
+			main.getElement().getStyle().clearBackgroundColor();
+			main.getElement().getStyle().clearBorderColor();
+		}
 	}
 
 	@Override
@@ -509,6 +515,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			cursorOverlay = new CursorOverlay();
 			addFocusHandler(evt -> addDummyCursor());
 			addBlurHandler(evt -> removeDummyCursor());
+			DomGlobal.setInterval(event -> updateCursorOverlay(), 200);
 			if (geoUsedForInputBox != null) {
 				setTextAlignmentsForInputBox(geoUsedForInputBox.getAlignment());
 			}
@@ -787,15 +794,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (!isTabEnabled()) {
 			return;
 		}
-		if (MathFieldW.isRightAlt(e.getNativeEvent())) {
-			rightAltDown = true;
+		GlobalKeyDispatcherW.setDownAltKeys(e, true);
+
+		if (GlobalKeyDispatcherW.isLeftAltDown()) {
+			e.preventDefault();
 		}
-		if (MathFieldW.isLeftAlt(e.getNativeEvent())) {
-			leftAltDown = true;
-		}
-		if (leftAltDown) {
-			Log.debug("TODO: preventDefault");
-		}
+
 		int keyCode = e.getNativeKeyCode();
 		app.getGlobalKeyDispatcher();
 		if (keyCode == GWTKeycodes.KEY_F1
@@ -855,6 +859,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void onKeyUp(KeyUpEvent e) {
+		GlobalKeyDispatcherW.setDownAltKeys(e, false);
 		int keyCode = e.getNativeKeyCode();
 		// we don't want to trap AltGr
 		// as it is used eg for entering {[}] is some locales
@@ -933,7 +938,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			e.stopPropagation();
 			break;
-
 		case GWTKeycodes.KEY_ZERO:
 		case GWTKeycodes.KEY_ONE:
 		case GWTKeycodes.KEY_TWO:
@@ -950,15 +954,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			//$FALL-THROUGH$
 		default:
-			if (MathFieldW.isRightAlt(e.getNativeEvent())) {
-				rightAltDown = true;
-			}
-			if (MathFieldW.isLeftAlt(e.getNativeEvent())) {
-				leftAltDown = true;
-			}
+
 			// check for eg alt-a for alpha
 			// check for eg alt-shift-a for upper case alpha
-			if (e.isAltKeyDown() && !rightAltDown) {
+			if (GlobalKeyDispatcherW.isLeftAltDown()) {
 
 				String s = AltKeys.getAltSymbols(keyCode, e.isShiftKeyDown(),
 						true);
@@ -1200,7 +1199,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private int getSelectionStart() {
-		return getText().indexOf(textField.getValueBox().getSelectedText());
+		return textField.getValueBox().getCursorPos();
 	}
 
 	@Override
@@ -1279,6 +1278,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
+
+		app.updateKeyBoardField(this);
 	}
 
 	@Override
@@ -1368,13 +1369,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.getValueBox().selectAll();
 	}
 
-	/**
-	 * Adds key handler to the tetxtfield
-	 *
-	 * @param handler
-	 *            Keypresshandler
-	 * @return registration
-	 */
+	@Override
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 		return textField.getValueBox().addKeyPressHandler(handler);
 	}
@@ -1443,19 +1438,32 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		g2.setPaint(bgColor);
+		GColor backgroundColor = hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
+		g2.setPaint(backgroundColor);
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
-		// TF Rectangle
-		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED);
+		GColor borderColor = backgroundColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
+				: GColor.getBorderColorFrom(backgroundColor);
+		g2.setColor(borderColor);
+		setTextFieldBorderColor(backgroundColor, borderColor);
+		if (drawTextField.hasError()) {
 			g2.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
-		} else {
-			g2.setPaint(GColor.BLACK);
+					EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT, GBasicStroke.JOIN_ROUND));
 		}
 
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+	}
+
+	private void setTextFieldBorderColor(GColor backgroundColor, GColor borderColor) {
+		if (!drawTextField.hasError() && backgroundColor != GColor.WHITE) {
+			drawTextField.setBorderColor(borderColor);
+		} else if (backgroundColor == GColor.WHITE) {
+			drawTextField.setBorderColor(null);
+		}
+	}
+
+	private boolean hasError() {
+		return drawTextField != null && drawTextField.hasError();
 	}
 
 	@Override
@@ -1531,15 +1539,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
-	private Style.TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
+	private TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
 		switch (alignment) {
 		default:
 		case LEFT:
-				return Style.TextAlign.LEFT;
+				return TextAlign.LEFT;
 		case CENTER:
-				return Style.TextAlign.CENTER;
+				return TextAlign.CENTER;
 		case RIGHT:
-				return Style.TextAlign.RIGHT;
+				return TextAlign.RIGHT;
 		}
 	}
 }

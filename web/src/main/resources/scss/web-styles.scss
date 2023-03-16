@@ -90,26 +90,6 @@
 		font-size: 80%;
 	}
 
-	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
-	.inputHelp-detailPanelTitle .button, .optionsPopup .gwt-Button, .customizeToolbarButtonPanel .button,
-	.buttonSpreadsheet {
-		border-radius: 5px;
-		border: 1px solid #6161FF;
-		color: #6161FF;
-		background: none;
-		font-size: 110%;
-		padding: 4px 15px;
-		box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 0 2px rgba(204, 204, 204, 0.5);
-		cursor: pointer;
-		margin-left: 5px;
-		min-height: 0;
-
-		&.downloadBtn {
-			float: right;
-			width: 64px;
-		}
-	}
-
 	/* Pop-up Exam Mode Dialog */
 
 	.ExamCheckboxPanel {
@@ -1078,9 +1058,9 @@
 
 	/*-------- SLIDER DIALOG ------------------------*/
 
-	.dialogContent .sliderIntervalPanel div,
-	.dialogContent .sliderWidthPanel div {
-		margin-right: 10px;
+	.dialogContent .sliderIntervalPanel .inlineOption,
+	.dialogContent .sliderWidthPanel .inlineOption {
+		margin: 8px 8px 0 0;
 		display: inline-block;
 		width: 30%;
 	}
@@ -1769,15 +1749,6 @@
 		min-width: 100px;
 	}
 
-	.numberInput {
-		width: 70px;
-		margin-right: 20px;
-
-		.matKeyboardOpenBtn {
-			display: none;
-    	}
-    }
-
 	.optionsInput table {
 		display: inline-table;
 		button {
@@ -1991,6 +1962,14 @@
 		display: flex;
 		flex-wrap: wrap;
 		line-height: 52px;
+	}
+
+	.comboParamPanel .comboDistribution {
+		line-height: 20px
+	}
+
+	.comboParamPanel .parameterPanel {
+		margin-top: 12px;
 	}
 
 	.comboParamPanel, .intervalPanel {
@@ -2619,8 +2598,7 @@
 	  ###   END OF CUSTOMIZE TOOLBAR GUI   ###
 	  ######################################## */
 
-	.popupSliderLabel,
-	.ggbFavorite {
+	.popupSliderLabel {
 		float: right;
 	}
 

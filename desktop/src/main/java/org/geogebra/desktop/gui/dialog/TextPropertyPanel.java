@@ -24,7 +24,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * panel for textfield size
  * @author Michael
  */
-class TextPropertyPanel extends JPanel
+public class TextPropertyPanel extends JPanel
 		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
 		SetLabels, UpdateFonts, ITextFieldListener {
 
@@ -40,12 +40,16 @@ class TextPropertyPanel extends JPanel
 	 * @param app app
 	 */
 	public TextPropertyPanel(AppD app, TextPropertyModel model) {
+		this(app, model, new MyTextFieldD(app, 5));
+	}
+
+	protected TextPropertyPanel(AppD app, TextPropertyModel model, MyTextFieldD textField) {
 		this.loc = app.getLocalization();
 		this.model = model;
 		model.setListener(this);
 		// text field for textfield size
 		label = new JLabel();
-		tfTextfieldSize = new MyTextFieldD(app, 5);
+		tfTextfieldSize = textField;
 		label.setLabelFor(tfTextfieldSize);
 		tfTextfieldSize.addActionListener(this);
 		tfTextfieldSize.addFocusListener(this);

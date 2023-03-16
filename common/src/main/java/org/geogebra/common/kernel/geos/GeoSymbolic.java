@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -225,12 +226,12 @@ public class GeoSymbolic extends GeoElement
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
 
 		String casResult = calculateCasResult(casInput);
-		setSymbolicMode(!isTopLevelCommandNumeric(), false);
 
 		casOutputString = casResult;
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
 
+		setSymbolicMode();
 		setFunctionVariables();
 
 		isTwinUpToDate = false;
@@ -356,7 +357,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionValue maybeComputeNumericValue(ExpressionValue casOutput) {
-		if (!shouldComputeNumericValue(casOutput)) {
+		if (!SymbolicUtil.shouldComputeNumericValue(casOutput)) {
 			return null;
 		}
 		Log.debug("GeoSymbolic is a number value, calculating numeric result");
@@ -365,15 +366,6 @@ public class GeoSymbolic extends GeoElement
 		} catch (Exception e) {
 			return null;
 		}
-	}
-
-	private boolean shouldComputeNumericValue(ExpressionValue casOutput) {
-		if (casOutput != null && casOutput.isNumberValue()) {
-			ExpressionValue unwrapped = casOutput.unwrap();
-			return !(unwrapped instanceof NumberValue && !((NumberValue) unwrapped).isDefined())
-					&& !(unwrapped instanceof GeoDummyVariable);
-		}
-		return false;
 	}
 
 	private ExpressionValue computeNumericValue(ExpressionValue casOutput) {
@@ -425,8 +417,13 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
+	private void setSymbolicMode() {
+		boolean isValueDefined = isCasValueDefined();
+		setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+	}
+
 	private void setFunctionVariables() {
-		if (!fVars.isEmpty()) {
+		if (!fVars.isEmpty() || !SymbolicUtil.isValueDefined(this)) {
 			return;
 		}
 		Iterable<FunctionVariable> variables = computeFunctionVariables();
@@ -444,7 +441,8 @@ public class GeoSymbolic extends GeoElement
 			List<String> localVariables = getDefinition().getLocalVariables();
 			return localVariables.stream().map((var) -> new FunctionVariable(kernel, var))
 					.collect(Collectors.toList());
-		} else if (def instanceof Command && supportsVariables((Command) def)) {
+		} else if (def instanceof Command && shouldShowFunctionVariablesInOutputFor((Command) def)
+				&& !valueIsListOrPoint()) {
 			return collectVariables();
 		} else if (getDefinition().containsFreeFunctionVariable(null)) {
 			return collectVariables();
@@ -460,8 +458,12 @@ public class GeoSymbolic extends GeoElement
 		return Arrays.asList(functionVarCollector.buildVariables(kernel));
 	}
 
-	private boolean supportsVariables(Command command) {
-		return !Commands.Solutions.getCommand().equals(command.getName());
+	private static boolean shouldShowFunctionVariablesInOutputFor(Command command) {
+		return !Commands.Solutions.getCommand().equals(command.getName()); // APPS-1821, APPS-2190
+	}
+
+	private boolean valueIsListOrPoint() {
+		return value.unwrap() instanceof MyList || value.unwrap() instanceof MyVecNode; // APPS-4396
 	}
 
 	@Override
@@ -1079,5 +1081,9 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue unwrapped = value.unwrap();
 		return unwrapped instanceof ListValue || (unwrapped instanceof GeoSymbolic
 				&& ((GeoSymbolic) unwrapped).unwrapSymbolic().isGeoList()) ;
+	}
+
+	private boolean isCasValueDefined() {
+		return !value.inspect(Inspecting.isUndefinedInspector);
 	}
 }

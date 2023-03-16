@@ -35,7 +35,7 @@ public class SortByProperty extends AbstractEnumerableProperty {
         for (int i = 0; i < sortModes.length; i++) {
             values[i] = sortModes[i].toString();
         }
-        setValuesAndLocalize(values);
+        setValues(values);
     }
 
     @Override

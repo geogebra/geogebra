@@ -125,7 +125,7 @@ public class MathFieldController {
 		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
 		texBuilder.enablePlaceholder(false);
 		texFormula.root = texBuilder.build(mathFormula.getRootComponent(),
-				currentField, textMode);
+				currentField, -1, textMode);
 
 		try {
 			final TeXIcon renderer = texFormula.new TeXIconBuilder()
@@ -136,8 +136,8 @@ public class MathFieldController {
 			texBuilder.enablePlaceholder(true);
 			return renderer;
 		} catch (Throwable t) {
-			FactoryProvider
-					.debugS("" + (t.getCause() != null ? t.getCause() : t));
+			FactoryProvider.getInstance()
+					.debug(t.getCause() != null ? t.getCause() : t);
 		}
 		return null;
 	}
@@ -148,7 +148,7 @@ public class MathFieldController {
 		TeXFormula texFormula = new TeXFormula();
 		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
 		texFormula.root = texBuilder.build(mathFormula.getRootComponent(),
-				currentField, textMode);
+				currentField, currentOffset, textMode);
 
 		try {
 			final TeXIcon renderer = texFormula.new TeXIconBuilder()
@@ -171,8 +171,8 @@ public class MathFieldController {
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
 		} catch (Throwable t) {
-			FactoryProvider
-					.debugS("" + (t.getCause() != null ? t.getCause() : t));
+			FactoryProvider.getInstance()
+					.debug(t.getCause() != null ? t.getCause() : t);
 		}
 	}
 

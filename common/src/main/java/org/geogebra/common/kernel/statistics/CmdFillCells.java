@@ -123,7 +123,7 @@ public class CmdFillCells extends CommandProcessor {
 
 				}
 				if (!geo.isGeoList()) {
-
+					RelativeCopy relativeCopy = new RelativeCopy(kernel);
 					for (int row = minRow; row <= maxRow; row++) {
 						for (int col = minCol; col <= maxCol; col++) {
 							try {
@@ -137,9 +137,8 @@ public class CmdFillCells extends CommandProcessor {
 								// change to eg A2+1, A3+1, A4+1 etc
 								// FillCells[B1:B7,A1] doesn't change A1
 								// use FillCells[B1:B7,A1+0] for that
-								RelativeCopy.doCopyNoStoringUndoInfo0(kernel,
-										app, geo, null, col - minCol,
-										row - minRow, minRow, minCol);
+								relativeCopy.doCopyNoStoringUndoInfo0(geo, null,
+										col - minCol, row - minRow, minRow, minCol);
 
 								// old code
 								// kernelA.getGeoElementSpreadsheet()

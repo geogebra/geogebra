@@ -10,7 +10,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.operations.BackendAPI;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -93,9 +93,13 @@ public class ShareDialogMow extends ComponentDialog
 		});
 	}
 
-	private void updateMaterial(String visibility) {
-		boolean isMultiuser = multiuserSwitch != null && multiuserSwitch.isSwitchOn()
+	private boolean isMultiuserSwitchOn() {
+		return multiuserSwitch != null && multiuserSwitch.isSwitchOn()
 				&& !multiuserSharePanel.getElement().hasClassName("disabled");
+	}
+
+	private void updateMaterial(String visibility) {
+		boolean isMultiuser = isMultiuserSwitchOn();
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
 				material.getSharingKeyOrId(), visibility,
 				material.getTitle(), null, callback,
@@ -375,7 +379,7 @@ public class ShareDialogMow extends ComponentDialog
 	 */
 	protected void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
 		for (Map.Entry<GroupIdentifier, Boolean> group : changedGroups.entrySet()) {
-			app.getLoginOperation().getGeoGebraTubeAPI().setShared(material,
+			app.getLoginOperation().getResourcesAPI().setShared(material,
 					group.getKey(), group.getValue(), groupCallback);
 		}
 	}
@@ -399,7 +403,7 @@ public class ShareDialogMow extends ComponentDialog
 						}
 					}
 				};
-		BackendAPI api = app.getLoginOperation().getGeoGebraTubeAPI();
+		MaterialRestAPI api = app.getLoginOperation().getResourcesAPI();
 		api.getGroups(material.getSharingKeyOrId(), GroupIdentifier.GroupCategory.CLASS, partial);
 		api.getGroups(material.getSharingKeyOrId(), GroupIdentifier.GroupCategory.COURSE, partial);
 	}

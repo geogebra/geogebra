@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.commands.Commands;
  */
 public class EnglishCommandFilter implements CommandFilter {
 
-	private CommandFilter wrappedFilter;
+	private final CommandFilter wrappedFilter;
 
 	/**
 	 * Creates a new EnglishCommandFilter.
@@ -21,10 +21,7 @@ public class EnglishCommandFilter implements CommandFilter {
 
 	@Override
 	public boolean isCommandAllowed(Commands command) {
-		boolean allowed = wrappedFilter.isCommandAllowed(command);
-
 		Commands internal = Commands.englishToInternal(command);
-		boolean internalAllowed = wrappedFilter.isCommandAllowed(internal);
-		return allowed && internalAllowed;
+		return wrappedFilter.isCommandAllowed(internal);
 	}
 }

@@ -21,10 +21,8 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-import com.google.gwt.storage.client.Storage;
-
 /**
- * Manager for files from {@link Storage localStorage}
+ * Manager for files from localStorage
  * 
  * JSON including the base64 and metadata is stored under
  * "file_[local-id]_[title]" key. The id field inside JSON is for Tube id, is
@@ -240,10 +238,8 @@ public class FileManagerW extends FileManager {
 				.parseMaterial(materialJSON);
 		// maybe another user restores the file, so reset
 		// sensitive data
-		autoSaved.setAuthor("");
-		autoSaved.setAuthorId(0);
+		autoSaved.setCreator(null);
 		autoSaved.setId(0);
-		autoSaved.setGoogleID("");
 		openMaterial(autoSaved);
 	}
 

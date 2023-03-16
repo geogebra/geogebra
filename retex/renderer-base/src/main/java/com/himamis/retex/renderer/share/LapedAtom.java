@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a laped atom (i.e. with no width).
  */
-public class LapedAtom extends Atom {
+public class LapedAtom extends Atom implements HasTrueBase {
 
 	private Atom at;
 	private char type1;
@@ -76,5 +78,10 @@ public class LapedAtom extends Atom {
 		}
 
 		return vb;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return at;
 	}
 }

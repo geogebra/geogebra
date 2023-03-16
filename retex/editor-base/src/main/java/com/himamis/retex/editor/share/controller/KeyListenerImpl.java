@@ -26,7 +26,6 @@ public class KeyListenerImpl {
 	 * @return whether event was handled
 	 */
 	public boolean onKeyPressed(KeyEvent keyEvent, EditorState editorState) {
-		
 		// Ctrl, not AltGr
 		boolean ctrlPressed = ((keyEvent.getKeyModifiers()
 				& KeyEvent.CTRL_MASK) > 0)
@@ -61,8 +60,8 @@ public class KeyListenerImpl {
 			}
 			return false;
 		case JavaKeyCodes.VK_ESCAPE:
-			// see details in GGB-2235
-			// inputController.escSymbol(editorState);
+			// if math field doesn't have its own escape handler, blur it
+			inputController.getMathField().blur();
 			return true;
 		case JavaKeyCodes.VK_HOME:
 			if (shiftPressed) {
@@ -113,8 +112,7 @@ public class KeyListenerImpl {
 		case JavaKeyCodes.VK_OPEN_BRACKET:
 			return false;
 		case JavaKeyCodes.VK_TAB:
-			onTab(shiftPressed);
-			return true;
+			return onTab(shiftPressed);
 		default:
 			// InputController.deleteSelection(editorState);
 			return false;
@@ -124,9 +122,10 @@ public class KeyListenerImpl {
 	/**
 	 * @param shiftDown
 	 *            whether shift is pressed
+	 * @return tab handling
 	 */
-	public void onTab(boolean shiftDown) {
-		inputController.handleTab(shiftDown);
+	public boolean onTab(boolean shiftDown) {
+		return inputController.handleTab(shiftDown);
 	}
 
 	/**

@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasCharacter;
+
 /**
  * An atom with a stroked T
  */
-public class TStrokeAtom extends Atom {
+public class TStrokeAtom extends Atom implements HasCharacter {
 
 	private static final SymbolAtom BAR = SymbolAtom.get("bar");
 	private boolean upper;
@@ -79,6 +81,11 @@ public class TStrokeAtom extends Atom {
 		vb.add(new StrutBox(0, -0.5 * T.getHeight(), 0, 0));
 		vb.add(b);
 		return vb;
+	}
+
+	@Override
+	public String getCharacter() {
+		return upper ? "T" : "t";
 	}
 }
 /*

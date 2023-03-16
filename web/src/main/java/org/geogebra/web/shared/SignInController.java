@@ -5,7 +5,9 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.gwtutil.Cookies;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.ggtapi.StaticFileUrls;
 import org.gwtproject.timer.client.Timer;
 
@@ -62,13 +64,26 @@ public class SignInController implements EventRenderable, SignInControllerI {
 	}
 
 	/**
-	 * @return sign in button
+	 * @return sign in button with text
 	 */
-	public Button getButton() {
+	public Button getLoginTextButton() {
 		Button button = new Button(app.getLocalization().getMenu("SignIn"));
 		button.getElement().setAttribute("type", "button");
 		button.addStyleName("signInButton");
 		button.addClickHandler(event -> {
+			login();
+			initLoginTimer();
+		});
+		return button;
+	}
+
+	/**
+	 * @return sign in button with icon for small view
+	 */
+	public StandardButton getLoginIconButton() {
+		StandardButton button = new StandardButton(MaterialDesignResources.INSTANCE.login(), 24);
+		button.addStyleName("signInIcon");
+		button.addFastClickHandler(event -> {
 			login();
 			initLoginTimer();
 		});

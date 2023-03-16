@@ -419,7 +419,6 @@ public abstract class Drawable extends DrawableND {
 		} else if (yLabel > screenHeight - insets.getBottom()) {
 			yLabel = screenHeight - insets.getBottom();
 		}
-
 		// update label rectangle position
 		labelRectangle.setLocation(xLabel, yLabel - view.getFontSize());
 	}

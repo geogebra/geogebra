@@ -433,5 +433,4 @@ public interface GWTKeycodes {
 	public static final int KEY_MAC_FF_META = 224; // Firefox (Gecko) fires this
 													// for the meta key instead
 													// of 91
-
 }

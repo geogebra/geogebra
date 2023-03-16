@@ -10,6 +10,7 @@ public enum BrowserStorage {
 	LOCAL, SESSION;
 
 	public static final String COPY_SLIDE = "copyslide";
+	public static final String COPY_SLIDE_OBJECTS = "copyslideObjects";
 	public static final String KEYBOARD_WANTED = "keyboardwanted";
 
 	private Storage storage;
@@ -17,8 +18,7 @@ public enum BrowserStorage {
 	private void init() {
 		WebStorageWindow storageWindow = WebStorageWindow.of(DomGlobal.window);
 		try {
-			storage =
-					this == LOCAL ? storageWindow.localStorage : storageWindow.sessionStorage;
+			storage = this == LOCAL ? storageWindow.localStorage : storageWindow.sessionStorage;
 		} catch (Exception e) {
 			// running in test environment or in a buggy browser
 		}

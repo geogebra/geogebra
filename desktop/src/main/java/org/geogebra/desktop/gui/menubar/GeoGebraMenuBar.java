@@ -429,7 +429,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append("GGB file content:\n");
 		sb.append(app.getXML());
 		sb.append("\n\n");
-		sb.append(app.getMacroXML());
+		sb.append(app.getAllMacrosXML());
 		sb.append("\n\nLibraryJavaScript:\n");
 		sb.append(app.getKernel().getLibraryJavaScript());
 

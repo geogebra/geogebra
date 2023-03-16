@@ -1193,12 +1193,6 @@ public class MyXMLHandler implements DocHandler {
 
 			geoHandler.updatePointStyle(attrs);
 
-			String strBooleanSize = attrs.get("checkboxSize");
-			if (strBooleanSize != null) {
-				app.setCheckboxSize(Integer.parseInt(strBooleanSize));
-			}
-			// ev.setBooleanSize(Integer.parseInt(strBooleanSize));
-
 			boolean asm = parseBoolean(attrs.get("allowShowMouseCoords"));
 			ev.setAllowShowMouseCoords(asm);
 

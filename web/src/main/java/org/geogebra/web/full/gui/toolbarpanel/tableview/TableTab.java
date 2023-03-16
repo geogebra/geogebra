@@ -13,7 +13,7 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 
 /**
  * Tab of Table Values View.
@@ -37,15 +37,16 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 		TestHarness.setAttr(table, "TV_table");
 		table.setStyleName("tvTable", true);
 		CustomScrollbar.apply(this);
-		this.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
+		this.getElement().getFirstChildElement().getStyle().setHeight(100, Unit.PCT);
 		buildEmptyTablePanel();
 	}
 
 	private void buildEmptyTablePanel() {
 		InfoErrorData data = new InfoErrorData("TableValuesEmptyTitle",
-				"TableDiscreteDistribution");
+				"TableDiscreteDistribution", null,
+				MaterialDesignResources.INSTANCE.toolbar_table_view_black());
 		emptyPanel = new ComponentInfoErrorPanel(toolbarPanel.getApp().getLocalization(),
-				data, MaterialDesignResources.INSTANCE.toolbar_table_view_black(), null);
+				data, null);
 	}
 
 	@Override

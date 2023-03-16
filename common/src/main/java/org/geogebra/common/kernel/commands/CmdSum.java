@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
+import java.util.Arrays;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFoldExpression;
 import org.geogebra.common.kernel.algos.AlgoFoldFunctions;
@@ -21,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Sum[ list ] adapted from CmdLcm by Michael Borcherds 2008-02-16
@@ -58,7 +61,7 @@ public class CmdSum extends CommandProcessor {
 		FoldComputer fold = null;
 		if (arg[0].isGeoList()) {
 			list = (GeoList) arg[0];
-			fold = getComputer(list);
+			fold = getFoldComputer(list);
 		}
 
 		// this is bad - list can be saved later with size 0
@@ -172,14 +175,18 @@ public class CmdSum extends CommandProcessor {
 	 *            list
 	 * @return helper for Sum/Product commands
 	 */
-	public static FoldComputer getComputer(GeoList list) {
+	public static FoldComputer getFoldComputer(GeoList list) {
+		int size = list.size();
+
+		if (size == 0 && !StringUtil.empty(list.getTypeStringForXML())) {
+			return getFoldComputerForEmptyList(list);
+		}
 		boolean allNumbers = true;
 		boolean allFunctions = allNumbers;
 		boolean allFunctionsND = allNumbers;
 		boolean allNumbersVectorsPoints = allNumbers;
 		boolean allText = allNumbers;
 		boolean allList = allNumbers;
-		int size = list.size();
 
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = list.get(i);
@@ -223,6 +230,25 @@ public class CmdSum extends CommandProcessor {
 			return new ListFold();
 		}
 		return null;
+	}
+
+	private static FoldComputer getFoldComputerForEmptyList(GeoList list) {
+		GeoClass cl = Arrays.stream(GeoClass.values()).filter(c ->
+				c.xmlName.equals(list.getTypeStringForXML()))
+				.findFirst().orElse(GeoClass.NUMERIC);
+		switch (cl) {
+		case TEXT:
+			return new TextFold();
+		case FUNCTION:
+			return new FunctionFold();
+		case FUNCTION_NVAR:
+			return new FunctionNvarFold();
+		case POINT:
+		case POINT3D:
+			return new PointNDFold();
+		default:
+			return new NumberFold();
+		}
 	}
 
 	/**

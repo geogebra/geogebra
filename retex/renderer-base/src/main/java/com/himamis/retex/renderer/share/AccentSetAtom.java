@@ -46,10 +46,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.IsAccentedAtom;
+
 /**
  * An atom representing another atom with an accent symbol above it.
  */
-public class AccentSetAtom extends Atom {
+public class AccentSetAtom extends Atom implements IsAccentedAtom {
 
 	// accent symbol
 	private final Atom accent;
@@ -124,4 +126,13 @@ public class AccentSetAtom extends Atom {
 		return vBox;
 	}
 
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
+
+	@Override
+	public Atom getAccent() {
+		return accent;
+	}
 }

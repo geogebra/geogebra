@@ -13,6 +13,7 @@ import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
+import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import org.geogebra.common.gui.dialog.options.model.CenterImageModel;
@@ -47,6 +48,8 @@ import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TextPropertyModel;
+import org.geogebra.common.gui.dialog.options.model.VectorHeadStyleModel;
+import org.geogebra.common.gui.dialog.options.model.VerticalIncrementModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -61,7 +64,6 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
-import org.geogebra.web.full.gui.properties.AnimationStepPanelW;
 import org.geogebra.web.full.gui.properties.ComboBoxPanel;
 import org.geogebra.web.full.gui.properties.IOptionPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
@@ -98,12 +100,12 @@ public class OptionsTab extends FlowPanel {
 	 * 
 	 */
 	// private final OptionsObjectW optionsObjectW;
-	private AppW app;
-	private String titleId;
+	private final AppW app;
+	private final String titleId;
 	private int index;
-	private List<OptionsModel> models;
-	private MultiRowsTabPanel tabPanel;
-	private Localization loc;
+	private final List<OptionsModel> models;
+	private final MultiRowsTabPanel tabPanel;
+	private final Localization loc;
 	private boolean inited = false;
 	private boolean focused = false;
 	private boolean updated = true;
@@ -268,11 +270,18 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof SlopeTriangleSizeModel) {
 			return new SlopeTriangleSizePanel((SlopeTriangleSizeModel) m);
 		}
-		if (m instanceof IneqStyleModel) {
-			return new CheckboxPanel(app.getLocalization(), (IneqStyleModel) m);
+		if (m instanceof IneqStyleModel
+			|| m instanceof SymbolicModel
+			|| m instanceof InterpolateImageModel
+			|| m instanceof AbsoluteScreenLocationModel) {
+			return new CheckboxPanel(app.getLocalization(), (BooleanOptionModel) m);
 		}
 		if (m instanceof TextFieldSizeModel) {
-			return new TextPropertyPanel((TextFieldSizeModel) m, app);
+			return new TextPropertyPanel((TextPropertyModel) m, app, true);
+		}
+		if (m instanceof AnimationStepModel
+				|| m instanceof VerticalIncrementModel) {
+			return new TextPropertyPanel((TextPropertyModel) m, app, false);
 		}
 		if (m instanceof ButtonSizeModel) {
 			return new ButtonSizePanel((ButtonSizeModel) m, app);
@@ -282,13 +291,6 @@ public class OptionsTab extends FlowPanel {
 		}
 		if (m instanceof LodModel) {
 			return new LodPanel((LodModel) m);
-		}
-		if (m instanceof SymbolicModel) {
-			return new CheckboxPanel(app.getLocalization(), (SymbolicModel) m);
-		}
-		if (m instanceof InterpolateImageModel) {
-			return new CheckboxPanel(app.getLocalization(),
-					(InterpolateImageModel) m);
 		}
 		if (m instanceof DecoAngleModel) {
 			DecoAnglePanel dap = new DecoAnglePanel((DecoAngleModel) m, app);
@@ -314,6 +316,10 @@ public class OptionsTab extends FlowPanel {
 			ssp.getWidget().addStyleName("inlineOption");
 			return ssp;
 		}
+		if (m instanceof VectorHeadStyleModel) {
+			return new VectorHeadStylePanel((VectorHeadStyleModel) m, app);
+		}
+
 		if (m instanceof TextOptionsModel) {
 			return new TextOptionsPanelW((TextOptionsModel) m, app);
 		}
@@ -326,12 +332,8 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof CornerPointsModel) {
 			return new CornerPointsPanel((CornerPointsModel) m, app);
 		}
-		if (m instanceof AbsoluteScreenLocationModel) {
-			return new CheckboxPanel(
-					app.getLocalization(), (AbsoluteScreenLocationModel) m);
-		}
 		if (m instanceof AbsoluteScreenPositionModel) {
-			IOptionPanel ret = new TextPropertyPanel((AbsoluteScreenPositionModel) m, app);
+			IOptionPanel ret = new TextPropertyPanel((AbsoluteScreenPositionModel) m, app, true);
 			ret.getWidget().setStyleName("optionsPanel");
 			ret.getWidget().addStyleName("inlineOption");
 			return ret;
@@ -353,9 +355,6 @@ public class OptionsTab extends FlowPanel {
 		}
 		if (m instanceof AnimationSpeedModel) {
 			return new AnimationSpeedPanelW((AnimationSpeedModel) m, app);
-		}
-		if (m instanceof AnimationStepModel) {
-			return new AnimationStepPanelW((AnimationStepModel) m, app);
 		}
 		if (m instanceof TextFieldAlignmentModel) {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
@@ -381,11 +380,11 @@ public class OptionsTab extends FlowPanel {
 	 */
 	public static class ColorPanel extends OptionPanel
 			implements IColorObjectListener {
-		private ColorObjectModel model;
-		private FlowPanel mainPanel;
-		private ColorChooserW colorChooserW;
+		private final ColorObjectModel model;
+		private final FlowPanel mainPanel;
+		private final ColorChooserW colorChooserW;
 		private GColor selectedColor;
-		private InlineTextFormatter inlineTextFormatter;
+		private final InlineTextFormatter inlineTextFormatter;
 
 		/**
 		 * @param model0
@@ -487,11 +486,7 @@ public class OptionsTab extends FlowPanel {
 
 			GColor selectedBGColor = null;
 			double alpha = 1;
-			if (geo0.isGeoImage()) {
-				colorChooserW.enableColorPanel(false);
-			} else {
-				colorChooserW.enableColorPanel(true);
-			}
+			colorChooserW.enableColorPanel(!geo0.isGeoImage());
 
 			selectedColor = null;
 			if (equalObjColorBackground) {
@@ -746,6 +741,59 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
+	private static class VectorHeadStylePanel extends OptionPanel
+			implements IComboListener {
+		Label styleLbl;
+		PopupMenuButtonW stylePopup;
+		AppW app;
+
+		public VectorHeadStylePanel(VectorHeadStyleModel model, AppW app) {
+			this.app = app;
+			model.setListener(this);
+			setModel(model);
+
+			FlowPanel mainWidget = new FlowPanel();
+			styleLbl = new Label();
+			mainWidget.add(styleLbl);
+
+			stylePopup = new PopupMenuButtonW(app, GeoGebraIconW.createVectorHeadStyleIcons(),
+					-1, 1, SelectionTable.MODE_ICON) {
+				@Override
+				public void handlePopupActionEvent() {
+					super.handlePopupActionEvent();
+					int idx = getSelectedIndex();
+					model.applyChanges(idx);
+				}
+			};
+			stylePopup.setKeepVisible(false);
+			mainWidget.add(stylePopup);
+			setWidget(mainWidget);
+			mainWidget.setStyleName("optionsPanel");
+			mainWidget.addStyleName("inlineOption");
+			setLabels();
+		}
+
+		@Override
+		public void setLabels() {
+			styleLbl.setText(app.getLocalization().getMenu("Properties.Style") + ":");
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			stylePopup.setSelectedIndex(index);
+		}
+
+		@Override
+		public void addItem(String plain) {
+			// do nothing
+		}
+
+		@Override
+		public void clearItems() {
+			// do nothing
+		}
+	}
+
 	private static class DecoSegmentPanel extends DecoOptionPanel {
 		DecoSegmentModel model;
 
@@ -767,7 +815,7 @@ public class OptionsTab extends FlowPanel {
 	private class PointSizePanel extends OptionPanel implements ISliderListener {
 		PointSizeModel model;
 		SliderPanel slider;
-		private Label titleLabel;
+		private final Label titleLabel;
 
 		public PointSizePanel(PointSizeModel model0) {
 			model = model0;
@@ -785,7 +833,8 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
+			slider.addInputHandler(event -> model.applyChangesNoUndo(slider.getValue()));
+			slider.addValueChangeHandler(event -> model.storeUndoInfo());
 		}
 
 		@Override
@@ -801,9 +850,9 @@ public class OptionsTab extends FlowPanel {
 	}
 
 	private class PointStylePanel extends OptionPanel implements IComboListener {
-		private PointStyleModel model;
-		private Label titleLabel;
-		private PointStylePopup btnPointStyle;
+		private final PointStyleModel model;
+		private final Label titleLabel;
+		private final PointStylePopup btnPointStyle;
 
 		public PointStylePanel(PointStyleModel model0, AppW app) {
 			model = model0;
@@ -850,15 +899,15 @@ public class OptionsTab extends FlowPanel {
 			ILineStyleListener {
 
 		LineStyleModel model;
-		private Label thicknessSliderLabel;
+		private final Label thicknessSliderLabel;
 		SliderPanel thicknessSlider;
-		private Label opacitySliderLabel;
+		private final Label opacitySliderLabel;
 		SliderPanel opacitySlider;
-		private Label popupLabel;
-		private Label styleHiddenLabel;
+		private final Label popupLabel;
+		private final Label styleHiddenLabel;
 		LineStylePopup btnLineStyle;
-		private FlowPanel stylePanel;
-		private FlowPanel styleHiddenPanel;
+		private final FlowPanel stylePanel;
+		private final FlowPanel styleHiddenPanel;
 		ListBox styleHiddenList;
 
 		public LineStylePanel(LineStyleModel model0, AppW app) {
@@ -882,8 +931,9 @@ public class OptionsTab extends FlowPanel {
 			// slider.setSnapToTicks(true);
 			lineThicknessPanel.add(thicknessSlider);
 
-			thicknessSlider.addChangeHandler(
+			thicknessSlider.addInputHandler(
 					event -> model.applyThickness(thicknessSlider.getValue()));
+			thicknessSlider.addValueChangeHandler(val -> model.storeUndoInfo());
 			opacitySliderLabel = new Label();
 
 			FlowPanel lineOpacityPanel = new FlowPanel();
@@ -896,10 +946,11 @@ public class OptionsTab extends FlowPanel {
 			// opacitySlider.setSnapToTicks(true);
 			lineOpacityPanel.add(opacitySlider);
 
-			opacitySlider.addChangeHandler(event -> {
+			opacitySlider.addInputHandler(event -> {
 				int value = (int) ((opacitySlider.getValue() / 100.0) * 255);
 				model.applyOpacity(value);
 			});
+			opacitySlider.addValueChangeHandler(val -> model.storeUndoInfo());
 
 			stylePanel = new FlowPanel();
 			stylePanel.setStyleName("optionsPanel");
@@ -988,7 +1039,7 @@ public class OptionsTab extends FlowPanel {
 			ISliderListener {
 		AngleArcSizeModel model;
 		SliderPanel slider;
-		private Label titleLabel;
+		private final Label titleLabel;
 
 		public AngleArcSizePanel(AngleArcSizeModel model0) {
 			model = model0;
@@ -1005,7 +1056,8 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
+			slider.addInputHandler(model::applyChanges);
+			slider.addValueChangeHandler(event -> model.storeUndoInfo());
 		}
 
 		@Override
@@ -1023,7 +1075,7 @@ public class OptionsTab extends FlowPanel {
 			ISliderListener {
 		SlopeTriangleSizeModel model;
 		SliderPanel slider;
-		private Label titleLabel;
+		private final Label titleLabel;
 
 		public SlopeTriangleSizePanel(SlopeTriangleSizeModel model0) {
 			model = model0;
@@ -1040,7 +1092,8 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
+			slider.addInputHandler(event -> model.applyChangesNoUndo(slider.getValue()));
+			slider.addValueChangeHandler(val -> model.storeUndoInfo());
 		}
 
 		@Override
@@ -1059,18 +1112,21 @@ public class OptionsTab extends FlowPanel {
 			ITextFieldListener {
 
 		private final LocalizationW loc;
+		private final boolean inline;
 		TextPropertyModel model;
-		private InputPanelW inputPanel;
+		private final InputPanelW inputPanel;
 		AutoCompleteTextFieldW textField;
 		Label label;
 
 		/**
 		 * @param model0 model
 		 * @param app application
+		 * @param inline whether label and input are on single line
 		 */
-		public TextPropertyPanel(TextPropertyModel model0, AppW app) {
+		public TextPropertyPanel(TextPropertyModel model0, AppW app, boolean inline) {
 			model = model0;
 			model.setListener(this);
+			this.inline = inline;
 			this.loc = app.getLocalization();
 			setModel(model);
 
@@ -1085,10 +1141,14 @@ public class OptionsTab extends FlowPanel {
 					model.applyChanges(textField.getText());
 				}
 			});
-			mainPanel.add(LayoutUtilW.panelRow(label, inputPanel));
-			mainPanel.setStyleName("optionsPanel");
+			if (inline) {
+				mainPanel.add(LayoutUtilW.panelRow(label, inputPanel));
+			} else {
+				mainPanel.add(label);
+				mainPanel.add(inputPanel);
+			}
+			mainPanel.setStyleName(inline ? "optionsPanel" : "optionsInput");
 			setWidget(mainPanel);
-
 		}
 
 		@Override
@@ -1098,7 +1158,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			label.setText(loc.getMenu(model.getTitle()) + ":");
+			label.setText(loc.getMenu(model.getTitle()) + (inline ? ":" : ""));
 		}
 
 	}
@@ -1108,16 +1168,16 @@ public class OptionsTab extends FlowPanel {
 	 */
 	public class ButtonSizePanel extends OptionPanel implements
 			IButtonSizeListener {
-		private InputPanelW ipButtonWidth;
-		private InputPanelW ipButtonHeight;
-		private AutoCompleteTextFieldW tfButtonWidth;
-		private AutoCompleteTextFieldW tfButtonHeight;
-		private ComponentCheckbox cbUseFixedSize;
-		private Label labelWidth;
-		private Label labelHeight;
-		private Label labelPixelW;
-		private Label labelPixelH;
-		private ButtonSizeModel model;
+		private final InputPanelW ipButtonWidth;
+		private final InputPanelW ipButtonHeight;
+		private final AutoCompleteTextFieldW tfButtonWidth;
+		private final AutoCompleteTextFieldW tfButtonHeight;
+		private final ComponentCheckbox cbUseFixedSize;
+		private final Label labelWidth;
+		private final Label labelHeight;
+		private final Label labelPixelW;
+		private final Label labelPixelH;
+		private final ButtonSizeModel model;
 
 		/**
 		 * @param model0
@@ -1234,10 +1294,10 @@ public class OptionsTab extends FlowPanel {
 	 * level of detail panel
 	 */
 	class LodPanel extends OptionPanel implements IComboListener {
-		private LodModel model;
-		private FlowPanel mainWidget;
-		private Label label;
-		private ListBox combo;
+		private final LodModel model;
+		private final FlowPanel mainWidget;
+		private final Label label;
+		private final ListBox combo;
 
 		/**
 		 * @param model0
@@ -1369,10 +1429,10 @@ public class OptionsTab extends FlowPanel {
 	 */
 	static class CornerPointsPanel extends OptionPanel {
 
-		private ImageCorner corner1;
-		private ImageCorner corner2;
-		private ImageCorner corner4;
-		private ImageCenter center;
+		private final ImageCorner corner1;
+		private final ImageCorner corner2;
+		private final ImageCorner corner4;
+		private final ImageCenter center;
 
 		/**
 		 * @param model
@@ -1428,7 +1488,7 @@ public class OptionsTab extends FlowPanel {
 
 	private class StartPointPanel extends ComboBoxPanel {
 
-		private Kernel kernel;
+		private final Kernel kernel;
 
 		public StartPointPanel(StartPointModel model, AppW app) {
 			super(app, "StartingPoint");
@@ -1510,7 +1570,7 @@ public class OptionsTab extends FlowPanel {
 
 	private static class CenterImagePanel extends CheckboxPanel {
 
-		private OptionsTab tab;
+		private final OptionsTab tab;
 		CenterImageModel model;
 
 		public CenterImagePanel(CenterImageModel model, AppW app, OptionsTab tab) {

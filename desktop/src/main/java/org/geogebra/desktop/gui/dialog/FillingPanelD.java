@@ -54,6 +54,7 @@ import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
+import org.geogebra.desktop.gui.util.SliderUtil;
 import org.geogebra.desktop.gui.view.spreadsheet.MyTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -294,22 +295,27 @@ class FillingPanelD extends JPanel
 		imgFileNameList = new ArrayList<>();
 
 		imgFileNameList.add(null); // for delete
-		imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
 		imgFileNameList.add(GuiResourcesD.FILLING_PLAY);
+		imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
 		imgFileNameList.add(GuiResourcesD.FILLING_STOP);
-		imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
-		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
+		imgFileNameList.add(GuiResourcesD.FILLING_FAST_REWIND);
+		imgFileNameList.add(GuiResourcesD.FILLING_FAST_FORWARD);
 		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_PREVIOUS);
+		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
 		imgFileNameList.add(GuiResourcesD.FILLING_LOOP);
-		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
-		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_OUT);
-		imgFileNameList.add(GuiResourcesD.FILLING_CLOSE);
+		imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
+		imgFileNameList.add(GuiResourcesD.UNDO);
+		imgFileNameList.add(GuiResourcesD.REDO);
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_UP);
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_DOWN);
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_BACK);
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_FORWARD);
-		imgFileNameList.add(GuiResourcesD.FILLING_FAST_FORWARD);
-		imgFileNameList.add(GuiResourcesD.FILLING_FAST_REWIND);
+		imgFileNameList.add(GuiResourcesD.REMOVE);
+		imgFileNameList.add(GuiResourcesD.ADD);
+		imgFileNameList.add(GuiResourcesD.CHECK_MARK);
+		imgFileNameList.add(GuiResourcesD.FILLING_CLOSE);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_OUT);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
 		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_TO_FIT);
 		imgFileNameList.add(GuiResourcesD.FILLING_CENTER_VIEW);
 		imgFileNameList.add(GuiResourcesD.FILLING_HELP);
@@ -493,8 +499,11 @@ class FillingPanelD extends JPanel
 		cbFillType.addActionListener(this);
 		cbFillInverse.addActionListener(this);
 		opacitySlider.addChangeListener(this);
+		SliderUtil.addValueChangeListener(opacitySlider, val -> model.storeUndoInfo());
 		angleSlider.addChangeListener(this);
+		SliderUtil.addValueChangeListener(angleSlider, val -> model.storeUndoInfo());
 		distanceSlider.addChangeListener(this);
+		SliderUtil.addValueChangeListener(distanceSlider, val -> model.storeUndoInfo());
 
 		if (model.hasGeoButton()) {
 			int index = 0;
@@ -545,11 +554,8 @@ class FillingPanelD extends JPanel
 			app.getKernel().notifyRepaint();
 			return;
 		}
-		if (!angleSlider.getValueIsAdjusting()
-				&& !distanceSlider.getValueIsAdjusting()) {
-			model.applyAngleAndDistance(angleSlider.getValue(),
-					distanceSlider.getValue());
-		}
+		model.applyAngleAndDistance(angleSlider.getValue(),
+				distanceSlider.getValue());
 	}
 
 	/**

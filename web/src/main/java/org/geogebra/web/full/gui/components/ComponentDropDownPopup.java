@@ -51,6 +51,13 @@ public class ComponentDropDownPopup {
 	}
 
 	/**
+	 * add divider
+	 */
+	public void addDivider() {
+		menu.addVerticalSeparator();
+	}
+
+	/**
 	 * @param element
 	 *            element where clicks should not collapse the selection
 	 */
@@ -99,8 +106,8 @@ public class ComponentDropDownPopup {
 			menu.showAtPoint(getLeft(), popupTopWithMargin);
 			if (appBottom < popupTopWithMargin + getPopupHeight()) {
 				// popup bottom overflow, use available space and make scrollable
-				setHeightInPx(
-						appBottom - popupTopWithMargin - MARGIN_FROM_SCREEN - 2 * POPUP_PADDING);
+				setHeightInPx((int) (appBottom - popupTopWithMargin - MARGIN_FROM_SCREEN
+										- 2 * POPUP_PADDING - app.getAbsTop()));
 				if (popupTop < MARGIN_FROM_SCREEN) {
 					// selected item not on screen, scroll popup
 					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
@@ -116,31 +123,33 @@ public class ComponentDropDownPopup {
 	 * on top of the anchor otherwise.
 	 */
 	public void positionAsComboBox() {
-		int spaceBottom = (int) (app.getHeight()
-				- anchor.getElement().getAbsoluteBottom());
-		int spaceTop = anchor.getElement().getAbsoluteTop() - MARGIN_FROM_SCREEN;
+		int anchorBottom = (int) (anchor.getElement().getAbsoluteBottom() - app.getAbsTop());
+		int spaceBottom = (int) (app.getHeight() - anchorBottom);
+		int spaceTop = (int) (anchor.getElement().getAbsoluteTop() - app.getAbsTop()
+				- MARGIN_FROM_SCREEN);
 		int minSpaceBottom = 3 * getItemHeight() + MARGIN_FROM_SCREEN + POPUP_PADDING;
 		int popupHeight = getPopupHeight();
 
 		if (spaceBottom < minSpaceBottom) {
 			showAtTopOfAnchor(popupHeight, spaceTop);
 		} else {
-			showAtBottomOfAnchor(popupHeight, spaceBottom);
+			showAtBottomOfAnchor(popupHeight, anchorBottom);
 		}
 	}
 
 	private void showAtTopOfAnchor(int popupHeight, int spaceTop) {
-		int popupTop = popupHeight > spaceTop ? (int) app.getAbsTop() + MARGIN_FROM_SCREEN
-				: anchor.asWidget().getAbsoluteTop() - popupHeight;
-		showAtPoint(anchor.getAbsoluteLeft(), popupTop);
+		int popupTop = popupHeight > spaceTop ? MARGIN_FROM_SCREEN
+				: (int) (anchor.asWidget().getAbsoluteTop() - app.getAbsTop() - popupHeight);
+		showAtPoint(getLeft(), popupTop);
 
 		if (popupHeight > spaceTop) {
 			setHeightAndScrollTop(spaceTop);
 		}
 	}
 
-	private void showAtBottomOfAnchor(int popupHeight, int spaceBottom) {
-		showAtPoint(anchor.getAbsoluteLeft(), anchor.getElement().getAbsoluteBottom());
+	private void showAtBottomOfAnchor(int popupHeight, int bottomPos) {
+		showAtPoint(getLeft(), bottomPos);
+		int spaceBottom = (int) (app.getHeight() - bottomPos);
 		if (popupHeight > spaceBottom) {
 			setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
 		}

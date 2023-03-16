@@ -1,23 +1,23 @@
 package org.geogebra.web.full.gui.browser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
-import org.geogebra.common.move.ggtapi.operations.BackendAPI;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.SaveControllerW;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ggtapi.BackendAPIFactory;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 /**
@@ -49,6 +49,8 @@ public class MaterialCardController implements OpenFileListener {
 		app.getViewW().processFileName(material.getFileName());
 		updateActiveMaterial();
 		app.getGuiManager().getBrowseView().close();
+		((GeoGebraFrameFull) app.getAppletFrame())
+				.updateUndoRedoButtonVisibility(!material.isMultiuser());
 	}
 
 	private void updateActiveMaterial() {
@@ -88,18 +90,12 @@ public class MaterialCardController implements OpenFileListener {
 
 		final long synced = getMaterial().getSyncStamp();
 
-		BackendAPI api;
-		if (getMaterial().getType() == MaterialType.ggsTemplate) {
-			api = new BackendAPIFactory(app).newMaterialRestAPI();
-			api.setClient(app.getClientInfo());
-		} else {
-			api = app.getLoginOperation().getGeoGebraTubeAPI();
-		}
+		MaterialRestAPI api = app.getLoginOperation().getResourcesAPI();
 
 		api.getItem(getMaterial().getSharingKeyOrId(), new MaterialCallback() {
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
-								 ArrayList<Chapter> meta) {
+								 Pagination meta) {
 				if (parseResponse.size() == 1) {
 					setMaterial(parseResponse.get(0));
 					getMaterial().setSyncStamp(synced);
@@ -124,14 +120,8 @@ public class MaterialCardController implements OpenFileListener {
 	private void loadMaterial() {
 		if (getMaterial().getType() == MaterialType.csv) {
 			app.openCSV(Browser.decodeBase64(getMaterial().getBase64()));
-		} else if (getMaterial().getType() == MaterialType.ggsTemplate) {
-			if (app.isMebis()) {
-				app.getViewW().processFileName(material.getFileName());
-			} else {
-				app.getViewW().processFileName(material.getURL());
-			}
 		} else {
-			app.getGgbApi().setBase64(getMaterial().getBase64());
+			app.getViewW().processFileName(material.getFileName());
 		}
 	}
 
@@ -147,17 +137,18 @@ public class MaterialCardController implements OpenFileListener {
 		final Material toDelete = this.getMaterial();
 
 		if (app.getNetworkOperation().isOnline() && onlineFile(toDelete)) {
-			app.getLoginOperation().getGeoGebraTubeAPI()
+			app.getLoginOperation().getResourcesAPI()
 					.deleteMaterial(toDelete, new MaterialCallback() {
 
 						@Override
 						public void onLoaded(List<Material> parseResponse,
-								ArrayList<Chapter> meta) {
-							Log.debug("DELETE local");
+								Pagination meta) {
 							card.remove();
 							MaterialCardController.this.app.getFileManager()
 									.delete(toDelete, true,
 											MaterialCardController.this.deleteCallback);
+							showSnackbar(app.getLocalization().getPlain(
+									"ContextMenu.ConfirmDeleteA", toDelete.getTitle()));
 							if (toDelete.isMultiuser()) {
 								app.getShareController()
 										.terminateMultiuser(toDelete, null);
@@ -166,12 +157,11 @@ public class MaterialCardController implements OpenFileListener {
 
 						@Override
 						public void onError(Throwable exception) {
-							Log.debug("DELETE backup");
 							MaterialCardController.this.app.getFileManager()
 									.delete(toDelete, false,
 											MaterialCardController.this.deleteCallback);
 							card.setVisible(true);
-							app.showError(Errors.DeleteFailed);
+							showSnackbar(app.getLocalization().getMenu("ContextMenu.DeleteError"));
 						}
 					});
 		} else {
@@ -179,7 +169,10 @@ public class MaterialCardController implements OpenFileListener {
 			this.app.getFileManager().delete(toDelete, toDelete.getId() <= 0,
 					this.deleteCallback);
 		}
+	}
 
+	private void showSnackbar(String message) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(message, app);
 	}
 
 	private static boolean onlineFile(Material toDelete) {
@@ -206,20 +199,20 @@ public class MaterialCardController implements OpenFileListener {
 	 * @param oldTitle
 	 *            old title
 	 */
-	public void rename(final String text, final MaterialCardI card,
+	public void rename(final String text, final MaterialCard card,
 			final String oldTitle) {
 		if (app.getNetworkOperation().isOnline()
 				&& onlineFile(getMaterial())) {
 
 			this.getMaterial().setTitle(text);
-			app.getLoginOperation().getGeoGebraTubeAPI()
+			app.getLoginOperation().getResourcesAPI()
 					.uploadRenameMaterial(this.getMaterial(),
 							new MaterialCallback() {
 
 								@Override
 								public void onLoaded(
 										List<Material> parseResponse,
-										ArrayList<Chapter> meta) {
+										Pagination meta) {
 									if (parseResponse.size() != 1) {
 										app.showError(Errors.RenameFailed);
 										card.rename(oldTitle);
@@ -246,7 +239,6 @@ public class MaterialCardController implements OpenFileListener {
 							getMaterial().getSyncStamp() + 1));
 			this.app.getFileManager().rename(text, this.getMaterial());
 		}
-
 	}
 
 	/**
@@ -256,13 +248,13 @@ public class MaterialCardController implements OpenFileListener {
 		if (app.getNetworkOperation().isOnline()
 				&& onlineFile(getMaterial())) {
 
-			app.getLoginOperation().getGeoGebraTubeAPI().copy(getMaterial(),
+			app.getLoginOperation().getResourcesAPI().copy(getMaterial(),
 					MaterialRestAPI.getCopyTitle(app.getLocalization(),
 							material.getTitle()),
 					new MaterialCallback() {
 						@Override
 						public void onLoaded(List<Material> parseResponse,
-								ArrayList<Chapter> meta) {
+								Pagination meta) {
 							if (parseResponse.size() == 1) {
 								app.getGuiManager().getBrowseView()
 									.addMaterial(parseResponse.get(0));

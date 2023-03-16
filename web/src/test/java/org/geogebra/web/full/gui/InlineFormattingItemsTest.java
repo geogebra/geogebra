@@ -36,7 +36,7 @@ public class InlineFormattingItemsTest {
 
 	@Before
 	public void setUp() {
-		app = AppMocker.mockNotes(getClass());
+		app = AppMocker.mockNotes();
 		construction = app.getKernel().getConstruction();
 		point = new GPoint2D(0, 0);
 		controllerMockWithLink = new InlineTextControllerMock(LINK_URL);

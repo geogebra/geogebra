@@ -3,6 +3,8 @@ package org.geogebra.common.util;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -66,6 +68,14 @@ public class SymbolicUtil {
 		return !GeoFunction.isUndefined(valueString);
 	}
 
+	/**
+	 * @param symbolic GeoSymbolic input
+	 * @return true if the value of the symbolic is defined
+	 */
+	public static boolean isValueDefined(GeoSymbolic symbolic) {
+		return isDefined(getValueString(symbolic));
+	}
+
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
 		GeoSymbolic opposite = new GeoSymbolic(symbolic.getConstruction());
 		opposite.setDefinition(symbolic.getDefinition().deepCopy(symbolic.getKernel()));
@@ -84,7 +94,7 @@ public class SymbolicUtil {
 	 */
 	public static void handleSolveNSolve(GeoSymbolic symbolic) {
 		if (isSolve(symbolic)) {
-			if (!isDefined(getValueString(symbolic))
+			if (!isValueDefined(symbolic)
 					&& isDefined(getOppositeValueString(symbolic))) {
 				toggleNumericSolve(symbolic);
 				if (Commands.Solve.name()
@@ -93,7 +103,7 @@ public class SymbolicUtil {
 				}
 			}
 
-			if (isDefined(getValueString(symbolic))
+			if (isValueDefined(symbolic)
 					&& !isDefined(getOppositeValueString(symbolic))) {
 				if (Commands.Solve.name()
 						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
@@ -152,8 +162,8 @@ public class SymbolicUtil {
 			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
 				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
 			}
-			((HasSymbolicMode) geo).setSymbolicMode(
-					!((HasSymbolicMode) geo).isSymbolicMode(), true);
+			HasSymbolicMode hasSymbolicGeo = (HasSymbolicMode) geo;
+			hasSymbolicGeo.setSymbolicMode(!hasSymbolicGeo.isSymbolicMode(), true);
 
 			if (geo instanceof GeoSymbolic) {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
@@ -168,8 +178,26 @@ public class SymbolicUtil {
 			}
 
 			geo.updateRepaint();
-			return ((HasSymbolicMode) geo).isSymbolicMode();
+			return hasSymbolicGeo.isSymbolicMode();
 
+		}
+		return false;
+	}
+
+	/**
+	 * @param expression to be checked
+	 * @return true if numeric approximation should be calculated
+	 */
+	public static boolean shouldComputeNumericValue(ExpressionValue expression) {
+		if (expression != null && expression.isNumberValue()) {
+			ExpressionValue unwrapped = expression.unwrap();
+			if (expression.wrap().containsGeoDummyVariable()) {
+				return false;
+			}
+			if (unwrapped instanceof NumberValue) {
+				return ((NumberValue) unwrapped).isDefined();
+			}
+			return true;
 		}
 		return false;
 	}

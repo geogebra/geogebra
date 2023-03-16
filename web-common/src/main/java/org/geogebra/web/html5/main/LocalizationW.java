@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.MissingResourceException;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -336,12 +335,6 @@ public final class LocalizationW extends Localization {
 			obj.set(lang0, GeoGebraGlobal.__GGB__keysVar.get(lang0));
 			BrowserStorage.LOCAL.setItem("translation", Global.JSON.stringify(obj));
 		}
-	}
-
-	@Override
-	protected ArrayList<Locale> getSupportedLocales() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**

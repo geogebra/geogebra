@@ -71,7 +71,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		Translateable, PointRotateable, Mirrorable, Dilateable,
 		MatrixTransformable, Transformable, GeoVectorND, SpreadsheetTraceable,
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasHeadStyle {
 
 	private GeoPointND startPoint;
 
@@ -79,11 +79,13 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	private GeoSegment pathSegment;
 	private GeoPoint pathStartPoint;
 	private GeoPoint pathEndPoint;
+
+	private VectorHeadStyle headStyle = VectorHeadStyle.DEFAULT;
 	private boolean waitingForStartPoint = false;
 	private HashSet<GeoPointND> waitingPointSet;
 
-	private StringBuilder sbToString = new StringBuilder(50);
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
+	private final StringBuilder sbToString = new StringBuilder(50);
+	private final StringBuilder sbBuildValueString = new StringBuilder(50);
 	private StringBuilder sb;
 	private @CheckForNull VectorToMatrix converter;
 
@@ -189,7 +191,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 		try {
 			if (vec.startPoint != null) {
-				if (vec.hasAbsoluteLocation()) {
+				if (vec.hasStaticLocation()) {
 					// create new location point
 					setStartPoint(vec.startPoint.copy());
 				} else {
@@ -251,18 +253,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	public GeoPointND[] getStartPoints() {
-		if (startPoint == null) {
-			return null;
-		}
-
-		GeoPointND[] ret = new GeoPointND[1];
-		ret[0] = startPoint;
-		return ret;
-	}
-
-	@Override
-	public boolean hasAbsoluteLocation() {
+	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
@@ -599,10 +590,20 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			xmlsb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
 
+		if (getHeadStyle() != VectorHeadStyle.DEFAULT) {
+			getHeadStyleXML(xmlsb);
+		}
+
 		// startPoint of vector
 		if (startPoint != null) {
-			startPoint.appendStartPointXML(xmlsb);
+			startPoint.appendStartPointXML(xmlsb, false);
 		}
+	}
+
+	private void getHeadStyleXML(StringBuilder xmlsb) {
+		xmlsb.append("\t<headStyle val=\"");
+		xmlsb.append(getHeadStyle().ordinal());
+		xmlsb.append("\"/>");
 	}
 
 	@Override
@@ -1088,7 +1089,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 		boolean movedGeo = false;
 
-		final GeoVector vector = (GeoVector) this;
+		final GeoVector vector = this;
 		if (endPosition != null) {
 			vector.setCoords(endPosition.getX(), endPosition.getY(), 0);
 			movedGeo = true;
@@ -1113,5 +1114,15 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		}
 
 		return movedGeo;
+	}
+
+	@Override
+	public VectorHeadStyle getHeadStyle() {
+		return headStyle;
+	}
+
+	@Override
+	public void setHeadStyle(VectorHeadStyle headStyle) {
+		this.headStyle = headStyle;
 	}
 }
