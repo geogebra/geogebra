@@ -41,6 +41,7 @@ public class EditorEntry implements EntryPoint {
 			EditorListener listener = new EditorListener();
 
 			MathFieldW mf = initMathField(el, listener);
+			mf.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
 			TabbedKeyboard tabbedKeyboard = initKeyboard(mf, el);
 			StyleInjector.onStylesLoaded(tabbedKeyboard::show);
 			EditorApi editorApi = new EditorApi(mf, tabbedKeyboard, listener);
