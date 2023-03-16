@@ -111,7 +111,7 @@ public class TeXBuilder {
 				ra.add(tmp);
 				continue;
 			} else if (argument1 instanceof MathCharPlaceholder) {
-				Atom box = getCharPlaceholder(argument1);
+				Atom box = getCharPlaceholder(argument1.getParentIndex());
 				atomToComponent.put(box, argument1);
 				ra.add(box);
 				continue;
@@ -135,8 +135,7 @@ public class TeXBuilder {
 		return ra;
 	}
 
-	private Atom getCharPlaceholder(MathComponent argument1) {
-		int index = argument1.getParentIndex();
+	private Atom getCharPlaceholder(int index) {
 		return index == currentOffset
 				? getInvisiblePlaceholder()
 				: getPlaceholderBox(CHAR_PLACEHOLDER_Y_SCALE);
@@ -218,6 +217,8 @@ public class TeXBuilder {
 			ret = buildFunction((MathFunction) argument);
 		} else if (argument instanceof MathArray) {
 			ret = buildArray((MathArray) argument);
+		} else if (argument instanceof MathCharPlaceholder) {
+			ret = getCharPlaceholder(argument.getParentIndex());
 		} else if (argument instanceof MathPlaceholder) {
 			ret = buildPlaceholder((MathPlaceholder) argument);
 		} else if (argument instanceof MathSequence) {
