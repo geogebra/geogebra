@@ -197,6 +197,7 @@ public class IntervalMiscTest {
 		Interval multiply = evaluator.multiply(zero(), inverse);
 		assertEquals(zero(), multiply);
 	}
+
 	@Test
 	public void lnInverseMultiplyZeroAroundOneShouldBeZero() {
 		Interval x = interval(1.0, 1.015625);
