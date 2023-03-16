@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -25,6 +27,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
@@ -430,8 +433,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setBackground(GColor color) {
-		main.getElement().getStyle()
-				.setBackgroundColor(GColor.getColorString(color));
+		if (!hasError()) {
+			main.getElement().getStyle()
+					.setBackgroundColor(GColor.getColorString(color));
+			main.getElement().getStyle().setBorderColor(drawTextField.getBorderColor() != null
+					? drawTextField.getBorderColor().toString() : GColor.DEFAULT_PURPLE.toString());
+		} else {
+			main.getElement().getStyle().clearBackgroundColor();
+			main.getElement().getStyle().clearBorderColor();
+		}
 	}
 
 	@Override
@@ -1436,6 +1446,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				: GColor.getBorderColorFrom(backgroundColor);
 		g2.setColor(borderColor);
 		setTextFieldBorderColor(backgroundColor, borderColor);
+		if (drawTextField.hasError()) {
+			g2.setStroke(EuclidianStatic.getStroke(2,
+					EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT, GBasicStroke.JOIN_ROUND));
+		}
 
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}

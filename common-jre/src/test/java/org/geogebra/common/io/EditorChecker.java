@@ -245,9 +245,4 @@ class EditorChecker {
 	public void setAllowAbs(boolean allowAbs) {
 		mathField.getInternal().setAllowAbs(allowAbs);
 	}
-
-	public EditorChecker click(int x, int y) {
-		mathField.getInternal().onPointerUp(x, y);
-		return this;
-	}
 }
