@@ -8,6 +8,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.gui.MyImageJre;
@@ -17,6 +18,7 @@ import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
+import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -34,11 +36,11 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
-import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.main.undo.UndoManagerD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
@@ -66,7 +68,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	 * @param silent
 	 *            whether to mute logging
 	 */
-	public AppDNoGui(LocalizationD loc, boolean silent) {
+	public AppDNoGui(LocalizationJre loc, boolean silent) {
 		super(loc, new AwtFactoryD());
 		String prop = System.getProperty("ggb.prerelease");
 		prerelease = !"false".equals(prop);
@@ -124,6 +126,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	@Override
 	public DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
+			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
 			drawEquation = new DrawEquationD();
 		}
 		return drawEquation;
