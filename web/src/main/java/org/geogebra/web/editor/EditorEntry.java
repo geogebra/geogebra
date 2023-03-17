@@ -41,7 +41,6 @@ public class EditorEntry implements EntryPoint {
 			EditorListener listener = new EditorListener();
 
 			MathFieldW mf = initMathField(el, listener);
-			mf.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
 			TabbedKeyboard tabbedKeyboard = initKeyboard(mf, el);
 			StyleInjector.onStylesLoaded(tabbedKeyboard::show);
 			EditorApi editorApi = new EditorApi(mf, tabbedKeyboard, listener);
@@ -71,7 +70,6 @@ public class EditorEntry implements EntryPoint {
 		keyboardWrapper.setStyleName("GeoGebraFrame");
 		keyboardWrapper.add(tabbedKeyboard);
 		RootPanel.get().add(keyboardWrapper);
-		mf.requestViewFocus();
 		tabbedKeyboard.setProcessing(new MathFieldProcessing(mf));
 		tabbedKeyboard.clearAndUpdate();
 		DomGlobal.window.addEventListener("resize", evt -> tabbedKeyboard.onResize());
@@ -84,6 +82,7 @@ public class EditorEntry implements EntryPoint {
 		wrapper.setWidth("100%");
 		wrapper.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		MathFieldW mf = new MathFieldW(null, wrapper, canvas, listener);
+		mf.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
 		String backgroundColor = el.getAttribute("data-param-editorbackgroundcolor");
 		if (!"".equals(backgroundColor)) {
 			mf.setBackgroundColor(backgroundColor);
@@ -93,13 +92,29 @@ public class EditorEntry implements EntryPoint {
 			mf.setForegroundColor(foregroundColor);
 		}
 		mf.setFontSize(toDouble(el.getAttribute("data-param-fontsize"), 16.0));
+
+		if (isTrue(el, "data-param-textmode")) {
+			mf.setPlainTextMode(true);
+		}
+
 		listener.setMathField(mf);
 		mf.parse("");
 		wrapper.add(mf);
+		if (isFalse(el, "data-param-preventfocus")) {
+			mf.requestViewFocus();
+		}
 		RootPanel rootPanel = newRoot(el);
 		rootPanel.add(wrapper);
 		rootPanel.addDomHandler(evt -> mf.requestViewFocus(), ClickEvent.getType());
 		return mf;
+	}
+
+	private boolean isFalse(Element el, String attribute) {
+		return !isTrue(el, attribute);
+	}
+
+	private boolean isTrue(Element el, String attribute) {
+		return "true".equals(el.getAttribute(attribute));
 	}
 
 	private double toDouble(String attribute, double fallback) {
