@@ -567,17 +567,4 @@ public class EditorState {
 		MathContainer parent = currentField.getParent();
 		return parent != null && parent.hasTag(Tag.FRAC);
 	}
-
-	/**
-	 * Select the topmost ancestor that's not root or root's child.
-	 */
-	public void selectUpToRootComponent() {
-		while (currentSelStart != null && currentSelStart.getParent() != null
-				&& currentSelStart.getParent().getParent() != getRootComponent()) {
-			anchor(true);
-			currentSelStart = currentSelStart.getParent();
-		}
-
-		setSelectionEnd(currentSelStart);
-	}
 }

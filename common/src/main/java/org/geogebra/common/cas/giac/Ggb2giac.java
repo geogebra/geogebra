@@ -1304,54 +1304,10 @@ public class Ggb2giac {
 						+ "(assume(%2),solve(%0,%1))[size(assume(%2),solve(%0,%1))-1],?)");
 
 		p("PlotSolve.1", pointList.replace("%0", root1));
-		p("SolveODE.1",
-				"[[solveodeans:=?],[solveodeans:=when((%0)[0]==equal,"
-						// case the equation contains only y and other variable
-						// as x,by default use for variable list y,x
-						// #5099
-						+ "when(size(lname(%0) intersect [x])==0&&size(lname(%0) intersect [y])==1&&size(lname(%0) minus [y])>0,normal(map(desolve(%0,x,y),x->y=x)),normal(map(desolve(%0),x->y=x)))"
-						+ ","
-						// add y'= if it's missing
-						+ "normal(map(desolve(y'=%0),x->y=x))" + ")],when(length(solveodeans)==1,solveodeans[0],solveodeans)][2]");
 
 
-		// goes through 1 point
-		// SolveODE[y''=x,(1,1)]
-		// goes through 1 point,y'= missing
-		// SolveODE[x,(1,1)]
-		// goes through 2 points
-		// SolveODE[y''=x,{(1,1),(2,2)}]
-		// can't do [solveodearg0:=%0] as y' is immediately simplified to 1
-		p("SolveODE.2", "" + "normal(y=when(type(%1)==DOM_LIST," +
-		// list of 2 points
-				"desolve([%0,y(xcoord(%1[0]))=ycoord(%1[0]),y(xcoord(%1[1]))=ycoord(%1[1])],x,y)"
-				+ "," +
-				// one point
-				"desolve(when((%0)[0]==equal,%0,y'=%0),x,y,%1)" + ")" + ""
-				+ "[0])");
 
-		// used by AlgoSolveODECAS.java
-		p("SolveODEPoint.2", ""
-				+ "[[odeans:=desolve(y'=%0,x,y,%1)],when(size(odeans)==0,?,when(size(odeans)==1,normal(y=odeans[0]),"
-				+ "[[diff0:=evalf(subst(odeans,{x=xcoord(%1),y=ycoord(%1)}))],"
-				// compare 2 solutions, pick one closest to point
-				// note: both could go through, pick just one
-				+ "when(abs(diff0[0]-ycoord(%1))<abs(diff0[1]-ycoord(%1)),normal(y=odeans[0]),normal(y=odeans[1]))"
-				+ "][-1]))][-1]");
-
-		p("SolveODE.3",
-				"when((%0)[0]==equal,"
-						+ "normal(map(desolve(%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
-						+ ","
-						// add y'= if it's missing
-						+ "normal(map(desolve(y'=%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
-						+ ")");
-		p("SolveODE.4", "when((%0)[0]==equal,"
-				+ "normal(map(desolve(%0,%2,%1,%3),x->%1=x)[0])" + ","
-				// add y'= if it's missing
-				+ "normal(map(desolve(y'=%0,%2,%1,%3),x->%1=x)[0])" + ")");
-		p("SolveODE.5", // SolveODE[y''=x,y,x,A,{B}]
-				"normal(map(desolve(%0,%2,%1,%3,%4),x->%1=x)[0])");
+		SolveODEGiac.add(Ggb2giac::p);
 		p("Substitute.2", "regroup(subst(%0,%1))");
 		p("Substitute.3", "regroup(subst(%0,%1,%2))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else

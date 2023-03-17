@@ -6229,7 +6229,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {
-				drawInputBox.attachMathField(null);
+				drawInputBox.attachMathField();
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
 			}
@@ -6255,10 +6255,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void refreshTextfieldFocus(GeoInputBox inputBox) {
 		focusTextField(inputBox);
-		if (!inputBox.isSymbolicMode()) {
-			viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
-			getTextField().setSelection(0, getTextField().getText().length());
-		}
+		viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
+		getTextField().setSelection(0, getTextField().getText().length());
 	}
 
 	public ViewTextField getViewTextField() {
@@ -6467,13 +6465,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param bounds
 	 *             where the editor should be attached to.
 	 */
-	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds, GPoint caretPos) {
+	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
 		if (symbolicEditor == null) {
 			symbolicEditor = createSymbolicEditor();
 		}
 		if (symbolicEditor != null) {
 			symbolicEditor.attach(geoInputBox, bounds);
-			symbolicEditor.selectEntryAt(caretPos, bounds);
 		}
 	}
 

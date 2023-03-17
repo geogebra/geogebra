@@ -6,6 +6,7 @@ import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
+import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 
 /**
@@ -34,6 +35,9 @@ public class SelectAllHandler {
 		if (root.isProtected()) {
 			selectProtectedContent();
 		} else {
+			if (isCharPlaceholder(root)) {
+				return;
+			}
 			setSelectionStart(root);
 			setSelectionEnd(root);
 		}
@@ -42,17 +46,29 @@ public class SelectAllHandler {
 	private void selectProtectedContent() {
 		MathComponent first = editorState.getRootComponent().getArgument(0);
 		MathComponent selectionStart = editorState.getCurrentField().getArgument(0);
+
+		if (isCharPlaceholder(selectionStart)) {
+			return;
+		}
+
 		setSelectionStart(selectionStart);
 		if (first instanceof MathArray) {
 			MathArray array = (MathArray) first;
 			if (array.isMatrix()) {
-				editorState.selectUpToRootComponent();
+				selectUpToRootComponent();
 			} else {
 				selectListElement(array.getArgument(0));
 			}
 		} else {
 			setSelectionEnd(selectionStart);
 		}
+	}
+
+	private boolean isCharPlaceholder(MathComponent selectionStart) {
+		return selectionStart instanceof MathCharPlaceholder
+				|| (selectionStart instanceof MathFunction
+		&& isCharPlaceholder(
+				((MathFunction) selectionStart).getArgument(0)));
 	}
 
 	private void setSelectionStart(MathComponent component) {
@@ -70,7 +86,7 @@ public class SelectAllHandler {
 			MathSequence content = sequenceWithoutBrackets(sequence);
 			setSelectionStart(content.getArgument(firstSeparatorOnLeft(content)));
 			setSelectionEnd(content.getArgument(firstSeparatorOnRight(content)));
-			if (editorState.getSelectionStart() instanceof MathCharPlaceholder) {
+			if (isCharPlaceholder(editorState.getSelectionStart())) {
 				editorState.setSelectionStart(null);
 			}
 		}
@@ -127,5 +143,15 @@ public class SelectAllHandler {
 		}
 
 		return charIndex == 0 ? 0 : charIndex + 1;
+	}
+
+	private void selectUpToRootComponent() {
+		while (editorState.getSelectionStart().getParent().getParent()
+				!= editorState.getRootComponent()) {
+			editorState.anchor(true);
+			setSelectionStart(editorState.getSelectionStart().getParent());
+		}
+
+		setSelectionEnd(editorState.getSelectionStart());
 	}
 }

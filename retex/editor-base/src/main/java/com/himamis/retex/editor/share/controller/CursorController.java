@@ -25,17 +25,6 @@ public class CursorController {
 	 * @return whether we moved right
 	 */
 	public static boolean nextCharacter(EditorState editorState) {
-		return nextCharacter(editorState, true);
-	}
-
-	/**
-	 * Next character &rarr; key.
-	 *
-	 * @param editorState
-	 *            current state
-	 * @return whether we moved right
-	 */
-	public static boolean nextCharacter(EditorState editorState, boolean skipPlaceholders) {
 		if (isLastPlaceholderInProtectedParent(editorState)) {
 			return false;
 		}
@@ -44,7 +33,7 @@ public class CursorController {
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset < currentField.size()) {
 			MathComponent component = currentField.getArgument(currentOffset);
-			return nextCharacterInCurrentField(component, editorState, skipPlaceholders);
+			return nextCharacterInCurrentField(component, editorState);
 		} else {
 			return nextField(editorState);
 		}
@@ -59,18 +48,19 @@ public class CursorController {
 	}
 
 	private static boolean nextCharacterInCurrentField(
-			MathComponent component, EditorState editorState, boolean skipPlaceholders) {
+			MathComponent component, EditorState editorState) {
 
 		MathContainer mathContainer = getMathContainer(component);
 		if (mathContainer != null && (mathContainer.hasChildren())) {
 			firstField(editorState, mathContainer);
+			return true;
 		} else {
 			editorState.incCurrentOffset();
-			if (skipPlaceholders && component instanceof MathPlaceholder) {
+			if (component instanceof MathPlaceholder) {
 				nextCharacter(editorState);
 			}
+			return true;
 		}
-		return true;
 	}
 
 	private static MathContainer getMathContainer(MathComponent component) {
