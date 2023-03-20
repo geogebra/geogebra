@@ -24,11 +24,11 @@ import org.geogebra.keyboard.web.factory.InputBoxKeyboardFactory;
 import org.geogebra.keyboard.web.factory.NotesKeyboardFactory;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**

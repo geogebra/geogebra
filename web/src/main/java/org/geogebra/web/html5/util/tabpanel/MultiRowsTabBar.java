@@ -1,15 +1,15 @@
 package org.geogebra.web.html5.util.tabpanel;
 
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.logical.shared.HasSelectionHandlers;
+import org.gwtproject.event.logical.shared.SelectionEvent;
+import org.gwtproject.event.logical.shared.SelectionHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Top bar of a tab panel.

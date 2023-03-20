@@ -15,10 +15,9 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.DomGlobal;
 

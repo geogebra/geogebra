@@ -6,18 +6,16 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
-import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Submenu for ModeToggleMenu. This extension is needed so that this FlowPanel
@@ -59,8 +57,7 @@ public class ToolbarSubmenuW extends FlowPanel implements HasHide {
 
 	protected void initGui() {
 		submenuArrow = new FlowPanel();
-		submenuArrow.add(new Image(ImageResourceConverter
-				.convertToOldImageResource(GuiResources.INSTANCE.arrow_submenu_up())));
+		submenuArrow.add(new Image(GuiResources.INSTANCE.arrow_submenu_up()));
 		submenuArrow.setStyleName("submenuArrow");
 		add(submenuArrow);
 

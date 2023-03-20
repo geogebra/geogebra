@@ -4,8 +4,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.StringConsumer;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.dom.DataTransfer;
 import elemental2.dom.DataTransferItem;

@@ -7,19 +7,18 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
+import org.gwtproject.core.client.JsArray;
+import org.gwtproject.dom.client.Touch;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseDownHandler;
+import org.gwtproject.event.dom.client.MouseMoveEvent;
+import org.gwtproject.event.dom.client.MouseMoveHandler;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.event.dom.client.TouchEndHandler;
+import org.gwtproject.event.dom.client.TouchMoveEvent;
+import org.gwtproject.event.dom.client.TouchMoveHandler;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.event.dom.client.TouchStartHandler;
 
 /**
  * Algebra controller for web;

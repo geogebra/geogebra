@@ -5,8 +5,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * dialog to ask user for webcam permission and show error messages

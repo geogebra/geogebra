@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.util.keyboard;
 
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.RequiresResize;
 
 public interface VirtualKeyboardW extends IsWidget, RequiresResize {
 

@@ -4,12 +4,11 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.user.client.ui.Anchor;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.InlineLabel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * A Dialog that describes what has changed recently in the app.

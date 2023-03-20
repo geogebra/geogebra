@@ -1,13 +1,13 @@
 package org.geogebra.web.full.cas.view;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.EventTarget;
-import com.google.gwt.event.dom.client.ScrollEvent;
-import com.google.gwt.event.dom.client.ScrollHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.EventTarget;
+import org.gwtproject.event.dom.client.ScrollEvent;
+import org.gwtproject.event.dom.client.ScrollHandler;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.Event.NativePreviewEvent;
+import org.gwtproject.user.client.Event.NativePreviewHandler;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
 /**
  * Widget representing the CAS View

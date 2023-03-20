@@ -1,6 +1,6 @@
 package org.geogebra.web.full.util;
 
-import com.google.gwt.user.cellview.client.CellTable;
+import org.gwtproject.user.cellview.client.CellTable;
 
 /**
  * Method collection to manipulate CellTables

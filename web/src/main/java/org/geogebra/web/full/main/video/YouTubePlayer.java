@@ -5,8 +5,7 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.full.html5.Sandbox;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.PersistableFrame;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 public class YouTubePlayer extends VideoPlayer {
 

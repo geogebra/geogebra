@@ -4,9 +4,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
-
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Widget;
 
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
