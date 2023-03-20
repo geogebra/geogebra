@@ -146,7 +146,7 @@ public class JSONParserGGT {
 	 * @param parent - parent material
 	 * @param element - JSON object holding element attributes
 	 * @return material
-	 * @throws JSONException
+	 * @throws JSONException - if no such value exists.
 	 */
 	public static Material worksheetToMaterial(Material parent, JSONObject element)
 			throws JSONException {
