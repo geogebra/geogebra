@@ -24,8 +24,40 @@ import jsinterop.base.Js;
 
 public class EditorEntry implements EntryPoint {
 
+	private TabbedKeyboard tabbedKeyboard = null;
+	private EditorApi editorApi;
+
 	@Override
 	public void onModuleLoad() {
+		String baseUrl = getBaseUrl();
+		new StyleInjector(baseUrl)
+				.inject("css", "editor");
+		Opentype.setFontBaseUrl(baseUrl);
+		CreateLibrary.exportLibrary(new JlmApi(new JlmEditorLib()));
+		RenderGgbElement.setRenderGGBElement((el, callback) -> {
+			EditorListener listener = new EditorListener();
+			MathFieldW mf = initMathField(el, listener);
+			if (tabbedKeyboard == null) {
+				tabbedKeyboard = initKeyboard(mf, el);
+				StyleInjector.onStylesLoaded(tabbedKeyboard::show);
+				editorApi = new EditorApi(mf, tabbedKeyboard, listener);
+				tabbedKeyboard.setListener((visible, field) -> {
+					if (!visible) {
+						editorApi.closeKeyboard();
+					} else {
+						editorApi.openKeyboard();
+					}
+					return false;
+				});
+			}
+			if (callback != null) {
+				callback.accept(editorApi);
+			}
+		});
+		RenderGgbElement.renderGGBElementReady();
+	}
+
+	private String getBaseUrl() {
 		elemental2.dom.Element script = DomGlobal.document
 				.querySelector("[src$=\"editor.nocache.js\"]");
 		String baseUrl = GWT.getModuleBaseURL();
@@ -33,30 +65,7 @@ public class EditorEntry implements EntryPoint {
 			baseUrl = script.getAttribute("src");
 			baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/") + 1);
 		}
-		new StyleInjector(baseUrl)
-				.inject("css", "editor");
-		Opentype.setFontBaseUrl(baseUrl);
-		CreateLibrary.exportLibrary(new JlmApi(new JlmEditorLib()));
-		RenderGgbElement.setRenderGGBElement((el, callback) -> {
-			EditorListener listener = new EditorListener();
-
-			MathFieldW mf = initMathField(el, listener);
-			TabbedKeyboard tabbedKeyboard = initKeyboard(mf, el);
-			StyleInjector.onStylesLoaded(tabbedKeyboard::show);
-			EditorApi editorApi = new EditorApi(mf, tabbedKeyboard, listener);
-			tabbedKeyboard.setListener((visible, field) -> {
-				if (!visible) {
-					editorApi.closeKeyboard();
-				} else {
-					editorApi.openKeyboard();
-				}
-				return false;
-			});
-			if (callback != null) {
-				callback.accept(editorApi);
-			}
-		});
-		RenderGgbElement.renderGGBElementReady();
+		return baseUrl;
 	}
 
 	private boolean isSuperDev() {
@@ -82,50 +91,24 @@ public class EditorEntry implements EntryPoint {
 		wrapper.setWidth("100%");
 		wrapper.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		MathFieldW mf = new MathFieldW(null, wrapper, canvas, listener);
-		mf.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
-		String backgroundColor = el.getAttribute("data-param-editorbackgroundcolor");
-		if (!"".equals(backgroundColor)) {
-			mf.setBackgroundColor(backgroundColor);
-		}
-		String foregroundColor = el.getAttribute("data-param-editorforegroundcolor");
-		if (!"".equals(foregroundColor)) {
-			mf.setForegroundColor(foregroundColor);
-		}
-		mf.setFontSize(toDouble(el.getAttribute("data-param-fontsize"), 16.0));
-
-		if (isTrue(el, "data-param-textmode")) {
-			mf.setPlainTextMode(true);
-		}
-
+		EditorParams editorParams = new EditorParams(el, mf);
 		listener.setMathField(mf);
 		mf.parse("");
 		wrapper.add(mf);
-		if (isFalse(el, "data-param-preventfocus")) {
+
+		if (!editorParams.isPreventFocus()) {
 			mf.requestViewFocus();
 		}
+
+		mf.setPixelRatio(DomGlobal.window.devicePixelRatio);
+		mf.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
 		RootPanel rootPanel = newRoot(el);
 		rootPanel.add(wrapper);
-		rootPanel.addDomHandler(evt -> mf.requestViewFocus(), ClickEvent.getType());
+		MathFieldProcessing processing = new MathFieldProcessing(mf);
+
+		rootPanel.addDomHandler(evt -> {mf.requestViewFocus();
+			tabbedKeyboard.setProcessing(processing);}, ClickEvent.getType());
 		return mf;
-	}
-
-	private boolean isFalse(Element el, String attribute) {
-		return !isTrue(el, attribute);
-	}
-
-	private boolean isTrue(Element el, String attribute) {
-		return "true".equals(el.getAttribute(attribute));
-	}
-
-	private double toDouble(String attribute, double fallback) {
-		if (!"".equals(attribute)) {
-			try {
-				return Double.parseDouble(attribute);
-			} catch (NumberFormatException ex) {
-				// fallback
-			}
-		}
-		return fallback;
 	}
 
 	private RootPanel newRoot(Element el) {
@@ -136,5 +119,4 @@ public class EditorEntry implements EntryPoint {
 		el.appendChild(detachedKeyboardParent);
 		return RootPanel.get(uid);
 	}
-
 }

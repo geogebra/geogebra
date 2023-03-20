@@ -1,5 +1,6 @@
 package org.geogebra.web.editor;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -21,7 +22,7 @@ public class EditorListener implements MathFieldListener {
 
 	@Override
 	public void onKeyTyped(String key) {
-		mathField.scrollParentHorizontally(mathField.asWidget().getParent());
+		scrollOnDemand();
 		JsPropertyMap<Object> event = JsPropertyMap.of();
 		event.set("0", "editorKeyTyped");
 		event.set("type", "editorKeyTyped");
@@ -30,9 +31,15 @@ public class EditorListener implements MathFieldListener {
 		notifyListeners(event);
 	}
 
+	private void scrollOnDemand() {
+		Widget parent = mathField.asWidget().getParent();
+		mathField.scrollParentHorizontally(parent);
+	}
+
+
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-		mathField.scrollParentHorizontally(mathField.asWidget().getParent());
+		scrollOnDemand();
 		return false;
 	}
 
