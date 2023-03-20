@@ -1,5 +1,6 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 
 import com.himamis.retex.editor.share.serializer.SolverSerializer;
@@ -78,6 +79,10 @@ public class EditorApi {
 
 	public void closeKeyboard() {
 		kb.setVisible(false);
+	}
+
+	public String getVersion() {
+		return GeoGebraConstants.VERSION_STRING;
 	}
 
 }
