@@ -141,6 +141,13 @@ public class JSONParserGGT {
 		return material;
 	}
 
+	/**
+	 * convert worksheet into material
+	 * @param parent - parent material
+	 * @param element - JSON object holding element attributes
+	 * @return material
+	 * @throws JSONException
+	 */
 	public static Material worksheetToMaterial(Material parent, JSONObject element)
 			throws JSONException {
 		Material mat = new Material(parent);
