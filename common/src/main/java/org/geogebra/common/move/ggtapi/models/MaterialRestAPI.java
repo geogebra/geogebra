@@ -666,10 +666,7 @@ public class MaterialRestAPI implements BackendAPI {
 					for (int i = 0; i < elements.length(); i++) {
 						JSONObject jsonObject = elements.getJSONObject(i);
 						if ("G".equals(jsonObject.optString("type"))) {
-							Material mat = new Material(parent);
-							mat.setType(MaterialType.ggb);
-							mat.setThumbnailUrl(jsonObject.getString("thumbUrl"));
-							mat.setFileName(jsonObject.getString("url"));
+							Material mat = JSONParserGGT.worksheetToMaterial(parent, jsonObject);
 							materials.add(mat);
 							JSONObject settings = jsonObject.optJSONObject("settings");
 							if (settings != null) {

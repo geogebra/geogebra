@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.StringUtil;
@@ -138,6 +139,15 @@ public class JSONParserGGT {
 			material.setCreator(new UserPublic(userId, displayName));
 		}
 		return material;
+	}
+
+	public static Material worksheetToMaterial(Material parent, JSONObject element)
+			throws JSONException {
+		Material mat = new Material(parent);
+		mat.setType(MaterialType.ggb);
+		mat.setThumbnailUrl(element.getString("thumbUrl"));
+		mat.setFileName(element.getString("url"));
+		return mat;
 	}
 
 	/**

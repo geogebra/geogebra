@@ -78,9 +78,10 @@ public class JSONParserGGTTests {
 		String json = getContentsOf("geoapi-3d.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
+		Material parent = JSONParserGGT.prototype.toMaterial(root);
 		JSONArray elements = root.getJSONArray("elements");
 		JSONObject item = elements.getJSONObject(1);
-		Material material = JSONParserGGT.prototype.toMaterial(item);
+		Material material = JSONParserGGT.prototype.worksheetToMaterial(parent, item);
 		assertEquals("PB9Npbe7", material.getSharingKeySafe());
 		assertTrue(Material.MaterialType.ggb == material.getType());
 		assertEquals("3D Coordinate Systems", material.getTitle());
