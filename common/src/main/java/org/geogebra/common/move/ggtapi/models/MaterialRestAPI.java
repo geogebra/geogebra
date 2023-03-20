@@ -668,14 +668,6 @@ public class MaterialRestAPI implements BackendAPI {
 						if ("G".equals(jsonObject.optString("type"))) {
 							Material mat = JSONParserGGT.worksheetToMaterial(parent, jsonObject);
 							materials.add(mat);
-							JSONObject settings = jsonObject.optJSONObject("settings");
-							if (settings != null) {
-								JSONParserGGT.copySettings(settings, mat);
-							}
-							JSONObject views = jsonObject.optJSONObject("views");
-							if (views != null) {
-								JSONParserGGT.copyViews(views, mat);
-							}
 						}
 					}
 					materialCallback

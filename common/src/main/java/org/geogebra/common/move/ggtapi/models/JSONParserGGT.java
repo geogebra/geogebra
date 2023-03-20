@@ -147,6 +147,15 @@ public class JSONParserGGT {
 		mat.setType(MaterialType.ggb);
 		mat.setThumbnailUrl(element.getString("thumbUrl"));
 		mat.setFileName(element.getString("url"));
+		mat.setURL(element.getString("url"));
+		JSONObject settings = element.optJSONObject("settings");
+		if (settings != null) {
+			JSONParserGGT.copySettings(settings, mat);
+		}
+		JSONObject views = element.optJSONObject("views");
+		if (views != null) {
+			JSONParserGGT.copyViews(views, mat);
+		}
 		return mat;
 	}
 

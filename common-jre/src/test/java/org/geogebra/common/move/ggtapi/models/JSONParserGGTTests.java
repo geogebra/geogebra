@@ -82,11 +82,11 @@ public class JSONParserGGTTests {
 		JSONArray elements = root.getJSONArray("elements");
 		JSONObject item = elements.getJSONObject(1);
 		Material material = JSONParserGGT.prototype.worksheetToMaterial(parent, item);
-		assertEquals("PB9Npbe7", material.getSharingKeySafe());
+		assertEquals("PB9Npbe7", parent.getSharingKeySafe());
 		assertTrue(Material.MaterialType.ggb == material.getType());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.ggb", material.getURL());
-		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb.png", material.getThumbnail());
+		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb$1.png", material.getThumbnail());
 		assertTrue(material.getUndoRedo());
 		assertFalse(material.hasCas());
 		assertTrue(material.has3d());
