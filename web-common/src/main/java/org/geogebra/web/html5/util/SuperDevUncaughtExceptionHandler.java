@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.util;
 
-
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.GWT;
