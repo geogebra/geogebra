@@ -3,18 +3,17 @@ package org.geogebra.web.full.util;
 import java.util.List;
 
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.TableSectionElement;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.view.client.ListDataProvider;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Node;
+import org.gwtproject.dom.client.NodeList;
+import org.gwtproject.dom.client.TableSectionElement;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.cellview.client.CellTable;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.view.client.ListDataProvider;
 
 import elemental2.dom.EventListener;
 import jsinterop.base.Js;

@@ -9,10 +9,10 @@ import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.user.client.DOM;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
@@ -20,7 +20,9 @@ import elemental2.dom.HTMLCollection;
 import elemental2.dom.ViewCSS;
 import jsinterop.base.Js;
 
-public final class GeoGebraElement extends Element implements AttributeProvider {
+public final class GeoGebraElement implements AttributeProvider {
+
+	private Element el;
 
 	/**
 	 * @param element
@@ -29,11 +31,13 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 * @return cast element
 	 */
 	public static GeoGebraElement as(Element element) {
+		GeoGebraElement ge = new GeoGebraElement();
+		ge.el = element;
 		// tabindex -1 prevents slider reading on Android
 		if (element != null && !Browser.isAndroid()) {
 			element.setTabIndex(-1);
 		}
-		return (GeoGebraElement) element;
+		return ge;
 	}
 
 	/**
@@ -63,7 +67,7 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	public void initID(int i) {
 		AppletParameters params = new AppletParameters(this);
 		String paramID = params.getDataParamId();
-		if (paramID.equals(getId())) {
+		if (paramID.equals(el.getId())) {
 			return;
 		}
 		if (paramID.length() > 0) {
@@ -72,11 +76,11 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 				paramID = params.getDataParamId() + suffix;
 				suffix++;
 			}
-			setId(paramID);
+			el.setId(paramID);
 			return;
 		}
 		Date creationDate = new Date();
-		setId(GeoGebraConstants.GGM_CLASS_NAME + i + creationDate.getTime());
+		el.setId(GeoGebraConstants.GGM_CLASS_NAME + i + creationDate.getTime());
 	}
 
 	/**
@@ -87,7 +91,7 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	}
 
 	public void clear() {
-		this.setInnerHTML("");
+		el.setInnerHTML("");
 	}
 
 	private CSSStyleDeclaration getComputedStyle(Element element) {
@@ -100,6 +104,7 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 * @param element ui element
 	 * @return primary color
 	 */
+
 	public String getPrimaryColor(Element element) {
 		return getComputedStyle(element).getPropertyValue("--ggb-primary-color");
 	}
@@ -108,8 +113,9 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 *
 	 * @return that the article element has (inherited) direction attribute
 	 */
+
 	public boolean isRTL() {
-		return "rtl".equals(getComputedStyle(this).direction);
+		return "rtl".equals(getComputedStyle(el).direction);
     }
 
 	private double envScale(Element element, String type,
@@ -151,21 +157,22 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
         return "x".equals(type) ? sx : sy;
     }
 
-	private double length(MatchResult matches, int id1, int id2) {
+	private static double length(MatchResult matches, int id1, int id2) {
 		double a = Double.parseDouble(matches.getGroup(id1));
 		double b = Double.parseDouble(matches.getGroup(id2));
 		return Math.hypot(a, b);
 	}
 
 	private double envScale(String type) {
-		return envScale(this, type, true);
+		return envScale(el, type, true);
 	}
 
 	/**
 	 * @return get CSS scale of parent element
 	 */
+
 	public double getParentScaleX() {
-		return envScale(getParentElement(), "x", false);
+		return envScale(el.getParentElement(), "x", false);
 	}
 
 	/**
@@ -173,14 +180,15 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 *
 	 * @return the CSS scale attached to the article element
 	 */
+
 	public double getScaleX() {
 		// no instance fields in subclasses of Element, so no way to assign it
 		// to
 		// a simple field
-		if ("".equals(getAttribute("data-scalex"))) {
+		if ("".equals(el.getAttribute("data-scalex"))) {
 			setAttribute("data-scalex", String.valueOf(envScale("x")));
 		}
-		return Double.parseDouble(getAttribute("data-scalex"));
+		return Double.parseDouble(el.getAttribute("data-scalex"));
 	}
 
 	/**
@@ -188,31 +196,70 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 *
 	 * @return the CSS scale attached to the article element
 	 */
+
 	public double readScaleX() {
-		if ("".equals(getAttribute("data-scalex"))) {
+		if ("".equals(el.getAttribute("data-scalex"))) {
 			return envScale("x");
 		}
-		return Double.parseDouble(getAttribute("data-scalex"));
+		return Double.parseDouble(el.getAttribute("data-scalex"));
 	}
 
 	/**
 	 * @return the CSS scale attached to the article element
 	 *
 	 */
+
 	public double getScaleY() {
 		// no instance fields in subclasses of Element, so no way to asign it to
 		// a simple field
-		if ("".equals(getAttribute("data-scaley"))) {
+		if ("".equals(el.getAttribute("data-scaley"))) {
 			setAttribute("data-scaley", String.valueOf(envScale("y")));
 		}
-		return Double.parseDouble(getAttribute("data-scaley"));
+		return Double.parseDouble(el.getAttribute("data-scaley"));
 	}
 
 	/**
 	 * Remove cached scale values
 	 */
+
 	public void resetScale() {
 		setAttribute("data-scalex", "" + envScale("x"));
 		setAttribute("data-scaley", "" + envScale("y"));
+	}
+
+	@Override
+	public boolean hasAttribute(String attribute) {
+		return el.hasAttribute(attribute);
+	}
+
+	@Override
+	public void removeAttribute(String attribute) {
+		el.removeAttribute(attribute);
+	}
+
+	@Override
+	public void setAttribute(String attribute, String value) {
+		el.setAttribute(attribute, value);
+	}
+
+	@Override
+	public String getAttribute(String attribute) {
+		return el.getAttribute(attribute);
+	}
+
+	public String getId() {
+		return el.getId();
+	}
+
+	public Element getElement() {
+		return el;
+	}
+
+	public Element getParentElement() {
+		return el.getParentElement();
+	}
+
+	public Style getStyle() {
+		return el.getStyle();
 	}
 }

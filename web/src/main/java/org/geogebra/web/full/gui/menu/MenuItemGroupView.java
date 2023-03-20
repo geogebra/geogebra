@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.menu;
 
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.VerticalPanel;
 
 class MenuItemGroupView extends VerticalPanel {
 

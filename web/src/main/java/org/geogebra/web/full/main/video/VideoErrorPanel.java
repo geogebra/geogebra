@@ -2,8 +2,7 @@ package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.util.PersistablePanel;
-
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Panel to display message is video is not available

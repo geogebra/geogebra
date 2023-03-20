@@ -25,12 +25,11 @@ import org.geogebra.web.richtext.impl.Carota;
 import org.geogebra.web.richtext.impl.CarotaTable;
 import org.geogebra.web.richtext.impl.CarotaUtil;
 import org.geogebra.web.richtext.impl.EventThrottle;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Style.Visibility;
-import com.google.gwt.user.client.DOM;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.dom.style.shared.Visibility;
+import org.gwtproject.user.client.DOM;
 
 import elemental2.core.Global;
 import jsinterop.base.Js;

@@ -40,22 +40,21 @@ import org.geogebra.web.html5.main.PageContent;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.PDFEncoderW;
-
-import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
+import org.gwtproject.dom.client.Touch;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseDownHandler;
+import org.gwtproject.event.dom.client.MouseMoveEvent;
+import org.gwtproject.event.dom.client.MouseMoveHandler;
+import org.gwtproject.event.dom.client.MouseOutEvent;
+import org.gwtproject.event.dom.client.MouseOutHandler;
+import org.gwtproject.event.dom.client.MouseUpEvent;
+import org.gwtproject.event.dom.client.MouseUpHandler;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.event.dom.client.TouchEndHandler;
+import org.gwtproject.event.dom.client.TouchMoveEvent;
+import org.gwtproject.event.dom.client.TouchMoveHandler;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.event.dom.client.TouchStartHandler;
 
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Any;
@@ -735,13 +734,11 @@ public class PageListController implements PageListControllerInterface,
 		if (dragCtrl.move(t.getClientY(), true)) {
 			event.preventDefault();
 			event.stopPropagation();
-			listener.getScrollPanel().setTouchScrollingDisabled(true);
 		}
 	}
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		listener.getScrollPanel().setTouchScrollingDisabled(false);
 		dragCtrl.stop();
 	}
 

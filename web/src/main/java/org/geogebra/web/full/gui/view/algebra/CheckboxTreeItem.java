@@ -3,9 +3,8 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
-
-import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.TreeItem;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * ReTeX based implementation of AV checkbox

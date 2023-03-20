@@ -11,8 +11,7 @@ import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;

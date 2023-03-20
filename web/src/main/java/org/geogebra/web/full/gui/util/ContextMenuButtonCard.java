@@ -12,10 +12,9 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.event.logical.shared.CloseEvent;
+import org.gwtproject.event.logical.shared.CloseHandler;
 
 /**
  * Context Menu Popup for Cards

@@ -769,11 +769,6 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testSolveODE2() {
-		testCat("SolveODE2");
-	}
-
-	@Test
 	public void testOrthogonalVector() {
 		testCat("OrthogonalVector");
 	}
@@ -959,8 +954,28 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testSolveODE() {
-		testCat("SolveODE");
+	public void testSolveODE3() {
+		testCat("SolveODE.3");
+	}
+
+	@Test
+	public void testSolveODE1() {
+		testCat("SolveODE.1");
+	}
+
+	@Test
+	public void testSolveODE4() {
+		testCat("SolveODE.4");
+	}
+
+	@Test
+	public void testSolveODE5() {
+		testCat("SolveODE.5");
+	}
+
+	@Test
+	public void testSolveODE2() {
+		testCat("SolveODE.2");
 	}
 
 	@Test

@@ -10,10 +10,9 @@ import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.h5pviewer.H5P;
 import org.geogebra.web.html5.util.h5pviewer.H5PPaths;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.timer.client.Timer;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLIFrameElement;

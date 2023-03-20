@@ -3,13 +3,13 @@ package org.geogebra.web.html5.gui;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.CursorOverlay;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.event.dom.client.FocusEvent;
+import org.gwtproject.event.dom.client.FocusHandler;
+import org.gwtproject.event.dom.client.KeyDownEvent;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**

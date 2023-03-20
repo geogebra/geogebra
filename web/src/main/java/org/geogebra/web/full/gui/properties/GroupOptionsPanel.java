@@ -6,10 +6,9 @@ import java.util.List;
 import org.geogebra.common.gui.dialog.options.model.GroupModel;
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.main.Localization;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 public class GroupOptionsPanel implements IOptionPanel {
 	private List<IOptionPanel> panels;

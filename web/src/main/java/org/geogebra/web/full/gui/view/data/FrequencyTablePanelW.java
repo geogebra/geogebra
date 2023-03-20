@@ -1,9 +1,8 @@
 package org.geogebra.web.full.gui.view.data;
 
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Frequency table for Web

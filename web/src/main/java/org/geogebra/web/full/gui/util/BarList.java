@@ -3,8 +3,7 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.ListBox;
 
 public class BarList extends ListBox {
 

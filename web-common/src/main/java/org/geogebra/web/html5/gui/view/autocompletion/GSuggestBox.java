@@ -9,44 +9,43 @@ import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.HasAllKeyHandlers;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Focusable;
-import com.google.gwt.user.client.ui.HasAnimation;
-import com.google.gwt.user.client.ui.HasEnabled;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle.Callback;
-import com.google.gwt.user.client.ui.SuggestOracle.Request;
-import com.google.gwt.user.client.ui.SuggestOracle.Response;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.TextBoxBase;
-import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwt.user.client.ui.ValueBoxBase;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.HasAllKeyHandlers;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyDownHandler;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyPressHandler;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.event.logical.shared.HasSelectionHandlers;
+import org.gwtproject.event.logical.shared.SelectionEvent;
+import org.gwtproject.event.logical.shared.SelectionHandler;
+import org.gwtproject.event.logical.shared.ValueChangeEvent;
+import org.gwtproject.event.logical.shared.ValueChangeHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.user.client.ui.Composite;
+import org.gwtproject.user.client.ui.Focusable;
+import org.gwtproject.user.client.ui.HasAnimation;
+import org.gwtproject.user.client.ui.HasEnabled;
+import org.gwtproject.user.client.ui.HasText;
+import org.gwtproject.user.client.ui.HasValue;
+import org.gwtproject.user.client.ui.MultiWordSuggestOracle;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.SuggestBox;
+import org.gwtproject.user.client.ui.SuggestOracle;
+import org.gwtproject.user.client.ui.SuggestOracle.Callback;
+import org.gwtproject.user.client.ui.SuggestOracle.Request;
+import org.gwtproject.user.client.ui.SuggestOracle.Response;
+import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
+import org.gwtproject.user.client.ui.TextBox;
+import org.gwtproject.user.client.ui.TextBoxBase;
+import org.gwtproject.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.ValueBoxBase;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * A {@link SuggestBox} is a text box or text area which displays a
@@ -789,7 +788,7 @@ public class GSuggestBox extends Composite
 
 	/**
 	 * Gets the suggest box's
-	 * {@link com.google.gwt.user.client.ui.SuggestOracle}.
+	 * {@link org.gwtproject.user.client.ui.SuggestOracle}.
 	 *
 	 * @return the {@link SuggestOracle}
 	 */
