@@ -37,7 +37,7 @@ import elemental2.core.JsString;
  * @author G. Sturr
  * 
  */
-public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, BooleanRenderable {
+public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanRenderable {
 
 	private AppW app;
 	private Tree indexTree;
