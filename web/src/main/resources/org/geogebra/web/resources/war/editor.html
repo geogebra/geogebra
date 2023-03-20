@@ -20,10 +20,14 @@
     </style>
 </head>
 <body dir="ltr" tabindex="-1">
-<main></main>
+<main id="main1"></main>
+<main id="main2"></main>
+<main id="main3"></main>
 <script>
     function renderGGBElementReady() {
-        renderGGBElement(document.querySelector("main"));
+        renderGGBElement(document.querySelector("#main1"));
+        renderGGBElement(document.querySelector("#main2"));
+        renderGGBElement(document.querySelector("#main3"));
     }
 </script>
 </body>
