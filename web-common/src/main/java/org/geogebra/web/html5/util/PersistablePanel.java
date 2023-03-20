@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.util;
 
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * FlowPanel that should stay when keyboard is opened/closed

@@ -2,11 +2,10 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.IndexHTMLBuilder;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Index builder that creates SUB elements in DOM directly

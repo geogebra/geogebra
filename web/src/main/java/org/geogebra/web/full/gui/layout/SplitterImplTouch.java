@@ -1,13 +1,14 @@
 package org.geogebra.web.full.gui.layout;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.EventTarget;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.layout.client.Layout.Layer;
-import com.google.gwt.user.client.Event;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.EventTarget;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Overflow;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.layout.client.Layout.Layer;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
 
 /**
  * Override splitter behavior on touch devices: add glass dragging zone
@@ -40,7 +41,7 @@ public class SplitterImplTouch extends SplitterImpl {
 		if (mouseDown) {
 			return true;
 		}
-		switch (event.getTypeInt()) {
+		switch (DOM.eventGetType(event)) {
 		case Event.ONMOUSEDOWN:
 		case Event.ONMOUSEMOVE:
 		case Event.ONMOUSEUP:

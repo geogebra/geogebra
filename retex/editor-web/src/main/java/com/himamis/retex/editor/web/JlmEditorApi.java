@@ -1,6 +1,7 @@
 package com.himamis.retex.editor.web;
 
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
+
 import com.himamis.retex.renderer.web.JlmApi;
 
 import jsinterop.annotations.JsType;

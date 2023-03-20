@@ -6,9 +6,8 @@ import org.geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.util.FormLabel;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.ListBox;
 
 public class ListBoxPanel extends OptionPanel implements IComboListener {
 

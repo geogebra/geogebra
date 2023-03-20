@@ -2,10 +2,9 @@ package org.geogebra.web.richtext.impl;
 
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.EditorChangeListener;
-
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.HTML;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.core.Global;
 import elemental2.dom.CanvasRenderingContext2D;
