@@ -6,7 +6,6 @@ import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -231,8 +230,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 			cbRows.addItem(num[i]);
 			cbColumns.addItem(num[i]);
 		}
-
-		Log.debug(getSc().rows + " :: " + getSc().columns);
 
 		ListBoxApi.select(String.valueOf(getSc().rows), cbRows);
 		cbRows.addChangeHandler(this);
