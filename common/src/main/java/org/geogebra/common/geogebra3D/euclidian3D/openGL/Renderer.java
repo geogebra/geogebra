@@ -685,7 +685,7 @@ public abstract class Renderer {
 		}
 	}
 
-	private void drawLabels() {
+	protected void drawLabels() {
 		if (enableClipPlanes) {
 			rendererImpl.enableClipPlanes();
 		}
