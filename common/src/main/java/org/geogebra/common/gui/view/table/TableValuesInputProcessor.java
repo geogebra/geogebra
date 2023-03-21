@@ -57,7 +57,8 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		if (tableValues.getValues() == list && !list.isLabelSet()) {
 			model.setupXValues(list);
 			list.setLabel(cons.buildIndexedLabel("x", false));
-			if (GeoGebraConstants.PROBABILITY_APPCODE.equals(cons.getApplication().getConfig().getSubAppCode())) {
+			if (GeoGebraConstants.PROBABILITY_APPCODE
+					.equals(cons.getApplication().getConfig().getSubAppCode())) {
 				cons.removeFromConstructionList(list);
 			}
 		}
