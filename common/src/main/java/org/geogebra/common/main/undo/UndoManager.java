@@ -1,11 +1,13 @@
 package org.geogebra.common.main.undo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
@@ -486,26 +488,36 @@ public abstract class UndoManager {
 	}
 
 	/**
-	 * Helper method to store undo info about a just created geo.
+	 * Like {@link #storeAddGeo(List)}, but for single geo
+	 * @param arg GeoElement just added
+	 */
+	public void storeAddGeo(GeoElement arg) {
+		storeAddGeo(Collections.singletonList(arg));
+	}
+
+	/**
+	 * Helper method to store undo info about a just created geos.
 	 * Please make sure to call it after the styles of the geo
 	 * are correctly initialized.
 	 * @param arg GeoElement just added
 	 */
-	public void storeAddGeo(GeoElement arg) {
-		buildAction(ActionType.ADD, getXMLOf(arg))
-				.withUndo(ActionType.REMOVE, arg.getLabelSimple())
-				.withLabels(arg.getLabelSimple())
+	public void storeAddGeo(List<GeoElement> arg) {
+		Stream<String> stream = arg.stream().map(this::getXMLOf);
+		String[] labels = arg.stream().map(GeoElement::getLabelSimple).toArray(String[]::new);
+		buildAction(ActionType.ADD, stream.toArray(String[]::new))
+				.withUndo(ActionType.REMOVE, labels)
+				.withLabels(labels)
 				.storeAndNotifyUnsaved();
 	}
 
-	private String[] getXMLOf(GeoElement arg) {
+	private String getXMLOf(GeoElement arg) {
 		String xml;
 		if (arg.getParentAlgorithm() != null) {
 			xml = arg.getParentAlgorithm().getXML();
 		} else {
 			xml = arg.getXML();
 		}
-		return new String[]{xml};
+		return xml;
 	}
 
 	/**

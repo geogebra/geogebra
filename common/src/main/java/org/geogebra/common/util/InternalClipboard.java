@@ -372,7 +372,7 @@ public class InternalClipboard {
 			euclidianController.showDynamicStylebar();
 		}
 
-		app.storeUndoInfo();
+		app.getKernel().getConstruction().getUndoManager().storeAddGeo(createdElements);
 	}
 
 	private static boolean groupedWithMindMap(GeoElement created) {
