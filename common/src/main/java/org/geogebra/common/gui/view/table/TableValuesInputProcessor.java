@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.advanced.AlgoParseToNumberOrFunction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -56,7 +57,9 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		if (tableValues.getValues() == list && !list.isLabelSet()) {
 			model.setupXValues(list);
 			list.setLabel(cons.buildIndexedLabel("x", false));
-			cons.removeFromConstructionList(list);
+			if (GeoGebraConstants.PROBABILITY_APPCODE.equals(cons.getApplication().getConfig().getSubAppCode())) {
+				cons.removeFromConstructionList(list);
+			}
 		}
 	}
 
