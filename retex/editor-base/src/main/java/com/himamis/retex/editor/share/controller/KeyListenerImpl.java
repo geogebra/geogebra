@@ -61,7 +61,7 @@ public class KeyListenerImpl {
 			return false;
 		case JavaKeyCodes.VK_M:
 			if (ctrlPressed) {
-				inputController.newFunction(editorState, "mixedNumber");
+				inputController.newFunction(editorState, "mixedNumber", false, null);
 				return true;
 			}
 			return false;

@@ -90,19 +90,15 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 			break;
 		case FRAC:
-			boolean isMixedNumber = isMixedNumber(stringBuilder) >= 0;
-			if (isMixedNumber) {
-				stringBuilder.insert(isMixedNumber(stringBuilder), "(");
-				stringBuilder.append("\u2064");
+			if (mathFunction.toString().contains("\u2064")) {
+				createMixedNumber(stringBuilder, mathFunction);
+				break;
 			}
 			stringBuilder.append("((");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append("))");
-			if (isMixedNumber) {
-				stringBuilder.append(")");
-			}
 			break;
 		case MIXED_NUMBER:
 			boolean isNegative = mathFunction.getArgument(0).getArgument(0) != null
@@ -314,23 +310,20 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	}
 
 	/**
-	 * @return Index ( >= 0 ) of where to put an opening parentheses when there is a mixed number in the stringBuilder
-	 * <br> -1 If there is no mixed number
-	 * <br> Opening parentheses needed so e.g. 5 1/2 * 3 does not do the multiplication with 3 first
+	 * Creates a mixed number when an invisible plus was entered before a fraction
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
 	 */
-	private int isMixedNumber(StringBuilder stringBuilder) {
-		boolean isMixedNumber = false;
-		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
-			if (stringBuilder.charAt(i) == 32 && !isMixedNumber) {
-				continue;
-			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
-				isMixedNumber = true;
-			} else if (isMixedNumber) {
-				return i + 1;
-			} else {
-				break;
-			}
-		}
-		return isMixedNumber ? 0 : -1;
+	private void createMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
+		stringBuilder.append("(");
+		serialize(mathFunction.getArgument(0), stringBuilder);
+		stringBuilder.append("\u2064(");
+		serialize(mathFunction.getArgument(1), stringBuilder); //TODO correct serialization
+//		stringBuilder.append(mathFunction.getArgument(0).getArgument(0));
+//		stringBuilder.append("\u2064(");
+//		stringBuilder.append(mathFunction.getArgument(0).getArgument(2));
+		stringBuilder.append(")/(");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append("))");
 	}
 }

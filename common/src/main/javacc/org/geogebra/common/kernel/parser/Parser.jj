@@ -1056,7 +1056,11 @@ ExpressionValue plusminusnode():
     (( x = <PLUS> | x = <MINUS> | x = <PLUSMINUS>) f = multterm()
         {
             if (x.kind == PLUS) {
-                ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
+				if (x.image.equals("\u2064")) {
+					ret = new ExpressionNode(kernel, ret, Operation.INVISIBLE_PLUS, f);
+				} else {
+					ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
+				}
             } else if (x.kind == PLUSMINUS) {
                 ret = new ExpressionNode(kernel, ret, Operation.PLUSMINUS, f);
             }
