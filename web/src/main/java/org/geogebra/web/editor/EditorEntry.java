@@ -37,12 +37,13 @@ public class EditorEntry implements EntryPoint {
 	private String getBaseUrl() {
 		elemental2.dom.Element script = DomGlobal.document
 				.querySelector("[src$=\"editor.nocache.js\"]");
-		String baseUrl = GWT.getModuleBaseURL();
+
 		if (script != null && !isSuperDev()) {
-			baseUrl = script.getAttribute("src");
-			baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/") + 1);
+			String baseUrl = script.getAttribute("src");
+			return baseUrl.substring(0, baseUrl.lastIndexOf("/") + 1);
 		}
-		return baseUrl;
+
+		return GWT.getModuleBaseURL();
 	}
 
 	private boolean isSuperDev() {

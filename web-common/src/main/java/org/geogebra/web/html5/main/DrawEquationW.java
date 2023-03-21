@@ -73,7 +73,6 @@ public class DrawEquationW extends DrawEquation {
 
 	}
 
-
 	/**
 	 * @param t
 	 *            print scale

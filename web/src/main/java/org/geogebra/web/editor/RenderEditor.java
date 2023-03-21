@@ -24,11 +24,11 @@ public final class RenderEditor implements RenderGgbElementFunction {
 	@Override
 	public void render(Element el, JsConsumer<Object> callback) {
 		EditorListener listener = new EditorListener();
-		MathFieldW mf = initMathField(el, listener);
+		mathField = initMathField(el, listener);
 		if (tabbedKeyboard == null) {
-			tabbedKeyboard = initKeyboard(mf, el);
+			tabbedKeyboard = initKeyboard(el);
 			StyleInjector.onStylesLoaded(tabbedKeyboard::show);
-			editorApi = new EditorApi(mf, tabbedKeyboard, listener);
+			editorApi = new EditorApi(mathField, tabbedKeyboard, listener);
 			tabbedKeyboard.setListener((visible, field) -> {
 				if (!visible) {
 					editorApi.closeKeyboard();
@@ -43,14 +43,14 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		}
 	}
 
-	private TabbedKeyboard initKeyboard(MathFieldW mf, Element el) {
+	private TabbedKeyboard initKeyboard(Element el) {
 		EditorKeyboardContext editorKeyboardContext = new EditorKeyboardContext(el);
 		TabbedKeyboard tabbedKeyboard = new TabbedKeyboard(editorKeyboardContext, false);
 		FlowPanel keyboardWrapper = new FlowPanel();
 		keyboardWrapper.setStyleName("GeoGebraFrame");
 		keyboardWrapper.add(tabbedKeyboard);
 		RootPanel.get().add(keyboardWrapper);
-		tabbedKeyboard.setProcessing(new MathFieldProcessing(mf));
+		tabbedKeyboard.setProcessing(new MathFieldProcessing(mathField));
 		tabbedKeyboard.clearAndUpdate();
 		DomGlobal.window.addEventListener("resize", evt -> tabbedKeyboard.onResize());
 		return tabbedKeyboard;
