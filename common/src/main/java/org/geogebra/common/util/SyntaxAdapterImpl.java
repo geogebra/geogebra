@@ -16,6 +16,7 @@ import org.geogebra.common.plugin.Operation;
 public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 
 	private final Kernel kernel;
+
 	/**
 	 * @param kernel
 	 *            Kernel
@@ -53,7 +54,6 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 				.checkFirstCall(kernel.getApplication());
 		return super.convertLaTeXtoGGB(latexExpression);
 	}
-
 
 	@Override
 	public boolean isFunction(String casName) {

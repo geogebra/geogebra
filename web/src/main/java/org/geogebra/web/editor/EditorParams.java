@@ -7,6 +7,11 @@ public class EditorParams {
 	private final Element element;
 	private final MathFieldW mathField;
 
+	/**
+	 *
+	 * @param element where the params come from.
+	 * @param mathField to setup.
+	 */
 	public EditorParams(Element element, MathFieldW mathField) {
 		this.element = element;
 		this.mathField = mathField;

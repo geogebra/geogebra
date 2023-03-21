@@ -15,7 +15,7 @@ import jsinterop.base.Js;
 
 public class EditorEntry implements EntryPoint {
 
- 	@Override
+	@Override
 	public void onModuleLoad() {
 		initFontAndCss();
 		initJlmLibrary();

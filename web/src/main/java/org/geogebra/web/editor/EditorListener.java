@@ -36,7 +36,6 @@ public class EditorListener implements MathFieldListener {
 		mathField.scrollParentHorizontally(parent);
 	}
 
-
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
 		scrollOnDemand();

@@ -19,6 +19,7 @@ import elemental2.dom.DomGlobal;
 public final class RenderEditor implements RenderGgbElementFunction {
 	private TabbedKeyboard tabbedKeyboard = null;
 	private EditorApi editorApi;
+	private MathFieldW mathField;
 
 	@Override
 	public void render(Element el, JsConsumer<Object> callback) {
@@ -60,25 +61,29 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		FlowPanel wrapper = new FlowPanel();
 		wrapper.setWidth("100%");
 		wrapper.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
-		MathFieldW mf = new MathFieldW(null, wrapper, canvas, listener);
-		EditorParams editorParams = new EditorParams(el, mf);
-		listener.setMathField(mf);
-		mf.parse("");
-		wrapper.add(mf);
+		mathField = new MathFieldW(null, wrapper, canvas, listener);
+		EditorParams editorParams = new EditorParams(el, mathField);
+		listener.setMathField(mathField);
+		mathField.parse("");
+		wrapper.add(mathField);
 
 		if (!editorParams.isPreventFocus()) {
-			mf.requestViewFocus();
+			mathField.requestViewFocus();
 		}
 
-		mf.setPixelRatio(DomGlobal.window.devicePixelRatio);
-		mf.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
+		mathField.setPixelRatio(DomGlobal.window.devicePixelRatio);
+		mathField.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
 		RootPanel rootPanel = newRoot(el);
 		rootPanel.add(wrapper);
-		MathFieldProcessing processing = new MathFieldProcessing(mf);
 
-		rootPanel.addDomHandler(evt -> {mf.requestViewFocus();
-			tabbedKeyboard.setProcessing(processing);}, ClickEvent.getType());
-		return mf;
+		rootPanel.addDomHandler(evt -> onFocus(), ClickEvent.getType());
+		return mathField;
+	}
+
+	private void onFocus() {
+		mathField.requestViewFocus();
+		MathFieldProcessing processing = new MathFieldProcessing(mathField);
+		tabbedKeyboard.setProcessing(processing);
 	}
 
 	private RootPanel newRoot(Element el) {
