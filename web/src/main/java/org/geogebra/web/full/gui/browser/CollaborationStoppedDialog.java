@@ -12,8 +12,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
-
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Label;
 
 public class CollaborationStoppedDialog extends ComponentDialog {
 

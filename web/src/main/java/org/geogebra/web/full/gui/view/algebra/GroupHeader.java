@@ -2,9 +2,8 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.SelectionManager;
 import org.gwtproject.safehtml.shared.SafeUri;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TreeItem;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.TreeItem;
 
 /**
  * AV group header

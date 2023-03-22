@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.util;
 
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.IsWidget;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.legacy.shared.EventHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.user.client.ui.IsWidget;
 
 public interface AdvancedFocusPanelI extends IsWidget {
 

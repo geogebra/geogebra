@@ -23,10 +23,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author gabor

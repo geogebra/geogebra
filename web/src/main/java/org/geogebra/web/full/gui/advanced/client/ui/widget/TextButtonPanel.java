@@ -22,11 +22,10 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HasValue;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
  * This is a basic class for all text boxs with a button.

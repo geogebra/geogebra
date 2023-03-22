@@ -5,8 +5,7 @@ import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler;
 
 public class GPopupMenuWMock extends GPopupMenuW {
 	private GMenuBarMock menuBarMock;

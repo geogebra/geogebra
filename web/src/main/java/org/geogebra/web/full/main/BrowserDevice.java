@@ -3,16 +3,14 @@ package org.geogebra.web.full.main;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
-import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
@@ -38,8 +36,7 @@ public class BrowserDevice implements GDevice {
 		public FileOpenButton() {
 			super();
 			this.setStyleName("button");
-			final Image icon = new Image(ImageResourceConverter
-						.convertToOldImageResource(BrowseResources.INSTANCE.location_local()));
+			final Image icon = new Image(BrowseResources.INSTANCE.location_local());
 			final Element span = DOM.createElement("span");
 			span.setAttribute("style",
 					"position: absolute; top: 0px; left: 0px; "

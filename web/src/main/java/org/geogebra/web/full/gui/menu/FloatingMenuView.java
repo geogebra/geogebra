@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.menu;
 
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 class FloatingMenuView extends SimplePanel {
 

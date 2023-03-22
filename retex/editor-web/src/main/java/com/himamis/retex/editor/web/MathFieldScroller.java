@@ -2,9 +2,10 @@ package com.himamis.retex.editor.web;
 
 import static com.himamis.retex.editor.web.MathFieldW.SCROLL_THRESHOLD;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
+
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 /**

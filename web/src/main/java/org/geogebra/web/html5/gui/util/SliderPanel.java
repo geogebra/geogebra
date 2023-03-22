@@ -2,9 +2,9 @@ package org.geogebra.web.html5.gui.util;
 
 import java.util.function.Consumer;
 
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.event.logical.shared.ValueChangeHandler;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class SliderPanel extends FlowPanel implements SliderInputHandler {
 

@@ -36,11 +36,10 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.UriUtils;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Controller for the main menu in the apps.

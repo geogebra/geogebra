@@ -4,11 +4,10 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.SuggestOracle;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author bencze

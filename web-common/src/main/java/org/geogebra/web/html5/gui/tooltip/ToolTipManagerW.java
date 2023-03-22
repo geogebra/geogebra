@@ -2,10 +2,9 @@ package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Event;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.Event;
 
 public final class ToolTipManagerW {
 	private ComponentSnackbar snackbar;

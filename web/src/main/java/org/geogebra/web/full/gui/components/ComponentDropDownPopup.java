@@ -3,12 +3,11 @@ package org.geogebra.web.full.gui.components;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Popup menu following the Material Design.

@@ -18,8 +18,7 @@ import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * style bar for 3D view

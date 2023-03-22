@@ -2,8 +2,7 @@ package org.geogebra.web.full.cas.view;
 
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
-
-import com.google.gwt.event.dom.client.HumanInputEvent;
+import org.gwtproject.event.dom.client.HumanInputEvent;
 
 /**
  * Common interface for plaintext or LaTeX based CAS editors

@@ -1,12 +1,11 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.StringUtil;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.LabelElement;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.UIObject;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.LabelElement;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.UIObject;
 
 /**
  * Label for form elements

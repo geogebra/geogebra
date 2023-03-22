@@ -1,9 +1,8 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 
 /**
  * Shared interface for export and download menu

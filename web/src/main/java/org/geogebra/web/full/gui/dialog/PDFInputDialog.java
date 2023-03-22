@@ -17,17 +17,16 @@ import org.geogebra.web.html5.util.pdf.PDFWrapper;
 import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.resources.client.ImageResource;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FileUpload;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.DragEvent;
 import elemental2.dom.File;

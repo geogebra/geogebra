@@ -14,11 +14,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.resources.client.ImageResource;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.InlineLabel;
+import org.gwtproject.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class WebStepGuiBuilder {
 

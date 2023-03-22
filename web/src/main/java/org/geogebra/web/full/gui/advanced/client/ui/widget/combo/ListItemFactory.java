@@ -16,7 +16,7 @@
 
 package org.geogebra.web.full.gui.advanced.client.ui.widget.combo;
 
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * This is a list item factory that helps to produce items in the

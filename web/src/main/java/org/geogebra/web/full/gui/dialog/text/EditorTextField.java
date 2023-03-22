@@ -2,10 +2,9 @@ package org.geogebra.web.full.gui.dialog.text;
 
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
 
 public class EditorTextField extends GTextBox implements KeyUpHandler {
 

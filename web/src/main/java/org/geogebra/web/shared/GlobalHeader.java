@@ -12,17 +12,16 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.view.button.ActionButton;
 import org.geogebra.web.shared.view.button.DisappearingActionButton;
-
-import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.animation.client.AnimationScheduler;
+import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
+import org.gwtproject.dom.client.DivElement;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Display;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.core.Function;
 
