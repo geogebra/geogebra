@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.main.App;
 
-public class SegmentStyleModel extends NumberOptionsModel {
+public class SegmentStyleModel extends IconOptionsModel {
 	private IComboListener listener;
 	private boolean isStartStyle;
 
@@ -17,6 +17,11 @@ public class SegmentStyleModel extends NumberOptionsModel {
 
 	public void setListener(IComboListener listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public String getTitle() {
+		return isStartStyle ? "stylebar.LineStartStyle" : "stylebar.LineEndStyle";
 	}
 
 	@Override
