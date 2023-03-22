@@ -54,8 +54,7 @@
     white-space: nowrap;
 }
 
-.smallScreen.GeoGebraHeader .appName,
-.smallScreen.GeoGebraHeader .appsBtn {
+.smallScreen.GeoGebraHeader .appName {
     display: none;
 }
 
@@ -89,11 +88,7 @@
 }
 
 .GeoGebraFrame .shareBtn {
-    margin: 14px 22px 14px 0;
-}
-
-.GeoGebraFrame .appsBtn {
-    margin: 14px 2px;
+    margin: 14px 12px 14px 0;
 }
 
 .GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
@@ -371,7 +366,7 @@ svg.icon.left {
     display: none;
 }
 
-.compact.GeoGebraFrame .shareBtn, .compact.GeoGebraFrame .appsBtn, .compact.GeoGebraFrame .signIn {
+.compact.GeoGebraFrame .shareBtn, .compact.GeoGebraFrame .signIn {
     display: none;
 }
 .GeoGebraHeader .signInIcon {
