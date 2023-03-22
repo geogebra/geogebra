@@ -30,6 +30,8 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
 import com.himamis.retex.editor.web.MathFieldW;
 
+import elemental2.dom.DomGlobal;
+
 /**
  * Handles keyboard events.
  */
@@ -119,6 +121,13 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public GlobalKeyDispatcherW(AppW app) {
 		super(app);
+		app.getGlobalHandlers().addEventListener(DomGlobal.window, "focus",
+				event -> releaseAlts());
+	}
+
+	private void releaseAlts() {
+		leftAltDown = false;
+		rightAltDown = false;
 	}
 
 	private class GlobalShortcutHandler implements EventListener {
