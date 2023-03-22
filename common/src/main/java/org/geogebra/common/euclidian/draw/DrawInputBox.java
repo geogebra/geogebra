@@ -274,7 +274,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private void updateRenderer() {
 		if (geoInputBox.isSymbolicMode()) {
 			rendererSettings = LatexRendererSettings.createForInputBox(
-					geoInputBox.getApp().getFontSize());
+					(int) (geoInputBox.getApp().getFontSize() * geoInputBox.getFontSizeMultiplier()));
 			textRenderer = new LaTeXTextRenderer(this, rendererSettings);
 		} else {
 			rendererSettings = new SimpleTextRendererSettings();

@@ -37,7 +37,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 						 double xPos, double yPos) {
 		int textLeft = (int) Math.round(xPos) + settings.getFixMargin();
 
-		GFont font1 = getFont(geo, font, settings.getBaseFontSize() + 1);
+		GFont font1 = getFont(font, settings.getRendererFontSize(), geo.isSerifContent());
 		GDimension textDimension = drawInputBox.measureLatex(graphics, geo,
 				font1, text);
 		double inputBoxHeight = drawInputBox.getInputFieldBounds().getHeight()
@@ -69,7 +69,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		GFont gFont = getFont(geo, font, settings.getEditorFontSize());
+		GFont gFont = getFont(font, settings.getEditorFontSize(), geo.isSerifContent());
 		GDimension textDimension =
 				drawInputBox.measureLatex(graphics, geo, gFont, geo.getDisplayText());
 
@@ -85,8 +85,8 @@ public class LaTeXTextRenderer implements TextRenderer {
 				inputBoxHeight);
 	}
 
-	private GFont getFont(GeoInputBox geo, GFont font, int fontSize) {
-		int style = font.getLaTeXStyle(geo.isSerifContent());
-		return font.deriveFont(style, fontSize * geo.getFontSizeMultiplier());
+	private GFont getFont(GFont font, int fontSize, boolean serif) {
+		int style = font.getLaTeXStyle(serif);
+		return font.deriveFont(style, fontSize);
 	}
 }

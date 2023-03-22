@@ -5,7 +5,7 @@ public class LatexRendererSettings implements TextRendererSettings {
 	private final int minHeight;
 	private final int rightMargin;
 	private int bottomOffset;
-	private final int baseFontSize;
+	private final int fontSize;
 
 	/**
 	 *
@@ -13,15 +13,15 @@ public class LatexRendererSettings implements TextRendererSettings {
 	 * @param minHeight minimum height of the input.
 	 * @param rightMargin right margin.
 	 * @param bottomOffset offset of bottom
-	 * @param baseFontSize font size.
+	 * @param fontSize font size.
 	 */
 	public LatexRendererSettings(int fixMargin, int minHeight, int rightMargin, int bottomOffset,
-			int baseFontSize) {
+			int fontSize) {
 		this.fixMargin = fixMargin;
 		this.minHeight = minHeight;
 		this.rightMargin = rightMargin;
 		this.bottomOffset = bottomOffset;
-		this.baseFontSize = baseFontSize;
+		this.fontSize = fontSize;
 	}
 
 	/**
@@ -66,12 +66,12 @@ public class LatexRendererSettings implements TextRendererSettings {
 	}
 
 	@Override
-	public int getBaseFontSize() {
-		return baseFontSize;
+	public int getRendererFontSize() {
+		return fontSize;
 	}
 
 	@Override
 	public int getEditorFontSize() {
-		return baseFontSize + 3;
+		return getRendererFontSize() + 3;
 	}
 }

@@ -24,7 +24,7 @@ public class SimpleTextRendererSettings implements TextRendererSettings {
 	}
 
 	@Override
-	public int getBaseFontSize() {
+	public int getRendererFontSize() {
 		return 0;
 	}
 

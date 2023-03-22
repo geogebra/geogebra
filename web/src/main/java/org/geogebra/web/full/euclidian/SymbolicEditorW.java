@@ -58,7 +58,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.getMathField().setRightMargin(settings.getRightMargin());
 		editor.getMathField().setBottomOffset(settings.getBottomOffset());
 
-		decorator = new SymbolicEditorDecorator(editor, settings.getEditorFontSize());
+		decorator = new SymbolicEditorDecorator(editor, app.getFontSize());
 	}
 
 	@Override

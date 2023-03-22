@@ -9,7 +9,7 @@ public interface TextRendererSettings {
 
 	int getBottomOffset();
 
-	int getBaseFontSize();
+	int getRendererFontSize();
 
 	int getEditorFontSize();
 }
