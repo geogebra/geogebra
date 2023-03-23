@@ -4,9 +4,8 @@ import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.full.main.video.HTML5VideoWidget.VideoListener;
 import org.geogebra.web.html5.util.PersistablePanel;
-
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Frame based HTML5 player with video tag.

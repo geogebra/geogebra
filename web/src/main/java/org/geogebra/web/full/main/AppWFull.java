@@ -171,15 +171,15 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Overflow;
+import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.Global;
@@ -287,7 +287,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		checkExamPerspective();
 		afterCoreObjectsInited();
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(geoGebraElement);
+		Browser.removeDefaultContextMenu(geoGebraElement.getElement());
 		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
 			setupHeader();
@@ -928,7 +928,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 							}
 							setActiveMaterial(material);
 							if (material.isMultiuser()) {
-								getShareController().startMultiuser(material.getSharingKeyOrId());
+								getShareController().startMultiuser(material.getSharingKeySafe());
 							}
 							ensureSupportedModeActive();
 						} else {
@@ -2389,7 +2389,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void storeCurrentMaterial() {
 		Material material = getActiveMaterial();
 		if (material == null) {
-			material = new Material(-1, Material.MaterialType.ggb);
+			material = new Material(Material.MaterialType.ggb);
 		}
 		material.setContent(getGgbApi().getFileJSON(false));
 		constructionJson.put(getConfig().getSubAppCode(), material);
@@ -2403,7 +2403,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (oldConstruction != null) {
 				getGgbApi().setFileJSON(oldConstruction);
 			}
-			if (material.getId() != -1) {
+			if (material.getSharingKey() != null) {
 				setActiveMaterial(material);
 				updateMaterialURL(material);
 				return true;

@@ -144,7 +144,7 @@ public class MaterialRestAPI implements BackendAPI {
 		String method = json == null ? "DELETE" : "PATCH";
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
-		request.sendRequestPost(method, baseURL + "/materials/" + mat.getSharingKeyOrId(), json,
+		request.sendRequestPost(method, baseURL + "/materials/" + mat.getSharingKeySafe(), json,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
@@ -459,7 +459,7 @@ public class MaterialRestAPI implements BackendAPI {
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}
-		performRequest("PATCH", "/materials/" + material.getSharingKeyOrId(),
+		performRequest("PATCH", "/materials/" + material.getSharingKeySafe(),
 				request.toString(), materialCallback);
 	}
 
@@ -475,7 +475,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 */
 	public void copy(Material material, final String title,
 			final MaterialCallbackI materialCallback) {
-		performRequest("POST", "/materials/" + material.getSharingKeyOrId(), null,
+		performRequest("POST", "/materials/" + material.getSharingKeySafe(), null,
 				new MaterialCallbackI() {
 
 					@Override
@@ -528,7 +528,7 @@ public class MaterialRestAPI implements BackendAPI {
 			final AsyncOperation<Boolean> callback) {
 		HttpRequest request = service.createRequest(model);
 		request.sendRequestPost(shared ? "POST" : "DELETE",
-				baseURL + "/materials/" + m.getSharingKeyOrId() + "/groups/"
+				baseURL + "/materials/" + m.getSharingKeySafe() + "/groups/"
 						+ groupID.name + "?category=" + groupID.getCategory(), null,
 				new AjaxCallback() {
 					@Override
@@ -656,7 +656,7 @@ public class MaterialRestAPI implements BackendAPI {
 		request.setContentTypeJson();
 
 		request.sendRequestPost("GET", baseURL + "/materials/"
-				+ parent.getSharingKeyOrId(), null, new AjaxCallback() {
+				+ parent.getSharingKeySafe(), null, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {
@@ -666,19 +666,8 @@ public class MaterialRestAPI implements BackendAPI {
 					for (int i = 0; i < elements.length(); i++) {
 						JSONObject jsonObject = elements.getJSONObject(i);
 						if ("G".equals(jsonObject.optString("type"))) {
-							Material mat = new Material(parent);
-							mat.setType(MaterialType.ggb);
-							mat.setThumbnailUrl(jsonObject.getString("thumbUrl"));
-							mat.setFileName(jsonObject.getString("url"));
+							Material mat = JSONParserGGT.worksheetToMaterial(parent, jsonObject);
 							materials.add(mat);
-							JSONObject settings = jsonObject.optJSONObject("settings");
-							if (settings != null) {
-								JSONParserGGT.copySettings(settings, mat);
-							}
-							JSONObject views = jsonObject.optJSONObject("views");
-							if (views != null) {
-								JSONParserGGT.copyViews(views, mat);
-							}
 						}
 					}
 					materialCallback

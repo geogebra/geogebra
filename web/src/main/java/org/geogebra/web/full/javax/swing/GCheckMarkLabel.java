@@ -3,8 +3,7 @@ package org.geogebra.web.full.javax.swing;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 
 /**
  * 

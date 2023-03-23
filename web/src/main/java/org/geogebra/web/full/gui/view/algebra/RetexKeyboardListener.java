@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.web.MathFieldW;
 

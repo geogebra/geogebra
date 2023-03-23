@@ -16,10 +16,10 @@
 
 package org.geogebra.web.full.gui.view.consprotocol;
 
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.text.shared.SafeHtmlRenderer;
-import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
+import org.gwtproject.cell.client.AbstractCell;
+import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
+import org.gwtproject.text.shared.SafeHtmlRenderer;
+import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
 
 /**
  * Based on NumberCell. Make sure not to use GWT's NumberFormat to avoid

@@ -12,8 +12,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
-
-import com.google.gwt.dom.client.Style.Unit;
+import org.gwtproject.dom.style.shared.Unit;
 
 /**
  * Tab of Table Values View.

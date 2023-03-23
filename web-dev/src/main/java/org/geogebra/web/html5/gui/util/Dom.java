@@ -1,13 +1,12 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.debug.Log;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.EventTarget;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.UIObject;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.EventTarget;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.UIObject;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;

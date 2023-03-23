@@ -5,7 +5,7 @@ public interface GWTKeycodes {
 
 	/**
 	 * Contains the native key codes previously defined in
-	 * {@link com.google.gwt.user.client.ui.KeyboardListener}. When converting
+	 * {@link org.gwtproject.user.client.ui.KeyboardListener}. When converting
 	 * keyboard listener instances, developers can use the following static
 	 * import to access these constants:
 	 * 
@@ -15,7 +15,7 @@ public interface GWTKeycodes {
 	 * 
 	 * These constants are defined with an int data type in order to be
 	 * compatible with the constants defined in
-	 * {@link com.google.gwt.user.client.ui.KeyboardListener}.
+	 * {@link org.gwtproject.user.client.ui.KeyboardListener}.
 	 *
 	 * Because the original KeyCodes class has a private constructor,
 	 * it can't be extended, so I must create an own one.

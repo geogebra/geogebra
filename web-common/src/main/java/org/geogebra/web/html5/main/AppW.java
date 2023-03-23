@@ -150,18 +150,18 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.AnalyticsW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.ArrayBuffer;
 import elemental2.core.Uint8Array;
@@ -734,7 +734,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void loadOrEmbedGgbFile(ArrayBuffer binary, String fileName) {
 		EmbedManager embedManager = getEmbedManager();
 		if (!fileName.endsWith("ggs") && embedManager != null) {
-			Material mat = new Material(-1, Material.MaterialType.ggb);
+			Material mat = new Material(Material.MaterialType.ggb);
 			mat.setBase64(Base64.bytesToBase64(new Uint8Array(binary)));
 			embedManager.embed(mat);
 		} else {
@@ -2995,15 +2995,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param id
-	 *            material id
 	 * @param sharingKey
 	 *            material sharing key
 	 * @param title
 	 *            material title
 	 */
-	public void updateMaterialURL(int id, String sharingKey, String title) {
-		setTubeId(id > 0 ? Integer.toString(id) : sharingKey);
+	public void updateMaterialURL(String sharingKey, String title) {
+		setTubeId(sharingKey);
 		if (appletParameters.getDataParamApp() && sharingKey != null) {
 			Browser.changeUrl(getCurrentURL(sharingKey, false));
 			if (!StringUtil.empty(title)) {
@@ -3013,7 +3011,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	public void updateMaterialURL(Material material) {
-		updateMaterialURL(material.getId(), material.getSharingKeyOrId(), material.getTitle());
+		updateMaterialURL(material.getSharingKeySafe(), material.getTitle());
 	}
 
 	/**

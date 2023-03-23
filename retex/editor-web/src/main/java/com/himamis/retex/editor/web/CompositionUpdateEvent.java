@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package com.himamis.retex.editor.web;
 
-import com.google.gwt.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.DomEvent;
 
 import jsinterop.base.Js;
 
@@ -39,7 +39,7 @@ public class CompositionUpdateEvent extends DomEvent<CompositionHandler> {
 
 	/**
 	 * Protected constructor, use
-	 * {@link DomEvent#fireNativeEvent(com.google.gwt.dom.client.NativeEvent, com.google.gwt.event.shared.HasHandlers)}
+	 * {@link DomEvent#fireNativeEvent(org.gwtproject.dom.client.NativeEvent, org.gwtproject.event.shared.HasHandlers)}
 	 * to fire focus events.
 	 */
 	protected CompositionUpdateEvent() {

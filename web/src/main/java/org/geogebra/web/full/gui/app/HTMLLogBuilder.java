@@ -1,11 +1,10 @@
 package org.geogebra.web.full.gui.app;
 
 import org.geogebra.common.main.exam.ExamLogBuilder;
-
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HTML;
+import org.gwtproject.dom.client.DivElement;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.HTML;
 
 /**
  * HTML builder for exam logs

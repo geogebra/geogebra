@@ -1,11 +1,12 @@
 package com.himamis.retex.editor.web;
 
-import com.google.gwt.event.dom.client.KeyCodeEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.shared.EventHandler;
+import org.gwtproject.event.dom.client.KeyCodeEvent;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyDownHandler;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.event.legacy.shared.EventHandler;
+
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;

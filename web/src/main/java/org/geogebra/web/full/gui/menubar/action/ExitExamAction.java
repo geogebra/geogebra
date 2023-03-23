@@ -16,8 +16,7 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.canvas.client.Canvas;
+import org.gwtproject.canvas.client.Canvas;
 
 /**
  * Exits exam mode.

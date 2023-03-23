@@ -24,7 +24,9 @@ public class TempStorage {
      * @return a new Material with a unique id
      */
     public Material newMaterial() {
-        return new Material(nextTempMaterialId(), Material.MaterialType.ggb);
+        Material material = new Material(Material.MaterialType.ggb);
+        material.setLocalID(nextTempMaterialId());
+        return material;
     }
 
     private int nextTempMaterialId() {
@@ -35,11 +37,11 @@ public class TempStorage {
      * Saves a copy of the material into the tempMaterials with the correct id.
      */
     public void saveTempMaterial(Material material) {
-        Material savedMaterial = tempMaterials.get(material.getId());
+        Material savedMaterial = tempMaterials.get(material.getLocalID());
         if (savedMaterial != null && !savedMaterial.getTitle().equals(material.getTitle())) {
-            material.setId(nextTempMaterialId());
+            material.setLocalID(nextTempMaterialId());
         }
-        tempMaterials.put(material.getId(), new Material(material));
+        tempMaterials.put(material.getLocalID(), new Material(material));
     }
 
     /**

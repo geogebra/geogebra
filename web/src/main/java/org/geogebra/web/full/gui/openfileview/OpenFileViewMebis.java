@@ -21,12 +21,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
-
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.File;
 
@@ -257,8 +256,8 @@ public class OpenFileViewMebis extends HeaderFileView
 			Widget widget = common.materialAt(idx);
 			if (widget instanceof MaterialCard
 					&& isBeforeOrSame(material, ((MaterialCard) widget).getMaterial())) {
-				if (((MaterialCard) widget).getMaterial().getSharingKeyOrId()
-						.equals(material.getSharingKeyOrId())) {
+				if (((MaterialCard) widget).getMaterial().getSharingKeySafe()
+						.equals(material.getSharingKeySafe())) {
 					// don't add the same material twice
 					return;
 				}

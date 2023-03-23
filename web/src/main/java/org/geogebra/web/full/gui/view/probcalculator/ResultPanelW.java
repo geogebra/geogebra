@@ -4,10 +4,9 @@ import org.geogebra.common.gui.view.probcalculator.ResultPanel;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Panel to edit and display probability bounds and results
