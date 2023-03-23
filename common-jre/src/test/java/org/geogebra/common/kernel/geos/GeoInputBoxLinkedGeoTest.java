@@ -23,6 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -190,11 +191,11 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void symbolicShouldShowDefinitionFor3DPoints() {
 		setupInput("P", "(?,?,?)");
 		inputBox.setSymbolicMode(true, false);
-		assertEquals("(,,)", inputBox.getTextForEditor());
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
 		updateInput("(sqrt(2), 1/3, 0)");
 		assertEquals("(sqrt(2),(1)/(3),0)", inputBox.getTextForEditor());
 		add("SetValue(P,?)");
-		assertEquals("(,,)", inputBox.getTextForEditor());
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -484,7 +485,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		vec1.set(vec2);
 		assertThat(inputBox.getTextForEditor(), equalTo("{{sqrt(3)}, {3 / 2}}"));
 		addAvInput("SetValue(u,?)");
-		assertThat(inputBox.getTextForEditor(), equalTo("{{}, {}}"));
+		assertThat(inputBox.getTextForEditor(), equalTo("{{?}, {?}}"));
 	}
 
 	@Test
@@ -495,7 +496,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		vec1.set(vec2);
 		assertThat(inputBox.getTextForEditor(), equalTo("{{5 / 6}, {3 / 2}, {sqrt(5)}}"));
 		addAvInput("SetValue(u,?)");
-		assertThat(inputBox.getTextForEditor(), equalTo("{{}, {}, {}}"));
+		assertThat(inputBox.getTextForEditor(), equalTo("{{?}, {?}, {?}}"));
 	}
 
 	@Test
@@ -665,7 +666,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void testEmpty2DMatrixShouldNotRaiseError() {
 		add("m1 = {{1,2},{3,4}}");
 		GeoInputBox inputBox = add("InputBox(m1)");
-		inputBox.updateLinkedGeo("{{,,},{,,}}");
+		inputBox.updateLinkedGeo("{{?,?,?},{?,?,?}}");
 		assertFalse(inputBox.hasError());
 	}
 
@@ -675,5 +676,23 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(u)");
 		inputBox.updateLinkedGeo("(,,)");
 		assertFalse(inputBox.hasError());
+	}
+
+	@Test
+	public void testUndefinedPoint() {
+		add("A=(?,?)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		assertEquals("\\left({" + TeXSerializer.PLACEHOLDER + ","
+				+ TeXSerializer.PLACEHOLDER + "}\\right)", inputBox.getText());
+	}
+
+	@Test
+	public void testUndefinedVectorWithFraction() {
+		add("u=(?,?/?)");
+		GeoInputBox inputBox = add("InputBox(u)");
+		assertEquals("\\begin{pmatrix} "
+				+ "{" + TeXSerializer.PLACEHOLDER + "} \\\\ "
+				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
+				+ " \\end{pmatrix}", inputBox.getText());
 	}
 }

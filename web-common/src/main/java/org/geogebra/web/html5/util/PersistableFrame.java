@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.util;
 
-import com.google.gwt.user.client.ui.Frame;
+import org.gwtproject.user.client.ui.Frame;
 
 /**
  * Frame that should stay when keyboard is opened/closed

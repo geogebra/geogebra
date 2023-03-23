@@ -3,9 +3,8 @@ package org.geogebra.web.full.gui.app;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.Composite;
+import org.gwtproject.user.client.ui.RequiresResize;
 
 /**
  * Wraps the input bar

@@ -20,19 +20,19 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.resources.StyleInjector;
+import org.gwtproject.dom.client.DivElement;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.BorderStyle;
+import org.gwtproject.dom.style.shared.OutlineStyle;
+import org.gwtproject.dom.style.shared.Overflow;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RootPanel;
 
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.BorderStyle;
-import com.google.gwt.dom.client.Style.OutlineStyle;
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.web.MathFieldW;
 
 import jsinterop.base.Js;
@@ -391,7 +391,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void setBorder(String dpBorder, int px) {
-		setBorder(geoGebraElement, getStyleElement(), dpBorder, px);
+		setBorder(geoGebraElement.getElement(), getStyleElement(), dpBorder, px);
 	}
 
 	private static void setBorder(Element ae, Element gfE,
@@ -455,8 +455,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			app.setCustomToolBar();
 
 			if (app.isApplet()) {
-				Event.sinkEvents(geoGebraElement, Event.ONKEYPRESS | Event.ONKEYDOWN);
-				Event.setEventListener(geoGebraElement,
+				Event.sinkEvents(geoGebraElement.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
+				Event.setEventListener(geoGebraElement.getElement(),
 						app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 			} else {
 				Element parent = geoGebraElement.getParentElement();
@@ -528,7 +528,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		isHeaderVisible = !shouldHaveSmallScreenLayout();
 		setSizeStyles();
 		if (!appletParameters.getDataParamApp()) {
-			addFocusHandlers(geoGebraElement);
+			addFocusHandlers(geoGebraElement.getElement());
 		}
 	}
 
@@ -691,7 +691,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 		app.getGlobalHandlers().removeAllListeners();
 		app.getTimerSystem().cancel();
-		Event.setEventListener(geoGebraElement, null);
+		Event.setEventListener(geoGebraElement.getElement(), null);
 		geoGebraElement = null;
 		SymbolicEditor symbolicEditor = app.getEuclidianView1().getSymbolicEditor();
 		if (symbolicEditor != null) {

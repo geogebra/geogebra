@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui.inputfield;
 
-import com.google.gwt.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.UIObject;
 
 /**
  * Suggestion display

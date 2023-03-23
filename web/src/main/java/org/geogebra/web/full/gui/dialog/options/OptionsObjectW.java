@@ -81,12 +81,11 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.Command;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
 public class OptionsObjectW extends OptionsObject implements OptionPanelW {

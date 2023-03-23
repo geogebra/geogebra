@@ -1,13 +1,12 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.gwtutil.NavigatorUtil;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.TextAreaElement;
+import org.gwtproject.dom.style.shared.Display;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPanelI {
 

@@ -2,12 +2,11 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.web.html5.gui.util.ImageOrText;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.user.client.ui.Grid;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 public class SelectionTableW extends Grid implements ClickHandler {
 	private int selectedColumn = -1;

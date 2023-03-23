@@ -1,7 +1,7 @@
 package org.geogebra.web.shared.components;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class ComponentOrDivider extends FlowPanel {
 

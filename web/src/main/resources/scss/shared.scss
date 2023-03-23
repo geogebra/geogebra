@@ -190,8 +190,15 @@ $keyboard_button_transition: opacity .3s ease;
 
 	.AutoCompleteTextFieldW.FromDrawTextFieldNew {
 		.fieldContainer {
-			border: 1px solid colors.$input-border;
+			border: 2px solid;
 			border-radius: 5px;
+		}
+
+		&.errorStyle {
+			.fieldContainer {
+				background-color: colors.$error-background;
+				border: 2px dashed colors.$error-border;
+			}
 		}
 
 		input, .cursorOverlay {

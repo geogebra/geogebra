@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -25,6 +27,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
@@ -42,30 +45,30 @@ import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.TextAlign;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.event.dom.client.FocusHandler;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyDownHandler;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyPressHandler;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.event.logical.shared.SelectionEvent;
+import org.gwtproject.event.logical.shared.SelectionHandler;
+import org.gwtproject.event.logical.shared.ValueChangeEvent;
+import org.gwtproject.event.logical.shared.ValueChangeHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FocusWidget;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -430,8 +433,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setBackground(GColor color) {
-		main.getElement().getStyle()
-				.setBackgroundColor(GColor.getColorString(color));
+		if (!hasError()) {
+			main.getElement().getStyle()
+					.setBackgroundColor(GColor.getColorString(color));
+			main.getElement().getStyle().setBorderColor(drawTextField.getBorderColor() != null
+					? drawTextField.getBorderColor().toString() : GColor.DEFAULT_PURPLE.toString());
+		} else {
+			main.getElement().getStyle().clearBackgroundColor();
+			main.getElement().getStyle().clearBorderColor();
+		}
 	}
 
 	@Override
@@ -1436,6 +1446,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				: GColor.getBorderColorFrom(backgroundColor);
 		g2.setColor(borderColor);
 		setTextFieldBorderColor(backgroundColor, borderColor);
+		if (drawTextField.hasError()) {
+			g2.setStroke(EuclidianStatic.getStroke(2,
+					EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT, GBasicStroke.JOIN_ROUND));
+		}
 
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}

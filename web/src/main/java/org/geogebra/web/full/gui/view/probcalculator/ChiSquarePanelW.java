@@ -6,23 +6,21 @@ import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.event.dom.client.ChangeEvent;
+import org.gwtproject.event.dom.client.ChangeHandler;
+import org.gwtproject.event.dom.client.FocusEvent;
+import org.gwtproject.event.dom.client.FocusHandler;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.TextBox;
 
 /**
  * ChiSquarePanel for Web
@@ -232,8 +230,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 			cbRows.addItem(num[i]);
 			cbColumns.addItem(num[i]);
 		}
-
-		Log.debug(getSc().rows + " :: " + getSc().columns);
 
 		ListBoxApi.select(String.valueOf(getSc().rows), cbRows);
 		cbRows.addChangeHandler(this);

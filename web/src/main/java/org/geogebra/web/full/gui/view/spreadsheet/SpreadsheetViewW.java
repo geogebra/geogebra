@@ -23,17 +23,16 @@ import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Touch;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.TouchMoveEvent;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		SettingListener, SetLabels, PrintableW {

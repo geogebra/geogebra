@@ -1,10 +1,9 @@
 package org.geogebra.web.html5.multiuser;
 
 import org.geogebra.common.awt.GColor;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Label;
 
 public class TooltipChip extends Label {
 	public static final int LEFT_MARGIN = 8;

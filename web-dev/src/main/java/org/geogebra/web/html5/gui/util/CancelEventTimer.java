@@ -1,9 +1,9 @@
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.TouchMoveEvent;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * The static methods of this class should be used to check for duplicated
