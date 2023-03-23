@@ -22,7 +22,7 @@ public abstract class AbstractSyntaxAdapter implements SyntaxAdapter {
 	public String convert(String exp) {
 		// might start <math> or <mrow> etc
 		if (exp.startsWith("<")) {
-			return convertMathMLoGGB(exp);
+			return convertMathMLtoGGB(exp);
 		} else if (mightBeLaTeXSyntax(exp)) {
 			return convertLaTeXtoGGB(exp);
 		}
@@ -37,7 +37,7 @@ public abstract class AbstractSyntaxAdapter implements SyntaxAdapter {
 	public String convertMath(String exp) {
 		// might start <math> or <mrow> etc
 		if (exp.startsWith("<")) {
-			return convertMathMLoGGB(exp);
+			return convertMathMLtoGGB(exp);
 		} else  {
 			return convertLaTeXtoGGB(exp);
 		}
@@ -48,7 +48,7 @@ public abstract class AbstractSyntaxAdapter implements SyntaxAdapter {
 		return new TeXAtomSerializer(null).serialize(tf.root);
 	}
 
-	private String convertMathMLoGGB(String mathmlExpression) {
+	private String convertMathMLtoGGB(String mathmlExpression) {
 		MathMLParser mathmlParserGGB = new MathMLParser(true);
 		return mathmlParserGGB.parse(mathmlExpression, false, true);
 	}

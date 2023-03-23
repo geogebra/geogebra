@@ -27,6 +27,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		mathField = initMathField(el, listener);
 		if (tabbedKeyboard == null) {
 			tabbedKeyboard = initKeyboard(el);
+			DomGlobal.window.addEventListener("resize", evt -> onResize());
 			StyleInjector.onStylesLoaded(tabbedKeyboard::show);
 			editorApi = new EditorApi(mathField, tabbedKeyboard, listener);
 			tabbedKeyboard.setListener((visible, field) -> {
@@ -43,16 +44,21 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		}
 	}
 
+	private void onResize() {
+		tabbedKeyboard.onResize();
+		mathField.setPixelRatio(DomGlobal.window.devicePixelRatio);
+	}
+
 	private TabbedKeyboard initKeyboard(Element el) {
 		EditorKeyboardContext editorKeyboardContext = new EditorKeyboardContext(el);
 		TabbedKeyboard tabbedKeyboard = new TabbedKeyboard(editorKeyboardContext, false);
+		tabbedKeyboard.addStyleName("detached");
 		FlowPanel keyboardWrapper = new FlowPanel();
 		keyboardWrapper.setStyleName("GeoGebraFrame");
 		keyboardWrapper.add(tabbedKeyboard);
 		RootPanel.get().add(keyboardWrapper);
 		tabbedKeyboard.setProcessing(new MathFieldProcessing(mathField));
 		tabbedKeyboard.clearAndUpdate();
-		DomGlobal.window.addEventListener("resize", evt -> tabbedKeyboard.onResize());
 		return tabbedKeyboard;
 	}
 
@@ -66,6 +72,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		listener.setMathField(mathField);
 		mathField.parse("");
 		wrapper.add(mathField);
+		setBackgroundColor(canvas);
 
 		if (!editorParams.isPreventFocus()) {
 			mathField.requestViewFocus();
@@ -78,6 +85,11 @@ public final class RenderEditor implements RenderGgbElementFunction {
 
 		rootPanel.addDomHandler(evt -> onFocus(), ClickEvent.getType());
 		return mathField;
+	}
+
+	private void setBackgroundColor(Canvas canvas) {
+		canvas.getElement().getStyle()
+				.setBackgroundColor(mathField.getBackgroundColor().getCssColor());
 	}
 
 	private void onFocus() {
