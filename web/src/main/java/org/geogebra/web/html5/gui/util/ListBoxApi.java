@@ -3,7 +3,7 @@ package org.geogebra.web.html5.gui.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.ListBox;
 
 /**
  * @author gabor

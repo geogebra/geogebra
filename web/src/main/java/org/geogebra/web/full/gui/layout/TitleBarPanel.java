@@ -12,11 +12,10 @@ import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	private final AppW app;

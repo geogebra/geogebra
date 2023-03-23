@@ -6,9 +6,8 @@ import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.applet.FrameWithHeaderAndKeyboard;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
 
 /**
  * Shows and hides a panel. If the panel is an AnimatingPanel then the transition (showing/hiding)

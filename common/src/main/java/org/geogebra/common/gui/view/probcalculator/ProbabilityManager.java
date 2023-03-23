@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.Construction;
@@ -59,10 +58,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class ProbabilityManager {
 
 	private final App app;
-	private final Localization loc;
 	private ProbabilityCalculatorView probCalc;
-	private HashMap<Dist, String> distributionMap;
-	private HashMap<String, Dist> reverseDistributionMap;
 	private HashMap<Dist, String[]> distributionParameterTransKeys;
 	private String[] customValues = {
 			"Median", "Scale", "Shape", "Population", "population", "Sample", "sample"
@@ -76,7 +72,6 @@ public class ProbabilityManager {
 	 */
 	public ProbabilityManager(App app, ProbabilityCalculatorView probCalc) {
 		this.app = app;
-		this.loc = app.getLocalization();
 		this.probCalc = probCalc;
 	}
 
@@ -91,54 +86,6 @@ public class ProbabilityManager {
 		return distType.equals(Dist.BINOMIAL) || distType.equals(Dist.PASCAL)
 				|| distType.equals(Dist.HYPERGEOMETRIC)
 				|| distType.equals(Dist.POISSON);
-	}
-
-	/**
-	 * Creates a hash map that can return a JComboBox menu string for
-	 * distribution type constant Key = display type constant Value = menu item
-	 * string
-	 *
-	 * @return map distribution -&gt; localized name
-	 */
-	public HashMap<Dist, String> getDistributionMap() {
-		if (distributionMap == null) {
-			distributionMap = new HashMap<>();
-
-			distributionMap.put(Dist.NORMAL, loc.getMenu("Distribution.Normal"));
-			distributionMap.put(Dist.STUDENT, loc.getMenu("Distribution.StudentT"));
-			distributionMap.put(Dist.CHISQUARE, loc.getMenu("Distribution.ChiSquare"));
-			distributionMap.put(Dist.F, loc.getMenu("Distribution.F"));
-			distributionMap.put(Dist.EXPONENTIAL, loc.getMenu("Distribution.Exponential"));
-			distributionMap.put(Dist.CAUCHY, loc.getMenu("Distribution.Cauchy"));
-			distributionMap.put(Dist.WEIBULL, loc.getMenu("Distribution.Weibull"));
-			distributionMap.put(Dist.LOGISTIC, loc.getCommand("Logistic"));
-			distributionMap.put(Dist.LOGNORMAL, loc.getCommand("LogNormal"));
-
-			distributionMap.put(Dist.GAMMA, loc.getMenu("Distribution.Gamma"));
-			distributionMap.put(Dist.BINOMIAL, loc.getMenu("Distribution.Binomial"));
-			distributionMap.put(Dist.PASCAL, loc.getMenu("Distribution.Pascal"));
-			distributionMap.put(Dist.POISSON, loc.getMenu("Distribution.Poisson"));
-			distributionMap.put(Dist.HYPERGEOMETRIC,
-					loc.getMenu("Distribution.Hypergeometric"));
-		}
-		return distributionMap;
-	}
-
-	/**
-	 * Creates a reverse hash map that can return a distribution constant for a
-	 * string selected in a JComboBox distribution menu Key = menu item string
-	 * Value = display type constant
-	 *
-	 * @return map localized name -&gt; distribution
-	 */
-	public HashMap<String, Dist> getReverseDistributionMap() {
-		if (reverseDistributionMap == null) {
-			reverseDistributionMap = new HashMap<>();
-			for (Entry<Dist, String> entry : getDistributionMap().entrySet()) {
-				reverseDistributionMap.put(entry.getValue(), entry.getKey());
-			}
-		}
-		return reverseDistributionMap;
 	}
 
 	/**

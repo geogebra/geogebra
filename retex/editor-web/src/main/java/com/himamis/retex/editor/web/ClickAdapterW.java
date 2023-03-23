@@ -1,11 +1,11 @@
 package com.himamis.retex.editor.web;
 
 import org.geogebra.gwtutil.NativePointerEvent;
+import org.gwtproject.event.dom.client.DoubleClickEvent;
+import org.gwtproject.event.dom.client.DoubleClickHandler;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.renderer.share.SelectionBox;
 

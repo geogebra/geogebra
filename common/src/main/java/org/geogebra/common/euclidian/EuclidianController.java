@@ -416,7 +416,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private final List<CoordSystemListener> zoomerListeners = new LinkedList<>();
 	private final HashMap<GeoElement, CoordSystemAnimationListener> zoomerAnimationListeners =
 			new HashMap<>();
-	private MyModeChangedListener modeChangeListener = null;
+	private ModeChangeListener modeChangeListener = null;
 
 	private SelectionToolPressResult lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 	private GeoElement lastSelectionToolGeoToRemove;
@@ -12112,11 +12112,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	public MyModeChangedListener getModeChangeListener() {
+	public ModeChangeListener getModeChangeListener() {
 		return modeChangeListener;
 	}
 
-	public void setModeChangeListener(MyModeChangedListener modeChangeListener) {
+	public void setModeChangeListener(ModeChangeListener modeChangeListener) {
 		this.modeChangeListener = modeChangeListener;
 	}
 

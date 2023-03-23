@@ -26,6 +26,8 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
+
 /**
  * Updates linked element for an input box from user input
  */
@@ -71,8 +73,8 @@ public class InputBoxProcessor {
 			if ("?".equals(inputText)) {
 				inputBox.setTempUserInput("", "");
 			} else {
-				inputBox.setTempUserInput(eraseQuestionMark(inputText),
-						eraseQuestionMark(content.getLaTeX()));
+				inputBox.setTempUserInput(processPlaceholders(inputText),
+						processLatexPlaceholders(content.getLaTeX()));
 			}
 
 			linkedGeo.setUndefined();
@@ -82,16 +84,20 @@ public class InputBoxProcessor {
 		}
 	}
 
-	private String eraseQuestionMark(String text) {
-		if (text == null) {
-			return "";
+	private String processPlaceholders(String content) {
+		if (content == null) {
+			return null;
 		}
-
-		return shouldReplaceQuestionMark() ? text.replace("?", "") : text;
+		return content.replaceAll("\\{\\?}",
+				"{}");
 	}
 
-	private boolean shouldReplaceQuestionMark() {
-		return inputBox.isSymbolicModeWithSpecialEditor();
+	private String processLatexPlaceholders(String contentLaTeX) {
+		if (contentLaTeX == null) {
+			return null;
+		}
+		return contentLaTeX.replaceAll("\\?",
+				TeXSerializer.PLACEHOLDER);
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {

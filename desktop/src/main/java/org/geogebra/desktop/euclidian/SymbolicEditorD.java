@@ -21,6 +21,7 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
+import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -121,12 +122,13 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	public void repaintBox(GGraphics2D g) {
 		GColor bgColor = getGeoInputBox().getBackgroundColor() != null
-				? getGeoInputBox().getBackgroundColor() : view.getBackgroundCommon();
+				? getInputBoxBackgroundColor() : view.getBackgroundCommon();
 
 		g.saveTransform();
 		int boxY = (int) computeTop(box.getHeight());
 		int boxX = box.getX();
-		view.getTextField().drawBounds(g, bgColor, boxX, boxY, box.getWidth(), box.getHeight());
+		AutoCompleteTextFieldD.drawBounds(g, bgColor, boxX, boxY,
+				box.getWidth(), box.getHeight(), getDrawInputBox());
 
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
 		box.setBorder(null);
@@ -137,6 +139,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		g.restoreTransform();
 		g.resetClip();
+	}
+
+	private GColor getInputBoxBackgroundColor() {
+		return getGeoInputBox().hasError() ? GColor.ERROR_RED_BACKGROUND
+				: getGeoInputBox().getBackgroundColor();
 	}
 
 	@Override

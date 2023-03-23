@@ -2,8 +2,7 @@ package org.geogebra.web.shared.view.button;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.RootPanel;
 
 /**
  * This button disappears when disabled.

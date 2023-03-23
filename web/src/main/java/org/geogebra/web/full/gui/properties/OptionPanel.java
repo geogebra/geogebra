@@ -2,8 +2,7 @@ package org.geogebra.web.full.gui.properties;
 
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.PropertyListener;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Panel for properties view

@@ -1,6 +1,6 @@
 package org.geogebra.web.richtext.impl;
 
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 import jsinterop.annotations.JsType;
 

@@ -1,9 +1,8 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.plugin.EventType;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Embedded element for a website or GeoGebra calculator.

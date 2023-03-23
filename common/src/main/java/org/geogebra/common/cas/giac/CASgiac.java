@@ -109,6 +109,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		GGB_IS_EQUALS("ggb_is_equals", "ggb_is_equals(a):=when(a==equal||a=='%=',true,false)"),
 
+		CHECK_DERIVATIVE("check_derivative", "check_derivative(a,b):="
+				+ "when(size(a)==1,a[0],flatten1([revlist(a),sort(remove(undef,map(a,r->"
+				+ "when(evalf(subst(r,x=xcoord(b))-ycoord(b))==0,r,undef))))])[-1])"),
+
 		/**
 		 * test if "=" or "%=" or ">" or ">=" - needed for eg
 		 * LeftSide({a,b}={1,2})
@@ -426,6 +430,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(AFACTOR_ALG_NUM, IRRED);
 			setDependency(ABSFACT, AFACTOR_ALG_NUM);
 			setDependency(COS_2PI_OVER_N_MINPOLY, FACTOR_SQR_FREE);
+			setDependency(CHECK_DERIVATIVE, XCOORD);
+			setDependency(CHECK_DERIVATIVE, YCOORD);
 		}
 
 		/**

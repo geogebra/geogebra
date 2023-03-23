@@ -165,6 +165,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdSolveODETidyCas() {
+		t("SolveODE(2 x sqrt(y),(0,1))", "(1 / 4 * x^(4)) + x^(2) + 1");
+	}
+
+	@Test
 	public void cmdSolveODEUpdate() {
 		t("t=SolveODE(2x)", "x^(2)");
 		t("v=t(2)", "4");

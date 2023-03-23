@@ -1,8 +1,7 @@
 package org.geogebra.web.html5.bridge;
 
 import org.geogebra.gwtutil.JsConsumer;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.core.Function;
 import jsinterop.annotations.JsFunction;
