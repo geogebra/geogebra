@@ -15,6 +15,7 @@ public class SegmentStyleModel extends IconOptionsModel {
 		this.isStartStyle = isStartStyle;
 	}
 
+	@Override
 	public void setListener(IComboListener listener) {
 		this.listener = listener;
 	}
