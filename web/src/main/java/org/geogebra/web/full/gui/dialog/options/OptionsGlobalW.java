@@ -115,7 +115,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 		private void addLanguageItem() {
 			EnumerableProperty languageProperty = new LanguageProperty(app,
-					app.getLocalization(), null);
+					app.getLocalization(), this::storeLanguage);
 			languageDropDown = new CompDropDown(app, null, languageProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
@@ -123,6 +123,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			lblLanguage.addStyleName("dropDownLabel");
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblLanguage, languageDropDown));
+		}
+
+		private void storeLanguage(String lang) {
+			if (app.getLoginOperation() != null) {
+				app.getLoginOperation().setUserLanguage(lang);
+			}
+			app.getLAF().storeLanguage(lang);
 		}
 
 		private void addRestoreSettingsBtn() {
