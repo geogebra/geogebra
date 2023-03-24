@@ -17,6 +17,6 @@ public class PolynomialTest extends BaseUnitTest {
 	@Test
 	public void polynomialHandle0Degree() {
 		t("b = 3", "3");
-		t("y-3=x+"+ EULER_CHAR + "^(b)", "-x + y = 23.085536923187664");
+		t("y-3=x+" + EULER_CHAR + "^(b)", "-x + y = 23.085536923187664");
 	}
 }
