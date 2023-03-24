@@ -21,6 +21,7 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.gui.inputfield.MyTextField;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
@@ -719,9 +720,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			return;
 		}
 
+		ArrayList<GeoElement> sel = app.getSelectionManager().getSelectedGeos();
+		GeoElement curr = sel.size() != 0 ? sel.get(0) : null;
 		if (NavigatorUtil.isMobile() && !app.isWhiteboardActive()
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
-				&& e.getNativeEvent().getKeyCode() != 0) {
+				&& e.getNativeEvent().getKeyCode() != 0
+				&& !(curr instanceof GeoInputBox)) {
 			insertString(Character.toString(ch));
 			text = getText();
 		}
