@@ -1,6 +1,7 @@
 package org.geogebra.web.editor;
 
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
+
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.web.MathFieldW;

@@ -1,6 +1,7 @@
 package org.geogebra.web.editor;
 
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
+
 import com.himamis.retex.editor.web.MathFieldW;
 
 public class EditorParams {
