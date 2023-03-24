@@ -2,6 +2,13 @@ package org.geogebra.web.editor;
 
 import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.resources.StyleInjector;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style.Overflow;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RootPanel;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;

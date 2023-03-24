@@ -3,9 +3,8 @@ package org.geogebra.keyboard.web;
 import java.util.ArrayList;
 
 import org.geogebra.keyboard.base.Keyboard;
-
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.VerticalPanel;
 
 /**
  *

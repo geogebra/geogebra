@@ -12,8 +12,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.ContextMenuFactory;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
-
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 
 public class OrderSubMenu extends AriaMenuBar {
 

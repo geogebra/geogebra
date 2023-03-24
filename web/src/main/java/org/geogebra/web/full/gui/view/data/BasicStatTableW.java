@@ -9,8 +9,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.kernel.statistics.Stat;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Displays statistics for DataAnalysisView when in one variable or regression

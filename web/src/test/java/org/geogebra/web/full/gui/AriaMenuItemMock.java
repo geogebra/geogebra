@@ -2,8 +2,7 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-
-import com.google.gwt.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler;
 
 public class AriaMenuItemMock extends AriaMenuItem {
 	private String text;

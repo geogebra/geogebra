@@ -15,11 +15,11 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.geogebra.web.util.file.FileIO;
+import org.gwtproject.user.client.ui.RootPanel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
@@ -31,6 +31,7 @@ public class GroupSaveTest {
 
     @Before
     public void initTest() {
+        this.getClass().getClassLoader().setDefaultAssertionStatus(false);
         AppletParameters articleElement = new AppletParameters("notes");
         app = AppMocker.mockApplet(articleElement);
         cons = app.getKernel().getConstruction();

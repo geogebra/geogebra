@@ -9,8 +9,7 @@ import org.geogebra.common.gui.menu.SubmenuItem;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandler;
-
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Label;
 
 class MenuActionRouter {
 
