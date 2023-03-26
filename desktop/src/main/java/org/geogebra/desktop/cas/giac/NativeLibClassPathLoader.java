@@ -16,7 +16,7 @@ import org.geogebra.desktop.util.UtilD;
  * -for-native-libraries.html
  *
  */
-public class MyClassPathLoader {
+public class NativeLibClassPathLoader {
 
 	/**
 	 * Loads the given library with the libname from the classpath root
