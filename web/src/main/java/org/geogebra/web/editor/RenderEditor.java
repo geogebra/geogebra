@@ -12,7 +12,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
 
 import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 import elemental2.dom.DomGlobal;
 
@@ -74,10 +73,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		setBackgroundColor(canvas.getElement(), cssColor);
 
 		MathFieldProcessing processing = new MathFieldProcessing(mathField);
-		editorPanel.addDomHandler(evt ->{
-			FactoryProvider.getInstance().debug("parent: " + editorPanel.getElement().getId());
-			if (!editorParams.isPreventFocus()) {
-				onFocus(mathField, processing);}}, ClickEvent.getType());
+		editorPanel.addDomHandler(evt -> onFocus(mathField, processing), ClickEvent.getType());
 
 		canvas.getElement().setTabIndex(-1);
 		return mathField;
