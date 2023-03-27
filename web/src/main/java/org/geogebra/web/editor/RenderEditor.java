@@ -77,8 +77,9 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		editorPanel.addDomHandler(evt ->{
 			FactoryProvider.getInstance().debug("parent: " + editorPanel.getElement().getId());
 			if (!editorParams.isPreventFocus()) {
-			onFocus(mathField, processing);}}, ClickEvent.getType());
+				onFocus(mathField, processing);}}, ClickEvent.getType());
 
+		canvas.getElement().setTabIndex(-1);
 		return mathField;
 	}
 
