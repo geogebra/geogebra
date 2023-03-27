@@ -14,11 +14,10 @@ import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FileUpload;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 public class ImageDialog extends ComponentDialog implements WebcamDialogInterface {
 	private FlowPanel cameraPanel;

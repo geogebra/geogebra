@@ -6,10 +6,9 @@ import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 

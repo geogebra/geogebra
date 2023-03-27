@@ -6,8 +6,7 @@ import org.geogebra.web.full.main.EmbedFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Label;
 
 public class H5PInputDialog extends ComponentDialog {
 

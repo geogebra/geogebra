@@ -29,8 +29,7 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * a version of StyleBarW that also includes the buttons for color, line style

@@ -2,8 +2,7 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.HeaderPanel;
+import org.gwtproject.user.client.ui.HeaderPanel;
 
 /**
  * Common code for whole screen GUIs such as material browser

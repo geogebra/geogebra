@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.browser;
 
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Listener for card expanding

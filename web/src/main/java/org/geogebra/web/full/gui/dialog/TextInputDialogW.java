@@ -19,8 +19,7 @@ import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.user.client.ui.TextBox;
+import org.gwtproject.user.client.ui.TextBox;
 
 /**
  * Web implementation of Text Dialog

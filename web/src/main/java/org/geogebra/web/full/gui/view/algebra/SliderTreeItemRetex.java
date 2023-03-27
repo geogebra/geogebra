@@ -18,8 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
-
-import com.google.gwt.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler;
 
 /**
  * Slider item for Algebra View.

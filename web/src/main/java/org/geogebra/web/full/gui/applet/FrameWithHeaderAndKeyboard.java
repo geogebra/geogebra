@@ -1,9 +1,8 @@
 package org.geogebra.web.full.gui.applet;
 
 import org.geogebra.web.full.gui.HeaderPanelDeck;
-
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.InsertPanel;
+import org.gwtproject.user.client.ui.HasWidgets;
+import org.gwtproject.user.client.ui.InsertPanel;
 
 /**
  * Frame with header and keyboard.

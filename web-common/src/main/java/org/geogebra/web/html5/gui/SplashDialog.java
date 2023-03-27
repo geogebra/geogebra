@@ -8,13 +8,12 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 import jsinterop.base.Js;
 
@@ -49,7 +48,7 @@ public class SplashDialog extends SimplePanel {
 			AppletParameters parameters, GeoGebraFrameW frame) {
 		this.geoGebraElement = geoGebraElement;
 		this.geogebraFrame = frame;
-		previewExists = checkIfPreviewExists(geoGebraElement)
+		previewExists = checkIfPreviewExists(geoGebraElement.getElement())
 				|| AppConfigDefault
 						.isUnbundledOrNotes(parameters.getDataParamAppName());
 
@@ -101,7 +100,7 @@ public class SplashDialog extends SimplePanel {
 	 */
 	protected void hide() {
 		this.removeFromParent();
-		removePreviewImg(geoGebraElement);
+		removePreviewImg(geoGebraElement.getElement());
 	}
 
 	private void removePreviewImg(Element thisArticle) {

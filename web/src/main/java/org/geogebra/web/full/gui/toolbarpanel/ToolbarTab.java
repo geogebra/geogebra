@@ -2,9 +2,8 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
 import elemental2.dom.EventListener;
 

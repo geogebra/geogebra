@@ -45,7 +45,6 @@ import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
-import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
 import org.geogebra.web.full.gui.util.SaveDialogW;
@@ -59,12 +58,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.user.client.ui.FileUpload;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.PopupPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 import elemental2.dom.File;
 
@@ -566,8 +565,7 @@ public class DialogManagerW extends DialogManager
 	private static PopupPanel createLoadingAnimation() {
 		PopupPanel anim = new PopupPanel();
 		anim.addStyleName("loadinganimation");
-		anim.add(new Image(ImageResourceConverter
-				.convertToOldImageResource(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner())));
+		anim.add(new Image(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner()));
 		return anim;
 	}
 

@@ -6,18 +6,17 @@ package org.geogebra.web.full.gui.layout;
 
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.util.GeoGebraElement;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.DockLayoutPanel;
+import org.gwtproject.user.client.ui.SplitLayoutPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * A panel that adds user-positioned splitters between each of its child
@@ -486,7 +485,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	 * <p>
 	 * Its associated splitter cannot be dragged to a position that would make
 	 * it smaller than this size. This method has no effect for the
-	 * {@link com.google.gwt.user.client.ui.DockLayoutPanel.Direction#CENTER}
+	 * {@link org.gwtproject.user.client.ui.DockLayoutPanel.Direction#CENTER}
 	 * widget.
 	 * </p>
 	 *
@@ -512,7 +511,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	 *
 	 * <p>
 	 * This method has no effect for the
-	 * {@link com.google.gwt.user.client.ui.DockLayoutPanel.Direction#CENTER}
+	 * {@link org.gwtproject.user.client.ui.DockLayoutPanel.Direction#CENTER}
 	 * widget.
 	 * </p>
 	 *

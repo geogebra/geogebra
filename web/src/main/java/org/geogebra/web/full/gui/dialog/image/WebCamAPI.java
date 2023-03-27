@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.dialog.image;
 
 import org.geogebra.web.html5.Browser;
-
-import com.google.gwt.canvas.client.Canvas;
+import org.gwtproject.canvas.client.Canvas;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
