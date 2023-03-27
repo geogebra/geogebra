@@ -2,7 +2,6 @@ package org.geogebra.web.editor;
 
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.html5.bridge.RenderGgbElement.RenderGgbElementFunction;
-import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Overflow;
@@ -30,13 +29,13 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		MathFieldW mathField = initMathField(element, listener);
 		DomGlobal.window.addEventListener("resize", evt -> onResize(mathField));
 		editorApi = new EditorApi(mathField, editorKeyboard.getTabbedKeyboard(), listener);
-		editorKeyboard.setListener(this::keyBoardNeeded);
+		editorKeyboard.setListener((show, textField) -> keyBoardNeeded(show));
 		if (callback != null) {
 			callback.accept(editorApi);
 		}
 	}
 
-	private boolean keyBoardNeeded(boolean show, MathKeyboardListener textField) {
+	private boolean keyBoardNeeded(boolean show) {
 		if (!show) {
 			editorApi.closeKeyboard();
 		} else {
