@@ -2154,6 +2154,9 @@ public class CommandsTest {
 		t("Invert[If[x>1,x^3+1] ]", "If[cbrt(x - 1) > 1, cbrt(x - 1)]");
 		t("Invert[ If(x>2,x)+1 ]", "If[x - 1 > 2, x - 1]");
 		t("Invert[ If(x>2,sin(x)-x) ]", "?");
+		t("Invert[3+0/x]", "?");
+		t("Invert[3+x/0]", "?");
+		t("Invert[3+2/x]", "2 / (x - 3)");
 		AlgebraTestHelper.enableCAS(app, false);
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		t("Invert[ sin(x) ]", "NInvert[sin(x)]");
