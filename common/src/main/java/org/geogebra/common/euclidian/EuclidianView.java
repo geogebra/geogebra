@@ -2231,6 +2231,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			stickyPointList.remove(geo);
 		}
 		euclidianController.clear(geo);
+		app.getSelectionManager().selectNextGeo();
 		if (!d.isCreatedByDrawListVisible()) {
 			repaint();
 		}
