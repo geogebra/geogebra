@@ -1,38 +1,26 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.statistics.AlgoDistribution;
 import org.geogebra.common.util.DoubleUtil;
 
-public class AlgoInverseBinomialMinimumTrials extends AlgoElement {
+public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 	public static final int MAX_TRIALS = 10000;
-	private final GeoNumberValue cp;
-	private final GeoNumberValue p;
-	private final GeoNumberValue numberOfTrials;
-	private final GeoNumeric num;
 
-	public AlgoInverseBinomialMinimumTrials(String label, Construction c, GeoNumberValue cp,
-			GeoNumberValue p, GeoNumberValue numberOfTrials) {
-		super(c);
-		this.cp = cp;
-		this.p = p;
-		this.numberOfTrials = numberOfTrials;
-		num = new GeoNumeric(cons);
-		setInputOutput();
-		compute();
-		setDependencies();
+	public AlgoInverseBinomialMinimumTrials(String label, Construction c, GeoNumberValue cumulativePropability,
+			GeoNumberValue probability, GeoNumberValue numberOfTrials) {
+		super(c, label, cumulativePropability, probability, numberOfTrials, null);
 	}
 
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = cp.toGeoElement(cons);
-		input[1] = p.toGeoElement(cons);
-		input[2] = numberOfTrials.toGeoElement(cons);
+		input[0] = a.toGeoElement(cons);
+		input[1] = b.toGeoElement(cons);
+		input[2] = c.toGeoElement(cons);
 		super.setOutputLength(1);
 		setOutput(0, num);
 	}
@@ -48,11 +36,13 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoElement {
 	}
 
 	private boolean isInvalidArguments() {
-		return isProbabilityOutOfRange(cp) || isProbabilityOutOfRange(p)
-				|| isInvalidTrials(numberOfTrials.getDouble());
+		return isProbabilityOutOfRange(a)
+				|| isProbabilityOutOfRange(b)
+				|| isInvalidTrials();
 	}
 
-	private boolean isInvalidTrials(double value) {
+	private boolean isInvalidTrials() {
+		double value = c.getDouble();
 		if (!DoubleUtil.isInteger(value)) {
 			return true;
 		}
@@ -68,9 +58,5 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoElement {
 	@Override
 	public GetCommand getClassName() {
 		return Commands.InverseBinomialMinimumTrials;
-	}
-
-	public GeoElement getResult() {
-		return num;
 	}
 }
