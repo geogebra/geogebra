@@ -15,7 +15,8 @@ import org.geogebra.common.main.MyError;
  * 
  * Line[ &lt;GeoPoint>, &lt;GeoLine> ]
  */
-public class CmdLine extends CommandProcessor {
+public class
+CmdLine extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
