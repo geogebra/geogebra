@@ -52,16 +52,11 @@ public final class ToolTipManagerW {
 	}
 
 	/**
-	 * @param title
-	 *            title of snackbar
-	 * @param helpText
-	 *            text of snackbar
-	 * @param buttonText
-	 *           text of button
-	 * @param appW
-	 *            app for positioning
-	 * @param showDuration
-	 * 			  how long should the tooltip be visible
+	 * @param title -title of snackbar
+	 * @param helpText - text of snackbar
+	 * @param buttonText - text of button
+	 * @param appW - app for positioning
+	 * @param showDuration - how long should the tooltip be visible
 	 */
 	public void showBottomInfoToolTip(String title, final String helpText,
 			String buttonText, String url, final AppW appW, int showDuration) {
