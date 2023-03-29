@@ -10,6 +10,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 	public static final int MAX_TRIALS = 10000;
+	public static final int MAX_ITERATIONS = 1000;
 
 	/**
 	 *
@@ -51,7 +52,7 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 			boolean conditionMet = true;
 			int n = 0;
 			try {
-				while (conditionMet && n < 1000) {
+				while (conditionMet && n < MAX_ITERATIONS) {
 					BinomialDistribution dist = getBinomialDistribution(n, probability);
 					double x = dist.cumulativeProbability(trials);
 					conditionMet = x > cumulativeProbability;
