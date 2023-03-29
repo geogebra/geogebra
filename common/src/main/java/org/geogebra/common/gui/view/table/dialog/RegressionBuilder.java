@@ -9,9 +9,11 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.FitAlgo;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.kernel.statistics.Stat;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -64,9 +66,31 @@ public class RegressionBuilder {
 					StringTemplate.defaultTemplate);
 			stats.add(new StatisticGroup(loc.getMenu("CoefficientOfDetermination"),
 					lhs + " = " + rSquareRow));
+			addCorrelationCoefficient(stats,points, regression);
 		} catch (Exception e) {
 			Log.error(e);
 		}
 		return stats;
+	}
+
+	private void addCorrelationCoefficient(List<StatisticGroup> stats, MyVecNode points,
+			RegressionSpecification regression) {
+		if (regression.getRegresson() == Regression.LINEAR) {
+			Command exec = new Command(kernel, Stat.PMCC.getCommandName(), false);
+			exec.addArgument(points.wrap());
+			String varName = xVal.getLabelSimple() + yVal.getLabelSimple();
+
+			try {
+				AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
+				GeoElementND r = algebraProcessor.processValidExpressionSilent(exec)[0];
+				String heading =
+						kernel.getLocalization().getMenu("Stats." + Stat.PMCC.getCommandName());
+				String lhs = Stat.PMCC.getLHS(kernel.getLocalization(), varName);
+				String formula = lhs + " = " + r.toValueString(StringTemplate.defaultTemplate);
+				stats.add(new StatisticGroup(true, heading, formula));
+			} catch (Exception e) {
+				Log.debug(e);
+			}
+		}
 	}
 }
