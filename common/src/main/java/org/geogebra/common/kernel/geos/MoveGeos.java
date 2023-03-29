@@ -131,7 +131,7 @@ public class MoveGeos {
 		if (geo1.isMoveable()) {
 			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition,
 					view);
-		} else if (geo1.isGeoList()) {
+		} else if (geo1.isGeoList() && !geo1.isLocked() && !geo1.isRandomGeo()) {
 			((GeoList) geo1).elements().forEach(el -> moveMoveableGeo(el, rwTransVec, null,
 					view));
 			moveObjectsUpdateList.add(geo1);
