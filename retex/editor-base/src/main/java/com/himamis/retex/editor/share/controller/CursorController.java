@@ -364,6 +364,7 @@ public class CursorController {
 				if (downIndex >= 0 && downIndex < function.size()) {
 					editorState
 							.setCurrentField(function.getArgument(downIndex));
+					editorState.resetSelection();
 					editorState.setCurrentOffset(0);
 					return true;
 				}
