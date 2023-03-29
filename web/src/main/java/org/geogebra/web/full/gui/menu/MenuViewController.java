@@ -142,7 +142,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	 */
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
-		String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
+		String versionStr = GeoGebraConstants.getVersionString6();
 		defaultDrawerMenuFactory =  new DefaultDrawerMenuFactory(
 				app.getPlatform(),
 				version, app.getLocalization().getPlainDefault("VersionA",
@@ -165,7 +165,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 					app.enableFileFeatures());
 		} else {
 			boolean addAppSwitcher = app.isSuite();
-			String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
+			String versionStr = GeoGebraConstants.getVersionString6();
 			return new DefaultDrawerMenuFactory(
 					app.getPlatform(),
 					version, app.getLocalization().getPlainDefault("VersionA",

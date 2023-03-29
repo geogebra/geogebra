@@ -108,7 +108,7 @@ public interface GeoGebraConstants {
 			switch (this) {
 			default:
 				// change 5.0.274.0 to 6.0.274.0
-				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
+				return getVersionString6() + "-" + suffix;
 			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
 			}
@@ -279,6 +279,6 @@ public interface GeoGebraConstants {
 	 * @return version string
 	 */
 	static String getVersionString6() {
-		return VERSION_STRING.replace("5.0.", "6.0.");
+		return VERSION_STRING.replace("5.2.", "6.0.");
 	}
 }
