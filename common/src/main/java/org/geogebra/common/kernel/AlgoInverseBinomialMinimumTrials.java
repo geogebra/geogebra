@@ -39,13 +39,17 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 			double probability = b.getDouble();
 			int trials = Math.min((int) Math.round(c.getDouble()), MAX_TRIALS);
 			int count = 0;
-				try {
-					for (int n = 0; n < 1000; n++) {
-						BinomialDistribution dist =	getBinomialDistribution(n, probability);
-						double x = dist.cumulativeProbability(trials);
-					if (x > cumulativeProbability) {
+			boolean conditionMet = true;
+			int n = 0;
+			try {
+				while (conditionMet && n < 1000) {
+					BinomialDistribution dist = getBinomialDistribution(n, probability);
+					double x = dist.cumulativeProbability(trials);
+					conditionMet = x > cumulativeProbability;
+					if (conditionMet) {
 						count++;
 					}
+					n++;
 				}
 				num.setValue(count);
 
