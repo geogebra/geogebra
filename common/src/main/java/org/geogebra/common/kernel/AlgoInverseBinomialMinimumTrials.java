@@ -35,6 +35,7 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 		input[2] = c.toGeoElement(cons);
 		super.setOutputLength(1);
 		setOutput(0, num);
+		setDependencies();
 	}
 
 	@Override
