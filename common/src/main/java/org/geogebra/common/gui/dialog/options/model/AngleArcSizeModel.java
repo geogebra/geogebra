@@ -25,29 +25,28 @@ public class AngleArcSizeModel extends OptionsModel {
 	public void applyChanges(int size) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			AngleProperties angle = getAngleAt(i);
-			// addded by Loic BEGIN
 			// check if decoration could be drawn
-			if (size < 20 && (angle
-					.getDecorationType() == GeoElementND.DECORATION_ANGLE_THREE_ARCS
-					|| angle.getDecorationType() == GeoElementND.DECORATION_ANGLE_TWO_ARCS)) {
-				angle.setArcSize(20);
-				int selected = getAngleAt(0).getDecorationType();
-				if (selected == GeoElementND.DECORATION_ANGLE_THREE_ARCS
-						|| selected == GeoElementND.DECORATION_ANGLE_TWO_ARCS) {
-					listener.setValue(20);
-				}
-			}
-			// END
-			else {
-				angle.setArcSize(size);
-			}
+			angle.setArcSize(Math.max(size, getMinSizeForDecoration(angle)));
 			angle.updateVisualStyleRepaint(GProperty.ANGLE_STYLE);
 		}
 	}
 
+	public static int getMinSizeForDecoration(AngleProperties angle) {
+		return (angle
+				.getDecorationType() == GeoElementND.DECORATION_ANGLE_THREE_ARCS
+				|| angle.getDecorationType() == GeoElementND.DECORATION_ANGLE_TWO_ARCS) ? 20 : 10;
+	}
+
 	@Override
 	public void updateProperties() {
-		listener.setValue(getAngleAt(0).getArcSize());
+		int min = 10;
+		for (GeoElement geo: getGeosAsList()) {
+			if (geo instanceof AngleProperties) {
+				min = Math.max(min, getMinSizeForDecoration((AngleProperties) geo));
+			}
+		}
+		listener.setSliderMin(min);
+		listener.setValue(Math.max(getAngleAt(0).getArcSize(), min));
 	}
 
 	@Override

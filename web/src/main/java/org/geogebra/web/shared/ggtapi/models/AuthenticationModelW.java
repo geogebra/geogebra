@@ -4,6 +4,7 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
@@ -86,5 +87,10 @@ public class AuthenticationModelW extends AuthenticationModel  {
 		String encrypted = MD5EncrypterGWTImpl
 				.encrypt(getLoginToken() + "T" + "1581341456" + secret);
 		return DomGlobal.btoa(getLoginToken()) + "|T|" + "1581341456" + "|" + encrypted;
+	}
+
+	@Override
+	public String getCookie(String cookieName) {
+		return Cookies.getCookie(cookieName);
 	}
 }

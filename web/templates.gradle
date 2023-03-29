@@ -96,7 +96,6 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def appTransKey = app.transKey
     def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
             .replace("<!--LOGO-LINK-->", offline ? "#" : "https://www.geogebra.org")
-    header = header.replace("<!--PICKER-->", offline ? "" : template("partials/picker.html"))
     header = partials(header, app.partials)
     def inlinedCss = inlineCss ? getCss() : ""
     def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
