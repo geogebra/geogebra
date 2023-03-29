@@ -11,8 +11,17 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 	public static final int MAX_TRIALS = 10000;
 
-	public AlgoInverseBinomialMinimumTrials(String label, Construction c, GeoNumberValue cumulativePropability,
-			GeoNumberValue probability, GeoNumberValue numberOfTrials) {
+	/**
+	 *
+	 * @param label the label.
+	 * @param c {@link Construction}
+	 * @param cumulativePropability .
+	 * @param probability .
+	 * @param numberOfTrials .
+	 */
+	public AlgoInverseBinomialMinimumTrials(String label, Construction c,
+			GeoNumberValue cumulativePropability, GeoNumberValue probability,
+			GeoNumberValue numberOfTrials) {
 		super(c, label, cumulativePropability, probability, numberOfTrials, null);
 
 	}
@@ -79,7 +88,6 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 		double value = probability.getDouble();
 		return value < 0 || value > 1;
 	}
-
 
 	@Override
 	public GetCommand getClassName() {
