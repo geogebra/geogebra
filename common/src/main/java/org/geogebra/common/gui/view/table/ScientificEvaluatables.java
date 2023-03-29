@@ -3,37 +3,50 @@ package org.geogebra.common.gui.view.table;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.main.App;
 
 public class ScientificEvaluatables {
-	private GeoEvaluatable functionF;
-	private GeoEvaluatable functionG;
+
+	private Construction construction;
+
+	private GeoFunction functionF;
+	private GeoFunction functionG;
 
 	/**
 	 * @param construction {@link Construction}
 	 */
 	public ScientificEvaluatables(Construction construction) {
+		this.construction = construction;
 		functionF = createFunction(construction, "f");
 		functionG = createFunction(construction, "g");
 	}
 
-	private GeoEvaluatable createFunction(Construction construction, String label) {
+	/**
+	 * @return The current definition of function f in the construction.
+	 */
+	public GeoFunction getFunctionF() {
+		GeoElement element = construction.lookupLabel("f");
+		if (element instanceof GeoFunction) {
+			return (GeoFunction) element;
+		}
+		return null;
+	}
+
+	/**
+	 * @return The current definition of function g in the construction.
+	 */
+	public GeoFunction getFunctionG() {
+		GeoElement element = construction.lookupLabel("g");
+		if (element instanceof GeoFunction) {
+			return (GeoFunction) element;
+		}
+		return null;
+	}
+
+	private GeoFunction createFunction(Construction construction, String label) {
 		GeoFunction function = new GeoFunction(construction);
 		function.setAuxiliaryObject(true);
 		function.rename(label);
 		return function;
-	}
-
-	/**
-	 * Update the two evaluatables.
-	 *
-	 * @param functionF aka f(x).
-	 * @param functionG aka g(x).
-	 */
-	public void update(GeoEvaluatable functionF, GeoEvaluatable functionG) {
-		this.functionF = functionF;
-		this.functionG = functionG;
 	}
 
 	/**
@@ -54,8 +67,7 @@ public class ScientificEvaluatables {
 	}
 
 	private void ensureOnlyOneUndoInfo() {
-		App app = functionF.getApp();
-		app.getUndoManager().clearUndoInfo();
-		app.storeUndoInfo();
+		construction.getUndoManager().clearUndoInfo();
+		construction.storeUndoInfo();
 	}
 }

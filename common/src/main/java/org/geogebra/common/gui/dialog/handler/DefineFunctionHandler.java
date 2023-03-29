@@ -1,11 +1,11 @@
 package org.geogebra.common.gui.dialog.handler;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -13,15 +13,14 @@ import org.geogebra.common.util.AsyncOperation;
  * Class to handle functions change in Scientific Table View
  */
 public class DefineFunctionHandler implements ErrorHandler {
-	private final App app;
+	private final Kernel kernel;
 	private boolean errorOccurred;
 
 	/**
-	 *
-	 * @param app {@link App}
+	 * @param kernel {@link Kernel}
 	 */
-	public DefineFunctionHandler(App app) {
-		this.app = app;
+	public DefineFunctionHandler(Kernel kernel) {
+		this.kernel = kernel;
 	}
 
 	/**
@@ -33,10 +32,10 @@ public class DefineFunctionHandler implements ErrorHandler {
 		errorOccurred = false;
 		String input = nameWithVariable(geo) + (text.isEmpty() ? "?" : text);
 		if (geo instanceof GeoFunction) {
-			EvalInfo info = new EvalInfo(!app.getKernel().getConstruction()
+			EvalInfo info = new EvalInfo(!kernel.getConstruction()
 					.isSuppressLabelsActive(), false, false)
 					.withForceFunctionsEnabled(true);
-			app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
+			kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
 						input, info, false, null, this);
 		}
 	}
