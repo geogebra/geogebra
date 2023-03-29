@@ -334,7 +334,7 @@ public class InputController {
 			function.setArgument(i, field);
 		}
 
-		// pass characters for fraction and factorial only
+		// pass characters for fraction, factorial, and mixed number only
 		if (tag == Tag.FRAC) {
 			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
@@ -357,6 +357,11 @@ public class InputController {
 				newFunction(editorState, name, square, null);
 				return;
 			}
+		} else if (tag == Tag.MIXED_NUMBER) {
+			if (hasSelection) {
+				// How to type u+2064 ?
+			}
+			ArgumentHelper.passArgument(editorState, function);
 		} else {
 			if (hasSelection || !builtin) {
 				ArrayList<MathComponent> removed = cut(currentField,
@@ -1160,6 +1165,9 @@ public class InputController {
 				handled = true;
 			} else if (ch == '/' || ch == '\u00f7') {
 				newFunction(editorState, "frac", false, null);
+				handled = true;
+			} else if (ch == '\u2064') {
+				newFunction(editorState, "mixedNumber", false, null);
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
 				newFunction(editorState, "sqrt", false, null);

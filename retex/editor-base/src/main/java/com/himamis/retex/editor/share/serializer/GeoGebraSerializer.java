@@ -90,10 +90,6 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 			break;
 		case FRAC:
-			if (mathFunction.toString().contains("\u2064")) {
-				createMixedNumber(stringBuilder, mathFunction);
-				break;
-			}
 			stringBuilder.append("((");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
@@ -307,23 +303,5 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 		}
 		return new String[0];
-	}
-
-	/**
-	 * Creates a mixed number when an invisible plus was entered before a fraction
-	 * @param stringBuilder StringBuilder
-	 * @param mathFunction MathFunction
-	 */
-	private void createMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
-		stringBuilder.append("(");
-		serialize(mathFunction.getArgument(0), stringBuilder);
-		stringBuilder.append("\u2064(");
-		serialize(mathFunction.getArgument(1), stringBuilder); //TODO correct serialization
-//		stringBuilder.append(mathFunction.getArgument(0).getArgument(0));
-//		stringBuilder.append("\u2064(");
-//		stringBuilder.append(mathFunction.getArgument(0).getArgument(2));
-		stringBuilder.append(")/(");
-		serialize(mathFunction.getArgument(1), stringBuilder);
-		stringBuilder.append("))");
 	}
 }
