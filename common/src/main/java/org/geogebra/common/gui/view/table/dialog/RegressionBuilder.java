@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.FitAlgo;
@@ -66,7 +65,7 @@ public class RegressionBuilder {
 					StringTemplate.defaultTemplate);
 			stats.add(new StatisticGroup(loc.getMenu("CoefficientOfDetermination"),
 					lhs + " = " + rSquareRow));
-			addCorrelationCoefficient(stats,points, regression);
+			addCorrelationCoefficient(stats, points, regression);
 		} catch (Exception e) {
 			Log.error(e);
 		}
