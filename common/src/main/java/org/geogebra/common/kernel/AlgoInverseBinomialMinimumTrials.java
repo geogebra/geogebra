@@ -10,7 +10,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 	public static final int MAX_TRIALS = 10000;
-	public static final int MAX_ITERATIONS = 1000;
+	public static final int MAX_ITERATIONS = 10000;
 
 	/**
 	 *
@@ -46,23 +46,13 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 		}
 		if (input[0].isDefined() && input[1].isDefined()
 				&& input[2].isDefined()) {
-			double cumulativeProbability = a.getDouble();
-			double probability = b.getDouble();
-			int trials = Math.min((int) Math.round(c.getDouble()), MAX_TRIALS);
-			int count = 0;
-			boolean conditionMet = true;
-			int n = 0;
 			try {
-				while (conditionMet && n < MAX_ITERATIONS) {
-					BinomialDistribution dist = getBinomialDistribution(n, probability);
-					double x = dist.cumulativeProbability(trials);
-					conditionMet = x > cumulativeProbability;
-					if (conditionMet) {
-						count++;
-					}
-					n++;
+				int	count = countCumulativeProbabilityAccepted();
+				if (count == MAX_ITERATIONS) {
+					num.setUndefined();
+				} else {
+					num.setValue(count);
 				}
-				num.setValue(count);
 
 			} catch (Exception e) {
 				num.setUndefined();
@@ -70,6 +60,32 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 		} else {
 			num.setUndefined();
 		}
+	}
+
+	private int countCumulativeProbabilityAccepted() {
+		int count = 0;
+		while (isCumulativeProbabilityAccepted(count, getTrials())
+				&& count < MAX_ITERATIONS) {
+			count++;
+		}
+		return count;
+	}
+
+	private int getTrials() {
+		return Math.min((int) Math.round(c.getDouble()), MAX_TRIALS);
+	}
+
+	private boolean isCumulativeProbabilityAccepted(int n, int trials) {
+		BinomialDistribution dist = getBinomialDistribution(n, getProbability());
+		return dist.cumulativeProbability(trials) > getCumulativeProbability();
+	}
+
+	private double getCumulativeProbability() {
+		return a.getDouble();
+	}
+
+	private double getProbability() {
+		return b.getDouble();
 	}
 
 	private boolean isInvalidArguments() {
