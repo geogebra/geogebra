@@ -37,9 +37,9 @@ public class LaTeXTextRenderer implements TextRenderer {
 						 double xPos, double yPos) {
 		int textLeft = (int) Math.round(xPos) + settings.getFixMargin();
 
-		GFont font1 = getFont(font, settings.getRendererFontSize(), geo.isSerifContent());
-		GDimension textDimension = drawInputBox.measureLatex(graphics, geo,
-				font1, text);
+		GFont font1 = getFont(font, settings.getRendererFontSize());
+		GDimension textDimension = drawInputBox.measureLatex(geo,
+				font1, text,  true);
 		double inputBoxHeight = drawInputBox.getInputFieldBounds().getHeight()
 				+ 2 * settings.getFixMargin();
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
@@ -61,17 +61,20 @@ public class LaTeXTextRenderer implements TextRenderer {
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
-		int textHeightWithMargin = textDimension.getHeight() + settings.getFixMargin();
+		int totalBorderHeight = 6;
+		int textHeightWithMargin = textDimension.getHeight() + settings.getFixMargin()
+				+ totalBorderHeight;
 		return Math.max(textHeightWithMargin, settings.getMinHeight()
-				+ 2 * settings.getFixMargin());
+				+ totalBorderHeight);
 	}
 
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		GFont gFont = getFont(font, settings.getEditorFontSize(), geo.isSerifContent());
+		GFont gFont = getFont(font, settings.getRendererFontSize());
 		GDimension textDimension =
-				drawInputBox.measureLatex(graphics, geo, gFont, geo.getDisplayText());
+				CanvasDrawable.measureLatex(geo.getKernel().getApplication(), gFont,
+						geo.getDisplayText(), geo.isSerifContent());
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
@@ -85,8 +88,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 				inputBoxHeight);
 	}
 
-	private GFont getFont(GFont font, int fontSize, boolean serif) {
-		int style = font.getLaTeXStyle(serif);
-		return font.deriveFont(style, fontSize);
+	private GFont getFont(GFont font, int fontSize) {
+		return font.deriveFont(font.getStyle(), fontSize);
 	}
 }

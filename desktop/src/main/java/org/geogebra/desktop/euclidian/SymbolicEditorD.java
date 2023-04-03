@@ -143,7 +143,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 	public void onKeyTyped(String key) {
 		addDegree(key, mathField.getInternal());
 		String text = texSerializer.serialize(getMathFieldInternal().getFormula());
-		GDimension equationSize = app.getDrawEquation().measureEquation(app, null, text,
+		GDimension equationSize = app.getDrawEquation().measureEquation(app, text,
 				getDrawInputBox().getTextFont(text), false);
 		double currentHeight = equationSize.getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
 		box.setBounds(box.getX(), box.getY(), box.getWidth(),

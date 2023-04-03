@@ -289,7 +289,7 @@ public class DrawAxis {
 			GeoElement geo = view.getApplication().getKernel().getXAxis();
 			GDimension dim = view.getApplication().getDrawEquation()
 					.measureEquation(
-					view.getApplication(), geo,
+					view.getApplication(),
 					view.axesLabels[0], font, false);
 
 			view.getApplication().getDrawEquation().drawEquation(

@@ -46,7 +46,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	/**
 	 * Constructor
 	 * @param app The application.
-	 * @param settings
+	 * @param settings font size/padding/margin settings
 	 */
 	public SymbolicEditorW(App app, EuclidianViewW view, TextRendererSettings settings) {
 		super(app, view);

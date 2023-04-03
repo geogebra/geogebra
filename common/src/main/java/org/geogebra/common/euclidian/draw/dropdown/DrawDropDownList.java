@@ -283,7 +283,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		if (seLatex) {
 			return draw ? drawLatex(g2, geoList, font, selectedText, left, top)
-					: measureLatex(g2, geoList, font, selectedText);
+					: measureLatex(geoList, font, selectedText, false);
 		}
 
 		g2.setFont(font);

@@ -55,7 +55,7 @@ public class DrawInputBox extends CanvasDrawable {
 	public static final int SYMBOLIC_MIN_HEIGHT = 40;
 	public static final int MIN_HEIGHT = 24;
 
-	/** textfield */
+	/** input box */
 	private final GeoInputBox geoInputBox;
 
 	private boolean isVisible;
@@ -77,7 +77,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * @param view
 	 *            view
 	 * @param geo
-	 *            textfield
+	 *            input box
 	 */
 	public DrawInputBox(EuclidianView view, GeoInputBox geo) {
 		this.view = view;
@@ -101,7 +101,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * Listens to events in this textfield
+	 * Listens to events in this input box
 	 * 
 	 * @author Michael + Judit
 	 */
@@ -151,7 +151,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * Listens to key events in this textfield
+	 * Listens to key events in this input box
 	 * 
 	 * @author Michael + Judit
 	 */
@@ -274,7 +274,8 @@ public class DrawInputBox extends CanvasDrawable {
 	private void updateRenderer() {
 		if (geoInputBox.isSymbolicMode()) {
 			rendererSettings = LatexRendererSettings.createForInputBox(
-					(int) (geoInputBox.getApp().getFontSize() * geoInputBox.getFontSizeMultiplier()));
+					(int) (geoInputBox.getApp().getFontSize()
+							* geoInputBox.getFontSizeMultiplier()));
 			textRenderer = new LaTeXTextRenderer(this, rendererSettings);
 		} else {
 			rendererSettings = new SimpleTextRendererSettings();
@@ -397,7 +398,7 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 	}
 
-	private void drawTextfieldOnCanvas(GGraphics2D g2) {
+	private void drawInputBoxOnCanvas(GGraphics2D g2) {
 		drawBoundsOnCanvas(g2);
 		drawTextOnCanvas(g2);
 	}
@@ -464,9 +465,9 @@ public class DrawInputBox extends CanvasDrawable {
 			view.getViewTextField().setBoxBounds(labelRectangle);
 		}
 
-		// no painting while editing to avoid double border: both symbolic and nonsymbolic
+		// no painting while editing to avoid double border: both symbolic and non-symbolic
 		if ((!editing && !isSelectedForInput()) || view.getApplication().isExporting()) {
-			drawTextfieldOnCanvas(g2);
+			drawInputBoxOnCanvas(g2);
 		}
 
 		highlightLabel(g2, latexLabel);
@@ -580,7 +581,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * Get view's textfield and attach to this
+	 * Get view's input box and attach to this
 	 */
 	public void attachTextField() {
 		hideSymbolicField();
@@ -648,7 +649,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * @return textfield (can be null if no implementation ie iOS, Android)
+	 * @return input box (can be null if no implementation ie iOS, Android)
 	 */
 	public AutoCompleteTextField getTextField() {
 		return view.getTextField(getGeoInputBox(), this);
@@ -680,8 +681,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 *
-	 * @return height of the label depending of whether it was latex or not
+	 * @return height of the label, depending on whether it was latex or not
 	 */
 	int getHeightForLabel(String label) {
 		return isLatexString(label) && labelDimension != null ? labelDimension.getHeight()
