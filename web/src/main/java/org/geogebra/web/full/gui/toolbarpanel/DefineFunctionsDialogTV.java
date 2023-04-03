@@ -1,10 +1,10 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
-import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
@@ -14,19 +14,21 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
 public class DefineFunctionsDialogTV extends ComponentDialog {
-	private final TableValuesView view;
-	private final DefineFunctionHandler defineFunctionHandler;
-	private MathTextFieldW f;
-	private MathTextFieldW g;
+	private MathTextFieldW fieldF;
+	private MathTextFieldW fieldG;
+	ScientificDataTableController controller;
 
 	/**
 	 * dialog constructor
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
 	 */
-	public DefineFunctionsDialogTV(AppW app, DialogData dialogData, TableValuesView view) {
+	public DefineFunctionsDialogTV(AppW app, DialogData dialogData) {
 		super(app, dialogData, false, true);
-		this.view = view;
+
+		GeoGebraActivity activity = ((AppWFull) app).getActivity();
+		controller = ((ScientificActivity) activity).getTableController();
+
 		addStyleName("defineFunctionsDialog");
 		buildGUI();
 		if (!app.isWhiteboardActive()) {
@@ -36,12 +38,11 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 			app.unregisterPopup(this);
 			app.hideKeyboard();
 		});
-		defineFunctionHandler = new DefineFunctionHandler(app.getKernel());
 	}
 
 	private void buildGUI() {
-		f = addFunctionRow("f(x) =");
-		g = addFunctionRow("g(x) =");
+		fieldF = addFunctionRow("f(x) =");
+		fieldG = addFunctionRow("g(x) =");
 	}
 
 	private MathTextFieldW addFunctionRow(String functionLbl) {
@@ -60,9 +61,10 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 
 	@Override
 	public void onPositiveAction() {
-		boolean fHasError = processInput(f, 1);
-		boolean gHasError = processInput(g, 2);
-		if (!fHasError && !gHasError) {
+		boolean success = controller.defineFunctions(fieldF.getText(), fieldG.getText());
+		setErrorState(fieldF, controller.hasFDefinitionErrorOccurred());
+		setErrorState(fieldG, controller.hasGDefinitionErrorOccurred());
+		if (success) {
 			hide();
 			app.storeUndoInfo();
 		}
@@ -78,34 +80,25 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 	public void show() {
 		resetFields();
 		showDirectly();
-		f.requestFocus();
+		fieldF.requestFocus();
 		Scheduler.get().scheduleDeferred(() -> {
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 		});
-	}
-
-	private boolean processInput(MathTextFieldW field, int idx) {
-			try {
-				defineFunctionHandler.handle(field.getText(), view.getEvaluatable(idx));
-			} catch (Error e) {
-				Log.error("Error happened on processing the input");
-			} finally {
-				Dom.toggleClass(field.asWidget().getParent(), "error",
-						defineFunctionHandler.hasErrorOccurred());
-			}
-		return defineFunctionHandler.hasErrorOccurred();
 	}
 
 	/**
 	 * reset fields from construction
 	 */
 	public void resetFields() {
-		f.setText(getInputValue(1));
-		g.setText(getInputValue(2));
+		fieldF.setText(text(controller.getDefinitionOfF()));
+		fieldG.setText(text(controller.getDefinitionOfG()));
 	}
 
-	private String getInputValue(int i) {
-		String value = view.getEvaluatable(i).toValueString(StringTemplate.editorTemplate);
-		return "?".equals(value) ? "" : value;
+	private void setErrorState(MathTextFieldW field, boolean error) {
+		Dom.toggleClass(field.asWidget().getParent(), "error", error);
+	}
+
+	private static String text(String string) {
+		return string != null ? string : "";
 	}
 }

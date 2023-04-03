@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
-import org.geogebra.common.gui.view.table.ScientificEvaluatables;
+import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -33,6 +33,7 @@ import org.geogebra.web.shared.GlobalHeader;
 public class ScientificActivity extends BaseActivity {
 
 	private ScientificHeaderResizer headerResizer = null;
+	private ScientificDataTableController tableController;
 
 	/**
 	 * Activity for scientific calculator
@@ -57,12 +58,15 @@ public class ScientificActivity extends BaseActivity {
 	 * @param app see {@link AppW}
 	 */
 	public void initTableOfValues(AppW app) {
-		ScientificEvaluatables functions = new ScientificEvaluatables(
-				app.getKernel().getConstruction());
+		tableController = new ScientificDataTableController(app.getKernel());
 		TableValuesView tableValuesView =
 				(TableValuesView) ((GuiManagerW) app.getGuiManager()).getTableValuesView();
+		tableController.setup(tableValuesView);
 		tableValuesView.noAlgebraLabelVisibleCheck();
-		functions.addToTableOfValues(tableValuesView);
+	}
+
+	public ScientificDataTableController getTableController() {
+		return tableController;
 	}
 
 	private static void initHeaderButtons(AppW app) {
