@@ -5,6 +5,7 @@ import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -26,7 +27,7 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 		super(app, dialogData, false, true);
 
 		GeoGebraActivity activity = ((AppWFull) app).getActivity();
-		controller = ((ScientificActivity)activity).getTableController();
+		controller = ((ScientificActivity) activity).getTableController();
 
 		addStyleName("defineFunctionsDialog");
 		buildGUI();
@@ -60,9 +61,10 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 
 	@Override
 	public void onPositiveAction() {
-		controller.defineFunctions(fieldF.getText(), fieldG.getText());
-		if (!controller.hasFDefinitionErrorOccurred()
-				&& !controller.hasGDefinitionErrorOccurred()) {
+		boolean success = controller.defineFunctions(fieldF.getText(), fieldG.getText());
+		setErrorState(fieldF, controller.hasFDefinitionErrorOccurred());
+		setErrorState(fieldG, controller.hasGDefinitionErrorOccurred());
+		if (success) {
 			hide();
 			app.storeUndoInfo();
 		}
@@ -90,6 +92,10 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 	public void resetFields() {
 		fieldF.setText(text(controller.getDefinitionOfF()));
 		fieldG.setText(text(controller.getDefinitionOfG()));
+	}
+
+	private void setErrorState(MathTextFieldW field, boolean error) {
+		Dom.toggleClass(field.asWidget().getParent(), "error", error);
 	}
 
 	private static String text(String string) {
