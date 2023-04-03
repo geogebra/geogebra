@@ -246,11 +246,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ==============================================================
 
 	/**
-	 * Possible alternative names for geogebra.jar. Used for 3D webstart at the
-	 * moment.
+	 * Names for geogebra.jar.
 	 */
-	public final static String[] GEOGEBRA_JAR_ALT = { "geogebra.jar",
-			"geogebra-jogl2.jar" };
+	public final static String GEOGEBRA_JAR = "geogebra.jar";
 
 	// ==============================================================
 	// LOCALE fields
@@ -388,28 +386,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		loc.setApp(this);
 		this.cmdArgs = args;
 		this.prerelease = args != null && args.containsArg("prerelease");
-		if (args != null && !args.containsArg("silent")) {
-			LoggerD logger = new LoggerD();
-			logger.setReading(true);
-			Log.setLogger(logger);
-			Log.setLogDestination(LogDestination.CONSOLE);
-			if (args.containsArg("logLevel")) {
-				Log.setLogLevel(args.getStringValue("logLevel"));
-			}
-			if (args.containsArg("logFile")) {
-				Log.setLogDestination(LogDestination.FILE);
-				logger.setLogFileImpl(args.getStringValue("logFile"));
-			}
-			if (args.containsArg("logShowCaller")) {
-				Log.setCallerShown(args.getBooleanValue("logShowCaller", true));
-			}
-			if (args.containsArg("logShowTime")) {
-				LoggerD.setTimeShown(args.getBooleanValue("logShowTime", true));
-			}
-			if (args.containsArg("logShowLevel")) {
-				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
-			}
-		}
 
 		if (prerelease) {
 			Log.error("*********************************");
@@ -3302,12 +3278,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 
 			// remove "geogebra.jar" from end of codebase string
-			for (int i = 0; i < GEOGEBRA_JAR_ALT.length; ++i) {
-				if (path.endsWith(GEOGEBRA_JAR_ALT[i])) {
-					runningFromJar = true;
-					path = path.substring(0,
-							path.length() - GEOGEBRA_JAR_ALT[i].length());
-				}
+			if (path.endsWith(GEOGEBRA_JAR)) {
+				runningFromJar = true;
+				path = path.substring(0,
+						path.length() - GEOGEBRA_JAR.length());
 			}
 
 			// set codebase
