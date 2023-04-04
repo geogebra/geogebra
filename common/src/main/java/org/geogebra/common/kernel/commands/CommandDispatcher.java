@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import org.apache.commons.math3.linear.QRDecomposition;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -697,6 +698,12 @@ public abstract class CommandDispatcher implements Restrictable {
 			case JordanDiagonalization:
 			case Eigenvalues:
 			case Eigenvectors:
+			case ExtendedGCD:
+			case ModularExponent:
+			case CharacteristicPolynomial:
+			case MinimalPolynomial:
+			case LUDecomposition:
+			case QRDecomposition:
 				return new CAScmdProcessor(kernel);
 
 			// ************** STATS ***************
