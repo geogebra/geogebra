@@ -13,8 +13,7 @@
     <entry-point class='org.geogebra.web.editor.EditorEntry'/>
     <!-- #3511 -->
     <inherits name="org.gwtproject.resources.Resources" />
-    <inherits name="com.google.gwt.http.HTTP"/>
-    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.gwt.core.Core"/>
     <inherits name='org.geogebra.Common'/>
     <inherits name='org.geogebra.GgbJdk'/>
     <inherits name="com.himamis.retex.editor.JLMEditorDev" />
@@ -31,4 +30,5 @@
     <set-property name="gwt.uncaughtexceptionhandler.windowonerror" value="IGNORE"/>
     <set-property name="gwt.logging.enabled" value="FALSE"/>
     <set-configuration-property name="js.identifier.blacklist" value="Ink" />
+    <set-configuration-property name="org.gwtproject.safecss.ForceCheckValidStyles" value="false"/>
 </module>

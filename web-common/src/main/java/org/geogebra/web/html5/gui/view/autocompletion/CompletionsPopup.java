@@ -5,9 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
+import org.gwtproject.user.client.ui.MultiWordSuggestOracle;
 
 /**
  * Completions popup.

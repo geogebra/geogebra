@@ -1,11 +1,10 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.safehtml.shared.SafeUri;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TreeItem;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.TreeItem;
 
 /**
  * Toggle button connected to tree item state

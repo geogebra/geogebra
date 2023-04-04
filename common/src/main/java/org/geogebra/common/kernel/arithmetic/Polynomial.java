@@ -662,7 +662,10 @@ public class Polynomial implements HasDebugString {
 			break;
 		case POWER:
 			double power = rt.evaluateDouble();
-			if (Inspecting.dynamicGeosFinder.check(rt)) {
+			if (this.degree() == 0) {
+				terms.get(0).coefficient = terms.get(0).coefficient.wrap()
+						.power(rt);
+			} else if (Inspecting.dynamicGeosFinder.check(rt)) {
 				if (!(rt.evaluate(
 						StringTemplate.defaultTemplate) instanceof NumberValue)) {
 					equ.setIsPolynomial(false);
@@ -670,9 +673,6 @@ public class Polynomial implements HasDebugString {
 					this.power((int) power, equ, keepFraction);
 				}
 				equ.addVariableDegree(rt);
-			} else if (this.degree() == 0) {
-				terms.get(0).coefficient = terms.get(0).coefficient.wrap()
-						.power(rt);
 			} else if (!DoubleUtil.isInteger(power) || DoubleUtil.isGreater(0, power)
 					|| DoubleUtil.isGreater(power, MAX_ALLOWED_DEGREE)) {
 				equ.setIsPolynomial(false);

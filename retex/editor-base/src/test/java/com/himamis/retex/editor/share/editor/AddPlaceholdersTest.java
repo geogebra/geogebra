@@ -17,7 +17,7 @@ public class AddPlaceholdersTest {
 
 	@Test
 	public void testEmptyPoint() {
-		MathFormula formula = getFormula("(,)");
+		MathFormula formula = getFormula("(?,?)");
 		MathSequence rootSequence = formula.getRootComponent();
 		MathArray mathArray = (MathArray) (rootSequence.getArgument(0));
 		placeholders.process(mathArray);
@@ -27,7 +27,7 @@ public class AddPlaceholdersTest {
 
 	@Test
 	public void testHalfEmptyPoint() {
-		MathFormula formula = getFormula("(1,)");
+		MathFormula formula = getFormula("(1,?)");
 		MathSequence rootSequence = formula.getRootComponent();
 		MathArray mathArray = (MathArray) (rootSequence.getArgument(0));
 		placeholders.process(mathArray);

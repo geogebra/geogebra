@@ -15,8 +15,7 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
-
-import com.google.gwt.dom.client.Style.Unit;
+import org.gwtproject.dom.style.shared.Unit;
 
 /**
  * Dynamically positioned stylebar

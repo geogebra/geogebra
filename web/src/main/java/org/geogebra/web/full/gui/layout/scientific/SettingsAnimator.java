@@ -3,8 +3,7 @@ package org.geogebra.web.full.gui.layout.scientific;
 import org.geogebra.web.full.gui.layout.animation.Animation;
 import org.geogebra.web.full.gui.layout.animation.Animator;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Animator for the settings panel.

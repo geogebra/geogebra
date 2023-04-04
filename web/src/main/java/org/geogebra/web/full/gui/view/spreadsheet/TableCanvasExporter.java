@@ -12,10 +12,9 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.Grid;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;

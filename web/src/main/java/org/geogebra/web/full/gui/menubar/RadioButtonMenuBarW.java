@@ -1,14 +1,13 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.gui.menubar.MyActionListener;
+import java.util.function.Consumer;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.components.radiobutton.ComponentRadioButton;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.Command;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.Command;
 
 /**
  * An implementation of a radio button menu bar.
@@ -16,9 +15,9 @@ import com.google.gwt.user.client.Command;
 public class RadioButtonMenuBarW extends AriaMenuBar {
 	private String[] texts;
 	/** item commands */
-	String[] commands;
+	double[] options;
 	/** listener */
-	MyActionListener listener;
+	Consumer<Double> listener;
 	private final Localization loc;
 	/** action side effect */
 	Scheduler.ScheduledCommand itemSideEffect = null;
@@ -42,16 +41,16 @@ public class RadioButtonMenuBarW extends AriaMenuBar {
 	}
 
 	/**
-	 * @param al listener
+	 * @param listener selection listener
 	 * @param items items
-	 * @param actionCommands commands
+	 * @param options selectable options
 	 * @param selectedPos initial selected position
 	 */
-	public void addRadioButtonMenuItems(MyActionListener al,
-			String[] items, final String[] actionCommands, int selectedPos) {
+	public void addRadioButtonMenuItems(Consumer<Double> listener,
+			String[] items, final double[] options, int selectedPos) {
 		texts = items;
-		commands = actionCommands;
-		listener = al;
+		this.options = options;
+		this.listener = listener;
 		setSelected(selectedPos);
 	}
 
@@ -64,7 +63,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar {
 				final int j = i;
 				addItem(texts[i], () -> {
 					setSelected(j);
-					listener.actionPerformed(commands[j]);
+					listener.accept(options[j]);
 					if (itemSideEffect != null) {
 						itemSideEffect.execute();
 					}
@@ -80,12 +79,4 @@ public class RadioButtonMenuBarW extends AriaMenuBar {
 		itemSideEffect = sc;
 	}
 
-	/**
-	 * Wondering why they make protected methods if we can get them this way
-	 * 
-	 * @return MenuItem the selected item
-	 */
-	public AriaMenuItem getSelectedItemPublic() {
-		return getSelectedItem();
-	}
 }

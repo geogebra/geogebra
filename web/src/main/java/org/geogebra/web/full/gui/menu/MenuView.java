@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.menu;
 
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 class MenuView extends VerticalPanel {
 

@@ -2,9 +2,8 @@ package org.geogebra.web.full.gui.view.probcalculator;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.shared.components.ComponentSwitch;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class DistributionPanelSuite extends DistributionPanel {
 	private ComponentSwitch cumulativeWidget;

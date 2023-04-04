@@ -14,10 +14,9 @@ import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Button;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Accessibility adapter for any element that may or may not have attached

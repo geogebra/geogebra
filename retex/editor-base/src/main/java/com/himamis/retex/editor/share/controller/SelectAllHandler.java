@@ -2,9 +2,11 @@ package com.himamis.retex.editor.share.controller;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
+import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 
 /**
@@ -33,6 +35,9 @@ public class SelectAllHandler {
 		if (root.isProtected()) {
 			selectProtectedContent();
 		} else {
+			if (isCharPlaceholder(root)) {
+				return;
+			}
 			setSelectionStart(root);
 			setSelectionEnd(root);
 		}
@@ -41,6 +46,11 @@ public class SelectAllHandler {
 	private void selectProtectedContent() {
 		MathComponent first = editorState.getRootComponent().getArgument(0);
 		MathComponent selectionStart = editorState.getCurrentField().getArgument(0);
+
+		if (isCharPlaceholder(selectionStart)) {
+			return;
+		}
+
 		setSelectionStart(selectionStart);
 		if (first instanceof MathArray) {
 			MathArray array = (MathArray) first;
@@ -52,6 +62,13 @@ public class SelectAllHandler {
 		} else {
 			setSelectionEnd(selectionStart);
 		}
+	}
+
+	private boolean isCharPlaceholder(MathComponent selectionStart) {
+		return selectionStart instanceof MathCharPlaceholder
+				|| (selectionStart instanceof MathFunction
+		&& isCharPlaceholder(
+				((MathFunction) selectionStart).getArgument(0)));
 	}
 
 	private void setSelectionStart(MathComponent component) {
@@ -69,6 +86,9 @@ public class SelectAllHandler {
 			MathSequence content = sequenceWithoutBrackets(sequence);
 			setSelectionStart(content.getArgument(firstSeparatorOnLeft(content)));
 			setSelectionEnd(content.getArgument(firstSeparatorOnRight(content)));
+			if (isCharPlaceholder(editorState.getSelectionStart())) {
+				editorState.setSelectionStart(null);
+			}
 		}
 	}
 

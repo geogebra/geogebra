@@ -9,10 +9,9 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.DockPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.VerticalPanel;
 
 class StepInformation extends DockPanel {
 

@@ -4,11 +4,9 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
-import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -22,14 +20,12 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.user.client.Command;
+import org.gwtproject.user.client.Command;
 
 /**
  * euclidian view/graphics view context menu
  */
-public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
-		implements MyActionListener {
+public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 	/**
 	 * x position of popup
@@ -332,7 +328,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		double scaleRatio = app.getActiveEuclidianView()
 		        .getScaleRatio();
 		String[] items = new String[axesRatios.length + 2];
-		String[] actionCommands = new String[axesRatios.length + 2];
+		double[] options = new double[axesRatios.length + 2];
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0, j = 0; i < axesRatios.length; i++, j++) {
@@ -342,30 +338,26 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				sb.append((int) axesRatios[i]);
 				sb.append(" : 1");
 				if (!separatorAdded) {
-					// ((MenuBar) menu).addSeparator();
-					actionCommands[j] = "0.0";
 					items[j++] = "---";
 					separatorAdded = true;
 				}
 			} else { // factor
 				if (axesRatios[i] == 1) {
-					// ((MenuBar) menu).addSeparator();
-					actionCommands[j] = "0.0";
 					items[j++] = "---";
 				}
 				sb.append("1 : ");
 				sb.append((int) (1.0 / axesRatios[i]));
 			}
 			items[j] = sb.toString();
-			actionCommands[j] = "" + axesRatios[i];
+			options[j] = axesRatios[i];
 		}
 		int selPos = 0;
-		while ((selPos < actionCommands.length)
-		        && !DoubleUtil.isEqual(Double.parseDouble(actionCommands[selPos]),
+		while ((selPos < options.length)
+		        && !DoubleUtil.isEqual(options[selPos],
 		                scaleRatio)) {
 			selPos++;
 		}
-		menu.addRadioButtonMenuItems(this, items, actionCommands, selPos);
+		menu.addRadioButtonMenuItems(this::zoomYaxis, items, options, selPos);
 	}
 
 	/**
@@ -447,16 +439,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addItem(showConstructionStep);
 
 		wrappedPopup.addSeparator();
-	}
-
-	@Override
-	public void actionPerformed(String command) {
-		try {
-			// zoomYaxis(Double.parseDouble(e.getActionCommand()));
-			zoomYaxis(Double.parseDouble(command));
-		} catch (Exception ex) {
-			Log.debug(ex);
-		}
 	}
 
 	/**

@@ -6,7 +6,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.MyModeChangedListener;
+import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -46,19 +46,18 @@ import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Float;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.layout.client.Layout;
-import com.google.gwt.layout.client.Layout.AnimationCallback;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Float;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.layout.client.Layout;
+import org.gwtproject.layout.client.Layout.AnimationCallback;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.EventListener;
@@ -67,7 +66,7 @@ import elemental2.dom.EventListener;
  * @author Laszlo Gal
  */
 public class ToolbarPanel extends FlowPanel
-		implements MyModeChangedListener, SideBarAccessibilityAdapter {
+		implements ModeChangeListener, SideBarAccessibilityAdapter {
 
 	/** Closed width of header in landscape mode */
 	public static final int CLOSED_WIDTH_LANDSCAPE = 72;

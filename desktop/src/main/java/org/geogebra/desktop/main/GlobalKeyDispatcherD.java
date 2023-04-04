@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import javax.swing.JRootPane;
@@ -351,7 +352,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	}
 
 	@Override
-	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
+	protected void copyDefinitionsToInputBarAsList(List<GeoElement> geos) {
 		JTextComponent textComponent = ((AlgebraInputD) ((GuiManagerD) app
 				.getGuiManager()).getAlgebraInput()).getTextField();
 
@@ -385,10 +386,5 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			app.setDefaultCursor();
 			newWindowAllowed = false;
 		}
-	}
-
-	@Override
-	protected KeyCodes translateKey(int i) {
-		return KeyCodes.translateJavacode(i);
 	}
 }
