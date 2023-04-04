@@ -18,9 +18,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
@@ -28,7 +25,6 @@ import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -2002,5 +1998,29 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic geo = createGeoWithHiddenLabel("FitPoly({(1,2),(3,4)},1)");
 		showLabel(geo);
 		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("f(x)"));
+	}
+
+	@Test
+	public void testIsMatrix() {
+		GeoSymbolic /*geo = add("SVD({{1,0},{0,4}})");
+		assertThat(geo.isMatrix(), is(false));
+		assertThat(geo.toValueString(StringTemplate.latexTemplate),
+				is("\\left\\{\\left(\\begin{array}{rr}0&-1\\\\1&0\\\\ \\end{array}\\right),"
+						+ " \\left(\\begin{array}{rr}4&0\\\\0&1\\\\ \\end{array}\\right),"
+						+ " \\left(\\begin{array}{rr}0&-1\\\\1&0\\\\ "
+						+ "\\end{array}\\right)\\right\\}"));
+		geo = add("Identity(2)");
+		assertThat(geo.isMatrix(), is(true));
+		assertThat(geo.toValueString(StringTemplate.latexTemplate),
+				is("\\left(\\begin{array}{rr}1&0\\\\0&1\\\\ \\end{array}\\right)"));
+		geo = add("Identity(2)*g");
+		assertThat(geo.isMatrix(), is(true));
+		assertThat(geo.toValueString(StringTemplate.latexTemplate),
+				is("\\left(\\begin{array}{rr}g&0\\\\0&g\\\\ \\end{array}\\right)"));*/
+		geo = add("{Identity(2)}");
+		assertThat(geo.isMatrix(), is(false));
+		assertThat(geo.toValueString(StringTemplate.latexTemplate),
+				is("\\left\\{\\left(\\begin{array}{rr}1&0\\\\0&1\\\\"
+						+ " \\end{array}\\right)\\right\\}"));
 	}
 }
