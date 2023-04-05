@@ -16,20 +16,22 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
@@ -998,8 +1000,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCASSpecialPoints() {
 		t("f:x", "x");
 		GeoSymbolic line = (GeoSymbolic) app.kernel.lookupLabel("f");
-		Assert.assertNotNull(SuggestionRootExtremum.get(line));
-		SuggestionRootExtremum.get(line).execute(line);
+		Suggestion suggestion = SuggestionRootExtremum.get(line);
+		Assert.assertNotNull(suggestion);
+		suggestion.execute(line);
 		Assert.assertNull(SuggestionRootExtremum.get(line));
 		Object[] list = app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
 		((GeoElement) list[list.length - 1]).remove();
@@ -1092,7 +1095,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testCreationWithLabel() {
 		GeoSymbolic vector = add("v=(1,1)");
-		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
+		assertThat(vector.getTwinGeo(), CoreMatchers.instanceOf(GeoVector.class));
 	}
 
 	@Test
@@ -1288,7 +1291,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("Integral(x)");
 		lookup("c_1");
 		GeoElement element = add("c_1=10");
-		assertThat(element, is(CoreMatchers.<GeoElement>instanceOf(GeoNumeric.class)));
+		assertThat(element, is(CoreMatchers.instanceOf(GeoNumeric.class)));
 		GeoNumeric numeric = (GeoNumeric) element;
 		assertThat(numeric.getValue(), is(closeTo(10, 0.001)));
 	}
@@ -1297,7 +1300,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testFunctionRedefinition() {
 		add("f(x) = x");
 		GeoSymbolic function = add("f(x) = xx");
-		assertThat(function.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoFunction.class));
+		assertThat(function.getTwinGeo(), CoreMatchers.instanceOf(GeoFunction.class));
 	}
 
 	@Test
@@ -1336,8 +1339,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolveNotReturnUndefined() {
 		add("eq1: (x^2)(e^x)= 5");
 		GeoSymbolic function = add("Solve(eq1, x)");
-		assertNotEquals(function.getValue().toString(StringTemplate.defaultTemplate), "{?}");
-		assertThat(function.getValue().toString(StringTemplate.defaultTemplate),
+		ExpressionValue value = function.getValue();
+		assertNotNull(value);
+		assertNotEquals(value.toString(StringTemplate.defaultTemplate), "{?}");
+		assertThat(value.toString(StringTemplate.defaultTemplate),
 				equalTo("{x = 1.216871488876}"));
 	}
 
@@ -2002,7 +2007,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testIsMatrix() {
-		GeoSymbolic /*geo = add("SVD({{1,0},{0,4}})");
+		GeoSymbolic geo = add("SVD({{1,0},{0,4}})");
 		assertThat(geo.isMatrix(), is(false));
 		assertThat(geo.toValueString(StringTemplate.latexTemplate),
 				is("\\left\\{\\left(\\begin{array}{rr}0&-1\\\\1&0\\\\ \\end{array}\\right),"
@@ -2016,7 +2021,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		geo = add("Identity(2)*g");
 		assertThat(geo.isMatrix(), is(true));
 		assertThat(geo.toValueString(StringTemplate.latexTemplate),
-				is("\\left(\\begin{array}{rr}g&0\\\\0&g\\\\ \\end{array}\\right)"));*/
+				is("\\left(\\begin{array}{rr}g&0\\\\0&g\\\\ \\end{array}\\right)"));
 		geo = add("{Identity(2)}");
 		assertThat(geo.isMatrix(), is(false));
 		assertThat(geo.toValueString(StringTemplate.latexTemplate),
