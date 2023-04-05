@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -324,7 +324,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	@Override
-	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
+	protected void copyDefinitionsToInputBarAsList(List<GeoElement> geos) {
 		// unimplemented
 	}
 
@@ -347,11 +347,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public static boolean isBadKeyEvent(KeyEvent<? extends EventHandler> e) {
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
-	}
-
-	@Override
-	protected KeyCodes translateKey(int i) {
-		return KeyCodes.translateGWTcode(i);
 	}
 
 	private void handleIosKeyboard(char code) {
