@@ -1889,11 +1889,6 @@
 	###       PROPABILITY CALCULATOR
 	#####################################################################################*/
 
-	.ProbabilityCalculatorStyleBarW .gwt-MenuItem {
-		margin: 0;
-		padding: 0;
-	}
-
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
 		// no scrollbar for main panel, only for value table
 		overflow: hidden;
@@ -1961,7 +1956,12 @@
 	.comboParamPanel, .resultPanel {
 		display: flex;
 		flex-wrap: wrap;
-		line-height: 52px;
+	}
+
+	.resultPanel {
+		.gwt-Label {
+			line-height: 52px;
+		}
 	}
 
 	.comboParamPanel .comboDistribution {
