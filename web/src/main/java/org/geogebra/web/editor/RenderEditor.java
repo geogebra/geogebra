@@ -54,14 +54,10 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		wrapper.setWidth("100%");
 		wrapper.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		MathFieldW mathField = new MathFieldW(null, wrapper, canvas, listener);
-		EditorParams editorParams = new EditorParams(el, mathField);
+		final EditorParams editorParams = new EditorParams(el, mathField);
 		listener.setMathField(mathField);
 		mathField.parse("");
 		wrapper.add(mathField);
-
-		if (!editorParams.isPreventFocus()) {
-			mathField.requestViewFocus();
-		}
 
 		mathField.setPixelRatio(DomGlobal.window.devicePixelRatio);
 		mathField.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
@@ -73,6 +69,10 @@ public final class RenderEditor implements RenderGgbElementFunction {
 
 		MathFieldProcessing processing = new MathFieldProcessing(mathField);
 		editorPanel.addDomHandler(evt -> onFocus(mathField, processing), ClickEvent.getType());
+
+		if (!editorParams.isPreventFocus()) {
+			onFocus(mathField, processing);
+		}
 
 		canvas.getElement().setTabIndex(-1);
 		return mathField;
