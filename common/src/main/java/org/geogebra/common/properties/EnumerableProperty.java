@@ -31,6 +31,8 @@ public interface EnumerableProperty extends ValuedProperty<Integer> {
 	/**
 	 * Sets the index of the current value.
 	 * See {@link EnumerableProperty#getValues()}.
+	 * If the index is not in the range of the values array,
+	 * a RuntimeException is thrown.
 	 * @param index the index of the current value
 	 */
 	void setIndex(int index);

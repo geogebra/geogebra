@@ -13,7 +13,6 @@ import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
-import org.geogebra.common.properties.util.PropertiesUtil;
 import org.junit.Test;
 
 public class FixObjectPropertyTest extends BaseUnitTest {
@@ -45,7 +44,7 @@ public class FixObjectPropertyTest extends BaseUnitTest {
 		ValuedProperty<Boolean> prop = GeoElementPropertiesFactory.createFixObjectProperty(
 				getApp().getLocalization(), Collections.singletonList(point));
 		assert prop != null;
-		prop.addObserver(new UndoSavingPropertyObserver(getConstruction().getUndoManager()));
+		prop.addValueObserver(new UndoSavingPropertyObserver(getConstruction().getUndoManager()));
 		prop.setValue(true);
 		assertThat(point.isLocked(), is(true));
 		getKernel().undo();

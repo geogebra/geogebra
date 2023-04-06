@@ -43,12 +43,12 @@ public class AxisLabelProperty extends AbstractValuedProperty<String> implements
     }
 
     @Override
-    public boolean isValid(String value) {
+    public boolean isValidValue(String value) {
         return true;
     }
 
     @Override
-    public String getInvalidInputErrorMessage() {
+    public String getInvalidValueErrorMessage() {
         return getLocalization().getError("InvalidInput");
     }
 

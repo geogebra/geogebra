@@ -5,16 +5,16 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertyObserver;
+import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 
 /**
- * Helper class for implementing value setting and getting of a property with listeners.
+ * A base class for implementing value setting and getting of a property with listeners.
  */
 public abstract class AbstractValuedProperty<S> extends AbstractProperty
 		implements ValuedProperty<S> {
 
-	private final Set<PropertyObserver> observers = new HashSet<>();
+	private final Set<PropertyValueObserver> observers = new HashSet<>();
 
 	/**
 	 * Constructs an abstract property.
@@ -26,12 +26,12 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 	}
 
 	@Override
-	public void addObserver(PropertyObserver observer) {
+	public void addValueObserver(PropertyValueObserver observer) {
 		observers.add(observer);
 	}
 
 	@Override
-	public void removeObserver(PropertyObserver observer) {
+	public void removeValueObserver(PropertyValueObserver observer) {
 		observers.remove(observer);
 	}
 
@@ -42,15 +42,15 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 	}
 
 	@Override
-	public final void startChange() {
+	public final void startChangingValue() {
 		doStartChange();
-		notifyObservers(observer -> observer.onStartChange(this));
+		notifyObservers(observer -> observer.onStartChanging(this));
 	}
 
 	@Override
-	public final void endChange() {
+	public final void endChangingValue() {
 		doEndChange();
-		notifyObservers(observer -> observer.onEndChange(this));
+		notifyObservers(observer -> observer.onEndChanging(this));
 	}
 
 	/**
@@ -71,7 +71,7 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 	protected void doEndChange() {
 	}
 
-	private void notifyObservers(Consumer<PropertyObserver> eventCall) {
+	private void notifyObservers(Consumer<PropertyValueObserver> eventCall) {
 		observers.forEach(eventCall);
 	}
 }

@@ -16,19 +16,19 @@ public class StringPropertyCollection<T extends StringProperty>
 	}
 
 	@Override
-	public boolean isValid(String value) {
+	public boolean isValidValue(String value) {
 		boolean isValid = true;
 		for (StringProperty property : getProperties()) {
-			isValid = isValid && property.isValid(value);
+			isValid = isValid && property.isValidValue(value);
 		}
 		return isValid;
 	}
 
 	@Override
-	public String getInvalidInputErrorMessage() {
+	public String getInvalidValueErrorMessage() {
 		StringProperty first = getFirstProperty();
 		if (first != null) {
-			return first.getInvalidInputErrorMessage();
+			return first.getInvalidValueErrorMessage();
 		}
 		return "";
 	}

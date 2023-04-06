@@ -3,13 +3,14 @@ package org.geogebra.common.properties;
 import org.geogebra.common.awt.GColor;
 
 /**
- * A property that describes the color.
+ * A property whose value is a color.
  */
 public interface ColorProperty extends ValuedProperty<GColor> {
 
 	/**
-	 * Get the available colors for this property
+	 * Gets the available color values for this property.
+	 *
 	 * @return color array
 	 */
-	GColor[] getColors();
+	GColor[] getAvailableColors();
 }

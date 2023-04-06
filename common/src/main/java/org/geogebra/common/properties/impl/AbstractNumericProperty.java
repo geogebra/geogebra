@@ -37,7 +37,7 @@ public abstract class AbstractNumericProperty extends AbstractValuedProperty<Str
 	}
 
 	@Override
-	public boolean isValid(String value) {
+	public boolean isValidValue(String value) {
 		return util.isNumber(value);
 	}
 
@@ -46,7 +46,7 @@ public abstract class AbstractNumericProperty extends AbstractValuedProperty<Str
 	protected abstract NumberValue getNumberValue();
 
 	@Override
-	public String getInvalidInputErrorMessage() {
+	public String getInvalidValueErrorMessage() {
 		return getLocalization().getError("InvalidInput");
 	}
 }

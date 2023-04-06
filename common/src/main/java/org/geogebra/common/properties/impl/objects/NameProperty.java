@@ -54,13 +54,13 @@ public class NameProperty extends AbstractValuedProperty<String> implements Stri
 	}
 
 	@Override
-	public boolean isValid(String value) {
+	public boolean isValidValue(String value) {
 		GeoElement element = delegate.getElement();
 		return !value.isEmpty() && LabelManager.isValidLabel(value, element.getKernel(), element);
 	}
 
 	@Override
-	public String getInvalidInputErrorMessage() {
+	public String getInvalidValueErrorMessage() {
 		return getLocalization().getError("InvalidInput");
 	}
 }

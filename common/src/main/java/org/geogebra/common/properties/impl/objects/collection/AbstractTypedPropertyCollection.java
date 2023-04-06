@@ -6,14 +6,14 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.PropertyObserver;
+import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 
 abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> implements
 		ValuedProperty<S> {
 
 	private final T[] properties;
-	private final Set<PropertyObserver> observers = new HashSet<>();
+	private final Set<PropertyValueObserver> observers = new HashSet<>();
 
 	AbstractTypedPropertyCollection(T[] properties) {
 		if (properties.length == 0) {
@@ -45,16 +45,16 @@ abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> i
 	}
 
 	@Override
-	public void addObserver(PropertyObserver observer) {
+	public void addValueObserver(PropertyValueObserver observer) {
 		observers.add(observer);
 	}
 
 	@Override
-	public void removeObserver(PropertyObserver observer) {
+	public void removeValueObserver(PropertyValueObserver observer) {
 		observers.remove(observer);
 	}
 
-	private void notifyObservers(Consumer<PropertyObserver> observerConsumer) {
+	private void notifyObservers(Consumer<PropertyValueObserver> observerConsumer) {
 		observers.forEach(observerConsumer);
 	}
 
@@ -74,14 +74,14 @@ abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> i
 	}
 
 	@Override
-	public void startChange() {
-		callProperty(ValuedProperty::startChange);
-		notifyObservers(observer -> observer.onStartChange(this));
+	public void startChangingValue() {
+		callProperty(ValuedProperty::startChangingValue);
+		notifyObservers(observer -> observer.onStartChanging(this));
 	}
 
 	@Override
-	public void endChange() {
-		callProperty(ValuedProperty::endChange);
-		notifyObservers(observer -> observer.onEndChange(this));
+	public void endChangingValue() {
+		callProperty(ValuedProperty::endChangingValue);
+		notifyObservers(observer -> observer.onEndChanging(this));
 	}
 }

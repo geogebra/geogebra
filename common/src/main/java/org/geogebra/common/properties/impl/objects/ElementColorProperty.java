@@ -42,7 +42,7 @@ public class ElementColorProperty extends AbstractValuedProperty<GColor> impleme
 	}
 
 	@Override
-	public GColor[] getColors() {
+	public GColor[] getAvailableColors() {
 		if (colors == null) {
 			colors = createColorValues();
 		}
