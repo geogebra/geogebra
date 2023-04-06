@@ -18,7 +18,6 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
-import org.apache.commons.math3.linear.QRDecomposition;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
