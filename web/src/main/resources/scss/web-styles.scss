@@ -491,7 +491,8 @@
 	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
-		height: 15px;
+		height: 16px;
+		margin: -2px 0;
 	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected, .gwt-TabBar .gwt-TabBarItem-selected {
@@ -1098,6 +1099,7 @@
 	.buttonDialog .scriptArea {
 		width: 100%;
 		height: 200px;
+		border-radius: 2px;
 	}
 
 	/* ------------ IMAGE DIALOG -------------*/
@@ -1485,6 +1487,7 @@
 		background-color: #FFFFFF;
 		width: 380px;
 		height: 100px;
+		overflow: auto;
 	}
 
 	.textEditorAdvancedPanel {
@@ -1758,11 +1761,6 @@
 
 	.textOptionsToolBar {
 		display: inline-block;
-	}
-
-	.objectPropertiesTextEditor {
-		width: 100%;
-		height: 100px;
 	}
 
 	.colorChooserPreview, .optionsSlider {

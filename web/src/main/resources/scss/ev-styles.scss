@@ -525,7 +525,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		color: #666666;
 		border-radius: 5px;
 		box-sizing: border-box;
-		-moz-box-sizing: border-box;
 		font-size: 100%;
 		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 		box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
@@ -535,8 +534,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	input[type="number"],
 	.gwt-TextBox,
 	textarea,
-	.gwt-TextArea,
-	.objectPropertiesTextEditor {
+	.gwt-TextArea {
 		&:focus,&:focus:not([readonly]){
 			border: 1px #6161FF solid;
 		}

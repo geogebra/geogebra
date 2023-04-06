@@ -20,7 +20,6 @@ import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.dom.style.shared.Float;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusEvent;
@@ -29,14 +28,12 @@ import org.gwtproject.event.dom.client.KeyPressHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.ui.DisclosurePanel;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.HorizontalPanel;
-import org.gwtproject.user.client.ui.VerticalPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Panel to manage editing of GeoText strings.
  */
-public class TextEditPanel extends VerticalPanel
+public class TextEditPanel extends FlowPanel
 		implements FastClickHandler, FocusHandler, ITextEditPanel, SetLabels, HasKeyboardTF {
 
 	private AppW app;
@@ -249,17 +246,12 @@ public class TextEditPanel extends VerticalPanel
 		btnLatex.addFastClickHandler(this);
 		btnLatex.addStyleName("btnLatex");
 
-		HorizontalPanel leftPanel = new HorizontalPanel();
-		leftPanel.setSpacing(2);
-		leftPanel.add(btnBold);
-		leftPanel.add(btnItalic);
-		leftPanel.add(btnSerif);
-		leftPanel.add(btnLatex);
-
 		toolBar = new FlowPanel();
-		toolBar.getElement().getStyle().setFloat(Float.LEFT);
 		toolBar.getElement().getStyle().setFontSize(80, Unit.PCT);
-		toolBar.add(leftPanel);
+		toolBar.add(btnBold);
+		toolBar.add(btnItalic);
+		toolBar.add(btnSerif);
+		toolBar.add(btnLatex);
 	}
 
 	@Override
