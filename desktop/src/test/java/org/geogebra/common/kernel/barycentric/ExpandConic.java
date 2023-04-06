@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.barycentric;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.TreeSet;
 
 import javax.swing.JFrame;
@@ -1546,12 +1544,6 @@ public class ExpandConic {
 				"-a^6*c^2*x^2*y-4*a^4*b^2*c^2*x^2*y+a^2*b^4*c^2*x^2*y+4*b^6*c^2*x^2*y+3*a^4*c^4*x^2*y-9*b^4*c^4*x^2*y+a^2*c^6*x^2*y+8*b^2*c^6*x^2*y-3*c^8*x^2*y-4*a^6*c^2*x*y^2-a^4*b^2*c^2*x*y^2+4*a^2*b^4*c^2*x*y^2+b^6*c^2*x*y^2+9*a^4*c^4*x*y^2-3*b^4*c^4*x*y^2-8*a^2*c^6*x*y^2-b^2*c^6*x*y^2+3*c^8*x*y^2+a^6*b^2*x^2*z-3*a^4*b^4*x^2*z-a^2*b^6*x^2*z+3*b^8*x^2*z+4*a^4*b^2*c^2*x^2*z-8*b^6*c^2*x^2*z-a^2*b^2*c^4*x^2*z+9*b^4*c^4*x^2*z-4*b^2*c^6*x^2*z-4*a^6*b^2*x*y*z+4*a^2*b^6*x*y*z+4*a^6*c^2*x*y*z-4*b^6*c^2*x*y*z-4*a^2*c^6*x*y*z+4*b^2*c^6*x*y*z-3*a^8*y^2*z+a^6*b^2*y^2*z+3*a^4*b^4*y^2*z-a^2*b^6*y^2*z+8*a^6*c^2*y^2*z-4*a^2*b^4*c^2*y^2*z-9*a^4*c^4*y^2*z+a^2*b^2*c^4*y^2*z+4*a^2*c^6*y^2*z+4*a^6*b^2*x*z^2-9*a^4*b^4*x*z^2+8*a^2*b^6*x*z^2-3*b^8*x*z^2+a^4*b^2*c^2*x*z^2+b^6*c^2*x*z^2-4*a^2*b^2*c^4*x*z^2+3*b^4*c^4*x*z^2-b^2*c^6*x*z^2+3*a^8*y*z^2-8*a^6*b^2*y*z^2+9*a^4*b^4*y*z^2-4*a^2*b^6*y*z^2-a^6*c^2*y*z^2-a^2*b^4*c^2*y*z^2-3*a^4*c^4*y*z^2+4*a^2*b^2*c^4*y*z^2+a^2*c^6*y*z^2");
 		exp("K699",
 				"a^8*b^4*x^2*y-a^2*b^10*x^2*y+a^4*b^6*c^2*x^2*y-3*a^6*b^2*c^4*x^2*y+b^8*c^4*x^2*y+2*a^4*c^8*x^2*y-b^2*c^10*x^2*y+a^10*b^2*x*y^2-a^4*b^8*x*y^2-a^6*b^4*c^2*x*y^2-a^8*c^4*x*y^2+3*a^2*b^6*c^4*x*y^2-2*b^4*c^8*x*y^2+a^2*c^10*x*y^2-2*a^4*b^8*x^2*z+3*a^6*b^4*c^2*x^2*z+b^10*c^2*x^2*z-a^8*c^4*x^2*z-a^4*b^2*c^6*x^2*z-b^4*c^8*x^2*z+a^2*c^10*x^2*z+2*a^8*b^4*y^2*z-a^10*c^2*y^2*z-3*a^4*b^6*c^2*y^2*z+b^8*c^4*y^2*z+a^2*b^4*c^6*y^2*z+a^4*c^8*y^2*z-b^2*c^10*y^2*z+a^8*b^4*x*z^2-a^2*b^10*x*z^2-a^10*c^2*x*z^2+a^6*b^2*c^4*x*z^2+2*b^8*c^4*x*z^2-3*a^2*b^4*c^6*x*z^2+a^4*c^8*x*z^2+a^10*b^2*y*z^2-a^4*b^8*y*z^2+b^10*c^2*y*z^2-2*a^8*c^4*y*z^2-a^2*b^6*c^4*y*z^2+3*a^4*b^2*c^6*y*z^2-b^4*c^8*y*z^2");
-	}
-
-	public static class NullOutputStream extends OutputStream {
-		@Override
-		public void write(int b) throws IOException {
-		}
 	}
 
 	private static void exp(String name, String s) {
