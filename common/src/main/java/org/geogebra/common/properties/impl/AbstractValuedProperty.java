@@ -43,13 +43,13 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 
 	@Override
 	public final void startChangingValue() {
-		doStartChange();
+		willStartChangingValue();
 		notifyObservers(observer -> observer.onStartChanging(this));
 	}
 
 	@Override
 	public final void endChangingValue() {
-		doEndChange();
+		didEndChangingValue();
 		notifyObservers(observer -> observer.onEndChanging(this));
 	}
 
@@ -60,15 +60,23 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 	protected abstract void doSetValue(S value);
 
 	/**
-	 * Callback to when property starts changing.
+	 * Callback to when the property value starts changing.
+	 * For example, here you can start caching values to
+	 * {@link AbstractValuedProperty#doSetValue(Object)} and apply them only in
+	 * {@link AbstractValuedProperty#didEndChangingValue()}.
+	 * For more information, see {@link ValuedProperty#startChangingValue()}.
 	 */
-	protected void doStartChange() {
+	protected void willStartChangingValue() {
+		// Subclasses might override
 	}
 
 	/**
-	 * Callback to when property ends changing.
+	 * Callback to when the property value stops changing.
+	 * It is not enforced that this method is called
+	 * after {@link AbstractValuedProperty#willStartChangingValue()}.
 	 */
-	protected void doEndChange() {
+	protected void didEndChangingValue() {
+		// Subclasses might override
 	}
 
 	private void notifyObservers(Consumer<PropertyValueObserver> eventCall) {
