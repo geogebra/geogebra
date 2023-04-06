@@ -3,12 +3,10 @@ package org.geogebra.web.full.gui.dialog.image;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.FileUpload;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.VerticalPanel;
 
 import elemental2.dom.File;
 import elemental2.dom.FileList;
@@ -26,9 +24,7 @@ public class UploadImagePanel extends VerticalPanel {
 
 	private final int previewHeight;
 	private final int previewWidth;
-	
-	/** used to reset the uploadImageBtn */
-	private FormPanel panel;
+
 	private FileUpload uploadImageBtn;
 	private Image previewImg;
 
@@ -51,9 +47,7 @@ public class UploadImagePanel extends VerticalPanel {
     }
 
 	private void initGUI(AppW app) {
-		panel = new FormPanel();
-		panel.add(uploadImageBtn = getUploadButton(app, this::fileSelected));
-		add(panel);
+		add(uploadImageBtn = getUploadButton(app, this::fileSelected));
 	}
 
 	/**
@@ -131,17 +125,6 @@ public class UploadImagePanel extends VerticalPanel {
 	 */
 	public String getFileName() {
 		return fileName;
-	}
-	
-	/**
-	 * reset the preview image
-	 */
-	public void resetPreview() {
-		if (this.previewImg != null) {
-			this.remove(this.previewImg);
-			this.previewImg = null;
-			panel.reset();
-		}
 	}
 
 	/**

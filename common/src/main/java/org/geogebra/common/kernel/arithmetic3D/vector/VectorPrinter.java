@@ -11,19 +11,20 @@ class VectorPrinter implements Printer {
     private Printer editPrinter;
     private Printer latexPrinter;
 
-    VectorPrinter(PrintableVector vector) {
-        defaultPrinter = new DefaultVectorPrinter(vector);
-        editPrinter = new EditVectorPrinter(vector);
-        latexPrinter = new LatexVectorPrinter(vector);
+    VectorPrinter() {
+        defaultPrinter = new DefaultVectorPrinter();
+        editPrinter = new EditVectorPrinter();
+        latexPrinter = new LatexVectorPrinter();
     }
 
     @Override
-    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
-        return getPrinterFor(tpl).print(tpl, expressionPrinter);
+    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
+        return getPrinterFor(tpl).print(tpl, expressionPrinter, vector);
     }
 
     private Printer getPrinterFor(StringTemplate tpl) {
-        if (tpl == StringTemplate.editorTemplate) {
+        if (tpl.isForEditorParser()) {
             return editPrinter;
         } else if (tpl.isLatex()) {
             return latexPrinter;

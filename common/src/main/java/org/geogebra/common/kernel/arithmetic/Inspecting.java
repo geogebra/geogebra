@@ -384,4 +384,13 @@ public interface Inspecting {
 
 	}
 
+	/**
+	 * Returns true if any of the expression leaf is undefined.
+	 */
+	public static Inspecting isUndefinedInspector = new Inspecting() {
+		@Override
+		public boolean check(ExpressionValue v) {
+			return v instanceof NumberValue && !((NumberValue) v).isDefined();
+		}
+	};
 }

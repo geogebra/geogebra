@@ -17,14 +17,14 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.util.EventUtil;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.user.client.ui.HasWidgets;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -90,7 +90,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		updatePixelRatio();
 		app.addWindowResizeListener(this::updatePixelRatio);
 
-		getMathField().setBackgroundColor("rgba(255,255,255,0)");
+		if (!main.getStyleName().contains("errorStyle")) {
+			getMathField().setBackgroundColor("rgba(255,255,255,0)");
+		}
 		app.getGlobalHandlers().addEventListener(mathField.asWidget().getElement(),
 				"pointerdown", (evt) -> {
 			app.sendKeyboardEvent(true);
@@ -236,7 +238,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	}
 
 	/**
-	 * Shows or hides the keyboard.
+	 * Shows or hides the keyboard, if user preference allows it
 	 *
 	 * @param show to show or hide the keyboard.
 	 */
@@ -250,6 +252,18 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		} else {
 			frame.doShowKeyBoard(show, retexListener);
 		}
+	}
+
+	/**
+	 * Shows or hides the keyboard.
+	 *
+	 * @param show to show or hide the keyboard.
+	 */
+	public void forceKeyboardVisibility(boolean show) {
+		if (!frame.isKeyboardShowing() && !show) {
+			return;
+		}
+		frame.doShowKeyBoard(show, retexListener);
 	}
 
 	/**
@@ -372,5 +386,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
 		mathField.getInternal().setUnhandledArrowListener(listener);
+	}
+
+	public void setAllowAbs(boolean b) {
+		mathField.getInternal().setAllowAbs(b);
 	}
 }

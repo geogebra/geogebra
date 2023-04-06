@@ -1,7 +1,6 @@
 package org.geogebra.web.solver;
 
 import org.geogebra.common.factories.CASFactoryDummy;
-import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -9,12 +8,12 @@ import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.simple.Stub3DFragment;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.RootPanel;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 

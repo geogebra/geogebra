@@ -2,8 +2,7 @@ package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.images.AppResources;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 class MaterialImagePanel extends FlowPanel {
 

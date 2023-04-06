@@ -1,10 +1,13 @@
 package com.himamis.retex.editor.share.serializer;
 
+import static com.himamis.retex.renderer.share.platform.FactoryProvider.debugS;
+
 import java.util.HashMap;
 
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -56,8 +59,14 @@ public class TeXBuilder {
 			return "SELECTION";
 		}
 	};
+	public static final double DEFAULT_PLACEHOLDER_Y_SCALE = 1.6;
+
+	// With default and medium text size, "(" open bracket disappears
+	// when followed by a placeholder for (,).
+	private static final double CHAR_PLACEHOLDER_Y_SCALE = 1.5;
 
 	private MathSequence currentField;
+	private int currentOffset;
 	private HashMap<Atom, MathComponent> atomToComponent;
 	private final TeXParser parser;
 	private final TeXSerializer teXSerializer;
@@ -68,6 +77,7 @@ public class TeXBuilder {
 		replacements.put('%', "textpercent");
 		replacements.put('$', "textdollar");
 		replacements.put('&', "textampersand");
+		replacements.put('\u23B8', "vert");
 	}
 
 	/**
@@ -82,34 +92,32 @@ public class TeXBuilder {
 		RowAtom ra = new RowAtom();
 
 		if (mathFormula.size() == 0) {
-			Atom a;
-			if (mathFormula == currentField) {
-				Atom placeholder = new CharAtom('1');
-				atomToComponent.put(placeholder, SELECTION);
-				a = new ScaleAtom(new PhantomAtom(placeholder), 0.1, 1);
-			} else {
-				a = getPlaceholder(mathFormula);
-			}
-			ra.add(a);
+			ra.add(getPlaceholderAtom(mathFormula));
 			return ra;
 		}
 
 		for (int i = 0; i < mathFormula.size(); i++) {
-			if (mathFormula.getArgument(i).hasTag(Tag.SUPERSCRIPT)) {
-				Atom sup = build(((MathFunction) mathFormula.getArgument(i)).getArgument(0));
+			MathComponent argument1 = mathFormula.getArgument(i);
+			if (argument1.hasTag(Tag.SUPERSCRIPT)) {
+				Atom sup = build(((MathFunction) argument1).getArgument(0));
 				Atom tmp = addToSup(ra.getLastAtom(), sup);
-				atomToComponent.put(tmp, mathFormula.getArgument(i));
+				atomToComponent.put(tmp, argument1);
 				ra.add(tmp);
 				continue;
-			} else if (mathFormula.getArgument(i).hasTag(Tag.SUBSCRIPT)) {
-				Atom sub = build(((MathFunction) mathFormula.getArgument(i)).getArgument(0));
+			} else if (argument1.hasTag(Tag.SUBSCRIPT)) {
+				Atom sub = build(((MathFunction) argument1).getArgument(0));
 				Atom tmp = addToSub(ra.getLastAtom(), sub);
-				atomToComponent.put(tmp, mathFormula.getArgument(i));
+				atomToComponent.put(tmp, argument1);
 				ra.add(tmp);
+				continue;
+			} else if (argument1 instanceof MathCharPlaceholder) {
+				Atom box = getCharPlaceholder(argument1.getParentIndex());
+				atomToComponent.put(box, argument1);
+				ra.add(box);
 				continue;
 			}
 
-			Atom argument = build(mathFormula.getArgument(i));
+			Atom argument = build(argument1);
 
 			// same ugly hack for ln as we have in TeXSerializer
 			if (argument instanceof CharAtom
@@ -125,6 +133,24 @@ public class TeXBuilder {
 		}
 
 		return ra;
+	}
+
+	private Atom getCharPlaceholder(int index) {
+		return index == currentOffset
+				? getInvisiblePlaceholder()
+				: getPlaceholderBox(CHAR_PLACEHOLDER_Y_SCALE);
+	}
+
+	private Atom getPlaceholderAtom(MathSequence mathFormula) {
+		Atom a;
+		if (mathFormula == currentField) {
+			Atom placeholder = new CharAtom('1');
+			atomToComponent.put(placeholder, SELECTION);
+			a = new ScaleAtom(new PhantomAtom(placeholder), 0.1, 1);
+		} else {
+			a = getPlaceholder(mathFormula);
+		}
+		return a;
 	}
 
 	private Atom buildPlaceholder(MathPlaceholder placeholder) {
@@ -155,8 +181,12 @@ public class TeXBuilder {
 	}
 
 	private Atom getPlaceholderBox() {
+		return getPlaceholderBox(DEFAULT_PLACEHOLDER_Y_SCALE);
+	}
+
+	private Atom getPlaceholderBox(double yScale) {
 		return new ColorAtom(
-				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
+				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, yScale),
 				FactoryProvider.getInstance().getGraphicsFactory()
 						.createColor(TeXSerializer.placeholderColor),
 				null
@@ -187,6 +217,8 @@ public class TeXBuilder {
 			ret = buildFunction((MathFunction) argument);
 		} else if (argument instanceof MathArray) {
 			ret = buildArray((MathArray) argument);
+		} else if (argument instanceof MathCharPlaceholder) {
+			ret = getCharPlaceholder(argument.getParentIndex());
 		} else if (argument instanceof MathPlaceholder) {
 			ret = buildPlaceholder((MathPlaceholder) argument);
 		} else if (argument instanceof MathSequence) {
@@ -330,7 +362,7 @@ public class TeXBuilder {
 		case '|':
 			return "vert";
 		default:
-			FactoryProvider.debugS("missing case in lookupBracket()");
+			debugS("missing case in lookupBracket()");
 			return "";
 		}
 	}
@@ -454,8 +486,10 @@ public class TeXBuilder {
 	 *            selected field
 	 * @return atom representing the whole sequence
 	 */
-	public Atom build(MathComponent rootComponent, MathSequence currentField1, boolean textMode) {
+	public Atom build(MathComponent rootComponent, MathSequence currentField1,
+			int currentOffset, boolean textMode) {
 		this.currentField = currentField1;
+		this.currentOffset = currentOffset;
 		this.atomToComponent = new HashMap<>();
 		Atom root = build(rootComponent);
 		if (textMode) {

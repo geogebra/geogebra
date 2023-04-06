@@ -1,8 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.gwtutil.NavigatorUtil;
-
-import com.google.gwt.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.UIObject;
 
 /**
  * Helper class for accessibility methods

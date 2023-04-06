@@ -18,6 +18,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
@@ -25,6 +28,7 @@ import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1966,5 +1970,37 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(AlgebraItem.getCASOutputType(element), is(AlgebraItem.CASOutputType.SYMBOLIC));
 		element = add("Slider(0,1)");
 		assertThat(AlgebraItem.getCASOutputType(element), is(AlgebraItem.CASOutputType.NUMERIC));
+	}
+
+	@Test
+	public void testCollectFunctionVariables() {
+		GeoSymbolic element = add("x+1");
+		assertThat(element.collectVariables().size(), is(1));
+		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
+				is("x"));
+
+		element = add("x+y");
+		assertThat(element.collectVariables().size(), is(2));
+		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
+				is("x"));
+		assertThat(element.collectVariables().get(1).toString(StringTemplate.defaultTemplate),
+				is("y"));
+
+		element = add("FitPoly({(1,2),(3,4)},1)");
+		assertThat(element.collectVariables().size(), is(1));
+		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
+				is("x"));
+
+		element = add("Product(n*z, n, 1, z)");
+		assertThat(element.collectVariables().size(), is(1));
+		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
+				is("z"));
+	}
+
+	@Test
+	public void testFitPolyLabel() {
+		GeoSymbolic geo = createGeoWithHiddenLabel("FitPoly({(1,2),(3,4)},1)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("f(x)"));
 	}
 }

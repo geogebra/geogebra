@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import com.google.gwt.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
 /**
  * Interface for updating card container visuals.

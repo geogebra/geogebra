@@ -22,13 +22,13 @@ import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjec
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
-import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
+import org.geogebra.common.gui.dialog.options.model.IconOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import org.geogebra.common.gui.dialog.options.model.InterpolateImageModel;
@@ -85,12 +85,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.resources.client.ImageResource;
-
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
 
 /**
  * options tab
@@ -293,31 +292,29 @@ public class OptionsTab extends FlowPanel {
 			return new LodPanel((LodModel) m);
 		}
 		if (m instanceof DecoAngleModel) {
-			DecoAnglePanel dap = new DecoAnglePanel((DecoAngleModel) m, app);
-			dap.getWidget().setStyleName("optionsPanel");
-			return dap;
+			return new IconDropdownPanelW((IconOptionsModel) m,
+					app, GeoGebraIconW.getAngleDecoIcons());
 		}
 		if (m instanceof DecoSegmentModel) {
-			DecoSegmentPanel dsp = new DecoSegmentPanel((DecoSegmentModel) m,
-					app);
-			dsp.getWidget().setStyleName("optionsPanel");
-			return dsp;
+			return new IconDropdownPanelW((IconOptionsModel) m,
+					app, GeoGebraIconW.getSegmentDecoIcons());
 		}
 		if (m instanceof SegmentStyleModel) {
 			IOptionPanel ssp;
 			if (((SegmentStyleModel) m).isStartStyle()) {
-				ssp = new SegmentStartStylePanel((SegmentStyleModel) m,
-						app);
+				ssp = new IconDropdownPanelW((SegmentStyleModel) m,
+						app, GeoGebraIconW.createSegmentStartStyleIcons());
 			} else {
-				ssp = new SegmentEndStylePanel((SegmentStyleModel) m, app);
+				ssp = new IconDropdownPanelW((SegmentStyleModel) m, app,
+						GeoGebraIconW.createSegmentEndStyleIcons());
 
 			}
-			ssp.getWidget().setStyleName("optionsPanel");
 			ssp.getWidget().addStyleName("inlineOption");
 			return ssp;
 		}
 		if (m instanceof VectorHeadStyleModel) {
-			return new VectorHeadStylePanel((VectorHeadStyleModel) m, app);
+			return new IconDropdownPanelW((IconOptionsModel) m,
+					app, GeoGebraIconW.createVectorHeadStyleIcons());
 		}
 
 		if (m instanceof TextOptionsModel) {
@@ -614,39 +611,16 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
-	private static class DecoAnglePanel extends DecoOptionPanel
-			implements IDecoAngleListener {
-
-		DecoAngleModel model;
-
-		public DecoAnglePanel(DecoAngleModel model0, AppW app) {
-			super(app);
-			model = model0;
-			model.setListener(this);
-			setModel(model);
-			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel
-					.getDecoTypeLength()];
-			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
-			}
-			init(iconArray, model);
-		}
-
-		@Override
-		public void setArcSizeMinValue() {
-			// angleArcSizePanel.setMinValue(); //TODO update min arc size on
-			// deco change
-		}
-	}
-
-	private static class SegmentStartStylePanel extends OptionPanel
+	private static class IconDropdownPanelW extends OptionPanel
 			implements IComboListener {
 		Label styleLbl;
 		PopupMenuButtonW stylePopup;
 		AppW app;
+		IconOptionsModel model;
 
-		public SegmentStartStylePanel(SegmentStyleModel model, AppW app) {
+		public IconDropdownPanelW(IconOptionsModel model, AppW app, ImageOrText[] images) {
 			this.app = app;
+			this.model = model;
 			model.setListener(this);
 			setModel(model);
 
@@ -654,7 +628,7 @@ public class OptionsTab extends FlowPanel {
 			styleLbl = new Label();
 			mainWidget.add(styleLbl);
 
-			stylePopup = new PopupMenuButtonW(app, GeoGebraIconW.createSegmentStartStyleIcons(),
+			stylePopup = new PopupMenuButtonW(app, images,
 					-1, 1, SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
@@ -667,11 +641,12 @@ public class OptionsTab extends FlowPanel {
 			mainWidget.add(stylePopup);
 			setWidget(mainWidget);
 			setLabels();
+			getWidget().setStyleName("optionsPanel");
 		}
 
 		@Override
 		public void setLabels() {
-			styleLbl.setText(app.getLocalization().getMenu("stylebar.LineStartStyle") + ":");
+			styleLbl.setText(app.getLocalization().getMenu(model.getTitle()) + ":");
 		}
 
 		@Override
@@ -687,128 +662,6 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void clearItems() {
 			// do nothing
-		}
-	}
-
-	private static class SegmentEndStylePanel extends OptionPanel
-			implements IComboListener {
-		Label styleLbl;
-		PopupMenuButtonW stylePopup;
-		AppW app;
-
-		public SegmentEndStylePanel(SegmentStyleModel model, AppW app) {
-			this.app = app;
-			model.setListener(this);
-			setModel(model);
-
-			FlowPanel mainWidget = new FlowPanel();
-			styleLbl = new Label();
-			mainWidget.add(styleLbl);
-
-			stylePopup = new PopupMenuButtonW(app, GeoGebraIconW.createSegmentEndStyleIcons(),
-					-1, 1, SelectionTable.MODE_ICON) {
-				@Override
-				public void handlePopupActionEvent() {
-					super.handlePopupActionEvent();
-					int idx = getSelectedIndex();
-					model.applyChanges(idx);
-				}
-			};
-			stylePopup.setKeepVisible(false);
-			mainWidget.add(stylePopup);
-			setWidget(mainWidget);
-			setLabels();
-		}
-
-		@Override
-		public void setLabels() {
-			styleLbl.setText(app.getLocalization().getMenu("stylebar.LineEndStyle") + ":");
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			stylePopup.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String plain) {
-			// do nothing
-		}
-
-		@Override
-		public void clearItems() {
-			// do nothing
-		}
-	}
-
-	private static class VectorHeadStylePanel extends OptionPanel
-			implements IComboListener {
-		Label styleLbl;
-		PopupMenuButtonW stylePopup;
-		AppW app;
-
-		public VectorHeadStylePanel(VectorHeadStyleModel model, AppW app) {
-			this.app = app;
-			model.setListener(this);
-			setModel(model);
-
-			FlowPanel mainWidget = new FlowPanel();
-			styleLbl = new Label();
-			mainWidget.add(styleLbl);
-
-			stylePopup = new PopupMenuButtonW(app, GeoGebraIconW.createVectorHeadStyleIcons(),
-					-1, 1, SelectionTable.MODE_ICON) {
-				@Override
-				public void handlePopupActionEvent() {
-					super.handlePopupActionEvent();
-					int idx = getSelectedIndex();
-					model.applyChanges(idx);
-				}
-			};
-			stylePopup.setKeepVisible(false);
-			mainWidget.add(stylePopup);
-			setWidget(mainWidget);
-			mainWidget.setStyleName("optionsPanel");
-			mainWidget.addStyleName("inlineOption");
-			setLabels();
-		}
-
-		@Override
-		public void setLabels() {
-			styleLbl.setText(app.getLocalization().getMenu("Properties.Style") + ":");
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			stylePopup.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String plain) {
-			// do nothing
-		}
-
-		@Override
-		public void clearItems() {
-			// do nothing
-		}
-	}
-
-	private static class DecoSegmentPanel extends DecoOptionPanel {
-		DecoSegmentModel model;
-
-		public DecoSegmentPanel(DecoSegmentModel model0, AppW app) {
-			super(app);
-			model = model0;
-			model.setListener(this);
-			setModel(model);
-
-			final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel
-					.getDecoTypeLength()];
-			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
-			}
-			init(iconArray, model);
 		}
 	}
 
@@ -1068,6 +921,11 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
+		}
+
+		@Override
+		public void setSliderMin(int min) {
+			slider.setMinimum(min);
 		}
 	}
 

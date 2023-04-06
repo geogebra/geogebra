@@ -998,15 +998,27 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void requestFocus() {
 		super.requestFocus();
-		if (getDrawTextField() != null && getDrawTextField().hasError()) {
-			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
-					4, 1, 1, true));
+		if (getDrawTextField() != null) {
+			styleTextField();
 		} else {
 			setDefaultBorder();
 		}
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
+		}
+	}
+
+	private void styleTextField() {
+		if (getDrawTextField().hasError()) {
+			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
+					2, 2, 2, true));
+			setBackground(GColor.ERROR_RED_BACKGROUND);
+		} else if (drawTextField != null) {
+			GColor borderColor = drawTextField.getGeoElement().getBackgroundColor()
+					== GColor.WHITE ? GColor.DEFAULT_PURPLE : drawTextField.getBorderColor();
+			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(borderColor)));
+			setBackground(drawTextField.getGeoElement().getBackgroundColor());
 		}
 	}
 
@@ -1041,18 +1053,49 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		g2.setPaint(bgColor);
+		drawBounds(g2, bgColor, left, top, width, height, drawTextField);
+	}
+
+	/**
+	 * @param g2 graphics
+	 * @param bgColor background color (will be overridden on error)
+	 * @param left horizontal position in view (in pixels)
+	 * @param top vertical position in view (in pixels)
+	 * @param width width in pixels
+	 * @param height height in pixels
+	 * @param drawInputBox associated inputbox
+	 */
+	public static void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
+			int width, int height, DrawInputBox drawInputBox) {
+		GColor backgroundColor = drawInputBox.hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
+		g2.setPaint(backgroundColor);
 		g2.fillRect(left, top, width, height);
 
-		// TF Rectangle
-		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED);
-			g2.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
-		} else {
-			g2.setPaint(GColor.TEXT_PRIMARY);
-		}
+		GColor borderColor = getBorderColor(backgroundColor, drawInputBox);
+		g2.setColor(borderColor);
+		drawInputBox.setBorderColor(borderColor);
+		setStrokeStyle(g2, drawInputBox);
+
 		g2.drawRect(left, top, width, height);
+	}
+
+	private static void setStrokeStyle(GGraphics2D g2, DrawInputBox drawInputBox) {
+		int lineWidth = drawInputBox.isEditing() ? 2 : 1;
+		int lineStyle = drawInputBox.hasError() ? EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
+				: EuclidianStyleConstants.LINE_TYPE_FULL;
+
+		g2.setStroke(EuclidianStatic.getStroke(lineWidth, lineStyle, GBasicStroke.JOIN_ROUND));
+	}
+
+	private static GColor getBorderColor(GColor backgroundColor, DrawInputBox drawInputBox) {
+		GColor borderColor;
+		if (backgroundColor == GColor.WHITE) {
+			borderColor = drawInputBox.isEditing() ? GColor.DEFAULT_PURPLE
+					: GColor.DEFAULT_INPUTBOX_BORDER;
+		} else {
+			borderColor = GColor.getBorderColorFrom(backgroundColor);
+		}
+		return borderColor;
 	}
 
 	/**

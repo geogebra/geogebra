@@ -15,11 +15,13 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
+import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -62,6 +64,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		boolean textMode = isTextMode();
 		mathField.getInternal().setPlainTextMode(textMode);
+		mathField.getInternal().setAllowAbs(
+				!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
 		if (textMode) {
 			mathField.getInternal().setPlainText(text);
 		} else {
@@ -118,12 +122,13 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	public void repaintBox(GGraphics2D g) {
 		GColor bgColor = getGeoInputBox().getBackgroundColor() != null
-				? getGeoInputBox().getBackgroundColor() : view.getBackgroundCommon();
+				? getInputBoxBackgroundColor() : view.getBackgroundCommon();
 
 		g.saveTransform();
 		int boxY = (int) computeTop(box.getHeight());
 		int boxX = box.getX();
-		view.getTextField().drawBounds(g, bgColor, boxX, boxY, box.getWidth(), box.getHeight());
+		AutoCompleteTextFieldD.drawBounds(g, bgColor, boxX, boxY,
+				box.getWidth(), box.getHeight(), getDrawInputBox());
 
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
 		box.setBorder(null);
@@ -134,6 +139,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		g.restoreTransform();
 		g.resetClip();
+	}
+
+	private GColor getInputBoxBackgroundColor() {
+		return getGeoInputBox().hasError() ? GColor.ERROR_RED_BACKGROUND
+				: getGeoInputBox().getBackgroundColor();
 	}
 
 	@Override
@@ -161,7 +171,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		applyChanges();
+		return true;
 	}
 }

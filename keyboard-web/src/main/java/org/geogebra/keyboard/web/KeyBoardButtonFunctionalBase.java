@@ -1,13 +1,12 @@
 package org.geogebra.keyboard.web;
 
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.LocalizationI;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.resources.client.ImageResource;
-
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Image;
 
 /**
  * A KeyBoardButton with functional character. This button doesn't insert a
@@ -42,7 +41,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 */
 	public KeyBoardButtonFunctionalBase(ImageResource image,
 			ButtonHandler handler,
-			Action action, Localization loc, String altText) {
+			Action action, LocalizationI loc, String altText) {
 		super(handler);
 		this.image = new NoDragImage(image, image.getWidth());
 
@@ -69,7 +68,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 *            alternate text for icon
 	 */
 	public KeyBoardButtonFunctionalBase(ImageResource image,
-			String feedback, ButtonHandler handler, Localization loc,
+			String feedback, ButtonHandler handler, LocalizationI loc,
 			String altText) {
 		super(handler);
 		this.image = new Image(image.getSafeUri().asString());
@@ -91,7 +90,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 *            alternate text for icon
 	 */
 	public KeyBoardButtonFunctionalBase(SVGResource svg, String feedback,
-			ButtonHandler handler, Localization loc,
+			ButtonHandler handler, LocalizationI loc,
 			String altText) {
 		super(handler);
 

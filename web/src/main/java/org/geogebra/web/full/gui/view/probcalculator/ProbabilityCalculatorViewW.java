@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
@@ -13,16 +14,16 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.AsyncManager;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
- * ProbablityCalculatorView for web
+ * Probability Calculator View for web
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	public static final String SEPARATOR = "--------------------";
@@ -99,7 +100,16 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 						? getApp().getEuclidianView2(1).getViewID()
 						: getApp().getEuclidianView1().getViewID();
 			// do the export
-			exportGeosToEV(euclidianViewID);
+			AsyncManager manager = ((AppW) app).getAsyncManager();
+			manager.runOrSchedule(() -> {
+				final CommandDispatcher cmdDispatcher = app.getKernel()
+						.getAlgebraProcessor().getCmdDispatcher();
+				// preload Take, Pascal/Binomial, Integral, ...
+				cmdDispatcher.getAdvancedDispatcher();
+				cmdDispatcher.getStatsDispatcher();
+				cmdDispatcher.getCASDispatcher();
+				exportGeosToEV(euclidianViewID);
+			});
 		};
 	}
 

@@ -10,8 +10,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel {
 	private static final int GEAR_CONTEXT_MENU_MARGIN = 16;

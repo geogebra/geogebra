@@ -3,10 +3,9 @@ package org.geogebra.web.full.cas.view;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.event.dom.client.MouseUpEvent;
+import org.gwtproject.event.dom.client.MouseUpHandler;
 
 /**
  * Handles mouse events in row headers

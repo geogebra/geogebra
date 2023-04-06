@@ -8,19 +8,14 @@ import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class DefaultVectorPrinter implements Printer {
 
-	private PrintableVector vector;
-
-	DefaultVectorPrinter(PrintableVector vector) {
-		this.vector = vector;
-	}
-
 	@Override
-	public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
+	public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
 		return printLeftParenthesis(tpl)
 				+ expressionPrinter.print(vector.getX(), tpl)
-				+ printDelimiter()
+				+ printDelimiter(vector)
 				+ expressionPrinter.print(vector.getY(), tpl)
-				+ printDelimiter()
+				+ printDelimiter(vector)
 				+ expressionPrinter.print(vector.getZ(), tpl)
 				+ printRightParenthesis(tpl);
 	}
@@ -33,7 +28,7 @@ class DefaultVectorPrinter implements Printer {
 		return tpl.rightBracket();
 	}
 
-	private String printDelimiter() {
+	private String printDelimiter(PrintableVector vector) {
 		if (vector.getCoordinateSystem() == Kernel.COORD_CARTESIAN_3D) {
 			return ", ";
 		} else {

@@ -5,7 +5,7 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.0.13'
+    id 'com.github.spotbugs' version '5.0.14'
     id 'de.aaschmid.cpd' version '3.3'
     id 'io.miret.etienne.sass' version '1.4.2'
     id 'org.wisepersist.gwt' version '1.1.19'
@@ -57,7 +57,7 @@ dependencies {
         project(':editor-web'),
         project(':keyboard-web'),
         'org.webjars.npm:pdfjs-dist:2.5.207',
-        "org.geogebra:multiplayer:1.0.202301170910",
+        "org.geogebra:multiplayer:1.0.202303161843",
         "org.geogebra:multiplayer:1.0.202301170910:sources",
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':renderer-web').sourceSets.main.allSource.srcDirs),

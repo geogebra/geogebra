@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.SegmentProperties;
 import org.geogebra.common.main.App;
 
-public class DecoSegmentModel extends NumberOptionsModel {
+public class DecoSegmentModel extends IconOptionsModel {
 
 	private IComboListener listener;
 
@@ -17,8 +17,14 @@ public class DecoSegmentModel extends NumberOptionsModel {
 		return (SegmentProperties) getObjectAt(index);
 	}
 
+	@Override
 	public void setListener(IComboListener listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public String getTitle() {
+		return "Decoration";
 	}
 
 	@Override

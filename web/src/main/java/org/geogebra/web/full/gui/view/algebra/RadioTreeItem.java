@@ -69,18 +69,18 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.TestHarness;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.DragStartEvent;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.TreeItem;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.syntax.SyntaxController;
 import com.himamis.retex.editor.share.syntax.SyntaxHint;
@@ -1627,10 +1627,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.getInternal().registerMathFieldInternalListener(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getGeoGebraElement().getScaleX());
-		mf.setOnBlur(getLatexController());
-		mf.setOnFocus(focusEvent -> {
-			setFocusedStyle(true);
+		mf.setOnBlur((blurEvent) -> {
+			if (toast != null) {
+				toast.hide();
+			}
+			controller.onBlur(blurEvent);
 		});
+		mf.setOnFocus(focusEvent -> setFocusedStyle(true));
 	}
 
 	private void updateEditorAriaLabel(String text) {
@@ -1665,9 +1668,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			if (isInputTreeItem()) {
 				setItemWidth(getAV().getFullWidth());
-				if (toast != null) {
-					toast.hide();
-				}
 			} else {
 				content.removeStyleName("scrollableTextBox");
 			}

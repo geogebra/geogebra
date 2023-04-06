@@ -3,7 +3,7 @@ package org.geogebra.common.keyboard;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.LocalizationI;
 
 public class KeyboardRowDefinitionProvider {
 
@@ -11,9 +11,9 @@ public class KeyboardRowDefinitionProvider {
     private static final String DEFAULT_MIDDLE_ROW = "asdfghjkl";
     private static final String DEFAULT_BOTTOM_ROW = "zxcvbnm";
 
-    private Localization localization;
+    private LocalizationI localization;
 
-    public KeyboardRowDefinitionProvider(Localization localization) {
+    public KeyboardRowDefinitionProvider(LocalizationI localization) {
         this.localization = localization;
     }
 

@@ -1,8 +1,7 @@
 package org.geogebra.web.full.util;
 
 import org.geogebra.web.html5.Browser;
-
-import com.google.gwt.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.Panel;
 
 public class CustomScrollbar {
 

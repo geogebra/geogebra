@@ -29,7 +29,7 @@ public class DefineFunctionHandlerTest extends BaseUnitTest {
 	@Before
 	public void setUp() {
 		getApp().setScientificConfig();
-		handler = new DefineFunctionHandler(getApp());
+		handler = new DefineFunctionHandler(getApp().getKernel());
 		cons = getConstruction();
 	}
 
