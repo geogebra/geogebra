@@ -1,8 +1,8 @@
 package org.geogebra.web.html5.export;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.js.ResourcesInjector;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
+import org.geogebra.gwtutil.JavaScriptInjector;
+import org.geogebra.gwtutil.ScriptLoadCallback;
 
 import com.google.gwt.core.client.GWT;
 
@@ -98,6 +98,6 @@ public final class ExportLoader {
 				// only for localization files
 			}
 		};
-		ResourcesInjector.loadJS(src, loadCallback);
+		JavaScriptInjector.loadJS(src, loadCallback);
 	}
 }
