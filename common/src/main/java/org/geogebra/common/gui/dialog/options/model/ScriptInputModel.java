@@ -1,16 +1,17 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
 
 public class ScriptInputModel extends OptionsModel {
-	private boolean global = false;
 
-	private EventType type;
-	private String title;
+	private final EventType type;
+	private final String title;
 	private IScriptInputListener listener;
 	/**
 	 * used for update to avoid several updates
@@ -60,7 +61,7 @@ public class ScriptInputModel extends OptionsModel {
 
 		handlingDocumentEventOff = true;
 
-		if (global) {
+		if (type == EventType.LOAD_PAGE) {
 			listener.setInput(app.getKernel().getLibraryJavaScript(), ScriptType.JAVASCRIPT);
 			handlingDocumentEventOff = false;
 			return;
@@ -84,7 +85,7 @@ public class ScriptInputModel extends OptionsModel {
 			return;
 		}
 
-		if (global) {
+		if (type == EventType.LOAD_PAGE) {
 			app.getKernel().setLibraryJavaScript(inputText);
 			return;
 		}
@@ -138,10 +139,16 @@ public class ScriptInputModel extends OptionsModel {
 		case EDITOR_KEY_TYPED:
 			return isSingleGeo && getGeo().isGeoInputBox();
 		case DRAG_END:
-			return isSingleGeo && getGeo().isMoveable();
+			// checkboxes are draggable, but do not need a drag-end script
+			return isSingleGeo && isDraggable(getGeo()) && !getGeo().isGeoBoolean();
 		default:
 			return false;
 		}
+	}
+
+	private boolean isDraggable(GeoElement geo) {
+		EuclidianViewInterfaceCommon view = SelectionManager.getViewOf(geo, app);
+		return !geo.isLocked() && (geo.isPointerChangeable() || geo.hasOnlyFreeInputPoints(view));
 	}
 
 	@Override
