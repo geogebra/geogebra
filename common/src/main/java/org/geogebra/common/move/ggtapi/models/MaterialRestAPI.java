@@ -359,7 +359,7 @@ public class MaterialRestAPI implements BackendAPI {
 		return performRequest(HttpMethod.GET,
 				"/users/" + model.getUserId()
 						+ "/materials?limit=50&embed=creator&order="
-						+ orderStr(order) + "&filter=ws",
+						+ orderStr(order) + service.getSearchMaterialFilter(),
 				null, callback);
 	}
 
@@ -379,7 +379,7 @@ public class MaterialRestAPI implements BackendAPI {
 				"/users/" + model.getUserId()
 						+ "/materials?format=page&type=all&limit=50&offset=" + offset
 						+ "&embed=creator&order="
-						+ orderStr(order) + "&filter=ws",
+						+ orderStr(order) + service.getSearchMaterialFilter(),
 				null, callback);
 	}
 
