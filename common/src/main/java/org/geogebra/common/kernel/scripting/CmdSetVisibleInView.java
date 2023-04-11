@@ -89,6 +89,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 					geo.removeView(viewID);
 					if (ev != null) {
 						ev.remove(geo);
+						geo.getApp().getSelectionManager().selectNextGeo();
 						geo.updateRepaint();
 					}
 				}
