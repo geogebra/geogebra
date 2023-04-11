@@ -86,7 +86,7 @@ public class RegressionBuilder {
 						kernel.getLocalization().getMenu("Stats." + Stat.PMCC.getCommandName());
 				String lhs = Stat.PMCC.getLHS(kernel.getLocalization(), varName);
 				String formula = lhs + " = " + r.toValueString(StringTemplate.defaultTemplate);
-				stats.add(new StatisticGroup(true, heading, formula));
+				stats.add(new StatisticGroup(false, heading, formula));
 			} catch (Exception e) {
 				Log.debug(e);
 			}
