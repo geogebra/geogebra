@@ -811,7 +811,7 @@ public class MyList extends ValidExpression
 			// we can assume elements are ListValues because of isMatrix check
 			final ListValue row = (ListValue) listElements.get(i).unwrap();
 			for (int j = 0; j < row.size(); j++) {
-				sb.append(row.getListElement(j).unwrap().toLaTeXString(true, tpl));
+				sb.append(ExpressionNode.toLaTeXString(row.getListElement(j).unwrap(), true, tpl));
 				if (j < (row.size() - 1)) {
 					sb.append("&");
 				}

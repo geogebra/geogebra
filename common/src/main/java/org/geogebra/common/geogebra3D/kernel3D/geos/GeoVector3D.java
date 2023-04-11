@@ -265,6 +265,9 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
+		if (tpl.isDisplayStyle()) {
+			return toLaTeXString(false, tpl);
+		}
 		return buildValueString(tpl).toString();
 	}
 

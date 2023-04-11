@@ -171,7 +171,7 @@ public class GeoSymbolic extends GeoElement
 			return numericValue.toValueString(tpl);
 		} else {
 			assert twin != null;
-			return twin.toValueString(tpl);
+			return twin.toValueString(tpl.deriveWithDisplayStyle());
 		}
 	}
 
@@ -1022,7 +1022,7 @@ public class GeoSymbolic extends GeoElement
 		if (symbolicMode) {
 			return symbolic ? getDefinition(tpl) : toValueString(tpl);
 		} else if (twinGeo != null) {
-			return twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl);
+			return twinGeo.toLaTeXString(symbolic, tpl);
 		} else {
 			return getDefinition(tpl);
 		}
