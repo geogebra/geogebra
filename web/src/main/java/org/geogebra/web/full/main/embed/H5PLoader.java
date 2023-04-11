@@ -1,8 +1,8 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.js.ResourcesInjector;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
+import org.geogebra.gwtutil.JavaScriptInjector;
+import org.geogebra.gwtutil.ScriptLoadCallback;
 import org.geogebra.web.html5.util.h5pviewer.H5PPaths;
 
 /**
@@ -33,7 +33,7 @@ public class H5PLoader {
 			return;
 		}
 		loadingStarted = true;
-		ResourcesInjector.loadJS(H5PPaths.MAIN_JS, new ScriptLoadCallback() {
+		JavaScriptInjector.loadJS(H5PPaths.MAIN_JS, new ScriptLoadCallback() {
 
 			@Override
 			public void onLoad() {

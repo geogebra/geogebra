@@ -78,8 +78,18 @@ pipeline {
                 expression {return isGiac}
             }
             parallel {
-                stage('mac') {
-                    agent {label 'mac'}
+                stage('mac-amd64') {
+                    agent {label 'ios-test'}
+                    steps {
+                        sh label: 'test', script: "./gradlew :desktop:test"
+                        junit '**/build/test-results/test/*.xml'
+                    }
+                    post {
+                        always { deleteDir() }
+                    }
+                }
+                stage('mac-arm64') {
+                    agent {label 'mac-mini'}
                     steps {
                         sh label: 'test', script: "./gradlew :desktop:test"
                         junit '**/build/test-results/test/*.xml'
