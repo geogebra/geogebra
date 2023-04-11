@@ -148,7 +148,7 @@ public class ScriptInputModel extends OptionsModel {
 
 	private boolean isDraggable(GeoElement geo) {
 		EuclidianViewInterfaceCommon view = SelectionManager.getViewOf(geo, app);
-		return !geo.isLocked() && (geo.isPointerChangeable() || geo.hasOnlyFreeInputPoints(view));
+		return !geo.isLocked() && (geo.isPointerChangeable() || geo.hasMoveableInputPoints(view));
 	}
 
 	@Override
