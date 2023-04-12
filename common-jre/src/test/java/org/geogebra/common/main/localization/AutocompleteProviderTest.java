@@ -65,7 +65,6 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 				eq(Commands.InverseBinomial.name()), anyString())).thenReturn("");
 		when(config.newCommandSyntaxFilter()).thenReturn(commandSyntax);
 
-
 		assertEquals(0, getExactSyntaxMatchOf(config, Commands.InverseBinomial.name())
 						.count());
 	}
