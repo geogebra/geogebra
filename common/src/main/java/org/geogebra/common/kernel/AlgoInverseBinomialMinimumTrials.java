@@ -47,7 +47,7 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 		if (input[0].isDefined() && input[1].isDefined()
 				&& input[2].isDefined()) {
 			try {
-				int	count = countCumulativeProbabilityAccepted();
+				int count = countCumulativeProbabilityAccepted();
 				if (count == MAX_ITERATIONS) {
 					num.setUndefined();
 				} else {
