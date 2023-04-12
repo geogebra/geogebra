@@ -107,11 +107,11 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			if (isNegative) {
 				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
 			}
-			stringBuilder.append("\u2064(");
+			stringBuilder.append("\u2064((");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append("))");
+			stringBuilder.append(")))");
 			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {

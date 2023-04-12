@@ -20,6 +20,8 @@ public class Parser {
 	private int absoluteValueDepth;
 	private int absoluteValueCount;
 
+	private boolean isMixedNumber = false;
+
 	public Parser(MetaModel metaModel) {
 		this(new StringProvider(""));
 		this.metaModel = metaModel;
@@ -178,10 +180,10 @@ void atomicWrapper(MathContainer currentField) : {}
 	|
 	subscript(currentField)
 	|
+	mixedNumber(currentField)
+	|
 	fraction(currentField)
 	|
-//	mixedNumber(currentField)
-//	|
 	nroot(currentField)
 	|
 	log(currentField)
@@ -278,21 +280,22 @@ void fraction(MathContainer currentField) :
 }
 {
 	<FRACTION> {
-	fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
-    		//handle numerator
-    		MathSequence passArgs = new MathSequence();
-    		editorState.setCurrentField((MathSequence) currentField);
-    		editorState.setCurrentOffset(currentField.size());
-    		fraction.setArgument(0, passArgs);
-    		ArgumentHelper.passArgument(editorState, fraction);
-    		//handle denominator
-    		MathSequence mathSequence = new MathSequence();
-    		mathAtomOrPower(mathSequence);
-    		mathSequence.removeBrackets();
-    		fraction.setArgument(1, mathSequence);
-    		currentField.addArgument(fraction);
-	} | <MIXED_NUMBER> {
-		//TODO
+		if (isMixedNumber) {
+        		return;
+		}
+		fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
+    	//handle numerator
+    	MathSequence passArgs = new MathSequence();
+    	editorState.setCurrentField((MathSequence) currentField);
+    	editorState.setCurrentOffset(currentField.size());
+    	fraction.setArgument(0, passArgs);
+    	ArgumentHelper.passArgument(editorState, fraction);
+    	//handle denominator
+    	MathSequence mathSequence = new MathSequence();
+    	mathAtomOrPower(mathSequence);
+    	mathSequence.removeBrackets();
+    	fraction.setArgument(1, mathSequence);
+    	currentField.addArgument(fraction);
 	}
 }
 
@@ -302,25 +305,36 @@ void mixedNumber(MathContainer currentField) :
 }
 {
 	<MIXED_NUMBER> {
+		isMixedNumber = true;
 		mixedNumber = new MathFunction(metaModel.getGeneral(Tag.MIXED_NUMBER));
-		//handle whole number part
+
+		//whole number
 		MathSequence passArgs = new MathSequence();
         editorState.setCurrentField((MathSequence) currentField);
         editorState.setCurrentOffset(currentField.size());
         mixedNumber.setArgument(0, passArgs);
         ArgumentHelper.passArgument(editorState, mixedNumber);
-        //handle numerator
-        MathSequence mathSequence = new MathSequence();
-        mathAtomOrPower(mathSequence);
-        mathSequence.removeBrackets();
-        mixedNumber.setArgument(1, mathSequence);
+
+        //numerator
+        MathSequence numerator = new MathSequence();
+        mathAtomOrPower(numerator);
+        numerator.removeBrackets();
+        mixedNumber.setArgument(1, numerator);
         ArgumentHelper.passArgument(editorState, mixedNumber);
-		//handle denominator
-        MathSequence mathSequence2 = new MathSequence();
-        mathAtomOrPower(mathSequence2);
-        mathSequence2.removeBrackets();
-        mixedNumber.setArgument(2, mathSequence2);
-		currentField.addArgument(mixedNumber);
+
+		//skip the expected fraction
+		MathSequence fraction = new MathSequence();
+		mathAtomOrPower(fraction);
+
+        //denominator
+        MathSequence denominator = new MathSequence();
+        mathAtomOrPower(denominator);
+        denominator.removeBrackets();
+        mixedNumber.setArgument(2, denominator);
+        ArgumentHelper.passArgument(editorState, mixedNumber);
+
+        currentField.addArgument(mixedNumber);
+		isMixedNumber = false;
 	}
 }
 
