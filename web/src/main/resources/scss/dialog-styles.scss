@@ -14,14 +14,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.MaterialDialogBox, .dialogComponent {
 		input[type="number"]:focus,
-		.GeoGebraFrame .gwt-TextBox:focus, .GeoGebraFrame select:focus,
-		textarea:focus, .GeoGebraFrame .gwt-TextArea:focus,
-		.objectPropertiesTextEditor:focus,
+		textarea:focus,
 		input[type="number"]:focus:not([readonly]),
 		.gwt-TextBox:focus:not([readonly]),
 		textarea:focus:not([readonly]),
 		.gwt-TextArea:focus:not([readonly]),
-		.objectPropertiesTextEditor:focus:not([readonly]) {
+		.textEditor:focus:not([readonly]) {
 			border: 1px colors.$teal-default solid;
 		}
 		select:focus:not([readonly]) {
@@ -145,17 +143,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* button tool dialog*/
 	.dialogComponent.buttonDialog {
 		max-width: 448px;
-
-		.scriptArea {
-			margin-right: 16px;
-			border-radius: 2px;
-			width: calc(100% - 16px) !important;
-		}
-
-		.gwt-ListBox {
-			margin-right: 16px;
-			width: calc(100% - 16px) !important;
-		}
 	}
 
 	.dialogComponent.inputboxDialog {
