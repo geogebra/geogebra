@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.cas;
 
 import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assume.assumeFalse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -292,6 +293,20 @@ public abstract class CasTestJsonCommon {
 	 * @param category category name
 	 */
 	protected abstract void testCatNoClang(String category);
+
+	protected void testCatNoArm(String category) {
+		if (!"aarch64".equals(System.getProperty("os.arch"))) {
+			testCat(category);
+		} else {
+			testcases.remove(category);
+			assumeFalse(true); // mark test as skipped
+		}
+	}
+
+	@Test
+	public void testIntegralNoArm() {
+		testCatNoArm("IntegralNoArm");
+	}
 
 	@Test
 	public void testAssume() {

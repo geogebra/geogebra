@@ -597,7 +597,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void getExportSVG(double scale, boolean transparency, Consumer<String> callback) {
+	public void getExportSVG(boolean transparency, Consumer<String> callback) {
 		// not implemented
 	}
 

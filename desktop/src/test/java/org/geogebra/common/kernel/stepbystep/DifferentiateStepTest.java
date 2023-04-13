@@ -18,16 +18,15 @@ import org.junit.Test;
 @SuppressWarnings("javadoc")
 public class DifferentiateStepTest {
 	private static App app;
+	private static HtmlStepBuilder htmlBuilder;
+	private boolean needsHeading;
+	private static int caseCounter = 0;
 
 	@BeforeClass
 	public static void setupApp() {
 		app = AlgebraTest.createApp();
 		htmlBuilder = new HtmlStepBuilder(app.getLocalization());
 	}
-
-	private static HtmlStepBuilder htmlBuilder;
-	private boolean needsHeading;
-	private static int caseCounter = 0;
 
 	@Test
 	public void differentiateTest() {

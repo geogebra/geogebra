@@ -460,11 +460,11 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	private static void checkAfterReload(String name, String... valid) {
-		String current = kernel.lookupLabel("F")
+		String current = kernel.lookupLabel(name)
 				.toString(StringTemplate.defaultTemplate);
 		assertIn(valid, current);
 		app.setXML(app.getXML(), true);
-		current = kernel.lookupLabel("F")
+		current = kernel.lookupLabel(name)
 				.toString(StringTemplate.defaultTemplate);
 		assertIn(valid, current);
 
