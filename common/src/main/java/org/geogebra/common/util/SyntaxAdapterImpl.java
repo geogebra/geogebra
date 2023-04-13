@@ -1,12 +1,7 @@
 package org.geogebra.common.util;
 
-import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.Operation;
-
-import com.himamis.retex.editor.share.editor.SyntaxAdapter;
-import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * Convert expressions from Presentation MathML / LaTeX to simple ggb syntax
@@ -18,9 +13,9 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  * @author michael
  *
  */
-public class SyntaxAdapterImpl implements SyntaxAdapter {
+public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 
-	private Kernel kernel;
+	private final Kernel kernel;
 
 	/**
 	 * @param kernel
@@ -30,7 +25,8 @@ public class SyntaxAdapterImpl implements SyntaxAdapter {
 		this.kernel = kernel;
 	}
 
-	private boolean mightBeLaTeXSyntax(String expression) {
+	@Override
+	protected boolean mightBeLaTeXSyntax(String expression) {
 		try {
 			kernel.getAlgebraProcessor()
 					.getValidExpressionNoExceptionHandling(expression);
@@ -49,46 +45,14 @@ public class SyntaxAdapterImpl implements SyntaxAdapter {
 			// fall through
 		}
 
-		return StringUtil.containsLaTeX(expression);
-	}
-
-	private String convertLaTeXtoGGB(String latexExpression) {
-		kernel.getApplication().getDrawEquation()
-				.checkFirstCall(kernel.getApplication());
-		TeXFormula tf = new TeXFormula(latexExpression);
-		// TeXParser tp = new TeXParser(latexExpression, tf);
-		// tp.parse();
-		return new TeXAtomSerializer(null).serialize(tf.root);
-	}
-
-	private String convertMathMLoGGB(String mathmlExpression) {
-		MathMLParser mathmlParserGGB = new MathMLParser(true);
-		return mathmlParserGGB.parse(mathmlExpression, false, true);
+		return super.mightBeLaTeXSyntax(expression);
 	}
 
 	@Override
-	public String convert(String exp) {
-		// might start <math> or <mrow> etc
-		if (exp.startsWith("<")) {
-			return convertMathMLoGGB(exp);
-		} else if (mightBeLaTeXSyntax(exp)) {
-			return convertLaTeXtoGGB(exp);
-		}
-		return exp;
-	}
-
-	/**
-	 * Like convert, but assumes the text is one of the math formats
-	 * @param exp expression in MathML or LaTeX syntax
-	 * @return expression in GGB syntax
-	 */
-	public String convertMath(String exp) {
-		// might start <math> or <mrow> etc
-		if (exp.startsWith("<")) {
-			return convertMathMLoGGB(exp);
-		} else  {
-			return convertLaTeXtoGGB(exp);
-		}
+	protected String convertLaTeXtoGGB(String latexExpression) {
+		kernel.getApplication().getDrawEquation()
+				.checkFirstCall(kernel.getApplication());
+		return super.convertLaTeXtoGGB(latexExpression);
 	}
 
 	@Override

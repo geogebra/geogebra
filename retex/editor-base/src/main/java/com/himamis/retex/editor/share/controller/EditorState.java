@@ -137,6 +137,10 @@ public class EditorState {
 	 */
 	public void extendSelection(boolean left) {
 		MathComponent cursorField = getCursorField(left);
+		if (cursorField == null) {
+			return;
+		}
+
 		extendSelection(cursorField);
 		if (left && currentField.size() == currentOffset) {
 			currentOffset--;
@@ -150,6 +154,10 @@ public class EditorState {
 	 *            newly selected field
 	 */
 	public void extendSelection(MathComponent cursorField) {
+		if (cursorField == null) {
+			return;
+		}
+
 		if (selectionAnchor == null) {
 			if (isGrandparentProtected(cursorField.getParent())
 					&& ",".equals(cursorField.toString())) {

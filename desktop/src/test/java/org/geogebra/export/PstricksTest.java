@@ -2,7 +2,6 @@ package org.geogebra.export;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
@@ -13,16 +12,13 @@ import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.test.TestEvent;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class Pstricks {
+public class PstricksTest {
 	private static AppDNoGui app;
-	private static EuclidianController ec;
-	private static ArrayList<TestEvent> events = new ArrayList<>();
 	private static ArrayList<String> inputs;
 
 	@Before
@@ -36,7 +32,6 @@ public class Pstricks {
 	@BeforeClass
 	public static void setup() {
 		app = AlgebraTest.createApp();
-		ec = app.getActiveEuclidianView().getEuclidianController();
 		inputs = new ArrayList<>();
 		createObjects();
 	}

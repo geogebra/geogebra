@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
+import org.geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -429,7 +430,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized void setFixed(String objName, boolean fixed) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo != null && geo.isFixable()) {
-			setFixedAndNotify(fixed, geo);
+			geo.setFixed(fixed);
+			geo.updateVisualStyleRepaint(GProperty.COMBINED);
 		}
 	}
 
@@ -438,16 +440,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			boolean selectionAllowed) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo != null) {
-			geo.setSelectionAllowed(selectionAllowed);
 			if (geo.isFixable()) {
-				setFixedAndNotify(fixed, geo);
+				geo.setFixed(fixed);
 			}
+			SelectionAllowedModel.applyTo(geo, app, selectionAllowed);
 		}
-	}
-
-	private static void setFixedAndNotify(boolean fixed, GeoElement geo) {
-		geo.setFixed(fixed);
-		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	/**

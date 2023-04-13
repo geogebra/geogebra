@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Collects strings and prints them into file.
@@ -28,9 +29,9 @@ public class ReportBuilder implements AsyncOperation<String> {
 		try {
 			isw = new OutputStreamWriter(new FileOutputStream(f));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
-		System.out.println("file:///" + f.getAbsolutePath());
+		Log.debug("file:///" + f.getAbsolutePath());
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class ReportBuilder implements AsyncOperation<String> {
 		try {
 			isw.write(content);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -50,7 +51,7 @@ public class ReportBuilder implements AsyncOperation<String> {
 			try {
 				isw.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 	}

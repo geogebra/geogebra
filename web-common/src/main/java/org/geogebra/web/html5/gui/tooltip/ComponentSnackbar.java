@@ -8,13 +8,16 @@ import org.gwtproject.user.client.ui.Label;
 
 public class ComponentSnackbar extends FlowPanel {
 
+	public static final int TOOL_TOOLTIP_DURATION = 8000;
+	public static final int DEFAULT_TOOLTIP_DURATION = 4000;
 	private StandardButton actionBtn;
 	private Runnable btnAction;
+	private int showDuration;
 	private Timer fadeIn = new Timer() {
 		@Override
 		public void run() {
 			addStyleName("fadeIn");
-			fadeOut.schedule(4000);
+			fadeOut.schedule(showDuration);
 		}
 	};
 	private Timer fadeOut = new Timer() {
@@ -96,4 +99,7 @@ public class ComponentSnackbar extends FlowPanel {
 		btnAction = null;
 	}
 
+	public void setShowDuration(int showDuration) {
+		this.showDuration = showDuration;
+	}
 }

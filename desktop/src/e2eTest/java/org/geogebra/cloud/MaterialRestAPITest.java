@@ -19,9 +19,9 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Pagination;
+import org.geogebra.common.move.ggtapi.models.ResourceOrdering;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.factories.UtilFactoryD;
@@ -45,7 +45,7 @@ public class MaterialRestAPITest {
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		LoginOperationD loginOp = buildLoginOperation();
 		authorise(usr, loginOp);
-		Assert.assertEquals("GGBTest-Student", usr.getRealName());
+		Assert.assertEquals("GGBTest-Student", usr.getUserName());
 		Assert.assertEquals("GGBTest-Student", 0, usr.getGroups().size());
 	}
 
@@ -168,7 +168,7 @@ public class MaterialRestAPITest {
 				return false;
 			}
 		};
-		api.getUsersOwnMaterials(getCallback, Order.title);
+		api.getUsersOwnMaterials(getCallback, ResourceOrdering.title);
 		getCallback.await(5);
 		getCallback.verify(title);
 	}
@@ -190,7 +190,7 @@ public class MaterialRestAPITest {
 			public void onError(Throwable exception) {
 				//
 			}
-		}, Order.title);
+		}, ResourceOrdering.title);
 		deleteCallback.await(10);
 	}
 
@@ -250,7 +250,7 @@ public class MaterialRestAPITest {
 				api.deleteMaterial(mat, deleteCallback);
 				return true;
 			}
-		}, Order.title);
+		}, ResourceOrdering.title);
 		deleteCallback.await(5);
 		deleteCallback.verify("Test Material");
 
@@ -269,7 +269,7 @@ public class MaterialRestAPITest {
 			}
 		};
 		getCallback.setExpectedCount(i);
-		api.getUsersOwnMaterials(getCallback, Order.title);
+		api.getUsersOwnMaterials(getCallback, ResourceOrdering.title);
 		getCallback.await(5);
 		getCallback.verify("");
 		Assert.assertEquals(i, count.length());

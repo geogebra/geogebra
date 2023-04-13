@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
+import org.geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -40,13 +41,13 @@ public class CmdSetFixed extends CmdScripting {
 			if (arg[1].isGeoBoolean()) {
 
 				GeoElement geo = arg[0];
-
-				if (arg2 instanceof GeoBoolean) {
-					geo.setSelectionAllowed(((GeoBoolean) arg2).getBoolean());
-				}
-
 				geo.setFixed(((GeoBoolean) arg[1]).getBoolean());
-				geo.updateVisualStyleRepaint(GProperty.COMBINED);
+				if (arg2 instanceof GeoBoolean) {
+					boolean allowSelection = ((GeoBoolean) arg2).getBoolean();
+					SelectionAllowedModel.applyTo(geo, app, allowSelection);
+				} else {
+					geo.updateVisualStyleRepaint(GProperty.COMBINED);
+				}
 				return arg;
 			}
 			throw argErr(c, arg[1]);
