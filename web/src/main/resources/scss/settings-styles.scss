@@ -150,7 +150,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 		.advanced-TextButtonPanel {
 			.choice-button {
-				top: 2px !important;
+				position: absolute;
+				right: 16px;
+				top: 2px;
+				cursor: pointer;
 
 				img {
 					opacity: 0.54;
@@ -179,7 +182,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			border: none;
 			box-shadow: none;
 			border-bottom: 1px solid colors.$tool-border;
-			padding: 0px;
+			padding: 4px;
 			padding-left: 8px;
 			margin-bottom: 2px;
 			transition: border-bottom 0.3s ease-out;
@@ -211,10 +214,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				&.shown:hover {
 					color: colors.$teal-default;
 				}
-			}
-
-			.gwt-SuggestBox.TextField {
-				padding: 4px !important;
 			}
 		}
 
@@ -308,9 +307,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 		}
 
-		.settingsBtn, .textButton, .openFileBtn,
-		.okBtn, .cancelBtn {
-			height: 36px !important;
+		.settingsBtn, .textButton, .openFileBtn {
+			height: 36px;
 			width: 136px;
 			padding: 0px 16px;
 			text-align: center;
@@ -319,7 +317,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			margin-top: 16px;
 			margin-right: 16px;
 			border-radius: 2px;
-			line-height: 38px;
 			font-size: 100%;
 			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 			transition: box-shadow 0.3s ease-out;
@@ -327,11 +324,12 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			.gwt-Label {
 				text-align: center;
 				height: 36px;
+				line-height: 36px;
 			}
 
 			&:hover {
 				box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
-				border: none !important;
+				cursor: pointer;
 			}
 		}
 
