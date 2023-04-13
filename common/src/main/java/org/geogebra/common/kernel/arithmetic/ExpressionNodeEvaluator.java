@@ -671,7 +671,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return Result
 	 */
 	public ExpressionValue handleInvisiblePlus(ExpressionValue lt, ExpressionValue rt) {
-		if (lt.evaluateDouble() % 1 == 0 && lt instanceof NumberValue
+		if (lt instanceof NumberValue && ((NumberValue) lt).getNumber().evaluateDouble() % 1 == 0
 				&& !(lt instanceof FunctionVariable) && rt instanceof NumberValue) {
 			MyDouble num = ((NumberValue) lt).getNumber();
 			MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
