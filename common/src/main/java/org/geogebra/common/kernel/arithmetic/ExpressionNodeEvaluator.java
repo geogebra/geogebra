@@ -681,11 +681,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			//Check if right argument contains no function variables and is a proper fraction
 			if (right instanceof ExpressionNode
-					&& (((ExpressionNode)right).containsFunctionVariable()
-					|| !((ExpressionNode)right).isProperFraction()
+					&& (((ExpressionNode) right).containsFunctionVariable()
+					|| !((ExpressionNode) right).isProperFraction()
 					|| right.evaluateDouble() < 0)
 					|| left instanceof ExpressionNode
-					&& ((ExpressionNode)left).containsFunctionVariable()) {
+					&& ((ExpressionNode) left).containsFunctionVariable()) {
 				throw new MyError(loc, Errors.IllegalAddition, lt, "\u2064", rt);
 			}
 
@@ -695,10 +695,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else {
 			throw new MyError(loc, Errors.IllegalAddition, lt, "\u2064", rt);
 		}
-	}
-
-	private boolean isProperFraction() {
-		return true;
 	}
 
 	/**
