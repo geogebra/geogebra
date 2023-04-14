@@ -331,7 +331,10 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			return false;
 		}
 		stringBuilder.insert(isMixedNumber(stringBuilder), "(");
-		stringBuilder.append("\u2064((");
+		if (!stringBuilder.toString().contains("\u2064")) {
+			stringBuilder.append("\u2064");
+		}
+		stringBuilder.append("((");
 		serialize(mathFunction.getArgument(0), stringBuilder);
 		stringBuilder.append(")/(");
 		serialize(mathFunction.getArgument(1), stringBuilder);
@@ -370,7 +373,8 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	private int isMixedNumber(StringBuilder stringBuilder) {
 		boolean isMixedNumber = false;
 		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
-			if (stringBuilder.charAt(i) == ' ' && !isMixedNumber) {
+			if (" \u2064".contains(Character.toString(stringBuilder.charAt(i)))
+					&& !isMixedNumber) {
 				continue;
 			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
 				isMixedNumber = true;
@@ -407,7 +411,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 
 	/**
 	 * User entered an invisible plus but no valid mixed number can be created
-	 * - remove invisible plus
+	 * - remove invisible plus and create multiplication instead
 	 * @param mathFunction MathFunction
 	 */
 	private void removeInvisiblePlus(MathFunction mathFunction) {

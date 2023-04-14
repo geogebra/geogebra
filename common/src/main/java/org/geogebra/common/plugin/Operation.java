@@ -435,7 +435,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleInvisiblePlus(lt, rt);
+			return ev.handleInvisiblePlus(lt, rt, left, right);
 		}
 	},
 	MINUS {

@@ -287,7 +287,7 @@ void fraction(MathContainer currentField) :
     	mathAtomOrPower(mathSequence);
     	mathSequence.removeBrackets();
     	fraction.setArgument(1, mathSequence);
-    	ArgumentHelper.addFraction(currentField, fraction, metaModel);
+    	currentField.addArgument(fraction);
 	}
 }
 

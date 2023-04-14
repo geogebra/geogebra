@@ -144,27 +144,4 @@ public class ArgumentHelper {
 		}
 		return stringBuilder.toString();
 	}
-
-	/**
-	 * Removes the whole number part from parent container and attaches it to the mixed number
-	 * @param parent parent container
-	 * @param fraction fractional part of the mixed number
-	 * @param model model
-	 */
-	public static void addFraction(MathContainer parent, MathFunction fraction, MetaModel model) {
-		if (parent instanceof MathSequence && parent.size() > 0
-				&& "\u2064".equals(parent.getArgument(parent.size() - 1).toString())) {
-			MathFunction mixed = new MathFunction(model.getGeneral(Tag.MIXED_NUMBER));
-			MathSequence whole = new MathSequence();
-			passCharacters((MathSequence) parent, parent.size() - 1, whole,
-					c -> !java.lang.Character.isDigit(c.getUnicode()));
-			mixed.setArgument(0, whole);
-			mixed.setArgument(1, fraction.getArgument(0));
-			mixed.setArgument(2, fraction.getArgument(1));
-			parent.delArgument(parent.size() - 1);
-			parent.addArgument(mixed);
-		} else {
-			parent.addArgument(fraction);
-		}
-	}
 }
