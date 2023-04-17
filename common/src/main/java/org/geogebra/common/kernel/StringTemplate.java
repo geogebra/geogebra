@@ -3665,6 +3665,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return copy of this with display style = true
 	 */
 	public StringTemplate deriveWithDisplayStyle() {
+		assert stringType == StringType.LATEX;
 		StringTemplate copy = copy();
 		copy.displayStyle = true;
 		return copy;

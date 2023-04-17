@@ -124,5 +124,7 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 		String output = matrixList.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
 		assertThat(output, is("l1\\, = \\,\\left\\{\\left(\\begin{array}{r}0.3333333333\\\\"
 				+ " \\end{array}\\right)\\right\\}"));
+		String plain = matrixList.toValueString(StringTemplate.defaultTemplate);
+		assertThat(plain, is("{{{0.3333333333}}}"));
 	}
 }

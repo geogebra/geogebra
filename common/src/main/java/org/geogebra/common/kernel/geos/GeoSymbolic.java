@@ -171,7 +171,7 @@ public class GeoSymbolic extends GeoElement
 			return numericValue.toValueString(tpl);
 		} else {
 			assert twin != null;
-			return twin.toValueString(tpl.deriveWithDisplayStyle());
+			return twin.toValueString(tpl.isLatex() ? tpl.deriveWithDisplayStyle() : tpl);
 		}
 	}
 
