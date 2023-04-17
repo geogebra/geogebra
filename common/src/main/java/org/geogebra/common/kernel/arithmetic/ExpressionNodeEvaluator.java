@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import org.apache.commons.math3.analysis.function.Exp;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;

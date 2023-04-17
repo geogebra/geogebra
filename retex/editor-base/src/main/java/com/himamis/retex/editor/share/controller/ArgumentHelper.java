@@ -2,8 +2,6 @@ package com.himamis.retex.editor.share.controller;
 
 import java.util.function.Predicate;
 
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;

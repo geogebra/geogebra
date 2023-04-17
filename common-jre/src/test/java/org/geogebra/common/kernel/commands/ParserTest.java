@@ -439,7 +439,9 @@ public class ParserTest {
 			if ("SQRT_SHORT,SQRT".equals(combo) || "PLUS,MINUS".equals(combo)
 					|| "PLUS,PLUSMINUS".equals(combo)
 					|| "DIVIDE,MULTIPLY".equals(combo)
-					|| "VECTORPRODUCT,MULTIPLY".equals(combo)) {
+					|| "VECTORPRODUCT,MULTIPLY".equals(combo)
+					|| "PLUS,INVISIBLE_PLUS".equals(combo)
+					|| left.getOperation() == Operation.INVISIBLE_PLUS) {
 				return;
 			}
 			Log.debug(str);

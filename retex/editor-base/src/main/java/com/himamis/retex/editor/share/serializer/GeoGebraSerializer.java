@@ -396,7 +396,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	 * @return True if digits (and invisible plus) only are found, false else
 	 */
 	private boolean isValidMixedNumber(MathFunction mathFunction) {
-		String compare = new String();
+		String compare;
 		for (int i = 0; i < mathFunction.size(); i++) {
 			for (int j = 0; j < mathFunction.getArgument(i).size(); j++) {
 				compare = mathFunction.getArgument(i).getArgument(j).toString();
