@@ -24,7 +24,7 @@ import org.geogebra.desktop.main.AppD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class NumberComboBox extends JComboBox {
+public class NumberComboBox extends JComboBox<String> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,9 +43,9 @@ public class NumberComboBox extends JComboBox {
 	public NumberComboBox(final AppD app, boolean prefill) {
 		kernel = app.getKernel();
 		if (prefill) {
-			addItem("1"); // pi
-			addItem(Unicode.PI_STRING); // pi
-			addItem(Unicode.PI_STRING + "/2"); // pi/2
+			addItem("1");
+			addItem(Unicode.PI_STRING);
+			addItem(Unicode.PI_HALF_STRING);
 		}
 		setEditable(true);
 		setSelectedItem(null);
