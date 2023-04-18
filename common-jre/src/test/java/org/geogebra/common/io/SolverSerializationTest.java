@@ -205,4 +205,11 @@ public class SolverSerializationTest {
 		parsesToSolverInput("2nroot(4,3)", "2root[4,3]"); // 2 \\sqrt[3] 4
 		parsesToSolverInput("2^(nroot(1+2,3))", "[2^root[1+2,3]]"); // 2^\\sqrt[3]{1+2}
 	}
+
+	@Test
+	public void testImplicitMultiplication() {
+		parsesToSolverInput("x(8)", "x(8)");
+		parsesToSolverInput("x(x+1)", "x(x+1)");
+		parsesToSolverInput("xxx(x)", "xxx(x)");
+	}
 }
