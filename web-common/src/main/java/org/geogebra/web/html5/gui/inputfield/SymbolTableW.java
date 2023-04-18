@@ -4,13 +4,13 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.DrawEquationW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlexTable;
+import org.gwtproject.user.client.ui.Widget;
 
 public class SymbolTableW extends FlexTable implements ClickHandler {
 
@@ -117,7 +117,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	}
 
 	@Override
-	public com.google.gwt.user.client.Element getEventTargetCell(Event event) {
+	public Element getEventTargetCell(Event event) {
 		return super.getEventTargetCell(event);
 	}
 

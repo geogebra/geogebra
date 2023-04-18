@@ -8,8 +8,8 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.util.JsRunnable;
+import org.gwtproject.dom.style.shared.Unit;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 
 public class MathTextFieldW extends MathFieldEditor implements MathFieldListener, ErrorHandler {
@@ -64,8 +64,9 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		// TODO handle tab
+		return true;
 	}
 
 	/**

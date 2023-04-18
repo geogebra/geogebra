@@ -1,7 +1,7 @@
 package org.geogebra.euclidian;
 
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -68,12 +68,7 @@ public class GridTest {
 		String svg = "";
 		GraphicExportDialog.exportSVG(app, app.getActiveEuclidianView(), ss,
 				false, 800, 600, 8, 6, 1, false);
-		try {
-			svg = new String(ss.toByteArray(), "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		svg = new String(ss.toByteArray(), StandardCharsets.UTF_8);
 		int start = 0;
 		// int lines = 0;
 		String[] lines = svg.split("\n");

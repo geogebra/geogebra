@@ -357,6 +357,12 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void complexExpIntegral() {
+		t("expIntegral(1+2i)", "1.04217 + 3.7015" + Unicode.IMAGINARY,
+				StringTemplate.editTemplate);
+	}
+
+	@Test
 	public void powerWithNegativeFractionAsExponent() {
 		t("(-8)^(-(1/3))", "-0.5");
 		t("-8^(-1/3)", "-0.5");
@@ -483,6 +489,14 @@ public class ArithmeticTest extends BaseUnitTest {
 			power.append("*a");
 		}
 		t(power.toString(), "2.719642216442848", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	public void testPolarCoords() {
+		add("a=1");
+		t("(1,1)+(a;pi)", "(0, 1)", StringTemplate.editTemplate);
+		t("(2;a*pi)+(0,0)", "(2; 180" + Unicode.DEGREE_STRING + ")",
+				StringTemplate.editTemplate);
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {

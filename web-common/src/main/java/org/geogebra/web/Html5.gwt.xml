@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='html5'>
   <inherits name="org.gwtproject.resources.Resources" />
-  <inherits name="com.google.gwt.http.HTTP"/>
-  <inherits name='com.google.gwt.user.User'/> 
+  <inherits name="org.gwtproject.user.Widgets"/>
   <inherits name='org.geogebra.Common'/>
   <inherits name='org.geogebra.GgbJdk'/>
-  <inherits name='org.geogebra.web.AppCacheLinker' />  
+  <inherits name='org.geogebra.web.AppCacheLinker' />
   <inherits name="com.himamis.retex.editor.JLMEditorDev" />
 
   <!-- Specify the paths for translatable code                    -->
@@ -28,5 +27,5 @@
     <when-type-is
         class="com.google.gwt.core.client.impl.AsyncFragmentLoader.LoadingStrategy"/>
   </replace-with>
-
+  <set-configuration-property name="org.gwtproject.safecss.ForceCheckValidStyles" value="false"/>
 </module>

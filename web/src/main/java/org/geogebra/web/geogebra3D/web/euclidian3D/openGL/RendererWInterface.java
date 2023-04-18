@@ -1,6 +1,6 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
-import com.google.gwt.canvas.client.Canvas;
+import org.gwtproject.canvas.client.Canvas;
 
 /**
  * Renderer interface

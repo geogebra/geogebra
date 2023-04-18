@@ -5,8 +5,7 @@ import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 

@@ -1,4 +1,4 @@
-package org.geogebra.web.editor;
+package org.geogebra.web.solver;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +25,8 @@ import org.geogebra.web.shared.ShareLinkDialog;
 import org.geogebra.web.shared.SignInController;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
+import org.gwtproject.dom.client.Element;
 
-import com.google.gwt.dom.client.Element;
 import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.Global;
@@ -64,7 +64,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
         initCoreObjects();
 
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(getGeoGebraElement());
+		Browser.removeDefaultContextMenu(getGeoGebraElement().getElement());
 
 		initSignInEventFlow(new LoginOperationW(this));
 

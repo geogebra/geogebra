@@ -58,20 +58,19 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.timer.client.Timer;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.Event.NativePreviewEvent;
+import org.gwtproject.user.client.Event.NativePreviewHandler;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
  * Frame for applets with GUI
@@ -251,7 +250,12 @@ public class GeoGebraFrameFull
 		return headerResizer;
 	}
 
-	@Override
+	/**
+	 * @param show
+	 *            true if show
+	 * @param textField
+	 *            {@link MathKeyboardListener}
+	 */
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
 		if (keyboardState == KeyboardState.ANIMATING_IN
@@ -315,6 +319,7 @@ public class GeoGebraFrameFull
 		app.updateSplitPanelHeight();
 
 		keyboardHeight = 0;
+		app.updateViewSizes();
 		keyBoard.remove(() -> {
 			keyBoard.resetKeyboardState();
 			getApp().centerAndResizeViews();
@@ -553,9 +558,8 @@ public class GeoGebraFrameFull
 			}
 		} else {
 			if (app != null && appNeedsKeyboard()
-					&& isKeyboardAutofocus()
 					&& isKeyboardWantedFromStorage()) {
-				if (!app.isStartedWithFile()
+				if (isKeyboardAutofocus() && !app.isStartedWithFile()
 						&& !app.getAppletParameters().preventFocus()) {
 					if (getKeyboardManager()
 							.isKeyboardClosedByUser()) {
@@ -677,9 +681,16 @@ public class GeoGebraFrameFull
 		return isKeyboardShowing() ? keyboardHeight : 0;
 	}
 
-	private static boolean isKeyboardWantedFromStorage() {
-		String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
-		return !"false".equals(wanted);
+	private boolean isKeyboardWantedFromStorage() {
+		String showKeyboardOnFocus = app.getAppletParameters().getParamShowKeyboardOnFocus("auto");
+		if ("false".equals(showKeyboardOnFocus)) {
+			return false;
+		} else if ("true".equals(showKeyboardOnFocus)) {
+			return true;
+		} else {
+			String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
+			return !"false".equals(wanted);
+		}
 	}
 
 	/**

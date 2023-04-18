@@ -319,18 +319,6 @@
 		}
 	}
 
-	.buttonInactive {
-		position: relative;
-		cursor: default;
-		img {
-			opacity: 0.26;
-		}
-
-		&:hover {
-			background-color: transparent;
-		}
-	}
-
 	/* DROPDOWN COMPONENT */
 	.dropDownSelectorContainer {
 		max-width: 200px;
@@ -366,6 +354,7 @@
 		.dropDownElement {
 			padding-left: 24px;
 			padding-right: 24px;
+			height: 32px;
 			line-height: 32px;
 		}
 
@@ -857,6 +846,7 @@
         box-sizing: border-box;
         border-radius: 50%;
         transition: background-color 150ms ease 0ms;
+        position: relative;
 
         img {
         	opacity: 0.54;
@@ -865,6 +855,18 @@
         &:focus, &:hover, &.selected {
             background-color: colors.$hover-calc-btn-bg;
         }
+     }
+
+     .buttonInactive {
+     	cursor: default;
+
+     	img {
+     		opacity: 0.26;
+     	}
+
+		&:hover {
+			background-color: transparent;
+		}
      }
 
 	.searchBar.compact {

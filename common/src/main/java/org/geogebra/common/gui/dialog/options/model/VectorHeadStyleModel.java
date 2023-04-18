@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.VectorHeadStyle;
 import org.geogebra.common.main.App;
 
-public class VectorHeadStyleModel extends NumberOptionsModel {
+public class VectorHeadStyleModel extends IconOptionsModel {
 	private IComboListener listener;
 
 	public VectorHeadStyleModel(App app) {
@@ -23,8 +23,14 @@ public class VectorHeadStyleModel extends NumberOptionsModel {
 		}
 	}
 
+	@Override
 	public void setListener(IComboListener listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public String getTitle() {
+		return "Properties.Style";
 	}
 
 	@Override

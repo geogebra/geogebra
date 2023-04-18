@@ -43,6 +43,15 @@ public class GlitchesTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testLnInverseTimesZeroShouldBeZero() {
+		withBounds(0, 10, -8, -8);
+		withDefaultScreen();
+		withFunction("(1/ln(x)) * 0");
+		assertEquals(0,
+				gp.getLog().stream().filter(t -> t.y != 0).count());
+	}
+
+	@Test
 	public void testTanXAtHighZoomIsWhole() {
 		withBounds(-1E15, 1E15, -1E15, -1E15);
 		withScreenSize(50, 50);
@@ -86,5 +95,4 @@ public class GlitchesTest extends BaseUnitTest {
 		withScreenSize(1920, 1280);
 		withFunction(description);
 	}
-
 }

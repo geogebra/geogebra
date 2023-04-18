@@ -26,8 +26,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
-
-import com.google.gwt.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler;
 
 /**
  * Creates AWT wrappers for web

@@ -34,7 +34,7 @@
         <property name="message" value="Tabs only allowed as indentation"/>
     </module>
     <module name="RegexpSingleline">
-        <property name="format" value="com.google.gwt.(core.client.JavaScriptObject|user.client.(Timer|Window|Location))"/>
+        <property name="format" value="com.google.gwt.(core.client.JavaScriptObject|user|dom)"/>
         <property name="message" value="com.google.gwt exports should be replaced by org.gwtproject or elemental2"/>
     </module>
     <module name="RegexpMultiline">
@@ -74,7 +74,7 @@
         <module name="ArrayTypeStyle"/>
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
-            <property name ="allowMultipleEmptyLines" value="false"/>
+            <!-- no "allowMultipleEmptyLines" here, that would duplicate "More than one empty line" rule above -->
         </module>
         <module name="OperatorWrap"/>
         <module name="LeftCurly"/>

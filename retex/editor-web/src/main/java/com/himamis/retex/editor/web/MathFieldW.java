@@ -31,29 +31,29 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.dom.style.shared.VerticalAlign;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.event.dom.client.ChangeHandler;
+import org.gwtproject.event.dom.client.FocusHandler;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Style.VerticalAlign;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -528,7 +528,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	protected int getModifiers(
-			com.google.gwt.event.dom.client.KeyEvent<?> event) {
+			org.gwtproject.event.dom.client.KeyEvent<?> event) {
 
 		// AltGr -> Ctrl+Alt
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
@@ -543,7 +543,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            browser keyboard event
 	 * @return MacOS: whether meta is down; other os: whether Ctrl is down
 	 */
-	boolean controlDown(com.google.gwt.event.dom.client.KeyEvent<?> event) {
+	boolean controlDown(org.gwtproject.event.dom.client.KeyEvent<?> event) {
 		return NavigatorUtil.isMacOS() ? event.isMetaKeyDown() : event.isControlKeyDown();
 	}
 
@@ -643,8 +643,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			double top, ColorW bgColor) {
 		TeXIcon iconNoPlaceholder = mathFieldInternal.buildIconNoPlaceholder();
 		if (iconNoPlaceholder != null) {
+			// use ratio 1 here to fit SVG export
 			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor,
-					bgColor, null, ratio);
+					bgColor, null, 1);
 		}
 	}
 
@@ -1197,7 +1198,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param parentPanel
 	 *            panel to be scrolled
 	 */
-	public void scrollParentHorizontally(FlowPanel parentPanel) {
+	public void scrollParentHorizontally(Widget parentPanel) {
 		MathFieldScroller.scrollHorizontallyToCursor(parentPanel,
 				rightMargin, lastIcon.getCursorX());
 	}

@@ -2109,8 +2109,8 @@ public abstract class GeoConicND extends GeoQuadricND
 			eigenvecX *= -1;
 			eigenvecY *= -1;
 
-			c.setX(matrix[4] * eigenvecX + matrix[5] * eigenvecY);
-			c.setY(matrix[5] * eigenvecX - matrix[4] * eigenvecY);
+			c.setCoords(matrix[4] * eigenvecX + matrix[5] * eigenvecY,
+					matrix[5] * eigenvecX - matrix[4] * eigenvecY);
 
 			parabola();
 		}
@@ -2212,10 +2212,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		// this is needed, so that setEigenvectors() (called by classifyConic)
 		// will surely take the right direction
 		// normalizing is not needed at this point
-		eigenvec[0].setX(c1 - b1);
-		eigenvec[0].setY(c2 - b2);
-		eigenvec[1].setX(-eigenvec[0].getY());
-		eigenvec[1].setY(eigenvec[0].getX());
+		eigenvec[0].setCoords(c1 - b1, c2 - b2);
+		eigenvec[1].setCoords(-eigenvec[0].getY(), eigenvec[0].getX());
 
 		classifyConic();
 
@@ -2552,10 +2550,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	final public void setEigenvectors(double x0, double y0, double z0,
 			double x1, double y1, double z1) {
 
-		eigenvec[0].setX(x0 / z0);
-		eigenvec[0].setY(y0 / z0);
-		eigenvec[1].setX(x1 / z1);
-		eigenvec[1].setY(y1 / z1);
+		eigenvec[0].setCoords(x0 / z0, y0 / z0);
+		eigenvec[1].setCoords(x1 / z1, y1 / z1);
 		eigenvectorsSetOnLoad = true;
 	}
 
@@ -2583,30 +2579,24 @@ public abstract class GeoConicND extends GeoQuadricND
 			// first eigenvector
 			if (eigenvec[0].getX() * eigenvecX < -eigenvec[0].getY()
 					* eigenvecY) {
-				eigenvec[0].setX(-eigenvecX);
-				eigenvec[0].setY(-eigenvecY);
+				eigenvec[0].setCoords(-eigenvecX, -eigenvecY);
 			} else {
-				eigenvec[0].setX(eigenvecX);
-				eigenvec[0].setY(eigenvecY);
+				eigenvec[0].setCoords(eigenvecX, eigenvecY);
 			}
 
 			// second eigenvector (compared to normalvector (-eigenvecY,
 			// eigenvecX)
 			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX()
 					* eigenvecY) {
-				eigenvec[1].setX(eigenvecY);
-				eigenvec[1].setY(-eigenvecX);
+				eigenvec[1].setCoords(eigenvecY, -eigenvecX);
 			} else {
-				eigenvec[1].setX(-eigenvecY);
-				eigenvec[1].setY(eigenvecX);
+				eigenvec[1].setCoords(-eigenvecY, eigenvecX);
 			}
 		}
 		// non-continous
 		else if (!eigenvectorsSetOnLoad) {
-			eigenvec[0].setX(eigenvecX);
-			eigenvec[0].setY(eigenvecY);
-			eigenvec[1].setX(-eigenvecY);
-			eigenvec[1].setY(eigenvecX);
+			eigenvec[0].setCoords(eigenvecX, eigenvecY);
+			eigenvec[1].setCoords(-eigenvecY, eigenvecX);
 		}
 
 		eigenvectorsSetOnLoad = false;
@@ -2628,24 +2618,20 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		// first eigenvector
-		eigenvec[0].setX(eigenvecX);
-		eigenvec[0].setY(eigenvecY);
+		eigenvec[0].setCoords(eigenvecX, eigenvecY);
 
 		if (kernel.isContinuous()) {
 			// second eigenvector (compared to normalvector (-eigenvecY,
 			// eigenvecX)
 			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX()
 					* eigenvecY) {
-				eigenvec[1].setX(eigenvecY);
-				eigenvec[1].setY(-eigenvecX);
+				eigenvec[1].setCoords(eigenvecY, -eigenvecX);
 			} else {
-				eigenvec[1].setX(-eigenvecY);
-				eigenvec[1].setY(eigenvecX);
+				eigenvec[1].setCoords(-eigenvecY, eigenvecX);
 			}
 		} else if (!eigenvectorsSetOnLoad) {
 			// non-continous
-			eigenvec[1].setX(-eigenvecY);
-			eigenvec[1].setY(eigenvecX);
+			eigenvec[1].setCoords(-eigenvecY, eigenvecX);
 		}
 
 		eigenvectorsSetOnLoad = false;
@@ -2980,8 +2966,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				// c = a . T = a,
 				// where T is the matrix of the eigenvectors and a = (A[4],
 				// A[5])
-				c.setX(matrix[4]);
-				c.setY(matrix[5]);
+				c.setCoords(matrix[4], matrix[5]);
 			} else { // A[1] is zero
 				lambda = matrix[0];
 				eigenvecX = 0.0d; // set first eigenvector
@@ -2989,8 +2974,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				// c = a . T,
 				// where T is the matrix of the eigenvectors and a = (A[4],
 				// A[5])
-				c.setX(matrix[5]);
-				c.setY(-matrix[4]);
+				c.setCoords(matrix[5], -matrix[4]);
 			}
 		} else { // A[3] != 0
 					// eigenvalues are solutions of
@@ -3003,8 +2987,8 @@ public abstract class GeoConicND extends GeoQuadricND
 			eigenvecY = -matrix[0] / length;
 			// c = a . T,
 			// where T is the matrix of the eigenvectors and a = (A[4], A[5])
-			c.setX(matrix[4] * eigenvecX + matrix[5] * eigenvecY);
-			c.setY(matrix[5] * eigenvecX - matrix[4] * eigenvecY);
+			c.setCoords(matrix[4] * eigenvecX + matrix[5] * eigenvecY,
+					matrix[5] * eigenvecX - matrix[4] * eigenvecY);
 		}
 
 		if (degenerate || DoubleUtil.isZero(c.getX())) {
@@ -3203,18 +3187,12 @@ public abstract class GeoConicND extends GeoQuadricND
 		// parameter p of parabola
 		p = -c.getX() / lambda;
 		if (p < 0) { // change orientation of first eigenvector
-			eigenvec[0].setX(-eigenvec[0].getX());
-			eigenvec[0].setY(-eigenvec[0].getY());
+			eigenvec[0].setCoords(-eigenvec[0].getX(), -eigenvec[0].getY());
 			p = -p;
 		}
 
 		linearEccentricity = p / 2;
 		eccentricity = 1;
-
-		/*
-		 * Application.debug("parabola"); Application.debug("Vertex: " + b);
-		 * Application.debug("p = " + p);
-		 */
 	}
 
 	/**********************************************************
@@ -3257,8 +3235,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	protected final void setPositiveEigenvectorOrientation(boolean flag) {
 		if (flag != hasPositiveEigenvectorOrientation()) {
-			eigenvec[1].setX(-eigenvec[1].getX());
-			eigenvec[1].setY(-eigenvec[1].getY());
+			eigenvec[1].setCoords(-eigenvec[1].getX(), -eigenvec[1].getY());
 
 			setAffineTransform();
 		}
@@ -3566,22 +3543,18 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	protected void setMidpoint(double[] coords) {
-		b.setX(coords[0]);
-		b.setY(coords[1]);
+		b.setCoords(coords[0], coords[1]);
 
 		// GeoQuadridND compatibility
 		super.setMidpoint(coords[0], coords[1]);
-
 	}
 
 	@Override
 	protected void setMidpoint(double x, double y) {
-		b.setX(x);
-		b.setY(y);
+		b.setCoords(x, y);
 
 		// GeoQuadridND compatibility
 		super.setMidpoint(x, y);
-
 	}
 
 	/**

@@ -51,13 +51,12 @@ import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Frame;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.core.Global;
 import jsinterop.base.Js;
@@ -79,7 +78,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	private int counter;
 	private final HashMap<Integer, String> content = new HashMap<>();
 	private final HashMap<Integer, String> urls = new HashMap<>();
-
 	private final HashMap<GeoElement, Runnable> errorHandlers = new HashMap<>();
 
 	/**

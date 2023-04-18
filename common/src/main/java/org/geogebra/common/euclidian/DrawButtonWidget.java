@@ -223,7 +223,7 @@ public class DrawButtonWidget {
 					getHeight() - 1, arcSize, arcSize);
 		}
 
-		if (isSelected()) {
+		if (isSelected() && !pressed) {
 			halo.draw(g, widthCorrection, arcSize);
 		}
 
@@ -235,10 +235,11 @@ public class DrawButtonWidget {
 		if (styleSettings.getButtonBorderColor() != null) {
 			g.setColor(styleSettings.getButtonBorderColor());
 		} else {
-			if (bg.equals(GColor.WHITE)) {
-				g.setColor(GColor.BLACK);
+			if (bg.getContrast(view.getBackgroundCommon()) >= 3.0) {
+				g.setColor(bg);
 			} else {
-				g.setColor(isSelected() ? bg.darker().darker() : bg.darker());
+				g.setColor(view.getBackgroundCommon().getLuminance() > 0.5
+						? GColor.getBorderColorFrom(bg) : GColor.getBrightBorderColorFrom(bg));
 			}
 		}
 
@@ -294,7 +295,8 @@ public class DrawButtonWidget {
 			lastTintColor = geoButton.getObjectColor();
 			lastTintImage = geoButton.getImageFileName();
 		}
-		g.drawImage(tinted == null ? im : tinted, 0, 0);
+		g.drawImage(tinted == null || geoButton.getObjectColor() == geoButton.getBackgroundColor()
+				? im : tinted, 0, 0);
 
 		g.restoreTransform();
 	}

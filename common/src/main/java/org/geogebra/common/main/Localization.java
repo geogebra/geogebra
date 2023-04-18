@@ -17,7 +17,7 @@ import org.geogebra.common.util.lang.Language;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public abstract class Localization {
+public abstract class Localization extends LocalizationI {
 
 	/** CAS syntax suffix for keys in command bundle */
 	public final static String syntaxCAS = ".SyntaxCAS";
@@ -30,8 +30,6 @@ public abstract class Localization {
 	private String[] fontSizeStrings = null;
 
 	static final public String ROUNDING_MENU_SEPARATOR = "---";
-
-	protected Locale currentLocale = Locale.ENGLISH;
 
 	// Giac works to 13 sig digits (for "double" calculations)
 	private int dimension = 2;
@@ -63,11 +61,6 @@ public abstract class Localization {
 	private int[] significantFigures = {3, 5, 10, 15};
 
 	private CommandErrorMessageBuilder commandErrorMessageBuilder;
-
-	/**
-	 * eg Function.sin
-	 */
-	public final static String FUNCTION_PREFIX = "Function.";
 
 	/**
 	 * eg Symbol.And
@@ -429,16 +422,6 @@ public abstract class Localization {
 	}
 
 	/**
-	 * Gets translation from "command" bundle
-	 * 
-	 * @param key
-	 *            key
-	 * @return translation of given key
-	 */
-
-	public abstract String getCommand(String key);
-
-	/**
 	 * Gets translation from "plain" bundle
 	 * 
 	 * @param key
@@ -450,16 +433,6 @@ public abstract class Localization {
 	public final String getPlain(String key) {
 		return getMenu(key);
 	}
-
-	/**
-	 * Returns translation of given key from the "menu" bundle
-	 * 
-	 * @param key
-	 *            key
-	 * @return translation for key
-	 */
-
-	public abstract String getMenu(String key);
 
 	/**
 	 * Returns translation of given key from the "error" bundle
@@ -803,7 +776,7 @@ public abstract class Localization {
 	 * @return whether to use prime notation
 	 */
 	public boolean primeNotation() {
-		return !Locale.ENGLISH.equals(getLocale());
+		return !getLocaleStr().startsWith("en");
 	}
 
 	/**
@@ -1149,78 +1122,6 @@ public abstract class Localization {
 	 */
 	protected abstract boolean isCommandNull();
 
-	/**
-	 * turns eg Function.sin into "sin" or (in Spanish) "sen"
-	 * 
-	 * guaranteed to remove the "Function." from the start even if a key doesn't
-	 * exist (or isn't loaded)
-	 * 
-	 * @param key
-	 *            eg "sin"
-	 * @return eg "sen"
-	 * 
-	 */
-	public String getFunction(String key) {
-		return getFunction(key, true);
-	}
-
-	/**
-	 * turns eg Function.sin into "sin" or (in Spanish) "sen"
-	 * 
-	 * guaranteed to remove the "Function." from the start even if a key doesn't
-	 * exist (or isn't loaded)
-	 * 
-	 * @param key
-	 *            eg "sin"
-	 * @param changeInverse
-	 *            if false return arcsen rather than sin^-1
-	 * @return eg "sen"
-	 * 
-	 */
-	public String getFunction(String key, boolean changeInverse) {
-
-		// change eg asin into sin^{-1}
-		if (changeInverse && key.startsWith("a")) {
-			if ("asin".equals(key)) {
-				return getFunction("sin")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("acos".equals(key)) {
-				return getFunction("cos")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("atan".equals(key)) {
-				return getFunction("tan")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("asinh".equals(key)) {
-				return getFunction("sinh")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("acosh".equals(key)) {
-				return getFunction("cosh")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("atanh".equals(key)) {
-				return getFunction("tanh")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			}
-		}
-
-		String ret = getMenu(FUNCTION_PREFIX + key);
-
-		// make sure we don't get strange function names if the properties
-		// aren't loaded
-		if (ret.startsWith(FUNCTION_PREFIX)) {
-			return ret.substring(FUNCTION_PREFIX.length());
-		}
-
-		return ret;
-	}
-
-	public String getLocaleStr() {
-		return getLocale().toString();
-	}
-
-	public Locale getLocale() {
-		return currentLocale;
-	}
-
 	public int getRightAngleStyle() {
 		return Language.getRightAngleStyle(getLanguage());
 	}
@@ -1264,19 +1165,6 @@ public abstract class Localization {
 		return translateCommandTable;
 	}
 
-	public String getKeyboardRow(int row) {
-		return getMenu("Keyboard.row" + row);
-	}
-
-	/** @return true if the localized keyboard has latin characters. */
-	public boolean isLatinKeyboard() {
-		String middleRow = getKeyboardRow(2);
-		int first = middleRow.codePointAt(0);
-		return !(first < 0 || first > 0x00FF);
-	}
-
-	abstract protected ArrayList<Locale> getSupportedLocales();
-
 	/**
 	 * Returns the languages that are supported by the app.
 	 *
@@ -1305,11 +1193,6 @@ public abstract class Localization {
 	 */
 	public Locale[] getLocales(Language[] languages) {
 		return new Locale[0];
-	}
-
-	@SuppressWarnings("unused")
-	protected String getVariant(Locale locale) {
-		return "";
 	}
 
 	/**
@@ -1394,24 +1277,6 @@ public abstract class Localization {
 	}
 
 	/**
-	 * 
-	 * @param key
-	 *            menu key
-	 * @param default0
-	 *            return this if lookup failed
-	 * @return translation of key
-	 */
-	public String getMenuDefault(String key, String default0) {
-		String ret = getMenu(key);
-
-		if (ret == null || ret.equals(key)) {
-			return default0;
-		}
-
-		return ret;
-	}
-
-	/**
 	 * @param key
 	 *            error key
 	 * @param default0
@@ -1426,17 +1291,6 @@ public abstract class Localization {
 		}
 
 		return ret;
-	}
-
-	/**
-	 * @return locale for command translation
-	 */
-	protected Locale getCommandLocale() {
-		Language language = Language.getLanguage(getLanguage());
-		if (areEnglishCommandsForced || (language != null && !language.hasTranslatedKeyboard())) {
-			return Locale.ENGLISH;
-		}
-		return currentLocale;
 	}
 
 	/**
@@ -1490,22 +1344,6 @@ public abstract class Localization {
 	 */
 	public boolean areEnglishCommandsForced() {
 		return areEnglishCommandsForced;
-	}
-
-	/**
-	 * 
-	 * @param altText
-	 *            eg altText.RightArrow
-	 * @return eg "Right Arrow"
-	 */
-	public String getAltText(String altText) {
-		String ret = getMenu(altText);
-
-		// just in case translations not loaded
-		if (ret.contains("altText.")) {
-			ret = ret.replace("altText.", "");
-		}
-		return ret;
 	}
 
 	public boolean isUsingDecimalComma() {

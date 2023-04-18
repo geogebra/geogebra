@@ -5,24 +5,16 @@ import java.util.HashMap;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
+import org.geogebra.web.editor.MathFieldExporter;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
-import org.geogebra.web.full.main.activity.EvaluatorExportedApi;
-import org.geogebra.web.html5.export.Canvas2Svg;
-import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.share.CursorBox;
-import com.himamis.retex.renderer.web.graphics.ColorW;
-
-import elemental2.core.Global;
-import jsinterop.base.Js;
 
 /**
  * Evaluator Web implementation.
@@ -31,7 +23,6 @@ import jsinterop.base.Js;
  */
 public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler {
 
-	private static final String SVG_PREFIX = "data:image/svg+xml;utf8,";
 	private AppW app;
 	private MathFieldEditor mathFieldEditor;
 	private EvaluatorAPI evaluatorAPI;
@@ -50,7 +41,6 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 		mathFieldEditor.addStyleName("evaluatorEditor");
 		mathFieldEditor.addBlurHandler(this);
 		mathFieldEditor.setFontSize(app.getAppletParameters().getParamFontSize(18));
-		mathFieldEditor.setUseKeyboardButton(false);
 
 		String bgColor = app.getAppletParameters().getDataParamEditorBackgroundColor();
 		String fgColor = app.getAppletParameters().getDataParamEditorForegroundColor();
@@ -115,8 +105,8 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
-		// TODO: implement this.
+	public boolean onTab(boolean shiftDown) {
+		return app.getGlobalKeyDispatcher().handleTab(shiftDown);
 	}
 
 	@Override
@@ -152,34 +142,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	 *     baseline: relative baseline position} or error
 	 */
 	public void exportImage(String type, boolean transparent,
-			EvaluatorExportedApi.EquationExportImageConsumer callback) {
-		EquationExportImage ret = new EquationExportImage();
-		if (!"svg".equals(type)) {
-			ret.setError("Only type = 'svg' is supported");
-			callback.accept(ret);
-			return;
-		}
-
-		ExportLoader.onCanvas2SvgLoaded(() -> {
-			MathFieldW mathField = mathFieldEditor.getMathField();
-			mathField.repaintWeb();
-
-			int height = mathField.getIconHeight();
-			int depth = mathField.getIconDepth();
-			int width = mathField.getIconWidth();
-			if (height < 1 || width < 1) {
-				ret.setError("Invalid dimensions");
-				callback.accept(ret);
-				return;
-			}
-			Canvas2Svg ctx = new Canvas2Svg(width, height);
-			CursorBox.setBlink(false);
-			ColorW bgColor = transparent ? null : mathField.getBackgroundColor();
-			mathField.paintFormulaNoPlaceholder(Js.uncheckedCast(ctx), 0, bgColor);
-			ret.setBaseline((height - depth) / (double) height);
-			ret.setSvg(SVG_PREFIX + Global.escape(ctx.getSerializedSvg(true)));
-
-			callback.accept(ret);
-		});
+			MathFieldExporter.ImageConsumer callback) {
+		new MathFieldExporter(mathFieldEditor.getMathField()).export(type, transparent, callback);
 	}
 }

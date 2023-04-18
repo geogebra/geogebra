@@ -39,10 +39,14 @@ def partials = { code, appPartials ->
     return code
 }
 
-def replaceVendor = { htmlContent, vendor ->
-    return htmlContent.replace("<!--VENDOR-->", vendor)
-            .replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-${vendor.toLowerCase()}.html"))
-            .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
+def replaceVendor = { htmlContent, vendor, offline ->
+    htmlContent = htmlContent.replace("<!--VENDOR-->", vendor)
+    if (vendor == "Mebis") {
+        return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-mebis.html"))
+    }
+    return htmlContent.replace("<!--VENDOR SCRIPTS-->", !offline ? template("partials/vendor-scripts-geogebra.html")
+                    : template("partials/vendor-scripts-geogebra.html")
+                    + template("partials/vendor-scripts-geogebra-offline.html"))
 }
 
 def getCss = { ->
@@ -67,18 +71,18 @@ ext.handlebars = { raw ->
 ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
     def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
     def inlinedCss = inlineCss ? getCss() : ""
-    return replaceVendor(html, "GeoGebra")
+    return replaceVendor(html, "GeoGebra", offline)
             .replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PIWIK PRO-->", template("partials/piwikpro.html"))
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
-            .injectFirebaseTemplate(app.firebaseAppId, app.measurementId)
+            .injectFirebaseTemplate(app.firebaseAppId, app.measurementId, offline)
 }
 
-String.metaClass.injectFirebaseTemplate = { firebaseAppId, measurementId ->
-    if (firebaseAppId != "" && measurementId != "") {
+String.metaClass.injectFirebaseTemplate = { firebaseAppId, measurementId, offline ->
+    if (firebaseAppId != "" && measurementId != "" && offline) {
         return delegate.injectPartial("firebase")
                 .replace("<!--FIREBASE APP ID-->", firebaseAppId)
                 .replace("<!--MEASUREMENT ID-->", measurementId)
@@ -92,7 +96,6 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def appTransKey = app.transKey
     def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
             .replace("<!--LOGO-LINK-->", offline ? "#" : "https://www.geogebra.org")
-    header = header.replace("<!--PICKER-->", offline ? "" : template("partials/picker.html"))
     header = partials(header, app.partials)
     def inlinedCss = inlineCss ? getCss() : ""
     def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
@@ -103,7 +106,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def firebaseAppId = app.firebaseAppId ?: ""
     def measurementId = app.measurementId ?: ""
     def piwikpro = vendor == "Mebis" ? "" : template("partials/piwikpro.html")
-    return replaceVendor(html, vendor)
+    return replaceVendor(html, vendor, offline)
             .replace("<!--PIWIK PRO-->", piwikpro)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px')
@@ -114,7 +117,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
-            .injectFirebaseTemplate(firebaseAppId, measurementId)
+            .injectFirebaseTemplate(firebaseAppId, measurementId, offline)
             .replace("\r\n", "\n") // generate the same on Win and Unix
 }
 

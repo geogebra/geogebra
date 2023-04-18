@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.gui.SetLabels;
-
-import com.google.gwt.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.IsWidget;
 
 /**
  * Header for each algebra view item

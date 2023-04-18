@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -464,9 +465,27 @@ public abstract class CommandProcessor {
 		}
 		ExpressionNode def = c.getArgument(0)
 				.traverse(CommandReplacer.getReplacer(kernel, false)).wrap();
+		for (int i = 0; i < over.length; i++) {
+			if (vars[i].isGeoText()) {
+				final int fi = i;
+				def.inspect(node -> updateObject(node, vars[fi], over[fi]));
+			}
+		}
 		GeoElement[] arg = resArg(def, argInfo);
-
 		return arg[0];
+	}
+
+	private boolean updateObject(ExpressionValue ev, GeoElement var, GeoList list) {
+		if (ev.isExpressionNode() && ev.wrap().isTopLevelCommand("Object")) {
+			list.elements().forEach(el -> {
+				String label = el.toValueString(StringTemplate.defaultTemplate);
+				if (kernel.lookupLabel(label) != null) {
+					((GeoText) var).setTextString(label);
+				}
+			});
+			return true;
+		}
+		return false;
 	}
 
 	/**

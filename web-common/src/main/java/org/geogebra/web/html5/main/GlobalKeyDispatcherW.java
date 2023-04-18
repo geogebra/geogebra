@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -12,23 +12,25 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyDownHandler;
+import org.gwtproject.event.dom.client.KeyEvent;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyPressHandler;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.event.legacy.shared.EventHandler;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.EventListener;
 
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.EventListener;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
 import com.himamis.retex.editor.web.MathFieldW;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * Handles keyboard events.
@@ -119,6 +121,13 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public GlobalKeyDispatcherW(AppW app) {
 		super(app);
+		app.getGlobalHandlers().addEventListener(DomGlobal.window, "focus",
+				event -> releaseAlts());
+	}
+
+	private void releaseAlts() {
+		leftAltDown = false;
+		rightAltDown = false;
 	}
 
 	private class GlobalShortcutHandler implements EventListener {
@@ -160,6 +169,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 						app.setMoveMode();
 					}
 					handled = true;
+				} else {
+					handled = handleSelectedGeosKeys(event);
 				}
 
 				if (handled) {
@@ -313,7 +324,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	@Override
-	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
+	protected void copyDefinitionsToInputBarAsList(List<GeoElement> geos) {
 		// unimplemented
 	}
 
@@ -336,11 +347,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public static boolean isBadKeyEvent(KeyEvent<? extends EventHandler> e) {
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
-	}
-
-	@Override
-	protected KeyCodes translateKey(int i) {
-		return KeyCodes.translateGWTcode(i);
 	}
 
 	private void handleIosKeyboard(char code) {

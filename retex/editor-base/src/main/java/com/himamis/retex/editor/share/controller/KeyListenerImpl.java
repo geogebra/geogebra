@@ -118,8 +118,7 @@ public class KeyListenerImpl {
 		case JavaKeyCodes.VK_OPEN_BRACKET:
 			return false;
 		case JavaKeyCodes.VK_TAB:
-			onTab(shiftPressed);
-			return true;
+			return onTab(shiftPressed);
 		default:
 			// InputController.deleteSelection(editorState);
 			return false;
@@ -129,9 +128,10 @@ public class KeyListenerImpl {
 	/**
 	 * @param shiftDown
 	 *            whether shift is pressed
+	 * @return tab handling
 	 */
-	public void onTab(boolean shiftDown) {
-		inputController.handleTab(shiftDown);
+	public boolean onTab(boolean shiftDown) {
+		return inputController.handleTab(shiftDown);
 	}
 
 	/**

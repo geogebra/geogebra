@@ -6,9 +6,11 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 import com.himamis.retex.editor.share.serializer.TeXEscaper;
+import com.himamis.retex.editor.share.util.MathFormulaConverter;
 import com.himamis.retex.editor.share.util.Unicode;
 
 class InputBoxRenderer {
+	private final MathFormulaConverter formulaConverter;
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private StringTemplate stringTemplateForLaTeX;
@@ -17,9 +19,15 @@ class InputBoxRenderer {
 		this.inputBox = inputBox;
 		this.linkedGeo = inputBox.getLinkedGeo();
 		this.stringTemplateForLaTeX = inputBox.tpl.deriveLaTeXTemplate();
+		formulaConverter = new MathFormulaConverter();
 	}
 
 	String getText() {
+		if (inputBox.isSymbolicModeWithSpecialEditor()) {
+			String tempUserEvalInput = inputBox.getTempUserEvalInput();
+			formulaConverter.setTemporaryImput(!"".equals(tempUserEvalInput));
+			return formulaConverter.convert(inputBox.getTextForEditor());
+		}
 		if (linkedGeo.isGeoText()) {
 			String str = ((GeoText) linkedGeo).getTextStringSafe()
 					.replace("\n", GeoText.NEW_LINE);

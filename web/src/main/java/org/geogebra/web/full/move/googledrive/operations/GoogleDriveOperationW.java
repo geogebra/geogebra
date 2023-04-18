@@ -22,10 +22,9 @@ import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ScriptElement;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.ScriptElement;
+import org.gwtproject.user.client.ui.Label;
 
 import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;

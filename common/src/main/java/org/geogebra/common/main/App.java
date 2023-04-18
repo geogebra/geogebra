@@ -393,11 +393,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	private int maxLayerUsed = 0;
-	/**
-	 * size of checkboxes, default in GeoGebraPreferencesXML.java
-	 * checkboxSize="26"
-	 */
-	private int booleanSize = EuclidianConstants.DEFAULT_CHECKBOX_SIZE;
 	private boolean labelDragsEnabled = true;
 	private boolean undoRedoEnabled = true;
 
@@ -589,24 +584,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		return id == App.VIEW_EUCLIDIAN3D_2;
 
-	}
-
-	/**
-	 * @return global checkbox size 13 or 26 (all checkboxes, both views)
-	 */
-	public int getCheckboxSize() {
-		return booleanSize;
-	}
-
-	/**
-	 *
-	 * set global checkbox size (all checkboxes, both views)
-	 *
-	 * @param b
-	 *            new size for checkboxes (either 13 or 26)
-	 */
-	public void setCheckboxSize(int b) {
-		booleanSize = (b == 13) ? 13 : 26;
 	}
 
 	/**

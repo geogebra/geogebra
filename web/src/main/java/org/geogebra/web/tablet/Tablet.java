@@ -3,15 +3,14 @@ package org.geogebra.web.tablet;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
-import org.geogebra.web.html5.GeoGebraGlobal;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.RootPanel;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -49,8 +48,8 @@ public class Tablet implements EntryPoint {
 	}
 
 	private void exportGGBElementRenderer() {
-		GeoGebraGlobal.setRenderGGBElement(this::renderArticleElement);
-		GeoGebraFrameW.renderGGBElementReady();
+		RenderGgbElement.setRenderGGBElement(this::renderArticleElement);
+		RenderGgbElement.renderGGBElementReady();
 	}
 
 	/**

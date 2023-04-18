@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -22,6 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -555,6 +557,33 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void pointShouldUseAustrianCoords() {
+		getApp().getSettings().getGeneral().setCoordFormat(Kernel.COORD_STYLE_AUSTRIAN);
+		GeoElement point = add("A=(1,2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		assertThat(inputBox.getTextForEditor(), is("(1" + Unicode.verticalLine + "2)"));
+		inputBox.updateLinkedGeo("(5" + Unicode.verticalLine + "-5)");
+		assertThat(point, hasValue("(5 | -5)"));
+	}
+
+	@Test
+	public void pointShouldAcceptEmptyAustrianCoords() {
+		getApp().getSettings().getGeneral().setCoordFormat(Kernel.COORD_STYLE_AUSTRIAN);
+		add("A=(1,2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(" + Unicode.verticalLine + ")");
+		assertThat(inputBox.hasError(), is(false));
+	}
+
+	@Test
+	public void pointShouldAcceptEmptyCoords() {
+		add("A=(1,2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(,)");
+		assertThat(inputBox.hasError(), is(false));
+	}
+
+	@Test
 	public void hasSpecialEditorTest() {
 		GeoElement mat1 = add("mat1={{1,2,3}}");
 		assertTrue(mat1.hasSpecialEditor());
@@ -592,11 +621,11 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("m1 = {{1}, {2}}");
 		GeoInputBox inputBox = add("InputBox(m1)");
 		inputBox.setSymbolicMode(false);
-		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "}, {3}}");
+		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "},{3}}");
 		assertEquals("{{i},{3}}", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(true);
-		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "}, {3}}");
+		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "},{3}}");
 		assertEquals("{{i},{3}}", inputBox.getTextForEditor());
 	}
 
@@ -613,8 +642,57 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void testComplexMatrices() {
 		add("m = {{1, i},{i, 2}}");
 		GeoInputBox inputBox = add("InputBox(m)");
-		assertEquals("\\left(\\begin{array}{rr}1&i\\\\i&2\\\\ \\end{array}\\right)",
+		assertEquals("\\begin{pmatrix} 1 & i \\\\ i & 2 \\end{pmatrix}",
 				inputBox.getText());
 	}
 
+	@Test
+	public void testEmpty2DPointShouldNotRaiseError() {
+		add("A = (?, ?)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(,)");
+		assertFalse(inputBox.hasError());
+	}
+
+	@Test
+	public void testEmpty3DPointShouldNotRaiseError() {
+		add("m1 = {{?},{?},{?}}");
+		GeoInputBox inputBox = add("InputBox(m1)");
+		inputBox.updateLinkedGeo("{,,}");
+		assertFalse(inputBox.hasError());
+	}
+
+	@Test
+	public void testEmpty2DMatrixShouldNotRaiseError() {
+		add("m1 = {{1,2},{3,4}}");
+		GeoInputBox inputBox = add("InputBox(m1)");
+		inputBox.updateLinkedGeo("{{?,?,?},{?,?,?}}");
+		assertFalse(inputBox.hasError());
+	}
+
+	@Test
+	public void testEmptyVectorShouldNotRaiseError() {
+		add("u = (?,?,?)");
+		GeoInputBox inputBox = add("InputBox(u)");
+		inputBox.updateLinkedGeo("(,,)");
+		assertFalse(inputBox.hasError());
+	}
+
+	@Test
+	public void testUndefinedPoint() {
+		add("A=(?,?)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		assertEquals("\\left({" + TeXSerializer.PLACEHOLDER + ","
+				+ TeXSerializer.PLACEHOLDER + "}\\right)", inputBox.getText());
+	}
+
+	@Test
+	public void testUndefinedVectorWithFraction() {
+		add("u=(?,?/?)");
+		GeoInputBox inputBox = add("InputBox(u)");
+		assertEquals("\\begin{pmatrix} "
+				+ "{" + TeXSerializer.PLACEHOLDER + "} \\\\ "
+				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
+				+ " \\end{pmatrix}", inputBox.getText());
+	}
 }

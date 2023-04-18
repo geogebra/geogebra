@@ -12,10 +12,9 @@ import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Color popup for stylebar
@@ -27,10 +26,10 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public static final int COLORSET_DEFAULT = 0;
 	/** background */
 	public static final int COLORSET_BGCOLOR = 1;
-	private int colorSetType;
-	private GColor[] colorSet;
+	private final int colorSetType;
+	private final GColor[] colorSet;
 	private GColor defaultColor;
-	private HashMap<String, Integer> lookupMap;
+	private final HashMap<GColor, Integer> lookupMap;
 
 	private boolean enableTable;
 	private boolean hasSlider;
@@ -50,13 +49,13 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;
 
-		setColors();
+		colorSet = getColorSet();
 		defaultColor = colorSet[0];
 
 		lookupMap = new HashMap<>();
 		for (int i = 0; i < colorSet.length; i++) {
 			if (colorSet[i] != null) {
-				lookupMap.put(GColor.getColorString(colorSet[i]), i);
+				lookupMap.put(colorSet[i], i);
 			}
 		}
 
@@ -82,13 +81,13 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	/**
 	 * Sets the colors to choose from.
 	 */
-	protected void setColors() {
+	protected GColor[] getColorSet() {
 		if (app.isWhiteboardActive()) {
-			colorSet = GeoGebraColorConstants.getMOWPopupArray();
+			return GeoGebraColorConstants.getMOWPopupArray();
 		} else {
-			colorSet = app.isUnbundled()
+			return app.isUnbundled()
 					? GeoGebraColorConstants.getUnbundledPopupArray()
-					: GeoGebraColorConstants.getSimplePopupArray(colorSetType);
+					: GeoGebraColorConstants.getSimplePopupArray();
 		}
 	}
 
@@ -152,8 +151,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 			return index;
 		}
 
-		if (lookupMap.containsKey(GColor.getColorString(color))) {
-			index = lookupMap.get(GColor.getColorString(color));
+		if (lookupMap.containsKey(color)) {
+			index = lookupMap.get(color);
 		}
 
 		return index;
@@ -264,21 +263,6 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public void setEnableTable(boolean enableTable) {
 		this.enableTable = enableTable;
 		getMyTable().setVisible(enableTable);
-	}
-
-	/**
-	 * @return colors
-	 */
-	public GColor[] getColorSet() {
-		return colorSet;
-	}
-
-	/**
-	 * @param colorSet
-	 *            colors
-	 */
-	public void setColorSet(GColor[] colorSet) {
-		this.colorSet = colorSet;
 	}
 
 	@Override

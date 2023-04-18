@@ -9,10 +9,9 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Material card
@@ -151,12 +150,15 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		} else {
 			switch (visibility) {
 			case "P":
-				visibiltyImg = new NoDragImage(
-						res.mow_card_private(), 24);
+				visibiltyImg = new NoDragImage(res.mow_card_private(), 24);
 				visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
 				break;
 			case "S":
-				visibiltyImg = new NoDragImage(res.mow_card_shared(), 24);
+				if (app.isMebis()) {
+					visibiltyImg = new NoDragImage(res.mow_card_shared(), 24);
+				} else {
+					visibiltyImg = new NoDragImage(res.resource_card_shared(), 24);
+				}
 				visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
 				break;
 			case "O":

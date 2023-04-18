@@ -58,4 +58,14 @@ public class MowService implements Service {
 		return true;
 	}
 
+	@Override
+	public boolean requiresCSRF() {
+		return true;
+	}
+
+	@Override
+	public String getSearchMaterialFilter() {
+		return "";
+	}
+
 }

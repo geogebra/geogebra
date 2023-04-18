@@ -60,6 +60,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.MathFormulaConverter;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -106,6 +107,8 @@ public class MathFieldInternal
 	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
+	private MathFormulaConverter formulaConverter;
+
 	/**
 	 * @param mathField
 	 *            editor component
@@ -118,6 +121,7 @@ public class MathFieldInternal
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
 		mathFieldInternalListeners = new HashSet<>();
+		formulaConverter = new MathFormulaConverter();
 		setupMathField();
 	}
 
@@ -838,8 +842,10 @@ public class MathFieldInternal
 	 * 
 	 * @param shiftDown
 	 *            whether shift is pressed
+	 *
+	 * @return tab handling
 	 */
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		MathSequence currentField = editorState.getCurrentField();
 		int jumpTo = editorState.getCurrentOffset();
 		int dir = shiftDown ? -1 : 1;
@@ -848,12 +854,13 @@ public class MathFieldInternal
 			if (currentField.getArgument(jumpTo) instanceof MathPlaceholder) {
 				editorState.setCurrentOffset(jumpTo);
 				update();
-				return;
+				return true;
 			}
 		} while (jumpTo < currentField.size() && jumpTo >= 0);
 		if (listener != null) {
-			listener.onTab(shiftDown);
+			return listener.onTab(shiftDown);
 		}
+		return true;
 	}
 
 	/**
@@ -876,9 +883,8 @@ public class MathFieldInternal
 	 *            ASCII math input
 	 */
 	public void parse(String text) {
-		Parser parser = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula formula = parser.parse(text);
+			MathFormula formula = formulaConverter.buildFormula(text);
 			setFormula(formula);
 		} catch (ParseException e) {
 			FactoryProvider.debugS("Problem parsing: " + text);
@@ -951,7 +957,7 @@ public class MathFieldInternal
 			int commaCount = 0;
 			for (int i = editorState.getCurrentOffset(); i >= 0; i--) {
 				MathComponent arg = editorState.getCurrentField().getArgument(i);
-				if (arg instanceof MathCharacter && ((MathCharacter) arg).isUnicode(',')) {
+				if (arg != null && arg.isFieldSeparator()) {
 					commaCount++;
 				}
 			}
@@ -974,5 +980,9 @@ public class MathFieldInternal
 		for (MathFieldInternalListener listener: mathFieldInternalListeners) {
 			listener.inputChanged(this);
 		}
+	}
+
+	public void setAllowAbs(boolean b) {
+		inputController.setAllowAbs(b);
 	}
 }

@@ -103,10 +103,6 @@ public class IntervalTuple {
 		return "{x: " + x().toShortString() + ": " + y().toShortString() + "}";
 	}
 
-	public void setPiece(int piece) {
-		this.piece = piece;
-	}
-
 	public int piece() {
 		return piece;
 	}

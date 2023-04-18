@@ -38,24 +38,22 @@ public class CmdToComplexPolar extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		AlgoToComplexPolar algo = null;
 		if (arg[0] instanceof GeoPoint) {
-			algo = new AlgoToComplexPolar(cons, c.getLabel(), (GeoPoint) arg[0],
-					coordStyle);
+			algo = new AlgoToComplexPolar(cons, (GeoPoint) arg[0], coordStyle);
 		}
 		if (arg[0] instanceof GeoVector) {
-			algo = new AlgoToComplexPolar(cons, c.getLabel(),
-					(GeoVector) arg[0], coordStyle);
+			algo = new AlgoToComplexPolar(cons, (GeoVector) arg[0], coordStyle);
 		}
 		if (arg[0] instanceof GeoList) {
-			algo = new AlgoToComplexPolar(cons, c.getLabel(), (GeoList) arg[0],
-					coordStyle);
+			algo = new AlgoToComplexPolar(cons, (GeoList) arg[0], coordStyle);
 		}
 		if (arg[0] instanceof GeoNumberValue) {
-			algo = new AlgoToComplexPolar(cons, c.getLabel(),
+			algo = new AlgoToComplexPolar(cons,
 					(GeoNumberValue) arg[0], coordStyle);
 		}
 		if (algo == null) {
 			throw argErr(arg[0], c);
 		}
+		algo.getResult().setLabel(c.getLabel());
 		return new GeoElement[] { algo.getResult() };
 	}
 

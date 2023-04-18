@@ -1,7 +1,7 @@
 package org.geogebra.web.full.main.video;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLVideoElement;

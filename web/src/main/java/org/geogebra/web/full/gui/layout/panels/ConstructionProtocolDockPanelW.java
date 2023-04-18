@@ -5,8 +5,7 @@ import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW.MyPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.Panel;
 
 public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 

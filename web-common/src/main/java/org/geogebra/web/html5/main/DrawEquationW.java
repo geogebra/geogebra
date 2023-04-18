@@ -12,9 +12,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.style.shared.Unit;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style.Unit;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
@@ -22,7 +22,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.web.DrawingFinishedCallback;
-import com.himamis.retex.renderer.web.FactoryProviderGWT;
+import com.himamis.retex.renderer.web.JlmApi;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -71,12 +71,6 @@ public class DrawEquationW extends DrawEquation {
 		g3.maybeNotifyDrawingFinishedCallback(false);
 		return new Dimension(icon.getIconWidth(), icon.getIconHeight());
 
-	}
-
-	private static void ensureJLMFactoryExists() {
-		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderGWT());
-		}
 	}
 
 	/**
@@ -209,7 +203,7 @@ public class DrawEquationW extends DrawEquation {
 
 	@Override
 	public void checkFirstCall(App app) {
-		ensureJLMFactoryExists();
+		JlmApi.ensureJLMFactoryExists();
 		DrawEquation.checkFirstCallStatic();
 	}
 

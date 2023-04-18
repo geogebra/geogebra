@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.legacy.shared.EventHandler;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Handler for TouchStart / MouseDown events.

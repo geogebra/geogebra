@@ -1657,8 +1657,9 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFitLog() {
-		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
-				"1.7791376753366814 + (-0.5108496281733952 * ln(x))");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
+		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
+				"1.77913767533668 - 0.510849628173396ln(x)");
 	}
 
 	@Test
@@ -1669,8 +1670,9 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFitPow() {
-		t("FitPow[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
-				"(2.117291418376159 * x^(-1.0349179205718597))");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
+		t("FitPow[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
+				"2.11729141837616x^-1.03491792057186");
 	}
 
 	@Test
@@ -2152,6 +2154,9 @@ public class CommandsTest {
 		t("Invert[If[x>1,x^3+1] ]", "If[cbrt(x - 1) > 1, cbrt(x - 1)]");
 		t("Invert[ If(x>2,x)+1 ]", "If[x - 1 > 2, x - 1]");
 		t("Invert[ If(x>2,sin(x)-x) ]", "?");
+		t("Invert[3+0/x]", "?");
+		t("Invert[3+x/0]", "?");
+		t("Invert[3+2/x]", "2 / (x - 3)");
 		AlgebraTestHelper.enableCAS(app, false);
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		t("Invert[ sin(x) ]", "NInvert[sin(x)]");
@@ -3955,6 +3960,18 @@ public class CommandsTest {
 		t("tablesplit=TableText[1..5,\"h\",3]",
 				StringContains.containsString("array"));
 		checkSize("tablesplit", 3, 2);
+		t("tables=TableText[{1,2,3}, {4,5}, \"c\", 100]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{1,2}, {3, 4,5}, \"c\", 100, 120]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{{1,2,3}, {4,5}}, \"c\", 100]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{{1,2}, {3,4,5}}, \"c\", 100, 120]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
 	}
 
 	@Test
@@ -3984,8 +4001,9 @@ public class CommandsTest {
 		t("Tangent[ (1,1), x^2+y^2=1 ]", "y = 1", "x = 1");
 		t("Tangent[ (1,1), sin(x) ]",
 				"y = 0.5403023058681398x + 0.30116867893975674");
-		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]",
-				"y = 22.40252712698299x - 66.207581380949");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision13 instead
+		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]", StringTemplate.maxPrecision13,
+				"y = 22.40252712698x - 66.20758138095");
 	}
 
 	@Test
@@ -4339,6 +4357,12 @@ public class CommandsTest {
 		t("Zip[ i + j, i, {1, 2}, j, {3, 4} ]", "{4, 6}");
 		t("Zip[ i + j, j, {1, 2}, i, {3, 4} ]", "{4, 6}");
 		t("Zip(2*A,A,{(1,1),(2,3),(4,5,6)})", "{(2, 2, 0), (4, 6, 0), (8, 10, 12)}");
+	}
+
+	@Test
+	public void testZipWithObject() {
+		t("a:x=y", "y = x");
+		t("RemoveUndefined(Zip(Object(xx), xx, {\"y\",\"a\",\"x\"}))", "{y = x}");
 	}
 
 	@Test

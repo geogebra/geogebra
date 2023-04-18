@@ -77,8 +77,7 @@ import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * StyleBar for euclidianView
@@ -129,7 +128,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private ToggleButton btnFixObject;
 
 	private ToggleButton[] toggleBtnList;
-	private ToggleButton[] btnDeleteSizes = new ToggleButton[3];
+	private final ToggleButton[] btnDeleteSizes = new ToggleButton[3];
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;

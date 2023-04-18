@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.StringTemplate;
@@ -18,12 +20,22 @@ import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.serializer.TeXBuilder;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.MathFormulaConverter;
+import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.CharAtom;
+import com.himamis.retex.renderer.share.ColorAtom;
+import com.himamis.retex.renderer.share.PhantomAtom;
+import com.himamis.retex.renderer.share.ResizeAtom;
+import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.SymbolAtom;
 
 class EditorChecker {
-	private MathFieldCommon mathField;
-	private EditorTyper typer;
-	private App app;
+	private final MathFieldCommon mathField;
+	private final EditorTyper typer;
+	private final App app;
 
 	protected EditorChecker(App app) {
 		this(app, new MetaModel());
@@ -37,7 +49,7 @@ class EditorChecker {
 
 	public void checkAsciiMath(String output) {
 		MathSequence rootComponent = getRootComponent();
-		Assert.assertEquals(output,
+		assertEquals(output,
 				GeoGebraSerializer.serialize(rootComponent));
 		// clean the checker after typing
 		fromParser("");
@@ -50,21 +62,65 @@ class EditorChecker {
 
 		try {
 			ExpressionNode en = parse(exp);
-			Assert.assertEquals(output, en.toString(StringTemplate.defaultTemplate));
+			assertEquals(output, en.toString(StringTemplate.defaultTemplate));
 		} catch (ParseException e) {
 			Log.debug(e);
-			Assert.assertEquals(output, "Exception: " + e.toString());
+			assertEquals(output, "Exception: " + e);
 		}
 
 	}
 
+	public EditorChecker checkPlaceholders(String expected) {
+		MathFieldInternal mathFieldInternal = mathField.getInternal();
+		mathFieldInternal.update();
+		EditorState editorState = mathFieldInternal.getEditorState();
+		MathSequence currentField = editorState.getCurrentField();
+		TeXBuilder builder = new TeXBuilder();
+		RowAtom atom =
+				(RowAtom) builder.build(currentField, currentField, editorState.getCurrentOffset(),
+						false);
+		assertEquals(expected, serializeRow(atom));
+		return this;
+	}
+
+	private String serializeRow(RowAtom row) {
+		StringBuilder sb = new StringBuilder();
+		for (Atom atom: row.getElements()) {
+			sb.append(serializeAtom(atom));
+		}
+		return sb.toString();
+	}
+
+	private String serializeAtom(Atom atom) {
+		if (atom instanceof PhantomAtom) {
+			return "|";
+		}
+
+		if (atom instanceof ColorAtom) {
+			return "_";
+		}
+
+		if (atom instanceof CharAtom) {
+			return ((CharAtom) atom).getCharacter() + "";
+		}
+
+		if (atom instanceof SymbolAtom) {
+			return ((SymbolAtom) atom).getUnicode() + "";
+		}
+
+		if (atom instanceof ResizeAtom) {
+			return serializeAtom(((ResizeAtom) atom).getTrueBase());
+		}
+		return null;
+	}
+
 	public void checkRaw(String output) {
 		MathSequence rootComponent = getRootComponent();
-		Assert.assertEquals(output, rootComponent + "");
+		assertEquals(output, rootComponent + "");
 	}
 
 	public void checkLength(int length) {
-		Assert.assertEquals(length, getRootComponent().size());
+		assertEquals(length, getRootComponent().size());
 	}
 
 	private MathSequence getRootComponent() {
@@ -118,6 +174,19 @@ class EditorChecker {
 		return this;
 	}
 
+	public EditorChecker convertFormula(String input) {
+		try {
+			MathFormulaConverter converter =
+					new MathFormulaConverter(mathField.getMetaModel());
+			mathField.getInternal().setFormula(converter.buildFormula(input));
+			mathField.getInternal().getFormula().getRootComponent().setProtected();
+			mathField.getInternal().setLockedCaretPath();
+		} catch (com.himamis.retex.editor.share.io.latex.ParseException e) {
+			throw new RuntimeException(e);
+		}
+		return this;
+	}
+
 	public EditorChecker matrixFromParser(String input) {
 		Parser parser = new Parser(mathField.getMetaModel());
 		MathFormula formula;
@@ -151,6 +220,12 @@ class EditorChecker {
 		return this;
 	}
 
+	public void serializeAs(String latex) {
+		TeXSerializer teXSerializer = new TeXSerializer();
+		assertEquals(latex,
+				teXSerializer.serialize(mathField.getInternal().getFormula()));
+	}
+
 	protected void checkEditorInsert(String input, String output) {
 		new EditorChecker(app).insert(input).checkAsciiMath(output);
 	}
@@ -165,5 +240,9 @@ class EditorChecker {
 
 	public void setForceBracketsAfterFunction() {
 		mathField.getMetaModel().setForceBracketAfterFunction(true);
+	}
+
+	public void setAllowAbs(boolean allowAbs) {
+		mathField.getInternal().setAllowAbs(allowAbs);
 	}
 }

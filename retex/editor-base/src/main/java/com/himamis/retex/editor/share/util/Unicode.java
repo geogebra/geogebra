@@ -45,6 +45,7 @@ public class Unicode {
 
 	final public static char e_GRAVE = '\u00E8';
 	final public static char e_ACUTE = '\u00E9';
+	final public static char verticalLine = '\u23B8';
 
 	/** Unicode symbol for e */
 	final public static char EULER_CHAR = '\u212f';
@@ -231,6 +232,8 @@ public class Unicode {
 			+ CURRENCY_INDIAN_RUPEE + "" + CURRENCY_POUND + "" + CURRENCY_RUPEE
 			+ "" + CURRENCY_SHEKEL + "" + CURRENCY_TUGHRIK + "" + CURRENCY_WON
 			+ "" + CURRENCY_YEN + "";
+
+	public static final String PI_HALF_STRING = Unicode.PI_STRING + "/2";
 
 	/**
 	 * @param c

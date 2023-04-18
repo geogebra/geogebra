@@ -447,6 +447,8 @@ public class ConsElementXMLHandler {
 			geo.setBackgroundColor(GColor.WHITE);
 			geo.setObjColor(GColor.BLACK);
 			((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
+		} else if (geo instanceof GeoInputBox) {
+			geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
 		}
 	}
 
@@ -831,6 +833,9 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAbsoluteScreenLocation(
 			LinkedHashMap<String, String> attrs, boolean absolute) {
+		if (geo.isDefaultGeo()) {
+			return false;
+		}
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
 			Log.error("wrong element type for <absoluteScreenLocation>: "
 					+ geo.getClass());

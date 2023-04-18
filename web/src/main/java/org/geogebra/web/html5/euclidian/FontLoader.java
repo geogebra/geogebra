@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.util.WebFont;
+import org.gwtproject.dom.client.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.StyleInjector;
 
 import elemental2.core.JsArray;
 import jsinterop.annotations.JsFunction;
