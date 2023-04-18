@@ -277,18 +277,18 @@ void fraction(MathContainer currentField) :
 {
 	<FRACTION> {
 		fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
-		//handle numerator
-		MathSequence passArgs = new MathSequence();
-		editorState.setCurrentField((MathSequence) currentField);
-		editorState.setCurrentOffset(currentField.size());
-		fraction.setArgument(0, passArgs);
-		ArgumentHelper.passArgument(editorState, fraction);
-		//handle denominator
-		MathSequence mathSequence = new MathSequence();
-		mathAtomOrPower(mathSequence);
-		mathSequence.removeBrackets();
-		fraction.setArgument(1, mathSequence);
-		ArgumentHelper.addFraction(currentField, fraction, metaModel);
+    	//handle numerator
+    	MathSequence passArgs = new MathSequence();
+    	editorState.setCurrentField((MathSequence) currentField);
+    	editorState.setCurrentOffset(currentField.size());
+    	fraction.setArgument(0, passArgs);
+    	ArgumentHelper.passArgument(editorState, fraction);
+    	//handle denominator
+    	MathSequence mathSequence = new MathSequence();
+    	mathAtomOrPower(mathSequence);
+    	mathSequence.removeBrackets();
+    	fraction.setArgument(1, mathSequence);
+    	currentField.addArgument(fraction);
 	}
 }
 

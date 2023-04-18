@@ -429,7 +429,14 @@ public enum Operation {
 			return ev.handlePlus(lt, rt, tpl, holdsLaTeX);
 
 		}
-
+	},
+	INVISIBLE_PLUS {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			return ev.handleInvisiblePlus(lt, rt, left, right);
+		}
 	},
 	MINUS {
 		@Override

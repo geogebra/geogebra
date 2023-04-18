@@ -59,7 +59,10 @@ public class SolverSerializer extends SerializerAdapter {
 			 }
 			 break;
 		case FRAC:
-			serializeAndAppendFnWithTwoArgs("", function , "/", 0, 1, sb);
+			serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
+			if (sb.toString().contains("\u2064")) {
+				serializeFractionToMixedNumber(sb);
+			}
 			break;
 		case MIXED_NUMBER:
 			//1⁤(2)/(3) changes into FnMixedNumber[MathSequence[1],MathSequence[2],MathSequence[3]]
@@ -265,5 +268,20 @@ public class SolverSerializer extends SerializerAdapter {
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		}
 		stringBuilder.append(closingBracket);
+	}
+
+	private void serializeFractionToMixedNumber(StringBuilder sb) {
+		boolean openingBracketInserted = false;
+		for (int i = sb.indexOf("\u2064") - 1; i >= 0; i--) {
+			if (sb.charAt(i) < '0' || sb.charAt(i) > '9') {
+				sb.insert(i + 1, openingBracket);
+				openingBracketInserted = true;
+				break;
+			}
+		}
+		if (!openingBracketInserted) {
+			sb.insert(0, openingBracket);
+		}
+		sb.replace(sb.indexOf("\u2064"), sb.indexOf("\u2064") + 2, " ");
 	}
 }

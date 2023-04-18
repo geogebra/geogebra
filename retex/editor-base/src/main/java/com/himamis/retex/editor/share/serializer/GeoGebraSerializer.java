@@ -90,6 +90,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 			break;
 		case FRAC:
+			if (buildMixedNumber(stringBuilder, mathFunction)) {
+				break;
+			}
 			stringBuilder.append("((");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
@@ -97,12 +100,21 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			stringBuilder.append("))");
 			break;
 		case MIXED_NUMBER:
+			boolean isNegative = mathFunction.getArgument(0).getArgument(0) != null
+					&& mathFunction.getArgument(0).getArgument(0).toString().equals("-");
+			if (isNegative) {
+				stringBuilder.append("-");
+			}
+			stringBuilder.append("(");
 			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append("\u2064(");
+			if (isNegative) {
+				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
+			}
+			stringBuilder.append("\u2064((");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append(")");
+			stringBuilder.append(")))");
 			break;
 		case RECURRING_DECIMAL:
 			serialize(mathFunction.getArgument(0), stringBuilder);
@@ -304,5 +316,121 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 		}
 		return new String[0];
+	}
+
+	/**
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
+	 * @return True if a mixed number was built
+	 */
+	private boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
+		//Check if a valid mixed number can be created (e.g.: no 'x')
+		if (!isValidMixedNumber(mathFunction)) {
+			removeInvisiblePlus(mathFunction);
+			return false;
+		}
+		//Check if there is an invisible plus preceeding the fraction or not
+		for (int i = 0; i < mathFunction.getArgument(0).getArgumentCount(); i++) {
+			if (mathFunction.getArgument(0).getArgument(i).toString().equals("\u2064")) {
+				buildMixedNumberByOperator(stringBuilder, mathFunction);
+				return true;
+			}
+		}
+		//Check if there is an integer preceeding the fraction or not
+		if (isMixedNumber(stringBuilder) < 0) {
+			return false;
+		}
+		stringBuilder.insert(isMixedNumber(stringBuilder), "(");
+		if (!stringBuilder.toString().contains("\u2064")) {
+			stringBuilder.append("\u2064");
+		}
+		stringBuilder.append("((");
+		serialize(mathFunction.getArgument(0), stringBuilder);
+		stringBuilder.append(")/(");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append(")))");
+		return true;
+	}
+
+	/**
+	 * Gets called when the mixed number is created by spotting an invisible plus preceeding the
+	 * whole number
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
+	 */
+	private void buildMixedNumberByOperator(StringBuilder stringBuilder,
+			MathFunction mathFunction) {
+		stringBuilder.append("(");
+		int i = 0;
+		while (!mathFunction.getArgument(0).getArgument(i).toString().equals("\u2064")) {
+			stringBuilder.append(mathFunction.getArgument(0).getArgument(i));
+			i++;
+		}
+		stringBuilder.append("\u2064(("); //mathFunction.getArgument(0).getArgument(i)
+		for (int j = i + 1; j < mathFunction.getArgument(0).getArgumentCount(); j++) {
+			stringBuilder.append(mathFunction.getArgument(0).getArgument(j));
+		}
+		stringBuilder.append(")/(");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append(")))");
+	}
+
+	/**
+	 * @return Index ( >= 0 ) of where to put an opening parentheses when there is a mixed number in the stringBuilder <br>
+	 * -1 If there is no mixed number <br>
+	 * Parentheses needed so e.g. 5 1/2 * 3 does not do the multiplication with 3 first <br>
+	 */
+	private int isMixedNumber(StringBuilder stringBuilder) {
+		boolean isMixedNumber = false;
+		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
+			if (" \u2064".contains(Character.toString(stringBuilder.charAt(i)))
+					&& !isMixedNumber) {
+				continue;
+			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
+				isMixedNumber = true;
+			} else if (isMixedNumber
+					&& " +-+/".contains(Character.toString(stringBuilder.charAt(i)))) {
+				return i + 1;
+			} else {
+				isMixedNumber = false;
+				break;
+			}
+		}
+		return isMixedNumber ? 0 : -1;
+	}
+
+	/**
+	 * Used to determine if a function contains of digits and invisible plus only
+	 * (for mixed numbers)
+	 * @param mathFunction (Fraction)
+	 * @return True if digits (and invisible plus) only are found, false else
+	 */
+	private boolean isValidMixedNumber(MathFunction mathFunction) {
+		String compare;
+		for (int i = 0; i < mathFunction.size(); i++) {
+			for (int j = 0; j < mathFunction.getArgument(i).size(); j++) {
+				compare = mathFunction.getArgument(i).getArgument(j).toString();
+				if (compare.compareTo("0") < 0 || compare.compareTo("9") > 0
+					&& !compare.equals("\u2064")) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * User entered an invisible plus but no valid mixed number can be created
+	 * - remove invisible plus and create multiplication instead
+	 * @param mathFunction MathFunction
+	 */
+	private void removeInvisiblePlus(MathFunction mathFunction) {
+		for (int i = 0; i < mathFunction.size(); i++) {
+			for (int j = 0; j < mathFunction.getArgument(i).size(); j++) {
+				if (mathFunction.getArgument(i).getArgument(j).toString().equals("\u2064")) {
+					mathFunction.getArgument(i).delArgument(j);
+				}
+			}
+		}
 	}
 }

@@ -1368,6 +1368,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * @param leftStr Left subtree as string
+	 * @param rightStr Right subtree as string
+	 * @return leftStr + rightStr
+	 */
+	public String invisiblePlusString(String leftStr, String rightStr) {
+		return leftStr + "\u2064" + rightStr;
+	}
+
+	/**
 	 * Appends localized + to a StringBUilder
 	 * @param sb builder
 	 * @param loc localization
