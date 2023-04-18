@@ -1,9 +1,8 @@
 package org.geogebra.web.html5.event;
 
 import org.geogebra.common.euclidian.event.KeyHandler;
-
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyPressHandler;
 
 public class KeyListenerW implements KeyPressHandler {
 	private KeyHandler handler;

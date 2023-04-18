@@ -1967,4 +1967,36 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		element = add("Slider(0,1)");
 		assertThat(AlgebraItem.getCASOutputType(element), is(AlgebraItem.CASOutputType.NUMERIC));
 	}
+
+	@Test
+	public void testCollectFunctionVariables() {
+		GeoSymbolic element = add("x+1");
+		assertThat(element.collectVariables().size(), is(1));
+		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
+				is("x"));
+
+		element = add("x+y");
+		assertThat(element.collectVariables().size(), is(2));
+		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
+				is("x"));
+		assertThat(element.collectVariables().get(1).toString(StringTemplate.defaultTemplate),
+				is("y"));
+
+		element = add("FitPoly({(1,2),(3,4)},1)");
+		assertThat(element.collectVariables().size(), is(1));
+		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
+				is("x"));
+
+		element = add("Product(n*z, n, 1, z)");
+		assertThat(element.collectVariables().size(), is(1));
+		assertThat(element.collectVariables().get(0).toString(StringTemplate.defaultTemplate),
+				is("z"));
+	}
+
+	@Test
+	public void testFitPolyLabel() {
+		GeoSymbolic geo = createGeoWithHiddenLabel("FitPoly({(1,2),(3,4)},1)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("f(x)"));
+	}
 }

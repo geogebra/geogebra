@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.cas;
 
 import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assume.assumeFalse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -292,6 +293,20 @@ public abstract class CasTestJsonCommon {
 	 * @param category category name
 	 */
 	protected abstract void testCatNoClang(String category);
+
+	protected void testCatNoArm(String category) {
+		if (!"aarch64".equals(System.getProperty("os.arch"))) {
+			testCat(category);
+		} else {
+			testcases.remove(category);
+			assumeFalse(true); // mark test as skipped
+		}
+	}
+
+	@Test
+	public void testIntegralNoArm() {
+		testCatNoArm("IntegralNoArm");
+	}
 
 	@Test
 	public void testAssume() {
@@ -769,11 +784,6 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testSolveODE2() {
-		testCat("SolveODE2");
-	}
-
-	@Test
 	public void testOrthogonalVector() {
 		testCat("OrthogonalVector");
 	}
@@ -959,8 +969,28 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testSolveODE() {
-		testCat("SolveODE");
+	public void testSolveODE3() {
+		testCat("SolveODE.3");
+	}
+
+	@Test
+	public void testSolveODE1() {
+		testCat("SolveODE.1");
+	}
+
+	@Test
+	public void testSolveODE4() {
+		testCat("SolveODE.4");
+	}
+
+	@Test
+	public void testSolveODE5() {
+		testCat("SolveODE.5");
+	}
+
+	@Test
+	public void testSolveODE2() {
+		testCat("SolveODE.2");
 	}
 
 	@Test

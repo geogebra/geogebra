@@ -3,8 +3,7 @@ package org.geogebra.web.html5.event;
 import java.util.LinkedList;
 
 import org.geogebra.common.util.debug.Log;
-
-import com.google.gwt.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyPressEvent;
 
 public final class KeyEventW
 		extends org.geogebra.common.euclidian.event.KeyEvent {

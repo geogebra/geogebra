@@ -44,7 +44,8 @@ public class IntervalDivide {
 
 		if (isZeroByZero(numerator, divisor) || divisor.isWhole()
 				|| isWholeByNonZero(numerator, divisor)) {
-			return whole();
+
+			return numerator.isZero() ? zero() : whole();
 		}
 
 		if (numerator.isUndefined() || divisor.isUndefined()) {

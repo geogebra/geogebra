@@ -114,7 +114,9 @@ $button_hover_transition: background-color 0.15s;
 	.smallHeaderView {
 		@extend %compactHeaderViewShared;
 		height: $small_header_height;
-		line-height: $small_header_height;
+		.headerCaption {
+			line-height: $small_header_height;
+		}
 		.headerBackButton {
 			margin-left: 8px;
 			margin-right: 24px;

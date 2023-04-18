@@ -10,10 +10,8 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.GlobalHeader;
-
-import com.google.gwt.aria.client.Roles;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.RootPanel;
 
 public class SuiteHeaderAppPicker extends StandardButton {
 
@@ -86,6 +84,6 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		this.getElement().appendChild(dropDownImg.getElement());
 		btnImage.setPresentation();
 
-		Roles.getButtonRole().removeAriaPressedState(getElement());
+		getElement().removeAttribute("aria-pressed");
 	}
 }

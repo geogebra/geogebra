@@ -13,24 +13,24 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.text.ITextEditPanel;
 import org.geogebra.web.full.gui.dialog.text.TextPreviewPanelW;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.inputfield.SymbolTableW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.dom.style.shared.BorderStyle;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.user.client.ui.HTML;
+import org.gwtproject.user.client.ui.HTMLTable;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.TabLayoutPanel;
+import org.gwtproject.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.dom.client.Style.BorderStyle;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -74,9 +74,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		getPreviewer();
 		previewer.onResize();
 
-		Image geoTabImage = new NoDragImage(AppResources.INSTANCE.geogebra()
-				.getSafeUri().asString(),
-				AppResources.INSTANCE.geogebra().getWidth());
+		Image geoTabImage = new NoDragImage(MaterialDesignResources.INSTANCE.geogebra_color()
+				.getSafeUri().asString(), 16);
 
 		// create the tabs
 		previewLabel = new Label(loc.getMenu("Preview"));

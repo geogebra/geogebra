@@ -11,8 +11,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import org.geogebra.web.geogebra3D.web.gui.view.properties.PropertiesView3DW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.Command;
+import org.gwtproject.user.client.Command;
 
 /**
  * web gui manager for 3D

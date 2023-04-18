@@ -64,22 +64,21 @@ import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.CanvasPixelArray;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.canvas.dom.client.CanvasPixelArray;
+import org.gwtproject.canvas.dom.client.Context2d;
+import org.gwtproject.canvas.dom.client.ImageData;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.DropEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -430,16 +429,16 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void getExportSVG(double scale, boolean transparency, Consumer<String> callback) {
-		int width = (int) Math.floor(getExportWidth() * scale);
-		int height = (int) Math.floor(getExportHeight() * scale);
+	public void getExportSVG(boolean transparency, Consumer<String> callback) {
+		int width = (int) Math.floor(getExportWidth());
+		int height = (int) Math.floor(getExportHeight());
 
 		ExportLoader.onCanvas2SvgLoaded(() -> {
 			Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
 			CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
 			g4copy = new GGraphics2DW(ctx);
-			this.appW.setExporting(ExportType.SVG, scale);
-			exportPaintPre(g4copy, scale, transparency);
+			this.appW.setExporting(ExportType.SVG, 1);
+			exportPaintPre(g4copy, 1, transparency);
 			drawObjects(g4copy);
 			this.appW.setExporting(ExportType.NONE, 1);
 			String serializedSvg = canvas2svg.getSerializedSvg(true);

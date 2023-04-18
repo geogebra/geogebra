@@ -11,8 +11,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author bencze The "Export Image" menu, part of the "File" menu.
@@ -82,7 +81,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.getSelectionManager().clearSelectedGeos();
 						EuclidianViewWInterface ev
 								= (EuclidianViewWInterface) app.getActiveEuclidianView();
-						ev.getExportSVG(1, false, (svg) ->
+						ev.getExportSVG(false, (svg) ->
 								app.getFileManager().showExportAsPictureDialog(
 										Browser.encodeSVG(svg), app.getExportTitle(), "svg",
 										"ExportAsPicture", app));

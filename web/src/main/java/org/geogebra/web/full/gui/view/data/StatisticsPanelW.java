@@ -4,9 +4,8 @@ import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.StatisticsModel;
 import org.geogebra.common.gui.view.data.StatisticsModel.IStatisticsModelListener;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.ListBox;
 
 /**
  * 

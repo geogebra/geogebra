@@ -22,12 +22,12 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
 
     @Override
     public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight, double pixelRatio) {
-		return new GBufferedImageCommon();
+		return new GBufferedImageCommon(pixelWidth, pixelHeight);
     }
 
     @Override
     public GBufferedImage createBufferedImage(int width, int height, boolean transparency) {
-        return new GBufferedImageCommon();
+        return new GBufferedImageCommon(width, height);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
 
     @Override
     public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-        return null;
+        return new GTexturePaintCommon(subimage, rect);
     }
 
     @Override
@@ -65,4 +65,19 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
     public GFont newFont(String name, int style, int size) {
         return new GFontCommon(size);
     }
+    
+    public static class GTexturePaintCommon implements GPaint {
+
+        public final GBufferedImage subImage;
+        public final GRectangle rect;
+
+        /**
+         * @param subimage image
+         * @param rect rectangle
+         */
+        public GTexturePaintCommon(GBufferedImage subimage, GRectangle rect) {
+            this.subImage = subimage;
+            this.rect = rect;
+        }
+    } 
 }

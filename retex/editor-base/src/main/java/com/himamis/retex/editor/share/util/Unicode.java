@@ -233,6 +233,8 @@ public class Unicode {
 			+ "" + CURRENCY_SHEKEL + "" + CURRENCY_TUGHRIK + "" + CURRENCY_WON
 			+ "" + CURRENCY_YEN + "";
 
+	public static final String PI_HALF_STRING = Unicode.PI_STRING + "/2";
+
 	/**
 	 * @param c
 	 *            character

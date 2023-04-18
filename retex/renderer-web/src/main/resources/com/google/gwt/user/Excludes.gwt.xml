@@ -1,0 +1,14 @@
+<module>
+    <source path="client">
+        <exclude name="ui/**/*"/>
+        <exclude name="rpc/**/*"/>
+        <exclude name="impl/**/*"/>
+        <exclude name="Event*"/>
+        <exclude name="Window*"/>
+        <exclude name="DOM*"/>
+        <exclude name="BaseListenerWrapper*"/>
+        <exclude name="History*"/>
+        <exclude name="Element*"/>
+        <exclude name="DocumentModeAsserter*"/>
+    </source>
+</module>

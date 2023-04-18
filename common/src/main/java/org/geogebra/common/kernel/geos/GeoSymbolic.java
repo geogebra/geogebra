@@ -451,11 +451,21 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
-	private Iterable<FunctionVariable> collectVariables() {
+	protected List<FunctionVariable> collectVariables() {
 		FunctionVarCollector functionVarCollector = FunctionVarCollector
 				.getCollector();
 		getDefinition().traverse(functionVarCollector);
-		return Arrays.asList(functionVarCollector.buildVariables(kernel));
+		List<FunctionVariable> vars = Arrays.asList(functionVarCollector.buildVariables(kernel));
+		if (vars.size() > 0) {
+			return vars;
+		} else {
+			try {
+				getNodeFromOutput().traverse(functionVarCollector);
+				return Arrays.asList(functionVarCollector.buildVariables(kernel));
+			} catch (ParseException e) {
+				return vars;
+			}
+		}
 	}
 
 	private static boolean shouldShowFunctionVariablesInOutputFor(Command command) {

@@ -1,14 +1,14 @@
 package org.geogebra.web.full.gui.menubar;
 
-import com.google.gwt.event.dom.client.DomEvent.Type;
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
-import com.google.gwt.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
-import com.google.gwt.user.client.EventListener;
-import com.google.gwt.user.client.ui.InsertPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.dom.client.DomEvent.Type;
+import org.gwtproject.event.legacy.shared.EventHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.safehtml.shared.SafeHtml;
+import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
+import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
+import org.gwtproject.user.client.EventListener;
+import org.gwtproject.user.client.ui.InsertPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Interface for stack panels (accessible or otherwise)
