@@ -687,7 +687,6 @@ public class GeoText extends GeoElement
 
 	private void setSameLocation(GeoText text) {
 		if (text.hasAbsoluteScreenLocation) {
-			setAbsoluteScreenLocActive(true);
 			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(),
 					text.getAbsoluteScreenLocY());
 		} else {

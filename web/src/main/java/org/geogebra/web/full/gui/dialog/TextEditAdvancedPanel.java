@@ -13,9 +13,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.text.ITextEditPanel;
 import org.geogebra.web.full.gui.dialog.text.TextPreviewPanelW;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.inputfield.SymbolTableW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
@@ -74,9 +74,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		getPreviewer();
 		previewer.onResize();
 
-		Image geoTabImage = new NoDragImage(AppResources.INSTANCE.geogebra()
-				.getSafeUri().asString(),
-				AppResources.INSTANCE.geogebra().getWidth());
+		Image geoTabImage = new NoDragImage(MaterialDesignResources.INSTANCE.geogebra_color()
+				.getSafeUri().asString(), 16);
 
 		// create the tabs
 		previewLabel = new Label(loc.getMenu("Preview"));

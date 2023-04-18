@@ -28,4 +28,18 @@ public interface SerializationAdapter {
 	String getLigature(String toString);
 
 	String convertToReadable(String s);
+
+	/**
+	 * Serialize matrix in brackets to string
+	 * @param left left bracket
+	 * @param base matrix content
+	 * @param right right bracket
+	 * @return serialization
+	 */
+	default String transformMatrix(String left, String base, String right) {
+		if ("|".equals(left) && "|".equals(right)) {
+			return "Determinant(" + base + ")";
+		}
+		return base;
+	}
 }

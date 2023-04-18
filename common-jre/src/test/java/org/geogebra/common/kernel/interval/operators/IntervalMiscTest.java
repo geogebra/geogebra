@@ -167,4 +167,43 @@ public class IntervalMiscTest {
 		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(0.985375))));
 		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(1.015625))));
 	}
+
+	// APPS-4683
+	@Test
+	public void testZeroDivLnX() {
+		Interval x1 = interval(0.9895833333333334, 1.0);
+		Interval x2 = interval(0.9999999999999999, 1.0104166666666665);
+		Interval log1 = evaluator.log(x1);
+		Interval log2 = evaluator.log(x2);
+		Interval div1 = evaluator.divide(zero(), log1);
+		Interval div2 = evaluator.divide(zero(), log2);
+		assertTrue(div1.isZero() && div2.isZero());
+	}
+
+	@Test
+	public void lnInverseMultiplyZeroNegativeShouldBeUndefined() {
+		Interval x = interval(NEGATIVE_INFINITY, -IntervalConstants.PRECISION);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(undefined(), multiply);
+	}
+
+	@Test
+	public void lnInverseMultiplyZeroPositiveShouldBeZero() {
+		Interval x = interval(0, POSITIVE_INFINITY);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(zero(), multiply);
+	}
+
+	@Test
+	public void lnInverseMultiplyZeroAroundOneShouldBeZero() {
+		Interval x = interval(1.0, 1.015625);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(zero(), multiply);
+	}
 }

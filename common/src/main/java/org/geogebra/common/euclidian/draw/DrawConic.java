@@ -1131,7 +1131,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		addTransformedPoint(hypLeft, index, -x1, y1);
 	}
 
-	private void addTransformedPoint(GeneralPathClipped path, int index, double x, double y) {
+	protected void addTransformedPoint(GeneralPathClipped path, int index, double x, double y) {
 		if (this.transformPoint == null) {
 			this.transformPoint = new GPoint2D();
 		}

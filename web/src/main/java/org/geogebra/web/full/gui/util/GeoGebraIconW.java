@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
+import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -266,5 +268,29 @@ public class GeoGebraIconW {
 			segmentEndIcons[i] = new ImageOrText(vectorHeadStyleIcons[i], 24);
 		}
 		return segmentEndIcons;
+	}
+
+	/**
+	 * @return icons for all available segment decorations
+	 */
+	public static ImageOrText[] getSegmentDecoIcons() {
+		final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel
+				.getDecoTypeLength()];
+		for (int i = 0; i < iconArray.length; i++) {
+			iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
+		}
+		return iconArray;
+	}
+
+	/**
+	 * @return icons for all available angle decorations
+	 */
+	public static  ImageOrText[] getAngleDecoIcons() {
+		final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel
+				.getDecoTypeLength()];
+		for (int i = 0; i < iconArray.length; i++) {
+			iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
+		}
+		return iconArray;
 	}
 }

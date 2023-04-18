@@ -12,6 +12,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.debug.Log;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +39,7 @@ public class FileLoadTest {
 		try {
 			content = new String(Files.readAllBytes(filePath), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		app.setXML(content, true);
 	}

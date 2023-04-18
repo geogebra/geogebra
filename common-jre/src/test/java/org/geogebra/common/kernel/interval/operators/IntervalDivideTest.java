@@ -25,8 +25,8 @@ public class IntervalDivideTest {
 	@Test
 	public void hasZeroByHasZeroShouldBeWhole() {
 		// Table 1 Case 1.
-		assertEquals(whole(), divide(interval(0), interval(-1, 0)));
-		assertEquals(whole(), divide(interval(0), interval(-1, 1)));
+		assertEquals(zero(), divide(interval(0), interval(-1, 0)));
+		assertEquals(zero(), divide(interval(0), interval(-1, 1)));
 		Assert.assertEquals(whole(), div(-2, 0, -1, 0));
 		Assert.assertEquals(whole(), div(-2, 0, -1, 1));
 		Assert.assertEquals(whole(), div(0, 2, -1, 0));
@@ -576,7 +576,6 @@ public class IntervalDivideTest {
 		assertEquals(undefined(), divByZeroSingleton(0, 42.567));
 		assertEquals(undefined(), divByZeroSingleton(12.34, 42.567));
 		assertEquals(undefined(), divByZeroSingleton(12.34, Double.POSITIVE_INFINITY));
-
 	}
 
 	private Interval divByZeroSingleton(double a1, double a2) {

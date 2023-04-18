@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.inputfield;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -9,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.model.Korean;
 
@@ -88,10 +88,9 @@ public class InputHelper {
 						.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
 
-				Rectangle visibleRect = ev.getVisibleRect();
+				GPoint2D center = ev.getVisibleRectCenter();
 				GeoPoint p = new GeoPoint(text.getConstruction(), null,
-						(visibleRect.getMinX() + visibleRect.getMaxX()) / 2,
-						(visibleRect.getMinY() + visibleRect.getMaxX()) / 2, 1.0);
+						center.getX(), center.getY(), 1.0);
 
 				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
 				text.setStartPoint(p);

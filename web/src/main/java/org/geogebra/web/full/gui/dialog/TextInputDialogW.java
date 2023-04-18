@@ -17,7 +17,10 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.TextBox;
 
@@ -377,6 +380,22 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 			inputPanel.getTextComponent().setFocus(false);
 			inputPanel.getTextComponent().setFocus(true);
 		}
+		showKeyboard();
+	}
+
+	/**
+	 * Shows the keyboard.
+	 */
+	protected void showKeyboard() {
+		((AppW) app).showKeyboard(editor, true);
+		((AppW) app).updateKeyBoardField(editor);
+		KeyboardManagerInterface keyboardManager = ((AppW) app).getKeyboardManager();
+		if (keyboardManager != null) {
+			keyboardManager.setOnScreenKeyboardTextField(editor);
+		}
+		((AppWFull) app).getAppletFrame()
+				.showKeyBoard(true, editor, false);
+		CancelEventTimer.keyboardSetVisible();
 	}
 
 	@Override

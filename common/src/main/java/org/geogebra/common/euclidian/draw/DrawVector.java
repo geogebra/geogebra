@@ -305,17 +305,20 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 
 	@Override
 	public final boolean hit(int x, int y, int hitThreshold) {
-		return drawStyledVector.intersects(x - 3, y - 3, 6, 6);
+		return drawStyledVector.intersects(x - hitThreshold, y - hitThreshold,
+				2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	@Override
 	public final boolean isInside(GRectangle rect) {
-		return rect.contains(drawStyledVector.getBounds());
+		GRectangle bounds = drawStyledVector.getBounds();
+		return bounds != null && rect.contains(bounds);
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return rect.intersects(drawStyledVector.getBounds());
+		return drawStyledVector.intersects((int) rect.getMinX(), (int) rect.getMinY(),
+				(int) rect.getWidth(), (int) rect.getHeight());
 	}
 
 	/**

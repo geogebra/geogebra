@@ -82,7 +82,7 @@ public class DrawStyledVector {
 	}
 
 	public GRectangle getBounds() {
-		return area.getBounds();
+		return area == null ? null : area.getBounds();
 	}
 
 	public boolean intersects(int x1, int y1, int w, int h) {

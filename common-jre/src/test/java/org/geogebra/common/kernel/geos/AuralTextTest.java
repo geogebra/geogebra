@@ -129,6 +129,10 @@ public class AuralTextTest {
 				"edit");
 		aural("TableText({{1,2,3},{3,4,5}})", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
 				"edit");
+		aural("TableText({{1,2,3},{3,4,5}},\"()\")", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
+				"edit");
+		aural("TableText({{1,2,3},{3,4,5}},\"||\")",
+				"Determinant\\(\\{\\{1,2,3\\},\\{3,4,5\\}\\}\\)", "edit");
 		aural("FractionText(1.5)", "start fraction 3 over 2 end fraction", "edit");
 		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");
