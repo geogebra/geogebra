@@ -26,6 +26,7 @@ import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.OverlinedAtom;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.ResizeAtom;
 import com.himamis.retex.renderer.share.RomanAtom;
@@ -455,6 +456,10 @@ public class TeXBuilder {
 			Atom frac = new FractionAtom(build(argument.getArgument(1)),
 					build(argument.getArgument(2)));
 			return wrap(whole, frac);
+		case RECURRING_DECIMAL:
+			Atom dec = build(argument.getArgument(0));
+			Atom rec = new OverlinedAtom(build(argument.getArgument(1)));
+			return wrap(dec, rec);
 		default:
 			StringBuilder functionName = new StringBuilder();
 			teXSerializer.serialize(argument.getArgument(0), functionName);

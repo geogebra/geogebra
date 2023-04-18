@@ -178,6 +178,7 @@ public class TeXAtomSerializer {
 		}
 
 		if (root instanceof OverlinedAtom) {
+			//return serializeOverline((OverlinedAtom) root);
 			return "Segment " + serialize(((OverlinedAtom) root).getTrueBase());
 		}
 
@@ -306,6 +307,15 @@ public class TeXAtomSerializer {
 		// eg sum/product
 		return serialize(trueBase) + " from " + serialize(bigOp.getBottom()) + " to "
 				+ serialize(bigOp.getTop());
+	}
+
+	private String serializeOverline(OverlinedAtom atom) {
+		String ret = new String();
+		String base = serialize(atom.getTrueBase());
+		for (int i = 0; i < base.length(); i++) {
+			ret += "\u0305" + base.charAt(i);
+		}
+		return ret;
 	}
 
 	private boolean isTrigonometric(Atom trueBase) {

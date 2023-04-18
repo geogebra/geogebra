@@ -340,8 +340,8 @@ public class InputController {
 			function.setArgument(i, field);
 		}
 
-		// pass characters for fraction and factorial only
-		if (tag == Tag.FRAC) {
+		// pass characters for fractions, recurring decimals, and factorial only
+		if (tag == Tag.FRAC || tag == Tag.RECURRING_DECIMAL) {
 			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);

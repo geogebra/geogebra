@@ -92,6 +92,10 @@ class MetaModelFunctions {
 								MetaParameter.BASIC, createParameterDown(2), createParameterUp(1)
 						}));
 
+		functions.add(createFunction(Tag.RECURRING_DECIMAL, "", new MetaParameter[] {
+				MetaParameter.BASIC, MetaParameter.BASIC
+		}));
+
 		functions.add(
 				createFunctionInsert(Tag.ATOMIC_PRE, "\\atomicpre", 0,
 						new MetaParameter[] {

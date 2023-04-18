@@ -104,6 +104,16 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			serialize(mathFunction.getArgument(2), stringBuilder);
 			stringBuilder.append(")");
 			break;
+		case RECURRING_DECIMAL:
+			serialize(mathFunction.getArgument(0), stringBuilder);
+			int i = stringBuilder.length() + 1;
+			serialize(mathFunction.getArgument(1), stringBuilder);
+			while (i < stringBuilder.length()) {
+				stringBuilder.insert(i, "\u0305");
+				i += 2;
+			}
+			stringBuilder.append("\u0305");
+			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
 				appendSingleArg("log", mathFunction, stringBuilder, 1);

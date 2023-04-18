@@ -345,6 +345,7 @@ TOKEN :  {
   | < MULTIPLY: ("*" | "\u22c5" | "\u2219" | "\u00D7") >
   | < VECTORPRODUCT: "\u2297" >
   | < DIVIDE:   ("/" | "\u00f7") >
+  | < RECURRING_DECIMAL: ("\u0305") >
   | < FACTORIAL: "!" >
   | < UNDEFINED: ( "?" | "\ufffd" | "Undefined" | "NaN" ) >
 //  | < POWER0:   "\u2070" >

@@ -74,6 +74,12 @@ public class SolverSerializer extends SerializerAdapter {
 				sb.append(closingBracket);
 			}
 			break;
+		case RECURRING_DECIMAL:
+			serialize(function.getArgument(0), sb);
+			sb.append(openingBracket);
+			serialize(function.getArgument(1), sb);
+			sb.append(closingBracket);
+			break;
 		case LOG:
 			if (function.getArgument(0).size() == 0) {
 				sb.append(functionName.getFunction());
