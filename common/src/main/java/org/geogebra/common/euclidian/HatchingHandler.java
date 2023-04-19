@@ -40,10 +40,6 @@ public class HatchingHandler {
 	}
 
 	/**
-	 * Prototype decides what implementation will be used for static methods
-	 */
-
-	/**
 	 * @param g3
 	 *            graphics
 	 * @param defObjStroke
@@ -97,7 +93,6 @@ public class HatchingHandler {
 
 			xInt = (int) dist;
 			yInt = xInt;
-
 		}
 
 		// special vector hatching for SVG export
@@ -105,65 +100,7 @@ public class HatchingHandler {
 				&& ExportType.SVG.equals(app.getExportType());
 
 		if (svg) {
-			String svgString = "";
-			String fill = "none";
-			String stroke = "stroke:#" + StringUtil.toHexString(color)
-					+ "; stroke-width:" + defObjStroke.getLineWidth();
-			double width = xInt, height = yInt;
-
-			switch (fillType) {
-
-			case HONEYCOMB:
-				double side = dist * Math.sqrt(3) / 2;
-				svgString = drawHoneycombSVG(dist);
-				width = (2 * side);
-				height = (dist * 3);
-				break;
-			case HATCH:
-				svgString = drawHatchingSVG(angle, y, xInt, yInt);
-				angle = 0;
-				break;
-			case CROSSHATCHED:
-				svgString = drawHatchingSVG(angle, y, xInt, yInt)
-						+ drawHatchingSVG(Math.PI / 2 - angle, -y, xInt, yInt);
-				angle = 0;
-
-				break;
-			case CHESSBOARD:
-				fill = "#" + StringUtil.toHexString(color);
-				stroke = "stroke:none";
-				if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
-					dist = dist * Math.sin(angle);
-				}
-				svgString = drawChessboardSVG(angle, dist);
-				height = width = (int) (dist * 2);
-				angle = 0;
-				break;
-
-			case IMAGE:
-			case STANDARD:
-			case SYMBOLS:
-			case WEAVING:
-				Log.debug("not supported");
-				//$FALL-THROUGH$
-			case BRICK:
-				if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)
-						|| DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) {
-					// startY = startX = xInt / 2;
-					height = width *= 2;
-				}
-				svgString = drawBricksSVG(angle, xInt, yInt);
-				angle = 0;
-				break;
-			case DOTTED:
-				angle = 0;
-				fill = "#" + StringUtil.toHexString(color);
-				stroke = "stroke:none";
-				svgString = drawDottedSVG(dist);
-				break;
-			}
-
-			return new GPaintSVG(svgString, stroke, width, height, angle, fill);
+			return getSvgPaint(fillType, dist, angle, color, defObjStroke, xInt, yInt, y);
 		}
 
 		int exportScale = 1;
@@ -235,20 +172,21 @@ public class HatchingHandler {
 			drawDotted(dist, g2d, 2 * exportScale);
 			break;
 		case SYMBOLS:
-			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
-					(int) (dist * 2.5)));
+			GFont font = app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
+					(int) (dist * 2.5));
+			g2d.setFont(font);
 			GTextLayout t = AwtFactory.getPrototype().newTextLayout(symbol,
-					g2d.getFont(), g2d.getFontRenderContext());
+					font, g2d.getFontRenderContext());
+			int tileSize = (int) (Math.round(t.getAscent() + t.getDescent()) / 3);
 			g2d = createImage(objStroke, color, bgColor, backgroundTransparency,
-					(int) (Math.round(t.getAscent() + t.getDescent()) / 3),
-					(int) (Math.round(t.getAscent() + t.getDescent()) / 3));
+					tileSize, tileSize);
 			g2d.setFont(
 					app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, 24 * exportScale));
 			g2d.drawString(symbol, 0, Math.round(t.getAscent()));
 			startY = 0;
 			startX = 0;
-			width = (int) t.getAscent() + (int) t.getDescent() - 1;
-			height = (int) t.getAscent() + (int) t.getDescent() - 1;
+			width = tileSize * 3;
+			height = tileSize * 3;
 			break;
 		case IMAGE:
 			break;
@@ -264,6 +202,72 @@ public class HatchingHandler {
 						width / exportScale, height / exportScale));
 		g3.setPaint(ret);
 		return ret;
+	}
+
+	private GPaint getSvgPaint(FillType fillType, double dist0, double angle0,
+			GColor color, GBasicStroke defObjStroke,
+			int xInt, int yInt, double y) {
+		double dist = dist0;
+		double angle = angle0;
+		String svgString = "";
+		String fill = "none";
+		String stroke = "stroke:#" + StringUtil.toHexString(color)
+				+ "; stroke-width:" + defObjStroke.getLineWidth();
+		double width = xInt, height = yInt;
+
+		switch (fillType) {
+
+		case HONEYCOMB:
+			double side = dist * Math.sqrt(3) / 2;
+			svgString = drawHoneycombSVG(dist);
+			width = (2 * side);
+			height = (dist * 3);
+			break;
+		case HATCH:
+			svgString = drawHatchingSVG(angle, y, xInt, yInt);
+			angle = 0;
+			break;
+		case CROSSHATCHED:
+			svgString = drawHatchingSVG(angle, y, xInt, yInt)
+					+ drawHatchingSVG(Math.PI / 2 - angle, -y, xInt, yInt);
+			angle = 0;
+
+			break;
+		case CHESSBOARD:
+			fill = "#" + StringUtil.toHexString(color);
+			stroke = "stroke:none";
+			if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
+				dist = dist * Math.sin(angle);
+			}
+			svgString = drawChessboardSVG(angle, dist);
+			height = width = (int) (dist * 2);
+			angle = 0;
+			break;
+
+		case IMAGE:
+		case STANDARD:
+		case SYMBOLS:
+		case WEAVING:
+			Log.debug("not supported");
+			//$FALL-THROUGH$
+		case BRICK:
+			if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)
+					|| DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) {
+				// startY = startX = xInt / 2;
+				height = width *= 2;
+			}
+			svgString = drawBricksSVG(angle, xInt, yInt);
+			angle = 0;
+			break;
+		case DOTTED:
+			angle = 0;
+			fill = "#" + StringUtil.toHexString(color);
+			stroke = "stroke:none";
+			svgString = drawDottedSVG(dist);
+			break;
+		}
+
+		return new GPaintSVG(svgString, stroke, width, height, angle, fill);
 	}
 
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
@@ -492,7 +496,7 @@ public class HatchingHandler {
 		return getSvgPath();
 	}
 
-	private boolean drawChessboard(double angle, double hatchDist,
+	private void drawChessboard(double angle, double hatchDist,
 			GGraphics2D g2d) {
 		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
 			double dist = hatchDist * Math.sin(angle);
@@ -512,7 +516,6 @@ public class HatchingHandler {
 			g2d.fillRect(distInt + distInt / 2, distInt + distInt / 2, distInt,
 					distInt);
 		}
-		return true;
 	}
 
 	private String drawChessboardSVG(double angle, double dist) {

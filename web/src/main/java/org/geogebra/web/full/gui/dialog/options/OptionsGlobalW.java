@@ -134,8 +134,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addRestoreSettingsBtn() {
 			restoreSettingsBtn = new StandardButton(
 					app.getLocalization().getMenu("RestoreSettings"));
-			restoreSettingsBtn.setStyleName("MyCanvasButton");
-			restoreSettingsBtn.addStyleName("settingsBtn");
+			restoreSettingsBtn.setStyleName("settingsBtn");
 			restoreSettingsBtn.addFastClickHandler(source -> {
 				resetDefault();
 				fontSizeDropDown.resetToDefault();
@@ -151,8 +150,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addSaveSettingBtn() {
 			saveSettingsBtn = new StandardButton(
 					app.getLocalization().getMenu("Settings.Save"));
-			saveSettingsBtn.setStyleName("MyCanvasButton");
-			saveSettingsBtn.addStyleName("settingsBtn");
+			saveSettingsBtn.setStyleName("settingsBtn");
 			saveSettingsBtn.addFastClickHandler(
 					source -> GeoGebraPreferencesW.saveXMLPreferences(app));
 			optionsPanel.add(saveSettingsBtn);

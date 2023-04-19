@@ -643,8 +643,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			double top, ColorW bgColor) {
 		TeXIcon iconNoPlaceholder = mathFieldInternal.buildIconNoPlaceholder();
 		if (iconNoPlaceholder != null) {
+			// use ratio 1 here to fit SVG export
 			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor,
-					bgColor, null, ratio);
+					bgColor, null, 1);
 		}
 	}
 

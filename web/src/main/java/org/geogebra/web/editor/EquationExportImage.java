@@ -1,4 +1,4 @@
-package org.geogebra.web.full.evaluator;
+package org.geogebra.web.editor;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
