@@ -1,18 +1,13 @@
 package org.geogebra.common.euclidian;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
-
 public class LatexRendererSettings implements TextRendererSettings {
+	public static final int BOTTOM_OFFSET = 6;
 	private final int fixMargin;
 	private final int rightMargin;
 	private int bottomOffset;
 	private final int fontSize;
 	private double fontMultiplier = 1.0;
 	private int baseFontSize;
-	private Map<Double, Integer> minHeights = new HashMap<>();
 
 	/**
 	 * @param fixMargin fix vertical margin.
@@ -26,8 +21,6 @@ public class LatexRendererSettings implements TextRendererSettings {
 		this.rightMargin = rightMargin;
 		this.bottomOffset = bottomOffset;
 		this.fontSize = fontSize;
-		minHeights.put(1.0, 40);
-		minHeights.put(1.4, 48);
 	}
 
 	/**
@@ -60,9 +53,8 @@ public class LatexRendererSettings implements TextRendererSettings {
 
 	@Override
 	public int getMinHeight() {
-		FactoryProvider.debugS("" + fontMultiplier);
-		return minHeights.getOrDefault(fontMultiplier, 0);
- 	}
+		return multiply(30) + BOTTOM_OFFSET;
+	}
 
 	private int multiply(double value) {
 		return (int) Math.round(value * fontMultiplier);
