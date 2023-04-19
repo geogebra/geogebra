@@ -55,7 +55,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("txt", "\"Hello Friends\"");
 		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
 		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
-		editor.attach((GeoInputBox) lookup("ib"), new Rectangle());
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(), textRendererSettings);
 		mf.getInternal().setPlainText("Hello, Friends");
 		editor.onEnter();
 		t("txt", "Hello, Friends");

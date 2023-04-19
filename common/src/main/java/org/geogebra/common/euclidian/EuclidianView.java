@@ -6470,7 +6470,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			symbolicEditor = createSymbolicEditor(textRendererSettings);
 		}
 		if (symbolicEditor != null) {
-			symbolicEditor.attach(geoInputBox, bounds);
+			symbolicEditor.attach(geoInputBox, bounds, textRendererSettings);
 		}
 	}
 

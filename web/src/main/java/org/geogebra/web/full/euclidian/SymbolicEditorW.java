@@ -53,16 +53,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
-		editor.getMathField().setFixMargin(settings.getFixMargin());
-		editor.getMathField().setMinHeight(settings.getMinHeight());
-		editor.getMathField().setRightMargin(settings.getRightMargin());
-		editor.getMathField().setBottomOffset(settings.getBottomOffset());
-
+		editor.setTextRendererSettings(settings);
 		decorator = new SymbolicEditorDecorator(editor, app.getFontSize(), settings.getFixMargin());
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds, TextRendererSettings settings) {
 		if (getDrawInputBox() != null && getDrawInputBox().getGeoElement() != geoInputBox) {
 			getDrawInputBox().setEditing(false);
 		}
@@ -74,6 +70,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.getMathField().setPixelRatio(((AppW) app).getPixelRatio());
 		editor.setFontType(geoInputBox.isSerifContent() ? TeXFont.SERIF
 				:  TeXFont.SANSSERIF);
+		editor.setTextRendererSettings(settings);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 		((AppWFull) app).setInputBoxType(geoInputBox.getInputBoxType());
 		((AppWFull) app).setInputBoxFunctionVars(geoInputBox.getFunctionVars());

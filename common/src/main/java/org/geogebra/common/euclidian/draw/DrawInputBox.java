@@ -274,8 +274,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private void updateRenderer() {
 		if (geoInputBox.isSymbolicMode()) {
 			rendererSettings = LatexRendererSettings.createForInputBox(
-					(int) (geoInputBox.getApp().getFontSize()
-							* geoInputBox.getFontSizeMultiplier()));
+					geoInputBox.getApp().getFontSize(), geoInputBox.getFontSizeMultiplier());
 			textRenderer = new LaTeXTextRenderer(this, rendererSettings);
 		} else {
 			rendererSettings = new SimpleTextRendererSettings();
@@ -617,6 +616,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	public void attachMathField() {
 		hideTextField();
+		updateRenderer();
 		inputBoxBounds.update(view, getLabelTop(), textFont, labelDesc);
 		view.attachSymbolicEditor(geoInputBox, inputBoxBounds.getBounds(),
 				rendererSettings);
