@@ -1983,7 +1983,7 @@ public class Ggb2giac {
 		p("ModularExponent.3", "powmod(%0,%1,%2)");
 		p("CharacteristicPolynomial.1", "pcar(%0, x)");
 		p("MinimalPolynomial.1", "pmin(%0, x)");
-		p("LUDecomposition.1", "[[luarg:={{1,2},{3,4}}], [lu0:=lu(luarg)], [lu1:=lu0[0]],[lu2:=lu0[1]],[lu3:=lu0[2]],[permu2mat(lu1),lu2,lu3]][-1]");
+		p("LUDecomposition.1", "[[luarg:=%0], [lu0:=lu(luarg)], [lu1:=lu0[0]],[lu2:=lu0[1]],[lu3:=lu0[2]],[permu2mat(lu1),lu2,lu3]][-1]");
 		p("QRDecomposition.1", "{qr(%0)}");
 
 
