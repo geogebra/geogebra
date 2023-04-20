@@ -20,8 +20,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class InputTokenizer {
 
-	public static final String IMAGINARY_STRING = Unicode.IMAGINARY + "";
-
 	private final Kernel kernel;
 	private final ParserFunctions parserFunctions;
 
@@ -87,7 +85,7 @@ public class InputTokenizer {
 		}
 
 		if (isImaginaryNext()) {
-			return IMAGINARY_STRING;
+			return Unicode.IMAGINARY_STRING;
 		}
 
 		if (minLength <= input.length()) {
