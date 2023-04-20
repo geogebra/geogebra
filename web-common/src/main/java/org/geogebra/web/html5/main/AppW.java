@@ -3182,13 +3182,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Handle click ouside of any view
-	 */
-	public void onUnhandledClick() {
-		// only with GUI
-	}
-
-	/**
 	 * Update central pane and set view sizes
 	 */
 	public final void updateCenterPanelAndViews() {
