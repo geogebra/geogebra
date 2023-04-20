@@ -719,7 +719,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			return;
 		}
 
-		if (NavigatorUtil.isMobile() && !app.isWhiteboardActive()
+		if (cursorOverlay != null
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
 				&& e.getNativeEvent().getKeyCode() != 0) {
 			insertString(Character.toString(ch));
@@ -826,7 +826,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private void handleTabletKeyboard(KeyDownEvent e) {
-		if (!NavigatorUtil.isMobile() || usedForInputBox() || app.isWhiteboardActive()) {
+		if (cursorOverlay == null) {
 			return;
 		}
 		int keyCode = e.getNativeKeyCode();

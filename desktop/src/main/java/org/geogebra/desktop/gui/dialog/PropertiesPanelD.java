@@ -25,8 +25,10 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
@@ -70,13 +72,13 @@ import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFun
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
-import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
 import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
+import org.geogebra.common.gui.dialog.options.model.IconOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import org.geogebra.common.gui.dialog.options.model.InterpolateImageModel;
@@ -109,6 +111,7 @@ import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import org.geogebra.common.gui.dialog.options.model.VectorHeadStyleModel;
 import org.geogebra.common.gui.dialog.options.model.VerticalIncrementModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
@@ -185,8 +188,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private LineStylePanel lineStylePanel;
 	private LineStyleHiddenPanel lineStylePanelHidden;
 	private CheckboxPanel drawArrowsPanel;
-	private SegmentStartStylePanel segmentStartStylePanel;
-	private SegmentEndStylePanel segmentEndStylePanel;
+	private IconDropdownPanelD segmentStartStylePanel;
+	private IconDropdownPanelD segmentEndStylePanel;
+	private IconDropdownPanelD vectorStylePanel;
 	// added by Loic BEGIN
 	private DecoSegmentPanel decoSegmentPanel;
 	private DecoAnglePanel decoAnglePanel;
@@ -302,8 +306,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		lineStylePanel = new LineStylePanel();
 		lineStylePanelHidden = new LineStyleHiddenPanel();
 		drawArrowsPanel = getCheckboxPanel(new DrawArrowsModel(null, app));
-		segmentStartStylePanel = new SegmentStartStylePanel();
-		segmentEndStylePanel = new SegmentEndStylePanel();
+		segmentStartStylePanel = new IconDropdownPanelD(getStartImages(),
+				new SegmentStyleModel(app, true));
+		segmentEndStylePanel = new IconDropdownPanelD(getEndImages(),
+				new SegmentStyleModel(app, false));
+		vectorStylePanel = new IconDropdownPanelD(getVectorImages(), new VectorHeadStyleModel(app));
 		// added by Loic BEGIN
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
@@ -341,6 +348,33 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		setLayout(new BorderLayout());
 		add(tabs, BorderLayout.CENTER);
+	}
+
+	private List<ImageResourceD> getEndImages() {
+		return Arrays.asList(GuiResourcesD.STYLEBAR_END_DEFAULT,
+		GuiResourcesD.STYLEBAR_END_LINE,
+		GuiResourcesD.STYLEBAR_END_SQUARE_OUTLINED,
+		GuiResourcesD.STYLEBAR_END_SQUARE,
+		GuiResourcesD.STYLEBAR_END_ARROW,
+		GuiResourcesD.STYLEBAR_END_ARROW_FILLED,
+		GuiResourcesD.STYLEBAR_END_CIRCLE_OUTLINED,
+		GuiResourcesD.STYLEBAR_END_CIRCLE);
+	}
+
+	private List<ImageResourceD> getStartImages() {
+		return Arrays.asList(GuiResourcesD.STYLEBAR_START_DEFAULT,
+		GuiResourcesD.STYLEBAR_START_LINE,
+		GuiResourcesD.STYLEBAR_START_SQUARE_OUTLINED,
+		GuiResourcesD.STYLEBAR_START_SQUARE,
+		GuiResourcesD.STYLEBAR_START_ARROW,
+		GuiResourcesD.STYLEBAR_START_ARROW_FILLED,
+		GuiResourcesD.STYLEBAR_START_CIRCLE_OUTLINED,
+		GuiResourcesD.STYLEBAR_START_CIRCLE);
+	}
+
+	private List<ImageResourceD> getVectorImages() {
+		return Arrays.asList(GuiResourcesD.STYLEBAR_END_ARROW_FILLED,
+				GuiResourcesD.STYLEBAR_END_ARROW);
 	}
 
 	/**
@@ -484,6 +518,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		styleTabList.add(decoAnglePanel);
 		styleTabList.add(segmentStartStylePanel);
 		styleTabList.add(segmentEndStylePanel);
+		styleTabList.add(vectorStylePanel);
 		styleTabList.add(decoSegmentPanel);
 		styleTabList.add(lineStylePanelHidden);
 		styleTab = new TabPanel(styleTabList);
@@ -598,6 +633,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		lineStylePanelHidden.setLabels();
 		segmentStartStylePanel.setLabels();
 		segmentEndStylePanel.setLabels();
+		vectorStylePanel.setLabels();
 		decoSegmentPanel.setLabels();
 		decoAnglePanel.setLabels();
 		rightAnglePanel.setLabels();
@@ -2759,68 +2795,59 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	}
 
-	private class SegmentStartStylePanel extends JPanel implements ActionListener, SetLabels,
+	private class IconDropdownPanelD extends JPanel implements ActionListener, SetLabels,
 			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
-		private SegmentStyleModel model;
-		private PopupMenuButtonD btnSegmentStartStyle;
-		private JLabel segmentStartStyleLbl;
+		private IconOptionsModel model;
+		private PopupMenuButtonD dropdown;
+		private JLabel label;
 
-		SegmentStartStylePanel() {
+		IconDropdownPanelD(List<ImageResourceD> imgFileNameList, IconOptionsModel model) {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new SegmentStyleModel(app, true);
+			this.model = model;
 			model.setListener(this);
 
-			ArrayList<ImageResourceD> imgFileNameList = new ArrayList<>();
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_DEFAULT);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_LINE);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_SQUARE_OUTLINED);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_SQUARE);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_ARROW);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_ARROW_FILLED);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_CIRCLE_OUTLINED);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_CIRCLE);
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconD.createFileImageIcon(
 						imgFileNameList.get(i));
 			}
-			btnSegmentStartStyle = new PopupMenuButtonD(app, iconArray, -1, 1,
+			dropdown = new PopupMenuButtonD(app, iconArray, -1, 1,
 					new Dimension(36, 36), SelectionTable.MODE_ICON);
-			btnSegmentStartStyle.setSelectedIndex(0);
-			btnSegmentStartStyle.setStandardButton(true);
-			btnSegmentStartStyle.setKeepVisible(false);
-			btnSegmentStartStyle.addActionListener(this);
+			dropdown.setSelectedIndex(0);
+			dropdown.setStandardButton(true);
+			dropdown.setKeepVisible(false);
+			dropdown.addActionListener(this);
 
-			segmentStartStyleLbl = new JLabel();
-			add(segmentStartStyleLbl);
-			add(btnSegmentStartStyle);
+			label = new JLabel();
+			add(label);
+			add(dropdown);
 			setLabels();
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
-			if (source == btnSegmentStartStyle) {
-				model.applyChanges(btnSegmentStartStyle
+			if (source == dropdown) {
+				model.applyChanges(dropdown
 						.getSelectedIndex());
 			}
 		}
 
 		@Override
 		public void setLabels() {
-			segmentStartStyleLbl.setText(app.getLocalization()
-					.getMenu("stylebar.LineStartStyle") + ":");
+			label.setText(app.getLocalization()
+					.getMenu(model.getTitle()) + ":");
 		}
 
 		@Override
 		public void updateFonts() {
 			Font font = app.getPlainFont();
-			segmentStartStyleLbl.setFont(font);
+			label.setFont(font);
 		}
 
 		@Override
 		public void setSelectedIndex(int index) {
-			btnSegmentStartStyle.setSelectedIndex(index);
+			dropdown.setSelectedIndex(index);
 		}
 
 		@Override
@@ -2830,97 +2857,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 				return null;
 			}
 
-			btnSegmentStartStyle.removeActionListener(this);
+			dropdown.removeActionListener(this);
 			model.updateProperties();
-			btnSegmentStartStyle.addActionListener(this);
-			return this;
-		}
-
-		@Override
-		public void addItem(String plain) {
-			// nothing to do here
-		}
-
-		@Override
-		public void clearItems() {
-			// nothing to do here
-		}
-	}
-
-	private class SegmentEndStylePanel extends JPanel implements ActionListener, SetLabels,
-			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
-		private SegmentStyleModel model;
-		private PopupMenuButtonD btnSegmentEndStyle;
-		private JLabel segmentEndStyleLbl;
-
-		SegmentEndStylePanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
-			model = new SegmentStyleModel(app, false);
-			model.setListener(this);
-
-			ArrayList<ImageResourceD> imgFileNameList = new ArrayList<>();
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_DEFAULT);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_LINE);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_SQUARE_OUTLINED);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_SQUARE);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_ARROW);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_ARROW_FILLED);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_CIRCLE_OUTLINED);
-			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_CIRCLE);
-			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
-			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIconD.createFileImageIcon(
-						imgFileNameList.get(i));
-			}
-			btnSegmentEndStyle = new PopupMenuButtonD(app, iconArray, -1, 1,
-					new Dimension(36, 36), SelectionTable.MODE_ICON);
-			btnSegmentEndStyle.setSelectedIndex(0);
-			btnSegmentEndStyle.setStandardButton(true);
-			btnSegmentEndStyle.setKeepVisible(false);
-			btnSegmentEndStyle.addActionListener(this);
-
-			segmentEndStyleLbl = new JLabel();
-			add(segmentEndStyleLbl);
-			add(btnSegmentEndStyle);
-			setLabels();
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == btnSegmentEndStyle) {
-				model.applyChanges(btnSegmentEndStyle
-						.getSelectedIndex());
-			}
-		}
-
-		@Override
-		public void setLabels() {
-			segmentEndStyleLbl.setText(app.getLocalization()
-					.getMenu("stylebar.LineEndStyle") + ":");
-		}
-
-		@Override
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-			segmentEndStyleLbl.setFont(font);
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			btnSegmentEndStyle.setSelectedIndex(index);
-		}
-
-		@Override
-		public JPanel updatePanel(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos()) {
-				return null;
-			}
-
-			btnSegmentEndStyle.removeActionListener(this);
-			model.updateProperties();
-			btnSegmentEndStyle.addActionListener(this);
+			dropdown.addActionListener(this);
 			return this;
 		}
 
@@ -2937,7 +2876,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	private class DecoAnglePanel extends JPanel
 			implements ActionListener, SetLabels, UpdateFonts,
-			UpdateablePropertiesPanel, IDecoAngleListener {
+			UpdateablePropertiesPanel, IComboListener {
 		private static final long serialVersionUID = 1L;
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
@@ -3005,11 +2944,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		@Override
 		public void addItem(String item) {
 			// not supported
-		}
-
-		@Override
-		public void setArcSizeMinValue() {
-			setSliderMinValue();
 		}
 
 		@Override

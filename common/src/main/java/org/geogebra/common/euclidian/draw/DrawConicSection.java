@@ -560,9 +560,9 @@ public class DrawConicSection extends DrawConic {
 	@Override
 	protected void updateHyperbolaAddPoint(int index, double x, double y) {
 		if (drawLeft) {
-			hyp.addPoint(index, x, y);
+			addTransformedPoint(hyp, index, x, y);
 		} else {
-			hyp.addPoint(index, -x, y);
+			addTransformedPoint(hyp, index, -x, y);
 		}
 	}
 

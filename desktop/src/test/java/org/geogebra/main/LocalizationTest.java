@@ -32,7 +32,7 @@ public class LocalizationTest {
 		}
 		StringBuilder sb = new StringBuilder();
 		for (String fn : available) {
-			sb.append(fn + "\n");
+			sb.append(fn).append("\n");
 		}
 		Assert.assertEquals("", sb.toString());
 	}

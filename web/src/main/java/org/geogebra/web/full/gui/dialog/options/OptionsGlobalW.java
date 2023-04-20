@@ -114,7 +114,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 		private void addLanguageItem() {
 			EnumerableProperty languageProperty = new LanguageProperty(app,
-					app.getLocalization(), null);
+					app.getLocalization(), this::storeLanguage);
 			languageDropDown = new CompDropDown(app, null, languageProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
@@ -124,11 +124,17 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					.add(LayoutUtilW.panelRow(lblLanguage, languageDropDown));
 		}
 
+		private void storeLanguage(String lang) {
+			if (app.getLoginOperation() != null) {
+				app.getLoginOperation().setUserLanguage(lang);
+			}
+			app.getLAF().storeLanguage(lang);
+		}
+
 		private void addRestoreSettingsBtn() {
 			restoreSettingsBtn = new StandardButton(
 					app.getLocalization().getMenu("RestoreSettings"));
-			restoreSettingsBtn.setStyleName("MyCanvasButton");
-			restoreSettingsBtn.addStyleName("settingsBtn");
+			restoreSettingsBtn.setStyleName("settingsBtn");
 			restoreSettingsBtn.addFastClickHandler(source -> {
 				resetDefault();
 				fontSizeDropDown.resetToDefault();
@@ -144,8 +150,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addSaveSettingBtn() {
 			saveSettingsBtn = new StandardButton(
 					app.getLocalization().getMenu("Settings.Save"));
-			saveSettingsBtn.setStyleName("MyCanvasButton");
-			saveSettingsBtn.addStyleName("settingsBtn");
+			saveSettingsBtn.setStyleName("settingsBtn");
 			saveSettingsBtn.addFastClickHandler(
 					source -> GeoGebraPreferencesW.saveXMLPreferences(app));
 			optionsPanel.add(saveSettingsBtn);

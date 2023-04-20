@@ -6663,8 +6663,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
-	public Rectangle getVisibleRect() {
-		return visibleRect;
+	/**
+	 * @return center of the view in real world coords
+	 */
+	public GPoint2D getVisibleRectCenter() {
+		return new GPoint2D((visibleRect.getMinX() + visibleRect.getMaxX()) / 2,
+				(visibleRect.getMinY() + visibleRect.getMaxY()) / 2);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.spotbugs" version "5.0.13"
+    id "com.github.spotbugs" version "5.0.14"
     id 'application'
     id 'eclipse'
     id 'checkstyle'
@@ -26,8 +26,8 @@ sourceSets {
 }
 
 configurations {
-    e2eTestCompile.extendsFrom testCompile
-    e2eTestCompile.extendsFrom testRuntime
+    e2eTestImplementation.extendsFrom testImplementation
+    e2eTestImplementation.extendsFrom testRuntime
 }
 
 eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}

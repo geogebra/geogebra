@@ -21,12 +21,12 @@ public class GeneralUnitTests {
 
     @Test
     public void equalsTest() {
-        equals("3+2+1", "1+2+3", true);
-        equals("3*(x+1)", "(1+x)*3", true);
-        equals("x+x", "2*x", false);
-        equals("((1+2)*3+4)*5+6", "6+5*(4+3*(2+1))", true);
-        equals("1+1", "2", false);
-        equals("arcsin(x) + arccos(x) + arctan(x)", "arcsin(x) + arccos(x) + arctan(x)", true);
+        assertEquality("3+2+1", "1+2+3", true);
+        assertEquality("3*(x+1)", "(1+x)*3", true);
+        assertEquality("x+x", "2*x", false);
+        assertEquality("((1+2)*3+4)*5+6", "6+5*(4+3*(2+1))", true);
+        assertEquality("1+1", "2", false);
+        assertEquality("arcsin(x) + arccos(x) + arctan(x)", "arcsin(x) + arccos(x) + arctan(x)", true);
     }
 
     @Test
@@ -118,7 +118,7 @@ public class GeneralUnitTests {
         Assert.assertEquals(c, StepNode.largestNthPower(StepConstant.create(a), b));
     }
 
-    public void equals(String a, String b, boolean eq) {
+    public void assertEquality(String a, String b, boolean eq) {
         Assert.assertEquals(convert(a).equals(convert(b)), eq);
         Assert.assertEquals(convert(b).equals(convert(a)), eq);
     }

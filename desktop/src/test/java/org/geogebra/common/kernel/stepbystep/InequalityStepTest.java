@@ -20,6 +20,9 @@ import org.junit.Test;
 @SuppressWarnings("javadoc")
 public class InequalityStepTest {
     private static App app;
+    private static HtmlStepBuilder htmlBuilder;
+    private boolean needsHeading;
+    private static int caseCounter = 0;
 
     @BeforeClass
     public static void setupApp() {
@@ -32,10 +35,6 @@ public class InequalityStepTest {
             Log.debug(e);
         }
     }
-
-    private static HtmlStepBuilder htmlBuilder;
-    private boolean needsHeading;
-    private static int caseCounter = 0;
 
     @Test
     public void linearInequality() {

@@ -833,6 +833,9 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAbsoluteScreenLocation(
 			LinkedHashMap<String, String> attrs, boolean absolute) {
+		if (geo.isDefaultGeo()) {
+			return false;
+		}
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
 			Log.error("wrong element type for <absoluteScreenLocation>: "
 					+ geo.getClass());

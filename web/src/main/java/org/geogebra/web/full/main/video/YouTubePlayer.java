@@ -2,8 +2,8 @@ package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.full.html5.Sandbox;
-import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.PersistableFrame;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -35,7 +35,7 @@ public class YouTubePlayer extends VideoPlayer {
 	}
 
 	private static void loadYouTubeApi() {
-		ResourcesInjector.loadJS("https://www.youtube.com/iframe_api", null);
+		JavaScriptInjector.loadJS("https://www.youtube.com/iframe_api", null);
 		scriptLoadingStarted = true;
 	}
 
