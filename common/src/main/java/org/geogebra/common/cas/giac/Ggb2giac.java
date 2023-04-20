@@ -1329,6 +1329,9 @@ public class Ggb2giac {
 		p("Sum.4",
 				"expand(subst(sum(subst(quote(%0),{%1},{ggbsumvar@1}),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
 
+		p("Product.4",
+				"expand(subst(product(subst(quote(%0),{%1},{ggbproductvar@1}),ggbproductvar@1,%2,%3),ggbproductvar@1,%1))");
+
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]
 		// such that M=U*diag(S)*tran(V)
