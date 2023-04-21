@@ -20,7 +20,7 @@ def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
 
 def s3uploadDefault = { dir, pattern, encoding ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
-        if (!pattern.contains(".zip") && !pattern.contains("editor/") {
+        if (!pattern.contains(".zip") && !pattern.contains("editor/")) {
             s3Upload(bucket: 'apps-builds', workingDir: dir, path: s3buildDir,
                includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding)
         }
