@@ -100,6 +100,12 @@ public class EditorParserTest {
 	}
 
 	@Test
+	public void recurringDecimal() {
+		parsesAs("1.23\u03054\u0305", "(1.23\u03054\u0305");
+		parsesAs("4.34\u03055\u03056\u0305", "4.34\u03055\u03056\u0305");
+	}
+
+	@Test
 	public void symbolLaTeXShouldParse() {
 		AppCommon appCommon = AppCommonFactory.create();
 		Kernel kernel = appCommon.getKernel();

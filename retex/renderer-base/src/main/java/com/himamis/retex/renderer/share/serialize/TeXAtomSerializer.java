@@ -182,8 +182,8 @@ public class TeXAtomSerializer {
 		}
 
 		if (root instanceof OverlinedAtom) {
-			//return serializeOverline((OverlinedAtom) root);
-			return "Segment " + serialize(((OverlinedAtom) root).getTrueBase());
+			return serializeOverline((OverlinedAtom) root);
+			//return "Segment " + serialize(((OverlinedAtom) root).getTrueBase());
 		}
 
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
@@ -317,7 +317,7 @@ public class TeXAtomSerializer {
 		String ret = new String();
 		String base = serialize(atom.getTrueBase());
 		for (int i = 0; i < base.length(); i++) {
-			ret += "\u0305" + base.charAt(i);
+			ret += base.charAt(i) + "\u0305";
 		}
 		return ret;
 	}
