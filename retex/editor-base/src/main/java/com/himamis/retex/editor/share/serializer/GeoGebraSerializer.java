@@ -379,7 +379,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
 				isMixedNumber = true;
 			} else if (isMixedNumber
-					&& " +-+/".contains(Character.toString(stringBuilder.charAt(i)))) {
+					&& " +-+/(".contains(Character.toString(stringBuilder.charAt(i)))) {
 				return i + 1;
 			} else {
 				isMixedNumber = false;
