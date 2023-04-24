@@ -27,13 +27,13 @@ public class GeoScriptRunner implements EventListener {
 		if (script == null) {
 			return;
 		}
-		if (evt.type == EventType.UPDATE) {
+		if (evt.type != EventType.CLICK) {
 			if (app.isBlockUpdateScripts() && !evt.isAlwaysDispatched()) {
 				return;
 			}
 		}
 		try {
-			if (evt.type != EventType.UPDATE) {
+			if (evt.type == EventType.CLICK) {
 				script.run(evt);
 				app.storeUndoInfo();
 			} else {
