@@ -138,7 +138,7 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDivBellowZeroTrheshold() {
+	public void testDivBelowZeroThreshold() {
 		GeoFunction f = add("((1*10^(-13))/(1*10^(-13)))x");
 		IntervalNodeFunction g = converter.convert(f);
 		assertEquals(one(), g.value(one()));
