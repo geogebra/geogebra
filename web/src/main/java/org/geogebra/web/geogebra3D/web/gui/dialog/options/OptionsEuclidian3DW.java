@@ -48,8 +48,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		private ComponentCheckbox cbAxesColored;
 		private ComponentCheckbox cbUseClipping;
 		private ComponentCheckbox cbShowClipping;
-		private FlowPanel clippingOptionsPanel;
-		private FlowPanel boxSizePanel;
 		private Label clippingOptionsTitle;
 		private Label boxSizeTitle;
 		private RadioButtonPanel<Integer> clippingRadioBtnPanel;
@@ -123,7 +121,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			// clipping options panel
 			clippingOptionsTitle = new Label();
 			clippingOptionsTitle.setStyleName("panelTitle");
-			clippingOptionsPanel = new FlowPanel();
+			FlowPanel clippingOptionsPanel = new FlowPanel();
 			cbUseClipping = new ComponentCheckbox(loc, false, "UseClipping",
 					selected -> {
 						get3dview().setUseClippingCube(selected);
@@ -142,7 +140,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			boxSizeTitle = new Label();
 			boxSizeTitle.setStyleName("panelTitle");
-			boxSizePanel = new FlowPanel();
+			FlowPanel boxSizePanel = new FlowPanel();
 
 			clippingRadioBtnPanel = new RadioButtonPanel<>(loc,
 					Arrays.asList(
@@ -256,34 +254,33 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 	}
 
+	@Override
+	protected void updateView() {
+		super.updateView();
+		get3dview().getPlaneDrawable().setWaitForUpdate();
+	}
+
 	private class ProjectionTab extends EuclidianTab {
 
-		private ProjectionButtons projectionButtons;
+		private final Label orthoTitle;
+		private final Label perspTitle;
+		private final Label obliqueTitle;
+		private final Label glassesTitle;
 
-		private FlowPanel orthoPanel;
-		private FlowPanel perspPanel;
-		private FlowPanel obliquePanel;
-		private FlowPanel glassesPanel;
-		private Label orthoTitle;
-		private Label perspTitle;
-		private Label obliqueTitle;
-		private Label glassesTitle;
-
-		private AutoCompleteTextFieldW tfPersp;
-		private AutoCompleteTextFieldW tfGlassesEyeSep;
-		private AutoCompleteTextFieldW tfObliqueAngle;
-		private AutoCompleteTextFieldW tfObliqueFactor;
-		private FormLabel tfPerspLabel;
-		private FormLabel tfGlassesLabel;
-		private FormLabel tfObliqueAngleLabel;
-		private FormLabel tfObliqueFactorLabel;
-		private ComponentCheckbox cbGlassesGray;
-		private ComponentCheckbox cbGlassesShutDownGreen;
+		private final AutoCompleteTextFieldW tfPersp;
+		private final AutoCompleteTextFieldW tfGlassesEyeSep;
+		private final AutoCompleteTextFieldW tfObliqueAngle;
+		private final AutoCompleteTextFieldW tfObliqueFactor;
+		private final FormLabel tfPerspLabel;
+		private final FormLabel tfGlassesLabel;
+		private final FormLabel tfObliqueAngleLabel;
+		private final FormLabel tfObliqueFactorLabel;
+		private final ComponentCheckbox cbGlassesGray;
+		private final ComponentCheckbox cbGlassesShutDownGreen;
 
 		private class ProjectionButtons implements FastClickHandler {
 
-			private ToggleButton[] buttons;
-			private int buttonSelected;
+			private final ToggleButton[] buttons;
 
 			ProjectionButtons() {
 				buttons = new ToggleButton[4];
@@ -301,7 +298,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					buttons[i].addFastClickHandler(this);
 				}
 
-				buttonSelected = get3dview().getProjection();
+				int buttonSelected = get3dview().getProjection();
 				buttons[buttonSelected].setSelected(true);
 			}
 
@@ -336,12 +333,12 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		public ProjectionTab() {
 			super();
 
-			projectionButtons = new ProjectionButtons();
+			ProjectionButtons projectionButtons = new ProjectionButtons();
 
 			// orthographic projection
 			orthoTitle = new Label("");
 			orthoTitle.setStyleName("panelTitle");
-			orthoPanel = new FlowPanel();
+			FlowPanel orthoPanel = new FlowPanel();
 			orthoPanel.add(projectionButtons
 					.getButton(
 							EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC));
@@ -351,7 +348,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			// perspective projection
 			perspTitle = new Label("");
 			perspTitle.setStyleName("panelTitle");
-			perspPanel = new FlowPanel();
 			tfPersp = getTextField();
 			tfPerspLabel = new FormLabel().setFor(tfPersp);
 			tfPersp.addKeyHandler(e -> {
@@ -365,6 +361,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfPerspPanel.setStyleName("panelRowCell");
 			tfPerspPanel.add(tfPerspLabel);
 			tfPerspPanel.add(tfPersp);
+			FlowPanel perspPanel = new FlowPanel();
 			perspPanel.add(LayoutUtilW.panelRow(
 					projectionButtons
 							.getButton(
@@ -376,7 +373,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			// glasses projection (two images)
 			glassesTitle = new Label("");
 			glassesTitle.setStyleName("panelTitle");
-			glassesPanel = new FlowPanel();
 
 			tfGlassesEyeSep = getTextField();
 			tfGlassesLabel = new FormLabel().setFor(tfGlassesEyeSep);
@@ -402,6 +398,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfGlassesPanel.add(tfGlassesEyeSep);
 			tfGlassesPanel.add(cbGlassesGray);
 			tfGlassesPanel.add(cbGlassesShutDownGreen);
+			FlowPanel glassesPanel = new FlowPanel();
 			glassesPanel.add(LayoutUtilW.panelRow(
 					projectionButtons
 							.getButton(
@@ -413,7 +410,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			// oblique projection
 			obliqueTitle = new Label("");
 			obliqueTitle.setStyleName("panelTitle");
-			obliquePanel = new FlowPanel();
 
 			tfObliqueAngle = getTextField();
 			tfObliqueAngleLabel = new FormLabel().setFor(tfObliqueAngle);
@@ -440,6 +436,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfObliquePanel.add(tfObliqueAngle);
 			tfObliquePanel.add(tfObliqueFactorLabel);
 			tfObliquePanel.add(tfObliqueFactor);
+			FlowPanel obliquePanel = new FlowPanel();
 			obliquePanel.add(LayoutUtilW.panelRow(
 					projectionButtons
 							.getButton(
