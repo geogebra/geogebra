@@ -12,4 +12,13 @@ public class GeoTextTest extends BaseUnitTest {
 		GeoText text = new GeoText(getConstruction(), value);
 		Assert.assertEquals(value, text.getDefinitionForEditor());
 	}
+
+	@Test
+	public void copyAbsLocFlag() {
+		GeoText text = new GeoText(getConstruction(), "text");
+		text.setAbsoluteScreenLocActive(true);
+		GeoText textCopy = new GeoText(getConstruction(), "textCopy");
+		textCopy.setAllVisualPropertiesExceptEuclidianVisible(text, true, true);
+		Assert.assertTrue(textCopy.isAbsoluteScreenLocActive());
+	}
 }

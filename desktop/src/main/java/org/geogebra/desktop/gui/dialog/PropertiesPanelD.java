@@ -95,6 +95,7 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import org.geogebra.common.gui.dialog.options.model.RightAngleModel;
+import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.SegmentStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import org.geogebra.common.gui.dialog.options.model.ShowConditionModel;
@@ -1488,19 +1489,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	/**
 	 * panel for script editing
 	 */
-	private class ScriptEditPanel extends JPanel implements ActionListener,
+	private class ScriptEditPanel extends JPanel implements
 			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private ScriptInputDialog clickDialog;
-		private ScriptInputDialog updateDialog;
-		private ScriptInputDialog globalDialog;
-		private JTabbedPane tabbedPane;
-		private JPanel clickScriptPanel;
-		private JPanel updateScriptPanel;
-		private JPanel globalScriptPanel;
+		private final JTabbedPane tabbedPane;
+		ScriptInputModel[] models;
+		private List<ScriptInputDialog> panels = new ArrayList<>();
 
 		public ScriptEditPanel() {
 			super(new BorderLayout());
@@ -1509,34 +1506,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			int column = 15;
 
 			tabbedPane = new JTabbedPane();
-
-			clickDialog = new ScriptInputDialog(app, loc.getMenu("Script"),
-					null, row, column, false, false);
-			updateDialog = new ScriptInputDialog(app, loc.getMenu("JavaScript"),
-					null, row, column, true, false);
-			globalDialog = new ScriptInputDialog(app,
-					loc.getMenu("GlobalJavaScript"), null, row, column, false,
-					true);
+			models = ScriptInputModel.getModels(app);
+			for (ScriptInputModel model : models) {
+				ScriptInputDialog panel = new ScriptInputDialog(app, column, row, model);
+				panels.add(panel);
+			}
 			setLayout(new BorderLayout());
-			// add(td.getInputPanel(), BorderLayout.NORTH);
-			// add(td2.getInputPanel(), BorderLayout.CENTER);
-			clickScriptPanel = new JPanel(new BorderLayout(0, 0));
-			clickScriptPanel.add(clickDialog.getInputPanel(row, column),
-					BorderLayout.CENTER);
-			clickScriptPanel.add(clickDialog.getButtonPanel(),
-					BorderLayout.SOUTH);
-
-			updateScriptPanel = new JPanel(new BorderLayout(0, 0));
-			updateScriptPanel.add(updateDialog.getInputPanel(row, column),
-					BorderLayout.CENTER);
-			updateScriptPanel.add(updateDialog.getButtonPanel(),
-					BorderLayout.SOUTH);
-
-			globalScriptPanel = new JPanel(new BorderLayout(0, 0));
-			globalScriptPanel.add(globalDialog.getInputPanel(row, column),
-					BorderLayout.CENTER);
-			globalScriptPanel.add(globalDialog.getButtonPanel(),
-					BorderLayout.SOUTH);
 
 			add(tabbedPane, BorderLayout.CENTER);
 
@@ -1548,17 +1523,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 * apply edit modifications
 		 */
 		public void applyModifications() {
-			clickDialog.applyModifications();
-			updateDialog.applyModifications();
-			globalDialog.applyModifications();
+			panels.forEach(ScriptInputDialog::applyModifications);
 		}
 
 		@Override
 		public void setLabels() {
-			// setBorder(BorderFactory.createTitledBorder(loc.getMenu("JavaScript")));
-			clickDialog.setLabels(loc.getMenu("OnClick"));
-			updateDialog.setLabels(loc.getMenu("OnUpdate"));
-			globalDialog.setLabels(loc.getMenu("GlobalJavaScript"));
+			panels.forEach(ScriptInputDialog::setLabels);
 		}
 
 		@Override
@@ -1569,21 +1539,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			// remember selected tab
 			final Component selectedTab = tabbedPane.getSelectedComponent();
-
-			GeoElement button = (GeoElement) geos[0];
-			clickDialog.setGeo(button);
-			updateDialog.setGeo(button);
-			globalDialog.setGlobal();
+			for (ScriptInputModel model: models) {
+				model.setGeos(geos);
+				model.updatePanel();
+			}
 			tabbedPane.removeAll();
-			if (button.canHaveClickScript()) {
-				tabbedPane.addTab(loc.getMenu("OnClick"), clickScriptPanel);
+			for (int i = 0; i < models.length; i++) {
+				if (models[i].checkGeos()) {
+					tabbedPane.addTab(loc.getMenu(models[i].getTitle()), panels.get(i));
+				}
 			}
-			if (button.canHaveUpdateScript()) {
-				tabbedPane.addTab(loc.getMenu("OnUpdate"), updateScriptPanel);
-			}
-			tabbedPane.addTab(loc.getMenu("GlobalJavaScript"),
-					globalScriptPanel);
-
 			// select tab as before
 			tabbedPane.setSelectedIndex(
 					Math.max(0, tabbedPane.indexOfComponent(selectedTab)));
@@ -1597,27 +1562,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			return geos.length == 1;
 		}
 
-		/**
-		 * handle textfield changes
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// if (e.getSource() == btEdit)
-			// app.showTextDialog((GeoText) geos[0]);
-		}
-
 		@Override
 		public void updateFonts() {
 			Font font = app.getPlainFont();
 
 			tabbedPane.setFont(font);
-			clickScriptPanel.setFont(font);
-			updateScriptPanel.setFont(font);
-			globalScriptPanel.setFont(font);
-
-			clickDialog.updateFonts();
-			updateDialog.updateFonts();
-			globalDialog.updateFonts();
+			for (ScriptInputDialog dialog: panels) {
+				dialog.updateFonts();
+			}
 		}
 	}
 

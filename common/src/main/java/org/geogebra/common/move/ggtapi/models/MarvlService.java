@@ -50,4 +50,9 @@ public class MarvlService implements Service {
 	public boolean hasMultiuser() {
 		return false;
 	}
+
+	@Override
+	public String getSearchMaterialFilter() {
+		return "&filter=ws";
+	}
 }

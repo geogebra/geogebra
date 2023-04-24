@@ -10,6 +10,7 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 import elemental2.core.Function;
+import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -25,6 +26,7 @@ public class EditorApi {
 	 * @param kb keyboard
 	 * @param listener editor input listener
 	 */
+	@JsIgnore
 	public EditorApi(MathFieldW mathField, TabbedKeyboard kb,
 			EditorListener listener) {
 		this.mathField = mathField;

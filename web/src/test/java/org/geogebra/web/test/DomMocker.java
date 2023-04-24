@@ -26,6 +26,7 @@ public class DomMocker {
 		GeoGebraElement mock = mock(GeoGebraElement.class);
 
 		when(mock.getStyle()).thenAnswer((Answer<Style>) invocation -> mock(Style.class));
+		when(mock.getElement()).thenAnswer((Answer<Element>) invocation -> mock(Element.class));
 
 		return mock;
 	}
