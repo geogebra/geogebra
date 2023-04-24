@@ -6493,7 +6493,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public SymbolicEditor initSymbolicEditor() {
-		return createSymbolicEditor(LatexRendererSettings.create(app.getFontSize()));
+		return createSymbolicEditor(LatexRendererSettings.create());
 	}
 
 	/**

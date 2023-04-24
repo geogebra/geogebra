@@ -185,7 +185,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFont.SANSSERIF);
- 		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
+		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
 		initTimer();
 		instances.add(this);
 		if (canvas != null) {
@@ -1243,12 +1243,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return minHeight;
 	}
 
+	/**
+	 * @param settings rendering settings
+	 */
 	public void setTextRendererSettings(TextRendererSettings settings) {
 		this.settings = settings;
 		updateSettings();
 	}
 
-	public void updateSettings() {
+	private void updateSettings() {
 		setFixMargin(settings.getFixMargin());
 		setMinHeight(settings.getMinHeight());
 		setRightMargin(settings.getRightMargin());

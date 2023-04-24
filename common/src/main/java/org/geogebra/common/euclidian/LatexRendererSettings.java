@@ -5,7 +5,6 @@ public class LatexRendererSettings implements TextRendererSettings {
 	private final int fixMargin;
 	private final int rightMargin;
 	private int bottomOffset;
-	private final int fontSize;
 	private double fontMultiplier = 1.0;
 	private int baseFontSize;
 
@@ -13,24 +12,19 @@ public class LatexRendererSettings implements TextRendererSettings {
 	 * @param fixMargin fix vertical margin.
 	 * @param rightMargin right margin.
 	 * @param bottomOffset offset of bottom
-	 * @param fontSize font size.
 	 */
-	public LatexRendererSettings(int fixMargin, int rightMargin, int bottomOffset,
-			int fontSize) {
+	public LatexRendererSettings(int fixMargin, int rightMargin, int bottomOffset) {
 		this.fixMargin = fixMargin;
 		this.rightMargin = rightMargin;
 		this.bottomOffset = bottomOffset;
-		this.fontSize = fontSize;
 	}
 
 	/**
 	 * Creates an instance with a given parameters
-	 * @param fontSize the base fontSize.
 	 * @return a new instance
 	 */
-	public static LatexRendererSettings create(int fontSize) {
-		return new LatexRendererSettings(2, 8, 10,
-				fontSize);
+	public static LatexRendererSettings create() {
+		return new LatexRendererSettings(2, 8, 10);
 	}
 
 	/**
@@ -39,7 +33,7 @@ public class LatexRendererSettings implements TextRendererSettings {
 	 * @return a new instance
 	 */
 	public static LatexRendererSettings createForInputBox(int baseFontSize, double fontMultiplier) {
-		LatexRendererSettings settings = create(baseFontSize);
+		LatexRendererSettings settings = create();
 		settings.bottomOffset = 0;
 		settings.baseFontSize = baseFontSize;
 		settings.fontMultiplier = fontMultiplier;
