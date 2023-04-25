@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -11,7 +12,6 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.test.RegexpMatch;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class AuralTextTest {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
 		String[] sentences = aural.split("\\.");
-		Assert.assertTrue(aural.endsWith("."));
+		assertThat(aural, endsWith("."));
 		assertEquals(out.length, sentences.length);
 		for (int i = 0; i < out.length; i++) {
 			if (!sentences[i].matches(".*" + out[i] + ".*")) {
@@ -202,7 +202,7 @@ public class AuralTextTest {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
 		String[] sentences = aural.split("\\.");
-		Assert.assertTrue(aural.endsWith("."));
+		assertThat(aural, endsWith("."));
 		if (out[0].matches(".*\\(.*")) {
 			out[0] = out[0].replace("(", "\\(");
 		}

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 
 import java.util.Arrays;
 
@@ -111,9 +112,9 @@ public class MacroTest extends BaseUnitTest {
 		StringBuilder sb = new StringBuilder();
 		editMacro.getXML(sb);
 		String xml1 = sb.toString();
-		Assert.assertTrue(xml1.contains("label=\"A\""));
-		Assert.assertTrue(xml1.contains("label=\"B\""));
-		Assert.assertTrue(xml1.contains("label=\"f\""));
+		assertThat(xml1, containsString("label=\"A\""));
+		assertThat(xml1, containsString("label=\"B\""));
+		assertThat(xml1, containsString("label=\"f\""));
 
 		// test addMacroXML
 		GeoElement c = addMacroCommand("C=(5,6)");
@@ -127,12 +128,12 @@ public class MacroTest extends BaseUnitTest {
 		getMacroApp().addMacroXML(xml1);
 		getMacroApp().addMacroXML(xml2);
 		String allXML = getMacroApp().getAllMacrosXML();
-		Assert.assertTrue(allXML.contains("label=\"A\""));
-		Assert.assertTrue(allXML.contains("label=\"B\""));
-		Assert.assertTrue(allXML.contains("label=\"f\""));
-		Assert.assertTrue(allXML.contains("label=\"C\""));
-		Assert.assertTrue(allXML.contains("label=\"D\""));
-		Assert.assertTrue(allXML.contains("label=\"g\""));
+		assertThat(allXML, containsString("label=\"A\""));
+		assertThat(allXML, containsString("label=\"B\""));
+		assertThat(allXML, containsString("label=\"f\""));
+		assertThat(allXML, containsString("label=\"C\""));
+		assertThat(allXML, containsString("label=\"D\""));
+		assertThat(allXML, containsString("label=\"g\""));
 	}
 
 	private void createMacro(AppCommon app, String name, GeoElement output, GeoElement... input) {
