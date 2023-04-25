@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoListLength;
+import org.geogebra.common.kernel.algos.AlgoMax;
 import org.geogebra.common.kernel.algos.AlgoMin;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoRayPointVector;
@@ -230,7 +231,7 @@ public abstract class ProbabilityCalculatorView
 	 * @return maximum value in the discrete value list.
 	 */
 	public int getDiscreteXMax() {
-		if (discreteValueList != null) {
+		if (discreteValueList != null && discreteValueList.size() > 0) {
 			GeoNumeric geo = (GeoNumeric) discreteValueList
 					.get(discreteValueList.size() - 1);
 			return (int) geo.getDouble();
@@ -626,9 +627,9 @@ public abstract class ProbabilityCalculatorView
 									xLow, Operation.EQUAL_BOOLEAN, xHigh.getNumber()),
 							xminPlusOne), Operation.IF_ELSE, xMax);
 			AlgoDependentNumber adn = getDependentNumber(ex);
-			createTwoTailedDiscreteGraph(xMin, adn.getNumber());
+			createTwoTailedDiscreteGraph(capMax(xMin), capMax(adn.getNumber()));
 		} else {
-			createSimpleDiscreteGraph(xMin, xMax);
+			createSimpleDiscreteGraph(capMax(xMin), capMax(xMax));
 		}
 		createAxis();
 	}
@@ -658,14 +659,9 @@ public abstract class ProbabilityCalculatorView
 	private void createTwoTailedDiscreteGraph(GeoNumberValue xMin,
 			GeoNumberValue xMax) {
 		GeoNumeric left = new GeoNumeric(cons, 1);
-		GeoNumberValue length = new AlgoListLength(cons, discreteValueList).getLength();
-		AlgoMin algoMin = new AlgoMin(cons, xMin, length);
-		cons.removeFromConstructionList(length.getParentAlgorithm());
-		cons.removeFromConstructionList(algoMin);
-
-		GeoList leftValues = takeSubList(discreteValueList, left, algoMin.getResult());
+		GeoList leftValues = takeSubList(discreteValueList, left, xMin);
 		GeoList rightValues = takeSubList(discreteValueList, xMax, null);
-		GeoList leftProbs = takeSubList(discreteProbList, left, algoMin.getResult());
+		GeoList leftProbs = takeSubList(discreteProbList, left, xMin);
 		GeoList rightProbs = takeSubList(discreteProbList, xMax, null);
 		GeoElement discreteIntervalGraphLeft = createIntervalGraph(leftValues, leftProbs);
 		GeoElement discreteIntervalGraphRight = createIntervalGraph(rightValues, rightProbs);
@@ -673,6 +669,16 @@ public abstract class ProbabilityCalculatorView
 				new DiscreteTwoTailedGraph(discreteIntervalGraphLeft, discreteIntervalGraphRight);
 		discreteTwoTailedGraph.addTo(plotGeoList);
 		hideSimpleDiscreteGraph();
+	}
+
+	private GeoNumberValue capMax(GeoNumberValue xMin) {
+		GeoNumberValue length = new AlgoListLength(cons, discreteValueList).getLength();
+		AlgoMax algoMax = new AlgoMax(cons, xMin, new GeoNumeric(cons, 1));
+		AlgoMin algoMin = new AlgoMin(cons, algoMax.getResult(), length);
+		cons.removeFromConstructionList(length.getParentAlgorithm());
+		cons.removeFromConstructionList(algoMin);
+		cons.removeFromConstructionList(algoMax);
+		return algoMin.getResult();
 	}
 
 	private void hideSimpleDiscreteGraph() {
@@ -1413,7 +1419,7 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		if (geo.equals(xAxis.lowPoint())) {
-			if (isValidInterval(xAxis.lowPoint().getInhomX(), getHigh())) {
+			if (isValidIntervalForDrag(xAxis.lowPoint().getInhomX(), getHigh())) {
 				low = asNumeric(xAxis.lowPoint(), low);
 				updateIntervalProbability();
 				updateGUI();
@@ -1426,7 +1432,7 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		if (geo.equals(xAxis.highPoint())) {
-			if (isValidInterval(getLow(), xAxis.highPoint().getInhomX())) {
+			if (isValidIntervalForDrag(getLow(), xAxis.highPoint().getInhomX())) {
 				high = asNumeric(xAxis.highPoint(), high);
 				updateIntervalProbability();
 				updateGUI();
@@ -1442,7 +1448,7 @@ public abstract class ProbabilityCalculatorView
 
 	protected void selectProbabilityTableRows() {
 		int start = (int) getLow();
-		int end = (int) getHigh();
+		int end = Math.min((int) getHigh(), getDiscreteXMax());
 		if (isTwoTailedMode()) {
 			table.setTwoTailedSelection(start, end);
 		} else {
@@ -1535,14 +1541,25 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
+	 * Validation for typing -- less strict than dragging, probability out of domain considered 0
 	 * @param xLow - interval min
 	 * @param xHigh - interval max
 	 * @return whether interval is valid for given mode
 	 */
 	public boolean isValidInterval(double xLow, double xHigh) {
+		return !(probManager.isDiscrete(selectedDist)
+				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh));
+	}
+
+	/**
+	 * Validation for point dragging -- do not let the points out of sensible area
+	 * @param xLow - interval min
+	 * @param xHigh - interval max
+	 * @return whether interval is valid for given mode
+	 */
+	public boolean isValidIntervalForDrag(double xLow, double xHigh) {
 		// don't allow non-integer bounds for discrete dist.
-		if (probManager.isDiscrete(selectedDist)
-				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh)) {
+		if (!isValidInterval(xLow, xHigh)) {
 			return false;
 		}
 

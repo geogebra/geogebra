@@ -1,5 +1,8 @@
 package com.himamis.retex.editor.share.serializer;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
@@ -16,6 +19,8 @@ public class SolverSerializer extends SerializerAdapter {
 	private static final String keysNeedingDots = "{}[]<>";
 
 	private static final String separator = ",";
+	private static final List<String> SUPPORTED_FUNCTIONS = Arrays.asList(
+			"sin", "cos", "tan", "ln");
 
 	@Override
 	void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder) {
@@ -100,8 +105,13 @@ public class SolverSerializer extends SerializerAdapter {
 			break;
 		case APPLY:
 		case APPLY_SQUARE:
-			serialize(function.getArgument(0), sb);
-			serializeArgs(function, sb, 1);
+			StringBuilder toApply = new StringBuilder();
+			serialize(function.getArgument(0), toApply);
+			sb.append(toApply);
+			boolean isKnownFunction = SUPPORTED_FUNCTIONS.contains(toApply.toString());
+			sb.append(isKnownFunction ? openingBracket : '(');
+			serialize(function.getArgument(1), sb);
+			sb.append(isKnownFunction ? closingBracket : ')');
 			break;
 		case SUM_EQ:
 		case PROD_EQ:
