@@ -1,6 +1,7 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -76,9 +77,13 @@ public class ProfilePanel extends FlowPanel {
 	}
 
 	private Anchor addLink(String className) {
-		Anchor ret = new Anchor();
-		ret.setTarget("_blank");
+		final Anchor ret = new Anchor();
 		ret.setStyleName(className);
+		// Force window.open instead of link to make sure this is caught by Electron
+		ret.addClickHandler(evt -> {
+			Browser.openWindow(ret.getHref());
+			evt.preventDefault();
+		});
 		optionsPanelContent.add(ret);
 		return ret;
 	}
