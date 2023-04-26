@@ -880,6 +880,9 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (isDefined && tpl.isDisplayStyle() && isMatrix()) {
+			return toMatrixString(false, tpl);
+		}
 		return isDefined ? buildValueString(tpl).toString() : "?";
 	}
 
@@ -1538,43 +1541,39 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
-		return toLaTeXString(symbolic, false, tpl);
-	}
-
-	@Override
-	public String toLaTeXString(
-			final boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		if (isMatrix()) {
-
-			// int rows = size();
-			final int cols = ((GeoList) get(0)).size();
-
-			final StringBuilder sb = new StringBuilder();
-
-			sb.append("\\left(\\begin{array}{");
-			// eg rr
-			for (int i = 0; i < cols; i++) {
-				sb.append('r');
-			}
-			sb.append("}");
-			for (int i = 0; i < size(); i++) {
-				final GeoList row = (GeoList) get(i);
-				for (int j = 0; j < row.size(); j++) {
-					GeoElement geo = row.get(j);
-					sb.append(symbolic ? geo.getLabel(tpl)
-							: geo.toLaTeXString(false, symbolicContext, tpl));
-					if (j < row.size() - 1) {
-						sb.append("&");
-					}
-				}
-				sb.append("\\\\");
-			}
-			sb.append(" \\end{array}\\right)");
-			return sb.toString();
-			// return "\\begin{array}{ll}1&2 \\\\ 3&4 \\\\ \\end{array}";
+			return toMatrixString(symbolic, tpl);
 		}
 
 		return super.toLaTeXString(symbolic, tpl);
+	}
+
+	private String toMatrixString(boolean symbolic, StringTemplate tpl) {
+		// int rows = size();
+		final int cols = ((GeoList) get(0)).size();
+
+		final StringBuilder sb = new StringBuilder();
+
+		sb.append("\\left(\\begin{array}{");
+		// eg rr
+		for (int i = 0; i < cols; i++) {
+			sb.append('r');
+		}
+		sb.append("}");
+		for (int i = 0; i < size(); i++) {
+			final GeoList row = (GeoList) get(i);
+			for (int j = 0; j < row.size(); j++) {
+				GeoElement geo = row.get(j);
+				sb.append(symbolic ? geo.getLabel(tpl)
+						: geo.toLaTeXString(false, tpl));
+				if (j < row.size() - 1) {
+					sb.append("&");
+				}
+			}
+			sb.append("\\\\");
+		}
+		sb.append(" \\end{array}\\right)");
+		return sb.toString();
 	}
 
 	@Override

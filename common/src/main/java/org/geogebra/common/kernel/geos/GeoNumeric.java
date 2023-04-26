@@ -2105,11 +2105,6 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
-		return toLaTeXString(symbolic || symbolicContext, tpl);
-	}
-
-	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 		if (startPoint != null) {
 			startPoint.getLocateableList().unregisterLocateable(this);

@@ -468,6 +468,9 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (tpl.isDisplayStyle()) {
+			return toLaTeXString(false, tpl);
+		}
 		return buildValueString(tpl).toString();
 	}
 
