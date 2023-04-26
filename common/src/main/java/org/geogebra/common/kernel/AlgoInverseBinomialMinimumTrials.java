@@ -102,9 +102,14 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 		return value < 0 || value > MAX_TRIALS;
 	}
 
-	private boolean isProbabilityOutOfRange(GeoNumberValue probability) {
+	private boolean isCumulativeProbabilityOutOfRange(GeoNumberValue probability) {
 		double value = probability.getDouble();
 		return value < 0 || value > 1;
+	}
+
+	private boolean isProbabilityOutOfRange(GeoNumberValue probability) {
+		double value = probability.getDouble();
+		return value <= 0 || value > 1;
 	}
 
 	@Override
