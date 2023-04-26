@@ -16,6 +16,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.cas.giac.CASgiac;
@@ -1341,7 +1342,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("eq1: (x^2)(e^x)= 5");
 		GeoSymbolic function = add("Solve(eq1, x)");
 		ExpressionValue value = function.getValue();
-		Assert.assertNotNull(value);
+		assertNotNull(value);
+		assertNotEquals(value.toString(StringTemplate.defaultTemplate), "{?}");
 		assertThat(value.toString(StringTemplate.defaultTemplate),
 				equalTo("{x = 1.216871488876}"));
 	}

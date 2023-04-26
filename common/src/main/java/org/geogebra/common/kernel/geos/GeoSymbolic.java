@@ -171,7 +171,7 @@ public class GeoSymbolic extends GeoElement
 			return numericValue.toValueString(tpl);
 		} else {
 			assert twin != null;
-			return twin.toValueString(tpl);
+			return twin.toValueString(tpl.isLatex() ? tpl.deriveWithDisplayStyle() : tpl);
 		}
 	}
 
@@ -1004,15 +1004,15 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public boolean isMatrix() {
-		return twinGeo != null ? twinGeo.isMatrix() : hasMatrixDefinition();
+		return twinGeo != null ? twinGeo.isMatrix() : hasMatrixValue();
 	}
 
-	private boolean hasMatrixDefinition() {
-		ExpressionNode definition = getDefinition();
-		if (definition == null) {
+	private boolean hasMatrixValue() {
+		ExpressionValue expr = value == null ? getDefinition() : value;
+		if (expr == null) {
 			return false;
 		} else {
-			ExpressionValue unwrapped = getDefinition().unwrap();
+			ExpressionValue unwrapped = expr.unwrap();
 			return unwrapped instanceof MyList && ((MyList) unwrapped).isMatrix();
 		}
 	}
@@ -1022,7 +1022,7 @@ public class GeoSymbolic extends GeoElement
 		if (symbolicMode) {
 			return symbolic ? getDefinition(tpl) : toValueString(tpl);
 		} else if (twinGeo != null) {
-			return twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl);
+			return twinGeo.toLaTeXString(symbolic, tpl);
 		} else {
 			return getDefinition(tpl);
 		}
