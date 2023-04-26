@@ -36,7 +36,7 @@ public class ProfilePanel extends FlowPanel {
 		this.profileImage.setHeight("40px");
 		add(this.profileImage);
 
-		final GPopupPanel popup = new GPopupPanel(app.getPanel(), app);
+		final GPopupPanel popup = new GPopupPanel(app.getAppletFrame(), app);
 		popup.addStyleName("optionsPopup");
 
 		popup.setAutoHideEnabled(true);

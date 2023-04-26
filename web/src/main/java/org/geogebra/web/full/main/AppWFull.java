@@ -1157,11 +1157,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void setToolbarPosition(int position, boolean update) {
-		Log.debug("TOOLBAR POSITION " + position);
 		toolbarPosition = position;
 		if (update) {
 			updateApplicationLayout();
-			// updateMenubar(); TODO check if needed
 		}
 	}
 

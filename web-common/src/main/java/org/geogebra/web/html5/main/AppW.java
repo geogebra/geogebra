@@ -156,7 +156,6 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.timer.client.Timer;
-import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -2931,15 +2930,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public boolean showToolBarHelp() {
 		return getAppletParameters().getDataParamShowToolBarHelp(true);
-	}
-
-	/**
-	 * @return root panel of the applet
-	 * @deprecated use getAppletFrame instead
-	 */
-	@Deprecated
-	public final Panel getPanel() {
-		return getAppletFrame();
 	}
 
 	@Override

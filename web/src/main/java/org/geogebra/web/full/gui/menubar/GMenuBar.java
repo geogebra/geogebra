@@ -13,8 +13,8 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class GMenuBar extends AriaMenuBar {
 	private int separators = 0;
-	private String menuTitle;
-	private AppW app;
+	private final String menuTitle;
+	private final AppW app;
 
 	/**
 	 * @param menuTitle
@@ -92,7 +92,7 @@ public class GMenuBar extends AriaMenuBar {
 				if (ait[1] == null) {
 					// popuppanel still not present
 					final GPopupPanel pp = new GPopupPanel(true, false,
-							app1.getPanel(), app1);
+							app1.getAppletFrame(), app1);
 					pp.addAutoHidePartner(
 							((AriaMenuItem) ait[0]).getElement());
 					submenupopup.addStyleName(subleft ? "subMenuLeftSide2"

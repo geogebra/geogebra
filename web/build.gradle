@@ -280,13 +280,14 @@ task createSolverHtml {
 
 task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     doLast {
-        ["web3d", "webSimple"].each { module ->
+        ["web3d", "webSimple", "editor"].each { module ->
             def dir = file("build/gwt/out/$module")
-            fileTree(dir).each { f ->
-                println "$f -> $f"
-                def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
-                file(outFile.parent).mkdirs()
-                ant.gzip(src: f, zipfile: outFile)
+            if (file(dir).exists()) {
+                fileTree(dir).each { f ->
+                    def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
+                    file(outFile.parent).mkdirs()
+                    ant.gzip(src: f, zipfile: outFile)
+                }
             }
         }
     }
