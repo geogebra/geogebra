@@ -63,7 +63,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	/** a flag meaning whether this widget is hidden */
 	private boolean hidden = true;
 	/** a parent selection box */
-	private ComboBox<T> comboBox;
+	private final ComboBox<T> comboBox;
 	/** item click handler */
 	private ClickHandler itemClickHandler;
 	/** mouse event handler */
@@ -100,7 +100,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	 *            application
 	 */
 	protected ListPopupPanel(ComboBox<T> selectionTextBox, AppW app) {
-		super(false, false, app.getPanel(), app);
+		super(false, false, app.getAppletFrame(), app);
 		this.comboBox = selectionTextBox;
 
 		setStyleName("advanced-ListPopupPanel");

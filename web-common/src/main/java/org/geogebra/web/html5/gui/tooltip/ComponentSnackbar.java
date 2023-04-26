@@ -48,7 +48,7 @@ public class ComponentSnackbar extends FlowPanel {
 			addStyleName("mowPosition");
 		}
 		buildGui(title, text, buttonText);
-		app.getPanel().add(this);
+		app.getAppletFrame().add(this);
 		fadeIn.schedule(100);
 	}
 

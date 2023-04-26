@@ -40,7 +40,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	 */
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
 			Runnable returnHandler, Widget anchor, String positiveKey) {
-		super(app.getPanel(), app);
+		super(app.getAppletFrame(), app);
 		this.returnHandler = returnHandler;
 		this.anchor = anchor;
 		this.setStyleName("dialogComponent");

@@ -89,7 +89,7 @@ public final class ToolTipManagerW {
 	private void createSnackbar(AppW appW, String title, String helpText, String buttonText,
 			int showDuration, String url) {
 		if (snackbar != null) {
-			appW.getPanel().remove(snackbar);
+			appW.getAppletFrame().remove(snackbar);
 		}
 		snackbar = new ComponentSnackbar(appW, title, helpText, buttonText);
 		snackbar.setShowDuration(showDuration);
