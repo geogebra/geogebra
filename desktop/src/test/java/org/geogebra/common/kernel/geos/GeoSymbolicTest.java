@@ -494,9 +494,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Integral(Integral(x*y^2,x,0,2),y,0,q)", "2 / 3 * q^(3)");
 		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + pi + ")");
 	}
-
-	// TODO testProductCommand
-
+	
 	@Test
 	public void testFactorCommand() {
 		t("Factor(x^2-1)", "(x - 1) * (x + 1)");
