@@ -481,6 +481,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testProductCommand() {
+		t("Product(((k+2)/(k)),k,1,25)", "351");
+		t("Product(k^2,k,1,5)", "14400");
+	}
+
+	@Test
 	public void testIntegralCommand() {
 		t("Integral(x*y^2,x,0,2)", "2 * y^(2)");
 		t("Integral(x*y^2,x,aaa,bbb)", "y^(2) * (-1 / 2 * aaa^(2) + 1 / 2 * bbb^(2))");
