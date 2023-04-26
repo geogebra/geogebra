@@ -864,16 +864,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            coord
 	 */
 	public void showScaled(Element c, int x, int y) {
-		wrappedPopup.showScaled(c, x, y);
-		focusDeferred();
-	}
-
-	/**
-	 * @param p
-	 *            show in p's coord
-	 */
-	public void show(GPoint p) {
-		wrappedPopup.show(p.x, p.y);
+		wrappedPopup.show(c, x, y);
 		focusDeferred();
 	}
 

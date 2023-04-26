@@ -366,7 +366,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return drawTextField;
 	}
 
-	@Override
 	public ArrayList<String> getHistory() {
 		return history;
 	}

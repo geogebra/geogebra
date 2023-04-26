@@ -1,6 +1,5 @@
 package org.geogebra.web.full.cas.view;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -246,11 +245,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	public void insertString(String text) {
 		new MathFieldProcessing(mf).autocomplete(
 				app.getParserFunctions().toEditorAutocomplete(text, app.getLocalization()));
-	}
-
-	@Override
-	public ArrayList<String> getHistory() {
-		return null;
 	}
 
 	@Override

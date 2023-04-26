@@ -20,9 +20,9 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 public class HistoryPopupW extends GPopupPanel implements ClickHandler,
         KeyUpHandler, ChangeHandler {
 
-	private AutoCompleteW textField;
+	private final AutoCompleteTextFieldW textField;
 	private boolean downPopup;
-	private ListBox historyList;
+	private final ListBox historyList;
 	private String originalTextEditorContent;
 
 	/**
@@ -31,7 +31,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	 * @param root
 	 *            root for the popup
 	 */
-	public HistoryPopupW(AutoCompleteW autoCompleteTextField, Panel root) {
+	public HistoryPopupW(AutoCompleteTextFieldW autoCompleteTextField, Panel root) {
 		super(root, autoCompleteTextField.getApplication());
 		this.textField = autoCompleteTextField;
 
