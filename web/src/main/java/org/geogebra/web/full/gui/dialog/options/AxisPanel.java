@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.dialog.options;
 import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_X;
 import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Y;
 import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Z;
-import static org.geogebra.web.full.gui.util.NumberListBox.PI_HALF_STRING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,7 +108,7 @@ public class AxisPanel extends FlowPanel
 				this::onDistanceSelected);
 
 		ncbTickDist = new ComponentCombobox(app, "", Arrays.asList("1",
-				Unicode.PI_STRING, PI_HALF_STRING));
+				Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 		ncbTickDist.addChangeHandler(() -> {
 				model.applyTickDistance(ncbTickDist.getSelectedText());
 			});

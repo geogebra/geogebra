@@ -847,22 +847,26 @@ public class SelectionManager {
 		}
 	}
 
-	private EuclidianViewInterfaceCommon getViewOf(GeoElement geo) {
+	/**
+	 * @param geo element
+	 * @param app application
+	 * @return first view, in which the geo is visible, fallback to EV1
+	 */
+	public static EuclidianViewInterfaceCommon getViewOf(GeoElement geo, App app) {
 		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
 				? geo.getViewSet().get(0)
 				: -1;
-		App app1 = kernel.getApplication();
 		if (viewID == App.VIEW_EUCLIDIAN2) {
-			return app1.getEuclidianView2(1);
+			return app.getEuclidianView2(1);
 		} else if (viewID == App.VIEW_EUCLIDIAN3D) {
-			return app1.getEuclidianView3D();
+			return app.getEuclidianView3D();
 		}
 
-		return app1.getEuclidianView1();
+		return app.getEuclidianView1();
 	}
 
 	private void checkInputBoxAndFocus(GeoElement geo) {
-		EuclidianViewInterfaceCommon view = getViewOf(geo);
+		EuclidianViewInterfaceCommon view = getViewOf(geo, kernel.getApplication());
 		if (geo instanceof GeoInputBox && geo.isEuclidianVisible()) {
 			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
 		} else {

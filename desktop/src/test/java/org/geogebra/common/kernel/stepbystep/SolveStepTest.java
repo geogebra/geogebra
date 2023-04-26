@@ -22,6 +22,10 @@ import org.junit.Test;
 public class SolveStepTest {
 	private static App app;
 
+	private static HtmlStepBuilder htmlBuilder;
+	private boolean needsHeading;
+	private static int caseCounter = 0;
+
 	@BeforeClass
 	public static void setupApp() {
 		app = AlgebraTest.createApp();
@@ -33,10 +37,6 @@ public class SolveStepTest {
 			Log.debug(e);
 		}
 	}
-
-	private static HtmlStepBuilder htmlBuilder;
-	private boolean needsHeading;
-	private static int caseCounter = 0;
 
 	@Test
 	public void conditionalSolution() {
@@ -86,10 +86,10 @@ public class SolveStepTest {
 	}
 
 	// @Test
-	public void quadraticInExpression() {
+	//public void quadraticInExpression() {
 		//TODO: Strengthen find expression and replace so that this can also be solved as quadratic in expression
-		t("3*(2x+1)^4+4", "5*(2x+1)^2-2", "x");
-	}
+	//	t("3*(2x+1)^4+4", "5*(2x+1)^2-2", "x");
+	//}
 
 	@Test
 	public void rationalEquations() {

@@ -491,7 +491,8 @@
 	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
-		height: 15px;
+		height: 16px;
+		margin: -2px 0;
 	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected, .gwt-TabBar .gwt-TabBarItem-selected {
@@ -1098,6 +1099,7 @@
 	.buttonDialog .scriptArea {
 		width: 100%;
 		height: 200px;
+		border-radius: 2px;
 	}
 
 	/* ------------ IMAGE DIALOG -------------*/
@@ -1485,6 +1487,7 @@
 		background-color: #FFFFFF;
 		width: 380px;
 		height: 100px;
+		overflow: auto;
 	}
 
 	.textEditorAdvancedPanel {
@@ -1760,11 +1763,6 @@
 		display: inline-block;
 	}
 
-	.objectPropertiesTextEditor {
-		width: 100%;
-		height: 100px;
-	}
-
 	.colorChooserPreview, .optionsSlider {
 		display: table-row;
 		margin-top: 5px;
@@ -1870,17 +1868,6 @@
 		cursor: default;
 	}
 
-	.advanced-TextButtonPanel input.selected-value {
-		padding-right: 1.3em;
-	}
-
-	.advanced-TextButtonPanel .choice-button {
-		position: absolute;
-		right: 0.3em;
-		top: 0.3em;
-		cursor: pointer;
-	}
-
 	.geoSelectFirst {
 		width: 50%;
 	}
@@ -1888,11 +1875,6 @@
 	/*#####################################################################################
 	###       PROPABILITY CALCULATOR
 	#####################################################################################*/
-
-	.ProbabilityCalculatorStyleBarW .gwt-MenuItem {
-		margin: 0;
-		padding: 0;
-	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
 		// no scrollbar for main panel, only for value table
@@ -1961,7 +1943,12 @@
 	.comboParamPanel, .resultPanel {
 		display: flex;
 		flex-wrap: wrap;
-		line-height: 52px;
+	}
+
+	.resultPanel {
+		.gwt-Label {
+			line-height: 52px;
+		}
 	}
 
 	.comboParamPanel .comboDistribution {

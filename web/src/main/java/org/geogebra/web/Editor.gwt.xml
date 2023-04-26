@@ -6,9 +6,14 @@
     <!-- Specify the paths for translatable code                    -->
     <source path='editor'/>
     <source path='html5/bridge'/>
+    <source path='html5/export'>
+        <exclude name="**/GeoGebra*"/>
+        <exclude name="**/*Graphics*"/>
+    </source>
     <source path='simple'>
         <exclude name="**/WebSimple*"/>
     </source>
+    <public path="pub"/>
     <super-source path='html5-super' />
     <entry-point class='org.geogebra.web.editor.EditorEntry'/>
     <!-- #3511 -->

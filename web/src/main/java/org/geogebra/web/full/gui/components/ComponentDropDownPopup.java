@@ -112,6 +112,8 @@ public class ComponentDropDownPopup {
 					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
 					setScrollTop(getSelectedItemTop() - diffAnchorPopupTop);
 				}
+			} else {
+				getStyle().setProperty("height", "");
 			}
 		}
 		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));

@@ -54,8 +54,6 @@ public class AlgoSequenceRange extends AlgoElement {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param from
 	 *            lower bound
 	 * @param upTo
@@ -63,7 +61,7 @@ public class AlgoSequenceRange extends AlgoElement {
 	 * @param step
 	 *            step
 	 */
-	public AlgoSequenceRange(Construction cons, String label,
+	public AlgoSequenceRange(Construction cons,
 			GeoNumberValue from,
 			GeoNumberValue upTo, GeoNumberValue step) {
 		super(cons);
@@ -76,7 +74,6 @@ public class AlgoSequenceRange extends AlgoElement {
 		list = new GeoList(cons);
 		setInputOutput();
 		compute();
-		list.setLabel(label);
 	}
 
 	/**
@@ -84,13 +81,10 @@ public class AlgoSequenceRange extends AlgoElement {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param upTo
 	 *            upper bound
 	 */
-	public AlgoSequenceRange(Construction cons, String label,
-			GeoNumberValue upTo) {
+	public AlgoSequenceRange(Construction cons, GeoNumberValue upTo) {
 		super(cons);
 		type = SequenceType.SIMPLE;
 		var_from = new GeoNumeric(cons, 1);
@@ -99,7 +93,6 @@ public class AlgoSequenceRange extends AlgoElement {
 		list = new GeoList(cons);
 		setInputOutput();
 		compute();
-		list.setLabel(label);
 	}
 
 	@Override

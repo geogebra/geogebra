@@ -429,16 +429,16 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void getExportSVG(double scale, boolean transparency, Consumer<String> callback) {
-		int width = (int) Math.floor(getExportWidth() * scale);
-		int height = (int) Math.floor(getExportHeight() * scale);
+	public void getExportSVG(boolean transparency, Consumer<String> callback) {
+		int width = (int) Math.floor(getExportWidth());
+		int height = (int) Math.floor(getExportHeight());
 
 		ExportLoader.onCanvas2SvgLoaded(() -> {
 			Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
 			CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
 			g4copy = new GGraphics2DW(ctx);
-			this.appW.setExporting(ExportType.SVG, scale);
-			exportPaintPre(g4copy, scale, transparency);
+			this.appW.setExporting(ExportType.SVG, 1);
+			exportPaintPre(g4copy, 1, transparency);
 			drawObjects(g4copy);
 			this.appW.setExporting(ExportType.NONE, 1);
 			String serializedSvg = canvas2svg.getSerializedSvg(true);

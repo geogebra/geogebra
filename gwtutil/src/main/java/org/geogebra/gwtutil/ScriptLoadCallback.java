@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.util;
+package org.geogebra.gwtutil;
 
 /**
  * Callback for script loading
