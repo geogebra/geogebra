@@ -2086,7 +2086,7 @@ public class CommandsTest {
 		t("InverseBinomialMinimumTrials[0.5, -1.1, 5]", "NaN");
 		t("InverseBinomialMinimumTrials[0.5, 0.5, -12]", "NaN");
 		t("InverseBinomialMinimumTrials[0.5, 0.5, 1.2]", "NaN");
-		t("InverseBinomialMinimumTrials[0.0, 0.7, 49]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.0, 49]", "NaN");
 		t("InverseBinomialMinimumTrials[0.01, 0.7, 49]", "86");
 		t("InverseBinomialMinimumTrials[0.01, 0.1, 50]", "681");
 		t("InverseBinomialMinimumTrials[0.1, 0.5, 50]", "115");

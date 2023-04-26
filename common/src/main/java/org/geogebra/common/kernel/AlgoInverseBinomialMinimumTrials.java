@@ -89,9 +89,19 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 	}
 
 	private boolean isInvalidArguments() {
-		return isProbabilityOutOfRange(a)
-				|| isProbabilityOutOfRange(b)
+		return isProbabilityOutOfRange()
+				|| isCumulativeProbabilityOutOfRange()
 				|| isInvalidTrials();
+	}
+
+	private boolean isProbabilityOutOfRange() {
+		double value = getProbability();
+		return value <= 0 || value > 1;
+	}
+
+	private boolean isCumulativeProbabilityOutOfRange() {
+		double value = getCumulativeProbability();
+		return value < 0 || value > 1;
 	}
 
 	private boolean isInvalidTrials() {
@@ -100,16 +110,6 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 			return true;
 		}
 		return value < 0 || value > MAX_TRIALS;
-	}
-
-	private boolean isCumulativeProbabilityOutOfRange(GeoNumberValue probability) {
-		double value = probability.getDouble();
-		return value < 0 || value > 1;
-	}
-
-	private boolean isProbabilityOutOfRange(GeoNumberValue probability) {
-		double value = probability.getDouble();
-		return value <= 0 || value > 1;
 	}
 
 	@Override
