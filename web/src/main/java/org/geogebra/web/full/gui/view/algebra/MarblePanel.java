@@ -38,9 +38,9 @@ public class MarblePanel extends FlowPanel
 		marble = new Marble(item);
 		marble.setStyleName("marble");
 		marble.setEnabled(shouldShowMarble());
-
+		item.tagger().tagMarble(marble);
 		addStyleName("marblePanel");
-		
+
 		if (item.getAV().isInputActive() && item.getGeo() == null) {
 			addStyleName("plus");
 			initPlus();

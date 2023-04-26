@@ -54,6 +54,7 @@ import org.geogebra.web.full.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
+import org.geogebra.web.full.gui.util.DataTagger;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
@@ -2164,5 +2165,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (mf != null) {
 			mf.getInternal().convertAndInsert(string);
 		}
+	}
+
+	public DataTagger tagger() {
+		return app.getGuiManager().getTagger();
 	}
 }
