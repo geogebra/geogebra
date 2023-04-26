@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.HTML;
@@ -82,6 +83,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		if (btnSymbolic == null) {
 			btnSymbolic = newSymbolicButton(geo);
+			DataTest.ALGEBRA_ITEM_SYMBOLIC_BUTTON.apply(btnSymbolic);
 		}
 
 		updateSymbolicIcons(geo, btnSymbolic);

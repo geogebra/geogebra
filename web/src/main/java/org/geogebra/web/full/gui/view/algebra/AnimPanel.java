@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -76,6 +77,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		add(speedPanel);
 		add(btnPlay);
 		ClickStartHandler.initDefaults(btnPlay, false, true);
+		DataTest.ALGEBRA_ITEM_PLAY_BUTTON.apply(btnPlay);
 	}
 
 	private void buildSpeedPanel() {

@@ -96,7 +96,6 @@ import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.util.DataTagger;
 import org.geogebra.web.full.gui.util.DateTimeFormat;
 import org.geogebra.web.full.gui.util.InputKeyboardButtonW;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -194,7 +193,6 @@ public class GuiManagerW extends GuiManager
 
 	private Runnable runAfterLogin;
 	private InputKeyboardButtonW inputKeyboardButton = null;
-	private DataTagger tagger = null;
 
 	/**
 	 *
@@ -2334,12 +2332,5 @@ public class GuiManagerW extends GuiManager
 			inputKeyboardButton = new InputKeyboardButtonW(getApp());
 		}
 		return inputKeyboardButton;
-	}
-
-	public DataTagger getTagger() {
-		if (tagger == null) {
-			tagger = new DataTagger();
-		}
-		return tagger;
 	}
 }

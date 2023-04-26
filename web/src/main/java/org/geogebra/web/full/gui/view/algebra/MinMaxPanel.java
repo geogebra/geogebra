@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
@@ -110,11 +111,18 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 		tfStep.addFocusHandler(event -> stepFocused(event));
 
+		tagFields();
+
 		addMouseDownHandler(this);
 		addMouseUpHandler(this);
 		addBlurHandler(event -> hide());
-
 		update();
+	}
+
+	private void tagFields() {
+		DataTest.ALGEBRA_ITEM_SLIDER_MIN.apply(tfMin);
+		DataTest.ALGEBRA_ITEM_SLIDER_MAX.apply(tfMax);
+		DataTest.ALGEBRA_ITEM_SLIDER_STEP.apply(tfStep);
 	}
 
 	/**

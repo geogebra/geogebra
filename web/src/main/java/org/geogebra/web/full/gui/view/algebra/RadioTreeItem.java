@@ -54,7 +54,6 @@ import org.geogebra.web.full.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
-import org.geogebra.web.full.gui.util.DataTagger;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
@@ -69,6 +68,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
@@ -323,6 +323,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (outputPanel == null) {
 			outputPanel = new AlgebraOutputPanel();
 			outputPanel.addStyleName("avOutput");
+			DataTest.ALGEBRA_OUTPUT_ROW.apply(outputPanel);
 		}
 	}
 
@@ -2069,6 +2070,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		content.addStyleName("scrollableTextBox");
 		content.addStyleName("noPreview");
+		DataTest.ALGEBRA_INPUT.apply(content);
 		renderLatex("", false);
 		new FocusableWidget(AccessibilityGroup.ALGEBRA_ITEM, null, content) {
 			@Override
@@ -2165,9 +2167,5 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (mf != null) {
 			mf.getInternal().convertAndInsert(string);
 		}
-	}
-
-	public DataTagger tagger() {
-		return app.getGuiManager().getTagger();
 	}
 }

@@ -13,6 +13,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
@@ -65,6 +66,7 @@ public class ItemControls extends FlowPanel
 					openMoreMenu();
 			});
 			AriaHelper.setHidden(btnMore, true);
+			DataTest.ALGEBRA_ITEM_MORE_BUTTON.apply(btnMore);
 		}
 
 		return btnMore;
