@@ -488,6 +488,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + pi + ")");
 	}
 
+	// TODO testProductCommand
+
 	@Test
 	public void testFactorCommand() {
 		t("Factor(x^2-1)", "(x - 1) * (x + 1)");
