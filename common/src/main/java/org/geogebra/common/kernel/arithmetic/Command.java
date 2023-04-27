@@ -63,7 +63,7 @@ public class Command extends ValidExpression
 	private App app;
 	private GeoElementND[] evalGeos; // evaluated Elements
 	private Macro macro; // command may correspond to a macro
-	private boolean allowEvaluationForTypeCheck = true;
+	private boolean allowEvaluationForTypeCheck;
 	private StringBuilder sbToString;
 
 	private ValueType lastType = null;
@@ -333,7 +333,8 @@ public class Command extends ValidExpression
 						.geoTableVarLookup(label);
 				GeoCasCell geoCASCell = getKernel().getConstruction()
 						.lookupCasCellLabel(label);
-				replaceFunctionNode(geo, geoFunc, geoCASCell);
+				replaceFunctionNode(geo, geoFunc);
+				replaceFunctionNodeCas(geo, geoCASCell);
 				// make sure that we get from set the variable and not
 				// the function, needed for TRAC-5364
 				if (geo instanceof GeoDummyVariable && geoFunc == null
@@ -345,44 +346,41 @@ public class Command extends ValidExpression
 		return var;
 	}
 
-	private void replaceFunctionNode(GeoElement geo, GeoElement geoFunc, GeoCasCell geoCASCell) {
-		// if input function was without parameter
-		// replace geoDummyVariable with function
+	private void replaceFunctionNode(GeoElement geo, GeoElement geoFunc) {
 		if (geo instanceof GeoDummyVariable && geoFunc != null
 				&& geoFunc.isGeoFunction()) {
-			ExpressionNode funcNode = new ExpressionNode(kernel,
-					geoFunc, Operation.FUNCTION,
-					((GeoFunction) geoFunc)
-							.getFunctionVariables()[0]);
-			getArgument(0)
-					.traverse(Traversing.GeoDummyReplacer.getReplacer(
-							geoFunc.getLabelSimple(),
-							funcNode, true));
+			FunctionVariable functionVar = ((GeoFunction) geoFunc)
+					.getFunctionVariables()[0];
+			replaceDummiesWithFunctionNode(functionVar, geoFunc, geoFunc.getLabelSimple());
 		}
-		// if we couldn't find the function
-		// just as GeoCasCell
+	}
+
+	private void replaceDummiesWithFunctionNode(FunctionVariable functionVar,
+			GeoElement fn, String labelSimple) {
+		ExpressionNode funcNode = new ExpressionNode(kernel,
+				fn, Operation.FUNCTION, functionVar);
+		getArgument(0)
+				.traverse(Traversing.GeoDummyReplacer.getReplacer(
+						labelSimple,
+						funcNode, true));
+	}
+
+	private void replaceFunctionNodeCas(GeoElement geo, GeoCasCell geoCASCell) {
 		if (geo instanceof GeoDummyVariable
 				&& geoCASCell != null
-				&& geoCASCell
-				.getInputVE() instanceof Function) {
-			ExpressionNode funcNode = new ExpressionNode(kernel,
-					geo, Operation.FUNCTION,
-					geoCASCell
-							.getFunctionVariables()[0]);
-			String funcStr = getArgument(0)
-					.toString(StringTemplate.defaultTemplate);
-			// geoDummyVariable wasn't already changed
-			if (!funcStr
-					.contains("("
-							+ geoCASCell
-							.getFunctionVariables()[0]
-							+ ")")) {
-				getArgument(0)
-						.traverse(Traversing.GeoDummyReplacer.getReplacer(
-								geoCASCell.getLabel(StringTemplate.defaultTemplate),
-								funcNode, true));
+				&& geoCASCell.getInputVE() instanceof Function) {
+			FunctionVariable functionVar = geoCASCell.getFunctionVariables()[0];
+			if (doesNotHaveAsArgument(functionVar)) {
+				replaceDummiesWithFunctionNode(functionVar, geoCASCell,
+								geoCASCell.getLabel(StringTemplate.defaultTemplate));
 			}
 		}
+	}
+
+	private boolean doesNotHaveAsArgument(FunctionVariable functionVar) {
+		String funcStr = getArgument(0)
+				.toString(StringTemplate.defaultTemplate);
+		return !funcStr.contains("(" + functionVar + ")");
 	}
 
 	/**
@@ -444,9 +442,7 @@ public class Command extends ValidExpression
 	 * @return array of resulting geos
 	 */
 	public GeoElementND[] evaluateMultiple(EvalInfo info) {
-		GeoElementND[] geos = null;
-		geos = kernel.getAlgebraProcessor().processCommand(this, info);
-		return geos;
+		return kernel.getAlgebraProcessor().processCommand(this, info);
 	}
 
 	@Override
@@ -495,8 +491,8 @@ public class Command extends ValidExpression
 
 		// CAS parsing case: we need to resolve arguments also
 		if (info.getSymbolicMode() != SymbolicMode.NONE) {
-			for (int i = 0; i < args.size(); i++) {
-				args.get(i).resolveVariables(info);
+			for (ExpressionNode arg : args) {
+				arg.resolveVariables(info);
 			}
 
 			// avoid evaluation of command
@@ -520,8 +516,8 @@ public class Command extends ValidExpression
 							+ this);
 		}
 
-		for (int i = 0; i < evalGeos.length; i++) {
-			if (!evalGeos[i].isConstant()) {
+		for (GeoElementND evalGeo : evalGeos) {
+			if (!evalGeo.isConstant()) {
 				return false;
 			}
 		}
@@ -637,27 +633,24 @@ public class Command extends ValidExpression
 	public Command deepCopy(Kernel kernel1) {
 		Command c = new Command(kernel1, name, false);
 		// copy arguments
-		int size = args.size();
-		for (int i = 0; i < size; i++) {
-			c.addArgument(args.get(i).getCopy(kernel1));
+		for (ExpressionNode arg : args) {
+			c.addArgument(arg.getCopy(kernel1));
 		}
 		return c;
 	}
 
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
-		int size = args.size();
-		for (int i = 0; i < size; i++) {
-			args.get(i).replaceChildrenByValues(geo);
+		for (ExpressionNode arg : args) {
+			arg.replaceChildrenByValues(geo);
 		}
 	}
 
 	@Override
 	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> set = new HashSet<>();
-		int size = args.size();
-		for (int i = 0; i < size; i++) {
-			Set<GeoElement> s = args.get(i).getVariables(mode);
+		for (ExpressionNode arg : args) {
+			Set<GeoElement> s = arg.getVariables(mode);
 			if (s != null) {
 				set.addAll(s);
 			}
@@ -737,10 +730,7 @@ public class Command extends ValidExpression
 		if (v != this) {
 			return v;
 		}
-		for (int i = 0; i < args.size(); i++) {
-			ExpressionNode en = args.get(i).traverse(t).wrap();
-			args.set(i, en);
-		}
+		args.replaceAll(expressionNode -> expressionNode.traverse(t).wrap());
 		return this;
 	}
 
@@ -749,8 +739,8 @@ public class Command extends ValidExpression
 		if (t.check(this)) {
 			return true;
 		}
-		for (int i = 0; i < args.size(); i++) {
-			if (args.get(i).inspect(t)) {
+		for (ExpressionNode arg : args) {
+			if (arg.inspect(t)) {
 				return true;
 			}
 		}
