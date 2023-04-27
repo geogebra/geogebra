@@ -1108,6 +1108,10 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().setAlgebraOptions(options);
 	}
 
+	public void showAllObjects() {
+		getGgbAPI().showAllObjects();
+	}
+
 	private GgbAPIW getGgbAPI() {
 		if (ggbAPI == null) {
 			throw new IllegalStateException("app was already removed");
