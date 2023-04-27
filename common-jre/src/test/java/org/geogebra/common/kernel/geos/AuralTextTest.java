@@ -15,6 +15,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class AuralTextTest {
 
 	static AppCommon3D app;
@@ -110,6 +112,10 @@ public class AuralTextTest {
 
 	@Test
 	public void textAural() {
+		aural("LaTeX(\"a\\geq b\\leq c\")", "a" + Unicode.GREATER_EQUAL + "b"
+				+ Unicode.LESS_EQUAL + "c", "edit");
+		aural("LaTeX(\"a\\ge b\\le c\")", "a" + Unicode.GREATER_EQUAL + "b"
+				+ Unicode.LESS_EQUAL + "c", "edit");
 		aural("LaTeX(\"b=a+\\mathbf{x^2}\")", "b equals a plus x squared", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^3}\")", "a plus x cubed", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^4}\")", "a plus x to the power of 4 end power", "edit");
@@ -124,7 +130,7 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
 		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",
 				"edit");
-		aural("LaTeX(\"a\\Vert b\")", "a\u2225b", "edit");
+		aural("LaTeX(\"a\\Vert b\")", "a\u2016b", "edit");
 		aural("LaTeX(\"\\bgcolor{red}{\\text{not red text}}\")", "not red text",
 				"edit");
 		aural("TableText({{1,2,3},{3,4,5}})", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
