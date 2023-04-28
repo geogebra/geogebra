@@ -86,6 +86,7 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.EventListener;
 import elemental2.dom.HTMLTextAreaElement;
 import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
@@ -860,8 +861,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			inputTextArea = MyTextArea.wrap(el);
 
 			new EditorCompositionHandler(this).attachTo(inputTextArea);
-
-			inputTextArea.addFocusHandler(event -> {
+			addFocusListener(inputTextArea, event -> {
 				startBlink();
 				event.stopPropagation();
 			});
@@ -877,6 +877,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 
 		return inputTextArea.getElement();
+	}
+
+	private void addFocusListener(MyTextArea inputTextArea, EventListener o) {
+		// circumvent GWT event system to make sure this is fired
+		elemental2.dom.Element elh = Js.uncheckedCast(inputTextArea.getElement());
+		elh.addEventListener("focus", o);
 	}
 
 	public void clearState() {
