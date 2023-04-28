@@ -5,7 +5,12 @@ import org.gwtproject.user.client.ui.Widget;
 public enum DataTest {
 	MARBLE("marble"),
 	ALGEBRA_OUTPUT_ROW("algebraOutputRow"),
-	ALGEBRA_INPUT("algebraInput"),
+	ALGEBRA_INPUT("algebraInput") {
+		@Override
+		public String getId() {
+			return name();
+		}
+	},
 	ALGEBRA_ITEM_MORE_BUTTON("algebraItemMore"),
 	ALGEBRA_ITEM_PLAY_BUTTON("algebraItemPlay"),
 	ALGEBRA_ITEM_SYMBOLIC_BUTTON("algebraItemSymbolic"),
