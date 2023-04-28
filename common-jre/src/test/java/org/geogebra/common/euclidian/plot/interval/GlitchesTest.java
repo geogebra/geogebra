@@ -26,6 +26,18 @@ public class GlitchesTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void divByZeroThreshold() {
+		withHiResFunction("((1*10^(-13) x)/(1*10^(-13)))");
+		assertEquals(1 + 1920 * 2, gp.getLog().size());
+	}
+
+	@Test
+	public void divTwoConstantsBelowZeroThreshold() {
+		withHiResFunction("((1*10^(-13))/(1*10^(-13)))x");
+		assertEquals(1 + 1920 * 2, gp.getLog().size());
+	}
+
+	@Test
 	public void testXInverseMultipliedByZero() {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
