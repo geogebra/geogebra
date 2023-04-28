@@ -656,23 +656,16 @@ public class GeoNumeric extends GeoElement
 					&& !(getParentAlgorithm() instanceof SetRandomValue)) {
 				return "exact(rand(0,1))";
 			}
-
-			if (Double.isNaN(value)) {
-				return "undef";
-			}
-
-			if (Double.isInfinite(value)) {
-				if (value > 0) {
-					return "inf";
-				}
-				return "-inf";
-			}
-			if (getDefinition() != null) {
+			if (getDefinition() != null && Double.isFinite(value)) {
 				return getDefinition().toValueString(tpl);
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
-		if (symbolicMode && getDefinition() != null && tpl.supportsFractions()) {
+		// in general toFractionString falls back to printing evaluation result if not a fraction
+		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
+		if ((symbolicMode || DoubleUtil.isInteger(value))
+				&& getDefinition() != null
+				&& !getDefinition().isLeaf() && tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);
