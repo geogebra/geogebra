@@ -319,6 +319,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		left: auto !important;
 		z-index: z-index.$z-on-top-of-graphics;
 		will-change: transform;
+		user-select: none;
 
     	.zoomPanelBtn {
     		display: block;
