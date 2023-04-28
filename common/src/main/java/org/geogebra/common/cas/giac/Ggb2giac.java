@@ -1272,6 +1272,7 @@ public class Ggb2giac {
 						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||indexOf(?,lname(ggbsimpans2))!=?,ggbsimpans,ggbsimpans2)][1]");
 
 		p("Regroup.1", "regroup(%0)");
+		p("ExpSimplify.1", "lncollect(%0)");
 		p("ExpandOnly.1", "expand(%0)");
 
 		 p("Solutions.1",

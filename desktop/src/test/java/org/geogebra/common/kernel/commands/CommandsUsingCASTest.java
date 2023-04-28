@@ -226,6 +226,8 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void cmdAsymptote() {
+		t("Asymptote(ln(x)-ln(1-x))", "{x = 0}");
+		t("Asymptote(ln(x)+ln(1/(1-x)))", "{x = 0}");
 		t("Asymptote(ln(x/(1-x)))", "{x = 0}");
 		t("Asymptote[ x*y=1 ]", "x = 0", "y = 0");
 		t("Asymptote[ 1/x ]", "{y = 0, x = 0}");

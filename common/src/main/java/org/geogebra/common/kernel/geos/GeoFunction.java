@@ -2131,8 +2131,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						"Denominator(", ")", funVarStr);
 			}
 			String expAsymptotes = transformedVericalAsymptotes(
-					"exp(Numerator(",
-					"))", funVarStr);
+					"ExpSimplify(exp(Numerator(",
+					")))", funVarStr);
 			if (GeoFunction.isInvalidForAsymptote(verticalAsymptotes)
 					|| "{}".equals(verticalAsymptotes)) {
 				verticalAsymptotes = expAsymptotes;
