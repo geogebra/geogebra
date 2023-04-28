@@ -78,9 +78,8 @@ public class SolverSerializer extends SerializerAdapter {
 			}
 			break;
 		case RECURRING_DECIMAL:
-			serialize(function.getArgument(0), sb);
 			sb.append(openingBracket);
-			serialize(function.getArgument(1), sb);
+			serialize(function.getArgument(0), sb);
 			sb.append(closingBracket);
 			break;
 		case LOG:

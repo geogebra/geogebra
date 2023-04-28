@@ -377,8 +377,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public static boolean isGlobalEvent(NativeEvent event) {
 		int code = event.getKeyCode();
 		if (isControlKeyDown(event)) {
-			return code == JavaKeyCodes.VK_S
-					|| code == JavaKeyCodes.VK_O;
+			return code == JavaKeyCodes.VK_S;
+					//|| code == JavaKeyCodes.VK_O;
 		} else {
 			return code == JavaKeyCodes.VK_F4;
 		}

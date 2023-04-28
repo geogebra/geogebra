@@ -52,7 +52,7 @@ public class KeyListenerImpl {
 				return true;
 			}
 			return false;
-		case JavaKeyCodes.VK_B:
+		case JavaKeyCodes.VK_O:
 			if (ctrlPressed) {
 				inputController.newFunction(editorState, "recurringDecimal", false, null);
 				return true;

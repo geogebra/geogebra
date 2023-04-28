@@ -117,9 +117,8 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			stringBuilder.append(")))");
 			break;
 		case RECURRING_DECIMAL:
-			serialize(mathFunction.getArgument(0), stringBuilder);
 			int i = stringBuilder.length() + 1;
-			serialize(mathFunction.getArgument(1), stringBuilder);
+			serialize(mathFunction.getArgument(0), stringBuilder);
 			while (i < stringBuilder.length()) {
 				stringBuilder.insert(i, "\u0305");
 				i += 2;

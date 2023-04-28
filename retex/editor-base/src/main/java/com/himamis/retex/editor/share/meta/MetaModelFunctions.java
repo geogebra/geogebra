@@ -92,7 +92,7 @@ class MetaModelFunctions {
 						}));
 
 		functions.add(createFunction(Tag.RECURRING_DECIMAL, "", new MetaParameter[] {
-				MetaParameter.BASIC, MetaParameter.BASIC
+				MetaParameter.BASIC
 		}));
 
 		functions.add(

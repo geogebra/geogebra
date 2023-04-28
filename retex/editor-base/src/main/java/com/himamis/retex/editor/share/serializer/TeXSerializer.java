@@ -324,9 +324,8 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("}");
 			break;
 		case RECURRING_DECIMAL:
-			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("\\overline{");
-			serialize(function.getArgument(1), stringBuilder);
+			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("}");
 			break;
 		default:

@@ -458,9 +458,7 @@ public class TeXBuilder {
 					build(argument.getArgument(2)));
 			return wrap(whole, frac);
 		case RECURRING_DECIMAL:
-			Atom dec = build(argument.getArgument(0));
-			Atom rec = new OverlinedAtom(build(argument.getArgument(1)));
-			return wrap(dec, rec);
+			return new OverlinedAtom(build(argument.getArgument(0)));
 		default:
 			StringBuilder functionName = new StringBuilder();
 			teXSerializer.serialize(argument.getArgument(0), functionName);

@@ -340,8 +340,8 @@ public class InputController {
 			function.setArgument(i, field);
 		}
 
-		// pass characters for fraction, factorial, recurring decimal, and mixed number only
-		if (tag == Tag.FRAC || tag == Tag.MIXED_NUMBER || tag == Tag.RECURRING_DECIMAL) {
+		// pass characters for fraction, factorial, and mixed number only
+		if (tag == Tag.FRAC || tag == Tag.MIXED_NUMBER) {
 			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
