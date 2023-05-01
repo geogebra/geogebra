@@ -14,6 +14,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.util.DataTest;
+import org.geogebra.web.html5.util.HasDataTest;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
@@ -24,7 +25,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  *
  */
 public class ItemControls extends FlowPanel
-		implements AnimPanelListener, SetLabels {
+		implements AnimPanelListener, SetLabels, HasDataTest {
 
 	private final RadioTreeItem radioTreeItem;
 	private final LatexTreeItemController ctrl;
@@ -66,7 +67,6 @@ public class ItemControls extends FlowPanel
 					openMoreMenu();
 			});
 			AriaHelper.setHidden(btnMore, true);
-			DataTest.ALGEBRA_ITEM_MORE_BUTTON.apply(btnMore);
 		}
 
 		return btnMore;
@@ -375,6 +375,14 @@ public class ItemControls extends FlowPanel
 		}
 		if (animPanel != null) {
 			animPanel.setLabels(this.radioTreeItem.loc);
+		}
+	}
+
+	@Override
+	public void updateDataTest(int index) {
+		DataTest.ALGEBRA_ITEM_MORE_BUTTON.applyWithIndex(btnMore, index);
+		if (animPanel != null) {
+			animPanel.updateDataTest(index);
 		}
 	}
 }

@@ -39,7 +39,6 @@ public class MarblePanel extends FlowPanel
 		marble = new Marble(item);
 		marble.setStyleName("marble");
 		marble.setEnabled(shouldShowMarble());
-		DataTest.MARBLE.apply(marble);
 		addStyleName("marblePanel");
 
 		if (item.getAV().isInputActive() && item.getGeo() == null) {
@@ -220,7 +219,7 @@ public class MarblePanel extends FlowPanel
 
 	@Override
 	public void setIndex(int itemCount) {
-		// index not visible
+		DataTest.MARBLE.applyWithIndex(marble, itemCount);
 	}
 
 	@Override

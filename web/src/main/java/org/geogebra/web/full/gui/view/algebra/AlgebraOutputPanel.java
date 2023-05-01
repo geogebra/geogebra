@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.HTML;
@@ -26,6 +25,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Output part of AV item
  */
 public class AlgebraOutputPanel extends FlowPanel {
+	private static ToggleButton btnSymbolic;
 	private final FlowPanel valuePanel;
 	private Canvas valCanvas;
 
@@ -76,14 +76,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 * @param parent parent panel
 	 * @param geo geoelement
 	 */
-	public static void createSymbolicButton(FlowPanel parent,
+	public static ToggleButton createSymbolicButton(FlowPanel parent,
 			final GeoElement geo) {
 
 		ToggleButton btnSymbolic = getSymbolicButtonIfExists(parent);
 
 		if (btnSymbolic == null) {
 			btnSymbolic = newSymbolicButton(geo);
-			DataTest.ALGEBRA_ITEM_SYMBOLIC_BUTTON.apply(btnSymbolic);
 		}
 
 		updateSymbolicIcons(geo, btnSymbolic);
@@ -98,7 +97,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 
 		parent.add(btnSymbolic);
+		return btnSymbolic;
 	}
+
 
 	private static void updateSymbolicIcons(GeoElement geo, ToggleButton btnSymbolic) {
 		if (AlgebraItem.evaluatesToFraction(geo)) {

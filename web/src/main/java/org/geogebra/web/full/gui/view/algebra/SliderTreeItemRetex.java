@@ -288,4 +288,10 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	public void onStopEdit() {
 		// nothing to do here
 	}
+
+	@Override
+	public void updateDataTest(int index) {
+		super.updateDataTest(index);
+		minMaxPanel.updateDataTest(index);
+	}
 }

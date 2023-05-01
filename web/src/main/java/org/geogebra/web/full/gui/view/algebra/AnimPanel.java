@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.util.DataTest;
+import org.geogebra.web.html5.util.HasDataTest;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -23,7 +24,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Animation panel for points and sliders
  *
  */
-public class AnimPanel extends FlowPanel implements ClickHandler {
+public class AnimPanel extends FlowPanel implements ClickHandler, HasDataTest {
 
 	/** Size of play button in pixels */
 	public static final int PLAY_BUTTON_SIZE = 24;
@@ -47,15 +48,15 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 * Callback for play button
 	 */
 	public interface AnimPanelListener {
+
 		/**
 		 * Run this when animation was started / stopped
-		 * 
+		 *
 		 * @param play
 		 *            whether animation was started
 		 */
 		void onPlay(boolean play);
 	}
-
 	/**
 	 * @param radioTreeItem
 	 *            parent item
@@ -69,7 +70,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 
 		buildGui();
 	}
-	
+
 	private void buildGui() {
 		createPlayButton();
 		btnPlay.addStyleName("playOnly");
@@ -77,7 +78,6 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		add(speedPanel);
 		add(btnPlay);
 		ClickStartHandler.initDefaults(btnPlay, false, true);
-		DataTest.ALGEBRA_ITEM_PLAY_BUTTON.apply(btnPlay);
 	}
 
 	private void buildSpeedPanel() {
@@ -149,7 +149,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 
 	/**
 	 * Set animating flag of underlying geo
-	 * 
+	 *
 	 * @param value
 	 *            whether animation is on
 	 */
@@ -258,11 +258,16 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 
 	/**
 	 * Update alt text according to localization
-	 * 
+	 *
 	 * @param loc
 	 *            localization
 	 */
 	public void setLabels(Localization loc) {
 		AriaHelper.setLabel(btnPlay, loc.getMenu("Play"));
+	}
+
+	@Override
+	public void updateDataTest(int index) {
+		DataTest.ALGEBRA_ITEM_PLAY_BUTTON.applyWithIndex(btnPlay, index);
 	}
 }
