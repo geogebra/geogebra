@@ -7,16 +7,29 @@ import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
-import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.editor.MathFieldProcessing;
+import org.geogebra.web.full.gui.AlgebraMathFieldProcessing;
+import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
+import org.geogebra.web.full.gui.dialog.text.TextEditPanelProcessing;
+import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
+import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
+import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
+import org.geogebra.web.full.util.keyboard.ScriptAreaProcessing;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -35,12 +48,13 @@ public class KeyboardManager
 		implements RequiresResize, KeyboardManagerInterface {
 
 	private static final int SWITCHER_HEIGHT = 42;
-	private AppW app;
+	private final AppW app;
 	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
+	private KeyboardListener processing;
 
 	/**
 	 * Constructor
@@ -205,6 +219,9 @@ public class KeyboardManager
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
 			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app, showMoreButton);
+			if (processing != null) {
+				keyboard.setProcessing(processing);
+			}
 		}
 	}
 
@@ -234,16 +251,14 @@ public class KeyboardManager
 
 	@Override
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
+		processing = makeKeyboardListener(textField, app.getLastItemProvider());
 		if (keyboard != null) {
 			if (textField != null) {
 				addExtraSpaceForKeyboard();
 			} else {
 				removeExtraSpaceForKeyboard();
 			}
-
-			keyboard.setProcessing(
-					GuiManagerW.makeKeyboardListener(
-							textField, app.getLastItemProvider()));
+			keyboard.setProcessing(processing);
 		}
 	}
 
@@ -307,5 +322,42 @@ public class KeyboardManager
 		if (keyboard != null) {
 			keyboard.selectTab(tab);
 		}
+	}
+
+	/**
+	 * Create keyboard adapter for text editing object.
+	 * Implemented here so that the components from web-common can have
+	 * processing implementation in web.
+	 */
+	private static KeyboardListener makeKeyboardListener(
+			MathKeyboardListener textField, HasLastItem lastItemProvider) {
+		if (textField instanceof RetexKeyboardListener) {
+			return new MathFieldProcessing(
+					((RetexKeyboardListener) textField).getMathField());
+		}
+		if (textField instanceof RadioTreeItem) {
+			return new AlgebraMathFieldProcessing(
+					(RadioTreeItem) textField,
+					lastItemProvider);
+		}
+		if (textField instanceof KeyboardListener) {
+			return (KeyboardListener) textField;
+		}
+		if (textField instanceof GTextBox) {
+			return new GTextBoxProcessing((GTextBox) textField);
+		}
+		if (textField instanceof TextEditPanel) {
+			return new TextEditPanelProcessing((TextEditPanel) textField);
+		}
+		if (textField instanceof AutoCompleteTextFieldW) {
+			return new AutocompleteProcessing(
+					(AutoCompleteTextFieldW) textField);
+		}
+
+		if (textField instanceof ScriptArea) {
+			return new ScriptAreaProcessing((ScriptArea) textField);
+		}
+
+		return null;
 	}
 }
