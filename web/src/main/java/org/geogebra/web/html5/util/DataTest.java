@@ -30,6 +30,12 @@ public enum DataTest {
 		TestHarness.setAttr(widget, name);
 	}
 
+	/**
+	 * Sets testing attribute on widget to the enum value.
+	 * @param widget to set attribute to.
+	 * @param index number to add to the attribute value to
+	 * support unique values.
+	 */
 	public void applyWithIndex(Widget widget, int index) {
 		TestHarness.setAttr(widget, name + index);
 	}
