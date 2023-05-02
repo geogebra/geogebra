@@ -277,6 +277,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void setIndexLast() {
 		index = getAV().getItemCount();
 	}
+
 	public int getIndex() {
 		return index;
 	}

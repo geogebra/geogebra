@@ -73,7 +73,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	/**
 	 * @param parent parent panel
-	 * @param geo geoelement
+	 * @param geo geoElement
+	 * @return the symbolic button
 	 */
 	public static ToggleButton createSymbolicButton(FlowPanel parent,
 			final GeoElement geo) {
@@ -98,7 +99,6 @@ public class AlgebraOutputPanel extends FlowPanel {
 		parent.add(btnSymbolic);
 		return btnSymbolic;
 	}
-
 
 	private static void updateSymbolicIcons(GeoElement geo, ToggleButton btnSymbolic) {
 		if (AlgebraItem.evaluatesToFraction(geo)) {

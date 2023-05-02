@@ -57,6 +57,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler, HasDataTest {
 		 */
 		void onPlay(boolean play);
 	}
+
 	/**
 	 * @param radioTreeItem
 	 *            parent item

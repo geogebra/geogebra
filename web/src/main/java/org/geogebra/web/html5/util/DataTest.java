@@ -18,6 +18,10 @@ public enum DataTest {
 		this.name = name;
 	}
 
+	/**
+	 * Sets testing attribute on widget to the enum value.
+	 * @param widget to set attribute to.
+	 */
 	public void apply(Widget widget) {
 		if (widget == null) {
 			return;
