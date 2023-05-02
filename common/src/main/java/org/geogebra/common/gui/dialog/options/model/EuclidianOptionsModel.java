@@ -458,7 +458,7 @@ public class EuclidianOptionsModel {
 		if (DoubleUtil.isEqual(value, Math.PI)) {
 			return Unicode.PI_STRING;
 		}  else if (DoubleUtil.isEqual(value, Kernel.PI_HALF)) {
-			return Unicode.PI_STRING + "/2";
+			return Unicode.PI_HALF_STRING;
 		} else {
 			return view.getApplication().getKernel().format(value, StringTemplate.defaultTemplate);
 		}

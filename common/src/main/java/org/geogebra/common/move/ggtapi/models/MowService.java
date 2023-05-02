@@ -63,4 +63,9 @@ public class MowService implements Service {
 		return true;
 	}
 
+	@Override
+	public String getSearchMaterialFilter() {
+		return "";
+	}
+
 }

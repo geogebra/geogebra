@@ -24,4 +24,6 @@ public interface Service {
 	default boolean requiresCSRF() {
 		return false;
 	}
+
+	String getSearchMaterialFilter();
 }

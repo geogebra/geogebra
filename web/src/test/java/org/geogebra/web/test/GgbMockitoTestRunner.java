@@ -59,6 +59,7 @@ import org.junit.runners.model.InitializationError;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
 import com.himamis.retex.editor.web.ClickAdapterW;
+import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.ImageW;
@@ -142,6 +143,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(CancelEventTimer.class, "killTouch", Void.class);
         StubGenerator.replaceMethodWithMock(GPopupPanel.class, "getContainerElement", Void.class);
+        StubGenerator.replaceMethodWithMock(MathFieldW.class, "addFocusListener", Void.class);
 
     }
 

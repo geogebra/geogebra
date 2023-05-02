@@ -5,6 +5,7 @@
     <title>Evaluator - GeoGebra</title>
     <meta property="og:title" content="Evaluator - GeoGebra" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <script src="https://fred-wang.github.io/TeXZilla/TeXZilla-min.js"></script>
     <script type="text/javascript" language="javascript" src="editor/editor.nocache.js"></script>
     <style>
         body,html {
@@ -25,7 +26,11 @@
 <main id="main3"></main>
 <script>
     function renderGGBElementReady() {
-        renderGGBElement(document.querySelector("#main1"));
+        renderGGBElement(document.querySelector("#main1"), api => {
+            api.registerClientListener(evt => {
+                TeXZilla.toMathML(evt.latex, true, false, true);
+            });
+        });
         renderGGBElement(document.querySelector("#main2"));
         renderGGBElement(document.querySelector("#main3"));
     }

@@ -30,7 +30,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 	 *            - button for popup
 	 */
 	public AppSwitcherPopup(AppWFull app, SuiteHeaderAppPicker pickerButton) {
-		super(true, app.getPanel(), app);
+		super(true, app.getAppletFrame(), app);
 		this.appPickerButton = pickerButton;
 		this.app = app;
 		addAutoHidePartner(appPickerButton.getElement());

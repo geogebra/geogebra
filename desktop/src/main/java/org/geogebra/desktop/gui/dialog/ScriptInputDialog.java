@@ -17,6 +17,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -24,16 +25,15 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import org.geogebra.common.gui.view.algebra.DialogType;
-import org.geogebra.common.kernel.geos.GeoButton;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
 import org.geogebra.desktop.gui.editor.JavaScriptBeautifier;
+import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -42,56 +42,52 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author hohenwarter
  */
-public class ScriptInputDialog extends InputDialogD
-		implements IScriptInputListener, DocumentListener {
-	private ScriptInputModel model;
-	private JComboBox languageSelector;
+public class ScriptInputDialog extends JPanel
+		implements IScriptInputListener, DocumentListener, UpdateFonts, ActionListener, SetLabels {
+	private final AppD app;
+	private final ScriptInputModel model;
+	private final JComboBox<String> languageSelector;
+	private final InputPanelD inputPanel;
 
 	/**
 	 * Input Dialog for a GeoButton object
 	 * 
 	 * @param app application
-	 * @param title title
-	 * @param button element with script
 	 * @param cols number of columns
 	 * @param rows number of rows
-	 * @param updateScript whether it's for update script
-	 * @param forceJavaScript whether to restrict language chooser to JS
 	 */
-	public ScriptInputDialog(AppD app, String title, GeoButton button, int cols,
-			int rows, boolean updateScript, boolean forceJavaScript) {
-		super(app.getFrame(), false, app.getLocalization());
+	public ScriptInputDialog(AppD app, int cols,
+			int rows, ScriptInputModel model) {
+		super(new BorderLayout(0, 0));
 		this.app = app;
-		model = new ScriptInputModel(app, this, updateScript);
+		this.model = model;
+		model.setListener(this);
 
-		createGUI(title, "", false, cols, rows, true, false, false, false,
-				DialogType.GeoGebraEditor);
-
+		inputPanel = new InputPanelD("", app, rows, cols, false,
+				 DialogType.GeoGebraEditor);
 		// init dialog using text
-		languageSelector = new JComboBox();
-		for (ScriptType type : ScriptType.values()) {
-			languageSelector.addItem(loc.getMenu(type.getName()));
-		}
+		languageSelector = new JComboBox<>();
+		JPanel btPanel = new JPanel();
+		btPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		btPanel.add(languageSelector, 0);
+		fillLanguageSelector();
 		languageSelector.addActionListener(this);
+		JPanel centerPanel = new JPanel(new BorderLayout());
+		centerPanel.add(inputPanel, BorderLayout.CENTER);
+		add(centerPanel, BorderLayout.CENTER);
+		add(btPanel, BorderLayout.SOUTH);
 
-		model.setGeo(button);
+		inputPanel.getTextComponent().getDocument().addDocumentListener(this);
+	}
 
-		if (forceJavaScript) {
+	private void fillLanguageSelector() {
+		for (ScriptType type : ScriptType.values()) {
+			languageSelector.addItem(app.getLocalization().getMenu(type.getName()));
+		}
+		if (model.isForcedJs()) {
 			languageSelector.setSelectedIndex(1);
 			languageSelector.setEnabled(false);
 		}
-		btPanel.removeAll();
-		btPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		btPanel.add(languageSelector, 0);
-
-		JPanel centerPanel = new JPanel(new BorderLayout());
-		centerPanel.add(inputPanel, BorderLayout.CENTER);
-
-		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
-
-		centerOnScreen();
-
-		inputPanel.getTextComponent().getDocument().addDocumentListener(this);
 	}
 
 	/**
@@ -113,39 +109,20 @@ public class ScriptInputDialog extends InputDialogD
 		return inputPanel;
 	}
 
-	private void processInput(AsyncOperation<Boolean> callback) {
+	private void processInput() {
 		ScriptType type = ScriptType.values()[languageSelector
 				.getSelectedIndex()];
-		model.processInput(inputPanel.getText(), type, callback);
+		model.processInput(inputPanel.getText(), type);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			processInput(finished -> {
-				if (wrappedDialog.isShowing()) {
-					// text dialog window is used and open
-					setVisible(!finished);
-				} else {
-					// text input field embedded in properties window
-					model.setGeo(model.getGeo());
-				}
-			});
+			processInput();
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
 			ex.printStackTrace();
 		}
-	}
-
-	/**
-	 * Inserts geo into text and creates the string for a dynamic text, e.g.
-	 * "Length of a = " + a + "cm"
-	 * 
-	 * @param geo element
-	 */
-	@Override
-	public void insertGeoElement(GeoElement geo) {
-		Log.debug("TODO: unimplemented");
 	}
 
 	/**
@@ -154,10 +131,7 @@ public class ScriptInputDialog extends InputDialogD
 	public void applyModifications() {
 		if (model.isEditOccurred()) {
 			model.setEditOccurred(false);
-			processInput(obj -> {
-				// TODO Auto-generated method stub
-
-			});
+			processInput();
 		}
 	}
 
@@ -181,8 +155,6 @@ public class ScriptInputDialog extends InputDialogD
 
 	@Override
 	public void updateFonts() {
-		super.updateFonts();
-
 		Font font = app.getPlainFont();
 		languageSelector.setFont(font);
 	}
@@ -206,17 +178,16 @@ public class ScriptInputDialog extends InputDialogD
 		editor.getDocument().addDocumentListener(this);
 	}
 
-	public void setGeo(GeoElement button) {
-		model.setGeo(button);
-	}
-
-	public void setGlobal() {
-		model.setGlobal();
-	}
-
 	@Override
 	public Object updatePanel(Object[] geos2) {
 		return this;
 	}
 
+	@Override
+	public void setLabels() {
+		languageSelector.removeActionListener(this);
+		languageSelector.removeAllItems();
+		fillLanguageSelector();
+		languageSelector.addActionListener(this);
+	}
 }

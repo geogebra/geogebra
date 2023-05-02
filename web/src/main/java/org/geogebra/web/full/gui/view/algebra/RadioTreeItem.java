@@ -474,13 +474,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			outputPanel.reset();
 
 			String text = previewGeo
-					.getAlgebraDescription(StringTemplate.latexTemplate)
-					.replace("undefined", "").trim();
-			if (!StringUtil.empty(text)
-					&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
-				text = text.substring(1);
-			}
-
+					.getAlgebraDescriptionForPreviewOutput();
 			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 			outputPanel.addArrowPrefix();
 			outputPanel.addValuePanel();
