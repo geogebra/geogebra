@@ -2178,6 +2178,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	protected void updateDataTest() {
+		updateDataTest(index);
+	}
+
 	@Override
 	public void updateDataTest(int index) {
 		marblePanel.setIndex(index);

@@ -61,7 +61,6 @@ public class ItemControls extends FlowPanel
 		if (btnMore == null) {
 			btnMore = new StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
 			btnMore.addStyleName("more");
-			TestHarness.setAttr(btnMore, "avItemMoreButton");
 			btnMore.addFastClickHandler((event) -> {
 					getController().preventBlur();
 					openMoreMenu();
