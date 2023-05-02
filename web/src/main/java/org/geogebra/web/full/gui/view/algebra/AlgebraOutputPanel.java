@@ -25,7 +25,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Output part of AV item
  */
 public class AlgebraOutputPanel extends FlowPanel {
-	private static ToggleButton btnSymbolic;
 	private final FlowPanel valuePanel;
 	private Canvas valCanvas;
 
