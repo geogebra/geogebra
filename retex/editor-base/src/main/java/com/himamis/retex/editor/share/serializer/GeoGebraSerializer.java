@@ -331,7 +331,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			return false;
 		}
 		stringBuilder.insert(isMixedNumber(stringBuilder), "(");
-		if (!stringBuilder.toString().contains("\u2064")) {
+		if (stringBuilder.charAt(stringBuilder.length() - 1) != '\u2064') {
 			stringBuilder.append("\u2064");
 		}
 		stringBuilder.append("((");
@@ -356,7 +356,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			stringBuilder.append(mathFunction.getArgument(0).getArgument(i));
 			i++;
 		}
-		stringBuilder.append("\u2064(("); //mathFunction.getArgument(0).getArgument(i)
+		stringBuilder.append("\u2064((");
 		for (int j = i + 1; j < mathFunction.getArgument(0).getArgumentCount(); j++) {
 			stringBuilder.append(mathFunction.getArgument(0).getArgument(j));
 		}
@@ -374,12 +374,12 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		boolean isMixedNumber = false;
 		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
 			if (" \u2064".contains(Character.toString(stringBuilder.charAt(i)))
-					&& !isMixedNumber) {
+					&& !isMixedNumber) { //Expecting invisible plus or space preceeding the integer
 				continue;
 			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
 				isMixedNumber = true;
 			} else if (isMixedNumber
-					&& " +-+/(".contains(Character.toString(stringBuilder.charAt(i)))) {
+					&& " +-*/(".contains(Character.toString(stringBuilder.charAt(i)))) {
 				return i + 1;
 			} else {
 				isMixedNumber = false;
@@ -392,7 +392,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	/**
 	 * Used to determine if a function contains of digits and invisible plus only
 	 * (for mixed numbers)
-	 * @param mathFunction (Fraction)
+	 * @param mathFunction MathFunction
 	 * @return True if digits (and invisible plus) only are found, false else
 	 */
 	private boolean isValidMixedNumber(MathFunction mathFunction) {
