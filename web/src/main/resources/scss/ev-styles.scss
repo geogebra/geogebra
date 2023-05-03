@@ -48,17 +48,17 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		// popup has 500
 		z-index: z-index.$z-dialog-under-keyboard;
 		position: absolute;
-	    border-radius: 2px;
-	    padding: 8px 4px 8px 16px;
-	    background-color: colors.$white;
-	    box-shadow: 0 0 2px 1px colors.$popup-shadow;
+		border-radius: 2px;
+		padding: 8px 4px 8px 16px;
+		background-color: colors.$white;
+		box-shadow: 0 0 2px 1px colors.$popup-shadow;
 
-	    &.noContextBtn {
-	    	padding: 8px 0px 8px 8px;
-	    }
+		&.noContextBtn {
+			padding: 8px 0px 8px 8px;
+		}
 
-	    /*stylebar btn*/
-	    .MyCanvasButton {
+		/*stylebar btn*/
+		.MyCanvasButton {
 			text-align: center;
 			border-radius: 2px;
 			border: colors.$tool-border solid 1px;
@@ -111,11 +111,11 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	}
 
 	.mowDynStyleBar.matDynStyleBar.noContextBtn{
-	    padding: 8px 0px 8px 8px;
+		padding: 8px 0px 8px 8px;
 
-	    .MyCanvasButton.delete{
-	    	margin-right: -12px;
-	    }
+		.MyCanvasButton.delete{
+			margin-right: -12px;
+		}
 	}
 
 	/* text size popup */
@@ -125,19 +125,19 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		margin: 0px;
 
 		.matSelectionTable {
-    		border-collapse: separate;
+			border-collapse: separate;
 			border-spacing: 0px 0px;
 
-    		.gwt-Label {
-    			padding: 0px 16px 0px 16px;
-    			height: 24px;
-    			line-height: 24px;
+			.gwt-Label {
+				padding: 0px 16px 0px 16px;
+				height: 24px;
+				line-height: 24px;
 
-    			&:hover {
-    				background-color: colors.$selected-menuitem-background;
-    			}
-    		}
-    	}
+				&:hover {
+					background-color: colors.$selected-menuitem-background;
+				}
+			}
+		}
 
 	}
 
@@ -150,86 +150,86 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		z-index: z-index.$z-dialog-over-keyboard;
 		min-height: 30px;
 
-        .ButtonPopupMenu .panelRow2.showSlider {
-            display: inline-block;
-             width: 144px;
-        }
+		.ButtonPopupMenu .panelRow2.showSlider {
+			display: inline-block;
+			 width: 144px;
+		}
 
-        .ButtonPopupMenu .panelRow2.hideSlider {
-            display: none;
-        }
+		.ButtonPopupMenu .panelRow2.hideSlider {
+			display: none;
+		}
 
-    	/*slider panel*/
-    	.ButtonPopupMenu .panelRow2 {
-    		padding-bottom: 8px;
-            padding-top: 8px;
+		/*slider panel*/
+		.ButtonPopupMenu .panelRow2 {
+			padding-bottom: 8px;
+			padding-top: 8px;
 
-    		/*slider label*/
-    		.popupSliderLabel {
-    		    margin: 0px 10px;
-    		    cursor: default;
-    		}
-    		/*slider*/
-    		input[type=range] {
-    			padding: 5px 0;
-    			margin: 0px 0px 0px 8px;
-    			width: calc(100% - 56px);
-    			cursor: pointer;
-    		}
-    		.opacityLabel {
-    			display: block;
-			    margin-bottom: 15px;
-			    margin-left: 5px;
-			    margin-top: 5px;
-			    cursor: default;
-    		}
-    		.thicknessLabel {
-    			display: block;
-			    margin-bottom: 10px;
-			    margin-left: 5px;
-			    margin-top: 5px;
-			    cursor: default;
-    		}
-    		.pointSizeLabel {
-    			display: block;
-			    margin-left: 5px;
-			    margin-top: 5px;
-			    cursor: default;
-    		}
-    		.preview{
-		    	margin: 3px 0px 3px 12px;
+			/*slider label*/
+			.popupSliderLabel {
+				margin: 0px 10px;
+				cursor: default;
 			}
-    	}
+			/*slider*/
+			input[type=range] {
+				padding: 5px 0;
+				margin: 0px 0px 0px 8px;
+				width: calc(100% - 56px);
+				cursor: pointer;
+			}
+			.opacityLabel {
+				display: block;
+				margin-bottom: 15px;
+				margin-left: 5px;
+				margin-top: 5px;
+				cursor: default;
+			}
+			.thicknessLabel {
+				display: block;
+				margin-bottom: 10px;
+				margin-left: 5px;
+				margin-top: 5px;
+				cursor: default;
+			}
+			.pointSizeLabel {
+				display: block;
+				margin-left: 5px;
+				margin-top: 5px;
+				cursor: default;
+			}
+			.preview{
+				margin: 3px 0px 3px 12px;
+			}
+		}
 
-    	.labelPopupPanel {
-    		padding: 8px 8px;
-    		width: 192px;
+		.labelPopupPanel {
+			padding: 8px 8px;
+			width: 192px;
 
-    		.panelRow {
-    			height: 32px !important;
-    			display: flex;
-    			.gwt-Label {
-    				line-height: 30px;
-    				cursor: default;
+			.panelRow {
+				height: 32px !important;
+				display: flex;
+				.gwt-Label {
+					line-height: 30px;
+					cursor: default;
 				}
 
-    			.AutoCompleteTextFieldW {
-    				width: 134px;
-    				margin: 0px !important;
-    				border-radius: 2px;
+				.AutoCompleteTextFieldW {
+					width: 134px;
+					margin: 0px !important;
+					border-radius: 2px;
 
-    				.TextField {
-    					padding: 2px;
-   						padding-left: 8px;
-   						margin-bottom: 2px;
-    					border: none;
-    					border-bottom: 1px solid #dcdcdc;
-    					background: transparent;
-    					box-shadow: none;
-    					border-radius: 0px !important;
-    				}
-    			}
-    		}
+					.TextField {
+						padding: 2px;
+						padding-left: 8px;
+						margin-bottom: 2px;
+						border: none;
+						border-bottom: 1px solid #dcdcdc;
+						background: transparent;
+						box-shadow: none;
+						border-radius: 0px !important;
+					}
+				}
+			}
 
 			.checkMarkMenuItem {
 				cursor: pointer;
@@ -253,38 +253,38 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			border-collapse: separate;
 			border-spacing: 8px 8px;
 
-    		td {
-    		    padding: 0px;
-    		}
+			td {
+				padding: 0px;
+			}
 
-    		.gwt-Label {
-    			margin: 0px;
-    		}
+			.gwt-Label {
+				margin: 0px;
+			}
 
-    		.gwt-Label.border {
-    			border-radius: 2px;
-    		}
+			.gwt-Label.border {
+				border-radius: 2px;
+			}
 
-    		 .gwt-Label.borderButton {
-    		 	border: 1px solid;
-    			border-radius: 2px;
-    			height: 24px;
-    			width: 24px;
+			 .gwt-Label.borderButton {
+				border: 1px solid;
+				border-radius: 2px;
+				height: 24px;
+				width: 24px;
 
-    			&:hover {
-    				opacity: 0.65;
-    			}
+				&:hover {
+					opacity: 0.65;
+				}
 
-    			&.plusButton {
-    				border: colors.$black-30 solid 1px;
-    				opacity: 0.54;
+				&.plusButton {
+					border: colors.$black-30 solid 1px;
+					opacity: 0.54;
 
-    				&:hover {
-    					opacity: 1;
-    					background-color: colors.$white-90;
-    				}
-    			}
-    		 }
+					&:hover {
+						opacity: 1;
+						background-color: colors.$white-90;
+					}
+				}
+			 }
 	}
 
 	.graphicsWithSpotlight .overlayGraphics {
@@ -321,42 +321,42 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		will-change: transform;
 		user-select: none;
 
-    	.zoomPanelBtn {
-    		display: block;
-    		position: relative;
-    		width: 36px;
-    		height: 36px;
-    		margin-bottom: 8px;
-    		background-color: colors.$white;
-    		border-radius: 50%;
-    		box-shadow: 0 1px 3px 0 colors.$black-20, 0 1px 1px 0 colors.$black-14, 0 2px 1px -1px colors.$black-12;
-    		cursor: pointer;
-    		transition: background-color 150ms ease 0ms;
+		.zoomPanelBtn {
+			display: block;
+			position: relative;
+			width: 36px;
+			height: 36px;
+			margin-bottom: 8px;
+			background-color: colors.$white;
+			border-radius: 50%;
+			box-shadow: 0 1px 3px 0 colors.$black-20, 0 1px 1px 0 colors.$black-14, 0 2px 1px -1px colors.$black-12;
+			cursor: pointer;
+			transition: background-color 150ms ease 0ms;
 
-    		img {
-    			padding: 6px;
-    			opacity: 0.54;
-    		}
+			img {
+				padding: 6px;
+				opacity: 0.54;
+			}
 
-    		&:hover {
-    			/*background-color: #666;*/
-    			background-color: colors.$selected-menuitem-background;
+			&:hover {
+				/*background-color: #666;*/
+				background-color: colors.$selected-menuitem-background;
 
-    			img {
-    				opacity: 1;
-    			}
-    		}
+				img {
+					opacity: 1;
+				}
+			}
 
-    		&.keyboardFocus:focus {
-    			img {
-    				opacity: 1;
-    				outline: colors.$focus-black 5px auto;
-    			}
-    		}
-    	}
+			&.keyboardFocus:focus {
+				img {
+					opacity: 1;
+					outline: colors.$focus-black 5px auto;
+				}
+			}
+		}
 		.zoomPanelBtnSmall img {
- 	        padding: 8px;
- 	    }
+			padding: 8px;
+		}
 		.zoomPanelHomeIn {
 			opacity: 1;
 			visibility: visible;
@@ -370,24 +370,24 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			transition: all 0.2s ease;
 
 			img {
-    			opacity: 0;
-    		}
+				opacity: 0;
+			}
 
-    		&:hover, &:focus {
-    			/*background-color: #666;*/
-    			background-color: colors.$selected-menuitem-background;
+			&:hover, &:focus {
+				/*background-color: #666;*/
+				background-color: colors.$selected-menuitem-background;
 
-    			img {
-    				opacity: 0;
-    			}
-    		}
+				img {
+					opacity: 0;
+				}
+			}
 
 		}
 	}
 	.zoomPanelPosition {
-    	bottom: 8px !important;
-    	right: 16px !important;
-    }
+		bottom: 8px !important;
+		right: 16px !important;
+	}
 
 	.zoomPanelForFullscreenAV {
 		bottom: 60px !important;
@@ -412,40 +412,40 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		top: -6px !important;
 		position: relative;
 
-	    .zoomPanelBtn {
+		.zoomPanelBtn {
 			display: block;
-	    	position: relative;
-		    margin: 6px;
-		    padding: 6px;
-		    cursor: pointer;
-		    border-radius: 50%;
-		    width: 24px;
-    		height: 24px;
-    		transition: background-color 150ms ease 0ms;
+			position: relative;
+			margin: 6px;
+			padding: 6px;
+			cursor: pointer;
+			border-radius: 50%;
+			width: 24px;
+			height: 24px;
+			transition: background-color 150ms ease 0ms;
 
-		    &.zoomPanelBtnSmall {
-		    	padding: 8px;
-		    	width: 20px;
-    			height: 20px;
+			&.zoomPanelBtnSmall {
+				padding: 8px;
+				width: 20px;
+				height: 20px;
 
-		    	img {
-		    		width: 20px;
+				img {
+					width: 20px;
 					height: 20px;
-		    	}
-		    }
+				}
+			}
 
 		   img {
-		   		width: 24px;
+				width: 24px;
 				height: 24px;
 				opacity: 0.54;
 		   }
 
-		  	&:hover, &:focus, &.selected {
-		  		img {
-		  			opacity: 1;
-		  		}
-		  		background-color: colors.$mow_card_background_hover;
-		  	}
+			&:hover, &:focus, &.selected {
+				img {
+					opacity: 1;
+				}
+				background-color: colors.$mow_card_background_hover;
+			}
 		}
 		.zoomPanelHomeIn {
 			opacity: 1;
@@ -460,19 +460,19 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			transition: all 0.2s ease;
 
 			img {
-    			opacity: 0;
-    		}
+				opacity: 0;
+			}
 
-    		&:hover, &:focus {
-    			background-color: colors.$mow_card_background_hover;
+			&:hover, &:focus {
+				background-color: colors.$mow_card_background_hover;
 
-    			img {
-    				opacity: 1;
-    			}
-    		}
+				img {
+					opacity: 1;
+				}
+			}
 
 		}
-    }
+	}
 	.zoomPanelWithPageControl {
 		margin-bottom: 64px;
 		right: 22px !important;
@@ -504,16 +504,16 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 			&.buttonActive:hover {
 				img {
-		  			opacity: 1;
-		  		}
-		  		background-color: colors.$mow_card_background_hover;
+					opacity: 1;
+				}
+				background-color: colors.$mow_card_background_hover;
 			}
 		}
 	}
 
 	.undoRedoPositionMebis {
-	    @extend .undoRedoPosition;
-	    left: 40px;
+		@extend .undoRedoPosition;
+		left: 40px;
 	}
 
 	input[type="text"], input[type="number"], .gwt-TextBox,
@@ -677,6 +677,11 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		position: absolute;
 		top: 0;
 		pointer-events: none;
+
+		.gwt-Button, .gwt-Label {
+			color: transparent;
+			border: transparent;
+		}
 	}
 
 	.accessibilityControl {
