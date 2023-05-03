@@ -268,6 +268,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		marblePanel = app.getActivity().createAVItemHeader(this);
 		setIndexLast();
+		updateDataTest();
 		main.add(marblePanel);
 	}
 
@@ -2197,5 +2198,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			controls.updateDataTest(index);
 		}
 
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }

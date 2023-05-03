@@ -1975,6 +1975,22 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		this.repaintView();
 	}
 
+	public void resetDataTestAttributes() {
+		for (int i = 0; i < getItemCount(); i++) {
+			TreeItem ti = getItem(i);
+			RadioTreeItem.as(ti).setIndex(i);
+			if (!updateDataTests(ti)) {
+				if (ti.getWidget() instanceof GroupHeader) {
+					for (int j = 0; j < ti.getChildCount(); j++) {
+						RadioTreeItem.as(ti).setIndex(j);
+						updateDataTests(ti.getChild(j));
+					}
+				}
+			}
+		}
+		this.repaintView();
+	}
+
 	private int getFontSizeWeb() {
 		return app.getSettings().getFontSettings().getAppFontSize();
 	}
@@ -1983,6 +1999,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (ti instanceof RadioTreeItem) {
 			RadioTreeItem.as(ti).updateOnNextRepaint();
 			RadioTreeItem.as(ti).setLabels();
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean updateDataTests(TreeItem ti) {
+		if (ti instanceof RadioTreeItem) {
+			RadioTreeItem.as(ti).updateDataTest();
 			return true;
 		}
 		return false;
