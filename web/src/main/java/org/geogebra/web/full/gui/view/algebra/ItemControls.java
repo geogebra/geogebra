@@ -134,7 +134,7 @@ public class ItemControls extends FlowPanel
 	}
 
 	private void showMoreMenu() {
-		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
+		cmMore.show(btnMore, 0, - 8);
 	}
 
 	private void cancelEditItem() {

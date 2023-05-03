@@ -6,7 +6,6 @@ import java.util.Map;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.GMenuBar;
 import org.geogebra.web.full.html5.AttachedToDOM;
@@ -120,39 +119,29 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 * Shows the popup menu, ensures that the popup menu must be on the client
 	 * area.
 	 *
-	 * @param x  x-coord of the popup
-	 * @param y  y-coord of the popup
+	 * @param xScaled  x-coord of the popup
+	 * @param yScaled  y-coord of the popup
 	 */
-	public final void show(double x, double y) {
+	public final void show(double xScaled, double yScaled) {
 		GeoGebraFrameW frame = app.getAppletFrame();
-		double yOffset = frame.getAbsoluteTop() / getScaleY();
-		double xOffset = frame.getAbsoluteLeft() / getScaleX();
-		int top = (int) (y - yOffset);
-		int left = (int) (x - xOffset);
+		double scaleX = getScaleX();
+		double frameTopScaled = frame.getAbsoluteTop() / getScaleY();
+		double frameLeftScaled = frame.getAbsoluteLeft() / scaleX;
+		int top = (int) (yScaled - frameTopScaled);
+		int left = (int) (xScaled - frameLeftScaled);
 		boolean newPoz = false;
 		showAtPoint(left, top);
-		int leftMargin = frame.getAbsoluteLeft()
-				+ frame.getOffsetWidth();
-		int bottomMargin = frame.getAbsoluteTop()
-				+ frame.getOffsetHeight();
-		if ((x + popupPanel.getOffsetWidth())
-				* getScaleX() > leftMargin
-						+ NavigatorUtil.getWindowScrollLeft()) {
-			left = (int) ((leftMargin + NavigatorUtil.getWindowScrollLeft())
-					/ getScaleX() - xOffset - popupPanel.getOffsetWidth());
+		if ((left + popupPanel.getOffsetWidth()) > frame.getOffsetWidth()) {
+			left = frame.getOffsetWidth() - popupPanel.getOffsetWidth();
 			newPoz = true;
 		}
-		if ((y + popupPanel.getOffsetHeight())
-				* getScaleY() > bottomMargin
-						+ NavigatorUtil.getWindowScrollTop()) {
-			top = (int) ((bottomMargin + NavigatorUtil.getWindowScrollTop())
-					/ getScaleY() - yOffset - popupPanel.getOffsetHeight());
+		if ((top + popupPanel.getOffsetHeight()) > frame.getOffsetHeight()) {
+			top = frame.getOffsetHeight() - popupPanel.getOffsetHeight();
 			newPoz = true;
 		}
 
-		if (newPoz || !DoubleUtil.isEqual(1, getScaleX())) {
+		if (newPoz || !DoubleUtil.isEqual(1, scaleX)) {
 			popupPanel.setPopupPosition(left, top);
-			// App.debug(left + "x" + top);
 		}
 
 		positionAndShowSubmenu();
@@ -175,19 +164,6 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 	/**
 	 * @param c
-	 *            canvas
-	 * @param x
-	 *            coord to show popup
-	 * @param y
-	 *            coord to show popup
-	 */
-	public void showScaled(Element c, int x, int y) {
-		show((int) (c.getAbsoluteLeft() / getScaleX() + x),
-				(int) (c.getAbsoluteTop() / getScaleY() + y));
-	}
-
-	/**
-	 * @param c
 	 *            widget
 	 * @param x
 	 *            coord to show popup
@@ -195,7 +171,20 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 *            coord to show popup
 	 */
 	public void show(Widget c, int x, int y) {
-		show(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y);
+		show(c.getElement(), x, y);
+	}
+
+	/**
+	 * @param c
+	 *            canvas
+	 * @param x
+	 *            coord to show popup
+	 * @param y
+	 *            coord to show popup
+	 */
+	public void show(Element c, int x, int y) {
+		show((int) (c.getAbsoluteLeft() / getScaleX() + x),
+				(int) (c.getAbsoluteTop() / getScaleY() + y));
 	}
 
 	@Override
@@ -341,8 +330,9 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	}
 
 	private int alignPopupToOpenItem() {
-		int absoluteTop = (int) (openItem.getAbsoluteTop() / getScaleY());
-		return Math.max(SUBMENU_VERTICAL_PADDING, getRelativeTop(absoluteTop));
+		int absoluteTop = (int) ((openItem.getAbsoluteTop()
+				- getApp().getAppletFrame().getAbsoluteTop()) / getScaleY());
+		return Math.max(SUBMENU_VERTICAL_PADDING, absoluteTop);
 	}
 
 	/**
@@ -373,21 +363,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	}
 
 	private int alignPopupToBottom() {
-		int absTop = Math.max(SUBMENU_VERTICAL_PADDING,
-				NavigatorUtil.getWindowHeight() + NavigatorUtil.getWindowScrollTop()
-				- getSubPopupHeight() - SUBMENU_VERTICAL_PADDING);
-
-		return getRelativeTop(absTop);
-	}
-
-	/**
-	 *
-	 * @param absoluteTop to convert.
-	 * @return the relative top within the applet
-	 */
-	private int getRelativeTop(int absoluteTop) {
-		return (int) (Math.round(absoluteTop - getApp().getAppletFrame().getAbsoluteTop()
-				/ getScaleY()));
+		return app.getAppletFrame().getOffsetHeight() - getSubPopupHeight();
 	}
 
 	/**

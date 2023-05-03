@@ -12,9 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.ArrayList;
-
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -23,7 +20,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -96,27 +92,24 @@ public class RadioTreeItemController implements ClickHandler,
 		addDomHandlers(item.main);
 	}
 
-	protected boolean isMarbleHit(MouseEvent<?> evt) {
-		return isMarbleHit(
-				PointerEvent.wrapEventAbsolute(evt, ZeroOffset.INSTANCE));
-	}
-
-	protected boolean isMarbleHit(PointerEvent wrappedEvent) {
-		return isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY(),
-				app.isRightClick(wrappedEvent));
-	}
-
-	protected boolean isMarbleHit(int x, int y, boolean rightClick) {
-		if (item.marblePanel != null && item.marblePanel.isHit(x, y)) {
-			if (!Browser.isTabletBrowser() && rightClick) {
-
-				onRightClick(x, y);
+	protected boolean checkMarbleHit(MouseEvent<?> evt) {
+		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(evt, ZeroOffset.INSTANCE);
+		int x = wrappedEvent.getX();
+		int y = wrappedEvent.getY();
+		boolean rightClick = app.isRightClick(wrappedEvent);
+		if (isMarbleHit(x, y)) {
+			if (rightClick) {
+				onRightClick(evt);
 				return false;
 			}
 			return true;
 		}
 
 		return false;
+	}
+
+	protected boolean isMarbleHit(int x, int y) {
+		return item.marblePanel != null && item.marblePanel.isHit(x, y);
 	}
 
 	protected static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
@@ -164,10 +157,10 @@ public class RadioTreeItemController implements ClickHandler,
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.INSTANCE);
-		onPointerDown(wrappedEvent);
+		onPointerDown(wrappedEvent, event);
 
 		CancelEventTimer.avRestoreWidth();
-		if (CancelEventTimer.cancelMouseEvent() || isMarbleHit(event)
+		if (CancelEventTimer.cancelMouseEvent() || checkMarbleHit(event)
 				|| app.isRightClick(wrappedEvent)) {
 			return;
 		}
@@ -223,7 +216,7 @@ public class RadioTreeItemController implements ClickHandler,
 	 * @return if editing can start or not.
 	 */
 	protected boolean canEditStart(MouseEvent<?> event) {
-		return !isMarbleHit(event) && !isWidgetHit(item.controls, event);
+		return !checkMarbleHit(event) && !isWidgetHit(item.controls, event);
 	}
 
 	@Override
@@ -257,7 +250,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.INSTANCE);
-		if (isMarbleHit(wrappedEvent)) {
+		if (isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY())) {
 			return;
 		}
 
@@ -343,7 +336,7 @@ public class RadioTreeItemController implements ClickHandler,
 			return;
 		}
 
-		if (isMarbleHit(x, y, false)) {
+		if (isMarbleHit(x, y)) {
 			getLongTouchManager().cancelTimer();
 		}
 
@@ -354,16 +347,20 @@ public class RadioTreeItemController implements ClickHandler,
 		// event.preventDefault();
 		handleAVItem(event);
 
-		onPointerDown(wrappedEvent);
+		onPointerDownMainButton(wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
 
-	protected void onPointerDown(AbstractEvent event) {
+	protected void onPointerDown(AbstractEvent event, MouseDownEvent nativeEvt) {
 		if (event.isRightClick()) {
-			onRightClick(event.getX(), event.getY());
+			onRightClick(nativeEvt);
 			return;
 		}
 
+		onPointerDownMainButton(event);
+	}
+
+	protected void onPointerDownMainButton(AbstractEvent event) {
 		if (checkEditing()) {
 			if (!getAV().isEditItem()) {
 				// e.g. Web.html might not be in editing mode
@@ -547,7 +544,7 @@ public class RadioTreeItemController implements ClickHandler,
 		return true;
 	}
 
-	private void onRightClick(int x, int y) {
+	private void onRightClick(MouseEvent<?> evt) {
 		if (!app.isRightClickEnabledForAV()) {
 			return;
 		}
@@ -558,23 +555,16 @@ public class RadioTreeItemController implements ClickHandler,
 
 		GeoElement geo = item.geo;
 		SelectionManager selection = app.getSelectionManager();
-		GPoint point = new GPoint(x + NavigatorUtil.getWindowScrollLeft(),
-				y + NavigatorUtil.getWindowScrollTop());
 		if (geo != null) {
-			if (selection.containsSelectedGeo(geo)) {
-				// popup menu for current selection
-				// (including selected object)
-				app.getGuiManager().showPopupMenu(
-						selection.getSelectedGeos(), item.getAV(), point);
-			} else { // select only this object and popup menu
+			if (!selection.containsSelectedGeo(geo)) {
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
-				ArrayList<GeoElement> temp = new ArrayList<>();
-				temp.add(geo);
-
-				app.getGuiManager().showPopupMenu(temp,
-						item.getAV(), point);
 			}
+			// else: keep (multi)selection, already includes clicked object
+			double scale = app.getGeoGebraElement().getScaleX();
+			app.getGuiManager().showPopupMenu(
+					selection.getSelectedGeos(), item.asWidget(), (int) (evt.getX() / scale),
+					(int) (evt.getY() / scale));
 		}
 	}
 

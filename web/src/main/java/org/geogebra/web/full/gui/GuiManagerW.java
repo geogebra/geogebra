@@ -20,7 +20,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -265,10 +264,10 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showPopupMenu(final ArrayList<GeoElement> geos,
-			final AlgebraView invoker, final GPoint p) {
+			final Widget invoker, final int x, int y) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
-		getPopupMenu(geos).show(p);
+		getPopupMenu(geos).showScaled(invoker.getElement(), x, y);
 	}
 
 	/**

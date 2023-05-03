@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -1131,12 +1129,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				updateGUIfocus(false);
 			}
 		}
-	}
-
-	@Override
-	public ArrayList<String> getHistory() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
