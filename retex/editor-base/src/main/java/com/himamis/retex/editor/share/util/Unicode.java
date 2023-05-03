@@ -152,6 +152,7 @@ public class Unicode {
 
 	// GREEK SMALL LETTER IOTA WITH TONOS
 	final public static char IMAGINARY = '\u03af';
+	final public static String IMAGINARY_STRING = "\u03af";
 
 	// non-breaking (hard) space
 	public static final char NBSP = '\u00a0';
