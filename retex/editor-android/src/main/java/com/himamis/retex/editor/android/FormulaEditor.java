@@ -2,6 +2,7 @@ package com.himamis.retex.editor.android;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.himamis.retex.editor.android.event.ClickListenerAdapter;
 import com.himamis.retex.editor.android.event.FocusListenerAdapter;
@@ -70,6 +71,19 @@ public class FormulaEditor extends View implements MathField {
     private int mAlignment = ALIGN_LEFT;
 
     private TeXIcon mFormulaPreviewTeXIcon;
+
+    protected final List<InputChangeListener> mInputChangeListeners = new ArrayList<>();
+
+    public interface InputChangeListener {
+
+        /**
+         * Called after the formula has been changed.
+         *
+         * @param input GgbInput instance
+         */
+        void afterInputChanged(FormulaEditor input);
+
+    }
 
     public FormulaEditor(Context context) {
         super(context);
@@ -584,6 +598,10 @@ public class FormulaEditor extends View implements MathField {
 
     public float getTextSize() {
         return mSize;
+    }
+
+    public String getText() {
+        return "";
     }
 
     @Override
