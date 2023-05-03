@@ -1975,7 +1975,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		this.repaintView();
 	}
 
-	public void resetDataTestAttributes() {
+	/**
+	 * Resets all data-test attributes of the tree items
+	 * to support unique values that depends on the actual row
+	 * index after deleting a row.
+	 */
+	public void resetDataTestOnDelete() {
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			RadioTreeItem.as(ti).setIndex(i);

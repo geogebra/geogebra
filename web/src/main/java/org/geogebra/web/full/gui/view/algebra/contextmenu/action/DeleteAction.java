@@ -11,6 +11,6 @@ public class DeleteAction extends DefaultMenuAction<GeoElement> {
 	public void execute(GeoElement item, AppWFull app) {
 		item.remove();
 		app.storeUndoInfo();
-		Scheduler.get().scheduleDeferred(app.getAlgebraView()::resetDataTestAttributes);
+		Scheduler.get().scheduleDeferred(app.getAlgebraView()::resetDataTestOnDelete);
 	}
 }
