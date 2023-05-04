@@ -301,14 +301,11 @@ void recurringDecimal(MathContainer currentField) :
 {
 	<OVERLINE> {
 		recurringDecimal = new MathFunction(metaModel.getGeneral(Tag.RECURRING_DECIMAL));
-		//handle non-overlined characters
-		MathSequence passArgs = new MathSequence();
-		recurringDecimal.setArgument(0, passArgs);
 		//handle overlined characters
 		MathSequence mathSequence = new MathSequence();
 		mathAtomOrPower(mathSequence);
 		mathSequence.removeBrackets();
-		recurringDecimal.setArgument(1, mathSequence);
+		recurringDecimal.setArgument(0, mathSequence);
 		currentField.addArgument(recurringDecimal);
 	}
 }

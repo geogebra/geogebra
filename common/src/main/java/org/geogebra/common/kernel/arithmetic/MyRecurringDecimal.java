@@ -11,8 +11,31 @@ import org.geogebra.common.util.StringUtil;
  */
 public class MyRecurringDecimal extends MyDouble {
 
-	public MyRecurringDecimal(Kernel kernel, double val) {
+	private String representation;
+
+	public MyRecurringDecimal(Kernel kernel, double val, String representation) {
 		super(kernel, val);
+		this.representation = representation;
+	}
+
+	public MyRecurringDecimal(MyRecurringDecimal rd) {
+		super(rd);
+	}
+
+	@Override
+	public String toString(StringTemplate tpl) {
+		return this.representation;
+	}
+
+	@Override
+	public MyDouble getNumber() {
+		return new MyRecurringDecimal(this);
+	}
+
+	@Override
+	public void set (double val) {
+		super.set(val);
+		this.representation = null;
 	}
 
 	/**

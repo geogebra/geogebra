@@ -300,7 +300,7 @@ public class Parser implements ParserInterface {
 		if (percent) {
 			val = val * 0.01;
 		}
-		return new MyRecurringDecimal(kernel, val);
+		return new MyRecurringDecimal(kernel, val, image);
     }
 
 }
