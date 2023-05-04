@@ -10,6 +10,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -729,7 +730,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	private void assertLabelStartsWithFx(String input) {
 		GeoSymbolic geo = createGeoWithHiddenLabel(input);
-		assertTrue(geo.getTwinGeo() instanceof GeoFunction);
+		assertThat(geo.getTwinGeo(), instanceOf(GeoFunction.class));
 		showLabel(geo);
 		assertThat(geo.getAlgebraDescriptionDefault(), startsWith("f(x)"));
 		clean();
@@ -738,7 +739,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	private void testOutputLabelOfFunctionsWithApostrophe(String input,
 			String outputStartsWith) {
 		GeoSymbolic firstGeo = createGeoWithHiddenLabel(input);
-		assertTrue(firstGeo.getTwinGeo() instanceof GeoFunction);
+		assertThat(firstGeo.getTwinGeo(), instanceOf(GeoFunction.class));
 		showLabel(firstGeo);
 		GeoSymbolic secondGeo = createGeoWithHiddenLabel("f'");
 		assertThat(secondGeo.getAlgebraDescriptionDefault(), startsWith(outputStartsWith));
@@ -1037,7 +1038,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testMultivariateFunction() {
 		add("f(x, a) = sqrt(x - a)");
 		String xml = app.getXML();
-		Assert.assertTrue(xml.contains("x,a"));
+		assertThat(xml, containsString("x,a"));
 		app.setXML(xml, true);
 		GeoSymbolic symbolic = getSymbolic("f");
 		Assert.assertEquals("f(x, a) = sqrt(-a + x)",
