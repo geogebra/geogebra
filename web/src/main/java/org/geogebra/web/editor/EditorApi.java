@@ -88,10 +88,12 @@ public class EditorApi {
 
 	public void openKeyboard() {
 		kb.setVisible(true);
+		listener.notifyKeyboardVisibilityChange(true);
 	}
 
 	public void closeKeyboard() {
 		kb.setVisible(false);
+		listener.notifyKeyboardVisibilityChange(false);
 	}
 
 	public String getVersion() {
