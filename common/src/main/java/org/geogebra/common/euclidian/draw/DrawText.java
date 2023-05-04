@@ -43,6 +43,7 @@ public final class DrawText extends Drawable {
 	public static final int MIN_EDITOR_HEIGHT = 20;
 
 	public static final int DEFAULT_MARGIN = 3;
+	private final AlignDrawText alignment;
 
 	private GeoText text;
 	private boolean isVisible;
@@ -55,8 +56,6 @@ public final class DrawText extends Drawable {
 	// private Image eqnImage;
 	private int oldXpos;
 	private int oldYpos;
-	private int oldHorizontal;
-	private int oldVertical;
 	private boolean needsBoundingBoxOld;
 	/**
 	 * thickness for the highlight frame
@@ -67,7 +66,7 @@ public final class DrawText extends Drawable {
 
 	/**
 	 * Creates new DrawText
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param text
@@ -80,7 +79,7 @@ public final class DrawText extends Drawable {
 
 		textFont = view.getApplication().getPlainFontCommon()
 				.deriveFont(GFont.PLAIN, view.getFontSize());
-
+		alignment = new AlignDrawText(text, this);
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
 		updateStrokes(text);
@@ -113,13 +112,10 @@ public final class DrawText extends Drawable {
 		updateLabelPosition();
 
 		boolean positionChanged = xLabel != oldXpos || yLabel != oldYpos
-				|| oldVertical != getVerticalAlignment()
-				|| oldHorizontal != getVerticalAlignment();
+				|| alignment.hasChanged();
 		oldXpos = xLabel;
 		oldYpos = yLabel;
-		oldVertical = getVerticalAlignment();
-		oldHorizontal = getHorizontalAlignment();
-
+		alignment.update();
 		boolean fontChanged = doUpdateFontSize();
 
 		// some commented code for LaTeX speedup removed in r22321
@@ -129,8 +125,8 @@ public final class DrawText extends Drawable {
 		if (needsBoundingBoxUpdate(textChanged || positionChanged || fontChanged)) {
 			// ensure that bounding box gets updated by drawing text once
 			updateLabelRectangle();
-			if (hasAlignment()) {
-				handleTextAlignment();
+			if (text.hasAlignment()) {
+				align();
 				if (text.needsUpdatedBoundingBox()) {
 					updateLabelRectangle(); // recompute again to make Corner correct
 				}
@@ -140,23 +136,22 @@ public final class DrawText extends Drawable {
 			double yRW = view.toRealWorldCoordY(labelRectangle.getY());
 			text.setBoundingBox(xRW, yRW, labelRectangle.getWidth() * view.getInvXscale(),
 					- labelRectangle.getHeight() * view.getInvYscale());
-		} else if (hasAlignment()) {
-			handleTextAlignment();
+		} else if (text.hasAlignment()) {
+			align();
 		}
+	}
+
+	private void align() {
+		alignment.apply(labelRectangle.getWidth(), labelRectangle.getHeight());
 	}
 
 	private boolean needsBoundingBoxUpdate(boolean changed) {
 		if (geo.getBackgroundColor() != null) {
 			return true;
 		}
-		return (text.needsUpdatedBoundingBox() || hasAlignment()) && (changed
+		return (text.needsUpdatedBoundingBox() || text.hasAlignment()) && (changed
 				|| text.getKernel().getForceUpdatingBoundingBox()
 				|| text.getBoundingBox() == null);
-	}
-
-	private boolean hasAlignment() {
-		return text.getVerticalAlignment() != null
-				|| text.getHorizontalAlignment() != null;
 	}
 
 	private void updateLabelPosition() {
@@ -246,47 +241,6 @@ public final class DrawText extends Drawable {
 				drawHighlightRect(g2);
 			}
 		}
-	}
-
-	private void handleTextAlignment() {
-		if (isLaTeX) {
-			yLabel -= labelRectangle.getHeight() - 12;
-		} else {
-			double lineSpread = textFont.getSize() * 1.5f;
-			int newLineNr = labelDesc.length()
-					- labelDesc.replaceAll("\n", "").length();
-			// adjust y position according to nr of lines and line height
-			// needed for multiline texts
-			yLabel -= lineSpread * newLineNr;
-		}
-
-		int horizontalVal = getHorizontalAlignment();
-		int verticalVal = getVerticalAlignment();
-		if (horizontalVal == -1) {
-			xLabel -= labelRectangle.getWidth();
-		}
-		if (verticalVal == -1) {
-			// magic number 6 comes from EuclidianStatic::drawMultiLineText
-			yLabel += labelRectangle.getHeight() - 2 * DEFAULT_MARGIN;
-		}
-		if (horizontalVal == 0) {
-			xLabel -= labelRectangle.getWidth() / 2;
-		}
-		if (verticalVal == 0) {
-			yLabel += (labelRectangle.getHeight() / 2) - 2 * DEFAULT_MARGIN;
-		}
-	}
-
-	private int getVerticalAlignment() {
-		return text.getVerticalAlignment() != null
-				? (int) text.getVerticalAlignment().getValue()
-				: 1;
-	}
-
-	private int getHorizontalAlignment() {
-		return text.getHorizontalAlignment() != null
-				? (int) text.getHorizontalAlignment().getValue()
-				: 1;
 	}
 
 	/**

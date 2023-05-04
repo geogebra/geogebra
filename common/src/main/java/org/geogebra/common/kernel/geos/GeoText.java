@@ -1572,6 +1572,14 @@ public class GeoText extends GeoElement
 	}
 
 	/**
+	 *
+	 * @return if text is aligned either horizontally or vertically.
+	 */
+	public boolean hasAlignment() {
+		return horizontalAlignment != null && verticalAlignment != null;
+	}
+
+	/**
 	 * @return original string with extra \ in order to escape special characters
 	 *       e.g. "cos(x)" will return "cos\\(x\\)"
 	 */
