@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
@@ -19,14 +20,16 @@ public class SimpleTextRenderer implements TextRenderer {
 
 	@Weak
 	private DrawInputBox drawable;
+	private final TextRendererSettings settings;
 
 	/**
 	 * @param drawable
 	 *            drawable
 	 */
-	SimpleTextRenderer(App app, DrawInputBox drawable) {
+	SimpleTextRenderer(App app, DrawInputBox drawable, TextRendererSettings settings) {
 		this.drawable = drawable;
 		this.app = app;
+		this.settings = settings;
 	}
 
 	@Override
@@ -75,5 +78,10 @@ public class SimpleTextRenderer implements TextRenderer {
 
 		}
 		return idx;
+	}
+
+	@Override
+	public TextRendererSettings getSettings() {
+		return settings;
 	}
 }

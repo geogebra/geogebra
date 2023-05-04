@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -1125,13 +1126,13 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected SymbolicEditor createSymbolicEditor() {
+	protected SymbolicEditor createSymbolicEditor(TextRendererSettings settings) {
 		GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
 		if (gm == null) {
 			return null;
 		}
 
-		return gm.createSymbolicEditor(this);
+		return gm.createSymbolicEditor(this, settings);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -166,7 +167,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 *
 	 * @return the editor
 	 */
-	SymbolicEditor createSymbolicEditor(EuclidianViewW view);
+	SymbolicEditor createSymbolicEditor(EuclidianViewW view, TextRendererSettings settings);
 
 	/**
 	 *

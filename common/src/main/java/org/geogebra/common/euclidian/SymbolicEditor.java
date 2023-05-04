@@ -95,14 +95,12 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	/**
 	 * Attach the symbolic editor to the specified input box for editing it.
-	 *
-	 * @param geoInputBox
-	 *            GeoInputBox to edit.
-	 *
-	 * @param bounds
-	 *            place to attach the editor to.
+	 * @param geoInputBox GeoInputBox to edit.
+	 * @param bounds place to attach the editor to.
+	 * @param settings how to render text.
 	 */
-	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds);
+	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds,
+			TextRendererSettings settings);
 
 	protected void setInputBox(GeoInputBox geoInputBox) {
 		this.geoInputBox = geoInputBox;

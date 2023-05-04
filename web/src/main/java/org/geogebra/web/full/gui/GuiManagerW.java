@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
@@ -2291,8 +2292,8 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public SymbolicEditor createSymbolicEditor(EuclidianViewW view) {
-		return new SymbolicEditorW(app, view);
+	public SymbolicEditor createSymbolicEditor(EuclidianViewW view, TextRendererSettings settings) {
+		return new SymbolicEditorW(app, view, settings);
 	}
 
 	/**

@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 
@@ -14,29 +15,36 @@ import com.google.j2objc.annotations.Weak;
  * Renders LaTeX as text for the editor.
  */
 public class LaTeXTextRenderer implements TextRenderer {
-
-	// This margin is to match the height of the editor
-	private static final int BOTTOM_OFFSET = 10;
-	public static final int MARGIN = 4;
 	private static final int CLIP_PADDING = 8;
 
 	@Weak
-	private DrawInputBox drawInputBox;
+	private final DrawInputBox drawInputBox;
+	private final TextRendererSettings settings;
 
-	LaTeXTextRenderer(DrawInputBox drawInputBox) {
+	LaTeXTextRenderer(DrawInputBox drawInputBox, TextRendererSettings settings) {
 		this.drawInputBox = drawInputBox;
+		this.settings = settings;
+	}
+
+	@Override
+	public TextRendererSettings getSettings() {
+		return settings;
 	}
 
 	@Override
 	public void drawText(GeoInputBox geo, GGraphics2D graphics,
 						 GFont font, String text,
 						 double xPos, double yPos) {
-		int textLeft = (int) Math.round(xPos);
+		int textLeft = (int) Math.round(xPos) + settings.getFixMargin();
 
-		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, text);
-		int inputBoxHeight = calculateInputBoxHeight(textDimension);
+		GFont font1 = getFont(font, settings.getRendererFontSize());
+		GDimension textDimension = drawInputBox.measureLatex(geo,
+				font1, text,  true);
+		double inputBoxHeight = drawInputBox.getInputFieldBounds().getHeight()
+				+ 2 * settings.getFixMargin();
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
-		int textTop = (int) Math.round(yPos + diffToCenter);
+		int textTop = (int) Math.round(yPos + diffToCenter) - settings.getFixMargin();
+
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		int clipWidth = drawInputBox.boxWidth - CLIP_PADDING;
 		if (textDimension.getWidth() > clipWidth) {
@@ -46,29 +54,41 @@ public class LaTeXTextRenderer implements TextRenderer {
 		}
 		rect.setRect(textLeft, 0, clipWidth, drawInputBox.getView().getHeight());
 		graphics.setClip(rect);
-		drawInputBox.drawLatex(graphics, geo, font, text, textLeft, textTop, true);
+		drawInputBox.drawLatex(graphics, geo, font1, text, textLeft - settings.getFixMargin(),
+				textTop, true);
+
 		graphics.resetClip();
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
-		int textHeightWithMargin = textDimension.getHeight() + BOTTOM_OFFSET + MARGIN;
-		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT);
+		int totalBorderHeight = 6;
+		int textHeightWithMargin = textDimension.getHeight() + settings.getFixMargin()
+				+ totalBorderHeight;
+		return Math.max(textHeightWithMargin, settings.getMinHeight()
+				+ totalBorderHeight);
 	}
 
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
+		GFont gFont = getFont(font, settings.getRendererFontSize());
 		GDimension textDimension =
-				drawInputBox.measureLatex(graphics, geo, font, geo.getDisplayText());
+				CanvasDrawable.measureLatex(geo.getKernel().getApplication(), gFont,
+						geo.getDisplayText(), geo.isSerifContent());
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
-		double inputBoxTop = drawInputBox.getLabelTop() + ((labelHeight - inputBoxHeight) / 2);
+		double inputBoxTop = drawInputBox.getLabelTop() + (labelHeight
+				- inputBoxHeight) / 2;
 
 		return AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,
-				(int) Math.round(inputBoxTop),
+				(int) inputBoxTop,
 				drawInputBox.boxWidth,
 				inputBoxHeight);
+	}
+
+	private GFont getFont(GFont font, int fontSize) {
+		return font.deriveFont(font.getStyle(), fontSize);
 	}
 }

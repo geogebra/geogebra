@@ -44,8 +44,6 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	/**
-	 * @param g2
-	 *            graphics
 	 * @param geo0
 	 *            geoelement
 	 * @param font
@@ -54,10 +52,10 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            content
 	 * @return size
 	 */
-	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
-			GFont font, String text) {
-		return measureLatex(view.getApplication(), geo0, font, text,
-				shouldBeSerif(text, geo0, false));
+	protected GDimension measureLatex(GeoElement geo0,
+			GFont font, String text, boolean isContent) {
+		return measureLatex(view.getApplication(), font, text,
+				shouldBeSerif(text, geo0, isContent));
 	}
 
 	/**
@@ -83,7 +81,6 @@ public abstract class CanvasDrawable extends Drawable {
 	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
 			String text, int x, int y, boolean isContentOfInputBox) {
 		App app = view.getApplication();
-
 		// eg $\math{x}$ for nice x
 		boolean serif = shouldBeSerif(text, geo0, isContentOfInputBox);
 
@@ -116,25 +113,20 @@ public abstract class CanvasDrawable extends Drawable {
 	/**
 	 * @param app
 	 *            application
-	 * @param geo0
-	 *            related geo
 	 * @param font
 	 *            font
 	 * @param text
 	 *            text
 	 * @return size of text with given font
 	 */
-	public static GDimension measureLatex(App app,
-			GeoElement geo0, GFont font, String text) {
-		return app.getDrawEquation().measureEquation(app, geo0, text, font,
+	public static GDimension measureLatex(App app, GFont font, String text) {
+		return app.getDrawEquation().measureEquation(app, text, font,
 				false);
 	}
 
 	/**
 	 * @param app
 	 *            application
-	 * @param geo0
-	 *            related geo
 	 * @param font
 	 *            font
 	 * @param text
@@ -143,10 +135,9 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            serif or sans-serif
 	 * @return size of text with given font
 	 */
-	public static GDimension measureLatex(App app, GeoElement geo0, GFont font,
+	public static GDimension measureLatex(App app, GFont font,
 			String text, boolean serif) {
-		return app.getDrawEquation().measureEquation(app, geo0, text, font,
-				serif);
+		return app.getDrawEquation().measureEquation(app, text, font, serif);
 	}
 
 	/**
@@ -169,7 +160,7 @@ public abstract class CanvasDrawable extends Drawable {
 			latex = isLatexString(text);
 			// no drawing, just measuring.
 			if (latex) {
-				GDimension d = measureLatex(g2, geo0, getLabelFont(), text);
+				GDimension d = measureLatex(geo0, getLabelFont(), text, false);
 				labelSize.x = d.getWidth();
 				labelSize.y = d.getHeight();
 			} else {
