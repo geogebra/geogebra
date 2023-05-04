@@ -86,11 +86,17 @@ public class EditorApi {
 		listener.registerClientListener(fn);
 	}
 
+	/**
+	 * open keyboard
+	 */
 	public void openKeyboard() {
 		kb.setVisible(true);
 		listener.notifyKeyboardVisibilityChange(true);
 	}
 
+	/**
+	 * close keyboard
+	 */
 	public void closeKeyboard() {
 		kb.setVisible(false);
 		listener.notifyKeyboardVisibilityChange(false);
