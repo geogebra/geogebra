@@ -1322,4 +1322,12 @@ public class GgbAPIW extends GgbAPI {
 			setXML(content.xml);
 		}
 	}
+
+	/**
+	 * Show all objects in EuclidianView
+	 */
+	public void showAllObjects() {
+		app.setViewShowAllObjects();
+
+	}
 }
