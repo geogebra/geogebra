@@ -1976,14 +1976,25 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	/**
-	 * Resets all data-test attributes of the tree items
+	 * Resets all data-test attributes of the tree items after the deleted one
 	 * to support unique values that depends on the actual row
 	 * index after deleting a row.
 	 */
-	public void resetDataTestOnDelete() {
-		for (int i = 0; i < getItemCount(); i++) {
+	public void resetDataTestOnDelete(GeoElement geo) {
+		TreeItem node = nodeTable.get(geo);
+		if (node == null) {
+			return;
+		}
+
+		for (int i = indexOf(node) + 1; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
-			RadioTreeItem.as(ti).setIndex(i);
+
+			if (!(ti instanceof RadioTreeItem)) {
+				continue;
+			}
+
+			RadioTreeItem item = RadioTreeItem.as(ti);
+			item.setIndex(i - 1);
 			if (!updateDataTests(ti)) {
 				if (ti.getWidget() instanceof GroupHeader) {
 					for (int j = 0; j < ti.getChildCount(); j++) {
