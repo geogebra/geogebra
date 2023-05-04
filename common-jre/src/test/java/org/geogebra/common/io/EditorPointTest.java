@@ -91,6 +91,19 @@ public class EditorPointTest {
 	}
 
 	@Test
+	public void testPointClick() {
+		checker.convertFormula(emptyPoint3D)
+				.click(3, 0)
+				.checkPlaceholders("|,_,_");
+		checker.convertFormula(emptyPoint3D)
+				.click(20, 0)
+				.checkPlaceholders("_,|,_");
+		checker.convertFormula(emptyPoint3D)
+				.click(40, 0)
+				.checkPlaceholders("_,_,|");
+	}
+
+	@Test
 	public void testPointOnDeleteAnRightDeleteAgainAndBack() {
 		checker.convertFormula(point3D)
 				.typeKey(JavaKeyCodes.VK_DELETE)
