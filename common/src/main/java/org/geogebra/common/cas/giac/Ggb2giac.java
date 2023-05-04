@@ -1198,7 +1198,6 @@ public class Ggb2giac {
 		// normal() makes sure answer is expanded
 		// '*' argument to make Product(list of matrices) work
 		p("Product.1", "normal(product(%0,'*'))");
-//		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 

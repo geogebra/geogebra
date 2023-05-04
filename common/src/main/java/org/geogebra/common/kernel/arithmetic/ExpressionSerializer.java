@@ -1931,7 +1931,6 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(',');
 				sb.append(rightStr);
 				sb.append(")");
-				// AbstractApplication.debug(sb);
 			}
 			break;
 		case SUBSTITUTION:

@@ -484,6 +484,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testProductCommand() {
 		t("Product(((k+2)/(k)),k,1,25)", "351");
 		t("Product(k^2,k,1,5)", "14400");
+		t("Product(k^n,k,1,5)", "2^(n) * 3^(n) * 4^(n) * 5^(n)");
+		t("f(x)=Product(sin((π*x)/(n)),n,2,floor(sqrt(x)))", "gGbPrOdUcT(sin(π * x / n), n,2, floor(sqrt(x)))");
 	}
 
 	@Test
