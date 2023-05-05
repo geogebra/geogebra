@@ -135,7 +135,7 @@ public class ShareLinkDialog extends ComponentDialog {
 		AppW appW = (AppW) this.app;
 		Material m = appW.getActiveMaterial();
 		if (m != null) {
-			String url = appW.getCurrentURL(m.getSharingKeyOrId(), true) + "?embed";
+			String url = appW.getCurrentURL(m.getSharingKeySafe(), true) + "?embed";
 			String code =
 					"<iframe src=\"" + url + "\""
 					+ " width=\"800\" height=\"600\" allowfullscreen"

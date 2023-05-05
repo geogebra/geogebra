@@ -735,7 +735,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void loadOrEmbedGgbFile(ArrayBuffer binary, String fileName) {
 		EmbedManager embedManager = getEmbedManager();
 		if (!fileName.endsWith("ggs") && embedManager != null) {
-			Material mat = new Material(-1, Material.MaterialType.ggb);
+			Material mat = new Material(Material.MaterialType.ggb);
 			mat.setBase64(Base64.bytesToBase64(new Uint8Array(binary)));
 			embedManager.embed(mat);
 		} else {
@@ -2987,15 +2987,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param id
-	 *            material id
 	 * @param sharingKey
 	 *            material sharing key
 	 * @param title
 	 *            material title
 	 */
-	public void updateMaterialURL(int id, String sharingKey, String title) {
-		setTubeId(id > 0 ? Integer.toString(id) : sharingKey);
+	public void updateMaterialURL(String sharingKey, String title) {
+		setTubeId(sharingKey);
 		if (appletParameters.getDataParamApp() && sharingKey != null) {
 			Browser.changeUrl(getCurrentURL(sharingKey, false));
 			if (!StringUtil.empty(title)) {
@@ -3005,7 +3003,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	public void updateMaterialURL(Material material) {
-		updateMaterialURL(material.getId(), material.getSharingKeyOrId(), material.getTitle());
+		updateMaterialURL(material.getSharingKeySafe(), material.getTitle());
 	}
 
 	/**

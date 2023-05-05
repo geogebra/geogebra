@@ -27,7 +27,7 @@ public class JSONParserGGTTests {
 		JSONObject item = response.getJSONObject("item");
 		Material material = JSONParserGGT.prototype.toMaterial(item);
 		assertTrue(Material.MaterialType.ggb == material.getType());
-		assertEquals("PB9Npbe7", material.getSharingKeyOrId());
+		assertEquals("PB9Npbe7", material.getSharingKeySafe());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("Dr. Doug Davis, 3D", material.getAuthor());
 		assertNotNull(material.getDescription());
@@ -49,7 +49,7 @@ public class JSONParserGGTTests {
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
 		Material material = JSONParserGGT.prototype.toMaterial(root);
-		assertEquals("PB9Npbe7", material.getSharingKeyOrId());
+		assertEquals("PB9Npbe7", material.getSharingKeySafe());
 		assertTrue(Material.MaterialType.ws == material.getType());
 		assertTrue(material.isDeleted());
 		assertEquals("3D Coordinate Systems", material.getTitle());
@@ -64,7 +64,7 @@ public class JSONParserGGTTests {
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
 		Material material = JSONParserGGT.prototype.toMaterial(root);
-		assertEquals("gfnbcfxx", material.getSharingKeyOrId());
+		assertEquals("gfnbcfxx", material.getSharingKeySafe());
 		assertTrue(Material.MaterialType.ws == material.getType());
 		assertEquals("Empty", material.getTitle());
 		assertEquals(material.getVisibility(), "S");
@@ -78,14 +78,15 @@ public class JSONParserGGTTests {
 		String json = getContentsOf("geoapi-3d.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
+		Material parent = JSONParserGGT.prototype.toMaterial(root);
 		JSONArray elements = root.getJSONArray("elements");
 		JSONObject item = elements.getJSONObject(1);
-		Material material = JSONParserGGT.prototype.toMaterial(item);
-		assertEquals("2463659", material.getSharingKeyOrId());
+		Material material = JSONParserGGT.prototype.worksheetToMaterial(parent, item);
+		assertEquals("PB9Npbe7", parent.getSharingKeySafe());
 		assertTrue(Material.MaterialType.ggb == material.getType());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.ggb", material.getURL());
-		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb.png", material.getThumbnail());
+		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb$1.png", material.getThumbnail());
 		assertTrue(material.getUndoRedo());
 		assertFalse(material.hasCas());
 		assertTrue(material.has3d());
@@ -99,7 +100,7 @@ public class JSONParserGGTTests {
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
 		Material material = JSONParserGGT.prototype.toMaterial(root);
-		assertEquals("kgmqpmpf", material.getSharingKeyOrId());
+		assertEquals("kgmqpmpf", material.getSharingKeySafe());
 		assertTrue(Material.MaterialType.ggs == material.getType());
 		assertTrue(material.isMultiuser());
 		assertTrue(material.isSharedWithGroup());

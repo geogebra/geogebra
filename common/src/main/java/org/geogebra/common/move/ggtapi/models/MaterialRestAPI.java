@@ -140,7 +140,7 @@ public class MaterialRestAPI implements BackendAPI {
 	public void deleteMaterial(final Material mat, final MaterialCallbackI callback) {
 		String json = service.getDeletionJson(mat.getType());
 		HttpMethod method = json == null ? HttpMethod.DELETE : HttpMethod.PATCH;
-		performWithAuthentication(method, "/materials/" + mat.getSharingKeyOrId(), json,
+		performWithAuthentication(method, "/materials/" + mat.getSharingKeySafe(), json,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
@@ -531,7 +531,7 @@ public class MaterialRestAPI implements BackendAPI {
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}
-		performRequest(HttpMethod.PATCH, "/materials/" + material.getSharingKeyOrId(),
+		performRequest(HttpMethod.PATCH, "/materials/" + material.getSharingKeySafe(),
 				request.toString(), materialCallback);
 	}
 
@@ -543,7 +543,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 */
 	public void copy(Material material, final String title,
 			final MaterialCallbackI materialCallback) {
-		performRequest(HttpMethod.POST, "/materials/" + material.getSharingKeyOrId(), null,
+		performRequest(HttpMethod.POST, "/materials/" + material.getSharingKeySafe(), null,
 				new MaterialCallbackI() {
 
 					@Override
@@ -593,7 +593,7 @@ public class MaterialRestAPI implements BackendAPI {
 	public void setShared(Material m, GroupIdentifier groupID, boolean shared,
 			final AsyncOperation<Boolean> callback) {
 		performWithAuthentication(shared ? HttpMethod.POST : HttpMethod.DELETE,
-				"/materials/" + m.getSharingKeyOrId() + "/groups/"
+				"/materials/" + m.getSharingKeySafe() + "/groups/"
 						+ groupID.name + "?category=" + groupID.getCategory(), null,
 				new AjaxCallback() {
 					@Override
@@ -714,7 +714,7 @@ public class MaterialRestAPI implements BackendAPI {
 		request.setContentTypeJson();
 
 		request.sendRequestPost(HttpMethod.GET.name(), baseURL + "/materials/"
-				+ parent.getSharingKeyOrId(), null, new AjaxCallback() {
+				+ parent.getSharingKeySafe(), null, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {
@@ -724,19 +724,8 @@ public class MaterialRestAPI implements BackendAPI {
 					for (int i = 0; i < elements.length(); i++) {
 						JSONObject jsonObject = elements.getJSONObject(i);
 						if ("G".equals(jsonObject.optString("type"))) {
-							Material mat = new Material(parent);
-							mat.setType(MaterialType.ggb);
-							mat.setThumbnailUrl(jsonObject.getString("thumbUrl"));
-							mat.setFileName(jsonObject.getString("url"));
+							Material mat = JSONParserGGT.worksheetToMaterial(parent, jsonObject);
 							materials.add(mat);
-							JSONObject settings = jsonObject.optJSONObject("settings");
-							if (settings != null) {
-								JSONParserGGT.copySettings(settings, mat);
-							}
-							JSONObject views = jsonObject.optJSONObject("views");
-							if (views != null) {
-								JSONParserGGT.copyViews(views, mat);
-							}
 						}
 					}
 					materialCallback.onLoaded(materials, null);
