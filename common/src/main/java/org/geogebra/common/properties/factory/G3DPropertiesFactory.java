@@ -14,6 +14,7 @@ import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundProperty;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.EuclideanViewXRActionsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
@@ -30,8 +31,7 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 
 		if (app.getActiveEuclidianView().isXREnabled()) {
 			EuclidianView3D view3D = (EuclidianView3D) app.getActiveEuclidianView();
-			propertyList.add(new RestartARAction(localization, view3D));
-			propertyList.add(new ARFitThicknessAction(localization, view3D));
+			propertyList.add(new EuclideanViewXRActionsPropertyCollection(localization, view3D));
 			propertyList.add(new ARRatioPropertyCollection(app, localization));
 			propertyList.add(new BackgroundProperty(app, localization));
 		}

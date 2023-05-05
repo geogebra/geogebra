@@ -6,7 +6,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.AbstractPropertyCollection;
 
-public class ARRatioPropertyCollection extends AbstractPropertyCollection {
+public class ARRatioPropertyCollection extends AbstractPropertyCollection<Property> {
 
 	/**
 	 * Constructs a ar ratio property collection.
