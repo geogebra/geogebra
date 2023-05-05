@@ -7,7 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -55,7 +55,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 	 * @param label - label of combobox
 	 * @param property - popup items
 	 */
-	public ComponentCombobox(AppW app, String label, EnumerableProperty property) {
+	public ComponentCombobox(AppW app, String label, EnumeratedProperty property) {
 		this(app, label, Arrays.asList(property.getValues()));
 	}
 

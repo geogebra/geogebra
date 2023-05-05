@@ -4,13 +4,16 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.ActionsEnumerableProperty;
+import org.geogebra.common.properties.ActionableEnumeratedProperty;
+import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
 /**
  * This property controls the current positioning of the grid
  */
-public class GraphicsPositionProperty implements ActionsEnumerableProperty {
+public class GraphicsPositionProperty extends AbstractNamedEnumeratedProperty<Integer> implements ActionableEnumeratedProperty,
+        IconsEnumeratedProperty {
 
     private Localization localization;
     private EuclidianView euclidianView;
@@ -82,7 +85,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
     }
 
     @Override
-    public PropertyResource[] getIcons() {
+    public PropertyResource[] getValueIcons() {
         if (euclidianView.isXREnabled()) {
             if (iconsAR == null) {
                 iconsAR = new PropertyResource[]{

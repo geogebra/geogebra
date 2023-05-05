@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -36,17 +38,16 @@ public abstract class AbstractNumericProperty extends AbstractValuedProperty<Str
 		return "";
 	}
 
+	@Nullable
 	@Override
-	public boolean isValidValue(String value) {
-		return util.isNumber(value);
+	public String validateValue(String value) {
+		if (!util.isNumber(value)) {
+			return getLocalization().getError("InvalidInput");
+		}
+		return null;
 	}
 
 	protected abstract void setNumberValue(GeoNumberValue value);
 
 	protected abstract NumberValue getNumberValue();
-
-	@Override
-	public String getInvalidValueErrorMessage() {
-		return getLocalization().getError("InvalidInput");
-	}
 }

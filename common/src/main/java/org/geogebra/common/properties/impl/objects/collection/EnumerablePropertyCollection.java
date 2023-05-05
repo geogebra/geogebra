@@ -1,13 +1,13 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.EnumeratedProperty;
 
 /**
  * Handles a collection of EnumerableProperty objects as a single EnumerableProperty.
  */
-public class EnumerablePropertyCollection<T extends EnumerableProperty>
+public class EnumerablePropertyCollection<T extends EnumeratedProperty>
 		extends AbstractTypedPropertyCollection<T, Integer>
-		implements EnumerableProperty {
+		implements EnumeratedProperty {
 
 	/**
 	 * @param properties properties to handle

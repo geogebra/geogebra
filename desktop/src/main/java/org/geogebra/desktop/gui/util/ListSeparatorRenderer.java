@@ -9,7 +9,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import org.geogebra.common.properties.GroupedEnumerableProperty;
+import org.geogebra.common.properties.GroupedEnumeratedProperty;
 
 /**
  * List or ComboBox renderer that supports a separator element.
@@ -26,7 +26,7 @@ public class ListSeparatorRenderer extends JLabel
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String SEPARATOR = GroupedEnumerableProperty.DIVIDER;
+	public static final String SEPARATOR = GroupedEnumeratedProperty.DIVIDER;
 	JSeparator separator;
 
 	/**

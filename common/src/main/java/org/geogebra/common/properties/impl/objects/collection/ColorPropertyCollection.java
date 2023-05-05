@@ -18,7 +18,7 @@ public class ColorPropertyCollection<T extends ElementColorProperty>
 	}
 
 	@Override
-	public GColor[] getAvailableColors() {
-		return getFirstProperty().getAvailableColors();
+	public GColor[] getValues() {
+		return getFirstProperty().getValues();
 	}
 }

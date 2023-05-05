@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.layout.scientific;
 import java.util.Arrays;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
@@ -90,8 +90,8 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 	}
 
 	private Widget createPropertyCell(Property property) {
-		if (property instanceof EnumerableProperty) {
-			final EnumerableProperty enumerableProperty = (EnumerableProperty) property;
+		if (property instanceof EnumeratedProperty) {
+			final EnumeratedProperty enumerableProperty = (EnumeratedProperty) property;
 			final ComponentDropDown selector = new ComponentDropDown(app);
 
 			selector.setTitleText(enumerableProperty.getName());

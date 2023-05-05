@@ -1,9 +1,9 @@
 package org.geogebra.common.properties;
 
 /**
- * A property which values are also represented as icons.
+ * A property whose values have icons associated with.
  */
-public interface IconsEnumerableProperty extends EnumerableProperty {
+public interface IconsEnumeratedProperty<V> extends EnumeratedProperty<V> {
 
     /**
      * Returns an array with the icon resources. The identifiers are usually
@@ -11,5 +11,5 @@ public interface IconsEnumerableProperty extends EnumerableProperty {
      *
      * @return an array of identifiers
      */
-    PropertyResource[] getIcons();
+    PropertyResource[] getValueIcons();
 }

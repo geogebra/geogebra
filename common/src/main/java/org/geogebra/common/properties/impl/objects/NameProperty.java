@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.App;
@@ -53,14 +55,13 @@ public class NameProperty extends AbstractValuedProperty<String> implements Stri
 		}
 	}
 
+	@Nullable
 	@Override
-	public boolean isValidValue(String value) {
+	public String validateValue(String value) {
 		GeoElement element = delegate.getElement();
-		return !value.isEmpty() && LabelManager.isValidLabel(value, element.getKernel(), element);
-	}
-
-	@Override
-	public String getInvalidValueErrorMessage() {
-		return getLocalization().getError("InvalidInput");
+		if (value.isEmpty() || !LabelManager.isValidLabel(value, element.getKernel(), element)) {
+			return getLocalization().getError("InvalidInput");
+		}
+		return null;
 	}
 }

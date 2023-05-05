@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.lang.Language;
 
 import com.google.j2objc.annotations.Weak;
@@ -13,7 +13,7 @@ import com.google.j2objc.annotations.Weak;
 /**
  * Property for setting the language.
  */
-public class LanguageProperty extends AbstractEnumerableProperty {
+public class LanguageProperty extends AbstractNamedEnumeratedProperty {
 
     @Weak
     private final App app;

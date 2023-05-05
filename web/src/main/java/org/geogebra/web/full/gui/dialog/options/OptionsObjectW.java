@@ -67,7 +67,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.CompDropDown;
@@ -972,7 +972,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		return tabPanel;
 	}
 
-	private class LabelStyleProperty extends AbstractEnumerableProperty {
+	private class LabelStyleProperty extends AbstractNamedEnumeratedProperty {
 		private final LabelPanel labelPanel;
 		private int index = 0;
 

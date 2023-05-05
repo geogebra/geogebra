@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
 import org.geogebra.common.properties.ColorProperty;
-import org.geogebra.common.properties.IconsEnumerableProperty;
+import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
@@ -148,7 +148,7 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static IconsEnumerableProperty createPointStyleProperty(Localization localization,
+	public static IconsEnumeratedProperty createPointStyleProperty(Localization localization,
 			List<GeoElement> elements) {
 		try {
 			List<PointStyleProperty> pointStyleProperties = new ArrayList<>();
@@ -208,7 +208,7 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static IconsEnumerableProperty createLineStyleProperty(
+	public static IconsEnumeratedProperty createLineStyleProperty(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<LineStyleProperty> lineStyleProperties = new ArrayList<>();

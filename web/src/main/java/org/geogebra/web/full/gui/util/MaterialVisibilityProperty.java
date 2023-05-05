@@ -2,10 +2,10 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.debug.Log;
 
-public class MaterialVisibilityProperty extends AbstractEnumerableProperty {
+public class MaterialVisibilityProperty extends AbstractNamedEnumeratedProperty {
 	private int index;
 
 	/**
