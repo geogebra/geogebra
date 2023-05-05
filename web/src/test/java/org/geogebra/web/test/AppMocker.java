@@ -16,10 +16,9 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.impl.PopupImpl;
 
-import com.google.gwt.core.client.impl.SchedulerImpl;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
@@ -100,7 +99,6 @@ public class AppMocker {
 	 */
 	public static AppWsimple mockAppletSimple(AppletParameters ae) {
 		useCommonFakeProviders();
-		useProviderForSchedulerImpl();
 		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(DomMocker.getGeoGebraElement(), ae,
 				 new CASFactoryW());
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
@@ -123,11 +121,4 @@ public class AppMocker {
 		setTestLogger();
 	}
 
-	/**
-	 * Use immediate executor for scheduled tasks
-	 */
-	public static void useProviderForSchedulerImpl() {
-		GwtMockito.useProviderForType(SchedulerImpl.class,
-				type -> new QueueScheduler());
-	}
 }

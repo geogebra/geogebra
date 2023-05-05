@@ -1,9 +1,5 @@
 package org.geogebra.web.html5.gui.zoompanel;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -15,36 +11,28 @@ import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GeoGebraElement;
-import org.geogebra.web.resources.StyleInjector;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.timer.client.Timer;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
-import elemental2.dom.HTMLStyleElement;
 
 /**
  * @author csilla
  *
  */
 public class ZoomController {
-	private HTMLStyleElement transformOverride;
+
 	private AppW app;
-	/**
-	 * is in fullscreen mode
-	 */
-	private boolean fullScreenActive = false;
-	private double cssScale = 0;
-	private GDimension oldSize;
+
 	/** after we leave fullscreen, we must reset container position */
-	private HashMap<String, String> containerProps = new HashMap<>();
+
 	private boolean homeShown;
 	private EuclidianView view;
 
-	private boolean emulated;
+	private final FullScreenState state;
 
 	/**
 	 * @param app
@@ -55,13 +43,14 @@ public class ZoomController {
 	public ZoomController(AppW app, EuclidianView view) {
 		this.app = app;
 		this.view = view;
+		this.state = app.getFullscreenState();
 	}
 
 	/**
 	 * @return true if in fullscreen
 	 */
 	public boolean isFullScreenActive() {
-		return fullScreenActive;
+		return state.fullScreenActive;
 	}
 
 	/**
@@ -72,47 +61,10 @@ public class ZoomController {
 	 */
 	public void setFullScreenActive(boolean fullScreenActive,
 			ToggleButton fullscreenBtn) {
-		this.fullScreenActive = fullScreenActive;
+		state.fullScreenActive = fullScreenActive;
 		if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
 			fullscreenBtn.setSelected(fullScreenActive);
 		}
-	}
-
-	/**
-	 * @return css scale
-	 */
-	public double getCssScale() {
-		return cssScale;
-	}
-
-	/**
-	 * @param cssScale
-	 *            css scale
-	 */
-	public void setCssScale(double cssScale) {
-		this.cssScale = cssScale;
-	}
-
-	/**
-	 * @return old size
-	 */
-	public GDimension getOldSize() {
-		return oldSize;
-	}
-
-	/**
-	 * @param oldSize
-	 *            old size
-	 */
-	public void setOldSize(GDimension oldSize) {
-		this.oldSize = oldSize;
-	}
-
-	/**
-	 * @return container
-	 */
-	public HashMap<String, String> getContainerProps() {
-		return containerProps;
 	}
 
 	/**
@@ -173,7 +125,7 @@ public class ZoomController {
 			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 			Browser.scale(scaler, scale, 0, 0);
 			Browser.scale(elem, 1 / scale, 120, 100);
-			container.getStyle().setPosition(emulated
+			container.getStyle().setPosition(state.emulated
 					? Position.FIXED : Position.ABSOLUTE);
 			double marginLeft = 0;
 			double marginTop = 0;
@@ -223,51 +175,17 @@ public class ZoomController {
 				scaler.getStyle().setMarginTop(0, Unit.PX);
 				dispatchResize();
 				Element container = scaler.getParentElement();
-				resetStyleAfterFullscreen(container);
-				double scale = cssScale > 0 ? cssScale
+				state.resetStyleAfterFullscreen(container, app);
+				double scale = state.getCssScale() > 0 ? state.getCssScale()
 						: app.getAppletParameters().getDataParamScale();
 				Browser.scale(scaler, scale, 0, 0);
 				app.getGeoGebraElement().resetScale();
 				app.checkScaleContainer();
+				Browser.scale(elem, 1, 0, 0);
 			}
+		} else {
+			Browser.scale(elem, 1, 0, 0);
 		}
-		Browser.scale(elem, 1, 0, 0);
-	}
-
-	/**
-	 * Resetting position and margins.
-	 *
-	 * @param container
-	 *            to reset.
-	 */
-	protected void resetStyleAfterFullscreen(Element container) {
-		if (container != null) {
-			for (Entry<String, String> e : containerProps.entrySet()) {
-				if (!StringUtil.empty(e.getValue())) {
-					container.getStyle().setProperty(e.getKey(), e.getValue());
-				} else {
-					container.getStyle().clearProperty(e.getKey());
-				}
-			}
-		}
-		if (oldSize != null && app.isUnbundled()) {
-			app.getGgbApi().setSize(oldSize.getWidth(), oldSize.getHeight());
-		}
-	}
-
-	/**
-	 * @param container
-	 *            container
-	 * @param propName
-	 *            property name
-	 * @param value
-	 *            value of property
-	 */
-	public void setContainerProp(Element container, String propName,
-			String value) {
-		containerProps.put(propName,
-				container.getStyle().getProperty(propName));
-		container.getStyle().setProperty(propName, value);
 	}
 
 	/**
@@ -282,7 +200,7 @@ public class ZoomController {
 			final ToggleButton fullscreenBtn) {
 		app.closeMenuHideKeyboard();
 		final Element container;
-		emulated = useEmulatedFullscreen(app);
+		state.emulated = useEmulatedFullscreen(app);
 		if (app.getAppletParameters().getDataParamFitToScreen()) {
 			container = null;
 			if (!isFullScreenActive()) {
@@ -302,27 +220,8 @@ public class ZoomController {
 			final Element scaler = geoGebraElement.getParentElement();
 			container = scaler.getParentElement();
 			if (!isFullScreenActive()) {
-				String containerPositionBefore = container.getStyle()
-						.getPosition();
-				if (StringUtil.empty(containerPositionBefore)) {
-					containerPositionBefore = "static";
-				}
-				containerProps.clear();
-				containerProps.put("position", containerPositionBefore);
-				setContainerProp(container, "width", "100%");
-				setContainerProp(container, "height", "100%");
-				setContainerProp(container, "maxWidth", "100%");
-				setContainerProp(container, "maxHeight", "100%");
-				setContainerProp(container, "marginLeft", "0");
-				setContainerProp(container, "marginTop", "0");
-				setOldSize(app.getPreferredSize());
+				state.store(container, app, geoGebraElement.getParentScaleX());
 				scaler.addClassName("fullscreen");
-				setCssScale(geoGebraElement.getParentScaleX());
-				if (emulated) {
-					overrideParentTransform();
-					setContainerProp(container, "left", "0px");
-					container.addClassName("GeoGebraFullscreenContainer");
-				}
 				Timer t = new Timer() {
 
 					@Override
@@ -334,45 +233,31 @@ public class ZoomController {
 				// delay scaling to make sure scrollbars disappear
 				t.schedule(50);
 			} else {
-				if (emulated) {
-					removeTransformOverride();
+				if (state.emulated) {
+					state.removeTransformOverride();
 					container.removeClassName("GeoGebraFullscreenContainer");
 					onExitFullscreen(elem, fullscreenBtn);
-					if (getCssScale() != 0) {
-						Browser.scale(scaler, getCssScale(),
+					if (state.getCssScale() != 0) {
+						Browser.scale(scaler, state.getCssScale(),
 								0, 0);
 					}
 				}
 			}
 		}
-		if (!emulated) {
+		if (!state.emulated) {
 			setFullScreenActive(!isFullScreenActive(), fullscreenBtn);
 			Browser.toggleFullscreen(isFullScreenActive(), container);
 		}
 	}
 
 	private void handleIframeFullscreen(ToggleButton fullscreenBtn) {
-		if (isRunningInIframe() && emulated) {
+		if (isRunningInIframe() && state.emulated) {
 			FullScreenHandler fullScreenHandler = app.getVendorSettings().getFullscreenHandler();
 			if (fullScreenHandler != null) {
 				fullScreenHandler.toggleFullscreen();
-				setFullScreenActive(!fullScreenActive, fullscreenBtn);
+				setFullScreenActive(!state.fullScreenActive, fullscreenBtn);
 			}
 		}
-	}
-
-	/**
-	 * Remove the inline style for transform overriding
-	 */
-	protected void removeTransformOverride() {
-		if (transformOverride != null) {
-			transformOverride.remove();
-		}
-	}
-
-	private void overrideParentTransform() {
-		transformOverride = StyleInjector.injectStyleSheet(
-						"*:not(.ggbTransform){transform: none !important;}");
 	}
 
 	/**

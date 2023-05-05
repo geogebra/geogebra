@@ -104,4 +104,8 @@ public final class RegressionSpecification {
 	public String getCoeffOrdering() {
 		return coeffOrdering;
 	}
+
+	public Regression getRegresson() {
+		return regression;
+	}
 }

@@ -1,10 +1,9 @@
 package org.geogebra.web.full.gui.layout;
 
 import org.geogebra.common.gui.SetLabels;
-
-import com.google.gwt.user.client.ui.InsertPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.InsertPanel;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Widget;
 
 public interface DockControlPanel extends SetLabels, IsWidget, InsertPanel {
 	boolean isVisible();

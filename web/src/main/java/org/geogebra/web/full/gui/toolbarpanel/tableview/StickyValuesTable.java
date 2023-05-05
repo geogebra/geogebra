@@ -18,18 +18,17 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-
-import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.Header;
-import com.google.gwt.user.cellview.client.SafeHtmlHeader;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.cell.client.Cell;
+import org.gwtproject.cell.client.SafeHtmlCell;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.safehtml.shared.SafeHtml;
+import org.gwtproject.user.cellview.client.Column;
+import org.gwtproject.user.cellview.client.Header;
+import org.gwtproject.user.cellview.client.SafeHtmlHeader;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 import elemental2.dom.NodeList;
 import jsinterop.base.Js;
@@ -148,8 +147,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private void onHeaderClick(Element source, int column) {
 		contextMenu = new ContextMenuTV(app, view,
 				view.getEvaluatable(column).toGeoElement(), column);
-		contextMenu.show(source.getAbsoluteLeft(), source.getAbsoluteTop()
-						+ source.getClientHeight() + CONTEXT_MENU_OFFSET);
+		contextMenu.show(source, 0, source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
 
 	@Override

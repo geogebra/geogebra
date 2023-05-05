@@ -66,4 +66,9 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	public void resetUrl() {
 		// no-op
 	}
+
+	@Override
+	public void invokeLater(Runnable r) {
+		r.run();
+	}
 }

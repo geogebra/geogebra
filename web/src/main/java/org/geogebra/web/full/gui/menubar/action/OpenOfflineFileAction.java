@@ -24,7 +24,7 @@ public class OpenOfflineFileAction extends DefaultMenuAction<Void>  {
 			fileChooser = new FileChooser(app);
 			fileChooser.addStyleName("hidden");
 		}
-		app.getPanel().add(fileChooser);
+		app.getAppletFrame().add(fileChooser);
 		fileChooser.open();
 	}
 }

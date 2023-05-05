@@ -7,14 +7,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.TextBox;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  *   Share link dialog
@@ -136,7 +135,7 @@ public class ShareLinkDialog extends ComponentDialog {
 		AppW appW = (AppW) this.app;
 		Material m = appW.getActiveMaterial();
 		if (m != null) {
-			String url = appW.getCurrentURL(m.getSharingKeyOrId(), true) + "?embed";
+			String url = appW.getCurrentURL(m.getSharingKeySafe(), true) + "?embed";
 			String code =
 					"<iframe src=\"" + url + "\""
 					+ " width=\"800\" height=\"600\" allowfullscreen"

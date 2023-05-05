@@ -14,6 +14,7 @@ public class IntervalFunctionValue implements IntervalExpressionValue {
 	 */
 	public IntervalFunctionValue(Interval interval) {
 		this.interval = interval;
+		interval.setPrecision(0);
 	}
 
 	@Override

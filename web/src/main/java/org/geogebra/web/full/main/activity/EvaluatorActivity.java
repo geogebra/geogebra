@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.stepbystep.StepSolverImpl;
 import org.geogebra.common.main.settings.config.AppConfigEvaluator;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.editor.MathFieldExporter;
 import org.geogebra.web.full.evaluator.EvaluatorEditor;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -70,7 +71,7 @@ public class EvaluatorActivity extends BaseActivity {
 	}
 
 	public void exportImage(String type, boolean transparent,
-			EvaluatorExportedApi.EquationExportImageConsumer callback) {
+			MathFieldExporter.ImageConsumer callback) {
 		editor.exportImage(type, transparent, callback);
 	}
 

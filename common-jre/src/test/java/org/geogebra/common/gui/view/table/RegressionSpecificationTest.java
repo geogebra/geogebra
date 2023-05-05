@@ -41,7 +41,7 @@ public class RegressionSpecificationTest extends BaseUnitTest {
 
 	@Test
 	public void testLinearRegression() {
-		assertEquals("a\\ x+b, a = 20.8, b = -27, R\u00b2 = 0.91",
+		assertEquals("a\\ x+b, a = 20.8, b = -27, R\u00b2 = 0.91, r = 0.95",
 				getRegressionValues(0));
 		assertEquals("20.8x - 27", getRegressionFormula(0));
 	}

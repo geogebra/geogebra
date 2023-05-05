@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -42,11 +41,10 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Command;
+import org.gwtproject.user.client.Command;
 
 /**
  * @author gabor
@@ -865,16 +863,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            coord
 	 */
 	public void showScaled(Element c, int x, int y) {
-		wrappedPopup.showScaled(c, x, y);
-		focusDeferred();
-	}
-
-	/**
-	 * @param p
-	 *            show in p's coord
-	 */
-	public void show(GPoint p) {
-		wrappedPopup.show(p.x, p.y);
+		wrappedPopup.show(c, x, y);
 		focusDeferred();
 	}
 

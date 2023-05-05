@@ -8,8 +8,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author gabor

@@ -6,25 +6,25 @@ import java.util.Map;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.GMenuBar;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.MenuHoverListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
@@ -72,14 +72,12 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	public GPopupMenuW(AppW app, boolean horizontal) {
 		this.app = app;
 		this.horizontal = horizontal;
-		popupPanel = new GPopupPanel(app.getPanel(), app);
+		popupPanel = new GPopupPanel(app.getAppletFrame(), app);
 		popupMenu = new PopupMenuBar(app);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
 
-		popupPanel.addCloseHandler(event -> {
-			removeSubPopup();
-		});
+		popupPanel.addCloseHandler(event -> removeSubPopup());
 
 		popupPanel.setAutoHideEnabled(true);
 	}
@@ -94,7 +92,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 */
 	public GPopupMenuW(AriaMenuBar mb, AppW app, Widget heading) {
 		this.app = app;
-		popupPanel = new GPopupPanel(app.getPanel(), app);
+		popupPanel = new GPopupPanel(app.getAppletFrame(), app);
 		popupMenu = mb;
 		if (heading != null) {
 			FlowPanel merged = new FlowPanel();
@@ -121,38 +119,29 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 * Shows the popup menu, ensures that the popup menu must be on the client
 	 * area.
 	 *
-	 * @param x  x-coord of the popup
-	 * @param y  y-coord of the popup
+	 * @param xScaled  x-coord of the popup
+	 * @param yScaled  y-coord of the popup
 	 */
-	public final void show(double x, double y) {
-		double yOffset = app.getPanel().getAbsoluteTop() / getScaleY();
-		double xOffset = app.getPanel().getAbsoluteLeft() / getScaleX();
-		int top = (int) (y - yOffset);
-		int left = (int) (x - xOffset);
+	public final void show(double xScaled, double yScaled) {
+		GeoGebraFrameW frame = app.getAppletFrame();
+		double scaleX = getScaleX();
+		double frameTopScaled = frame.getAbsoluteTop() / getScaleY();
+		double frameLeftScaled = frame.getAbsoluteLeft() / scaleX;
+		int top = (int) (yScaled - frameTopScaled);
+		int left = (int) (xScaled - frameLeftScaled);
 		boolean newPoz = false;
 		showAtPoint(left, top);
-		int leftMargin = app.getPanel().getAbsoluteLeft()
-				+ app.getPanel().getOffsetWidth();
-		int bottomMargin = app.getPanel().getAbsoluteTop()
-				+ app.getPanel().getOffsetHeight();
-		if ((x + popupPanel.getOffsetWidth())
-				* getScaleX() > leftMargin
-						+ NavigatorUtil.getWindowScrollLeft()) {
-			left = (int) ((leftMargin + NavigatorUtil.getWindowScrollLeft())
-					/ getScaleX() - xOffset - popupPanel.getOffsetWidth());
+		if ((left + popupPanel.getOffsetWidth()) > frame.getOffsetWidth()) {
+			left = frame.getOffsetWidth() - popupPanel.getOffsetWidth();
 			newPoz = true;
 		}
-		if ((y + popupPanel.getOffsetHeight())
-				* getScaleY() > bottomMargin
-						+ NavigatorUtil.getWindowScrollTop()) {
-			top = (int) ((bottomMargin + NavigatorUtil.getWindowScrollTop())
-					/ getScaleY() - yOffset - popupPanel.getOffsetHeight());
+		if ((top + popupPanel.getOffsetHeight()) > frame.getOffsetHeight()) {
+			top = frame.getOffsetHeight() - popupPanel.getOffsetHeight();
 			newPoz = true;
 		}
 
-		if (newPoz || !DoubleUtil.isEqual(1, getScaleX())) {
+		if (newPoz || !DoubleUtil.isEqual(1, scaleX)) {
 			popupPanel.setPopupPosition(left, top);
-			// App.debug(left + "x" + top);
 		}
 
 		positionAndShowSubmenu();
@@ -175,19 +164,6 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 	/**
 	 * @param c
-	 *            canvas
-	 * @param x
-	 *            coord to show popup
-	 * @param y
-	 *            coord to show popup
-	 */
-	public void showScaled(Element c, int x, int y) {
-		show((int) (c.getAbsoluteLeft() / getScaleX() + x),
-				(int) (c.getAbsoluteTop() / getScaleY() + y));
-	}
-
-	/**
-	 * @param c
 	 *            widget
 	 * @param x
 	 *            coord to show popup
@@ -195,7 +171,20 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 *            coord to show popup
 	 */
 	public void show(Widget c, int x, int y) {
-		show(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y);
+		show(c.getElement(), x, y);
+	}
+
+	/**
+	 * @param c
+	 *            canvas
+	 * @param x
+	 *            coord to show popup
+	 * @param y
+	 *            coord to show popup
+	 */
+	public void show(Element c, int x, int y) {
+		show((int) (c.getAbsoluteLeft() / getScaleX() + x),
+				(int) (c.getAbsoluteTop() / getScaleY() + y));
 	}
 
 	@Override
@@ -341,8 +330,9 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	}
 
 	private int alignPopupToOpenItem() {
-		int absoluteTop = (int) (openItem.getAbsoluteTop() / getScaleY());
-		return Math.max(SUBMENU_VERTICAL_PADDING, getRelativeTop(absoluteTop));
+		int absoluteTop = (int) ((openItem.getAbsoluteTop()
+				- getApp().getAppletFrame().getAbsoluteTop()) / getScaleY());
+		return Math.max(SUBMENU_VERTICAL_PADDING, absoluteTop);
 	}
 
 	/**
@@ -352,8 +342,8 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 */
 	private int getPopupXCoord() {
 		int xCoord = getRightSubPopupXCord();
-		int leftMargin = app.getPanel().getAbsoluteLeft()
-					+ app.getPanel().getOffsetWidth();
+		int leftMargin = app.getAppletFrame().getAbsoluteLeft()
+					+ app.getAppletFrame().getOffsetWidth();
 		return (xCoord + getSubPopupWidth()
 				> leftMargin)
 				? getLeftSubPopupXCord() : xCoord;
@@ -373,21 +363,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	}
 
 	private int alignPopupToBottom() {
-		int absTop = Math.max(SUBMENU_VERTICAL_PADDING,
-				NavigatorUtil.getWindowHeight() + NavigatorUtil.getWindowScrollTop()
-				- getSubPopupHeight() - SUBMENU_VERTICAL_PADDING);
-
-		return getRelativeTop(absTop);
-	}
-
-	/**
-	 *
-	 * @param absoluteTop to convert.
-	 * @return the relative top within the applet
-	 */
-	private int getRelativeTop(int absoluteTop) {
-		return (int) (Math.round(absoluteTop - getApp().getPanel().getAbsoluteTop()
-				/ getScaleY()));
+		return app.getAppletFrame().getOffsetHeight() - getSubPopupHeight();
 	}
 
 	/**
@@ -474,7 +450,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	public final int getLeftSubPopupXCord() {
 		int xCord;
 		xCord = (int) ((getPopupLeft()
-				- app.getPanel().getAbsoluteLeft()) / getScaleX()
+				- app.getAppletFrame().getAbsoluteLeft()) / getScaleX()
 				- getSubPopupWidth());
 		return xCord;
 	}
@@ -495,7 +471,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 */
 	public final int getRightSubPopupXCord() {
 		return (int) ((getPopupLeft()
-				- app.getPanel().getAbsoluteLeft()) / getScaleX()
+				- app.getAppletFrame().getAbsoluteLeft()) / getScaleX()
 				+ popupPanel.getOffsetWidth());
 	}
 

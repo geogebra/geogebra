@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.js.ResourcesInjector;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
+import org.geogebra.gwtutil.JavaScriptInjector;
+import org.geogebra.gwtutil.ScriptLoadCallback;
 
 import jsinterop.base.JsPropertyMap;
 
@@ -32,7 +32,7 @@ public class GMLoader {
 			return;
 		}
 		loadingStarted = true;
-		ResourcesInjector.loadJS("https://graspablemath.com/shared/libs/gmath/gm-inject.js",
+		JavaScriptInjector.loadJS("https://graspablemath.com/shared/libs/gmath/gm-inject.js",
 				new ScriptLoadCallback() {
 
 			@Override

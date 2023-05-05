@@ -39,4 +39,12 @@ public class DrawList3D extends DrawComposite3D {
 	protected GeoElement getElement(int i) {
 		return geoList.get(i);
 	}
+
+	@Override
+	public boolean isVisible() {
+		if (getGeoElement().isLabelSet() && createdByDrawList()) {
+			return false;
+		}
+		return super.isVisible();
+	}
 }

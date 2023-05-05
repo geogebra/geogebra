@@ -4,9 +4,9 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.web.html5.awt.GFontW;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public interface GGraphics2DWI extends GGraphics2D {

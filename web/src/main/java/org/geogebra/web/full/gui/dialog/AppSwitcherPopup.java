@@ -12,10 +12,9 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
 import org.geogebra.web.shared.GlobalHeader;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 
@@ -31,7 +30,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 	 *            - button for popup
 	 */
 	public AppSwitcherPopup(AppWFull app, SuiteHeaderAppPicker pickerButton) {
-		super(true, app.getPanel(), app);
+		super(true, app.getAppletFrame(), app);
 		this.appPickerButton = pickerButton;
 		this.app = app;
 		addAutoHidePartner(appPickerButton.getElement());

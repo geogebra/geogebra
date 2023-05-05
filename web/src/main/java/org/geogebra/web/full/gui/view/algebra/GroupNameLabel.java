@@ -16,11 +16,10 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.SelectionManager;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TreeItem;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.TreeItem;
 
 /**
  * InlineLabelTreeItem for the openable tree nodes of the algebra view

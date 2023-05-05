@@ -12,10 +12,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class StatsDialogTV extends ComponentDialog {
 
@@ -65,6 +64,7 @@ public class StatsDialogTV extends ComponentDialog {
 					group.add(canvas);
 				} else {
 					Label valueLbl = new Label(value);
+					valueLbl.addStyleName("value");
 					group.add(valueLbl);
 				}
 			}

@@ -5,10 +5,9 @@ import java.util.List;
 import org.geogebra.web.full.gui.toolbarpanel.ProbabilityTableAdapter;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.cellview.client.Column;
+import org.gwtproject.cell.client.SafeHtmlCell;
+import org.gwtproject.safehtml.shared.SafeHtml;
+import org.gwtproject.user.cellview.client.Column;
 
 import elemental2.dom.HTMLElement;
 

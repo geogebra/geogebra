@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -69,18 +67,18 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.TestHarness;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.DragStartEvent;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.TreeItem;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.syntax.SyntaxController;
 import com.himamis.retex.editor.share.syntax.SyntaxHint;
@@ -474,13 +472,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			outputPanel.reset();
 
 			String text = previewGeo
-					.getAlgebraDescription(StringTemplate.latexTemplate)
-					.replace("undefined", "").trim();
-			if (!StringUtil.empty(text)
-					&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
-				text = text.substring(1);
-			}
-
+					.getAlgebraDescriptionForPreviewOutput();
 			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 			outputPanel.addArrowPrefix();
 			outputPanel.addValuePanel();
@@ -1137,12 +1129,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				updateGUIfocus(false);
 			}
 		}
-	}
-
-	@Override
-	public ArrayList<String> getHistory() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

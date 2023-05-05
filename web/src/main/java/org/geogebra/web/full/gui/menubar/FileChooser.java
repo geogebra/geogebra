@@ -1,10 +1,9 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.FileUpload;
+import org.gwtproject.event.dom.client.ChangeEvent;
+import org.gwtproject.event.dom.client.ChangeHandler;
+import org.gwtproject.user.client.ui.FileUpload;
 
 import elemental2.dom.File;
 import elemental2.dom.HTMLInputElement;

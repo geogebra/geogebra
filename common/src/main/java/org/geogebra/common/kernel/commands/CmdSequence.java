@@ -52,8 +52,8 @@ public class CmdSequence extends CommandProcessor {
 			if (arg[0] instanceof GeoNumberValue) {
 
 				AlgoSequenceRange algo = new AlgoSequenceRange(cons,
-						c.getLabel(),
 						(GeoNumberValue) arg[0]);
+				algo.getOutput(0).setLabel(c.getLabel());
 				return algo.getOutput();
 			}
 			throw argErr(c, arg[0]);
@@ -62,8 +62,8 @@ public class CmdSequence extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoSequenceRange algo = new AlgoSequenceRange(cons,
-						c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], null);
+				algo.getOutput(0).setLabel(c.getLabel());
 				return algo.getOutput();
 			}
 			throw argErr(c, getBadArg(ok, arg));
@@ -73,8 +73,9 @@ public class CmdSequence extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoSequenceRange algo = new AlgoSequenceRange(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+				algo.getOutput(0).setLabel(c.getLabel());
 				return algo.getOutput();
 			}
 			throw argErr(c, getBadArg(ok, arg));

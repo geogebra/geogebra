@@ -233,6 +233,9 @@ public class MySpecialDouble extends MyDouble {
 
 	@Override
 	public ExpressionValue unaryMinus(Kernel kernel) {
+		if (setFromOutside) {
+			return super.unaryMinus(kernel);
+		}
 		if (!isLetterConstant && !scientificNotation) {
 			return new MySpecialDouble(kernel, -getDouble(), "-" + originalString);
 		}
@@ -272,5 +275,9 @@ public class MySpecialDouble extends MyDouble {
 			}
 		}
 		return bd;
+	}
+
+	public boolean isDecimal() {
+		return strToString != null && strToString.contains(".");
 	}
 }

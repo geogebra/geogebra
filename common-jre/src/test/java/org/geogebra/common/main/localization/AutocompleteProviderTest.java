@@ -9,7 +9,9 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -63,9 +65,15 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 				eq(Commands.InverseBinomial.name()), anyString())).thenReturn("");
 		when(config.newCommandSyntaxFilter()).thenReturn(commandSyntax);
 
+		assertEquals(0, getExactSyntaxMatchOf(config, Commands.InverseBinomial.name())
+						.count());
+	}
+
+	private Stream<AutocompleteProvider.Completion> getExactSyntaxMatchOf(AppConfig config,
+			String name) {
 		App app = AppCommonFactory.create(config);
 		AutocompleteProvider provider = new AutocompleteProvider(app, false);
-		assertEquals(0, provider.getCompletions(Commands.InverseBinomial.name()).count());
+		return provider.getCompletions(name).filter(c -> Objects.equals(c.command, name));
 	}
 
 	private List<AutocompleteProvider.Completion> getCompletions(String sin) {

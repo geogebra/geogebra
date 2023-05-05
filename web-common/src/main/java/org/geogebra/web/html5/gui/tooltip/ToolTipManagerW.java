@@ -2,10 +2,9 @@ package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Event;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.Event;
 
 public final class ToolTipManagerW {
 	private ComponentSnackbar snackbar;
@@ -53,32 +52,19 @@ public final class ToolTipManagerW {
 	}
 
 	/**
-	 * @param title
-	 *            title of snackbar
-	 * @param helpText
-	 *            text of snackbar
-	 * @param buttonText
-	 *           text of button
-	 * @param appW
-	 *            app for positioning
+	 * @param title -title of snackbar
+	 * @param helpText - text of snackbar
+	 * @param buttonText - text of button
+	 * @param appW - app for positioning
+	 * @param showDuration - how long should the tooltip be visible
 	 */
 	public void showBottomInfoToolTip(String title, final String helpText,
-			String buttonText, String url, final AppW appW) {
+			String buttonText, String url, final AppW appW, int showDuration) {
 		if (blockToolTip || appW == null) {
 			return;
 		}
 
-		if (snackbar != null) {
-			appW.getPanel().remove(snackbar);
-		}
-		snackbar = new ComponentSnackbar(appW, title, helpText, buttonText);
-		snackbar.setButtonAction(() -> {
-			if ("Share".equals(buttonText)) {
-				appW.share();
-			} else {
-				appW.getFileManager().open(url);
-			}
-		});
+		createSnackbar(appW, title, helpText, buttonText, showDuration, url);
 
 		Style style = snackbar.getElement().getStyle();
 		if (appW.isWhiteboardActive()) {
@@ -98,6 +84,38 @@ public final class ToolTipManagerW {
 				}
 			}
 		}
+	}
+
+	private void createSnackbar(AppW appW, String title, String helpText, String buttonText,
+			int showDuration, String url) {
+		if (snackbar != null) {
+			appW.getAppletFrame().remove(snackbar);
+		}
+		snackbar = new ComponentSnackbar(appW, title, helpText, buttonText);
+		snackbar.setShowDuration(showDuration);
+		snackbar.setButtonAction(() -> {
+			if ("Share".equals(buttonText)) {
+				appW.share();
+			} else {
+				appW.getFileManager().open(url);
+			}
+		});
+	}
+
+	/**
+	 * @param title
+	 *            title of snackbar
+	 * @param helpText
+	 *            text of snackbar
+	 * @param buttonText
+	 *           text of button
+	 * @param appW
+	 *            app for positioning
+	 */
+	public void showBottomInfoToolTip(String title, final String helpText,
+			String buttonText, String url, final AppW appW) {
+		showBottomInfoToolTip(title, helpText, buttonText, url, appW,
+				ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 	}
 
 	/**

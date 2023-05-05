@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import static org.geogebra.web.full.gui.util.NumberListBox.PI_HALF_STRING;
-
 import java.util.Arrays;
 
 import org.geogebra.common.awt.GColor;
@@ -39,10 +37,10 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
@@ -221,14 +219,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				});
 
 			ncbGridTickX = new ComponentCombobox(app, "", Arrays.asList("1",
-					Unicode.PI_STRING, PI_HALF_STRING));
+					Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 			ncbGridTickX.addChangeHandler(() -> {
 				model.applyGridTicks(ncbGridTickX.getSelectedText(), 0);
 				updateView();
 			});
 	
 			ncbGridTickY = new ComponentCombobox(app, "", Arrays.asList("1",
-					Unicode.PI_STRING, PI_HALF_STRING));
+					Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 			ncbGridTickY.addChangeHandler(() -> {
 					model.applyGridTicks(ncbGridTickY.getSelectedText(), 1);
 					updateView();

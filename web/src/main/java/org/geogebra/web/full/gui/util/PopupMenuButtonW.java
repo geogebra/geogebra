@@ -16,13 +16,12 @@ import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.event.logical.shared.CloseEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Table popup for selecting properties of objects
@@ -48,7 +47,7 @@ public class PopupMenuButtonW extends StandardButton
 	 */
 	protected Label titleLabel;
 	private SelectionTableW myTable;
-	private boolean hasTable;
+	private final boolean hasTable;
 	/** flag to determine if the popup should persist after a mouse click */
 	private boolean keepVisible = true;
 	private boolean isIniting = true;
@@ -148,7 +147,7 @@ public class PopupMenuButtonW extends StandardButton
 	 * creates a new {@link ButtonPopupMenu}
 	 */
 	private void createPopup() {
-		myPopup = new ButtonPopupMenu(app.getPanel(), app) {
+		myPopup = new ButtonPopupMenu(app.getAppletFrame(), app) {
 			@Override
 			public void setVisible(boolean visible) {
 				super.setVisible(visible);

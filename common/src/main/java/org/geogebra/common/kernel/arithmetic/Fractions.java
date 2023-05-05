@@ -28,7 +28,7 @@ public class Fractions {
 			Kernel kernel, boolean allowPi) {
 		ExpressionValue[] fraction = new ExpressionValue[2];
 		expr.getFraction(fraction, true);
-		if (fraction[0] != null) {
+		if (fraction[0] != null && !expr.inspect(Fractions::isDecimal)) {
 			ExpressionValue ltVal = fraction[0].evaluate(StringTemplate.defaultTemplate);
 			double lt = ltVal.evaluateDouble();
 
@@ -177,6 +177,10 @@ public class Fractions {
 			parts[0] = expr;
 			parts[1] = null;
 		}
+	}
+
+	private static boolean isDecimal(ExpressionValue left) {
+		return left instanceof MySpecialDouble && ((MySpecialDouble) left).isDecimal();
 	}
 
 	private static ExpressionValue multiplyCheck(ExpressionValue denR, ExpressionValue denL) {

@@ -10,9 +10,8 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * interface for EuclidianViewW / EuclidianView3DW
@@ -93,7 +92,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	void requestFocus();
 
-	void getExportSVG(double scale, boolean transparency, Consumer<String> callback);
+	void getExportSVG(boolean transparency, Consumer<String> callback);
 
 	String getExportPDF(double scale);
 

@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.util;
 
-import com.google.gwt.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.UIObject;
 
 public class TestHarness {
 

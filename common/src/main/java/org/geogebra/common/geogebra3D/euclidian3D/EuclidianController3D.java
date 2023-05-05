@@ -58,7 +58,6 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
-import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
@@ -313,8 +312,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	public void setMovedGeoPoint(GeoElementND geo) {
-		movedGeoPoint = (GeoPointND) geo;
+	public void setMovedGeoPoint(GeoPointND geo) {
+		movedGeoPoint = geo;
 		((EuclidianView3D) getView()).setPointDecorations(movedGeoPoint);
 
 		AlgoElement algo = movedGeoPoint.getParentAlgorithm();
@@ -1718,7 +1717,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 									? newGeo.getLabelSimple()
 									: replaceable.getLabelSimple();
 							GeoElement geo = kernel.lookupLabel(newLabel);
-							setMovedGeoPoint(geo);
+							setMovedGeoPoint((GeoPointND) geo);
 
 							// update hits
 							Hits3D hits = view3D.getHits3D();
@@ -3743,19 +3742,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (movedGeoElement.isTranslateable()) {
 			AlgoElement algo = movedGeoElement.getParentAlgorithm();
 			if (algo instanceof AlgoTranslate) {
-				GeoElement[] input = algo.getInput();
-				GeoElement in = input[1];
-				if (in instanceof GeoVectorND) {
-					if (in.isIndependent()) {
-						movedGeoVector = (GeoVectorND) input[1];
-						moveMode = MOVE_VECTOR_NO_GRID;
-						setTranslateStart(movedGeoElement, movedGeoVector);
-					} else if (in
-							.getParentAlgorithm() instanceof AlgoVectorPoint) {
-						AlgoVectorPoint algoVector = (AlgoVectorPoint) in
-								.getParentAlgorithm();
+				GeoElementND in = algo.getInput(1);
+				if (in instanceof GeoVectorND && in.isIndependent()) {
+					movedGeoVector = (GeoVectorND) in;
+					moveMode = MOVE_VECTOR_NO_GRID;
+					setTranslateStart(movedGeoElement, movedGeoVector);
+				} else {
+					GeoPointND pt = MoveGeos.getMovablePointForVector(in);
+					if (pt != null) {
 						moveMode = MOVE_POINT_WITH_OFFSET;
-						setMovedGeoPoint(algoVector.getP());
+						setMovedGeoPoint(pt);
 						setTranslateFromPointStart(movedGeoElement,
 								movedGeoPoint);
 					}

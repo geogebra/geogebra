@@ -2,6 +2,7 @@ package org.geogebra.common.io;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
@@ -117,7 +118,7 @@ public class StringTemplateTest {
 
 	private void tcl(String string, String string2) {
 		GeoElementND geo = add(string);
-		Assert.assertTrue(geo instanceof GeoFunction);
+		assertThat(geo, instanceOf(GeoFunction.class));
 		assertEquals(
 				((GeoFunction) geo).conditionalLaTeX(false,
 						StringTemplate.latexTemplate),

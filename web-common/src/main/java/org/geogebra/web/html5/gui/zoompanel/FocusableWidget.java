@@ -7,8 +7,7 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 public class FocusableWidget implements MayHaveFocus {
 

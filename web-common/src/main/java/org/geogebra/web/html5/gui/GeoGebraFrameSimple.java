@@ -10,8 +10,7 @@ import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
-
-import com.google.gwt.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.RootPanel;
 
 /**
  * Frame for simple applets (only EV showing)

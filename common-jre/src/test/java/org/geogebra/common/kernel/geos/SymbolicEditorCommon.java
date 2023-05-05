@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.main.App;
 
@@ -57,7 +58,7 @@ class SymbolicEditorCommon extends SymbolicEditor {
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds, TextRendererSettings settings) {
 		setInputBox(geoInputBox);
 	}
 

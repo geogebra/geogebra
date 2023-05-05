@@ -1,6 +1,5 @@
 package org.geogebra.web.full.euclidian;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -8,10 +7,9 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.RequiresResize;
+import org.gwtproject.event.logical.shared.CloseEvent;
+import org.gwtproject.event.logical.shared.CloseHandler;
+import org.gwtproject.user.client.ui.RequiresResize;
 
 /**
  * context menu
@@ -19,7 +17,6 @@ import com.google.gwt.user.client.ui.RequiresResize;
 public class ContextMenuPopup extends StandardButton
 		implements CloseHandler<GPopupPanel>, RequiresResize {
 
-	private final GPoint location;
 	private final AppW app;
 	private GPopupMenuW popup;
 
@@ -31,8 +28,6 @@ public class ContextMenuPopup extends StandardButton
 		super(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
 		this.app = app;
 		this.popup = popup;
-		location = new GPoint();
-		updateLocation();
 		initPopup();
 		addStyleName("MyCanvasButton");
 		addStyleName("MyCanvasButton-borderless");
@@ -44,14 +39,7 @@ public class ContextMenuPopup extends StandardButton
 		if (!popup.isMenuShown()) {
 			return;
 		}
-		updateLocation();
-		popup.show(location.x, location.y);
-	}
-
-	private void updateLocation() {
-		int x = getAbsoluteLeft();
-		int y = getAbsoluteTop() + getOffsetHeight();
-		location.setLocation(x, y);
+		popup.show(this, 0, getOffsetHeight());
 	}
 
 	private void initPopup() {
@@ -76,9 +64,8 @@ public class ContextMenuPopup extends StandardButton
 	 * show the menu
 	 */
 	public void showMenu() {
-		updateLocation();
 		updatePopup();
-		popup.show(location.x, location.y);
+		popup.show(this, 0, getOffsetHeight());
 	}
 
 	public void updatePopup() {
