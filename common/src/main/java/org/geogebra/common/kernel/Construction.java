@@ -3236,7 +3236,10 @@ public class Construction {
 		} else {
 			registeredFV.add(fv);
 		}
+	}
 
+	public boolean hasRegisteredFunctionVariable() {
+		return !registeredFV.isEmpty();
 	}
 
 	/**
@@ -3247,20 +3250,6 @@ public class Construction {
 	 */
 	public boolean isRegisteredFunctionVariable(String s) {
 		return registeredFV.contains(s);
-	}
-
-	/**
-	 * Returns function variable that should be recognized in If and Function
-	 * commands
-	 * 
-	 * @return local function variable or null if there is none
-	 */
-	public String getRegisteredFunctionVariable() {
-		Iterator<String> it = registeredFV.iterator();
-		if (it.hasNext()) {
-			return it.next();
-		}
-		return null;
 	}
 
 	/**
