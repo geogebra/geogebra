@@ -9,11 +9,9 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.aria.client.Roles;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class StandardButton extends Widget implements HasResource {
 	private ResourcePrototype icon;
@@ -127,7 +125,7 @@ public class StandardButton extends Widget implements HasResource {
 		this.getElement().appendChild(new Label(label).getElement());
 		btnImage.setPresentation();
 
-		Roles.getButtonRole().removeAriaPressedState(getElement());
+		getElement().removeAttribute("aria-pressed");
 	}
 
 	private void buildColorIcon() {
@@ -159,7 +157,7 @@ public class StandardButton extends Widget implements HasResource {
 			this.getElement().appendChild(new Label(label).getElement());
 		}
 
-		Roles.getButtonRole().removeAriaPressedState(getElement());
+		getElement().removeAttribute("aria-pressed");
 	}
 
 	/**
@@ -232,7 +230,7 @@ public class StandardButton extends Widget implements HasResource {
 			btnImage.setPresentation();
 		}
 		AriaHelper.setLabel(this, altText);
-		Roles.getButtonRole().removeAriaPressedState(getElement());
+		getElement().removeAttribute("aria-pressed");
 	}
 
 	@Override

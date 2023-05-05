@@ -5,8 +5,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Image;
 
 public class ToolbarSubmenuP extends ToolbarSubmenuW {
 

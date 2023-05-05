@@ -9,18 +9,20 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.awt.GFontW;
+import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FocusWidget;
+import org.gwtproject.user.client.ui.PopupPanel;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.DomGlobal;
@@ -56,7 +58,9 @@ public class GeoTextEditor extends FocusWidget {
 		super(DOM.createDiv());
 		this.app = (AppW) app;
 		this.editPanel = editPanel;
-		getElement().setAttribute("contenteditable", "true");
+		if (!NavigatorUtil.isMobile()) {
+			getElement().setAttribute("contenteditable", "true");
+		}
 		getElement().setAttribute("spellcheck", "false");
 		getElement().setAttribute("oncontextmenu", "return false");
 		getElement().setAttribute("word-wrap", "normal");
@@ -353,7 +357,6 @@ public class GeoTextEditor extends FocusWidget {
 		} else {
 			textEditPopup.hide();
 		}
-
 	}
 
 	protected void createEditPopup() {
@@ -374,5 +377,9 @@ public class GeoTextEditor extends FocusWidget {
 
 	public String getText() {
 		return getElement().getInnerText();
+	}
+
+	public GTextBox getEditor() {
+		return editBox;
 	}
 }

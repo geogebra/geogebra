@@ -5,8 +5,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Panel for setting text objects as captions.

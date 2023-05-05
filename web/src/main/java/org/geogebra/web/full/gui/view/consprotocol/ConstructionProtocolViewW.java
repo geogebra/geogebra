@@ -13,7 +13,6 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -21,29 +20,28 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
-
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.cell.client.TextInputCell;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DragEndEvent;
-import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import org.gwtproject.cell.client.AbstractCell;
+import org.gwtproject.cell.client.Cell;
+import org.gwtproject.cell.client.CheckboxCell;
+import org.gwtproject.cell.client.SafeHtmlCell;
+import org.gwtproject.cell.client.TextInputCell;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NodeList;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.event.dom.client.DragEndEvent;
+import org.gwtproject.event.dom.client.DragStartEvent;
+import org.gwtproject.safehtml.shared.SafeHtml;
+import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
+import org.gwtproject.safehtml.shared.SafeHtmlUtils;
+import org.gwtproject.user.cellview.client.CellTable;
+import org.gwtproject.user.cellview.client.Column;
+import org.gwtproject.user.client.ui.AbstractImagePrototype;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
 /**
  * Web implementation of ConstructionProtocol
@@ -325,8 +323,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		if (tb.getStyleName().indexOf("headerTable") > 0) {
 			sb.append(SafeHtmlUtils
 					.fromSafeConstant("<div class=\"CP_popupImage\">"));
-			sb.append(AbstractImagePrototype.create(ImageResourceConverter
-					.convertToOldImageResource(GuiResources.INSTANCE.menu_dots())).getSafeHtml());
+			sb.append(AbstractImagePrototype.create(GuiResources.INSTANCE.menu_dots())
+					.getSafeHtml());
 			sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 		}
 
@@ -397,8 +395,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			if (el != null && el.getParentNode() != null && el
 					.getParentElement().hasClassName("CP_popupImage")) { // three-dot
 																// menu
-				popupMenu.show(el.getAbsoluteLeft(),
-						el.getAbsoluteBottom());
+				popupMenu.show(el, 0, el.getOffsetHeight());
 			}
 		};
 

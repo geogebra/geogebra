@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 public interface MathKeyboardListener {
 

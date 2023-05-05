@@ -165,6 +165,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdSolveODETidyCas() {
+		t("SolveODE(2 x sqrt(y),(0,1))", "(1 / 4 * x^(4)) + x^(2) + 1");
+	}
+
+	@Test
 	public void cmdSolveODEUpdate() {
 		t("t=SolveODE(2x)", "x^(2)");
 		t("v=t(2)", "4");
@@ -221,6 +226,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void cmdAsymptote() {
+		t("Asymptote(ln(x)-ln(1-x))", "{x = 0}");
+		t("Asymptote(ln(x)+ln(1/(1-x)))", "{x = 0}");
+		t("Asymptote(ln(x/(1-x)))", "{x = 0}");
 		t("Asymptote[ x*y=1 ]", "x = 0", "y = 0");
 		t("Asymptote[ 1/x ]", "{y = 0, x = 0}");
 		t("Asymptote[ 1/x^3 ]", "{y = 0, x = 0}");

@@ -5,15 +5,14 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.EventTarget;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RequiresResize;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.EventTarget;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.RequiresResize;
 
 import jsinterop.base.Js;
 
@@ -37,7 +36,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 */
 	public ComponentDialog(AppW app, DialogData dialogData, boolean autoHide,
 						   boolean hasScrim) {
-		super(autoHide, app.getPanel(), app);
+		super(autoHide, app.getAppletFrame(), app);
 		setGlassEnabled(hasScrim);
 		this.setStyleName("dialogComponent");
 		buildDialog(dialogData);
@@ -235,7 +234,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		}
 		Event nativeEvent = Event.as(event.getNativeEvent());
 		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())
-				&& !isContentEditable(event.getNativeEvent().getEventTarget())) {
+				&& !isContentEditable(nativeEvent.getEventTarget())
+				&& !isTextarea(nativeEvent.getEventTarget())) {
 			onPositiveAction();
 		} else if (event.getTypeInt() == Event.ONKEYUP
 				&& event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
@@ -246,6 +246,11 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	private boolean isContentEditable(EventTarget eventTarget) {
 		elemental2.dom.Element el = Js.uncheckedCast(eventTarget);
 		return el.hasAttribute("contenteditable");
+	}
+
+	private boolean isTextarea(EventTarget eventTarget) {
+		elemental2.dom.Element el = Js.uncheckedCast(eventTarget);
+		return "TEXTAREA".equals(el.tagName);
 	}
 
 	protected void onEscape() {

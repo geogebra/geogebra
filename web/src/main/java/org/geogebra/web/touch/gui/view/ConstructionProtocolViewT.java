@@ -3,13 +3,12 @@ package org.geogebra.web.touch.gui.view;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RootPanel;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.event.dom.client.TouchMoveEvent;
+import org.gwtproject.event.dom.client.TouchMoveHandler;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RootPanel;
 
 /**
  * ConstructionProtocolView for touch-devices

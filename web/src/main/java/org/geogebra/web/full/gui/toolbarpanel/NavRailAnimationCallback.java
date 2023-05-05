@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import com.google.gwt.layout.client.Layout.AnimationCallback;
-import com.google.gwt.layout.client.Layout.Layer;
+import org.gwtproject.layout.client.Layout.AnimationCallback;
+import org.gwtproject.layout.client.Layout.Layer;
 
 /**
  * Callback that prevents header to be resized during animation.

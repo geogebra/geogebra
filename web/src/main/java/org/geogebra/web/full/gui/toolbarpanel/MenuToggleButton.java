@@ -6,9 +6,8 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.RootPanel;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.RootPanel;
 
 import elemental2.dom.KeyboardEvent;
 

@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.Matchers.oneOf;
 
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.test.commands.AlgebraTestHelper;
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 public class CommandFilterCASTest extends BaseSymbolicTest {
@@ -13,12 +13,9 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
         t("Invert({{1, 2}, {3, 4}})", "{{-2, 1}, {3 / 2, -1 / 2}}");
         t("Invert({{a, b}, {c, d}})", "{{d / (a * d - b * c), (-b) / (a * d - b * c)},"
                 + " {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
-        String[][] expected;
-        expected = new String[1][2];
-        expected [0][0] = "-sin⁻¹(x) + 2 * k_{1} * π + π";
-        expected [0][1] = "2 * k_{1} * π - sin⁻¹(x) + π";
-        AlgebraTestHelper.checkMultipleResults("Invert(sin(x))", expected, ap,
-                StringTemplate.testTemplate);
+        Matcher<String> expected = oneOf("-sin⁻¹(x) + 2 * k_{1} * π + π",
+                "2 * k_{1} * π - sin⁻¹(x) + π");
+        t("Invert(sin(x))", expected);
         t("Invert(PartialFractions((x + 1) / (x + 2)))", "(-2 * x + 1) / (x - 1)");
         t("Invert(CompleteSquare(x^2 + 2 x + 1))", "sqrt(x) - 1");
     }

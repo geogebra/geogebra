@@ -3,9 +3,8 @@ package org.geogebra.web.html5.gui.inputfield;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.InlineLabel;
 
 public class CursorOverlay extends FlowPanel {
 

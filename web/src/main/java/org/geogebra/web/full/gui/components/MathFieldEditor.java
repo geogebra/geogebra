@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -17,14 +18,14 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.util.EventUtil;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.user.client.ui.HasWidgets;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -384,11 +385,19 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		mathField.adjustCaret((int) x, (int) y);
 	}
 
+	public void selectEntryAt(int x, int y) {
+		mathField.getInternal().selectEntryAt(x, y);
+	}
+
 	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
 		mathField.getInternal().setUnhandledArrowListener(listener);
 	}
 
 	public void setAllowAbs(boolean b) {
 		mathField.getInternal().setAllowAbs(b);
+	}
+
+	public void setTextRendererSettings(TextRendererSettings settings) {
+		mathField.setTextRendererSettings(settings);
 	}
 }

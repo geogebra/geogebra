@@ -656,6 +656,8 @@ public enum Commands implements CommandsConstants,
 
 	InverseBinomial(TABLE_PROBABILITY),
 
+	InverseBinomialMinimumTrials(TABLE_PROBABILITY),
+
 	TDistribution(TABLE_PROBABILITY),
 
 	InverseTDistribution(TABLE_PROBABILITY),

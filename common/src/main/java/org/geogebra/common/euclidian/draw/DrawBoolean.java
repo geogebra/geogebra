@@ -131,7 +131,7 @@ public final class DrawBoolean extends Drawable {
 				textWidth = getDynamicCaption().getWidth();
 			} else if (isLatexLabel()) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoBool, g2.getFont(),
+						view.getApplication(), g2.getFont(),
 						labelDesc);
 
 				textWidth = d.getWidth();

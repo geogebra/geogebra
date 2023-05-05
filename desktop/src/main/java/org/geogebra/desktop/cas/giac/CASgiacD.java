@@ -29,8 +29,12 @@ public class CASgiacD extends CASgiacJre {
 			String file;
 
 			if (AppD.MAC_OS) {
-				// Architecture on OSX seems to be x86_64, but let's make sure
-				file = "javagiac";
+				if ("aarch64".equals(System.getProperty("os.arch"))) {
+					file = "javagiac-arm64";
+				} else {
+					// Architecture on OSX seems to be x86_64, but let's make sure
+					file = "javagiac";
+				}
 			} else if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))
 					// System.getenv("PROCESSOR_ARCHITECTURE") can return null
 					// (seems to
@@ -45,7 +49,7 @@ public class CASgiacD extends CASgiacJre {
 
 			// When running from local jars we can load the library files from
 			// inside a jar like this
-			MyClassPathLoader loader = new MyClassPathLoader();
+			NativeLibClassPathLoader loader = new NativeLibClassPathLoader();
 			giacLoaded = loader.loadLibrary(file);
 
 			if (!giacLoaded) {

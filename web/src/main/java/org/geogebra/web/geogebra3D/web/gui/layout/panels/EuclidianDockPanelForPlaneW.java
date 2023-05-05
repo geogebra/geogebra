@@ -11,11 +11,10 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.geogebra3D.web.euclidianForPlane.EuclidianViewForPlaneW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Dock panel for view for plane

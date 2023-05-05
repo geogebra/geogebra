@@ -20,6 +20,7 @@ gwt {
 	modules 'com.himamis.retex.editor.JLMEditorExportedLibrary'
 	devModules 'com.himamis.retex.editor.JLMEditorGWTDev'
 	compiler {
+		logLevel = 'DEBUG'
 		if (project.hasProperty("gdetailed")) {
 			style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
 		} else {
@@ -39,7 +40,9 @@ dependencies {
 		files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
 		"org.gwtproject:gwt-dev:$gwtCompilerVersion",
 		"org.gwtproject:gwt-user:$gwtCompilerVersion"
-	testImplementation "org.gwtproject:gwt-user:$gwtCompilerVersion"
+	testImplementation "org.gwtproject:gwt-user:$gwtCompilerVersion",
+			'org.gwtproject.dom:gwt-dom:1.0.0-RC2'
+
 }
 
 task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {

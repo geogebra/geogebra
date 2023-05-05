@@ -16,20 +16,19 @@ import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style.Float;
-import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.style.shared.Float;
+import org.gwtproject.dom.style.shared.TextAlign;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HasVerticalAlignment;
+import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.InlineLabel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.SplitLayoutPanel;
+import org.gwtproject.user.client.ui.Tree;
+import org.gwtproject.user.client.ui.TreeItem;
+import org.gwtproject.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import elemental2.core.JsString;
@@ -38,7 +37,7 @@ import elemental2.core.JsString;
  * @author G. Sturr
  * 
  */
-public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, BooleanRenderable {
+public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanRenderable {
 
 	private AppW app;
 	private Tree indexTree;

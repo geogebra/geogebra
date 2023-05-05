@@ -1,28 +1,24 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import org.geogebra.common.kernel.geos.GeoElement;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.web.full.gui.dialog.ScriptInputPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TabPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.TabPanel;
 
 /**
  * Scripting editor for Web
  */
 class ScriptEditPanel extends OptionPanel {
 
-	private final ScriptManager scriptManager;
-	private ScriptInputPanelW clickDialog;
-	private ScriptInputPanelW updateDialog;
-	private ScriptInputPanelW globalDialog;
+	private ScriptInputModel[] scriptModels;
 	private TabPanel tabbedPane;
-	private FlowPanel clickScriptPanel;
-	private FlowPanel updateScriptPanel;
-	private FlowPanel globalScriptPanel;
+	private List<FlowPanel> panelWrappers = new ArrayList<>();
 	private Localization loc;
 
 	/**
@@ -34,35 +30,17 @@ class ScriptEditPanel extends OptionPanel {
 	 */
 	public ScriptEditPanel(ScriptEditorModel model0, final AppW app) {
 		this.loc = app.getLocalization();
-		this.scriptManager = app.getScriptManager();
 		setModel(model0);
 		model0.setListener(this);
 		tabbedPane = new TabPanel();
 		tabbedPane.setStyleName("scriptTabPanel");
-
-		clickDialog = new ScriptInputPanelW(app,
-				null, false, false);
-		updateDialog = new ScriptInputPanelW(app,
-				null, true, false);
-		globalDialog = new ScriptInputPanelW(app, null, false,
-				true);
-		// add(td.getInputPanel(), BorderLayout.NORTH);
-		// add(td2.getInputPanel(), BorderLayout.CENTER);
-		clickScriptPanel = new FlowPanel();
-		clickScriptPanel.add(clickDialog.getInputPanel());
-		clickScriptPanel
-		.add(clickDialog.getButtonPanel());
-
-		updateScriptPanel = new FlowPanel();
-		updateScriptPanel.add(
-				updateDialog.getInputPanel());
-		updateScriptPanel.add(updateDialog.getButtonPanel());
-
-		globalScriptPanel = new FlowPanel();
-		globalScriptPanel.add(globalDialog.getInputPanel());
-		globalScriptPanel.add(globalDialog.getButtonPanel());
+		scriptModels = ScriptInputModel.getModels(app);
+		for (ScriptInputModel scriptModel : scriptModels) {
+			ScriptInputPanelW panel = new ScriptInputPanelW(app, scriptModel);
+			scriptModel.setListener(panel);
+			panelWrappers.add(panel);
+		}
 		setWidget(tabbedPane);
-
 	}
 
 	@Override
@@ -75,24 +53,18 @@ class ScriptEditPanel extends OptionPanel {
 		if (geos.length != 1) {
 			return null;
 		}
-
-		GeoElement geo = (GeoElement) geos[0];
-		clickDialog.setGeo(geo);
-		updateDialog.setGeo(geo);
-		globalDialog.setGlobal();
+		for (ScriptInputModel model: scriptModels) {
+			model.setGeos(geos);
+			model.updatePanel();
+		}
 		// remember selected tab
 		int idx = tabbedPane.getTabBar().getSelectedTab();
 		tabbedPane.clear();
-		if (geo.canHaveClickScript()) {
-			tabbedPane.add(clickScriptPanel, loc.getMenu("OnClick"));
+		for (int i = 0; i < scriptModels.length; i++) {
+			if (scriptModels[i].checkGeos()) {
+				tabbedPane.add(panelWrappers.get(i), loc.getMenu(scriptModels[i].getTitle()));
+			}
 		}
-		if (geo.canHaveUpdateScript()) {
-			tabbedPane.add(updateScriptPanel, loc.getMenu("OnUpdate"));
-		}
-		if (scriptManager.isJsEnabled()) {
-			tabbedPane.add(globalScriptPanel, loc.getMenu("GlobalJavaScript"));
-		}
-
 		// select tab as before
 		tabbedPane.selectTab(Math.max(0, idx));
 		return this;

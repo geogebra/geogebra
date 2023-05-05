@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GDimension;
@@ -12,6 +11,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
@@ -21,7 +21,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -66,6 +65,8 @@ import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
+import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
+import org.geogebra.web.full.gui.dialog.text.TextEditPanelProcessing;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -95,6 +96,7 @@ import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.util.DateTimeFormat;
 import org.geogebra.web.full.gui.util.InputKeyboardButtonW;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
@@ -134,16 +136,15 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
-
+import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URL;
 
@@ -264,10 +265,10 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showPopupMenu(final ArrayList<GeoElement> geos,
-			final AlgebraView invoker, final GPoint p) {
+			final Widget invoker, final int x, int y) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
-		getPopupMenu(geos).show(p);
+		getPopupMenu(geos).showScaled(invoker.getElement(), x, y);
 	}
 
 	/**
@@ -279,7 +280,7 @@ public class GuiManagerW extends GuiManager
 		removePopup();
 		final SpreadsheetContextMenuW contextMenu = new SpreadsheetContextMenuW(
 				mt);
-		currentPopup = (AttachedToDOM) contextMenu.getMenuContainer();
+		currentPopup = contextMenu.getMenuContainer();
 		return contextMenu;
 	}
 
@@ -1892,7 +1893,7 @@ public class GuiManagerW extends GuiManager
 
 	private void exportGGBDirectly() {
 		String extension = ((AppW) app).getFileExtension();
-		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date())
+		String currentDate = DateTimeFormat.format(new JsDate())
 				+ extension;
 		String filename = getApp().isMebis() ? currentDate : getApp().getExportTitle() + extension;
 		exportGgb(filename, extension);
@@ -2024,6 +2025,9 @@ public class GuiManagerW extends GuiManager
 		}
 		if (textField instanceof GTextBox) {
 			return new GTextBoxProcessing((GTextBox) textField);
+		}
+		if (textField instanceof TextEditPanel) {
+			return new TextEditPanelProcessing((TextEditPanel) textField);
 		}
 		if (textField instanceof AutoCompleteTextFieldW) {
 			return new AutocompleteProcessing(
@@ -2288,8 +2292,8 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public SymbolicEditor createSymbolicEditor(EuclidianViewW view) {
-		return new SymbolicEditorW(app, view);
+	public SymbolicEditor createSymbolicEditor(EuclidianViewW view, TextRendererSettings settings) {
+		return new SymbolicEditorW(app, view, settings);
 	}
 
 	/**

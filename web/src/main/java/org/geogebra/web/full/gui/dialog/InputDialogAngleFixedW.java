@@ -10,9 +10,9 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyPressHandler;
 
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**

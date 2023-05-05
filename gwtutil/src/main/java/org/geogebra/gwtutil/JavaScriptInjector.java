@@ -4,6 +4,7 @@ import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.resources.client.TextResource;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Element;
 import elemental2.dom.HTMLScriptElement;
 import jsinterop.base.Js;
 
@@ -50,10 +51,31 @@ public class JavaScriptInjector {
 	/**
 	 * @param js
 	 *            to inject
-	 * @return wheter the js injected already, or not. This check is made during
+	 * @return whether the js injected already, or not. This check is made during
 	 *         injection, but can be useful.
 	 */
 	public static boolean injected(TextResource js) {
 		return DomGlobal.document.getElementById(js.getName()) != null;
+	}
+
+	/**
+	 * @param url
+	 *            script url
+	 * @param handler
+	 *            if script loaded, calls the callback that implements interface
+	 *            ScriptLoadHandler
+	 */
+	public static void loadJS(String url, ScriptLoadCallback handler) {
+		Element script = DomGlobal.document.createElement("script");
+		script.setAttribute("src", url);
+		if (handler != null) {
+			addLoadHandler(script, handler);
+		}
+		DomGlobal.document.body.appendChild(script);
+	}
+
+	private static void addLoadHandler(Element el, ScriptLoadCallback handler) {
+		el.addEventListener("load", (evt) -> handler.onLoad());
+		el.addEventListener("error", (evt) -> handler.onError());
 	}
 }

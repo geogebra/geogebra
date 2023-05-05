@@ -11,8 +11,7 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
-
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Help menu

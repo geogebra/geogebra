@@ -4,19 +4,18 @@ import java.util.ArrayList;
 
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.UListElement;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
-import com.google.gwt.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.UListElement;
+import org.gwtproject.safehtml.shared.SafeHtml;
+import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
+import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.ComplexPanel;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * List implementation of GWT StackPanel with aria support.

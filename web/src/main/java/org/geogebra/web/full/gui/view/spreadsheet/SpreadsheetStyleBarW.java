@@ -18,11 +18,10 @@ import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.event.logical.shared.ValueChangeEvent;
+import org.gwtproject.event.logical.shared.ValueChangeHandler;
 
 /**
  * Stylebar for SpreadsheetView

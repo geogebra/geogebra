@@ -1,6 +1,5 @@
 package org.geogebra.web.full.cas.view;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -19,18 +18,18 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Overflow;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.event.dom.client.HumanInputEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.HumanInputEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -246,11 +245,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	public void insertString(String text) {
 		new MathFieldProcessing(mf).autocomplete(
 				app.getParserFunctions().toEditorAutocomplete(text, app.getLocalization()));
-	}
-
-	@Override
-	public ArrayList<String> getHistory() {
-		return null;
 	}
 
 	@Override

@@ -4,7 +4,10 @@ import static com.himamis.retex.editor.share.util.Unicode.DEGREE_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.IMAGINARY;
 import static com.himamis.retex.editor.share.util.Unicode.PI_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.theta_STRING;
+import static org.geogebra.common.BaseUnitTest.isDefined;
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -1022,7 +1025,7 @@ public class CommandsTest {
 		};
 		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.kernel.getConstruction(), points);
 		GeoConicND conic = algo.getConic();
-		assertTrue(conic.isDefined());
+		assertThat(conic, isDefined());
 	}
 
 	private GeoPoint newPoint(double x, double y) {
@@ -2078,6 +2081,23 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdInverseBinomialMinimumTrials() {
+		t("InverseBinomialMinimumTrials[5, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[5, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[-0.01, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 1.1, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, -1.1, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, -12]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, 1.2]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.0, 49]", "NaN");
+		t("InverseBinomialMinimumTrials[0.01, 0.7, 49]", "86");
+		t("InverseBinomialMinimumTrials[0.01, 0.1, 50]", "681");
+		t("InverseBinomialMinimumTrials[0.1, 0.5, 50]", "115");
+		t("InverseBinomialMinimumTrials[0.7, 1.0, 100]", "101");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, 5]", "11");
+	}
+
+	@Test
 	public void cmdInverseCauchy() {
 		t("InverseCauchy[ 3, 5, 0.5 ]", "3");
 	}
@@ -2154,6 +2174,9 @@ public class CommandsTest {
 		t("Invert[If[x>1,x^3+1] ]", "If[cbrt(x - 1) > 1, cbrt(x - 1)]");
 		t("Invert[ If(x>2,x)+1 ]", "If[x - 1 > 2, x - 1]");
 		t("Invert[ If(x>2,sin(x)-x) ]", "?");
+		t("Invert[3+0/x]", "?");
+		t("Invert[3+x/0]", "?");
+		t("Invert[3+2/x]", "2 / (x - 3)");
 		AlgebraTestHelper.enableCAS(app, false);
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		t("Invert[ sin(x) ]", "NInvert[sin(x)]");
@@ -2384,7 +2407,7 @@ public class CommandsTest {
 		t("P=Point(xAxis)", "(0, 0)");
 		t("Q=P+(1,0)", "(1, 0)");
 		t("loc = Locus(Q,P)", "Locus[Q, P]");
-		assertTrue(get("loc").isDefined());
+		assertThat(get("loc"), isDefined());
 	}
 
 	@Test
@@ -4176,9 +4199,9 @@ public class CommandsTest {
 	public void cmdPieChart() {
 		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
 		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
-		assertTrue(get("p2").isDefined());
+		assertThat(get("p2"), isDefined());
 		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
-		assertFalse(get("p3").isDefined());
+		assertThat(get("p3"), not(isDefined()));
 	}
 
 	private static void checkSize(String string, int cols, int rows) {

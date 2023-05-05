@@ -19,17 +19,16 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Sidebar menu for SMART

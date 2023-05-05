@@ -21,14 +21,13 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ProvidesResize;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.ProvidesResize;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.SplitLayoutPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class DataAnalysisViewW extends FlowPanel implements View, 
 		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener,

@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.statistics.CmdHistogram;
 import org.geogebra.common.kernel.statistics.CmdHistogramRight;
 import org.geogebra.common.kernel.statistics.CmdHyperGeometric;
 import org.geogebra.common.kernel.statistics.CmdInverseBinomial;
+import org.geogebra.common.kernel.statistics.CmdInverseBinomialMinimumTrials;
 import org.geogebra.common.kernel.statistics.CmdInverseCauchy;
 import org.geogebra.common.kernel.statistics.CmdInverseChiSquared;
 import org.geogebra.common.kernel.statistics.CmdInverseExponential;
@@ -320,6 +321,8 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdBernoulli(kernel);
 		case InverseBinomial:
 			return new CmdInverseBinomial(kernel);
+		case InverseBinomialMinimumTrials:
+			return new CmdInverseBinomialMinimumTrials(kernel);
 		case TDistribution:
 			return new CmdTDistribution(kernel);
 		case InverseTDistribution:

@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
@@ -40,7 +39,7 @@ public class DrawEquationStub extends DrawEquation {
 	}
 
 	@Override
-	public GDimension measureEquation(App app, GeoElement geo0, String text, GFont font,
+	public GDimension measureEquation(App app, String text, GFont font,
 									  boolean serif) {
 		return AwtFactory.getPrototype().newDimension(0, 0);
 	}

@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -95,14 +96,26 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	/**
 	 * Attach the symbolic editor to the specified input box for editing it.
-	 *
-	 * @param geoInputBox
-	 *            GeoInputBox to edit.
-	 *
-	 * @param bounds
-	 *            place to attach the editor to.
+	 * @param geoInputBox GeoInputBox to edit.
+	 * @param bounds place to attach the editor to.
+	 * @param settings how to render text.
 	 */
-	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds);
+	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds,
+			TextRendererSettings settings);
+
+	/**
+	 * @param caretLocation position of caret relative to view
+	 */
+	public void selectEntryAt(GPoint caretLocation, GRectangle2D bounds) {
+		if (caretLocation != null) {
+			selectEntryAt(caretLocation.x - (int) bounds.getMinX(),
+					caretLocation.y - (int) bounds.getMinY());
+		} else {
+			selectEntryAt(0, 0);
+		}
+	}
+
+	protected abstract void selectEntryAt(int x, int y);
 
 	protected void setInputBox(GeoInputBox geoInputBox) {
 		this.geoInputBox = geoInputBox;

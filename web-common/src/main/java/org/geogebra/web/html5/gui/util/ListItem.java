@@ -1,9 +1,9 @@
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.ComplexPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Panel based on li tag

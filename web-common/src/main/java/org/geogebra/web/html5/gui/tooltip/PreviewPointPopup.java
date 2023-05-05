@@ -9,9 +9,8 @@ import org.geogebra.common.gui.stylebar.StylebarPositioner;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * @author csilla
@@ -19,7 +18,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class PreviewPointPopup extends GPopupPanel {
 
-	private FlowPanel content;
+	private final FlowPanel content;
 
 	/**
 	 * @param appW
@@ -28,7 +27,7 @@ public class PreviewPointPopup extends GPopupPanel {
 	 *            list of preview points
 	 */
 	public PreviewPointPopup(AppW appW, ArrayList<GeoElement> previewPoints) {
-		super(appW.getPanel(), appW);
+		super(appW.getAppletFrame(), appW);
 		this.app = appW;
 		content = new FlowPanel();
 		this.addStyleName("previewPointsPopup");

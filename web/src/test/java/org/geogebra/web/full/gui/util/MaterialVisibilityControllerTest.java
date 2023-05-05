@@ -38,7 +38,7 @@ public class MaterialVisibilityControllerTest {
 	}
 
 	private Material newMaterial(String visibility) {
-		Material material = new Material(0, Material.MaterialType.ggb);
+		Material material = new Material(Material.MaterialType.ggb);
 		material.setVisibility(visibility);
 		return material;
 	}

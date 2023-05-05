@@ -14,12 +14,12 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.SimplePanel;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget {
@@ -70,6 +70,8 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 		contentPanel.setStyleName("inputPanel");
 
 		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null, false);
+		inputTextField.prepareShowSymbolButton(false);
+		inputTextField.enableGGBKeyboard();
 		inputTextField.addStyleName("textField");
 		inputTextField.addKeyUpHandler((event) -> {
 			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {

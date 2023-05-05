@@ -5,8 +5,8 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.gwtproject.canvas.client.Canvas;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 

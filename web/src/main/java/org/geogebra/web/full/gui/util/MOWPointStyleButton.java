@@ -10,10 +10,9 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.VerticalPanel;
 
 /**
  * Button for point style with preview

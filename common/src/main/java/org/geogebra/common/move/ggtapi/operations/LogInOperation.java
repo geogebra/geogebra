@@ -277,4 +277,13 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 	public abstract MaterialRestAPI getResourcesAPI();
 
+	/**
+	 * Store language in account settings
+	 * @param lang language
+	 */
+	public void setUserLanguage(String lang) {
+		if (isLoggedIn()) {
+			getGeoGebraTubeAPI().setUserLanguage(lang, model.getLoginToken());
+		}
+	}
 }

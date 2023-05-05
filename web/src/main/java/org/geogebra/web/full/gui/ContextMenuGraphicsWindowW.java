@@ -20,8 +20,7 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.user.client.Command;
+import org.gwtproject.user.client.Command;
 
 /**
  * euclidian view/graphics view context menu
@@ -321,8 +320,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * set show all objects
 	 */
 	public void setViewShowAllObject() {
-		boolean keepRatio = app.getConfig().shouldKeepRatioEuclidian();
-		app.setViewShowAllObjects(keepRatio);
+		app.setViewShowAllObjects();
 	}
 
 	private void addAxesRatioItems(RadioButtonMenuBarW menu) {

@@ -5,18 +5,17 @@ import org.geogebra.web.full.javax.swing.LineThicknessCheckMarkItem;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
- * popup for border line thickness
+ * popup for border thickness
  */
 public class BorderLineThicknessPopup extends GPopupPanel {
 	public static final int BORDER_THIN = 1;
 	public static final int BORDER_THICK = 3;
 	private LineThicknessCheckMarkItem thin;
 	private LineThicknessCheckMarkItem thick;
-	private BorderStylePopup parentPopup;
+	private final BorderStylePopup parentPopup;
 	private PopupMenuHandler popupHandler;
 
 	/**
@@ -24,7 +23,7 @@ public class BorderLineThicknessPopup extends GPopupPanel {
 	 * @param app see {@link AppW}
 	 */
 	public BorderLineThicknessPopup(AppW app, BorderStylePopup parentPopup) {
-		super(app.getPanel(), app);
+		super(app.getAppletFrame(), app);
 		setAutoHideEnabled(false);
 		this.parentPopup = parentPopup;
 		addStyleName("mowPopup");

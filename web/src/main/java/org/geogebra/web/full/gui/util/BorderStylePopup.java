@@ -9,8 +9,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 public class BorderStylePopup extends PopupMenuButtonW {
 

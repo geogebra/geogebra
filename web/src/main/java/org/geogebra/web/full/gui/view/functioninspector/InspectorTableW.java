@@ -8,11 +8,10 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.gui.view.functioninspector.GridModel.DataCell;
 import org.geogebra.web.full.gui.view.functioninspector.GridModel.IGridListener;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.user.client.ui.FlexTable;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 public class InspectorTableW extends FlexTable implements IGridListener {
 	private static final int HEADER_ROW = 0;

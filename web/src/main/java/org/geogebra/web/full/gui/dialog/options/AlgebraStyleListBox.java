@@ -3,8 +3,7 @@ package org.geogebra.web.full.gui.dialog.options;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.ListBox;
 
 public class AlgebraStyleListBox extends ListBox {
 	private AppW app;
