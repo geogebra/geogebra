@@ -28,9 +28,9 @@ import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
+import org.geogebra.common.properties.impl.objects.collection.EnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.EnumerablePropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.IconsEnumerablePropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.RangePropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.StringPropertyCollection;
@@ -252,15 +252,16 @@ public class GeoElementPropertiesFactory {
 				showObjectProperties.toArray(new ShowObjectProperty[0]));
 	}
 
-	private static EnumerablePropertyCollection<CaptionStyleProperty> createCaptionStyleProperty(
+	private static EnumeratedPropertyCollection<CaptionStyleProperty, Integer> createCaptionStyleProperty(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<CaptionStyleProperty> captionStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				captionStyleProperties.add(new CaptionStyleProperty(localization, element));
 			}
-			return new EnumerablePropertyCollection<>(
-					captionStyleProperties.toArray(new CaptionStyleProperty[0]));
+			return new EnumeratedPropertyCollection<>(captionStyleProperties.toArray(new CaptionStyleProperty[0]));
+//			return new EnumeratedPropertyCollection<>(
+//					captionStyleProperties.toArray(new CaptionStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
@@ -342,14 +343,14 @@ public class GeoElementPropertiesFactory {
 		}
 	}
 
-	private static EnumerablePropertyCollection<EquationFormProperty> createEquationFormProperty(
+	private static EnumeratedPropertyCollection<EquationFormProperty, Integer> createEquationFormProperty(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<EquationFormProperty> equationFormProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				equationFormProperties.add(new EquationFormProperty(localization, element));
 			}
-			return new EnumerablePropertyCollection<>(
+			return new EnumeratedPropertyCollection<>(
 					equationFormProperties.toArray(new EquationFormProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;

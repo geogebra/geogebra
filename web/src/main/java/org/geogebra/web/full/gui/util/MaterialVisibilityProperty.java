@@ -5,8 +5,8 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.debug.Log;
 
-public class MaterialVisibilityProperty extends AbstractNamedEnumeratedProperty {
-	private int index;
+public class MaterialVisibilityProperty extends AbstractNamedEnumeratedProperty<MaterialVisibility> {
+	private MaterialVisibility materialVisibility;
 
 	/**
 	 * Constructs an AbstractEnumerableProperty
@@ -18,13 +18,13 @@ public class MaterialVisibilityProperty extends AbstractNamedEnumeratedProperty 
 	}
 
 	@Override
-	public int getIndex() {
-		return index;
+	protected void doSetValue(MaterialVisibility value) {
+		materialVisibility = value;
 	}
 
 	@Override
-	protected void setValueSafe(String value, int index) {
-		this.index = index;
+	public MaterialVisibility getValue() {
+		return materialVisibility;
 	}
 
 	/**
@@ -34,10 +34,13 @@ public class MaterialVisibilityProperty extends AbstractNamedEnumeratedProperty 
 	public void update(MaterialVisibility visibility) {
 		Log.debug("Property is updated to " + visibility);
 		if (visibility == MaterialVisibility.Public) {
-			setValues("Private", "Shared", "Public");
+			setValues(MaterialVisibility.Private, MaterialVisibility.Shared,
+					MaterialVisibility.Public);
+			setValueNames("Private", "Shared", "Public");
 		} else {
-			setValues("Private", "Shared");
+			setValues(MaterialVisibility.Private, MaterialVisibility.Shared);
+			setValueNames("Private", "Shared");
 		}
-		setValueSafe("", visibility.getIndex());
+		doSetValue(visibility);
 	}
 }

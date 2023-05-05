@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
-import org.geogebra.common.properties.EnumeratedProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
@@ -87,7 +87,7 @@ public class OptionsAlgebraW
 		}
 
 		private void buildSortByUI() {
-			EnumeratedProperty sortProperty = new SortByProperty(app.getGuiManager()
+			NamedEnumeratedProperty<?> sortProperty = new SortByProperty(app.getGuiManager()
 					.getAlgebraView(), app.getLocalization());
 			sortMode = new CompDropDown(app, sortProperty);
 			lblSortMode = new FormLabel().setFor(sortMode);
@@ -97,13 +97,13 @@ public class OptionsAlgebraW
 		}
 
 		private void buildDescriptionUI() {
-			EnumeratedProperty descriptionProperty = new AlgebraDescriptionProperty(
+			NamedEnumeratedProperty<?> descriptionProperty = new AlgebraDescriptionProperty(
 					app.getKernel(), app.getLocalization());
 			description = new CompDropDown(app, descriptionProperty);
 		}
 
 		private void buildCoordStyleUI() {
-			EnumeratedProperty coordProperty = new CoordinatesProperty(app.getKernel(),
+			NamedEnumeratedProperty<?> coordProperty = new CoordinatesProperty(app.getKernel(),
 					app.getLocalization());
 			coordStyle = new CompDropDown(app, coordProperty);
 			lblCoordStyle = new FormLabel(
@@ -114,7 +114,7 @@ public class OptionsAlgebraW
 
 		private void rebuildAngleUnit() {
 			if (app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow == null) {
-				EnumeratedProperty angleProperty = new AngleUnitProperty(app.getKernel(),
+				NamedEnumeratedProperty<?> angleProperty = new AngleUnitProperty(app.getKernel(),
 						app.getLocalization());
 				angleUnit = new CompDropDown(app, angleProperty);
 				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";

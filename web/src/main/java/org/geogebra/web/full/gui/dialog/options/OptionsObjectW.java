@@ -65,6 +65,7 @@ import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsV
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -972,25 +973,28 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		return tabPanel;
 	}
 
-	private class LabelStyleProperty extends AbstractNamedEnumeratedProperty {
+	private class LabelStyleProperty extends AbstractNamedEnumeratedProperty<Integer> {
 		private final LabelPanel labelPanel;
-		private int index = 0;
+		private int value = 0;
 
 		public LabelStyleProperty(LabelPanel labelPanel) {
 			super(app.getLocalization(), "");
 			this.labelPanel = labelPanel;
-			setValues("Name", "NameAndValue", "Value", "Caption", "CaptionAndValue");
+			setValues(GeoElementND.LABEL_NAME, GeoElementND.LABEL_NAME_VALUE,
+					GeoElementND.LABEL_VALUE, GeoElementND.LABEL_CAPTION,
+					GeoElementND.LABEL_DEFAULT);
+			setValueNames("Name", "NameAndValue", "Value", "Caption", "CaptionAndValue");
 		}
 
 		@Override
-		protected void setValueSafe(String value, int index) {
-			this.index = index;
-			labelPanel.model.applyModeChanges(labelPanel.model.fromDropdown(index), true);
+		protected void doSetValue(Integer value) {
+			this.value = value;
+			labelPanel.model.applyModeChanges(labelPanel.model.fromDropdown(value), true);
 		}
 
 		@Override
-		public int getIndex() {
-			return index;
+		public Integer getValue() {
+			return value;
 		}
 	}
 }

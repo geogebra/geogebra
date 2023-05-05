@@ -2,22 +2,24 @@ package org.geogebra.common.properties.factory;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.impl.graphics.ARFitThicknessAction;
 import org.geogebra.common.properties.impl.graphics.ARRatioPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundProperty;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
-import org.geogebra.common.properties.impl.graphics.GraphicsPositionProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
+import org.geogebra.common.properties.impl.graphics.RestartARAction;
 
 public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 
@@ -26,8 +28,10 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 		EuclidianSettings euclidianSettings = app.getActiveEuclidianView().getSettings();
 		ArrayList<Property> propertyList = new ArrayList<>();
 
-		propertyList.add(new GraphicsPositionProperty(app));
 		if (app.getActiveEuclidianView().isXREnabled()) {
+			EuclidianView3D view3D = (EuclidianView3D) app.getActiveEuclidianView();
+			propertyList.add(new RestartARAction(localization, view3D));
+			propertyList.add(new ARFitThicknessAction(localization, view3D));
 			propertyList.add(new ARRatioPropertyCollection(app, localization));
 			propertyList.add(new BackgroundProperty(app, localization));
 		}

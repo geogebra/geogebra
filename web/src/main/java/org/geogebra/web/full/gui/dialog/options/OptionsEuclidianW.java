@@ -14,7 +14,7 @@ import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.EnumeratedProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.util.StringUtil;
@@ -153,7 +153,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				return;
 			}
 
-			EnumeratedProperty pointCaptProperty = new PointCapturingProperty(app,
+			NamedEnumeratedProperty<?> pointCaptProperty = new PointCapturingProperty(app,
 					app.getLocalization());
 			pointCapturingStyle = new CompDropDown(app, pointCaptProperty);
 			pointCapturingStyle.addChangeHandler(() -> {
@@ -198,7 +198,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			if (!gridOptions) {
 				return;
 			}
-			EnumeratedProperty gridTypeProperty = new GridStyleProperty(app.getLocalization(),
+			NamedEnumeratedProperty<?> gridTypeProperty = new GridStyleProperty(app.getLocalization(),
 					view.getSettings());
 			lbGridType = new CompDropDown(app, gridTypeProperty);
 			lblGridType = new FormLabel("").setFor(lbGridType);

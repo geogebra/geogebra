@@ -22,11 +22,12 @@ import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
-import org.geogebra.common.properties.impl.graphics.GraphicsPositionProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
+import org.geogebra.common.properties.impl.graphics.ShowAllObjectsAction;
+import org.geogebra.common.properties.impl.graphics.StandardViewAction;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -100,7 +101,9 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		EuclidianSettings euclidianSettings = activeView.getSettings();
 		return new PropertiesArray(
 				localization.getMenu("DrawingPad"),
-				new GraphicsPositionProperty(app),
+				new StandardViewAction(localization, app.getActiveEuclidianView()),
+				new ShowAllObjectsAction(localization, app.getConfig(),
+						app.getActiveEuclidianView()),
 				new AxesVisibilityProperty(localization, euclidianSettings),
 				new GridVisibilityProperty(localization, euclidianSettings),
 				new GridStyleProperty(localization, euclidianSettings),

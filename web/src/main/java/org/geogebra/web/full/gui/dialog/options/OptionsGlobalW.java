@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.EnumeratedProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
@@ -77,7 +77,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addRoundingItem() {
-			EnumeratedProperty roundingProp = new RoundingIndexProperty(app, app.getLocalization());
+			NamedEnumeratedProperty<?> roundingProp = new RoundingIndexProperty(app, app.getLocalization());
 			roundingDropDown = new CompDropDown(app, null, roundingProp);
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
@@ -100,7 +100,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addFontItem() {
-			EnumeratedProperty fontSizeProperty = new FontSizeProperty(
+			NamedEnumeratedProperty<?> fontSizeProperty = new FontSizeProperty(
 					app.getLocalization(),
 					app.getSettings().getFontSettings(),
 					app.getSettingsUpdater().getFontSettingsUpdater());
@@ -114,7 +114,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLanguageItem() {
-			EnumeratedProperty languageProperty = new LanguageProperty(app,
+			NamedEnumeratedProperty<?> languageProperty = new LanguageProperty(app,
 					app.getLocalization(), null);
 			languageDropDown = new CompDropDown(app, null, languageProperty);
 			lblLanguage = new FormLabel(

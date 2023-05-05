@@ -697,7 +697,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		comboDistribution.removeActionListener(this);
 		comboDistribution.removeAllItems();
-		for (String distName: distributionType.getValues()) {
+		for (String distName: distributionType.getValueNames()) {
 			comboDistribution.addItem(distName);
 		}
 

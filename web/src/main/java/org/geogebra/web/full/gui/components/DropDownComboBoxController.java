@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.EnumeratedProperty;
-import org.geogebra.common.properties.GroupedEnumeratedProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -18,7 +17,7 @@ public class DropDownComboBoxController implements SetLabels {
 	private List<AriaMenuItem> dropDownElementsList;
 	private List<String> items;
 	private List<Runnable> changeHandlers = new ArrayList<>();
-	private EnumeratedProperty property;
+	private NamedEnumeratedProperty<?> property;
 
 	/**
 	 * popup controller for dropdown and combobox
@@ -109,7 +108,7 @@ public class DropDownComboBoxController implements SetLabels {
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
 		dropDown.clear();
 		for (AriaMenuItem menuItem : menuItems) {
-			if (!menuItem.getText().equals(GroupedEnumeratedProperty.DIVIDER)) {
+			if (!menuItem.getText().equals("<------->")) {
 				dropDown.addItem(menuItem);
 			} else {
 				dropDown.addDivider();
@@ -124,7 +123,7 @@ public class DropDownComboBoxController implements SetLabels {
 	@Override
 	public void setLabels() {
 		if (property != null) {
-			setElements(Arrays.asList(property.getValues()));
+			setElements(Arrays.asList(property.getValueNames()));
 		} else {
 			setElements(items);
 		}
@@ -175,7 +174,7 @@ public class DropDownComboBoxController implements SetLabels {
 		this.changeHandlers.add(changeHandler);
 	}
 
-	public void setProperty(EnumeratedProperty property) {
+	public void setProperty(NamedEnumeratedProperty<?> property) {
 		this.property = property;
 	}
 

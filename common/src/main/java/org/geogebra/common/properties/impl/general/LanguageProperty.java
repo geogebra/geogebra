@@ -13,13 +13,12 @@ import com.google.j2objc.annotations.Weak;
 /**
  * Property for setting the language.
  */
-public class LanguageProperty extends AbstractNamedEnumeratedProperty {
+public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
     @Weak
     private final App app;
     private OnLanguageSetCallback onLanguageSetCallback;
 
-    private Locale[] locales;
     private String[] languageCodes;
 
 	public interface OnLanguageSetCallback {
@@ -53,42 +52,29 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty {
     private void setupValues(App app, Localization localization) {
         Language[] languages = localization.getSupportedLanguages(
                 app.has(Feature.ALL_LANGUAGES));
-        String[] values = new String[languages.length];
+        String[] valueNames = new String[languages.length];
         languageCodes = new String[languages.length];
         for (int i = 0; i < languages.length; i++) {
             Language language = languages[i];
-            values[i] = language.name;
+            valueNames[i] = language.name;
             languageCodes[i] = language.getLocaleGWT();
         }
-        locales = localization.getLocales(languages);
-        setValues(values);
+        setValues(languageCodes);
+        setValueNames(valueNames);
     }
 
     @Override
-    protected void setValueSafe(String value, int index) {
-        String lang = languageCodes[index];
-        app.setLanguage(lang);
+    protected void doSetValue(String value) {
+        app.setLanguage(value);
         if (onLanguageSetCallback != null) {
-            onLanguageSetCallback.run(lang);
+            onLanguageSetCallback.run(value);
         }
     }
 
     @Override
-    public int getIndex() {
+    public String getValue() {
         Localization localization = getLocalization();
-        String locale = localization.getLocaleStr();
-        for (int i = 0; i < locales.length; i++) {
-            if (locales[i] != null && locales[i].toString().equals(locale)) {
-                return i;
-            }
-        }
-        String language = localization.getLocaleStr();
-        for (int i = 0; i < languageCodes.length; i++) {
-            if (languageCodes[i].startsWith(language)) {
-                return i;
-            }
-        }
-        return -1;
+        return localization.getLocaleStr();
     }
 
     @Override
