@@ -13,7 +13,7 @@ public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<
 	private final ProbabilityCalculatorView view;
 
 	/**
-	 * Constructs an AbstractGroupedEnumerableProperty
+	 * Constructs an DistributionTypeProperty
 	 * @param localization the localization used
 	 */
 	public DistributionTypeProperty(Localization localization, ProbabilityCalculatorView view) {

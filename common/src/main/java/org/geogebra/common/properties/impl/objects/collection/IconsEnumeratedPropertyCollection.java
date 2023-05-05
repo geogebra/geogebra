@@ -6,13 +6,13 @@ import org.geogebra.common.properties.PropertyResource;
 /**
  * Handles a collection of IconsEnumeratedProperty objects as a single IconsEnumeratedProperty.
  */
-public class IconsEnumerablePropertyCollection<T extends IconsEnumeratedProperty<V>, V>
+public class IconsEnumeratedPropertyCollection<T extends IconsEnumeratedProperty<V>, V>
 		extends EnumeratedPropertyCollection<T, V> implements IconsEnumeratedProperty<V> {
 
 	/**
 	 * @param properties properties to handle
 	 */
-	public IconsEnumerablePropertyCollection(T[] properties) {
+	public IconsEnumeratedPropertyCollection(T[] properties) {
 		super(properties);
 	}
 

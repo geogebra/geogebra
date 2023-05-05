@@ -31,7 +31,7 @@ import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.common.properties.impl.objects.collection.EnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.IconsEnumerablePropertyCollection;
+import org.geogebra.common.properties.impl.objects.collection.IconsEnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.RangePropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -143,7 +143,7 @@ public class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Returns an IconsEnumerableProperty controlling the point style or null if not applicable.
+	 * Returns an IconsEnumeratedProperty controlling the point style or null if not applicable.
 	 * @param localization localization
 	 * @param elements elements
 	 * @return property or null
@@ -155,7 +155,7 @@ public class GeoElementPropertiesFactory {
 			for (GeoElement element : elements) {
 				pointStyleProperties.add(new PointStyleProperty(localization, element));
 			}
-			return new IconsEnumerablePropertyCollection<>(
+			return new IconsEnumeratedPropertyCollection<>(
 					pointStyleProperties.toArray(new PointStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
@@ -203,7 +203,7 @@ public class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Returns an IconsEnumerableProperty controlling the line style or null if not applicable.
+	 * Returns an IconsEnumeratedProperty controlling the line style or null if not applicable.
 	 * @param localization localization
 	 * @param elements elements
 	 * @return property or null
@@ -215,7 +215,7 @@ public class GeoElementPropertiesFactory {
 			for (GeoElement element : elements) {
 				lineStyleProperties.add(new LineStyleProperty(localization, element));
 			}
-			return new IconsEnumerablePropertyCollection<>(
+			return new IconsEnumeratedPropertyCollection<>(
 					lineStyleProperties.toArray(new LineStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;

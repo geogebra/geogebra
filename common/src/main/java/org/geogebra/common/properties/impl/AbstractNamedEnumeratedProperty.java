@@ -15,7 +15,7 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 	private String[] valueNames;
 
 	/**
-	 * Constructs an AbstractEnumerableProperty
+	 * Constructs an AbstractNamedEnumeratedProperty
 	 * @param localization the localization used
 	 * @param name the name of the property
 	 */

@@ -11,7 +11,7 @@ public class BackgroundProperty extends AbstractNamedEnumeratedProperty<Renderer
 	private App app;
 
 	/**
-	 * Constructs an AbstractEnumerableProperty
+	 * Constructs an BackgroundProperty
 	 * @param app app
 	 * @param localization the localization used
 	 */
