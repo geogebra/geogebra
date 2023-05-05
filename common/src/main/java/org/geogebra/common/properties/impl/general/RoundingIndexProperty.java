@@ -41,7 +41,7 @@ public class RoundingIndexProperty extends AbstractNamedEnumeratedProperty<Integ
 		valueNames.remove(figuresIndex);
 
 		setValues(IntStream.range(0, valueNames.size()).boxed().toArray(Integer[]::new));
-		setValueNames(valueNames.toArray(String[]::new));
+		setValueNames(valueNames.toArray(new String[0]));
 	}
 
 	// ToDo Check 4630 Language dropdown works 941e35ef
