@@ -1994,7 +1994,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 
 			RadioTreeItem item = RadioTreeItem.as(ti);
-			item.setIndex(i - 1);
+			item.setIndex(i);
 			if (!updateDataTests(ti)) {
 				if (ti.getWidget() instanceof GroupHeader) {
 					for (int j = 0; j < ti.getChildCount(); j++) {
