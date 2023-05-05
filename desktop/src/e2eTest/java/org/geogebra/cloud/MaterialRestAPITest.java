@@ -10,7 +10,6 @@ import java.util.Set;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.Base64;
-import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
@@ -22,8 +21,8 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.models.ResourceOrdering;
+import org.geogebra.common.move.ggtapi.models.UserPublic;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -57,22 +56,18 @@ public class MaterialRestAPITest {
 			LoginOperationD loginOp) {
 		MaterialRestAPI api = authAPI();
 		final TestAsyncOperation<Boolean> callback = new TestAsyncOperation<>();
-		loginOp.getView().add(new EventRenderable() {
-
-			@Override
-			public void renderEvent(BaseEvent event) {
-				if (event instanceof LoginEvent) {
-					callback.callback(true);
-				}
+		loginOp.getView().add(event -> {
+			if (event instanceof LoginEvent) {
+				callback.callback(true);
 			}
 		});
 		api.authorizeUser(usr, loginOp, true);
 		callback.await(5);
 	}
 
-	private static void pause(int i) {
+	private static void pause() {
 		try {
-			Thread.sleep(i);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -125,7 +120,7 @@ public class MaterialRestAPITest {
 			@Override
 			public boolean handleMaterial(Material mat) {
 
-				api.getGroups(mat.getSharingKeyOrId(), null, groupCallback);
+				api.getGroups(mat.getSharingKey(), null, groupCallback);
 				return true;
 			}
 		});
@@ -181,8 +176,8 @@ public class MaterialRestAPITest {
 			public void onLoaded(List<Material> result,
 					Pagination meta) {
 				deleteCallback.setExpectedCount(result.size());
-				for (int i = 0; i < result.size(); i++) {
-					api.deleteMaterial(result.get(i), deleteCallback);
+				for (Material material : result) {
+					api.deleteMaterial(material, deleteCallback);
 				}
 			}
 
@@ -351,8 +346,8 @@ public class MaterialRestAPITest {
 			@Override
 			public boolean handleMaterial(Material mat) {
 				filenames[0] = mat.getFileName();
-				pause(1000);
-				api.uploadMaterial(mat.getSharingKeyOrId(), "S",
+				pause();
+				api.uploadMaterial(mat.getSharingKey(), "S",
 						"Test material",
 						Base64.encodeToString(
 								UtilD.loadFileIntoByteArray(
@@ -373,18 +368,20 @@ public class MaterialRestAPITest {
 	public void writePermissionsTest() {
 		needsAuth();
 
-		Material mat = new Material(1, MaterialType.ggs);
+		Material mat = new Material(MaterialType.ggs);
+		mat.setSharingKey("k89JtCqY");
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		LoginOperationD loginOp = buildLoginOperation();
 
 		Assert.assertTrue("Should overwrite anonymous materials",
 				loginOp.owns(mat));
 		authorise(usr, loginOp);
-		mat.setAuthorId(42);
+		mat.setCreator(new UserPublic(42, "Bart"));
 		Assert.assertFalse("Should not overwrite foreign materials",
 				loginOp.owns(mat));
 		Assert.assertTrue("User ID should be set", usr.getUserId() > 0);
-		mat.setAuthorId(usr.getUserId());
+		mat.setCreator(new UserPublic(loginOp.getModel().getUserId(),
+				loginOp.getUserName()));
 		Assert.assertTrue("Should overwrite own materials",
 				loginOp.owns(mat));
 
