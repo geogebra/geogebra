@@ -12,6 +12,11 @@ public class ARFitThicknessAction extends AbstractProperty implements Actionable
 
 	final EuclidianView3D euclidianView;
 
+	/**
+	 * Creates an ARFitThickenssAction property.
+	 * @param localization localization
+	 * @param euclidianView euclidean view
+	 */
 	public ARFitThicknessAction(Localization localization, EuclidianView3D euclidianView) {
 		super(localization, "ar.FitThickness");
 		this.euclidianView = euclidianView;

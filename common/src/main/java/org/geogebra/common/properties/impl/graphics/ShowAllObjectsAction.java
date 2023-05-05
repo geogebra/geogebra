@@ -14,6 +14,12 @@ public class ShowAllObjectsAction extends AbstractProperty implements Actionable
 	final AppConfig appConfig;
 	final EuclidianView euclidianView;
 
+	/**
+	 * Creates a ShowAllObjectsAction property.
+	 * @param localization localization
+	 * @param appConfig app config
+	 * @param euclidianView euclidean view
+	 */
 	public ShowAllObjectsAction(Localization localization, AppConfig appConfig,
 			EuclidianView euclidianView) {
 		super(localization, "ShowAllObjects");

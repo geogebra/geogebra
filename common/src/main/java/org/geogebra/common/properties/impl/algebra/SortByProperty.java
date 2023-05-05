@@ -11,13 +11,6 @@ import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
  */
 public class SortByProperty extends AbstractNamedEnumeratedProperty<AlgebraView.SortMode> {
 
-	private AlgebraView.SortMode[] sortModes = {
-			AlgebraView.SortMode.DEPENDENCY,
-			AlgebraView.SortMode.TYPE,
-			AlgebraView.SortMode.ORDER,
-			AlgebraView.SortMode.LAYER
-	};
-
 	private AlgebraView algebraView;
 
 	/**

@@ -1,7 +1,5 @@
 package org.geogebra.common.properties;
 
-import java.util.Arrays;
-
 /**
  * A property whose value is one of an array of predefined values,
  * similarly to the type enumeration, where the value is one a finite set of possible values.

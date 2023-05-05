@@ -1,7 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionableProperty;
 import org.geogebra.common.properties.IconAssociatedProperty;
@@ -13,6 +12,11 @@ public class StandardViewAction extends AbstractProperty implements ActionablePr
 
 	final EuclidianView euclidianView;
 
+	/**
+	 * Creates a StandardViewAction property.
+	 * @param localization localization
+	 * @param euclidianView euclidean view
+	 */
 	public StandardViewAction(Localization localization, EuclidianView euclidianView) {
 		super(localization, "StandardView");
 		this.euclidianView = euclidianView;

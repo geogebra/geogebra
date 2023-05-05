@@ -1,7 +1,5 @@
 package org.geogebra.common.properties.impl.general;
 
-import java.util.Locale;
-
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
