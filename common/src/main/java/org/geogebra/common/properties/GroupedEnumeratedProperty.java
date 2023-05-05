@@ -1,20 +1,17 @@
 package org.geogebra.common.properties;
 
 /**
- * Enumerable property where values are separated by dividers.
+ * Enumerable property where groups of values might separated by dividers.
  */
 public interface GroupedEnumeratedProperty<V> extends EnumeratedProperty<V> {
 
 	/**
-	 *
-	 * @return
+	 * Gets the array of indices where a divider must be inserted.
+	 * Please note that indices refer to the unmodified values array.
+	 * <p>
+	 * For example, with values {"a", "b", "c", "d", "e"}, if this method returns
+	 * {1, 3}, it must be understood as the following {"a", |, "b", "c", |, "d", "e"}
+	 * @return an array of indices where a divider must be inserted
 	 */
 	int[] getGroupDividerIndices();
-// ToDo
-	/**
-	 * Check if the value at index is a divider or not.
-	 * @param index index of the item
-	 * @return true iff the item should be a divider
-	 */
-//	boolean isDivider(int index);
 }

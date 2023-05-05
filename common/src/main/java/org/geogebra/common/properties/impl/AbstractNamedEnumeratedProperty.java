@@ -4,7 +4,10 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 
 /**
- * Base class for enumerable properties. Handles the indexing of values.
+ * Base class for enumerated properties whose values have names associated with them.
+ * When overriding this class, make sure to call
+ * {@link AbstractNamedEnumeratedProperty#setValueNames(String...)}
+ * at some point in the constructor.
  */
 public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumeratedProperty<V>
 		implements NamedEnumeratedProperty<V> {

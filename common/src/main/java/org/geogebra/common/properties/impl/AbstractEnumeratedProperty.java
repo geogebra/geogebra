@@ -5,13 +5,18 @@ import java.util.Arrays;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
 
+/**
+ * Base class for enumerated properties. When overriding this class, make sure to call
+ * {@link AbstractEnumeratedProperty#setValues(Object[])} at some point in the constructor.
+ * @param <V> value type
+ */
 public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProperty<V> implements
 		EnumeratedProperty<V> {
 
 	protected V[] values;
 
 	/**
-	 * Constructs an AbstractEnumerableProperty
+	 * Constructs an AbstractEnumeratedProperty.
 	 * @param localization the localization used
 	 * @param name the name of the property
 	 */

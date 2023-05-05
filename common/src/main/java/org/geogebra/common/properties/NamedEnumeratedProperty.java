@@ -2,6 +2,10 @@ package org.geogebra.common.properties;
 
 import org.geogebra.common.properties.EnumeratedProperty;
 
+/**
+ * A property whose values have names associated with them.
+ * @param <V> value type
+ */
 public interface NamedEnumeratedProperty<V> extends EnumeratedProperty<V> {
 
 	/**

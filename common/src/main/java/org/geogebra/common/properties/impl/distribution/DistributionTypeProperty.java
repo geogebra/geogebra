@@ -3,12 +3,12 @@ package org.geogebra.common.properties.impl.distribution;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
-import org.geogebra.common.properties.impl.AbstractGroupedEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractGroupedEnumeratedProperty;
 
 /**
  * Property for the distribution type.
  */
-public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty<Dist> {
+public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<Dist> {
 
 	private final ProbabilityCalculatorView view;
 
