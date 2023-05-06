@@ -32,6 +32,7 @@ import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCol
 import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.EnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.IconsEnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.objects.collection.NamedEnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.RangePropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -259,7 +260,7 @@ public class GeoElementPropertiesFactory {
 			for (GeoElement element : elements) {
 				captionStyleProperties.add(new CaptionStyleProperty(localization, element));
 			}
-			return new EnumeratedPropertyCollection<>(
+			return new NamedEnumeratedPropertyCollection<>(
 					captionStyleProperties.toArray(new CaptionStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
@@ -349,7 +350,7 @@ public class GeoElementPropertiesFactory {
 			for (GeoElement element : elements) {
 				equationFormProperties.add(new EquationFormProperty(localization, element));
 			}
-			return new EnumeratedPropertyCollection<>(
+			return new NamedEnumeratedPropertyCollection<>(
 					equationFormProperties.toArray(new EquationFormProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;

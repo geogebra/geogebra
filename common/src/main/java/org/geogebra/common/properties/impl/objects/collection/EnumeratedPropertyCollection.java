@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.objects.collection;
 
 import org.geogebra.common.properties.EnumeratedProperty;
 
-public class EnumeratedPropertyCollection<T extends EnumeratedProperty<S>, S>
+abstract public class EnumeratedPropertyCollection<T extends EnumeratedProperty<S>, S>
 		extends AbstractTypedPropertyCollection<T, S> implements EnumeratedProperty<S> {
 
 	public EnumeratedPropertyCollection(T[] properties) {
