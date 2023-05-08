@@ -697,6 +697,12 @@ public abstract class CommandDispatcher implements Restrictable {
 			case JordanDiagonalization:
 			case Eigenvalues:
 			case Eigenvectors:
+			case ExtendedGCD:
+			case ModularExponent:
+			case CharacteristicPolynomial:
+			case MinimalPolynomial:
+			case LUDecomposition:
+			case QRDecomposition:
 				return new CAScmdProcessor(kernel);
 
 			// ************** STATS ***************
