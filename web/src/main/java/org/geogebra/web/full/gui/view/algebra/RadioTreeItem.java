@@ -1769,12 +1769,18 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Show suggestions.
 	 */
 	public void popupSuggestions() {
-		if (controller.isInputAsText()) {
+		if (noSuggestionNeeded()) {
 			return;
 		}
+
 		int left = getPopupSuggestionLeft();
 		int top = (int) (marblePanel.getAbsoluteTop() - app.getAbsTop());
 		getInputSuggestions().popupSuggestions(left, top, marblePanel.getOffsetHeight());
+	}
+
+	private boolean noSuggestionNeeded() {
+		return controller.isInputAsText()
+				|| mf.getInternal().getEditorState().isInsideQuotes();
 	}
 
 	private int getPopupSuggestionLeft() {
