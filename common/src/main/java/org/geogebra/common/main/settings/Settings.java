@@ -197,8 +197,8 @@ public class Settings {
 		generalSettings.endBatch();
 		keyboardSettings.endBatch();
 		casSettings.endBatch();
-		probCalcSettings.endBatch();
 		tableSettings.endBatch();
+		probCalcSettings.endBatch();
 	}
 
 	/**
