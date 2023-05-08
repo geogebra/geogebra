@@ -11,11 +11,6 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 	}
 
 	@Override
-	public boolean checkGeos() {
-		return true;
-	}
-
-	@Override
 	public boolean getValueAt(int index) {
 		return getGeoAt(index).isSelectionAllowed(null);
 	}
@@ -23,7 +18,9 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 	@Override
 	public void apply(int index, boolean value) {
 		GeoElement geo = getGeoAt(index);
-		applyTo(geo, app, value);
+		geo.setSelectionAllowed(value);
+		geo.updateVisualStyleRepaint(GProperty.COMBINED);
+		// do NOT unselect here to allow changing moore properties in settings dialog
 	}
 
 	/**
@@ -47,8 +44,7 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
