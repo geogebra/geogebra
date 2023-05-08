@@ -33,6 +33,18 @@ public class EditorListener implements MathFieldListener {
 		notifyListeners(event);
 	}
 
+	/**
+	 * notify listeners about keyboard opening/closing
+	 * @param show - true if keyboard shown
+	 */
+	public void notifyKeyboardVisibilityChange(boolean show) {
+		JsPropertyMap<Object> event = JsPropertyMap.of();
+		String type = show ? "openKeyboard" : "closeKeyboard";
+		event.set("0", type);
+		event.set("type", type);
+		notifyListeners(event);
+	}
+
 	private void scrollOnDemand() {
 		Widget parent = mathField.asWidget().getParent();
 		mathField.scrollParentHorizontally(parent);
