@@ -118,7 +118,7 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	protected void closeButtonClicked() {
 		if (updateKeyBoardListener != null) {
-			updateKeyBoardListener.keyBoardNeeded(false, null);
+			updateKeyBoardListener.closeKeyboard();
 		}
 		keyboardWanted = false;
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
@@ -876,7 +876,7 @@ public class TabbedKeyboard extends FlowPanel
 			// make sure enter is processed correctly
 			processField.onEnter();
 			if (processField.resetAfterEnter()) {
-				getUpdateKeyBoardListener().keyBoardNeeded(false, null);
+				getUpdateKeyBoardListener().closeKeyboard();
 			}
 			break;
 		case SWITCH_TO_SPECIAL_SYMBOLS:
