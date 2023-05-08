@@ -7,7 +7,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.editor.MathFieldProcessing;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
@@ -31,6 +30,7 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -267,8 +267,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void autocomplete(String text) {
-		GuiManagerW.makeKeyboardListener(retexListener, null)
-				.insertString(text);
+		KeyboardInputAdapter.onKeyboardInput(mf.getInternal(), text);
 	}
 
 	@Override

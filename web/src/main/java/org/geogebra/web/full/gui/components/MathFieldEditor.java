@@ -397,7 +397,14 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		mathField.getInternal().setAllowAbs(b);
 	}
 
+	/**
+	 * Apply settings to math input field
+	 * @param settings renderer settings
+	 */
 	public void setTextRendererSettings(TextRendererSettings settings) {
-		mathField.setTextRendererSettings(settings);
+		mathField.setFixMargin(settings.getFixMargin());
+		mathField.setMinHeight(settings.getMinHeight());
+		mathField.setRightMargin(settings.getRightMargin());
+		mathField.setBottomOffset(settings.getBottomOffset());
 	}
 }

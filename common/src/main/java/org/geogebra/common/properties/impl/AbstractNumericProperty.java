@@ -23,7 +23,7 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 
 	@Override
 	public void setValue(String value) {
-		GeoNumberValue numberValue = util.parseInputString(value);
+		GeoNumberValue numberValue = parseNumberValue(value);
 		setNumberValue(numberValue);
 	}
 
@@ -48,5 +48,14 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 	@Override
 	public String getInvalidInputErrorMessage() {
 		return getLocalization().getError("InvalidInput");
+	}
+
+	/**
+	 * Parses a NumberValue from the given string.
+	 * @param value string representing a number
+	 * @return number value or null if cannot parse string
+	 */
+	protected GeoNumberValue parseNumberValue(String value) {
+		return util.parseInputString(value);
 	}
 }

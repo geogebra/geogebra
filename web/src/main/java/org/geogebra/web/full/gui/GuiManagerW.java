@@ -18,7 +18,6 @@ import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
@@ -50,8 +49,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.keyboard.web.KeyboardListener;
-import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.cas.view.CASViewW;
 import org.geogebra.web.full.cas.view.RowHeaderPopupMenuW;
@@ -65,8 +62,6 @@ import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
-import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
-import org.geogebra.web.full.gui.dialog.text.TextEditPanelProcessing;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -98,11 +93,9 @@ import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.DateTimeFormat;
 import org.geogebra.web.full.gui.util.InputKeyboardButtonW;
-import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
-import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
@@ -114,9 +107,6 @@ import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.full.main.GDevice;
-import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
-import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
-import org.geogebra.web.full.util.keyboard.ScriptAreaProcessing;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -125,8 +115,6 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -2000,45 +1988,6 @@ public class GuiManagerW extends GuiManager
 			return getGeneralToolbar().getDefaultToolbarString();
 		}
 		return "";
-	}
-
-	/**
-	 * Create keyboard adapter for text editing object.
-	 *
-	 * @param textField
-	 *            text / math editor
-	 * @return keyboard adapter
-	 */
-	public static KeyboardListener makeKeyboardListener(
-			MathKeyboardListener textField, HasLastItem lastItemProvider) {
-		if (textField instanceof RetexKeyboardListener) {
-			return new MathFieldProcessing(
-					((RetexKeyboardListener) textField).getMathField());
-		}
-		if (textField instanceof RadioTreeItem) {
-			return new AlgebraMathFieldProcessing(
-					(RadioTreeItem) textField,
-					lastItemProvider);
-		}
-		if (textField instanceof KeyboardListener) {
-			return (KeyboardListener) textField;
-		}
-		if (textField instanceof GTextBox) {
-			return new GTextBoxProcessing((GTextBox) textField);
-		}
-		if (textField instanceof TextEditPanel) {
-			return new TextEditPanelProcessing((TextEditPanel) textField);
-		}
-		if (textField instanceof AutoCompleteTextFieldW) {
-			return new AutocompleteProcessing(
-					(AutoCompleteTextFieldW) textField);
-		}
-
-		if (textField instanceof ScriptArea) {
-			return new ScriptAreaProcessing((ScriptArea) textField);
-		}
-
-		return null;
 	}
 
 	@Override

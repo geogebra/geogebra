@@ -218,6 +218,8 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		isOverlayActive = false;
 		low = null;
 		high = null;
+		distributionType = Dist.NORMAL;
+		parameters = new GeoNumeric[0];
 		probMode = ProbabilityCalculatorView.PROB_INTERVAL;
 		settingChanged();
 	}

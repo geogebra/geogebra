@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
@@ -135,7 +134,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private boolean wasPaintedWithCursor;
 	private int rightMargin = 30;
 	private int bottomOffset = 10;
-	private TextRendererSettings settings;
 
 	/**
 	 * @param converter
@@ -1249,18 +1247,4 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return minHeight;
 	}
 
-	/**
-	 * @param settings rendering settings
-	 */
-	public void setTextRendererSettings(TextRendererSettings settings) {
-		this.settings = settings;
-		updateSettings();
-	}
-
-	private void updateSettings() {
-		setFixMargin(settings.getFixMargin());
-		setMinHeight(settings.getMinHeight());
-		setRightMargin(settings.getRightMargin());
-		setBottomOffset(settings.getBottomOffset());
-	}
 }
