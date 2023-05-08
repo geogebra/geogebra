@@ -42,7 +42,7 @@ public class AlignDrawText {
 	}
 
 	private double getXLabelForCenter(double width) {
-		return getXLabelForLeft() - Math.round(width /  2) ;
+		return drawText.xLabel + MARGIN / 2.0 - Math.floor(width / 2);
 	}
 
 	private double getXLabelForRight(double width) {
