@@ -1780,7 +1780,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private boolean noSuggestionNeeded() {
 		return controller.isInputAsText()
-				|| mf.getInternal().getEditorState().isInsideQuotes();
+				|| mf.isSuggestionPrevented();
 	}
 
 	private int getPopupSuggestionLeft() {
