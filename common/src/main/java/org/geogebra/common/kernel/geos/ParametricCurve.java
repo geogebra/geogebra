@@ -83,6 +83,7 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable, VarStr
 	/**
 	 * @return array of function variables
 	 */
+	@Override
 	FunctionVariable[] getFunctionVariables();
 
 }
