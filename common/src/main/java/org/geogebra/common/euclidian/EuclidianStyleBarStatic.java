@@ -430,7 +430,12 @@ public class EuclidianStyleBarStatic {
 				List<GeoElement> geos) {
 		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
 		boolean needUndo = false;
-		for (GeoElement geo : splitStrokes(geos, app)) {
+
+		List<GeoElement> splitStrokes = splitStrokes(geos, app);
+		UpdateStrokeStyleStore stylingHelper = new UpdateStrokeStyleStore(splitStrokes,
+				app.getUndoManager());
+
+		for (GeoElement geo : splitStrokes) {
 			boolean thicknessChanged = geo.getLineThickness() != lineSize;
 			if (geo.getLineType() != lineStyle
 					|| thicknessChanged) {
@@ -440,6 +445,12 @@ public class EuclidianStyleBarStatic {
 				needUndo = needUndo || !thicknessChanged;
 			}
 		}
+
+		if (needUndo) {
+			stylingHelper.addUpdatedStrokes(splitStrokes);
+			stylingHelper.storeStrokeStyleUpdateUndo();
+		}
+
 		return needUndo;
 	}
 
@@ -491,7 +502,11 @@ public class EuclidianStyleBarStatic {
 	 */
 	public static boolean applyColor(GColor color, double alpha, App app, List<GeoElement> geos) {
 		boolean needUndo = false;
-		for (GeoElement geo : splitStrokes(geos, app)) {
+		List<GeoElement> splitStrokes = splitStrokes(geos, app);
+		UpdateStrokeStyleStore strokeStyleHelper = new UpdateStrokeStyleStore(splitStrokes,
+				app.getUndoManager());
+
+		for (GeoElement geo : splitStrokes) {
 			boolean alphaChanged = false;
 			// apply object color to all other geos except images
 			// (includes texts since MOW-441)
@@ -511,6 +526,10 @@ public class EuclidianStyleBarStatic {
 		}
 		if (!geos.isEmpty()) {
 			geos.get(0).getKernel().notifyRepaint();
+		}
+		if (needUndo) {
+			strokeStyleHelper.addUpdatedStrokes(splitStrokes);
+			strokeStyleHelper.storeStrokeStyleUpdateUndo();
 		}
 		return needUndo;
 	}

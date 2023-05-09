@@ -64,12 +64,20 @@ public abstract class StyleBarW2 extends StyleBarW {
 				.setMaximum(app.isWhiteboardActive()
 						? 2 * EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE : 13);
 		btnLineStyle.getSlider().setTickSpacing(1);
-		setPopupHandlerWithUndoAction(btnLineStyle, this::processLineStyle);
+		setPopupHandlerWithUndoStrokeAction(btnLineStyle, this::processLineStyle);
 	}
 
 	protected void setPopupHandlerWithUndoAction(PopupMenuButtonW popupBtn,
 			Function<ArrayList<GeoElement>, Boolean> action) {
 		popupBtn.addPopupHandler(w -> processSelectionWithUndoAction(action));
+		// no undo in slider handler
+		UndoableSliderHandler ush = new UndoableSliderHandler(action, this);
+		popupBtn.setChangeEventHandler(ush);
+	}
+
+	protected void setPopupHandlerWithUndoStrokeAction(PopupMenuButtonW popupBtn,
+			Function<ArrayList<GeoElement>, Boolean> action) {
+		popupBtn.addPopupHandler(w -> action.apply(getTargetGeos()));
 		// no undo in slider handler
 		UndoableSliderHandler ush = new UndoableSliderHandler(action, this);
 		popupBtn.setChangeEventHandler(ush);
@@ -121,8 +129,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 			int selectedIndex = btnLineStyle.getSelectedIndex();
 			int lineSize = btnLineStyle.getSliderValue();
 			btnLineStyle.setSelectedIndex(selectedIndex);
-			return EuclidianStyleBarStatic.applyLineStyle(selectedIndex,
-					lineSize, app, targetGeos);
+			return EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app, targetGeos);
 		}
 		return false;
 	}
@@ -351,7 +358,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 				onColorClicked();
 			}
 		};
-		setPopupHandlerWithUndoAction(btnColor, this::processColor);
+		setPopupHandlerWithUndoStrokeAction(btnColor, this::processColor);
 	}
 
 	public boolean hasTextColor(GeoElement geoElement) {
