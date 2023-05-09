@@ -4194,10 +4194,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public void storeUndoInfoAndStateForModeStarting() {
 		if (cons != null) {
 			storeStateForModeStarting();
-			if (cons.isUndoEnabled()) {
-				// reuse cons.getCurrentUndoXML(true)
-				cons.getUndoManager().storeUndoInfo();
-			}
+			// reuse cons.getCurrentUndoXML(true)
+			cons.getUndoManager().storeUndoInfo();
 		}
 	}
 

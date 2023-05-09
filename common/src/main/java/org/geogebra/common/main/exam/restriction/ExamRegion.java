@@ -2,7 +2,9 @@ package org.geogebra.common.main.exam.restriction;
 
 import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.PROBABILITY_APPCODE;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
@@ -32,28 +34,6 @@ public enum ExamRegion {
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
 			// no restrictions -> no default needed
-		}
-	},
-	BAYERN_CAS() {
-		@Override
-		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Bayern CAS Abitur";
-		}
-
-		@Override
-		public String getShortDisplayName(Localization loc, AppConfig config) {
-			return "Bayern CAS";
-		}
-
-		@Override
-		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(G3D_APPCODE);
-			model.setCommandFilter(CommandFilterFactory.createBayernCasFilter());
-		}
-
-		@Override
-		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			model.setDefaultAppCode(CAS_APPCODE);
 		}
 	},
 	/*MMS() {
@@ -97,6 +77,29 @@ public enum ExamRegion {
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
 			model.setDefaultAppCode(GRAPHING_APPCODE);
+		}
+	},
+	BAYERN_CAS() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "Schulversuch CAS in Prüfungen";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "Schulversuch CAS";
+		}
+
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+			model.setSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE,
+					PROBABILITY_APPCODE);
+			model.setCommandFilter(CommandFilterFactory.createBayernCasFilter());
+		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			model.setDefaultAppCode(CAS_APPCODE);
 		}
 	};
 

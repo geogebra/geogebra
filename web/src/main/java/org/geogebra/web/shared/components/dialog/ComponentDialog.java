@@ -36,7 +36,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 */
 	public ComponentDialog(AppW app, DialogData dialogData, boolean autoHide,
 						   boolean hasScrim) {
-		super(autoHide, app.getPanel(), app);
+		super(autoHide, app.getAppletFrame(), app);
 		setGlassEnabled(hasScrim);
 		this.setStyleName("dialogComponent");
 		buildDialog(dialogData);
@@ -234,7 +234,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		}
 		Event nativeEvent = Event.as(event.getNativeEvent());
 		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())
-				&& !isContentEditable(event.getNativeEvent().getEventTarget())) {
+				&& !isContentEditable(nativeEvent.getEventTarget())
+				&& !isTextarea(nativeEvent.getEventTarget())) {
 			onPositiveAction();
 		} else if (event.getTypeInt() == Event.ONKEYUP
 				&& event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
@@ -245,6 +246,11 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	private boolean isContentEditable(EventTarget eventTarget) {
 		elemental2.dom.Element el = Js.uncheckedCast(eventTarget);
 		return el.hasAttribute("contenteditable");
+	}
+
+	private boolean isTextarea(EventTarget eventTarget) {
+		elemental2.dom.Element el = Js.uncheckedCast(eventTarget);
+		return "TEXTAREA".equals(el.tagName);
 	}
 
 	protected void onEscape() {

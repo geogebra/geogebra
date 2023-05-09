@@ -256,8 +256,8 @@ public class OpenFileViewMebis extends HeaderFileView
 			Widget widget = common.materialAt(idx);
 			if (widget instanceof MaterialCard
 					&& isBeforeOrSame(material, ((MaterialCard) widget).getMaterial())) {
-				if (((MaterialCard) widget).getMaterial().getSharingKeyOrId()
-						.equals(material.getSharingKeyOrId())) {
+				if (((MaterialCard) widget).getMaterial().getSharingKeySafe()
+						.equals(material.getSharingKeySafe())) {
 					// don't add the same material twice
 					return;
 				}

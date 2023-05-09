@@ -33,8 +33,11 @@ import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.HasArguments;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
@@ -56,7 +59,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus
  */
 public abstract class AlgoElement extends ConstructionElement
-		implements EuclidianViewCE {
+		implements EuclidianViewCE, HasArguments {
 	private static boolean tempSetLock = false;
 	private static TreeSet<AlgoElement> tempSet;
 	/** input elements */
@@ -1213,6 +1216,14 @@ public abstract class AlgoElement extends ConstructionElement
 			return null;
 		}
 		sbAE.setLength(0);
+		if (tpl.isLatex() && getClassName() == Commands.Integral) {
+			String var = "x";
+			if (getInput(0) instanceof VarString) {
+				var = ((VarString) getInput(0)).getVarString(tpl);
+			}
+			Command.appendIntegral(this, sbAE, var, tpl);
+			return sbAE.toString();
+		}
 		if (tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(getLoc().getCommand(def));
 		} else {
@@ -1926,5 +1937,15 @@ public abstract class AlgoElement extends ConstructionElement
 				&& this.getClassName() instanceof Commands
 				&& this.getInputLength() == newParent.getInputLength();
 
+	}
+
+	@Override
+	public ExpressionValue getArgument(int i) {
+		return getInput(i);
+	}
+
+	@Override
+	public int getArgumentNumber() {
+		return getInputLength();
 	}
 }

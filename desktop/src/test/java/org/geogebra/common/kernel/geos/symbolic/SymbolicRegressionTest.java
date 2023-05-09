@@ -23,6 +23,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class SymbolicRegressionTest extends BaseUnitTest {
 
+	@Override
 	public AppCommon createAppCommon() {
 		return new AppDNoGui(new LocalizationD(3), false);
 	}

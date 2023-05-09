@@ -84,6 +84,11 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void emptyAbsShouldBecomeOr() {
+		checker.type("true||false").checkAsciiMath("true" + Unicode.OR + "false");
+	}
+
+	@Test
 	public void testLnAbs() {
 		checker.type("ln|x+6").checkGGBMath("ln(abs(x + 6))");
 	}

@@ -264,6 +264,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		visibilityProperty.update(visibilityController.getMaterialVisibility(
 				app.getActiveMaterial()));
 		visibilityDropDown.setLabels();
+		visibilityDropDown.setSelectedIndex(visibilityProperty.getIndex());
 	}
 
 	@Override

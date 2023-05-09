@@ -2986,6 +2986,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Zooms and pans active EV to show all objects checking ratio from config.
+	 */
+	public final void setViewShowAllObjects() {
+		setViewShowAllObjects(appConfig.shouldKeepRatioEuclidian());
+	}
+
+	/**
 	 * Zooms and pans active EV to show all objects
 	 *
 	 * @param keepRatio

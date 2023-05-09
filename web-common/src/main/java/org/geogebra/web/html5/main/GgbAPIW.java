@@ -963,7 +963,7 @@ public class GgbAPIW extends GgbAPI {
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
 
-			evw.getExportSVG(1, true, (svg) -> {
+			evw.getExportSVG(true, (svg) -> {
 				if (filename != null) {
 					// can't use data:image/svg+xml;utf8 in IE11 / Edge
 					Browser.exportImage(Browser.encodeSVG(svg), filename);
@@ -1321,5 +1321,13 @@ public class GgbAPIW extends GgbAPI {
 		} else {
 			setXML(content.xml);
 		}
+	}
+
+	/**
+	 * Show all objects in EuclidianView
+	 */
+	public void showAllObjects() {
+		app.setViewShowAllObjects();
+
 	}
 }

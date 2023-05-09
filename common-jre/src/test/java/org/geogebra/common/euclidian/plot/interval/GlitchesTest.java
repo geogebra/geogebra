@@ -26,6 +26,18 @@ public class GlitchesTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void divByZeroThreshold() {
+		withHiResFunction("((1*10^(-13) x)/(1*10^(-13)))");
+		assertEquals(1 + 1920 * 2, gp.getLog().size());
+	}
+
+	@Test
+	public void divTwoConstantsBelowZeroThreshold() {
+		withHiResFunction("((1*10^(-13))/(1*10^(-13)))x");
+		assertEquals(1 + 1920 * 2, gp.getLog().size());
+	}
+
+	@Test
 	public void testXInverseMultipliedByZero() {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
@@ -40,6 +52,15 @@ public class GlitchesTest extends BaseUnitTest {
 		withScreenSize(50, 50);
 		withFunction("0/(0/tan(x))");
 		assertEquals(1, gp.getLog().size());
+	}
+
+	@Test
+	public void testLnInverseTimesZeroShouldBeZero() {
+		withBounds(0, 10, -8, -8);
+		withDefaultScreen();
+		withFunction("(1/ln(x)) * 0");
+		assertEquals(0,
+				gp.getLog().stream().filter(t -> t.y != 0).count());
 	}
 
 	@Test
@@ -86,5 +107,4 @@ public class GlitchesTest extends BaseUnitTest {
 		withScreenSize(1920, 1280);
 		withFunction(description);
 	}
-
 }

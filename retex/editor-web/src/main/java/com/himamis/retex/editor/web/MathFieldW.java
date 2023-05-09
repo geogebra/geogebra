@@ -86,6 +86,7 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.EventListener;
 import elemental2.dom.HTMLTextAreaElement;
 import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
@@ -114,7 +115,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private Timer focuser;
 	private boolean pasteInstalled = false;
 
-	private final int bottomOffset;
 	private MyTextArea inputTextArea;
 	private SimplePanel clip;
 
@@ -133,6 +133,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int minHeight = 0;
 	private boolean wasPaintedWithCursor;
 	private int rightMargin = 30;
+	private int bottomOffset = 10;
 
 	/**
 	 * @param converter
@@ -170,7 +171,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 		html = canvas;
-		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setSyntaxAdapter(converter);
@@ -643,8 +643,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			double top, ColorW bgColor) {
 		TeXIcon iconNoPlaceholder = mathFieldInternal.buildIconNoPlaceholder();
 		if (iconNoPlaceholder != null) {
+			// use ratio 1 here to fit SVG export
 			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor,
-					bgColor, null, ratio);
+					bgColor, null, 1);
 		}
 	}
 
@@ -658,6 +659,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public double getHeightWithMargin() {
 		return lastIcon.getIconHeight() + getMargin(lastIcon) + bottomOffset;
+	}
+
+	/**
+	 *
+	 * @param bottomOffset to set.
+	 */
+	public void setBottomOffset(int bottomOffset) {
+		this.bottomOffset = bottomOffset;
 	}
 
 	public int getIconHeight() {
@@ -687,7 +696,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * up to 8
 	 */
 	private double roundUp(double w) {
-
 		return Math.ceil(w * ratio) / ratio;
 	}
 
@@ -859,8 +867,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			inputTextArea = MyTextArea.wrap(el);
 
 			new EditorCompositionHandler(this).attachTo(inputTextArea);
-
-			inputTextArea.addFocusHandler(event -> {
+			addFocusListener(inputTextArea, event -> {
 				startBlink();
 				event.stopPropagation();
 			});
@@ -876,6 +883,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 
 		return inputTextArea.getElement();
+	}
+
+	private void addFocusListener(MyTextArea inputTextArea, EventListener o) {
+		// circumvent GWT event system to make sure this is fired
+		elemental2.dom.Element elh = Js.uncheckedCast(inputTextArea.getElement());
+		elh.addEventListener("focus", o);
 	}
 
 	public void clearState() {
@@ -1233,4 +1246,5 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public int getMinHeight() {
 		return minHeight;
 	}
+
 }

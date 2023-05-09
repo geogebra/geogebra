@@ -170,7 +170,7 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	private String getTubeId() {
-		return activeMaterial != null ? activeMaterial.getSharingKeyOrId() : null;
+		return activeMaterial != null ? activeMaterial.getSharingKeySafe() : null;
 	}
 
 	private void saveMaterialProperties() {

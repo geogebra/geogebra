@@ -521,7 +521,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void hideKeyboard() {
-		getAppletFrame().showKeyBoard(false, null, false);
+		if (getGuiManager().getKeyboardListener() != null) {
+			getGuiManager().getKeyboardListener().setFocus(false);
+		}
+		getAppletFrame().closeKeyboard();
 	}
 
 	@Override
@@ -932,7 +935,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 							}
 							setActiveMaterial(material);
 							if (material.isMultiuser()) {
-								getShareController().startMultiuser(material.getSharingKeyOrId());
+								getShareController().startMultiuser(material.getSharingKeySafe());
 							}
 							ensureSupportedModeActive();
 						} else {
@@ -1161,11 +1164,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void setToolbarPosition(int position, boolean update) {
-		Log.debug("TOOLBAR POSITION " + position);
 		toolbarPosition = position;
 		if (update) {
 			updateApplicationLayout();
-			// updateMenubar(); TODO check if needed
 		}
 	}
 
@@ -1547,21 +1548,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	@Override
-	public void onUnhandledClick() {
+	protected void onUnhandledClick() {
 		updateAVStylebar();
 
 		if (!isWhiteboardActive() && !CancelEventTimer.cancelKeyboardHide()) {
-			Timer timer = new Timer() {
-				@Override
-				public void run() {
-					if (getGuiManager().getKeyboardListener() != null) {
-						getGuiManager().getKeyboardListener().setFocus(false);
-					}
-					getAppletFrame().keyBoardNeeded(false, null);
-				}
-			};
-			timer.schedule(0);
+			DomGlobal.setTimeout(ignore -> hideKeyboard() , 0);
 		}
 	}
 
@@ -2393,7 +2384,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void storeCurrentMaterial() {
 		Material material = getActiveMaterial();
 		if (material == null) {
-			material = new Material(-1, Material.MaterialType.ggb);
+			material = new Material(Material.MaterialType.ggb);
 		}
 		material.setContent(getGgbApi().getFileJSON(false));
 		constructionJson.put(getConfig().getSubAppCode(), material);
@@ -2407,7 +2398,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (oldConstruction != null) {
 				getGgbApi().setFileJSON(oldConstruction);
 			}
-			if (material.getId() != -1) {
+			if (material.getSharingKey() != null) {
 				setActiveMaterial(material);
 				updateMaterialURL(material);
 				return true;

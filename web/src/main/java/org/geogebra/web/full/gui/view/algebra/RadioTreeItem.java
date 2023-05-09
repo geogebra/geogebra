@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -474,13 +472,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			outputPanel.reset();
 
 			String text = previewGeo
-					.getAlgebraDescription(StringTemplate.latexTemplate)
-					.replace("undefined", "").trim();
-			if (!StringUtil.empty(text)
-					&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
-				text = text.substring(1);
-			}
-
+					.getAlgebraDescriptionForPreviewOutput();
 			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 			outputPanel.addArrowPrefix();
 			outputPanel.addValuePanel();
@@ -1137,12 +1129,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				updateGUIfocus(false);
 			}
 		}
-	}
-
-	@Override
-	public ArrayList<String> getHistory() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

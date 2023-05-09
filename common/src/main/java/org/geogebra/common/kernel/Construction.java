@@ -180,7 +180,6 @@ public class Construction {
 	private GeoPoint origin;
 
 	private Stack<GeoElement> selfGeoStack = new Stack<>();
-	private boolean undoEnabled = true;
 
 	private boolean isGettingXMLForReplace;
 	private boolean spreadsheetTraces;
@@ -1419,21 +1418,6 @@ public class Construction {
 		}
 		// Inserting Prove* element:
 		statement.getAlgorithmList().get(0).getXML_OGP(sb);
-	}
-
-	/**
-	 * @return true if undo is enabled
-	 */
-	public boolean isUndoEnabled() {
-		return undoEnabled;
-	}
-
-	/**
-	 * @param b
-	 *            true to enable undo
-	 */
-	public void setUndoEnabled(boolean b) {
-		undoEnabled = b;
 	}
 
 	/*
@@ -2985,9 +2969,6 @@ public class Construction {
 	 * @see UndoManager#storeUndoInfo()
 	 */
 	public void storeUndoInfo() {
-		if (!isUndoEnabled()) {
-			return;
-		}
 		undoManager.storeUndoInfo();
 	}
 

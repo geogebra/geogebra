@@ -148,4 +148,11 @@ public final class DrawText3D extends Drawable3DCurves {
 		}
 	}
 
+	@Override
+	public boolean isVisible() {
+		if  (getGeoElement().isLabelSet() && createdByDrawList()) {
+			return false;
+		}
+		return super.isVisible();
+	}
 }

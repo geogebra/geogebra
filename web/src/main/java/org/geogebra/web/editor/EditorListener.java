@@ -1,5 +1,8 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.gwtutil.ExceptionUnwrapper;
+import org.gwtproject.user.client.ui.Widget;
+
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -21,7 +24,7 @@ public class EditorListener implements MathFieldListener {
 
 	@Override
 	public void onKeyTyped(String key) {
-		mathField.scrollParentHorizontally(mathField.asWidget().getParent());
+		scrollOnDemand();
 		JsPropertyMap<Object> event = JsPropertyMap.of();
 		event.set("0", "editorKeyTyped");
 		event.set("type", "editorKeyTyped");
@@ -30,9 +33,26 @@ public class EditorListener implements MathFieldListener {
 		notifyListeners(event);
 	}
 
+	/**
+	 * notify listeners about keyboard opening/closing
+	 * @param show - true if keyboard shown
+	 */
+	public void notifyKeyboardVisibilityChange(boolean show) {
+		JsPropertyMap<Object> event = JsPropertyMap.of();
+		String type = show ? "openKeyboard" : "closeKeyboard";
+		event.set("0", type);
+		event.set("type", type);
+		notifyListeners(event);
+	}
+
+	private void scrollOnDemand() {
+		Widget parent = mathField.asWidget().getParent();
+		mathField.scrollParentHorizontally(parent);
+	}
+
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-		mathField.scrollParentHorizontally(mathField.asWidget().getParent());
+		scrollOnDemand();
 		return false;
 	}
 
@@ -56,7 +76,14 @@ public class EditorListener implements MathFieldListener {
 	}
 
 	private void notifyListeners(Object o) {
-		listeners.forEach((fn, index, ignore) -> fn.call(DomGlobal.window, o));
+		listeners.forEach((fn, index, ignore) -> {
+			try {
+				fn.call(DomGlobal.window, o);
+			} catch (Exception e) {
+				ExceptionUnwrapper.printErrorMessage(e);
+			}
+			return null;
+		});
 	}
 
 	public void setMathField(MathFieldW mf) {

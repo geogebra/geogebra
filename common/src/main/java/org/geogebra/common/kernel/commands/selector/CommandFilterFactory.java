@@ -84,7 +84,8 @@ public final class CommandFilterFactory {
 				Commands.Envelope, Commands.Ends,
 				Commands.FirstAxisLength, Commands.SecondAxisLength,
 				Commands.FirstAxis, Commands.Height, Commands.InteriorAngles,
-				Commands.InverseBinomial, Commands.InverseCauchy, Commands.InverseChiSquared,
+				Commands.InverseBinomial, Commands.InverseBinomialMinimumTrials,
+				Commands.InverseCauchy, Commands.InverseChiSquared,
 				Commands.InverseExponential, Commands.InverseFDistribution,
 				Commands.InverseGamma, Commands.InverseHyperGeometric,
 				Commands.InverseLaplace, Commands.InverseLogistic, Commands.InverseLogNormal,
@@ -147,7 +148,9 @@ public final class CommandFilterFactory {
 				Commands.NextPrime, Commands.PreviousPrime, Commands.Solve,
 				Commands.Solutions, Commands.NSolutions, Commands.NSolve,
 				Commands.IntegralSymbolic, Commands.RemovableDiscontinuity,
-				Commands.PlotSolve);
+				Commands.PlotSolve, Commands.ExtendedGCD, Commands.ModularExponent,
+				Commands.CharacteristicPolynomial, Commands.MinimalPolynomial,
+				Commands.LUDecomposition, Commands.QRDecomposition);
 		return commandNameFilter;
 	}
 

@@ -152,7 +152,7 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 	private void showGridPopup() {
 		view = createGridView();
 		view.addClickHandler(this::handleGridClick);
-		popup = new GPopupPanel(true, true, app.getPanel(), app);
+		popup = new GPopupPanel(true, true, app.getAppletFrame(), app);
 		popup.addStyleName("materialPopupPanel");
 		popup.add(view);
 		popup.showRelativeTo(button);

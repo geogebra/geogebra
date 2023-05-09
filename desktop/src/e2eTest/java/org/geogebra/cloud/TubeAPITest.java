@@ -60,7 +60,7 @@ public class TubeAPITest extends Assert {
 		GeoGebraTubeAPID api = getAuthAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 
-		uploadMaterial(api, titles, 0, null);
+		uploadMaterial(api, titles, null, null);
 
 		awaitValidTitlesExact("upload", titles, 1);
 	}
@@ -70,13 +70,13 @@ public class TubeAPITest extends Assert {
 		final GeoGebraTubeAPID api = getAuthAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 
-		uploadMaterial(api, titles, 0, id -> uploadMaterial(api, titles, id, null));
+		uploadMaterial(api, titles, null, id -> uploadMaterial(api, titles, id, null));
 
 		awaitValidTitlesExact("upload", titles, 2);
 	}
 
 	private void uploadMaterial(GeoGebraTubeAPID api,
-			final ArrayList<String> titles, int id, final IdCallback callback) {
+			final ArrayList<String> titles, String id, final IdCallback callback) {
 
 		api.uploadMaterial(id + "", "O",
 				"testfile" + new Date() + Math.random(), circleBase64,
@@ -89,7 +89,7 @@ public class TubeAPITest extends Assert {
 							for (Material m : result) {
 								titles.add(m.getTitle());
 								if (callback != null) {
-									callback.handle(m.getId());
+									callback.handle(m.getSharingKey());
 								}
 							}
 						} else {

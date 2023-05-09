@@ -36,7 +36,8 @@ public class ParameterProperty extends AbstractNumericProperty {
 
 	@Override
 	protected void setNumberValue(GeoNumberValue value) {
-		if (view.isValidParameterChange(value.getDouble(), parameterIndex)) {
+		if (view.getParameters().length > parameterIndex
+				&& view.isValidParameterChange(value.getDouble(), parameterIndex)) {
 			GeoNumberValue[] parameters = view.getParameters();
 			parameters[parameterIndex] = value;
 			view.onParameterUpdate();
@@ -45,7 +46,10 @@ public class ParameterProperty extends AbstractNumericProperty {
 
 	@Override
 	protected NumberValue getNumberValue() {
-		return view.getParameters()[parameterIndex];
+		if (view.getParameters().length > parameterIndex) {
+			return view.getParameters()[parameterIndex];
+		}
+		return parseNumberValue("0");
 	}
 
 	@Override

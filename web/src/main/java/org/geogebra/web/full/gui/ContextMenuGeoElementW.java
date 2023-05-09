@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -864,16 +863,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            coord
 	 */
 	public void showScaled(Element c, int x, int y) {
-		wrappedPopup.showScaled(c, x, y);
-		focusDeferred();
-	}
-
-	/**
-	 * @param p
-	 *            show in p's coord
-	 */
-	public void show(GPoint p) {
-		wrappedPopup.show(p.x, p.y);
+		wrappedPopup.show(c, x, y);
 		focusDeferred();
 	}
 

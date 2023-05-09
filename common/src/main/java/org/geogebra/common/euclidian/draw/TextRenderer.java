@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 
 /**
@@ -36,4 +37,10 @@ public interface TextRenderer {
 	 */
 	GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 							 String labelDescription);
+
+	/**
+	 *
+	 * @return the settings of the renderer.
+	 */
+	TextRendererSettings getSettings();
 }

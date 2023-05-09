@@ -165,11 +165,10 @@ public class SaveControllerW implements SaveController {
 		} else {
 			Material activeMaterial = app.getActiveMaterial();
 			if (activeMaterial == null) {
-				activeMaterial = new Material(0, saveType);
+				activeMaterial = new Material(saveType);
 				app.setActiveMaterial(activeMaterial);
 			} else if (!app.getLoginOperation()
 					.owns(activeMaterial)) {
-				activeMaterial.setId(0);
 				activeMaterial.setSharingKey(null);
 			}
 
@@ -183,7 +182,7 @@ public class SaveControllerW implements SaveController {
 	}
 
 	private void syncIdAndType(Material mat) {
-		getAppW().setTubeId(mat.getSharingKeyOrId());
+		getAppW().setTubeId(mat.getSharingKeySafe());
 		setSaveType(mat.getType());
 	}
 
@@ -202,7 +201,7 @@ public class SaveControllerW implements SaveController {
 		final StringConsumer handler = base64 -> {
 			if (titleChanged && (isWorksheet() || savedAsTemplate())) {
 				Log.debug("SAVE filename changed");
-				getAppW().updateMaterialURL(0, null, null);
+				getAppW().updateMaterialURL(null, null);
 				doUploadToGgt(getAppW().getTubeId(), visibility, base64,
 						newMaterialCB(base64, false),
 						isMultiuser);
@@ -267,12 +266,12 @@ public class SaveControllerW implements SaveController {
 									.getSyncStamp()) {
 								Log.debug("SAVE MULTIPLE" + parseResponse.get(0).getModified() + ":"
 										+ getAppW().getSyncStamp());
-								getAppW().updateMaterialURL(0, null, null);
+								getAppW().updateMaterialURL(null, null);
 								materialCallback = newMaterialCB(base64, true);
 							} else {
 								materialCallback = newMaterialCB(base64, false);
 							}
-							String key = parseResponse.get(0).getSharingKeyOrId();
+							String key = parseResponse.get(0).getSharingKeySafe();
 							doUploadToGgt(key, visibility,
 									base64,
 									materialCallback, isMultiuser);

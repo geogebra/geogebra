@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -22,7 +21,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.web.DrawingFinishedCallback;
-import com.himamis.retex.renderer.web.FactoryProviderGWT;
+import com.himamis.retex.renderer.web.JlmApi;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -71,12 +70,6 @@ public class DrawEquationW extends DrawEquation {
 		g3.maybeNotifyDrawingFinishedCallback(false);
 		return new Dimension(icon.getIconWidth(), icon.getIconHeight());
 
-	}
-
-	private static void ensureJLMFactoryExists() {
-		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderGWT());
-		}
 	}
 
 	/**
@@ -201,7 +194,7 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	@Override
-	public GDimension measureEquation(App app, GeoElement geo0, String text,
+	public GDimension measureEquation(App app, String text,
 			GFont font, boolean serif) {
 		return this.measureEquationJLaTeXMath(app, text, font, serif, null,
 				null);
@@ -209,7 +202,7 @@ public class DrawEquationW extends DrawEquation {
 
 	@Override
 	public void checkFirstCall(App app) {
-		ensureJLMFactoryExists();
+		JlmApi.ensureJLMFactoryExists();
 		DrawEquation.checkFirstCallStatic();
 	}
 

@@ -290,7 +290,7 @@ public class GeoGebraFrameFull
 			showZoomPanel(true);
 			keyboardState = KeyboardState.ANIMATING_OUT;
 			app.persistWidthAndHeight();
-			showKeyboardButton(textField);
+			refreshKeyboardButton(textField);
 			removeKeyboard();
 			keyboardState = KeyboardState.HIDDEN;
 			scrollToInputFieldDeferred();
@@ -449,11 +449,15 @@ public class GeoGebraFrameFull
 			return true;
 		}
 
-		return keyBoardNeeded(show && isKeyboardWantedFromStorage(), textField);
+		return keyBoardNeeded(show, textField);
 	}
 
 	@Override
-	public boolean keyBoardNeeded(boolean show,
+	public void closeKeyboard() {
+		keyBoardNeeded(false, null);
+	}
+
+	private boolean keyBoardNeeded(boolean show,
 			MathKeyboardListener textField) {
 		if (this.keyboardState == KeyboardState.ANIMATING_IN) {
 			return true;
@@ -461,7 +465,6 @@ public class GeoGebraFrameFull
 		if (this.keyboardState == KeyboardState.ANIMATING_OUT) {
 			return false;
 		}
-
 		if (app.isUnbundled() && !app.isWhiteboardActive()
 				&& getGuiManager().getUnbundledToolbar() != null
 				&& !getGuiManager().getUnbundledToolbar().isOpen()
@@ -472,14 +475,18 @@ public class GeoGebraFrameFull
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
-				|| !getKeyboardManager().isKeyboardClosedByUser()
+				|| (!getKeyboardManager().isKeyboardClosedByUser() && isKeyboardWantedFromStorage())
 				|| keyboardNeededForGraphicsTools()) {
 			doShowKeyBoard(show, textField);
-			showKeyboardButton(textField);
+			refreshKeyboardButton(textField);
 			return true;
 		}
-
-		showKeyboardButton(textField);
+		if (show) {
+			getKeyboardManager().setOnScreenKeyboardTextField(textField);
+			showKeyboardButton(true);
+		} else {
+			refreshKeyboardButton(textField);
+		}
 		return false;
 	}
 
@@ -511,7 +518,7 @@ public class GeoGebraFrameFull
 		}
 	}
 
-	private void showKeyboardButton(final MathKeyboardListener textField) {
+	private void refreshKeyboardButton(final MathKeyboardListener textField) {
 		if (appNeedsKeyboard()) {
 			Scheduler.get().scheduleDeferred(() -> showKeyboardButton(isButtonNeeded(textField)));
 		}
@@ -578,13 +585,13 @@ public class GeoGebraFrameFull
 						ensureKeyboardDeferred();
 					});
 				} else {
-					showKeyboardButton(null);
+					refreshKeyboardButton(null);
 					getOnScreenKeyboard(null).showOnFocus();
 					app.adjustScreen(true);
 				}
 			} else if (app != null && appNeedsKeyboard()) {
 				if (!isKeyboardWantedFromStorage()) {
-					showKeyboardButton(null);
+					refreshKeyboardButton(null);
 				} else {
 					showKeyboardButton(true);
 				}

@@ -1,31 +1,33 @@
 package org.geogebra.web.html5.util;
 
-import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.gwtutil.ExceptionUnwrapper;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.core.client.JavaScriptException;
 
-public class SuperDevUncaughtExceptionHandler
-		implements UncaughtExceptionHandler {
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLIFrameElement;
+import jsinterop.base.Js;
+
+public class SuperDevUncaughtExceptionHandler {
 	/**
 	 * Registers handler for UnhandledExceptions that are wrapped by GWT by
 	 * default
 	 */
 	public static void register() {
-		GWT.setUncaughtExceptionHandler(new SuperDevUncaughtExceptionHandler());
-	}
-
-	@Override
-	public void onUncaughtException(Throwable t) {
-		Throwable cause = t;
-		while (cause.getCause() != null) {
-			cause = cause.getCause();
+		HTMLIFrameElement ifr = Js.uncheckedCast(
+				DomGlobal.document.querySelector("iframe#" + GWT.getModuleName()));
+		if (ifr != null) {
+			ifr.contentWindow.addEventListener("error", evt -> {
+				Object javaEx = Js.asPropertyMap(evt).nestedGet("error.__java$exception");
+				if (javaEx instanceof Exception) {
+					Throwable cause = (Exception) javaEx;
+					while (cause.getCause() != null) {
+						cause = cause.getCause();
+					}
+					ExceptionUnwrapper.printErrorMessage(cause);
+					evt.preventDefault();
+				}
+			});
 		}
-		Object nativeCause = cause instanceof JavaScriptException
-				&& ((JavaScriptException) cause).getThrown() != null
-						? ((JavaScriptException) cause).getThrown()
-						: cause;
-		LoggerW.printErrorMessage(nativeCause);
 	}
 }

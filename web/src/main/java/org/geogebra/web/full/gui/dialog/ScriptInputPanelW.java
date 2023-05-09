@@ -15,7 +15,6 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.main.AppWFull;
@@ -46,18 +45,13 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 *
 	 * @param app
 	 *            application
-	 * @param geo
-	 *            element
-	 * @param updateScript
-	 *            whether this is for update script
-	 * @param forceJavaScript
-	 *            whether to only allow JS
+	 * @param model
+	 *            panel model
 	 *
 	 */
-	public ScriptInputPanelW(AppW app, GeoElement geo, boolean updateScript,
-			boolean forceJavaScript) {
+	public ScriptInputPanelW(AppW app, ScriptInputModel model) {
 		this.app = app;
-		model = new ScriptInputModel(app, this, updateScript);
+		this.model = model;
 
 		inputPanel = new FlowPanel();
 		textArea = new ScriptArea(app);
@@ -80,9 +74,8 @@ public class ScriptInputPanelW extends FlowPanel implements
 			languageSelector
 					.addItem(app.getLocalization().getMenu(type.getName()));
 		}
-		model.setGeo(geo);
 
-		if (forceJavaScript) {
+		if (model.isForcedJs()) {
 			languageSelector.setSelectedIndex(1);
 			languageSelector.setEnabled(false);
 		}
@@ -122,19 +115,14 @@ public class ScriptInputPanelW extends FlowPanel implements
 		return inputPanel;
 	}
 
-	private void processInput() {
-		String inputText = textArea.getText();
-		ScriptType type = ScriptType.values()[languageSelector
-				.getSelectedIndex()];
-		model.processInput(inputText, type, obj -> {});
-	}
-
 	/**
 	 * Update script in model
 	 */
 	void applyScript() {
-		processInput();
-		model.setGeo(model.getGeo());
+		String inputText = textArea.getText();
+		ScriptType type = ScriptType.values()[languageSelector
+				.getSelectedIndex()];
+		model.processInput(inputText, type);
 	}
 
 	@Override
@@ -144,28 +132,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 		languageSelector.setVisible(jsEnabled);
 		languageSelector.setSelectedIndex(jsEnabled ? type.ordinal() : 0);
 	}
-
-	/**
-	 * @param button
-	 *            construction element
-	 */
-	public void setGeo(GeoElement button) {
-		model.setGeo(button);
-	}
-
-	/**
-	 * Load global script for editing
-	 */
-	public void setGlobal() {
-		model.setGlobal();
-	}
-
-	/**
-	 * @return button panel
-	 */
-	public FlowPanel getButtonPanel() {
-	    return btPanel;
-    }
 
 	@Override
 	public Object updatePanel(Object[] geos2) {

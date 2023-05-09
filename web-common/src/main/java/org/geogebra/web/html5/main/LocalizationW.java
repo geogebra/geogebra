@@ -10,12 +10,12 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.gwtutil.JavaScriptInjector;
+import org.geogebra.gwtutil.ScriptLoadCallback;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
-import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.MyDictionary;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
@@ -394,7 +394,7 @@ public final class LocalizationW extends Localization {
 				}
 
 			};
-			ResourcesInjector.loadJS(url + "js/properties_keys_" + lang0 + ".js",
+			JavaScriptInjector.loadJS(url + "js/properties_keys_" + lang0 + ".js",
 					scriptCallback);
 		}
 

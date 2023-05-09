@@ -320,8 +320,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * set show all objects
 	 */
 	public void setViewShowAllObject() {
-		boolean keepRatio = app.getConfig().shouldKeepRatioEuclidian();
-		app.setViewShowAllObjects(keepRatio);
+		app.setViewShowAllObjects();
 	}
 
 	private void addAxesRatioItems(RadioButtonMenuBarW menu) {

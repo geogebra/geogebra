@@ -17,6 +17,7 @@ public class Interval {
 	private double low;
 	private double high;
 	private boolean inverted = false;
+	private double precision = PRECISION;
 
 	/**
 	 * Creates a singleton interval [value, value]
@@ -137,7 +138,7 @@ public class Interval {
 		}
 
 		if (o instanceof Interval) {
-			return almostEqual((Interval) o, PRECISION);
+			return almostEqual((Interval) o, precision);
 		}
 		return false;
 
@@ -403,7 +404,7 @@ public class Interval {
 	 * @return if interval is [0].
 	 */
 	public boolean isZero() {
-		return isZeroWithDelta(PRECISION);
+		return isZeroWithDelta(precision);
 	}
 
 	public boolean contains(double value) {
@@ -538,8 +539,8 @@ public class Interval {
 	 * @return if the interval is the unit one.
 	 */
 	public boolean isOne() {
-		return DoubleUtil.isEqual(low, 1, PRECISION)
-				&& DoubleUtil.isEqual(high, 1, PRECISION);
+		return DoubleUtil.isEqual(low, 1, precision)
+				&& DoubleUtil.isEqual(high, 1, precision);
 	}
 
 	/**
@@ -547,8 +548,8 @@ public class Interval {
 	 * @return if the interval is the negative unit one.
 	 */
 	public boolean isMinusOne() {
-		return DoubleUtil.isEqual(low, -1, PRECISION)
-				&& DoubleUtil.isEqual(high, -1, PRECISION);
+		return DoubleUtil.isEqual(low, -1, precision)
+				&& DoubleUtil.isEqual(high, -1, precision);
 	}
 
 	public boolean isFinite() {
@@ -674,7 +675,7 @@ public class Interval {
 	 * @return whether low bound is equal to a specific value.
 	 */
 	public boolean lowEquals(double low) {
-		return DoubleUtil.isEqual(this.low, low, PRECISION);
+		return DoubleUtil.isEqual(this.low, low, precision);
 	}
 
 	/**
@@ -683,7 +684,7 @@ public class Interval {
 	 * @return whether high bound is equal to a specific value.
 	 */
 	public boolean highEquals(double high) {
-		return DoubleUtil.isEqual(this.high, high, PRECISION);
+		return DoubleUtil.isEqual(this.high, high, precision);
 	}
 
 	/**
@@ -691,8 +692,8 @@ public class Interval {
 	 * @return round to zero within the given precision
 	 */
 	public Interval round() {
-		return new Interval(Math.abs(low) < PRECISION ? 0 : low,
-				Math.abs(high) < PRECISION ? 0 : high);
+		return new Interval(Math.abs(low) < precision ? 0 : low,
+				Math.abs(high) < precision ? 0 : high);
 	}
 
 	/**
@@ -726,5 +727,17 @@ public class Interval {
 
 	public double middle() {
 		return low + getLength() / 2;
+	}
+
+	/**
+	 * Set precision to determine zero interval
+	 * @param precision to set.
+	 */
+	public void setPrecision(double precision) {
+		this.precision = precision;
+	}
+
+	public void setDefaultPrecision() {
+		precision = PRECISION;
 	}
 }

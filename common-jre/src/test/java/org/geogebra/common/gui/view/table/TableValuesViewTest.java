@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.table;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -62,7 +63,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	protected void showColumn(GeoElement element) {
-		assertTrue(element instanceof GeoEvaluatable);
+		assertThat(element, instanceOf(GeoEvaluatable.class));
 		view.add(element);
 		view.showColumn((GeoEvaluatable) element);
 	}

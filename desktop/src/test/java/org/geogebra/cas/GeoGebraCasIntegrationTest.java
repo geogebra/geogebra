@@ -30,6 +30,10 @@ import com.himamis.retex.editor.share.util.Unicode;
 @SuppressWarnings("javadoc")
 public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	private static final String GermanSolve = "L\u00f6se";
+	// 100 seconds max per method tested
+	@SuppressWarnings("deprecation")
+	@Rule
+	public Timeout globalTimeout = new Timeout(50000);
 
 	/**
 	 * Executes the given expression in the CAS.
@@ -145,11 +149,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		Log.debug(newPattern);
 		r(input, newPattern, expectedPattern);
 	}
-
-	// 100 seconds max per method tested
-	@SuppressWarnings("deprecation")
-	@Rule
-	public Timeout globalTimeout = new Timeout(50000);
 
 	// Self Test Section
 	@Test
@@ -2669,7 +2668,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				casResult = kernel.getGeoGebraCAS().getCurrentCAS()
 						.evaluateRaw("normal(sqrt(1+x)*sqrt(1-x)-sqrt(1-x^2))");
 			} catch (Throwable throwable) {
-				throwable.printStackTrace();
+				Log.debug(throwable);
 			}
 			Assert.assertEquals("Failed at " + i, "0", casResult);
 		}

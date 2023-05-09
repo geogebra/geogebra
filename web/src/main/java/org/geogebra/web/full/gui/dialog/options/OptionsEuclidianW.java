@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import static org.geogebra.web.full.gui.util.NumberListBox.PI_HALF_STRING;
-
 import java.util.Arrays;
 
 import org.geogebra.common.awt.GColor;
@@ -221,14 +219,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				});
 
 			ncbGridTickX = new ComponentCombobox(app, "", Arrays.asList("1",
-					Unicode.PI_STRING, PI_HALF_STRING));
+					Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 			ncbGridTickX.addChangeHandler(() -> {
 				model.applyGridTicks(ncbGridTickX.getSelectedText(), 0);
 				updateView();
 			});
 	
 			ncbGridTickY = new ComponentCombobox(app, "", Arrays.asList("1",
-					Unicode.PI_STRING, PI_HALF_STRING));
+					Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 			ncbGridTickY.addChangeHandler(() -> {
 					model.applyGridTicks(ncbGridTickY.getSelectedText(), 1);
 					updateView();

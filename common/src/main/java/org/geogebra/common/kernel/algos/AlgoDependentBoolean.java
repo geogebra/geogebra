@@ -53,8 +53,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	 * @param root
 	 *            defining expression
 	 */
-	public AlgoDependentBoolean(Construction cons, ExpressionNode root) {
-		super(cons);
+	public AlgoDependentBoolean(Construction cons, ExpressionNode root, boolean addToConstruction) {
+		super(cons, addToConstruction);
 
 		bool = new GeoBoolean(cons);
 		bool.setDefinition(root);

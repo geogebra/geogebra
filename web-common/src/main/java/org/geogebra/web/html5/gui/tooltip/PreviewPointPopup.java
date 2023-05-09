@@ -18,7 +18,7 @@ import org.gwtproject.user.client.ui.Label;
  */
 public class PreviewPointPopup extends GPopupPanel {
 
-	private FlowPanel content;
+	private final FlowPanel content;
 
 	/**
 	 * @param appW
@@ -27,7 +27,7 @@ public class PreviewPointPopup extends GPopupPanel {
 	 *            list of preview points
 	 */
 	public PreviewPointPopup(AppW appW, ArrayList<GeoElement> previewPoints) {
-		super(appW.getPanel(), appW);
+		super(appW.getAppletFrame(), appW);
 		this.app = appW;
 		content = new FlowPanel();
 		this.addStyleName("previewPointsPopup");

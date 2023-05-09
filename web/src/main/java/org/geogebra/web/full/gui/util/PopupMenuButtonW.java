@@ -139,7 +139,7 @@ public class PopupMenuButtonW extends StandardButton
 	 * creates a new {@link ButtonPopupMenu}
 	 */
 	private void createPopup() {
-		myPopup = new ButtonPopupMenu(app.getPanel(), app) {
+		myPopup = new ButtonPopupMenu(app.getAppletFrame(), app) {
 			@Override
 			public void setVisible(boolean visible) {
 				super.setVisible(visible);

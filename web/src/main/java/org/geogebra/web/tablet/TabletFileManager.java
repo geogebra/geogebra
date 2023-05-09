@@ -104,7 +104,7 @@ public class TabletFileManager extends FileManagerT {
 										.toMaterial(new JSONObject(data));
 
 								if (mat == null) {
-									mat = new Material(0, MaterialType.ggb);
+									mat = new Material(MaterialType.ggb);
 									mat.setTitle(getTitleFromKey(name));
 								}
 

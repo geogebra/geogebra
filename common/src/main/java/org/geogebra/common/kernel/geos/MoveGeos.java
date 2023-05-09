@@ -131,7 +131,7 @@ public class MoveGeos {
 		if (geo1.isMoveable()) {
 			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition,
 					view);
-		} else if (geo1.isGeoList()) {
+		} else if (geo1.isGeoList() && !geo1.isLocked() && !geo1.isRandomGeo()) {
 			((GeoList) geo1).elements().forEach(el -> moveMoveableGeo(el, rwTransVec, null,
 					view));
 			moveObjectsUpdateList.add(geo1);
@@ -159,8 +159,7 @@ public class MoveGeos {
 	private static boolean moveTranslateOutput(GeoElement geo1, Coords rwTransVec,
 			Coords endPosition, ArrayList<GeoElement> updateGeos) {
 		AlgoElement algo = geo1.getParentAlgorithm();
-		GeoElement[] input = algo.getInput();
-		GeoElement in = input[1];
+		GeoElement in = algo.getInput(1).toGeoElement();
 		boolean movedGeo = false;
 		if (in.isGeoVector()) {
 			ArrayList<GeoElement> tempMoveObjectList = geo1.kernel
@@ -171,18 +170,36 @@ public class MoveGeos {
 				movedGeo = ((GeoVectorND) in).moveVector(rwTransVec, endPosition);
 				GeoElement.addParentToUpdateList(in, updateGeos,
 						tempMoveObjectList);
-			} else if (in.getParentAlgorithm() instanceof AlgoVectorPoint) {
-				AlgoVectorPoint algoVector = (AlgoVectorPoint) in
-						.getParentAlgorithm();
-				GeoElement p = (GeoElement) algoVector.getP();
-				if (p.isIndependent()) {
-					movedGeo = ((GeoPointND) p).movePoint(rwTransVec, endPosition);
-					GeoElement.addParentToUpdateList(p, updateGeos,
+			} else {
+				GeoPointND p = getMovablePointForVector(in);
+				if (p != null) {
+					movedGeo = p.movePoint(rwTransVec, endPosition);
+					GeoElement.addParentToUpdateList(p.toGeoElement(), updateGeos,
 							tempMoveObjectList);
 				}
 			}
 		}
 		return movedGeo;
+	}
+
+	/**
+	 * Unwraps Vector(pt) to pt, checks that pt is independent.
+	 * @param vec vector value, should be a vector or a point
+	 * @return movable parent point or null
+	 */
+	public static GeoPointND getMovablePointForVector(GeoElementND vec) {
+		if (vec.getParentAlgorithm() instanceof AlgoVectorPoint) {
+			AlgoVectorPoint algoVector = (AlgoVectorPoint) vec
+					.getParentAlgorithm();
+			GeoPointND p = algoVector.getP();
+			if (p.isIndependent()) {
+				return p;
+			}
+		}
+		if (vec instanceof GeoPointND && vec.isIndependent()) {
+			return (GeoPointND) vec;
+		}
+		return null;
 	}
 
 	private static boolean moveMoveableGeo(GeoElement geo1, final Coords rwTransVec,

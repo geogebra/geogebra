@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.cas;
 
 import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assume.assumeFalse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,6 +127,7 @@ public abstract class CasTestJsonCommon {
 					&& !"Binomial.2".equals(key)
 					&& !"CorrectSolution.3".equals(key)
 					&& !"Eliminate.2".equals(key) && !"ExpandOnly.1".equals(key)
+					&& !"ExpSimplify.1".equals(key)
 					&& !"GroebnerDegRevLex.1".equals(key)
 					&& !"GroebnerDegRevLex.2".equals(key)
 					&& !"GroebnerLex.1".equals(key)
@@ -292,6 +294,20 @@ public abstract class CasTestJsonCommon {
 	 * @param category category name
 	 */
 	protected abstract void testCatNoClang(String category);
+
+	protected void testCatNoArm(String category) {
+		if (!"aarch64".equals(System.getProperty("os.arch"))) {
+			testCat(category);
+		} else {
+			testcases.remove(category);
+			assumeFalse(true); // mark test as skipped
+		}
+	}
+
+	@Test
+	public void testIntegralNoArm() {
+		testCatNoArm("IntegralNoArm");
+	}
 
 	@Test
 	public void testAssume() {
@@ -1443,5 +1459,35 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testQuartile3() {
 		testCat("Q3.1");
+	}
+
+	@Test
+	public void testExtendedGCD2() {
+		testCat("ExtendedGCD.2");
+	}
+
+	@Test
+	public void testModularExponent3() {
+		testCat("ModularExponent.3");
+	}
+
+	@Test
+	public void testCharacteristicPolynomial() {
+		testCat("CharacteristicPolynomial.1");
+	}
+
+	@Test
+	public void testMinimalPolynomial() {
+		testCat("MinimalPolynomial.1");
+	}
+
+	@Test
+	public void testLUDecomposition() {
+		testCat("LUDecomposition.1");
+	}
+
+	@Test
+	public void testQRDecomposition() {
+		testCat("QRDecomposition.1");
 	}
 }

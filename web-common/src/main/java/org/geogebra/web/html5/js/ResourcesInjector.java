@@ -3,7 +3,6 @@ package org.geogebra.web.html5.js;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
@@ -69,27 +68,6 @@ public class ResourcesInjector {
 		for (int i = 0; i < scripts.getLength(); i++) {
 			scripts.getAt(i).remove();
 		}
-	}
-
-	private static void addLoadHandler(Element el, ScriptLoadCallback handler) {
-		el.addEventListener("load", (evt) -> handler.onLoad());
-		el.addEventListener("error", (evt) -> handler.onError());
-	}
-
-	/**
-	 * @param url
-	 *            script url
-	 * @param handler
-	 *            if script loaded, calls the callback that implements interface
-	 *            ScriptLoadHandler
-	 */
-	public static void loadJS(String url, ScriptLoadCallback handler) {
-		Element script = DomGlobal.document.createElement("script");
-		script.setAttribute("src", url);
-		if (handler != null) {
-			addLoadHandler(script, handler);
-		}
-		DomGlobal.document.body.appendChild(script);
 	}
 
 	/**

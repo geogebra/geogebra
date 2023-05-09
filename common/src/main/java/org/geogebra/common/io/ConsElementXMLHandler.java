@@ -88,6 +88,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
@@ -289,19 +290,22 @@ public class ConsElementXMLHandler {
 	private boolean handleScript(LinkedHashMap<String, String> attrs,
 			ScriptType type) {
 		try {
-			String text = attrs.get("val");
-			if (text != null && text.length() > 0) {
-				Script script = app.createScript(type, text, false);
-				geo.setClickScript(script);
-			}
-			text = attrs.get("onUpdate");
-			if (text != null && text.length() > 0) {
-				Script script = app.createScript(type, text, false);
-				geo.setUpdateScript(script);
-			}
+			handleScript(attrs, type, "val", EventType.CLICK);
+			handleScript(attrs, type, "onUpdate", EventType.UPDATE);
+			handleScript(attrs, type, "onDragEnd", EventType.DRAG_END);
+			handleScript(attrs, type, "onChange", EventType.EDITOR_KEY_TYPED);
 			return true;
 		} catch (RuntimeException e) {
 			return false;
+		}
+	}
+
+	private void handleScript(LinkedHashMap<String, String> attrs, ScriptType type,
+			String attrName, EventType evtType) {
+		String text = attrs.get(attrName);
+		if (text != null && text.length() > 0) {
+			Script script = app.createScript(type, text, false);
+			geo.setScript(script, evtType);
 		}
 	}
 
@@ -834,6 +838,9 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAbsoluteScreenLocation(
 			LinkedHashMap<String, String> attrs, boolean absolute) {
+		if (geo.isDefaultGeo()) {
+			return false;
+		}
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
 			Log.error("wrong element type for <absoluteScreenLocation>: "
 					+ geo.getClass());
