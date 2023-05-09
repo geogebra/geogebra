@@ -342,16 +342,7 @@ public abstract class Renderer {
 
 		rendererImpl.useShaderProgram();
 
-		// clip planes
-		if (waitForUpdateClipPlanes) {
-			// Application.debug(enableClipPlanes);
-			if (enableClipPlanes) {
-				rendererImpl.enableClipPlanes();
-			} else {
-				rendererImpl.disableClipPlanes();
-			}
-			waitForUpdateClipPlanes = false;
-		}
+		maybeEnableOrDisableClipPlanes();
 
 		// update 3D controller
 		((EuclidianController3D) view3D.getEuclidianController()).update();
@@ -416,6 +407,18 @@ public abstract class Renderer {
 		rendererImpl.setColorMask(ColorMask.ALL);
 
         endOfDrawScene();
+	}
+
+	protected void maybeEnableOrDisableClipPlanes() {
+		if (waitForUpdateClipPlanes) {
+			// Application.debug(enableClipPlanes);
+			if (enableClipPlanes) {
+				rendererImpl.enableClipPlanes();
+			} else {
+				rendererImpl.disableClipPlanes();
+			}
+			waitForUpdateClipPlanes = false;
+		}
 	}
 
 	/**
@@ -791,7 +794,7 @@ public abstract class Renderer {
 		rendererImpl.enableLighting();
 	}
 
-	private void draw() {
+	protected void draw() {
 		rendererImpl.draw();
 		drawLabels();
 		setMatrixAndLight();
