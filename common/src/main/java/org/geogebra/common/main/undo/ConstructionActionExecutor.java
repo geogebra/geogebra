@@ -1,5 +1,7 @@
 package org.geogebra.common.main.undo;
 
+import static org.geogebra.common.euclidian.StrokeSplitHelper.DEL;
+
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -27,13 +29,18 @@ public class ConstructionActionExecutor
 				evalXML(arg);
 			}
 			app.getActiveEuclidianView().invalidateDrawableList();
-		} else if (action == ActionType.UPDATE) {
+		} else if (action == ActionType.UPDATE || action == ActionType.MERGE_STROKE
+					|| action == ActionType.SPLIT_STROKE) {
 			for (String arg: args) {
 				if (arg.charAt(0) == '<') {
 					evalXML(arg);
-				} else {
+				} else if (arg.startsWith(DEL)) {
+					app.getKernel().lookupLabel(arg.substring(DEL.length())).remove();
+				}
+				else {
 					app.getGgbApi().evalCommand(arg);
 				}
+				app.getActiveEuclidianView().invalidateDrawableList();
 			}
 		} else if (action == ActionType.SET_CONTENT) {
 			GeoElement geo = app.getKernel().lookupLabel(args[0]);

@@ -12,6 +12,7 @@ import com.google.j2objc.annotations.Weak;
 
 public class UpdateActionStore {
 	private final List<UndoItem> undoItems = new ArrayList<>();
+
 	@Weak
 	protected final SelectionManager selection;
 	private final UndoManager undoManager;
@@ -77,6 +78,14 @@ public class UpdateActionStore {
 		if (!undoItems.isEmpty()) {
 			storeUpdateAction();
 		}
+		return undoItems.isEmpty();
+	}
+
+	/**
+	 * Store undo
+	 * @return if there is items in undo list.
+	 */
+	public boolean isEmpty() {
 		return undoItems.isEmpty();
 	}
 }
