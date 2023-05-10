@@ -698,8 +698,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& right instanceof ExpressionNode
 				&& !((ExpressionNode) right).containsFunctionVariable()
 				&& ((ExpressionNode) right).isProperFraction() && right.evaluateDouble() >= 0
-				&& (left instanceof ExpressionNode
-				? !((ExpressionNode) left).containsFunctionVariable() : true);
+				&& (!(left instanceof ExpressionNode)
+				|| !((ExpressionNode) left).containsFunctionVariable());
 	}
 
 	/**
