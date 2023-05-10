@@ -6704,8 +6704,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoPointND movablePointForVector = MoveGeos.getMovablePointForVector(vec);
 			if (movablePointForVector != null) {
 				moveMode = MOVE_POINT_WITH_OFFSET;
-				transformCoordsOffset[0] = xRW - ((GeoPointND) vec).getInhomX();
-				transformCoordsOffset[1] = yRW - ((GeoPointND) vec).getInhomY();
+				transformCoordsOffset[0] = xRW - movablePointForVector.getInhomX();
+				transformCoordsOffset[1] = yRW - movablePointForVector.getInhomY();
 				movedGeoPoint = movablePointForVector;
 				return;
 			}
