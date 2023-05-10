@@ -1003,4 +1003,14 @@ public class MathFieldInternal
 		onPointerUp(x, y);
 		selectCurrentEntry();
 	}
+
+	/**
+	 *
+	 * @return if no suggestion should happen.
+	 */
+	public boolean isSuggestionPrevented() {
+		return editorState.isInsideQuotes()
+				|| editorState.isInScript();
+
+	}
 }

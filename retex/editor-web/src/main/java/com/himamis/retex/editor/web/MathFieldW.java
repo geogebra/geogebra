@@ -56,7 +56,6 @@ import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.controller.CursorController;
-import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
@@ -1263,12 +1262,5 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		setMinHeight(settings.getMinHeight());
 		setRightMargin(settings.getRightMargin());
 		setBottomOffset(settings.getBottomOffset());
-	}
-
-	public boolean isSuggestionPrevented() {
-		EditorState editorState = mathFieldInternal.getEditorState();
-		return editorState.isInsideQuotes()
-				|| editorState.isInScript();
-
 	}
 }

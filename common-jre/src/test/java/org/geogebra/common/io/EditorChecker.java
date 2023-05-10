@@ -1,6 +1,8 @@
 package org.geogebra.common.io;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -249,5 +251,13 @@ class EditorChecker {
 	public EditorChecker click(int x, int y) {
 		mathField.getInternal().onPointerUp(x, y);
 		return this;
+	}
+
+	public void checkCursorInScript() {
+		assertTrue(mathField.getInternal().getEditorState().isInScript());
+	}
+
+	public void checkCursorInNoScript() {
+		assertFalse(mathField.getInternal().getEditorState().isInScript());
 	}
 }
