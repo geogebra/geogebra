@@ -110,11 +110,11 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			if (isNegative) {
 				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
 			}
-			stringBuilder.append("\u2064((");
+			stringBuilder.append("\u2064(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append(")))");
+			stringBuilder.append("))");
 			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
@@ -316,16 +316,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	private boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
 		//Check if a valid mixed number can be created (e.g.: no 'x')
 		if (!isValidMixedNumber(mathFunction)) {
-			removeInvisiblePlus(mathFunction);
 			return false;
 		}
-		//Check if there is an invisible plus preceeding the fraction or not
-		for (int i = 0; i < mathFunction.getArgument(0).getArgumentCount(); i++) {
-			if (mathFunction.getArgument(0).getArgument(i).toString().equals("\u2064")) {
-				buildMixedNumberByOperator(stringBuilder, mathFunction);
-				return true;
-			}
-		}
+
 		//Check if there is an integer preceeding the fraction or not
 		if (isMixedNumber(stringBuilder) < 0) {
 			return false;
@@ -334,47 +327,24 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		if (stringBuilder.charAt(stringBuilder.length() - 1) != '\u2064') {
 			stringBuilder.append("\u2064");
 		}
-		stringBuilder.append("((");
+		stringBuilder.append("(");
 		serialize(mathFunction.getArgument(0), stringBuilder);
 		stringBuilder.append(")/(");
 		serialize(mathFunction.getArgument(1), stringBuilder);
-		stringBuilder.append(")))");
+		stringBuilder.append("))");
 		return true;
 	}
 
 	/**
-	 * Gets called when the mixed number is created by spotting an invisible plus preceeding the
-	 * whole number
+	 * Checks if the stringBuilder contains a mixed number e.g. 3 1/2
 	 * @param stringBuilder StringBuilder
-	 * @param mathFunction MathFunction
-	 */
-	private void buildMixedNumberByOperator(StringBuilder stringBuilder,
-			MathFunction mathFunction) {
-		stringBuilder.append("(");
-		int i = 0;
-		while (!mathFunction.getArgument(0).getArgument(i).toString().equals("\u2064")) {
-			stringBuilder.append(mathFunction.getArgument(0).getArgument(i));
-			i++;
-		}
-		stringBuilder.append("\u2064((");
-		for (int j = i + 1; j < mathFunction.getArgument(0).getArgumentCount(); j++) {
-			stringBuilder.append(mathFunction.getArgument(0).getArgument(j));
-		}
-		stringBuilder.append(")/(");
-		serialize(mathFunction.getArgument(1), stringBuilder);
-		stringBuilder.append(")))");
-	}
-
-	/**
-	 * @return Index ( >= 0 ) of where to put an opening parentheses when there is a mixed number in the stringBuilder <br>
-	 * -1 If there is no mixed number <br>
-	 * Parentheses needed so e.g. 5 1/2 * 3 does not do the multiplication with 3 first <br>
+	 * @return Index >= 0 of where to put opening parentheses if there is a mixed number, -1 else
 	 */
 	private int isMixedNumber(StringBuilder stringBuilder) {
 		boolean isMixedNumber = false;
 		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
 			if (" \u2064".contains(Character.toString(stringBuilder.charAt(i)))
-					&& !isMixedNumber) { //Expecting invisible plus or space preceeding the integer
+					&& !isMixedNumber) { //Expecting invisible plus or space preceding the fraction
 				continue;
 			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
 				isMixedNumber = true;
@@ -407,20 +377,5 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * User entered an invisible plus but no valid mixed number can be created
-	 * - remove invisible plus and create multiplication instead
-	 * @param mathFunction MathFunction
-	 */
-	private void removeInvisiblePlus(MathFunction mathFunction) {
-		for (int i = 0; i < mathFunction.size(); i++) {
-			for (int j = 0; j < mathFunction.getArgument(i).size(); j++) {
-				if (mathFunction.getArgument(i).getArgument(j).toString().equals("\u2064")) {
-					mathFunction.getArgument(i).delArgument(j);
-				}
-			}
-		}
 	}
 }

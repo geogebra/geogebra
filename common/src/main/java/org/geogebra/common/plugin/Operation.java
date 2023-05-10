@@ -430,14 +430,6 @@ public enum Operation {
 
 		}
 	},
-	INVISIBLE_PLUS {
-		@Override
-		public ExpressionValue handle(ExpressionNodeEvaluator ev,
-				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleInvisiblePlus(lt, rt, left, right);
-		}
-	},
 	MINUS {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -542,7 +534,14 @@ public enum Operation {
 			return ev.handleDivide(lt, rt, left, right);
 		}
 	},
-
+	INVISIBLE_PLUS {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			return ev.handleInvisiblePlus(lt, rt, left, right);
+		}
+	},
 	POWER {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,

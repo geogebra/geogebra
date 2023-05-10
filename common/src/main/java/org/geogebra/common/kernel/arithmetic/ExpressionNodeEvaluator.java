@@ -674,26 +674,32 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleInvisiblePlus(ExpressionValue lt, ExpressionValue rt,
 			ExpressionValue left, ExpressionValue right) {
-		//Check if left argument is a whole number and no function variable
-		if (lt instanceof NumberValue && ((NumberValue) lt).getNumber().evaluateDouble() % 1 == 0
-				&& !(lt instanceof FunctionVariable) && rt instanceof NumberValue) {
-
-			//Check if right argument contains no function variables and is a proper fraction
-			if (right instanceof ExpressionNode
-					&& (((ExpressionNode) right).containsFunctionVariable()
-					|| !((ExpressionNode) right).isProperFraction()
-					|| right.evaluateDouble() < 0)
-					|| left instanceof ExpressionNode
-					&& ((ExpressionNode) left).containsFunctionVariable()) {
-				throw new MyError(loc, Errors.IllegalAddition, lt, "\u2064", rt);
-			}
-
-			MyDouble num = ((NumberValue) lt).getNumber();
-			MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
-			return num;
-		} else {
+		// Basic checks, throw an error if any of them fails
+		if (!canHandleInvisiblePlus(lt, rt, left, right)) {
 			throw new MyError(loc, Errors.IllegalAddition, lt, "\u2064", rt);
 		}
+		MyDouble num = ((NumberValue) lt).getNumber();
+		MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
+		return num;
+	}
+
+	/**
+	 * Checks if the mixed number can actually be handled
+	 * @param lt Left argument (evaluated)
+	 * @param rt Right argument (evaluated)
+	 * @param left Left argument before evaluation
+	 * @param right Right argument before evaluation
+	 * @return True if all requirements to form a mixed number are met, false else
+	 */
+	private boolean canHandleInvisiblePlus(ExpressionValue lt, ExpressionValue rt,
+			ExpressionValue left, ExpressionValue right) {
+		return lt instanceof NumberValue && ((NumberValue) lt).getNumber().evaluateDouble() % 1 == 0
+				&& !(lt instanceof FunctionVariable) && rt instanceof NumberValue
+				&& right instanceof ExpressionNode
+				&& !((ExpressionNode) right).containsFunctionVariable()
+				&& ((ExpressionNode) right).isProperFraction() && right.evaluateDouble() >= 0
+				&& (left instanceof ExpressionNode
+				? !((ExpressionNode) left).containsFunctionVariable() : true);
 	}
 
 	/**

@@ -290,11 +290,11 @@ public class ParserTest {
 	public void shouldKeepPriorityTwoBinary() {
 		Kernel kernel = app.getKernel();
 		for (Operation top : Operation.values()) {
-			if (!binary(top)) {
+			if (!binary(top) || top == Operation.INVISIBLE_PLUS) {
 				continue;
 			}
 			for (Operation bottom : Operation.values()) {
-				if (!binary(bottom)) {
+				if (!binary(bottom) || bottom == Operation.INVISIBLE_PLUS) {
 					continue;
 				}
 
@@ -439,9 +439,7 @@ public class ParserTest {
 			if ("SQRT_SHORT,SQRT".equals(combo) || "PLUS,MINUS".equals(combo)
 					|| "PLUS,PLUSMINUS".equals(combo)
 					|| "DIVIDE,MULTIPLY".equals(combo)
-					|| "VECTORPRODUCT,MULTIPLY".equals(combo)
-					|| "PLUS,INVISIBLE_PLUS".equals(combo)
-					|| left.getOperation() == Operation.INVISIBLE_PLUS) {
+					|| "VECTORPRODUCT,MULTIPLY".equals(combo)) {
 				return;
 			}
 			Log.debug(str);
