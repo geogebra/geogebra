@@ -33,7 +33,7 @@ public class EventDispatcher implements ClientView {
 
 	@Weak
 	private App app;
-	private ArrayList<EventListener> listeners = new ArrayList<>();
+	private final ArrayList<EventListener> listeners = new ArrayList<>();
 	protected boolean listenersEnabled = true;
 
 	/**
@@ -114,7 +114,7 @@ public class EventDispatcher implements ClientView {
 	 *            an extra argument
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo, String arg) {
-		if (!geo.isLabelSet()) {
+		if (shouldNotDispatchFor(geo)) {
 			return;
 		}
 		dispatchEvent(new Event(evtType, geo, arg));
@@ -129,10 +129,14 @@ public class EventDispatcher implements ClientView {
 	 *            the target of the event
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo) {
-		if ((null != geo) && !geo.isLabelSet() && !geo.isGeoCasCell()) {
+		if ((null != geo) && shouldNotDispatchFor(geo)) {
 			return;
 		}
 		dispatchEvent(new Event(evtType, geo));
+	}
+
+	private boolean shouldNotDispatchFor(GeoElement geo) {
+		return !geo.isLabelSet() && !geo.isGeoCasCell() || geo.isSpotlight();
 	}
 
 	/**
