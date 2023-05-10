@@ -132,6 +132,8 @@ $purple-default: #6557D2;
 
 	.KeyPanelRow {
 		margin: 0 auto;
+		display: flex;
+		justify-content: center;
 	}
 
 	.KeyBoard .KeyBoardButton {
@@ -387,7 +389,7 @@ $purple-default: #6557D2;
 		margin-bottom: 5px;
 
 		.switcherContents {
-			width: $tab123-width;
+			max-width: $tab123-width;
 			margin-left: auto;
 			margin-right: auto;
 			white-space: nowrap;

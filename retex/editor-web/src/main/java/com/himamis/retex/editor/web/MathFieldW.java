@@ -233,7 +233,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setAriaLabel(String label) {
 		Element target = getElementForAriaLabel();
 		if (target != null) {
-			expressionReader.debug(label);
+			if (expressionReader != null) {
+				expressionReader.debug(label);
+			}
 			target.setAttribute("aria-label", label);
 		}
 	}

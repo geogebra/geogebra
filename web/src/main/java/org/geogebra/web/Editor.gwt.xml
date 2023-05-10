@@ -36,4 +36,5 @@
     <set-property name="gwt.logging.enabled" value="FALSE"/>
     <set-configuration-property name="js.identifier.blacklist" value="Ink" />
     <set-configuration-property name="org.gwtproject.safecss.ForceCheckValidStyles" value="false"/>
+    <inherits name='org.geogebra.web.AppCacheLinker' />
 </module>

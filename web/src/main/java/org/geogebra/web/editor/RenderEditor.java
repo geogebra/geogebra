@@ -52,6 +52,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 
 		mathField.setPixelRatio(DomGlobal.window.devicePixelRatio);
 		mathField.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
+		mathField.setAriaLabel("Enter your equation or expression here");
 		RootPanel editorPanel = newRoot(el);
 
 		editorPanel.add(wrapper);
