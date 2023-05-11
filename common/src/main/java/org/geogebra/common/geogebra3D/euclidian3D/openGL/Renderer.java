@@ -342,7 +342,7 @@ public abstract class Renderer {
 
 		rendererImpl.useShaderProgram();
 
-		maybeEnableOrDisableClipPlanes();
+		maybeUpdateClipPlanes();
 
 		// update 3D controller
 		((EuclidianController3D) view3D.getEuclidianController()).update();
@@ -409,7 +409,7 @@ public abstract class Renderer {
         endOfDrawScene();
 	}
 
-	protected void maybeEnableOrDisableClipPlanes() {
+	protected void maybeUpdateClipPlanes() {
 		if (waitForUpdateClipPlanes) {
 			// Application.debug(enableClipPlanes);
 			if (enableClipPlanes) {
