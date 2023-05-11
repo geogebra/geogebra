@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.commands.selector;
 
-import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 
@@ -78,7 +77,6 @@ public final class CommandFilterFactory {
 	 * @return filer for IQB MMS exam
 	 */
 	public static CommandFilter createMmsFilter() {
-
 		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
 		nameFilter.addCommands(Commands.Axes, Commands.Focus,
 				Commands.DelauneyTriangulation, Commands.Difference,
