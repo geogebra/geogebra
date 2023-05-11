@@ -1,6 +1,5 @@
 package org.geogebra.common.jre.undoredo;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -16,9 +15,9 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
-import org.geogebra.common.main.undo.AppState;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -99,9 +98,10 @@ public class StrokeSplittingTest extends BaseControllerTest {
 
 		int undoPoints = getConstruction().getUndoManager().getHistorySize();
 		assertEquals(undoPoints, 6);
-		String s3XMLOriginal = lookup("stroke3").getXML();
+		String s3Original = lookup("stroke3").getDefinition(StringTemplate.testTemplate);;
 		getConstruction().undo(); //undos dragging
-		assertNotEquals(s3XMLOriginal, lookup("stroke3").getXML());
+		String s3Dragged = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
+		assertNotEquals(s3Original, s3Dragged);
 		getConstruction().undo(); //undos split stroke
 		assertEquals(getConstruction().getUndoManager().getHistorySize(), 4);
 		getConstruction().undo();
@@ -125,9 +125,9 @@ public class StrokeSplittingTest extends BaseControllerTest {
 		drawAndSelectStroke();
 		dragStart(250, 100);
 		dragEnd(400, 200);
-		String s2Dragged = lookup("stroke2").getXML();
+		String s2Dragged = lookup("stroke2").getDefinition(StringTemplate.testTemplate);
 		getConstruction().undo();
-		String s2Original = lookup("stroke2").getXML();
+		String s2Original = lookup("stroke2").getDefinition(StringTemplate.testTemplate);
 		assertNotEquals(s2Dragged, s2Original);
 		getConstruction().undo();
 		assertThat(lookup("stroke2"), nullValue());
