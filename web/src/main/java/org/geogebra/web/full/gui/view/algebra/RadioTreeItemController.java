@@ -15,6 +15,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.gui.popup.autocompletion.HasSuggestions;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
@@ -54,6 +55,8 @@ import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
+import com.himamis.retex.editor.share.editor.MathField;
+
 /**
  * Controller class of a AV item.
  * 
@@ -79,6 +82,8 @@ public class RadioTreeItemController implements ClickHandler,
 	/** whether blur listener is disabled */
 	protected boolean preventBlur = false;
 
+	private HasSuggestions hasSuggestions;
+
 	/**
 	 * Creates controller for given item.
 	 * 
@@ -89,6 +94,7 @@ public class RadioTreeItemController implements ClickHandler,
 		this.item = item;
 		this.app = item.app;
 		selectionCtrl = getAV().getSelectionCtrl();
+		hasSuggestions = new HasSuggestions(item.geo);
 		addDomHandlers(item.main);
 	}
 
@@ -665,16 +671,15 @@ public class RadioTreeItemController implements ClickHandler,
 	 *            to set.
 	 */
 	protected void setInputAsText(boolean value) {
-		inputAsText = value;
-		item.setInputAsText(value);
+		hasSuggestions.setForceAsText(value);
+		item.onInputModeChange(value);
 	}
 
 	/**
 	 * @return if input should be treated as text item.
 	 */
 	public boolean isInputAsText() {
-		return inputAsText || (item.geo != null && item.geo.isGeoText()
-				&& !item.geo.isTextCommand());
+		return hasSuggestions.isTextInput();
 	}
 
 	/**
@@ -685,5 +690,14 @@ public class RadioTreeItemController implements ClickHandler,
 	 */
 	public void onEnter(boolean keepFocus, boolean createSliders) {
 		// overridden in subclass
+	}
+
+	/**
+	 *
+	 * @param mf the MathField the suggestion would happen
+	 * @return if suggestion is prevented.
+	 */
+	public boolean isSuggestionPrevented(MathField mf) {
+		return hasSuggestions.isPreventedFor(mf.getInternal().getEditorState());
 	}
 }
