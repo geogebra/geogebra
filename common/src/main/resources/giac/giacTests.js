@@ -1402,6 +1402,8 @@ var __giac = [
 { cat:"Evaluate", cmd:"Evaluate[false || true]", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate[true || false]", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate[true || true]", result:"true" },
+{ cat:"Evaluate", cmd:"Evaluate[\u00ac true]", result:"false" },
+{ cat:"Evaluate", cmd:"Evaluate[\u00acx]", result:"\u00acx" },
 { cat:"Element", cmd:"Element[{{1,2}} {{1,2},{3,4}} {{1},{2}},1,1]", result:"27", notes:"https://www.geogebra.org/forum/viewtopic.php?f=8&t=35157" },
 { cat:"Element", cmd:"Element[{{1,2},{3,4}} {{1},{2}},1,1]", result:"5", notes:"https://www.geogebra.org/forum/viewtopic.php?f=8&t=35157" },
 { cat:"Integral.3", cmd:"Integral[abs(x^2-7x+12),2,5]", result:"11/6" },

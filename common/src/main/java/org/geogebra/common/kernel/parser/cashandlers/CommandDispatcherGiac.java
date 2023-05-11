@@ -127,6 +127,8 @@ public class CommandDispatcherGiac {
 		abs(Operation.ABS),
 		/** erf */
 		erf(Operation.ERF),
+		/** logical negation */
+		not(Operation.NOT),
 		/** symbolic x coord */
 		xcoord(Operation.XCOORD),
 		/** symbolic y coord */
@@ -467,6 +469,7 @@ public class CommandDispatcherGiac {
 			case exp:
 			case erf:
 			case abs:
+			case not:
 			case xcoord:
 			case ycoord:
 			case zcoord:
