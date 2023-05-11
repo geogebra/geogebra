@@ -168,7 +168,9 @@ public class AlgoLocusStroke extends AlgoElement {
 	@Override
 	public boolean setFrom(AlgoElement other) {
 		if (other instanceof AlgoLocusStroke) {
-			poly.set(((AlgoLocusStroke) other).poly);
+			GeoLocusStroke otherStroke = ((AlgoLocusStroke) other).poly;
+			poly.set(otherStroke);
+			poly.updateRepaint();
 			return true;
 		}
 		return false;
