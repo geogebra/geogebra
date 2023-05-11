@@ -78,7 +78,7 @@ public class RadioTreeItemController implements ClickHandler,
 	private boolean markForEdit = false;
 	private long latestTouchEndTime = 0;
 	private int editHeigth;
-	private boolean inputAsText = false;
+
 	/** whether blur listener is disabled */
 	protected boolean preventBlur = false;
 
