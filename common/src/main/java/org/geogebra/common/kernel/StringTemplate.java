@@ -1928,7 +1928,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 											&& (StringUtil.isDigit(firstRight)
 											// 3*E23AB can't be written 3E23AB
 											|| (firstRight == 'E'))
-											|| StringUtil.isDigit(firstRight);
+											|| StringUtil.isDigit(firstRight)
+											|| (right instanceof ExpressionNode
+											&& ((ExpressionNode) right).getOperation()
+												== Operation.DIVIDE);
 							// check if we need a multiplication space:
 							multiplicationSpaceNeeded = showMultiplicationSign;
 							if (!multiplicationSpaceNeeded) {

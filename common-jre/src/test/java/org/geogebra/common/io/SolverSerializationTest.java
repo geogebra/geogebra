@@ -95,6 +95,11 @@ public class SolverSerializationTest {
 		parsesToSolverInput("1/2 + 3\u2064(1)/(2)", "[1/2] + [3 1/2]");
 		parsesToSolverInput("sqrt(x/(2+x))1\u2064(2)/(3)", "sqrt[[x/2+x]][1 2/3]");
 		parsesToSolverInput("sqrt(x/(2+x))*1\u2064(2)/(3)", "sqrt[[x/2+x]]*[1 2/3]");
+		parsesToSolverInput("1/2 + 3 1 / 2", "[1/2] + [3 1/2]");
+		parsesToSolverInput("-3 1 / 2", "-[3 1/2]");
+		parsesToSolverInput("(1)/(3 1 / 2)", "[1/[3 1/2]]");
+		parsesToSolverInput("sqrt(1 2/3)", "sqrt[[1 2/3]]");
+		parsesToSolverInput("1 2 / 3", "[1 2/3]");
 	}
 
 	@Test

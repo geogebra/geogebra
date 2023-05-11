@@ -59,10 +59,10 @@ public class SolverSerializer extends SerializerAdapter {
 			 }
 			 break;
 		case FRAC:
-			serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
-			if (sb.toString().contains("\u2064")) {
-				serializeFractionToMixedNumber(sb);
+			if (buildMixedNumber(sb, function)) {
+				break;
 			}
+			serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
 			break;
 		case MIXED_NUMBER:
 			//1⁤(2)/(3) changes into FnMixedNumber[MathSequence[1],MathSequence[2],MathSequence[3]]
@@ -264,18 +264,23 @@ public class SolverSerializer extends SerializerAdapter {
 		stringBuilder.append(closingBracket);
 	}
 
-	private void serializeFractionToMixedNumber(StringBuilder sb) {
-		boolean openingBracketInserted = false;
-		for (int i = sb.indexOf("\u2064") - 1; i >= 0; i--) {
-			if (sb.charAt(i) < '0' || sb.charAt(i) > '9') {
-				sb.insert(i + 1, openingBracket);
-				openingBracketInserted = true;
-				break;
-			}
+	/**
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
+	 * @return True if a mixed number was built
+	 */
+	@Override
+	public boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
+		//Check if a valid mixed number can be created (e.g.: no 'x')
+		if (isMixedNumber(stringBuilder) < 0 || !isValidMixedNumber(mathFunction)) {
+			return false;
 		}
-		if (!openingBracketInserted) {
-			sb.insert(0, openingBracket);
-		}
-		sb.replace(sb.indexOf("\u2064"), sb.indexOf("\u2064") + 2, " ");
+
+		stringBuilder.insert(isMixedNumber(stringBuilder), openingBracket);
+		serialize(mathFunction.getArgument(0), stringBuilder);
+		stringBuilder.append("/");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append(closingBracket);
+		return true;
 	}
 }
