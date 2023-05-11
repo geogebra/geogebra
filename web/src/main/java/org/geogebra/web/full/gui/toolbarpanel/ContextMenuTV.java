@@ -11,6 +11,8 @@ import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -123,10 +125,13 @@ public class ContextMenuTV {
 		addStats(getStatisticsTitleHTML("x " + headerHTMLName),
 				view::getStatistics2Var, twoVarStat, "StatsDialog.NoDataMsg2VarStats");
 
-		DialogData regressionData = new DialogData("Regression",
-				getColumnTitleHTML(headerHTMLName), "Close", "Plot");
-		addCommand(() -> showRegression(regressionData), "Regression",
-				"regression");
+		CommandDispatcher cmdDisp = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
+		if (cmdDisp != null && cmdDisp.isAllowedByNameFilter(Commands.FitExp)) {
+			DialogData regressionData = new DialogData("Regression",
+					getColumnTitleHTML(headerHTMLName), "Close", "Plot");
+			addCommand(() -> showRegression(regressionData), "Regression",
+					"regression");
+		}
 	}
 
 	private void addOneVarStats(String headerHTMLName) {
