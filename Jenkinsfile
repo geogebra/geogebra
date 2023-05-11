@@ -13,6 +13,7 @@ def getChangelog() {
 }
 
 def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
+
 def isEditor = env.BRANCH_NAME.matches("dev")
 def modules = isEditor ? '-Pgmodule="org.geogebra.web.Web3D,org.geogebra.web.Web3D,org.geogebra.web.Editor"' : ''
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
