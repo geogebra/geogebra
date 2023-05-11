@@ -212,7 +212,8 @@ public class TeXSerializer extends SerializerAdapter {
 
 		case FRAC:
 			if (buildMixedNumber(stringBuilder, function)) {
-				stringBuilder = new StringBuilder(stringBuilder.toString().replace("\\nbsp{}", ""));
+				stringBuilder.setLength(0);
+				stringBuilder.append(stringBuilder.toString().replace("\\nbsp{}", ""));
 				break;
 			}
 			stringBuilder.append("{");
