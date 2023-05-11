@@ -71,7 +71,6 @@ import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.HasDataTest;
-import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
@@ -1632,7 +1631,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		mf = new MathFieldW(new SyntaxAdapterImpl(kernel), latexItem, canvas,
 				getLatexController());
-		TestHarness.setAttr(mf.getInputTextArea(), "avInputTextArea");
+		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());
