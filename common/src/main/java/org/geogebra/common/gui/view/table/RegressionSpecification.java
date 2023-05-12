@@ -43,15 +43,15 @@ public final class RegressionSpecification {
 	public static List<RegressionSpecification> getForListSize(int listSize) {
 		if (specs.isEmpty()) {
 			addSpec(Regression.LINEAR, 1, null, "ba");
-			addSpec(Regression.LOG, 0, "a + b\\cdot \\log(x)", "ab");
-			addSpec(Regression.POW, 0, "a \\cdot x^b", "ab");
+			addSpec(Regression.LOG, 0, "y = a + b\\cdot \\log(x)", "ab");
+			addSpec(Regression.POW, 0, "y = a \\cdot x^b", "ab");
 			addSpec(Regression.POLY, 2, null, "cba");
 			addSpec(Regression.POLY, 3, null, "dcba");
 			addSpec(Regression.POLY, 4, null, "edcba");
-			addSpec(Regression.EXP, 0, "a \\cdot e^{b\\ x}", "ab");
-			addSpec(Regression.GROWTH, 0, "a \\cdot b^x", "ab");
-			addSpec(Regression.SIN, 0, "a \\cdot \\sin(b\\ x + c) + d", "dabc");
-			addSpec(Regression.LOGISTIC, 0, "\\frac{a}{1 + b\\cdot e^{-c\\ x}}", "bca");
+			addSpec(Regression.EXP, 0, "y = a \\cdot e^{b\\ x}", "ab");
+			addSpec(Regression.GROWTH, 0, "y = a \\cdot b^x", "ab");
+			addSpec(Regression.SIN, 0, "y = a \\cdot \\sin(b\\ x + c) + d", "dabc");
+			addSpec(Regression.LOGISTIC, 0, "y = \\frac{a}{1 + b\\cdot e^{-c\\ x}}", "bca");
 		}
 		return specs.stream().filter(spec -> spec.coeffOrdering.length() <= listSize)
 				.collect(Collectors.toList());
@@ -87,6 +87,7 @@ public final class RegressionSpecification {
 	 */
 	private static String getFormula(int degree) {
 		StringBuilder sb = new StringBuilder();
+		sb.append("y = ");
 		char coeffName = 'a';
 		for (int i = degree; i >= 0; i--, coeffName++) {
 			sb.append(coeffName);
