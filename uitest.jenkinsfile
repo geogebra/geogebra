@@ -3,7 +3,7 @@ pipeline {
         overrideIndexTriggers(false)
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
-    agent {label 'Ubuntu'}
+    agent {label 'aws-1'}
     triggers { 
         cron('H 10,19 * * 1-5') 
     }
