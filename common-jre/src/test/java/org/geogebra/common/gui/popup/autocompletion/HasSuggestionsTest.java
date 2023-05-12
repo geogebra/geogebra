@@ -50,6 +50,7 @@ public class HasSuggestionsTest extends BaseUnitTest {
 	private void shouldHaveSuggestions(String text, GeoElement geo) {
 		assertFalse(isSuggestionsPrevented(text, geo)) ;
 	}
+
 	private void shouldPreventSuggestions(String text) {
 		shouldPreventSuggestions(text, null);
 	}
