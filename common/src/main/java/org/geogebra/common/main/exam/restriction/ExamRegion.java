@@ -51,6 +51,7 @@ public enum ExamRegion {
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE);
 			model.setCommandFilter(CommandFilterFactory.createMmsFilter());
+			model.setFeatureRestrictions(FeatureRestriction.DATA_TABLE_REGRESSION);
 		}
 
 		@Override

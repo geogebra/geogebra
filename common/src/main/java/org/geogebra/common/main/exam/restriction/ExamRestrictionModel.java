@@ -13,6 +13,7 @@ public class ExamRestrictionModel {
 	private List<String> subAppCodes = Collections.emptyList();
 	private String defaultAppCode;
 	private CommandFilter commandFilter;
+	private List<FeatureRestriction> featureRestrictions = Collections.emptyList();
 
 	void setSubAppCodes(String... list) {
 		subAppCodes = Arrays.asList(list);
@@ -58,5 +59,22 @@ public class ExamRestrictionModel {
 
 	public void setCommandFilter(CommandFilter graphingCommandFilter) {
 		this.commandFilter = graphingCommandFilter;
+	}
+
+	/**
+	 * UI elements which should be disabled
+	 * @param featureRestrictions - restriction to be added
+	 */
+	public void setFeatureRestrictions(FeatureRestriction... featureRestrictions) {
+		this.featureRestrictions = Arrays.asList(featureRestrictions);
+	}
+
+	/**
+	 * is certain feature restricted
+	 * @param featureRestriction - UI element
+	 * @return true, if UI element should be restricted
+	 */
+	public boolean isFeatureRestricted(FeatureRestriction featureRestriction) {
+		return featureRestrictions.contains(featureRestriction);
 	}
 }

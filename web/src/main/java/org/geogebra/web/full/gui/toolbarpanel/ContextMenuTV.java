@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.exam.restriction.FeatureRestriction;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -34,9 +35,6 @@ import org.gwtproject.user.client.Command;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
- * 
- * @author csilla
- *
  */
 public class ContextMenuTV {
 	private final TableValuesView view;
@@ -123,10 +121,12 @@ public class ContextMenuTV {
 		addStats(getStatisticsTitleHTML("x " + headerHTMLName),
 				view::getStatistics2Var, twoVarStat, "StatsDialog.NoDataMsg2VarStats");
 
-		DialogData regressionData = new DialogData("Regression",
-				getColumnTitleHTML(headerHTMLName), "Close", "Plot");
-		addCommand(() -> showRegression(regressionData), "Regression",
-				"regression");
+		if (!app.doesRestrictionApply(FeatureRestriction.DATA_TABLE_REGRESSION)) {
+			DialogData regressionData = new DialogData("Regression",
+					getColumnTitleHTML(headerHTMLName), "Close", "Plot");
+			addCommand(() -> showRegression(regressionData), "Regression",
+					"regression");
+		}
 	}
 
 	private void addOneVarStats(String headerHTMLName) {

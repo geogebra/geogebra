@@ -104,6 +104,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionFactory;
+import org.geogebra.common.main.exam.restriction.FeatureRestriction;
 import org.geogebra.common.main.exam.restriction.RestrictExam;
 import org.geogebra.common.main.exam.restriction.Restrictable;
 import org.geogebra.common.main.provider.ExamProvider;
@@ -5108,5 +5109,17 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	@Override
 	public MyImage getInternalImageAdapter(String filename, int width, int height) {
 		return null;
+	}
+
+	/**
+	 * should restrict UI feature
+	 * @param featureRestriction - UI element
+	 * @return whether should disable the given UI element
+	 */
+	public boolean doesRestrictionApply(FeatureRestriction featureRestriction) {
+		if (!isExamStarted()) {
+			return false;
+		}
+		return getExam().getRestrictionModel().isFeatureRestricted(featureRestriction);
 	}
 }
