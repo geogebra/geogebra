@@ -28,14 +28,9 @@ public class ShowAllObjectsAction extends AbstractProperty implements Actionable
 	}
 
 	@Override
-	public Runnable getAction() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				boolean keepRatio = appConfig.shouldKeepRatioEuclidian();
-				euclidianView.setViewShowAllObjects(true, keepRatio);
-			}
-		};
+	public void performAction() {
+		boolean keepRatio = appConfig.shouldKeepRatioEuclidian();
+		euclidianView.setViewShowAllObjects(true, keepRatio);
 	}
 
 	@Override

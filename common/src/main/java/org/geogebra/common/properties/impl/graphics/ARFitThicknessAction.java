@@ -23,13 +23,8 @@ public class ARFitThicknessAction extends AbstractProperty implements Actionable
 	}
 
 	@Override
-	public Runnable getAction() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				euclidianView.getRenderer().fitThicknessInAR();
-			}
-		};
+	public void performAction() {
+		euclidianView.getRenderer().fitThicknessInAR();
 	}
 
 	@Override

@@ -23,13 +23,8 @@ public class StandardViewAction extends AbstractProperty implements ActionablePr
 	}
 
 	@Override
-	public Runnable getAction() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				euclidianView.setStandardView(true);
-			}
-		};
+	public void performAction() {
+		euclidianView.setStandardView(true);
 	}
 
 	@Override

@@ -23,13 +23,8 @@ public class RestartARAction extends AbstractProperty implements ActionablePrope
 	}
 
 	@Override
-	public Runnable getAction() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				euclidianView.getRenderer().setARShouldRestart();
-			}
-		};
+	public void performAction() {
+		euclidianView.getRenderer().setARShouldRestart();
 	}
 
 	@Override
