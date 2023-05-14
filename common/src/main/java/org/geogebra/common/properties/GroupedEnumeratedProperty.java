@@ -1,7 +1,7 @@
 package org.geogebra.common.properties;
 
 /**
- * Enumerated property where groups of values might separated by dividers.
+ * Enumerated property where groups of values might be separated by dividers.
  */
 public interface GroupedEnumeratedProperty<V> extends EnumeratedProperty<V> {
 

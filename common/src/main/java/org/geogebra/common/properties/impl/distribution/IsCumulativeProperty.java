@@ -5,8 +5,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
-/** Cumulative property of the distribution view */
-public class CumulativeProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
+/** The cumulative property of the distribution view. */
+public class IsCumulativeProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
 	private final ProbabilityCalculatorView view;
 
@@ -15,7 +15,7 @@ public class CumulativeProperty extends AbstractValuedProperty<Boolean> implemen
 	 * @param localization localization
 	 * @param view probability calculator view
 	 */
-	public CumulativeProperty(Localization localization, ProbabilityCalculatorView view) {
+	public IsCumulativeProperty(Localization localization, ProbabilityCalculatorView view) {
 		super(localization, "Cumulative");
 		this.view = view;
 	}

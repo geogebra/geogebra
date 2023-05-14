@@ -2,7 +2,7 @@ package org.geogebra.common.properties;
 
 /**
  * A property whose value is one of an array of predefined values,
- * similarly to the type enumeration, where the value is one a finite set of possible values.
+ * similarly to an enumeration, where the value is one a finite set of possible values.
  * {@link ValuedProperty#setValue(Object)} will now throw a RuntimeException
  * if the value is not member of the {@link EnumeratedProperty#getValues()} ()}
  * array.
@@ -10,7 +10,7 @@ package org.geogebra.common.properties;
 public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 
 	/**
-	 * Get the array of values of this property.
+	 * Gets the list of possible values for this property.
 	 * When calling {@link EnumeratedProperty#setValue(Object)}
 	 * the value must be one of these values, otherwise it throws a RuntimeException.
 	 * @return predefined values
