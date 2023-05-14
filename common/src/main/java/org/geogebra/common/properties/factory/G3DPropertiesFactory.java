@@ -8,7 +8,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.graphics.ARFitThicknessAction;
 import org.geogebra.common.properties.impl.graphics.ARRatioPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
@@ -20,7 +19,6 @@ import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
-import org.geogebra.common.properties.impl.graphics.RestartARAction;
 
 public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 

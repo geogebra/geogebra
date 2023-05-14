@@ -196,8 +196,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			if (!gridOptions) {
 				return;
 			}
-			NamedEnumeratedProperty<?> gridTypeProperty = new GridStyleProperty(app.getLocalization(),
-					view.getSettings());
+			NamedEnumeratedProperty<?> gridTypeProperty = new GridStyleProperty(
+					app.getLocalization(), view.getSettings());
 			lbGridType = new CompDropDown(app, gridTypeProperty);
 			lblGridType = new FormLabel("").setFor(lbGridType);
 			mainPanel.add(lblGridType);

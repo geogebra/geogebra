@@ -90,8 +90,8 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 
 	private Widget createPropertyCell(Property property) {
 		if (property instanceof NamedEnumeratedProperty) {
-			final NamedEnumeratedProperty<?> enumerableProperty = (NamedEnumeratedProperty<?>) property;
-			final ComponentDropDown selector = new ComponentDropDown(app);
+			NamedEnumeratedProperty<?> enumerableProperty = (NamedEnumeratedProperty<?>) property;
+			ComponentDropDown selector = new ComponentDropDown(app);
 
 			selector.setTitleText(enumerableProperty.getName());
 			selector.setElements(Arrays.asList(enumerableProperty.getValueNames()));

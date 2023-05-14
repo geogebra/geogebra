@@ -6,7 +6,8 @@ import org.geogebra.common.properties.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /** The cumulative property of the distribution view. */
-public class IsCumulativeProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
+public class IsCumulativeProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 
 	private final ProbabilityCalculatorView view;
 

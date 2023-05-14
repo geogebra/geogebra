@@ -5,7 +5,8 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.debug.Log;
 
-public class MaterialVisibilityProperty extends AbstractNamedEnumeratedProperty<MaterialVisibility> {
+public class MaterialVisibilityProperty
+		extends AbstractNamedEnumeratedProperty<MaterialVisibility> {
 	private MaterialVisibility materialVisibility;
 
 	/**

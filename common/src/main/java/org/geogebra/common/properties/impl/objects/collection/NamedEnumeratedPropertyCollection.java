@@ -3,7 +3,8 @@ package org.geogebra.common.properties.impl.objects.collection;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 
 /**
- * Handles a collection of NamedEnumeratedPropertyCollection objects as a single NamedEnumeratedPropertyCollection.
+ * Handles a collection of NamedEnumeratedPropertyCollection objects
+ * as a single NamedEnumeratedPropertyCollection.
  */
 public class NamedEnumeratedPropertyCollection<T extends NamedEnumeratedProperty<V>, V>
 		extends EnumeratedPropertyCollection<T, V> implements NamedEnumeratedProperty<V> {

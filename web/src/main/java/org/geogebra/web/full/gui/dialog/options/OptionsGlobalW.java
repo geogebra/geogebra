@@ -76,7 +76,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addRoundingItem() {
-			NamedEnumeratedProperty<?> roundingProp = new RoundingIndexProperty(app, app.getLocalization());
+			NamedEnumeratedProperty<?> roundingProp =
+					new RoundingIndexProperty(app, app.getLocalization());
 			roundingDropDown = new CompDropDown(app, null, roundingProp);
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
