@@ -15,7 +15,7 @@ import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 import org.geogebra.common.properties.impl.objects.EquationFormProperty;
-import org.geogebra.common.properties.impl.objects.FixObjectProperty;
+import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
 import org.geogebra.common.properties.impl.objects.MaxProperty;
 import org.geogebra.common.properties.impl.objects.MinProperty;
@@ -132,12 +132,12 @@ public class GeoElementPropertiesFactory {
 	public static BooleanProperty createFixObjectProperty(Localization localization,
 			List<GeoElement> elements) {
 		try {
-			List<FixObjectProperty> fixObjectProperties = new ArrayList<>();
+			List<IsFixedObjectProperty> fixObjectProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
-				fixObjectProperties.add(new FixObjectProperty(localization, element));
+				fixObjectProperties.add(new IsFixedObjectProperty(localization, element));
 			}
 			return new BooleanPropertyCollection<>(
-					fixObjectProperties.toArray(new FixObjectProperty[0]));
+					fixObjectProperties.toArray(new IsFixedObjectProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}

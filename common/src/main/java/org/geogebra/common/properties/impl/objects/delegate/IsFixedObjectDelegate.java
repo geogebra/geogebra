@@ -5,9 +5,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.AppConfig;
 
-public class FixObjectDelegate extends AbstractGeoElementDelegate {
+public class IsFixedObjectDelegate extends AbstractGeoElementDelegate {
 
-	public FixObjectDelegate(GeoElement element) throws NotApplicablePropertyException {
+	public IsFixedObjectDelegate(GeoElement element) throws NotApplicablePropertyException {
 		super(element);
 	}
 
