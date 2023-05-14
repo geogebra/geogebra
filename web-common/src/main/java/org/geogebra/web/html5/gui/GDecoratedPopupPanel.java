@@ -20,7 +20,6 @@ import java.util.Iterator;
 
 import org.geogebra.common.main.App;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.user.client.ui.DecoratedPopupPanel;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -32,10 +31,10 @@ import org.gwtproject.user.client.ui.Widget;
  * 
  * <h3>Setting the Size:</h3>
  * <p>
- * If you set the width or height of the {@link DecoratedPopupPanel}, you need
+ * If you set the width or height of the {@link GDecoratedPopupPanel}, you need
  * to set the height and width of the middleCenter cell to 100% so that the
  * middleCenter cell takes up all of the available space. If you do not set the
- * width and height of the {@link DecoratedPopupPanel}, it will wrap its
+ * width and height of the {@link GDecoratedPopupPanel}, it will wrap its
  * contents tightly.
  * </p>
  * 

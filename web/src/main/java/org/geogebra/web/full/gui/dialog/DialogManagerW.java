@@ -53,6 +53,7 @@ import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
@@ -60,7 +61,6 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.FileUpload;
 import org.gwtproject.user.client.ui.Image;
-import org.gwtproject.user.client.ui.PopupPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -73,7 +73,7 @@ public class DialogManagerW extends DialogManager
 	private RecoverAutoSavedDialog autoSavedDialog;
 	protected SaveDialogI saveDialog = null;
 	private TemplateChooser templateChooser;
-	private PopupPanel loadingAnimation = null;
+	private GPopupPanel loadingAnimation = null;
 	private ColorChooserDialog colChooser = null;
 	private CalculatorSwitcherDialog calcSwitcher;
 
@@ -562,8 +562,9 @@ public class DialogManagerW extends DialogManager
 		loadingAnimation.show();
 	}
 
-	private static PopupPanel createLoadingAnimation() {
-		PopupPanel anim = new PopupPanel();
+	private GPopupPanel createLoadingAnimation() {
+		AppW appw = (AppW) app;
+		GPopupPanel anim = new GPopupPanel(appw.getAppletFrame(), app);
 		anim.addStyleName("loadinganimation");
 		anim.add(new Image(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner()));
 		return anim;
