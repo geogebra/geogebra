@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 
@@ -129,16 +128,12 @@ public class AlgoLocusStroke extends AlgoElement {
 	private void appendPoints(final StringBuilder sb) {
 		final ScientificFormatAdapter formatter = FormatFactory.getPrototype()
 				.getFastScientificFormat(5);
-		poly.processPointsWithoutControl(new AsyncOperation<MyPoint>() {
-
-				@Override
-				public void callback(MyPoint m) {
-					sb.append("(");
-					sb.append(formatter.format(m.getX()));
-					sb.append(",");
-					sb.append(formatter.format(m.getY()));
-					sb.append("), ");
-				}
+		poly.processPointsWithoutControl(m -> {
+			sb.append("(");
+			sb.append(formatter.format(m.getX()));
+			sb.append(",");
+			sb.append(formatter.format(m.getY()));
+			sb.append("), ");
 		});
 		sb.append("true");
 	}
@@ -171,7 +166,13 @@ public class AlgoLocusStroke extends AlgoElement {
 	}
 
 	@Override
-	public boolean isCompatible(AlgoElement other) {
+	public boolean setFrom(AlgoElement other) {
+		if (other instanceof AlgoLocusStroke) {
+			GeoLocusStroke otherStroke = ((AlgoLocusStroke) other).poly;
+			poly.set(otherStroke);
+			poly.updateRepaint();
+			return true;
+		}
 		return false;
 	}
 }

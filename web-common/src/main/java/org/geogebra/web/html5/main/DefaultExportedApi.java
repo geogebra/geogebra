@@ -725,8 +725,8 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().showTooltip(tooltip + "");
 	}
 
-	public void addMultiuserSelection(String clientId, String user, String color, String label, boolean newGeo) {
-		getGgbAPI().addMultiuserSelection(clientId, user, color, label, newGeo);
+	public void addMultiuserSelection(String clientId, String user, String color, String label, boolean implicit) {
+		getGgbAPI().addMultiuserSelection(clientId, user, color, label, implicit);
 	}
 
 	public void removeMultiuserSelections(String clientId) {

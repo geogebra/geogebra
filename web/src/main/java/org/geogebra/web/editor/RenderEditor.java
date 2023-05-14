@@ -29,19 +29,10 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		MathFieldW mathField = initMathField(element, listener);
 		DomGlobal.window.addEventListener("resize", evt -> onResize(mathField));
 		editorApi = new EditorApi(mathField, editorKeyboard.getTabbedKeyboard(), listener);
-		editorKeyboard.setListener((show, textField) -> keyBoardNeeded(show));
+		editorKeyboard.setListener(() -> editorApi.closeKeyboard());
 		if (callback != null) {
 			callback.accept(editorApi);
 		}
-	}
-
-	private boolean keyBoardNeeded(boolean show) {
-		if (!show) {
-			editorApi.closeKeyboard();
-		} else {
-			editorApi.openKeyboard();
-		}
-		return false;
 	}
 
 	private void onResize(MathFieldW mathField) {

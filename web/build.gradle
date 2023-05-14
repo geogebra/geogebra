@@ -51,14 +51,15 @@ task extractJs() {
 }
 
 dependencies {
+    def multiplayerVersion = "1.0.202305091548-SNAPSHOT"
     implementation project(path: ':carota-web'),
         project(':web-dev'),
         project(':web-common'),
         project(':editor-web'),
         project(':keyboard-web'),
         'org.webjars.npm:pdfjs-dist:2.5.207',
-        "org.geogebra:multiplayer:1.0.202304241257",
-        "org.geogebra:multiplayer:1.0.202301170910:sources",
+        "org.geogebra:multiplayer:$multiplayerVersion",
+        "org.geogebra:multiplayer:$multiplayerVersion:sources",
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
         files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
