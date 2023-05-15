@@ -288,7 +288,7 @@ class EditorChecker {
 	 * Examples ('|' is the cursor):
 	 *  xy^z|, xy_|z, xy^(1/x|)
 	 */
-	public void cursorInScript() {
+	public void checkCursorInScript() {
 		assertTrue(mathField.getInternal().getEditorState().isInScript());
 	}
 
@@ -296,7 +296,7 @@ class EditorChecker {
 	 * Asserts if the cursor is NOT in super- or subscript.
 	 * Note: opposite of cursorInScript().
 	 */
- 	public void cursorInNoScript() {
+ 	public void checkCursorNotInScript() {
 		assertFalse(mathField.getInternal().getEditorState().isInScript());
 	}
 }
