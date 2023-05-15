@@ -15,7 +15,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.gui.popup.autocompletion.HasSuggestions;
+import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
@@ -82,7 +82,7 @@ public class RadioTreeItemController implements ClickHandler,
 	/** whether blur listener is disabled */
 	protected boolean preventBlur = false;
 
-	private HasSuggestions hasSuggestions;
+	private InputSuggestions inputSuggestions;
 
 	/**
 	 * Creates controller for given item.
@@ -94,7 +94,7 @@ public class RadioTreeItemController implements ClickHandler,
 		this.item = item;
 		this.app = item.app;
 		selectionCtrl = getAV().getSelectionCtrl();
-		hasSuggestions = new HasSuggestions(item.geo);
+		inputSuggestions = new InputSuggestions(item.geo);
 		addDomHandlers(item.main);
 	}
 
@@ -671,7 +671,7 @@ public class RadioTreeItemController implements ClickHandler,
 	 *            to set.
 	 */
 	protected void setInputAsText(boolean value) {
-		hasSuggestions.setForceAsText(value);
+		inputSuggestions.setForceAsText(value);
 		item.onInputModeChange(value);
 	}
 
@@ -679,7 +679,7 @@ public class RadioTreeItemController implements ClickHandler,
 	 * @return if input should be treated as text item.
 	 */
 	public boolean isInputAsText() {
-		return hasSuggestions.isTextInput();
+		return inputSuggestions.isTextInput();
 	}
 
 	/**
@@ -698,6 +698,6 @@ public class RadioTreeItemController implements ClickHandler,
 	 * @return if suggestion is prevented.
 	 */
 	public boolean isSuggestionPrevented(MathField mf) {
-		return hasSuggestions.isPreventedFor(mf.getInternal().getEditorState());
+		return inputSuggestions.isPreventedFor(mf.getInternal().getEditorState());
 	}
 }

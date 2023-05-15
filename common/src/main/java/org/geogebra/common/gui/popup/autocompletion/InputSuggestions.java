@@ -7,7 +7,7 @@ import com.himamis.retex.editor.share.controller.EditorState;
 /**
  * Class to decide if a text typed into a MathField should have suggestions.
  */
-public class HasSuggestions {
+public class InputSuggestions {
 	private final GeoElement geo;
 	private boolean forceAsText = false;
 
@@ -15,7 +15,7 @@ public class HasSuggestions {
 	 *
 	 * @param geo to check.
 	 */
-	public HasSuggestions(GeoElement geo) {
+	public InputSuggestions(GeoElement geo) {
 		this.geo = geo;
 	}
 

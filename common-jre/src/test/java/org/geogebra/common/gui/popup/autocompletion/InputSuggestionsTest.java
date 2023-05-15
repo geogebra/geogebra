@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.popup.autocompletion;
 
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -17,7 +18,7 @@ import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class HasSuggestionsTest extends BaseUnitTest {
+public class InputSuggestionsTest extends BaseUnitTest {
 	private MathFieldCommon mathField;
 	private EditorState editorState;
 
@@ -61,7 +62,7 @@ public class HasSuggestionsTest extends BaseUnitTest {
 
 	private boolean isSuggestionsPrevented(String text, GeoElement geo) {
 		mathField.insertString(text);
-		HasSuggestions suggestions = new HasSuggestions(geo);
+		InputSuggestions suggestions = new InputSuggestions(geo);
 		return suggestions.isPreventedFor(editorState);
 	}
 

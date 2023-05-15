@@ -131,6 +131,16 @@ class EditorChecker {
 		return editorState.getRootComponent();
 	}
 
+	/**
+	 * Types input to the checker.
+ 	 * Example ('|' is the cursor):
+	 *  - content before: "xyz|"
+	 *  - type("ABC");
+	 *  - content after : "xyzABC|"
+	 *
+ 	 * @param input to type.
+	 * @return the modified checker.
+	 */
 	public EditorChecker type(String input) {
 		typer.type(input);
 		return this;
@@ -141,10 +151,30 @@ class EditorChecker {
 		return this;
 	}
 
+	/**
+	 * Moves the cursor left to given times.
+	 * Example ('|' is the cursor):
+	 *  - content before: "xyz|"
+	 *  - left("2");
+	 *  - content after : "x|yz"
+	 *
+	 * @param count of the cursor moves
+	 * @return the modified checker.
+	 */
 	public EditorChecker left(int count) {
 		return repeatKey(JavaKeyCodes.VK_LEFT, count);
 	}
 
+	/**
+	 * Moves the cursor right to given times.
+	 * Example ('|' is the cursor):
+	 *  - content before: "|xyz"
+	 *  - right("2");
+	 *  - content after : "xy|z"
+	 *
+	 * @param count of the cursor moves
+	 * @return the modified checker.
+	 */
 	public EditorChecker right(int count) {
 		return repeatKey(JavaKeyCodes.VK_RIGHT, count);
 	}
@@ -253,11 +283,20 @@ class EditorChecker {
 		return this;
 	}
 
-	public void checkCursorInScript() {
+	/**
+	 * Asserts if the cursor is in super- or subscript.
+	 * Examples ('|' is the cursor):
+	 *  xy^z|, xy_|z, xy^(1/x|)
+	 */
+	public void cursorInScript() {
 		assertTrue(mathField.getInternal().getEditorState().isInScript());
 	}
 
-	public void checkCursorInNoScript() {
+	/**
+	 * Asserts if the cursor is NOT in super- or subscript.
+	 * Note: opposite of cursorInScript().
+	 */
+ 	public void cursorInNoScript() {
 		assertFalse(mathField.getInternal().getEditorState().isInScript());
 	}
 }

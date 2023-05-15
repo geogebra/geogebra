@@ -873,26 +873,26 @@ public class EditorTypingTest {
 
 	@Test
 	public void cursorInNoScript() {
-		checker.type("x + 1/2").checkCursorInNoScript();
+		checker.type("x + 1/2").cursorInNoScript();
 	}
 
 	@Test
 	public void cursorInNoScriptXSquared() {
-		checker.type("x^2").left(2).checkCursorInNoScript();
+		checker.type("x^2").left(2).cursorInNoScript();
 	}
 
 	@Test
 	public void cursorInSuperscript() {
-		checker.type("x^2^345").checkCursorInScript();
+		checker.type("x^2^345").cursorInScript();
 	}
 
 	@Test
 	public void cursorInSubscript() {
-		checker.type("x_2").checkCursorInScript();
+		checker.type("x_2").cursorInScript();
 	}
 
 	@Test
 	public void cursorInNoSubscript() {
-		checker.type("x_2").left(2).checkCursorInNoScript();
+		checker.type("x_2").left(2).cursorInNoScript();
 	}
 }
