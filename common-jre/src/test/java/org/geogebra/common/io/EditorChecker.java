@@ -137,8 +137,7 @@ class EditorChecker {
 	 *  - content before: "xyz|"
 	 *  - type("ABC");
 	 *  - content after : "xyzABC|"
-	 *
- 	 * @param input to type.
+	 * @param input to type.
 	 * @return the modified checker.
 	 */
 	public EditorChecker type(String input) {
@@ -157,7 +156,6 @@ class EditorChecker {
 	 *  - content before: "xyz|"
 	 *  - left("2");
 	 *  - content after : "x|yz"
-	 *
 	 * @param count of the cursor moves
 	 * @return the modified checker.
 	 */
@@ -171,7 +169,6 @@ class EditorChecker {
 	 *  - content before: "|xyz"
 	 *  - right("2");
 	 *  - content after : "xy|z"
-	 *
 	 * @param count of the cursor moves
 	 * @return the modified checker.
 	 */
@@ -296,7 +293,7 @@ class EditorChecker {
 	 * Asserts if the cursor is NOT in super- or subscript.
 	 * Note: opposite of cursorInScript().
 	 */
- 	public void checkCursorNotInScript() {
+	public void checkCursorNotInScript() {
 		assertFalse(mathField.getInternal().getEditorState().isInScript());
 	}
 }
