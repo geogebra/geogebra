@@ -114,7 +114,7 @@ public class KeyboardFactory {
 	 * @return math keyboard
 	 */
 	public Keyboard createMathKeyboard() {
-		return getImpl(mathKeyboardFactory);
+		return getImpl(mathKeyboardFactory, KeyboardType.NUMBERS);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class KeyboardFactory {
 	 * @return math keyboard without ANS
 	 */
 	public Keyboard createDefaultKeyboard() {
-		return getImpl(defaultKeyboardFactory);
+		return getImpl(defaultKeyboardFactory, KeyboardType.NUMBERS_DEFAULT);
 	}
 
 	/**
@@ -131,8 +131,9 @@ public class KeyboardFactory {
 	 *            model factory
 	 * @return default implementation
 	 */
-	public Keyboard getImpl(KeyboardModelFactory modelFactory) {
+	public Keyboard getImpl(KeyboardModelFactory modelFactory, KeyboardType type) {
 		return new KeyboardImpl(
+				type,
 				modelFactory.createKeyboardModel(defaultButtonFactory), null,
 				null);
 	}
@@ -144,9 +145,11 @@ public class KeyboardFactory {
 	 *            capslock modifier
 	 * @return keyboard
 	 */
-	public Keyboard getImpl(KeyboardModelFactory modelFactory,
+	public Keyboard getImpl(KeyboardType type,
+			KeyboardModelFactory modelFactory,
 			CapsLockModifier capsLock) {
 		return new KeyboardImpl(
+				type,
 				modelFactory.createKeyboardModel(
 						new ButtonFactory(new KeyModifier[] { capsLock })),
 				capsLock, null);
@@ -158,7 +161,7 @@ public class KeyboardFactory {
 	 * @return function keyboard
 	 */
 	public Keyboard createFunctionsKeyboard() {
-		return getImpl(functionKeyboardFactory);
+		return getImpl(functionKeyboardFactory, KeyboardType.OPERATORS);
 	}
 
 	/**
@@ -172,7 +175,7 @@ public class KeyboardFactory {
 		ButtonFactory buttonFactory = new ButtonFactory(
 				new KeyModifier[] { accentModifier, capsLockModifier });
 		KeyboardModel model = greekKeyboardFactory.createKeyboardModel(buttonFactory);
-		return new KeyboardImpl(model, capsLockModifier, accentModifier);
+		return new KeyboardImpl(KeyboardType.GREEK, model, capsLockModifier, accentModifier);
 	}
 
 	/**
@@ -203,7 +206,7 @@ public class KeyboardFactory {
 		letterKeyboardFactory.setUpperKeys(upperKeys);
 		letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow, withGreekSwitch);
 		KeyboardModel model = letterKeyboardFactory.createKeyboardModel(buttonFactory);
-		return new KeyboardImpl(model, capsLockModifier, accentModifier);
+		return new KeyboardImpl(KeyboardType.ABC, model, capsLockModifier, accentModifier);
 	}
 
 	/**
@@ -251,6 +254,6 @@ public class KeyboardFactory {
 	 * @return special symbols keyboard
 	 */
 	public Keyboard createSpecialSymbolsKeyboard() {
-		return getImpl(specialSymbolsKeyboardFactory);
+		return getImpl(specialSymbolsKeyboardFactory, KeyboardType.SPECIAL);
 	}
 }
