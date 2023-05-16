@@ -13,13 +13,24 @@ public class MyRecurringDecimal extends MyDouble {
 
 	private String representation;
 
+	/**
+	 *
+	 * @param kernel Kernel
+	 * @param val Value
+	 * @param representation Representation of the recurring decimal
+	 */
 	public MyRecurringDecimal(Kernel kernel, double val, String representation) {
 		super(kernel, val);
 		this.representation = representation;
 	}
 
+	/**
+	 * Copy constructor
+	 * @param rd MyRecurringDecimal
+	 */
 	public MyRecurringDecimal(MyRecurringDecimal rd) {
 		super(rd);
+		this.representation = rd.representation;
 	}
 
 	@Override
@@ -33,14 +44,14 @@ public class MyRecurringDecimal extends MyDouble {
 	}
 
 	@Override
-	public void set (double val) {
-		super.set(val);
-		this.representation = null;
+	public MyRecurringDecimal deepCopy(Kernel kernel) {
+		MyRecurringDecimal ret = new MyRecurringDecimal(this);
+		ret.kernel = kernel;
+		return ret;
 	}
 
 	/**
-	 * extension of StringUtil.parseDouble() to cope with unicode digits eg
-	 * Arabic <br>
+	 * extension of StringUtil.parseDouble() to cope with unicode digits e.g. Arabic <br>
 	 * Enables parsing of recurring decimals
 	 * @param str string to be parsed
 	 * @param app application for showing errors
@@ -126,7 +137,7 @@ public class MyRecurringDecimal extends MyDouble {
 	/**
 	 * @param sb String to be parsed
 	 * @return Value of the recurring decimal as a fraction e.g. 1.3\u0305 -> 12/9 = 4/3
-	 * @throws NumberFormatException
+	 * @throws NumberFormatException When trying to parse an invalid double e.g. 1.3.2\u0305
 	 */
 	private static double getValueAsFraction(StringBuilder sb) throws NumberFormatException {
 		int repeatingDigits = (int) sb.chars().filter(ch -> ch == '\u0305').count();

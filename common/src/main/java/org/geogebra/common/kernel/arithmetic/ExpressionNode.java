@@ -3620,6 +3620,9 @@ public class ExpressionNode extends ValidExpression
 		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
 			return false;
 		}
+		if (unwrap instanceof MyRecurringDecimal) {
+			return false;
+		}
 		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
 				|| (unwrap instanceof GeoNumeric && !(unwrap instanceof GeoDummyVariable))) {
 			double val = evaluateDouble();

@@ -123,7 +123,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 				stringBuilder.insert(i, "\u0305");
 				i += 2;
 			}
-			stringBuilder.append("\u0305");
+			if (mathFunction.getArgument(0).size() != 0) {
+				stringBuilder.append("\u0305");
+			}
 			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
