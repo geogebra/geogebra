@@ -63,6 +63,10 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public void extend(Interval domain) {
+		if (!domainInfo.intersects(domain)) {
+			resample(domain);
+			return;
+		}
 		if (domainInfo.hasZoomedOut(domain)) {
 			extendDataBothSide(domain);
 
