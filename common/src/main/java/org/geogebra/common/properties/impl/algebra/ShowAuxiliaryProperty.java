@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.algebra;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.types.BooleanProperty;
+import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /**

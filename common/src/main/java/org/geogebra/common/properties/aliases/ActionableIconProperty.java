@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.types;
+package org.geogebra.common.properties.aliases;
 
 import org.geogebra.common.properties.ActionableProperty;
 import org.geogebra.common.properties.IconAssociatedProperty;

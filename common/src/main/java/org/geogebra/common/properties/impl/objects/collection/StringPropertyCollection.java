@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.objects.collection;
 
 import javax.annotation.Nullable;
 
-import org.geogebra.common.properties.types.StringProperty;
+import org.geogebra.common.properties.aliases.StringProperty;
 
 /**
  * Handles a collection of StringProperty objects as a single StringProperty.

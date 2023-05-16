@@ -3,11 +3,9 @@ package org.geogebra.common.properties.impl.graphics;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.ActionableProperty;
-import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.PropertyResource;
+import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.impl.AbstractProperty;
-import org.geogebra.common.properties.types.ActionableIconProperty;
 
 public class ShowAllObjectsAction extends AbstractProperty implements ActionableIconProperty {
 

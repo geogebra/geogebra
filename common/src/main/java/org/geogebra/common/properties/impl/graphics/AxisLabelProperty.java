@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.types.StringProperty;
+import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /**

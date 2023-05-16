@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.types.ColorProperty;
+import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.ElementColorPropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;

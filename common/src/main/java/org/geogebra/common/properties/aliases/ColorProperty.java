@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.types;
+package org.geogebra.common.properties.aliases;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.properties.EnumeratedProperty;

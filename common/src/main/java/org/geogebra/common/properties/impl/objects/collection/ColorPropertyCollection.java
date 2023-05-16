@@ -1,7 +1,7 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.properties.types.ColorProperty;
+import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 
 /**

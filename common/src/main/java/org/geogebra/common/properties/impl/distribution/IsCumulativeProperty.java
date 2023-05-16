@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.distribution;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.types.BooleanProperty;
+import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /** The cumulative property of the distribution view. */
