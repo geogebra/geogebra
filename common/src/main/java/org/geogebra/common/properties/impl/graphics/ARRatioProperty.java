@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.types.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class ARRatioProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {

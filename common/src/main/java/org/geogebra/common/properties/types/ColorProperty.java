@@ -1,6 +1,7 @@
-package org.geogebra.common.properties;
+package org.geogebra.common.properties.types;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.properties.EnumeratedProperty;
 
 /**
  * A property whose value is a color.

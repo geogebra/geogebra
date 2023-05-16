@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.ActionableProperty;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.AbstractPropertyCollection;
+import org.geogebra.common.properties.types.ActionableIconCollection;
+import org.geogebra.common.properties.types.ActionableIconProperty;
 
-public class GraphicsActionsPropertyCollection extends
-		AbstractPropertyCollection<ActionableProperty> {
+public class GraphicsActionsPropertyCollection
+		extends AbstractPropertyCollection<ActionableIconProperty>
+		implements ActionableIconCollection {
 
 	/**
 	 * Constructs a GraphicsActionsPropertyCollection.
@@ -18,10 +19,10 @@ public class GraphicsActionsPropertyCollection extends
 	 */
 	public GraphicsActionsPropertyCollection(App app, Localization localization) {
 		super(localization, "");
-		ArrayList<Property> properties = new ArrayList<>();
+		ArrayList<ActionableIconProperty> properties = new ArrayList<>();
 		properties.add(new StandardViewAction(localization, app.getActiveEuclidianView()));
 		properties.add(new ShowAllObjectsAction(localization, app.getConfig(),
 				app.getActiveEuclidianView()));
-		setProperties(properties.toArray(new ActionableProperty[0]));
+		setProperties(properties.toArray(new ActionableIconProperty[0]));
 	}
 }

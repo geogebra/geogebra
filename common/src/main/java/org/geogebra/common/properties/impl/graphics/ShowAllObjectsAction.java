@@ -7,9 +7,9 @@ import org.geogebra.common.properties.ActionableProperty;
 import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.types.ActionableIconProperty;
 
-public class ShowAllObjectsAction extends AbstractProperty implements ActionableProperty,
-		IconAssociatedProperty {
+public class ShowAllObjectsAction extends AbstractProperty implements ActionableIconProperty {
 
 	final AppConfig appConfig;
 	final EuclidianView euclidianView;

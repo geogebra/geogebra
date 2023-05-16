@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.StringProperty;
+import org.geogebra.common.properties.types.StringProperty;
 
 /**
  * Abstract implementation of a Double value property that has the maximal range of a Double value:

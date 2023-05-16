@@ -2,13 +2,11 @@ package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.ActionableProperty;
-import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.types.ActionableIconProperty;
 
-public class ARFitThicknessAction extends AbstractProperty implements ActionableProperty,
-		IconAssociatedProperty {
+public class ARFitThicknessAction extends AbstractProperty implements ActionableIconProperty {
 
 	final EuclidianView3D euclidianView;
 

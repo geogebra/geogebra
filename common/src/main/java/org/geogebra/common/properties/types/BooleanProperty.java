@@ -1,4 +1,6 @@
-package org.geogebra.common.properties;
+package org.geogebra.common.properties.types;
+
+import org.geogebra.common.properties.ValuedProperty;
 
 /**
  * A property whose value is either true or false.

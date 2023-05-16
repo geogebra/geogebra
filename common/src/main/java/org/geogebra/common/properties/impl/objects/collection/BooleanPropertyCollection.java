@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.types.BooleanProperty;
 
 /**
  * Handles a collection of BooleanProperty objects as a single BooleanProperty.

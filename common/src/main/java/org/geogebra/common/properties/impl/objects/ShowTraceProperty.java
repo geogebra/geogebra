@@ -3,7 +3,7 @@ package org.geogebra.common.properties.impl.objects;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.types.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;

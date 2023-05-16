@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.types.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 import com.google.j2objc.annotations.Weak;

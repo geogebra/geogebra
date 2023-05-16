@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.ActionableProperty;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.AbstractPropertyCollection;
+import org.geogebra.common.properties.types.ActionableIconCollection;
+import org.geogebra.common.properties.types.ActionableIconProperty;
 
 public class EuclideanViewXRActionsPropertyCollection
-		extends AbstractPropertyCollection<ActionableProperty> {
+		extends AbstractPropertyCollection<ActionableIconProperty>
+		implements ActionableIconCollection {
 
 	/**
 	 * Constructs an EuclideanActionsPropertyCollection.
@@ -19,9 +20,9 @@ public class EuclideanViewXRActionsPropertyCollection
 	public EuclideanViewXRActionsPropertyCollection(Localization localization,
 			EuclidianView3D view3D) {
 		super(localization, "");
-		ArrayList<Property> properties = new ArrayList<>();
+		ArrayList<ActionableIconProperty> properties = new ArrayList<>();
 		properties.add(new RestartARAction(localization, view3D));
 		properties.add(new ARFitThicknessAction(localization, view3D));
-		setProperties(properties.toArray(new ActionableProperty[0]));
+		setProperties(properties.toArray(new ActionableIconProperty[0]));
 	}
 }
