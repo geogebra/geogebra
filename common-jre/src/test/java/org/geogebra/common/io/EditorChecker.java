@@ -133,10 +133,10 @@ class EditorChecker {
 
 	/**
 	 * Types input to the checker.
- 	 * Example ('|' is the cursor):
-	 *  - content before: "xyz|"
-	 *  - type("ABC");
-	 *  - content after : "xyzABC|"
+	 * Example ('|' is the cursor):
+	 * - content before: "xyz|"
+	 * - type("ABC");
+	 * - content after : "xyzABC|"
 	 * @param input to type.
 	 * @return the modified checker.
 	 */
