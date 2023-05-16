@@ -110,7 +110,8 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			if (isNegative) {
 				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
 			}
-			stringBuilder.append(Unicode.INVISIBLE_PLUS + "(");
+			stringBuilder.append(Unicode.INVISIBLE_PLUS);
+			stringBuilder.append("(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(2), stringBuilder);

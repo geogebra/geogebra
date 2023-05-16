@@ -182,7 +182,7 @@ public abstract class SerializerAdapter implements Serializer {
 			for (int j = 0; j < mathFunction.getArgument(i).size(); j++) {
 				compare = mathFunction.getArgument(i).getArgument(j).toString();
 				if (compare.compareTo("0") < 0 || compare.compareTo("9") > 0
-						&& !compare.equals(Unicode.INVISIBLE_PLUS)) {
+						&& !compare.equals(Character.toString(Unicode.INVISIBLE_PLUS))) {
 					return false;
 				}
 			}
