@@ -290,11 +290,11 @@ public class ParserTest {
 	public void shouldKeepPriorityTwoBinary() {
 		Kernel kernel = app.getKernel();
 		for (Operation top : Operation.values()) {
-			if (!binary(top)) {
+			if (!binary(top) || top == Operation.INVISIBLE_PLUS) {
 				continue;
 			}
 			for (Operation bottom : Operation.values()) {
-				if (!binary(bottom)) {
+				if (!binary(bottom) || bottom == Operation.INVISIBLE_PLUS) {
 					continue;
 				}
 

@@ -120,6 +120,7 @@ public class Unicode {
 	public static final char INTEGRAL = '\u222b';
 	public static final char SQUARE_ROOT = '\u221a';
 	public static final char PLUSMINUS = '\u00b1';
+	public static final char INVISIBLE_PLUS = '\u2064';
 	public static final char NOTEQUAL = '\u2260';
 	public static final char NOT = '\u00ac';
 	public static final char AND = '\u2227';

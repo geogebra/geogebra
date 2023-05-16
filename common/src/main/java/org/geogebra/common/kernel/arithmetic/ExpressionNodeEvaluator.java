@@ -28,7 +28,7 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * @author ggb3D
- * 
+ *
  *         Evaluator for ExpressionNode (used in Operation.evaluate())
  */
 public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
@@ -53,7 +53,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Creates new expression node evaluator
-	 * 
+	 *
 	 * @param loc
 	 *            localization for errors
 	 * @param kernel
@@ -68,7 +68,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Evaluates the ExpressionNode described by the parameters
-	 * 
+	 *
 	 * @param expressionNode
 	 *            ExpressionNode to evaluate
 	 * @param tpl
@@ -140,7 +140,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param myList
 	 *            list (matrix)
 	 * @param rt
@@ -157,7 +157,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param myList
 	 *            list (matrix)
 	 * @param rows
@@ -395,7 +395,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Performs multiplication
-	 * 
+	 *
 	 * @param lt
 	 *            left argument
 	 * @param rt
@@ -490,7 +490,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param en
 	 *            number
 	 * @param ev
@@ -512,7 +512,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ev1
 	 *            first vector
 	 * @param ev2
@@ -529,7 +529,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ev1
 	 *            first vector
 	 * @param ev2
@@ -548,7 +548,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Performs addition
-	 * 
+	 *
 	 * @param lt
 	 *            left argument
 	 * @param rt
@@ -665,6 +665,44 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * Performs addition for mixed numbers (whole + fraction)
+	 * @param lt Left argument (evaluated)
+	 * @param rt Right argument (evaluated)
+	 * @param left Left argument before evaluation
+	 * @param right Right argument before evaluation
+	 * @return Result
+	 */
+	public ExpressionValue handleInvisiblePlus(ExpressionValue lt, ExpressionValue rt,
+			ExpressionValue left, ExpressionValue right) {
+		// Basic checks, throw an error if any of them fails
+		if (!canHandleInvisiblePlus(lt, rt, left, right)) {
+			throw new MyError(loc, Errors.IllegalAddition, lt, "\u2064", rt);
+		}
+		MyDouble num = ((NumberValue) lt).getNumber();
+		MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
+		return num;
+	}
+
+	/**
+	 * Checks if the mixed number can actually be handled
+	 * @param lt Left argument (evaluated)
+	 * @param rt Right argument (evaluated)
+	 * @param left Left argument before evaluation
+	 * @param right Right argument before evaluation
+	 * @return True if all requirements to form a mixed number are met, false else
+	 */
+	private boolean canHandleInvisiblePlus(ExpressionValue lt, ExpressionValue rt,
+			ExpressionValue left, ExpressionValue right) {
+		return lt instanceof NumberValue && ((NumberValue) lt).getNumber().evaluateDouble() % 1 == 0
+				&& !(lt instanceof FunctionVariable) && rt instanceof NumberValue
+				&& right instanceof ExpressionNode
+				&& !((ExpressionNode) right).containsFunctionVariable()
+				&& ((ExpressionNode) right).isProperFraction() && right.evaluateDouble() >= 0
+				&& (!(left instanceof ExpressionNode)
+				|| !((ExpressionNode) left).containsFunctionVariable());
+	}
+
+	/**
 	 * @param geoElement The GeoElement that should be transformed into string
 	 * @param tpl The StringTemplate based on which the GeoElement will be transformed into string
 	 * @return The string form of the GeoElement
@@ -677,7 +715,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Performs division
-	 * 
+	 *
 	 * @param lt
 	 *            left argument (evaluated)
 	 * @param rt
@@ -686,7 +724,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            left argument before evaluation
 	 * @param right
 	 *            right argument before evaluation
-	 * 
+	 *
 	 * @return result
 	 */
 	public ExpressionValue handleDivide(ExpressionValue lt, ExpressionValue rt,
@@ -744,7 +782,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Performs subtraction
-	 * 
+	 *
 	 * @param lt
 	 *            left argument (evaluated)
 	 * @param rt
@@ -810,14 +848,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Performs power
-	 * 
+	 *
 	 * @param lt
 	 *            left argument (evaluated)
 	 * @param rt
 	 *            right argument (evaluated)
 	 * @param right
 	 *            right argument before evaluation
-	 * 
+	 *
 	 * @return result
 	 */
 	public ExpressionValue handlePower(ExpressionValue lt, ExpressionValue rt,
@@ -986,7 +1024,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Computes value of function in given point (or throws error)
-	 * 
+	 *
 	 * @param lt
 	 *            function
 	 * @param rt
@@ -1060,7 +1098,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Evaluate function in multiple variables
-	 * 
+	 *
 	 * @param lt
 	 *            left argument (function)
 	 * @param rt
@@ -1141,7 +1179,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw error for unary boolean operation
-	 * 
+	 *
 	 * @param arg
 	 *            operation argument
 	 * @param opname
@@ -1156,7 +1194,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw illegal argument exception for multivariable builtin function
-	 * 
+	 *
 	 * @param lt
 	 *            left argument
 	 * @param rt
@@ -1174,7 +1212,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw simple illegal argument exception
-	 * 
+	 *
 	 * @param arg
 	 *            argument
 	 * @return nothing (error is thrown)
@@ -1187,7 +1225,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw error for infix binary operation
-	 * 
+	 *
 	 * @param lt     left argument
 	 * @param rt     right argument
 	 * @param type   type (InvalidMultiplication, InvalidAddition, ...)
@@ -1203,7 +1241,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw illegal comparison error
-	 * 
+	 *
 	 * @param lt     left argument
 	 * @param rt     rigt argument
 	 * @param opname comparison operator
@@ -1218,7 +1256,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw illegal list operation error
-	 * 
+	 *
 	 * @param lt
 	 *            left argument
 	 * @param rt
@@ -1238,7 +1276,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	/**
 	 * Check whether lt is constant polynomial and compute op(lt) if it is; if
 	 * not throw illegal argument "opname lt)"
-	 * 
+	 *
 	 * @param lt
 	 *            argument
 	 * @param opname
@@ -1254,7 +1292,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	/**
 	 * Check whether lt is constant polynomial and compute op(lt) if it is; if
 	 * not throw illegal argument "prefix lt suffix"
-	 * 
+	 *
 	 * @param lt
 	 *            argument
 	 * @param prefix
@@ -1271,7 +1309,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Performs vector product
-	 * 
+	 *
 	 * @param lt
 	 *            left argument
 	 * @param rt
@@ -1288,7 +1326,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v1
 	 *            first vector
 	 * @param v2
@@ -1439,9 +1477,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * eg f(x)=x^2, x+1 instead of f(x) = x^2, x>1
-	 * 
+	 *
 	 * @return error for a,b where b is not a condition
 	 */
 	public MyError illegalCondition() {

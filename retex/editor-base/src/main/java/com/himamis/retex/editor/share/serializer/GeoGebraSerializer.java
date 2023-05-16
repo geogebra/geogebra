@@ -90,6 +90,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 			break;
 		case FRAC:
+			if (buildMixedNumber(stringBuilder, mathFunction)) {
+				break;
+			}
 			stringBuilder.append("((");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
@@ -97,12 +100,22 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			stringBuilder.append("))");
 			break;
 		case MIXED_NUMBER:
+			boolean isNegative = mathFunction.getArgument(0).getArgument(0) != null
+					&& mathFunction.getArgument(0).getArgument(0).toString().equals("-");
+			if (isNegative) {
+				stringBuilder.append("-");
+			}
+			stringBuilder.append("(");
 			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append("\u2064(");
+			if (isNegative) {
+				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
+			}
+			stringBuilder.append(Unicode.INVISIBLE_PLUS);
+			stringBuilder.append("(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append(")");
+			stringBuilder.append("))");
 			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
@@ -294,5 +307,29 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 		}
 		return new String[0];
+	}
+
+	/**
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
+	 * @return True if a mixed number was built
+	 */
+	@Override
+	public boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
+		//Check if a valid mixed number can be created (e.g.: no 'x')
+		if (isMixedNumber(stringBuilder) < 0 || !isValidMixedNumber(mathFunction)) {
+			return false;
+		}
+
+		stringBuilder.insert(isMixedNumber(stringBuilder), "(");
+		if (stringBuilder.charAt(stringBuilder.length() - 1) != Unicode.INVISIBLE_PLUS) {
+			stringBuilder.append(Unicode.INVISIBLE_PLUS);
+		}
+		stringBuilder.append("(");
+		serialize(mathFunction.getArgument(0), stringBuilder);
+		stringBuilder.append(")/(");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append("))");
+		return true;
 	}
 }
