@@ -501,11 +501,11 @@ public class ArithmeticTest extends BaseUnitTest {
 
 	@Test
 	public void testMixedNumbers() {
-		t("2 \u20643 / 4 * 3", "8.25");
-		t("2 * 2\u20643 / 4", "5.5");
-		t("2 + 2\u20644 / 5", "4.8");
-		t("2.5 / 2\u20641 / 2", "1");
-		t("(2\u20641 / 2) / 2", "1.25");
+		t("2 " + Unicode.INVISIBLE_PLUS + "3 / 4 * 3", "8.25");
+		t("2 * 2" + Unicode.INVISIBLE_PLUS + "3 / 4", "5.5");
+		t("2 + 2" + Unicode.INVISIBLE_PLUS + "4 / 5", "4.8");
+		t("2.5 / 2" + Unicode.INVISIBLE_PLUS + "1 / 2", "1");
+		t("(2" + Unicode.INVISIBLE_PLUS + "1 / 2) / 2", "1.25");
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {

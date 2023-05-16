@@ -1373,7 +1373,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return leftStr + rightStr
 	 */
 	public String invisiblePlusString(String leftStr, String rightStr) {
-		return leftStr + "\u2064" + rightStr;
+		return leftStr + Unicode.INVISIBLE_PLUS + rightStr;
 	}
 
 	/**

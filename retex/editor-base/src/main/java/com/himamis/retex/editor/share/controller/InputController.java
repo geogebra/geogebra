@@ -1200,7 +1200,7 @@ public class InputController {
 					newFunction(editorState, "frac", false, null);
 				}
 				handled = true;
-			} else if (ch == '\u2064') {
+			} else if (ch == Unicode.INVISIBLE_PLUS) {
 				newFunction(editorState, "mixedNumber", false, null);
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {

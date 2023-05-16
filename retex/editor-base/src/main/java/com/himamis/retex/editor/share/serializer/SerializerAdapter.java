@@ -9,6 +9,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class SerializerAdapter implements Serializer {
 
@@ -181,7 +182,7 @@ public abstract class SerializerAdapter implements Serializer {
 			for (int j = 0; j < mathFunction.getArgument(i).size(); j++) {
 				compare = mathFunction.getArgument(i).getArgument(j).toString();
 				if (compare.compareTo("0") < 0 || compare.compareTo("9") > 0
-						&& !compare.equals("\u2064")) {
+						&& !compare.equals(Unicode.INVISIBLE_PLUS)) {
 					return false;
 				}
 			}
