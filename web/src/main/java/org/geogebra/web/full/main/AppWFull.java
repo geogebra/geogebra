@@ -2344,6 +2344,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void switchToSubapp(String subAppCode) {
 		getDialogManager().hideCalcChooser();
+		getKernel().getAlgebraProcessor().getCmdDispatcher()
+				.removeCommandFilter(getConfig().getCommandFilter());
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
@@ -2360,6 +2362,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().getUnbundledToolbar().removeToolsTab();
 		getGuiManager().getLayout().applyPerspective(perspective);
 		kernel.initUndoInfo();
+		kernel.getAlgebraProcessor().getCommandDispatcher()
+				.addCommandFilter(getConfig().getCommandFilter());
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {
 				afterMaterialRestored();

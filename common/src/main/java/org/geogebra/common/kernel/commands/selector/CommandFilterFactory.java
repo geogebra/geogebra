@@ -26,7 +26,7 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * Creates a CommandFilter for the Graphing app.
+	 * Creates a CommandFilter for the Graphing app (no cas: e.g. Solve).
 	 *
 	 * @return command filter
 	 */
@@ -163,11 +163,11 @@ public final class CommandFilterFactory {
 				// CAS specific command
 				Commands.Delete, Commands.Poisson,
 				// Function Commands
-				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
-				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
-				Commands.NSolveODE, Commands.OsculatingCircle, Commands.ParametricDerivative,
-				Commands.PathParameter, Commands.RootList, Commands.Roots,
-				Commands.Spline,
+				Commands.Asymptote, Commands.CurveCartesian, Commands.Curve,
+				Commands.CurvatureVector, Commands.DataFunction, Commands.Function,
+				Commands.ImplicitCurve, Commands.IterationList, Commands.NSolveODE,
+				Commands.OsculatingCircle, Commands.ParametricDerivative, Commands.PathParameter,
+				Commands.RootList, Commands.Roots, Commands.Spline,
 				// Vector And Matrix Commands
 				Commands.ApplyMatrix,
 				//Geometry Commands

@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFil
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.GraphingCommandArgumentFilter;
-import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -220,8 +219,8 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
-		return CommandFilterFactory.createGraphingCommandFilter();
+	public void createCommandFilter() {
+		commandFilter = CommandFilterFactory.createGraphingCommandFilter();
 	}
 
 	@Override

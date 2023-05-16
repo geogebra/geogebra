@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
-import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
@@ -36,7 +35,6 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
  * Config for Classic and derived apps (MR)
  */
 public class AppConfigDefault extends AbstractAppConfig {
-
 	public AppConfigDefault() {
 		super(GeoGebraConstants.CLASSIC_APPCODE);
 	}
@@ -225,8 +223,8 @@ public class AppConfigDefault extends AbstractAppConfig {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
-		return null;
+	public void createCommandFilter() {
+		// overridden where needed
 	}
 
 	@Override
