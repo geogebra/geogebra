@@ -11,7 +11,7 @@ abstract class AbstractAppConfig implements AppConfig {
 
     private String appCode;
     private String subAppCode;
-    protected CommandFilter commandFilter;
+    protected transient CommandFilter commandFilter;
 
     AbstractAppConfig(String appCode) {
         this(appCode, null);
@@ -20,7 +20,6 @@ abstract class AbstractAppConfig implements AppConfig {
     AbstractAppConfig(String appCode, String subAppCode) {
         this.appCode = appCode;
         this.subAppCode = subAppCode;
-        createCommandFilter();
     }
 
     @Override
@@ -49,6 +48,9 @@ abstract class AbstractAppConfig implements AppConfig {
 
     @Override
     public CommandFilter getCommandFilter() {
+        if (commandFilter == null) {
+            commandFilter = createCommandFilter();
+        }
         return commandFilter;
     }
 }

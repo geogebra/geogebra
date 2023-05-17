@@ -23,6 +23,7 @@ dependencies {
     implementation project(':giac-jni')
     implementation project(':renderer-base')
     implementation project(':editor-base')
+    implementation 'junit:junit:4.13.1'
     testImplementation project(':ggbjdk')
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"

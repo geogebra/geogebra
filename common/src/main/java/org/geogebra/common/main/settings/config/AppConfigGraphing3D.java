@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
@@ -125,8 +126,8 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
-	public void createCommandFilter() {
-		commandFilter = CommandFilterFactory.create3DGraphingCommandFilter();
+	public CommandFilter createCommandFilter() {
+		return CommandFilterFactory.create3DGraphingCommandFilter();
 	}
 
 	@Override

@@ -165,7 +165,7 @@ public interface AppConfig extends Serializable {
 	/**
 	 * Command filter for the subApp.
 	 */
-	void createCommandFilter();
+	CommandFilter createCommandFilter();
 
 	/**
 	 * @return the Command Argument filter for the app.
