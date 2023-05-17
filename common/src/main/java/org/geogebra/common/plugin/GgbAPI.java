@@ -1686,10 +1686,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			app.openSearch(code.substring("search:".length()));
 			return;
 		}
-		if (code.startsWith("save:")) {
-			app.getGuiManager().save();
-			return;
-		}
 		if (code.startsWith("customize:")) {
 			app.showCustomizeToolbarGUI();
 			return;

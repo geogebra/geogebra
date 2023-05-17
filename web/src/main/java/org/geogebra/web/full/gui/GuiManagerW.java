@@ -42,7 +42,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -137,7 +136,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.URL;
 
 public class GuiManagerW extends GuiManager
-		implements GuiManagerInterfaceW, EventRenderable, SetLabels {
+		implements GuiManagerInterfaceW, SetLabels {
 
 	/**
 	 * container for the Popup that only one exist for a given type
@@ -150,7 +149,6 @@ public class GuiManagerW extends GuiManager
 	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<>();
 	protected BrowseViewI browseGUI;
 	protected LayoutW layout;
-	protected boolean uploadWaiting;
 	private CASViewW casView;
 	private Euclidian2DockPanelW euclidianView2DockPanel;
 	private String strCustomToolbarDefinition;
@@ -1009,23 +1007,23 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void listenToLogin() {
-		uploadWaiting = true;
+	public void listenToLogin(Runnable onSuccess) {
+		runAfterLogin = onSuccess;
 		if (listeningToLogin) {
 			return;
 		}
 		listeningToLogin = true;
-		getApp().getLoginOperation().getView().add(this);
+		getApp().getLoginOperation().getView().add(this::uploadCallback);
 	}
 
 	@Override
 	public boolean save() {
 		if (getApp().isExam()) {
 			SaveExamAction.showExamSaveDialog(getApp());
-			return true;
 		} else {
-			return getApp().getFileManager().save(getApp());
+			getApp().getFileManager().save(getApp());
 		}
+		return true;
 	}
 
 	@Override
@@ -1946,24 +1944,17 @@ public class GuiManagerW extends GuiManager
 					title);
 	}
 
-	@Override
-	public final void renderEvent(final BaseEvent event) {
-		if (this.uploadWaiting && event instanceof LoginEvent
-				&& ((LoginEvent) event).isSuccessful()) {
-			this.uploadWaiting = false;
-			runAfterSuccessfulLogin();
-		} else if (this.uploadWaiting && event instanceof StayLoggedOutEvent) {
-			this.uploadWaiting = false;
-			getApp().getFileManager().saveLoggedOut(getApp());
-		}
-	}
-
-	private void runAfterSuccessfulLogin() {
-		if (app.isMebis() && runAfterLogin != null) {
-			runAfterLogin.run();
-			setRunAfterLogin(null);
-		} else {
-			save();
+	private void uploadCallback(final BaseEvent event) {
+		if (runAfterLogin != null) {
+			if (event instanceof LoginEvent
+					&& ((LoginEvent) event).isSuccessful()) {
+				runAfterLogin.run();
+				this.runAfterLogin = null;
+			} else if (event instanceof StayLoggedOutEvent || (event instanceof LoginEvent
+					&& !((LoginEvent) event).isSuccessful())) {
+				runAfterLogin = null;
+				getApp().getFileManager().saveLoggedOut(getApp());
+			}
 		}
 	}
 

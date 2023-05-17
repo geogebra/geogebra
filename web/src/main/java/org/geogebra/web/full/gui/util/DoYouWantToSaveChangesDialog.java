@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -36,6 +35,8 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		buildContent();
 		initActions();
 		DialogUtil.hideOnLogout(app, this);
+		setSaveType(app.isWhiteboardActive()
+				? Material.MaterialType.ggs : Material.MaterialType.ggb);
 	}
 
 	/**
@@ -72,18 +73,20 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
 		addFocusBlurHandlers();
 		addHoverHandlers();
-		setOnNegativeAction(() -> app.getSaveController().cancel());
+		setOnNegativeAction(app.getSaveController()::cancel);
 		setOnPositiveAction(() -> {
-			if (app.getPlatform() == GeoGebraConstants.Platform.OFFLINE) {
-				((AppW) app).getGuiManager().exportGGB(false);
+			if (((AppW) app).getFileManager().saveCurrentLocalIfPossible(app)) {
+				return;
+			}
+			if (!((AppW) app).getFileManager().isOnlineSavingPreferred()) {
+				app.getSaveController().showLocalSaveDialog();
 			} else {
 				if (!app.getLoginOperation().isLoggedIn()) {
 					hide();
 					((AppWFull) app).getActivity().markSaveProcess(getInputField().getText(),
 							getSaveVisibility());
-					((AppW) app).getGuiManager().listenToLogin();
+					((AppW) app).getGuiManager().listenToLogin(this::onSave);
 					app.getLoginOperation().showLoginDialog();
-					((AppW) app).getGuiManager().setRunAfterLogin(this::onSave);
 				} else {
 					onSave();
 				}
@@ -95,7 +98,6 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	}
 
 	private void onSave() {
-		setSaveType(Material.MaterialType.ggs);
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 		app.getSaveController().saveAs(getInputField().getText(),
 				getSaveVisibility(), this);
@@ -187,11 +189,16 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	 */
 	@Override
 	public void setTitle() {
-		// suggest for the user the current date as title
-		String currentDate = DateTimeFormat.format(new JsDate());
 		app.getSaveController().updateSaveTitle(getInputField()
-						.getTextComponent(), currentDate);
+						.getTextComponent(), getDefaultTitle());
+		inputPanel.setVisible(((AppW) app).getFileManager().isOnlineSavingPreferred());
 		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());
+	}
+
+	private String getDefaultTitle() {
+		// for Mebis users suggest the current date as title
+		return app.isMebis() ? DateTimeFormat.format(new JsDate())
+				: app.getLocalization().getMenu("Untitled");
 	}
 
 	@Override

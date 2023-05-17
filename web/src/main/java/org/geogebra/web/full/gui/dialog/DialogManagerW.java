@@ -440,23 +440,15 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * @param doYouWantToSaveChanges true if doYooWantToSaveYourChangesDialog
-	 *        should be shown
 	 * @param addTempCheckBox
-	 *        true if checkbox should be visible
+	 *        true if template checkbox should be visible
 	 * @return {@link SaveDialogI}
 	 */
-	public SaveDialogI getSaveDialog(boolean doYouWantToSaveChanges, boolean addTempCheckBox) {
+	public SaveDialogI getSaveDialog(boolean addTempCheckBox) {
 		if (app.isMebis()) {
-			DialogData data = doYouWantToSaveChanges
-					? new DialogData("DoYouWantToSaveYourChanges",
-					"Discard", "Save")
-					:  new DialogData("Save",
+			DialogData data = new DialogData("Save",
 					"Cancel", "Save");
-
-			saveDialog = doYouWantToSaveChanges
-					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
-					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
+			saveDialog = new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null || isSuite()) {
 			DialogData data = getSaveDialogData();
 			saveDialog = new SaveDialogW((AppW) app, data);
@@ -465,6 +457,19 @@ public class DialogManagerW extends DialogManager
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 		return saveDialog;
+	}
+
+	/**
+	 * @return the "do you want to save" dialog
+	 */
+	public SaveDialogI getSaveCheckDialog() {
+		if (!app.isMebis() && ((AppW) app).getFileManager().isOnlineSavingPreferred()) {
+			return getSaveDialog(false);
+		}
+		DialogData data = new DialogData("DoYouWantToSaveYourChanges",
+					"Discard", "Save");
+
+		return new DoYouWantToSaveChangesDialog((AppW) app, data, true);
 	}
 
 	public DialogData getSaveDialogData() {
@@ -486,8 +491,9 @@ public class DialogManagerW extends DialogManager
 	/**
 	 * shows the {@link SaveDialogW} centered on the screen
 	 */
+	@Override
 	public void showSaveDialog() {
-		getSaveDialog(false, true).show();
+		getSaveDialog(true).show();
 	}
 
 	@Override

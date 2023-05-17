@@ -116,9 +116,9 @@ public class ShareControllerW implements ShareController {
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
-				.getSaveDialog(false, false);
+				.getSaveDialog(false);
 		((SaveControllerW) app.getSaveController())
-				.showDialogIfNeeded(shareCallback, true, anchor,
+				.showDialogIfNeeded(shareCallback, true,
 						false, false);
 		saveDialog.setDiscardMode();
 	}
