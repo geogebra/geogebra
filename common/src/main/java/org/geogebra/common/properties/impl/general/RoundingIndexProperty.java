@@ -44,7 +44,6 @@ public class RoundingIndexProperty extends AbstractNamedEnumeratedProperty<Integ
 		setValueNames(valueNames.toArray(new String[0]));
 	}
 
-	// ToDo Check 4630 Language dropdown works 941e35ef
 	@Override
 	public Integer getValue() {
 		return optionsMenu.getMenuDecimalPosition(app.getKernel(), true);
