@@ -2,10 +2,10 @@ package com.himamis.retex.editor.web;
 
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.FocusWidget;
 import org.gwtproject.user.client.ui.RootPanel;
-import org.gwtproject.user.client.ui.TextBoxBase;
 
-public class MyTextArea extends TextBoxBase {
+public class MyTextArea extends FocusWidget {
 
 	/**
 	 * @param element
