@@ -9,6 +9,8 @@ public enum DataTest {
 	ALGEBRA_ITEM_MORE_BUTTON("algebraItemMore"),
 	ALGEBRA_ITEM_PLAY_BUTTON("algebraItemPlayPause"),
 	ALGEBRA_ITEM_SYMBOLIC_BUTTON("algebraItemSymbolic"),
+	ALGEBRA_ITEM_SLIDER_LABEL_MIN("algebraItemSliderLabelMin"),
+	ALGEBRA_ITEM_SLIDER_LABEL_MAX("algebraItemSliderLabelMax"),
 	ALGEBRA_ITEM_SLIDER_MIN("algebraItemSliderMin"),
 	ALGEBRA_ITEM_SLIDER_MAX("algebraItemSliderMax"),
 	ALGEBRA_ITEM_SLIDER_STEP("algebraItemSliderStep");

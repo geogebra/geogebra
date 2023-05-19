@@ -292,6 +292,9 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 	@Override
 	public void updateDataTest(int index) {
+		if (slider != null) {
+			slider.updateDataTest(index);
+		}
 		if (minMaxPanel != null) {
 			minMaxPanel.updateDataTest(index);
 		}
