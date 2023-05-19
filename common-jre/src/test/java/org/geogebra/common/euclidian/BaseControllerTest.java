@@ -3,6 +3,8 @@ package org.geogebra.common.euclidian;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -93,6 +95,11 @@ public class BaseControllerTest extends BaseUnitTest {
 		ec.wrapMouseReleased(evt);
 	}
 
+	protected void drag(int x, int y) {
+		TestEvent evt = new TestEvent(x, y, null, false);
+		ec.wrapMouseDragged(evt, true);
+	}
+
 	protected void dragEnd(int x, int y) {
 		dragEnd(x, y, false);
 	}
@@ -165,6 +172,11 @@ public class BaseControllerTest extends BaseUnitTest {
 			}
 		}
 		assertEquals(desc.length, i);
+	}
+
+	protected void checkContentLabels(String... labels) {
+		assertEquals(Arrays.asList(labels),
+				Arrays.asList(getApp().getGgbApi().getAllObjectNames()));
 	}
 
 }

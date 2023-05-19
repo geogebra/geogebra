@@ -9,14 +9,17 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class DefaultDeletionExecutor implements DeletionExecutor {
 
+	private int deletions = 0;
+
 	@Override
 	public void delete(GeoElement ancestor) {
 		ancestor.removeOrSetUndefinedIfHasFixedDescendent();
+		deletions++;
 	}
 
 	@Override
 	public boolean storeUndoAction(Kernel kernel) {
-		if (kernel.isUndoActive()) {
+		if (kernel.isUndoActive() && deletions > 0) {
 			kernel.storeUndoInfoAndStateForModeStarting();
 			return true;
 		}

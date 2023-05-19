@@ -9,11 +9,15 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.main.undo.DefaultDeletionExecutor;
+import org.geogebra.common.main.undo.DeletionExecutor;
+import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 
 /**
  * Delete mode controller for locus based penstrokes
@@ -24,8 +28,10 @@ public class ModeDeleteLocus {
 	private EuclidianController ec;
 	private boolean objDeleteMode = false;
 	private boolean penDeleteMode = false;
-	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
+	private final GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
 			100);
+	private DeletionExecutor dragDeleteExecutor;
+	private UpdateActionStore dragUpdateStore;
 
 	/**
 	 * @param view
@@ -52,7 +58,7 @@ public class ModeDeleteLocus {
 		rect.setBounds(eventX - ec.getDeleteToolSize() / 2,
 				eventY - ec.getDeleteToolSize() / 2,
 				ec.getDeleteToolSize(), ec.getDeleteToolSize());
-
+		initUndoStoreForDrag();
 		view.setDeletionRectangle(rect);
 		view.getHitDetector().setIntersectionHits(rect);
 		Hits hits = view.getHits();
@@ -67,17 +73,14 @@ public class ModeDeleteLocus {
 		Iterator<GeoElement> it = hits.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			// delete tool should delete the object for dragging
-			// at whiteboard
-			// see MOW-97
-			if (view.getApplication().isWhiteboardActive()
-					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
-				removeOrSetUndefinedIfHasFixedDescendent(geo);
-			} else if (geo instanceof GeoLocusStroke) {
+			if (geo instanceof GeoLocusStroke) {
+				dragUpdateStore.addIfNotPresent(geo);
 				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geo);
 
 				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
+				} else {
+					dragUpdateStore.remove(geo);
 				}
 			} else {
 				if (!this.penDeleteMode) {
@@ -91,13 +94,31 @@ public class ModeDeleteLocus {
 		// do not delete images using eraser
 		hits.removeImages();
 		for (GeoElement hit : hits) {
-			removeOrSetUndefinedIfHasFixedDescendent(hit);
+			removeOrSetUndefinedIfHasFixedDescendent(hit, dragDeleteExecutor);
 		}
 	}
 
-	private void removeOrSetUndefinedIfHasFixedDescendent(GeoElement geo) {
+	private void initUndoStoreForDrag() {
+		if (dragDeleteExecutor == null) {
+			dragDeleteExecutor = getDeletionExecutor();
+			dragUpdateStore = getDragUpdateStore();
+		}
+	}
+
+	private DeletionExecutor getDeletionExecutor() {
+		return ec.getApplication().isWhiteboardActive() ? new UndoableDeletionExecutor()
+				: new DefaultDeletionExecutor();
+	}
+
+	private UpdateActionStore getDragUpdateStore() {
+		return new UpdateActionStore(ec.getApplication().getSelectionManager(),
+				ec.getKernel().getConstruction().getUndoManager());
+	}
+
+	private void removeOrSetUndefinedIfHasFixedDescendent(GeoElement geo,
+			DeletionExecutor deletionExecutor) {
 		if (!view.getApplication().isApplet() || !geo.isLockedPosition()) {
-			geo.removeOrSetUndefinedIfHasFixedDescendent();
+			deletionExecutor.delete(geo);
 		}
 	}
 
@@ -114,6 +135,7 @@ public class ModeDeleteLocus {
 		}
 		ec.addSelectedGeo(hits, 1, false, selPreview);
 		if (ec.selGeos() == 1) {
+			DeletionExecutor deletionExecutor = getDeletionExecutor();
 			GeoElement[] geos = ec.getSelectedGeos();
 			// delete only parts of GeoLocusStroke, not the whole object
 			// when eraser tool is used
@@ -129,17 +151,20 @@ public class ModeDeleteLocus {
 				rect.setBounds(eventX - ec.getDeleteToolSize() / 2,
 						eventY - ec.getDeleteToolSize() / 2,
 						ec.getDeleteToolSize(), ec.getDeleteToolSize());
-
+				UpdateActionStore as = getDragUpdateStore();
+				as.addIfNotPresent(geos[0]);
 				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geos[0]);
 
 				if (!hasVisiblePart) { // still something visible, don't delete
 					// remove this Stroke
-					removeOrSetUndefinedIfHasFixedDescendent(geos[0]);
+					removeOrSetUndefinedIfHasFixedDescendent(geos[0], deletionExecutor);
+				} else {
+					as.storeUndo();
 				}
 			} else if (!(geos[0] instanceof GeoImage)) { // delete this object
-				removeOrSetUndefinedIfHasFixedDescendent(geos[0]);
+				removeOrSetUndefinedIfHasFixedDescendent(geos[0], deletionExecutor);
 			}
-			return true;
+			deletionExecutor.storeUndoAction(ec.getKernel());
 		}
 		return false;
 	}
@@ -173,5 +198,17 @@ public class ModeDeleteLocus {
 	public void mousePressed() {
 		this.objDeleteMode = false;
 		this.penDeleteMode = false;
+	}
+
+	/**
+	 * Store undo action after drag deletion is complete
+	 */
+	public void storeUndoAfterDrag() {
+		if (dragDeleteExecutor != null) {
+			dragUpdateStore.storeUndo();
+			dragDeleteExecutor.storeUndoAction(ec.getKernel());
+			dragDeleteExecutor = null;
+			dragUpdateStore = null;
+		}
 	}
 }

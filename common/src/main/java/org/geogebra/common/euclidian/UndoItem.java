@@ -33,4 +33,8 @@ class UndoItem {
 	public String getLabel() {
 		return geo.getLabelSimple();
 	}
+
+	public boolean hasGeo(GeoElement geo) {
+		return this.geo == geo;
+	}
 }

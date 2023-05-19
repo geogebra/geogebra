@@ -47,6 +47,20 @@ public class UpdateActionStore {
 		}
 	}
 
+	/**
+	 * Add single element if not already present
+	 * @param geo element to add
+	 */
+	public void addIfNotPresent(GeoElement geo) {
+		if (undoItems.stream().noneMatch(it -> it.hasGeo(geo))) {
+			undoItems.add(new UndoItem(geo));
+		}
+	}
+
+	public void remove(GeoElement geo) {
+		undoItems.removeIf(it -> it.hasGeo(geo));
+	}
+
 	public void clear() {
 		undoItems.clear();
 	}
