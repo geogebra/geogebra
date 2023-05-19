@@ -57,8 +57,10 @@ public final class RegressionSpecification {
 				.collect(Collectors.toList());
 	}
 
-	private static void addSpec(Regression regression, int polynomialDegree, String formula, String coefficientOrdering) {
-		specs.add(new RegressionSpecification(regression, polynomialDegree, formula, coefficientOrdering));
+	private static void addSpec(Regression regression, int polynomialDegree, String formula,
+								String coefficientOrdering) {
+		specs.add(new RegressionSpecification(regression, polynomialDegree, formula,
+				coefficientOrdering));
 	}
 
 	public String getLabel() {
