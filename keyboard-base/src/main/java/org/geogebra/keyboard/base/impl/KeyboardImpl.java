@@ -33,6 +33,7 @@ public class KeyboardImpl implements Keyboard {
 	 */
 	public KeyboardImpl(KeyboardType type, Supplier<KeyboardModel> model, CapsLockModifier capsLockModifier,
 			AccentModifier accentModifier) {
+        this.type = type;
         this.modelSupplier = model;
         this.capsLockModifier = capsLockModifier;
         this.accentModifier = accentModifier;
