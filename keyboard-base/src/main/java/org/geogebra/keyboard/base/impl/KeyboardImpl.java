@@ -31,7 +31,9 @@ public class KeyboardImpl implements Keyboard {
 	 * @param accentModifier
 	 *            accent modifier
 	 */
-	public KeyboardImpl(KeyboardType type, Supplier<KeyboardModel> model, CapsLockModifier capsLockModifier,
+	public KeyboardImpl(KeyboardType type,
+            Supplier<KeyboardModel> model,
+            CapsLockModifier capsLockModifier,
 			AccentModifier accentModifier) {
         this.type = type;
         this.modelSupplier = model;
