@@ -1353,7 +1353,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			if (NavigatorUtil.isMobile() && !app.isWhiteboardActive()) {
 				enableCursorOverlay();
 			}
-			enableCursorOverlay();
 			InputKeyboardButton button = app.getGuiManager().getInputKeyboardButton();
 			if (keyboardButtonEnabled && button != null) {
 				attachKeyboardButton(button);
