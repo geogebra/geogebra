@@ -68,7 +68,7 @@ public abstract class Analytics {
 		public static final String LOGIN = "login";
 		public static final String SEARCH = "search";
 		public static final String TOOL_SELECTED = "tool_selected";
-		public static final String KEY_PRESS = "key_press";
+		public static final String KEYBOARD = "keyboard";
 
 		private Event() {
 		}
@@ -135,8 +135,8 @@ public abstract class Analytics {
 	public static class InputSource {
 		public static final String ALGEBRA = "Algebra";
 		public static final String DATA_TABLE = "Data Table";
-		public static final String DATA_TABLE_DIALOG = "Data Table (dialog)";
 		public static final String DISTRIBUTION = "Distribution";
 		public static final String SETTINGS = "Settings";
+		public static final String DIALOG = "Dialog";
 	}
 }

@@ -20,8 +20,10 @@ public class KeyboardImpl implements Keyboard {
     private List<KeyboardObserver> observers = new ArrayList<>();
 
 	/**
+     * @param type
+     *            the keyboard type (ABC, numeric, ...)
 	 * @param model
-	 *            model
+	 *            the keyboard model (as rows of buttons)
 	 * @param capsLockModifier
 	 *            caps lock modifier
 	 * @param accentModifier

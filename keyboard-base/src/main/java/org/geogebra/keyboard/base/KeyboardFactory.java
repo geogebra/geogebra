@@ -129,6 +129,8 @@ public class KeyboardFactory {
 	/**
 	 * @param modelFactory
 	 *            model factory
+	 * @param type
+	 * 			  the keyboard type (ABC, numeric, ...)
 	 * @return default implementation
 	 */
 	public Keyboard getImpl(KeyboardModelFactory modelFactory, KeyboardType type) {
@@ -141,12 +143,14 @@ public class KeyboardFactory {
 	/**
 	 * @param modelFactory
 	 *            model factory
+	 * @param type
+	 * 			  the keyboard type (ABC, numeric, ...)
 	 * @param capsLock
 	 *            capslock modifier
 	 * @return keyboard
 	 */
-	public Keyboard getImpl(KeyboardType type,
-			KeyboardModelFactory modelFactory,
+	public Keyboard getImpl(KeyboardModelFactory modelFactory,
+			KeyboardType type,
 			CapsLockModifier capsLock) {
 		return new KeyboardImpl(
 				type,
