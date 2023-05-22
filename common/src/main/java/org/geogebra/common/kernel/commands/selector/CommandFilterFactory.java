@@ -148,7 +148,9 @@ public final class CommandFilterFactory {
 				Commands.NextPrime, Commands.PreviousPrime, Commands.Solve,
 				Commands.Solutions, Commands.NSolutions, Commands.NSolve,
 				Commands.IntegralSymbolic, Commands.RemovableDiscontinuity,
-				Commands.PlotSolve);
+				Commands.PlotSolve, Commands.ExtendedGCD, Commands.ModularExponent,
+				Commands.CharacteristicPolynomial, Commands.MinimalPolynomial,
+				Commands.LUDecomposition, Commands.QRDecomposition);
 		return commandNameFilter;
 	}
 

@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -56,5 +57,20 @@ public class GeoFunctionTest extends BaseUnitTest {
 		GeoFunction fn = add("h(x)=Element({x^(3)-3 x},2)");
 		assertEquals("?", fn.getFormulaString(StringTemplate.latexTemplate, false));
 		assertEquals("?", fn.getFormulaString(StringTemplate.latexTemplate, true));
+	}
+
+	@Test
+	public void shouldRegisterParentFunctionVar() {
+		add("f(k)=k^2");
+		assertThat(add("f'(k)"), hasValue("2k"));
+		assertThat(add("f(k+1)"), hasValue("(k + 1)²"));
+	}
+
+	@Test
+	public void shouldNotRegisterParentFunctionVarIfExplicit() {
+		add("f(n)=n^2");
+		GeoFunction g = add("g(t)=If(t<1,f(t)+1,7)");
+		assertThat(g, hasValue("If(t < 1, t² + 1, 7)"));
+		assertThat(g.getVarString(StringTemplate.defaultTemplate), equalTo("t"));
 	}
 }

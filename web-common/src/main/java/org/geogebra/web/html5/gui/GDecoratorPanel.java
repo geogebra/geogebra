@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui;
 import org.geogebra.common.main.App;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.ui.DecoratorPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.UIObject;
 import org.gwtproject.user.client.ui.Widget;
@@ -37,7 +36,7 @@ import org.gwtproject.user.client.ui.Widget;
  * <p>
  * Wrapping a {@link Widget} in a "9-box" allows users to specify images in each
  * of the corners and along the four borders. This method allows the content
- * within the {@link DecoratorPanel} to resize without disrupting the look of
+ * within the {@link GDecoratorPanel} to resize without disrupting the look of
  * the border. In addition, rounded corners can generally be combined into a
  * single image file, which reduces the number of downloaded files at startup.
  * This class also simplifies the process of using AlphaImageLoaders to support
@@ -46,10 +45,10 @@ import org.gwtproject.user.client.ui.Widget;
  * </p>
  * <h3>Setting the Size:</h3>
  * <p>
- * If you set the width or height of the {@link DecoratorPanel}, you need to set
+ * If you set the width or height of the {@link GDecoratorPanel}, you need to set
  * the height and width of the middleCenter cell to 100% so that the
  * middleCenter cell takes up all of the available space. If you do not set the
- * width and height of the {@link DecoratorPanel}, it will wrap its contents
+ * width and height of the {@link GDecoratorPanel}, it will wrap its contents
  * tightly.
  * </p>
  * 
@@ -151,7 +150,7 @@ public class GDecoratorPanel extends SimplePanel {
 	}
 
 	/**
-	 * Create a new {@link DecoratorPanel}.
+	 * Create a new {@link GDecoratorPanel}.
 	 */
 	public GDecoratorPanel(App app) {
 		this(DEFAULT_ROW_STYLENAMES, 1, app);

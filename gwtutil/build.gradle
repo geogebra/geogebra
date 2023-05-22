@@ -7,8 +7,8 @@ plugins {
 project.setDescription('Developer tools required to compile web platforms')
 
 dependencies {
-    api 'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305081',
-            'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305081:sources',
+    api 'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305131',
+            'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305131:sources',
         "org.gwtproject:gwt-user:$gwtCompilerVersion",
         "org.gwtproject:gwt-dev:$gwtCompilerVersion",
             project(':common')

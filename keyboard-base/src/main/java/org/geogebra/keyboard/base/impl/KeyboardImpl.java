@@ -2,6 +2,7 @@ package org.geogebra.keyboard.base.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardType;
@@ -12,12 +13,13 @@ import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 
 public class KeyboardImpl implements Keyboard {
 
-    private KeyboardType type;
+    private final KeyboardType type;
+    private final Supplier<KeyboardModel> modelSupplier;
     private KeyboardModel model;
-    private CapsLockModifier capsLockModifier;
-    private AccentModifier accentModifier;
+    private final CapsLockModifier capsLockModifier;
+    private final AccentModifier accentModifier;
 
-    private List<KeyboardObserver> observers = new ArrayList<>();
+    private final List<KeyboardObserver> observers = new ArrayList<>();
 
 	/**
      * @param type
@@ -29,11 +31,9 @@ public class KeyboardImpl implements Keyboard {
 	 * @param accentModifier
 	 *            accent modifier
 	 */
-	public KeyboardImpl(KeyboardType type,
-            KeyboardModel model,
-            CapsLockModifier capsLockModifier, AccentModifier accentModifier) {
-        this.type = type;
-        this.model = model;
+	public KeyboardImpl(KeyboardType type, Supplier<KeyboardModel> model, CapsLockModifier capsLockModifier,
+			AccentModifier accentModifier) {
+        this.modelSupplier = model;
         this.capsLockModifier = capsLockModifier;
         this.accentModifier = accentModifier;
     }
@@ -45,6 +45,9 @@ public class KeyboardImpl implements Keyboard {
 
     @Override
     public KeyboardModel getModel() {
+        if (model == null) {
+            model = modelSupplier.get();
+        }
         return model;
     }
 

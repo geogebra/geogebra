@@ -20,7 +20,7 @@ def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
 
 def s3uploadDefault = { dir, pattern, encoding ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
-        if (!pattern.contains(".zip") && !pattern.contains("editor/")) {
+        if (!pattern.contains("editor/")) {
             s3Upload(bucket: 'apps-builds', workingDir: dir, path: s3buildDir,
                includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding)
         }
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'build', state: 'pending'
                 writeFile file: 'changes.csv', text: getChangelog()
-                sh label: 'build web', script: "./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy ${modules} -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
+                sh label: 'build web', script: "./gradlew :web:prepareS3Upload :web:mergeDeploy ${modules} -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
             }
         }
         stage('tests and reports') {
@@ -136,7 +136,6 @@ pipeline {
                     }
                     s3uploadDefault("web/war", "**/*.html", "")
                     s3uploadDefault("web/war", "**/deployggb.js", "")
-                    s3uploadDefault("web/war", "*.zip", "")
                     s3uploadDefault("web/war", "geogebra-live.js", "")
                     s3uploadDefault("web/war", "platform.js", "")
                     s3uploadDefault("web/war", "css/**", "")

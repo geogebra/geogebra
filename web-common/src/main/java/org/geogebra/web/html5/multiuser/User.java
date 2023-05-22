@@ -20,7 +20,6 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.HasTransformation;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.main.SelectionManager;
@@ -43,29 +42,23 @@ class User {
 		this.color = color;
 	}
 
-	public void addSelection(EuclidianView view, String label, boolean newGeo) {
-		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
-		if (geo instanceof GeoInline && newGeo) {
-			// if the inline element gets updated after it was deselected
-			// don't add to interactions
-			return;
-		}
-
-		if (newGeo) {
-			if (geo instanceof GeoLocusStroke) {
-				updatedGeos.computeIfAbsent(label, k -> new Timer() {
-					@Override
-					public void run() {
-						updatedGeos.remove(label);
-						view.repaintView();
-					}
-				}).schedule(2000);
-			}
-		} else {
-			selectedGeos.add(label);
-		}
-
+	public void addSelection(EuclidianView view, String label) {
+		selectedGeos.add(label);
 		view.repaintView();
+	}
+
+	public void addInteraction(EuclidianView view, String label) {
+		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
+		if (geo instanceof GeoLocusStroke && !selectedGeos.contains(label)) {
+			updatedGeos.computeIfAbsent(label, k -> new Timer() {
+				@Override
+				public void run() {
+					updatedGeos.remove(label);
+					view.repaintView();
+				}
+			}).schedule(2000);
+			view.repaintView();
+		}
 	}
 
 	public void deselectAll(EuclidianView view) {

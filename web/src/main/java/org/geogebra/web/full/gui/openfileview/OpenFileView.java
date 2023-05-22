@@ -17,11 +17,11 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
-import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 import elemental2.dom.File;
@@ -38,13 +38,11 @@ public class OpenFileView extends HeaderFileView
 	 * @param app - application
 	 * @param openFileButton - button to open file picker
 	 */
-	public OpenFileView(AppW app, BrowserDevice.FileOpenButton openFileButton) {
+	public OpenFileView(AppWFull app, BrowserDevice.FileOpenButton openFileButton) {
 		this.app = app;
 		this.openFileBtn = openFileButton;
+		app.ensureLoginOperation();
 		common = new FileViewCommon(app, "Open", true);
-		if (this.app.getLoginOperation() == null) {
-			this.app.initSignInEventFlow(new LoginOperationW(app));
-		}
 		this.app.getLoginOperation().getView().add(this);
 		if (app.getGoogleDriveOperation() != null) {
 			app.getGoogleDriveOperation().initGoogleDriveApi();

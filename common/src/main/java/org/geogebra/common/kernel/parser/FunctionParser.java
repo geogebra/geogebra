@@ -219,11 +219,7 @@ public class FunctionParser {
 		if (order > 0) { // derivative
 							// n-th derivative of geo
 			if (hasDerivative(geo)) {// function
-
-				kernel.getConstruction()
-						.registerFunctionVariable(((VarString) geo).getFunctionVariables()[0]
-								.toString(StringTemplate.defaultTemplate));
-
+				registerFunctionVars((VarString) geo);
 				return derivativeNode(kernel, geoExp, order, geo.isGeoCurveCartesian(),
 						myList.getListElement(0));
 			}
@@ -233,11 +229,8 @@ public class FunctionParser {
 		if (geo instanceof GeoFunctionNVar || geo instanceof GeoSymbolic) {
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR, myList);
 		} else if (geo instanceof Evaluatable && !geo.isGeoList()) {// function
-			if (geo instanceof ParametricCurve
-					&& ((ParametricCurve) geo).getFunctionVariables() != null) {
-				kernel.getConstruction()
-						.registerFunctionVariable(((ParametricCurve) geo).getFunctionVariables()[0]
-								.toString(StringTemplate.defaultTemplate));
+			if (geo instanceof ParametricCurve) {
+				registerFunctionVars((ParametricCurve) geo);
 			}
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION, myList.getListElement(0));
 		} else if (geo != null
@@ -268,6 +261,15 @@ public class FunctionParser {
 		// a(b) becomes a*b because a is not a function, no list, and no curve
 		// e.g. a(1+x) = a*(1+x) when a is a number
 		return multiplication(geoExp, undecided, myList, funcName);
+	}
+
+	private void registerFunctionVars(VarString geo) {
+		if (!kernel.getConstruction().hasRegisteredFunctionVariable()
+				&& geo.getFunctionVariables() != null) {
+			kernel.getConstruction()
+					.registerFunctionVariable(geo.getFunctionVariables()[0]
+							.toString(StringTemplate.defaultTemplate));
+		}
 	}
 
 	public static boolean isDerivativeChar(char ch) {
