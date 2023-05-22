@@ -10066,7 +10066,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// ended deletion
 			view.setDeletionRectangle(null);
 			view.repaintView();
-			storeUndoInfo();
+			getDeleteMode().storeUndoAfterDrag();
 		}
 
 		// reset
