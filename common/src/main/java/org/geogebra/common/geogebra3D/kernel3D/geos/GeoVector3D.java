@@ -645,7 +645,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public void rotate(NumberValue phiValue, GeoPointND S,
+	public void rotate(NumberValue phiValue, Coords S,
 			GeoDirectionND orientation) {
 
 		// origin ignored
@@ -672,16 +672,6 @@ public class GeoVector3D extends GeoVec4D
 		Coords v2 = vn2.crossProduct4(v);
 		Coords v1 = v2.crossProduct4(vn2);
 		setCoords(v1.mul(cos).add(v2.mul(sin)).add(vn2.mul(v.dotproduct(vn2))));
-
-	}
-
-	@Override
-	public void rotate(NumberValue phiValue, GeoLineND line) {
-
-		// origin ignored
-		Coords vn = line.getDirectionInD3();
-
-		rotate(phiValue, vn);
 
 	}
 

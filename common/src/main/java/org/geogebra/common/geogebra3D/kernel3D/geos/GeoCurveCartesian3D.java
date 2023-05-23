@@ -271,21 +271,13 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S,
+	public void rotate(NumberValue r, Coords S,
 			GeoDirectionND orientation) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 		SurfaceTransform.rotate(fun, kernel, r, S, orientation, tmpMatrix4x4);
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoLineND line) {
-		if (tmpMatrix4x4 == null) {
-			tmpMatrix4x4 = new CoordMatrix4x4();
-		}
-		SurfaceTransform.rotate(fun, kernel, r, line, tmpMatrix4x4);
 	}
 
 	@Override

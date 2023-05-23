@@ -768,23 +768,12 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S,
+	public void rotate(NumberValue r, Coords S,
 			GeoDirectionND orientation) {
 
 		((GeoConic3D) bottom).rotate(r, S, orientation);
 		top.rotate(r, S, orientation);
 		side.rotate(r, S, orientation);
-
-		// get infos from side
-		origin = side.getMidpoint3D();
-		direction = side.getEigenvec3D(2);
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoLineND line) {
-		((GeoConic3D) bottom).rotate(r, line);
-		top.rotate(r, line);
-		side.rotate(r, line);
 
 		// get infos from side
 		origin = side.getMidpoint3D();

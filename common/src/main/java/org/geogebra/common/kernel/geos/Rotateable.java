@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Elements rotateable around origin
@@ -26,6 +27,12 @@ public interface Rotateable extends GeoElementND {
 	 * @param r
 	 *            angle
 	 */
-	public void rotate(NumberValue r);
+	void rotate(NumberValue r);
+
+	/**
+	 * @param r angle
+	 * @param S center of rotation
+	 */
+	void rotate(NumberValue r, GeoPointND S);
 
 }

@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.PointRotateable;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Elements rotateable around arbitrary 3D object (point or line)
@@ -18,16 +19,6 @@ public interface RotateableND extends PointRotateable {
 	 * @param orientation
 	 *            orientation for the rotation
 	 */
-	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation);
-
-	/**
-	 * Rotates this element about a line
-	 * 
-	 * @param r
-	 *            angle
-	 * @param line
-	 *            line
-	 */
-	public void rotate(NumberValue r, GeoLineND line);
+	public void rotate(NumberValue r, Coords S, GeoDirectionND orientation);
 
 }

@@ -1802,7 +1802,7 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S,
+	public void rotate(NumberValue r, Coords S,
 			GeoDirectionND orientation) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
@@ -1812,18 +1812,6 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		updatePolygonsAndSegmentsAlgos();
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoLineND line) {
-		for (GeoPoint3D point : copyPoints.values()) {
-			if (point.isDefined()) {
-				point.rotate(r, line);
-			}
-		}
-
-		updatePolygonsAndSegmentsAlgos();
-
 	}
 
 	@Override

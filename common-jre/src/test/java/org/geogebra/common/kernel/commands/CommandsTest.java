@@ -771,6 +771,10 @@ public class CommandsTest {
 	@Test
 	public void cmdApplyMatrix() {
 		t("ApplyMatrix[ {{1,2},{3,4}}, Polygon[(1,1),(2,1/2),4] ]", "2.5");
+		t("ApplyMatrix[ {{2,0,0},{0,3,0},{0,0,4}}, Sphere((0,0,1),1) ]",
+				"0.25x² + 0.1111111111111111y² + 0.0625z² - 0.5z = 0");
+		tRound("Coefficients[ApplyMatrix[ {{0,1},{-1,0}}, 2x+y+0z=1 ]] * sqrt(5)",
+				"{-1, 2, 0, 1}");
 	}
 
 	@Test

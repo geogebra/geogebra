@@ -1534,13 +1534,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public void rotate(NumberValue phiValue, GeoPointND S,
+	public void rotate(NumberValue phiValue, Coords S,
 			GeoDirectionND orientation) {
-
-		Coords o1 = S.getInhomCoordsInD3();
 		Coords vn = orientation.getDirectionInD3();
 
-		rotate(phiValue, o1, vn);
+		rotate(phiValue, S, vn);
 
 	}
 
@@ -1588,11 +1586,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		setCoords(tmpCoords1.setAdd(tmpCoords1, tmpCoords2.setAdd(
 				tmpCoords2.mulInside(cos), tmpCoords3.mulInside(sin / l))));
-	}
-
-	@Override
-	public void rotate(NumberValue phiValue, GeoLineND line) {
-		rotate(phiValue.getDouble(), line);
 	}
 
 	/**
