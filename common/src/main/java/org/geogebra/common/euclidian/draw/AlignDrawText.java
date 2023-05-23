@@ -27,17 +27,17 @@ public class AlignDrawText {
 	private double getXLabelAligned(double width) {
 		switch (getHorizontalAlignment()) {
 		case -1:
-			return getXLabelForLeft();
+			return getXLabelForLeft(width);
 		case 0:
 			return getXLabelForCenter(width) ;
 		case 1:
 		default:
-			return getXLabelForRight(width);
+			return getXLabelForRight();
 
 		}
 	}
 
-	private int getXLabelForLeft() {
+	private int getXLabelForRight() {
 		return drawText.xLabel + MARGIN;
 	}
 
@@ -45,7 +45,7 @@ public class AlignDrawText {
 		return drawText.xLabel + MARGIN / 2.0 - Math.floor(width / 2);
 	}
 
-	private double getXLabelForRight(double width) {
+	private double getXLabelForLeft(double width) {
 		return drawText.xLabel - width + 1;
 	}
 
