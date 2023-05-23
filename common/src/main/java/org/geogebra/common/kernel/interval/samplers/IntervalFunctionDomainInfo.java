@@ -39,4 +39,8 @@ public class IntervalFunctionDomainInfo {
 		// if low1 < low2, we need low1 <= low2 <= high1, otherwise low2 <= low1 <= high2
 		return domainBefore.contains(domain.getLow()) || domain.contains(domainBefore.getLow());
 	}
+
+	public double getLength() {
+		return domainBefore.getLength();
+	}
 }
