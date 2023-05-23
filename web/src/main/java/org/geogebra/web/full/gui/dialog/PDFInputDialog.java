@@ -21,7 +21,6 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.KeyCodes;
-import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FileUpload;
 import org.gwtproject.user.client.ui.FlowPanel;

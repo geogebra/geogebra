@@ -2,7 +2,6 @@ package org.geogebra.keyboard.web;
 
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ClientBundle;
-import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.Resource;
 
 /**
