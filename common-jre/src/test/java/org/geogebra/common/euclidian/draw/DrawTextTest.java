@@ -19,7 +19,16 @@ public class DrawTextTest extends BaseUnitTest {
 		GeoText txt = add("Text(\"short text\",(0,0),false,false,-1,0)");
 		DrawText drawable = (DrawText) getApp().getActiveEuclidianView().getDrawableFor(txt);
 		assertThat(drawable, notNullValue());
-		assertThat(drawable.getBounds(), notNullValue());
+		GRectangle bounds = Objects.requireNonNull(drawable.getBounds());
+		assertThat(drawable.xLabel + bounds.getWidth(), equalTo(401.0));
+	}
+
+	@Test
+	public void testAlignLeftVerticalDefault() {
+		add("ZoomIn(-5,-5,5,5)");
+		GeoText txt = add("Text(\"short text\",(0,0),false,false,-1)");
+		DrawText drawable = (DrawText) getApp().getActiveEuclidianView().getDrawableFor(txt);
+		assertThat(drawable, notNullValue());
 		GRectangle bounds = Objects.requireNonNull(drawable.getBounds());
 		assertThat(drawable.xLabel + bounds.getWidth(), equalTo(401.0));
 	}
