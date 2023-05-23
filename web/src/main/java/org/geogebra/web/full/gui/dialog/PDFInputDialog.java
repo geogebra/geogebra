@@ -15,6 +15,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.pdf.PDFWrapper;
 import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.dom.client.Element;
@@ -244,7 +245,7 @@ public class PDFInputDialog extends ComponentDialog
 	}
 
 	private StandardButton createImgButton(FlowPanel root,
-			ImageResource imgSource, String styleName) {
+			SVGResource imgSource, String styleName) {
 		StandardButton btn = new StandardButton(imgSource, null, 24, 24);
 		btn.addStyleName(styleName);
 		btn.addFastClickHandler(this);
