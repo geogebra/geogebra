@@ -64,9 +64,11 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.util.TestHarness;
+import org.geogebra.web.html5.util.DataTest;
+import org.geogebra.web.html5.util.HasDataTest;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
@@ -100,7 +102,8 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
  * definitionPanel -> canvas | STRING
  */
 public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
-		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels, SyntaxTooltipUpdater {
+		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels, SyntaxTooltipUpdater,
+		HasDataTest {
 
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
@@ -169,6 +172,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	InputItemControl inputControl;
 	private ComponentToast toast;
 	private final SyntaxController syntaxController;
+	private int index;
+	private ToggleButton symbolicButton;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -252,6 +257,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			getWidget().getElement().getStyle().setProperty("minHeight", 72,
 					Unit.PX);
 		}
+		updateDataTest(getIndex());
 	}
 
 	protected void addMarble() {
@@ -259,6 +265,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		marblePanel = app.getActivity().createAVItemHeader(this);
 		setIndexLast();
+		updateDataTest();
 		main.add(marblePanel);
 	}
 
@@ -266,7 +273,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Update index in the header for the last item of AV
 	 */
 	protected void setIndexLast() {
-		marblePanel.setIndex(getAV().getItemCount());
+		index = getAV().getItemCount();
+	}
+
+	public int getIndex() {
+		return index;
 	}
 
 	protected void styleContent() {
@@ -382,7 +393,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				getFontSize());
 		if (geo != null && AlgebraItem.shouldShowSymbolicOutputButton(geo)) {
 			addControls();
-			AlgebraOutputPanel.createSymbolicButton(controls, geo);
+			symbolicButton = AlgebraOutputPanel.createSymbolicButton(controls, geo);
 		} else if (controls != null) {
 			AlgebraOutputPanel.removeSymbolicButton(controls);
 		}
@@ -1606,7 +1617,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		mf = new MathFieldW(new SyntaxAdapterImpl(kernel), latexItem, canvas,
 				getLatexController());
-		TestHarness.setAttr(mf.getInputTextArea(), "avInputTextArea");
+		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());
@@ -2028,6 +2039,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (definitionValuePanel != null) {
 			updateFont(definitionValuePanel);
 		}
+		updateDataTest(getIndex());
+
 	}
 
 	public void preventBlur() {
@@ -2150,5 +2163,29 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (mf != null) {
 			mf.getInternal().convertAndInsert(string);
 		}
+	}
+
+	protected void updateDataTest() {
+		updateDataTest(index);
+	}
+
+	@Override
+	public void updateDataTest(int index) {
+		marblePanel.setIndex(index);
+		DataTest.ALGEBRA_ITEM_SYMBOLIC_BUTTON.applyWithIndex(symbolicButton, index);
+		DataTest.ALGEBRA_OUTPUT_ROW.applyWithIndex(outputPanel, index);
+
+		if (isInputTreeItem()) {
+			DataTest.ALGEBRA_INPUT.apply(content);
+		}
+
+		if (controls != null) {
+			controls.updateDataTest(index);
+		}
+
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }

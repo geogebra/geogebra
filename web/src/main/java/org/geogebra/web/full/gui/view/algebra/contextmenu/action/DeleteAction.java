@@ -8,6 +8,7 @@ public class DeleteAction extends DefaultMenuAction<GeoElement> {
 
 	@Override
 	public void execute(GeoElement item, AppWFull app) {
+		app.getAlgebraView().resetDataTestOnDelete(item);
 		item.remove();
 		app.storeUndoInfo();
 	}
