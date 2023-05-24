@@ -284,7 +284,7 @@ void fraction(MathContainer currentField) :
     	editorState.setCurrentField((MathSequence) currentField);
     	editorState.setCurrentOffset(currentField.size());
     	fraction.setArgument(0, passArgs);
-    	ArgumentHelper.passArgument(editorState, fraction);
+    	ArgumentHelper.passArgument(editorState, fraction, false);
     	//handle denominator
     	MathSequence mathSequence = new MathSequence();
     	mathAtomOrPower(mathSequence);
@@ -301,9 +301,11 @@ void recurringDecimal(MathContainer currentField) :
 {
 	<OVERLINE> {
 		recurringDecimal = new MathFunction(metaModel.getGeneral(Tag.RECURRING_DECIMAL));
-		MathSequence mathSequence = new MathSequence();
-		mathAtomCharacter(mathSequence); // TODO: Breaks upon re-editing
-		recurringDecimal.setArgument(0, mathSequence);
+		MathSequence passArg = new MathSequence();
+		editorState.setCurrentField((MathSequence) currentField);
+		editorState.setCurrentOffset(currentField.size());
+		recurringDecimal.setArgument(0, passArg);
+		ArgumentHelper.passArgument(editorState, recurringDecimal, true);
 		currentField.addArgument(recurringDecimal);
 	}
 }

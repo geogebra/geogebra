@@ -353,7 +353,7 @@ public class InputController {
 				editorState.setCurrentOffset(0);
 				return;
 			}
-			ArgumentHelper.passArgument(editorState, function);
+			ArgumentHelper.passArgument(editorState, function, false);
 		} else if (tag == Tag.SUPERSCRIPT) {
 			if (hasSelection) {
 				MathArray array = this.newArray(editorState, 1, '(', false);
