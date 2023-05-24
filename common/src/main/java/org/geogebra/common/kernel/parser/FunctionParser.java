@@ -231,7 +231,7 @@ public class FunctionParser {
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR, myList);
 		} if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
-			return 	new ExpressionNode(kernel, geoExp,
+			return new ExpressionNode(kernel, geoExp,
 					symbolic.getTwinGeo() instanceof GeoList
 					? Operation.ELEMENT_OF
 					: Operation.FUNCTION_NVAR,
