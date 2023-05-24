@@ -4,6 +4,6 @@ public class NotesPriorityComparator implements GeoPriorityComparator {
 
 	@Override
 	public int compare(GeoElement a, GeoElement b, boolean checkLastHitType) {
-		return a.getOrdering() - b.getOrdering();
+		return (int)a.getOrdering() - (int)b.getOrdering(); //TODO: hi
 	}
 }

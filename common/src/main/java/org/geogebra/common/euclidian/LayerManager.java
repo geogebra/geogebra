@@ -8,11 +8,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.groups.Group;
+import org.geogebra.common.main.undo.UpdateOrderActionStore;
+import org.geogebra.common.main.undo.UpdateStyleActionStore;
 import org.geogebra.common.util.CopyPaste;
 
 public class LayerManager {
 
-	private List<GeoElement> drawingOrder = new ArrayList<>();
+	private ArrayList<GeoElement> drawingOrder = new ArrayList<>();
 	private boolean renaming = false;
 
 	private int getNextOrder() {
@@ -29,9 +31,9 @@ public class LayerManager {
 		if (geo instanceof GeoLocusStroke) {
 			GeoLocusStroke stroke = (GeoLocusStroke) geo;
 			if (stroke.getSplitParentLabel() != null) {
-				int order = stroke.getConstruction()
+				float order = stroke.getConstruction()
 						.lookupLabel(stroke.getSplitParentLabel()).getOrdering();
-				drawingOrder.add(order, geo);
+				drawingOrder.add((int)order, geo); //TODO: hi
 				updateOrdering();
 				return;
 			}
@@ -39,6 +41,9 @@ public class LayerManager {
 
 		if (!geo.isMask() && !geo.isMeasurementTool()) {
 			geo.setOrdering(getNextOrder());
+			geo.setDepth(getNextOrder()); //sets depth to the size of the list
+			//might not work...will somehow have to get the depth of the first element in front
+			//and add to that 1 or something
 			drawingOrder.add(geo);
 		}
 	}
@@ -63,12 +68,15 @@ public class LayerManager {
 	 * one with the highest priority in the selection
 	 */
 	public void moveForward(List<GeoElement> selection) {
+		UpdateOrderActionStore store = new UpdateOrderActionStore(drawingOrder); //todo: drawingorder oder selection?
 		if (isGroupMember(selection)) {
 			moveGroupMemberForward(selection.get(0));
 		} else {
 			moveSelectionForward(selection);
 		}
 		updateOrdering();
+		store.updateDepth(drawingOrder);
+		store.storeUndo();
 	}
 
 	private void moveSelectionForward(List<GeoElement> selection) {
@@ -126,6 +134,7 @@ public class LayerManager {
 	 * lowest priority in the selection
 	 */
 	public void moveBackward(List<GeoElement> selection) {
+		UpdateOrderActionStore store = new UpdateOrderActionStore(drawingOrder);
 		if (isGroupMember(selection)) {
 			moveGroupMemberBackward(selection.get(0));
 		} else {
@@ -133,6 +142,8 @@ public class LayerManager {
 		}
 
 		updateOrdering();
+		store.updateDepth(drawingOrder);
+		store.storeUndo();
 	}
 
 	private void moveSelectionBackward(List<GeoElement> selection) {
@@ -198,12 +209,15 @@ public class LayerManager {
 	 * while respecting their relative ordering
 	 */
 	public void moveToFront(List<GeoElement> selection) {
+		UpdateOrderActionStore store = new UpdateOrderActionStore(drawingOrder);
 		if (isGroupMember(selection)) {
 			moveGroupMemberToFront(selection.get(0));
 		} else {
 			moveSelectionToFront(selection);
 		}
 		updateOrdering();
+		store.updateDepth(drawingOrder);
+		store.storeUndo();
 	}
 
 	private void moveSelectionToFront(List<GeoElement> selection) {
@@ -224,12 +238,15 @@ public class LayerManager {
 	 * while respecting their relative ordering
 	 */
 	public void moveToBack(List<GeoElement> selection) {
+		UpdateOrderActionStore store = new UpdateOrderActionStore(drawingOrder);
 		if (isGroupMember(selection)) {
 			moveGroupMemberToBack(selection.get(0));
 		} else {
 			moveSelectionToBack(selection);
 		}
 		updateOrdering();
+		store.updateDepth(drawingOrder);
+		store.storeUndo();
 	}
 
 	private void moveSelectionToBack(List<GeoElement> selection) {
@@ -281,6 +298,7 @@ public class LayerManager {
 	 * @param geo to move front.
 	 */
 	private void moveGroupMemberToFront(GeoElement geo) {
+		setModifiedObjectDepth(geo, ObjectMovement.FRONT);
 		moveTo(geo, lastIndexOf(geo.getParentGroup()));
 	}
 
@@ -291,6 +309,7 @@ public class LayerManager {
 	 * @param geo to move back.
 	 */
 	private void moveGroupMemberToBack(GeoElement geo) {
+		setModifiedObjectDepth(geo, ObjectMovement.BACK);
 		moveTo(geo, firstIndexOf(geo.getParentGroup()));
 	}
 
@@ -310,6 +329,7 @@ public class LayerManager {
 	 */
 	private void moveGroupMemberForward(GeoElement geo) {
 		int index = indexOf(geo);
+		setModifiedObjectDepth(geo, ObjectMovement.FORWARD);
 		if (index < lastIndexOf(geo.getParentGroup())) {
 			Collections.swap(drawingOrder, index, index + 1);
 		}
@@ -323,10 +343,52 @@ public class LayerManager {
 	 */
 	private void moveGroupMemberBackward(GeoElement geo) {
 		int index = indexOf(geo);
+		setModifiedObjectDepth(geo, ObjectMovement.BACKWARD);
 		if (index > firstIndexOf(geo.getParentGroup())) {
 			Collections.swap(drawingOrder, index, index - 1);
 		}
 	}
+
+	private void setModifiedObjectDepth(GeoElement geo, ObjectMovement movement) {
+
+		int index = indexOf(geo);
+		int firstIndex = firstIndexOf(geo.getParentGroup());
+		int lastIndex = lastIndexOf(geo.getParentGroup());
+
+		switch (movement) {
+		case FORWARD:
+			if (index + 2 <= lastIndex) {
+				geo.setDepth(
+						(drawingOrder.indexOf(index + 1) + drawingOrder.indexOf(index + 2))/ 2
+				);
+			} else {
+				if (index + 1 == lastIndex) {
+					geo.setDepth(
+							drawingOrder.indexOf(lastIndex) + 1
+					);
+				} //else depth stays the same (double check this)
+			}
+			break;
+		case BACKWARD:
+			if (index - 2 >= firstIndex) {
+				geo.setDepth(
+						(drawingOrder.indexOf(index - 1) + drawingOrder.indexOf(index - 2))/ 2
+				);
+			} else {
+				if (index - 1 == firstIndex) {
+					geo.setDepth(
+							drawingOrder.indexOf(firstIndex) - 1
+					);
+				} //else depth stays the same (double check this)
+			}
+			break;
+		case FRONT: geo.setDepth(drawingOrder.indexOf(lastIndex) + 1);
+			break;
+		case BACK: geo.setDepth(drawingOrder.indexOf(firstIndex) - 1);
+			break;
+		}
+	}
+
 
 	private int indexOf(GeoElement geo) {
 		return drawingOrder.indexOf(geo);
@@ -351,7 +413,7 @@ public class LayerManager {
 	private void updateOrdering() {
 		for (int i = 0; i < drawingOrder.size(); i++) {
 			drawingOrder.get(i).setOrdering(i);
-		}
+		} //TODO: set the undo/redo point here?
 	}
 
 	private void addSelectionSorted(List<GeoElement> to, List<GeoElement> from) {
@@ -369,7 +431,7 @@ public class LayerManager {
 				return -1;
 			}
 			if (a.getOrdering() - b.getOrdering() != 0) {
-				return a.getOrdering() - b.getOrdering();
+				return (int)a.getOrdering() - (int)b.getOrdering(); //TODO: hi
 			}
 			// delete, undo => the *new* element with the same ordering should be lower
 			return b.getConstructionIndex() - a.getConstructionIndex();
