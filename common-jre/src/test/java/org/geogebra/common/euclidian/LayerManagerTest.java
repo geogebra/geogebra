@@ -126,11 +126,11 @@ public class LayerManagerTest extends BaseControllerTest {
 
 	static void assertOrdering(GeoElement[] geos, int... newOrder) {
 		Assert.assertEquals(geos.length, newOrder.length);
-		List<Integer> actual = new ArrayList<>();
-		List<Integer> expected = new ArrayList<>();
+		List<Float> actual = new ArrayList<>();
+		List<Float> expected = new ArrayList<>();
 		for (int i = 0; i < geos.length; i++) {
-			actual.add((int)geos[newOrder[i]].getOrdering()); //TODO: hi
-			expected.add(i);
+			actual.add(geos[newOrder[i]].getOrdering());
+			expected.add((float)i);
 		}
 
 		// assert once to have nice output when failing.

@@ -38,8 +38,9 @@ public class UpdateOrderActionStore {
 		String[] initialXML = geos.stream().map(
 				geo -> {
 					GeoElement temp = geo;
-					float initialDepth = initialDepthSnapshot.get(temp.getLabelSimple());
-					temp.setDepth(initialDepth);
+					float initialOrdering = initialDepthSnapshot.get(temp.getLabelSimple());
+					temp.setDepth(initialOrdering);
+					temp.setOrdering(initialOrdering);
 					return temp.getStyleXML();
 				}
 			).toArray(String[]::new);
