@@ -1318,6 +1318,28 @@ public enum Operation {
 			throw ev.polynomialOrDie(lt, "gamma(");
 		}
 	},
+	DIRAC {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue) {
+				return ((NumberValue) lt).getNumber().dirac();
+			}
+			throw ev.polynomialOrDie(lt, "Dirac(");
+		}
+	},
+	HEAVISIDE {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue) {
+				return ((NumberValue) lt).getNumber().heaviside();
+			}
+			throw ev.polynomialOrDie(lt, "heaviside(");
+		}
+	},
 	GAMMA_INCOMPLETE {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -1965,7 +1987,8 @@ public enum Operation {
 		case EI:
 		case PSI:
 		case GAMMA:
-
+		case DIRAC:
+		case HEAVISIDE:
 			return true;
 		}
 		return false;
@@ -2156,6 +2179,7 @@ public enum Operation {
 		case FRACTIONAL_PART:
 		case ZETA:
 		case GAMMA:
+		case DIRAC:
 		case GAMMA_INCOMPLETE:
 		case GAMMA_INCOMPLETE_REGULARIZED:
 		case BETA:

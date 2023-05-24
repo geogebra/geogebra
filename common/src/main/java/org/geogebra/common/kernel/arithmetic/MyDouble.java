@@ -861,6 +861,26 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
+	 *
+	 * @return dirac(this)
+	 */
+	final public MyDouble dirac() {
+		set(val == 0 ? Double.POSITIVE_INFINITY : 0);
+		angleDim = 0;
+		return this;
+	}
+
+	/**
+	 *
+	 * @return heaviside(this)
+	 */
+	final public MyDouble heaviside() {
+		set(val < 0 ? -1 : 1);
+		angleDim = 0;
+		return this;
+	}
+
+	/**
 	 * @param lt
 	 *            function to evaluate
 	 * @return value of lt(this)
