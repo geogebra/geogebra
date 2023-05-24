@@ -1,6 +1,5 @@
 package org.geogebra.common.properties.util;
 
-
 import java.util.Arrays;
 
 import org.geogebra.common.properties.EnumeratedProperty;
