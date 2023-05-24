@@ -2005,4 +2005,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		showLabel(geo);
 		assertThat(geo.getAlgebraDescriptionDefault(), startsWith("f(x)"));
 	}
+
+	@Test
+	public void testElementOfSyntax() {
+		add("l1={1,2,3,4}");
+		t("l1(2)", "2");
+	}
 }
