@@ -499,6 +499,12 @@ public class ArithmeticTest extends BaseUnitTest {
 				StringTemplate.editTemplate);
 	}
 
+	@Test
+	public void expandBracketsForImplicitCurve() {
+		add("s(x,y)=x+y");
+		t("s^3.2+3=0", "(x + y)^(3.2) + 3 = 0");
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);
