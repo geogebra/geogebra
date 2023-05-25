@@ -1,7 +1,5 @@
 package org.geogebra.web.full.euclidian;
 
-import java.util.HashMap;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
@@ -11,8 +9,6 @@ import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -167,16 +163,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.scrollHorizontally();
 		editor.updateAriaLabel();
 		dispatchKeyTypeEvent(key);
-	}
-
-	private void dispatchKeyTypeEvent(String key) {
-		Event event = new Event(EventType.EDITOR_KEY_TYPED, getGeoInputBox());
-		HashMap<String, Object> jsonArgument = new HashMap<>();
-		jsonArgument.put("key", key == null ? "" : key);
-		jsonArgument.put("label", getGeoInputBox() != null
-				? getGeoInputBox().getLabelSimple() : "");
-		event.setJsonArgument(jsonArgument);
-		app.dispatchEvent(event);
 	}
 
 	@Override

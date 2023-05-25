@@ -156,6 +156,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 		double currentHeight = equationSize.getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
 		box.setBounds(box.getX(), box.getY(), box.getWidth(),
 				Math.max((int) currentHeight, DrawInputBox.SYMBOLIC_MIN_HEIGHT));
+		dispatchKeyTypeEvent(key);
 		box.revalidate();
 		view.repaintView();
 	}

@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import java.util.HashMap;
+
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -9,6 +11,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
@@ -225,5 +229,15 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		getMathFieldInternal().parse(input);
 		MathFormula formula = getMathFieldInternal().getFormula();
 		return texSerializer.serialize(formula);
+	}
+
+	protected void dispatchKeyTypeEvent(String key) {
+		Event event = new Event(EventType.EDITOR_KEY_TYPED, getGeoInputBox());
+		HashMap<String, Object> jsonArgument = new HashMap<>();
+		jsonArgument.put("key", key == null ? "" : key);
+		jsonArgument.put("label", getGeoInputBox() != null
+				? getGeoInputBox().getLabelSimple() : "");
+		event.setJsonArgument(jsonArgument);
+		app.dispatchEvent(event);
 	}
 }
