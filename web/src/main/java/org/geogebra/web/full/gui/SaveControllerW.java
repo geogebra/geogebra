@@ -175,28 +175,32 @@ public class SaveControllerW implements SaveController {
 	public void saveAs(String name, MaterialVisibility visibility, SaveListener l) {
 		this.listener = l;
 		this.fileName = name;
-		if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
-			app.getKernel().getConstruction().setTitle(name);
-			app.getFileManager().export(app);
-		} else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
+		if (app.isOffline()) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(loc
 					.getMenu("phone_loading_materials_offline"), app);
-			getAppW().getGuiManager().exportGGB(true);
+			showLocalSaveDialog();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
+		} else if (app.getLoginOperation().isLoggedIn()) {
+			saveOnline(visibility);
 		} else {
-			Material activeMaterial = app.getActiveMaterial();
-			if (activeMaterial == null) {
-				activeMaterial = new Material(saveType);
-				app.setActiveMaterial(activeMaterial);
-			} else if (!app.getLoginOperation()
-					.owns(activeMaterial)) {
-				activeMaterial.setSharingKey(null);
-			}
-
-			activeMaterial.setVisibility(visibility.getToken());
-			uploadToGgt(activeMaterial.getVisibility(), activeMaterial.isMultiuser());
+			app.getGuiManager().listenToLogin(() -> saveOnline(visibility));
+			app.getLoginOperation().showLoginDialog();
 		}
+	}
+
+	private void saveOnline(MaterialVisibility visibility) {
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial == null) {
+			activeMaterial = new Material(saveType);
+			app.setActiveMaterial(activeMaterial);
+		} else if (!app.getLoginOperation()
+				.owns(activeMaterial)) {
+			activeMaterial.setSharingKey(null);
+		}
+
+		activeMaterial.setVisibility(visibility.getToken());
+		uploadToGgt(activeMaterial.getVisibility(), activeMaterial.isMultiuser());
 	}
 
 	private static String getTitleOnly(String key) {

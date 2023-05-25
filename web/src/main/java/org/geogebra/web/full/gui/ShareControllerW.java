@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
-import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
@@ -132,11 +131,7 @@ public class ShareControllerW implements ShareController {
 	}
 
 	private void loginForShare() {
-		app.getLoginOperation().getView().add(event -> {
-			if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
-				share();
-			}
-		});
+		app.getGuiManager().listenToLogin(this::share);
 		app.getLoginOperation().showLoginDialog();
 	}
 
