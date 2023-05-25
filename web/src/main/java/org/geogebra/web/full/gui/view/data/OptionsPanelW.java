@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui.view.data;
 
 import java.util.Arrays;
 
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
@@ -21,10 +19,6 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.event.dom.client.BlurEvent;
-import org.gwtproject.event.dom.client.BlurHandler;
-import org.gwtproject.event.dom.client.ClickEvent;
-import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ListBox;
@@ -38,10 +32,10 @@ import org.gwtproject.user.client.ui.TabPanel;
  * 
  */
 public class OptionsPanelW extends FlowPanel
-		implements ClickHandler, BlurHandler, StatPanelInterfaceW {
+		implements StatPanelInterfaceW {
 
-	private AppW app;
-	private StatPanelSettings settings;
+	private final AppW app;
+	private final StatPanelSettings settings;
 
 	// histogram panel GUI
 	private ComponentCheckbox ckCumulative;
@@ -98,37 +92,22 @@ public class OptionsPanelW extends FlowPanel
 	private FlowPanel scatterplotPanel;
 	private FlowPanel barChartPanel;
 	private FlowPanel boxPlotPanel;
-	private FlowPanel mainPanel;
-	private TabPanel tabPanel;
+	private final FlowPanel mainPanel;
+	private final TabPanel tabPanel;
 
 	private boolean isUpdating = false;
 
-	private DataAnalysisModel daModel;
+	private final DataAnalysisModel daModel;
 
-	private DataDisplayModel dyModel;
+	private final DataDisplayModel dyModel;
 
 	private ScrollPanel spHistogram;
 
 	private ScrollPanel spGraph;
 	private ListBox cbLogAxes;
-	private Localization loc;
+	private final Localization loc;
 
 	private final static int FIELD_WIDTH = 8;
-
-	private class PropertyKeyHandler implements KeyHandler {
-		private Object source;
-
-		public PropertyKeyHandler(Object source) {
-			this.source = source;
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			if (e.isEnterKey()) {
-				actionPerformed(source);
-			}
-		}
-	}
 
 	/************************************************************
 	 * Constructs an OptionPanel
@@ -186,7 +165,6 @@ public class OptionsPanelW extends FlowPanel
 		spHistogram = new ScrollPanel();
 		mainPanel.setStyleName("daScrollPanel");
 		spHistogram.add(mainPanel);
-		tabPanel.add(spHistogram, tabTitle);
 		classesPanel.setVisible(false);
 		histogramPanel.setVisible(false);
 		scatterplotPanel.setVisible(false);
@@ -206,6 +184,7 @@ public class OptionsPanelW extends FlowPanel
 		tabPanel.add(spGraph, loc.getMenu("Graph"));
 		graphPanel.setVisible(true);
 		showYAxisSettings = true;
+		boolean showHistogramTab = true;
 
 		// set visibility for plot-specific panels
 		switch (plotType) {
@@ -241,7 +220,7 @@ public class OptionsPanelW extends FlowPanel
 		case DOTPLOT:
 		case NORMALQUANTILE:
 		case RESIDUAL:
-			tabPanel.remove(0);
+			showHistogramTab = false;
 			break;
 
 		case STEMPLOT:
@@ -249,6 +228,10 @@ public class OptionsPanelW extends FlowPanel
 			break;
 
 		}
+		if (showHistogramTab) {
+			tabPanel.add(spHistogram, tabTitle);
+		}
+		tabPanel.add(spGraph, loc.getMenu("Graph"));
 
 		tabPanel.selectTab(0);
 		setLabels();
@@ -289,6 +272,7 @@ public class OptionsPanelW extends FlowPanel
 				(value) -> {
 					settings.setFrequencyType(value);
 					firePropertyChange();
+					updateGUI(); // make sure Normal Curve is enabled/disabled
 				}
 		);
 
@@ -384,13 +368,11 @@ public class OptionsPanelW extends FlowPanel
 				(selected) -> {
 					settings.setAutomaticBarWidth(selected);
 					firePropertyChange();
+					updateGUI(); // enable bar width
 				});
 		lblBarWidth = new Label();
 		fldBarWidth = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
-		fldBarWidth.setEditable(true);
-		fldBarWidth.enableGGBKeyboard();
-		fldBarWidth.addKeyHandler(new PropertyKeyHandler(fldBarWidth));
-		fldBarWidth.addBlurHandler(this);
+		initHandlers(fldBarWidth);
 
 		// barChartWidthPanel
 		barChartWidthPanel = new FlowPanel();
@@ -399,6 +381,16 @@ public class OptionsPanelW extends FlowPanel
 
 		layoutBarChartPanel();
 
+	}
+
+	private void initHandlers(AutoCompleteTextFieldW input) {
+		input.enableGGBKeyboard();
+		input.addKeyHandler(evt -> {
+			if (evt.isEnterKey()) {
+				actionPerformed(input);
+			}
+		});
+		input.addBlurHandler(evt -> actionPerformed(input));
 	}
 
 	private void createBoxPlotPanel() {
@@ -430,6 +422,7 @@ public class OptionsPanelW extends FlowPanel
 					settings.xAxesIntervalAuto = selected;
 					settings.yAxesIntervalAuto = selected;
 					firePropertyChange();
+					updateGUI(); // enable/disable dimension fields
 				});
 
 		ckShowGrid = new ComponentCheckbox(loc, settings.showGrid, "ShowGrid",
@@ -440,48 +433,27 @@ public class OptionsPanelW extends FlowPanel
 
 		lblXMin = new Label();
 		fldXMin = InputPanelW.newTextComponent(app);
-		fldXMin.setEditable(true);
-		fldXMin.enableGGBKeyboard();
-		fldXMin.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				actionPerformed(fldXMin);
-			}
-		});
-		fldXMin.addBlurHandler(event -> actionPerformed(fldXMin));
+		initHandlers(fldXMin);
 
 		lblXMax = new Label();
 		fldXMax = InputPanelW.newTextComponent(app);
-		fldXMax.enableGGBKeyboard();
-		fldXMax.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				actionPerformed(fldXMax);
-			}
-		});
-		fldXMax.addBlurHandler(event -> actionPerformed(fldXMax));
+		initHandlers(fldXMax);
 
 		lblYMin = new Label();
 		fldYMin = InputPanelW.newTextComponent(app);
-		fldYMin.enableGGBKeyboard();
-		fldYMin.addKeyHandler(new PropertyKeyHandler(fldYMin));
-		fldYMin.addBlurHandler(this);
+		initHandlers(fldYMin);
 
 		lblYMax = new Label();
 		fldYMax = InputPanelW.newTextComponent(app);
-		fldYMax.enableGGBKeyboard();
-		fldYMax.addKeyHandler(new PropertyKeyHandler(fldYMax));
-		fldYMax.addBlurHandler(this);
+		initHandlers(fldYMax);
 
 		lblXInterval = new Label();
 		fldXInterval = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
-		fldXInterval.enableGGBKeyboard();
-		fldXInterval.addKeyHandler(new PropertyKeyHandler(fldXInterval));
-		fldXInterval.addBlurHandler(this);
+		initHandlers(fldXInterval);
 
 		lblYInterval = new Label();
 		fldYInterval = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
-		fldYInterval.enableGGBKeyboard();
-		fldYInterval.addKeyHandler(new PropertyKeyHandler(fldYInterval));
-		fldYInterval.addBlurHandler(this);
+		initHandlers(fldYInterval);
 
 		// create graph options panel
 		FlowPanel graphOptionsPanel = new FlowPanel();
@@ -596,7 +568,7 @@ public class OptionsPanelW extends FlowPanel
 
 		// bar chart width
 		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth());
-		fldBarWidth.setText("" + settings.getBarWidth());
+		fldBarWidth.setText(daModel.format(settings.getBarWidth()));
 		fldBarWidth.setEditable(!ckAutoBarWidth.isSelected());
 
 		// window dimension
@@ -615,13 +587,13 @@ public class OptionsPanelW extends FlowPanel
 		fldYInterval.setEditable(!ckAutoWindow.isSelected());
 
 		// update automatic dimensions
-		fldXMin.setText("" + daModel.format(settings.xMin));
-		fldXMax.setText("" + daModel.format(settings.xMax));
-		fldXInterval.setText("" + daModel.format(settings.xAxesInterval));
+		fldXMin.setText(daModel.format(settings.xMin));
+		fldXMax.setText(daModel.format(settings.xMax));
+		fldXInterval.setText(daModel.format(settings.xAxesInterval));
 
-		fldYMin.setText("" + daModel.format(settings.yMin));
-		fldYMax.setText("" + daModel.format(settings.yMax));
-		fldYInterval.setText("" + daModel.format(settings.yAxesInterval));
+		fldYMin.setText(daModel.format(settings.yMin));
+		fldYMax.setText(daModel.format(settings.yMax));
+		fldYInterval.setText(daModel.format(settings.yAxesInterval));
 
 		// show outliers
 		ckShowOutliers.setSelected(settings.isShowOutliers());
@@ -633,18 +605,11 @@ public class OptionsPanelW extends FlowPanel
 	 * @param source
 	 *            event source
 	 */
-	public void actionPerformed(Object source) {
-
+	public void actionPerformed(AutoCompleteTextFieldW source) {
 		if (isUpdating) {
 			return;
 		}
-
-		if (source instanceof AutoCompleteTextFieldW) {
-			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
-		} else {
-			firePropertyChange();
-		}
-
+		doTextFieldActionPerformed(source);
 		updateGUI();
 	}
 
@@ -697,16 +662,6 @@ public class OptionsPanelW extends FlowPanel
 	@Override
 	public void updatePanel() {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onBlur(BlurEvent event) {
-		actionPerformed(event.getSource());
-	}
-
-	@Override
-	public void onClick(ClickEvent event) {
-		actionPerformed(event.getSource());
 	}
 
 	/**
