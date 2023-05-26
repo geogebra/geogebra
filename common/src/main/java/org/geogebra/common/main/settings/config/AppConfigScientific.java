@@ -84,7 +84,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
+	public CommandFilter createCommandFilter() {
 		return CommandFilterFactory.createSciCalcCommandFilter();
 	}
 

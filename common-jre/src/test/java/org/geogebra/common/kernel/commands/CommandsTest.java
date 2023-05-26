@@ -4024,6 +4024,8 @@ public class CommandsTest {
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision13 instead
 		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]", StringTemplate.maxPrecision13,
 				"y = 22.40252712698x - 66.20758138095");
+		t("Tangent[ (0, 1), Curve(cos(z), sin(z), z, 0, π)]",
+				"y = 1");
 	}
 
 	@Test
