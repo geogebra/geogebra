@@ -2011,4 +2011,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("l1={1,2,3,4}");
 		t("l1(2)", "2");
 	}
+
+	@Test
+	public void testListAsFunction() {
+		add("h(x)={x, x + 1}");
+		t("h(1)", "{1, 2}");
+	}
 }
