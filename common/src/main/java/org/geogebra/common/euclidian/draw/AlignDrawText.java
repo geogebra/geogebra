@@ -13,6 +13,7 @@ public class AlignDrawText {
 	private int oldVertical;
 	private final static int MARGIN = 6;
 	private GGraphics2D g2;
+
 	AlignDrawText(GeoText text, DrawText drawText, GGraphics2D g2) {
 		this.g2 = g2;
 		this.text = text;
