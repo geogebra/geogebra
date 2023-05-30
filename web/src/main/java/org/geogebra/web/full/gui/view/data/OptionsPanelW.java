@@ -289,8 +289,8 @@ public class OptionsPanelW extends FlowPanel
 					firePropertyChange();
 				});
 
-		ckShowFrequencyTable = new ComponentCheckbox(loc, false, "FrequencyTable",
-				(selected) -> {
+		ckShowFrequencyTable = new ComponentCheckbox(loc, settings.isShowFrequencyTable(),
+				"FrequencyTable", (selected) -> {
 					settings.setShowFrequencyTable(selected);
 					firePropertyChange();
 				});
@@ -563,8 +563,7 @@ public class OptionsPanelW extends FlowPanel
 					.getGroupType() == GroupType.RAWDATA);
 		}
 		// normal overlay
-		ckOverlayNormal.setDisabled(settings
-				.getFrequencyType() != StatPanelSettings.TYPE_NORMALIZED);
+		ckOverlayNormal.setDisabled(!settings.isOverlayEnabled());
 
 		// bar chart width
 		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth());
@@ -625,27 +624,25 @@ public class OptionsPanelW extends FlowPanel
 			double value = nv.getDouble();
 
 			// TODO better validation
-
+			boolean valid = true;
 			if (source == fldXMin) {
 				settings.xMin = value;
-				firePropertyChange();
 			} else if (source == fldXMax) {
 				settings.xMax = value;
-				firePropertyChange();
 			} else if (source == fldYMax) {
 				settings.yMax = value;
-				firePropertyChange();
 			} else if (source == fldYMin) {
 				settings.yMin = value;
-				firePropertyChange();
 			} else if (source == fldXInterval && value >= 0) {
 				settings.xAxesInterval = value;
-				firePropertyChange();
 			} else if (source == fldYInterval && value >= 0) {
 				settings.yAxesInterval = value;
-				firePropertyChange();
 			} else if (source == fldBarWidth && value >= 0) {
 				settings.setBarWidth(value);
+			} else {
+				valid = false;
+			}
+			if (valid) {
 				firePropertyChange();
 			}
 			updateGUI();
