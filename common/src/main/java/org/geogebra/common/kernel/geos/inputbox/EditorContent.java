@@ -64,4 +64,8 @@ public class EditorContent {
 	public String getLaTeX() {
 		return latex;
 	}
+
+	public boolean isEmpty() {
+		return entries.length == 0 && (StringUtil.empty(inputText) || "?".equals(inputText));
+	}
 }

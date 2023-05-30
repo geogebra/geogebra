@@ -1889,10 +1889,25 @@ public class AlgebraProcessor {
 	 * @param str
 	 *            stringInput
 	 * @param showErrors
-	 *            if false, only stacktraces are printed
-	 * @return implicit polygon or null
+	 *            if false, only stack traces are printed
+	 * @return construction element or null
 	 */
 	public GeoElementND evaluateToGeoElement(String str, boolean showErrors) {
+		return evaluateToGeoElement(str, showErrors,
+				new EvalInfo(!cons.isSuppressLabelsActive(), true));
+	}
+
+	/**
+	 * Parses given String str and tries to evaluate it to a GeoImplicitPoly
+	 * object. Returns null if something went wrong.
+	 *
+	 * @param str
+	 *            stringInput
+	 * @param showErrors
+	 *            if false, only stacktraces are printed
+	 * @return construction element or null
+	 */
+	public GeoElementND evaluateToGeoElement(String str, boolean showErrors, EvalInfo info) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 

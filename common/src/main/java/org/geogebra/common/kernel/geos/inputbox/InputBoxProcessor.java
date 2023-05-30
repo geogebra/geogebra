@@ -61,7 +61,6 @@ public class InputBoxProcessor {
 	 */
 	public void updateLinkedGeo(EditorContent content, StringTemplate tpl) {
 		content.removeCommas(kernel.getLocalization());
-		String inputText = content.getEditorInput();
 
 		// first clear temp input, so that the string representation of the input
 		// box is correct when updating dependencies
@@ -70,10 +69,10 @@ public class InputBoxProcessor {
 		updateLinkedGeoNoErrorHandling(tpl, errorHandler, content);
 
 		if (errorHandler.errorOccured) {
-			if ("?".equals(inputText)) {
+			if (content.isEmpty()) {
 				inputBox.setTempUserInput("", "");
 			} else {
-				inputBox.setTempUserInput(processPlaceholders(inputText),
+				inputBox.setTempUserInput(processPlaceholders(content.getEditorInput()),
 						processLatexPlaceholders(content.getLaTeX()));
 			}
 
@@ -174,14 +173,14 @@ public class InputBoxProcessor {
 	}
 
 	private String preprocess(EditorContent content, StringTemplate tpl) {
-		String defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
+		String defineText;
 		if (inputBox.isSymbolicModeWithSpecialEditor() && content.hasEntries()) {
 			defineText = buildListText(content);
 		} else if ("?".equals(content.getEditorInput())
 				|| ("".equals(content.getEditorInput()) && !inputBox.isListEditor())) {
 			defineText = "?";
 		} else if (linkedGeo.isGeoLine()) {
-
+			defineText = content.getEditorInput();
 			if (defineText.startsWith("f(x)=")) {
 				defineText = defineText.replace("f(x)=", "y=");
 			}
@@ -200,6 +199,8 @@ public class InputBoxProcessor {
 			if (!defineText.startsWith(prefix)) {
 				defineText = prefix + defineText;
 			}
+		} else {
+			defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
 		}
 
 		if (linkedGeo instanceof FunctionalNVar || isComplexFunction()) {
@@ -259,5 +260,13 @@ public class InputBoxProcessor {
 		} else {
 			return new RuleCollection(same, point, vector, numericAngle);
 		}
+	}
+
+	public boolean validate(EditorContent editorState, StringBuilder sb) {
+		String toCheck = preprocess(editorState, StringTemplate.defaultTemplate);
+		GeoElementND el = algebraProcessor.evaluateToGeoElement(toCheck, false,
+				buildEvalInfo());
+		sb.append(toCheck);
+		return el != null;
 	}
 }

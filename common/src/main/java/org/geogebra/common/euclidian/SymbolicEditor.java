@@ -10,10 +10,14 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.inputbox.EditorContent;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -154,7 +158,19 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		drawable.setWidgetVisible(true);
 	}
 
-	protected abstract void resetChanges();
+	protected void resetChanges() {
+		boolean textMode = isTextMode();
+		String text = getGeoInputBox().getTextForEditor();
+		getMathFieldInternal().setAllowAbs(
+				!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
+		getMathFieldInternal().setPlainTextMode(textMode);
+		if (textMode) {
+			getMathFieldInternal().setPlainText(text);
+		} else {
+			getMathFieldInternal().parse(text);
+		}
+		setProtection();
+	}
 
 	public abstract void repaintBox(GGraphics2D g2);
 
@@ -221,6 +237,20 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	/**
+	 * @return current content in GGB syntax, using ? for empty matric entries
+	 */
+	public EditorContent getEditorStateWithQuestionMarks() {
+		MathFormula formula = getMathFieldInternal().getFormula();
+		GeoGebraSerializer geoGebraSerializer = new GeoGebraSerializer();
+		geoGebraSerializer.setShowPlaceholderAsQuestionmark(true);
+		if (getGeoInputBox().getLinkedGeo() instanceof GeoVectorND) {
+			String[] entries = geoGebraSerializer.serializeMatrixEntries(formula);
+			return new EditorContent("(" + StringUtil.join(",", entries) + ")", null, new String[0], 1);
+		}
+		return new EditorContent(geoGebraSerializer.serialize(formula), null, new String[0], 0);
+	}
+
+	/**
 	 * serialize to latex
 	 * @param input - input text
 	 * @return input serialized to latex
@@ -240,4 +270,5 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		event.setJsonArgument(jsonArgument);
 		app.dispatchEvent(event);
 	}
+
 }

@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.main.AppWFull;
@@ -100,16 +99,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		colorEditor();
 		editor.setVisible(true);
 
-		String text = getGeoInputBox().getTextForEditor();
-
-		boolean textMode = isTextMode();
-		editor.setTextMode(textMode);
-		editor.setAllowAbs(!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
-		if (textMode) {
-			getMathFieldInternal().setPlainText(text);
-		} else {
-			editor.getMathField().parse(text);
-		}
+		super.resetChanges();
 
 		editor.setLabel(getGeoInputBox().getAuralText());
 		if (getGeoInputBox().hasError()) {
@@ -117,7 +107,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		} else {
 			editor.setErrorText(null);
 		}
-		setProtection();
 
 		Scheduler.get().scheduleDeferred(editor::requestFocus);
 	}

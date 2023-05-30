@@ -4,12 +4,12 @@ import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
-import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -26,6 +26,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	private String leftBracket = "[";
 	private String rightBracket = "]";
 	private String comma = ",";
+	private boolean showPlaceholderAsQuestionmark;
 
 	/**
 	 * @param c
@@ -246,8 +247,10 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	}
 
 	@Override
-	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
-		//no placeholders
+	void serialize(MathCharPlaceholder placeholder, StringBuilder sb) {
+		if (showPlaceholderAsQuestionmark) {
+			sb.append('?');
+		}
 	}
 
 	@Override
@@ -256,9 +259,19 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		if (mathSequence == null) {
 			return;
 		}
+		// print empty fraction as ?/?, but ignore empty scripts and allow sin()
+		if (mathSequence.size() == 0 && showPlaceholderAsQuestionmark
+				&& (isMatrixEntry(mathSequence) || mathSequence.getParent() == null)) {
+			stringBuilder.append('?');
+		}
 		for (MathComponent arg: mathSequence) {
 			serialize(arg, stringBuilder);
 		}
+	}
+
+	private boolean isMatrixEntry(MathSequence mathSequence) {
+		return mathSequence.getParent() instanceof MathArray
+				&& mathSequence.getParent().size() > 1;
 	}
 
 	/**
@@ -300,8 +313,11 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			MathArray root = (MathArray) formula.getRootComponent().getArgument(0);
 			if (root.isMatrix()) {
 				String[] parts = new String[root.size()];
+				StringBuilder sb = new StringBuilder();
 				for (int i = 0; i < root.size(); i++) {
-					parts[i] = serialize(root.getArgument(i));
+					sb.setLength(0);
+					serialize(root.getArgument(i), sb);
+					parts[i] = sb.toString();
 				}
 				return parts;
 			}
@@ -331,5 +347,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		serialize(mathFunction.getArgument(1), stringBuilder);
 		stringBuilder.append("))");
 		return true;
+	}
+
+	public void setShowPlaceholderAsQuestionmark(boolean showPlaceholderAsQuestionmark) {
+		this.showPlaceholderAsQuestionmark = showPlaceholderAsQuestionmark;
 	}
 }
