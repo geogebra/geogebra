@@ -4467,8 +4467,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdHeaviside() {
-		t("Heaviside(-10000)", "-1");
-		t("Heaviside(-1)", "-1");
+		t("Heaviside(-10000)", "0");
+		t("Heaviside(-1)", "0");
 		t("Heaviside(0)", "1");
 		t("Heaviside(1)", "1");
 		t("Heaviside(10000)", "1");
