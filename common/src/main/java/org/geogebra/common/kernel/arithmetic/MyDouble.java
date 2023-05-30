@@ -875,7 +875,7 @@ public class MyDouble extends ValidExpression
 	 * @return heaviside(this)
 	 */
 	final public MyDouble heaviside() {
-		set(val < 0 ? 0: 1);
+		set(val < 0 ? 0 : 1);
 		angleDim = 0;
 		return this;
 	}
