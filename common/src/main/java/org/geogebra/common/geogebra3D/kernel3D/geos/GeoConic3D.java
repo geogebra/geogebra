@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
@@ -29,7 +29,7 @@ import org.geogebra.common.util.ExtendedBoolean;
  * 
  */
 public class GeoConic3D extends GeoConicND
-		implements RotateableND, MirrorableAtPlane, ViewCreator {
+		implements RotatableND, MirrorableAtPlane, ViewCreator {
 
 	/** 2D coord sys where the conic exists */
 	private CoordSys coordSys = new CoordSys(2);

@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Mirrorable;
-import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.geos.XMLBuilder;
@@ -72,7 +71,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public abstract class GeoConicND extends GeoQuadricND
 		implements Translateable, GeoConicNDConstants,
-		MatrixTransformable, PointRotateable, Transformable, Mirrorable,
+		MatrixTransformable, Transformable, Mirrorable,
 		Dilateable, GeoCoordSys2D, FromMeta, Parametrizable {
 	/** avoid very large and small coefficients for numerical stability */
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;

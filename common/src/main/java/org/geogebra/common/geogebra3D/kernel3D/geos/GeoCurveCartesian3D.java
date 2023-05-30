@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.roots.RealRootUtil;
@@ -38,7 +38,7 @@ import org.geogebra.common.plugin.Operation;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		RotateableND, Translateable,
+		RotatableND, Translateable,
 		MirrorableAtPlane, Transformable, Dilateable {
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private boolean trace;

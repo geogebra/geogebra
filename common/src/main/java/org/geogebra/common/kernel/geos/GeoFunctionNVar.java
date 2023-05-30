@@ -64,7 +64,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoFunctionNVar extends GeoElement
 		implements FunctionalNVar, CasEvaluableFunction, Region, Transformable,
-		Translateable, MatrixTransformable, Dilateable, PointRotateable,
+		Translateable, MatrixTransformable, Dilateable,
 		Mirrorable, SurfaceEvaluable {
 
 	private static final double STRICT_INEQ_OFFSET = 4 * Kernel.MIN_PRECISION;

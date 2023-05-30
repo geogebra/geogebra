@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasVolume;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
@@ -41,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoQuadric3DLimited extends GeoQuadricND
-		implements GeoNumberValue, HasVolume, HasHeight, RotateableND,
+		implements GeoNumberValue, HasVolume, HasHeight, RotatableND,
 		Translateable, MirrorableAtPlane, Transformable, Dilateable,
 		GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart {
 

@@ -65,7 +65,7 @@ import org.geogebra.common.util.MyMath;
  * @author Markus Hohenwarter
  */
 public class GeoPolygon extends GeoElement implements GeoNumberValue,
-		GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
+		GeoSurfaceFinite, Traceable, MatrixTransformable,
 		Mirrorable, Translateable, Dilateable, GeoCoordSys2D, GeoPoly,
 		Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta {
 

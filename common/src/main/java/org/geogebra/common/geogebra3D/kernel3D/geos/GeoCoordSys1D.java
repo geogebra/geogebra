@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
@@ -38,7 +38,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public abstract class GeoCoordSys1D extends GeoElement3D
 		implements Path, GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
-		Translateable, MatrixTransformable, Traceable, RotateableND,
+		Translateable, MatrixTransformable, Traceable, RotatableND,
 		MirrorableAtPlane, Transformable, Dilateable {
 	/** coord system */
 	protected CoordSys coordsys;

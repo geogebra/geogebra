@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
@@ -40,7 +40,7 @@ import org.geogebra.common.util.ExtendedBoolean;
  * 
  */
 public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
-		ViewCreator, RotateableND, MirrorableAtPlane {
+		ViewCreator, RotatableND, MirrorableAtPlane {
 
 	/** 2D coord sys where the polygon exists */
 	private CoordSys coordSys = new CoordSys(2);

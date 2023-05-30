@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
@@ -41,7 +41,7 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		implements Functional2Var, Traceable, Region,
-		MirrorableAtPlane, RotateableND, Transformable {
+		MirrorableAtPlane, RotatableND, Transformable {
 	private boolean isSurfaceOfRevolutionAroundOx = false;
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private double[] xyzuv;

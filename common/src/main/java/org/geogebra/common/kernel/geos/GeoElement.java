@@ -2030,7 +2030,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether this geo can be rotated
 	 */
 	public boolean isRotateMoveable() {
-		return isPointerChangeable() && (this instanceof PointRotateable);
+		return isPointerChangeable() && (this instanceof Rotatable);
 	}
 
 	/**

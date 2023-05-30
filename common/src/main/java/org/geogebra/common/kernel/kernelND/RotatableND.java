@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.PointRotateable;
+import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * Elements rotateable around arbitrary 3D object (point or line)
+ * Elements rotatable around arbitrary 3D object (point or line)
  */
-public interface RotateableND extends PointRotateable {
+public interface RotatableND extends Rotatable {
 
 	/**
 	 * Rotates this element around

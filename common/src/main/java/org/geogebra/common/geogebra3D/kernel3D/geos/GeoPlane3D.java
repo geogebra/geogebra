@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
@@ -46,7 +46,7 @@ import org.geogebra.common.util.ExtendedBoolean;
  */
 public class GeoPlane3D extends GeoElement3D
 		implements Functional2Var, ViewCreator, GeoCoords4D, GeoPlaneND,
-		Translateable, Traceable, RotateableND, MirrorableAtPlane,
+		Translateable, Traceable, RotatableND, MirrorableAtPlane,
 		Transformable, Dilateable, MatrixTransformable {
 
 	// values for grid and interactions

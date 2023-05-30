@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
@@ -44,7 +44,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoVector3D extends GeoVec4D
-		implements GeoVectorND, RotateableND, 
+		implements GeoVectorND, RotatableND,
 		MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable, HasHeadStyle {
 
 	private GeoPointND startPoint;

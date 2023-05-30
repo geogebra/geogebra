@@ -13,19 +13,26 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Elements rotateable around arbitrary point
+ * Elements rotatable around origin
+ *
  */
-public interface PointRotateable extends Rotateable {
+public interface Rotatable extends GeoElementND {
 	/**
-	 * Rotates this element around (parallel to xOy plane)
+	 * Rotates this element around origin
 	 * 
 	 * @param r
 	 *            angle
-	 * @param S
-	 *            center
 	 */
-	public void rotate(NumberValue r, GeoPointND S);
+	void rotate(NumberValue r);
+
+	/**
+	 * @param r angle
+	 * @param S center of rotation
+	 */
+	void rotate(NumberValue r, GeoPointND S);
+
 }

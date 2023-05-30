@@ -51,7 +51,7 @@ import org.geogebra.common.kernel.kernelND.HasFaces;
 import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
@@ -65,7 +65,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoPolyhedron extends GeoElement3D
-		implements HasSegments, HasVolume, Traceable, RotateableND,
+		implements HasSegments, HasVolume, Traceable, RotatableND,
 		Translateable, MirrorableAtPlane, Transformable, Dilateable, HasHeight,
 		Path, GeoPolyhedronInterface, GeoNumberValue, Region, HasFaces {
 
