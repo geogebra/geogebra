@@ -482,6 +482,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testProductCommand() {
+		t("Product(((k+2)/(k)),k,1,25)", "351");
+		t("Product(k^2,k,1,5)", "14400");
+		t("Product(k^n,k,1,5)", "2^(n) * 3^(n) * 4^(n) * 5^(n)");
+		t("f(x)=Product(sin((π*x)/(n)),n,2,floor(sqrt(x)))",
+				"gGbPrOdUcT(sin(π * x / n), n,2, floor(sqrt(x)))");
+	}
+
+	@Test
 	public void testIntegralCommand() {
 		t("Integral(x*y^2,x,0,2)", "2 * y^(2)");
 		t("Integral(x*y^2,x,aaa,bbb)", "y^(2) * (-1 / 2 * aaa^(2) + 1 / 2 * bbb^(2))");
@@ -489,7 +498,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Integral(Integral(x*y^2,x,0,2),y,0,q)", "2 / 3 * q^(3)");
 		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + pi + ")");
 	}
-
+	
 	@Test
 	public void testFactorCommand() {
 		t("Factor(x^2-1)", "(x - 1) * (x + 1)");
