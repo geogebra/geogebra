@@ -220,7 +220,7 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
+	public CommandFilter createCommandFilter() {
 		return CommandFilterFactory.createGraphingCommandFilter();
 	}
 

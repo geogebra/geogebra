@@ -152,6 +152,9 @@ public class CommandDispatcherGiac {
 		/** symbolic sum */
 		sum(Operation.SUM),
 
+		/** symbolic product */
+		product(Operation.PRODUCT),
+
 		/** inverse for Normal(0,1,x) */
 		normal_icdf(Operation.INVERSE_NORMAL),
 
@@ -284,6 +287,14 @@ public class CommandDispatcherGiac {
 								args.getItem(3)));
 
 				break;
+			case product:
+				ret = new ExpressionNode(kernel,
+						new MyNumberPair(kernel, args.getItem(0),
+								args.getItem(1)),
+						Operation.PRODUCT, new MyNumberPair(kernel, args.getItem(2),
+								args.getItem(3)));
+				break;
+
 			case piecewise:
 
 				if (args.getLength() < 3) {

@@ -1902,6 +1902,37 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				// AbstractApplication.debug(sb);
 			}
 			break;
+		case PRODUCT:
+			if (stringType == StringType.LATEX) {
+				sb.append("\\prod_{");
+				sb.append(((MyNumberPair) left).y.toString(tpl));
+				sb.append("=");
+				sb.append(((MyNumberPair) right).x.toString(tpl));
+				sb.append("}^{");
+				sb.append(((MyNumberPair) right).y.toString(tpl));
+				sb.append("}");
+				sb.append(((MyNumberPair) left).x.toString(tpl));
+			} else if (stringType == StringType.LIBRE_OFFICE) {
+				sb.append("product from{");
+				sb.append(((MyNumberPair) left).y.toString(tpl));
+				sb.append("=");
+				sb.append(((MyNumberPair) right).x.toString(tpl));
+				sb.append("} to{");
+				sb.append(((MyNumberPair) right).y.toString(tpl));
+				sb.append("}");
+				sb.append(((MyNumberPair) left).x.toString(tpl));
+			} else {
+				if (stringType.isGiac()) {
+					sb.append("product(");
+				} else {
+					sb.append("gGbPrOdUcT(");
+				}
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(")");
+			}
+			break;
 		case SUBSTITUTION:
 			if (stringType == StringType.LATEX) {
 				sb.append("\\left.");

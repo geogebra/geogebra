@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.view.autocompletion;
 import java.util.Collection;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.GDecoratedPopupPanel;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -428,7 +427,7 @@ public class GSuggestBox extends Composite
 		 * @return the popup panel
 		 */
 		protected GPopupPanel createPopup(Panel panel, App app) {
-			GPopupPanel p = new GDecoratedPopupPanel(true, false,
+			GPopupPanel p = new GPopupPanel(true, false,
 					panel, app);
 			p.addStyleName("suggestPopup");
 			p.setStyleName("gwt-SuggestBoxPopup");

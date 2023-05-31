@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.kernel.geos.GeoText;
 
@@ -11,8 +12,10 @@ public class AlignDrawText {
 	private int oldHorizontal;
 	private int oldVertical;
 	private final static int MARGIN = 6;
+	private GGraphics2D g2;
 
-	AlignDrawText(GeoText text, DrawText drawText) {
+	AlignDrawText(GeoText text, DrawText drawText, GGraphics2D g2) {
+		this.g2 = g2;
 		this.text = text;
 		this.drawText = drawText;
 	}
@@ -27,17 +30,17 @@ public class AlignDrawText {
 	private double getXLabelAligned(double width) {
 		switch (getHorizontalAlignment()) {
 		case -1:
-			return getXLabelForLeft();
+			return getXLabelForLeft(width);
 		case 0:
 			return getXLabelForCenter(width) ;
 		case 1:
 		default:
-			return getXLabelForRight(width);
+			return getXLabelForRight();
 
 		}
 	}
 
-	private int getXLabelForLeft() {
+	private int getXLabelForRight() {
 		return drawText.xLabel + MARGIN;
 	}
 
@@ -45,7 +48,7 @@ public class AlignDrawText {
 		return drawText.xLabel + MARGIN / 2.0 - Math.floor(width / 2);
 	}
 
-	private double getXLabelForRight(double width) {
+	private double getXLabelForLeft(double width) {
 		return drawText.xLabel - width + 1;
 	}
 
@@ -77,9 +80,7 @@ public class AlignDrawText {
 	}
 
 	private GTextLayout getTextLayout() {
-		return CanvasDrawable.getLayout(drawText.getView().getGraphicsForPen(),
-				text.getTextString(),
-				drawText.getTextFont());
+		return CanvasDrawable.getLayout(g2, text.getTextString(), drawText.getTextFont());
 	}
 
 	boolean hasChanged() {
