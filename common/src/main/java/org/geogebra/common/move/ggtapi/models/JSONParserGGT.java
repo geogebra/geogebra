@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.StringUtil;
@@ -50,17 +51,16 @@ public class JSONParserGGT {
 				}
 			}
 		}
+
 		String IDs = getString(obj, "id");
-		int id = -1;
-		String sharingKey = null;
+		String sharingKey = getString(obj, "sharing_key");
 		try {
-			id = Integer.parseInt(IDs);
-			sharingKey = getString(obj, "sharing_key");
+			Integer.parseInt(IDs);
 		} catch (RuntimeException e) {
 			sharingKey = IDs;
 		}
 
-		Material material = new Material(id, type);
+		Material material = new Material(type);
 
 		material.setTitle(getString(obj, "title"));
 		material.setDescription(getString(obj, "description"));
@@ -139,6 +139,31 @@ public class JSONParserGGT {
 			material.setCreator(new UserPublic(userId, displayName));
 		}
 		return material;
+	}
+
+	/**
+	 * convert worksheet into material
+	 * @param parent - parent material
+	 * @param element - JSON object holding element attributes
+	 * @return material
+	 * @throws JSONException - if no such value exists.
+	 */
+	public static Material worksheetToMaterial(Material parent, JSONObject element)
+			throws JSONException {
+		Material mat = new Material(parent);
+		mat.setType(MaterialType.ggb);
+		mat.setThumbnailUrl(element.getString("thumbUrl"));
+		mat.setFileName(element.getString("url"));
+		mat.setURL(element.getString("url"));
+		JSONObject settings = element.optJSONObject("settings");
+		if (settings != null) {
+			JSONParserGGT.copySettings(settings, mat);
+		}
+		JSONObject views = element.optJSONObject("views");
+		if (views != null) {
+			JSONParserGGT.copyViews(views, mat);
+		}
+		return mat;
 	}
 
 	/**

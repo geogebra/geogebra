@@ -4,7 +4,10 @@ import static com.himamis.retex.editor.share.util.Unicode.DEGREE_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.IMAGINARY;
 import static com.himamis.retex.editor.share.util.Unicode.PI_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.theta_STRING;
+import static org.geogebra.common.BaseUnitTest.isDefined;
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -1022,7 +1025,7 @@ public class CommandsTest {
 		};
 		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.kernel.getConstruction(), points);
 		GeoConicND conic = algo.getConic();
-		assertTrue(conic.isDefined());
+		assertThat(conic, isDefined());
 	}
 
 	private GeoPoint newPoint(double x, double y) {
@@ -2078,6 +2081,23 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdInverseBinomialMinimumTrials() {
+		t("InverseBinomialMinimumTrials[5, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[5, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[-0.01, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 1.1, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, -1.1, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, -12]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, 1.2]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.0, 49]", "NaN");
+		t("InverseBinomialMinimumTrials[0.01, 0.7, 49]", "86");
+		t("InverseBinomialMinimumTrials[0.01, 0.1, 50]", "681");
+		t("InverseBinomialMinimumTrials[0.1, 0.5, 50]", "115");
+		t("InverseBinomialMinimumTrials[0.7, 1.0, 100]", "101");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, 5]", "11");
+	}
+
+	@Test
 	public void cmdInverseCauchy() {
 		t("InverseCauchy[ 3, 5, 0.5 ]", "3");
 	}
@@ -2387,7 +2407,7 @@ public class CommandsTest {
 		t("P=Point(xAxis)", "(0, 0)");
 		t("Q=P+(1,0)", "(1, 0)");
 		t("loc = Locus(Q,P)", "Locus[Q, P]");
-		assertTrue(get("loc").isDefined());
+		assertThat(get("loc"), isDefined());
 	}
 
 	@Test
@@ -4004,6 +4024,8 @@ public class CommandsTest {
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision13 instead
 		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]", StringTemplate.maxPrecision13,
 				"y = 22.40252712698x - 66.20758138095");
+		t("Tangent[ (0, 1), Curve(cos(z), sin(z), z, 0, π)]",
+				"y = 1");
 	}
 
 	@Test
@@ -4179,9 +4201,9 @@ public class CommandsTest {
 	public void cmdPieChart() {
 		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
 		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
-		assertTrue(get("p2").isDefined());
+		assertThat(get("p2"), isDefined());
 		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
-		assertFalse(get("p3").isDefined());
+		assertThat(get("p3"), not(isDefined()));
 	}
 
 	private static void checkSize(String string, int cols, int rows) {

@@ -2,10 +2,10 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -17,11 +17,12 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
+import org.gwtproject.user.client.ui.Widget;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
-	void showPopupMenu(ArrayList<GeoElement> geos, AlgebraView invoker,
-	        GPoint p);
+	void showPopupMenu(ArrayList<GeoElement> geos, Widget invoker,
+	        int x, int y);
 
 	void setFocusedPanel(int evID, boolean updatePropertiesView);
 
@@ -166,7 +167,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 *
 	 * @return the editor
 	 */
-	SymbolicEditor createSymbolicEditor(EuclidianViewW view);
+	SymbolicEditor createSymbolicEditor(EuclidianViewW view, TextRendererSettings settings);
 
 	/**
 	 *

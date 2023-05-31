@@ -669,7 +669,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				getKernel().getAlgebraProcessor().getCommandDispatcher();
 
 		for (String cmd : commandDictContent) {
-			commandDictCAS.addEntry(cmd);
+			if (commandDispatcher.isAllowedByNameFilter(Commands.stringToCommand(cmd))) {
+				commandDictCAS.addEntry(cmd);
+			}
 		}
 
 		// iterate through all available CAS commands, add them (translated if
@@ -2976,6 +2978,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public final void zoomAxesRatio(double axesratio) {
 		getActiveEuclidianView().zoomAxesRatio(axesratio, 1, true);
+	}
+
+	/**
+	 * Zooms and pans active EV to show all objects checking ratio from config.
+	 */
+	public final void setViewShowAllObjects() {
+		setViewShowAllObjects(appConfig.shouldKeepRatioEuclidian());
 	}
 
 	/**

@@ -152,6 +152,7 @@ public class Unicode {
 
 	// GREEK SMALL LETTER IOTA WITH TONOS
 	final public static char IMAGINARY = '\u03af';
+	final public static String IMAGINARY_STRING = "\u03af";
 
 	// non-breaking (hard) space
 	public static final char NBSP = '\u00a0';
@@ -232,6 +233,8 @@ public class Unicode {
 			+ CURRENCY_INDIAN_RUPEE + "" + CURRENCY_POUND + "" + CURRENCY_RUPEE
 			+ "" + CURRENCY_SHEKEL + "" + CURRENCY_TUGHRIK + "" + CURRENCY_WON
 			+ "" + CURRENCY_YEN + "";
+
+	public static final String PI_HALF_STRING = Unicode.PI_STRING + "/2";
 
 	/**
 	 * @param c

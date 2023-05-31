@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -22,7 +23,7 @@ import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 /**
  * Curve in parametric form (f(t),g(t))
  */
-public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
+public interface ParametricCurve extends Traceable, Path, CurveEvaluable, VarString {
 	@Override
 	double getMinParameter();
 
@@ -82,6 +83,7 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	/**
 	 * @return array of function variables
 	 */
+	@Override
 	FunctionVariable[] getFunctionVariables();
 
 }

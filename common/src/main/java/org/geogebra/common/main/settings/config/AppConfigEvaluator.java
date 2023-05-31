@@ -37,7 +37,7 @@ public class AppConfigEvaluator extends AppConfigDefault {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
+	public CommandFilter createCommandFilter() {
 		return CommandFilterFactory.createNoCasCommandFilter();
 	}
 

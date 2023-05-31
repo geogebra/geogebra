@@ -47,7 +47,7 @@ public class PopupMenuButtonW extends StandardButton
 	 */
 	protected Label titleLabel;
 	private SelectionTableW myTable;
-	private boolean hasTable;
+	private final boolean hasTable;
 	/** flag to determine if the popup should persist after a mouse click */
 	private boolean keepVisible = true;
 	private boolean isIniting = true;
@@ -147,7 +147,7 @@ public class PopupMenuButtonW extends StandardButton
 	 * creates a new {@link ButtonPopupMenu}
 	 */
 	private void createPopup() {
-		myPopup = new ButtonPopupMenu(app.getPanel(), app) {
+		myPopup = new ButtonPopupMenu(app.getAppletFrame(), app) {
 			@Override
 			public void setVisible(boolean visible) {
 				super.setVisible(visible);

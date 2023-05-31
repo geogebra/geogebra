@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -195,7 +194,7 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	@Override
-	public GDimension measureEquation(App app, GeoElement geo0, String text,
+	public GDimension measureEquation(App app, String text,
 			GFont font, boolean serif) {
 		return this.measureEquationJLaTeXMath(app, text, font, serif, null,
 				null);

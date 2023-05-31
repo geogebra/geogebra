@@ -1832,6 +1832,16 @@ public enum Operation {
 			return new MyDouble(ev.getKernel(), Double.NaN);
 		}
 	},
+	PRODUCT {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+									  ExpressionValue lt, ExpressionValue rt,
+									  ExpressionValue left, ExpressionValue right,
+									  StringTemplate tpl, boolean holdsLaTeX) {
+			return new MyDouble(ev.getKernel(), Double.NaN);
+		}
+	},
+
 	INVERSE_NORMAL {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,

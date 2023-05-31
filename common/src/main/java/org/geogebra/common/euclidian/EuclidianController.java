@@ -4686,8 +4686,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param geo
 	 *            moved point (unchecked cas)
 	 */
-	public void setMovedGeoPoint(GeoElementND geo) {
-		movedGeoPoint = (GeoPointND) geo;
+	public void setMovedGeoPoint(GeoPointND geo) {
+		movedGeoPoint = geo;
 
 		AlgoElement algo = movedGeoPoint.getParentAlgorithm();
 		if (algo instanceof AlgoDynamicCoordinatesInterface) {
@@ -6650,8 +6650,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected void handleMovedElementDependent() {
 		translateableGeos = null;
-		GeoVectorND vec = null;
-		boolean sameVector = true;
+		GeoElementND vec = null;
 
 		// allow dragging of Translate[Object, vector] if 'vector' is
 		// independent
@@ -6659,36 +6658,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoPoly poly = (GeoPoly) movedGeoElement;
 			GeoPointND[] pts = poly.getPoints();
 
-			// get vector for first point
-			AlgoElement algo = null;
-			if (pts != null && pts[0] != null) {
-				algo = pts[0].getParentAlgorithm();
-			}
-			if (algo instanceof AlgoTranslate) {
-				GeoElement[] input = algo.getInput();
-
-				if (input[1].isIndependent()) {
-					vec = (GeoVectorND) input[1];
-
-					// now check other points are translated by the same vector
-					for (int i = 1; i < pts.length; i++) {
-						algo = pts[i].getParentAlgorithm();
-						if (!(algo instanceof AlgoTranslate)) {
-							sameVector = false;
-							break;
-						}
-						input = algo.getInput();
-
-						GeoVectorND vec2 = (GeoVectorND) input[1];
-						if (vec != vec2) {
-							sameVector = false;
-							break;
-						}
-
-					}
-				}
-
-			}
+			vec = getTranslationVector(pts);
 		} else if (movedGeoElement.isGeoSegment() || movedGeoElement.isGeoRay()
 				|| (movedGeoElement
 						.getParentAlgorithm() instanceof AlgoVector)) {
@@ -6717,55 +6687,33 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			if ((start != null) && (end != null)) {
-				// get vector for first point
-				AlgoElement algo = start.getParentAlgorithm();
-				AlgoElement algo2 = end.getParentAlgorithm();
-				if ((algo instanceof AlgoTranslate)
-						&& (algo2 instanceof AlgoTranslate)) {
-					GeoElement[] input = algo.getInput();
-					vec = (GeoVectorND) input[1];
-					GeoElement[] input2 = algo2.getInput();
-					GeoVectorND vec2 = (GeoVectorND) input2[1];
-
-					// now check if points are translated by the same vector
-					if (vec != vec2) {
-						sameVector = false;
-					}
-				}
+				vec = getTranslationVector(start, end);
 			}
 		} else if (movedGeoElement.isTranslateable()) {
 			AlgoElement algo = movedGeoElement.getParentAlgorithm();
 			if (algo instanceof AlgoTranslate) {
-				GeoElement[] input = algo.getInput();
-				if ((input[1].isIndependent() || input[1]
-						.getParentAlgorithm() instanceof AlgoVectorPoint)
-						&& input[1] instanceof GeoVectorND) {
-					vec = (GeoVectorND) input[1];
-				}
+				vec = algo.getInput(1); // check for independence done later
 			}
 		} else if (movedGeoElement
 				.getParentAlgorithm() instanceof AlgoVectorPoint) {
 			// allow Vector[(1,2)] to be dragged
-			vec = (GeoVectorND) movedGeoElement;
+			vec = movedGeoElement;
 		}
 
 		if (vec != null) {
-			if (vec.getParentAlgorithm() instanceof AlgoVectorPoint) {
-				// unwrap Vector[(1,2)]
-				AlgoVectorPoint algo = (AlgoVectorPoint) vec
-						.getParentAlgorithm();
+			GeoPointND movablePointForVector = MoveGeos.getMovablePointForVector(vec);
+			if (movablePointForVector != null) {
 				moveMode = MOVE_POINT_WITH_OFFSET;
-				transformCoordsOffset[0] = xRW - vec.getX();
-				transformCoordsOffset[1] = yRW - vec.getY();
-				movedGeoPoint = algo.getP();
+				transformCoordsOffset[0] = xRW - movablePointForVector.getInhomX();
+				transformCoordsOffset[1] = yRW - movablePointForVector.getInhomY();
+				movedGeoPoint = movablePointForVector;
 				return;
 			}
 
-			if (sameVector && ((vec.getLabelSimple() == null)
-					|| vec.isIndependent())) {
-				transformCoordsOffset[0] = xRW - vec.getX();
-				transformCoordsOffset[1] = yRW - vec.getY();
-				movedGeoVector = vec;
+			if (vec.isIndependent() && vec instanceof GeoVectorND) {
+				transformCoordsOffset[0] = xRW - ((GeoVectorND) vec).getX();
+				transformCoordsOffset[1] = yRW - ((GeoVectorND) vec).getY();
+				movedGeoVector = (GeoVectorND) vec;
 				moveMode = MOVE_VECTOR_NO_GRID;
 				return;
 			}
@@ -6800,6 +6748,31 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		handleMovedElementDependentInitMode();
+	}
+
+	private GeoElementND getTranslationVector(GeoPointND... pts) {
+		GeoElementND vec = null;
+		// get vector for first point
+		AlgoElement algo = null;
+		if (pts != null && pts[0] != null) {
+			algo = pts[0].getParentAlgorithm();
+		}
+		if (algo instanceof AlgoTranslate) {
+			vec = algo.getInput(1);
+
+			// now check other points are translated by the same vector
+			for (int i = 1; i < pts.length; i++) {
+				algo = pts[i].getParentAlgorithm();
+				if (!(algo instanceof AlgoTranslate)) {
+					return null;
+				}
+				GeoElementND vec2 = algo.getInput(1);
+				if (vec != vec2) {
+					return null;
+				}
+			}
+		}
+		return vec;
 	}
 
 	protected void handleMovedElementDependentInitMode() {
@@ -6838,7 +6811,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	final protected boolean handleMovedElementFreePoint() {
 		if (movedGeoElement.isGeoPoint()) {
 			moveMode = MOVE_POINT;
-			setMovedGeoPoint(movedGeoElement);
+			setMovedGeoPoint((GeoPointND) movedGeoElement);
 			// make sure snap-to-grid works after e.g. pressing a button
 			transformCoordsOffset[0] = 0;
 			transformCoordsOffset[1] = 0;
@@ -10129,7 +10102,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			changedKernel = ((movedGeoElement != null)
 					&& movedGeoElement.isLabelSet()) && (moveMode != MOVE_NONE)
 					&& modeTriggersUndoOnDragGeo(mode);
-			movedGeoElement = null;
+			resetMovedGeoElement();
 			rotGeoElement = null;
 
 			// Michael Borcherds 2007-10-08 allow dragging with right mouse
@@ -10148,7 +10121,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				notifyCoordSystemMoveStop();
 			}
 		} else {
-			movedGeoElement = null;
+			resetMovedGeoElement();
 			// no hits: release mouse button creates a point
 			// for the transformation tools
 			// (note: this cannot be done in mousePressed because
@@ -10224,6 +10197,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		endOfWrapMouseReleased(hits, event);
 
 		draggingOccurredBeforeRelease = false;
+	}
+
+	private void resetMovedGeoElement() {
+		movedGeoElement = null;
+		movedGeoBoolean = null;
+		movedGeoLine = null;
+		movedObject = null;
+		movedGeoConic = null;
+		movedGeoImplicitCurve = null;
+		movedGeoText = null;
+		movedGeoImage = null;
 	}
 
 	private void focusGroupElement(GeoElement geo) {

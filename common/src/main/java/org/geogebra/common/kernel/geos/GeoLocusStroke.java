@@ -888,7 +888,7 @@ public class GeoLocusStroke extends GeoLocus
 		if (!StringUtil.empty(splitParentLabel)) {
 			sb.append("\t<parentLabel val=\"");
 			StringUtil.encodeXML(sb, splitParentLabel);
-			sb.append("\"/>");
+			sb.append("\"/>\n");
 		}
 	}
 

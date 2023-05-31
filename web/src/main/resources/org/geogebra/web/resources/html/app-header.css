@@ -262,12 +262,6 @@ img.profileImage {
 	width: 100%;
 	height: 100%;
 }
-/** app dropdown */
-ul {
-	padding-left: 0;
-    list-style-type: none;
-}
-
 
 svg.icon.left {
     margin-right: 15px;

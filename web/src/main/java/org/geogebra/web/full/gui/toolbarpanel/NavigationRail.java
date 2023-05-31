@@ -146,7 +146,7 @@ class NavigationRail extends FlowPanel {
 			return;
 		}
 		toolbarPanel.openAlgebra(isOpen());
-		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().closeKeyboard();
 		toolbarPanel.getFrame().showKeyboardButton(true);
 	}
 
@@ -158,7 +158,7 @@ class NavigationRail extends FlowPanel {
 			onClosePressed(false);
 			return;
 		}
-		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().closeKeyboard();
 		toolbarPanel.getFrame().showKeyboardButton(false);
 		toolbarPanel.openTools(isOpen());
 	}
@@ -174,7 +174,7 @@ class NavigationRail extends FlowPanel {
 			onClosePressed(false);
 			return;
 		}
-		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().closeKeyboard();
 		toolbarPanel.getFrame().showKeyboardButton(true);
 		toolbarPanel.openTableView(null, isOpen());
 		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {

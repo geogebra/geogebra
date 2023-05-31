@@ -90,17 +90,13 @@ public abstract class FileManager extends MaterialsManager {
 	 * @return material
 	 */
 	public Material createMaterial(final String base64, long modified) {
-		final Material mat = new Material(0, MaterialType.ggb);
+		final Material mat = new Material(MaterialType.ggb);
 
 		// TODO check if we need to set timestamp / modified
 		mat.setModified(modified);
 
 		if (!StringUtil.emptyOrZero(app.getTubeId())) {
-			try {
-				mat.setId(Integer.parseInt(app.getTubeId()));
-			} catch (NumberFormatException e) {
-				mat.setSharingKey(app.getTubeId());
-			}
+			mat.setSharingKey(app.getTubeId());
 			Log.debug("create material" + app.getSyncStamp());
 			mat.setSyncStamp(app.getSyncStamp());
 		}

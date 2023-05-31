@@ -55,7 +55,7 @@ public class SelectAllHandler {
 		if (first instanceof MathArray) {
 			MathArray array = (MathArray) first;
 			if (array.isMatrix()) {
-				selectUpToRootComponent();
+				editorState.selectUpToRootComponent();
 			} else {
 				selectListElement(array.getArgument(0));
 			}
@@ -143,15 +143,5 @@ public class SelectAllHandler {
 		}
 
 		return charIndex == 0 ? 0 : charIndex + 1;
-	}
-
-	private void selectUpToRootComponent() {
-		while (editorState.getSelectionStart().getParent().getParent()
-				!= editorState.getRootComponent()) {
-			editorState.anchor(true);
-			setSelectionStart(editorState.getSelectionStart().getParent());
-		}
-
-		setSelectionEnd(editorState.getSelectionStart());
 	}
 }

@@ -300,7 +300,7 @@ void subscript(MathContainer currentField) :
 		MathFunction subscriptFunction = new MathFunction(metaModel.getGeneral(Tag.SUBSCRIPT));
 		subscript = new MathSequence();
 	}
-	((<CURLY_BRACKETS_OPEN> mathContainer(subscript) <CURLY_BRACKETS_CLOSE>)
+	((<CURLY_BRACKETS_OPEN> mathContainerWithCommas(subscript) <CURLY_BRACKETS_CLOSE>)
 	|
 	mathCharacter(subscript)) {
 		subscriptFunction.setArgument(0, subscript);

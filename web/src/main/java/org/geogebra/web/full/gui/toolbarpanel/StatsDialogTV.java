@@ -64,6 +64,7 @@ public class StatsDialogTV extends ComponentDialog {
 					group.add(canvas);
 				} else {
 					Label valueLbl = new Label(value);
+					valueLbl.addStyleName("value");
 					group.add(valueLbl);
 				}
 			}

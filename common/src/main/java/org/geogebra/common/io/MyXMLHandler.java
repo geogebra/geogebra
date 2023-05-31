@@ -3516,7 +3516,7 @@ public class MyXMLHandler implements DocHandler {
 			ValidExpression ve = parser.parseGeoGebraExpression(exp);
 			if (label != null) {
 				if ("X".equals(ve.getLabel())
-						&& cons.getRegisteredFunctionVariable() == null) {
+						&& !cons.hasRegisteredFunctionVariable()) {
 					ve = new Equation(kernel, new Variable(kernel, "X"), ve);
 				}
 				ve.setLabel(label);

@@ -127,6 +127,7 @@ public abstract class CasTestJsonCommon {
 					&& !"Binomial.2".equals(key)
 					&& !"CorrectSolution.3".equals(key)
 					&& !"Eliminate.2".equals(key) && !"ExpandOnly.1".equals(key)
+					&& !"ExpSimplify.1".equals(key)
 					&& !"GroebnerDegRevLex.1".equals(key)
 					&& !"GroebnerDegRevLex.2".equals(key)
 					&& !"GroebnerLex.1".equals(key)
@@ -1458,5 +1459,35 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testQuartile3() {
 		testCat("Q3.1");
+	}
+
+	@Test
+	public void testExtendedGCD2() {
+		testCat("ExtendedGCD.2");
+	}
+
+	@Test
+	public void testModularExponent3() {
+		testCat("ModularExponent.3");
+	}
+
+	@Test
+	public void testCharacteristicPolynomial() {
+		testCat("CharacteristicPolynomial.1");
+	}
+
+	@Test
+	public void testMinimalPolynomial() {
+		testCat("MinimalPolynomial.1");
+	}
+
+	@Test
+	public void testLUDecomposition() {
+		testCat("LUDecomposition.1");
+	}
+
+	@Test
+	public void testQRDecomposition() {
+		testCat("QRDecomposition.1");
 	}
 }

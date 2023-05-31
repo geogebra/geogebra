@@ -284,6 +284,7 @@ public enum ValueType {
 			break;
 		case INVERSE_NORMAL:
 		case SUM:
+		case PRODUCT:
 			break;
 		case SEQUENCE:
 			return ValueType.LIST;

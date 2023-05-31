@@ -687,6 +687,7 @@ public class GeoText extends GeoElement
 
 	private void setSameLocation(GeoText text) {
 		if (text.hasAbsoluteScreenLocation) {
+			setAbsoluteScreenLocActive(true);
 			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(),
 					text.getAbsoluteScreenLocY());
 		} else {
@@ -1568,6 +1569,14 @@ public class GeoText extends GeoElement
 
 	public GeoNumeric getVerticalAlignment() {
 		return verticalAlignment;
+	}
+
+	/**
+	 *
+	 * @return if text is aligned either horizontally or vertically.
+	 */
+	public boolean hasAlignment() {
+		return horizontalAlignment != null || verticalAlignment != null;
 	}
 
 	/**

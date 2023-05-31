@@ -1,5 +1,6 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.gwtutil.ExceptionUnwrapper;
 import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -29,6 +30,18 @@ public class EditorListener implements MathFieldListener {
 		event.set("type", "editorKeyTyped");
 		event.set("key", key);
 		event.set("latex", new TeXSerializer().serialize(mathField.getFormula()));
+		notifyListeners(event);
+	}
+
+	/**
+	 * notify listeners about keyboard opening/closing
+	 * @param show - true if keyboard shown
+	 */
+	public void notifyKeyboardVisibilityChange(boolean show) {
+		JsPropertyMap<Object> event = JsPropertyMap.of();
+		String type = show ? "openKeyboard" : "closeKeyboard";
+		event.set("0", type);
+		event.set("type", type);
 		notifyListeners(event);
 	}
 
@@ -63,7 +76,14 @@ public class EditorListener implements MathFieldListener {
 	}
 
 	private void notifyListeners(Object o) {
-		listeners.forEach((fn, index, ignore) -> fn.call(DomGlobal.window, o));
+		listeners.forEach((fn, index, ignore) -> {
+			try {
+				fn.call(DomGlobal.window, o);
+			} catch (Exception e) {
+				ExceptionUnwrapper.printErrorMessage(e);
+			}
+			return null;
+		});
 	}
 
 	public void setMathField(MathFieldW mf) {

@@ -18,6 +18,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -25,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.test.EventAcumulator;
 import org.geogebra.test.TestErrorHandler;
@@ -82,7 +82,7 @@ public class RedefineTest extends BaseUnitTest {
 		t("B=(1,0)", "(1, 0)");
 		t("C=(0,0)", "(0, 0)");
 		t("D=(0,1)", "(0, 1)");
-		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
+		t("poly1=Polygon[A,B,C,D]", "1", "1", "1", "1", "1");
 		t("a", "1"); // polygon side
 		app.getKernel().setUndoActive(true);
 		app.getKernel().initUndoInfo();
@@ -132,10 +132,10 @@ public class RedefineTest extends BaseUnitTest {
 		t("B=(1,0)", "(1, 0)");
 		t("C=(0,0)", "(0, 0)");
 		t("D=(0,1)", "(0, 1)");
-		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
+		t("poly1=Polygon[A,B,C,D]", "1", "1", "1", "1", "1");
 		assertEquals("a_1 = Segment(A, B, poly1)",
 				lookup("a_1").getDefinitionForInputBar());
-		t("a_{1} = Segment(A, B, poly1)", new String[0]);
+		t("a_{1} = Segment(A, B, poly1)");
 		ap.changeGeoElement(lookup("a_1"),
 				"a_{1} = Segment(A, B, poly1)", true, true,
 				TestErrorHandler.INSTANCE, null);
@@ -164,7 +164,7 @@ public class RedefineTest extends BaseUnitTest {
 		t("b=100", "100");
 		t("a=randomUniform(0,b)", "72.75636800328681");
 		((GeoNumeric) lookup("b")).setValue(10);
-		((GeoNumeric) lookup("b")).resetDefinition();
+		lookup("b").resetDefinition();
 		app.getKernel().updateConstruction(false);
 		t("a", "10");
 	}
@@ -173,7 +173,7 @@ public class RedefineTest extends BaseUnitTest {
 	public void setValueShouldChangeRandom() {
 		app.setRandomSeed(42);
 		t("a=random()", "0.7275636800328681");
-		t("SetValue(a,0.5)", new String[0]);
+		t("SetValue(a,0.5)");
 		t("a", "0.5");
 	}
 
@@ -181,7 +181,7 @@ public class RedefineTest extends BaseUnitTest {
 	public void setValueShouldChangeRandomSequence() {
 		app.setRandomSeed(42);
 		add("a=Sequence(RandomBetween(1,k),k,1,5)");
-		t("SetValue(a,{3,-2,3,2,5})", new String[0]);
+		t("SetValue(a,{3,-2,3,2,5})");
 		t("a", "{1, 1, 3, 2, 5}");
 	}
 
@@ -189,7 +189,7 @@ public class RedefineTest extends BaseUnitTest {
 	public void setValueShouldChangeShuffle() {
 		app.setRandomSeed(42);
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
-		t("SetValue(L_1, {1, 2, 3, 4, 5, 6, 7, 11, 9, 10})", new String[0]);
+		t("SetValue(L_1, {1, 2, 3, 4, 5, 6, 7, 11, 9, 10})");
 		t("L_1", "{1, 2, 3, 4, 5, 6, 7, 9, 10, 8}");
 	}
 
@@ -212,7 +212,7 @@ public class RedefineTest extends BaseUnitTest {
 	public void setValueShouldChangeRandomElement() {
 		app.setRandomSeed(42);
 		t("P=RandomElement((1..10,1..10))", "(8, 8)");
-		t("SetValue(P, (7, 7))", new String[0]);
+		t("SetValue(P, (7, 7))");
 		t("P", "(7, 7)");
 	}
 
@@ -285,7 +285,7 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void pointOnPartialFunctionShouldStayUndefined() {
-		t("ZoomIn[0,0,100,100]", new String[0]);
+		t("ZoomIn[0,0,100,100]");
 		t("a=.9", "0.9");
 		// undefined for most onscreen points
 		t("f=If(x==0, 1, ?)",
@@ -337,11 +337,8 @@ public class RedefineTest extends BaseUnitTest {
 		t("f(x)=x^2", "x^(2)");
 		t("f'(x)=f'", "(2 * x)");
 		ap.changeGeoElement(lookup("f'"), "f'(x)", true, true,
-				TestErrorHandler.INSTANCE, new AsyncOperation<GeoElementND>() {
-					@Override
-					public void callback(GeoElementND obj) {
-						// no callback
-					}
+				TestErrorHandler.INSTANCE, obj -> {
+					// no callback
 				});
 		t("f'(x)", "(2 * x)");
 	}
@@ -490,6 +487,15 @@ public class RedefineTest extends BaseUnitTest {
 		assertEquals(m, redefinedM); // soft redefinition
 		redefinedM = add("m=Line(A,Vector((1,3)))");
 		assertNotEquals(m, redefinedM);
+	}
+
+	@Test
+	public void strokeRedefinitionsShouldBeSoft() {
+		GeoElement stroke = add("stroke1=PolyLine((1,1),(2,3),true)");
+		GeoLocusStroke redefined = add("stroke1=PolyLine((1,4),(2,5),true)");
+		assertEquals(stroke, redefined);
+		assertThat(redefined, hasValue("Polyline[(1.0000E0,4.0000E0), "
+				+ "(2.0000E0,5.0000E0), (NaN,NaN), true]"));
 	}
 
 	@Test

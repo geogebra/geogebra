@@ -18,16 +18,16 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.geogebra.common.kernel.arithmetic.ExpressionNode.getLabelOrDefinition;
+
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.Commands;
@@ -51,10 +51,10 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Markus
  */
 public class Command extends ValidExpression
-		implements ReplaceChildrenByValues, GetItem {
+		implements ReplaceChildrenByValues, GetItem, HasArguments {
 
 	// list of arguments
-	private ArrayList<ExpressionNode> args = new ArrayList<>();
+	private final ArrayList<ExpressionNode> args = new ArrayList<>();
 	private String name; // internal command name (in English)
 
 	@Weak
@@ -63,7 +63,7 @@ public class Command extends ValidExpression
 	private App app;
 	private GeoElementND[] evalGeos; // evaluated Elements
 	private Macro macro; // command may correspond to a macro
-	private boolean allowEvaluationForTypeCheck = true;
+	private boolean allowEvaluationForTypeCheck;
 	private StringBuilder sbToString;
 
 	private ValueType lastType = null;
@@ -196,11 +196,7 @@ public class Command extends ValidExpression
 		return args.toArray(new ExpressionNode[0]);
 	}
 
-	/**
-	 * @param i
-	 *            index
-	 * @return i-th argument
-	 */
+	@Override
 	public ExpressionNode getArgument(int i) {
 		return args.get(i);
 	}
@@ -215,9 +211,7 @@ public class Command extends ValidExpression
 		args.set(i, en);
 	}
 
-	/**
-	 * @return number of arguments
-	 */
+	@Override
 	public int getArgumentNumber() {
 		return args.size();
 	}
@@ -248,7 +242,7 @@ public class Command extends ValidExpression
 			StringTemplate tpl) {
 		switch (tpl.getStringType()) {
 		case GIAC:
-			return (kernel.getGeoGebraCAS()).getCASCommand(name, args, symbolic,
+			return kernel.getGeoGebraCAS().getCASCommand(name, args, symbolic,
 					tpl, SymbolicMode.NONE);
 		case LATEX:
 			if (sbToString == null) {
@@ -256,103 +250,8 @@ public class Command extends ValidExpression
 			}
 			sbToString.setLength(0);
 			if ("Integral".equals(name)) {
-				sbToString.append("\\int");
-				Set<GeoElement> vars = getArgument(0)
-						.getVariables(SymbolicMode.NONE);
-				String var = "x";
-				if (vars != null && !vars.isEmpty()) {
-					Iterator<GeoElement> ite = vars.iterator();
-					while (ite.hasNext()) {
-						GeoElement geo = ite.next();
-						// get function from construction
-						GeoElement geoFunc = getKernel().getConstruction()
-								.geoTableVarLookup(geo.getLabel(
-										StringTemplate.defaultTemplate));
-						GeoElement geoCASCell = getKernel().getConstruction()
-								.lookupCasCellLabel(geo.getLabel(
-										StringTemplate.defaultTemplate));
-						// if input function was without parameter
-						// replace geoDummyVariable with function
-						if (geo instanceof GeoDummyVariable && geoFunc != null
-								&& geoFunc.isGeoFunction()) {
-							ExpressionNode funcNode = new ExpressionNode(kernel,
-									geoFunc, Operation.FUNCTION,
-									((GeoFunction) geoFunc)
-											.getFunctionVariables()[0]);
-							getArgument(0)
-									.traverse(GeoDummyReplacer.getReplacer(
-											geo.getLabel(
-													StringTemplate.defaultTemplate),
-											funcNode, true));
-						}
-						// if we couldn't find the function
-						// just as GeoCasCell
-						if (geo instanceof GeoDummyVariable
-								&& geoCASCell != null
-								&& geoCASCell.isGeoCasCell()
-								&& ((GeoCasCell) geoCASCell)
-										.getInputVE() instanceof Function) {
-							ExpressionNode funcNode = new ExpressionNode(kernel,
-									geo, Operation.FUNCTION,
-									((GeoCasCell) geoCASCell)
-											.getFunctionVariables()[0]);
-							String funcStr = getArgument(0)
-									.toString(StringTemplate.defaultTemplate);
-							// geoDummyVariable wasn't already changed
-							if (!funcStr
-									.contains("("
-											+ ((GeoCasCell) geoCASCell)
-													.getFunctionVariables()[0]
-											+ ")")) {
-								getArgument(0)
-										.traverse(GeoDummyReplacer.getReplacer(
-												geo.getLabel(
-														StringTemplate.defaultTemplate),
-												funcNode, true));
-							}
-						}
-						// make sure that we get from set the variable and not
-						// the
-						// function
-						// needed for TRAC-5364
-						if (geo instanceof GeoDummyVariable && geoFunc == null
-								&& geoCASCell == null) {
-							var = geo.toString(tpl);
-						}
-					}
-				}
-				switch (getArgumentNumber()) {
-				case 1:
-					sbToString.append(" ");
-					sbToString.append(getArgument(0).toString(tpl));
-					break;
-				case 2:
-					sbToString.append(" ");
-					sbToString.append(getArgument(0).toString(tpl));
-					var = getArgument(1).toString(tpl);
-					break;
-				case 3:
-					sbToString.append("\\limits_{");
-					sbToString.append(getArgument(1).toString(tpl));
-					sbToString.append("}^{");
-					sbToString.append(getArgument(2).toString(tpl));
-					sbToString.append("}");
-					sbToString.append(getArgument(0).toString(tpl));
-					break;
-				case 4:
-					sbToString.append("\\limits_{");
-					sbToString.append(getArgument(2).toString(tpl));
-					sbToString.append("}^{");
-					sbToString.append(getArgument(3).toString(tpl));
-					sbToString.append("}");
-					sbToString.append(getArgument(0).toString(tpl));
-					var = getArgument(1).toString(tpl);
-					break;
-				default:
-					break;
-				}
-				sbToString.append("\\,\\mathrm{d}");
-				sbToString.append(var);
+				String var = getIntegralVar(tpl);
+				appendIntegral(this, sbToString, var, tpl);
 				return sbToString.toString();
 			} else if ("Sum".equals(name) && getArgumentNumber() == 4) {
 				sbToString.append("\\sum_{");
@@ -396,19 +295,13 @@ public class Command extends ValidExpression
 				sbToString.append(toString(args.get(i), symbolic, LaTeX, tpl));
 				// Integral[f,0,1]
 				// make sure that we add the parameter of the function too
-				if ("Integral".equals(name)) {
-					if (i == 0 && args.get(0).isExpressionNode()
+				if ("Integral".equals(name) && i == 0 && args.get(0).isExpressionNode()
 							&& args.get(0).getLeft() instanceof GeoCasCell) {
-						if (((GeoCasCell) args.get(0).getLeft())
-								.isAssignmentVariableDefined()
-								&& args.get(0).getRight() == null) {
-							sbToString
-									.append("("
-											+ ((GeoCasCell) args.get(0)
-													.getLeft())
-															.getFunctionVariable()
-											+ ")");
-						}
+					GeoCasCell casCell = (GeoCasCell) args.get(0).getLeft();
+					if (casCell.isAssignmentVariableDefined()
+							&& args.get(0).getRight() == null) {
+						sbToString.append("(")
+								.append(casCell.getFunctionVariable()).append(")");
 					}
 				}
 				if (i < size - 1) {
@@ -422,6 +315,117 @@ public class Command extends ValidExpression
 
 			return sbToString.toString();
 		}
+	}
+
+	/*
+	 * Guess the function variable from first argument of Integral
+	 * Side effect: replace f -> f(v) in the first argument
+	 */
+	private String getIntegralVar(StringTemplate tpl) {
+		Set<GeoElement> vars = getArgument(0)
+				.getVariables(SymbolicMode.NONE);
+		String var = "x";
+		if (vars != null && !vars.isEmpty()) {
+			for (GeoElement geo : vars) {
+				// get function from construction
+				String label = geo.getLabel(StringTemplate.defaultTemplate);
+				GeoElement geoFunc = getKernel().getConstruction()
+						.geoTableVarLookup(label);
+				GeoCasCell geoCASCell = getKernel().getConstruction()
+						.lookupCasCellLabel(label);
+				replaceFunctionNode(geo, geoFunc);
+				replaceFunctionNodeCas(geo, geoCASCell);
+				// make sure that we get from set the variable and not
+				// the function, needed for TRAC-5364
+				if (geo instanceof GeoDummyVariable && geoFunc == null
+						&& geoCASCell == null) {
+					var = geo.toString(tpl);
+				}
+			}
+		}
+		return var;
+	}
+
+	private void replaceFunctionNode(GeoElement geo, GeoElement geoFunc) {
+		if (geo instanceof GeoDummyVariable && geoFunc != null
+				&& geoFunc.isGeoFunction()) {
+			FunctionVariable functionVar = ((GeoFunction) geoFunc)
+					.getFunctionVariables()[0];
+			replaceDummiesWithFunctionNode(functionVar, geoFunc, geoFunc.getLabelSimple());
+		}
+	}
+
+	private void replaceDummiesWithFunctionNode(FunctionVariable functionVar,
+			GeoElement fn, String labelSimple) {
+		ExpressionNode funcNode = new ExpressionNode(kernel,
+				fn, Operation.FUNCTION, functionVar);
+		getArgument(0)
+				.traverse(Traversing.GeoDummyReplacer.getReplacer(
+						labelSimple,
+						funcNode, true));
+	}
+
+	private void replaceFunctionNodeCas(GeoElement geo, GeoCasCell geoCASCell) {
+		if (geo instanceof GeoDummyVariable
+				&& geoCASCell != null
+				&& geoCASCell.getInputVE() instanceof Function) {
+			FunctionVariable functionVar = geoCASCell.getFunctionVariables()[0];
+			if (doesNotHaveAsArgument(functionVar)) {
+				replaceDummiesWithFunctionNode(functionVar, geoCASCell,
+								geoCASCell.getLabel(StringTemplate.defaultTemplate));
+			}
+		}
+	}
+
+	private boolean doesNotHaveAsArgument(FunctionVariable functionVar) {
+		String funcStr = getArgument(0)
+				.toString(StringTemplate.defaultTemplate);
+		return !funcStr.contains("(" + functionVar + ")");
+	}
+
+	/**
+	 * @param integral integral command/algo
+	 * @param sb target string builder
+	 * @param defaultVar fallback variable for dx
+	 *                  (overwritten by 2nd / 4th argument for indefinite / definite integral)
+	 * @param tpl template
+	 */
+	public static void appendIntegral(HasArguments integral,
+			StringBuilder sb, String defaultVar, StringTemplate tpl) {
+		sb.append("\\int");
+		String var = defaultVar;
+		switch (integral.getArgumentNumber()) {
+		case 1:
+			sb.append(" ");
+			sb.append(getLabelOrDefinition(integral.getArgument(0), tpl));
+			break;
+		case 2:
+			sb.append(" ");
+			sb.append(getLabelOrDefinition(integral.getArgument(0), tpl));
+			var = getLabelOrDefinition(integral.getArgument(1), tpl);
+			break;
+		case 3:
+			sb.append("\\limits_{");
+			sb.append(getLabelOrDefinition(integral.getArgument(1), tpl));
+			sb.append("}^{");
+			sb.append(getLabelOrDefinition(integral.getArgument(2), tpl));
+			sb.append("}");
+			sb.append(getLabelOrDefinition(integral.getArgument(0), tpl));
+			break;
+		case 4:
+			sb.append("\\limits_{");
+			sb.append(getLabelOrDefinition(integral.getArgument(2), tpl));
+			sb.append("}^{");
+			sb.append(getLabelOrDefinition(integral.getArgument(3), tpl));
+			sb.append("}");
+			sb.append(getLabelOrDefinition(integral.getArgument(0), tpl));
+			var = getLabelOrDefinition(integral.getArgument(1), tpl);
+			break;
+		default:
+			break;
+		}
+		sb.append("\\,\\mathrm{d}");
+		sb.append(var);
 	}
 
 	private static String toString(ExpressionValue ev, boolean symbolic,
@@ -438,9 +442,7 @@ public class Command extends ValidExpression
 	 * @return array of resulting geos
 	 */
 	public GeoElementND[] evaluateMultiple(EvalInfo info) {
-		GeoElementND[] geos = null;
-		geos = kernel.getAlgebraProcessor().processCommand(this, info);
-		return geos;
+		return kernel.getAlgebraProcessor().processCommand(this, info);
 	}
 
 	@Override
@@ -489,8 +491,8 @@ public class Command extends ValidExpression
 
 		// CAS parsing case: we need to resolve arguments also
 		if (info.getSymbolicMode() != SymbolicMode.NONE) {
-			for (int i = 0; i < args.size(); i++) {
-				args.get(i).resolveVariables(info);
+			for (ExpressionNode arg : args) {
+				arg.resolveVariables(info);
 			}
 
 			// avoid evaluation of command
@@ -514,8 +516,8 @@ public class Command extends ValidExpression
 							+ this);
 		}
 
-		for (int i = 0; i < evalGeos.length; i++) {
-			if (!evalGeos[i].isConstant()) {
+		for (GeoElementND evalGeo : evalGeos) {
+			if (!evalGeo.isConstant()) {
 				return false;
 			}
 		}
@@ -631,27 +633,24 @@ public class Command extends ValidExpression
 	public Command deepCopy(Kernel kernel1) {
 		Command c = new Command(kernel1, name, false);
 		// copy arguments
-		int size = args.size();
-		for (int i = 0; i < size; i++) {
-			c.addArgument(args.get(i).getCopy(kernel1));
+		for (ExpressionNode arg : args) {
+			c.addArgument(arg.getCopy(kernel1));
 		}
 		return c;
 	}
 
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
-		int size = args.size();
-		for (int i = 0; i < size; i++) {
-			args.get(i).replaceChildrenByValues(geo);
+		for (ExpressionNode arg : args) {
+			arg.replaceChildrenByValues(geo);
 		}
 	}
 
 	@Override
 	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> set = new HashSet<>();
-		int size = args.size();
-		for (int i = 0; i < size; i++) {
-			Set<GeoElement> s = args.get(i).getVariables(mode);
+		for (ExpressionNode arg : args) {
+			Set<GeoElement> s = arg.getVariables(mode);
 			if (s != null) {
 				set.addAll(s);
 			}
@@ -731,10 +730,7 @@ public class Command extends ValidExpression
 		if (v != this) {
 			return v;
 		}
-		for (int i = 0; i < args.size(); i++) {
-			ExpressionNode en = args.get(i).traverse(t).wrap();
-			args.set(i, en);
-		}
+		args.replaceAll(expressionNode -> expressionNode.traverse(t).wrap());
 		return this;
 	}
 
@@ -743,8 +739,8 @@ public class Command extends ValidExpression
 		if (t.check(this)) {
 			return true;
 		}
-		for (int i = 0; i < args.size(); i++) {
-			if (args.get(i).inspect(t)) {
+		for (ExpressionNode arg : args) {
+			if (arg.inspect(t)) {
 				return true;
 			}
 		}

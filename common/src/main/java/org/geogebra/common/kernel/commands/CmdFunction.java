@@ -98,10 +98,10 @@ public class CmdFunction extends CommandProcessor {
 		if (!cons.isFileLoading()) {
 			fv = null;
 			if (varName != null || kernel.getConstruction()
-					.getRegisteredFunctionVariable() != null) {
+					.hasRegisteredFunctionVariable()) {
 				if (varName == null) {
 					varName = kernel.getConstruction()
-							.getRegisteredFunctionVariable();
+							.getRegisteredFunctionVariables()[0];
 				}
 				fv = new FunctionVariable(kernel, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
@@ -159,10 +159,10 @@ public class CmdFunction extends CommandProcessor {
 		// old code, just for when file loading
 		EvalInfo argInfo = info.withLabels(false);
 		if (varName != null || kernel.getConstruction()
-				.getRegisteredFunctionVariable() != null) {
+				.hasRegisteredFunctionVariable()) {
 			if (varName == null) {
 				varName = kernel.getConstruction()
-						.getRegisteredFunctionVariable();
+						.getRegisteredFunctionVariables()[0];
 			}
 			fv = new FunctionVariable(kernel, varName);
 			int r = c.getArgument(0).replaceVariables(varName, fv);

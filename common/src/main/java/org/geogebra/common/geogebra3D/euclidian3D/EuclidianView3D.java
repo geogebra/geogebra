@@ -5199,7 +5199,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * enlarge clipping for AR
      */
     public void enlargeClippingWhenAREnabled() {
-        if (isXREnabled()) {
+        if (isXREnabled() || mIsUnity) {
             if (updateObjectsBounds(true, true, true)) {
                 boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
                 boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);

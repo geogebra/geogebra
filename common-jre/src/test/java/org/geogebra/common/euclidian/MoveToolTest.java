@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.BaseUnitTest.hasValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -8,6 +10,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
@@ -28,6 +31,14 @@ public class MoveToolTest extends BaseControllerTest {
 		dragStart(50, 50);
 		dragEnd(100, 150);
 		checkContent("A = (1, -2)", "f = 1.41421");
+	}
+
+	@Test
+	public void moveShouldChangeVector() {
+		add("v = Vector((1,-1))");
+		dragStart(50, 50);
+		dragEnd(100, 150);
+		checkContent("v = (2, -3)");
 	}
 
 	@Test
@@ -133,6 +144,39 @@ public class MoveToolTest extends BaseControllerTest {
 		furniture.setLabelVisible(true);
 		furniture.updateRepaint();
 		assertCanDrag(furniture, true); // right-click only; no left-dragging of dropdowns
+	}
+
+	@Test
+	public void moveTranslateOutput() {
+		Stream.of("(0,0)", "(1,0)", "(1,1)", "(0,1)").forEach(this::add);
+		add("quad=Polygon(A,B,C,D)");
+		add("trV=Translate(quad,(1,-2))");
+		add("tr=Translate(quad,(1,-2))");
+		GeoElement corner = add("Vertex(tr,1)");
+		GeoElement cornerV = add("Vertex(trV,1)");
+		// first drag poly translated by point
+		assertThat(corner, hasValue("(1, -2)"));
+		dragStart(75, 75);
+		dragEnd(75, 125);
+		assertThat(corner, hasValue("(1, -3)"));
+		// now drag poly translated by vector
+		assertThat(cornerV, hasValue("(1, -2)"));
+		dragStart(75, 75);
+		dragEnd(75, 125);
+		assertThat(cornerV, hasValue("(1, -3)"));
+	}
+
+	@Test
+	public void shouldNotMoveDependentTranslateOutput() {
+		add("a=-2");
+		Stream.of("(0,0)", "(1,0)", "(1,1)", "(0,1)").forEach(this::add);
+		add("quad=Polygon(A,B,C,D)");
+		add("tr=Translate(quad,Vector((1,a)))");
+		GeoElement corner = add("Vertex(tr,1)");
+		assertThat(corner, hasValue("(1, -2)"));
+		dragStart(75, 75);
+		dragEnd(75, 125);
+		assertThat(corner, hasValue("(1, -2)"));
 	}
 
 	private void assertFurnitureDragBehavior(GeoElement furniture) {

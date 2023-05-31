@@ -95,12 +95,16 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof FencedAtom) {
 			FencedAtom ch = (FencedAtom) root;
-			String base = serialize(ch.getTrueBase());
-			if (isBinomial(ch.getTrueBase())) {
+			Atom bracketsContent = ch.getTrueBase();
+			String base = serialize(bracketsContent);
+			if (isBinomial(bracketsContent)) {
 				return base;
 			}
 			String left = serialize(ch.getLeft());
 			String right = serialize(ch.getRight());
+			if (bracketsContent instanceof ArrayAtom) {
+				return adapter.transformMatrix(left, base, right);
+			}
 			return adapter.transformBrackets(left, base, right);
 		}
 		if (root instanceof SpaceAtom) {
@@ -235,9 +239,6 @@ public class TeXAtomSerializer {
 		}
 		if (symbol == OgonekAtom.OGONEK) {
 			return "ogonek";
-		}
-		if (symbol == SymbolAtom.get("Vert")) {
-			return "\u2225";
 		}
 		return adapter.convertCharacter(symbol.getUnicode());
 	}

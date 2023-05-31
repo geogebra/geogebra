@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
@@ -82,8 +81,6 @@ public interface DrawEquationI {
 	/**
 	 * @param app
 	 *            application
-	 * @param geo0
-	 *            element
 	 * @param text
 	 *            LaTeX
 	 * @param font
@@ -92,6 +89,6 @@ public interface DrawEquationI {
 	 *            whether to use serif font
 	 * @return equation size
 	 */
-	public abstract GDimension measureEquation(App app, GeoElement geo0, String text, GFont font,
+	public abstract GDimension measureEquation(App app, String text, GFont font,
 			boolean serif);
 }

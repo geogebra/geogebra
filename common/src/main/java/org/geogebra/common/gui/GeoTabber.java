@@ -5,7 +5,6 @@ import org.geogebra.common.main.SelectionManager;
 
 public class GeoTabber implements MayHaveFocus {
 
-	private final App app;
 	private boolean selected;
 	private final SelectionManager selectionManager;
 
@@ -13,21 +12,18 @@ public class GeoTabber implements MayHaveFocus {
 	 * @param app Application
 	 */
 	public GeoTabber(App app) {
-		this.app = app;
 		selectionManager = app.getSelectionManager();
 	}
 
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
 		selectionManager.clearSelectedGeos(false);
+		// selectNext / selectPrevious are responsible also for moving the focus -- they have
+		// to decide if it goes to inputbox or canvas. We should not move focus here.
 		if (reverse) {
 			selected = selectionManager.selectPreviousGeo();
 		} else {
 			selected = selectionManager.selectNextGeo();
-
-		}
-		if (selected) {
-			app.getActiveEuclidianView().requestFocus();
 		}
 		return selected;
 	}
