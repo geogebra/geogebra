@@ -3,6 +3,8 @@ package org.geogebra.web.html5.gui.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.Colorist;
+import org.geogebra.web.html5.gui.Shades;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -268,6 +270,7 @@ public class AriaMenuBar extends FlowPanel {
 	public void addSeparator() {
 		Element li = DOM.createElement("LI");
 		li.setClassName("menuSeparator");
+		Colorist.INSTANCE.colorUIElement(li, Shades.NEUTRAL_300);
 		li.setAttribute("role", "presentation");
 		getElement().appendChild(li);
 	}

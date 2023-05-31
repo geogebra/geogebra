@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@import 'colorMap';
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 $classicToolbar: 50px;
@@ -59,7 +60,7 @@ $menuWidth: 320px;
 				border-radius: 0px 24px 24px 0px;
 				white-space: nowrap;
 				&:hover {
-					background-color: #EEEEEE;
+					background-color: map-get($neutrals, "200");
 				}
 				.gwt-Image {
 					vertical-align: middle;
@@ -93,7 +94,6 @@ $menuWidth: 320px;
 			}
 		}
 		.divider {
-			background-color: #E4E4E4;
 			height: 1px;
 			margin: 8px 0px 8px 56px;
 		}
