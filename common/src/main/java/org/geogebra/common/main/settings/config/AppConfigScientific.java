@@ -26,6 +26,10 @@ import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
  */
 public class AppConfigScientific extends AppConfigGraphing {
 
+	public AppConfigScientific(String appCode) {
+		super(appCode, GeoGebraConstants.SCIENTIFIC_APPCODE);
+	}
+
 	public AppConfigScientific() {
 		super(GeoGebraConstants.SCIENTIFIC_APPCODE, null);
 	}

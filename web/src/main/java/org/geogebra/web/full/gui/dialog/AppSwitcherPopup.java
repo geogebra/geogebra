@@ -71,6 +71,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 			addElement(GeoGebraConstants.CAS_APPCODE);
 		}
 		addElement(GeoGebraConstants.PROBABILITY_APPCODE);
+		addElement(GeoGebraConstants.SCIENTIFIC_APPCODE);
 	}
 
 	private void addElement(final String subAppCode) {

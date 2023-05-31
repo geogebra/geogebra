@@ -11,7 +11,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 public class AVItemHeaderScientific extends SimplePanel
 		implements AlgebraItemHeader {
 
-	private Label number;
+	private final Label number;
 	private NoDragImage warningImage;
 
 	/**

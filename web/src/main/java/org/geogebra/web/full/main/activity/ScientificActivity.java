@@ -53,10 +53,7 @@ public class ScientificActivity extends BaseActivity {
 		initTableOfValues(app);
 	}
 
-	/**
-	 * init table values
-	 * @param app see {@link AppW}
-	 */
+	@Override
 	public void initTableOfValues(AppW app) {
 		tableController = new ScientificDataTableController(app.getKernel());
 		TableValuesView tableValuesView =
@@ -65,6 +62,7 @@ public class ScientificActivity extends BaseActivity {
 		tableValuesView.noAlgebraLabelVisibleCheck();
 	}
 
+	@Override
 	public ScientificDataTableController getTableController() {
 		return tableController;
 	}

@@ -49,9 +49,9 @@ public class AlgebraTab extends ToolbarTab {
 				wrapper.remove(aview);
 				remove(wrapper);
 			}
-
 			wrapper = new FlowPanel();
 			aview = av;
+			aview.resetInputItemHeader();
 			wrapper.add(aview);
 			wrapper.add(logo);
 			add(decorate(wrapper));

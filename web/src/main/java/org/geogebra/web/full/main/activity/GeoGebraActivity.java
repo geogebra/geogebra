@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.MaterialVisibility;
@@ -133,4 +134,18 @@ public interface GeoGebraActivity {
 	 * @param visibility material visibility
 	 */
 	void markSaveProcess(String title, MaterialVisibility visibility);
+
+	ScientificDataTableController getTableController();
+
+	/**
+	 * Create default functions for table of values
+	 * @param app application
+	 */
+	default void initTableOfValues(AppW app) {
+		// nothing by default
+	}
+
+	default GeoGebraActivity getSubapp() {
+		return this;
+	}
 }

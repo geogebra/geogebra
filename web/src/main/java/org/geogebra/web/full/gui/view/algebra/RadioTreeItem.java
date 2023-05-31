@@ -263,10 +263,18 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void addMarble() {
 		main.addStyleName("elem");
 
-		marblePanel = app.getActivity().createAVItemHeader(this);
+		marblePanel = app.getCurrentActivity().createAVItemHeader(this);
 		setIndexLast();
 		updateDataTest();
 		main.add(marblePanel);
+	}
+
+	protected void resetItemHeader() {
+		if (marblePanel != null) {
+			marblePanel.asWidget().removeFromParent();
+		}
+		marblePanel = app.getCurrentActivity().createAVItemHeader(this);
+		main.insert(marblePanel, 0);
 	}
 
 	/**
@@ -274,6 +282,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	protected void setIndexLast() {
 		index = getAV().getItemCount();
+		if (marblePanel != null) {
+			marblePanel.setIndex(index);
+		}
 	}
 
 	public int getIndex() {
@@ -749,7 +760,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private boolean useValidInput() {
-		return app.getActivity().useValidInput();
+		return app.getCurrentActivity().useValidInput();
 	}
 
 	protected String getTextForEditing(boolean substituteNumbers,
@@ -947,7 +958,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected final ErrorHandler getErrorHandler(final boolean valid,
 			final boolean allowSliders, final boolean withSliders) {
 		clearErrorLabel();
-		return app.getActivity().createAVErrorHandler(this, valid, allowSliders, withSliders);
+		return app.getCurrentActivity()
+						.createAVErrorHandler(this, valid, allowSliders, withSliders);
 	}
 
 	/**
@@ -983,7 +995,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		if (errorMessage != null) {
-			if (app.isUnbundled() && app.getActivity().useValidInput()) {
+			if (app.isUnbundled() && app.getCurrentActivity().useValidInput()) {
 				return false;
 			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage, app);

@@ -338,6 +338,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return activity;
 	}
 
+	public GeoGebraActivity getCurrentActivity() {
+		return activity == null ? null : activity.getSubapp();
+	}
+
 	private void initActivity() {
 		if (appletParameters == null || activity != null) {
 			return;
@@ -690,11 +694,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				.getPanel(VIEW_ALGEBRA);
 		if (avPanel instanceof ToolbarDockPanelW) {
 			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
-			dockPanel.getToolbar().reset();
+			if (dockPanel.getToolbar() != null) {
+				dockPanel.getToolbar().reset();
+			}
 			dockPanel.tryBuildZoomPanel();
 		}
-		if (activity instanceof ScientificActivity) {
-			((ScientificActivity) activity).initTableOfValues(this);
+		if (getCurrentActivity() != null) {
+			getCurrentActivity().initTableOfValues(this);
 		}
 	}
 
@@ -2355,15 +2361,20 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		activity.start(this);
 		getKernel().removeAllMacros();
 		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));
-		resetToolbarPanel();
-		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
+		final Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective(), getGuiManager().getLayout());
 		updateSidebarAndMenu(subAppCode);
 		reinitSettings();
 		clearConstruction();
+		resetToolbarPanel(); // after construction clear so that TV functions can be set up
 		setTmpPerspective(null);
-		getGuiManager().getUnbundledToolbar().removeToolsTab();
+		ToolbarPanel unbundledToolbar = getGuiManager().getUnbundledToolbar();
+		if (unbundledToolbar != null) {
+			unbundledToolbar.removeToolsTab();
+		}
+		getGuiManager().resetPanels();
 		getGuiManager().getLayout().applyPerspective(perspective);
+
 		kernel.initUndoInfo();
 		kernel.getAlgebraProcessor().getCommandDispatcher()
 				.addCommandFilter(getConfig().getCommandFilter());
