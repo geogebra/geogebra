@@ -1467,7 +1467,7 @@ ExpressionValue list():
     "}"
    )
  )
-    {  return ifStructuresEnabled(myList);  }
+    {  return myList;  }
 }
 
 ExpressionValue numVecVariable():

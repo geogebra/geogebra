@@ -7,6 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ScientificOperationArgumentFilter;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -71,4 +72,11 @@ public class ExpressionNodeEvaluatorTest extends BaseUnitTest {
 		assertThat(minusOneCalc.isSimpleNumber(), is(false));
 	}
 
+	@Test(expected = MyError.class)
+	public void testNoListOperationsInScientific() {
+		OperationArgumentFilter filter = new ScientificOperationArgumentFilter();
+		ExpressionNodeEvaluator evaluator = createEvaluator(filter);
+		ExpressionNode listExpression = parseExpression("{1,2,3} + 3");
+		evaluator.evaluate(listExpression, StringTemplate.defaultTemplate);
+	}
 }
