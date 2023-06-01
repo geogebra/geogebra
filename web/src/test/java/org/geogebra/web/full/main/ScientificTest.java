@@ -13,6 +13,4 @@ public class ScientificTest {
 	public void startApp() {
 		AppMocker.mockApplet(new AppletParameters("scientific"));
 	}
-
-
 }
