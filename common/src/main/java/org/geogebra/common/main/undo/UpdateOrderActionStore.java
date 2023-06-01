@@ -1,6 +1,7 @@
 package org.geogebra.common.main.undo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,9 +10,9 @@ import org.geogebra.common.plugin.ActionType;
 
 public class UpdateOrderActionStore {
 	private final UndoManager undoManager;
-	private final HashMap<String, Float> initialDepthSnapshot = new HashMap<String, Float>();
+	private final List<String> initialXML = new ArrayList<>();
 
-	private final HashMap<String, Float> modifiedDepthSnapshot = new HashMap<String, Float>();
+	private final List<String> updatedXML = new ArrayList<>();
 	private final ArrayList<GeoElement> geos;
 
 	/**
@@ -20,14 +21,14 @@ public class UpdateOrderActionStore {
 	public UpdateOrderActionStore(ArrayList<GeoElement> geosAsList) {
 		this.geos = geosAsList;
 		for (GeoElement geo: geosAsList) {
-			initialDepthSnapshot.put(geo.getLabelSimple(), geo.getDepth());
+			initialXML.add(geo.getStyleXML());
 		}
 		this.undoManager = geosAsList.get(0).getConstruction().getUndoManager();
 	}
 
-	public void updateDepth(ArrayList<GeoElement> geosAsList) {
+	public void updateOrder(ArrayList<GeoElement> geosAsList) {
 		for (GeoElement geo: geosAsList) {
-			modifiedDepthSnapshot.put(geo.getLabelSimple(), geo.getDepth());
+			updatedXML.add(geo.getStyleXML());
 		}
 	}
 
@@ -35,21 +36,9 @@ public class UpdateOrderActionStore {
 	 * Store undoable action
 	 */
 	public void storeUndo() {
-		String[] initialXML = geos.stream().map(
-				geo -> {
-					GeoElement temp = geo;
-					float initialOrdering = initialDepthSnapshot.get(temp.getLabelSimple());
-					temp.setDepth(initialOrdering);
-					temp.setOrdering(initialOrdering);
-					return temp.getStyleXML();
-				}
-			).toArray(String[]::new);
-
-		String[] currentXML = geos.stream().map(GeoElement::getStyleXML).toArray(String[]::new);
-
 		String[] labels = geos.stream().map(GeoElement::getLabelSimple).toArray(String[]::new);
-		undoManager.buildAction(ActionType.UPDATE, currentXML)
-				.withUndo(ActionType.UPDATE, initialXML)
+		undoManager.buildAction(ActionType.UPDATE, updatedXML.toArray(new String[0]))
+				.withUndo(ActionType.UPDATE, initialXML.toArray(new String[0]))
 				.withLabels(labels)
 				.storeAndNotifyUnsaved();
 	}

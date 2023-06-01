@@ -328,8 +328,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private float ordering = -1;
 
-	private float depth = -1;
-
 	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
 
 	/**
@@ -7125,14 +7123,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public void setOrdering(float ordering) {
 		this.ordering = ordering;
-	}
-
-	public float getDepth() {
-		return depth;
-	}
-
-	public void setDepth(float depth) {
-		this.depth = depth;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import static java.util.Arrays.asList;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,7 +28,7 @@ public class LayerManagerTest extends BaseControllerTest {
 	@Before
 	public void setupApp() {
 		AppCommon app = AppCommonFactory.create();
-		Construction construction = app.getKernel().getConstruction();
+		construction = app.getKernel().getConstruction();
 		layerManager = new LayerManager();
 		geos = new GeoElement[10];
 		for (int i = 0; i < geos.length; i++) {
@@ -36,6 +38,13 @@ public class LayerManagerTest extends BaseControllerTest {
 
 		app.setConfig(new AppConfigNotes());
 		app.setUndoActive(true);
+	}
+
+	void resetGeos() {
+		for (int i = 0; i < geos.length; i++) {
+			geos[i] = createDummyGeo(construction, i);
+			layerManager.addGeo(geos[i]);
+		}
 	}
 
 	/**
@@ -52,76 +61,78 @@ public class LayerManagerTest extends BaseControllerTest {
 
 	@Test
 	public void testMoveForward() {
-		layerManager.moveForward(Arrays.asList(geos[3], geos[5], geos[9]));
-		assertOrdering(0, 1, 2, 4, 6, 7, 8, 3, 5, 9);
+ 		layerManager.moveForward(asList(geos[3], geos[5], geos[9]));
+		assertSorted(geos, asList(0f, 1f, 2f, 4f, 6f, 7f, 8f, 9f, 10f, 11f));
 
 		layerManager.moveForward(Collections.singletonList(geos[0]));
-		assertOrdering(1, 0, 2, 4, 6, 7, 8, 3, 5, 9);
+		assertSorted(geos, asList(1f, 1.5f, 2f, 4f, 6f, 7f, 8f, 9f, 10f, 11f));
 	}
 
 	@Test
 	public void testMoveForwardWithUndo() {
-		List<GeoElement> s = Arrays.asList(geos);
-		//List<Float> depth1 = Arrays.stream(geos).map(geoElement -> {return geoElement.getDepth();}).collect(Collectors.toList());
-		layerManager.moveForward(Arrays.asList(geos[3], geos[5], geos[9]));
+		List<GeoElement> s = asList(geos);
+		layerManager.moveForward(asList(geos[3], geos[5], geos[9]));
 		assertOrdering(0, 1, 2, 4, 6, 7, 8, 3, 5, 9);
-	//	List<Float> depth = Arrays.stream(geos).map(GeoElement::getDepth).collect(Collectors.toList());
 		getConstruction().undo();
 		assertOrdering(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-	//	List<Float> depthUndo = Arrays.stream(geos).map(GeoElement::getDepth).collect(Collectors.toList());
 		getConstruction().redo();
-		//List<Float> depthRedo = Arrays.stream(geos).map(GeoElement::getDepth).collect(Collectors.toList());
 		layerManager.moveForward(Collections.singletonList(geos[0]));
-	//	List<Float> depthForward = Arrays.stream(geos).map(GeoElement::getDepth).collect(Collectors.toList());
 		assertOrdering(1, 0, 2, 4, 6, 7, 8, 3, 5, 9);
 	}
 
 	@Test
 	public void testMoveForwardWithUndoSingle() {
-		List<GeoElement> s = Arrays.asList(geos);
-		//List<Float> depth1 = Arrays.stream(geos).map(geoElement -> {return geoElement.getDepth();}).collect(Collectors.toList());
-		layerManager.moveForward(Arrays.asList(geos[3]));
+		layerManager.moveForward(asList(geos[3]));
 		assertOrdering(0, 1, 2, 4, 3, 5, 6, 7, 8,9);
-		//	List<Float> depth = Arrays.stream(geos).map(GeoElement::getDepth).collect(Collectors.toList());
 		getConstruction().undo();
 		assertOrdering(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-		//	List<Float> depthUndo = Arrays.stream(geos).map(GeoElement::getDepth).collect(Collectors.toList());
 		getConstruction().redo();
-		//List<Float> depthRedo = Arrays.stream(geos).map(GeoElement::getDepth).collect(Collectors.toList());
 		layerManager.moveForward(Collections.singletonList(geos[9]));
-		//	List<Float> depthForward = Arrays.stream(geos).map(GeoElement::getDepth).collect(Collectors.toList());
 		assertOrdering(0, 1, 2, 4, 3, 5, 6, 7, 8,9);
 	}
 
 	@Test
 	public void testMoveBackward() {
-		layerManager.moveBackward(Arrays.asList(geos[0], geos[9]));
+		layerManager.moveBackward(asList(geos[0], geos[9]));
 		assertOrdering(0, 9, 1, 2, 3, 4, 5, 6, 7, 8);
 
-		layerManager.moveBackward(Arrays.asList(geos[3], geos[5], geos[6]));
+		layerManager.moveBackward(asList(geos[3], geos[5], geos[6]));
 		assertOrdering(0, 9, 1, 3, 5, 6, 2, 4, 7, 8);
 	}
 
 	@Test
 	public void testMoveToFront() {
 		layerManager.moveToFront(Collections.singletonList(geos[7]));
-		assertOrdering(0, 1, 2, 3, 4, 5, 6, 8, 9, 7);
+		assertSorted(geos, asList(0f, 1f, 2f, 3f, 4f, 5f, 6f, 8f, 9f, 10f));
 
-		layerManager.moveToFront(Arrays.asList(geos[3], geos[7]));
-		assertOrdering(0, 1, 2, 4, 5, 6, 8, 9, 3, 7);
+		layerManager.moveToFront(asList(geos[3], geos[7]));
+		assertSorted(geos, asList(0f, 1f, 2f, 4f, 5f, 6f, 8f, 9f, 10f, 11f));
+
 	}
 
 	@Test
 	public void testMoveToBack() {
-		layerManager.moveToBack(Arrays.asList(geos[9], geos[6], geos[4]));
+		layerManager.moveToBack(asList(geos[9], geos[6], geos[4]));
 		assertOrdering(4, 6, 9, 0, 1, 2, 3, 5, 7, 8);
 
-		layerManager.moveToBack(Arrays.asList(geos[6], geos[2]));
+		layerManager.moveToBack(asList(geos[6], geos[2]));
 		assertOrdering(6, 2, 4, 9, 0, 1, 3, 5, 7, 8);
 	}
 
 	private void assertOrdering(int... newOrder) {
 		assertOrdering(geos, newOrder);
+	}
+
+	static void assertSorted(GeoElement[] geos, List<Float> expected) {
+
+		Assert.assertEquals(geos.length, expected.size());
+
+		List<Float> actual = Arrays.stream(geos).sorted((geo1, geo2)
+						-> Float.compare(geo1.getOrdering(), geo2.getOrdering()))
+				.map(GeoElement::getOrdering).collect(Collectors.toList());
+
+		Assert.assertEquals(actual, expected);
+
 	}
 
 	static void assertOrdering(GeoElement[] geos, int... newOrder) {
