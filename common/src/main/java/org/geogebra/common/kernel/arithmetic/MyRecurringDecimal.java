@@ -51,6 +51,11 @@ public class MyRecurringDecimal extends MyDouble {
 		return ret;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
+
 	/**
 	 * extension of StringUtil.parseDouble() to cope with unicode digits e.g. Arabic <br>
 	 * Enables parsing of recurring decimals
