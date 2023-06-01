@@ -312,14 +312,14 @@ void mixedNumber(MathContainer currentField) :
 		editorState.setCurrentField((MathSequence) currentField);
 		editorState.setCurrentOffset(currentField.size());
 		mixedNumber.setArgument(0, passArgs);
-		ArgumentHelper.passArgument(editorState, mixedNumber);
+		ArgumentHelper.passArgument(editorState, mixedNumber, false);
 
 		// Handle numerator
 		MathSequence numerator = new MathSequence();
 		mathAtomOrPower(numerator);
 		numerator.removeBrackets();
 		mixedNumber.setArgument(1, numerator);
-		ArgumentHelper.passArgument(editorState, mixedNumber);
+		ArgumentHelper.passArgument(editorState, mixedNumber, false);
 
 		// Handle expected fraction sign "/"
 		MathSequence fraction = new MathSequence();
@@ -330,7 +330,7 @@ void mixedNumber(MathContainer currentField) :
 
 		denominator.removeBrackets();
 		mixedNumber.setArgument(2, denominator);
-		ArgumentHelper.passArgument(editorState, mixedNumber);
+		ArgumentHelper.passArgument(editorState, mixedNumber, false);
 		currentField.addArgument(mixedNumber);
 	}
 }
