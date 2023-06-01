@@ -56,6 +56,11 @@ public class MyRecurringDecimal extends MyDouble {
 		return super.equals(o);
 	}
 
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
 	/**
 	 * extension of StringUtil.parseDouble() to cope with unicode digits e.g. Arabic <br>
 	 * Enables parsing of recurring decimals
