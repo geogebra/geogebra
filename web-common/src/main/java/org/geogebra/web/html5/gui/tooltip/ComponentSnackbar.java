@@ -1,13 +1,11 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import org.geogebra.web.html5.gui.Colorist;
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-import org.gwtproject.user.client.ui.Widget;
 
 public class ComponentSnackbar extends FlowPanel {
 
@@ -46,7 +44,7 @@ public class ComponentSnackbar extends FlowPanel {
 	 */
 	public ComponentSnackbar(AppW app, String title, String text, String buttonText) {
 		addStyleName("snackbarComponent");
-		Colorist.INSTANCE.colorUIElement(getElement(), Shades.NEUTRAL_800);
+		addStyleName(Shades.NEUTRAL_800.getName());
 		getElement().setId("snackbarID");
 		if (app.isWhiteboardActive()) {
 			addStyleName("mowPosition");

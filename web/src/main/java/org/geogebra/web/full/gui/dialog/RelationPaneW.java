@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.Colorist;
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -109,7 +108,7 @@ public class RelationPaneW extends ComponentDialog
 
 		SimplePanel divider = new SimplePanel();
 		divider.addStyleName("divider");
-		Colorist.INSTANCE.colorUIElement(divider.getElement(), Shades.NEUTRAL_300);
+		divider.addStyleName(Shades.NEUTRAL_300.getName());
 		addDialogContent(divider);
 
 		Label symHeader = getHeader("RelationDialog.SymCheck");

@@ -1,6 +1,7 @@
 @use 'colors';
 @use 'z-index';
 @use 'header';
+@import 'colorMap';
 
 .GeoGebraFrame {
 
@@ -360,7 +361,6 @@
 
 		.dropDownElement:hover {
 			cursor: pointer;
-			background: colors.$black-04;
 		}
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {

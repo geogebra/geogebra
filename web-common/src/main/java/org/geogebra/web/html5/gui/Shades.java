@@ -12,13 +12,13 @@ public enum Shades {
 	NEUTRAL_800("neutral-800"),
 	NEUTRAL_900("neutral-900");
 
-	public final String className;
+	public final String name;
 
-	Shades(String className) {
-		this.className = className;
+	Shades(String name) {
+		this.name = name;
 	}
 
-	public String getClassName() {
-		return className;
+	public String getName() {
+		return name;
 	}
 }
