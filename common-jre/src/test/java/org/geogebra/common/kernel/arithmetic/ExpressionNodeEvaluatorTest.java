@@ -79,4 +79,14 @@ public class ExpressionNodeEvaluatorTest extends BaseUnitTest {
 		ExpressionNode listExpression = parseExpression("{1,2,3} + 3");
 		evaluator.evaluate(listExpression, StringTemplate.defaultTemplate);
 	}
+
+	@Test
+	public void testListArgumentsInScientific() {
+		OperationArgumentFilter filter = new ScientificOperationArgumentFilter();
+		ExpressionNodeEvaluator evaluator = createEvaluator(filter);
+		ExpressionNode listExpression = parseExpression("mean({1,2,3}, {4,5,6})");
+		ExpressionValue mean =
+				evaluator.evaluate(listExpression, StringTemplate.defaultTemplate);
+		assertThat(mean.evaluateDouble(), is(2.1333333333333333));
+	}
 }
