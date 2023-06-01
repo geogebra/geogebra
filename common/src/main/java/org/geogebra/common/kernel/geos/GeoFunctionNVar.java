@@ -204,7 +204,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoFunctionNVar copy() {
 		return new GeoFunctionNVar(this);
 	}
 
@@ -1463,5 +1463,14 @@ public class GeoFunctionNVar extends GeoElement
 		if (fun != null) {
 			fun.setForceInequality(forceInequality);
 		}
+	}
+
+	@Override
+	public GeoElement deepCopyGeo() {
+		GeoFunctionNVar other = copy();
+		if (other.fun != null && fun != null) {
+			other.fun.setExpression(fun.getExpression().deepCopyGeo());
+		}
+		return other;
 	}
 }
