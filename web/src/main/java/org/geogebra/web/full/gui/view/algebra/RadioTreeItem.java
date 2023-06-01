@@ -87,7 +87,6 @@ import com.himamis.retex.editor.share.syntax.SyntaxHint;
 import com.himamis.retex.editor.share.syntax.SyntaxTooltipUpdater;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 /**
@@ -1613,8 +1612,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			latexItem = new FlowPanel();
 		}
 
-		FactoryProvider.setInstance(new FactoryProviderGWT());
-
+		FactoryProviderGWT.ensureLoaded();
 		mf = new MathFieldW(new SyntaxAdapterImpl(kernel), latexItem, canvas,
 				getLatexController());
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
