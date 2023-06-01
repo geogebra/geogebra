@@ -101,8 +101,12 @@ public class EditorParserTest {
 
 	@Test
 	public void recurringDecimal() {
-		parsesAs("1.23\u03054\u0305", "(1.23\u03054\u0305");
+		parsesAs("1.23\u03054\u0305", "1.23\u03054\u0305");
 		parsesAs("4.34\u03055\u03056\u0305", "4.34\u03055\u03056\u0305");
+		parsesAs("7.9\u0305 / 2", "((7.9\u0305)/(2))");
+		parsesAs("1.23\u0305 + 2", "1.23\u0305 + 2");
+		parsesAs("1.23\u0305 * 1/2", "1.23\u0305 * ((1)/(2))");
+		parsesAs("1.87\u0305 - 0.5", "1.87\u0305 - 0.5");
 	}
 
 	@Test

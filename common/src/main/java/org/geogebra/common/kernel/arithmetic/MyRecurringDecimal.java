@@ -6,15 +6,16 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.StringUtil;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Class for recurring decimals e.g. 1.23\u03054\u0305
  */
 public class MyRecurringDecimal extends MyDouble {
 
-	private String representation;
+	private final String representation;
 
 	/**
-	 *
 	 * @param kernel Kernel
 	 * @param val Value
 	 * @param representation Representation of the recurring decimal
@@ -62,7 +63,7 @@ public class MyRecurringDecimal extends MyDouble {
 		sb.setLength(0);
 		for (int i = 0; i < str.length(); i++) {
 			int ch = str.charAt(i);
-			if (ch <= 0x30 || ch == '\u0305') {
+			if (ch <= 0x30 || ch == Unicode.OVERLINE) {
 				sb.append(str.charAt(i)); // eg . or \u0305 (overline)
 				continue;
 			}
@@ -127,7 +128,7 @@ public class MyRecurringDecimal extends MyDouble {
 			sb.append(ch);
 		}
 		try {
-			return getValueAsFraction(sb);
+			return getValue(sb);
 		} catch (NumberFormatException e) {
 			// eg try to parse "1.2.3", "1..2"
 			throw new MyError(app, MyError.Errors.InvalidInput, str);
@@ -139,19 +140,19 @@ public class MyRecurringDecimal extends MyDouble {
 	 * @return Value of the recurring decimal as a fraction e.g. 1.3\u0305 -> 12/9 = 4/3
 	 * @throws NumberFormatException When trying to parse an invalid double e.g. 1.3.2\u0305
 	 */
-	private static double getValueAsFraction(StringBuilder sb) throws NumberFormatException {
-		int repeatingDigits = (int) sb.chars().filter(ch -> ch == '\u0305').count();
+	private static double getValue(StringBuilder sb) throws NumberFormatException {
+		int repeatingDigits = (int) sb.chars().filter(ch -> ch == Unicode.OVERLINE).count();
 		int nonRepeatingDigits = sb.substring(sb.indexOf("."), sb.indexOf("\u0305")).length() - 2;
 		// Might throw a NumberFormatException (e.g. 1.2.3\u0305)
-		double equation = StringUtil.parseDouble(sb.toString().replaceAll("\u0305", ""));
+		double decimalValue = StringUtil.parseDouble(sb.toString().replaceAll("\u0305", ""));
 
 		if (nonRepeatingDigits == 0) {
-			return (equation * Math.pow(10, repeatingDigits) - (int) equation)
+			return (decimalValue * Math.pow(10, repeatingDigits) - (int) decimalValue)
 					/ (Math.pow(10, repeatingDigits) - 1);
 		}
 
-		int equation1 = (int) (equation * Math.pow(10, nonRepeatingDigits));
-		double equation2 = equation * Math.pow(10, repeatingDigits + nonRepeatingDigits);
+		int equation1 = (int) (decimalValue * Math.pow(10, nonRepeatingDigits));
+		double equation2 = decimalValue * Math.pow(10, repeatingDigits + nonRepeatingDigits);
 
 		return (equation2 - equation1) / (Math.pow(10, repeatingDigits + nonRepeatingDigits)
 				- Math.pow(10, nonRepeatingDigits));

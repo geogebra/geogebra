@@ -228,6 +228,8 @@ public class LaTeXSerializationTest {
 		checkLaTeX("\\left( \\alpha + \\beta \\right)",
 				"(" + Unicode.alpha + "+" + Unicode.beta + ")");
 		checkLaTeX("\\sqrt[3]{x}", "nroot(x,3)");
+		checkLaTeX("1.\\overline{34}", "1.3" + Unicode.OVERLINE + "4" + Unicode.OVERLINE);
+		checkLaTeX("1.2\\overline{3}", "1.23" + Unicode.OVERLINE);
 	}
 
 	@Test

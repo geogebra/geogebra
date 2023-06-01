@@ -120,11 +120,11 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			int i = stringBuilder.length() + 1;
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			while (i < stringBuilder.length()) {
-				stringBuilder.insert(i, "\u0305");
+				stringBuilder.insert(i, Unicode.OVERLINE);
 				i += 2;
 			}
 			if (mathFunction.getArgument(0).size() != 0) {
-				stringBuilder.append("\u0305");
+				stringBuilder.append(Unicode.OVERLINE);
 			}
 			break;
 		case LOG:

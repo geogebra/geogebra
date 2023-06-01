@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.controller;
 
 import java.util.function.Predicate;
 
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -69,15 +70,19 @@ public class ArgumentHelper {
 					field.addArgument(0, array);
 				}
 
-				// if previous sequence argument is, function pass it
-			} else if (currentField
-					.getArgument(currentOffset - 1) instanceof MathFunction) {
+				// if previous sequence argument is function, pass it
+			} else if (currentField.getArgument(currentOffset - 1) instanceof MathFunction) {
 
-				MathFunction function = (MathFunction) currentField
-						.getArgument(currentOffset - 1);
-				currentField.delArgument(currentOffset - 1);
-				currentOffset--;
-				field.addArgument(0, function);
+				// Special case for recurring decimals, here we need to pass a single function and
+				// at least two characters
+				if (currentField.getArgument(currentOffset - 1).hasTag(Tag.RECURRING_DECIMAL)) {
+					currentOffset = passFunction(currentField, currentOffset, field);
+					editorState.setCurrentOffset(currentOffset);
+					passCharacters(editorState, container, passSingleArg);
+					currentOffset = editorState.getCurrentOffset();
+				} else {
+					currentOffset = passFunction(currentField, currentOffset, field);
+				}
 
 				// otherwise pass character sequence
 			} else {
@@ -87,6 +92,22 @@ public class ArgumentHelper {
 			}
 		}
 		editorState.setCurrentOffset(currentOffset);
+	}
+
+	/**
+	 * Passes a function from the current editor field into a function argument
+	 * @param currentField MathSequence
+	 * @param currentOffset Current offset
+	 * @param field MathSequence of where to pass the arguments into
+	 * @return Current offset - 1
+	 */
+	private static int passFunction(MathSequence currentField, int currentOffset,
+			MathSequence field) {
+		MathFunction function = (MathFunction) currentField
+				.getArgument(currentOffset - 1);
+		currentField.delArgument(currentOffset - 1);
+		field.addArgument(0, function);
+		return currentOffset - 1;
 	}
 
 	private static void passCharacters(EditorState editorState, MathContainer container,
@@ -130,7 +151,7 @@ public class ArgumentHelper {
 	 * Each overline has a single preceding character that needs to be passed
 	 * @param currentField MathSequence which's arguments are to be passed
 	 * @param currentOffset Current Offset
-	 * @param field MathSequence of where to pass the arguments
+	 * @param field MathSequence of where to pass the arguments into
 	 * @param condition MathCharacter::isWordBreak
 	 * @return Initial Offset or Initial Offset - 1 (passing a maximum of one argument here)
 	 */
@@ -144,7 +165,7 @@ public class ArgumentHelper {
 				return currentOffset;
 			}
 			currentField.delArgument(currentOffset - 1);
-			field.addArgument(0, character);
+			field.addArgument(character);
 		}
 		return currentOffset - 1;
 	}

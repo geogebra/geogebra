@@ -300,13 +300,21 @@ void recurringDecimal(MathContainer currentField) :
 }
 {
 	<OVERLINE> {
-		recurringDecimal = new MathFunction(metaModel.getGeneral(Tag.RECURRING_DECIMAL));
 		MathSequence passArg = new MathSequence();
 		editorState.setCurrentField((MathSequence) currentField);
 		editorState.setCurrentOffset(currentField.size());
-		recurringDecimal.setArgument(0, passArg);
-		ArgumentHelper.passArgument(editorState, recurringDecimal, true);
-		currentField.addArgument(recurringDecimal);
+		if (currentField.size() > 1
+		&& currentField.getArgument(currentField.size() - 2).hasTag(Tag.RECURRING_DECIMAL)) {
+			// There is already a recurring decimal - just append the 2nd, 3rd, ... repeating digit
+			recurringDecimal = (MathFunction) currentField.getArgument(currentField.size() - 2);
+			ArgumentHelper.passArgument(editorState, recurringDecimal, true);
+		} else {
+			// Create a new MathFunction
+			recurringDecimal = new MathFunction(metaModel.getGeneral(Tag.RECURRING_DECIMAL));
+			recurringDecimal.setArgument(0, passArg);
+			ArgumentHelper.passArgument(editorState, recurringDecimal, true);
+			currentField.addArgument(recurringDecimal);
+		}
 	}
 }
 
