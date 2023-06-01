@@ -1373,7 +1373,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return leftStr + rightStr
 	 */
 	public String invisiblePlusString(String leftStr, String rightStr) {
-		return leftStr + "\u2064" + rightStr;
+		return leftStr + Unicode.INVISIBLE_PLUS + rightStr;
 	}
 
 	/**
@@ -1928,7 +1928,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 											&& (StringUtil.isDigit(firstRight)
 											// 3*E23AB can't be written 3E23AB
 											|| (firstRight == 'E'))
-											|| StringUtil.isDigit(firstRight);
+											|| StringUtil.isDigit(firstRight)
+											|| (isForEditorParser()
+											&& right.isOperation(Operation.DIVIDE));
 							// check if we need a multiplication space:
 							multiplicationSpaceNeeded = showMultiplicationSign;
 							if (!multiplicationSpaceNeeded) {
