@@ -21,6 +21,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.parser.Parser;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.renderer.android.FactoryProviderAndroid;
 import com.himamis.retex.renderer.android.graphics.ColorA;
 import com.himamis.retex.renderer.android.graphics.Graphics2DA;
@@ -73,6 +74,8 @@ public class FormulaEditor extends View implements MathField {
     private TeXIcon mFormulaPreviewTeXIcon;
 
     protected final List<InputChangeListener> mInputChangeListeners = new ArrayList<>();
+
+    private final GeoGebraSerializer mSerializer = new GeoGebraSerializer();
 
     public interface InputChangeListener {
 
@@ -623,6 +626,10 @@ public class FormulaEditor extends View implements MathField {
 
     public void unregisterInputChangeListeners() {
         mInputChangeListeners.clear();
+    }
+
+    public String getSerializedFormula() {
+        return mSerializer.serialize(mMathFieldInternal.getFormula());
     }
 
 }
