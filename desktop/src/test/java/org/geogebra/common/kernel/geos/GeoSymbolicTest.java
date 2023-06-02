@@ -2017,4 +2017,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("h(x)={x, x + 1}");
 		t("h(1)", "{1, 2}");
 	}
+
+	@Test
+	public void testElementOfMatrix() {
+		add("m1={{1,2},{3,4}}");
+		t("m1(2,2)", "4");
+	}
 }

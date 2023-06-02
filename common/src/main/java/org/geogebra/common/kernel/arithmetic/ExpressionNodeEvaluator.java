@@ -1323,9 +1323,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handleElementOf(ExpressionValue lt,
 			ExpressionValue rt, int skip) {
 		// TODO not implemented #1115
-		// Application.debug(rt.getClass()+" "+rt.getClass());
 		if (lt instanceof GeoList && rt instanceof ListValue) {
-
 			GeoList sublist = (GeoList) lt;
 			ListValue lv = (ListValue) rt;
 			int idx = -1;
