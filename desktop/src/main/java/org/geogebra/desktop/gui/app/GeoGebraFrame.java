@@ -366,16 +366,6 @@ public class GeoGebraFrame extends JFrame
 	}
 
 	/**
-	 * Creates new GeoGebra window
-	 * 
-	 * @param args
-	 *            Command line arguments
-	 * @param wnd
-	 * @return the new window
-	 */
-	// public abstract GeoGebra buildGeoGebra();
-
-	/**
 	 * return the application running geogebra
 	 * 
 	 * @param args command line args
@@ -450,6 +440,8 @@ public class GeoGebraFrame extends JFrame
 		app.updateMenubar();
 
 		wnd.setVisible(true);
+		// run global Javascript AFTER we load the UI so that Corner and similar commands work
+		app.getScriptManager().ggbOnInit();
 
 		// init some things in the background
 		Thread runner = GeoGebraFrame.createAppThread(app);
