@@ -263,7 +263,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void addMarble() {
 		main.addStyleName("elem");
 
-		marblePanel = app.getCurrentActivity().createAVItemHeader(this);
+		marblePanel = app.getCurrentActivity().createAVItemHeader(this,
+				getAV().isInputActive() && getGeo() == null);
 		setIndexLast();
 		updateDataTest();
 		main.add(marblePanel);
@@ -273,7 +274,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (marblePanel != null) {
 			marblePanel.asWidget().removeFromParent();
 		}
-		marblePanel = app.getCurrentActivity().createAVItemHeader(this);
+		marblePanel = app.getCurrentActivity().createAVItemHeader(this, true);
 		main.insert(marblePanel, 0);
 	}
 
@@ -1207,8 +1208,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * cast method with no 'instanceof' check.
 	 *
 	 * @param item
-	 *            TreeItem to be casted
-	 * @return Casted item to RadioTreeItem
+	 *            TreeItem to be cast
+	 * @return Cast item to RadioTreeItem
 	 */
 	public static RadioTreeItem as(TreeItem item) {
 		return (RadioTreeItem) item;

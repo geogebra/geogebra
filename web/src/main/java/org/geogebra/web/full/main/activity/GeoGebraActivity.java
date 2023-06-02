@@ -53,7 +53,7 @@ public interface GeoGebraActivity {
 	 *            AV item
 	 * @return header for AV item
 	 */
-	AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem);
+	AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem, boolean forInput);
 
 	/**
 	 * @param algebraView
