@@ -92,8 +92,14 @@
 	}
 
 	@each $colorname, $color in $neutrals {
-        .neutral-#{$colorname} {
-           background-color: $color;
-        }
-    }
+		.neutral-#{$colorname} {
+		   background-color: $color;
+		}
+	}
+
+	@each $colorname, $color in $purples {
+		.purple-#{$colorname} {
+			background-color: $color;
+		}
+	}
 }
