@@ -5,3 +5,11 @@ $neutrals: ("0": #FFFFFF, "100": #FAFAFC, "200": #F3F2F7, "300": #E6E6EB, "400":
 // purple shades: #600 is our primary color
 $purples: ("100": #F3F0FF, "200": #D2CCFF, "300": #B9B1FC, "400": #A397FC,
 	"500": #8172F7, "600": #6557D2, "700": #5145A8, "800": #3B337A, "900": #191533);
+
+@function purple($val) {
+	@return map-get($purples, #{$val});
+}
+
+@function neutral($val) {
+	@return map-get($neutrals, #{$val});
+}
