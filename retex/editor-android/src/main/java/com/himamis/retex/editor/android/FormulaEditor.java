@@ -437,8 +437,11 @@ public class FormulaEditor extends View implements MathField {
         }
     }
 
+    @Override
     public void fireInputChangedEvent() {
-        // implemented in AlgebraInput
+        for (InputChangeListener inputChangeListener : mInputChangeListeners) {
+            inputChangeListener.afterInputChanged(this);
+        }
     }
 
     @Override
@@ -613,4 +616,13 @@ public class FormulaEditor extends View implements MathField {
     public void parse(String text) {
         mMathFieldInternal.parse(text);
     }
+
+    public void registerInputChangeListener(InputChangeListener inputChangeListener) {
+        mInputChangeListeners.add(inputChangeListener);
+    }
+
+    public void unregisterInputChangeListeners() {
+        mInputChangeListeners.clear();
+    }
+
 }
