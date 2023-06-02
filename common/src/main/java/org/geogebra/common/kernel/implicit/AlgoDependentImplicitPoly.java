@@ -232,12 +232,14 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			break;
 		default:
 			if (geoElement instanceof GeoImplicit) {
-				((GeoImplicit) geoElement).setDefined();
-				((GeoImplicit) geoElement).fromEquation(equationExpanded, null);
+				GeoImplicit curve = (GeoImplicit) geoElement;
+				curve.setDefined();
+				curve.fromEquation(equationExpanded, null);
 				if (equationExpanded.isPolynomial()) {
-					((GeoImplicit) geoElement).setCoeff(coeff);
+					curve.setCoeff(coeff);
 				} else {
-					((GeoImplicit) geoElement).setCoeff((double[][]) null);
+					curve.setCoeff((double[][]) null);
+					curve.setExpanded(equationExpanded);
 				}
 			} else {
 				if (geoElement.hasChildren()) {
