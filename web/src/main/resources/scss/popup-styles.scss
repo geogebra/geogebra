@@ -1,5 +1,5 @@
 @use 'colors';
-@import 'colorMap';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	
@@ -168,7 +168,7 @@
 				display: flex;
 
 				&:hover {
-					background-color: map-get($neutrals, "200");
+					background-color: neutral("200");
 				}
 			}
 

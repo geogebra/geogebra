@@ -1,7 +1,7 @@
 @use 'colors';
 @use 'z-index';
 @use 'header';
-@import 'colorMap';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 
