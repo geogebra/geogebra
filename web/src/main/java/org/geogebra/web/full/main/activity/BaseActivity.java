@@ -138,6 +138,7 @@ public class BaseActivity implements GeoGebraActivity {
 		// nothing to do
 	}
 
+	@Override
 	public ScientificDataTableController getTableController() {
 		return null;
 	}
