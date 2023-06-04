@@ -15,7 +15,7 @@ public class Group {
     public static final Comparator<GeoElement> orderComparator = new Comparator<GeoElement>() {
             @Override
             public int compare(GeoElement o1, GeoElement o2) {
-                return Float.compare(o1.getOrdering(), o2.getOrdering());
+                return Double.compare(o1.getOrdering(), o2.getOrdering());
             }
         };
 

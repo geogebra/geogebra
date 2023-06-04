@@ -12,6 +12,6 @@ public interface GeoPriorityComparator {
 	 *            priority, 0, if their priorities are equal
 	 */
 
-	float compare(GeoElement a, GeoElement b, boolean checkLastHitType);
+	double compare(GeoElement a, GeoElement b, boolean checkLastHitType);
 
 }

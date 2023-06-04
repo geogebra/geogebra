@@ -1612,7 +1612,7 @@ public class Construction {
 			// use setLoadedLabel() instead of setLabel() to make sure that
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
-			layerManager.replace((int)oldGeo.getOrdering(), newGeo); //TODO: hi
+			layerManager.replace(oldGeo.getOrdering(), newGeo);
 			if (grp != null) {
 				newGeo.setParentGroup(grp);
 				grp.getGroupedGeos().remove(oldGeo);

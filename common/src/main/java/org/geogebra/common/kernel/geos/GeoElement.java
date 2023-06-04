@@ -326,7 +326,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private Group parentGroup;
 
-	private float ordering = -1;
+	private double ordering = -1;
 
 	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
 
@@ -7117,11 +7117,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return parentGroup;
 	}
 
-	public float getOrdering() {
+	public double getOrdering() {
 		return ordering;
 	}
 
-	public void setOrdering(float ordering) {
+	public void setOrdering(double ordering) {
 		this.ordering = ordering;
 	}
 
