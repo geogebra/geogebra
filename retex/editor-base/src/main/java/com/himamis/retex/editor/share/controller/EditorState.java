@@ -575,4 +575,12 @@ public class EditorState {
 		MathContainer parent = currentField.getParent();
 		return parent != null && parent.hasTag(Tag.FRAC);
 	}
+
+	/**
+	 * @return Whether the current field is inside a recurring decimal or not
+	 */
+	public boolean isInRecurringDecimal() {
+		MathContainer parent = currentField.getParent();
+		return parent != null && parent.hasTag(Tag.RECURRING_DECIMAL);
+	}
 }
