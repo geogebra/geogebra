@@ -13,6 +13,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.util.StickyTable;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -120,6 +121,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			if (el != null && el.hasClassName("errorStyle")) {
 				Label toast = new Label(app.getLocalization().getMenu("UseNumbersOnly"));
 				toast.addStyleName("errorToast");
+				toast.addStyleName(Shades.NEUTRAL_600.getName());
 				toast.getElement().setId("errorToastID");
 				toast.getElement().getStyle().setLeft(el.getAbsoluteRight() + 8, Unit.PX);
 				toast.getElement().getStyle().setTop(el.getAbsoluteTop() - 66, Unit.PX);

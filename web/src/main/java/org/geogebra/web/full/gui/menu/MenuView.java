@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.menu;
 
+import org.geogebra.web.html5.gui.Shades;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.VerticalPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -24,6 +25,7 @@ class MenuView extends VerticalPanel {
 	private void createDivider() {
 		SimplePanel widget = new SimplePanel();
 		widget.addStyleName(DIVIDER_STYLE);
+		widget.addStyleName(Shades.NEUTRAL_300.getName());
 		super.add(widget);
 	}
 }
