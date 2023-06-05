@@ -1,8 +1,8 @@
 package org.geogebra.web.full.javax.swing;
 
-import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.user.client.ui.FlowPanel;
