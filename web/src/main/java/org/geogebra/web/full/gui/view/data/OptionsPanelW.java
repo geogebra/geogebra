@@ -245,6 +245,7 @@ public class OptionsPanelW extends FlowPanel
 				(selected) -> {
 					settings.setCumulative(selected);
 					firePropertyChange();
+					updateGUI(); // make sure Normal Curve is enabled/disabled
 				});
 
 		lblFreqType = new Label();
