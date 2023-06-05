@@ -4,7 +4,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.FlowPanel;
