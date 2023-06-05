@@ -59,6 +59,12 @@ public class KeyListenerImpl {
 				return true;
 			}
 			return false;
+		case JavaKeyCodes.VK_M:
+			if (ctrlPressed) {
+				inputController.newFunction(editorState, "mixedNumber", false, null);
+				return true;
+			}
+			return false;
 		case JavaKeyCodes.VK_ESCAPE:
 			// if math field doesn't have its own escape handler, blur it
 			inputController.getMathField().blur();

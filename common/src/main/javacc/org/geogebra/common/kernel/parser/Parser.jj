@@ -336,7 +336,7 @@ TOKEN :  {
   | < PARALLEL: ("\u2016" |"\u2225") >
   | < PERPENDICULAR: ("\u22a5" | "\u27c2") >
   | < EQUAL:    ("=" | "%=") > // %= for Giac
-  | < PLUS:     ("+" | "\u2064" ) >
+  | < PLUS:  "+"  >
   | < MINUS:    ("-"  | "\u2013" | "\u2212") >
   | < PLUSMINUS:    ("\u00b1") >
   | < SUPERSCRIPT_MINUS: "\u207b" >
@@ -345,6 +345,7 @@ TOKEN :  {
   | < MULTIPLY: ("*" | "\u22c5" | "\u2219" | "\u00D7") >
   | < VECTORPRODUCT: "\u2297" >
   | < DIVIDE:   ("/" | "\u00f7") >
+  | < INVISIBLE_PLUS: "\u2064" >
   | < FACTORIAL: "!" >
   | < UNDEFINED: ( "?" | "\ufffd" | "Undefined" | "NaN" ) >
 //  | < POWER0:   "\u2070" >
@@ -1053,26 +1054,21 @@ ExpressionValue plusminusnode():
 }
 {
     ret = multterm()
-    (( x = <PLUS> | x = <MINUS> | x = <PLUSMINUS>) f = multterm()
+    (( x = <PLUS> | x = <MINUS> | x = <PLUSMINUS> ) f = multterm()
         {
             if (x.kind == PLUS) {
-                ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
+				ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
             } else if (x.kind == PLUSMINUS) {
                 ret = new ExpressionNode(kernel, ret, Operation.PLUSMINUS, f);
-            }
-            else {
+            } else {
               if (ret.isExpressionNode() && ((ExpressionNode) ret).isStringAddition()) {
                 ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
-                            ((ExpressionNode) ret).getRight(), Operation.MINUS,
-                            f));
-              }
-              else
-              {
+                            ((ExpressionNode) ret).getRight(), Operation.MINUS, f));
+              } else {
                  ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);
               }
             }
       }
-
     )*
     {
       //ret.simplifyLeafs();
@@ -1176,21 +1172,39 @@ ExpressionValue multterm():
 }
 
 /**
- * divterm =  unary / unary
+ * divterm =  mixednumberterm / mixednumberterm
  */
 ExpressionValue divterm():
 {
     ExpressionValue ret, f;
 }
 {
-    ret = enunary()
+    ret = mixednumberterm()
     (
-       <DIVIDE> f = enunary()
+       <DIVIDE> f = mixednumberterm()
         {
             ret = new ExpressionNode(kernel, ret, Operation.DIVIDE, f);
         }
     )*
     { return ret; }
+}
+
+/**
+* mixednumberterm = unary + divterm
+*/
+ExpressionValue mixednumberterm():
+{
+	ExpressionValue ret, f;
+}
+{
+	ret = enunary()
+	(
+		<INVISIBLE_PLUS> f = divterm()
+		{
+			ret = new ExpressionNode(kernel, ret, Operation.INVISIBLE_PLUS, f);
+		}
+	)*
+	{ return ret; }
 }
 
 /**

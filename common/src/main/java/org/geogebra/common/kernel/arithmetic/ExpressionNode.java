@@ -3578,6 +3578,17 @@ public class ExpressionNode extends ValidExpression
 		return unsigned.isExpressionNode() && ((ExpressionNode) unsigned).isUnsignedFraction();
 	}
 
+	/**
+	 * Check if the fraction is a proper fraction
+	 * @return Wheter it is a proper fraction like 3/5 or -2/3
+	 */
+	public boolean isProperFraction() {
+		ExpressionValue unsigned = getUnsigned(this);
+		return unsigned.isExpressionNode() && ((ExpressionNode) unsigned).isUnsignedFraction()
+				&& Math.abs(((ExpressionNode) unsigned).left.evaluateDouble())
+				< Math.abs(((ExpressionNode) unsigned).right.evaluateDouble());
+	}
+
 	private boolean isUnsignedFraction() {
 		if (operation == Operation.DIVIDE) {
 			ExpressionValue leftUnsigned = getUnsigned(left);

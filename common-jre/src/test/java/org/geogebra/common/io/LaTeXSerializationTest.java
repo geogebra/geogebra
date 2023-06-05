@@ -228,6 +228,10 @@ public class LaTeXSerializationTest {
 		checkLaTeX("\\left( \\alpha + \\beta \\right)",
 				"(" + Unicode.alpha + "+" + Unicode.beta + ")");
 		checkLaTeX("\\sqrt[3]{x}", "nroot(x,3)");
+		checkLaTeX("{1}\\frac{2}{3}", "1(2)/(3)");
+		checkLaTeX("\\sqrt{{3}\\frac{4}{5}}", "sqrt(3(4)/(5))");
+		checkLaTeX("\\sqrt[4]{{3}\\frac{4}{5}}", "nroot(3(4)/(5),4)");
+		checkLaTeX("5\\cdot {1}\\frac{2}{3}", "5" + Unicode.MULTIPLY + "1(2)/(3)");
 	}
 
 	@Test

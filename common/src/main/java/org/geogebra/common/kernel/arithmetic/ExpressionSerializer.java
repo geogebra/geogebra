@@ -340,6 +340,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 		case PLUS:
 			return tpl.plusString(left, right, leftStr, rightStr, valueForm,
 					loc);
+		case INVISIBLE_PLUS:
+			return tpl.invisiblePlusString(leftStr, rightStr);
 		case MINUS:
 			return tpl.minusString(left, right, leftStr, rightStr, valueForm, loc);
 
