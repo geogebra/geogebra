@@ -274,7 +274,6 @@ public class ExpressionNode extends ValidExpression
 	 * @return copy of this node
 	 */
 	public ExpressionNode getCopy(Kernel kernel1) {
-		// Application.debug("getCopy() input: " + this);
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
 
@@ -343,7 +342,6 @@ public class ExpressionNode extends ValidExpression
 		} else {
 			ret = ev;
 		}
-		// Application.debug("copy ExpressionValue output: " + ev);
 		return ret;
 	}
 

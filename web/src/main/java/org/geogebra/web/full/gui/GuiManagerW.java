@@ -676,8 +676,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void removeFromToolbarDefinition(final int mode) {
 		if (strCustomToolbarDefinition != null) {
-			// Application.debug("before: " + strCustomToolbarDefinition +
-			// ",  delete " + mode);
 			strCustomToolbarDefinition = strCustomToolbarDefinition.replaceAll(
 					Integer.toString(mode), "");
 
@@ -692,8 +690,6 @@ public class GuiManagerW extends GuiManager
 									Integer.toString(id - 1));
 				}
 			}
-
-			// Application.debug("after: " + strCustomToolbarDefinition);
 		}
 	}
 

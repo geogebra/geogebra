@@ -426,11 +426,6 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
-
-		// Application.debug("point : "+((GeoElement) pI).getLabel());
-
-		// GeoPoint3D p = (GeoPoint3D) pI;
-
 		if (startPoint == p) {
 			return;
 		}

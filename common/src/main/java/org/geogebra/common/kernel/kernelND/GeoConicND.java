@@ -461,8 +461,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			px = P.getX() / P.getZ();
 			py = P.getY() / P.getZ();
 
-			// Application.debug("px,py="+px+","+py);
-
 			// relation between the internal parameter t and the angle theta:
 			// t = atan(a/b tan(theta)) where tan(theta) = py / px
 			// avoid cos(atan(x)) for the vertices
@@ -703,19 +701,13 @@ public abstract class GeoConicND extends GeoQuadricND
 			return;
 		}
 
-		// Application.debug(getEigenvec(0));
-
 		Coords coords = P.getCoordsInD2(getCoordSys());
 		PathParameter pp = P.getPathParameter();
-
-		// Application.debug(P.getCoordsInD3()+"\n2D:\n"+coords+"\npp="+pp.getT());
 
 		pathChanged(coords, pp);
 
 		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 		P.updateCoordsFrom2D(false, getCoordSys());
-
-		// Application.debug("after:\n"+P.getCoordsInD3()+"\n2D:\n"+coords);
 
 	}
 
@@ -2704,10 +2696,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			classifyMidpointConic(degenerate);
 		}
 		setAffineTransform();
-
-		// Application.debug("conic: " + this.getLabel() + " type " +
-		// getTypeString() );
-		// Application.debug(" detS: " + (A0A1 - A3A3));ELLIPSE
 	}
 
 	/**
@@ -2824,7 +2812,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			singlePoint = new GeoPoint(cons);
 		}
 		singlePoint.setCoords(b.getX(), b.getY(), 1.0d);
-		// Application.debug("singlePoint : " + b);
 
 		halfAxes[0] = 0;
 		halfAxes[1] = 0;
@@ -2862,7 +2849,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		lines[index].z = -(nx * b.getX() + ny * b.getY());
 
 		setStartPointsForLines();
-		// Application.debug("intersectingLines: " + lines[0] + ", " +
 		// lines[1]);
 	}
 
@@ -2881,7 +2867,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			halfAxes[1] = halfAxes[0];
 			linearEccentricity = 0.0d;
 			eccentricity = 0.0d;
-			// Application.debug("circle: M = " + b + ", r = " + halfAxes[0]);
 		} else { // elipse
 
 			if (mu1[0] > mu1[1]) {
@@ -2904,12 +2889,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			halfAxes[1] = Math.sqrt(mu1[1]);
 			linearEccentricity = Math.sqrt(mu1[0] - mu1[1]);
 			eccentricity = linearEccentricity / Math.sqrt(mu1[0]);
-
-			/*
-			 * Application.debug("Ellipse"); Application.debug("a : " +
-			 * halfAxes[0]); Application.debug("b : " + halfAxes[1]);
-			 * Application.debug("e : " + excent);
-			 */
 		}
 	}
 
@@ -2935,11 +2914,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		linearEccentricity = Math.sqrt(mu1[0] + mu1[1]);
 		eccentricity = linearEccentricity / Math.sqrt(mu1[0]);
 	}
-
-	/*
-	 * final private void empty() { type = GeoConic.CONIC_EMPTY; //
-	 * Application.debug("empty conic"); }
-	 */
 
 	/*************************************
 	 * parabolic conics
@@ -3101,9 +3075,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		setStartPointsForLines();
-
-		// Application.debug("parallel lines : " + lines[0] + ", " + lines[1]);
-		// Application.debug("coeff : " + mu[0]);
 	}
 
 	/**
@@ -3127,9 +3098,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		lines[0].z = temp2;
 
 		setStartPointsForLines();
-
-		// Application.debug("parallel lines : " + lines[0] + ", " + lines[1]);
-		// Application.debug("coeff : " + mu[0]);
 	}
 
 	private void setStartPointsForLines() {

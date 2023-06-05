@@ -1975,7 +1975,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					.evaluateCachedGeoGebraCAS(
 					sbCasCommand.toString(),
 					null);
-			// Application.debug(sb.toString()+" = "+gradientStrMinus,1);
 
 			double grad;
 			try {
@@ -2008,7 +2007,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				String interceptStrMinus = kernel
 						.evaluateCachedGeoGebraCAS(sbCasCommand.toString(),
 								null);
-				// Application.debug(sb.toString()+" = "+interceptStrMinus,1);
 
 				if (!GeoFunction.isInvalidForAsymptote(interceptStrMinus)) {
 					sbCasCommand.setLength(0);
@@ -2121,9 +2119,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		try {
 			String verticalAsymptotes = transformedVericalAsymptotes(
 					"Simplify(1/(", "))", funVarStr);
-			// Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
-
-			// Log.debug("verticalAsymptotes = " + verticalAsymptotes);
 
 			// eg f(x):=2^x / (2^x - 3^x) gives "{?}"
 			if (GeoFunction.isInvalidForAsymptote(verticalAsymptotes)) {
@@ -2168,7 +2163,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					}
 				}
 				for (Entry<Double, String> asymptoteX : unique.entrySet()) {
-					// Application.debug(verticalAsymptotesArray[i]);
 
 					boolean isInRange = evaluateCondition(asymptoteX.getKey());
 
@@ -2187,13 +2181,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						sbCasCommand.append(asymptoteX.getValue());
 						sbCasCommand.append("))");
 
-						// Log.debug("sbCasCommand 2 = " + sbCasCommand);
-
 						try {
 							String limit = kernel.evaluateCachedGeoGebraCAS(
 									sbCasCommand.toString(), null);
-							// Log.debug("checking for vertical
-							// asymptote: "+sb.toString()+" = "+limit,1);
 							if (GeoFunction.isUndefinedOrInf(limit)) {
 								if (verticalSB.length() > 1) {
 									verticalSB.append(',');

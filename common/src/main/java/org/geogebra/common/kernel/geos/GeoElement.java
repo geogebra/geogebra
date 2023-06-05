@@ -888,8 +888,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			blueD = 2 * blueD;
 		}
 
-		// Application.debug("red"+redD+"green"+greenD+"blue"+blueD);
-
 		// adjust color triple to alternate color spaces, default to RGB
 		switch (this.colorSpace) {
 
@@ -1544,7 +1542,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		if (hasFixedDescendent) {
-			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
 		} else {
@@ -2567,9 +2564,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			oldSpreadsheetCoords = spreadsheetCoords;
 			spreadsheetCoords = null;
 		}
-
-		// Application.debug("update spread sheet coords: " + this + ", " +
-		// spreadsheetCoords + ", old: " + oldSpreadsheetCoords);
 	}
 
 	/**
@@ -5257,8 +5251,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void setColorFunction(final GeoList col) {
-		// Application.debug("setColorFunction"+col.getValue());
-
 		// check for circular definition (not needed)
 		// if (this == col || isParentOf(col))
 		// throw new CircularDefinitionException();
@@ -5285,8 +5277,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (colFunction != null) {
 			colFunction.unregisterColorFunctionListener(this);
 		}
-		// Application.debug("removeColorFunction");
-		// if (colFunction == col)
 		colFunction = null;
 	}
 

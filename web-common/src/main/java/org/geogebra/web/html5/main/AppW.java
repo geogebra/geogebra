@@ -2027,7 +2027,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean letRedefine() {
-		// AbstractApplication.debug("implementation needed"); // TODO
+		// TODO
 		// Auto-generated
 		return true;
 	}

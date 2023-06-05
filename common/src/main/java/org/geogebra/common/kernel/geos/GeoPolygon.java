@@ -359,7 +359,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			// additional labels for the polygon's segments
 			// poly + segments + points - 2 for AlgoPolygonRegular
 			if (labels.length == 1 + segments.length + getPointsLength() - 2) {
-				// Application.debug("labels for segments and points");
 
 				int i = 1;
 				for (int k = 0; k < segments.length; k++, i++) {
@@ -373,7 +372,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			// additional labels for the polygon's segments
 			// poly + segments for AlgoPolygon
 			else if (labels.length == 1 + segments.length) {
-				// Application.debug("labels for segments");
 
 				int i = 1;
 				for (int k = 0; k < segments.length; k++, i++) {
@@ -1445,8 +1443,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		if (rp.isOnPath()) {
 			pathChanged(P);
 		} else {
-			// Application.debug(rp.getT1()+ "," + rp.getT2());
-			// pointChangedForRegion(P);
 			double xu = p1.inhomX - p0.inhomX;
 			double yu = p1.inhomY - p0.inhomY;
 			double xv = p2.inhomX - p0.inhomX;
@@ -1486,8 +1482,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		RegionParameters rp = P.getRegionParameters();
 
-		// Application.debug("isInRegion : "+isInRegion(P));
-
 		if (!isInRegion(P.getX2D(), P.getY2D())) {
 			pointChanged(P);
 			rp.setIsOnPath(true);
@@ -1507,8 +1501,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				double y = P.getY2D() - p0.inhomY;
 				rp.setT1((xv * y - x * yv) / (xv * yu - xu * yv));
 				rp.setT2((x * yu - xu * y) / (xv * yu - xu * yv));
-
-				// Application.debug(rp.getT1()+","+rp.getT2());
 
 				P.updateCoordsFrom2D(false, null);
 			}
@@ -1585,12 +1577,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				}
 			}
 		}
-
-		// thirdPoint++;
-		// Application.debug(" secondPoint = "+secondPoint+"\n thirdPoint =
-		// "+thirdPoint);
-
-		// Log.debug("numCS = " + numCS);
 
 	}
 

@@ -1090,8 +1090,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 			}
 		}
-		// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
-		// + " rt: " + rt + ", " + rt.getClass());
 		throw new MyError(loc, Errors.IllegalArgument, MyError.toErrorString(rt));
 
 	}
@@ -1148,8 +1146,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 			}
 		}
-		// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass() +
-		// " rt: " + rt + ", " + rt.getClass());
 		throw new MyError(loc, Errors.IllegalArgument, MyError.toErrorString(rt));
 	}
 
@@ -1361,7 +1357,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handleElementOf(ExpressionValue lt,
 			ExpressionValue rt, int skip) {
 		// TODO not implemented #1115
-		// Application.debug(rt.getClass()+" "+rt.getClass());
 		if (lt instanceof GeoList && rt instanceof ListValue) {
 
 			GeoList sublist = (GeoList) lt;

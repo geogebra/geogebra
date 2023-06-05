@@ -1280,7 +1280,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized void setRepaintingActive(boolean flag) {
-		// Application.debug("set repainting: " + flag);
 		kernel.setNotifyRepaintActive(flag);
 	}
 

@@ -405,8 +405,6 @@ public class GeoPolyhedron extends GeoElement3D
 	public void endCurrentFace() {
 		currentFace.setDirection();
 
-		// Application.debug(polygonsIndexMax);
-
 		// add to index
 		polygonsIndex.put(currentFace, Integer.valueOf(polygonsIndexMax));
 		polygonsDescriptions.add(currentFace);
@@ -580,8 +578,6 @@ public class GeoPolyhedron extends GeoElement3D
 	public GeoSegmentND createSegment(GeoPointND startPoint,
 			GeoPointND endPoint) {
 
-		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
-
 		if (startPoint instanceof DummyGeoPoint3D
 				&& endPoint instanceof DummyGeoPoint3D) {
 			return new DummyGeoSegment3D(cons,
@@ -594,14 +590,11 @@ public class GeoPolyhedron extends GeoElement3D
 
 		// check if this segment is not already created
 		if (segmentsIndex.containsKey(key)) {
-			// Application.debug(startPoint.getLabel() + endPoint.getLabel());
-			// App.error("segmentsIndex : "+key);
 			return segments.get(segmentsIndex.get(key));
 		}
 
 		// check if this segment is not a segment linked
 		if (segmentsLinked.containsKey(key)) {
-			// App.error("segmentsLinked : "+key);
 			return segmentsLinked.get(key);
 		}
 
@@ -676,7 +669,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 * @return segment with given endpoints or null if not found
 	 */
 	public GeoSegmentND getSegment(GeoPointND startPoint, GeoPointND endPoint) {
-		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
 		ConstructionElementCycle key = ConstructionElementCycle
 				.segmentDescription((GeoElement) startPoint,
@@ -769,13 +761,6 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 		setAllLabelsAreSet(true);
 
-		/*
-		 * String s="labels:\n"; for (int i=0; i<labels.length; i++)
-		 * s+=labels[i]+"\n"; s+="points: "+pointsCreated.size()+"\npolygons: "
-		 * +polygons .size()+"\nsegments: "+segments.size();
-		 * Application.debug(s);
-		 */
-
 		// first label for polyhedron itself
 		setLabel(labels[0]);
 
@@ -803,7 +788,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLabel(labels[index]);
-			// Application.debug("labels["+index+"]="+labels[index]);
 			index++;
 		}
 
@@ -2080,7 +2064,6 @@ public class GeoPolyhedron extends GeoElement3D
 				// remember closest point
 				res = P.getInhomCoords().copyVector();
 				param = i + pp.getT();
-				// Application.debug(i);
 			}
 
 			i++;
@@ -2108,7 +2091,6 @@ public class GeoPolyhedron extends GeoElement3D
 				// remember closest point
 				res = P.getInhomCoords().copyVector();
 				param = i + pp.getT();
-				// Application.debug(i);
 			}
 
 			i++;

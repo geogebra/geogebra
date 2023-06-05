@@ -81,7 +81,6 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 					new double[] { 2 * A[5], 2 * A[3] })));
 			r = r.add(y.multiply(
 					y.multiply(new PolynomialFunction(new double[] { A[1] }))));
-			// Application.debug("r = "+r.toString());
 			setRootsPolynomial(r);
 		} else {
 			Kernel ker = cons.getKernel();

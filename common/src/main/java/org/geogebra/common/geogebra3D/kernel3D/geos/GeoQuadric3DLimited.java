@@ -624,7 +624,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * Compute volume from radius, halfAxes and parameters
 	 */
 	public void calcVolume() {
-		// Application.debug("ici");
 		if (bottom == null) {
 			volume = Double.NaN;
 			return;

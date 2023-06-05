@@ -338,7 +338,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	@Override
 	public void remove(GeoElement geo) {
-		// Application.debug(new Date() + " REMOVE: " + geo);
 
 		if (app.getTraceManager().isTraceGeo(geo)) {
 			app.getTraceManager().removeSpreadsheetTraceGeo(geo);

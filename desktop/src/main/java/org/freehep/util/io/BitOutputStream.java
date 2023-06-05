@@ -34,7 +34,6 @@ public class BitOutputStream extends CompressableOutputStream
 
 	@Override
 	public void write(int b) throws IOException {
-		// Application.debug(Integer.toHexString(b));
 		super.write(b);
 	}
 

@@ -370,9 +370,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 					done = true;
 				} else {
 					// project current point coordinates
-					// Application.debug("ici\n
-					// getWillingCoords=\n"+P.getWillingCoords()+"\n
-					// matrix=\n"+getMatrix().toString());
 					Coords preDirection = ((GeoPoint3D) P).getWillingCoords()
 							.sub(coordsys.getOrigin())
 							.crossProduct(coordsys.getVx());
@@ -398,7 +395,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 		if (!done) {
 			// project current point coordinates
-			// Application.debug("project current point coordinates");
 			Coords preDirection = P.getInhomCoordsInD3()
 					.sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
 			if (preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {

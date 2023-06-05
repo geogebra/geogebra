@@ -176,7 +176,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		// fun = new Function[3];
 		for (int i = 0; i < 2; i++) {
 			fun[i] = new Function(geoCurve.getFun(i), kernel);
-			// Application.debug(fun[i].toString());
 		}
 		if (geoCurve.isGeoElement3D()) {
 			fun[2] = new Function(geoCurve.getFun(2), kernel);

@@ -510,8 +510,7 @@ public class DialogManagerW extends DialogManager
 
 			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()
 					&& geos.get(0) instanceof GeoNumeric) {
-				// AbstractApplication.debug("TODO :
-				// propPanel.showSliderTab()");
+				// TODO  propPanel.showSliderTab()
 				subType = 2;
 			}
 		}

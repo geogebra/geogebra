@@ -181,7 +181,6 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public boolean isInRegion(GeoPointND P) {
 		Coords planeCoords = getNormalProjection(P.getInhomCoordsInD3())[1];
-		// Application.debug(P.getLabel()+":\n"+planeCoords);
 		return DoubleUtil.isEqual(planeCoords.get(3), 0, Kernel.STANDARD_PRECISION);
 	}
 

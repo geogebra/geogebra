@@ -169,7 +169,6 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 	// adpated from ExpressionNode.getCopy()
 	private ExpressionNode getSpecialCopy(ExpressionNode en) {
-		// Application.debug("getCopy() input: " + this);
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
 
@@ -192,10 +191,6 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		}
 
 		// set member vars that are not set by constructors
-		// newNode.forceVector = forceVector;
-		// newNode.forcePoint = forcePoint;
-		// newNode.forceFunction = forceFunction;
-		// Application.debug("getCopy() output: " + newNode);
 		return newNode;
 	}
 
@@ -208,7 +203,6 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		}
 
 		ExpressionValue ret = null;
-		// Application.debug("copy ExpressionValue input: " + ev);
 		if (ev.isNumberValue()) {
 			// ************
 			// replace first encountered NumberValue, eg x(A) with empty string
@@ -244,7 +238,6 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		} else {
 			ret = ev;
 		}
-		// Application.debug("copy ExpressionValue output: " + ev);
 		return ret;
 	}
 

@@ -1027,7 +1027,6 @@ public class GeoFunctionNVar extends GeoElement
 				double ry = q * ymin + (1 - q) * ymax;
 				if (isInRegion(rx, ry)) {
 					P.setCoords(new Coords(rx, ry, 0, 1), false);
-					// Application.debug("Desperately found"+rx+","+ry);
 					found = true;
 				}
 			}

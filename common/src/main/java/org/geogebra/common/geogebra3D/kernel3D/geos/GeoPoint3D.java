@@ -540,7 +540,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	final public double[] vectorTo(GeoPointND QI) {
 		GeoPoint3D Q = (GeoPoint3D) QI;
-		// Application.debug("v=\n"+Q.getCoords().sub(getCoords()).get());
 		return Q.getCoords().sub(getCoords()).get();
 	}
 
@@ -761,11 +760,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (coordsys != null) {
 			setCoords(coordsys.getPoint(getX2D(), getY2D()), doPathOrRegion);
 		} else if (region != null) {
-			/*
-			 * if (getLabel().contains("B1")){
-			 * Application.debug(getX2D()+","+getY2D()); if (getX2D()>3)
-			 * Application.printStacktrace("ici"); }
-			 */
 			setCoords(((Region3D) region).getPoint(getX2D(), getY2D(),
 					new Coords(4)), doPathOrRegion);
 		} else {
@@ -1246,7 +1240,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public Coords getLabelPosition() {
-		// Application.debug(inhom.toString());
 		return getInhomCoordsInD3();
 	}
 
@@ -2247,7 +2240,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				// remember closest point
 				res = getInhomCoords().copyVector();
 				param = i + pp.getT();
-				// Application.debug(i);
 			}
 		}
 
