@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.euclidian.LatexRendererSettings;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
@@ -55,7 +56,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("txt", "\"Hello Friends\"");
 		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
 		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
-		editor.attach((GeoInputBox) lookup("ib"), new Rectangle());
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
 		mf.getInternal().setPlainText("Hello, Friends");
 		editor.onEnter();
 		t("txt", "Hello, Friends");

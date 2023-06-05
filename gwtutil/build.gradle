@@ -7,8 +7,8 @@ plugins {
 project.setDescription('Developer tools required to compile web platforms')
 
 dependencies {
-    api 'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202303211',
-            'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202303211:sources',
+    api 'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305131',
+            'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305131:sources',
         "org.gwtproject:gwt-user:$gwtCompilerVersion",
         "org.gwtproject:gwt-dev:$gwtCompilerVersion",
             project(':common')
@@ -24,7 +24,7 @@ dependencies {
     api 'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
 
 // https://mvnrepository.com/artifact/com.google.auto.service/auto-service
-    implementation group: 'com.google.auto.service', name: 'auto-service', version: '1.0.1'
+    implementation group: 'com.google.auto.service', name: 'auto-service', version: '1.1.0'
 }
 
 pmd {

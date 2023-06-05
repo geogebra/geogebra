@@ -710,8 +710,9 @@ public class InputController {
 					&& parent.hasTag(Tag.ABS)
 					&& ch == '|'
 					&& parent.size() == currentField.getParentIndex() + 1) {
-				currentOffset = parent.getParentIndex() + 1;
 				currentField = (MathSequence) parent.getParent();
+				currentOffset = parent.getParentIndex() + 1;
+				checkReplaceAbs(parent, currentField);
 			} else {
 				if (ch == ',') {
 					newCharacter(editorState, ch);
@@ -741,6 +742,16 @@ public class InputController {
 		}
 		editorState.setCurrentField(currentField);
 		editorState.setCurrentOffset(currentOffset);
+	}
+
+	private void checkReplaceAbs(MathContainer abs, MathSequence parent) {
+		if (abs.getArgument(0) instanceof MathSequence
+				&& ((MathSequence) abs.getArgument(0)).size() == 0) {
+			int parentIndex = abs.getParentIndex();
+			parent.removeArgument(parentIndex);
+			MetaCharacter operator = metaModel.getOperator(Unicode.OR + "");
+			parent.addArgument(parentIndex, new MathCharacter(operator));
+		}
 	}
 
 	private void moveOutOfArray(MathSequence currentField, int currentOffset) {

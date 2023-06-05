@@ -591,4 +591,32 @@ public class EditorState {
 		MathContainer parent = currentField.getParent();
 		return parent != null && parent.hasTag(Tag.RECURRING_DECIMAL);
 	}
+
+	/**
+	 *
+	 * @return whether current field is inside a sub/superscript or not.
+	 */
+	public boolean isInScript() {
+		MathContainer parent = currentField.getParent();
+		while (parent != null) {
+			if (parent.hasTag(Tag.SUBSCRIPT) || parent.hasTag(Tag.SUPERSCRIPT)) {
+				return true;
+			}
+			parent = parent.getParent();
+		}
+		return false;
+	}
+
+	/**
+	 * Select the topmost ancestor that's not root or root's child.
+	 */
+	public void selectUpToRootComponent() {
+		while (currentSelStart != null && currentSelStart.getParent() != null
+				&& currentSelStart.getParent().getParent() != getRootComponent()) {
+			anchor(true);
+			currentSelStart = currentSelStart.getParent();
+		}
+
+		setSelectionEnd(currentSelStart);
+	}
 }

@@ -38,15 +38,8 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/header/ggb-logo-name.svg")
 	SVGResource ggb_logo_name();
 
-	// INFO, WARNING, QUESTION, ERROR
-	@Source("org/geogebra/common/icons/png/web/dialog-error.png")
-	ImageResource dialog_error();
-
 	@Source("org/geogebra/common/icons/png/web/dialog-info.png")
 	ImageResource dialog_info();
-
-	@Source("org/geogebra/common/icons/png/web/dialog-question.png")
-	ImageResource dialog_question();
 
 	@Source("org/geogebra/common/icons/png/web/dialog-warning.png")
 	ImageResource dialog_warning();

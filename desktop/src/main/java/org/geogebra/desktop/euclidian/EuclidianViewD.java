@@ -54,6 +54,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.main.App.ExportType;
@@ -990,7 +991,7 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	protected SymbolicEditor createSymbolicEditor() {
+	protected SymbolicEditor createSymbolicEditor(TextRendererSettings settings) {
 		return new SymbolicEditorD(app, this);
 	}
 

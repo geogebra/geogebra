@@ -1198,7 +1198,6 @@ public class Ggb2giac {
 		// normal() makes sure answer is expanded
 		// '*' argument to make Product(list of matrices) work
 		p("Product.1", "normal(product(%0,'*'))");
-		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
@@ -1272,6 +1271,7 @@ public class Ggb2giac {
 						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||indexOf(?,lname(ggbsimpans2))!=?,ggbsimpans,ggbsimpans2)][1]");
 
 		p("Regroup.1", "regroup(%0)");
+		p("ExpSimplify.1", "lncollect(%0)");
 		p("ExpandOnly.1", "expand(%0)");
 
 		 p("Solutions.1",
@@ -1328,6 +1328,9 @@ public class Ggb2giac {
 		// Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Sum.4",
 				"expand(subst(sum(subst(quote(%0),{%1},{ggbsumvar@1}),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
+
+		p("Product.4",
+				"expand(subst(product(subst(quote(%0),{%1},{ggbproductvar@1}),ggbproductvar@1,%2,%3),ggbproductvar@1,%1))");
 
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]
@@ -1932,6 +1935,16 @@ public class Ggb2giac {
 
 		p("RemoveUndefined.1", "when(type(%0)==DOM_LIST, remove(undef,%0),?)");
 		p("IsInteger.1", "when(type(%0)==DOM_INT,round(%0)==%0, false)");
+
+		p("ExtendedGCD.2", "when((type(%0)==DOM_INT)&&(type(%1)==DOM_INT), "
+				+ "iegcd(%0,%1), "
+				+ "when(is_polynomial(%0)&&is_polynomial(%1), egcd(%0,%1),)");
+		p("ModularExponent.3", "powmod(%0,%1,%2)");
+		p("CharacteristicPolynomial.1", "pcar(%0, x)");
+		p("MinimalPolynomial.1", "pmin(%0, x)");
+		p("LUDecomposition.1", "[[luarg:=%0], [lu0:=lu(luarg)], [lu1:=lu0[0]],[lu2:=lu0[1]],[lu3:=lu0[2]],[permu2mat(lu1),lu2,lu3]][-1]");
+		p("QRDecomposition.1", "{qr(%0)}");
+
 
 		return commandMap;
 	}

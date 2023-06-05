@@ -395,8 +395,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			if (el != null && el.getParentNode() != null && el
 					.getParentElement().hasClassName("CP_popupImage")) { // three-dot
 																// menu
-				popupMenu.show(el.getAbsoluteLeft(),
-						el.getAbsoluteBottom());
+				popupMenu.show(el, 0, el.getOffsetHeight());
 			}
 		};
 

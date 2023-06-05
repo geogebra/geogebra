@@ -74,6 +74,11 @@ public class EditorParserTest {
 	}
 
 	@Test
+	public void subscriptTest() {
+		parsesAs("a_{1,2}", "a_{1,2}");
+	}
+
+	@Test
 	public void absoluteValuesUsingVerticalBarsTest() {
 		parsesAs("|x|", "abs(x)");
 		parsesAs("|1|+|2|", "abs(1)+abs(2)");

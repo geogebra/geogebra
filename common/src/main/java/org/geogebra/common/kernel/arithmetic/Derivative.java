@@ -425,6 +425,8 @@ public class Derivative {
 			break;
 		case SUM:
 			break;
+		case PRODUCT:
+			break;
 		case VECTORPRODUCT:
 			break;
 		case VEC_FUNCTION:

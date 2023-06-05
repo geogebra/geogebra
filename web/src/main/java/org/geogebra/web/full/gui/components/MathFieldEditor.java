@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -384,11 +385,26 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		mathField.adjustCaret((int) x, (int) y);
 	}
 
+	public void selectEntryAt(int x, int y) {
+		mathField.getInternal().selectEntryAt(x, y);
+	}
+
 	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
 		mathField.getInternal().setUnhandledArrowListener(listener);
 	}
 
 	public void setAllowAbs(boolean b) {
 		mathField.getInternal().setAllowAbs(b);
+	}
+
+	/**
+	 * Apply settings to math input field
+	 * @param settings renderer settings
+	 */
+	public void setTextRendererSettings(TextRendererSettings settings) {
+		mathField.setFixMargin(settings.getFixMargin());
+		mathField.setMinHeight(settings.getMinHeight());
+		mathField.setRightMargin(settings.getRightMargin());
+		mathField.setBottomOffset(settings.getBottomOffset());
 	}
 }

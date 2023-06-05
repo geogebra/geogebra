@@ -10,6 +10,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * The ... menu for AV items
@@ -85,8 +86,8 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * @param y
 	 *            screen y-coordinate
 	 */
-	public void show(int x, int y) {
-		wrappedPopup.show(x, y);
+	public void show(Widget source, int x, int y) {
+		wrappedPopup.show(source, x, y);
 		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 

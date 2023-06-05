@@ -88,7 +88,7 @@ public class CmdIf extends CommandProcessor {
 			throw argNumErr(c);
 		}
 
-		if (kernel.getConstruction().getRegisteredFunctionVariable() != null) {
+		if (kernel.getConstruction().hasRegisteredFunctionVariable()) {
 			String[] varName = kernel.getConstruction()
 					.getRegisteredFunctionVariables();
 			FunctionVariable[] fv = new FunctionVariable[varName.length];
@@ -234,7 +234,7 @@ public class CmdIf extends CommandProcessor {
 		if (vars == conditions.get(0).getFunctionVariables().length) {
 			fv = Arrays.stream(conditions.get(0).getFunctionVariables())
 					.map(v -> v.deepCopy(kernel)).toArray(FunctionVariable[]::new);
-		} else if (cons.getRegisteredFunctionVariable() != null) {
+		} else if (cons.hasRegisteredFunctionVariable()) {
 			int regVars = cons.getRegisteredFunctionVariables().length;
 			fv = new FunctionVariable[regVars];
 			for (int i = 0; i < fv.length; i++) {

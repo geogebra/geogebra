@@ -17,7 +17,7 @@ public class ComponentToast extends GPopupPanel {
 	 * @param contentStr - content of the toast
 	 */
 	public ComponentToast(AppW app, String contentStr) {
-		super(app.getPanel(), app);
+		super(app.getAppletFrame(), app);
 		addStyleName("toast");
 		buildGUI(contentStr);
 		Dom.addEventListener(getElement(), "transitionend", evt -> {

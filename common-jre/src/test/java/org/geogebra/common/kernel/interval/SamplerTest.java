@@ -24,7 +24,7 @@ public class SamplerTest extends BaseUnitTest {
 		GeoFunction function = add(functionDescription);
 		IntervalTuple range = PlotterUtils.newRange(xmin, xmax, ymin, ymax);
 		FunctionSampler sampler = PlotterUtils.newSampler(function, range,
-				numberOfSamples);
+				numberOfSamples, null);
 		IntervalAsymptotes asymptotes = new IntervalAsymptotes(sampler.tuples());
 		asymptotes.process();
 

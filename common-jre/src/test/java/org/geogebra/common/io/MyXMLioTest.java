@@ -1,11 +1,12 @@
 package org.geogebra.common.io;
 
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -19,7 +20,7 @@ public class MyXMLioTest extends BaseUnitTest {
 				.useConstructor(getKernel(), getConstruction()));
 		getApp().setConfig(new AppConfigGraphing());
 		String fullXml = myXMLio.getFullXML();
-		Assert.assertTrue(fullXml.contains("app=\"graphing\""));
+		assertThat(fullXml, containsString("app=\"graphing\""));
 	}
 
 	@Test
@@ -30,6 +31,6 @@ public class MyXMLioTest extends BaseUnitTest {
 				.useConstructor(getKernel(), getConstruction()));
 		getApp().setConfig(new AppConfigGeometry(SUITE_APPCODE));
 		String fullXml = myXMLio.getFullXML();
-		Assert.assertTrue(fullXml.contains("app=\"suite\" subApp=\"geometry\""));
+		assertThat(fullXml, containsString("app=\"suite\" subApp=\"geometry\""));
 	}
 }

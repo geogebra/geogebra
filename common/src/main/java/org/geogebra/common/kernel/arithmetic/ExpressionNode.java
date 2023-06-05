@@ -576,8 +576,6 @@ public class ExpressionNode extends ValidExpression
 
 	/**
 	 * Returns true if this tree includes eg abs(), If[] function
-	 * 
-	 * 
 	 * @return true iff contains abs(), If[] etc
 	 */
 	final public boolean includesNonContinuousIntegral() {
@@ -1491,13 +1489,13 @@ public class ExpressionNode extends ValidExpression
 		}
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
-				ret = left.toLaTeXString(symbolic, tpl);
+				ret = toLaTeXString(left, symbolic, tpl);
 				return checkMathml(ret, tpl);
 			}
 		}
 
 		// expression node
-		String leftStr = left.toLaTeXString(symbolic, tpl);
+		String leftStr = toLaTeXString(left, symbolic, tpl);
 		String rightStr = null;
 		if (right != null) {
 
@@ -1512,7 +1510,7 @@ public class ExpressionNode extends ValidExpression
 						tpl);
 
 			} else {
-				rightStr = right.toLaTeXString(symbolic, tpl);
+				rightStr = toLaTeXString(right, symbolic, tpl);
 			}
 		}
 
@@ -1521,6 +1519,20 @@ public class ExpressionNode extends ValidExpression
 				leftStr, rightStr, !symbolic, tpl, kernel);
 
 		return checkMathml(ret, tpl);
+	}
+
+	/**
+	 * Serialize part of an expression
+	 * @param val value to be serialized
+	 * @param symbolic whether to keep variable names, including top level
+	 * @param tpl string template
+	 * @return LaTeX string
+	 */
+	public static String toLaTeXString(ExpressionValue val, boolean symbolic, StringTemplate tpl) {
+		if (symbolic && val instanceof GeoElement) {
+			return ((GeoElement) val).getLabel(tpl);
+		}
+		return val.toLaTeXString(symbolic, tpl);
 	}
 
 	/**

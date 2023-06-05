@@ -151,6 +151,7 @@ public class ParserFunctionsFactory {
 		put(pf, 2, "gGbInTeGrAl", Operation.INTEGRAL, null);
 		put(pf, 2, "gGbSuBsTiTuTiOn", Operation.SUBSTITUTION, null);
 		put(pf, 4, "gGbSuM", Operation.SUM, null);
+		put(pf, 4, "gGbPrOdUcT", Operation.PRODUCT, null);
 		put(pf, 2, "gGbIfElSe", Operation.IF, null);
 		put(pf, 3, "gGbIfElSe", Operation.IF_ELSE, null);
 

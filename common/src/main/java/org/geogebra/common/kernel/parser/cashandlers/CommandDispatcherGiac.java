@@ -127,6 +127,8 @@ public class CommandDispatcherGiac {
 		abs(Operation.ABS),
 		/** erf */
 		erf(Operation.ERF),
+		/** logical negation */
+		not(Operation.NOT),
 		/** symbolic x coord */
 		xcoord(Operation.XCOORD),
 		/** symbolic y coord */
@@ -149,6 +151,9 @@ public class CommandDispatcherGiac {
 
 		/** symbolic sum */
 		sum(Operation.SUM),
+
+		/** symbolic product */
+		product(Operation.PRODUCT),
 
 		/** inverse for Normal(0,1,x) */
 		normal_icdf(Operation.INVERSE_NORMAL),
@@ -282,6 +287,14 @@ public class CommandDispatcherGiac {
 								args.getItem(3)));
 
 				break;
+			case product:
+				ret = new ExpressionNode(kernel,
+						new MyNumberPair(kernel, args.getItem(0),
+								args.getItem(1)),
+						Operation.PRODUCT, new MyNumberPair(kernel, args.getItem(2),
+								args.getItem(3)));
+				break;
+
 			case piecewise:
 
 				if (args.getLength() < 3) {
@@ -467,6 +480,7 @@ public class CommandDispatcherGiac {
 			case exp:
 			case erf:
 			case abs:
+			case not:
 			case xcoord:
 			case ycoord:
 			case zcoord:

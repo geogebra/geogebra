@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.util;
 
-import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.gwtutil.ExceptionUnwrapper;
 
 import com.google.gwt.core.client.GWT;
 
@@ -24,7 +24,7 @@ public class SuperDevUncaughtExceptionHandler {
 					while (cause.getCause() != null) {
 						cause = cause.getCause();
 					}
-					LoggerW.printErrorMessage(cause);
+					ExceptionUnwrapper.printErrorMessage(cause);
 					evt.preventDefault();
 				}
 			});

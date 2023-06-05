@@ -20,6 +20,14 @@ public class GeoNumericTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testFractionRounding() {
+		GeoNumeric numeric = addAvInput("6048 * (1/3)");
+		assertThat(numeric.toValueString(StringTemplate.maxDecimals), is("2016"));
+		GeoNumeric nearFraction = addAvInput("(0.99999999/2)+1");
+		assertThat(nearFraction.toValueString(StringTemplate.maxDecimals), is("1.499999995"));
+	}
+
+	@Test
 	public void testNumericIsNotDrawableInCas() {
 		getApp().setConfig(new AppConfigCas());
 		GeoNumeric numeric = addAvInput("2");

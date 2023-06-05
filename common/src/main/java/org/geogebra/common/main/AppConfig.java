@@ -163,6 +163,11 @@ public interface AppConfig extends Serializable {
 	CommandFilter getCommandFilter();
 
 	/**
+	 * @return new command filter for the app.
+	 */
+	CommandFilter createCommandFilter();
+
+	/**
 	 * @return the Command Argument filter for the app.
 	 */
 	CommandArgumentFilter getCommandArgumentFilter();

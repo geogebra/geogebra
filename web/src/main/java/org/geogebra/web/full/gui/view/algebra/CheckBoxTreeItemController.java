@@ -29,7 +29,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 		event.stopPropagation();
 
 		if (CancelEventTimer.cancelMouseEvent()
-				|| isMarbleHit(event)) {
+				|| checkMarbleHit(event)) {
 			return;
 		}
 
@@ -37,7 +37,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 	
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.INSTANCE);
-		onPointerDown(wrappedEvent);
+		onPointerDown(wrappedEvent, event);
 		handleAVItem(event);
 		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {
 			toggleCheckbox();
@@ -54,7 +54,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
 				ZeroOffset.INSTANCE);
 
-		onPointerDown(wrappedEvent);
+		onPointerDownMainButton(wrappedEvent);
 		handleAVItem(event);
 		toggleCheckbox();
 

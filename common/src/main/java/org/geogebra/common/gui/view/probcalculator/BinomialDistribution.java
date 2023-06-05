@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.probcalculator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoListElement;
 import org.geogebra.common.kernel.algos.AlgoSequence;
+import org.geogebra.common.kernel.algos.AlgoSequenceRange;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -15,7 +16,6 @@ public class BinomialDistribution implements DiscreteDistribution {
 	private DiscreteProbability discreteProbability;
 	private final Construction cons;
 	private DistributionParameters oldParameters = null;
-	private final GeoNumeric k2;
 
 	/**
 	 *
@@ -24,7 +24,6 @@ public class BinomialDistribution implements DiscreteDistribution {
 	public BinomialDistribution(Construction cons) {
 		this.cons = cons;
 		k = new GeoNumeric(cons);
-		k2 = new GeoNumeric(cons);
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class BinomialDistribution implements DiscreteDistribution {
 
 		GeoNumeric nPlusOneGeo = new GeoNumeric(cons, nGeo.getDouble() + 1);
 
-		AlgoSequence algoSeq = new AlgoSequence(cons, k2, k2,
+		AlgoSequenceRange algoSeq = new AlgoSequenceRange(cons,
 				new GeoNumeric(cons, 0.0), nGeo, null);
 		GeoList values = (GeoList) algoSeq.getOutput(0);
 

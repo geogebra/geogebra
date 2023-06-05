@@ -9,9 +9,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 
 public class GeoQuadric3DTest extends BaseUnitTest {
@@ -50,36 +48,10 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 	}
 
 	private Matcher<GeoElement> hasType(String type) {
-		return new TypeSafeMatcher<GeoElement>() {
-			@Override
-			protected boolean matchesSafely(GeoElement item) {
-				return item.translatedTypeString().equals(type);
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText(type);
-			}
-
-			@Override
-			public void describeMismatchSafely(GeoElement item, Description mismatchDescription) {
-				super.describeMismatch(item.translatedTypeString() + " : " + item,
-						mismatchDescription);
-			}
-		};
+		return hasProperty("type", GeoElement::translatedTypeString, type);
 	}
 
 	private Matcher<Coords> hasCoords(final double... coords) {
-		return new TypeSafeMatcher<Coords>() {
-			@Override
-			protected boolean matchesSafely(Coords item) {
-				return Arrays.equals(coords, item.get());
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("coordinates " + Arrays.toString(coords));
-			}
-		};
+		return hasProperty("coordinates", c -> Arrays.toString(c.get()), Arrays.toString(coords));
 	}
 }

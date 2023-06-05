@@ -1070,7 +1070,7 @@ public final class Configuration {
 				fonts.stmary10);
 		add("gvertneqq", TeXConstants.TYPE_RELATION, 162, fonts.msbm10);
 		add("obar", TeXConstants.TYPE_BINARY_OPERATOR, 90, fonts.stmary10);
-		add("Vert", TeXConstants.TYPE_ORDINARY, 107, fonts.cmsy10);
+		add("Vert", TeXConstants.TYPE_ORDINARY, 107, fonts.cmsy10, '\u2016');
 		add("jlatexmatharobase", TeXConstants.TYPE_ORDINARY, 64, fonts.cmr10);
 		add("neg", TeXConstants.TYPE_ORDINARY, 58, fonts.cmsy10);
 		add("nsucceq", TeXConstants.TYPE_RELATION, 178, fonts.msbm10);
@@ -1318,7 +1318,7 @@ public final class Configuration {
 		add("Yright", TeXConstants.TYPE_BINARY_OPERATOR, 39, fonts.stmary10);
 		add("shortparallel", TeXConstants.TYPE_RELATION, 113, fonts.msbm10,
 				'\ue302');
-		add("geq", TeXConstants.TYPE_RELATION, 184, fonts.cmsy10);
+		add("geq", TeXConstants.TYPE_RELATION, 184, fonts.cmsy10, '\u2265');
 		add("varGamma", TeXConstants.TYPE_ORDINARY, 161, fonts.cmmi10,
 				'\u0393');
 		add("varSigma", TeXConstants.TYPE_ORDINARY, 167, fonts.cmmi10,

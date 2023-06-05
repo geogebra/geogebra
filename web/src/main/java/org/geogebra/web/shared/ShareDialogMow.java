@@ -100,16 +100,16 @@ public class ShareDialogMow extends ComponentDialog
 	private void updateMaterial(String visibility) {
 		boolean isMultiuser = isMultiuserSwitchOn();
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-				material.getSharingKeyOrId(), visibility,
+				material.getSharingKeySafe(), visibility,
 				material.getTitle(), null, callback,
 				material.getType(), isMultiuser);
 		Material activeMaterial = app.getActiveMaterial();
 		boolean currentlyEditing = activeMaterial != null
-				&& material.getSharingKeyOrId().equals(activeMaterial.getSharingKeyOrId());
+				&& material.getSharingKeySafe().equals(activeMaterial.getSharingKeySafe());
 		if (material.isMultiuser() && !isMultiuser) {
 			app.getShareController().saveAndTerminateMultiuser(material, callback);
 		} else if (!material.isMultiuser() && isMultiuser && currentlyEditing) {
-			app.getShareController().startMultiuser(material.getSharingKeyOrId());
+			app.getShareController().startMultiuser(material.getSharingKeySafe());
 		}
 		material.setVisibility(visibility);
 		material.setMultiuser(isMultiuser);
@@ -403,8 +403,8 @@ public class ShareDialogMow extends ComponentDialog
 					}
 				};
 		MaterialRestAPI api = app.getLoginOperation().getResourcesAPI();
-		api.getGroups(material.getSharingKeyOrId(), GroupIdentifier.GroupCategory.CLASS, partial);
-		api.getGroups(material.getSharingKeyOrId(), GroupIdentifier.GroupCategory.COURSE, partial);
+		api.getGroups(material.getSharingKeySafe(), GroupIdentifier.GroupCategory.CLASS, partial);
+		api.getGroups(material.getSharingKeySafe(), GroupIdentifier.GroupCategory.COURSE, partial);
 	}
 
 	/**

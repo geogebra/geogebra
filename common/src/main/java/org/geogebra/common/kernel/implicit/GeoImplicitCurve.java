@@ -108,6 +108,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private double[] eval = new double[2];
 	private boolean calcPath = true;
 	private boolean updatePathNeeded = false;
+	private Equation expanded;
 	private static long fastDrawThreshold = 10;
 
 	/**
@@ -399,6 +400,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		diffExp[2] = xy;
 	}
 
+	@Override
+	public void setExpanded(Equation expanded) {
+		this.expanded = expanded;
+	}
+
 	/**
 	 * Initialize the coeff arrays for the factors. They contain the
 	 * coefficients of the squarefree factors of the implicit curve. If there
@@ -647,8 +653,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (!isInputForm() && coeff != null) {
 			return toRawValueString(coeff, kernel, tpl);
 		}
+		if (expanded != null) {
+			return expanded.toValueString(tpl);
+		}
 		return getDefinition() == null ? ""
-				: getDefinition().toValueString(tpl);
+				: getDefinition().toString(tpl);
 	}
 
 	@Override

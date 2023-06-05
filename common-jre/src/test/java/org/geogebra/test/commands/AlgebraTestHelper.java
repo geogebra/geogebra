@@ -1,5 +1,6 @@
 package org.geogebra.test.commands;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -18,7 +19,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.matcher.MultipleResultsMatcher;
 import org.hamcrest.Matcher;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.Assert;
 
@@ -151,7 +151,7 @@ public class AlgebraTestHelper {
 
 		for (int i = 0; i < expected.size(); i++) {
 			String actual = result[i].toValueString(tpl);
-			MatcherAssert.assertThat(s + ":" + actual, actual, expected.get(i));
+			assertThat(s + ":" + actual, actual, expected.get(i));
 		}
 		Log.debug("+");
 	}
@@ -198,36 +198,7 @@ public class AlgebraTestHelper {
 		String actualResultString = actualResult.toValueString(template);
 		MultipleResultsMatcher validResultsMatcher =
 				new MultipleResultsMatcher(validResultCombinations);
-		MatcherAssert.assertThat(actualResultString, validResultsMatcher);
-	}
-
-	/**
-	 * Compares every actual result with combinations of the respective valid result.
-	 * Why this method exists: an expression can have multiple valid results,
-	 * and every valid result can have multiple combinations of how to write this valid result down.
-	 * @param input the input to be solved (not to be confused with the result of this input)
-	 * @param validResults an array of valid results where every valid result is expressed
-	 *                        as an array of the combinations of this valid result
-	 * @param algebraProcessor algebra processor
-	 * @param template string template
-	 */
-	public static void checkMultipleResults(String input,
-										   String[][] validResults,
-										   AlgebraProcessor algebraProcessor,
-										   StringTemplate template) {
-		GeoElementND[] actualResults = getResult(input, algebraProcessor);
-		Assert.assertEquals(
-				"The number of results doesn't match the number of the expected results:",
-				validResults.length, actualResults.length);
-		assertThat(actualResults, validResults, template);
-	}
-
-	private static void assertThat(GeoElementND[] actualResults, String[][] validResults,
-								   StringTemplate template) {
-		for (int i = 0; i < validResults.length; i++) {
-			String[] validResultCombinations = validResults[i];
-			assertOneOf(actualResults[i], validResultCombinations, template);
-		}
+		assertThat(actualResultString, validResultsMatcher);
 	}
 
 	/**

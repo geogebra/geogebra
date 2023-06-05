@@ -240,9 +240,6 @@ public class TeXAtomSerializer {
 		if (symbol == OgonekAtom.OGONEK) {
 			return "ogonek";
 		}
-		if (symbol == SymbolAtom.get("Vert")) {
-			return "\u2225";
-		}
 		return adapter.convertCharacter(symbol.getUnicode());
 	}
 

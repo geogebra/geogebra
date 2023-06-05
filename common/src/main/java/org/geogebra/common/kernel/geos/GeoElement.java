@@ -2228,19 +2228,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @param symbolic
-	 *            true to keep variable names
-	 * @param symbolicContext
-	 *            whether this method was called from a symbolic context
-	 * @param tpl
-	 *            string template
-	 * @return LaTeX string
-	 */
-	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
-		return getFormulaString(tpl, !symbolic);
-	}
-
-	/**
 	 * Returns a String that can be used to define geo in the currently used
 	 * CAS. For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7"
 	 * 
@@ -4523,20 +4510,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (scripts == null) {
 			return;
 		}
-		Script clickScript = scripts[EventType.CLICK.ordinal()];
-		Script updateScript = scripts[EventType.UPDATE.ordinal()];
+		getScriptTag(EventType.CLICK, "val", sb);
+		getScriptTag(EventType.UPDATE, "onUpdate", sb);
+		getScriptTag(EventType.DRAG_END, "onDragEnd", sb);
+		getScriptTag(EventType.EDITOR_KEY_TYPED, "onChange", sb);
+	}
+
+	private void getScriptTag(EventType eventType, String val, StringBuilder sb) {
+		Script clickScript = scripts[eventType.ordinal()];
 		if (clickScript != null) {
 			sb.append("\t<");
 			sb.append(clickScript.getXMLName());
-			sb.append(" val=\"");
+			sb.append(" ").append(val).append("=\"");
 			StringUtil.encodeXML(sb, clickScript.getInternalText());
-			sb.append("\"/>\n");
-		}
-		if (updateScript != null) {
-			sb.append("\t<");
-			sb.append(updateScript.getXMLName());
-			sb.append(" onUpdate=\"");
-			StringUtil.encodeXML(sb, updateScript.getInternalText());
 			sb.append("\"/>\n");
 		}
 	}

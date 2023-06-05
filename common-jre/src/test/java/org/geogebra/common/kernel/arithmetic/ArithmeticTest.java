@@ -500,6 +500,12 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void expandBracketsForImplicitCurve() {
+		add("s(x,y)=x+y");
+		t("s^3.2+3=0", "(x + y)^(3.2) + 3 = 0");
+	}
+
+	@Test
 	public void testMixedNumbers() {
 		t("2 " + Unicode.INVISIBLE_PLUS + "3 / 4 * 3", "8.25");
 		t("2 * 2" + Unicode.INVISIBLE_PLUS + "3 / 4", "5.5");

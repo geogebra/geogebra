@@ -391,10 +391,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void setBorder(String dpBorder, int px) {
-		setBorder(geoGebraElement.getElement(), getStyleElement(), dpBorder, px);
+		setBorder(geoGebraElement, getStyleElement(), dpBorder, px);
 	}
 
-	private static void setBorder(Element ae, Element gfE,
+	private static void setBorder(GeoGebraElement ae, Element gfE,
 			String dpBorder, int px) {
 		ae.getStyle().setBorderWidth(0, Unit.PX);
 		ae.getStyle().setBorderStyle(BorderStyle.SOLID);

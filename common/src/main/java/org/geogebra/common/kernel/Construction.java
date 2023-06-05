@@ -1702,31 +1702,8 @@ public class Construction {
 	private boolean softRedefine(GeoElement oldGeo, GeoElement newGeo) {
 		AlgoElement oldParent = oldGeo.getParentAlgorithm();
 		AlgoElement newParent = newGeo.getParentAlgorithm();
-		if (oldParent != null && newParent != null && oldParent.isCompatible(newParent)) {
-			ArrayList<Integer> updateInputIdx = new ArrayList<>();
-			for (int i = 0; i < oldParent.getInput().length; i++) {
-				if (oldParent.getInput(i) != newParent.getInput(i)) {
-					if (!Inspecting.dynamicGeosFinder.check(oldParent.getInput(i))
-							&& !Inspecting.dynamicGeosFinder.check(newParent.getInput(i))
-							&& oldParent.getInput(i).getGeoClassType()
-									== newParent.getInput(i).getGeoClassType()) {
-						updateInputIdx.add(i);
-					} else {
-						return false;
-					}
-				}
-			}
-			if (updateInputIdx.isEmpty()) {
-				// since we only get there if definition did change and command name is the same
-				// at least one input must have changed, but better to avoid OutOfBounds.
-				return false;
-			}
-			for (Integer i: updateInputIdx) {
-				oldParent.getInput(i).set(newParent.getInput(i));
-			}
-			// start cascade from the ancestor to make sure siblings are updated too
-			oldParent.getInput(updateInputIdx.get(0)).updateRepaint();
-			return true;
+		if (oldParent != null && newParent != null) {
+			return oldParent.setFrom(newParent);
 		}
 		return false;
 	}
@@ -3236,7 +3213,10 @@ public class Construction {
 		} else {
 			registeredFV.add(fv);
 		}
+	}
 
+	public boolean hasRegisteredFunctionVariable() {
+		return !registeredFV.isEmpty();
 	}
 
 	/**
@@ -3247,20 +3227,6 @@ public class Construction {
 	 */
 	public boolean isRegisteredFunctionVariable(String s) {
 		return registeredFV.contains(s);
-	}
-
-	/**
-	 * Returns function variable that should be recognized in If and Function
-	 * commands
-	 * 
-	 * @return local function variable or null if there is none
-	 */
-	public String getRegisteredFunctionVariable() {
-		Iterator<String> it = registeredFV.iterator();
-		if (it.hasNext()) {
-			return it.next();
-		}
-		return null;
 	}
 
 	/**

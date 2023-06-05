@@ -36,7 +36,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 */
 	public ComponentDialog(AppW app, DialogData dialogData, boolean autoHide,
 						   boolean hasScrim) {
-		super(autoHide, app.getPanel(), app);
+		super(autoHide, app.getAppletFrame(), app);
 		setGlassEnabled(hasScrim);
 		this.setStyleName("dialogComponent");
 		buildDialog(dialogData);

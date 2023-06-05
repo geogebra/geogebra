@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.negativeInfinity;
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
@@ -580,5 +581,14 @@ public class IntervalDivideTest {
 
 	private Interval divByZeroSingleton(double a1, double a2) {
 		return divide(new Interval(a1, a2), zero());
+	}
+
+	@Test
+	public void testDivBelowMaxPrecision() {
+		Interval numerator = interval(1E-13);
+		Interval divisor = interval(1E-13);
+		numerator.setPrecision(0);
+		divisor.setPrecision(0);
+		assertEquals(one(), evaluator.divide(numerator, divisor));
 	}
 }

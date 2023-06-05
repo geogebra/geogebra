@@ -551,6 +551,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				20, false);
 	}
 
+	private boolean displayStyle;
+
 	/**
 	 * Creates default string template
 	 *
@@ -932,6 +934,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.questionMarkForNaN = questionMarkForNaN;
 		result.useSimplifications = useSimplifications;
 		result.pointCoordBar = pointCoordBar;
+		result.allowPiHack = allowPiHack;
+		result.displayStyle = displayStyle;
 		return result;
 	}
 
@@ -3666,5 +3670,22 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public char getPointCoordBar() {
 		return pointCoordBar;
+	}
+
+	/**
+	 * @return copy of this with display style = true
+	 */
+	public StringTemplate deriveWithDisplayStyle() {
+		assert stringType == StringType.LATEX;
+		StringTemplate copy = copy();
+		copy.displayStyle = true;
+		return copy;
+	}
+
+	/**
+	 * @return whether to print matrices and vectors in display style (=multiple lines)
+	 */
+	public boolean isDisplayStyle() {
+		return displayStyle;
 	}
 }

@@ -54,6 +54,7 @@ public class KeyboardSwitcher extends FlowPanel {
 		public void select() {
 			tabbedkeyboard.hideKeyboards();
 			unselectAll();
+			keyboard.updatePanel();
 			keyboard.setVisible(true);
 			setSelected(this, true);
 		}
@@ -160,7 +161,9 @@ public class KeyboardSwitcher extends FlowPanel {
 	protected void select(KeyboardType keyboardType) {
 		if (keyboardType == KeyboardType.GREEK) {
 			tabbedkeyboard.hideKeyboards();
-			tabbedkeyboard.getKeyboard(keyboardType).setVisible(true);
+			KeyPanelBase greek = tabbedkeyboard.getKeyboard(keyboardType);
+			greek.updatePanel();
+			greek.setVisible(true);
 		} else {
 			switches.get(keyboardType).select();
 		}

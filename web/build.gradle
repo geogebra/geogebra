@@ -51,14 +51,15 @@ task extractJs() {
 }
 
 dependencies {
+    def multiplayerVersion = "1.0.202305091548-SNAPSHOT"
     implementation project(path: ':carota-web'),
         project(':web-dev'),
         project(':web-common'),
         project(':editor-web'),
         project(':keyboard-web'),
         'org.webjars.npm:pdfjs-dist:2.5.207',
-        "org.geogebra:multiplayer:1.0.202303161843",
-        "org.geogebra:multiplayer:1.0.202301170910:sources",
+        "org.geogebra:multiplayer:$multiplayerVersion",
+        "org.geogebra:multiplayer:$multiplayerVersion:sources",
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
         files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
@@ -148,7 +149,7 @@ gwt {
     if (project.hasProperty("gmodule")) {
         modules = project.getProperty("gmodule").split(",")
     } else {
-        modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
+        modules = ['org.geogebra.web.SuperWeb', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
           'org.geogebra.web.Tablet3D']
     }
     
@@ -280,13 +281,22 @@ task createSolverHtml {
 
 task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     doLast {
-        ["web3d", "webSimple"].each { module ->
+        ["web3d", "webSimple", "editor"].each { module ->
             def dir = file("build/gwt/out/$module")
-            fileTree(dir).each { f ->
-                println "$f -> $f"
-                def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
-                file(outFile.parent).mkdirs()
-                ant.gzip(src: f, zipfile: outFile)
+            if (dir.exists()) {
+                fileTree(dir).each { f ->
+                    def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
+                    file(outFile.parent).mkdirs()
+                    ant.gzip(src: f, zipfile: outFile)
+                }
+            }
+            def srcMaps = file("build/gwt/out/WEB-INF/deploy/$module/symbolMaps/")
+            file("build/symbolMapsGz/$module").mkdirs()
+            if (srcMaps.exists()) {
+                fileTree(srcMaps).each { f ->
+                    def outFile = file("$f".replace(srcMaps.absolutePath, "build/symbolMapsGz/$module/"))
+                    ant.gzip(src: f, zipfile: outFile)
+                }
             }
         }
     }
@@ -296,6 +306,11 @@ task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverH
     description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
     from compileGwt
     into warDirRel
+
+    into ("web3d") {
+        from "$warDirRel/WEB-INF/deploy/web3d/symbolMaps"
+    }
+
 }
 
 task mergeDeploy(){
