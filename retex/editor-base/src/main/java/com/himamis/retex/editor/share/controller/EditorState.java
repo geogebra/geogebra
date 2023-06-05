@@ -577,6 +577,14 @@ public class EditorState {
 	}
 
 	/**
+	 * @return Whether the current field is inside a mixed number or not
+	 */
+	public boolean isInMixedNumber() {
+		MathContainer parent = currentField.getParent();
+		return parent != null && parent.hasTag(Tag.MIXED_NUMBER);
+	}
+
+	/**
 	 * @return Whether the current field is inside a recurring decimal or not
 	 */
 	public boolean isInRecurringDecimal() {
