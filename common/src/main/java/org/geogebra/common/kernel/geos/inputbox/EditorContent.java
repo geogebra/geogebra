@@ -65,7 +65,16 @@ public class EditorContent {
 		return latex;
 	}
 
-	public boolean isEmpty() {
-		return entries.length == 0 && (StringUtil.empty(inputText) || "?".equals(inputText));
+	/**
+	 * Whether the content should be considered empty; for most objects that included a single ?,
+	 * for list only empty string is considered empty.
+	 * @param forList whether editor is for a list
+	 * @return whether editor is empty
+	 */
+	public boolean isEmpty(boolean forList) {
+		if (entries.length > 0) {
+			return false;
+		}
+		return StringUtil.empty(inputText) || (!forList && "?".equals(inputText));
 	}
 }

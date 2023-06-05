@@ -71,7 +71,7 @@ public class GgbScript extends Script {
 		}
 		if (evt.type == EventType.EDITOR_KEY_TYPED
 				&& (scriptText.contains("%1") || scriptText.contains("%2"))) {
-			SymbolicEditor editor = getValidity(evt.argument);
+			SymbolicEditor editor = getEditor(evt.argument);
 			if (editor != null) {
 				scriptText = replacePlaceholdersFromEditor(scriptText, editor);
 			}
@@ -87,7 +87,7 @@ public class GgbScript extends Script {
 				.replace("%2", String.valueOf(valid));
 	}
 
-	private SymbolicEditor getValidity(String argument) {
+	private SymbolicEditor getEditor(String argument) {
 		SymbolicEditor editor = app.getActiveEuclidianView().getSymbolicEditor();
 		if (editor == null || editor.getGeoInputBox() == null
 				|| !argument.equals(editor.getGeoInputBox().getLabelSimple())) {

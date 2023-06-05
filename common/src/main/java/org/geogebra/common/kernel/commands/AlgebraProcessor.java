@@ -1894,7 +1894,7 @@ public class AlgebraProcessor {
 	 */
 	public GeoElementND evaluateToGeoElement(String str, boolean showErrors) {
 		return evaluateToGeoElement(str, showErrors,
-				new EvalInfo(!cons.isSuppressLabelsActive(), true));
+				new EvalInfo(!cons.isSuppressLabelsActive(), true), null);
 	}
 
 	/**
@@ -1905,16 +1905,21 @@ public class AlgebraProcessor {
 	 *            stringInput
 	 * @param showErrors
 	 *            if false, only stacktraces are printed
+	 * @param template used to determine preferred type flags
 	 * @return construction element or null
 	 */
-	public GeoElementND evaluateToGeoElement(String str, boolean showErrors, EvalInfo info) {
+	public GeoElementND evaluateToGeoElement(String str, boolean showErrors, EvalInfo info,
+			GeoElementND template) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		GeoElementND geo = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElementND[] temp = processValidExpression(ve);
+			if (template != null) {
+				updateTypePreservingFlags(ve, template, info.isPreventingTypeChange());
+			}
+			GeoElementND[] temp = processValidExpression(ve, info);
 			geo = temp[0];
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");

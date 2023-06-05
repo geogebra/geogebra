@@ -237,17 +237,20 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	/**
-	 * @return current content in GGB syntax, using ? for empty matric entries
+	 * @return current content in GGB syntax, using ? for empty matrix entries
 	 */
 	public EditorContent getEditorStateWithQuestionMarks() {
 		MathFormula formula = getMathFieldInternal().getFormula();
 		GeoGebraSerializer geoGebraSerializer = new GeoGebraSerializer();
 		geoGebraSerializer.setShowPlaceholderAsQuestionmark(true);
+		String content;
 		if (getGeoInputBox().getLinkedGeo() instanceof GeoVectorND) {
 			String[] entries = geoGebraSerializer.serializeMatrixEntries(formula);
-			return new EditorContent("(" + StringUtil.join(",", entries) + ")", null, new String[0], 1);
+			content = "(" + StringUtil.join(",", entries) + ")";
+		} else {
+			content = geoGebraSerializer.serialize(formula);
 		}
-		return new EditorContent(geoGebraSerializer.serialize(formula), null, new String[0], 0);
+		return new EditorContent(content, null, new String[0], 0);
 	}
 
 	/**
