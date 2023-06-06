@@ -619,4 +619,9 @@ public class EditorState {
 
 		setSelectionEnd(currentSelStart);
 	}
+
+	public MathComponent getComponentLeftOfCursor() {
+		return currentOffset > 0 ? currentField.getArgument(currentOffset - 1) : null;
+	}
+
 }
