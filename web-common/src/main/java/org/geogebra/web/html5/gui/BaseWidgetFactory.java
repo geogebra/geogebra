@@ -7,6 +7,9 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ListBox;
 
 public class BaseWidgetFactory {
+
+	public static final BaseWidgetFactory INSTANCE = new BaseWidgetFactory();
+
 	/**
 	 * @return flow panel; to be mocked
 	 */
@@ -39,5 +42,23 @@ public class BaseWidgetFactory {
 
 	public SliderW newSlider(int i, int j) {
 		return new SliderW(i, j);
+	}
+
+	public Label newPrimaryText(String text, String className) {
+		Label primaryText = new Label(text);
+		if (className != null) {
+			primaryText.setStyleName(className);
+		}
+		primaryText.addStyleName(Shades.NEUTRAL_900.getName());
+		return primaryText;
+	}
+
+	public Label newSecondaryText(String text, String className) {
+		Label secondaryText = new Label(text);
+		if (className != null) {
+			secondaryText.setStyleName(className);
+		}
+		secondaryText.addStyleName(Shades.NEUTRAL_700.getName());
+		return secondaryText;
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.components.radiobutton;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -42,7 +43,7 @@ public class ComponentRadioButton<T> extends FlowPanel implements SetLabels {
 		innerCircle.addStyleName("innerCircle");
 		radioBg.add(innerCircle);
 
-		radioLabel = new Label(loc.getMenu(data.getLabel()));
+		radioLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(loc.getMenu(data.getLabel()), null);
 		add(radioLabel);
 
 		Dom.addEventListener(this.getElement(), "click", evt -> {
