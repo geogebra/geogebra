@@ -65,19 +65,19 @@ public class MyRecurringDecimal extends MyDouble {
 	}
 
 	/**
-	 * Iterates through a given string and replaces all unicode overlines with LaTeX
+	 * Removes all unicode overlines from a given string and returns its appropriate LaTeX notation
 	 * @param str String
 	 * @return Converted String
 	 */
 	private String convertToLaTeX(String str) {
 		StringBuilder sb = new StringBuilder(str);
-		for (int i = 0; i < sb.length(); i++) {
-			if (sb.charAt(i) == Unicode.OVERLINE) {
-				sb.replace(i, i + 1, "}");
-				sb.insert(i - 1, "\\overline{");
-			}
-		}
-		return sb.toString();
+		int indexLastOverLine = sb.lastIndexOf("\u0305");
+		int indexFirstOverLine = sb.indexOf("\u0305");
+
+		sb.replace(indexLastOverLine, indexLastOverLine + 1, "}");
+		sb.insert(indexFirstOverLine - 1, "\\overline{");
+
+		return sb.toString().replaceAll("\u0305", "");
 	}
 
 	/**
@@ -105,6 +105,7 @@ public class MyRecurringDecimal extends MyDouble {
 	private static double getValue(StringBuilder sb) throws NumberFormatException {
 		int repeatingDigits = (int) sb.chars().filter(ch -> ch == Unicode.OVERLINE).count();
 		int nonRepeatingDigits = sb.substring(sb.indexOf("."), sb.indexOf("\u0305")).length() - 2;
+
 		// Might throw a NumberFormatException (e.g. 1.2.3\u0305)
 		double decimalValue = StringUtil.parseDouble(sb.toString().replaceAll("\u0305", ""));
 
@@ -113,10 +114,11 @@ public class MyRecurringDecimal extends MyDouble {
 					/ (Math.pow(10, repeatingDigits) - 1);
 		}
 
-		int equation1 = (int) (decimalValue * Math.pow(10, nonRepeatingDigits));
-		double equation2 = decimalValue * Math.pow(10, repeatingDigits + nonRepeatingDigits);
+		int scaledNonRepeatingPart = (int) (decimalValue * Math.pow(10, nonRepeatingDigits));
+		double scaledValue = decimalValue * Math.pow(10, repeatingDigits + nonRepeatingDigits);
 
-		return (equation2 - equation1) / (Math.pow(10, repeatingDigits + nonRepeatingDigits)
+		return (scaledValue - scaledNonRepeatingPart)
+				/ (Math.pow(10, repeatingDigits + nonRepeatingDigits)
 				- Math.pow(10, nonRepeatingDigits));
 	}
 }

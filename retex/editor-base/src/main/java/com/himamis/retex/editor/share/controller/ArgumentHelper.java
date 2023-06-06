@@ -1,7 +1,5 @@
 package com.himamis.retex.editor.share.controller;
 
-import java.util.function.Predicate;
-
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
@@ -120,23 +118,22 @@ public class ArgumentHelper {
 
 		int offset;
 		if (passSingleArg) {
-			offset = passSingleCharacter(currentField, currentOffset, field,
-					MathCharacter::isWordBreak);
+			offset = passSingleCharacter(currentField, currentOffset, field);
 		} else {
-			offset = passCharacters(currentField, currentOffset, field, MathCharacter::isWordBreak);
+			offset = passCharacters(currentField, currentOffset, field);
 		}
 		editorState.setCurrentOffset(offset);
 	}
 
 	private static int passCharacters(MathSequence currentField, int initialOffset,
-			MathSequence field, Predicate<MathCharacter> condition) {
+			MathSequence field) {
 		int currentOffset = initialOffset;
 		while (currentOffset > 0 && currentField
 				.getArgument(currentOffset - 1) instanceof MathCharacter) {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(currentOffset - 1);
-			if (condition.test(character)) {
+			if (character.isWordBreak()) {
 				break;
 			}
 			currentField.delArgument(currentOffset - 1);
@@ -156,12 +153,12 @@ public class ArgumentHelper {
 	 * @return Initial Offset or Initial Offset - 1 (passing a maximum of one argument here)
 	 */
 	private static int passSingleCharacter(MathSequence currentField, int currentOffset,
-			MathSequence field, Predicate<MathCharacter> condition) {
+			MathSequence field) {
 		if (currentField.getArgument(currentOffset - 1) instanceof MathCharacter) {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(currentOffset - 1);
-			if (condition.test(character)) {
+			if (character.isWordBreak()) {
 				return currentOffset;
 			}
 			currentField.delArgument(currentOffset - 1);
