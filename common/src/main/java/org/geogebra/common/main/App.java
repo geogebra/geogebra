@@ -3901,6 +3901,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
 			if (geo.isGeoBoolean()) {
+				if (!geo.isIndependent()) {
+					return true;
+				}
+
 				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
 				geoBool.setValue(!geoBool.getBoolean());
 				geoBool.updateRepaint();
