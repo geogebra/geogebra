@@ -405,7 +405,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	public static String equationWithLabel(GeoElementND geo, StringTemplate tpl) {
 		String rhs = geo.getDefinition().toString(tpl);
 		if (rhs.contains("=")) {
-			return geo.getLabel(tpl) + ": " + rhs;
+			return geo.getLabel(tpl) + ":=" + rhs;
 		}
 		return rhs;
 	}
