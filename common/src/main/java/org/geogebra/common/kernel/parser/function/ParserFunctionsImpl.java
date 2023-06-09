@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -14,6 +16,23 @@ import org.geogebra.common.plugin.Operation;
  * @author zbynek
  */
 class ParserFunctionsImpl implements ParserFunctions {
+
+	private ExpressionFilter expressionFilter;
+
+	@Override
+	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
+		return model.getExpressionFilter() != null;
+	}
+
+	@Override
+	public void setExamRestrictionModel(ExamRestrictionModel model) {
+		this.expressionFilter = model == null ? null : model.getExpressionFilter();
+	}
+
+	@Override
+	public void applyExamRestrictions() {
+		// nothing to do
+	}
 
 	private static class FunctionReference {
 
@@ -93,7 +112,9 @@ class ParserFunctionsImpl implements ParserFunctions {
 	public Operation get(String name, int size) {
 		Operation operation = localizedReferences.get(name, size);
 		operation = operation == null ? references.get(name, size) : operation;
-
+		if (expressionFilter != null && !expressionFilter.isAllowed(operation)) {
+			return null;
+		}
 		if (!inverseTrig || operation == null) {
 			return operation;
 		}
@@ -108,8 +129,8 @@ class ParserFunctionsImpl implements ParserFunctions {
 	@Override
 	public ArrayList<String> getCompletions(String prefix) {
 		TreeSet<String> completions = new TreeSet<String>();
-		references.getCompletions(prefix, completions);
-		localizedReferences.getCompletions(prefix, completions);
+		references.getCompletions(prefix, completions, expressionFilter);
+		localizedReferences.getCompletions(prefix, completions, expressionFilter);
 		return new ArrayList<>(completions);
 	}
 
@@ -155,4 +176,5 @@ class ParserFunctionsImpl implements ParserFunctions {
 		}
 		return text;
 	}
+
 }

@@ -6,8 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.plugin.Operation;
 
 class FunctionReferences {
@@ -16,7 +17,7 @@ class FunctionReferences {
 
 	private final List<Map<String, Operation>> functionMap = new ArrayList<>();
 	private final Set<String> reservedFunctions = new HashSet<>();
-	private final TreeSet<String> syntaxes = new TreeSet<>();
+	private final TreeMap<String, Operation> syntaxes = new TreeMap<>();
 
 	FunctionReferences() {
 		initFunctionMap();
@@ -31,7 +32,7 @@ class FunctionReferences {
 	void put(int size, String name, Operation op, String arg) {
 		reservedFunctions.add(name);
 		if (arg != null) {
-			syntaxes.add(name + arg);
+			syntaxes.put(name + arg, op);
 		}
 		if (size <= MAX_ARGS && size >= 0) {
 			functionMap.get(size).put(name, op);
@@ -53,12 +54,14 @@ class FunctionReferences {
 		return reservedFunctions.contains(s);
 	}
 
-	void getCompletions(String prefix, Set<String> completions) {
-		for (String candidate : syntaxes.tailSet(prefix)) {
+	void getCompletions(String prefix, Set<String> completions, ExpressionFilter filter) {
+		for (String candidate : syntaxes.navigableKeySet().tailSet(prefix)) {
 			if (!candidate.startsWith(prefix)) {
 				break;
 			}
-			completions.add(candidate);
+			if (filter == null || filter.isAllowed(syntaxes.get(candidate))) {
+				completions.add(candidate);
+			}
 		}
 	}
 }
