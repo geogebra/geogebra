@@ -3707,4 +3707,17 @@ public class ExpressionNode extends ValidExpression
 	public boolean isOperation(Operation operation) {
 		return operation == this.operation;
 	}
+
+	/**
+	 * @return deep copy, replacing geos by values
+	 */
+	public ExpressionNode deepCopyGeo() {
+		ExpressionNode copy = deepCopy(kernel);
+		return copy.traverse(val -> {
+			if (val instanceof GeoElement) {
+				return ((GeoElement) val).deepCopyGeo();
+			}
+			return val;
+		}).wrap();
+	}
 }
