@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
@@ -40,7 +40,7 @@ import org.geogebra.common.util.ExtendedBoolean;
  * 
  */
 public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
-		ViewCreator, RotateableND, MirrorableAtPlane {
+		ViewCreator, RotatableND, MirrorableAtPlane {
 
 	/** 2D coord sys where the polygon exists */
 	private CoordSys coordSys = new CoordSys(2);
@@ -706,14 +706,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = CoordMatrix4x4.identity();
 		} else {
-			tmpMatrix4x4.set(1, 4, 0);
-			tmpMatrix4x4.set(2, 4, 0);
-			tmpMatrix4x4.set(3, 4, 0);
-
-			tmpMatrix4x4.set(4, 1, 0);
-			tmpMatrix4x4.set(4, 2, 0);
-			tmpMatrix4x4.set(4, 3, 0);
-			tmpMatrix4x4.set(4, 4, 1);
+			tmpMatrix4x4.resetLastRowAndColumn();
 		}
 
 		tmpMatrix4x4.set(1, 1, a00);
@@ -771,10 +764,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	@Override
-	public void rotate(NumberValue phiVal, GeoPointND Q,
+	public void rotate(NumberValue phiVal, Coords Q,
 			GeoDirectionND orientation) {
 
-		rotate(phiVal, Q.getInhomCoordsInD3(), orientation.getDirectionInD3());
+		rotate(phiVal, Q, orientation.getDirectionInD3());
 
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++) {
@@ -784,23 +777,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		for (GeoSegmentND seg : getSegments()) {
 			if (seg.isGeoElement3D()) {
 				((GeoSegment3D) seg).rotate(phiVal, Q, orientation);
-			}
-		}
-
-	}
-
-	@Override
-	public void rotate(NumberValue phiVal, GeoLineND line) {
-		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
-
-		// we need to update points and segments also
-		for (int i = 0; i < getPointsLength(); i++) {
-			((GeoPoint3D) super.getPointND(i)).rotate(phiVal, line);
-		}
-
-		for (GeoSegmentND seg : getSegments()) {
-			if (seg.isGeoElement3D()) {
-				((GeoSegment3D) seg).rotate(phiVal, line);
 			}
 		}
 

@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.LocateableList;
-import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -90,7 +89,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus
  */
 public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
-		MatrixTransformable, ConicMirrorable, GeoPointND,
+		ConicMirrorable, GeoPointND,
 		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 	private static volatile Comparator<GeoPoint> comparatorX;
 

@@ -70,7 +70,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.Region3D;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -87,7 +87,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
-		MatrixTransformable, RotateableND,
+		MatrixTransformable, RotatableND,
 		Transformable, MirrorableAtPlane {
 
 	private boolean isInfinite;
@@ -1527,13 +1527,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public void rotate(NumberValue phiValue, GeoPointND S,
+	public void rotate(NumberValue phiValue, Coords S,
 			GeoDirectionND orientation) {
-
-		Coords o1 = S.getInhomCoordsInD3();
 		Coords vn = orientation.getDirectionInD3();
 
-		rotate(phiValue, o1, vn);
+		rotate(phiValue, S, vn);
 
 	}
 
@@ -1581,11 +1579,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		setCoords(tmpCoords1.setAdd(tmpCoords1, tmpCoords2.setAdd(
 				tmpCoords2.mulInside(cos), tmpCoords3.mulInside(sin / l))));
-	}
-
-	@Override
-	public void rotate(NumberValue phiValue, GeoLineND line) {
-		rotate(phiValue.getDouble(), line);
 	}
 
 	/**

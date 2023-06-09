@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
@@ -38,7 +38,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public abstract class GeoCoordSys1D extends GeoElement3D
 		implements Path, GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
-		Translateable, MatrixTransformable, Traceable, RotateableND,
+		Translateable, MatrixTransformable, Traceable, RotatableND,
 		MirrorableAtPlane, Transformable, Dilateable {
 	/** coord system */
 	protected CoordSys coordsys;
@@ -255,18 +255,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	}
 
 	/**
-	 * returns matrix corresponding to segment joining l1 to l2, using
-	 * getLineThickness()
-	 */
-	/*
-	 * public GgbMatrix getSegmentMatrix(double l1, double l2){
-	 * 
-	 * 
-	 * 
-	 * return GgbMatrix4x4.subSegmentX(getMatrix4x4(), l1, l2); }
-	 */
-
-	/**
 	 * returns the point at position lambda on the coord sys
 	 * 
 	 * @param lambda
@@ -350,7 +338,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	public double getParamOnLine(GeoPointND P) {
 		boolean done = false;
 		double t = 0;
-		if (((GeoElement) P).isGeoElement3D()) {
+		if (P.isGeoElement3D()) {
 			if (((GeoPoint3D) P).hasWillingCoords()) {
 				if (((GeoPoint3D) P).hasWillingDirection()) {
 					// project willing location using willing direction
@@ -824,7 +812,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
-	final private void rotate(NumberValue phiValue, Coords o1, Coords vn) {
+	private void rotate(NumberValue phiValue, Coords o1, Coords vn) {
 
 		if (vn.isZero()) {
 			setUndefined();
@@ -861,23 +849,12 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	}
 
 	@Override
-	public void rotate(NumberValue phiValue, GeoPointND S,
+	public void rotate(NumberValue phiValue, Coords S,
 			GeoDirectionND orientation) {
-
-		Coords o1 = S.getInhomCoordsInD3();
 
 		Coords vn = orientation.getDirectionInD3();
 
-		rotate(phiValue, o1, vn);
-	}
-
-	@Override
-	public void rotate(NumberValue phiValue, GeoLineND line) {
-		Coords o1 = line.getStartInhomCoords();
-		Coords vn = line.getDirectionInD3();
-
-		rotate(phiValue, o1, vn);
-
+		rotate(phiValue, S, vn);
 	}
 
 	// //////////////////////
@@ -985,8 +962,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 				V = vec.getCoordsInD3();
 			}
 		}
-		Geo3DVec ret = new Geo3DVec(kernel, O.get(1) + t * V.get(1),
+		return new Geo3DVec(kernel, O.get(1) + t * V.get(1),
 				O.get(2) + t * V.get(2), O.get(3) + t * V.get(3));
-		return ret;
 	}
 }

@@ -51,7 +51,7 @@ import org.geogebra.common.kernel.kernelND.HasFaces;
 import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
@@ -65,7 +65,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoPolyhedron extends GeoElement3D
-		implements HasSegments, HasVolume, Traceable, RotateableND,
+		implements HasSegments, HasVolume, Traceable, RotatableND,
 		Translateable, MirrorableAtPlane, Transformable, Dilateable, HasHeight,
 		Path, GeoPolyhedronInterface, GeoNumberValue, Region, HasFaces {
 
@@ -1786,7 +1786,7 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S,
+	public void rotate(NumberValue r, Coords S,
 			GeoDirectionND orientation) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
@@ -1796,18 +1796,6 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		updatePolygonsAndSegmentsAlgos();
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoLineND line) {
-		for (GeoPoint3D point : copyPoints.values()) {
-			if (point.isDefined()) {
-				point.rotate(r, line);
-			}
-		}
-
-		updatePolygonsAndSegmentsAlgos();
-
 	}
 
 	@Override
