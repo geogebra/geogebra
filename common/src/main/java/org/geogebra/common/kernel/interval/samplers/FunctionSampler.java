@@ -74,7 +74,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		} else if (domainInfo.hasPannedRight(domain)) {
 			extendDataToRight(domain);
 		}
-		processAsymptotes(data.tuples());
 		domainInfo.update(domain);
 	}
 
@@ -94,12 +93,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	private void evaluateAll() {
 		data.clear();
 		space.forEach(x -> data.append(x, function.value(x)));
-		processAsymptotes(data.tuples());
-	}
-
-	private static void processAsymptotes(IntervalTupleList samples) {
-		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
-		asymptotes.process();
 	}
 
 	private void extendDataToLeft(Interval domain) {
