@@ -137,11 +137,13 @@ public class ParserFunctionsFactory {
 		put(pf, 3, "ibeta", Operation.BETA_INCOMPLETE_REGULARIZED, null);
 
 		put(pf, 1, "gamma", Operation.GAMMA);
-
 		put(pf, 2, "gamma", Operation.GAMMA_INCOMPLETE, "( <a>, <x> )");
-
 		put(pf, 2, "gammaRegularized", Operation.GAMMA_INCOMPLETE_REGULARIZED,
 				"( <a>, <x> )");
+
+		put(pf, 1, "Dirac", Operation.DIRAC);
+		put(pf, 2, "Dirac", Operation.DIRAC, null);
+		put(pf, 1, "Heaviside", Operation.HEAVISIDE);
 
 		put(pf, 1, "cosIntegral", Operation.CI);
 		put(pf, 1, "sinIntegral", Operation.SI);

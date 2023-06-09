@@ -4456,4 +4456,23 @@ public class CommandsTest {
 		t("f(x)=x^3-Product(Sequence(x+k,k,1,-1,-1))", "x^(3) - (((x + 1) * (x)) * (x - 1))");
 		t("Degree(f)", "1");
 	}
+
+	@Test
+	public void cmdDirac() {
+		t("Dirac(-1)", "0");
+		t("Dirac(-1, 1)", "0");
+		t("Dirac(0)", "Infinity");
+		t("Dirac(0, 1)", "Infinity");
+		t("Dirac(12)", "0");
+		t("Dirac(123, 3)", "0");
+	}
+
+	@Test
+	public void cmdHeaviside() {
+		t("Heaviside(-10000)", "0");
+		t("Heaviside(-1)", "0");
+		t("Heaviside(0)", "1");
+		t("Heaviside(1)", "1");
+		t("Heaviside(10000)", "1");
+	}
 }
