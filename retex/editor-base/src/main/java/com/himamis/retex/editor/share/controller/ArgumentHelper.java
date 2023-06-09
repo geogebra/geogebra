@@ -3,6 +3,7 @@ package com.himamis.retex.editor.share.controller;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -19,152 +20,103 @@ public class ArgumentHelper {
 	 *            editor state
 	 * @param container
 	 *            function
-	 * @param passSingleArg Wheter or not to pass just a single argument
 	 */
-	public static void passArgument(EditorState editorState, MathContainer container,
-			boolean passSingleArg) {
-		MathSequence currentField = editorState.getCurrentField();
-		int currentOffset = editorState.getCurrentOffset();
+	public static void passArgument(EditorState editorState, MathContainer container) {
 		// get pass to argument
 		MathSequence field = (MathSequence) container
 				.getArgument(container.getInsertIndex());
-		while (currentOffset > 0
-				&& currentField.getArgument(currentOffset - 1) instanceof MathCharacter
-				&& " ".equals(currentField
-						.getArgument(currentOffset - 1).toString())) {
-			currentField.delArgument(currentOffset - 1);
-			currentOffset--;
+		while (editorState.getComponentLeftOfCursor() instanceof MathCharacter
+				&& " ".equals(editorState.getComponentLeftOfCursor().toString())) {
+			deleteLeftOfCursor(editorState);
 		}
+
 		// pass scripts first
-		while (currentOffset > 0 && currentField.isScript(currentOffset - 1)) {
-			MathFunction script = (MathFunction) currentField
-					.getArgument(currentOffset - 1);
-			currentField.delArgument(currentOffset - 1);
-			currentOffset--;
+		while (MathFunction.isScript(editorState.getComponentLeftOfCursor())) {
+			MathFunction script = (MathFunction) editorState.getComponentLeftOfCursor();
+			deleteLeftOfCursor(editorState);
 			field.addArgument(0, script);
 		}
-		editorState.setCurrentOffset(currentOffset);
 
-		if (currentOffset > 0) {
-			// if previous sequence argument are braces pass their content
-			if (currentField
-					.getArgument(currentOffset - 1) instanceof MathArray) {
+		// if previous sequence argument are braces pass their content
+		MathComponent leftOfCursor = editorState.getComponentLeftOfCursor();
+		if (leftOfCursor instanceof MathArray) {
 
-				MathArray array = (MathArray) currentField
-						.getArgument(currentOffset - 1);
-				currentField.delArgument(currentOffset - 1);
-				currentOffset--;
-				if (field.size() == 0) {
-					// here we already have sequence, just set it
-					if (array.size() > 1 || array.getOpenKey() != '(') {
-						MathSequence wrap = new MathSequence();
-						wrap.addArgument(array);
-						container.setArgument(container.getInsertIndex(), wrap);
-					} else {
-						container.setArgument(container.getInsertIndex(),
-								array.getArgument(0));
-					}
+			MathArray array = (MathArray) leftOfCursor;
+			deleteLeftOfCursor(editorState);
+			if (field.size() == 0) {
+				// here we already have sequence, just set it
+				if (array.size() > 1 || array.getOpenKey() != '(') {
+					MathSequence wrap = new MathSequence();
+					wrap.addArgument(array);
+					container.setArgument(container.getInsertIndex(), wrap);
 				} else {
-					field.addArgument(0, array);
+					container.setArgument(container.getInsertIndex(),
+							array.getArgument(0));
 				}
-
-				// if previous sequence argument is function, pass it
-			} else if (currentField.getArgument(currentOffset - 1) instanceof MathFunction) {
-
-				// Special case for recurring decimals, here we need to pass a single function and
-				// at least two characters
-				if (currentField.getArgument(currentOffset - 1).hasTag(Tag.RECURRING_DECIMAL)) {
-					currentOffset = passFunction(currentField, currentOffset, field);
-					editorState.setCurrentOffset(currentOffset);
-					passCharacters(editorState, container, passSingleArg);
-					currentOffset = editorState.getCurrentOffset();
-				} else {
-					currentOffset = passFunction(currentField, currentOffset, field);
-				}
-
-				// otherwise pass character sequence
 			} else {
-
-				passCharacters(editorState, container, passSingleArg);
-				currentOffset = editorState.getCurrentOffset();
+				field.addArgument(0, array);
 			}
+
+			// if previous sequence argument is function, pass it
+		} else if (leftOfCursor instanceof MathFunction) {
+			passFunction(editorState, field);
+			// Special case for recurring decimals, here we need to also pass
+			// at least 2 characters preceding the function
+			if (leftOfCursor.hasTag(Tag.RECURRING_DECIMAL)) {
+				passCharacters(editorState, container);
+			}
+			// otherwise pass character sequence
+		} else {
+
+			passCharacters(editorState, container);
 		}
-		editorState.setCurrentOffset(currentOffset);
 	}
 
 	/**
 	 * Passes a function from the current editor field into a function argument
-	 * @param currentField MathSequence
-	 * @param currentOffset Current offset
+	 * @param state editor state
 	 * @param field MathSequence of where to pass the arguments into
-	 * @return Current offset - 1
 	 */
-	private static int passFunction(MathSequence currentField, int currentOffset,
+	private static void passFunction(EditorState state,
 			MathSequence field) {
-		MathFunction function = (MathFunction) currentField
-				.getArgument(currentOffset - 1);
-		currentField.delArgument(currentOffset - 1);
+		MathComponent function = state.getComponentLeftOfCursor();
+		deleteLeftOfCursor(state);
 		field.addArgument(0, function);
-		return currentOffset - 1;
 	}
 
-	private static void passCharacters(EditorState editorState, MathContainer container,
-			boolean passSingleArg) {
-		int currentOffset = editorState.getCurrentOffset();
-		MathSequence currentField = editorState.getCurrentField();
+	private static void passCharacters(EditorState editorState, MathContainer container) {
+
 		// get pass to argument
 		MathSequence field = (MathSequence) container
 				.getArgument(container.getInsertIndex());
 
-		int offset;
-		if (passSingleArg) {
-			offset = passSingleCharacter(currentField, currentOffset, field);
-		} else {
-			offset = passCharacters(currentField, currentOffset, field);
-		}
-		editorState.setCurrentOffset(offset);
-	}
+		while (editorState.getComponentLeftOfCursor() instanceof MathCharacter) {
 
-	private static int passCharacters(MathSequence currentField, int initialOffset,
-			MathSequence field) {
-		int currentOffset = initialOffset;
-		while (currentOffset > 0 && currentField
-				.getArgument(currentOffset - 1) instanceof MathCharacter) {
-
-			MathCharacter character = (MathCharacter) currentField
-					.getArgument(currentOffset - 1);
+			MathCharacter character = (MathCharacter) editorState.getComponentLeftOfCursor();
 			if (character.isWordBreak()) {
 				break;
 			}
-			currentField.delArgument(currentOffset - 1);
-			currentOffset--;
+			deleteLeftOfCursor(editorState);
 			field.addArgument(0, character);
 		}
-		return currentOffset;
 	}
 
 	/**
 	 * Used to pass a single character, needed for passing arguments for recurring decimals <br>
 	 * Each overline has a single preceding character that needs to be passed
-	 * @param currentField MathSequence which's arguments are to be passed
-	 * @param currentOffset Current Offset
+	 * @param state editor state
 	 * @param field MathSequence of where to pass the arguments into
-	 * @param condition MathCharacter::isWordBreak
-	 * @return Initial Offset or Initial Offset - 1 (passing a maximum of one argument here)
 	 */
-	private static int passSingleCharacter(MathSequence currentField, int currentOffset,
+	public static void passSingleCharacter(EditorState state,
 			MathSequence field) {
-		if (currentField.getArgument(currentOffset - 1) instanceof MathCharacter) {
-
-			MathCharacter character = (MathCharacter) currentField
-					.getArgument(currentOffset - 1);
+		if (state.getComponentLeftOfCursor() instanceof MathCharacter) {
+			MathCharacter character = (MathCharacter) state.getComponentLeftOfCursor();
 			if (character.isWordBreak()) {
-				return currentOffset;
+				return;
 			}
-			currentField.delArgument(currentOffset - 1);
+			deleteLeftOfCursor(state);
 			field.addArgument(character);
 		}
-		return currentOffset - 1;
 	}
 
 	/**
@@ -192,5 +144,16 @@ public class ArgumentHelper {
 			stringBuilder.insert(0, character.getUnicodeString());
 		}
 		return stringBuilder.toString();
+	}
+
+	/**
+	 * Deletes character left to cursor and move cursor left.
+	 * Similar to deleteSingleArg in {@link InputController},
+	 * but not concerned about selection/function merging because this one is only called
+	 * when parsing.
+	 */
+	private static void deleteLeftOfCursor(EditorState state) {
+		state.getCurrentField().delArgument(state.getCurrentOffset() - 1);
+		state.decCurrentOffset();
 	}
 }
