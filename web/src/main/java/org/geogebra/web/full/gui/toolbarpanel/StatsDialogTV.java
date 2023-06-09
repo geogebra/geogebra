@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
@@ -63,8 +64,7 @@ public class StatsDialogTV extends ComponentDialog {
 							GColor.newColor(0, 0, 0, 0.87), false);
 					group.add(canvas);
 				} else {
-					Label valueLbl = new Label(value);
-					valueLbl.addStyleName("value");
+					Label valueLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(value, "value");
 					group.add(valueLbl);
 				}
 			}

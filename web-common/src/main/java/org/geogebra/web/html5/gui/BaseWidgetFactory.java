@@ -53,6 +53,10 @@ public class BaseWidgetFactory {
 		return primaryText;
 	}
 
+	public Label newPrimaryText(String text) {
+		return newPrimaryText(text, null);
+	}
+
 	public Label newSecondaryText(String text, String className) {
 		Label secondaryText = new Label(text);
 		if (className != null) {

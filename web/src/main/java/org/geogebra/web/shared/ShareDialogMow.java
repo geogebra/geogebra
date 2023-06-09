@@ -14,6 +14,7 @@ import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -192,7 +193,8 @@ public class ShareDialogMow extends ComponentDialog
 
 	private void buildMultiuserPanel(FlowPanel dialogContent) {
 		multiuserSwitch = new ComponentSwitch(material.isMultiuser(), null);
-		Label multiuserShareLbl = new Label(localization.getMenu("shareDialog.multiUser"));
+		Label multiuserShareLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				localization.getMenu("shareDialog.multiUser"), "linkShareOnOff");
 		Label multiuserHelpLbl = new Label(localization.getMenu("shareDialog.multiUserHelp"));
 
 		multiuserSharePanel = buildSwitcherPanel(dialogContent, multiuserSwitch,
@@ -205,8 +207,8 @@ public class ShareDialogMow extends ComponentDialog
 
 	private void buildShareByLinkPanel(FlowPanel dialogContent, String shareURL) {
 		shareSwitch = new ComponentSwitch(isMatShared(material), this::onSwitch);
-		linkShareOnOffLbl = new Label(localization.getMenu(
-				isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
+		linkShareOnOffLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(localization.getMenu(
+				isShareLinkOn() ? "linkShareOn" : "linkShareOff"), "linkShareOnOff");
 		linkShareHelpLbl = new Label(localization.getMenu(getLinkShareHelpLabelTextKey()));
 
 		buildSwitcherPanel(dialogContent, shareSwitch, SharedResources.INSTANCE.mow_link_black(),
@@ -228,7 +230,6 @@ public class ShareDialogMow extends ComponentDialog
 		FlowPanel textPanel = new FlowPanel();
 		textPanel.addStyleName("textPanel");
 
-		label.setStyleName("linkShareOnOff");
 		helpMsg.setStyleName("linkShareHelp");
 		textPanel.add(label);
 		textPanel.add(helpMsg);
@@ -253,8 +254,8 @@ public class ShareDialogMow extends ComponentDialog
 				SharedResources.INSTANCE.groups(), 48);
 		groupImgHolder.add(groupImg);
 		noGroupPanel.add(groupImgHolder);
-		Label noGroupsLbl = new Label(localization.getMenu("NoGroups"));
-		noGroupsLbl.setStyleName("noGroupsLbl");
+		Label noGroupsLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				localization.getMenu("NoGroups"), "noGroupsLbl");
 		Label noGroupsHelpLbl = new Label(localization.getMenu("NoGroupShareTxt"));
 		noGroupsHelpLbl.setStyleName("noGroupsHelpLbl");
 		noGroupPanel.add(noGroupsLbl);

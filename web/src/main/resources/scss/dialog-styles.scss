@@ -299,7 +299,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox, .dialogComponent {
+	.dialogComponent {
 		z-index: z-index.$z-dialog-over-keyboard;
 		background-color: colors.$white;
 		border-radius: 2px;
@@ -308,14 +308,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		padding-top: 24px;
 		box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
 		-webkit-box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
-
-		.Caption {
-			font-size: 125%;
-			margin-bottom: 20px;
-			color: colors.$text-primary;
-			border: none;
-			cursor: default;
-		}
 
 		.SymbolToggleButton:hover, .SymbolToggleButton:focus {
 			color: colors.$teal-default;
@@ -1015,7 +1007,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding: 20px 24px 24px 24px;
 
 			.textStyle {
-				color: colors.$text-primary;
+				//color: colors.$text-primary;
 			}
 
 			.captionStyle {
@@ -1226,7 +1218,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				display: block;
 				margin: 0px auto;
 				margin-top: 16px;
-				color: colors.$text-primary;
+				//color: colors.$text-primary;
 			}
 
 			.noGroupsHelpLbl {
@@ -1268,7 +1260,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.linkShareOnOff {
 					margin-top: 0px;
 					font-size: 100%;
-					color: colors.$text-primary;
+					//color: colors.$text-primary;
 					line-height: 16px;
 				}
 
@@ -1759,7 +1751,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.dialogTitle {
 			height: 24px;
 			font-size: 125%;
-			color: colors.$text-primary;
 			line-height: 1.2;
 		}
 
@@ -1794,7 +1785,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				.value {
-					color: colors.$text-primary;
+					//color: colors.$text-primary;
 				}
 			}
 
@@ -2015,7 +2006,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				width: 100%;
 				font-size: 87%;
 				font-weight: bold;
-				color: colors.$text-primary;
+				//color: colors.$text-primary;
 				margin-top: 16px;
 
 				&.with {
