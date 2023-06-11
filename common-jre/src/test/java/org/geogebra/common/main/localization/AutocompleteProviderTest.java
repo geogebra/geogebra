@@ -18,6 +18,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -67,6 +68,16 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 
 		assertEquals(0, getExactSyntaxMatchOf(config, Commands.InverseBinomial.name())
 						.count());
+	}
+
+	@Test
+	public void fractionalPartShouldNotBeeSuggested() {
+		getApp().setNewExam(ExamRegion.MMS);
+		getApp().startExam();
+		AutocompleteProvider provider = new AutocompleteProvider(getApp(), true);
+		assertEquals(0, provider.getCompletions("fractional").count());
+		getApp().clearRestrictions();
+		assertEquals(1, provider.getCompletions("fractional").count());
 	}
 
 	private Stream<AutocompleteProvider.Completion> getExactSyntaxMatchOf(AppConfig config,
