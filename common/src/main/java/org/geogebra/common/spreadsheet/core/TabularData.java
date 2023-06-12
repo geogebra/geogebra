@@ -1,4 +1,4 @@
-package org.geogebra.common.spreadsheet;
+package org.geogebra.common.spreadsheet.core;
 
 /**
  * Interacting with the structure and contents of tabular data.

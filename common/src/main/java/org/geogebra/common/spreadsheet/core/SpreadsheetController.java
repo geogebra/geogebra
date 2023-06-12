@@ -1,4 +1,6 @@
-package org.geogebra.common.spreadsheet;
+package org.geogebra.common.spreadsheet.core;
+
+import java.util.List;
 
 /**
  * A container for tabular data, with support for selecting parts of the data.
@@ -7,9 +9,7 @@ package org.geogebra.common.spreadsheet;
  */
 public final class SpreadsheetController implements TabularData, TabularSelection {
 
-	private Selection selection;
-
-//	private SparseTable<Cell> cells = new SparseTable<Cell>(Cell.class);
+	SpreadsheetSelectionController selections;
 
 	public SpreadsheetController(int initialNumberOfRows, int initialNumberOfColumns) {
 	}
@@ -67,21 +67,34 @@ public final class SpreadsheetController implements TabularData, TabularSelectio
 
 	@Override
 	public void clearSelection() {
+		selections.clearSelection();
 	}
 
 	@Override
 	public void selectRow(int row) {
+		selections.selectRow(row, false);
 	}
 
 	@Override
 	public void selectColumn(int column) {
+		selections.selectColumn(column, false);
 	}
 
 	@Override
-	public void select(Selection selection) {
+	public void select(Selection selection, boolean extend) {
+		selections.select(selection, extend);
 	}
 
 	@Override
 	public void selectAll() {
+		selections.selectAll();
+	}
+
+	public List<Selection> getSelection() {
+		return selections.selections();
+	}
+
+	public boolean isSelected(int x, int y) {
+		return selections.selections().stream().anyMatch(s -> s.contains(x, y));
 	}
 }
