@@ -132,11 +132,21 @@ public abstract class Analytics {
 		public static final String SYMBOLS = "symbols";
 	}
 
-	public static class InputSource {
-		public static final String ALGEBRA = "Algebra";
-		public static final String DATA_TABLE = "Data Table";
-		public static final String DISTRIBUTION = "Distribution";
-		public static final String SETTINGS = "Settings";
-		public static final String DIALOG = "Dialog";
+	public enum InputSource {
+		ALGEBRA("Algebra"),
+		DATA_TABLE("Data Table"),
+		DISTRIBUTION("Distribution"),
+		SETTINGS("Settings"),
+		DIALOG("Dialog");
+
+		private final String value;
+
+		InputSource(String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return value;
+		}
 	}
 }
