@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -41,8 +42,7 @@ public class CardInfoPanel extends FlowPanel {
 	}
 
 	private void addIdLabel(String id) {
-		idLabel = new Label(id);
-		idLabel.setStyleName("cardTitle");
+		idLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(id, "cardTitle");
 		add(idLabel);
 	}
 
