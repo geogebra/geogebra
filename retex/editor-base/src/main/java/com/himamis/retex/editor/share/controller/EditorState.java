@@ -20,7 +20,13 @@ public class EditorState {
 	private final SelectAllHandler selectAll;
 	private MathSequence rootComponent;
 
+	/**
+	 * The Container in which the cursor is currently placed
+	 */
 	private MathSequence currentField;
+	/**
+	 * The index of the cursor in the current Container
+	 */
 	private int currentOffset;
 
 	private MathComponent currentSelStart;

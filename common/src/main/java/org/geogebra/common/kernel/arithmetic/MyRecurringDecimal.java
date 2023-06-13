@@ -56,7 +56,11 @@ public class MyRecurringDecimal extends MyDouble {
 
 	@Override
 	public boolean equals(Object o) {
-		return super.equals(o);
+		if (o instanceof MyRecurringDecimal) {
+			return super.equals(o)
+					&& ((MyRecurringDecimal) o).representation.equals(this.representation);
+		}
+		return false;
 	}
 
 	@Override
@@ -88,9 +92,9 @@ public class MyRecurringDecimal extends MyDouble {
 	 * @return value
 	 */
 	public static double parseDouble(Localization app, String str) {
-		StringBuilder sb = appendChars(str, true);
+		StringBuilder sb = serializeDigits(str, true);
 		try {
-			return getValue(sb);
+			return parseRecurringDecimal(sb);
 		} catch (NumberFormatException e) {
 			// eg try to parse "1.2.3", "1..2"
 			throw new MyError(app, MyError.Errors.InvalidInput, str);
@@ -102,7 +106,7 @@ public class MyRecurringDecimal extends MyDouble {
 	 * @return Value of the recurring decimal as a fraction e.g. 1.3\u0305 -> 12/9 = 4/3
 	 * @throws NumberFormatException When trying to parse an invalid double e.g. 1.3.2\u0305
 	 */
-	private static double getValue(StringBuilder sb) throws NumberFormatException {
+	private static double parseRecurringDecimal(StringBuilder sb) throws NumberFormatException {
 		int repeatingDigits = (int) sb.chars().filter(ch -> ch == Unicode.OVERLINE).count();
 		int nonRepeatingDigits = sb.substring(sb.indexOf("."), sb.indexOf("\u0305")).length() - 2;
 

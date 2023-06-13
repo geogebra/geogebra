@@ -14,6 +14,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class ExpressionNodeEvaluatorTest extends BaseUnitTest {
 
 	@Test
@@ -62,6 +64,10 @@ public class ExpressionNodeEvaluatorTest extends BaseUnitTest {
 		ExpressionNode minusOne = parseExpression("-1");
 		assertThat(minusOne, notNullValue());
 		assertThat(minusOne.isSimpleNumber(), is(true));
+
+		ExpressionNode recurringDecimal = parseExpression("1.3" + Unicode.OVERLINE);
+		assertThat(recurringDecimal, notNullValue());
+		assertThat(recurringDecimal.isSimpleNumber(), is(false));
 	}
 
 	@Test

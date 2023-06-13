@@ -15,18 +15,17 @@ public class ArgumentHelper {
 
 	/**
 	 * Moves content from current editor field into a function argument
-	 * 
-	 * @param editorState
-	 *            editor state
-	 * @param container
-	 *            function
+	 * @param editorState editor state
+	 * @param container function
 	 */
 	public static void passArgument(EditorState editorState, MathContainer container) {
 		// get pass to argument
 		MathSequence field = (MathSequence) container
 				.getArgument(container.getInsertIndex());
 		while (editorState.getComponentLeftOfCursor() instanceof MathCharacter
-				&& " ".equals(editorState.getComponentLeftOfCursor().toString())) {
+				&& editorState.getComponentLeftOfCursor().toString().length() == 1
+				&& Character.isWhitespace(editorState.getComponentLeftOfCursor()
+					.toString().charAt(0))) {
 			deleteLeftOfCursor(editorState);
 		}
 
@@ -77,8 +76,7 @@ public class ArgumentHelper {
 	 * @param state editor state
 	 * @param field MathSequence of where to pass the arguments into
 	 */
-	private static void passFunction(EditorState state,
-			MathSequence field) {
+	private static void passFunction(EditorState state, MathSequence field) {
 		MathComponent function = state.getComponentLeftOfCursor();
 		deleteLeftOfCursor(state);
 		field.addArgument(0, function);
@@ -107,8 +105,7 @@ public class ArgumentHelper {
 	 * @param state editor state
 	 * @param field MathSequence of where to pass the arguments into
 	 */
-	public static void passSingleCharacter(EditorState state,
-			MathSequence field) {
+	public static void passSingleCharacter(EditorState state, MathSequence field) {
 		if (state.getComponentLeftOfCursor() instanceof MathCharacter) {
 			MathCharacter character = (MathCharacter) state.getComponentLeftOfCursor();
 			if (character.isWordBreak()) {
@@ -122,9 +119,7 @@ public class ArgumentHelper {
 	/**
 	 * Reads all characters to the right of the cursor until it encounters a
 	 * symbol
-	 * 
-	 * @param editorState
-	 *            current editor state
+	 * @param editorState current editor state
 	 * @return last string of characters
 	 */
 	public static String readCharacters(EditorState editorState,
