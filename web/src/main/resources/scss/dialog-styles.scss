@@ -1006,10 +1006,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			height: 252px;
 			padding: 20px 24px 24px 24px;
 
-			.textStyle {
-				//color: colors.$text-primary;
-			}
-
 			.captionStyle {
 				margin-top: 20px;
 				font-size: 75%;
@@ -1218,7 +1214,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				display: block;
 				margin: 0px auto;
 				margin-top: 16px;
-				//color: colors.$text-primary;
 			}
 
 			.noGroupsHelpLbl {
@@ -1260,7 +1255,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.linkShareOnOff {
 					margin-top: 0px;
 					font-size: 100%;
-					//color: colors.$text-primary;
 					line-height: 16px;
 				}
 
@@ -1783,10 +1777,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					color: colors.$text-secondary;
 					font-size: 12px;
 				}
-
-				.value {
-					//color: colors.$text-primary;
-				}
 			}
 
 			.dropDown {
@@ -2006,7 +1996,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				width: 100%;
 				font-size: 87%;
 				font-weight: bold;
-				//color: colors.$text-primary;
 				margin-top: 16px;
 
 				&.with {

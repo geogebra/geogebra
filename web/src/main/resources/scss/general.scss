@@ -102,4 +102,10 @@
 			background-color: $color;
 		}
 	}
+
+	@each $colorname, $color in $neutrals {
+		.fg-neutral-#{$colorname} {
+			color: $color;
+		}
+	}
 }

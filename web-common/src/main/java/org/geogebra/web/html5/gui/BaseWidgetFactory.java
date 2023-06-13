@@ -49,7 +49,7 @@ public class BaseWidgetFactory {
 		if (className != null) {
 			primaryText.setStyleName(className);
 		}
-		primaryText.addStyleName(Shades.NEUTRAL_900.getName());
+		primaryText.addStyleName(Shades.NEUTRAL_900.getFgColName());
 		return primaryText;
 	}
 
@@ -62,7 +62,7 @@ public class BaseWidgetFactory {
 		if (className != null) {
 			secondaryText.setStyleName(className);
 		}
-		secondaryText.addStyleName(Shades.NEUTRAL_700.getName());
+		secondaryText.addStyleName(Shades.NEUTRAL_700.getFgColName());
 		return secondaryText;
 	}
 }

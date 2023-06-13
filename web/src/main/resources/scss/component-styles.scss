@@ -25,7 +25,6 @@
 			margin-left: 20px;
 			margin-top: 8px;
 			margin-bottom: 8px;
-			//color: colors.$text-primary;
 			font-size: 100%;
 
 			&.disabled {
@@ -401,7 +400,6 @@
 				font-size: 125%;
 				margin-bottom: 20px;
 				margin-left: 24px;
-				//color: colors.$text-primary;
 			}
 
 			.dialogContent {
@@ -649,7 +647,6 @@
 
 		.title {
 			margin-bottom: 8px;
-			//color: colors.$text-primary;
 			font-size: 100%;
 			min-height: 20px;
 			line-height: 20px;
@@ -704,7 +701,6 @@
 			line-height: 36px;
 			margin-left: 16px;
 			font-size: 100%;
-			//color: colors.$text-primary;
 		}
 
 		&:hover {
@@ -929,7 +925,6 @@
 			.selectedOption {
 				height: 20px;
 				margin: 8px 8px 0 0;
-				//color: colors.$text-primary;
 			}
 
 			&.noLabel {
@@ -953,12 +948,6 @@
 
 		&:hover {
 			border-bottom: 2px solid colors.$text-primary;
-
-			.optionLabelHolder {
-				.label {
-					//color: colors.$text-primary;
-				}
-			}
 
 			.arrow {
 				opacity: 0.87;
