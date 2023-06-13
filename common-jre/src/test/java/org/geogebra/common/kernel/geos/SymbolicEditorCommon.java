@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -12,6 +14,7 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 public class SymbolicEditorCommon extends SymbolicEditor {
 	private final MathFieldCommon mf;
+	private Consumer<String> keyListener;
 
 	/**
 	 * @param mf wrapped field
@@ -20,11 +23,14 @@ public class SymbolicEditorCommon extends SymbolicEditor {
 	public SymbolicEditorCommon(MathFieldCommon mf, App app) {
 		super(app, app.getActiveEuclidianView());
 		this.mf = mf;
+		mf.getInternal().setFieldListener(this);
 	}
 
 	@Override
 	public void onKeyTyped(String key) {
-
+		if (keyListener != null) {
+			keyListener.accept(key);
+		}
 	}
 
 	@Override
@@ -71,5 +77,9 @@ public class SymbolicEditorCommon extends SymbolicEditor {
 	@Override
 	public void repaintBox(GGraphics2D g2) {
 
+	}
+
+	public void setKeyListener(Consumer<String> keyListener) {
+		this.keyListener = keyListener;
 	}
 }
