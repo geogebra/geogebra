@@ -296,4 +296,11 @@ class EditorChecker {
 	public void checkCursorNotInScript() {
 		assertFalse(mathField.getInternal().getEditorState().isInScript());
 	}
+
+	public EditorChecker select(int from, int to) {
+		EditorState state = mathField.getInternal().getEditorState();
+		state.setSelectionStart(state.getRootComponent().getArgument(from));
+		state.setSelectionEnd(state.getRootComponent().getArgument(to));
+		return this;
+	}
 }

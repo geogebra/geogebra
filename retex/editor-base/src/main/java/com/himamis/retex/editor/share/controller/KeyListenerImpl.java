@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.function.Function;
+
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
@@ -8,7 +10,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
  */
 public class KeyListenerImpl {
 
-	private InputController inputController;
+	private final InputController inputController;
 
 	/**
 	 * @param inputController
@@ -84,21 +86,9 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_LEFT:
-			boolean ret = CursorController.prevCharacter(editorState);
-			if (shiftPressed) {
-				editorState.extendSelection(true);
-			} else {
-				editorState.resetSelection();
-			}
-			return ret;
+			return handleLeftRight(editorState, true, shiftPressed);
 		case JavaKeyCodes.VK_RIGHT:
-			ret = CursorController.nextCharacter(editorState);
-			if (shiftPressed) {
-				editorState.extendSelection(false);
-			} else {
-				editorState.resetSelection();
-			}
-			return ret;
+			return handleLeftRight(editorState, false, shiftPressed);
 		case JavaKeyCodes.VK_UP:
 			return CursorController.upField(editorState);
 		case JavaKeyCodes.VK_DOWN:
@@ -123,6 +113,21 @@ public class KeyListenerImpl {
 			// InputController.deleteSelection(editorState);
 			return false;
 		}
+	}
+
+	private boolean handleLeftRight(EditorState editorState,
+			boolean left, boolean shiftPressed) {
+		boolean ret;
+		Function<EditorState, Boolean>
+				navigate = left ? CursorController::prevCharacter : CursorController::nextCharacter;
+		if (shiftPressed) {
+			ret = navigate.apply(editorState);
+			editorState.extendSelection(left);
+		} else {
+			ret = editorState.updateCursorFromSelection(left) || navigate.apply(editorState);
+			editorState.resetSelection();
+		}
+		return ret;
 	}
 
 	/**

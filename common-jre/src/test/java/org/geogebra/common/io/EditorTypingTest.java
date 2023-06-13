@@ -895,4 +895,16 @@ public class EditorTypingTest {
 	public void cursorInNoSubscript() {
 		checker.type("x_2").left(2).checkCursorNotInScript();
 	}
+
+	@Test
+	public void collapseSelectionOnArrowLeft() {
+		checker.insert("1+2+3+4").select(3, 5).left(1).type("x")
+				.checkAsciiMath("1+2x+3+4");
+	}
+
+	@Test
+	public void collapseSelectionOnArrowRight() {
+		checker.insert("1+2+3+4").select(3, 5).right(1).type("x")
+				.checkAsciiMath("1+2+3+x4");
+	}
 }

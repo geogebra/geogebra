@@ -349,4 +349,11 @@ public class MathArray extends MathContainer {
 	public boolean hasTag(Tag tag) {
 		return meta.getName() == tag;
 	}
+
+	@Override
+	public ArrayList<MathComponent> replaceArguments(int start, int end, MathComponent array) {
+		// works as expected if start = end; otherwise arguments start+1 to end remain unchanged
+		MathSequence argument = getArgument(start);
+		return argument.replaceArguments(0, argument.size() - 1, array);
+	}
 }

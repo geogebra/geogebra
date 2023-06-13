@@ -315,12 +315,8 @@ public class EditorState {
 	 */
 	public void cursorToSelectionStart() {
 		if (this.currentSelStart != null) {
-			if (this.currentSelStart.getParent() != null) {
-				currentField = (MathSequence) this.currentSelStart.getParent();
-			} else {
-				this.currentField = (MathSequence) this.currentSelStart;
-			}
-			this.currentOffset = currentField.indexOf(currentSelStart) + 1;
+			currentField = getClosestSequenceAncestor(currentSelStart);
+			currentOffset = currentSelEnd == currentField ? 0 : currentSelStart.getParentIndex();
 		}
 	}
 
@@ -329,13 +325,9 @@ public class EditorState {
 	 */
 	public void cursorToSelectionEnd() {
 		if (currentSelEnd != null) {
-			if (this.currentSelEnd.getParent() != null) {
-				this.currentField = (MathSequence) this.currentSelEnd
-						.getParent();
-			} else {
-				this.currentField = (MathSequence) this.currentSelEnd;
-			}
-			this.currentOffset = currentField.indexOf(currentSelEnd) + 1;
+			currentField = getClosestSequenceAncestor(currentSelEnd);
+			currentOffset = currentSelEnd == currentField
+					? rootComponent.size() : currentSelEnd.getParentIndex() + 1;
 		}
 	}
 
@@ -602,5 +594,28 @@ public class EditorState {
 		}
 
 		setSelectionEnd(currentSelStart);
+	}
+
+	/**
+	 * @param left whether to collapse to the left
+	 * @return whether selection was collapsed
+	 */
+	public boolean updateCursorFromSelection(boolean left) {
+		if (left && currentSelStart != null) {
+			cursorToSelectionStart();
+			return true;
+		} else if (currentSelEnd != null) {
+			cursorToSelectionEnd();
+			return true;
+		}
+		return false;
+	}
+
+	private MathSequence getClosestSequenceAncestor(MathComponent comp) {
+		MathComponent current = comp;
+		while (current.getParent() != null && !(current instanceof MathSequence)) {
+			current = current.getParent();
+		}
+		return current instanceof MathSequence ? (MathSequence) current : rootComponent;
 	}
 }
