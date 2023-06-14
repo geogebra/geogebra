@@ -3674,7 +3674,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return whether it's supported
 	 */
 	public final boolean has(Feature f) {
-		boolean whiteboard = isWhiteboardActive();
 		switch (f) {
 		// **********************************************************************
 		// MOBILE START
@@ -3733,7 +3732,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getPlatform());
+			return Platform.OFFLINE.equals(getPlatform());
 
 		// TRAC-4845
 		case LOG_AXES:
