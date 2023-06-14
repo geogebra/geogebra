@@ -307,7 +307,7 @@ public class DataDisplayModel {
 					if (normalCurve != null) {
 						normalCurve.remove();
 					}
-					if (settings.isHasOverlayNormal()) {
+					if (settings.isHasOverlayNormal() && settings.isOverlayEnabled()) {
 						normalCurve = statGeo
 								.createNormalCurveOverlay(dataListSelected);
 						plotGeoList.add(normalCurve);
