@@ -482,7 +482,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 								margin-bottom: 8px;
 								margin-top: 0px;
 								font-size: 100%;
-								color: colors.$text-primary;
+								color: neutral("900");
 								&::placeholder {
 									color: colors.$text-secondary;
 								}
@@ -553,7 +553,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 						margin-bottom: 8px;
 						margin-top: 0px;
 						font-size: 100%;
-						color: colors.$text-primary;
+						color: neutral("900");
 						&::placeholder {
 							color: colors.$text-secondary;
 						}
@@ -873,7 +873,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				align-items: center;
 				justify-content: center;
 				vertical-align: middle;
-				color: colors.$text-primary;
 				text-transform: uppercase;
 				transition: background-color 0.15s;
 
@@ -902,7 +901,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					padding: 6px;
 				}
 				.gwt-Label {
-					color: colors.$text-primary;
 					font-size: 100%;
 					margin: 10px auto 0px 12px;
 					cursor: pointer;
@@ -1294,7 +1292,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					align-items: center;
 					justify-content: center;
 					vertical-align: middle;
-					color: colors.$text-primary;
 					text-transform: uppercase;
 					transition: background-color 0.15s;
 

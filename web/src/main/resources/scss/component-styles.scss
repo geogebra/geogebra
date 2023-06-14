@@ -602,7 +602,6 @@
 					line-height: 20px;
 					margin: 14px 16px;
 					text-align: center;
-					color: colors.$text-primary;
 				}
 
 				&:hover {
@@ -819,7 +818,7 @@
 				background-color: transparent;
 				height: 20px;
 				display: flex;
-				color: colors.$text-primary;
+				color: neutral("900");
 			}
 
 			input[type=text]:focus:not([readonly]) {
@@ -1039,7 +1038,7 @@
 
 		&:not(.disabled):hover {
 			.inputLabel {
-				color: colors.$text-primary;
+				color: neutral("900");
 			}
 
 			.inputPanel {
