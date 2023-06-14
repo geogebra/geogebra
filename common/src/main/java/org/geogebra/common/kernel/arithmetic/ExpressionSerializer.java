@@ -1708,8 +1708,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 						sb.append("(");
 						sb.append(list.getListElement(i).toString(tpl));
 						sb.append(")-1");
-						sb.append("]");
 					}
+					sb.append("]");
 				} else {
 					sb.append(Ggb2giac.ELEMENT_2.replace("_", "\\_").replace("%0", leftStr)
 							.replace("%1", rightStr));
