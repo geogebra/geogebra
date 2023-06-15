@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 public class DefaultGeoPriorityComparator implements GeoPriorityComparator {
 
 	@Override
-	public double compare(GeoElement a, GeoElement b, boolean checkLastHitType) {
+	public int compare(GeoElement a, GeoElement b, boolean checkLastHitType) {
 		if (a.getLayer() - b.getLayer() != 0) {
 			return a.getLayer() - b.getLayer();
 		}

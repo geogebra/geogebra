@@ -54,7 +54,6 @@ public class OrderSubMenu extends AriaMenuBar {
 			ev.invalidateDrawableList();
 			app.dispatchEvent(new Event(EventType.ORDERING_CHANGE, null,
 					layerManager.getOrder()));
-			app.getKernel().storeUndoInfo();
 		};
 	}
 }

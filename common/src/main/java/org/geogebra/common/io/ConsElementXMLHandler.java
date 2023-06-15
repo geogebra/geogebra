@@ -1861,7 +1861,7 @@ public class ConsElementXMLHandler {
 
 	private void handleOrdering(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setOrdering(Integer.parseInt(attrs.get("val")));
+			geo.setOrdering(Double.parseDouble(attrs.get("val")));
 		} catch (RuntimeException e) {
 			// no or incorrect ordering
 		}

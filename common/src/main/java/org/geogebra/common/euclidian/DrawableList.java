@@ -35,7 +35,7 @@ public class DrawableList extends ArrayList<Drawable> {
 		this.comparator = new Comparator<Drawable>() {
 			@Override
 			public int compare(Drawable a, Drawable b) {
-				return (int) comparator.compare(a.geo, b.geo, false);
+				return comparator.compare(a.geo, b.geo, false);
 			}
 		};
 	}
