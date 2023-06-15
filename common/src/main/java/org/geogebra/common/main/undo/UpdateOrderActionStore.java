@@ -14,6 +14,7 @@ public class UpdateOrderActionStore {
 
 	private final List<String> updatedXML = new ArrayList<>();
 	private final ArrayList<GeoElement> geos;
+	public static final String DEL = "DEL -";
 
 	/**
 	 * @param geosAsList selected geos
@@ -21,14 +22,19 @@ public class UpdateOrderActionStore {
 	public UpdateOrderActionStore(ArrayList<GeoElement> geosAsList) {
 		this.geos = geosAsList;
 		for (GeoElement geo: geosAsList) {
-			initialXML.add(geo.getStyleXML());
+			initialXML.add(geo.getLabelSimple() + DEL + geo.getOrdering());
+
 		}
 		this.undoManager = geosAsList.get(0).getConstruction().getUndoManager();
 	}
 
+	/***
+	 * stores updated ordering values
+	 * @param geosAsList geos
+	 */
 	public void updateOrder(ArrayList<GeoElement> geosAsList) {
 		for (GeoElement geo: geosAsList) {
-			updatedXML.add(geo.getStyleXML());
+			updatedXML.add(geo.getLabelSimple() + DEL + geo.getOrdering());
 		}
 	}
 
@@ -37,8 +43,8 @@ public class UpdateOrderActionStore {
 	 */
 	public void storeUndo() {
 		String[] labels = geos.stream().map(GeoElement::getLabelSimple).toArray(String[]::new);
-		undoManager.buildAction(ActionType.UPDATE, updatedXML.toArray(new String[0]))
-				.withUndo(ActionType.UPDATE, initialXML.toArray(new String[0]))
+		undoManager.buildAction(ActionType.UPDATE_ORDERING, updatedXML.toArray(new String[0]))
+				.withUndo(ActionType.UPDATE_ORDERING, initialXML.toArray(new String[0]))
 				.withLabels(labels)
 				.storeAndNotifyUnsaved();
 	}

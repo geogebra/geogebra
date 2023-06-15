@@ -14,6 +14,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.junit.Assert;
 import org.junit.Before;
@@ -57,12 +58,9 @@ public class LayerManagerTest extends BaseControllerTest {
 
 	@Test
 	public void testMoveForward() {
- 		layerManager.moveForward(asList(geos[3], geos[5], geos[9]));
-		//assertSorted(geos, asList(0f, 1f, 2f, 4f, 6f, 7f, 8f, 9f, 10f, 11f));
+		layerManager.moveForward(asList(geos[3], geos[5], geos[9]));
 		assertSorted(geos, asList(0d, 1d, 2d, 4d, 6d, 7d, 8d, 9d, 10d, 11d));
-
 		layerManager.moveForward(Collections.singletonList(geos[0]));
-		//assertSorted(geos, asList(1f, 1.5f, 2f, 4f, 6f, 7f, 8f, 9f, 10f, 11f));
 		assertSorted(geos, asList(1d, 1.5d, 2d, 4d, 6d, 7d, 8d, 9d, 10d, 11d));
 	}
 
@@ -83,12 +81,26 @@ public class LayerManagerTest extends BaseControllerTest {
 	@Test
 	public void testMoveForwardWithUndoSingle() {
 		layerManager.moveForward(asList(geos[3]));
-		assertSorted(geos, asList(0d, 1d, 2d, 4d, 3d, 5d, 6d, 7d, 8d, 9d));
+		assertSorted(geos, asList(0d, 1d, 2d, 4d, 4.5d, 5d, 6d, 7d, 8d, 9d));
 		getConstruction().undo();
 		assertSorted(geos, asList(0d, 1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d));
 		getConstruction().redo();
 		layerManager.moveForward(Collections.singletonList(geos[9]));
-		assertSorted(geos, asList(0d, 1d, 2d, 4d, 3d, 5d, 6d, 7d, 8d, 9d));
+		assertSorted(geos, asList(0d, 1d, 2d, 4d, 4.5d, 5d, 6d, 7d, 8d, 9d));
+	}
+
+	@Test
+	public void testMoveBackwardWithUndoRedo() {
+		layerManager.moveBackward(asList(geos[0], geos[9]));
+		assertSorted(geos, asList(-1.0d, 0.0d, 1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d));
+		//assertOrdering(0, 9, 1, 2, 3, 4, 5, 6, 7, 8);
+
+		layerManager.moveBackward(asList(geos[3], geos[5], geos[6]));
+		assertSorted(geos, asList(-1.0, 0.0, 1d, 1.25, 1.5, 1.75, 2d, 4d, 7d, 8d));
+		getConstruction().undo();
+		assertSorted(geos, asList(-1.0d, 0.0d, 1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d));
+		getConstruction().redo();
+		assertSorted(geos, asList(-1.0, 0.0, 1d, 1.25, 1.5, 1.75, 2d, 4d, 7d, 8d));
 	}
 
 	@Test
@@ -99,7 +111,6 @@ public class LayerManagerTest extends BaseControllerTest {
 
 		layerManager.moveBackward(asList(geos[3], geos[5], geos[6]));
 		assertSorted(geos, asList(-1.0, 0.0, 1d, 1.25, 1.5, 1.75, 2d, 4d, 7d, 8d));
-	//	assertOrdering(0, 9, 1, 3, 5, 6, 2, 4, 7, 8);
 	}
 
 	@Test
@@ -109,7 +120,6 @@ public class LayerManagerTest extends BaseControllerTest {
 
 		layerManager.moveToFront(asList(geos[3], geos[7]));
 		assertSorted(geos, asList(0d, 1d, 2d, 4d, 5d, 6d, 8d, 9d, 10d, 11d));
-
 	}
 
 	@Test
@@ -141,12 +151,18 @@ public class LayerManagerTest extends BaseControllerTest {
 	}
 
 	static void assertOrdering(GeoElement[] geos, int... newOrder) {
+
+		List<GeoElement> sorted = Arrays.stream(geos).sorted(Group.orderComparator)
+						.collect(Collectors.toList());
 		assertEquals(geos.length, newOrder.length);
-		List<Double> actual = new ArrayList<>();
-		List<Double> expected = new ArrayList<>();
-		for (int i = 0; i < geos.length; i++) {
-			actual.add(geos[newOrder[i]].getOrdering());
-			expected.add((double)i);
+		List<Integer> actual = new ArrayList<>();
+		List<Integer> expected = new ArrayList<>();
+
+		int [] expectedVals = Arrays.stream(newOrder).toArray();
+
+		for (int i = 0; i < sorted.size(); i++) {
+			actual.add(Integer.parseInt(sorted.get(i).getLabelSimple().substring(1)));
+			expected.add(expectedVals[i]);
 		}
 
 		// assert once to have nice output when failing.

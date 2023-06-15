@@ -42,6 +42,13 @@ public class ConstructionActionExecutor
 				}
 				app.getActiveEuclidianView().invalidateDrawableList();
 			}
+		} else  if (action == ActionType.UPDATE_ORDERING) {
+			for (String arg: args) {
+				String [] split = arg.split(DEL);
+				GeoElement geo = app.getKernel().lookupLabel(split[0]);
+				app.getKernel().getConstruction().getLayerManager()
+						.updateDrawingList(geo, Double.parseDouble(split[1]));
+			}
 		} else if (action == ActionType.SET_CONTENT) {
 			GeoElement geo = app.getKernel().lookupLabel(args[0]);
 			if (geo instanceof GeoInline) {
