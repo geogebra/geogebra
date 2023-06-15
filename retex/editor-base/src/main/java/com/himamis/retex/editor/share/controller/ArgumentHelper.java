@@ -36,7 +36,7 @@ public class ArgumentHelper {
 			field.addArgument(0, script);
 		}
 
-		// if previous sequence argument are braces pass their content
+		// if previous sequence arguments are braces pass their content
 		MathComponent leftOfCursor = editorState.getComponentLeftOfCursor();
 		if (leftOfCursor instanceof MathArray) {
 

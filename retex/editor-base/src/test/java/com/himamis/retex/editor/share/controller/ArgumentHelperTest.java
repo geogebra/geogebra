@@ -1,6 +1,8 @@
 package com.himamis.retex.editor.share.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -11,6 +13,12 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 
+/**
+ * Test class for the ArgumentHelper <br>
+ * Note: In EditorParserTest numerous specific inputs are tested for correct
+ * parsing and serialization. These tests also make use of the ArgumentHelper when parsing
+ * fractions, mixed numbers, and recurring decimals.
+ */
 public class ArgumentHelperTest {
 
 	private final MetaModel metaModel = new MetaModel();
@@ -21,50 +29,80 @@ public class ArgumentHelperTest {
 	private final MathCharacter mathCharacterTwo =
 			new MathCharacter(new MetaCharacter("2", '2', 1));
 
+	/**
+	 * Checks whether parsing e.g. 1&nbsp;&nbsp;&nbsp;&nbsp;/2 deletes all whitespace characters
+	 */
 	@Test
-	public void testFractionNumerator() {
-		MathFunction fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
-		MathSequence numerator = new MathSequence();
-		numerator.addArgument(mathCharacterOne);
+	public void shouldNotParseWhitespaces() {
+		MathFunction fraction;
+		MathSequence numerator;
+		MathCharacter whitespace;
 
-		fraction.setArgument(0, numerator);
-		editorState.setCurrentField(numerator);
-		ArgumentHelper.passArgument(editorState, fraction);
+		// Test for every whitespace available
+		for (char ch = 0; ch < Character.MAX_VALUE; ch++) {
+			if (Character.isWhitespace(ch)) {
+				whitespace = new MathCharacter(new MetaCharacter(Character.toString(ch), ch, 1));
 
-		assertEquals(mathCharacterOne, fraction.getArgument(0).getArgument(0));
+				numerator = new MathSequence();
+				numerator.addArgument(mathCharacterOne);
+				numerator.addArgument(whitespace);
+
+				fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
+				fraction.setArgument(0, numerator);
+
+				editorState.setCurrentField(numerator);
+				editorState.setCurrentOffset(numerator.size());
+				ArgumentHelper.passArgument(editorState, fraction);
+
+				//There should be no whitespaces passed
+				assertEquals(mathCharacterOne, fraction.getArgument(0).getArgument(0));
+				assertEquals(1, fraction.getArgument(0).size());
+				assertNull(fraction.getArgument(1));
+			}
+		}
 	}
 
+	/**
+	 * Checks whether one, and only one, single character gets passed
+	 * @see ArgumentHelper#passSingleCharacter(EditorState, MathSequence)
+	 */
 	@Test
-	public void testMixedNumbers() {
-		MathFunction mixedNumber = new MathFunction(metaModel.getGeneral(Tag.MIXED_NUMBER));
-		MathSequence whole = new MathSequence();
-		whole.addArgument(mathCharacterOne);
-		MathSequence numerator = new MathSequence();
-		numerator.addArgument(mathCharacterTwo);
+	public void passOnlySingleCharacter() {
+		// Create a MathSequence with two arguments (MathCharacter)
+		MathSequence passFrom = new MathSequence();
+		passFrom.addArgument(mathCharacterOne);
+		passFrom.addArgument(mathCharacterTwo);
 
-		mixedNumber.setArgument(0, whole);
-		editorState.setCurrentField(whole);
-		ArgumentHelper.passArgument(editorState, mixedNumber);
+		MathSequence passTo = new MathSequence();
+		editorState.setCurrentField(passFrom);
+		editorState.setCurrentOffset(passFrom.size());
 
-		assertEquals(mathCharacterOne, mixedNumber.getArgument(0).getArgument(0));
+		ArgumentHelper.passSingleCharacter(editorState, passTo);
 
-		mixedNumber.setArgument(1, numerator);
-		ArgumentHelper.passArgument(editorState, mixedNumber);
-
-		assertEquals(mathCharacterTwo, mixedNumber.getArgument(1).getArgument(0));
+		//Expecting only one character to be passed
+		assertEquals(1, passTo.size());
+		assertEquals(mathCharacterTwo, passTo.getArgument(0));
 	}
 
+	/**
+	 * Checks whether the tested method reads only MathCharacters and not e.g. MathFunctions
+	 * @see ArgumentHelper#readCharacters(EditorState, int)
+	 */
 	@Test
-	public void testRecurringDecimals() {
-		MathFunction recurringDecimal =
-				new MathFunction(metaModel.getGeneral(Tag.RECURRING_DECIMAL));
-		MathSequence repeatingDigit = new MathSequence();
-		repeatingDigit.addArgument(mathCharacterOne);
+	public void readOnlyCharacters() {
+		MathSequence sequence = new MathSequence();
+		sequence.addArgument(new MathFunction(metaModel.getGeneral(Tag.LIM_EQ)));
+		sequence.addArgument(mathCharacterOne);
+		sequence.addArgument(mathCharacterTwo);
 
-		recurringDecimal.setArgument(0, repeatingDigit);
-		editorState.setCurrentField(repeatingDigit);
-		ArgumentHelper.passSingleCharacter(editorState, repeatingDigit);
+		editorState.setCurrentField(sequence);
 
-		assertEquals(mathCharacterOne, recurringDecimal.getArgument(0).getArgument(0));
+		// "12" is expected since we do not want to read anything other than MathCharacters
+		assertEquals("12", ArgumentHelper.readCharacters(editorState, sequence.size()));
+
+		sequence.addArgument(new MathSequence());
+
+		// Empty string expected, since the last argument is not a MathCharacter
+		assertTrue(ArgumentHelper.readCharacters(editorState, sequence.size()).isEmpty());
 	}
 }
