@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Replaces the xcoode, ycoord and zcoord operations
+ * Replaces the xcoord, ycoord and zcoord operations
  * with a function_or_multiply operation.
  */
 public class CoordMultiplyReplacer implements Traversing {
@@ -37,17 +37,17 @@ public class CoordMultiplyReplacer implements Traversing {
 	private ExpressionValue processExpressionNode(ExpressionNode node) {
 		switch (node.getOperation()) {
 		case XCOORD:
-			if (xVar != null && !leftHasCoord(node)) {
+			if (xVar != null && !leftHasCoord(node) && !leftIsVariable(node)) {
 				return asMultiplication(node, xVar);
 			}
 			return node;
 		case YCOORD:
-			if (yVar != null && !leftHasCoord(node)) {
+			if (yVar != null && !leftHasCoord(node) && !leftIsVariable(node)) {
 				return asMultiplication(node, yVar);
 			}
 			return node;
 		case ZCOORD:
-			if (zVar != null && !leftHasCoord(node)) {
+			if (zVar != null && !leftHasCoord(node) && !leftIsVariable(node)) {
 				return asMultiplication(node, zVar);
 			}
 			return node;
@@ -68,5 +68,10 @@ public class CoordMultiplyReplacer implements Traversing {
 		return left.evaluatesToNDVector()
 				|| left.getValueType() == ValueType.COMPLEX
 				|| (left.unwrap() instanceof GeoLine);
+	}
+
+	private boolean leftIsVariable(ExpressionNode node) {
+		ExpressionValue left = node.getLeft();
+		return left instanceof ExpressionNode && ((ExpressionNode) left).getLeft().isVariable();
 	}
 }
