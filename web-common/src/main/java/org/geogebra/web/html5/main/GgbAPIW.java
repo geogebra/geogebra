@@ -915,16 +915,6 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * Remember where file was stored in WinStore app
-	 * 
-	 * @param s
-	 *            external saving path
-	 */
-	public void setExternalPath(String s) {
-		((AppW) app).setExternalPath(s);
-	}
-
-	/**
 	 * If all content is saved, run immediately, otherwise wait until user
 	 * saves.
 	 * 
@@ -933,6 +923,15 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void checkSaved(final JsRunnable callback) {
 		((AppW) app).checkSaved(active -> JsEval.callNativeFunction(callback));
+	}
+
+	@Override
+	public void setPerspective(String code) {
+		if (code.startsWith("save:")) {
+			app.getDialogManager().showSaveDialog();
+			return;
+		}
+		super.setPerspective(code);
 	}
 
 	/**

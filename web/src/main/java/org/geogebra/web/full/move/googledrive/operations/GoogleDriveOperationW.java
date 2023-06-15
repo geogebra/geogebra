@@ -288,7 +288,7 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 	}
 
 	private void showUploadError() {
-		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog(true).hide();
 		DialogData data = new DialogData(null, null, "OK");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
 		Label label = new Label(app.getLocalization().getMenu("GoogleDriveSaveProblem"));
@@ -337,7 +337,7 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 
 	private void updateAfterGoogleDriveSave(String id, String fileName, boolean isggb) {
 		app.getSaveController().runAfterSaveCallback(true);
-		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog(true).hide();
 		SaveCallback.onSaved(app, SaveState.OK, !isggb);
 		if (isggb) {
 			refreshCurrentFileDescriptors(fileName);

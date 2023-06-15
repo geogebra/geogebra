@@ -743,9 +743,6 @@ public class DefaultExportedApi implements ExportedApi {
 		return false;
 	}
 
-	public void setExternalPath(String path) {
-		getGgbAPI().setExternalPath(path + "");
-	}
 
 	public void checkSaved(JsRunnable path) {
 		getGgbAPI().checkSaved(path);

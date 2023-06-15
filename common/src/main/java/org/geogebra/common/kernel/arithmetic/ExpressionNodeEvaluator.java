@@ -1358,7 +1358,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue rt, int skip) {
 		// TODO not implemented #1115
 		if (lt instanceof GeoList && rt instanceof ListValue) {
-
 			GeoList sublist = (GeoList) lt;
 			ListValue lv = (ListValue) rt;
 			int idx = -1;
