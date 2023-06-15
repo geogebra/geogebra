@@ -26,8 +26,7 @@ public class DistributionPanelSuite extends DistributionPanel {
 		buildDistrComboBox(this);
 		initCumulativeWidget();
 		resultPanel = new ResultPanelW(getView().getApp(), this);
-		intervalsLbl = new Label();
-		intervalsLbl.setStyleName("intervalsLbl");
+		intervalsLbl = BaseWidgetFactory.INSTANCE.newSecondaryText("", "intervalsLbl");
 		add(intervalsLbl);
 		buildModeGroupWithResult();
 		super.buildParameterPanel(this);

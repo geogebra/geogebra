@@ -71,9 +71,9 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 
 		if (subTitleHTML != null) {
 			addStyleName("withSubtitle");
-			Label subTitle = new Label();
+			Label subTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					"", "dialogSubTitle");
 			subTitle.getElement().setInnerHTML(subTitleHTML);
-			subTitle.setStyleName("dialogSubTitle");
 			dialogMainPanel.add(subTitle);
 		}
 	}

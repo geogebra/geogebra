@@ -429,7 +429,6 @@
 				margin-left: 24px;
 				height: 14px;
 				font-size: 75%;
-				color: colors.$text-secondary;
 				line-height: 1.2;
 			}
 		}
@@ -571,7 +570,7 @@
 			text-transform: uppercase;
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
-			color: colors.$text-secondary;
+			color: neutral("700");
 		}
 	}
 
@@ -654,7 +653,6 @@
 		}
 
 		.subtext {
-			color: colors.$text-secondary;
 			font-size: 87%;
 			min-height: 20px;
 			line-height: 20px;

@@ -45,8 +45,8 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 		}
 
 		if (data.getSubtext() != null) {
-			Label subtextLabel = new Label(loc.getMenu(data.getSubtext()));
-			subtextLabel.setStyleName("subtext");
+			Label subtextLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					loc.getMenu(data.getSubtext()), "subtext");
 			add(subtextLabel);
 		}
 

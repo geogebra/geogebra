@@ -65,4 +65,8 @@ public class BaseWidgetFactory {
 		secondaryText.addStyleName(Shades.NEUTRAL_700.getFgColName());
 		return secondaryText;
 	}
+
+	public Label newSecondaryText(String text) {
+		return newSecondaryText(text, null);
+	}
 }
