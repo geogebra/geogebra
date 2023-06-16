@@ -2014,4 +2014,27 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		showLabel(geo);
 		assertThat(geo.getAlgebraDescriptionDefault(), startsWith("f(x)"));
 	}
+
+	/**
+	 * APPS-4889
+	 */
+	@Test
+	public void testShouldNotChangeToMultiplication() {
+		t("f(x) = x^2", "x^(2)");
+		t("A = (2, 4, 6)", "(2, 4, 6)");
+
+		t("h(t) = t^3", "t^(3)");
+		t("B = (4, 8)", "(4, 8)");
+
+		t("f(x(A))", "4");
+		t("f'(x(A))", "4");
+		t("f(y(A))", "16");
+		t("f'(z(A))", "12");
+
+		t("h(x(B))", "64");
+		t("h'(y(B))", "192");
+
+		t("Integral(f,x,0,x(A))", "8 / 3");
+		t("Integral(f,0,x(A))", "8 / 3");
+	}
 }

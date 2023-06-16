@@ -71,7 +71,6 @@ public class CoordMultiplyReplacer implements Traversing {
 	}
 
 	private boolean leftIsVariable(ExpressionNode node) {
-		ExpressionValue left = node.getLeft();
-		return left instanceof ExpressionNode && ((ExpressionNode) left).getLeft().isVariable();
+		return node.getLeft().unwrap().isVariable();
 	}
 }
