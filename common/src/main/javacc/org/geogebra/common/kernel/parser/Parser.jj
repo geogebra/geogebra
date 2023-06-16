@@ -295,12 +295,12 @@ public class Parser implements ParserInterface {
         return d;
     }
 
-    private MyRecurringDecimal parseRecurringDecimal(String image, boolean percent) {
-		double val = MyRecurringDecimal.parseDouble(loc, image);
+    private RecurringDecimal parseRecurringDecimal(String image, boolean percent) {
+		double val = RecurringDecimal.parseDouble(loc, image);
 		if (percent) {
 			val = val * 0.01;
 		}
-		return new MyRecurringDecimal(kernel, val, image);
+		return new RecurringDecimal(kernel, val, image);
     }
 
 }

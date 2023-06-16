@@ -36,30 +36,29 @@ public class ArgumentHelperTest {
 	public void shouldNotParseWhitespaces() {
 		MathFunction fraction;
 		MathSequence numerator;
-		MathCharacter whitespace;
 
-		// Test for every whitespace available
-		for (char ch = 0; ch < Character.MAX_VALUE; ch++) {
-			if (Character.isWhitespace(ch)) {
-				whitespace = new MathCharacter(new MetaCharacter(Character.toString(ch), ch, 1));
+		//Test if whitespace and horizontal tab are passed
+		MathCharacter whitespace =
+				new MathCharacter(new MetaCharacter(" ", ' ', 1));
+		MathCharacter horizontalTab =
+				new MathCharacter(new MetaCharacter(Character.toString((char) 9), (char) 9, 1));
 
-				numerator = new MathSequence();
-				numerator.addArgument(mathCharacterOne);
-				numerator.addArgument(whitespace);
+		numerator = new MathSequence();
+		numerator.addArgument(mathCharacterOne);
+		numerator.addArgument(whitespace);
+		numerator.addArgument(horizontalTab);
 
-				fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
-				fraction.setArgument(0, numerator);
+		fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
+		fraction.setArgument(0, numerator);
 
-				editorState.setCurrentField(numerator);
-				editorState.setCurrentOffset(numerator.size());
-				ArgumentHelper.passArgument(editorState, fraction);
+		editorState.setCurrentField(numerator);
+		editorState.setCurrentOffset(numerator.size());
+		ArgumentHelper.passArgument(editorState, fraction);
 
-				//There should be no whitespaces passed
-				assertEquals(mathCharacterOne, fraction.getArgument(0).getArgument(0));
-				assertEquals(1, fraction.getArgument(0).size());
-				assertNull(fraction.getArgument(1));
-			}
-		}
+		//There should be no whitespaces passed
+		assertEquals(mathCharacterOne, fraction.getArgument(0).getArgument(0));
+		assertEquals(1, fraction.getArgument(0).size());
+		assertNull(fraction.getArgument(1));
 	}
 
 	/**

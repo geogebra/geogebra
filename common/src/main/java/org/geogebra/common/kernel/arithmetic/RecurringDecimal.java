@@ -11,7 +11,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Class for recurring decimals e.g. 1.23\u03054\u0305
  */
-public class MyRecurringDecimal extends MyDouble {
+public class RecurringDecimal extends MyDouble {
 
 	private final String representation;
 
@@ -20,16 +20,16 @@ public class MyRecurringDecimal extends MyDouble {
 	 * @param val Value
 	 * @param representation Representation of the recurring decimal
 	 */
-	public MyRecurringDecimal(Kernel kernel, double val, String representation) {
+	public RecurringDecimal(Kernel kernel, double val, String representation) {
 		super(kernel, val);
 		this.representation = representation;
 	}
 
 	/**
 	 * Copy constructor
-	 * @param rd MyRecurringDecimal
+	 * @param rd RecurringDecimal
 	 */
-	public MyRecurringDecimal(MyRecurringDecimal rd) {
+	public RecurringDecimal(RecurringDecimal rd) {
 		super(rd);
 		this.representation = rd.representation;
 	}
@@ -44,21 +44,21 @@ public class MyRecurringDecimal extends MyDouble {
 
 	@Override
 	public MyDouble getNumber() {
-		return new MyRecurringDecimal(this);
+		return new RecurringDecimal(this);
 	}
 
 	@Override
-	public MyRecurringDecimal deepCopy(Kernel kernel) {
-		MyRecurringDecimal ret = new MyRecurringDecimal(this);
+	public RecurringDecimal deepCopy(Kernel kernel) {
+		RecurringDecimal ret = new RecurringDecimal(this);
 		ret.kernel = kernel;
 		return ret;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof MyRecurringDecimal) {
+		if (o instanceof RecurringDecimal) {
 			return super.equals(o)
-					&& ((MyRecurringDecimal) o).representation.equals(this.representation);
+					&& ((RecurringDecimal) o).representation.equals(this.representation);
 		}
 		return false;
 	}

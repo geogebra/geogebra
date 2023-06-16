@@ -3632,7 +3632,7 @@ public class ExpressionNode extends ValidExpression
 		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
 			return false;
 		}
-		if (unwrap instanceof MyRecurringDecimal) {
+		if (unwrap instanceof RecurringDecimal) {
 			return false;
 		}
 		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
