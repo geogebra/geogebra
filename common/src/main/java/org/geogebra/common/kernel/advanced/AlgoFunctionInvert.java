@@ -308,8 +308,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 								&& ((ExpressionNode) right).getOperation()
 										.equals(Operation.DIVIDE)) {
 							// special case for x^(a/b) convert to x^(b/a)
-							// AbstractApplication.debug("special case for
-							// x^(a/b) convert to x^(b/a)");
 
 							ExpressionValue num = ((ExpressionNode) right)
 									.getLeft();
@@ -361,7 +359,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 					}
 					root = left;
 				} else {
-					// AbstractApplication.debug("failed at POWER");
 					return null;
 				}
 				break;
@@ -372,10 +369,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 						&& (right.contains(oldFV))) {
 					return null;
 				}
-				// AbstractApplication.debug("left"+((ExpressionNode)
-				// root).getLeft().isConstant());
-				// AbstractApplication.debug("right"+((ExpressionNode)
-				// root).getRight().isConstant());
 
 				if (!fvLeft) {
 					newRoot = new ExpressionNode(kernel, newRoot,
@@ -431,8 +424,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 				root = null;
 				break;
 			default: // eg ABS, CEIL etc
-				// AbstractApplication.debug("failed at"+ ((ExpressionNode)
-				// root).getOperation().toString());
 				return null;
 			}
 		}

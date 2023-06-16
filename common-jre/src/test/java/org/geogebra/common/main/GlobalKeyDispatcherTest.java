@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Before;
@@ -30,7 +31,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 	public void moveWithArrowPoints() {
 		GeoElement pt = add("(1,1)");
 		GeoElement list = add("{(1,1)}");
-		getApp().getSelectionManager().addSelectedGeo(pt);
+		selectGeo(pt);
 		handleKey(KeyCodes.UP, Arrays.asList(pt, list));
 		assertThat(pt, hasValue("(1, 1.1)"));
 		assertThat(list, hasValue("{(1, 1.1)}"));
@@ -38,6 +39,10 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		handleKey(KeyCodes.DOWN, Arrays.asList(pt, list));
 		assertThat(pt, hasValue("(1, 1)"));
 		assertThat(list, hasValue("{(1, 1.1)}"));
+	}
+
+	private void selectGeo(GeoElement pt) {
+		getApp().getSelectionManager().addSelectedGeo(pt);
 	}
 
 	@Test
@@ -67,5 +72,29 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		dispatcher.handleSelectedGeosKeys(
 				keyCodes, selection,
 				false, false, false, false);
+	}
+
+	@Test
+	public void handleSpaceOnIndependentBoolean() {
+		GeoBoolean geoBoolean = add("a = true");
+		assertThat(geoBoolean.getBoolean(), is(true));
+		selectGeo(geoBoolean);
+		handleSpace();
+		assertThat(geoBoolean.getBoolean(), is(false));
+	}
+
+	private void handleSpace() {
+		dispatcher.handleGeneralKeys(
+				KeyCodes.SPACE,
+				false, false, false, false, false);
+	}
+
+	@Test
+	public void handleSpaceOnDependentBoolean() {
+		add("a = 42");
+		GeoBoolean dependent = add("b = a > 100");
+		selectGeo(dependent);
+		handleSpace();
+		assertThat(dependent.getBoolean(), is(false));
 	}
 }

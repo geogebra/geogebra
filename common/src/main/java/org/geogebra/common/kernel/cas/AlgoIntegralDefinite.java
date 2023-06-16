@@ -668,8 +668,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			multiplier = -1;
 		}
 
-		// AbstractApplication.debug("1");
-
 		AlgoFunctionFreehand algo = (AlgoFunctionFreehand) f2
 				.getParentAlgorithm();
 
@@ -700,12 +698,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		double area = 0;
 		double sum = 0;
-		// AbstractApplication.debug("noOfSteps = "+noOfSteps);
-		// AbstractApplication.debug("step = "+step);
-		// AbstractApplication.debug("startx = "+startx);
-		// AbstractApplication.debug("endx = "+endx);
-		// AbstractApplication.debug("start = "+startGap);
-		// AbstractApplication.debug("end = "+endGap);
 		// trapezoidal rule
 		if (noOfSteps > 0) {
 
@@ -986,11 +978,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			// org.apache.commons.math3.exception.TooManyEvaluationsException:
 			// illegal state: maximal count ({0}) exceeded500: evaluations
 		}
-
-		// if (!error) Application.debug(a+" "+b+" "+(firstSum - secondSum),
-		// Kernel.isEqual(firstSum, secondSum, Kernel.STANDARD_PRECISION) ? 1 :
-		// 0);
-		// else Application.debug(a+" "+b+" error",1);
 
 		// check if both results are equal
 

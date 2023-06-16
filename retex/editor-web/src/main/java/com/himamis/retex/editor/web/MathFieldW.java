@@ -167,9 +167,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			MathFieldListener listener, MetaModel metaModel) {
 
 		this.metaModel = metaModel;
-		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderGWT());
-		}
+		FactoryProviderGWT.ensureLoaded();
 		html = canvas;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);

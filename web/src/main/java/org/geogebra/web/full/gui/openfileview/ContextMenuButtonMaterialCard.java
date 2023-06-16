@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
@@ -110,7 +111,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 		case COPY:
 			return MaterialDesignResources.INSTANCE.copy_black();
 		case SHARE:
-			return MaterialDesignResources.INSTANCE.share_black();
+			return DefaultMenuIconProvider.INSTANCE.exportFile();
 		case DELETE:
 			return MaterialDesignResources.INSTANCE.delete_black();
 		case RENAME:

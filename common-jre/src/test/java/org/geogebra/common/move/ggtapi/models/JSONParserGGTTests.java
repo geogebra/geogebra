@@ -3,6 +3,7 @@ package org.geogebra.common.move.ggtapi.models;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
@@ -26,7 +27,7 @@ public class JSONParserGGTTests {
 		JSONObject response = responses.getJSONObject("response");
 		JSONObject item = response.getJSONObject("item");
 		Material material = JSONParserGGT.prototype.toMaterial(item);
-		assertTrue(Material.MaterialType.ggb == material.getType());
+		assertSame(Material.MaterialType.ggb, material.getType());
 		assertEquals("PB9Npbe7", material.getSharingKeySafe());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("Dr. Doug Davis, 3D", material.getAuthor());
@@ -50,7 +51,7 @@ public class JSONParserGGTTests {
 		JSONObject root = new JSONObject(json);
 		Material material = JSONParserGGT.prototype.toMaterial(root);
 		assertEquals("PB9Npbe7", material.getSharingKeySafe());
-		assertTrue(Material.MaterialType.ws == material.getType());
+		assertSame(Material.MaterialType.ws, material.getType());
 		assertTrue(material.isDeleted());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals(material.getVisibility(), "O");
@@ -65,7 +66,7 @@ public class JSONParserGGTTests {
 		JSONObject root = new JSONObject(json);
 		Material material = JSONParserGGT.prototype.toMaterial(root);
 		assertEquals("gfnbcfxx", material.getSharingKeySafe());
-		assertTrue(Material.MaterialType.ws == material.getType());
+		assertSame(Material.MaterialType.ws, material.getType());
 		assertEquals("Empty", material.getTitle());
 		assertEquals(material.getVisibility(), "S");
 		assertEquals("", material.getThumbnail());
@@ -83,7 +84,7 @@ public class JSONParserGGTTests {
 		JSONObject item = elements.getJSONObject(1);
 		Material material = JSONParserGGT.prototype.worksheetToMaterial(parent, item);
 		assertEquals("PB9Npbe7", parent.getSharingKeySafe());
-		assertTrue(Material.MaterialType.ggb == material.getType());
+		assertSame(Material.MaterialType.ggb, material.getType());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.ggb", material.getURL());
 		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb$1.png", material.getThumbnail());
@@ -101,7 +102,7 @@ public class JSONParserGGTTests {
 		JSONObject root = new JSONObject(json);
 		Material material = JSONParserGGT.prototype.toMaterial(root);
 		assertEquals("kgmqpmpf", material.getSharingKeySafe());
-		assertTrue(Material.MaterialType.ggs == material.getType());
+		assertSame(Material.MaterialType.ggs, material.getType());
 		assertTrue(material.isMultiuser());
 		assertTrue(material.isSharedWithGroup());
 		assertEquals("multipage", material.getTitle());

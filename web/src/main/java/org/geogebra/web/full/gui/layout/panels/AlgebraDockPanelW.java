@@ -220,7 +220,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		LatexTreeItemController itemController = ((RadioTreeItem) ml)
 				.getLatexController();
 		itemController.initAndShowKeyboard(false);
-		return itemController.getRetexListener();
+		return ml;
 	}
 
 	@Override

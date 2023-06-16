@@ -38,9 +38,9 @@ public class PlotterUtils {
 	 * @return the function sampler object.
 	 */
 	public static FunctionSampler newSampler(GeoFunction function, IntervalTuple range,
-			int numberOfSamples) {
-		IntervalFunctionData data = new IntervalFunctionData(function,  new GeoFunctionConverter(),
-				new IntervalTupleList());
+			int numberOfSamples, EuclidianViewBounds bounds) {
+		IntervalFunctionData data = new IntervalFunctionData(function, new GeoFunctionConverter(),
+				bounds, new IntervalTupleList());
 		return new FunctionSampler(data, range.x(), numberOfSamples);
 	}
 }

@@ -10,6 +10,7 @@ import com.himamis.retex.editor.share.model.*;
 import com.himamis.retex.editor.share.meta.*;
 import com.himamis.retex.editor.share.controller.*;
 import com.himamis.retex.editor.share.editor.FractionBracketRemover;
+import com.himamis.retex.editor.share.editor.MixedNumberBracketRemover;
 
 public class Parser {
 
@@ -103,6 +104,7 @@ public class Parser {
 		editorState.setRootComponent(mathSequence);
 		mathContainerWithCommas(mathSequence);
 		mathFormula.getRootComponent().traverse(new FractionBracketRemover());
+		mathFormula.getRootComponent().traverse(new MixedNumberBracketRemover());
 		return mathFormula;
 	}
 }
@@ -122,6 +124,7 @@ PARSER_END(Parser)
 	   [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3","\u207a"] >
 	| < SUBSCRIPT : "_" >
 	| < FRACTION : "/" >
+	| < MIXED_NUMBER : "\u2064" >
 	| < PARANTHESES_OPEN : "(" >
 	| < PARANTHESES_CLOSE : ")" >
 	| < SQUARE_BRACKETS_OPEN : "[" >
@@ -178,6 +181,8 @@ void atomicWrapper(MathContainer currentField) : {}
 	subscript(currentField)
 	|
 	fraction(currentField)
+	|
+	mixedNumber(currentField)
 	|
 	nroot(currentField)
 	|
@@ -276,18 +281,54 @@ void fraction(MathContainer currentField) :
 {
 	<FRACTION> {
 		fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
-		//handle numerator
+    	//handle numerator
+    	MathSequence passArgs = new MathSequence();
+    	editorState.setCurrentField((MathSequence) currentField);
+    	editorState.setCurrentOffset(currentField.size());
+    	fraction.setArgument(0, passArgs);
+    	ArgumentHelper.passArgument(editorState, fraction);
+    	//handle denominator
+    	MathSequence mathSequence = new MathSequence();
+    	mathAtomOrPower(mathSequence);
+    	mathSequence.removeBrackets();
+    	fraction.setArgument(1, mathSequence);
+    	currentField.addArgument(fraction);
+	}
+}
+
+void mixedNumber(MathContainer currentField) :
+{
+	MathFunction mixedNumber;
+}
+{
+	<MIXED_NUMBER> {
+		mixedNumber = new MathFunction(metaModel.getGeneral(Tag.MIXED_NUMBER));
+
+		// Handle integer part
 		MathSequence passArgs = new MathSequence();
 		editorState.setCurrentField((MathSequence) currentField);
 		editorState.setCurrentOffset(currentField.size());
-		fraction.setArgument(0, passArgs);
-		ArgumentHelper.passArgument(editorState, fraction);
-		//handle denominator
-		MathSequence mathSequence = new MathSequence();
-		mathAtomOrPower(mathSequence);
-		mathSequence.removeBrackets();
-		fraction.setArgument(1, mathSequence);
-		ArgumentHelper.addFraction(currentField, fraction, metaModel);
+		mixedNumber.setArgument(0, passArgs);
+		ArgumentHelper.passArgument(editorState, mixedNumber);
+
+		// Handle numerator
+		MathSequence numerator = new MathSequence();
+		mathAtomOrPower(numerator);
+		numerator.removeBrackets();
+		mixedNumber.setArgument(1, numerator);
+		ArgumentHelper.passArgument(editorState, mixedNumber);
+
+		// Handle expected fraction sign "/"
+		MathSequence fraction = new MathSequence();
+		mathAtomOrPower(fraction);
+
+		// Extract denoinator
+		MathSequence denominator = ((MathFunction) fraction.getArgument(0)).getArgument(1);
+
+		denominator.removeBrackets();
+		mixedNumber.setArgument(2, denominator);
+		ArgumentHelper.passArgument(editorState, mixedNumber);
+		currentField.addArgument(mixedNumber);
 	}
 }
 

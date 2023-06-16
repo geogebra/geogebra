@@ -7,7 +7,6 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.full.gui.layout.BaseHeaderResizer;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -101,11 +100,6 @@ public class BaseActivity implements GeoGebraActivity {
 			headerResizer = new BaseHeaderResizer(frame);
 		}
 		return headerResizer;
-	}
-
-	@Override
-	public ResourceIconProvider getResourceIconProvider() {
-		return MaterialDesignResources.INSTANCE;
 	}
 
 	@Override

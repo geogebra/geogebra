@@ -2631,6 +2631,15 @@ var __giac = [
 { cat:"MinimalPolynomial.1", cmd:"MinimalPolynomial({{1,0},{0,1}})", result:"x - 1"},
 { cat:"LUDecomposition.1", cmd:"LUDecomposition({{1,2},{3,4}})", result:"{{{1, 0}, {0, 1}}, {{1, 0}, {3, 1}}, {{1, 2}, {0, -2}}}"},
 { cat:"QRDecomposition.1", cmd:"QRDecomposition({{1,2},{3,4}})", result:"{{{1 / sqrt(10), 3 / 5 / (sqrt(10) / 5)}, {3 / sqrt(10), -1 / 5 / (sqrt(10) / 5)}}, {{sqrt(10), 7 / 5 sqrt(10)}, {0, sqrt(10) / 5}}}"},
+{ cat:"Dirac.1", cmd:"Dirac[-1]", result: "0"},
+{ cat:"Dirac.1", cmd:"Dirac[0]", result: "?", notes: "infinity would be better, Giac fix pending"},
+{ cat:"Dirac.1", cmd:"Dirac[1]", result: "0"},
+{ cat:"Dirac.1", cmd:"Derivative[Dirac(x)]", result: "Dirac(x)"},
+{ cat:"Dirac.1", cmd:"Derivative(InverseLaplace[exp(-p)/p+1/p,p,t])", result: "Dirac(t - 1)"},
+{ cat:"Dirac.1", cmd:"Derivative(Derivative(InverseLaplace[exp(-p)/p+1/p,p,t]))", result: "Dirac(t - 1)"},
+{ cat:"Heaviside.1", cmd:"Heaviside(-1)", result: "0"},
+{ cat:"Heaviside.1", cmd:"InverseLaplace[exp(-p)/p+1/p,p,t]", result: "Heaviside(t - 1) + 1"},
+{ cat:"Heaviside.1", cmd:"Heaviside(1)", result: "1"},
 
 
 //JSONEND
@@ -2774,7 +2783,6 @@ var problems = [
 { cat:"Evaluate", cmd:"Evaluate[sqrt((1355050424792466287485561)/(981647716744573948433529))]", result:"(1 / 990781366773 * sqrt(1355050424792466287485561))", notes:"#4008, too slow in JS" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt((26188440946629826703822309)/(26942840480072343408400))]", result:"(1 / 26942840480072343408400 * sqrt(705590986846842175569890001809124163141017995600))", notes:"#4611" },
 { cat:"SolveTrig", cmd:"Element(Solve({a_{r} ^(2) - a_{y} ^(2) - 25 = 0, - a_{r} * cos(a_{t}) + 5 = 0, - a_{r} * sin(a_{t}) + a_{y} = 0, b_{r} ^(2) - b_{y} ^(2) - 25 = 0, - b_{r} * sin(b_{t}) + b_{y} = 0, a_{y} - b_{y} = 0},{a_{y}, a_{r}, a_{t}, b_{y}, b_{r}, b_{t}}),1)", result:"{a_{y} = 0, a_{r} = 5, a_{t} = 0, b_{y} = 0, b_{r} = -5, b_{t} = 0}|OR|{a_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5))),a_{r}=a_{r},a_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5)),b_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))),b_{r}=a_{r},b_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))}"},
-
 ];
 export default __giac;
 

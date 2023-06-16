@@ -98,7 +98,6 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 	public final void compute() {
 
 		if (input[0].isDefined()) {
-			// Application.debug("coords=\n"+P.getCoordsInD3());
 			region.regionChanged(P);
 			// P.updateCoords();
 		} else {

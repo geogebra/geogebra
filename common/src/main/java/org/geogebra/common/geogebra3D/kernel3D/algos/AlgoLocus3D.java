@@ -195,9 +195,6 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
 	private void insertPoint(double x, double y, double z, boolean lineTo) {
 		pointCount++;
-
-		// Application.debug("insertPoint: " + x + ", " + y + ", lineto: " +
-		// lineTo);
 		((GeoLocus3D) locus).insertPoint(x, y, z, lineTo);
 		lastX = x;
 		lastY = y;

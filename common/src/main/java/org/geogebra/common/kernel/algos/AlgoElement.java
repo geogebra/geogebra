@@ -498,7 +498,6 @@ public abstract class AlgoElement extends ConstructionElement
 			T geo;
 			if (labelsSetLength < outputList.size()) {
 				geo = getElement(labelsSetLength);
-				// Application.debug(label+", geo="+geo);
 			} else {
 				geo = fac.newElement();
 				outputList.add(geo);
@@ -1465,7 +1464,6 @@ public abstract class AlgoElement extends ConstructionElement
 		for (int i = 0; i < getOutputLength(); i++) {
 			geo = getOutput(i);
 			// save only GeoElements that have a valid label
-			// Application.debug(geo.toString()+"--"+geo.isLabelSet());
 			if (geo.isLabelSet()) {
 				geo.getXML(false, sb);
 			}

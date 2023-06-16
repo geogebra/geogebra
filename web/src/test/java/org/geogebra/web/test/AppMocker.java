@@ -21,7 +21,6 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.impl.PopupImpl;
 
 import com.google.gwtmockito.GwtMockito;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 public class AppMocker {
@@ -123,7 +122,7 @@ public class AppMocker {
 					}
 				});
 		Browser.mockWebGL();
-		FactoryProvider.setInstance(new FactoryProviderGWT());
+		FactoryProviderGWT.ensureLoaded();
 		setTestLogger();
 	}
 

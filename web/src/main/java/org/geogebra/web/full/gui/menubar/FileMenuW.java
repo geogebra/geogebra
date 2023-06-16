@@ -6,14 +6,18 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.gwtutil.FileSystemAPI;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
+import org.geogebra.web.full.gui.menubar.action.ClearAllAction;
+import org.geogebra.web.full.gui.menubar.action.ExportImage;
+import org.geogebra.web.full.gui.menubar.action.SaveAction;
+import org.geogebra.web.full.gui.menubar.action.SaveLocalAction;
+import org.geogebra.web.full.gui.menubar.action.ShareAction;
 import org.geogebra.web.full.gui.menubar.item.ExitExamItem;
-import org.geogebra.web.full.gui.menubar.item.FileNewItem;
-import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.full.gui.view.algebra.MenuItem;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
-import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -29,9 +33,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	private AriaMenuItem shareItem;
 	private AriaMenuItem openFileItem;
 
-	private Localization loc;
-	private VendorSettings vendorSettings;
-	private GeoGebraActivity activity;
+	private final Localization loc;
 
 	/**
 	 * @param app
@@ -41,8 +43,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		super("file", app);
 		addExpandableStyleWithColor(false);
 		this.loc = app.getLocalization();
-		this.activity = ((AppWFull) getApp()).getActivity();
-		vendorSettings = getApp().getVendorSettings();
 		initActions();
 	}
 
@@ -67,7 +67,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		if (getApp().enableOnlineFileFeatures()) {
 			addFileNewItem();
 			addOpenFileItem();
-			addSaveItem();
+			addSaveItems();
 			addSeparator();
 		}
 		addExportImageItem();
@@ -80,8 +80,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void updateOpenFileButton() {
 		openFileItem.setHTML(MainMenu.getMenuBarHtmlClassic(
-				activity.getResourceIconProvider().openFileMenu().getSafeUri().asString(),
-				loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))));
+				MaterialDesignResources.INSTANCE.openFileMenu().getSafeUri().asString(),
+				loc.getMenu("Open")));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	@Override
 	public SVGResource getImage() {
-		return activity.getResourceIconProvider().fileMenu();
+		return MaterialDesignResources.INSTANCE.fileMenu();
 	}
 
 	@Override
@@ -135,56 +135,41 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void addFileNewItem() {
-		addItem(new FileNewItem(getApp()));
+		addItem(new MenuItem<>("New",
+				MaterialDesignResources.INSTANCE.newFileMenu(),
+				new ClearAllAction(true)));
 	}
 
 	private void addShareItem() {
-		shareItem = addItem(
-				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.share_black(),
-						getApp().getLocalization().getMenu("Share")),
-				true, new MenuCommand(getApp()) {
-
-					@Override
-					public void doExecute() {
-						share(app, null);
-					}
-				});
+		shareItem = addItem(new MenuItem<>("Share",
+				DefaultMenuIconProvider.INSTANCE.exportFile(),
+				new ShareAction()));
 	}
 
 	private void addExportImageItem() {
-		addItem(MainMenu.getMenuBarHtml(
+		addItem(new MenuItem<>("exportImage",
 				MaterialDesignResources.INSTANCE.export_image_black(),
-				getApp().getLocalization().getMenu("exportImage")), true,
-				new MenuCommand(getApp()) {
-
-					@Override
-					public void doExecute() {
-						app.getDialogManager().showExportImageDialog(null);
-					}
-				});
+				new ExportImage()));
 	}
 
-	private void addSaveItem() {
+	private void addSaveItems() {
 		if (getApp().getLAF().undoRedoSupported()) {
-			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.save_black(),
-					loc.getMenu("Save")), true,
-					new MenuCommand(getApp()) {
-
-						@Override
-						public void doExecute() {
-							app.getGuiManager().save();
-						}
-					});
+			addItem(new MenuItem<>("SaveOnline",
+					DefaultMenuIconProvider.INSTANCE.saveOnline(),
+					new SaveAction()));
+			if (FileSystemAPI.isSupported()) {
+				addItem(new MenuItem<>("SaveToYourPC",
+						DefaultMenuIconProvider.INSTANCE.save(),
+						new SaveLocalAction()));
+			}
 		}
 	}
 
 	private void addOpenFileItem() {
 		openFileItem =
 				addItem(MainMenu.getMenuBarHtml(
-						activity.getResourceIconProvider().openFileMenu(),
-						loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))),
+						MaterialDesignResources.INSTANCE.openFileMenu(),
+						loc.getMenu("Open")),
 						true, new MenuCommand(getApp()) {
 
 					@Override

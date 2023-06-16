@@ -88,7 +88,6 @@ public class GeoGebraKeys implements KeyListener {
 
 		}
 
-		// Application.debug("keyReleased");
 		// ctrl pressed on Mac
 		// or alt on Windows
 		boolean modifierKeyPressed = AppD.isAltDown(e);
@@ -100,10 +99,6 @@ public class GeoGebraKeys implements KeyListener {
 			// works nicely for alt or ctrl pressed (Windows/Mac)
 			String keyString = StringUtil
 					.toLowerCaseUS(KeyEvent.getKeyText(e.getKeyCode()));
-
-			// Application.debug(KeyEvent.getKeyText(e.getKeyCode()).toLowerCase().charAt(0)+"");
-			// Application.debug(e+"");
-			// Application.debug(keyString);
 
 			// support for alt codes
 			if (e.isAltDown()

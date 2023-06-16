@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Helper functions for transfroming parametric curves and surfaces
@@ -135,10 +136,10 @@ public class SurfaceTransform {
 	 *            helper matrix
 	 */
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
-			GeoPointND s, GeoDirectionND orientation,
+			Coords s, GeoDirectionND orientation,
 			CoordMatrix4x4 tmpMatrix4x4) {
 		CoordMatrix4x4.rotation4x4(orientation.getDirectionInD3().normalized(),
-				r.getDouble(), s.getInhomCoordsInD3(), tmpMatrix4x4);
+				r.getDouble(), s, tmpMatrix4x4);
 		transform(fun, kernel, tmpMatrix4x4);
 
 	}

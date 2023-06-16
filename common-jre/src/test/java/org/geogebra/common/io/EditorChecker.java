@@ -1,6 +1,8 @@
 package org.geogebra.common.io;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -129,6 +131,15 @@ class EditorChecker {
 		return editorState.getRootComponent();
 	}
 
+	/**
+	 * Types input to the checker.
+	 * Example ('|' is the cursor):
+	 * - content before: "xyz|"
+	 * - type("ABC");
+	 * - content after : "xyzABC|"
+	 * @param input to type.
+	 * @return the modified checker.
+	 */
 	public EditorChecker type(String input) {
 		typer.type(input);
 		return this;
@@ -139,10 +150,28 @@ class EditorChecker {
 		return this;
 	}
 
+	/**
+	 * Moves the cursor left to given times.
+	 * Example ('|' is the cursor):
+	 *  - content before: "xyz|"
+	 *  - left("2");
+	 *  - content after : "x|yz"
+	 * @param count of the cursor moves
+	 * @return the modified checker.
+	 */
 	public EditorChecker left(int count) {
 		return repeatKey(JavaKeyCodes.VK_LEFT, count);
 	}
 
+	/**
+	 * Moves the cursor right to given times.
+	 * Example ('|' is the cursor):
+	 *  - content before: "|xyz"
+	 *  - right("2");
+	 *  - content after : "xy|z"
+	 * @param count of the cursor moves
+	 * @return the modified checker.
+	 */
 	public EditorChecker right(int count) {
 		return repeatKey(JavaKeyCodes.VK_RIGHT, count);
 	}
@@ -249,5 +278,22 @@ class EditorChecker {
 	public EditorChecker click(int x, int y) {
 		mathField.getInternal().onPointerUp(x, y);
 		return this;
+	}
+
+	/**
+	 * Asserts if the cursor is in super- or subscript.
+	 * Examples ('|' is the cursor):
+	 *  xy^z|, xy_|z, xy^(1/x|)
+	 */
+	public void checkCursorInScript() {
+		assertTrue(mathField.getInternal().getEditorState().isInScript());
+	}
+
+	/**
+	 * Asserts if the cursor is NOT in super- or subscript.
+	 * Note: opposite of cursorInScript().
+	 */
+	public void checkCursorNotInScript() {
+		assertFalse(mathField.getInternal().getEditorState().isInScript());
 	}
 }

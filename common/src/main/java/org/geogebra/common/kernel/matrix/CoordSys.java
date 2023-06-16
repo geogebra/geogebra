@@ -792,9 +792,6 @@ public class CoordSys {
 			CoordMatrix4x4.createOrthoToDirection(tmpCoords3,
 					matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1,
 					tmpCoords2, drawingMatrix);
-
-			// Application.debug("matrix ortho=\n"+getMatrixOrthonormal());
-
 			return true;
 		}
 

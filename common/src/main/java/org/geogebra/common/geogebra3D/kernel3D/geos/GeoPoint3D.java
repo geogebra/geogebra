@@ -70,7 +70,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.Region3D;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -87,7 +87,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
-		MatrixTransformable, RotateableND,
+		MatrixTransformable, RotatableND,
 		Transformable, MirrorableAtPlane {
 
 	private boolean isInfinite;
@@ -540,7 +540,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	final public double[] vectorTo(GeoPointND QI) {
 		GeoPoint3D Q = (GeoPoint3D) QI;
-		// Application.debug("v=\n"+Q.getCoords().sub(getCoords()).get());
 		return Q.getCoords().sub(getCoords()).get();
 	}
 
@@ -761,11 +760,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (coordsys != null) {
 			setCoords(coordsys.getPoint(getX2D(), getY2D()), doPathOrRegion);
 		} else if (region != null) {
-			/*
-			 * if (getLabel().contains("B1")){
-			 * Application.debug(getX2D()+","+getY2D()); if (getX2D()>3)
-			 * Application.printStacktrace("ici"); }
-			 */
 			setCoords(((Region3D) region).getPoint(getX2D(), getY2D(),
 					new Coords(4)), doPathOrRegion);
 		} else {
@@ -1246,7 +1240,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public Coords getLabelPosition() {
-		// Application.debug(inhom.toString());
 		return getInhomCoordsInD3();
 	}
 
@@ -1534,13 +1527,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public void rotate(NumberValue phiValue, GeoPointND S,
+	public void rotate(NumberValue phiValue, Coords S,
 			GeoDirectionND orientation) {
-
-		Coords o1 = S.getInhomCoordsInD3();
 		Coords vn = orientation.getDirectionInD3();
 
-		rotate(phiValue, o1, vn);
+		rotate(phiValue, S, vn);
 
 	}
 
@@ -1588,11 +1579,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		setCoords(tmpCoords1.setAdd(tmpCoords1, tmpCoords2.setAdd(
 				tmpCoords2.mulInside(cos), tmpCoords3.mulInside(sin / l))));
-	}
-
-	@Override
-	public void rotate(NumberValue phiValue, GeoLineND line) {
-		rotate(phiValue.getDouble(), line);
 	}
 
 	/**
@@ -2247,7 +2233,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				// remember closest point
 				res = getInhomCoords().copyVector();
 				param = i + pp.getT();
-				// Application.debug(i);
 			}
 		}
 

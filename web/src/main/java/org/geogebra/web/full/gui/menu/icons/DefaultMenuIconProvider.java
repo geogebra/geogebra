@@ -25,6 +25,10 @@ public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider 
 	SVGResource save();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_save_online_black_24px.svg")
+	SVGResource saveOnline();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/hourglass_empty-24px.svg")
 	SVGResource hourglassEmpty();
 

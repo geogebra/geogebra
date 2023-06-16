@@ -41,6 +41,7 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -54,7 +55,20 @@ import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 
-public class FactoryProviderGWT extends FactoryProvider {
+public final class FactoryProviderGWT extends FactoryProvider {
+
+	private FactoryProviderGWT() {
+		// call ensureLoaded instead
+	}
+
+	/**
+	 * Setup factory if not done previously
+	 */
+	public static void ensureLoaded() {
+		if (FactoryProvider.getInstance() == null) {
+			setInstance(new FactoryProviderGWT());
+		}
+	}
 
 	@Override
 	protected GeomFactory createGeomFactory() {

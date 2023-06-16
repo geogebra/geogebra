@@ -1372,6 +1372,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * @param leftStr Left subtree as string
+	 * @param rightStr Right subtree as string
+	 * @return leftStr + rightStr
+	 */
+	public String invisiblePlusString(String leftStr, String rightStr) {
+		return leftStr + Unicode.INVISIBLE_PLUS + rightStr;
+	}
+
+	/**
 	 * Appends localized + to a StringBUilder
 	 * @param sb builder
 	 * @param loc localization
@@ -1923,7 +1932,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 											&& (StringUtil.isDigit(firstRight)
 											// 3*E23AB can't be written 3E23AB
 											|| (firstRight == 'E'))
-											|| StringUtil.isDigit(firstRight);
+											|| StringUtil.isDigit(firstRight)
+											|| (isForEditorParser()
+											&& right.isOperation(Operation.DIVIDE));
 							// check if we need a multiplication space:
 							multiplicationSpaceNeeded = showMultiplicationSign;
 							if (!multiplicationSpaceNeeded) {

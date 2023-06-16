@@ -7,6 +7,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.renderer.web.CreateLibrary;
+import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmApi;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
@@ -17,6 +18,7 @@ public class EditorEntry implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		FactoryProviderGWT.ensureLoaded();
 		initFontAndCss();
 		initJlmLibrary();
 		EditorKeyboard keyboard = new EditorKeyboard();

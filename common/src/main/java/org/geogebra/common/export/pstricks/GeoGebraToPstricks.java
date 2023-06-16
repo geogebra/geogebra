@@ -1109,12 +1109,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		double xrangemax = a, xrangemin = a;
 		while (xrangemax < b) {
 			xrangemin = firstDefinedValue(geo, a, b);
-			// Application.debug("xrangemin "+xrangemin);
 			if (xrangemin == b) {
 				break;
 			}
 			xrangemax = maxDefinedValue(geo, xrangemin, b);
-			// Application.debug("xrangemax "+xrangemax);
 			startBeamer(code);
 			line.append("\\psplot");
 			// loc contains style, size etc.
@@ -1814,44 +1812,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append(format(ymax));
 		codeBeginPic.append(")}\n");
 	}
-
-	// Draw the grid
-	/*
-	 * private void drawGrid() { geogebra.common.awt.GColor GridCol =
-	 * euclidianView.getGridColor(); double[] GridDist =
-	 * euclidianView.getGridDistances(); // int
-	 * GridLine=euclidianView.getGridLineStyle();
-	 * 
-	 * // Set Units for grid codeBeginPic.append("\\psset{xunit="); //
-	 * Application.debug(GridDist[0]*xunit);
-	 * codeBeginPic.append(sci2dec(GridDist[0] * xunit));
-	 * codeBeginPic.append("cm,yunit="); codeBeginPic.append(sci2dec(GridDist[1]
-	 * * yunit)); codeBeginPic.append("cm}\n");
-	 * 
-	 * // environment pspicture codeBeginPic.append("\\begin{pspicture*}(");
-	 * codeBeginPic.append(format(xmin / GridDist[0]));
-	 * codeBeginPic.append(","); codeBeginPic.append(format(ymin /
-	 * GridDist[1])); codeBeginPic.append(")("); codeBeginPic.append(format(xmax
-	 * / GridDist[0])); codeBeginPic.append(",");
-	 * codeBeginPic.append(format(ymax / GridDist[1]));
-	 * codeBeginPic.append(")\n");
-	 * 
-	 * // Draw Grid
-	 * codeBeginPic.append("\\psgrid[subgriddiv=0,gridlabels=0,gridcolor=");
-	 * ColorCode(GridCol, codeBeginPic); codeBeginPic.append("](0,0)(");
-	 * codeBeginPic.append(format(xmin / GridDist[0]));
-	 * codeBeginPic.append(","); codeBeginPic.append(format(ymin /
-	 * GridDist[1])); codeBeginPic.append(")("); codeBeginPic.append(format(xmax
-	 * / GridDist[0])); codeBeginPic.append(",");
-	 * codeBeginPic.append(format(ymax / GridDist[1]));
-	 * codeBeginPic.append(")\n");
-	 * 
-	 * // Set units for the pspicture initUnitAndVariable(); /*
-	 * code.append("\\psset{xunit="); code.append(xunit);
-	 * code.append("cm,yunit="); code.append(yunit); code.append("cm}\n");
-	 */
-
-	// }
 
 	// Draw Axis
 	private void drawAxis() {

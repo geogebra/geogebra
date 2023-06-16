@@ -656,8 +656,7 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 					.getGroupType() == GroupType.RAWDATA);
 		}
 		// normal overlay
-		ckOverlayNormal.setEnabled(settings
-				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+		ckOverlayNormal.setEnabled(settings.isOverlayEnabled());
 
 		// bar chart width
 		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth());
