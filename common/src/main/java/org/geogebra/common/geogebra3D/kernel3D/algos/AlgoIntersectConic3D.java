@@ -211,7 +211,6 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 			CoordSys cs, GeoLine g) {
 		AlgoIntersectLineConic.intersectLineConic(g, conic, points2d,
 				Kernel.STANDARD_PRECISION);
-		// Application.debug(points2d[0]+"\n"+points2d[1]);
 		points[0].setCoords(cs.getPoint(points2d[0].x, points2d[0].y), false);
 		checkIsOnFirstGeo(points[0]);
 		checkIsOnConicPart(conic, points2d[0], points[0]);

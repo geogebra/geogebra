@@ -2027,7 +2027,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean letRedefine() {
-		// AbstractApplication.debug("implementation needed"); // TODO
+		// TODO
 		// Auto-generated
 		return true;
 	}
@@ -2843,22 +2843,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void hideMenu() {
 		// for applets with menubar
-	}
-
-	/**
-	 * @param path
-	 *            path for external saving
-	 */
-	public void setExternalPath(String path) {
-		if (getKernel() != null && getKernel().getConstruction() != null
-				&& getKernel().getConstruction().getTitle() == null
-				|| "".equals(getKernel().getConstruction().getTitle())) {
-			int lastSlash = Math.max(path.lastIndexOf('/'),
-					path.lastIndexOf('\\'));
-			String title = path.substring(lastSlash + 1).replace(".ggb", "");
-			getKernel().getConstruction().setTitle(title);
-		}
-		getFileManager().setFileProvider(Provider.LOCAL);
 	}
 
 	/**

@@ -211,6 +211,11 @@ public class TeXSerializer extends SerializerAdapter {
 			break;
 
 		case FRAC:
+			if (buildMixedNumber(stringBuilder, function)) {
+				stringBuilder.replace(0, stringBuilder.length(), stringBuilder
+						.toString().replace("\\nbsp{}", "")); // Remove spaces
+				break;
+			}
 			stringBuilder.append("{");
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("{");
@@ -428,6 +433,53 @@ public class TeXSerializer extends SerializerAdapter {
 					.length();
 		}
 		return 2;
+	}
+
+	/**
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
+	 * @return True if a mixed number was built
+	 */
+	@Override
+	public boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
+		//Check if a valid mixed number can be created (e.g.: no 'x')
+		if (isMixedNumber(stringBuilder) < 0 || !isValidMixedNumber(mathFunction)) {
+			return false;
+		}
+
+		stringBuilder.insert(isMixedNumber(stringBuilder), "{");
+		stringBuilder.append("}\\frac{");
+		serialize(mathFunction.getArgument(0), stringBuilder);
+		stringBuilder.append("}{");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append("}");
+		return true;
+	}
+
+	/**
+	 * Checks if the stringBuilder contains a mixed number e.g. 3 1/2 <br>
+	 * @param stringBuilder StringBuilder
+	 * @return Index >= 0 of where to put opening parentheses if there is a mixed number, -1 else
+	 */
+	@Override
+	public int isMixedNumber(StringBuilder stringBuilder) {
+		boolean isMixedNumber = false;
+		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
+			if (i >= 6 && stringBuilder.substring(i - 6, i + 1).equals("\\nbsp{}")
+					&& !isMixedNumber) {
+				i -= 6; // Expecting a space preceding the fraction
+				continue;
+			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
+				isMixedNumber = true; // Only allow digits 0 - 9 here
+			} else if (isMixedNumber
+					&& " +-*/(}{".contains(Character.toString(stringBuilder.charAt(i)))) {
+				return i + 1;
+			} else {
+				isMixedNumber = false;
+				break;
+			}
+		}
+		return isMixedNumber ? 0 : -1;
 	}
 
 	/**

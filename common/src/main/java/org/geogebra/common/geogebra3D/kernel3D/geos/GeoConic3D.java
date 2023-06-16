@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
@@ -29,7 +29,7 @@ import org.geogebra.common.util.ExtendedBoolean;
  * 
  */
 public class GeoConic3D extends GeoConicND
-		implements RotateableND, MirrorableAtPlane, ViewCreator {
+		implements RotatableND, MirrorableAtPlane, ViewCreator {
 
 	/** 2D coord sys where the conic exists */
 	private CoordSys coordSys = new CoordSys(2);
@@ -285,7 +285,7 @@ public class GeoConic3D extends GeoConicND
 	 * @param m
 	 *            point
 	 */
-	static final public void setSinglePoint(GeoConic3D conic, Coords m) {
+	static public void setSinglePoint(GeoConic3D conic, Coords m) {
 
 		CoordSys cs = conic.getCoordSys();
 		if (cs == null) {
@@ -469,14 +469,7 @@ public class GeoConic3D extends GeoConicND
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = CoordMatrix4x4.identity();
 		} else {
-			tmpMatrix4x4.set(1, 4, 0);
-			tmpMatrix4x4.set(2, 4, 0);
-			tmpMatrix4x4.set(3, 4, 0);
-
-			tmpMatrix4x4.set(4, 1, 0);
-			tmpMatrix4x4.set(4, 2, 0);
-			tmpMatrix4x4.set(4, 3, 0);
-			tmpMatrix4x4.set(4, 4, 1);
+			tmpMatrix4x4.resetLastRowAndColumn();
 		}
 
 		tmpMatrix4x4.set(1, 1, a00);
@@ -508,21 +501,14 @@ public class GeoConic3D extends GeoConicND
 	}
 
 	@Override
-	public void rotate(NumberValue phiVal, GeoPointND Q,
+	public void rotate(NumberValue phiVal, Coords Q,
 			GeoDirectionND orientation) {
 
-		rotate(phiVal, Q.getInhomCoordsInD3(), orientation.getDirectionInD3());
+		rotate(phiVal, Q, orientation.getDirectionInD3());
 
 	}
 
-	@Override
-	public void rotate(NumberValue phiVal, GeoLineND line) {
-
-		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
-
-	}
-
-	final private void rotate(NumberValue phiVal, Coords center,
+	private void rotate(NumberValue phiVal, Coords center,
 			Coords direction) {
 		coordSys.rotate(phiVal.getDouble(), center, direction.normalized());
 	}

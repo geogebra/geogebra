@@ -122,8 +122,6 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
-		// Application.debug("compute: " + geoList);
 		if (!geoList.isDefined()) {
 			result.setUndefined();
 			return;

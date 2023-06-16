@@ -870,4 +870,29 @@ public class EditorTypingTest {
 				.type("-")
 				.checkAsciiMath("x-((π)/(2))");
 	}
+
+	@Test
+	public void cursorInNoScript() {
+		checker.type("x + 1/2").checkCursorNotInScript();
+	}
+
+	@Test
+	public void cursorInNoScriptXSquared() {
+		checker.type("x^2").left(2).checkCursorNotInScript();
+	}
+
+	@Test
+	public void cursorInSuperscript() {
+		checker.type("x^2^345").checkCursorInScript();
+	}
+
+	@Test
+	public void cursorInSubscript() {
+		checker.type("x_2").checkCursorInScript();
+	}
+
+	@Test
+	public void cursorInNoSubscript() {
+		checker.type("x_2").left(2).checkCursorNotInScript();
+	}
 }

@@ -40,8 +40,9 @@ public class OpenSearch {
 	public final void show(String query) {
 		app.hideMenu();
 
-		if (isUnloggedOnWhiteboard()) {
-			loginAndOpen(query);
+		if (isOnMebisWithoutLogin()) {
+			app.getActivity().markSearchOpen();
+			app.getLoginOperation().showLoginDialog();
 		} else {
 			open(query);
 		}
@@ -73,8 +74,8 @@ public class OpenSearch {
 				.startsWith("search:");
 	}
 
-	private boolean isUnloggedOnWhiteboard() {
-		return app.isWhiteboardActive()
+	private boolean isOnMebisWithoutLogin() {
+		return app.isMebis()
 				&& !app.getLoginOperation().isLoggedIn();
 	}
 
@@ -101,16 +102,6 @@ public class OpenSearch {
 		}
 		frame.setApplication(app);
 		frame.showPanel(headerPanel);
-	}
-
-	private void loginAndOpen(String query) {
-		app.getActivity().markSearchOpen();
-		guiManager.listenToLogin();
-		app.getLoginOperation().showLoginDialog();
-		guiManager.setRunAfterLogin(() -> {
-			updateMaterials();
-			showBrowserView(query);
-		});
 	}
 
 	private void clearPerspective() {

@@ -18,6 +18,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.FileSystemAPI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.main.FileManager;
@@ -29,7 +30,9 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
-import org.gwtproject.user.client.ui.Widget;
+
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Class to handle material saving.
@@ -39,8 +42,8 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class SaveControllerW implements SaveController {
 
-	private AppW app;
-	private Localization loc;
+	private final AppW app;
+	private final Localization loc;
 	private MaterialType saveType = null;
 	private SaveListener listener = null;
 	private String fileName = "";
@@ -102,12 +105,12 @@ public class SaveControllerW implements SaveController {
 	@Override
 	public void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback, boolean addTempCheckBox) {
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
-				.getSaveDialog(true, addTempCheckBox);
+				.getSaveCheckDialog();
 		AsyncOperation<Boolean> callback = saved -> {
 			app.getShareController().disconnectMultiuser();
 			saveCallback.callback(saved);
 		};
-		showDialogIfNeeded(callback, !app.isSaved(), null,
+		showDialogIfNeeded(callback, !app.isSaved(),
 				true, addTempCheckBox);
 
 		if (!addTempCheckBox) {
@@ -115,21 +118,36 @@ public class SaveControllerW implements SaveController {
 		}
 	}
 
+	@Override
+	public void showLocalSaveDialog() {
+		if (!FileSystemAPI.isSupported()) {
+			app.getFileManager().export(app);
+			return;
+		}
+		JsPropertyMap<String> options = Js.uncheckedCast(JsPropertyMap.of());
+		String consTitle = app.getKernel().getConstruction().getTitle();
+		if (StringUtil.empty(consTitle)) {
+			consTitle = app.getLocalization().getMenu("Untitled");
+		}
+		options.set("suggestedName",  consTitle + ".ggb");
+		FileSystemAPI.showSaveFilePicker(options).then(handle -> {
+			((FileManager) app.getFileManager()).saveAs(handle);
+			return null;
+		});
+	}
+
 	/**
 	 * @param runnable
 	 *         callback gets true if save happened
 	 * @param needed
 	 *         whether to show the dialog
-	 * @param anchor
-	 *         UI element to be used for positioning the save dialog
 	 * @param doYouWantSaveChanges
 	 *         true if doYouWantToSaveYourChanges should be shown
 	 * @param addTempCheckBox
 	 *         true if checkbox should be visible
 	 */
 	public void showDialogIfNeeded(final AsyncOperation<Boolean> runnable, boolean needed,
-								   Widget anchor, boolean doYouWantSaveChanges,
-									boolean addTempCheckBox) {
+			boolean doYouWantSaveChanges, boolean addTempCheckBox) {
 		if (needed && !app.getLAF().isEmbedded()) {
 			final Material oldActiveMaterial = app.getActiveMaterial();
 			final String oldTitle = app.getKernel().getConstruction().getTitle();
@@ -141,8 +159,12 @@ public class SaveControllerW implements SaveController {
 				}
 				runnable.callback(saved);
 			});
-			((DialogManagerW) app.getDialogManager())
-					.getSaveDialog(doYouWantSaveChanges, addTempCheckBox).show();
+			DialogManagerW dm = (DialogManagerW) app.getDialogManager();
+			if (doYouWantSaveChanges) {
+				dm.getSaveCheckDialog().show();
+			} else {
+				dm.getSaveDialog(addTempCheckBox).show();
+			}
 		} else {
 			setRunAfterSave(null);
 			runnable.callback(true);
@@ -153,28 +175,32 @@ public class SaveControllerW implements SaveController {
 	public void saveAs(String name, MaterialVisibility visibility, SaveListener l) {
 		this.listener = l;
 		this.fileName = name;
-		if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
-			app.getKernel().getConstruction().setTitle(name);
-			app.getFileManager().export(app);
-		} else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
+		if (app.isOffline()) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(loc
 					.getMenu("phone_loading_materials_offline"), app);
-			getAppW().getGuiManager().exportGGB(true);
+			showLocalSaveDialog();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
+		} else if (app.getLoginOperation().isLoggedIn()) {
+			saveOnline(visibility);
 		} else {
-			Material activeMaterial = app.getActiveMaterial();
-			if (activeMaterial == null) {
-				activeMaterial = new Material(saveType);
-				app.setActiveMaterial(activeMaterial);
-			} else if (!app.getLoginOperation()
-					.owns(activeMaterial)) {
-				activeMaterial.setSharingKey(null);
-			}
-
-			activeMaterial.setVisibility(visibility.getToken());
-			uploadToGgt(activeMaterial.getVisibility(), activeMaterial.isMultiuser());
+			app.getGuiManager().listenToLogin(() -> saveOnline(visibility));
+			app.getLoginOperation().showLoginDialog();
 		}
+	}
+
+	private void saveOnline(MaterialVisibility visibility) {
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial == null) {
+			activeMaterial = new Material(saveType);
+			app.setActiveMaterial(activeMaterial);
+		} else if (!app.getLoginOperation()
+				.owns(activeMaterial)) {
+			activeMaterial.setSharingKey(null);
+		}
+
+		activeMaterial.setVisibility(visibility.getToken());
+		uploadToGgt(activeMaterial.getVisibility(), activeMaterial.isMultiuser());
 	}
 
 	private static String getTitleOnly(String key) {

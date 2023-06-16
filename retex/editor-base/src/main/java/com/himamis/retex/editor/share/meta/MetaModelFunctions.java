@@ -87,8 +87,7 @@ class MetaModelFunctions {
 				MetaParameter.BASIC
 		}));
 		functions.add(
-				createFunctionInsert(Tag.MIXED_NUMBER, "", 3,
-						new MetaParameter[] {
+				createFunction(Tag.MIXED_NUMBER, "", new MetaParameter[] {
 								MetaParameter.BASIC, createParameterDown(2), createParameterUp(1)
 						}));
 

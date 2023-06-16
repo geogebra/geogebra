@@ -11,11 +11,11 @@ import org.geogebra.web.resources.SVGResource;
  * @param <T>
  *            item context
  */
-public abstract class MenuItem<T> {
+public class MenuItem<T> {
 
-	private String title;
+	private final String title;
 	private SVGResource image;
-	private MenuAction<T> action;
+	private final MenuAction<T> action;
 
 	/**
 	 * @param title
@@ -27,7 +27,6 @@ public abstract class MenuItem<T> {
 		this.title = title;
 		this.image = image;
 		this.action = action;
-
 	}
 
 	/**

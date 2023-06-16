@@ -13,6 +13,8 @@ public interface MenuIconProvider {
 
 	SVGResource save();
 
+	SVGResource saveOnline();
+
 	SVGResource hourglassEmpty();
 
 	SVGResource geogebra();

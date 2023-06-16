@@ -340,8 +340,8 @@ public class InputController {
 			function.setArgument(i, field);
 		}
 
-		// pass characters for fraction and factorial only
-		if (tag == Tag.FRAC) {
+		// pass characters for fraction, factorial, and mixed number only
+		if (tag == Tag.FRAC || tag == Tag.MIXED_NUMBER) {
 			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
@@ -1207,7 +1207,12 @@ public class InputController {
 				newScript(editorState, Tag.SUBSCRIPT);
 				handled = true;
 			} else if (ch == '/' || ch == '\u00f7') {
-				newFunction(editorState, "frac", false, null);
+				if (!insideMixedNumber(editorState)) {
+					newFunction(editorState, "frac", false, null);
+				}
+				handled = true;
+			} else if (ch == Unicode.INVISIBLE_PLUS) {
+				newFunction(editorState, "mixedNumber", false, null);
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
 				newFunction(editorState, "sqrt", false, null);
@@ -1246,6 +1251,16 @@ public class InputController {
 			}
 		}
 		return handled;
+	}
+
+	/**
+	 * Needed to check if we are inside a mixed number (for handling "/")
+	 * @param editorState EditorState
+	 * @return True if the current field's parent is a mixed number, false else
+	 */
+	private boolean insideMixedNumber(EditorState editorState) {
+		return editorState.getCurrentField().getParent() != null
+				&& editorState.getCurrentField().getParent().hasTag(Tag.MIXED_NUMBER);
 	}
 
 	private boolean shouldCharBeIgnored(EditorState editorState, char ch) {

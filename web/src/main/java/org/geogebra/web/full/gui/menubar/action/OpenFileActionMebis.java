@@ -13,9 +13,8 @@ public class OpenFileActionMebis extends DefaultMenuAction<Void> {
 	public void execute(Void item, final AppWFull app) {
 		if (isLoggedOut(app)) {
 			app.getActivity().markSearchOpen();
-			app.getGuiManager().listenToLogin();
+			// no listening for login needed, will get redirected
 			app.getLoginOperation().showLoginDialog();
-			app.getGuiManager().setRunAfterLogin(() -> app.openSearch(null));
 		} else {
 			app.openSearch(null);
 		}

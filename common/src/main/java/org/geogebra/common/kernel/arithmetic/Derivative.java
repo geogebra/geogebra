@@ -433,6 +433,10 @@ public class Derivative {
 			break;
 		case ZETA:
 			break;
+		case DIRAC:
+			return new ExpressionNode(kernel0, left, Operation.DIRAC, fv);
+		case HEAVISIDE:
+			return new ExpressionNode(kernel0, left, Operation.DIRAC, fv);
 		default:
 			break;
 		}

@@ -455,7 +455,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			} /*
 				 * else if (p.addIncidenceWithProbabilisticChecking(c)) { //no
 				 * probabilistic checking anymore. See #1044
-				 * existingIntersection = p; AbstractApplication.debug(p);
+				 * existingIntersection = p;
 				 * break; }
 				 */
 		}
@@ -557,12 +557,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				pointList, permutation, !isPermutationNeeded, 0.000001);
 		isPermutationNeeded = false;
 
-		/*
-		 * System.out.print("permutation: "); for (int i=0; i <
-		 * permutation.length; i++) { System.out.print(permutation[i] + " "); }
-		 * Application.debug();
-		 */
-
 		// make sure interesection points lie on limited paths
 		if (isLimitedPathSituation) {
 			handleLimitedPaths();
@@ -640,8 +634,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		// intersection failed
 		if (!ok) {
-			// Application.debug("INTERSECT LINE CONIC FAILED: epsilon = " +
-			// epsilon);
 			for (int i = 0; i < 2; i++) {
 				sol[i].setUndefined();
 			}

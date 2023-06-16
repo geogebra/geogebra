@@ -340,6 +340,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 		case PLUS:
 			return tpl.plusString(left, right, leftStr, rightStr, valueForm,
 					loc);
+		case INVISIBLE_PLUS:
+			return tpl.invisiblePlusString(leftStr, rightStr);
 		case MINUS:
 			return tpl.minusString(left, right, leftStr, rightStr, valueForm, loc);
 
@@ -751,10 +753,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					break;
 				}
 				sb.append(leftStr);
-				if (!rightStr.contains("?")) {
-					sb.append(',');
-					sb.append(rightStr);
-				}
+				appendRightIfDefined(rightStr, sb);
 				sb.append(tpl.rightBracket());
 			}
 			break;
@@ -1303,6 +1302,44 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			sb.append(tpl.rightBracket());
 			break;
 
+		case DIRAC:
+			switch (stringType) {
+			case LATEX:
+				sb.append(" Dirac \\left( ");
+				break;
+			case LIBRE_OFFICE:
+				sb.append("%DIRAC left (");
+				break;
+			case GIAC:
+				sb.append("Dirac(");
+				break;
+
+			default:
+				sb.append("Dirac(");
+			}
+			sb.append(leftStr);
+			sb.append(tpl.rightBracket());
+			break;
+
+		case HEAVISIDE:
+			switch (stringType) {
+			case LATEX:
+				sb.append(" Heaviside \\left( ");
+				break;
+			case LIBRE_OFFICE:
+				sb.append("%HEAVISIDE left (");
+				break;
+			case GIAC:
+				sb.append("Heaviside(");
+				break;
+
+			default:
+				sb.append("Heaviside(");
+			}
+			sb.append(leftStr);
+			sb.append(tpl.rightBracket());
+			break;
+
 		case GAMMA_INCOMPLETE:
 			switch (stringType) {
 			case LATEX:
@@ -1671,8 +1708,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 						sb.append("(");
 						sb.append(list.getListElement(i).toString(tpl));
 						sb.append(")-1");
-						sb.append("]");
 					}
+					sb.append("]");
 				} else {
 					sb.append(Ggb2giac.ELEMENT_2.replace("_", "\\_").replace("%0", leftStr)
 							.replace("%1", rightStr));
@@ -1856,7 +1893,6 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(',');
 				sb.append(rightStr);
 				sb.append(")");
-				// AbstractApplication.debug(sb);
 			}
 			break;
 		case INVERSE_NORMAL:
@@ -1899,7 +1935,6 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(',');
 				sb.append(rightStr);
 				sb.append(")");
-				// AbstractApplication.debug(sb);
 			}
 			break;
 		case PRODUCT:
@@ -2048,6 +2083,13 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			sb.append(operation);
 		}
 		return sb.toString();
+	}
+
+	private static void appendRightIfDefined(String rightStr, StringBuilder sb) {
+		if (!rightStr.contains("?")) {
+			sb.append(',');
+			sb.append(rightStr);
+		}
 	}
 
 	private static void trig(String leftStr, StringBuilder sb, String mathml, String latex,

@@ -95,7 +95,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	 */
 	public ConstructionDefaults3D(Construction cons) {
 		super(cons);
-		// Application.debug("ConstructionDefaults3D");
 	}
 
 	/** default color for polyhedrons */

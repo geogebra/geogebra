@@ -2015,6 +2015,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(geo.getAlgebraDescriptionDefault(), startsWith("f(x)"));
 	}
 
+	@Test
+	public void testElementOfSyntax() {
+		add("l1={1,2,3,4}");
+		t("l1(2)", "2");
+	}
+
 	/**
 	 * APPS-4889
 	 */
@@ -2036,5 +2042,17 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 		t("Integral(f,x,0,x(A))", "8 / 3");
 		t("Integral(f,0,x(A))", "8 / 3");
+	}
+
+	@Test
+	public void testListAsFunction() {
+		add("h(x)={x, x + 1}");
+		t("h(1)", "{1, 2}");
+	}
+
+	@Test
+	public void testElementOfMatrix() {
+		add("m1={{1,2},{3,4}}");
+		t("m1(2,2)", "4");
 	}
 }
