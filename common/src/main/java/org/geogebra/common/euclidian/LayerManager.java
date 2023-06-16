@@ -30,7 +30,7 @@ public class LayerManager {
 		if (geo instanceof GeoLocusStroke) {
 			GeoLocusStroke stroke = (GeoLocusStroke) geo;
 			if (stroke.getSplitParentLabel() != null) {
-				drawingOrder.add(insertInCorrectPosition(stroke), geo);
+				drawingOrder.add(getInsertionIndex(stroke), geo);
 				return;
 			}
 		}
@@ -390,6 +390,8 @@ public class LayerManager {
 				} //else depth stays the same (double check this)
 			}
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -528,15 +530,6 @@ public class LayerManager {
 		return drawingOrder.get(i).getParentGroup();
 	}
 
-	private int insertInCorrectPosition(GeoLocusStroke stroke) {
-		double order = stroke.getConstruction()
-				.lookupLabel(stroke.getSplitParentLabel()).getOrdering();
-
-		int insertionIndex = getInsertionIndex(stroke);
-
-		return insertionIndex;
-	}
-
 	private int getInsertionIndex(GeoElement geo) {
 		int insertionIndex = Collections.binarySearch(drawingOrder, geo, Group.orderComparator);
 		if (insertionIndex < 0) {
@@ -624,7 +617,6 @@ public class LayerManager {
 		geo.setOrdering(ordering);
 		drawingOrder.remove(geo);
 		drawingOrder.add(getInsertionIndex(geo), geo);
-		drawingOrder.size();
 	}
 
 	/**
@@ -634,7 +626,7 @@ public class LayerManager {
 	 */
 	public int getGeoIndexUsingLabel(GeoElement geo) {
 		GeoElement oldGeo = drawingOrder.stream().filter(
-				s -> s.getLabelSimple() == geo.getLabelSimple()).findFirst().get();
+				s -> s.getLabelSimple().equals(geo.getLabelSimple())).findFirst().get();
 
 		return drawingOrder.indexOf(oldGeo);
 	}
