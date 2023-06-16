@@ -3682,6 +3682,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return displayStyle;
 	}
 
+	/**
+	 * @param piString - pi string
+	 * @return approximate pi template for CAS
+	 */
 	public StringTemplate deriveWithPi(String piString) {
 		StringTemplate copy = copy();
 		copy.printFormPI = piString;
