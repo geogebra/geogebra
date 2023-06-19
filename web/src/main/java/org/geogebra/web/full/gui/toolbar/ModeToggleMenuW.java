@@ -10,7 +10,6 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -350,12 +349,12 @@ public class ModeToggleMenuW extends ListItem
 			event.stopPropagation();
 		}
 
-		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+		app.getToolTipManager().setBlockToolTip(false);
 		// if we click the toolbar button, only interpret it as real click if
 		// there is only one tool in this menu
 		app.setMode(mode, event.getSource() == tbutton && menu.size() > 1
 				? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
-		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+		app.getToolTipManager().setBlockToolTip(true);
 
 		tbutton.getElement().focus();
 	}
@@ -436,7 +435,7 @@ public class ModeToggleMenuW extends ListItem
 	 *            tap event
 	 */
 	protected void showTooltipFor(HumanInputEvent<?> event) {
-		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+		app.getToolTipManager().setBlockToolTip(false);
 		int mode = -1;
 		if (event.getSource() == tbutton) {
 			mode = menu.get(0);
@@ -449,7 +448,7 @@ public class ModeToggleMenuW extends ListItem
 			// click if there is only one tool in this menu
 			showToolTipBottom(mode, ModeSetter.TOOLBAR);
 		}
-		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+		app.getToolTipManager().setBlockToolTip(true);
 
 	}
 
@@ -461,7 +460,7 @@ public class ModeToggleMenuW extends ListItem
 	 */
 	public void showToolTipBottom(int mode, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW && app.showToolBarHelp()) {
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(app.getToolName(mode),
+			app.getToolTipManager().showBottomInfoToolTip(app.getToolName(mode),
 					app.getToolHelp(mode), app.getLocalization().getMenu("Help"),
 					app.getGuiManager().getTooltipURL(mode), app,
 					ComponentSnackbar.TOOL_TOOLTIP_DURATION);
