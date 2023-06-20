@@ -13,6 +13,8 @@ public class MathFormulaConverter {
 	private final TeXSerializer texSerializer;
 	private final AddPlaceholders placeholders;
 	private boolean temporaryInput;
+	private String lastInput = "";
+	private String lastOutput = "";
 
 	public MathFormulaConverter() {
 		this(new MetaModel());
@@ -28,11 +30,19 @@ public class MathFormulaConverter {
 	}
 
 	/**
-	 * Converst from GGB to MathML style latex.
+	 * Converts from GGB to editor-style latex.
 	 * @param text ggb text.
 	 * @return MathML styled text
 	 */
 	public String convert(String text) {
+		if (!text.equals(lastInput)) {
+			lastInput = text;
+			lastOutput = doConvert(text);
+		}
+		return lastOutput;
+	}
+
+	private String doConvert(String text) {
 		MathFormula formula;
 		try {
 			formula = buildFormula(text);
@@ -46,9 +56,9 @@ public class MathFormulaConverter {
 	}
 
 	/**
-	 *
-	 * @param text to build a formura from.
+	 * @param text to build a formula from.
 	 * @return the built formula.
+	 * @throws ParseException when input invalid
 	 */
 	public MathFormula buildFormula(String text) throws ParseException {
 		MathFormula formula = parser.parse(text);
@@ -57,7 +67,7 @@ public class MathFormulaConverter {
 		return formula;
 	}
 
-	public void setTemporaryImput(boolean value) {
+	public void setTemporaryInput(boolean value) {
 		this.temporaryInput = value;
 	}
 }

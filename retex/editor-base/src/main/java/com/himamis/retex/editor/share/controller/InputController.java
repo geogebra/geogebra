@@ -778,7 +778,7 @@ public class InputController {
 
 	}
 
-	private static ArrayList<MathComponent> cut(MathSequence currentField,
+	private static ArrayList<MathComponent> cut(MathContainer currentField,
 			int from, int to, EditorState st, MathComponent array,
 			boolean rec) {
 
@@ -794,7 +794,7 @@ public class InputController {
 			}
 			// deep selection, e.g. a fraction
 			if (st.getSelectionEnd().getParent() != currentField && rec) {
-				return cut((MathSequence) st.getSelectionEnd().getParent(),
+				return cut(st.getSelectionEnd().getParent(),
 						st.getSelectionStart().getParentIndex(),
 						st.getSelectionEnd().getParentIndex(), st, array,
 						false);
@@ -809,16 +809,10 @@ public class InputController {
 			}
 
 		}
-		ArrayList<MathComponent> removed = new ArrayList<>();
-		for (int i = end; i >= start; i--) {
-			removed.add(currentField.getArgument(i));
-			currentField.removeArgument(i);
-		}
-		currentField.addArgument(start, array);
-		return removed;
+		return currentField.replaceArguments(start, end, array);
 	}
 
-	private static int endToken(int from, MathSequence currentField) {
+	private static int endToken(int from, MathContainer currentField) {
 		for (int i = from; i < currentField.size(); i++) {
 			if (currentField.isFieldSeparator(i)) {
 				return i - 1;

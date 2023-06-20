@@ -523,4 +523,21 @@ abstract public class MathContainer extends MathComponent implements Iterable<Ma
 	public Iterator<MathComponent> iterator() {
 		return arguments.iterator();
 	}
+
+	/**
+	 * Replace several arguments with single one
+	 * @param start index of first argument
+	 * @param end index of last argument
+	 * @param array replacement
+	 * @return list of removed elements
+	 */
+	public ArrayList<MathComponent> replaceArguments(int start, int end, MathComponent array) {
+		ArrayList<MathComponent> removed = new ArrayList<>();
+		for (int i = end; i >= start; i--) {
+			removed.add(getArgument(i));
+			removeArgument(i);
+		}
+		addArgument(start, array);
+		return removed;
+	}
 }
