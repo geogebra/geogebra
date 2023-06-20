@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.plugin.Operation;
 
@@ -37,17 +38,20 @@ public class CoordMultiplyReplacer implements Traversing {
 	private ExpressionValue processExpressionNode(ExpressionNode node) {
 		switch (node.getOperation()) {
 		case XCOORD:
-			if (xVar != null && !leftHasCoord(node) && !leftIsVariable(node)) {
+			leftResolveVariables(node);
+			if (xVar != null && !leftHasCoord(node)) {
 				return asMultiplication(node, xVar);
 			}
 			return node;
 		case YCOORD:
-			if (yVar != null && !leftHasCoord(node) && !leftIsVariable(node)) {
+			leftResolveVariables(node);
+			if (yVar != null && !leftHasCoord(node)) {
 				return asMultiplication(node, yVar);
 			}
 			return node;
 		case ZCOORD:
-			if (zVar != null && !leftHasCoord(node) && !leftIsVariable(node)) {
+			leftResolveVariables(node);
+			if (zVar != null && !leftHasCoord(node)) {
 				return asMultiplication(node, zVar);
 			}
 			return node;
@@ -70,7 +74,10 @@ public class CoordMultiplyReplacer implements Traversing {
 				|| (left.unwrap() instanceof GeoLine);
 	}
 
-	private boolean leftIsVariable(ExpressionNode node) {
-		return node.getLeft().unwrap().isVariable();
+	private void leftResolveVariables(ExpressionNode node) {
+		ExpressionValue left = node.getLeft();
+		if (left.unwrap().isVariable()) {
+			left.resolveVariables(new EvalInfo(false));
+		}
 	}
 }

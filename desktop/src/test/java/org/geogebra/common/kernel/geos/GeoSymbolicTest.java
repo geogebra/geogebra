@@ -2027,18 +2027,21 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testShouldNotChangeToMultiplication() {
 		t("f(x) = x^2", "x^(2)");
-		t("A = (2, 4, 6)", "(2, 4, 6)");
+		t("g(y) = y^2 + 3", "y^(2) + 3");
+		t("h(z) = z / 2", "1 / 2 * z");
+		t("i(t) = t^3", "t^(3)");
 
-		t("h(t) = t^3", "t^(3)");
+		t("A = (2, 4, 6)", "(2, 4, 6)");
 		t("B = (4, 8)", "(4, 8)");
 
 		t("f(x(A))", "4");
 		t("f'(x(A))", "4");
-		t("f(y(A))", "16");
-		t("f'(z(A))", "12");
 
-		t("h(x(B))", "64");
-		t("h'(y(B))", "192");
+		t("g(y(A))", "19");
+		t("h'(z(A))", "1 / 2");
+
+		t("i(x(B))", "64");
+		t("i'(y(B))", "192");
 
 		t("Integral(f,x,0,x(A))", "8 / 3");
 		t("Integral(f,0,x(A))", "8 / 3");
