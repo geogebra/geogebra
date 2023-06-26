@@ -34,6 +34,7 @@ public class EvalInfo {
 	private MyArbitraryConstant constant;
 	private boolean isRedefinition = false;
 	private boolean useAnalytics;
+	private boolean withCommands = true;
 
 	/**
 	 * Creates a default evaluation info
@@ -509,4 +510,23 @@ public class EvalInfo {
 	public boolean useAnalytics() {
 		return useAnalytics;
 	}
+
+	/**
+	 * Copy evalInffo and sets withCommands.
+	 * @param withCommands to set.
+	 */
+	public EvalInfo withCommands(boolean withCommands) {
+		EvalInfo info = copy();
+		info.withCommands = withCommands;
+		return info;
+	}
+
+	/**
+	 *
+	 * @return true iff commands are allowed during evaluation.
+	 */
+	public boolean getCommands() {
+		return withCommands;
+	}
+
 }

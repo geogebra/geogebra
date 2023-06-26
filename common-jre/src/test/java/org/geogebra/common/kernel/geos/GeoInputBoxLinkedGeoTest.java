@@ -703,6 +703,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void linkedGeosWithCommandsShouldNotBeAllowed() {
 		shouldBeDisallowed("Sequence[500]");
 		shouldBeDisallowed("Integral[4x^3]");
+		shouldBeDisallowed("1/2 + 3*Integral[4x^3]");
 	}
 
 	@Test
