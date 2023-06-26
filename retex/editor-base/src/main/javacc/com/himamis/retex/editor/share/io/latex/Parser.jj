@@ -131,6 +131,7 @@ PARSER_END(Parser)
 	| < SQUARE_BRACKETS_CLOSE : "]" >
 	| < CURLY_BRACKETS_OPEN : "{" >
 	| < CURLY_BRACKETS_CLOSE : "}" >
+	| < OVERLINE : "\u0305" >
 	| < LCEIL : "\u2308" >
 	| < RCEIL : "\u2309" >
 	| < LFLOOR : "\u230a" >
@@ -183,6 +184,8 @@ void atomicWrapper(MathContainer currentField) : {}
 	fraction(currentField)
 	|
 	mixedNumber(currentField)
+	|
+	recurringDecimal(currentField)
 	|
 	nroot(currentField)
 	|
@@ -329,6 +332,30 @@ void mixedNumber(MathContainer currentField) :
 		mixedNumber.setArgument(2, denominator);
 		ArgumentHelper.passArgument(editorState, mixedNumber);
 		currentField.addArgument(mixedNumber);
+	}
+}
+
+void recurringDecimal(MathContainer currentField) :
+{
+	MathFunction recurringDecimal;
+}
+{
+	<OVERLINE> {
+		MathSequence passArg = new MathSequence();
+		editorState.setCurrentField((MathSequence) currentField);
+		editorState.setCurrentOffset(currentField.size());
+		if (currentField.size() > 1
+				&& currentField.getArgument(currentField.size() - 2).hasTag(Tag.RECURRING_DECIMAL)) {
+			// There is already a recurring decimal - just append the 2nd, 3rd, ... repeating digit
+			recurringDecimal = (MathFunction) currentField.getArgument(currentField.size() - 2);
+			ArgumentHelper.passSingleCharacter(editorState, recurringDecimal.getArgument(0));
+		} else {
+			// Create a new MathFunction
+			recurringDecimal = new MathFunction(metaModel.getGeneral(Tag.RECURRING_DECIMAL));
+			recurringDecimal.setArgument(0, passArg);
+			ArgumentHelper.passSingleCharacter(editorState, recurringDecimal.getArgument(0));
+			currentField.addArgument(recurringDecimal);
+		}
 	}
 }
 

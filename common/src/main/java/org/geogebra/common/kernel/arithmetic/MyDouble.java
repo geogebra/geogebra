@@ -40,6 +40,7 @@ import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
+import com.himamis.retex.editor.share.util.Unicode;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -957,24 +958,52 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * extension of StringUtil.parseDouble() to cope with unicode digits eg
-	 * Arabic
-	 * 
-	 * @param str
-	 *            string to be parsed
-	 * @param app
-	 *            application for showing errors
-	 * @return value
+	 * Extension of StringUtil.parseDouble() to cope with unicode digits e.g. Arabic <br>
+	 * The ranges displayed in the serializeDigits method show which digits are accepted. <br>
+	 * This can for example be basic Latin characters,
+	 * Malayalam characters (Southern India) etc. <br>
+	 * If a given String cannot be parsed, e.g. because someone typed more than 1 decimal point,
+	 * an exception will be thrown and then 'converted' to an InvalidInput Error
+	 *
+	 * @see MyDouble#serializeDigits(String, boolean) 
+	 * @param str String to be parsed
+	 * @param app Localization (for showing errors)
+	 * @return The value from the input String, as double
 	 */
 	public static double parseDouble(Localization app, String str) {
+		StringBuilder sb = serializeDigits(str, false);
+		try {
+			return StringUtil.parseDouble(sb.toString());
+		} catch (Exception e) {
+			// eg try to parse "1.2.3", "1..2"
+			throw new MyError(app, Errors.InvalidInput, str);
+		}
+	}
+
+	/**
+	 * Appends the characters from a given string to a StringBuilder that is then returned
+	 * @param str String to be parsed (input)
+	 * @param isRecurringDecimal Whether we want to append Unicode.OVERLINE (\u0305)
+	 * @return StringBuilder
+	 */
+	public static StringBuilder serializeDigits(String str, boolean isRecurringDecimal) {
 		StringBuilder sb = new StringBuilder();
 		sb.setLength(0);
 		for (int i = 0; i < str.length(); i++) {
 			int ch = str.charAt(i);
-			if (ch <= 0x30) {
+			if (ch <= 0x30 || (isRecurringDecimal && ch == Unicode.OVERLINE)) {
 				sb.append(str.charAt(i)); // eg .
 				continue;
 			}
+
+			// Unicode ranges for digits 0-9 in different languages
+			/*
+			 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",
+			 * "\u0966"-"\u096f", "\u09e6"-"\u09ef", "\u0a66"-"\u0a6f",
+			 * "\u0ae6"-"\u0aef", "\u0b66"-"\u0b6f", "\u0be7"-"\u0bef",
+			 * "\u0c66"-"\u0c6f", "\u0ce6"-"\u0cef", "\u0d66"-"\u0d6f",
+			 * "\u0e50"-"\u0e59", "\u0ed0"-"\u0ed9", "\u1040"-"\u1049"
+			 */
 
 			// check roman first (most common)
 			else if (ch <= 0x39) {
@@ -1035,20 +1064,7 @@ public class MyDouble extends ValidExpression
 			}
 			sb.append(ch);
 		}
-		try {
-			return StringUtil.parseDouble(sb.toString());
-		} catch (Exception e) {
-			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(app, Errors.InvalidInput, str);
-		}
-		/*
-		 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",
-		 * "\u0966"-"\u096f", "\u09e6"-"\u09ef", "\u0a66"-"\u0a6f",
-		 * "\u0ae6"-"\u0aef", "\u0b66"-"\u0b6f", "\u0be7"-"\u0bef",
-		 * "\u0c66"-"\u0c6f", "\u0ce6"-"\u0cef", "\u0d66"-"\u0d6f",
-		 * "\u0e50"-"\u0e59", "\u0ed0"-"\u0ed9", "\u1040"-"\u1049"
-		 */
-
+		return sb;
 	}
 
 	/**

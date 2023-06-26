@@ -38,6 +38,7 @@ class MetaModelFunctions {
 
 		functions.add(createFunction(Tag.SUBSCRIPT));
 		functions.add(createFunction(Tag.SUPERSCRIPT));
+		functions.add(createFunction(Tag.RECURRING_DECIMAL));
 
 		functions.add(createFunction(Tag.FRAC, "\\frac",
 				new MetaParameter[] {
@@ -86,6 +87,7 @@ class MetaModelFunctions {
 		functions.add(createFunction(Tag.VEC, "\\vec", new MetaParameter[] {
 				MetaParameter.BASIC
 		}));
+
 		functions.add(
 				createFunction(Tag.MIXED_NUMBER, "", new MetaParameter[] {
 								MetaParameter.BASIC, createParameterDown(2), createParameterUp(1)

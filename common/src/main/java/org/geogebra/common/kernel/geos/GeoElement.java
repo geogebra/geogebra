@@ -79,6 +79,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -6626,6 +6627,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return false;
 		}
 		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
+			return false;
+		}
+		if (unwrap instanceof RecurringDecimal) {
 			return false;
 		}
 		if (unwrap instanceof NumberValue) {
