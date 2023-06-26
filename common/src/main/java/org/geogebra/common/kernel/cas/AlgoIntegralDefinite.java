@@ -79,6 +79,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	// freehand functions tend to be less smooth
 	private static final int FREEHAND_MULTIPLIER = 10;
 
+	// approximate bounds for CAS, see TRAC-3865, TRAC-5532
+	private static final StringTemplate approxPiTemplate = StringTemplate.giacNumeric13
+			.deriveWithPi("3.141592653589793");
+
 	/**
 	 * @param cons
 	 *            construction
@@ -334,7 +338,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		/*
 		 * Try to use symbolic integral
-		 * 
+		 *
 		 * We only do this for functions that do NOT include divisions by their
 		 * variable. Otherwise there might be problems like: Integral[ 1/x, -2,
 		 * -1 ] would be undefined (log(-1) - log(-2)) Integral[ 1/x^2, -1, 1 ]
@@ -591,7 +595,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		StringBuilder sb = new StringBuilder(30);
 
-		// #4687
+		// TRAC-5531
 		// as we want a numerical answer not exact, more robust to pass
 		// 6.28318530717959
 		// rather than
@@ -602,11 +606,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		sb.append(",");
 		sb.append(f.getVarString(StringTemplate.defaultTemplate));
 		sb.append(",");
-		// #5130
-		sb.append(a.toValueString(StringTemplate.giacNumeric13));
+		sb.append(a.toValueString(approxPiTemplate));
 		sb.append(",");
-		// #5130
-		sb.append(b.toValueString(StringTemplate.giacNumeric13));
+		sb.append(b.toValueString(approxPiTemplate));
 		sb.append("))");
 
 		String result;
