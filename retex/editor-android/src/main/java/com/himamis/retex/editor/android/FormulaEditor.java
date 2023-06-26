@@ -46,6 +46,16 @@ import android.view.inputmethod.InputMethodManager;
 @SuppressWarnings({"ClassWithTooManyFields", "ClassWithTooManyMethods", "OverlyComplexClass", "OverlyCoupledClass"})
 public class FormulaEditor extends View implements MathField {
 
+    public interface InputChangeListener {
+
+        /**
+         * Called after the formula has been changed.
+         *
+         * @param input GgbInput instance
+         */
+        void afterInputChanged(FormulaEditor input);
+    }
+
     private final static int CURSOR_MARGIN = 5;
 
     private static final int DEFAULT_SIZE = 20;
@@ -76,17 +86,6 @@ public class FormulaEditor extends View implements MathField {
     protected final List<InputChangeListener> mInputChangeListeners = new ArrayList<>();
 
     private final GeoGebraSerializer mSerializer = new GeoGebraSerializer();
-
-    public interface InputChangeListener {
-
-        /**
-         * Called after the formula has been changed.
-         *
-         * @param input GgbInput instance
-         */
-        void afterInputChanged(FormulaEditor input);
-
-    }
 
     public FormulaEditor(Context context) {
         super(context);
@@ -604,10 +603,6 @@ public class FormulaEditor extends View implements MathField {
 
     public float getTextSize() {
         return mSize;
-    }
-
-    public String getText() {
-        return "";
     }
 
     @Override
