@@ -126,7 +126,7 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
+	public CommandFilter createCommandFilter() {
 		return CommandFilterFactory.create3DGraphingCommandFilter();
 	}
 

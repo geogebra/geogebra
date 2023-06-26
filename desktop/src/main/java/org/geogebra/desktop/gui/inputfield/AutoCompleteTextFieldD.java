@@ -492,16 +492,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 			e.consume();
 			return;
 		}
-		// Application.debug(e+"");
-
-		/*
-		 * test code to generate unicode strings for Virtual Keyboard String
-		 * text = getText(); String outStr = ""; for (int i = 0 ; i <
-		 * text.length() ; i++) { int ch = text.charAt(i); if (ch < 128) outStr
-		 * += text.charAt(i); else { String unicode = Integer.toHexString(ch);
-		 * if (unicode.length() < 4) unicode = "\\u0"+unicode; else unicode =
-		 * "\\u"+unicode; outStr += unicode; } } Application.debug(outStr); //
-		 */
 
 		// ctrl pressed on Mac
 		// or alt on Windows

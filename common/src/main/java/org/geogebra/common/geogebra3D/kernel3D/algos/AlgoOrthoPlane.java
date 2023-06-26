@@ -75,8 +75,6 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 			return;
 		}
 
-		// Application.debug(m.toString());
-
 		Coords o = getPoint();
 		coordsys.addPoint(o);
 

@@ -248,11 +248,6 @@ public class OptionsObjectD extends OptionsObject
 	 *            geo
 	 */
 	public void updateIfInSelection(GeoElement geo) {
-		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected =
-		// "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
-		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains =
-		// "+(selection!=null
-		// && selection.contains(geo)));
 		if (getSelection() != null && getSelection().size() == 1
 				&& getSelection().contains(geo)) {
 			propPanel.updateOneGeoDefinition(geo);

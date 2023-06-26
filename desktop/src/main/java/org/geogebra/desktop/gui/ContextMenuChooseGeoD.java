@@ -201,18 +201,13 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// AbstractApplication.debug(geo.getLabelSimple());
-			/*
-			 * geo.setHighlighted(true); app.getKernel().notifyRepaint();
-			 */
 			view.getEuclidianController().doSingleHighlighting(geo);
 		}
 
 		/*
 		 * @Override public void mouseExited(MouseEvent e) {
-		 * AbstractApplication.debug(geo.getLabelSimple());
 		 * geo.setHighlighted(false); app.getKernel().notifyRepaint();
-		 * 
+		 *
 		 * }
 		 */
 	}

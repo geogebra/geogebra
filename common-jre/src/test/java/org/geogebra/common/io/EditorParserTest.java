@@ -98,7 +98,13 @@ public class EditorParserTest {
 
 	@Test
 	public void mixedNumber() {
-		parsesAs("3\u2064(1)/(2)", "3\u2064(1)/(2)");
+		parsesAs("3" + Unicode.INVISIBLE_PLUS + "(1)/(2)",
+				"(3" + Unicode.INVISIBLE_PLUS + "(1)/(2))");
+		parsesAs("3 1/2", "(3 " + Unicode.INVISIBLE_PLUS + "(1)/(2))");
+		parsesAs("-4 1/3", "-(4 " + Unicode.INVISIBLE_PLUS + "(1)/(3))");
+		parsesAs("-7" + Unicode.INVISIBLE_PLUS + "(2)/(3)",
+				"-(7" + Unicode.INVISIBLE_PLUS + "(2)/(3))");
+		parsesAs("sqrt(3 1/2)", "sqrt((3 " + Unicode.INVISIBLE_PLUS + "(1)/(2)))");
 	}
 
 	@Test
@@ -123,6 +129,7 @@ public class EditorParserTest {
 	 */
 	private boolean isSpecialOperation(Operation op) {
 		return op == Operation.IF_LIST || op == Operation.DOLLAR_VAR_COL
-				|| op == Operation.DOLLAR_VAR_ROW || op == Operation.DOLLAR_VAR_ROW_COL;
+				|| op == Operation.DOLLAR_VAR_ROW || op == Operation.DOLLAR_VAR_ROW_COL
+				|| op == Operation.INVISIBLE_PLUS;
 	}
 }

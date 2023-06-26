@@ -669,7 +669,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				getKernel().getAlgebraProcessor().getCommandDispatcher();
 
 		for (String cmd : commandDictContent) {
-			commandDictCAS.addEntry(cmd);
+			if (commandDispatcher.isAllowedByNameFilter(Commands.stringToCommand(cmd))) {
+				commandDictCAS.addEntry(cmd);
+			}
 		}
 
 		// iterate through all available CAS commands, add them (translated if
@@ -3672,7 +3674,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return whether it's supported
 	 */
 	public final boolean has(Feature f) {
-		boolean whiteboard = isWhiteboardActive();
 		switch (f) {
 		// **********************************************************************
 		// MOBILE START
@@ -3731,7 +3732,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getPlatform());
+			return Platform.OFFLINE.equals(getPlatform());
 
 		// TRAC-4845
 		case LOG_AXES:
@@ -3899,6 +3900,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
 			if (geo.isGeoBoolean()) {
+				if (!geo.isIndependent()) {
+					return true;
+				}
+
 				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
 				geoBool.setValue(!geoBool.getBoolean());
 				geoBool.updateRepaint();

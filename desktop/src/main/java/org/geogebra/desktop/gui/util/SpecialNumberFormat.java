@@ -172,10 +172,7 @@ public class SpecialNumberFormat implements ActionListener {
 		if (cmd.endsWith("decimals")) {
 			try {
 				String decStr = cmd.substring(0, 2).trim();
-				int decimals = Integer.parseInt(decStr);
-				// Application.debug("decimals " + decimals);
-
-				printDecimals = decimals;
+				printDecimals = Integer.parseInt(decStr);
 				printFigures = -1;
 
 				invoker.changedNumberFormat();
@@ -189,10 +186,7 @@ public class SpecialNumberFormat implements ActionListener {
 		else if (cmd.endsWith("figures")) {
 			try {
 				String decStr = cmd.substring(0, 2).trim();
-				int figures = Integer.parseInt(decStr);
-				// Application.debug("figures " + figures);
-
-				printFigures = figures;
+				printFigures = Integer.parseInt(decStr);
 				printDecimals = -1;
 
 				invoker.changedNumberFormat();

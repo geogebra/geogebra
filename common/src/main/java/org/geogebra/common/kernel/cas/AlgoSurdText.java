@@ -955,12 +955,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// for (int i = 0; i < n; i++)
 		// P[i][i] += 1;
 
-		// debug: |P|^2=|H|^2 = n-1
-		// AbstractApplication.debug("Frobenius Norm Squares: \n"
-		// + "|P|^2 = " + frobNormSq(P,n,n)
-		// + "|H|^2 = " + frobNormSq(H,n,n-1)
-		// );
-
 		// initialize matrices R
 		int[][][] R = new int[n - 1][n][n];
 		for (int j = 0; j < n - 1; j++) {
@@ -1005,7 +999,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		int itCount = 0;
 		double itBound = 2.0 * gamma / deltaSq * n * n * (n + 1)
 				* Math.log(Math.sqrt(bound * bound * n) * n * n) / Math.log(2);
-		// AbstractApplication.debug("itBound = " + itBound);
 		while (itCount < itBound) {
 
 			// 0. test if we have found a relation in a column of B
@@ -1563,12 +1556,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			/*
 			 * //P = H.multiply( ((Array2DRowFieldMatrix<Dfp>) H.transpose()));
-			 * 
-			 * System.out.println(P.toString());
-			 * 
-			 * //debug: |P|^2=|H|^2 = n-1 AbstractApplication.debug(
-			 * "Frobenius Norm Squares: \n" + "|P|^2 = " + frobNormSq(P,n,n) +
-			 * "|H|^2 = " + frobNormSq(H,n,n-1) );
 			 */
 
 			mH = new MyDecimalMatrix(lessScale1, n, n - 1);

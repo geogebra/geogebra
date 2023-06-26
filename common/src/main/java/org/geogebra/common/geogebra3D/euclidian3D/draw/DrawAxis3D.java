@@ -54,10 +54,6 @@ public class DrawAxis3D extends DrawLine3D {
 	 */
 	@Override
 	public void drawLabel(Renderer renderer) {
-
-		// Application.debug(getGeoElement()+":
-		// "+getGeoElement().isLabelVisible());
-
 		if (!getGeoElement().isEuclidianVisible()) {
 			return;
 		}
@@ -90,8 +86,6 @@ public class DrawAxis3D extends DrawLine3D {
 		int axisIndex = axis.getType();
 
 		double distance = getView3D().getAxisNumberingDistance(axisIndex);
-
-		// Application.debug("drawMinMax="+getDrawMin()+","+getDrawMax());
 		double[] minmax = getDrawMinMax();
 
 		int iMin = (int) (minmax[0] / distance);
@@ -102,7 +96,6 @@ public class DrawAxis3D extends DrawLine3D {
 			iMax--;
 		}
 		int nb = iMax - iMin + 1;
-		// Application.debug("iMinMax="+iMin+","+iMax);
 
 		if (nb < 1) {
 			Log.debug("nb=" + nb);

@@ -340,8 +340,8 @@ public class InputController {
 			function.setArgument(i, field);
 		}
 
-		// pass characters for fraction and factorial only
-		if (tag == Tag.FRAC) {
+		// pass characters for fraction, factorial, and mixed number only
+		if (tag == Tag.FRAC || tag == Tag.MIXED_NUMBER) {
 			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
@@ -778,7 +778,7 @@ public class InputController {
 
 	}
 
-	private static ArrayList<MathComponent> cut(MathSequence currentField,
+	private static ArrayList<MathComponent> cut(MathContainer currentField,
 			int from, int to, EditorState st, MathComponent array,
 			boolean rec) {
 
@@ -794,7 +794,7 @@ public class InputController {
 			}
 			// deep selection, e.g. a fraction
 			if (st.getSelectionEnd().getParent() != currentField && rec) {
-				return cut((MathSequence) st.getSelectionEnd().getParent(),
+				return cut(st.getSelectionEnd().getParent(),
 						st.getSelectionStart().getParentIndex(),
 						st.getSelectionEnd().getParentIndex(), st, array,
 						false);
@@ -809,16 +809,10 @@ public class InputController {
 			}
 
 		}
-		ArrayList<MathComponent> removed = new ArrayList<>();
-		for (int i = end; i >= start; i--) {
-			removed.add(currentField.getArgument(i));
-			currentField.removeArgument(i);
-		}
-		currentField.addArgument(start, array);
-		return removed;
+		return currentField.replaceArguments(start, end, array);
 	}
 
-	private static int endToken(int from, MathSequence currentField) {
+	private static int endToken(int from, MathContainer currentField) {
 		for (int i = from; i < currentField.size(); i++) {
 			if (currentField.isFieldSeparator(i)) {
 				return i - 1;
@@ -1207,7 +1201,12 @@ public class InputController {
 				newScript(editorState, Tag.SUBSCRIPT);
 				handled = true;
 			} else if (ch == '/' || ch == '\u00f7') {
-				newFunction(editorState, "frac", false, null);
+				if (!insideMixedNumber(editorState)) {
+					newFunction(editorState, "frac", false, null);
+				}
+				handled = true;
+			} else if (ch == Unicode.INVISIBLE_PLUS) {
+				newFunction(editorState, "mixedNumber", false, null);
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
 				newFunction(editorState, "sqrt", false, null);
@@ -1246,6 +1245,16 @@ public class InputController {
 			}
 		}
 		return handled;
+	}
+
+	/**
+	 * Needed to check if we are inside a mixed number (for handling "/")
+	 * @param editorState EditorState
+	 * @return True if the current field's parent is a mixed number, false else
+	 */
+	private boolean insideMixedNumber(EditorState editorState) {
+		return editorState.getCurrentField().getParent() != null
+				&& editorState.getCurrentField().getParent().hasTag(Tag.MIXED_NUMBER);
 	}
 
 	private boolean shouldCharBeIgnored(EditorState editorState, char ch) {

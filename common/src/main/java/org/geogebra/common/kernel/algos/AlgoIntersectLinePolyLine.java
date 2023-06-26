@@ -152,7 +152,6 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 			} else if (GeoSegment.checkOnPath(segStart, segEnd, coords, false,
 					Kernel.STANDARD_PRECISION)) {
 				double t = ((GeoLine) line).getPossibleParameter(coords);
-				// Application.debug("parameter("+i+") : "+t);
 				if (t >= min && t <= max) {
 					paramToCoords.put(t, coords);
 				}

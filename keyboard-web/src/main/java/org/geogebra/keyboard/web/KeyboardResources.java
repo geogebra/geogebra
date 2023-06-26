@@ -2,7 +2,6 @@ package org.geogebra.keyboard.web;
 
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ClientBundle;
-import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.Resource;
 
 /**
@@ -21,46 +20,43 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/common/close.svg")
 	SVGResource keyboard_close_black();
 
-	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_close_purple_24px.svg")
-	SVGResource keyboard_close_purple();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/shift_purple.svg")
+	SVGResource keyboard_shiftDown();
 
-	@Source("org/geogebra/common/icons/png/keyboard/shift_purple.png")
-	ImageResource keyboard_shiftDown();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/shift_black.svg")
+	SVGResource keyboard_shift();
 
-	@Source("org/geogebra/common/icons/png/keyboard/shift_black.png")
-	ImageResource keyboard_shift();
-
-	@Source("org/geogebra/common/icons/png/keyboard/backspace.png")
-	ImageResource keyboard_backspace();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/backspace.svg")
+	SVGResource keyboard_backspace();
 
 	// enter for new keyboard
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_enter_black.png")
-	ImageResource keyboard_enter_black();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/keyboard_enter_black.svg")
+	SVGResource keyboard_enter_black();
 
 	// left arrow for new keyboard
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowLeft_black.png")
-	ImageResource keyboard_arrowLeft_black();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/keyboard_arrowLeft_black.svg")
+	SVGResource keyboard_arrowLeft_black();
 
 	// right arrow for new keyboard
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowRight_black.png")
-	ImageResource keyboard_arrowRight_black();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/keyboard_arrowRight_black.svg")
+	SVGResource keyboard_arrowRight_black();
 
 	// up arrow for new keyboard
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowUp_black.png")
-	ImageResource keyboard_arrowUp_black();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/keyboard_arrowUp_black.svg")
+	SVGResource keyboard_arrowUp_black();
 
 	// down arrow for new keyboard
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowDown_black.png")
-	ImageResource keyboard_arrowDown_black();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/keyboard_arrowDown_black.svg")
+	SVGResource keyboard_arrowDown_black();
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_keyboard_black_24px.svg")
 	SVGResource keyboard_show_material();
 
-	@Source("org/geogebra/common/icons/png/keyboard/integral.png")
-	ImageResource integral();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/integral.svg")
+	SVGResource integral();
 
-	@Source("org/geogebra/common/icons/png/keyboard/d_dx.png")
-	ImageResource derivative();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/derivative.svg")
+	SVGResource derivative();
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/square.svg")
 	SVGResource square();

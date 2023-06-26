@@ -177,7 +177,6 @@ public class Manager3D implements Manager3DInterface {
 			cons.setSuppressLabelCreation(true);
 
 		}
-		// Application.debug("Point3DIn - \n x="+x+"\n y="+y+"\n z="+z);
 		AlgoPoint3DInRegion algo = new AlgoPoint3DInRegion(cons, label, region,
 				coords);
 		GeoPoint3D p = algo.getP();
@@ -365,14 +364,9 @@ public class Manager3D implements Manager3DInterface {
 	/** Ray3D label linking points P1 and P2 */
 	@Override
 	final public GeoRay3D ray3D(String label, GeoPointND P1, GeoPointND P2) {
-		// Application.debug("Kernel3D : Ray3D");
-		// AlgoJoinPointsRay3D algo = new AlgoJoinPointsRay3D(cons, label, P1,
-		// P2);
-		// GeoRay3D l = algo.getRay3D();
 		AlgoJoinPoints3D algo = new AlgoJoinPoints3D(cons, label, P1, P2,
 				GeoClass.RAY3D);
-		GeoRay3D l = (GeoRay3D) algo.getCS();
-		return l;
+		return (GeoRay3D) algo.getCS();
 	}
 
 	@Override
@@ -927,7 +921,6 @@ public class Manager3D implements Manager3DInterface {
 		if (p instanceof GeoPolygon) {
 			algo = new AlgoIntersectPathLinePolygon3D(cons, labels,
 					(GeoElement) g, (GeoPolygon) p);
-			// Application.debug(algo);
 			return algo.getOutput();
 		}
 		return null;

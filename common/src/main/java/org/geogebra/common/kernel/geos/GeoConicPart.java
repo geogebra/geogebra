@@ -357,9 +357,6 @@ public class GeoConicPart extends GeoConic
 
 		default:
 			pPP.t = -1;
-			// Application.debug("GeoConicPart.isIncident: unsupported conic
-			// part for conic type: "
-			// + type);
 		}
 
 		// adapt eps for very large circles (almost line)
@@ -447,9 +444,6 @@ public class GeoConicPart extends GeoConic
 
 		default:
 			pp.t = Double.NaN;
-			// Application.debug("GeoConicPart.pointChanged(): unsupported conic
-			// part for conic type: "
-			// + type);
 		}
 	}
 
@@ -511,9 +505,7 @@ public class GeoConicPart extends GeoConic
 			break;
 
 		default:
-			// Application.debug("GeoConicPart.pathChanged(): unsupported conic
-			// part for conic type: "
-			// + type);
+			// unsupported arc type
 		}
 	}
 

@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.SyntaxAdapterImpl;
@@ -150,7 +151,19 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		drawable.setWidgetVisible(true);
 	}
 
-	protected abstract void resetChanges();
+	protected void resetChanges() {
+		boolean textMode = isTextMode();
+		String text = getGeoInputBox().getTextForEditor();
+		getMathFieldInternal().setAllowAbs(
+				!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
+		getMathFieldInternal().setPlainTextMode(textMode);
+		if (textMode) {
+			getMathFieldInternal().setPlainText(text);
+		} else {
+			getMathFieldInternal().parse(text);
+		}
+		setProtection();
+	}
 
 	public abstract void repaintBox(GGraphics2D g2);
 

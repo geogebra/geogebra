@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.base;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.geogebra.keyboard.base.impl.KeyboardImpl;
 import org.geogebra.keyboard.base.model.KeyModifier;
@@ -133,7 +134,7 @@ public class KeyboardFactory {
 	 */
 	public Keyboard getImpl(KeyboardModelFactory modelFactory) {
 		return new KeyboardImpl(
-				modelFactory.createKeyboardModel(defaultButtonFactory), null,
+				() -> modelFactory.createKeyboardModel(defaultButtonFactory), null,
 				null);
 	}
 
@@ -147,7 +148,7 @@ public class KeyboardFactory {
 	public Keyboard getImpl(KeyboardModelFactory modelFactory,
 			CapsLockModifier capsLock) {
 		return new KeyboardImpl(
-				modelFactory.createKeyboardModel(
+				() -> modelFactory.createKeyboardModel(
 						new ButtonFactory(new KeyModifier[] { capsLock })),
 				capsLock, null);
 	}
@@ -171,7 +172,8 @@ public class KeyboardFactory {
 		CapsLockModifier capsLockModifier = new CapsLockModifier();
 		ButtonFactory buttonFactory = new ButtonFactory(
 				new KeyModifier[] { accentModifier, capsLockModifier });
-		KeyboardModel model = greekKeyboardFactory.createKeyboardModel(buttonFactory);
+		Supplier<KeyboardModel> model = () -> greekKeyboardFactory
+				.createKeyboardModel(buttonFactory);
 		return new KeyboardImpl(model, capsLockModifier, accentModifier);
 	}
 
@@ -198,11 +200,14 @@ public class KeyboardFactory {
 			String bottomRow, Map<String, String> upperKeys, boolean withGreekSwitch) {
 		AccentModifier accentModifier = new AccentModifier();
 		CapsLockModifier capsLockModifier = new CapsLockModifier(upperKeys);
-		ButtonFactory buttonFactory = new ButtonFactory(
-				new KeyModifier[] { accentModifier, capsLockModifier });
-		letterKeyboardFactory.setUpperKeys(upperKeys);
-		letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow, withGreekSwitch);
-		KeyboardModel model = letterKeyboardFactory.createKeyboardModel(buttonFactory);
+		Supplier<KeyboardModel> model = () -> {
+			ButtonFactory buttonFactory = new ButtonFactory(
+					new KeyModifier[]{accentModifier, capsLockModifier});
+			letterKeyboardFactory.setUpperKeys(upperKeys);
+			letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow,
+					withGreekSwitch);
+			return letterKeyboardFactory.createKeyboardModel(buttonFactory);
+		};
 		return new KeyboardImpl(model, capsLockModifier, accentModifier);
 	}
 

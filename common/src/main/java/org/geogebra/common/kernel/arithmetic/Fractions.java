@@ -150,6 +150,7 @@ public class Fractions {
 			}
 			return;
 		case PLUS:
+		case INVISIBLE_PLUS:
 			if (expandPlus) {
 				parts[0] = multiplyCheck(denR, numL).wrap().plus(multiplyCheck(denL, numR));
 				parts[1] = multiplyCheck(denR, denL);

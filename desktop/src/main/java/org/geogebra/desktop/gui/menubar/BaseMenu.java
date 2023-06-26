@@ -110,7 +110,6 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 			// UIManager.put("Menu.acceleratorFont", app.getPlainFont());
 			UIManager.put("MenuItem.acceleratorFont", app.getPlainFont());
 			initialized = true;
-			// AbstractApplication.debug("building menu");
 			initActions();
 			initItems();
 			update();

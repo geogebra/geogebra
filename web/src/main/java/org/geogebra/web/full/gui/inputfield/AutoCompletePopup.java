@@ -62,13 +62,18 @@ public class AutoCompletePopup extends GPopupMenuW {
 		FlowPanel heading = new FlowPanel();
 		heading.addStyleName("autocompleteSyntaxHeading");
 		heading.add(new Label(command.command));
-		StandardButton w = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
-				null, 24);
-		w.addFastClickHandler(ignore ->
-			getApp().getGuiManager().openHelp(command.helpPage, command.helpType)
-		);
-		heading.add(w);
+		if (!getApp().isExamStarted()) {
+			heading.add(createHelpButton(command));
+		}
 		return heading;
+	}
+
+	private Widget createHelpButton(AutocompleteProvider.Completion command) {
+		StandardButton button = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
+				null, 24);
+		button.addFastClickHandler(ignore ->
+				getApp().getGuiManager().openHelp(command.helpPage, command.helpType));
+		return button;
 	}
 
 	private String highlightSuffix(String command) {

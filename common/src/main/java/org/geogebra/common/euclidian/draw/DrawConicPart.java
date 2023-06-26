@@ -158,8 +158,6 @@ public class DrawConicPart extends Drawable implements Previewable {
 				break;
 
 			default:
-				// Application.debug("DrawConicPart: unsupported conic type: " +
-				// conicPart.getType());
 				isVisible = false;
 				return;
 			}

@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class CellFormatText {
+public class CellFormatTest {
 	private static AppCommon app;
 
 	@BeforeClass
