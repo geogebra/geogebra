@@ -712,4 +712,11 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
 				+ " \\end{pmatrix}", inputBox.getText());
 	}
+
+	@Test
+	public void testHyphenMinusShouldBeReplaced() {
+		GeoNumeric n = add("cmd=12  10");
+		GeoInputBox inputBox = add("InputBox(cmd)");
+		assertThat(inputBox.getLinkedGeo().toValueString(StringTemplate.inputBoxTemplate), is("2"));
+	}
 }
