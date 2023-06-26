@@ -112,7 +112,6 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_SHIFT:
-			return false;
 		case JavaKeyCodes.VK_OPEN_BRACKET:
 			return false;
 		case JavaKeyCodes.VK_TAB:

@@ -299,7 +299,7 @@ public class EditorState {
 	}
 
 	/**
-	 * @return true if has selection
+	 * @return true part of expression is selected
 	 */
 	public boolean hasSelection() {
 		return currentSelStart != null;
@@ -640,6 +640,7 @@ public class EditorState {
 		}
 		return current instanceof MathSequence ? (MathSequence) current : rootComponent;
 	}
+
 	public MathComponent getComponentLeftOfCursor() {
 		return currentOffset > 0 ? currentField.getArgument(currentOffset - 1) : null;
 	}
