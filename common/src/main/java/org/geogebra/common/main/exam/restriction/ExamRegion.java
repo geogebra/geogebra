@@ -7,7 +7,6 @@ import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.PROBABILITY_APPCODE;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
@@ -53,7 +52,6 @@ public enum ExamRegion {
 			model.setSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE);
 			model.setCommandFilter(CommandFilterFactory.createMmsFilter());
 			model.setFeatureRestrictions(FeatureRestriction.DATA_TABLE_REGRESSION);
-			model.setExpressionFilter(ExpressionFilterFactory.createMmsExpressionFilter());
 		}
 
 		@Override

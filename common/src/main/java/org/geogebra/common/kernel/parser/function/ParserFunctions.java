@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.parser.function;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.exam.restriction.Restrictable;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -11,7 +10,7 @@ import org.geogebra.common.plugin.Operation;
  * 
  * @author zbynek
  */
-public interface ParserFunctions extends Restrictable {
+public interface ParserFunctions {
 	String NROOT_SUFFIX = "( <x>, <n> )";
 
 	/**
@@ -87,5 +86,4 @@ public interface ParserFunctions extends Restrictable {
 	 * @return suggestion updated for the editor
 	 */
 	String toEditorAutocomplete(String text, Localization loc);
-
 }
