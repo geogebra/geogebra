@@ -131,9 +131,11 @@ public class XMLBuilder {
 			sb.append(geo.getLayer());
 			sb.append("\"/>\n");
 
-			sb.append("\t<ordering val=\"");
-			sb.append(geo.getOrdering());
-			sb.append("\"/>\n");
+			if (geo.getOrdering() >= 0) {
+				sb.append("\t<ordering val=\"");
+				sb.append(geo.getOrdering());
+				sb.append("\"/>\n");
+			}
 		}
 
 		if (geo.isDefaultGeo()) {
