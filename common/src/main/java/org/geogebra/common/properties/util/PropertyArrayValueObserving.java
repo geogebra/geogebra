@@ -5,9 +5,9 @@ import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
 
-public final class PropertiesUtil {
+public final class PropertyArrayValueObserving {
 
-	private PropertiesUtil() {
+	private PropertyArrayValueObserving() {
 	}
 
 	/**

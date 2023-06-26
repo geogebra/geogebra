@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.aliases.ActionableIconCollection;
+import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.impl.AbstractPropertyCollection;
 
 public class GraphicsActionsPropertyCollection
 		extends AbstractPropertyCollection<ActionableIconProperty>
-		implements ActionableIconCollection {
+		implements ActionableIconPropertyCollection {
 
 	/**
 	 * Constructs a GraphicsActionsPropertyCollection.

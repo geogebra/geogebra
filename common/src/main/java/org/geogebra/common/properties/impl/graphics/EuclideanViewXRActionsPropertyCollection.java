@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.aliases.ActionableIconCollection;
+import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.impl.AbstractPropertyCollection;
 
 public class EuclideanViewXRActionsPropertyCollection
 		extends AbstractPropertyCollection<ActionableIconProperty>
-		implements ActionableIconCollection {
+		implements ActionableIconPropertyCollection {
 
 	/**
 	 * Constructs an EuclideanActionsPropertyCollection.
