@@ -23,21 +23,21 @@ public interface ValuedProperty<V> extends Property {
 	/**
 	 * Marks this property as setting value. Call this method for properties whose values
 	 * might be set multiple times, for some period. After the quick successive changes end,
-	 * call {@link ValuedProperty#endSettingValue()}.
+	 * call {@link ValuedProperty#endSetValue()}.
 	 * <p>
 	 * For example, when using a {@link RangeProperty} and displaying it as a slider,
 	 * adjusting the slider produces a large amount of {@link ValuedProperty#setValue(Object)} calls.
 	 * In order to optimize this, some properties (or value observers) might decide to delay
-	 * the handling of setValue after {@link ValuedProperty#endSettingValue()} has been called.
+	 * the handling of setValue after {@link ValuedProperty#endSetValue()} has been called.
 	 */
-	void startSettingValue();
+	void beginSetValue();
 
 	/**
 	 * Marks this property as setting value has ended. For every call of this method,
-	 * there must be a preceeding {@link ValuedProperty#startSettingValue()} call, otherwise
+	 * there must be a preceeding {@link ValuedProperty#beginSetValue()} call, otherwise
 	 * the functionality is undefined.
 	 */
-	void endSettingValue();
+	void endSetValue();
 
 	/**
 	 * Adds a property value observer. Adding an obsever that is

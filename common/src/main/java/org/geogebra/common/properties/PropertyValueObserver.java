@@ -10,21 +10,21 @@ public interface PropertyValueObserver<V> {
      *
      * @param property property
      */
-    void didSet(ValuedProperty<V> property);
+    void onDidSetValue(ValuedProperty<V> property);
 
     /**
      * Called when the property will have it's value set multiple times.
-     * For more information see {@link ValuedProperty#startSettingValue()}.
+     * For more information see {@link ValuedProperty#beginSetValue()}.
      *
      * @param property property
      */
-    void onStartSetting(ValuedProperty<V> property);
+    void onBeginSetValue(ValuedProperty<V> property);
 
     /**
      * Called when the property value ends changing.
-     * For more information see {@link ValuedProperty#startSettingValue()}.
+     * For more information see {@link ValuedProperty#beginSetValue()}.
      *
      * @param property property
      */
-    void onEndSetting(ValuedProperty<V> property);
+    void onEndSetValue(ValuedProperty<V> property);
 }
