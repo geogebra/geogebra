@@ -269,7 +269,6 @@ public class LayerManager {
 	 */
 	public void updateOrdering(String labels, Kernel kernel) {
 		drawingOrder.clear();
-		int counter = 0;
 		for (String label : labels.split(",")) {
 			GeoElement geo = kernel.lookupLabel(label);
 			drawingOrder.add(geo);
