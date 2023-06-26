@@ -17,19 +17,19 @@ public class UndoSavingPropertyObserver implements PropertyValueObserver {
 	}
 
 	@Override
-	public void onStartChanging(ValuedProperty property) {
+	public void onStartSetting(ValuedProperty property) {
 		// Ignore
 	}
 
 	@Override
-	public void onEndChanging(ValuedProperty property) {
+	public void onEndSetting(ValuedProperty property) {
 		if (property instanceof RangeProperty) {
 			undoManager.storeUndoInfo();
 		}
 	}
 
 	@Override
-	public void onChange(ValuedProperty property) {
+	public void didSet(ValuedProperty property) {
 		if (!(property instanceof RangeProperty)) {
 			undoManager.storeUndoInfo();
 		}

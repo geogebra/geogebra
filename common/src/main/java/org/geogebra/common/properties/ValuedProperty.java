@@ -1,7 +1,7 @@
 package org.geogebra.common.properties;
 
 /**
- * A property that holds a value and can be observed for changes.
+ * A property that holds a value and hosts value observers.
  * @param <V> the type of the value
  */
 public interface ValuedProperty<V> extends Property {
@@ -21,23 +21,23 @@ public interface ValuedProperty<V> extends Property {
 	void setValue(V value);
 
 	/**
-	 * Marks this property as changing value. Call this method for properties whose values
-	 * might change quickly for some period. After the quick successive changes end,
-	 * call {@link ValuedProperty#endChangingValue()}.
+	 * Marks this property as setting value. Call this method for properties whose values
+	 * might be set multiple times, for some period. After the quick successive changes end,
+	 * call {@link ValuedProperty#endSettingValue()}.
 	 * <p>
 	 * For example, when using a {@link RangeProperty} and displaying it as a slider,
 	 * adjusting the slider produces a large amount of {@link ValuedProperty#setValue(Object)} calls.
 	 * In order to optimize this, some properties (or value observers) might decide to delay
-	 * the handling of setValue after {@link ValuedProperty#endChangingValue()} has been called.
+	 * the handling of setValue after {@link ValuedProperty#endSettingValue()} has been called.
 	 */
-	void startChangingValue();
+	void startSettingValue();
 
 	/**
-	 * Marks this property as its value changing has ended. For every call of this method,
-	 * there must be a preceeding {@link ValuedProperty#startChangingValue()} call, otherwise
+	 * Marks this property as setting value has ended. For every call of this method,
+	 * there must be a preceeding {@link ValuedProperty#startSettingValue()} call, otherwise
 	 * the functionality is undefined.
 	 */
-	void endChangingValue();
+	void endSettingValue();
 
 	/**
 	 * Adds a property value observer. Adding an obsever that is

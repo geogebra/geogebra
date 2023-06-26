@@ -70,18 +70,18 @@ abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> i
 	@Override
 	public void setValue(S value) {
 		callProperty(property -> property.setValue(value));
-		notifyObservers(observer -> observer.onChange(this));
+		notifyObservers(observer -> observer.didSet(this));
 	}
 
 	@Override
-	public void startChangingValue() {
-		callProperty(ValuedProperty::startChangingValue);
-		notifyObservers(observer -> observer.onStartChanging(this));
+	public void startSettingValue() {
+		callProperty(ValuedProperty::startSettingValue);
+		notifyObservers(observer -> observer.onStartSetting(this));
 	}
 
 	@Override
-	public void endChangingValue() {
-		callProperty(ValuedProperty::endChangingValue);
-		notifyObservers(observer -> observer.onEndChanging(this));
+	public void endSettingValue() {
+		callProperty(ValuedProperty::endSettingValue);
+		notifyObservers(observer -> observer.onEndSetting(this));
 	}
 }
