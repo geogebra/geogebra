@@ -713,9 +713,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		shouldBeAllowed("3+5+32*sin(x)");
 	}
 
-	private void shouldBeAllowed(String cmd) {
-		add("cmd = " + cmd);
-		GeoInputBox inputBox = add("InputBox(cmd)");
+	@Test
+	public void noRedefinitionWithCommands() {
+		add("number = 3 + 5");
+		GeoInputBox inputBox = add("InputBox(number)");
+		inputBox.updateLinkedGeo("8 + Sequence[1,500]");
+		assertFalse(inputBox.getLinkedGeo().isDefined());
+	}
+
+	private void shouldBeAllowed(String definition) {
+		add("foo = " + definition);
+		GeoInputBox inputBox = add("InputBox(foo)");
 		assertThat(inputBox.getLinkedGeo().toValueString(StringTemplate.inputBoxTemplate), not(""));
 	}
 
