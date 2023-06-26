@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -697,40 +696,5 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 				+ "{" + TeXSerializer.PLACEHOLDER + "} \\\\ "
 				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
 				+ " \\end{pmatrix}", inputBox.getText());
-	}
-
-	@Test
-	public void linkedGeosWithCommandsShouldNotBeAllowed() {
-		shouldBeDisallowed("Sequence[500]");
-		shouldBeDisallowed("Integral[4x^3]");
-		shouldBeDisallowed("1/2 + 3*Integral[4x^3]");
-	}
-
-	@Test
-	public void linkedGeosWithOperationsShouldBeAllowed() {
-		shouldBeAllowed("3");
-		shouldBeAllowed("3+sqrt(4)");
-		shouldBeAllowed("3+5+32*sin(x)");
-	}
-
-	@Test
-	public void noRedefinitionWithCommands() {
-		add("number = 3 + 5");
-		GeoInputBox inputBox = add("InputBox(number)");
-		inputBox.updateLinkedGeo("8 + Sequence[1,500]");
-		assertFalse(inputBox.getLinkedGeo().isDefined());
-	}
-
-	private void shouldBeAllowed(String definition) {
-		add("foo = " + definition);
-		GeoInputBox inputBox = add("InputBox(foo)");
-		assertThat(inputBox.getLinkedGeo().toValueString(StringTemplate.inputBoxTemplate), not(""));
-	}
-
-	private void shouldBeDisallowed(String cmd) {
-		add("cmd = " + cmd);
-		GeoInputBox inputBox = add("InputBox(cmd)");
-		assertThat(inputBox.getLinkedGeo().toValueString(StringTemplate.inputBoxTemplate), is(""));
-
 	}
 }

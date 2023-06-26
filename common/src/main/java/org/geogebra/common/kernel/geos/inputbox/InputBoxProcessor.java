@@ -69,7 +69,7 @@ public class InputBoxProcessor {
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
 		updateLinkedGeoNoErrorHandling(tpl, errorHandler, content);
 
-		if (errorHandler.errorOccured || isPermittedForLinking(linkedGeo)) {
+		if (errorHandler.errorOccured) {
 			if ("?".equals(inputText)) {
 				inputBox.setTempUserInput("", "");
 			} else {
@@ -84,20 +84,7 @@ public class InputBoxProcessor {
 		}
 	}
 
-	/**
-	 *
-	 * @param geo about to link.
-	 * @return true if geo is not allowed in InputBoxes.
-	 */
-	public static boolean isPermittedForLinking(GeoElementND geo) {
-		ExpressionNode definition = geo.getDefinition();
-		if (definition == null) {
-			return geo.getParentAlgorithm() != null;
-		}
-		return !definition.inspect(
-				node -> {return !(node.wrap().isTopLevelCommand());}
-		);
-	}
+
 
 	private String processPlaceholders(String content) {
 		if (content == null) {
