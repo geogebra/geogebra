@@ -84,8 +84,6 @@ public class InputBoxProcessor {
 		}
 	}
 
-
-
 	private String processPlaceholders(String content) {
 		if (content == null) {
 			return null;
