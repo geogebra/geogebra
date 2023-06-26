@@ -160,6 +160,11 @@ public class ButtonDialogModel {
 		return options;
 	}
 
+	/**
+	 *
+	 * @param geo to check.
+	 * @return if geo is linkable to inputBox.
+	 */
 	public static boolean isGeoLinkable(GeoElementND geo) {
 		if (geo.isGeoImage() || geo.isGeoButton() || geo.isGeoBoolean()) {
 			return false;
@@ -169,7 +174,9 @@ public class ButtonDialogModel {
 
 	private static boolean hasCommand(ExpressionNode node) {
 		return node != null && node.inspect(
-				t -> {return t.wrap().isTopLevelCommand();}
+			t -> {
+				return t.wrap().isTopLevelCommand();
+			}
 		);
 	}
 }
