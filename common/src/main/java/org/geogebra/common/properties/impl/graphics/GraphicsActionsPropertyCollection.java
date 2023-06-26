@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
+import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.impl.AbstractPropertyCollection;
 
 public class GraphicsActionsPropertyCollection
