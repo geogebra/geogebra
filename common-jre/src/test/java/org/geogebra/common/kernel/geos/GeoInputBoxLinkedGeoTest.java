@@ -715,8 +715,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	@Test
 	public void testHyphenMinusShouldBeReplaced() {
-		GeoNumeric n = add("cmd=12  10");
-		GeoInputBox inputBox = add("InputBox(cmd)");
-		assertThat(inputBox.getLinkedGeo().toValueString(StringTemplate.inputBoxTemplate), is("2"));
+		add("text1=\" \"");
+		GeoInputBox inputBox = add("InputBox(text1)");
+		inputBox.updateLinkedGeo("12" + Unicode.MINUS + "10");
+		assertThat(inputBox.getTextForEditor(), is("12-10"));
 	}
 }
