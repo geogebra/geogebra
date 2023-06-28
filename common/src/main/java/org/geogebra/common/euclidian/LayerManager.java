@@ -16,8 +16,12 @@ public class LayerManager {
 	private ArrayList<GeoElement> drawingOrder = new ArrayList<>();
 	private boolean renaming = false;
 
-	private int getNextOrder() {
-		return drawingOrder.size();
+	private double getNextOrder() {
+		if (drawingOrder.size() > 0) {
+			return drawingOrder.get(drawingOrder.size()-1).getOrdering() + 1.0;
+		} else {
+			return 0.0;
+		}
 	}
 
 	/**
@@ -592,13 +596,12 @@ public class LayerManager {
 	 * @param pos new ordering
 	 * @param newGeo construction element
 	 */
-	public void replace(double pos, GeoElement newGeo) {
+	public void replace(double ordering, GeoElement newGeo) {
 		drawingOrder.remove(newGeo);
-		if (drawingOrder.size() >= pos && pos >= 0) {
-			drawingOrder.add(getInsertionIndex(newGeo), newGeo);
-			newGeo.getKernel().getApplication()
+		newGeo.setOrdering(ordering);
+		drawingOrder.add(getInsertionIndex(newGeo), newGeo);
+		newGeo.getKernel().getApplication()
 					.getActiveEuclidianView().invalidateDrawableList();
-		}
 	}
 
 	public ArrayList<GeoElement> getTargetGeos() {
