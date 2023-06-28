@@ -1309,7 +1309,7 @@ public class AlgebraProcessor {
 			ErrorHandler handler, ValidExpression ve, EvalInfo info) {
 		GeoElement[] geoElements = null;
 		try {
- 			geoElements = processValidExpression(ve, info);
+			geoElements = processValidExpression(ve, info);
 			if (storeUndo && geoElements != null) {
 				app.storeUndoInfo();
 			}
