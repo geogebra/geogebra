@@ -656,7 +656,7 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
-			} else if (geo.isGeoSurfaceCartesian()) {
+			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)){
 				n.setForceSurfaceCartesian();
 			} else if (geo instanceof GeoFunctionNVar) {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
@@ -679,6 +679,11 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
+	}
+
+	private static boolean isForceSurfaceCartesian(ValidExpression newValue, GeoElementND geo) {
+		return geo.isGeoSurfaceCartesian()
+				&& !(newValue.wrap().getLeft() instanceof Function);
 	}
 
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
@@ -1304,7 +1309,7 @@ public class AlgebraProcessor {
 			ErrorHandler handler, ValidExpression ve, EvalInfo info) {
 		GeoElement[] geoElements = null;
 		try {
-			geoElements = processValidExpression(ve, info);
+ 			geoElements = processValidExpression(ve, info);
 			if (storeUndo && geoElements != null) {
 				app.storeUndoInfo();
 			}

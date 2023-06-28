@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -584,4 +586,22 @@ public class RedefineTest extends BaseUnitTest {
 		};
 	}
 
+	@Test
+	public void redefineComplexToRealFunctionShouldWork() {
+		add("h(x) = x + i");
+		assertThat(lookup("h").getClass(), is(GeoSurfaceCartesian2D.class));
+		add("h(x) = 2*x/2");
+		assertThat(lookup("h").getClass(), is(GeoFunction.class));
+	}
+
+	@Test
+	public void redefineComplexToRealFunctionFromAVShouldWork() {
+		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(getApp());
+		GeoElementND h = add("h(x) = x + i", evalInfo);
+		assertThat(lookup("h").getClass(), is(GeoSurfaceCartesian2D.class));
+		getKernel().getAlgebraProcessor()
+						.changeGeoElementNoExceptionHandling(h, "h(x) = 2x/2", evalInfo,
+								true, null, null);
+		assertThat(lookup("h").getClass(), is(GeoFunction.class));
+	}
 }
