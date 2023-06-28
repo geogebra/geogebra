@@ -425,12 +425,18 @@ public class Derivative {
 			break;
 		case SUM:
 			break;
+		case PRODUCT:
+			break;
 		case VECTORPRODUCT:
 			break;
 		case VEC_FUNCTION:
 			break;
 		case ZETA:
 			break;
+		case DIRAC:
+			return new ExpressionNode(kernel0, left, Operation.DIRAC, fv);
+		case HEAVISIDE:
+			return new ExpressionNode(kernel0, left, Operation.DIRAC, fv);
 		default:
 			break;
 		}

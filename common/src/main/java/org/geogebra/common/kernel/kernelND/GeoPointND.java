@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.kernelND;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.LocateableList;
+import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathOrPoint;
@@ -19,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.matrix.CoordSys;
@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 
 public interface GeoPointND extends PointProperties, Translateable,
-		SpreadsheetTraceable, PointRotateable, CoordStyle, VectorNDValue,
+		SpreadsheetTraceable, MatrixTransformable, CoordStyle, VectorNDValue,
 		Mirrorable, Dilateable, Animatable {
 
 	/** cannot move */

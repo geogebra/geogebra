@@ -153,12 +153,6 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 				}
 			}
 		}
-
-		// Application.debug("SET INTERSECTION POINT");
-		// for (int i=0; i < points.length; i++) {
-		// Application.debug(" point " + i + ": " + points[i] + ", defPoint " +
-		// defpoints[i]);
-		// }
 	}
 
 	/**

@@ -27,7 +27,6 @@ public class OptionsObject {
 	 *            geo
 	 */
 	public void add(GeoElement geo) {
-		// AbstractApplication.debug("\ngeo = "+geo);
 		geoAdded = geo;
 	}
 

@@ -14,7 +14,8 @@ def getChangelog() {
 
 def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
 def isEditor = env.BRANCH_NAME.matches("dev|(.*editor)")
-def modules = isEditor ? '-Pgmodule="org.geogebra.web.Web3D,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
+def hasSourcemap = env.BRANCH_NAME.matches("dev|apps-4831")
+def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
 def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
 
@@ -127,6 +128,10 @@ pipeline {
                 script {
                     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
                        s3Delete(bucket: 'apps-builds', path: "geogebra/branches/${env.GIT_BRANCH}/latest/")
+                       if (hasSourcemap) {
+                           s3Upload(bucket: 'apps-builds', workingDir: "web/build/symbolMapsGz", path: "geogebra/sourcemaps/",
+                                   includePathPattern: "**/*.json", acl: 'PublicRead', contentEncoding: "gzip")
+                       }
                     }
                     s3uploadDefault(".", "changes.csv", "")
                     s3uploadDefault("web/build/s3", "webSimple/**", "gzip")

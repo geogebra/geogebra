@@ -38,7 +38,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		Traceable, Transformable, Mirrorable, MatrixTransformable,
-		PointRotateable, Translateable, Dilateable, GeoPoly {
+		Translateable, Dilateable, GeoPoly {
 
 	/** maximum number of points when created by tool */
 	public static final int POLYLINE_MAX_POINTS = 500;

@@ -916,7 +916,6 @@ public class VirtualKeyboardD extends JFrame
 					} else if ("\u21a4".equals(txt)) {
 						startAutoRepeat("<backspace>");
 					}
-					// Application.debug(Buttons[i][j].getText());
 				}
 
 				@Override
@@ -1151,7 +1150,6 @@ public class VirtualKeyboardD extends JFrame
 
 		// interval bisection method to find desired fontsize
 		while (minSize != maxSize - 1) {
-			// Application.debug(minSize+" "+maxSize);
 			// better than (low+high)/2 for positive numbers
 			int midSize = (minSize + maxSize) >>> 1;
 

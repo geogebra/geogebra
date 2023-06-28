@@ -61,8 +61,6 @@ public class EuclidianControllerForPlaneCompanion
 
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
 
-		// Application.debug("xRW, yRW= "+xRW+", "+yRW+"\n3D coords:\n"+coords);
-
 		// cancel 3D controller stuff
 		if (((GeoElement) ec.movedGeoPoint).isGeoElement3D()) {
 			((GeoPoint3D) ec.movedGeoPoint).setWillingCoordsUndefined();

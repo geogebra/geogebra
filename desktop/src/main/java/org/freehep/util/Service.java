@@ -42,7 +42,6 @@ public class Service {
 
 		while (services.hasMoreElements()) {
 			URL url = (URL) services.nextElement();
-			// Application.debug(url);
 			InputStream input = null;
 			BufferedReader reader = null;
 			try {

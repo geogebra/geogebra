@@ -6,8 +6,6 @@ import org.geogebra.web.resources.SVGResource;
 
 class MenuIconResource {
 
-	private static final String FILL_COLOR = "rgba(0, 0, 0, 0.54)";
-
 	private MenuIconProvider menuIconProvider;
 
 	MenuIconResource(MenuIconProvider menuIconProvider) {
@@ -15,8 +13,7 @@ class MenuIconResource {
 	}
 
 	SVGResource getImageResource(Icon icon) {
-		SVGResource resource = matchIconWithResource(icon);
-		return applyTint(resource);
+		return matchIconWithResource(icon);
 	}
 
 	private SVGResource matchIconWithResource(Icon icon) {
@@ -27,6 +24,8 @@ class MenuIconResource {
 				return menuIconProvider.download();
 			case SAVE:
 				return menuIconProvider.save();
+			case SAVE_ONLINE:
+				return menuIconProvider.saveOnline();
 			case HOURGLASS_EMPTY:
 				return menuIconProvider.hourglassEmpty();
 			case GEOGEBRA:
@@ -63,9 +62,5 @@ class MenuIconResource {
 			default:
 				return null;
 		}
-	}
-
-	private SVGResource applyTint(SVGResource resource) {
-		return resource == null ? null : resource.withFill(FILL_COLOR);
 	}
 }

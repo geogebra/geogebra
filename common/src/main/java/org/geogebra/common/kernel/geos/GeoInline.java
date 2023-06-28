@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
-public abstract class GeoInline extends GeoElement implements Translateable, PointRotateable,
+public abstract class GeoInline extends GeoElement implements Translateable, Rotatable,
 		RectangleTransformable {
 
 	private GPoint2D location;

@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -81,21 +82,31 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 
 	@Test
 	public void shouldUpdateOnAppSwitch() {
+		shouldUpdateOnAppSwitch("en", "Curve");
+	}
+
+	@Test
+	public void shouldUpdateOnAppSwitchDE() {
+		shouldUpdateOnAppSwitch("de", "Kurve");
+	}
+
+	private void shouldUpdateOnAppSwitch(String lang, String curveCommand) {
+		getApp().setLocale(new Locale(lang));
 		AutocompleteProvider provider = new AutocompleteProvider(getApp(), false);
 		AutocompleteProvider casProvider = new AutocompleteProvider(getApp(), true);
 
 		AppConfigCas casConfig = new AppConfigCas();
 		swapConfig(casConfig);
-		assertEquals(0, provider.getCompletions("Curve").count());
-		assertEquals(0, casProvider.getCompletions("Curve").count());
+		assertEquals(0, provider.getCompletions(curveCommand).count());
+		assertEquals(0, casProvider.getCompletions(curveCommand).count());
 
 		swapConfig(new AppConfigGraphing());
-		assertEquals(1, provider.getCompletions("Curve").count());
-		assertEquals(1, casProvider.getCompletions("Curve").count());
+		assertEquals(1, provider.getCompletions(curveCommand).count());
+		assertEquals(1, casProvider.getCompletions(curveCommand).count());
 
 		swapConfig(new AppConfigCas());
-		assertEquals(0, provider.getCompletions("Curve").count());
-		assertEquals(0, casProvider.getCompletions("Curve").count());
+		assertEquals(0, provider.getCompletions(curveCommand).count());
+		assertEquals(0, casProvider.getCompletions(curveCommand).count());
 	}
 
 	private void swapConfig(AppConfig config) {

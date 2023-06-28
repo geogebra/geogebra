@@ -114,13 +114,6 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	public static int getRoots(double[] roots,
 			EquationSolverInterface eqnSolver) {
 		int nrRealRoots = eqnSolver.polynomialRoots(roots, false);
-		// StringBuilder sb=new StringBuilder();
-		// for (int i=0;i<nrRealRoots;i++){
-		// if (i>0)
-		// sb.append(',');
-		// sb.append(roots[i]);
-		// }
-		// Application.debug("roots->"+sb);
 		if (nrRealRoots > 1) {
 			int c = 0;
 			Arrays.sort(roots, 0, nrRealRoots);

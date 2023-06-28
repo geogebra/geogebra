@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.stringContainsInOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -26,8 +27,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.test.RegexpMatch;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -112,9 +111,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		setValuesSafe(0, 1.5, 0.7);
 		assertEquals(4, model.getRowCount());
-		assertTrue(DoubleUtil.isEqual(view.getValuesMin(), 0));
-		assertTrue(DoubleUtil.isEqual(view.getValuesMax(), 1.5));
-		assertTrue(DoubleUtil.isEqual(view.getValuesStep(), 0.7));
+		assertEquals(view.getValuesMin(), 0, 1E-7);
+		assertEquals(view.getValuesMax(), 1.5, 1E-7);
+		assertEquals(view.getValuesStep(), 0.7, 1E-7);
 	}
 
 	@Test
@@ -524,9 +523,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction fn = factory.createFunction("f:x^2");
 		showColumn(fn);
 		assertThat(getApp().getXML(),
-				RegexpMatch.matches(
-						".*<tableview min=\"0.0\" max=\"10.0\".*"
-								+ "<tableview column=\"1\" points=\"true\"\\/>.*"));
+				stringContainsInOrder(
+						"<tableview min=\"0.0\" max=\"10.0\"",
+								"<tableview column=\"1\" points=\"true\"/>"));
 	}
 
 	@Test

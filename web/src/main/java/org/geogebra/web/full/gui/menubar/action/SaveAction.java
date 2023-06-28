@@ -16,6 +16,6 @@ public class SaveAction extends DefaultMenuAction<Void> {
 			app.getActivity().markSaveOpen();
 		}
 
-		app.getGuiManager().save();
+		app.getDialogManager().showSaveDialog();
 	}
 }

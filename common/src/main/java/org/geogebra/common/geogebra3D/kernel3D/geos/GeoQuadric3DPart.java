@@ -304,9 +304,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	 * Update the area
 	 */
 	public void calcArea() {
-
-		// Application.debug("geo="+getLabel()+", half="+getHalfAxis(0)+",
-		// min="+min+", max="+max+", type="+type);
 		switch (type) {
 		case QUADRIC_CYLINDER:
 			if (!DoubleUtil.isEqual(getHalfAxis(0), getHalfAxis(1))) {

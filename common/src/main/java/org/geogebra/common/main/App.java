@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -660,20 +659,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// get all commands from the commandDict and write them to the
 		// commandDictCAS
 
-		// the keySet contains all commands of the dictionary; see
-		// LowerCaseDictionary.addEntry(String s) for more
-		Collection<String> commandDictContent = commandDict.values();
-
-		// write them to the commandDictCAS
-		CommandDispatcher commandDispatcher =
-				getKernel().getAlgebraProcessor().getCommandDispatcher();
-
-		for (String cmd : commandDictContent) {
-			if (commandDispatcher.isAllowedByNameFilter(Commands.stringToCommand(cmd))) {
-				commandDictCAS.addEntry(cmd);
-			}
+		// Copy all commands from input bar dictionary (already filtered) to CAS dictionary
+		for (String cmd : commandDict.values()) {
+			commandDictCAS.addEntry(cmd);
 		}
 
+		CommandDispatcher commandDispatcher =
+				getKernel().getAlgebraProcessor().getCommandDispatcher();
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
@@ -3674,7 +3666,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return whether it's supported
 	 */
 	public final boolean has(Feature f) {
-		boolean whiteboard = isWhiteboardActive();
 		switch (f) {
 		// **********************************************************************
 		// MOBILE START
@@ -3733,7 +3724,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getPlatform());
+			return Platform.OFFLINE.equals(getPlatform());
 
 		// TRAC-4845
 		case LOG_AXES:
@@ -3901,6 +3892,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
 			if (geo.isGeoBoolean()) {
+				if (!geo.isIndependent()) {
+					return true;
+				}
+
 				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
 				geoBool.setValue(!geoBool.getBoolean());
 				geoBool.updateRepaint();

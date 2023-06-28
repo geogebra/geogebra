@@ -145,7 +145,6 @@ public abstract class GeoGebraExport {
 		int y2 = euclidianView.toScreenCoordY(ymax);
 		GRectangle rec = AwtFactory.getPrototype().newRectangle(x1, y2, x2 - x1,
 				y1 - y2);
-		// Application.debug(x1+" "+x2+" "+y1+" "+y2);
 		euclidianView.setSelectionRectangle(rec);
 		euclidianView.repaint();
 	}

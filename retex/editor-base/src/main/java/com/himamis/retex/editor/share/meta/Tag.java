@@ -47,6 +47,8 @@ public enum Tag {
 
 	MIXED_NUMBER("mixedNumber"),
 
+	RECURRING_DECIMAL("recurringDecimal"),
+
 	APPLY,
 
 	ABS("abs"),

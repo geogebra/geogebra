@@ -38,13 +38,6 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 	public AlgoExtremumPolynomial(Construction cons, String[] labels,
 			GeoFunctionable f, boolean labelEnabled) {
 		super(cons, labels, f, labelEnabled);
-
-		// Application.debug("AlgoExtremumPolynomial: " + f + ", " + f.cons);
-		// Iterator it = f.getVariables().iterator();
-		// while (it.hasNext()) {
-		// GeoElement var = (GeoElement) it.next();
-		// Application.debug(" " + var + ", " + var.cons );
-		// }
 	}
 
 	@Override
@@ -62,9 +55,6 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 	@Override
 	public void compute() {
 		if (f.isDefined()) {
-			// TODO: remove
-			// Application.debug("*** extremum of " + f);
-
 			yValFunction = f.getFunction();
 
 			// roots of first derivative

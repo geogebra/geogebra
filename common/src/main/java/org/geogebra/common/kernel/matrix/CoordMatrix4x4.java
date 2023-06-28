@@ -676,4 +676,17 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		}
 	}
 
+	/**
+	 * Set the bottom right entry to 0, rest of last row and column to 1
+	 */
+	public void resetLastRowAndColumn() {
+		set(1, 4, 0);
+		set(2, 4, 0);
+		set(3, 4, 0);
+
+		set(4, 1, 0);
+		set(4, 2, 0);
+		set(4, 3, 0);
+		set(4, 4, 1);
+	}
 }

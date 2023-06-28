@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 
 /**
  *
@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.kernelND.RotateableND;
  */
 public abstract class AlgoRotate3D extends AlgoTransformation {
 
-	protected RotateableND out;
+	protected RotatableND out;
 	protected GeoNumberValue angle;
 
 	/**
@@ -57,7 +57,7 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 		// create output object
 		outGeo = getResultTemplate(inGeo);
 		if (!(outGeo instanceof GeoList)) {
-			out = (RotateableND) outGeo;
+			out = (RotatableND) outGeo;
 		}
 	}
 
@@ -86,7 +86,7 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 		inGeo = g;
 		outGeo = g2;
 		if (!(outGeo instanceof GeoList)) {
-			out = (RotateableND) outGeo;
+			out = (RotatableND) outGeo;
 		}
 
 	}
