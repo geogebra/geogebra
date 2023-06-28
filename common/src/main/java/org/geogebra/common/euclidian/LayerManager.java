@@ -18,7 +18,7 @@ public class LayerManager {
 
 	private double getNextOrder() {
 		if (drawingOrder.size() > 0) {
-			return drawingOrder.get(drawingOrder.size()-1).getOrdering() + 1.0;
+			return drawingOrder.get(drawingOrder.size() - 1).getOrdering() + 1.0;
 		} else {
 			return 0.0;
 		}
@@ -593,7 +593,7 @@ public class LayerManager {
 	}
 
 	/**
-	 * @param pos new ordering
+	 * @param ordering ordering
 	 * @param newGeo construction element
 	 */
 	public void replace(double ordering, GeoElement newGeo) {
