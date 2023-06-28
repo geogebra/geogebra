@@ -17,6 +17,7 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
@@ -711,5 +712,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 				+ "{" + TeXSerializer.PLACEHOLDER + "} \\\\ "
 				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
 				+ " \\end{pmatrix}", inputBox.getText());
+	}
+
+	@Test
+	public void complexToRealFunctionShouldNotBeRedefined() {
+		add("h(x) = x + i");
+		GeoInputBox inputBox = add("InputBox(h)");
+		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
+		inputBox.updateLinkedGeo("2x/3");
+		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
 	}
 }
