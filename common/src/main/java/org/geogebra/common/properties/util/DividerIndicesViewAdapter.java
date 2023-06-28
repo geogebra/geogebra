@@ -12,7 +12,7 @@ import org.geogebra.common.properties.GroupedEnumeratedProperty;
  * and view indices (corresponds to a valid position with an array containig values and dividers
  * together {see @link GroupedEnumeratedProperty#getGroupDividerIndices()}).
  */
-public class DividerIndicesViewAdapter {
+public final class DividerIndicesViewAdapter {
 
 	private final int[] dividerIndicies;
 	private final int valueCount;

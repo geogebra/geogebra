@@ -5,6 +5,7 @@ import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
 
+/** Registers observers to arrays of properties. */
 public final class PropertyArrayValueObserving {
 
 	private PropertyArrayValueObserving() {

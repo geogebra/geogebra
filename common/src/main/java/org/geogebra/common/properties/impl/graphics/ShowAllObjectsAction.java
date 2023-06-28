@@ -9,8 +9,8 @@ import org.geogebra.common.properties.impl.AbstractProperty;
 
 public class ShowAllObjectsAction extends AbstractProperty implements ActionableIconProperty {
 
-	final AppConfig appConfig;
-	final EuclidianView euclidianView;
+	private final AppConfig appConfig;
+	private final EuclidianView euclidianView;
 
 	/**
 	 * Creates a ShowAllObjectsAction property.

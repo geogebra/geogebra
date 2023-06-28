@@ -6,7 +6,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /**
- * Show auxiliary objects property.
+ * "Show auxiliary objects" property.
  */
 public class ShowAuxiliaryProperty extends AbstractValuedProperty<Boolean>
 		implements BooleanProperty {
