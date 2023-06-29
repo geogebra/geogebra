@@ -2,15 +2,21 @@ package org.geogebra.common.util;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.plugin.Operation;
 
 public class SymbolicUtil {
 
@@ -54,9 +60,11 @@ public class SymbolicUtil {
 	 *
 	 */
 	public static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
+		GeoSymbolic opposite = getOpposite(symbolic);
 		String textOriginal = getValueString(symbolic);
-		String textOpposite = getOppositeValueString(symbolic);
-		return isDefined(textOriginal) && isDefined(textOpposite)
+		String textOpposite = getValueString(opposite);
+
+		return !containsUndefinedOrIsEmpty(symbolic) && !containsUndefinedOrIsEmpty(opposite)
 				&& !textOriginal.equals(textOpposite);
 	}
 
@@ -74,6 +82,59 @@ public class SymbolicUtil {
 	 */
 	public static boolean isValueDefined(GeoSymbolic symbolic) {
 		return isDefined(getValueString(symbolic));
+	}
+
+	private static boolean containsUndefinedOrIsEmpty(GeoElement geo) {
+		return geo.inspect(new Inspecting() {
+			@Override
+			public boolean check(ExpressionValue v) {
+
+				if (v instanceof MyDouble) {
+					return !((MyDouble) v).isDefined();
+				}
+
+				if (v instanceof GeoSymbolic) {
+					return check(((GeoSymbolic) v).getValue());
+				}
+
+				if (v instanceof MyList) {
+					if (((MyList) v).getLength() == 0) {
+						return true;
+					}
+					for (int i=0; i<((MyList) v).getLength(); i++) {
+						if (check(((MyList) v).getItem(i))) {
+							return true;
+						}
+					}
+					return false;
+				}
+
+				if (v instanceof Equation) {
+					return check(((Equation) v.unwrap()).getLHS())
+							|| check(((Equation) v.unwrap()).getRHS());
+				}
+
+				if (v instanceof ExpressionNode) {
+					ExpressionNode node = (ExpressionNode) v;
+					boolean l = false;
+					boolean r = false;
+					if (node.getLeft() != null) {
+						l = check(node.getLeft());
+					}
+
+					if (node.getRight() != null) {
+						r = check(node.getRight());
+					}
+					return (r || l) && !hasOperationWithNan((ExpressionNode) v);
+				}
+				return false;
+			}
+			private boolean hasOperationWithNan(ExpressionNode node) {
+				return Operation.LOG.equals(node.getOperation())
+						|| Operation.SQRT.equals(node.getOperation());
+			}
+		});
+
 	}
 
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
@@ -94,8 +155,8 @@ public class SymbolicUtil {
 	 */
 	public static void handleSolveNSolve(GeoSymbolic symbolic) {
 		if (isSolve(symbolic)) {
-			if (!isValueDefined(symbolic)
-					&& isDefined(getOppositeValueString(symbolic))) {
+			if (containsUndefinedOrIsEmpty(symbolic)
+					&& !containsUndefinedOrIsEmpty(getOpposite(symbolic))) {
 				toggleNumericSolve(symbolic);
 				if (Commands.Solve.name()
 						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
@@ -103,8 +164,8 @@ public class SymbolicUtil {
 				}
 			}
 
-			if (isValueDefined(symbolic)
-					&& !isDefined(getOppositeValueString(symbolic))) {
+			if (!containsUndefinedOrIsEmpty(symbolic)
+					&& containsUndefinedOrIsEmpty(getOpposite(symbolic))) {
 				if (Commands.Solve.name()
 						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
 					symbolic.setWrapInNumeric(true);
