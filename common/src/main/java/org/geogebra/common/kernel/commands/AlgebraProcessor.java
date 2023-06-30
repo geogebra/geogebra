@@ -656,7 +656,7 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
-			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)){
+			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)) {
 				n.setForceSurfaceCartesian();
 			} else if (geo instanceof GeoFunctionNVar) {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
