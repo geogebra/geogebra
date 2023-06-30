@@ -49,7 +49,8 @@ public class MoveGeos {
 		for (GeoElement geo : geosToMove) {
 			if (geo.isGeoList()) {
 				for (int i = 0; i < ((GeoList) geo).size(); i++) {
-					geosToMove.remove(((GeoList) geo).get(i));
+					GeoElement item = ((GeoList) geo).get(i);
+					geosToMove.remove(item);
 				}
 			}
 		}
@@ -93,7 +94,9 @@ public class MoveGeos {
 	static void addWithSiblingsAndChildNodes(GeoElement geo, ArrayList<GeoElement> geos,
 			EuclidianView view) {
 		if (!geos.contains(geo)) {
-			if (!geo.isMoveable() && !isOutputOfTranslate(geo) && !geo.isGeoList()) {
+
+			if (!geo.isMoveable() && !isOutputOfTranslate(geo)
+					&& (!geo.isGeoList() || isListElementsMoveable((GeoList) geo, view))) {
 				ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
 				if (freeInputs != null && !freeInputs.isEmpty()) {
 					for (GeoElementND point: freeInputs) {
@@ -118,6 +121,10 @@ public class MoveGeos {
 		}
 	}
 
+	private static boolean isListElementsMoveable(GeoList geo, EuclidianView view) {
+		return !geo.isLocked() && geo.hasMoveableInputPoints(view);
+	}
+
 	/**
 	 * Moves geo by a vector in real world coordinates.
 	 *
@@ -128,7 +135,7 @@ public class MoveGeos {
 			EuclidianView view) {
 		boolean movedGeo;
 
-		if (geo1.isMoveable()) {
+			if (geo1.isMoveable()) {
 			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition,
 					view);
 		} else if (geo1.isGeoList() && !geo1.isLocked() && !geo1.isRandomGeo()) {
