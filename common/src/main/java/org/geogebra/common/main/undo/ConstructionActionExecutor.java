@@ -48,6 +48,7 @@ public class ConstructionActionExecutor
 				GeoElement geo = app.getKernel().lookupLabel(split[0]);
 				app.getKernel().getConstruction().getLayerManager()
 						.updateDrawingList(geo, Double.parseDouble(split[1]));
+				app.getActiveEuclidianView().invalidateDrawableList();
 			}
 		} else if (action == ActionType.SET_CONTENT) {
 			GeoElement geo = app.getKernel().lookupLabel(args[0]);
