@@ -93,7 +93,8 @@ public class MoveGeos {
 	static void addWithSiblingsAndChildNodes(GeoElement geo, ArrayList<GeoElement> geos,
 			EuclidianView view) {
 		if (!geos.contains(geo)) {
-			if (!geo.isMoveable() && !isOutputOfTranslate(geo) && !geo.isGeoList()) {
+			if (!geo.isMoveable() && !isOutputOfTranslate(geo)
+					&& (!geo.isGeoList() || isListElementsMoveable((GeoList) geo, view))) {
 				ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
 				if (freeInputs != null && !freeInputs.isEmpty()) {
 					for (GeoElementND point: freeInputs) {
@@ -116,6 +117,10 @@ public class MoveGeos {
 			}
 
 		}
+	}
+
+	private static boolean isListElementsMoveable(GeoList geo, EuclidianView view) {
+		return !geo.isLocked() && geo.hasMoveableInputPoints(view);
 	}
 
 	/**

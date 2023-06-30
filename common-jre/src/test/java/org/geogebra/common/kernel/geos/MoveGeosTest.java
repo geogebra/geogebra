@@ -53,4 +53,14 @@ public class MoveGeosTest extends BaseUnitTest {
 				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
 		assertThat(list, hasValue("{(2, 2), (4, 5), (6, 7)}"));
 	}
+
+	@Test
+	public void testMovingDependentListWithSegment() {
+		GeoPoint A = add("A=(5, 6)");
+		GeoPoint B = add("B=(6, 6)");
+		GeoList list = add("{Segment(A, B)}");
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		MoveGeos.addWithSiblingsAndChildNodes(list, geos, getApp().getActiveEuclidianView());
+		assertEquals(Arrays.asList(A, B), geos);
+	}
 }
