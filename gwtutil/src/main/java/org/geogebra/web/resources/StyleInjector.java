@@ -77,7 +77,8 @@ public class StyleInjector {
 	 */
 	public static String normalizeUrl(String moduleBaseURL) {
 		return moduleBaseURL.replace(":8888/dev", ":8888")
-				.replace("/apps/latest", "/apps/" + GeoGebraConstants.VERSION_STRING);
+				.replace("geogebra.org/apps/latest",
+						"geogebra.org/apps/" + GeoGebraConstants.VERSION_STRING);
 	}
 
 	private static void checkIfAllStylesLoaded() {
