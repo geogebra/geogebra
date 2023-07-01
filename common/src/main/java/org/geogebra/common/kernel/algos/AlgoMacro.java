@@ -184,10 +184,7 @@ public class AlgoMacro extends AlgoElement
 					Path path = ((GeoPointND) geoPoint).getPath();
 					PathParameter pp = ((GeoPointND) geoPoint)
 							.getPathParameter();
-					// Application.debug(param.getDouble()+"
-					// "+path.getMinParameter()+" "+path.getMaxParameter());
 					pp.setT(t);
-					// Application.debug(pp.t);
 
 					path.pathChanged(P);
 					P.updateCoords();
@@ -238,8 +235,6 @@ public class AlgoMacro extends AlgoElement
 				Log.debug("Exception while handling vector input: " + e);
 			}
 			macroInput[i].setRealLabel(input[i].getLabelSimple());
-			// Application.debug("SET INPUT object: " + input[i] + " => " +
-			// macroInput[i]);
 		}
 	}
 

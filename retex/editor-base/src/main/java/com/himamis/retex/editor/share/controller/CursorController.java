@@ -181,7 +181,7 @@ public class CursorController {
 	}
 
 	/**
-	 * Move cursor to the right..
+	 * Move cursor to the right.
 	 *
 	 * @param editorState
 	 *            current state

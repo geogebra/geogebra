@@ -87,7 +87,6 @@ import com.himamis.retex.editor.share.syntax.SyntaxHint;
 import com.himamis.retex.editor.share.syntax.SyntaxTooltipUpdater;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 /**
@@ -1613,8 +1612,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			latexItem = new FlowPanel();
 		}
 
-		FactoryProvider.setInstance(new FactoryProviderGWT());
-
+		FactoryProviderGWT.ensureLoaded();
 		mf = new MathFieldW(new SyntaxAdapterImpl(kernel), latexItem, canvas,
 				getLatexController());
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
@@ -1780,9 +1778,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Show suggestions.
 	 */
 	public void popupSuggestions() {
-		if (controller.isInputAsText()) {
+		if (controller.isSuggestionPrevented(mf)) {
 			return;
 		}
+
 		int left = getPopupSuggestionLeft();
 		int top = (int) (marblePanel.getAbsoluteTop() - app.getAbsTop());
 		getInputSuggestions().popupSuggestions(left, top, marblePanel.getOffsetHeight());
@@ -2050,11 +2049,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	/**
 	 * Switches editor to text mode
 	 *
-	 * @param value
+	 * @param plainTextMode
 	 *            switches editor to text mode
 	 */
-	protected void setInputAsText(boolean value) {
-		mf.setPlainTextMode(value);
+	protected void onInputModeChange(boolean plainTextMode) {
+		mf.setPlainTextMode(plainTextMode);
 	}
 
 	/**

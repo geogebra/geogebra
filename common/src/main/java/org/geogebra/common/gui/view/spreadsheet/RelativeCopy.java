@@ -370,7 +370,6 @@ public class RelativeCopy {
 
 					doCopyNoStoringUndoInfo0(geo,
 							getValue(app, p.x, dy1 + iy), 0, y - sy);
-					// Application.debug(p.x+"");
 				}
 			}
 		}
@@ -426,7 +425,6 @@ public class RelativeCopy {
 
 					doCopyNoStoringUndoInfo0(geo,
 							getValue(app, dx1 + ix, p.y), x - sx, 0);
-					// Application.debug(p.y+"");
 				}
 			}
 		}
@@ -556,9 +554,6 @@ public class RelativeCopy {
 			text = "=" + text;
 		}
 
-		// Application.debug("add text = " + text + ", name = " + (char)('A' +
-		// column + dx) + (row + dy + 1));
-
 		// get location of source cell
 		// TODO: Why not always use getSpreadsheetCoords()?
 		int row0 = rowStart;
@@ -644,7 +639,6 @@ public class RelativeCopy {
 			// removed as doesn't work for eg "random()" #388
 			// && !colorText.equals(oldColorText)) {
 			try {
-				// Application.debug("new color function: "+colorText);
 				GeoList newColorFunction = kernel.getAlgebraProcessor()
 						.evaluateToList(colorText);
 				value2.setColorFunction(newColorFunction);
@@ -984,10 +978,6 @@ public class RelativeCopy {
 						if (oldValue.isAuxiliaryObject()) {
 							newValue.setAuxiliaryObject(true);
 						}
-
-						// Application.debug("GeoClassType = " +
-						// newValue.getGeoClassType()+" " +
-						// newValue.getGeoClassType());
 						if (newValue.getGeoClassType() == oldValue
 								.getGeoClassType()) {
 							// newValue.setVisualStyle(oldValue);

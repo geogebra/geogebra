@@ -411,7 +411,6 @@ public abstract class Renderer {
 
 	protected void maybeUpdateClipPlanes() {
 		if (waitForUpdateClipPlanes) {
-			// Application.debug(enableClipPlanes);
 			if (enableClipPlanes) {
 				rendererImpl.enableClipPlanes();
 			} else {
@@ -972,7 +971,6 @@ public abstract class Renderer {
 	 * draws a view button
 	 */
 	final public void drawViewInFrontOf() {
-		// Application.debug("ici");
 		rendererImpl.initMatrix();
 		disableBlending();
 		geometryManager.draw(geometryManager.getViewInFrontOf().getIndex());
@@ -1939,8 +1937,6 @@ public abstract class Renderer {
 		// calculates 2^n dimensions
 		int w = firstPowerOfTwoGreaterThan(labelWidthRes);
 		int h = firstPowerOfTwoGreaterThan(labelHeightRes);
-
-		// Application.debug("width="+width+",height="+height+"--w="+w+",h="+h);
 
 		// get alpha channel and extends to 2^n dimensions
 		byte[] bytes = new byte[w * h];

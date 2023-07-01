@@ -92,9 +92,23 @@ public class SolverSerializationTest {
 
 	@Test
 	public void testMixedNumbers() {
-		parsesToSolverInput("1/2 + 3\u2064(1)/(2)", "[1/2] + [3 1/2]");
-		parsesToSolverInput("sqrt(x/(2+x))1\u2064(2)/(3)", "sqrt[[x/2+x]][1 2/3]");
-		parsesToSolverInput("sqrt(x/(2+x))*1\u2064(2)/(3)", "sqrt[[x/2+x]]*[1 2/3]");
+		parsesToSolverInput("1/2 + 3" + Unicode.INVISIBLE_PLUS + "(1)/(2)", "[1/2] + [3 1/2]");
+		parsesToSolverInput("sqrt(x/(2+x))1" + Unicode.INVISIBLE_PLUS + "(2)/(3)",
+				"sqrt[[x/2+x]][1 2/3]");
+		parsesToSolverInput("sqrt(x/(2+x))*1" + Unicode.INVISIBLE_PLUS + "(2)/(3)",
+				"sqrt[[x/2+x]]*[1 2/3]");
+		parsesToSolverInput("1/2 + 3 1 / 2", "[1/2] + [3 1/2]");
+		parsesToSolverInput("-3 1 / 2", "-[3 1/2]");
+		parsesToSolverInput("(1)/(3 1 / 2)", "[1/[3 1/2]]");
+		parsesToSolverInput("sqrt(1 2/3)", "sqrt[[1 2/3]]");
+		parsesToSolverInput("1 2 / 3", "[1 2/3]");
+	}
+
+	@Test
+	public void testRecurringDecimals() {
+		parsesToSolverInput("1.23\u03054\u0305", "1.2[34]");
+		parsesToSolverInput("4.34\u03055\u03056\u0305", "4.3[456]");
+		parsesToSolverInput("7/2 + 1.23\u0305", "[7/2] + 1.2[3]");
 	}
 
 	@Test
@@ -182,8 +196,8 @@ public class SolverSerializationTest {
 
 	@Test
 	public void latexParserUnitTestsFractionsAndMixedNumbers() {
-		parsesToSolverInput("222\u2064(1)/(2)", "[222 1/2]");
-		parsesToSolverInput("2\u2064(1)/(2)", "[2 1/2]");
+		parsesToSolverInput("222" + Unicode.INVISIBLE_PLUS + "(1)/(2)", "[222 1/2]");
+		parsesToSolverInput("2" + Unicode.INVISIBLE_PLUS + "(1)/(2)", "[2 1/2]");
 		parsesToSolverInput("(1)/(2)", "[1/2]"); //\\frac{1}{2}
 		parsesToSolverInput("(a)/(b)", "[a/b]"); //frac ab
 		parsesToSolverInput("2+(1)/(2)", "2+[1/2]"); //2+\\frac{1}{2}

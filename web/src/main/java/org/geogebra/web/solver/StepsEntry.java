@@ -14,7 +14,6 @@ import org.gwtproject.user.client.ui.RootPanel;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 public class StepsEntry implements EntryPoint {
@@ -35,9 +34,7 @@ public class StepsEntry implements EntryPoint {
 				.inject("css", "dialog-styles")
 				.inject("css", "keyboard-styles");
 
-		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderGWT());
-		}
+		FactoryProviderGWT.ensureLoaded();
 
 		GeoGebraFrameSimple geogebraFrame =
 				new GeoGebraFrameSimple(geoGebraElement, parameters, new CASFactoryDummy());

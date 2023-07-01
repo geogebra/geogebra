@@ -9,6 +9,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ScientificOperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ScientificCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -143,7 +144,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
-		return null;
+		return new ScientificOperationArgumentFilter();
 	}
 
 	@Override

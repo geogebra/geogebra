@@ -35,7 +35,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoLocusStroke extends GeoLocus
 		implements MatrixTransformable, Translateable, Transformable, Mirrorable,
-		PointRotateable, Dilateable {
+		Dilateable {
 
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
 	private static final int MAX_SEGMENT_LENGTH = 50;

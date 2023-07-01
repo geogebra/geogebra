@@ -402,8 +402,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 		StringTemplate tpl = text.getStringTemplate();
 
 		latex(tpl);
-
-		// Application.debug(sb.toString());
 		text.setTextString(sb.toString());
 	}
 

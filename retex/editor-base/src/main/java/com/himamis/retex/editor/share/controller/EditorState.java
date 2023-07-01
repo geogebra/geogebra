@@ -20,7 +20,13 @@ public class EditorState {
 	private final SelectAllHandler selectAll;
 	private MathSequence rootComponent;
 
+	/**
+	 * The Container in which the cursor is currently placed
+	 */
 	private MathSequence currentField;
+	/**
+	 * The index of the cursor in the current Container
+	 */
 	private int currentOffset;
 
 	private MathComponent currentSelStart;
@@ -293,7 +299,7 @@ public class EditorState {
 	}
 
 	/**
-	 * @return true if has selection
+	 * @return true part of expression is selected
 	 */
 	public boolean hasSelection() {
 		return currentSelStart != null;
@@ -315,12 +321,8 @@ public class EditorState {
 	 */
 	public void cursorToSelectionStart() {
 		if (this.currentSelStart != null) {
-			if (this.currentSelStart.getParent() != null) {
-				currentField = (MathSequence) this.currentSelStart.getParent();
-			} else {
-				this.currentField = (MathSequence) this.currentSelStart;
-			}
-			this.currentOffset = currentField.indexOf(currentSelStart) + 1;
+			currentField = getClosestSequenceAncestor(currentSelStart);
+			currentOffset = currentSelEnd == currentField ? 0 : currentSelStart.getParentIndex();
 		}
 	}
 
@@ -329,13 +331,9 @@ public class EditorState {
 	 */
 	public void cursorToSelectionEnd() {
 		if (currentSelEnd != null) {
-			if (this.currentSelEnd.getParent() != null) {
-				this.currentField = (MathSequence) this.currentSelEnd
-						.getParent();
-			} else {
-				this.currentField = (MathSequence) this.currentSelEnd;
-			}
-			this.currentOffset = currentField.indexOf(currentSelEnd) + 1;
+			currentField = getClosestSequenceAncestor(currentSelEnd);
+			currentOffset = currentSelEnd == currentField
+					? rootComponent.size() : currentSelEnd.getParentIndex() + 1;
 		}
 	}
 
@@ -577,6 +575,37 @@ public class EditorState {
 	}
 
 	/**
+	 * @return Whether the current field is inside a mixed number or not
+	 */
+	public boolean isInMixedNumber() {
+		MathContainer parent = currentField.getParent();
+		return parent != null && parent.hasTag(Tag.MIXED_NUMBER);
+	}
+
+	/**
+	 * @return Whether the current field is inside a recurring decimal or not
+	 */
+	public boolean isInRecurringDecimal() {
+		MathContainer parent = currentField.getParent();
+		return parent != null && parent.hasTag(Tag.RECURRING_DECIMAL);
+	}
+
+	/**
+	 *
+	 * @return whether current field is inside a sub/superscript or not.
+	 */
+	public boolean isInScript() {
+		MathContainer parent = currentField.getParent();
+		while (parent != null) {
+			if (parent.hasTag(Tag.SUBSCRIPT) || parent.hasTag(Tag.SUPERSCRIPT)) {
+				return true;
+			}
+			parent = parent.getParent();
+		}
+		return false;
+	}
+
+	/**
 	 * Select the topmost ancestor that's not root or root's child.
 	 */
 	public void selectUpToRootComponent() {
@@ -588,4 +617,32 @@ public class EditorState {
 
 		setSelectionEnd(currentSelStart);
 	}
+
+	/**
+	 * @param left whether to collapse to the left
+	 * @return whether selection was collapsed
+	 */
+	public boolean updateCursorFromSelection(boolean left) {
+		if (left && currentSelStart != null) {
+			cursorToSelectionStart();
+			return true;
+		} else if (currentSelEnd != null) {
+			cursorToSelectionEnd();
+			return true;
+		}
+		return false;
+	}
+
+	private MathSequence getClosestSequenceAncestor(MathComponent comp) {
+		MathComponent current = comp;
+		while (current.getParent() != null && !(current instanceof MathSequence)) {
+			current = current.getParent();
+		}
+		return current instanceof MathSequence ? (MathSequence) current : rootComponent;
+	}
+
+	public MathComponent getComponentLeftOfCursor() {
+		return currentOffset > 0 ? currentField.getArgument(currentOffset - 1) : null;
+	}
+
 }

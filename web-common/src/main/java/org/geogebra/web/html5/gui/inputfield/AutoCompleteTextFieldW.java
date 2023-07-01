@@ -533,7 +533,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public int removeDummyCursor() {
-		if (cursorOverlay != null) {
+		// check for isAttached to avoid infinite recursion
+		if (cursorOverlay != null && cursorOverlay.isAttached()) {
 			cursorOverlay.removeFromParent();
 			main.removeStyleName("withCursorOverlay");
 			CursorOverlay.hideKeyboard(app);

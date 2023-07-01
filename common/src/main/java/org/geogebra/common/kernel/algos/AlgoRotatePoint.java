@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.PointRotateable;
+import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -44,7 +44,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 		implements SymbolicParametersBotanaAlgo {
 
 	private GeoPointND Q;
-	private PointRotateable out;
+	private Rotatable out;
 	private GeoNumberValue angle;
 
 	private PVariable[] botanaVars;
@@ -71,8 +71,8 @@ public class AlgoRotatePoint extends AlgoTransformation
 		inGeo = A;
 
 		outGeo = getResultTemplate(inGeo);
-		if (outGeo instanceof PointRotateable) {
-			out = (PointRotateable) outGeo;
+		if (outGeo instanceof Rotatable) {
+			out = (Rotatable) outGeo;
 		}
 
 		setInputOutput();
@@ -149,8 +149,8 @@ public class AlgoRotatePoint extends AlgoTransformation
 		inGeo = g;
 		outGeo = g2;
 		if (!(outGeo instanceof GeoList)
-				&& (outGeo instanceof PointRotateable)) {
-			out = (PointRotateable) outGeo;
+				&& (outGeo instanceof Rotatable)) {
+			out = (Rotatable) outGeo;
 		}
 	}
 

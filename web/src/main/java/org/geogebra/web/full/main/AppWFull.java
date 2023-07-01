@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
-import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
@@ -234,7 +233,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private SaveController saveController = null;
 
 	private ShareControllerW shareController;
-	private MaterialsManagerI fm;
+	private FileManager fm;
 	private GoogleDriveOperation googleDriveOperation;
 	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
@@ -792,7 +791,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final MaterialsManagerI getFileManager() {
+	public final FileManager getFileManager() {
 		if (this.fm == null) {
 			this.fm = getDevice().createFileManager(this);
 		}
@@ -2367,6 +2366,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		kernel.initUndoInfo();
 		kernel.getAlgebraProcessor().getCommandDispatcher()
 				.addCommandFilter(getConfig().getCommandFilter());
+		resetCommandDict();
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {
 				afterMaterialRestored();

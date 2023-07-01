@@ -83,12 +83,8 @@ public class AlgoConstructionStep extends AlgoElement {
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
-		// double
-		// step=cons.getApplication().getConstructionProtocol().getCurrentStepNumber();
 		double step = cons.getStep();
-		// Application.debug("compute"+step+" "+kernel.getConstructionStep());
 		num.setValue(step + 1);
-		// num.setValue(cons.getStep());
 	}
 
 }

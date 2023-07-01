@@ -100,7 +100,7 @@ public class MathFunction extends MathContainer {
 	 */
 	@Override
 	public int getInitialIndex() {
-		if (getName() == Tag.FRAC) {
+		if (getName() == Tag.FRAC || getName() == Tag.MIXED_NUMBER) {
 			return getArgument(0).size() == 0 ? 0 : 1;
 		} else if (getName() == Tag.LOG) {
 			return 1;

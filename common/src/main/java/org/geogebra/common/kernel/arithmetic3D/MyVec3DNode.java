@@ -217,7 +217,6 @@ public class MyVec3DNode extends ValidExpression
 	 */
 	@Override
 	public double[] getPointAsDouble() {
-		// Application.debug("myvec");
 		return getCoords();
 	}
 

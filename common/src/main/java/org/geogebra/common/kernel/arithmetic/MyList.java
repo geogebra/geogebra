@@ -273,7 +273,6 @@ public class MyList extends ValidExpression
 				&& value instanceof NumberValue && isMatrix()) {
 
 			double powerD = value.evaluateDouble();
-			// Application.debug("matrix ^ "+power);
 
 			if (!DoubleUtil.isInteger(powerD)) {
 				listElements.clear();
@@ -462,8 +461,6 @@ public class MyList extends ValidExpression
 								new EvalInfo(false))[0];
 			}
 		}
-		// Application.debug(" tempNode : " + tempNode + ", result: "
-		// + operationResult);
 		if (operationResult instanceof NumberValue) {
 			operationResult = operationResult.isGeoElement()
 					? operationResult.deepCopy(kernel)

@@ -1,11 +1,9 @@
 package com.himamis.retex.editor.share.controller;
 
-import java.util.function.Predicate;
-
-import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -17,113 +15,111 @@ public class ArgumentHelper {
 
 	/**
 	 * Moves content from current editor field into a function argument
-	 * 
-	 * @param editorState
-	 *            editor state
-	 * @param container
-	 *            function
+	 * @param editorState editor state
+	 * @param container function
 	 */
 	public static void passArgument(EditorState editorState, MathContainer container) {
-		MathSequence currentField = editorState.getCurrentField();
-		int currentOffset = editorState.getCurrentOffset();
 		// get pass to argument
 		MathSequence field = (MathSequence) container
 				.getArgument(container.getInsertIndex());
-		while (currentOffset > 0
-				&& currentField.getArgument(currentOffset - 1) instanceof MathCharacter
-				&& " ".equals(currentField
-						.getArgument(currentOffset - 1).toString())) {
-			currentField.delArgument(currentOffset - 1);
-			currentOffset--;
+		while (editorState.getComponentLeftOfCursor() instanceof MathCharacter
+				&& editorState.getComponentLeftOfCursor().toString().length() == 1
+				&& Character.isWhitespace(editorState.getComponentLeftOfCursor()
+					.toString().charAt(0))) {
+			deleteLeftOfCursor(editorState);
 		}
+
 		// pass scripts first
-		while (currentOffset > 0 && currentField.isScript(currentOffset - 1)) {
-			MathFunction script = (MathFunction) currentField
-					.getArgument(currentOffset - 1);
-			currentField.delArgument(currentOffset - 1);
-			currentOffset--;
+		while (MathFunction.isScript(editorState.getComponentLeftOfCursor())) {
+			MathFunction script = (MathFunction) editorState.getComponentLeftOfCursor();
+			deleteLeftOfCursor(editorState);
 			field.addArgument(0, script);
 		}
-		editorState.setCurrentOffset(currentOffset);
 
-		if (currentOffset > 0) {
-			// if previous sequence argument are braces pass their content
-			if (currentField
-					.getArgument(currentOffset - 1) instanceof MathArray) {
+		// if previous sequence arguments are braces pass their content
+		MathComponent leftOfCursor = editorState.getComponentLeftOfCursor();
+		if (leftOfCursor instanceof MathArray) {
 
-				MathArray array = (MathArray) currentField
-						.getArgument(currentOffset - 1);
-				currentField.delArgument(currentOffset - 1);
-				currentOffset--;
-				if (field.size() == 0) {
-					// here we already have sequence, just set it
-					if (array.size() > 1 || array.getOpenKey() != '(') {
-						MathSequence wrap = new MathSequence();
-						wrap.addArgument(array);
-						container.setArgument(container.getInsertIndex(), wrap);
-					} else {
-						container.setArgument(container.getInsertIndex(),
-								array.getArgument(0));
-					}
+			MathArray array = (MathArray) leftOfCursor;
+			deleteLeftOfCursor(editorState);
+			if (field.size() == 0) {
+				// here we already have sequence, just set it
+				if (array.size() > 1 || array.getOpenKey() != '(') {
+					MathSequence wrap = new MathSequence();
+					wrap.addArgument(array);
+					container.setArgument(container.getInsertIndex(), wrap);
 				} else {
-					field.addArgument(0, array);
+					container.setArgument(container.getInsertIndex(),
+							array.getArgument(0));
 				}
-
-				// if previous sequence argument is, function pass it
-			} else if (currentField
-					.getArgument(currentOffset - 1) instanceof MathFunction) {
-
-				MathFunction function = (MathFunction) currentField
-						.getArgument(currentOffset - 1);
-				currentField.delArgument(currentOffset - 1);
-				currentOffset--;
-				field.addArgument(0, function);
-
-				// otherwise pass character sequence
 			} else {
-
-				passCharacters(editorState, container);
-				currentOffset = editorState.getCurrentOffset();
+				field.addArgument(0, array);
 			}
+
+			// if previous sequence argument is function, pass it
+		} else if (leftOfCursor instanceof MathFunction) {
+			passFunction(editorState, field);
+			// Special case for recurring decimals, here we need to also pass
+			// at least 2 characters preceding the function
+			if (leftOfCursor.hasTag(Tag.RECURRING_DECIMAL)) {
+				passCharacters(editorState, container);
+			}
+			// otherwise pass character sequence
+		} else {
+
+			passCharacters(editorState, container);
 		}
-		editorState.setCurrentOffset(currentOffset);
+	}
+
+	/**
+	 * Passes a function from the current editor field into a function argument
+	 * @param state editor state
+	 * @param field MathSequence of where to pass the arguments into
+	 */
+	private static void passFunction(EditorState state, MathSequence field) {
+		MathComponent function = state.getComponentLeftOfCursor();
+		deleteLeftOfCursor(state);
+		field.addArgument(0, function);
 	}
 
 	private static void passCharacters(EditorState editorState, MathContainer container) {
-		int currentOffset = editorState.getCurrentOffset();
-		MathSequence currentField = editorState.getCurrentField();
+
 		// get pass to argument
 		MathSequence field = (MathSequence) container
 				.getArgument(container.getInsertIndex());
 
-		int offset = passCharacters(currentField, currentOffset, field, MathCharacter::isWordBreak);
-		editorState.setCurrentOffset(offset);
-	}
+		while (editorState.getComponentLeftOfCursor() instanceof MathCharacter) {
 
-	private static int passCharacters(MathSequence currentField, int initialOffset,
-			MathSequence field, Predicate<MathCharacter> condition) {
-		int currentOffset = initialOffset;
-		while (currentOffset > 0 && currentField
-				.getArgument(currentOffset - 1) instanceof MathCharacter) {
-
-			MathCharacter character = (MathCharacter) currentField
-					.getArgument(currentOffset - 1);
-			if (condition.test(character)) {
+			MathCharacter character = (MathCharacter) editorState.getComponentLeftOfCursor();
+			if (character.isWordBreak()) {
 				break;
 			}
-			currentField.delArgument(currentOffset - 1);
-			currentOffset--;
+			deleteLeftOfCursor(editorState);
 			field.addArgument(0, character);
 		}
-		return currentOffset;
+	}
+
+	/**
+	 * Used to pass a single character, needed for passing arguments for recurring decimals <br>
+	 * Each overline has a single preceding character that needs to be passed
+	 * @param state editor state
+	 * @param field MathSequence of where to pass the arguments into
+	 */
+	public static void passSingleCharacter(EditorState state, MathSequence field) {
+		if (state.getComponentLeftOfCursor() instanceof MathCharacter) {
+			MathCharacter character = (MathCharacter) state.getComponentLeftOfCursor();
+			if (character.isWordBreak()) {
+				return;
+			}
+			deleteLeftOfCursor(state);
+			field.addArgument(character);
+		}
 	}
 
 	/**
 	 * Reads all characters to the right of the cursor until it encounters a
 	 * symbol
-	 * 
-	 * @param editorState
-	 *            current editor state
+	 * @param editorState current editor state
 	 * @return last string of characters
 	 */
 	public static String readCharacters(EditorState editorState,
@@ -146,25 +142,13 @@ public class ArgumentHelper {
 	}
 
 	/**
-	 * Removes the whole number part from parent container and attaches it to the mixed number
-	 * @param parent parent container
-	 * @param fraction fractional part of the mixed number
-	 * @param model model
+	 * Deletes character left to cursor and move cursor left.
+	 * Similar to deleteSingleArg in {@link InputController},
+	 * but not concerned about selection/function merging because this one is only called
+	 * when parsing.
 	 */
-	public static void addFraction(MathContainer parent, MathFunction fraction, MetaModel model) {
-		if (parent instanceof MathSequence && parent.size() > 0
-				&& "\u2064".equals(parent.getArgument(parent.size() - 1).toString())) {
-			MathFunction mixed = new MathFunction(model.getGeneral(Tag.MIXED_NUMBER));
-			MathSequence whole = new MathSequence();
-			passCharacters((MathSequence) parent, parent.size() - 1, whole,
-					c -> !java.lang.Character.isDigit(c.getUnicode()));
-			mixed.setArgument(0, whole);
-			mixed.setArgument(1, fraction.getArgument(0));
-			mixed.setArgument(2, fraction.getArgument(1));
-			parent.delArgument(parent.size() - 1);
-			parent.addArgument(mixed);
-		} else {
-			parent.addArgument(fraction);
-		}
+	private static void deleteLeftOfCursor(EditorState state) {
+		state.getCurrentField().delArgument(state.getCurrentOffset() - 1);
+		state.decCurrentOffset();
 	}
 }
