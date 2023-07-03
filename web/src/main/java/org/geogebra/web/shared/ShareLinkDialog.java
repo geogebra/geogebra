@@ -1,6 +1,7 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -49,8 +50,8 @@ public class ShareLinkDialog extends ComponentDialog {
 
 		FlowPanel linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
-		Label linkLabel = new Label(localize("Link"));
-		linkLabel.setStyleName("linkLabel");
+		Label linkLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localize("Link"), "linkLabel");
 		linkBox = new TextBox();
 		linkBox.setReadOnly(true);
 		linkBox.setText(shareURL);

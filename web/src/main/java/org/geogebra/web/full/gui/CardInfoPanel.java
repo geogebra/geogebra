@@ -33,8 +33,7 @@ public class CardInfoPanel extends FlowPanel {
 	public CardInfoPanel(String heading, String title) {
 		setStyleName("cardInfoPanel");
 		addIdLabel(heading);
-		titleLabel = new Label(title);
-		addTitleWidget(titleLabel);
+		addTitleWidget(title);
 	}
 
 	public CardInfoPanel() {
@@ -46,9 +45,9 @@ public class CardInfoPanel extends FlowPanel {
 		add(idLabel);
 	}
 
-	private void addTitleWidget(Widget titleRow) {
-		titleRow.setStyleName("cardAuthor");
-		add(titleRow);
+	private void addTitleWidget(String title) {
+		titleLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(title,"cardAuthor");
+		add(titleLabel);
 	}
 
 	/**

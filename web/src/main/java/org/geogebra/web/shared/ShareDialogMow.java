@@ -195,7 +195,8 @@ public class ShareDialogMow extends ComponentDialog
 		multiuserSwitch = new ComponentSwitch(material.isMultiuser(), null);
 		Label multiuserShareLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(
 				localization.getMenu("shareDialog.multiUser"), "linkShareOnOff");
-		Label multiuserHelpLbl = new Label(localization.getMenu("shareDialog.multiUserHelp"));
+		Label multiuserHelpLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu("shareDialog.multiUserHelp"), "linkShareHelp");
 
 		multiuserSharePanel = buildSwitcherPanel(dialogContent, multiuserSwitch,
 				SharedResources.INSTANCE.groups(), multiuserShareLbl, multiuserHelpLbl, null);
@@ -209,7 +210,8 @@ public class ShareDialogMow extends ComponentDialog
 		shareSwitch = new ComponentSwitch(isMatShared(material), this::onSwitch);
 		linkShareOnOffLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(localization.getMenu(
 				isShareLinkOn() ? "linkShareOn" : "linkShareOff"), "linkShareOnOff");
-		linkShareHelpLbl = new Label(localization.getMenu(getLinkShareHelpLabelTextKey()));
+		linkShareHelpLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu(getLinkShareHelpLabelTextKey()), "linkShareHelp");
 
 		buildSwitcherPanel(dialogContent, shareSwitch, SharedResources.INSTANCE.mow_link_black(),
 				linkShareOnOffLbl, linkShareHelpLbl, shareURL);
@@ -230,7 +232,6 @@ public class ShareDialogMow extends ComponentDialog
 		FlowPanel textPanel = new FlowPanel();
 		textPanel.addStyleName("textPanel");
 
-		helpMsg.setStyleName("linkShareHelp");
 		textPanel.add(label);
 		textPanel.add(helpMsg);
 		switcherPanel.add(textPanel);
@@ -256,16 +257,16 @@ public class ShareDialogMow extends ComponentDialog
 		noGroupPanel.add(groupImgHolder);
 		Label noGroupsLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(
 				localization.getMenu("NoGroups"), "noGroupsLbl");
-		Label noGroupsHelpLbl = new Label(localization.getMenu("NoGroupShareTxt"));
-		noGroupsHelpLbl.setStyleName("noGroupsHelpLbl");
+		Label noGroupsHelpLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu("NoGroupShareTxt"), "noGroupsHelpLbl");
 		noGroupPanel.add(noGroupsLbl);
 		noGroupPanel.add(noGroupsHelpLbl);
 		dialogContent.add(noGroupPanel);
 	}
 
 	private void buildGroupPanel(FlowPanel dialogContent) {
-		Label selGroupLbl = new Label(localization.getMenu("shareGroupHelpText"));
-		selGroupLbl.setStyleName("selGrLbl");
+		Label selGroupLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu("shareGroupHelpText"), "selGrLbl");
 		dialogContent.add(selGroupLbl);
 		FlowPanel groupPanel = new FlowPanel();
 		groupPanel.addStyleName("groupPanel");
@@ -291,8 +292,8 @@ public class ShareDialogMow extends ComponentDialog
 	}
 
 	private void buildSharingAvailableInfo(FlowPanel dialogContent) {
-		Label sharingAvailableInfo = new Label(localization.getMenu("SharingAvailableMow"));
-		sharingAvailableInfo.setStyleName("shareLinkAvailableInfo");
+		Label sharingAvailableInfo = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu("SharingAvailableMow"), "shareLinkAvailableInfo");
 		dialogContent.add(sharingAvailableInfo);
 	}
 

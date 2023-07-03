@@ -148,8 +148,7 @@ public class StandardButton extends Widget implements HasResource {
 			this.getElement().appendChild(btnImage.getElement());
 
 			if (label != null) {
-				Label lbl = BaseWidgetFactory.INSTANCE.newPrimaryText(label);
-				this.getElement().appendChild(lbl.getElement());
+				this.getElement().appendChild(new Label(label).getElement());
 			}
 			btnImage.setPresentation();
 			return;

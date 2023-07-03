@@ -163,7 +163,6 @@
 					
 						.cardAuthor {
 							font-size: 87.5%;
-							color: colors.$text-secondary;
 							line-height: 24px;
 							letter-spacing: 0.25px;
 							padding: 0px 0px 12px 16px;
@@ -195,7 +194,6 @@
 						.visibilityPanel {
 							.gwt-Label {
 								font-size: 88%;
-								color: colors.$text-secondary;
 								line-height: 24px;
 								letter-spacing: 0.25px;
 								text-overflow: ellipsis;
@@ -333,7 +331,7 @@
 						opacity: 0.54;
 					}
 					.gwt-Label {
-						color: colors.$text-secondary;
+						color: neutral("700");
 					}
 				}
 		}

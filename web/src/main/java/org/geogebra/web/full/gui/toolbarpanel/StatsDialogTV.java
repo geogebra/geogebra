@@ -53,8 +53,8 @@ public class StatsDialogTV extends ComponentDialog {
 			FlowPanel group = new FlowPanel();
 			group.addStyleName("group");
 
-			Label heading = new Label(row.getHeading());
-			heading.addStyleName("heading");
+			Label heading = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					row.getHeading(), "heading");
 			group.add(heading);
 
 			for (String value: row.getValues()) {

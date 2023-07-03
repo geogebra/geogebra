@@ -44,6 +44,12 @@ public class BaseWidgetFactory {
 		return new SliderW(i, j);
 	}
 
+	/**
+	 * primary text {@link Label} with additional class name
+	 * @param text - label text
+	 * @param className - css class name
+	 * @return label with primary text color
+	 */
 	public Label newPrimaryText(String text, String className) {
 		Label primaryText = new Label(text);
 		if (className != null) {
@@ -53,10 +59,21 @@ public class BaseWidgetFactory {
 		return primaryText;
 	}
 
+	/**
+	 * primary text {@link Label}
+	 * @param text - label text
+	 * @return label with primary text color
+	 */
 	public Label newPrimaryText(String text) {
 		return newPrimaryText(text, null);
 	}
 
+	/**
+	 * secondary text {@link Label} with additional class name
+	 * @param text - label text
+	 * @param className - css class name
+	 * @return label with secondary text color
+	 */
 	public Label newSecondaryText(String text, String className) {
 		Label secondaryText = new Label(text);
 		if (className != null) {
@@ -66,6 +83,11 @@ public class BaseWidgetFactory {
 		return secondaryText;
 	}
 
+	/**
+	 * secondary text {@link Label}
+	 * @param text - label text
+	 * @return label with secondary text color
+	 */
 	public Label newSecondaryText(String text) {
 		return newSecondaryText(text, null);
 	}

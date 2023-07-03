@@ -227,7 +227,6 @@
 
 		.inputLabel {
 			font-size: 75%;
-			color: colors.$text-secondary;
 			height: 12px;
 			line-height: 100%;
 			display: block;
@@ -601,6 +600,7 @@
 					line-height: 20px;
 					margin: 14px 16px;
 					text-align: center;
+					color: neutral("900");
 				}
 
 				&:hover {
@@ -914,7 +914,6 @@
 		.optionLabelHolder {
 			.label {
 				font-size: 75%;
-				color: colors.$text-secondary;
 				height: 12px;
 				line-height: 12px;
 			}
@@ -944,7 +943,7 @@
 		}
 
 		&:hover {
-			border-bottom: 2px solid colors.$text-primary;
+			border-bottom: 2px solid neutral("900");
 
 			.arrow {
 				opacity: 0.87;
@@ -992,7 +991,6 @@
 
 		.inputLabel {
 			font-size: 75%;
-			color: colors.$text-secondary;
 			height: 12px;
 			line-height: 100%;
 			display: block;
@@ -1040,7 +1038,7 @@
 			}
 
 			.inputPanel {
-				border-bottom: 2px solid colors.$text-primary;
+				border-bottom: 2px solid neutral("900");
 
 				.AutoCompleteTextFieldW {
 					margin-bottom: 7px;
