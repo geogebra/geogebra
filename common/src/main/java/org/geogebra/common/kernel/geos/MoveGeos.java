@@ -49,8 +49,7 @@ public class MoveGeos {
 		for (GeoElement geo : geosToMove) {
 			if (geo.isGeoList()) {
 				for (int i = 0; i < ((GeoList) geo).size(); i++) {
-					GeoElement item = ((GeoList) geo).get(i);
-					geosToMove.remove(item);
+					geosToMove.remove(((GeoList) geo).get(i));
 				}
 			}
 		}
@@ -135,7 +134,7 @@ public class MoveGeos {
 			EuclidianView view) {
 		boolean movedGeo;
 
-			if (geo1.isMoveable()) {
+		if (geo1.isMoveable()) {
 			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition,
 					view);
 		} else if (geo1.isGeoList() && !geo1.isLocked() && !geo1.isRandomGeo()) {
