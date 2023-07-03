@@ -29,7 +29,7 @@
 
 			&.disabled {
 				cursor: default;
-				color: colors.$text-disabled;
+				color: neutral("500");
 			}
 		}
 	}
@@ -538,7 +538,6 @@
 			font-size: 75%;
 			margin: 0px 24px;
 			flex-basis: auto;
-			color: colors.$text-disabled;
 			text-transform: uppercase;
 		}
 	}

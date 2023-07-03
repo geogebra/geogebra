@@ -91,4 +91,28 @@ public class BaseWidgetFactory {
 	public Label newSecondaryText(String text) {
 		return newSecondaryText(text, null);
 	}
+
+	/**
+	 * disabled text {@link Label} with additional class name
+	 * @param text - label text
+	 * @param className - css class name
+	 * @return label with disabled text color
+	 */
+	public Label newDisabledText(String text, String className) {
+		Label disabledText = new Label(text);
+		if (className != null) {
+			disabledText.setStyleName(className);
+		}
+		disabledText.addStyleName(Shades.NEUTRAL_500.getFgColName());
+		return disabledText;
+	}
+
+	/**
+	 * disabled text {@link Label}
+	 * @param text - label text
+	 * @return label with disabled text color
+	 */
+	public Label newDisabledText(String text) {
+		return newDisabledText(text, null);
+	}
 }
