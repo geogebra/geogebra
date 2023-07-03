@@ -3,6 +3,7 @@
 @use 'info-card';
 @use 'z-index';
 @use 'sass:math';
+@use 'colorMap' as *;
 
 $duration: 0.2s;
 $shadow-card-default: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px
@@ -463,10 +464,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				.mowInputPanelContent {
-
 					&.emptyState {
 						.inputLabel {
-							color: colors.$text-secondary;
+							color: neutral("700");
 							font-size: 75%;
 						}
 
@@ -538,7 +538,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			&.emptyState {
 				.inputLabel {
-					color: colors.$text-secondary;
+					color: neutral("700");
 					font-size: 75%;
 				}
 
@@ -1100,10 +1100,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 /****************************************************
 *   WEBCAM DIALOGS: permission dialog + camera dialog
 *****************************************************/
-	.mowPermissionDialog{
+	.mowPermissionDialog {
 		max-width: 500px;
 		.dialogContent .gwt-Label {
-			color: colors.$text-secondary;
 			font-size: 80%;
 			margin-bottom: 20px;
 		}

@@ -948,6 +948,12 @@
 			.arrow {
 				opacity: 0.87;
 			}
+
+			.optionLabelHolder {
+				.label {
+					color: neutral("900");
+				}
+			}
 		}
 
 		&.active {

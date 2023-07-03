@@ -46,7 +46,7 @@ public class CardInfoPanel extends FlowPanel {
 	}
 
 	private void addTitleWidget(String title) {
-		titleLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(title,"cardAuthor");
+		titleLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(title, "cardAuthor");
 		add(titleLabel);
 	}
 

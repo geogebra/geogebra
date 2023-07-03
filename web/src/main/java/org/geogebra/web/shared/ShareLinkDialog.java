@@ -50,13 +50,15 @@ public class ShareLinkDialog extends ComponentDialog {
 
 		FlowPanel linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
-		Label linkLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
-				localize("Link"), "linkLabel");
+
 		linkBox = new TextBox();
 		linkBox.setReadOnly(true);
 		linkBox.setText(shareURL);
 		linkBox.setStyleName("linkBox");
 		addLinkBoxHandlers();
+
+		Label linkLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localize("Link"), "linkLabel");
 
 		StandardButton copyBtn = new StandardButton(localize("Copy"));
 		copyBtn.setStyleName("copyButton");

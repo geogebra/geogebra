@@ -87,7 +87,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		optionHolder.addStyleName("optionLabelHolder");
 
 		if (labelStr != null && !labelStr.isEmpty()) {
-			label = BaseWidgetFactory.INSTANCE.newPrimaryText(
+			label = BaseWidgetFactory.INSTANCE.newSecondaryText(
 					app.getLocalization().getMenu(labelStr), "label");
 			optionHolder.add(label);
 		} else {

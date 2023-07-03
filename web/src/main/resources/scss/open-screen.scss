@@ -2,6 +2,7 @@
 @use 'shared';
 @use 'header';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	.profilePanel {
