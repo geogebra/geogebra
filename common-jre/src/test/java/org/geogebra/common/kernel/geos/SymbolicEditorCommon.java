@@ -60,16 +60,12 @@ class SymbolicEditorCommon extends SymbolicEditor {
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds, TextRendererSettings settings) {
 		setInputBox(geoInputBox);
+		resetChanges();
 	}
 
 	@Override
 	protected void selectEntryAt(int x, int y) {
 		mf.getInternal().selectEntryAt(x, y);
-	}
-
-	@Override
-	protected void resetChanges() {
-
 	}
 
 	@Override

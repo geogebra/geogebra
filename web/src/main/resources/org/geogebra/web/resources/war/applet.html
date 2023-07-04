@@ -301,7 +301,21 @@
 			document.getElementById("testDrag").addEventListener("click", function(e) {
 				document.getElementById("draggables").style.display = "flex";
 			});
-
+			var reloadInterval;
+			document.getElementById("testReloading").addEventListener("click", function(e) {
+				if (reloadInterval) {
+					window.clearInterval(reloadInterval);
+				} else {
+					var reloadCounter = 0;
+					reloadInterval = window.setInterval(() => {
+						updateParams(article);
+						reloadCounter++;
+						var memory = (performance.memory && performance.memory.totalJSHeapSize) || 0;
+						document.getElementById("status").textContent = reloadCounter + " reloads ("
+								+ Math.round(memory/1E6) + "MB)";
+					}, 500);
+				}
+			});
 			function dragStart(event) {
 				const el = event.srcElement;
 				if (el.getAttribute("data-type")) {
@@ -324,6 +338,7 @@
 <body>
 <button id="snap">Screenshot</button>
 <button id="testDrag">Test dragging</button>
+<button id="testReloading">Test reloading</button>
 <div id="draggables">
 	<p draggable="true" data-type="text/plain">Drag me as text!</p>
 	<p draggable="true" data-type="application/x-latex" data-content="\sqrt{a}"><img draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAXCAYAAAAYyi9XAAAAAXNSR0IArs4c6QAAAXZJREFUSEvV1D9IlWEUx/GPEDjYUkujDuJYQ5BL+AdSFEIQjMjaQ5oiQZy0TXTQRQhFBAdRbEuDCscW16JBSAKDxEGc3AQ58Cov13u5772PXOiBZ3h4znO+53fOc06TBq+mBvP8l8C3+FclUxuX96kKhzGC9SrAnZsC7qIf50X/QorCQTzC+6KwsEsBfsJznDUC2IPuWtWlKNzEa5zm1EUQz3ALoX67nPJ6UtqJgRJ1L/EUX9CGKTzG91JoJWAX7mGrTJSrmMBx7u4uTnLnz9jDdBHgOFrQl0WZf/MA0XvXHOWM2vEqq3FvEWDYtOIAQ7hqWixiBocljp5gGX9yO2paGBj+VnA7+/px7sBoBXU/8TF3FxmIX1wTMFL6FffxA3P4gN9l6hq1DugSHmIhy0JNwPD7Db8y2BtMVmjyF9lMvYN9HNWjMHyPYR6ziIkf8KRVrQ+b8RdreJdEyh5XA4ZZNHHUKFldymirW2wRhXU7v6lZmhTABegYPRiILkp1AAAAAElFTkSuQmCC"/></p>
@@ -340,5 +355,6 @@
 	</div>
 </div>
 <div id="glasspane"></div>
+<div id="status"></div>
 </body>
 </html>
