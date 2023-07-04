@@ -247,13 +247,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 			transformMirror = -1;
 		}
 
-		// Application.debug("transform=\n"+transform);
-
-		// CoordMatrix m = toScreenMatrix.mul(planeMatrix.mul(transform));
 		CoordMatrix m = toScreenMatrix.mul(planeMatrix);
-
-		// Log.debug("m=\n"+m);
-
 		double vXx = m.get(1, 1);
 		double vXy = m.get(2, 1);
 		double vYx = m.get(1, 2);

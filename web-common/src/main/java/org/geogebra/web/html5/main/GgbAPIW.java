@@ -858,12 +858,12 @@ public class GgbAPIW extends GgbAPI {
 	 * @param userName tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
-	 * @param newGeo if the geo was added
+	 * @param implicit whether the geo was interacted with (add, update) without explicit selection
 	 */
 	public void addMultiuserSelection(String clientId, String userName, String color,
-			String label, boolean newGeo) {
+			String label, boolean implicit) {
 		MultiuserManager.INSTANCE.addSelection(app, clientId, userName, GColor.parseHexColor(color),
-				label, newGeo);
+				label, implicit);
 	}
 
 	/**
@@ -915,16 +915,6 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * Remember where file was stored in WinStore app
-	 * 
-	 * @param s
-	 *            external saving path
-	 */
-	public void setExternalPath(String s) {
-		((AppW) app).setExternalPath(s);
-	}
-
-	/**
 	 * If all content is saved, run immediately, otherwise wait until user
 	 * saves.
 	 * 
@@ -933,6 +923,15 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void checkSaved(final JsRunnable callback) {
 		((AppW) app).checkSaved(active -> JsEval.callNativeFunction(callback));
+	}
+
+	@Override
+	public void setPerspective(String code) {
+		if (code.startsWith("save:")) {
+			app.getDialogManager().showSaveDialog();
+			return;
+		}
+		super.setPerspective(code);
 	}
 
 	/**

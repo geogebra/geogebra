@@ -104,8 +104,10 @@ public class ContextMenuTV {
 			}
 		});
 		addCommand(view::clearValues, "ClearColumn", "clear");
-		wrappedPopup.addVerticalSeparator();
-		addOneVarStats("x");
+		if (app.getConfig().hasOneVarStatistics()) {
+			wrappedPopup.addVerticalSeparator();
+			addOneVarStats("x");
+		}
 	}
 
 	private void buildYColumnMenu() {

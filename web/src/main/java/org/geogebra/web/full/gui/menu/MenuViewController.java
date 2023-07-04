@@ -18,6 +18,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.gwtutil.FileSystemAPI;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
@@ -141,15 +142,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	 */
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
-		String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
-		defaultDrawerMenuFactory =  new DefaultDrawerMenuFactory(
-				app.getPlatform(),
-				version, app.getLocalization().getPlainDefault("VersionA",
-				"Version %0", versionStr),
-				hasLoginButton(app) ? app.getLoginOperation() : null,
-				shouldCreateExamEntry(app),
-				app.enableFileFeatures(),
-				true);
+		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
 		if (!app.isExamStarted()) {
 			setDefaultMenu();
 		} else {
@@ -165,7 +158,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		} else {
 			boolean addAppSwitcher = app.isSuite();
 			String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
-			return new DefaultDrawerMenuFactory(
+			DefaultDrawerMenuFactory ret = new DefaultDrawerMenuFactory(
 					app.getPlatform(),
 					version, app.getLocalization().getPlainDefault("VersionA",
 					"Version %0", versionStr),
@@ -173,6 +166,9 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 					shouldCreateExamEntry(app),
 					app.enableFileFeatures(),
 					addAppSwitcher);
+			ret.setFileSystemSupported(FileSystemAPI.isSupported()
+					|| app.getPlatform() == GeoGebraConstants.Platform.OFFLINE);
+			return ret;
 		}
 	}
 

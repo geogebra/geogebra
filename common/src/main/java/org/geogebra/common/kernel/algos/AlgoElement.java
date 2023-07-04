@@ -216,6 +216,41 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
+	 * Try to set inputs from another algo's inputs
+	 * @param other other algo
+	 * @return whether setting was successful; will fail if some inputs are dependent
+	 */
+	public boolean setFrom(AlgoElement other) {
+		if (!isCompatible(other)) {
+			return false;
+		}
+		ArrayList<Integer> updateInputIdx = new ArrayList<>();
+		for (int i = 0; i < this.getInput().length; i++) {
+			if (this.getInput(i) != other.getInput(i)) {
+				if (!Inspecting.dynamicGeosFinder.check(this.getInput(i))
+						&& !Inspecting.dynamicGeosFinder.check(other.getInput(i))
+						&& this.getInput(i).getGeoClassType()
+						== other.getInput(i).getGeoClassType()) {
+					updateInputIdx.add(i);
+				} else {
+					return false;
+				}
+			}
+		}
+		if (updateInputIdx.isEmpty()) {
+			// since we only get there if definition did change and command name is the same
+			// at least one input must have changed, but better to avoid OutOfBounds.
+			return false;
+		}
+		for (Integer i: updateInputIdx) {
+			this.getInput(i).set(other.getInput(i));
+		}
+		// start cascade from the ancestor to make sure siblings are updated too
+		this.getInput(updateInputIdx.get(0)).updateRepaint();
+		return true;
+	}
+
+	/**
 	 * OutputHandler can manage several output types, each with
 	 * increasing length. For each occurring type, you need one OutputHandler in
 	 * the Subclass (or OutputHandler&lt;GeoElement&gt; if the type doesn't
@@ -463,7 +498,6 @@ public abstract class AlgoElement extends ConstructionElement
 			T geo;
 			if (labelsSetLength < outputList.size()) {
 				geo = getElement(labelsSetLength);
-				// Application.debug(label+", geo="+geo);
 			} else {
 				geo = fac.newElement();
 				outputList.add(geo);
@@ -1430,7 +1464,6 @@ public abstract class AlgoElement extends ConstructionElement
 		for (int i = 0; i < getOutputLength(); i++) {
 			geo = getOutput(i);
 			// save only GeoElements that have a valid label
-			// Application.debug(geo.toString()+"--"+geo.isLabelSet());
 			if (geo.isLabelSet()) {
 				geo.getXML(false, sb);
 			}
@@ -1931,7 +1964,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param newParent other algo
 	 * @return whether these two algos are compatible
 	 */
-	public boolean isCompatible(@Nonnull AlgoElement newParent) {
+	public final boolean isCompatible(@Nonnull AlgoElement newParent) {
 		return this.getClassName() == newParent.getClassName()
 				// we may add support for macros/expressions later
 				&& this.getClassName() instanceof Commands

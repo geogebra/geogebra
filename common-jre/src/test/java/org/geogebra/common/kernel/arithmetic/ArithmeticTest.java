@@ -499,6 +499,30 @@ public class ArithmeticTest extends BaseUnitTest {
 				StringTemplate.editTemplate);
 	}
 
+	@Test
+	public void expandBracketsForImplicitCurve() {
+		add("s(x,y)=x+y");
+		t("s^3.2+3=0", "(x + y)^(3.2) + 3 = 0");
+	}
+
+	@Test
+	public void testMixedNumbers() {
+		t("2 " + Unicode.INVISIBLE_PLUS + "3 / 4 * 3", "8.25");
+		t("2 * 2" + Unicode.INVISIBLE_PLUS + "3 / 4", "5.5");
+		t("2 + 2" + Unicode.INVISIBLE_PLUS + "4 / 5", "4.8");
+		t("2.5 / 2" + Unicode.INVISIBLE_PLUS + "1 / 2", "1");
+		t("(2" + Unicode.INVISIBLE_PLUS + "1 / 2) / 2", "1.25");
+	}
+
+	@Test
+	public void testRecurringDecimals() {
+		t("1.23" + Unicode.OVERLINE + "4" + Unicode.OVERLINE, "1.2343434343434343");
+		t("1.3" + Unicode.OVERLINE + " / 0.5", "2.6666666666666665");
+		t("1.0" + Unicode.OVERLINE, "1");
+		t("1.3" + Unicode.OVERLINE + " * 3", "4");
+		t("2.6" + Unicode.OVERLINE + " / 2", "1.3333333333333333");
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);

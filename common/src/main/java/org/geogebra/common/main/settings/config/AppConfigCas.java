@@ -77,8 +77,8 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
-		return CommandFilterFactory.createCasCommandFilter();
+	public CommandFilter createCommandFilter() {
+		 return CommandFilterFactory.createCasCommandFilter();
 	}
 
 	@Override

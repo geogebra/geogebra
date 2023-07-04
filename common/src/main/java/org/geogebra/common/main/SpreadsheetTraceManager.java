@@ -223,14 +223,12 @@ public class SpreadsheetTraceManager {
 	 * SpreadsheetView after undo or load file.
 	 */
 	public void loadTraceGeoCollection() {
-		// Application.debug("loading trace geos");
 		traceGeoCollection.clear();
 		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
 				.getGeoSetConstructionOrder();
 		for (GeoElement geo : ts) {
 			if (geo.getSpreadsheetTrace()) {
 				traceGeoCollection.put(geo, geo.getTraceSettings());
-				// System.out.println("load this geo: " + geo.toString());
 			}
 		}
 		app.repaintSpreadsheet();
@@ -836,7 +834,6 @@ public class SpreadsheetTraceManager {
 		for (int i = 0; i < geos.length; i++) {
 
 			if (geos[i] instanceof SpreadsheetTraceable) {
-				// AbstractApplication.debug("SpreadsheetTraceable");
 				SpreadsheetTraceable traceGeo = (SpreadsheetTraceable) geos[i];
 
 				traceList.clear();

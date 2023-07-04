@@ -24,15 +24,13 @@ public class EditorKeyboard {
 		tabbedKeyboard.addStyleName("detached");
 		FlowPanel keyboardWrapper = new FlowPanel();
 		keyboardWrapper.setStyleName("GeoGebraFrame");
-		keyboardWrapper.add(tabbedKeyboard);
 		RootPanel.get().add(keyboardWrapper);
 		tabbedKeyboard.clearAndUpdate();
-		DomGlobal.window.addEventListener("resize", evt -> onResize());
-		StyleInjector.onStylesLoaded(tabbedKeyboard::show);
-	}
-
-	private void onResize() {
-		tabbedKeyboard.onResize();
+		DomGlobal.window.addEventListener("resize", evt -> tabbedKeyboard.onResize());
+		StyleInjector.onStylesLoaded(() -> {
+			keyboardWrapper.add(tabbedKeyboard);
+			tabbedKeyboard.show();
+		});
 	}
 
 	public void setProcessing(KeyboardListener listener) {

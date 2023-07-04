@@ -1,16 +1,19 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.util.CustomScrollbar;
+import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Panel;
 
 /**
  * Algebra tab of tool panel
  */
-public class AlgebraTab extends ToolbarPanel.ToolbarTab {
+public class AlgebraTab extends ToolbarTab {
 
 	private static final int SCROLLBAR_WIDTH = 8; // 8px in FF, 4px in Chrome => take 8px
 	final private App app;
@@ -51,11 +54,18 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			aview = av;
 			wrapper.add(aview);
 			wrapper.add(logo);
-			add(wrapper);
-			addStyleName("algebraPanel");
+			add(decorate(wrapper));
 			CustomScrollbar.apply(this);
 			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}
+	}
+
+	private Panel decorate(Panel algebrap) {
+		return getDecorator().decorate(this, algebrap, (AppW) app);
+	}
+
+	private DockPanelDecorator getDecorator() {
+		return toolbarPanel.getDecorator();
 	}
 
 	/**
@@ -86,12 +96,24 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		super.onResize();
 		int tabWidth = this.toolbarPanel.getTabWidth();
 		setWidth(tabWidth + "px");
-		if (aview != null) {
-			aview.setUserWidth(tabWidth);
-			aview.resize(tabWidth - SCROLLBAR_WIDTH);
-			logo.onResize(aview, toolbarPanel.getTabHeight());
-			scrollToActiveItem();
+		DockPanelDecorator decorator = getDecorator();
+		decorator.onResize(aview, getTabHeight());
+		resizeAlgebraView(tabWidth);
+
+	}
+
+	private void resizeAlgebraView(int tabWidth) {
+		if (aview == null) {
+			return;
 		}
+		aview.setUserWidth(tabWidth);
+		aview.resize(tabWidth - SCROLLBAR_WIDTH);
+		logo.onResize(aview, getTabHeight());
+		scrollToActiveItem();
+	}
+
+	public int getTabHeight() {
+		return getDecorator().getTabHeight(toolbarPanel.getTabHeight());
 	}
 
 	/**

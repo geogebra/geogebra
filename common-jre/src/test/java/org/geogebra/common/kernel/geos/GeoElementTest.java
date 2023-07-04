@@ -8,12 +8,17 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class GeoElementTest extends BaseUnitTest {
 
 	@Test
 	public void isSimple() {
 		GeoElement minusOne = addAvInput("-1");
 		assertThat(minusOne.isSimple(), is(true));
+
+		GeoElement recurringDecimal = addAvInput("1.3" + Unicode.OVERLINE);
+		assertThat(recurringDecimal.isSimple(), is(false));
 	}
 
 	@Test

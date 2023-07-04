@@ -63,15 +63,17 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public void extend(Interval domain) {
+		if (!domainInfo.intersects(domain) || domain.getLength() > 2 * domainInfo.getLength()) {
+			resample(domain);
+			return;
+		}
 		if (domainInfo.hasZoomedOut(domain)) {
 			extendDataBothSide(domain);
-
 		} else if (domainInfo.hasPannedLeft(domain)) {
 			extendDataToLeft(domain);
 		} else if (domainInfo.hasPannedRight(domain)) {
 			extendDataToRight(domain);
 		}
-		processAsymptotes(data.tuples());
 		domainInfo.update(domain);
 	}
 
@@ -91,12 +93,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	private void evaluateAll() {
 		data.clear();
 		space.forEach(x -> data.append(x, function.value(x)));
-		processAsymptotes(data.tuples());
-	}
-
-	private static void processAsymptotes(IntervalTupleList samples) {
-		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
-		asymptotes.process();
 	}
 
 	private void extendDataToLeft(Interval domain) {

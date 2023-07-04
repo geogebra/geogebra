@@ -163,6 +163,11 @@ public interface AppConfig extends Serializable {
 	CommandFilter getCommandFilter();
 
 	/**
+	 * @return new command filter for the app.
+	 */
+	CommandFilter createCommandFilter();
+
+	/**
 	 * @return the Command Argument filter for the app.
 	 */
 	CommandArgumentFilter getCommandArgumentFilter();
@@ -336,4 +341,6 @@ public interface AppConfig extends Serializable {
 	 * @return ID of the main graphics view (EV, EV 3D or probability)
 	 */
 	int getMainGraphicsViewId();
+
+	boolean hasOneVarStatistics();
 }

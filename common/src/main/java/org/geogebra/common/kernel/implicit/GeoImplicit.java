@@ -142,25 +142,25 @@ public interface GeoImplicit extends Path, EquationValue {
 	 * 
 	 * @return coord sys for transformations
 	 */
-	public CoordSys getTransformedCoordSys();
+	CoordSys getTransformedCoordSys();
 
 	/**
 	 * 
 	 * @return function expression creating this implicit curve
 	 */
-	public FunctionNVar getFunctionDefinition();
+	FunctionNVar getFunctionDefinition();
 
 	/**
 	 * 
 	 * @return plane equation
 	 */
-	public Coords getPlaneEquation();
+	Coords getPlaneEquation();
 
 	/**
 	 * 
 	 * @return z-coord translation (if exists)
 	 */
-	public double getTranslateZ();
+	double getTranslateZ();
 
 	/**
 	 * copy derivatives
@@ -170,4 +170,8 @@ public interface GeoImplicit extends Path, EquationValue {
 	 */
 	void setDerivatives(FunctionNVar x, FunctionNVar y, FunctionNVar xy);
 
+	/**
+	 * @param equationExpanded expanded form of definition
+	 */
+	void setExpanded(Equation equationExpanded);
 }

@@ -13,7 +13,7 @@ describe('Context menu test', () => {
         cy.writeInAVInput("x^2{rightarrow}-2{enter}");
         console.log(selectors);
         // Context menu button
-        selectors.avMoreButton.get().eq(0).click();
+        selectors.algebraItemMore.at(1).eq(0).click();
         selectors.avContextMenuDelete.get().should('be.visible');
     });
 });

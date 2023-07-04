@@ -78,8 +78,8 @@ public class UserPreferredLanguage {
 			if (child.nodeType == Node.ELEMENT_NODE) {
 				HTMLElement childEl = Js.uncheckedCast(child);
 				if (childEl.hasAttribute(DATA_TRANS_KEY)) {
-					Js.asPropertyMap(childEl).set("innerText",
-							app.getLocalization().getMenu(childEl.getAttribute(DATA_TRANS_KEY)));
+					childEl.textContent = app.getLocalization()
+							.getMenu(childEl.getAttribute(DATA_TRANS_KEY));
 				} else {
 					translate(app, childEl);
 				}

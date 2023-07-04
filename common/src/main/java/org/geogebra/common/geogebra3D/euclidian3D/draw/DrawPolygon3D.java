@@ -127,7 +127,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public int getPickOrder() {
 		/*
-		 * Application.debug(alpha<1); if (alpha<1)
+		 * if (alpha<1)
 		 */
 		return DRAW_PICK_ORDER_SURFACE; // when transparent
 		/*
@@ -485,8 +485,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		for (Iterator<DrawSegment3D> s = segments.iterator(); s.hasNext();) {
 			s.next().updatePreview();
 		}
-
-		// Application.debug("DrawList3D:\n"+getView3D().getDrawList3D().toString());
 
 		// polygon itself
 

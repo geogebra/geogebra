@@ -528,4 +528,15 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("NSolve((x-1)^99<1)", "?");
 		assertThat(System.currentTimeMillis() - time, lessThan(1E4));
 	}
+
+	/**
+	 * Checks that Giac computes this in as approximation (returns ?)
+	 * instead of precise value (would be Infinity). There is/was a crash in Giac when pi
+	 * is sent to Giac as a symbol, see TRAC-3865, TRAC-5532, APPS-4943
+	 */
+	@Test
+	public void useApproxBoundsForDefiniteIntegral() {
+		t("a=1", "1");
+		t("Integral[sin(x) / (1 + a² - 2a cos(x)), 0, pi]", "NaN");
+	}
 }

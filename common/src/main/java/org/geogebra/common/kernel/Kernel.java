@@ -1855,8 +1855,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				sbBuildExplicitConicEquation.append(format(dabs, tpl));
 			}
 
-			// Application.debug(sbBuildExplicitConicEquation.toString());
-
 			return sbBuildExplicitConicEquation;
 		}
 	}
@@ -3530,13 +3528,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            whether views should be notified
 	 */
 	public void setNotifyViewsActive(boolean flag) {
-		// Application.debug("setNotifyViews: " + flag);
 
 		if (flag != notifyViewsActive) {
 			notifyViewsActive = flag;
 
 			if (flag) {
-				// Application.debug("Activate VIEWS");
 				viewReiniting = true;
 
 				// "attach" views again
@@ -3554,8 +3550,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 				viewReiniting = false;
 			} else {
-				// Application.debug("Deactivate VIEWS");
-
 				// "detach" views
 				notifyClearView();
 			}

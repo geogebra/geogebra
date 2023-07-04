@@ -71,6 +71,8 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void undo();
 
+	boolean save();
+
 	void setFocusedPanel(AbstractEvent event,
 						 boolean updatePropertiesView);
 
@@ -159,8 +161,6 @@ public interface GuiManagerInterface extends SettingListener {
 	 *            tells if ev is in creator mode (ie not move mode)
 	 */
 	void mouseReleasedForPropertiesView(boolean creatorMode);
-
-	boolean save();
 
 	void updateGUIafterLoadFile(boolean success, boolean isMacroFile);
 

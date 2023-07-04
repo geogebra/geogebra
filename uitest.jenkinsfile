@@ -3,7 +3,7 @@ pipeline {
         overrideIndexTriggers(false)
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
-    agent {label 'Ubuntu'}
+    agent {label 'aws-1'}
     triggers { 
         cron('H 10,19 * * 1-5') 
     }
@@ -15,17 +15,19 @@ pipeline {
             }
         }
 
-        stage('Get Web JS'){
+        stage('Build Web JS') {
             steps {
+                sh './gradlew web:deployIntoWar -Pgdraft=true -Pgmodule="org.geogebra.web.Web3D,org.geogebra.web.Editor"'
                 dir('uitest') {
-                    sh "bash get-from-autotest.sh ${env.GIT_BRANCH}"
+                    sh 'mkdir content; cp -r ../web/war/* content'
                 }
             }
         }
 
         stage('Build') {
             steps {
-                   sh 'docker run --ipc=host --shm-size=1gb -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work -v $PWD/common:/common cypress/base:16.13.0 sh runtest.sh'
+                   sh 'docker run --ipc=host --shm-size=1gb -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work -v $PWD/common:/common cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1 sh runtest.sh'
+                   lighthouseReport file: './uitest/lighthouse.report.json'
             }
             post {
                 always {

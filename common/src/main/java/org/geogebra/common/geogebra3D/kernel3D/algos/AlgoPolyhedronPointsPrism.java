@@ -340,8 +340,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 
 	@Override
 	protected void updateOutput() {
-
-		// Application.debug("ici");
 		Collection<GeoPolygon3D> faces = polyhedron.getFacesCollection();
 		int top = faces.size();
 		int step = 1;

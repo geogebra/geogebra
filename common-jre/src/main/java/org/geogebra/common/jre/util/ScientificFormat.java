@@ -133,8 +133,9 @@ public class ScientificFormat extends Format
 			buffer.append('0');
 		}
 		buffer.append("E0");
-		return new DecimalFormat(buffer.toString(),
-				new DecimalFormatSymbols(Locale.US));
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+		symbols.setNaN("NaN");
+		return new DecimalFormat(buffer.toString(), symbols);
 	}
 
 	/**

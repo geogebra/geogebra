@@ -150,9 +150,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		 * 
 		 */
 
-		// Application.debug("p1="+p1);
-		// Application.debug("p2="+p2);
-
 		GeoImplicit a = p1, b = p2;
 		// make sure degX(a) >= degX(b)
 		if (a.getDegX() < b.getDegX()) {
@@ -269,40 +266,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			}
 		}
 
-		// Calculate Sylvester matrix by definition. Complexity will be
-		// O((m+n)^3 * pq)
-		// where p=a.getDegY(), q=b.getDegY()
-		/*
-		 * PolynomialFunction[][] mat=new PolynomialFunction[m+n][m+n]; for (int
-		 * i = 0; i<n; ++i) { for (int j = 0; j<i; ++j) mat[i][j] = new
-		 * PolynomialFunction(new double[]{0}); for (int j = i; j<= i+m; ++j)
-		 * mat[i][j] = new PolynomialFunction(a.getCoeff()[j-i]); for (int j =
-		 * i+m+1; j<n+m; ++j) mat[i][j] = new PolynomialFunction(new
-		 * double[]{0}); } for (int i = n; i<m+n; ++i) { for (int j = 0; j<i-n;
-		 * ++j) mat[i][j] = new PolynomialFunction(new double[]{0}); for (int j
-		 * = i-n; j<= i; ++j) mat[i][j] = new
-		 * PolynomialFunction(b.getCoeff()[j-i+n]); for (int j = i+1; j<n+m;
-		 * ++j) mat[i][j] = new PolynomialFunction(new double[]{0}); }
-		 * 
-		 */
-
-		// old code
-		/*
-		 * PolynomialFunction[][] mat=new PolynomialFunction[n][n]; for (int
-		 * i=0;i<n;i++){ for (int j=0;j<n;j++){ mat[i][j]=new
-		 * PolynomialFunction(new double[]{0}); for (int k=Math.max(0,
-		 * i-j);k<=Math.min(i, m+i-j);k++){ PolynomialFunction p=new
-		 * PolynomialFunction(b.getCoeff()[k]);
-		 * mat[i][j]=mat[i][j].add(p.multiply(new
-		 * PolynomialFunction(a.getCoeff()[m+i-k-j]))); } for (int k=Math.max(0,
-		 * i+m-j-n);k<=Math.min(i, m+i-j);k++){ PolynomialFunction p=new
-		 * PolynomialFunction(a.getCoeff()[k]);
-		 * mat[i][j]=mat[i][j].subtract(p.multiply(new
-		 * PolynomialFunction(b.getCoeff()[m+i-k-j]))); } } }
-		 */
-
-		// Application.debug(Arrays.deepToString(mat));
-
 		// Gauss-Bareiss for calculating the determinant
 
 		PolynomialFunction c = new PolynomialFunction(new double[] { 1 });
@@ -342,7 +305,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		}
 		if (det == null) {
 			det = mat[n - 1][n - 1];
-		// Application.debug("resultante = "+det);
 		}
 
 		univarType = PolyY;

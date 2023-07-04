@@ -73,9 +73,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	/**
 	 * @param parent parent panel
-	 * @param geo geoelement
+	 * @param geo geoElement
+	 * @return the symbolic button
 	 */
-	public static void createSymbolicButton(FlowPanel parent,
+	public static ToggleButton createSymbolicButton(FlowPanel parent,
 			final GeoElement geo) {
 
 		ToggleButton btnSymbolic = getSymbolicButtonIfExists(parent);
@@ -96,6 +97,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 
 		parent.add(btnSymbolic);
+		return btnSymbolic;
 	}
 
 	private static void updateSymbolicIcons(GeoElement geo, ToggleButton btnSymbolic) {

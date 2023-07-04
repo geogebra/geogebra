@@ -236,7 +236,6 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 					-dp.getY() * op.getX() + dp.getX() * op.getY());
 			AlgoIntersectLineConic.intersectLineConic(l2d, cA, points2d,
 					Kernel.STANDARD_PRECISION);
-			// Application.debug(points2d[0]+"\n"+points2d[1]);
 
 			pts[0].setCoords(csA.getPoint(points2d[0].x, points2d[0].y), false);
 			checkIsOnConic(cB, pts[0]);

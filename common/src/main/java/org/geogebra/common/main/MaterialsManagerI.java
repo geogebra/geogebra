@@ -59,7 +59,7 @@ public interface MaterialsManagerI {
 	/**
 	 * Opens a new browser window. The "name" and "features" arguments are
 	 * specified
-	 * <a href= 'https://developer.mozilla.org/en-US/docs/Web/API/window.open'>
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/API/window.open">
 	 * here</a>.
 	 *
 	 * @param url
@@ -67,7 +67,7 @@ public interface MaterialsManagerI {
 	 * @param features
 	 *            the features to be enabled/disabled on this window
 	 */
-	public void open(String url, String features);
+	void open(String url, String features);
 
 	/**
 	 * Opens Link in a new window
@@ -75,5 +75,9 @@ public interface MaterialsManagerI {
 	 * @param url
 	 *            that should be opened
 	 */
-	public void open(String url);
+	void open(String url);
+
+	boolean saveCurrentLocalIfPossible(App app);
+
+	boolean isOnlineSavingPreferred();
 }

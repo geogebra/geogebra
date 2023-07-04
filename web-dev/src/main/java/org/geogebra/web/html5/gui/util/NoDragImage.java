@@ -95,10 +95,10 @@ public class NoDragImage extends Image implements HasResource {
 	}
 
 	/**
-	 * Sets the ARIA role to presentation, effectively making this invisible to
-	 * screen readers
+	 * Mark image as presentation-only by setting empty alt.
+	 * Preferable to aria role because of wider support.
 	 */
 	public void setPresentation() {
-		getElement().setAttribute("role", "presentation");
+		getElement().setAttribute("alt", "");
 	}
 }
