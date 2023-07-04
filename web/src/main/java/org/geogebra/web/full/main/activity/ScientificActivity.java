@@ -1,13 +1,16 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.common.gui.view.table.ScientificDataTableController;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
@@ -30,6 +33,7 @@ import org.geogebra.web.shared.GlobalHeader;
 public class ScientificActivity extends BaseActivity {
 
 	private ScientificHeaderResizer headerResizer = null;
+	private ScientificDataTableController tableController;
 
 	/**
 	 * Activity for scientific calculator
@@ -40,13 +44,29 @@ public class ScientificActivity extends BaseActivity {
 
 	@Override
 	public void start(AppW app) {
-		
 		app.getKernel().getAlgebraProcessor()
 				.addCommandFilter(CommandFilterFactory.createSciCalcCommandFilter());
 		initHeaderButtons(app);
 		app.forceEnglishCommands();
 		app.setRightClickEnabledForAV(false);
 		app.getAppletFrame().updateArticleHeight();
+		initTableOfValues(app);
+	}
+
+	/**
+	 * init table values
+	 * @param app see {@link AppW}
+	 */
+	public void initTableOfValues(AppW app) {
+		tableController = new ScientificDataTableController(app.getKernel());
+		TableValuesView tableValuesView =
+				(TableValuesView) ((GuiManagerW) app.getGuiManager()).getTableValuesView();
+		tableController.setup(tableValuesView);
+		tableValuesView.noAlgebraLabelVisibleCheck();
+	}
+
+	public ScientificDataTableController getTableController() {
+		return tableController;
 	}
 
 	private static void initHeaderButtons(AppW app) {
@@ -61,7 +81,7 @@ public class ScientificActivity extends BaseActivity {
 
 	@Override
 	public DockPanelW createAVPanel() {
-		return new AlgebraDockPanelW(new ScientificDockPanelDecorator(), false);
+		return new ToolbarDockPanelW(new ScientificDockPanelDecorator());
 	}
 
 	@Override

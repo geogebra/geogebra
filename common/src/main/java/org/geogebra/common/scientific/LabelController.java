@@ -54,11 +54,26 @@ public class LabelController {
 	 *            construction element
 	 */
 	public void ensureHasLabel(GeoElementND elementND) {
-		if (elementND instanceof GeoElement) {
-			GeoElement element = (GeoElement) elementND;
-			if (!hasLabel(element)) {
-				showLabel(element);
-			}
+		GeoElement element = asGeoElement(elementND);
+		if (element != null && !hasLabel(element)) {
+			showLabel(element);
+		}
+	}
+
+	private GeoElement asGeoElement(GeoElementND elementND) {
+		return elementND instanceof GeoElement ? (GeoElement) elementND : null;
+	}
+
+	/**
+	 * Ensures that table column has a label without algebra label visibility.
+	 *
+	 * @param elementND
+	 *            construction element
+	 */
+	public void ensureHasLabelNoAlgebra(GeoElementND elementND) {
+		GeoElement element = asGeoElement(elementND);
+		if (element != null && !element.isLabelSet()) {
+			showLabel(element);
 		}
 	}
 }

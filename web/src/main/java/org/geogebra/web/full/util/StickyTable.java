@@ -263,4 +263,8 @@ public abstract class StickyTable<T> extends FlowPanel {
 	public void setHeight(int height) {
 		setBodyHeight(height);
 	}
+
+	public void openDefineFunctions() {
+		// nothing to do here
+	}
 }

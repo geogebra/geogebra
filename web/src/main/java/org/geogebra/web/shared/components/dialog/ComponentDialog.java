@@ -216,6 +216,10 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		});
 	}
 
+	public void showDirectly() {
+		super.show();
+	}
+
 	@Override
 	public void onResize() {
 		if (isShowing()) {
