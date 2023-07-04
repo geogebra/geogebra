@@ -1,6 +1,5 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
