@@ -7,6 +7,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -84,6 +85,16 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("GeoGebra\\\\nRocks", inputBox.getTextForEditor());
 		updateInput("GeoGebra\\\\nReally\\\\nRocks");
 		t("txt", "GeoGebra\nReally\nRocks");
+	}
+
+	@Test
+	public void shouldNotFireEventOnFocus() {
+		setupInput("txt", "\"GeoGebra\\\\nRocks\"");
+		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+		editor.setKeyListener(key -> fail("Unexpected typing:" + key));
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
 	}
 
 	@Test
