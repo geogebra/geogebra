@@ -139,7 +139,9 @@ public abstract class SerializerAdapter implements Serializer {
 
 	abstract void serialize(MathArray array, StringBuilder stringBuilder);
 
-	abstract void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder);
+	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
+		// only in LaTeX
+	}
 
 	abstract boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction);
 
