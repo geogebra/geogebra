@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
@@ -399,36 +400,18 @@ public class LayerManager {
 	}
 
 	private void updateOrderingForSelection(List<GeoElement> selection, ObjectMovement movement) {
-		int selectionEnd = selection.size() - 1;
-		int selectionStart;
+
+		int selectionEnd = selection.stream().mapToInt(drawingOrder::indexOf).max().getAsInt();
+		int selectionStart = selection.stream().mapToInt(drawingOrder::indexOf).min().getAsInt();
 
 		switch (movement) {
 		case BACKWARD:
-			selectionEnd = drawingOrder.indexOf(selection.stream().max((geo1, geo2)
-							-> Integer.compare(
-									drawingOrder.indexOf(geo1),
-									drawingOrder.indexOf(geo2)
-					)
-				).get());
-
-			selectionStart = drawingOrder.indexOf(
-					selection.stream().min((geo1, geo2)
-									-> Integer.compare(
-									drawingOrder.indexOf(geo1),
-									drawingOrder.indexOf(geo2)
-							)
-					).get());
 
 			if (selectionStart == 0) {
-				if (selection.size() == drawingOrder.size()) {
-					//last one in the list ->
-					// set the last element to size & decrement the rest
-					// (this case, the selection is the whole list)
-					drawingOrder.get(selectionEnd).setOrdering(drawingOrder.size());
-					selectionEnd = selectionEnd - 1;
-				}
-				for (int i = selectionEnd; i >= 0 ; i--) {
-					drawingOrder.get(i).setOrdering(drawingOrder.get(i + 1).getOrdering() - 1f);
+				if (selection.size() != drawingOrder.size()) {
+					for (int i = selectionEnd; i >= 0; i--) {
+						drawingOrder.get(i).setOrdering(drawingOrder.get(i + 1).getOrdering() - 1f);
+					}
 				}
 			} else {
 				//selection start is not the first in the list
@@ -451,30 +434,22 @@ public class LayerManager {
 			break;
 
 		case BACK:
-			if (selection.size() == drawingOrder.size()) {
-				//last one in the list -> set the last element to size &
-				// decrement the rest (this case, the selection is the whole list)
-				drawingOrder.get(selectionEnd).setOrdering(drawingOrder.size());
-				selectionEnd = selectionEnd - 1;
-			}
-
-			for (int i = selectionEnd; i >= 0 ; i--) {
-				drawingOrder.get(i).setOrdering(drawingOrder.get(i + 1).getOrdering() - 1f);
+			if (selection.size() != drawingOrder.size()) {
+				for (int i = selectionEnd; i >= 0; i--) {
+					drawingOrder.get(i).setOrdering(drawingOrder.get(i + 1).getOrdering() - 1f);
+				}
 			}
 			break;
 
 		case FRONT:
 		case FORWARD:
 
-			selectionStart = drawingOrder.indexOf(selection.get(0));
-			selectionEnd = drawingOrder.indexOf(selection.get(selection.size() - 1));
-
 			if (selectionEnd < drawingOrder.size() - 1) {
 				int previousIndex = selectionStart - 1;
 				if (previousIndex >= 0 && selectionEnd ==  drawingOrder.size() - 1) {
-					//the last thing in the list -> inc all by 2
+					//the last thing in the list -> inc all by 1
 					for (GeoElement geo : selection) {
-						geo.setOrdering(drawingOrder.get(previousIndex).getOrdering() + 1f);
+						geo.setOrdering(drawingOrder.get(previousIndex).getOrdering() + 1);
 						previousIndex++;
 					}
 				} else { //they are somewhere inbetween
@@ -614,22 +589,6 @@ public class LayerManager {
 	 * @param ordering new ordering
 	 */
 	public void updateDrawingList(GeoElement updatedGeo, double ordering) {
-		int index = getGeoIndexUsingLabel(updatedGeo);
-		GeoElement geo = drawingOrder.get(index);
-		geo.setOrdering(ordering);
-		drawingOrder.remove(geo);
-		drawingOrder.add(getInsertionIndex(geo), geo);
-	}
-
-	/**
-	 * getGeoIndexUsingLabel
-	 * @param geo geo
-	 * @return index
-	 */
-	public int getGeoIndexUsingLabel(GeoElement geo) {
-		GeoElement oldGeo = drawingOrder.stream().filter(
-				s -> s.getLabelSimple().equals(geo.getLabelSimple())).findFirst().get();
-
-		return drawingOrder.indexOf(oldGeo);
+		drawingOrder.get(drawingOrder.indexOf(updatedGeo)).setOrdering(ordering);
 	}
 }

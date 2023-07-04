@@ -11,7 +11,5 @@ public interface GeoPriorityComparator {
 	 * @return negative if `a` has a higher priority, positive, if `b` has a higher
 	 *            priority, 0, if their priorities are equal
 	 */
-
 	int compare(GeoElement a, GeoElement b, boolean checkLastHitType);
-
 }
