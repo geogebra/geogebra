@@ -94,13 +94,8 @@ public class Base64OutputStream extends FilterOutputStream
 		int data = (position > 0 ? (buffer[0] << 16) & 0x00FF0000 : 0)
 				| (position > 1 ? (buffer[1] << 8) & 0x0000FF00 : 0)
 				| (position > 2 ? (buffer[2]) & 0x000000FF : 0);
-
-		// Application.debug(Integer.toHexString(data));
 		switch (position) {
 		case 3:
-			// Application.debug("\n*** "+((data >> 18) & 0x3f) +", "+((data >>
-			// 12) & 0x3f)+", "+
-			// ((data >> 6) & 0x3f) +", "+((data ) & 0x3f));
 			out.write(intToBase64[(data >> 18) & 0x3f]);
 			out.write(intToBase64[(data >> 12) & 0x3f]);
 			out.write(intToBase64[(data >> 6) & 0x3f]);

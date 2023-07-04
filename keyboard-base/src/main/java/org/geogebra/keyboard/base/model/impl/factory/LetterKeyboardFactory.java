@@ -28,7 +28,7 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	/** Action that switches back to the ABC keyboard */
 	public static final int ACTION_ABC_LETTERS = 2;
 
-	protected static final String DEFAULT_CONTROL = ",'";
+	protected static final String DEFAULT_CONTROL = ",()";
 	private static final double MIN_PADDING_WEIGHT = 1.e-4;
 	private static final float LARGE_ACTION_WEIGHT = 1.2f;
 	private static final int MAX_CONTROL_ROW_LENGTH = 5;
@@ -52,7 +52,7 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	/**
 	 * Calls
 	 * {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, String, boolean)}
-	 * with parameter {@code controlRow = ",'"}.
+	 * with parameter {@code controlRow = ",()"}.
 	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, boolean
 			withGreekLetters) {

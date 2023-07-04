@@ -768,8 +768,7 @@ public interface Traversing {
 				}
 			}
 			if (replace instanceof Variable
-					&& !name.equals(kernel.getConstruction()
-							.getRegisteredFunctionVariable())
+					&& !kernel.getConstruction().isRegisteredFunctionVariable(name)
 					&& !isException(name)) {
 				name = ((Variable) replace)
 						.getName(StringTemplate.defaultTemplate);

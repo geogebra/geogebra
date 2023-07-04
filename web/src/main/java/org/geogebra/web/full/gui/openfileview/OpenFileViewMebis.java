@@ -15,11 +15,11 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
-import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -62,13 +62,11 @@ public class OpenFileViewMebis extends HeaderFileView
 	 * @param openFileButton
 	 *            button to open file picker
 	 */
-	public OpenFileViewMebis(AppW app, FileOpenButton openFileButton) {
+	public OpenFileViewMebis(AppWFull app, FileOpenButton openFileButton) {
 		this.app = app;
 		this.openFileBtn = openFileButton;
+		app.ensureLoginOperation();
 		common = new FileViewCommon(app, "mow.openFileViewTitle", false);
-		if (this.app.getLoginOperation() == null) {
-			this.app.initSignInEventFlow(new LoginOperationW(app));
-		}
 		this.app.getLoginOperation().getView().add(this);
 		app.registerOpenFileListener(this);
 		initGUI();

@@ -12,13 +12,12 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -38,7 +37,7 @@ import org.gwtproject.user.client.ui.Widget;
 public class MainMenu extends FlowPanel
 		implements EventRenderable, BooleanRenderable, KeyDownHandler {
 
-	AppW app;
+	AppWFull app;
 
 	/**
 	 * Panel with menus
@@ -69,7 +68,7 @@ public class MainMenu extends FlowPanel
 	 * @param app
 	 *            application
 	 */
-	public MainMenu(AppW app) {
+	public MainMenu(AppWFull app) {
 		if (!app.isUnbundledOrWhiteboard()) {
 			this.addStyleName("menubarSMART");
 		}
@@ -80,9 +79,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void init() {
-		if (app.getLoginOperation() == null) {
-			app.initSignInEventFlow(new LoginOperationW(app));
-		}
+		app.ensureLoginOperation();
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();
 

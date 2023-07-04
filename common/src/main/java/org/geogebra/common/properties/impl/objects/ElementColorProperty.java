@@ -6,8 +6,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.ColorProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.aliases.ColorProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.ElementColorPropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -15,11 +15,11 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Color property
  */
-public class ElementColorProperty extends AbstractProperty implements ColorProperty {
+public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
+		implements ColorProperty {
 
 	private final GeoElement element;
 	private final GeoElementDelegate delegate;
-	private GColor[] colors;
 
 	/***/
 	public ElementColorProperty(Localization localization, GeoElement element)
@@ -27,26 +27,19 @@ public class ElementColorProperty extends AbstractProperty implements ColorPrope
 		super(localization, "stylebar.Color");
 		this.element = element;
 		delegate = new ElementColorPropertyDelegate(element);
+		setValues(createColorValues());
 	}
 
 	@Override
-	public GColor getColor() {
+	public GColor getValue() {
 		return element.getObjectColor();
 	}
 
 	@Override
-	public void setColor(GColor color) {
+	public void doSetValue(GColor color) {
 		App app = element.getApp();
 		EuclidianStyleBarStatic.applyColor(
 				color, element.getAlphaValue(), app, app.getSelectionManager().getSelectedGeos());
-	}
-
-	@Override
-	public GColor[] getColors() {
-		if (colors == null) {
-			colors = createColorValues();
-		}
-		return colors;
 	}
 
 	@Override

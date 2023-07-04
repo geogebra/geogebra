@@ -1,14 +1,14 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.geos.Rotatable;
 
 /**
  * GeoElement which supports matrix transformations
  */
-public interface MatrixTransformable extends GeoElementND {
+public interface MatrixTransformable extends Rotatable {
 	/**
 	 * Transforms the object using the matrix a00 a01 a10 a11
-	 * 
+	 *
 	 * @param a00
 	 *            a00
 	 * @param a01
@@ -18,12 +18,12 @@ public interface MatrixTransformable extends GeoElementND {
 	 * @param a11
 	 *            a11
 	 */
-	public void matrixTransform(double a00, double a01, double a10, double a11);
+	void matrixTransform(double a00, double a01, double a10, double a11);
 
 	/**
 	 * Transforms the object using the matrix a00 a01 a02 a10 a11 a12 a20 a21
 	 * a22
-	 * 
+	 *
 	 * @param a00
 	 *            a00
 	 * @param a01

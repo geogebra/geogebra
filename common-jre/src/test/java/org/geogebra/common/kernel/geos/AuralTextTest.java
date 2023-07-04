@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -11,7 +12,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.script.GgbScript;
-import org.geogebra.test.RegexpMatch;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -209,12 +209,6 @@ public class AuralTextTest {
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
 		String[] sentences = aural.split("\\.");
 		assertThat(aural, endsWith("."));
-		if (out[0].matches(".*\\(.*")) {
-			out[0] = out[0].replace("(", "\\(");
-		}
-		if (out[0].matches(".*\\).*")) {
-			out[0] = out[0].replace(")", "\\)");
-		}
-		assertThat(sentences[0], RegexpMatch.matches(".*" + out[0] + ".*"));
+		assertThat(sentences[0], containsString(out[0]));
 	}
 }

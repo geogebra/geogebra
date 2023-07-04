@@ -1281,7 +1281,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized void setRepaintingActive(boolean flag) {
-		// Application.debug("set repainting: " + flag);
 		kernel.setNotifyRepaintActive(flag);
 	}
 
@@ -1685,10 +1684,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void setPerspective(String code) {
 		if (code.startsWith("search:")) {
 			app.openSearch(code.substring("search:".length()));
-			return;
-		}
-		if (code.startsWith("save:")) {
-			app.getGuiManager().save();
 			return;
 		}
 		if (code.startsWith("customize:")) {

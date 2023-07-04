@@ -248,7 +248,6 @@ public class GgbMat extends Array2DRowRealMatrix {
 		for (int r = 0; r < getRowDimension(); r++) {
 			GeoList columnList = new GeoList(cons);
 			for (int c = 0; c < getColumnDimension(); c++) {
-				// Application.debug(get(r, c)+"");
 				columnList.add(new GeoNumeric(cons, getEntry(r, c)));
 			}
 			outputList.add(columnList);
@@ -273,7 +272,6 @@ public class GgbMat extends Array2DRowRealMatrix {
 		for (int r = 0; r < getRowDimension(); r++) {
 			MyList columnList = new MyList(kernel);
 			for (int c = 0; c < getColumnDimension(); c++) {
-				// Application.debug(get(r, c)+"");
 				columnList.addListElement(new GeoNumeric(
 						kernel.getConstruction(), getEntry(r, c)));
 			}

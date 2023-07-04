@@ -254,8 +254,6 @@ public abstract class CopyPasteCut {
 
 		app.setWaitCursor();
 		boolean succ = false;
-
-		// Application.debug("height = " + height+" width = "+width);
 		int x1 = sourceColumn1;
 		int y1 = sourceRow1;
 		int x2 = sourceColumn1 + width - 1;
@@ -477,7 +475,6 @@ public abstract class CopyPasteCut {
 						continue;
 					}
 					int ix = column - column1;
-					// Application.debug(iy + " " + ix + " [" + data[iy][ix] +
 					// "]");
 					if (data[iy][ix] == null) {
 						continue;
@@ -487,10 +484,6 @@ public abstract class CopyPasteCut {
 						GeoElement value0 = RelativeCopy.getValue(app, column,
 								row);
 						if (value0 != null) {
-							// Application.debug(value0.toValueString());
-							// MyCellEditor.prepareAddingValueToTable(kernel,
-							// table, null, value0, column, row);
-							// value0.remove();
 							value0.removeOrSetUndefinedIfHasFixedDescendent();
 						}
 					} else {
@@ -505,7 +498,6 @@ public abstract class CopyPasteCut {
 					}
 				}
 			}
-			// Application.debug("maxLen=" + maxLen);
 			app.repaintSpreadsheet();
 
 			/*

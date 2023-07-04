@@ -2379,9 +2379,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public void removeFromToolbarDefinition(int mode) {
 		if (strCustomToolbarDefinition != null) {
-			// Application.debug("before: " + strCustomToolbarDefinition +
-			// ", delete " + mode);
-
 			strCustomToolbarDefinition = strCustomToolbarDefinition
 					.replaceAll(Integer.toString(mode), "");
 		}

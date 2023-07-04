@@ -167,9 +167,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			MathFieldListener listener, MetaModel metaModel) {
 
 		this.metaModel = metaModel;
-		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderGWT());
-		}
+		FactoryProviderGWT.ensureLoaded();
 		html = canvas;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
@@ -233,7 +231,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setAriaLabel(String label) {
 		Element target = getElementForAriaLabel();
 		if (target != null) {
-			expressionReader.debug(label);
+			if (expressionReader != null) {
+				expressionReader.debug(label);
+			}
 			target.setAttribute("aria-label", label);
 		}
 	}

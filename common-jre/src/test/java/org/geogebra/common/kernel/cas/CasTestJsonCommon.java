@@ -1490,4 +1490,14 @@ public abstract class CasTestJsonCommon {
 	public void testQRDecomposition() {
 		testCat("QRDecomposition.1");
 	}
+
+	@Test
+	public void testDirac() {
+		testCat("Dirac.1");
+	}
+
+	@Test
+	public void testHeaviside() {
+		testCat("Heaviside.1");
+	}
 }

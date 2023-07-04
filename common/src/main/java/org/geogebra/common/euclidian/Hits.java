@@ -568,7 +568,6 @@ public class Hits extends ArrayList<GeoElement> {
 				// moveable object
 				if (geo.isMoveable(view)) {
 					moveableList.add(geo);
-					// Application.debug("moveable GeoElement = "+geo);
 				}
 				// point with changeable parent coords
 				else if (geo.isGeoPoint()) {

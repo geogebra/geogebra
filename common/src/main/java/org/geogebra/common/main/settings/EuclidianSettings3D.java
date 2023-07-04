@@ -620,11 +620,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @see org.geogebra.common.geogebra3D.io.MyXMLHandler3D
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference) {
-
-		// Application.debug("getXML: "+a+","+b);
-
-		// if (true) return "";
-
 		sb.append("<euclidianView3D>\n");
 
 		// coord system

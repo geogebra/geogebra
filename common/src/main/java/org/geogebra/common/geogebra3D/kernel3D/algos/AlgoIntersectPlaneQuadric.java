@@ -145,8 +145,6 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 		// sets the conic matrix from plane and quadric matrix
 		cm.setMul(tmpMatrix.setMulT1(pm, qm), pm);
 
-		// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
-
 		outputConic.setCoordSys(inputPlane.getCoordSys());
 		outputConic.setMatrix(cm);
 

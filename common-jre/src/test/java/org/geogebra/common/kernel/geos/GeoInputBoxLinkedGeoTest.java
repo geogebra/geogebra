@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -61,6 +62,20 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		mf.getInternal().setPlainText("Hello, Friends");
 		editor.onEnter();
 		t("txt", "Hello, Friends");
+	}
+
+	@Test
+	public void shouldAllowBracketForMatrices() {
+		setupInput("m1", "{{1,2},{3,4}}");
+		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
+		editor.selectEntryAt(50, 0);
+		assertTrue("matrix entry should be selected",
+				mf.getInternal().getEditorState().hasSelection());
+		mf.getInternal().onKeyTyped(new KeyEvent(0, 0, '('));
+		assertEquals("{{1,(2)},{3,4}}", mf.getInternal().getText());
 	}
 
 	@Test

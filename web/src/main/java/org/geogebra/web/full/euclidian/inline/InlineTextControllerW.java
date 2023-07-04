@@ -245,6 +245,7 @@ public class InlineTextControllerW implements InlineTextController {
 		editor.deselect();
 		if (!editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			editor.getWidget().addStyleName(INVISIBLE);
+			textareaWrapper.removeFromParent(); // make sure no editable element on Android
 			geo.updateRepaint();
 			geo.unlockForMultiuser();
 		}
@@ -253,6 +254,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void toForeground(int x, int y) {
 		editor.getWidget().removeStyleName(INVISIBLE);
+		parent.appendChild(textareaWrapper);
 		editor.focus(x, y);
 	}
 

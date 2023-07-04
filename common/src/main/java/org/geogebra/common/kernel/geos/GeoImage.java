@@ -23,7 +23,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
@@ -41,8 +40,8 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Image with given filename and corners
  */
-public class GeoImage extends GeoElement implements Locateable,
-		AbsoluteScreenLocateable, PointRotateable, Mirrorable, Translateable,
+public class GeoImage extends GeoElement implements
+		AbsoluteScreenLocateable, Mirrorable, Translateable,
 		Dilateable, MatrixTransformable, Transformable, RectangleTransformable {
 
 	/** Index of the center in corners array */

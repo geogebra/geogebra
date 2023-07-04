@@ -5,8 +5,10 @@
     <title>Evaluator - GeoGebra</title>
     <meta property="og:title" content="Evaluator - GeoGebra" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
-    <script src="https://fred-wang.github.io/TeXZilla/TeXZilla-min.js"></script>
+    <meta name="description" content="Editor demo.">
     <script type="text/javascript" language="javascript" src="editor/editor.nocache.js"></script>
+    <link rel="shortcut icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
+    <link rel="icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
     <style>
         body,html {
             margin:0;
@@ -28,7 +30,7 @@
     function renderGGBElementReady() {
         renderGGBElement(document.querySelector("#main1"), api => {
             api.registerClientListener(evt => {
-                TeXZilla.toMathML(evt.latex, true, false, true);
+                console.trace(evt);
             });
         });
         renderGGBElement(document.querySelector("#main2"));

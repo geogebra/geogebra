@@ -78,16 +78,10 @@ public class CmdZoomIn extends CmdScripting {
 			EuclidianSettings evs = view.getSettings();
 
 			// eg ZoomIn(a, a, -4, 4)
-			evs.setXminObject((GeoNumeric) arg[0], false);
-			evs.setYminObject((GeoNumeric) arg[1], false);
-			evs.setXmaxObject((GeoNumeric) arg[2], false);
-			evs.setYmaxObject((GeoNumeric) arg[3], true);
-
-			// eg ZoomIn(-5, 5, -4, 4)
-			view.setRealWorldCoordSystem(arg[0].evaluateDouble(),
-					arg[2].evaluateDouble(), arg[1].evaluateDouble(),
-					arg[3].evaluateDouble());
-
+			evs.setXminObject((NumberValue) arg[0], false);
+			evs.setYminObject((NumberValue) arg[1], false);
+			evs.setXmaxObject((NumberValue) arg[2], false);
+			evs.setYmaxObject((NumberValue) arg[3], true);
 			view.repaintView();
 			// don't return the args: don't need to delete them in case they are
 			// dynamic

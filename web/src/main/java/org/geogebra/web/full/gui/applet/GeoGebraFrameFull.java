@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.applet;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -79,19 +80,19 @@ import org.gwtproject.user.client.ui.SimplePanel;
 public class GeoGebraFrameFull
 		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
 
-	private AppletFactory factory;
+	private final AppletFactory factory;
 	private DockGlassPaneW glass;
 	private GGWToolBar ggwToolBar = null;
 	private GGWMenuBar ggwMenuBar;
 	private KeyboardState keyboardState;
 	private final SimplePanel kbButtonSpace = new SimplePanel();
-	private GDevice device;
+	private final GDevice device;
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
-	private NotesLayout notesLayout;
+	private @CheckForNull NotesLayout notesLayout;
 	private PageListPanel pageListPanel;
-	private PanelTransitioner panelTransitioner;
+	private final PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
 
 	/**
@@ -769,7 +770,7 @@ public class GeoGebraFrameFull
 	 * Adds the notes toolbar and (if allowed) the undo panel and page control
 	 */
 	public void attachNotesUI(AppW app) {
-		initNotesLayoutIfNull(app);
+		NotesLayout notesLayout = getNotesLayoutSafe(app);
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
 		}
@@ -781,7 +782,7 @@ public class GeoGebraFrameFull
 			add(notesLayout.getUndoRedoButtons());
 		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
-				|| app.getAppletParameters().getParamShowSlides());
+				|| app.getAppletParameters().getParamShowSlides(), notesLayout);
 
 		if (GlobalHeader.isInDOM() && !app.isApplet()) {
 			app.getGuiManager().menuToGlobalHeader();
@@ -798,7 +799,7 @@ public class GeoGebraFrameFull
 	 * Remove notes toolbar and undo panel
 	 */
 	public void detachNotesToolbarAndUndo(AppW app) {
-		initNotesLayoutIfNull(app);
+		NotesLayout notesLayout = getNotesLayoutSafe(app);
 		if (notesLayout.getToolbar() != null) {
 			remove(notesLayout.getToolbar());
 		}
@@ -808,7 +809,7 @@ public class GeoGebraFrameFull
 	/**
 	 * @param show whether to show the button
 	 */
-	public void setPageControlButtonVisible(boolean show) {
+	public void setPageControlButtonVisible(boolean show, NotesLayout notesLayout) {
 		if (show) {
 			add(notesLayout.getPageControlButton());
 		} else if (notesLayout != null) {
@@ -816,12 +817,6 @@ public class GeoGebraFrameFull
 		}
 		if (app.getZoomPanel() != null) {
 			app.getZoomPanel().updatePosition(show);
-		}
-	}
-
-	private void initNotesLayoutIfNull(AppW app) {
-		if (notesLayout == null) {
-			notesLayout = new NotesLayout(app);
 		}
 	}
 
@@ -869,7 +864,9 @@ public class GeoGebraFrameFull
 	 */
 	@Nonnull
 	public NotesLayout getNotesLayoutSafe(AppW app) {
-		initNotesLayoutIfNull(app);
+		if (notesLayout == null) {
+			notesLayout = new NotesLayout(app);
+		}
 		return notesLayout;
 	}
 

@@ -81,7 +81,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void exportGGB(boolean showDialog);
 
-	void listenToLogin();
+	void listenToLogin(Runnable onSuccess);
 
 	void setPixelRatio(double ratio);
 

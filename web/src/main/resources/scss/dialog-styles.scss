@@ -1594,7 +1594,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			display: flex;
 
 			.radioButton {
-			 	margin-right: 20px;
+				margin-right: 20px;
 			}
 		}
 
@@ -2056,6 +2056,47 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.defineFunctionsDialog {
+		.functionPanel {
+			display: flex;
+
+			.gwt-Label {
+				height: 20px;
+				margin: 20px 4px 16px 0;
+				color: colors.$text-primary;
+				white-space: nowrap;
+			}
+
+			.mathTextField {
+				border: none;
+				border-bottom: 1px colors.$black-42 solid;
+				margin-bottom: 1px;
+				border-radius: 0;
+				cursor: pointer;
+				padding-top: 0;
+				width: 100%;
+				margin-top: 16px;
+
+				&:hover {
+					border-bottom-color: colors.$black-87;
+				}
+			}
+		}
+
+		.functionPanel.focusState {
+			.mathTextField {
+				margin-bottom: 0;
+				border-bottom: 2px solid colors.$purple-default;
+			}
+		}
+
+		.functionPanel.error {
+			.mathTextField {
+				border-bottom: 2px solid colors.$error;
+			}
+		}
+	}
+
 	.dynamicText {
 		border: 2px lightgray solid;
 		background: wheat;
@@ -2064,5 +2105,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		margin-right: 1px;
 		vertical-align: middle;
 		min-width: 10px;
+	}
+
+	.textEditPopup {
+		box-shadow: none;
 	}
 }

@@ -557,7 +557,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventDispatcher(this);
 
-		getScriptManager().ggbOnInit();
 		getFactory();
 
 		setSaved();

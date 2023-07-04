@@ -107,4 +107,13 @@ public class GlitchesTest extends BaseUnitTest {
 		withScreenSize(1920, 1280);
 		withFunction(description);
 	}
+
+	@Test
+	public void testExpShouldNotHaveGaps() {
+		withBounds(5.0, 8.0, 5, 5);
+		withScreenSize(50, 50);
+		withFunction("1-exp(-5x)");
+		assertEquals(1, gp.getLog().stream().filter(
+				e -> e.operation == IntervalPathMockEntry.PathOperation.MOVE_TO).count());
+	}
 }

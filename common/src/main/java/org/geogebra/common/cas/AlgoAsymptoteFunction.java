@@ -111,8 +111,6 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 			f.getVerticalAsymptotes(sb);
 
 			sb.append("}");
-
-			// Application.debug(sb.toString());
 			g.set(kernel.getAlgebraProcessor().evaluateToList(sb.toString()));
 		} catch (Throwable th) {
 			g.setUndefined();

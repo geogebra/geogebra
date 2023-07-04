@@ -274,7 +274,6 @@ public class ExpressionNode extends ValidExpression
 	 * @return copy of this node
 	 */
 	public ExpressionNode getCopy(Kernel kernel1) {
-		// Application.debug("getCopy() input: " + this);
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
 
@@ -343,7 +342,6 @@ public class ExpressionNode extends ValidExpression
 		} else {
 			ret = ev;
 		}
-		// Application.debug("copy ExpressionValue output: " + ev);
 		return ret;
 	}
 
@@ -3578,6 +3576,17 @@ public class ExpressionNode extends ValidExpression
 		return unsigned.isExpressionNode() && ((ExpressionNode) unsigned).isUnsignedFraction();
 	}
 
+	/**
+	 * Check if the fraction is a proper fraction
+	 * @return Wheter it is a proper fraction like 3/5 or -2/3
+	 */
+	public boolean isProperFraction() {
+		ExpressionValue unsigned = getUnsigned(this);
+		return unsigned.isExpressionNode() && ((ExpressionNode) unsigned).isUnsignedFraction()
+				&& Math.abs(((ExpressionNode) unsigned).left.evaluateDouble())
+				< Math.abs(((ExpressionNode) unsigned).right.evaluateDouble());
+	}
+
 	private boolean isUnsignedFraction() {
 		if (operation == Operation.DIVIDE) {
 			ExpressionValue leftUnsigned = getUnsigned(left);
@@ -3619,6 +3628,9 @@ public class ExpressionNode extends ValidExpression
 			return false;
 		}
 		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
+			return false;
+		}
+		if (unwrap instanceof RecurringDecimal) {
 			return false;
 		}
 		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
@@ -3697,5 +3709,18 @@ public class ExpressionNode extends ValidExpression
 	@Override
 	public boolean isOperation(Operation operation) {
 		return operation == this.operation;
+	}
+
+	/**
+	 * @return deep copy, replacing geos by values
+	 */
+	public ExpressionNode deepCopyGeo() {
+		ExpressionNode copy = deepCopy(kernel);
+		return copy.traverse(val -> {
+			if (val instanceof GeoElement) {
+				return ((GeoElement) val).deepCopyGeo();
+			}
+			return val;
+		}).wrap();
 	}
 }

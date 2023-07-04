@@ -102,8 +102,6 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 			ev = numDen[1];
 		}
 
-		// Application.debug(root.left.getClass()+"");
-
 		if (ev.isExpressionNode()) {
 
 			if (g instanceof GeoFunction) {

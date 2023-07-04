@@ -33,6 +33,14 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
+	public void moveShouldChangeVector() {
+		add("v = Vector((1,-1))");
+		dragStart(50, 50);
+		dragEnd(100, 150);
+		checkContent("v = (2, -3)");
+	}
+
+	@Test
 	public void moveShouldChangePolygon() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");

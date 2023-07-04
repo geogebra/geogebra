@@ -576,7 +576,6 @@ public abstract class ContextMenuGeoElement {
 			ArrayList<GeoElement> gs, EuclidianView v, GPoint l) {
 		if (EuclidianConstants.isMoveOrSelectionMode(v.getMode())) { // change selection
 															// to geo clicked
-			// AbstractApplication.debug(geo.getLabelSimple());
 			app.getSelectionManager().clearSelectedGeos(false); // repaint done
 																// next step
 			app.getSelectionManager().addSelectedGeo(cmdGeo);

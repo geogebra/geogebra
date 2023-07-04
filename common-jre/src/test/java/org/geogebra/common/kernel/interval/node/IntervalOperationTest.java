@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval.node;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.plugin.Operation;
@@ -38,7 +39,9 @@ public class IntervalOperationTest {
 
 	@Test
 	public void testHasNotEquivalent() {
-		support.isSupported(Operation.ALT);
-		support.isSupported(Operation.GAMMA);
+		assertFalse(support.isSupported(Operation.ALT));
+		assertFalse(support.isSupported(Operation.DIRAC));
+		assertFalse(support.isSupported(Operation.GAMMA));
+		assertFalse(support.isSupported(Operation.HEAVISIDE));
 	}
 }

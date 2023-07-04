@@ -221,8 +221,6 @@ public class SpreadsheetMouseListenerD
 		if (!rightClick) {
 
 			// memory testing
-			// Application.debug("", true, true, 0);
-
 			if (table.getSelectionType() != MyTableInterface.CELL_SELECT) {
 				table.setSelectionType(MyTableInterface.CELL_SELECT);
 			}

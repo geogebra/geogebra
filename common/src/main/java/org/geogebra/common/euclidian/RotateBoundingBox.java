@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.PointRotateable;
+import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -83,7 +83,7 @@ public class RotateBoundingBox {
 	private void rotateSelectedGeos(NumberValue angle) {
 		for (GeoElement geo : ec.selection.getSelectedGeos()) {
 			if (isRotationAllowed(geo)) {
-				((PointRotateable) geo).rotate(angle, ec.rotationCenter);
+				((Rotatable) geo).rotate(angle, ec.rotationCenter);
 				geo.updateRepaint();
 			}
 		}

@@ -1076,7 +1076,6 @@ public class Construction {
 		for (int i = 0; i < algoList.size(); ++i) {
 			AlgoElement algo = algoList.get(i);
 			algo.update();
-			// AbstractApplication.debug("#"+i+" : "+algo);
 		}
 	}
 
@@ -1874,30 +1873,17 @@ public class Construction {
 				newGeoInputs = newGeoAlgo.getInputForUpdateSetPropagation();
 			}
 			isGettingXMLForReplace = false;
-
-			// Application.debug("oldGeo: " + oldGeo + ", visible: " +
-			// oldGeo.isEuclidianVisible() + ", algo: " + oldGeoAlgo);
-			// Application.debug("newGeo: " + newGeo + ", visible: " +
-			// newGeo.isEuclidianVisible() + ", algo: " + newGeoAlgo);
 		}
 
 		// restore old kernel settings
 
 		// replace Strings: oldXML by newXML in consXML
-		// Application.debug("cons=\n"+consXML+"\nold=\n"+oldXML+"\nnew=\n"+newXML);
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
 			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
 			// Application.debug("consXML=\n" + consXML);
 			return false;
 		}
-
-		// System.out.println("REDEFINE: oldGeo: " + oldGeo + ", newGeo: " +
-		// newGeo);
-		// System.out.println(" old XML:\n" + consXML.substring(pos, pos +
-		// oldXML.length()));
-		// System.out.println(" new XML:\n" + newXML);
-		// System.out.println("END redefine.");
 
 		// get inputs position in consXML: we want to put new geo after that
 		int inputEndPos = -1;
@@ -1971,7 +1957,6 @@ public class Construction {
 			}
 		} else {
 			for (int i = step + 1; i <= s; ++i) {
-				// Application.debug(i+"");
 				ceList.get(i).notifyAdd();
 			}
 		}
@@ -2344,7 +2329,8 @@ public class Construction {
 
 		// if we get here, nothing worked:
 		// possibly auto-create new GeoElement with that name
-		if (allowAutoCreate && getApplication().getKernel()
+		if (allowAutoCreate
+				&& getApplication().getKernel()
 				.getAlgebraProcessor().enableStructures()) {
 			return autoCreateGeoElement(label1);
 		}
@@ -3185,7 +3171,10 @@ public class Construction {
 		} else {
 			registeredFV.add(fv);
 		}
+	}
 
+	public boolean hasRegisteredFunctionVariable() {
+		return !registeredFV.isEmpty();
 	}
 
 	/**
@@ -3196,20 +3185,6 @@ public class Construction {
 	 */
 	public boolean isRegisteredFunctionVariable(String s) {
 		return registeredFV.contains(s);
-	}
-
-	/**
-	 * Returns function variable that should be recognized in If and Function
-	 * commands
-	 * 
-	 * @return local function variable or null if there is none
-	 */
-	public String getRegisteredFunctionVariable() {
-		Iterator<String> it = registeredFV.iterator();
-		if (it.hasNext()) {
-			return it.next();
-		}
-		return null;
 	}
 
 	/**
