@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.plugin.Operation;
@@ -101,7 +100,7 @@ public class SymbolicUtil {
 					if (((MyList) v).getLength() == 0) {
 						return true;
 					}
-					for (int i=0; i<((MyList) v).getLength(); i++) {
+					for (int i = 0; i < ((MyList) v).getLength(); i++) {
 						if (check(((MyList) v).getItem(i))) {
 							return true;
 						}
@@ -129,6 +128,7 @@ public class SymbolicUtil {
 				}
 				return false;
 			}
+
 			private boolean hasOperationWithNan(ExpressionNode node) {
 				return Operation.LOG.equals(node.getOperation())
 						|| Operation.SQRT.equals(node.getOperation())
@@ -143,10 +143,6 @@ public class SymbolicUtil {
 		opposite.setDefinition(symbolic.getDefinition().deepCopy(symbolic.getKernel()));
 		toggleNumericSolve(opposite);
 		return opposite;
-	}
-
-	private static String getOppositeValueString(GeoSymbolic symbolic) {
-		return getValueString(getOpposite(symbolic));
 	}
 
 	/**
