@@ -232,6 +232,8 @@ public class LaTeXSerializationTest {
 		checkLaTeX("\\sqrt{{3}\\frac{4}{5}}", "sqrt(3(4)/(5))");
 		checkLaTeX("\\sqrt[4]{{3}\\frac{4}{5}}", "nroot(3(4)/(5),4)");
 		checkLaTeX("5\\cdot {1}\\frac{2}{3}", "5" + Unicode.MULTIPLY + "1(2)/(3)");
+		checkLaTeX("1.\\overline{34}", "1.3" + Unicode.OVERLINE + "4" + Unicode.OVERLINE);
+		checkLaTeX("1.2\\overline{3}", "1.23" + Unicode.OVERLINE);
 	}
 
 	@Test

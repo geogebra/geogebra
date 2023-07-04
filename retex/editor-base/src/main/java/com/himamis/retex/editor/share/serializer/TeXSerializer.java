@@ -328,6 +328,11 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(2), stringBuilder);
 			stringBuilder.append("}");
 			break;
+		case RECURRING_DECIMAL:
+			stringBuilder.append("\\overline{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}");
+			break;
 		default:
 			stringBuilder.append("{\\mathrm{");
 			stringBuilder.append(function.getTexName());

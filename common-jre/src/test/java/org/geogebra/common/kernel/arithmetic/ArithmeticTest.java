@@ -514,6 +514,15 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("(2" + Unicode.INVISIBLE_PLUS + "1 / 2) / 2", "1.25");
 	}
 
+	@Test
+	public void testRecurringDecimals() {
+		t("1.23" + Unicode.OVERLINE + "4" + Unicode.OVERLINE, "1.2343434343434343");
+		t("1.3" + Unicode.OVERLINE + " / 0.5", "2.6666666666666665");
+		t("1.0" + Unicode.OVERLINE, "1");
+		t("1.3" + Unicode.OVERLINE + " * 3", "4");
+		t("2.6" + Unicode.OVERLINE + " / 2", "1.3333333333333333");
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);

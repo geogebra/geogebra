@@ -105,6 +105,13 @@ public class SolverSerializationTest {
 	}
 
 	@Test
+	public void testRecurringDecimals() {
+		parsesToSolverInput("1.23\u03054\u0305", "1.2[34]");
+		parsesToSolverInput("4.34\u03055\u03056\u0305", "4.3[456]");
+		parsesToSolverInput("7/2 + 1.23\u0305", "[7/2] + 1.2[3]");
+	}
+
+	@Test
 	public void testDiv() {
 		parsesToSolverInput("1/n^2", "[1/[n^2]]");
 		parsesToSolverInput("1/2", "[1/2]");

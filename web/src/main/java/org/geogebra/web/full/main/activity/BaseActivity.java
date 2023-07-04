@@ -58,7 +58,7 @@ public class BaseActivity implements GeoGebraActivity {
 
 	@Override
 	public DockPanelW createAVPanel() {
-		return new ToolbarDockPanelW();
+		return new ToolbarDockPanelW(new DefaultDockPanelDecorator());
 	}
 
 	@Override

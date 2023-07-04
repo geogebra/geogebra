@@ -692,6 +692,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			dockPanel.getToolbar().reset();
 			dockPanel.tryBuildZoomPanel();
 		}
+		if (activity instanceof ScientificActivity) {
+			((ScientificActivity) activity).initTableOfValues(this);
+		}
 	}
 
 	/**
@@ -2363,6 +2366,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		kernel.initUndoInfo();
 		kernel.getAlgebraProcessor().getCommandDispatcher()
 				.addCommandFilter(getConfig().getCommandFilter());
+		resetCommandDict();
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {
 				afterMaterialRestored();
