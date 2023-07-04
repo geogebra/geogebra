@@ -20,8 +20,8 @@ public final class CommandFilterFactory {
 				false);
 		commandNameFilter.addCommands(Commands.Mean, Commands.mean, Commands.SD,
 				Commands.stdev, Commands.SampleSD, Commands.stdevp,
-				Commands.nPr, Commands.nCr, Commands.Binomial, Commands.MAD,
-				Commands.mad);
+				Commands.nPr, Commands.nCr, Commands.Binomial, Commands.BinomialDist,
+				Commands.MAD, Commands.mad, Commands.Normal);
 		return commandNameFilter;
 	}
 

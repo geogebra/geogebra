@@ -3559,7 +3559,8 @@ public class MyXMLHandler implements DocHandler {
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
-									.withSymbolicMode(mode));
+									.withSymbolicMode(mode)
+									.withForceFunctionsEnabled(true));
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {

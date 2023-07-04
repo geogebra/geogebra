@@ -11,11 +11,13 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ScientificOperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.ScientificCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.main.syntax.suggestionfilter.ScientificSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
@@ -51,6 +53,11 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public boolean allowsSuggestions() {
+		return false;
+	}
+
+	@Override
+	public boolean showToolsPanel() {
 		return false;
 	}
 
@@ -91,13 +98,13 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public CommandArgumentFilter getCommandArgumentFilter() {
-		return null;
+		return new ScientificCommandArgumentFilter();
 	}
 
 	@CheckForNull
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
-		return null;
+		return new ScientificSyntaxFilter();
 	}
 
 	@Override
@@ -167,6 +174,11 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public boolean hasEuclidianView() {
+		return false;
+	}
+
+	@Override
+	public boolean hasOneVarStatistics() {
 		return false;
 	}
 }
