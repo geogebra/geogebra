@@ -615,4 +615,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public boolean isSymbolicModeWithSpecialEditor() {
 		return isSymbolicMode() && linkedGeo.hasSpecialEditor();
 	}
+
+	public boolean validate(EditorContent editorState, StringBuilder sb) {
+		return inputBoxProcessor.validate(editorState, sb);
+	}
 }

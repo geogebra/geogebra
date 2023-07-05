@@ -16,7 +16,6 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
@@ -57,23 +56,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 		});
 
 		box.add(mathField);
-	}
-
-	@Override
-	public void resetChanges() {
-		String text = getGeoInputBox().getTextForEditor();
-
-		boolean textMode = isTextMode();
-		mathField.getInternal().setPlainTextMode(textMode);
-		mathField.getInternal().setAllowAbs(
-				!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
-		if (textMode) {
-			mathField.getInternal().setPlainText(text);
-		} else {
-			mathField.parse(text);
-		}
-
-		setProtection();
 	}
 
 	@Override
@@ -156,6 +138,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 		double currentHeight = equationSize.getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
 		box.setBounds(box.getX(), box.getY(), box.getWidth(),
 				Math.max((int) currentHeight, DrawInputBox.SYMBOLIC_MIN_HEIGHT));
+		dispatchKeyTypeEvent(key);
 		box.revalidate();
 		view.repaintView();
 	}
