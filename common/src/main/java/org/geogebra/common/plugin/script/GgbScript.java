@@ -2,11 +2,14 @@ package org.geogebra.common.plugin.script;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.inputbox.EditorContent;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptError;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.StringUtil;
@@ -40,11 +43,7 @@ public class GgbScript extends Script {
 		if (text == null) {
 			return true;
 		}
-		if (evt.argument == null) {
-			scriptText = text;
-		} else {
-			scriptText = text.replaceAll("%0", evt.argument);
-		}
+		scriptText = substitutePlaceholders(text, evt);
 		String[] lines = scriptText.split("\n");
 		boolean success = true;
 		for (int i = 0; i < lines.length; i++) {
@@ -63,6 +62,38 @@ public class GgbScript extends Script {
 			}
 		}
 		return success;
+	}
+
+	private String substitutePlaceholders(String text, Event evt) {
+		String scriptText = text;
+		if (evt.argument != null) {
+			scriptText = scriptText.replaceAll("%0", evt.argument);
+		}
+		if (evt.type == EventType.EDITOR_KEY_TYPED
+				&& (scriptText.contains("%1") || scriptText.contains("%2"))) {
+			SymbolicEditor editor = getEditor(evt.argument);
+			if (editor != null) {
+				scriptText = replacePlaceholdersFromEditor(scriptText, editor);
+			}
+		}
+		return scriptText;
+	}
+
+	private String replacePlaceholdersFromEditor(String scriptText, SymbolicEditor editor) {
+		EditorContent editorState = editor.getEditorStateWithQuestionMarks();
+		StringBuilder content = new StringBuilder();
+		boolean valid = editor.getGeoInputBox().validate(editorState, content);
+		return scriptText.replace("%1", content.toString())
+				.replace("%2", String.valueOf(valid));
+	}
+
+	private SymbolicEditor getEditor(String argument) {
+		SymbolicEditor editor = app.getActiveEuclidianView().getSymbolicEditor();
+		if (editor == null || editor.getGeoInputBox() == null
+				|| !argument.equals(editor.getGeoInputBox().getLabelSimple())) {
+			return null;
+		}
+		return editor;
 	}
 
 	/**
