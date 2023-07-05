@@ -74,9 +74,6 @@ public class DrawLabel3D {
 	private int pickingW;
 	private int pickingH;
 
-	/** temp graphics used for calculate bounds */
-	//protected GGraphics2D tempGraphics;
-
 	protected Drawable3D drawable;
 	private int textIndex = -1;
 	private int pickingIndex = -1;
