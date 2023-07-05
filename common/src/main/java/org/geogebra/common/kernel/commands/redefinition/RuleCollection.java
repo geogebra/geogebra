@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.commands.redefinition;
 
 import java.util.Arrays;
 
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
 public class RuleCollection {
@@ -13,7 +13,7 @@ public class RuleCollection {
 		this.rules = rules;
 	}
 
-	public boolean allowed(GeoElement from, GeoElement to) {
+	public boolean allowed(GeoElementND from, GeoElementND to) {
 		return allowed(from.getGeoClassType(), to.getGeoClassType());
 	}
 

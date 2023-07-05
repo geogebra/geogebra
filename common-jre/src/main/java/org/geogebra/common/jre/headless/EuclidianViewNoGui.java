@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.euclidian.ScreenReaderSilent;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -250,5 +251,9 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewFor3DCompanion(this);
+	}
+
+	public void setSymbolicEditor(SymbolicEditor editor) {
+		this.symbolicEditor = editor;
 	}
 }
