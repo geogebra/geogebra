@@ -46,6 +46,11 @@ abstract class AbstractAppConfig implements AppConfig {
         return App.VIEW_EUCLIDIAN;
     }
 
+	@Override
+	public boolean hasOneVarStatistics() {
+		return true;
+	}
+
     @Override
     public CommandFilter getCommandFilter() {
         if (commandFilter == null) {
@@ -53,4 +58,5 @@ abstract class AbstractAppConfig implements AppConfig {
         }
         return commandFilter;
     }
+
 }

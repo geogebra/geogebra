@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
+import org.geogebra.web.full.gui.toolbarpanel.DefineFunctionsDialogTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.Shades;
@@ -19,6 +20,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
+import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.SafeHtmlCell;
 import org.gwtproject.dom.client.Element;
@@ -52,6 +54,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private int rowsChange = 0;
 	private int columnsChange = 0;
 	private int removedColumnByUser = -1;
+	private boolean shadedColumns = true;
+	DefineFunctionsDialogTV defFuncDialog;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
@@ -64,15 +68,15 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 * Header
 		 */
 		HeaderCell() {
-			FlowPanel p = new FlowPanel();
-			p.setStyleName("content");
-			p.addStyleName(Shades.NEUTRAL_900.getFgColName());
-			p.add(new Label("%s"));
-			StandardButton btn = new StandardButton(MaterialDesignResources.INSTANCE
+			FlowPanel main = new FlowPanel();
+			main.setStyleName("content");
+			main.addStyleName(Shades.NEUTRAL_900.getFgColName());
+			main.add(new Label("%s"));
+			StandardButton menuButton = new StandardButton(MaterialDesignResources.INSTANCE
 					.more_vert_black(), 24);
-			TestHarness.setAttr(btn, "btn_tvHeader3dot");
-			p.add(btn);
-			value = p.getElement().getString();
+			TestHarness.setAttr(menuButton, "btn_tvHeader3dot");
+			main.add(menuButton);
+			value = main.getElement().getString();
 		}
 
 		/**
@@ -139,6 +143,15 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		});
 	}
 
+	@Override
+	public void openDefineFunctions() {
+		if (defFuncDialog == null) {
+			DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
+			defFuncDialog = new DefineFunctionsDialogTV(app, data);
+		}
+		defFuncDialog.show();
+	}
+
 	private boolean isColumnEditable(int column) {
 		return view.getEvaluatable(column) instanceof GeoList;
 	}
@@ -158,10 +171,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
-		addEmptyColumn(0);
-		addEmptyColumn(1);
-		if (columnsChange < 0) {
-			addEmptyColumn(2);
+		if (shadedColumns) {
+			addEmptyColumn(0);
+			addEmptyColumn(1);
+			if (columnsChange < 0) {
+				addEmptyColumn(2);
+			}
 		}
 	}
 
@@ -240,8 +255,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int row = 0; row < tableModel.getRowCount(); row++) {
 			rows.add(new TVRowData(row, tableModel));
 		}
+
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+
 		if (rowsChange < 0) {
 			for (int i = 0; i < Math.abs(rowsChange); i++) {
 				rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
@@ -487,5 +504,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	public int getColumnsChange() {
 		return columnsChange;
+	}
+
+	/**
+	 * Disable shaded style.
+	 */
+	public void disableShadedColumns() {
+		shadedColumns = false;
 	}
 }

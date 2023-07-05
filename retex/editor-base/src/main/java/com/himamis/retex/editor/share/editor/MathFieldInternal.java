@@ -604,7 +604,6 @@ public class MathFieldInternal
 	 */
 	public void setFieldListener(MathFieldListener listener) {
 		this.listener = listener;
-
 	}
 
 	/**
@@ -900,13 +899,14 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * Set to plain mode and just just fill with text (linear)
+	 * Set to plain mode and just fill with text (linear)
 	 * @param text text
 	 */
 	public void setPlainText(String text) {
 		parse("");
 		setPlainTextMode(true);
-		KeyboardInputAdapter.type(this, text);
+		KeyboardInputAdapter.typeSilent(this, text);
+		update();
 	}
 
 	/**

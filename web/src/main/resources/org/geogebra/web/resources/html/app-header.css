@@ -291,26 +291,6 @@ svg.icon.left {
     float: left;
 }
 
-.GeoGebraFrame .undoRedoSettingsPanelScientific {
-    position: relative;
-    clear: both;
-    width: 800px;
-    max-width: calc(100% - 48px);
-    height: 48px;
-    margin: auto;
-}
-
-.smallScreen.GeoGebraFrame .undoRedoSettingsPanelScientific {
-    position: relative;
-    display: inline-block;
-    clear: both;
-    width: 800px;
-    max-width: calc(100% - 12px);
-    height: 48px;
-    margin-left: 12px;
-    margin-top: -10px;
-}
-
 .GeoGebraFrame .hidden {
     display: none;
 }

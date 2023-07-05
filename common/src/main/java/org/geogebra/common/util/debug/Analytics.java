@@ -68,8 +68,9 @@ public abstract class Analytics {
 		public static final String LOGIN = "login";
 		public static final String SEARCH = "search";
 		public static final String TOOL_SELECTED = "tool_selected";
+		public static final String KEYBOARD = "keyboard";
 
-		protected Event() {
+		private Event() {
 		}
 	}
 
@@ -94,6 +95,9 @@ public abstract class Analytics {
 		public static final String SUB_APP_PROBABILITY = "probability";
 		public static final String SEARCH_TERM = "search_term";
 		public static final String TOOL_NAME = "tool_name";
+		public static final String KEY = "key";
+		public static final String TAB = "tab";
+		public static final String INPUT_SOURCE = "input_source";
 
 		/**
 		 * Convert sub app code to analyitcs sub app parameter
@@ -116,7 +120,33 @@ public abstract class Analytics {
 			}
 		}
 
-		protected Param() {
+		private Param() {
+		}
+	}
+
+	public static class Keyboard {
+		public static final String ABC = "ABC";
+		public static final String FUNCTIONS = "f(x)";
+		public static final String GREEK = "Greek";
+		public static final String NUMBERS = "123";
+		public static final String SYMBOLS = "symbols";
+	}
+
+	public enum InputSource {
+		ALGEBRA("Algebra"),
+		DATA_TABLE("Data Table"),
+		DISTRIBUTION("Distribution"),
+		SETTINGS("Settings"),
+		DIALOG("Dialog");
+
+		private final String value;
+
+		InputSource(String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return value;
 		}
 	}
 }

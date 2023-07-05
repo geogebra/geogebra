@@ -48,6 +48,7 @@ import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.main.undo.DefaultUndoManager;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GgbAPI;
@@ -673,6 +674,14 @@ public class AppCommon extends App {
 	 */
 	public void setGraphingConfig() {
 		setConfig(new AppConfigGraphing());
+		reInit();
+	}
+
+	/**
+	 * Sets Scientific config and reinitializes the app.
+	 */
+	public void setScientificConfig() {
+		setConfig(new AppConfigScientific());
 		reInit();
 	}
 
