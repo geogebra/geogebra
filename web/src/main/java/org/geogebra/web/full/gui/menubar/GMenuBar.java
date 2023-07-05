@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.menubar;
 import java.util.List;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
 /**

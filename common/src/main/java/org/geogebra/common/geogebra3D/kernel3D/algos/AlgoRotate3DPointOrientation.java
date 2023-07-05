@@ -116,7 +116,7 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 			return;
 		}
 
-		out.rotate(angle, center, orientation);
+		out.rotate(angle, center.getInhomCoordsInD3(), orientation);
 		/*
 		 * if(inGeo.isLimitedPath()) this.transformLimitedPath(inGeo, outGeo);
 		 */

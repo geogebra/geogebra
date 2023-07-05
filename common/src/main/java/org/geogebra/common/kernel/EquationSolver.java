@@ -324,11 +324,6 @@ public class EquationSolver implements EquationSolverInterface {
 										// |D(root)| |2a+3|/sqrt(9q)
 										// *kernel.STANDARD_PRECISION
 
-		// Application.debug("Q = "+Q+" R = "+R+" Q3 = "+Q3+" R2 = "+R2+" CR2 =
-		// "+CR2+" CQ3 = "+CQ3);
-
-		// Application.debug(Math.abs(CR2 - CQ3)+"");
-
 		// changed back to original GGB-1725
 		// if (Math.abs(R) < Kernel.STANDARD_PRECISION
 		// && Math.abs(Q) < Kernel.STANDARD_PRECISION)
@@ -698,26 +693,6 @@ public class EquationSolver implements EquationSolverInterface {
 
 		return roots;
 	}
-
-	// avoid too big polynomial coefficients in laguerreAll
-	// private static final int MAX_POLYNOMIAL_COEFFICIENT = 1000;
-	//
-	// // avoid huge coefficients
-	// private void checkCoefficients(double [] eqn) {
-	// double max = Math.abs(eqn[0]);
-	// double temp;
-	// for (int i=1; i < eqn.length; i++) {
-	// temp = Math.abs(eqn[i]);
-	// if (temp > max) max = temp;
-	// }
-	// if (max > MAX_POLYNOMIAL_COEFFICIENT) {
-	// Application.debug("changed coefficients");
-	// double factor = MAX_POLYNOMIAL_COEFFICIENT/max;
-	// for (int i=0; i < eqn.length; i++) {
-	// eqn[i] *= factor;
-	// }
-	// }
-	// }
 
 	/*
 	 * solve_quartic.c - finds the real roots of x^4 + a x^3 + b x^2 + c x + d =

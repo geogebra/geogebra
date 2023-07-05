@@ -1,9 +1,11 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.gui.menu;
 
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.Shades;
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;

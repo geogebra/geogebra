@@ -80,7 +80,7 @@ public class FontManagerD extends FontManager {
 		final String testChar = Language.getTestChar(lang);
 		if (testChar != null) {
 			testCharacters.append(testChar);
-		} // else Application.debug("No language specific test char");
+		}
 
 		// CHINESE
 		if ("zh".equals(lang)) {
@@ -316,8 +316,6 @@ public class FontManagerD extends FontManager {
 			if (charsDisplayed > maxDisplayedChars) {
 				bestFont = j;
 				maxDisplayedChars = charsDisplayed;
-				// Application.debug(allfonts[bestFont].getFontName()+" matched
-				// "+charsDisplayed);
 			}
 
 		}

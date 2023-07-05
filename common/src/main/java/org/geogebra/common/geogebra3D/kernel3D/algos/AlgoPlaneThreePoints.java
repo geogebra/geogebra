@@ -99,9 +99,6 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 				coordsys.setEquationVector(cA, cB, cC);
 			}
 		}
-
-		// Application.debug(cs.getCoordSys().getMatrixOrthonormal().toString());
-
 	}
 
 	/**

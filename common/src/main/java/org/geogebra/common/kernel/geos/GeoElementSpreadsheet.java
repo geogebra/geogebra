@@ -166,8 +166,6 @@ public class GeoElementSpreadsheet {
 		if (column > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP) {
 			return -1;
 		}
-
-		// Application.debug(column);
 		return column - 1;
 	}
 
@@ -275,8 +273,6 @@ public class GeoElementSpreadsheet {
 					.getVarString(StringTemplate.defaultTemplate));
 			sb.append(")");
 		}
-
-		// Application.debug(sb.toString());
 
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(sb.toString(), false);

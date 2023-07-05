@@ -1,7 +1,7 @@
 package org.geogebra.web.full.html5;
 
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 
 public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 	private final String originalTitle;

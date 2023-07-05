@@ -1198,7 +1198,6 @@ public class Ggb2giac {
 		// normal() makes sure answer is expanded
 		// '*' argument to make Product(list of matrices) work
 		p("Product.1", "normal(product(%0,'*'))");
-		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
@@ -1329,6 +1328,9 @@ public class Ggb2giac {
 		// Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Sum.4",
 				"expand(subst(sum(subst(quote(%0),{%1},{ggbsumvar@1}),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
+
+		p("Product.4",
+				"expand(subst(product(subst(quote(%0),{%1},{ggbproductvar@1}),ggbproductvar@1,%2,%3),ggbproductvar@1,%1))");
 
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]

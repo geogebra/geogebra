@@ -9,6 +9,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class SerializerAdapter implements Serializer {
 
@@ -140,7 +141,52 @@ public abstract class SerializerAdapter implements Serializer {
 
 	abstract void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder);
 
+	abstract boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction);
+
 	void serialize(MathCharPlaceholder placeholder, StringBuilder stringBuilder) {
 		// only in LaTeX
+	}
+
+	/**
+	 * Checks if the stringBuilder contains a mixed number e.g. 3 1/2
+	 * @param stringBuilder StringBuilder
+	 * @return Index >= 0 of where to put opening parentheses if there is a mixed number, -1 else
+	 */
+	public int isMixedNumber(StringBuilder stringBuilder) {
+		boolean isMixedNumber = false;
+		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
+			if (stringBuilder.charAt(i) == ' ' && !isMixedNumber) {
+				continue; // Expecting a space preceding the fraction
+			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
+				isMixedNumber = true; // Only allow digits 0 - 9 here
+			} else if (isMixedNumber // Square bracket "[" needed for the SolverSerializer
+					&& " +-*/([".contains(Character.toString(stringBuilder.charAt(i)))) {
+				return i + 1;
+			} else {
+				isMixedNumber = false;
+				break;
+			}
+		}
+		return isMixedNumber ? 0 : -1;
+	}
+
+	/**
+	 * Used to determine if a function contains of digits and invisible plus only
+	 * (for mixed numbers)
+	 * @param mathFunction MathFunction
+	 * @return True if digits (and invisible plus) only are found, false else
+	 */
+	public boolean isValidMixedNumber(MathFunction mathFunction) {
+		String compare;
+		for (int i = 0; i < mathFunction.size(); i++) {
+			for (int j = 0; j < mathFunction.getArgument(i).size(); j++) {
+				compare = mathFunction.getArgument(i).getArgument(j).toString();
+				if (compare.compareTo("0") < 0 || compare.compareTo("9") > 0
+						&& !compare.equals(Character.toString(Unicode.INVISIBLE_PLUS))) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

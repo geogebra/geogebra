@@ -1038,13 +1038,11 @@ public class GeoList extends GeoElement
 		// update all registered locatables (they have this point as start
 		// point)
 		if (colorFunctionListener != null) {
-			// AbstractApplication.debug("GeoList update listeners");
 			for (int i = 0; i < colorFunctionListener.size(); i++) {
 				final GeoElement geo = colorFunctionListener.get(i);
 				// kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
 				geo.updateVisualStyle(GProperty.COLOR);
-				// AbstractApplication.debug(geo);
 			}
 			// kernel.notifyRepaint();
 		}
@@ -1122,8 +1120,6 @@ public class GeoList extends GeoElement
 				geo.setLineThickness(thickness);
 			}
 		}
-
-		// Application.debug("GeoList.setLineThickness "+thickness);
 	}
 
 	/**
@@ -1228,8 +1224,6 @@ public class GeoList extends GeoElement
 
 				// get alpha value of first element
 				final double alpha = elements.get(0).getAlphaValue();
-
-				// Application.debug("setting list alpha to "+alpha);
 
 				super.setAlphaValue(alpha);
 
@@ -1710,7 +1704,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public void pointChanged(final GeoPointND P) {
-		// Application.debug("pointChanged",1);
 
 		P.updateCoords();
 
@@ -1742,8 +1735,6 @@ public class GeoList extends GeoElement
 		// 0-1 for first obj
 		// 1-2 for second
 		// etc
-		// Application.debug(pp.t+" "+path.getMinParameter()+"
-		// "+path.getMaxParameter());
 
 		int closestPointIndexBack = closestPointIndex;
 		if (directionInfoOrdering != null) {
@@ -1792,10 +1783,6 @@ public class GeoList extends GeoElement
 				}
 			}
 		}
-
-		// Application.debug("closestPointIndex="+closestPointIndex);
-
-		// return get(closestPointIndex).getNearestPoint(p);
 	}
 
 	@Override
@@ -1882,13 +1869,9 @@ public class GeoList extends GeoElement
 					path.getMinParameter(), path.getMaxParameter()));
 		}
 
-		// Application.debug("pathChanged "+n);
-
 		path.pathChanged(PI);
 
 		t = pp.getT();
-		// Application.debug(PathNormalizer.toNormalizedPathParameter(t,
-		// path.getMinParameter(), path.getMaxParameter()));
 
 		if ((directionInfoArray == null) || directionInfoArray[n]) {
 			pp.setT(PathNormalizer.toNormalizedPathParameter(t,
@@ -1909,7 +1892,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean isOnPath(final GeoPointND PI, final double eps) {
-		// Application.debug("isOnPath",1);
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
 			if (((PathOrPoint) geo).isOnPath(PI, eps)) {

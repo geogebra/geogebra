@@ -25,6 +25,7 @@ import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -268,7 +269,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 		);
 		openButton.setEnabled(false);
 
-		addStyledButton(MaterialDesignResources.INSTANCE.save_black(), toolButtonPanel,
+		addStyledButton(DefaultMenuIconProvider.INSTANCE.save(), toolButtonPanel,
 				loc.getMenu("Save"), w -> this.saveTools());
 
 		// name & icon

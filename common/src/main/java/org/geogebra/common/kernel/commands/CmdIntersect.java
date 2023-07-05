@@ -74,8 +74,6 @@ public class CmdIntersect extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
-		// Application.debug(n,1);
-
 		switch (n) {
 		case 2:
 			arg = resArgs(c);

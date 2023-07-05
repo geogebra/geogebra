@@ -149,7 +149,7 @@ gwt {
     if (project.hasProperty("gmodule")) {
         modules = project.getProperty("gmodule").split(",")
     } else {
-        modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
+        modules = ['org.geogebra.web.SuperWeb', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
           'org.geogebra.web.Tablet3D']
     }
     
@@ -283,10 +283,18 @@ task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     doLast {
         ["web3d", "webSimple", "editor"].each { module ->
             def dir = file("build/gwt/out/$module")
-            if (file(dir).exists()) {
+            if (dir.exists()) {
                 fileTree(dir).each { f ->
                     def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
                     file(outFile.parent).mkdirs()
+                    ant.gzip(src: f, zipfile: outFile)
+                }
+            }
+            def srcMaps = file("build/gwt/out/WEB-INF/deploy/$module/symbolMaps/")
+            file("build/symbolMapsGz/$module").mkdirs()
+            if (srcMaps.exists()) {
+                fileTree(srcMaps).each { f ->
+                    def outFile = file("$f".replace(srcMaps.absolutePath, "build/symbolMapsGz/$module/"))
                     ant.gzip(src: f, zipfile: outFile)
                 }
             }
@@ -298,6 +306,11 @@ task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverH
     description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
     from compileGwt
     into warDirRel
+
+    into ("web3d") {
+        from "$warDirRel/WEB-INF/deploy/web3d/symbolMaps"
+    }
+
 }
 
 task mergeDeploy(){

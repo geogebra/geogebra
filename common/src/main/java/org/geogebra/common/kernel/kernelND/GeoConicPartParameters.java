@@ -323,7 +323,6 @@ public class GeoConicPartParameters {
 		}
 
 		// for arc, check if is inside the arc : cross product with limit
-		// Application.debug(posOrientation);
 		Coords midPoint = conic.getMidpoint2D();
 		double r = conic.getHalfAxis(1);
 		double ev0x = conic.getEigenvec(0).getX();

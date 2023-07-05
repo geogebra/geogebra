@@ -5,6 +5,6 @@
   <set-configuration-property name="devModeRedirectEnabled" value="true"/>
   <set-property name="compiler.useSourceMaps" value="true" />
   <set-configuration-property name="includeSourceMapUrl" 
-      value="https://cdn.geogebra.org/apps/symbolMaps/latest/__HASH___sourceMap__FRAGMENT__.json"/>
+      value="https://apps-builds.s3-eu-central-1.amazonaws.com/geogebra/sourcemaps/__MODULE__/__HASH___sourceMap__FRAGMENT__.json"/>
   <collapse-all-properties />
 </module>

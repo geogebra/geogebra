@@ -163,7 +163,6 @@ public class FileDropTargetListener implements DropTargetListener {
 				// (DataFlavor.imageFlavor);
 			} else if (transferable
 					.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-				// Application.debug("javaFileList is supported");
 				List<File> list = (List<File>) transferable
 						.getTransferData(DataFlavor.javaFileListFlavor);
 				ListIterator<File> it = list.listIterator();
@@ -173,7 +172,6 @@ public class FileDropTargetListener implements DropTargetListener {
 				}
 			} else if (transferable
 					.isDataFlavorSupported(GuiManagerD.uriListFlavor)) {
-				// Application.debug("uri-list flavor is supported");
 				String uris = (String) transferable
 						.getTransferData(GuiManagerD.uriListFlavor);
 

@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
@@ -37,5 +39,16 @@ public class GeoLineTest extends BaseUnitTest {
 		assertThat(line, hasValue("0x + y = 11.25"));
 		line.setToStringMode(GeoLine.EQUATION_EXPLICIT);
 		assertThat(line, hasValue("y = 11.25"));
+	}
+
+	@Test
+	public void noAmbiguousLabelInXml() {
+		add("e1(x,y)=x+y");
+		GeoLine line = add("e1+7=0");
+		assertThat(line.getLabelSimple(), equalTo("eq1"));
+		assertThat(getApp().getXML(),
+				containsString("exp=\"eq1:=e1 + 7 = 0\" "));
+		reload();
+		assertThat(lookup("eq1"), instanceOf(GeoLine.class));
 	}
 }

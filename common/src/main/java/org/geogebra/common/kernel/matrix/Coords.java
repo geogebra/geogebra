@@ -233,8 +233,6 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            values {x1, x2, ...}
 	 */
 	public void set(double[] vals0) {
-		// Application.debug("-------------val.length =
-		// "+val.length+"\n-------------vals0.length = "+vals0.length);
 		for (int i = 0; i < vals0.length; i++) {
 			val[i] = vals0[i];
 		}
@@ -1609,9 +1607,6 @@ public class Coords implements AnimatableValue<Coords> {
 	 */
 	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords oldCoords,
 			Coords v, Coords globalCoords, Coords inPlaneCoords) {
-
-		// Application.debug(this+"\nold=\n"+oldCoords);
-
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
 		if (DoubleUtil.isZero(v3.dotproduct(v))) {

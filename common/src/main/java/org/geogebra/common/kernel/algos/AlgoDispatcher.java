@@ -1360,7 +1360,6 @@ public class AlgoDispatcher {
 		}
 		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, x,
 				y);
-		// Application.debug("PointIn - \n x="+x+"\n y="+y);
 		GeoPoint p = algo.getP();
 		if (complex) {
 			p.setMode(Kernel.COORD_COMPLEX);

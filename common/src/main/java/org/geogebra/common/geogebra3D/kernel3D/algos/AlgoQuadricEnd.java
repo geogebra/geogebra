@@ -131,8 +131,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			CoordMatrix qm = quadric.getSymetricMatrix();
 			CoordMatrix cm = pmt.mul(qm).mul(pm);
 
-			// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
-
 			coordsys.resetCoordSys();
 			coordsys.addPoint(getOrigin(o1, o2));
 			coordsys.addVector(v[0]);
@@ -174,8 +172,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			// sets the conic matrix from plane and quadric matrix
 			CoordMatrix qm = quadric.getSymetricMatrix();
 			CoordMatrix cm = pmt.mul(qm).mul(pm);
-
-			// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
 
 			coordsys.resetCoordSys();
 			coordsys.addPoint(getOrigin(o1, o2));

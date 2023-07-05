@@ -478,7 +478,6 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 		// now set the new values of the roots
 		for (int i = 0; i < number; i++) {
-			// Application.debug("root[" + i + "] = " + roots[i]);
 			if (yValFunction == null) {
 				// check if defined
 				// if (Double.isNaN(f.evaluate(roots[i])))
@@ -488,8 +487,6 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			} else { // extremum or turnal point
 				rootPoints[i].setCoords(roots[i],
 						yValFunction.value(roots[i]), 1.0);
-
-				// Application.debug(" " + rootPoints[i]);
 			}
 		}
 

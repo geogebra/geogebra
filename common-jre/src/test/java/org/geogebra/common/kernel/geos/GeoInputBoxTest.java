@@ -718,7 +718,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				+ Unicode.SUPERSCRIPT_0 + "+t", inputBox.getTextForEditor());
 
 		inputBox.updateLinkedGeo("-3/4t + 2*3/2");
-		assertEquals("(-3)/(4) t+2 (3)/(2)", inputBox.getTextForEditor());
+		assertEquals("(-3)/(4) t+2*(3)/(2)", inputBox.getTextForEditor());
 	}
 
 	@Test

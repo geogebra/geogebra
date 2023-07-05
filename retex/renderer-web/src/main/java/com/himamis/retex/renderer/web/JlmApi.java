@@ -2,7 +2,6 @@ package com.himamis.retex.renderer.web;
 
 import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 import elemental2.dom.CanvasRenderingContext2D;
@@ -54,7 +53,7 @@ public class JlmApi {
 		String fgColor = opts.get("foregroundColor") == null ? "#000000" : (String) opts.get("foregroundColor");
 		String bgColor = (String) opts.get("backgroundColor"); // undefined === invisible
 		DrawingFinishedCallback cb = Js.uncheckedCast(opts.get("callback"));
-		ensureJLMFactoryExists();
+		FactoryProviderGWT.ensureLoaded();
 		return library.drawLatex(ctx, formula, size, type, x, y,
 				topInset, leftInset, bottomInset, rightInset, fgColor, bgColor, cb);
 	}
@@ -62,15 +61,6 @@ public class JlmApi {
 	private int getInt(JsPropertyMap opts, String key, int fallback) {
 		Object val = opts.nestedGet(key);
 		return val == null ? fallback : Js.asInt(val);
-	}
-
-	/**
-	 * Creates FactoryProvider if needed.
-	 */
-	public static void ensureJLMFactoryExists() {
-		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderGWT());
-		}
 	}
 
 	public void setFontBaseUrl(String url) {

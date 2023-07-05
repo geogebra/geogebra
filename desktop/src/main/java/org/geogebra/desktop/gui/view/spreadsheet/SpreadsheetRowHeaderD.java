@@ -401,7 +401,6 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		boolean altDown = e.isAltDown();
 		boolean shiftDown = e.isShiftDown();
 
-		// Application.debug(keyCode);
 		switch (keyCode) {
 		default:
 			// do nothing

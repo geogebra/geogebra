@@ -183,7 +183,6 @@ public class PlotterBrushSection {
 
 					s.normalDevD = normalDevD;
 					s.normalDevN = normalDevN;
-					// Application.debug("dt="+dt+",normalDev="+normalDevD+","+normalDevN);
 				} else {
 					normalDevD = 0;
 				}
@@ -203,8 +202,6 @@ public class PlotterBrushSection {
 		}
 		clockU.set(s.clockU);
 		clockV.set(s.clockV);
-
-		// Application.debug("direction=\n"+direction.toString());
 	}
 
 	/**

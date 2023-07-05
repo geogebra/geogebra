@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  *
  */
 public abstract class GeoWidget extends GeoElement
-		implements Translateable, PointRotateable, RectangleTransformable {
+		implements Translateable, Rotatable, RectangleTransformable {
 
 	/** Corners */
 	protected GPoint2D startPoint;

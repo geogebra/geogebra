@@ -123,7 +123,6 @@ public class MyResourceBundle extends PropertyResourceBundle {
 	 * @return created bundle
 	 */
 	public static MyResourceBundle loadSingleBundleFile(String name) {
-		// Application.debug("loadBundle: " + name);
 		ResourceBundle.Control control =
 				ResourceBundle.Control.getControl(Control.FORMAT_PROPERTIES);
 		String resourceName = control.toResourceName(name, "properties");
