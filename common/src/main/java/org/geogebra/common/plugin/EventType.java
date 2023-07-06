@@ -223,7 +223,9 @@ public enum EventType {
 	/**
 	 * View properties changed, such as background color or axes settings
 	 */
-	VIEW_PROPERTIES_CHANGED("viewPropertiesChanged"), LOAD_PAGE("loadPage");
+	VIEW_PROPERTIES_CHANGED("viewPropertiesChanged"), LOAD_PAGE("loadPage"),
+	/** Spotlight hidden */
+	HIDE_SPOTLIGHT("hideSpotlight");
 
 	private String eventName;
 
