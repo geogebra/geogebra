@@ -51,12 +51,7 @@ public class BaseWidgetFactory {
 	 * @return label with primary text color
 	 */
 	public Label newPrimaryText(String text, String className) {
-		Label primaryText = new Label(text);
-		if (className != null) {
-			primaryText.setStyleName(className);
-		}
-		primaryText.addStyleName(Shades.NEUTRAL_900.getFgColName());
-		return primaryText;
+		return newText(text, className, Shades.NEUTRAL_900);
 	}
 
 	/**
@@ -75,12 +70,7 @@ public class BaseWidgetFactory {
 	 * @return label with secondary text color
 	 */
 	public Label newSecondaryText(String text, String className) {
-		Label secondaryText = new Label(text);
-		if (className != null) {
-			secondaryText.setStyleName(className);
-		}
-		secondaryText.addStyleName(Shades.NEUTRAL_700.getFgColName());
-		return secondaryText;
+		return newText(text, className, Shades.NEUTRAL_700);
 	}
 
 	/**
@@ -99,12 +89,7 @@ public class BaseWidgetFactory {
 	 * @return label with disabled text color
 	 */
 	public Label newDisabledText(String text, String className) {
-		Label disabledText = new Label(text);
-		if (className != null) {
-			disabledText.setStyleName(className);
-		}
-		disabledText.addStyleName(Shades.NEUTRAL_500.getFgColName());
-		return disabledText;
+		return newText(text, className, Shades.NEUTRAL_500);
 	}
 
 	/**
@@ -114,5 +99,20 @@ public class BaseWidgetFactory {
 	 */
 	public Label newDisabledText(String text) {
 		return newDisabledText(text, null);
+	}
+
+	/**
+	 * @param text - text of label
+	 * @param className - additional css class name
+	 * @param foreground - shade
+	 * @return label with defined shade
+	 */
+	private Label newText(String text, String className, Shades foreground) {
+		Label label = new Label(text);
+		if (className != null) {
+			label.setStyleName(className);
+		}
+		label.addStyleName(foreground.getFgColName());
+		return label;
 	}
 }
