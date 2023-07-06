@@ -7,6 +7,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -17,6 +18,7 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
@@ -84,6 +86,16 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("GeoGebra\\\\nRocks", inputBox.getTextForEditor());
 		updateInput("GeoGebra\\\\nReally\\\\nRocks");
 		t("txt", "GeoGebra\nReally\nRocks");
+	}
+
+	@Test
+	public void shouldNotFireEventOnFocus() {
+		setupInput("txt", "\"GeoGebra\\\\nRocks\"");
+		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+		editor.setKeyListener(key -> fail("Unexpected typing:" + key));
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
 	}
 
 	@Test
@@ -711,5 +723,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 				+ "{" + TeXSerializer.PLACEHOLDER + "} \\\\ "
 				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
 				+ " \\end{pmatrix}", inputBox.getText());
+	}
+
+	@Test
+	public void complexToRealFunctionShouldNotBeRedefined() {
+		add("h(x) = x + i");
+		GeoInputBox inputBox = add("InputBox(h)");
+		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
+		inputBox.updateLinkedGeo("2x/3");
+		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
 	}
 }

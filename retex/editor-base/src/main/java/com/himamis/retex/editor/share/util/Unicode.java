@@ -35,6 +35,7 @@ public class Unicode {
 	final public static char RIGHT_TO_LEFT_MARK = '\u200f';
 	final public static String RIGHT_TO_LEFT_UNARY_MINUS_SIGN = "\u200f-\u200f";
 	final public static char LEFT_TO_RIGHT_MARK = '\u200e';
+	final public static char OVERLINE = '\u0305';
 
 	// degrees, minutes, seconds
 	final public static char DEGREE_CHAR = '\u00b0';

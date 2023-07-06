@@ -295,6 +295,14 @@ public class Parser implements ParserInterface {
         return d;
     }
 
+    private RecurringDecimal parseRecurringDecimal(String image, boolean percent) {
+		double val = RecurringDecimal.parseDouble(loc, image);
+		if (percent) {
+			val = val * 0.01;
+		}
+		return new RecurringDecimal(kernel, val, image);
+    }
+
 }
 PARSER_END(Parser)
 
@@ -377,6 +385,7 @@ TOKEN :  {
   | < DERIVATIVE: "'" >
   | < TRUE:     ( "true" | "True" ) >
   | < FALSE:    ( "false" | "False" ) >
+  | < OVERLINE: "\u0305" >
   | < DECIMAL_POINT:    ( "." | "\u066b" ) > // Arabic decimal point
   | < COMMA:    ( "," | "\u060c" | "\u23B8" ) > // Arabic comma, vertical bar for Austrian points
 }
@@ -388,6 +397,7 @@ TOKEN : {
   //|     < PARAMETRICVAR: (("\u0058") /*| ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))*/) > // X
   |     < FLOAT:  (<INTEGER> | <DECIMAL_POINT>)+ > //deliberately trap eg 1.2.3.4 , 1..2 here, error then thrown in MyDouble.parseDouble()
   |     < EFLOAT: <FLOAT> ("E") (<PLUS> | <MINUS>)? <INTEGER> >
+  |		< RECURRING_DECIMAL: <FLOAT> (<INTEGER> <OVERLINE>)+ >
   |     < INTEGER: ( <DIGIT> )+ >
   |     < #DIGIT:                                     // unicode digits
          [
@@ -1601,7 +1611,7 @@ ExpressionValue myDouble():
 }
 {
    (LOOKAHEAD(2)(
-     (c = <FLOAT> | c = <EFLOAT>)
+     (c = <FLOAT> | c = <EFLOAT> | c = <RECURRING_DECIMAL> )
      ((percent ="%")
      | LOOKAHEAD(3)((degree = <DEGREE_SYMBOL>)
        (c2 = <FLOAT>)
@@ -1668,10 +1678,14 @@ ExpressionValue myDouble():
         }
     }
 |
-    (c = <FLOAT> | c = <EFLOAT>)
+    (c = <FLOAT> | c = <EFLOAT> | c = <RECURRING_DECIMAL>)
     {
-    String image = c.image.replaceFirst("e", "E");
-    ret = parseDouble(image, false);
+		if (c.kind == RECURRING_DECIMAL) {
+			ret = parseRecurringDecimal(c.image, false);
+		} else {
+    		String image = c.image.replaceFirst("e", "E");
+    		ret = parseDouble(image, false);
+		}
     }
 |
     (c = <DEGREE_WORD> | c = <DEGREE_SYMBOL>)

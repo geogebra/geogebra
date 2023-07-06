@@ -9,6 +9,13 @@ import org.geogebra.keyboard.base.model.KeyboardModel;
 public interface Keyboard {
 
     /**
+     * The type (or internal name) of this keyboard.
+     *
+     * @return the keyboard type
+     */
+    KeyboardType getType();
+
+    /**
      * Returns the keyboard model. Controllers should use this
      * to build and refresh the keyboard view.
      *

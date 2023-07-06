@@ -494,7 +494,9 @@ public class AlgebraProcessor {
 			ErrorHelper.handleError(e, newValue, loc, handler);
 		} catch (ParseException exception) {
 			handler.showError(exception.getMessage());
-			callback.callback(geo);
+			if (callback != null) {
+				callback.callback(geo);
+			}
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (CommandNotLoadedError e) {
@@ -656,14 +658,12 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
-			} else if (geo.isGeoSurfaceCartesian()) {
+			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)) {
 				n.setForceSurfaceCartesian();
 			} else if (geo instanceof GeoFunctionNVar) {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
 					n.setForceInequality();
 				}
-			} else if (geo.isGeoAngle() && preventTypeChange) {
-				n.setForceAngle();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -679,6 +679,11 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
+	}
+
+	private static boolean isForceSurfaceCartesian(ValidExpression newValue, GeoElementND geo) {
+		return geo.isGeoSurfaceCartesian()
+				&& !(newValue.wrap().getLeft() instanceof Function);
 	}
 
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
@@ -1889,17 +1894,37 @@ public class AlgebraProcessor {
 	 * @param str
 	 *            stringInput
 	 * @param showErrors
-	 *            if false, only stacktraces are printed
-	 * @return implicit polygon or null
+	 *            if false, only stack traces are printed
+	 * @return construction element or null
 	 */
 	public GeoElementND evaluateToGeoElement(String str, boolean showErrors) {
+		return evaluateToGeoElement(str, showErrors,
+				new EvalInfo(!cons.isSuppressLabelsActive(), true), null);
+	}
+
+	/**
+	 * Parses given String str and tries to evaluate it to a GeoImplicitPoly
+	 * object. Returns null if something went wrong.
+	 *
+	 * @param str
+	 *            stringInput
+	 * @param showErrors
+	 *            if false, only stacktraces are printed
+	 * @param template used to determine preferred type flags
+	 * @return construction element or null
+	 */
+	public GeoElementND evaluateToGeoElement(String str, boolean showErrors, EvalInfo info,
+			GeoElementND template) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		GeoElementND geo = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElementND[] temp = processValidExpression(ve);
+			if (template != null) {
+				updateTypePreservingFlags(ve, template, info.isPreventingTypeChange());
+			}
+			GeoElementND[] temp = processValidExpression(ve, info);
 			geo = temp[0];
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
@@ -2328,7 +2353,7 @@ public class AlgebraProcessor {
 	 * @return GeoFunction
 	 */
 	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
-		if (!enableStructures()) {
+		if (!enableStructures() && !info.isForceFunctionsEnabled()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);

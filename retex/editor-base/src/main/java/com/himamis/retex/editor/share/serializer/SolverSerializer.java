@@ -8,7 +8,6 @@ import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFunction;
-import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -81,6 +80,11 @@ public class SolverSerializer extends SerializerAdapter {
 				serialize(function.getArgument(2), sb);
 				sb.append(closingBracket);
 			}
+			break;
+		case RECURRING_DECIMAL:
+			sb.append(openingBracket);
+			serialize(function.getArgument(0), sb);
+			sb.append(closingBracket);
 			break;
 		case LOG:
 			if (function.getArgument(0).size() == 0) {
@@ -249,11 +253,6 @@ public class SolverSerializer extends SerializerAdapter {
 		if (mathArray.isMatrix()) {
 			stringBuilder.append(close);
 		}
-	}
-
-	@Override
-	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
-		// no placeholders in solver
 	}
 
 	private void generalFunction(MathFunction mathFunction, StringBuilder stringBuilder) {

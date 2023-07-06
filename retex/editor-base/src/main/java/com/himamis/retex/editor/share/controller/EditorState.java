@@ -20,7 +20,13 @@ public class EditorState {
 	private final SelectAllHandler selectAll;
 	private MathSequence rootComponent;
 
+	/**
+	 * The Container in which the cursor is currently placed
+	 */
 	private MathSequence currentField;
+	/**
+	 * The index of the cursor in the current Container
+	 */
 	private int currentOffset;
 
 	private MathComponent currentSelStart;
@@ -293,7 +299,7 @@ public class EditorState {
 	}
 
 	/**
-	 * @return true if has selection
+	 * @return true part of expression is selected
 	 */
 	public boolean hasSelection() {
 		return currentSelStart != null;
@@ -569,6 +575,22 @@ public class EditorState {
 	}
 
 	/**
+	 * @return Whether the current field is inside a mixed number or not
+	 */
+	public boolean isInMixedNumber() {
+		MathContainer parent = currentField.getParent();
+		return parent != null && parent.hasTag(Tag.MIXED_NUMBER);
+	}
+
+	/**
+	 * @return Whether the current field is inside a recurring decimal or not
+	 */
+	public boolean isInRecurringDecimal() {
+		MathContainer parent = currentField.getParent();
+		return parent != null && parent.hasTag(Tag.RECURRING_DECIMAL);
+	}
+
+	/**
 	 *
 	 * @return whether current field is inside a sub/superscript or not.
 	 */
@@ -618,4 +640,9 @@ public class EditorState {
 		}
 		return current instanceof MathSequence ? (MathSequence) current : rootComponent;
 	}
+
+	public MathComponent getComponentLeftOfCursor() {
+		return currentOffset > 0 ? currentField.getArgument(currentOffset - 1) : null;
+	}
+
 }
