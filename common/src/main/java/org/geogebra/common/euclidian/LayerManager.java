@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.groups.Group;
@@ -396,6 +397,8 @@ public class LayerManager {
 		default:
 			break;
 		}
+
+		geo.updateVisualStyle(GProperty.LAYER);
 	}
 
 	private void updateOrderingForSelection(List<GeoElement> selection, ObjectMovement movement) {
@@ -466,6 +469,8 @@ public class LayerManager {
 			}
 			break;
 		}
+
+		selection.forEach(geoElement -> geoElement.updateVisualStyle(GProperty.LAYER));
 	}
 
 	/** midpoint between two FP values
@@ -583,11 +588,13 @@ public class LayerManager {
 	}
 
 	/**
-	 * update the ordering value of a geoelement & update list accordingly
+	 * update the ordering value of a geoelement & update list and view accordingly
+	 * - triggered when an undo/redo action happens
 	 * @param updatedGeo geo
 	 * @param ordering new ordering
 	 */
-	public void updateDrawingList(GeoElement updatedGeo, double ordering) {
+	public void updateDrawingListAndUI(GeoElement updatedGeo, double ordering) {
 		drawingOrder.get(drawingOrder.indexOf(updatedGeo)).setOrdering(ordering);
+		updatedGeo.updateVisualStyle(GProperty.LAYER);
 	}
 }
