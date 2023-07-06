@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.inputfield;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -47,6 +48,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 				component.insertString(line);
 				hide();
 			});
+			item.addStyleName(Shades.NEUTRAL_900.getFgColName());
 			item.setFocusable(false);
 			submenu.addItem(item);
 		}

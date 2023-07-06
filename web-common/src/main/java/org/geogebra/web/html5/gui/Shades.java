@@ -21,4 +21,8 @@ public enum Shades {
 	public String getName() {
 		return name;
 	}
+
+	public String getFgColName() {
+		return "fg-" + getName();
+	}
 }

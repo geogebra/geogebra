@@ -13,14 +13,14 @@
 	&.transparent {
 		background-color: transparent;
 	}
-	color: colors.$text-primary;
+	color: neutral("900");
 	font-size: 16px;
 
 	label,
 	span,
 	td,
 	th {
-		color: colors.$text-primary;
+		color: neutral("900");
 		font-size: 16px;
 	}
 
@@ -100,6 +100,12 @@
 	@each $colorname, $color in $purples {
 		.purple-#{$colorname} {
 			background-color: $color;
+		}
+	}
+
+	@each $colorname, $color in $neutrals {
+		.fg-neutral-#{$colorname} {
+			color: $color;
 		}
 	}
 }

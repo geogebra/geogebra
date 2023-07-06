@@ -11,6 +11,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -196,8 +197,8 @@ public class Tools extends FlowPanel implements SetLabels {
 
 		private void initGui() {
 			if (category != null) {
-				categoryLabel = new Label(category.getLocalizedHeader(app.getLocalization()));
-				categoryLabel.setStyleName("catLabel");
+				categoryLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
+						category.getLocalizedHeader(app.getLocalization()), "catLabel");
 				add(categoryLabel);
 				AriaHelper.hide(categoryLabel);
 			}

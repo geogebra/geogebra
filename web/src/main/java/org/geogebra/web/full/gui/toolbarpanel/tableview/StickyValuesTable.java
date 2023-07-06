@@ -70,6 +70,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		HeaderCell() {
 			FlowPanel main = new FlowPanel();
 			main.setStyleName("content");
+			main.addStyleName(Shades.NEUTRAL_900.getFgColName());
 			main.add(new Label("%s"));
 			StandardButton menuButton = new StandardButton(MaterialDesignResources.INSTANCE
 					.more_vert_black(), 24);

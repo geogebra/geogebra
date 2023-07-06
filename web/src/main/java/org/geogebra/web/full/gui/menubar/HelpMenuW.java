@@ -7,6 +7,7 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.item.LicenseItem;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -128,8 +129,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		String versionNr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
 		String versionStr = appW.getLocalization().getPlainDefault("VersionA",
 				"Version %0", versionNr);
-		Label version = new Label(versionStr);
-		version.addStyleName("versionNr");
+		Label version = BaseWidgetFactory.INSTANCE.newDisabledText(versionStr, "versionNr");
 		add(version);
 	}
 

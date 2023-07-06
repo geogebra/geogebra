@@ -186,7 +186,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 						display: inline-flex;
 						margin: auto;
 						float: right;
-						color: colors.$text-primary;
 
 						.gwt-Label {
 							font-size: 100%;
@@ -237,7 +236,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				.content {
 					font-size: 100%;
 					font-family: 'mathsans';
-					color: colors.$text-primary;
 					text-align: right;
 					float: left;
 					padding: 16px 8px 16px 16px;
