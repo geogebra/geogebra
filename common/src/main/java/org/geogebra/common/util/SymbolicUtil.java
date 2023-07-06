@@ -84,58 +84,7 @@ public class SymbolicUtil {
 	}
 
 	private static boolean containsUndefinedOrIsEmpty(GeoElement geo) {
-		return geo.inspect(new Inspecting() {
-			@Override
-			public boolean check(ExpressionValue v) {
-
-				if (v instanceof MyDouble) {
-					return !((MyDouble) v).isDefined();
-				}
-
-				if (v instanceof GeoSymbolic) {
-					return check(((GeoSymbolic) v).getValue());
-				}
-
-				if (v instanceof MyList) {
-					if (((MyList) v).getLength() == 0) {
-						return true;
-					}
-					for (int i = 0; i < ((MyList) v).getLength(); i++) {
-						if (check(((MyList) v).getItem(i))) {
-							return true;
-						}
-					}
-					return false;
-				}
-
-				if (v instanceof Equation) {
-					return check(((Equation) v.unwrap()).getLHS())
-							|| check(((Equation) v.unwrap()).getRHS());
-				}
-
-				if (v instanceof ExpressionNode) {
-					ExpressionNode node = (ExpressionNode) v;
-					boolean l = false;
-					boolean r = false;
-					if (node.getLeft() != null) {
-						l = check(node.getLeft());
-					}
-
-					if (node.getRight() != null) {
-						r = check(node.getRight());
-					}
-					return (r || l) && !hasOperationWithNan((ExpressionNode) v);
-				}
-				return false;
-			}
-
-			private boolean hasOperationWithNan(ExpressionNode node) {
-				return Operation.LOG.equals(node.getOperation())
-						|| Operation.SQRT.equals(node.getOperation())
-						|| Operation.CBRT.equals(node.getOperation());
-			}
-		});
-
+		return geo.inspect(new UndefinedOrEmptyChecker());
 	}
 
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
