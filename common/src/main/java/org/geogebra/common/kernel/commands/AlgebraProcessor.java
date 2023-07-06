@@ -662,8 +662,6 @@ public class AlgebraProcessor {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
 					n.setForceInequality();
 				}
-			} else if (geo.isGeoAngle() && preventTypeChange) {
-				n.setForceAngle();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
