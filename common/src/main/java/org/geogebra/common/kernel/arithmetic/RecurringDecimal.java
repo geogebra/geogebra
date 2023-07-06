@@ -54,7 +54,10 @@ public class RecurringDecimal extends MyDouble {
 
 
 	public static void asFraction(ExpressionValue[] parts, ExpressionNode expr) {
-
+		Kernel kernel = expr.getKernel();
+		RecurringDecimal rd = (RecurringDecimal) expr.unwrap();
+		parts[0] = new MyDouble(kernel, nominator(rd.integerPart, rd.nonRecurringPart, rd.recurringPart));
+		parts[1] = new MyDouble(kernel, denominator(rd.recurringLength, rd.nonRecurringLength));
 	}
 
 	@Override
