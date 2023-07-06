@@ -85,7 +85,8 @@ public class AlgebraItem {
 		if (geo.isGeoNumeric()) {
 			ExpressionNode def = geo.getDefinition() == null ? null
 					: geo.getDefinition().asFraction();
-			return def != null && def.unwrap().isExpressionNode();
+			return def != null && (def.unwrap().isExpressionNode()
+				|| def.unwrap().isRecurringDecimal());
 		}
 		HasSymbolicMode sm = (HasSymbolicMode) geo;
 		boolean orig = sm.isSymbolicMode();

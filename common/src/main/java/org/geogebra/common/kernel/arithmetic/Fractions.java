@@ -104,6 +104,10 @@ public class Fractions {
 	 */
 	protected static void getFraction(ExpressionValue[] parts, ExpressionNode expr,
 			boolean expandPlus) {
+		if (expr.unwrap().isRecurringDecimal()) {
+			RecurringDecimal.asFraction(parts, expr);
+			return;
+		}
 		ExpressionValue numL, numR, denL = null, denR = null;
 		if (checkFraction(parts, expr.getLeft(), expandPlus)) {
 

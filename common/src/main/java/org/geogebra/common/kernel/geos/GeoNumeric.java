@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
@@ -661,11 +662,15 @@ public class GeoNumeric extends GeoElement
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
+		if (symbolicMode && getDefinition().unwrap().isRecurringDecimal()) {
+			return RecurringDecimal.toFraction(getDefinition(), kernel, tpl);
+		}
 		// in general toFractionString falls back to printing evaluation result if not a fraction
 		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
 		if ((symbolicMode || DoubleUtil.isInteger(value))
 				&& getDefinition() != null
-				&& !getDefinition().isLeaf() && tpl.supportsFractions()) {
+				&& !getDefinition().isLeaf()
+				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);

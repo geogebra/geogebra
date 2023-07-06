@@ -14,6 +14,11 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class RecurringDecimal extends MyDouble {
 
 	private final String representation;
+	private int integerPart;
+	private Integer nonRecurringPart;
+	private int nonRecurringLength;
+	private int recurringPart;
+	private int recurringLength;
 
 	/**
 	 * @param kernel Kernel
@@ -23,6 +28,15 @@ public class RecurringDecimal extends MyDouble {
 	public RecurringDecimal(Kernel kernel, double val, String representation) {
 		super(kernel, val);
 		this.representation = representation;
+		int point = representation.indexOf('.');
+		int overline = representation.indexOf(Unicode.OVERLINE);
+		integerPart = (int) val;
+		String nonRec = representation.substring(point + 1, overline - 1);
+		nonRecurringLength = nonRec.length();
+		nonRecurringPart = nonRec.isEmpty() ? null : Integer.parseInt(nonRec);
+		String rec = representation.substring(overline - 1).replaceAll(Unicode.OVERLINE+"", "");
+		recurringLength = rec.length();
+		recurringPart = Integer.parseInt(rec);
 	}
 
 	/**
@@ -32,6 +46,15 @@ public class RecurringDecimal extends MyDouble {
 	public RecurringDecimal(RecurringDecimal rd) {
 		super(rd);
 		this.representation = rd.representation;
+	}
+
+	public static String toFraction(ExpressionNode expression, Kernel kernel, StringTemplate tpl) {
+		return Fractions.getResolution(expression, kernel, false).toValueString(tpl);
+	}
+
+
+	public static void asFraction(ExpressionValue[] parts, ExpressionNode expr) {
+
 	}
 
 	@Override
@@ -124,5 +147,33 @@ public class RecurringDecimal extends MyDouble {
 		return (scaledValue - scaledNonRepeatingPart)
 				/ (Math.pow(10, repeatingDigits + nonRepeatingDigits)
 				- Math.pow(10, nonRepeatingDigits));
+	}
+
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return true;
+	}
+
+	public String toFractionSting() {
+		return nominator(integerPart, nonRecurringPart, recurringPart)
+				+ "/"
+				+ denominator(recurringLength, nonRecurringLength);
+	}
+
+	public static int nominator(int i, Integer a, int p) {
+		double pL = (int) Math.log10(p) + 1;
+		double aL = a != null && a == 0 ? 1
+				: a != null ? (int) Math.log(a) - 1 : 0;
+		int A = a != null ? a: 0;
+		int iap = (int) (p + A * Math.pow(10, pL) + i * Math.pow(10, pL + aL));
+		int ia = (int) (A + i * Math.pow(10, aL));
+		return iap - ia;
+	}
+
+	public static int denominator(int nines, int zeros) {
+		int nins = nines == 0 ? 1 : (int) (Math.pow(10, nines) - 1);
+		int tens = zeros == 0 ? 1 : (int) (Math.pow(10, zeros));
+		return nins * tens;
 	}
 }

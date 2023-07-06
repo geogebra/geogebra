@@ -101,4 +101,17 @@ public class GeoNumericTest extends BaseUnitTest {
 		assertThat(slider.isEuclidianVisible(), is(false));
 		assertThat(((GeoNumeric) reloaded).isSliderable(), is(true));
 	}
+
+	@Test
+	public void testRecurringSwitchSymbolic() {
+		GeoNumeric recurring = addAvInput("1.2\u03053\u0305");
+		assertThat(recurring.getDefinition().unwrap().isRecurringDecimal(), is(true));
+//		assertThat(recurring.toValueString(StringTemplate.maxDecimals),
+//				is("1.232323232323232"));
+		recurring.setSymbolicMode(true, true);
+		assertThat(recurring.toValueString(StringTemplate.maxDecimals),
+				is("23/99"));
+
+
+	}
 }

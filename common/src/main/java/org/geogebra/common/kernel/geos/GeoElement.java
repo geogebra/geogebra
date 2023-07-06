@@ -6657,7 +6657,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		ValueType vt = getValueType();
 		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
 	}
-
 	@Override
 	public final void updateVisualStyleRepaint(GProperty prop) {
 		updateVisualStyle(prop);
@@ -7180,5 +7179,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public void removeZoomerAnimationListenerIfNeeded() {
 		// implemented in GeoFunction
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
 	}
 }
