@@ -397,8 +397,6 @@ public class LayerManager {
 		default:
 			break;
 		}
-
-		geo.updateVisualStyle(GProperty.LAYER);
 	}
 
 	private void updateOrderingForSelection(List<GeoElement> selection, ObjectMovement movement) {
@@ -595,6 +593,5 @@ public class LayerManager {
 	 */
 	public void updateDrawingListAndUI(GeoElement updatedGeo, double ordering) {
 		drawingOrder.get(drawingOrder.indexOf(updatedGeo)).setOrdering(ordering);
-		updatedGeo.updateVisualStyle(GProperty.LAYER);
 	}
 }

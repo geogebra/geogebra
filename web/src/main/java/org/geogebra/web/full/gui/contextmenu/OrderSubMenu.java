@@ -52,8 +52,6 @@ public class OrderSubMenu extends AriaMenuBar {
 			ev.getEuclidianController().widgetsToBackground();
 			command.accept(geos);
 			ev.invalidateDrawableList();
-			app.dispatchEvent(new Event(EventType.ORDERING_CHANGE, null,
-					layerManager.getOrder()));
 		};
 	}
 }
