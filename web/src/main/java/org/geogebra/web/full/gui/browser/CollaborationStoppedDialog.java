@@ -7,7 +7,6 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Pagination;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -40,7 +39,7 @@ public class CollaborationStoppedDialog extends ComponentDialog {
 			public void onLoaded(List<Material> result, Pagination meta) {
 				app.setActiveMaterial(result.get(0));
 				app.getKernel().getConstruction().setTitle(result.get(0).getTitle());
-				ToolTipManagerW.sharedInstance().showBottomMessage(
+				((AppW) app).getToolTipManager().showBottomMessage(
 						loc.getMenu("SavedSuccessfully"), (AppW) app);
 			}
 		};

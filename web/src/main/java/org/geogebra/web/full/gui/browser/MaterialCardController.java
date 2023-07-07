@@ -16,7 +16,6 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -172,7 +171,7 @@ public class MaterialCardController implements OpenFileListener {
 	}
 
 	private void showSnackbar(String message) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(message, app);
+		app.getToolTipManager().showBottomMessage(message, app);
 	}
 
 	private static boolean onlineFile(Material toDelete) {

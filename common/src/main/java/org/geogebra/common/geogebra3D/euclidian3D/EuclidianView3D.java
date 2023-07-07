@@ -353,9 +353,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected void logInited() {
 		// don't remove, it's important we pick up when this class is created by
 		// mistake
-		Log.error("******************************************************************************");
-		Log.error("******************* 3D View being initialized ********************************");
-		Log.error("******************************************************************************");
+		Log.warn("!!! 3D View being initialized !!!");
 	}
 
 	final private static void changeCoords(CoordMatrix mat, Coords vInOut) {
