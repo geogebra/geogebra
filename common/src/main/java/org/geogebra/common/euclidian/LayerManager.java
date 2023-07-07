@@ -593,5 +593,6 @@ public class LayerManager {
 	 */
 	public void updateDrawingListAndUI(GeoElement updatedGeo, double ordering) {
 		drawingOrder.get(drawingOrder.indexOf(updatedGeo)).setOrdering(ordering);
+		updatedGeo.updateVisualStyle(GProperty.LAYER);
 	}
 }
