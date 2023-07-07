@@ -7,8 +7,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.ContextMenuFactory;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
