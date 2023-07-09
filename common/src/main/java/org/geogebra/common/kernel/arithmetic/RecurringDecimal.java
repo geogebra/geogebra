@@ -13,31 +13,37 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class RecurringDecimal extends MyDouble {
 
-	private final String representation;
-	private int integerPart;
-	private Integer nonRecurringPart;
-	private int nonRecurringLength;
-	private int recurringPart;
-	private int recurringLength;
+	private RecurringDecimalProperties properties;
+
 
 	/**
 	 * @param kernel Kernel
-	 * @param val Value
-	 * @param representation Representation of the recurring decimal
+	 * @param properties of the recurring decimal
 	 */
-	public RecurringDecimal(Kernel kernel, double val, String representation) {
-		super(kernel, val);
-		this.representation = representation;
-		int point = representation.indexOf('.');
-		int overline = representation.indexOf(Unicode.OVERLINE);
-		integerPart = (int) val;
-		String nonRec = representation.substring(point + 1, overline - 1);
-		nonRecurringLength = nonRec.length();
-		nonRecurringPart = nonRec.isEmpty() ? null : Integer.parseInt(nonRec);
-		String rec = representation.substring(overline - 1).replaceAll(Unicode.OVERLINE+"", "");
-		recurringLength = rec.length();
-		recurringPart = Integer.parseInt(rec);
+	public RecurringDecimal(Kernel kernel, RecurringDecimalProperties properties) {
+		super(kernel, toDouble(properties));
+		this.properties = properties;
 	}
+
+	private static double toDouble(RecurringDecimalProperties properties) {
+		double value = nominator(properties) / (denominator(properties) + 0.0);
+		return properties.isPercent() ? 0.01 * value : value;
+	}
+
+	public double toDouble() {
+		return toDouble(properties);
+	}
+
+	private static int denominator(RecurringDecimalProperties properties) {
+		return denominator(properties.recurringLength,
+				properties.nonRecurringLength);
+	}
+
+	private static int nominator(RecurringDecimalProperties properties) {
+		return nominator(properties.integerPart, properties.nonRecurringPart,
+				properties.recurringPart);
+	}
+
 
 	/**
 	 * Copy constructor
@@ -45,7 +51,7 @@ public class RecurringDecimal extends MyDouble {
 	 */
 	public RecurringDecimal(RecurringDecimal rd) {
 		super(rd);
-		this.representation = rd.representation;
+		this.properties = rd.properties;
 	}
 
 	public static String toFraction(ExpressionNode expression, Kernel kernel, StringTemplate tpl) {
@@ -56,16 +62,8 @@ public class RecurringDecimal extends MyDouble {
 	public static void asFraction(ExpressionValue[] parts, ExpressionNode expr) {
 		Kernel kernel = expr.getKernel();
 		RecurringDecimal rd = (RecurringDecimal) expr.unwrap();
-		parts[0] = new MyDouble(kernel, nominator(rd.integerPart, rd.nonRecurringPart, rd.recurringPart));
-		parts[1] = new MyDouble(kernel, denominator(rd.recurringLength, rd.nonRecurringLength));
-	}
-
-	@Override
-	public String toString(StringTemplate tpl) {
-		if (tpl.isLatex()) {
-			return convertToLaTeX(this.representation);
-		}
-		return this.representation;
+		parts[0] = new MyDouble(kernel, nominator(rd.properties));
+		parts[1] = new MyDouble(kernel, denominator(rd.properties));
 	}
 
 	@Override
@@ -84,7 +82,7 @@ public class RecurringDecimal extends MyDouble {
 	public boolean equals(Object o) {
 		if (o instanceof RecurringDecimal) {
 			return super.equals(o)
-					&& ((RecurringDecimal) o).representation.equals(this.representation);
+					&& ((RecurringDecimal) o).properties.equals(this.properties);
 		}
 		return false;
 	}
@@ -117,6 +115,15 @@ public class RecurringDecimal extends MyDouble {
 	 * @param app application for showing errors
 	 * @return value
 	 */
+	public static RecurringDecimal parse(Kernel kernel, Localization loc, String str, boolean percent) {
+		return new RecurringDecimal(kernel, parseProperties(loc, str, percent));
+	}
+
+	private static RecurringDecimalProperties parseProperties(Localization loc, String str,
+			boolean percent) {
+		StringBuilder sb = serializeDigits(str, true);
+		return RecurringDecimalProperties.parse(str, percent);
+	}
 	public static double parseDouble(Localization app, String str) {
 		StringBuilder sb = serializeDigits(str, true);
 		try {
@@ -159,12 +166,12 @@ public class RecurringDecimal extends MyDouble {
 	}
 
 	public String toFractionSting() {
-		return nominator(integerPart, nonRecurringPart, recurringPart)
+		return nominator(properties)
 				+ "/"
-				+ denominator(recurringLength, nonRecurringLength);
+				+ denominator(properties);
 	}
 
-	public static int nominator(int i, Integer a, int p) {
+	static int nominator(int i, Integer a, int p) {
 		double pL = (int) Math.log10(p) + 1;
 		double aL = a != null && a == 0 ? 1
 				: a != null ? (int) Math.log(a) - 1 : 0;
@@ -174,7 +181,7 @@ public class RecurringDecimal extends MyDouble {
 		return iap - ia;
 	}
 
-	public static int denominator(int nines, int zeros) {
+	static int denominator(int nines, int zeros) {
 		int nins = nines == 0 ? 1 : (int) (Math.pow(10, nines) - 1);
 		int tens = zeros == 0 ? 1 : (int) (Math.pow(10, zeros));
 		return nins * tens;

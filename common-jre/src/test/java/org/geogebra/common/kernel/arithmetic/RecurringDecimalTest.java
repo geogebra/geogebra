@@ -4,20 +4,40 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.junit.Test;
 
 public class RecurringDecimalTest extends BaseUnitTest {
+
 	@Test
 	public void testToFraction() {
-		shouldBeAsFraction(3.25444444444, "3.254\u0305", "2929/900");
-		shouldBeAsFraction(0.33333333333, "0.3\u0305", "3/9");
-		shouldBeAsFraction(1.3333333333333333, "1.3\u0305", "12/9");
-		shouldBeAsFraction(0.51251251251, "0.5\u03051\u03052\u0305", "512/999");
+		shouldBeAsFraction("3.254\u0305", "2929/900");
+		shouldBeAsFraction("0.3\u0305", "3/9");
+		shouldBeAsFraction("1.3\u0305", "12/9");
+		shouldBeAsFraction("0.5\u03051\u03052\u0305", "512/999");
+		shouldBeAsFraction("1.2\u03053\u03054\u0305", "1233/999");
 	}
-	public void shouldBeAsFraction(double val, String representation, String fraction) {
+
+	public void shouldBeAsFraction(String input, String fraction) {
 		RecurringDecimal recurringDecimal = new RecurringDecimal(getKernel(),
-				val, representation);
+				RecurringDecimalProperties.parse(input, false));
 		assertThat(recurringDecimal.toFractionSting(), is(fraction));
+	}
+
+	@Test
+	public void testToDouble() {
+		shouldBeDouble("3.254\u0305", 3.25444444444444443);
+		shouldBeDouble("0.3\u0305", 0.333333333333333333);
+		shouldBeDouble("1.3\u0305", 1.333333333333333333);
+		shouldBeDouble("0.5\u03051\u03052\u0305", 0.512512512512512512512);
+		shouldBeDouble("1.2\u03053\u03054\u0305", 1.234234234234234234234);
+	}
+
+	private void shouldBeDouble(String input, double value) {
+		RecurringDecimal recurringDecimal = new RecurringDecimal(getKernel(),
+				RecurringDecimalProperties.parse(input, false));
+		assertThat(recurringDecimal.toDouble(), is(value));
 	}
 
 	@Test
@@ -38,5 +58,12 @@ public class RecurringDecimalTest extends BaseUnitTest {
 		assertThat(RecurringDecimal.denominator(1, 5), is(900000));
 		assertThat(RecurringDecimal.denominator(2, 5), is(9900000));
 		assertThat(RecurringDecimal.denominator(0, 3), is(1000));
+	}
+
+	@Test
+	public void testSymbolicOutputOfRecurringNumber() {
+		GeoNumeric rd = add("1.2\u03053\u03054\u0305");
+		rd.setSymbolicMode(true, true);
+		assertThat(rd.toOutputValueString(StringTemplate.algebraTemplate), is("137 / 111"));
 	}
 }

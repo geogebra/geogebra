@@ -296,11 +296,7 @@ public class Parser implements ParserInterface {
     }
 
     private RecurringDecimal parseRecurringDecimal(String image, boolean percent) {
-		double val = RecurringDecimal.parseDouble(loc, image);
-		if (percent) {
-			val = val * 0.01;
-		}
-		return new RecurringDecimal(kernel, val, image);
+		return RecurringDecimal.parse(kernel, loc, image, percent);
     }
 
 }
