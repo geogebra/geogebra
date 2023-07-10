@@ -28,8 +28,11 @@ public class UndoableDeletionExecutor implements DeletionExecutor {
 	public boolean storeUndoAction(Kernel kernel) {
 		if (kernel.isUndoActive() && !labels.isEmpty()) {
 			kernel.storeStateForModeStarting();
-			kernel.getConstruction().getUndoManager().storeUndoableAction(ActionType.REMOVE,
-					labels.toArray(new String[0]), ActionType.ADD, xmls.toArray(new String[0]));
+			String[] labelsArray = labels.toArray(new String[0]);
+			kernel.getConstruction().getUndoManager()
+					.buildAction(ActionType.REMOVE, labelsArray)
+					.withUndo(ActionType.ADD, xmls.toArray(new String[0]))
+					.withLabels(labelsArray).storeAndNotifyUnsaved();
 			return true;
 		}
 		return false;
