@@ -4,9 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.util.StringUtil;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Class for recurring decimals e.g. 1.23\u03054\u0305
@@ -26,7 +23,7 @@ public class RecurringDecimal extends MyDouble {
 	}
 
 	private static double toDouble(RecurringDecimalProperties properties) {
-		double value = nominator(properties) / (denominator(properties) + 0.0);
+		double value = numerator(properties) / (denominator(properties) + 0.0);
 		return properties.isPercent() ? 0.01 * value : value;
 	}
 
@@ -34,13 +31,14 @@ public class RecurringDecimal extends MyDouble {
 		return toDouble(properties);
 	}
 
+
 	private static int denominator(RecurringDecimalProperties properties) {
 		return denominator(properties.recurringLength,
 				properties.nonRecurringLength);
 	}
 
-	private static int nominator(RecurringDecimalProperties properties) {
-		return nominator(properties.integerPart, properties.nonRecurringPart,
+	private static int numerator(RecurringDecimalProperties properties) {
+		return numerator(properties.integerPart, properties.nonRecurringPart,
 				properties.recurringPart);
 	}
 
@@ -62,7 +60,7 @@ public class RecurringDecimal extends MyDouble {
 	public static void asFraction(ExpressionValue[] parts, ExpressionNode expr) {
 		Kernel kernel = expr.getKernel();
 		RecurringDecimal rd = (RecurringDecimal) expr.unwrap();
-		parts[0] = new MyDouble(kernel, nominator(rd.properties));
+		parts[0] = new MyDouble(kernel, numerator(rd.properties));
 		parts[1] = new MyDouble(kernel, denominator(rd.properties));
 	}
 
@@ -122,43 +120,12 @@ public class RecurringDecimal extends MyDouble {
 	private static RecurringDecimalProperties parseProperties(Localization loc, String str,
 			boolean percent) {
 		StringBuilder sb = serializeDigits(str, true);
-		return RecurringDecimalProperties.parse(str, percent);
-	}
-	public static double parseDouble(Localization app, String str) {
-		StringBuilder sb = serializeDigits(str, true);
 		try {
-			return parseRecurringDecimal(sb);
+			return RecurringDecimalProperties.parse(sb.toString(), percent);
 		} catch (NumberFormatException e) {
-			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(app, MyError.Errors.InvalidInput, str);
+			throw new MyError(loc, MyError.Errors.InvalidInput, str);
 		}
 	}
-
-	/**
-	 * @param sb String to be parsed
-	 * @return Value of the recurring decimal as a fraction e.g. 1.3\u0305 -> 12/9 = 4/3
-	 * @throws NumberFormatException When trying to parse an invalid double e.g. 1.3.2\u0305
-	 */
-	private static double parseRecurringDecimal(StringBuilder sb) throws NumberFormatException {
-		int repeatingDigits = (int) sb.chars().filter(ch -> ch == Unicode.OVERLINE).count();
-		int nonRepeatingDigits = sb.substring(sb.indexOf("."), sb.indexOf("\u0305")).length() - 2;
-
-		// Might throw a NumberFormatException (e.g. 1.2.3\u0305)
-		double decimalValue = StringUtil.parseDouble(sb.toString().replaceAll("\u0305", ""));
-
-		if (nonRepeatingDigits == 0) {
-			return (decimalValue * Math.pow(10, repeatingDigits) - (int) decimalValue)
-					/ (Math.pow(10, repeatingDigits) - 1);
-		}
-
-		int scaledNonRepeatingPart = (int) (decimalValue * Math.pow(10, nonRepeatingDigits));
-		double scaledValue = decimalValue * Math.pow(10, repeatingDigits + nonRepeatingDigits);
-
-		return (scaledValue - scaledNonRepeatingPart)
-				/ (Math.pow(10, repeatingDigits + nonRepeatingDigits)
-				- Math.pow(10, nonRepeatingDigits));
-	}
-
 
 	@Override
 	public boolean isRecurringDecimal() {
@@ -166,15 +133,14 @@ public class RecurringDecimal extends MyDouble {
 	}
 
 	public String toFractionSting() {
-		return nominator(properties)
+		return numerator(properties)
 				+ "/"
 				+ denominator(properties);
 	}
 
-	static int nominator(int i, Integer a, int p) {
-		double pL = (int) Math.log10(p) + 1;
-		double aL = a != null && a == 0 ? 1
-				: a != null ? (int) Math.log(a) - 1 : 0;
+	static int numerator(int i, Integer a, int p) {
+		int pL = lengthOf(p);
+		int aL = a != null ? lengthOf(a): 0;
 		int A = a != null ? a: 0;
 		int iap = (int) (p + A * Math.pow(10, pL) + i * Math.pow(10, pL + aL));
 		int ia = (int) (A + i * Math.pow(10, aL));
@@ -185,5 +151,45 @@ public class RecurringDecimal extends MyDouble {
 		int nins = nines == 0 ? 1 : (int) (Math.pow(10, nines) - 1);
 		int tens = zeros == 0 ? 1 : (int) (Math.pow(10, zeros));
 		return nins * tens;
+	}
+
+	private static int lengthOf(int number) {
+		if (number < 100000) {
+			if (number < 100) {
+				if (number < 10) {
+					return 1;
+				} else {
+					return 2;
+				}
+			} else {
+				if (number < 1000) {
+					return 3;
+				} else {
+					if (number < 10000) {
+						return 4;
+					} else {
+						return 5;
+					}
+				}
+			}
+		} else {
+			if (number < 10000000) {
+				if (number < 1000000) {
+					return 6;
+				} else {
+					return 7;
+				}
+			} else {
+				if (number < 100000000) {
+					return 8;
+				} else {
+					if (number < 1000000000) {
+						return 9;
+					} else {
+						return 10;
+					}
+				}
+			}
+		}
 	}
 }

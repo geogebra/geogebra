@@ -662,6 +662,15 @@ public class GeoNumeric extends GeoElement
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
+
+		if (getDefinition() != null && getDefinition().unwrap().isRecurringDecimal()) {
+			RecurringDecimal rd = (RecurringDecimal) getDefinition().unwrap();
+			if (symbolicMode) {
+				return RecurringDecimal.toFraction(rd.wrap(), kernel, tpl);
+			} else {
+				return kernel.format(rd.toDouble(), tpl);
+			}
+		}
 		if (symbolicMode && getDefinition().unwrap().isRecurringDecimal()) {
 			return RecurringDecimal.toFraction(getDefinition(), kernel, tpl);
 		}
@@ -673,7 +682,7 @@ public class GeoNumeric extends GeoElement
 				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
-		return kernel.format(value, tpl);
+ 		return kernel.format(value, tpl);
 	}
 
 	/**
