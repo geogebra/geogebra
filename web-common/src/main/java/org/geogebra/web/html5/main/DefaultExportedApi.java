@@ -105,6 +105,7 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void evalXML(String xmlString) {
 		getGgbAPI().evalXML(xmlString + "");
+		ggbAPI.getApplication().getActiveEuclidianView().invalidateDrawableList();
 	}
 
 	public void setDisplayStyle(String objName, String style) {

@@ -12,12 +12,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class Group {
 
-    private static final Comparator<GeoElement> orderComparator = new Comparator<GeoElement>() {
-        @Override
-        public int compare(GeoElement o1, GeoElement o2) {
-            return Integer.compare(o1.getOrdering(), o2.getOrdering());
-        }
-    };
+    public static final Comparator<GeoElement> orderComparator = new Comparator<GeoElement>() {
+            @Override
+            public int compare(GeoElement o1, GeoElement o2) {
+                return Double.compare(o1.getOrdering(), o2.getOrdering());
+            }
+        };
 
     private GeoElement lead;
     private ArrayList<GeoElement> geosGroup = new ArrayList<>();
