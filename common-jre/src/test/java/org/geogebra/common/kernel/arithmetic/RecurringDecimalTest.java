@@ -72,4 +72,14 @@ public class RecurringDecimalTest extends BaseUnitTest {
 		rd.setSymbolicMode(true, true);
 		assertThat(rd.toOutputValueString(StringTemplate.algebraTemplate), is("137 / 111"));
 	}
+
+	@Test
+	public void testToString() {
+		assertThat(createRecurringDecimal(1, 2, 34).toString(),
+				is("1.23\u03054\u0305"));
+	}
+
+	private RecurringDecimal createRecurringDecimal(int i, int nr, int r) {
+		return new RecurringDecimal(getKernel(), new RecurringDecimalProperties(i, nr, r));
+	}
 }

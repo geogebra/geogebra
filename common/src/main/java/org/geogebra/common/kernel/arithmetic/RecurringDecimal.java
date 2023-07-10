@@ -5,6 +5,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Class for recurring decimals e.g. 1.23\u03054\u0305
  */
@@ -91,22 +93,6 @@ public class RecurringDecimal extends MyDouble {
 	}
 
 	/**
-	 * Removes all unicode overlines from a given string and returns its appropriate LaTeX notation
-	 * @param str String
-	 * @return Converted String
-	 */
-	private String convertToLaTeX(String str) {
-		StringBuilder sb = new StringBuilder(str);
-		int indexLastOverLine = sb.lastIndexOf("\u0305");
-		int indexFirstOverLine = sb.indexOf("\u0305");
-
-		sb.replace(indexLastOverLine, indexLastOverLine + 1, "}");
-		sb.insert(indexFirstOverLine - 1, "\\overline{");
-
-		return sb.toString().replaceAll("\u0305", "");
-	}
-
-	/**
 	 * extension of StringUtil.parseDouble() to cope with unicode digits e.g. Arabic <br>
 	 * Enables parsing of recurring decimals
 	 * @param str string to be parsed
@@ -125,6 +111,30 @@ public class RecurringDecimal extends MyDouble {
 		} catch (NumberFormatException e) {
 			throw new MyError(loc, MyError.Errors.InvalidInput, str);
 		}
+	}
+
+	@Override
+	public String toString(StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(properties.integerPart);
+		sb.append(".");
+		if (properties.nonRecurringPart != null) {
+			sb.append(properties.nonRecurringPart);
+		}
+		if (tpl.isLatex()) {
+			sb.append("\\overline{");
+			sb.append(properties.recurringPart);
+			sb.append("}");
+		} else {
+			String recurringString = String.valueOf(properties.recurringPart);
+
+			for (int i = 0; i < recurringString.length(); i++) {
+				sb.append(recurringString.charAt(i));
+				sb.append(Unicode.OVERLINE);
+
+			}
+		}
+		return sb.toString();
 	}
 
 	@Override
