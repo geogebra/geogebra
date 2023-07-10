@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -81,5 +82,24 @@ public class RecurringDecimalTest extends BaseUnitTest {
 
 	private RecurringDecimal createRecurringDecimal(int i, int nr, int r) {
 		return new RecurringDecimal(getKernel(), new RecurringDecimalProperties(i, nr, r));
+	}
+
+	@Test
+	public void testFormulaTextNonSymbolic() {
+		String recurringString = "1.23\u03054\u0305";
+		GeoNumeric a = add("a = " + recurringString);
+		getKernel().setPrintDecimals(7);
+		a.setSymbolicMode(false, true);
+		String decimalString = "1.2343434";
+		textShouldBe("a + \"\"", decimalString);
+		textShouldBe("Text(a,true)", decimalString);
+		textShouldBe("FormulaText(a,true)", decimalString);
+		textShouldBe("Text(a,false)", recurringString);
+		textShouldBe("FormulaText(a,false)", "1.2\\overline{34}");
+	}
+
+	private void textShouldBe(String command, String value) {
+		GeoText text = add(command);
+		assertThat(text.toValueString(StringTemplate.defaultTemplate), is(value));
 	}
 }

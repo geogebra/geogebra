@@ -2159,4 +2159,22 @@ public class GeoNumeric extends GeoElement
 	public void updateLocation() {
 		update();
 	}
+
+
+	@Override
+	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
+		if (getDefinition() != null && getDefinition().unwrap().isRecurringDecimal()) {
+			RecurringDecimal rd = (RecurringDecimal) getDefinition().unwrap();
+			if (symbolicMode) {
+				return substituteNumbers ? kernel.format(rd.toDouble(), tpl)
+						: RecurringDecimal.toFraction(rd.wrap(), kernel, tpl);
+			} else {
+				return substituteNumbers ? kernel.format(rd.toDouble(), tpl)
+						: rd.toString(tpl);
+			}
+		}
+
+		return super.getFormulaString(tpl, substituteNumbers);
+	}
+
 }
