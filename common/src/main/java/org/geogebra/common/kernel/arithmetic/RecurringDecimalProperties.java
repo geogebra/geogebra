@@ -15,11 +15,24 @@ public class RecurringDecimalProperties {
 	int nonRecurringLength;
 	int recurringLength;
 
+	/**
+	 * Constructor with no non-recurring part.
+	 *
+	 * @param integerPart of the recurring decimal number
+	 * @param recurringPart of the recurring decimal number.
+	 */
 	public RecurringDecimalProperties(int integerPart, int recurringPart) {
 		this(integerPart, null, recurringPart);
 	}
 
-	public RecurringDecimalProperties(int integerPart, Integer nonRecurringPart, int recurringPart) {
+	/**
+	 * Constructor
+	 * @param integerPart of the recurring decimal number
+	 * @param nonRecurringPart of the recurring decimal number. It can be null.
+	 * @param recurringPart of the recurring decimal number.
+	 */
+	public RecurringDecimalProperties(int integerPart, Integer nonRecurringPart,
+			int recurringPart) {
 		this.integerPart = integerPart;
 		this.nonRecurringPart = nonRecurringPart;
 		this.recurringPart = recurringPart;
@@ -29,6 +42,13 @@ public class RecurringDecimalProperties {
 		this.percent = percent;
 	}
 
+	/**
+	 * Parse RecurringDecimalProperties from the string representation of RecurringDecimal.
+	 *
+	 * @param representation of the recurring decimal as a string.
+	 * @param percent if the value is meant in percent
+	 * @return the parsed RecurringDecimalProperties object.
+	 */
 	public static RecurringDecimalProperties parse(String representation, boolean percent) {
 		RecurringDecimalProperties properies = new RecurringDecimalProperties(percent);
 		int point = representation.indexOf('.');
@@ -43,7 +63,8 @@ public class RecurringDecimalProperties {
 			properies.nonRecurringLength = 0;
 		}
 
-		String rec = representation.substring(overline - 1).replaceAll(Unicode.OVERLINE+"", "");
+		String rec = representation.substring(overline - 1)
+				.replaceAll(Unicode.OVERLINE + "", "");
 		properies.recurringLength = rec.length();
 		properies.recurringPart = Integer.parseInt(rec);
 		return properies;
@@ -51,11 +72,17 @@ public class RecurringDecimalProperties {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof RecurringDecimalProperties)) return false;
+		if (this == o) {
+			return true;
+		}
+
+		if (!(o instanceof RecurringDecimalProperties)) {
+			return false;
+		}
+
 		RecurringDecimalProperties that = (RecurringDecimalProperties) o;
 		return integerPart == that.integerPart
-				&& (nonRecurringPart == that.nonRecurringPart)
+				&& (nonRecurringPart.equals(that.nonRecurringPart))
 				&& recurringPart == that.recurringPart;
 	}
 
@@ -67,11 +94,11 @@ public class RecurringDecimalProperties {
 
 	@Override
 	public String toString() {
-		return "RecurringDecimalProperties{" +
-				", integerPart=" + integerPart +
-				", nonRecurringPart=" + nonRecurringPart +
-				", recurringPart=" + recurringPart +
-				'}';
+		return "RecurringDecimalProperties{"
+				+ ", integerPart=" + integerPart
+				+ ", nonRecurringPart=" + nonRecurringPart
+				+ ", recurringPart=" + recurringPart
+				+ '}';
 	}
 
 	public boolean isPercent() {

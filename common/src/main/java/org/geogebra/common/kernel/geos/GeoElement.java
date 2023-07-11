@@ -4179,8 +4179,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			if (includeLHS) {
 				sb.append(getAssignmentLHS(tpl)).append(tpl.getEqualsWithSpace());
 			}
-			if (geo.isRecurringDecimal() && ((GeoNumeric)geo).isSymbolicMode()) {
-				RecurringDecimal rd = ((GeoNumeric)geo).asRecurringDecimal();
+			if (geo.isRecurringDecimal() && ((GeoNumeric) geo).isSymbolicMode()) {
+				RecurringDecimal rd = ((GeoNumeric) geo).asRecurringDecimal();
 				sb.append(rd.toFraction(kernel, tpl));
 			} else {
 				sb.append(geo.getFormulaString(tpl, substituteNumbers));
@@ -6662,6 +6662,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		ValueType vt = getValueType();
 		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
 	}
+
 	@Override
 	public final void updateVisualStyleRepaint(GProperty prop) {
 		updateVisualStyle(prop);

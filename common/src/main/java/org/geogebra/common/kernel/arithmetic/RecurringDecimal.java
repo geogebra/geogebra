@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.Objects;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.Localization;
@@ -14,7 +16,6 @@ public class RecurringDecimal extends MyDouble {
 
 	private RecurringDecimalProperties properties;
 
-
 	/**
 	 * @param kernel Kernel
 	 * @param properties of the recurring decimal
@@ -24,7 +25,8 @@ public class RecurringDecimal extends MyDouble {
 		this.properties = properties;
 	}
 
-	public RecurringDecimal(Kernel kernel, int integerPart, Integer nonRecurringPart, int recurringPart) {
+	public RecurringDecimal(Kernel kernel, int integerPart, Integer nonRecurringPart,
+			int recurringPart) {
 		this(kernel, new RecurringDecimalProperties(integerPart, nonRecurringPart, recurringPart));
 	}
 
@@ -37,7 +39,6 @@ public class RecurringDecimal extends MyDouble {
 		return toDouble(properties);
 	}
 
-
 	private static int denominator(RecurringDecimalProperties properties) {
 		return denominator(properties.recurringLength,
 				properties.nonRecurringLength);
@@ -48,7 +49,6 @@ public class RecurringDecimal extends MyDouble {
 				properties.recurringPart);
 	}
 
-
 	/**
 	 * Copy constructor
 	 * @param rd RecurringDecimal
@@ -58,15 +58,31 @@ public class RecurringDecimal extends MyDouble {
 		this.properties = rd.properties;
 	}
 
-	public String toFraction(Kernel kernel, StringTemplate tpl) {
+	/**
+	 *
+	 * @param kernel {@link Kernel}
+	 * @param tpl {@link StringTemplate}
+	 * @return the latex string of fraction.
+	 */public String toFraction(Kernel kernel, StringTemplate tpl) {
 		return toFraction(wrap(), kernel, tpl);
 	}
 
+	/**
+	 *
+	 * @param expression of the recurring decimal.
+	 * @param kernel {@link Kernel}
+	 * @param tpl {@link StringTemplate}
+	 * @return the latex string of fraction.
+	 */
 	public static String toFraction(ExpressionNode expression, Kernel kernel, StringTemplate tpl) {
 		return Fractions.getResolution(expression, kernel, false).toValueString(tpl);
 	}
 
-
+	/**
+	 *
+	 * @param parts for the result
+	 * @param expr to get as a fractiom.
+	 */
 	public static void asFraction(ExpressionValue[] parts, ExpressionNode expr) {
 		Kernel kernel = expr.getKernel();
 		RecurringDecimal rd = (RecurringDecimal) expr.unwrap();
@@ -95,14 +111,22 @@ public class RecurringDecimal extends MyDouble {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), properties);
+	}
+
 	/**
-	 * extension of StringUtil.parseDouble() to cope with unicode digits e.g. Arabic <br>
-	 * Enables parsing of recurring decimals
-	 * @param str string to be parsed
-	 * @param app application for showing errors
-	 * @return value
+	 * Parses RecuringDecimal from string.
+	 *
+	 * @param kernel {@link Kernel}
+	 * @param loc {@link Localization}
+	 * @param str the string to parse.
+	 * @param percent if it is meant to be in percent.
+	 * @return the new, RecurringDecimal instance.
 	 */
-	public static RecurringDecimal parse(Kernel kernel, Localization loc, String str, boolean percent) {
+	public static RecurringDecimal parse(Kernel kernel, Localization loc, String str,
+			boolean percent) {
 		return new RecurringDecimal(kernel, parseProperties(loc, str, percent));
 	}
 
@@ -145,6 +169,10 @@ public class RecurringDecimal extends MyDouble {
 		return true;
 	}
 
+	/**
+	 *
+	 * @return plain fraction string like "1/3".
+	 */
 	public String toFractionSting() {
 		return numerator(properties)
 				+ "/"
@@ -153,8 +181,8 @@ public class RecurringDecimal extends MyDouble {
 
 	static int numerator(int i, Integer a, int p) {
 		int pL = lengthOf(p);
-		int aL = a != null ? lengthOf(a): 0;
-		int A = a != null ? a: 0;
+		int aL = a != null ? lengthOf(a) : 0;
+		int A = a != null ? a : 0;
 		int iap = (int) (p + A * Math.pow(10, pL) + i * Math.pow(10, pL + aL));
 		int ia = (int) (A + i * Math.pow(10, aL));
 		return iap - ia;

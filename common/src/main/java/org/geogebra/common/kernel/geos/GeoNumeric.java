@@ -682,7 +682,7 @@ public class GeoNumeric extends GeoElement
 				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
- 		return kernel.format(value, tpl);
+		return kernel.format(value, tpl);
 	}
 
 	/**
@@ -2160,7 +2160,6 @@ public class GeoNumeric extends GeoElement
 		update();
 	}
 
-
 	@Override
 	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
 		if (isRecurringDecimal()) {
@@ -2182,6 +2181,10 @@ public class GeoNumeric extends GeoElement
 		return getDefinition() != null && getDefinition().unwrap().isRecurringDecimal();
 	}
 
+	/**
+	 *
+	 * @return the RecurringDecimal object if it is one, null otherwise.
+	 */
 	public RecurringDecimal asRecurringDecimal() {
 		if (!isRecurringDecimal()) {
 			return null;
