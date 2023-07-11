@@ -24,6 +24,10 @@ public class RecurringDecimal extends MyDouble {
 		this.properties = properties;
 	}
 
+	public RecurringDecimal(Kernel kernel, int integerPart, Integer nonRecurringPart, int recurringPart) {
+		this(kernel, new RecurringDecimalProperties(integerPart, nonRecurringPart, recurringPart));
+	}
+
 	private static double toDouble(RecurringDecimalProperties properties) {
 		double value = numerator(properties) / (denominator(properties) + 0.0);
 		return properties.isPercent() ? 0.01 * value : value;
@@ -52,6 +56,10 @@ public class RecurringDecimal extends MyDouble {
 	public RecurringDecimal(RecurringDecimal rd) {
 		super(rd);
 		this.properties = rd.properties;
+	}
+
+	public String toFraction(Kernel kernel, StringTemplate tpl) {
+		return toFraction(wrap(), kernel, tpl);
 	}
 
 	public static String toFraction(ExpressionNode expression, Kernel kernel, StringTemplate tpl) {
@@ -85,11 +93,6 @@ public class RecurringDecimal extends MyDouble {
 					&& ((RecurringDecimal) o).properties.equals(this.properties);
 		}
 		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return super.hashCode();
 	}
 
 	/**

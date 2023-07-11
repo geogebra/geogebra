@@ -2,12 +2,14 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.junit.Test;
 
@@ -112,5 +114,21 @@ public class GeoNumericTest extends BaseUnitTest {
 		recurring.setSymbolicMode(true, true);
 		assertThat(recurring.toValueString(StringTemplate.maxDecimals),
 				is("122 / 99"));
+	}
+
+	@Test
+	public void testIsRecurringDecimal() {
+		assertThat(this.<GeoNumeric>add("1.2\u03053\u0305").isRecurringDecimal(), is(true));
+		assertThat(this.<GeoNumeric>add("1.234").isRecurringDecimal(), is(false));
+		assertThat(this.<GeoNumeric>add("12 / 34").isRecurringDecimal(), is(false));
+	}
+
+	@Test
+	public void testAsRecurringDecimal() {
+		assertThat(this.<GeoNumeric>add("1.02\u03053\u0305").asRecurringDecimal(),
+				is(RecurringDecimal.parse(getKernel(), getLocalization(), "1.02\u03053\u0305",
+						false)));
+		assertThat(this.<GeoNumeric>add("1.234").asRecurringDecimal(), nullValue());
+		assertThat(this.<GeoNumeric>add("12 / 34").asRecurringDecimal(), nullValue());
 	}
 }

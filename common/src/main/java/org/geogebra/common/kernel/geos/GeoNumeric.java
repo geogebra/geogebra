@@ -2163,11 +2163,11 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
-		if (getDefinition() != null && getDefinition().unwrap().isRecurringDecimal()) {
-			RecurringDecimal rd = (RecurringDecimal) getDefinition().unwrap();
+		if (isRecurringDecimal()) {
+			RecurringDecimal rd = asRecurringDecimal();
 			if (symbolicMode) {
 				return substituteNumbers ? kernel.format(rd.toDouble(), tpl)
-						: RecurringDecimal.toFraction(rd.wrap(), kernel, tpl);
+						: rd.toFraction(kernel, tpl);
 			} else {
 				return substituteNumbers ? kernel.format(rd.toDouble(), tpl)
 						: rd.toString(tpl);
@@ -2177,4 +2177,15 @@ public class GeoNumeric extends GeoElement
 		return super.getFormulaString(tpl, substituteNumbers);
 	}
 
+	@Override
+	public boolean isRecurringDecimal() {
+		return getDefinition() != null && getDefinition().unwrap().isRecurringDecimal();
+	}
+
+	public RecurringDecimal asRecurringDecimal() {
+		if (!isRecurringDecimal()) {
+			return null;
+		}
+		return  (RecurringDecimal) getDefinition().unwrap();
+	}
 }
