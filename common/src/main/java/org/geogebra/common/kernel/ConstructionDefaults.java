@@ -975,6 +975,9 @@ public class ConstructionDefaults implements SettingListener {
 			}
 			if (geo instanceof GeoInputBox) {
 				geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
+			} else if (geo instanceof GeoList) {
+				geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
+				geo.setBackgroundColor(GColor.WHITE);
 			}
 
 			if (!isReset) {

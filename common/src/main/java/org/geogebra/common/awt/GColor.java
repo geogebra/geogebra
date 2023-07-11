@@ -55,8 +55,6 @@ public final class GColor implements GPaint {
 	public static final GColor PURPLE = newColor(102, 102, 255);
 	/** PURPLE A400 */
 	public static final GColor PURPLE_A400 = newColor(213, 0, 249);
-	/** PURPLE/600 */
-	public static final GColor PURPLE_600 = newColorRGB(0x6557D2);
 	/** MOW MEBIS TEAL */
 	public static final GColor MOW_MEBIS_TEAL = newColor(0, 168, 213);
 	/** MOW MEBIS TEAL with alpha */
@@ -113,10 +111,6 @@ public final class GColor implements GPaint {
 	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
 	public static final GColor DEFAULT_PURPLE = newColorRGB(0X6557D2);
-	public static final GColor NEUTRAL_200 = newColorRGB(0xF3F2F7);
-	public static final GColor NEUTRAL_500 = newColorRGB(0xB4B3BA);
-	public static final GColor NEUTRAL_700 = newColorRGB(0x6E6D73);
-	public static final GColor NEUTRAL_900 = newColorRGB(0x1C1C1F);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
