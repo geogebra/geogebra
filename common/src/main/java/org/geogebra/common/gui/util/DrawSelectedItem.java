@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 public class DrawSelectedItem {
 	private final GRectangle ctrlRect;
@@ -53,7 +54,8 @@ public class DrawSelectedItem {
 
 		// TF Rectangle
 		if (bgColor == GColor.WHITE) {
-			g2.setPaint(geo.doHighlighting() ? GColor.PURPLE_600 : GColor.NEUTRAL_500);
+			g2.setPaint(geo.doHighlighting()
+					? GeoGebraColorConstants.PURPLE_600 : GeoGebraColorConstants.NEUTRAL_500);
 		} else {
 			g2.setPaint(GColor.getBorderColorFrom(bgColor));
 		}
@@ -72,7 +74,7 @@ public class DrawSelectedItem {
 	 *            size
 	 */
 	public void drawTriangle(GGraphics2D g2, int left, int top, int size) {
-		g2.setColor(GColor.NEUTRAL_700);
+		g2.setColor(GeoGebraColorConstants.NEUTRAL_700);
 
 		int middleX = left + size / 2;
 

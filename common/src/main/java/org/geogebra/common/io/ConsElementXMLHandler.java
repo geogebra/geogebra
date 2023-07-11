@@ -455,7 +455,7 @@ public class ConsElementXMLHandler {
 		} else if (geo instanceof GeoInputBox) {
 			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		} else if (geo instanceof GeoList) {
-			geo.setObjColor(GColor.NEUTRAL_900);
+			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 			geo.setBackgroundColor(GColor.WHITE);
 		}
 	}
