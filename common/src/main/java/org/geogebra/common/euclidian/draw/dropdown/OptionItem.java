@@ -129,7 +129,7 @@ class OptionItem {
 	}
 
 	public int getTop() {
-		return (int) rect.getBounds().getY();
+		return (int) rect.getBounds().getY() + OptionTableDimension.VERTICAL_PADDING;
 	}
 
 	public int getBottom() {
