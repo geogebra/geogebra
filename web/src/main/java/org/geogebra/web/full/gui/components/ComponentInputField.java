@@ -5,6 +5,7 @@ import org.geogebra.common.gui.inputfield.Input;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -125,6 +126,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());
 		labelText.setStyleName("inputLabel");
+		labelText.addStyleName(Shades.NEUTRAL_700.getFgColName());
 		// placeholder if there is any
 		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
 			inputTextField.getTextComponent().getTextBox().getElement()

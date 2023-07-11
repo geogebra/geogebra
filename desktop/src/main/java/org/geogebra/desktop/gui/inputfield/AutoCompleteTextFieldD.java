@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -492,16 +493,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 			e.consume();
 			return;
 		}
-		// Application.debug(e+"");
-
-		/*
-		 * test code to generate unicode strings for Virtual Keyboard String
-		 * text = getText(); String outStr = ""; for (int i = 0 ; i <
-		 * text.length() ; i++) { int ch = text.charAt(i); if (ch < 128) outStr
-		 * += text.charAt(i); else { String unicode = Integer.toHexString(ch);
-		 * if (unicode.length() < 4) unicode = "\\u0"+unicode; else unicode =
-		 * "\\u"+unicode; outStr += unicode; } } Application.debug(outStr); //
-		 */
 
 		// ctrl pressed on Mac
 		// or alt on Windows
@@ -1090,8 +1081,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	private static GColor getBorderColor(GColor backgroundColor, DrawInputBox drawInputBox) {
 		GColor borderColor;
 		if (backgroundColor == GColor.WHITE) {
-			borderColor = drawInputBox.isEditing() ? GColor.DEFAULT_PURPLE
-					: GColor.DEFAULT_INPUTBOX_BORDER;
+			borderColor = drawInputBox.isEditing() ? GeoGebraColorConstants.PURPLE_600
+					: GeoGebraColorConstants.NEUTRAL_500;
 		} else {
 			borderColor = GColor.getBorderColorFrom(backgroundColor);
 		}

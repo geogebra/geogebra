@@ -1,5 +1,6 @@
 package org.geogebra.web.shared.components;
 
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
@@ -14,8 +15,7 @@ public class ComponentOrDivider extends FlowPanel {
 		FlowPanel leftLine = new FlowPanel();
 		leftLine.setStyleName("divider");
 
-		Label orLbl = new Label(or);
-		orLbl.setStyleName("orLbl");
+		Label orLbl = BaseWidgetFactory.INSTANCE.newDisabledText(or, "orLbl");
 
 		FlowPanel rightLine = new FlowPanel();
 		rightLine.setStyleName("divider");

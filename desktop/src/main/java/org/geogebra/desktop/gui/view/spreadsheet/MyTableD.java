@@ -1119,7 +1119,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			int x2 = point2.getX();
 			int y2 = point2.getY();
 			graphics.setColor(Color.GRAY);
-			// Application.debug(x1 + "," + y1 + "," + x2 + "," + y2);
 			graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 			graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
 			graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
@@ -1130,14 +1129,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// draw dragging frame
 		if (dragingToRow != -1 && dragingToColumn != -1) {
-			/*
-			 * Application.debug("minSelectionRow = " + minSelectionRow);
-			 * Application.debug("minSelectionColumn = " + minSelectionColumn);
-			 * Application.debug("maxSelectionRow = " + maxSelectionRow);
-			 * Application.debug("maxSelectionColumn = " + maxSelectionColumn);
-			 * Application.debug("dragingToRow = " + dragingToRow);
-			 * Application.debug("dragingToColumn = " + dragingToColumn); /*
-			 */
 			// -|1|-
 			// 2|-|3
 			// -|4|-

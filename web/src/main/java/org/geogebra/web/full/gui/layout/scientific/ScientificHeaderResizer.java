@@ -22,6 +22,8 @@ public class ScientificHeaderResizer implements HeaderResizer {
 			} else {
 				header.removeClassName("smallScreen");
 			}
+			Dom.toggleClass(header, "portrait", "landscape",
+					frame.getApp().isPortrait());
 		}
 	}
 

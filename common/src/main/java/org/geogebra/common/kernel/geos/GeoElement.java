@@ -79,6 +79,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -888,8 +889,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			blueD = 2 * blueD;
 		}
 
-		// Application.debug("red"+redD+"green"+greenD+"blue"+blueD);
-
 		// adjust color triple to alternate color spaces, default to RGB
 		switch (this.colorSpace) {
 
@@ -1544,7 +1543,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		if (hasFixedDescendent) {
-			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
 		} else {
@@ -2030,7 +2028,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether this geo can be rotated
 	 */
 	public boolean isRotateMoveable() {
-		return isPointerChangeable() && (this instanceof PointRotateable);
+		return isPointerChangeable() && (this instanceof Rotatable);
 	}
 
 	/**
@@ -2567,9 +2565,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			oldSpreadsheetCoords = spreadsheetCoords;
 			spreadsheetCoords = null;
 		}
-
-		// Application.debug("update spread sheet coords: " + this + ", " +
-		// spreadsheetCoords + ", old: " + oldSpreadsheetCoords);
 	}
 
 	/**
@@ -5257,8 +5252,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void setColorFunction(final GeoList col) {
-		// Application.debug("setColorFunction"+col.getValue());
-
 		// check for circular definition (not needed)
 		// if (this == col || isParentOf(col))
 		// throw new CircularDefinitionException();
@@ -5285,8 +5278,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (colFunction != null) {
 			colFunction.unregisterColorFunctionListener(this);
 		}
-		// Application.debug("removeColorFunction");
-		// if (colFunction == col)
 		colFunction = null;
 	}
 
@@ -6636,6 +6627,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return false;
 		}
 		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
+			return false;
+		}
+		if (unwrap instanceof RecurringDecimal) {
 			return false;
 		}
 		if (unwrap instanceof NumberValue) {

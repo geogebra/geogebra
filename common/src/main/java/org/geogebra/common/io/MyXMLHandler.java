@@ -2904,8 +2904,6 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		// handle construction mode
 
-		// Application.debug("constMode = "+constMode+", eName = "+eName);
-
 		switch (constMode) {
 		case MODE_CONSTRUCTION:
 			if ("element".equals(eName)) {
@@ -3261,8 +3259,6 @@ public class MyXMLHandler implements DocHandler {
 				cons.registerFunctionVariable(var);
 			}
 		}
-
-		// Application.debug(name);
 		if (name != null) {
 			command = new Command(kernel, name, false); // do not translate name
 		} else {
@@ -3330,8 +3326,6 @@ public class MyXMLHandler implements DocHandler {
 				} else {
 					geo1 = kernel.lookupLabel(arg);
 				}
-
-				// Application.debug("input : "+geo.getLabel());
 
 				// arg is a label and does not conatin $ signs (e.g. $A1 in
 				// spreadsheet)
@@ -3565,7 +3559,8 @@ public class MyXMLHandler implements DocHandler {
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
-									.withSymbolicMode(mode));
+									.withSymbolicMode(mode)
+									.withForceFunctionsEnabled(true));
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {

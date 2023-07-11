@@ -345,9 +345,6 @@ public class AlgoLocusList extends AlgoElement {
 	}
 
 	private void insertPoint(double x, double y, boolean lineTo) {
-
-		// Application.debug("insertPoint: " + x + ", " + y + ", lineto: " +
-		// lineTo);
 		locus.insertPoint(x, y, lineTo ? SegmentType.LINE_TO
 				: SegmentType.MOVE_TO);
 	}

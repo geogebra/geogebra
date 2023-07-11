@@ -45,9 +45,6 @@ public class DownloadManager {
 		try {
 			// open input stream to src URL
 			URLConnection srcConnection = src.openConnection();
-			// Application.debug(srcConnection.getLastModified() + " " +
-			// dest.lastModified() + " " +
-			// srcConnection.getContentLength() + " " + dest.length());
 
 			if (srcConnection.getContentLength() == 0) {
 				// eg running from Eclipse

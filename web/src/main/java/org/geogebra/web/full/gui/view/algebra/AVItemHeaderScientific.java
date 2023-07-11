@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
@@ -19,8 +20,7 @@ public class AVItemHeaderScientific extends SimplePanel
 	 */
 	public AVItemHeaderScientific() {
 		setStyleName("avItemHeaderScientific");
-		number = new Label();
-		number.setStyleName("avItemNumber");
+		number = BaseWidgetFactory.INSTANCE.newSecondaryText("", "avItemNumber");
 		setWidget(number);
 	}
 

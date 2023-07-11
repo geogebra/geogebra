@@ -79,11 +79,8 @@ public class DataImportD extends DataImport {
 			try {
 				transferString = (String) contents
 						.getTransferData(DataFlavor.stringFlavor);
-				// Application.debug("pasting from String: "+buf);
 			} catch (Exception ex) {
 				Log.debug("transferable has no String");
-				// ex.printStackTrace();
-				// app.showError(ex.getMessage());
 			}
 		}
 
@@ -141,7 +138,6 @@ public class DataImportD extends DataImport {
 				public void handleStartTag(HTML.Tag tag,
 						MutableAttributeSet attrSet, int pos) {
 					if (tag == HTML.Tag.TABLE) {
-						// Application.debug("table");
 						if (foundTable) {
 							finished = true;
 						}
@@ -149,7 +145,6 @@ public class DataImportD extends DataImport {
 						firstColumn = true;
 						sbHTML.setLength(0);
 					} else if (foundTable && tag == HTML.Tag.TR) {
-						// Application.debug("TR");
 						if (!firstColumn) {
 							sbHTML.append("\n");
 						}
@@ -157,13 +152,11 @@ public class DataImportD extends DataImport {
 						firstColumn = false;
 					} else if (foundTable
 							&& (tag == HTML.Tag.TD || tag == HTML.Tag.TH)) {
-						// Application.debug("TD");
 						if (!firstInRow) {
 							sbHTML.append(",");
 						}
 						firstInRow = false;
 					} else if (!foundTable) {
-						// Application.debug("TR without table");
 						sbHTML.setLength(0);
 						if (tag == HTML.Tag.TR) {
 							foundTable = true; // HTML fragment without <TABLE>

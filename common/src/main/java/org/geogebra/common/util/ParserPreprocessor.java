@@ -186,6 +186,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 	private boolean nonDigitOrOperand(char currentChar) {
 		return !Character.isDigit(currentChar)
-				&& BASIC_OPERANDS.indexOf(currentChar) == -1;
+				&& BASIC_OPERANDS.indexOf(currentChar) == -1
+				&& currentChar != Unicode.OVERLINE;
 	}
 }

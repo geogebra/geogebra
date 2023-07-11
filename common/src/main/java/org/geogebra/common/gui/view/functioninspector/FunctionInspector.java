@@ -295,7 +295,6 @@ public abstract class FunctionInspector
 	protected void setStart(double x) {
 		try {
 			getModel().setStart(x);
-			// Application.debug("" + start);
 			updateXYTable();
 			updateTestPoint();
 		} catch (Exception e1) {

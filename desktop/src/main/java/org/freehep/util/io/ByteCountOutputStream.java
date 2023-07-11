@@ -43,7 +43,6 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 
 	@Override
 	public void write(int b) throws IOException {
-		// Application.debug(Integer.toHexString(b)+" "+index);
 		// original stream
 		if (currentBuffer == -1) {
 			super.write(b);

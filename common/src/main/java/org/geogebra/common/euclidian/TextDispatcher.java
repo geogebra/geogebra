@@ -322,7 +322,6 @@ public class TextDispatcher {
 				strText = "Name[" + geoA.getLabel(tpl) + "] + Name["
 						+ geoB.getLabel(tpl) + "] + \" = \" + "
 						+ length.getLabel(tpl);
-				// Application.debug(strText);
 				makeLabelNameVisible(geoA);
 				makeLabelNameVisible(geoB);
 				geoA.updateRepaint();
@@ -330,7 +329,6 @@ public class TextDispatcher {
 			} else {
 				length.setLabel(removeUnderscoresAndBraces(
 						StringUtil.toLowerCaseUS(loc.getCommand("Distance"))));
-				// .toLowerCase(Locale.US)));
 				strText = "\"\"" + length.getLabel(tpl);
 			}
 

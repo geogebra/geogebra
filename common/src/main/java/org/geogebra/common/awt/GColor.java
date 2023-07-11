@@ -112,8 +112,6 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
 	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
-	public static final GColor DEFAULT_INPUTBOX_BORDER = newColor(148, 148, 148);
-	public static final GColor DEFAULT_INPUTBOX_TEXT = newColorRGB(0x252525);
 	public static final GColor DEFAULT_PURPLE = newColorRGB(0X6557D2);
 	public static final GColor NEUTRAL_200 = newColorRGB(0xF3F2F7);
 	public static final GColor NEUTRAL_500 = newColorRGB(0xB4B3BA);

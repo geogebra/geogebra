@@ -13,6 +13,7 @@ import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -20,7 +21,6 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.impl.PopupImpl;
 
 import com.google.gwtmockito.GwtMockito;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 public class AppMocker {
@@ -35,6 +35,7 @@ public class AppMocker {
 				System.out.println(logEntry);
 			}
 		}
+
 	}
 
 	public static AppWFull mockGraphing() {
@@ -59,6 +60,10 @@ public class AppMocker {
 	 */
 	private static AppWFull mockApp(String appName) {
 		return mockApplet(new AppletParameters(appName));
+	}
+
+	public static AppW mockScientific() {
+		return mockApp("scientific");
 	}
 
 	/**
@@ -117,7 +122,7 @@ public class AppMocker {
 					}
 				});
 		Browser.mockWebGL();
-		FactoryProvider.setInstance(new FactoryProviderGWT());
+		FactoryProviderGWT.ensureLoaded();
 		setTestLogger();
 	}
 

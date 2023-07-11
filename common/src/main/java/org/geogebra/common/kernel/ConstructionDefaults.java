@@ -698,6 +698,7 @@ public class ConstructionDefaults implements SettingListener {
 		// bool.setLocalVariableLabel(app.getPlain("Boolean"));
 		bool.setLocalVariableLabel("Boolean");
 		bool.setDefaultGeoType(DEFAULT_BOOLEAN);
+		bool.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		defaultGeoElements.put(DEFAULT_BOOLEAN, bool);
 
 		// list
@@ -973,14 +974,11 @@ public class ConstructionDefaults implements SettingListener {
 				((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
 			}
 			if (geo instanceof GeoInputBox) {
-				geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
-			} else if (geo instanceof GeoList) {
-				geo.setObjColor(GColor.NEUTRAL_900);
-				geo.setBackgroundColor(GColor.WHITE);
+				geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 			}
 
 			if (!isReset) {
-				// set to highest used layer
+				// set to the highest used layer
 				setMaxLayerUsed(geo, app);
 			}
 

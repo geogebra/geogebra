@@ -52,7 +52,6 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 	int getClosestPointIndex(double xRW, double yRW, CoordMatrix mat) {
 		GeoPoint3D[] P = getIntersectionPoints();
 		double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
-		// Application.debug("\nxRW="+xRW+"\nyRW="+yRW+"\nmatrix=\n"+mat);
 		int minIndex = 0;
 		for (int i = 0; i < P.length; i++) {
 			Coords toScreenCoords;
@@ -62,8 +61,6 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 				toScreenCoords = mat.mul(P[i].getCoords().getCoordsLast1())
 						.getInhomCoords();
 			}
-			// Application.debug("\nScreen coords of point "+i+"
-			// is:\n"+toScreenCoords);
 			x = (toScreenCoords.getX() - xRW);
 			y = (toScreenCoords.getY() - yRW);
 			// comment: the z dimension is the "height", which will not be used

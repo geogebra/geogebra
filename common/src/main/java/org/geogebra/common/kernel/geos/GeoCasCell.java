@@ -3418,6 +3418,7 @@ public class GeoCasCell extends GeoElement
 		if (tooltip == null && outputVE != null) {
 			tooltip = getOutput(StringTemplate.defaultTemplate);
 			tooltip = tooltip.replace("gGbSuM(", Unicode.Sigma + "(");
+			tooltip = tooltip.replace("gGbPrOdUcT(", Unicode.Pi + "(");
 			tooltip = tooltip.replace("gGbInTeGrAl(", Unicode.INTEGRAL + "(");
 
 			if (tooltip.length() > TOOLTIP_SCREEN_WIDTH && tooltip.indexOf('{') > -1) {

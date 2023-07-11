@@ -453,14 +453,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 
 	@Override
 	public void updateDividerLocation(int size, int orientation1) {
-
-		/*
-		 * AbstractApplication.debug("\nresizeW= "+getResizeWeight()
-		 * +"\nsize= "+size +"\nsavedSize= "+savedSize
-		 * +"\nsavedDividerLocation= "+savedDividerLocation
-		 * +"\nleft= "+getLeftComponent() +"\nright= "+getRightComponent());
-		 */
-
 		if (orientation1 == getOrientation()) {
 			if (getResizeWeight() == 0) {
 				setDividerLocationRecursive(
@@ -505,7 +497,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	private void setDividerLocationRecursive(int location, int size,
 			int orientation1) {
 		setDividerLocation(location);
-		// AbstractApplication.debug("location = "+location);
 		propagateDividerLocation(location, size - location, orientation1);
 	}
 
