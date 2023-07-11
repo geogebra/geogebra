@@ -30,7 +30,7 @@ class ItemSelector implements MoveSelector {
 		geoList = model.getGeoList();
 		app = geoList.getApp();
 		range = model.getRange();
-		color = GColor.LIGHT_GRAY;
+		color = GColor.NEUTRAL_200;
 	}
 
 	int getDragOffset() {

@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian.draw.dropdown;
 
 import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.MARGIN;
-import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.ROUND;
+import static org.geogebra.common.gui.util.DropDownList.BOX_ROUND;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -145,9 +145,11 @@ class OptionTable {
 		int x = model.getLeft() - 1;
 		int y = model.getTop() - 1;
 		g2.fillRoundRect(x, y, getWidth() + 2,
-				getHeight() + 2, ROUND, ROUND);
-		g2.setPaint(GColor.DARK_GRAY);
+				getHeight() + 2, BOX_ROUND, BOX_ROUND);
+
+		g2.setPaint(GColor.NEUTRAL_500);
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(1));
 		g2.drawRoundRect(x, y, getWidth() + 2,
-				getHeight() + 2, ROUND, ROUND);
+				getHeight() + 2, BOX_ROUND, BOX_ROUND);
 	}
 }

@@ -30,7 +30,6 @@ public class DrawSelectedItem {
 	 */
 	public void drawOpenControl(GGraphics2D g2, int boxLeft, int boxTop, int boxWidth,
 			int boxHeight) {
-		g2.setPaint(GColor.BLACK);
 		int left = boxLeft + boxWidth - boxHeight;
 		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
 		drawTriangle(g2, left, boxTop, boxHeight);
@@ -53,7 +52,12 @@ public class DrawSelectedItem {
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 		// TF Rectangle
-		g2.setPaint(geo.doHighlighting() ? GColor.BLUE : GColor.BLACK);
+		if (bgColor == GColor.WHITE) {
+			g2.setPaint(geo.doHighlighting() ? GColor.PURPLE_600 : GColor.NEUTRAL_500);
+		} else {
+			g2.setPaint(GColor.getBorderColorFrom(bgColor));
+		}
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.doHighlighting() ? 2 : 1));
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}
 
@@ -68,7 +72,7 @@ public class DrawSelectedItem {
 	 *            size
 	 */
 	public void drawTriangle(GGraphics2D g2, int left, int top, int size) {
-		g2.setColor(GColor.DARK_GRAY);
+		g2.setColor(GColor.NEUTRAL_700);
 
 		int middleX = left + size / 2;
 

@@ -167,7 +167,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		String labelText = getLabelText();
 		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
 		GColor bgColor = geo.getBackgroundColor() != null
-				? geo.getBackgroundColor() : view.getBackgroundCommon();
+				? geo.getBackgroundColor() : GColor.WHITE;
 
 		drawSelected.drawBounds(geoList, g2, bgColor, boxLeft, boxTop, boxWidth,
 				boxHeight);
@@ -196,7 +196,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			drawLabel(g2, geoList, labelText);
 		}
 
-		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + 5);
+		drawOptions.draw(g2, boxLeft, boxTop + boxHeight);
 	}
 
 	private void initScreenLocation() {
@@ -564,5 +564,10 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	public boolean isControlHit(int x, int y) {
 		return drawSelected.isOpenButtonHit(x, y);
+	}
+
+	@Override
+	public boolean isHighlighted() {
+		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
 	}
 }
