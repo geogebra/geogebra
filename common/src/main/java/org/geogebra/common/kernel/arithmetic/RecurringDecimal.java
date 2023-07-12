@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 
@@ -42,24 +43,20 @@ public class RecurringDecimal extends MyDouble {
 	}
 
 	/**
-	 *
-	 * @param kernel {@link Kernel}
 	 * @param tpl {@link StringTemplate}
 	 * @return the latex string of fraction.
 	 */
-	public String toFraction(Kernel kernel, StringTemplate tpl) {
-		return toFraction(wrap(), kernel, tpl);
+	public String toFraction(StringTemplate tpl) {
+		return toFraction(wrap(), tpl);
 	}
 
 	/**
-	 *
 	 * @param expression of the recurring decimal.
-	 * @param kernel {@link Kernel}
 	 * @param tpl {@link StringTemplate}
 	 * @return the latex string of fraction.
 	 */
-	public static String toFraction(ExpressionNode expression, Kernel kernel, StringTemplate tpl) {
-		return Fractions.getResolution(expression, kernel, false).toValueString(tpl);
+	public static String toFraction(ExpressionNode expression, StringTemplate tpl) {
+		return Fractions.getResolution(expression, expression.getKernel(), false).toValueString(tpl);
 	}
 
 	/**
@@ -126,6 +123,9 @@ public class RecurringDecimal extends MyDouble {
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		if (tpl.hasType(StringType.GIAC)) {
+			return toFraction(tpl);
+		}
 		return properties.toString(tpl);
 	}
 

@@ -37,6 +37,8 @@ public class RecurringDecimalProperties {
 		this.integerPart = integerPart;
 		this.nonRecurringPart = nonRecurringPart;
 		this.recurringPart = recurringPart;
+		nonRecurringLength = lengthOf(nonRecurringPart);
+		recurringLength = lengthOf(recurringPart);
 	}
 
 	public RecurringDecimalProperties(boolean percent) {
@@ -113,6 +115,7 @@ public class RecurringDecimalProperties {
 	 * @return the overlined recurring decimal string.
 	 */
 	public String toString(StringTemplate tpl) {
+
 		StringBuilder sb = new StringBuilder();
 		sb.append(integerPart);
 		sb.append(".");
@@ -131,6 +134,24 @@ public class RecurringDecimalProperties {
 				sb.append(Unicode.OVERLINE);
 
 			}
+		}
+		return sb.toString();
+	}
+
+	private String toCasString(StringTemplate tpl) {
+		int numerator = numerator();
+		int denominator = denominator();
+		StringBuilder sb = new StringBuilder();
+		if (tpl.isLatex()) {
+			sb.append("\\frac{");
+			sb.append(numerator);
+			sb.append("}{");
+			sb.append(denominator);
+			sb.append("}");
+		} else {
+			sb.append(numerator);
+			sb.append(" / ");
+			sb.append(denominator);
 		}
 		return sb.toString();
 	}
@@ -163,7 +184,10 @@ public class RecurringDecimalProperties {
 		return nines * tens;
 	}
 
-	private static int lengthOf(int number) {
+	private static int lengthOf(Integer number) {
+		if (number == null) {
+			return 0;
+		}
 		return number != 0 ? (int) (Math.log10(number) + 1) : 1;
 	}
 

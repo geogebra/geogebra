@@ -666,13 +666,13 @@ public class GeoNumeric extends GeoElement
 		if (isRecurringDecimal()) {
 			RecurringDecimal rd = asRecurringDecimal();
 			if (symbolicMode) {
-				return RecurringDecimal.toFraction(rd.wrap(), kernel, tpl);
+				return RecurringDecimal.toFraction(rd.wrap(), tpl);
 			} else {
 				return kernel.format(rd.toDouble(), tpl);
 			}
 		}
 		if (symbolicMode && isRecurringDecimal()) {
-			return RecurringDecimal.toFraction(getDefinition(), kernel, tpl);
+			return RecurringDecimal.toFraction(getDefinition(), tpl);
 		}
 		// in general toFractionString falls back to printing evaluation result if not a fraction
 		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
@@ -2166,7 +2166,7 @@ public class GeoNumeric extends GeoElement
 			RecurringDecimal rd = asRecurringDecimal();
 			if (symbolicMode) {
 				return substituteNumbers ? kernel.format(rd.toDouble(), tpl)
-						: rd.toFraction(kernel, tpl);
+						: rd.toFraction(tpl);
 			} else {
 				return substituteNumbers ? kernel.format(rd.toDouble(), tpl)
 						: rd.toString(tpl);

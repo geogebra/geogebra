@@ -25,7 +25,7 @@ public class RecurringDecimalTest extends BaseUnitTest {
 	private void shouldBeAsFraction(String input, String fraction) {
 		RecurringDecimal recurringDecimal = new RecurringDecimal(getKernel(),
 				RecurringDecimalProperties.parse(input, false));
-		assertThat(recurringDecimal.toFraction(getKernel(), StringTemplate.defaultTemplate),
+		assertThat(recurringDecimal.toFraction(StringTemplate.defaultTemplate),
 				is(fraction));
 	}
 
@@ -55,12 +55,21 @@ public class RecurringDecimalTest extends BaseUnitTest {
 
 	@Test
 	public void testToString() {
-		assertThat(createRecurringDecimal(1, 2, 34).toString(),
+		assertThat(createRecurringDecimal(1, 2, 34)
+						.toString(StringTemplate.defaultTemplate),
 				is("1.23\u03054\u0305"));
+		assertThat(createRecurringDecimal(0, null, 3)
+						.toString(StringTemplate.latexTemplate),
+				is("0.\\overline{3}"));
+		assertThat(createRecurringDecimal(1, 2, 34)
+						.toString(StringTemplate.giacTemplate),
+				is("(611)/(495)"));
 	}
 
-	private RecurringDecimal createRecurringDecimal(int i, int nr, int r) {
-		return new RecurringDecimal(getKernel(), new RecurringDecimalProperties(i, nr, r));
+	private RecurringDecimal createRecurringDecimal(int integerPart, Integer nonRecurringPart,
+			int recurringPart) {
+		return new RecurringDecimal(getKernel(), new RecurringDecimalProperties(integerPart,
+				nonRecurringPart, recurringPart));
 	}
 
 	@Test

@@ -2,9 +2,11 @@ package org.geogebra.common.kernel.arithmetic;
 
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.StringTemplate;
 import org.junit.Test;
 
-public class RecurringDecimalPropertiesTest {
+public class RecurringDecimalPropertiesTest extends BaseUnitTest {
 	@Test
 	public void testParse() {
 		shouldParseAs("3.254̅", 3, 25, 4);
@@ -23,5 +25,13 @@ public class RecurringDecimalPropertiesTest {
 	private static void shouldParseAs(String representation, int integerPart, int recurringPart) {
 		assertEquals(RecurringDecimalProperties.parse(representation, false),
 				new RecurringDecimalProperties(integerPart, recurringPart));
+	}
+
+	@Test
+	public void testToString() {
+		RecurringDecimalProperties properties =
+				new RecurringDecimalProperties(1, 2, 34);
+		assertEquals("1.23̅4̅", properties.toString(StringTemplate.defaultTemplate));
+		assertEquals("1.2\\overline{34}", properties.toString(StringTemplate.latexTemplate));
 	}
 }
