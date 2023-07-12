@@ -650,7 +650,7 @@ public class Korean {
 	/**
 	 * Splits double vowels and consonants and returns the
 	 * last component
-	 * DOES NOT SPLIT LONG CONSONANTS SUCH AS ᆻ
+	 * DOES NOT SPLIT LONG CONSONANTS SUCH AS \u11BB
 	 * @param ch korean character
 	 * @return last compatibility JAMO character
 	 */
