@@ -56,7 +56,8 @@ public class RecurringDecimal extends MyDouble {
 	 * @return the latex string of fraction.
 	 */
 	public static String toFraction(ExpressionNode expression, StringTemplate tpl) {
-		return Fractions.getResolution(expression, expression.getKernel(), false).toValueString(tpl);
+		return Fractions.getResolution(expression, expression.getKernel(),
+				false).toValueString(tpl);
 	}
 
 	/**

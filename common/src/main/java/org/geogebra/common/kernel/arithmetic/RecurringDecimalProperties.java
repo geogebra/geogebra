@@ -138,24 +138,6 @@ public class RecurringDecimalProperties {
 		return sb.toString();
 	}
 
-	private String toCasString(StringTemplate tpl) {
-		int numerator = numerator();
-		int denominator = denominator();
-		StringBuilder sb = new StringBuilder();
-		if (tpl.isLatex()) {
-			sb.append("\\frac{");
-			sb.append(numerator);
-			sb.append("}{");
-			sb.append(denominator);
-			sb.append("}");
-		} else {
-			sb.append(numerator);
-			sb.append(" / ");
-			sb.append(denominator);
-		}
-		return sb.toString();
-	}
-
 	public boolean isPercent() {
 		return percent;
 	}
