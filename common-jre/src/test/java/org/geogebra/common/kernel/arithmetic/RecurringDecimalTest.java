@@ -22,7 +22,7 @@ public class RecurringDecimalTest extends BaseUnitTest {
 		shouldBeAsFraction("1.2\u03053\u03054\u0305", "1233/999");
 	}
 
-	public void shouldBeAsFraction(String input, String fraction) {
+	private void shouldBeAsFraction(String input, String fraction) {
 		RecurringDecimal recurringDecimal = new RecurringDecimal(getKernel(),
 				RecurringDecimalProperties.parse(input, false));
 		assertThat(recurringDecimal.toFractionSting(), is(fraction));

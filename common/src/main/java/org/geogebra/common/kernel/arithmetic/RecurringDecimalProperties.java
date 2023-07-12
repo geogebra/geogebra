@@ -10,7 +10,7 @@ public class RecurringDecimalProperties {
 	private boolean percent = false;
 	double doubleValue;
 	int integerPart;
-	Integer nonRecurringPart = null;
+	Integer nonRecurringPart = null; // Optional, so must be an object.
 	int recurringPart;
 	int nonRecurringLength;
 	int recurringLength;
@@ -82,8 +82,13 @@ public class RecurringDecimalProperties {
 
 		RecurringDecimalProperties that = (RecurringDecimalProperties) o;
 		return integerPart == that.integerPart
-				&& (nonRecurringPart.equals(that.nonRecurringPart))
+				&& ((isNonRecurringPartEmpty() && that.isNonRecurringPartEmpty())
+						 || (nonRecurringPart.equals(that.nonRecurringPart)))
 				&& recurringPart == that.recurringPart;
+	}
+
+	private boolean isNonRecurringPartEmpty() {
+		return nonRecurringPart == null;
 	}
 
 	@Override

@@ -13,7 +13,8 @@ public class RecurringDecimalPropertiesTest {
 		shouldParseAs("0.3̅", 0, 3);
 	}
 
-	private static void shouldParseAs(String representation, int integerPart, Integer nonRecurringPart,
+	private static void shouldParseAs(String representation, int integerPart,
+			Integer nonRecurringPart,
 			int recurringPart) {
 		assertEquals(RecurringDecimalProperties.parse(representation, false),
 				new RecurringDecimalProperties(integerPart, nonRecurringPart, recurringPart));
