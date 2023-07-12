@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.Objects;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -106,7 +107,67 @@ public class RecurringDecimalProperties {
 				+ '}';
 	}
 
+	/**
+	 *
+	 * @param tpl  {@link StringTemplate}
+	 * @return the overlined recurring decimal string.
+	 */
+	public String toString(StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(integerPart);
+		sb.append(".");
+		if (nonRecurringPart != null) {
+			sb.append(nonRecurringPart);
+		}
+		if (tpl.isLatex()) {
+			sb.append("\\overline{");
+			sb.append(recurringPart);
+			sb.append("}");
+		} else {
+			String recurringString = String.valueOf(recurringPart);
+
+			for (int i = 0; i < recurringString.length(); i++) {
+				sb.append(recurringString.charAt(i));
+				sb.append(Unicode.OVERLINE);
+
+			}
+		}
+		return sb.toString();
+	}
+
 	public boolean isPercent() {
 		return percent;
+	}
+
+	/**
+	 *
+	 * @return numerator of the fraction form.
+	 */
+	public int numerator() {
+		int pL = lengthOf(recurringPart);
+		int aL = isNonRecurringPartEmpty() ? 0 : lengthOf(nonRecurringPart);
+		int A = isNonRecurringPartEmpty() ? 0 : nonRecurringPart;
+		int iap = (int) (recurringPart + A * Math.pow(10, pL)
+				+ integerPart * Math.pow(10, pL + aL));
+		int ia = (int) (A + integerPart * Math.pow(10, aL));
+		return iap - ia;
+	}
+
+	/**
+	 *
+	 * @return denominator of the fraction form.
+	 */
+	public int denominator() {
+		int nines = recurringLength == 0 ? 1 : (int) (Math.pow(10, recurringLength) - 1);
+		int tens = nonRecurringLength == 0 ? 1 : (int) (Math.pow(10, nonRecurringLength));
+		return nines * tens;
+	}
+
+	private static int lengthOf(int number) {
+		return number != 0 ? (int) (Math.log10(number) + 1) : 1;
+	}
+
+	public double toDouble() {
+		return numerator() / (denominator() + 0.0);
 	}
 }
