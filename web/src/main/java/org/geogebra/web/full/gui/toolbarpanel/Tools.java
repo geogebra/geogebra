@@ -12,7 +12,6 @@ import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -255,13 +254,13 @@ public class Tools extends FlowPanel implements SetLabels {
 	 */
 	public void showTooltip(int mode) {
 		if (allowTooltips()) {
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			ToolTipManagerW.sharedInstance()
+			app.getToolTipManager().setBlockToolTip(false);
+			app.getToolTipManager()
 					.showBottomInfoToolTip(app.getToolName(mode), app.getToolHelp(mode),
 							app.getLocalization().getMenu("Help"),
 							app.getGuiManager().getTooltipURL(mode), app,
 							ComponentSnackbar.TOOL_TOOLTIP_DURATION);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			app.getToolTipManager().setBlockToolTip(true);
 		}
 	}
 }

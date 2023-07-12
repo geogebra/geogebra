@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.commands.redefinition;
 
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
 public class RuleCollectionSymbolic extends RuleCollection {
@@ -11,7 +11,7 @@ public class RuleCollectionSymbolic extends RuleCollection {
 	}
 
 	@Override
-	public boolean allowed(GeoElement from, GeoElement to) {
+	public boolean allowed(GeoElementND from, GeoElementND to) {
 		if (from instanceof GeoList && to instanceof GeoList) {
 			GeoList toList = (GeoList) to;
 			return toList.size() == 0

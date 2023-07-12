@@ -15,7 +15,6 @@ import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -358,7 +357,7 @@ public class ShareDialogMow extends ComponentDialog
 			linkBox.setFocused(false);
 			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			linkBox.focus();
-			ToolTipManagerW.sharedInstance()
+			((AppW) app).getToolTipManager()
 			    .showBottomMessage(((AppW) app).getLocalization()
 			    .getMenu("linkCopyClipboard"), (AppW) app);
 		}
@@ -412,7 +411,7 @@ public class ShareDialogMow extends ComponentDialog
 	 *            shared with group successful or not
 	 */
 	protected void onGroupShareChanged(boolean success) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(
+		((AppW) app).getToolTipManager().showBottomMessage(
 				app.getLocalization()
 						.getMenu(success ? "GroupShareOk"
 								: "GroupShareFail"), (AppW) app);

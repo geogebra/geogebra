@@ -135,14 +135,14 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		if (dragPanel == null) {
 			dragPanel = new FlowPanel();
 			dragPanel.setStyleName("dragPanel");
-			ClickStartHandler.init(dragPanel,
+			app.getGlobalHandlers().add(ClickStartHandler.init(dragPanel,
 					new ClickStartHandler(true, false) {
 						@Override
 						public void onClickStart(int x, int y,
 								PointerEventType type) {
 							dockPanel.startDragging();
 						}
-					});
+					}));
 			dragPanel.setVisible(false);
 			NoDragImage dragIcon = new NoDragImage(MaterialDesignResources.INSTANCE.move_canvas(),
 					30);

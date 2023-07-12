@@ -358,7 +358,7 @@ public final class LocalizationW extends Localization {
 			app.doSetLanguage(lang0, false);
 		} else {
 			// load keys (into a JavaScript <script> tag)
-			String url = StyleInjector.devModeFix(GWT.getModuleBaseURL());
+			String url = StyleInjector.normalizeUrl(GWT.getModuleBaseURL());
 			if (url.startsWith(GeoGebraConstants.CDN_APPS + "latest")) {
 				url = GeoGebraConstants.CDN_APPS
 						+ GeoGebraConstants.VERSION_STRING + "/web3d/";

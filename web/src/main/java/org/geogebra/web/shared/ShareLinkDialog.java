@@ -1,7 +1,6 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -142,7 +141,7 @@ public class ShareLinkDialog extends ComponentDialog {
 					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
 					+ " frameborder=\"0\"></iframe>";
 			this.app.getCopyPaste().copyTextToSystemClipboard(code);
-			ToolTipManagerW.sharedInstance().showBottomMessage(
+			((AppW) app).getToolTipManager().showBottomMessage(
 					localize("CopiedToClipboard"), appW);
 		}
 		hide();
