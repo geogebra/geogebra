@@ -66,11 +66,29 @@ public class RecurringDecimalProperties {
 			properies.nonRecurringLength = 0;
 		}
 
-		String rec = representation.substring(overline - 1)
-				.replaceAll(Unicode.OVERLINE + "", "");
-		properies.recurringLength = rec.length();
-		properies.recurringPart = Integer.parseInt(rec);
-		return properies;
+		String overlined = representation.substring(overline - 1);
+		if (isOverLineStringValid(overlined)) {
+			String recurrinString = overlined.replaceAll(Unicode.OVERLINE + "", "");
+			properies.recurringLength = recurrinString.length();
+			properies.recurringPart = Integer.parseInt(recurrinString);
+			return properies;
+		}
+
+		throw new NumberFormatException("Invalid recurring number format");
+	}
+
+	private static boolean isOverLineStringValid(String overlined) {
+		if (overlined.length() % 2 == 1) {
+			return false;
+		}
+
+		for (int i = 0; i < overlined.length() / 2; i++) {
+			if (!StringUtil.isDigit(overlined.charAt(2 * i))
+					|| overlined.charAt(2 * i + 1) != Unicode.OVERLINE) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -120,6 +138,10 @@ public class RecurringDecimalProperties {
 		sb.append(integerPart);
 		sb.append(".");
 		if (nonRecurringPart != null) {
+			int diff = nonRecurringLength - lengthOf(nonRecurringPart);
+			for (int i=0; i < diff; i++) {
+				sb.append("0");
+			}
 			sb.append(nonRecurringPart);
 		}
 		if (tpl.isLatex()) {
@@ -127,8 +149,13 @@ public class RecurringDecimalProperties {
 			sb.append(recurringPart);
 			sb.append("}");
 		} else {
-			String recurringString = String.valueOf(recurringPart);
+			int diff = recurringLength - lengthOf(recurringPart);
+			for (int i=0; i < diff; i++) {
+				sb.append("0");
+				sb.append(Unicode.OVERLINE);
+			}
 
+			String recurringString = String.valueOf(recurringPart);
 			for (int i = 0; i < recurringString.length(); i++) {
 				sb.append(recurringString.charAt(i));
 				sb.append(Unicode.OVERLINE);
@@ -147,9 +174,9 @@ public class RecurringDecimalProperties {
 	 * @return numerator of the fraction form.
 	 */
 	public int numerator() {
-		int pL = lengthOf(recurringPart);
-		int aL = isNonRecurringPartEmpty() ? 0 : lengthOf(nonRecurringPart);
-		int A = isNonRecurringPartEmpty() ? 0 : nonRecurringPart;
+		int pL = recurringLength;
+		int aL = isNonRecurringPartEmpty() ? 0 : nonRecurringLength;
+		int A = isNonRecurringPartEmpty() ? 0 : recurringLength;
 		int iap = (int) (recurringPart + A * Math.pow(10, pL)
 				+ integerPart * Math.pow(10, pL + aL));
 		int ia = (int) (A + integerPart * Math.pow(10, aL));

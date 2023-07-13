@@ -65,6 +65,17 @@ public class RecurringDecimalTest extends BaseUnitTest {
 						.toString(StringTemplate.giacTemplate),
 				is("(611)/(495)"));
 	}
+	@Test
+	public void testToStringWithLeadingZeros() {
+		assertThat(parse("1.020\u03053\u0305").toString(StringTemplate.defaultTemplate),
+				is("1.020\u03053\u0305"));
+		assertThat(parse("1.000020\u03050\u03050\u03053\u0305").toString(StringTemplate.defaultTemplate),
+				is("1.000020\u03050\u03050\u03053\u0305"));
+	}
+
+	private RecurringDecimal parse(String str) {
+		return RecurringDecimal.parse(getKernel(), getLocalization(), str, false);
+	}
 
 	private RecurringDecimal createRecurringDecimal(int integerPart, Integer nonRecurringPart,
 			int recurringPart) {

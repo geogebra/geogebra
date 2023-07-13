@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.geogebra.common.kernel.arithmetic.RecurringDecimalProperties.parse;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
@@ -15,15 +16,24 @@ public class RecurringDecimalPropertiesTest extends BaseUnitTest {
 		shouldParseAs("0.3̅", 0, 3);
 	}
 
+	@Test(expected = NumberFormatException.class)
+	public void testInvalidFormats() {
+		parse("3.254̅12", false);
+		parse("3.254̅12̅", false);
+		parse("3.254̅12̅̅", false);
+		parse("3.̅254̅12̅̅", false);
+		parse("0x.wasd̅254̅12̅̅", false);
+	}
+
 	private static void shouldParseAs(String representation, int integerPart,
 			Integer nonRecurringPart,
 			int recurringPart) {
-		assertEquals(RecurringDecimalProperties.parse(representation, false),
+		assertEquals(parse(representation, false),
 				new RecurringDecimalProperties(integerPart, nonRecurringPart, recurringPart));
 	}
 
 	private static void shouldParseAs(String representation, int integerPart, int recurringPart) {
-		assertEquals(RecurringDecimalProperties.parse(representation, false),
+		assertEquals(parse(representation, false),
 				new RecurringDecimalProperties(integerPart, recurringPart));
 	}
 
