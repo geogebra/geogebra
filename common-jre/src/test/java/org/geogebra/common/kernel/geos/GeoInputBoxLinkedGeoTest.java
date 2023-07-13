@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.kernel.geos.GeoInputBox.isGeoLinkable;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -696,5 +697,26 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 				+ "{" + TeXSerializer.PLACEHOLDER + "} \\\\ "
 				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
 				+ " \\end{pmatrix}", inputBox.getText());
+	}
+
+	@Test
+	public void testLinkableGeos() {
+		shouldBeLinkable("(1,1)");
+		add("a=1");
+		shouldBeLinkable("2*a + 3");
+	}
+
+	private void shouldBeLinkable(String command) {
+		assertTrue(isGeoLinkable(add(command)));
+	}
+
+	@Test
+	public void testNonLinkableGeo() {
+		shouldNotBeLinkable("Circle((0,0), 5)");
+		shouldNotBeLinkable("3 * Sequence[10]");
+	}
+
+	private void shouldNotBeLinkable(String command) {
+		assertFalse(isGeoLinkable(add(command)));
 	}
 }

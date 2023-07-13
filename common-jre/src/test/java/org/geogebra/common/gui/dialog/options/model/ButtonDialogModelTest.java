@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import static org.geogebra.common.gui.dialog.ButtonDialogModel.isGeoLinkable;
+import static org.geogebra.common.kernel.geos.GeoInputBox.isGeoLinkable;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

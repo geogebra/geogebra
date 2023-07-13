@@ -17,10 +17,9 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
@@ -153,30 +152,10 @@ public class ButtonDialogModel {
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
 		for (GeoElement geo : sortedSet) {
-			if (isGeoLinkable(geo)) {
+			if (GeoInputBox.isGeoLinkable(geo)) {
 				options.add(geo);
 			}
 		}
 		return options;
-	}
-
-	/**
-	 *
-	 * @param geo to check.
-	 * @return if geo is linkable to inputBox.
-	 */
-	public static boolean isGeoLinkable(GeoElementND geo) {
-		if (geo.isGeoImage() || geo.isGeoButton() || geo.isGeoBoolean()) {
-			return false;
-		}
-		return !hasCommand(geo.getDefinition()) && geo.getParentAlgorithm() == null;
-	}
-
-	private static boolean hasCommand(ExpressionNode node) {
-		return node != null && node.inspect(
-			t -> {
-				return t.wrap().isTopLevelCommand();
-			}
-		);
 	}
 }
