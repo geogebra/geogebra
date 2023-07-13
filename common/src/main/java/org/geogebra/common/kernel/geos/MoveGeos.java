@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Library class for moving geos by drag
@@ -119,8 +120,11 @@ public class MoveGeos {
 		}
 	}
 
-	private static boolean isListElementsMoveable(GeoList geo, EuclidianView view) {
-		return !geo.isLocked() && geo.hasMoveableInputPoints(view);
+	static boolean isListElementsMoveable(GeoList list, EuclidianView view) {
+		if (list.isLocked()) {
+			return false;
+		}
+		return !list.isLocked() && list.getElementType() == GeoClass.SEGMENT;
 	}
 
 	/**

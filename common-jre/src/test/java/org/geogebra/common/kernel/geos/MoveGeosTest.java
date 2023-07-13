@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,5 +80,11 @@ public class MoveGeosTest extends BaseUnitTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		MoveGeos.addWithSiblingsAndChildNodes(list, geos, getApp().getActiveEuclidianView());
 		assertEquals(Arrays.asList(A, B), geos);
+	}
+
+	@Test
+	public void testIsListElementsMoveable() {
+		GeoList list = add("{(1,1)}");
+		assertFalse(MoveGeos.isListElementsMoveable(list, getApp().getActiveEuclidianView()));
 	}
 }
