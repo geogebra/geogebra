@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Library class for moving geos by drag
@@ -94,8 +93,7 @@ public class MoveGeos {
 	static void addWithSiblingsAndChildNodes(GeoElement geo, ArrayList<GeoElement> geos,
 			EuclidianView view) {
 		if (!geos.contains(geo)) {
-			if (!geo.isMoveable() && !isOutputOfTranslate(geo)
-					&& (!geo.isGeoList() || isListElementsMoveable((GeoList) geo, view))) {
+			if (!geo.isMoveable() && !isOutputOfTranslate(geo) && !geo.isGeoList()) {
 				ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
 				if (freeInputs != null && !freeInputs.isEmpty()) {
 					for (GeoElementND point: freeInputs) {
@@ -118,13 +116,6 @@ public class MoveGeos {
 			}
 
 		}
-	}
-
-	static boolean isListElementsMoveable(GeoList list, EuclidianView view) {
-		if (list.isLocked()) {
-			return false;
-		}
-		return !list.isLocked() && list.getElementType() == GeoClass.SEGMENT;
 	}
 
 	/**
@@ -292,7 +283,7 @@ public class MoveGeos {
 		}
 
 		if (movedGeo) {
-			moveObjectsUpdateList.add(geo);
+			addWithFreePointsToUpdateList(view, geo);
 		}
 		if (changedPosition) {
 			geo.updateVisualStyleRepaint(GProperty.POSITION);
@@ -300,8 +291,33 @@ public class MoveGeos {
 		return movedGeo || changedPosition;
 	}
 
+	private static void addWithFreePointsToUpdateList(EuclidianView view, GeoElement geo) {
+		moveObjectsUpdateList.add(geo);
+		ArrayList<GeoElementND> freeInputPoints = geo.getFreeInputPoints(view);
+		if (freeInputPoints != null) {
+			for (GeoElementND point: freeInputPoints) {
+				moveObjectsUpdateList.add((GeoElement) point);
+			}
+		}
+	}
+
 	private static boolean isOutputOfTranslate(GeoElement geo1) {
 		return geo1.isTranslateable()
 				&& geo1.getParentAlgorithm() instanceof AlgoTranslate;
+	}
+
+	/**
+	 * Check if geos ar about to update.
+	 * For testing only.
+	 * @param geos to check.
+	 * @return
+	 */
+	static boolean updateListHave(GeoElement... geos) {
+		for (GeoElement geo: geos) {
+			if (!moveObjectsUpdateList.contains(geo)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

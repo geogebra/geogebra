@@ -2,12 +2,11 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint2D;
@@ -65,26 +64,22 @@ public class MoveGeosTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testAddWithSiblingsAndChildNodesWithPoints() {
+	public void testListElementsUpdatedAfterMove() {
 		GeoList list = add("{(1, 1), (3, 4), (5, 6)}");
-		ArrayList<GeoElement> geos = new ArrayList<>();
-		MoveGeos.addWithSiblingsAndChildNodes(list, geos, getApp().getActiveEuclidianView());
-		assertEquals(list.elements().collect(Collectors.toList()), geos);
+		Coords dummyCoords = new Coords(7, 7, 7);
+		MoveGeos.moveObjects(Collections.singletonList(list), new Coords(1, 1, 0),
+				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
+		assertTrue(MoveGeos.updateListHave(list, list.get(0), list.get(1), list.get(2)));
 	}
 
 	@Test
-	public void testMovingDependentListWithSegment() {
+	public void testSegmentEndPointsUpdatedAfterMove() {
 		GeoPoint A = add("A=(5, 6)");
 		GeoPoint B = add("B=(6, 6)");
 		GeoList list = add("{Segment(A, B)}");
-		ArrayList<GeoElement> geos = new ArrayList<>();
-		MoveGeos.addWithSiblingsAndChildNodes(list, geos, getApp().getActiveEuclidianView());
-		assertEquals(Arrays.asList(A, B), geos);
-	}
-
-	@Test
-	public void testIsListElementsMoveable() {
-		GeoList list = add("{(1,1)}");
-		assertFalse(MoveGeos.isListElementsMoveable(list, getApp().getActiveEuclidianView()));
+		Coords dummyCoords = new Coords(7, 7, 7);
+		MoveGeos.moveObjects(Collections.singletonList(list), new Coords(1, 1, 0),
+				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
+		assertTrue(MoveGeos.updateListHave(list, A, B));
 	}
 }
