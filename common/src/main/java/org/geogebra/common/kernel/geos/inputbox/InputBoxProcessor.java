@@ -27,7 +27,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Updates linked element for an input box from user input
@@ -144,9 +143,7 @@ public class InputBoxProcessor {
 		if (linkedGeo.isGeoText()) {
 			// set content first, make independent later, otherwise there is a conflict
 			// between Enter and blur handlers in Web
-			String editorInput = content.getEditorInput();
-			editorInput = editorInput.replace(Unicode.MINUS, '-');
-			((GeoText) linkedGeo).setTextString(editorInput);
+			((GeoText) linkedGeo).setTextString(content.getEditorInput());
 			makeGeoIndependent();
 			linkedGeo.updateRepaint();
 			return;
