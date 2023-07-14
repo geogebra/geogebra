@@ -59,7 +59,7 @@ public class UndoManagerW extends DefaultUndoManager {
 
 			// load undo info
 			app.getEventDispatcher().disableListeners();
-			processXML(tempXML, false);
+			construction.processXML(tempXML, false, null);
 			app.getEventDispatcher().enableListeners();
 
 			app.getActiveEuclidianView().invalidateDrawableList();

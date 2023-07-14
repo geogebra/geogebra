@@ -798,12 +798,14 @@ public abstract class GlobalKeyDispatcher {
 		// needed for detached views and MacOS
 		// Ctrl + Z: Undo
 		case Z:
-			if (app.getGuiManager() != null) {
+			if (app.isUndoRedoEnabled()) {
+				app.setWaitCursor();
 				if (isShiftDown) {
-					app.getGuiManager().redo();
+					app.getKernel().redo();
 				} else {
-					app.getGuiManager().undo();
+					app.getKernel().undo();
 				}
+				app.setDefaultCursor();
 			}
 			consumed = true;
 			break;
@@ -849,11 +851,12 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case Y:
-			if (!isShiftDown && app.getGuiManager() != null) {
+			if (!isShiftDown && app.isUndoRedoEnabled()) {
 				// needed for detached views and MacOS
 				// Cmd + Y: Redo
-
-				app.getGuiManager().redo();
+				app.setWaitCursor();
+				app.getKernel().redo();
+				app.setDefaultCursor();
 				consumed = true;
 			}
 			break;
