@@ -779,6 +779,21 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	/**
+	 * Sets path parameter to either start or end of loop
+	 * depending on direction
+	 * @param a 0 or lastIndex in loop
+	 */
+	@Override
+	public void resetPathParameterLoop(double a) {
+		PathParameter parameter = getPathParameter();
+		parameter.t = a;
+
+		// update point relative to path
+		path.pathChanged(this);
+		updateCoords();
+	}
+
+	/**
 	 * Returns true if this point's path is a circle or ellipse
 	 *
 	 * public boolean hasAnglePathParameter() { return (path != null) && (path

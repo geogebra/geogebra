@@ -1498,8 +1498,20 @@ public abstract class GlobalKeyDispatcher {
 			else if (geo instanceof GeoPointND) {
 				GeoPointND p = (GeoPointND) geo;
 				if (p.isPointOnPath()) {
-					p.addToPathParameter(
-							changeVal * p.getAnimationStep());
+					double nextIndex = p.getPathParameter().t;
+					if (p.getPath() instanceof GeoList) {
+						int lastIndex = ((GeoList) p.getPath()).size() - 1;
+						if (nextIndex == 0 && changeVal < 0) {
+							p.resetPathParameterLoop(lastIndex);
+						} else if (nextIndex == lastIndex && changeVal > 0) {
+							p.resetPathParameterLoop(0);
+						} else {
+							p.addToPathParameter(changeVal);
+						}
+					} else {
+						p.addToPathParameter(changeVal * p.getAnimationStep());
+					}
+
 					ScreenReader.readGeoMoved((GeoElement) p);
 					hasUnsavedGeoChanges = true;
 				}
