@@ -7,82 +7,11 @@ import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class RecurringDecimalProperties {
+public class RecurringDecimalModel {
 	private boolean percent = false;
 	int integerPart;
 	private DecimalPart nonRecurring;
 	private DecimalPart recurring;
-
-	static class DecimalPart {
-		Integer value;
-		int length;
-
-		public DecimalPart() {
-			value = null;
-			length = 0;
-		}
-
-		public DecimalPart(String description) {
-			this(Integer.parseInt(description), description.length());
-		}
-
-		public DecimalPart(Integer value, int length) {
-			this(value);
-			this.length = length;
-		}
-
-		public DecimalPart(Integer value) {
-			this.value = value;
-			length = lengthWithoutLeadingZeros();
-		}
-
-		private int lengthWithoutLeadingZeros() {
-			return value != null && value != 0 ? (int) (Math.log10(value) + 1) : 1;
-		}
-
-		int leadingZeroCount() {
-			return length - lengthWithoutLeadingZeros();
-		}
-
-		public void appendWithLeadingZeros(StringBuilder sb) {
-			if (value == null) {
-				return;
-			}
-			for (int i = 0; i < leadingZeroCount(); i++) {
-				sb.append("0");
-			}
-			sb.append(value);
-		}
-
-		@Override
-		public String toString() {
-			return value != null ? "DecimalPart{" +
-					"value=" + value +
-					", length=" + length +
-					'}' : "";
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (!(o instanceof DecimalPart)) {
-				return false;
-			}
-			DecimalPart that = (DecimalPart) o;
-			return length == that.length && Objects.equals(value, that.value);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(value, length);
-		}
-
-		public int value() {
-			return value != null ? value : 0;
-		}
-	}
 
 	/**
 	 * Constructor with no non-recurring part.
@@ -90,7 +19,7 @@ public class RecurringDecimalProperties {
 	 * @param integerPart of the recurring decimal number
 	 * @param recurringPart of the recurring decimal number.
 	 */
-	public RecurringDecimalProperties(int integerPart, int recurringPart) {
+	public RecurringDecimalModel(int integerPart, int recurringPart) {
 		this(integerPart, null, recurringPart);
 	}
 
@@ -100,7 +29,7 @@ public class RecurringDecimalProperties {
 	 * @param nonRecurringPart of the recurring decimal number. It can be null.
 	 * @param recurringPart of the recurring decimal number.
 	 */
-	public RecurringDecimalProperties(int integerPart, Integer nonRecurringPart,
+	public RecurringDecimalModel(int integerPart, Integer nonRecurringPart,
 			int recurringPart) {
 		this.integerPart = integerPart;
 		this.nonRecurring = nonRecurringPart != null ? new DecimalPart(nonRecurringPart)
@@ -108,19 +37,19 @@ public class RecurringDecimalProperties {
 		this.recurring = new DecimalPart(recurringPart);
 	}
 
-	public RecurringDecimalProperties(boolean percent) {
+	public RecurringDecimalModel(boolean percent) {
 		this.percent = percent;
 	}
 
 	/**
-	 * Parse RecurringDecimalProperties from the string representation of RecurringDecimal.
+	 * Parse RecurringDecimalModel from the string representation of RecurringDecimal.
 	 *
 	 * @param representation of the recurring decimal as a string.
 	 * @param percent if the value is meant in percent
-	 * @return the parsed RecurringDecimalProperties object.
+	 * @return the parsed model.
 	 */
-	public static RecurringDecimalProperties parse(String representation, boolean percent) {
-		RecurringDecimalProperties properies = new RecurringDecimalProperties(percent);
+	public static RecurringDecimalModel parse(String representation, boolean percent) {
+		RecurringDecimalModel properies = new RecurringDecimalModel(percent);
 		int point = representation.indexOf('.');
 		int overline = representation.indexOf(Unicode.OVERLINE);
 		properies.integerPart = (int) StringUtil.parseDouble(representation.substring(0, point));
@@ -161,11 +90,11 @@ public class RecurringDecimalProperties {
 			return true;
 		}
 
-		if (!(o instanceof RecurringDecimalProperties)) {
+		if (!(o instanceof RecurringDecimalModel)) {
 			return false;
 		}
 
-		RecurringDecimalProperties that = (RecurringDecimalProperties) o;
+		RecurringDecimalModel that = (RecurringDecimalModel) o;
 		return integerPart == that.integerPart && (
 				(nonRecurring == null && that.nonRecurring == null)
 						|| (nonRecurring.equals(that.nonRecurring)))

@@ -13,24 +13,24 @@ import org.geogebra.common.main.MyError;
  */
 public class RecurringDecimal extends MyDouble {
 
-	private RecurringDecimalProperties properties;
+	private RecurringDecimalModel model;
 
 	/**
 	 * @param kernel Kernel
-	 * @param properties of the recurring decimal
+	 * @param model of the recurring decimal
 	 */
-	public RecurringDecimal(Kernel kernel, RecurringDecimalProperties properties) {
-		super(kernel, properties.toDouble());
-		this.properties = properties;
+	public RecurringDecimal(Kernel kernel, RecurringDecimalModel model) {
+		super(kernel, model.toDouble());
+		this.model = model;
 	}
 
 	public RecurringDecimal(Kernel kernel, int integerPart, Integer nonRecurringPart,
 			int recurringPart) {
-		this(kernel, new RecurringDecimalProperties(integerPart, nonRecurringPart, recurringPart));
+		this(kernel, new RecurringDecimalModel(integerPart, nonRecurringPart, recurringPart));
 	}
 
 	public double toDouble() {
-		return properties.toDouble();
+		return model.toDouble();
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class RecurringDecimal extends MyDouble {
 	 */
 	public RecurringDecimal(RecurringDecimal rd) {
 		super(rd);
-		this.properties = rd.properties;
+		this.model = rd.model;
 	}
 
 	/**
@@ -68,8 +68,8 @@ public class RecurringDecimal extends MyDouble {
 	public static void asFraction(ExpressionValue[] parts, ExpressionNode expr) {
 		Kernel kernel = expr.getKernel();
 		RecurringDecimal rd = (RecurringDecimal) expr.unwrap();
-		parts[0] = new MyDouble(kernel, rd.properties.numerator());
-		parts[1] = new MyDouble(kernel, rd.properties.denominator());
+		parts[0] = new MyDouble(kernel, rd.model.numerator());
+		parts[1] = new MyDouble(kernel, rd.model.denominator());
 	}
 
 	@Override
@@ -88,14 +88,14 @@ public class RecurringDecimal extends MyDouble {
 	public boolean equals(Object o) {
 		if (o instanceof RecurringDecimal) {
 			return super.equals(o)
-					&& ((RecurringDecimal) o).properties.equals(this.properties);
+					&& ((RecurringDecimal) o).model.equals(this.model);
 		}
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), properties);
+		return Objects.hash(super.hashCode(), model);
 	}
 
 	/**
@@ -112,11 +112,11 @@ public class RecurringDecimal extends MyDouble {
 		return new RecurringDecimal(kernel, parseProperties(loc, str, percent));
 	}
 
-	private static RecurringDecimalProperties parseProperties(Localization loc, String str,
+	private static RecurringDecimalModel parseProperties(Localization loc, String str,
 			boolean percent) {
 		StringBuilder sb = serializeDigits(str, true);
 		try {
-			return RecurringDecimalProperties.parse(sb.toString(), percent);
+			return RecurringDecimalModel.parse(sb.toString(), percent);
 		} catch (NumberFormatException e) {
 			throw new MyError(loc, MyError.Errors.InvalidInput, str);
 		}
@@ -127,7 +127,7 @@ public class RecurringDecimal extends MyDouble {
 		if (tpl.hasType(StringType.GIAC)) {
 			return toFraction(tpl);
 		}
-		return properties.toString(tpl);
+		return model.toString(tpl);
 	}
 
 	@Override
