@@ -1,5 +1,8 @@
 package org.geogebra.web.html5.gui.laf;
 
+import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.gwtproject.user.client.ui.Button;
+
 /**
  * Controller for sign in dialog
  */
@@ -10,8 +13,7 @@ public interface SignInControllerI {
 	void login();
 
 	/**
-	 * Log in initiated by the app, can't open popups
+	 * Actively listen for cookie change
 	 */
-	void loginFromApp();
-
+	void initLoginTimer();
 }

@@ -5,12 +5,9 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.gwtutil.Cookies;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.ggtapi.StaticFileUrls;
 import org.gwtproject.timer.client.Timer;
-import org.gwtproject.user.client.ui.Button;
 
 /**
  * Default sign in button: opens GGB signin in a popup.
@@ -62,37 +59,9 @@ public class SignInController implements EventRenderable, SignInControllerI {
 		}
 	}
 
-	/**
-	 * @return sign in button with text
-	 */
-	public Button getLoginTextButton() {
-		Button button = new Button(app.getLocalization().getMenu("SignIn"));
-		button.getElement().setAttribute("type", "button");
-		button.addStyleName("signInButton");
-		button.addClickHandler(event -> {
-			login();
-			initLoginTimer();
-		});
-		return button;
-	}
 
-	/**
-	 * @return sign in button with icon for small view
-	 */
-	public StandardButton getLoginIconButton() {
-		StandardButton button = new StandardButton(MaterialDesignResources.INSTANCE.login(), 24);
-		button.addStyleName("signInIcon");
-		button.addFastClickHandler(event -> {
-			login();
-			initLoginTimer();
-		});
-		return button;
-	}
-
-	/**
-	 * Actively listen for cookie change
-	 */
-	protected void initLoginTimer() {
+	@Override
+	public void initLoginTimer() {
 		if (delay > 0) {
 			loginChecker = new Timer() {
 				private String oldCookie = null;
@@ -101,18 +70,12 @@ public class SignInController implements EventRenderable, SignInControllerI {
 				public void run() {
 					String cookie = Cookies.getCookie("SSID");
 					if (cookie != null && !cookie.equals(oldCookie)) {
-						app.getLoginOperation().getGeoGebraTubeAPI()
-								.performCookieLogin(app.getLoginOperation());
+						app.getLoginOperation().passiveLogin();
 						oldCookie = cookie;
 					}
 				}
 			};
 			loginChecker.scheduleRepeating(delay);
 		}
-	}
-
-	@Override
-	public void loginFromApp() {
-		// needs to open iframe or redirect page: not supported by default
 	}
 }

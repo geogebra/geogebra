@@ -10,6 +10,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.analytics.LoginAnalytics;
+import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
@@ -152,7 +153,12 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public void passiveLogin() {
 		model.setLoginStarted();
-		processCookie(true);
+		if (!app.isMebis()) {
+			String cookie = Cookies.getCookie("SSID");
+			if (cookie != null) {
+				doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
+			}
+		}
 	}
 
 	@Override
