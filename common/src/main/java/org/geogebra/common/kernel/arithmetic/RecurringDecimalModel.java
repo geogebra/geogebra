@@ -71,7 +71,7 @@ public class RecurringDecimalModel {
 	}
 
 	private static boolean isOverlineStringValid(String overlined) {
-		if (overlined.length() % 2 == 1) {
+		if ((overlined.length() & 1) == 1) {
 			return false;
 		}
 
@@ -97,7 +97,7 @@ public class RecurringDecimalModel {
 		RecurringDecimalModel that = (RecurringDecimalModel) o;
 		return integerPart == that.integerPart && (
 				(nonRecurring == null && that.nonRecurring == null)
-						|| (nonRecurring.equals(that.nonRecurring)))
+						|| (nonRecurring != null && nonRecurring.equals(that.nonRecurring)))
 				&& recurring.equals(that.recurring);
 	}
 
@@ -133,7 +133,7 @@ public class RecurringDecimalModel {
 			sb.append(recurring.value);
 			sb.append("}");
 		} else {
-			for (int i=0; i < recurring.leadingZeroCount(); i++) {
+			for (int i = 0; i < recurring.leadingZeroCount(); i++) {
 				sb.append("0");
 				sb.append(Unicode.OVERLINE);
 			}
@@ -157,8 +157,7 @@ public class RecurringDecimalModel {
 	 * @return numerator of the fraction form.
 	 */
 	public int numerator() {
-		int iap = (int) (recurring.value() +
-				nonRecurring.value() * Math.pow(10, recurring.length)
+		int iap = (int) (recurring.value() + nonRecurring.value() * Math.pow(10, recurring.length)
 				+ integerPart * Math.pow(10, recurring.length + nonRecurring.length));
 		int ia = (int) (nonRecurring.value() + integerPart * Math.pow(10, nonRecurring.length));
 		return iap - ia;
@@ -170,7 +169,7 @@ public class RecurringDecimalModel {
 	 */
 	public int denominator() {
 		int nines = recurring.length == 0 ? 1 : (int) (Math.pow(10, recurring.length) - 1);
-		int tens = 	nonRecurring.length == 0 ? 1 : (int) (Math.pow(10, nonRecurring.length));
+		int tens = nonRecurring.length == 0 ? 1 : (int) (Math.pow(10, nonRecurring.length));
 		return nines * tens;
 	}
 
