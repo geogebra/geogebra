@@ -67,7 +67,7 @@ public class ModeDeleteTest extends BaseControllerTest {
 		assertEquals("Polyline[(2.2000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
 						+ " (4.0000E0,-2.0000E0), (?,?), true]",
 				getDefinition());
-		getConstruction().undo();
+		getKernel().undo();
 		assertEquals("Polyline[(2.0000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
 						+ " (4.0000E0,-2.0000E0), (?,?), true]",
 				getDefinition());
@@ -94,7 +94,7 @@ public class ModeDeleteTest extends BaseControllerTest {
 		assertEquals("Polyline[(2.8000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
 						+ " (4.0000E0,-2.0000E0), (?,?), true]",
 				getDefinition());
-		getConstruction().undo();
+		getKernel().undo();
 		assertEquals("Polyline[(2.0000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
 						+ " (4.0000E0,-2.0000E0), (?,?), true]",
 				getDefinition());
@@ -123,9 +123,9 @@ public class ModeDeleteTest extends BaseControllerTest {
 		checkContentLabels("A", "B");
 		dragLinear(51, 100, 251, 100);
 		checkContentLabels();
-		getConstruction().undo();
+		getKernel().undo();
 		checkContentLabels("A", "B");
-		getConstruction().undo();
+		getKernel().undo();
 		checkContentLabels("A", "B", "C", "D");
 	}
 

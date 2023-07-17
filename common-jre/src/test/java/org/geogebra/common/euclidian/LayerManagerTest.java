@@ -59,9 +59,9 @@ public class LayerManagerTest extends BaseControllerTest {
 	public void testMoveForwardWithUndo() {
 		layerManager.moveForward(asList(geos[3], geos[5], geos[9]));
 		assertSorted(geos, asList(0d, 1d, 2d, 4d, 6d, 7d, 8d, 9d, 10d, 11d));
-		getConstruction().undo();
+		getKernel().undo();
 		assertSorted(geos, asList(0d, 1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d));
-		getConstruction().redo();
+		getKernel().redo();
 		assertSorted(geos, asList(0d, 1d, 2d, 4d, 6d, 7d, 8d, 9d, 10d, 11d));
 		layerManager.moveForward(Collections.singletonList(geos[0]));
 		assertSorted(geos, asList(1d, 1.5d, 2d, 4d, 6d, 7d, 8d, 9d, 10d, 11d));
@@ -73,9 +73,9 @@ public class LayerManagerTest extends BaseControllerTest {
 	public void testMoveForwardWithUndoSingle() {
 		layerManager.moveForward(asList(geos[3]));
 		assertSorted(geos, asList(0d, 1d, 2d, 4d, 4.5d, 5d, 6d, 7d, 8d, 9d));
-		getConstruction().undo();
+		getKernel().undo();
 		assertSorted(geos, asList(0d, 1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d));
-		getConstruction().redo();
+		getKernel().redo();
 		layerManager.moveForward(Collections.singletonList(geos[9]));
 		assertSorted(geos, asList(0d, 1d, 2d, 4d, 4.5d, 5d, 6d, 7d, 8d, 9d));
 	}
@@ -87,9 +87,9 @@ public class LayerManagerTest extends BaseControllerTest {
 
 		layerManager.moveBackward(asList(geos[3], geos[5], geos[6]));
 		assertSorted(geos, asList(-1.0, 0.0, 1d, 1.25, 1.5, 1.75, 2d, 4d, 7d, 8d));
-		getConstruction().undo();
+		getKernel().undo();
 		assertSorted(geos, asList(-1.0d, 0.0d, 1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d));
-		getConstruction().redo();
+		getKernel().redo();
 		assertSorted(geos, asList(-1.0, 0.0, 1d, 1.25, 1.5, 1.75, 2d, 4d, 7d, 8d));
 	}
 

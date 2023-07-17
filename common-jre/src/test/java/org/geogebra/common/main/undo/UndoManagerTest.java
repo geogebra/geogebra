@@ -53,11 +53,11 @@ public class UndoManagerTest extends BaseUnitTest {
 		pt2.remove();
 		getConstruction().getUndoManager().removeActionsWithLabel("B");
 		assertThat(getUndoManager().undoPossible(), is(true));
-		getConstruction().undo();
+		getKernel().undo();
 		assertThat(getUndoManager().undoPossible(), is(false));
 		assertThat(getUndoManager().redoPossible(), is(true));
 		assertThat(lookup("A"), nullValue());
-		getConstruction().redo();
+		getKernel().redo();
 		assertThat(lookup("A"), hasValue("(1, 1)"));
 	}
 

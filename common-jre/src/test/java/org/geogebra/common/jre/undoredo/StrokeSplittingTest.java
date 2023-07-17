@@ -99,22 +99,22 @@ public class StrokeSplittingTest extends BaseControllerTest {
 		int undoPoints = getConstruction().getUndoManager().getHistorySize();
 		assertEquals(undoPoints, 6);
 		String s3Original = lookup("stroke3").getDefinition(StringTemplate.testTemplate);;
-		getConstruction().undo(); //undos dragging
+		getKernel().undo(); //undos dragging
 		String s3Dragged = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		assertNotEquals(s3Original, s3Dragged);
-		getConstruction().undo(); //undos split stroke
+		getKernel().undo(); //undos split stroke
 		assertEquals(getConstruction().getUndoManager().getHistorySize(), 4);
-		getConstruction().undo();
-		getConstruction().undo();
-		getConstruction().undo();
-		getConstruction().undo();
+		getKernel().undo();
+		getKernel().undo();
+		getKernel().undo();
+		getKernel().undo();
 		assertEquals(getConstruction().getUndoManager().getHistorySize(), 0);
-		getConstruction().redo();
-		getConstruction().redo();
-		getConstruction().redo();
-		getConstruction().redo();
-		getConstruction().redo();
-		getConstruction().redo();
+		getKernel().redo();
+		getKernel().redo();
+		getKernel().redo();
+		getKernel().redo();
+		getKernel().redo();
+		getKernel().redo();
 		assertEquals(getConstruction().getUndoManager().getHistorySize(), 6);
 		assertThat(lookup("stroke3"), notNullValue());
 	}
@@ -126,16 +126,16 @@ public class StrokeSplittingTest extends BaseControllerTest {
 		dragStart(250, 100);
 		dragEnd(400, 200);
 		String s2Dragged = lookup("stroke2").getDefinition(StringTemplate.testTemplate);
-		getConstruction().undo();
+		getKernel().undo();
 		String s2Original = lookup("stroke2").getDefinition(StringTemplate.testTemplate);
 		assertNotEquals(s2Dragged, s2Original);
-		getConstruction().undo();
+		getKernel().undo();
 		assertThat(lookup("stroke2"), nullValue());
-		getConstruction().undo();
+		getKernel().undo();
 		assertThat(lookup("stroke1"), nullValue());
-		getConstruction().redo();
-		getConstruction().redo();
-		getConstruction().redo();
+		getKernel().redo();
+		getKernel().redo();
+		getKernel().redo();
 		assertThat(lookup("stroke2"), notNullValue());
 	}
 
@@ -157,16 +157,16 @@ public class StrokeSplittingTest extends BaseControllerTest {
 		ArrayList<GeoElement> geos = selection.getGeos();
 		EuclidianStyleBarStatic.applyLineStyle(4, 10, getApp(), geos);
 
-		getConstruction().undo();
+		getKernel().undo();
 		assertNotEquals(30, lookup("stroke2").getLineType());
-		getConstruction().undo();
+		getKernel().undo();
 		assertThat(lookup("stroke2"), nullValue());
-		getConstruction().undo();
+		getKernel().undo();
 		assertThat(lookup("stroke1"), nullValue());
-		getConstruction().redo();
-		getConstruction().redo();
+		getKernel().redo();
+		getKernel().redo();
 		assertNotEquals(30, lookup("stroke2").getLineType());
-		getConstruction().redo();
+		getKernel().redo();
 		assertEquals(30, lookup("stroke2").getLineType());
 	}
 
