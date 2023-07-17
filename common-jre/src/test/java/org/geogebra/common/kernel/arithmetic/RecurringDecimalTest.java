@@ -22,6 +22,12 @@ public class RecurringDecimalTest extends BaseUnitTest {
 		shouldBeAsFraction("1.2\u03053\u03054\u0305", "137 / 111");
 	}
 
+	@Test
+	public void testToFractionWithLeadingZeros() {
+		shouldBeAsFraction("0.03\u0305", "1 / 30");
+		shouldBeAsFraction("0.0\u03053\u0305", "1 / 33");
+	}
+
 	private void shouldBeAsFraction(String input, String fraction) {
 		RecurringDecimal recurringDecimal = new RecurringDecimal(getKernel(),
 				RecurringDecimalProperties.parse(input, false));
