@@ -79,6 +79,9 @@ public class RecurringDecimalTest extends BaseUnitTest {
 		assertThat(parse("1.000020\u03050\u03050\u03053\u0305")
 						.toString(StringTemplate.defaultTemplate),
 				is("1.000020\u03050\u03050\u03053\u0305"));
+		assertThat(parse("1.03040\u03055\u0305")
+				.toString(StringTemplate.latexTemplate),
+				is("1.0304\\overline{05}"));
 	}
 
 	private RecurringDecimal parse(String str) {

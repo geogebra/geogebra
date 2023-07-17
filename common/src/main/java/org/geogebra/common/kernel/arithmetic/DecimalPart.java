@@ -74,4 +74,31 @@ class DecimalPart {
 	 int value() {
 		return value != null ? value : 0;
 	}
+
+	public void append(StringBuilder sb) {
+		append(sb, ' ');
+	}
+
+	public void append(StringBuilder sb, char format) {
+		if (value == null) {
+			return;
+		}
+
+		for (int i = 0; i < leadingZeroCount(); i++) {
+			sb.append("0");
+			if (format != ' ') {
+				sb.append(format);
+			}
+		}
+
+		if (format != ' ') {
+			String valueString = String.valueOf(value);
+			for (int i = 0; i < valueString.length(); i++) {
+				sb.append(valueString.charAt(i));
+				sb.append(format);
+			}
+		} else {
+			sb.append(value);
+		}
+	}
 }

@@ -39,9 +39,10 @@ public class RecurringDecimalModelTest extends BaseUnitTest {
 
 	@Test
 	public void testToString() {
-		RecurringDecimalModel properties =
+		RecurringDecimalModel model =
 				new RecurringDecimalModel(1, 2, 34);
-		assertEquals("1.23̅4̅", properties.toString(StringTemplate.defaultTemplate));
-		assertEquals("1.2\\overline{34}", properties.toString(StringTemplate.latexTemplate));
+		assertEquals("1.23̅4̅", model.toString(StringTemplate.defaultTemplate));
+		assertEquals("1.2\\overline{34}", model.toString(StringTemplate.latexTemplate));
 	}
+
 }

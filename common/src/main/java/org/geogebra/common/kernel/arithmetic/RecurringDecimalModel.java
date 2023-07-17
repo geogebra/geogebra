@@ -125,26 +125,15 @@ public class RecurringDecimalModel {
 		StringBuilder sb = new StringBuilder();
 		sb.append(integerPart);
 		sb.append(".");
-
-		nonRecurring.appendWithLeadingZeros(sb);
-
+		nonRecurring.append(sb);
 		if (tpl.isLatex()) {
 			sb.append("\\overline{");
-			sb.append(recurring.value);
+			recurring.append(sb);
 			sb.append("}");
 		} else {
-			for (int i = 0; i < recurring.leadingZeroCount(); i++) {
-				sb.append("0");
-				sb.append(Unicode.OVERLINE);
-			}
-
-			String recurringString = String.valueOf(recurring.value);
-			for (int i = 0; i < recurringString.length(); i++) {
-				sb.append(recurringString.charAt(i));
-				sb.append(Unicode.OVERLINE);
-
-			}
+			recurring.append(sb, Unicode.OVERLINE);
 		}
+
 		return sb.toString();
 	}
 
