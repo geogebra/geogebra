@@ -17,6 +17,11 @@ public class RecurringDecimalProperties {
 		Integer value;
 		int length;
 
+		public DecimalPart() {
+			value = null;
+			length = 0;
+		}
+
 		public DecimalPart(String description) {
 			this(Integer.parseInt(description), description.length());
 		}
@@ -32,7 +37,7 @@ public class RecurringDecimalProperties {
 		}
 
 		private int lengthWithoutLeadingZeros() {
-			return value != 0 ? (int) (Math.log10(value) + 1) : 1;
+			return value != null && value != 0 ? (int) (Math.log10(value) + 1) : 1;
 		}
 
 		int leadingZeroCount() {
@@ -40,6 +45,9 @@ public class RecurringDecimalProperties {
 		}
 
 		public void appendWithLeadingZeros(StringBuilder sb) {
+			if (value == null) {
+				return;
+			}
 			for (int i = 0; i < leadingZeroCount(); i++) {
 				sb.append("0");
 			}
@@ -48,10 +56,10 @@ public class RecurringDecimalProperties {
 
 		@Override
 		public String toString() {
-			return "DecimalPart{" +
+			return value != null ? "DecimalPart{" +
 					"value=" + value +
 					", length=" + length +
-					'}';
+					'}' : "";
 		}
 
 		@Override
@@ -69,6 +77,10 @@ public class RecurringDecimalProperties {
 		@Override
 		public int hashCode() {
 			return Objects.hash(value, length);
+		}
+
+		public int value() {
+			return value != null ? value : 0;
 		}
 	}
 
@@ -91,7 +103,8 @@ public class RecurringDecimalProperties {
 	public RecurringDecimalProperties(int integerPart, Integer nonRecurringPart,
 			int recurringPart) {
 		this.integerPart = integerPart;
-		this.nonRecurring = nonRecurringPart != null ? new DecimalPart(nonRecurringPart) : null;
+		this.nonRecurring = nonRecurringPart != null ? new DecimalPart(nonRecurringPart)
+				: new DecimalPart();
 		this.recurring = new DecimalPart(recurringPart);
 	}
 
@@ -115,7 +128,7 @@ public class RecurringDecimalProperties {
 			String nonRec = representation.substring(point + 1, overline - 1);
 			properies.nonRecurring = new DecimalPart(nonRec);
 		} else {
-			properies.nonRecurring = null;
+			properies.nonRecurring = new DecimalPart();
 		}
 
 		String overlined = representation.substring(overline - 1);
@@ -183,9 +196,9 @@ public class RecurringDecimalProperties {
 		StringBuilder sb = new StringBuilder();
 		sb.append(integerPart);
 		sb.append(".");
-		if (nonRecurring != null) {
-			nonRecurring.appendWithLeadingZeros(sb);
-		}
+
+		nonRecurring.appendWithLeadingZeros(sb);
+
 		if (tpl.isLatex()) {
 			sb.append("\\overline{");
 			sb.append(recurring.value);
@@ -215,12 +228,10 @@ public class RecurringDecimalProperties {
 	 * @return numerator of the fraction form.
 	 */
 	public int numerator() {
-		int pL = recurring.length;
-		int aL = nonRecurring == null ? 0 : nonRecurring.length;
-		int A = nonRecurring == null ? 0 : nonRecurring.value;
-		int iap = (int) (recurring.value + A * Math.pow(10, pL)
-				+ integerPart * Math.pow(10, pL + aL));
-		int ia = (int) (A + integerPart * Math.pow(10, aL));
+		int iap = (int) (recurring.value() +
+				nonRecurring.value() * Math.pow(10, recurring.length)
+				+ integerPart * Math.pow(10, recurring.length + nonRecurring.length));
+		int ia = (int) (nonRecurring.value() + integerPart * Math.pow(10, nonRecurring.length));
 		return iap - ia;
 	}
 
@@ -230,8 +241,7 @@ public class RecurringDecimalProperties {
 	 */
 	public int denominator() {
 		int nines = recurring.length == 0 ? 1 : (int) (Math.pow(10, recurring.length) - 1);
-		int tens = nonRecurring == null ||
-				nonRecurring.length == 0 ? 1 : (int) (Math.pow(10, nonRecurring.length));
+		int tens = 	nonRecurring.length == 0 ? 1 : (int) (Math.pow(10, nonRecurring.length));
 		return nines * tens;
 	}
 
