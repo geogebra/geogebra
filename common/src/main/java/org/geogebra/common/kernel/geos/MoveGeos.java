@@ -310,7 +310,7 @@ public class MoveGeos {
 	 * Check if geos ar about to update.
 	 * For testing only.
 	 * @param geos to check.
-	 * @return
+	 * @return if the update list includes all the parameters.
 	 */
 	static boolean updateListHave(GeoElement... geos) {
 		for (GeoElement geo: geos) {

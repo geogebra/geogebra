@@ -54,6 +54,7 @@ public class MoveGeosTest extends BaseUnitTest {
 				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
 		assertThat(list, hasValue("{(2, 2), (4, 5), (6, 7)}"));
 	}
+
 	@Test
 	public void testMoveObjectsWithPointList() {
 		GeoList list = add("{(1, 1), (3, 4), (5, 6)}");
