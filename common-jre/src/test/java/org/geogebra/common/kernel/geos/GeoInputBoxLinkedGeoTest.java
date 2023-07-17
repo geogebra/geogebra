@@ -703,7 +703,10 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void testLinkableGeos() {
 		shouldBeLinkable("(1,1)");
 		add("a=1");
-		shouldBeLinkable("2*a + 3");
+		shouldBeLinkable("2*a+3");
+		shouldBeLinkable("Point(xAxis)");
+		add("poly = Polygon({(0,0),(0,1),(1,1)})");
+		shouldBeLinkable("PointIn(poly)");
 	}
 
 	private void shouldBeLinkable(String command) {
@@ -713,7 +716,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void testNonLinkableGeo() {
 		shouldNotBeLinkable("Circle((0,0), 5)");
-		shouldNotBeLinkable("3 * Sequence[10]");
+		shouldNotBeLinkable("3*Sequence[10]");
 	}
 
 	private void shouldNotBeLinkable(String command) {
