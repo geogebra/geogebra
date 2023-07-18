@@ -68,6 +68,8 @@ public class UndefinedOrEmptyChecker implements Inspecting {
     private boolean hasOperationWithNan(ExpressionNode node) {
         return Operation.LOG.equals(node.getOperation())
                 || Operation.SQRT.equals(node.getOperation())
-                || Operation.CBRT.equals(node.getOperation());
+                || Operation.CBRT.equals(node.getOperation())
+                || Operation.SIN.equals(node.getOperation())
+                || Operation.COS.equals(node.getOperation());
     }
 }
