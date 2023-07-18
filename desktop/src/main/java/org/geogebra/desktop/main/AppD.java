@@ -3502,7 +3502,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * Check if the event is a right clock
+	 * Check if the event is a right click
 	 * @param e event
 	 * @return boolean
 	 */
@@ -3520,29 +3520,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			fakeRightClick = true;
 		}
 
-		/*
-		 * debug("MAC_OS = "+MAC_OS); debug("isMetaDown = "+e.isMetaDown());
-		 * debug("isControlDown ="+e.isControlDown()); debug("isShiftDown = "
-		 * +e.isShiftDown()); debug("isAltDown = "+e.isAltDown()); debug(
-		 * "isAltGrDown ="+e.isAltGraphDown()); debug("isPopupTrigger = "
-		 * +e.isPopupTrigger()); debug("fakeRightClick = "+fakeRightClick);
-		 */
-
-		if (fakeRightClick) {
-			return true;
-		}
-
-		boolean ret =
-				// e.isPopupTrigger() ||
-				(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-						|| (!MAC_OS && e.isMetaDown()); // non-Mac: right click
-														// = meta
-		// click
-
-		// debug("ret = " + ret);
-		return ret;
-		// return e.isMetaDown();
-
+		return fakeRightClick || (MAC_OS && e.isControlDown()) || (!MAC_OS && (e.getModifiersEx()
+				& InputEvent.BUTTON3_DOWN_MASK) == InputEvent.BUTTON3_DOWN_MASK);
 	}
 
 	/**

@@ -315,7 +315,7 @@ public class SpreadsheetMouseListenerD
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = e.isMetaDown() && e.getButton() == MouseEvent.BUTTON3;
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
 			table.getSpreadsheetModeProcessor().stopAutoFunction();

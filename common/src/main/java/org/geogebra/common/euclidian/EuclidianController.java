@@ -9972,14 +9972,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseReleasedND(final AbstractEvent event,
 			boolean mayFocus) {
-		boolean right = app.isRightClick(event);
 		boolean control = app.isControlDown(event);
 		final boolean alt = event.isAltDown();
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
+		boolean rightClick = meta;
 		PointerEventType type = event.getType();
 
 		if (isDraggingOccuredBeyondThreshold()) {
-			if (shouldClearSelectionAfterMove(right)) {
+			if (shouldClearSelectionAfterMove(rightClick)) {
 				clearSelectionsKeepLists(true, true);
 			} else {
 				dontClearSelection = true;
@@ -10008,7 +10008,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 
-		if (this.doubleClickStarted && !isDraggingOccuredBeyondThreshold() && !right) {
+		if (this.doubleClickStarted && !isDraggingOccuredBeyondThreshold() && !rightClick) {
 			wrapMouseclicked(control, 2, type);
 		}
 		this.doubleClickStarted = false;
@@ -10050,7 +10050,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// make sure we start the timer also for single point
 		if (penMode(mode)) {
-			getPen().handleMouseReleasedForPenMode(right, x, y,
+			getPen().handleMouseReleasedForPenMode(rightClick, x, y,
 					numOfTargets > 0);
 			view.invalidateCache();
 			draggingOccured = false;
@@ -10064,7 +10064,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (getMovedGeoPoint() != null) {
-			processReleaseForMovedGeoPoint(right);
+			processReleaseForMovedGeoPoint(rightClick);
 		}
 		if (movedGeoElement instanceof GeoPointND
 				&& movedGeoElement.hasChangeableCoordParentNumbers()
@@ -10086,7 +10086,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		transformCoords();
 		Hits hits = null;
 
-		if (specialRelease(x, y, event, right, alt, control, type)) {
+		if (specialRelease(x, y, event, rightClick, alt, control, type)) {
 			draggingOccured = false;
 			return;
 		}
