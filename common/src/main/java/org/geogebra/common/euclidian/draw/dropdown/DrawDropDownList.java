@@ -196,7 +196,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			drawLabel(g2, geoList, labelText);
 		}
 
-		drawOptions.draw(g2, boxLeft, boxTop + boxHeight);
+		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + 2);
 	}
 
 	private void initScreenLocation() {
