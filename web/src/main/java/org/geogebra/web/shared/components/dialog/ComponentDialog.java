@@ -1,5 +1,6 @@
 package org.geogebra.web.shared.components.dialog;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -19,13 +20,15 @@ import jsinterop.base.Js;
 /**
  * Base dialog material design component
  */
-public class ComponentDialog extends GPopupPanel implements RequiresResize, Persistable {
+public class ComponentDialog extends GPopupPanel implements RequiresResize, Persistable, SetLabels {
 	private FlowPanel dialogContent;
 	private Runnable positiveAction;
 	private Runnable negativeAction;
 	private StandardButton posButton;
 	private StandardButton negButton;
 	private boolean preventHide = false;
+	private final DialogData dialogData;
+	private Label title;
 
 	/**
 	 * base dialog constructor
@@ -37,13 +40,14 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	public ComponentDialog(AppW app, DialogData dialogData, boolean autoHide,
 						   boolean hasScrim) {
 		super(autoHide, app.getAppletFrame(), app);
+		this.dialogData = dialogData;
 		setGlassEnabled(hasScrim);
 		this.setStyleName("dialogComponent");
-		buildDialog(dialogData);
+		buildDialog();
 		app.addWindowResizeListener(this::onResize);
 	}
 
-	private void  buildDialog(DialogData dialogData) {
+	private void  buildDialog() {
 		FlowPanel dialogMainPanel = new FlowPanel();
 		dialogMainPanel.addStyleName("dialogMainPanel");
 
@@ -64,7 +68,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			return;
 		}
 
-		Label title = new Label(getApplication().getLocalization().getMenu(titleTransKey));
+		title = new Label(getApplication().getLocalization().getMenu(titleTransKey));
 		title.setStyleName("dialogTitle");
 		dialogMainPanel.add(title);
 
@@ -259,5 +263,11 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 
 	protected void onEscape() {
 		hide();
+	}
+
+	@Override
+	public void setLabels() {
+		title.setText(app.getLocalization().getMenu(dialogData.getTitleTransKey()));
+		updateBtnLabels(dialogData.getPositiveBtnTransKey(), dialogData.getNegativeBtnTransKey());
 	}
 }
