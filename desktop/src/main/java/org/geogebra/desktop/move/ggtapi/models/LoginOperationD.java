@@ -90,11 +90,4 @@ public class LoginOperationD extends LogInOperation {
 		return getGeoGebraTubeAPI().isAvailable();
 	}
 
-	/**
-	 * @return boolean if the check for the availability of tube is finished
-	 */
-	public boolean isTubeCheckDone() {
-		return getGeoGebraTubeAPI().isCheckDone();
-	}
-
 }
