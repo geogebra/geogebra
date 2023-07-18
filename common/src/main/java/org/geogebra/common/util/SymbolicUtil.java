@@ -2,12 +2,8 @@ package org.geogebra.common.util;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
@@ -15,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
-import org.geogebra.common.plugin.Operation;
 
 public class SymbolicUtil {
 
@@ -71,19 +66,11 @@ public class SymbolicUtil {
 		return symbolic.toValueString(StringTemplate.defaultTemplate);
 	}
 
-	private static boolean isDefined(String valueString) {
-		return !GeoFunction.isUndefined(valueString);
-	}
-
 	/**
-	 * @param symbolic GeoSymbolic input
-	 * @return true if the value of the symbolic is defined
+	 * @param geo - GeoElement to check
+	 * @return true if expression tree contains an undefined variable or empty list
 	 */
-	public static boolean isValueDefined(GeoSymbolic symbolic) {
-		return isDefined(getValueString(symbolic));
-	}
-
-	private static boolean containsUndefinedOrIsEmpty(GeoElement geo) {
+	public static boolean containsUndefinedOrIsEmpty(GeoElement geo) {
 		return geo.inspect(new UndefinedOrEmptyChecker());
 	}
 

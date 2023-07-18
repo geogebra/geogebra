@@ -1495,7 +1495,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("{n ≥ ln(3 / 100) / ln(621 / 625)}"));
 		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
-				equalTo("{n ≥ 546.1445163342}"));
+				equalTo("{n ≥ 546.1445163345}"));
 	}
 
 	@Test
