@@ -671,9 +671,6 @@ public class GeoNumeric extends GeoElement
 				return kernel.format(rd.toDouble(), tpl);
 			}
 		}
-		if (symbolicMode && isRecurringDecimal()) {
-			return RecurringDecimal.toFraction(getDefinition(), tpl);
-		}
 		// in general toFractionString falls back to printing evaluation result if not a fraction
 		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
 		if ((symbolicMode || DoubleUtil.isInteger(value))
@@ -2164,12 +2161,10 @@ public class GeoNumeric extends GeoElement
 	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
 		if (isRecurringDecimal()) {
 			RecurringDecimal rd = asRecurringDecimal();
-			if (symbolicMode) {
-				return substituteNumbers ? kernel.format(rd.toDouble(), tpl)
-						: rd.toFraction(tpl);
+			if (substituteNumbers) {
+				return symbolicMode ? rd.toFraction(tpl) : kernel.format(rd.toDouble(), tpl);
 			} else {
-				return substituteNumbers ? kernel.format(rd.toDouble(), tpl)
-						: rd.toString(tpl);
+				return rd.toString(tpl);
 			}
 		}
 
@@ -2189,6 +2184,6 @@ public class GeoNumeric extends GeoElement
 		if (!isRecurringDecimal()) {
 			return null;
 		}
-		return  (RecurringDecimal) getDefinition().unwrap();
+		return (RecurringDecimal) getDefinition().unwrap();
 	}
 }

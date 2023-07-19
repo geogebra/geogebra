@@ -133,6 +133,17 @@ public class ParserTest {
 				unicode("x (ln(x))^2"));
 	}
 
+	@Test
+	public void testRecurringDecimal() {
+		shouldReparseAs("1.2\u03053.4", unicode("1.2\u0305 * 3.4"));
+		shouldReparseAs("1.2\u030534", unicode("1.2\u0305 * 34"));
+	}
+
+	@Test
+	public void testRecurringDecimalInvalid() {
+		assertThrows(MyError.class, () -> parseExpression("1.2\u030534\u03055"));
+	}
+
 	private void checkSameStructure(String string, String string2) {
 		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));

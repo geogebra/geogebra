@@ -5,83 +5,49 @@ import java.util.Objects;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.StringUtil;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 public class RecurringDecimalModel {
-	private boolean percent = false;
-	int integerPart;
-	private DecimalPart nonRecurring;
-	private DecimalPart recurring;
-
-	/**
-	 * Constructor with no non-recurring part.
-	 *
-	 * @param integerPart of the recurring decimal number
-	 * @param recurringPart of the recurring decimal number.
-	 */
-	public RecurringDecimalModel(int integerPart, int recurringPart) {
-		this(integerPart, null, recurringPart);
-	}
+	protected int integerPart;
+	protected DecimalPart nonRecurring;
+	protected DecimalPart recurring;
 
 	/**
 	 * Constructor
 	 * @param integerPart of the recurring decimal number
-	 * @param nonRecurringPart of the recurring decimal number. It can be null.
+	 * @param nonRecurringPart of the recurring decimal number.
 	 * @param recurringPart of the recurring decimal number.
 	 */
-	public RecurringDecimalModel(int integerPart, Integer nonRecurringPart,
-			int recurringPart) {
+	public RecurringDecimalModel(int integerPart, DecimalPart nonRecurringPart,
+			DecimalPart recurringPart) {
 		this.integerPart = integerPart;
-		this.nonRecurring = nonRecurringPart != null ? new DecimalPart(nonRecurringPart)
-				: new DecimalPart();
-		this.recurring = new DecimalPart(recurringPart);
-	}
-
-	public RecurringDecimalModel(boolean percent) {
-		this.percent = percent;
+		this.nonRecurring = nonRecurringPart;
+		this.recurring = recurringPart;
 	}
 
 	/**
 	 * Parse RecurringDecimalModel from the string representation of RecurringDecimal.
 	 *
-	 * @param representation of the recurring decimal as a string.
-	 * @param percent if the value is meant in percent
+	 * @param preperiod of the recurring decimal as a string.
+	 * @param recurringString the recurring digits, without unicode overlines
 	 * @return the parsed model.
 	 */
-	public static RecurringDecimalModel parse(String representation, boolean percent) {
-		RecurringDecimalModel properies = new RecurringDecimalModel(percent);
-		int point = representation.indexOf('.');
-		int overline = representation.indexOf(Unicode.OVERLINE);
-		properies.integerPart = (int) StringUtil.parseDouble(representation.substring(0, point));
-		if (overline > point + 2) {
-			String nonRec = representation.substring(point + 1, overline - 1);
-			properies.nonRecurring = new DecimalPart(nonRec);
+	public static RecurringDecimalModel parse(String preperiod, String recurringString) {
+		int point = preperiod.indexOf('.');
+		if (point < 0) {
+			throw new NumberFormatException("Missing . in recurring decimal");
+		}
+		// integer part of .3 is 0, for xyz.3 it's xyz
+		int integerPart = point == 0 ? 0
+				: (int) StringUtil.parseDouble(preperiod.substring(0, point));
+		DecimalPart nonRecurring;
+		if (preperiod.length() > point + 1) {
+			String nonRec = preperiod.substring(point + 1);
+			nonRecurring = new DecimalPart(nonRec);
 		} else {
-			properies.nonRecurring = new DecimalPart();
+			nonRecurring = new DecimalPart();
 		}
 
-		String overlined = representation.substring(overline - 1);
-		if (isOverlineStringValid(overlined)) {
-			String recurrinString = overlined.replaceAll(Unicode.OVERLINE + "", "");
-			properies.recurring = new DecimalPart(recurrinString);
-			return properies;
-		}
-
-		throw new NumberFormatException("Invalid recurring number format");
-	}
-
-	private static boolean isOverlineStringValid(String overlined) {
-		if ((overlined.length() & 1) == 1) {
-			return false;
-		}
-
-		for (int i = 0; i < overlined.length() / 2; i++) {
-			if (!StringUtil.isDigit(overlined.charAt(2 * i))
-					|| overlined.charAt(2 * i + 1) != Unicode.OVERLINE) {
-				return false;
-			}
-		}
-		return true;
+		DecimalPart recurring = new DecimalPart(recurringString);
+		return new RecurringDecimalModel(integerPart, nonRecurring, recurring);
 	}
 
 	@Override
@@ -125,20 +91,16 @@ public class RecurringDecimalModel {
 		StringBuilder sb = new StringBuilder();
 		sb.append(integerPart);
 		sb.append(".");
-		nonRecurring.append(sb);
+		nonRecurring.appendPlain(sb);
 		if (tpl.isLatex()) {
 			sb.append("\\overline{");
-			recurring.append(sb);
+			recurring.appendPlain(sb);
 			sb.append("}");
 		} else {
-			recurring.append(sb, Unicode.OVERLINE);
+			recurring.appendOverline(sb);
 		}
 
 		return sb.toString();
-	}
-
-	public boolean isPercent() {
-		return percent;
 	}
 
 	/**
@@ -146,9 +108,9 @@ public class RecurringDecimalModel {
 	 * @return numerator of the fraction form.
 	 */
 	public int numerator() {
-		int iap = (int) (recurring.value() + nonRecurring.value() * Math.pow(10, recurring.length)
-				+ integerPart * Math.pow(10, recurring.length + nonRecurring.length));
+		// variable naming follows https://en.wikipedia.org/wiki/Repeating_decimal#In_compressed_form
 		int ia = (int) (nonRecurring.value() + integerPart * Math.pow(10, nonRecurring.length));
+		int iap = (int) (recurring.value() + ia * Math.pow(10, recurring.length));
 		return iap - ia;
 	}
 
@@ -163,6 +125,6 @@ public class RecurringDecimalModel {
 	}
 
 	public double toDouble() {
-		return numerator() / (denominator() + 0.0);
+		return numerator() / ((double) denominator());
 	}
 }

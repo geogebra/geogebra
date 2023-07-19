@@ -126,9 +126,19 @@ public class GeoNumericTest extends BaseUnitTest {
 	@Test
 	public void testAsRecurringDecimal() {
 		assertThat(this.<GeoNumeric>add("1.02\u03053\u0305").asRecurringDecimal(),
-				is(RecurringDecimal.parse(getKernel(), getLocalization(), "1.02\u03053\u0305",
-						false)));
+				is(RecurringDecimal.parse(getKernel(), "1.0", "23")));
 		assertThat(this.<GeoNumeric>add("1.234").asRecurringDecimal(), nullValue());
 		assertThat(this.<GeoNumeric>add("12 / 34").asRecurringDecimal(), nullValue());
+	}
+
+	@Test
+	public void testFormulaString() {
+		GeoNumeric recurring = add("1 + 0.3\u0305");
+		StringTemplate tpl = StringTemplate.defaultTemplate;
+		assertThat(recurring.getFormulaString(tpl, true), is("1.33"));
+		assertThat(recurring.getFormulaString(tpl, false), is("1 + 0.3\u0305"));
+		recurring.setSymbolicMode(true, true);
+		assertThat(recurring.getFormulaString(tpl, true), is("4 / 3"));
+		assertThat(recurring.getFormulaString(tpl, false), is("1 + 0.3\u0305"));
 	}
 }
