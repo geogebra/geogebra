@@ -118,7 +118,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public boolean hasExam() {
-		return false;
+		return getSubAppCode() != null; // only suite scicalc has exam
 	}
 
 	@Override

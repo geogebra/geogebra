@@ -117,7 +117,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private MenuItemGroup createMainMenuItemGroup() {
 		MenuItem clearConstruction = enableFileFeatures ? clearConstruction() : null;
 		MenuItem startExamMode = createExamEntry ? startExamMode() : null;
-		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
+		if (isScientificCalc(version)) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
 		MenuItem openFile = enableFileFeatures ? openFile() : null;
@@ -126,8 +126,12 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem share = enableFileFeatures ? share() : null;
 		MenuItem downloadAs = isWeb() ? showDownloadAs() : null;
 		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
-		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, saveOffline,
-				share, exportImage(), downloadAs, printPreview, startExamMode));
+		MenuItemGroup menuItemGroupDefault = new MenuItemGroupImpl(removeNulls(clearConstruction,
+				openFile, save, saveOffline, share, exportImage(), downloadAs, printPreview,
+				startExamMode));
+		MenuItemGroup menuItemGroupScientificSuite = new MenuItemGroupImpl(
+				removeNulls(clearConstruction, openFile, startExamMode));
+		return isSuiteScientific(version) ?	menuItemGroupScientificSuite : menuItemGroupDefault;
 	}
 
 	protected MenuItem saveFileOnline() {
@@ -174,6 +178,22 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private boolean isMobile() {
 		return platform == GeoGebraConstants.Platform.ANDROID
 				|| platform == GeoGebraConstants.Platform.IOS;
+	}
+
+	/**
+	 * @param version - version of app
+	 * @return true if scientific not in suite
+	 */
+	public boolean isScientificCalc(GeoGebraConstants.Version version) {
+		return version == GeoGebraConstants.Version.SCIENTIFIC && !isSuiteApp();
+	}
+
+	/**
+	 * @param version - version of app
+	 * @return true if scientific in suite
+	 */
+	public boolean isSuiteScientific(GeoGebraConstants.Version version) {
+		return isSuiteApp() && version == GeoGebraConstants.Version.SCIENTIFIC;
 	}
 
 	private boolean isWeb() {
