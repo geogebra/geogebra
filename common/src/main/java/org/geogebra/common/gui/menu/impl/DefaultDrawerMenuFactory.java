@@ -131,7 +131,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				startExamMode));
 		MenuItemGroup menuItemGroupScientificSuite = new MenuItemGroupImpl(
 				removeNulls(clearConstruction, openFile, startExamMode));
-		return isSuiteScientific(version) ?	menuItemGroupScientificSuite : menuItemGroupDefault;
+		return isSuiteScientific(version) ? menuItemGroupScientificSuite : menuItemGroupDefault;
 	}
 
 	protected MenuItem saveFileOnline() {

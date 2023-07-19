@@ -30,10 +30,21 @@ public class ExamDrawerMenuFactoryTest {
 
 	@Test
 	public void testScientificExam() {
-		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.SCIENTIFIC);
+		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.SCIENTIFIC,
+				false);
 		DrawerMenu menu = factory.createDrawerMenu();
 		Assert.assertEquals(1, menu.getMenuItemGroups().size());
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);
 		Assert.assertEquals(3, group.getMenuItems().size());
+	}
+
+	@Test
+	public void testScientificSuiteExam() {
+		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.SCIENTIFIC,
+				true);
+		DrawerMenu menu = factory.createDrawerMenu();
+		Assert.assertEquals(1, menu.getMenuItemGroups().size());
+		MenuItemGroup group = menu.getMenuItemGroups().get(0);
+		Assert.assertEquals(5, group.getMenuItems().size());
 	}
 }
