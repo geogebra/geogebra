@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -430,25 +429,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 		app.setDefaultCursor();
 
 		return true;
-	}
-
-	@Override
-	public void showLogInDialog() {
-		// No Login Dialog
-	}
-
-	@Override
-	public void showLogOutDialog() {
-		Object[] options = { getLocalization().getMenu("SignOut"),
-				getLocalization().getMenu("Cancel") };
-		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
-				getLocalization().getMenu("ReallySignOut"),
-				getLocalization().getMenu("Question"),
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-				options, options[0]);
-		if (n == 0) {
-			app.getLoginOperation().performLogOut();
-		}
 	}
 
 	/**
