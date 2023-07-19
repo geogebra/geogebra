@@ -94,7 +94,8 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		});
 		titleField.getTextComponent().addKeyUpHandler(event ->
 				setPosBtnDisabled(titleField.getText().isEmpty()));
-		DomGlobal.window.addEventListener("unload", event -> app.getSaveController().cancel());
+		((AppW) app).getGlobalHandlers().addEventListener(DomGlobal.window, "unload",
+				event -> app.getSaveController().cancel());
 	}
 
 	private void onSave() {

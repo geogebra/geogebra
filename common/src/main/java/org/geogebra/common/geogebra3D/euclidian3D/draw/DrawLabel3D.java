@@ -74,9 +74,6 @@ public class DrawLabel3D {
 	private int pickingW;
 	private int pickingH;
 
-	/** temp graphics used for calculate bounds */
-	protected GGraphics2D tempGraphics;
-
 	protected Drawable3D drawable;
 	private int textIndex = -1;
 	private int pickingIndex = -1;
@@ -98,9 +95,6 @@ public class DrawLabel3D {
 	public DrawLabel3D(EuclidianView3D view, Drawable3D drawable) {
 		this.view = view;
 		this.drawable = drawable;
-		if (view.drawsLabels()) {
-			tempGraphics = AwtFactory.getPrototype().newBufferedImage(1, 1, 1).createGraphics();
-		}
 		properties = new CaptionProperties(view);
 	}
 
@@ -121,10 +115,10 @@ public class DrawLabel3D {
 	 *            abs offset in z
 	 */
 	public void update(CaptionText caption, GFont font0, Coords v,
-			float xOffset0, float yOffset0, float zOffset0) {
+			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
 		setCaption(caption);
 		if (view.drawsLabels()) {
-			update(caption.text(), font0, v, xOffset0, yOffset0, zOffset0);
+			update(caption.text(), font0, v, xOffset0, yOffset0, zOffset0, measuringGraphics);
 		}
 	}
 
@@ -152,10 +146,10 @@ public class DrawLabel3D {
 	 *            abs offset in z
 	 */
 	public void update(String text0, GFont font0, GColor fgColor, Coords v,
-			float xOffset0, float yOffset0, float zOffset0) {
+			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
 
 		if (view.drawsLabels()) {
-			update(text0, font0, v, xOffset0, yOffset0, zOffset0);
+			update(text0, font0, v, xOffset0, yOffset0, zOffset0, measuringGraphics);
 		}
 	}
 
@@ -184,7 +178,7 @@ public class DrawLabel3D {
 	 *            abs offset in z
 	 */
 	public void update(String text0, GFont font0, Coords v,
-			float xOffset0, float yOffset0, float zOffset0) {
+			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
 				this.origin = v;
 		if (text0.length() == 0 || caption == null) {
 			setIsVisible(false);
@@ -195,9 +189,9 @@ public class DrawLabel3D {
 		setIsVisible(true);
 
 		cpt.createFont(font0);
-		tempGraphics.setFont(cpt.font());
+		measuringGraphics.setFont(cpt.font());
 
-		GRectangle rectangle = getBounds(cpt);
+		GRectangle rectangle = getBounds(cpt, measuringGraphics);
 
 		int xMin = (int) rectangle.getMinX() - 1;
 		int xMax = (int) rectangle.getMaxX() + 1;
@@ -210,7 +204,7 @@ public class DrawLabel3D {
 		yOffset2 = -yMax;
 
 		// creates the buffered image
-		GBufferedImage bimg = draw(cpt);
+		GBufferedImage bimg = draw(cpt, measuringGraphics);
 
 		// creates the texture
 		view.getRenderer().createAlphaTexture(this, bimg);
@@ -268,15 +262,15 @@ public class DrawLabel3D {
 		return view.getRenderer().createBufferedImage(this);
 	}
 
-	protected GRectangle getBounds(@Nonnull CaptionText cpt) {
+	protected GRectangle getBounds(@Nonnull CaptionText cpt, GGraphics2D measuringGraphics) {
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
-				view.getApplication(), cpt.text(), 0, 0, tempGraphics, false,
+				view.getApplication(), cpt.text(), 0, 0, measuringGraphics, false,
 				cpt.font(),
 				AwtFactory.getPrototype().newRectangle(), null, DrawText.DEFAULT_MARGIN);
 		if (properties.hasSubscript()) { // text contains subscript
 			hasIndex = true;
 			EuclidianStatic.drawIndexedString(view.getApplication(),
-					tempGraphics, cpt.text(), 0, 0, false);
+					measuringGraphics, cpt.text(), 0, 0, false);
 		} else {
 			hasIndex = false;
 		}
@@ -287,7 +281,7 @@ public class DrawLabel3D {
 	/**
 	 * @return buffered image with label drawn in it
 	 */
-	protected GBufferedImage draw(@Nonnull CaptionText cpt) {
+	protected GBufferedImage draw(@Nonnull CaptionText cpt, GGraphics2D measuringGraphics) {
 		GBufferedImage bimg;
 		GGraphics2D g2d;
 

@@ -1,40 +1,12 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.user.client.Event;
 
 public final class ToolTipManagerW {
 	private ComponentSnackbar snackbar;
 	private boolean blockToolTip = true;
-	private static boolean enabled = true;
-
-	/** Singleton instance of ToolTipManager. */
-	final static ToolTipManagerW SHARED_INSTANCE = new ToolTipManagerW();
-
-	/**
-	 * Constructor
-	 */
-	private ToolTipManagerW() {
-		initTooltipManagerW();
-	}
-
-	/**
-	 * All methods are accessed from this instance.
-	 * @return Singleton instance of this class
-	 */
-	public static ToolTipManagerW sharedInstance() {
-		return SHARED_INSTANCE;
-	}
-
-	private void initTooltipManagerW() {
-		if (!enabled) {
-			return;
-		}
-		registerMouseListeners();
-	}
 
 	/**
 	 * @return whether tooltips are blocked
@@ -129,30 +101,6 @@ public final class ToolTipManagerW {
 		blockToolTip = false;
 		showBottomInfoToolTip(text, null, null, null, appW);
 		blockToolTip = true;
-	}
-
-	/**
-	 * Register mouse listeners to keep track of the mouse position and hide the
-	 * toolTip on a mouseDown event.
-	 */
-	private static void registerMouseListeners() {
-		if (!enabled) {
-			return;
-		}
-
-		Event.addNativePreviewHandler(event -> {
-			if (event.getTypeInt() == Event.ONTOUCHSTART) {
-				CancelEventTimer.touchEventOccured();
-			}
-		});
-	}
-
-	/**
-	 * @param allowToolTips
-	 *            global tooltips flag
-	 */
-	public static void setEnabled(boolean allowToolTips) {
-		enabled = allowToolTips;
 	}
 
 	/**

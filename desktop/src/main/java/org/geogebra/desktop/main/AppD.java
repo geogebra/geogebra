@@ -4477,11 +4477,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private boolean popupsDone = false;
 
 	public void showPopUps() {
-		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
-		if (!signIn.isTubeCheckDone()) {
-			return;
-		}
-
 		if (isAllowPopups()) {
 
 			// Show login popup
@@ -4489,43 +4484,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				popupsDone = true;
 
 				EventQueue.invokeLater(() -> {
-					boolean showDockPopup = true;
 
-					LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
-					if (signInOp.isTubeAvailable()
-							&& !signInOp.isLoggedIn()) {
-						showDockPopup = showTubeLogin();
-					}
-
-					if (showDockPopup && isShowDockBar()) {
+					if (isShowDockBar()) {
 						showPerspectivePopup();
 					}
 				});
 			}
 		}
-	}
-
-	protected boolean showTubeLogin() {
-		// for debugging only
-		// force sign-in popup if not logged in
-		// GeoGebraPreferencesD.getPref().savePreference(
-		// GeoGebraPreferencesD.USER_LOGIN_SKIP,
-		// "false");
-
-		boolean showDockPopup = true;
-
-		String skipLogin = GeoGebraPreferencesD.getPref()
-				.loadPreference(GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
-
-		if (!"true".equals(skipLogin)) {
-			showDockPopup = false;
-			GeoGebraPreferencesD.getPref().savePreference(
-					GeoGebraPreferencesD.USER_LOGIN_SKIP, "true");
-
-			getGuiManager().login();
-		}
-
-		return showDockPopup;
 	}
 
 	protected void showPerspectivePopup() {
@@ -4883,10 +4848,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		return md5EncrypterD;
-	}
-
-	public void isShowingLogInDialog() {
-		// for 3D
 	}
 
 	@Override

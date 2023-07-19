@@ -787,7 +787,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 						// needs to use >= instead of DoubleUtil.greaterEqual to avoid making
 						// the rounding error worse, e.g.
-						// {Intersect(4y² + 3x - 6y = 13, -7 x y - 2x + 8y = -32)}
+						// {Intersect(4y^2 + 3x - 6y = 13, -7 x y - 2x + 8y = -32)}
 						P[i].setCoords(x2, y2, 1);
 					}
 				}

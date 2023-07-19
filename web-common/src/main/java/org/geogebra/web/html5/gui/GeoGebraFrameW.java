@@ -2,6 +2,8 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -20,6 +22,7 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.resources.StyleInjector;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -53,7 +56,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * Splash Dialog to get it work quickly
 	 */
-	private SplashDialog splash;
+	private @CheckForNull SplashDialog splash;
 
 	private static final int LOGO_WIDTH = 427;
 
@@ -101,6 +104,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this.appletParameters = appletParameters;
 	}
 
+	/**
+	 * Hide tooltips in all instances
+	 */
+	public static void hideAllTooltips() {
+		for (GeoGebraFrameW frame: instances) {
+			AppW instance = frame.getApp();
+			if (instance != null) {
+				instance.getToolTipManager().hideTooltip();
+			}
+		}
+	}
+
 	private void addFocusHandlers(Element e) {
 		app.getGlobalHandlers().addEventListener(e, "focusin", evt -> {
 			useFocusedBorder();
@@ -127,9 +142,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		int height = computeHeight();
 
 		boolean showLogo = (width >= LOGO_WIDTH) && (height >= LOGO_HEIGHT);
-		splash = new SplashDialog(showLogo, geoGebraElement, appletParameters, this);
-
-		if (splash.isPreviewExists()) {
+		SplashDialog splashPopup = new SplashDialog(showLogo, geoGebraElement,
+				appletParameters, this);
+		this.splash = splashPopup;
+		if (splashPopup.isPreviewExists()) {
 			splashWidth = width;
 			splashHeight = height;
 		}
@@ -150,20 +166,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			setComputedHeight(height);
 			setHeight(height + "px"); // 2: border
 			// Styleshet not loaded yet, add CSS directly
-			splash.getElement().getStyle().setPosition(Position.RELATIVE);
-			splash.getElement().getStyle()
+			splashPopup.getElement().getStyle().setPosition(Position.RELATIVE);
+			splashPopup.getElement().getStyle()
 					.setTop((height - splashHeight) / 2d, Unit.PX);
 			if (!geoGebraElement.isRTL()) {
-				splash.getElement().getStyle()
+				splashPopup.getElement().getStyle()
 					.setLeft((width - splashWidth) / 2d, Unit.PX);
 			} else {
-				splash.getElement().getStyle()
+				splashPopup.getElement().getStyle()
 						.setRight((width - splashWidth) / 2d, Unit.PX);
 			}
 			useDataParamBorder();
 		}
 		addStyleName("jsloaded");
-		add(splash);
+		add(splashPopup);
 	}
 
 	protected void setSizeStyles() {
@@ -690,7 +706,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			MathFieldW.removeAll();
 		}
 		app.getGlobalHandlers().removeAllListeners();
-		app.getTimerSystem().cancel();
+		app.getTimerSystem().detach();
 		Event.setEventListener(geoGebraElement.getElement(), null);
 		geoGebraElement = null;
 		SymbolicEditor symbolicEditor = app.getEuclidianView1().getSymbolicEditor();
@@ -701,8 +717,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (km != null) {
 			km.removeFromDom();
 		}
-		app = null;
 		splash = null;
+		// this one should be scheduled, so that all scheduled things depending on app execute OK
+		Scheduler.get().scheduleDeferred(() -> app = null);
 	}
 
 	/**

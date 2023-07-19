@@ -36,7 +36,6 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -827,7 +826,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void switchTab(TabIds tab, boolean fade) {
-		ToolTipManagerW.sharedInstance().hideTooltip();
+		app.getToolTipManager().hideTooltip();
 		navRail.selectTab(tab);
 		openNoResize();
 		setFadeTabs(fade);
@@ -862,7 +861,7 @@ public class ToolbarPanel extends FlowPanel
 		if (tabTools != null) {
 			tabTools.setVisible(true);
 		}
-		ToolTipManagerW.sharedInstance().hideTooltip();
+		app.getToolTipManager().hideTooltip();
 
 		switchTab(TabIds.TOOLS, fade);
 		dispatchEvent(EventType.TOOLS_PANEL_SELECTED);
