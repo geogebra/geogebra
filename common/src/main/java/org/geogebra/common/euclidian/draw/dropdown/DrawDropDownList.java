@@ -43,6 +43,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public final class DrawDropDownList extends CanvasDrawable
 		implements DropDownListener, MoveSelector {
 	private static final int LABEL_COMBO_GAP = 10;
+	private static final int COMBO_CONTEXT_GAP = 2;
 	public static final int COMBO_TEXT_MARGIN = 5;
 	private final DrawSelectedItem drawSelected;
 	private final OptionScroller scroller;
@@ -196,7 +197,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			drawLabel(g2, geoList, labelText);
 		}
 
-		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + 2);
+		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + COMBO_CONTEXT_GAP);
 	}
 
 	private void initScreenLocation() {
