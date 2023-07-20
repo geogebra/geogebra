@@ -4179,12 +4179,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			if (includeLHS) {
 				sb.append(getAssignmentLHS(tpl)).append(tpl.getEqualsWithSpace());
 			}
-			if (geo.isRecurringDecimal() && ((GeoNumeric) geo).isSymbolicMode()) {
-				RecurringDecimal rd = ((GeoNumeric) geo).asRecurringDecimal();
-				sb.append(rd.toFraction(tpl));
-			} else {
-				sb.append(geo.getFormulaString(tpl, substituteNumbers));
-			}
+			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		} else if (geo.isGeoVector()) {
 			if (includeLHS) {
 				sb.append(label);

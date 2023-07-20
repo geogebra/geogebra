@@ -24,11 +24,6 @@ public class RecurringDecimal extends MyDouble {
 		this.model = model;
 	}
 
-	public RecurringDecimal(Kernel kernel, int integerPart, Integer nonRecurringPart,
-			int recurringPart) {
-		this(kernel, new RecurringDecimalModel(integerPart, nonRecurringPart, recurringPart));
-	}
-
 	public double toDouble() {
 		return model.toDouble();
 	}
@@ -102,23 +97,24 @@ public class RecurringDecimal extends MyDouble {
 	 * Parses RecuringDecimal from string.
 	 *
 	 * @param kernel {@link Kernel}
-	 * @param loc {@link Localization}
-	 * @param str the string to parse.
-	 * @param percent if it is meant to be in percent.
+	 * @param preperiod the preperiod part of the number (integer.nonrecurring)
+	 * @param recurring the recurring digits
 	 * @return the new, RecurringDecimal instance.
 	 */
-	public static RecurringDecimal parse(Kernel kernel, Localization loc, String str,
-			boolean percent) {
-		return new RecurringDecimal(kernel, parseProperties(loc, str, percent));
+	public static RecurringDecimal parse(Kernel kernel, String preperiod,
+			String recurring) {
+		return new RecurringDecimal(kernel, parseProperties(kernel.getLocalization(),
+				preperiod, recurring));
 	}
 
-	private static RecurringDecimalModel parseProperties(Localization loc, String str,
-			boolean percent) {
-		StringBuilder sb = serializeDigits(str, true);
+	private static RecurringDecimalModel parseProperties(Localization loc, String preperiodUtf,
+			String recurringUtf) {
+		String preperiod = convertToLatinCharacters(preperiodUtf);
+		String recurring = convertToLatinCharacters(recurringUtf);
 		try {
-			return RecurringDecimalModel.parse(sb.toString(), percent);
+			return RecurringDecimalModel.parse(preperiod, recurring);
 		} catch (NumberFormatException e) {
-			throw new MyError(loc, MyError.Errors.InvalidInput, str);
+			throw new MyError(loc, MyError.Errors.InvalidInput, preperiodUtf + recurringUtf);
 		}
 	}
 

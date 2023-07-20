@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.Objects;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 class DecimalPart {
 	Integer value;
 	int length;
@@ -19,31 +21,12 @@ class DecimalPart {
 	}
 
 	DecimalPart(Integer value, int length) {
-		this(value);
-		this.length = length;
-	}
-
-	DecimalPart(Integer value) {
 		this.value = value;
-		length = lengthWithoutLeadingZeros();
+		this.length = length;
 	}
 
 	private int lengthWithoutLeadingZeros() {
 		return value != null && value != 0 ? (int) (Math.log10(value) + 1) : 1;
-	}
-
-	int leadingZeroCount() {
-		return length - lengthWithoutLeadingZeros();
-	}
-
-	void appendWithLeadingZeros(StringBuilder sb) {
-		if (value == null) {
-			return;
-		}
-		for (int i = 0; i < leadingZeroCount(); i++) {
-			sb.append("0");
-		}
-		sb.append(value);
 	}
 
 	@Override
@@ -75,30 +58,30 @@ class DecimalPart {
 		return value != null ? value : 0;
 	}
 
-	public void append(StringBuilder sb) {
-		append(sb, ' ');
-	}
-
-	public void append(StringBuilder sb, char format) {
+	public void appendPlain(StringBuilder sb) {
 		if (value == null) {
 			return;
 		}
 
-		for (int i = 0; i < leadingZeroCount(); i++) {
-			sb.append("0");
-			if (format != ' ') {
-				sb.append(format);
-			}
-		}
+		appendLeadingZeros(sb, "0");
+		sb.append(value);
+	}
 
-		if (format != ' ') {
-			String valueString = String.valueOf(value);
-			for (int i = 0; i < valueString.length(); i++) {
-				sb.append(valueString.charAt(i));
-				sb.append(format);
-			}
-		} else {
-			sb.append(value);
+	private void appendLeadingZeros(StringBuilder sb, String number) {
+		int leadingZerosCount = length - lengthWithoutLeadingZeros();
+		for (int i = 0; i < leadingZerosCount; i++) {
+			sb.append(number);
+		}
+	}
+
+	public void appendOverline(StringBuilder sb) {
+		if (value == null) {
+			return;
+		}
+		appendLeadingZeros(sb, "0" + Unicode.OVERLINE);
+		String valueString = String.valueOf(value);
+		for (int i = 0; i < valueString.length(); i++) {
+			sb.append(valueString.charAt(i)).append(Unicode.OVERLINE);
 		}
 	}
 }

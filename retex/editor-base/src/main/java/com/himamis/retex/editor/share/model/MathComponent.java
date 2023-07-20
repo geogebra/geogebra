@@ -108,4 +108,15 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
 	public boolean isFieldSeparator() {
 		return false;
 	}
+
+	/**
+	 * @return next sibling with the same parent
+	 */
+	public MathComponent nextSibling() {
+		if (parent == null) {
+			return null;
+		}
+		int parentIndex = getParentIndex();
+		return parentIndex >= parent.size() - 1 ? null : getParent().getArgument(parentIndex + 1);
+	}
 }

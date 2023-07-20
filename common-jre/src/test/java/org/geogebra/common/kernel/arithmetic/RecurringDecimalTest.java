@@ -9,46 +9,44 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 public class RecurringDecimalTest extends BaseUnitTest {
 
 	@Test
 	public void testToFraction() {
-		shouldBeAsFraction("3.254\u0305", "2929 / 900");
-		shouldBeAsFraction("0.3\u0305", "1 / 3");
-		shouldBeAsFraction("1.3\u0305", "4 / 3");
-		shouldBeAsFraction("0.5\u03051\u03052\u0305", "512 / 999");
-		shouldBeAsFraction("1.2\u03053\u03054\u0305", "137 / 111");
+		shouldBeAsFraction("3.25", "4", "2929 / 900");
+		shouldBeAsFraction("0.", "3", "1 / 3");
+		shouldBeAsFraction("1.", "3", "4 / 3");
+		shouldBeAsFraction("0.", "512", "512 / 999");
+		shouldBeAsFraction("1.", "234", "137 / 111");
 	}
 
 	@Test
 	public void testToFractionWithLeadingZeros() {
-		shouldBeAsFraction("0.03\u0305", "1 / 30");
-		shouldBeAsFraction("0.0\u03053\u0305", "1 / 33");
+		shouldBeAsFraction("0.0", "3", "1 / 30");
+		shouldBeAsFraction("0.", "03", "1 / 33");
 	}
 
-	private void shouldBeAsFraction(String input, String fraction) {
-		RecurringDecimal recurringDecimal = new RecurringDecimal(getKernel(),
-				RecurringDecimalModel.parse(input, false));
+	private void shouldBeAsFraction(String preperiod, String recurring, String fraction) {
+		RecurringDecimal recurringDecimal = RecurringDecimal.parse(getKernel(),
+				preperiod, recurring);
 		assertThat(recurringDecimal.toFraction(StringTemplate.defaultTemplate),
 				is(fraction));
 	}
 
 	@Test
 	public void testToDouble() {
-		shouldBeDouble("3.254\u0305", 3.25444444444444443);
-		shouldBeDouble("0.3\u0305", 0.333333333333333333);
-		shouldBeDouble("1.3\u0305", 1.333333333333333333);
-		shouldBeDouble("0.5\u03051\u03052\u0305", 0.512512512512512512512);
-		shouldBeDouble("1.2\u03053\u03054\u0305", 1.234234234234234234234);
-		shouldBeDouble("1.2\u03053\u03054\u0305", 1.234234234234234234234);
-		shouldBeDouble("1.23" + Unicode.OVERLINE + "4" + Unicode.OVERLINE, 1.2343434343434343);
+		shouldBeDouble("3.25", "4", 3.25444444444444443);
+		shouldBeDouble("0.", "3", 0.333333333333333333);
+		shouldBeDouble("1.", "3", 1.333333333333333333);
+		shouldBeDouble("0.", "512", 0.512512512512512512512);
+		shouldBeDouble("1.", "234", 1.234234234234234234234);
+		shouldBeDouble(".", "234", 0.234234234234234234234);
+		shouldBeDouble("1.2", "34", 1.2343434343434343);
 	}
 
-	private void shouldBeDouble(String input, double value) {
-		RecurringDecimal recurringDecimal = new RecurringDecimal(getKernel(),
-				RecurringDecimalModel.parse(input, false));
+	private void shouldBeDouble(String preperiod, String recurring, double value) {
+		RecurringDecimal recurringDecimal = RecurringDecimal.parse(getKernel(),
+				preperiod, recurring);
 		assertThat(recurringDecimal.toDouble(), is(value));
 	}
 
@@ -61,36 +59,36 @@ public class RecurringDecimalTest extends BaseUnitTest {
 
 	@Test
 	public void testToString() {
-		assertThat(createRecurringDecimal(1, 2, 34)
+		assertThat(createRecurringDecimal(1, "2", "34")
 						.toString(StringTemplate.defaultTemplate),
 				is("1.23\u03054\u0305"));
-		assertThat(createRecurringDecimal(0, null, 3)
+		assertThat(createRecurringDecimal(0, null, "3")
 						.toString(StringTemplate.latexTemplate),
 				is("0.\\overline{3}"));
-		assertThat(createRecurringDecimal(1, 2, 34)
+		assertThat(createRecurringDecimal(1, "2", "34")
 						.toString(StringTemplate.giacTemplate),
 				is("(611)/(495)"));
 	}
 
 	@Test
 	public void testToStringWithLeadingZeros() {
-		assertThat(parse("1.020\u03053\u0305").toString(StringTemplate.defaultTemplate),
+		assertThat(parse("1.02", "03").toString(StringTemplate.defaultTemplate),
 				is("1.020\u03053\u0305"));
-		assertThat(parse("1.000020\u03050\u03050\u03053\u0305")
+		assertThat(parse("1.00002", "0003")
 						.toString(StringTemplate.defaultTemplate),
 				is("1.000020\u03050\u03050\u03053\u0305"));
-		assertThat(parse("1.03040\u03055\u0305")
+		assertThat(parse("1.0304", "05")
 				.toString(StringTemplate.latexTemplate),
 				is("1.0304\\overline{05}"));
 	}
 
-	private RecurringDecimal parse(String str) {
-		return RecurringDecimal.parse(getKernel(), getLocalization(), str, false);
+	private RecurringDecimal parse(String preperiod, String recurring) {
+		return RecurringDecimal.parse(getKernel(), preperiod, recurring);
 	}
 
-	private RecurringDecimal createRecurringDecimal(int integerPart, Integer nonRecurringPart,
-			int recurringPart) {
-		return new RecurringDecimal(getKernel(), new RecurringDecimalModel(integerPart,
+	private RecurringDecimal createRecurringDecimal(int integerPart, String nonRecurringPart,
+			String recurringPart) {
+		return new RecurringDecimal(getKernel(), RecurringDecimalModelTest.newModel(integerPart,
 				nonRecurringPart, recurringPart));
 	}
 
