@@ -504,8 +504,20 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public void updateCursorOverlay() {
 		if (cursorOverlay != null) {
-			cursorOverlay.update(getCursorPos(), getText());
+			if (hasSelection()) {
+				cursorOverlay.removeFromParent();
+				main.removeStyleName("withCursorOverlay");
+			} else {
+				if (!cursorOverlay.isAttached()) {
+					addCursorOverlay();
+				}
+				cursorOverlay.update(getCursorPos(), getText());
+			}
 		}
+	}
+
+	private boolean hasSelection() {
+		return !textField.getValueBox().getSelectedText().isEmpty();
 	}
 
 	private void enableCursorOverlay() {
@@ -524,11 +536,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void addDummyCursor() {
 		if (cursorOverlay != null) {
-			main.add(cursorOverlay);
-			main.addStyleName("withCursorOverlay");
-			app.showKeyboard(this, true);
+			addCursorOverlay();
 		}
 		updateCursorOverlay();
+	}
+
+	private void addCursorOverlay() {
+		main.add(cursorOverlay);
+		main.addStyleName("withCursorOverlay");
+		app.showKeyboard(this, true);
 	}
 
 	@Override

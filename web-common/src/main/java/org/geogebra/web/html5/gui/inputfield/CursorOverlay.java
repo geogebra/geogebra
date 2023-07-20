@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.inputfield;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
@@ -57,5 +58,21 @@ public class CursorOverlay extends FlowPanel {
 			dummyCursor.getElement().setScrollLeft(prefix.getOffsetWidth()
 					- dummyCursor.getOffsetWidth() + scrollPadding);
 		}
+	}
+
+	public void updateSelection(String text, int selectionStart, int selectionEnd) {
+		clear();
+		Log.debug("Selection: " + selectionStart + " - " + selectionEnd
+		+ "(" + text.length() + ")");
+		this.text = text;
+		if (selectionStart > 0) {
+			InlineLabel preSelection = new InlineLabel(text.substring(0, selectionStart - 1));
+			add(preSelection);
+		}
+//
+//		if (selectionEnd < text.length() - 1) {
+//			InlineLabel postSelection = new InlineLabel(text.substring(selectionEnd + 1));
+//			add(postSelection);
+//		}
 	}
 }
