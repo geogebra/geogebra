@@ -10,6 +10,7 @@ class DrawItems {
 	private final DrawDropDownList drawDropDownList;
 	private final ItemSelector selector;
 	private final DropDownModel model;
+	private static final int MIN_ROW_HEIGHT = 56;
 
 	DrawItems(DrawDropDownList drawDropDownList,
 			DropDownModel model, ItemSelector selector, OptionScroller scroller) {
@@ -108,7 +109,8 @@ class DrawItems {
 	private void calculateItemRectangle(OptionItem item) {
 		if (item.getRect() == null) {
 			item.setRect(AwtFactory.getPrototype().newRectangle(item.getLeft(),
-					item.getTop(), items.getMaxWidth(), Math.max(items.getMaxHeight(), 56)));
+					item.getTop(), items.getMaxWidth(),
+					Math.max(items.getMaxHeight(), MIN_ROW_HEIGHT)));
 		}
 	}
 
