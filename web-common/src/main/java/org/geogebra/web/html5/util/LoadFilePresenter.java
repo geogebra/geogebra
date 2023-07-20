@@ -9,7 +9,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -48,7 +47,7 @@ public class LoadFilePresenter {
 			app.openMaterial(view.getDataParamTubeID(),
 					err -> {
 						openEmptyApp(app, view);
-						ToolTipManagerW.sharedInstance()
+						app.getToolTipManager()
 								.showBottomMessage(app.getLocalization()
 										.getError(err), app);
 					});

@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 $classicToolbar: 50px;
@@ -47,7 +48,6 @@ $menuWidth: 320px;
 			padding-right: 10px;
 			box-sizing: border-box;
 			.groupLabel {
-				color: colors.$text-secondary;
 				font-size: 75%;
 				text-transform: uppercase;
 				margin: 8px 16px 8px 16px;
@@ -59,7 +59,7 @@ $menuWidth: 320px;
 				border-radius: 0px 24px 24px 0px;
 				white-space: nowrap;
 				&:hover {
-					background-color: #EEEEEE;
+					background-color: neutral("200");
 				}
 				.gwt-Image {
 					vertical-align: middle;
@@ -72,7 +72,6 @@ $menuWidth: 320px;
 				.gwt-Label, .html-face {
 					display: inline-block;
 					font-size: 87%;
-					color: colors.$text-primary;
 					vertical-align: middle;
 				}
 				.gwt-Label {
@@ -86,7 +85,7 @@ $menuWidth: 320px;
 						opacity: 1;
 					}
 					.gwt-Label {
-						color: colors.$text-secondary;
+						color: neutral("900");
 						text-transform: uppercase;
 						font-size: 75%;
 						padding-left: 0;
@@ -95,7 +94,6 @@ $menuWidth: 320px;
 			}
 		}
 		.divider {
-			background-color: #E4E4E4;
 			height: 1px;
 			margin: 8px 0px 8px 56px;
 		}
@@ -107,7 +105,7 @@ $menuWidth: 320px;
 
 	.titleHeader {
 		> div {
-			color: colors.$text-secondary !important;
+			color: neutral("700");
 		}
 	}
 
@@ -119,7 +117,6 @@ $menuWidth: 320px;
 		.versionNumber {
 			position: absolute;
 			bottom: 0px;
-			color: colors.$text-disabled;
 			font-size: 87%;
 			margin-bottom: 16px;
 			width: 100%;

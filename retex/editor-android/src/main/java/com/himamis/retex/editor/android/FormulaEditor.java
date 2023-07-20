@@ -1,19 +1,8 @@
 package com.himamis.retex.editor.android;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.text.InputType;
-import android.util.AttributeSet;
-import android.view.View;
-import android.view.inputmethod.BaseInputConnection;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
-
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.himamis.retex.editor.android.event.ClickListenerAdapter;
 import com.himamis.retex.editor.android.event.FocusListenerAdapter;
@@ -32,6 +21,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.parser.Parser;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.renderer.android.FactoryProviderAndroid;
 import com.himamis.retex.renderer.android.graphics.ColorA;
 import com.himamis.retex.renderer.android.graphics.Graphics2DA;
@@ -41,8 +31,30 @@ import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.text.InputType;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
+
 @SuppressWarnings({"ClassWithTooManyFields", "ClassWithTooManyMethods", "OverlyComplexClass", "OverlyCoupledClass"})
 public class FormulaEditor extends View implements MathField {
+
+    public interface InputChangeListener {
+
+        /**
+         * Called after the formula has been changed.
+         *
+         * @param input GgbInput instance
+         */
+        void afterInputChanged(FormulaEditor input);
+    }
 
     private final static int CURSOR_MARGIN = 5;
 
@@ -70,6 +82,10 @@ public class FormulaEditor extends View implements MathField {
     private int mAlignment = ALIGN_LEFT;
 
     private TeXIcon mFormulaPreviewTeXIcon;
+
+    protected final List<InputChangeListener> mInputChangeListeners = new ArrayList<>();
+
+    private final GeoGebraSerializer mSerializer = new GeoGebraSerializer();
 
     public FormulaEditor(Context context) {
         super(context);
@@ -423,8 +439,11 @@ public class FormulaEditor extends View implements MathField {
         }
     }
 
+    @Override
     public void fireInputChangedEvent() {
-        // implemented in AlgebraInput
+        for (InputChangeListener inputChangeListener : mInputChangeListeners) {
+            inputChangeListener.afterInputChanged(this);
+        }
     }
 
     @Override
@@ -595,6 +614,19 @@ public class FormulaEditor extends View implements MathField {
     public void parse(String text) {
         mMathFieldInternal.parse(text);
     }
+
+    public void registerInputChangeListener(InputChangeListener inputChangeListener) {
+        mInputChangeListeners.add(inputChangeListener);
+    }
+
+    public void unregisterInputChangeListeners() {
+        mInputChangeListeners.clear();
+    }
+
+    public String getSerializedFormula() {
+        return mSerializer.serialize(mMathFieldInternal.getFormula());
+    }
+
 
     @Override
     public int getBaseline() {

@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 
@@ -150,7 +149,7 @@ public class ViewW {
 			XMLHttpRequest.OnerrorFn onError = (e) -> {
 				Log.error(request.statusText + ":" + request.statusText);
 				app.afterLoadFileAppOrNot(false);
-				ToolTipManagerW.sharedInstance().showBottomMessage(
+				app.getToolTipManager().showBottomMessage(
 						app.getLocalization().getMenu("FileLoadingError"),
 						app);
 				return null;

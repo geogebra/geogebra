@@ -8,7 +8,6 @@ import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFunction;
-import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -70,7 +69,7 @@ public class SolverSerializer extends SerializerAdapter {
 			serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
 			break;
 		case MIXED_NUMBER:
-			//1⁤(2)/(3) changes into FnMixedNumber[MathSequence[1],MathSequence[2],MathSequence[3]]
+			//1[plus](2)/(3) changes into FnMixedNumber[MathSeq[1],MathSeq[2],MathSeq[3]]
 			//space between the 1 & 2 should be removed
 			if (parent != null) {
 				sb.append(openingBracket);
@@ -254,11 +253,6 @@ public class SolverSerializer extends SerializerAdapter {
 		if (mathArray.isMatrix()) {
 			stringBuilder.append(close);
 		}
-	}
-
-	@Override
-	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
-		// no placeholders in solver
 	}
 
 	private void generalFunction(MathFunction mathFunction, StringBuilder stringBuilder) {

@@ -26,7 +26,6 @@ import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -176,7 +175,7 @@ public class SaveControllerW implements SaveController {
 		this.listener = l;
 		this.fileName = name;
 		if (app.isOffline()) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(loc
+			app.getToolTipManager().showBottomMessage(loc
 					.getMenu("phone_loading_materials_offline"), app);
 			showLocalSaveDialog();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
@@ -241,7 +240,7 @@ public class SaveControllerW implements SaveController {
 			}
 		};
 
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
+		app.getToolTipManager().showBottomMessage(loc.getMenu("Saving"), app);
 
 		app.getGgbApi().getBase64(true, handler);
 		if (listener != null) {
@@ -250,7 +249,7 @@ public class SaveControllerW implements SaveController {
 	}
 
 	private void uploadToDrive() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
+		app.getToolTipManager().showBottomMessage(loc.getMenu("Saving"), app);
 		app.getGoogleDriveOperation().afterLogin(() -> doUploadToDrive());
 	}
 

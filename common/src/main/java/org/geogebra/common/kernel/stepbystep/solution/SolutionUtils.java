@@ -18,7 +18,7 @@ public class SolutionUtils {
 			case 3:
 				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
 			case 4:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.PURPLE_600);
 			case 0:
 				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
 			default:

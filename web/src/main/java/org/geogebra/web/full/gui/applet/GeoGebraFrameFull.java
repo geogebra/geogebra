@@ -43,7 +43,6 @@ import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -280,7 +279,7 @@ public class GeoGebraFrameFull
 			keyboardState = KeyboardState.ANIMATING_IN;
 			app.hideMenu();
 			app.persistWidthAndHeight();
-			ToolTipManagerW.sharedInstance().hideTooltip();
+			app.getToolTipManager().hideTooltip();
 			addKeyboard(textField, true);
 			if (app.isPortrait()) {
 				getGuiManager().getLayout().getDockManager()
@@ -624,9 +623,9 @@ public class GeoGebraFrameFull
 
 			@Override
 			public void run() {
-				if (getApp().getGuiManager().hasAlgebraView()) {
-					AlgebraViewW av = getApp()
-							.getAlgebraView();
+				// applet.remove() may be called while timer was running: check for app=null
+				if (getApp() != null && getApp().getGuiManager().hasAlgebraView()) {
+					AlgebraViewW av = getApp().getAlgebraView();
 					// av.clearActiveItem();
 					av.setDefaultUserWidth();
 				}

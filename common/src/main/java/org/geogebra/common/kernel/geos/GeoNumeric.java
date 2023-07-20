@@ -1163,6 +1163,9 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
+		if (flag == hasAbsoluteScreenLocation) {
+			return;
+		}
 		hasAbsoluteScreenLocation = flag;
 		if (flag) {
 			sliderWidth = this instanceof GeoAngle

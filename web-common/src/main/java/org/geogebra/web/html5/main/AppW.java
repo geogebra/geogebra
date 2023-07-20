@@ -256,6 +256,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private final GlobalHandlerRegistry dropHandlers = new GlobalHandlerRegistry();
 	private Widget lastFocusableWidget;
 	private FullScreenState fullscreenState;
+	private ToolTipManagerW toolTipManager;
 
 	/**
 	 * @param geoGebraElement
@@ -2235,7 +2236,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void closePopups() {
 		closePopupsNoTooltips();
-		ToolTipManagerW.sharedInstance().hideTooltip();
+		getToolTipManager().hideTooltip();
 
 		if (!isUnbundled() && getGuiManager() != null
 				&& getGuiManager().hasAlgebraView()) {
@@ -3603,5 +3604,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			fullscreenState = new FullScreenState();
 		}
 		return fullscreenState;
+	}
+
+	/**
+	 * @return manager for snackbars
+	 */
+	public ToolTipManagerW getToolTipManager() {
+		if (toolTipManager == null) {
+			toolTipManager = new ToolTipManagerW();
+		}
+		return toolTipManager;
 	}
 }

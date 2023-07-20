@@ -28,6 +28,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	private StickyValuesTable table;
 	private Widget algebraTab;
 	private AppW app;
+	private StandardButton defFuncBtn;
 
 	@Override
 	public Panel decorate(Widget algebraTab, Panel wrapper, AppW appW) {
@@ -91,6 +92,13 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
+	public void setLabels() {
+		if (defFuncBtn != null) {
+			defFuncBtn.setLabel(app.getLocalization().getMenu("DefineFunctions"));
+		}
+	}
+
+	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
 		tableTab = tab;
 		this.table = (StickyValuesTable) table;
@@ -101,13 +109,13 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		SimplePanel btnHolder = new SimplePanel();
 		btnHolder.addStyleName("btnRow");
 
-		StandardButton btn = new StandardButton(app.getLocalization()
+		defFuncBtn = new StandardButton(app.getLocalization()
 				.getMenu("DefineFunctions"));
-		btn.addStyleName("materialTextButton");
-		btnHolder.add(btn);
-		table.getElement().insertBefore(btnHolder.getElement(), table.getElement().getChild(0)) ;
+		defFuncBtn.addStyleName("materialTextButton");
+		btnHolder.add(defFuncBtn);
+		table.getElement().insertBefore(btnHolder.getElement(), table.getElement().getChild(0));
 
-		btn.addFastClickHandler((event) -> table.openDefineFunctions());
+		defFuncBtn.addFastClickHandler((event) -> table.openDefineFunctions());
 	}
 
 	@Override
