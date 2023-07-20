@@ -970,9 +970,9 @@ public class MyDouble extends ValidExpression
 	 * @return The value from the input String, as double
 	 */
 	public static double parseDouble(Localization app, String str) {
-		String sb = convertToLatinCharacters(str);
+		String latinCharacters = convertToLatinCharacters(str);
 		try {
-			return StringUtil.parseDouble(sb);
+			return StringUtil.parseDouble(latinCharacters);
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
 			throw new MyError(app, Errors.InvalidInput, str);
