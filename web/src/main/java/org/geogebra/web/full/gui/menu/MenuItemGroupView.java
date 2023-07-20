@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.menu;
 
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.VerticalPanel;
 
@@ -15,9 +16,7 @@ class MenuItemGroupView extends VerticalPanel {
 	}
 
 	private void createTitle(String text) {
-		Label label = new Label();
-		label.setStyleName(GROUP_LABEL_STYLE);
-		label.setText(text);
+		Label label = BaseWidgetFactory.INSTANCE.newSecondaryText(text, GROUP_LABEL_STYLE);
 		label.setVisible(text != null);
 		add(label);
 	}

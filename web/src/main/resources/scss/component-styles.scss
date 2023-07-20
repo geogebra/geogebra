@@ -1,6 +1,7 @@
 @use 'colors';
 @use 'z-index';
 @use 'header';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 
@@ -24,12 +25,11 @@
 			margin-left: 20px;
 			margin-top: 8px;
 			margin-bottom: 8px;
-			color: colors.$text-primary;
 			font-size: 100%;
 
 			&.disabled {
 				cursor: default;
-				color: colors.$text-disabled;
+				color: neutral("500");
 			}
 		}
 	}
@@ -227,7 +227,6 @@
 
 		.inputLabel {
 			font-size: 75%;
-			color: colors.$text-secondary;
 			height: 12px;
 			line-height: 100%;
 			display: block;
@@ -360,7 +359,6 @@
 
 		.dropDownElement:hover {
 			cursor: pointer;
-			background: colors.$black-04;
 		}
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {
@@ -401,7 +399,6 @@
 				font-size: 125%;
 				margin-bottom: 20px;
 				margin-left: 24px;
-				color: colors.$text-primary;
 			}
 
 			.dialogContent {
@@ -431,7 +428,6 @@
 				margin-left: 24px;
 				height: 14px;
 				font-size: 75%;
-				color: colors.$text-secondary;
 				line-height: 1.2;
 			}
 		}
@@ -542,7 +538,6 @@
 			font-size: 75%;
 			margin: 0px 24px;
 			flex-basis: auto;
-			color: colors.$text-disabled;
 			text-transform: uppercase;
 		}
 	}
@@ -573,7 +568,7 @@
 			text-transform: uppercase;
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
-			color: colors.$text-secondary;
+			color: neutral("700");
 		}
 	}
 
@@ -604,7 +599,7 @@
 					line-height: 20px;
 					margin: 14px 16px;
 					text-align: center;
-					color: colors.$text-primary;
+					color: neutral("900");
 				}
 
 				&:hover {
@@ -649,7 +644,6 @@
 
 		.title {
 			margin-bottom: 8px;
-			color: colors.$text-primary;
 			font-size: 100%;
 			min-height: 20px;
 			line-height: 20px;
@@ -658,7 +652,6 @@
 		}
 
 		.subtext {
-			color: colors.$text-secondary;
 			font-size: 87%;
 			min-height: 20px;
 			line-height: 20px;
@@ -704,7 +697,6 @@
 			line-height: 36px;
 			margin-left: 16px;
 			font-size: 100%;
-			color: colors.$text-primary;
 		}
 
 		&:hover {
@@ -823,7 +815,7 @@
 				background-color: transparent;
 				height: 20px;
 				display: flex;
-				color: colors.$text-primary;
+				color: neutral("900");
 			}
 
 			input[type=text]:focus:not([readonly]) {
@@ -887,7 +879,6 @@
 
 	.toast {
 		position: absolute;
-		background-color: colors.$toast-background;
 		max-width: fit-content;
 		border-radius: 4px;
 		padding: 8px 12px;
@@ -922,7 +913,6 @@
 		.optionLabelHolder {
 			.label {
 				font-size: 75%;
-				color: colors.$text-secondary;
 				height: 12px;
 				line-height: 12px;
 			}
@@ -930,7 +920,6 @@
 			.selectedOption {
 				height: 20px;
 				margin: 8px 8px 0 0;
-				color: colors.$text-primary;
 			}
 
 			&.noLabel {
@@ -953,16 +942,16 @@
 		}
 
 		&:hover {
-			border-bottom: 2px solid colors.$text-primary;
-
-			.optionLabelHolder {
-				.label {
-					color: colors.$text-primary;
-				}
-			}
+			border-bottom: 2px solid neutral("900");
 
 			.arrow {
 				opacity: 0.87;
+			}
+
+			.optionLabelHolder {
+				.label {
+					color: neutral("900");
+				}
 			}
 		}
 
@@ -1007,7 +996,6 @@
 
 		.inputLabel {
 			font-size: 75%;
-			color: colors.$text-secondary;
 			height: 12px;
 			line-height: 100%;
 			display: block;
@@ -1051,11 +1039,11 @@
 
 		&:not(.disabled):hover {
 			.inputLabel {
-				color: colors.$text-primary;
+				color: neutral("900");
 			}
 
 			.inputPanel {
-				border-bottom: 2px solid colors.$text-primary;
+				border-bottom: 2px solid neutral("900");
 
 				.AutoCompleteTextFieldW {
 					margin-bottom: 7px;

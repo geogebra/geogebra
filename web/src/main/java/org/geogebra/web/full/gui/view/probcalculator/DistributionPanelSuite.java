@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.shared.components.ComponentSwitch;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -25,8 +26,7 @@ public class DistributionPanelSuite extends DistributionPanel {
 		buildDistrComboBox(this);
 		initCumulativeWidget();
 		resultPanel = new ResultPanelW(getView().getApp(), this);
-		intervalsLbl = new Label();
-		intervalsLbl.setStyleName("intervalsLbl");
+		intervalsLbl = BaseWidgetFactory.INSTANCE.newSecondaryText("", "intervalsLbl");
 		add(intervalsLbl);
 		buildModeGroupWithResult();
 		super.buildParameterPanel(this);
@@ -39,7 +39,8 @@ public class DistributionPanelSuite extends DistributionPanel {
 		cumulativeRow.addStyleName("row");
 		cumulativeWidget = new ComponentSwitch(false, (source) ->
 				getView().setCumulative(source));
-		cumulativeLbl = new Label(getView().getApp().getLocalization().getMenu("Cumulative"));
+		cumulativeLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				getView().getApp().getLocalization().getMenu("Cumulative"));
 		cumulativeRow.add(cumulativeLbl);
 		cumulativeRow.add(cumulativeWidget);
 		add(cumulativeRow);

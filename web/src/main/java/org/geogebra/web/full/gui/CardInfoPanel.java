@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -32,8 +33,7 @@ public class CardInfoPanel extends FlowPanel {
 	public CardInfoPanel(String heading, String title) {
 		setStyleName("cardInfoPanel");
 		addIdLabel(heading);
-		titleLabel = new Label(title);
-		addTitleWidget(titleLabel);
+		addTitleWidget(title);
 	}
 
 	public CardInfoPanel() {
@@ -41,14 +41,13 @@ public class CardInfoPanel extends FlowPanel {
 	}
 
 	private void addIdLabel(String id) {
-		idLabel = new Label(id);
-		idLabel.setStyleName("cardTitle");
+		idLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(id, "cardTitle");
 		add(idLabel);
 	}
 
-	private void addTitleWidget(Widget titleRow) {
-		titleRow.setStyleName("cardAuthor");
-		add(titleRow);
+	private void addTitleWidget(String title) {
+		titleLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(title, "cardAuthor");
+		add(titleLabel);
 	}
 
 	/**

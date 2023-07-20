@@ -1,6 +1,7 @@
 package org.geogebra.web.shared.components.dialog;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -68,15 +69,15 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			return;
 		}
 
-		title = new Label(getApplication().getLocalization().getMenu(titleTransKey));
-		title.setStyleName("dialogTitle");
+		title = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				getApplication().getLocalization().getMenu(titleTransKey), "dialogTitle");
 		dialogMainPanel.add(title);
 
 		if (subTitleHTML != null) {
 			addStyleName("withSubtitle");
-			Label subTitle = new Label();
+			Label subTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					"", "dialogSubTitle");
 			subTitle.getElement().setInnerHTML(subTitleHTML);
-			subTitle.setStyleName("dialogSubTitle");
 			dialogMainPanel.add(subTitle);
 		}
 	}
