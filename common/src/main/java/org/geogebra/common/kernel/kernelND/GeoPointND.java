@@ -465,7 +465,11 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	public void addToPathParameter(double d);
 
-	public void resetPathParameterLoop(double d);
+	/**
+	 * Sets the path parameter t of the point and updates it.
+	 * @param t path parameter
+	 */
+	public void updatePathParameter(double t);
 
 	/**
 	 * set region changed with x, y coords
