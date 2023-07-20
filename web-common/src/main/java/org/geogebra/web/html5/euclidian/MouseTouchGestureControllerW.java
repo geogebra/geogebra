@@ -16,7 +16,6 @@ import org.geogebra.web.html5.euclidian.profiler.drawer.DrawingRecorder;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -220,13 +219,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			ec.prepareModeForFreehand();
 		}
 		event.release();
-	}
-
-	/**
-	 * Initialize tooltip manager.
-	 */
-	public void initToolTipManager() {
-		ToolTipManagerW.sharedInstance();
 	}
 
 	public void resetToolTipManager() {

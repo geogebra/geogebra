@@ -6,7 +6,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
@@ -75,7 +74,7 @@ public class ExamSaveDialog {
 			}
 		}
 
-		ToolTipManagerW.sharedInstance().showBottomMessage(
+		app.getToolTipManager().showBottomMessage(
 				app.getLocalization().getMenu(msg), app);
 	}
 

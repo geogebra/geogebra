@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -223,12 +222,12 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 				event.stopPropagation();
 			}
 
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			app.getToolTipManager().setBlockToolTip(false);
 			// if we click the toolbar button, only interpret it as real click
 			// if there is only one tool in this menu
 			app.setMode(mode, event.getSource() == tbutton && menu.size() > 1
 					? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			app.getToolTipManager().setBlockToolTip(true);
 		}
 		tbutton.getElement().focus();
 	}
