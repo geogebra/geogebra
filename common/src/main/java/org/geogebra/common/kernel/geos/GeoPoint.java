@@ -2967,8 +2967,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	protected boolean isCommandOutput() {
-		if (algoParent != null &&
-				(algoParent.getClass() == AlgoPointOnPath.class
+		if (algoParent != null
+				&& (algoParent.getClass() == AlgoPointOnPath.class
 				|| algoParent.getClass() == AlgoPointInRegion.class)) {
 			return false;
 		}

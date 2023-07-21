@@ -113,7 +113,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private static boolean hasCommand(ExpressionNode node) {
 		return node != null && node.inspect(
 			t -> {
-				return (t.isGeoElement() && ((GeoElement) t).isCommandOutput());
+				return t.isGeoElement() && ((GeoElement) t).isCommandOutput();
 			}
 		);
 	}
