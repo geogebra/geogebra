@@ -12,10 +12,8 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.undo.UndoManager;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,10 +25,8 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 
 	@Before
 	public void setUp() {
-		App app = getApp();
-		Kernel kernel = app.getKernel();
-		kernel.setUndoActive(true);
-		kernel.initUndoInfo();
+		Kernel kernel = getKernel();
+		activateUndo();
 		undoManager = kernel.getConstruction().getUndoManager();
 
 		tableValuesView = new TableValuesView(kernel);

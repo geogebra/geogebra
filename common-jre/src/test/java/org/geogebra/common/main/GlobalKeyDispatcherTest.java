@@ -102,7 +102,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 
 	@Test
 	public void ctrlZShouldCheckFlag() {
-		getApp().setUndoRedoEnabled(false);
+		getApp().setUndoRedoMode(UndoRedoMode.EXTERNAL);
 		getKernel().setUndoActive(true);
 		getApp().storeUndoInfo();
 		add("a=0");
@@ -110,7 +110,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false,
 				false);
 		assertThat(lookup("a"), notNullValue());
-		getApp().setUndoRedoEnabled(true);
+		getApp().setUndoRedoMode(UndoRedoMode.GUI);
 		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false,
 				false);
 		assertThat(lookup("a"), nullValue());

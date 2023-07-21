@@ -798,7 +798,7 @@ public abstract class GlobalKeyDispatcher {
 		// needed for detached views and MacOS
 		// Ctrl + Z: Undo
 		case Z:
-			if (app.isUndoRedoEnabled()) {
+			if (isUndoRedoEnabled()) {
 				app.setWaitCursor();
 				if (isShiftDown) {
 					app.getKernel().redo();
@@ -851,7 +851,7 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case Y:
-			if (!isShiftDown && app.isUndoRedoEnabled()) {
+			if (!isShiftDown && isUndoRedoEnabled()) {
 				// needed for detached views and MacOS
 				// Cmd + Y: Redo
 				app.setWaitCursor();
@@ -958,6 +958,10 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 		return consumed;
+	}
+
+	private boolean isUndoRedoEnabled() {
+		return app.getUndoRedoMode() == UndoRedoMode.GUI;
 	}
 
 	private GPoint getZoomPoint(EuclidianController ec) {
