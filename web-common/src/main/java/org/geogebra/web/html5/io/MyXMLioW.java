@@ -10,7 +10,7 @@ import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ViewW;
+import org.geogebra.web.html5.util.ArchiveLoader;
 
 /**
  * Web implementation of XML parser
@@ -73,7 +73,7 @@ public class MyXMLioW extends MyXMLio {
 		String base64 = zip.getBase64();
 
 		((AppW) app).resetPerspectiveParam();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processBase64String(base64);
 
 	}

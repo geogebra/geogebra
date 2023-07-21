@@ -45,7 +45,7 @@ public class MaterialCardController implements OpenFileListener {
 	 * Load current material
 	 */
 	private void load() {
-		app.getViewW().processFileName(material.getFileName());
+		app.getArchiveLoader().processFileName(material.getFileName());
 		updateActiveMaterial();
 		app.getGuiManager().getBrowseView().close();
 		((GeoGebraFrameFull) app.getAppletFrame())
@@ -120,7 +120,7 @@ public class MaterialCardController implements OpenFileListener {
 		if (getMaterial().getType() == MaterialType.csv) {
 			app.openCSV(Browser.decodeBase64(getMaterial().getBase64()));
 		} else {
-			app.getViewW().processFileName(material.getFileName());
+			app.getArchiveLoader().processFileName(material.getFileName());
 		}
 	}
 

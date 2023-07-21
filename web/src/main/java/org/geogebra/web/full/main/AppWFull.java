@@ -929,7 +929,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 							registerOpenFileListener(
 									getUpdateTitleCallback(material));
 							if (!StringUtil.empty(material.getFileName())) {
-								getViewW().processFileName(
+								getArchiveLoader().processFileName(
 										material.getFileName());
 							} else {
 								getGgbApi().setBase64(material.getBase64());
