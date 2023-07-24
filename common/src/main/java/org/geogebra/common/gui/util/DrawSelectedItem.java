@@ -12,8 +12,8 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 
 public class DrawSelectedItem {
 	private final GRectangle ctrlRect;
-	private final int BORDER_WIDTH_RESTING = 1;
-	private final int BORDER_WIDTH_FOCUSED = 2;
+	private static final int BORDER_WIDTH_RESTING = 1;
+	private static final int BORDER_WIDTH_FOCUSED = 2;
 
 	/**
 	 * Constructor

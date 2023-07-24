@@ -17,9 +17,9 @@ class OptionTable {
 	private final DrawItems drawItems;
 	private final OptionScroller scroller;
 	private int boxWidth;
-	private final int HORIZONTAL_MARGIN = 1;
-	private final int VERTICAL_MARGIN = 1;
-	private final int BORDER_WIDTH = 1;
+	private static final int HORIZONTAL_MARGIN = 1;
+	private static final int VERTICAL_MARGIN = 1;
+	private static final int BORDER_WIDTH = 1;
 
 	OptionTable(DropDownModel model,
 			DrawItems drawItems,
