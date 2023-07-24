@@ -59,7 +59,7 @@ $menuWidth: 320px;
 				border-radius: 0px 24px 24px 0px;
 				white-space: nowrap;
 				&:hover {
-					background-color: neutral("200");
+					background-color: neutral(200);
 				}
 				.gwt-Image {
 					vertical-align: middle;
@@ -85,7 +85,7 @@ $menuWidth: 320px;
 						opacity: 1;
 					}
 					.gwt-Label {
-						color: neutral("900");
+						color: neutral(900);
 						text-transform: uppercase;
 						font-size: 75%;
 						padding-left: 0;
@@ -105,7 +105,7 @@ $menuWidth: 320px;
 
 	.titleHeader {
 		> div {
-			color: neutral("700");
+			color: neutral(700);
 		}
 	}
 
