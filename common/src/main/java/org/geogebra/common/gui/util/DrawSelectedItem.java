@@ -12,6 +12,8 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 
 public class DrawSelectedItem {
 	private final GRectangle ctrlRect;
+	private final int BORDER_WIDTH_RESTING = 1;
+	private final int BORDER_WIDTH_FOCUSED = 2;
 
 	/**
 	 * Constructor
@@ -59,7 +61,8 @@ public class DrawSelectedItem {
 		} else {
 			g2.setPaint(GColor.getBorderColorFrom(bgColor));
 		}
-		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.doHighlighting() ? 2 : 1));
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.doHighlighting()
+				? BORDER_WIDTH_FOCUSED : BORDER_WIDTH_RESTING));
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}
 

@@ -17,6 +17,9 @@ class OptionTable {
 	private final DrawItems drawItems;
 	private final OptionScroller scroller;
 	private int boxWidth;
+	private final int HORIZONTAL_MARGIN = 1;
+	private final int VERTICAL_MARGIN = 1;
+	private final int BORDER_WIDTH = 1;
 
 	OptionTable(DropDownModel model,
 			DrawItems drawItems,
@@ -142,14 +145,14 @@ class OptionTable {
 
 	private void drawBox(GGraphics2D g2) {
 		g2.setPaint(model.getBackgroundColor());
-		int x = model.getLeft() - 1;
-		int y = model.getTop() - 1;
-		g2.fillRoundRect(x, y, getWidth() + 2,
-				getHeight() + 2, BOX_ROUND, BOX_ROUND);
+		int x = model.getLeft() - HORIZONTAL_MARGIN;
+		int y = model.getTop() - VERTICAL_MARGIN;
+		g2.fillRoundRect(x, y, getWidth() + 2 * HORIZONTAL_MARGIN,
+				getHeight() + 2 * VERTICAL_MARGIN, BOX_ROUND, BOX_ROUND);
 
 		g2.setPaint(GeoGebraColorConstants.NEUTRAL_500);
-		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(1));
-		g2.drawRoundRect(x, y, getWidth() + 2,
-				getHeight() + 2, BOX_ROUND, BOX_ROUND);
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(BORDER_WIDTH));
+		g2.drawRoundRect(x, y, getWidth() + 2 * HORIZONTAL_MARGIN,
+				getHeight() + 2 * VERTICAL_MARGIN, BOX_ROUND, BOX_ROUND);
 	}
 }
