@@ -16,9 +16,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
+import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.kernel.GeoElementSpreadsheetDataConverter;
+import org.geogebra.common.spreadsheet.kernel.SpreadsheetControllerKernelAdapter;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.factories.AwtFactoryD;
+
+import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 
 public class SpreadsheetDemo {
 
@@ -30,14 +37,23 @@ public class SpreadsheetDemo {
 			JFrame frame = new JFrame("spreadsheet");
 			Dimension preferredSize = new Dimension(800, 600);
 			frame.setPreferredSize(preferredSize);
+			AppCommon appCommon = new AppCommon(new LocalizationCommon(3), new AwtFactoryD());
+
 			Spreadsheet spreadsheet = new Spreadsheet(100, 200,
-					(i, j) -> i + " x " + j);
+					new GeoElementSpreadsheetDataConverter());
+			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
 			spreadsheet.getLayout().setWidthForColumns(60, IntStream.range(0, 10).toArray());
 			spreadsheet.getLayout().setHeightForRows(20, IntStream.range(0, 10).toArray());
-			SpreadsheetPanel sp = new SpreadsheetPanel(spreadsheet);
-			sp.setPreferredSize(preferredSize);
-			initParentPanel(frame, sp);
-			spreadsheet.setViewport(sp.getViewport());
+			SpreadsheetPanel spreadsheetPanel = new SpreadsheetPanel(spreadsheet);
+			SpreadsheetControllerKernelAdapter adapter = new SpreadsheetControllerKernelAdapter(
+					spreadsheet, appCommon.getKernel());
+			appCommon.getKernel().attach(adapter);
+			appCommon.getGgbApi().evalCommand(String.join("\n", "C4=7", "C5=8",
+					"A1=4", "B2=true", "B3=Button()", "B4=sqrt(x)"));
+
+			spreadsheetPanel.setPreferredSize(preferredSize);
+			initParentPanel(frame, spreadsheetPanel);
+			spreadsheet.setViewport(spreadsheetPanel.getViewport());
 
 			frame.setVisible(true);
 			frame.setSize(preferredSize);
@@ -85,7 +101,7 @@ public class SpreadsheetDemo {
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent event) {
-					spreadsheet.getEventDispatcher().handlePointerUp(event.getX(), event.getY(),
+					spreadsheet.handlePointerUp(event.getX(), event.getY(),
 							event.isControlDown() ? 1 : 0);
 					repaint();
 				}

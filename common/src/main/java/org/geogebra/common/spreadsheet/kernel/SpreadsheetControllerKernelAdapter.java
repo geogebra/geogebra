@@ -1,12 +1,29 @@
 package org.geogebra.common.spreadsheet.kernel;
 
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 
+/**
+ * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
+ * relevant notifications to Spreadsheet component.
+ */
 public class SpreadsheetControllerKernelAdapter implements UpdateLocationView {
+
+	private final Spreadsheet spreadsheet;
+	private final Kernel kernel;
+
+	public SpreadsheetControllerKernelAdapter(Spreadsheet spreadsheet, Kernel kernel) {
+		this.spreadsheet = spreadsheet;
+		this.kernel = kernel;
+	}
+
 	@Override
 	public void updateLocation(GeoElement geo) {
 
@@ -14,7 +31,7 @@ public class SpreadsheetControllerKernelAdapter implements UpdateLocationView {
 
 	@Override
 	public void add(GeoElement geo) {
-
+		update(geo);
 	}
 
 	@Override
@@ -29,7 +46,10 @@ public class SpreadsheetControllerKernelAdapter implements UpdateLocationView {
 
 	@Override
 	public void update(GeoElement geo) {
-
+		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
+		if (pt != null) {
+			spreadsheet.setContent(pt.y, pt.x, geo);
+		}
 	}
 
 	@Override

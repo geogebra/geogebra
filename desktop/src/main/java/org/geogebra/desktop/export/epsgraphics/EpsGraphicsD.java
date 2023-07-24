@@ -23,6 +23,8 @@ import org.geogebra.desktop.awt.GGenericShapeD;
 import org.geogebra.desktop.awt.GTextLayoutD;
 import org.geogebra.desktop.gui.MyImageD;
 
+import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
+
 public class EpsGraphicsD extends EpsGraphics {
 
 	/**
@@ -222,6 +224,11 @@ public class EpsGraphicsD extends EpsGraphics {
 	@Override
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		drawImage(img, dx, dy);
+	}
+
+	@Override
+	public Graphics2DInterface getGraphicsForLaTeX() {
+		return new EpsGraphicsWrapper(this);
 	}
 
 }

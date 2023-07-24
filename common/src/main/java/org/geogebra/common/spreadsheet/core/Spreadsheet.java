@@ -3,9 +3,6 @@ package org.geogebra.common.spreadsheet.core;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.util.shape.Rectangle;
 
-import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-
 /**
  * A spreadsheet (of arbitrary size).
  *
@@ -13,8 +10,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public final class Spreadsheet implements TabularData, TabularSelection {
 
-	private final CellularDataSource source;
-	private final SpreadsheetEventHandler eventDispatcher;
 	private final SpreadsheetController controller;
 	private final TableLayout layout;
 
@@ -23,14 +18,12 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 	private SpreadsheetStyle style = new SpreadsheetStyle();
 	private final SpreadsheetRenderer renderer;
 	private Rectangle viewport;
-	private SpreadsheetDelegate delegate;
+	private SpreadsheetControlsDelegate delegate;
 
-	public Spreadsheet(int initialNumberOfRows, int initialNumberOfColumns, CellularDataSource source) {
-		renderer = new SpreadsheetRenderer(this);
+	public Spreadsheet(int initialNumberOfRows, int initialNumberOfColumns, SpreadsheetDataConverter converter) {
+		renderer = new SpreadsheetRenderer(this, converter);
 		controller = new SpreadsheetController(initialNumberOfRows, initialNumberOfColumns);
 		layout = new TableLayout(initialNumberOfRows, initialNumberOfColumns, 20, 40);
-		eventDispatcher = new SpreadsheetEventHandler(this, layout);
-		this.source = source;
 	}
 
 	// editing & validation
@@ -167,30 +160,13 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 		needsRedraw = true;
 	}
 
-	public CellRenderer getRenderer(int i, int j) {
-		Object value = this.source.getValueAt(i, j);
-		if (value instanceof String) {
-			// plain text rendered without LaTeX
-			return (g, x, y) -> g.drawString((String) value, x, y + 20);
-		} else if (value instanceof TeXIcon) {
-			return (g, x, y) -> ((TeXIcon) value).paintIcon(() -> null,
-					(Graphics2DInterface) g, x, y);
-		} else {
-			throw new IllegalStateException("Cannot render " + value);
-		}
+	public boolean isSelected(int row, int column) {
+		return controller.isSelected(row, column);
 	}
 
-	public SpreadsheetEventHandler getEventDispatcher() {
-		return eventDispatcher;
-	}
-
-	public boolean isSelected(int x, int y) {
-		return controller.isSelected(x, y);
-	}
-
-	public void showCellEditor(int x, int y) {
+	public void showCellEditor(int row, int column) {
 		if (delegate != null) {
-			delegate.showCellEditor(layout.getBounds(x, y), source.getValueAt(x, y));
+			delegate.showCellEditor(layout.getBounds(row, column), controller.contentAt(row, column));
 		}
 	}
 
@@ -198,5 +174,37 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 		if (delegate != null) {
 			delegate.hideCellEditor();
 		}
+	}
+
+
+	/**
+	 * @param x screen coordinate of event
+	 * @param y screen coordinate of event
+	 * @param modifiers
+	 */
+	public void handlePointerUp(int x, int y, int modifiers) {
+		select(new Selection(SelectionType.CELLS, new TabularRange(layout.findRow(y),
+				layout.findRow(y), layout.findColumn(x), layout.findColumn(x))), modifiers > 0);
+
+	}
+
+	public void handlePointerDown(int row, int column, int modifiers) {
+		hideCellEditor();
+		if (isSelected(row, column)) {
+			showCellEditor(row, column);
+		}
+		// start selecting
+	}
+
+	public void handlePointerMove(int x, int y, int modifiers) {
+		// extend selection
+	}
+
+	public void handleKeyPressed(int keyCode, int modifiers) {
+		// extend selection
+	}
+
+	public SpreadsheetController getController() {
+		return controller;
 	}
 }

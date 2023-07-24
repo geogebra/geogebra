@@ -6,6 +6,8 @@ import java.util.stream.IntStream;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
+ * Stores sizes and coordinates of spreadsheet cells
+ * 
  * @Note: This type is not designed to be thread-safe.
  */
 public final class TableLayout {
@@ -15,19 +17,19 @@ public final class TableLayout {
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
 
-	public double getWidth(int i) {
-		return columnWidths[i];
+	public double getWidth(int column) {
+		return columnWidths[column];
 	}
 
 	public double getHeight(int row) {
 		return rowHeights[row];
 	}
 
-	public double getX(int i) {
-		return cumulativeWidths[i];
+	public double getX(int column) {
+		return cumulativeWidths[column];
 	}
-	public double getY(int i) {
-		return cumulativeHeights[i];
+	public double getY(int row) {
+		return cumulativeHeights[row];
 	}
 
 	public int numberOfRows() {
@@ -38,9 +40,9 @@ public final class TableLayout {
 		return columnWidths.length;
 	}
 
-	public Rectangle getBounds(int x, int y) {
-		return new Rectangle(cumulativeWidths[x], cumulativeHeights[x],
-				columnWidths[x], rowHeights[0]);
+	public Rectangle getBounds(int row, int column) {
+		return new Rectangle(cumulativeWidths[column], cumulativeHeights[row],
+				columnWidths[column], rowHeights[row]);
 	}
 
 	/**
@@ -80,20 +82,20 @@ public final class TableLayout {
 	}
 
 	public void setWidthForColumns(float width, int... columnIndices) {
-		for (int k: columnIndices) {
-			columnWidths[k] = width;
+		for (int column: columnIndices) {
+			columnWidths[column] = width;
 		}
-		for (int i = columnIndices[0]; i < columnWidths.length - 1; i++) {
-			cumulativeWidths[i + 1] = cumulativeWidths[i] + columnWidths[i];
+		for (int column = columnIndices[0]; column < columnWidths.length - 1; column++) {
+			cumulativeWidths[column + 1] = cumulativeWidths[column] + columnWidths[column];
 		}
 	}
 
 	public void setHeightForRows(float height, int... rowIndices) {
-		for (int k: rowIndices) {
-			rowHeights[k] = height;
+		for (int row: rowIndices) {
+			rowHeights[row] = height;
 		}
-		for (int i = rowIndices[0]; i < cumulativeHeights.length - 1; i++) {
-			cumulativeHeights[i + 1] = cumulativeHeights[i] + rowHeights[i];
+		for (int row = rowIndices[0]; row < cumulativeHeights.length - 1; row++) {
+			cumulativeHeights[row + 1] = cumulativeHeights[row] + rowHeights[row];
 		}
 	}
 

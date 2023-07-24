@@ -25,6 +25,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.MyImageD;
 
+import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
+import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.kitfox.svg.SVGException;
 
 /**
@@ -476,6 +478,11 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx, dy, null);
+	}
+
+	@Override
+	public Graphics2DInterface getGraphicsForLaTeX() {
+		return new Graphics2DD(impl);
 	}
 
 }

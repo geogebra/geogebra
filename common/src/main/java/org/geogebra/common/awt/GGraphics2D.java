@@ -2,6 +2,8 @@ package org.geogebra.common.awt;
 
 import org.geogebra.common.awt.font.GTextLayout;
 
+import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
+
 public interface GGraphics2D {
 
 	/**
@@ -394,4 +396,6 @@ public interface GGraphics2D {
 			int dy, int dw, int dh);
 
 	void drawImage(MyImage img, int dx, int dy, int dw, int dh);
+
+	Graphics2DInterface getGraphicsForLaTeX();
 }

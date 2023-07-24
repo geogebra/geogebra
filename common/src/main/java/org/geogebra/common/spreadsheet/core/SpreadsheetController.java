@@ -1,6 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A container for tabular data, with support for selecting parts of the data.
@@ -9,9 +11,11 @@ import java.util.List;
  */
 public final class SpreadsheetController implements TabularData, TabularSelection {
 
-	SpreadsheetSelectionController selections;
+	SpreadsheetSelectionController selectionController = new SpreadsheetSelectionController();
+	Map<Integer, Map<Integer, Object>> data = new HashMap<>();
 
 	public SpreadsheetController(int initialNumberOfRows, int initialNumberOfColumns) {
+		// not needed
 	}
 
 	// - TabularData
@@ -56,45 +60,49 @@ public final class SpreadsheetController implements TabularData, TabularSelectio
 
 	@Override
 	public void setContent(int row, int column, Object content) {
+		data.computeIfAbsent(row, ignore -> new HashMap<Integer, Object>()).put(column, content);
 	}
 
 	@Override
 	public Object contentAt(int row, int column) {
-		return null;
+		if (data.get(row) == null) {
+			return null;
+		}
+		return data.get(row).get(column);
 	}
 
 	// - TabularSelection
 
 	@Override
 	public void clearSelection() {
-		selections.clearSelection();
+		selectionController.clearSelection();
 	}
 
 	@Override
 	public void selectRow(int row) {
-		selections.selectRow(row, false);
+		selectionController.selectRow(row, false);
 	}
 
 	@Override
 	public void selectColumn(int column) {
-		selections.selectColumn(column, false);
+		selectionController.selectColumn(column, false);
 	}
 
 	@Override
 	public void select(Selection selection, boolean extend) {
-		selections.select(selection, extend);
+		selectionController.select(selection, extend);
 	}
 
 	@Override
 	public void selectAll() {
-		selections.selectAll();
+		selectionController.selectAll();
 	}
 
 	public List<Selection> getSelection() {
-		return selections.selections();
+		return selectionController.selections();
 	}
 
-	public boolean isSelected(int x, int y) {
-		return selections.selections().stream().anyMatch(s -> s.contains(x, y));
+	public boolean isSelected(int row, int column) {
+		return selectionController.selections().stream().anyMatch(s -> s.contains(row, column));
 	}
 }
