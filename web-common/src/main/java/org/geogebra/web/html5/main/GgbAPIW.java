@@ -1151,7 +1151,7 @@ public class GgbAPIW extends GgbAPI {
 	public boolean isInteractive(String label) {
 		GeoElement geo = StringUtil.empty(label) ? null
 				: kernel.lookupLabel(label);
-		return geo == null ? false : app.getSelectionManager().isSelectableForEV(geo);
+		return geo != null && app.getSelectionManager().isSelectableForEV(geo);
 	}
 
 	/**
