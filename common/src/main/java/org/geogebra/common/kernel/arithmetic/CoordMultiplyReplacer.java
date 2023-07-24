@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -41,18 +42,24 @@ public class CoordMultiplyReplacer implements Traversing {
 			leftResolveVariables(node);
 			if (xVar != null && !leftHasCoord(node)) {
 				return asMultiplication(node, xVar);
+			} else if (leftHasDoubleAsDefinition(node)) {
+				return asMultiplication(node, new FunctionVariable(node.getKernel(), "x"));
 			}
 			return node;
 		case YCOORD:
 			leftResolveVariables(node);
 			if (yVar != null && !leftHasCoord(node)) {
 				return asMultiplication(node, yVar);
+			} else if (leftHasDoubleAsDefinition(node)) {
+				return asMultiplication(node, new FunctionVariable(node.getKernel(), "y"));
 			}
 			return node;
 		case ZCOORD:
 			leftResolveVariables(node);
 			if (zVar != null && !leftHasCoord(node)) {
 				return asMultiplication(node, zVar);
+			} else if (leftHasDoubleAsDefinition(node)) {
+				return asMultiplication(node, new FunctionVariable(node.getKernel(), "z"));
 			}
 			return node;
 		default:
@@ -79,5 +86,13 @@ public class CoordMultiplyReplacer implements Traversing {
 		if (left.unwrap().isVariable()) {
 			left.resolveVariables(new EvalInfo(false));
 		}
+	}
+
+	private boolean leftHasDoubleAsDefinition(ExpressionNode node) {
+		if (node.getLeft().unwrap() instanceof GeoSymbolic) {
+			return ((GeoSymbolic) node.getLeft().unwrap()).getDefinition().unwrap()
+					instanceof MyDouble;
+		}
+		return false;
 	}
 }
