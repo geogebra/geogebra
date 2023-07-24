@@ -924,8 +924,8 @@ public class SelectionManager {
 
 	/**
 	 * is selectable by the TAB handler
-	 * @param geo - geo element
-	 * @return ture, if the user can get to this element using TAB
+	 * @param geo geo element
+	 * @return true, if the user can get to this element using TAB
 	 */
 	public boolean isSelectableForEV(GeoElement geo) {
 		if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
