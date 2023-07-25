@@ -3,6 +3,7 @@
 @use 'info-card';
 @use 'z-index';
 @use 'sass:math';
+@use 'colorMap' as *;
 
 $duration: 0.2s;
 $shadow-card-default: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px
@@ -159,7 +160,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.infoText {
 				font-size: 100%;
 				margin-bottom: 24px;
-				color: colors.$text-secondary;
 			}
 	}
 
@@ -299,7 +299,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox, .dialogComponent {
+	.dialogComponent {
 		z-index: z-index.$z-dialog-over-keyboard;
 		background-color: colors.$white;
 		border-radius: 2px;
@@ -308,14 +308,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		padding-top: 24px;
 		box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
 		-webkit-box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
-
-		.Caption {
-			font-size: 125%;
-			margin-bottom: 20px;
-			color: colors.$text-primary;
-			border: none;
-			cursor: default;
-		}
 
 		.SymbolToggleButton:hover, .SymbolToggleButton:focus {
 			color: colors.$teal-default;
@@ -458,7 +450,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.message {
-			color: colors.$text-secondary;
 			margin-bottom: 24px;
 		}
 	}
@@ -473,10 +464,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				.mowInputPanelContent {
-
 					&.emptyState {
 						.inputLabel {
-							color: colors.$text-secondary;
+							color: neutral("700");
 							font-size: 75%;
 						}
 
@@ -490,9 +480,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 								margin-bottom: 8px;
 								margin-top: 0px;
 								font-size: 100%;
-								color: colors.$text-primary;
+								color: neutral("900");
 								&::placeholder {
-									color: colors.$text-secondary;
+									color: neutral("700");
 								}
 							}
 						}
@@ -548,7 +538,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			&.emptyState {
 				.inputLabel {
-					color: colors.$text-secondary;
+					color: neutral("700");
 					font-size: 75%;
 				}
 
@@ -561,9 +551,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 						margin-bottom: 8px;
 						margin-top: 0px;
 						font-size: 100%;
-						color: colors.$text-primary;
+						color: neutral("900");
 						&::placeholder {
-							color: colors.$text-secondary;
+							color: neutral("700");
 						}
 					}
 				}
@@ -573,7 +563,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				.msgLabel {
-					color: colors.$text-secondary;
 					margin-top: 0;
 					font-size: 75%;
 					min-height: 20px;
@@ -658,7 +647,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.rightClickHelpText {
 			font-size: 80%;
 			margin-bottom: 20px;
-			color: colors.$text-secondary;
 		}
 
 		.prevImg {
@@ -718,7 +706,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.pdfDialogText {
-			color: colors.$text-secondary;
 			margin-top: 20px;
 			text-align: center;
 			max-width: 190px;
@@ -852,7 +839,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding-right: 0px;
 		}
 		.linkLabel {
-			color: colors.$text-secondary;
 			font-size: 75%;
 			line-height: 1;
 		}
@@ -881,7 +867,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				align-items: center;
 				justify-content: center;
 				vertical-align: middle;
-				color: colors.$text-primary;
+				color: neutral("900");
 				text-transform: uppercase;
 				transition: background-color 0.15s;
 
@@ -910,7 +896,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					padding: 6px;
 				}
 				.gwt-Label {
-					color: colors.$text-primary;
+					color: neutral("900");
 					font-size: 100%;
 					margin: 10px auto 0px 12px;
 					cursor: pointer;
@@ -945,7 +931,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			font-size: 100%;
 			margin: 0px;
 			padding-bottom: 24px;
-			color: colors.$text-secondary;
 		}
 
 		.radioButton {
@@ -965,7 +950,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			font-size: 100%;
 			margin: 0px;
 			padding-bottom: 24px;
-			color: colors.$text-secondary;
 		}
 	}
 
@@ -1014,14 +998,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			height: 252px;
 			padding: 20px 24px 24px 24px;
 
-			.textStyle {
-				color: colors.$text-primary;
-			}
-
 			.captionStyle {
 				margin-top: 20px;
 				font-size: 75%;
-				color: colors.$text-secondary;
+				color: neutral("700");
 
 				&.noMargin {
 					margin-top: 0px;
@@ -1120,10 +1100,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 /****************************************************
 *   WEBCAM DIALOGS: permission dialog + camera dialog
 *****************************************************/
-	.mowPermissionDialog{
+	.mowPermissionDialog {
 		max-width: 500px;
 		.dialogContent .gwt-Label {
-			color: colors.$text-secondary;
 			font-size: 80%;
 			margin-bottom: 20px;
 		}
@@ -1187,7 +1166,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.selGrLbl {
-			color: colors.$text-secondary;
 			font-size: 100%;
 			margin-top: 0px;
 			margin-bottom: 20px;
@@ -1226,7 +1204,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				display: block;
 				margin: 0px auto;
 				margin-top: 16px;
-				color: colors.$text-primary;
 			}
 
 			.noGroupsHelpLbl {
@@ -1238,7 +1215,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				margin-bottom: 20px;
 				font-size: 87%;
 				text-align: center;
-				color: colors.$text-secondary;
 			}
 
 		}
@@ -1268,7 +1244,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.linkShareOnOff {
 					margin-top: 0px;
 					font-size: 100%;
-					color: colors.$text-primary;
 					line-height: 16px;
 				}
 
@@ -1276,7 +1251,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					margin-top: 0px;
 					font-size: 87%;
 					line-height: 16px;
-					color: colors.$text-secondary;
 				}
 			}
 
@@ -1308,7 +1282,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					align-items: center;
 					justify-content: center;
 					vertical-align: middle;
-					color: colors.$text-primary;
+					color: neutral("900");
 					text-transform: uppercase;
 					transition: background-color 0.15s;
 
@@ -1325,10 +1299,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 				.textPanel {
 					.linkShareOnOff {
-						color: colors.$text-disabled;
+						color: neutral("500");
 					}
 					.linkShareHelp {
-						color: colors.$text-disabled;
+						color: neutral("500");
 					}
 				}
 
@@ -1340,7 +1314,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.shareLinkAvailableInfo {
-			color: colors.$text-secondary;
 			max-width: 474px;
 			margin: 16px 24px 0px 24px;
 			font-size: 87%;
@@ -1376,7 +1349,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.groupName {
-			color: colors.$text-secondary;
 			margin-top: 8px;
 			padding-bottom: 4px;
 			font-size: 75%;
@@ -1581,7 +1553,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		height: unset;
 
 		.sessionExpireTxt {
-			color: colors.$text-secondary;
 			max-width: 400px;
 			margin-bottom: 20px;
 		}
@@ -1738,7 +1709,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.helpTxt {
 			margin-bottom: 24px;
 			font-size: 75%;
-			color: colors.$text-secondary;
 		}
 
 		.AutoCompleteTextFieldW {
@@ -1765,7 +1735,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.dialogTitle {
 			height: 24px;
 			font-size: 125%;
-			color: colors.$text-primary;
 			line-height: 1.2;
 		}
 
@@ -1795,12 +1764,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					margin-top: 8px;
 					margin-bottom: 4px;
 					height: 14px;
-					color: colors.$text-secondary;
 					font-size: 12px;
-				}
-
-				.value {
-					color: colors.$text-primary;
 				}
 			}
 
@@ -2021,7 +1985,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				width: 100%;
 				font-size: 87%;
 				font-weight: bold;
-				color: colors.$text-primary;
 				margin-top: 16px;
 
 				&.with {

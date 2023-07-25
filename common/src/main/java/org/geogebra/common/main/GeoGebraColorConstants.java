@@ -142,8 +142,7 @@ public class GeoGebraColorConstants {
 	public static final GColor GEOGEBRA_OBJECT_RED = rgb(0xD32F2F);
 	/** GEOGEBRA_OBJECT_ORANGE */
 	public static final GColor GEOGEBRA_OBJECT_ORANGE = rgb(0xDB6114);
-	/** GEOGEBRA_OBJECT_PURPLE */
-	public static final GColor GEOGEBRA_OBJECT_PURPLE = rgb(0x6557D2);
+
 	/** GEOGEBRA_OBJECT_GREY */
 	public static final GColor GEOGEBRA_OBJECT_GREY = rgb(0x616161);
 	/** GEOGEBRA_OBJECT_BLACK */
@@ -163,6 +162,12 @@ public class GeoGebraColorConstants {
 	public static final GColor DISABLED_BACKGROUND = rgb(0xa3a3a3);
 	public static final GColor DISABLED_BORDER = rgb(0x949494);
 	public static final GColor DEFAULT_BORDER = rgb(0x757575);
+
+	public static final GColor NEUTRAL_500 = rgb(0xB4B3BA);
+	public static final GColor NEUTRAL_700 = rgb(0x6E6D73);
+	public static final GColor NEUTRAL_900 = rgb(0x1C1C1F);
+
+	public static final GColor PURPLE_600 = rgb(0x6557D2); // primary purple
 
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
@@ -539,7 +544,7 @@ public class GeoGebraColorConstants {
 		popupColors[1] = GEOGEBRA_OBJECT_BLUE;
 		popupColors[2] = GEOGEBRA_OBJECT_RED;
 		popupColors[3] = GEOGEBRA_OBJECT_ORANGE;
-		popupColors[4] = GEOGEBRA_OBJECT_PURPLE;
+		popupColors[4] = PURPLE_600;
 		popupColors[5] = GEOGEBRA_OBJECT_GREY;
 		popupColors[6] = GEOGEBRA_OBJECT_BLACK;
 		popupColors[7] = null; // placeholder for (...) button
@@ -558,7 +563,7 @@ public class GeoGebraColorConstants {
 		popupColors[1] = GEOGEBRA_OBJECT_GREEN;
 		popupColors[2] = MOW_TEAL;
 		popupColors[3] = GEOGEBRA_OBJECT_BLUE;
-		popupColors[4] = GEOGEBRA_OBJECT_PURPLE;
+		popupColors[4] = PURPLE_600;
 		popupColors[5] = MOW_MAGENTA;
 		popupColors[6] = GEOGEBRA_OBJECT_RED;
 		popupColors[7] = GEOGEBRA_OBJECT_ORANGE;
@@ -658,7 +663,7 @@ public class GeoGebraColorConstants {
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, scolors[19],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN, scolors[43],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
-				GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE, scolors[0],
+				GeoGebraColorConstants.PURPLE_600, scolors[0],
 				scolors[8], scolors[16], scolors[32], scolors[40], scolors[48],
 				scolors[56], scolors[1], scolors[9], scolors[17], scolors[24],
 				scolors[41], scolors[49], scolors[57], scolors[3], scolors[11],

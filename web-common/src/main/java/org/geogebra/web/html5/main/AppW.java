@@ -141,13 +141,13 @@ import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
+import org.geogebra.web.html5.util.ArchiveLoader;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.UUIDW;
-import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.AnalyticsW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
@@ -240,7 +240,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
 	private final ArrayList<RequiresResize> euclidianHandlers = new ArrayList<>();
-	private ViewW viewW;
+	private ArchiveLoader archiveLoader;
 	private ZoomPanel zoomPanel;
 	private final PopupRegistry popupRegistry = new PopupRegistry();
 	private VendorSettings vendorSettings;
@@ -721,7 +721,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void loadGgbFileAsBase64(String dataUrl) {
 		prepareReloadGgbFile();
-		ViewW view = getViewW();
+		ArchiveLoader view = getArchiveLoader();
 		view.processBase64String(dataUrl);
 	}
 
@@ -751,7 +751,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void loadGgbFileAsBinary(ArrayBuffer binary) {
 		prepareReloadGgbFile();
-		ViewW view = getViewW();
+		ArchiveLoader view = getArchiveLoader();
 		view.processBinaryData(binary);
 	}
 
@@ -3322,13 +3322,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @return zip file handler
+	 * @return zip archive handler
 	 */
-	public ViewW getViewW() {
-		if (viewW == null) {
-			viewW = new ViewW(this);
+	public ArchiveLoader getArchiveLoader() {
+		if (archiveLoader == null) {
+			archiveLoader = new ArchiveLoader(this);
 		}
-		return viewW;
+		return archiveLoader;
 	}
 
 	/**

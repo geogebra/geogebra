@@ -5,14 +5,14 @@ import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.ViewW;
+import org.geogebra.web.html5.util.ArchiveLoader;
 
 /**
  * Like production, mock async loading of commands
  *
  */
 public class AppWSimpleMock extends AppWsimple {
-	private ViewW view;
+	private ArchiveLoader view;
 
 	/**
 	 * @param article article element
@@ -25,9 +25,9 @@ public class AppWSimpleMock extends AppWsimple {
 	}
 
 	@Override
-	public ViewW getViewW() {
+	public ArchiveLoader getArchiveLoader() {
 		if (view == null) {
-			view = new ViewWMock(this);
+			view = new ArchiveLoaderMock(this);
 		}
 		return view;
 	}

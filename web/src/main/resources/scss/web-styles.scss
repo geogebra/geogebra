@@ -3,6 +3,7 @@
  */
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	display: block;
@@ -230,7 +231,7 @@
 	}
 
 	.selectedItem, .highlighted {
-		background: #eeeeee;
+		background: neutral("200");
 	}
 
 	.gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
@@ -692,7 +693,6 @@
 	}
 
 	.menuSeparator {
-		background-color: #dedede;
 		height: 1px;
 		width: calc(100% - 56px);
 		list-style: none;
