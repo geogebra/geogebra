@@ -3253,7 +3253,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 			geo.update();
 
-			if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
+			if ((geo.isIndependent() || geo.isPointOnPath()|| updateCascadeAll)
 					&& (geo.hasAlgoUpdateSet())) {
 				// add all dependent algos of geo to the overall algorithm
 				// set

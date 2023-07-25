@@ -285,6 +285,7 @@ public class MoveGeos {
 		if (movedGeo) {
 			addWithFreePointsToUpdateList(view, geo);
 		}
+
 		if (changedPosition) {
 			geo.updateVisualStyleRepaint(GProperty.POSITION);
 		}
@@ -293,11 +294,22 @@ public class MoveGeos {
 
 	private static void addWithFreePointsToUpdateList(EuclidianView view, GeoElement geo) {
 		moveObjectsUpdateList.add(geo);
-		ArrayList<GeoElementND> freeInputPoints = geo.getFreeInputPoints(view);
-		if (freeInputPoints != null) {
-			for (GeoElementND point: freeInputPoints) {
-				moveObjectsUpdateList.add((GeoElement) point);
-			}
+		if (!ignoreFreePoints(geo)) {
+			addFreePointsToUpdateList(geo.getFreeInputPoints(view));
+		}
+	}
+
+	private static boolean ignoreFreePoints(GeoElement geo) {
+		return geo.isGeoConic();
+	}
+
+	private static void addFreePointsToUpdateList(List<GeoElementND> freeInputPoints) {
+		if (freeInputPoints == null) {
+			return;
+		}
+
+		for (GeoElementND point: freeInputPoints) {
+			moveObjectsUpdateList.add((GeoElement) point);
 		}
 	}
 
