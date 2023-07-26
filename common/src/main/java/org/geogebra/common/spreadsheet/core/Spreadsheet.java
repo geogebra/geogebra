@@ -164,13 +164,13 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 		return controller.isSelected(row, column);
 	}
 
-	public void showCellEditor(int row, int column) {
+	private void showCellEditor(int row, int column) {
 		if (delegate != null) {
 			delegate.showCellEditor(layout.getBounds(row, column), controller.contentAt(row, column));
 		}
 	}
 
-	public void hideCellEditor() {
+	private void hideCellEditor() {
 		if (delegate != null) {
 			delegate.hideCellEditor();
 		}

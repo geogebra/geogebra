@@ -7,7 +7,7 @@ import org.geogebra.common.util.shape.Rectangle;
 
 /**
  * Stores sizes and coordinates of spreadsheet cells
- * 
+ *
  * @Note: This type is not designed to be thread-safe.
  */
 public final class TableLayout {
