@@ -14,7 +14,13 @@ public class LanguageSubtagRegistryParser {
 	private LanguageSubtagRegistryParser() {
 	}
 
-	public static List<Subtag> parse(BufferedReader text) throws IOException {
+	/**
+	 * Parses the Language Subtag Registry file.
+	 * @param reader reader
+	 * @return list of subtags
+	 * @throws IOException if file is not found
+	 */
+	public static List<Subtag> parse(BufferedReader reader) throws IOException {
 		String line;
 		String subtag = null;
 		String description = null;
@@ -22,7 +28,7 @@ public class LanguageSubtagRegistryParser {
 
 		LinkedList<Subtag> subtags = new LinkedList<>();
 
-		while ((line = text.readLine()) != null) {
+		while ((line = reader.readLine()) != null) {
 			if (line.equals("%%")) {
 				if (type != null && subtag != null) {
 					subtags.add(new Subtag(type, subtag, description));
