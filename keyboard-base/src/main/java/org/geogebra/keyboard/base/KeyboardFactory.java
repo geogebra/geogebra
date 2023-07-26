@@ -4,9 +4,6 @@ import java.util.Map;
 
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 
-/**
- * Creates {@link Keyboard} classes.
- */
 public interface KeyboardFactory {
     /**
      * Creates a math keyboard with numbers and operators.
@@ -57,8 +54,8 @@ public interface KeyboardFactory {
      * @param withGreekSwitch if switch to greek layout should be included
      * @return letter keyboard
      */
-    Keyboard createLettersKeyboard(String topRow, String middleRow,
-                                   String bottomRow, Map<String, String> upperKeys, boolean withGreekSwitch);
+    Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow,
+                                   Map<String, String> upperKeys, boolean withGreekSwitch);
 
     /**
      * Calls {@link #createLettersKeyboard(String, String, String, Map, boolean)} with true to

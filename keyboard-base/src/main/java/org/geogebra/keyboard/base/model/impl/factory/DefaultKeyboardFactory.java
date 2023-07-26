@@ -2,7 +2,7 @@ package org.geogebra.keyboard.base.model.impl.factory;
 
 import org.geogebra.keyboard.base.KeyboardFactory;
 
-public class DefaultKeyboardFactory extends CommonKeyboardFactory {
+public final class DefaultKeyboardFactory extends CommonKeyboardFactory {
 
     public static final KeyboardFactory INSTANCE = new DefaultKeyboardFactory();
 

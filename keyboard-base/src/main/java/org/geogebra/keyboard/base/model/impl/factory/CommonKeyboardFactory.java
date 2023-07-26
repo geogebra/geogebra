@@ -23,6 +23,10 @@ public class CommonKeyboardFactory implements KeyboardFactory {
     protected LetterKeyboardFactory letterKeyboardFactory;
     protected KeyboardModelFactory specialSymbolsKeyboardFactory;
 
+    /**
+     * Creates a CommonKeyboardFactory with default implementations
+     * for keyboard model factories.
+     */
     public CommonKeyboardFactory() {
         this(new DefaultCharProvider());
     }

@@ -4,15 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
-import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.factory.CommonKeyboardFactory;
-import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardModelFactory;
-import org.geogebra.keyboard.base.model.impl.factory.FunctionKeyboardFactory;
-import org.geogebra.keyboard.base.model.impl.factory.GreekKeyboardFactory;
-import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
-import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
-import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.IneqBoolFunctionKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard.InputBoxDefaultFunctionKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard.InputBoxDefaultGreekKeyboardFactory;

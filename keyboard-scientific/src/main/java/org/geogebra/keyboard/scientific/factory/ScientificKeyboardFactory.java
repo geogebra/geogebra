@@ -6,7 +6,7 @@ import org.geogebra.keyboard.scientific.model.ScientificDefaultKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
 
-public class ScientificKeyboardFactory extends CommonKeyboardFactory {
+public final class ScientificKeyboardFactory extends CommonKeyboardFactory {
 
     public static final KeyboardFactory INSTANCE = new ScientificKeyboardFactory();
 
