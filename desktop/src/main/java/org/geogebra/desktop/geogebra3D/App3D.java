@@ -44,7 +44,6 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
-import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import org.geogebra.desktop.geogebra3D.gui.GuiManager3D;
 import org.geogebra.desktop.geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
 import org.geogebra.desktop.geogebra3D.util.ImageManager3D;
@@ -158,13 +157,9 @@ public class App3D extends AppD {
 		if (this.euclidianView3D == null) {
 			setWaitCursor();
 			initEuclidianController3D();
-			if (euclidianController3D.hasInput3D()) {
-				euclidianView3D = new EuclidianViewInput3D(
-						euclidianController3D, getSettings().getEuclidian(3));
-			} else {
-				euclidianView3D = new EuclidianView3DD(euclidianController3D,
-						getSettings().getEuclidian(3));
-			}
+			euclidianView3D = new EuclidianView3DD(euclidianController3D,
+					getSettings().getEuclidian(3));
+
 			setDefaultCursor();
 		}
 		return euclidianView3D;
