@@ -39,29 +39,11 @@ public class CoordMultiplyReplacer implements Traversing {
 	private ExpressionValue processExpressionNode(ExpressionNode node) {
 		switch (node.getOperation()) {
 		case XCOORD:
-			leftResolveVariables(node);
-			if (xVar != null && !leftHasCoord(node)) {
-				return asMultiplication(node, xVar);
-			} else if (leftHasDoubleAsDefinition(node)) {
-				return asMultiplication(node, new FunctionVariable(node.getKernel(), "x"));
-			}
-			return node;
+			return nodeOrMultiplication(node, "x", xVar);
 		case YCOORD:
-			leftResolveVariables(node);
-			if (yVar != null && !leftHasCoord(node)) {
-				return asMultiplication(node, yVar);
-			} else if (leftHasDoubleAsDefinition(node)) {
-				return asMultiplication(node, new FunctionVariable(node.getKernel(), "y"));
-			}
-			return node;
+			return nodeOrMultiplication(node, "y", yVar);
 		case ZCOORD:
-			leftResolveVariables(node);
-			if (zVar != null && !leftHasCoord(node)) {
-				return asMultiplication(node, zVar);
-			} else if (leftHasDoubleAsDefinition(node)) {
-				return asMultiplication(node, new FunctionVariable(node.getKernel(), "z"));
-			}
-			return node;
+			return nodeOrMultiplication(node, "z", zVar);
 		default:
 			return node;
 		}
@@ -74,6 +56,17 @@ public class CoordMultiplyReplacer implements Traversing {
 		return mul;
 	}
 
+	private ExpressionValue nodeOrMultiplication(ExpressionNode node, String varName,
+			FunctionVariable var) {
+		leftResolveVariables(node);
+		if (var != null && !leftHasCoord(node)) {
+			return asMultiplication(node, var);
+		} else if (leftHasDoubleAsDefinition(node)) {
+			return asMultiplication(node, new FunctionVariable(node.getKernel(), varName));
+		}
+		return node;
+	}
+
 	private boolean leftHasCoord(ExpressionNode node) {
 		ExpressionValue left = node.getLeft();
 		return left.evaluatesToNDVector()
@@ -84,14 +77,14 @@ public class CoordMultiplyReplacer implements Traversing {
 	private void leftResolveVariables(ExpressionNode node) {
 		ExpressionValue left = node.getLeft();
 		if (left.unwrap().isVariable()) {
-			left.resolveVariables(new EvalInfo(false));
+			left.resolveVariables(new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		}
 	}
 
 	private boolean leftHasDoubleAsDefinition(ExpressionNode node) {
 		if (node.getLeft().unwrap() instanceof GeoSymbolic) {
-			return ((GeoSymbolic) node.getLeft().unwrap()).getDefinition().unwrap()
-					instanceof MyDouble;
+			ExpressionNode definition = ((GeoSymbolic) node.getLeft().unwrap()).getDefinition();
+			return definition != null && definition.unwrap() instanceof MyDouble;
 		}
 		return false;
 	}

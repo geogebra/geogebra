@@ -2047,6 +2047,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Integral(f,0,x(A))", "8 / 3");
 	}
 
+	/**
+	 * APPS-4889
+	 */
+	@Test
+	public void testShouldChangeToMultiplication() {
+		t("x(a)", "x * a");
+		t("b = 3", "3");
+		t("x(b)", "3 * x");
+	}
+
 	@Test
 	public void testListAsFunction() {
 		add("h(x)={x, x + 1}");
