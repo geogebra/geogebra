@@ -6,6 +6,13 @@ import java.util.Objects;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
+import org.geogebra.keyboard.base.model.impl.factory.CommonKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardModelFactory;
+import org.geogebra.keyboard.base.model.impl.factory.FunctionKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.GreekKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.IneqBoolFunctionKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard.InputBoxDefaultFunctionKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard.InputBoxDefaultGreekKeyboardFactory;
@@ -16,7 +23,7 @@ import org.geogebra.keyboard.web.factory.model.inputbox.math.FunctionMathKeyboar
 import org.geogebra.keyboard.web.factory.model.inputbox.math.IneqBoolMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.VectorMatrixMathKeyboardFactory;
 
-public class InputBoxKeyboardFactory extends KeyboardFactory {
+public class InputBoxKeyboardFactory extends CommonKeyboardFactory {
 
 	private InputBoxType inputBoxType;
 	private List<String> functionVars;
@@ -33,12 +40,12 @@ public class InputBoxKeyboardFactory extends KeyboardFactory {
 	}
 
 	private void init() {
-		setDefaultKeyboardFactory(getMathKeyboard(inputBoxType, functionVars));
-		setMathKeyboardFactory(getMathKeyboard(inputBoxType, functionVars));
-		setFunctionKeyboardFactory(getFunctionKeyboard(inputBoxType));
-		setSpecialSymbolsKeyboardFactory(new InputBoxDefaultSymbolsKeyboardFactory());
-		setLetterKeyboardFactory(new InputBoxDefaultLettersKeyboardFactory());
-		setGreekKeyboardFactory(new InputBoxDefaultGreekKeyboardFactory());
+		defaultKeyboardModelFactory = getMathKeyboard(inputBoxType, functionVars);
+		mathKeyboardFactory = getMathKeyboard(inputBoxType, functionVars);
+		functionKeyboardFactory = getFunctionKeyboard(inputBoxType);
+		specialSymbolsKeyboardFactory = new InputBoxDefaultSymbolsKeyboardFactory();
+		letterKeyboardFactory = new InputBoxDefaultLettersKeyboardFactory();
+		greekKeyboardFactory = new InputBoxDefaultGreekKeyboardFactory();
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import org.geogebra.keyboard.base.model.impl.AccentModifier;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 
 public class CommonKeyboardFactory implements KeyboardFactory {
+    public static final KeyboardFactory INSTANCE = new CommonKeyboardFactory();
     ButtonFactory defaultButtonFactory = new ButtonFactory(null);
     protected KeyboardModelFactory mathKeyboardFactory;
     protected KeyboardModelFactory defaultKeyboardModelFactory;
@@ -23,6 +24,14 @@ public class CommonKeyboardFactory implements KeyboardFactory {
     protected KeyboardModelFactory specialSymbolsKeyboardFactory;
 
     public CommonKeyboardFactory() {
+        this(new DefaultCharProvider());
+    }
+
+    public CommonKeyboardFactory(CharacterProvider characterProvider) {
+        defaultKeyboardModelFactory = new DefaultKeyboardModelFactory(characterProvider);
+        mathKeyboardFactory = new MathKeyboardFactory(characterProvider);
+        functionKeyboardFactory = new FunctionKeyboardFactory();
+        letterKeyboardFactory = new LetterKeyboardFactory();
         greekKeyboardFactory = new GreekKeyboardFactory();
         specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory();
     }

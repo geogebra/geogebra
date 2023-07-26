@@ -10,10 +10,6 @@ public class ScientificKeyboardFactory extends CommonKeyboardFactory {
 
     public static final KeyboardFactory INSTANCE = new ScientificKeyboardFactory();
 
-    /**
-     * Creates a KeyboardFactory with default implementations
-     * for keyboard model factories.
-     */
     private ScientificKeyboardFactory() {
         mathKeyboardFactory = new ScientificDefaultKeyboardFactory(true);
         defaultKeyboardModelFactory = new ScientificDefaultKeyboardFactory(false);

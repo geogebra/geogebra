@@ -18,6 +18,7 @@ import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.WeightedButton;
+import org.geogebra.keyboard.base.model.impl.factory.CommonKeyboardFactory;
 import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
 import org.geogebra.keyboard.web.factory.InputBoxKeyboardFactory;
 import org.geogebra.keyboard.web.factory.NotesKeyboardFactory;
@@ -134,7 +135,7 @@ public class TabbedKeyboard extends FlowPanel
 				|| hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
 				factory = ScientificKeyboardFactory.INSTANCE;
 			} else {
-				factory = KeyboardFactory.INSTANCE;
+				factory = CommonKeyboardFactory.INSTANCE;
 			}
 		}
 		return factory;
