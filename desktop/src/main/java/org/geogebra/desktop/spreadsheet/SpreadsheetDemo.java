@@ -19,8 +19,8 @@ import javax.swing.JScrollBar;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
-import org.geogebra.common.spreadsheet.kernel.GeoElementSpreadsheetDataConverter;
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetControllerKernelAdapter;
+import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
+import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
@@ -38,15 +38,14 @@ public class SpreadsheetDemo {
 			Dimension preferredSize = new Dimension(800, 600);
 			frame.setPreferredSize(preferredSize);
 			AppCommon appCommon = new AppCommon(new LocalizationCommon(3), new AwtFactoryD());
-
-			Spreadsheet spreadsheet = new Spreadsheet(100, 200,
-					new GeoElementSpreadsheetDataConverter());
+			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(appCommon.getKernel());
+			Spreadsheet spreadsheet = new Spreadsheet(adapter,
+					new GeoElementCellRendererFactory());
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
-			spreadsheet.getLayout().setWidthForColumns(60, IntStream.range(0, 10).toArray());
-			spreadsheet.getLayout().setHeightForRows(20, IntStream.range(0, 10).toArray());
+			spreadsheet.setWidthForColumns(60, IntStream.range(0, 10).toArray());
+			spreadsheet.setHeightForRows(20, IntStream.range(0, 10).toArray());
 			SpreadsheetPanel spreadsheetPanel = new SpreadsheetPanel(spreadsheet);
-			SpreadsheetControllerKernelAdapter adapter = new SpreadsheetControllerKernelAdapter(
-					spreadsheet, appCommon.getKernel());
+
 			appCommon.getKernel().attach(adapter);
 			appCommon.getGgbApi().evalCommand(String.join("\n", "C4=7", "C5=8",
 					"A1=4", "B2=true", "B3=Button()", "B4=sqrt(x)"));

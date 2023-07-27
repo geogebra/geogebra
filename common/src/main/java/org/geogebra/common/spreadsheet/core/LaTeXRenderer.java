@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.renderer.share.TeXIcon;
 
@@ -15,7 +16,7 @@ public class LaTeXRenderer implements CellRenderer {
 	}
 
 	@Override
-	public void draw(GGraphics2D graphics, int x, int y) {
-		icon.paintIcon(() -> null, graphics.getGraphicsForLaTeX(), x, y);
+	public void draw(GGraphics2D graphics, Rectangle cellBorder) {
+		icon.paintIcon(() -> null, graphics.getGraphicsForLaTeX(), cellBorder.getMinX(), cellBorder.getMinY());
 	}
 }

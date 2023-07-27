@@ -5,14 +5,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
 import org.geogebra.common.spreadsheet.core.LaTeXRenderer;
-import org.geogebra.common.spreadsheet.core.SpreadsheetDataConverter;
+import org.geogebra.common.spreadsheet.core.CellRendererFactory;
 import org.geogebra.common.spreadsheet.core.StringRenderer;
 
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 
-public class GeoElementSpreadsheetDataConverter implements SpreadsheetDataConverter {
+public class GeoElementCellRendererFactory implements CellRendererFactory {
 	@Override
 	public CellRenderer getRenderer(Object geo) {
 		if (geo == null) {

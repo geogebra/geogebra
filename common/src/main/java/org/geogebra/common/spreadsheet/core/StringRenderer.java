@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.util.shape.Rectangle;
 
 /**
  * Renderer for plain text cells
@@ -13,7 +14,7 @@ public class StringRenderer implements CellRenderer {
 	}
 
 	@Override
-	public void draw(GGraphics2D graphics, int x, int y) {
-		graphics.drawString((String) value, x, y + 20);
+	public void draw(GGraphics2D graphics, Rectangle cellBorder) {
+		graphics.drawString(value, cellBorder.getMinX(), cellBorder.getMaxY());
 	}
 }

@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -8,7 +9,7 @@ import org.geogebra.common.util.shape.Rectangle;
  *
  * @Note: This type is not designed to be thread-safe.
  */
-public final class Spreadsheet implements TabularData, TabularSelection {
+public final class Spreadsheet implements TabularSelection, TabularDataChangeListener {
 
 	private final SpreadsheetController controller;
 	private final TableLayout layout;
@@ -18,12 +19,12 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 	private SpreadsheetStyle style = new SpreadsheetStyle();
 	private final SpreadsheetRenderer renderer;
 	private Rectangle viewport;
-	private SpreadsheetControlsDelegate delegate;
+	private SpreadsheetControlsDelegate controlsDelegate;
 
-	public Spreadsheet(int initialNumberOfRows, int initialNumberOfColumns, SpreadsheetDataConverter converter) {
-		renderer = new SpreadsheetRenderer(this, converter);
-		controller = new SpreadsheetController(initialNumberOfRows, initialNumberOfColumns);
-		layout = new TableLayout(initialNumberOfRows, initialNumberOfColumns, 20, 40);
+	public Spreadsheet(TabularData tabularData, CellRendererFactory rendererFactory) {
+		controller = new SpreadsheetController(tabularData);
+		layout = new TableLayout(tabularData.numberOfRows(), tabularData.numberOfColumns(), 20, 40);
+		renderer = new SpreadsheetRenderer(layout, rendererFactory);
 	}
 
 	// editing & validation
@@ -45,11 +46,30 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 		if (!needsRedraw) {
 			return;
 		}
-		renderer.draw(graphics, viewport);
+		drawCells(graphics, viewport);
 		for (Selection selection: controller.getSelection()) {
-			renderer.drawSelection(selection.getRange(), graphics, viewport);
+			renderer.drawSelection(selection.getRange(), graphics, viewport, layout);
 		}
 		needsRedraw = false;
+	}
+
+	void drawCells(GGraphics2D graphics, Rectangle rectangle) {
+		TableLayout.Portion portion =
+				layout.getLayoutIntersecting(rectangle);
+		graphics.translate(-rectangle.getMinX(), -rectangle.getMinY());
+		for (int column = 0; column < portion.numberOfColumns; column++) {
+			renderer.drawColumnHeader(column, graphics);
+		}
+		for (int row = 0; row < portion.numberOfRows; row++) {
+			renderer.drawRowHeader(row, graphics);
+		}
+		for (int column = 0; column < portion.numberOfColumns; column++) {
+			for (int row = 0; row < portion.numberOfRows; row++) {
+				renderer.drawCell(row + portion.fromRow, column + portion.fromColumn, graphics,
+						controller.contentAt(row + portion.fromRow, column + portion.fromColumn));
+			}
+		}
+		graphics.translate(rectangle.getMinX(), rectangle.getMinY());
 	}
 
 	// keyboard (use com.himamis.retex.editor.share.event.KeyListener?)
@@ -58,63 +78,7 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 
 	// - TabularData
 
-	@Override
-	public void reset(int rows, int columns) {
-	}
-
-	@Override
-	public int numberOfRows() {
-		return layout.numberOfRows();
-	}
-
-	@Override
-	public int numberOfColumns() {
-		return layout.numberOfColumns();
-	}
-
-	@Override
-	public void appendRows(int numberOfRows) {
-		controller.appendRows(numberOfRows);
-		needsRedraw = true;
-	}
-
-	@Override
-	public void insertRowAt(int row) {
-		controller.insertRowAt(row);
-		needsRedraw = true;
-	}
-
-	@Override
-	public void deleteRowAt(int row) {
-		controller.deleteRowAt(row);
-		needsRedraw = true;
-	}
-
-	@Override
-	public void appendColumns(int numberOfColumns) {
-		controller.appendColumns(numberOfColumns);
-		needsRedraw = true;
-	}
-
-	@Override
-	public void insertColumnAt(int column) {
-		controller.insertColumnAt(column);
-		needsRedraw = true;
-	}
-
-	@Override
-	public void deleteColumnAt(int column) {
-		controller.deleteColumnAt(column);
-		needsRedraw = true;
-	}
-
-	@Override
-	public void setContent(int row, int column, Object content) {
-		controller.setContent(row, column, content);
-		needsRedraw = true;
-	}
-
-	@Override
+	/** TODO move out */
 	public Object contentAt(int row, int column) {
 		return controller.contentAt(row, column);
 	}
@@ -151,28 +115,24 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 		needsRedraw = true;
 	}
 
-	public TableLayout getLayout() {
-		return layout;
-	}
-
 	public void setViewport(Rectangle viewport) {
 		this.viewport = viewport;
 		needsRedraw = true;
 	}
 
-	public boolean isSelected(int row, int column) {
+	private boolean isSelected(int row, int column) {
 		return controller.isSelected(row, column);
 	}
 
 	private void showCellEditor(int row, int column) {
-		if (delegate != null) {
-			delegate.showCellEditor(layout.getBounds(row, column), controller.contentAt(row, column));
+		if (controlsDelegate != null) {
+			controlsDelegate.showCellEditor(layout.getBounds(row, column), controller.contentAt(row, column));
 		}
 	}
 
 	private void hideCellEditor() {
-		if (delegate != null) {
-			delegate.hideCellEditor();
+		if (controlsDelegate != null) {
+			controlsDelegate.hideCellEditor();
 		}
 	}
 
@@ -206,5 +166,18 @@ public final class Spreadsheet implements TabularData, TabularSelection {
 
 	public SpreadsheetController getController() {
 		return controller;
+	}
+
+	@Override
+	public void update(int row, int column) {
+		renderer.invalidate(row, column);
+	}
+
+	public void setWidthForColumns(double width, int[] columnIndices) {
+		layout.setWidthForColumns(width, columnIndices);
+	}
+
+	public void setHeightForRows(double height, int... rowIndices) {
+		layout.setHeightForRows(height, rowIndices);
 	}
 }

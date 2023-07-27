@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -41,8 +42,10 @@ public final class TableLayout {
 	}
 
 	public Rectangle getBounds(int row, int column) {
-		return new Rectangle(cumulativeWidths[column], cumulativeHeights[row],
-				columnWidths[column], rowHeights[row]);
+		return new Rectangle(cumulativeWidths[column],
+				cumulativeWidths[column] + columnWidths[column],
+				cumulativeHeights[row],
+				cumulativeHeights[row] + rowHeights[row]);
 	}
 
 	/**
@@ -81,7 +84,7 @@ public final class TableLayout {
 
 	}
 
-	public void setWidthForColumns(float width, int... columnIndices) {
+	public void setWidthForColumns(double width, int... columnIndices) {
 		for (int column: columnIndices) {
 			columnWidths[column] = width;
 		}
@@ -90,7 +93,7 @@ public final class TableLayout {
 		}
 	}
 
-	public void setHeightForRows(float height, int... rowIndices) {
+	public void setHeightForRows(double height, int... rowIndices) {
 		for (int row: rowIndices) {
 			rowHeights[row] = height;
 		}

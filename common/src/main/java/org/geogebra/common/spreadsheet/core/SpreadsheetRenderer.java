@@ -11,64 +11,47 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public class SpreadsheetRenderer {
 
-	private final SpreadsheetDataConverter converter;
-	private Spreadsheet spreadsheet;
+	private final CellRendererFactory converter;
+	private final TableLayout layout;
 
-	public SpreadsheetRenderer(Spreadsheet spreadsheet, SpreadsheetDataConverter converter) {
-		this.spreadsheet = spreadsheet;
+	public SpreadsheetRenderer(TableLayout layout, CellRendererFactory converter) {
 		this.converter = converter;
+		this.layout = layout;
 	}
 
-	public void draw(GGraphics2D graphics, Rectangle rectangle) {
-		TableLayout.Portion portion =
-				spreadsheet.getLayout().getLayoutIntersecting(rectangle);
-		graphics.translate(-rectangle.getMinX(), -rectangle.getMinY());
-		for (int column = 0; column < portion.numberOfColumns; column++) {
-			drawColumnHeader(column, graphics);
-		}
-		for (int row = 0; row < portion.numberOfRows; row++) {
-			drawRowHeader(row, graphics);
-		}
-		for (int column = 0; column < portion.numberOfColumns; column++) {
-			for (int row = 0; row < portion.numberOfRows; row++) {
-				drawCell(row + portion.fromRow, column + portion.fromColumn, graphics, spreadsheet);
-			}
-		}
-		graphics.translate(rectangle.getMinX(), rectangle.getMinY());
-	}
-
-	private void drawCell(int row, int column, GGraphics2D graphics, Spreadsheet spreadsheet) {
+	void drawCell(int row, int column, GGraphics2D graphics, Object content) {
 		graphics.setColor(GColor.BLUE);
-		TableLayout layout = spreadsheet.getLayout();
 		graphics.drawRect((int) layout.getX(column), (int) layout.getY(row),
 				(int) layout.getWidth(column), (int) layout.getHeight(row));
 
-		CellRenderer cellRenderer = converter.getRenderer(spreadsheet.contentAt(row, column));
-		int x = (int) layout.getX(column);
-		int y = (int) layout.getY(row);
-		cellRenderer.draw(graphics, x, y);
+		CellRenderer cellRenderer = converter.getRenderer(content);
+		if (cellRenderer != null) {
+			cellRenderer.draw(graphics, layout.getBounds(row, column));
+		}
 	}
 
-	private void drawRowHeader(int row, GGraphics2D graphics) {
+	protected void drawRowHeader(int row, GGraphics2D graphics) {
 	}
 
-	private void drawColumnHeader(int column, GGraphics2D graphics) {
+	protected void drawColumnHeader(int column, GGraphics2D graphics) {
 
 	}
 
-	public void drawSelection(TabularRange selection, GGraphics2D graphics,
-			Rectangle viewport) {
+	void drawSelection(TabularRange selection, GGraphics2D graphics,
+			Rectangle viewport, TableLayout layout) {
 		graphics.translate(-viewport.getMinX(), -viewport.getMinY());
-		TableLayout layout = spreadsheet.getLayout();
 		int minX = (int) layout.getX(selection.fromCol);
 		int minY = (int) layout.getY(selection.fromRow);
 		int maxX = (int) layout.getX(selection.toCol + 1);
 		int maxY = (int) layout.getY(selection.toRow + 1);
 		graphics.setColor(GColor.newColor(0, 0, 255, 100));
-		graphics.fillRect(minX,
-				minY,
+		graphics.fillRect(minX,	minY,
 				maxX - minX, maxY - minY);
 
 		graphics.translate(viewport.getMinX(), viewport.getMinY());
+	}
+
+	void invalidate(int row, int column) {
+		// TODO renderers for each cell should be cached and here we invalidate the cache entry
 	}
 }
