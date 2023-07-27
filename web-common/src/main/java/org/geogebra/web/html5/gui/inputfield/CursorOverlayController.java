@@ -15,6 +15,7 @@ public class CursorOverlayController {
 	private CursorOverlay cursorOverlay;
 	private boolean hadSelection;
 	private boolean enabled;
+	private double blinkHandler;
 
 	public CursorOverlayController(AppW app, AutoCompleteTextFieldW textField, FlowPanel main) {
 		this.app = app;
@@ -27,38 +28,33 @@ public class CursorOverlayController {
 		cursorOverlay = new CursorOverlay();
 		textField.addFocusHandler(evt -> addDummyCursor());
 		textField.addBlurHandler(evt -> removeDummyCursor());
-		DomGlobal.setInterval(event -> update(), 200);
+		startBlinking();
 		textField.updateInputBoxAlign();
+	}
+
+	private void startBlinking() {
+		blinkHandler = DomGlobal.setInterval(event -> update(), 200);
+	}
+
+	private void stopBlinking() {
+		DomGlobal.clearTimeout(blinkHandler);
 	}
 
 	public void update() {
 		if (!enabled) {
 			return;
 		}
-
-		if (cursorOverlay.isAttached()) {
-			toggleOverlay();
-		}
-	}
-
-	private void toggleOverlay() {
-		if (!hadSelection && hasSelection()) {
-			cursorOverlay.removeFromParent();
-			main.removeStyleName("withCursorOverlay");
-			hadSelection = true;
-		} else if (!hadSelection) {
-			if (!cursorOverlay.isAttached()) {
-				add();
-			}
-			hadSelection = false;
-		}
+		startBlinking();
 		cursorOverlay.update(textField.getCursorPos(), textField.getText());
 	}
-	private boolean hasSelection() {
-		return !textField.getTextField().getValueBox().getSelectedText().isEmpty();
+
+	public void selectAll() {
+		stopBlinking();
+		cursorOverlay.selectAll();
 	}
 
-	private void enableCursorOverlay() {
+	private boolean hasSelection() {
+		return textField.getTextField().getValueBox().getSelectionLength() > 0;
 	}
 
 	public void addDummyCursor() {
@@ -117,7 +113,14 @@ public class CursorOverlayController {
 			return;
 		}
 
-		cursorOverlay.getElement().getStyle().setProperty("justifyContent",
-				alignment.toString());
+		cursorOverlay.setHorizontalAlignment(alignment);
+	}
+
+	public void unselectAll() {
+		cursorOverlay.unselect();
+	}
+
+	public boolean isSelected() {
+		return enabled && cursorOverlay.isSelected();
 	}
 }

@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.inputfield;
 
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
@@ -10,6 +11,7 @@ public class CursorOverlay extends FlowPanel {
 
 	private String text = "";
 	int cursorPos = -1;
+	private boolean seleted;
 
 	public CursorOverlay() {
 		setStyleName("cursorOverlay");
@@ -57,5 +59,27 @@ public class CursorOverlay extends FlowPanel {
 			dummyCursor.getElement().setScrollLeft(prefix.getOffsetWidth()
 					- dummyCursor.getOffsetWidth() + scrollPadding);
 		}
+
+	}
+
+	public void setHorizontalAlignment(HorizontalAlignment alignment) {
+		getElement().getStyle().setProperty("justifyContent",
+				alignment.toString());
+	}
+
+	public void selectAll() {
+		seleted = true;
+		InlineLabel selectedText = new InlineLabel(text);
+		selectedText.addStyleName("select-content");
+		clear();
+		add(selectedText);
+	}
+
+	public void unselect() {
+		seleted = false;
+	}
+
+	public boolean isSelected() {
+		return seleted;
 	}
 }

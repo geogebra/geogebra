@@ -1118,6 +1118,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (insertHandler != null) {
 			insertHandler.onInsert(text);
 		}
+		cursorOverlayController.unselectAll();
 		updateCursorOverlay();
 	}
 
@@ -1174,11 +1175,18 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private int getSelectionEnd() {
+		if (cursorOverlayController.isSelected()) {
+			return textField.getText().length();
+		}
+
 		return getSelectionStart()
 				+ textField.getValueBox().getSelectionLength();
 	}
 
 	private int getSelectionStart() {
+		if (cursorOverlayController.isSelected()) {
+			return 0;
+		}
 		return textField.getValueBox().getCursorPos();
 	}
 
@@ -1346,7 +1354,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * Selects all text.
 	 */
 	public void selectAll() {
-		textField.getValueBox().selectAll();
+		if (cursorOverlayController.isEnabled()) {
+			cursorOverlayController.selectAll();
+			updateCursorOverlay();
+		} else {
+			textField.getValueBox().selectAll();
+		}
 	}
 
 	@Override
