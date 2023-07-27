@@ -98,7 +98,7 @@ public enum Language {
 
 	Valencian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "caXV", "ca",
-			"Catalan / Catal\u00E0 (Valenci\u00E0)", Script.LATIN, ',', '0', null, "valencia"),
+			"Catalan / Catal\u00E0 (Valenci\u00E0)", Script.LATIN, ',', '0', "XV"),
 
 	Chinese_Simplified(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u984F", true, "zhCN", "zh",
