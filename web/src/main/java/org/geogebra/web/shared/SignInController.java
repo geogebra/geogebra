@@ -10,8 +10,7 @@ import org.geogebra.web.shared.ggtapi.StaticFileUrls;
 import org.gwtproject.timer.client.Timer;
 
 /**
- * Default sign in button: opens GGB signin in a popup.
- *
+ * Default sign in controller: opens GGB sign in page in a popup, processes the login token after.
  */
 public class SignInController implements EventRenderable, SignInControllerI {
 	/** application */
@@ -22,8 +21,8 @@ public class SignInController implements EventRenderable, SignInControllerI {
 	protected Timer loginChecker;
 
 	private WindowReference signInDialog = null;
-	private String callbackURL;
-	private int delay;
+	private final String callbackURL;
+	private final int delay;
 
 	/**
 	 * @param app
@@ -58,7 +57,6 @@ public class SignInController implements EventRenderable, SignInControllerI {
 			loginChecker.cancel();
 		}
 	}
-
 
 	@Override
 	public void initLoginTimer() {
