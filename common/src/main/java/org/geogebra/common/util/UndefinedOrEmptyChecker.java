@@ -24,52 +24,10 @@ public class UndefinedOrEmptyChecker implements Inspecting {
 
         // In case of a symbolic expression check its value
         if (v instanceof GeoSymbolic) {
-            return check(((GeoSymbolic) v).getValue());
+            return (((GeoSymbolic) v).getValue()).inspect(this);
         }
 
-        // For lists return true if empty, else check all elements
-        if (v instanceof MyList) {
-            if (((MyList) v).getLength() == 0) {
-                return true;
-            }
-            for (int i = 0; i < ((MyList) v).getLength(); i++) {
-                if (check(((MyList) v).getItem(i))) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // Check both sides of equations
-        if (v instanceof Equation) {
-            return check(((Equation) v.unwrap()).getLHS())
-                    || check(((Equation) v.unwrap()).getRHS());
-        }
-
-        // Check both sides of expression nodes, avoid NPE
-        if (v instanceof ExpressionNode) {
-            ExpressionNode node = (ExpressionNode) v;
-            boolean l = false;
-            boolean r = false;
-            if (node.getLeft() != null) {
-                l = check(node.getLeft());
-            }
-
-            if (node.getRight() != null) {
-                r = check(node.getRight());
-            }
-            return (r || l) && !hasOperationWithNan((ExpressionNode) v);
-        }
         return false;
 
-    }
-
-    // Some operations contain "?" by default, check added to avoid false positives
-    private boolean hasOperationWithNan(ExpressionNode node) {
-        return Operation.LOG.equals(node.getOperation())
-                || Operation.SQRT.equals(node.getOperation())
-                || Operation.CBRT.equals(node.getOperation())
-                || Operation.SIN.equals(node.getOperation())
-                || Operation.COS.equals(node.getOperation());
     }
 }
