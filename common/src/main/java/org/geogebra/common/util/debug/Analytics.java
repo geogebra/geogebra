@@ -107,19 +107,19 @@ public abstract class Analytics {
 		 */
 		public static String convertToSubAppParam(String subAppName) {
 			switch (subAppName) {
-				case GeoGebraConstants.GEOMETRY_APPCODE:
-					return SUB_APP_GEOMETRY;
-				case GeoGebraConstants.CAS_APPCODE:
-					return SUB_APP_CAS;
-				case GeoGebraConstants.G3D_APPCODE:
-					return SUB_APP_3D;
-				case GeoGebraConstants.PROBABILITY_APPCODE:
-					return SUB_APP_PROBABILITY;
-				case GeoGebraConstants.SCIENTIFIC_APPCODE:
-					return SUB_APP_SCIENTIFIC_CALCULATOR;
-				case GeoGebraConstants.GRAPHING_APPCODE:
-				default:
-					return SUB_APP_GRAPHING;
+			case GeoGebraConstants.GEOMETRY_APPCODE:
+				return SUB_APP_GEOMETRY;
+			case GeoGebraConstants.CAS_APPCODE:
+				return SUB_APP_CAS;
+			case GeoGebraConstants.G3D_APPCODE:
+				return SUB_APP_3D;
+			case GeoGebraConstants.PROBABILITY_APPCODE:
+				return SUB_APP_PROBABILITY;
+			case GeoGebraConstants.SCIENTIFIC_APPCODE:
+				return SUB_APP_SCIENTIFIC_CALCULATOR;
+			case GeoGebraConstants.GRAPHING_APPCODE:
+			default:
+				return SUB_APP_GRAPHING;
 			}
 		}
 

@@ -50,7 +50,7 @@ public class KeyboardLayoutTest {
 				(LocalizationCommon) AppCommonFactory.create().getLocalization();
 		KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
 				localization);
-		for (Language lang: Language.values()) {
+		for (Language lang : Language.values()) {
 			localization.setLocale(localization.convertToLocale(lang));
 			String[] rows = latinProvider.getLowerKeys();
 			List<Integer> lengths = Arrays.stream(rows).map(String::length)

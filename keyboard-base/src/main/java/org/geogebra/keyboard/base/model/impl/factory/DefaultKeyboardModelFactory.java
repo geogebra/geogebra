@@ -20,49 +20,49 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 public class DefaultKeyboardModelFactory implements KeyboardModelFactory {
 
-    private CharacterProvider charProvider;
+	private CharacterProvider charProvider;
 
-    public DefaultKeyboardModelFactory(CharacterProvider characterProvider) {
-        charProvider = characterProvider;
-    }
+	public DefaultKeyboardModelFactory(CharacterProvider characterProvider) {
+		charProvider = characterProvider;
+	}
 
-    @Override
-    public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
-        KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
+	@Override
+	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
+		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-        RowImpl row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, buttonFactory, charProvider.xForButton(), charProvider.xAsInput());
-        addInputButton(row, buttonFactory, charProvider.yForButton(), charProvider.yAsInput());
-        addInputButton(row, buttonFactory, charProvider.zForButton(), charProvider.zAsInput());
-        addInputButton(row, buttonFactory, charProvider.piForButton(), charProvider.piAsInput());
-        addButton(row, buttonFactory.createEmptySpace(0.2f));
-        addFirstRow(row, buttonFactory);
+		RowImpl row = mathKeyboard.nextRow(9.2f);
+		addInputButton(row, buttonFactory, charProvider.xForButton(), charProvider.xAsInput());
+		addInputButton(row, buttonFactory, charProvider.yForButton(), charProvider.yAsInput());
+		addInputButton(row, buttonFactory, charProvider.zForButton(), charProvider.zAsInput());
+		addInputButton(row, buttonFactory, charProvider.piForButton(), charProvider.piAsInput());
+		addButton(row, buttonFactory.createEmptySpace(0.2f));
+		addFirstRow(row, buttonFactory);
 
-        row = mathKeyboard.nextRow(9.2f);
-        addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
-        addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
-        addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
-        addInputButton(
-                row, buttonFactory, charProvider.eulerForButton(), charProvider.eulerAsInput());
-        addButton(row, buttonFactory.createEmptySpace(0.2f));
-        addSecondRow(row, buttonFactory);
+		row = mathKeyboard.nextRow(9.2f);
+		addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
+		addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
+		addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
+		addInputButton(
+				row, buttonFactory, charProvider.eulerForButton(), charProvider.eulerAsInput());
+		addButton(row, buttonFactory.createEmptySpace(0.2f));
+		addSecondRow(row, buttonFactory);
 
-        row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, buttonFactory, "<");
-        addInputButton(row, buttonFactory, ">");
-        addInputButton(row, buttonFactory, LEQ);
-        addInputButton(row, buttonFactory, GEQ);
-        addButton(row, buttonFactory.createEmptySpace(0.2f));
-        addThirdRow(row, buttonFactory);
+		row = mathKeyboard.nextRow(9.2f);
+		addInputButton(row, buttonFactory, "<");
+		addInputButton(row, buttonFactory, ">");
+		addInputButton(row, buttonFactory, LEQ);
+		addInputButton(row, buttonFactory, GEQ);
+		addButton(row, buttonFactory.createEmptySpace(0.2f));
+		addThirdRow(row, buttonFactory);
 
-        row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, buttonFactory, "(");
-        addInputButton(row, buttonFactory, ")");
-        addConstantInputButton(row, buttonFactory, Resource.ABS, "|");
-        addInputButton(row, buttonFactory, ",");
-        addButton(row, buttonFactory.createEmptySpace(0.2f));
-        addFourthRow(row, buttonFactory);
+		row = mathKeyboard.nextRow(9.2f);
+		addInputButton(row, buttonFactory, "(");
+		addInputButton(row, buttonFactory, ")");
+		addConstantInputButton(row, buttonFactory, Resource.ABS, "|");
+		addInputButton(row, buttonFactory, ",");
+		addButton(row, buttonFactory.createEmptySpace(0.2f));
+		addFourthRow(row, buttonFactory);
 
-        return mathKeyboard;
-    }
+		return mathKeyboard;
+	}
 }
