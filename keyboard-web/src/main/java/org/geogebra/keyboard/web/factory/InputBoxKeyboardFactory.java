@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
-import org.geogebra.keyboard.base.model.impl.factory.CommonKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.IneqBoolFunctionKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard.InputBoxDefaultFunctionKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard.InputBoxDefaultGreekKeyboardFactory;
@@ -16,7 +16,7 @@ import org.geogebra.keyboard.web.factory.model.inputbox.math.FunctionMathKeyboar
 import org.geogebra.keyboard.web.factory.model.inputbox.math.IneqBoolMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.VectorMatrixMathKeyboardFactory;
 
-public class InputBoxKeyboardFactory extends CommonKeyboardFactory {
+public class InputBoxKeyboardFactory extends DefaultKeyboardFactory {
 
 	private InputBoxType inputBoxType;
 	private List<String> functionVars;

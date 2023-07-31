@@ -20,13 +20,6 @@ public interface KeyboardFactory {
     Keyboard createDefaultKeyboard();
 
     /**
-     * @param modelFactory model factory
-     * @param type         the keyboard type (ABC, numeric, ...)
-     * @return default implementation
-     */
-    Keyboard getImpl(KeyboardModelFactory modelFactory, KeyboardType type);
-
-    /**
      * Creates a function keyboard with the function buttons.
      *
      * @return function keyboard

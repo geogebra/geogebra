@@ -18,13 +18,13 @@ import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
-import org.geogebra.keyboard.base.model.impl.factory.CommonKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardFactory;
 import org.junit.Test;
 
 public class KeyboardLayoutTest {
 	@Test
 	public void testSpecialTab() {
-		KeyboardFactory kbf = CommonKeyboardFactory.INSTANCE;
+		KeyboardFactory kbf = new DefaultKeyboardFactory();
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
 		StringBuilder actions = new StringBuilder();
 		StringBuilder resources = new StringBuilder();
