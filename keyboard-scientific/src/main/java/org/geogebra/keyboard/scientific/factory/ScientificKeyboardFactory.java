@@ -7,6 +7,10 @@ import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
 
 public final class ScientificKeyboardFactory extends DefaultKeyboardFactory {
 
+	/**
+	 * Creates a ScientificKeyboardFactory with default implementations
+	 * for keyboard model factories.
+	 */
 	public ScientificKeyboardFactory() {
 		mathKeyboardFactory = new ScientificDefaultKeyboardFactory(true);
 		defaultKeyboardModelFactory = new ScientificDefaultKeyboardFactory(false);
