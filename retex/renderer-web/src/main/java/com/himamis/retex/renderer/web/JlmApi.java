@@ -2,9 +2,11 @@ package com.himamis.retex.renderer.web;
 
 import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -30,16 +32,16 @@ public class JlmApi {
 	public final int ROMAN = TeXFont.ROMAN;
 	public final int TYPEWRITER = TeXFont.TYPEWRITER;
 
-	public JsPropertyMap<Object> drawLatex(JsPropertyMap opts) {
+	public FormulaRenderingResult drawLatex(JsPropertyMap opts) {
 		//ctx, latex, size, style, x, y, fgColor, bgColor, cb
-		if (Js.isFalsy(opts.get("context"))) {
+		if (Js.isFalsy(opts.get("context")) && Js.isFalsy(opts.get("element"))) {
 			throw new IllegalArgumentException("drawLatex(opts): opts.context must not be null");
 		}
 		if (!"string".equals(Js.typeof(opts.get("latex"))) &&
 				!"string".equals(Js.typeof(opts.get("ascii")))) {
 			throw new IllegalArgumentException("drawLatex(opts): opts.latex or opts.ascii must be of type string.");
 		}
-		CanvasRenderingContext2D ctx = Js.uncheckedCast(opts.get("context"));
+		CanvasRenderingContext2D ctx = Js.uncheckedCast(getContext(opts));
 		TeXFormula formula = opts.get("ascii") == null ? new TeXFormula((String) opts.get("latex"))
 				: library.fromAsciiMath((String) opts.get("ascii"));
 		int size = getInt(opts, "size", 12);
@@ -54,8 +56,17 @@ public class JlmApi {
 		String bgColor = (String) opts.get("backgroundColor"); // undefined === invisible
 		DrawingFinishedCallback cb = Js.uncheckedCast(opts.get("callback"));
 		FactoryProviderGWT.ensureLoaded();
-		return library.drawLatex(ctx, formula, size, type, x, y,
-				topInset, leftInset, bottomInset, rightInset, fgColor, bgColor, cb);
+		Insets insets = new Insets(topInset, leftInset, bottomInset, rightInset);
+		HTMLCanvasElement canvas = (HTMLCanvasElement) opts.get("element");
+		FormulaRenderingResult result = library.drawLatex(ctx, formula, size, type, x, y,
+				insets, fgColor, bgColor, cb, canvas);
+
+		return result;
+	}
+
+	private Object getContext(JsPropertyMap opts) {
+		return Js.isTruthy(opts.get("context"))	? opts.get("context")
+				: ((HTMLCanvasElement) opts.get("element")).getContext("2d");
 	}
 
 	private int getInt(JsPropertyMap opts, String key, int fallback) {

@@ -38,4 +38,5 @@
     <set-configuration-property name="org.gwtproject.safecss.ForceCheckValidStyles" value="false"/>
     <inherits name='org.geogebra.web.AppCacheLinker' />
     <set-configuration-property name="installCode" value="false" />
+    <set-configuration-property name="es6export" value="editor:div,formula:canvas" />
 </module>

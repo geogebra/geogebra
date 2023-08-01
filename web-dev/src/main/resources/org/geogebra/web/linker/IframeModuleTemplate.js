@@ -201,8 +201,8 @@ window.__MODULE_FUNC__ = function() {
   return true; // success
 }
 
-window.editor.submodules = {editor: {callbacks:[]}, formula: {callbacks:[]}};
-window.editor.onReady = function(submodule, render) {
+window.__MODULE_FUNC__.submodules = {};
+window.__MODULE_FUNC__.onReady = function(submodule, render) {
   for (let callback of window.editor.submodules[submodule].callbacks) {
     callback(render);
   }
@@ -211,20 +211,59 @@ window.editor.onReady = function(submodule, render) {
 
 window.__MODULE_FUNC__.succeeded = window.__MODULE_FUNC__();
 
+function Widget(options, submodule, baseTag)  {
+   const self = this;
+   self.loading = false;
+   this.apiCallbacks = [api => self.api = api];
 
-const createSubmoduleAPI = (submodule) => ({
-  create: (element) => {
-    return new Promise(resolve => {
-         const sm = window.editor.submodules[submodule];
-         if (sm.render) {
-           sm.render(element, resolve);
+   function runCallbacks(api) {
+     for (const callback of self.apiCallbacks) {
+       callback(api);
+     }
+   }
+
+   function load() {
+     self.loading = true;
+     if (submodule.render) {
+         submodule.render(options, runCallbacks);
+     } else {
+         submodule.callbacks.push(render => render(options, runCallbacks));
+     }
+   }
+
+   this.inject = function(element) {
+       const target = document.createElement(baseTag);
+       options.element = target;
+       element.appendChild(target);
+       load();
+       return this;
+   }
+
+   this.getAPI = function() {
+      return new Promise(resolve => {
+         if (self.api) {
+           resolve(self.api);
+         } else if (self.loading) {
+           self.apiCallbacks.push(resolve);
          } else {
-           sm.callbacks.push((render) => render(element, resolve));
+           load(resolve);
          }
-     });
-  }
-});
+      });
+   }
 
-// TODO this only makes sense for editor module
-export const editor = createSubmoduleAPI("editor");
-export const formula = createSubmoduleAPI("formula");
+   if (options.tagName || options.element) {
+      load();
+   }
+}
+
+const createSubmoduleAPI = (submodule, baseTag) => {
+  window.__MODULE_FUNC__.submodules[submodule] = {callbacks:[]};
+  return {
+    create: (options) => {
+      return new Widget(options || {}, window.__MODULE_FUNC__.submodules[submodule], baseTag);
+    }
+  }
+};
+
+// add export statements
+__EXPORT_SUBMODULES__

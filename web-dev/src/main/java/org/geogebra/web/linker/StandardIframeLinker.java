@@ -1,5 +1,9 @@
 package org.geogebra.web.linker;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.gwt.core.ext.LinkerContext;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
@@ -47,10 +51,27 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 	protected String generateSelectionScriptModule(TreeLogger logger,
 			LinkerContext context, ArtifactSet artifacts)
 			throws UnableToCompleteException {
+		if (getExportFilename(context).isEmpty()) {
+			return "";
+		}
 		StringBuffer buffer = readFileToStringBuffer(
 				"org/geogebra/web/linker/IframeModuleTemplate.js", logger);
+		StringBuilder exports = new StringBuilder();
+		for (String submodule: getExportFilename(context)) {
+			String[] parts = submodule.split(":");
+			exports.append("export const %0 = createSubmoduleAPI(\"%0\", \"%1\");\n"
+					.replace("%0", parts[0]).replace("%1", parts[1]));
+		}
+		replaceAll(buffer, "__EXPORT_SUBMODULES__", exports.toString());
 		return fillSelectionScriptTemplate(
 				buffer, logger, context, artifacts, null);
+	}
+
+	private List<String> getExportFilename(LinkerContext context) {
+		return context.getConfigurationProperties().stream()
+				.filter(prop -> prop.getName().equals("es6export") && !prop.getValues().isEmpty())
+				.flatMap(prop -> Arrays.stream(prop.getValues().get(0).split(",")))
+				.collect(Collectors.toList());
 	}
 
 	@Override
