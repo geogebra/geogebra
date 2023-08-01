@@ -28,7 +28,6 @@ public class Subtag {
 	}
 
 	public String getDescription() {
-
 		return description;
 	}
 }

@@ -211,11 +211,6 @@ public enum Language {
 			Unicode.CURRENCY_EURO + "", null, true, "it",
 			"Italian / Italiano", Script.LATIN, ','),
 
-	// Irish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
-	// false,
-	// "ga",
-	// "ga", "Irish / Gaeilge", Script.LATIN),
-
 	Japanese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_YEN + "", "\uff9d", true, "ja",
 			"Japanese / \u65E5\u672C\u8A9E", Script.JAPANESE),
@@ -396,17 +391,18 @@ public enum Language {
 			"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9",
 			Script.HEBREW, '.', '0', null);
 
-	// Interlingua(null, true, "ia", "ia", "Interlingua",
-	// Country.UnitedStatesofAmerica);
+	@Deprecated
 	final public String locale;
 
-	// ISO 639 alpha-2 or alpha-3
+	/** ISO 639 alpha-2 or alpha-3 language code */
 	final public String language;
-	// ISO 15924 alpha-4
-	final private Script script;
-	// ISO 3166 alpha-2 country code
-	final private String region;
-	final private String variant;
+	/** ISO 15924 alpha-4 script */
+	final public Script script;
+	/** ISO 3166 alpha-2 country code */
+	final public String region;
+	/** IANA registered variant */
+	final public String variant;
+
 	final private boolean suppressScript;
 	final public String name;
 	// used to determine whether to put in release versions
@@ -425,10 +421,25 @@ public enum Language {
 	private char unicodeZero;
 
 	/**
+	 * Constructs a Language enum.
 	 *
+	 * @param rightAngleStyle right angle style
+	 * @param currency localized currency
+	 * @param testChar character that is used to select a proper font
+	 * @param fullyTranslated is fully translated
+	 * @param locale deperated parameter, use language, script, region and variant
+	 * @param language language ISO 639 2 or 3 letter codes
+	 * @param name the name of the language
+	 * @param script script ISO 15924 alpha-4
+	 * @param decimalSeparator decimal separator
+	 * @param unicodeZero unicode zero
+	 * @param region region ISO 3166 alpha-2 country code
+	 * @param variant variant IANA registered variant
+	 * @param suppressScript suppress script tag in {@link Language#toLanguageTag()}
+	 * (see BCP 47 suppress script)
 	 */
 	Language(int rightAngleStyle, String currency, String testChar,
-			boolean fullyTranslated, String locale, String language, String name,
+			boolean fullyTranslated, String locale, @Deprecated String language, String name,
 			Script script, char decimalSeparator,
 			char unicodeZero, String region, String variant, boolean suppressScript) {
 		this.rightAngleStyle = rightAngleStyle;
@@ -447,28 +458,28 @@ public enum Language {
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
-			String locale, String language, String name, Script script, char decimalSeparator,
+			@Deprecated String locale, String language, String name, Script script, char decimalSeparator,
 			char unicodeZero, String region, String variant) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale, language, name, script,
 				decimalSeparator, unicodeZero, region, variant, true);
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
-			String locale, String language, String name, Script script, char decimalSeparator,
+			@Deprecated String locale, String language, String name, Script script, char decimalSeparator,
 			char unicodeZero, String region) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale, language, name, script,
 				decimalSeparator, unicodeZero, region, null);
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar,
-			boolean fullyTranslated, String locale,
+			boolean fullyTranslated, @Deprecated String locale,
 			String name, Script script) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
 				locale, name, script, '.', '0', null, null);
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar,
-			boolean fullyTranslated, String locale,
+			boolean fullyTranslated, @Deprecated String locale,
 			String name, Script script, char decimalSeparator,
 			char unicodeZero) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
@@ -476,25 +487,27 @@ public enum Language {
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar,
-			boolean fullyTranslated, String locale,
+			boolean fullyTranslated, @Deprecated String locale,
 			String name, Script script, char decimalSeparator) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
 				locale, name, script, decimalSeparator, '0', null, null);
 	}
 
 	/**
-	 * @param language ISO code
+	 * Gets the closes supported language or the default (English_US)
+	 * @param language ISO 639 language code
 	 * @return closest constant
 	 */
 	final public static Language getLanguage(String language) {
+		// First try to match the closest language with no other subtags
 		for (Language l : Language.values()) {
-			// language could be "ca" or "caXV"
-			if (l.locale.equals(language) || l.language.equals(language)) {
+			if (l.toLanguageTag().equals(language)) {
 				return l;
 			}
 		}
+		// Then try to match first language only
 		for (Language l : Language.values()) {
-			if (l.locale.substring(0, 2).equals(language)) {
+			if (l.language.equals(language)) {
 				return l;
 			}
 		}

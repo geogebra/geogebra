@@ -1,5 +1,9 @@
 package org.geogebra.common.util.lang;
 
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +14,6 @@ import java.util.Optional;
 
 import org.geogebra.common.util.lang.subtags.LanguageSubtagRegistryParser;
 import org.geogebra.common.util.lang.subtags.Subtag;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class LanguageTests {
@@ -20,9 +23,17 @@ public class LanguageTests {
 		List<Subtag> acceptedSubtags = parseTags();
 		for (Language language : Language.values()) {
 			String tag = language.toLanguageTag();
+			assertNotNull(tag);
+			assertNotEquals("", tag);
 			for (String subtag : tag.split("-")) {
+				if ("XV".equals(subtag)) {
+					// XV presents a special case, stands for valencia region.
+					// Android Gradle Plugin cannot parse the correct valencia variant subtag.
+					// We stick to the original version by using the non-existing XV region.
+					continue;
+				}
 				Optional<Subtag> acceptedSubtag = findSubtag(acceptedSubtags, subtag);
-				Assert.assertTrue(subtag + " must be present in accepted subtags",
+				assertTrue(subtag + " must be present in accepted subtags",
 						acceptedSubtag.isPresent());
 			}
 		}
