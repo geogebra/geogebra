@@ -410,19 +410,6 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * Creates a locale from a language and a country string.
-	 *
-	 * @param language
-	 *            the language of the locale
-	 * @param country
-	 *            the country the language is used in. Might be null.
-	 * @return a new locale
-	 */
-	protected Locale createLocale(String language, String country) {
-		return new Locale(language, country);
-	}
-
-	/**
 	 * @param locale
 	 *            current locale
 	 */
@@ -488,9 +475,9 @@ public abstract class LocalizationJre extends Localization {
 	 * @return converted locale
 	 */
 	public Locale convertToLocale(Language language) {
-		String lang = language.language.replace("nl_BE", "nl");
-		String country = language.region;
-		return createLocale(lang, country);
+		String languageCode = language.language.replace("nl_BE", "nl");
+		String countryCode = language.region != null ? language.region : "";
+		return new Locale(languageCode, countryCode);
 	}
 
 	/**
