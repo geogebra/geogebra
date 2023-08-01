@@ -490,7 +490,7 @@ public enum Language {
 	}
 
 	/**
-	 * Gets the closes supported language or the default (English_US)
+	 * Gets the closest supported language or the default (English_US)
 	 * @param language ISO 639 language code
 	 * @return closest constant
 	 */

@@ -14,13 +14,20 @@ import java.util.Optional;
 import org.geogebra.common.util.lang.subtags.Field;
 import org.geogebra.common.util.lang.subtags.LanguageSubtagRegistryParser;
 import org.geogebra.common.util.lang.subtags.Record;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class LanguageTests {
 
+	private static List<Record> acceptedSubtags;
+
+	@BeforeClass
+	public static void setup() throws Exception {
+		acceptedSubtags = parseRecords();
+	}
+
 	@Test
-	public void testLanguageTags() throws Exception {
-		List<Record> acceptedSubtags = parseRecords();
+	public void testLanguageTags() {
 		for (Language language : Language.values()) {
 			String tag = language.toLanguageTag();
 			assertNotNull(tag);
@@ -53,10 +60,10 @@ public class LanguageTests {
 	}
 
 	private static boolean hasSubtag(Record record, String subtag) {
-		return record.getFields().stream().anyMatch(f -> isSubtag(f, subtag));
+		return record.fields.stream().anyMatch(f -> isSubtag(f, subtag));
 	}
 
 	private static boolean isSubtag(Field field, String subtag) {
-		return field.getName().equals("Subtag") && field.getBody().equals(subtag);
+		return field.name.equals("Subtag") && field.body.equals(subtag);
 	}
 }

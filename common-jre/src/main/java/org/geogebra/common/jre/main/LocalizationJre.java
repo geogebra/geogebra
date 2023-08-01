@@ -475,9 +475,7 @@ public abstract class LocalizationJre extends Localization {
 	 * @return converted locale
 	 */
 	public Locale convertToLocale(Language language) {
-		String languageCode = language.language.replace("nl_BE", "nl");
-		String countryCode = language.region != null ? language.region : "";
-		return new Locale(languageCode, countryCode);
+		return new Locale(language.language, language.region != null ? language.region : "");
 	}
 
 	/**

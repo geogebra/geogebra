@@ -46,78 +46,57 @@ public class LanguageSubtagRegistryParserTests {
 			+ "Comments: published by error in Table 1 of ISO 639:1988";
 
 	@Test
-	public void testSingleEntry() {
-		List<Record> records = null;
-		try {
-			records = parseString(HEADER + SINGLE_ENTRY);
-		} catch (Exception e) {
-			fail("It should not throw exception");
-		}
+	public void testSingleEntry() throws Exception {
+		List<Record> records = parse(HEADER + SINGLE_ENTRY);
 		assertThat(records, hasSize(1));
-		List<Field> fields = records.get(0).getFields();
+		List<Field> fields = records.get(0).fields;
 		assertThat(fields, hasSize(4));
 		Field field = fields.get(0);
-		assertThat(field.getName(), is("Type"));
-		assertThat(field.getBody(), is("language"));
+		assertThat(field.name, is("Type"));
+		assertThat(field.body, is("language"));
 	}
 
 	@Test
 	public void testTwoEntries() {
 		List<Record> records = null;
 		try {
-			records = parseString(HEADER + TWO_ENTRIES);
+			records = parse(HEADER + TWO_ENTRIES);
 		} catch (Exception e) {
 			fail("It should not throw exception");
 		}
 		assertThat(records, hasSize(2));
-		assertThat(records.get(0).getFields(), hasSize(4));
-		assertThat(records.get(1).getFields(), hasSize(5));
+		assertThat(records.get(0).fields, hasSize(4));
+		assertThat(records.get(1).fields, hasSize(5));
 	}
 
 	@Test
-	public void testContinuation() {
-		List<Record> records = null;
-		try {
-			records = parseString(HEADER + LINE_CONTINUATION);
-		} catch (Exception e) {
-			fail("It should not throw exception, got " + e);
-		}
+	public void testContinuation() throws Exception {
+		List<Record> records = parse(HEADER + LINE_CONTINUATION);
 		assertThat(records, hasSize(1));
-		List<Field> fields = records.get(0).getFields();
-		assertThat(fields.get(2).getBody(),
+		List<Field> fields = records.get(0).fields;
+		assertThat(fields.get(2).body,
 				is("Portuguese Language Orthographic Agreement of 1990 (Acordo\n"
 						+ "  Ortográfico da Língua Portuguesa de 1990)"
 				));
-		assertThat(fields.get(6).getBody(),
+		assertThat(fields.get(6).body,
 				is("Portuguese orthography conventions established in 1990 but\n"
 						+ "  not brought into effect until 2009"
 				));
 	}
 
 	@Test
-	public void testColonInFieldBody() {
-		List<Record> records = null;
-		try {
-			records = parseString(HEADER + COLON_IN_FIELD_BODY);
-		} catch (Exception e) {
-			fail("It should not throw exception, got " + e);
-		}
-		assertThat(records.get(0).getFields().get(6).getBody(),
+	public void testColonInFieldBody() throws Exception {
+		List<Record> records = parse(HEADER + COLON_IN_FIELD_BODY);
+		assertThat(records.get(0).fields.get(6).body,
 				is("published by error in Table 1 of ISO 639:1988"));
-
 	}
 
-	@Test
-	public void testInvalidFormatThrowsException() {
-		try {
-			parseString("Invalid format");
-			fail("This should not be reached, an exception should have been thrown");
-		} catch (Exception e) {
-			// Success
-		}
+	@Test(expected = Exception.class)
+	public void testInvalidFormatThrowsException() throws Exception {
+		parse("Invalid format");
 	}
 
-	private static List<Record> parseString(String string) throws Exception {
+	private static List<Record> parse(String string) throws Exception {
 		return LanguageSubtagRegistryParser.parse(new BufferedReader(new StringReader(string)));
 	}
 }

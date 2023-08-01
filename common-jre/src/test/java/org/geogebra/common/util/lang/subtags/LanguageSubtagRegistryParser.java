@@ -33,9 +33,9 @@ public class LanguageSubtagRegistryParser {
 
 		// First line is date
 		Field date = parseField(reader.readLine());
-		if (!"File-Date".equals(date.getName())) {
+		if (!"File-Date".equals(date.name)) {
 			throw new Exception(
-					"First line should contain field File-Date, found " + date.getName());
+					"First line should contain field File-Date, found " + date.name);
 		}
 		// Second line is %%
 		String secondLine = reader.readLine();
@@ -51,7 +51,7 @@ public class LanguageSubtagRegistryParser {
 				if (fields.size() >= 1) {
 					Field lastField = fields.remove(fields.size() - 1);
 					Field newField =
-							new Field(lastField.getName(), lastField.getBody() + "\n" + line);
+							new Field(lastField.name, lastField.body + "\n" + line);
 					fields.add(newField);
 				} else {
 					throw new Exception("Invalid format");
