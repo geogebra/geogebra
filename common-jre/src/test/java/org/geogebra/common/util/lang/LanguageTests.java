@@ -5,22 +5,22 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
+import org.geogebra.common.util.lang.subtags.Field;
 import org.geogebra.common.util.lang.subtags.LanguageSubtagRegistryParser;
-import org.geogebra.common.util.lang.subtags.Subtag;
+import org.geogebra.common.util.lang.subtags.Record;
 import org.junit.Test;
 
 public class LanguageTests {
 
 	@Test
-	public void testLanguageTags() throws IOException {
-		List<Subtag> acceptedSubtags = parseTags();
+	public void testLanguageTags() throws Exception {
+		List<Record> acceptedSubtags = parseRecords();
 		for (Language language : Language.values()) {
 			String tag = language.toLanguageTag();
 			assertNotNull(tag);
@@ -32,22 +32,31 @@ public class LanguageTests {
 					// We stick to the original version by using the non-existing XV region.
 					continue;
 				}
-				Optional<Subtag> acceptedSubtag = findSubtag(acceptedSubtags, subtag);
+				Optional<Record> acceptedSubtag = findRecord(acceptedSubtags, subtag);
 				assertTrue(subtag + " must be present in accepted subtags",
 						acceptedSubtag.isPresent());
 			}
 		}
 	}
 
-	private List<Subtag> parseTags() throws IOException {
-		try (InputStream in = getClass().getResourceAsStream("language-subtag-registry.txt")) {
+	private static List<Record> parseRecords() throws Exception {
+		try (InputStream in = LanguageTests.class.getResourceAsStream(
+				"language-subtag-registry.txt")) {
 			BufferedReader reader = new BufferedReader(
 					new InputStreamReader(in, StandardCharsets.US_ASCII));
 			return LanguageSubtagRegistryParser.parse(reader);
 		}
 	}
 
-	private Optional<Subtag> findSubtag(List<Subtag> subtags, String subtag) {
-		return subtags.stream().filter(s -> s.getSubtag().equals(subtag)).findFirst();
+	private static Optional<Record> findRecord(List<Record> records, String subtag) {
+		return records.stream().filter(r -> hasSubtag(r, subtag)).findFirst();
+	}
+
+	private static boolean hasSubtag(Record record, String subtag) {
+		return record.getFields().stream().anyMatch(f -> isSubtag(f, subtag));
+	}
+
+	private static boolean isSubtag(Field field, String subtag) {
+		return field.getName().equals("Subtag") && field.getBody().equals(subtag);
 	}
 }
