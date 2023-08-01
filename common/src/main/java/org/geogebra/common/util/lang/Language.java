@@ -422,7 +422,6 @@ public enum Language {
 
 	/**
 	 * Constructs a Language enum.
-	 *
 	 * @param rightAngleStyle right angle style
 	 * @param currency localized currency
 	 * @param testChar character that is used to select a proper font
@@ -438,10 +437,10 @@ public enum Language {
 	 * @param suppressScript suppress script tag in {@link Language#toLanguageTag()}
 	 * (see BCP 47 suppress script)
 	 */
-	Language(int rightAngleStyle, String currency, String testChar,
-			boolean fullyTranslated, String locale, @Deprecated String language, String name,
-			Script script, char decimalSeparator,
-			char unicodeZero, String region, String variant, boolean suppressScript) {
+	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
+			String locale, @Deprecated String language, String name, Script script,
+			char decimalSeparator, char unicodeZero, String region, String variant,
+			boolean suppressScript) {
 		this.rightAngleStyle = rightAngleStyle;
 		this.currency = currency == null ? "$" : currency;
 		this.locale = locale;
@@ -458,39 +457,36 @@ public enum Language {
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
-			@Deprecated String locale, String language, String name, Script script, char decimalSeparator,
-			char unicodeZero, String region, String variant) {
+			@Deprecated String locale, String language, String name, Script script,
+			char decimalSeparator, char unicodeZero, String region, String variant) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale, language, name, script,
 				decimalSeparator, unicodeZero, region, variant, true);
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
-			@Deprecated String locale, String language, String name, Script script, char decimalSeparator,
-			char unicodeZero, String region) {
+			@Deprecated String locale, String language, String name, Script script,
+			char decimalSeparator, char unicodeZero, String region) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale, language, name, script,
 				decimalSeparator, unicodeZero, region, null);
 	}
 
-	Language(int rightAngleStyle, String currency, String testChar,
-			boolean fullyTranslated, @Deprecated String locale,
-			String name, Script script) {
-		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
-				locale, name, script, '.', '0', null, null);
+	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
+			@Deprecated String locale, String name, Script script) {
+		this(rightAngleStyle, currency, testChar, fullyTranslated, locale, locale, name, script,
+				'.', '0', null, null);
 	}
 
-	Language(int rightAngleStyle, String currency, String testChar,
-			boolean fullyTranslated, @Deprecated String locale,
-			String name, Script script, char decimalSeparator,
+	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
+			@Deprecated String locale, String name, Script script, char decimalSeparator,
 			char unicodeZero) {
-		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
-				locale, name, script, decimalSeparator, unicodeZero, null, null);
+		this(rightAngleStyle, currency, testChar, fullyTranslated, locale, locale, name, script,
+				decimalSeparator, unicodeZero, null, null);
 	}
 
-	Language(int rightAngleStyle, String currency, String testChar,
-			boolean fullyTranslated, @Deprecated String locale,
-			String name, Script script, char decimalSeparator) {
-		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
-				locale, name, script, decimalSeparator, '0', null, null);
+	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
+			@Deprecated String locale, String name, Script script, char decimalSeparator) {
+		this(rightAngleStyle, currency, testChar, fullyTranslated, locale, locale, name, script,
+				decimalSeparator, '0', null, null);
 	}
 
 	/**
@@ -591,12 +587,12 @@ public enum Language {
 	}
 
 	/**
-	 * @param language language string
+	 * @param gwtLocaleString GWT locale string (see values in {@link Language#getLocaleGWT()}.
 	 * @return the currency belonging to the given language (default Dollar)
 	 */
-	final public static String getCurrency(String language) {
+	final public static String getCurrency(String gwtLocaleString) {
 		for (Language l : Language.values()) {
-			if (l.getLocaleGWT().equals(language)) {
+			if (l.getLocaleGWT().equals(gwtLocaleString)) {
 				return l.currency;
 			}
 		}
