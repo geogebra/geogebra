@@ -516,7 +516,7 @@ public enum Language {
 	}
 
 	/**
-	 * @param ggbLangCode language code
+	 * @param ggbLangCode language code (e.g. deAT enGB)
 	 * @return display name
 	 */
 	final public static String getDisplayName(String ggbLangCode) {
@@ -534,7 +534,7 @@ public enum Language {
 	}
 
 	/**
-	 * @param language two letter code
+	 * @param language ISO639 language code
 	 * @return test character for font detection
 	 */
 	final public static String getTestChar(String language) {

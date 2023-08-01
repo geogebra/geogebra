@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Parses the Language Subtag Registry. The format is defined in RFC 4646, section 3.
+ * @see <a href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">Language Subtag Registry hosted by IANA</a>
+ * @see <a href="https://www.rfc-editor.org/rfc/rfc4646.txt">RFC 4646</a>
+ */
 public class LanguageSubtagRegistryParser {
 
 	private static final String TYPE = "Type: ";
@@ -15,10 +20,10 @@ public class LanguageSubtagRegistryParser {
 	}
 
 	/**
-	 * Parses the Language Subtag Registry file.
+	 * Parses the Language Subtag Registry.
 	 * @param reader reader
 	 * @return list of subtags
-	 * @throws IOException if file is not found
+	 * @throws IOException if an I/O error occurs
 	 */
 	public static List<Subtag> parse(BufferedReader reader) throws IOException {
 		String line;
