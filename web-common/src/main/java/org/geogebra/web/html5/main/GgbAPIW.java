@@ -1144,6 +1144,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
+	 * whether an object is interactive or not
+	 * @param label of the object
+	 * @return true, if object is interactive
+	 */
+	public boolean isInteractive(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		return geo != null && app.getSelectionManager().isSelectableForEV(geo);
+	}
+
+	/**
 	 *
 	 * @return then embedded calculator apis.
 	 */
