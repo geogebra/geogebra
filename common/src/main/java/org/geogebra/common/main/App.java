@@ -3713,7 +3713,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		// leave as prerelease
 		case ALL_LANGUAGES:
-			return true;
+			return prerelease;
 
 		case SOLVE_QUARTIC:
 			return prerelease;
