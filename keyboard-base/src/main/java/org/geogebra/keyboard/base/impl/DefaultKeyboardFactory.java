@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.base.model.impl.factory;
+package org.geogebra.keyboard.base.impl;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -12,6 +12,15 @@ import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.AccentModifier;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
+import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
+import org.geogebra.keyboard.base.model.impl.factory.CharacterProvider;
+import org.geogebra.keyboard.base.model.impl.factory.DefaultCharProvider;
+import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardModelFactory;
+import org.geogebra.keyboard.base.model.impl.factory.FunctionKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.GreekKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 
 public class DefaultKeyboardFactory implements KeyboardFactory {
 	private ButtonFactory defaultButtonFactory = new ButtonFactory(null);

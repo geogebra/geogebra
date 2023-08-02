@@ -1,6 +1,6 @@
 package org.geogebra.keyboard.scientific.factory;
 
-import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardFactory;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificDefaultKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;

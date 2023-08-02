@@ -18,7 +18,7 @@ import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
-import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardFactory;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.junit.Test;
 
 public class KeyboardLayoutTest {
