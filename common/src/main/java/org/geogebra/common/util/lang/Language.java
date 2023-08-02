@@ -261,7 +261,7 @@ public enum Language {
 	Mongolian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_TUGHRIK + "", null, true, "mn", "mn",
 			"Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B",
-			Script.CYRILLIC, ',', '\u1810', null, null, false),
+			Script.CYRILLIC, ',', '\u1810', null, null, true),
 
 	Mongolian_Traditional(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_TUGHRIK + "", null, false, "mnMNMT", "mn",
@@ -402,8 +402,8 @@ public enum Language {
 	final public String region;
 	/** IANA registered variant */
 	final public String variant;
-
-	final private boolean suppressScript;
+	/** Suppress script tag (see BCP 47) */
+	final public boolean suppressScript;
 	final public String name;
 	// used to determine whether to put in release versions
 	final public boolean fullyTranslated;
