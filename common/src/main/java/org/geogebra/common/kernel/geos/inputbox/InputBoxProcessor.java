@@ -95,12 +95,8 @@ public class InputBoxProcessor {
 		if (contentLaTeX == null) {
 			return null;
 		}
-		String returnVal = contentLaTeX;
-		while (returnVal.contains("?")) {
-			returnVal = returnVal.replace("?",
-					TeXSerializer.PLACEHOLDER);
-		}
-		return returnVal;
+		return contentLaTeX.replace("?",
+				TeXSerializer.PLACEHOLDER);
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
