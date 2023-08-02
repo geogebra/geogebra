@@ -951,8 +951,8 @@ public abstract class Localization extends LocalizationI {
 	 * @return whether to use LTR
 	 */
 	public static boolean rightToLeftReadingOrder(String language) {
-		return "ar".equals(language) || "fa".equals(language) || "yi".equals(language) ||
-				"he".equals(language) || "ug".equals(language);
+		return "ar".equals(language) || "fa".equals(language) || "yi".equals(language)
+				|| "he".equals(language) || "ug".equals(language);
 	}
 
 	/**
