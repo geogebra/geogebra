@@ -475,7 +475,18 @@ public abstract class LocalizationJre extends Localization {
 	 * @return converted locale
 	 */
 	public Locale convertToLocale(Language language) {
-		return new Locale(language.language, language.region != null ? language.region : "");
+		Locale.Builder builder = new Locale.Builder();
+		builder.setLanguage(language.language);
+		if (language.region != null) {
+			builder.setRegion(language.region);
+		}
+		if (language.variant != null) {
+			builder.setVariant(language.variant);
+		}
+		if (language.script != null) {
+			builder.setScript(language.script.iso15924);
+		}
+		return builder.build();
 	}
 
 	/**
