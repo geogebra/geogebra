@@ -15,6 +15,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.KeyboardFactory;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
@@ -23,7 +24,7 @@ import org.junit.Test;
 public class KeyboardLayoutTest {
 	@Test
 	public void testSpecialTab() {
-		KeyboardFactory kbf = KeyboardFactory.INSTANCE;
+		KeyboardFactory kbf = new DefaultKeyboardFactory();
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
 		StringBuilder actions = new StringBuilder();
 		StringBuilder resources = new StringBuilder();
@@ -49,7 +50,7 @@ public class KeyboardLayoutTest {
 				(LocalizationCommon) AppCommonFactory.create().getLocalization();
 		KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
 				localization);
-		for (Language lang: Language.values()) {
+		for (Language lang : Language.values()) {
 			localization.setLocale(localization.convertToLocale(lang));
 			String[] rows = latinProvider.getLowerKeys();
 			List<Integer> lengths = Arrays.stream(rows).map(String::length)

@@ -93,6 +93,7 @@ public abstract class Analytics {
 		public static final String SUB_APP_CAS = "CAS";
 		public static final String SUB_APP_3D = "3D";
 		public static final String SUB_APP_PROBABILITY = "probability";
+		public static final String SUB_APP_SCIENTIFIC_CALCULATOR = "sciCalc";
 		public static final String SEARCH_TERM = "search_term";
 		public static final String TOOL_NAME = "tool_name";
 		public static final String KEY = "key";
@@ -114,6 +115,8 @@ public abstract class Analytics {
 				return SUB_APP_3D;
 			case GeoGebraConstants.PROBABILITY_APPCODE:
 				return SUB_APP_PROBABILITY;
+			case GeoGebraConstants.SCIENTIFIC_APPCODE:
+				return SUB_APP_SCIENTIFIC_CALCULATOR;
 			case GeoGebraConstants.GRAPHING_APPCODE:
 			default:
 				return SUB_APP_GRAPHING;
