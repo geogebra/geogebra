@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
-import org.geogebra.keyboard.base.impl.KeyboardImpl;
 import org.geogebra.keyboard.base.model.KeyModifier;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
