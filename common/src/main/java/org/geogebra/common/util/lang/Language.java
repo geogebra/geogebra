@@ -563,6 +563,8 @@ public enum Language {
 			return Language.Norwegian_Nynorsk;
 		} else if (normalizedLanguage.startsWith("no")) {
 			return Language.Norwegian_Bokmal;
+		} else if ("mn-mn-mt".equals(normalizedLanguage)) {
+			return Language.Mongolian_Traditional;
 		}
 
 		// browserLangCode example: en-US, en-GB, pt-BR, pt-pt, and de-DE
@@ -633,7 +635,7 @@ public enum Language {
 		if (this == Language.Dutch_Belgium) {
 			return "nl";
 		} else if (this == Language.Mongolian_Traditional) {
-			return "mn-MN-MT";
+			return "mn-Mong";
 		} else {
 			String lang = this.language;
 			return "nb".equals(lang) || "nn".equals(lang)
