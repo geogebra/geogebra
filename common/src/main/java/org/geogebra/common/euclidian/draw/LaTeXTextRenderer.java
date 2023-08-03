@@ -17,7 +17,7 @@ import com.google.j2objc.annotations.Weak;
 public class LaTeXTextRenderer implements TextRenderer {
 	private static final int CLIP_PADDING = 8;
 	public static final int BORDER_THICKNESS = 6;
-	public static final int MIN_IPHONE_HEIGHT = 38;
+	public static final int MIN_IPHONE_HEIGHT = 76;
 
 	@Weak
 	private final DrawInputBox drawInputBox;
