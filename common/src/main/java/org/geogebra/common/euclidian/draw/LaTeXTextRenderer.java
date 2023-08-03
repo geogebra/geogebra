@@ -17,6 +17,7 @@ import com.google.j2objc.annotations.Weak;
 public class LaTeXTextRenderer implements TextRenderer {
 	private static final int CLIP_PADDING = 8;
 	public static final int BORDER_THICKNESS = 6;
+	public static final int MIN_IPHONE_HEIGHT = 38;
 
 	@Weak
 	private final DrawInputBox drawInputBox;
@@ -64,8 +65,8 @@ public class LaTeXTextRenderer implements TextRenderer {
 	private int calculateInputBoxHeight(GDimension textDimension) {
 		int textHeightWithMargin = textDimension.getHeight() + settings.getFixMargin()
 				+ BORDER_THICKNESS;
-		return Math.max(textHeightWithMargin, settings.getMinHeight()
-				+ BORDER_THICKNESS);
+		return Math.max(textHeightWithMargin, Math.max(MIN_IPHONE_HEIGHT, settings.getMinHeight()
+				+ BORDER_THICKNESS));
 	}
 
 	@Override
