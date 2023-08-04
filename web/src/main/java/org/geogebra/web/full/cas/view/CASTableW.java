@@ -36,7 +36,7 @@ public class CASTableW extends Grid implements CASTable {
 	private AppW app;
 	private int[] selectedRows = new int[0];
 	private CASTableControllerW ml;
-	private CASViewW view;
+	private final CASViewW view;
 
 	/**
 	 * @param app
@@ -53,8 +53,8 @@ public class CASTableW extends Grid implements CASTable {
 		this.ml = controller;
 
 		addStyleName("CAS-table");
-		insertRow(0, null, false);
 		view = casViewW;
+		insertRow(0, null, false);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class CASTableW extends Grid implements CASTable {
 			this.insertRow(n);
 		}
 		// update keys (rows) in arbitrary constant table
-		updateAfterInsertArbConstTable(rows);
+		view.updateAfterInsertArbConstTable(rows);
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell,
 		        (AppW) getApplication());
@@ -120,35 +120,6 @@ public class CASTableW extends Grid implements CASTable {
 		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
 		outputWidget.addBitlessDomHandler(ml, TouchEndEvent.getType());
 		ClickStartHandler.initDefaults(outputWidget, true, true);
-	}
-
-	/**
-	 * Updates arbitraryConstantTable in construction.
-	 * 
-	 * @param row
-	 *            row index (starting from 0) where cell insertion is done
-	 */
-	private void updateAfterInsertArbConstTable(int row) {
-		if (app.getKernel().getConstruction().getArbitraryConsTable()
-				.size() > 0) {
-			// find last row number
-			Integer max = Collections.max(app.getKernel().getConstruction()
-					.getArbitraryConsTable().keySet());
-			for (int key = max; key >= row; key--) {
-				MyArbitraryConstant myArbConst = app.getKernel()
-						.getConstruction()
-					.getArbitraryConsTable().get(key);
-				if (myArbConst != null
-					&& !app.getKernel().getConstruction().isCasCellUpdate()
-					&& !app.getKernel().getConstruction().isFileLoading()
-					&& app.getKernel().getConstruction().isNotXmlLoading()) {
-					app.getKernel().getConstruction().getArbitraryConsTable()
-						.remove(key);
-					app.getKernel().getConstruction().getArbitraryConsTable()
-						.put(key + 1, myArbConst);
-				}
-			}
-		}
 	}
 
 	@Override

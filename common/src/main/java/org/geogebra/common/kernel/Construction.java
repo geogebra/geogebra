@@ -2409,14 +2409,6 @@ public class Construction {
 		}
 
 		// GGB-843
-		if (fileLoading && !isCasCellUpdate() && geoTable.containsKey(label)) {
-			GeoElement geo = geoTable.get(label);
-			if (geo instanceof GeoNumeric
-					&& !((GeoNumeric) geo).isDependentConst()) {
-				return true;
-			}
-		}
-
 		if (fileLoading && !casCellUpdate && isNotXmlLoading()) {
 			GeoNumeric geoNum = lookupConstantLabel(label);
 			if (geoNum != null) {
