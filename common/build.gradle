@@ -2,8 +2,8 @@ plugins {
     id 'java-library'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.0.14'
-    id 'ca.coglinc.javacc' version '2.4.0'
+    id 'com.github.spotbugs' version '5.1.0'
+    id 'org.javacc.javacc' version '3.0.0'
 }
 
 project.setDescription('Common parts of GeoGebra for various platforms')

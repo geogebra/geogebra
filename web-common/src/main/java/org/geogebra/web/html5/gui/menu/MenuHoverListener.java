@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.gui.menu;
 
 public interface MenuHoverListener {
 

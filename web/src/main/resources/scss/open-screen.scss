@@ -2,6 +2,7 @@
 @use 'shared';
 @use 'header';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	.profilePanel {
@@ -148,7 +149,6 @@
 						
 						.cardTitle {
 							font-size: 125%;
-							color: colors.$text-primary;
 							line-height: 22px;
 							letter-spacing: 0.25px;
 							padding: 8px 16px 0 16px;
@@ -164,7 +164,6 @@
 					
 						.cardAuthor {
 							font-size: 87.5%;
-							color: colors.$text-secondary;
 							line-height: 24px;
 							letter-spacing: 0.25px;
 							padding: 0px 0px 12px 16px;
@@ -196,7 +195,6 @@
 						.visibilityPanel {
 							.gwt-Label {
 								font-size: 88%;
-								color: colors.$text-secondary;
 								line-height: 24px;
 								letter-spacing: 0.25px;
 								text-overflow: ellipsis;
@@ -334,7 +332,7 @@
 						opacity: 0.54;
 					}
 					.gwt-Label {
-						color: colors.$text-secondary;
+						color: neutral("700");
 					}
 				}
 		}

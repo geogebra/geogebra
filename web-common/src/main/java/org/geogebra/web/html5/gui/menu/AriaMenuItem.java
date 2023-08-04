@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.gui.menu;
 
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;

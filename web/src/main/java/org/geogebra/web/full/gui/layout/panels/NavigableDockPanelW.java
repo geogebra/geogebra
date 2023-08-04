@@ -104,5 +104,4 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 
 		}
 	}
-
 }

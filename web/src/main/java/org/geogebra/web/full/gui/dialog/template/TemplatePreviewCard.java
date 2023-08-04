@@ -8,6 +8,7 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -66,9 +67,9 @@ public class TemplatePreviewCard extends FlowPanel
         // panel containing the info regarding the material
         FlowPanel infoPanel = new FlowPanel();
         infoPanel.setStyleName("cardInfoPanel");
-        Label cardTitle = new Label(getMaterial() == null ? app.getLocalization().getMenu(
-                "blankFile") : getMaterial().getTitle());
-        cardTitle.setStyleName("cardTitle");
+        String text = getMaterial() == null ? app.getLocalization().getMenu(
+                "blankFile") : getMaterial().getTitle();
+        Label cardTitle = BaseWidgetFactory.INSTANCE.newPrimaryText(text, "cardTitle");
         infoPanel.add(cardTitle);
         if (hasMoreButton) {
             ContextMenuButtonCard moreBtn = new ContextMenuButtonTemplateCard(app, this);

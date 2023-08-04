@@ -24,6 +24,7 @@ import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -1449,7 +1450,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		g2.setPaint(backgroundColor);
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
-		GColor borderColor = backgroundColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
+		GColor borderColor = backgroundColor == GColor.WHITE
+				? GeoGebraColorConstants.NEUTRAL_500
 				: GColor.getBorderColorFrom(backgroundColor);
 		g2.setColor(borderColor);
 		setTextFieldBorderColor(backgroundColor, borderColor);

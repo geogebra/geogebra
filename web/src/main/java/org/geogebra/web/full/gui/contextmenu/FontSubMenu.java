@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.web.html5.gui.laf.FontFamily;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.user.client.ui.Widget;

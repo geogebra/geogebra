@@ -16,6 +16,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -35,6 +36,7 @@ import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,9 +67,9 @@ public class RedefineTest extends BaseUnitTest {
 				StringTemplate.xmlTemplate);
 	}
 
-	private static void t(String input, String expected, StringTemplate tpl) {
+	private static void tRound(String input, String expected) {
 		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
-				tpl);
+				StringTemplate.editTemplate);
 	}
 
 	private void checkError(String s, String msg) {
@@ -229,9 +231,13 @@ public class RedefineTest extends BaseUnitTest {
 	public void functionLHSShouldRemainConic() {
 		t("f(x,y)=xx+y", "x^(2) + y");
 		t("a:f(x,y)=0", TestStringUtil.unicode("x^2 + y = 0"));
-		assertEquals(lookup("a").getGeoClassType(), GeoClass.CONIC);
+		assertThat(lookup("a"), isConic());
 		reload();
-		hasType("a", GeoClass.CONIC);
+		assertThat(lookup("a"), isConic());
+	}
+
+	private Matcher<GeoElement> isConic() {
+		return hasProperty("type", GeoElement::getGeoClassType, GeoClass.CONIC);
 	}
 
 	@Test
@@ -245,31 +251,22 @@ public class RedefineTest extends BaseUnitTest {
 		assertEquals("t2 = Polygon(D, E, F)", lookup("t2").getDefinitionForInputBar());
 	}
 
-	private void hasType(String label, GeoClass geoClass) {
-		assertEquals(lookup(label).getGeoClassType(), geoClass);
-	}
-
 	@Test
 	public void copyOfConicShouldNotBeCellRange() {
-
 		t("B20:x^2+y=0", TestStringUtil.unicode("x^2 + y = 0"));
 		t("D20=B20", TestStringUtil.unicode("x^2 + y = 0"));
-		assertEquals(
-				lookup("D20").getGeoClassType(),
-				GeoClass.CONIC);
+		assertThat(lookup("D20"), isConic());
 		reload();
-		assertEquals(
-				lookup("D20").getGeoClassType(),
-				GeoClass.CONIC);
+		assertThat(lookup("D20"), isConic());
 	}
 
 	@Test
 	public void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
-		t("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
+		tRound("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
 				"(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5),"
-						+ " If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
-				StringTemplate.editTemplate);
+						+ " If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))")
+		);
 		t("B:ClosestPoint(A, b)", "(1, 1)");
 		t("A=(0, 0)", "(0, 0)");
 		t("B", "(0, 0)");
@@ -301,17 +298,13 @@ public class RedefineTest extends BaseUnitTest {
 	public void anonymousLineShouldStayLine() {
 		app.getEuclidianView3D();
 		app.setActiveView(App.VIEW_EUCLIDIAN3D);
-		t("c=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-				StringTemplate.editTemplate);
+		tRound("c=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
 		app.setActiveView(App.VIEW_EUCLIDIAN);
-		t("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-				StringTemplate.editTemplate);
+		tRound("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
 
 		reload();
-		t("d", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-				StringTemplate.editTemplate);
-		t("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-				StringTemplate.editTemplate);
+		tRound("d", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
+		tRound("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
 	}
 
 	@Test
@@ -567,6 +560,18 @@ public class RedefineTest extends BaseUnitTest {
 		add("speed=1/inv"); // turn speed into a dependent object
 		assertThat(slider.getAnimationSpeedObject(), is(lookup("speed")));
 		assertThat(slider.getAnimationStepObject(), is(lookup("speed")));
+	}
+
+	@Test
+	public void sliderSizeShouldBePreserved() throws CircularDefinitionException {
+		GeoNumeric slider = add("a=Slider(-1,1,0.1)");
+		add("v=50");
+		GeoPoint position = add("(v,v)");
+		slider.setStartPoint(position);
+		slider.setSliderWidth(42, true);
+		reload();
+		slider = (GeoNumeric) lookup("a");
+		assertEquals(42, slider.getSliderWidth(), .1);
 	}
 
 	/**
