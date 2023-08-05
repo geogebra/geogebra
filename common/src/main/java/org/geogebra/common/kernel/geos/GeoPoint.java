@@ -778,6 +778,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		updateCoords();
 	}
 
+	@Override
+	public void updatePathParameter(double t) {
+		PathParameter parameter = getPathParameter();
+		parameter.t = t;
+
+		// update point relative to path
+		path.pathChanged(this);
+		updateCoords();
+	}
+
 	/**
 	 * Returns true if this point's path is a circle or ellipse
 	 *
