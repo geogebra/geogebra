@@ -77,7 +77,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 		private void addRoundingItem() {
 			EnumerableProperty roundingProp = new RoundingProperty(app, app.getLocalization());
-			roundingDropDown = new CompDropDown(app, null, roundingProp);
+			roundingDropDown = new CompDropDown(app, roundingProp);
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
 							.setFor(roundingDropDown);
@@ -89,7 +89,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addLabelingItem() {
 			LabelingProperty property = new LabelingProperty(app.getLocalization(),
 					app.getSettings().getLabelSettings());
-			labelingDropDown = new CompDropDown(app, null, property);
+			labelingDropDown = new CompDropDown(app, property);
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
 							.setFor(labelingDropDown);
@@ -103,7 +103,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization(),
 					app.getSettings().getFontSettings(),
 					app.getSettingsUpdater().getFontSettingsUpdater());
-			fontSizeDropDown = new CompDropDown(app, null, fontSizeProperty);
+			fontSizeDropDown = new CompDropDown(app, fontSizeProperty);
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")
 							.setFor(fontSizeDropDown);
@@ -115,7 +115,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addLanguageItem() {
 			EnumerableProperty languageProperty = new LanguageProperty(app,
 					app.getLocalization(), this::storeLanguage);
-			languageDropDown = new CompDropDown(app, null, languageProperty);
+			languageDropDown = new CompDropDown(app, languageProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
 							.setFor(languageDropDown);

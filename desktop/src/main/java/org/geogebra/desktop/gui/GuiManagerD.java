@@ -2982,13 +2982,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void login() {
-		getApp().getDialogManager().showLogInDialog();
-	}
-
-	@Override
 	public void logout() {
-		getApp().getDialogManager().showLogOutDialog();
+		// no login => no logout
 	}
 
 	@Override

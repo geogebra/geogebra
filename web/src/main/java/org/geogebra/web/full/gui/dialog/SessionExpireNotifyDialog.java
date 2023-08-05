@@ -5,6 +5,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -26,9 +27,8 @@ public class SessionExpireNotifyDialog extends ComponentDialog
 	}
 
 	private void buildContent() {
-		Label sessionExpireNotifyTxt = new Label(app.getLocalization()
-				.getMenu("sessionExpireNotify"));
-		sessionExpireNotifyTxt.addStyleName("sessionExpireTxt");
+		Label sessionExpireNotifyTxt = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("sessionExpireNotify"), "sessionExpireTxt");
 		addDialogContent(sessionExpireNotifyTxt);
 	}
 

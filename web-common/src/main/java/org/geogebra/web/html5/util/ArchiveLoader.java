@@ -20,7 +20,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Processes file input
  */
-public class ViewW {
+public class ArchiveLoader {
 
 	private final AppW app;
 
@@ -28,7 +28,7 @@ public class ViewW {
 	 * @param app
 	 *            application
 	 */
-	public ViewW(AppW app) {
+	public ArchiveLoader(AppW app) {
 		this.app = app;
 	}
 

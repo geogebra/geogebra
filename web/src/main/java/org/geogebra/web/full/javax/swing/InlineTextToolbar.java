@@ -5,7 +5,7 @@ import java.util.List;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;

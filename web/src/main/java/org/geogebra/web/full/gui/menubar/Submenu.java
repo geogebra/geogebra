@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.full.gui.view.algebra.MenuItem;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;

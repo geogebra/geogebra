@@ -154,6 +154,9 @@ public class ToolbarDockPanelW extends DockPanelW
 		if (toolbar != null) {
 			toolbar.setLabels();
 		}
+		if (decorator != null) {
+			decorator.setLabels();
+		}
 	}
 
 	@Override

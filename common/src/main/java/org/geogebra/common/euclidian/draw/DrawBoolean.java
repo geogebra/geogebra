@@ -141,7 +141,6 @@ public final class DrawBoolean extends Drawable {
 
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
-				g2.setColor(GColor.RED);
 
 				app.getDrawEquation().drawEquation(app, geoBool, g2, captionX, captionY,
 						labelDesc, g2.getFont(),
@@ -243,8 +242,8 @@ public final class DrawBoolean extends Drawable {
 			g.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0));
 			GColor bg = GColor.WHITE;
 			if (checked) {
-				bg = disabled ? GeoGebraColorConstants.DISABLED_BACKGROUND
-						: GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE;
+				bg = disabled ? GeoGebraColorConstants.NEUTRAL_500
+						: GeoGebraColorConstants.PURPLE_600;
 			}
 			g.setColor(bg);
 			g.fillRoundRect(x, y, CHECKBOX_SIZE, CHECKBOX_SIZE, BORDER_DIAMETER,
@@ -252,8 +251,8 @@ public final class DrawBoolean extends Drawable {
 			// Draw rounded border
 			if (!checked) {
 				g.setColor(disabled
-						? GeoGebraColorConstants.DISABLED_BORDER
-						: GeoGebraColorConstants.DEFAULT_BORDER);
+						? GeoGebraColorConstants.NEUTRAL_500
+						: GeoGebraColorConstants.NEUTRAL_700);
 				g.drawRoundRect(x + 1, y + 1, CHECKBOX_SIZE - 2,
 						CHECKBOX_SIZE - 2, BORDER_DIAMETER, BORDER_DIAMETER);
 			}

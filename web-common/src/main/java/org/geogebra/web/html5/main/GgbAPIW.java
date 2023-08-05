@@ -48,13 +48,13 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.ArchiveEntry;
+import org.geogebra.web.html5.util.ArchiveLoader;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.FFlate;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.ViewW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 
@@ -164,7 +164,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void openFile(String filename) {
 		resetPerspective();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processFileName(filename);
 	}
 
@@ -359,7 +359,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setFileJSON(Object obj) {
 		resetPerspective();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processJSON(obj);
 	}
 
@@ -1141,6 +1141,17 @@ public class GgbAPIW extends GgbAPI {
 		if (geo instanceof GeoInputBox) {
 			((GeoInputBox) geo).setInputBoxState(state);
 		}
+	}
+
+	/**
+	 * whether an object is interactive or not
+	 * @param label of the object
+	 * @return true, if object is interactive
+	 */
+	public boolean isInteractive(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		return geo != null && app.getSelectionManager().isSelectableForEV(geo);
 	}
 
 	/**
