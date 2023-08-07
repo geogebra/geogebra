@@ -802,7 +802,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 			// eg want "Norwegian", not "Norwegian (Bokmal)" etc
 			languages[i + 1] = loc1.getDisplayLanguage(Locale.ENGLISH);
 			if ("engb".equals(languages[i + 1])) {
-				languages[i + 1] = Language.getDisplayName("enGB");
+				languages[i + 1] = Language.English_UK.name;
 			}
 		}
 
