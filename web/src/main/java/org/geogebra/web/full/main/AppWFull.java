@@ -150,7 +150,6 @@ import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -405,7 +404,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				restoreMacro(editMacroName);
 				registerOpenFileListener(() -> openEditMacroFromStorage(editMacroName));
 				// Close the tab if the macro is removed from local storage
-				DomGlobal.window.addEventListener("storage", event -> {
+				getGlobalHandlers().addEventListener(DomGlobal.window, "storage", event -> {
 					StorageEvent storageEvent = (StorageEvent) event;
 					if (storageEvent.newValue == null
 							&& createStorageMacroKey(getEditMacro().getEditName())
@@ -415,13 +414,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				});
 				// Before the tab is closed, remove the macro from local storage
 				// in order to let the original app open the macro editing again.
-				DomGlobal.window.addEventListener("beforeunload", event -> {
-					removeMacroFromStorage(getEditMacro().getEditName());
-				});
+				getGlobalHandlers().addEventListener(DomGlobal.window, "beforeunload", event ->
+					removeMacroFromStorage(getEditMacro().getEditName())
+				);
 			} else {
 				removeAllMacrosFromStorage();
 				// Close all the editing tabs when the original app is closed.
-				DomGlobal.window.addEventListener("beforeunload", event ->
+				getGlobalHandlers().addEventListener(DomGlobal.window, "beforeunload", event ->
 						removeAllMacrosFromStorage());
 				// After the macro is edited and the save button is pressed, the editing tab
 				// sends a message to the original app containing the XML of the edited macro.
@@ -598,15 +597,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	void doShowStartTooltip(Perspective perspective) {
 		if (appletParameters.getDataParamShowStartTooltip(perspective != null)) {
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			getToolTipManager().setBlockToolTip(false);
 			String appName = perspective != null ? perspective.getId() : getConfig().getAppTitle();
 			String helpText = getLocalization().getPlain("CheckOutTutorial",
 					getLocalization().getMenu(appName));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+			getToolTipManager().showBottomInfoToolTip(
 					getLocalization().getMenu("NewToGeoGebra"), helpText,
 					getLocalization().getMenu("Help"), tooltipURL, this);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			getToolTipManager().setBlockToolTip(true);
 		}
 	}
 
@@ -934,7 +933,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 							registerOpenFileListener(
 									getUpdateTitleCallback(material));
 							if (!StringUtil.empty(material.getFileName())) {
-								getViewW().processFileName(
+								getArchiveLoader().processFileName(
 										material.getFileName());
 							} else {
 								getGgbApi().setBase64(material.getBase64());
@@ -1541,14 +1540,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				return;
 			}
 
-			ClickStartHandler.init(oldSplitLayoutPanel,
+			getGlobalHandlers().add(ClickStartHandler.init(oldSplitLayoutPanel,
 					new ClickStartHandler() {
 						@Override
 						public void onClickStart(int x, int y,
 								final PointerEventType type) {
 							onUnhandledClick();
 						}
-					});
+					}));
 		}
 	}
 

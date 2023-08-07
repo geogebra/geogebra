@@ -1632,12 +1632,12 @@ ExpressionValue myDouble():
         boolean hasDegrees = false, hasMinutes = false, hasSeconds = false;
         double vd = 0, vm = 0, vs = 0;
         if (degree != null) {
-                // if e.g. 3° (no minute no second) we need to do 3*° for CAS
+                // if e.g. 3deg (no minute no second) we need to do 3*deg for CAS
             if (c2 == null) {
                 d = newSpecialDegree();
                 return new ExpressionNode(kernel, parseDouble(image, false), Operation.MULTIPLY, d);
             }
-             // at least 3°5' or 3°5'' (or 3°5'7'')
+             // at least 3deg5' or 3deg5'' (or 3deg5'7'')
             isAngle = true;
             vd = MyDouble.parseDouble(loc, image);
             hasDegrees = true;

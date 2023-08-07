@@ -921,7 +921,12 @@ public class SelectionManager {
 		return tabbingSet.stream().filter(this::isSelectableForEV);
 	}
 
-	private boolean isSelectableForEV(GeoElement geo) {
+	/**
+	 * is selectable by the TAB handler
+	 * @param geo geo element
+	 * @return true, if the user can get to this element using TAB
+	 */
+	public boolean isSelectableForEV(GeoElement geo) {
 		if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
 			return false;
 		}

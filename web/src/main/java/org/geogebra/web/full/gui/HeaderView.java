@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -44,9 +45,7 @@ public class HeaderView extends FlowPanel {
 	}
 
 	private void createCaption() {
-		caption = new Label();
-		caption.setStyleName(CAPTION_STYLE_NAME);
-
+		caption = BaseWidgetFactory.INSTANCE.newPrimaryText("", CAPTION_STYLE_NAME);
 		add(caption);
 	}
 

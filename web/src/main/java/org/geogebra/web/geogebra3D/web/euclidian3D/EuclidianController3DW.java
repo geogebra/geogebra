@@ -92,11 +92,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	protected void initToolTipManager() {
-		mtg.initToolTipManager();
-	}
-
-	@Override
 	protected void resetToolTipManager() {
 		mtg.resetToolTipManager();
 	}

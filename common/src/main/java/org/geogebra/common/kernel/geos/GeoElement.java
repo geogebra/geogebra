@@ -2738,12 +2738,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// use Greek upper case for labeling points if language is Greek
 			// (el)
 			if (getLoc().isUsingLocalizedLabels()) {
-				if (getLoc().languageIs(Language.Greek.locale)) {
+				if (getLoc().languageIs(Language.Greek.language)) {
 					chars = Greek.getGreekUpperCase();
-				} else if (getLoc().languageIs(Language.Arabic.locale)) {
+				} else if (getLoc().languageIs(Language.Arabic.language)) {
 					// Arabic / Arabic (Morocco)
 					chars = LabelType.arabic;
-				} else if (getLoc().languageIs(Language.Yiddish.locale)) {
+				} else if (getLoc().languageIs(Language.Yiddish.language)) {
 					chars = LabelType.yiddish;
 				} else {
 					chars = LabelType.pointLabels;

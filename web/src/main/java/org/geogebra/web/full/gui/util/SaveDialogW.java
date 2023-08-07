@@ -127,8 +127,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		visibilityPanel = new FlowPanel();
 		visibilityPanel.addStyleName("visibilityPanel");
 		visibilityProperty = new MaterialVisibilityProperty(loc);
-		visibilityDropDown = new CompDropDown((AppW) app, null,
-				visibilityProperty);
+		visibilityDropDown = new CompDropDown((AppW) app, visibilityProperty);
 		rebuildVisibilityList();
 		visibilityDropDown.addStyleName("visibility");
 		setAvailableProviders();

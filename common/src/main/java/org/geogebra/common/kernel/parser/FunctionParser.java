@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.ParametricCurve;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -283,7 +282,7 @@ public class FunctionParser {
 	}
 
 	public static boolean isDerivativeChar(char ch) {
-		return ch == '\'' || ch == '‘' || ch == '’';
+		return ch == '\'' || ch == '\u2018' || ch == '\u2019';
 	}
 
 	private ExpressionNode makeSplitCommand(String funcName, ExpressionValue arg,

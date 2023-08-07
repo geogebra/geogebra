@@ -9,14 +9,14 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.ArchiveEntry;
-import org.geogebra.web.html5.util.ViewW;
+import org.geogebra.web.html5.util.ArchiveLoader;
 
-public class ViewWMock extends ViewW {
+public class ArchiveLoaderMock extends ArchiveLoader {
 
 	/**
 	 * @param app application
 	 */
-	public ViewWMock(AppW app) {
+	public ArchiveLoaderMock(AppW app) {
 		super(app);
 	}
 

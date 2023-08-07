@@ -12,7 +12,7 @@ import org.geogebra.web.geogebra3D.web.kernel3D.commands.CommandDispatcher3DW;
 import org.geogebra.web.geogebra3D.web.main.AppWapplet3D;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.ViewW;
+import org.geogebra.web.html5.util.ArchiveLoader;
 
 /**
  * Like production, mock async loading of commands
@@ -20,7 +20,7 @@ import org.geogebra.web.html5.util.ViewW;
  */
 public class AppWapplet3DTest extends AppWapplet3D {
 
-	private ViewW view;
+	private ArchiveLoader view;
 
 	/**
 	 * @param ae     settings
@@ -50,9 +50,9 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	}
 
 	@Override
-	public ViewW getViewW() {
+	public ArchiveLoader getArchiveLoader() {
 		if (view == null) {
-			view = new ViewWMock(this);
+			view = new ArchiveLoaderMock(this);
 		}
 		return view;
 	}

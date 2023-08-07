@@ -2029,23 +2029,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return locale
 	 */
 	public static Locale getLocale(String languageISOCode) {
-		// remove "_" from string
-		String languageCode = languageISOCode.replaceAll("_", "");
-
-		Locale loc;
-		if (languageCode.length() == 6) {
-			// language, country, variant
-			loc = new Locale(languageCode.substring(0, 2),
-					languageCode.substring(2, 4), languageCode.substring(4, 6));
-		} else if (languageCode.length() == 4) {
-			// language, country
-			loc = new Locale(languageCode.substring(0, 2),
-					languageCode.substring(2, 4));
-		} else {
-			// language only
-			loc = new Locale(languageCode.substring(0, 2));
-		}
-		return loc;
+		return Locale.forLanguageTag(languageISOCode);
 	}
 
 	@Override
@@ -2145,7 +2129,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			loc.setLocale(oldLocale);
 		}
 
-		getLocalization().updateLanguageFlags(locale.getLanguage());
+		getLocalization().updateLanguageFlags(loc.getLocale().getLanguage());
 
 	}
 
@@ -4470,11 +4454,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private boolean popupsDone = false;
 
 	public void showPopUps() {
-		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
-		if (!signIn.isTubeCheckDone()) {
-			return;
-		}
-
 		if (isAllowPopups()) {
 
 			// Show login popup
@@ -4482,43 +4461,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				popupsDone = true;
 
 				EventQueue.invokeLater(() -> {
-					boolean showDockPopup = true;
 
-					LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
-					if (signInOp.isTubeAvailable()
-							&& !signInOp.isLoggedIn()) {
-						showDockPopup = showTubeLogin();
-					}
-
-					if (showDockPopup && isShowDockBar()) {
+					if (isShowDockBar()) {
 						showPerspectivePopup();
 					}
 				});
 			}
 		}
-	}
-
-	protected boolean showTubeLogin() {
-		// for debugging only
-		// force sign-in popup if not logged in
-		// GeoGebraPreferencesD.getPref().savePreference(
-		// GeoGebraPreferencesD.USER_LOGIN_SKIP,
-		// "false");
-
-		boolean showDockPopup = true;
-
-		String skipLogin = GeoGebraPreferencesD.getPref()
-				.loadPreference(GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
-
-		if (!"true".equals(skipLogin)) {
-			showDockPopup = false;
-			GeoGebraPreferencesD.getPref().savePreference(
-					GeoGebraPreferencesD.USER_LOGIN_SKIP, "true");
-
-			getGuiManager().login();
-		}
-
-		return showDockPopup;
 	}
 
 	protected void showPerspectivePopup() {
@@ -4876,10 +4825,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		return md5EncrypterD;
-	}
-
-	public void isShowingLogInDialog() {
-		// for 3D
 	}
 
 	@Override

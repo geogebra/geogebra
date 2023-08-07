@@ -69,7 +69,7 @@ public class SolverSerializer extends SerializerAdapter {
 			serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
 			break;
 		case MIXED_NUMBER:
-			//1⁤(2)/(3) changes into FnMixedNumber[MathSequence[1],MathSequence[2],MathSequence[3]]
+			//1[plus](2)/(3) changes into FnMixedNumber[MathSeq[1],MathSeq[2],MathSeq[3]]
 			//space between the 1 & 2 should be removed
 			if (parent != null) {
 				sb.append(openingBracket);

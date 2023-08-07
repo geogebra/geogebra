@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -23,8 +24,8 @@ public class RecoverAutoSavedDialog extends ComponentDialog {
 	}
 
 	private void buildContent() {
-		Label infoText = new Label(app.getLocalization().getMenu("UnsavedChangesFound"));
-		infoText.addStyleName("infoText");
+		Label infoText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("UnsavedChangesFound"), "infoText");
 		addDialogContent(infoText);
 	}
 }
