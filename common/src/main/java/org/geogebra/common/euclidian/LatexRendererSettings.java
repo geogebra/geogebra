@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian;
 
 public class LatexRendererSettings implements TextRendererSettings {
-	public static final int BOTTOM_OFFSET = 6;
+	public static final int BOTTOM_OFFSET = 8;
 	private final int fixMargin;
 	private final int rightMargin;
 	private int bottomOffset;
