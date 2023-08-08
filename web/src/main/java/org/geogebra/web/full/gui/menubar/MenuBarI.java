@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 

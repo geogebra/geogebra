@@ -10,8 +10,8 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
+import org.geogebra.web.test.ArchiveLoaderMock;
 import org.geogebra.web.test.GgbMockitoTestRunner;
-import org.geogebra.web.test.ViewWMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -116,7 +116,7 @@ public class NotesUndoTest {
 	private void duplicate(int page) {
 		app.getPageController().refreshSlide(page);
 		PagePreviewCard card = ((PageListController) app.getPageController()).getCard(page);
-		String content = ViewWMock.toJson(card.getFile());
+		String content = ArchiveLoaderMock.toJson(card.getFile());
 		app.getAppletFrame().getPageControlPanel().pastePage(card,
 				PageListController.nextID(), content);
 	}

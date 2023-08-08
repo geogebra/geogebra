@@ -3,6 +3,7 @@ package org.geogebra.web.shared;
 import java.util.function.BiConsumer;
 
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -71,8 +72,8 @@ public class GroupButtonMow extends FlowPanel {
 		checkMark.addStyleName("checkMark");
 		contentPanel.add(groupImgHolder);
 		contentPanel.add(checkMark);
-		Label groupLbl = new Label(groupDescription.name);
-		groupLbl.setStyleName("groupName");
+		Label groupLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				groupDescription.name, "groupName");
 		contentPanel.add(groupLbl);
 		add(contentPanel);
 	}

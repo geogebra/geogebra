@@ -9,6 +9,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -83,6 +84,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 		if (labelTextKey != null) {
 			labelText = new FormLabel().setFor(inputTextField);
 			labelText.setStyleName("inputLabel");
+			labelText.addStyleName(Shades.NEUTRAL_700.getFgColName());
 			labelText.setText(appW.getLocalization().getMenu(labelTextKey));
 			add(labelText);
 		}

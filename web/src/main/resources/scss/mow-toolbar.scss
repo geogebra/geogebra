@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame{
 	$toolbarWidth: 600px;
@@ -270,7 +271,7 @@
 		}
 
 		.gwt-Label {
-			color: colors.$text-secondary;
+			color: neutral("700");
 			font-size: 12px;
 			width: 80px;
 			height: 28px;
@@ -285,7 +286,7 @@
 				opacity: 1;
 			}
 			.gwt-Label {
-				color: colors.$text-primary;
+				color: neutral("900");
 			}
 		}
 	}

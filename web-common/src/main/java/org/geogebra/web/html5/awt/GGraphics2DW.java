@@ -247,8 +247,8 @@ public class GGraphics2DW implements GGraphics2DWI {
 		// this.closePath();
 	}
 
-	private void ellipse(double d, double e, GColor blue) {
-		setColor(blue);
+	private void ellipse(double d, double e, GColor color) {
+		setColor(color);
 		context.beginPath();
 		context.arc(d, e, 1, 0, 6.28);
 		context.closePath();
