@@ -34,6 +34,11 @@ public class EditorKeyboardContext implements HasKeyboard {
 
 			@Override
 			public String getLocaleStr() {
+				return "en_US";
+			}
+
+			@Override
+			public String getLanguageTag() {
 				return "en-US";
 			}
 
