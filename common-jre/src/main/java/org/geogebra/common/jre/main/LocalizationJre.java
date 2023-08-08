@@ -427,6 +427,7 @@ public abstract class LocalizationJre extends Localization {
 	 * for the query 'en-CA').
 	 * Else, it looks for the closest, more specific locale (for example it returns 'zh-CN'
 	 * for the query 'zh' out of the supported locales ['zh-Hant-TW', 'zh-CN', 'zh-TW']).
+	 * Else, it looks for a matching language.
 	 * Else, it returns the default locale (English).
 	 * @param query query locale
 	 * @return closest supported locale
@@ -453,6 +454,9 @@ public abstract class LocalizationJre extends Localization {
 						&& supportedLocaleSubtags.size() < specificScore) {
 					// A closer more specific match found, and no general match found
 					specificScore = supportedLocaleSubtags.size();
+					match = locale;
+				} else if (match == null) {
+					// Store a match to the language if there is none yet.
 					match = locale;
 				}
 			}
