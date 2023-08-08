@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -982,10 +982,11 @@ public class GeoImage extends GeoElement implements
 		}
 		// calculate the new corner points
 		for (int i = 0; i < corners.length; i++) {
-			if (corners[i] != null) {
-				tempPoints[i].translate(v);
-				corners[i] = tempPoints[i];
+			if (corners[i] == null) {
+				corners[i] = new GeoPoint(cons);
 			}
+			tempPoints[i].translate(v);
+			corners[i] = tempPoints[i];
 		}
 	}
 
