@@ -18,9 +18,9 @@ public abstract class LocalizationI {
 	public abstract String getLocaleStr();
 
 	/**
-	 * Gets the current language tag in string format, as a well formed BCP-47 language tag.
+	 * Gets the current locale as a well formed BCP-47 language tag.
 	 * @return current locale
-	 * @see {@link Locale#toLanguageTag()}
+	 * @see Locale#toLanguageTag() toLanguageTag
 	 */
 	public abstract String getLanguageTag();
 
