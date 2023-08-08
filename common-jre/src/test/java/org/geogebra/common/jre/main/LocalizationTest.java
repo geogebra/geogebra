@@ -59,6 +59,7 @@ public class LocalizationTest {
 
 	@Test
 	public void getsClosestSupportedLocaleFromLanguageTag() {
+		assertLookupReturnsLanguageTag("en-CA", "en");
 		assertLookupReturnsLanguageTag("mn-Mong-MN", "mn-Mong");
 		assertLookupReturnsLanguageTag("nb-NO-Cyrl", "nb");
 		assertLookupReturnsLanguageTag("zh", "zh-CN");
