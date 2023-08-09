@@ -11,7 +11,6 @@ package org.geogebra.common.spreadsheet.core;
  */
 final class Selection {
 
-
 	private final TabularRange range;
 	private final SelectionType type;
 

@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 
@@ -22,17 +21,12 @@ import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
  * relevant notifications to Spreadsheet component.
  */
 public class KernelTabularDataAdapter implements UpdateLocationView, TabularData {
-	private final Kernel kernel;
-	private Map<Integer, Map<Integer, Object>> data = new HashMap<>();
-	private List<TabularDataChangeListener> changeListeners = new ArrayList<>();
-
-	public KernelTabularDataAdapter(Kernel kernel) {
-		this.kernel = kernel;
-	}
+	private final Map<Integer, Map<Integer, Object>> data = new HashMap<>();
+	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 
 	@Override
 	public void updateLocation(GeoElement geo) {
-
+		// not needed
 	}
 
 	@Override
@@ -42,12 +36,17 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 
 	@Override
 	public void remove(GeoElement geo) {
-
+		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
+		if (pt != null) {
+			setContent(pt.y, pt.x, null);
+			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
+		}
 	}
 
 	@Override
 	public void rename(GeoElement geo) {
-
+		remove(geo);
+		add(geo);
 	}
 
 	@Override
@@ -55,28 +54,28 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
 		if (pt != null) {
 			setContent(pt.y, pt.x, geo);
+			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
 		}
-		changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
 	}
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-
+		// TODO
 	}
 
 	@Override
 	public void updateHighlight(GeoElementND geo) {
-
+		// not needed
 	}
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
-
+		// not needed
 	}
 
 	@Override
 	public void repaintView() {
-
+		// TODO
 	}
 
 	@Override
@@ -86,22 +85,23 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 
 	@Override
 	public void reset() {
-
+		// not needed
 	}
 
 	@Override
 	public void clearView() {
-
+		data.clear();
+		changeListeners.forEach(listener -> listener.update(-1, -1));
 	}
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {
-
+		// not needed
 	}
 
 	@Override
 	public int getViewID() {
-		return 0;
+		return App.VIEW_SPREADSHEET;
 	}
 
 	@Override
@@ -111,22 +111,22 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 
 	@Override
 	public void startBatchUpdate() {
-
+		// TODO
 	}
 
 	@Override
 	public void endBatchUpdate() {
-
+		// TODO
 	}
 
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
-
+		// not needed
 	}
 
 	@Override
 	public void reset(int rows, int columns) {
-
+		// TODO
 	}
 
 	@Override
@@ -141,32 +141,32 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 
 	@Override
 	public void appendRows(int rows) {
-
+		// TODO
 	}
 
 	@Override
 	public void insertRowAt(int row) {
-
+		// TODO
 	}
 
 	@Override
 	public void deleteRowAt(int row) {
-
+		// TODO
 	}
 
 	@Override
 	public void appendColumns(int columns) {
-
+		// TODO
 	}
 
 	@Override
 	public void insertColumnAt(int column) {
-
+		// TODO
 	}
 
 	@Override
 	public void deleteColumnAt(int column) {
-
+		// TODO
 	}
 
 	@Override
@@ -177,6 +177,11 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 	@Override
 	public Object contentAt(int row, int column) {
 		return data.get(row) != null ? data.get(row).get(column) : null;
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		return GeoElementSpreadsheet.getSpreadsheetColumnName(column);
 	}
 
 	public void addChangeListener(TabularDataChangeListener changeListener) {

@@ -9,14 +9,14 @@ import com.himamis.retex.renderer.share.TeXIcon;
  * Renderer for LaTeX cells
  */
 public class LaTeXRenderer implements CellRenderer {
-	private final TeXIcon icon;
-
-	public LaTeXRenderer(TeXIcon ti) {
-		this.icon = ti;
+	@Override
+	public void draw(Object data, GGraphics2D graphics, Rectangle cellBorder) {
+		((TeXIcon) data).paintIcon(() -> null, graphics.getGraphicsForLaTeX(),
+				cellBorder.getMinX(), cellBorder.getMinY());
 	}
 
 	@Override
-	public void draw(GGraphics2D graphics, Rectangle cellBorder) {
-		icon.paintIcon(() -> null, graphics.getGraphicsForLaTeX(), cellBorder.getMinX(), cellBorder.getMinY());
+	public boolean match(Object renderable) {
+		return renderable instanceof TeXIcon;
 	}
 }

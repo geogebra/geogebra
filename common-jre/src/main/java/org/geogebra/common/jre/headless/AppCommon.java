@@ -336,7 +336,7 @@ public class AppCommon extends App {
 
 			@Override
 			public MyImage getFillImage() {
-				return StringUtil.empty(imageFileName) ? null : new MyImageCommon();
+				return image;
 			}
 
 			@Override

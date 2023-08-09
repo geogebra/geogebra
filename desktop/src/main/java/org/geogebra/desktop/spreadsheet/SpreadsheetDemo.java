@@ -38,7 +38,7 @@ public class SpreadsheetDemo {
 			Dimension preferredSize = new Dimension(800, 600);
 			frame.setPreferredSize(preferredSize);
 			AppCommon appCommon = new AppCommon(new LocalizationCommon(3), new AwtFactoryD());
-			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(appCommon.getKernel());
+			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter();
 			Spreadsheet spreadsheet = new Spreadsheet(adapter,
 					new GeoElementCellRendererFactory());
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
@@ -111,11 +111,10 @@ public class SpreadsheetDemo {
 			return new Rectangle(scrollX, scrollX + 500, scrollY, scrollY + 400);
 		}
 
+		@Override
 		public void paint(Graphics g) {
-			((Graphics2D) g).setPaint(Color.YELLOW);
+			((Graphics2D) g).setPaint(Color.WHITE);
 			g.fillRect(0, 0, 800, 600);
-			((Graphics2D) g).setPaint(Color.BLUE);
-
 			spreadsheet.draw(new GGraphics2DD((Graphics2D) g));
 		}
 	}

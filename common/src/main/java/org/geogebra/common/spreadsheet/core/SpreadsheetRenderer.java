@@ -1,7 +1,13 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -11,47 +17,67 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public class SpreadsheetRenderer {
 
-	private final CellRendererFactory converter;
+	private final CellRenderableFactory converter;
 	private final TableLayout layout;
+	private final Map<GPoint, Object> renderableCache = new HashMap<>();
+	private final List<CellRenderer> cellRenderers = new ArrayList<>();
+	private final StringRenderer stringRenderer = new StringRenderer();
 
-	public SpreadsheetRenderer(TableLayout layout, CellRendererFactory converter) {
+	SpreadsheetRenderer(TableLayout layout, CellRenderableFactory converter) {
 		this.converter = converter;
 		this.layout = layout;
+		cellRenderers.add(new LaTeXRenderer());
+		cellRenderers.add(stringRenderer);
 	}
 
-	void drawCell(int row, int column, GGraphics2D graphics, Object content) {
-		graphics.setColor(GColor.BLUE);
-		graphics.drawRect((int) layout.getX(column), (int) layout.getY(row),
-				(int) layout.getWidth(column), (int) layout.getHeight(row));
+	void drawCell(int row, int column, GGraphics2D graphics, Object content,
+			SpreadsheetStyle style) {
+		if (style.isShowGrid()) {
+			graphics.drawRect((int) layout.getX(column), (int) layout.getY(row),
+					(int) layout.getWidth(column), (int) layout.getHeight(row));
+		}
 
-		CellRenderer cellRenderer = converter.getRenderer(content);
-		if (cellRenderer != null) {
-			cellRenderer.draw(graphics, layout.getBounds(row, column));
+		Object renderable = renderableCache.computeIfAbsent(new GPoint(row, column),
+				ignore -> converter.getRenderable(content));
+		Rectangle cellBorder = layout.getBounds(row, column);
+		for (CellRenderer cellRenderer: cellRenderers) {
+			if (cellRenderer.match(renderable)) {
+				cellRenderer.draw(renderable, graphics, cellBorder);
+			}
 		}
 	}
 
 	protected void drawRowHeader(int row, GGraphics2D graphics) {
+		Rectangle cellBorder = layout.getRowHeaderBounds(row);
+		graphics.drawRect(0, (int) layout.getY(row),
+				(int) layout.getRowHeaderWidth(), (int) layout.getHeight(row));
+		stringRenderer.draw(String.valueOf(row + 1), graphics, cellBorder);
 	}
 
-	protected void drawColumnHeader(int column, GGraphics2D graphics) {
-
+	protected void drawColumnHeader(int column, GGraphics2D graphics, String name) {
+		Rectangle cellBorder = layout.getColumnHeaderBounds(column);
+		graphics.drawRect((int) layout.getX(column), 0,
+				(int) layout.getWidth(column), (int) layout.getColumnHeaderHeight());
+		stringRenderer.draw(name, graphics, cellBorder);
 	}
 
 	void drawSelection(TabularRange selection, GGraphics2D graphics,
 			Rectangle viewport, TableLayout layout) {
-		graphics.translate(-viewport.getMinX(), -viewport.getMinY());
+		double offsetX = -viewport.getMinX() + layout.getRowHeaderWidth();
+		double offsetY = -viewport.getMinY() + layout.getColumnHeaderHeight();
+		graphics.translate(offsetX, offsetY);
 		int minX = (int) layout.getX(selection.fromCol);
 		int minY = (int) layout.getY(selection.fromRow);
 		int maxX = (int) layout.getX(selection.toCol + 1);
 		int maxY = (int) layout.getY(selection.toRow + 1);
 		graphics.setColor(GColor.newColor(0, 0, 255, 100));
-		graphics.fillRect(minX,	minY,
+		graphics.fillRect(minX, minY,
 				maxX - minX, maxY - minY);
 
-		graphics.translate(viewport.getMinX(), viewport.getMinY());
+		graphics.translate(-offsetX, -offsetY);
 	}
 
 	void invalidate(int row, int column) {
-		// TODO renderers for each cell should be cached and here we invalidate the cache entry
+		renderableCache.remove(new GPoint(row, column));
 	}
 }

@@ -3,7 +3,6 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -17,6 +16,8 @@ public final class TableLayout {
 	private double[] rowHeights;
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
+	private double rowHeaderWidth = 42;
+	private double columnHeaderHeight = 20;
 
 	public double getWidth(int column) {
 		return columnWidths[column];
@@ -29,6 +30,7 @@ public final class TableLayout {
 	public double getX(int column) {
 		return cumulativeWidths[column];
 	}
+
 	public double getY(int row) {
 		return cumulativeHeights[row];
 	}
@@ -41,11 +43,25 @@ public final class TableLayout {
 		return columnWidths.length;
 	}
 
-	public Rectangle getBounds(int row, int column) {
+	Rectangle getBounds(int row, int column) {
 		return new Rectangle(cumulativeWidths[column],
 				cumulativeWidths[column] + columnWidths[column],
 				cumulativeHeights[row],
 				cumulativeHeights[row] + rowHeights[row]);
+	}
+
+	Rectangle getRowHeaderBounds(int row) {
+		return new Rectangle(0,
+				rowHeaderWidth,
+				cumulativeHeights[row],
+				cumulativeHeights[row] + rowHeights[row]);
+	}
+
+	Rectangle getColumnHeaderBounds(int column) {
+		return new Rectangle(cumulativeWidths[column],
+				cumulativeWidths[column] + columnWidths[column],
+				0,
+				columnHeaderHeight);
 	}
 
 	/**
@@ -59,6 +75,8 @@ public final class TableLayout {
 		final int numberOfRows;
 		final double xOffset; // cumulated column widths left of fromColumn
 		final double yOffset;
+		final int toRow;
+		final int toColumn;
 
 		Portion(int fromColumn, int fromRow, int numberOfColumns, int numberOfRows, double xOffset,
 				double yOffset) {
@@ -66,6 +84,8 @@ public final class TableLayout {
 			this.fromRow = fromRow;
 			this.numberOfColumns = numberOfColumns;
 			this.numberOfRows = numberOfRows;
+			this.toRow = fromRow + numberOfRows - 1;
+			this.toColumn = fromColumn + numberOfColumns - 1;
 			this.xOffset = xOffset;
 			this.yOffset = yOffset;
 		}
@@ -81,10 +101,10 @@ public final class TableLayout {
 	}
 
 	void setTableSize(int rows, int columns) {
-
+		// TODO
 	}
 
-	public void setWidthForColumns(double width, int... columnIndices) {
+	void setWidthForColumns(double width, int... columnIndices) {
 		for (int column: columnIndices) {
 			columnWidths[column] = width;
 		}
@@ -93,7 +113,7 @@ public final class TableLayout {
 		}
 	}
 
-	public void setHeightForRows(double height, int... rowIndices) {
+	void setHeightForRows(double height, int... rowIndices) {
 		for (int row: rowIndices) {
 			rowHeights[row] = height;
 		}
@@ -120,14 +140,22 @@ public final class TableLayout {
 	}
 
 	public int findColumn(double x) {
-		return closest(Arrays.binarySearch(cumulativeWidths, x));
+		return closest(Arrays.binarySearch(cumulativeWidths, x - rowHeaderWidth));
 	}
 
 	public int findRow(double y) {
-		return closest(Arrays.binarySearch(cumulativeHeights, y));
+		return closest(Arrays.binarySearch(cumulativeHeights, y - columnHeaderHeight));
 	}
 
 	private int closest(int searchResult) {
 		return searchResult > 0 ? searchResult : -2 - searchResult;
+	}
+
+	double getRowHeaderWidth() {
+		return rowHeaderWidth;
+	}
+
+	double getColumnHeaderHeight() {
+		return columnHeaderHeight;
 	}
 }

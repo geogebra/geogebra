@@ -9,8 +9,15 @@ import org.geogebra.common.util.shape.Rectangle;
 public interface CellRenderer {
 
 	/**
+	 * @param data object to be rendered
 	 * @param g2d graphics
 	 * @param cellBorder cell rectangle, coordinates relative to the graphics
 	 */
-	public void draw(GGraphics2D g2d, Rectangle cellBorder);
+	public void draw(Object data, GGraphics2D g2d, Rectangle cellBorder);
+
+	/**
+	 * @param renderable object to be potentially rendered
+	 * @return whether this can render given object
+	 */
+	boolean match(Object renderable);
 }
