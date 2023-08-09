@@ -150,7 +150,6 @@ public class GeoImage extends GeoElement implements
 		}
 	}
 
-
 	private void initTransformPointForCenter() {
 		if (tempPoints == null) {
 			// temp corner points for transformations and absolute location
