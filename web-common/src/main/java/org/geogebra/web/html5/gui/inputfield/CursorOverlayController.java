@@ -1,11 +1,15 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 
 public class CursorOverlayController {
 
@@ -16,12 +20,29 @@ public class CursorOverlayController {
 	private boolean hadSelection;
 	private boolean enabled;
 	private double blinkHandler;
+	private boolean seleted;
 
-	public CursorOverlayController(AppW app, AutoCompleteTextFieldW textField, FlowPanel main) {
-		this.app = app;
+	public CursorOverlayController(AutoCompleteTextFieldW textField, FlowPanel main) {
+		this.app = textField.getApplication();
 		this.textField = textField;
 		this.main = main;
 		enabled = false;
+	}
+
+	/**
+	 * Hide keyboard and reset the keyaord field
+	 * @param app application
+	 */
+	public static void hideKeyboard(AppW app) {
+		if (CancelEventTimer.cancelKeyboardHide()) {
+			return;
+		}
+		KeyboardManagerInterface kbManager = app.getKeyboardManager();
+		if (app.hasPopup() && kbManager != null) {
+			kbManager.setOnScreenKeyboardTextField(null);
+			return;
+		}
+		app.hideKeyboard();
 	}
 
 	private void enableForTextField() {
@@ -30,14 +51,32 @@ public class CursorOverlayController {
 		textField.addBlurHandler(evt -> removeDummyCursor());
 		startBlinking();
 		textField.updateInputBoxAlign();
+		final Element element = textField.getInputElement();
+		app.getGlobalHandlers().addEventListener(element, "touchstart",
+				this::preventNativeSelection);
+
+		app.getGlobalHandlers().addEventListener(main.getElement(),"touchstart",
+				this::unselectOverlay);
+
 	}
 
 	private void startBlinking() {
 		blinkHandler = DomGlobal.setInterval(event -> update(), 200);
 	}
 
-	private void stopBlinking() {
-		DomGlobal.clearTimeout(blinkHandler);
+	private void preventNativeSelection(Event event) {
+		event.preventDefault();
+		if (cursorOverlay.hasFakeSelection()) {
+			addDummyCursor();
+		}
+	}
+
+	private void unselectOverlay(Event event) {
+		event.preventDefault();
+		event.stopPropagation();
+		if (isSelected()) {
+			unselectAll();
+		}
 	}
 
 	public void update() {
@@ -49,43 +88,30 @@ public class CursorOverlayController {
 	}
 
 	public void selectAll() {
+		if (!enabled) {
+			return;
+		}
 		stopBlinking();
-		cursorOverlay.selectAll();
+		cursorOverlay.addFakeSelection();
 	}
 
-	private boolean hasSelection() {
-		return textField.getTextField().getValueBox().getSelectionLength() > 0;
+	private void stopBlinking() {
+		DomGlobal.clearTimeout(blinkHandler);
 	}
 
 	public void addDummyCursor() {
-		if (!enabled) {
-			return;
-		}
-
-		add();
-		update();
-	}
-
-	void add() {
-		if (!enabled) {
-			return;
-		}
-
 		main.add(cursorOverlay);
 		main.addStyleName("withCursorOverlay");
 		app.showKeyboard(textField, true);
+		update();
 	}
 
 	public int removeDummyCursor() {
-		if (!enabled) {
-			return -1;
-		}
-
 		// check for isAttached to avoid infinite recursion
 		if (cursorOverlay.isAttached()) {
 			cursorOverlay.removeFromParent();
 			main.removeStyleName("withCursorOverlay");
-			CursorOverlay.hideKeyboard(app);
+			hideKeyboard(app);
 		}
 		return textField.getCaretPosition();
 	}
@@ -96,7 +122,7 @@ public class CursorOverlayController {
 		}
 
 		Dom.setImportant(cursorOverlay.getElement().getStyle(), "font-size",
-					size);
+				size);
 	}
 
 	public boolean isEnabled() {
@@ -109,18 +135,15 @@ public class CursorOverlayController {
 	}
 
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
-		if (!enabled) {
-			return;
-		}
-
 		cursorOverlay.setHorizontalAlignment(alignment);
 	}
 
 	public void unselectAll() {
-		cursorOverlay.unselect();
+		cursorOverlay.removeFakeSelection();
 	}
 
 	public boolean isSelected() {
-		return enabled && cursorOverlay.isSelected();
+		return cursorOverlay.hasFakeSelection();
 	}
+
 }

@@ -333,7 +333,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		addContent(textField);
 		add(main);
-		cursorOverlayController = new CursorOverlayController(app, this, main);
+		cursorOverlayController = new CursorOverlayController(this, main);
 	}
 
 	public void addContent(IsWidget widget) {
