@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.commands;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -25,10 +28,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -111,30 +112,22 @@ public class AlgebraStyleTest extends BaseUnitTest {
 				reloaded.toValueString(StringTemplate.defaultTemplate));
 	}
 
+	@Override
+	public AppCommon createAppCommon() {
+		return AppCommonFactory.create3D();
+	}
+
 	/**
 	 * Clear construction and reset settings.
 	 */
 	@Before
 	public void resetSyntaxes() {
+		app = getApp();
+		ap = getKernel().getAlgebraProcessor();
 		app.getKernel().clearConstruction(true);
 		AlgebraTestHelper.enableCAS(app, true);
 		app.getKernel()
 				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
-	}
-
-	/**
-	 * Initialize app.
-	 */
-	@BeforeClass
-	public static void setupApp() {
-		app = AppCommonFactory.create3D();
-		app.setLanguage("en_US");
-		ap = app.getKernel().getAlgebraProcessor();
-		// make sure x=y is a line, not plane
-		app.getGgbApi().setPerspective("1");
-		// Setting the general timeout to 11 seconds. Feel free to change this.
-		app.getKernel().getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(11000);
 	}
 
 	@Test
@@ -666,8 +659,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	public void statisticsSuggestionShouldCreateOneUndoPoint() {
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		app.getKernel().getConstruction().initUndoInfo();
 
 		t("l1={1,2,3}");
@@ -865,6 +857,6 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	public void polarVectorsShouldSerializeAsFlatInEditor() {
 		GeoVector vec = add("v=(1;3)");
 		assertTrue("should be polar", vec.isPolar());
-		assertThat(vec.getDefinitionForEditor(), CoreMatchers.is("v=(1; 3)"));
+		assertThat(vec.getDefinitionForEditor(), is("v=(1; 3)"));
 	}
 }

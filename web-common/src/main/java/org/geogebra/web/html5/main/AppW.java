@@ -57,6 +57,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -276,8 +277,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setPrerelease(appletParameters.getDataParamPrerelease());
 
 		// laf = null in webSimple
-		setUndoRedoEnabled(appletParameters.getDataParamEnableUndoRedo()
-				&& (laf == null || laf.undoRedoSupported()));
+		boolean hasUndo = appletParameters.getDataParamEnableUndoRedo()
+				&& (laf == null || laf.undoRedoSupported());
+		setUndoRedoMode(hasUndo ? UndoRedoMode.GUI : UndoRedoMode.DISABLED);
 
 		this.loc = new LocalizationW(getConfig(), dimension);
 		this.laf = laf;

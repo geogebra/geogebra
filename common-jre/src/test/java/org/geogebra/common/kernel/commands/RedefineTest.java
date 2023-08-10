@@ -148,8 +148,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void undoShouldNotRandomize() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("a=random()", "0.7275636800328681");
 
 		app.storeUndoInfo();
@@ -163,8 +162,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void randomizeUpdateConstruction() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("b=100", "100");
 		t("a=randomUniform(0,b)", "72.75636800328681");
 		((GeoNumeric) lookup("b")).setValue(10);
@@ -200,8 +198,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void undoShouldNotRandomizeShufle() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
 
 		app.storeUndoInfo();

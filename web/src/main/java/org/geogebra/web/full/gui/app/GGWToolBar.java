@@ -10,6 +10,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -318,7 +319,7 @@ public class GGWToolBar extends Composite
 			}
 			rightButtonPanel.add(getTimer());
 		}
-		if (app.isUndoRedoEnabled()) {
+		if (app.getUndoRedoMode() == UndoRedoMode.GUI) {
 			addUndoPanel();
 		}
 		this.menuBarShowing = false;
@@ -1056,7 +1057,7 @@ public class GGWToolBar extends Composite
 	 */
 	public int getMaxButtons(int appWidth) {
 		int extraButtons = 0;
-		if (app.isUndoRedoEnabled()) {
+		if (app.getUndoRedoMode() == UndoRedoMode.GUI) {
 			extraButtons = 95;
 		}
 		if (app.showMenuBar()) {

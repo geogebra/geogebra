@@ -1,6 +1,7 @@
 package org.geogebra.web.test;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.gui.applet.AppletFactory;
@@ -93,7 +94,7 @@ public class AppMocker {
 	}
 
 	private static void setAppDefaults(App app) {
-		app.setUndoRedoEnabled(true);
+		app.setUndoRedoMode(UndoRedoMode.GUI);
 		app.setUndoActive(true);
 		app.getKernel().getConstruction().initUndoInfo();
 	}
