@@ -79,6 +79,13 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 					}
 				} );
 
+		app.getGlobalHandlers().addEventListener(main.getElement(), "touchend",
+				e -> {
+						CancelEventTimer.cancelMouseEvent();
+						LongTouchManager.getInstance().cancelTimer();
+
+				} );
+
 	}
 
 	private void startBlinking() {
