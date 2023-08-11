@@ -1,8 +1,11 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.LongTouchManager;
+import org.geogebra.web.html5.gui.util.LongTouchTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.dom.client.Element;
@@ -10,8 +13,11 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
+import elemental2.dom.Touch;
+import elemental2.dom.TouchEvent;
+import jsinterop.base.Js;
 
-public class CursorOverlayController {
+public class CursorOverlayController implements LongTouchTimer.LongTouchHandler {
 
 	private final AppW app;
 	private final AutoCompleteTextFieldW textField;
@@ -57,6 +63,21 @@ public class CursorOverlayController {
 
 		app.getGlobalHandlers().addEventListener(main.getElement(),"touchstart",
 				this::unselectOverlay);
+
+		app.getGlobalHandlers().addEventListener(main.getElement(), "touchstart",
+				e -> {
+					if (cursorOverlay.hasFakeSelection()) {
+						return;
+					}
+					TouchEvent touchEvent = Js.uncheckedCast(e);
+					if (touchEvent.touches.length > 0) {
+						Touch touch = touchEvent.touches.item(0);
+						double x = touch.clientX;
+						double y = touch.clientY;
+						Log.debug("(" + x + "," + y + ")");
+						LongTouchManager.getInstance().scheduleTimer(this, (int) x, (int) y, 200);
+					}
+				} );
 
 	}
 
@@ -146,4 +167,10 @@ public class CursorOverlayController {
 		return cursorOverlay.hasFakeSelection();
 	}
 
+	@Override
+	public void handleLongTouch(int x, int y) {
+		Log.debug("longTouch");
+		CancelEventTimer.touchEventOccured();
+		selectAll();
+	}
 }
