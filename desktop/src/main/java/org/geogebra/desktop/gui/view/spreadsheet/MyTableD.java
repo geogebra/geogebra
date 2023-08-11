@@ -235,7 +235,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setSelectionForeground(Color.BLACK);
 
 		// add cell renderer & editors
-		setDefaultRenderer(Object.class, new MyCellRendererD(this));
+		setDefaultRenderer(Object.class, new SpreadsheetCellRendererD(this));
 		editor = new MyCellEditorSpreadsheet(kernel, getEditorController());
 		setDefaultEditor(Object.class, editor);
 

@@ -42,7 +42,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.MyToggleButtonD;
+import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -67,7 +67,7 @@ public class EuclidianStyleBarD extends JToolBar
 	 * @author mathieu
 	 * 
 	 */
-	protected class MyToggleButtonDforEV extends MyToggleButtonD {
+	protected class ToggleButtonDforEV extends ToggleButtonD {
 
 		/**
 		 * 
@@ -82,7 +82,7 @@ public class EuclidianStyleBarD extends JToolBar
 		 * @param height
 		 *            height of the button
 		 */
-		public MyToggleButtonDforEV(ImageIcon icon, int height) {
+		public ToggleButtonDforEV(ImageIcon icon, int height) {
 			super(icon, height);
 
 		}
@@ -115,26 +115,26 @@ public class EuclidianStyleBarD extends JToolBar
 	protected PopupMenuButtonD btnPointCapture;
 	protected PopupMenuButtonD btnAngleInterval;
 
-	protected MyToggleButtonD btnShowGrid;
+	protected ToggleButtonD btnShowGrid;
 
-	protected MyToggleButtonD btnStandardView;
+	protected ToggleButtonD btnStandardView;
 
-	protected MyToggleButtonD btnShowAxes;
-	protected MyToggleButtonD[] btnDeleteSize;
+	protected ToggleButtonD btnShowAxes;
+	protected ToggleButtonD[] btnDeleteSize;
 
-	MyToggleButtonD btnBold;
+	ToggleButtonD btnBold;
 
-	MyToggleButtonD btnItalic;
+	ToggleButtonD btnItalic;
 
-	private MyToggleButtonD btnTableTextLinesV;
+	private ToggleButtonD btnTableTextLinesV;
 
-	private MyToggleButtonD btnTableTextLinesH;
+	private ToggleButtonD btnTableTextLinesH;
 
-	MyToggleButtonD btnFixPosition;
-	MyToggleButtonD btnFixObject;
+	ToggleButtonD btnFixPosition;
+	ToggleButtonD btnFixObject;
 
 	private PopupMenuButtonD[] popupBtnList;
-	private MyToggleButtonD[] toggleBtnList;
+	private ToggleButtonD[] toggleBtnList;
 
 	// fields for setting/unsetting default geos
 	protected EuclidianStyleBarSelection selection;
@@ -487,8 +487,8 @@ public class EuclidianStyleBarD extends JToolBar
 				btnPointCapture, };
 	}
 
-	protected MyToggleButtonD[] newToggleBtnList() {
-		return new MyToggleButtonD[] { btnShowGrid, btnShowAxes, btnStandardView,
+	protected ToggleButtonD[] newToggleBtnList() {
+		return new ToggleButtonD[] { btnShowGrid, btnShowAxes, btnStandardView,
 				btnBold, btnItalic, btnTableTextLinesV, btnTableTextLinesH,
 				btnFixPosition, btnFixObject, this.btnDeleteSize[0],
 				this.btnDeleteSize[1], this.btnDeleteSize[2] };
@@ -517,13 +517,13 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ========================================
 		// delete-drag square size
-		btnDeleteSize = new MyToggleButtonD[3];
+		btnDeleteSize = new ToggleButtonD[3];
 		ImageResourceD[] deleteIcons = new ImageResourceD[] {
 				GuiResourcesD.STYLINGBAR_DELETE_SMALL,
 				GuiResourcesD.STYLINGBAR_DELETE_MEDIUM,
 				GuiResourcesD.STYLINGBAR_DELETE_BIG };
 		for (int i = 0; i < 3; i++) {
-			btnDeleteSize[i] = new MyToggleButtonD(
+			btnDeleteSize[i] = new ToggleButtonD(
 					app.getScaledIcon(deleteIcons[i]), iconHeight) {
 
 				private static final long serialVersionUID = 1L;
@@ -538,13 +538,13 @@ public class EuclidianStyleBarD extends JToolBar
 		}
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButtonDforEV(axesIcon, iconHeight);
+		btnShowAxes = new ToggleButtonDforEV(axesIcon, iconHeight);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowAxes.addActionListener(this);
 
 		// ========================================
 		// show grid button
-		btnShowGrid = new MyToggleButtonDforEV(
+		btnShowGrid = new ToggleButtonDforEV(
 				app.getScaledIcon(GuiResourcesD.STYLINGBAR_GRAPHICS_SHOW_GRID),
 				iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
@@ -552,7 +552,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ========================================
 		// standard view button
-		btnStandardView = new MyToggleButtonDforEV(
+		btnStandardView = new ToggleButtonDforEV(
 				app.getScaledIcon(
 						GuiResourcesD.STYLINGBAR_GRAPHICS_STANDARDVIEW),
 				iconHeight);
@@ -854,7 +854,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ========================================
 		// fixed position button
-		btnFixPosition = new MyToggleButtonD(
+		btnFixPosition = new ToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.MENU_PIN), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -885,7 +885,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ========================================
 		// fixed object button
-		btnFixObject = new MyToggleButtonD(
+		btnFixObject = new ToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.STYLINGBAR_OBJECT_UNFIXED),
 				iconHeight) {
 
@@ -1163,7 +1163,7 @@ public class EuclidianStyleBarD extends JToolBar
 		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
-		btnBold = new MyToggleButtonD(boldIcon, iconHeight) {
+		btnBold = new ToggleButtonD(boldIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1194,7 +1194,7 @@ public class EuclidianStyleBarD extends JToolBar
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
-		btnItalic = new MyToggleButtonD(italicIcon, iconHeight) {
+		btnItalic = new ToggleButtonD(italicIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1368,7 +1368,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ====================================
 		// vertical grid lines toggle button
-		btnTableTextLinesV = new MyToggleButtonD(
+		btnTableTextLinesV = new ToggleButtonD(
 				GeoGebraIconD.createVGridIcon(iconDimension), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -1392,7 +1392,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// ====================================
 		// horizontal grid lines toggle button
-		btnTableTextLinesH = new MyToggleButtonD(
+		btnTableTextLinesH = new ToggleButtonD(
 				GeoGebraIconD.createHGridIcon(iconDimension), iconHeight) {
 
 			private static final long serialVersionUID = 1L;

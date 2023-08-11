@@ -36,7 +36,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
 
-public class MyCellRendererD extends DefaultTableCellRenderer {
+public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	// ggb fields
@@ -75,7 +75,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 	 * 
 	 * @param table spreadsheet table
 	 */
-	public MyCellRendererD(MyTableInterface table) {
+	public SpreadsheetCellRendererD(MyTableInterface table) {
 		this.myTable = table;
 		app = (AppD) myTable.getApplication();
 		kernel = app.getKernel();
@@ -94,7 +94,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 		checkBox = new JCheckBox();
 		button = new JButton();
 		comboBox = new JComboBox();
-		comboBox.setRenderer(new MyListCellRenderer());
+		comboBox.setRenderer(new GeoElementListCellRenderer());
 
 		cbModel = new DefaultComboBoxModel();
 		comboBox.setModel(cbModel);
@@ -328,7 +328,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 	/**
 	 * Custom cell renderer that displays GeoElement descriptions.
 	 */
-	private static class MyListCellRenderer extends DefaultListCellRenderer {
+	public static class GeoElementListCellRenderer extends DefaultListCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		@Override

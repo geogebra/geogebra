@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.desktop.main.AppD;
@@ -265,30 +264,6 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	public void setEastOrientation(boolean isEastOrientation) {
 		this.isEastOrientation = isEastOrientation;
 		setSidebarTriangle(popup != null && popup.isVisible());
-	}
-
-	/***********************************************
-	 * Popup class
-	 */
-	static class MyPopup extends JPopupMenu {
-
-		private static final long serialVersionUID = 1L;
-
-		public MyPopup() {
-			super();
-			setOpaque(true);
-			setBackground(SystemColor.control);
-			setFocusable(false);
-			setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 8));
-
-		}
-
-		@Override
-		public void setVisible(boolean isVisible) {
-
-			super.setVisible(isVisible);
-		}
-
 	}
 
 }

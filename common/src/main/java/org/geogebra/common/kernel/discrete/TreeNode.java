@@ -2,10 +2,10 @@ package org.geogebra.common.kernel.discrete;
 
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class MyNode {
+public class TreeNode {
 	public GeoPointND id;
 
-	public MyNode(GeoPointND id) {
+	public TreeNode(GeoPointND id) {
 		this.id = id;
 	}
 

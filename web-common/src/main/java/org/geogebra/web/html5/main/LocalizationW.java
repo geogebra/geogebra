@@ -15,7 +15,7 @@ import org.geogebra.gwtutil.ScriptLoadCallback;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
-import org.geogebra.web.html5.util.MyDictionary;
+import org.geogebra.web.html5.util.TranslationDictionary;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
@@ -191,7 +191,7 @@ public final class LocalizationW extends Localization {
 		String str = StringUtil.removeSpaces(StringUtil.toLowerCaseUS(locColor));
 
 		try {
-			MyDictionary colorKeysDict = MyDictionary
+			TranslationDictionary colorKeysDict = TranslationDictionary
 					.getDictionary("colors", localeStr);
 			for (String key : colorKeysDict.keySet()) {
 				if (key != null
