@@ -45,7 +45,7 @@ import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
-import org.geogebra.desktop.euclidian.MyZoomerD;
+import org.geogebra.desktop.euclidian.CoordSystemAnimationD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
@@ -426,8 +426,8 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	protected MyZoomerD newZoomer() {
-		return new MyZoomerD(this);
+	protected CoordSystemAnimationD newZoomer() {
+		return new CoordSystemAnimationD(this);
 	}
 
 	@Override

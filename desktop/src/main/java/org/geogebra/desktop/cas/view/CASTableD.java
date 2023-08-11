@@ -120,7 +120,7 @@ public class CASTableD extends JTable implements CASTable {
 		}
 
 		// listen to mouse pressed on table cells, make sure to start editing
-		addMouseListener(new MyMouseListener());
+		addMouseListener(new CASTableMouseListener());
 
 		// add listener for mouse roll over
 		RollOverListener rollOverListener = new RollOverListener();
@@ -191,7 +191,7 @@ public class CASTableD extends JTable implements CASTable {
 	 * listen to mouse pressed on table cells, make sure to start editing
 	 * 
 	 */
-	protected class MyMouseListener extends MouseAdapter {
+	protected class CASTableMouseListener extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
