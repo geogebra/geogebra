@@ -22,6 +22,12 @@ public class UndefinedOrEmptyChecker implements Inspecting {
             return !((MyDouble) v).isDefined();
         }
 
+        // Return true for empty list
+        if (v instanceof MyList
+                && ((MyList) v).getLength() == 0) {
+            return true;
+        }
+
         // In case of a symbolic expression check its value
         if (v instanceof GeoSymbolic) {
             return (((GeoSymbolic) v).getValue()).inspect(this);
