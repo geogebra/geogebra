@@ -41,7 +41,7 @@ public class BaseUnitTest {
      * Setup test class before every test.
      */
     @Before
-	public final void setup() {
+	public void setup() {
 		app = createAppCommon();
         kernel = app.getKernel();
         construction = kernel.getConstruction();
