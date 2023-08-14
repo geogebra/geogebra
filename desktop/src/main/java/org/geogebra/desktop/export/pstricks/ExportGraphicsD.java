@@ -11,13 +11,13 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 // To avoid duplicate inequalities drawing algorithms replacing Graphics.
 // In the three implementations (pstricks, pgf, asymptote) print the
 // appropriate commands
-abstract class MyGraphicsD extends GGraphics2DD {
+abstract class ExportGraphicsD extends GGraphics2DD {
 
 	protected double[] ds;
 	protected Inequality ineq;
 	protected FunctionalNVar geo;
 
-	public MyGraphicsD(FunctionalNVar geo, Inequality ineq) {
+	public ExportGraphicsD(FunctionalNVar geo, Inequality ineq) {
 
 		// dummy canvas
 		super(new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)

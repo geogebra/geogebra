@@ -37,7 +37,7 @@ public class SelectionTableD extends JTable {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private MyCellRenderer renderer;
+	private SelectionCellRenderer renderer;
 	private DefaultTableModel model;
 
 	private int rollOverRow = -1;
@@ -144,7 +144,7 @@ public class SelectionTableD extends JTable {
 
 		// =======================================
 		// set cell renderer
-		renderer = new MyCellRenderer();
+		renderer = new SelectionCellRenderer();
 		this.setDefaultRenderer(Object.class, renderer);
 
 		// =======================================
@@ -367,7 +367,7 @@ public class SelectionTableD extends JTable {
 	// Cell Renderer
 	// ==============================================
 
-	class MyCellRenderer extends JLabel implements TableCellRenderer {
+	class SelectionCellRenderer extends JLabel implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
@@ -378,7 +378,7 @@ public class SelectionTableD extends JTable {
 		private final Color selectionColor;
 		private final Color rollOverColor;
 
-		public MyCellRenderer() {
+		public SelectionCellRenderer() {
 
 			// TODO --- selection color should be centralized, not from
 			// spreadsheet

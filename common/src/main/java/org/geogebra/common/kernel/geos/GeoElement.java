@@ -7181,4 +7181,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public void removeZoomerAnimationListenerIfNeeded() {
 		// implemented in GeoFunction
 	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
+	}
 }

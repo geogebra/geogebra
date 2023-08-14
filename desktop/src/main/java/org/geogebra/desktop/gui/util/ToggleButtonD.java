@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * @author G. Sturr
  *
  */
-public class MyToggleButtonD extends JButton {
+public class ToggleButtonD extends JButton {
 
 	private static final long serialVersionUID = 1L;
 	private int myHeight;
@@ -25,7 +25,7 @@ public class MyToggleButtonD extends JButton {
 	 * @param icon icon
 	 * @param height height
 	 */
-	public MyToggleButtonD(ImageIcon icon, int height) {
+	public ToggleButtonD(ImageIcon icon, int height) {
 		super(icon);
 		initButton(height);
 
@@ -36,7 +36,7 @@ public class MyToggleButtonD extends JButton {
 	/**
 	 * @param height height in pixels
 	 */
-	public MyToggleButtonD(int height) {
+	public ToggleButtonD(int height) {
 		super();
 		initButton(height);
 	}

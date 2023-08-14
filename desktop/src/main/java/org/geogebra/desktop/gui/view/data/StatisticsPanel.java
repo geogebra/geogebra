@@ -207,7 +207,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		if (cbInferenceMode == null) {
 			cbInferenceMode = new JComboBox();
 			cbInferenceMode.setFocusable(false);
-			cbInferenceMode.setRenderer(new MyRenderer());
+			cbInferenceMode.setRenderer(new InferenceModeRenderer());
 
 		} else {
 			cbInferenceMode.removeActionListener(this);
@@ -269,12 +269,12 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	// ComboBox Renderer with SEPARATOR
 	// ============================================================
 
-	private static class MyRenderer extends JLabel implements ListCellRenderer {
+	private static class InferenceModeRenderer extends JLabel implements ListCellRenderer {
 		private static final long serialVersionUID = 1L;
 		public static final String SEPARATOR = "SEPARATOR";
 		JSeparator separator;
 
-		public MyRenderer() {
+		public InferenceModeRenderer() {
 			setOpaque(true);
 			setBorder(new EmptyBorder(1, 1, 1, 1));
 			separator = new JSeparator(SwingConstants.HORIZONTAL);
@@ -312,7 +312,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 	@Override
 	public String getSeparator() {
-		return MyRenderer.SEPARATOR;
+		return InferenceModeRenderer.SEPARATOR;
 	}
 
 	@Override

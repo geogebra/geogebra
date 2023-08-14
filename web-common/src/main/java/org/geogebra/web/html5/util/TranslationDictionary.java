@@ -34,9 +34,9 @@ import jsinterop.base.JsPropertyMap;
  * 
  * eg __GGB__keysVar[en][command][Excentricity]
  */
-public final class MyDictionary {
+public final class TranslationDictionary {
 
-	private static Map<String, MyDictionary> cache = new HashMap<>();
+	private static Map<String, TranslationDictionary> cache = new HashMap<>();
 	private JsPropertyMap<String> dict;
 
 	private String label;
@@ -53,11 +53,11 @@ public final class MyDictionary {
 	 * @throws MissingResourceException
 	 *             when no dictionary is available for given language
 	 */
-	public static MyDictionary getDictionary(String section, String language)
+	public static TranslationDictionary getDictionary(String section, String language)
 			throws MissingResourceException {
-		MyDictionary target = cache.get(section + language);
+		TranslationDictionary target = cache.get(section + language);
 		if (target == null) {
-			target = new MyDictionary(section, language);
+			target = new TranslationDictionary(section, language);
 			cache.put(section + language, target);
 		}
 		return target;
@@ -76,7 +76,7 @@ public final class MyDictionary {
 	 * @param language
 	 *            dictionary language
 	 */
-	private MyDictionary(String section, String language)
+	private TranslationDictionary(String section, String language)
 			throws MissingResourceException {
 		if (section == null || "".equals(section)) {
 			throw new IllegalArgumentException(

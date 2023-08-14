@@ -8,13 +8,13 @@ import javax.swing.Timer;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianView;
 
-public class MyZoomerD extends CoordSystemAnimation implements ActionListener {
+public class CoordSystemAnimationD extends CoordSystemAnimation implements ActionListener {
 	protected Timer timer; // for animation
 
 	/**
 	 * @param view view
 	 */
-	public MyZoomerD(EuclidianView view) {
+	public CoordSystemAnimationD(EuclidianView view) {
 		super(view);
 		timer = new Timer(DELAY, this);
 	}

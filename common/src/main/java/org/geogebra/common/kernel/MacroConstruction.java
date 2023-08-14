@@ -52,12 +52,7 @@ public class MacroConstruction extends Construction {
 	 *             if there is a problem while reading XML
 	 */
 	public void loadXML(String xmlString) throws Exception {
-		if (undoManager == null) {
-			undoManager = kernel.getApplication().getUndoManager(this);
-		}
-		this.setFileLoading(true);
-		undoManager.processXML(xmlString, true);
-		this.setFileLoading(false);
+		processXML(xmlString, true, null);
 	}
 
 	/**

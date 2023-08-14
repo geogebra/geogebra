@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.UndoRedoMode;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +49,7 @@ public class SymbolicTableTest {
 
 	@Test
 	public void testUndoRedo() {
-		app.setUndoRedoEnabled(true);
+		app.setUndoRedoMode(UndoRedoMode.GUI);
 		app.setUndoActive(true);
 		processor.processInput("1", view.getValues(), 0);
 		processor.processInput("2", view.getValues(), 1);

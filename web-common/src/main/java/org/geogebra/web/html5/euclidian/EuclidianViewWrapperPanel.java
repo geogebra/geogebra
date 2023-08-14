@@ -10,7 +10,7 @@ import org.gwtproject.user.client.ui.Panel;
  * Used for plot panel and for 3D
  *
  */
-public class MyEuclidianViewPanel extends AbsolutePanel implements
+public class EuclidianViewWrapperPanel extends AbsolutePanel implements
         EuclidianPanelWAbstract {
 	/** canvas */
 	private Canvas canvas;
@@ -20,7 +20,7 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 	 * @param ev
 	 *            view wrapped in this panel
 	 */
-	public MyEuclidianViewPanel(EuclidianView ev) {
+	public EuclidianViewWrapperPanel(EuclidianView ev) {
 		super();
 		this.ev = ev;
 		canvas = createCanvas();
