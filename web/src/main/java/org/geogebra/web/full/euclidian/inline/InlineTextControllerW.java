@@ -199,6 +199,10 @@ public class InlineTextControllerW implements InlineTextController {
 		}
 	}
 
+	public GeoInline getInline() {
+		return geo;
+	}
+
 	private void updateVerticalAlign() {
 		style.setPaddingTop(getValignPadding(), Unit.PX);
 	}

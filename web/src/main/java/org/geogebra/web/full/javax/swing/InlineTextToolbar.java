@@ -1,10 +1,14 @@
 package org.geogebra.web.full.javax.swing;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.undo.UpdateContentActionStore;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -166,17 +170,24 @@ public class InlineTextToolbar implements FastClickHandler {
 	}
 
 	private void formatScript(String type, Boolean value) {
+		ArrayList<GeoInline> geosToStore = new ArrayList();
+		for (HasTextFormat formatter : formatters) {
+			if (formatter instanceof InlineTextControllerW) {
+				geosToStore.add(((InlineTextControllerW) formatter).getInline());
+			}
+		}
+
+		UpdateContentActionStore store = new UpdateContentActionStore(geosToStore);
 		for (HasTextFormat formatter : formatters) {
 			formatter.format("script", value ? type : "none");
 		}
-		app.storeUndoInfo();
+		store.storeUndo();
 	}
 
 	private void switchListTo(String listType) {
 		for (HasTextFormat formatter : formatters) {
 			formatter.switchListTo(listType);
 		}
-		app.storeUndoInfo();
 	}
 
 	/**

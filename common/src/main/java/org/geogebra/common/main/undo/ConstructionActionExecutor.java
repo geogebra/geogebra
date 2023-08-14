@@ -51,9 +51,11 @@ public class ConstructionActionExecutor
 				app.getActiveEuclidianView().invalidateDrawableList();
 			}
 		} else if (action == ActionType.SET_CONTENT) {
-			GeoElement geo = app.getKernel().lookupLabel(args[0]);
-			if (geo instanceof GeoInline) {
-				setContentAndNotify((GeoInline) geo, args[1]);
+			for (int i = 0; i < args.length; i+=2) {
+				GeoElement geo = app.getKernel().lookupLabel(args[i]);
+				if (geo instanceof GeoInline) {
+					setContentAndNotify((GeoInline) geo, args[i+1]);
+				}
 			}
 		} else {
 			return false;

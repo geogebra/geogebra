@@ -28,9 +28,20 @@ public class UpdateStyleActionStore {
 	public void storeUndo() {
 		String[] currentXML = geos.stream().map(GeoElement::getStyleXML).toArray(String[]::new);
 		String[] labels = geos.stream().map(GeoElement::getLabelSimple).toArray(String[]::new);
-		undoManager.buildAction(ActionType.UPDATE, currentXML)
-				.withUndo(ActionType.UPDATE, initialXML.toArray(new String[0]))
-				.withLabels(labels)
-				.storeAndNotifyUnsaved();
+
+		//Only store undoable action if XML changed
+		String currentXMLString = new String();
+		String initialXMLString = new String();
+		for (int i = 0; i < geos.size(); i++) {
+			currentXMLString += currentXML[i];
+			initialXMLString += initialXML.get(i);
+		}
+
+		if (!currentXMLString.equals(initialXMLString)) {
+			undoManager.buildAction(ActionType.UPDATE, currentXML)
+					.withUndo(ActionType.UPDATE, initialXML.toArray(new String[0]))
+					.withLabels(labels)
+					.storeAndNotifyUnsaved();
+		}
 	}
 }

@@ -223,9 +223,10 @@ public abstract class StyleBarW2 extends StyleBarW {
 	 * @param action action to be executed on geos
 	 */
 	public void processSelectionWithUndo(Function<ArrayList<GeoElement>, Boolean> action) {
+		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos());
 		boolean needUndo = action.apply(getTargetGeos());
 		if (needUndo) {
-			app.storeUndoInfo();
+			store.storeUndo();
 		}
 	}
 
