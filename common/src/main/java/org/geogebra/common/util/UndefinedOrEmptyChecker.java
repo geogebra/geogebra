@@ -1,13 +1,10 @@
 package org.geogebra.common.util;
 
-import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * Traverses an expression and returns true if it contains an undefined "?" (Double.NaN)
