@@ -576,6 +576,8 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	private void dispatchSelected(int pageIdx) {
+		// first notify listeners about deselecting all objects on current page
+		app.getSelectionManager().clearSelectedGeos(false);
 		app.dispatchEvent(new Event(EventType.SELECT_PAGE,
 				null, slides.get(pageIdx).getID()));
 	}
