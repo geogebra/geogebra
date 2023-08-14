@@ -20,7 +20,7 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.InputMode;
-import org.geogebra.common.gui.inputfield.MyTextField;
+import org.geogebra.common.gui.inputfield.TextFieldUtil;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
@@ -1039,7 +1039,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				while (pos > 0 && getText().charAt(pos - 1) == '[') {
 					pos--;
 				}
-				String word = MyTextField.getWordAtPos(getText(), pos);
+				String word = TextFieldUtil.getWordAtPos(getText(), pos);
 				String lowerCurWord = word == null ? "" : word.toLowerCase();
 				String closest = inputSuggestions.getDictionary().lookup(lowerCurWord);
 

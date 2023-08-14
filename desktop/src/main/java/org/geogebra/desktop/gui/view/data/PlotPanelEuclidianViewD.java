@@ -114,7 +114,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		setMouseEnabled(false, true);
 		setMouseMotionEnabled(false);
 		setMouseWheelEnabled(false);
-		this.addMouseMotionListener(new MyMouseMotionListener());
+		this.addMouseMotionListener(new PlotPanelMouseMotionListener());
 
 		// set some default EV features
 		setAllowShowMouseCoords(false);
@@ -323,7 +323,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	/**
 	 * Mouse motion listener for handling DnD drags
 	 */
-	class MyMouseMotionListener implements MouseMotionListener {
+	class PlotPanelMouseMotionListener implements MouseMotionListener {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
