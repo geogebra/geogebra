@@ -507,7 +507,7 @@ public class EuclidianStyleBarStatic {
 
 		List<GeoElement> splitStrokes = new ArrayList(splitStrokes(geos, app));
 		splitStrokes = splitStrokes.stream().filter(geo -> !(geo instanceof GeoInlineText))
-				.collect(Collectors.toList());	//Handled by InlineTextFormatter
+				.collect(Collectors.toList()); //Handled by InlineTextFormatter
 		UpdateStrokeStyleStore strokeStyleHelper = new UpdateStrokeStyleStore(splitStrokes,
 				app.getUndoManager());
 

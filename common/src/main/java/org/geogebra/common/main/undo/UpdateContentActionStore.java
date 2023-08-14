@@ -12,6 +12,9 @@ public class UpdateContentActionStore {
 	private final List<String> initialContentXML = new ArrayList();
 	private final ArrayList<GeoInline> geos;
 
+	/**
+	 * @param geosAsList Selected geos (GeoInline)
+	 */
 	public UpdateContentActionStore(ArrayList<GeoInline> geosAsList) {
 		this.geos = geosAsList;
 		for (GeoInline geo : geosAsList) {
@@ -21,8 +24,12 @@ public class UpdateContentActionStore {
 		this.undoManager = geosAsList.get(0).getConstruction().getUndoManager();
 	}
 
+	/**
+	 * Store undoable action
+	 */
 	public void storeUndo() {
-		String[] currentContentXML = geos.stream().map(GeoInline::getContent).toArray(String[]::new);
+		String[] currentContentXML = geos.stream().map(GeoInline::getContent)
+				.toArray(String[]::new);
 		String[] labels = geos.stream().map(GeoInline::getLabelSimple).toArray(String[]::new);
 		String[] labelsAndContent = new String[currentContentXML.length * 2];
 
