@@ -30,29 +30,29 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	}
 
 	@Override
-	final protected GRectangle getBounds(@Nonnull CaptionText cpt) {
+	final protected GRectangle getBounds(@Nonnull CaptionText cpt, GGraphics2D measuringGraphics) {
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					tempGraphics, geo, tempGraphics, cpt.font(), GColor.BLACK,
+					measuringGraphics, geo, measuringGraphics, cpt.font(), GColor.BLACK,
 					GColor.WHITE, cpt.text(), 0, 0,
 					((TextProperties) geo).isSerifFont(), getCallBack(),
 					bounds);
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
-					cpt.text(), tempGraphics, bounds, cpt.font(),
+					cpt.text(), measuringGraphics, bounds, cpt.font(),
 					((TextProperties) geo).isSerifFont(), 0, 0, DrawText.DEFAULT_MARGIN);
 		}
 		return bounds;
 	}
 
 	@Override
-	final protected GBufferedImage draw(@Nonnull CaptionText cpt) {
+	final protected GBufferedImage draw(@Nonnull CaptionText cpt, GGraphics2D measuringGraphics) {
 		GBufferedImage bimg = createBufferedImage();
 		GGraphics2D g2d = createGraphics2D(bimg, cpt);
 
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					tempGraphics, geo, g2d, cpt.font(), GColor.BLACK, GColor.WHITE,
+					measuringGraphics, geo, g2d, cpt.font(), GColor.BLACK, GColor.WHITE,
 					cpt.text(), 0, 0, ((TextProperties) geo).isSerifFont(),
 					getCallBack(), null);
 		} else {

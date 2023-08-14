@@ -107,16 +107,14 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
 
-		if (signIn.isTubeAvailable() || !signIn.isTubeCheckDone()) {
-			loadURLMenuItem = add(loadURLAction);
 
-			// If GeoGebraTube is not available we disable the item and
-			// listen to the event that tube becomes available
-			if (!signIn.isTubeAvailable()) {
-				loadURLAction.setEnabled(false);
-				signIn.getView().add(this);
-			}
+		loadURLMenuItem = add(loadURLAction);
 
+		// If GeoGebraTube is not available we disable the item and
+		// listen to the event that tube becomes available
+		if (!signIn.isTubeAvailable()) {
+			loadURLAction.setEnabled(false);
+			signIn.getView().add(this);
 		}
 
 		// recent SubMenu

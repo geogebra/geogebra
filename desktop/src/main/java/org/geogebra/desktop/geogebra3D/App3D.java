@@ -167,7 +167,7 @@ public class App3D extends AppD {
 	}
 
 	private void runThreadForCheckInput3D() {
-		if (!tubeLoginIsShowing && AppD.WINDOWS
+		if (AppD.WINDOWS
 				&& getInput3DType().equals(Input3DConstants.PREFS_NONE)) {
 			Log.debug("============ runThreadToCheckInput3D ");
 			Thread t = new ThreadForCheckInput3D();
@@ -264,10 +264,6 @@ public class App3D extends AppD {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
-				if (tubeLoginHasToBeShown) {
-					perspectivePopupHasToBeShown = perspectivePopupHasToBeShown
-							&& superShowTubeLogin();
-				}
 				if (perspectivePopupHasToBeShown) {
 					superShowPerspectivePopup();
 				}
@@ -298,31 +294,7 @@ public class App3D extends AppD {
 	}
 
 	boolean input3DPopupShowing = false;
-	boolean tubeLoginHasToBeShown = false;
-	private boolean tubeLoginIsShowing = false;
 	boolean perspectivePopupHasToBeShown = false;
-
-	@Override
-	protected boolean showTubeLogin() {
-		if (input3DPopupShowing) {
-			tubeLoginHasToBeShown = true;
-			return true;
-		}
-		return superShowTubeLogin();
-	}
-
-	boolean superShowTubeLogin() {
-		tubeLoginHasToBeShown = false;
-		boolean ret = super.showTubeLogin();
-		tubeLoginIsShowing = false;
-		return ret;
-	}
-
-	@Override
-	public void isShowingLogInDialog() {
-		tubeLoginIsShowing = true;
-		runThreadForCheckInput3D();
-	}
 
 	@Override
 	protected void showPerspectivePopup() {

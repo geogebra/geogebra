@@ -15,7 +15,6 @@ import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.dom.DomGlobal;
@@ -141,7 +140,7 @@ public abstract class FileManager extends MaterialsManager {
 
 	@Override
 	protected final void showTooltip(Material mat) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization()
+		app.getToolTipManager().showBottomMessage(app.getLocalization()
 				.getPlain("SeveralVersionsOfA", mat.getTitle()), app);
 
 	}
@@ -252,11 +251,11 @@ public abstract class FileManager extends MaterialsManager {
 	 */
 	protected void showOfflineErrorTooltip(AppW appw) {
 		if (!appw.getNetworkOperation().isOnline()) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+			app.getToolTipManager().showBottomMessage(appw
 					.getLocalization()
 					.getMenu("phone_loading_materials_offline"), appw);
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+			app.getToolTipManager().showBottomMessage(appw
 					.getLocalization()
 					.getMenu("SaveAccountFailed"), appw);
 		}
@@ -283,7 +282,7 @@ public abstract class FileManager extends MaterialsManager {
 				stream.write(blob);
 				stream.close();
 				String msg = app.getLocalization().getMenu("SavedSuccessfully");
-				ToolTipManagerW.sharedInstance().showBottomMessage(msg, app);
+				app.getToolTipManager().showBottomMessage(msg, app);
 			});
 			return null;
 		});

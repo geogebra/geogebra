@@ -505,9 +505,11 @@ public class EuclidianPen implements GTimerListener {
 	 * @param g2 graphics
 	 */
 	public void setStyleAndRepaint(GGraphics2D g2) {
-		g2.setStroke(EuclidianStatic.getStroke(getPenSize(),
-				getPenLineStyle(), GBasicStroke.JOIN_ROUND));
-		g2.setColor(getPenColor());
+		if (!previewPoints.isEmpty()) {
+			g2.setStroke(EuclidianStatic.getStroke(getPenSize(),
+					getPenLineStyle(), GBasicStroke.JOIN_ROUND));
+			g2.setColor(getPenColor());
+		}
 		repaintIfNeeded(g2);
 	}
 

@@ -3035,7 +3035,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return checkBoxOrButtonJustHitted || isTextfieldHasFocus();
 	}
 
-	protected abstract void initToolTipManager();
+	protected void initToolTipManager() {
+		// desktop is the only platform with EV-specific tooltips
+	}
 
 	protected void initShowMouseCoords() {
 		view.setShowMouseCoords((mode == EuclidianConstants.MODE_POINT)

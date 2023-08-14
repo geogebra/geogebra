@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.main.EmbedFactory;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -28,8 +29,8 @@ public class H5PInputDialog extends ComponentDialog {
 	}
 
 	private void buildContent() {
-		Label helpTxt = new Label(app.getLocalization().getMenu("H5PDialog.InsertHelpTxt"));
-		helpTxt.setStyleName("helpTxt");
+		Label helpTxt = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("H5PDialog.InsertHelpTxt"), "helpTxt");
 		addDialogContent(helpTxt);
 
 		mediaInputPanel = new MediaInputPanel((AppW) app, this, "Link", true);

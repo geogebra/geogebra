@@ -9,7 +9,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -24,12 +23,9 @@ public class LoadFilePresenter {
 	 *            applet parameters
 	 * @param app
 	 *            app
-	 * @param vv
-	 *            zip loader
 	 */
-	public void onPageLoad(final AppletParameters view, final AppW app,
-			ViewW vv) {
-
+	public void onPageLoad(final AppletParameters view, final AppW app) {
+		ArchiveLoader vv = app.getArchiveLoader();
 		String base64String;
 		String filename;
 		app.checkScaleContainer();
@@ -48,7 +44,7 @@ public class LoadFilePresenter {
 			app.openMaterial(view.getDataParamTubeID(),
 					err -> {
 						openEmptyApp(app, view);
-						ToolTipManagerW.sharedInstance()
+						app.getToolTipManager()
 								.showBottomMessage(app.getLocalization()
 										.getError(err), app);
 					});
@@ -281,7 +277,7 @@ public class LoadFilePresenter {
 	 * @param view
 	 *            zip handler
 	 */
-	public void processJSON(final String json, final ViewW view) {
+	public void processJSON(final String json, final ArchiveLoader view) {
 		view.processJSON(json);
 	}
 

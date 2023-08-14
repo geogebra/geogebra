@@ -21,7 +21,9 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 	private final GeoElement element;
 	private final GeoElementDelegate delegate;
 
-	/***/
+	/**
+	 * @throws NotApplicablePropertyException when one of the elements has no color
+	 */
 	public ElementColorProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.Color");
@@ -56,7 +58,7 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, scolors[19],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN, scolors[43],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
-				GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE, scolors[0],
+				GeoGebraColorConstants.PURPLE_600, scolors[0],
 				scolors[8], scolors[16], scolors[32], scolors[40], scolors[48],
 				scolors[56], scolors[1], scolors[9], scolors[17], scolors[24],
 				scolors[41], scolors[49], scolors[57], scolors[3], scolors[11],

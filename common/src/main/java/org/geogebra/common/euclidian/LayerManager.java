@@ -41,7 +41,9 @@ public class LayerManager {
 		}
 
 		if (!geo.isMask() && !geo.isMeasurementTool()) {
-			geo.setOrdering(getNextOrder());
+			if (Double.isNaN(geo.getOrdering())) {
+				geo.setOrdering(getNextOrder());
+			}
 			drawingOrder.add(geo);
 		}
 	}

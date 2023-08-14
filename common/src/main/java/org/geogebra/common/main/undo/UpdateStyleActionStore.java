@@ -9,12 +9,12 @@ import org.geogebra.common.plugin.ActionType;
 public class UpdateStyleActionStore {
 	private final UndoManager undoManager;
 	private final List<String> initialXML = new ArrayList<>();
-	private final ArrayList<GeoElement> geos;
+	private final List<GeoElement> geos;
 
 	/**
 	 * @param geosAsList selected geos
 	 */
-	public UpdateStyleActionStore(ArrayList<GeoElement> geosAsList) {
+	public UpdateStyleActionStore(List<GeoElement> geosAsList) {
 		this.geos = geosAsList;
 		for (GeoElement geo: geosAsList) {
 			initialXML.add(geo.getStyleXML());

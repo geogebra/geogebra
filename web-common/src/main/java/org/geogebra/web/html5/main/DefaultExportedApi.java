@@ -836,6 +836,10 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().setInputBoxState(state, label);
 	}
 
+	public boolean isInteractive(String label) {
+		return getGgbAPI().isInteractive(label);
+	}
+
 	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,
 			Object zmax, Object xyScale, Object xzScale, Object xTickDistance,
 			Object yTickDistance, Object zTickDistance) {

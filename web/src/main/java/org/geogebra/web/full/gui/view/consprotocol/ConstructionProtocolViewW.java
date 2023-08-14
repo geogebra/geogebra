@@ -16,7 +16,6 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.awt.PrintableW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -253,7 +252,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (dropIndex < minIndex || dropIndex > maxIndex) {
 					// drop not possible
 					// TODO change cursor style before releasing mouse
-					ToolTipManagerW.sharedInstance().showBottomMessage(
+					((AppW) app).getToolTipManager().showBottomMessage(
 							app.getLocalization().getMenu("Drop not possible"), (AppW) app);
 					return;
 				}

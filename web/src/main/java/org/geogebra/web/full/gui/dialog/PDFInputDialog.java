@@ -8,6 +8,7 @@ import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.PDFResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -110,9 +111,8 @@ public class PDFInputDialog extends ComponentDialog
 
 	private void addHelpToImgText() {
 		createFolderImg();
-		Label clickOrDragText = new Label(app.getLocalization().getMenu("pdfClickOrDrag"));
-		clickOrDragText.addStyleName("pdfDialogText");
-		clickOrDragText.addStyleName("clickOrDragText");
+		Label clickOrDragText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("pdfClickOrDrag"), "pdfDialogText clickOrDragText");
 		imgTextPanel.add(clickOrDragText);
 		pdfContainerPanel.add(imgTextPanel);
 	}
@@ -409,9 +409,8 @@ public class PDFInputDialog extends ComponentDialog
 		pdfContainerPanel.clear();
 		pdfContainerPanel.removeStyleName("withPdf");
 		createFolderImg();
-		Label errorText = new Label(app.getLocalization().getMenu("PdfErrorText"));
-		errorText.addStyleName("pdfDialogText");
-		errorText.addStyleName("errorText");
+		Label errorText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("PdfErrorText"), "pdfDialogText errorText");
 		imgTextPanel.add(errorText);
 		pdfContainerPanel.add(imgTextPanel);
 	}

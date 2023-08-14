@@ -2165,6 +2165,19 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
+	public void updatePathParameter(double t) {
+		PathParameter parameter = getPathParameter();
+		parameter.t = t;
+
+		// update point relative to path
+		path.pathChanged(this);
+		updateCoords();
+
+		// make sure point is still on path
+		path.pointChanged(this);
+	}
+
+	@Override
 	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		GeoPoint.addAuralArrows(loc, sb, this);
 		super.addAuralOperations(loc, sb);

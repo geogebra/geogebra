@@ -13,6 +13,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
@@ -239,6 +240,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/** visibility as intersection curve */
 	protected boolean intersectionCurveVisibility;
 	private @CheckForNull Caption3D caption = null;
+	private GGraphics2D updateLabelGraphics;
 	// /////////////////////////////////////////////////////////////////////////////
 	// constructors
 
@@ -391,9 +393,14 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	protected void updateLabel() {
 		if (caption != null) {
 			caption.update();
+			if (updateLabelGraphics == null) {
+				updateLabelGraphics = AwtFactory.getPrototype()
+						.newBufferedImage(1, 1, 1).createGraphics();
+			}
 			label.update(caption,
 					getView3D().getFontPoint(),
-					getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY(), 0);
+					getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY(), 0,
+					updateLabelGraphics);
 		}
 	}
 

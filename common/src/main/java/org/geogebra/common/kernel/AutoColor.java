@@ -20,13 +20,13 @@ public enum AutoColor {
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
+			GeoGebraColorConstants.PURPLE_600,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY }), 
 	/** surfaces */
 	SURFACES(new GColor[] { GColor.MOW_MEBIS_TEAL,
 			GColor.PURPLE_A400,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_PINK,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
+			GeoGebraColorConstants.PURPLE_600,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE });
 
 	private GColor[] sequence;

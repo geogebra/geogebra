@@ -4866,7 +4866,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @return true if is prerelease
 	 */
-	public boolean isPrerelease() {
+	public final boolean isPrerelease() {
 		return prerelease;
 	}
 

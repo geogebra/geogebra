@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
@@ -86,15 +87,14 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		optionHolder.addStyleName("optionLabelHolder");
 
 		if (labelStr != null && !labelStr.isEmpty()) {
-			label = new Label(app.getLocalization().getMenu(labelStr));
-			label.addStyleName("label");
+			label = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					app.getLocalization().getMenu(labelStr), "label");
 			optionHolder.add(label);
 		} else {
 			optionHolder.addStyleName("noLabel");
 		}
 
-		selectedOption = new Label();
-		selectedOption.addStyleName("selectedOption");
+		selectedOption = BaseWidgetFactory.INSTANCE.newPrimaryText("", "selectedOption");
 		optionHolder.add(selectedOption);
 		add(optionHolder);
 
