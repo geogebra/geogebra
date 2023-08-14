@@ -458,7 +458,13 @@ public class TeXBuilder {
 					build(argument.getArgument(2)));
 			return wrap(whole, frac);
 		case RECURRING_DECIMAL:
-			return new OverlinedAtom(build(argument.getArgument(0)));
+			Atom overline = new OverlinedAtom(build(argument.getArgument(0)));
+			MathComponent next = argument.nextSibling();
+			if (!(next instanceof MathCharacter) || !((MathCharacter) next).isWordBreak()) {
+				return wrap(overline, new SpaceAtom());
+			} else {
+				return overline;
+			}
 		default:
 			StringBuilder functionName = new StringBuilder();
 			teXSerializer.serialize(argument.getArgument(0), functionName);
