@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.MimeTypes;
+import org.geogebra.common.util.MimeType;
 import org.geogebra.common.util.StringUtil;
 
 import elemental2.core.JsArray;
@@ -17,7 +17,7 @@ import jsinterop.base.JsPropertyMap;
 public class LocalSaveOptions {
 
 	private final App app;
-	private final MimeTypes mimeType;
+	private final MimeType mimeType;
 
 	/**
 	 *
@@ -25,7 +25,7 @@ public class LocalSaveOptions {
 	 */
 	public LocalSaveOptions(App app) {
 		this.app = app;
-		mimeType = MimeTypes.forApplication(app);
+		mimeType = MimeType.forApplication(app);
 	}
 
 	/**
