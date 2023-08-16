@@ -40,8 +40,8 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
         RowImpl row = mathKeyboard.nextRow(9.2f);
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
+        addConstantInputButton(row, buttonFactory, Resource.INVERSE, "x^(-1)");
         addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
-        addConstantInputButton(row, buttonFactory, Resource.FRACTION, "/");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "7");
         addInputButton(row, buttonFactory, "8");
@@ -64,13 +64,13 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
         row = mathKeyboard.nextRow(9.2f);
         addInputButton(row, buttonFactory, "ln", 1.0f);
         addConstantInputButton(row, buttonFactory, Resource.LOG_10, "log_{10}");
-        addConstantInputButton(row, buttonFactory, Resource.LOG_B, "logb");
-        addConstantInputButton(row, buttonFactory, Resource.INVERSE, "x^(-1)");
+        addConstantInputButton(row, buttonFactory, Resource.FRACTION, "/");
+        addConstantInputButton(row, buttonFactory, Resource.MIXED_NUMBER, "mixedNumber");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "1");
         addInputButton(row, buttonFactory, "2");
         addInputButton(row, buttonFactory, "3");
-        addInputButton(row, buttonFactory, "%");
+        addConstantInputButton(row, buttonFactory, Resource.RECURRING_DECIMAL, "recurringDecimal");
         addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
                 Action.BACKSPACE_DELETE);
 

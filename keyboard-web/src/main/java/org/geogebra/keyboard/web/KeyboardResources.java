@@ -120,4 +120,7 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/mixed_number.svg")
 	SVGResource mixed_number();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/recurring_decimal.svg")
+	SVGResource recurring_decimal();
 }
