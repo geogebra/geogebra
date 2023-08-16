@@ -1,9 +1,5 @@
 @use 'colorMap' as *;
 
-/* ### keyboard color variables ### */
-$old-functional-button: #afafaf;
-$old-keyboard-background: #666666;
-$black: #000000;
 $tab123-width: 644px;
 
 .GeoGebraFrame{
@@ -78,8 +74,7 @@ $tab123-width: 644px;
 	.KeyBoard, .KeyBoard.gwt-PopupPanel {
 		border-radius: 0;
 		-webkit-border-radius: 0;
-		background-color: $old-keyboard-background;
-		color: $black;
+		color: neutral("900");
 		box-shadow: none;
 		font-family: geogebra-sans-serif, sans-serif;
 		padding: 5px 0;
@@ -137,7 +132,7 @@ $tab123-width: 644px;
 		font-size: 120%;
 		cursor: pointer;
 		white-space: nowrap;
-		color: $black;
+		color: neutral("900");
 		display: block;
 		div {
 			text-align: center;
@@ -196,10 +191,6 @@ $tab123-width: 644px;
 
 	.KeyBoardButton:active {
 		box-shadow: inset 0 0 0 1px #7C7C7C;
-	}
-
-	.KeyBoardButton.colored {
-		background-color: $old-functional-button;
 	}
 
 	.KeyBoardButton.backspace {
@@ -375,7 +366,7 @@ $tab123-width: 644px;
 		}
 		
 		.gwt-Button {
-			color: $black;
+			color: neutral("900");
 			border-radius: 18px;
 			border: 0;
 			padding-left: 10px;
@@ -421,7 +412,7 @@ $tab123-width: 644px;
 	}
 
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected:hover {
-		color: $black;
+		color: neutral("900");
 	}
 
 	.KeyboardSwitcher .switcherContents > :first-child {
