@@ -3076,9 +3076,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            whether this was triggered by drag
 	 */
 	public void update(boolean dragging) {
-		if (hasDynamicCaption()) {
-			dynamicCaption.update(dragging);
-		}
 		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
 		maybeUpdateSpecialPoints();
 
