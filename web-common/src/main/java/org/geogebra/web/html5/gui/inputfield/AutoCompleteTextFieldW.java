@@ -30,6 +30,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
@@ -75,6 +76,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
@@ -319,7 +321,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
 			if (textField.isEnabled()) {
 				requestFocus();
-				event.stopPropagation();
+				if (Js.<NativePointerEvent>uncheckedCast(event).getButton() <= 0) {
+					event.stopPropagation();
+				}
 			}
 		});
 
@@ -428,6 +432,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (!NavigatorUtil.isMobile()) {
 			textField.getElement().getStyle()
 					.setColor(GColor.getColorString(color));
+		}
+		if (cursorOverlay != null) {
+			cursorOverlay.getElement().getStyle().setColor(GColor.getColorString(color));
 		}
 	}
 
