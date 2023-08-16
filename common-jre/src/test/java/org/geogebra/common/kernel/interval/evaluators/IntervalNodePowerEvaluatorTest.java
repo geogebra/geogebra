@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -149,7 +152,7 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 		IntervalNodeFunction function = converter.convert(add(definition));
 		assertEquals(IntervalConstants.one(), function.value(IntervalConstants.whole()));
 	}
-
+	
 	@Test
 	public void xInverseOnPowerOfMinus2ShouldBeXSquared() {
 		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
@@ -194,5 +197,15 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 	public void inverseOfXInverse() {
 		assertEquals(X_AROUND_ZERO,
 				evaluator.multiplicativeInverse(evaluator.multiplicativeInverse(X_AROUND_ZERO)));
+	}
+
+	@Test
+	public void zeroOnPower() {
+		assertEquals(undefined(), evaluator.pow(zero(), interval(-5)));
+		assertEquals(undefined(), evaluator.pow(zero(), interval(-999, -5)));
+		assertEquals(one(), evaluator.pow(aroundZero(), interval(0)));
+		assertEquals(one(), evaluator.pow(zero(), interval(0)));
+		assertEquals(zero(), evaluator.pow(zero(), interval(5)));
+		assertEquals(zero(), evaluator.pow(zero(), interval(6, 10000)));
 	}
 }

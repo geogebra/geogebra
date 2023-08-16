@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.interval.operators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.operators.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.operators.RMath.powLow;
 
@@ -159,6 +160,10 @@ public class IntervalAlgebra {
 	Interval pow(Interval interval, Interval other) {
 		if (other.isZero()) {
 			return one();
+		}
+
+		if (interval.isZeroWithDelta(0)) {
+			return other.isPositive() ? zero() : undefined();
 		}
 
 		if (!other.isSingleton()) {
