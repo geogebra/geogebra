@@ -215,11 +215,6 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public void setZero() {
-		setValue(0);
-	}
-
-	@Override
 	public boolean isDrawable() {
 		return isDrawable || (getDrawAlgorithm() != getParentAlgorithm())
 				|| (isIndependent() && isLabelSet() && isSimple());
@@ -408,7 +403,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	final public void setUndefined() {
+	public void setUndefined() {
 		value = Double.NaN;
 		exactValue = null;
 	}

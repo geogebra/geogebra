@@ -2409,14 +2409,6 @@ public class Construction {
 		}
 
 		// GGB-843
-		if (fileLoading && !isCasCellUpdate() && geoTable.containsKey(label)) {
-			GeoElement geo = geoTable.get(label);
-			if (geo instanceof GeoNumeric
-					&& !((GeoNumeric) geo).isDependentConst()) {
-				return true;
-			}
-		}
-
 		if (fileLoading && !casCellUpdate && isNotXmlLoading()) {
 			GeoNumeric geoNum = lookupConstantLabel(label);
 			if (geoNum != null) {
@@ -2651,8 +2643,7 @@ public class Construction {
 		boolean oldSuppressLabelsActive = isSuppressLabelsActive();
 		setSuppressLabelCreation(false);
 
-		// set 0 and label
-		// result.setZero();
+		// set auxiliary and label
 		result.setAuxiliaryObject(true);
 		result.setLabel(label);
 

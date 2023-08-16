@@ -271,11 +271,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 
-	@Override
-	public void setZero() {
-		setCoords(0, 0, 1);
-	}
-
 	/**
 	 * Sets path parameter to null
 	 */

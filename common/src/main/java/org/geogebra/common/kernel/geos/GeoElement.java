@@ -754,13 +754,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return toOutputValueString(StringTemplate.editTemplate);
 	}
 
-	/**
-	 * Sets this object to zero (number = 0, points = (0,0), etc.)
-	 */
-	public void setZero() {
-		// overriden where needed
-	}
-
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
