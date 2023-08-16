@@ -25,7 +25,7 @@
 <main id="main1" data-param-editorBackgroundColor="yellow"></main>
 <main id="main2" data-param-editorBackgroundColor="green"></main>
 <main id="main3"></main>
-<main id="main4"></main>
+<main id="main4">Text before<span id="inline"></span>text after</main>
 <script type="module">
     import {editor, formula} from './editor/editor.nocache.mjs';
     editor.create(document.querySelector("#main1")).getAPI().then(api => {
@@ -35,7 +35,7 @@
         });
     editor.create(document.querySelector("#main2"));
     editor.create(document.querySelector("#main3"));
-    formula.create({"latex":"\\sqrt{3}", "fontSize": 42}).inject(document.querySelector("#main4"));
+    formula.create({"latex":"\\frac{\\sqrt{3}}{\\frac12}", "fontSize": 42}).inject(document.querySelector("#inline"));
 </script>
 </body>
 </html>

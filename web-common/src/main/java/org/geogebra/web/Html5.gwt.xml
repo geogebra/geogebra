@@ -15,7 +15,7 @@
   <resource path='pub/js'/>
   <resource path='exam'/>
   <super-source path='html5-super' />
-  <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time -->
+  <!-- not using any browser-specific overrides: only compile for one browser -->
   <set-property name="user.agent" value="safari" />
   <set-property-fallback name="user.agent" value="safari"/>
   <!-- #3511 -->
@@ -28,4 +28,5 @@
         class="com.google.gwt.core.client.impl.AsyncFragmentLoader.LoadingStrategy"/>
   </replace-with>
   <set-configuration-property name="org.gwtproject.safecss.ForceCheckValidStyles" value="false"/>
+  <set-configuration-property name="installCode" value="false" />
 </module>

@@ -155,7 +155,7 @@ window.__MODULE_FUNC__ = function() {
     if (resource.match(/^[a-zA-Z]+:\/\//)) {
       return resource;
     }
-    return window.editor.__moduleBase + resource;
+    return window.__MODULE_FUNC__.__moduleBase + resource;
   }
 
   // Provides the getCompiledCodeFilename() function
@@ -203,10 +203,10 @@ window.__MODULE_FUNC__ = function() {
 
 window.__MODULE_FUNC__.submodules = {};
 window.__MODULE_FUNC__.onReady = function(submodule, render) {
-  for (let callback of window.editor.submodules[submodule].callbacks) {
+  for (let callback of window.__MODULE_FUNC__.submodules[submodule].callbacks) {
     callback(render);
   }
-  window.editor.submodules[submodule].render = render;
+  window.__MODULE_FUNC__.submodules[submodule].render = render;
 }
 
 window.__MODULE_FUNC__.succeeded = window.__MODULE_FUNC__();

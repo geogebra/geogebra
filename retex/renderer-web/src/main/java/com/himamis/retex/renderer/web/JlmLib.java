@@ -85,8 +85,14 @@ public class JlmLib {
 		// create icon and graphics objects
 		TeXIcon icon = createIcon(formula, size, type, insets);
 		if (canvasElement != null) {
-			canvasElement.width = icon.getIconWidth();
-			canvasElement.height = icon.getIconHeight();
+			int iconWidth = icon.getIconWidth();
+			canvasElement.width = (int) Math.ceil(iconWidth * getPixelRatio());
+			int iconHeight = icon.getIconHeight();
+			canvasElement.height = (int) Math.ceil(iconHeight * getPixelRatio());
+			canvasElement.style.verticalAlign = (100 * icon.getBaseLine() - 100) + "%";
+			canvasElement.style.setProperty("height", iconHeight + "px");
+			canvasElement.style.setProperty("line-height", iconHeight + "px");
+			canvasElement.style.setProperty("width", iconWidth + "px");
 		}
 		return draw(icon, ctx, x, y, fgColorString, bgColorString, callback);
 	}

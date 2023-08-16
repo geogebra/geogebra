@@ -37,13 +37,15 @@ public class JlmApi {
 		if (Js.isFalsy(opts.get("context")) && Js.isFalsy(opts.get("element"))) {
 			throw new IllegalArgumentException("drawLatex(opts): opts.context must not be null");
 		}
-		if (!"string".equals(Js.typeof(opts.get("latex"))) &&
-				!"string".equals(Js.typeof(opts.get("ascii")))) {
-			throw new IllegalArgumentException("drawLatex(opts): opts.latex or opts.ascii must be of type string.");
+		Object latex = opts.get("latex");
+		Object ascii = opts.get("ascii");
+		if (!"string".equals(Js.typeof(latex)) && !"string".equals(Js.typeof(ascii))) {
+			throw new IllegalArgumentException("drawLatex(opts): "
+					+ "opts.latex or opts.ascii must be of type string.");
 		}
 		CanvasRenderingContext2D ctx = Js.uncheckedCast(getContext(opts));
-		TeXFormula formula = opts.get("ascii") == null ? new TeXFormula((String) opts.get("latex"))
-				: library.fromAsciiMath((String) opts.get("ascii"));
+		TeXFormula formula = ascii == null ? new TeXFormula((String) latex)
+				: library.fromAsciiMath((String) ascii);
 		int size = getInt(opts, "size", 12);
 		int type = getInt(opts, "type", 0);
 		int x = getInt(opts, "x", 0);
@@ -60,7 +62,9 @@ public class JlmApi {
 		HTMLCanvasElement canvas = (HTMLCanvasElement) opts.get("element");
 		FormulaRenderingResult result = library.drawLatex(ctx, formula, size, type, x, y,
 				insets, fgColor, bgColor, cb, canvas);
-
+		if (canvas != null) {
+			canvas.setAttribute("aria-label", latex == null ? (String) ascii : (String) latex);
+		}
 		return result;
 	}
 
