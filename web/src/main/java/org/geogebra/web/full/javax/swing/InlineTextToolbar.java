@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.undo.UpdateContentActionStore;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -172,16 +171,16 @@ public class InlineTextToolbar implements FastClickHandler {
 	private void formatScript(String type, Boolean value) {
 		ArrayList<GeoInline> geosToStore = new ArrayList();
 		for (HasTextFormat formatter : formatters) {
-			if (formatter instanceof InlineTextControllerW) {
-				geosToStore.add(((InlineTextControllerW) formatter).getInline());
-			}
+			geosToStore.add(formatter.getInline());
 		}
 
 		UpdateContentActionStore store = new UpdateContentActionStore(geosToStore);
 		for (HasTextFormat formatter : formatters) {
 			formatter.format("script", value ? type : "none");
 		}
-		store.storeUndo();
+		if (store.needUndo()) {
+			store.storeUndo();
+		}
 	}
 
 	private void switchListTo(String listType) {

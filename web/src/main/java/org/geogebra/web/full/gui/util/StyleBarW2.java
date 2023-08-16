@@ -224,7 +224,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 	 */
 	public void processSelectionWithUndo(Function<ArrayList<GeoElement>, Boolean> action) {
 		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos());
-		boolean needUndo = action.apply(getTargetGeos());
+		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
 		if (needUndo) {
 			store.storeUndo();
 		}
@@ -236,7 +236,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 	 */
 	public void processSelectionWithUndoAction(Function<ArrayList<GeoElement>, Boolean> action) {
 		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos());
-		boolean needUndo = action.apply(getTargetGeos());
+		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
 		if (needUndo) {
 			store.storeUndo();
 		}

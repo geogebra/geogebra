@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.undo.UpdateContentActionStore;
-import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
 import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -48,18 +47,18 @@ public class FontSubMenu extends AriaMenuBar {
 	}
 
 	private void setFontName(String cssName) {
-		ArrayList<GeoInline> geosToStore = new ArrayList();
+		ArrayList<GeoInline> geosToStore = new ArrayList<>();
 		for (HasTextFormat formatter : formatters) {
-			if (formatter instanceof InlineTextControllerW) {
-				geosToStore.add(((InlineTextControllerW) formatter).getInline());
-			}
+			geosToStore.add(formatter.getInline());
 		}
 
 		UpdateContentActionStore store = new UpdateContentActionStore(geosToStore);
 		for (HasTextFormat formatter : formatters) {
 			formatter.format("font", cssName);
 		}
-		store.storeUndo();
+		if (store.needUndo()) {
+			store.storeUndo();
+		}
 	}
 
 	@Override

@@ -40,13 +40,13 @@ public class InlineTextFormatter {
 	public boolean formatInlineText(List<GeoElement> targetGeos,
 			Function<HasTextFormat, Boolean> formatFn) {
 		boolean changed = false;
-		ArrayList<GeoInline> geosToStore = new ArrayList();
+		ArrayList<GeoInline> geosToStore = new ArrayList<>();
 		for (GeoElement geo : targetGeos) {
-			if (geo instanceof GeoInline) {
+			if (geo instanceof HasTextFormatter) {
 				geosToStore.add((GeoInline) geo);
 			}
 		}
-		if (geosToStore.size() > 0) {
+		if (!geosToStore.isEmpty()) {
 			store = new UpdateContentActionStore(geosToStore);
 		}
 
@@ -56,7 +56,7 @@ public class InlineTextFormatter {
 			}
 		}
 
-		if (changed && geosToStore.size() > 0) {
+		if (changed && store.needUndo() && !geosToStore.isEmpty()) {
 			store.storeUndo();
 		}
 

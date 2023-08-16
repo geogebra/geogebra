@@ -26,7 +26,7 @@ public class UndoableSliderHandler
 	@Override
 	public void onValueChange() {
 		parent.apply(selection.getTargetGeos());
-		if (undoStore != null) {
+		if (undoStore != null && undoStore.needUndo()) {
 			undoStore.storeUndo();
 			undoStore = null;
 		}

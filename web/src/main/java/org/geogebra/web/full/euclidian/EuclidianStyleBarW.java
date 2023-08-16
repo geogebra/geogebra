@@ -1521,7 +1521,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private boolean handleTextSize(ArrayList<GeoElement> targetGeos) {
-		return applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
+		applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
+		return false;
 	}
 
 	// =====================================================
@@ -1726,14 +1727,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return changed;
 	}
 
-	private boolean applyTextSize(ArrayList<GeoElement> targetGeos,
+	private void applyTextSize(ArrayList<GeoElement> targetGeos,
 			int selectedIndex) {
-		boolean ret = EuclidianStyleBarStatic.applyTextSize(targetGeos,
-				selectedIndex);
+		EuclidianStyleBarStatic.applyTextSize(targetGeos, selectedIndex);
 		double size = GeoText.getRelativeFontSize(selectedIndex)
 				* ev.getFontSize();
-		return inlineFormatter.formatInlineText(targetGeos, "size", size)
-				|| ret;
+		inlineFormatter.formatInlineText(targetGeos, "size", size);
 	}
 
 	private boolean applyFontStyle(ArrayList<GeoElement> targetGeos, int mask,

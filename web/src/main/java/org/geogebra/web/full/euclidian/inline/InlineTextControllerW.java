@@ -169,7 +169,8 @@ public class InlineTextControllerW implements InlineTextController {
 						(int) ((editor.getMinHeight() + 2 * DrawInlineText.PADDING) * geo.getWidth()
 								/ geo.getContentWidth());
 				if (oldMinHeight != actualMinHeight) {
-					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
+					geo.setSize(geo.getWidth(), actualMinHeight < oldMinHeight
+							? actualMinHeight : Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
 					if (oldMinHeight < actualMinHeight) {
 						geo.updateRepaint();
@@ -199,6 +200,7 @@ public class InlineTextControllerW implements InlineTextController {
 		}
 	}
 
+	@Override
 	public GeoInline getInline() {
 		return geo;
 	}

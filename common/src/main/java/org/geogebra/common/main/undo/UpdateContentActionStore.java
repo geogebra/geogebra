@@ -28,8 +28,7 @@ public class UpdateContentActionStore {
 	 * Store undoable action
 	 */
 	public void storeUndo() {
-		String[] currentContentXML = geos.stream().map(GeoInline::getContent)
-				.toArray(String[]::new);
+		String[] currentContentXML = getCurrentContentXML();
 		String[] labels = geos.stream().map(GeoInline::getLabelSimple).toArray(String[]::new);
 		String[] labelsAndContent = new String[currentContentXML.length * 2];
 
@@ -46,5 +45,25 @@ public class UpdateContentActionStore {
 				.withUndo(ActionType.SET_CONTENT, initialContentXML.toArray(new String[0]))
 				.withLabels(labels)
 				.storeAndNotifyUnsaved();
+	}
+
+	/**
+	 * @return True if at least one element's content has changed, false else
+	 */
+	public boolean needUndo() {
+		String[] currentContentXML = getCurrentContentXML();
+		for (int i = 0; i < geos.size(); i++) {
+			if (!currentContentXML[i].equals(initialContentXML.get(2 * i + 1))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @return Array consisting of the current content of the stored GeoInlines
+	 */
+	private String[] getCurrentContentXML() {
+		return geos.stream().map(GeoInline::getContent).toArray(String[]::new);
 	}
 }
