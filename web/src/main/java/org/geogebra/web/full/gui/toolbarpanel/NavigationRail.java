@@ -68,6 +68,7 @@ class NavigationRail extends FlowPanel {
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
+		updateIcons(app.isExam());
 	}
 
 	private void createCenter() {
