@@ -52,6 +52,8 @@ public class TableValuesView implements TableValues, SettingListener {
 	private final TableValuesInputProcessor processor;
 	private boolean algebraLabelVisibleCheck = true;
 
+	private GeoList[] importColumns;
+
 	/**
 	 * Create a new Table Value View.
 	 * @param kernel {@link Kernel}
@@ -474,5 +476,35 @@ public class TableValuesView implements TableValues, SettingListener {
 	 */
 	public void noAlgebraLabelVisibleCheck() {
 		this.algebraLabelVisibleCheck = false;
+	}
+
+	// Data import
+	public void startImport(int nrRows, int nrColumns) {
+		importColumns = new GeoList[nrColumns];
+		for (int columnIdx = 0; columnIdx < nrColumns; columnIdx++) {
+			GeoList list = new GeoList(kernel.getConstruction());
+			importColumns[columnIdx] = list;
+		}
+	}
+
+	public void importRow(String[] values) {
+		for (int index = 0; index < importColumns.length; index++) {
+			GeoList column = importColumns[index];
+			GeoElement element = null;
+			if (index < values.length) {
+				element = new GeoNumeric(kernel.getConstruction(), Double.parseDouble(values[index]));
+			} else {
+				element = new GeoNumeric(kernel.getConstruction(), Double.NaN); // empty vlaue
+			}
+			column.add(element);
+		}
+	}
+
+	public void cancelImport() {
+		importColumns = null;
+	}
+
+	public void commitImport() {
+		model.importColumns(importColumns);
 	}
 }

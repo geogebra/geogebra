@@ -289,6 +289,26 @@ class SimpleTableValuesModel implements TableValuesModel {
 		collector.notifyDatasetChanged(this);
 	}
 
+	void importColumns(GeoList[] columnsToImport) {
+		if (columnsToImport.length == 0) {
+			return;
+		}
+		columns.clear();
+
+		GeoList valueList = columnsToImport[0];
+		setupXValues(valueList);
+		settings.setValueList(valueList);
+		TableValuesColumn valuesColumn = new TableValuesListColumn(valueList);
+		columns.add(valuesColumn);
+
+		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
+			TableValuesColumn column = new TableValuesListColumn(columnsToImport[columnIdx]);
+			columns.add(column);
+		}
+		collector.notifyDatasetChanged(this);
+		// TODO create undo point
+	}
+
 	@Override
 	public void startBatchUpdate() {
 		collector.startCollection(this);

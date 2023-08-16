@@ -39,17 +39,14 @@ public final class DataImporter {
 
 	// CSV support
 
-	// Note: If we wanted to trade memory for CPU cycles, i.e., keep all successfully
-	// validated rows in memory to get rid of parsing everything twice, we could
-	// - collect all successfully validated rows in the first phase into a list
-	// - loop over this list in the second phase
-	// - replace the `validateCSV()` and `loadCSV()` pair of methods with one
-	//   `importCSV()` method.
+	// Note: Since the TableValuesView has to hold all data in memory anyway, we could
+	// drop the memory efficiency design goal, collect all successfully validated rows
+	// in memory, get rid of parsing everything twice, and replace the 2-step import
+	// (validateCSV, loadCSV) with a single `importCSV()` method.
 
 	public boolean validateCSV(Reader reader) {
 		LineReader lineReader = new LineReader(reader);
 		CSVParser parser = new CSVParser();
-		Row previousRow = null;
 		String line;
 		separator = 0;
 		validatedSuccessfully = true;
@@ -66,6 +63,7 @@ public final class DataImporter {
 				}
 				if (separator == 0) {
 					separator = guessSeparator(line);
+					parser = new CSVParser(separator);
 				}
 				String[] values = parser.parseLine(line);
 				if (currentRow == 1) {
@@ -102,7 +100,7 @@ public final class DataImporter {
 		CSVParser parser = new CSVParser(separator);
 		String line;
 		int currentRow = 0;
-//		tableValuesView.startImport(nrOfRows, nrOfColumns);
+		tableValuesView.startImport(nrOfRows, nrOfColumns);
 		try {
 			while ((line = lineReader.readLine()) != null) {
 				currentRow++;
@@ -115,12 +113,12 @@ public final class DataImporter {
 				}
 				String[] values = parser.parseLine(line);
 				boolean isHeaderRow = currentRow == 1 && hasHeader;
-				Row row = new Row(values, isHeaderRow);
 				// TODO add to TableValuesView
+				tableValuesView.importRow(values);
 				if (!isHeaderRow) {
 					if (!shouldContinueImport(hasHeader ? currentRow - 1 : currentRow,
 							nrOfRows)) {
-//						tableValuesView.cancelImport();
+						tableValuesView.cancelImport();
 						return false;
 					}
 				}
@@ -129,7 +127,7 @@ public final class DataImporter {
 			// TODO log
 			return false;
 		}
-//		tableValuesView.commitImport();
+		tableValuesView.commitImport();
 		return true;
 	}
 
@@ -145,11 +143,11 @@ public final class DataImporter {
 
 	private boolean isNumber(String value) {
 		try {
-			Integer.parseInt(value);
+			Float.parseFloat(value);
 			return true;
 		} catch (NumberFormatException e) { }
 		try {
-			Float.parseFloat(value);
+			Integer.parseInt(value);
 			return true;
 		} catch (NumberFormatException e) { }
 		return false;
@@ -187,17 +185,5 @@ public final class DataImporter {
 	 */
 	public boolean getHasHeader() {
 		return hasHeader;
-	}
-
-	private static class Row {
-
-		boolean isHeader;
-
-		String[] values;
-
-		Row(String[] values, boolean isHeader) {
-			this.values = values;
-			this.isHeader = isHeader;
-		}
 	}
 }
