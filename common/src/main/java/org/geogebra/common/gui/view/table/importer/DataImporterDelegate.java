@@ -4,6 +4,6 @@ public interface DataImporterDelegate {
 
 	boolean onValidationProgress(int currentRow);
 	boolean onImportProgress(int currentRow, int totalNrOfRows);
-	void onImportWarning(DataImporterWarning warning);
-	void onImportError(DataImporterError error);
+	void onImportWarning(DataImporterWarning warning, int currentRow);
+	void onImportError(DataImporterError error, int currentRow);
 }

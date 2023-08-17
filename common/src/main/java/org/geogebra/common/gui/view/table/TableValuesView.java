@@ -487,14 +487,18 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 	}
 
-	public void importRow(String[] values) {
+	public void importRow(Double[] values, String[] rawValues) {
 		for (int index = 0; index < importColumns.length; index++) {
 			GeoList column = importColumns[index];
 			GeoElement element = null;
 			if (index < values.length) {
-				element = new GeoNumeric(kernel.getConstruction(), Double.parseDouble(values[index]));
+				if (values[index] != null) {
+					element = new GeoNumeric(kernel.getConstruction(), values[index]);
+				} else {
+					element = new GeoText(kernel.getConstruction(), rawValues[index]);
+				}
 			} else {
-				element = new GeoNumeric(kernel.getConstruction(), Double.NaN); // empty vlaue
+				element = new GeoNumeric(kernel.getConstruction(), Double.NaN); // empty value
 			}
 			column.add(element);
 		}

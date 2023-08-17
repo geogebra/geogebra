@@ -3,29 +3,43 @@ package org.geogebra.common.gui.view.table.importer;
 import static org.geogebra.common.gui.view.table.importer.DataImporterError.INCONSISTENT_COLUMNS;
 import static org.geogebra.common.gui.view.table.importer.DataImporterWarning.DATA_SIZE_LIMIT_EXCEEDED;
 
-import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.common.util.opencsv.CSVParser;
 
+/**
+ * Imports tabular data into a {@link TableValuesView}.
+ */
 public final class DataImporter {
 
 	public DataImporterDelegate delegate;
 	private TableValuesView tableValuesView;
 	private boolean hasHeader = false;
-	private char separator = 0;
+	private char csvSeparator = 0;
 	private int nrOfColumns = -1;
 	private int nrOfRows = -1;
-	private boolean validatedSuccessfully = false;
 	private int maxNrRows = 1000;
 	private int maxNrColumns = 100;
 	private boolean discardHeader = true;
+	/**
+	 * See https://github.com/gwtproject/gwt/blob/main/user/super/com/google/gwt/emul/java/lang/Number.java#__isValidDouble
+	 */
+	private final String floatRegex = "^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)\\s*$";
+
 	public DataImporter(TableValuesView tableValuesView) {
 		this.tableValuesView = tableValuesView;
 	}
 
+	// Configuration
+
+	/**
+	 *
+	 * @param maxNrRows The maximum number of rows (including header rows) to import.
+	 * @param maxNrColumns TODO
+	 */
 	public void setDataSizeLimits(int maxNrRows, int maxNrColumns) {
 		assert maxNrRows > 0;
 		assert maxNrColumns > 0;
@@ -37,144 +51,212 @@ public final class DataImporter {
 		this.discardHeader = discardHeader;
 	}
 
-	// CSV support
+	// CSV Support
 
-	// Note: Since the TableValuesView has to hold all data in memory anyway, we could
-	// drop the memory efficiency design goal, collect all successfully validated rows
-	// in memory, get rid of parsing everything twice, and replace the 2-step import
-	// (validateCSV, loadCSV) with a single `importCSV()` method.
+	/**
+	 * Imports CSV data into the {@link TableValuesView}.
+	 * <p/>
+	 * We mostly follow the format as described in
+	 * <a href="https://datatracker.ietf.org/doc/html/rfc4180">Comma-Separated Values (CSV)
+	 * Files</a>. However, in addition to the standard column separator ',' (comma), we also
+	 * support ';' (semicolon) and '\t' (tab) column separators automatically. Also, we
+	 * support both '\r\n\' (CRLF) and `\n' (LF) line breaks automatically.
+	 * <p/>
+	 * The decimal separator character must be provided by the user.
+	 * The CSV file must not contain thousands separators in decimal numbers. If thousands
+	 * separators are present in decimal numbers, parsing will likely produce incorrect results.
+	 * <p/>
+	 * Import is a two-stage process:
+	 * <ul>
+	 * <li>In the first stage, the data is validated. The delegate will be notified about
+	 *	validation progress (indeterminate progress feedback), warnings, and errors.
+	 * <li>If no validation errors occurred, the rows collected during validation are imported
+	 * 	into the {@link TableValuesView} (row by row) in the second stage. The delegate will
+	 * 	be notified about import progress (determinate progress feedback).
+	 * </ul>
+	 *
+	 * @param reader A reader for the CSV data.
+	 * @return Returns `false` in case of a validation error, or if the data is empty,
+	 * or if validation was canceled by the delegate, or if import was canceled by the delegate.
+	 */
+	public boolean importCSV(Reader reader, char decimalSeparator) {
+		List<Row> rows = validateAndCollectRowsFromCSV(reader, decimalSeparator);
+		if (rows == null) {
+			return false;
+		}
+		return importRows(rows);
+	}
 
-	public boolean validateCSV(Reader reader) {
+	private List<Row> validateAndCollectRowsFromCSV(Reader reader, char decimalSeparator) {
 		LineReader lineReader = new LineReader(reader);
 		CSVParser parser = new CSVParser();
 		String line;
-		separator = 0;
-		validatedSuccessfully = true;
+		csvSeparator = 0;
 		nrOfRows = -1;
 		nrOfColumns = -1;
 		int currentRow = 0;
+		List<Row> rows = new ArrayList<>();
 		try {
 			while ((line = lineReader.readLine()) != null) {
 				currentRow++;
-				// don't consider header for size limits
-				if (currentRow - (hasHeader ? 1 : 0) > maxNrRows) {
-					notifyAboutWarning(DATA_SIZE_LIMIT_EXCEEDED);
+				if (currentRow > maxNrRows) {
+					notifyAboutWarning(DATA_SIZE_LIMIT_EXCEEDED, currentRow);
 					break;
 				}
-				if (separator == 0) {
-					separator = guessSeparator(line);
-					parser = new CSVParser(separator);
+				if (csvSeparator == 0) {
+					csvSeparator = guessCSVSeparator(line);
+					parser = new CSVParser(csvSeparator);
 				}
-				String[] values = parser.parseLine(line);
+				String[] rawValues = parser.parseLine(line);
 				if (currentRow == 1) {
-					nrOfColumns = values.length;
-					if (values.length > 0 && !isNumber(values[0])) {
+					nrOfColumns = rawValues.length;
+					if (rawValues.length > 0 && !isValidNumber(rawValues[0], decimalSeparator)) {
 						hasHeader = true;
 					}
 				}
+				int rowNr = hasHeader ? currentRow - 1 : currentRow;
 				boolean isHeaderRow = currentRow == 1 && hasHeader;
-				if (!isHeaderRow) {
-					if (!shouldContinueValidation(hasHeader ? currentRow - 1 : currentRow)) {
-						break;
-					}
-				}
-				if (values.length != nrOfColumns) {
-					validatedSuccessfully = false;
-					notifyAboutError(INCONSISTENT_COLUMNS);
+				if (!isHeaderRow && !shouldContinueValidation(rowNr)) {
 					break;
 				}
+				if (rawValues.length != nrOfColumns) {
+					notifyAboutError(INCONSISTENT_COLUMNS, rowNr);
+					return null;
+				}
+				if (isHeaderRow) {
+					if (!discardHeader) {
+						rows.add(new Row(0, true, null, rawValues));
+					}
+				} else {
+					Double[] values = validateAndParseDoubles(rawValues, decimalSeparator);
+					rows.add(new Row(rowNr, isHeaderRow, values, rawValues));
+				}
 			}
-			nrOfRows = hasHeader ? currentRow - 1 : currentRow;
+			nrOfRows = rows.size();
 		} catch (Exception e) {
 			// TODO log
-			validatedSuccessfully = false;
+			return null;
 		}
-		return validatedSuccessfully;
+		return rows;
 	}
 
-	public boolean loadCSV(Reader reader) {
-		if (!validatedSuccessfully || separator == 0 || nrOfRows == 0 || nrOfColumns == 0) {
+	private boolean importRows(List<Row> rows) {
+		if (rows == null || rows.size() == 0) {
 			return false;
 		}
-		LineReader lineReader = new LineReader(reader);
-		CSVParser parser = new CSVParser(separator);
-		String line;
-		int currentRow = 0;
 		tableValuesView.startImport(nrOfRows, nrOfColumns);
-		try {
-			while ((line = lineReader.readLine()) != null) {
-				currentRow++;
-				// don't count header for size limit
-				if (currentRow - (hasHeader ? 1 : 0) > maxNrRows) {
-					break; // stop loading
-				}
-				if (currentRow == 1 && hasHeader && discardHeader) {
-					continue;
-				}
-				String[] values = parser.parseLine(line);
-				boolean isHeaderRow = currentRow == 1 && hasHeader;
-				// TODO add to TableValuesView
-				tableValuesView.importRow(values);
-				if (!isHeaderRow) {
-					if (!shouldContinueImport(hasHeader ? currentRow - 1 : currentRow,
-							nrOfRows)) {
-						tableValuesView.cancelImport();
-						return false;
-					}
-				}
+		// TODO handling of header row (if present)
+		for (Row row : rows) {
+			if (row.isHeader) {
+				continue;
 			}
-		} catch (Exception e) {
-			// TODO log
-			return false;
+			if (!shouldContinueImport(row.rowNr, nrOfRows)) {
+				tableValuesView.cancelImport();
+				return false;
+			}
+			tableValuesView.importRow(row.values, row.rawValues);
 		}
 		tableValuesView.commitImport();
 		return true;
 	}
 
-	private char guessSeparator(String line) {
+	private char guessCSVSeparator(String line) {
 		if (line.contains(";")) {
 			return ';';
 		}
 		if (line.contains(",")) {
 			return ',';
 		}
+		if (line.contains("\t")) {
+			return '\t';
+		}
 		return '\n'; // single-column case
 	}
 
-	private boolean isNumber(String value) {
-		try {
-			Float.parseFloat(value);
-			return true;
-		} catch (NumberFormatException e) { }
-		try {
-			Integer.parseInt(value);
-			return true;
-		} catch (NumberFormatException e) { }
-		return false;
+	// Number parsing
+
+	private Double[] validateAndParseDoubles(String[] rawValues, char decimalSeparator) {
+		Double[] values = new Double[rawValues.length];
+		for (int index = 0; index < rawValues.length; index++) {
+			values[index] = parseDouble(rawValues[index], decimalSeparator);
+		}
+		return values;
 	}
 
-	private void notifyAboutError(DataImporterError error) {
-		if (delegate != null) {
-			delegate.onImportError(error);
+	/**
+	 * Checks if a string represents a valid decimal number.
+	 * <p/>
+	 * We use the same regex that GWT uses for validating floats and doubles:
+	 * <code>"^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)\\s*$"</code>
+	 * <p/>
+	 * See <a href="https://github.com/gwtproject/gwt/blob/main/user/super/com/google/gwt/emul/java/lang/Number.java">
+	 *     GWT's number parsing</a>
+	 * Also see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat#specifications">
+	 *     JavaScript parseFloat documentation</a>
+	 * @param value A String representing a decimal number.
+	 * @param decimalSeparator The decimal separator character.
+	 * @return True if the (canonicalized) value matches the above-mentioned regex.
+	 */
+	private boolean isValidNumber(String value, char decimalSeparator) {
+		value = canonicalizeNumber(value, decimalSeparator);
+		return value.matches(floatRegex);
+	}
+
+	/**
+	 * Parses a string into a Double.
+	 *
+	 * @implNote Normally, we'd use NumberFormat/DecimalFormat for locale-specific number parsing,
+	 * 		but this is not supported by GWT's
+	 * 		<a href="https://www.gwtproject.org/doc/latest/RefJreEmulation.html">JRE emulation</a>.
+	 * @param value A String representing a decimal number.
+	 * @param decimalSeparator The decimal separator character.
+	 * @return The double result if parsing was successful, or null in case of a parsing error.
+	 */
+	private Double parseDouble(String value, char decimalSeparator) {
+		String canonicalized = canonicalizeNumber(value, decimalSeparator);
+		try {
+			return Double.parseDouble(canonicalized);
+		} catch (NumberFormatException e) {
+			return null;
 		}
 	}
 
-	private void notifyAboutWarning(DataImporterWarning warning) {
+	/**
+	 * Replaces the decimal separator char with a '.' (dot).
+	 *
+	 * @param value A String representing a decimal number.
+	 * @param decimalSeparator The decimal separator character.
+	 * @return A canonicalized version of the input value.
+	 */
+	private String canonicalizeNumber(String value, char decimalSeparator) {
+		// replace decimal separator with '.'
+		return value.replace(decimalSeparator, '.');
+	}
+
+	// Delegate notifications
+
+	private void notifyAboutError(DataImporterError error, int rowNr) {
 		if (delegate != null) {
-			delegate.onImportWarning(warning);
+			delegate.onImportError(error, rowNr);
 		}
 	}
 
-	private boolean shouldContinueValidation(int currentRow) {
+	private void notifyAboutWarning(DataImporterWarning warning, int rowNr) {
 		if (delegate != null) {
-			return delegate.onValidationProgress(currentRow);
+			delegate.onImportWarning(warning, rowNr);
+		}
+	}
+
+	private boolean shouldContinueValidation(int rowNr) {
+		if (delegate != null) {
+			return delegate.onValidationProgress(rowNr);
 		}
 		return true;
 	}
 
-	private boolean shouldContinueImport(int currentRow, int totalNrOfRows) {
+	private boolean shouldContinueImport(int rowNr, int totalNrOfRows) {
 		if (delegate != null) {
-			return delegate.onImportProgress(currentRow, totalNrOfRows);
+			return delegate.onImportProgress(rowNr, totalNrOfRows);
 		}
 		return true;
 	}
@@ -185,5 +267,20 @@ public final class DataImporter {
 	 */
 	public boolean getHasHeader() {
 		return hasHeader;
+	}
+
+	private static class Row {
+
+		int rowNr;
+		boolean isHeader;
+		Double[] values;
+		String[] rawValues;
+
+		Row(int rowNr, boolean isHeader, Double[] values, String[] rawValues) {
+			this.rowNr = rowNr;
+			this.isHeader = isHeader;
+			this.values = values;
+			this.rawValues = rawValues;
+		}
 	}
 }

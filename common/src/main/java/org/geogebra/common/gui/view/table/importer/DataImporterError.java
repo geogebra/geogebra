@@ -5,6 +5,8 @@ package org.geogebra.common.gui.view.table.importer;
  */
 public enum DataImporterError {
 
+//	WRONG_NUMBER_FORMAT,
+
 	/** Inconsistent number of columns.
 	Can also be caused by inconsistent column separators.
 	*/
