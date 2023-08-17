@@ -17,8 +17,6 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
 import org.junit.Test;
 
-//CHECKSTYLE:OFF
-
 public class DataImporterTests extends BaseUnitTest implements DataImporterDelegate {
 
 	private TableValuesView tableValuesView;
@@ -31,7 +29,6 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	private int cancelValidationAfterRow;
 	private int cancelImportAfterRow;
 
-	//	@Before
 	@Override
 	public void setup() {
 		super.setup();
@@ -40,8 +37,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		tableValuesView = new TableValuesView(kernel);
 		kernel.attach(tableValuesView);
 		TableValuesModel model = tableValuesView.getTableValuesModel();
-		/*TableValuesPoints tableValuesPoints =*/ TableValuesPointsImpl.create(kernel.getConstruction(),
-				tableValuesView, model);
+		TableValuesPointsImpl.create(kernel.getConstruction(), tableValuesView, model);
 		kernel.notifyAddAll(tableValuesView);
 
 		dataImporter = new DataImporter(tableValuesView);
@@ -101,9 +97,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertNull(warning);
 		assertEquals(10, currentRow);
 		assertEquals(10, totalNrOfRows);
-		assertEquals(1.1, tableValuesView.getTableValuesModel().getValueAt(0,1), 0.0);
-		assertEquals(2.2, tableValuesView.getTableValuesModel().getValueAt(1,1), 0.0);
-		assertEquals(3.3, tableValuesView.getTableValuesModel().getValueAt(2,1), 0.0);
+		assertEquals(1.1, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
+		assertEquals(2.2, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
+		assertEquals(3.3, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
 	}
 
 	@Test
@@ -115,9 +111,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertNull(warning);
 		assertEquals(10, currentRow);
 		assertEquals(10, totalNrOfRows);
-		assertEquals(1.1, tableValuesView.getTableValuesModel().getValueAt(0,1), 0.0);
-		assertEquals(2.2, tableValuesView.getTableValuesModel().getValueAt(1,1), 0.0);
-		assertEquals(3.3, tableValuesView.getTableValuesModel().getValueAt(2,1), 0.0);
+		assertEquals(1.1, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
+		assertEquals(2.2, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
+		assertEquals(3.3, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
 	}
 
 	@Test
@@ -130,9 +126,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertNull(warning);
 		assertEquals(10, currentRow);
 		assertEquals(10, totalNrOfRows);
-		assertEquals(1.1, tableValuesView.getTableValuesModel().getValueAt(0,1), 0.0);
-		assertEquals(2.2, tableValuesView.getTableValuesModel().getValueAt(1,1), 0.0);
-		assertEquals(3.3, tableValuesView.getTableValuesModel().getValueAt(2,1), 0.0);
+		assertEquals(1.1, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
+		assertEquals(2.2, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
+		assertEquals(3.3, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
 	}
 
 	@Test
@@ -145,9 +141,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertNull(warning);
 		assertEquals(10, currentRow);
 		assertEquals(10, totalNrOfRows);
-		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(0,1), 0.0);
-		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(1,1), 0.0);
-		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(2,1), 0.0);
+		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
+		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
+		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
 	}
 
 	@Test
@@ -188,12 +184,12 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(5, totalNrOfRows);
 		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
-		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(0,1), 0.0);
-		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(1,1), 0.0);
-		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(4,1), 0.0);
-		assertEquals("a", tableValuesView.getTableValuesModel().getCellAt(0,1).getInput());
-		assertEquals("b", tableValuesView.getTableValuesModel().getCellAt(1,1).getInput());
-		assertEquals("e", tableValuesView.getTableValuesModel().getCellAt(4,1).getInput());
+		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
+		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
+		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(4, 1), 0.0);
+		assertEquals("a", tableValuesView.getTableValuesModel().getCellAt(0, 1).getInput());
+		assertEquals("b", tableValuesView.getTableValuesModel().getCellAt(1, 1).getInput());
+		assertEquals("e", tableValuesView.getTableValuesModel().getCellAt(4, 1).getInput());
 	}
 
 	@Test
@@ -207,12 +203,12 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(5, totalNrOfRows);
 		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(3, tableValuesView.getTableValuesModel().getColumnCount());
-		assertEquals(1.0, tableValuesView.getTableValuesModel().getValueAt(0,1), 0.0);
-		assertEquals(4.0, tableValuesView.getTableValuesModel().getValueAt(1,1), 0.0);
-		assertEquals(9.0, tableValuesView.getTableValuesModel().getValueAt(2,1), 0.0);
-		assertEquals("a", tableValuesView.getTableValuesModel().getCellAt(0,2).getInput());
-		assertEquals("b", tableValuesView.getTableValuesModel().getCellAt(1,2).getInput());
-		assertEquals("c", tableValuesView.getTableValuesModel().getCellAt(2,2).getInput());
+		assertEquals(1.0, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
+		assertEquals(4.0, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
+		assertEquals(9.0, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
+		assertEquals("a", tableValuesView.getTableValuesModel().getCellAt(0, 2).getInput());
+		assertEquals("b", tableValuesView.getTableValuesModel().getCellAt(1, 2).getInput());
+		assertEquals("c", tableValuesView.getTableValuesModel().getCellAt(2, 2).getInput());
 	}
 
 	@Test
@@ -282,5 +278,3 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		this.warningOrErrorRow = currentRow;
 	}
 }
-
-//CHECKSTYLE:ON

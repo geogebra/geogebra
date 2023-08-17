@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.table.importer;
 import static org.geogebra.common.gui.view.table.importer.DataImporterError.INCONSISTENT_COLUMNS;
 import static org.geogebra.common.gui.view.table.importer.DataImporterWarning.DATA_SIZE_LIMIT_EXCEEDED;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -172,7 +173,7 @@ public final class DataImporter {
 				}
 			}
 			nrOfRows = rows.size();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			notifyAboutError(DataImporterError.UNKNOWN_ERROR, currentRow);
 			return null;
 		}
@@ -240,7 +241,7 @@ public final class DataImporter {
 		String canonicalized = canonicalizeNumber(value, decimalSeparator);
 		// See <a href="https://github.com/gwtproject/gwt/blob/main/user/super/com/google/gwt/emul/java/lang/Number.java#__isValidDouble">Number.java</a>
 		String floatRegex = "^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)\\s*$";
-		return value.matches(floatRegex);
+		return canonicalized.matches(floatRegex);
 	}
 
 	/**
