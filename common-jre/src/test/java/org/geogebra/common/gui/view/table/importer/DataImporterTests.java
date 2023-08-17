@@ -17,6 +17,8 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
 import org.junit.Test;
 
+//CHECKSTYLE:OFF
+
 public class DataImporterTests extends BaseUnitTest implements DataImporterDelegate {
 
 	private TableValuesView tableValuesView;
@@ -26,6 +28,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	private DataImporterError error;
 	private DataImporterWarning warning;
 	private int warningOrErrorRow;
+	private int cancelValidationAfterRow;
+	private int cancelImportAfterRow;
 
 	//	@Before
 	@Override
@@ -47,6 +51,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		error = null;
 		warning = null;
 		warningOrErrorRow = -1;
+		cancelValidationAfterRow = -1;
+		cancelImportAfterRow = -1;
 	}
 
 	@Test
@@ -146,15 +152,17 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 
 	@Test
 	public void testImportCSVWithHeaderWithDataSizeLimits() {
-		Reader reader = loadSample("integers-comma-header.csv");
-		dataImporter.setDataSizeLimits(2, 10);
+		Reader reader = loadSample("integers-strings-comma-noheader.csv");
+		dataImporter.setDataSizeLimits(3, 2);
 		dataImporter.setsDiscardHeader(false);
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
 		assertNull(error);
 		assertNotNull(warning);
-		assertEquals(1, currentRow); // header row is row 0
-		assertEquals(2, totalNrOfRows);
+		assertEquals(3, currentRow);
+		assertEquals(3, totalNrOfRows);
+		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 	}
 
 	@Test
@@ -188,6 +196,49 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals("e", tableValuesView.getTableValuesModel().getCellAt(4,1).getInput());
 	}
 
+	@Test
+	public void testImportCSVIntegersStrings() {
+		Reader reader = loadSample("integers-strings-comma-noheader.csv");
+		boolean success = dataImporter.importCSV(reader, '.');
+		assertTrue(success);
+		assertNull(error);
+		assertNull(warning);
+		assertEquals(5, currentRow);
+		assertEquals(5, totalNrOfRows);
+		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(3, tableValuesView.getTableValuesModel().getColumnCount());
+		assertEquals(1.0, tableValuesView.getTableValuesModel().getValueAt(0,1), 0.0);
+		assertEquals(4.0, tableValuesView.getTableValuesModel().getValueAt(1,1), 0.0);
+		assertEquals(9.0, tableValuesView.getTableValuesModel().getValueAt(2,1), 0.0);
+		assertEquals("a", tableValuesView.getTableValuesModel().getCellAt(0,2).getInput());
+		assertEquals("b", tableValuesView.getTableValuesModel().getCellAt(1,2).getInput());
+		assertEquals("c", tableValuesView.getTableValuesModel().getCellAt(2,2).getInput());
+	}
+
+	@Test
+	public void testCancelCSVValidation() {
+		Reader reader = loadSample("integers-comma-noheader.csv");
+		cancelValidationAfterRow = 2;
+		boolean success = dataImporter.importCSV(reader, '.');
+		assertFalse(success);
+		assertNull(error);
+		assertNull(warning);
+		assertEquals(2, currentRow);
+		assertEquals(-1, totalNrOfRows);
+	}
+
+	@Test
+	public void testCancelCSVImport() {
+		Reader reader = loadSample("integers-comma-noheader.csv");
+		cancelImportAfterRow = 3;
+		boolean success = dataImporter.importCSV(reader, '.');
+		assertFalse(success);
+		assertNull(error);
+		assertNull(warning);
+		assertEquals(3, currentRow);
+		assertEquals(10, totalNrOfRows);
+	}
+
 	// Helper methods
 
 	private Reader loadSample(String filename) {
@@ -203,6 +254,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	@Override
 	public boolean onValidationProgress(int currentRow) {
 		this.currentRow = currentRow;
+		if (cancelValidationAfterRow != -1 && currentRow == cancelValidationAfterRow) {
+			return false;
+		}
 		return true;
 	}
 
@@ -210,6 +264,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	public boolean onImportProgress(int currentRow, int totalNrOfRows) {
 		this.currentRow = currentRow;
 		this.totalNrOfRows = totalNrOfRows;
+		if (cancelImportAfterRow != -1 && currentRow == cancelImportAfterRow) {
+			return false;
+		}
 		return true;
 	}
 
@@ -225,3 +282,5 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		this.warningOrErrorRow = currentRow;
 	}
 }
+
+//CHECKSTYLE:ON

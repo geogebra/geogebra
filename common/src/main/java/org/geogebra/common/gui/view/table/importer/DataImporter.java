@@ -5,6 +5,7 @@ import static org.geogebra.common.gui.view.table.importer.DataImporterWarning.DA
 
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -12,11 +13,13 @@ import org.geogebra.common.util.opencsv.CSVParser;
 
 /**
  * Imports tabular data into a {@link TableValuesView}.
+ *
+ * Note: This type is not (designed to be) thread-safe.
  */
 public final class DataImporter {
 
 	public DataImporterDelegate delegate;
-	private TableValuesView tableValuesView;
+	private final TableValuesView tableValuesView;
 	private boolean hasHeader = false;
 	private char csvSeparator = 0;
 	private int nrOfColumns = -1;
@@ -24,10 +27,6 @@ public final class DataImporter {
 	private int maxNrRows = 1000;
 	private int maxNrColumns = 100;
 	private boolean discardHeader = true;
-	/**
-	 * See https://github.com/gwtproject/gwt/blob/main/user/super/com/google/gwt/emul/java/lang/Number.java#__isValidDouble
-	 */
-	private final String floatRegex = "^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)\\s*$";
 
 	public DataImporter(TableValuesView tableValuesView) {
 		this.tableValuesView = tableValuesView;
@@ -36,9 +35,12 @@ public final class DataImporter {
 	// Configuration
 
 	/**
+	 * Limit the number of rows and/or columns to import.
 	 *
 	 * @param maxNrRows The maximum number of rows (including header rows) to import.
-	 * @param maxNrColumns TODO
+	 *                  Defaults to 1000.
+	 * @param maxNrColumns The maximum number of columns to import.
+	 *                     Defaults to 100.
 	 */
 	public void setDataSizeLimits(int maxNrRows, int maxNrColumns) {
 		assert maxNrRows > 0;
@@ -47,8 +49,40 @@ public final class DataImporter {
 		this.maxNrColumns = maxNrColumns;
 	}
 
+	/**
+	 * Gets the limit for the number of rows to import.
+	 *
+	 * @return the maximum number of rows to import. -1 means "no limit".
+	 */
+	public int getMaxNrRows() {
+		return maxNrRows;
+	}
+
+	/**
+	 * Gets the limit for the number of columns to import.
+	 *
+	 * @return the maximum number of columns to import. -1 means "no limit".
+	 */
+	public int getMaxNrColumns() {
+		return maxNrColumns;
+	}
+
+	/**
+	 * Configure whether any header should be discarded during import.
+	 *
+	 * @param discardHeader Discard any header rows. Defaults to true.
+	 */
 	public void setsDiscardHeader(boolean discardHeader) {
 		this.discardHeader = discardHeader;
+	}
+
+	/**
+	 * Whether any header should be discarded during import.
+	 *
+	 * @return true (the default) if any headers should be discarded during import.
+	 */
+	public boolean getDiscardHeader() {
+		return discardHeader;
 	}
 
 	// CSV Support
@@ -64,7 +98,8 @@ public final class DataImporter {
 	 * <p/>
 	 * The decimal separator character must be provided by the user.
 	 * The CSV file must not contain thousands separators in decimal numbers. If thousands
-	 * separators are present in decimal numbers, parsing will likely produce incorrect results.
+	 * separators are present in decimal numbers, parsing will either fail or produce
+	 * incorrect results.
 	 * <p/>
 	 * Import is a two-stage process:
 	 * <ul>
@@ -75,9 +110,9 @@ public final class DataImporter {
 	 * 	be notified about import progress (determinate progress feedback).
 	 * </ul>
 	 *
-	 * @param reader A reader for the CSV data.
-	 * @return Returns `false` in case of a validation error, or if the data is empty,
-	 * or if validation was canceled by the delegate, or if import was canceled by the delegate.
+	 * @param reader A reader for the CSV data. The reader does not have to support mark/reset.
+	 * @return false in case of a validation error, if the data is empty, if validation was
+	 * canceled by the delegate, or if import was canceled by the delegate; true otherwise.
 	 */
 	public boolean importCSV(Reader reader, char decimalSeparator) {
 		List<Row> rows = validateAndCollectRowsFromCSV(reader, decimalSeparator);
@@ -88,26 +123,30 @@ public final class DataImporter {
 	}
 
 	private List<Row> validateAndCollectRowsFromCSV(Reader reader, char decimalSeparator) {
-		LineReader lineReader = new LineReader(reader);
-		CSVParser parser = new CSVParser();
-		String line;
 		csvSeparator = 0;
+		hasHeader = false;
 		nrOfRows = -1;
 		nrOfColumns = -1;
 		int currentRow = 0;
+		LineReader lineReader = new LineReader(reader);
+		CSVParser parser = new CSVParser();
 		List<Row> rows = new ArrayList<>();
+		String line;
 		try {
 			while ((line = lineReader.readLine()) != null) {
 				currentRow++;
 				if (currentRow > maxNrRows) {
 					notifyAboutWarning(DATA_SIZE_LIMIT_EXCEEDED, currentRow);
-					break;
+					break; // skip remaining data
 				}
 				if (csvSeparator == 0) {
 					csvSeparator = guessCSVSeparator(line);
 					parser = new CSVParser(csvSeparator);
 				}
 				String[] rawValues = parser.parseLine(line);
+				if (maxNrColumns > 0 && maxNrColumns < rawValues.length) {
+					rawValues = Arrays.copyOf(rawValues, maxNrColumns);
+				}
 				if (currentRow == 1) {
 					nrOfColumns = rawValues.length;
 					if (rawValues.length > 0 && !isValidNumber(rawValues[0], decimalSeparator)) {
@@ -117,7 +156,7 @@ public final class DataImporter {
 				int rowNr = hasHeader ? currentRow - 1 : currentRow;
 				boolean isHeaderRow = currentRow == 1 && hasHeader;
 				if (!isHeaderRow && !shouldContinueValidation(rowNr)) {
-					break;
+					return null;
 				}
 				if (rawValues.length != nrOfColumns) {
 					notifyAboutError(INCONSISTENT_COLUMNS, rowNr);
@@ -134,7 +173,7 @@ public final class DataImporter {
 			}
 			nrOfRows = rows.size();
 		} catch (Exception e) {
-			// TODO log
+			notifyAboutError(DataImporterError.UNKNOWN_ERROR, currentRow);
 			return null;
 		}
 		return rows;
@@ -198,7 +237,9 @@ public final class DataImporter {
 	 * @return True if the (canonicalized) value matches the above-mentioned regex.
 	 */
 	private boolean isValidNumber(String value, char decimalSeparator) {
-		value = canonicalizeNumber(value, decimalSeparator);
+		String canonicalized = canonicalizeNumber(value, decimalSeparator);
+		// See <a href="https://github.com/gwtproject/gwt/blob/main/user/super/com/google/gwt/emul/java/lang/Number.java#__isValidDouble">Number.java</a>
+		String floatRegex = "^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)\\s*$";
 		return value.matches(floatRegex);
 	}
 

@@ -5,10 +5,11 @@ package org.geogebra.common.gui.view.table.importer;
  */
 public enum DataImporterError {
 
-//	WRONG_NUMBER_FORMAT,
+	/** Unspecified error */
+	UNKNOWN_ERROR,
 
 	/** Inconsistent number of columns.
-	Can also be caused by inconsistent column separators.
+	Can also be caused by inconsistent column separators (mixing ',' and ';', for example).
 	*/
 	INCONSISTENT_COLUMNS
 }
