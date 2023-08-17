@@ -249,8 +249,8 @@ public abstract class StyleBarW2 extends StyleBarW {
 		boolean ret = EuclidianStyleBarStatic.applyColor(color,
 				alpha, app, targetGeos);
 		String htmlColor = StringUtil.toHtmlColor(color);
-		return inlineFormatter.formatInlineText(targetGeos, "color", htmlColor)
-				|| ret;
+		inlineFormatter.formatInlineText(targetGeos, "color", htmlColor);
+		return ret;
 	}
 
 	protected void createColorBtn() {

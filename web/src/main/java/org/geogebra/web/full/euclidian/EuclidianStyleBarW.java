@@ -1411,7 +1411,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		setPopupHandlerWithUndoPoint(btnHorizontalAlignment, this::handleHorizontalAlignment);
+		btnHorizontalAlignment.addPopupHandler(idx -> handleHorizontalAlignment(getTargetGeos()));
 		btnHorizontalAlignment.setKeepVisible(false);
 		btnHorizontalAlignment.setIcon(new ImageOrText(
 				MaterialDesignResources.INSTANCE.vertical_align_top(), 24));
@@ -1419,10 +1419,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnHorizontalAlignment.getMyPopup().addStyleName("mowPopup");
 	}
 
-	private boolean handleHorizontalAlignment(ArrayList<GeoElement> targetGeos) {
+	private void handleHorizontalAlignment(ArrayList<GeoElement> targetGeos) {
 		HorizontalAlignment alignment
 				= HorizontalAlignment.values()[btnHorizontalAlignment.getSelectedIndex()];
-		return inlineFormatter.formatInlineText(targetGeos, (formatter) -> {
+		inlineFormatter.formatInlineText(targetGeos, (formatter) -> {
 			if (alignment != null && !alignment.equals(formatter.getHorizontalAlignment())) {
 				formatter.setHorizontalAlignment(alignment);
 				return true;
@@ -1467,7 +1467,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		setPopupHandlerWithUndoPoint(btnVerticalAlignment, this::handleVerticalAlignment);
+		btnVerticalAlignment.addPopupHandler(idx -> handleVerticalAlignment(getTargetGeos()));
 		btnVerticalAlignment.setKeepVisible(false);
 		btnVerticalAlignment.setIcon(new ImageOrText(
 				MaterialDesignResources.INSTANCE.vertical_align_top(), 24));
@@ -1475,10 +1475,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnVerticalAlignment.getMyPopup().addStyleName("mowPopup");
 	}
 
-	private boolean handleVerticalAlignment(ArrayList<GeoElement> targetGeos) {
+	private void handleVerticalAlignment(ArrayList<GeoElement> targetGeos) {
 		VerticalAlignment alignment
 				= VerticalAlignment.values()[btnVerticalAlignment.getSelectedIndex()];
-		return inlineFormatter.formatInlineText(targetGeos, (formatter) -> {
+		inlineFormatter.formatInlineText(targetGeos, (formatter) -> {
 			if (alignment != null && !alignment.equals(formatter.getVerticalAlignment())) {
 				formatter.setVerticalAlignment(alignment);
 				return true;
@@ -1521,8 +1521,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private boolean handleTextSize(ArrayList<GeoElement> targetGeos) {
-		applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
-		return false;
+		return applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
 	}
 
 	// =====================================================
@@ -1727,12 +1726,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return changed;
 	}
 
-	private void applyTextSize(ArrayList<GeoElement> targetGeos,
+	private boolean applyTextSize(ArrayList<GeoElement> targetGeos,
 			int selectedIndex) {
-		EuclidianStyleBarStatic.applyTextSize(targetGeos, selectedIndex);
+		boolean ret = EuclidianStyleBarStatic.applyTextSize(targetGeos, selectedIndex);
 		double size = GeoText.getRelativeFontSize(selectedIndex)
 				* ev.getFontSize();
 		inlineFormatter.formatInlineText(targetGeos, "size", size);
+		return ret;
 	}
 
 	private boolean applyFontStyle(ArrayList<GeoElement> targetGeos, int mask,
@@ -1741,8 +1741,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 				add);
 		String property = mask == GFont.BOLD ? "bold" : (mask == GFont.ITALIC ? "italic"
 				: "underline");
-		return inlineFormatter.formatInlineText(targetGeos, property, add)
-				|| ret;
+		inlineFormatter.formatInlineText(targetGeos, property, add);
+		return ret;
 	}
 
 	/**

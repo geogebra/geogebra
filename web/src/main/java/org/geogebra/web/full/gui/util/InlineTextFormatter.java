@@ -21,10 +21,9 @@ public class InlineTextFormatter {
 	 *            option name
 	 * @param val
 	 *            option value
-	 * @return whether format changed
 	 */
-	public boolean formatInlineText(List<GeoElement> targetGeos, String key, Object val) {
-		return formatInlineText(targetGeos, formatter -> {
+	public void formatInlineText(List<GeoElement> targetGeos, String key, Object val) {
+		formatInlineText(targetGeos, formatter -> {
 			formatter.format(key, val);
 			return true;
 		});
@@ -35,9 +34,8 @@ public class InlineTextFormatter {
 	 *            geos to be formatted (non-texts are ignored)
 	 * @param formatFn
 	 *            formatting function
-	 * @return whether format changed
 	 */
-	public boolean formatInlineText(List<GeoElement> targetGeos,
+	public void formatInlineText(List<GeoElement> targetGeos,
 			Function<HasTextFormat, Boolean> formatFn) {
 		boolean changed = false;
 		ArrayList<GeoInline> geosToStore = new ArrayList<>();
@@ -59,7 +57,5 @@ public class InlineTextFormatter {
 		if (changed && store.needUndo() && !geosToStore.isEmpty()) {
 			store.storeUndo();
 		}
-
-		return changed;
 	}
 }
