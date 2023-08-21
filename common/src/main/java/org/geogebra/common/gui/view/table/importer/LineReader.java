@@ -15,7 +15,7 @@ final class LineReader {
 	String readLine() throws IOException {
 		StringBuilder sb = new StringBuilder();
 		if (nextChar != -1) {
-			sb.append((char)nextChar);
+			sb.append((char) nextChar);
 			nextChar = -1;
 		}
 		int ch;
@@ -27,7 +27,7 @@ final class LineReader {
 				}
 				break;
 			}
-			sb.append((char)ch);
+			sb.append((char) ch);
 		}
 		return sb.length() == 0 ? null : sb.toString();
 	}

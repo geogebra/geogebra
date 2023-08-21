@@ -90,7 +90,15 @@ public final class DataImporter {
 
 	// CSV Support
 
-	// TODO URL/FileUrl alternatives?
+	/**
+	 * Imports CSV data into the {@link TableValuesView}. See {@link #importCSV(Reader, char)} for
+	 * more details.
+	 *
+	 * @param csv <a href="https://datatracker.ietf.org/doc/html/rfc4180">Comma-Separated Values (CSV)</a>
+	 *            data
+	 * @param decimalSeparator The decimal separator to use. This will depend on the user's locale.
+	 * @return true if import was successful, false in case of an error.
+	 */
 	public boolean importCSV(String csv, char decimalSeparator) {
 		StringReader reader = new StringReader(csv);
 		return importCSV(reader, decimalSeparator);

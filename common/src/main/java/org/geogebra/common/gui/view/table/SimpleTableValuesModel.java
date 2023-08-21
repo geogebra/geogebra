@@ -296,17 +296,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 		collector.startCollection(this);
 		columns.clear();
 
-//		collector.startCollection(this);
-//		int idx = 0;
-//		while (idx < columns.size() && columns.get(idx)
-//				.getEvaluatable().getTableColumn() < evaluatable.getTableColumn()) {
-//			idx++;
-//		}
-//		TableValuesColumn column = createColumn(evaluatable);
-//		column.notifyDatasetChanged(this);
-//		columns.add(idx, column);
-//		ensureIncreasingIndices(idx);
-
 		GeoList valueList = columnsToImport[0];
 		setupXValues(valueList);
 		settings.setValueList(valueList);
@@ -319,10 +308,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 			TableValuesColumn column = new TableValuesListColumn(values);
 			columns.add(column);
 			column.notifyDatasetChanged(this);
-//			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
+			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
 		}
 		collector.endCollection(this);
-		// TODO create undo point
+
+		kernel.storeUndoInfo();
 	}
 
 	@Override
