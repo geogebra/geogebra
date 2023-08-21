@@ -7,6 +7,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.ComponentProgressBar;
 import org.geogebra.web.html5.css.PDFResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -52,7 +53,7 @@ public class PDFInputDialog extends ComponentDialog
 	 * pdf.js wrapper
 	 */
 	PDFWrapper pdf;
-	private ProgressBar progressBar;
+	private ComponentProgressBar progressBar;
 
 	/** indicates if current page number text field is in focus */
 	private String previewSrc;
@@ -322,17 +323,17 @@ public class PDFInputDialog extends ComponentDialog
 	/**
 	 * Progress bar for loading pdf
 	 */
-	public class ProgressBar extends SimplePanel {
+	/**public class ProgressBar extends SimplePanel {
 
 		/**
 		 * Loaded part of the progress bar.
 		 */
-		SimplePanel loadedPart;
+		//SimplePanel loadedPart;
 
 		/**
 		 * Creates a new progress bar.
 		 */
-		public ProgressBar() {
+		/**public ProgressBar() {
 			addStyleName("progressBar");
 			loadedPart = new SimplePanel();
 			add(loadedPart);
@@ -345,7 +346,7 @@ public class PDFInputDialog extends ComponentDialog
 		 * @param result
 		 *            true if the loading of the pdf was successful
 		 */
-		public void finishLoading(boolean result) {
+	/**	public void finishLoading(boolean result) {
 			if (result) {
 				onPDFLoaded();
 			} else {
@@ -361,14 +362,14 @@ public class PDFInputDialog extends ComponentDialog
 		 * @param percent
 		 *            the new value of the progress bar
 		 */
-		public void setPercent(double percent) {
+		/**public void setPercent(double percent) {
 			loadedPart.setWidth(percent + "%");
 		}
-	}
+	}*/
 
 	@Override
 	public void setProgressBarPercent(double percent) {
-		progressBar.setPercent(percent);
+		progressBar.setIndicatorWidth(percent);
 	}
 
 	/**
@@ -392,8 +393,9 @@ public class PDFInputDialog extends ComponentDialog
 		pdfContainerPanel.removeStyleName("withPdf");
 		imgTextPanel = new FlowPanel();
 		imgTextPanel.addStyleName("imgTextElement");
-		progressBar = new ProgressBar();
-		pdfContainerPanel.add(progressBar);
+		//progressBar = new ProgressBar();
+		progressBar = new ComponentProgressBar();
+		//pdfContainerPanel.add(progressBar);
 		Label loadText = new Label(app.getLocalization().getMenu("PdfLoadText"));
 		loadText.addStyleName("pdfDialogText");
 		loadText.addStyleName("loadText");
@@ -417,6 +419,12 @@ public class PDFInputDialog extends ComponentDialog
 
 	@Override
 	public void finishLoading(boolean result) {
-		progressBar.finishLoading(result);
+		if (result) {
+			onPDFLoaded();
+		} else {
+			pdf = null;
+			setPosBtnDisabled(true);
+			buildErrorPanel();
+		}
 	}
 }

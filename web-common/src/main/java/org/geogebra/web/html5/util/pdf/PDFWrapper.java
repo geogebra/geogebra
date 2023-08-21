@@ -90,8 +90,8 @@ public class PDFWrapper {
 		PdfDocumentLoadingTask task = PdfJsLib.get().getDocument(src);
 		task.promise.then(document -> {
 			this.document = document;
-			listener.finishLoading(true);
-			getPage();
+			//listener.finishLoading(true);
+			//getPage();
 			return null;
 		});
 	}
