@@ -352,7 +352,7 @@ public class TabbedKeyboard extends FlowPanel
 			return new KeyBoardButtonBase("abs", "abs", b);
 		}
 		if ("-".equals(name)) {
-			return new KeyBoardButtonBase(Unicode.MINUS + "", b);
+			return new KeyBoardButtonBase(Unicode.MINUS + "", "-", b);
 		}
 		if (name.equals(Action.ANS.name())) {
 			return new KeyBoardButtonFunctionalBase("ans", this, Action.ANS);
