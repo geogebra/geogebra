@@ -609,4 +609,28 @@ public class RedefineTest extends BaseUnitTest {
 								true, null, null);
 		assertThat(lookup("h").getClass(), is(GeoFunction.class));
 	}
+
+	@Test
+	public void absPositionShouldSurviveRedefine() throws CircularDefinitionException {
+		GeoText text = add("text=\"foo\"");
+		add("a=3");
+		text.setAbsoluteScreenLocActive(true);
+		text.setStartPoint(getKernel().getAlgebraProcessor().evaluateToPoint("(a, 4)",
+				TestErrorHandler.INSTANCE, false));
+		add("text=a+\"foo\"");
+		assertThat(((GeoText) lookup("text")).getStartPoint()
+				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+	}
+
+	@Test
+	public void realWorldPositionShouldSurviveRedefine() throws CircularDefinitionException {
+		GeoText text = add("text=\"foo\"");
+		add("a=3");
+		text.setAbsoluteScreenLocActive(false);
+		text.setStartPoint(getKernel().getAlgebraProcessor().evaluateToPoint("(a, 4)",
+				TestErrorHandler.INSTANCE, false));
+		add("text=a+\"foo\"");
+		assertThat(((GeoText) lookup("text")).getStartPoint()
+				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+	}
 }

@@ -686,11 +686,7 @@ public class GeoText extends GeoElement
 	}
 
 	private void setSameLocation(GeoText text) {
-		if (text.hasAbsoluteScreenLocation) {
-			setAbsoluteScreenLocActive(true);
-			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(),
-					text.getAbsoluteScreenLocY());
-		} else {
+		if (!this.isIndependent()) {
 			if (text.startPoint != null) {
 				try {
 					setStartPoint(text.startPoint);
@@ -698,6 +694,12 @@ public class GeoText extends GeoElement
 					// Circular definition, do nothing
 				}
 			}
+		}
+
+		if (text.hasAbsoluteScreenLocation) {
+			setAbsoluteScreenLocActive(true);
+			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(),
+					text.getAbsoluteScreenLocY());
 		}
 	}
 
@@ -799,8 +801,8 @@ public class GeoText extends GeoElement
 
 		hasAbsoluteScreenLocation = flag;
 		if (flag) {
-			// remove startpoint
-			if (startPoint != null) {
+			// remove startpoint if it is dependent
+			if (startPoint != null && this.isIndependent()) {
 				startPoint.getLocateableList().unregisterLocateable(this);
 				startPoint = null;
 			}
