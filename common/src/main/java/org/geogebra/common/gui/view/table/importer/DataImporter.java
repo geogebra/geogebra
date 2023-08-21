@@ -14,6 +14,8 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.common.util.opencsv.CSVParser;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Imports tabular data into a {@link TableValuesView}.
  *
@@ -21,6 +23,7 @@ import org.geogebra.common.util.opencsv.CSVParser;
  */
 public final class DataImporter {
 
+	@Weak
 	public DataImporterDelegate delegate;
 	private final TableValuesView tableValuesView;
 	private boolean hasHeader = false;
@@ -91,8 +94,8 @@ public final class DataImporter {
 	// CSV Support
 
 	/**
-	 * Imports CSV data into the {@link TableValuesView}. See {@link #importCSV(Reader, char)} for
-	 * more details.
+	 * Imports CSV data into the {@link TableValuesView}.
+	 * See {@link #importCSV(Reader, char)} for more details.
 	 *
 	 * @param csv <a href="https://datatracker.ietf.org/doc/html/rfc4180">Comma-Separated Values (CSV)</a>
 	 *            data
@@ -128,6 +131,7 @@ public final class DataImporter {
 	 * </ul>
 	 *
 	 * @param reader A reader for the CSV data. The reader does not have to support mark/reset.
+	 * @param decimalSeparator The decimal separator to use.
 	 * @return false in case of a validation error, if the data is empty, if validation was
 	 * canceled by the delegate, or if import was canceled by the delegate; true otherwise.
 	 */
