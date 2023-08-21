@@ -44,9 +44,7 @@ def replaceVendor = { htmlContent, vendor, offline ->
     if (vendor == "Mebis") {
         return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-mebis.html"))
     }
-    return htmlContent.replace("<!--VENDOR SCRIPTS-->", !offline ? template("partials/vendor-scripts-geogebra.html")
-                    : template("partials/vendor-scripts-geogebra.html")
-                    + template("partials/vendor-scripts-geogebra-offline.html"))
+    return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-geogebra.html"))
 }
 
 def getCss = { ->
