@@ -51,6 +51,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
@@ -74,13 +75,13 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.export.ConstructionProtocolExportDialogD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.javax.swing.GImageIconD;
-import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -91,13 +92,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		implements Printable, SettingListener, SetLabels {
 
 	static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
-	private static Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
-	private static Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
+	private static final Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
+	private static final Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
 
 	public JTable table;
 	// public JPanel cpPanel;
 
-	private TableColumn[] tableColumns;
+	private final TableColumn[] tableColumns;
 
 	// private AbstractAction printPreviewAction, exportHtmlAction;
 
@@ -128,7 +129,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		table = new JTable();
 		table.setAutoCreateColumnsFromModel(false);
-		table.setModel(((ConstructionTableDataD) data).getImpl().getImpl());
+		table.setModel(((ConstructionTableDataD) data).getImpl());
 		table.setRowSelectionAllowed(true);
 		table.setGridColor(Color.lightGray);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -356,13 +357,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						JDialog d = new ConstructionProtocolExportDialogD(view);
-						d.setVisible(true);
-					}
-				};
+				Thread runner = new Thread(() -> {
+					JDialog d = new ConstructionProtocolExportDialogD(view);
+					d.setVisible(true);
+				});
 				runner.start();
 
 				app.setDefaultCursor();
@@ -392,12 +390,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 									/* interactive */true /* , */
 							/* service *//* null */);
 							// service must be omitted for Java version 1.5.0
-						} catch (HeadlessException ex) {
-							// TODO Auto-generated catch block
-							ex.printStackTrace();
-						} catch (PrinterException ex) {
-							// TODO Auto-generated catch block
-							ex.printStackTrace();
+						} catch (HeadlessException | PrinterException ex) {
+							Log.debug(ex);
 						}
 
 					}
@@ -495,7 +489,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				if (AppD.isRightClick(e)) {
 					GeoElement geo = ((ConstructionTableDataD) data)
 							.getGeoElement(row);
-					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+					ArrayList<GeoElement> temp = new ArrayList<>();
 					temp.add(geo);
 					((GuiManagerD) app.getGuiManager()).showPopupMenu(temp,
 							table, mouseCoords);
@@ -687,10 +681,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				// setSize(view.getWidth(), getHeight());
 			}
 			table.tableChanged(new TableModelEvent(
-					((ConstructionTableDataD) data).getImpl().getImpl()));
+					((ConstructionTableDataD) data).getImpl()));
 
 			// reinit view to update possible breakpoint changes
-			((ConstructionTableDataD) data).initView();
+			data.initView();
 			SwingUtilities.updateComponentTreeUI(view.scrollPane);
 		}
 	}
@@ -878,7 +872,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	public class ConstructionTableDataD extends ConstructionTableData {
 
-		protected MyGAbstractTableModel ctDataImpl;
+		protected ConstructionProtocolTableModel ctDataImpl;
 		protected ConstructionTableData ctData = this;
 
 		/**
@@ -886,12 +880,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		 */
 		public ConstructionTableDataD(SetLabels gui) {
 			super(gui);
-			ctDataImpl = new MyGAbstractTableModel();
+			ctDataImpl = new ConstructionProtocolTableModel();
 			// rowList = new ArrayList<RowData>();
 			// geoMap = new HashMap<GeoElement, RowData>();
 		}
 
-		public GAbstractTableModelD getImpl() {
+		public AbstractTableModel getImpl() {
 			return ctDataImpl;
 		}
 
@@ -1072,7 +1066,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return false;
 		}
 
-		public class MyGAbstractTableModel extends GAbstractTableModelD {
+		public class ConstructionProtocolTableModel extends AbstractTableModel {
 
 			@Override
 			public int getRowCount() {

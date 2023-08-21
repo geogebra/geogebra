@@ -27,6 +27,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.ColorProvider;
+import org.geogebra.common.gui.inputfield.TextFieldUtil;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
@@ -400,7 +401,7 @@ public class MyTextFieldD extends JTextField
 
 		// get the bracket positions
 		String text2 = StringUtil.ignoreIndices(text);
-		int[] brkPos = org.geogebra.common.gui.inputfield.MyTextField
+		int[] brkPos = TextFieldUtil
 				.getBracketPositions(text2, caret);
 		int wrong = StringUtil.checkBracketsBackward(text2);
 		int bracket1pos = brkPos[0];

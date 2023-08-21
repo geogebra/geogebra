@@ -10,13 +10,13 @@ import org.gwtproject.canvas.client.Canvas;
 // To avoid duplicate inequalities drawing algorithms replacing Graphics.
 // In the three implementations (pstricks, pgf, asymptote) print the
 // appropriate commands
-abstract class MyGraphicsW extends GGraphics2DW {
+abstract class ExportGraphicsW extends GGraphics2DW {
 
 	protected double[] ds;
 	protected Inequality ineq;
 	protected FunctionalNVar geo;
 
-	public MyGraphicsW(FunctionalNVar geo, Inequality ineq) {
+	public ExportGraphicsW(FunctionalNVar geo, Inequality ineq) {
 
 		// dummy canvas
 		super(Canvas.createIfSupported());

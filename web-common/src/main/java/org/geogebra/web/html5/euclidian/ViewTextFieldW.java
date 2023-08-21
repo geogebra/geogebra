@@ -35,7 +35,7 @@ public class ViewTextFieldW extends ViewTextField {
 			box = new SimplePanel();
 			box.addStyleName("gbox");
 			box.setWidget(textField);
-			EventUtil.stopPointer(box.getElement());
+			EventUtil.stopPointerEvents(box.getElement(), btn -> btn <= 0);
 		}
 	}
 

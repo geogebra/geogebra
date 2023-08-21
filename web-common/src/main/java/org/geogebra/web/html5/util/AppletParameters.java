@@ -8,6 +8,8 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.bridge.AttributeProvider;
+import org.geogebra.web.html5.bridge.MapAttributeProvider;
 
 /**
  *
@@ -23,26 +25,26 @@ public class AppletParameters {
 	 *            name of app
 	 */
 	public AppletParameters(String appName) {
-		this.attributeProvider = new MapAttributeProvider();
+		this.attributeProvider = new MapAttributeProvider(null);
 		setAttribute("appName", appName);
 		setAttribute("width", "800");
 		setAttribute("height", "600");
 	}
 
-	public AppletParameters(GeoGebraElement element) {
+	public AppletParameters(AttributeProvider element) {
 		this.attributeProvider = element;
 	}
 
 	private String getAttribute(String attribute) {
-		return attributeProvider.getAttribute("data-param-" + attribute);
+		return attributeProvider.getAttribute(attribute);
 	}
 
 	public boolean hasAttribute(String attribute) {
-		return attributeProvider.hasAttribute("data-param-" + attribute);
+		return attributeProvider.hasAttribute(attribute);
 	}
 
 	public void removeAttribute(String attribute) {
-		attributeProvider.removeAttribute("data-param-" + attribute);
+		attributeProvider.removeAttribute(attribute);
 	}
 
 	/**
@@ -51,7 +53,7 @@ public class AppletParameters {
 	 * @return this
 	 */
 	public AppletParameters setAttribute(String attribute, String value) {
-		attributeProvider.setAttribute("data-param-" + attribute, value);
+		attributeProvider.setAttribute(attribute, value);
 		return this;
 	}
 

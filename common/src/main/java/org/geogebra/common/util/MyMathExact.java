@@ -16,7 +16,7 @@ public class MyMathExact {
 	/**
 	 * BigDecimal wrapper with support for fixed scale
 	 */
-	public static class MyDecimal {
+	public static class FixedScaleDecimal {
 
 		private final int fixedScale;
 		private static final int roundingMode = BigDecimal.ROUND_HALF_EVEN;
@@ -27,7 +27,7 @@ public class MyMathExact {
 		 * @param significance
 		 *            significance
 		 */
-		public MyDecimal(int significance) {
+		public FixedScaleDecimal(int significance) {
 			impl = BigDecimal.ZERO.setScale(significance);
 			fixedScale = significance;
 		}
@@ -38,7 +38,7 @@ public class MyMathExact {
 		 * @param val
 		 *            value
 		 */
-		public MyDecimal(int significance, double val) {
+		public FixedScaleDecimal(int significance, double val) {
 			// super(val);
 			// super.setScale(significance, roundingMode);
 			impl = (new BigDecimal(val)).setScale(significance, roundingMode);
@@ -49,7 +49,7 @@ public class MyMathExact {
 		 * @param md
 		 *            decimal
 		 */
-		public MyDecimal(MyDecimal md) {
+		public FixedScaleDecimal(FixedScaleDecimal md) {
 			impl = new BigDecimal(md.unscaledValue(), md.scale());
 			fixedScale = md.scale();
 		}
@@ -71,7 +71,7 @@ public class MyMathExact {
 		 * @param bd
 		 *            decimal
 		 */
-		public MyDecimal(BigDecimal bd) {
+		public FixedScaleDecimal(BigDecimal bd) {
 			impl = new BigDecimal(bd.unscaledValue(), bd.scale());
 			fixedScale = bd.scale();
 		}
@@ -82,7 +82,7 @@ public class MyMathExact {
 		 * @param bd
 		 *            value
 		 */
-		public MyDecimal(int significance, BigDecimal bd) {
+		public FixedScaleDecimal(int significance, BigDecimal bd) {
 			impl = new BigDecimal(bd.unscaledValue(), bd.scale())
 					.setScale(significance, roundingMode);
 			fixedScale = significance;
@@ -92,16 +92,16 @@ public class MyMathExact {
 			return fixedScale;
 		}
 
-		public MyDecimal copy() {
-			return new MyDecimal(this.getScale(), impl);
+		public FixedScaleDecimal copy() {
+			return new FixedScaleDecimal(this.getScale(), impl);
 		}
 
-		public MyDecimal negate() {
-			return new MyDecimal(this.getScale(), impl.negate());
+		public FixedScaleDecimal negate() {
+			return new FixedScaleDecimal(this.getScale(), impl.negate());
 		}
 
-		public MyDecimal add(MyDecimal md) {
-			return new MyDecimal(this.getScale(), impl.add(md.getImpl()));
+		public FixedScaleDecimal add(FixedScaleDecimal md) {
+			return new FixedScaleDecimal(this.getScale(), impl.add(md.getImpl()));
 		}
 
 		public BigDecimal getImpl() {
@@ -113,8 +113,8 @@ public class MyMathExact {
 		 *            factor
 		 * @return this * md
 		 */
-		public MyDecimal multiply(MyDecimal md) {
-			return new MyDecimal(this.getScale(), impl.multiply(md.getImpl()));
+		public FixedScaleDecimal multiply(FixedScaleDecimal md) {
+			return new FixedScaleDecimal(this.getScale(), impl.multiply(md.getImpl()));
 		}
 
 		/**
@@ -122,8 +122,8 @@ public class MyMathExact {
 		 *            subtrahend
 		 * @return this - md
 		 */
-		public MyDecimal subtract(MyDecimal md) {
-			return new MyDecimal(this.getScale(), impl.subtract(md.getImpl()));
+		public FixedScaleDecimal subtract(FixedScaleDecimal md) {
+			return new FixedScaleDecimal(this.getScale(), impl.subtract(md.getImpl()));
 		}
 
 		/**
@@ -131,39 +131,39 @@ public class MyMathExact {
 		 *            divisor
 		 * @return this / md
 		 */
-		public MyDecimal divide(MyDecimal md) {
-			return new MyDecimal(this.getScale(), impl.divide(md.getImpl(),
+		public FixedScaleDecimal divide(FixedScaleDecimal md) {
+			return new FixedScaleDecimal(this.getScale(), impl.divide(md.getImpl(),
 					this.getScale(), BigDecimal.ROUND_HALF_EVEN));
 		}
 
 		/**
 		 * @return square root of this
 		 */
-		public MyDecimal sqrt() {
+		public FixedScaleDecimal sqrt() {
 
 			if (impl.compareTo(BigDecimal.ZERO) == 0) {
-				return new MyDecimal(BigDecimal.ZERO);
+				return new FixedScaleDecimal(BigDecimal.ZERO);
 			}
 
-			MyDecimal TWO = new MyDecimal(BigDecimal.ONE.add(BigDecimal.ONE));
+			FixedScaleDecimal TWO = new FixedScaleDecimal(BigDecimal.ONE.add(BigDecimal.ONE));
 			double lower_bound = Math.sqrt(impl.doubleValue());
 
 			int thisScale = this.getScale();
 			int thisScalePlusOne = thisScale + 1;
 
-			MyDecimal ret = new MyDecimal(thisScalePlusOne, lower_bound);
-			MyDecimal radicand = new MyDecimal(thisScalePlusOne, impl);
+			FixedScaleDecimal ret = new FixedScaleDecimal(thisScalePlusOne, lower_bound);
+			FixedScaleDecimal radicand = new FixedScaleDecimal(thisScalePlusOne, impl);
 
 			int iterCount = 0;
 			while (ret.multiply(ret).subtract(radicand).divide(radicand)
-					.divide(new MyDecimal(thisScalePlusOne, lower_bound * 2))
+					.divide(new FixedScaleDecimal(thisScalePlusOne, lower_bound * 2))
 					.abs().doubleValue() > Math.pow(10, -thisScale)
 					&& iterCount < 5) {
 				ret = ret.add(radicand.divide(ret)).divide(TWO);
 				iterCount++;
 			}
 
-			return new MyDecimal(thisScale, ret.getImpl());
+			return new FixedScaleDecimal(thisScale, ret.getImpl());
 		}
 
 		public BigDecimal abs() {
@@ -183,13 +183,13 @@ public class MyMathExact {
 		}
 	}
 
-	public static class MyDecimalMatrix implements AnyMatrix {
+	public static class FixedScaleDecimalMatrix implements AnyMatrix {
 
 		private int fixedScale;
 		private int rowD;
 		private int colD;
 
-		private MyDecimal[][] data;
+		private FixedScaleDecimal[][] data;
 
 		/**
 		 * @param significance
@@ -199,11 +199,11 @@ public class MyMathExact {
 		 * @param colD
 		 *            number of columns
 		 */
-		public MyDecimalMatrix(int significance, int rowD, int colD) {
+		public FixedScaleDecimalMatrix(int significance, int rowD, int colD) {
 			fixedScale = significance;
 			this.rowD = rowD;
 			this.colD = colD;
-			data = new MyDecimal[rowD][colD];
+			data = new FixedScaleDecimal[rowD][colD];
 		}
 
 		@Override
@@ -225,20 +225,20 @@ public class MyMathExact {
 			return this.fixedScale;
 		}
 
-		public MyDecimal getEntry(int i, int j) {
+		public FixedScaleDecimal getEntry(int i, int j) {
 			return data[i][j].copy();
 		}
 
-		public void setEntry(int i, int j, MyDecimal md) {
-			data[i][j] = new MyDecimal(fixedScale, md.getImpl());
+		public void setEntry(int i, int j, FixedScaleDecimal md) {
+			data[i][j] = new FixedScaleDecimal(fixedScale, md.getImpl());
 		}
 
 		/**
 		 * @return copy of the matrix
 		 */
-		public MyDecimalMatrix copy() {
+		public FixedScaleDecimalMatrix copy() {
 
-			MyDecimalMatrix mdm = new MyDecimalMatrix(fixedScale, rowD, colD);
+			FixedScaleDecimalMatrix mdm = new FixedScaleDecimalMatrix(fixedScale, rowD, colD);
 
 			for (int i = 0; i < rowD; i++) {
 				for (int j = 0; j < colD; j++) {
@@ -254,8 +254,8 @@ public class MyMathExact {
 		 *            column
 		 * @return numbers in given column
 		 */
-		public MyDecimal[] getColumn(int j) {
-			MyDecimal[] ret = new MyDecimal[this.getRowDimension()];
+		public FixedScaleDecimal[] getColumn(int j) {
+			FixedScaleDecimal[] ret = new FixedScaleDecimal[this.getRowDimension()];
 			for (int i = 0; i < this.getRowDimension(); i++) {
 				ret[i] = this.getEntry(i, j);
 			}
@@ -268,7 +268,7 @@ public class MyMathExact {
 		 * @param column
 		 *            numbers for given column
 		 */
-		public void setColumn(int j, MyDecimal[] column) {
+		public void setColumn(int j, FixedScaleDecimal[] column) {
 			for (int i = 0; i < this.getRowDimension(); i++) {
 				this.setEntry(i, j, column[i]);
 			}
@@ -279,8 +279,8 @@ public class MyMathExact {
 		 *            row
 		 * @return numbers in given row
 		 */
-		public MyDecimal[] getRow(int i) {
-			MyDecimal[] ret = new MyDecimal[this.getColumnDimension()];
+		public FixedScaleDecimal[] getRow(int i) {
+			FixedScaleDecimal[] ret = new FixedScaleDecimal[this.getColumnDimension()];
 			for (int j = 0; j < this.getColumnDimension(); j++) {
 				ret[j] = this.getEntry(i, j);
 			}
@@ -293,7 +293,7 @@ public class MyMathExact {
 		 * @param row
 		 *            numbers for given row
 		 */
-		public void setRow(int i, MyDecimal[] row) {
+		public void setRow(int i, FixedScaleDecimal[] row) {
 			for (int j = 0; j < this.getColumnDimension(); j++) {
 				this.setEntry(i, j, row[j]);
 			}
@@ -308,8 +308,8 @@ public class MyMathExact {
 		 *            number of columns
 		 * @return frobenius norm
 		 */
-		public MyDecimal frobNormSq(MyDecimalMatrix matrix, int m, int n) {
-			MyDecimal ret = new MyDecimal(BigDecimal.ZERO);
+		public FixedScaleDecimal frobNormSq(FixedScaleDecimalMatrix matrix, int m, int n) {
+			FixedScaleDecimal ret = new FixedScaleDecimal(BigDecimal.ZERO);
 
 			if (m == 0 || n == 0) {
 				return ret;
@@ -330,7 +330,7 @@ public class MyMathExact {
 		 *            matrix
 		 * @return product of matrices
 		 */
-		public MyDecimalMatrix multiply(MyDecimalMatrix m) {
+		public FixedScaleDecimalMatrix multiply(FixedScaleDecimalMatrix m) {
 
 			if (this.getColumnDimension() != m.getRowDimension()) {
 				throw MathRuntimeException.createIllegalArgumentException(
@@ -341,11 +341,11 @@ public class MyMathExact {
 
 			}
 
-			MyDecimalMatrix ret = new MyDecimalMatrix(this.getScale(),
+			FixedScaleDecimalMatrix ret = new FixedScaleDecimalMatrix(this.getScale(),
 					this.getRowDimension(), m.getColumnDimension());
 			for (int i = 0; i < this.getRowDimension(); i++) {
 				for (int j = 0; j < m.getColumnDimension(); j++) {
-					MyDecimal entry = new MyDecimal(this.fixedScale, 0);
+					FixedScaleDecimal entry = new FixedScaleDecimal(this.fixedScale, 0);
 					for (int k = 0; k < this.getColumnDimension(); k++) {
 						entry = entry.add(
 								this.getEntry(i, k).multiply(m.getEntry(k, j)));

@@ -35,7 +35,7 @@ import org.geogebra.common.util.StringUtil;
  * chooser.addChoosableFileFilter(filter); chooser.showOpenDialog(this);
  * </pre>
  */
-public class MyFileFilter extends FileFilter implements java.io.FileFilter {
+public class FileExtensionFilter extends FileFilter implements java.io.FileFilter {
 
 	// private static String TYPE_UNKNOWN = "Type Unknown";
 	// private static String HIDDEN_FILE = "Hidden File";
@@ -52,7 +52,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 *
 	 * @see #addExtension
 	 */
-	public MyFileFilter() {
+	public FileExtensionFilter() {
 		filters = new ArrayList<>();
 	}
 
@@ -64,7 +64,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 *            either "ext" or ".ext"
 	 * @see #addExtension
 	 */
-	public MyFileFilter(FileExtensions extension) {
+	public FileExtensionFilter(FileExtensions extension) {
 		this();
 		if (extension != null) {
 			addExtension(extension);

@@ -1,9 +1,10 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.Arrays;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ColorProperty;
@@ -38,9 +39,8 @@ public class ElementColorProperty extends AbstractProperty implements ColorPrope
 
 	@Override
 	public void setColor(GColor color) {
-		App app = element.getApp();
-		EuclidianStyleBarStatic.applyColor(
-				color, element.getAlphaValue(), app, app.getSelectionManager().getSelectedGeos());
+		EuclidianStyleBarStatic.applyColor(color, element.getAlphaValue(), element.getApp(),
+				Arrays.asList(element));
 	}
 
 	@Override

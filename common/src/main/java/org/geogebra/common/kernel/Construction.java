@@ -2409,14 +2409,6 @@ public class Construction {
 		}
 
 		// GGB-843
-		if (fileLoading && !isCasCellUpdate() && geoTable.containsKey(label)) {
-			GeoElement geo = geoTable.get(label);
-			if (geo instanceof GeoNumeric
-					&& !((GeoNumeric) geo).isDependentConst()) {
-				return true;
-			}
-		}
-
 		if (fileLoading && !casCellUpdate && isNotXmlLoading()) {
 			GeoNumeric geoNum = lookupConstantLabel(label);
 			if (geoNum != null) {
@@ -2651,8 +2643,7 @@ public class Construction {
 		boolean oldSuppressLabelsActive = isSuppressLabelsActive();
 		setSuppressLabelCreation(false);
 
-		// set 0 and label
-		// result.setZero();
+		// set auxiliary and label
 		result.setAuxiliaryObject(true);
 		result.setLabel(label);
 
@@ -2926,7 +2917,7 @@ public class Construction {
 	 * @see UndoManager#storeUndoInfo()
 	 */
 	public void storeUndoInfo() {
-		undoManager.storeUndoInfo();
+		getUndoManager().storeUndoInfo();
 	}
 
 	/**
@@ -2946,20 +2937,6 @@ public class Construction {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Redoes last undone step
-	 */
-	public void redo() {
-		undoManager.redo();
-	}
-
-	/**
-	 * Undoes last operation
-	 */
-	public void undo() {
-		undoManager.undo();
 	}
 
 	/**
@@ -3083,8 +3060,7 @@ public class Construction {
 	 * construction state to the undo info list.
 	 */
 	public void initUndoInfo() {
-		ensureUndoManagerExists();
-		undoManager.initUndoInfo();
+		getUndoManager().initUndoInfo();
 	}
 
 	/**
@@ -3102,8 +3078,7 @@ public class Construction {
 			EvalInfo info) throws Exception {
 		// try to process the new construction
 		try {
-			ensureUndoManagerExists();
-			undoManager.processXML(consXML.toString(), false, info);
+			processXML(consXML.toString(), false, info);
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
 			// kernel.updateConstruction();
@@ -3138,10 +3113,35 @@ public class Construction {
 	 */
 	public void processXML(StringBuilder xml) {
 		try {
-			undoManager.processXML(xml.toString(), false);
+			processXML(xml.toString(), false, null);
 		} catch (Exception e) {
 			Log.debug(e);
 		}
+	}
+
+	/**
+	 * Processes XML
+	 *
+	 * @param strXML
+	 *            XML string
+	 * @param isGGTOrDefaults
+	 *            whether to treat the XML as defaults
+	 * @param info
+	 *            EvalInfo (can be null)
+	 * @throws Exception
+	 *             on trouble with parsing or running commands
+	 */
+	final public synchronized void processXML(String strXML,
+			boolean isGGTOrDefaults, EvalInfo info) throws Exception {
+
+		boolean randomize = info != null && info.updateRandom();
+
+		setFileLoading(true);
+		setCasCellUpdate(true);
+		getXMLio().processXMLString(strXML, true, isGGTOrDefaults,
+				true, randomize);
+		setFileLoading(false);
+		setCasCellUpdate(false);
 	}
 
 	/**

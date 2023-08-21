@@ -143,7 +143,7 @@ public abstract class DockPanelW extends ResizeComposite
 	private boolean dialog = false;
 
 	/** dock panel */
-	MyDockLayoutPanel dockPanel;
+	InnerDockLayoutPanel dockPanel;
 	/** the main panel of this stylebar */
 	//protected TitleBarPanel titleBarPanel;
 	protected DockControlPanel dockControlPanel;
@@ -275,7 +275,7 @@ public abstract class DockPanelW extends ResizeComposite
 			return;
 		}
 
-		dockPanel = new MyDockLayoutPanel();
+		dockPanel = new InnerDockLayoutPanel();
 		initWidget(dockPanel);
 	}
 
@@ -438,7 +438,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @param controls top controls panel
 	 *
 	 */
-	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
+	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel,
 			InsertPanel controls) {
 		if (zoomPanel != null) {
 			dockLayoutPanel.addSouth(zoomPanel, 0);
@@ -529,11 +529,11 @@ public abstract class DockPanelW extends ResizeComposite
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
 	 * extend DockPanelW itself
 	 */
-	public static class MyDockLayoutPanel extends DockLayoutPanel {
+	public static class InnerDockLayoutPanel extends DockLayoutPanel {
 		/**
 		 * Create new dock panel
 		 */
-		public MyDockLayoutPanel() {
+		public InnerDockLayoutPanel() {
 			super(Unit.PX);
 			addStyleName("ggbdockpanelhack");
 			addAttachHandler(evt -> {

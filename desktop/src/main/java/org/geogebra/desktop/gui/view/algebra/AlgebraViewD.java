@@ -72,7 +72,7 @@ public class AlgebraViewD extends AlgebraTree
 	 */
 	// public static final int MODE_VIEW = 2;
 
-	private MyDefaultTreeCellEditor editor;
+	private AlgebraDefaultTreeCellEditor editor;
 	private MathTextField editTF;
 
 	/**
@@ -257,7 +257,7 @@ public class AlgebraViewD extends AlgebraTree
 		editTF = new MathTextField(app);
 		editTF.enableColoring(true);
 		editTF.setShowSymbolTableIcon(true);
-		editor = new MyDefaultTreeCellEditor(this, renderer,
+		editor = new AlgebraDefaultTreeCellEditor(this, renderer,
 				new MyCellEditorD(editTF, app));
 
 		// add focus listener to the editor text field so that editing is
@@ -662,10 +662,10 @@ public class AlgebraViewD extends AlgebraTree
 	 * 
 	 * Created on 28. September 2001, 12:36
 	 */
-	private class MyDefaultTreeCellEditor extends DefaultTreeCellEditor
+	private class AlgebraDefaultTreeCellEditor extends DefaultTreeCellEditor
 			implements CellEditorListener {
 
-		public MyDefaultTreeCellEditor(AlgebraViewD tree,
+		public AlgebraDefaultTreeCellEditor(AlgebraViewD tree,
 				DefaultTreeCellRenderer renderer, DefaultCellEditor editor) {
 			super(tree, renderer, editor);
 			// editor container that expands to fill the width of the tree's
