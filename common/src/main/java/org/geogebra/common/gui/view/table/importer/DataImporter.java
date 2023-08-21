@@ -24,7 +24,7 @@ import com.google.j2objc.annotations.Weak;
 public final class DataImporter {
 
 	@Weak
-	public DataImporterDelegate delegate;
+	private DataImporterDelegate delegate;
 	private final TableValuesView tableValuesView;
 	private boolean hasHeader = false;
 	private char csvSeparator = 0;
@@ -34,8 +34,14 @@ public final class DataImporter {
 	private int maxNrColumns = 100;
 	private boolean discardHeader = true;
 
-	public DataImporter(TableValuesView tableValuesView) {
+	/**
+	 * Constructs a new importer for the given TableValuesView.
+	 * @param tableValuesView The TableValuesView to import data into.
+	 * @param delegate An optional delegate.
+	 */
+	public DataImporter(TableValuesView tableValuesView, DataImporterDelegate delegate) {
 		this.tableValuesView = tableValuesView;
+		this.delegate = delegate;
 	}
 
 	// Configuration
