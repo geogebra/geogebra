@@ -339,7 +339,6 @@ public class GeoFunctionNVar extends GeoElement
 	 * @return value at vals
 	 */
 	public Coords evaluatePoint(double[] vals) {
-		// Application.printStacktrace("");
 		if (fun == null) {
 			return null;
 		}

@@ -52,7 +52,6 @@ public abstract class ValidExpression
 	 */
 	public void addLabel(String label) {
 		initLabels();
-		// App.printStacktrace(label+":"+(label==null));
 		labels.add(label);
 	}
 

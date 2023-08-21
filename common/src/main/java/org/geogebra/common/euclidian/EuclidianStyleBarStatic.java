@@ -78,7 +78,6 @@ public class EuclidianStyleBarStatic {
 				if (geo.getParentAlgorithm() != null
 						&& geo.getParentAlgorithm().getInput().length == 3) {
 					// segment is output from a Polygon
-					// AbstractApplication.warn("segment from poly");
 					continue;
 				}
 			}

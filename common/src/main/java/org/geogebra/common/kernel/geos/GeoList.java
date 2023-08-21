@@ -1761,7 +1761,6 @@ public class GeoList extends GeoElement
 	 *            point
 	 */
 	public void getNearestPoint(final GeoPointND p) {
-		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
 
