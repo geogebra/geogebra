@@ -5,6 +5,7 @@ import static org.geogebra.common.gui.view.table.importer.DataImporterWarning.DA
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -89,6 +90,12 @@ public final class DataImporter {
 
 	// CSV Support
 
+	// TODO URL/FileUrl alternatives?
+	public boolean importCSV(String csv, char decimalSeparator) {
+		StringReader reader = new StringReader(csv);
+		return importCSV(reader, decimalSeparator);
+	}
+
 	/**
 	 * Imports CSV data into the {@link TableValuesView}.
 	 * <p/>
@@ -106,10 +113,10 @@ public final class DataImporter {
 	 * Import is a two-stage process:
 	 * <ul>
 	 * <li>In the first stage, the data is validated. The delegate will be notified about
-	 *	validation progress (indeterminate progress feedback), warnings, and errors.
+	 * validation progress (indeterminate progress feedback), warnings, and errors.
 	 * <li>If no validation errors occurred, the rows collected during validation are imported
-	 * 	into the {@link TableValuesView} (row by row) in the second stage. The delegate will
-	 * 	be notified about import progress (determinate progress feedback).
+	 * into the {@link TableValuesView} (row by row) in the second stage. The delegate will
+	 * be notified about import progress (determinate progress feedback).
 	 * </ul>
 	 *
 	 * @param reader A reader for the CSV data. The reader does not have to support mark/reset.
@@ -231,7 +238,8 @@ public final class DataImporter {
 	 * Checks if a string represents a valid decimal number.
 	 * <p/>
 	 * We use the same regex that GWT uses for validating floats and doubles:
-	 * <code>"^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)\\s*$"</code>
+	 * <code>"^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)
+	 * \\s*$"</code>
 	 * <p/>
 	 * See <a href="https://github.com/gwtproject/gwt/blob/main/user/super/com/google/gwt/emul/java/lang/Number.java">
 	 *     GWT's number parsing</a>
@@ -252,8 +260,8 @@ public final class DataImporter {
 	 * Parses a string into a Double.
 	 *
 	 * @implNote Normally, we'd use NumberFormat/DecimalFormat for locale-specific number parsing,
-	 * 		but this is not supported by GWT's
-	 * 		<a href="https://www.gwtproject.org/doc/latest/RefJreEmulation.html">JRE emulation</a>.
+	 * but this is not supported by GWT's
+	 * <a href="https://www.gwtproject.org/doc/latest/RefJreEmulation.html">JRE emulation</a>.
 	 * @param value A String representing a decimal number.
 	 * @param decimalSeparator The decimal separator character.
 	 * @return The double result if parsing was successful, or null in case of a parsing error.

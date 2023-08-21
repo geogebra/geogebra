@@ -119,7 +119,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	@Test
 	public void testImportCSVWithWrongSeparator1() {
 		Reader reader = loadSample("dotdecimals-semicolon-header.csv"); // e.g. "1.1"
-		// using wrong decimal separator, but (default) dot separator should still give correct results
+		// using wrong decimal separator, but (default) dot separator should still
+		// give correct results
 		boolean success = dataImporter.importCSV(reader, ',');
 		assertTrue(success);
 		assertNull(error);
