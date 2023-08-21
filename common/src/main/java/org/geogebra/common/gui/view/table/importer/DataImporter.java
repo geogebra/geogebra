@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.common.util.opencsv.CSVParser;
 
 /**
@@ -173,6 +174,9 @@ public final class DataImporter {
 				}
 			}
 			nrOfRows = rows.size();
+		} catch (CSVException e) {
+			notifyAboutError(DataImporterError.DATA_FORMAT_ERROR, currentRow);
+			return null;
 		} catch (IOException e) {
 			notifyAboutError(DataImporterError.UNKNOWN_ERROR, currentRow);
 			return null;
