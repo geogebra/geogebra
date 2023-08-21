@@ -204,9 +204,9 @@ public final class DataImporter {
 			return false;
 		}
 		tableValuesView.startImport(nrOfRows, nrOfColumns);
-		// TODO handling of header row (if present)
 		for (Row row : rows) {
 			if (row.isHeader) {
+				// TODO handling of header row (if present)?
 				continue;
 			}
 			if (!shouldContinueImport(row.rowNr, nrOfRows)) {

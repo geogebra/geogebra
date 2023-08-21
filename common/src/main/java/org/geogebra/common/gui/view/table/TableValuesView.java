@@ -478,6 +478,11 @@ public class TableValuesView implements TableValues, SettingListener {
 		this.algebraLabelVisibleCheck = false;
 	}
 
+	/**
+	 * Prepares for tabular data import.
+	 * @param nrRows The number of rows to import.
+	 * @param nrColumns The number of columns to import.
+	 */
 	// Data import
 	public void startImport(int nrRows, int nrColumns) {
 		importColumns = new GeoList[nrColumns];
@@ -487,6 +492,12 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 	}
 
+	/**
+	 * Imports a row of data.
+	 * @param values The numeric values for the current row. For any null entries in
+	 *               this array, rawValues will have the original string value.
+	 * @param rawValues The original strings behind the values.
+	 */
 	public void importRow(Double[] values, String[] rawValues) {
 		for (int index = 0; index < importColumns.length; index++) {
 			GeoList column = importColumns[index];
@@ -504,10 +515,17 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 	}
 
+	/**
+	 * Cancels import, discarding any data accumulated in {@link #importRow(Double[], String[])}.
+	 */
 	public void cancelImport() {
 		importColumns = null;
 	}
 
+	/**
+	 * Commits the data accumulated in {@link #importRow(Double[], String[])}, creating
+	 * columns in this TableValuesView, and notifying listeners about the new data.
+	 */
 	public void commitImport() {
 		model.importColumns(importColumns);
 	}
