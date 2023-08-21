@@ -308,7 +308,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			TableValuesColumn column = new TableValuesListColumn(values);
 			columns.add(column);
 			column.notifyDatasetChanged(this);
-			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
+//			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
 		}
 		collector.endCollection(this);
 
