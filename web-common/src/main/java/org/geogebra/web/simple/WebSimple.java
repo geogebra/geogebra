@@ -3,6 +3,7 @@ package org.geogebra.web.simple;
 import java.util.ArrayList;
 
 import org.geogebra.web.cas.giac.CASFactoryW;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -34,7 +35,7 @@ public class WebSimple implements EntryPoint {
 
 	private void exportGGBElementRenderer() {
 		RenderGgbElement.setRenderGGBElement((el, callback) -> {
-			GeoGebraFrameSimple.renderArticleElement(GeoGebraElement.as(el), callback,
+			GeoGebraFrameSimple.renderArticleElement(AttributeProvider.as(el), callback,
 					new CASFactoryW());
 		});
 		RenderGgbElement.renderGGBElementReady();

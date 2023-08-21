@@ -291,9 +291,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 
 	@Override
 	protected void updateOutputPoints() {
-
-		// Application.printStacktrace("");
-
 		if (height == null) {
 			uptranslation = getTopPoint().getInhomCoordsInD3()
 					.sub(getBottomPoints()[0].getInhomCoordsInD3());
