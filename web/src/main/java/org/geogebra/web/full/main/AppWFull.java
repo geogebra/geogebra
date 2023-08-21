@@ -2437,8 +2437,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
 
-		setUndoRedoPanelAllowed(!"probability".equals(subAppCode));
-
 		if (menuViewController != null) {
 			menuViewController.resetMenuOnAppSwitch(this);
 		}

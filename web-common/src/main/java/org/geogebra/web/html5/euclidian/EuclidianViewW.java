@@ -665,8 +665,8 @@ public class EuclidianViewW extends EuclidianView implements
 	/**
 	 * @return new panel
 	 */
-	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
-		return new MyEuclidianViewPanel(this);
+	protected EuclidianViewWrapperPanel newMyEuclidianViewPanel() {
+		return new EuclidianViewWrapperPanel(this);
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,

@@ -754,13 +754,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return toOutputValueString(StringTemplate.editTemplate);
 	}
 
-	/**
-	 * Sets this object to zero (number = 0, points = (0,0), etc.)
-	 */
-	public void setZero() {
-		// overriden where needed
-	}
-
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
@@ -3076,9 +3069,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            whether this was triggered by drag
 	 */
 	public void update(boolean dragging) {
-		if (hasDynamicCaption()) {
-			dynamicCaption.update(dragging);
-		}
 		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
 		maybeUpdateSpecialPoints();
 
@@ -6193,6 +6183,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
+	/**
+	 *
+	 * @return if geo is a result of some command.
+	 */
+	protected boolean isCommandOutput() {
+		return algoParent != null && algoParent.getClassName() != Algos.Expression;
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
@@ -7180,5 +7178,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public void removeZoomerAnimationListenerIfNeeded() {
 		// implemented in GeoFunction
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
 	}
 }

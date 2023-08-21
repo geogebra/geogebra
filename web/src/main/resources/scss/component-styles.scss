@@ -29,7 +29,7 @@
 
 			&.disabled {
 				cursor: default;
-				color: neutral("500");
+				color: neutral(500);
 			}
 		}
 	}
@@ -568,7 +568,7 @@
 			text-transform: uppercase;
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
-			color: neutral("700");
+			color: neutral(700);
 		}
 	}
 
@@ -599,7 +599,7 @@
 					line-height: 20px;
 					margin: 14px 16px;
 					text-align: center;
-					color: neutral("900");
+					color: neutral(900);
 				}
 
 				&:hover {
@@ -638,7 +638,7 @@
 			margin-left: calc(50% - 56px); // (56+2*28)/2=56
 			margin-bottom: 16px;
 			opacity: 0.54;
-			background-color: colors.$mow_white_hover;
+			background-color: neutral(200);
 			border-radius: 50%;
 		}
 
@@ -815,7 +815,7 @@
 				background-color: transparent;
 				height: 20px;
 				display: flex;
-				color: neutral("900");
+				color: neutral(900);
 			}
 
 			input[type=text]:focus:not([readonly]) {
@@ -942,7 +942,7 @@
 		}
 
 		&:hover {
-			border-bottom: 2px solid neutral("900");
+			border-bottom: 2px solid neutral(900);
 
 			.arrow {
 				opacity: 0.87;
@@ -950,7 +950,7 @@
 
 			.optionLabelHolder {
 				.label {
-					color: neutral("900");
+					color: neutral(900);
 				}
 			}
 		}
@@ -1039,11 +1039,11 @@
 
 		&:not(.disabled):hover {
 			.inputLabel {
-				color: neutral("900");
+				color: neutral(900);
 			}
 
 			.inputPanel {
-				border-bottom: 2px solid neutral("900");
+				border-bottom: 2px solid neutral(900);
 
 				.AutoCompleteTextFieldW {
 					margin-bottom: 7px;

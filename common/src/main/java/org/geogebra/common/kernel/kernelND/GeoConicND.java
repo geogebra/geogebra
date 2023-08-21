@@ -3504,11 +3504,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	public void setZero() {
-		setCoeffs(1, 0, 1, 0, 0, 0);
-	}
-
-	@Override
 	protected void setMidpoint(double[] coords) {
 		b.setCoords(coords[0], coords[1]);
 

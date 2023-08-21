@@ -1963,6 +1963,9 @@ public class CommandsTest {
 		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
 				deg("90"), deg("90"), deg("90"), deg("270"),
 				deg("90"), deg("90"));
+		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(0,1),(0,0))]",
+				"?", deg("90"), deg("90"), deg("90"),
+				"?");
 	}
 
 	@Test

@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
@@ -151,7 +152,7 @@ public class ButtonDialogModel {
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
 		for (GeoElement geo : sortedSet) {
-			if (!geo.isGeoImage() && !(geo.isGeoButton()) && !(geo.isGeoBoolean())) {
+			if (GeoInputBox.isGeoLinkable(geo)) {
 				options.add(geo);
 			}
 		}

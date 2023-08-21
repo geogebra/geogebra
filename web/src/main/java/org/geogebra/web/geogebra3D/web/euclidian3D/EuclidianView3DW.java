@@ -28,9 +28,9 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.euclidian.EuclidianViewWrapperPanel;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
-import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -167,8 +167,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	/**
 	 * @return EV panel
 	 */
-	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
-		return new MyEuclidianViewPanel3D(this);
+	protected EuclidianViewWrapperPanel newMyEuclidianViewPanel() {
+		return new EuclidianViewWrapperPanel3D(this);
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @author mathieu
 	 *
 	 */
-	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements
+	private class EuclidianViewWrapperPanel3D extends EuclidianViewWrapperPanel implements
 	        RequiresResize {
 
 		/**
@@ -186,7 +186,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		 * @param ev
 		 *            euclidian view
 		 */
-		public MyEuclidianViewPanel3D(EuclidianView ev) {
+		public EuclidianViewWrapperPanel3D(EuclidianView ev) {
 			super(ev);
 		}
 

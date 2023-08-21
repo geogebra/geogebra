@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacro;
+import org.geogebra.common.kernel.algos.AlgoPointInRegion;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -268,11 +269,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public static boolean isComplexNumber(GeoElementND geo) {
 		return geo.isGeoPoint()
 				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX;
-	}
-
-	@Override
-	public void setZero() {
-		setCoords(0, 0, 1);
 	}
 
 	/**
@@ -2971,5 +2967,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public void setVerticalIncrement(NumberValue step) {
 		this.verticalIncrement = step;
+	}
+
+	@Override
+	protected boolean isCommandOutput() {
+		if (algoParent != null
+				&& (algoParent.getClass() == AlgoPointOnPath.class
+				|| algoParent.getClass() == AlgoPointInRegion.class)) {
+			return false;
+		}
+		return super.isCommandOutput();
 	}
 }
