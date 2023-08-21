@@ -156,14 +156,14 @@ img.profileImage {
 	margin: 14px 0px;
 	border-radius: 18px;
 	box-sizing: border-box;
-	border: 1px solid rgba(151, 151, 151, 0.52);
+	border: 1px solid #B4B3BA;
 	cursor: pointer;
 	transition: background-color 100ms ease-in-out;
 }
 
 .GeoGebraHeader .suiteAppPickerButton:hover,
 .GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] {
-	background-color: #e5e5e5;
+	background-color: #F3F2F7;
 }
 
 .GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] .dropDownImg {

@@ -295,12 +295,9 @@ public class Parser implements ParserInterface {
         return d;
     }
 
-    private RecurringDecimal parseRecurringDecimal(String image, boolean percent) {
-		double val = RecurringDecimal.parseDouble(loc, image);
-		if (percent) {
-			val = val * 0.01;
-		}
-		return new RecurringDecimal(kernel, val, image);
+    private RecurringDecimal parseRecurringDecimal(String imagePreperiod, String imageRecurring) {
+        return RecurringDecimal.parse(kernel, imagePreperiod,
+            imageRecurring.replace(String.valueOf(Unicode.OVERLINE), ""));
     }
 
 }
@@ -385,7 +382,7 @@ TOKEN :  {
   | < DERIVATIVE: "'" >
   | < TRUE:     ( "true" | "True" ) >
   | < FALSE:    ( "false" | "False" ) >
-  | < OVERLINE: "\u0305" >
+  | < #OVERLINE: "\u0305" >
   | < DECIMAL_POINT:    ( "." | "\u066b" ) > // Arabic decimal point
   | < COMMA:    ( "," | "\u060c" | "\u23B8" ) > // Arabic comma, vertical bar for Austrian points
 }
@@ -397,11 +394,11 @@ TOKEN : {
   //|     < PARAMETRICVAR: (("\u0058") /*| ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))*/) > // X
   |     < FLOAT:  (<INTEGER> | <DECIMAL_POINT>)+ > //deliberately trap eg 1.2.3.4 , 1..2 here, error then thrown in MyDouble.parseDouble()
   |     < EFLOAT: <FLOAT> ("E") (<PLUS> | <MINUS>)? <INTEGER> >
-  |		< RECURRING_DECIMAL: <FLOAT> (<INTEGER> <OVERLINE>)+ >
+  |     < RECURRING_DIGITS: <OVERLINE> (<DIGIT> <OVERLINE>)* >
   |     < INTEGER: ( <DIGIT> )+ >
   |     < #DIGIT:                                     // unicode digits
          [
-          "\u0030"-"\u0039", // Roman
+          "\u0030"-"\u0039", // Arabic (=Latin)
           "\u0660"-"\u0669", // Arabic-Indic
           "\u06f0"-"\u06f9", // Extended Arabic-Indic
           "\u0966"-"\u096f", // Devanagari (Hindi)
@@ -1593,7 +1590,6 @@ Command spreadsheetRange():
   }
 }
 
-
 /**
  * floating point number: angle or numeric are distinguished
  */
@@ -1606,12 +1602,13 @@ ExpressionValue myDouble():
     Token degree = null;
     Token minutes = null;
     Token seconds = null;
+    Token recurringDigits = null;
     MyDouble d;
     ExpressionValue ret = null;
 }
 {
    (LOOKAHEAD(2)(
-     (c = <FLOAT> | c = <EFLOAT> | c = <RECURRING_DECIMAL> )
+     (c = <FLOAT> | c = <EFLOAT> )
      ((percent ="%")
      | LOOKAHEAD(3)((degree = <DEGREE_SYMBOL>)
        (c2 = <FLOAT>)
@@ -1624,6 +1621,7 @@ ExpressionValue myDouble():
      | LOOKAHEAD(3)(minutes = <ANGLE_MINUTES> | minutes = "'")(s = <FLOAT>)(<ANGLE_SECONDS>)
      | (minutes = <ANGLE_MINUTES> | minutes = "'")
      | (seconds = <ANGLE_SECONDS>)
+     | (recurringDigits = <RECURRING_DIGITS> )
      )
     )
   {
@@ -1631,8 +1629,11 @@ ExpressionValue myDouble():
         boolean isAngle = false;
         boolean hasDegrees = false, hasMinutes = false, hasSeconds = false;
         double vd = 0, vm = 0, vs = 0;
-        if (degree != null) {
-                // if e.g. 3deg (no minute no second) we need to do 3*deg for CAS
+        if (recurringDigits != null) {
+            ret = parseRecurringDecimal(c.image.substring(0, c.image.length() - 1),
+                        c.image.charAt(c.image.length() - 1) + recurringDigits.image);
+        } else if (degree != null) {
+            // if e.g. 3deg (no minute no second) we need to do 3*deg for CAS
             if (c2 == null) {
                 d = newSpecialDegree();
                 return new ExpressionNode(kernel, parseDouble(image, false), Operation.MULTIPLY, d);
@@ -1678,14 +1679,10 @@ ExpressionValue myDouble():
         }
     }
 |
-    (c = <FLOAT> | c = <EFLOAT> | c = <RECURRING_DECIMAL>)
+    (c = <FLOAT> | c = <EFLOAT> )
     {
-		if (c.kind == RECURRING_DECIMAL) {
-			ret = parseRecurringDecimal(c.image, false);
-		} else {
-    		String image = c.image.replaceFirst("e", "E");
-    		ret = parseDouble(image, false);
-		}
+		String image = c.image.replaceFirst("e", "E");
+		ret = parseDouble(image, false);
     }
 |
     (c = <DEGREE_WORD> | c = <DEGREE_SYMBOL>)

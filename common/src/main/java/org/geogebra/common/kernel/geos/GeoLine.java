@@ -1301,11 +1301,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	}
 
-	@Override
-	public void setZero() {
-		setCoords(0, 1, 0);
-	}
-
 	/**
 	 * TODO never used ?
 	 * 

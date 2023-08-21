@@ -7,7 +7,7 @@ import org.geogebra.common.util.StringUtil;
  *
  * @author gabor
  */
-public abstract class MyTextField {
+public final class TextFieldUtil {
 
 	/**
 	 * Locates bracket positions in a given string with given caret position.

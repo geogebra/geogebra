@@ -1,5 +1,7 @@
 package org.geogebra.common.cas.view;
 
+import java.util.Collections;
+
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.Editing;
@@ -7,6 +9,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -572,4 +575,32 @@ public abstract class CASView implements Editing, SetLabels {
 		this.casInputHandler = casInputHandler;
 	}
 
+	/**
+	 * Updates arbitraryConstantTable in construction.
+	 *
+	 * @param row
+	 *            row index (starting from 0) where cell insertion is done
+	 */
+	public void updateAfterInsertArbConstTable(int row) {
+		if (kernel.getConstruction().getArbitraryConsTable()
+				.size() > 0) {
+			// find last row number
+			Integer max = Collections.max(kernel.getConstruction()
+					.getArbitraryConsTable().keySet());
+			for (int key = max; key >= row; key--) {
+				MyArbitraryConstant myArbConst = kernel
+						.getConstruction()
+						.getArbitraryConsTable().get(key);
+				if (myArbConst != null
+						&& !kernel.getConstruction().isCasCellUpdate()
+						&& !kernel.getConstruction().isFileLoading()
+						&& kernel.getConstruction().isNotXmlLoading()) {
+					kernel.getConstruction().getArbitraryConsTable()
+							.remove(key);
+					kernel.getConstruction().getArbitraryConsTable()
+							.put(key + 1, myArbConst);
+				}
+			}
+		}
+	}
 }

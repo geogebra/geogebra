@@ -154,7 +154,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	/** The spinner that handles the blue values. */
 	private transient JSpinner BSpinner;
 
-	private MyPreviewPanel previewPanel;
+	private ColorPreviewPanel previewPanel;
 	protected transient AppD app;
 
 	public JComponent getPreview() {
@@ -271,7 +271,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 		greenLabel.setLabelFor(G);
 		blueLabel.setLabelFor(B);
 
-		previewPanel = new MyPreviewPanel();
+		previewPanel = new ColorPreviewPanel();
 		previewPanel.setBackground(getColorSelectionModel().getSelectedColor());
 		previewPanel.setForeground(getColorSelectionModel().getSelectedColor());
 
@@ -421,10 +421,10 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	 * originally chosen color.
 	 * 
 	 */
-	static class MyPreviewPanel extends JPanel {
+	static class ColorPreviewPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
-		public MyPreviewPanel() {
+		public ColorPreviewPanel() {
 			this.setPreferredSize(new Dimension(140, 25));
 			// Border border = BorderFactory.createCompoundBorder(
 			// BorderFactory.createLineBorder(Color.DARK_GRAY, 1),

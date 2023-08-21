@@ -599,6 +599,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
 		GeoPolygon ret = newGeoPolygon(cons1);
+		ret.createSegments = false;
 		copyInternal(cons1, ret);
 		return ret;
 	}
@@ -656,7 +657,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		updatePoints(poly.getPoints());
 
 		setCoordSysAndPoints3D(poly);
-		updateSegments(cons1);
+		if (createSegments) {
+			updateSegments(cons1);
+		}
 		defined = poly.defined;
 
 		if (poly.hasChangeableParent3D()) {
@@ -1956,7 +1959,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	private void updatePathRegion() {
 		updateRegionCS();
-		this.updateSegments(cons);
+		if (createSegments) {
+			updateSegments(cons);
+		}
 	}
 
 	@Override

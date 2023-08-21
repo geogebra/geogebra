@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
@@ -211,11 +212,6 @@ public class GeoNumeric extends GeoElement
 		GeoNumeric copy = new GeoNumeric(cons, value);
 		copy.setDrawable(isDrawable, false);
 		return copy;
-	}
-
-	@Override
-	public void setZero() {
-		setValue(0);
 	}
 
 	@Override
@@ -407,7 +403,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	final public void setUndefined() {
+	public void setUndefined() {
 		value = Double.NaN;
 		exactValue = null;
 	}
@@ -661,11 +657,21 @@ public class GeoNumeric extends GeoElement
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
+
+		if (isRecurringDecimal()) {
+			RecurringDecimal rd = asRecurringDecimal();
+			if (symbolicMode) {
+				return RecurringDecimal.toFraction(rd.wrap(), tpl);
+			} else {
+				return kernel.format(rd.toDouble(), tpl);
+			}
+		}
 		// in general toFractionString falls back to printing evaluation result if not a fraction
 		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
 		if ((symbolicMode || DoubleUtil.isInteger(value))
 				&& getDefinition() != null
-				&& !getDefinition().isLeaf() && tpl.supportsFractions()) {
+				&& !getDefinition().isLeaf()
+				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);
@@ -2147,5 +2153,35 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void updateLocation() {
 		update();
+	}
+
+	@Override
+	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
+		if (isRecurringDecimal()) {
+			RecurringDecimal rd = asRecurringDecimal();
+			if (substituteNumbers) {
+				return symbolicMode ? rd.toFraction(tpl) : kernel.format(rd.toDouble(), tpl);
+			} else {
+				return rd.toString(tpl);
+			}
+		}
+
+		return super.getFormulaString(tpl, substituteNumbers);
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return getDefinition() != null && getDefinition().unwrap().isRecurringDecimal();
+	}
+
+	/**
+	 *
+	 * @return the RecurringDecimal object if it is one, null otherwise.
+	 */
+	public RecurringDecimal asRecurringDecimal() {
+		if (!isRecurringDecimal()) {
+			return null;
+		}
+		return (RecurringDecimal) getDefinition().unwrap();
 	}
 }

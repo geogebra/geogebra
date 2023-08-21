@@ -16,12 +16,12 @@ public class GeoGebraToPgfD extends GeoGebraToPgf {
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality) {
-		return new MyGraphicsPgf(ef, inequality);
+		return new ExportGraphicsPgf(ef, inequality);
 	}
 
-	class MyGraphicsPgf extends MyGraphicsD {
+	class ExportGraphicsPgf extends ExportGraphicsD {
 
-		public MyGraphicsPgf(FunctionalNVar geo, Inequality ineq) {
+		public ExportGraphicsPgf(FunctionalNVar geo, Inequality ineq) {
 
 			super(geo, ineq);
 		}

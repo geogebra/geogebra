@@ -77,17 +77,17 @@ public abstract class SliderAbstract<T> extends FocusWidget {
 	 */
 	public void notifyValueChangeHandlers() {
 		for (ValueChangeHandler<T> handler: valueChangeHandlers) {
-			handler.onValueChange(new MyValueChangeEvent<>(getValue()));
+			handler.onValueChange(new SliderValueChangeEvent<>(getValue()));
 		}
 	}
 
-	private static class MyValueChangeEvent<E> extends ValueChangeEvent<E> {
+	private static class SliderValueChangeEvent<E> extends ValueChangeEvent<E> {
 
 		/**
 		 * Creates a value change event.
 		 * @param value the value
 		 */
-		protected MyValueChangeEvent(E value) {
+		protected SliderValueChangeEvent(E value) {
 			super(value);
 		}
 	}
