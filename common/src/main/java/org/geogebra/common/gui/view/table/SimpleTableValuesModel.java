@@ -495,7 +495,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		for (TableValuesListener listener : listeners) {
 			if (listener instanceof SuspenableListener
 					&& predicate.test((SuspenableListener) listener)) {
-				((SuspenableListener) listener).suspendListening();
+				((SuspenableListener) listener).resumeListening();
 			}
 		}
 	}
