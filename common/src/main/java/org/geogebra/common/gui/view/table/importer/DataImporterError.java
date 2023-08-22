@@ -5,10 +5,10 @@ package org.geogebra.common.gui.view.table.importer;
  */
 public enum DataImporterError {
 
-	/** Unspecified error */
-	UNKNOWN_ERROR,
+	/** (I/O) error while reading the data. */
+	READ_ERROR,
 
-	/** Unexpected data format */
+	/** Unexpected (CSV) data format. */
 	DATA_FORMAT_ERROR,
 
 	/** Inconsistent number of columns.

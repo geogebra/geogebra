@@ -461,6 +461,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		collector.startCollection(this);
 		columns.clear();
 
+		// import X column
 		GeoList valueList = columnsToImport[0];
 		setupXValues(valueList);
 		settings.setValueList(valueList);
@@ -469,6 +470,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		valuesColumn.notifyDatasetChanged(this);
 		collector.notifyColumnAdded(this, valueList, 0); // necessary?
 
+		// import remaining columns
 		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
 			GeoList values = columnsToImport[columnIdx];
 			TableValuesColumn column = new TableValuesListColumn(values);

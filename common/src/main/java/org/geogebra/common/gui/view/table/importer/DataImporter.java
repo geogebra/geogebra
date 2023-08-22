@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table.importer;
 
 import static org.geogebra.common.gui.view.table.importer.DataImporterError.INCONSISTENT_COLUMNS;
 import static org.geogebra.common.gui.view.table.importer.DataImporterWarning.DATA_SIZE_LIMIT_EXCEEDED;
+import static org.geogebra.common.gui.view.table.importer.DataImporterWarning.NUMBER_FORMAT_WARNING;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -120,7 +121,7 @@ public final class DataImporter {
 	 * <a href="https://datatracker.ietf.org/doc/html/rfc4180">Comma-Separated Values (CSV)
 	 * Files</a>. However, in addition to the standard column separator ',' (comma), we also
 	 * support ';' (semicolon) and '\t' (tab) column separators automatically. Also, we
-	 * support both '\r\n\' (CRLF) and `\n' (LF) line breaks automatically.
+	 * support both '\r\n\' (CRLF) and '\n' (LF) line breaks automatically.
 	 * <p/>
 	 * The decimal separator character must be provided by the user.
 	 * The CSV file must not contain thousands separators in decimal numbers. If thousands
@@ -171,13 +172,14 @@ public final class DataImporter {
 					parser = new CSVParser(csvSeparator);
 				}
 				String[] rawValues = parser.parseLine(line);
+				trim(rawValues);
 				if (maxNrColumns > 0 && maxNrColumns < rawValues.length) {
 					rawValues = Arrays.copyOf(rawValues, maxNrColumns);
 				}
 				if (currentRow == 1) {
 					nrOfColumns = rawValues.length;
 					if (rawValues.length > 0 && !isValidNumber(rawValues[0], decimalSeparator)) {
-						hasHeader = true;
+						hasHeader = true; // best-effort guess
 					}
 				}
 				int rowNr = hasHeader ? currentRow - 1 : currentRow;
@@ -191,11 +193,14 @@ public final class DataImporter {
 				}
 				if (isHeaderRow) {
 					if (!discardHeader) {
-						rows.add(new Row(0, true, null, rawValues));
+						rows.add(new Row(0, true, null, rawValues, false));
 					}
 				} else {
-					Double[] values = validateAndParseDoubles(rawValues, decimalSeparator);
-					rows.add(new Row(rowNr, isHeaderRow, values, rawValues));
+					Row row = validateAndParse(rawValues, decimalSeparator, rowNr);
+					rows.add(row);
+					if (row.hasValidationIssues) {
+						notifyAboutWarning(NUMBER_FORMAT_WARNING, rowNr);
+					}
 				}
 			}
 			nrOfRows = rows.size();
@@ -203,7 +208,7 @@ public final class DataImporter {
 			notifyAboutError(DataImporterError.DATA_FORMAT_ERROR, currentRow);
 			return null;
 		} catch (IOException e) {
-			notifyAboutError(DataImporterError.UNKNOWN_ERROR, currentRow);
+			notifyAboutError(DataImporterError.READ_ERROR, currentRow);
 			return null;
 		}
 		return rows;
@@ -244,12 +249,18 @@ public final class DataImporter {
 
 	// Number parsing
 
-	private Double[] validateAndParseDoubles(String[] rawValues, char decimalSeparator) {
+	private Row validateAndParse(String[] rawValues, char decimalSeparator, int rowNr) {
 		Double[] values = new Double[rawValues.length];
+		boolean hasValidationIssue = false;
 		for (int index = 0; index < rawValues.length; index++) {
-			values[index] = parseDouble(rawValues[index], decimalSeparator);
+			Double value = parseDouble(rawValues[index], decimalSeparator);
+			if (value == null) {
+				hasValidationIssue = true;
+			} else {
+				values[index] = value;
+			}
 		}
-		return values;
+		return new Row(rowNr, false, values, rawValues, hasValidationIssue);
 	}
 
 	/**
@@ -294,7 +305,8 @@ public final class DataImporter {
 	}
 
 	/**
-	 * Replaces the decimal separator char with a '.' (dot).
+	 * Replaces the decimal separator char with a '.' (dot), to make the value match
+	 * the number format expected by the number parsing code.
 	 *
 	 * @param value A String representing a decimal number.
 	 * @param decimalSeparator The decimal separator character.
@@ -303,6 +315,12 @@ public final class DataImporter {
 	private String canonicalizeNumber(String value, char decimalSeparator) {
 		// replace decimal separator with '.'
 		return value.replace(decimalSeparator, '.');
+	}
+
+	private void trim(String[] rawValues) {
+		for (int i = 0; i < rawValues.length; i++) {
+			rawValues[i] = rawValues[i] != null ? rawValues[i].trim() : "";
+		}
 	}
 
 	// Delegate notifications
@@ -347,12 +365,15 @@ public final class DataImporter {
 		boolean isHeader;
 		Double[] values;
 		String[] rawValues;
+		boolean hasValidationIssues;
 
-		Row(int rowNr, boolean isHeader, Double[] values, String[] rawValues) {
+		Row(int rowNr, boolean isHeader, Double[] values, String[] rawValues,
+				boolean hasValidationIssues) {
 			this.rowNr = rowNr;
 			this.isHeader = isHeader;
 			this.values = values;
 			this.rawValues = rawValues;
+			this.hasValidationIssues = hasValidationIssues;
 		}
 	}
 }

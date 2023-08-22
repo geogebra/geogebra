@@ -15,6 +15,7 @@ import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesPointsImpl;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
+import org.junit.After;
 import org.junit.Test;
 
 public class DataImporterTests extends BaseUnitTest implements DataImporterDelegate {
@@ -52,6 +53,13 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		cancelImportAfterRow = -1;
 	}
 
+	@After
+	public void teardown() {
+		Kernel kernel = getKernel();
+		kernel.detach(tableValuesView);
+		tableValuesView = null;
+	}
+
 	@Test
 	public void testImportCSVHeader() {
 		Reader reader = loadSample("integers-comma-header.csv");
@@ -85,6 +93,19 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	}
 
 	@Test
+	public void testImportCSVSingleColumn() {
+		Reader reader = loadSample("integers-noheader.csv");
+		boolean success = dataImporter.importCSV(reader, '.');
+		assertTrue(success);
+		assertNull(error);
+		assertNull(warning);
+		assertEquals(10, currentRow);
+		assertEquals(10, totalNrOfRows);
+		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
+	}
+
+	@Test
 	public void testImportCSVWithInconsistentSeparator() {
 		Reader reader = loadSample("inconsistent-separator.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
@@ -93,6 +114,24 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(3, warningOrErrorRow);
 		assertEquals(3, currentRow);
 		assertEquals(-1, totalNrOfRows);
+	}
+
+	@Test
+	public void testImportCSVEmptyValues() {
+		Reader reader = loadSample("integers-empty-comma-header.csv");
+		boolean success = dataImporter.importCSV(reader, '.');
+		assertTrue(success);
+		assertNull(error);
+		assertEquals(DataImporterWarning.NUMBER_FORMAT_WARNING, warning);
+		assertEquals(10, warningOrErrorRow);
+		assertEquals(10, currentRow);
+		assertEquals(10, totalNrOfRows);
+		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+		assertEquals(1.0, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
+		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
+		assertEquals(3.0, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
+		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(3, 1), 0.0);
 	}
 
 	@Test
@@ -146,7 +185,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
 		assertNull(error);
-		assertNull(warning);
+		assertEquals(DataImporterWarning.NUMBER_FORMAT_WARNING, warning);
+		assertEquals(10, warningOrErrorRow);
 		assertEquals(10, currentRow);
 		assertEquals(10, totalNrOfRows);
 		assertEquals(Double.NaN, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
@@ -162,7 +202,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
 		assertNull(error);
-		assertNotNull(warning);
+		assertEquals(DataImporterWarning.DATA_SIZE_LIMIT_EXCEEDED, warning);
 		assertEquals(3, currentRow);
 		assertEquals(3, totalNrOfRows);
 		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
@@ -187,7 +227,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
 		assertNull(error);
-		assertNull(warning);
+		assertEquals(DataImporterWarning.NUMBER_FORMAT_WARNING, warning);
+		assertEquals(5, warningOrErrorRow);
 		assertEquals(5, currentRow);
 		assertEquals(5, totalNrOfRows);
 		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
@@ -206,7 +247,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
 		assertNull(error);
-		assertNull(warning);
+		assertEquals(DataImporterWarning.NUMBER_FORMAT_WARNING, warning);
+		assertEquals(5, warningOrErrorRow);
 		assertEquals(5, currentRow);
 		assertEquals(5, totalNrOfRows);
 		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());

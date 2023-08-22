@@ -29,4 +29,15 @@ public class LineReaderTests {
 		String line3 = reader.readLine();
 		Assert.assertNull(line3);
 	}
+
+	@Test
+	public void testTrailingNewlines() throws IOException {
+		LineReader reader = new LineReader(new StringReader("abc\r\ndef\r\n\r\n"));
+		String line1 = reader.readLine();
+		Assert.assertEquals("abc", line1);
+		String line2 = reader.readLine();
+		Assert.assertEquals("def", line2);
+		String line3 = reader.readLine();
+		Assert.assertNull(line3);
+	}
 }

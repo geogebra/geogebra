@@ -8,7 +8,7 @@ final class LineReader {
 	private Reader reader;
 	private int nextChar = -1;
 
-	public LineReader(Reader reader) {
+	LineReader(Reader reader) {
 		this.reader = reader;
 	}
 
