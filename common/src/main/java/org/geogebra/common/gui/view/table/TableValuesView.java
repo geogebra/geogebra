@@ -527,6 +527,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	 * columns in this TableValuesView, and notifying listeners about the new data.
 	 */
 	public void commitImport() {
+		elements.clear();
 		model.importColumns(importColumns);
 	}
 }

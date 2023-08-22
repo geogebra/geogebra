@@ -20,6 +20,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	private Construction construction;
 	private TableValues view;
 	private TableValuesModel model;
+	private boolean isListening = true;
 
 	/**
 	 * Construct a new object of Table Values Points.
@@ -49,14 +50,30 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	@Override
+	public void suspendListening() {
+		isListening = false;
+	}
+
+	@Override
+	public void resumeListening() {
+		isListening = true;
+	}
+
+	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
+		if (!isListening) {
+			return;
+		}
 		removePointsFromList(column);
 	}
 
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
+		if (!isListening) {
+			return;
+		}
 		if (column == 0 || points.size() <= column || points.get(column) == null) {
 			return;
 		}
@@ -66,6 +83,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		if (!isListening) {
+			return;
+		}
 		if (column == 0) {
 			return;
 		}
@@ -82,6 +102,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	@Override
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
+		if (!isListening) {
+			return;
+		}
 		if (column == 0 || column >= points.size()) {
 			return;
 		}
@@ -96,6 +119,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
+		if (!isListening) {
+			return;
+		}
 		for (int row = lastRow; row >= firstRow; row--) {
 			notifyRowRemoved(row);
 		}
@@ -113,6 +139,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyRowChanged(TableValuesModel model, int row) {
+		if (!isListening) {
+			return;
+		}
 		for (int column = 1; column < points.size(); column++) {
 			List<GeoPoint> geoPoints = points.get(column);
 			if (geoPoints == null || geoPoints.size() <= row) {
@@ -126,6 +155,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
+		if (!isListening) {
+			return;
+		}
 		for (int row = firstRow; row <= lastRow; row++) {
 			notifyRowAdded(row);
 		}
@@ -146,6 +178,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
+		if (!isListening) {
+			return;
+		}
 		for (int i = points.size() - 1; i >= 0; i--) {
 			removePointsFromList(i);
 		}
@@ -241,10 +276,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public boolean arePointsVisible(int column) {
-		if (points.size() < column) {
+		if (points.size() <= column) {
 			return false;
 		}
-
 		return points.get(column) != null;
 	}
 

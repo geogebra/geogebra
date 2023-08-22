@@ -20,6 +20,7 @@ import org.junit.Test;
 public class DataImporterTests extends BaseUnitTest implements DataImporterDelegate {
 
 	private TableValuesView tableValuesView;
+	private TableValuesPointsImpl tableValuesPoints;
 	private DataImporter dataImporter;
 	private int currentRow;
 	private int totalNrOfRows;
@@ -37,7 +38,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		tableValuesView = new TableValuesView(kernel);
 		kernel.attach(tableValuesView);
 		TableValuesModel model = tableValuesView.getTableValuesModel();
-		TableValuesPointsImpl.create(kernel.getConstruction(), tableValuesView, model);
+		tableValuesPoints = TableValuesPointsImpl.create(kernel.getConstruction(), tableValuesView, model);
 		kernel.notifyAddAll(tableValuesView);
 
 		dataImporter = new DataImporter(tableValuesView, this);
@@ -61,6 +62,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, totalNrOfRows);
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+		// no points should be created during import
+		assertFalse(tableValuesPoints.arePointsVisible(0));
+		assertFalse(tableValuesPoints.arePointsVisible(1));
 	}
 
 	@Test
@@ -74,6 +78,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, totalNrOfRows);
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+		// no points should be created during import
+		assertFalse(tableValuesPoints.arePointsVisible(0));
+		assertFalse(tableValuesPoints.arePointsVisible(1));
 	}
 
 	@Test

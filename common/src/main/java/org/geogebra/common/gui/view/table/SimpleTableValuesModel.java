@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.SuspenableListener;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -289,32 +290,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 		collector.notifyDatasetChanged(this);
 	}
 
-	void importColumns(GeoList[] columnsToImport) {
-		if (columnsToImport.length == 0) {
-			return;
-		}
-		collector.startCollection(this);
-		columns.clear();
-
-		GeoList valueList = columnsToImport[0];
-		setupXValues(valueList);
-		settings.setValueList(valueList);
-		TableValuesColumn valuesColumn = new TableValuesListColumn(valueList);
-		valuesColumn.notifyDatasetChanged(this);
-		columns.add(valuesColumn);
-
-		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
-			GeoList values = columnsToImport[columnIdx];
-			TableValuesColumn column = new TableValuesListColumn(values);
-			columns.add(column);
-			column.notifyDatasetChanged(this);
-//			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
-		}
-		collector.endCollection(this);
-
-		kernel.storeUndoInfo();
-	}
-
 	@Override
 	public void startBatchUpdate() {
 		collector.startCollection(this);
@@ -475,5 +450,50 @@ class SimpleTableValuesModel implements TableValuesModel {
 		TableValuesListColumn element = new TableValuesListColumn(getValueList());
 		columns.set(0, element);
 		element.notifyColumnChanged(this, getValueList(), 0);
+	}
+
+	void importColumns(GeoList[] columnsToImport) {
+		if (columnsToImport.length == 0) {
+			return;
+		}
+		suspendListeners(TableValuesPoints.class);
+		collector.startCollection(this);
+		columns.clear();
+
+		GeoList valueList = columnsToImport[0];
+		setupXValues(valueList);
+		settings.setValueList(valueList);
+		TableValuesColumn valuesColumn = new TableValuesListColumn(valueList);
+		columns.add(valuesColumn);
+		valuesColumn.notifyDatasetChanged(this);
+		collector.notifyColumnAdded(this, valueList, 0); // necessary?
+
+		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
+			GeoList values = columnsToImport[columnIdx];
+			TableValuesColumn column = new TableValuesListColumn(values);
+			columns.add(column);
+			column.notifyDatasetChanged(this);
+			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
+		}
+		kernel.storeUndoInfo();
+
+		collector.endCollection(this);
+		resumeListeners(TableValuesPoints.class);
+	}
+
+	private void suspendListeners(Class<? extends  SuspenableListener> cls) {
+		for (TableValuesListener listener : listeners) {
+			if (cls.isInstance(listener)) {
+				((SuspenableListener) listener).suspendListening();
+			}
+		}
+	}
+
+	private void resumeListeners(Class<? extends SuspenableListener> cls) {
+		for (TableValuesListener listener : listeners) {
+			if (cls.isInstance(listener)) {
+				((SuspenableListener) listener).resumeListening();
+			}
+		}
 	}
 }
