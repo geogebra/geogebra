@@ -481,17 +481,21 @@ class SimpleTableValuesModel implements TableValuesModel {
 		resumeListeners(TableValuesPoints.class);
 	}
 
-	private void suspendListeners(Class<? extends  SuspenableListener> cls) {
+	// Note: Normally the argument type would be Class<? extends SuspenableListener> cls,
+	// but this is not supported by GWT
+	private void suspendListeners(Class cls) {
 		for (TableValuesListener listener : listeners) {
-			if (cls.isInstance(listener)) {
+			if (cls.isInstance(listener) && listener instanceof SuspenableListener) {
 				((SuspenableListener) listener).suspendListening();
 			}
 		}
 	}
 
-	private void resumeListeners(Class<? extends SuspenableListener> cls) {
+	// Note: Normally the argument type would be Class<? extends SuspenableListener> cls,
+	// but this is not supported by GWT
+	private void resumeListeners(Class cls) {
 		for (TableValuesListener listener : listeners) {
-			if (cls.isInstance(listener)) {
+			if (cls.isInstance(listener) && listener instanceof SuspenableListener) {
 				((SuspenableListener) listener).resumeListening();
 			}
 		}
