@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.geogebra.common.gui.view.table.column.TableValuesColumn;
@@ -456,7 +457,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (columnsToImport.length == 0) {
 			return;
 		}
-		suspendListeners(TableValuesPoints.class);
+		suspendListeners(listener -> listener instanceof TableValuesPoints);
 		collector.startCollection(this);
 		columns.clear();
 
@@ -478,25 +479,23 @@ class SimpleTableValuesModel implements TableValuesModel {
 		kernel.storeUndoInfo();
 
 		collector.endCollection(this);
-		resumeListeners(TableValuesPoints.class);
+		resumeListeners(listener -> listener instanceof TableValuesPoints);
 	}
 
-	// Note: Normally the argument type would be Class<? extends SuspenableListener> cls,
-	// but this is not supported by GWT
-	private void suspendListeners(Class cls) {
+	private void suspendListeners(Predicate<SuspenableListener> predicate) {
 		for (TableValuesListener listener : listeners) {
-			if (cls.isInstance(listener) && listener instanceof SuspenableListener) {
+			if (listener instanceof SuspenableListener &&
+					predicate.test((SuspenableListener) listener)) {
 				((SuspenableListener) listener).suspendListening();
 			}
 		}
 	}
 
-	// Note: Normally the argument type would be Class<? extends SuspenableListener> cls,
-	// but this is not supported by GWT
-	private void resumeListeners(Class cls) {
+	private void resumeListeners(Predicate<SuspenableListener> predicate) {
 		for (TableValuesListener listener : listeners) {
-			if (cls.isInstance(listener) && listener instanceof SuspenableListener) {
-				((SuspenableListener) listener).resumeListening();
+			if (listener instanceof SuspenableListener &&
+					predicate.test((SuspenableListener) listener)) {
+				((SuspenableListener) listener).suspendListening();
 			}
 		}
 	}
