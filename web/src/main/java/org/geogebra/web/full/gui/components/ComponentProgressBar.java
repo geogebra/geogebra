@@ -6,14 +6,16 @@ public class ComponentProgressBar extends FlowPanel {
 
 	private FlowPanel indicator;
 
-	public ComponentProgressBar() {
-		buildGui();
-		addStyleName("progressBar1");
-	}
-
+	/**
+	 * Progress bar UI element
+	 * @param isDarkTheme - whether is dark theme
+	 */
 	public ComponentProgressBar(boolean isDarkTheme) {
-		this();
-		addStyleName("dark");
+		buildGui();
+		addStyleName("progressBar");
+		if (isDarkTheme) {
+			addStyleName("dark");
+		}
 	}
 
 	private void buildGui() {
@@ -27,6 +29,10 @@ public class ComponentProgressBar extends FlowPanel {
 		add(indicator);
 	}
 
+	/**
+	 * update indicator width
+	 * @param percent - percentage
+	 */
 	public void setIndicatorWidth(double percent) {
 		indicator.setWidth(percent + "%");
 	}

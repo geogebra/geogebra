@@ -1099,7 +1099,7 @@
 		}
 	}
 
-	.progressBar1 {
+	.progressBar {
 		width: 400px;
 		height: 4px;
 		position: relative;
@@ -1118,7 +1118,7 @@
 			height: 4px;
 			width: 0%;
 			border-radius: 4px;
-			transition: width 752.394ms cubic-bezier(0.302435, 0.381352, 0.55, 0.956352) 0ms;
+			transition: width 750ms cubic-bezier(0.3, 0.4, 0.5, 0.9) 0ms;
 		}
 
 		&.dark {
