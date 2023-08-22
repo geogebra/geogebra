@@ -1100,10 +1100,10 @@
 	}
 
 	.progressBar {
-		width: 400px;
 		height: 4px;
 		border-radius: 4px;
 		position: relative;
+		overflow: hidden;
 
 		.track {
 			position: absolute;
@@ -1116,8 +1116,21 @@
 			position: absolute;
 			background-color: purple("600");
 			height: 4px;
-			width: 0%;
+			border-radius: 4px;
+            left: 0px;
+            bottom: 0px;
+            top: 0px;
+            transition: transform 0.2s linear;
+            transform-origin: left;
 			transition: width 750ms cubic-bezier(0.3, 0.4, 0.5, 0.9) 0ms;
+
+			&.animBar1 {
+				animation: animBar1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+            }
+
+            &.animBar2 {
+            	animation: animBar2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+            }
 		}
 
 		&.dark {
@@ -1129,51 +1142,6 @@
 			}
 		}
 	}
-
-	.progressBarIndeterminate {
-		width: 400px;
-		height: 4px;
-		border-radius: 4px;
-		position: relative;
-		overflow: hidden;
-
-    	.track {
-    		position: absolute;
-    		background-color: purple("100");
-    		height: 4px;
-    		width: 100%;
-    	}
-
-    	.indicator {
-    		position: absolute;
-    		background-color: purple("600");
-    		height: 4px;
-    		width: 0%;
-    		left: 0px;
-    		bottom: 0px;
-    		top: 0px;
-    		transition: transform 0.2s linear;
-    		transform-origin: left;
-    		width: auto;
-
-    		&.animBar1 {
-				animation: animBar1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-    		}
-
-    		&.animBar2 {
-    			animation: animBar2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
-    		}
-    	}
-
-    	&.dark {
-    		.track {
-    			background-color: neutral("800");
-    		}
-    		.indicator {
-    			background-color: purple("400");
-    		}
-    	}
-    }
 
     @keyframes animBar1 {
     	0% {

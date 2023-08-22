@@ -345,7 +345,7 @@ public class PDFInputDialog extends ComponentDialog
 		pdfContainerPanel.removeStyleName("withPdf");
 		imgTextPanel = new FlowPanel();
 		imgTextPanel.addStyleName("imgTextElement");
-		progressBar = new ComponentProgressBar(false);
+		progressBar = new ComponentProgressBar();
 		Label loadText = new Label(app.getLocalization().getMenu("PdfLoadText"));
 		loadText.addStyleName("pdfDialogText");
 		loadText.addStyleName("loadText");
