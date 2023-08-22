@@ -38,7 +38,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		tableValuesView = new TableValuesView(kernel);
 		kernel.attach(tableValuesView);
 		TableValuesModel model = tableValuesView.getTableValuesModel();
-		tableValuesPoints = TableValuesPointsImpl.create(kernel.getConstruction(), tableValuesView, model);
+		tableValuesPoints = TableValuesPointsImpl.create(kernel.getConstruction(),
+				tableValuesView, model);
 		kernel.notifyAddAll(tableValuesView);
 
 		dataImporter = new DataImporter(tableValuesView, this);

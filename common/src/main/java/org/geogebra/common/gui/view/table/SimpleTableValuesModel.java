@@ -484,8 +484,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private void suspendListeners(Predicate<SuspenableListener> predicate) {
 		for (TableValuesListener listener : listeners) {
-			if (listener instanceof SuspenableListener &&
-					predicate.test((SuspenableListener) listener)) {
+			if (listener instanceof SuspenableListener
+					&& predicate.test((SuspenableListener) listener)) {
 				((SuspenableListener) listener).suspendListening();
 			}
 		}
@@ -493,8 +493,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private void resumeListeners(Predicate<SuspenableListener> predicate) {
 		for (TableValuesListener listener : listeners) {
-			if (listener instanceof SuspenableListener &&
-					predicate.test((SuspenableListener) listener)) {
+			if (listener instanceof SuspenableListener
+					&& predicate.test((SuspenableListener) listener)) {
 				((SuspenableListener) listener).suspendListening();
 			}
 		}
