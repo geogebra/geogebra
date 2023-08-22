@@ -52,15 +52,15 @@
 			border-color: colors.$black-54;
 			background-color: transparent;
 			transition: border-color 180ms cubic-bezier(0,0,.2,1) 0ms,background-color 180ms cubic-bezier(0,0,.2,1) 0ms;
-		 }
+		}
 
-		 .checkmark {
-			 position: absolute;
-			 left: 11px;
-			 top: 10px;
-			 width: 14px;
-			 height: 14px;
-			 visibility: hidden;
+		.checkmark {
+			position: absolute;
+			left: 11px;
+			top: 10px;
+			width: 14px;
+			height: 14px;
+			visibility: hidden;
 
 			.checkmarkSvg {
 				-webkit-transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
@@ -80,9 +80,9 @@
 				stroke-dashoffset: 29.7833385;
 				stroke-dasharray: 29.7833385;
 			}
-		 }
+		}
 
-		 .hoverBg {
+		.hoverBg {
 			display: inline-block;
 			width: 36px;
 			height: 36px;
@@ -93,7 +93,7 @@
 			&:after {
 				background-image: radial-gradient(circle, black 10%, transparent 10.01%);
 			}
-		 }
+		}
 
 		&.selected {
 			@include checkboxBg(colors.$mow_primary);
@@ -114,7 +114,7 @@
 			.checkmark {
 				visibility: visible;
 
-				 .checkmarkPath {
+				.checkmarkPath {
 					stroke-dashoffset: 0;
 				}
 			}
@@ -161,13 +161,13 @@
 
 	/* SWITCHER COMPONENT */
 	@mixin switcherBg($colTrack, $colThumb) {
-    	.track {
-    		background-color: $colTrack;
-    	}
-    	.thumb {
-    		background-color: $colThumb;
-    	}
-    }
+		.track {
+			background-color: $colTrack;
+		}
+		.thumb {
+			background-color: $colThumb;
+		}
+	}
 
 	.switch {
 		width: 40px;
@@ -831,35 +831,35 @@
 	}
 
 	.flatButtonHeader {
-        padding: 6px;
-        cursor: pointer;
-        height: 36px;
-        float: left;
-        box-sizing: border-box;
-        border-radius: 50%;
-        transition: background-color 150ms ease 0ms;
-        position: relative;
+		padding: 6px;
+		cursor: pointer;
+		height: 36px;
+		float: left;
+		box-sizing: border-box;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+		position: relative;
 
-        img {
-        	opacity: 0.54;
-        }
+		img {
+			opacity: 0.54;
+		}
 
-        &:focus, &:hover, &.selected {
-            background-color: colors.$hover-calc-btn-bg;
-        }
-     }
+		&:focus, &:hover, &.selected {
+			background-color: colors.$hover-calc-btn-bg;
+		}
+	}
 
-     .buttonInactive {
-     	cursor: default;
+	.buttonInactive {
+		cursor: default;
 
-     	img {
-     		opacity: 0.26;
-     	}
+		img {
+			opacity: 0.26;
+		}
 
 		&:hover {
 			background-color: transparent;
 		}
-     }
+	}
 
 	.searchBar.compact {
 		max-width: 488px;
@@ -1064,8 +1064,8 @@
 				border-bottom: 2px solid colors.$mow_dark;
 
 				.AutoCompleteTextFieldW {
-                	margin-bottom: 7px;
-                }
+					margin-bottom: 7px;
+				}
 			}
 
 			.arrow {
@@ -1117,20 +1117,20 @@
 			background-color: purple("600");
 			height: 4px;
 			border-radius: 4px;
-            left: 0px;
-            bottom: 0px;
-            top: 0px;
-            transition: transform 0.2s linear;
-            transform-origin: left;
+			left: 0px;
+			bottom: 0px;
+			top: 0px;
+			transition: transform 0.2s linear;
+			transform-origin: left;
 			transition: width 750ms cubic-bezier(0.3, 0.4, 0.5, 0.9) 0ms;
 
 			&.animBar1 {
 				animation: animBar1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-            }
+			}
 
-            &.animBar2 {
-            	animation: animBar2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
-            }
+			&.animBar2 {
+				animation: animBar2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+			}
 		}
 
 		&.dark {
@@ -1143,37 +1143,37 @@
 		}
 	}
 
-    @keyframes animBar1 {
-    	0% {
-    		left: -35%;
-    		right: 100%;
-    	}
+	@keyframes animBar1 {
+		0% {
+			left: -35%;
+			right: 100%;
+		}
 
-    	 60% {
-    	 	left: 100%;
-    	 	right: -90%;
-    	 }
+		60% {
+			left: 100%;
+			right: -90%;
+		}
 
-    	100% {
-    		left: 100%;
-    		right: -90%;
-    	}
-    }
+		100% {
+			left: 100%;
+			right: -90%;
+		}
+	}
 
-    @keyframes animBar2 {
-    	0% {
-    		left: -200%;
-    		right: 100%;
-    	}
+	@keyframes animBar2 {
+		0% {
+			left: -200%;
+			right: 100%;
+		}
 
-    	60% {
-    		left: 107%;
-    		right: -8%;
-    	}
+		60% {
+			left: 107%;
+			right: -8%;
+		}
 
-    	100% {
-    		left: 107%;
-    		right: -8%;
-    	}
-    }
+		100% {
+			left: 107%;
+			right: -8%;
+		}
+	}
 }
