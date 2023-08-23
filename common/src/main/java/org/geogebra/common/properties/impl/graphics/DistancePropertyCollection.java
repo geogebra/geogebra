@@ -13,7 +13,7 @@ import org.geogebra.common.properties.impl.AbstractPropertyCollection;
 /**
  * This collection groups properties that are related to the distances of axes numbering.
  */
-public class DistancePropertyCollection extends AbstractPropertyCollection {
+public class DistancePropertyCollection extends AbstractPropertyCollection<Property> {
 
 	/**
 	 * Constructs a numbering distances property collection.

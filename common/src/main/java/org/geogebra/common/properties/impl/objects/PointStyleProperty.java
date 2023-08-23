@@ -4,9 +4,10 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.IconsEnumerableProperty;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.PointStylePropertyDelegate;
@@ -14,8 +15,8 @@ import org.geogebra.common.properties.impl.objects.delegate.PointStylePropertyDe
 /**
  * Point style
  */
-public class PointStyleProperty extends AbstractEnumerableProperty
-		implements IconsEnumerableProperty {
+public class PointStyleProperty extends AbstractEnumeratedProperty<Integer>
+		implements IconsEnumeratedProperty<Integer> {
 
 	private static final PropertyResource[] icons = {
 			PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
@@ -30,25 +31,29 @@ public class PointStyleProperty extends AbstractEnumerableProperty
 			throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");
 		delegate = new PointStylePropertyDelegate(element);
-		setValues(new String[icons.length]);
+		setValues(EuclidianStyleConstants.POINT_STYLE_DOT,
+				EuclidianStyleConstants.POINT_STYLE_CROSS,
+				EuclidianStyleConstants.POINT_STYLE_CIRCLE,
+				EuclidianStyleConstants.POINT_STYLE_PLUS,
+				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
 	}
 
 	@Override
-	public PropertyResource[] getIcons() {
+	public PropertyResource[] getValueIcons() {
 		return icons;
 	}
 
 	@Override
-	protected void setValueSafe(String value, int index) {
+	protected void doSetValue(Integer value) {
 		GeoElement element = delegate.getElement();
 		if (element instanceof PointProperties) {
-			((PointProperties) element).setPointStyle(index);
+			((PointProperties) element).setPointStyle(value);
 			element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 		}
 	}
 
 	@Override
-	public int getIndex() {
+	public Integer getValue() {
 		GeoElement element = delegate.getElement();
 		if (element instanceof PointProperties) {
 			int pointStyle = ((PointProperties) element).getPointStyle();

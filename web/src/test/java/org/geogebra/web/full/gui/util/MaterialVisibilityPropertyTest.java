@@ -38,18 +38,18 @@ public class MaterialVisibilityPropertyTest {
 	@Test
 	public void testValuesPrivate() {
 		property.update(MaterialVisibility.Private);
-		assertArrayEquals(new String[]{"Private", "Shared"}, property.getValues());
+		assertArrayEquals(new String[]{"Private", "Shared"}, property.getValueNames());
 	}
 
 	@Test
 	public void testValuesShared() {
 		property.update(MaterialVisibility.Shared);
-		assertArrayEquals(new String[]{"Private", "Shared"}, property.getValues());
+		assertArrayEquals(new String[]{"Private", "Shared"}, property.getValueNames());
 	}
 
 	@Test
 	public void testValuesPublic() {
 		property.update(MaterialVisibility.Public);
-		assertArrayEquals(new String[]{"Private", "Shared", "Public"}, property.getValues());
+		assertArrayEquals(new String[]{"Private", "Shared", "Public"}, property.getValueNames());
 	}
 }

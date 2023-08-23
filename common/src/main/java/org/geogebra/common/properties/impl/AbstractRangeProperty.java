@@ -8,7 +8,7 @@ import org.geogebra.common.properties.RangeProperty;
  * @param <T> numeric type
  */
 public abstract class AbstractRangeProperty<T extends Number & Comparable<T>>
-		extends AbstractProperty implements RangeProperty<T> {
+		extends AbstractValuedProperty<T> implements RangeProperty<T> {
 
 	private final T min;
 	private final T max;
@@ -30,7 +30,7 @@ public abstract class AbstractRangeProperty<T extends Number & Comparable<T>>
 	}
 
 	@Override
-	public void setValue(T value) {
+	protected void doSetValue(T value) {
 		if (value.compareTo(getMin()) >= 0 && value.compareTo(getMax()) <= 0) {
 			setValueSafe(value);
 		} else {

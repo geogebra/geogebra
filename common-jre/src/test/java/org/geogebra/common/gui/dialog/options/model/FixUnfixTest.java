@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
-import org.geogebra.common.properties.impl.objects.FixObjectProperty;
+import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -91,7 +91,7 @@ public class FixUnfixTest extends BaseUnitTest {
 
 		for (GeoElement geo : geos) {
 			assertThrows(NotApplicablePropertyException.class,
-					() -> new FixObjectProperty(getLocalization(), geo));
+					() -> new IsFixedObjectProperty(getLocalization(), geo));
 		}
 	}
 
@@ -104,9 +104,9 @@ public class FixUnfixTest extends BaseUnitTest {
 		GeoLine line = add("y=5");
 
 		try {
-			new FixObjectProperty(getLocalization(), function);
-			new FixObjectProperty(getLocalization(), conic);
-			new FixObjectProperty(getLocalization(), line);
+			new IsFixedObjectProperty(getLocalization(), function);
+			new IsFixedObjectProperty(getLocalization(), conic);
+			new IsFixedObjectProperty(getLocalization(), line);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
