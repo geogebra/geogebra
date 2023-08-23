@@ -3507,16 +3507,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return boolean
 	 */
 	public static boolean isRightClick(MouseEvent e) {
-
-		// right-click returns isMetaDown on MAC_OS
-		// so we want to return true for isMetaDown
-		// if it occurred first at the same time as
-		// a popup trigger
-		if (MAC_OS && !e.isMetaDown()) {
+		boolean rightPressed = e.getButton() == 3;
+		if (MAC_OS && !rightPressed) {
 			fakeRightClick = false;
 		}
 
-		if (MAC_OS && e.isPopupTrigger() && e.isMetaDown()) {
+		if (MAC_OS && e.isPopupTrigger() && rightPressed) {
 			fakeRightClick = true;
 		}
 
