@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.junit.After;
 import org.junit.Test;
 
+@SuppressWarnings("javadoc")
 public class DataImporterTests extends BaseUnitTest implements DataImporterDelegate {
 
 	private TableValuesView tableValuesView;
