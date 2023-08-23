@@ -1570,7 +1570,7 @@ public class GeoList extends GeoElement
 		super.getStyleXML(sb);
 
 		getLineStyleXML(sb);
-		if ((size() == 0 || !isDefined()) && getTypeStringForXML() != null) {
+		if (isElementTypeXMLNeeded()) {
 			sb.append("\t<listType val=\"");
 			sb.append(getTypeStringForXML());
 			sb.append("\"/>\n");
@@ -1615,6 +1615,14 @@ public class GeoList extends GeoElement
 		if (startPoint != null) {
 			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 		}
+	}
+
+	/**
+	 *
+	 * @return if element type should be saved with XML.
+	 */
+	protected boolean isElementTypeXMLNeeded() {
+		return (size() == 0 || !isDefined()) && getTypeStringForXML() != null;
 	}
 
 	/**

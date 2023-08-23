@@ -39,4 +39,8 @@ public class GeoListForCellRange extends GeoList {
 		return added;
 	}
 
+	@Override
+	protected boolean isElementTypeXMLNeeded() {
+		return true;
+	}
 }
