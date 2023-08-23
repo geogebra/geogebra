@@ -976,10 +976,15 @@ public class GeoNumeric extends GeoElement
 		if (!force && sliderFixed) {
 			return;
 		}
+		if (!hasAbsoluteScreenLocation) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+			startPoint = null;
+		}
 		if (startPoint == null) {
 			startPoint = new GeoPoint(cons);
 		}
 		startPoint.setCoords(x, y, 1);
+		startPoint.update();
 		if (origSliderX == null) {
 			origSliderX = x;
 			origSliderY = y;
@@ -1140,6 +1145,12 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
+		if (hasAbsoluteScreenLocation) {
+			if (startPoint != null) {
+				startPoint.getLocateableList().unregisterLocateable(this);
+			}
+			startPoint = null;
+		}
 		if (startPoint == null) {
 			startPoint = new GeoPoint(cons, true);
 		}

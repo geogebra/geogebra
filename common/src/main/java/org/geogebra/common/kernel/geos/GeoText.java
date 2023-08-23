@@ -778,7 +778,7 @@ public class GeoText extends GeoElement
 	@Override
 	public void setRealWorldLoc(double x, double y) {
 		GeoPointND locPoint = getStartPoint();
-		if (locPoint == null) {
+		if (locPoint == null || hasAbsoluteScreenLocation) {
 			locPoint = new GeoPoint(cons);
 			try {
 				setStartPoint(locPoint);

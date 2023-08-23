@@ -5872,7 +5872,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			movedObject.setAbsoluteScreenLoc(
 					view.toScreenCoordX(xRW - getStartPointX()),
 					view.toScreenCoordY(yRW - getStartPointY()));
-		} else {
+		} else if (movedObject.getStartPoint() == null
+				|| movedObject.getStartPoint().isIndependent()) {
 			movedObject.setRealWorldLoc(xRW, yRW);
 		}
 		notifyPositionUpdate(movedObject);

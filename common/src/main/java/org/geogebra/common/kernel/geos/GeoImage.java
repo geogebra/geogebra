@@ -648,6 +648,10 @@ public class GeoImage extends GeoElement implements
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
+		if (hasAbsoluteScreenLocation && corners[0] != null) {
+			corners[0].getLocateableList().unregisterLocateable(this);
+			corners[0] = null;
+		}
 		setRealWorldCoord(x, y, 0);
 	}
 
