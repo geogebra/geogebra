@@ -53,7 +53,6 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		cancelImportAfterRow = -1;
 	}
 
-	@SuppressWarnings("javadoc")
 	@After
 	public void teardown() {
 		Kernel kernel = getKernel();
