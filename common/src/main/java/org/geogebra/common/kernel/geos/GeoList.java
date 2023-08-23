@@ -263,6 +263,9 @@ public class GeoList extends GeoElement
 
 		isDefined = l.isDefined;
 		elementType = l.elementType;
+		if (l.isElementTypeXMLNeeded()) {
+			typeStringForXML = l.typeStringForXML;
+		}
 	}
 
 	/**

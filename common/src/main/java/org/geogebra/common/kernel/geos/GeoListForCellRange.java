@@ -15,11 +15,8 @@ public class GeoListForCellRange extends GeoList {
 
 	/**
 	 * constructor
-	 * 
-	 * @param c
-	 *            construction
-	 * @param algo
-	 *            parent algo
+	 * @param c construction
+	 * @param algo parent algo
 	 */
 	public GeoListForCellRange(Construction c, AlgoCellRange algo) {
 		super(c);
