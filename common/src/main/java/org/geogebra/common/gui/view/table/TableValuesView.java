@@ -499,7 +499,6 @@ public class TableValuesView implements TableValues, SettingListener {
 	 * @param rawValues The original strings behind the values.
 	 */
 	public void importRow(Double[] values, String[] rawValues) {
-		assert importColumns != null;
 		if (importColumns == null) {
 			return;
 		}
@@ -533,5 +532,6 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void commitImport() {
 		elements.clear();
 		model.importColumns(importColumns);
+		importColumns = null;
 	}
 }
