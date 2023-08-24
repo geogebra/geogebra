@@ -11,9 +11,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.distribution.CumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.common.properties.impl.distribution.IntervalProperty;
+import org.geogebra.common.properties.impl.distribution.IsCumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.geogebra.common.properties.impl.distribution.ProbabilityResultProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
@@ -38,7 +38,7 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 
 		ArrayList<Property> properties = new ArrayList<>(Arrays.asList(
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
-				new CumulativeProperty(localization, probabilityCalculatorView),
+				new IsCumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView)
 		));
 

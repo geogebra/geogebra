@@ -290,6 +290,11 @@ public final class LocalizationW extends Localization {
 		return localeStr;
 	}
 
+	@Override
+	public String getLanguageTag() {
+		return lang.toLanguageTag();
+	}
+
 	/**
 	 * @param lang0
 	 *            language (assuming it is supported)

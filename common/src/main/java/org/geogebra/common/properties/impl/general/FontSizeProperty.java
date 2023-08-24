@@ -3,55 +3,53 @@ package org.geogebra.common.properties.impl.general;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.Util;
 
 /**
  * Property representing the font size.
  */
-public class FontSizeProperty extends AbstractEnumerableProperty {
+public class FontSizeProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
-    private FontSettings fontSettings;
-    private FontSettingsUpdater fontSettingsUpdater;
+	private FontSettings fontSettings;
+	private FontSettingsUpdater fontSettingsUpdater;
 
-    /**
-     * @param localization localization
-     * @param fontSettings font settings
-     * @param fontSettingsUpdater font settings updater
-     */
-    public FontSizeProperty(
-            Localization localization,
-            FontSettings fontSettings, FontSettingsUpdater fontSettingsUpdater) {
-        super(localization, "FontSize");
-        this.fontSettings = fontSettings;
-        this.fontSettingsUpdater = fontSettingsUpdater;
+	/**
+	 * @param localization localization
+	 * @param fontSettings font settings
+	 * @param fontSettingsUpdater font settings updater
+	 */
+	public FontSizeProperty(
+			Localization localization,
+			FontSettings fontSettings, FontSettingsUpdater fontSettingsUpdater) {
+		super(localization, "FontSize");
+		this.fontSettings = fontSettings;
+		this.fontSettingsUpdater = fontSettingsUpdater;
 
-        setupValues(localization);
-    }
+		setupValues(localization);
+	}
 
-    private void setupValues(Localization localization) {
-        String[] values = new String[Util.menuFontSizesLength()];
-        for (int i = 0; i < Util.menuFontSizesLength(); i++) {
-            int fontSize = Util.menuFontSizes(i);
-            values[i] = localization.getPlain("Apt", Integer.toString(fontSize));
-        }
-        setValues(values);
-    }
+	private void setupValues(Localization localization) {
+		Integer[] values = new Integer[Util.menuFontSizesLength()];
+		for (int i = 0; i < Util.menuFontSizesLength(); i++) {
+			values[i] = Util.menuFontSizes(i);
+		}
+		setValues(values);
 
-    @Override
-    protected void setValueSafe(String value, int index) {
-        int fontSize = Util.menuFontSizes(index);
-        fontSettingsUpdater.setAppFontSizeAndUpdateViews(fontSize);
-    }
+		String[] valueNames = new String[values.length];
+		for (int i = 0; i < values.length; i++) {
+			valueNames[i] = localization.getPlain("Apt", Integer.toString(values[i]));
+		}
+		setValueNames(valueNames);
+	}
 
-    @Override
-    public int getIndex() {
-        int fontSize = fontSettings.getAppFontSize();
-        for (int i = 0; i < Util.menuFontSizesLength(); i++) {
-            if (Util.menuFontSizes(i) == fontSize) {
-                return i;
-            }
-        }
-        return -1;
-    }
+	@Override
+	protected void doSetValue(Integer value) {
+		fontSettingsUpdater.setAppFontSizeAndUpdateViews(value);
+	}
+
+	@Override
+	public Integer getValue() {
+		return fontSettings.getAppFontSize();
+	}
 }
