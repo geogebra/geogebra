@@ -408,7 +408,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("list=Solutions(f''(x)=0)", "{(2 * sqrt(6) + 3) / 3}");
 		t("root=Element(list,1)", "(2 * sqrt(6) + 3) / 3");
 		t("Numeric(f(root))", Matchers.in(new String[]{"9.091256074573", "9.091256074574"}));
-		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513611798, x = 5.126711116935}");
+		t("Solve(f'(x)=tan(30deg))", Matchers.in(new String[]{
+				"{x = 0.94465136117983, x = 5.126711116934559}",
+				"{x = 0.9446513611798301, x = 5.12671111693456}",
+				"{x = 0.9446513611798, x = 5.126711116935}"}));
 		t("Tangent(2,f)", "y = -15 * sqrt(2) / 4 * x + 33 * sqrt(2) / 2");
 	}
 

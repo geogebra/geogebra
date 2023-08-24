@@ -12,7 +12,7 @@ def getChangelog() {
     return lines.join("\n").toString()
 }
 
-def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
+def isGiac = env.BRANCH_NAME.matches("(dependabot.*)?giac.*")
 def isEditor = env.BRANCH_NAME.matches("dev|(.*editor)")
 def hasSourcemap = env.BRANCH_NAME.matches("dev|apps-4831")
 def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''

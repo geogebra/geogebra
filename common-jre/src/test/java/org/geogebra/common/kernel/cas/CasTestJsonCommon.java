@@ -348,8 +348,12 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testScientificText() {
+	public void testScientificText1() {
 		testCat("ScientificText.1");
+	}
+
+	@Test
+	public void testScientificText2() {
 		testCat("ScientificText.2");
 	}
 
