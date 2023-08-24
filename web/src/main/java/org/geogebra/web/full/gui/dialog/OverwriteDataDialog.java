@@ -8,6 +8,11 @@ import org.gwtproject.user.client.ui.Label;
 
 public class OverwriteDataDialog extends ComponentDialog {
 
+	/**
+	 * Overwrite data dialog
+	 * @param appW - see {@link AppW}
+	 * @param data - dialog data
+	 */
 	public OverwriteDataDialog(AppW appW, DialogData data) {
 		super(appW, data, true, true);
 		addStyleName("overwriteDialog");
