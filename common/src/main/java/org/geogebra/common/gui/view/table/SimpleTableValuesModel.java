@@ -467,17 +467,18 @@ class SimpleTableValuesModel implements TableValuesModel {
 		settings.setValueList(valueList);
 		TableValuesColumn valuesColumn = new TableValuesListColumn(valueList);
 		columns.add(valuesColumn);
-		valuesColumn.notifyDatasetChanged(this);
-		collector.notifyColumnAdded(this, valueList, 0); // necessary?
+//		valuesColumn.notifyDatasetChanged(this);
+//		collector.notifyColumnAdded(this, valueList, 0); // necessary?
 
 		// import remaining columns
 		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
 			GeoList values = columnsToImport[columnIdx];
 			TableValuesColumn column = new TableValuesListColumn(values);
 			columns.add(column);
-			column.notifyDatasetChanged(this);
-			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
+//			column.notifyDatasetChanged(this);
+//			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
 		}
+		collector.notifyDatasetChanged(this);
 		kernel.storeUndoInfo();
 
 		collector.endCollection(this);

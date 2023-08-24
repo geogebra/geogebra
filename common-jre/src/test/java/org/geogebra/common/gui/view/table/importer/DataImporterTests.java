@@ -15,7 +15,6 @@ import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesPointsImpl;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
-import org.junit.After;
 import org.junit.Test;
 
 public class DataImporterTests extends BaseUnitTest implements DataImporterDelegate {
@@ -53,11 +52,13 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		cancelImportAfterRow = -1;
 	}
 
-	@After
+	@Override
 	public void teardown() {
 		Kernel kernel = getKernel();
 		kernel.detach(tableValuesView);
 		tableValuesView = null;
+
+		super.teardown();
 	}
 
 	@Test
