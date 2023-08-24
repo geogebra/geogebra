@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
-import org.geogebra.common.properties.impl.general.RoundingProperty;
+import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
@@ -34,7 +34,7 @@ public class AlgebraPropertiesTest {
 
 	@Test
 	public void roundingSHouldUpdateAV() {
-		RoundingProperty rp = new RoundingProperty(app, app.getLocalization());
+		RoundingIndexProperty rp = new RoundingIndexProperty(app, app.getLocalization());
 		t("a=1/3");
 		t("b=4*a");
 		valueTextShouldBe("a", "a = 0.33");

@@ -191,9 +191,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	@Override
 	protected void setOptionPanelWithoutCheck(OptionType type) {
-
-		// App.printStacktrace("\ntype="+type);
-
 		if (selectedOptionType != type && selectedOptionPanel != null) {
 			((OptionPanelD) selectedOptionPanel).applyModifications();
 			((OptionPanelD) selectedOptionPanel).setSelected(false);
@@ -313,9 +310,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 * @return option panel
 	 */
 	public OptionPanelD getOptionPanel(OptionType type) {
-
-		// AbstractApplication.printStacktrace("type :"+type);
-
 		switch (type) {
 		case DEFAULTS:
 			if (defaultsPanel == null) {

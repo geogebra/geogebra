@@ -1183,9 +1183,6 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isSpreadsheetTraceable() {
-
-		// App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
-
 		switch (spreadsheetTraceableCase) {
 		case TRUE:
 			return true;

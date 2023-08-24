@@ -130,7 +130,6 @@ public abstract class TextPreviewer {
 		if (mayDetectLaTeX && !isLaTeXset) {
 			isLaTeX = isLaTeX || guessLaTeX(inputValue);
 		}
-		// Application.printStacktrace("inputValue: " + inputValue);
 		// initialize variables
 		ValidExpression exp = null;
 		StringTemplate tpl = targetGeo == null ? StringTemplate.defaultTemplate

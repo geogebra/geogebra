@@ -1432,7 +1432,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
-		// Log.printStacktrace(x + "");
 		String ret = formatRaw(x, tpl);
 
 		if (app.getLocalization().getZero() != '0') {

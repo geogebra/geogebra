@@ -19,10 +19,10 @@ import org.geogebra.common.properties.impl.general.CoordinatesProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
-import org.geogebra.common.properties.impl.general.RoundingProperty;
+import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
-import org.geogebra.common.properties.impl.graphics.GraphicsPositionProperty;
+import org.geogebra.common.properties.impl.graphics.GraphicsActionsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
@@ -55,7 +55,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		String name = localization.getMenu("General");
 		Settings settings = app.getSettings();
 		return new PropertiesArray(name,
-				new RoundingProperty(app, localization),
+				new RoundingIndexProperty(app, localization),
 				new AngleUnitProperty(kernel, localization),
 				new LabelingProperty(localization, settings.getLabelSettings()),
 				new CoordinatesProperty(kernel, localization),
@@ -100,7 +100,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		EuclidianSettings euclidianSettings = activeView.getSettings();
 		return new PropertiesArray(
 				localization.getMenu("DrawingPad"),
-				new GraphicsPositionProperty(app),
+				new GraphicsActionsPropertyCollection(app, localization),
 				new AxesVisibilityProperty(localization, euclidianSettings),
 				new GridVisibilityProperty(localization, euclidianSettings),
 				new GridStyleProperty(localization, euclidianSettings),

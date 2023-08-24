@@ -2021,7 +2021,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				&& getAppletParameters().getDataParamApp()) {
 			Browser.changeMetaTitle(title);
 		}
-		geoGebraElement.setAttribute("aria-label", title);
+		geoGebraElement.getElement().setAttribute("aria-label", title);
 	}
 
 	protected void translateHeader() {

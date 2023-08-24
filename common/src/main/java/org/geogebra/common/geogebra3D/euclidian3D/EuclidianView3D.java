@@ -2959,8 +2959,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Set cursor to default.
 	 */
 	public void setDefaultCursor() {
-		// App.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
-
 		if (getShiftDown()) {
 			return;
 		}

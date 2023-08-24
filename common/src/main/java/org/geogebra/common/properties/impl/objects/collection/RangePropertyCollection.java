@@ -29,19 +29,4 @@ public class RangePropertyCollection<T extends RangeProperty<V>, V extends Numbe
 	public V getMax() {
 		return getFirstProperty().getMax();
 	}
-
-	@Override
-	public V getValue() {
-		return getFirstProperty().getValue();
-	}
-
-	@Override
-	public void setValue(V value) {
-		setProperties(value);
-	}
-
-	@Override
-	void setPropertyValue(T property, V value) {
-		property.setValue(value);
-	}
 }

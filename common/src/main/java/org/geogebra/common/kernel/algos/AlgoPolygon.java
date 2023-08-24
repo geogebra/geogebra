@@ -337,9 +337,6 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 	@Override
 	public void compute() {
-
-		// AbstractApplication.printStacktrace("");
-
 		if (geoList != null) {
 			updatePointArray();
 		}
@@ -348,7 +345,6 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 		// update region coord sys
 		poly.updateRegionCS();
-
 	}
 
 	/**

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -59,8 +59,8 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	 * @param label - label of drop-down
 	 * @param property - property
 	 */
-	public CompDropDown(AppW app, String label, EnumerableProperty property) {
-		this(app, label, Arrays.asList(property.getValues()));
+	public CompDropDown(AppW app, String label, NamedEnumeratedProperty<?> property) {
+		this(app, label, Arrays.asList(property.getValueNames()));
 		controller.setProperty(property);
 		if (property.getIndex() > -1) {
 			controller.setSelectedOption(property.getIndex());
@@ -72,7 +72,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	 * @param app - see {@link AppW}
 	 * @param property - property
 	 */
-	public CompDropDown(AppW app, EnumerableProperty property) {
+	public CompDropDown(AppW app, NamedEnumeratedProperty<?> property) {
 		this(app, null, property);
 	}
 

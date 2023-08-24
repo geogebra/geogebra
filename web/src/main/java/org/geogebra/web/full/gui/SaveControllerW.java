@@ -30,7 +30,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -49,6 +48,8 @@ public class SaveControllerW implements SaveController {
 	private AsyncOperation<Boolean> runAfterSave = null;
 	private AsyncOperation<Boolean> autoSaveCallback;
 
+	private final LocalSaveOptions localSaveOptions;
+
 	/**
 	 * Constructor
 	 * 
@@ -58,6 +59,7 @@ public class SaveControllerW implements SaveController {
 	public SaveControllerW(AppW app) {
 		this.app = app;
 		loc = app.getLocalization();
+		localSaveOptions = new LocalSaveOptions(app);
 	}
 
 	/**
@@ -123,12 +125,9 @@ public class SaveControllerW implements SaveController {
 			app.getFileManager().export(app);
 			return;
 		}
-		JsPropertyMap<String> options = Js.uncheckedCast(JsPropertyMap.of());
-		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (StringUtil.empty(consTitle)) {
-			consTitle = app.getLocalization().getMenu("Untitled");
-		}
-		options.set("suggestedName",  consTitle + ".ggb");
+
+		JsPropertyMap<Object> options = localSaveOptions.asPropertyMap();
+
 		FileSystemAPI.showSaveFilePicker(options).then(handle -> {
 			((FileManager) app.getFileManager()).saveAs(handle);
 			return null;
