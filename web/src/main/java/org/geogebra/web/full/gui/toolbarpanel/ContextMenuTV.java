@@ -265,30 +265,29 @@ public class ContextMenuTV {
 	private void addImportData() {
 		Command importDataCommand = () -> {
 			if (view.isEmpty()) {
-				openCvsChooser();
+				openCsvChooser();
 			} else {
 				DialogData data = new DialogData(null, "Cancel", "Overwrite");
 				OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(getApp(), data);
-				overwriteDataDialog.setOnPositiveAction(() -> openCvsChooser());
+				overwriteDataDialog.setOnPositiveAction(() -> openCsvChooser());
 				overwriteDataDialog.show();
 			}
 		};
 		addCommand(importDataCommand, "ContextMenu.ImportData", "importData");
 	}
 
-	private void openCvsChooser() {
-		FileUpload fileUpload = getCVSChooser();
+	private void openCsvChooser() {
+		FileUpload fileUpload = getCSVChooser();
 		fileUpload.click();
 	}
 
-	private FileUpload getCVSChooser() {
-		FileUpload cvsChooser = new FileUpload();
-		cvsChooser.addChangeHandler(event -> {
-			HTMLInputElement el = Js.uncheckedCast(cvsChooser.getElement());
+	private FileUpload getCSVChooser() {
+		FileUpload csvChooser = new FileUpload();
+		csvChooser.addChangeHandler(event -> {
 			// TODO APPS-5010 load file(el)
 		});
-		cvsChooser.getElement().setAttribute("accept", ".cvs");
-		return cvsChooser;
+		csvChooser.getElement().setAttribute("accept", ".csv");
+		return csvChooser;
 	}
 
 	/**
