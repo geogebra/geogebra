@@ -5,9 +5,11 @@ import java.util.function.Predicate;
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesProcessor;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
@@ -17,22 +19,25 @@ public class ProbabilityTableValues extends ProbabilityTable {
 	private final TableValuesModel model;
 	private final TableValuesProcessor processor;
 	private final Kernel kernel;
+	private final Construction construction;
 
-	private GeoList probabilityList;
+	private GeoList xValues;
+	private GeoList probabilityValues;
 	private Predicate<Integer> highlighted = row -> false;
+
 
 	/**
 	 * @param app application
 	 * @param probCalc probability calculator
 	 * @param view view
 	 */
-	public ProbabilityTableValues(App app,
-			ProbabilityCalculatorView probCalc, TableValues view) {
+	public ProbabilityTableValues(App app, ProbabilityCalculatorView probCalc, TableValues view) {
 		super(app, probCalc);
 		this.view = view;
-		this.model = view.getTableValuesModel();
-		this.processor = view.getProcessor();
-		this.kernel = probCalc.kernel;
+		model = view.getTableValuesModel();
+		processor = view.getProcessor();
+		kernel = probCalc.kernel;
+		construction = kernel.getConstruction();
 	}
 
 	@Override
@@ -51,8 +56,8 @@ public class ProbabilityTableValues extends ProbabilityTable {
 		boolean isUndoActive = kernel.isUndoActive();
 		kernel.setUndoActive(false);
 
-		if (probabilityList != null) {
-			probabilityList.remove();
+		if (probabilityValues != null) {
+			probabilityValues.remove();
 		}
 		view.clearView();
 
@@ -61,12 +66,21 @@ public class ProbabilityTableValues extends ProbabilityTable {
 			String[] columnNames = getColumnNames();
 			model.setValuesHeader(columnNames[0]);
 
-			probabilityList = new GeoList(view.getValues().cons);
-			probabilityList.setLabel(columnNames[1]);
-			view.addAndShow(probabilityList);
-			kernel.getConstruction().removeFromConstructionList(probabilityList);
+			xValues = view.getValues();
+			probabilityValues = new GeoList(view.getValues().cons);
+			probabilityValues.setLabel(columnNames[1]);
 
+			view.addAndShow(probabilityValues);
+			kernel.getConstruction().removeFromConstructionList(probabilityValues);
+
+			int rows = xMax - xMin + 1;
+			xValues.ensureCapacity(rows);
+			probabilityValues.ensureCapacity(rows);
+
+			// Batch update will notify that the dataset has changed.
+			view.startBatchUpdate();
 			fillRows(dist, params, xMin, xMax);
+			view.endBatchUpdate();
 		}
 
 		kernel.setUndoActive(isUndoActive);
@@ -74,8 +88,10 @@ public class ProbabilityTableValues extends ProbabilityTable {
 
 	@Override
 	protected void setRowValues(int row, String k, String prob) {
-		processor.processInput(k, view.getValues(), row);
-		processor.processInput(prob, probabilityList, row);
+		GeoNumeric kNumeric = new GeoNumeric(construction, Double.parseDouble(k));
+		GeoNumeric probNumeric = new GeoNumeric(construction, Double.parseDouble(prob));
+		xValues.add(kNumeric);
+		probabilityValues.add(probNumeric);
 	}
 
 	/**

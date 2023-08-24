@@ -234,6 +234,11 @@ public final class LocalizationW extends Localization {
 	}
 
 	@Override
+	public Language getLanguageEnum() {
+		return lang;
+	}
+
+	@Override
 	protected boolean isCommandChanged() {
 		return commandChanged;
 	}

@@ -53,6 +53,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.AutoreleasePool;
+
 /**
  * AlgoElement is the superclass of all algorithms.
  * 
@@ -629,6 +631,7 @@ public abstract class AlgoElement extends ConstructionElement
 	// public static double counter;
 
 	@Override
+	@AutoreleasePool
 	public void update() {
 		if (stopUpdateCascade) {
 			return;
