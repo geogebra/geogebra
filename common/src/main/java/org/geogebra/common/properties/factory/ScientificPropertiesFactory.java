@@ -9,7 +9,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
-import org.geogebra.common.properties.impl.general.RoundingProperty;
+import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 
 public class ScientificPropertiesFactory implements PropertiesFactory {
 
@@ -27,7 +27,7 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 		String name = localization.getMenu("General");
 		return new PropertiesArray(name,
 				new AngleUnitProperty(kernel, localization),
-				new RoundingProperty(app, localization),
+				new RoundingIndexProperty(app, localization),
 				new FontSizeProperty(
 						localization,
 						app.getSettings().getFontSettings(),

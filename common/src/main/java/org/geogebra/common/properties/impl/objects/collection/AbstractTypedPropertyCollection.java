@@ -1,10 +1,19 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import org.geogebra.common.properties.Property;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Consumer;
 
-abstract class AbstractTypedPropertyCollection<T extends Property, S> implements Property {
+import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyValueObserver;
+import org.geogebra.common.properties.ValuedProperty;
+
+abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> implements
+		ValuedProperty<S> {
 
 	private final T[] properties;
+	private final Set<PropertyValueObserver> observers = new HashSet<>();
 
 	AbstractTypedPropertyCollection(T[] properties) {
 		if (properties.length == 0) {
@@ -12,8 +21,6 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 		}
 		this.properties = properties;
 	}
-
-	abstract void setPropertyValue(T property, S value);
 
 	@Override
 	public String getName() {
@@ -37,9 +44,44 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 		return isEnabled;
 	}
 
-	protected void setProperties(S value) {
-		for (T element : properties) {
-			setPropertyValue(element, value);
-		}
+	@Override
+	public void addValueObserver(PropertyValueObserver observer) {
+		observers.add(observer);
+	}
+
+	@Override
+	public void removeValueObserver(PropertyValueObserver observer) {
+		observers.remove(observer);
+	}
+
+	private void notifyObservers(Consumer<PropertyValueObserver> observerConsumer) {
+		observers.forEach(observerConsumer);
+	}
+
+	private void callProperty(Consumer<T> propertyConsumer) {
+		Arrays.asList(properties).forEach(propertyConsumer);
+	}
+
+	@Override
+	public S getValue() {
+		return getFirstProperty().getValue();
+	}
+
+	@Override
+	public void setValue(S value) {
+		callProperty(property -> property.setValue(value));
+		notifyObservers(observer -> observer.onDidSetValue(this));
+	}
+
+	@Override
+	public void beginSetValue() {
+		callProperty(ValuedProperty::beginSetValue);
+		notifyObservers(observer -> observer.onBeginSetValue(this));
+	}
+
+	@Override
+	public void endSetValue() {
+		callProperty(ValuedProperty::endSetValue);
+		notifyObservers(observer -> observer.onEndSetValue(this));
 	}
 }
