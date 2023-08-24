@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -148,8 +149,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void undoShouldNotRandomize() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("a=random()", "0.7275636800328681");
 
 		app.storeUndoInfo();
@@ -163,8 +163,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void randomizeUpdateConstruction() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("b=100", "100");
 		t("a=randomUniform(0,b)", "72.75636800328681");
 		((GeoNumeric) lookup("b")).setValue(10);
@@ -200,8 +199,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void undoShouldNotRandomizeShufle() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
 
 		app.storeUndoInfo();
@@ -608,5 +606,24 @@ public class RedefineTest extends BaseUnitTest {
 						.changeGeoElementNoExceptionHandling(h, "h(x) = 2x/2", evalInfo,
 								true, null, null);
 		assertThat(lookup("h").getClass(), is(GeoFunction.class));
+	}
+
+	@Test
+	public void internalAnglesShouldReloadWithRepetition() {
+		add("countQuestion=42");
+		add("SetValue(countQuestion,41)");
+		add("A=(1,1)");
+		add("B=(1,2)");
+		add("C=(2,1)");
+		add("D=(-1,0.5)");
+
+		add("poly=Polygon({A,B,C,D})");
+		add("InteriorAngles(poly)");
+		//redefine
+		add("poly=Polygon({A,B,C,D,A})");
+		assertArrayEquals(new int[]{'c', 'A', 'B', 'C', 'D', 'p', Unicode.alpha,
+						Unicode.beta, Unicode.gamma, Unicode.delta, Unicode.epsilon},
+				Arrays.stream(getApp().getGgbApi().getAllObjectNames())
+						.mapToInt(s -> s.charAt(0)).toArray());
 	}
 }

@@ -3,9 +3,11 @@ package org.geogebra.common.jre.main;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -36,26 +38,22 @@ public abstract class LocalizationJre extends Localization {
 	protected Locale currentLocale = Locale.ENGLISH;
 
 	/**
-	 * @param dimension
-	 *            3 for 3D
+	 * @param dimension 3 for 3D
 	 */
 	public LocalizationJre(int dimension) {
 		this(dimension, 15);
 	}
 
 	/**
-	 * @param dimension
-	 *            3 for 3D, 2 otherwise
-	 * @param maxFigures
-	 *            maximum digits
+	 * @param dimension 3 for 3D, 2 otherwise
+	 * @param maxFigures maximum digits
 	 */
 	public LocalizationJre(int dimension, int maxFigures) {
 		super(dimension, maxFigures);
 	}
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
 	 */
 	final public void setApp(App app) {
 		this.app = app;
@@ -114,11 +112,8 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * 
-	 * @param key
-	 *            key name
-	 * @param locale
-	 *            locale
+	 * @param key key name
+	 * @param locale locale
 	 * @return bundle for key & locale
 	 */
 	abstract protected ResourceBundle createBundle(String key, Locale locale);
@@ -200,6 +195,11 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	@Override
+	public String getLanguageTag() {
+		return getLocale().toLanguageTag();
+	}
+
+	@Override
 	final public String getSymbolTooltip(int key) {
 		if (rbsymbol == null) {
 			initSymbolResourceBundle();
@@ -262,8 +262,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * @param s
-	 *            language for tooltips
+	 * @param s language for tooltips
 	 * @return success
 	 */
 	final public boolean setTooltipLanguage(String s) {
@@ -369,9 +368,7 @@ public abstract class LocalizationJre extends Localization {
 
 	/**
 	 * Returns the supported locales.
-	 *
-	 * @param prerelease
-	 *            if the app is in prerelease
+	 * @param prerelease if the app is in prerelease
 	 * @return locales that the app can handle
 	 */
 	public ArrayList<Locale> getSupportedLocales(boolean prerelease) {
@@ -410,21 +407,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * Creates a locale from a language and a country string.
-	 *
-	 * @param language
-	 *            the language of the locale
-	 * @param country
-	 *            the country the language is used in. Might be null.
-	 * @return a new locale
-	 */
-	protected Locale createLocale(String language, String country) {
-		return new Locale(language, country);
-	}
-
-	/**
-	 * @param locale
-	 *            current locale
+	 * @param locale current locale
 	 */
 	public void setLocale(Locale locale) {
 		currentLocale = getClosestSupportedLocale(locale);
@@ -443,64 +426,69 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * Returns a locale object that has the same country and/or language as
-	 * locale. If the language of locale is not supported an English locale is
-	 * returned.
+	 * Returns a locale that is supported and is closest to the query locale.
+	 * If present, it will return the perfect match.
+	 * Else, it looks for the closest, more general locale (for example it returns 'en'
+	 * for the query 'en-CA').
+	 * Else, it looks for the closest, more specific locale (for example it returns 'zh-CN'
+	 * for the query 'zh' out of the supported locales ['zh-Hant-TW', 'zh-CN', 'zh-TW']).
+	 * Else, it looks for a matching language.
+	 * Else, it returns the default locale (English).
+	 * @param query query locale
+	 * @return closest supported locale
 	 */
-	protected Locale getClosestSupportedLocale(Locale locale) {
-		ArrayList<Locale> supportedLocales = getSupportedLocales();
+	protected Locale getClosestSupportedLocale(Locale query) {
+		Set<String> subtags = convertToSubtagSet(query);
 
-		// try to find country and and language
-		String country = getCountry(locale);
-		String language = getLanguage(locale);
-		String variant = getVariant(locale);
-		if (country.length() > 0) {
-			for (Locale loc : supportedLocales) {
-				if (country.equals(getCountry(loc))
-						&& language.equals(getLanguage(loc))
-						// needed for no_NO_NY
-						&& (!"no".equals(language)
-						|| variant.equals(getVariant(loc)))) {
-					// found supported country locale
-					return loc;
+		Locale match = null;
+		int generalScore = 0;
+		int specificScore = Integer.MAX_VALUE;
+		for (Locale locale : getSupportedLocales()) {
+			if (locale.toLanguageTag().equals(query.toLanguageTag())) {
+				// A perfect match found, return early
+				return locale;
+			} else if (locale.getLanguage().equals(query.getLanguage())) {
+				// The language matches
+				Set<String> supportedLocaleSubtags = convertToSubtagSet(locale);
+				if (subtags.containsAll(supportedLocaleSubtags)
+						&& supportedLocaleSubtags.size() > generalScore) {
+					// A closer, more general match found
+					match = locale;
+					generalScore = supportedLocaleSubtags.size();
+				} else if (generalScore == 0 && supportedLocaleSubtags.containsAll(subtags)
+						&& supportedLocaleSubtags.size() < specificScore) {
+					// A closer more specific match found, and no general match found
+					specificScore = supportedLocaleSubtags.size();
+					match = locale;
+				} else if (match == null) {
+					// Store a match to the language if there is none yet.
+					match = locale;
 				}
 			}
 		}
-
-		// try to find only language
-		for (Locale loc : supportedLocales) {
-			if (language.equals(getLanguage(loc))) {
-				// found supported country locale
-				return loc;
-			}
+		if (match != null) {
+			return match;
 		}
 
-		// we didn't find a matching country or language,
-		// so we take English
 		return Locale.ENGLISH;
+	}
+
+	private static Set<String> convertToSubtagSet(Locale locale) {
+		return new HashSet<>(Arrays.asList(locale.toLanguageTag().split("-")));
 	}
 
 	/**
 	 * Converts the language to a locale object.
-	 *
-	 * @param language
-	 *            the language to convert to.
+	 * @param language the language to convert to.
 	 * @return converted locale
 	 */
 	public Locale convertToLocale(Language language) {
-		String lang = language.localeISO6391.replace("nl_BE", "nl");
-		String country = "";
-		if (language.getLocaleGWT().length() == 5) {
-			country = language.getLocaleGWT().substring(3);
-		}
-		return createLocale(lang, country);
+		return Locale.forLanguageTag(language.toLanguageTag());
 	}
 
 	/**
 	 * Get an array of locales from languages.
-	 *
-	 * @param languages
-	 *            array of languages
+	 * @param languages array of languages
 	 * @return an array of locales
 	 */
 	@Override

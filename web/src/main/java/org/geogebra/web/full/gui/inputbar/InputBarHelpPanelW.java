@@ -47,7 +47,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	private LocaleSensitiveComparator comparator;
 	private SplitLayoutPanel sp;
 	private InlineLabel lblSyntax;
-	private MyTreeItem itmFunction;
+	private InputHelpTreeItem itmFunction;
 	private AutoCompleteW inputField;
 	private InputBarHelpPanel hp;
 
@@ -244,13 +244,13 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 
 		indexTree.clear();
 
-		itmFunction = new MyTreeItem();
+		itmFunction = new InputHelpTreeItem();
 		itmFunction.setWidget(new TreeItemButton(
 				app.getLocalization().getMenu("MathematicalFunctions"),
 				itmFunction, false));
 		indexTree.addItem(itmFunction);
 
-		MyTreeItem itmAllCommands = new MyTreeItem();
+		InputHelpTreeItem itmAllCommands = new InputHelpTreeItem();
 		itmAllCommands.setWidget(new TreeItemButton(app.getLocalization()
 		        .getMenu("AllCommands"), itmAllCommands, false));
 
@@ -264,7 +264,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 			if (cmdNames != null) {
 				String cmdSetName = app.getKernel().getAlgebraProcessor()
 						.getSubCommandSetName(index);
-				TreeItem itmCmdSet = new MyTreeItem();
+				TreeItem itmCmdSet = new InputHelpTreeItem();
 				itmCmdSet.setWidget(
 						new TreeItemButton(cmdSetName, itmCmdSet, false));
 				// add command set branch to tree
@@ -278,7 +278,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	private void addCmdNames(TreeItem item, TreeSet<String> names) {
 		for (String cmdName : names) {
 			if (cmdName != null && cmdName.length() > 0) {
-				MyTreeItem cmd = new MyTreeItem();
+				InputHelpTreeItem cmd = new InputHelpTreeItem();
 				cmd.setWidget(new TreeItemButton(cmdName, cmd, true));
 				item.addItem(cmd);
 			}
@@ -303,9 +303,9 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 		}
 	}
 
-	private static class MyTreeItem extends TreeItem {
+	private static class InputHelpTreeItem extends TreeItem {
 
-		protected MyTreeItem() {
+		protected InputHelpTreeItem() {
 			// avoid synth access warning
 		}
 

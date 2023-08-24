@@ -38,7 +38,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	private AppD app;
 	private SpreadsheetViewD view;
 	private MyTableD table;
-	private MyListModel listModel;
+	private RowHeaderListModel listModel;
 
 	// note: MyTable uses its own minSelectionRow and maxSelectionRow.
 	// The selection listener keeps them in sync.
@@ -64,7 +64,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		this.table = table;
 		this.view = table.getView();
 
-		listModel = new MyListModel((DefaultTableModel) table.getModel());
+		listModel = new RowHeaderListModel((DefaultTableModel) table.getModel());
 		this.setModel(listModel);
 
 		setFocusable(true);
@@ -80,12 +80,12 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	}
 
-	public static class MyListModel extends AbstractListModel {
+	public static class RowHeaderListModel extends AbstractListModel {
 
 		private static final long serialVersionUID = 1L;
 		protected DefaultTableModel model;
 
-		public MyListModel(DefaultTableModel model) {
+		public RowHeaderListModel(DefaultTableModel model) {
 			this.model = model;
 		}
 

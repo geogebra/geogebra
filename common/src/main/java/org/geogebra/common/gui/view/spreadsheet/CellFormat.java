@@ -34,7 +34,7 @@ public class CellFormat implements CellFormatInterface {
 	private String cellFormatString;
 
 	// Array of format tables
-	private MyHashMap[] formatMapArray;
+	private NonNullHashMap[] formatMapArray;
 
 	// Format types.
 	// These are also array indices, so they must be sequential: 0..n
@@ -107,9 +107,9 @@ public class CellFormat implements CellFormatInterface {
 		this.app = app;
 
 		// Create instances of the format hash maps
-		formatMapArray = new MyHashMap[formatCount];
+		formatMapArray = new NonNullHashMap[formatCount];
 		for (int i = 0; i < formatCount; i++) {
-			formatMapArray[i] = new MyHashMap();
+			formatMapArray[i] = new NonNullHashMap();
 		}
 	}
 
@@ -136,11 +136,11 @@ public class CellFormat implements CellFormatInterface {
 	 * TODO: It would be better practice to use an immutable key, e.g. a string
 	 * to record the cell location.
 	 */
-	private static class MyHashMap extends HashMap<GPoint, Object> {
+	private static class NonNullHashMap extends HashMap<GPoint, Object> {
 
 		private static final long serialVersionUID = 1L;
 
-		protected MyHashMap() {
+		protected NonNullHashMap() {
 			// Auto-generated constructor stub
 		}
 
@@ -216,7 +216,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void shiftRowsUp(MyHashMap formatMap, int rowStart,
+	private void shiftRowsUp(NonNullHashMap formatMap, int rowStart,
 			int shiftAmount) {
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
@@ -249,7 +249,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void shiftRowsDown(MyHashMap formatMap, int rowStart,
+	private void shiftRowsDown(NonNullHashMap formatMap, int rowStart,
 			int shiftAmount) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
@@ -280,7 +280,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void clearRows(MyHashMap formatMap, int rowStart, int rowEnd) {
+	private void clearRows(NonNullHashMap formatMap, int rowStart, int rowEnd) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
@@ -307,7 +307,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void shiftColumnsLeft(MyHashMap formatMap, int columnStart,
+	private void shiftColumnsLeft(NonNullHashMap formatMap, int columnStart,
 			int shiftAmount) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
@@ -342,7 +342,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void shiftColumnsRight(MyHashMap formatMap, int columnStart,
+	private void shiftColumnsRight(NonNullHashMap formatMap, int columnStart,
 			int shiftAmount) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
@@ -374,7 +374,7 @@ public class CellFormat implements CellFormatInterface {
 
 	}
 
-	private void clearColumns(MyHashMap formatMap, int columnStart,
+	private void clearColumns(NonNullHashMap formatMap, int columnStart,
 			int columnEnd) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
@@ -425,7 +425,7 @@ public class CellFormat implements CellFormatInterface {
 	@Override
 	public Object getCellFormat(int x, int y, int formatType) {
 
-		MyHashMap formatMap = formatMapArray[formatType];
+		NonNullHashMap formatMap = formatMapArray[formatType];
 		if (formatMap == null || formatMap.isEmpty()) {
 			return null;
 		}

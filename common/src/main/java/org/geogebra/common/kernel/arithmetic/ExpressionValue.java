@@ -285,4 +285,10 @@ public interface ExpressionValue {
 	public boolean evaluatesToNDVector();
 
 	boolean isOperation(Operation operation);
+
+	/**
+	 *
+	 * @return whether this evalouates to RecurringDecimal
+	 */
+	boolean isRecurringDecimal();
 }

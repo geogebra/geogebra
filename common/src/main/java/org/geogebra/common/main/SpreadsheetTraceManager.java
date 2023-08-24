@@ -215,7 +215,6 @@ public class SpreadsheetTraceManager {
 		 */
 		traceGeoCollection.clear();
 		app.repaintSpreadsheet();
-		// Application.printStacktrace("remove all traces ");
 	}
 
 	/**

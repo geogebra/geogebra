@@ -68,7 +68,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	GPopupMenuW popupMenu;
 
 	CellTable<RowData> headerTable;
-	MyPanel outerScrollPanel;
+	ConsProtocolScrollPanel outerScrollPanel;
 
 	/**
 	 * 
@@ -118,7 +118,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		cpPanel.add(holderPanel);
 
-		outerScrollPanel = new MyPanel(); // used for horizontal
+		outerScrollPanel = new ConsProtocolScrollPanel(); // used for horizontal
 											// scrolling
 		outerScrollPanel.addStyleName("outerScrollPanel");
 		outerScrollPanel.add(cpPanel);
@@ -184,7 +184,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	}
 
-	public class MyPanel extends ScrollPanel {
+	public class ConsProtocolScrollPanel extends ScrollPanel {
 
 		@Override
 		public void onResize() {

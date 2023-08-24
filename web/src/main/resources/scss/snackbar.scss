@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	.snackbarComponent {
@@ -63,7 +64,7 @@
 		}
 
 		.materialTextButton {
-			color: colors.$teal-light;
+			color: purple(400);
 			font-size: 88%;
 			margin: auto 0px auto auto;
 

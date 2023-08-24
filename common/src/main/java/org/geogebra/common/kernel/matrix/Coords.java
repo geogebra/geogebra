@@ -1249,7 +1249,6 @@ public class Coords implements AnimatableValue<Coords> {
 		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
-			// Application.printStacktrace("infinity");
 			inPlaneCoords.setX(0);
 			inPlaneCoords.setY(0);
 			inPlaneCoords.setZ(-1);
@@ -1304,7 +1303,6 @@ public class Coords implements AnimatableValue<Coords> {
 		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
-			// Application.printStacktrace("infinity");
 			globalCoords.set(vz);
 			return;
 		}

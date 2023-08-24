@@ -9,6 +9,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -676,9 +677,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            load callback
 	 */
 	public void renderArticleElementWithFrame(GeoGebraElement element,
+			AttributeProvider provider,
 			JsConsumer<Object> onLoadCallback) {
 		element.clear();
-		element.initID(0);
+		element.initID(0, provider);
 		if (Log.getLogger() == null) {
 			LoggerW.startLogger(appletParameters);
 		}

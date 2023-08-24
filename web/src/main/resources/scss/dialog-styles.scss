@@ -466,7 +466,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.mowInputPanelContent {
 					&.emptyState {
 						.inputLabel {
-							color: neutral("700");
+							color: neutral(700);
 							font-size: 75%;
 						}
 
@@ -480,9 +480,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 								margin-bottom: 8px;
 								margin-top: 0px;
 								font-size: 100%;
-								color: neutral("900");
+								color: neutral(900);
 								&::placeholder {
-									color: neutral("700");
+									color: neutral(700);
 								}
 							}
 						}
@@ -538,7 +538,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			&.emptyState {
 				.inputLabel {
-					color: neutral("700");
+					color: neutral(700);
 					font-size: 75%;
 				}
 
@@ -551,9 +551,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 						margin-bottom: 8px;
 						margin-top: 0px;
 						font-size: 100%;
-						color: neutral("900");
+						color: neutral(900);
 						&::placeholder {
-							color: neutral("700");
+							color: neutral(700);
 						}
 					}
 				}
@@ -867,7 +867,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				align-items: center;
 				justify-content: center;
 				vertical-align: middle;
-				color: neutral("900");
+				color: neutral(900);
 				text-transform: uppercase;
 				transition: background-color 0.15s;
 
@@ -896,7 +896,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					padding: 6px;
 				}
 				.gwt-Label {
-					color: neutral("900");
+					color: neutral(900);
 					font-size: 100%;
 					margin: 10px auto 0px 12px;
 					cursor: pointer;
@@ -1001,7 +1001,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.captionStyle {
 				margin-top: 20px;
 				font-size: 75%;
-				color: neutral("700");
+				color: neutral(700);
 
 				&.noMargin {
 					margin-top: 0px;
@@ -1282,7 +1282,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					align-items: center;
 					justify-content: center;
 					vertical-align: middle;
-					color: neutral("900");
+					color: neutral(900);
 					text-transform: uppercase;
 					transition: background-color 0.15s;
 
@@ -1299,10 +1299,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 				.textPanel {
 					.linkShareOnOff {
-						color: neutral("500");
+						color: neutral(500);
 					}
 					.linkShareHelp {
-						color: neutral("500");
+						color: neutral(500);
 					}
 				}
 
@@ -1653,7 +1653,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 				.imgHolder {
 					border-radius: 50%;
-					background-color: colors.$white-5-overlay;
+					background-color: neutral(200);
 					width: 120px;
 					height: 120px;
 				}
@@ -1673,11 +1673,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				&:hover .imgHolder {
-					background-color: colors.$hover-calc-btn-bg;
+					background-color: neutral(300);
 				}
 
 				&.selected .imgHolder {
-					background-color: colors.$purple-highlight;
+					background-color: purple(100);
 				}
 			}
 		}

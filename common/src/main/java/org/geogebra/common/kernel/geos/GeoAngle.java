@@ -72,7 +72,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		ISREFLEX(2),
 		/**
 		 * allow angles to be in the range (-infinity, infinity)
-		 * 
 		 * only for Angles which aren't drawable
 		 */
 		UNBOUNDED(3);
@@ -125,7 +124,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	/**
 	 * @author Loic
-	 * @return List of decoration types.
+	 * @return Array of decoration types.
 	 */
 	public static Integer[] getDecoTypes() {
 		return new Integer[] {
@@ -565,10 +564,10 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}
 
 	/**
-	 * Sets this angle shuld be drawn differently when right
+	 * Sets this angle should be drawn differently when right
 	 * 
 	 * @param emphasizeRightAngle
-	 *            true iff this angle shuld be drawn differently when right
+	 *            true iff this angle should be drawn differently when right
 	 */
 	@Override
 	public void setEmphasizeRightAngle(boolean emphasizeRightAngle) {
@@ -576,8 +575,9 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}
 
 	@Override
-	public void setZero() {
-		rawValue = 0;
+	public void setUndefined() {
+		super.setUndefined();
+		rawValue = Double.NaN;
 	}
 
 	@Override

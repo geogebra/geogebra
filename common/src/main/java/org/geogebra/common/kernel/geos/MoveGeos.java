@@ -283,16 +283,53 @@ public class MoveGeos {
 		}
 
 		if (movedGeo) {
-			moveObjectsUpdateList.add(geo);
+			addWithFreePointsToUpdateList(view, geo);
 		}
+
 		if (changedPosition) {
 			geo.updateVisualStyleRepaint(GProperty.POSITION);
 		}
 		return movedGeo || changedPosition;
 	}
 
+	private static void addWithFreePointsToUpdateList(EuclidianView view, GeoElement geo) {
+		moveObjectsUpdateList.add(geo);
+		if (!ignoreFreePoints(geo)) {
+			addFreePointsToUpdateList(geo.getFreeInputPoints(view));
+		}
+	}
+
+	private static boolean ignoreFreePoints(GeoElement geo) {
+		return geo.isGeoConic();
+	}
+
+	private static void addFreePointsToUpdateList(List<GeoElementND> freeInputPoints) {
+		if (freeInputPoints == null) {
+			return;
+		}
+
+		for (GeoElementND point: freeInputPoints) {
+			moveObjectsUpdateList.add((GeoElement) point);
+		}
+	}
+
 	private static boolean isOutputOfTranslate(GeoElement geo1) {
 		return geo1.isTranslateable()
 				&& geo1.getParentAlgorithm() instanceof AlgoTranslate;
+	}
+
+	/**
+	 * Check if geos ar about to update.
+	 * For testing only.
+	 * @param geos to check.
+	 * @return if the update list includes all the parameters.
+	 */
+	static boolean updateListHave(GeoElement... geos) {
+		for (GeoElement geo: geos) {
+			if (!moveObjectsUpdateList.contains(geo)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

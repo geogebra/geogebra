@@ -19,14 +19,15 @@ def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
 def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
 
-def s3uploadDefault = { dir, pattern, encoding ->
+def s3uploadDefault = { dir, pattern, encoding, excludes="**/*.mjs", contentType="" ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
         if (!pattern.contains("editor/")) {
-            s3Upload(bucket: 'apps-builds', workingDir: dir, path: s3buildDir,
-               includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding)
+            s3Upload(bucket: 'apps-builds', workingDir: dir, path: s3buildDir, contentType: contentType,
+               includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding, excludePathPattern: excludes)
         }
         s3Upload(bucket: 'apps-builds', workingDir: dir, path: "geogebra/branches/${env.GIT_BRANCH}/latest/",
-            includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding)
+            includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding, excludePathPattern: excludes,
+            contentType: contentType)
     }
 }
 
@@ -138,6 +139,7 @@ pipeline {
                     s3uploadDefault("web/build/s3", "web3d/**", "gzip")
                     if (isEditor) {
                         s3uploadDefault("web/build/s3", "editor/**", "gzip")
+                        s3uploadDefault("web/build/s3", "editor/**/*.mjs", "gzip", "", "text/javascript")
                     }
                     s3uploadDefault("web/war", "**/*.html", "")
                     s3uploadDefault("web/war", "**/deployggb.js", "")

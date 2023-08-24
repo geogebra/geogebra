@@ -5,6 +5,7 @@ import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
@@ -332,6 +333,10 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\overline{");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("}");
+			MathComponent next = function.nextSibling();
+			if (!(next instanceof MathCharacter) || !((MathCharacter) next).isWordBreak()) {
+				stringBuilder.append("\\nbsp{}");
+			}
 			break;
 		default:
 			stringBuilder.append("{\\mathrm{");

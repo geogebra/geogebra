@@ -704,8 +704,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void redo() {
 		getApp().setWaitCursor();
 		kernel.redo();
-		updateActions();
-		getApp().resetPen();
 		getApp().setDefaultCursor();
 	}
 
@@ -713,8 +711,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void undo() {
 		getApp().setWaitCursor();
 		kernel.undo();
-		updateActions();
-		getApp().resetPen();
 		getApp().setDefaultCursor();
 	}
 

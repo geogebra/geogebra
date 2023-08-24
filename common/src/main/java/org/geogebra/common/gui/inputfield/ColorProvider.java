@@ -193,8 +193,8 @@ public class ColorProvider {
 	}
 
 	private void getIntervalsRecursively(String text1, int startIndex) {
-		MyLabelParamRegExp labelParam = new MyLabelParamRegExp(text1);
-		MyMatchResult res = null;
+		LabelParamRegExp labelParam = new LabelParamRegExp(text1);
+		CommandOrFunctionMatchResult res = null;
 		// While we get matches against text
 		while ((res = labelParam.exec()) != null) {
 			String label = res.getGroup(0);
@@ -248,15 +248,15 @@ public class ColorProvider {
 		}
 	}
 
-	// MyMatchResult and MyLabelParamRegExp are
+	// MyMatchResult and LabelParamRegExp are
 	// inner classes used for matching labels/functions/commands
-	private static class MyMatchResult {
+	private static class CommandOrFunctionMatchResult {
 
 		int index;
 		List<String> groups;
 		private boolean isCommand;
 
-		public MyMatchResult(int index, List<String> groups,
+		public CommandOrFunctionMatchResult(int index, List<String> groups,
 				boolean isCommand) {
 			this.index = index;
 			this.groups = groups;
@@ -281,17 +281,17 @@ public class ColorProvider {
 
 	}
 
-	private static class MyLabelParamRegExp {
+	private static class LabelParamRegExp {
 
 		RegExp regExp = RegExp.compile(LABEL_PARAM);
 		String text;
 		int index;
 
-		public MyLabelParamRegExp(String text) {
+		public LabelParamRegExp(String text) {
 			setText(text);
 		}
 
-		public MyMatchResult exec() {
+		public CommandOrFunctionMatchResult exec() {
 			MatchResult res = regExp.exec(text);
 			if (res == null) {
 				return null;
@@ -301,7 +301,7 @@ public class ColorProvider {
 			String openingBracket = res.getGroup(8);
 			List groups = new ArrayList(2);
 			groups.add(label);
-			MyMatchResult ret;
+			CommandOrFunctionMatchResult ret;
 			int step = 0;
 			String params = null;
 
@@ -327,7 +327,7 @@ public class ColorProvider {
 			}
 			// Set the second parameter and create return value
 			groups.add(params);
-			ret = new MyMatchResult(index + res.getIndex(), groups,
+			ret = new CommandOrFunctionMatchResult(index + res.getIndex(), groups,
 					"[".equals(openingBracket));
 
 			index += step;

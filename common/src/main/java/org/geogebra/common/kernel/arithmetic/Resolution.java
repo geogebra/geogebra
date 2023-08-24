@@ -240,4 +240,9 @@ public class Resolution implements ExpressionValue {
 	public boolean isOperation(Operation derivative) {
 		return false;
 	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
+	}
 }

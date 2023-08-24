@@ -7,10 +7,10 @@ import org.geogebra.common.properties.PropertyCollection;
 /**
  * Implements the PropertyCollection interface.
  */
-public abstract class AbstractPropertyCollection extends AbstractProperty
-		implements PropertyCollection {
+public abstract class AbstractPropertyCollection<P extends Property> extends AbstractProperty
+		implements PropertyCollection<P> {
 
-	private Property[] properties;
+	private P[] properties;
 
 	/**
 	 * Constructs an AbstractPropertyCollection.
@@ -25,7 +25,7 @@ public abstract class AbstractPropertyCollection extends AbstractProperty
 	}
 
 	@Override
-	public Property[] getProperties() {
+	public P[] getProperties() {
 		return properties;
 	}
 
@@ -33,7 +33,7 @@ public abstract class AbstractPropertyCollection extends AbstractProperty
 	 * Set the properties of this collection.
 	 * @param properties properties
 	 */
-	protected void setProperties(Property[] properties) {
+	protected void setProperties(P[] properties) {
 		this.properties = properties;
 	}
 }

@@ -3,13 +3,13 @@ package org.geogebra.common.properties.impl.objects;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.aliases.BooleanProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 /**
  * Show object
  */
-public class ShowObjectProperty extends AbstractProperty implements BooleanProperty {
+public class ShowObjectProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
 	private final GeoElement element;
 
@@ -20,12 +20,12 @@ public class ShowObjectProperty extends AbstractProperty implements BooleanPrope
 	}
 
 	@Override
-	public boolean getValue() {
+	public Boolean getValue() {
 		return element.isEuclidianVisible();
 	}
 
 	@Override
-	public void setValue(boolean show) {
+	protected void doSetValue(Boolean show) {
 		element.setEuclidianVisible(show);
 		element.updateVisualStyleRepaint(GProperty.VISIBLE);
 	}

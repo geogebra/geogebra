@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.AlgoTableToChart;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.main.undo.UndoManager;
@@ -38,8 +39,7 @@ public class CalcEmbedElement extends EmbedElement {
 
 	private void setupUndoRedo(int embedID, EmbedManagerW embedManager) {
 		AppW app = frame.getApp();
-		app.setUndoRedoPanelAllowed(false);
-		app.setUndoRedoEnabled(true);
+		app.setUndoRedoMode(UndoRedoMode.EXTERNAL);
 		Kernel kernel = app.getKernel();
 		kernel.setUndoActive(true);
 
