@@ -195,6 +195,11 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	@Override
+	public String getLanguageTag() {
+		return getLocale().toLanguageTag();
+	}
+
+	@Override
 	final public String getSymbolTooltip(int key) {
 		if (rbsymbol == null) {
 			initSymbolResourceBundle();

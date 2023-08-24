@@ -10,7 +10,7 @@ import org.geogebra.common.properties.impl.AbstractPropertyCollection;
 /**
  * This collection groups properties that are related to labeling the axes.
  */
-public class LabelsPropertyCollection extends AbstractPropertyCollection {
+public class LabelsPropertyCollection extends AbstractPropertyCollection<Property> {
 
 	/**
 	 * Constructs a labels property collection.
