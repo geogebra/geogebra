@@ -169,8 +169,8 @@ import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
-import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.export.PrintPreviewD;
@@ -535,7 +535,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			kernel.getAnimatonManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
 		}
-
+		MouseEventUtil.setApp(this);
 	}
 
 	// **************************************************************************
@@ -3485,40 +3485,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public static boolean isControlDown(boolean isMetaDown,
 			boolean isControlDown) {
 
-		if (fakeRightClick) {
-			return false;
-		}
-
 		// multiple selection
 		return (MAC_OS && isMetaDown) // Mac: meta down for
 				// multiple selection, Ctrl for other OS
 				|| (!MAC_OS && isControlDown);
 	}
 
-	private static boolean fakeRightClick = false;
-
 	public static boolean isMiddleClick(MouseEventND e) {
 		return e.isMiddleClick();
 	}
 
-	/**
-	 * Check if the event is a right click
-	 * @param e event
-	 * @return boolean
-	 */
-	public static boolean isRightClick(MouseEvent e) {
-		boolean rightPressed = e.getButton() == 3;
-		if (MAC_OS && !rightPressed) {
-			fakeRightClick = false;
-		}
-
-		if (MAC_OS && e.isPopupTrigger() && rightPressed) {
-			fakeRightClick = true;
-		}
-
-		return fakeRightClick || (MAC_OS && e.isControlDown()) || (!MAC_OS && (e.getModifiersEx()
-				& InputEvent.BUTTON3_DOWN_MASK) == InputEvent.BUTTON3_DOWN_MASK);
-	}
 
 	/**
 	 * isRightClickForceMetaDown
@@ -3952,10 +3928,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return tableModel;
 	}
 
-	@Override
-	public boolean isRightClick(AbstractEvent e) {
-		return isRightClick(MouseEventD.getEvent(e));
-	}
 
 	@Override
 	public boolean isControlDown(AbstractEvent e) {

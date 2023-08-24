@@ -38,9 +38,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -287,7 +287,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// right click shows context menu
-			if (AppD.isRightClick(e)) {
+			if (MouseEventUtil.isRightClick(e)) {
 				e.consume();
 				ContextMenu popup = new ContextMenu();
 				popup.show(e.getComponent(), e.getX(), e.getY());
@@ -296,14 +296,14 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (AppD.isRightClick(e)) {
+			if (MouseEventUtil.isRightClick(e)) {
 				e.consume();
 			}
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			if (AppD.isRightClick(e)) {
+			if (MouseEventUtil.isRightClick(e)) {
 				e.consume();
 			}
 		}

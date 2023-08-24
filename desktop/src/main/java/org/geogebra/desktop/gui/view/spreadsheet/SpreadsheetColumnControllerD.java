@@ -28,6 +28,7 @@ import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -72,7 +73,7 @@ public class SpreadsheetColumnControllerD
 		// Double clicking on a column boundary auto-adjusts the
 		// width of the column on the left
 
-		if (isResizing && !AppD.isRightClick(e) && e.getClickCount() == 2) {
+		if (isResizing && !MouseEventUtil.isRightClick(e) && e.getClickCount() == 2) {
 
 			// get column to adjust
 			int x = e.getX();
@@ -109,7 +110,7 @@ public class SpreadsheetColumnControllerD
 		int x = e.getX();
 		int y = e.getY();
 		boolean shiftDown = e.isShiftDown();
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (!view.hasViewFocus()) {
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
@@ -176,7 +177,7 @@ public class SpreadsheetColumnControllerD
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (!((AppD) kernel.getApplication()).letShowPopupMenu()) {
 			return;
@@ -267,7 +268,7 @@ public class SpreadsheetColumnControllerD
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
-		if (AppD.isRightClick(e)) {
+		if (MouseEventUtil.isRightClick(e)) {
 			return; // G.Sturr 2009-9-30
 		}
 

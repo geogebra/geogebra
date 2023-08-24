@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
@@ -209,7 +210,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		// Double clicking on a row boundary auto-adjusts the
 		// height of the row above the boundary (the resizingRow)
 
-		if (resizingRow >= 0 && !AppD.isRightClick(e)
+		if (resizingRow >= 0 && !MouseEventUtil.isRightClick(e)
 				&& e.getClickCount() == 2) {
 			table.fitRow(resizingRow);
 			e.consume();
@@ -229,7 +230,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	@Override
 	public void mousePressed(MouseEvent e) {
 		boolean shiftPressed = e.isShiftDown();
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		int x = e.getX();
 		int y = e.getY();
@@ -284,7 +285,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (rightClick) {
 			if (!app.letShowPopupMenu()) {
@@ -340,7 +341,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (AppD.isRightClick(e)) {
+		if (MouseEventUtil.isRightClick(e)) {
 			return;
 		}
 
