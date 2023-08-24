@@ -24,15 +24,8 @@ $button_hover_transition: background-color 0.15s;
 		z-index: z-index.$z-open-file-view-header;
 		
 		.headerBackButton {
-			cursor: pointer;
-			width: 24px;
-			height: 24px;
-			opacity: 0.54;
-			padding: 8px 12px;
-			margin: auto 12px;
-			&:hover {
-				opacity: 0.87;
-			}
+			margin: auto 18px;
+
 			.gwt-Image {
 				vertical-align: middle;
 			}
