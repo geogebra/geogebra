@@ -3926,12 +3926,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return tableModel;
 	}
 
-
-	@Override
-	public boolean isControlDown(AbstractEvent e) {
-		return e != null && isControlDown(e.isMetaDown(), e.isControlDown());
-	}
-
 	@Override
 	public boolean isMiddleClick(AbstractEvent e) {
 		return isMiddleClick((MouseEventND) e);

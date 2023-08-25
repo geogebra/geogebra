@@ -11,4 +11,10 @@ public interface MouseEventPrototype {
 	 */
 	boolean isRightClick(MouseEvent event);
 
+	/**
+	 *
+	 * @param event to check.
+	 * @return if control/option key is down.
+	 */
+	boolean isControlDown(MouseEvent event);
 }

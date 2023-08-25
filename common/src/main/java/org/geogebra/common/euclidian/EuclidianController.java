@@ -6150,6 +6150,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SELECT_MOW:
 			// handle selection click
 			setViewHits(type);
+			Log.debug("controldown: " + controlDown);
 			handleSelectClick(view.getHits().getTopHits(),
 					controlDown);
 		default:
@@ -9972,7 +9973,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseReleasedND(final AbstractEvent event,
 			boolean mayFocus) {
-		boolean control = app.isControlDown(event);
+		boolean control = event.isControlDown();
 		final boolean alt = event.isAltDown();
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		boolean rightClick = event.isRightClick();
@@ -10276,10 +10277,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// allow drag with right mouse button or ctrl
 		// make sure Ctrl still works for selection (when no dragging occured)
-		if (right || (control && isDraggingOccuredBeyondThreshold())) {
+		if (event.isRightClick() || (control && isDraggingOccuredBeyondThreshold())) {
 			if (!temporaryMode) {
-				processRightReleased(right, alt, control, event.isShiftDown(),
-						type);
+				processRightReleased(event, type);
 				return true;
 			}
 		}
@@ -10421,17 +10421,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void processRightReleased(boolean right, boolean alt,
-			boolean control, boolean shift, PointerEventType type) {
+	private void processRightReleased(AbstractEvent event, PointerEventType type) {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
 
+		boolean right = event.isRightClick();
+		boolean control = event.isControlDown();
+		boolean alt = event.isAltDown();
+		boolean meta = event.isMetaDown();
+		boolean shift = event.isShiftDown();
+
 		// make sure cmd-click selects multiple points (not open
 		// properties)
-		if ((app.isMacOS() && control) || !right) {
+		if ((app.isMacOS() && meta) || !right) {
 			return;
 		}
+
 		if (isDraggingOccuredBeyondThreshold()) {
 			if (allowSelectionRectangle()) {
 				processSelectionRectangle(alt, control, shift);

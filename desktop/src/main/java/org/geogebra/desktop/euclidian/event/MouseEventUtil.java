@@ -18,4 +18,8 @@ public class MouseEventUtil {
 		}
 		return prototype;
 	}
+
+	public static boolean isControlDown(MouseEvent event) {
+		return prototype().isControlDown(event);
+	}
 }

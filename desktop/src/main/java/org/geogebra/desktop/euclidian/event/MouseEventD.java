@@ -74,7 +74,7 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	@Override
 	public boolean isControlDown() {
-		return event.isControlDown();
+		return MouseEventUtil.isControlDown(event);
 	}
 
 	@Override

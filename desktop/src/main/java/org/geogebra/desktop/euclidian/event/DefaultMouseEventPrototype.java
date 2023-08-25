@@ -9,4 +9,9 @@ public class DefaultMouseEventPrototype implements MouseEventPrototype {
 		return event.getButton() == 3 || ((event.getModifiersEx()
 				& InputEvent.BUTTON3_DOWN_MASK) == InputEvent.BUTTON3_DOWN_MASK);
 	}
+
+	@Override
+	public boolean isControlDown(MouseEvent event) {
+		return event.isControlDown();
+	}
 }
