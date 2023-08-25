@@ -9975,7 +9975,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean control = app.isControlDown(event);
 		final boolean alt = event.isAltDown();
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
-		boolean rightClick = meta;
+		boolean rightClick = event.isRightClick();
 		PointerEventType type = event.getType();
 
 		if (isDraggingOccuredBeyondThreshold()) {

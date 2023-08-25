@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 public class DefaultMouseEventPrototype implements MouseEventPrototype {
 	@Override
 	public boolean isRightClick(MouseEvent event) {
-		return (event.getModifiersEx()
-				& InputEvent.BUTTON3_DOWN_MASK) == InputEvent.BUTTON3_DOWN_MASK;
+		return event.getButton() == 3 || ((event.getModifiersEx()
+				& InputEvent.BUTTON3_DOWN_MASK) == InputEvent.BUTTON3_DOWN_MASK);
 	}
 }
