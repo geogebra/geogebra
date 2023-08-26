@@ -117,7 +117,7 @@ class OptionItem {
 	}
 
 	public boolean isHit(int x, int y) {
-		return rect != null && rect.contains(x, y - OptionTableDimension.VERTICAL_PADDING);
+		return rect != null && rect.contains(x, y);
 	}
 
 	public void setRect(GRectangle rect) {
@@ -129,7 +129,7 @@ class OptionItem {
 	}
 
 	public int getTop() {
-		return (int) rect.getBounds().getY() + OptionTableDimension.VERTICAL_PADDING;
+		return (int) rect.getBounds().getY();
 	}
 
 	public int getBottom() {

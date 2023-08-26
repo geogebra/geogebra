@@ -454,9 +454,6 @@ public class ConsElementXMLHandler {
 			((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
 		} else if (geo instanceof GeoInputBox) {
 			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
-		} else if (geo instanceof GeoList) {
-			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
-			geo.setBackgroundColor(GColor.WHITE);
 		}
 	}
 

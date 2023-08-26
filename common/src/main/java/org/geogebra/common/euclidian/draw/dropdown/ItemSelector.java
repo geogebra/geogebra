@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -31,7 +30,7 @@ class ItemSelector implements MoveSelector {
 		geoList = model.getGeoList();
 		app = geoList.getApp();
 		range = model.getRange();
-		color = GeoGebraColorConstants.NEUTRAL_200;
+		color = GColor.LIGHT_GRAY;
 	}
 
 	int getDragOffset() {

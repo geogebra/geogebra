@@ -12,8 +12,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoList;
 
 class OptionItemList {
-	static final int VERTICAL_PADDING = 10;
-	static final int HORIZONTAL_PADDING = 16;
+	static final int PADDING = 10;
 	private final List<OptionItem> items;
 	private final GeoList geoList;
 	private GDimension maxDimension;
@@ -48,8 +47,8 @@ class OptionItemList {
 	private void calculateItemDimensions() {
 		int width = maxOfItems(OptionItem::getWidth, OptionItem::getWidth);
 		int height = maxOfItems(OptionItem::getHeight, OptionItem::getHeight);
-		maxDimension = AwtFactory.getPrototype().newDimension(width + 2 * HORIZONTAL_PADDING,
-				height + 2 * VERTICAL_PADDING);
+		maxDimension = AwtFactory.getPrototype().newDimension(width + 2 * PADDING,
+				height + 2 * PADDING);
 	}
 
 	private int maxOfItems(ToDoubleFunction<OptionItem> extractor,
