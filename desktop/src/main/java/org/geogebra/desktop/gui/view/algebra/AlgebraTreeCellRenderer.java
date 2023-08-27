@@ -26,7 +26,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  * @author Markus
  */
-public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
+public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +42,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	 * @param app application
 	 * @param view AV
 	 */
-	public MyRendererForAlgebraTree(AppD app, AlgebraTree view) {
+	public AlgebraTreeCellRenderer(AppD app, AlgebraTree view) {
 		setOpaque(true);
 		this.app = app;
 		this.kernel = app.getKernel();

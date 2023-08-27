@@ -12,7 +12,7 @@ import org.geogebra.desktop.main.AppD;
  * @author mathieu
  * 
  */
-public class MyRendererForAlgebraView extends MyRendererForAlgebraTree {
+public class AlgebraViewCellRenderer extends AlgebraTreeCellRenderer {
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree {
 	 * @param view
 	 *            view
 	 */
-	public MyRendererForAlgebraView(AppD app, AlgebraTree view) {
+	public AlgebraViewCellRenderer(AppD app, AlgebraTree view) {
 		super(app, view);
 	}
 
