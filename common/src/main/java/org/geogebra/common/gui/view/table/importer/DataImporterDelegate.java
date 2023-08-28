@@ -13,11 +13,11 @@ public interface DataImporterDelegate {
 	/**
 	 * Informs the delegate about data import progress.
 	 * @param currentRow The current row of data being imported.
-	 * @param totalNrOfRows The total number of rows being imported.
+	 * @param totalRowCount The total number of rows being imported.
 	 * @return false to cancel import after the current row, or
 	 * true to continue importing.
 	 */
-	boolean onImportProgress(int currentRow, int totalNrOfRows);
+	boolean onImportProgress(int currentRow, int totalRowCount);
 
 	/**
 	 * Informs the delegate about a non-fatal problem during data import.

@@ -1,11 +1,9 @@
 package org.geogebra.common.gui.view.table;
 
-import org.geogebra.common.util.SuspenableListener;
-
 /**
  * Creates points according to the table view model.
  */
-public interface TableValuesPoints extends TableValuesListener, SuspenableListener {
+public interface TableValuesPoints extends TableValuesListener {
 
     /**
      * Returns true if points are visible for this evaluatable.

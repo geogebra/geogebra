@@ -27,12 +27,8 @@ public final class DataImporter {
 	@Weak
 	private DataImporterDelegate delegate;
 	private final TableValuesView tableValuesView;
-	private boolean hasHeader = false;
-	private char csvSeparator = 0;
-	private int nrOfColumns = -1;
-	private int nrOfRows = -1;
-	private int maxNrRows = 1000;
-	private int maxNrColumns = 100;
+	private int maxRowCount = 1000;
+	private int maxColumnCount = 100;
 	private boolean discardHeader = true;
 
 	/**
@@ -50,16 +46,14 @@ public final class DataImporter {
 	/**
 	 * Limit the number of rows and/or columns to import.
 	 *
-	 * @param maxNrRows The maximum number of rows (including header rows) to import.
+	 * @param maxRowCount The maximum number of rows (including header rows) to import.
 	 *                  Defaults to 1000.
-	 * @param maxNrColumns The maximum number of columns to import.
+	 * @param maxColumnCount The maximum number of columns to import.
 	 *                     Defaults to 100.
 	 */
-	public void setDataSizeLimits(int maxNrRows, int maxNrColumns) {
-		assert maxNrRows > 0;
-		assert maxNrColumns > 0;
-		this.maxNrRows = maxNrRows;
-		this.maxNrColumns = maxNrColumns;
+	public void setDataSizeLimits(int maxRowCount, int maxColumnCount) {
+		this.maxRowCount = maxRowCount;
+		this.maxColumnCount = maxColumnCount;
 	}
 
 	/**
@@ -67,8 +61,8 @@ public final class DataImporter {
 	 *
 	 * @return the maximum number of rows to import. -1 means "no limit".
 	 */
-	public int getMaxNrRows() {
-		return maxNrRows;
+	public int getMaxRowCount() {
+		return maxRowCount;
 	}
 
 	/**
@@ -76,8 +70,8 @@ public final class DataImporter {
 	 *
 	 * @return the maximum number of columns to import. -1 means "no limit".
 	 */
-	public int getMaxNrColumns() {
-		return maxNrColumns;
+	public int getMaxColumnCount() {
+		return maxColumnCount;
 	}
 
 	/**
@@ -151,10 +145,9 @@ public final class DataImporter {
 	}
 
 	private List<Row> validateAndCollectRowsFromCSV(Reader reader, char decimalSeparator) {
-		csvSeparator = 0;
-		hasHeader = false;
-		nrOfRows = -1;
-		nrOfColumns = -1;
+		char csvSeparator = 0;
+		boolean dataHasHeader = false;
+		int columnCount = -1;
 		int currentRow = 0;
 		LineReader lineReader = new LineReader(reader);
 		CSVParser parser = new CSVParser();
@@ -163,7 +156,7 @@ public final class DataImporter {
 		try {
 			while ((line = lineReader.readLine()) != null) {
 				currentRow++;
-				if (currentRow > maxNrRows) {
+				if (currentRow > maxRowCount) {
 					notifyAboutWarning(DATA_SIZE_LIMIT_EXCEEDED, currentRow);
 					break; // skip remaining data
 				}
@@ -173,21 +166,21 @@ public final class DataImporter {
 				}
 				String[] rawValues = parser.parseLine(line);
 				trim(rawValues);
-				if (maxNrColumns > 0 && maxNrColumns < rawValues.length) {
-					rawValues = Arrays.copyOf(rawValues, maxNrColumns);
+				if (maxColumnCount > 0 && maxColumnCount < rawValues.length) {
+					rawValues = Arrays.copyOf(rawValues, maxColumnCount);
 				}
 				if (currentRow == 1) {
-					nrOfColumns = rawValues.length;
+					columnCount = rawValues.length;
 					if (rawValues.length > 0 && !isValidNumber(rawValues[0], decimalSeparator)) {
-						hasHeader = true; // best-effort guess
+						dataHasHeader = true; // best-effort guess
 					}
 				}
-				int rowNr = hasHeader ? currentRow - 1 : currentRow;
-				boolean isHeaderRow = currentRow == 1 && hasHeader;
+				int rowNr = dataHasHeader ? currentRow - 1 : currentRow;
+				boolean isHeaderRow = currentRow == 1 && dataHasHeader;
 				if (!isHeaderRow && !shouldContinueValidation(rowNr)) {
 					return null;
 				}
-				if (rawValues.length != nrOfColumns) {
+				if (rawValues.length != columnCount) {
 					notifyAboutError(INCONSISTENT_COLUMNS, rowNr);
 					return null;
 				}
@@ -203,7 +196,6 @@ public final class DataImporter {
 					}
 				}
 			}
-			nrOfRows = rows.size();
 		} catch (CSVException e) {
 			notifyAboutError(DataImporterError.DATA_FORMAT_ERROR, currentRow);
 			return null;
@@ -218,13 +210,14 @@ public final class DataImporter {
 		if (rows == null || rows.size() == 0) {
 			return false;
 		}
-		tableValuesView.startImport(nrOfRows, nrOfColumns);
+		Row firstRow = rows.get(0);
+		String[] columnLabels = getColumnLabels(firstRow);
+		tableValuesView.startImport(rows.size(), firstRow.columnCount, columnLabels);
 		for (Row row : rows) {
 			if (row.isHeader) {
-				// TODO handling of header row (if present)?
 				continue;
 			}
-			if (!shouldContinueImport(row.rowNr, nrOfRows)) {
+			if (!shouldContinueImport(row.rowNr, rows.size())) {
 				tableValuesView.cancelImport();
 				return false;
 			}
@@ -323,6 +316,21 @@ public final class DataImporter {
 		}
 	}
 
+	private String[] getColumnLabels(Row firstRow) {
+		if (firstRow == null) {
+			return null;
+		}
+		String[] columnLabels = new String[firstRow.columnCount];
+		for (int columnIndex = 0; columnIndex < firstRow.columnCount; columnIndex++) {
+			String columnLabel = firstRow != null && firstRow.isHeader &&
+					firstRow.rawValues[columnIndex] != null ?
+					firstRow.rawValues[columnIndex] :
+					(columnIndex == 0 ? "x" : ("y" + String.valueOf(columnIndex)));
+			columnLabels[columnIndex] = columnLabel;
+		}
+		return columnLabels;
+	}
+
 	// Delegate notifications
 
 	private void notifyAboutError(DataImporterError error, int rowNr) {
@@ -344,24 +352,17 @@ public final class DataImporter {
 		return true;
 	}
 
-	private boolean shouldContinueImport(int rowNr, int totalNrOfRows) {
+	private boolean shouldContinueImport(int rowNr, int totalRowCount) {
 		if (delegate != null) {
-			return delegate.onImportProgress(rowNr, totalNrOfRows);
+			return delegate.onImportProgress(rowNr, totalRowCount);
 		}
 		return true;
 	}
 
-	/**
-	 * Mostly for testing
-	 * @return true if a header has been detected during validation.
-	 */
-	public boolean getHasHeader() {
-		return hasHeader;
-	}
-
 	private static class Row {
 
-		int rowNr;
+		int rowNr; // note: 1-based (optional header is row 0)
+		int columnCount;
 		boolean isHeader;
 		Double[] values;
 		String[] rawValues;
@@ -370,6 +371,7 @@ public final class DataImporter {
 		Row(int rowNr, boolean isHeader, Double[] values, String[] rawValues,
 				boolean hasValidationIssues) {
 			this.rowNr = rowNr;
+			this.columnCount = rawValues.length;
 			this.isHeader = isHeader;
 			this.values = values;
 			this.rawValues = rawValues;

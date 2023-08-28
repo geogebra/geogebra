@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.SuspenableListener;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -30,6 +29,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private final Kernel kernel;
 
 	private final List<TableValuesListener> listeners;
+	private final List<TableValuesListener> suspendedListeners;
 	private final List<TableValuesColumn> columns;
 	private final TableSettings settings;
 
@@ -44,6 +44,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		this.kernel = kernel;
 		this.settings = settings;
 		this.listeners = new ArrayList<>();
+		this.suspendedListeners = new ArrayList<>();
 		this.columns = new ArrayList<>();
 		this.collector = new ModelEventCollector();
 		GeoList values = getValueList();
@@ -453,53 +454,59 @@ class SimpleTableValuesModel implements TableValuesModel {
 		element.notifyColumnChanged(this, getValueList(), 0);
 	}
 
-	void importColumns(GeoList[] columnsToImport) {
-		if (columnsToImport.length == 0) {
+	void importColumns(GeoList[] columnsToImport, String[] columnLabels) {
+		if (columnsToImport.length == 0 || columnLabels.length != columnsToImport.length) {
 			return;
 		}
 		suspendListeners(listener -> listener instanceof TableValuesPoints);
 		collector.startCollection(this);
 		columns.clear();
-
-		// import X column
-		GeoList valueList = columnsToImport[0];
-		setupXValues(valueList);
-		settings.setValueList(valueList);
-		TableValuesColumn valuesColumn = new TableValuesListColumn(valueList);
-		columns.add(valuesColumn);
-//		valuesColumn.notifyDatasetChanged(this);
-//		collector.notifyColumnAdded(this, valueList, 0); // necessary?
-
-		// import remaining columns
-		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
-			GeoList values = columnsToImport[columnIdx];
-			TableValuesColumn column = new TableValuesListColumn(values);
-			columns.add(column);
-//			column.notifyDatasetChanged(this);
-//			collector.notifyColumnAdded(this, values, columnIdx); // necessary?
-		}
+		importXColumn(columnsToImport, columnLabels);
+		importYColumns(columnsToImport, columnLabels);
 		collector.notifyDatasetChanged(this);
 		kernel.storeUndoInfo();
-
 		collector.endCollection(this);
 		resumeListeners(listener -> listener instanceof TableValuesPoints);
 	}
 
-	private void suspendListeners(Predicate<SuspenableListener> predicate) {
-		for (TableValuesListener listener : listeners) {
-			if (listener instanceof SuspenableListener
-					&& predicate.test((SuspenableListener) listener)) {
-				((SuspenableListener) listener).suspendListening();
-			}
+	private void importXColumn(GeoList[] columnsToImport, String[] columnLabels) {
+		GeoList valueList = columnsToImport[0];
+		setupXValues(valueList);
+		valuesHeader = columnLabels[0];
+		valueList.setLabel(valuesHeader);
+		settings.setValueList(valueList);
+		TableValuesColumn valuesColumn = new TableValuesListColumn(valueList);
+		columns.add(valuesColumn);
+	}
+
+	private void importYColumns(GeoList[] columnsToImport, String[] columnLabels) {
+		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
+			GeoList values = columnsToImport[columnIdx];
+			values.setLabel(columnLabels[columnIdx]);
+			TableValuesColumn column = new TableValuesListColumn(values);
+			columns.add(column);
 		}
 	}
 
-	private void resumeListeners(Predicate<SuspenableListener> predicate) {
+	private void suspendListeners(Predicate<TableValuesListener> predicate) {
+		List<TableValuesListener> suspendedListeners = new ArrayList<>();
 		for (TableValuesListener listener : listeners) {
-			if (listener instanceof SuspenableListener
-					&& predicate.test((SuspenableListener) listener)) {
-				((SuspenableListener) listener).resumeListening();
+			if (predicate.test(listener)) {
+				suspendedListeners.add(listener);
 			}
 		}
+		listeners.removeAll(suspendedListeners);
+		this.suspendedListeners.addAll(suspendedListeners);
+	}
+
+	private void resumeListeners(Predicate<TableValuesListener> predicate) {
+		List<TableValuesListener> resumedListeners = new ArrayList<>();
+		for (TableValuesListener listener : suspendedListeners) {
+			if (predicate.test(listener)) {
+				resumedListeners.add(listener);
+			}
+		}
+		suspendedListeners.removeAll(resumedListeners);
+		listeners.addAll(resumedListeners);
 	}
 }
