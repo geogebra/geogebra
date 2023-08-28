@@ -514,7 +514,8 @@ public class TableValuesView implements TableValues, SettingListener {
 					element = new GeoText(kernel.getConstruction(), rawValues[index]);
 				}
 			} else {
-				element = new GeoNumeric(kernel.getConstruction(), Double.NaN, false); // empty value
+				// create an empty value
+				element = new GeoNumeric(kernel.getConstruction(), Double.NaN, false);
 			}
 			column.add(element);
 		}
