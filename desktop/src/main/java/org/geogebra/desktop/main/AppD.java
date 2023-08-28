@@ -169,7 +169,9 @@ import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
+import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.export.PrintPreviewD;
@@ -4477,6 +4479,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void closePopups() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean hasMultipleSelectModifier(AbstractEvent e) {
+		if (!(e instanceof MouseEventD)) {
+			return false;
+		}
+		return MouseEventUtil.hasMultipleSelectModifier((MouseEventD) e);
 	}
 
 	@Override

@@ -6095,7 +6095,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean switchModeForMouseReleased(int evMode, Hits hitsReleased,
-			boolean kernelChanged, boolean controlDown, PointerEventType type,
+			boolean kernelChanged, boolean multipleSelect, PointerEventType type,
 			boolean runScripts) {
 		Hits hits;
 		boolean changedKernel = kernelChanged;
@@ -6140,7 +6140,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// Ctrl pressed, we need to select a point
 				setViewHits(type);
 				handleSelectClick(view.getHits().getTopHits(),
-						controlDown);
+						multipleSelect);
 			}
 			break;
 		case EuclidianConstants.MODE_SELECT:
@@ -6150,9 +6150,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SELECT_MOW:
 			// handle selection click
 			setViewHits(type);
-			Log.debug("controldown: " + controlDown);
 			handleSelectClick(view.getHits().getTopHits(),
-					controlDown);
+					multipleSelect);
 		default:
 
 			// change checkbox (boolean) state on mouse up only if there's been
@@ -6496,11 +6495,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
     }
 
 	protected void handleSelectClick(ArrayList<GeoElement> geos,
-			boolean ctrlDown) {
+			boolean uniqueSelect) {
 		if (geos == null) {
 			selection.clearSelectedGeos();
 		} else {
-			if (ctrlDown) {
+			if (uniqueSelect) {
 				selection.toggleSelectedGeoWithGroup(chooseGeo(geos, true));
 			} else {
 				Hits hits = new Hits();
@@ -7939,8 +7938,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		isMultiResize = false;
 		startBoundingBoxState = null;
 
-		// fix for meta-click to work on Mac/Linux
-		if (app.isControlDown(e)) {
+		if (app.hasMultipleSelectModifier(e)) {
 			return;
 		}
 		// move label?
@@ -10129,7 +10127,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// we want to be able to select multiple objects using the selection
 			// rectangle)
 			changedKernel = switchModeForMouseReleased(mode, hits,
-					changedKernel, control, type, mayFocus);
+					changedKernel, app.hasMultipleSelectModifier(event), type, mayFocus);
 		}
 
 		// remember helper point, see createNewPoint()
@@ -10431,12 +10429,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean alt = event.isAltDown();
 		boolean meta = event.isMetaDown();
 		boolean shift = event.isShiftDown();
-
-		// make sure cmd-click selects multiple points (not open
-		// properties)
-		if ((app.isMacOS() && meta) || !right) {
-			return;
-		}
 
 		if (isDraggingOccuredBeyondThreshold()) {
 			if (allowSelectionRectangle()) {

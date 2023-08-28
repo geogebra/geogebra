@@ -84,7 +84,7 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	@Override
 	public boolean isMetaDown() {
-		return event.isMetaDown();
+		return MouseEventUtil.isMetaDown(event);
 	}
 
 	@Override

@@ -1,6 +1,10 @@
 package org.geogebra.desktop.euclidian.event;
 
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
+
+import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.plugin.Event;
 
 public class MacOSMouseEventPrototype implements MouseEventPrototype {
 
@@ -15,5 +19,16 @@ public class MacOSMouseEventPrototype implements MouseEventPrototype {
 	public boolean isControlDown(MouseEvent event) {
 		return (event.getModifiersEx() & 128) != 0 ;
 
+	}
+
+	@Override
+	public boolean isMetaDown(MouseEvent event) {
+		return (event.getModifiersEx() & InputEvent.META_DOWN_MASK) != 0 ;
+
+	}
+
+	@Override
+	public boolean hasMultipleSelectModifier(AbstractEvent event) {
+		return event.isMetaDown();
 	}
 }
