@@ -208,4 +208,11 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 		assertEquals(zero(), evaluator.pow(zero(), interval(5)));
 		assertEquals(zero(), evaluator.pow(zero(), interval(6, 10000)));
 	}
+
+	@Test
+	public void zeroValueOnPower() {
+		Interval x = interval(0.5, 0.515625);
+		Interval sin0 = evaluator.sin(zero());
+		assertEquals(zero(), evaluator.pow(sin0, x));
+	}
 }

@@ -162,7 +162,7 @@ public class IntervalAlgebra {
 			return one();
 		}
 
-		if (interval.isZeroWithDelta(0)) {
+		if (interval.isZeroWithDelta(IntervalConstants.PRECISION / 2)) {
 			return other.isPositive() ? zero() : undefined();
 		}
 
