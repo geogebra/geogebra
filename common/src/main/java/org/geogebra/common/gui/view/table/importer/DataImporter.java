@@ -322,8 +322,7 @@ public final class DataImporter {
 		}
 		String[] columnLabels = new String[firstRow.columnCount];
 		for (int columnIndex = 0; columnIndex < firstRow.columnCount; columnIndex++) {
-			String columnLabel = firstRow != null
-					&& firstRow.isHeader
+			String columnLabel = firstRow.isHeader
 					&& firstRow.rawValues[columnIndex] != null
 					? firstRow.rawValues[columnIndex]
 					: (columnIndex == 0 ? "x" : ("y" + columnIndex));
