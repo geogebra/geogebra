@@ -192,7 +192,7 @@ public class ToolbarPanel extends FlowPanel
 				&& app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
 				&& app.getConfig().getVersion() != GeoGebraConstants.Version.PROBABILITY
 				&& !(app.getConfig().getVersion() == GeoGebraConstants.Version.SUITE
-				&& app.getConfig().getSubAppCode() == GeoGebraConstants.SCIENTIFIC_APPCODE);
+				&& GeoGebraConstants.SCIENTIFIC_APPCODE.equals(app.getConfig().getSubAppCode()));
 		if (isAllowed) {
 			addUndoRedoButtons();
 		} else {
@@ -200,6 +200,9 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
+	/**
+	 * remove undo/redo from frame
+	 */
 	public void removeUndoRedoPanel() {
 		if (undoRedoPanel != null) {
 			undoRedoPanel.removeFromParent();
