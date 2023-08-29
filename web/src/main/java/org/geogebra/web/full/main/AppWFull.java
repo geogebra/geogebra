@@ -169,9 +169,12 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
+import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Visibility;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.HorizontalPanel;
@@ -2376,6 +2379,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		getGuiManager().resetPanels();
 		getGuiManager().getLayout().applyPerspective(perspective);
+		Element el = DOM.getElementById("undoRedoSettingsPanel");
+		if (el != null) {
+			el.getStyle().setDisplay(subAppCode == GeoGebraConstants.SCIENTIFIC_APPCODE
+					? Display.BLOCK : Display.NONE);
+			if (subAppCode == GeoGebraConstants.SCIENTIFIC_APPCODE) {
+				el.getParentElement().addClassName("scientificHeader");
+			} else {
+				el.getParentElement().removeClassName("scientificHeader");
+			}
+			getCurrentActivity().getHeaderResizer(frame).resizeHeader();
+		}
+
 
 		kernel.initUndoInfo();
 		kernel.getAlgebraProcessor().getCommandDispatcher()
