@@ -175,4 +175,17 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	public Keyboard createSpecialSymbolsKeyboard() {
 		return getImpl(specialSymbolsKeyboardFactory, KeyboardType.SPECIAL);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		return o != null && getClass() == o.getClass();
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 }

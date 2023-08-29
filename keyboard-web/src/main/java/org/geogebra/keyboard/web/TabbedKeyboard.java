@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
@@ -123,22 +125,29 @@ public class TabbedKeyboard extends FlowPanel
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
-	private KeyboardFactory initKeyboardFactory() {
-		KeyboardFactory factory;
+	private KeyboardFactory createKeyboardFactory() {
 		if (hasKeyboard.getInputBoxType() != null) {
-			factory = new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
+			return new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
 					hasKeyboard.getInputBoxFunctionVars());
 		} else {
-			if (hasKeyboard.getKeyboardType() == AppKeyboardType.NOTES) {
-				factory = new NotesKeyboardFactory();
-			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC
-				|| hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
-				factory = new ScientificKeyboardFactory();
-			} else {
-				factory = new DefaultKeyboardFactory();
+			AppKeyboardType type = hasKeyboard.getKeyboardType();
+			switch (type) {
+			case NOTES:
+				return new NotesKeyboardFactory();
+			case SCIENTIFIC:
+			case SOLVER:
+				return new ScientificKeyboardFactory();
+			default:
+				return new DefaultKeyboardFactory();
 			}
 		}
-		return factory;
+	}
+
+	private boolean hasKeyboardFactoryChanged(@Nonnull KeyboardFactory newFactory) {
+		if (factory == null) {
+			return true;
+		}
+		return !newFactory.equals(factory);
 	}
 
 	private void buildGUIGgb() {
@@ -605,13 +614,11 @@ public class TabbedKeyboard extends FlowPanel
 	 * rebuilds the keyboard layout based on the inputbox type
 	 */
 	public void clearAndUpdate() {
-		KeyboardFactory newFactory = initKeyboardFactory();
-		if (Objects.equals(factory, newFactory)) {
+		KeyboardFactory newFactory = createKeyboardFactory();
+		if (!hasKeyboardFactoryChanged(newFactory)) {
 			return;
-		} else {
-			factory = newFactory;
 		}
-
+		factory = newFactory;
 		switcher.clear();
 		switcher.setup();
 		clear();
