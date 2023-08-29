@@ -72,8 +72,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, totalRowCount); // header row should be discarded
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
-		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
-		assertEquals("y1", tableValuesView.getTableValuesModel().getHeaderAt(1));
+		assertEquals("x_{1}", tableValuesView.getTableValuesModel().getHeaderAt(0));
+		assertEquals("y_{1}", tableValuesView.getTableValuesModel().getHeaderAt(1));
 		// no points should be created during import
 		assertFalse(tableValuesPoints.arePointsVisible(0));
 		assertFalse(tableValuesPoints.arePointsVisible(1));
@@ -91,8 +91,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(11, totalRowCount); // header row should not be discarded
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
-		assertEquals("X", tableValuesView.getTableValuesModel().getHeaderAt(0));
-		assertEquals("Y", tableValuesView.getTableValuesModel().getHeaderAt(1));
+		assertEquals("A", tableValuesView.getTableValuesModel().getHeaderAt(0));
+		assertEquals("B", tableValuesView.getTableValuesModel().getHeaderAt(1));
 		// no points should be created during import
 		assertFalse(tableValuesPoints.arePointsVisible(0));
 		assertFalse(tableValuesPoints.arePointsVisible(1));
@@ -109,8 +109,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, totalRowCount);
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
-		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
-		assertEquals("y1", tableValuesView.getTableValuesModel().getHeaderAt(1));
+		assertEquals("x_{1}", tableValuesView.getTableValuesModel().getHeaderAt(0));
+		assertEquals("y_{1}", tableValuesView.getTableValuesModel().getHeaderAt(1));
 		// no points should be created during import
 		assertFalse(tableValuesPoints.arePointsVisible(0));
 		assertFalse(tableValuesPoints.arePointsVisible(1));
@@ -277,9 +277,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(5, totalRowCount);
 		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(3, tableValuesView.getTableValuesModel().getColumnCount());
-		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
-		assertEquals("y1", tableValuesView.getTableValuesModel().getHeaderAt(1));
-		assertEquals("y2", tableValuesView.getTableValuesModel().getHeaderAt(2));
+		assertEquals("x_{1}", tableValuesView.getTableValuesModel().getHeaderAt(0));
+		assertEquals("y_{1}", tableValuesView.getTableValuesModel().getHeaderAt(1));
+		assertEquals("y_{2}", tableValuesView.getTableValuesModel().getHeaderAt(2));
 		assertEquals(1.0, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
 		assertEquals(4.0, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
 		assertEquals(9.0, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
@@ -310,6 +310,34 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertNull(warning);
 		assertEquals(3, currentRow);
 		assertEquals(10, totalRowCount);
+	}
+
+	@Test
+	public void testUndoRedoImportCSV() {
+		activateUndo();
+
+		// the model will have an "x" column at this point
+		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
+		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
+
+		Reader reader = loadSample("integers-comma-header.csv");
+		dataImporter.setsDiscardHeader(false); // include column headers in undo testing
+		dataImporter.importCSV(reader, '.');
+		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+		assertEquals("A", tableValuesView.getTableValuesModel().getHeaderAt(0));
+		assertEquals("B", tableValuesView.getTableValuesModel().getHeaderAt(1));
+
+		getKernel().undo();
+		assertEquals(0, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
+		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
+
+		getKernel().redo();
+		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+		assertEquals("A", tableValuesView.getTableValuesModel().getHeaderAt(0));
+		assertEquals("B", tableValuesView.getTableValuesModel().getHeaderAt(1));
 	}
 
 	// Helper methods

@@ -34,7 +34,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
-	private String valuesHeader = "x";
 
 	/**
 	 * Construct a SimpleTableValuesModel.
@@ -104,14 +103,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 	@Override
 	public String getHeaderAt(int column) {
 		if (column == 0) {
-			return valuesHeader;
+			return settings.getValueList().getLabelSimple();
 		}
 		return columns.get(column).getHeader();
 	}
 
 	@Override
 	public void setValuesHeader(String valuesHeader) {
-		this.valuesHeader = valuesHeader;
+		settings.getValueList().setLabel(valuesHeader);
 	}
 
 	/**
@@ -265,6 +264,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	public GeoList getValueList() {
 		if (settings.getValueList() == null) {
 			GeoList xValues = setupXValues(new GeoList(kernel.getConstruction()));
+			xValues.setLabelSimple("x");
 			settings.setValueList(xValues);
 		}
 		return settings.getValueList();
@@ -470,12 +470,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private void importXColumn(GeoList[] columnsToImport, String[] columnLabels) {
-		GeoList valueList = columnsToImport[0];
-		setupXValues(valueList);
-		valuesHeader = columnLabels[0];
-		valueList.setLabel(valuesHeader);
-		settings.setValueList(valueList);
-		TableValuesColumn valuesColumn = new TableValuesListColumn(valueList);
+		GeoList values = columnsToImport[0];
+		setupXValues(values);
+		values.setLabel(columnLabels[0]);
+		settings.setValueList(values);
+		TableValuesColumn valuesColumn = new TableValuesListColumn(values);
 		columns.add(valuesColumn);
 	}
 
@@ -485,6 +484,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			values.setLabel(columnLabels[columnIdx]);
 			TableValuesColumn column = new TableValuesListColumn(values);
 			columns.add(column);
+			values.setTableColumn(columnIdx);
 		}
 	}
 
