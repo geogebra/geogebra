@@ -2376,6 +2376,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		ToolbarPanel unbundledToolbar = getGuiManager().getUnbundledToolbar();
 		if (unbundledToolbar != null) {
 			unbundledToolbar.removeToolsTab();
+			unbundledToolbar.removeUndoRedoPanel();
 		}
 		getGuiManager().resetPanels();
 		getGuiManager().getLayout().applyPerspective(perspective);
@@ -2388,7 +2389,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			} else {
 				el.getParentElement().removeClassName("scientificHeader");
 			}
-			getCurrentActivity().getHeaderResizer(frame).resizeHeader();
 		}
 
 
