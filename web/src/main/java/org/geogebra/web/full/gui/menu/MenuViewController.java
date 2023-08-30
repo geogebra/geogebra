@@ -18,7 +18,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.gwtutil.FileSystemAPI;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
@@ -160,7 +159,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		} else {
 			boolean addAppSwitcher = app.isSuite();
 			String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
-			DefaultDrawerMenuFactory ret = new DefaultDrawerMenuFactory(
+			return new DefaultDrawerMenuFactory(
 					app.getPlatform(),
 					version, app.getLocalization().getPlainDefault("VersionA",
 					"Version %0", versionStr),
@@ -168,9 +167,6 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 					shouldCreateExamEntry(app),
 					app.enableFileFeatures(),
 					addAppSwitcher);
-			ret.setFileSystemSupported(FileSystemAPI.isSupported()
-					|| app.getPlatform() == GeoGebraConstants.Platform.OFFLINE);
-			return ret;
 		}
 	}
 

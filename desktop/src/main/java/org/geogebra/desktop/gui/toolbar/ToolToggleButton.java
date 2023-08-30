@@ -25,7 +25,7 @@ import javax.swing.ToolTipManager;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.awt.GGraphics2DD;
 
-class MyJToggleButton extends JToggleButton
+class ToolToggleButton extends JToggleButton
 		implements MouseListener, MouseMotionListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -49,7 +49,7 @@ class MyJToggleButton extends JToggleButton
 	private ToolbarD toolbar;
 	private App app;
 
-	MyJToggleButton(ModeToggleMenuD menu, ToolbarD toolbar, App app) {
+	ToolToggleButton(ModeToggleMenuD menu, ToolbarD toolbar, App app) {
 		super();
 		this.menu = menu;
 		this.toolbar = toolbar;

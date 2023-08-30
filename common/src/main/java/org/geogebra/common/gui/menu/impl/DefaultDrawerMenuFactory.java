@@ -20,7 +20,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private final boolean createExamEntry;
 	private final boolean enableFileFeatures;
 	private final String versionNumber;
-	private boolean fileSystemSupported;
 
 	/**
 	 * Create a new DrawerMenuFactory.
@@ -122,7 +121,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		}
 		MenuItem openFile = enableFileFeatures ? openFile() : null;
 		MenuItem save = enableFileFeatures && logInOperation != null ? saveFileOnline() : null;
-		MenuItem saveOffline = enableFileFeatures && fileSystemSupported ? saveFileLocal() : null;
+		MenuItem saveOffline = enableFileFeatures && isWeb() ? saveFileLocal() : null;
 		MenuItem share = enableFileFeatures ? share() : null;
 		MenuItem downloadAs = isWeb() ? showDownloadAs() : null;
 		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
@@ -284,7 +283,4 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return logInOperation;
 	}
 
-	public void setFileSystemSupported(boolean showOpenFilePicker) {
-		this.fileSystemSupported = showOpenFilePicker;
-	}
 }
