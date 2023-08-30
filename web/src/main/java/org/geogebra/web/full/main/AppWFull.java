@@ -2390,7 +2390,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getAppletParameters().setAttribute("marginTop", "64");
 				el.getParentElement().removeClassName("scientificHeader");
 			}
-			frame.updateHeaderSize();
+			frame.fitSizeToScreen();
 		}
 
 		kernel.initUndoInfo();
