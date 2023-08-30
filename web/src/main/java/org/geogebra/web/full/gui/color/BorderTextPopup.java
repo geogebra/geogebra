@@ -66,8 +66,7 @@ public class BorderTextPopup extends BgColorPopup {
 						List<GeoElement> geos = getSelection().getGeos();
 						UpdateStyleActionStore store =
 								new UpdateStyleActionStore((ArrayList<GeoElement>) geos);
-						boolean needUndo = applyBorderThickness(geos, selectedItem.getValue())
-								&& store.needUndo();
+						boolean needUndo = applyBorderThickness(geos, selectedItem.getValue());
 						if (needUndo) {
 							store.storeUndo();
 						}

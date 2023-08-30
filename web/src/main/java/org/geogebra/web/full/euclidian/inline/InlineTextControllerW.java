@@ -155,9 +155,10 @@ public class InlineTextControllerW implements InlineTextController {
 			@Override
 			public void onContentChanged(String content) {
 				String oldContent = geo.getContent();
+				double oldHeight = geo.getHeight();
 				if (!content.equals(oldContent)) {
 					geo.setContent(content);
-					storeUndoAction(geo, oldContent);
+					storeUndoAction(geo, oldHeight, oldContent);
 					geo.notifyUpdate();
 				}
 			}
@@ -169,8 +170,7 @@ public class InlineTextControllerW implements InlineTextController {
 						(int) ((editor.getMinHeight() + 2 * DrawInlineText.PADDING) * geo.getWidth()
 								/ geo.getContentWidth());
 				if (oldMinHeight != actualMinHeight) {
-					geo.setSize(geo.getWidth(), actualMinHeight < oldMinHeight
-							? actualMinHeight : Math.max(actualMinHeight, geo.getHeight()));
+					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
 					if (oldMinHeight < actualMinHeight) {
 						geo.updateRepaint();
@@ -187,12 +187,13 @@ public class InlineTextControllerW implements InlineTextController {
 		});
 	}
 
-	private void storeUndoAction(GeoInline geo, String oldContent) {
+	private void storeUndoAction(GeoInline geo, double oldHeight, String oldContent) {
 		if (oldContent != null) {
 			String label = geo.getLabelSimple();
 			geo.getConstruction().getUndoManager()
-					.buildAction(ActionType.SET_CONTENT, label, geo.getContent())
-					.withUndo(ActionType.SET_CONTENT, label, oldContent)
+					.buildAction(ActionType.SET_CONTENT, label, Double.toString(geo.getHeight()),
+							geo.getContent())
+					.withUndo(ActionType.SET_CONTENT, label, Double.toString(oldHeight), oldContent)
 					.withLabels(label)
 					.storeAndNotifyUnsaved();
 		} else {

@@ -19,6 +19,7 @@ public class UpdateContentActionStore {
 		this.geos = geosAsList;
 		for (GeoInline geo : geosAsList) {
 			initialContentXML.add(geo.getLabelSimple());
+			initialContentXML.add(Double.toString(geo.getHeight()));
 			initialContentXML.add(geo.getContent());
 		}
 		this.undoManager = geosAsList.get(0).getConstruction().getUndoManager();
@@ -30,14 +31,18 @@ public class UpdateContentActionStore {
 	public void storeUndo() {
 		String[] currentContentXML = getCurrentContentXML();
 		String[] labels = geos.stream().map(GeoInline::getLabelSimple).toArray(String[]::new);
-		String[] labelsAndContent = new String[currentContentXML.length * 2];
+		String[] heights = geos.stream().map(GeoInline::getHeight)
+				.map(height -> Double.toString(height)).toArray(String[]::new);
+		String[] labelsAndContent = new String[currentContentXML.length * 3];
 
 		for (int i = 0; i < labelsAndContent.length; i++) {
-			geos.get(i / 2).notifyUpdate();
-			if (i % 2 == 0) {
-				labelsAndContent[i] = labels[i / 2];
+			geos.get(i / 3).notifyUpdate();
+			if (i % 3 == 0) {
+				labelsAndContent[i] = labels[i / 3];
+			} else if (i % 3 == 1) {
+				labelsAndContent[i] = heights[i / 3];
 			} else {
-				labelsAndContent[i] = currentContentXML[i / 2];
+				labelsAndContent[i] = currentContentXML[i / 3];
 			}
 		}
 
