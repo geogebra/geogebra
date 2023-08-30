@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -67,12 +68,15 @@ public class LoadFilePresenter {
 		if (!isApp) {
 			app.getAppletFrame().addStyleName("appletStyle");
 		}
-
-		boolean undoActive = (showToolBar || showMenuBar
-		        || view.getDataParamApp() || app.getScriptManager()
-						.getStoreUndoListeners().size() > 0)
-				&& view.getDataParamEnableUndoRedo();
-
+		UndoRedoMode undoRedoMode = UndoRedoMode.DISABLED;
+		if (view.getDataParamEnableUndoRedo()) {
+			if (showToolBar || showMenuBar) {
+				undoRedoMode = UndoRedoMode.GUI;
+			} else if (app.getScriptManager()
+					.getStoreUndoListeners().size() > 0) {
+				undoRedoMode = UndoRedoMode.EXTERNAL;
+			}
+		}
 		String language = view.getDataParamLanguage();
 		if (StringUtil.empty(language)) {
 			language = app.getLanguageFromCookie();
@@ -88,7 +92,7 @@ public class LoadFilePresenter {
 		}
 		app.setUseBrowserForJavaScript(view.getDataParamUseBrowserForJS());
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
-		app.setUndoRedoEnabled(view.getDataParamEnableUndoRedo());
+		app.setUndoRedoMode(undoRedoMode);
 		app.setRightClickEnabled(view.getDataParamEnableRightClick());
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
 		        || view.getDataParamApp());
@@ -105,14 +109,14 @@ public class LoadFilePresenter {
 				app.updateToolBar();
 			}
 			// only do this after app initialized
-			app.setUndoActive(undoActive);
+			app.setUndoActive(undoRedoMode != UndoRedoMode.DISABLED);
 			if (app.isSuite() && view.getDataParamShowAppsPicker()) {
 				app.getDialogManager().showCalcChooser(false);
 			}
 			app.getAsyncManager().scheduleCallback(() -> app.getScriptManager().ggbOnInit());
 		} else {
 			// only do this after app initialized
-			app.setUndoActive(undoActive);
+			app.setUndoActive(undoRedoMode != UndoRedoMode.DISABLED);
 		}
 		app.getLocalization().setUseLocalizedDigits(view.getParamUseLocalizedDigits(), app);
 		app.getLocalization().setUseLocalizedLabels(view.getParamUseLocalizedPointNames());

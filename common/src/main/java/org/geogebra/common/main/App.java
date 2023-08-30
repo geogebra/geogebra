@@ -393,7 +393,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// multiple EVs
 	private int maxLayerUsed = 0;
 	private boolean labelDragsEnabled = true;
-	private boolean undoRedoEnabled = true;
+	private UndoRedoMode undoMode = UndoRedoMode.GUI;
 
 	// command dictionary
 	private LowerCaseDictionary commandDict;
@@ -1459,24 +1459,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Enables or disables undo/redo in this application. This is useful for
-	 * applets.
+	 * Enables or disables undo/redo storing and UI in this application.
+	 * This is useful for applets.
 	 *
-	 * @param flag
-	 *            true to allow Undo / Redo
+	 * @param undoRedoMode
+	 *            decides if undo points should be stored and if the undo UI should be visible
 	 */
-	public void setUndoRedoEnabled(boolean flag) {
-		undoRedoEnabled = flag;
-		if (!undoRedoEnabled && kernel != null) {
+	public void setUndoRedoMode(UndoRedoMode undoRedoMode) {
+		this.undoMode = undoRedoMode;
+		if (undoRedoMode == UndoRedoMode.DISABLED && kernel != null) {
 			kernel.setUndoActive(false);
 		}
 	}
 
 	/**
-	 * @return whether undo / redo are possible
+	 * @return undo management mode
 	 */
-	public boolean isUndoRedoEnabled() {
-		return undoRedoEnabled;
+	public UndoRedoMode getUndoRedoMode() {
+		return undoMode;
 	}
 
 	/**
@@ -2648,7 +2648,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void setUndoActive(boolean undoActive) {
 		boolean flag = undoActive;
 		// don't allow undo when data-param-EnableUndoRedo = false
-		if (flag && !undoRedoEnabled) {
+		if (flag && undoMode == UndoRedoMode.DISABLED) {
 			flag = false;
 		}
 
@@ -4859,7 +4859,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @return true if is prerelease
 	 */
-	public final boolean isPrerelease() {
+	public boolean isPrerelease() {
 		return prerelease;
 	}
 

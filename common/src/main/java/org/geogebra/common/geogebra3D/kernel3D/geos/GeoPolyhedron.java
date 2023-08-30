@@ -750,8 +750,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 *            labels for this, points, faces, edges
 	 */
 	public void initLabels(String[] labels) {
-		// Application.printStacktrace("");
-
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
 		}

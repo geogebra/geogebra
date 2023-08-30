@@ -42,7 +42,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.GRAPHING, logInOperation);
-		assertBasicProperties(factory, 3, 7, 2, 1);
+		assertBasicProperties(factory, 3, 8, 2, 1);
 	}
 
 	@Test
@@ -51,7 +51,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.GRAPHING, logInOperation);
-		assertBasicProperties(factory, 3, 7, 2, 2);
+		assertBasicProperties(factory, 3, 8, 2, 2);
 	}
 
 	@Test

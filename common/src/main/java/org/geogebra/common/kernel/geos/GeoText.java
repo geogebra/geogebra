@@ -1063,11 +1063,6 @@ public class GeoText extends GeoElement
 		return ExtendedBoolean.FALSE;
 	}
 
-	@Override
-	public void setZero() {
-		str = "";
-	}
-
 	/**
 	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
 	 * (otherwise TreeSet deletes duplicates)
@@ -1188,9 +1183,6 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isSpreadsheetTraceable() {
-
-		// App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
-
 		switch (spreadsheetTraceableCase) {
 		case TRUE:
 			return true;

@@ -2,6 +2,8 @@ package org.geogebra.common.main;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
@@ -96,5 +98,21 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		selectGeo(dependent);
 		handleSpace();
 		assertThat(dependent.getBoolean(), is(false));
+	}
+
+	@Test
+	public void ctrlZShouldCheckFlag() {
+		getApp().setUndoRedoMode(UndoRedoMode.EXTERNAL);
+		getKernel().setUndoActive(true);
+		getApp().storeUndoInfo();
+		add("a=0");
+		getApp().storeUndoInfo();
+		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false,
+				false);
+		assertThat(lookup("a"), notNullValue());
+		getApp().setUndoRedoMode(UndoRedoMode.GUI);
+		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false,
+				false);
+		assertThat(lookup("a"), nullValue());
 	}
 }

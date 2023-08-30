@@ -6,7 +6,6 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.gwtutil.FileSystemAPI;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
@@ -157,11 +156,10 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 			addItem(new MenuItem<>("SaveOnline",
 					DefaultMenuIconProvider.INSTANCE.saveOnline(),
 					new SaveAction()));
-			if (FileSystemAPI.isSupported()) {
-				addItem(new MenuItem<>("SaveToYourPC",
-						DefaultMenuIconProvider.INSTANCE.save(),
-						new SaveLocalAction()));
-			}
+
+			addItem(new MenuItem<>("SaveToYourPC",
+					DefaultMenuIconProvider.INSTANCE.save(),
+					new SaveLocalAction()));
 		}
 	}
 

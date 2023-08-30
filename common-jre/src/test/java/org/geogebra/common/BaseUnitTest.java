@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.AsyncOperation;
@@ -274,5 +275,10 @@ public class BaseUnitTest {
 
 	protected void reload() {
 		app.setXML(app.getXML(), true);
+	}
+
+	protected void activateUndo() {
+		app.setUndoRedoMode(UndoRedoMode.GUI);
+		app.setUndoActive(true);
 	}
 }

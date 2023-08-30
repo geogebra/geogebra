@@ -1,5 +1,7 @@
 package org.geogebra.common.main;
 
+import java.util.Locale;
+
 import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class LocalizationI {
@@ -9,21 +11,28 @@ public abstract class LocalizationI {
 	 */
 	public final static String FUNCTION_PREFIX = "Function.";
 
+	/**
+	 * Gets the current locale in string format, as defined in {@link Locale#toString()}
+	 * @return current locale
+	 */
 	public abstract String getLocaleStr();
 
 	/**
+	 * Gets the current locale as a well formed BCP-47 language tag.
+	 * @return current locale
+	 * @see Locale#toLanguageTag() toLanguageTag
+	 */
+	public abstract String getLanguageTag();
+
+	/**
 	 * Gets translation from "command" bundle
-	 *
-	 * @param key
-	 *            key
+	 * @param key key
 	 * @return translation of given key
 	 */
 	public abstract String getCommand(String key);
 
 	/**
-	 *
-	 * @param altText
-	 *            eg altText.RightArrow
+	 * @param altText eg altText.RightArrow
 	 * @return eg "Right Arrow"
 	 */
 	public String getAltText(String altText) {
@@ -37,11 +46,8 @@ public abstract class LocalizationI {
 	}
 
 	/**
-	 *
-	 * @param key
-	 *            menu key
-	 * @param default0
-	 *            return this if lookup failed
+	 * @param key menu key
+	 * @param default0 return this if lookup failed
 	 * @return translation of key
 	 */
 	public String getMenuDefault(String key, String default0) {
@@ -59,11 +65,8 @@ public abstract class LocalizationI {
 	 *
 	 * guaranteed to remove the "Function." from the start even if a key doesn't
 	 * exist (or isn't loaded)
-	 *
-	 * @param key
-	 *            eg "sin"
+	 * @param key eg "sin"
 	 * @return eg "sen"
-	 *
 	 */
 	public String getFunction(String key) {
 		return getFunction(key, true);
@@ -74,13 +77,9 @@ public abstract class LocalizationI {
 	 *
 	 * guaranteed to remove the "Function." from the start even if a key doesn't
 	 * exist (or isn't loaded)
-	 *
-	 * @param key
-	 *            eg "sin"
-	 * @param changeInverse
-	 *            if false return arcsen rather than sin^-1
+	 * @param key eg "sin"
+	 * @param changeInverse if false return arcsen rather than sin^-1
 	 * @return eg "sen"
-	 *
 	 */
 	public String getFunction(String key, boolean changeInverse) {
 
@@ -121,9 +120,7 @@ public abstract class LocalizationI {
 
 	/**
 	 * Returns translation of given key from the "menu" bundle
-	 *
-	 * @param key
-	 *            key
+	 * @param key key
 	 * @return translation for key
 	 */
 	public abstract String getMenu(String key);

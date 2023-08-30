@@ -1,6 +1,7 @@
 package org.geogebra.web.test;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.gui.applet.AppletFactory;
@@ -25,7 +26,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 public class AppMocker {
 
-	private static class MyLog extends Log {
+	private static class TestLog extends Log {
 
 		@Override
 		public void print(Level level, Object logEntry) {
@@ -89,11 +90,11 @@ public class AppMocker {
 	}
 
 	private static void setTestLogger() {
-		Log.setLogger(new MyLog());
+		Log.setLogger(new TestLog());
 	}
 
 	private static void setAppDefaults(App app) {
-		app.setUndoRedoEnabled(true);
+		app.setUndoRedoMode(UndoRedoMode.GUI);
 		app.setUndoActive(true);
 		app.getKernel().getConstruction().initUndoInfo();
 	}
