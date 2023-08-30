@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>GeoGebra</title>
+    <meta property="og:title" content="GeoGebra Math Apps" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <meta name="description" content="Math apps demo.">
+    <link rel="shortcut icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
+    <link rel="icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
+    <style>
+        body,html {
+            margin:0;
+            padding:0;
+        }
+        main {
+            width:800px;
+            min-height:600px;
+            border:1px gray solid;
+            margin: 1em;
+        }
+    </style>
+</head>
+<body dir="ltr" tabindex="-1">
+<main id="main"></main>
+<script type="module">
+    import {classic} from './web3d/web3d.nocache.mjs';
+    classic.create(document.querySelector("#main"));
+</script>
+</body>
+</html>
