@@ -81,7 +81,7 @@ public class SuiteActivity extends BaseActivity {
 	@Override
 	public HeaderResizer getHeaderResizer(GeoGebraFrameW frame) {
 		if (GeoGebraConstants.SCIENTIFIC_APPCODE.equals(getConfig().getSubAppCode())) {
-			return scientificSubApp.getHeaderResizer(frame);
+			return getSubapp().getHeaderResizer(frame);
 		}
 		return super.getHeaderResizer(frame);
 	}

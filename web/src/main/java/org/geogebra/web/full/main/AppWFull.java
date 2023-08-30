@@ -2383,10 +2383,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			el.getStyle().setDisplay(GeoGebraConstants.SCIENTIFIC_APPCODE.equals(subAppCode)
 					? Display.BLOCK : Display.NONE);
 			if (GeoGebraConstants.SCIENTIFIC_APPCODE.equals(subAppCode)) {
+				getAppletParameters().setAttribute("marginTop", "112");
+				el.getParentElement().removeClassName("compact");
 				el.getParentElement().addClassName("scientificHeader");
 			} else {
+				getAppletParameters().setAttribute("marginTop", "64");
 				el.getParentElement().removeClassName("scientificHeader");
 			}
+			frame.updateHeaderSize();
 		}
 
 		kernel.initUndoInfo();

@@ -24,6 +24,7 @@ public class ScientificHeaderResizer implements HeaderResizer {
 			}
 			Dom.toggleClass(header, "portrait", "landscape",
 					frame.getApp().isPortrait());
+			frame.updateArticleHeight();
 		}
 	}
 

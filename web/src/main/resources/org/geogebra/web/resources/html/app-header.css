@@ -148,6 +148,10 @@ img.profileImage {
 	display: flex;
 }
 
+.GeoGebraFrame.GeoGebraHeader.suiteHeader.smallScreen .upperHeader {
+	height: 44px;
+}
+
 .GeoGebraHeader .suiteAppPickerButton {
 	display: inline-flex;
 	min-width: 138px;
