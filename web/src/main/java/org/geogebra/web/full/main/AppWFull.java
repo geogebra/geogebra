@@ -170,7 +170,6 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;

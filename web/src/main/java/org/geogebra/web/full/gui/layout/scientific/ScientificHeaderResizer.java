@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
