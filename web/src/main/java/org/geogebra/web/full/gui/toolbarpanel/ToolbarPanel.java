@@ -190,9 +190,7 @@ public class ToolbarPanel extends FlowPanel
 	private void maybeAddUndoRedoPanel() {
 		boolean isAllowed = app.getUndoRedoMode() == UndoRedoMode.GUI
 				&& app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
-				&& app.getConfig().getVersion() != GeoGebraConstants.Version.PROBABILITY
-				&& !(app.getConfig().getVersion() == GeoGebraConstants.Version.SUITE
-				&& GeoGebraConstants.SCIENTIFIC_APPCODE.equals(app.getConfig().getSubAppCode()));
+				&& app.getConfig().getVersion() != GeoGebraConstants.Version.PROBABILITY;
 		if (isAllowed) {
 			addUndoRedoButtons();
 		} else {
@@ -1371,7 +1369,6 @@ public class ToolbarPanel extends FlowPanel
 	public void removeToolsTab() {
 		if (tabTools != null) {
 			tabTools.removeFromParent();
-			maybeAddUndoRedoPanel();
 		}
 		tabTools = null;
 	}

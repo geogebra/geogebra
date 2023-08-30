@@ -1,5 +1,7 @@
 package org.geogebra.web.full.main;
 
+import org.gwtproject.dom.client.Element;
+
 public interface HeaderResizer {
 
 	/**
@@ -12,4 +14,9 @@ public interface HeaderResizer {
 	 * @return header height on  small screen.
 	 */
 	int getSmallScreenHeight();
+
+	/**
+	 * reset basic header style and add app specific header classname
+	 */
+	void resetHeaderStyle(Element header);
 }

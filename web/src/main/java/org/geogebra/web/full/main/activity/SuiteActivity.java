@@ -16,6 +16,7 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollect
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.shared.GlobalHeader;
 
 /**
  * Activity class for the GeoGebra Suite app
@@ -72,6 +73,7 @@ public class SuiteActivity extends BaseActivity {
 		if (GeoGebraConstants.SCIENTIFIC_APPCODE.equals(getConfig().getSubAppCode())) {
 			if (scientificSubApp == null) {
 				scientificSubApp = new ScientificActivity();
+				GlobalHeader.INSTANCE.initButtonsIfOnHeader();
 			}
 			return scientificSubApp;
 		}
