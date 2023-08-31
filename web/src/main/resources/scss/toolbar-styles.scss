@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 $tab-anim: 200ms ease;
 $tab-transition: opacity $tab-anim;
