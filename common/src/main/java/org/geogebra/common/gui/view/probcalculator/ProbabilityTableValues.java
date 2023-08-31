@@ -4,7 +4,6 @@ import java.util.function.Predicate;
 
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesModel;
-import org.geogebra.common.gui.view.table.TableValuesProcessor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -17,14 +16,12 @@ public class ProbabilityTableValues extends ProbabilityTable {
 
 	protected final TableValues view;
 	private final TableValuesModel model;
-	private final TableValuesProcessor processor;
 	private final Kernel kernel;
 	private final Construction construction;
 
 	private GeoList xValues;
 	private GeoList probabilityValues;
 	private Predicate<Integer> highlighted = row -> false;
-
 
 	/**
 	 * @param app application
@@ -35,7 +32,6 @@ public class ProbabilityTableValues extends ProbabilityTable {
 		super(app, probCalc);
 		this.view = view;
 		model = view.getTableValuesModel();
-		processor = view.getProcessor();
 		kernel = probCalc.kernel;
 		construction = kernel.getConstruction();
 	}

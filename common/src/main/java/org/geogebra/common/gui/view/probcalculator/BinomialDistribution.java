@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
 
 public class BinomialDistribution implements DiscreteDistribution {
 
-//	private final GeoNumeric k;
 	private DiscreteProbability discreteProbability;
 	private final Construction cons;
 	private DistributionParameters oldParameters = null;
@@ -23,7 +22,6 @@ public class BinomialDistribution implements DiscreteDistribution {
 	 */
 	public BinomialDistribution(Construction cons) {
 		this.cons = cons;
-
 	}
 
 	@Override

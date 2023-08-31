@@ -58,7 +58,7 @@ public class LocalizationTest {
 	}
 
 	private void assertLookupReturnsLanguageTag(String lookupTag, String expectedTag) {
-		assertThat(loc.getClosestSupportedLanguage(Locale.forLanguageTag(lookupTag)).toLanguageTag(),
-				is(expectedTag));
+		assertThat(loc.getClosestSupportedLanguage(
+				Locale.forLanguageTag(lookupTag)).toLanguageTag(), is(expectedTag));
 	}
 }
