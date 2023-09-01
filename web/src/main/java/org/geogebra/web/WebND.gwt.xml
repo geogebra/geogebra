@@ -15,7 +15,7 @@
     <source path='shared'/>
 
     <set-configuration-property name="devModeRedirectEnabled" value="false"/>
-    <set-configuration-property name="es6export" value="web3d:div"/>
+    <set-configuration-property name="es6export" value="mathApps:div"/>
 
     <!-- Compile only one permutation -->
     <collapse-all-properties/>

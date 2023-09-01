@@ -15,7 +15,7 @@
         }
         main {
             width:800px;
-            min-height:600px;
+            height:600px;
             border:1px gray solid;
             margin: 1em;
         }
@@ -24,8 +24,10 @@
 <body dir="ltr" tabindex="-1">
 <main id="main"></main>
 <script type="module">
-    import {classic} from './web3d/web3d.nocache.mjs';
-    classic.create(document.querySelector("#main"));
+    import {mathApps} from './web3d/web3d.nocache.mjs';
+    mathApps.create({'appName':'graphing'})
+        .inject(document.querySelector("#main"))
+        .getAPI().then(api => api.evalCommand('f(x)=sin(x)'));
 </script>
 </body>
 </html>
