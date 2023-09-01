@@ -9,7 +9,7 @@ import org.geogebra.common.plugin.ActionType;
 public class UpdateContentActionStore {
 
 	private final UndoManager undoManager;
-	private final List<String> initialContentXML = new ArrayList();
+	private final List<String> initialLabelsHeightsAndContent = new ArrayList<>();
 	private final ArrayList<GeoInline> geos;
 
 	/**
@@ -18,9 +18,10 @@ public class UpdateContentActionStore {
 	public UpdateContentActionStore(ArrayList<GeoInline> geosAsList) {
 		this.geos = geosAsList;
 		for (GeoInline geo : geosAsList) {
-			initialContentXML.add(geo.getLabelSimple());
-			initialContentXML.add(Double.toString(geo.getHeight()));
-			initialContentXML.add(geo.getContent());
+			initialLabelsHeightsAndContent.add(geo.getLabelSimple());
+			initialLabelsHeightsAndContent.add(Double.toString(geo.getHeight()));
+			initialLabelsHeightsAndContent.add(Double.toString(geo.getContentHeight()));
+			initialLabelsHeightsAndContent.add(geo.getContent());
 		}
 		this.undoManager = geosAsList.get(0).getConstruction().getUndoManager();
 	}
@@ -29,26 +30,29 @@ public class UpdateContentActionStore {
 	 * Store undoable action
 	 */
 	public void storeUndo() {
-		String[] currentContentXML = getCurrentContentXML();
 		String[] labels = geos.stream().map(GeoInline::getLabelSimple).toArray(String[]::new);
 		String[] heights = geos.stream().map(GeoInline::getHeight)
 				.map(height -> Double.toString(height)).toArray(String[]::new);
-		String[] labelsAndContent = new String[currentContentXML.length * 3];
+		String[] contentHeights = geos.stream().map(GeoInline::getContentHeight)
+				.map(contentHeight -> Double.toString(contentHeight)).toArray(String[]::new);
+		String[] currentContentXML = getCurrentContentXML();
 
-		for (int i = 0; i < labelsAndContent.length; i++) {
-			geos.get(i / 3).notifyUpdate();
-			if (i % 3 == 0) {
-				labelsAndContent[i] = labels[i / 3];
-			} else if (i % 3 == 1) {
-				labelsAndContent[i] = heights[i / 3];
+		String[] currentLabelsHeightsAndContent = new String[currentContentXML.length * 4];
+		for (int i = 0; i < currentLabelsHeightsAndContent.length; i++) {
+			if (i % 4 == 0) {
+				currentLabelsHeightsAndContent[i] = labels[i / 4];
+			} else if (i % 4 == 1) {
+				currentLabelsHeightsAndContent[i] = heights[i / 4];
+			} else if (i % 4 == 2) {
+				currentLabelsHeightsAndContent[i] = contentHeights[i / 4];
 			} else {
-				labelsAndContent[i] = currentContentXML[i / 3];
+				currentLabelsHeightsAndContent[i] = currentContentXML[i / 4];
 			}
 		}
 
-		undoManager.buildAction(ActionType.SET_CONTENT, labelsAndContent)
-				.withUndo(ActionType.SET_CONTENT, initialContentXML.toArray(new String[0]))
-				.withLabels(labels)
+		undoManager.buildAction(ActionType.SET_CONTENT, currentLabelsHeightsAndContent)
+				.withUndo(ActionType.SET_CONTENT,
+						initialLabelsHeightsAndContent.toArray(new String[0])).withLabels(labels)
 				.storeAndNotifyUnsaved();
 	}
 
@@ -58,7 +62,7 @@ public class UpdateContentActionStore {
 	public boolean needUndo() {
 		String[] currentContentXML = getCurrentContentXML();
 		for (int i = 0; i < geos.size(); i++) {
-			if (!currentContentXML[i].equals(initialContentXML.get(2 * i + 1))) {
+			if (!currentContentXML[i].equals(initialLabelsHeightsAndContent.get(4 * i + 3))) {
 				return true;
 			}
 		}
