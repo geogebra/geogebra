@@ -52,9 +52,6 @@ public class TableValuesView implements TableValues, SettingListener {
 	private final TableValuesInputProcessor processor;
 	private boolean algebraLabelVisibleCheck = true;
 
-	private GeoList[] importColumns;
-	private String[] columnLabels;
-
 	/**
 	 * Create a new Table Value View.
 	 * @param kernel {@link Kernel}
@@ -486,55 +483,31 @@ public class TableValuesView implements TableValues, SettingListener {
 	 */
 	// Data import
 	public void startImport(int nrRows, int nrColumns, String[] columnLabels) {
-		importColumns = new GeoList[nrColumns];
-		this.columnLabels = columnLabels;
-		for (int columnIdx = 0; columnIdx < nrColumns; columnIdx++) {
-			GeoList list = new GeoList(kernel.getConstruction());
-			importColumns[columnIdx] = list;
-		}
+		model.startImport(nrRows, nrColumns, columnLabels);
 	}
 
 	/**
-	 * Imports a row of data.
+	 * Collects a row of data during import.
 	 * @param values The numeric values for the current row. For any null entries in
 	 *               this array, rawValues will have the original string value.
 	 * @param rawValues The original strings behind the values.
 	 */
 	public void importRow(Double[] values, String[] rawValues) {
-		if (importColumns == null) {
-			return;
-		}
-		for (int index = 0; index < importColumns.length; index++) {
-			GeoList column = importColumns[index];
-			GeoElement element = null;
-			if (index < values.length) {
-				if (values[index] != null) {
-					element = new GeoNumeric(kernel.getConstruction(), values[index], false);
-				} else {
-					element = new GeoText(kernel.getConstruction(), rawValues[index]);
-				}
-			} else {
-				// create an empty value
-				element = new GeoNumeric(kernel.getConstruction(), Double.NaN, false);
-			}
-			column.add(element);
-		}
+		model.importRow(values, rawValues);
 	}
 
 	/**
-	 * Cancels import, discarding any data accumulated in {@link #importRow(Double[], String[])}.
+	 * Cancels import.
 	 */
 	public void cancelImport() {
-		importColumns = null;
+		model.cancelImport();
 	}
 
 	/**
-	 * Commits the data accumulated in {@link #importRow(Double[], String[])}, creating
-	 * columns in this TableValuesView, and notifying listeners about the new data.
+	 * Commits the imported data.
 	 */
 	public void commitImport() {
 		elements.clear();
-		model.importColumns(importColumns, columnLabels);
-		importColumns = null;
+		model.commitImport();
 	}
 }

@@ -23,7 +23,7 @@ import com.google.j2objc.annotations.Weak;
 /**
  * TableValuesModel implementation. Uses caching to store values.
  */
-class SimpleTableValuesModel implements TableValuesModel {
+final class SimpleTableValuesModel implements TableValuesModel {
 
 	@Weak
 	private final Kernel kernel;
@@ -31,6 +31,10 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private final List<TableValuesListener> listeners;
 	private final List<TableValuesListener> suspendedListeners;
 	private final List<TableValuesColumn> columns;
+
+	private GeoList[] importColumns;
+	private String[] columnLabels;
+
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
@@ -454,7 +458,67 @@ class SimpleTableValuesModel implements TableValuesModel {
 		element.notifyColumnChanged(this, getValueList(), 0);
 	}
 
-	void importColumns(GeoList[] columnsToImport, String[] columnLabels) {
+	/**
+	 * Prepares for tabular data import.
+	 * @param nrRows The number of rows to import.
+	 * @param nrColumns The number of columns to import.
+	 */
+	// Data import
+	public void startImport(int nrRows, int nrColumns, String[] columnLabels) {
+		importColumns = new GeoList[nrColumns];
+		this.columnLabels = columnLabels;
+		for (int columnIdx = 0; columnIdx < nrColumns; columnIdx++) {
+			GeoList list = new GeoList(kernel.getConstruction());
+			importColumns[columnIdx] = list;
+		}
+	}
+
+	/**
+	 * Imports a row of data.
+	 * @param values The numeric values for the current row. For any null entries in
+	 *               this array, rawValues will have the original string value.
+	 * @param rawValues The original strings behind the values.
+	 */
+	public void importRow(Double[] values, String[] rawValues) {
+		if (importColumns == null) {
+			return;
+		}
+		for (int index = 0; index < importColumns.length; index++) {
+			GeoList column = importColumns[index];
+			GeoElement element = null;
+			if (index < values.length) {
+				if (values[index] != null) {
+					element = new GeoNumeric(kernel.getConstruction(), values[index], false);
+				} else {
+					element = new GeoText(kernel.getConstruction(), rawValues[index], false);
+				}
+			} else {
+				// create an empty value
+				element = new GeoNumeric(kernel.getConstruction(), Double.NaN, false);
+			}
+			column.add(element);
+		}
+	}
+
+	/**
+	 * Cancels import, discarding any data accumulated in {@link #importRow(Double[], String[])}.
+	 */
+	public void cancelImport() {
+		importColumns = null;
+		columnLabels = null;
+	}
+
+	/**
+	 * Commits the data accumulated in {@link #importRow(Double[], String[])}, creating
+	 * columns, and notifying listeners about the new data.
+	 */
+	public void commitImport() {
+		importColumns(importColumns, columnLabels);
+		importColumns = null;
+		columnLabels = null;
+	}
+
+	private void importColumns(GeoList[] columnsToImport, String[] columnLabels) {
 		if (columnsToImport.length == 0 || columnLabels.length != columnsToImport.length) {
 			return;
 		}
