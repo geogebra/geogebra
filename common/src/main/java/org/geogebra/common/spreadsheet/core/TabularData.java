@@ -30,4 +30,6 @@ public interface TabularData {
 	Object contentAt(int row, int column);
 
 	String getColumnName(int column);
+
+	void addChangeListener(TabularDataChangeListener listener);
 }

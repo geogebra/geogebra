@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -30,6 +31,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), 20, 40);
 		renderer = new SpreadsheetRenderer(layout, rendererFactory);
+		viewport = new Rectangle(0, 0, 0, 0);
+		tabularData.addChangeListener(this);
 	}
 
 	// layout
@@ -46,6 +49,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (!needsRedraw) {
 			return;
 		}
+		graphics.setPaint(GColor.WHITE);
+		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		graphics.setColor(style.getTextColor());
 		drawCells(graphics, viewport);
 		for (Selection selection: controller.getSelection()) {
@@ -104,8 +109,12 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	private void showCellEditor(int row, int column) {
 		if (controlsDelegate != null) {
-			controlsDelegate.showCellEditor(layout.getBounds(row, column),
-					controller.contentAt(row, column));
+			Rectangle translate = layout.getBounds(row, column)
+					.translate(-viewport.getMinX() + layout.getRowHeaderWidth(),
+							-viewport.getMinY() + layout.getColumnHeaderHeight());
+			controlsDelegate.showCellEditor(translate,
+					controller.contentAt(row, column), new GPoint(column, row));
+			needsRedraw = true;
 		}
 	}
 
@@ -124,11 +133,11 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
 	 */
-	public void handlePointerUp(int x, int y, int modifiers) {
+	public void handlePointerUp(int x, int y, Modifiers modifiers) {
 		int row = layout.findRow(y + viewport.getMinY());
 		int column = layout.findColumn(x + viewport.getMinX());
 		controller.select(new Selection(SelectionType.CELLS, new TabularRange(row,
-				row, column, column)), modifiers > 0);
+				row, column, column)), modifiers.ctrl);
 		needsRedraw = true;
 	}
 
@@ -137,21 +146,26 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
 	 */
-	public void handlePointerDown(int x, int y, int modifiers) {
+	public void handlePointerDown(int x, int y, Modifiers modifiers) {
 		hideCellEditor();
-		int row = layout.findColumn(x);
-		int column = layout.findRow(y);
+		int column = layout.findColumn(x + viewport.getMinX());
+		int row = layout.findRow(y + viewport.getMinY());
+		if (modifiers.right) {
+			controlsDelegate.showContextMenu(controller.getContextMenu(column), new GPoint(x, y));
+			needsRedraw = true;
+			return;
+		}
 		if (isSelected(row, column)) {
 			showCellEditor(row, column);
 		}
 		// start selecting
 	}
 
-	public void handlePointerMove(int x, int y, int modifiers) {
+	public void handlePointerMove(int x, int y, Modifiers modifiers) {
 		// extend selection
 	}
 
-	public void handleKeyPressed(int keyCode, int modifiers) {
+	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
 		// extend selection
 	}
 

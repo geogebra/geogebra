@@ -5,26 +5,43 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Map;
 import java.util.stream.IntStream;
 
+import javax.swing.AbstractAction;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
+import javax.swing.OverlayLayout;
+import javax.swing.border.BevelBorder;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
+import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
+import org.geogebra.common.util.SyntaxAdapterImpl;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 
+import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 
 public class SpreadsheetDemo {
@@ -41,11 +58,14 @@ public class SpreadsheetDemo {
 			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter();
 			Spreadsheet spreadsheet = new Spreadsheet(adapter,
 					new GeoElementCellRendererFactory());
+
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
 			spreadsheet.setWidthForColumns(60, IntStream.range(0, 10).toArray());
 			spreadsheet.setHeightForRows(20, IntStream.range(0, 10).toArray());
-			SpreadsheetPanel spreadsheetPanel = new SpreadsheetPanel(spreadsheet);
 
+			spreadsheet.setWidthForColumns(90, IntStream.range(2, 4).toArray());
+			spreadsheet.setHeightForRows(40, IntStream.range(3, 5).toArray());
+			SpreadsheetPanel spreadsheetPanel = new SpreadsheetPanel(spreadsheet, appCommon, frame);
 			appCommon.getKernel().attach(adapter);
 			appCommon.getGgbApi().evalCommand(String.join("\n", "C4=7", "C5=8",
 					"A1=4", "B2=true", "B3=Button()", "B4=sqrt(x)"));
@@ -57,21 +77,32 @@ public class SpreadsheetDemo {
 			frame.setVisible(true);
 			frame.setSize(preferredSize);
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 		}
 	}
 
 	private static void initParentPanel(JFrame frame, SpreadsheetPanel sp) {
 		JScrollBar vertical = new JScrollBar();
 		JScrollBar horizontal = new JScrollBar(JScrollBar.HORIZONTAL);
+		JPanel scrollPanel = new JPanel();
+		scrollPanel.setLayout(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
 		JPanel top = new JPanel();
 		top.setLayout(new BoxLayout(top, BoxLayout.X_AXIS));
 		top.add(sp);
 		top.add(vertical);
+		scrollPanel.add(top);
+		scrollPanel.add(horizontal);
 		Container contentPane = frame.getContentPane();
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		contentPane.add(top);
-		contentPane.add(horizontal);
+		contentPane.setPreferredSize(new Dimension(800, 600));
+		contentPane.setLayout(new OverlayLayout(contentPane));
+
+		contentPane.add(scrollPanel);
+		sp.editorOverlay = new JPanel();
+		sp.editorOverlay.setPreferredSize(new Dimension(800, 600));
+		sp.editorOverlay.setLayout(null);
+		contentPane.add(sp.editorOverlay);
+		sp.editorOverlay.add(sp.box);
+
 		vertical.addAdjustmentListener(evt -> {
 			sp.scrollY = evt.getValue() * 10;
 			sp.spreadsheet.setViewport(sp.getViewport());
@@ -92,19 +123,95 @@ public class SpreadsheetDemo {
 
 	private static class SpreadsheetPanel extends JPanel {
 		private final Spreadsheet spreadsheet;
+		private final MathFieldD mathField;
+		private final Box box = Box.createHorizontalBox();
+		private final JPopupMenu contextMenu = new JPopupMenu();
+		public JPanel editorOverlay;
+
 		private int scrollX;
 		private int scrollY;
 
-		public SpreadsheetPanel(Spreadsheet spreadsheet) {
+		public SpreadsheetPanel(Spreadsheet spreadsheet, AppCommon app, JFrame frame) {
 			this.spreadsheet = spreadsheet;
+			this.mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()), box::repaint);
+			box.setBorder(new BevelBorder(BevelBorder.RAISED));
+			box.add(mathField);
+			mathField.setBounds(0, 0, 200, 200);
+			mathField.requestViewFocus();
+			box.setAlignmentX(0);
+			box.setAlignmentY(0);
+
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent event) {
 					spreadsheet.handlePointerUp(event.getX(), event.getY(),
-							event.isControlDown() ? 1 : 0);
+							getModifiers(event));
+					repaint();
+				}
+
+				@Override
+				public void mousePressed(MouseEvent event) {
+					spreadsheet.handlePointerDown(event.getX(), event.getY(),
+							getModifiers(event));
 					repaint();
 				}
 			});
+
+			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
+				@Override
+				public void showCellEditor(Rectangle bounds, Object data, GPoint coords) {
+					mathField.parse(data instanceof GeoElement
+							? ((GeoElement) data).getLaTeXDescriptionRHS(false,
+							StringTemplate.editorTemplate) : "");
+					mathField.getInternal().setFieldListener(new SpreadsheetEditorListener(
+							mathField.getInternal(), app.getKernel(), coords));
+					if (!frame.getContentPane().isAncestorOf(box)) {
+						frame.getContentPane().add(box);
+					}
+					box.setBounds((int) bounds.getMinX(), (int) bounds.getMinY(),
+							(int) bounds.getWidth(), (int) bounds.getHeight());
+					mathField.setBounds(0, 0,
+							(int) bounds.getWidth(), (int) bounds.getHeight());
+
+					box.setBackground(Color.BLUE);
+					box.setVisible(true);
+					frame.revalidate();
+					mathField.requestViewFocus();
+				}
+
+				@Override
+				public void showContextMenu(Map<String, Runnable> actions, GPoint position) {
+					contextMenu.show(editorOverlay, position.x, position.y);
+					contextMenu.removeAll();
+					for (Map.Entry<String, Runnable> action: actions.entrySet()) {
+						JMenuItem btn = new JMenuItem(action.getKey());
+						btn.setAction(new AbstractAction(action.getKey()) {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								action.getValue().run();
+							}
+						});
+						contextMenu.add(btn);
+					}
+					contextMenu.setVisible(true);
+					frame.revalidate();
+				}
+
+				@Override
+				public void hideCellEditor() {
+					box.setVisible(false);
+				}
+
+				@Override
+				public void hideContextMenu() {
+					contextMenu.setVisible(false);
+				}
+			});
+		}
+
+		private Modifiers getModifiers(MouseEvent event) {
+			return new Modifiers(event.isAltDown(), event.isControlDown(),
+					event.getButton() == 3);
 		}
 
 		public Rectangle getViewport() {
@@ -112,10 +219,10 @@ public class SpreadsheetDemo {
 		}
 
 		@Override
-		public void paint(Graphics g) {
-			((Graphics2D) g).setPaint(Color.WHITE);
-			g.fillRect(0, 0, 800, 600);
-			spreadsheet.draw(new GGraphics2DD((Graphics2D) g));
+		public void paint(Graphics graphics) {
+			super.paint(graphics);
+			GGraphics2DD graphics1 = new GGraphics2DD((Graphics2D) graphics);
+			spreadsheet.draw(graphics1);
 		}
 	}
 }

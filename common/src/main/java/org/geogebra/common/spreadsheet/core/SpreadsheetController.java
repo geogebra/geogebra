@@ -1,6 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A container for tabular data, with support for selecting parts of the data.
@@ -60,5 +62,12 @@ public final class SpreadsheetController implements TabularSelection {
 
 	public String getColumnName(int column) {
 		return tabularData.getColumnName(column);
+	}
+
+	public Map<String, Runnable> getContextMenu(int column) {
+		HashMap<String, Runnable> actions = new HashMap<>();
+		actions.put("InsertColumn", () -> tabularData.insertColumnAt(column));
+		actions.put("DeleteColumn", () -> tabularData.deleteColumnAt(column));
+		return actions;
 	}
 }

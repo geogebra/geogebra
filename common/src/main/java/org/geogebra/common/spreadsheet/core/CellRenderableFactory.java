@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.List;
+
 /**
  * Creates renderers for custom data types stored in {@link TabularData}
  */
@@ -14,5 +16,7 @@ public interface CellRenderableFactory {
 	 * @param data cell content
 	 * @return renderable representation of the cell data
 	 */
-	public Object getRenderable(Object data);
+	Object getRenderable(Object data);
+
+	List<? extends CellRenderer> getRenderers();
 }

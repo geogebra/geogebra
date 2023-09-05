@@ -39,8 +39,8 @@ final class Selection {
 		return range;
 	}
 
-	public boolean contains(int x, int y) {
-		return (range.fromCol <= x && range.toCol >= x || range.fromCol < 0)
-				&& (range.fromRow <= y && range.toRow >= y || range.fromRow < 0);
+	public boolean contains(int row, int column) {
+		return (range.fromCol <= column && range.toCol >= column || range.fromCol < 0)
+				&& (range.fromRow <= row && range.toRow >= row || range.fromRow < 0);
 	}
 }

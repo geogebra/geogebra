@@ -13,7 +13,7 @@ public interface CellRenderer {
 	 * @param g2d graphics
 	 * @param cellBorder cell rectangle, coordinates relative to the graphics
 	 */
-	public void draw(Object data, GGraphics2D g2d, Rectangle cellBorder);
+	void draw(Object data, GGraphics2D g2d, Rectangle cellBorder);
 
 	/**
 	 * @param renderable object to be potentially rendered

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -20,8 +22,8 @@ import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
  * relevant notifications to Spreadsheet component.
  */
-public class KernelTabularDataAdapter implements UpdateLocationView, TabularData {
-	private final Map<Integer, Map<Integer, Object>> data = new HashMap<>();
+public class KernelTabularDataAdapter implements UpdateLocationView, TabularData, HasTabularValues {
+	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 
 	@Override
@@ -36,8 +38,12 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 
 	@Override
 	public void remove(GeoElement geo) {
-		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
-		if (pt != null) {
+		removeByLabel(geo.getLabelSimple());
+	}
+
+	private void removeByLabel(String labelSimple) {
+		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
+		if (pt.x != -1) {
 			setContent(pt.y, pt.x, null);
 			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
 		}
@@ -45,14 +51,14 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 
 	@Override
 	public void rename(GeoElement geo) {
-		remove(geo);
+		removeByLabel(geo.getOldLabel());
 		add(geo);
 	}
 
 	@Override
 	public void update(GeoElement geo) {
 		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
-		if (pt != null) {
+		if (pt.x != -1) {
 			setContent(pt.y, pt.x, geo);
 			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
 		}
@@ -130,6 +136,11 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 	}
 
 	@Override
+	public GeoElement getGeoElement(int row, int column) {
+		return contentAt(row, column);
+	}
+
+	@Override
 	public int numberOfRows() {
 		return 200;
 	}
@@ -161,21 +172,21 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 
 	@Override
 	public void insertColumnAt(int column) {
-		// TODO
+		CellRangeProcessor.shiftColumnsRight(column, this);
 	}
 
 	@Override
 	public void deleteColumnAt(int column) {
-		// TODO
+		CellRangeProcessor.shiftColumnsLeft(column, 1, this);
 	}
 
 	@Override
 	public void setContent(int row, int column, Object content) {
-		data.computeIfAbsent(row, ignore -> new HashMap<Integer, Object>()).put(column, content);
+		data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, (GeoElement) content);
 	}
 
 	@Override
-	public Object contentAt(int row, int column) {
+	public GeoElement contentAt(int row, int column) {
 		return data.get(row) != null ? data.get(row).get(column) : null;
 	}
 

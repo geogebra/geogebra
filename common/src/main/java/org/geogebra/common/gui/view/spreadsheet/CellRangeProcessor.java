@@ -51,6 +51,7 @@ public class CellRangeProcessor {
 	@Weak
 	private Construction cons;
 	private SpreadsheetTableModel tableModel;
+	private HasTabularValues adapter;
 
 	/**
 	 * @param table
@@ -64,6 +65,22 @@ public class CellRangeProcessor {
 		loc = app.getLocalization();
 		tableModel = app.getSpreadsheetTableModel();
 		cons = app.getKernel().getConstruction();
+		adapter = new HasTabularValues() {
+			@Override
+			public GeoElement getGeoElement(int row, int column) {
+				return RelativeCopy.getValue(app, column, row);
+			}
+
+			@Override
+			public int numberOfRows() {
+				return tableModel.getHighestUsedRow();
+			}
+
+			@Override
+			public int numberOfColumns() {
+				return tableModel.getHighestUsedColumn();
+			}
+		};
 	}
 
 	/**
@@ -1252,13 +1269,21 @@ public class CellRangeProcessor {
 
 	private void shiftColumnsRight(int startColumn) {
 
-		boolean succ = false;
-		int maxColumn = tableModel.getHighestUsedColumn();
-		int maxRow = tableModel.getHighestUsedRow();
+		boolean succ = shiftColumnsRight(startColumn, adapter);
 
+		if (succ) {
+			app.storeUndoInfo();
+		}
+
+	}
+
+	public static boolean shiftColumnsRight(int startColumn, HasTabularValues tabularValues) {
+		int maxColumn = tabularValues.numberOfColumns();
+		int maxRow = tabularValues.numberOfRows();
+		boolean succ = false;
 		for (int column = maxColumn; column >= startColumn; --column) {
 			for (int row = 0; row <= maxRow; ++row) {
-				GeoElement geo = RelativeCopy.getValue(app, column, row);
+				GeoElement geo = tabularValues.getGeoElement(row, column);
 				if (geo == null) {
 					continue;
 				}
@@ -1269,6 +1294,12 @@ public class CellRangeProcessor {
 				succ = true;
 			}
 		}
+		return succ;
+	}
+
+	private void shiftColumnsLeft(int startColumn, int shiftAmount) {
+		boolean succ = shiftColumnsLeft(startColumn, shiftAmount,
+				adapter);
 
 		if (succ) {
 			app.storeUndoInfo();
@@ -1276,15 +1307,13 @@ public class CellRangeProcessor {
 
 	}
 
-	private void shiftColumnsLeft(int startColumn, int shiftAmount) {
-
+	public static boolean shiftColumnsLeft(int startColumn, int shiftAmount,  HasTabularValues tabularValues) {
+		int maxColumn = tabularValues.numberOfColumns();
+		int maxRow = tabularValues.numberOfRows();
 		boolean succ = false;
-		int maxColumn = tableModel.getHighestUsedColumn();
-		int maxRow = tableModel.getHighestUsedRow();
-
 		for (int column = startColumn; column <= maxColumn; ++column) {
 			for (int row = 0; row <= maxRow; ++row) {
-				GeoElement geo = RelativeCopy.getValue(app, column, row);
+				GeoElement geo = tabularValues.getGeoElement(row, column);
 				if (geo == null) {
 					continue;
 				}
@@ -1295,11 +1324,7 @@ public class CellRangeProcessor {
 				succ = true;
 			}
 		}
-
-		if (succ) {
-			app.storeUndoInfo();
-		}
-
+		return  succ;
 	}
 
 	/**

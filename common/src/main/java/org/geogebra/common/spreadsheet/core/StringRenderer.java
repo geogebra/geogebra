@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -13,6 +14,7 @@ public class StringRenderer implements CellRenderer {
 
 	@Override
 	public void draw(Object data, GGraphics2D graphics, Rectangle cellBorder) {
+		graphics.setColor(GColor.BLACK);
 		graphics.drawString(data.toString(), cellBorder.getMinX() + HORIZONTAL_PADDING,
 				cellBorder.getMaxY() - VERTICAL_PADDING);
 	}

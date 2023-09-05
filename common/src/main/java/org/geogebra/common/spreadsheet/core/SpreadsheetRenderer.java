@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -22,17 +24,21 @@ public class SpreadsheetRenderer {
 	private final Map<GPoint, Object> renderableCache = new HashMap<>();
 	private final List<CellRenderer> cellRenderers = new ArrayList<>();
 	private final StringRenderer stringRenderer = new StringRenderer();
+	private final static GBasicStroke gridStroke = AwtFactory.getPrototype().newBasicStroke(1);
 
 	SpreadsheetRenderer(TableLayout layout, CellRenderableFactory converter) {
 		this.converter = converter;
 		this.layout = layout;
 		cellRenderers.add(new LaTeXRenderer());
 		cellRenderers.add(stringRenderer);
+		cellRenderers.addAll(converter.getRenderers());
 	}
 
 	void drawCell(int row, int column, GGraphics2D graphics, Object content,
 			SpreadsheetStyle style) {
 		if (style.isShowGrid()) {
+
+			graphics.setStroke(gridStroke);
 			graphics.drawRect((int) layout.getX(column), (int) layout.getY(row),
 					(int) layout.getWidth(column), (int) layout.getHeight(row));
 		}
@@ -66,14 +72,15 @@ public class SpreadsheetRenderer {
 		double offsetX = -viewport.getMinX() + layout.getRowHeaderWidth();
 		double offsetY = -viewport.getMinY() + layout.getColumnHeaderHeight();
 		graphics.translate(offsetX, offsetY);
-		int minX = (int) layout.getX(selection.fromCol);
-		int minY = (int) layout.getY(selection.fromRow);
-		int maxX = (int) layout.getX(selection.toCol + 1);
-		int maxY = (int) layout.getY(selection.toRow + 1);
-		graphics.setColor(GColor.newColor(0, 0, 255, 100));
-		graphics.fillRect(minX, minY,
-				maxX - minX, maxY - minY);
-
+		if (selection.fromCol >= 0 && selection.fromRow >= 0) {
+			int minX = (int) layout.getX(selection.fromCol);
+			int minY = (int) layout.getY(selection.fromRow);
+			int maxX = (int) layout.getX(selection.toCol + 1);
+			int maxY = (int) layout.getY(selection.toRow + 1);
+			graphics.setColor(GColor.newColor(0, 0, 255, 100));
+			graphics.fillRect(minX, minY,
+					maxX - minX, maxY - minY);
+		}
 		graphics.translate(-offsetX, -offsetY);
 	}
 
