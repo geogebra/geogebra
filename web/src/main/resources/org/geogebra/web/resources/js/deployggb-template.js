@@ -1070,7 +1070,8 @@ var GGBApplet = function() {
 
         // Check if the codebase version is deprecated
         var numVersion = parseFloat(html5CodebaseVersion);
-        if (numVersion !== NaN && numVersion < 5.0) {
+        // codebases like web.geogebra.org/4.2 no longer supported
+        if (numVersion !== NaN && numVersion < 5.0 && codebase.indexOf("geogebra.org") >= 0) {
             console.log("The GeoGebra HTML5 codebase version "+numVersion+" is deprecated. Using version latest instead.");
             setDefaultHTML5CodebaseForVersion("5.0", offline);
         }
