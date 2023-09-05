@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.inline.InlineTextController;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 
@@ -13,6 +14,11 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	public InlineTextControllerMock(String url) {
 		this.url = url;
+	}
+
+	@Override
+	public GeoInline getInline() {
+		return null;
 	}
 
 	@Override

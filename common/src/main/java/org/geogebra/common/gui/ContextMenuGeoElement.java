@@ -343,7 +343,9 @@ public abstract class ContextMenuGeoElement {
 			geo1.updateVisualStyle(GProperty.COMBINED);
 		}
 		app.getKernel().notifyRepaint();
-		store.storeUndo();
+		if (store.needUndo()) {
+			store.storeUndo();
+		}
 	}
 
 	private void fixGeo(GeoElement geo, boolean fixed) {

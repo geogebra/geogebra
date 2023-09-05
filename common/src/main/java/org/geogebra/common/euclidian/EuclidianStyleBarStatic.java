@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -502,7 +504,10 @@ public class EuclidianStyleBarStatic {
 	 */
 	public static boolean applyColor(GColor color, double alpha, App app, List<GeoElement> geos) {
 		boolean needUndo = false;
-		List<GeoElement> splitStrokes = splitStrokes(geos, app);
+
+		List<GeoElement> splitStrokes = new ArrayList(splitStrokes(geos, app));
+		splitStrokes = splitStrokes.stream().filter(geo -> !(geo instanceof GeoInlineText))
+				.collect(Collectors.toList()); //Handled by InlineTextFormatter
 		UpdateStrokeStyleStore strokeStyleHelper = new UpdateStrokeStyleStore(splitStrokes,
 				app.getUndoManager());
 

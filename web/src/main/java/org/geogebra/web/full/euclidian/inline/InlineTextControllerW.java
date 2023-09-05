@@ -155,9 +155,11 @@ public class InlineTextControllerW implements InlineTextController {
 			@Override
 			public void onContentChanged(String content) {
 				String oldContent = geo.getContent();
+				double oldHeight = geo.getHeight();
+				double oldContentHeight = geo.getContentHeight();
 				if (!content.equals(oldContent)) {
 					geo.setContent(content);
-					storeUndoAction(geo, oldContent);
+					storeUndoAction(geo, oldHeight, oldContentHeight, oldContent);
 					geo.notifyUpdate();
 				}
 			}
@@ -186,17 +188,25 @@ public class InlineTextControllerW implements InlineTextController {
 		});
 	}
 
-	private void storeUndoAction(GeoInline geo, String oldContent) {
+	private void storeUndoAction(GeoInline geo, double oldHeight, double oldContentHeight,
+			String oldContent) {
 		if (oldContent != null) {
 			String label = geo.getLabelSimple();
 			geo.getConstruction().getUndoManager()
-					.buildAction(ActionType.SET_CONTENT, label, geo.getContent())
-					.withUndo(ActionType.SET_CONTENT, label, oldContent)
+					.buildAction(ActionType.SET_CONTENT, label, Double.toString(geo.getHeight()),
+							Double.toString(geo.getContentHeight()), geo.getContent())
+					.withUndo(ActionType.SET_CONTENT, label, Double.toString(oldHeight),
+							Double.toString(oldContentHeight), oldContent)
 					.withLabels(label)
 					.storeAndNotifyUnsaved();
 		} else {
 			geo.getConstruction().getUndoManager().storeAddGeo(geo);
 		}
+	}
+
+	@Override
+	public GeoInline getInline() {
+		return geo;
 	}
 
 	private void updateVerticalAlign() {

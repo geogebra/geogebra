@@ -223,9 +223,10 @@ public abstract class StyleBarW2 extends StyleBarW {
 	 * @param action action to be executed on geos
 	 */
 	public void processSelectionWithUndo(Function<ArrayList<GeoElement>, Boolean> action) {
-		boolean needUndo = action.apply(getTargetGeos());
+		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos());
+		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
 		if (needUndo) {
-			app.storeUndoInfo();
+			store.storeUndo();
 		}
 	}
 
@@ -235,7 +236,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 	 */
 	public void processSelectionWithUndoAction(Function<ArrayList<GeoElement>, Boolean> action) {
 		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos());
-		boolean needUndo = action.apply(getTargetGeos());
+		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
 		if (needUndo) {
 			store.storeUndo();
 		}
@@ -248,8 +249,8 @@ public abstract class StyleBarW2 extends StyleBarW {
 		boolean ret = EuclidianStyleBarStatic.applyColor(color,
 				alpha, app, targetGeos);
 		String htmlColor = StringUtil.toHtmlColor(color);
-		return inlineFormatter.formatInlineText(targetGeos, "color", htmlColor)
-				|| ret;
+		inlineFormatter.formatInlineText(targetGeos, "color", htmlColor);
+		return ret;
 	}
 
 	protected void createColorBtn() {
