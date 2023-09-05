@@ -24,6 +24,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -31,7 +33,6 @@ import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
@@ -58,6 +59,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -96,7 +98,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Default width of angle slider in pixels
 	 * 
-	 * Should be a factor of 360 to work well 72 gives increment of 5 degrees
+	 * <p>Should be a factor of 360 to work well 72 gives increment of 5 degrees
 	 * 144 gives increment of 2.5 degrees (doesn't look good) 180 gives
 	 * increment of 2 degrees
 	 */
@@ -148,7 +150,7 @@ public class GeoNumeric extends GeoElement
 	private boolean showExtendedAV = true;
 	private static volatile Comparator<GeoNumberValue> comparator;
 	private BigDecimal exactValue;
-	private GeoPointND startPoint;
+	private @CheckForNull GeoPointND startPoint;
 
 	/**
 	 * Creates new GeoNumeric
@@ -976,7 +978,7 @@ public class GeoNumeric extends GeoElement
 		if (!force && sliderFixed) {
 			return;
 		}
-		if (!hasAbsoluteScreenLocation) {
+		if (!hasAbsoluteScreenLocation && startPoint != null) {
 			startPoint.getLocateableList().unregisterLocateable(this);
 			startPoint = null;
 		}
@@ -1667,11 +1669,6 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public boolean isLaTeXDrawableGeo() {
-		return false;
-	}
-
-	@Override
 	public boolean hasLineOpacity() {
 		return true;
 	}
@@ -1679,10 +1676,8 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void addToSpreadsheetTraceList(
 			ArrayList<GeoNumeric> spreadsheetTraceList) {
-		GeoNumeric xx = this.copy(); // should handle GeoAngle
-		// too
-		spreadsheetTraceList.add(xx);
-
+		GeoNumeric copy = this.copy(); // should handle GeoAngle too
+		spreadsheetTraceList.add(copy);
 	}
 
 	@Override
@@ -1753,14 +1748,14 @@ public class GeoNumeric extends GeoElement
 
 		// label visibility
 		App app = getKernel().getApplication();
-		int labelingStyle = app == null
-				? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
+		LabelVisibility labelingStyle = app == null
+				? LabelVisibility.UseDefaults
 				: app.getCurrentLabelingStyle();
 
 		// automatic labelling:
 		// if algebra window open -> all labels
 		// else -> no labels
-		boolean visible = labelingStyle != ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+		boolean visible = labelingStyle != LabelVisibility.AlwaysOff;
 
 		if (visible) {
 			labelMode = LABEL_NAME_VALUE;
