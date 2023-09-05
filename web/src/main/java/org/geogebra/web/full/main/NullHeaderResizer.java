@@ -31,7 +31,12 @@ public class NullHeaderResizer implements HeaderResizer {
 	}
 
 	@Override
-	public void resetHeaderStyle(Element header) {
+	public void reset(Element header) {
 		// nothing to do
+	}
+
+	@Override
+	public int getHeaderHeight() {
+		return 0;
 	}
 }

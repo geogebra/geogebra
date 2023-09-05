@@ -19,7 +19,7 @@ public class ScientificHeaderResizer implements HeaderResizer {
 	public void resizeHeader() {
 		Element header = Dom.querySelector(".GeoGebraHeader");
 		if (header != null) {
-			resetHeaderStyle(header);
+			reset(header);
 
 			if (frame.hasSmallWindowOrCompactHeader()) {
 				header.addClassName("smallScreen");
@@ -38,14 +38,20 @@ public class ScientificHeaderResizer implements HeaderResizer {
 	}
 
 	@Override
-	public void resetHeaderStyle(Element header) {
+	public void reset(Element header) {
 		header.removeClassName("compact");
 		header.addClassName("scientificHeader");
-		frame.getApp().getAppletParameters().setAttribute("marginTop", "112");
+		frame.getApp().getAppletParameters().setAttribute("marginTop",
+				String.valueOf(getHeaderHeight()));
 
 		Element el = DOM.getElementById("undoRedoSettingsPanel");
 		if (el != null) {
 			el.getStyle().setDisplay(Display.BLOCK);
 		}
+	}
+
+	@Override
+	public int getHeaderHeight() {
+		return 112;
 	}
 }

@@ -16,7 +16,13 @@ public interface HeaderResizer {
 	int getSmallScreenHeight();
 
 	/**
+	 *
+	 * @return header height
+	 */
+	int getHeaderHeight();
+
+	/**
 	 * reset basic header style and add app specific header classname
 	 */
-	void resetHeaderStyle(Element header);
+	void reset(Element header);
 }
