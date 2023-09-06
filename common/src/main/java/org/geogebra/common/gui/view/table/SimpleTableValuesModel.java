@@ -265,7 +265,6 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	public GeoList getValueList() {
 		if (settings.getValueList() == null) {
 			GeoList xValues = setupXValues(new GeoList(kernel.getConstruction()));
-			xValues.setLabelSimple("x");
 			settings.setValueList(xValues);
 		}
 		return settings.getValueList();
@@ -275,6 +274,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	public GeoList setupXValues(GeoList xValues) {
 		xValues.setAuxiliaryObject(true);
 		xValues.setCanBeRemovedAsInput(false);
+		xValues.setLabelSimple("x");
 		return xValues;
 	}
 
