@@ -193,7 +193,16 @@ public class ToolbarPanel extends FlowPanel
 				&& app.getConfig().getVersion() != GeoGebraConstants.Version.PROBABILITY;
 		if (isAllowed) {
 			addUndoRedoButtons();
-		} else if (undoRedoPanel != null) {
+		} else {
+			removeUndoRedoPanel();
+		}
+	}
+
+	/**
+	 * remove undo/redo from frame
+	 */
+	public void removeUndoRedoPanel() {
+		if (undoRedoPanel != null) {
 			undoRedoPanel.removeFromParent();
 			undoRedoPanel = null;
 		}

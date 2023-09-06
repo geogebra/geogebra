@@ -247,9 +247,8 @@ public class GeoGebraFrameFull
 		if (app == null) {
 			return new NullHeaderResizer();
 		}
-		if (headerResizer == null) {
-			headerResizer = getApp().getActivity().getHeaderResizer(this);
-		}
+
+		headerResizer = getApp().getActivity().getHeaderResizer(this);
 		return headerResizer;
 	}
 
