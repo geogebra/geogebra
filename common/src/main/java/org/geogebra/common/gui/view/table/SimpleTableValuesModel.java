@@ -106,9 +106,6 @@ final class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public String getHeaderAt(int column) {
-		if (column == 0) {
-			return settings.getValueList().getLabelSimple();
-		}
 		return columns.get(column).getHeader();
 	}
 
