@@ -525,27 +525,31 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		importXColumn(columnsToImport, columnLabels);
 		importYColumns(columnsToImport, columnLabels);
 		collector.notifyDatasetChanged(this);
-		kernel.storeUndoInfo();
 		collector.endCollection(this);
 		resumeListeners(listener -> listener instanceof TableValuesPoints);
+		kernel.storeUndoInfo();
 	}
 
 	private void importXColumn(GeoList[] columnsToImport, String[] columnLabels) {
 		GeoList values = columnsToImport[0];
 		setupXValues(values);
-		values.setLabel(columnLabels[0]);
+		values.setLabelSimple(columnLabels[0]);
+		values.setLabelSet(true);
 		settings.setValueList(values);
 		TableValuesColumn valuesColumn = new TableValuesListColumn(values);
 		columns.add(valuesColumn);
+		kernel.getConstruction().addToConstructionList(values, false);
 	}
 
 	private void importYColumns(GeoList[] columnsToImport, String[] columnLabels) {
 		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
 			GeoList values = columnsToImport[columnIdx];
-			values.setLabel(columnLabels[columnIdx]);
+			values.setLabelSimple(columnLabels[columnIdx]);
+			values.setLabelSet(true);
 			TableValuesColumn column = new TableValuesListColumn(values);
-			columns.add(column);
 			values.setTableColumn(columnIdx);
+			columns.add(column);
+			kernel.getConstruction().addToConstructionList(values, false);
 		}
 	}
 

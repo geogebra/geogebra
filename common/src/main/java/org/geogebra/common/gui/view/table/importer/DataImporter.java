@@ -325,7 +325,7 @@ public final class DataImporter {
 			String columnLabel = firstRow.isHeader
 					&& firstRow.rawValues[columnIndex] != null
 					? firstRow.rawValues[columnIndex]
-					: (columnIndex == 0 ? "x_{1}" : ("y_{" + columnIndex + "}"));
+					: (columnIndex == 0 ? "x" : ("y_{" + columnIndex + "}"));
 			columnLabels[columnIndex] = columnLabel;
 		}
 		return columnLabels;
