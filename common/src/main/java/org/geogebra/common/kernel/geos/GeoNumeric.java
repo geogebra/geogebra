@@ -984,9 +984,11 @@ public class GeoNumeric extends GeoElement
 		}
 		if (startPoint == null) {
 			startPoint = new GeoPoint(cons);
+			startPoint.setCoords(x, y, 1);
+		} else {
+			startPoint.setCoords(x, y, 1);
+			startPoint.update();
 		}
-		startPoint.setCoords(x, y, 1);
-		startPoint.update();
 		if (origSliderX == null) {
 			origSliderX = x;
 			origSliderY = y;
