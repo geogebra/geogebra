@@ -188,17 +188,12 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		}
 
 		function.setInterval(getDouble(from), getDouble(to));
-
-		// Application.debug(function.getFunction().evaluate(new double[]
-		// {1,1}));
-
 	}
 
 	private static double[] getDouble(NumberValue[] values) {
 		double[] ret = new double[values.length];
 		for (int i = 0; i < values.length; i++) {
 			ret[i] = values[i].getDouble();
-			// Application.debug("ret["+i+"]="+ret[i]);
 		}
 		return ret;
 	}

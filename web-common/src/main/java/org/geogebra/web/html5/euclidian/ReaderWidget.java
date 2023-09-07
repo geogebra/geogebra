@@ -50,7 +50,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 *            to set.
 	 */
 	private void setText(String text) {
-		getElement().setInnerHTML(text);
+		getElement().setInnerText(text);
 	}
 
 	/**

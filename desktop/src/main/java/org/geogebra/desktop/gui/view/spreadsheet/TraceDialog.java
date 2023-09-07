@@ -295,7 +295,7 @@ public class TraceDialog extends Dialog
 		traceGeoList.addListSelectionListener(this);
 		traceGeoList.setLayoutOrientation(JList.VERTICAL);
 		traceGeoList.setVisibleRowCount(-1);
-		MyCellRenderer rend = new MyCellRenderer();
+		GeoElementHtmlCellRenderer rend = new GeoElementHtmlCellRenderer();
 		traceGeoList.setCellRenderer(rend);
 
 		JScrollPane listScroller = new JScrollPane(traceGeoList);
@@ -1006,7 +1006,7 @@ public class TraceDialog extends Dialog
 	/**
 	 * Custom cell renderer that displays GeoElement descriptions.
 	 */
-	static class MyCellRenderer extends DefaultListCellRenderer {
+	static class GeoElementHtmlCellRenderer extends DefaultListCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		@Override

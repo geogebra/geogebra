@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -394,7 +393,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// multiple EVs
 	private int maxLayerUsed = 0;
 	private boolean labelDragsEnabled = true;
-	private boolean undoRedoEnabled = true;
+	private UndoRedoMode undoMode = UndoRedoMode.GUI;
 
 	// command dictionary
 	private LowerCaseDictionary commandDict;
@@ -660,18 +659,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// get all commands from the commandDict and write them to the
 		// commandDictCAS
 
-		// the keySet contains all commands of the dictionary; see
-		// LowerCaseDictionary.addEntry(String s) for more
-		Collection<String> commandDictContent = commandDict.values();
-
-		// write them to the commandDictCAS
-		CommandDispatcher commandDispatcher =
-				getKernel().getAlgebraProcessor().getCommandDispatcher();
-
-		for (String cmd : commandDictContent) {
+		// Copy all commands from input bar dictionary (already filtered) to CAS dictionary
+		for (String cmd : commandDict.values()) {
 			commandDictCAS.addEntry(cmd);
 		}
 
+		CommandDispatcher commandDispatcher =
+				getKernel().getAlgebraProcessor().getCommandDispatcher();
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
@@ -1465,24 +1459,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Enables or disables undo/redo in this application. This is useful for
-	 * applets.
+	 * Enables or disables undo/redo storing and UI in this application.
+	 * This is useful for applets.
 	 *
-	 * @param flag
-	 *            true to allow Undo / Redo
+	 * @param undoRedoMode
+	 *            decides if undo points should be stored and if the undo UI should be visible
 	 */
-	public void setUndoRedoEnabled(boolean flag) {
-		undoRedoEnabled = flag;
-		if (!undoRedoEnabled && kernel != null) {
+	public void setUndoRedoMode(UndoRedoMode undoRedoMode) {
+		this.undoMode = undoRedoMode;
+		if (undoRedoMode == UndoRedoMode.DISABLED && kernel != null) {
 			kernel.setUndoActive(false);
 		}
 	}
 
 	/**
-	 * @return whether undo / redo are possible
+	 * @return undo management mode
 	 */
-	public boolean isUndoRedoEnabled() {
-		return undoRedoEnabled;
+	public UndoRedoMode getUndoRedoMode() {
+		return undoMode;
 	}
 
 	/**
@@ -2654,7 +2648,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void setUndoActive(boolean undoActive) {
 		boolean flag = undoActive;
 		// don't allow undo when data-param-EnableUndoRedo = false
-		if (flag && !undoRedoEnabled) {
+		if (flag && undoMode == UndoRedoMode.DISABLED) {
 			flag = false;
 		}
 
@@ -2976,6 +2970,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public final void zoomAxesRatio(double axesratio) {
 		getActiveEuclidianView().zoomAxesRatio(axesratio, 1, true);
+	}
+
+	/**
+	 * Zooms and pans active EV to show all objects checking ratio from config.
+	 */
+	public final void setViewShowAllObjects() {
+		setViewShowAllObjects(appConfig.shouldKeepRatioEuclidian());
 	}
 
 	/**
@@ -3665,7 +3666,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return whether it's supported
 	 */
 	public final boolean has(Feature f) {
-		boolean whiteboard = isWhiteboardActive();
 		switch (f) {
 		// **********************************************************************
 		// MOBILE START
@@ -3724,7 +3724,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getPlatform());
+			return Platform.OFFLINE.equals(getPlatform());
 
 		// TRAC-4845
 		case LOG_AXES:
@@ -3892,6 +3892,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
 			if (geo.isGeoBoolean()) {
+				if (!geo.isIndependent()) {
+					return true;
+				}
+
 				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
 				geoBool.setValue(!geoBool.getBoolean());
 				geoBool.updateRepaint();

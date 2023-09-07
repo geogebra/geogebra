@@ -1,7 +1,6 @@
 package org.geogebra.common.move.ggtapi.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -15,7 +14,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 @SuppressWarnings("serial")
-public class Material implements Comparable<Material>, Serializable {
+public class Material implements Serializable {
 
     public enum Provider {
 		TUBE, GOOGLE, LOCAL
@@ -35,7 +34,6 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public static final int MAX_TITLE_LENGTH = 255;
 
-	private int id;
 	private String title;
 
 	private MaterialType type;
@@ -115,13 +113,10 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean sharedWithGroup;
 
 	/**
-	 * @param id
-	 *            material id
 	 * @param type
 	 *            material type
 	 */
-	public Material(int id, MaterialType type) {
-		this.id = id;
+	public Material(MaterialType type) {
 		this.type = type;
 
 		this.title = "";
@@ -153,7 +148,6 @@ public class Material implements Comparable<Material>, Serializable {
 	 * @param material material to be copied
 	 */
 	public Material(Material material) {
-		id = material.id;
 		title = material.title;
 		type = material.type;
 		description = material.description;
@@ -236,10 +230,6 @@ public class Material implements Comparable<Material>, Serializable {
 		this.shiftDragZoom = shiftDragZoom;
 	}
 
-	public int getId() {
-		return this.id;
-	}
-
 	public String getTitle() {
 		return this.title;
 	}
@@ -264,7 +254,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public String getEditUrl() {
-		return GeoGebraConstants.EDIT_URL_BASE + getSharingKeyOrId();
+		return GeoGebraConstants.EDIT_URL_BASE + getSharingKeySafe();
 	}
 
 	public String getLanguage() {
@@ -273,14 +263,6 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public String getThumbnail() {
 		return this.thumbnail;
-	}
-
-	public Date getDate() {
-		return new Date(getTimestampForJava());
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public void setTitle(String title) {
@@ -442,29 +424,8 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	@Override
-	public int compareTo(Material another) {
-		if (another == null) {
-			return 1;
-		}
-		return this.id - another.id;
-	}
-
-	@Override
-	public boolean equals(Object another) {
-		if (!(another instanceof Material)) {
-			return false;
-		}
-		return this.id == ((Material) another).id;
-	}
-
-	@Override
-	public int hashCode() {
-		return this.id;
-	}
-
-	@Override
 	public String toString() {
-		return "ID: " + getSharingKeyOrId() + ": (" + this.type
+		return "ID: " + getSharingKeySafe() + ": (" + this.type
 				+ ") (local " + localID + ") "
 				+ "Title: "
 				+ this.title
@@ -514,7 +475,6 @@ public class Material implements Comparable<Material>, Serializable {
 		putString(ret, "type", type.toString());
 		putString(ret, "title", title);
 		putString(ret, "visibility", visibility);
-		putString(ret, "id", id + "");
 		putString(ret, "ggbBase64", base64);
 		putBoolean(ret, "deleted", deleted);
 		putString(ret, "height", height + "");
@@ -746,11 +706,10 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	/**
-	 * @return sharing key if set; otherwise numeric ID
+	 * @return sharing key if set, otherwise empty string
 	 */
-	public String getSharingKeyOrId() {
-		return sharingKey == null || sharingKey.isEmpty() ? id + ""
-				: sharingKey;
+	public String getSharingKeySafe() {
+		return sharingKey == null ? "" : sharingKey;
 	}
 
 	public int getElemcntApplet() {

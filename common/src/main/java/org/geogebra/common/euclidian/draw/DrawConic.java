@@ -1131,7 +1131,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		addTransformedPoint(hypLeft, index, -x1, y1);
 	}
 
-	private void addTransformedPoint(GeneralPathClipped path, int index, double x, double y) {
+	protected void addTransformedPoint(GeneralPathClipped path, int index, double x, double y) {
 		if (this.transformPoint == null) {
 			this.transformPoint = new GPoint2D();
 		}
@@ -1663,7 +1663,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			break;
 		}
 
-		// Application.debug("isOnFilling="+isOnFilling+"\nisOnBoundary="+isOnBoundary);
 		if (isOnFilling) {
 			if (isOnBoundary) {
 				conic.setLastHitType(HitType.ON_BOUNDARY);
@@ -1929,7 +1928,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			if (prevPoints.size() > 0) {
 				Coords p = view.getCoordsForView(
 						prevPoints.get(0).getInhomCoordsInD3());
-				// Application.debug("p["+i+"]=\n"+p);
 				previewTempPoints[0].setCoords(p.projectInfDim(), true);
 
 				previewTempPoints[0].updateCascade();

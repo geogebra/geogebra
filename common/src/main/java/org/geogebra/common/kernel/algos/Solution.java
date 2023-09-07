@@ -86,10 +86,6 @@ public class Solution {
 				right = right + DELTA;
 			}
 
-			// Application.debug("leftEval: " + leftEval + ", left: " + left);
-			// Application.debug("rightEval: " + rightEval + ", right: " +
-			// right);
-
 			// check if the second derivative changed its sign here
 			signUnChanged = leftEval * rightEval > 0;
 			if (signUnChanged) {

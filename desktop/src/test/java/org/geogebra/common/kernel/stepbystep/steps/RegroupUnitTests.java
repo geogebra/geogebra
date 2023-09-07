@@ -51,26 +51,26 @@ public class RegroupUnitTests {
     }
 
     public void regroupProduct(String a, String b) {
-        test(RegroupSteps.REGROUP_PRODUCTS, a, b);
+        check(RegroupSteps.REGROUP_PRODUCTS, a, b);
     }
 
     public void simplifyRoot(String a, String b) {
-        test(RegroupSteps.SIMPLIFY_ROOTS, a, b);
+        check(RegroupSteps.SIMPLIFY_ROOTS, a, b);
     }
 
     public void simplifyPowerOfRoot(String a, String b) {
-        test(RegroupSteps.SIMPLIFY_POWER_OF_ROOT, a, b);
+        check(RegroupSteps.SIMPLIFY_POWER_OF_ROOT, a, b);
     }
 
     public void factorCommon(String a, String b) {
-        test(FactorSteps.FACTOR_COMMON_SUBSTEP, a, b);
+        check(FactorSteps.FACTOR_COMMON_SUBSTEP, a, b);
     }
 
     public void simplifyFraction(String a, String b) {
-        test(FractionSteps.SIMPLIFY_FRACTIONS, a, b);
+        check(FractionSteps.SIMPLIFY_FRACTIONS, a, b);
     }
 
-    public void test(SimplificationStepGenerator ssg, String a, String b) {
+    public void check(SimplificationStepGenerator ssg, String a, String b) {
         Assert.assertEquals(b, ssg.apply(convert(a), new SolutionBuilder(), new RegroupTracker()).toString());
     }
 

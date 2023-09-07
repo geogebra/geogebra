@@ -8,6 +8,7 @@ import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.PDFResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -15,12 +16,12 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.pdf.PDFWrapper;
 import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.KeyCodes;
-import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FileUpload;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -110,9 +111,8 @@ public class PDFInputDialog extends ComponentDialog
 
 	private void addHelpToImgText() {
 		createFolderImg();
-		Label clickOrDragText = new Label(app.getLocalization().getMenu("pdfClickOrDrag"));
-		clickOrDragText.addStyleName("pdfDialogText");
-		clickOrDragText.addStyleName("clickOrDragText");
+		Label clickOrDragText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("pdfClickOrDrag"), "pdfDialogText clickOrDragText");
 		imgTextPanel.add(clickOrDragText);
 		pdfContainerPanel.add(imgTextPanel);
 	}
@@ -244,7 +244,7 @@ public class PDFInputDialog extends ComponentDialog
 	}
 
 	private StandardButton createImgButton(FlowPanel root,
-			ImageResource imgSource, String styleName) {
+			SVGResource imgSource, String styleName) {
 		StandardButton btn = new StandardButton(imgSource, null, 24, 24);
 		btn.addStyleName(styleName);
 		btn.addFastClickHandler(this);
@@ -409,9 +409,8 @@ public class PDFInputDialog extends ComponentDialog
 		pdfContainerPanel.clear();
 		pdfContainerPanel.removeStyleName("withPdf");
 		createFolderImg();
-		Label errorText = new Label(app.getLocalization().getMenu("PdfErrorText"));
-		errorText.addStyleName("pdfDialogText");
-		errorText.addStyleName("errorText");
+		Label errorText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("PdfErrorText"), "pdfDialogText errorText");
 		imgTextPanel.add(errorText);
 		pdfContainerPanel.add(imgTextPanel);
 	}

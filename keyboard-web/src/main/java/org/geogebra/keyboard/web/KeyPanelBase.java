@@ -2,34 +2,32 @@ package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
 
+import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Keyboard;
-import org.gwtproject.user.client.ui.HorizontalPanel;
-import org.gwtproject.user.client.ui.VerticalPanel;
+import org.geogebra.keyboard.base.model.Row;
+import org.geogebra.keyboard.base.model.WeightedButton;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  *
  */
-public class KeyPanelBase extends VerticalPanel {
+public class KeyPanelBase extends FlowPanel {
 
-	private ArrayList<HorizontalPanel> rows;
-	private ArrayList<KeyBoardButtonBase> buttons;
+	private final TabbedKeyboard parent;
+	private final ArrayList<FlowPanel> rows;
+	private final ArrayList<KeyBoardButtonBase> buttons;
 	private Keyboard layout;
 
 	/**
 	 * @param keyBoardLayout
 	 *            {@link Keyboard}
 	 */
-	public KeyPanelBase(Keyboard keyBoardLayout) {
+	public KeyPanelBase(Keyboard keyBoardLayout, TabbedKeyboard parent) {
 		rows = new ArrayList<>();
 		buttons = new ArrayList<>();
+		this.parent = parent;
 		this.layout = keyBoardLayout;
-	}
-
-	/**
-	 * empty constructor
-	 */
-	public KeyPanelBase() {
-		this(null);
 	}
 
 	/**
@@ -42,7 +40,7 @@ public class KeyPanelBase extends VerticalPanel {
 	 */
 	public void addToRow(int index, KeyBoardButtonBase button) {
 		if (rows.size() <= index) {
-			HorizontalPanel newRow = new HorizontalPanel();
+			FlowPanel newRow = new FlowPanel();
 			newRow.addStyleName("KeyPanelRow");
 			rows.add(newRow);
 			add(newRow);
@@ -51,35 +49,83 @@ public class KeyPanelBase extends VerticalPanel {
 		buttons.add(button);
 	}
 
-	/**
-	 * @param keyboardLayout
-	 *            {@link Keyboard}
-	 */
-	public void reset(Keyboard keyboardLayout) {
+	private void reset() {
 		clear();
-		this.layout = keyboardLayout;
 		rows.clear();
 		buttons.clear();
 	}
 
 	/**
-	 * @return all {@link KeyBoardButtonBase buttons} of this keyPanel
+	 * Make sure buttons are visible
 	 */
-	public ArrayList<KeyBoardButtonBase> getButtons() {
-		return this.buttons;
+	public void updatePanel() {
+		if (buttons.isEmpty()) {
+			updatePanel(layout);
+		}
+	}
+
+	protected void updatePanel(Keyboard layout) {
+		this.layout = layout;
+		reset();
+		int index = 0;
+		for (Row row : layout.getModel().getRows()) {
+			for (WeightedButton wb : row.getButtons()) {
+				if (!Action.NONE.name().equals(wb.getPrimaryActionName())) {
+					KeyBoardButtonBase button = parent.makeButton(wb);
+					addSecondary(button, wb);
+					addToRow(index, button);
+				}
+			}
+			index++;
+		}
+		updatePanelSize();
+	}
+
+	private static void addSecondary(KeyBoardButtonBase btn,
+			WeightedButton wb) {
+		if (wb.getActionsSize() > 1) {
+			btn.setSecondaryAction(wb.getActionName(1));
+		}
 	}
 
 	/**
-	 * @return all {@link HorizontalPanel rows} of this keyPanel
+	 * This is much faster than updatePanel as it doesn't clear the model. It
+	 * assumes the model and button layout are in sync.
 	 */
-	public ArrayList<HorizontalPanel> getRows() {
-		return this.rows;
-	}
-
-	/**
-	 * @return keyboard layout
-	 */
-	public Keyboard getLayout() {
-		return layout;
+	protected void updatePanelSize() {
+		int buttonIndex = 0;
+		int margins = 4;
+		if (layout == null || buttons.isEmpty()) {
+			return;
+		}
+		KeyBoardButtonBase button = null;
+		double weightSum = 6; // initial guess
+		for (Row row : layout.getModel().getRows()) {
+			weightSum = Math.max(row.getRowWeightSum(), weightSum);
+		}
+		int baseSize = parent.getBaseSize(weightSum);
+		for (Row row : layout.getModel().getRows()) {
+			double offset = 0;
+			for (WeightedButton wb : row.getButtons()) {
+				if (Action.NONE.name().equals(wb.getPrimaryActionName())) {
+					offset = wb.getWeight();
+				} else {
+					button = buttons.get(buttonIndex);
+					if (offset > 0) {
+						button.getElement().getStyle().setMarginLeft(
+								offset * baseSize + margins / 2d, Unit.PX);
+					}
+					button.getElement().getStyle().setWidth(
+							wb.getWeight() * baseSize - margins, Unit.PX);
+					offset = 0;
+					buttonIndex++;
+				}
+			}
+			if (Action.NONE.name().equals(row.getButtons()
+					.get(row.getButtons().size() - 1).getPrimaryActionName())) {
+				button.getElement().getStyle().setMarginRight(
+						offset * baseSize + margins / 2d, Unit.PX);
+			}
+		}
 	}
 }

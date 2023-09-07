@@ -1389,8 +1389,9 @@ public class GPopupPanel extends SimplePanel implements
 	private static double getScaleNative(Element start, String dir) {
 		Element current = start;
 		while (Js.isTruthy(current)) {
-			if (!StringUtil.empty(start.getAttribute("data-scale" + dir))) {
-				return Double.parseDouble(start.getAttribute("data-scale" + dir));
+			String scaleAttr = current.getAttribute("data-scale" + dir);
+			if (!StringUtil.empty(scaleAttr)) {
+				return Double.parseDouble(scaleAttr);
 			}
 			current = current.getParentElement();
 		}

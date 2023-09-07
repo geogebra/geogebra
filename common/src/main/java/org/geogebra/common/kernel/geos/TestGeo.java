@@ -520,7 +520,7 @@ public enum TestGeo {
 	ROTATEABLE {
 		@Override
 		public boolean check(Object ob) {
-			return ob instanceof Rotateable;
+			return ob instanceof Rotatable;
 		}
 	},
 

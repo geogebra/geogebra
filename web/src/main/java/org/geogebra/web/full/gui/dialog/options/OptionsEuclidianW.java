@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import static org.geogebra.web.full.gui.util.NumberListBox.PI_HALF_STRING;
-
 import java.util.Arrays;
 
 import org.geogebra.common.awt.GColor;
@@ -14,7 +12,7 @@ import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.util.StringUtil;
@@ -153,7 +151,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				return;
 			}
 
-			EnumerableProperty pointCaptProperty = new PointCapturingProperty(app,
+			NamedEnumeratedProperty<?> pointCaptProperty = new PointCapturingProperty(app,
 					app.getLocalization());
 			pointCapturingStyle = new CompDropDown(app, pointCaptProperty);
 			pointCapturingStyle.addChangeHandler(() -> {
@@ -198,8 +196,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			if (!gridOptions) {
 				return;
 			}
-			EnumerableProperty gridTypeProperty = new GridStyleProperty(app.getLocalization(),
-					view.getSettings());
+			NamedEnumeratedProperty<?> gridTypeProperty = new GridStyleProperty(
+					app.getLocalization(), view.getSettings());
 			lbGridType = new CompDropDown(app, gridTypeProperty);
 			lblGridType = new FormLabel("").setFor(lbGridType);
 			mainPanel.add(lblGridType);
@@ -221,14 +219,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				});
 
 			ncbGridTickX = new ComponentCombobox(app, "", Arrays.asList("1",
-					Unicode.PI_STRING, PI_HALF_STRING));
+					Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 			ncbGridTickX.addChangeHandler(() -> {
 				model.applyGridTicks(ncbGridTickX.getSelectedText(), 0);
 				updateView();
 			});
 	
 			ncbGridTickY = new ComponentCombobox(app, "", Arrays.asList("1",
-					Unicode.PI_STRING, PI_HALF_STRING));
+					Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 			ncbGridTickY.addChangeHandler(() -> {
 					model.applyGridTicks(ncbGridTickY.getSelectedText(), 1);
 					updateView();

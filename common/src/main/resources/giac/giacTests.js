@@ -7,6 +7,7 @@ var __giac = [
 { cat:"SolveTrig", cmd:"Solve[2 cos(x pi/8)+sqrt(2)=0]", result:"{x = 16n_0 - 6, x = 16n_0 + 6}" },
 { cat:"SolveTrig", cmd:"Solve[3 * tan(x) + 3 = 0]", result:"{x = n_0 \u03C0 - 1 / 4 \u03C0}"},
 { cat:"SolveTrig", cmd:"Solve[e^(-x/4)*(sin(x)+4*cos(x))]", result:"{x = n_0 \u03C0 - tan\u207B\u00B9(4)}"},
+{ cat:"SolveTrig", cmd:"Solve[sin(x)=-1/2,0<x<2pi]", result:"{x = 7π / 6, x = 11π / 6}"},
 { cat:"Solve", cmd:"Solve[3lg(x^4)-5lg(x^2)=4]", result:"{x=-100,x=100}" },
 { cat:"Solve", cmd:"Solve[500/(1+exp(-0.1(t-75)))=500*0.71,t]", result:"{t = -10 ln(29 / 71) + 75}" },
 { cat:"Solve", cmd:"Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]", result:"{{a = 2, b = 0}, {a = 2, b = 1 / 2}}|OR|{{a = 2, b = 1 / 2}, {a = 2, b = 0}}", notes:"#3381" },
@@ -335,6 +336,10 @@ var __giac = [
 { cat:"Evaluate", cmd:"Evaluate[2^31]", result:"2147483648" },
 { cat:"Evaluate", cmd:"Evaluate[2^32]", result:"4294967296" },
 { cat:"Evaluate", cmd:"Evaluate[2^33]", result:"8589934592" },
+{ cat:"Evaluate", cmd:"inf*inf", result:"∞"},
+{ cat:"Evaluate", cmd:"inf*x", result:"?"},
+{ cat:"Evaluate", cmd:"{inf}", result:"{∞}"},
+{ cat:"Evaluate", cmd:"{{inf}}", result:"{{∞}}"},
 { cat:"Numeric.1", cmd:"Numeric[sin(1\u00b0),13]", result:"0.01745240643728" },
 { cat:"Numeric.2", cmd:"Numeric[sin(1),13]", result:"0.8414709848079" },
 { cat:"Derivative", cmd:"Derivative[sin(x)]", result:"cos(x)" },
@@ -1397,6 +1402,8 @@ var __giac = [
 { cat:"Evaluate", cmd:"Evaluate[false || true]", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate[true || false]", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate[true || true]", result:"true" },
+{ cat:"Evaluate", cmd:"Evaluate[\u00ac true]", result:"false" },
+{ cat:"Evaluate", cmd:"Evaluate[\u00acx]", result:"\u00acx" },
 { cat:"Element", cmd:"Element[{{1,2}} {{1,2},{3,4}} {{1},{2}},1,1]", result:"27", notes:"https://www.geogebra.org/forum/viewtopic.php?f=8&t=35157" },
 { cat:"Element", cmd:"Element[{{1,2},{3,4}} {{1},{2}},1,1]", result:"5", notes:"https://www.geogebra.org/forum/viewtopic.php?f=8&t=35157" },
 { cat:"Integral.3", cmd:"Integral[abs(x^2-7x+12),2,5]", result:"11/6" },
@@ -2182,7 +2189,7 @@ var __giac = [
 { cat:"Integral.3", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),3pi/2,2pi)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
 { cat:"Integral.3", cmd:"Integral(sqrt(1-x^2)*(sqrt(1+(-x/(sqrt(1-x^2)))^2)),0,1)", result:"1"},
 { cat:"Simplify", cmd:"Simplify(atan(3^(1/3)/sqrt(7))+5)", result:"tan\u207B\u00b9(cbrt(3) / sqrt(7)) + 5|OR|atan(cbrt(3) / sqrt(7)) + 5|OR|tan\u207B\u00B9(cbrt(3) / sqrt(7)) + 5|OR|tan\u207B\u00B9(cbrt(3) sqrt(7) / 7) + 5" },
-{ cat:"Integral.3", cmd:"Integral((x^4-3x)/(x^3+22x),cbrt(3),8)", result:"(-11sqrt(22)ln(86)+32sqrt(22)-3tan\u207B\u00B9(8/sqrt(22)))/sqrt(22)-1/2(-22sqrt(22)ln(cbrt(3)\u00B2+22)+cbrt(3)\u00B2sqrt(22)-6tan\u207B\u00B9(cbrt(3)/sqrt(22)))/sqrt(22)|OR|(-11sqrt(22)ln(86)+32sqrt(22)-3tan\u207B\u00B9(8/sqrt(22)))/sqrt(22)-1/2(-sqrt(22)22ln(cbrt(3)\u00B2+22)+cbrt(3)\u00B2sqrt(22)-6tan\u207B\u00B9(cbrt(3)/sqrt(22)))/sqrt(22)|OR|(32sqrt(22) - 11sqrt(22) ln(86) - 3tan\u207B\u00B9(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - sqrt(22) 22ln(cbrt(3)\u00B2 + 22) - 6tan\u207B\u00B9(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(sqrt(22)32-11sqrt(22)ln(86)-3tan\u207B\u00B9(8/sqrt(22)))/sqrt(22)-1/2(-sqrt(22)22ln(cbrt(3)\u00B2+22)+cbrt(3)\u00B2sqrt(22)-6tan\u207B\u00B9(cbrt(3)/sqrt(22)))/sqrt(22)|OR|(sqrt(22) 32 - 11sqrt(22) ln(86) - 3tan\u207B\u00b9(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - sqrt(22) 22ln(cbrt(3)\u00B2 + 22) - 6tan\u207B\u00b9(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(sqrt(22) 32 - 11sqrt(22) ln(86) - 3atan(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - sqrt(22) 22 ln(cbrt(3)\u00B2 + 22) - 6atan(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(sqrt(22)32-11sqrt(22)ln(86)-3atan(8/sqrt(22)))/sqrt(22)-1/2(-sqrt(22)22ln(cbrt(3)\u00B2+22)+cbrt(3)\u00B2sqrt(22)-6atan(cbrt(3)/sqrt(22)))/sqrt(22)|OR|(32sqrt(22) - 11sqrt(22) ln(86) - 3tan\u207B\u00B9(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - 22sqrt(22) ln(cbrt(3)\u00B2 + 22) - 6tan\u207B\u00B9(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(-3tan\u207B\u00B9(8 / sqrt(22)) - 11sqrt(22) ln(86) + 32sqrt(22)) / sqrt(22) - 1 / 2 (-6tan\u207B\u00B9(cbrt(3) / sqrt(22)) - 22sqrt(22) ln(cbrt(3)\u00B2 + 22) + cbrt(3)\u00B2 sqrt(22)) / sqrt(22)|OR|(32sqrt(22) - 11sqrt(22) ln(86) - 3tan\u207B\u00B9(8 / sqrt(22))) / sqrt(22) - 1 / 2 (sqrt(22) cbrt(3)\u00B2 - 22sqrt(22) ln(cbrt(3)\u00B2 + 22) - 6tan\u207B\u00B9(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(-3tan\u207B\u00B9(8 / sqrt(22)) - 11sqrt(22) ln(86) + 32sqrt(22)) / sqrt(22) - 1 / 2 (-6tan\u207B\u00B9(cbrt(3) / sqrt(22)) - 22sqrt(22) ln(cbrt(3)\u00B2 + 22) + sqrt(22) cbrt(3)\u00B2) / sqrt(22)" },
+{ cat:"IntegralNoArm", cmd:"Integral((x^4-3x)/(x^3+22x),cbrt(3),8)", result:"(-11sqrt(22)ln(86)+32sqrt(22)-3tan\u207B\u00B9(8/sqrt(22)))/sqrt(22)-1/2(-22sqrt(22)ln(cbrt(3)\u00B2+22)+cbrt(3)\u00B2sqrt(22)-6tan\u207B\u00B9(cbrt(3)/sqrt(22)))/sqrt(22)|OR|(-11sqrt(22)ln(86)+32sqrt(22)-3tan\u207B\u00B9(8/sqrt(22)))/sqrt(22)-1/2(-sqrt(22)22ln(cbrt(3)\u00B2+22)+cbrt(3)\u00B2sqrt(22)-6tan\u207B\u00B9(cbrt(3)/sqrt(22)))/sqrt(22)|OR|(32sqrt(22) - 11sqrt(22) ln(86) - 3tan\u207B\u00B9(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - sqrt(22) 22ln(cbrt(3)\u00B2 + 22) - 6tan\u207B\u00B9(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(sqrt(22)32-11sqrt(22)ln(86)-3tan\u207B\u00B9(8/sqrt(22)))/sqrt(22)-1/2(-sqrt(22)22ln(cbrt(3)\u00B2+22)+cbrt(3)\u00B2sqrt(22)-6tan\u207B\u00B9(cbrt(3)/sqrt(22)))/sqrt(22)|OR|(sqrt(22) 32 - 11sqrt(22) ln(86) - 3tan\u207B\u00b9(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - sqrt(22) 22ln(cbrt(3)\u00B2 + 22) - 6tan\u207B\u00b9(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(sqrt(22) 32 - 11sqrt(22) ln(86) - 3atan(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - sqrt(22) 22 ln(cbrt(3)\u00B2 + 22) - 6atan(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(sqrt(22)32-11sqrt(22)ln(86)-3atan(8/sqrt(22)))/sqrt(22)-1/2(-sqrt(22)22ln(cbrt(3)\u00B2+22)+cbrt(3)\u00B2sqrt(22)-6atan(cbrt(3)/sqrt(22)))/sqrt(22)|OR|(32sqrt(22) - 11sqrt(22) ln(86) - 3tan\u207B\u00B9(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - 22sqrt(22) ln(cbrt(3)\u00B2 + 22) - 6tan\u207B\u00B9(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(-3tan\u207B\u00B9(8 / sqrt(22)) - 11sqrt(22) ln(86) + 32sqrt(22)) / sqrt(22) - 1 / 2 (-6tan\u207B\u00B9(cbrt(3) / sqrt(22)) - 22sqrt(22) ln(cbrt(3)\u00B2 + 22) + cbrt(3)\u00B2 sqrt(22)) / sqrt(22)|OR|(32sqrt(22) - 11sqrt(22) ln(86) - 3tan\u207B\u00B9(8 / sqrt(22))) / sqrt(22) - 1 / 2 (sqrt(22) cbrt(3)\u00B2 - 22sqrt(22) ln(cbrt(3)\u00B2 + 22) - 6tan\u207B\u00B9(cbrt(3) / sqrt(22))) / sqrt(22)|OR|(-3tan\u207B\u00B9(8 / sqrt(22)) - 11sqrt(22) ln(86) + 32sqrt(22)) / sqrt(22) - 1 / 2 (-6tan\u207B\u00B9(cbrt(3) / sqrt(22)) - 22sqrt(22) ln(cbrt(3)\u00B2 + 22) + sqrt(22) cbrt(3)\u00B2) / sqrt(22)" },
 { cat:"Area", cmd:"Area(x^2+y^2=5)", result:"5\u03C0" },
 { cat:"Area", cmd:"Area(x^2-y^2=5)", result:"?" },
 { cat:"Area", cmd:"Area(x^2-2y^2=5)", result:"?" },
@@ -2553,7 +2560,7 @@ var __giac = [
 { cat:"Solve", cmd:"Solve(800 / (199exp(-4000k) + 1)=65.65,k)", result:"{k = -1 / 4000 ln(14687 / 261287)}" },
 { cat:"Solve", cmd:"Solve({x^2+2*x*y-y^2=-32,-3*x^2-2*x*y+3y^2=32},{x,y})", result:"{{x = 4, y = -4}, {x = -4, y = 4}}|OR|{{x = -4, y = 4}, {x = 4, y = -4}}"},
 { cat:"Solve", cmd:"Solve(22044=6000+264*((x+1)^(60)-1)/(x)*(1)/((x+1)^(60))+7000*(1)/((x+1)^(60)))", result:"{x=-1.986444935998,x=0.009423829029231}", round:"{x = -1.99, x = 0.01}"},
-{ cat:"Solve", cmd:"Solve(((1)/(sin(x)))=((5)/(sin(1))),x,0≤x≤pi)", result:"{x = sin⁻¹(1 / 5 sin(1))}" },
+{ cat:"Solve", cmd:"Solve(((1)/(sin(x)))=((5)/(sin(1))),x,0≤x≤pi)", result:"{x = sin⁻¹(1 / 5 sin(1)), x = π - sin⁻¹(1 / 5 sin(1))}" },
 { cat:"Solve", cmd:"Solve(((4.5)/(sin(x°)))=((7.2)/(sin(50°))),x,0≤x≤180)", result:"{x = 180sin⁻¹(5 / 8 cos(2 / 9 π)) / π, x = (-180 sin⁻¹(5 / 8 cos(2 / 9 π)) + 180π) / π}" },
 { cat:"LCM", cmd:"LCM(Sequence(i, i, 60, 75))", result:"136937561964167764800" },
 { cat:"Sum", cmd:"Sum(Sum(n*m*(1/2)^(n+m),n,0,inf),m,0,inf)", result:"4" },
@@ -2617,6 +2624,23 @@ var __giac = [
 { cat:"Q3.1", cmd:"Quartile3({})", result:"?" },
 { cat:"Solve", cmd:"Solve({a*log(b)=1, a=-1},{a,b})", result:"{{a = -1, b = 1 / 10}}" },
 { cat:"Solve", cmd:"Solve({a k=1,a ℯ^(3 k)=3 ℯ},{a,k})", result:"{{a = 3, k = 1 / 3}}"},
+{ cat:"ExtendedGCD.2", cmd:"ExtendedGCD(240, 46)", result:"{-9, 47, 2}"},
+{ cat:"ExtendedGCD.2", cmd:"ExtendedGCD(x^2 - 1, x + 4)", result:"{1, -x + 4, 15}"},
+{ cat:"ModularExponent.3", cmd:"ModularExponent(5, 12, 13)", result:"1"},
+{ cat:"CharacteristicPolynomial.1", cmd:"CharacteristicPolynomial({{1,2},{3,4}})", result:"x² - 5x - 2"},
+{ cat:"MinimalPolynomial.1", cmd:"MinimalPolynomial({{1,0},{0,1}})", result:"x - 1"},
+{ cat:"LUDecomposition.1", cmd:"LUDecomposition({{1,2},{3,4}})", result:"{{{1, 0}, {0, 1}}, {{1, 0}, {3, 1}}, {{1, 2}, {0, -2}}}"},
+{ cat:"QRDecomposition.1", cmd:"QRDecomposition({{1,2},{3,4}})", result:"{{{1 / sqrt(10), 3 / 5 / (sqrt(10) / 5)}, {3 / sqrt(10), -1 / 5 / (sqrt(10) / 5)}}, {{sqrt(10), 7 / 5 sqrt(10)}, {0, sqrt(10) / 5}}}"},
+{ cat:"Dirac.1", cmd:"Dirac[-1]", result: "0"},
+{ cat:"Dirac.1", cmd:"Dirac[0]", result: "?", notes: "infinity would be better, Giac fix pending"},
+{ cat:"Dirac.1", cmd:"Dirac[1]", result: "0"},
+{ cat:"Dirac.1", cmd:"Derivative[Dirac(x)]", result: "Dirac(x)"},
+{ cat:"Dirac.1", cmd:"Derivative(InverseLaplace[exp(-p)/p+1/p,p,t])", result: "Dirac(t - 1)"},
+{ cat:"Dirac.1", cmd:"Derivative(Derivative(InverseLaplace[exp(-p)/p+1/p,p,t]))", result: "Dirac(t - 1)"},
+{ cat:"Heaviside.1", cmd:"Heaviside(-1)", result: "0"},
+{ cat:"Heaviside.1", cmd:"InverseLaplace[exp(-p)/p+1/p,p,t]", result: "Heaviside(t - 1) + 1"},
+{ cat:"Heaviside.1", cmd:"Heaviside(1)", result: "1"},
+
 
 //JSONEND
 
@@ -2759,7 +2783,6 @@ var problems = [
 { cat:"Evaluate", cmd:"Evaluate[sqrt((1355050424792466287485561)/(981647716744573948433529))]", result:"(1 / 990781366773 * sqrt(1355050424792466287485561))", notes:"#4008, too slow in JS" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt((26188440946629826703822309)/(26942840480072343408400))]", result:"(1 / 26942840480072343408400 * sqrt(705590986846842175569890001809124163141017995600))", notes:"#4611" },
 { cat:"SolveTrig", cmd:"Element(Solve({a_{r} ^(2) - a_{y} ^(2) - 25 = 0, - a_{r} * cos(a_{t}) + 5 = 0, - a_{r} * sin(a_{t}) + a_{y} = 0, b_{r} ^(2) - b_{y} ^(2) - 25 = 0, - b_{r} * sin(b_{t}) + b_{y} = 0, a_{y} - b_{y} = 0},{a_{y}, a_{r}, a_{t}, b_{y}, b_{r}, b_{t}}),1)", result:"{a_{y} = 0, a_{r} = 5, a_{t} = 0, b_{y} = 0, b_{r} = -5, b_{t} = 0}|OR|{a_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5))),a_{r}=a_{r},a_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5)),b_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))),b_{r}=a_{r},b_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))}"},
-
 ];
 export default __giac;
 

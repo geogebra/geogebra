@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -23,7 +23,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -40,8 +39,8 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Image with given filename and corners
  */
-public class GeoImage extends GeoElement implements Locateable,
-		AbsoluteScreenLocateable, PointRotateable, Mirrorable, Translateable,
+public class GeoImage extends GeoElement implements
+		AbsoluteScreenLocateable, Mirrorable, Translateable,
 		Dilateable, MatrixTransformable, Transformable, RectangleTransformable {
 
 	/** Index of the center in corners array */
@@ -148,6 +147,18 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		if (corners[index] == null) {
 			corners[index] = tempPoints[index];
+		}
+	}
+
+	private void initTransformPointForCenter() {
+		if (tempPoints == null) {
+			// temp corner points for transformations and absolute location
+			tempPoints = new GeoPoint[4];
+			tempPoints[CENTER_INDEX] = new GeoPoint(cons); //only care abou the center
+		}
+
+		if (corners[CENTER_INDEX] == null) {
+			corners[CENTER_INDEX] = tempPoints[CENTER_INDEX];
 		}
 	}
 
@@ -978,15 +989,18 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public void translate(Coords v) {
-		if (!initTransformPoints()) {
-			return;
+		if (isCentered()) {
+			initTransformPointForCenter();
+		} else {
+			if (!initTransformPoints()) {
+				return;
+			}
 		}
+
 		// calculate the new corner points
 		for (int i = 0; i < corners.length; i++) {
-			if (corners[i] != null) {
-				tempPoints[i].translate(v);
-				corners[i] = tempPoints[i];
-			}
+			tempPoints[i].translate(v);
+			corners[i] = tempPoints[i];
 		}
 	}
 

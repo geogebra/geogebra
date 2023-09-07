@@ -206,9 +206,13 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		btnCancel = new StandardButton("");
 		btnPanel.add(btnCancel);
-		btnOk.addStyleName("okBtn");
-		btnCancel.addStyleName("cancelBtn");
-		btnCancel.addFastClickHandler(event -> model.cancelEditGeo());
+		btnOk.addStyleName("textButton");
+		btnCancel.addStyleName("textButton");
+		btnCancel.addFastClickHandler(event -> {
+			model.cancelEditGeo();
+			model.updateProperties();
+			updatePreviewPanel(false);
+		});
 
 		mainPanel.add(btnPanel);
 		setWidget(mainPanel);

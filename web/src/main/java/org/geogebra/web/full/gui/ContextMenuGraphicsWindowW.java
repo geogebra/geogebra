@@ -16,8 +16,8 @@ import org.geogebra.web.full.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GCollapseMenuItem;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
@@ -320,8 +320,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * set show all objects
 	 */
 	public void setViewShowAllObject() {
-		boolean keepRatio = app.getConfig().shouldKeepRatioEuclidian();
-		app.setViewShowAllObjects(keepRatio);
+		app.setViewShowAllObjects();
 	}
 
 	private void addAxesRatioItems(RadioButtonMenuBarW menu) {

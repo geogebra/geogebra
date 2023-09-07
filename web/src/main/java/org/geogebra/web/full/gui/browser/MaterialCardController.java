@@ -16,7 +16,6 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -46,7 +45,7 @@ public class MaterialCardController implements OpenFileListener {
 	 * Load current material
 	 */
 	private void load() {
-		app.getViewW().processFileName(material.getFileName());
+		app.getArchiveLoader().processFileName(material.getFileName());
 		updateActiveMaterial();
 		app.getGuiManager().getBrowseView().close();
 		((GeoGebraFrameFull) app.getAppletFrame())
@@ -92,7 +91,7 @@ public class MaterialCardController implements OpenFileListener {
 
 		MaterialRestAPI api = app.getLoginOperation().getResourcesAPI();
 
-		api.getItem(getMaterial().getSharingKeyOrId(), new MaterialCallback() {
+		api.getItem(getMaterial().getSharingKeySafe(), new MaterialCallback() {
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
 								 Pagination meta) {
@@ -121,7 +120,7 @@ public class MaterialCardController implements OpenFileListener {
 		if (getMaterial().getType() == MaterialType.csv) {
 			app.openCSV(Browser.decodeBase64(getMaterial().getBase64()));
 		} else {
-			app.getViewW().processFileName(material.getFileName());
+			app.getArchiveLoader().processFileName(material.getFileName());
 		}
 	}
 
@@ -166,17 +165,17 @@ public class MaterialCardController implements OpenFileListener {
 					});
 		} else {
 			Log.debug("DELETE permanent");
-			this.app.getFileManager().delete(toDelete, toDelete.getId() <= 0,
+			this.app.getFileManager().delete(toDelete, toDelete.getSharingKey() == null,
 					this.deleteCallback);
 		}
 	}
 
 	private void showSnackbar(String message) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(message, app);
+		app.getToolTipManager().showBottomMessage(message, app);
 	}
 
 	private static boolean onlineFile(Material toDelete) {
-		return toDelete.getId() > 0
+		return toDelete.getSharingKey() != null
 				|| !StringUtil.empty(toDelete.getSharingKey());
 	}
 
@@ -277,7 +276,7 @@ public class MaterialCardController implements OpenFileListener {
 				app.getLoginOperation().getModel().getLoggedInUser();
 		if (material.isMultiuser() && !StringUtil.empty(paramMultiplayerUrl)
 				&& loggedInUser != null) {
-			app.getShareController().startMultiuser(material.getSharingKeyOrId());
+			app.getShareController().startMultiuser(material.getSharingKeySafe());
 		}
 		return true; // one time only
 	}

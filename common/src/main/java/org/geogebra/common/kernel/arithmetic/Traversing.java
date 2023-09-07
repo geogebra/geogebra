@@ -10,7 +10,6 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.variable.InputTokenizer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -769,8 +768,7 @@ public interface Traversing {
 				}
 			}
 			if (replace instanceof Variable
-					&& !name.equals(kernel.getConstruction()
-							.getRegisteredFunctionVariable())
+					&& !kernel.getConstruction().isRegisteredFunctionVariable(name)
 					&& !isException(name)) {
 				name = ((Variable) replace)
 						.getName(StringTemplate.defaultTemplate);
@@ -854,7 +852,7 @@ public interface Traversing {
 				}
 
 				if (ExpressionNode.isImaginaryUnit(expressionFromVariableName.unwrap())) {
-					tree.add(InputTokenizer.IMAGINARY_STRING);
+					tree.add(Unicode.IMAGINARY_STRING);
 				}
 				if (expressionFromVariableName instanceof Variable
 						&& !variable

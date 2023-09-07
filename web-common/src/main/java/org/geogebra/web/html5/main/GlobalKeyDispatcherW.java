@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -29,6 +29,8 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
 import com.himamis.retex.editor.web.MathFieldW;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * Handles keyboard events.
@@ -119,6 +121,13 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public GlobalKeyDispatcherW(AppW app) {
 		super(app);
+		app.getGlobalHandlers().addEventListener(DomGlobal.window, "focus",
+				event -> releaseAlts());
+	}
+
+	private void releaseAlts() {
+		leftAltDown = false;
+		rightAltDown = false;
 	}
 
 	private class GlobalShortcutHandler implements EventListener {
@@ -161,7 +170,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					}
 					handled = true;
 				} else {
-					handled = handleSelectedGeosKeys(event);
+					handled = handled || handleSelectedGeosKeys(event);
 				}
 
 				if (handled) {
@@ -315,7 +324,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	@Override
-	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
+	protected void copyDefinitionsToInputBarAsList(List<GeoElement> geos) {
 		// unimplemented
 	}
 
@@ -338,11 +347,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public static boolean isBadKeyEvent(KeyEvent<? extends EventHandler> e) {
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
-	}
-
-	@Override
-	protected KeyCodes translateKey(int i) {
-		return KeyCodes.translateGWTcode(i);
 	}
 
 	private void handleIosKeyboard(char code) {
@@ -373,8 +377,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public static boolean isGlobalEvent(NativeEvent event) {
 		int code = event.getKeyCode();
 		if (isControlKeyDown(event)) {
-			return code == JavaKeyCodes.VK_S
-					|| code == JavaKeyCodes.VK_O;
+			return code == JavaKeyCodes.VK_S;
 		} else {
 			return code == JavaKeyCodes.VK_F4;
 		}

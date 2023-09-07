@@ -1,5 +1,5 @@
 package org.geogebra.cloud;
 
 public interface IdCallback {
-	void handle(int id);
+	void handle(String id);
 }

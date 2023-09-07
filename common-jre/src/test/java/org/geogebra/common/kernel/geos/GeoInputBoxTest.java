@@ -155,6 +155,18 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void replaceQuestionMarkDoesNotEatBackslash() {
+		add("a = 1 1/3");
+		GeoInputBox inputBox = add("B = Inputbox(a)");
+		String tempDisplayInput = "\\? \\frac{\\nbsp}{\\nbsp}";
+		inputBox.updateLinkedGeo("? /", tempDisplayInput);
+
+		String texInputBox
+				= "\\{\\bgcolor{#dcdcdc}\\scalebox{1}[1.6]{\\phantom{g}}} \\frac{\\nbsp}{\\nbsp}";
+		assertEquals(texInputBox, inputBox.getDisplayText());
+	}
+
+	@Test
 	public void emptyMatrixEntriesTwoColumns() {
 		GeoList m1 = add("m1 = {{1,5},{2,3}}");
 		GeoInputBox inputBox = add("B = Inputbox(m1)");
@@ -718,7 +730,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				+ Unicode.SUPERSCRIPT_0 + "+t", inputBox.getTextForEditor());
 
 		inputBox.updateLinkedGeo("-3/4t + 2*3/2");
-		assertEquals("(-3)/(4) t+2 (3)/(2)", inputBox.getTextForEditor());
+		assertEquals("(-3)/(4) t+2*(3)/(2)", inputBox.getTextForEditor());
 	}
 
 	@Test

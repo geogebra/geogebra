@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.kernel.geos.GeoInputBox.isGeoLinkable;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -7,21 +8,25 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.euclidian.LatexRendererSettings;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -55,10 +60,25 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("txt", "\"Hello Friends\"");
 		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
 		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
-		editor.attach((GeoInputBox) lookup("ib"), new Rectangle());
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
 		mf.getInternal().setPlainText("Hello, Friends");
 		editor.onEnter();
 		t("txt", "Hello, Friends");
+	}
+
+	@Test
+	public void shouldAllowBracketForMatrices() {
+		setupInput("m1", "{{1,2},{3,4}}");
+		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
+		editor.selectEntryAt(50, 0);
+		assertTrue("matrix entry should be selected",
+				mf.getInternal().getEditorState().hasSelection());
+		mf.getInternal().onKeyTyped(new KeyEvent(0, 0, '('));
+		assertEquals("{{1,(2)},{3,4}}", mf.getInternal().getText());
 	}
 
 	@Test
@@ -67,6 +87,16 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("GeoGebra\\\\nRocks", inputBox.getTextForEditor());
 		updateInput("GeoGebra\\\\nReally\\\\nRocks");
 		t("txt", "GeoGebra\nReally\nRocks");
+	}
+
+	@Test
+	public void shouldNotFireEventOnFocus() {
+		setupInput("txt", "\"GeoGebra\\\\nRocks\"");
+		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+		editor.setKeyListener(key -> fail("Unexpected typing:" + key));
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
 	}
 
 	@Test
@@ -695,4 +725,46 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
 				+ " \\end{pmatrix}", inputBox.getText());
 	}
+
+	@Test
+	public void complexToRealFunctionShouldNotBeRedefined() {
+		add("h(x) = x + i");
+		GeoInputBox inputBox = add("InputBox(h)");
+		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
+		inputBox.updateLinkedGeo("2x/3");
+		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
+	}
+
+	@Test
+	public void testLinkableGeos() {
+		shouldBeLinkable("(1,1)");
+		add("a=1");
+		shouldBeLinkable("2*a+3");
+		shouldBeLinkable("Point(xAxis)");
+		add("poly = Polygon({(0,0),(0,1),(1,1)})");
+		shouldBeLinkable("PointIn(poly)");
+	}
+
+	private void shouldBeLinkable(String command) {
+		assertTrue(isGeoLinkable(add(command)));
+	}
+
+	@Test
+	public void testNonLinkableGeo() {
+		shouldNotBeLinkable("Circle((0,0), 5)");
+		shouldNotBeLinkable("3*Sequence[10]");
+	}
+
+	private void shouldNotBeLinkable(String command) {
+		assertFalse(isGeoLinkable(add(command)));
+	}
+
+	@Test
+	public void testHyphenMinusShouldBeReplaced() {
+		add("text1=\" \"");
+		GeoInputBox inputBox = add("InputBox(text1)");
+		inputBox.updateLinkedGeo("12" + Unicode.MINUS + "10");
+		assertThat(inputBox.getTextForEditor(), is("12-10"));
+	}
+
 }

@@ -340,8 +340,8 @@ public class InputController {
 			function.setArgument(i, field);
 		}
 
-		// pass characters for fraction and factorial only
-		if (tag == Tag.FRAC) {
+		// pass characters for fraction, factorial, and mixed number only
+		if (tag == Tag.FRAC || tag == Tag.MIXED_NUMBER) {
 			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
@@ -710,8 +710,9 @@ public class InputController {
 					&& parent.hasTag(Tag.ABS)
 					&& ch == '|'
 					&& parent.size() == currentField.getParentIndex() + 1) {
-				currentOffset = parent.getParentIndex() + 1;
 				currentField = (MathSequence) parent.getParent();
+				currentOffset = parent.getParentIndex() + 1;
+				checkReplaceAbs(parent, currentField);
 			} else {
 				if (ch == ',') {
 					newCharacter(editorState, ch);
@@ -743,6 +744,16 @@ public class InputController {
 		editorState.setCurrentOffset(currentOffset);
 	}
 
+	private void checkReplaceAbs(MathContainer abs, MathSequence parent) {
+		if (abs.getArgument(0) instanceof MathSequence
+				&& ((MathSequence) abs.getArgument(0)).size() == 0) {
+			int parentIndex = abs.getParentIndex();
+			parent.removeArgument(parentIndex);
+			MetaCharacter operator = metaModel.getOperator(Unicode.OR + "");
+			parent.addArgument(parentIndex, new MathCharacter(operator));
+		}
+	}
+
 	private void moveOutOfArray(MathSequence currentField, int currentOffset) {
 		MathComponent parent = currentField.getParent();
 		if (parent.getParent() instanceof MathSequence) {
@@ -767,7 +778,7 @@ public class InputController {
 
 	}
 
-	private static ArrayList<MathComponent> cut(MathSequence currentField,
+	private static ArrayList<MathComponent> cut(MathContainer currentField,
 			int from, int to, EditorState st, MathComponent array,
 			boolean rec) {
 
@@ -783,7 +794,7 @@ public class InputController {
 			}
 			// deep selection, e.g. a fraction
 			if (st.getSelectionEnd().getParent() != currentField && rec) {
-				return cut((MathSequence) st.getSelectionEnd().getParent(),
+				return cut(st.getSelectionEnd().getParent(),
 						st.getSelectionStart().getParentIndex(),
 						st.getSelectionEnd().getParentIndex(), st, array,
 						false);
@@ -798,16 +809,10 @@ public class InputController {
 			}
 
 		}
-		ArrayList<MathComponent> removed = new ArrayList<>();
-		for (int i = end; i >= start; i--) {
-			removed.add(currentField.getArgument(i));
-			currentField.removeArgument(i);
-		}
-		currentField.addArgument(start, array);
-		return removed;
+		return currentField.replaceArguments(start, end, array);
 	}
 
-	private static int endToken(int from, MathSequence currentField) {
+	private static int endToken(int from, MathContainer currentField) {
 		for (int i = from; i < currentField.size(); i++) {
 			if (currentField.isFieldSeparator(i)) {
 				return i - 1;
@@ -1149,6 +1154,11 @@ public class InputController {
 			return true;
 		}
 
+		// Move cursor out of a recurring decimal if the typed character is not a digit
+		if (editorState.isInRecurringDecimal() && !Character.isDigit(ch)) {
+			CursorController.nextField(editorState);
+		}
+
 		MetaModel meta = editorState.getMetaModel();
 
 		if (!meta.isFunctionOpenKey(ch) && ch != ',') {
@@ -1196,7 +1206,12 @@ public class InputController {
 				newScript(editorState, Tag.SUBSCRIPT);
 				handled = true;
 			} else if (ch == '/' || ch == '\u00f7') {
-				newFunction(editorState, "frac", false, null);
+				if (!editorState.isInMixedNumber()) {
+					newFunction(editorState, "frac", false, null);
+				}
+				handled = true;
+			} else if (ch == Unicode.INVISIBLE_PLUS) {
+				newFunction(editorState, "mixedNumber", false, null);
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
 				newFunction(editorState, "sqrt", false, null);
@@ -1232,6 +1247,9 @@ public class InputController {
 			} else if (meta.isCharacter("" + ch)) {
 				newCharacter(editorState, ch);
 				handled = true;
+			} else if (ch == Unicode.OVERLINE) {
+				newFunction(editorState, "recurringDecimal", false, null);
+				handled = true;
 			}
 		}
 		return handled;
@@ -1240,7 +1258,7 @@ public class InputController {
 	private boolean shouldCharBeIgnored(EditorState editorState, char ch) {
 		MathSequence root = editorState.getRootComponent();
 		return (root.isProtected() || root.isKeepCommas())
-			&& !plainTextMode && ignoreChars.contains(ch);
+				&& !plainTextMode && ignoreChars.contains(ch);
 	}
 
 	private void handleTextModeInsert(EditorState editorState, char ch) {

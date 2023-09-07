@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
@@ -7,11 +8,6 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 
 	public SelectionAllowedModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
-	}
-
-	@Override
-	public boolean checkGeos() {
-		return true;
 	}
 
 	@Override
@@ -23,8 +19,22 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 	public void apply(int index, boolean value) {
 		GeoElement geo = getGeoAt(index);
 		geo.setSelectionAllowed(value);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.COMBINED);
+		// do NOT unselect here to allow changing moore properties in settings dialog
+	}
 
+	/**
+	 * Change selection property of an object, update sleection
+	 * @param geo construction element
+	 * @param app application
+	 * @param allowSelection whether to allow selection
+	 */
+	public static void applyTo(GeoElement geo, App app, boolean allowSelection) {
+		geo.setSelectionAllowed(allowSelection);
+		if (!allowSelection) {
+			app.getSelectionManager().removeSelectedGeo(geo);
+		}
+		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override
@@ -34,8 +44,7 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

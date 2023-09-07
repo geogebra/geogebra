@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
-import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
@@ -116,9 +115,9 @@ public class ShareControllerW implements ShareController {
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
-				.getSaveDialog(false, false);
+				.getSaveDialog(false);
 		((SaveControllerW) app.getSaveController())
-				.showDialogIfNeeded(shareCallback, true, anchor,
+				.showDialogIfNeeded(shareCallback, true,
 						false, false);
 		saveDialog.setDiscardMode();
 	}
@@ -132,11 +131,7 @@ public class ShareControllerW implements ShareController {
 	}
 
 	private void loginForShare() {
-		app.getLoginOperation().getView().add(event -> {
-			if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
-				share();
-			}
-		});
+		app.getGuiManager().listenToLogin(this::share);
 		app.getLoginOperation().showLoginDialog();
 	}
 
@@ -242,7 +237,7 @@ public class ShareControllerW implements ShareController {
 					appF.getDevice(), GeoGebraElement.as(el), parameters);
 			fr.setOnLoadCallback(exportedApi -> {
 				fr.getApp().getActiveEuclidianView().getSettings().setPreferredSize(currentSize);
-				onMultiplayerLoad(mat.getSharingKeyOrId(), exportedApi,
+				onMultiplayerLoad(mat.getSharingKeySafe(), exportedApi,
 						mp -> saveAndTerminate(Js.uncheckedCast(mp), fr.getApp(), mat, after));
 			});
 			fr.runAsyncAfterSplash();
@@ -253,13 +248,13 @@ public class ShareControllerW implements ShareController {
 	public void terminateMultiuser(Material mat, MaterialCallbackI after) {
 		if (!terminateActiveMultiuser(mat)) {
 			// temporary instance, do not store
-			onMultiplayerLoad(mat.getSharingKeyOrId(), null,
+			onMultiplayerLoad(mat.getSharingKeySafe(), null,
 						mp -> Js.<GGBMultiplayer>uncheckedCast(mp).terminate());
 		}
 	}
 
 	private boolean terminateActiveMultiuser(Material mat) {
-		String sharingKey = mat.getSharingKeyOrId();
+		String sharingKey = mat.getSharingKeySafe();
 		Material activeMaterial = app.getActiveMaterial();
 		if (multiplayer != null && activeMaterial != null
 				&& activeMaterial.getSharingKey().equals(sharingKey)) {
@@ -287,7 +282,7 @@ public class ShareControllerW implements ShareController {
 				};
 				otherApp.getGgbApi().getBase64(true, base64 -> {
 					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-							mat.getSharingKeyOrId(), mat.getVisibility(), mat.getTitle(),
+							mat.getSharingKeySafe(), mat.getVisibility(), mat.getTitle(),
 							base64, cb, mat.getType(), false);
 					mp.terminate();
 				});

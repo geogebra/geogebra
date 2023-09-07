@@ -656,6 +656,8 @@ public enum Commands implements CommandsConstants,
 
 	InverseBinomial(TABLE_PROBABILITY),
 
+	InverseBinomialMinimumTrials(TABLE_PROBABILITY),
+
 	TDistribution(TABLE_PROBABILITY),
 
 	InverseTDistribution(TABLE_PROBABILITY),
@@ -1218,7 +1220,19 @@ public enum Commands implements CommandsConstants,
 
 	IsVertexForm(TABLE_FUNCTION),
 
-	TableToChart(TABLE_ENGLISH);
+	TableToChart(TABLE_ENGLISH),
+
+	ExtendedGCD(TABLE_CAS),
+
+	ModularExponent(TABLE_CAS),
+
+	CharacteristicPolynomial(TABLE_CAS),
+
+	MinimalPolynomial(TABLE_CAS),
+
+	LUDecomposition(TABLE_CAS),
+
+	QRDecomposition(TABLE_CAS);
 
 	private static final Commands[] RENAMED = {
 			Commands.Binomial, Commands.BinomialCoefficient, Commands.Mean,

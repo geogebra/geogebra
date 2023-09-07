@@ -1,9 +1,10 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.EquationFormDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -11,7 +12,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Equation form
  */
-public class EquationFormProperty extends AbstractEnumerableProperty {
+public class EquationFormProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
 	private final GeoElementDelegate delegate;
 
@@ -20,22 +21,25 @@ public class EquationFormProperty extends AbstractEnumerableProperty {
 			throws NotApplicablePropertyException {
 		super(localization, "Equation");
 		delegate = new EquationFormDelegate(element);
-		setValues("ImplicitLineEquation", "ExplicitLineEquation", "ParametricForm",
+		setValues(GeoLine.EQUATION_IMPLICIT, GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC,
+				GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, GeoLine.EQUATION_GENERAL,
+				GeoLine.EQUATION_USER);
+		setValueNames("ImplicitLineEquation", "ExplicitLineEquation", "ParametricForm",
 				"GeneralLineEquation", "InputForm");
 	}
 
 	@Override
-	protected void setValueSafe(String value, int index) {
+	protected void doSetValue(Integer value) {
 		GeoElement element = delegate.getElement();
 		if (element instanceof GeoVec3D) {
 			GeoVec3D vec3d = (GeoVec3D) element;
-			vec3d.setMode(index);
+			vec3d.setMode(value);
 			vec3d.updateRepaint();
 		}
 	}
 
 	@Override
-	public int getIndex() {
+	public Integer getValue() {
 		return delegate.getElement().getToStringMode();
 	}
 

@@ -67,7 +67,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 	public PlotPanelEuclidianViewCommon commonFields;
 	/** Mouse listener to trigger context menu */
-	private MyMouseListener myMouseListener;
+	private PlotPanelMouseListener mouseListener;
 
 	/** Drag source for DnD */
 	private DragSource ds;
@@ -114,7 +114,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		setMouseEnabled(false, true);
 		setMouseMotionEnabled(false);
 		setMouseWheelEnabled(false);
-		this.addMouseMotionListener(new MyMouseMotionListener());
+		this.addMouseMotionListener(new PlotPanelMouseMotionListener());
 
 		// set some default EV features
 		setAllowShowMouseCoords(false);
@@ -237,14 +237,14 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 */
 	public void setMouseEnabled(boolean enableECMouseListener,
 			boolean enableMyMouseListener) {
-		if (myMouseListener == null) {
-			myMouseListener = new MyMouseListener();
+		if (mouseListener == null) {
+			mouseListener = new PlotPanelMouseListener();
 		}
-		removeMouseListener(myMouseListener);
+		removeMouseListener(mouseListener);
 		removeMouseListener((EuclidianControllerListeners) ec);
 
 		if (enableMyMouseListener) {
-			addMouseListener(myMouseListener);
+			addMouseListener(mouseListener);
 		}
 		if (enableECMouseListener) {
 			addMouseListener((EuclidianControllerListeners) ec);
@@ -282,7 +282,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 * Right click events are consumed to prevent the EuclidianController from
 	 * handling right-clicks as well.
 	 */
-	private class MyMouseListener implements MouseListener {
+	private class PlotPanelMouseListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -323,7 +323,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	/**
 	 * Mouse motion listener for handling DnD drags
 	 */
-	class MyMouseMotionListener implements MouseMotionListener {
+	class PlotPanelMouseMotionListener implements MouseMotionListener {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {

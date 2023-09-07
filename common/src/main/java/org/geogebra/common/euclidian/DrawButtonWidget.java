@@ -123,7 +123,7 @@ public class DrawButtonWidget {
 		if (hasText) {
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font, caption,
+						view.getApplication(), font, caption,
 						getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
@@ -376,7 +376,7 @@ public class DrawButtonWidget {
 					(int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font, caption,
+						view.getApplication(), font, caption,
 						getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -19,7 +18,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Element;
 import javax.swing.text.JTextComponent;
@@ -72,7 +70,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		this.addKeyListener(new GeoGebraKeys());
 		this.addFocusListener(this);
 		focusedTextComponent = this;
-		// this.setCaret(new MyCaret());
 	}
 
 	@Override
@@ -372,37 +369,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 	}
 
-	/**
-	 * Custom caret with damage area set to a thin width. This allows the caret
-	 * to appear next to a DynamicTextField without destroying the field's
-	 * border.
-	 */
-	static class MyCaret extends DefaultCaret {
-
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * 
-		 */
-		public MyCaret() {
-			super();
-			this.setBlinkRate(500);
-		}
-
-		@Override
-		protected synchronized void damage(Rectangle r) {
-			if (r == null) {
-				return;
-			}
-			x = r.x;
-			y = r.y;
-			width = 4;
-			height = r.height;
-			repaint();
-
-		}
-	}
-
 	/*********************************************************************
 	 * Class for the dynamic text container.
 	 * 
@@ -431,7 +397,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			this.enableColoring(false);
 
 			// handle alt+arrow to exit the field
-			addKeyListener(new MyKeyListener(this));
+			addKeyListener(new ArrowKeyListener(this));
 
 			// add a mouse listener to trigger the context menu
 			addMouseListener(new MouseAdapter() {
@@ -510,11 +476,11 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			this.mode = mode;
 		}
 
-		private class MyKeyListener extends KeyAdapter {
+		private class ArrowKeyListener extends KeyAdapter {
 
 			private DynamicTextField tf;
 
-			public MyKeyListener(DynamicTextField tf) {
+			public ArrowKeyListener(DynamicTextField tf) {
 				this.tf = tf;
 			}
 

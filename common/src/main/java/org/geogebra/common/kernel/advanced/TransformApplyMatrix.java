@@ -30,8 +30,7 @@ public class TransformApplyMatrix extends Transform {
 
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoApplyMatrix algo = new AlgoApplyMatrix(cons, geo, matrix);
-		return algo;
+		return new AlgoApplyMatrix(cons, geo, matrix);
 	}
 
 	@Override

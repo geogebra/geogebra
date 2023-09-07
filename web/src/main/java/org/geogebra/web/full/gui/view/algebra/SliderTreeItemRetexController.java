@@ -60,7 +60,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController {
 		if (isWidgetHit(slider.controls.getAnimPanel(), evt)
 				|| (slider.getMinMax() != null
 						&& slider.getMinMax().isVisible())
-				|| isMarbleHit(evt)) {
+				|| checkMarbleHit(evt)) {
 			return;
 		}
 		super.onDoubleClick(evt);

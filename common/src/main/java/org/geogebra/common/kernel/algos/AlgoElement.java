@@ -33,8 +33,11 @@ import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.HasArguments;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
@@ -56,7 +59,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus
  */
 public abstract class AlgoElement extends ConstructionElement
-		implements EuclidianViewCE {
+		implements EuclidianViewCE, HasArguments {
 	private static boolean tempSetLock = false;
 	private static TreeSet<AlgoElement> tempSet;
 	/** input elements */
@@ -210,6 +213,41 @@ public abstract class AlgoElement extends ConstructionElement
 
 	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
 		return view.getFreeInputPoints(this).size() == input.length;
+	}
+
+	/**
+	 * Try to set inputs from another algo's inputs
+	 * @param other other algo
+	 * @return whether setting was successful; will fail if some inputs are dependent
+	 */
+	public boolean setFrom(AlgoElement other) {
+		if (!isCompatible(other)) {
+			return false;
+		}
+		ArrayList<Integer> updateInputIdx = new ArrayList<>();
+		for (int i = 0; i < this.getInput().length; i++) {
+			if (this.getInput(i) != other.getInput(i)) {
+				if (!Inspecting.dynamicGeosFinder.check(this.getInput(i))
+						&& !Inspecting.dynamicGeosFinder.check(other.getInput(i))
+						&& this.getInput(i).getGeoClassType()
+						== other.getInput(i).getGeoClassType()) {
+					updateInputIdx.add(i);
+				} else {
+					return false;
+				}
+			}
+		}
+		if (updateInputIdx.isEmpty()) {
+			// since we only get there if definition did change and command name is the same
+			// at least one input must have changed, but better to avoid OutOfBounds.
+			return false;
+		}
+		for (Integer i: updateInputIdx) {
+			this.getInput(i).set(other.getInput(i));
+		}
+		// start cascade from the ancestor to make sure siblings are updated too
+		this.getInput(updateInputIdx.get(0)).updateRepaint();
+		return true;
 	}
 
 	/**
@@ -460,7 +498,6 @@ public abstract class AlgoElement extends ConstructionElement
 			T geo;
 			if (labelsSetLength < outputList.size()) {
 				geo = getElement(labelsSetLength);
-				// Application.debug(label+", geo="+geo);
 			} else {
 				geo = fac.newElement();
 				outputList.add(geo);
@@ -1213,6 +1250,14 @@ public abstract class AlgoElement extends ConstructionElement
 			return null;
 		}
 		sbAE.setLength(0);
+		if (tpl.isLatex() && getClassName() == Commands.Integral) {
+			String var = "x";
+			if (getInput(0) instanceof VarString) {
+				var = ((VarString) getInput(0)).getVarString(tpl);
+			}
+			Command.appendIntegral(this, sbAE, var, tpl);
+			return sbAE.toString();
+		}
 		if (tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(getLoc().getCommand(def));
 		} else {
@@ -1419,7 +1464,6 @@ public abstract class AlgoElement extends ConstructionElement
 		for (int i = 0; i < getOutputLength(); i++) {
 			geo = getOutput(i);
 			// save only GeoElements that have a valid label
-			// Application.debug(geo.toString()+"--"+geo.isLabelSet());
 			if (geo.isLabelSet()) {
 				geo.getXML(false, sb);
 			}
@@ -1920,11 +1964,21 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param newParent other algo
 	 * @return whether these two algos are compatible
 	 */
-	public boolean isCompatible(@Nonnull AlgoElement newParent) {
+	public final boolean isCompatible(@Nonnull AlgoElement newParent) {
 		return this.getClassName() == newParent.getClassName()
 				// we may add support for macros/expressions later
 				&& this.getClassName() instanceof Commands
 				&& this.getInputLength() == newParent.getInputLength();
 
+	}
+
+	@Override
+	public ExpressionValue getArgument(int i) {
+		return getInput(i);
+	}
+
+	@Override
+	public int getArgumentNumber() {
+		return getInputLength();
 	}
 }

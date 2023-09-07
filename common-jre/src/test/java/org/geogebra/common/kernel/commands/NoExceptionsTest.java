@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
@@ -103,9 +104,10 @@ public class NoExceptionsTest {
 	public static void checkSaving() {
 		XmlTestUtil.checkCurrentXML(app);
 
-		app.getKernel().getConstruction().initUndoInfo();
-		app.getKernel().getConstruction().undo();
-		app.getKernel().getConstruction().redo();
+		Construction cons = app.getKernel().getConstruction();
+		cons.initUndoInfo();
+		cons.getUndoManager().undo();
+		cons.getUndoManager().redo();
 	}
 
 	@Test

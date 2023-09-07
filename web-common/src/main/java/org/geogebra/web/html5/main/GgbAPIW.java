@@ -44,18 +44,17 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.ArchiveEntry;
+import org.geogebra.web.html5.util.ArchiveLoader;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.FFlate;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.ViewW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 
@@ -165,7 +164,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void openFile(String filename) {
 		resetPerspective();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processFileName(filename);
 	}
 
@@ -360,7 +359,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setFileJSON(Object obj) {
 		resetPerspective();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processJSON(obj);
 	}
 
@@ -849,7 +848,7 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void showTooltip(String tooltip) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, (AppW) app);
+		((AppW) app).getToolTipManager().showBottomMessage(tooltip, (AppW) app);
 	}
 
 	/**
@@ -858,12 +857,12 @@ public class GgbAPIW extends GgbAPI {
 	 * @param userName tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
-	 * @param newGeo if the geo was added
+	 * @param implicit whether the geo was interacted with (add, update) without explicit selection
 	 */
 	public void addMultiuserSelection(String clientId, String userName, String color,
-			String label, boolean newGeo) {
+			String label, boolean implicit) {
 		MultiuserManager.INSTANCE.addSelection(app, clientId, userName, GColor.parseHexColor(color),
-				label, newGeo);
+				label, implicit);
 	}
 
 	/**
@@ -915,16 +914,6 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * Remember where file was stored in WinStore app
-	 * 
-	 * @param s
-	 *            external saving path
-	 */
-	public void setExternalPath(String s) {
-		((AppW) app).setExternalPath(s);
-	}
-
-	/**
 	 * If all content is saved, run immediately, otherwise wait until user
 	 * saves.
 	 * 
@@ -933,6 +922,15 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void checkSaved(final JsRunnable callback) {
 		((AppW) app).checkSaved(active -> JsEval.callNativeFunction(callback));
+	}
+
+	@Override
+	public void setPerspective(String code) {
+		if (code.startsWith("save:")) {
+			app.getDialogManager().showSaveDialog();
+			return;
+		}
+		super.setPerspective(code);
 	}
 
 	/**
@@ -963,7 +961,7 @@ public class GgbAPIW extends GgbAPI {
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
 
-			evw.getExportSVG(1, true, (svg) -> {
+			evw.getExportSVG(true, (svg) -> {
 				if (filename != null) {
 					// can't use data:image/svg+xml;utf8 in IE11 / Edge
 					Browser.exportImage(Browser.encodeSVG(svg), filename);
@@ -1146,6 +1144,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
+	 * whether an object is interactive or not
+	 * @param label of the object
+	 * @return true, if object is interactive
+	 */
+	public boolean isInteractive(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		return geo != null && app.getSelectionManager().isSelectableForEV(geo);
+	}
+
+	/**
 	 *
 	 * @return then embedded calculator apis.
 	 */
@@ -1321,5 +1330,13 @@ public class GgbAPIW extends GgbAPI {
 		} else {
 			setXML(content.xml);
 		}
+	}
+
+	/**
+	 * Show all objects in EuclidianView
+	 */
+	public void showAllObjects() {
+		app.setViewShowAllObjects();
+
 	}
 }

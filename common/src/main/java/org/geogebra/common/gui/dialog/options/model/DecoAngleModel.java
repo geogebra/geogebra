@@ -3,18 +3,18 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
-public class DecoAngleModel extends NumberOptionsModel {
-	private IDecoAngleListener listener;
-
-	public interface IDecoAngleListener extends IComboListener {
-		void setArcSizeMinValue();
-	}
+public class DecoAngleModel extends IconOptionsModel {
+	private IComboListener listener;
 
 	public DecoAngleModel(App app) {
 		super(app);
+	}
+
+	@Override
+	public String getTitle() {
+		return "Decoration";
 	}
 
 	private AngleProperties getAnglePropertiesAt(int index) {
@@ -29,7 +29,8 @@ public class DecoAngleModel extends NumberOptionsModel {
 
 	}
 
-	public void setListener(IDecoAngleListener listener) {
+	@Override
+	public void setListener(IComboListener listener) {
 		this.listener = listener;
 	}
 
@@ -44,11 +45,8 @@ public class DecoAngleModel extends NumberOptionsModel {
 		geo.setDecorationType(value);
 		// addded by Loic BEGIN
 		// check if decoration could be drawn
-		if (geo.getArcSize() < 20 && (geo
-				.getDecorationType() == GeoElementND.DECORATION_ANGLE_THREE_ARCS
-				|| geo.getDecorationType() == GeoElementND.DECORATION_ANGLE_TWO_ARCS)) {
-			geo.setArcSize(20);
-			listener.setArcSizeMinValue();
+		if (geo.getArcSize() < AngleArcSizeModel.getMinSizeForDecoration(geo)) {
+			geo.setArcSize(AngleArcSizeModel.getMinSizeForDecoration(geo));
 		}
 		// END
 		geo.updateVisualStyleRepaint(GProperty.DECORATION);

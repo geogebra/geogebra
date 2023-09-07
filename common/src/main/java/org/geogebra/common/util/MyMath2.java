@@ -346,8 +346,6 @@ public class MyMath2 {
 				// del = c*d
 				h = h.multiply(del);
 
-				// AbstractApplication.debug(Math.abs(delre - 1.0)+
-				// Math.abs(delim));
 				if (Math.abs(del.getReal() - 1.0)
 						+ Math.abs(del.getImaginary()) < Kernel.MIN_PRECISION) {
 					break;

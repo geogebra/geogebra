@@ -32,7 +32,7 @@ public class LocalizationTest {
 		}
 		StringBuilder sb = new StringBuilder();
 		for (String fn : available) {
-			sb.append(fn + "\n");
+			sb.append(fn).append("\n");
 		}
 		Assert.assertEquals("", sb.toString());
 	}
@@ -50,7 +50,7 @@ public class LocalizationTest {
 		checkAlias(Language.Filipino, "fil", "tl");
 		checkAlias(Language.Yiddish, "yi", "ji");
 		checkAlias(Language.Mongolian, "mn", "mn-mn");
-		checkAlias(Language.Mongolian_Traditional, "mn-mn-mt");
+		checkAlias(Language.Mongolian_Traditional, "mn-mn-mt", "mn-Mong");
 		checkAlias(Language.English_UK, "en-GB");
 		checkAlias(Language.English_US, "en-US", "en", "whatever");
 	}

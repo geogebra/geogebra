@@ -84,9 +84,11 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
@@ -288,19 +290,22 @@ public class ConsElementXMLHandler {
 	private boolean handleScript(LinkedHashMap<String, String> attrs,
 			ScriptType type) {
 		try {
-			String text = attrs.get("val");
-			if (text != null && text.length() > 0) {
-				Script script = app.createScript(type, text, false);
-				geo.setClickScript(script);
-			}
-			text = attrs.get("onUpdate");
-			if (text != null && text.length() > 0) {
-				Script script = app.createScript(type, text, false);
-				geo.setUpdateScript(script);
-			}
+			handleScript(attrs, type, "val", EventType.CLICK);
+			handleScript(attrs, type, "onUpdate", EventType.UPDATE);
+			handleScript(attrs, type, "onDragEnd", EventType.DRAG_END);
+			handleScript(attrs, type, "onChange", EventType.EDITOR_KEY_TYPED);
 			return true;
 		} catch (RuntimeException e) {
 			return false;
+		}
+	}
+
+	private void handleScript(LinkedHashMap<String, String> attrs, ScriptType type,
+			String attrName, EventType evtType) {
+		String text = attrs.get(attrName);
+		if (text != null && text.length() > 0) {
+			Script script = app.createScript(type, text, false);
+			geo.setScript(script, evtType);
 		}
 	}
 
@@ -448,7 +453,7 @@ public class ConsElementXMLHandler {
 			geo.setObjColor(GColor.BLACK);
 			((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
 		} else if (geo instanceof GeoInputBox) {
-			geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
+			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		}
 	}
 
@@ -833,6 +838,9 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAbsoluteScreenLocation(
 			LinkedHashMap<String, String> attrs, boolean absolute) {
+		if (geo.isDefaultGeo()) {
+			return false;
+		}
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
 			Log.error("wrong element type for <absoluteScreenLocation>: "
 					+ geo.getClass());
@@ -1748,7 +1756,6 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
-		// Application.debug(attrs.toString());
 		if (!(geo.isGeoImplicitCurve())) {
 			Log.warn(
 					"wrong element type for <coefficients>: " + geo.getClass());
@@ -1818,7 +1825,6 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleUserInput(LinkedHashMap<String, String> attrs) {
-		// Application.debug(attrs.toString());
 		if (!(geo instanceof GeoImplicit)) {
 			Log.warn("wrong element type for <userinput>: " + geo.getClass());
 			return false;
@@ -2717,8 +2723,6 @@ public class ConsElementXMLHandler {
 				|| !xmlHandler.kernel.getElementDefaultAllowed()) {
 			// does a geo element with this label exist?
 			geo1 = xmlHandler.kernel.lookupLabel(label);
-
-			// Application.debug(label+", geo="+geo);
 			// needed for TRAC-2719
 			// if geo wasn't found in construction list
 			// look in cas
@@ -2734,8 +2738,6 @@ public class ConsElementXMLHandler {
 				geo1 = xmlHandler.kernel.createGeoElement(xmlHandler.cons,
 						type);
 				pendingLabel = label;
-
-				// Application.debug(label+", "+geo.isLabelSet());
 
 				// independent GeoElements should be hidden by default
 				// (as older versions of this file format did not

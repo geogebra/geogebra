@@ -84,6 +84,11 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void emptyAbsShouldBecomeOr() {
+		checker.type("true||false").checkAsciiMath("true" + Unicode.OR + "false");
+	}
+
+	@Test
 	public void testLnAbs() {
 		checker.type("ln|x+6").checkGGBMath("ln(abs(x + 6))");
 	}
@@ -864,5 +869,42 @@ public class EditorTypingTest {
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type("-")
 				.checkAsciiMath("x-((π)/(2))");
+	}
+
+	@Test
+	public void cursorInNoScript() {
+		checker.type("x + 1/2").checkCursorNotInScript();
+	}
+
+	@Test
+	public void cursorInNoScriptXSquared() {
+		checker.type("x^2").left(2).checkCursorNotInScript();
+	}
+
+	@Test
+	public void cursorInSuperscript() {
+		checker.type("x^2^345").checkCursorInScript();
+	}
+
+	@Test
+	public void cursorInSubscript() {
+		checker.type("x_2").checkCursorInScript();
+	}
+
+	@Test
+	public void cursorInNoSubscript() {
+		checker.type("x_2").left(2).checkCursorNotInScript();
+	}
+
+	@Test
+	public void collapseSelectionOnArrowLeft() {
+		checker.insert("1+2+3+4").select(3, 5).left(1).type("x")
+				.checkAsciiMath("1+2x+3+4");
+	}
+
+	@Test
+	public void collapseSelectionOnArrowRight() {
+		checker.insert("1+2+3+4").select(3, 5).right(1).type("x")
+				.checkAsciiMath("1+2+3+x4");
 	}
 }

@@ -342,16 +342,7 @@ public abstract class Renderer {
 
 		rendererImpl.useShaderProgram();
 
-		// clip planes
-		if (waitForUpdateClipPlanes) {
-			// Application.debug(enableClipPlanes);
-			if (enableClipPlanes) {
-				rendererImpl.enableClipPlanes();
-			} else {
-				rendererImpl.disableClipPlanes();
-			}
-			waitForUpdateClipPlanes = false;
-		}
+		maybeUpdateClipPlanes();
 
 		// update 3D controller
 		((EuclidianController3D) view3D.getEuclidianController()).update();
@@ -416,6 +407,17 @@ public abstract class Renderer {
 		rendererImpl.setColorMask(ColorMask.ALL);
 
         endOfDrawScene();
+	}
+
+	protected void maybeUpdateClipPlanes() {
+		if (waitForUpdateClipPlanes) {
+			if (enableClipPlanes) {
+				rendererImpl.enableClipPlanes();
+			} else {
+				rendererImpl.disableClipPlanes();
+			}
+			waitForUpdateClipPlanes = false;
+		}
 	}
 
 	/**
@@ -685,7 +687,7 @@ public abstract class Renderer {
 		}
 	}
 
-	private void drawLabels() {
+	protected void drawLabels() {
 		if (enableClipPlanes) {
 			rendererImpl.enableClipPlanes();
 		}
@@ -791,7 +793,7 @@ public abstract class Renderer {
 		rendererImpl.enableLighting();
 	}
 
-	private void draw() {
+	protected void draw() {
 		rendererImpl.draw();
 		drawLabels();
 		setMatrixAndLight();
@@ -969,7 +971,6 @@ public abstract class Renderer {
 	 * draws a view button
 	 */
 	final public void drawViewInFrontOf() {
-		// Application.debug("ici");
 		rendererImpl.initMatrix();
 		disableBlending();
 		geometryManager.draw(geometryManager.getViewInFrontOf().getIndex());
@@ -1551,7 +1552,6 @@ public abstract class Renderer {
 	 *            image export flag
 	 */
 	final public void setNeedExportImage(boolean flag) {
-		// Log.printStacktrace("" + flag);
 		needExportImage = flag;
 	}
 
@@ -1936,8 +1936,6 @@ public abstract class Renderer {
 		// calculates 2^n dimensions
 		int w = firstPowerOfTwoGreaterThan(labelWidthRes);
 		int h = firstPowerOfTwoGreaterThan(labelHeightRes);
-
-		// Application.debug("width="+width+",height="+height+"--w="+w+",h="+h);
 
 		// get alpha channel and extends to 2^n dimensions
 		byte[] bytes = new byte[w * h];

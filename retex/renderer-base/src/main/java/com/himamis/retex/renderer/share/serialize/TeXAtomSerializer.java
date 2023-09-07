@@ -95,12 +95,16 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof FencedAtom) {
 			FencedAtom ch = (FencedAtom) root;
-			String base = serialize(ch.getTrueBase());
-			if (isBinomial(ch.getTrueBase())) {
+			Atom bracketsContent = ch.getTrueBase();
+			String base = serialize(bracketsContent);
+			if (isBinomial(bracketsContent)) {
 				return base;
 			}
 			String left = serialize(ch.getLeft());
 			String right = serialize(ch.getRight());
+			if (bracketsContent instanceof ArrayAtom) {
+				return adapter.transformMatrix(left, base, right);
+			}
 			return adapter.transformBrackets(left, base, right);
 		}
 		if (root instanceof SpaceAtom) {
@@ -178,7 +182,13 @@ public class TeXAtomSerializer {
 		}
 
 		if (root instanceof OverlinedAtom) {
-			return "Segment " + serialize(((OverlinedAtom) root).getTrueBase());
+			String base = serialize(((OverlinedAtom) root).getTrueBase());
+
+			// Only serialize to a recurring decimal if there are only digits
+			if (base.matches("\\d+")) {
+				return serializeOverLine(base);
+			}
+			return "Segment " + base;
 		}
 
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
@@ -235,9 +245,6 @@ public class TeXAtomSerializer {
 		}
 		if (symbol == OgonekAtom.OGONEK) {
 			return "ogonek";
-		}
-		if (symbol == SymbolAtom.get("Vert")) {
-			return "\u2225";
 		}
 		return adapter.convertCharacter(symbol.getUnicode());
 	}
@@ -306,6 +313,14 @@ public class TeXAtomSerializer {
 		// eg sum/product
 		return serialize(trueBase) + " from " + serialize(bigOp.getBottom()) + " to "
 				+ serialize(bigOp.getTop());
+	}
+
+	private String serializeOverLine(String base) {
+		String ret = "";
+		for (int i = 0; i < base.length(); i++) {
+			ret += base.charAt(i) + "\u0305";
+		}
+		return ret;
 	}
 
 	private boolean isTrigonometric(Atom trueBase) {

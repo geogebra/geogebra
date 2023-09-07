@@ -13,9 +13,9 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
@@ -59,23 +59,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void resetChanges() {
-		String text = getGeoInputBox().getTextForEditor();
-
-		boolean textMode = isTextMode();
-		mathField.getInternal().setPlainTextMode(textMode);
-		mathField.getInternal().setAllowAbs(
-				!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
-		if (textMode) {
-			mathField.getInternal().setPlainText(text);
-		} else {
-			mathField.parse(text);
-		}
-
-		setProtection();
-	}
-
-	@Override
 	protected void showRedefinedBox(final DrawInputBox drawable) {
 		SwingUtilities.invokeLater(() -> drawable.setWidgetVisible(true));
 	}
@@ -98,7 +81,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds, TextRendererSettings settings) {
 		setInputBox(geoInputBox);
 		getDrawInputBox().setEditing(true);
 
@@ -150,11 +133,12 @@ public class SymbolicEditorD extends SymbolicEditor {
 	public void onKeyTyped(String key) {
 		addDegree(key, mathField.getInternal());
 		String text = texSerializer.serialize(getMathFieldInternal().getFormula());
-		GDimension equationSize = app.getDrawEquation().measureEquation(app, null, text,
+		GDimension equationSize = app.getDrawEquation().measureEquation(app, text,
 				getDrawInputBox().getTextFont(text), false);
 		double currentHeight = equationSize.getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
 		box.setBounds(box.getX(), box.getY(), box.getWidth(),
 				Math.max((int) currentHeight, DrawInputBox.SYMBOLIC_MIN_HEIGHT));
+		dispatchKeyTypeEvent(key);
 		box.revalidate();
 		view.repaintView();
 	}
@@ -174,5 +158,10 @@ public class SymbolicEditorD extends SymbolicEditor {
 	public boolean onTab(boolean shiftDown) {
 		applyChanges();
 		return true;
+	}
+
+	@Override
+	protected void selectEntryAt(int x, int y) {
+		mathField.getInternal().selectEntryAt(x, y);
 	}
 }

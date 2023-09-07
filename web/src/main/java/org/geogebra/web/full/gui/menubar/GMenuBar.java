@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.menubar;
 import java.util.List;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -13,8 +13,8 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class GMenuBar extends AriaMenuBar {
 	private int separators = 0;
-	private String menuTitle;
-	private AppW app;
+	private final String menuTitle;
+	private final AppW app;
 
 	/**
 	 * @param menuTitle
@@ -92,7 +92,7 @@ public class GMenuBar extends AriaMenuBar {
 				if (ait[1] == null) {
 					// popuppanel still not present
 					final GPopupPanel pp = new GPopupPanel(true, false,
-							app1.getPanel(), app1);
+							app1.getAppletFrame(), app1);
 					pp.addAutoHidePartner(
 							((AriaMenuItem) ait[0]).getElement());
 					submenupopup.addStyleName(subleft ? "subMenuLeftSide2"

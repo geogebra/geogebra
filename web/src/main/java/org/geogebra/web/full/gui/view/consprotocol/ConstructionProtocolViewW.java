@@ -16,7 +16,6 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.awt.PrintableW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -69,7 +68,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	GPopupMenuW popupMenu;
 
 	CellTable<RowData> headerTable;
-	MyPanel outerScrollPanel;
+	ConsProtocolScrollPanel outerScrollPanel;
 
 	/**
 	 * 
@@ -119,7 +118,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		cpPanel.add(holderPanel);
 
-		outerScrollPanel = new MyPanel(); // used for horizontal
+		outerScrollPanel = new ConsProtocolScrollPanel(); // used for horizontal
 											// scrolling
 		outerScrollPanel.addStyleName("outerScrollPanel");
 		outerScrollPanel.add(cpPanel);
@@ -185,7 +184,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	}
 
-	public class MyPanel extends ScrollPanel {
+	public class ConsProtocolScrollPanel extends ScrollPanel {
 
 		@Override
 		public void onResize() {
@@ -253,7 +252,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (dropIndex < minIndex || dropIndex > maxIndex) {
 					// drop not possible
 					// TODO change cursor style before releasing mouse
-					ToolTipManagerW.sharedInstance().showBottomMessage(
+					((AppW) app).getToolTipManager().showBottomMessage(
 							app.getLocalization().getMenu("Drop not possible"), (AppW) app);
 					return;
 				}
@@ -395,8 +394,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			if (el != null && el.getParentNode() != null && el
 					.getParentElement().hasClassName("CP_popupImage")) { // three-dot
 																// menu
-				popupMenu.show(el.getAbsoluteLeft(),
-						el.getAbsoluteBottom());
+				popupMenu.show(el, 0, el.getOffsetHeight());
 			}
 		};
 

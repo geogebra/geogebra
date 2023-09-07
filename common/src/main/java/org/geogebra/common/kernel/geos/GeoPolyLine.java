@@ -38,7 +38,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		Traceable, Transformable, Mirrorable, MatrixTransformable,
-		PointRotateable, Translateable, Dilateable, GeoPoly {
+		Translateable, Dilateable, GeoPoly {
 
 	/** maximum number of points when created by tool */
 	public static final int POLYLINE_MAX_POINTS = 500;
@@ -108,6 +108,21 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
+	}
+
+	/**
+	 * Sets a segment from its two endpoints.
+	 *
+	 * @param segment to set
+	 * @param startPoint of the segment.
+	 * @param endPoint of the segment.
+	 */
+	public static void setSegmentPoints(GeoSegment segment, GeoPoint startPoint,
+			GeoPoint endPoint) {
+		segment.setStartPoint(startPoint);
+		segment.setEndPoint(endPoint);
+		GeoVec3D.lineThroughPoints(startPoint, endPoint, segment);
+		segment.calcLength();
 	}
 
 	@Override
@@ -423,11 +438,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		if (seg == null) {
 			seg = new GeoSegment(cons);
 		}
-		seg.setStartPoint(geoPoint);
-		seg.setEndPoint(geoPoint2);
-		GeoVec3D.lineThroughPoints(geoPoint, geoPoint2, seg);
-		seg.calcLength();
-
+		setSegmentPoints(seg, geoPoint, geoPoint2);
 	}
 
 	/**

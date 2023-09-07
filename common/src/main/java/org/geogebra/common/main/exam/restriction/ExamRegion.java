@@ -82,7 +82,7 @@ public enum ExamRegion {
 	BAYERN_CAS() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Schulversuch CAS in Prüfungen";
+			return "Schulversuch CAS in Pr\u00FCfungen";
 		}
 
 		@Override

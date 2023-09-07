@@ -2,6 +2,7 @@ package org.geogebra.web.full.main;
 
 import java.util.TreeSet;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManager;
@@ -128,7 +129,7 @@ public class FileManagerW extends FileManager {
 				Material mat = JSONParserGGT.parseMaterial(this.stockStore
 				        .getItem(key));
 				if (mat == null) {
-					mat = new Material(0, MaterialType.ggb);
+					mat = new Material(MaterialType.ggb);
 					mat.setTitle(getTitleFromKey(key));
 				}
 				if (filter.check(mat)
@@ -239,7 +240,6 @@ public class FileManagerW extends FileManager {
 		// maybe another user restores the file, so reset
 		// sensitive data
 		autoSaved.setCreator(null);
-		autoSaved.setId(0);
 		openMaterial(autoSaved);
 	}
 
@@ -260,7 +260,7 @@ public class FileManagerW extends FileManager {
 	@Override
 	public void export(App app1) {
 		dialogEvent(app, "exportGGB");
-		((AppW) app1).getGuiManager().exportGGB(true);
+		((AppW) app1).getGuiManager().exportGGB(false);
 	}
 
 	@Override
@@ -278,7 +278,7 @@ public class FileManagerW extends FileManager {
 		} catch (Exception e) {
 			Log.warn("setting tube ID failed");
 		}
-		this.offlineIDs.add(mat.getId());
+		this.offlineIDs.add(mat.getLocalID());
 
 	}
 
@@ -296,7 +296,7 @@ public class FileManagerW extends FileManager {
 		}
 		try {
 			this.stockStore.setItem(key, material.toJson().toString());
-			this.offlineIDs.add(material.getId());
+			this.offlineIDs.add(material.getLocalID());
 		} catch (Exception e) {
 			Log.warn("Updating local copy failed.");
 		}
@@ -332,6 +332,18 @@ public class FileManagerW extends FileManager {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());
 		}
+	}
+
+	@Override
+	public boolean isOnlineSavingPreferred() {
+		return getFileProvider() != Material.Provider.LOCAL
+				&& app.getNetworkOperation().isOnline()
+				&& (app.getLoginOperation().isLoggedIn() || mayLogIn());
+	}
+
+	private boolean mayLogIn() {
+		return app.getPlatform() != GeoGebraConstants.Platform.OFFLINE
+				&& app.getLoginOperation().mayLogIn();
 	}
 
 	private static void dialogEvent(AppW app, String string) {

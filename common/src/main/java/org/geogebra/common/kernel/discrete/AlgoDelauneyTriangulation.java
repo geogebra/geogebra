@@ -147,7 +147,6 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 							&& DoubleUtil.isEqual(p1A.getY(), p2B.getY())
 							&& DoubleUtil.isEqual(p2A.getX(), p1B.getX())
 							&& DoubleUtil.isEqual(p2A.getY(), p1B.getY())) {
-						// Application.debug("equal2");
 						return 0;
 					}
 					// check this one second (doesn't occur in practice)
@@ -155,7 +154,6 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 							&& DoubleUtil.isEqual(p1A.getY(), p1B.getY())
 							&& DoubleUtil.isEqual(p2A.getX(), p2B.getX())
 							&& DoubleUtil.isEqual(p2A.getY(), p2B.getY())) {
-						// Application.debug("equal1");
 						return 0;
 					}
 

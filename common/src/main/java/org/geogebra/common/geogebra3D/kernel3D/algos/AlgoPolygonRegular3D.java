@@ -103,7 +103,7 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 
 	@Override
 	protected void rotate(GeoPointND point) {
-		((GeoPoint3D) point).rotate(rotAngle, centerPoint, direction);
+		((GeoPoint3D) point).rotate(rotAngle, centerPoint.getInhomCoordsInD3(), direction);
 	}
 
 	@Override

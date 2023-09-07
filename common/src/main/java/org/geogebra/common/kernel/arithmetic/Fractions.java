@@ -28,7 +28,7 @@ public class Fractions {
 			Kernel kernel, boolean allowPi) {
 		ExpressionValue[] fraction = new ExpressionValue[2];
 		expr.getFraction(fraction, true);
-		if (fraction[0] != null) {
+		if (fraction[0] != null && !expr.inspect(Fractions::isDecimal)) {
 			ExpressionValue ltVal = fraction[0].evaluate(StringTemplate.defaultTemplate);
 			double lt = ltVal.evaluateDouble();
 
@@ -83,12 +83,18 @@ public class Fractions {
 
 	private static boolean checkFraction(ExpressionValue[] parts, ExpressionValue lt,
 			boolean expandPlus) {
-		ExpressionValue left1 = lt == null ? null : lt.unwrap();
+		if (lt == null) {
+			return false;
+		}
+		ExpressionValue left1 = lt.unwrap();
 		if (left1 instanceof ExpressionNode) {
 			((ExpressionNode) left1).getFraction(parts, expandPlus);
 			return true;
 		} else if (left1 instanceof GeoNumeric && ((GeoNumeric) left1).getDefinition() != null) {
 			((GeoElement) left1).getDefinition().getFraction(parts, expandPlus);
+			return true;
+		} else if (left1.isRecurringDecimal()) {
+			RecurringDecimal.asFraction(parts, left1.wrap());
 			return true;
 		}
 		return false;
@@ -104,6 +110,10 @@ public class Fractions {
 	 */
 	protected static void getFraction(ExpressionValue[] parts, ExpressionNode expr,
 			boolean expandPlus) {
+		if (expr.unwrap().isRecurringDecimal()) {
+			RecurringDecimal.asFraction(parts, expr);
+			return;
+		}
 		ExpressionValue numL, numR, denL = null, denR = null;
 		if (checkFraction(parts, expr.getLeft(), expandPlus)) {
 
@@ -150,6 +160,7 @@ public class Fractions {
 			}
 			return;
 		case PLUS:
+		case INVISIBLE_PLUS:
 			if (expandPlus) {
 				parts[0] = multiplyCheck(denR, numL).wrap().plus(multiplyCheck(denL, numR));
 				parts[1] = multiplyCheck(denR, denL);
@@ -177,6 +188,10 @@ public class Fractions {
 			parts[0] = expr;
 			parts[1] = null;
 		}
+	}
+
+	private static boolean isDecimal(ExpressionValue left) {
+		return left instanceof MySpecialDouble && ((MySpecialDouble) left).isDecimal();
 	}
 
 	private static ExpressionValue multiplyCheck(ExpressionValue denR, ExpressionValue denL) {

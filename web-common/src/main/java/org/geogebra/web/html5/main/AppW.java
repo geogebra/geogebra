@@ -57,6 +57,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -126,6 +127,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LightBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
+import org.geogebra.web.html5.gui.zoompanel.FullScreenState;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
@@ -140,13 +142,13 @@ import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
+import org.geogebra.web.html5.util.ArchiveLoader;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.UUIDW;
-import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.AnalyticsW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
@@ -155,7 +157,6 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.timer.client.Timer;
-import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -240,7 +241,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
 	private final ArrayList<RequiresResize> euclidianHandlers = new ArrayList<>();
-	private ViewW viewW;
+	private ArchiveLoader archiveLoader;
 	private ZoomPanel zoomPanel;
 	private final PopupRegistry popupRegistry = new PopupRegistry();
 	private VendorSettings vendorSettings;
@@ -255,6 +256,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	};
 	private final GlobalHandlerRegistry dropHandlers = new GlobalHandlerRegistry();
 	private Widget lastFocusableWidget;
+	private FullScreenState fullscreenState;
+	private ToolTipManagerW toolTipManager;
 
 	/**
 	 * @param geoGebraElement
@@ -274,8 +277,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setPrerelease(appletParameters.getDataParamPrerelease());
 
 		// laf = null in webSimple
-		setUndoRedoEnabled(appletParameters.getDataParamEnableUndoRedo()
-				&& (laf == null || laf.undoRedoSupported()));
+		boolean hasUndo = appletParameters.getDataParamEnableUndoRedo()
+				&& (laf == null || laf.undoRedoSupported());
+		setUndoRedoMode(hasUndo ? UndoRedoMode.GUI : UndoRedoMode.DISABLED);
 
 		this.loc = new LocalizationW(getConfig(), dimension);
 		this.laf = laf;
@@ -719,7 +723,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void loadGgbFileAsBase64(String dataUrl) {
 		prepareReloadGgbFile();
-		ViewW view = getViewW();
+		ArchiveLoader view = getArchiveLoader();
 		view.processBase64String(dataUrl);
 	}
 
@@ -734,7 +738,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void loadOrEmbedGgbFile(ArrayBuffer binary, String fileName) {
 		EmbedManager embedManager = getEmbedManager();
 		if (!fileName.endsWith("ggs") && embedManager != null) {
-			Material mat = new Material(-1, Material.MaterialType.ggb);
+			Material mat = new Material(Material.MaterialType.ggb);
 			mat.setBase64(Base64.bytesToBase64(new Uint8Array(binary)));
 			embedManager.embed(mat);
 		} else {
@@ -749,7 +753,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void loadGgbFileAsBinary(ArrayBuffer binary) {
 		prepareReloadGgbFile();
-		ViewW view = getViewW();
+		ArchiveLoader view = getArchiveLoader();
 		view.processBinaryData(binary);
 	}
 
@@ -2017,7 +2021,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				&& getAppletParameters().getDataParamApp()) {
 			Browser.changeMetaTitle(title);
 		}
-		geoGebraElement.setAttribute("aria-label", title);
+		geoGebraElement.getElement().setAttribute("aria-label", title);
 	}
 
 	protected void translateHeader() {
@@ -2026,7 +2030,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean letRedefine() {
-		// AbstractApplication.debug("implementation needed"); // TODO
+		// TODO
 		// Auto-generated
 		return true;
 	}
@@ -2234,7 +2238,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void closePopups() {
 		closePopupsNoTooltips();
-		ToolTipManagerW.sharedInstance().hideTooltip();
+		getToolTipManager().hideTooltip();
 
 		if (!isUnbundled() && getGuiManager() != null
 				&& getGuiManager().hasAlgebraView()) {
@@ -2845,22 +2849,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param path
-	 *            path for external saving
-	 */
-	public void setExternalPath(String path) {
-		if (getKernel() != null && getKernel().getConstruction() != null
-				&& getKernel().getConstruction().getTitle() == null
-				|| "".equals(getKernel().getConstruction().getTitle())) {
-			int lastSlash = Math.max(path.lastIndexOf('/'),
-					path.lastIndexOf('\\'));
-			String title = path.substring(lastSlash + 1).replace(".ggb", "");
-			getKernel().getConstruction().setTitle(title);
-		}
-		getFileManager().setFileProvider(Provider.LOCAL);
-	}
-
-	/**
 	 * @param runnable
 	 *            callback for after file is saved
 	 */
@@ -2931,15 +2919,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return getAppletParameters().getDataParamShowToolBarHelp(true);
 	}
 
-	/**
-	 * @return root panel of the applet
-	 * @deprecated use getAppletFrame instead
-	 */
-	@Deprecated
-	public final Panel getPanel() {
-		return getAppletFrame();
-	}
-
 	@Override
 	public void setAltText(GeoText altText) {
 		getAccessibilityManager().appendAltText(altText);
@@ -2995,15 +2974,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param id
-	 *            material id
 	 * @param sharingKey
 	 *            material sharing key
 	 * @param title
 	 *            material title
 	 */
-	public void updateMaterialURL(int id, String sharingKey, String title) {
-		setTubeId(id > 0 ? Integer.toString(id) : sharingKey);
+	public void updateMaterialURL(String sharingKey, String title) {
+		setTubeId(sharingKey);
 		if (appletParameters.getDataParamApp() && sharingKey != null) {
 			Browser.changeUrl(getCurrentURL(sharingKey, false));
 			if (!StringUtil.empty(title)) {
@@ -3013,7 +2990,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	public void updateMaterialURL(Material material) {
-		updateMaterialURL(material.getId(), material.getSharingKeyOrId(), material.getTitle());
+		updateMaterialURL(material.getSharingKeySafe(), material.getTitle());
 	}
 
 	/**
@@ -3182,13 +3159,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Handle click ouside of any view
-	 */
-	public void onUnhandledClick() {
-		// only with GUI
-	}
-
-	/**
 	 * Update central pane and set view sizes
 	 */
 	public final void updateCenterPanelAndViews() {
@@ -3354,13 +3324,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @return zip file handler
+	 * @return zip archive handler
 	 */
-	public ViewW getViewW() {
-		if (viewW == null) {
-			viewW = new ViewW(this);
+	public ArchiveLoader getArchiveLoader() {
+		if (archiveLoader == null) {
+			archiveLoader = new ArchiveLoader(this);
 		}
-		return viewW;
+		return archiveLoader;
 	}
 
 	/**
@@ -3626,5 +3596,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void resetCommandDict() {
 		super.resetCommandDict();
 		setLabels(); // rebuilds input help panel
+	}
+
+	/**
+	 * @return fullscreen state data
+	 */
+	public FullScreenState getFullscreenState() {
+		if (fullscreenState == null) {
+			fullscreenState = new FullScreenState();
+		}
+		return fullscreenState;
+	}
+
+	/**
+	 * @return manager for snackbars
+	 */
+	public ToolTipManagerW getToolTipManager() {
+		if (toolTipManager == null) {
+			toolTipManager = new ToolTipManagerW();
+		}
+		return toolTipManager;
 	}
 }

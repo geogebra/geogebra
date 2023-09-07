@@ -1,5 +1,6 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 
 import com.himamis.retex.editor.share.serializer.SolverSerializer;
@@ -9,6 +10,7 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 import elemental2.core.Function;
+import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -24,6 +26,7 @@ public class EditorApi {
 	 * @param kb keyboard
 	 * @param listener editor input listener
 	 */
+	@JsIgnore
 	public EditorApi(MathFieldW mathField, TabbedKeyboard kb,
 			EditorListener listener) {
 		this.mathField = mathField;
@@ -68,16 +71,39 @@ public class EditorApi {
 		mathField.parse(json.get("content"));
 	}
 
+	/**
+	 * @param options {type: string, transparent: boolean}
+	 * @param callback called with {svg: base64 encoded SVG,
+	 *             baseline: relative baseline position} or error
+	 */
+	public void exportImage(JsPropertyMap<String> options,
+			MathFieldExporter.ImageConsumer callback) {
+		new MathFieldExporter(mathField).export(options.get("type"),
+				Js.isTruthy(options.get("transparent")), callback);
+	}
+
 	public void registerClientListener(Function fn) {
 		listener.registerClientListener(fn);
 	}
 
+	/**
+	 * open keyboard
+	 */
 	public void openKeyboard() {
 		kb.setVisible(true);
+		listener.notifyKeyboardVisibilityChange(true);
 	}
 
+	/**
+	 * close keyboard
+	 */
 	public void closeKeyboard() {
 		kb.setVisible(false);
+		listener.notifyKeyboardVisibilityChange(false);
+	}
+
+	public String getVersion() {
+		return GeoGebraConstants.VERSION_STRING;
 	}
 
 }

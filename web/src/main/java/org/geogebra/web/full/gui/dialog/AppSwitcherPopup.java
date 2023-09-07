@@ -7,6 +7,7 @@ import org.geogebra.common.main.exam.restriction.Restrictable;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -30,7 +31,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 	 *            - button for popup
 	 */
 	public AppSwitcherPopup(AppWFull app, SuiteHeaderAppPicker pickerButton) {
-		super(true, app.getPanel(), app);
+		super(true, app.getAppletFrame(), app);
 		this.appPickerButton = pickerButton;
 		this.app = app;
 		addAutoHidePartner(appPickerButton.getElement());
@@ -85,8 +86,8 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 		rowPanel.add(img);
 
 		String key = description.getNameKey();
-		Label label = new Label(app.getLocalization().getMenu(key));
-		label.addStyleName("appPickerLabel");
+		Label label = BaseWidgetFactory.INSTANCE.newPrimaryText(app.getLocalization().getMenu(key),
+				"appPickerLabel");
 		AriaHelper.setAttribute(label, "data-trans-key", key);
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");

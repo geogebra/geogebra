@@ -36,7 +36,6 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
  * Config for Classic and derived apps (MR)
  */
 public class AppConfigDefault extends AbstractAppConfig {
-
 	public AppConfigDefault() {
 		super(GeoGebraConstants.CLASSIC_APPCODE);
 	}
@@ -225,7 +224,7 @@ public class AppConfigDefault extends AbstractAppConfig {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
+	public CommandFilter createCommandFilter() {
 		return null;
 	}
 

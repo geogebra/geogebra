@@ -41,7 +41,6 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 		int outputSize = -1;
 
 		if (geoFun.isPolynomialFunction(true)) {
-			// AbstractApplication.debug("trying polynomial");
 			if (soln == null) {
 				soln = new Solution();
 			}
@@ -54,8 +53,6 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 
 		if (roots == null || outputSize == 0) {
 			// polynomial method hasn't worked
-			// AbstractApplication.debug("trying non-polynomial");
-
 			// solve a x(t) + b y(t) + c = 0 (for t)
 			roots = AlgoRoots.findRoots(geoFun.getFunction(),
 					curve.getMinParameter(),
@@ -91,15 +88,11 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 						point.setUndefined();
 					}
 				}
-
-				// AbstractApplication.debug(xFun.evaluateDouble()+","+
-				// yFun.evaluateDouble());
 			}
 		}
 
 		// other points are undefined
 		for (; index < getOutputPoints().size(); index++) {
-			// AbstractApplication.debug("setting undefined "+index);
 			getOutputPoints().getElement(index).setUndefined();
 		}
 

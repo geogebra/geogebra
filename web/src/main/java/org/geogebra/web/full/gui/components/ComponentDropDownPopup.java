@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
@@ -112,6 +112,8 @@ public class ComponentDropDownPopup {
 					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
 					setScrollTop(getSelectedItemTop() - diffAnchorPopupTop);
 				}
+			} else {
+				getStyle().setProperty("height", "");
 			}
 		}
 		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));

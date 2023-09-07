@@ -117,14 +117,9 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 							}
 							newMat.setSyncStamp(newMat.getModified());
 							if (!MaterialsManager.this
-									.shouldKeep(mat.getId())) {
-								delete(mat, true, new Runnable() {
-
-									@Override
-									public void run() {
-										// TODO Auto-generated method stub
-
-									}
+									.shouldKeep(mat.getLocalID())) {
+								delete(mat, true, () -> {
+									// nothing to do here
 								});
 							} else {
 								// Meta may have changed (tube ID), sync
@@ -197,4 +192,13 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 
 	protected abstract void setTubeID(String localKey, Material newMat);
 
+	@Override
+	public boolean saveCurrentLocalIfPossible(App app) {
+		return false;
+	}
+
+	@Override
+	public boolean isOnlineSavingPreferred() {
+		return true;
+	}
 }

@@ -414,8 +414,6 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		sb.append(key);
 		sb.append("\\end{tabular}");
 		sb.append('}');
-
-		// Application.debug(sb.toString());
 	}
 
 	@Override

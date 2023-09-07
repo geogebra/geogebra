@@ -79,6 +79,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -753,13 +754,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return toOutputValueString(StringTemplate.editTemplate);
 	}
 
-	/**
-	 * Sets this object to zero (number = 0, points = (0,0), etc.)
-	 */
-	public void setZero() {
-		// overriden where needed
-	}
-
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
@@ -887,8 +881,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		} else {
 			blueD = 2 * blueD;
 		}
-
-		// Application.debug("red"+redD+"green"+greenD+"blue"+blueD);
 
 		// adjust color triple to alternate color spaces, default to RGB
 		switch (this.colorSpace) {
@@ -1544,7 +1536,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		if (hasFixedDescendent) {
-			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
 		} else {
@@ -2030,7 +2021,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether this geo can be rotated
 	 */
 	public boolean isRotateMoveable() {
-		return isPointerChangeable() && (this instanceof PointRotateable);
+		return isPointerChangeable() && (this instanceof Rotatable);
 	}
 
 	/**
@@ -2223,19 +2214,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
-		return getFormulaString(tpl, !symbolic);
-	}
-
-	/**
-	 * @param symbolic
-	 *            true to keep variable names
-	 * @param symbolicContext
-	 *            whether this method was called from a symbolic context
-	 * @param tpl
-	 *            string template
-	 * @return LaTeX string
-	 */
-	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		return getFormulaString(tpl, !symbolic);
 	}
 
@@ -2580,9 +2558,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			oldSpreadsheetCoords = spreadsheetCoords;
 			spreadsheetCoords = null;
 		}
-
-		// Application.debug("update spread sheet coords: " + this + ", " +
-		// spreadsheetCoords + ", old: " + oldSpreadsheetCoords);
 	}
 
 	/**
@@ -2756,12 +2731,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// use Greek upper case for labeling points if language is Greek
 			// (el)
 			if (getLoc().isUsingLocalizedLabels()) {
-				if (getLoc().languageIs(Language.Greek.locale)) {
+				if (getLoc().languageIs(Language.Greek.language)) {
 					chars = Greek.getGreekUpperCase();
-				} else if (getLoc().languageIs(Language.Arabic.locale)) {
+				} else if (getLoc().languageIs(Language.Arabic.language)) {
 					// Arabic / Arabic (Morocco)
 					chars = LabelType.arabic;
-				} else if (getLoc().languageIs(Language.Yiddish.locale)) {
+				} else if (getLoc().languageIs(Language.Yiddish.language)) {
 					chars = LabelType.yiddish;
 				} else {
 					chars = LabelType.pointLabels;
@@ -3094,9 +3069,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            whether this was triggered by drag
 	 */
 	public void update(boolean dragging) {
-		if (hasDynamicCaption()) {
-			dynamicCaption.update(dragging);
-		}
 		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
 		maybeUpdateSpecialPoints();
 
@@ -4522,20 +4494,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (scripts == null) {
 			return;
 		}
-		Script clickScript = scripts[EventType.CLICK.ordinal()];
-		Script updateScript = scripts[EventType.UPDATE.ordinal()];
+		getScriptTag(EventType.CLICK, "val", sb);
+		getScriptTag(EventType.UPDATE, "onUpdate", sb);
+		getScriptTag(EventType.DRAG_END, "onDragEnd", sb);
+		getScriptTag(EventType.EDITOR_KEY_TYPED, "onChange", sb);
+	}
+
+	private void getScriptTag(EventType eventType, String val, StringBuilder sb) {
+		Script clickScript = scripts[eventType.ordinal()];
 		if (clickScript != null) {
 			sb.append("\t<");
 			sb.append(clickScript.getXMLName());
-			sb.append(" val=\"");
+			sb.append(" ").append(val).append("=\"");
 			StringUtil.encodeXML(sb, clickScript.getInternalText());
-			sb.append("\"/>\n");
-		}
-		if (updateScript != null) {
-			sb.append("\t<");
-			sb.append(updateScript.getXMLName());
-			sb.append(" onUpdate=\"");
-			StringUtil.encodeXML(sb, updateScript.getInternalText());
 			sb.append("\"/>\n");
 		}
 	}
@@ -5271,8 +5242,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void setColorFunction(final GeoList col) {
-		// Application.debug("setColorFunction"+col.getValue());
-
 		// check for circular definition (not needed)
 		// if (this == col || isParentOf(col))
 		// throw new CircularDefinitionException();
@@ -5299,8 +5268,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (colFunction != null) {
 			colFunction.unregisterColorFunctionListener(this);
 		}
-		// Application.debug("removeColorFunction");
-		// if (colFunction == col)
 		colFunction = null;
 	}
 
@@ -6216,6 +6183,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
+	/**
+	 *
+	 * @return if geo is a result of some command.
+	 */
+	protected boolean isCommandOutput() {
+		return algoParent != null && algoParent.getClassName() != Algos.Expression;
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
@@ -6650,6 +6625,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return false;
 		}
 		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
+			return false;
+		}
+		if (unwrap instanceof RecurringDecimal) {
 			return false;
 		}
 		if (unwrap instanceof NumberValue) {
@@ -7200,5 +7178,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public void removeZoomerAnimationListenerIfNeeded() {
 		// implemented in GeoFunction
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
 	}
 }

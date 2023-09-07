@@ -74,8 +74,6 @@ public class PolygonFactory {
 			sb.append(points[0].getLabel(tpl));
 			sb.append("))");
 
-			// Application.debug(sb.toString());
-
 			GeoPoint pp = (GeoPoint) kernel.getAlgebraProcessor().evaluateToPoint(sb.toString(),
 					ErrorHelper.silent(), true);
 
@@ -252,8 +250,6 @@ public class PolygonFactory {
 			sb.append(',');
 			sb.append(points[1].getLabel(tpl));
 			rigidPolygonAddEndOfCommand(sb, is3D);
-
-			// Application.debug(sb.toString());
 
 			GeoPointND pp = kernel.getAlgebraProcessor().evaluateToPoint(sb.toString(),
 					ErrorHelper.silent(), true);

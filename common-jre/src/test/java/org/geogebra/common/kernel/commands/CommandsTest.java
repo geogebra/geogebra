@@ -4,7 +4,10 @@ import static com.himamis.retex.editor.share.util.Unicode.DEGREE_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.IMAGINARY;
 import static com.himamis.retex.editor.share.util.Unicode.PI_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.theta_STRING;
+import static org.geogebra.common.BaseUnitTest.isDefined;
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -768,6 +771,10 @@ public class CommandsTest {
 	@Test
 	public void cmdApplyMatrix() {
 		t("ApplyMatrix[ {{1,2},{3,4}}, Polygon[(1,1),(2,1/2),4] ]", "2.5");
+		t("ApplyMatrix[ {{2,0,0},{0,3,0},{0,0,4}}, Sphere((0,0,1),1) ]",
+				"0.25x² + 0.1111111111111111y² + 0.0625z² - 0.5z = 0");
+		tRound("Coefficients[ApplyMatrix[ {{0,1},{-1,0}}, 2x+y+0z=1 ]] * sqrt(5)",
+				"{-1, 2, 0, 1}");
 	}
 
 	@Test
@@ -1022,7 +1029,7 @@ public class CommandsTest {
 		};
 		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.kernel.getConstruction(), points);
 		GeoConicND conic = algo.getConic();
-		assertTrue(conic.isDefined());
+		assertThat(conic, isDefined());
 	}
 
 	private GeoPoint newPoint(double x, double y) {
@@ -1956,6 +1963,9 @@ public class CommandsTest {
 		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
 				deg("90"), deg("90"), deg("90"), deg("270"),
 				deg("90"), deg("90"));
+		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(0,1),(0,0))]",
+				"?", deg("90"), deg("90"), deg("90"),
+				"?");
 	}
 
 	@Test
@@ -2078,6 +2088,23 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdInverseBinomialMinimumTrials() {
+		t("InverseBinomialMinimumTrials[5, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[5, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[-0.01, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 1.1, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, -1.1, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, -12]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, 1.2]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.0, 49]", "NaN");
+		t("InverseBinomialMinimumTrials[0.01, 0.7, 49]", "86");
+		t("InverseBinomialMinimumTrials[0.01, 0.1, 50]", "681");
+		t("InverseBinomialMinimumTrials[0.1, 0.5, 50]", "115");
+		t("InverseBinomialMinimumTrials[0.7, 1.0, 100]", "101");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, 5]", "11");
+	}
+
+	@Test
 	public void cmdInverseCauchy() {
 		t("InverseCauchy[ 3, 5, 0.5 ]", "3");
 	}
@@ -2154,6 +2181,9 @@ public class CommandsTest {
 		t("Invert[If[x>1,x^3+1] ]", "If[cbrt(x - 1) > 1, cbrt(x - 1)]");
 		t("Invert[ If(x>2,x)+1 ]", "If[x - 1 > 2, x - 1]");
 		t("Invert[ If(x>2,sin(x)-x) ]", "?");
+		t("Invert[3+0/x]", "?");
+		t("Invert[3+x/0]", "?");
+		t("Invert[3+2/x]", "2 / (x - 3)");
 		AlgebraTestHelper.enableCAS(app, false);
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		t("Invert[ sin(x) ]", "NInvert[sin(x)]");
@@ -2384,7 +2414,7 @@ public class CommandsTest {
 		t("P=Point(xAxis)", "(0, 0)");
 		t("Q=P+(1,0)", "(1, 0)");
 		t("loc = Locus(Q,P)", "Locus[Q, P]");
-		assertTrue(get("loc").isDefined());
+		assertThat(get("loc"), isDefined());
 	}
 
 	@Test
@@ -4001,6 +4031,8 @@ public class CommandsTest {
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision13 instead
 		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]", StringTemplate.maxPrecision13,
 				"y = 22.40252712698x - 66.20758138095");
+		t("Tangent[ (0, 1), Curve(cos(z), sin(z), z, 0, π)]",
+				"y = 1");
 	}
 
 	@Test
@@ -4176,9 +4208,9 @@ public class CommandsTest {
 	public void cmdPieChart() {
 		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
 		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
-		assertTrue(get("p2").isDefined());
+		assertThat(get("p2"), isDefined());
 		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
-		assertFalse(get("p3").isDefined());
+		assertThat(get("p3"), not(isDefined()));
 	}
 
 	private static void checkSize(String string, int cols, int rows) {
@@ -4430,5 +4462,24 @@ public class CommandsTest {
 	public void productDegree() {
 		t("f(x)=x^3-Product(Sequence(x+k,k,1,-1,-1))", "x^(3) - (((x + 1) * (x)) * (x - 1))");
 		t("Degree(f)", "1");
+	}
+
+	@Test
+	public void cmdDirac() {
+		t("Dirac(-1)", "0");
+		t("Dirac(-1, 1)", "0");
+		t("Dirac(0)", "Infinity");
+		t("Dirac(0, 1)", "Infinity");
+		t("Dirac(12)", "0");
+		t("Dirac(123, 3)", "0");
+	}
+
+	@Test
+	public void cmdHeaviside() {
+		t("Heaviside(-10000)", "0");
+		t("Heaviside(-1)", "0");
+		t("Heaviside(0)", "1");
+		t("Heaviside(1)", "1");
+		t("Heaviside(10000)", "1");
 	}
 }

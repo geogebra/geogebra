@@ -454,14 +454,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		giacNumeric13.forceSF = true;
 		giacNumeric13.localizeCmds = false;
 		giacNumeric13.setType(StringType.GIAC);
-
-		// don't want to use exact value otherwise Giac will do an exact
-		// calculation when we want approx
-		// eg Integral[sin(x) / (1 + a^2 - 2a cos(x)), 0, pi] in the Algebra
-		// View
-		// #5129, #5130
-
-		giacNumeric13.printFormPI = "3.141592653590";
+		giacNumeric13.allowPiHack = false;
 	}
 
 	/**
@@ -550,6 +543,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testNumeric.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
 	}
+
+	private boolean displayStyle;
 
 	/**
 	 * Creates default string template
@@ -932,6 +927,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.questionMarkForNaN = questionMarkForNaN;
 		result.useSimplifications = useSimplifications;
 		result.pointCoordBar = pointCoordBar;
+		result.allowPiHack = allowPiHack;
+		result.displayStyle = displayStyle;
 		return result;
 	}
 
@@ -1365,6 +1362,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		return sb.toString();
 
+	}
+
+	/**
+	 * @param leftStr Left subtree as string
+	 * @param rightStr Right subtree as string
+	 * @return leftStr + rightStr
+	 */
+	public String invisiblePlusString(String leftStr, String rightStr) {
+		return leftStr + Unicode.INVISIBLE_PLUS + rightStr;
 	}
 
 	/**
@@ -1919,7 +1925,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 											&& (StringUtil.isDigit(firstRight)
 											// 3*E23AB can't be written 3E23AB
 											|| (firstRight == 'E'))
-											|| StringUtil.isDigit(firstRight);
+											|| StringUtil.isDigit(firstRight)
+											|| (isForEditorParser()
+											&& right.isOperation(Operation.DIVIDE));
 							// check if we need a multiplication space:
 							multiplicationSpaceNeeded = showMultiplicationSign;
 							if (!multiplicationSpaceNeeded) {
@@ -3655,5 +3663,32 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public char getPointCoordBar() {
 		return pointCoordBar;
+	}
+
+	/**
+	 * @return copy of this with display style = true
+	 */
+	public StringTemplate deriveWithDisplayStyle() {
+		assert stringType == StringType.LATEX;
+		StringTemplate copy = copy();
+		copy.displayStyle = true;
+		return copy;
+	}
+
+	/**
+	 * @return whether to print matrices and vectors in display style (=multiple lines)
+	 */
+	public boolean isDisplayStyle() {
+		return displayStyle;
+	}
+
+	/**
+	 * @param piString - pi string
+	 * @return approximate pi template for CAS
+	 */
+	public StringTemplate deriveWithPi(String piString) {
+		StringTemplate copy = copy();
+		copy.printFormPI = piString;
+		return copy;
 	}
 }

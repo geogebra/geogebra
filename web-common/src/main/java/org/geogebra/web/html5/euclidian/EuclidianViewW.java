@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -429,16 +430,16 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void getExportSVG(double scale, boolean transparency, Consumer<String> callback) {
-		int width = (int) Math.floor(getExportWidth() * scale);
-		int height = (int) Math.floor(getExportHeight() * scale);
+	public void getExportSVG(boolean transparency, Consumer<String> callback) {
+		int width = (int) Math.floor(getExportWidth());
+		int height = (int) Math.floor(getExportHeight());
 
 		ExportLoader.onCanvas2SvgLoaded(() -> {
 			Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
 			CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
 			g4copy = new GGraphics2DW(ctx);
-			this.appW.setExporting(ExportType.SVG, scale);
-			exportPaintPre(g4copy, scale, transparency);
+			this.appW.setExporting(ExportType.SVG, 1);
+			exportPaintPre(g4copy, 1, transparency);
 			drawObjects(g4copy);
 			this.appW.setExporting(ExportType.NONE, 1);
 			String serializedSvg = canvas2svg.getSerializedSvg(true);
@@ -664,8 +665,8 @@ public class EuclidianViewW extends EuclidianView implements
 	/**
 	 * @return new panel
 	 */
-	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
-		return new MyEuclidianViewPanel(this);
+	protected EuclidianViewWrapperPanel newMyEuclidianViewPanel() {
+		return new EuclidianViewWrapperPanel(this);
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
@@ -1125,13 +1126,13 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected SymbolicEditor createSymbolicEditor() {
+	protected SymbolicEditor createSymbolicEditor(TextRendererSettings settings) {
 		GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
 		if (gm == null) {
 			return null;
 		}
 
-		return gm.createSymbolicEditor(this);
+		return gm.createSymbolicEditor(this, settings);
 	}
 
 	@Override
@@ -1253,8 +1254,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            app it needs to be attached to
 	 */
 	public static void attachReaderWidget(ReaderWidget screenReaderWidget, App app) {
-		if (((AppW) app).getPanel().getElement().getParentElement() != null) {
-			((AppW) app).getPanel().getElement().getParentElement()
+		if (((AppW) app).getAppletFrame().getElement().getParentElement() != null) {
+			((AppW) app).getAppletFrame().getElement().getParentElement()
 				.appendChild(screenReaderWidget.getElement());
 			((AppW) app).setLastFocusableWidget(screenReaderWidget);
 		}

@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.web.full.gui.browser.SmartSignInController;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
 
@@ -14,13 +13,7 @@ import org.geogebra.web.shared.SignInController;
  *
  */
 public class SmartLookAndFeel extends GLookAndFeel {
-	/**
-	 * Creates smart LAF
-	 */
-	public SmartLookAndFeel() {
-		ToolTipManagerW.setEnabled(false);
-	}
-	
+
 	@Override
     public boolean undoRedoSupported() {
 	    return false;

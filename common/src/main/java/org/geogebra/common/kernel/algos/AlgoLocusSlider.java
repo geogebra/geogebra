@@ -56,9 +56,6 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 	private void insertPoint(double x, double y, boolean lineTo) {
 		pointCount++;
-
-		// Application.debug("insertPoint: " + x + ", " + y + ", lineto: " +
-		// lineTo);
 		((GeoLocus) locus).insertPoint(x, y, lineTo ? SegmentType.LINE_TO
 				: SegmentType.MOVE_TO);
 		lastX = x;

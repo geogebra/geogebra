@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.gui.inputfield;
 
-import java.util.ArrayList;
-
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -12,15 +10,9 @@ public interface AutoCompleteW {
 
 	void insertString(String text);
 
-	ArrayList<String> getHistory();
-
 	String getText();
 
 	void setText(String s);
-
-	int getAbsoluteLeft();
-
-	int getAbsoluteTop();
 
 	boolean isSuggesting();
 

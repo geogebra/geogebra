@@ -48,7 +48,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	private AbstractAction loadAction;
 	private AbstractAction loadURLAction;
 	private AbstractAction exportWorksheet;
-	private AbstractAction shareAction;
+	private AbstractAction saveOnlineAction;
 	private AbstractAction exportGraphicAction;
 	private AbstractAction exportAnimationAction;
 	private AbstractAction exportPgfAction;
@@ -107,16 +107,14 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
 
-		if (signIn.isTubeAvailable() || !signIn.isTubeCheckDone()) {
-			loadURLMenuItem = add(loadURLAction);
 
-			// If GeoGebraTube is not available we disable the item and
-			// listen to the event that tube becomes available
-			if (!signIn.isTubeAvailable()) {
-				loadURLAction.setEnabled(false);
-				signIn.getView().add(this);
-			}
+		loadURLMenuItem = add(loadURLAction);
 
+		// If GeoGebraTube is not available we disable the item and
+		// listen to the event that tube becomes available
+		if (!signIn.isTubeAvailable()) {
+			loadURLAction.setEnabled(false);
+			signIn.getView().add(this);
 		}
 
 		// recent SubMenu
@@ -145,7 +143,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		add(saveAsAction);
 		addSeparator();
 
-		mi = add(shareAction);
+		mi = add(saveOnlineAction);
 		mi.setIcon(app.getMenuIcon(GuiResourcesD.EXPORT_SMALL));
 
 		// export
@@ -258,8 +256,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		shareAction = new AbstractAction(
-				loc.getMenu("Share") + Unicode.ELLIPSIS,
+		saveOnlineAction = new AbstractAction(
+				loc.getMenu("SaveOnline"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 

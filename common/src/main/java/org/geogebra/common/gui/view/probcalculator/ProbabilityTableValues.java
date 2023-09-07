@@ -64,6 +64,7 @@ public class ProbabilityTableValues extends ProbabilityTable {
 			probabilityList = new GeoList(view.getValues().cons);
 			probabilityList.setLabel(columnNames[1]);
 			view.addAndShow(probabilityList);
+			kernel.getConstruction().removeFromConstructionList(probabilityList);
 
 			fillRows(dist, params, xMin, xMax);
 		}

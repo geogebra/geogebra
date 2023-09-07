@@ -1,40 +1,12 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.user.client.Event;
 
 public final class ToolTipManagerW {
 	private ComponentSnackbar snackbar;
 	private boolean blockToolTip = true;
-	private static boolean enabled = true;
-
-	/** Singleton instance of ToolTipManager. */
-	final static ToolTipManagerW SHARED_INSTANCE = new ToolTipManagerW();
-
-	/**
-	 * Constructor
-	 */
-	private ToolTipManagerW() {
-		initTooltipManagerW();
-	}
-
-	/**
-	 * All methods are accessed from this instance.
-	 * @return Singleton instance of this class
-	 */
-	public static ToolTipManagerW sharedInstance() {
-		return SHARED_INSTANCE;
-	}
-
-	private void initTooltipManagerW() {
-		if (!enabled) {
-			return;
-		}
-		registerMouseListeners();
-	}
 
 	/**
 	 * @return whether tooltips are blocked
@@ -52,32 +24,19 @@ public final class ToolTipManagerW {
 	}
 
 	/**
-	 * @param title
-	 *            title of snackbar
-	 * @param helpText
-	 *            text of snackbar
-	 * @param buttonText
-	 *           text of button
-	 * @param appW
-	 *            app for positioning
+	 * @param title -title of snackbar
+	 * @param helpText - text of snackbar
+	 * @param buttonText - text of button
+	 * @param appW - app for positioning
+	 * @param showDuration - how long should the tooltip be visible
 	 */
 	public void showBottomInfoToolTip(String title, final String helpText,
-			String buttonText, String url, final AppW appW) {
+			String buttonText, String url, final AppW appW, int showDuration) {
 		if (blockToolTip || appW == null) {
 			return;
 		}
 
-		if (snackbar != null) {
-			appW.getPanel().remove(snackbar);
-		}
-		snackbar = new ComponentSnackbar(appW, title, helpText, buttonText);
-		snackbar.setButtonAction(() -> {
-			if ("Share".equals(buttonText)) {
-				appW.share();
-			} else {
-				appW.getFileManager().open(url);
-			}
-		});
+		createSnackbar(appW, title, helpText, buttonText, showDuration, url);
 
 		Style style = snackbar.getElement().getStyle();
 		if (appW.isWhiteboardActive()) {
@@ -99,6 +58,38 @@ public final class ToolTipManagerW {
 		}
 	}
 
+	private void createSnackbar(AppW appW, String title, String helpText, String buttonText,
+			int showDuration, String url) {
+		if (snackbar != null) {
+			appW.getAppletFrame().remove(snackbar);
+		}
+		snackbar = new ComponentSnackbar(appW, title, helpText, buttonText);
+		snackbar.setShowDuration(showDuration);
+		snackbar.setButtonAction(() -> {
+			if ("Share".equals(buttonText)) {
+				appW.share();
+			} else {
+				appW.getFileManager().open(url);
+			}
+		});
+	}
+
+	/**
+	 * @param title
+	 *            title of snackbar
+	 * @param helpText
+	 *            text of snackbar
+	 * @param buttonText
+	 *           text of button
+	 * @param appW
+	 *            app for positioning
+	 */
+	public void showBottomInfoToolTip(String title, final String helpText,
+			String buttonText, String url, final AppW appW) {
+		showBottomInfoToolTip(title, helpText, buttonText, url, appW,
+				ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
+	}
+
 	/**
 	 * displays the given message
 	 * @param text
@@ -110,30 +101,6 @@ public final class ToolTipManagerW {
 		blockToolTip = false;
 		showBottomInfoToolTip(text, null, null, null, appW);
 		blockToolTip = true;
-	}
-
-	/**
-	 * Register mouse listeners to keep track of the mouse position and hide the
-	 * toolTip on a mouseDown event.
-	 */
-	private static void registerMouseListeners() {
-		if (!enabled) {
-			return;
-		}
-
-		Event.addNativePreviewHandler(event -> {
-			if (event.getTypeInt() == Event.ONTOUCHSTART) {
-				CancelEventTimer.touchEventOccured();
-			}
-		});
-	}
-
-	/**
-	 * @param allowToolTips
-	 *            global tooltips flag
-	 */
-	public static void setEnabled(boolean allowToolTips) {
-		enabled = allowToolTips;
 	}
 
 	/**

@@ -27,13 +27,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.MenuElement;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.PrintPreviewD;
@@ -44,7 +40,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
+public class GeoGebraMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1736020764918189176L;
 
 	private BaseMenu fileMenu;
@@ -57,10 +53,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	ViewMenuApplicationD viewMenu;
 
 	private final AppD app;
-	private LayoutD layout;
+	private final LayoutD layout;
 
 	/**
-	 * Creates new menubar
+	 * Creates new menu-bar
 	 * 
 	 * @param app
 	 *            Application
@@ -70,7 +66,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	public GeoGebraMenuBar(AppD app, LayoutD layout) {
 		this.layout = layout;
 
-		/**
+		/*
 		 * A nasty workaround to prevent any borders from being drawn. All other
 		 * elements will have a border at the top to prevent visual conflicts
 		 * while moving the toolbar / algebra input to the top / bottom. The
@@ -131,28 +127,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-	}
-
-	/**
-	 * Display the result of login events
-	 */
-	@Override
-	public void renderEvent(final BaseEvent event) {
-		SwingUtilities.invokeLater(() -> doRenderEvent(event));
-
-	}
-
-	protected void doRenderEvent(BaseEvent event) {
-		if (event instanceof TubeAvailabilityCheckEvent) {
-			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
-			onTubeAvailable(checkEvent.isAvailable());
-		}
-	}
-
-	private void onTubeAvailable(boolean available) {
-		if (available) {
-			app.showPopUps();
-		}
 	}
 
 	/**

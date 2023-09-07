@@ -9,7 +9,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.awt.GFontW;
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
@@ -19,7 +22,6 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FocusWidget;
-import org.gwtproject.user.client.ui.PopupPanel;
 
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
@@ -41,7 +43,7 @@ public class GeoTextEditor extends FocusWidget {
 	private final AppW app;
 	protected ITextEditPanel editPanel;
 
-	protected PopupPanel textEditPopup;
+	protected GPopupPanel textEditPopup;
 	protected EditorTextField editBox;
 
 	/**************************************
@@ -56,7 +58,9 @@ public class GeoTextEditor extends FocusWidget {
 		super(DOM.createDiv());
 		this.app = (AppW) app;
 		this.editPanel = editPanel;
-		getElement().setAttribute("contenteditable", "true");
+		if (!NavigatorUtil.isMobile()) {
+			getElement().setAttribute("contenteditable", "true");
+		}
 		getElement().setAttribute("spellcheck", "false");
 		getElement().setAttribute("oncontextmenu", "return false");
 		getElement().setAttribute("word-wrap", "normal");
@@ -340,9 +344,9 @@ public class GeoTextEditor extends FocusWidget {
 			textEditPopup
 					.setPopupPositionAndShow((offsetWidth, offsetHeight) -> {
 
-						int left = getAbsoluteLeft() + getOffsetWidth() / 2
+						int left = getAbsoluteLeft() - (int) app.getAbsLeft() + getOffsetWidth() / 2
 								- offsetWidth / 2;
-						int top = getAbsoluteTop() + getOffsetHeight() / 2
+						int top = getAbsoluteTop()  - (int) app.getAbsTop() + getOffsetHeight() / 2
 								- offsetHeight / 2;
 
 						textEditPopup.setPopupPosition(left, top);
@@ -353,12 +357,12 @@ public class GeoTextEditor extends FocusWidget {
 		} else {
 			textEditPopup.hide();
 		}
-
 	}
 
 	protected void createEditPopup() {
 		if (textEditPopup == null) {
-			textEditPopup = new PopupPanel();
+			textEditPopup = new GPopupPanel(app.getAppletFrame(), app);
+			textEditPopup.addStyleName("textEditPopup");
 			editBox = new EditorTextField();
 
 			// TODO handle formatting with css style
@@ -374,5 +378,9 @@ public class GeoTextEditor extends FocusWidget {
 
 	public String getText() {
 		return getElement().getInnerText();
+	}
+
+	public GTextBox getEditor() {
+		return editBox;
 	}
 }

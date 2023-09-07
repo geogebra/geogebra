@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.negativeInfinity;
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
@@ -25,8 +26,8 @@ public class IntervalDivideTest {
 	@Test
 	public void hasZeroByHasZeroShouldBeWhole() {
 		// Table 1 Case 1.
-		assertEquals(whole(), divide(interval(0), interval(-1, 0)));
-		assertEquals(whole(), divide(interval(0), interval(-1, 1)));
+		assertEquals(zero(), divide(interval(0), interval(-1, 0)));
+		assertEquals(zero(), divide(interval(0), interval(-1, 1)));
 		Assert.assertEquals(whole(), div(-2, 0, -1, 0));
 		Assert.assertEquals(whole(), div(-2, 0, -1, 1));
 		Assert.assertEquals(whole(), div(0, 2, -1, 0));
@@ -576,10 +577,18 @@ public class IntervalDivideTest {
 		assertEquals(undefined(), divByZeroSingleton(0, 42.567));
 		assertEquals(undefined(), divByZeroSingleton(12.34, 42.567));
 		assertEquals(undefined(), divByZeroSingleton(12.34, Double.POSITIVE_INFINITY));
-
 	}
 
 	private Interval divByZeroSingleton(double a1, double a2) {
 		return divide(new Interval(a1, a2), zero());
+	}
+
+	@Test
+	public void testDivBelowMaxPrecision() {
+		Interval numerator = interval(1E-13);
+		Interval divisor = interval(1E-13);
+		numerator.setPrecision(0);
+		divisor.setPrecision(0);
+		assertEquals(one(), evaluator.divide(numerator, divisor));
 	}
 }

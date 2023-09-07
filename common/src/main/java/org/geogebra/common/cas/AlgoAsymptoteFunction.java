@@ -28,10 +28,10 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  */
 public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 
-	private GeoFunction f; // input
-	private GeoList g; // output
+	private final GeoFunction f; // input
+	private final GeoList g; // output
 
-	private StringBuilder sb = new StringBuilder();
+	private final StringBuilder sb = new StringBuilder();
 
 	// make sure Asymptote() gives undefined in Graphing/Geometry, not {}
 	private boolean enabled = false;
@@ -99,20 +99,18 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 		try {
 			sb.setLength(0);
 			sb.append("{");
-			boolean posHorizontal = f.getHorizontalPositiveAsymptote(f, sb);
-			boolean negHorizontal = f.getHorizontalNegativeAsymptote(f, sb);
+			boolean posHorizontal = f.getHorizontalPositiveAsymptote(sb);
+			boolean negHorizontal = f.getHorizontalNegativeAsymptote(sb);
 			if (!posHorizontal) {
-				f.getDiagonalPositiveAsymptote(f, sb);
+				f.getDiagonalPositiveAsymptote(sb);
 			}
 			if (!negHorizontal) {
-				f.getDiagonalNegativeAsymptote(f, sb);
+				f.getDiagonalNegativeAsymptote(sb);
 			}
 
-			f.getVerticalAsymptotes(f, sb, false);
+			f.getVerticalAsymptotes(sb);
 
 			sb.append("}");
-
-			// Application.debug(sb.toString());
 			g.set(kernel.getAlgebraProcessor().evaluateToList(sb.toString()));
 		} catch (Throwable th) {
 			g.setUndefined();

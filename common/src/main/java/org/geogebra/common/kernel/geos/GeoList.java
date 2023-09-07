@@ -263,6 +263,9 @@ public class GeoList extends GeoElement
 
 		isDefined = l.isDefined;
 		elementType = l.elementType;
+		if (l.isElementTypeXMLNeeded()) {
+			typeStringForXML = l.typeStringForXML;
+		}
 	}
 
 	/**
@@ -880,6 +883,9 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (isDefined && tpl.isDisplayStyle() && isMatrix()) {
+			return toMatrixString(false, tpl);
+		}
 		return isDefined ? buildValueString(tpl).toString() : "?";
 	}
 
@@ -1035,13 +1041,11 @@ public class GeoList extends GeoElement
 		// update all registered locatables (they have this point as start
 		// point)
 		if (colorFunctionListener != null) {
-			// AbstractApplication.debug("GeoList update listeners");
 			for (int i = 0; i < colorFunctionListener.size(); i++) {
 				final GeoElement geo = colorFunctionListener.get(i);
 				// kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
 				geo.updateVisualStyle(GProperty.COLOR);
-				// AbstractApplication.debug(geo);
 			}
 			// kernel.notifyRepaint();
 		}
@@ -1101,11 +1105,6 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void setZero() {
-		elements.clear();
-	}
-
-	@Override
 	public void setLineThickness(final int thickness) {
 		super.setLineThickness(thickness);
 
@@ -1119,8 +1118,6 @@ public class GeoList extends GeoElement
 				geo.setLineThickness(thickness);
 			}
 		}
-
-		// Application.debug("GeoList.setLineThickness "+thickness);
 	}
 
 	/**
@@ -1225,8 +1222,6 @@ public class GeoList extends GeoElement
 
 				// get alpha value of first element
 				final double alpha = elements.get(0).getAlphaValue();
-
-				// Application.debug("setting list alpha to "+alpha);
 
 				super.setAlphaValue(alpha);
 
@@ -1538,43 +1533,39 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
-		return toLaTeXString(symbolic, false, tpl);
-	}
-
-	@Override
-	public String toLaTeXString(
-			final boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		if (isMatrix()) {
-
-			// int rows = size();
-			final int cols = ((GeoList) get(0)).size();
-
-			final StringBuilder sb = new StringBuilder();
-
-			sb.append("\\left(\\begin{array}{");
-			// eg rr
-			for (int i = 0; i < cols; i++) {
-				sb.append('r');
-			}
-			sb.append("}");
-			for (int i = 0; i < size(); i++) {
-				final GeoList row = (GeoList) get(i);
-				for (int j = 0; j < row.size(); j++) {
-					GeoElement geo = row.get(j);
-					sb.append(symbolic ? geo.getLabel(tpl)
-							: geo.toLaTeXString(false, symbolicContext, tpl));
-					if (j < row.size() - 1) {
-						sb.append("&");
-					}
-				}
-				sb.append("\\\\");
-			}
-			sb.append(" \\end{array}\\right)");
-			return sb.toString();
-			// return "\\begin{array}{ll}1&2 \\\\ 3&4 \\\\ \\end{array}";
+			return toMatrixString(symbolic, tpl);
 		}
 
 		return super.toLaTeXString(symbolic, tpl);
+	}
+
+	private String toMatrixString(boolean symbolic, StringTemplate tpl) {
+		// int rows = size();
+		final int cols = ((GeoList) get(0)).size();
+
+		final StringBuilder sb = new StringBuilder();
+
+		sb.append("\\left(\\begin{array}{");
+		// eg rr
+		for (int i = 0; i < cols; i++) {
+			sb.append('r');
+		}
+		sb.append("}");
+		for (int i = 0; i < size(); i++) {
+			final GeoList row = (GeoList) get(i);
+			for (int j = 0; j < row.size(); j++) {
+				GeoElement geo = row.get(j);
+				sb.append(symbolic ? geo.getLabel(tpl)
+						: geo.toLaTeXString(false, tpl));
+				if (j < row.size() - 1) {
+					sb.append("&");
+				}
+			}
+			sb.append("\\\\");
+		}
+		sb.append(" \\end{array}\\right)");
+		return sb.toString();
 	}
 
 	@Override
@@ -1582,7 +1573,7 @@ public class GeoList extends GeoElement
 		super.getStyleXML(sb);
 
 		getLineStyleXML(sb);
-		if ((size() == 0 || !isDefined()) && getTypeStringForXML() != null) {
+		if (isElementTypeXMLNeeded()) {
 			sb.append("\t<listType val=\"");
 			sb.append(getTypeStringForXML());
 			sb.append("\"/>\n");
@@ -1627,6 +1618,14 @@ public class GeoList extends GeoElement
 		if (startPoint != null) {
 			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 		}
+	}
+
+	/**
+	 *
+	 * @return if element type should be saved with XML.
+	 */
+	protected boolean isElementTypeXMLNeeded() {
+		return (size() == 0 || !isDefined()) && getTypeStringForXML() != null;
 	}
 
 	/**
@@ -1711,7 +1710,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public void pointChanged(final GeoPointND P) {
-		// Application.debug("pointChanged",1);
 
 		P.updateCoords();
 
@@ -1743,8 +1741,6 @@ public class GeoList extends GeoElement
 		// 0-1 for first obj
 		// 1-2 for second
 		// etc
-		// Application.debug(pp.t+" "+path.getMinParameter()+"
-		// "+path.getMaxParameter());
 
 		int closestPointIndexBack = closestPointIndex;
 		if (directionInfoOrdering != null) {
@@ -1776,7 +1772,6 @@ public class GeoList extends GeoElement
 	 *            point
 	 */
 	public void getNearestPoint(final GeoPointND p) {
-		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
 
@@ -1793,10 +1788,6 @@ public class GeoList extends GeoElement
 				}
 			}
 		}
-
-		// Application.debug("closestPointIndex="+closestPointIndex);
-
-		// return get(closestPointIndex).getNearestPoint(p);
 	}
 
 	@Override
@@ -1883,13 +1874,9 @@ public class GeoList extends GeoElement
 					path.getMinParameter(), path.getMaxParameter()));
 		}
 
-		// Application.debug("pathChanged "+n);
-
 		path.pathChanged(PI);
 
 		t = pp.getT();
-		// Application.debug(PathNormalizer.toNormalizedPathParameter(t,
-		// path.getMinParameter(), path.getMaxParameter()));
 
 		if ((directionInfoArray == null) || directionInfoArray[n]) {
 			pp.setT(PathNormalizer.toNormalizedPathParameter(t,
@@ -1910,7 +1897,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean isOnPath(final GeoPointND PI, final double eps) {
-		// Application.debug("isOnPath",1);
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
 			if (((PathOrPoint) geo).isOnPath(PI, eps)) {

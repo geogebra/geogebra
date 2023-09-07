@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.applet.FrameWithHeaderAndKeyboard;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 
@@ -60,8 +60,8 @@ public class PanelTransitioner {
 	}
 
 	private void hideNotNeededElements() {
-		mainFrame.keyBoardNeeded(false, null);
-		ToolTipManagerW.sharedInstance().hideTooltip();
+		mainFrame.closeKeyboard();
+		GeoGebraFrameW.hideAllTooltips();
 	}
 
 	private void hideFrameElements() {

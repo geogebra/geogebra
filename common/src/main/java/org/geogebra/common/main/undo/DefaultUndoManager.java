@@ -51,7 +51,7 @@ public class DefaultUndoManager extends UndoManager {
 	@Override
 	protected void loadUndoInfo(AppState state, String slideID) {
 		try {
-			processXML(state.getXml(), false, null);
+			construction.processXML(state.getXml(), false, null);
 		} catch (Exception e) {
 			Log.debug(e);
 		}

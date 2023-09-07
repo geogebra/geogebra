@@ -69,7 +69,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Markus
  */
 final public class GeoVector extends GeoVec3D implements Path, VectorValue,
-		Translateable, PointRotateable, Mirrorable, Dilateable,
+		Translateable, Mirrorable, Dilateable,
 		MatrixTransformable, Transformable, GeoVectorND, SpreadsheetTraceable,
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasHeadStyle {
 
@@ -468,6 +468,9 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (tpl.isDisplayStyle()) {
+			return toLaTeXString(false, tpl);
+		}
 		return buildValueString(tpl).toString();
 	}
 

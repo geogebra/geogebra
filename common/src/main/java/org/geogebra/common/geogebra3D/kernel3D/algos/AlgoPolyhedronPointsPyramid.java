@@ -173,13 +173,6 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
 		}
 
-		/*
-		 * Application.debug("nOld:"+nOld
-		 * +"\nbottomPointsLength:"+bottomPointsLength
-		 * +"\nnewBottomPointsLength:"+newBottomPointsLength
-		 * +"\noutputSegmentsSide:"+outputSegmentsSide.size());
-		 */
-
 		if (bottomPointsLength < newBottomPointsLength) {
 			// update last sides
 			for (int i = bottomPointsLength; i < newBottomPointsLength; i++) {
@@ -261,10 +254,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
 	@Override
 	protected void updateOutput() {
-		// Application.printStacktrace("");
-
 		Collection<GeoPolygon3D> faces = polyhedron.getFacesCollection();
-		// Application.debug(faces.size());
 		int step = 1;
 		for (GeoPolygon polygon : faces) {
 			GeoSegmentND[] segments = polygon.getSegments();
@@ -279,7 +269,6 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 				outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
 				addToOutputIf3D(outputSegmentsSide, polygon.getSegments()[2]);
 				step++;
-				// Application.debug(outputSegmentsSide.size());
 			}
 		}
 
@@ -289,8 +278,6 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
 	@Override
 	protected int getSideLengthFromLabelsLength(int length) {
-
-		// Application.debug("bottomAsInput="+bottomAsInput+",shift="+getShift());
 
 		if (bottomAsInput) {
 			return (length + getShift() - 2) / 2;

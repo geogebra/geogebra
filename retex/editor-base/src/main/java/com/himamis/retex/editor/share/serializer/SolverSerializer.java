@@ -1,11 +1,13 @@
 package com.himamis.retex.editor.share.serializer;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFunction;
-import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -16,6 +18,8 @@ public class SolverSerializer extends SerializerAdapter {
 	private static final String keysNeedingDots = "{}[]<>";
 
 	private static final String separator = ",";
+	private static final List<String> SUPPORTED_FUNCTIONS = Arrays.asList(
+			"sin", "cos", "tan", "ln");
 
 	@Override
 	void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder) {
@@ -59,10 +63,13 @@ public class SolverSerializer extends SerializerAdapter {
 			 }
 			 break;
 		case FRAC:
-			serializeAndAppendFnWithTwoArgs("", function , "/", 0, 1, sb);
+			if (buildMixedNumber(sb, function)) {
+				break;
+			}
+			serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
 			break;
 		case MIXED_NUMBER:
-			//1⁤(2)/(3) changes into FnMixedNumber[MathSequence[1],MathSequence[2],MathSequence[3]]
+			//1[plus](2)/(3) changes into FnMixedNumber[MathSeq[1],MathSeq[2],MathSeq[3]]
 			//space between the 1 & 2 should be removed
 			if (parent != null) {
 				sb.append(openingBracket);
@@ -73,6 +80,11 @@ public class SolverSerializer extends SerializerAdapter {
 				serialize(function.getArgument(2), sb);
 				sb.append(closingBracket);
 			}
+			break;
+		case RECURRING_DECIMAL:
+			sb.append(openingBracket);
+			serialize(function.getArgument(0), sb);
+			sb.append(closingBracket);
 			break;
 		case LOG:
 			if (function.getArgument(0).size() == 0) {
@@ -100,8 +112,13 @@ public class SolverSerializer extends SerializerAdapter {
 			break;
 		case APPLY:
 		case APPLY_SQUARE:
-			serialize(function.getArgument(0), sb);
-			serializeArgs(function, sb, 1);
+			StringBuilder toApply = new StringBuilder();
+			serialize(function.getArgument(0), toApply);
+			sb.append(toApply);
+			boolean isKnownFunction = SUPPORTED_FUNCTIONS.contains(toApply.toString());
+			sb.append(isKnownFunction ? openingBracket : '(');
+			serialize(function.getArgument(1), sb);
+			sb.append(isKnownFunction ? closingBracket : ')');
 			break;
 		case SUM_EQ:
 		case PROD_EQ:
@@ -238,11 +255,6 @@ public class SolverSerializer extends SerializerAdapter {
 		}
 	}
 
-	@Override
-	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
-		// no placeholders in solver
-	}
-
 	private void generalFunction(MathFunction mathFunction, StringBuilder stringBuilder) {
 		stringBuilder.append(mathFunction.getName().getFunction());
 		serializeArgs(mathFunction, stringBuilder, 0);
@@ -259,5 +271,25 @@ public class SolverSerializer extends SerializerAdapter {
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		}
 		stringBuilder.append(closingBracket);
+	}
+
+	/**
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
+	 * @return True if a mixed number was built
+	 */
+	@Override
+	public boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
+		//Check if a valid mixed number can be created (e.g.: no 'x')
+		if (isMixedNumber(stringBuilder) < 0 || !isValidMixedNumber(mathFunction)) {
+			return false;
+		}
+
+		stringBuilder.insert(isMixedNumber(stringBuilder), openingBracket);
+		serialize(mathFunction.getArgument(0), stringBuilder);
+		stringBuilder.append("/");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append(closingBracket);
+		return true;
 	}
 }
