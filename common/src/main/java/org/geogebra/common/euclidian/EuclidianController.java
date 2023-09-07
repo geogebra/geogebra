@@ -10085,7 +10085,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		transformCoords();
 		Hits hits = null;
 
-		if (specialRelease(x, y, event, rightClick, alt, control, type)) {
+		if (specialRelease(x, y, event, control, type)) {
 			draggingOccured = false;
 			return;
 		}
@@ -10262,8 +10262,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean specialRelease(int x, int y, AbstractEvent event,
-			boolean right, boolean alt, boolean control,
-			PointerEventType type) {
+			boolean control, PointerEventType type) {
 		if (checkResetOrAnimationHit(x, y)) {
 			return true;
 		}
@@ -10424,10 +10423,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		boolean right = event.isRightClick();
 		boolean control = event.isControlDown();
 		boolean alt = event.isAltDown();
-		boolean meta = event.isMetaDown();
 		boolean shift = event.isShiftDown();
 
 		if (isDraggingOccuredBeyondThreshold()) {
