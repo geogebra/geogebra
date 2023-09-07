@@ -84,6 +84,8 @@ public class ProbabilityTableValues extends ProbabilityTable {
 
 	@Override
 	protected void setRowValues(int row, String k, String prob) {
+		assert row == xValues.size() : "The assumption that row values are set in increasing"
+				+ " order is broken.";
 		GeoNumeric kNumeric = new GeoNumeric(construction, Double.parseDouble(k));
 		GeoNumeric probNumeric = new GeoNumeric(construction, Double.parseDouble(prob));
 		xValues.add(kNumeric);
