@@ -12,10 +12,9 @@ import org.geogebra.common.kernel.statistics.AlgoHyperGeometric;
 
 public class HyperGeometricProbability implements DiscreteDistribution {
 
-	private GeoNumeric k;
-	private DiscreteProbability discreteProbability;
 	private final Construction cons;
-	private DistributionParameters oldParameters = null;
+	private DiscreteProbability discreteProbability;
+	private DistributionParameters oldParameters;
 
 	/**
 	 *
@@ -51,7 +50,7 @@ public class HyperGeometricProbability implements DiscreteDistribution {
 		GeoNumeric lowGeo = new GeoNumeric(cons, lowBound);
 		GeoNumeric highGeo = new GeoNumeric(cons, highBound);
 
-		k = new GeoNumeric(cons);
+		GeoNumeric k = new GeoNumeric(cons);
 		AlgoSequenceRange algoSeq = new AlgoSequenceRange(cons, lowGeo, highGeo, null);
 		cons.removeFromAlgorithmList(algoSeq);
 		GeoList values = (GeoList) algoSeq.getOutput(0);

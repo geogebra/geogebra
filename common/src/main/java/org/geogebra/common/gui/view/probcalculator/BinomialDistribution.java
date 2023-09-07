@@ -12,9 +12,9 @@ import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
 
 public class BinomialDistribution implements DiscreteDistribution {
 
-	private DiscreteProbability discreteProbability;
 	private final Construction cons;
-	private DistributionParameters oldParameters = null;
+	private DiscreteProbability discreteProbability;
+	private DistributionParameters oldParameters;
 
 	/**
 	 *

@@ -21,18 +21,16 @@ import org.geogebra.common.plugin.Operation;
 
 public class PascalDistribution implements DiscreteDistribution {
 
-	private final Kernel kernel;
-	private final GeoNumeric k;
-	private DiscreteProbability discreteProbability;
 	private final Construction cons;
-	private DistributionParameters oldParameters = null;
+	private final Kernel kernel;
+	private DiscreteProbability discreteProbability;
+	private DistributionParameters oldParameters;
 
 	/**
 	 *
 	 * @param cons The construction.
 	 */
 	public PascalDistribution(Construction cons) {
-		k = new GeoNumeric(cons);
 		this.cons = cons;
 		kernel = cons.getKernel();
 	}
@@ -57,6 +55,7 @@ public class PascalDistribution implements DiscreteDistribution {
 		cons.removeFromAlgorithmList(algoSeq);
 		GeoList values = (GeoList) algoSeq.getOutput(0);
 
+		GeoNumeric k = new GeoNumeric(cons);
 		AlgoListElement algo = new AlgoListElement(cons, values, k);
 		cons.removeFromConstructionList(algo);
 
