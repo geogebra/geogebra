@@ -94,15 +94,13 @@
 .GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
     text-transform: uppercase;
     margin: 16px 8px 16px 12px;
-    padding: 4px 8px;
     line-height: 24px;
     border-radius: 2px;
     cursor: pointer;
 }
 
 .GeoGebraHeader .profilePanel {
-    margin: 12px 24px 12px 12px;
-    padding: 0px !important;
+    margin: 8px 24px 8px 12px;
 }
 
 img.profileImage {
@@ -335,4 +333,20 @@ svg.icon.left {
 
 .compact.GeoGebraFrame .headerLogo {
     padding: 6px;
+}
+
+.compact.GeoGebraFrame .profilePanel {
+	width: 40px;
+	height: 40px;
+	margin: 4px 24px 4px 12px;
+}
+
+.compact.GeoGebraFrame .profilePanel .imageHolder {
+	width: 40px;
+	height: 40px;
+}
+
+.compact .profilePanel .imageHolder .profileImage {
+	width: 32px;
+	height: 32px;
 }

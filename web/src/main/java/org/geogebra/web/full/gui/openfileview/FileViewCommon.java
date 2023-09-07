@@ -14,7 +14,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.Persistable;
-import org.geogebra.web.shared.ProfilePanel;
+import org.geogebra.web.shared.ProfileAvatar;
 import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
@@ -40,7 +40,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	private final LocalizationW loc;
 	private Button signInTextButton;
 	private StandardButton signInIconButton;
-	private ProfilePanel profilePanel;
+	private ProfileAvatar profilePanel;
 	private StandardButton examInfoBtn;
 	private Label timer;
 	private FlowPanel emptyListNotificationPanel;
@@ -139,7 +139,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		signInIconButton.setStyleName("signInIcon");
 		getHeader().add(signInIconButton);
 
-		profilePanel = new ProfilePanel(app);
+		profilePanel = new ProfileAvatar(app);
 		getHeader().add(profilePanel);
 
 		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
