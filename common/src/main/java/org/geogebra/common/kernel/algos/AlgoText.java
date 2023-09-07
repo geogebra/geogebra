@@ -246,14 +246,14 @@ public class AlgoText extends AlgoElement {
 		if (geo.isGeoText()) {
 			// needed for eg Text commands eg Text[Text[
 			text.setTextString(((GeoText) geo).getTextString());
-			if (horizontalAlign != null) {
-				text.setHorizontalAlignment((int) horizontalAlign.getValue());
-			}
-			if (verticalAlign != null) {
-				text.setVerticalAlignment((int) verticalAlign.getValue());
-			}
 		} else {
 			text.setTextString(getGeoString(geo, text.getStringTemplate(), bool));
+		}
+		if (horizontalAlign != null) {
+			text.setHorizontalAlignment((int) horizontalAlign.getValue());
+		}
+		if (verticalAlign != null) {
+			text.setVerticalAlignment((int) verticalAlign.getValue());
 		}
 		text.setLaTeX(formula, false);
 		text.update();
