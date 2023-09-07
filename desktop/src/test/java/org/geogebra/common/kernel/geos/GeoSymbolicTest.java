@@ -1497,7 +1497,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				either(equalTo("{n ≥ 546.1445163345}"))
-						.or(equalTo("{n ≥ 546.1445163342}")) );
+						.or(equalTo("{n ≥ 546.1445163342}")));
 	}
 
 	@Test
