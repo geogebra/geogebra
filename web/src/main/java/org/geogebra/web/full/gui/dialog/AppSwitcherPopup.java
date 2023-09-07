@@ -20,7 +20,6 @@ import org.gwtproject.user.client.ui.Label;
 public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 
 	SuiteHeaderAppPicker appPickerButton;
-	private final static int X_COORDINATE_OFFSET = 8;
 	private ExamRestrictionModel restrictionModel;
 	private FlowPanel contentPanel;
 
@@ -109,10 +108,6 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 
 	private boolean hasRestrictions() {
 		return restrictionModel != null;
-	}
-
-	private int getLeft() {
-		return appPickerButton.getAbsoluteLeft() - X_COORDINATE_OFFSET ;
 	}
 
 	private void updateLanguage(App app) {
