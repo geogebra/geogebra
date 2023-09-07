@@ -142,7 +142,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		this.list1 = list1;
 
 		// output
-		sum =  new @WeakOuter GeoNumeric(cons) {
+		sum = new @WeakOuter GeoNumeric(cons) {
 			@Override
 			public String getTooltipText(final boolean colored,
 					final boolean alwaysOn) {
