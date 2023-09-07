@@ -48,8 +48,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 		if (isShowing()) {
 			hide();
 		} else {
-			setPopupPosition(getLeft(), 0);
-			super.show();
+			showRelativeTo(appPickerButton);
 			updateLanguage(app);
 		}
 	}
