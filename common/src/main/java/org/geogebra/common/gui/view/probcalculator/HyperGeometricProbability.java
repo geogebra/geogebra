@@ -10,11 +10,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoHyperGeometric;
 
-public class HyperGeometricProbability implements DiscreteDistribution {
+public class HyperGeometricProbability extends CachingDistreteDistribution {
 
 	private final Construction cons;
-	private DiscreteProbability discreteProbability;
-	private DistributionParameters oldParameters;
 
 	/**
 	 *
@@ -25,15 +23,10 @@ public class HyperGeometricProbability implements DiscreteDistribution {
 	}
 
 	@Override
-	public DiscreteProbability create(DistributionParameters parameters) {
-		if (parameters.equals(oldParameters)) {
-			return discreteProbability;
-		}
-
+	protected DiscreteProbability createProbability(DistributionParameters parameters) {
 		GeoNumberValue pGeo = parameters.at(0);
 		GeoNumberValue nGeo = parameters.at(1);
 		GeoNumberValue sGeo = parameters.at(2);
-		oldParameters = parameters;
 
 		double p = pGeo.getDouble(); // population size
 		double n = nGeo.getDouble(); // n
@@ -69,7 +62,6 @@ public class HyperGeometricProbability implements DiscreteDistribution {
 				new GeoNumeric(cons, 1.0), lengthGeo, null);
 		cons.removeFromConstructionList(algoSeq2);
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);
-		this.discreteProbability = new DiscreteProbability(values, probs);
-		return discreteProbability;
+		return new DiscreteProbability(values, probs);
 	}
 }

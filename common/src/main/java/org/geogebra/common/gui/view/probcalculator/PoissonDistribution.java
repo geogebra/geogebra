@@ -18,12 +18,10 @@ import org.geogebra.common.kernel.statistics.AlgoInversePoisson;
 import org.geogebra.common.kernel.statistics.AlgoPoisson;
 import org.geogebra.common.plugin.Operation;
 
-public class PoissonDistribution implements DiscreteDistribution {
+public class PoissonDistribution extends CachingDistreteDistribution {
 
 	private final Construction cons;
 	private final Kernel kernel;
-	private DiscreteProbability discreteProbability;
-	private DistributionParameters oldParameters;
 
 	/**
 	 *
@@ -35,13 +33,8 @@ public class PoissonDistribution implements DiscreteDistribution {
 	}
 
 	@Override
-	public DiscreteProbability create(DistributionParameters parameters) {
-		if (parameters.equals(oldParameters)) {
-			return discreteProbability;
-		}
-
+	protected DiscreteProbability createProbability(DistributionParameters parameters) {
 		GeoNumberValue meanGeo = parameters.at(0);
-		oldParameters = parameters;
 
 		AlgoInversePoisson maxSequenceValue = new AlgoInversePoisson(cons,
 				meanGeo, new GeoNumeric(cons, nearlyOne));
@@ -73,7 +66,6 @@ public class PoissonDistribution implements DiscreteDistribution {
 		cons.removeFromConstructionList(algoSeq2);
 
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);
-		this.discreteProbability = new DiscreteProbability(values, probs);
-		return discreteProbability;
+		return new DiscreteProbability(values, probs);
 	}
 }

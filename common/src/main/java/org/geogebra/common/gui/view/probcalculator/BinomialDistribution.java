@@ -10,11 +10,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
 
-public class BinomialDistribution implements DiscreteDistribution {
+public class BinomialDistribution extends CachingDistreteDistribution {
 
 	private final Construction cons;
-	private DiscreteProbability discreteProbability;
-	private DistributionParameters oldParameters;
 
 	/**
 	 *
@@ -25,14 +23,9 @@ public class BinomialDistribution implements DiscreteDistribution {
 	}
 
 	@Override
-	public DiscreteProbability create(DistributionParameters parameters) {
-		if (parameters.equals(oldParameters)) {
-			return discreteProbability;
-		}
-
+	protected DiscreteProbability createProbability(DistributionParameters parameters) {
 		GeoNumberValue nGeo = parameters.at(0);
 		GeoNumberValue pGeo = parameters.at(1);
-		oldParameters = parameters;
 
 		GeoNumeric nPlusOneGeo = new GeoNumeric(cons, nGeo.getDouble() + 1);
 
@@ -55,7 +48,6 @@ public class BinomialDistribution implements DiscreteDistribution {
 		cons.removeFromConstructionList(algoSeq2);
 
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);
-		this.discreteProbability = new DiscreteProbability(values, probs);
-		return discreteProbability;
+		return new DiscreteProbability(values, probs);
 	}
 }
