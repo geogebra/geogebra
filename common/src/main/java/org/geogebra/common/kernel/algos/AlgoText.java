@@ -133,7 +133,7 @@ public class AlgoText extends AlgoElement {
 		this.startPoint = p;
 		this.substituteVars = substituteVars;
 		this.latex = latex;
-		this.horizontalAlign = horizontalAlign;
+		this.horizontalAlign =  horizontalAlign;
 		this.verticalAlign = verticalAlign;
 
 		text = new GeoText(cons);
@@ -141,9 +141,9 @@ public class AlgoText extends AlgoElement {
 		if (horizontalAlign != null) {
 			text.setNeedsUpdatedBoundingBox(true);
 			text.update();
-			text.setHorizontalAlignment(horizontalAlign);
+			text.setHorizontalAlignment((int) horizontalAlign.getValue());
 			if (verticalAlign != null) {
-				text.setVerticalAlignment(verticalAlign);
+				text.setVerticalAlignment((int) verticalAlign.getValue());
 			}
 		}
 
@@ -246,9 +246,14 @@ public class AlgoText extends AlgoElement {
 		if (geo.isGeoText()) {
 			// needed for eg Text commands eg Text[Text[
 			text.setTextString(((GeoText) geo).getTextString());
+			if (horizontalAlign != null) {
+				text.setHorizontalAlignment((int) horizontalAlign.getValue());
+			}
+			if (verticalAlign != null) {
+				text.setVerticalAlignment((int) verticalAlign.getValue());
+			}
 		} else {
-			text.setTextString(
-					getGeoString(geo, text.getStringTemplate(), bool));
+			text.setTextString(getGeoString(geo, text.getStringTemplate(), bool));
 		}
 		text.setLaTeX(formula, false);
 		text.update();
