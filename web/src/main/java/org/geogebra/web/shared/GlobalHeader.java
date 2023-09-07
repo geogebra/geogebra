@@ -6,6 +6,8 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -19,6 +21,7 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -231,6 +234,12 @@ public class GlobalHeader implements EventRenderable {
 		// remove other buttons
 		getButtonElement().getStyle()
 				.setDisplay(Display.NONE);
+		Image examImg = new Image();
+		examImg.setUrl(
+				DefaultMenuIconProvider.INSTANCE.assignment().withFill("#388C83").getSafeUri().asString());
+		Label examType = new Label(app.getExam().getCalculatorNameForHeader());
+		examType.setStyleName("examType");
+
 		// exam panel with timer and info btn
 		timer = new Label("0:00");
 		timer.setStyleName("examTimer");
@@ -245,6 +254,8 @@ public class GlobalHeader implements EventRenderable {
 		// The link should be disabled in all exam-capable apps since APPS-3289, but make sure
 		Dom.querySelector("#headerID a").setAttribute("href", "#");
 		RootPanel.get("examId").addStyleName("examPanel");
+		RootPanel.get("examId").add(examImg);
+		RootPanel.get("examId").add(examType);
 		RootPanel.get("examId").add(timer);
 		RootPanel.get("examId").add(examInfoBtn);
 		// run timer
