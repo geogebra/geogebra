@@ -72,12 +72,4 @@ public class HyperGeometricProbability implements DiscreteDistribution {
 		this.discreteProbability = new DiscreteProbability(values, probs);
 		return discreteProbability;
 	}
-
-	public GeoList probs() {
-		return discreteProbability.probabilities();
-	}
-
-	public GeoList values() {
-		return discreteProbability.values();
-	}
 }
