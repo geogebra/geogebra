@@ -291,7 +291,7 @@ public class ProbabilityManager {
 		}
 
 		if (ret != null) {
-			ret.getConstruction().removeFromConstructionList(ret);
+			ret.remove();
 		} else {
 			Log.error("missing case");
 		}

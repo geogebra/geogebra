@@ -1001,7 +1001,6 @@ public abstract class ProbabilityCalculatorView
 
 	private StringTemplate getStringTemplate() {
 		if (stringTemplate == null) {
-
 			// override the default decimal place setting
 			if (printDecimals >= 0) {
 				int decimals = Math.max(printDecimals, 4);
