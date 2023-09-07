@@ -55,7 +55,6 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 		cursorOverlay = new CursorOverlay();
 		textField.addFocusHandler(evt -> addDummyCursor());
 		textField.addBlurHandler(evt -> removeDummyCursor());
-		startBlinking();
 		textField.updateInputBoxAlign();
 		final Element element = textField.getInputElement();
 		app.getGlobalHandlers().addEventListener(element, "touchstart",
@@ -111,7 +110,6 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 		if (!enabled) {
 			return;
 		}
-		startBlinking();
 		cursorOverlay.update(textField.getCursorPos(), textField.getText());
 	}
 

@@ -1356,7 +1356,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void selectAll() {
 		if (cursorOverlayController.isEnabled()) {
 			cursorOverlayController.selectAll();
-			updateCursorOverlay();
 		} else {
 			textField.getValueBox().selectAll();
 		}
