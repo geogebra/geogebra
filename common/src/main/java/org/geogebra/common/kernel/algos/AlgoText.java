@@ -133,7 +133,7 @@ public class AlgoText extends AlgoElement {
 		this.startPoint = p;
 		this.substituteVars = substituteVars;
 		this.latex = latex;
-		this.horizontalAlign =  horizontalAlign;
+		this.horizontalAlign = horizontalAlign;
 		this.verticalAlign = verticalAlign;
 
 		text = new GeoText(cons);
