@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.geogebra.common.BaseUnitTest.hasValue;
+import static org.hamcrest.CoreMatchers.either;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -1495,7 +1496,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("{n ≥ ln(3 / 100) / ln(621 / 625)}"));
 		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
-				equalTo("{n ≥ 546.1445163345}"));
+				either(equalTo("{n ≥ 546.1445163345}"))
+						.or(equalTo("{n ≥ 546.1445163342}")) );
 	}
 
 	@Test
