@@ -8,7 +8,7 @@ plugins {
     id 'com.github.spotbugs' version '5.0.14'
     id 'de.aaschmid.cpd' version '3.3'
     id 'io.miret.etienne.sass' version '1.4.2'
-    id 'org.wisepersist.gwt' version '1.1.19'
+    id 'org.docstr.gwt' version '1.1.26-ggb'
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -17,9 +17,6 @@ evaluationDependsOn(':web-common')
 evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web-dev')
 evaluationDependsOn(':keyboard-web')
-
-sourceCompatibility = 11
-targetCompatibility = 11
 
 sourceSets {
     nonfree
@@ -175,7 +172,7 @@ gwt {
             localWorkers = project.getProperty("gworkers")
         }
         if (project.hasProperty("gdetailed")){
-            style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
+            style = org.docstr.gradle.plugins.gwt.Style.DETAILED
         } else {
             disableClassMetadata = true
         }
@@ -191,8 +188,9 @@ gwt {
     }
 }
 
-tasks.withType(org.wisepersist.gradle.plugins.gwt.AbstractGwtActionTask) {
+tasks.withType(org.docstr.gradle.plugins.gwt.AbstractGwtActionTask) {
     jvmArgs '-Xss512M'
+    useToolchain = true
 }
 
 
@@ -320,7 +318,7 @@ task mergeDeploy(){
 
 def gwtGlobalCache = file('build/gwt/devModeCache')
 
-class ReadableDev extends org.wisepersist.gradle.plugins.gwt.GwtDev {
+class ReadableDev extends org.docstr.gradle.plugins.gwt.GwtDev {
     protected void addArgs() {
         super.addArgs();
         args("-style", "PRETTY");

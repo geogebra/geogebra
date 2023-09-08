@@ -9,9 +9,6 @@ dependencies {
 	api files(project(':gwtutil').sourceSets.main.java.srcDirs)
 }
 
-sourceCompatibility = 11
-targetCompatibility = 11
-
 javadoc {
 	options.addStringOption("sourcepath", "")
 }

@@ -2,9 +2,6 @@ plugins {
 	id 'java-library'
 }
 
-sourceCompatibility = 11
-targetCompatibility = 11
-
 dependencies {
 	api project(':renderer-base')
 	testImplementation 'junit:junit:4.13'

@@ -40,16 +40,6 @@ eclipse.classpath.file {
     }
 }
 
-compileJava {
-    sourceCompatibility = 11
-    targetCompatibility = 11
-}
-
-compileTestJava {
-    sourceCompatibility = 11
-    targetCompatibility = 11
-}
-
 dependencies {
     implementation project(':common')
     implementation project(':common-jre')

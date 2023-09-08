@@ -4,9 +4,6 @@ plugins {
      id 'checkstyle'
 }
 
-sourceCompatibility = 11
-targetCompatibility = 11
-
 dependencies {
     api project(':keyboard-base')
 

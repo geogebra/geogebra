@@ -32,6 +32,3 @@ pmd {
     ruleSets = []
     ruleSetFiles = files("../config/pmd.xml")
 }
-
-sourceCompatibility = 11
-targetCompatibility = 11
