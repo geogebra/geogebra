@@ -1,6 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-public class TabularRange {
+public final class TabularRange {
 
 	final int fromRow;
 	final int toRow;

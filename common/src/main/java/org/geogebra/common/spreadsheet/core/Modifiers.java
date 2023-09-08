@@ -1,6 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-public class Modifiers {
+public final class Modifiers {
 	public final boolean alt;
 	public final boolean ctrl;
 	public final boolean right;

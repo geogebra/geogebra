@@ -6,7 +6,8 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
- * A spreadsheet (of arbitrary size).
+ * A spreadsheet (of arbitrary size). This class provides public API  for both rendering
+ * and event handling, using {@link SpreadsheetRenderer} and {@link SpreadsheetController}.
  *
  * @Note: This type is not designed to be thread-safe.
  */

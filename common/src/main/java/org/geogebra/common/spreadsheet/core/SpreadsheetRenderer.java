@@ -17,7 +17,7 @@ import org.geogebra.common.util.shape.Rectangle;
  * to a graphics object, delegates rendering of individual cells to respective {@link CellRenderer}
  * implementations.
  */
-public class SpreadsheetRenderer {
+public final class SpreadsheetRenderer {
 
 	private final CellRenderableFactory converter;
 	private final TableLayout layout;
@@ -53,14 +53,14 @@ public class SpreadsheetRenderer {
 		}
 	}
 
-	protected void drawRowHeader(int row, GGraphics2D graphics) {
+	void drawRowHeader(int row, GGraphics2D graphics) {
 		Rectangle cellBorder = layout.getRowHeaderBounds(row);
 		graphics.drawRect(0, (int) layout.getY(row),
 				(int) layout.getRowHeaderWidth(), (int) layout.getHeight(row));
 		stringRenderer.draw(String.valueOf(row + 1), graphics, cellBorder);
 	}
 
-	protected void drawColumnHeader(int column, GGraphics2D graphics, String name) {
+	void drawColumnHeader(int column, GGraphics2D graphics, String name) {
 		Rectangle cellBorder = layout.getColumnHeaderBounds(column);
 		graphics.drawRect((int) layout.getX(column), 0,
 				(int) layout.getWidth(column), (int) layout.getColumnHeaderHeight());

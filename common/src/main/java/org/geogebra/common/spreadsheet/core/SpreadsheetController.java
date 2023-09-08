@@ -52,18 +52,23 @@ public final class SpreadsheetController implements TabularSelection {
 		selectionController.selectAll();
 	}
 
-	public List<Selection> getSelection() {
+	// default visibility, same as Selection class
+	List<Selection> getSelection() {
 		return selectionController.selections();
 	}
 
 	boolean isSelected(int row, int column) {
-		return selectionController.selections().stream().anyMatch(s -> s.contains(row, column));
+		return selectionController.isSelected(row, column);
 	}
 
 	public String getColumnName(int column) {
 		return tabularData.getColumnName(column);
 	}
 
+	/**
+	 * @param column column number
+	 * @return actions for the column (map action's ggbtrans key -> action)
+	 */
 	public Map<String, Runnable> getContextMenu(int column) {
 		HashMap<String, Runnable> actions = new HashMap<>();
 		actions.put("InsertColumn", () -> tabularData.insertColumnAt(column));

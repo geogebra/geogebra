@@ -9,7 +9,7 @@ import com.himamis.retex.renderer.share.TeXIcon;
 /**
  * Renderer for LaTeX cells
  */
-public class LaTeXRenderer implements CellRenderer {
+public final class LaTeXRenderer implements CellRenderer {
 	@Override
 	public void draw(Object data, GGraphics2D graphics, Rectangle cellBorder) {
 		graphics.setColor(GColor.BLACK);

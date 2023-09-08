@@ -16,7 +16,7 @@ import org.geogebra.common.util.shape.Rectangle;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 
-public class GeoElementCellRendererFactory implements CellRenderableFactory {
+public final class GeoElementCellRendererFactory implements CellRenderableFactory {
 	@Override
 	public Object getRenderable(Object geo) {
 		if (geo == null) {

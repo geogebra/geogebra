@@ -8,12 +8,17 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class SpreadsheetEditorListener implements MathFieldListener {
+public final class SpreadsheetEditorListener implements MathFieldListener {
 
 	final MathFieldInternal mathField;
 	final Kernel kernel;
 	private final GPoint coords;
 
+	/**
+	 * @param mathField math input
+	 * @param kernel kernel
+	 * @param coords cell coordinates
+	 */
 	public SpreadsheetEditorListener(MathFieldInternal mathField, Kernel kernel, GPoint coords) {
 		this.mathField = mathField;
 		this.kernel = kernel;

@@ -1,6 +1,6 @@
 package org.geogebra.common.spreadsheet;
 
-import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Collections;
@@ -25,7 +25,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		tabularData.setContent(0, 1, "bar");
 		spreadsheet.setViewport(new Rectangle(0, 100, 0, 100));
 		spreadsheet.draw(graphics);
-		assertThat(graphics.toString(), startsWith("foo\nbar\ncol0"));
+		assertThat(graphics.toString(), equalTo("col0,col1,1,foo,bar,2,3,4,5"));
 	}
 
 	private static class TestCellRenderableFactory implements CellRenderableFactory {

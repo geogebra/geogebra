@@ -21,7 +21,7 @@ import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
  * relevant notifications to Spreadsheet component.
  */
-public class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
+public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 
@@ -145,22 +145,12 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 	}
 
 	@Override
-	public void appendRows(int rows) {
-		// TODO
-	}
-
-	@Override
 	public void insertRowAt(int row) {
 		// TODO
 	}
 
 	@Override
 	public void deleteRowAt(int row) {
-		// TODO
-	}
-
-	@Override
-	public void appendColumns(int columns) {
 		// TODO
 	}
 
@@ -189,6 +179,7 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 		return GeoElementSpreadsheet.getSpreadsheetColumnName(column);
 	}
 
+	@Override
 	public void addChangeListener(TabularDataChangeListener changeListener) {
 		changeListeners.add(changeListener);
 	}

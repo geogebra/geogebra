@@ -3,7 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.ArrayList;
 import java.util.List;
 
-class SpreadsheetSelectionController {
+final class SpreadsheetSelectionController {
 	private final ArrayList<Selection> selections = new ArrayList<>();
 
 	void setDimensions(int numberOfRows, int numberOfColumns) {
@@ -79,5 +79,9 @@ class SpreadsheetSelectionController {
 		selections.clear();
 		selections.addAll(independent);
 		selections.add(merged);
+	}
+
+	public boolean isSelected(int row, int column) {
+		return selections.stream().anyMatch(s -> s.contains(row, column));
 	}
 }

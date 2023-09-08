@@ -10,17 +10,9 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	// structure
 	void reset(int rows, int columns);
 
-	int numberOfRows();
-
-	int numberOfColumns();
-
-	void appendRows(int rows);
-
 	void insertRowAt(int row);
 
 	void deleteRowAt(int row);
-
-	void appendColumns(int columns);
 
 	void insertColumnAt(int column);
 

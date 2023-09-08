@@ -1277,7 +1277,13 @@ public class CellRangeProcessor {
 
 	}
 
-	public static boolean shiftColumnsRight(int startColumn, HasTabularValues<GeoElement> tabularValues) {
+	/**
+	 * @param startColumn first shifted column
+	 * @param tabularValues tabular data
+	 * @return whether data changed
+	 */
+	public static boolean shiftColumnsRight(int startColumn,
+			HasTabularValues<GeoElement> tabularValues) {
 		int maxColumn = tabularValues.numberOfColumns();
 		int maxRow = tabularValues.numberOfRows();
 		boolean succ = false;
@@ -1307,6 +1313,12 @@ public class CellRangeProcessor {
 
 	}
 
+	/**
+	 * @param startColumn first shifted column
+	 * @param shiftAmount number of removed columns
+	 * @param tabularValues tabular data
+	 * @return whether data changed
+	 */
 	public static boolean shiftColumnsLeft(int startColumn, int shiftAmount,
 			HasTabularValues<GeoElement> tabularValues) {
 		int maxColumn = tabularValues.numberOfColumns();
