@@ -72,10 +72,18 @@ $button_hover_transition: background-color 0.15s;
 			width: 64px;
 		}
 
+		.examTypePanel {
+			display: flex;
+		}
+
 		.examType {
-			font-size: 16px;
+			font-size: 20px;
 			color: #388C83;
-			margin: 22px 32px 22px 8px;
+			margin: 20px 32px 20px 8px;
+
+			&.cheat {
+				color: #B00020;
+			}
 		}
 
 		.examInfoBtn {
@@ -87,10 +95,8 @@ $button_hover_transition: background-color 0.15s;
 		.examTimer {
 			right: 72px;
 			position: absolute;
-			font-size: 24px;
-			font-weight: normal;
+			font-size: 20px;
 			margin: 20px 0px;
-			line-height: 1;
 		}
 	}
 

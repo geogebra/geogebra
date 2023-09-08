@@ -118,10 +118,18 @@ img.profileImage {
     min-height: 48px;
 }
 
+.GeoGebraHeader .examTypePanel {
+	display: flex;
+}
+
 .GeoGebraHeader .examType {
-	font-size: 16px;
+	font-size: 20px;
 	color: #388C83;
-	margin: 22px 32px 22px 8px;
+	margin: 20px 32px 20px 8px;
+}
+
+.GeoGebraHeader .examType.cheat {
+	color: #B00020;
 }
 
 .GeoGebraHeader .examInfoBtn {
@@ -129,10 +137,8 @@ img.profileImage {
 }
 
 .GeoGebraHeader .examTimer {
-    font-size: 24px;
-    font-weight: normal;
+    font-size: 20px;
     margin: 20px 0px;
-    line-height: 1;
 }
 
 .GeoGebraFrame .headerStyle {
