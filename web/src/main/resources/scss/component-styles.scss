@@ -439,7 +439,7 @@
 		min-width: 64px;
 		height: 36px;
 		background: transparent;
-		color: colors.$mow_primary;
+		color: purple(600);
 		font-size: 90%;
 		letter-spacing: .04em;
 		line-height: 36px;
@@ -451,7 +451,7 @@
 		transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 		&:hover {
-			background: colors.$mow_card_background_hover;
+			background: neutral(200);
 		}
 
 		.gwt-Label {
@@ -459,7 +459,7 @@
 		}
 
 		&.disabled {
-			color: colors.$disabled-text-btn-col;
+			color: neutral(500);
 
 			&:hover {
 				background: transparent;
@@ -473,23 +473,23 @@
 		@extend .materialTextButton;
 
 		padding: 0px 16px;
-		background-color: colors.$mow_primary;
+		background-color: purple(600);
 		color: white;
 		box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
 		transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 		&:hover {
-			background: colors.$mow_primary;
+			background: purple(600);
 			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
 		}
 
 		&.disabled {
-			background-color: colors.$disabled-contained-btn-bg;
-			color: colors.$disabled-contained-btn-col;
+			background-color: neutral(300);
+			color: neutral(500);
 
 			&:hover {
 				cursor: default;
-				background: colors.$disabled-contained-btn-bg;
+				background: neutral(300);
 				box-shadow: none;
 			}
 		}
@@ -506,11 +506,11 @@
 	.dialogTextButton {
 		@extend .materialTextButton;
 
-		color: colors.$black-54;
+		color: neutral(700);
 
 		&:hover {
-			color: colors.$dialog-text-btn-hover;
-			background-color: colors.$selected-menuitem-background;
+			color: neutral(700);
+			background-color: neutral(200);
 		}
 	}
 
@@ -547,11 +547,11 @@
 		float: left;
 		min-width: 64px;
 		height: header.$button_height;
-		border-radius: 2px;
-		background-color: colors.$mow_grey_button;
+		border-radius: 4px;
+		background-color: neutral(200);
 		transition: header.$button_hover_transition;
 		&:hover {
-			background-color: colors.$mow_card_background_hover;
+			background-color: neutral(300);
 		}
 
 		img {
@@ -569,6 +569,13 @@
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
 			color: neutral(700);
+		}
+
+		&.disabled {
+			.gwt-Label {
+				color: neutral(500);
+				background-color: neutral(200);
+			}
 		}
 	}
 
@@ -849,7 +856,7 @@
         }
 
         &:focus, &:hover, &.selected {
-            background-color: colors.$hover-calc-btn-bg;
+            background-color: neutral(200);
         }
      }
 
