@@ -34,12 +34,12 @@ public final class RenderMathApps implements RenderGgbElementFunction {
 	@Override
 	public void render(Object options, JsConsumer<Object> callback) {
 		AttributeProvider provider = AttributeProvider.as(options);
-		GeoGebraElement element = GeoGebraElement.as(provider.getElement());
 		parameters = new AppletParameters(provider);
 		String materialId = parameters.getMaterialId();
 		if (materialId != null) {
 			loadMaterial(materialId);
 		}
+		GeoGebraElement element = GeoGebraElement.as(provider.getElement());
 		final GeoGebraFrameFull full = new GeoGebraFrameFull(factory, laf,
 				null, element, parameters);
 		DomGlobal.window.addEventListener("resize", evt -> onResize(full));
