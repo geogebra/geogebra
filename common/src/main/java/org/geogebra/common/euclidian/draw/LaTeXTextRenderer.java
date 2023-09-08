@@ -17,7 +17,6 @@ import com.google.j2objc.annotations.Weak;
 public class LaTeXTextRenderer implements TextRenderer {
 	private static final int CLIP_PADDING = 8;
 	public static final int BORDER_THICKNESS = 6;
-
 	@Weak
 	private final DrawInputBox drawInputBox;
 	private final TextRendererSettings settings;
