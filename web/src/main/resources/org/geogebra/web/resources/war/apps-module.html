@@ -27,10 +27,9 @@
     import {mathApps} from './web3d/web3d.nocache.mjs';
     mathApps.create({'appName':'graphing',
         'width':'800', 'height':'600',
-        'showAlgebraInput': 'true'})
-
-        .inject(document.querySelector("#main"))
-        .getAPI().then(api => api.evalCommand('f(x)=sin(x)'));
+        'showAlgebraInput': 'true',
+        'material_id':'fqqbfvc9'})
+        .inject(document.querySelector("#main"));
 </script>
 </body>
 </html>
