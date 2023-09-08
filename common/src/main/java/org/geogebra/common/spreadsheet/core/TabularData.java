@@ -1,9 +1,11 @@
 package org.geogebra.common.spreadsheet.core;
 
+import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
+
 /**
  * Interacting with the structure and contents of tabular data.
  */
-public interface TabularData {
+public interface TabularData<T> extends HasTabularValues<T> {
 
 	// structure
 	void reset(int rows, int columns);
@@ -26,8 +28,6 @@ public interface TabularData {
 
 	// content
 	void setContent(int row, int column, Object content);
-
-	Object contentAt(int row, int column);
 
 	String getColumnName(int column);
 

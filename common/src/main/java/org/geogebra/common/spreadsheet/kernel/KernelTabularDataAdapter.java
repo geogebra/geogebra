@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
-import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -22,7 +21,7 @@ import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
  * relevant notifications to Spreadsheet component.
  */
-public class KernelTabularDataAdapter implements UpdateLocationView, TabularData, HasTabularValues {
+public class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 
@@ -133,11 +132,6 @@ public class KernelTabularDataAdapter implements UpdateLocationView, TabularData
 	@Override
 	public void reset(int rows, int columns) {
 		// TODO
-	}
-
-	@Override
-	public GeoElement getGeoElement(int row, int column) {
-		return contentAt(row, column);
 	}
 
 	@Override

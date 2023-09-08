@@ -26,7 +26,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param tabularData data source
 	 * @param rendererFactory converts custom data type to rendable objects
 	 */
-	public Spreadsheet(TabularData tabularData, CellRenderableFactory rendererFactory) {
+	public Spreadsheet(TabularData<?> tabularData, CellRenderableFactory rendererFactory) {
 		controller = new SpreadsheetController(tabularData);
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), 20, 40);
@@ -110,7 +110,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	private void showCellEditor(int row, int column) {
 		if (controlsDelegate != null) {
 			Rectangle translate = layout.getBounds(row, column)
-					.translate(-viewport.getMinX() + layout.getRowHeaderWidth(),
+					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
 							-viewport.getMinY() + layout.getColumnHeaderHeight());
 			controlsDelegate.showCellEditor(translate,
 					controller.contentAt(row, column), new GPoint(column, row));

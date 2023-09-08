@@ -13,9 +13,9 @@ public final class SpreadsheetController implements TabularSelection {
 
 	private SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
-	final private TabularData tabularData;
+	final private TabularData<?> tabularData;
 
-	public SpreadsheetController(TabularData tabularData) {
+	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
 	}
 

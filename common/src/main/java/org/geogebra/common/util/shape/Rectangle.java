@@ -84,7 +84,7 @@ public class Rectangle {
 		return origin.getY() + size.getHeight();
 	}
 
-	public Rectangle translate(double dx, double dy) {
+	public Rectangle translatedBy(double dx, double dy) {
 		return new Rectangle(new Point(getMinX() + dx, getMinY() + dy), size);
 	}
 }

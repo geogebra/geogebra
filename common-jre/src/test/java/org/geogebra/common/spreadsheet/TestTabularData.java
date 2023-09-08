@@ -3,7 +3,7 @@ package org.geogebra.common.spreadsheet;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 
-public class TestTabularData implements TabularData {
+public class TestTabularData implements TabularData<Object> {
 
 	Object[][] data = new String[100][100];
 

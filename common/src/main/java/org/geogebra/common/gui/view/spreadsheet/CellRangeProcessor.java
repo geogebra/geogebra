@@ -51,7 +51,7 @@ public class CellRangeProcessor {
 	@Weak
 	private Construction cons;
 	private SpreadsheetTableModel tableModel;
-	private HasTabularValues adapter;
+	private HasTabularValues<GeoElement> adapter;
 
 	/**
 	 * @param table
@@ -65,9 +65,9 @@ public class CellRangeProcessor {
 		loc = app.getLocalization();
 		tableModel = app.getSpreadsheetTableModel();
 		cons = app.getKernel().getConstruction();
-		adapter = new HasTabularValues() {
+		adapter = new HasTabularValues<GeoElement>() {
 			@Override
-			public GeoElement getGeoElement(int row, int column) {
+			public GeoElement contentAt(int row, int column) {
 				return RelativeCopy.getValue(app, column, row);
 			}
 
@@ -1277,13 +1277,13 @@ public class CellRangeProcessor {
 
 	}
 
-	public static boolean shiftColumnsRight(int startColumn, HasTabularValues tabularValues) {
+	public static boolean shiftColumnsRight(int startColumn, HasTabularValues<GeoElement> tabularValues) {
 		int maxColumn = tabularValues.numberOfColumns();
 		int maxRow = tabularValues.numberOfRows();
 		boolean succ = false;
 		for (int column = maxColumn; column >= startColumn; --column) {
 			for (int row = 0; row <= maxRow; ++row) {
-				GeoElement geo = tabularValues.getGeoElement(row, column);
+				GeoElement geo = tabularValues.contentAt(row, column);
 				if (geo == null) {
 					continue;
 				}
@@ -1307,13 +1307,14 @@ public class CellRangeProcessor {
 
 	}
 
-	public static boolean shiftColumnsLeft(int startColumn, int shiftAmount,  HasTabularValues tabularValues) {
+	public static boolean shiftColumnsLeft(int startColumn, int shiftAmount,
+			HasTabularValues<GeoElement> tabularValues) {
 		int maxColumn = tabularValues.numberOfColumns();
 		int maxRow = tabularValues.numberOfRows();
 		boolean succ = false;
 		for (int column = startColumn; column <= maxColumn; ++column) {
 			for (int row = 0; row <= maxRow; ++row) {
-				GeoElement geo = tabularValues.getGeoElement(row, column);
+				GeoElement geo = tabularValues.contentAt(row, column);
 				if (geo == null) {
 					continue;
 				}
@@ -1464,7 +1465,7 @@ public class CellRangeProcessor {
 	public String getCellRangeString(CellRange range,
 			boolean onlyFirstRowColumn) {
 
-		String s = "";
+		String s;
 
 		if (range.isColumn()) {
 			s = loc.getCommand("Column") + " " + GeoElementSpreadsheet
