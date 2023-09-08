@@ -579,7 +579,7 @@
 		.indicator {
 			height: 2px;
 			width: 90px;
-			background-color: colors.$purple-default;
+			background-color: purple(600);
 			top: 49px;
 			position: relative;
 			border-radius: 2px 2px 0 0;
@@ -589,7 +589,7 @@
 		}
 
 		.header {
-			border-bottom: 1px solid colors.$black-12;
+			border-bottom: 1px solid neutral(300);
 			.tabBtn {
 				min-width: 90px;
 				height: 48px;
@@ -603,12 +603,12 @@
 				}
 
 				&:hover {
-					background-color: colors.$purple-default-12;
+					background-color: neutral(200);
 				}
 
 				&.selected {
 					.gwt-Label {
-						color: colors.$purple-default;
+						color: purple(600);
 					}
 					&:hover {
 						background-color: colors.$white;
