@@ -786,7 +786,7 @@
 		height: 44px;
 		width: 100%;
 		max-width: 720px;
-		background-color: colors.$white-5-overlay;
+		background-color: neutral(200);
 		margin: 10px auto;
 		box-sizing: border-box;
 		border-radius: 22px;
@@ -796,8 +796,12 @@
 		.flatButtonHeader {
 			margin: auto 2px;
 
-			&:hover img {
-				opacity: 1;
+			&:hover {
+				background-color: neutral(300);
+
+				img {
+					opacity: 1;
+				}
 			}
 		}
 
