@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -234,13 +235,15 @@ public class GlobalHeader implements EventRenderable {
 		// remove other buttons
 		getButtonElement().getStyle()
 				.setDisplay(Display.NONE);
-		Image examImg = new Image();
-		examImg.setUrl(DefaultMenuIconProvider.INSTANCE.assignment().withFill("#388C83")
+		Image examImg = new Image(DefaultMenuIconProvider.INSTANCE.assignment().withFill("#388C83")
 				.getSafeUri().asString());
 		Label examType = new Label(app.getExam().getCalculatorNameForHeader());
 		examType.setStyleName("examType");
 
 		// exam panel with timer and info btn
+		Image timerImg = new Image(MaterialDesignResources.INSTANCE.timer()
+				.getSafeUri().asString());
+		timerImg.addStyleName("timerImg");
 		timer = new Label("0:00");
 		timer.setStyleName("examTimer");
 		examInfoBtn = new StandardButton(
@@ -264,6 +267,7 @@ public class GlobalHeader implements EventRenderable {
 			RootPanel.get("examId").add(examTypeHolder);
 		}
 
+		RootPanel.get("examId").add(timerImg);
 		RootPanel.get("examId").add(timer);
 		RootPanel.get("examId").add(examInfoBtn);
 		// run timer

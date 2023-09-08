@@ -72,20 +72,6 @@ $button_hover_transition: background-color 0.15s;
 			width: 64px;
 		}
 
-		.examTypePanel {
-			display: flex;
-		}
-
-		.examType {
-			font-size: 20px;
-			color: #388C83;
-			margin: 20px 32px 20px 8px;
-
-			&.cheat {
-				color: #B00020;
-			}
-		}
-
 		.examInfoBtn {
 			right: 0;
 			position: absolute;

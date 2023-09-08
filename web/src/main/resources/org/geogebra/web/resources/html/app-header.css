@@ -132,6 +132,11 @@ img.profileImage {
 	margin: 20px 32px 20px 8px;
 }
 
+.GeoGebraHeader .timerImg {
+	margin-right: 8px;
+	opacity: 0.54;
+}
+
 .GeoGebraHeader .examType.cheat {
 	color: #B00020;
 }
