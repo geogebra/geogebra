@@ -63,6 +63,10 @@
 		display: none;
 	}
 
+	.GeoGebraHeader .examTypePanel {
+		display: none;
+	}
+
 	.GeoGebraHeader .suiteAppPickerButton {
 		visibility: hidden;
 	}
@@ -313,6 +317,18 @@ svg.icon.left {
 
 .compact.GeoGebraFrame .appName {
     display: none;
+}
+
+.compact.GeoGebraFrame .examTypePanel {
+	display: none;
+}
+
+.compact.GeoGebraFrame .examTimer {
+	margin: 12px 0;
+}
+
+.compact.GeoGebraFrame .examInfoBtn {
+	margin: 6px 18px;
 }
 
 .compact.GeoGebraFrame .shareBtn, .compact.GeoGebraFrame .signIn {

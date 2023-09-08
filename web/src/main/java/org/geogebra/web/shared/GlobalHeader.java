@@ -255,13 +255,15 @@ public class GlobalHeader implements EventRenderable {
 		Dom.querySelector("#headerID a").setAttribute("href", "#");
 		RootPanel.get("examId").addStyleName("examPanel");
 
-		FlowPanel examTypeHolder = new FlowPanel();
-		examTypeHolder.getElement().setId("examTypeId");
-		examTypeHolder.addStyleName("examTypePanel");
-		examTypeHolder.add(examImg);
-		examTypeHolder.add(examType);
+		if (!app.getExam().isRestrictedGraphExam()) {
+			FlowPanel examTypeHolder = new FlowPanel();
+			examTypeHolder.getElement().setId("examTypeId");
+			examTypeHolder.addStyleName("examTypePanel");
+			examTypeHolder.add(examImg);
+			examTypeHolder.add(examType);
+			RootPanel.get("examId").add(examTypeHolder);
+		}
 
-		RootPanel.get("examId").add(examTypeHolder);
 		RootPanel.get("examId").add(timer);
 		RootPanel.get("examId").add(examInfoBtn);
 		// run timer
