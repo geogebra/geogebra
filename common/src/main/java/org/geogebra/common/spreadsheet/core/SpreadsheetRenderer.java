@@ -1,8 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GBasicStroke;
@@ -10,6 +8,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
+import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -21,17 +21,13 @@ public final class SpreadsheetRenderer {
 
 	private final CellRenderableFactory converter;
 	private final TableLayout layout;
-	private final Map<GPoint, Object> renderableCache = new HashMap<>();
-	private final List<CellRenderer> cellRenderers = new ArrayList<>();
+	private final Map<GPoint, SelfRenderable> renderableCache = new HashMap<>();
 	private final StringRenderer stringRenderer = new StringRenderer();
 	private final static GBasicStroke gridStroke = AwtFactory.getPrototype().newBasicStroke(1);
 
 	SpreadsheetRenderer(TableLayout layout, CellRenderableFactory converter) {
 		this.converter = converter;
 		this.layout = layout;
-		cellRenderers.add(new LaTeXRenderer());
-		cellRenderers.add(stringRenderer);
-		cellRenderers.addAll(converter.getRenderers());
 	}
 
 	void drawCell(int row, int column, GGraphics2D graphics, Object content,
@@ -43,13 +39,11 @@ public final class SpreadsheetRenderer {
 					(int) layout.getWidth(column), (int) layout.getHeight(row));
 		}
 
-		Object renderable = renderableCache.computeIfAbsent(new GPoint(row, column),
+		SelfRenderable renderable = renderableCache.computeIfAbsent(new GPoint(row, column),
 				ignore -> converter.getRenderable(content));
-		Rectangle cellBorder = layout.getBounds(row, column);
-		for (CellRenderer cellRenderer: cellRenderers) {
-			if (cellRenderer.match(renderable)) {
-				cellRenderer.draw(renderable, graphics, cellBorder);
-			}
+		if (renderable != null) {
+			Rectangle cellBorder = layout.getBounds(row, column);
+			renderable.draw(graphics, cellBorder);
 		}
 	}
 

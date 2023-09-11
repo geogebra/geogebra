@@ -2,7 +2,6 @@ package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -14,14 +13,10 @@ import org.geogebra.common.util.shape.Rectangle;
 public final class Spreadsheet implements TabularDataChangeListener {
 
 	private final SpreadsheetController controller;
-	private final TableLayout layout;
 
 	private boolean needsRedraw = true;
-
-	private SpreadsheetStyle style = new SpreadsheetStyle();
 	private final SpreadsheetRenderer renderer;
 	private Rectangle viewport;
-	private SpreadsheetControlsDelegate controlsDelegate;
 
 	/**
 	 * @param tabularData data source
@@ -29,9 +24,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public Spreadsheet(TabularData<?> tabularData, CellRenderableFactory rendererFactory) {
 		controller = new SpreadsheetController(tabularData);
-		layout = new TableLayout(tabularData.numberOfRows(),
-				tabularData.numberOfColumns(), 20, 40);
-		renderer = new SpreadsheetRenderer(layout, rendererFactory);
+		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory);
 		viewport = new Rectangle(0, 0, 0, 0);
 		tabularData.addChangeListener(this);
 	}
@@ -52,15 +45,16 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 		graphics.setPaint(GColor.WHITE);
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
-		graphics.setColor(style.getTextColor());
+		graphics.setColor(controller.getStyle().getTextColor());
 		drawCells(graphics, viewport);
 		for (Selection selection: controller.getSelection()) {
-			renderer.drawSelection(selection.getRange(), graphics, viewport, layout);
+			renderer.drawSelection(selection.getRange(), graphics, viewport, controller.getLayout());
 		}
 		needsRedraw = false;
 	}
 
 	void drawCells(GGraphics2D graphics, Rectangle rectangle) {
+		TableLayout layout = controller.getLayout();
 		TableLayout.Portion portion =
 				layout.getLayoutIntersecting(rectangle);
 		double offsetX = rectangle.getMinX() - layout.getRowHeaderWidth();
@@ -69,7 +63,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
 				renderer.drawCell(row, column, graphics,
-						controller.contentAt(row, column), style);
+						controller.contentAt(row, column), controller.getStyle());
 			}
 		}
 		graphics.setColor(GColor.GRAY);
@@ -77,7 +71,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 				(int) layout.getColumnHeaderHeight());
 		graphics.fillRect((int) offsetX, (int) offsetY, (int) layout.getRowHeaderWidth(),
 				(int) rectangle.getHeight());
-		graphics.setColor(style.getTextColor());
+		graphics.setColor(controller.getStyle().getTextColor());
 		graphics.translate(0, offsetY);
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			renderer.drawColumnHeader(column, graphics, controller.getColumnName(column));
@@ -108,25 +102,11 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		return controller.isSelected(row, column);
 	}
 
-	private void showCellEditor(int row, int column) {
-		if (controlsDelegate != null) {
-			Rectangle translate = layout.getBounds(row, column)
-					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
-							-viewport.getMinY() + layout.getColumnHeaderHeight());
-			controlsDelegate.showCellEditor(translate,
-					controller.contentAt(row, column), new GPoint(column, row));
-			needsRedraw = true;
-		}
-	}
 
-	private void hideCellEditor() {
-		if (controlsDelegate != null) {
-			controlsDelegate.hideCellEditor();
-		}
-	}
+
 
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
-		this.controlsDelegate = controlsDelegate;
+		controller.setControlsDelegate(controlsDelegate);
 	}
 
 	/**
@@ -135,10 +115,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param modifiers alt/ctrl/shift
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers) {
-		int row = layout.findRow(y + viewport.getMinY());
-		int column = layout.findColumn(x + viewport.getMinX());
-		controller.select(new Selection(SelectionType.CELLS, new TabularRange(row,
-				row, column, column)), modifiers.ctrl);
+		controller.handlePointerUp(x, y, modifiers, viewport);
 		needsRedraw = true;
 	}
 
@@ -148,17 +125,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param modifiers alt/ctrl/shift
 	 */
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
-		hideCellEditor();
-		int column = layout.findColumn(x + viewport.getMinX());
-		int row = layout.findRow(y + viewport.getMinY());
-		if (modifiers.right) {
-			controlsDelegate.showContextMenu(controller.getContextMenu(column), new GPoint(x, y));
-			needsRedraw = true;
-			return;
-		}
-		if (isSelected(row, column)) {
-			showCellEditor(row, column);
-		}
+		needsRedraw = controller.handlePointerDown(x, y, modifiers, viewport);
+
 		// start selecting
 	}
 
@@ -180,10 +148,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public void setWidthForColumns(double width, int[] columnIndices) {
-		layout.setWidthForColumns(width, columnIndices);
+		controller.getLayout().setWidthForColumns(width, columnIndices);
 	}
 
 	public void setHeightForRows(double height, int... rowIndices) {
-		layout.setHeightForRows(height, rowIndices);
+		controller.getLayout().setHeightForRows(height, rowIndices);
 	}
 }

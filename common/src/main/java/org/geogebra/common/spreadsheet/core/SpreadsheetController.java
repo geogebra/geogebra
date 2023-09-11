@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.util.shape.Rectangle;
+
 /**
  * A container for tabular data, with support for selecting parts of the data.
  *
@@ -15,8 +18,24 @@ public final class SpreadsheetController implements TabularSelection {
 			= new SpreadsheetSelectionController();
 	final private TabularData<?> tabularData;
 
+	private SpreadsheetControlsDelegate controlsDelegate;
+	private final TableLayout layout;
+
+	private final SpreadsheetStyle style = new SpreadsheetStyle();
+
+
 	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
+		layout = new TableLayout(tabularData.numberOfRows(),
+				tabularData.numberOfColumns(), 20, 40);
+	}
+
+	TableLayout getLayout() {
+		return layout;
+	}
+
+	SpreadsheetStyle getStyle() {
+		return style;
 	}
 
 	// - TabularData
@@ -74,5 +93,49 @@ public final class SpreadsheetController implements TabularSelection {
 		actions.put("InsertColumn", () -> tabularData.insertColumnAt(column));
 		actions.put("DeleteColumn", () -> tabularData.deleteColumnAt(column));
 		return actions;
+	}
+
+	boolean showCellEditor(int row, int column, Rectangle viewport) {
+		if (controlsDelegate != null) {
+			Rectangle translate = layout.getBounds(row, column)
+					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
+							-viewport.getMinY() + layout.getColumnHeaderHeight());
+			controlsDelegate.showCellEditor(translate,
+					contentAt(row, column), new GPoint(column, row));
+			return true;
+		}
+		return false;
+	}
+
+	private void hideCellEditor() {
+		if (controlsDelegate != null) {
+			controlsDelegate.hideCellEditor();
+		}
+	}
+
+	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
+		this.controlsDelegate = controlsDelegate;
+	}
+
+	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
+		hideCellEditor();
+		int column = layout.findColumn(x + viewport.getMinX());
+		int row = layout.findRow(y + viewport.getMinY());
+		if (modifiers.rightButton) {
+			controlsDelegate.showContextMenu(getContextMenu(column), new GPoint(x, y));
+
+			return true;
+		}
+		if (isSelected(row, column)) {
+			return showCellEditor(row, column, viewport);
+		}
+		return false;
+	}
+
+	public void handlePointerUp(int x, int y, Modifiers modifiers, Rectangle viewport) {
+		int row = layout.findRow(y + viewport.getMinY());
+		int column = layout.findColumn(x + viewport.getMinX());
+		select(new Selection(SelectionType.CELLS, new TabularRange(row,
+				row, column, column)), modifiers.ctrl);
 	}
 }

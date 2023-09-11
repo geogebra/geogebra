@@ -3,13 +3,11 @@ package org.geogebra.common.spreadsheet;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
-import org.geogebra.common.spreadsheet.core.CellRenderer;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
+import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Test;
 
@@ -30,13 +28,8 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	private static class TestCellRenderableFactory implements CellRenderableFactory {
 		@Override
-		public Object getRenderable(Object data) {
-			return data;
-		}
-
-		@Override
-		public List<? extends CellRenderer> getRenderers() {
-			return Collections.emptyList();
+		public SelfRenderable getRenderable(Object data) {
+			return new SelfRenderable(new StringRenderer(), data);
 		}
 	}
 }
