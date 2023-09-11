@@ -207,7 +207,8 @@ window.__MODULE_FUNC__.onReady = function(submodule, render) {
     callback(render);
   }
   window.__MODULE_FUNC__.submodules[submodule].render = render;
-}
+  window.__MODULE_FUNC__.submodules[submodule].beforeRender = function(options, runCallbacks) {console.log("wwwwwwwww");};
+ }
 
 window.__MODULE_FUNC__.succeeded = window.__MODULE_FUNC__();
 
@@ -225,8 +226,11 @@ function Widget(options, submodule, baseTag)  {
    function load() {
      self.loading = true;
      if (submodule.render) {
-         submodule.render(options, runCallbacks);
+     	 console.log("1" + submodule);
+	     submodule.render(options, runCallbacks);
      } else {
+     	 console.dir(submodule);
+         submodule.callbacks.push(beforeRender => beforeRender(options, runCallbacks));
          submodule.callbacks.push(render => render(options, runCallbacks));
      }
    }
