@@ -18,7 +18,7 @@ public class CmdRemovableDiscontinuity extends CommandProcessor implements UsesC
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
 		case 1:
