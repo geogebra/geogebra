@@ -11,6 +11,7 @@ import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -107,7 +108,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 		fldParameterArray = new MathTextFieldW[ view.maxParameterCount];
 
 		for (int i = 0; i < view.maxParameterCount; i++) {
-			lblParameterArray[i] = new Label();
+			lblParameterArray[i] = BaseWidgetFactory.INSTANCE.newSecondaryText("");
 			fldParameterArray[i] = new MathTextFieldW(view.getApp());
 			resultPanel.addInsertHandler(fldParameterArray[i]);
 		}

@@ -20,15 +20,17 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.InputMode;
-import org.geogebra.common.gui.inputfield.MyTextField;
+import org.geogebra.common.gui.inputfield.TextFieldUtil;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
@@ -72,6 +74,9 @@ import org.gwtproject.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
+
+import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
@@ -323,7 +328,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
 			if (textField.isEnabled()) {
 				requestFocus();
-				event.stopPropagation();
+				if (Js.<NativePointerEvent>uncheckedCast(event).getButton() <= 0) {
+					event.stopPropagation();
+				}
 			}
 		});
 
@@ -430,6 +437,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (!NavigatorUtil.isMobile()) {
 			textField.getElement().getStyle()
 					.setColor(GColor.getColorString(color));
+		}
+		if (cursorOverlay != null) {
+			cursorOverlay.getElement().getStyle().setColor(GColor.getColorString(color));
 		}
 	}
 
@@ -1018,7 +1028,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				while (pos > 0 && getText().charAt(pos - 1) == '[') {
 					pos--;
 				}
-				String word = MyTextField.getWordAtPos(getText(), pos);
+				String word = TextFieldUtil.getWordAtPos(getText(), pos);
 				String lowerCurWord = word == null ? "" : word.toLowerCase();
 				String closest = inputSuggestions.getDictionary().lookup(lowerCurWord);
 
@@ -1434,7 +1444,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		g2.setPaint(backgroundColor);
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
-		GColor borderColor = backgroundColor == GColor.WHITE ? GColor.DEFAULT_INPUTBOX_BORDER
+		GColor borderColor = backgroundColor == GColor.WHITE
+				? GeoGebraColorConstants.NEUTRAL_500
 				: GColor.getBorderColorFrom(backgroundColor);
 		g2.setColor(borderColor);
 		setTextFieldBorderColor(backgroundColor, borderColor);

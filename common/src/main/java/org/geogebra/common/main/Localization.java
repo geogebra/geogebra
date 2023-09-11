@@ -947,14 +947,12 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * @param language
-	 *            language string
+	 * @param language ISO 639-1 or 2 defined two or three letter language code
 	 * @return whether to use LTR
 	 */
 	public static boolean rightToLeftReadingOrder(String language) {
-		String lang = language.substring(0, 2);
-		return "iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang)
-				|| "ji".equals(lang) || "he".equals(lang) || "ug".equals(lang);
+		return "ar".equals(language) || "fa".equals(language) || "yi".equals(language)
+				|| "he".equals(language) || "ug".equals(language);
 	}
 
 	/**

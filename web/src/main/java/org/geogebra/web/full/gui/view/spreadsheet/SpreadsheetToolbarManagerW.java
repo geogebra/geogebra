@@ -42,8 +42,6 @@ public class SpreadsheetToolbarManagerW {
 	 *            app mode
 	 */
 	public void handleModeChange(int mode) {
-
-		// Application.printStacktrace("");
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
 		switch (mode) {

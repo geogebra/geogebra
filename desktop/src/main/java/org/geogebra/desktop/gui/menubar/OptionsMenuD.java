@@ -129,7 +129,7 @@ public class OptionsMenuD extends BaseMenu
 		menu.add(submenu3);
 		menu.add(submenu4);
 
-		String currentLocale = app.getLocale().toString();
+		String currentLocale = app.getLocale().toLanguageTag();
 
 		// change en_GB into enGB
 		currentLocale = currentLocale.replaceAll("_", "");
@@ -162,10 +162,10 @@ public class OptionsMenuD extends BaseMenu
 			mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
 					app.getGUIFontSize()));
 
-			if (loc.locale.equals(currentLocale)) {
+			if (loc.toLanguageTag().equals(currentLocale)) {
 				mi.setSelected(true);
 			}
-			mi.setActionCommand(loc.locale);
+			mi.setActionCommand(loc.toLanguageTag());
 			mi.addActionListener(al);
 			bg.add(mi);
 

@@ -533,11 +533,6 @@ final public class GeoSegment extends GeoLine
 		return true;
 	}
 
-	@Override
-	public void setZero() {
-		setCoords(0, 1, 0);
-	}
-
 	//////////////////////////////////////
 	// 3D stuff
 	//////////////////////////////////////

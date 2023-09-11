@@ -6,7 +6,6 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.gwtutil.FileSystemAPI;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
@@ -18,7 +17,7 @@ import org.geogebra.web.full.gui.menubar.action.ShareAction;
 import org.geogebra.web.full.gui.menubar.item.ExitExamItem;
 import org.geogebra.web.full.gui.view.algebra.MenuItem;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.Widget;
@@ -157,11 +156,10 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 			addItem(new MenuItem<>("SaveOnline",
 					DefaultMenuIconProvider.INSTANCE.saveOnline(),
 					new SaveAction()));
-			if (FileSystemAPI.isSupported()) {
-				addItem(new MenuItem<>("SaveToYourPC",
-						DefaultMenuIconProvider.INSTANCE.save(),
-						new SaveLocalAction()));
-			}
+
+			addItem(new MenuItem<>("SaveToYourPC",
+					DefaultMenuIconProvider.INSTANCE.save(),
+					new SaveLocalAction()));
 		}
 	}
 

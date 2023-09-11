@@ -273,8 +273,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 			// region
 			if (hasRegion()) {
-				// Application.printStacktrace(getLabel());
-
 				region.pointChangedForRegion(this);
 			}
 
@@ -2155,6 +2153,19 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public void addToPathParameter(double a) {
 		PathParameter parameter = getPathParameter();
 		parameter.t += a;
+
+		// update point relative to path
+		path.pathChanged(this);
+		updateCoords();
+
+		// make sure point is still on path
+		path.pointChanged(this);
+	}
+
+	@Override
+	public void updatePathParameter(double t) {
+		PathParameter parameter = getPathParameter();
+		parameter.t = t;
 
 		// update point relative to path
 		path.pathChanged(this);

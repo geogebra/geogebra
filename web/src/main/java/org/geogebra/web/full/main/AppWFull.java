@@ -429,10 +429,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					try {
 						JsPropertyMap<Object> messageProperties =
 								Js.asPropertyMap(Global.JSON.parse(editedMacroMessage));
-						getKernel().removeMacro(messageProperties
-								.get(EDITED_MACRO_NAME_KEY).toString());
-						if (addMacroXML(messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
-							setXML(getXML(), true);
+						Object macroName = messageProperties
+								.get(EDITED_MACRO_NAME_KEY);
+						if (macroName != null) {
+							getKernel().removeMacro(macroName.toString());
+							if (addMacroXML(
+									messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
+								setXML(getXML(), true);
+							}
 						}
 					} catch (Throwable err) {
 						Log.debug("Error occurred while updating the macro XML: " + err.getMessage()
@@ -929,7 +933,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 							registerOpenFileListener(
 									getUpdateTitleCallback(material));
 							if (!StringUtil.empty(material.getFileName())) {
-								getViewW().processFileName(
+								getArchiveLoader().processFileName(
 										material.getFileName());
 							} else {
 								getGgbApi().setBase64(material.getBase64());
@@ -1655,7 +1659,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		this.setPreferredSize(
 				new Dimension((int) this.getWidth(), (int) this.getHeight()));
 		setDefaultCursor();
-		checkScaleContainer();
 		frame.useDataParamBorder();
 
 		showStartTooltip(null);
@@ -1667,6 +1670,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
 		getScriptManager().ggbOnInit(); // should be only called after coord system is ready
+		checkScaleContainer();
 		onOpenFile();
 		if (!asSlide) {
 			// should run after coord system changed
@@ -2432,8 +2436,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
-
-		setUndoRedoPanelAllowed(!"probability".equals(subAppCode));
 
 		if (menuViewController != null) {
 			menuViewController.resetMenuOnAppSwitch(this);

@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 $emptyHeight: 212px;
 $deleteAddTime: 250ms;
 $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -63,7 +64,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 
 		td, th {
 			border-width: 0 1px 1px 0;
-			border-color: colors.$black-12;
+			border-color: neutral(300);
 			border-style: solid;
 			box-sizing: border-box;
 			max-width: 180px;
@@ -161,7 +162,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 		}
 
 		.highlighted {
-			background-color: colors.$purple-highlight;
+			background-color: purple(100);
 		}
 
 		.values {
@@ -177,7 +178,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 					padding: 0;
 					position: sticky;
 					top: 0;
-					background: colors.$tableview-header;
+					background: neutral(200);
 
 					.content {
 						text-align: center;
@@ -185,7 +186,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 						display: inline-flex;
 						margin: auto;
 						float: right;
-						color: colors.$text-primary;
 
 						.gwt-Label {
 							font-size: 100%;
@@ -236,7 +236,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				.content {
 					font-size: 100%;
 					font-family: 'mathsans';
-					color: colors.$text-primary;
 					text-align: right;
 					float: left;
 					padding: 16px 8px 16px 16px;
@@ -363,7 +362,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 		padding-right: 8px;
 		vertical-align: middle;
 		border-radius: 2px;
-		background: colors.$tableview-toast;
 		color: white;
 		opacity: 0.9;
 		z-index: z-index.$z-snackbar;

@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.components.radiobutton.ComponentRadioButton;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.Command;
 

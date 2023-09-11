@@ -1552,7 +1552,6 @@ public abstract class Renderer {
 	 *            image export flag
 	 */
 	final public void setNeedExportImage(boolean flag) {
-		// Log.printStacktrace("" + flag);
 		needExportImage = flag;
 	}
 

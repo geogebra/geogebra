@@ -1,6 +1,7 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.bridge.RenderGgbElement.RenderGgbElementFunction;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
@@ -23,10 +24,11 @@ public final class RenderEditor implements RenderGgbElementFunction {
 	}
 
 	@Override
-	public void render(Element element, JsConsumer<Object> callback) {
-		editorKeyboard.create(element);
+	public void render(Object element, JsConsumer<Object> callback) {
+		AttributeProvider attributes = AttributeProvider.as(element);
+		editorKeyboard.create(attributes);
 		EditorListener listener = new EditorListener();
-		MathFieldW mathField = initMathField(element, listener);
+		MathFieldW mathField = initMathField(attributes, listener);
 		DomGlobal.window.addEventListener("resize", evt -> onResize(mathField));
 		editorApi = new EditorApi(mathField, editorKeyboard.getTabbedKeyboard(), listener);
 		editorKeyboard.setListener(() -> editorApi.closeKeyboard());
@@ -39,7 +41,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		mathField.setPixelRatio(DomGlobal.window.devicePixelRatio);
 	}
 
-	private MathFieldW initMathField(Element el, EditorListener listener) {
+	private MathFieldW initMathField(AttributeProvider el, EditorListener listener) {
 		Canvas canvas = Canvas.createIfSupported();
 		FlowPanel wrapper = new FlowPanel();
 		wrapper.setWidth("100%");
@@ -53,7 +55,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		mathField.setPixelRatio(DomGlobal.window.devicePixelRatio);
 		mathField.getInternal().setSyntaxAdapter(new EditorSyntaxAdapter());
 		mathField.setAriaLabel("Enter your equation or expression here");
-		RootPanel editorPanel = newRoot(el);
+		RootPanel editorPanel = newRoot(el.getElement());
 
 		editorPanel.add(wrapper);
 		String cssColor = mathField.getBackgroundColor().getCssColor();

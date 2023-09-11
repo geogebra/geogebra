@@ -170,7 +170,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					}
 					handled = true;
 				} else {
-					handled = handleSelectedGeosKeys(event);
+					handled = handled || handleSelectedGeosKeys(event);
 				}
 
 				if (handled) {

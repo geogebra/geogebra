@@ -9,7 +9,7 @@ import org.geogebra.web.full.gui.dialog.ExportImageDialog;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Widget;
 

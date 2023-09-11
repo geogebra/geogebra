@@ -17,6 +17,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -187,8 +188,9 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void maybeAddUndoRedoPanel() {
-		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed()
-				&& app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC;
+		boolean isAllowed = app.getUndoRedoMode() == UndoRedoMode.GUI
+				&& app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
+				&& app.getConfig().getVersion() != GeoGebraConstants.Version.PROBABILITY;
 		if (isAllowed) {
 			addUndoRedoButtons();
 		} else if (undoRedoPanel != null) {

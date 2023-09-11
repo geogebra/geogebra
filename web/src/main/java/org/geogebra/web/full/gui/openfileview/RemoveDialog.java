@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -28,9 +29,9 @@ public class RemoveDialog extends ComponentDialog {
 	}
 
 	private void buildContent() {
-		Label confirmDelete = new Label(app.getLocalization().getPlain("ConfirmDeleteA",
-				card.getCardTitle()));
-		confirmDelete.setStyleName("message");
+		Label confirmDelete = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getPlain("ConfirmDeleteA",
+						card.getCardTitle()), "message");
 		addDialogContent(confirmDelete);
 	}
 }

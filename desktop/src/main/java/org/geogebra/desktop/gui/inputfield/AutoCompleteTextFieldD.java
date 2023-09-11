@@ -30,12 +30,13 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.InputMode;
-import org.geogebra.common.gui.inputfield.MyTextField;
+import org.geogebra.common.gui.inputfield.TextFieldUtil;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -442,7 +443,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 					while (pos > 0 && getText().charAt(pos - 1) == '[') {
 						pos--;
 					}
-					String word = MyTextField.getWordAtPos(getText(), pos);
+					String word = TextFieldUtil.getWordAtPos(getText(), pos);
 					String lowerCurWord = word.toLowerCase();
 					String closest = getDictionary().lookup(lowerCurWord);
 
@@ -624,7 +625,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		// auto-close parentheses
 		if (!e.isAltDown() && (caretPos == text.length()
-				|| org.geogebra.common.gui.inputfield.MyTextField
+				|| TextFieldUtil
 						.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
 			this.setPreviewActive(false);
 			switch (ch) {
@@ -1080,8 +1081,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	private static GColor getBorderColor(GColor backgroundColor, DrawInputBox drawInputBox) {
 		GColor borderColor;
 		if (backgroundColor == GColor.WHITE) {
-			borderColor = drawInputBox.isEditing() ? GColor.DEFAULT_PURPLE
-					: GColor.DEFAULT_INPUTBOX_BORDER;
+			borderColor = drawInputBox.isEditing() ? GeoGebraColorConstants.PURPLE_600
+					: GeoGebraColorConstants.NEUTRAL_500;
 		} else {
 			borderColor = GColor.getBorderColorFrom(backgroundColor);
 		}

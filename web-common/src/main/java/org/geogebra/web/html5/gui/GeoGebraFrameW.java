@@ -9,6 +9,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -18,7 +19,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.resources.StyleInjector;
@@ -516,8 +516,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public static void handleLoadFile(AppletParameters articleElement,
 			AppW app) {
-		ViewW view = app.getViewW();
-		new LoadFilePresenter().onPageLoad(articleElement, app, view);
+		new LoadFilePresenter().onPageLoad(articleElement, app);
 	}
 
 	/**
@@ -678,9 +677,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            load callback
 	 */
 	public void renderArticleElementWithFrame(GeoGebraElement element,
+			AttributeProvider provider,
 			JsConsumer<Object> onLoadCallback) {
 		element.clear();
-		element.initID(0);
+		element.initID(0, provider);
 		if (Log.getLogger() == null) {
 			LoggerW.startLogger(appletParameters);
 		}

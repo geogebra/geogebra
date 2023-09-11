@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.kernel.geos.GeoInputBox.isGeoLinkable;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -733,4 +734,37 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("2x/3");
 		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
 	}
+
+	@Test
+	public void testLinkableGeos() {
+		shouldBeLinkable("(1,1)");
+		add("a=1");
+		shouldBeLinkable("2*a+3");
+		shouldBeLinkable("Point(xAxis)");
+		add("poly = Polygon({(0,0),(0,1),(1,1)})");
+		shouldBeLinkable("PointIn(poly)");
+	}
+
+	private void shouldBeLinkable(String command) {
+		assertTrue(isGeoLinkable(add(command)));
+	}
+
+	@Test
+	public void testNonLinkableGeo() {
+		shouldNotBeLinkable("Circle((0,0), 5)");
+		shouldNotBeLinkable("3*Sequence[10]");
+	}
+
+	private void shouldNotBeLinkable(String command) {
+		assertFalse(isGeoLinkable(add(command)));
+	}
+
+	@Test
+	public void testHyphenMinusShouldBeReplaced() {
+		add("text1=\" \"");
+		GeoInputBox inputBox = add("InputBox(text1)");
+		inputBox.updateLinkedGeo("12" + Unicode.MINUS + "10");
+		assertThat(inputBox.getTextForEditor(), is("12-10"));
+	}
+
 }
