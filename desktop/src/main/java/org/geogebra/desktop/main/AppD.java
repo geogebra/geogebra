@@ -520,7 +520,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventDispatcher(this);
 
-		getScriptManager().ggbOnInit();
 		getFactory();
 
 		setSaved();
@@ -2008,23 +2007,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return locale
 	 */
 	public static Locale getLocale(String languageISOCode) {
-		// remove "_" from string
-		String languageCode = languageISOCode.replaceAll("_", "");
-
-		Locale loc;
-		if (languageCode.length() == 6) {
-			// language, country, variant
-			loc = new Locale(languageCode.substring(0, 2),
-					languageCode.substring(2, 4), languageCode.substring(4, 6));
-		} else if (languageCode.length() == 4) {
-			// language, country
-			loc = new Locale(languageCode.substring(0, 2),
-					languageCode.substring(2, 4));
-		} else {
-			// language only
-			loc = new Locale(languageCode.substring(0, 2));
-		}
-		return loc;
+		return Locale.forLanguageTag(languageISOCode);
 	}
 
 	@Override
@@ -2127,7 +2110,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			loc.setLocale(oldLocale);
 		}
 
-		getLocalization().updateLanguageFlags(locale.getLanguage());
+		getLocalization().updateLanguageFlags(loc.getLocale().getLanguage());
 
 	}
 
@@ -4454,11 +4437,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * shows pop up
 	 */
 	public void showPopUps() {
-		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
-		if (!signIn.isTubeCheckDone()) {
-			return;
-		}
-
 		if (isAllowPopups()) {
 
 			// Show login popup

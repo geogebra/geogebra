@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings.config;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 
@@ -10,6 +11,7 @@ abstract class AbstractAppConfig implements AppConfig {
 
     private String appCode;
     private String subAppCode;
+    protected transient CommandFilter commandFilter;
 
     AbstractAppConfig(String appCode) {
         this(appCode, null);
@@ -43,4 +45,18 @@ abstract class AbstractAppConfig implements AppConfig {
     public int getMainGraphicsViewId() {
         return App.VIEW_EUCLIDIAN;
     }
+
+	@Override
+	public boolean hasOneVarStatistics() {
+		return true;
+	}
+
+    @Override
+    public CommandFilter getCommandFilter() {
+        if (commandFilter == null) {
+            commandFilter = createCommandFilter();
+        }
+        return commandFilter;
+    }
+
 }

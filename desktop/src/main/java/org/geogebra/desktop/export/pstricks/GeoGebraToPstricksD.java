@@ -16,12 +16,12 @@ public class GeoGebraToPstricksD extends GeoGebraToPstricks {
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality) {
-		return new MyGraphicsPstricks(ef, inequality);
+		return new ExportGraphicsPstricks(ef, inequality);
 	}
 
-	class MyGraphicsPstricks extends MyGraphicsD {
+	class ExportGraphicsPstricks extends ExportGraphicsD {
 
-		public MyGraphicsPstricks(FunctionalNVar geo, Inequality ineq) {
+		public ExportGraphicsPstricks(FunctionalNVar geo, Inequality ineq) {
 
 			super(geo, ineq);
 		}

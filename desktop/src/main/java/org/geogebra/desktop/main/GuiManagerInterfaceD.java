@@ -66,4 +66,5 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	void showURLinBrowser(String strURL);
 
 	void updateToolbarDefinition();
+
 }

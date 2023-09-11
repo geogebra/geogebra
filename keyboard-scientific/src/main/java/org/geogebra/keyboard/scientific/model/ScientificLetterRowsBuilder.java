@@ -17,8 +17,8 @@ class ScientificLetterRowsBuilder {
         int[] accentsLength = new int[rows.length];
         int allAccentsLength = 0;
         for (int i = 0; i < rows.length; i++) {
-            possibleAccents[i][0] = getAccents(rows[i]);
-            possibleAccents[i][1] = reverse(getAccents(reverse(rows[i])));
+            possibleAccents[i][0] = getAccents(rows[i], 0, 1);
+            possibleAccents[i][1] = getAccents(rows[i], rows[i].length() - 1, -1);
             accentsLength[i] = possibleAccents[i][0].length() + possibleAccents[i][1].length();
             allAccentsLength += accentsLength[i];
         }
@@ -60,9 +60,9 @@ class ScientificLetterRowsBuilder {
         return newRows;
     }
 
-    private String getAccents(String string) {
+    private String getAccents(String string, int from, int direction) {
         builder.setLength(0);
-        for (int i = 0; i < string.length() && i < 2; i++) {
+        for (int i = from; i < string.length() && i < 2; i += direction) {
             String c = String.valueOf(string.charAt(i));
             if (Accents.isAccent(c)) {
                 builder.append(c);
@@ -71,10 +71,6 @@ class ScientificLetterRowsBuilder {
             }
         }
         return builder.toString();
-    }
-
-    private String reverse(String string) {
-        return new StringBuilder(string).reverse().toString();
     }
 
     private String[] splitIntoCharacters(String text) {

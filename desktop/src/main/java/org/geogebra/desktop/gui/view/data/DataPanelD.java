@@ -102,8 +102,8 @@ public class DataPanelD extends JPanel
 
 	private void createGUI() {
 		// set table and column renderers
-		dataTable.setDefaultRenderer(Object.class, new MyCellRenderer());
-		MyColumnHeaderRenderer columnHeader = new MyColumnHeaderRenderer();
+		dataTable.setDefaultRenderer(Object.class, new DataPanelCellRenderer());
+		ColumnHeaderRenderer columnHeader = new ColumnHeaderRenderer();
 		columnHeader.setPreferredSize(new Dimension(preferredColumnWidth,
 				SpreadsheetSettings.TABLE_CELL_HEIGHT));
 		for (int i = 0; i < dataTable.getColumnCount(); ++i) {
@@ -378,11 +378,11 @@ public class DataPanelD extends JPanel
 	// Column Header Renderer
 	// =================================================
 
-	protected class MyColumnHeaderRenderer extends JLabel
+	protected class ColumnHeaderRenderer extends JLabel
 			implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
-		public MyColumnHeaderRenderer() {
+		public ColumnHeaderRenderer() {
 			super("", SwingConstants.CENTER);
 			setOpaque(true);
 			setBackground(TABLE_HEADER_COLOR);
@@ -407,10 +407,10 @@ public class DataPanelD extends JPanel
 	// Table Cell Renderer
 	// ======================================================
 
-	class MyCellRenderer extends DefaultTableCellRenderer {
+	class DataPanelCellRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
-		public MyCellRenderer() {
+		public DataPanelCellRenderer() {
 			setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		}
 

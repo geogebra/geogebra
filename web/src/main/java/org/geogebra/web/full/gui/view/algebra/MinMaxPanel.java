@@ -10,6 +10,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.util.DataTest;
+import org.geogebra.web.html5.util.HasDataTest;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
@@ -26,7 +28,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
-		KeyHandler, MouseDownHandler, MouseUpHandler {
+		KeyHandler, MouseDownHandler, MouseUpHandler, HasDataTest {
 	private static volatile MinMaxPanel openedMinMaxPanel = null;
 	private SliderTreeItemRetex sliderTreeItem;
 	/** min width of the panel */
@@ -113,7 +115,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		addMouseDownHandler(this);
 		addMouseUpHandler(this);
 		addBlurHandler(event -> hide());
-
 		update();
 	}
 
@@ -298,5 +299,12 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	public void setMaxFocus() {
 		tfMax.requestFocus();
 		focusRequested = true;
+	}
+
+	@Override
+	public void updateDataTest(int index) {
+		DataTest.ALGEBRA_ITEM_SLIDER_MIN.applyWithIndex(tfMin, index);
+		DataTest.ALGEBRA_ITEM_SLIDER_MAX.applyWithIndex(tfMax, index);
+		DataTest.ALGEBRA_ITEM_SLIDER_STEP.applyWithIndex(tfStep, index);
 	}
 }

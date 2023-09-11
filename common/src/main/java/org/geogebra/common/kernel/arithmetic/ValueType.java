@@ -93,6 +93,7 @@ public enum ValueType {
 			Log.error("missing case in doResolve(): " + op);
 			break;
 		case PLUS:
+		case INVISIBLE_PLUS:
 			if (right.evaluatesToText()) {
 				return ValueType.TEXT;
 			}
@@ -284,6 +285,7 @@ public enum ValueType {
 			break;
 		case INVERSE_NORMAL:
 		case SUM:
+		case PRODUCT:
 			break;
 		case SEQUENCE:
 			return ValueType.LIST;

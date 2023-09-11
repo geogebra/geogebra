@@ -5,8 +5,9 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
@@ -58,8 +59,8 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	 * @param label - label of drop-down
 	 * @param property - property
 	 */
-	public CompDropDown(AppW app, String label, EnumerableProperty property) {
-		this(app, label, Arrays.asList(property.getValues()));
+	public CompDropDown(AppW app, String label, NamedEnumeratedProperty<?> property) {
+		this(app, label, Arrays.asList(property.getValueNames()));
 		controller.setProperty(property);
 		if (property.getIndex() > -1) {
 			controller.setSelectedOption(property.getIndex());
@@ -71,7 +72,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	 * @param app - see {@link AppW}
 	 * @param property - property
 	 */
-	public CompDropDown(AppW app, EnumerableProperty property) {
+	public CompDropDown(AppW app, NamedEnumeratedProperty<?> property) {
 		this(app, null, property);
 	}
 
@@ -86,15 +87,14 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		optionHolder.addStyleName("optionLabelHolder");
 
 		if (labelStr != null && !labelStr.isEmpty()) {
-			label = new Label(app.getLocalization().getMenu(labelStr));
-			label.addStyleName("label");
+			label = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					app.getLocalization().getMenu(labelStr), "label");
 			optionHolder.add(label);
 		} else {
 			optionHolder.addStyleName("noLabel");
 		}
 
-		selectedOption = new Label();
-		selectedOption.addStyleName("selectedOption");
+		selectedOption = BaseWidgetFactory.INSTANCE.newPrimaryText("", "selectedOption");
 		optionHolder.add(selectedOption);
 		add(optionHolder);
 

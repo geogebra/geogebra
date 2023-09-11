@@ -114,8 +114,6 @@ public class ManagerGLList extends Manager {
 		// generates a new list
 		int ret = genLists(1);
 
-		// Application.debug("ret = "+ret);
-
 		// if ret == 0, there's no list
 		if (ret == 0) {
 			return 0;

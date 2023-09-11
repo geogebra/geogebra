@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.kernelND;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.Dilateable;
-import org.geogebra.common.kernel.geos.PointRotateable;
+import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 
@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.Translateable;
  *         Interface for surfaces in any dimension
  */
 public interface GeoImplicitSurfaceND extends Translateable, Dilateable,
-		PointRotateable, MirrorableAtPlane, Transformable {
+		Rotatable, MirrorableAtPlane, Transformable {
 
 	/**
 	 * @return surface defining function (LHS-RHS)

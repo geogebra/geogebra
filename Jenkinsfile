@@ -2,6 +2,7 @@
 def getChangelog() {
     def changeLogSets = currentBuild.changeSets
     def lines = []
+    lines << "${env.GIT_COMMIT},-,${new Date()},Build ${env.BUILD_NUMBER}"
     for (int i = 0; i < changeLogSets.size(); i++) {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {
@@ -14,19 +15,21 @@ def getChangelog() {
 
 def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
 def isEditor = env.BRANCH_NAME.matches("dev|(.*editor)")
-def modules = isEditor ? '-Pgmodule="org.geogebra.web.Web3D,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
+def hasSourcemap = env.BRANCH_NAME.matches("dev|apps-4963")
+def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
 def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
 def gradleCmd = 'docker run --ipc=host --shm-size=1gb -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD:/work openjdk:11.0.16-jdk ./gradlew'
 
-def s3uploadDefault = { dir, pattern, encoding ->
+def s3uploadDefault = { dir, pattern, encoding, excludes="**/*.mjs", contentType="" ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
-        if (!pattern.contains(".zip") && !pattern.contains("editor/")) {
-            s3Upload(bucket: 'apps-builds', workingDir: dir, path: s3buildDir,
-               includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding)
+        if (!pattern.contains("editor/")) {
+            s3Upload(bucket: 'apps-builds', workingDir: dir, path: s3buildDir, contentType: contentType,
+               includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding, excludePathPattern: excludes)
         }
         s3Upload(bucket: 'apps-builds', workingDir: dir, path: "geogebra/branches/${env.GIT_BRANCH}/latest/",
-            includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding)
+            includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding, excludePathPattern: excludes,
+            contentType: contentType)
     }
 }
 
@@ -50,7 +53,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'build', state: 'pending'
                 writeFile file: 'changes.csv', text: getChangelog()
-                sh label: 'build web', script: "$gradleCmd :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy ${modules} -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
+                sh label: 'build web', script: "$gradleCmd :web:prepareS3Upload :web:mergeDeploy ${modules} -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
             }
         }
         stage('tests and reports') {
@@ -130,16 +133,20 @@ pipeline {
                 script {
                     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
                        s3Delete(bucket: 'apps-builds', path: "geogebra/branches/${env.GIT_BRANCH}/latest/")
+                       if (hasSourcemap) {
+                           s3Upload(bucket: 'apps-builds', workingDir: "web/build/symbolMapsGz", path: "geogebra/sourcemaps/",
+                                   includePathPattern: "**/*.json", acl: 'PublicRead', contentEncoding: "gzip")
+                       }
                     }
                     s3uploadDefault(".", "changes.csv", "")
                     s3uploadDefault("web/build/s3", "webSimple/**", "gzip")
                     s3uploadDefault("web/build/s3", "web3d/**", "gzip")
                     if (isEditor) {
                         s3uploadDefault("web/build/s3", "editor/**", "gzip")
+                        s3uploadDefault("web/build/s3", "editor/**/*.mjs", "gzip", "", "text/javascript")
                     }
                     s3uploadDefault("web/war", "**/*.html", "")
                     s3uploadDefault("web/war", "**/deployggb.js", "")
-                    s3uploadDefault("web/war", "*.zip", "")
                     s3uploadDefault("web/war", "geogebra-live.js", "")
                     s3uploadDefault("web/war", "platform.js", "")
                     s3uploadDefault("web/war", "css/**", "")

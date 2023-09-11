@@ -353,9 +353,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected void logInited() {
 		// don't remove, it's important we pick up when this class is created by
 		// mistake
-		Log.error("******************************************************************************");
-		Log.error("******************* 3D View being initialized ********************************");
-		Log.error("******************************************************************************");
+		Log.warn("!!! 3D View being initialized !!!");
 	}
 
 	final private static void changeCoords(CoordMatrix mat, Coords vInOut) {
@@ -591,11 +589,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            drawable to add
 	 */
 	public void addToDrawable3DLists(Drawable3D d) {
-		/*
-		 * if (d.getGeoElement().getLabel().equals("a")){
-		 * Application.debug("d="+d); }
-		 */
-
 		drawable3DListToBeAdded.add(d);
 	}
 
@@ -2575,7 +2568,6 @@ public abstract class EuclidianView3D extends EuclidianView
 				break;
 			}
 		}
-		// Application.debug("getCursor3DType()="+getCursor3DType());
 
 	}
 
@@ -2622,7 +2614,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private void initPointDecorations() {
-		// Application.debug("hop");
 		pointDecorations = new DrawPointDecorations(this);
 	}
 
@@ -2968,8 +2959,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Set cursor to default.
 	 */
 	public void setDefaultCursor() {
-		// App.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
-
 		if (getShiftDown()) {
 			return;
 		}
@@ -5199,7 +5188,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * enlarge clipping for AR
      */
     public void enlargeClippingWhenAREnabled() {
-        if (isXREnabled()) {
+        if (isXREnabled() || mIsUnity) {
             if (updateObjectsBounds(true, true, true)) {
                 boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
                 boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);

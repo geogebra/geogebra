@@ -180,11 +180,6 @@ public class DialogManagerMinimal extends DialogManager {
 
 	}
 
-	public void showLogOutDialog() {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,

@@ -2,7 +2,9 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.TreeMap;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawAxis;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -23,6 +25,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DrawAxis3D extends DrawLine3D {
 
+	private final GGraphics2D labelMeasuringGraphics;
 	private TreeMap<String, DrawAxisLabel3D> labels;
 	private float numbersXOffset;
 	private float numbersYOffset;
@@ -47,6 +50,8 @@ public class DrawAxis3D extends DrawLine3D {
 		super.setDrawMinMax(-2, 2);
 
 		labels = new TreeMap<>();
+		labelMeasuringGraphics = AwtFactory.getPrototype()
+				.newBufferedImage(1, 1, 1).createGraphics();
 	}
 
 	/**
@@ -54,10 +59,6 @@ public class DrawAxis3D extends DrawLine3D {
 	 */
 	@Override
 	public void drawLabel(Renderer renderer) {
-
-		// Application.debug(getGeoElement()+":
-		// "+getGeoElement().isLabelVisible());
-
 		if (!getGeoElement().isEuclidianVisible()) {
 			return;
 		}
@@ -90,8 +91,6 @@ public class DrawAxis3D extends DrawLine3D {
 		int axisIndex = axis.getType();
 
 		double distance = getView3D().getAxisNumberingDistance(axisIndex);
-
-		// Application.debug("drawMinMax="+getDrawMin()+","+getDrawMax());
 		double[] minmax = getDrawMinMax();
 
 		int iMin = (int) (minmax[0] / distance);
@@ -102,7 +101,6 @@ public class DrawAxis3D extends DrawLine3D {
 			iMax--;
 		}
 		int nb = iMax - iMin + 1;
-		// Application.debug("iMinMax="+iMin+","+iMax);
 
 		if (nb < 1) {
 			Log.debug("nb=" + nb);
@@ -114,7 +112,6 @@ public class DrawAxis3D extends DrawLine3D {
 		for (DrawLabel3D currentLabel : labels.values()) {
 			currentLabel.setIsVisible(false);
 		}
-
 		if (getView3D().getShowAxisNumbers(axisIndex)) {
 
 			String unitLabel = getView3D().getAxisUnitLabel(axisIndex);
@@ -141,7 +138,7 @@ public class DrawAxis3D extends DrawLine3D {
 					tickLabel.update(strNum, getView3D().getFontAxes(),
 							getGeoElement().getObjectColor(),
 							origin.copyVector(), numbersXOffset,
-							numbersYOffset, numbersZOffset);
+							numbersYOffset, numbersZOffset, labelMeasuringGraphics);
 					tickLabel.updatePosition(getView3D().getRenderer());
 					// TODO optimize this
 				} else {
@@ -151,7 +148,7 @@ public class DrawAxis3D extends DrawLine3D {
 					tickLabel.update(strNum, getView3D().getFontAxes(),
 							getGeoElement().getObjectColor(),
 							origin.copyVector(), numbersXOffset,
-							numbersYOffset, numbersZOffset);
+							numbersYOffset, numbersZOffset, labelMeasuringGraphics);
 					tickLabel.updatePosition(getView3D().getRenderer());
 					labels.put(strNum, tickLabel);
 				}
@@ -168,7 +165,7 @@ public class DrawAxis3D extends DrawLine3D {
 			label.setAnchor(true);
 
 			if (getView3D().isXRDrawing()) {
-				updateDrawPositionLabel();
+				updateDrawPositionLabel(labelMeasuringGraphics);
 			} else {
 				CaptionText caption = new AxisCaptionText(getView3D().getSettings());
 				caption.update(text, getView3D().getAxisLabelFont(axisIndex),
@@ -179,7 +176,7 @@ public class DrawAxis3D extends DrawLine3D {
 				((GeoAxisND) getGeoElement()).getPointInD(3, minmax[1]),
 				getGeoElement().labelOffsetX, // -4,
 				getGeoElement().labelOffsetY, // -6
-				0);
+				0, labelMeasuringGraphics);
 			}
 			label.updatePosition(getView3D().getRenderer());
 		}
@@ -189,7 +186,7 @@ public class DrawAxis3D extends DrawLine3D {
 	/**
 	 * update position for end of axis label
 	 */
-	private void updateDrawPositionLabel() {
+	private void updateDrawPositionLabel(GGraphics2D measuringGraphics) {
 		GeoAxisND axis = (GeoAxisND) getGeoElement();
 		int axisIndex = axis.getType();
 
@@ -202,7 +199,7 @@ public class DrawAxis3D extends DrawLine3D {
 				((GeoAxisND) getGeoElement()).getPointInD(3, getDrawMinMax()[1]),
 				-numbersXOffset,
 				-numbersYOffset,
-				-numbersZOffset);
+				-numbersZOffset, measuringGraphics);
 	}
 
 	@Override

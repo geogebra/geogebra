@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasVolume;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
@@ -41,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoQuadric3DLimited extends GeoQuadricND
-		implements GeoNumberValue, HasVolume, HasHeight, RotateableND,
+		implements GeoNumberValue, HasVolume, HasHeight, RotatableND,
 		Translateable, MirrorableAtPlane, Transformable, Dilateable,
 		GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart {
 
@@ -624,7 +624,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * Compute volume from radius, halfAxes and parameters
 	 */
 	public void calcVolume() {
-		// Application.debug("ici");
 		if (bottom == null) {
 			volume = Double.NaN;
 			return;
@@ -768,23 +767,12 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S,
+	public void rotate(NumberValue r, Coords S,
 			GeoDirectionND orientation) {
 
 		((GeoConic3D) bottom).rotate(r, S, orientation);
 		top.rotate(r, S, orientation);
 		side.rotate(r, S, orientation);
-
-		// get infos from side
-		origin = side.getMidpoint3D();
-		direction = side.getEigenvec3D(2);
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoLineND line) {
-		((GeoConic3D) bottom).rotate(r, line);
-		top.rotate(r, line);
-		side.rotate(r, line);
 
 		// get infos from side
 		origin = side.getMidpoint3D();

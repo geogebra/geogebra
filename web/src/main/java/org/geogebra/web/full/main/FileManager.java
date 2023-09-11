@@ -10,12 +10,11 @@ import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.UserPublic;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.gwtutil.FileSystemFileHandle;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.dom.DomGlobal;
@@ -28,6 +27,7 @@ public abstract class FileManager extends MaterialsManager {
 	/** application */
 	protected AppW app;
 	private Provider provider = Provider.TUBE;
+	private FileSystemFileHandle fileHandle;
 
 	/**
 	 * @param app
@@ -140,7 +140,7 @@ public abstract class FileManager extends MaterialsManager {
 
 	@Override
 	protected final void showTooltip(Material mat) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization()
+		app.getToolTipManager().showBottomMessage(app.getLocalization()
 				.getPlain("SeveralVersionsOfA", mat.getTitle()), app);
 
 	}
@@ -198,24 +198,22 @@ public abstract class FileManager extends MaterialsManager {
 
 	@Override
 	public final boolean save(App app1) {
-		AppW appw = (AppW) app1;
-		if (this.provider == Provider.LOCAL) {
-			((DialogManagerW) appw.getDialogManager()).showSaveDialog();
+		if (this.saveCurrentLocalIfPossible(app)) {
+			return true;
 		}
-		// not logged in and can't log in
-		else if (!appw.getLoginOperation().isLoggedIn()
-				&& (!appw.getNetworkOperation().isOnline()
-				|| !appw.getLoginOperation().mayLogIn())
-				|| !appw.getNetworkOperation().isOnline()) {
-			saveLoggedOut(appw);
-			// not logged in and possible to log in
+		AppW appw = (AppW) app1;
+
+		if (!isOnlineSavingPreferred()) {
+			// not logged in and can't log in
+			app.getSaveController().showLocalSaveDialog();
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
-			appw.getGuiManager().listenToLogin();
+			// not logged in and possible to log in
+			appw.getGuiManager().listenToLogin(appw.getDialogManager()::showSaveDialog);
 			((AppWFull) app).getActivity().markSaveOpen();
 			appw.getLoginOperation().showLoginDialog();
-			// logged in
 		} else {
-			((DialogManagerW) appw.getDialogManager()).showSaveDialog();
+			// logged in
+			appw.getDialogManager().showSaveDialog();
 		}
 		return true;
 	}
@@ -253,13 +251,49 @@ public abstract class FileManager extends MaterialsManager {
 	 */
 	protected void showOfflineErrorTooltip(AppW appw) {
 		if (!appw.getNetworkOperation().isOnline()) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+			app.getToolTipManager().showBottomMessage(appw
 					.getLocalization()
 					.getMenu("phone_loading_materials_offline"), appw);
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+			app.getToolTipManager().showBottomMessage(appw
 					.getLocalization()
 					.getMenu("SaveAccountFailed"), appw);
 		}
+	}
+
+	private void setFileHandle(FileSystemFileHandle handle) {
+		this.fileHandle = handle;
+		this.provider = Provider.LOCAL;
+		handle.getFile().then(file -> {
+			app.getKernel().getConstruction()
+					.setTitle(StringUtil.removeFileExtension(file.name));
+			return null;
+		});
+	}
+
+	/**
+	 * Save file using a file handle
+	 * @param handle target handle
+	 */
+	public void saveAs(FileSystemFileHandle handle) {
+		setFileHandle(handle);
+		handle.createWritable().then(stream -> {
+			app.getGgbApi().getZippedGgbAsync(true, blob -> {
+				stream.write(blob);
+				stream.close();
+				String msg = app.getLocalization().getMenu("SavedSuccessfully");
+				app.getToolTipManager().showBottomMessage(msg, app);
+			});
+			return null;
+		});
+	}
+
+	@Override
+	public boolean saveCurrentLocalIfPossible(App app) {
+		if (fileHandle != null) {
+			saveAs(fileHandle);
+			return true;
+		}
+		return false;
 	}
 }

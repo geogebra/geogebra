@@ -17,12 +17,12 @@ public class GeoGebraToAsymptoteD extends GeoGebraToAsymptote {
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality) {
 
-		return new MyGraphicsAs(ef, inequality);
+		return new ExportGraphicsAs(ef, inequality);
 	}
 
-	class MyGraphicsAs extends MyGraphicsD {
+	class ExportGraphicsAs extends ExportGraphicsD {
 
-		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq) {
+		public ExportGraphicsAs(FunctionalNVar geo, Inequality ineq) {
 			super(geo, ineq);
 		}
 

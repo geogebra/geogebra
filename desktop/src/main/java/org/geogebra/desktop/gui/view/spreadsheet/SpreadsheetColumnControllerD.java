@@ -392,8 +392,6 @@ public class SpreadsheetColumnControllerD
 			break;
 
 		case KeyEvent.VK_C: // control + c
-			// Application.debug(minSelectionColumn);
-			// Application.debug(maxSelectionColumn);
 			if (metaDown && table.minSelectionColumn != -1
 					&& table.maxSelectionColumn != -1) {
 				table.copyPasteCut.copy(table.minSelectionColumn, 0,

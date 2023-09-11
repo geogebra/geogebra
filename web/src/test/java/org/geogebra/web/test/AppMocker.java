@@ -1,6 +1,7 @@
 package org.geogebra.web.test;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.gui.applet.AppletFactory;
@@ -13,6 +14,7 @@ import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -20,12 +22,11 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.impl.PopupImpl;
 
 import com.google.gwtmockito.GwtMockito;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 public class AppMocker {
 
-	private static class MyLog extends Log {
+	private static class TestLog extends Log {
 
 		@Override
 		public void print(Level level, Object logEntry) {
@@ -35,6 +36,7 @@ public class AppMocker {
 				System.out.println(logEntry);
 			}
 		}
+
 	}
 
 	public static AppWFull mockGraphing() {
@@ -61,6 +63,10 @@ public class AppMocker {
 		return mockApplet(new AppletParameters(appName));
 	}
 
+	public static AppW mockScientific() {
+		return mockApp("scientific");
+	}
+
 	/**
 	 * @param ae applet parameters
 	 * @return mock applet
@@ -84,11 +90,11 @@ public class AppMocker {
 	}
 
 	private static void setTestLogger() {
-		Log.setLogger(new MyLog());
+		Log.setLogger(new TestLog());
 	}
 
 	private static void setAppDefaults(App app) {
-		app.setUndoRedoEnabled(true);
+		app.setUndoRedoMode(UndoRedoMode.GUI);
 		app.setUndoActive(true);
 		app.getKernel().getConstruction().initUndoInfo();
 	}
@@ -117,7 +123,7 @@ public class AppMocker {
 					}
 				});
 		Browser.mockWebGL();
-		FactoryProvider.setInstance(new FactoryProviderGWT());
+		FactoryProviderGWT.ensureLoaded();
 		setTestLogger();
 	}
 

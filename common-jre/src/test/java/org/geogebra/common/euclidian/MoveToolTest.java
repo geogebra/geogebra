@@ -16,6 +16,7 @@ import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.EventAcumulator;
@@ -31,6 +32,14 @@ public class MoveToolTest extends BaseControllerTest {
 		dragStart(50, 50);
 		dragEnd(100, 150);
 		checkContent("A = (1, -2)", "f = 1.41421");
+	}
+
+	@Test
+	public void moveShouldChangeVector() {
+		add("v = Vector((1,-1))");
+		dragStart(50, 50);
+		dragEnd(100, 150);
+		checkContent("v = (2, -3)");
 	}
 
 	@Test
@@ -118,8 +127,8 @@ public class MoveToolTest extends BaseControllerTest {
 
 	@Test
 	public void moveImage() {
-		add("img=ToolImage(42)");
-		GeoElement image = lookup("img");
+		GeoImage image = createImage();
+		image.setLabel("img");
 		((AbsoluteScreenLocateable) image).setAbsoluteScreenLocActive(true);
 		add("SetFixed(img,true)");
 		assertCannotDrag(image);

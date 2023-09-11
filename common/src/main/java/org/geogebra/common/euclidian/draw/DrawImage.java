@@ -457,4 +457,8 @@ public class DrawImage extends Drawable {
 		return super.getBoundsClipped();
 	}
 
+	protected GAffineTransform getTransform() {
+		return at;
+	}
+
 }

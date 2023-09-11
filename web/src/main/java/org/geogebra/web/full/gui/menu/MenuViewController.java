@@ -141,15 +141,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	 */
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
-		String versionStr = GeoGebraConstants.getVersionString6();
-		defaultDrawerMenuFactory =  new DefaultDrawerMenuFactory(
-				app.getPlatform(),
-				version, app.getLocalization().getPlainDefault("VersionA",
-				"Version %0", versionStr),
-				hasLoginButton(app) ? app.getLoginOperation() : null,
-				shouldCreateExamEntry(app),
-				app.enableFileFeatures(),
-				true);
+		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
 		if (!app.isExamStarted()) {
 			setDefaultMenu();
 		} else {

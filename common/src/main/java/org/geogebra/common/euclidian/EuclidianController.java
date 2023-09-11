@@ -127,8 +127,8 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.PolygonFactory;
+import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
@@ -3032,7 +3032,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return checkBoxOrButtonJustHitted || isTextfieldHasFocus();
 	}
 
-	protected abstract void initToolTipManager();
+	protected void initToolTipManager() {
+		// desktop is the only platform with EV-specific tooltips
+	}
 
 	protected void initShowMouseCoords() {
 		view.setShowMouseCoords((mode == EuclidianConstants.MODE_POINT)
@@ -5600,7 +5602,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		tempNum.set(angle);
 		if (rotGeoElement.isPointerChangeable()) {
-			((PointRotateable) rotGeoElement).rotate(tempNum, rotationCenter);
+			((Rotatable) rotGeoElement).rotate(tempNum, rotationCenter);
 			rotGeoElement.updateCascade();
 		} else {
 			ArrayList<GeoElementND> pts = rotGeoElement.getFreeInputPoints(view);
@@ -6704,8 +6706,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoPointND movablePointForVector = MoveGeos.getMovablePointForVector(vec);
 			if (movablePointForVector != null) {
 				moveMode = MOVE_POINT_WITH_OFFSET;
-				transformCoordsOffset[0] = xRW - ((GeoPointND) vec).getInhomX();
-				transformCoordsOffset[1] = yRW - ((GeoPointND) vec).getInhomY();
+				transformCoordsOffset[0] = xRW - movablePointForVector.getInhomX();
+				transformCoordsOffset[1] = yRW - movablePointForVector.getInhomY();
 				movedGeoPoint = movablePointForVector;
 				return;
 			}
@@ -12204,7 +12206,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean fixed = false;
 
 		for (GeoElement geo : geos) {
-			if (!(geo instanceof PointRotateable)
+			if (!(geo instanceof Rotatable)
 				|| (geo instanceof GeoMindMapNode)) {
 				hasRotationHandler = false;
 			}

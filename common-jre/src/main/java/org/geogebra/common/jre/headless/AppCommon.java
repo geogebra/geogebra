@@ -1,5 +1,6 @@
 package org.geogebra.common.jre.headless;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -48,6 +49,7 @@ import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.main.undo.DefaultUndoManager;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GgbAPI;
@@ -75,6 +77,7 @@ public class AppCommon extends App {
 	private CASFactory casFactory = new CASFactoryDummy();
 	private boolean appletFlag = false;
 	private ImageManager imageManager;
+	private final HashMap<String, MyImageCommon> externalImages = new HashMap<>();
 
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
 	    this(loc, awtFactory, new AppConfigDefault());
@@ -336,14 +339,14 @@ public class AppCommon extends App {
 
 			@Override
 			public MyImage getFillImage() {
-				return new MyImageCommon();
+				return image;
 			}
 
 			@Override
 			public void setImageFileName(String fileName) {
 				this.imageFileName = fileName;
 				if (fileName != null) {
-					setImageOnly(new MyImageCommon());
+					setImageOnly(getExternalImageAdapter(fileName, 0, 0));
 				}
 			}
 
@@ -631,7 +634,10 @@ public class AppCommon extends App {
 
     @Override
     public MyImage getExternalImageAdapter(String filename, int width, int height) {
-        return null;
+		if (StringUtil.empty(filename)) {
+			return null;
+		}
+        return externalImages.computeIfAbsent(filename, foo -> new MyImageCommon(width, height));
     }
 
 	@Override
@@ -673,6 +679,14 @@ public class AppCommon extends App {
 	 */
 	public void setGraphingConfig() {
 		setConfig(new AppConfigGraphing());
+		reInit();
+	}
+
+	/**
+	 * Sets Scientific config and reinitializes the app.
+	 */
+	public void setScientificConfig() {
+		setConfig(new AppConfigScientific());
 		reInit();
 	}
 

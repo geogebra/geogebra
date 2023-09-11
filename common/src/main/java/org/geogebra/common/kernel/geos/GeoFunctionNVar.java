@@ -64,7 +64,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoFunctionNVar extends GeoElement
 		implements FunctionalNVar, CasEvaluableFunction, Region, Transformable,
-		Translateable, MatrixTransformable, Dilateable, PointRotateable,
+		Translateable, MatrixTransformable, Dilateable,
 		Mirrorable, SurfaceEvaluable {
 
 	private static final double STRICT_INEQ_OFFSET = 4 * Kernel.MIN_PRECISION;
@@ -204,7 +204,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoFunctionNVar copy() {
 		return new GeoFunctionNVar(this);
 	}
 
@@ -339,7 +339,6 @@ public class GeoFunctionNVar extends GeoElement
 	 * @return value at vals
 	 */
 	public Coords evaluatePoint(double[] vals) {
-		// Application.printStacktrace("");
 		if (fun == null) {
 			return null;
 		}
@@ -1027,7 +1026,6 @@ public class GeoFunctionNVar extends GeoElement
 				double ry = q * ymin + (1 - q) * ymax;
 				if (isInRegion(rx, ry)) {
 					P.setCoords(new Coords(rx, ry, 0, 1), false);
-					// Application.debug("Desperately found"+rx+","+ry);
 					found = true;
 				}
 			}
@@ -1463,5 +1461,14 @@ public class GeoFunctionNVar extends GeoElement
 		if (fun != null) {
 			fun.setForceInequality(forceInequality);
 		}
+	}
+
+	@Override
+	public GeoElement deepCopyGeo() {
+		GeoFunctionNVar other = copy();
+		if (other.fun != null && fun != null) {
+			other.fun.setExpression(fun.getExpression().deepCopyGeo());
+		}
+		return other;
 	}
 }

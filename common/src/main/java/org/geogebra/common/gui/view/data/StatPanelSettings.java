@@ -115,6 +115,10 @@ public class StatPanelSettings extends PlotSettings {
 		this.hasOverlayNormal = hasOverlayNormal;
 	}
 
+	public boolean isOverlayEnabled() {
+		return getFrequencyType() == TYPE_NORMALIZED && !isCumulative;
+	}
+
 	public boolean isHasOverlayPolygon() {
 		return hasOverlayPolygon;
 	}

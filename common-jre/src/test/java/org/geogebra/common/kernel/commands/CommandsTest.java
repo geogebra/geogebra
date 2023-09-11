@@ -771,6 +771,10 @@ public class CommandsTest {
 	@Test
 	public void cmdApplyMatrix() {
 		t("ApplyMatrix[ {{1,2},{3,4}}, Polygon[(1,1),(2,1/2),4] ]", "2.5");
+		t("ApplyMatrix[ {{2,0,0},{0,3,0},{0,0,4}}, Sphere((0,0,1),1) ]",
+				"0.25x² + 0.1111111111111111y² + 0.0625z² - 0.5z = 0");
+		tRound("Coefficients[ApplyMatrix[ {{0,1},{-1,0}}, 2x+y+0z=1 ]] * sqrt(5)",
+				"{-1, 2, 0, 1}");
 	}
 
 	@Test
@@ -1959,6 +1963,9 @@ public class CommandsTest {
 		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
 				deg("90"), deg("90"), deg("90"), deg("270"),
 				deg("90"), deg("90"));
+		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(0,1),(0,0))]",
+				"?", deg("90"), deg("90"), deg("90"),
+				"?");
 	}
 
 	@Test
@@ -4024,6 +4031,8 @@ public class CommandsTest {
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision13 instead
 		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]", StringTemplate.maxPrecision13,
 				"y = 22.40252712698x - 66.20758138095");
+		t("Tangent[ (0, 1), Curve(cos(z), sin(z), z, 0, π)]",
+				"y = 1");
 	}
 
 	@Test
@@ -4453,5 +4462,24 @@ public class CommandsTest {
 	public void productDegree() {
 		t("f(x)=x^3-Product(Sequence(x+k,k,1,-1,-1))", "x^(3) - (((x + 1) * (x)) * (x - 1))");
 		t("Degree(f)", "1");
+	}
+
+	@Test
+	public void cmdDirac() {
+		t("Dirac(-1)", "0");
+		t("Dirac(-1, 1)", "0");
+		t("Dirac(0)", "Infinity");
+		t("Dirac(0, 1)", "Infinity");
+		t("Dirac(12)", "0");
+		t("Dirac(123, 3)", "0");
+	}
+
+	@Test
+	public void cmdHeaviside() {
+		t("Heaviside(-10000)", "0");
+		t("Heaviside(-1)", "0");
+		t("Heaviside(0)", "1");
+		t("Heaviside(1)", "1");
+		t("Heaviside(10000)", "1");
 	}
 }

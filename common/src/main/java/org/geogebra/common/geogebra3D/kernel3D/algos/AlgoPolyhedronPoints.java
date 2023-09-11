@@ -306,8 +306,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	protected void augmentOutputSize(int length) {
 		int n = getSideLengthFromLabelsLength(length);
 
-		// Application.debug("n="+n+",length="+length);
-
 		if (n > outputSegmentsSide.size()) {
 			if (getBottom()
 					.getParentAlgorithm() instanceof AlgoPolygonRegularND) {

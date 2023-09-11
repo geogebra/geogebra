@@ -6,15 +6,15 @@ import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.LocalizationI;
 import org.geogebra.keyboard.web.HasKeyboard;
-import org.gwtproject.dom.client.Element;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 
 import elemental2.dom.DomGlobal;
 
 public class EditorKeyboardContext implements HasKeyboard {
 
-	private final Element element;
+	private final AttributeProvider element;
 
-	public EditorKeyboardContext(Element el) {
+	public EditorKeyboardContext(AttributeProvider el) {
 		this.element = el;
 	}
 
@@ -34,6 +34,11 @@ public class EditorKeyboardContext implements HasKeyboard {
 
 			@Override
 			public String getLocaleStr() {
+				return "en_US";
+			}
+
+			@Override
+			public String getLanguageTag() {
 				return "en-US";
 			}
 

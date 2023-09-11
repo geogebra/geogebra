@@ -289,14 +289,9 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 			GeoPointND secondPoint = getView3D().getCursor3D();
 			setPreviewableCoords(firstPoint, secondPoint);
 			getGeoElement().setEuclidianVisible(true);
-			// setWaitForUpdate();
 		} else {
 			getGeoElement().setEuclidianVisible(false);
-			// setWaitForUpdate();
 		}
-
-		// Application.debug("selectedPoints : "+selectedPoints+" --
-		// isEuclidianVisible : "+getGeoElement().isEuclidianVisible());
 
 		setWaitForUpdate();
 	}

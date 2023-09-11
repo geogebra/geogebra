@@ -29,7 +29,6 @@ public class WindowsUnicodeKeyboard extends Keyboard {
 		} catch (IllegalArgumentException e) {
 
 			int unicodeDigits = character;
-			// Application.debug(unicodeDigits+"");
 			windowsRobot.keyPress(KeyEvent.VK_ALT);
 
 			try { // make sure Alt is released!

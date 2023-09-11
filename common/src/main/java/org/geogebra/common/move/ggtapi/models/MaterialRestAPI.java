@@ -405,6 +405,7 @@ public class MaterialRestAPI implements BackendAPI {
 							.onLoaded(parseMaterials(responseStr),
 									parseMaterialCount(responseStr));
 				} catch (Exception e) {
+					Log.debug(e);
 					userMaterialsCB.onError(e);
 				}
 			}

@@ -107,9 +107,6 @@ public class AlgoJoin extends AlgoElement {
 
 			if (size2 > 0) {
 				for (int j = 0; j < size2; j++) {
-					// GeoElement geo2 = list.get(j);
-					// Application.debug(geo.getLabel() + " " +
-					// geo2.getClass());
 					outputList.add(list.get(j).copyInternal(cons));
 				}
 			}

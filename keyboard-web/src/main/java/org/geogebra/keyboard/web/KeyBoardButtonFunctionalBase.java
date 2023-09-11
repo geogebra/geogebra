@@ -39,11 +39,11 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param altText
 	 *            alternate text for icon
 	 */
-	public KeyBoardButtonFunctionalBase(ImageResource image,
+	public KeyBoardButtonFunctionalBase(SVGResource image,
 			ButtonHandler handler,
 			Action action, LocalizationI loc, String altText) {
 		super(handler);
-		this.image = new NoDragImage(image, image.getWidth());
+		this.image = new NoDragImage(image, 24);
 
 		String altTextTranslated = loc.getAltText(altText);
 

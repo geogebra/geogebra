@@ -638,13 +638,6 @@ public abstract class GeoVec3D extends GeoElement
 		return false;
 	}
 
-	@Override
-	public void setZero() {
-		x = 0;
-		y = 0;
-		z = 0;
-	}
-
 	/**
 	 * @param phi
 	 *            angle of rotation

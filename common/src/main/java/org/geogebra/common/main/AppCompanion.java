@@ -66,7 +66,10 @@ public class AppCompanion {
 	 *            whether we need this for preference XML
 	 */
 	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
-		app.getEuclidianView1().getXML(sb, asPreference);
+		EuclidianView mainView = app.getEuclidianView1();
+		if (mainView != null) { // in scientific calculator
+			mainView.getXML(sb, asPreference);
+		}
 		if (app.hasEuclidianView2EitherShowingOrNot(1)) {
 			app.getEuclidianView2(1).getXML(sb, asPreference);
 		}

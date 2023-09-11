@@ -674,8 +674,6 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 					currentPane.replaceComponent(opposite, newSplitPane);
 				}
 			}
-
-			// Application.debug("\n"+((DockComponent) opposite).toString(""));
 			// save divider locations to prevent not visible views
 			if (opposite != null) {
 				((DockComponent) opposite).saveDividerLocation();
@@ -711,10 +709,6 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 				newSplitPane.setDividerLocation(newSplitPaneSize - size);
 			}
 
-			// AbstractApplication.debug("\nnewSplitPaneSize =
-			// "+newSplitPaneSize+"\nsize = "+size);
-			// Application.debug("\n======\n"+((DockComponent)
-			// opposite).toString(""));
 			// re dispatch divider locations to prevent not visible views
 			if (opposite != null) {
 				((DockComponent) opposite).updateDividerLocation(

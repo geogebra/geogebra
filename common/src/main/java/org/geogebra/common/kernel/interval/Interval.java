@@ -98,7 +98,7 @@ public class Interval {
 	}
 
 	/**
-	 * Makes interval undefined, which is represented by [∞, -∞]
+	 * Makes interval undefined, which is represented by [inf, -inf]
 	 */
 	public void setUndefined() {
 		set(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
@@ -359,7 +359,7 @@ public class Interval {
 
 	/**
 	 * Checks if the interval is
-	 * either [-∞, -∞] or [∞, ∞].
+	 * either [-inf, -inf] or [inf, inf].
 	 *
 	 * @return true if infinite.
 	 */
@@ -663,7 +663,7 @@ public class Interval {
 	/**
 	 *
 	 * @return if interval is inverted,
-	 * ie equals [-∞, low] union [high, ∞].
+	 * ie equals [-inf, low] union [high, inf].
 	 */
 	public boolean isInverted() {
 		return inverted;
@@ -698,7 +698,7 @@ public class Interval {
 
 	/**
 	 * Sets interval [low, high] inverted. This really means:
-	 * [-∞, low] union [high, ∞]
+	 * [-inf, low] union [high, inf]
 	 * @param inverted the flag to set.
 	 */
 	public void setInverted(boolean inverted) {
@@ -707,7 +707,7 @@ public class Interval {
 
 	/**
 	 *
-	 * @return [-∞, a] for inverted intervals, undefined() otherwise
+	 * @return [-inf, a] for inverted intervals, undefined() otherwise
 	 */
 	public Interval extractLow() {
 		return isInverted() ? new Interval(Double.NEGATIVE_INFINITY, low) : undefined();
@@ -715,7 +715,7 @@ public class Interval {
 
 	/**
 	 *
-	 * @return [high, ∞] for inverted intervals, undefined otherwise
+	 * @return [high, inf] for inverted intervals, undefined otherwise
 	 */
 	public Interval extractHigh() {
 		return isInverted() ? new Interval(high, Double.POSITIVE_INFINITY) : undefined();

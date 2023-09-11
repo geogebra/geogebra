@@ -503,7 +503,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		titlePanel.add(createFocusPanel(), loc.borderWest());
 		titlePanel.add(buttonPanel, loc.borderEast());
 		titlePanel.addMouseListener(this); // dragging to reconfigure
-		titlePanel.addMouseListener(new MyButtonHider());
+		titlePanel.addMouseListener(new ButtonHider());
 
 		// create toolbar panel
 		if (hasToolbar()) {
@@ -1600,7 +1600,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		// only handle mousePressed
 	}
 
-	public class MyButtonHider extends MouseAdapter {
+	public class ButtonHider extends MouseAdapter {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {

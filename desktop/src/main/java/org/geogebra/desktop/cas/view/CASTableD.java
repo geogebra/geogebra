@@ -120,7 +120,7 @@ public class CASTableD extends JTable implements CASTable {
 		}
 
 		// listen to mouse pressed on table cells, make sure to start editing
-		addMouseListener(new MyMouseListener());
+		addMouseListener(new CASTableMouseListener());
 
 		// add listener for mouse roll over
 		RollOverListener rollOverListener = new RollOverListener();
@@ -191,7 +191,7 @@ public class CASTableD extends JTable implements CASTable {
 	 * listen to mouse pressed on table cells, make sure to start editing
 	 * 
 	 */
-	protected class MyMouseListener extends MouseAdapter {
+	protected class CASTableMouseListener extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -435,7 +435,7 @@ public class CASTableD extends JTable implements CASTable {
 			}
 		}
 		// update keys (rows) in arbitrary constant table
-		updateAfterInsertArbConstTable(selectedRow);
+		view.updateAfterInsertArbConstTable(selectedRow);
 		tableModel.insertRow(selectedRow, new Object[] { toInsert });
 		// make sure the row is shown when at the bottom of the viewport
 		getTable().scrollRectToVisible(
@@ -444,33 +444,6 @@ public class CASTableD extends JTable implements CASTable {
 		// update height of new row
 		if (startEditing) {
 			startEditingRow(selectedRow);
-		}
-	}
-
-	/**
-	 * Updates arbitraryConstantTable in construction.
-	 * 
-	 * @param selectedRow
-	 *            row index (starting from 0) where cell insertion is done
-	 */
-	private void updateAfterInsertArbConstTable(int selectedRow) {
-		if (kernel.getConstruction().getArbitraryConsTable().size() > 0) {
-			// find last row number
-			Integer max = Collections.max(
-					kernel.getConstruction().getArbitraryConsTable().keySet());
-			for (int key = max; key >= selectedRow; key--) {
-				MyArbitraryConstant myArbConst = kernel.getConstruction()
-						.getArbitraryConsTable().get(key);
-				if (myArbConst != null
-						&& !kernel.getConstruction().isCasCellUpdate()
-						&& !kernel.getConstruction().isFileLoading()
-						&& kernel.getConstruction().isNotXmlLoading()) {
-					kernel.getConstruction().getArbitraryConsTable()
-							.remove(key);
-					kernel.getConstruction().getArbitraryConsTable()
-							.put(key + 1, myArbConst);
-				}
-			}
 		}
 	}
 

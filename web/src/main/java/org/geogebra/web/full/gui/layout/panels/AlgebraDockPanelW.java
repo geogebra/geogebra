@@ -65,7 +65,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		if (decorator == null) {
 			return algebrap;
 		}
-		return decorator.decorate(algebrap, app);
+		return decorator.decorate(this, algebrap, app);
 	}
 
 	@Override
@@ -86,9 +86,6 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			wrapper = new FlowPanel();
 			aview = av;
 			wrapper.add(aview);
-			if (decorator != null) {
-				decorator.addLogo(wrapper, app);
-			}
 			algebrap.add(wrapper);
 			algebrap.addStyleName("algebraPanel");
 			algebrap.addDomHandler(event -> algebraPanelClicked(av, event), ClickEvent.getType());
@@ -223,7 +220,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		LatexTreeItemController itemController = ((RadioTreeItem) ml)
 				.getLatexController();
 		itemController.initAndShowKeyboard(false);
-		return itemController.getRetexListener();
+		return ml;
 	}
 
 	@Override
@@ -238,13 +235,5 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			return 120;
 		}
 		return Math.max(inputTreeItem.getOffsetHeight(), 120);
-	}
-
-	@Override
-	public void setLabels() {
-		super.setLabels();
-		if (decorator != null) {
-			decorator.setLabels();
-		}
 	}
 }

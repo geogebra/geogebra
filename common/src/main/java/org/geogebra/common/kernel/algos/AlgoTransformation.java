@@ -147,7 +147,6 @@ public abstract class AlgoTransformation extends AlgoElement {
 	 * @return what orientation should the result have
 	 */
 	public boolean swapOrientation(GeoConicPartND arc) {
-		// Application.debug(positiveOrientation);
 		return arc == null || arc.positiveOrientation();
 	}
 
@@ -171,16 +170,13 @@ public abstract class AlgoTransformation extends AlgoElement {
 			compute();
 			arc.pointChanged(transformedPoint);
 			transformedPoint.updateCoords();
-			// Application.debug("start"+transformedPoint);
 			double d = transformedPoint.getPathParameter().getT();
 			transformedPoint.removePath();
 			setTransformedObject(source.getPointParam(1), transformedPoint);
 			compute();
 			arc.pointChanged(transformedPoint);
 			transformedPoint.updateCoords();
-			// Application.debug("end"+transformedPoint);
 			double e = transformedPoint.getPathParameter().getT();
-			// Application.debug(d+","+e);
 			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2,
 					swapOrientation(source));
 

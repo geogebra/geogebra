@@ -21,7 +21,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
@@ -106,8 +106,10 @@ public class ContextMenuTV {
 			}
 		});
 		addCommand(view::clearValues, "ClearColumn", "clear");
-		wrappedPopup.addVerticalSeparator();
-		addOneVarStats("x");
+		if (app.getConfig().hasOneVarStatistics()) {
+			wrappedPopup.addVerticalSeparator();
+			addOneVarStats("x");
+		}
 	}
 
 	private void buildYColumnMenu() {

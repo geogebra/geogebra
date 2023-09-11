@@ -19,13 +19,13 @@ public final class RegressionSpecification {
 	private final String formula;
 	private final String coeffOrdering;
 
-	private RegressionSpecification(Regression regression, int deg, String formula,
-			String coeffOrdering) {
+	private RegressionSpecification(Regression regression, int polynomialDegree, String formula,
+			String coefficientOrdering) {
 		this.regression = regression;
-		this.degree = deg;
-		this.label = deg > 1 ? getPolynomialLabel(degree) : regression.getLabel();
-		this.formula = deg > 0 ? getFormula(degree) : formula;
-		this.coeffOrdering = coeffOrdering;
+		this.degree = polynomialDegree;
+		this.label = polynomialDegree > 1 ? getPolynomialLabel(degree) : regression.getLabel();
+		this.formula = polynomialDegree > 0 ? getPolynomialFormula(degree) : formula;
+		this.coeffOrdering = coefficientOrdering;
 	}
 
 	private static String getPolynomialLabel(int degree) {
@@ -43,22 +43,24 @@ public final class RegressionSpecification {
 	public static List<RegressionSpecification> getForListSize(int listSize) {
 		if (specs.isEmpty()) {
 			addSpec(Regression.LINEAR, 1, null, "ba");
-			addSpec(Regression.LOG, 0, "a + b\\cdot \\log(x)", "ab");
-			addSpec(Regression.POW, 0, "a \\cdot x^b", "ab");
+			addSpec(Regression.LOG, 0, "y = a + b\\cdot \\log(x)", "ab");
+			addSpec(Regression.POW, 0, "y = a \\cdot x^b", "ab");
 			addSpec(Regression.POLY, 2, null, "cba");
 			addSpec(Regression.POLY, 3, null, "dcba");
 			addSpec(Regression.POLY, 4, null, "edcba");
-			addSpec(Regression.EXP, 0, "a \\cdot e^{b\\ x}", "ab");
-			addSpec(Regression.GROWTH, 0, "a \\cdot b^x", "ab");
-			addSpec(Regression.SIN, 0, "a \\cdot \\sin(b\\ x + c) + d", "dabc");
-			addSpec(Regression.LOGISTIC, 0, "\\frac{a}{1 + b\\cdot e^{-c\\ x}}", "bca");
+			addSpec(Regression.EXP, 0, "y = a \\cdot e^{b\\ x}", "ab");
+			addSpec(Regression.GROWTH, 0, "y = a \\cdot b^x", "ab");
+			addSpec(Regression.SIN, 0, "y = a \\cdot \\sin(b\\ x + c) + d", "dabc");
+			addSpec(Regression.LOGISTIC, 0, "y = \\frac{a}{1 + b\\cdot e^{-c\\ x}}", "bca");
 		}
 		return specs.stream().filter(spec -> spec.coeffOrdering.length() <= listSize)
 				.collect(Collectors.toList());
 	}
 
-	private static void addSpec(Regression linear, int i, String o, String ba) {
-		specs.add(new RegressionSpecification(linear, i, o, ba));
+	private static void addSpec(Regression regression, int polynomialDegree, String formula,
+								String coefficientOrdering) {
+		specs.add(new RegressionSpecification(regression, polynomialDegree, formula,
+				coefficientOrdering));
 	}
 
 	public String getLabel() {
@@ -82,13 +84,14 @@ public final class RegressionSpecification {
 	}
 
 	/**
-	 * @param degree polynomial degree (for polynomial regression)
+	 * @param polynomialDegree polynomial degree (for polynomial regression)
 	 * @return formula
 	 */
-	private static String getFormula(int degree) {
+	private static String getPolynomialFormula(int polynomialDegree) {
 		StringBuilder sb = new StringBuilder();
+		sb.append("y = ");
 		char coeffName = 'a';
-		for (int i = degree; i >= 0; i--, coeffName++) {
+		for (int i = polynomialDegree; i >= 0; i--, coeffName++) {
 			sb.append(coeffName);
 			if (i == 1) {
 				sb.append("\\ x+");

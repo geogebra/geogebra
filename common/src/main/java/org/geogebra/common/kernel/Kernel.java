@@ -1432,7 +1432,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
-		// Log.printStacktrace(x + "");
 		String ret = formatRaw(x, tpl);
 
 		if (app.getLocalization().getZero() != '0') {
@@ -1854,8 +1853,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				sbBuildExplicitConicEquation.append(' ');
 				sbBuildExplicitConicEquation.append(format(dabs, tpl));
 			}
-
-			// Application.debug(sbBuildExplicitConicEquation.toString());
 
 			return sbBuildExplicitConicEquation;
 		}
@@ -3530,13 +3527,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            whether views should be notified
 	 */
 	public void setNotifyViewsActive(boolean flag) {
-		// Application.debug("setNotifyViews: " + flag);
 
 		if (flag != notifyViewsActive) {
 			notifyViewsActive = flag;
 
 			if (flag) {
-				// Application.debug("Activate VIEWS");
 				viewReiniting = true;
 
 				// "attach" views again
@@ -3554,8 +3549,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 				viewReiniting = false;
 			} else {
-				// Application.debug("Deactivate VIEWS");
-
 				// "detach" views
 				notifyClearView();
 			}
@@ -4163,9 +4156,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Redo last action.
 	 */
 	public void redo() {
-		if (undoActive && cons.getUndoManager().redoPossible()) {
+		if (undoActive && cons.redoPossible()) {
 			app.batchUpdateStart();
-			cons.redo();
+			cons.getUndoManager().redo();
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
 			app.getEventDispatcher()
@@ -4242,9 +4235,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				}
 			}
 
-			if (cons.getUndoManager().undoPossible()) {
+			if (cons.undoPossible()) {
 				app.batchUpdateStart();
-				cons.undo();
+				cons.getUndoManager().undo();
 
 				// repaint needed for last undo in second EuclidianView (bugfix)
 				if (!undoPossible()) {

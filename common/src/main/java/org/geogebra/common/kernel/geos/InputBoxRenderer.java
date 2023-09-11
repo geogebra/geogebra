@@ -25,7 +25,7 @@ class InputBoxRenderer {
 	String getText() {
 		if (inputBox.isSymbolicModeWithSpecialEditor()) {
 			String tempUserEvalInput = inputBox.getTempUserEvalInput();
-			formulaConverter.setTemporaryImput(!"".equals(tempUserEvalInput));
+			formulaConverter.setTemporaryInput(!"".equals(tempUserEvalInput));
 			return formulaConverter.convert(inputBox.getTextForEditor());
 		}
 		if (linkedGeo.isGeoText()) {
