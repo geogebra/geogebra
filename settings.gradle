@@ -1,3 +1,10 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://repo.geogebra.net/releases' }
+        gradlePluginPortal()
+    }
+}
+
 include 'common'
 include 'ggbjdk'
 include 'common-jre'

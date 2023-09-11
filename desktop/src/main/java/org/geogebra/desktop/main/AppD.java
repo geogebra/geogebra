@@ -171,6 +171,7 @@ import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.export.PrintPreviewD;
@@ -534,7 +535,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			kernel.getAnimatonManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
 		}
-
 	}
 
 	// **************************************************************************
@@ -3468,65 +3468,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public static boolean isControlDown(boolean isMetaDown,
 			boolean isControlDown) {
 
-		if (fakeRightClick) {
-			return false;
-		}
-
 		// multiple selection
 		return (MAC_OS && isMetaDown) // Mac: meta down for
 				// multiple selection, Ctrl for other OS
 				|| (!MAC_OS && isControlDown);
 	}
 
-	private static boolean fakeRightClick = false;
-
 	public static boolean isMiddleClick(MouseEventND e) {
 		return e.isMiddleClick();
 	}
 
-	/**
-	 * Check if the event is a right clock
-	 * @param e event
-	 * @return boolean
-	 */
-	public static boolean isRightClick(MouseEvent e) {
-
-		// right-click returns isMetaDown on MAC_OS
-		// so we want to return true for isMetaDown
-		// if it occurred first at the same time as
-		// a popup trigger
-		if (MAC_OS && !e.isMetaDown()) {
-			fakeRightClick = false;
-		}
-
-		if (MAC_OS && e.isPopupTrigger() && e.isMetaDown()) {
-			fakeRightClick = true;
-		}
-
-		/*
-		 * debug("MAC_OS = "+MAC_OS); debug("isMetaDown = "+e.isMetaDown());
-		 * debug("isControlDown ="+e.isControlDown()); debug("isShiftDown = "
-		 * +e.isShiftDown()); debug("isAltDown = "+e.isAltDown()); debug(
-		 * "isAltGrDown ="+e.isAltGraphDown()); debug("isPopupTrigger = "
-		 * +e.isPopupTrigger()); debug("fakeRightClick = "+fakeRightClick);
-		 */
-
-		if (fakeRightClick) {
-			return true;
-		}
-
-		boolean ret =
-				// e.isPopupTrigger() ||
-				(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-						|| (!MAC_OS && e.isMetaDown()); // non-Mac: right click
-														// = meta
-		// click
-
-		// debug("ret = " + ret);
-		return ret;
-		// return e.isMetaDown();
-
-	}
 
 	/**
 	 * isRightClickForceMetaDown
@@ -3958,16 +3909,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					SPREADSHEET_INI_COLS);
 		}
 		return tableModel;
-	}
-
-	@Override
-	public boolean isRightClick(AbstractEvent e) {
-		return isRightClick(MouseEventD.getEvent(e));
-	}
-
-	@Override
-	public boolean isControlDown(AbstractEvent e) {
-		return e != null && isControlDown(e.isMetaDown(), e.isControlDown());
 	}
 
 	@Override
@@ -4516,6 +4457,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void closePopups() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean hasMultipleSelectModifier(AbstractEvent e) {
+		if (!(e instanceof MouseEventD)) {
+			return false;
+		}
+		return MouseEventUtil.hasMultipleSelectModifier((MouseEventD) e);
 	}
 
 	@Override

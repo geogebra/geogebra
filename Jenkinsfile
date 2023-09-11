@@ -19,7 +19,8 @@ def hasSourcemap = env.BRANCH_NAME.matches("dev|apps-4963")
 def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
 def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
-def gradleCmd = 'docker run --ipc=host --shm-size=1gb -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD:/work openjdk:11.0.16-jdk ./gradlew'
+// to run in docker, add docker run --ipc=host --shm-size=1gb -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD:/work openjdk:11.0.16-jdk
+def gradleCmd = './gradlew'
 
 def s3uploadDefault = { dir, pattern, encoding, excludes="**/*.mjs", contentType="" ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {

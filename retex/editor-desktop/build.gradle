@@ -3,9 +3,6 @@ plugins {
 	id 'application'
 }
 
-sourceCompatibility = 11
-targetCompatibility = 11
-
 dependencies {
 	api project(':renderer-desktop')
 	api project(':editor-base')

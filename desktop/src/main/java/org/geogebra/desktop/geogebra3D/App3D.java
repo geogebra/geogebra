@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
@@ -39,7 +38,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
@@ -96,15 +94,6 @@ public class App3D extends AppD {
 		if (euclidianController3D != null) {
 			euclidianController3D.exitInput3D();
 		}
-	}
-
-	@Override
-	public boolean isRightClick(AbstractEvent e) {
-		if (e instanceof MouseEventD) {
-			return isRightClick(MouseEventD.getEvent(e));
-		}
-
-		return e.isRightClick();
 	}
 
 	@Override

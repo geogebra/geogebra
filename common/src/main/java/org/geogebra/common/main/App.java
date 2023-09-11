@@ -4143,6 +4143,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 *
+	 * @param e event to examine
+	 * @return if event has the modifier that user can select multiple elements.
+	 */
+	public boolean hasMultipleSelectModifier(AbstractEvent e) {
+		return e.isControlDown();
+	}
+
+	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */
 	public enum InputPosition {
