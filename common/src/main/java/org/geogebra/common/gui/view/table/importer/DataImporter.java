@@ -211,8 +211,8 @@ public final class DataImporter {
 			return false;
 		}
 		Row firstRow = rows.get(0);
-		String[] columnLabels = getColumnLabels(firstRow);
-		tableValuesView.startImport(rows.size(), firstRow.columnCount, columnLabels);
+		String[] columnNames = getColumnNames(firstRow);
+		tableValuesView.startImport(rows.size(), firstRow.columnCount, columnNames);
 		for (Row row : rows) {
 			if (row.isHeader) {
 				continue;
@@ -316,19 +316,15 @@ public final class DataImporter {
 		}
 	}
 
-	private String[] getColumnLabels(Row firstRow) {
-		if (firstRow == null) {
+	private String[] getColumnNames(Row firstRow) {
+		if (firstRow == null || !firstRow.isHeader) {
 			return null;
 		}
-		String[] columnLabels = new String[firstRow.columnCount];
+		String[] columnNames = new String[firstRow.columnCount];
 		for (int columnIndex = 0; columnIndex < firstRow.columnCount; columnIndex++) {
-			String columnLabel = firstRow.isHeader
-					&& firstRow.rawValues[columnIndex] != null
-					? firstRow.rawValues[columnIndex]
-					: (columnIndex == 0 ? "x" : ("y_{" + columnIndex + "}"));
-			columnLabels[columnIndex] = columnLabel;
+			columnNames[columnIndex] = firstRow.rawValues[columnIndex];
 		}
-		return columnLabels;
+		return columnNames;
 	}
 
 	// Delegate notifications

@@ -33,6 +33,9 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	private final List<TableValuesColumn> columns;
 
 	private GeoList[] importColumns;
+	/** The user-visible column names. */
+	private String[] columnNames;
+	/** The internal labels: x_{1}, y_{1}, y_{2}, ... */
 	private String[] columnLabels;
 
 	private final TableSettings settings;
@@ -106,12 +109,17 @@ final class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public String getHeaderAt(int column) {
+		if (column == 0) {
+			// we "override" the user-visible name of the x column,
+			// because "x" cannot be used as a label
+			return settings.getValueListCaption();
+		}
 		return columns.get(column).getHeader();
 	}
 
 	@Override
 	public void setValuesHeader(String valuesHeader) {
-		settings.getValueList().setLabel(valuesHeader);
+		this.settings.setValueListCaption(valuesHeader);
 	}
 
 	/**
@@ -274,7 +282,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	public GeoList setupXValues(GeoList xValues) {
 		xValues.setAuxiliaryObject(true);
 		xValues.setCanBeRemovedAsInput(false);
-		xValues.setLabelSimple("x");
+		xValues.setLabel(kernel.getConstruction().buildIndexedLabel("x", false));
 		return xValues;
 	}
 
@@ -459,12 +467,18 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 * Prepares for tabular data import.
 	 * @param nrRows The number of rows to import.
 	 * @param nrColumns The number of columns to import.
+	 * @param columnNames The user-visible column names (optional, can be null).
 	 */
 	// Data import
-	public void startImport(int nrRows, int nrColumns, String[] columnLabels) {
+	public void startImport(int nrRows, int nrColumns, String[] columnNames) {
+		if (nrColumns < 1) {
+			return;
+		}
 		importColumns = new GeoList[nrColumns];
-		this.columnLabels = columnLabels;
+		this.columnNames = columnNames;
+		this.columnLabels = new String[nrColumns];
 		for (int columnIdx = 0; columnIdx < nrColumns; columnIdx++) {
+			columnLabels[columnIdx] = columnIdx == 0 ? "x_{1}" : "y_{" + columnIdx + "}";
 			GeoList list = new GeoList(kernel.getConstruction());
 			importColumns[columnIdx] = list;
 		}
@@ -503,6 +517,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	public void cancelImport() {
 		importColumns = null;
 		columnLabels = null;
+		columnNames = null;
 	}
 
 	/**
@@ -510,46 +525,70 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 * columns, and notifying listeners about the new data.
 	 */
 	public void commitImport() {
-		importColumns(importColumns, columnLabels);
+		importColumns();
 		importColumns = null;
 		columnLabels = null;
+		columnNames = null;
 	}
 
-	private void importColumns(GeoList[] columnsToImport, String[] columnLabels) {
-		if (columnsToImport.length == 0 || columnLabels.length != columnsToImport.length) {
+	private void importColumns() {
+		if (importColumns.length == 0 || columnLabels.length != importColumns.length) {
 			return;
 		}
 		suspendListeners(listener -> listener instanceof TableValuesPoints);
 		collector.startCollection(this);
+		removeXColumn();
+		removeYColumns();
 		columns.clear();
-		importXColumn(columnsToImport, columnLabels);
-		importYColumns(columnsToImport, columnLabels);
+		importXColumn();
+		importYColumns();
+		kernel.storeUndoInfo();
 		collector.notifyDatasetChanged(this);
 		collector.endCollection(this);
 		resumeListeners(listener -> listener instanceof TableValuesPoints);
-		kernel.storeUndoInfo();
 	}
 
-	private void importXColumn(GeoList[] columnsToImport, String[] columnLabels) {
-		GeoList values = columnsToImport[0];
+	private void importXColumn() {
+		GeoList values = importColumns[0];
 		setupXValues(values);
-		values.setLabelSimple(columnLabels[0]);
-		values.setLabelSet(true);
+		String label = columnLabels[0];
+		String name = columnNames != null && columnNames[0] != null ? columnNames[0] : "x";
+		// note: setting the label has the side effect of adding
+		// the column to the construction!
+		values.setLabel(label);
 		settings.setValueList(values);
+		settings.setValueListCaption(name);
 		TableValuesColumn valuesColumn = new TableValuesListColumn(values);
 		columns.add(valuesColumn);
-		kernel.getConstruction().addToConstructionList(values, false);
 	}
 
-	private void importYColumns(GeoList[] columnsToImport, String[] columnLabels) {
-		for (int columnIdx = 1; columnIdx < columnsToImport.length; columnIdx++) {
-			GeoList values = columnsToImport[columnIdx];
-			values.setLabelSimple(columnLabels[columnIdx]);
-			values.setLabelSet(true);
-			TableValuesColumn column = new TableValuesListColumn(values);
+	private void importYColumns() {
+		for (int columnIdx = 1; columnIdx < importColumns.length; columnIdx++) {
+			GeoList values = importColumns[columnIdx];
+			String label = columnLabels[columnIdx];
+			String name = columnNames != null && columnNames[columnIdx] != null
+					? columnNames[columnIdx] : columnLabels[columnIdx];
+			// note: setting the label has the side effect of adding the column to the construction!
+			values.setLabel(label);
+			// the simple label is used in {@link #TableValuesListColumn.getHeaderName()}
+			values.setLabelSimple(name);
 			values.setTableColumn(columnIdx);
+			values.setPointsVisible(false);
+			TableValuesColumn column = new TableValuesListColumn(values);
 			columns.add(column);
-			kernel.getConstruction().addToConstructionList(values, false);
+		}
+	}
+
+	private void removeXColumn() {
+		GeoList xValues = settings.getValueList();
+		kernel.getConstruction().removeFromConstructionList(xValues);
+		settings.setValueList(null);
+	}
+
+	private void removeYColumns() {
+		for (int columnIdx = 1; columnIdx < columns.size(); columnIdx++) {
+			TableValuesColumn column = columns.get(columnIdx);
+			column.getEvaluatable().setTableColumn(-1);
 		}
 	}
 

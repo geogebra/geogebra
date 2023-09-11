@@ -11,10 +11,14 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesPointsImpl;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.junit.Test;
 
 public class DataImporterTests extends BaseUnitTest implements DataImporterDelegate {
@@ -41,6 +45,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		tableValuesPoints = TableValuesPointsImpl.create(kernel.getConstruction(),
 				tableValuesView, model);
 		kernel.notifyAddAll(tableValuesView);
+		activateUndo();
 
 		dataImporter = new DataImporter(tableValuesView, this);
 		currentRow = -1;
@@ -100,6 +105,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 
 	@Test
 	public void testImportCSVNoHeader() {
+		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
+
 		Reader reader = loadSample("integers-comma-noheader.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -109,6 +116,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, totalRowCount);
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+		// the importer by default supplies column names x, y_{1}, y_{2}, etc
 		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
 		assertEquals("y_{1}", tableValuesView.getTableValuesModel().getHeaderAt(1));
 		// no points should be created during import
@@ -314,9 +322,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 
 	@Test
 	public void testUndoRedoImportCSV() {
-		activateUndo();
-
-		// the model will have an "x" column at this point
+		// the model will have an empty column at this point (no label yet, the header
+		// for the x column is overridden to "x" by default)
 		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
 
@@ -338,6 +345,47 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 		assertEquals("A", tableValuesView.getTableValuesModel().getHeaderAt(0));
 		assertEquals("B", tableValuesView.getTableValuesModel().getHeaderAt(1));
+	}
+
+	@Test
+	public void testReloadRegression() {
+		GeoList x = tableValuesView.getValues();
+		tableValuesView.getProcessor().processInput("1", x, 0);
+		tableValuesView.getProcessor().processInput("2", x, 1);
+		tableValuesView.getProcessor().processInput("3", x, 2);
+
+		GeoList y = new GeoList(getConstruction());
+		tableValuesView.addAndShow(y);
+		tableValuesView.getProcessor().processInput("2", y, 0);
+		tableValuesView.getProcessor().processInput("4", y, 1);
+		tableValuesView.getProcessor().processInput("6", y, 2);
+
+		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+
+		tableValuesView.plotRegression(1, RegressionSpecification.getForListSize(10).get(0));
+		GeoElement f = lookup("f");
+		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
+		reload();
+		f = lookup("f");
+		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void testReloadRegressionAfterImport() {
+		Reader reader = loadSample("integers-comma-noheader.csv");
+		dataImporter.importCSV(reader, '.');
+		GeoList x = tableValuesView.getValues();
+		GeoList y1 = (GeoList)tableValuesView.getEvaluatable(1);
+		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+
+		tableValuesView.plotRegression(1, RegressionSpecification.getForListSize(10).get(0));
+		GeoElement f = lookup("f");
+		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
+		reload();
+		f = lookup("f");
+		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	// Helper methods

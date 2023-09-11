@@ -480,10 +480,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	 * Prepares for tabular data import.
 	 * @param nrRows The number of rows to import.
 	 * @param nrColumns The number of columns to import.
+	 * @param columnNames The column names from the CSV header row, if present. null otherwise.
 	 */
 	// Data import
-	public void startImport(int nrRows, int nrColumns, String[] columnLabels) {
-		model.startImport(nrRows, nrColumns, columnLabels);
+	public void startImport(int nrRows, int nrColumns, String[] columnNames) {
+		model.startImport(nrRows, nrColumns, columnNames);
 	}
 
 	/**
