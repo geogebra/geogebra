@@ -127,8 +127,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
 
 		if (isSuiteScientific(version)) {
-			return new MenuItemGroupImpl(
-					removeNulls(clearConstruction, openFile, startExamMode));
+			return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile,  save,
+					saveOffline, share, startExamMode));
 		}
 		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, saveOffline,
 				share, exportImage(), downloadAs, printPreview, startExamMode));
