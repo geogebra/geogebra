@@ -438,9 +438,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			textField.getElement().getStyle()
 					.setColor(GColor.getColorString(color));
 		}
-		if (cursorOverlay != null) {
-			cursorOverlay.getElement().getStyle().setColor(GColor.getColorString(color));
-		}
+		cursorOverlayController.setColor(color);
 	}
 
 	@Override

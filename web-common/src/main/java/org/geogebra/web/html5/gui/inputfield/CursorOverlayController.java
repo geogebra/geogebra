@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.inputfield;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -177,5 +178,16 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 		Log.debug("longTouch");
 		CancelEventTimer.touchEventOccured();
 		selectAll();
+	}
+
+	/**
+	 * Sets the foreground color of the selection.
+	 * @param color to set.
+	 */
+	public void setColor(GColor color) {
+		if (!enabled) {
+			return;
+		}
+		cursorOverlay.getElement().getStyle().setColor(GColor.getColorString(color));
 	}
 }
