@@ -133,14 +133,13 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 		update();
 	}
 
-	public int removeDummyCursor() {
+	public void removeDummyCursor() {
 		// check for isAttached to avoid infinite recursion
 		if (cursorOverlay.isAttached()) {
 			cursorOverlay.removeFromParent();
 			main.removeStyleName("withCursorOverlay");
 			hideKeyboard(app);
 		}
-		return textField.getCaretPosition();
 	}
 
 	public void setFontSize(String size) {
@@ -170,6 +169,9 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 	}
 
 	public boolean isSelected() {
+		if (!enabled) {
+			return false;
+		}
 		return cursorOverlay.hasFakeSelection();
 	}
 

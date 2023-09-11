@@ -527,7 +527,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public int removeDummyCursor() {
-		return cursorOverlayController.removeDummyCursor();
+		cursorOverlayController.removeDummyCursor();
+		return getCaretPosition();
 	}
 
 	@Override
