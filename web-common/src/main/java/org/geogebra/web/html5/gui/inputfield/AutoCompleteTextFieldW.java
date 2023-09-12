@@ -46,7 +46,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.event.dom.client.KeyCodes;
@@ -132,7 +131,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private final AutocompleteProviderClassic inputSuggestions;
 	private final FlowPanel main = new FlowPanel();
 	private boolean keyboardButtonEnabled = true;
-	private boolean hadSelection;
 
 	/**
 	 * Attaches the keyboard button to the current text field.
@@ -1481,17 +1479,5 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setTextAlignmentsForInputBox(HorizontalAlignment alignment) {
 		textFieldController.setHorizontalAlignment(alignment);
-	}
-
-	private TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
-		switch (alignment) {
-		default:
-		case LEFT:
-				return TextAlign.LEFT;
-		case CENTER:
-				return TextAlign.CENTER;
-		case RIGHT:
-				return TextAlign.RIGHT;
-		}
 	}
 }

@@ -56,8 +56,8 @@ public interface TextFieldController {
 
 	/**
 	 *
-	 * @param event
-	 * @return if keypress event should be inserted
+	 * @param event to check.
+	 * @return if keypress event should be inserted.
 	 */
 	boolean shouldBeKeyPressInserted(KeyPressEvent event);
 

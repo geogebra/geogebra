@@ -86,7 +86,6 @@ public final class DefaultTextFieldController implements TextFieldController {
 		// nothing to do.
 	}
 
-
 	@Override
 	public void setForegroundColor(GColor color) {
 		textField.getElement().getStyle()

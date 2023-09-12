@@ -34,6 +34,12 @@ public class CursorOverlayController implements TextFieldController,
 	private CursorOverlay cursorOverlay;
 	private double blinkHandler;
 
+	/**
+	 * Constructor
+	 *
+	 * @param textField to have the overlay.
+	 * @param main widget of the textfield.
+	 */
 	public CursorOverlayController(AutoCompleteTextFieldW textField, FlowPanel main) {
 		this.app = textField.getApplication();
 		this.textField = textField;
@@ -66,7 +72,7 @@ public class CursorOverlayController implements TextFieldController,
 		app.getGlobalHandlers().addEventListener(element, "touchstart",
 				this::preventNativeSelection);
 
-		app.getGlobalHandlers().addEventListener(main.getElement(),"touchstart",
+		app.getGlobalHandlers().addEventListener(main.getElement(), "touchstart",
 				this::unselectOverlay);
 
 		app.getGlobalHandlers().addEventListener(main.getElement(), "touchstart",
@@ -82,19 +88,15 @@ public class CursorOverlayController implements TextFieldController,
 						Log.debug("(" + x + "," + y + ")");
 						LongTouchManager.getInstance().scheduleTimer(this, (int) x, (int) y, 200);
 					}
-				} );
+				});
 
 		app.getGlobalHandlers().addEventListener(main.getElement(), "touchend",
 				e -> {
 						CancelEventTimer.cancelMouseEvent();
 						LongTouchManager.getInstance().cancelTimer();
 
-				} );
+				});
 
-	}
-
-	private void startBlinking() {
-		blinkHandler = DomGlobal.setInterval(event -> update(), 200);
 	}
 
 	private void preventNativeSelection(Event event) {
@@ -112,10 +114,12 @@ public class CursorOverlayController implements TextFieldController,
 		}
 	}
 
+	@Override
 	public void update() {
 		cursorOverlay.update(textField.getCursorPos(), textField.getText());
 	}
 
+	@Override
 	public void selectAll() {
 		stopBlinking();
 		cursorOverlay.addFakeSelection();
@@ -149,10 +153,12 @@ public class CursorOverlayController implements TextFieldController,
 				font.getSize() + "px");
 	}
 
+	@Override
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
 		cursorOverlay.setHorizontalAlignment(alignment);
 	}
 
+	@Override
 	public void unselectAll() {
 		cursorOverlay.removeFakeSelection();
 	}

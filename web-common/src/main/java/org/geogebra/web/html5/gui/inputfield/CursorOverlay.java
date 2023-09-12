@@ -4,6 +4,10 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.InlineLabel;
 
+/**
+ * Widget to emulate text cursor and selection on mobile platforms
+ * that the native one is problematic to handle
+ */
 public class CursorOverlay extends FlowPanel {
 
 	private String text = "";
@@ -46,11 +50,18 @@ public class CursorOverlay extends FlowPanel {
 		}
 	}
 
+	/**
+	 *
+	 * @param alignment to set.
+	 */
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
 		getElement().getStyle().setProperty("justifyContent",
 				alignment.toString());
 	}
 
+	/**
+	 * Adds the non-native selection widget.
+	 */
 	public void addFakeSelection() {
 		seleted = true;
 		InlineLabel selectedText = new InlineLabel(text);
@@ -59,11 +70,18 @@ public class CursorOverlay extends FlowPanel {
 		add(selectedText);
 	}
 
+	/**
+	 * Removes the non-native selection widget.
+	 */
 	public void removeFakeSelection() {
 		seleted = false;
 		update();
 	}
 
+	/**
+	 *
+	 * @return if the selection widget is present.
+	 */
 	public boolean hasFakeSelection() {
 		return seleted;
 	}
