@@ -29,7 +29,7 @@ public class TestTabularData implements TabularData<Object> {
 
 	@Override
 	public void reset(int rows, int columns) {
-
+		// not needed in test
 	}
 
 	@Override
@@ -83,6 +83,11 @@ public class TestTabularData implements TabularData<Object> {
 
 	@Override
 	public void addChangeListener(TabularDataChangeListener listener) {
+		// not needed in test
+	}
 
+	@Override
+	public String getEditableString(int row, int column) {
+		return String.valueOf(contentAt(row, column));
 	}
 }

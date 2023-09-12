@@ -97,11 +97,14 @@ public final class SpreadsheetController implements TabularSelection {
 
 	boolean showCellEditor(int row, int column, Rectangle viewport) {
 		if (controlsDelegate != null) {
-			Rectangle translate = layout.getBounds(row, column)
+			Rectangle editorBounds = layout.getBounds(row, column)
 					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
 							-viewport.getMinY() + layout.getColumnHeaderHeight());
-			controlsDelegate.showCellEditor(translate,
-					contentAt(row, column), new GPoint(column, row));
+			SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
+			editor.setBounds(editorBounds);
+
+			editor.setContent(tabularData.getEditableString(row, column));
+			editor.setTargetCell(row, column);
 			return true;
 		}
 		return false;

@@ -24,4 +24,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	String getColumnName(int column);
 
 	void addChangeListener(TabularDataChangeListener listener);
+
+	String getEditableString(int row, int column);
 }

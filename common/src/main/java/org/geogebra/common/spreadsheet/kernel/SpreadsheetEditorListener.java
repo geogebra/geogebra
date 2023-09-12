@@ -1,6 +1,5 @@
 package org.geogebra.common.spreadsheet.kernel;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 
@@ -12,22 +11,25 @@ public final class SpreadsheetEditorListener implements MathFieldListener {
 
 	final MathFieldInternal mathField;
 	final Kernel kernel;
-	private final GPoint coords;
+	private final int row;
+	private final int column;
 
 	/**
 	 * @param mathField math input
 	 * @param kernel kernel
-	 * @param coords cell coordinates
+	 * @param row spreadsheet row
+	 * @param column spreadsheet column
 	 */
-	public SpreadsheetEditorListener(MathFieldInternal mathField, Kernel kernel, GPoint coords) {
+	public SpreadsheetEditorListener(MathFieldInternal mathField, Kernel kernel, int row, int column) {
 		this.mathField = mathField;
 		this.kernel = kernel;
-		this.coords = coords;
+		this.row = row;
+		this.column = column;
 	}
 
 	@Override
 	public void onEnter() {
-		String cmd = GeoElementSpreadsheet.getSpreadsheetCellName(coords.x, coords.y)
+		String cmd = GeoElementSpreadsheet.getSpreadsheetCellName(column, row)
 				+ Unicode.ASSIGN_STRING + mathField.getText();
 		kernel.getAlgebraProcessor().processAlgebraCommand(
 				cmd, true);

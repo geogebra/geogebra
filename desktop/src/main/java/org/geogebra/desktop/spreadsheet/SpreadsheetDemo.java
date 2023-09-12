@@ -27,10 +27,9 @@ import javax.swing.border.BevelBorder;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
@@ -101,7 +100,7 @@ public class SpreadsheetDemo {
 		sp.editorOverlay.setPreferredSize(new Dimension(800, 600));
 		sp.editorOverlay.setLayout(null);
 		contentPane.add(sp.editorOverlay);
-		sp.editorOverlay.add(sp.box);
+		sp.editorOverlay.add(sp.editorBox);
 
 		vertical.addAdjustmentListener(evt -> {
 			sp.scrollY = evt.getValue() * 10;
@@ -124,7 +123,7 @@ public class SpreadsheetDemo {
 	private static class SpreadsheetPanel extends JPanel {
 		private final Spreadsheet spreadsheet;
 		private final MathFieldD mathField;
-		private final Box box = Box.createHorizontalBox();
+		private final Box editorBox = Box.createHorizontalBox();
 		private final JPopupMenu contextMenu = new JPopupMenu();
 		public JPanel editorOverlay;
 
@@ -133,13 +132,14 @@ public class SpreadsheetDemo {
 
 		public SpreadsheetPanel(Spreadsheet spreadsheet, AppCommon app, JFrame frame) {
 			this.spreadsheet = spreadsheet;
-			this.mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()), box::repaint);
-			box.setBorder(new BevelBorder(BevelBorder.RAISED));
-			box.add(mathField);
+			this.mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()),
+					editorBox::repaint);
+			editorBox.setBorder(new BevelBorder(BevelBorder.RAISED));
+			editorBox.add(mathField);
 			mathField.setBounds(0, 0, 200, 200);
 			mathField.requestViewFocus();
-			box.setAlignmentX(0);
-			box.setAlignmentY(0);
+			editorBox.setAlignmentX(0);
+			editorBox.setAlignmentY(0);
 
 			addMouseListener(new MouseAdapter() {
 				@Override
@@ -156,27 +156,11 @@ public class SpreadsheetDemo {
 					repaint();
 				}
 			});
-
+			final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame, app);
 			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
 				@Override
-				public void showCellEditor(Rectangle bounds, Object data, GPoint coords) {
-					mathField.parse(data instanceof GeoElement
-							? ((GeoElement) data).getLaTeXDescriptionRHS(false,
-							StringTemplate.editorTemplate) : "");
-					mathField.getInternal().setFieldListener(new SpreadsheetEditorListener(
-							mathField.getInternal(), app.getKernel(), coords));
-					if (!frame.getContentPane().isAncestorOf(box)) {
-						frame.getContentPane().add(box);
-					}
-					box.setBounds((int) bounds.getMinX(), (int) bounds.getMinY(),
-							(int) bounds.getWidth(), (int) bounds.getHeight());
-					mathField.setBounds(0, 0,
-							(int) bounds.getWidth(), (int) bounds.getHeight());
-
-					box.setBackground(Color.BLUE);
-					box.setVisible(true);
-					frame.revalidate();
-					mathField.requestViewFocus();
+				public SpreadsheetCellEditor getCellEditor() {
+					return editor;
 				}
 
 				@Override
@@ -199,7 +183,7 @@ public class SpreadsheetDemo {
 
 				@Override
 				public void hideCellEditor() {
-					box.setVisible(false);
+					editorBox.setVisible(false);
 				}
 
 				@Override
@@ -223,6 +207,44 @@ public class SpreadsheetDemo {
 			super.paint(graphics);
 			GGraphics2DD graphics1 = new GGraphics2DD((Graphics2D) graphics);
 			spreadsheet.draw(graphics1);
+		}
+
+		private class DesktopSpreadsheetCellEditor implements SpreadsheetCellEditor {
+
+			private final JFrame frame;
+			private final AppCommon app;
+
+			DesktopSpreadsheetCellEditor(JFrame frame, AppCommon app) {
+				this.frame = frame;
+				this.app = app;
+			}
+
+			@Override
+			public void setBounds(Rectangle bounds) {
+				if (!frame.getContentPane().isAncestorOf(editorBox)) {
+					frame.getContentPane().add(editorBox);
+				}
+				editorBox.setBounds((int) bounds.getMinX(), (int) bounds.getMinY(),
+						(int) bounds.getWidth(), (int) bounds.getHeight());
+				mathField.setBounds(0, 0,
+						(int) bounds.getWidth(), (int) bounds.getHeight());
+
+				editorBox.setBackground(Color.BLUE);
+				editorBox.setVisible(true);
+				frame.revalidate();
+				mathField.requestViewFocus();
+			}
+
+			@Override
+			public void setTargetCell(int row, int column) {
+				mathField.getInternal().setFieldListener(new SpreadsheetEditorListener(
+						mathField.getInternal(), app.getKernel(), row, column));
+			}
+
+			@Override
+			public void setContent(String content) {
+				mathField.parse(content);
+			}
 		}
 	}
 }
