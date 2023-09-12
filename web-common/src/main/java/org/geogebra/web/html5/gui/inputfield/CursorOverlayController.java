@@ -85,7 +85,6 @@ public class CursorOverlayController implements TextFieldController,
 						Touch touch = touchEvent.touches.item(0);
 						double x = touch.clientX;
 						double y = touch.clientY;
-						Log.debug("(" + x + "," + y + ")");
 						LongTouchManager.getInstance().scheduleTimer(this, (int) x, (int) y, 200);
 					}
 				});
@@ -220,7 +219,6 @@ public class CursorOverlayController implements TextFieldController,
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		Log.debug("longTouch");
 		CancelEventTimer.touchEventOccured();
 		selectAll();
 	}
