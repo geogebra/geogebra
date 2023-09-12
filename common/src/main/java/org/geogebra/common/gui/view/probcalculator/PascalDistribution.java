@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.statistics.AlgoInversePascal;
 import org.geogebra.common.kernel.statistics.AlgoPascal;
 import org.geogebra.common.plugin.Operation;
 
-public class PascalDistribution extends CachingDistreteDistribution {
+public class PascalDistribution extends CachingDiscreteDistribution {
 
 	private final Construction cons;
 	private final Kernel kernel;

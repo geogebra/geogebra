@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoHyperGeometric;
 
-public class HyperGeometricProbability extends CachingDistreteDistribution {
+public class HyperGeometricProbability extends CachingDiscreteDistribution {
 
 	private final Construction cons;
 

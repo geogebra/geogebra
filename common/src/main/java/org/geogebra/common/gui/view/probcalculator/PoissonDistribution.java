@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.statistics.AlgoInversePoisson;
 import org.geogebra.common.kernel.statistics.AlgoPoisson;
 import org.geogebra.common.plugin.Operation;
 
-public class PoissonDistribution extends CachingDistreteDistribution {
+public class PoissonDistribution extends CachingDiscreteDistribution {
 
 	private final Construction cons;
 	private final Kernel kernel;

@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
 
-public class BinomialDistribution extends CachingDistreteDistribution {
+public class BinomialDistribution extends CachingDiscreteDistribution {
 
 	private final Construction cons;
 
