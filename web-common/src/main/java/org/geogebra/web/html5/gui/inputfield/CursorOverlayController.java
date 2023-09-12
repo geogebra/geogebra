@@ -1,8 +1,11 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -10,7 +13,11 @@ import org.geogebra.web.html5.gui.util.LongTouchTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
+
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
@@ -18,22 +25,20 @@ import elemental2.dom.Touch;
 import elemental2.dom.TouchEvent;
 import jsinterop.base.Js;
 
-public class CursorOverlayController implements LongTouchTimer.LongTouchHandler {
+public class CursorOverlayController implements TextFieldController,
+		LongTouchTimer.LongTouchHandler {
 
 	private final AppW app;
 	private final AutoCompleteTextFieldW textField;
 	private final FlowPanel main;
 	private CursorOverlay cursorOverlay;
-	private boolean hadSelection;
-	private boolean enabled;
 	private double blinkHandler;
-	private boolean seleted;
 
 	public CursorOverlayController(AutoCompleteTextFieldW textField, FlowPanel main) {
 		this.app = textField.getApplication();
 		this.textField = textField;
 		this.main = main;
-		enabled = false;
+		enableForTextField();
 	}
 
 	/**
@@ -54,8 +59,8 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 
 	private void enableForTextField() {
 		cursorOverlay = new CursorOverlay();
-		textField.addFocusHandler(evt -> addDummyCursor());
-		textField.addBlurHandler(evt -> removeDummyCursor());
+		textField.addFocusHandler(evt -> addCursor());
+		textField.addBlurHandler(evt -> removeCursor());
 		textField.updateInputBoxAlign();
 		final Element element = textField.getInputElement();
 		app.getGlobalHandlers().addEventListener(element, "touchstart",
@@ -95,7 +100,7 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 	private void preventNativeSelection(Event event) {
 		event.preventDefault();
 		if (cursorOverlay.hasFakeSelection()) {
-			addDummyCursor();
+			addCursor();
 		}
 	}
 
@@ -108,56 +113,40 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 	}
 
 	public void update() {
-		if (!enabled) {
-			return;
-		}
 		cursorOverlay.update(textField.getCursorPos(), textField.getText());
 	}
 
 	public void selectAll() {
-		if (!enabled) {
-			return;
-		}
 		stopBlinking();
 		cursorOverlay.addFakeSelection();
 	}
 
-	private void stopBlinking() {
-		DomGlobal.clearTimeout(blinkHandler);
-	}
-
-	public void addDummyCursor() {
+	@Override
+	public void addCursor() {
 		main.add(cursorOverlay);
 		main.addStyleName("withCursorOverlay");
 		app.showKeyboard(textField, true);
 		update();
 	}
 
-	public void removeDummyCursor() {
-		// check for isAttached to avoid infinite recursion
-		if (cursorOverlay.isAttached()) {
-			cursorOverlay.removeFromParent();
-			main.removeStyleName("withCursorOverlay");
-			hideKeyboard(app);
-		}
-	}
-
-	public void setFontSize(String size) {
-		if (!enabled) {
+	@Override
+	public void removeCursor() {
+		if (!cursorOverlay.isAttached()) {
 			return;
 		}
+		cursorOverlay.removeFromParent();
+		main.removeStyleName("withCursorOverlay");
+		hideKeyboard(app);
+	}
 
+	private void stopBlinking() {
+		DomGlobal.clearTimeout(blinkHandler);
+	}
+
+	@Override
+	public void setFont(GFont font) {
 		Dom.setImportant(cursorOverlay.getElement().getStyle(), "font-size",
-				size);
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void enable() {
-		enabled = true;
-		enableForTextField();
+				font.getSize() + "px");
 	}
 
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
@@ -168,10 +157,58 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 		cursorOverlay.removeFakeSelection();
 	}
 
-	public boolean isSelected() {
-		if (!enabled) {
-			return false;
+	@Override
+	public void setForegroundColor(GColor color) {
+		cursorOverlay.getElement().getStyle().setColor(GColor.getColorString(color));
+	}
+
+	@Override
+	public void handleKeyboardEvent(KeyDownEvent e) {
+		int keyCode = e.getNativeKeyCode();
+		if (keyCode == 0 && NavigatorUtil.isiOS()) {
+			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
+			if (arrowType != -1) {
+				keyCode = arrowType;
+			}
 		}
+		switch (keyCode) {
+		case GWTKeycodes.KEY_BACKSPACE:
+			textField.onBackSpace();
+			break;
+		case GWTKeycodes.KEY_LEFT:
+			textField.onArrowLeft();
+			break;
+		case GWTKeycodes.KEY_RIGHT:
+			textField.onArrowRight();
+			break;
+		case GWTKeycodes.KEY_UP:
+			textField.handleUpArrow();
+			break;
+		case GWTKeycodes.KEY_DOWN:
+			textField.handleDownArrow();
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public boolean shouldBeKeyPressInserted(KeyPressEvent event) {
+		return event.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
+				&& event.getNativeEvent().getKeyCode() != 0;
+	}
+
+	@Override
+	public int getSelectionStart() {
+		return 0;
+	}
+
+	@Override
+	public int getSelectionEnd() {
+		return textField.getText().length();
+	}
+
+	public boolean isSelected() {
 		return cursorOverlay.hasFakeSelection();
 	}
 
@@ -180,16 +217,5 @@ public class CursorOverlayController implements LongTouchTimer.LongTouchHandler 
 		Log.debug("longTouch");
 		CancelEventTimer.touchEventOccured();
 		selectAll();
-	}
-
-	/**
-	 * Sets the foreground color of the selection.
-	 * @param color to set.
-	 */
-	public void setColor(GColor color) {
-		if (!enabled) {
-			return;
-		}
-		cursorOverlay.getElement().getStyle().setColor(GColor.getColorString(color));
 	}
 }
