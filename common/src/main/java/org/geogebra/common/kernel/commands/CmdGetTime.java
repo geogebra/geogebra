@@ -35,7 +35,7 @@ public class CmdGetTime extends CommandProcessor {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {

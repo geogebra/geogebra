@@ -321,7 +321,7 @@ var GGBApplet = function() {
         };
 
         var host = location.host.match(/(www|stage|beta|groot|alpha).geogebra.(org|net)/) ? location.host
-        	: 'www.geogebra.org';
+            : 'www.geogebra.org';
         var path = '/materials/' + parameters.material_id + '?scope=basic';
         sendCorsRequest(
             'https://' + host + '/api/proxy.php?path=' + encodeURIComponent(path),
@@ -1070,7 +1070,8 @@ var GGBApplet = function() {
 
         // Check if the codebase version is deprecated
         var numVersion = parseFloat(html5CodebaseVersion);
-        if (numVersion !== NaN && numVersion < 5.0) {
+        // codebases like web.geogebra.org/4.2 no longer supported
+        if (numVersion !== NaN && numVersion < 5.0 && codebase.indexOf("geogebra.org") >= 0) {
             console.log("The GeoGebra HTML5 codebase version "+numVersion+" is deprecated. Using version latest instead.");
             setDefaultHTML5CodebaseForVersion("5.0", offline);
         }
@@ -1420,39 +1421,82 @@ if(typeof define === "function" && define.amd){
     define([], function(){ return GGBApplet; })
 }
 
-GGBAppletUtils.makeModule = function(name, permutation){
+GGBAppletUtils.makeModule = function(name, permutation) {
     function webModule() {
-        var I = 'bootstrap', J = 'begin', K = 'gwt.codesvr.'+name+'=', L = 'gwt.codesvr=', M = name, N = 'startup',
-        O = 'DUMMY', P = 0, Q = 1, R = 'iframe', S = 'position:absolute; width:0; height:0; border:none; left: -1000px;',
-        T = ' top: -1000px;', U = 'CSS1Compat', V = '<!doctype html>', W = '', X = '<html><head><\/head><body><\/body><\/html>',
-        Y = 'undefined', Z = 'readystatechange', $ = 10, _ = 'Chrome', ab = 'eval("', bb = '");', cb = 'script',
-        db = 'javascript', eb = 'moduleStartup', fb = 'moduleRequested', gb = 'Failed to load ', hb = 'head', ib = 'meta',
-        jb = 'name', kb = name+'::', lb = '::', mb = 'gwt:property', nb = 'content', ob = '=', pb = 'gwt:onPropertyErrorFn',
-        qb = 'Bad handler "', rb = '" for "gwt:onPropertyErrorFn"', sb = 'gwt:onLoadErrorFn', tb = '" for "gwt:onLoadErrorFn"',
-        ub = '#', vb = '?', wb = '/', xb = 'img', yb = 'clear.cache.gif', zb = 'baseUrl', Ab = name+'.nocache.js', Bb = 'base',
-        Cb = '//', Db = 'user.agent', Eb = 'webkit', Fb = 'safari', Gb = 'msie', Hb = 11, Ib = 'ie10', Jb = 9, Kb = 'ie9',
-        Lb = 8, Mb = 'ie8', Nb = 'gecko', Ob = 'gecko1_8', Pb = 2, Qb = 3, Rb = 4, Sb = 'selectingPermutation',
-        Tb = ''+name+'.devmode.js', Ub = permutation, Vb = ':1', Wb = ':2', Xb = ':3', Yb = ':',
-        Zb = '.cache.js', $b = 'loadExternalRefs', _b = 'end';
-        var o = window;
-        var p = document;
-        r(I, J);
-        function q() {
-            var a = o.location.search;
-            return a.indexOf(K) != -1 || a.indexOf(L) != -1
+        var H = 'bootstrap',
+            I = 'begin',
+            J = 'gwt.codesvr.'+name+'=',
+            K = 'gwt.codesvr=',
+            L = name,
+            M = 'startup',
+            N = 'DUMMY',
+            O = 0,
+            P = 1,
+            Q = 'iframe',
+            R = 'position:absolute; width:0; height:0; border:none; left: -1000px;',
+            S = ' top: -1000px;',
+            T = 'Chrome',
+            U = 'CSS1Compat',
+            V = '<!doctype html>',
+            W = '',
+            X = '<html><head><\/head><body><\/body><\/html>',
+            Y = 'undefined',
+            Z = 'readystatechange',
+            $ = 10,
+            _ = 'script',
+            ab = 'javascript',
+            bb = 'Failed to load ',
+            cb = 'moduleStartup',
+            db = 'scriptTagAdded',
+            eb = 'moduleRequested',
+            fb = 'meta',
+            gb = 'name',
+            hb = name + '::',
+            ib = '::',
+            jb = 'gwt:property',
+            kb = 'content',
+            lb = '=',
+            mb = 'gwt:onPropertyErrorFn',
+            nb = 'Bad handler "',
+            ob = '" for "gwt:onPropertyErrorFn"',
+            pb = 'gwt:onLoadErrorFn',
+            qb = '" for "gwt:onLoadErrorFn"',
+            rb = '#',
+            sb = '?',
+            tb = '/',
+            ub = 'img',
+            vb = 'clear.cache.gif',
+            wb = 'baseUrl',
+            xb = name + '.nocache.js',
+            yb = 'base',
+            zb = '//',
+            Ab = 'selectingPermutation',
+            Bb = name + '.devmode.js',
+            Cb = permutation,
+            Db = ':',
+            Eb = '.cache.js',
+            Fb = 'loadExternalRefs',
+            Gb = 'end';
+        var n = window;
+        var o = document;
+        q(H, I);
+
+        function p() {
+            var a = n.location.search;
+            return a.indexOf(J) != -1 || a.indexOf(K) != -1
         }
-        function r(a, b) {
+
+        function q(a, b) {
 
         }
-        webModule.__sendStats = r;
-        webModule.__moduleName = M;
+        webModule.__sendStats = q;
+        webModule.__moduleName = L;
         webModule.__errFn = null;
-        webModule.__moduleBase = O;
-        webModule.__softPermutationId = P;
+        webModule.__moduleBase = N;
+        webModule.__softPermutationId = O;
         webModule.__computePropValue = null;
         webModule.__getPropMap = null;
-        webModule.__installRunAsyncCode = function() {
-        };
+        webModule.__installRunAsyncCode = function() {};
         webModule.__gwtStartLoadingFragment = function() {
             return null
         };
@@ -1462,50 +1506,54 @@ GGBAppletUtils.makeModule = function(name, permutation){
         webModule.__gwt_getMetaProperty = function() {
             return null
         };
-        var s = null;
-        var t = o.__gwt_activeModules = o.__gwt_activeModules || {};
-        t[M] = {
-            moduleName : M
+        var r = null;
+        var s = n.__gwt_activeModules = n.__gwt_activeModules || {};
+        s[L] = {
+            moduleName: L
         };
         webModule.__moduleStartupDone = function(e) {
-            var f = t[M].bindings;
-            t[M].bindings = function() {
+            var f = s[L].bindings;
+            s[L].bindings = function() {
                 var a = f ? f() : {};
                 var b = e[webModule.__softPermutationId];
-                for (var c = P; c < b.length; c++) {
+                for (var c = O; c < b.length; c++) {
                     var d = b[c];
-                    a[d[P]] = d[Q]
+                    a[d[O]] = d[P]
                 }
                 return a
             }
         };
-        var u;
-        function v() {
-            w();
-            return u
+        var t;
+        function u() {
+            v();
+            return t
         }
-        function w() {
-            if (u) {
+
+        function v() {
+            if (t) {
                 return
             }
-            var a = p.createElement(R);
-            a.id = M;
-            a.style.cssText = S + T;
+            var a = o.createElement(Q);
+            a.id = L;
+            a.style.cssText = R + S;
             a.tabIndex = -1;
-            p.body.appendChild(a);
-            u = a.contentWindow.document;
-            u.open();
-            var b = document.compatMode == U ? V : W;
-            u.write(b + X);
-            u.close()
+            o.body.appendChild(a);
+            t = a.contentWindow.document;
+            if (navigator.userAgent.indexOf(T) == -1) {
+                t.open();
+                var b = document.compatMode == U ? V : W;
+                t.write(b + X);
+                t.close()
+            }
         }
-        function A(k) {
-            function l(a) {
+
+        function w(f) {
+            function g(a) {
                 function b() {
-                    if (typeof p.readyState == Y) {
-                        return typeof p.body != Y && p.body != null
+                    if (typeof o.readyState == Y) {
+                        return typeof o.body != Y && o.body != null
                     }
-                    return /loaded|complete/.test(p.readyState)
+                    return /loaded|complete/.test(o.readyState)
                 }
                 var c = b();
                 if (c) {
@@ -1519,120 +1567,98 @@ GGBAppletUtils.makeModule = function(name, permutation){
                         }
                         c = true;
                         a();
-                        if (p.removeEventListener) {
-                            p.removeEventListener(Z, d, false)
+                        if (o.removeEventListener) {
+                            o.removeEventListener(Z, d, false)
                         }
                         if (e) {
                             clearInterval(e)
                         }
                     }
                 }
-                if (p.addEventListener) {
-                    p.addEventListener(Z, d, false)
+                if (o.addEventListener) {
+                    o.addEventListener(Z, d, false)
                 }
                 var e = setInterval(function() {
                     d()
                 }, $)
             }
-            function m(c) {
-                function d(a, b) {
-                    a.removeChild(b)
-                }
-                var e = v();
-                var f = e.body;
-                var g;
-                if (navigator.userAgent.indexOf(_) > -1 && window.JSON) {
-                    var h = e.createDocumentFragment();
-                    h.appendChild(e.createTextNode(ab));
-                    for (var i = P; i < c.length; i++) {
-                        var j = window.JSON.stringify(c[i]);
-                        h.appendChild(e
-                                .createTextNode(j.substring(Q, j.length - Q)))
-                    }
-                    h.appendChild(e.createTextNode(bb));
-                    g = e.createElement(cb);
-                    g.language = db;
-                    g.appendChild(h);
-                    f.appendChild(g);
-                    d(f, g)
-                } else {
-                    for (var i = P; i < c.length; i++) {
-                        g = e.createElement(cb);
-                        g.language = db;
-                        g.text = c[i];
-                        f.appendChild(g);
-                        d(f, g)
-                    }
-                }
-            }
-            webModule.onScriptDownloaded = function(a) {
-                l(function() {
-                    m(a)
-                })
-            };
 
-            var n = p.createElement(cb);
-            n.src = k;
-            if (webModule.__errFn) {
-                n.onerror = function() {
-                    webModule.__errFn(M, new Error(gb + code))
+            function h(a) {
+                var b = u();
+                var c = b.body;
+                var d = b.createElement(_);
+                d.language = ab;
+                d.crossOrigin = W;
+                d.src = a;
+                if (webModule.__errFn) {
+                    d.onerror = function() {
+                        webModule.__errFn(L, new Error(bb + a))
+                    }
                 }
+                c.appendChild(d);
+                q(cb, db)
             }
-            p.getElementsByTagName(hb)[P].appendChild(n)
+            q(cb, eb);
+            g(function() {
+                h(f)
+            })
         }
         webModule.__startLoadingFragment = function(a) {
-            return D(a)
+            return C(a)
         };
         webModule.__installRunAsyncCode = function(a) {
-            var b = v();
+            var b = u();
             var c = b.body;
-            var d = b.createElement(cb);
-            d.language = db;
+            var d = b.createElement(_);
+            d.language = ab;
             d.text = a;
             c.appendChild(d);
             c.removeChild(d)
         };
-        function B() {
+
+        function A() {
             var c = {};
             var d;
             var e;
-            var f = p.getElementsByTagName(ib);
-            for (var g = P, h = f.length; g < h; ++g) {
-                var i = f[g], j = i.getAttribute(jb), k;
+            var f = o.getElementsByTagName(fb);
+            for (var g = O, h = f.length; g < h; ++g) {
+                var i = f[g],
+                    j = i.getAttribute(gb),
+                    k;
                 if (j) {
-                    j = j.replace(kb, W);
-                    if (j.indexOf(lb) >= P) {
+                    j = j.replace(hb, W);
+                    if (j.indexOf(ib) >= O) {
                         continue
                     }
-                    if (j == mb) {
-                        k = i.getAttribute(nb);
+                    if (j == jb) {
+                        k = i.getAttribute(kb);
                         if (k) {
-                            var l, m = k.indexOf(ob);
-                            if (m >= P) {
-                                j = k.substring(P, m);
-                                l = k.substring(m + Q)
+                            var l, m = k.indexOf(lb);
+                            if (m >= O) {
+                                j = k.substring(O, m);
+                                l = k.substring(m + P)
                             } else {
                                 j = k;
                                 l = W
                             }
                             c[j] = l
                         }
-                    } else if (j == pb) {
-                        k = i.getAttribute(nb);
+                    } else if (j == mb) {
+                        k = i.getAttribute(kb);
                         if (k) {
                             try {
                                 d = eval(k)
                             } catch (a) {
-                                alert(qb + k + rb)
+                                alert(nb + k + ob)
                             }
                         }
-                    } else if (j == sb) {
-                        k = i.getAttribute(nb);
+                    } else if (j == pb) {
+                        k = i.getAttribute(kb);
                         if (k) {
                             try {
                                 e = eval(k)
                             } catch (a) {
-                                alert(qb + k + tb)
+                                alert(nb + k + qb)
                             }
                         }
                     }
@@ -1642,58 +1668,57 @@ GGBAppletUtils.makeModule = function(name, permutation){
                 var b = c[a];
                 return b == null ? null : b
             };
-            s = d;
+            r = d;
             webModule.__errFn = e
         }
-        function C() {
+
+        function B() {
             function e(a) {
-                var b = a.lastIndexOf(ub);
+                var b = a.lastIndexOf(rb);
                 if (b == -1) {
                     b = a.length
                 }
-                var c = a.indexOf(vb);
+                var c = a.indexOf(sb);
                 if (c == -1) {
                     c = a.length
                 }
-                var d = a.lastIndexOf(wb, Math.min(c, b));
-                return d >= P ? a.substring(P, d + Q) : W
+                var d = a.lastIndexOf(tb, Math.min(c, b));
+                return d >= O ? a.substring(O, d + P) : W
             }
             function f(a) {
-                if (a.match(/^\w+:\/\//)) {
-                } else {
-                    var b = p.createElement(xb);
-                    b.src = a + yb;
+                if (a.match(/^\w+:\/\//)) {} else {
+                    var b = o.createElement(ub);
+                    b.src = a + vb;
                     a = e(b.src)
                 }
                 return a
             }
             function g() {
-                var a = __gwt_getMetaProperty(zb);
+                var a = __gwt_getMetaProperty(wb);
                 if (a != null) {
                     return a
                 }
                 return W
             }
             function h() {
-                var a = p.getElementsByTagName(cb);
-                for (var b = P; b < a.length; ++b) {
-                    if (a[b].src.indexOf(Ab) != -1) {
+                var a = o.getElementsByTagName(_);
+                for (var b = O; b < a.length; ++b) {
+                    if (a[b].src.indexOf(xb) != -1) {
                         return e(a[b].src)
                     }
                 }
                 return W
             }
             function i() {
-                var a = p.getElementsByTagName(Bb);
-                if (a.length > P) {
-                    return a[a.length - Q].href
+                var a = o.getElementsByTagName(yb);
+                if (a.length > O) {
+                    return a[a.length - P].href
                 }
                 return W
             }
             function j() {
-                var a = p.location;
-                return a.href == a.protocol + Cb + a.host + a.pathname + a.search
-                        + a.hash
+                var a = o.location;
+                return a.href == a.protocol + zb + a.host + a.pathname + a.search + a.hash
             }
             var k = g();
             if (k == W) {
@@ -1703,12 +1728,13 @@ GGBAppletUtils.makeModule = function(name, permutation){
                 k = i()
             }
             if (k == W && j()) {
-                k = e(p.location.href)
+                k = e(o.location.href)
             }
             k = f(k);
             return k
         }
-        function D(a) {
+
+        function C(a) {
             if (a.match(/^\//)) {
                 return a
             }
@@ -1717,111 +1743,71 @@ GGBAppletUtils.makeModule = function(name, permutation){
             }
             return webModule.__moduleBase + a
         }
-        function F() {
+
+        function D() {
             var f = [];
-            var g = P;
-            function h(a, b) {
-                var c = f;
-                for (var d = P, e = a.length - Q; d < e; ++d) {
-                    c = c[a[d]] || (c[a[d]] = [])
-                }
-                c[a[e]] = b
-            }
+            var g = O;
+            var h = [];
             var i = [];
-            var j = [];
-            function k(a) {
-                var b = j[a](), c = i[a];
+
+            function j(a) {
+                var b = i[a](),
+                    c = h[a];
                 if (b in c) {
                     return b
                 }
                 var d = [];
-                for ( var e in c) {
+                for (var e in c) {
                     d[c[e]] = e
                 }
-                if (s) {
-                    s(a, d, b)
+                if (r) {
+                    r(a, d, b)
                 }
                 throw null
             }
-            j[Db] = function() {
-                var a = navigator.userAgent.toLowerCase();
-                var b = p.documentMode;
-                if (function() {
-                    return a.indexOf(Eb) != -1
-                }())
-                    return Fb;
-                if (function() {
-                    return a.indexOf(Gb) != -1 && (b >= $ && b < Hb)
-                }())
-                    return Ib;
-                if (function() {
-                    return a.indexOf(Gb) != -1 && (b >= Jb && b < Hb)
-                }())
-                    return Kb;
-                if (function() {
-                    return a.indexOf(Gb) != -1 && (b >= Lb && b < Hb)
-                }())
-                    return Mb;
-                if (function() {
-                    return a.indexOf(Nb) != -1 || b >= Hb
-                }())
-                    return Ob;
-                return Fb
-            };
-            i[Db] = {
-                'gecko1_8' : P,
-                'ie10' : Q,
-                'ie8' : Pb,
-                'ie9' : Qb,
-                'safari' : Rb
-            };
             __gwt_isKnownPropertyValue = function(a, b) {
-                return b in i[a]
+                return b in h[a]
             };
             webModule.__getPropMap = function() {
                 var a = {};
-                for ( var b in i) {
-                    if (i.hasOwnProperty(b)) {
-                        a[b] = k(b)
+                for (var b in h) {
+                    if (h.hasOwnProperty(b)) {
+                        a[b] = j(b)
                     }
                 }
                 return a
             };
-            webModule.__computePropValue = k;
-            o.__gwt_activeModules[M].bindings = webModule.__getPropMap;
+            webModule.__computePropValue = j;
+            n.__gwt_activeModules[L].bindings = webModule.__getPropMap;
 
-            if (q()) {
-                return D(Tb)
+            if (p()) {
+                return C(Bb)
             }
-            var l;
+            var k;
             try {
-                h([ Ob ], Ub);
-                h([ Ib ], Ub + Vb);
-                h([ Kb ], Ub + Wb);
-                h([ Fb ], Ub + Xb);
-                l = f[k(Db)];
-                var m = l.indexOf(Yb);
-                if (m != -1) {
-                    g = parseInt(l.substring(m + Q), $);
-                    l = l.substring(P, m)
+                k = Cb;
+                var l = k.indexOf(Db);
+                if (l != -1) {
+                    g = parseInt(k.substring(l + P), $);
+                    k = k.substring(O, l)
                 }
-            } catch (a) {
-            }
+            } catch (a) {}
             webModule.__softPermutationId = g;
-            return D(l + Zb)
+            return C(k + Eb)
         }
-        function G() {
-            if (!o.__gwt_stylesLoaded) {
-                o.__gwt_stylesLoaded = {}
+
+        function F() {
+            if (!n.__gwt_stylesLoaded) {
+                n.__gwt_stylesLoaded = {}
             }
         }
-        B();
+        A();
         webModule.__moduleBase = "%MODULE_BASE%" + name + "/";
-        t[M].moduleBase = webModule.__moduleBase;
-        var H = F();
-        G();
+        s[L].moduleBase = webModule.__moduleBase;
+        var G = D();
+        F();
 
-        A(H);
+        w(G);
         return true
     }
     return webModule;

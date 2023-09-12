@@ -40,6 +40,7 @@ public class HeaderView extends FlowPanel {
 		backButton = new StandardButton(
 				GuiResourcesSimple.INSTANCE.arrow_back(), null, 24);
 		backButton.setStyleName(BACK_BUTTON_STYLE_NAME);
+		backButton.addStyleName("flatButtonHeader");
 
 		add(backButton);
 	}

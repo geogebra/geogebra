@@ -31,7 +31,7 @@ public class CmdSpline extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
