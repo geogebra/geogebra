@@ -125,13 +125,18 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem share = enableFileFeatures ? share() : null;
 		MenuItem downloadAs = isWeb() ? showDownloadAs() : null;
 		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
+		MenuItem exportImage = imageExportEnabled() ? exportImage() : null;
 
 		if (isSuiteScientific(version)) {
 			return new MenuItemGroupImpl(
 					removeNulls(clearConstruction, openFile, startExamMode));
 		}
 		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, saveOffline,
-				share, exportImage(), downloadAs, printPreview, startExamMode));
+				share, exportImage, downloadAs, printPreview, startExamMode));
+	}
+
+	private boolean imageExportEnabled() {
+		return !isSuiteScientific(version);
 	}
 
 	protected MenuItem saveFileOnline() {
