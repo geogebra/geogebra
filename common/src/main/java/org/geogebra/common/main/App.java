@@ -4037,6 +4037,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * If an exam is active, re-enable any exam restrictions.
+	 */
+	public void reEnableExamRestrictions() {
+		if (getExam() != null && isExamStarted() && restrictions != null) {
+			restrictions.enable();
+		}
+	}
+	
+	/**
 	 * Show exam welcome message.
 	 */
 	public void examWelcome() {
