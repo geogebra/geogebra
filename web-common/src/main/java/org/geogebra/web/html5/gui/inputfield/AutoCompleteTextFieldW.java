@@ -342,7 +342,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		DefaultTextFieldController defaultTextFieldController =
 				new DefaultTextFieldController(this);
 
-		return true || isCursorOverlayNeeded()
+		return isCursorOverlayNeeded()
 				? new CursorOverlayController(this, main, defaultTextFieldController)
 				: defaultTextFieldController;
 	}
