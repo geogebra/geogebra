@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.inputfield;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
