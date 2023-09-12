@@ -63,7 +63,8 @@
     function isEmbed() {
         return false;
     }
-    const accessToken = window.parent.document.body.getAttribute("data-accessToken");
+    const accessToken = window.accessToken
+        || (window.parent.document.body && window.parent.document.body.getAttribute("data-accessToken"));
     if (accessToken) {
        sessionStorage.setItem("token", accessToken);
     }
