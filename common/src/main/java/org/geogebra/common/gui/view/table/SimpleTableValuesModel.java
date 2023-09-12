@@ -570,8 +570,6 @@ final class SimpleTableValuesModel implements TableValuesModel {
 					? columnNames[columnIdx] : columnLabels[columnIdx];
 			// note: setting the label has the side effect of adding the column to the construction!
 			values.setLabel(label);
-			// the simple label is used in {@link #TableValuesListColumn.getHeaderName()}
-			values.setLabelSimple(name);
 			values.setTableColumn(columnIdx);
 			values.setPointsVisible(false);
 			TableValuesColumn column = new TableValuesListColumn(values);

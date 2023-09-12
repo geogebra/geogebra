@@ -67,7 +67,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	}
 
 	@Test
-	public void testImportCSVHeader() {
+	public void testImportCSVDiscardingHeader() {
 		Reader reader = loadSample("integers-comma-header.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -97,7 +97,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 		assertEquals("A", tableValuesView.getTableValuesModel().getHeaderAt(0));
-		assertEquals("B", tableValuesView.getTableValuesModel().getHeaderAt(1));
+		// The column names for the other columns are not yet used, this will need further
+		// work if we want to support importing column names into the TableValuesView/Model.
+		assertEquals("y_{1}"/*"B"*/, tableValuesView.getTableValuesModel().getHeaderAt(1));
 		// no points should be created during import
 		assertFalse(tableValuesPoints.arePointsVisible(0));
 		assertFalse(tableValuesPoints.arePointsVisible(1));
@@ -116,7 +118,6 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, totalRowCount);
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
-		// the importer by default supplies column names x, y_{1}, y_{2}, etc
 		assertEquals("x", tableValuesView.getTableValuesModel().getHeaderAt(0));
 		assertEquals("y_{1}", tableValuesView.getTableValuesModel().getHeaderAt(1));
 		// no points should be created during import
@@ -254,7 +255,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	}
 
 	@Test
-	public void testImportCSVStrings() {
+	public void testImportCSVWithStrings() {
 		Reader reader = loadSample("strings-comma-noheader.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -274,7 +275,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	}
 
 	@Test
-	public void testImportCSVIntegersStrings() {
+	public void testImportCSVWithIntegersAndStrings() {
 		Reader reader = loadSample("integers-strings-comma-noheader.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -333,7 +334,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 		assertEquals("A", tableValuesView.getTableValuesModel().getHeaderAt(0));
-		assertEquals("B", tableValuesView.getTableValuesModel().getHeaderAt(1));
+		assertEquals("y_{1}", tableValuesView.getTableValuesModel().getHeaderAt(1));
 
 		getKernel().undo();
 		assertEquals(0, tableValuesView.getTableValuesModel().getRowCount());
@@ -344,21 +345,33 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 		assertEquals("A", tableValuesView.getTableValuesModel().getHeaderAt(0));
-		assertEquals("B", tableValuesView.getTableValuesModel().getHeaderAt(1));
+		assertEquals("y_{1}", tableValuesView.getTableValuesModel().getHeaderAt(1));
+	}
+
+	@Test
+	public void testOverwriteExistingData() {
+		inputData(new String[]{"1", "2", "3"}, new String[]{"1", "2", "3"});
+		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+
+		Reader reader = loadSample("integers-comma-header.csv");
+		boolean success = dataImporter.importCSV(reader, '.');
+		assertTrue(success);
+		assertEquals(10, currentRow);
+		assertEquals(10, totalRowCount);
+		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+		assertEquals(2.0, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
+		assertEquals(4.0, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
+		assertEquals(6.0, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
+		assertEquals(8.0, tableValuesView.getTableValuesModel().getValueAt(3, 1), 0.0);
 	}
 
 	@Test
 	public void testReloadRegression() {
-		GeoList x = tableValuesView.getValues();
-		tableValuesView.getProcessor().processInput("1", x, 0);
-		tableValuesView.getProcessor().processInput("2", x, 1);
-		tableValuesView.getProcessor().processInput("3", x, 2);
-
-		GeoList y = new GeoList(getConstruction());
-		tableValuesView.addAndShow(y);
-		tableValuesView.getProcessor().processInput("2", y, 0);
-		tableValuesView.getProcessor().processInput("4", y, 1);
-		tableValuesView.getProcessor().processInput("6", y, 2);
+		inputData(new String[]{"1", "2", "3"}, new String[]{"2", "4", "6"});
+		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
 		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
@@ -396,6 +409,23 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 			return null;
 		}
 		return new InputStreamReader(inputStream);
+	}
+
+	private void inputData(String[] xValues, String[] yValues) {
+		if (xValues != null) {
+			GeoList xColumn = tableValuesView.getValues();
+			for (int index = 0; index < xValues.length; index++) {
+				tableValuesView.getProcessor().processInput(xValues[index], xColumn, index);
+			}
+		}
+
+		if (yValues != null) {
+			GeoList yColumn = new GeoList(getConstruction());
+			tableValuesView.addAndShow(yColumn);
+			for (int index = 0; index < yValues.length; index++) {
+				tableValuesView.getProcessor().processInput(yValues[index], yColumn, index);
+			}
+		}
 	}
 
 	// DataImporterDelegate
