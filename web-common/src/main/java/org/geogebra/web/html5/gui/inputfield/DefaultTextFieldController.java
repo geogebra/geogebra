@@ -10,6 +10,7 @@ import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.user.client.ui.ValueBoxBase;
 
 /**
  * Default implementation of TextFieldController.
@@ -111,5 +112,24 @@ public final class DefaultTextFieldController implements TextFieldController {
 	public int getSelectionEnd() {
 		return getSelectionStart()
 				+ textField.getTextField().getValueBox().getSelectionLength();
+	}
+
+	@Override
+	public void clearSelection() {
+		ValueBoxBase<String> valueBox = textField.getTextField().getValueBox();
+		int start = textField.getText()
+				.indexOf(valueBox.getSelectedText());
+		int end = start + valueBox.getSelectionLength();
+		// clear selection if there is one
+		if (start != end) {
+			int pos = textField.getCaretPosition();
+			String oldText = textField.getText();
+			String sb = oldText.substring(0, start) + oldText.substring(end);
+			textField.setText(sb);
+			if (pos < sb.length()) {
+				textField.setCaretPosition(pos);
+			}
+		}
+
 	}
 }

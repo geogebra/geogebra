@@ -72,4 +72,9 @@ public interface TextFieldController {
 	 * @return the end of the selection of the textfield
 	 */
 	int getSelectionEnd();
+
+	/**
+	 * clears selection.
+	 */
+	void clearSelection();
 }

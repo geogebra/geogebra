@@ -31,6 +31,7 @@ public class CursorOverlayController implements TextFieldController,
 	private final AppW app;
 	private final AutoCompleteTextFieldW textField;
 	private final FlowPanel main;
+	private final TextFieldController defaultController;
 	private CursorOverlay cursorOverlay;
 	private double blinkHandler;
 
@@ -40,10 +41,12 @@ public class CursorOverlayController implements TextFieldController,
 	 * @param textField to have the overlay.
 	 * @param main widget of the textfield.
 	 */
-	public CursorOverlayController(AutoCompleteTextFieldW textField, FlowPanel main) {
+	public CursorOverlayController(AutoCompleteTextFieldW textField, FlowPanel main,
+			TextFieldController defaultController) {
 		this.app = textField.getApplication();
 		this.textField = textField;
 		this.main = main;
+		this.defaultController = defaultController;
 		enableForTextField();
 	}
 
@@ -148,12 +151,14 @@ public class CursorOverlayController implements TextFieldController,
 
 	@Override
 	public void setFont(GFont font) {
+		defaultController.setFont(font);
 		Dom.setImportant(cursorOverlay.getElement().getStyle(), "font-size",
 				font.getSize() + "px");
 	}
 
 	@Override
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
+		defaultController.setHorizontalAlignment(alignment);
 		cursorOverlay.setHorizontalAlignment(alignment);
 	}
 
@@ -210,7 +215,14 @@ public class CursorOverlayController implements TextFieldController,
 
 	@Override
 	public int getSelectionEnd() {
-		return textField.getText().length();
+		return cursorOverlay.hasFakeSelection() ? textField.getText().length() : 0;
+	}
+
+	@Override
+	public void clearSelection() {
+		textField.setText("");
+		cursorOverlay.removeFakeSelection();
+		cursorOverlay.clear();
 	}
 
 	public boolean isSelected() {

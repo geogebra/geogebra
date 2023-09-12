@@ -335,9 +335,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		addContent(textField);
 		add(main);
-		textFieldController = isCursorOverlayNeeded()
-			? new CursorOverlayController(this, main)
-			: new DefaultTextFieldController(this);
+		textFieldController = createTextFieldController();
+	}
+
+	private TextFieldController createTextFieldController() {
+		DefaultTextFieldController defaultTextFieldController =
+				new DefaultTextFieldController(this);
+
+		return true || isCursorOverlayNeeded()
+				? new CursorOverlayController(this, main, defaultTextFieldController)
+				: defaultTextFieldController;
 	}
 
 	public void addContent(IsWidget widget) {
@@ -541,22 +548,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
-	private void clearSelection() {
-		int start = textField.getText()
-				.indexOf(textField.getValueBox().getSelectedText());
-		int end = start + textField.getValueBox().getSelectionLength();
-		// clear selection if there is one
-		if (start != end) {
-			int pos = getCaretPosition();
-			String oldText = getText();
-			String sb = oldText.substring(0, start) + oldText.substring(end);
-			setText(sb);
-			if (pos < sb.length()) {
-				setCaretPosition(pos);
-			}
-		}
-	}
-
 	/**
 	 * Updates curWord to word at current caret position. curWordStart,
 	 * curWordEnd are set to this word's start and end position
@@ -702,7 +693,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				|| ch == ']')) {
 			return;
 		}
-		clearSelection();
+		textFieldController.clearSelection();
 		caretPos = getCaretPosition();
 
 		if (ch == '}' || ch == ')' || ch == ']') {
@@ -926,7 +917,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
 					&& (e.getNativeKeyCode() != GWTKeycodes.KEY_A)) {
-				clearSelection();
+				textFieldController.clearSelection();
 			}
 
 			// handle alt-p etc
@@ -1072,8 +1063,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	@Override
 	public void insertString(String text) {
-		int start = getSelectionStart();
-		int end = getSelectionEnd();
+		int start = textFieldController.getSelectionStart();
+		int end = textFieldController.getSelectionEnd();
 
 		setText(start, end, text);
 		if (insertHandler != null) {
@@ -1098,8 +1089,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	@Override
 	public void onBackSpace() {
-		int start = getSelectionStart();
-		int end = getSelectionEnd();
+		int start = textFieldController.getSelectionStart();
+		int end = textFieldController.getSelectionEnd();
 
 		if (end - start < 1) {
 			end = getCaretPosition();
@@ -1133,14 +1124,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (newPos <= getText().length()) {
 			setCaretPosition(newPos);
 		}
-	}
-
-	private int getSelectionEnd() {
-		return textFieldController.getSelectionStart();
-	}
-
-	private int getSelectionStart() {
-		return textFieldController.getSelectionStart();
 	}
 
 	@Override
