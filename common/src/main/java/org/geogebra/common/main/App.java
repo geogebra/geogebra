@@ -1426,18 +1426,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *         USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
 	 *         of AV
 	 */
-	public int getCurrentLabelingStyle() {
-		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+	public LabelVisibility getCurrentLabelingStyle() {
+		LabelVisibility userValue = getSettings().getLabelSettings().getLabelVisibility();
+		if (userValue == LabelVisibility.Automatic) {
 			if ((getGuiManager() != null)
 					&& getGuiManager().hasAlgebraViewShowing()
 					&& getAlgebraView().isVisible()) {
-					// default behaviour for other views
-					return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
+				// default behaviour for other views
+				return LabelVisibility.UseDefaults;
 			}
 			// no AV: no label
-			return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+			return LabelVisibility.AlwaysOff;
 		}
-		return getLabelingStyle();
+		return userValue;
 	}
 
 	/**

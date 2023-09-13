@@ -102,4 +102,5 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	default boolean needsUpdatedBoundingBox() {
 		return false;
 	}
+
 }
