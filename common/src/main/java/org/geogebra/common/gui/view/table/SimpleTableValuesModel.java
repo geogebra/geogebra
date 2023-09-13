@@ -565,10 +565,10 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		for (int columnIdx = 1; columnIdx < importColumns.length; columnIdx++) {
 			GeoList values = importColumns[columnIdx];
 			String label = columnLabels[columnIdx];
-			String name = columnNames != null && columnNames[columnIdx] != null
-					? columnNames[columnIdx] : columnLabels[columnIdx];
-			// note: setting the label has the side effect of adding the column to the construction!
+			// Note: setting the label has the side effect of adding the column to the construction!
 			values.setLabel(label);
+			// Note: The column names for the y columns are not yet used. This will need further
+			// work if we want to support importing column names into the TableValuesView/Model.
 			values.setTableColumn(columnIdx);
 			values.setPointsVisible(false);
 			TableValuesColumn column = new TableValuesListColumn(values);

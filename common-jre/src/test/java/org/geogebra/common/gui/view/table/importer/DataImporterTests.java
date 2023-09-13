@@ -389,7 +389,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		Reader reader = loadSample("integers-comma-noheader.csv");
 		dataImporter.importCSV(reader, '.');
 		GeoList x = tableValuesView.getValues();
-		GeoList y1 = (GeoList)tableValuesView.getEvaluatable(1);
+		GeoList y1 = (GeoList) tableValuesView.getEvaluatable(1);
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
