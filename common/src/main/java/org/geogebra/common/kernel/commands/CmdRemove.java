@@ -25,7 +25,7 @@ public class CmdRemove extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

@@ -139,8 +139,8 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	@Override
-	protected MyRendererForAlgebraTree newMyRenderer(AppD app) {
-		return new MyRendererForAlgebraView(app, this);
+	protected AlgebraTreeCellRenderer newMyRenderer(AppD app) {
+		return new AlgebraViewCellRenderer(app, this);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +33,7 @@ public class CmdSlider extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);

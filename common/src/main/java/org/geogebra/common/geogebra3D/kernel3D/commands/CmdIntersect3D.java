@@ -9,6 +9,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdIntersect;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -50,7 +51,7 @@ public class CmdIntersect3D extends CmdIntersect {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -256,7 +257,7 @@ public class CmdIntersect3D extends CmdIntersect {
 
 			}
 
-			return super.process(c);
+			return super.process(c, info);
 
 		case 3:
 			arg = resArgs(c);
@@ -347,7 +348,7 @@ public class CmdIntersect3D extends CmdIntersect {
 			}
 
 		default:
-			return super.process(c);
+			return super.process(c, info);
 		// throw argNumErr(c);
 		}
 	}

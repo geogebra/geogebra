@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.advanced.CmdIntersectPath;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -35,7 +36,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -45,7 +46,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			arg = resArgs(c);
 
 			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D()) {
-				return super.process(c);
+				return super.process(c, info);
 			}
 
 			// Line - Polygon(as region) in 2D/3D
@@ -127,7 +128,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			throw argErr(c, getBadArg(ok, arg));
 
 		default:
-			return super.process(c);
+			return super.process(c, info);
 		}
 	}
 

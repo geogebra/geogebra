@@ -340,8 +340,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 
 			&:hover {
-				/*background-color: #666;*/
-				background-color: colors.$selected-menuitem-background;
+				background-color: neutral(200);
 
 				img {
 					opacity: 1;
@@ -375,8 +374,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 
 			&:hover, &:focus {
-				/*background-color: #666;*/
-				background-color: colors.$selected-menuitem-background;
+				background-color: neutral(200);
 
 				img {
 					opacity: 0;
@@ -445,7 +443,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				img {
 					opacity: 1;
 				}
-				background-color: colors.$mow_card_background_hover;
+				background-color: neutral(200);
 			}
 		}
 		.zoomPanelHomeIn {
