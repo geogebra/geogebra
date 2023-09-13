@@ -202,12 +202,21 @@ window.__MODULE_FUNC__ = function() {
 }
 
 window.__MODULE_FUNC__.submodules = {};
-window.__MODULE_FUNC__.onReady = function(submodule, render) {
-  for (let callback of window.__MODULE_FUNC__.submodules[submodule].callbacks) {
+window.__MODULE_FUNC__.onReady = function(submodule, userRender) {
+  function beforeRender(options, onload) {
+  		console.log("beforeRender: " + options.material_id)
+
+  }
+
+  const render = (options, onload) => {
+      beforeRender(options, onload);
+      userRender(options,onload);
+  }
+
+    for (let callback of window.__MODULE_FUNC__.submodules[submodule].callbacks) {
     callback(render);
   }
   window.__MODULE_FUNC__.submodules[submodule].render = render;
-  window.__MODULE_FUNC__.submodules[submodule].beforeRender = function(options, runCallbacks) {console.log("wwwwwwwww");};
  }
 
 window.__MODULE_FUNC__.succeeded = window.__MODULE_FUNC__();
@@ -226,11 +235,8 @@ function Widget(options, submodule, baseTag)  {
    function load() {
      self.loading = true;
      if (submodule.render) {
-     	 console.log("1" + submodule);
 	     submodule.render(options, runCallbacks);
      } else {
-     	 console.dir(submodule);
-         submodule.callbacks.push(beforeRender => beforeRender(options, runCallbacks));
          submodule.callbacks.push(render => render(options, runCallbacks));
      }
    }
