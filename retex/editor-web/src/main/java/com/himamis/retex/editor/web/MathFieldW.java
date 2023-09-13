@@ -314,7 +314,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setTeXIcon(TeXIcon icon) {
 		this.lastIcon = icon;
 
-
 		Point2DW size = computeSize();
 		if (ctx == null || size == null) {
 			return;
