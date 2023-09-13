@@ -1,7 +1,5 @@
 package org.geogebra.keyboard.web.factory.model.inputbox.math;
 
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.DEGREE;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
@@ -13,7 +11,6 @@ import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
-import org.geogebra.keyboard.base.model.impl.factory.Characters;
 import org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil;
 import org.geogebra.keyboard.web.factory.model.inputbox.util.MathKeyUtil;
 
@@ -25,6 +22,8 @@ public class VectorMatrixMathKeyboardFactory implements KeyboardModelFactory {
 
 		RowImpl row = mathKeyboard.nextRow(9.2f);
 		MathKeyUtil.addXYZ(row, buttonFactory);
+		addInputButton(row, buttonFactory, ".");
+		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addFirstRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
@@ -34,10 +33,7 @@ public class VectorMatrixMathKeyboardFactory implements KeyboardModelFactory {
 		NumberKeyUtil.addSecondRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
-		addInputButton(row, buttonFactory, Characters.imaginaryI, "i", "altText.Imaginaryi");
-		addInputButton(row, buttonFactory, INFINITY);
-		addInputButton(row, buttonFactory, DEGREE);
-		addInputButton(row, buttonFactory, ".");
+		MathKeyUtil.addPiEIDegree(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 
 		addInputButton(row, buttonFactory, "1");
@@ -49,7 +45,7 @@ public class VectorMatrixMathKeyboardFactory implements KeyboardModelFactory {
 				Action.BACKSPACE_DELETE);
 
 		row = mathKeyboard.nextRow(9.2f);
-		MathKeyUtil.addParenthesesPiE(row, buttonFactory);
+		MathKeyUtil.addParenthesesFractionMixed(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 
 		addInputButton(row, buttonFactory, "0");

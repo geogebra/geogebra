@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.base.model.impl.factory;
+package org.geogebra.keyboard.web.factory.model.solver;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ANGLE;
@@ -6,6 +6,7 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.APOSTROPH
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.CIRCLED_TIMES;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.COLON;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.COMMA;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ELEMENT_OF;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.HASHTAG;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
@@ -24,7 +25,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUOTATION
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHTWARDS_ARROW;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_SQUARE_BRACKET;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SECONDS;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.SEMICOLON;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF_OR_EQUAL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
@@ -38,8 +38,9 @@ import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
+import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 
-public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
+public class SolverSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 
 	@Override
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
@@ -80,7 +81,7 @@ public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 				Action.BACKSPACE_DELETE);
 
 		row = mathKeyboard.nextRow(8.0f);
-		addInputButton(row, buttonFactory, SEMICOLON);
+		addInputButton(row, buttonFactory, COMMA);
 		addInputButton(row, buttonFactory, APOSTROPHE);
 		addInputButton(row, buttonFactory, QUOTATION_MARK);
 		addInputButton(row, buttonFactory, MINUTES);
