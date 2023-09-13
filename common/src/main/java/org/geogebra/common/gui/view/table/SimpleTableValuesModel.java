@@ -273,7 +273,6 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	public GeoList getValueList() {
 		if (settings.getValueList() == null) {
 			GeoList xValues = setupXValues(new GeoList(kernel.getConstruction()));
-			xValues.setLabel(kernel.getConstruction().buildIndexedLabel("x", false));
 			settings.setValueList(xValues);
 		}
 		return settings.getValueList();
