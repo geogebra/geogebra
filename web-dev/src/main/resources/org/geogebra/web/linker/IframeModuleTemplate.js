@@ -204,8 +204,7 @@ window.__MODULE_FUNC__ = function() {
 window.__MODULE_FUNC__.submodules = {};
 window.__MODULE_FUNC__.onReady = function(submodule, userRender) {
   function beforeRender(options, onload) {
-  		console.log("beforeRender: " + options.material_id)
-
+	/* __BEFORE_RENDER__ */
   }
 
   const render = (options, onload) => {
@@ -245,6 +244,7 @@ function Widget(options, submodule, baseTag)  {
        const target = document.createElement(baseTag);
        options.element = target;
        element.appendChild(target);
+       element.setAttribute("data-param-fileName", options.fileName);
        load();
        return this;
    }
@@ -274,6 +274,5 @@ const createSubmoduleAPI = (submodule, baseTag) => {
     }
   }
 };
-
 // add export statements
 __EXPORT_SUBMODULES__
