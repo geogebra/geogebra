@@ -204,12 +204,13 @@ window.__MODULE_FUNC__ = function() {
 window.__MODULE_FUNC__.submodules = {};
 window.__MODULE_FUNC__.onReady = function(submodule, userRender) {
   function beforeRender(options, onload) {
-	/* __BEFORE_RENDER__ */
+  		return new Promise(resolve => {
+			/* __BEFORE_RENDER__ */
+		});
   }
 
   const render = (options, onload) => {
-      beforeRender(options, onload);
-      userRender(options,onload);
+      beforeRender(options, onload).then(opts => userRender(opts, onload))
   }
 
     for (let callback of window.__MODULE_FUNC__.submodules[submodule].callbacks) {
@@ -244,7 +245,6 @@ function Widget(options, submodule, baseTag)  {
        const target = document.createElement(baseTag);
        options.element = target;
        element.appendChild(target);
-       element.setAttribute("data-param-fileName", options.fileName);
        load();
        return this;
    }

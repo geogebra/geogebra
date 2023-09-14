@@ -1,5 +1,6 @@
 package org.geogebra.web.geogebra3D;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -29,14 +30,7 @@ public final class RenderMathApps implements RenderGgbElementFunction {
 		GeoGebraElement element = GeoGebraElement.as(provider.getElement());
 		final GeoGebraFrameFull full = new GeoGebraFrameFull(factory, laf,
 				null, element, parameters);
-		DomGlobal.window.addEventListener("resize", evt -> onResize(full));
 		full.renderArticleElementWithFrame(element, provider, callback);
 		full.updateArticleHeight();
 	}
-
-	private void onResize(GeoGebraFrameFull full) {
-		DomGlobal.console.debug("onResize");
-		full.setSize(800, 600);
-	}
-
 }

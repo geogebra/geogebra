@@ -65,10 +65,11 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 					.replace("%0", parts[0]).replace("%1", parts[1]));
 		}
 		Optional<String> beforeRenderJS = getBeforeRenderJS(context);
-		if (beforeRenderJS.isPresent()) {
-			replaceAll(buffer, "/* __BEFORE_RENDER__ */",
-					readFileToStringBuffer(beforeRenderJS.get(), logger).toString());
-		}
+		String beforeRenderContent = beforeRenderJS.isPresent()
+				? readFileToStringBuffer(beforeRenderJS.get(), logger).toString()
+				: "resolve(options)";
+
+		replaceAll(buffer, "/* __BEFORE_RENDER__ */", beforeRenderContent);
 
 		replaceAll(buffer, "__EXPORT_SUBMODULES__", exports.toString());
 		return fillSelectionScriptTemplate(

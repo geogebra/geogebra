@@ -1,4 +1,4 @@
-var fetchParametersFromApi = function(successCallback) {
+var fetchParametersFromApi = function() {
          var onSuccess = function(text) {
             var jsonData= JSON.parse(text);
             // handle either worksheet or single element format
@@ -9,7 +9,7 @@ var fetchParametersFromApi = function(successCallback) {
                 return;
             }
 
-            options.fileName = item.url;
+            options.filename = item.url;
             updateAppletSettings(item.settings || {});
 
 
@@ -18,7 +18,8 @@ var fetchParametersFromApi = function(successCallback) {
 //            applet.setPreviewImage(previewImagePath || item.previewUrl,
 //                imageDir + 'GeoGebra_loading.png', imageDir + 'applet_play.png');
 
-            successCallback();
+//            successCallback();
+			resolve(options);
         };
         var onError = function() {
             options.onError && options.onError();
@@ -65,4 +66,4 @@ var fetchParametersFromApi = function(successCallback) {
         xhr.send();
     }
 
-    fetchParametersFromApi(function() {console.log("Fetching material done." + options.fileName)})
+    fetchParametersFromApi();
