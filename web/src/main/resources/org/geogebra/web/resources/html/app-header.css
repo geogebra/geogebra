@@ -34,6 +34,7 @@
 .GeoGebraHeader .signIn {
 	color: rgb(0,0,0);
 	opacity: 0.87;
+	padding: 4px 8px;
 }
 
 .GeoGebraHeader .signIn:hover{
