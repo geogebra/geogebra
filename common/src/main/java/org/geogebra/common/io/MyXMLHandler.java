@@ -1584,9 +1584,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			// set label
-			if (!StringUtil.empty(label)) {
-				ev.setAxisLabel(axis, label);
-			}
+			ev.setAxisLabel(axis, label);
 
 			// set unitlabel
 			if (!StringUtil.empty(unitLabel)) {
