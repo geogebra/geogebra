@@ -230,6 +230,8 @@ function Widget(options, submodule, baseTag)  {
      for (const callback of self.apiCallbacks) {
        callback(api);
      }
+     options.appletOnLoad()
+
    }
 
    function load() {

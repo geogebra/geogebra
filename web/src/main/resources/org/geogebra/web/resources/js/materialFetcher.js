@@ -1,3 +1,79 @@
+    var previewImagePath = null;
+    var previewLoadingPath = null;
+    var previewPlayPath = null;
+
+    var setPreviewImage = function(previewFilePath, loadingFilePath, playFilePath) {
+                previewImagePath = previewFilePath;
+                previewLoadingPath = loadingFilePath;
+                previewPlayPath = playFilePath;
+    };
+
+    var createScreenShotDiv = function(oriWidth, oriHeight, borderColor, showPlayButton) {
+        var previewContainer = document.createElement("div");
+        previewContainer.className = "ggb_preview";
+        previewContainer.style.position = "absolute";
+        previewContainer.style.zIndex = "90";
+        previewContainer.style.width = oriWidth-2+'px'; // Remove 2 pixel for the border
+        previewContainer.style.height = oriHeight-2+'px'; // Remove 2 pixel for the border
+        previewContainer.style.top = "0px";
+        previewContainer.style.left = "0px";
+        previewContainer.style.overflow = "hidden";
+        previewContainer.style.backgroundColor = "white";
+        var bc = 'lightgrey';
+        if (borderColor !== undefined) {
+            if (borderColor === "none") {
+                bc = "transparent";
+            } else {
+                bc = borderColor;
+            }
+        }
+        previewContainer.style.border = "1px solid " + bc;
+
+        var preview = document.createElement("img");
+        preview.style.position = "relative";
+        preview.style.zIndex = "1000";
+        preview.style.top = "-1px"; // Move up/left to hide the border on the image
+        preview.style.left = "-1px";
+        if (previewImagePath !== null) {
+            preview.setAttribute("src", previewImagePath);
+        }
+        preview.style.opacity = 0.7;
+
+        if (previewLoadingPath !== null) {
+
+            var previewOverlay;
+
+            var pWidth, pHeight;
+            if (!showPlayButton) {
+                previewOverlay = document.createElement("img");
+                previewOverlay.style.position = "absolute";
+                previewOverlay.style.zIndex = "1001";
+                previewOverlay.style.opacity = 1.0;
+
+                preview.style.opacity = 0.3;
+
+                pWidth = 360;
+                if (pWidth > (oriWidth/4*3)) {
+                    pWidth = oriWidth/4*3;
+                }
+                pHeight = pWidth/5.8;
+                previewOverlay.setAttribute("src", previewLoadingPath);
+
+                previewOverlay.setAttribute("width", pWidth);
+                previewOverlay.setAttribute("height", pHeight);
+                var pX = (oriWidth - pWidth) / 2;
+                var pY = (oriHeight - pHeight) / 2;
+                previewOverlay.style.left = pX + "px";
+                previewOverlay.style.top = pY + "px";
+
+                previewContainer.appendChild(previewOverlay);
+            }
+        }
+
+        previewContainer.appendChild(preview);
+        return previewContainer;
+    };
+
 var fetchParametersFromApi = function() {
          var onSuccess = function(text) {
             var jsonData= JSON.parse(text);
@@ -15,10 +91,29 @@ var fetchParametersFromApi = function() {
 
             // user setting of preview URL has precedence
             var imageDir = 'https://www.geogebra.org/images/';
-//            applet.setPreviewImage(previewImagePath || item.previewUrl,
-//                imageDir + 'GeoGebra_loading.png', imageDir + 'applet_play.png');
+            setPreviewImage(previewImagePath || item.previewUrl,
+            imageDir + 'GeoGebra_loading.png', imageDir + 'applet_play.png');
 
-//            successCallback();
+			var oriWidth=800;
+			var oriHeight=800;
+ 		   var previewContainer = createScreenShotDiv(oriWidth, oriHeight, options.borderColor, false);
+                // This div is needed to have an element with position relative as origin for the absolute positioned image
+	       var previewPositioner = document.createElement("div");
+			previewPositioner.className = "applet_scaler";
+			previewPositioner.style.position = "relative";
+			previewPositioner.style.display = 'block';
+			previewPositioner.style.width = oriWidth+'px';
+			previewPositioner.style.height = oriHeight+'px';
+			previewPositioner.appendChild(previewContainer);
+			var parentElement = options.element.parentElement;
+			previewPositioner.appendChild(options.element);
+			parentElement.appendChild(previewPositioner);
+			options.appletOnLoad = function() {
+                                var preview = document.querySelector(".ggb_preview");
+                                if (preview) {
+                                    preview.parentNode.removeChild(preview);
+                                }
+            }
 			resolve(options);
         };
         var onError = function() {
