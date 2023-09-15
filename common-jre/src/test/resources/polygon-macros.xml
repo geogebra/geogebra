@@ -712,6 +712,179 @@
             </element>
         </construction>
     </macro>
+    <macro cmdName="VHCenter" toolName="VHCenter" toolHelp="VHCenter(P1,P2,P3)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="answerTriangleD" a1="answerTriangleE" a2="SimMove"/>
+        <macroOutput a0="MidDEFFinal"/>
+        <construction title="" author="" date="">
+            <element type="point" label="answerTriangleD">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelOffset x="-27" y="7"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#this is an answer point for the dilated triangle&#xa;#it is always shown because the coordinates of D and E never change"/>
+                <caption val="$\textbf{\mathsf{D}}$"/>
+                <pointSize val="1"/>
+                <pointStyle val="10"/>
+                <coords x="11.510253001455107" y="-2.4472886697615848" z="1"/>
+            </element>
+            <element type="point" label="answerTriangleE">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelOffset x="-2" y="13"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#this is an answer point for the dilated triangle&#xa;#it is always shown because the coordinates of D and E never change"/>
+                <caption val="$\textbf{\mathsf{E}}$"/>
+                <pointSize val="1"/>
+                <pointStyle val="10"/>
+                <coords x="11.84508407542691" y="2.341018771485573" z="1"/>
+            </element>
+            <element type="polygon" label="answerTriangle">
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <show object="true" label="false" ev="4"/>
+                <objColor r="58" g="110" b="214" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+            </element>
+            <element type="segment" label="answerTriangleDE">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="58" g="110" b="214" alpha="0"/>
+                <layer val="1"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <auxiliary val="false"/>
+                <ggbscript val="#updated answer triangle side"/>
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <outlyingIntersections val="false"/>
+                <keepTypeOnTransform val="true"/>
+                <startStyle val="default"/>
+                <endStyle val="default"/>
+                <coords x="-4.788307441247158" y="0.3348310739718041" z="55.93405839112022"/>
+            </element>
+            <element type="segment" label="answerTriangleEF">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="218" g="37" b="112" alpha="0"/>
+                <layer val="1"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <auxiliary val="false"/>
+                <ggbscript val="#updated answer triangle side"/>
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <outlyingIntersections val="false"/>
+                <keepTypeOnTransform val="true"/>
+                <startStyle val="default"/>
+                <endStyle val="default"/>
+                <coords x="5.234748873209561" y="6.049578847691073" z="-76.16821815894039"/>
+            </element>
+            <element type="segment" label="answerTriangleFD">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="15" g="133" b="56" alpha="0"/>
+                <layer val="1"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <auxiliary val="false"/>
+                <ggbscript val="#updated answer triangle side"/>
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <outlyingIntersections val="false"/>
+                <keepTypeOnTransform val="true"/>
+                <startStyle val="default"/>
+                <endStyle val="default"/>
+                <coords x="-0.44644143196240327" y="-6.384409921662877" z="-10.485840232179832"/>
+            </element>
+            <element type="list" label="thirdPointPossibilities">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="82" g="82" b="82" alpha="0"/>
+                <layer val="4"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#this translates the possible solutions to the region that we start in"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="7"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <element type="line" label="bisectDE">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="21" g="101" b="192" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#this is used to generate the typical error points which are a reflection over the perpendicular bisector of DE"/>
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <eqnStyle style="implicit"/>
+                <coords x="-0.3348310739718041" y="-4.788307441247158" z="3.6556198258651476"/>
+            </element>
+            <command name="Mirror">
+                <input a0="thirdPointPossibilities" a1="bisectDE"/>
+                <output a0="thirdPointPossibilitiesError"/>
+            </command>
+            <element type="list" label="thirdPointPossibilitiesError">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="0" g="100" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <command name="Flatten">
+                <input a0="{Sequence[RandomPointIn[-1, 20, -8, 7], n, 1, 400], thirdPointPossibilities, thirdPointPossibilitiesError}"/>
+                <output a0="snapPoints"/>
+            </command>
+            <element type="list" label="snapPoints">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="0" g="100" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#points that the solution will snap to&#xa;#this includes the possible solutions as well as other random points"/>
+                <ggbscript onUpdate="#this is a random list of points that the movable point will snap to. This also includes the 2 possible solution points"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <element type="point" label="SimMove">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="8"/>
+                <labelOffset x="22" y="15"/>
+                <labelMode val="3"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <ggbscript val="#this is a point that is movable. It snaps to points in snapPoints which includes the possible solutions"/>
+                <ggbscript onUpdate="#SetCoords(AnswerPoint, x(SimMove), y(SimMove))&#xa;SetCoords(SimMoveCopy, x(SimMove), y(SimMove))&#xa;&#xa;#SetValue(moved, 1)&#xa;#SetValue(enableBtnValidate, true)"/>
+                <caption val="$\textbf{\mathsf{F}}$"/>
+                <pointSize val="9"/>
+                <pointStyle val="10"/>
+                <coords x="17.23212136292765" y="-3.2042417354536177" z="1"/>
+            </element>
+            <expression label="MidDEFFinal" exp="((Max[Zip[x(n), n, {answerTriangleD, answerTriangleE, SimMove}]] + Min[Zip[x(n), n, {answerTriangleD, answerTriangleE, SimMove}]]) / 2, (Max[Zip[y(n), n, {answerTriangleD, answerTriangleE, SimMove}]] + Min[Zip[y(n), n, {answerTriangleD, answerTriangleE, SimMove}]]) / 2)" type="point" />
+            <element type="point" label="MidDEFFinal">
+                <show object="false" label="true"/>
+                <objColor r="82" g="82" b="82" alpha="0"/>
+                <layer val="8"/>
+                <labelMode val="0"/>
+                <pointSize val="7"/>
+                <pointStyle val="0"/>
+                <coords x="14.371187182191377" y="-0.43161148198402244" z="1"/>
+            </element>
+        </construction>
+    </macro>
     <macro cmdName="VertHorCenter" toolName="VertHorCenter" toolHelp="VertHorCenter(P1,P2,P3)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
         <macroInput a0="A" a1="B" a2="C"/>
         <macroOutput a0="D"/>

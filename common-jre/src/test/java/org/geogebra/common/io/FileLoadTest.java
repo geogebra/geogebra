@@ -40,6 +40,7 @@ public class FileLoadTest extends BaseUnitTest {
 		getApp().setRandomSeed(7);
 		getApp().getXMLio().processXMLString(macros, true, true);
 		getApp().setXML(xml, false);
+		assertThat(lookup("SimMove"), hasValue("(11.3, 2.01)"));
 		add("RunClickScript(scriptResetApp)");
 		assertThat(lookup("SimMove"), hasValue("(11.4519, 1.4169)"));
 	}
