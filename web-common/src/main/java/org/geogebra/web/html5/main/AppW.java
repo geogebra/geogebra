@@ -1524,7 +1524,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param fileToHandle
 	 *            javascript handle for the file
 	 * @return returns true, if fileToHandle image file, otherwise return false.
-	 *         Note that If the function returns true, it's don't mean, that the
+	 *         Note: If the function returns true, it doesn't mean the
 	 *         file opening was successful, and the opening finished already.
 	 */
 	public boolean openFileAsImage(File fileToHandle) {
@@ -1532,7 +1532,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (!fileToHandle.name.toLowerCase().matches(imageRegEx)) {
 			return false;
 		}
-
+		if (getGuiManager() == null || !getGuiManager().toolbarHasImageMode()) {
+			return true;
+		}
 		FileReader reader = new FileReader();
 		reader.addEventListener("load", (event) -> {
 			if (reader.readyState == FileReader.DONE) {
