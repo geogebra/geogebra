@@ -64,6 +64,15 @@ public class GlitchesTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSin0OnPowerZero() {
+		withBounds(0, 10, -8, -8);
+		withDefaultScreen();
+		withFunction("sin(0)^x");
+		assertEquals(1919,
+				gp.getLog().stream().filter(t -> t.y == 0).count());
+	}
+
+	@Test
 	public void testTanXAtHighZoomIsWhole() {
 		withBounds(-1E15, 1E15, -1E15, -1E15);
 		withScreenSize(50, 50);

@@ -28,7 +28,7 @@ public class CmdPointIn extends CommandProcessor {
 	 * error messages (2010-05-17), Zbynek Konecny
 	 */
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
