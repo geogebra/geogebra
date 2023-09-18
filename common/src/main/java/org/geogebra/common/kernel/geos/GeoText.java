@@ -132,32 +132,61 @@ public class GeoText extends GeoElement
 	private final List<GeoElement> updateListeners;
 
 	/**
-	 * Creates new text
-	 * 
-	 * @param c
+	 * Creates a new GeoText.
+	 *
+	 * Note: This will set construction defaults.
+	 *
+	 * @param construction
 	 *            construction
 	 */
-	public GeoText(Construction c) {
-		super(c);
+	public GeoText(Construction construction) {
+		this(construction, true);
+	}
 
-		// moved from GeoElement's constructor
-		// must be called from the subclass, see
-		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		setConstructionDefaults(); // init visual settings
+	/**
+	 * Creates a new GeoText.
+	 *
+	 * @param construction
+	 *            construction
+	 * @param setDefaults
+	 *            if true, will set construction defaults.
+	 */
+	public GeoText(Construction construction, boolean setDefaults) {
+		super(construction);
 
+		if (setDefaults) {
+			setConstructionDefaults(); // init visual settings
+		}
 		updateListeners = new ArrayList<>();
 	}
 
 	/**
-	 * Creates new GeoText
-	 * 
-	 * @param c
+	 * Creates a new GeoText.
+	 *
+	 * Note: This will set construction defaults.
+	 *
+	 * @param construction
 	 *            construction
 	 * @param value
 	 *            text
 	 */
-	public GeoText(Construction c, String value) {
-		this(c);
+	public GeoText(Construction construction, String value) {
+		this(construction);
+		setTextString(value);
+	}
+
+	/**
+	 * Creates a new GeoText.
+	 *
+	 * @param construction
+	 *            construction
+	 * @param setDefaults
+	 *            If true, set construction defaults
+	 * @param value
+	 *            text
+	 */
+	public GeoText(Construction construction, String value, boolean setDefaults) {
+		this(construction, setDefaults);
 		setTextString(value);
 	}
 
