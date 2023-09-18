@@ -116,7 +116,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private MenuItemGroup createMainMenuItemGroup() {
 		MenuItem clearConstruction = enableFileFeatures ? clearConstruction() : null;
 		MenuItem startExamMode = createExamEntry ? startExamMode() : null;
-		if (isScientificCalc(version)) {
+		if (isScientificCalc()) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
 		MenuItem openFile = enableFileFeatures ? openFile() : null;
@@ -125,13 +125,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem share = enableFileFeatures ? share() : null;
 		MenuItem downloadAs = isWeb() ? showDownloadAs() : null;
 		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
-
-		if (isSuiteScientific(version)) {
-			return new MenuItemGroupImpl(
-					removeNulls(clearConstruction, openFile, startExamMode));
-		}
+		MenuItem exportImage = isSuiteScientific() ? null : exportImage();
 		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, saveOffline,
-				share, exportImage(), downloadAs, printPreview, startExamMode));
+				share, exportImage, downloadAs, printPreview, startExamMode));
 	}
 
 	protected MenuItem saveFileOnline() {
@@ -181,18 +177,16 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	/**
-	 * @param version - version of app
 	 * @return true if scientific not in suite
 	 */
-	public boolean isScientificCalc(GeoGebraConstants.Version version) {
+	public boolean isScientificCalc() {
 		return version == GeoGebraConstants.Version.SCIENTIFIC && !isSuiteApp();
 	}
 
 	/**
-	 * @param version - version of app
 	 * @return true if scientific in suite
 	 */
-	public boolean isSuiteScientific(GeoGebraConstants.Version version) {
+	public boolean isSuiteScientific() {
 		return isSuiteApp() && version == GeoGebraConstants.Version.SCIENTIFIC;
 	}
 
