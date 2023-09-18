@@ -157,6 +157,8 @@ public class LoginOperationW extends LogInOperation {
 			String cookie = Cookies.getCookie("SSID");
 			if (cookie != null) {
 				doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
+			} else {
+				stayLoggedOut();
 			}
 		}
 	}
