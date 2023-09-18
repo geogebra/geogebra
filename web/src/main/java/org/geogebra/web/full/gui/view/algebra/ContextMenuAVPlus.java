@@ -61,8 +61,6 @@ public class ContextMenuAVPlus implements SetLabels {
 		addHelpItem();
 	}
 
-
-
 	private void addExpressionItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.description();
 		AriaMenuItem mi = new AriaMenuItem(
