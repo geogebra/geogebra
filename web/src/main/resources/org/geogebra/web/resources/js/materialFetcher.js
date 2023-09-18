@@ -93,27 +93,7 @@ var fetchParametersFromApi = function() {
             var imageDir = 'https://www.geogebra.org/images/';
             setPreviewImage(previewImagePath || item.previewUrl,
             imageDir + 'GeoGebra_loading.png', imageDir + 'applet_play.png');
-
-			var oriWidth=800;
-			var oriHeight=800;
- 		   var previewContainer = createScreenShotDiv(oriWidth, oriHeight, options.borderColor, false);
-                // This div is needed to have an element with position relative as origin for the absolute positioned image
-	       var previewPositioner = document.createElement("div");
-			previewPositioner.className = "applet_scaler";
-			previewPositioner.style.position = "relative";
-			previewPositioner.style.display = 'block';
-			previewPositioner.style.width = oriWidth+'px';
-			previewPositioner.style.height = oriHeight+'px';
-			previewPositioner.appendChild(previewContainer);
-			var parentElement = options.element.parentElement;
-			previewPositioner.appendChild(options.element);
-			parentElement.appendChild(previewPositioner);
-			options.appletOnLoad = function() {
-                                var preview = document.querySelector(".ggb_preview");
-                                if (preview) {
-                                    preview.parentNode.removeChild(preview);
-                                }
-            }
+			buildPreview();
 			resolve(options);
         };
         var onError = function() {
@@ -130,6 +110,29 @@ var fetchParametersFromApi = function() {
             onError
         );
     };
+
+    function buildPreview() {
+    	var oriWidth=options.width;
+		var oriHeight=options.height;
+        var previewContainer = createScreenShotDiv(oriWidth, oriHeight, options.borderColor, false);
+        // This div is needed to have an element with position relative as origin for the absolute positioned image
+	    var previewPositioner = document.createElement("div");
+		previewPositioner.className = "applet_scaler";
+		previewPositioner.style.position = "relative";
+		previewPositioner.style.display = 'block';
+		previewPositioner.style.width = oriWidth+'px';
+		previewPositioner.style.height = oriHeight+'px';
+		previewPositioner.appendChild(previewContainer);
+		var parentElement = options.element.parentElement;
+		previewPositioner.appendChild(options.element);
+		parentElement.appendChild(previewPositioner);
+		options.appletOnLoad = function() {
+			var preview = document.querySelector(".ggb_preview");
+			if (preview) {
+				preview.parentNode.removeChild(preview);
+			}
+		}
+    }
 
     function updateAppletSettings(settings) {
         var optionNames = ['width', 'height', 'showToolBar', 'showMenuBar',
