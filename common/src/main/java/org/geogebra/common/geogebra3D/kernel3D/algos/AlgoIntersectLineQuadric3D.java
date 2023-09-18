@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -125,7 +124,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		computeNoPermutation();
 
 		if (cons.getApplication()
-				.fileVersionBefore(App.getSubValues("5.0.281.0"))) {
+				.fileVersionBefore(5, 0, 281, 0)) {
 			// was not permuted at that time
 			permuted = false;
 		} else {

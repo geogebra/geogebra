@@ -409,7 +409,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean blockUpdateScripts = false;
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
-	private int[] versionArray = null;
+
+	// gets reset on file load
+	private int[] versionArray = App.getSubValues(GeoGebraConstants.VERSION_STRING);
 	private final List<SavedStateListener> savedListeners = new ArrayList<>();
 	private Macro editMacro;
 	private String editMacroPreviousName = "";
@@ -1364,7 +1366,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            version parts
 	 * @return whether given version is newer than this code
 	 */
-	public boolean fileVersionBefore(int[] v) {
+	public boolean fileVersionBefore(int... v) {
 		if (this.versionArray == null) {
 			return true;
 		}
