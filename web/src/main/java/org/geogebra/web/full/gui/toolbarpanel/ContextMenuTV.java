@@ -18,6 +18,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.OverwriteDataDialog;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -31,6 +32,7 @@ import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
+import org.gwtproject.user.client.ui.FileUpload;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
@@ -106,6 +108,7 @@ public class ContextMenuTV {
 			}
 		});
 		addCommand(view::clearValues, "ClearColumn", "clear");
+		addImportData();
 		if (app.getConfig().hasOneVarStatistics()) {
 			wrappedPopup.addVerticalSeparator();
 			addOneVarStats("x");
@@ -254,6 +257,34 @@ public class ContextMenuTV {
 
 	private void addEdit(Command cmd) {
 		addCommand(cmd, "Edit", "edit");
+	}
+
+	private void addImportData() {
+		Command importDataCommand = () -> {
+			if (view.isEmpty()) {
+				openCsvChooser();
+			} else {
+				DialogData data = new DialogData(null, "Cancel", "Overwrite");
+				OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(getApp(), data);
+				overwriteDataDialog.setOnPositiveAction(() -> openCsvChooser());
+				overwriteDataDialog.show();
+			}
+		};
+		addCommand(importDataCommand, "ContextMenu.ImportData", "importData");
+	}
+
+	private void openCsvChooser() {
+		FileUpload fileUpload = getCSVChooser();
+		fileUpload.click();
+	}
+
+	private FileUpload getCSVChooser() {
+		FileUpload csvChooser = new FileUpload();
+		csvChooser.addChangeHandler(event -> {
+			// TODO APPS-5010 load file(el)
+		});
+		csvChooser.getElement().setAttribute("accept", ".csv");
+		return csvChooser;
 	}
 
 	/**

@@ -23,7 +23,7 @@ public abstract class CmdOneNumber extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1) {

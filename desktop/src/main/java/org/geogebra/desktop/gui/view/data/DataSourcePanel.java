@@ -450,7 +450,7 @@ public class DataSourcePanel extends JPanel
 
 	private void setColumnHeaders(JTable table) {
 
-		MyTableHeaderRenderer headerRenderer = new MyTableHeaderRenderer();
+		HeaderTableCellRenderer headerRenderer = new HeaderTableCellRenderer();
 
 		for (int vColIndex = 0; vColIndex < table.getColumnModel()
 				.getColumnCount(); vColIndex++) {
@@ -477,7 +477,7 @@ public class DataSourcePanel extends JPanel
 			// adjust mouseLoc to the coordinate space of this column header
 			mouseLoc.x = mouseLoc.x - table().getCellRect(0, column, true).x;
 
-			boolean isOver = ((MyTableHeaderRenderer) table().getColumnModel()
+			boolean isOver = ((HeaderTableCellRenderer) table().getColumnModel()
 					.getColumn(column).getHeaderRenderer()).isOverTraceButton(
 					mouseLoc);
 
@@ -560,7 +560,7 @@ public class DataSourcePanel extends JPanel
 	 * button for a selected column.
 	 * 
 	 */
-	public class MyTableHeaderRenderer extends JPanel
+	public class HeaderTableCellRenderer extends JPanel
 			implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
@@ -576,7 +576,7 @@ public class DataSourcePanel extends JPanel
 		private final ImageIcon importIcon;
 		private final ImageIcon importIconRollover;
 
-		protected MyTableHeaderRenderer() {
+		protected HeaderTableCellRenderer() {
 			setLayout(new BorderLayout());
 			setOpaque(true);
 			setBorder(headerBorder);

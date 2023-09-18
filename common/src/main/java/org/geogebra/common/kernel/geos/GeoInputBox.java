@@ -326,6 +326,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	@Override
+	public String toString(StringTemplate tpl) {
+		return toValueString(tpl);
+	}
+
+	@Override
 	public GeoElement copy() {
 		return new GeoInputBox(cons, null, labelOffsetX, labelOffsetY);
 	}

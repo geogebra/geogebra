@@ -21,6 +21,7 @@ import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
 import org.geogebra.keyboard.web.factory.InputBoxKeyboardFactory;
 import org.geogebra.keyboard.web.factory.NotesKeyboardFactory;
+import org.geogebra.keyboard.web.factory.SolverKeyboardFactory;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -130,9 +131,10 @@ public class TabbedKeyboard extends FlowPanel
 		} else {
 			if (hasKeyboard.getKeyboardType() == AppKeyboardType.NOTES) {
 				factory = NotesKeyboardFactory.INSTANCE;
-			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC
-				|| hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
+			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
 				factory = ScientificKeyboardFactory.INSTANCE;
+			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
+				factory = SolverKeyboardFactory.INSTANCE;
 			} else {
 				factory = KeyboardFactory.INSTANCE;
 			}
@@ -538,6 +540,8 @@ public class TabbedKeyboard extends FlowPanel
 			return KeyboardResources.INSTANCE.sqrt();
 		case MIXED_NUMBER:
 			return KeyboardResources.INSTANCE.mixed_number();
+		case RECURRING_DECIMAL:
+			return KeyboardResources.INSTANCE.recurring_decimal();
 		default: return null;
 		}
 	}
@@ -622,8 +626,7 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	public void buildGUI() {
 		this.tabs = new FlowPanel();
-		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC
-			|| hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
+		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
 			buildGUIScientific();
 		} else {
 			buildGUIGgb();

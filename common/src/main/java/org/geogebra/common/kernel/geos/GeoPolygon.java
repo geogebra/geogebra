@@ -609,14 +609,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
 		GeoPolygon ret = newGeoPolygon(cons1);
-		ret.createSegments = false;
+		// Note: setting the flag to false is generally a big win for performance
+		// but doing it in old files messes up randomization bc of different number of geos created
+		ret.createSegments = cons.getApplication().fileVersionBefore(5, 0, 798, 0);
 		copyInternal(cons1, ret);
 		return ret;
 	}
 
 	/**
 	 * @param cons1
-	 *            consctruction
+	 *            construction
 	 * @param ret
 	 *            poly where to copy
 	 */

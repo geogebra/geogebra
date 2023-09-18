@@ -2,6 +2,7 @@
 def getChangelog() {
     def changeLogSets = currentBuild.changeSets
     def lines = []
+    lines << "${env.GIT_COMMIT},-,${new Date()},Build ${env.BUILD_NUMBER}"
     for (int i = 0; i < changeLogSets.size(); i++) {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {

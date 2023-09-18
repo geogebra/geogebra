@@ -409,7 +409,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean blockUpdateScripts = false;
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
-	private int[] versionArray = null;
+
+	// gets reset on file load
+	private int[] versionArray = App.getSubValues(GeoGebraConstants.VERSION_STRING);
 	private final List<SavedStateListener> savedListeners = new ArrayList<>();
 	private Macro editMacro;
 	private String editMacroPreviousName = "";
@@ -1364,7 +1366,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            version parts
 	 * @return whether given version is newer than this code
 	 */
-	public boolean fileVersionBefore(int[] v) {
+	public boolean fileVersionBefore(int... v) {
 		if (this.versionArray == null) {
 			return true;
 		}
@@ -1426,18 +1428,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *         USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
 	 *         of AV
 	 */
-	public int getCurrentLabelingStyle() {
-		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+	public LabelVisibility getCurrentLabelingStyle() {
+		LabelVisibility userValue = getSettings().getLabelSettings().getLabelVisibility();
+		if (userValue == LabelVisibility.Automatic) {
 			if ((getGuiManager() != null)
 					&& getGuiManager().hasAlgebraViewShowing()
 					&& getAlgebraView().isVisible()) {
-					// default behaviour for other views
-					return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
+				// default behaviour for other views
+				return LabelVisibility.UseDefaults;
 			}
 			// no AV: no label
-			return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+			return LabelVisibility.AlwaysOff;
 		}
-		return getLabelingStyle();
+		return userValue;
 	}
 
 	/**
@@ -4036,6 +4039,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		restrictions.enable();
 	}
 
+	/**
+	 * If an exam is active, re-enable any exam restrictions.
+	 */
+	public void reEnableExamRestrictions() {
+		if (getExam() != null && isExamStarted() && restrictions != null) {
+			restrictions.enable();
+		}
+	}
+	
 	/**
 	 * Show exam welcome message.
 	 */
