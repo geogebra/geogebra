@@ -1963,10 +1963,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * @param ttl
-	 *            tooltip language
+	 *            tooltip language, may be either BCP47 tag or Java locale string
 	 */
 	public void setTooltipLanguage(String ttl) {
-		// TODO Auto-generated method stub
+		// only in desktop ATM
 	}
 
 	public Perspective getTmpPerspective() {

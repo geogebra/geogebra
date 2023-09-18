@@ -28,7 +28,7 @@ public abstract class LocalizationJre extends Localization {
 	private ResourceBundle rbcolors;
 	private ResourceBundle rbsymbol;
 
-	private Locale tooltipLocale = null;
+	private Language tooltipLanguage = null;
 	/** application */
 	protected App app;
 	private boolean tooltipFlag = false;
@@ -65,7 +65,7 @@ public abstract class LocalizationJre extends Localization {
 
 	@Override
 	final public void setTooltipFlag() {
-		if (tooltipLocale != null) {
+		if (tooltipLanguage != null) {
 			tooltipFlag = true;
 		}
 	}
@@ -136,12 +136,13 @@ public abstract class LocalizationJre extends Localization {
 	@Override
 	final public String getMenuTooltip(String key) {
 
-		if (tooltipLocale == null) {
+		if (tooltipLanguage == null) {
 			return getMenu(key);
 		}
 
 		if (rbmenuTT == null) {
-			rbmenuTT = createBundle(getMenuRessourcePath(), tooltipLocale);
+			rbmenuTT = createBundle(getMenuRessourcePath(),
+					Locale.forLanguageTag(tooltipLanguage.toLanguageTag()));
 		}
 
 		try {
@@ -185,13 +186,8 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	@Override
-	final public String getLanguage() {
-		return getLocale().getLanguage();
-	}
-
-	@Override
-	final public String getLocaleStr() {
-		return getLocale().toString();
+	final public Language getLanguage() {
+		return Language.getLanguage(getLanguageTag());
 	}
 
 	@Override
@@ -262,29 +258,22 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * @param s language for tooltips
+	 * @param tagOrLocaleString language for tooltips
 	 * @return success
 	 */
-	final public boolean setTooltipLanguage(String s) {
-		Locale locale = null;
-
-		for (int i = 0; i < getSupportedLocales().size(); i++) {
-			if (getSupportedLocales().get(i).toString().equals(s)) {
-				locale = getSupportedLocales().get(i);
-				break;
-			}
-		}
+	final public boolean setTooltipLanguage(String tagOrLocaleString) {
+		Language locale = Language.fromLanguageTagOrLocaleString(tagOrLocaleString);
 
 		boolean updateNeeded = rbmenuTT != null;
 
 		rbmenuTT = null;
 
 		if (locale == null) {
-			tooltipLocale = null;
-		} else if (currentLocale.toString().equals(locale.toString())) {
-			tooltipLocale = null;
+			tooltipLanguage = null;
+		} else if (getLanguage() == locale) {
+			tooltipLanguage = null;
 		} else {
-			tooltipLocale = locale;
+			tooltipLanguage = locale;
 		}
 		return updateNeeded;
 	}
@@ -292,16 +281,16 @@ public abstract class LocalizationJre extends Localization {
 	/**
 	 * @return tootlip loacle
 	 */
-	final public Locale getTooltipLocale() {
-		return tooltipLocale;
+	final public Language getTooltipLanguage() {
+		return tooltipLanguage;
 	}
 
 	@Override
 	final public String getTooltipLanguageString() {
-		if (tooltipLocale == null) {
+		if (tooltipLanguage == null) {
 			return null;
 		}
-		return tooltipLocale.toString();
+		return tooltipLanguage.toLanguageTag();
 	}
 
 	@Override
@@ -418,7 +407,7 @@ public abstract class LocalizationJre extends Localization {
 	 * @return locale for command translation
 	 */
 	protected Locale getCommandLocale() {
-		Language language = Language.getLanguage(getLanguage());
+		Language language = getLanguage();
 		if (areEnglishCommandsForced() || (language != null && !language.hasTranslatedKeyboard())) {
 			return Locale.ENGLISH;
 		}

@@ -874,8 +874,7 @@ public abstract class GlobalKeyDispatcher {
 			if (!EuclidianView
 					.isPenMode(app.getActiveEuclidianView().getMode())) {
 
-				boolean spanish = app.getLocalization().getLanguage()
-						.startsWith("es");
+				boolean spanish = app.getLocalization().languageIs("es");
 
 				// AltGr+ on Spanish keyboard is ] so
 				// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)

@@ -2,8 +2,6 @@ package org.geogebra.desktop.export;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -150,7 +148,7 @@ public class GeoGebraTubeExportD {
 			urlConn.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
 			urlConn.setRequestProperty("Accept-Language",
-					app.getLocalization().getLocaleStr());
+					app.getLocalization().getLanguageTag());
 
 			// send output
 			try {

@@ -4798,7 +4798,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("\"/>\n");
 
 				sbxml.append("\t<language val=\"");
-				sbxml.append(app.getLocalization().getLocaleStr());
+				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");
 			}
 		}
