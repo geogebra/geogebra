@@ -126,7 +126,7 @@ var fetchParametersFromApi = function() {
 		var parentElement = options.element.parentElement;
 		previewPositioner.appendChild(options.element);
 		parentElement.appendChild(previewPositioner);
-		options.appletOnLoad = function() {
+   	    options.removePreview = function() {
 			var preview = document.querySelector(".ggb_preview");
 			if (preview) {
 				preview.parentNode.removeChild(preview);
@@ -164,4 +164,8 @@ var fetchParametersFromApi = function() {
         xhr.send();
     }
 
-    fetchParametersFromApi();
+	if (options.material_id) {
+	    fetchParametersFromApi();
+	} else {
+		resolve(options);
+	}

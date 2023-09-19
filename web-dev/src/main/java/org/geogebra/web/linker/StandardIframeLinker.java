@@ -69,7 +69,7 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 				? readFileToStringBuffer(beforeRenderJS.get(), logger).toString()
 				: "resolve(options)";
 
-		replaceAll(buffer, "/* __BEFORE_RENDER__ */", beforeRenderContent);
+		replaceAll(buffer, "__BEFORE_RENDER__", beforeRenderContent);
 
 		replaceAll(buffer, "__EXPORT_SUBMODULES__", exports.toString());
 		return fillSelectionScriptTemplate(

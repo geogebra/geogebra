@@ -14,9 +14,9 @@ def getChangelog() {
 }
 
 def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
-def isEditor = env.BRANCH_NAME.matches("dev|(.*editor)")
+def isEditor = env.BRANCH_NAME.matches("dev|(.*editor)|apps-5000")
 def hasSourcemap = env.BRANCH_NAME.matches("dev|apps-4963")
-def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
+def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor,org.geogebra.web.Web3D"' : ''
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
 def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
 
@@ -141,6 +141,8 @@ pipeline {
                     if (isEditor) {
                         s3uploadDefault("web/build/s3", "editor/**", "gzip")
                         s3uploadDefault("web/build/s3", "editor/**/*.mjs", "gzip", "", "text/javascript")
+                        s3uploadDefault("web/build/s3", "web3d/**", "gzip")
+                        s3uploadDefault("web/build/s3", "web3d/**/*.js", "gzip", "", "text/javascript")
                     }
                     s3uploadDefault("web/war", "**/*.html", "")
                     s3uploadDefault("web/war", "**/deployggb.js", "")

@@ -205,7 +205,7 @@ window.__MODULE_FUNC__.submodules = {};
 window.__MODULE_FUNC__.onReady = function(submodule, userRender) {
   function beforeRender(options, onload) {
   		return new Promise(resolve => {
-			/* __BEFORE_RENDER__ */
+			__BEFORE_RENDER__
 		});
   }
 
@@ -230,8 +230,9 @@ function Widget(options, submodule, baseTag)  {
      for (const callback of self.apiCallbacks) {
        callback(api);
      }
-     options.appletOnLoad()
-
+     if (options.removePreview) {
+     	options.removePreview();
+     }
    }
 
    function load() {
