@@ -43,7 +43,6 @@ public class MoveGeos {
 		if (moveObjectsUpdateList == null) {
 			moveObjectsUpdateList = new ArrayList<>();
 		}
-		final ArrayList<GeoElement> geos = new ArrayList<>();
 
 		// make sure list is not moved twice
 		for (GeoElement geo : geosToMove) {
@@ -54,8 +53,11 @@ public class MoveGeos {
 			}
 		}
 
+		final ArrayList<GeoElement> geos = new ArrayList<>();
 		for (GeoElement geo: geosToMove) {
-			addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
+			if (!geo.isLocked()) {
+				addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
+			}
 		}
 		boolean moved = false;
 		final int size = geos.size();

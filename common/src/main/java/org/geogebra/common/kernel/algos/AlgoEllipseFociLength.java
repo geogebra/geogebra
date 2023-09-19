@@ -19,7 +19,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -77,14 +76,5 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 	@Override
 	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
-	}
-
-	/**
-	 * The input consists of (GeoPoint, GeoPoint, GeoNumeric) - therefore only 2 of the 3 input
-	 * parameters can be free input points
-	 */
-	@Override
-	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
-		return view.getFreeInputPoints(this).size() + 1 == getInputLength();
 	}
 }

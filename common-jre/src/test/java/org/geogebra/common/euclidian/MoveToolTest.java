@@ -53,14 +53,6 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveShouldChangeEllipseWithLength() {
-		add("e = Ellipse((1,-1), (3,-3), 2)");
-		dragStart(50, 150);
-		dragEnd(100, 200);
-		checkContent("e: 3x² + 2x y + 3y² - 12x + 12y = -28");
-	}
-
-	@Test
 	public void moveShouldNotChangeFixedSegment() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
