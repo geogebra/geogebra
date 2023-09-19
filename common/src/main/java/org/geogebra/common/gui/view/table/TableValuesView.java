@@ -459,6 +459,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	/**
 	 * @return whether all columns other than x are undefined
 	 */
+	@Override
 	public boolean hasNoDefinedFunctions() {
 		for (int i = 1; i < model.getColumnCount(); i++) {
 			if (model.getEvaluatable(i).isDefined()) {
