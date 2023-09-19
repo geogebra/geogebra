@@ -61,7 +61,6 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -2269,10 +2268,6 @@ public class GeoList extends GeoElement
 	 */
 	public void setDrawAsComboBox(boolean b) {
 		drawAsComboBox = b;
-		if (bgColor == null && getObjectColor().equals(ConstructionDefaults.colList)) {
-			setObjColor(GeoGebraColorConstants.NEUTRAL_900);
-			setBackgroundColor(getBackgroundColor());
-		}
 	}
 
 	@Override
@@ -3136,6 +3131,20 @@ public class GeoList extends GeoElement
 			return GColor.WHITE;
 		}
 		return bgColor;
+	}
+
+	/**
+	 * @return True if background color is set, false else
+	 */
+	public boolean isBackgroundColorSet() {
+		return bgColor != null;
+	}
+
+	/**
+	 * @return True if the default object color {@link ConstructionDefaults#colList} is set, false else
+	 */
+	public boolean isDefaultObjectColorSet() {
+		return objColor.equals(ConstructionDefaults.colList);
 	}
 
 	/**
