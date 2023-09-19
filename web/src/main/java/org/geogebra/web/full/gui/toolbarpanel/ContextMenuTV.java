@@ -11,6 +11,7 @@ import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
+import org.geogebra.common.gui.view.table.importer.DataImporterError;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -33,11 +34,8 @@ import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ChangeEvent;
-import org.gwtproject.event.dom.client.ChangeHandler;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.ui.FileUpload;
-
-import elemental2.dom.FileReader;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
@@ -285,10 +283,11 @@ public class ContextMenuTV {
 
 	private FileUpload getCSVChooser() {
 		FileUpload csvChooser = new FileUpload();
+		DataImportSnackbar snackbar =
+				new DataImportSnackbar(app, "title toooooo loooooooooooooong",
+						DataImporterError.READ_ERROR);
+		snackbar.setVisible(true);
 		csvChooser.addDomHandler(event -> {
-			DataImportSnackbar snackbar =
-					new DataImportSnackbar(app, "title toooooo loooooooooooooong");
-			snackbar.setVisible(true);
 		}, ChangeEvent.getType());
 
 		csvChooser.getElement().setAttribute("accept", ".csv");

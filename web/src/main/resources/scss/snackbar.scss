@@ -80,4 +80,70 @@
 			min-width: unset;
 		}
 	}
+
+	.dataImporter {
+		background-color: neutral(900);
+		width: 500px;
+		position: absolute;
+		bottom: 8px;
+		left: 8px;
+		right: 8px;
+		z-index: z-index.$z-snackbar;
+		border-radius: 4px;
+		box-shadow: 0px 1px 1px 0px rgba(47, 47, 51, 0.14), 0px 2px 1px -1px rgba(47, 47, 51, 0.12), 0px 1px 3px 0px rgba(47, 47, 51, 0.20);
+
+		.titleHolder {
+			height: 48px;
+			display: flex;
+
+			.gwt-Image {
+				margin: 12px 8px 12px 12px;
+			}
+
+			.gwt-Label {
+				font-size: 16px;
+				color: neutral(0);
+				line-height: 48px;
+			}
+
+			.button {
+				position: absolute;
+				right: 0px;
+				padding: 12px;
+
+				.gwt-Image {
+					margin: 0px;
+				}
+			}
+		}
+
+		.progressBar {
+			margin: 8px 16px 20px 16px;
+		}
+
+		.errorHolder {
+			display: flex;
+			height: 36px;
+
+			.errorMsg {
+				color: neutral(0);
+				font-size: 14px;
+				height: 20px;
+				margin: 4px auto 8px 16px;
+			}
+
+			.button {
+				position: absolute;
+				right: 0px;
+				color: purple(400);
+				font-size: 14px;
+				margin: 0 16px 8px 0;
+				padding: 6px 0;
+
+                &:hover {
+                	background: none;
+                }
+			}
+		}
+	}
 }
