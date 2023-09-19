@@ -26,6 +26,7 @@ import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -2268,9 +2269,9 @@ public class GeoList extends GeoElement
 	 */
 	public void setDrawAsComboBox(boolean b) {
 		drawAsComboBox = b;
-		if (bgColor == null) { //First time drawing list as dropdown - set default colors
+		if (bgColor == null && getObjectColor().equals(ConstructionDefaults.colList)) {
 			setObjColor(GeoGebraColorConstants.NEUTRAL_900);
-			setBackgroundColor(GColor.WHITE);
+			setBackgroundColor(getBackgroundColor());
 		}
 	}
 
