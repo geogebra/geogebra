@@ -15,7 +15,7 @@ def getChangelog() {
 
 def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
 def isEditor = env.BRANCH_NAME.matches("dev|(.*editor)")
-def hasSourcemap = env.BRANCH_NAME.matches("dev|apps-4963")
+def hasSourcemap = env.BRANCH_NAME.matches("dev|mow-1378")
 def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
 def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"

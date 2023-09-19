@@ -4,9 +4,7 @@ import static elemental2.core.Global.JSON;
 
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.AppletParameters;
 
@@ -83,15 +81,5 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		}
 
 		return true;
-	}
-
-	@Override
-	public boolean performCookieLogin(LogInOperation op) {
-		String cookie = Cookies.getCookie("SSID");
-		if (cookie != null) {
-			op.doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
-			return true;
-		}
-		return false;
 	}
 }
