@@ -241,10 +241,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public boolean arePointsVisible(int column) {
-		if (points.size() < column) {
+		if (points.size() <= column) {
 			return false;
 		}
-
 		return points.get(column) != null;
 	}
 

@@ -26,6 +26,8 @@ public class TableSettings extends AbstractSettings {
 
 	private GeoList valueList;
 
+	private String valueListCaption = "x";
+
 	/**
 	 * @return min x-value for function table
 	 */
@@ -92,6 +94,21 @@ public class TableSettings extends AbstractSettings {
 	}
 
 	/**
+	 * @return the caption for the (x) values column
+	 */
+	public String getValueListCaption() {
+		return valueListCaption;
+	}
+
+	/**
+	 * Sets the caption for the (x) values column
+	 * @param valueListCaption the caption for the (x) values column
+	 */
+	public void setValueListCaption(String valueListCaption) {
+		this.valueListCaption = valueListCaption;
+	}
+
+	/**
 	 * Serialize the settings.
 	 *
 	 * @param sb
@@ -103,6 +120,11 @@ public class TableSettings extends AbstractSettings {
 			sb.append(" xValues=\"");
 			StringUtil.encodeXML(sb, valueList.getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");
+			if (valueListCaption != null) {
+				sb.append(" xCaption=\"");
+				sb.append(valueListCaption);
+				sb.append("\"");
+			}
 		} else {
 			sb.append(" min=\"");
 			sb.append(valuesMin);
