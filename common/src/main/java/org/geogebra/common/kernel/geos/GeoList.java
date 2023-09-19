@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -2267,6 +2268,10 @@ public class GeoList extends GeoElement
 	 */
 	public void setDrawAsComboBox(boolean b) {
 		drawAsComboBox = b;
+		if (bgColor == null) { //First time drawing list as dropdown - set default colors
+			setObjColor(GeoGebraColorConstants.NEUTRAL_900);
+			setBackgroundColor(GColor.WHITE);
+		}
 	}
 
 	@Override
