@@ -686,20 +686,33 @@ public class GeoText extends GeoElement
 	}
 
 	private void setSameLocation(GeoText text) {
-		if (text.hasAbsoluteScreenLocation) {
-			setAbsoluteScreenLocActive(true);
-			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(),
-					text.getAbsoluteScreenLocY());
+		if (text.isAbsoluteScreenLocActive()) {
+			if (text.startPoint == null) {
+				nullifyStartPointAndSetScreenLoc(text);
+			} else {
+				setAbsoluteStartPoint(text.startPoint, true);
+			}
 		} else {
 			if (text.startPoint != null) {
-				try {
-					setStartPoint(text.startPoint);
-				} catch (Exception e) {
-					// Circular definition, do nothing
-				}
+				setAbsoluteStartPoint(text.startPoint, false);
 			}
 		}
 	}
+
+	private void nullifyStartPointAndSetScreenLoc(GeoText oldText) {
+		hasAbsoluteScreenLocation = true;
+		startPoint = null;
+		setAbsoluteScreenLoc(oldText.getAbsoluteScreenLocX(), oldText.getAbsoluteScreenLocY());
+	}
+
+	private void setAbsoluteStartPoint(GeoPointND oldStartPoint, boolean isAbsolute) {
+		hasAbsoluteScreenLocation = isAbsolute;
+			try {
+				setStartPoint(oldStartPoint);
+			} catch (CircularDefinitionException e) {
+				throw new RuntimeException(e);
+			}
+		}
 
 	/**
 	 * Returns true for LaTeX texts
@@ -778,7 +791,7 @@ public class GeoText extends GeoElement
 	@Override
 	public void setRealWorldLoc(double x, double y) {
 		GeoPointND locPoint = getStartPoint();
-		if (locPoint == null) {
+		if (locPoint == null || hasAbsoluteScreenLocation) {
 			locPoint = new GeoPoint(cons);
 			try {
 				setStartPoint(locPoint);
@@ -1063,11 +1076,6 @@ public class GeoText extends GeoElement
 		return ExtendedBoolean.FALSE;
 	}
 
-	@Override
-	public void setZero() {
-		str = "";
-	}
-
 	/**
 	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
 	 * (otherwise TreeSet deletes duplicates)
@@ -1188,9 +1196,6 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isSpreadsheetTraceable() {
-
-		// App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
-
 		switch (spreadsheetTraceableCase) {
 		case TRUE:
 			return true;

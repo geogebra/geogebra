@@ -2,12 +2,13 @@ package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
-import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -129,13 +130,13 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	}
 
 	private void buildSingInPanel() {
-		signInTextButton = ((GLookAndFeel) app.getLAF())
-				.getSignInController(app).getLoginTextButton();
+		SignInControllerI signInController = app.getLAF()
+				.getSignInController(app);
+		signInTextButton = getLoginTextButton(signInController);
 		signInTextButton.setStyleName("signIn");
 		getHeader().add(signInTextButton);
 
-		signInIconButton = ((GLookAndFeel) app.getLAF())
-				.getSignInController(app).getLoginIconButton();
+		signInIconButton = getLoginIconButton(signInController);
 		signInIconButton.setStyleName("signInIcon");
 		getHeader().add(signInIconButton);
 
@@ -151,6 +152,27 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 			signInTextButton.setVisible(false);
 			signInIconButton.setVisible(false);
 		}
+	}
+
+	private Button getLoginTextButton(SignInControllerI signInController) {
+		Button button = new Button(app.getLocalization().getMenu("SignIn"));
+		button.getElement().setAttribute("type", "button");
+		button.addStyleName("signInButton");
+		button.addClickHandler(event -> {
+			signInController.login();
+			signInController.initLoginTimer();
+		});
+		return button;
+	}
+
+	private StandardButton getLoginIconButton(SignInControllerI signInController) {
+		StandardButton button = new StandardButton(MaterialDesignResources.INSTANCE.login(), 24);
+		button.addStyleName("signInIcon");
+		button.addFastClickHandler(event -> {
+			signInController.login();
+			signInController.initLoginTimer();
+		});
+		return button;
 	}
 
 	private void updateSignInButtonsVisibility(boolean smallScreen) {

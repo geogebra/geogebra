@@ -1259,7 +1259,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setZeroFromXML(double x, double y, double z) {
-		if (app.fileVersionBefore(new int[] { 4, 9, 14, 0 })) {
+		if (app.fileVersionBefore(4, 9, 14, 0)) {
 			// new matrix multiplication (since 4.9.14)
 			updateRotationMatrix();
 			updateScaleMatrix();
@@ -2959,8 +2959,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Set cursor to default.
 	 */
 	public void setDefaultCursor() {
-		// App.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
-
 		if (getShiftDown()) {
 			return;
 		}

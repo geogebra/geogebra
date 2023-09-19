@@ -95,28 +95,8 @@ public abstract class CommandProcessor {
 	 * @throws CircularDefinitionException
 	 *             if circular definition occurs
 	 */
-	public GeoElement[] process(Command c)
-			throws MyError, CircularDefinitionException {
-		return process(c, null);
-	}
-
-	/**
-	 * Every CommandProcessor has to implement this method
-	 * 
-	 * @param c
-	 *            command
-	 * @param info
-	 *            flags for geo labeling
-	 * @return list of resulting geos
-	 * @throws MyError
-	 *             for wrong number / type of parameters
-	 * @throws CircularDefinitionException
-	 *             if circular definition occurs
-	 */
-	public GeoElement[] process(Command c, EvalInfo info)
-			throws MyError, CircularDefinitionException {
-		return process(c);
-	}
+	public abstract GeoElement[] process(Command c, EvalInfo info)
+			throws MyError, CircularDefinitionException;
 
 	/**
 	 * Resolves arguments. When argument produces mor geos, only first is taken.

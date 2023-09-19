@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoTranslateVector;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdTranslate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Translateable;
@@ -29,7 +30,7 @@ public class CmdTranslate3D extends CmdTranslate {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
@@ -73,7 +74,7 @@ public class CmdTranslate3D extends CmdTranslate {
 			break;
 		}
 
-		return super.process(c);
+		return super.process(c, info);
 	}
 
 	@Override

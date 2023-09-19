@@ -55,7 +55,7 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
         for (int i = 0; i < languages.length; i++) {
             Language language = languages[i];
             valueNames[i] = language.name;
-            languageCodes[i] = language.getLocaleGWT();
+            languageCodes[i] = language.toLanguageTag();
         }
         setValues(languageCodes);
         setValueNames(valueNames);
@@ -71,8 +71,7 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
     @Override
     public String getValue() {
-        Localization localization = getLocalization();
-        return localization.getLocaleStr();
+        return getLocalization().getLanguageTag();
     }
 
     @Override

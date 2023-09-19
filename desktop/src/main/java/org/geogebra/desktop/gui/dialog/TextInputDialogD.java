@@ -17,7 +17,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -47,10 +46,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.StyleConstants;
@@ -181,7 +176,7 @@ public class TextInputDialogD extends InputDialogD
 		editor.getDocument().addDocumentListener(this);
 
 		// add key listener to the editor
-		editor.addKeyListener(new MyKeyListener());
+		editor.addKeyListener(new TextInputKeyListener());
 
 		wrappedDialog.setResizable(true);
 
@@ -831,7 +826,7 @@ public class TextInputDialogD extends InputDialogD
 		}
 	}
 
-	private class MyKeyListener extends KeyAdapter {
+	private class TextInputKeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if ((e.isControlDown() || AppD.isControlDown(e))

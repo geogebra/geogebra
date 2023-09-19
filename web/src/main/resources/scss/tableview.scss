@@ -64,7 +64,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 
 		td, th {
 			border-width: 0 1px 1px 0;
-			border-color: neutral("300");
+			border-color: neutral(300);
 			border-style: solid;
 			box-sizing: border-box;
 			max-width: 180px;
@@ -162,7 +162,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 		}
 
 		.highlighted {
-			background-color: purple("100");
+			background-color: purple(100);
 		}
 
 		.values {
@@ -178,7 +178,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 					padding: 0;
 					position: sticky;
 					top: 0;
-					background: neutral("200");
+					background: neutral(200);
 
 					.content {
 						text-align: center;

@@ -396,7 +396,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// multiple EVs
 	private int maxLayerUsed = 0;
 	private boolean labelDragsEnabled = true;
-	private boolean undoRedoEnabled = true;
+	private UndoRedoMode undoMode = UndoRedoMode.GUI;
 
 	// command dictionary
 	private LowerCaseDictionary commandDict;
@@ -412,7 +412,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean blockUpdateScripts = false;
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
-	private int[] versionArray = null;
+
+	// gets reset on file load
+	private int[] versionArray = App.getSubValues(GeoGebraConstants.VERSION_STRING);
 	private final List<SavedStateListener> savedListeners = new ArrayList<>();
 	private Macro editMacro;
 	private String editMacroPreviousName = "";
@@ -1371,7 +1373,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            version parts
 	 * @return whether given version is newer than this code
 	 */
-	public boolean fileVersionBefore(int[] v) {
+	public boolean fileVersionBefore(int... v) {
 		if (this.versionArray == null) {
 			return true;
 		}
@@ -1433,18 +1435,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *         USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
 	 *         of AV
 	 */
-	public int getCurrentLabelingStyle() {
-		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+	public LabelVisibility getCurrentLabelingStyle() {
+		LabelVisibility userValue = getSettings().getLabelSettings().getLabelVisibility();
+		if (userValue == LabelVisibility.Automatic) {
 			if ((getGuiManager() != null)
 					&& getGuiManager().hasAlgebraViewShowing()
 					&& getAlgebraView().isVisible()) {
-					// default behaviour for other views
-					return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
+				// default behaviour for other views
+				return LabelVisibility.UseDefaults;
 			}
 			// no AV: no label
-			return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+			return LabelVisibility.AlwaysOff;
 		}
-		return getLabelingStyle();
+		return userValue;
 	}
 
 	/**
@@ -1466,24 +1469,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Enables or disables undo/redo in this application. This is useful for
-	 * applets.
+	 * Enables or disables undo/redo storing and UI in this application.
+	 * This is useful for applets.
 	 *
-	 * @param flag
-	 *            true to allow Undo / Redo
+	 * @param undoRedoMode
+	 *            decides if undo points should be stored and if the undo UI should be visible
 	 */
-	public void setUndoRedoEnabled(boolean flag) {
-		undoRedoEnabled = flag;
-		if (!undoRedoEnabled && kernel != null) {
+	public void setUndoRedoMode(UndoRedoMode undoRedoMode) {
+		this.undoMode = undoRedoMode;
+		if (undoRedoMode == UndoRedoMode.DISABLED && kernel != null) {
 			kernel.setUndoActive(false);
 		}
 	}
 
 	/**
-	 * @return whether undo / redo are possible
+	 * @return undo management mode
 	 */
-	public boolean isUndoRedoEnabled() {
-		return undoRedoEnabled;
+	public UndoRedoMode getUndoRedoMode() {
+		return undoMode;
 	}
 
 	/**
@@ -2655,7 +2658,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void setUndoActive(boolean undoActive) {
 		boolean flag = undoActive;
 		// don't allow undo when data-param-EnableUndoRedo = false
-		if (flag && !undoRedoEnabled) {
+		if (flag && undoMode == UndoRedoMode.DISABLED) {
 			flag = false;
 		}
 
@@ -4044,6 +4047,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * If an exam is active, re-enable any exam restrictions.
+	 */
+	public void reEnableExamRestrictions() {
+		if (getExam() != null && isExamStarted() && restrictions != null) {
+			restrictions.enable();
+		}
+	}
+	
+	/**
 	 * Show exam welcome message.
 	 */
 	public void examWelcome() {
@@ -4866,7 +4878,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @return true if is prerelease
 	 */
-	public final boolean isPrerelease() {
+	public boolean isPrerelease() {
 		return prerelease;
 	}
 

@@ -63,6 +63,10 @@
 		display: none;
 	}
 
+	.GeoGebraHeader .examTypePanel {
+		display: none;
+	}
+
 	.GeoGebraHeader .suiteAppPickerButton {
 		visibility: hidden;
 	}
@@ -118,15 +122,32 @@ img.profileImage {
     min-height: 48px;
 }
 
+.GeoGebraHeader .examTypePanel {
+	display: flex;
+}
+
+.GeoGebraHeader .examType {
+	font-size: 20px;
+	color: #388C83;
+	margin: 20px 32px 20px 8px;
+}
+
+.GeoGebraHeader .timerImg {
+	margin-right: 8px;
+	opacity: 0.54;
+}
+
+.GeoGebraHeader .examType.cheat {
+	color: #B00020;
+}
+
 .GeoGebraHeader .examInfoBtn {
     margin: 14px 18px;
 }
 
 .GeoGebraHeader .examTimer {
-    font-size: 24px;
-    font-weight: normal;
+    font-size: 20px;
     margin: 20px 0px;
-    line-height: 1;
 }
 
 .GeoGebraFrame .headerStyle {
@@ -156,14 +177,14 @@ img.profileImage {
 	margin: 14px 0px;
 	border-radius: 18px;
 	box-sizing: border-box;
-	border: 1px solid rgba(151, 151, 151, 0.52);
+	border: 1px solid #B4B3BA;
 	cursor: pointer;
 	transition: background-color 100ms ease-in-out;
 }
 
 .GeoGebraHeader .suiteAppPickerButton:hover,
 .GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] {
-	background-color: #e5e5e5;
+	background-color: #F3F2F7;
 }
 
 .GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] .dropDownImg {
@@ -301,6 +322,18 @@ svg.icon.left {
 
 .compact.GeoGebraFrame .appName {
     display: none;
+}
+
+.compact.GeoGebraFrame .examTypePanel {
+	display: none;
+}
+
+.compact.GeoGebraFrame .examTimer {
+	margin: 12px 0;
+}
+
+.compact.GeoGebraFrame .examInfoBtn {
+	margin: 6px 18px;
 }
 
 .compact.GeoGebraFrame .shareBtn, .compact.GeoGebraFrame .signIn {

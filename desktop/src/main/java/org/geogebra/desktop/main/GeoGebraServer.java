@@ -35,7 +35,7 @@ public class GeoGebraServer {
 		HttpServer server;
 		try {
 			server = HttpServer.create(new InetSocketAddress(8000), 0);
-			// server.createContext("/v0.1/json", new MyHandlerJSON()); TODO decide if we want this
+			// server.createContext("/v0.1/json", new ApiHandlerJSON()); TODO decide if we want this
 			server.createContext("/v0.1/steps", new StepsHandlerJSON(app.getKernel().getParser()));
 			server.start();
 		} catch (IOException e) {
@@ -43,7 +43,7 @@ public class GeoGebraServer {
 		}
 	}
 
-	class MyHandlerJSON implements HttpHandler {
+	class ApiHandlerJSON implements HttpHandler {
 		@Override
 		public void handle(HttpExchange t) throws IOException {
 			app.reset();

@@ -2026,6 +2026,42 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("l1(2)", "2");
 	}
 
+	/**
+	 * APPS-4889
+	 */
+	@Test
+	public void testShouldNotChangeToMultiplication() {
+		t("f(x) = x^2", "x^(2)");
+		t("g(y) = y^2 + 3", "y^(2) + 3");
+		t("h(z) = z / 2", "1 / 2 * z");
+		t("i(t) = t^3", "t^(3)");
+
+		t("A = (2, 4, 6)", "(2, 4, 6)");
+		t("B = (4, 8)", "(4, 8)");
+
+		t("f(x(A))", "4");
+		t("f'(x(A))", "4");
+
+		t("g(y(A))", "19");
+		t("h'(z(A))", "1 / 2");
+
+		t("i(x(B))", "64");
+		t("i'(y(B))", "192");
+
+		t("Integral(f,x,0,x(A))", "8 / 3");
+		t("Integral(f,0,x(A))", "8 / 3");
+	}
+
+	/**
+	 * APPS-4889
+	 */
+	@Test
+	public void testShouldChangeToMultiplication() {
+		t("x(a)", "x * a");
+		t("b = 3", "3");
+		t("x(b)", "3 * x");
+	}
+
 	@Test
 	public void testListAsFunction() {
 		add("h(x)={x, x + 1}");

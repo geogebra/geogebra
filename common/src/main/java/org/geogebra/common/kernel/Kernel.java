@@ -1432,7 +1432,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
-		// Log.printStacktrace(x + "");
 		String ret = formatRaw(x, tpl);
 
 		if (app.getLocalization().getZero() != '0') {
@@ -4148,9 +4147,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Redo last action.
 	 */
 	public void redo() {
-		if (undoActive && cons.getUndoManager().redoPossible()) {
+		if (undoActive && cons.redoPossible()) {
 			app.batchUpdateStart();
-			cons.redo();
+			cons.getUndoManager().redo();
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
 			app.getEventDispatcher()
@@ -4227,9 +4226,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				}
 			}
 
-			if (cons.getUndoManager().undoPossible()) {
+			if (cons.undoPossible()) {
 				app.batchUpdateStart();
-				cons.undo();
+				cons.getUndoManager().undo();
 
 				// repaint needed for last undo in second EuclidianView (bugfix)
 				if (!undoPossible()) {

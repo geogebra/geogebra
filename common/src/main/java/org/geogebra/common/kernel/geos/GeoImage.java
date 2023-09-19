@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -148,6 +148,18 @@ public class GeoImage extends GeoElement implements
 
 		if (corners[index] == null) {
 			corners[index] = tempPoints[index];
+		}
+	}
+
+	private void initTransformPointForCenter() {
+		if (tempPoints == null) {
+			// temp corner points for transformations and absolute location
+			tempPoints = new GeoPoint[4];
+			tempPoints[CENTER_INDEX] = new GeoPoint(cons); //only care abou the center
+		}
+
+		if (corners[CENTER_INDEX] == null) {
+			corners[CENTER_INDEX] = tempPoints[CENTER_INDEX];
 		}
 	}
 
@@ -649,6 +661,10 @@ public class GeoImage extends GeoElement implements
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
+		if (hasAbsoluteScreenLocation && corners[0] != null) {
+			corners[0].getLocateableList().unregisterLocateable(this);
+			corners[0] = null;
+		}
 		setRealWorldCoord(x, y, 0);
 	}
 
@@ -978,15 +994,18 @@ public class GeoImage extends GeoElement implements
 
 	@Override
 	public void translate(Coords v) {
-		if (!initTransformPoints()) {
-			return;
+		if (isCentered()) {
+			initTransformPointForCenter();
+		} else {
+			if (!initTransformPoints()) {
+				return;
+			}
 		}
+
 		// calculate the new corner points
 		for (int i = 0; i < corners.length; i++) {
-			if (corners[i] != null) {
-				tempPoints[i].translate(v);
-				corners[i] = tempPoints[i];
-			}
+			tempPoints[i].translate(v);
+			corners[i] = tempPoints[i];
 		}
 	}
 

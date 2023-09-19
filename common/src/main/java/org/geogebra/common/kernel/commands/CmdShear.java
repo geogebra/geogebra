@@ -25,7 +25,7 @@ public class CmdShear extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 

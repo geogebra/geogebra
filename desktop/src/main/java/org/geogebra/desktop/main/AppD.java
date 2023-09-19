@@ -4344,11 +4344,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * stored token
 	 */
 	protected void initSignInEventFlow() {
-		// Inizialize the login operation
+		// Inizialize the login operation -- stub only, no sign in UI in desktop
 		loginOperation = new LoginOperationD(this);
-
-		// Try to login the stored user
-		loginOperation.performTokenLogin();
 	}
 
 	@Override

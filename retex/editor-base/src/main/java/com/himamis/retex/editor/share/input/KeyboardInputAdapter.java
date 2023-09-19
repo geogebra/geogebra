@@ -92,6 +92,13 @@ public class KeyboardInputAdapter {
 			}
 		});
 
+		adapters.add(new StringInput("recurringDecimal") {
+			@Override
+			public void commit(MathFieldInternal mfi, String input) {
+				commitFunction(mfi, "recurringDecimal");
+			}
+		});
+
 		adapters.add(new StringInput("log_{10}") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {

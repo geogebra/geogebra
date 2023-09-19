@@ -18,16 +18,16 @@ public class GeoGebraToPstricksW extends GeoGebraToPstricks {
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality) {
 		try {
-			return new MyGraphicsPstricks(ef, inequality);
+			return new ExportGraphicsPstricks(ef, inequality);
 		} catch (Exception ex) {
 			Log.debug(ex);
 			return null;
 		}
 	}
 
-	class MyGraphicsPstricks extends MyGraphicsW {
+	class ExportGraphicsPstricks extends ExportGraphicsW {
 
-		public MyGraphicsPstricks(FunctionalNVar geo, Inequality ineq) {
+		public ExportGraphicsPstricks(FunctionalNVar geo, Inequality ineq) {
 
 			super(geo, ineq);
 		}

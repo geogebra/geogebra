@@ -11,11 +11,11 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.RootPanel;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -81,13 +81,13 @@ public abstract class Web implements EntryPoint {
 	}-*/;
 
 	/**
-	 * @param el
+	 * @param options
 	 *            article element
 	 * @param clb
 	 *            callback
 	 */
-	public void renderArticleElement(Element el, JsConsumer<Object> clb) {
-		GeoGebraFrameFull.renderArticleElement(el, getAppletFactory(),
+	public void renderArticleElement(Object options, JsConsumer<Object> clb) {
+		GeoGebraFrameFull.renderArticleElement(AttributeProvider.as(options), getAppletFactory(),
 				getLAF(), clb);
 	}
 
