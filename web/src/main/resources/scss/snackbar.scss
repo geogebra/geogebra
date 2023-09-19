@@ -120,30 +120,38 @@
 		.progressBar {
 			margin: 8px 16px 20px 16px;
 		}
+	}
+
+	.dataImporter.error {
+		.titleHolder {
+			.gwt-Label {
+				color: neutral(700);
+			}
+		}
 
 		.errorHolder {
 			display: flex;
 			height: 36px;
 
-			.errorMsg {
-				color: neutral(0);
-				font-size: 14px;
-				height: 20px;
-				margin: 4px auto 8px 16px;
-			}
+        	.errorMsg {
+        		color: neutral(0);
+        		font-size: 14px;
+        		height: 20px;
+        		margin: 4px auto 8px 16px;
+        	}
 
-			.button {
-				position: absolute;
-				right: 0px;
-				color: purple(400);
-				font-size: 14px;
-				margin: 0 16px 8px 0;
-				padding: 6px 0;
+        	.button {
+        		position: absolute;
+        		right: 0px;
+        		color: purple(400);
+        		font-size: 14px;
+        		margin: 0 16px 8px 0;
+        		padding: 6px 0;
 
-                &:hover {
-                	background: none;
-                }
-			}
-		}
+        		&:hover {
+        			background: none;
+        		}
+        	}
+        }
 	}
 }
