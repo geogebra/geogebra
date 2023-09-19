@@ -1,6 +1,5 @@
 package org.geogebra.web.geogebra3D;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -10,14 +9,17 @@ import org.geogebra.web.html5.bridge.RenderGgbElement.RenderGgbElementFunction;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
-import elemental2.dom.DomGlobal;
-
 public final class RenderMathApps implements RenderGgbElementFunction {
-
 
 	private final GLookAndFeel laf;
 	private final AppletFactory factory;
 
+
+	/**
+	 * Constructor
+	 * @param laf {@link GLookAndFeel}
+	 * @param factory {@link AppletFactory}
+	 */
 	public RenderMathApps(GLookAndFeel laf, AppletFactory factory) {
 		this.laf = laf;
 		this.factory = factory;
