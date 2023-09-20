@@ -14,7 +14,6 @@ public final class RenderMathApps implements RenderGgbElementFunction {
 	private final GLookAndFeel laf;
 	private final AppletFactory factory;
 
-
 	/**
 	 * Constructor
 	 * @param laf {@link GLookAndFeel}
