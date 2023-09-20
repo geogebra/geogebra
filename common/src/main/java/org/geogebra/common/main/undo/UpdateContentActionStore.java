@@ -47,6 +47,7 @@ public class UpdateContentActionStore {
 				currentLabelsHeightsAndContent[i] = contentHeights[i / 4];
 			} else {
 				currentLabelsHeightsAndContent[i] = currentContentXML[i / 4];
+				geos.get(i / 4).notifyUpdate();
 			}
 		}
 
