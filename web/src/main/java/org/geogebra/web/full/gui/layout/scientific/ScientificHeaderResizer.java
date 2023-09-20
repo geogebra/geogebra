@@ -21,10 +21,11 @@ public class ScientificHeaderResizer implements HeaderResizer {
 		if (header != null) {
 			reset(header);
 
-			if (frame.hasSmallWindowOrCompactHeader()) {
-				header.addClassName("smallScreen");
-			} else {
-				header.removeClassName("smallScreen");
+			if (frame.shouldHaveSmallScreenLayout()) {
+				header.addClassName("compact");
+			}
+			else {
+				header.removeClassName("compact");
 			}
 
 			Dom.toggleClass(header, "portrait", "landscape",

@@ -198,10 +198,6 @@ img.profileImage {
 	display: none;
 }
 
-.GeoGebraHeader.suiteHeader .scientificHeader .shareBtn, .compact.GeoGebraFrame .signIn {
-    display: flex;
-}
-
 .GeoGebraHeader.mobile{
 	display:none;
 }
