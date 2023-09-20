@@ -126,6 +126,7 @@ import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.DataImportSnackbar;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
@@ -188,6 +189,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import elemental2.dom.FileReader;
 import elemental2.dom.URL;
 import elemental2.webstorage.StorageEvent;
 import jsinterop.base.Js;
@@ -621,40 +623,52 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void openCSV(String csv) {
-		if (isUnbundled()) {
-			DataImporter importer = new DataImporter(
-					(TableValuesView) getGuiManager().getTableValuesView(),
-					new DataImporterDelegate() {
-						@Override
-						public boolean onValidationProgress(int currentRow) {
-							return true;
-						}
-
-						@Override
-						public boolean onImportProgress(int currentRow, int totalNrOfRows) {
-							return true;
-						}
-
-						@Override
-						public void onImportWarning(DataImporterWarning warning, int currentRow) {
-							getGgbApi().showTooltip("Warn:" + warning);
-						}
-
-						@Override
-						public void onImportError(DataImporterError error, int currentRow) {
-							getGgbApi().showTooltip("Error:" + error);
-						}
-					});
-			importer.importCSV(csv, getLocalization().getDecimalPoint());
-			return;
-		}
-
 		String[][] data = DataImport.parseExternalData(this, csv, true);
 		CopyPasteCut cpc = getGuiManager().getSpreadsheetView()
 				.getSpreadsheetTable().getCopyPasteCut();
 		cpc.pasteExternal(data, 0, 0, data.length > 0 ? data[0].length - 1 : 0,
 				data.length);
 		onOpenFile();
+	}
+
+	public final void openCSV(File fileToHandle) {
+		FileReader reader = new FileReader();
+		String fileName = fileToHandle.name;
+		reader.addEventListener("load", (event) -> {
+			if (reader.readyState == FileReader.DONE) {
+				String fileStr = reader.result.asString();
+				importData(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)), fileName);
+			}
+		});
+		reader.readAsDataURL(fileToHandle);
+	}
+
+	private void importData(String csv, String fileName) {
+		DataImporter importer = new DataImporter(
+				(TableValuesView) getGuiManager().getTableValuesView(),
+				new DataImporterDelegate() {
+					@Override
+					public boolean onValidationProgress(int currentRow) {
+						return true;
+					}
+
+					@Override
+					public boolean onImportProgress(int currentRow, int totalNrOfRows) {
+						return true;
+					}
+
+					@Override
+					public void onImportWarning(DataImporterWarning warning, int currentRow) {
+						// nothing to do now
+					}
+
+					@Override
+					public void onImportError(DataImporterError error, int currentRow) {
+						DataImportSnackbar errorSnackbar = new DataImportSnackbar(
+								getGuiManager().getApp(), fileName, () -> Log.debug("error"));
+					}
+				});
+		importer.importCSV(csv, getLocalization().getDecimalPoint());
 	}
 
 	@Override

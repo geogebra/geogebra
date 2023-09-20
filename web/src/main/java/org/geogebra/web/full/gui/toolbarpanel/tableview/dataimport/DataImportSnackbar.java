@@ -35,7 +35,11 @@ public class DataImportSnackbar extends FlowPanel {
 		}
 	};
 
-
+	/**
+	 * data import snackbar
+	 * @param appW - application
+	 * @param title - file name
+	 */
 	public DataImportSnackbar(AppW appW, String title) {
 		this.appW = appW;
 		addStyleName("dataImporter");
@@ -45,6 +49,12 @@ public class DataImportSnackbar extends FlowPanel {
 		fadeIn.schedule(100);
 	}
 
+	/**
+	 * data import error snackbar
+	 * @param appW - application
+	 * @param title - file name
+	 * @param tryAgainRunnable - handler for try again button
+	 */
 	public DataImportSnackbar(AppW appW, String title, Runnable tryAgainRunnable) {
 		this.appW = appW;
 		addStyleName("dataImporter");
