@@ -33,7 +33,6 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.ui.FileUpload;
 
@@ -284,12 +283,7 @@ public class ContextMenuTV {
 	private FileUpload getCSVChooser() {
 		FileUpload csvChooser = new FileUpload();
 		DataImportSnackbar snackbar =
-				new DataImportSnackbar(app, "title toooooo loooooooooooooong",
-						DataImporterError.READ_ERROR);
-		snackbar.setVisible(true);
-		csvChooser.addDomHandler(event -> {
-		}, ChangeEvent.getType());
-
+				new DataImportSnackbar(app, "title toooooo loooooooooooooong");
 		csvChooser.getElement().setAttribute("accept", ".csv");
 		return csvChooser;
 	}
