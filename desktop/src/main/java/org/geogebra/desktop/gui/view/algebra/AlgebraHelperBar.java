@@ -179,7 +179,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			mi.setText(loc.getMenu(sort.toString()));
 
 			mi.addActionListener(e -> {
-				algebraView.setTreeMode(sort);
+				app.getSettings().getAlgebra().setTreeMode(sort);
 				buildTreeModeMenu();
 			});
 			mi.setSelected(algebraView.getTreeMode() == sortModes[i]);
