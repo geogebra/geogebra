@@ -55,10 +55,18 @@ public class MoveGeos {
 
 		final ArrayList<GeoElement> geos = new ArrayList<>();
 		for (GeoElement geo: geosToMove) {
+			// Only add elements that are not fixed and consist of only moveable points
 			if (!geo.isLocked()) {
-				addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
+				if (geo.hasOnlyFreeInputPoints(view)) {
+					addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
+				} else if (geo.isGeoList()) { // Check for each element of a list respectively
+					((GeoList) geo).elements()
+							.filter(element -> element.hasOnlyFreeInputPoints(view))
+							.forEach(element -> addWithSiblingsAndChildNodes(element, geos, view));
+				}
 			}
 		}
+
 		boolean moved = false;
 		final int size = geos.size();
 		moveObjectsUpdateList.clear();
