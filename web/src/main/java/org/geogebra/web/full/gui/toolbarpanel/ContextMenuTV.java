@@ -11,17 +11,16 @@ import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
-import org.geogebra.common.gui.view.table.importer.DataImporterError;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.OverwriteDataDialog;
 import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.DataImportSnackbar;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -35,6 +34,12 @@ import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.ui.FileUpload;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.File;
+import elemental2.dom.FileReader;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.base.Js;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
@@ -54,6 +59,7 @@ public class ContextMenuTV {
 	protected AppW app;
 	private final int columnIdx;
 	private final GeoElement geo;
+	private final FileUpload csvChooser = getCSVChooser();
 
 	/**
 	 * @param app
@@ -264,26 +270,26 @@ public class ContextMenuTV {
 	private void addImportData() {
 		Command importDataCommand = () -> {
 			if (view.isEmpty()) {
-				openCsvChooser();
+				csvChooser.click();
 			} else {
 				DialogData data = new DialogData(null, "Cancel", "Overwrite");
 				OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(getApp(), data);
-				overwriteDataDialog.setOnPositiveAction(() -> openCsvChooser());
+				overwriteDataDialog.setOnPositiveAction(() -> csvChooser.click());
 				overwriteDataDialog.show();
 			}
 		};
 		addCommand(importDataCommand, "ContextMenu.ImportData", "importData");
 	}
 
-	private void openCsvChooser() {
-		FileUpload fileUpload = getCSVChooser();
-		fileUpload.click();
-	}
-
 	private FileUpload getCSVChooser() {
 		FileUpload csvChooser = new FileUpload();
-		DataImportSnackbar snackbar =
-				new DataImportSnackbar(app, "title toooooo loooooooooooooong");
+		csvChooser.addChangeHandler(event -> {
+			HTMLInputElement el = Js.uncheckedCast(csvChooser.getElement());
+			File fileToHandle = el.files.getAt(0);
+			Log.debug("FILE TITLE: " + fileToHandle.name);
+			event.stopPropagation();
+			event.preventDefault();
+		});
 		csvChooser.getElement().setAttribute("accept", ".csv");
 		return csvChooser;
 	}

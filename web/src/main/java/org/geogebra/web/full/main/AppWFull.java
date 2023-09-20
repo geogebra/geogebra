@@ -40,6 +40,11 @@ import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
+import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.importer.DataImporter;
+import org.geogebra.common.gui.view.table.importer.DataImporterDelegate;
+import org.geogebra.common.gui.view.table.importer.DataImporterError;
+import org.geogebra.common.gui.view.table.importer.DataImporterWarning;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -616,6 +621,34 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void openCSV(String csv) {
+		if (isUnbundled()) {
+			DataImporter importer = new DataImporter(
+					(TableValuesView) getGuiManager().getTableValuesView(),
+					new DataImporterDelegate() {
+						@Override
+						public boolean onValidationProgress(int currentRow) {
+							return true;
+						}
+
+						@Override
+						public boolean onImportProgress(int currentRow, int totalNrOfRows) {
+							return true;
+						}
+
+						@Override
+						public void onImportWarning(DataImporterWarning warning, int currentRow) {
+							getGgbApi().showTooltip("Warn:" + warning);
+						}
+
+						@Override
+						public void onImportError(DataImporterError error, int currentRow) {
+							getGgbApi().showTooltip("Error:" + error);
+						}
+					});
+			importer.importCSV(csv, getLocalization().getDecimalPoint());
+			return;
+		}
+
 		String[][] data = DataImport.parseExternalData(this, csv, true);
 		CopyPasteCut cpc = getGuiManager().getSpreadsheetView()
 				.getSpreadsheetTable().getCopyPasteCut();
