@@ -37,6 +37,7 @@ import org.gwtproject.user.client.ui.FileUpload;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import elemental2.dom.FileList;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLInputElement;
 import jsinterop.base.Js;
@@ -283,14 +284,14 @@ public class ContextMenuTV {
 
 	private FileUpload getCSVChooser() {
 		FileUpload csvChooser = new FileUpload();
-		csvChooser.addChangeHandler(event -> {
-			HTMLInputElement el = Js.uncheckedCast(csvChooser.getElement());
-			File fileToHandle = el.files.getAt(0);
-			Log.debug("FILE TITLE: " + fileToHandle.name);
-			event.stopPropagation();
-			event.preventDefault();
+		Element el = csvChooser.getElement();
+		el.setAttribute("accept", ".csv");
+		HTMLInputElement input = Js.uncheckedCast(el);
+		input.addEventListener("change", event -> {
+			File fileToHandle = input.files.getAt(0);
+			getApp().doOpenFile(fileToHandle);
 		});
-		csvChooser.getElement().setAttribute("accept", ".csv");
+
 		return csvChooser;
 	}
 
