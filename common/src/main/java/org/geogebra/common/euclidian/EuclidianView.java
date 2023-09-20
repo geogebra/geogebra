@@ -2690,6 +2690,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
+	public double getWidthd() {
+		return getWidth();
+	}
+
+	@Override
+	public double getHeightd() {
+		return getHeight();
+	}
+
+	@Override
 	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algoParent) {
 		return companion.getFreeInputPoints(algoParent);
 	}
@@ -4380,11 +4390,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public GeneralPathClipped getBoundingPath() {
 		GeneralPathClipped gs = new GeneralPathClipped(this);
 		gs.resetWithThickness(1);
-		gs.moveTo(getMinXScreen(), getMinYScreen());
-		gs.lineTo(getMaxXScreen(), getMinYScreen());
-		gs.lineTo(getMaxXScreen(), getMaxYScreen());
-		gs.lineTo(getMinXScreen(), getMaxYScreen());
-		gs.lineTo(getMinXScreen(), getMinYScreen());
+		int minX = getMinXScreen();
+		int minY = getMinYScreen();
+		gs.moveTo(minX, minY);
+		double width = Math.ceil(getWidthd());
+		gs.lineTo(width, minY);
+		double height = Math.ceil(getHeightd());
+		gs.lineTo(width, height);
+		gs.lineTo(minX, height);
+		gs.lineTo(minX, minY);
 		gs.closePath();
 		return gs;
 	}
