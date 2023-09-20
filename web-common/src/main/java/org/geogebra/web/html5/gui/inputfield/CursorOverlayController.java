@@ -219,9 +219,11 @@ public class CursorOverlayController implements TextFieldController,
 
 	@Override
 	public void clearSelection() {
-		textField.setText("");
-		cursorOverlay.removeFakeSelection();
-		cursorOverlay.clear();
+		if (isSelected()) {
+			textField.setText("");
+			cursorOverlay.removeFakeSelection();
+			cursorOverlay.clear();
+		}
 	}
 
 	public boolean isSelected() {

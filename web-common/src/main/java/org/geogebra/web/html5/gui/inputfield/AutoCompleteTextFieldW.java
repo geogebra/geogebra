@@ -503,6 +503,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setCaretPosition(int caretPos) {
 		textField.getValueBox().setCursorPos(caretPos);
+		textFieldController.unselectAll();
 		textFieldController.update();
 	}
 
