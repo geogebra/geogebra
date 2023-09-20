@@ -631,6 +631,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		onOpenFile();
 	}
 
+	/**
+	 * open csv file
+	 * @param fileToHandle - selected file
+	 */
 	public final void openCSV(File fileToHandle) {
 		FileReader reader = new FileReader();
 		String fileName = fileToHandle.name;
@@ -664,8 +668,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 					@Override
 					public void onImportError(DataImporterError error, int currentRow) {
-						DataImportSnackbar errorSnackbar = new DataImportSnackbar(
-								getGuiManager().getApp(), fileName, () -> Log.debug("error"));
+						new DataImportSnackbar(getGuiManager().getApp(), fileName,
+								() -> Log.debug("error"));
 					}
 				});
 		importer.importCSV(csv, getLocalization().getDecimalPoint());
