@@ -4390,15 +4390,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public GeneralPathClipped getBoundingPath() {
 		GeneralPathClipped gs = new GeneralPathClipped(this);
 		gs.resetWithThickness(1);
-		int minX = getMinXScreen();
-		int minY = getMinYScreen();
-		gs.moveTo(minX, minY);
-		double width = Math.ceil(getWidthd());
-		gs.lineTo(width, minY);
-		double height = Math.ceil(getHeightd());
-		gs.lineTo(width, height);
-		gs.lineTo(minX, height);
-		gs.lineTo(minX, minY);
+		gs.moveTo(getMinXScreen(), getMinYScreen());
+		gs.lineTo(getMaxXScreen(), getMinYScreen());
+		gs.lineTo(getMaxXScreen(), getMaxYScreen());
+		gs.lineTo(getMinXScreen(), getMaxYScreen());
+		gs.lineTo(getMinXScreen(), getMinYScreen());
 		gs.closePath();
 		return gs;
 	}
@@ -5973,7 +5969,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (exportFrame != null) {
 			return (int) exportFrame.getMaxX();
 		}
-		return getWidth();
+		return (int) Math.ceil(getWidthd());
 	}
 
 	/**
@@ -5996,7 +5992,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return (int) exportFrame.getMaxY();
 		}
 
-		return getHeight();
+		return (int) Math.ceil(getHeightd());
 	}
 
 	/**

@@ -321,6 +321,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public int getHeight() {
 		return (int) getHeightd();
 	}
+
 	@Override
 	public double getHeightd() {
 		return this.g2p.getCoordinateSpaceHeight()
