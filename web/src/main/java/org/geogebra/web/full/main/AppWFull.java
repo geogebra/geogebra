@@ -102,6 +102,7 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.H5PReader;
+import org.geogebra.web.full.gui.dialog.OverwriteDataDialog;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
@@ -176,7 +177,9 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FileUpload;
 import org.gwtproject.user.client.ui.HorizontalPanel;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -187,6 +190,7 @@ import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
+import elemental2.dom.HTMLInputElement;
 import elemental2.dom.URL;
 import elemental2.webstorage.StorageEvent;
 import jsinterop.base.Js;
@@ -251,6 +255,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private InputBoxType inputBoxType;
 	private List<String> functionVars = new ArrayList<>();
 	private OpenSearch search;
+	private final FileUpload csvChooser = getCSVChooser();
+	private Command csvHandler = () -> {
+		if (getGuiManager().getTableValuesView().isEmpty()) {
+			csvChooser.click();
+		} else {
+			DialogData data = new DialogData(null, "Cancel", "Overwrite");
+			OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(
+					guiManager.getApp(), data);
+			overwriteDataDialog.setOnPositiveAction(() -> csvChooser.click());
+			overwriteDataDialog.show();
+		}
+	};
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -2516,5 +2532,22 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void clearSubAppCons() {
 		constructionJson.clear();
+	}
+
+	private FileUpload getCSVChooser() {
+		FileUpload csvChooser = new FileUpload();
+		Element el = csvChooser.getElement();
+		el.setAttribute("accept", ".csv");
+		HTMLInputElement input = Js.uncheckedCast(el);
+		input.addEventListener("change", event -> {
+			File fileToHandle = input.files.getAt(0);
+			openCSV(fileToHandle);
+		});
+
+		return csvChooser;
+	}
+
+	public Command getCsvHandler() {
+		return csvHandler;
 	}
 }

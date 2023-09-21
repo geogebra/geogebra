@@ -9,6 +9,7 @@ import org.geogebra.web.full.gui.components.ComponentProgressBar;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
@@ -54,7 +55,7 @@ public class DataImportSnackbar extends FlowPanel {
 	 * @param title - file name
 	 * @param tryAgainRunnable - handler for try again button
 	 */
-	public DataImportSnackbar(AppW appW, String title, Runnable tryAgainRunnable) {
+	public DataImportSnackbar(AppW appW, String title, Command tryAgainRunnable) {
 		this.appW = appW;
 		addStyleName("dataImporter");
 		addStyleName("error");
@@ -89,7 +90,7 @@ public class DataImportSnackbar extends FlowPanel {
 		add(titleHolder);
 	}
 
-	private void buildErrorGui(String title, Runnable tryAgainRunnable) {
+	private void buildErrorGui(String title, Command tryAgainRunnable) {
 		addTitleHolder(title, NEUTRAL_700);
 
 		FlowPanel errorHolder = new FlowPanel();
@@ -100,7 +101,7 @@ public class DataImportSnackbar extends FlowPanel {
 				.getMenu("phone_try_again_loading"));
 		tryAgain.addFastClickHandler(source -> {
 			hide();
-			tryAgainRunnable.run();
+			tryAgainRunnable.execute();
 		});
 
 		errorHolder.add(errorLbl);

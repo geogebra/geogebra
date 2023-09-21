@@ -57,7 +57,6 @@ public class ContextMenuTV {
 	protected AppW app;
 	private final int columnIdx;
 	private final GeoElement geo;
-	private final FileUpload csvChooser = getCSVChooser();
 
 	/**
 	 * @param app
@@ -266,30 +265,7 @@ public class ContextMenuTV {
 	}
 
 	private void addImportData() {
-		Command importDataCommand = () -> {
-			if (view.isEmpty()) {
-				csvChooser.click();
-			} else {
-				DialogData data = new DialogData(null, "Cancel", "Overwrite");
-				OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(getApp(), data);
-				overwriteDataDialog.setOnPositiveAction(() -> csvChooser.click());
-				overwriteDataDialog.show();
-			}
-		};
-		addCommand(importDataCommand, "ContextMenu.ImportData", "importData");
-	}
-
-	private FileUpload getCSVChooser() {
-		FileUpload csvChooser = new FileUpload();
-		Element el = csvChooser.getElement();
-		el.setAttribute("accept", ".csv");
-		HTMLInputElement input = Js.uncheckedCast(el);
-		input.addEventListener("change", event -> {
-			File fileToHandle = input.files.getAt(0);
-			((AppWFull) app).openCSV(fileToHandle);
-		});
-
-		return csvChooser;
+		addCommand(((AppWFull) app).getCsvHandler(), "ContextMenu.ImportData", "importData");
 	}
 
 	/**
