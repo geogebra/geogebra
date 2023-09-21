@@ -46,7 +46,6 @@ public class DataImportSnackbar extends FlowPanel {
 		buildGui(title);
 		appW.getAppletFrame().add(this);
 		positionSnackbar();
-		fadeIn.schedule(100);
 	}
 
 	/**
@@ -63,6 +62,7 @@ public class DataImportSnackbar extends FlowPanel {
 		appW.getAppletFrame().add(this);
 		positionSnackbar();
 		fadeIn.schedule(100);
+		fadeOut.schedule(10000);
 	}
 
 	private void buildGui(String title) {
@@ -111,6 +111,10 @@ public class DataImportSnackbar extends FlowPanel {
 
 	public void hide() {
 		fadeOut.run();
+	}
+
+	public void show() {
+		fadeIn.schedule(100);
 	}
 
 	private void positionSnackbar() {

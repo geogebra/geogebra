@@ -42,9 +42,6 @@ import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.importer.DataImporter;
-import org.geogebra.common.gui.view.table.importer.DataImporterDelegate;
-import org.geogebra.common.gui.view.table.importer.DataImporterError;
-import org.geogebra.common.gui.view.table.importer.DataImporterWarning;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -126,7 +123,7 @@ import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.DataImportSnackbar;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.DataImportHandler;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
@@ -648,31 +645,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void importData(String csv, String fileName) {
+		DataImportHandler handler = new DataImportHandler(this, fileName);
 		DataImporter importer = new DataImporter(
-				(TableValuesView) getGuiManager().getTableValuesView(),
-				new DataImporterDelegate() {
-					@Override
-					public boolean onValidationProgress(int currentRow) {
-						return true;
-					}
-
-					@Override
-					public boolean onImportProgress(int currentRow, int totalNrOfRows) {
-						return true;
-					}
-
-					@Override
-					public void onImportWarning(DataImporterWarning warning, int currentRow) {
-						// nothing to do now
-					}
-
-					@Override
-					public void onImportError(DataImporterError error, int currentRow) {
-						new DataImportSnackbar(getGuiManager().getApp(), fileName,
-								() -> Log.debug("error"));
-					}
-				});
+				(TableValuesView) getGuiManager().getTableValuesView(), handler);
+		handler.scheduleSnackbar();
 		importer.importCSV(csv, getLocalization().getDecimalPoint());
+		storeUndoInfo();
 	}
 
 	@Override
