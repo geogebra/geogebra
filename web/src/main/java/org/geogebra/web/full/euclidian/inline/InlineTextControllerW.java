@@ -272,7 +272,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public void format(String key, Object val) {
 		editor.format(key, val);
 		saveContent();
-		geo.updateVisualStyleRepaint(GProperty.COMBINED);
+		geo.updateRepaint();
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
