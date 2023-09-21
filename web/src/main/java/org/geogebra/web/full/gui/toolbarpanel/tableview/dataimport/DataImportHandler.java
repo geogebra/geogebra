@@ -9,6 +9,7 @@ import org.gwtproject.timer.client.Timer;
 public class DataImportHandler implements DataImporterDelegate {
 	protected AppWFull appW;
 	private String fileName;
+	private boolean continueImport = true;
 	private DataImportSnackbar progressSnackbar;
 	private Timer showSnackbar = new Timer() {
 		@Override
@@ -25,7 +26,7 @@ public class DataImportHandler implements DataImporterDelegate {
 	public DataImportHandler(AppWFull appW, String fileName) {
 		this.appW = appW;
 		this.fileName = fileName;
-		progressSnackbar = new DataImportSnackbar(appW, fileName);
+		progressSnackbar = new DataImportSnackbar(appW, fileName, () -> cancelImport());
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class DataImportHandler implements DataImporterDelegate {
 				showSnackbar.cancel();
 			}
 		}
-		return true;
+		return continueImport;
 	}
 
 	@Override
@@ -54,10 +55,14 @@ public class DataImportHandler implements DataImporterDelegate {
 	public void onImportError(DataImporterError error, int currentRow) {
 		showSnackbar.cancel();
 		progressSnackbar.hide();
-		new DataImportSnackbar(appW, fileName, appW.getCsvHandler());
+		new DataImportSnackbar(appW, fileName, this::cancelImport, appW.getCsvHandler());
 	}
 
 	public void scheduleSnackbar() {
 		showSnackbar.schedule(2000);
+	}
+
+	private void cancelImport() {
+		continueImport = false;
 	}
 }

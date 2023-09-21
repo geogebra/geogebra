@@ -35,14 +35,17 @@ public class DataImportSnackbar extends FlowPanel {
 			removeFromParent();
 		}
 	};
+	private Runnable cancelImport;
 
 	/**
 	 * data import snackbar
 	 * @param appW - application
 	 * @param title - file name
+	 * @param cancelImport - x button handler
 	 */
-	public DataImportSnackbar(AppW appW, String title) {
+	public DataImportSnackbar(AppW appW, String title, Runnable cancelImport) {
 		this.appW = appW;
+		this.cancelImport = cancelImport;
 		addStyleName("dataImporter");
 		buildGui(title);
 		appW.getAppletFrame().add(this);
@@ -53,10 +56,13 @@ public class DataImportSnackbar extends FlowPanel {
 	 * data import error snackbar
 	 * @param appW - application
 	 * @param title - file name
+	 * @param cancelImport - x button handler
 	 * @param tryAgainRunnable - handler for try again button
 	 */
-	public DataImportSnackbar(AppW appW, String title, Command tryAgainRunnable) {
+	public DataImportSnackbar(AppW appW, String title, Runnable cancelImport,
+			Command tryAgainRunnable) {
 		this.appW = appW;
+		this.cancelImport = cancelImport;
 		addStyleName("dataImporter");
 		addStyleName("error");
 		buildErrorGui(title, tryAgainRunnable);
@@ -82,7 +88,10 @@ public class DataImportSnackbar extends FlowPanel {
 		Label titleLbl = new Label(title);
 		StandardButton xButton = new StandardButton(MaterialDesignResources.INSTANCE.clear()
 				.withFill(NEUTRAL_300.toString()), 24);
-		xButton.addFastClickHandler(source -> hide());
+		xButton.addFastClickHandler(source -> {
+			cancelImport.run();
+			hide();
+		});
 
 		titleHolder.add(dataImg);
 		titleHolder.add(titleLbl);
