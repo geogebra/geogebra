@@ -2538,7 +2538,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		FileUpload csvChooser = new FileUpload();
 		Element el = csvChooser.getElement();
 		el.setAttribute("accept", ".csv");
-		Dom.addEventListener(el,"change", event -> {
+		Dom.addEventListener(el, "change", event -> {
 			HTMLInputElement input = Js.uncheckedCast(el);
 			File fileToHandle = input.files.getAt(0);
 			openCSV(fileToHandle);
