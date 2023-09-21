@@ -18,7 +18,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.dialog.OverwriteDataDialog;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
@@ -33,11 +32,6 @@ import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
-import org.gwtproject.user.client.ui.FileUpload;
-
-import elemental2.dom.File;
-import elemental2.dom.HTMLInputElement;
-import jsinterop.base.Js;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
