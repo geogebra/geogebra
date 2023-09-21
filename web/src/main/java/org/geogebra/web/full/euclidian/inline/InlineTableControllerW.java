@@ -181,7 +181,7 @@ public class InlineTableControllerW implements InlineTableController {
 	public void format(String key, Object val) {
 		tableImpl.setFormatting(key, val);
 		table.setContent(getContent());
-		table.updateVisualStyleRepaint(GProperty.COMBINED);
+		table.updateRepaint();
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
