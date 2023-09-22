@@ -55,6 +55,16 @@ public class APITest {
 	}
 
 	@Test
+	public void getValueStringTest() {
+		api.evalCommand("txt=\"foo\"");
+		api.evalCommand("input=InputBox(txt)");
+		api.evalCommand("a=4");
+		assertEquals("foo", api.getValueString("txt"));
+		assertEquals("foo", api.getValueString("input"));
+		assertEquals("a = 4", api.getValueString("a"));
+	}
+
+	@Test
 	public void casCellComparisonShouldNotCreateCASCell() {
 		api.evalCommand("$1==8");
 		assertEquals(0, app.getKernel().getConstruction().getCASObjectNumber());
