@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.DrawableND;
@@ -238,7 +240,7 @@ public class GeoList extends GeoElement
 		reuseDefinition(geo);
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
 			// 1 -> first element
-			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble(), false);
+			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble());
 			isDefined = true;
 
 			return;
@@ -1642,21 +1644,24 @@ public class GeoList extends GeoElement
 	/**
 	 * @param selectedIndex0
 	 *            new selected index
-	 * @param update
-	 *            t
 	 */
-	public void setSelectedIndex(final int selectedIndex0, boolean update) {
+	public void setSelectedIndex(final int selectedIndex0) {
 		selectedIndex = selectedIndex0;
 
 		if (selectedIndex < 0 || selectedIndex > size() - 1) {
 			selectedIndex = 0;
 		}
+	}
 
-		if (update) {
-			updateCascade();
-			getKernel().notifyRepaint();
-			getKernel().storeUndoInfo();
-		}
+	/**
+	 * Select index, update cascade, create undo point
+	 * @param selectedIndex0 newly selected index
+	 */
+	public void setSelectedIndexUpdate(final int selectedIndex0) {
+		setSelectedIndex(selectedIndex0);
+		updateCascade();
+		getKernel().notifyRepaint();
+		getKernel().storeUndoInfo();
 	}
 
 	/*
@@ -1673,7 +1678,7 @@ public class GeoList extends GeoElement
 	 *
 	 * @return selected element
 	 */
-	public GeoElement getSelectedElement() {
+	public @CheckForNull GeoElement getSelectedElement() {
 		if ((selectedIndex > -1) && (selectedIndex < size())) {
 			return get(selectedIndex);
 		}
@@ -3197,9 +3202,12 @@ public class GeoList extends GeoElement
 	 *            template
 	 * @return The displayed string of item.
 	 */
-	public String getItemDisplayString(GeoElement geoItem,
+	public String getItemDisplayString(@CheckForNull GeoElement geoItem,
 			StringTemplate tpl) {
-		String displayString = "";
+		if (geoItem == null) {
+			return "";
+		}
+		String displayString;
 		if (!"".equals(geoItem.getRawCaption())) {
 			displayString =  geoItem.getCaption(tpl);
 		} else if (geoItem.isGeoPoint() || geoItem.isGeoVector() || geoItem.isGeoList()) {
