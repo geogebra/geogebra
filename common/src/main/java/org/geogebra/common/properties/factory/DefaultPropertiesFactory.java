@@ -73,13 +73,13 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	 * @return an array of algebra specific properties
 	 */
 	protected PropertiesArray createAlgebraProperties(App app, Localization localization) {
-		AlgebraSettings algebraView = app.getSettings().getAlgebra();
+		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
 		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("Algebra");
 		if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
 			return new PropertiesArray(name,
 					new AlgebraDescriptionProperty(kernel, localization),
-					new SortByProperty(algebraView, localization),
+					new SortByProperty(algebraSettings, localization),
 					new ShowAuxiliaryProperty(app, localization)
 			);
 		} else {

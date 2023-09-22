@@ -23,7 +23,7 @@ public class AlgebraSettings extends AbstractSettings {
 
 	private int style = AlgebraStyle.VALUE;
 
-	private static List<Integer> styleModes = Arrays.asList(
+	private static final List<Integer> styleModes = Arrays.asList(
 			Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE,
 			Kernel.ALGEBRA_STYLE_VALUE, Kernel.ALGEBRA_STYLE_DEFINITION,
 			Kernel.ALGEBRA_STYLE_DESCRIPTION);
@@ -216,7 +216,6 @@ public class AlgebraSettings extends AbstractSettings {
 	}
 
 	private void appendCollapsedNodes(StringBuilder sbXML) {
-
 		if (collapsedNodes != null && collapsedNodes.size() > 0) {
 			sbXML.append("\t<collapsed val=\"");
 			sbXML.append(collapsedNodes.get(0));
