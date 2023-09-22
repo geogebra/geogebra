@@ -19,8 +19,9 @@ import jsinterop.base.Js;
 
 public class CsvImportHandler {
 	protected AppW appW;
-	private final FileUpload csvChooser = getCSVChooser();
+	private FileUpload csvChooser;
 	private Command csvHandler = () -> {
+		csvChooser = getCSVChooser();
 		if (((TableValuesView) appW.getGuiManager().getTableValuesView()).isEmpty()) {
 			csvChooser.click();
 		} else {
