@@ -3636,7 +3636,7 @@ public class ExpressionNode extends ValidExpression
 		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
 				|| (unwrap instanceof GeoNumeric && !(unwrap instanceof GeoDummyVariable))) {
 			double val = evaluateDouble();
-			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
+			return Double.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);
 		}
 		return false;

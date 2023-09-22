@@ -1063,7 +1063,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider max value wasn't disabled
 	 */
 	public final boolean isIntervalMaxActive() {
-		return MyDouble.isFinite(getIntervalMax());
+		return Double.isFinite(getIntervalMax());
 	}
 
 	/**
@@ -1072,7 +1072,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider min value wasn't disabled
 	 */
 	public final boolean isIntervalMinActive() {
-		return MyDouble.isFinite(getIntervalMin());
+		return Double.isFinite(getIntervalMin());
 	}
 
 	/**

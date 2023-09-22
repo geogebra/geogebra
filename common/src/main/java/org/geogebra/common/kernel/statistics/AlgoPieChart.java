@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.GetCommand;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -56,7 +55,7 @@ public class AlgoPieChart extends AlgoElement implements ChartStyleAlgo {
 		double sum = 0;
 		for (int i = 0; i < data.size(); i++) {
 			double value = data.get(i).evaluateDouble();
-			if (MyDouble.isFinite(value) && value >= 0) {
+			if (Double.isFinite(value) && value >= 0) {
 				sum += value;
 				chart.getData().add(value);
 			} else {

@@ -242,7 +242,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), DoubleUtil.isGreater(b, a),
 						defined);
@@ -264,7 +264,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), DoubleUtil.isGreater(a, b),
 						defined);
@@ -286,7 +286,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
 						DoubleUtil.isGreaterEqual(b, a), defined);
@@ -309,7 +309,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
 						DoubleUtil.isGreaterEqual(a, b), defined);
@@ -1597,7 +1597,7 @@ public enum Operation {
 
 				double num = lt.evaluateDouble();
 
-				if (MyDouble.isFinite(num)) {
+				if (Double.isFinite(num)) {
 
 					return new MyDouble(kernel, num < 0 ? Math.PI : 0);
 				}
