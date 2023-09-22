@@ -3915,7 +3915,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 				// <Space> -> toggle slider animation off/on
 				GeoNumeric num = (GeoNumeric) geo;
-				if (num.isAnimatable()) {
+				if (num.isAnimatable() && isRightClickEnabled()) {
 					num.setAnimating(!num.isAnimating());
 
 					storeUndoInfo();

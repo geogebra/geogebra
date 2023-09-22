@@ -2017,15 +2017,16 @@ public class GeoNumeric extends GeoElement
 		if (!isSliderable()) {
 			return;
 		}
-
-		if (isAnimating()) {
-			sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
-					"Press space to stop animation"));
-		} else {
-			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
-					"Press space to start animation"));
+		if (getApp().isRightClickEnabled()) {
+			if (isAnimating()) {
+				sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
+						"Press space to stop animation"));
+			} else {
+				sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
+						"Press space to start animation"));
+			}
+			sb.endSentence();
 		}
-		sb.endSentence();
 		if (getIntervalMax() != getValue()) {
 			sb.append(loc.getMenuDefault("PressUpToIncrease",
 					"Press up arrow to increase the value"));
