@@ -86,16 +86,20 @@ public class DataImportSnackbar extends FlowPanel {
 		Image dataImg = new Image(MaterialDesignResources.INSTANCE.upload_file().withFill(
 				svgFiller.toString()).getSafeUri());
 		Label titleLbl = new Label(title);
-		StandardButton xButton = new StandardButton(MaterialDesignResources.INSTANCE.clear()
-				.withFill(NEUTRAL_300.toString()), 24);
-		xButton.addFastClickHandler(source -> {
-			cancelImport.run();
-			hide();
-		});
 
 		titleHolder.add(dataImg);
 		titleHolder.add(titleLbl);
-		titleHolder.add(xButton);
+
+		if (NEUTRAL_700.equals(svgFiller)) {
+			StandardButton xButton = new StandardButton(MaterialDesignResources.INSTANCE.clear()
+					.withFill(NEUTRAL_300.toString()), 24);
+			xButton.addFastClickHandler(source -> {
+				cancelImport.run();
+				hide();
+			});
+			titleHolder.add(xButton);
+		}
+
 		add(titleHolder);
 	}
 
@@ -128,7 +132,6 @@ public class DataImportSnackbar extends FlowPanel {
 	}
 
 	private void positionSnackbar() {
-		boolean portrait = appW.getWidth() < appW.getHeight();
-		addStyleName(portrait ? "portrait" : "landscape");
+		addStyleName(appW.isPortrait() ? "portrait" : "landscape");
 	}
 }

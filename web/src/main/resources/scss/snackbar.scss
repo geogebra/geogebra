@@ -93,7 +93,7 @@
 		z-index: z-index.$z-snackbar;
 		border-radius: 4px;
 		box-shadow: 0px 1px 1px 0px rgba(47, 47, 51, 0.14), 0px 2px 1px -1px rgba(47, 47, 51, 0.12), 0px 1px 3px 0px rgba(47, 47, 51, 0.20);
-		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
+		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
 		transform: scale(.8);
 		opacity: 0;
 

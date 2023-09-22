@@ -40,8 +40,6 @@ import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
-import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.gui.view.table.importer.DataImporter;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -102,7 +100,6 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.H5PReader;
-import org.geogebra.web.full.gui.dialog.OverwriteDataDialog;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
@@ -124,7 +121,7 @@ import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.DataImportHandler;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHandler;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
@@ -179,7 +176,6 @@ import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.ui.FileUpload;
 import org.gwtproject.user.client.ui.HorizontalPanel;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -189,8 +185,6 @@ import com.himamis.retex.editor.web.MathFieldW;
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
-import elemental2.dom.FileReader;
-import elemental2.dom.HTMLInputElement;
 import elemental2.dom.URL;
 import elemental2.webstorage.StorageEvent;
 import jsinterop.base.Js;
@@ -255,18 +249,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private InputBoxType inputBoxType;
 	private List<String> functionVars = new ArrayList<>();
 	private OpenSearch search;
-	private final FileUpload csvChooser = getCSVChooser();
-	private Command csvHandler = () -> {
-		if (getGuiManager().getTableValuesView().isEmpty()) {
-			csvChooser.click();
-		} else {
-			DialogData data = new DialogData(null, "Cancel", "Overwrite");
-			OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(
-					guiManager.getApp(), data);
-			overwriteDataDialog.setOnPositiveAction(() -> csvChooser.click());
-			overwriteDataDialog.show();
-		}
-	};
+	private CsvImportHandler csvImportHandler;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -642,31 +625,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		cpc.pasteExternal(data, 0, 0, data.length > 0 ? data[0].length - 1 : 0,
 				data.length);
 		onOpenFile();
-	}
-
-	/**
-	 * open csv file
-	 * @param fileToHandle - selected file
-	 */
-	public final void openCSV(File fileToHandle) {
-		FileReader reader = new FileReader();
-		String fileName = fileToHandle.name;
-		reader.addEventListener("load", (event) -> {
-			if (reader.readyState == FileReader.DONE) {
-				String fileStr = reader.result.asString();
-				importData(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)), fileName);
-			}
-		});
-		reader.readAsDataURL(fileToHandle);
-	}
-
-	private void importData(String csv, String fileName) {
-		DataImportHandler handler = new DataImportHandler(this, fileName);
-		DataImporter importer = new DataImporter(
-				(TableValuesView) getGuiManager().getTableValuesView(), handler);
-		handler.scheduleSnackbar();
-		importer.importCSV(csv, getLocalization().getDecimalPoint());
-		storeUndoInfo();
 	}
 
 	@Override
@@ -2534,20 +2492,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		constructionJson.clear();
 	}
 
-	private FileUpload getCSVChooser() {
-		FileUpload csvChooser = new FileUpload();
-		Element el = csvChooser.getElement();
-		el.setAttribute("accept", ".csv");
-		Dom.addEventListener(el, "change", event -> {
-			HTMLInputElement input = Js.uncheckedCast(el);
-			File fileToHandle = input.files.getAt(0);
-			openCSV(fileToHandle);
-		});
-
-		return csvChooser;
+	public CsvImportHandler getCsvImportHandler() {
+		if (csvImportHandler == null) {
+			csvImportHandler = new CsvImportHandler(this);
+		}
+		return csvImportHandler;
 	}
 
 	public Command getCsvHandler() {
-		return csvHandler;
+		return getCsvImportHandler().getCsvHandler();
 	}
 }
