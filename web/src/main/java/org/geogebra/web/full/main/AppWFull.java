@@ -2492,6 +2492,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		constructionJson.clear();
 	}
 
+	/**
+	 * @return csv import handler
+	 */
 	public CsvImportHandler getCsvImportHandler() {
 		if (csvImportHandler == null) {
 			csvImportHandler = new CsvImportHandler(this);

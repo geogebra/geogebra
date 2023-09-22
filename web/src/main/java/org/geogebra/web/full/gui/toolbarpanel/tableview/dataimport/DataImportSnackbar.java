@@ -41,11 +41,9 @@ public class DataImportSnackbar extends FlowPanel {
 	 * data import snackbar
 	 * @param appW - application
 	 * @param title - file name
-	 * @param cancelImport - x button handler
 	 */
-	public DataImportSnackbar(AppW appW, String title, Runnable cancelImport) {
+	public DataImportSnackbar(AppW appW, String title) {
 		this.appW = appW;
-		this.cancelImport = cancelImport;
 		addStyleName("dataImporter");
 		buildGui(title);
 		appW.getAppletFrame().add(this);
@@ -90,7 +88,7 @@ public class DataImportSnackbar extends FlowPanel {
 		titleHolder.add(dataImg);
 		titleHolder.add(titleLbl);
 
-		if (NEUTRAL_700.equals(svgFiller)) {
+		if (cancelImport != null) {
 			StandardButton xButton = new StandardButton(MaterialDesignResources.INSTANCE.clear()
 					.withFill(NEUTRAL_300.toString()), 24);
 			xButton.addFastClickHandler(source -> {

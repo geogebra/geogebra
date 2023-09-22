@@ -26,7 +26,7 @@ public class DataImportHandler implements DataImporterDelegate {
 	public DataImportHandler(AppWFull appW, String fileName) {
 		this.appW = appW;
 		this.fileName = fileName;
-		progressSnackbar = new DataImportSnackbar(appW, fileName, () -> cancelImport());
+		progressSnackbar = new DataImportSnackbar(appW, fileName);
 	}
 
 	@Override
