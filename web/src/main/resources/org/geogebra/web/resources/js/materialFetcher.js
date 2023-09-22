@@ -74,8 +74,8 @@
         return previewContainer;
     };
 
-var fetchParametersFromApi = function() {
-         var onSuccess = function(text) {
+    var fetchParametersFromApi = function() {
+        var onSuccess = function(text) {
             var jsonData= JSON.parse(text);
             // handle either worksheet or single element format
             var isGeoGebra = function(element) {return element.type == 'G' || element.type == 'E'};
@@ -87,51 +87,46 @@ var fetchParametersFromApi = function() {
 
             options.filename = item.url;
             updateAppletSettings(item.settings || {});
-
-
             // user setting of preview URL has precedence
             var imageDir = 'https://www.geogebra.org/images/';
             setPreviewImage(previewImagePath || item.previewUrl,
             imageDir + 'GeoGebra_loading.png', imageDir + 'applet_play.png');
-			buildPreview();
-			resolve(options);
+            buildPreview();
+            resolve(options);
         };
         var onError = function() {
             options.onError && options.onError();
             log('Error: Fetching material (id ' + options.material_id + ') failed.', parameters);
         };
-
-        var host = location.host.match(/(www|stage|beta|groot|alpha).geogebra.(org|net)/) ? location.host
-        	: 'www.geogebra.org';
-        var path = '/materials/' + options.material_id + '?scope=basic';
+    
         sendCorsRequest(
-            'https://' + host + '/api/proxy.php?path=' + encodeURIComponent(path),
+            'https://api.geogebra.org/v1.0/materials/'  + options.material_id + '?scope=basic',
             onSuccess,
             onError
         );
     };
 
     function buildPreview() {
-    	var oriWidth=options.width;
-		var oriHeight=options.height;
+        var oriWidth=options.width;
+        var oriHeight=options.height;
         var previewContainer = createScreenShotDiv(oriWidth, oriHeight, options.borderColor, false);
         // This div is needed to have an element with position relative as origin for the absolute positioned image
-	    var previewPositioner = document.createElement("div");
-		previewPositioner.className = "applet_scaler";
-		previewPositioner.style.position = "relative";
-		previewPositioner.style.display = 'block';
-		previewPositioner.style.width = oriWidth+'px';
-		previewPositioner.style.height = oriHeight+'px';
-		previewPositioner.appendChild(previewContainer);
-		var parentElement = options.element.parentElement;
-		previewPositioner.appendChild(options.element);
-		parentElement.appendChild(previewPositioner);
-   	    options.removePreview = function() {
-			var preview = document.querySelector(".ggb_preview");
-			if (preview) {
-				preview.parentNode.removeChild(preview);
-			}
-		}
+        var previewPositioner = document.createElement("div");
+        previewPositioner.className = "applet_scaler";
+        previewPositioner.style.position = "relative";
+        previewPositioner.style.display = 'block';
+        previewPositioner.style.width = oriWidth+'px';
+        previewPositioner.style.height = oriHeight+'px';
+        previewPositioner.appendChild(previewContainer);
+        var parentElement = options.element.parentElement;
+        previewPositioner.appendChild(options.element);
+        parentElement.appendChild(previewPositioner);
+           options.removePreview = function() {
+            var preview = document.querySelector(".ggb_preview");
+            if (preview) {
+                preview.parentNode.removeChild(preview);
+            }
+        }
     }
 
     function updateAppletSettings(settings) {
@@ -164,8 +159,8 @@ var fetchParametersFromApi = function() {
         xhr.send();
     }
 
-	if (options.material_id) {
-	    fetchParametersFromApi();
-	} else {
-		resolve(options);
-	}
+    if (options.material_id) {
+        fetchParametersFromApi();
+    } else {
+        resolve(options);
+    }

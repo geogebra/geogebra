@@ -26,13 +26,12 @@
     import {mathApps} from './web3d/web3d.nocache.mjs';
     mathApps.create({'width':'800', 'height':'600',
         'showAlgebraInput': 'true',
-        'appletOnLoad': 'function() {console.load("custom onload")}',
         'material_id':'MJWHp9en'})
-        .inject(document.querySelector("#applet1"));
+        .inject(document.querySelector("#applet1"))
+        .getAPI().then(api => console.log(api.getAllObjectNames()));
 
     mathApps.create({'width':'800', 'height':'600',
         'showAlgebraInput': 'true',
-        'appletOnLoad': 'function() {console.load("custom onload 2")}'})
         .inject(document.querySelector("#applet2"));
 
 </script>
