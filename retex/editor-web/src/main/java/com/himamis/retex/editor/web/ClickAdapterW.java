@@ -20,6 +20,7 @@ public class ClickAdapterW
 	private final ClickListener handler;
 	private boolean pointerIsDown = false;
 	private final MathFieldW field;
+	private double scale = 1;
 
 	/**
 	 * @param handler
@@ -39,8 +40,15 @@ public class ClickAdapterW
 
 		event.preventDefault();
 		SelectionBox.touchSelection = "touch".equals(event.getPointerType());
-		handler.onPointerDown((int) event.getOffsetX(), (int) event.getOffsetY());
+		handler.onPointerDown(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
 		this.pointerIsDown = true;
+	}
+
+	/*
+	 * Converts from event pixels to formula pixels. Does *not* depend on device pixel ratio.
+	 */
+	private int toFormulaPx(double eventPx) {
+		return (int) (eventPx / scale);
 	}
 
 	private void onPointerUp(NativePointerEvent event) {
@@ -48,12 +56,12 @@ public class ClickAdapterW
 			return;
 		}
 		this.pointerIsDown = false;
-		handler.onPointerUp((int) event.getOffsetX(), (int) event.getOffsetY());
+		handler.onPointerUp(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
 	}
 
 	private void onPointerMove(NativePointerEvent event) {
 		if (this.pointerIsDown) {
-			handler.onPointerMove((int) event.getOffsetX(), (int) event.getOffsetY());
+			handler.onPointerMove(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
 		}
 	}
 
@@ -93,5 +101,9 @@ public class ClickAdapterW
 		if (field.isEnabled()) {
 			handler.onLongPress(event.getX(), event.getY());
 		}
+	}
+
+	public void setScale(double scale) {
+		this.scale = scale;
 	}
 }
