@@ -42,7 +42,7 @@ public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Intege
 		}
 		int labelMode = element.getLabelMode();
 		int index = labelModes.indexOf(labelMode);
-		return index >= 0 ? labelMode : labelModes.get(1);
+		return index >= 0 ? Integer.valueOf(labelMode) : labelModes.get(1);
 	}
 
 	@Override

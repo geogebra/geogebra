@@ -13,15 +13,16 @@ dependencies {
         "org.gwtproject:gwt-dev:$gwtCompilerVersion",
             project(':common')
 
-    api group: 'com.google.elemental2', name: 'elemental2-core', version: '1.1.0'
-    api group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.1.0'
-    api group: 'com.google.elemental2', name: 'elemental2-webstorage', version: '1.1.0'
-    api group: 'com.google.elemental2', name: 'elemental2-media', version: '1.1.0'
+    api group: 'com.google.elemental2', name: 'elemental2-core', version: '1.2.0'
+    api group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.2.0'
+    api group: 'com.google.elemental2', name: 'elemental2-webstorage', version: '1.2.0'
+    api group: 'com.google.elemental2', name: 'elemental2-media', version: '1.2.0'
     api group: 'com.google.elemental2', name: 'elemental2-webgl', version: '1.2.0'
 
     api group: 'org.gwtproject.resources', name: 'gwt-resources-api', version: 'HEAD-SNAPSHOT'
     api group: 'org.gwtproject.resources', name: 'gwt-resources-processor', version: 'HEAD-SNAPSHOT'
     api 'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
+    api 'com.google.jsinterop:base:1.0.1'
 
 // https://mvnrepository.com/artifact/com.google.auto.service/auto-service
     implementation group: 'com.google.auto.service', name: 'auto-service', version: '1.1.1'
@@ -32,6 +33,3 @@ pmd {
     ruleSets = []
     ruleSetFiles = files("../config/pmd.xml")
 }
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8

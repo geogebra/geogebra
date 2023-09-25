@@ -19,6 +19,8 @@ def hasSourcemap = env.BRANCH_NAME.matches("dev|mow-1378")
 def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
 def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
+// to run in docker, add docker run --ipc=host --shm-size=1gb -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD:/work openjdk:11.0.16-jdk
+def gradleCmd = './gradlew'
 
 def s3uploadDefault = { dir, pattern, encoding, excludes="**/*.mjs", contentType="" ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
@@ -52,7 +54,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'build', state: 'pending'
                 writeFile file: 'changes.csv', text: getChangelog()
-                sh label: 'build web', script: "./gradlew :web:prepareS3Upload :web:mergeDeploy ${modules} -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
+                sh label: 'build web', script: "$gradleCmd :web:prepareS3Upload :web:mergeDeploy ${modules} -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
             }
         }
         stage('tests and reports') {
@@ -60,10 +62,10 @@ pipeline {
                expression {return !isGiac}
             }
             steps {
-                sh label: 'test', script: "./gradlew test :common-jre:jacocoTestReport"
-                sh label: 'static analysis', script: './gradlew pmdMain spotbugsMain -x common:spotbugsMain  -x renderer-base:spotbugsMain --max-workers=1'
-                sh label: 'spotbugs common', script: './gradlew :common:spotbugsMain'
-                sh label: 'code style', script: './gradlew :web:cpdCheck checkStyleMain checkStyleTest'
+                sh label: 'test', script: "$gradleCmd test :common-jre:jacocoTestReport"
+                sh label: 'static analysis', script: "$gradleCmd pmdMain spotbugsMain -x common:spotbugsMain  -x renderer-base:spotbugsMain --max-workers=1"
+                sh label: 'spotbugs common', script: "$gradleCmd :common:spotbugsMain"
+                sh label: 'code style', script: "$gradleCmd :web:cpdCheck checkStyleMain checkStyleTest"
                 junit '**/build/test-results/test/*.xml'
                 recordIssues tools: [
                     cpd(pattern: '**/build/reports/cpd/cpdCheck.xml')
@@ -96,6 +98,7 @@ pipeline {
                 stage('mac-arm64') {
                     agent {label 'mac-mini'}
                     steps {
+                        // NOT using docker to make sure this runs Giac for Mac
                         sh label: 'test', script: "./gradlew :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }
@@ -106,7 +109,7 @@ pipeline {
                 stage('linux') {
                     agent {label 'Ubuntu'}
                     steps {
-                        sh label: 'test', script: "./gradlew :desktop:test"
+                        sh label: 'test', script: "$gradleCmd :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }
                     post {
@@ -116,6 +119,7 @@ pipeline {
                 stage('windows') {
                     agent {label 'winbuild'}
                     steps {
+                        // NOT using docker to make sure this runs Giac for Windows
                         bat label: 'test', script: ".\\gradlew.bat :desktop:test"
                         junit '**/build/test-results/test/*.xml'
                     }

@@ -12,8 +12,8 @@ public interface GeoGebraConstants {
 	/** last build date */
 	public static final String BUILD_DATE = "19 September 2023";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.803.0";
 
+	public static final String VERSION_STRING = "5.0.803.0";
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
@@ -108,7 +108,7 @@ public interface GeoGebraConstants {
 			switch (this) {
 			default:
 				// change 5.0.274.0 to 6.0.274.0
-				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
+				return getVersionString6() + "-" + suffix;
 			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
 			}
@@ -279,6 +279,6 @@ public interface GeoGebraConstants {
 	 * @return version string
 	 */
 	static String getVersionString6() {
-		return VERSION_STRING.replace("5.0.", "6.0.");
+		return VERSION_STRING.replace("5.2.", "6.0.");
 	}
 }

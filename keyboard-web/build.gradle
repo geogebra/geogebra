@@ -1,12 +1,9 @@
 plugins {
     id 'java-library'
-    id 'org.wisepersist.gwt' version '1.1.19'
+    id 'org.docstr.gwt' version '1.1.26'
     id 'pmd'
     id 'checkstyle'
 }
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 evaluationDependsOn(':keyboard-base')
 evaluationDependsOn(':keyboard-scientific')
@@ -50,11 +47,10 @@ gwt {
             draftCompile = true
         }
         if (project.hasProperty("gdetailed")){
-            style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED;
+            style = org.docstr.gradle.plugins.gwt.Style.DETAILED;
         } else {
             disableClassMetadata = true;
         }
-        // style = org.wisepersist.gradle.plugins.gwt.Style.PRETTY;    
     }
 }
 

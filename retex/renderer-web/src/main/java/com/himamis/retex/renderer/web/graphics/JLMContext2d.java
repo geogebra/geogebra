@@ -250,7 +250,7 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 	}
 
 	@JsOverlay
-	public final AffineTransform getTransform() {
+	public final AffineTransform getAffineTransform() {
 		return new AffineTransform(this.m00_, this.m10_,
 				this.m01_, this.m11_, this.m02_, this.m12_);
 	}
