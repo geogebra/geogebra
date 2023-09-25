@@ -191,7 +191,6 @@ public interface GeoGebraConstants {
 	/** update directory, typically on Windows */
 	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.2\\jars\\update";
 
-
 	/** http prefix */
 	public static final String HTTP = "http://";
 	/** https prefix */
