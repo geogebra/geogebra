@@ -1075,6 +1075,11 @@ public class GeoSymbolic extends GeoElement
 				sb.append(label);
 				sb.append(": ");
 			}
+		} else if (label != null && unwrapped instanceof Function) {
+			sb.append(label);
+			sb.append("(");
+			sb.append(((Function) unwrapped).getFunctionVariable());
+			sb.append(") = ");
 		}
 		super.getDefinitionXML(sb);
 	}
