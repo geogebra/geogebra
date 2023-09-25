@@ -103,10 +103,6 @@ class FileMenuD extends BaseMenu {
 
 		loadURLMenuItem = add(loadURLAction);
 
-		// If GeoGebraTube is not available we disable the item and
-		// listen to the event that tube becomes available
-		loadURLAction.setEnabled(false);
-
 		// recent SubMenu
 		JMenu submenuRecent = new JMenu(loc.getMenu("Recent"));
 		submenuRecent.setIcon(app.getEmptyIcon());
