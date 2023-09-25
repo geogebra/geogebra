@@ -42,6 +42,7 @@ var __giac = [
 { cat:"Integral.1", cmd: "Integral(sqrt(tanh(x)))", result:"2 (-1 / 2 tan\u207b\u00b9(sqrt((\u212f^(2x))\u00B2 - 1) - \u212f^(2x)) - 1 / 4 ln(-sqrt((\u212f^(2x))\u00B2 - 1) + \u212f^(2x))) + c_0|OR|2 (-1 / 4 ln(\u212F^(2x) - sqrt((\u212F^(2x))\u00B2 - 1)) - 1 / 2 tan\u207B\u00B9(-\u212F^(2x) + sqrt((\u212F^(2x))\u00B2 - 1))) + c_0"},
 { cat:"Integral.1", cmd: "Integral(x^(-101/100))", result:"c_0 - 100 / x^(1 / 100)"},
 { cat:"Evaluate", cmd:"Evaluate[a/b/c/d/e]", result:"a / (b c d e)" },
+{ cat:"Evaluate", cmd:"1\u20643/4", result:"7/4" },
 { cat:"CIFactor", cmd:"CIFactor[x^2+x+1]", result:"(x + (-\u03AF sqrt(3) + 1) / 2) (x + (\u03AF sqrt(3) + 1) / 2)|OR|(x + (\u03AF sqrt(3) + 1) / 2) (x + (-\u03AF sqrt(3) + 1) / 2)" },
 { cat:"CIFactor", cmd:"CIFactor(x^2 - 2)", result:"(x - sqrt(2)) (x + sqrt(2))"},
 { cat:"IFactor", cmd:"IFactor(x^2 - 2)", result:"(x - sqrt(2)) (x + sqrt(2))"},
