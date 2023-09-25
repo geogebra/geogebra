@@ -22,7 +22,7 @@ public class CsvImportHandler {
 	private FileUpload csvChooser;
 	private Command csvHandler = () -> {
 		csvChooser = getCSVChooser();
-		if (((TableValuesView) appW.getGuiManager().getTableValuesView()).isEmpty()) {
+		if (getTable().isEmpty()) {
 			csvChooser.click();
 		} else {
 			DialogData data = new DialogData(null, "Cancel", "Overwrite");
@@ -42,6 +42,7 @@ public class CsvImportHandler {
 		Element el = csvChooser.getElement();
 		el.setAttribute("accept", ".csv");
 		Dom.addEventListener(el, "change", event -> {
+			getTable().clearView();
 			HTMLInputElement input = Js.uncheckedCast(el);
 			File fileToHandle = input.files.getAt(0);
 			openCSV(fileToHandle);
@@ -68,8 +69,7 @@ public class CsvImportHandler {
 
 	private void importData(String csv, String fileName) {
 		DataImportHandler handler = new DataImportHandler((AppWFull) appW, fileName);
-		DataImporter importer = new DataImporter(
-				(TableValuesView) appW.getGuiManager().getTableValuesView(), handler);
+		DataImporter importer = new DataImporter(getTable(), handler);
 		handler.scheduleSnackbar();
 		importer.importCSV(csv, appW.getLocalization().getDecimalPoint());
 		appW.storeUndoInfo();
@@ -77,5 +77,9 @@ public class CsvImportHandler {
 
 	public Command getCsvHandler() {
 		return csvHandler;
+	}
+
+	private TableValuesView getTable() {
+		return (TableValuesView) appW.getGuiManager().getTableValuesView();
 	}
 }
