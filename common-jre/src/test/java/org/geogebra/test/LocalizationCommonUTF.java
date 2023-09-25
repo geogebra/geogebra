@@ -11,4 +11,9 @@ public class LocalizationCommonUTF extends LocalizationCommon {
 		super(dimension);
 		setResourceBundleControl(new Utf8Control());
 	}
+
+	@Override
+	public boolean hasAllLanguages() {
+		return true;
+	}
 }

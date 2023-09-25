@@ -37,6 +37,8 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.statistics.AlgoUsingUniqueAndFrequency;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.WeakOuter;
+
 /**
  * Bar chart algorithm.
  * 
@@ -140,7 +142,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		this.list1 = list1;
 
 		// output
-		sum = new GeoNumeric(cons) {
+		sum = new @WeakOuter GeoNumeric(cons) {
 			@Override
 			public String getTooltipText(final boolean colored,
 					final boolean alwaysOn) {
@@ -391,7 +393,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		this.scale = scale;
 
-		sum = new GeoNumeric(cons) {
+		sum = new @WeakOuter GeoNumeric(cons) {
 			@Override
 			public String getTooltipText(final boolean colored,
 					final boolean alwaysOn) {
@@ -441,7 +443,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		}
 		this.isCumulative = isCumulative;
 
-		sum = new GeoNumeric(cons) {
+		sum = new @WeakOuter GeoNumeric(cons) {
 			@Override
 			public String getTooltipText(final boolean colored,
 					final boolean alwaysOn) {
