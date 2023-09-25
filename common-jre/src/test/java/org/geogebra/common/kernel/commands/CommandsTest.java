@@ -4395,6 +4395,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void testZipWithText() {
+		t("Zip(Text[A,B,true,true,C,0], A, {\"t1\", \"t2\", \"t3\"}, B, {(0,1),(0,2),(0,3)} , "
+				+ "C, {-1, 0, 1})", "{\"t1\", \"t2\", \"t3\"}");
+	}
+
+	@Test
 	public void cmdZipf() {
 		intProb("Zipf", "4,3", "3", "0.03145", "0.98673");
 	}
