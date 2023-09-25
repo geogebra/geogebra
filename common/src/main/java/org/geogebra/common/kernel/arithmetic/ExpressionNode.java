@@ -86,6 +86,7 @@ public class ExpressionNode extends ValidExpression
 	// used by NDerivative / NIntegral / NInvert commands
 	// (answer not displayed in Algebra View)
 	private AlgoElement secretMaskingAlgo;
+	private ExpressionValue result;
 
 	/**
 	 * Creates dummy expression node
@@ -210,6 +211,7 @@ public class ExpressionNode extends ValidExpression
 	final public void setLeft(ExpressionValue l) {
 		left = l;
 		left.setInTree(true); // needed fot list operations eg k=2 then k {1,2}
+		result = null;
 	}
 
 	/**
@@ -245,6 +247,8 @@ public class ExpressionNode extends ValidExpression
 		leaf = operation == Operation.NO_OPERATION; // right is a dummy MyDouble
 		// by
 		// default
+
+		result = null;
 	}
 
 	/**
@@ -401,13 +405,16 @@ public class ExpressionNode extends ValidExpression
 	 *            template (needed for possible string concatenation)
 	 * @return value
 	 */
-	@Override
-	public ExpressionValue evaluate(StringTemplate tpl) {
-		if (resolve instanceof ExpressionNode) {
-			resolve = null;
+		@Override
+		public ExpressionValue evaluate(StringTemplate tpl) {
+			if (resolve instanceof ExpressionNode) {
+				resolve = null;
+			}
+			if (result == null || !isConstant()) {
+				result = kernel.getExpressionNodeEvaluator().evaluate(this, tpl);
+			}
+			return result;
 		}
-		return kernel.getExpressionNodeEvaluator().evaluate(this, tpl);
-	}
 
 	/**
 	 * look for Variable objects in the tree and replace them by their resolved
