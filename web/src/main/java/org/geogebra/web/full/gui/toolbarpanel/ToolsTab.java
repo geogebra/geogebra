@@ -80,13 +80,12 @@ public class ToolsTab extends ToolbarTab {
 		moreBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.More"));
 		AriaHelper.hide(moreBtn);
-		moreBtn.addStyleName("moreLessBtn");
-		moreBtn.removeStyleName("button");
+		//moreBtn.addStyleName("moreLessBtn");
+		moreBtn.setStyleName("materialTextButton");
 		lessBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.Less"));
 		AriaHelper.hide(lessBtn);
-		lessBtn.addStyleName("moreLessBtn");
-		lessBtn.removeStyleName("button");
+		lessBtn.setStyleName("materialTextButton");
 		moreBtn.addFastClickHandler(source -> onMorePressed());
 
 		lessBtn.addFastClickHandler(source -> onLessPressed());
