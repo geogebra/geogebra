@@ -2359,6 +2359,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				.removeCommandFilter(getConfig().getCommandFilter());
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
+		getGuiManager().closePropertiesView();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
 		activity.start(this);
 		getKernel().removeAllMacros();
