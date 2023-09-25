@@ -5667,13 +5667,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final void moveText() {
 		if (movedGeoText.isAbsoluteScreenLocActive()) {
-			movedGeoText.setAbsoluteScreenLoc(
-					(oldLoc.x + mouseLoc.x) - startLoc.x,
-					(oldLoc.y + mouseLoc.y) - startLoc.y);
+			if (movedGeoText.getStartPoint() == null) {
+				movedGeoText.setAbsoluteScreenLoc(
+						(oldLoc.x + mouseLoc.x) - startLoc.x,
+						(oldLoc.y + mouseLoc.y) - startLoc.y);
+			} // for dynamic abs location do nothing
 		} else {
 			if (movedGeoText.hasStaticLocation()) {
-				// absolute location: change location
-				moveTextAbsoluteLocation();
+				// static location: change location
+				moveTextStaticRWLocation();
 
 			} else {
 				// relative location: move label (change label offset)
@@ -5692,7 +5694,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		geo.updateVisualStyle(GProperty.POSITION);
 	}
 
-	protected void moveTextAbsoluteLocation() {
+	protected void moveTextStaticRWLocation() {
 		GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
 		loc.setCoords(xRW - getStartPointX(), yRW - getStartPointY(), 1.0);
 	}

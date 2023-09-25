@@ -510,7 +510,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void moveTextAbsoluteLocation() {
+	protected void moveTextStaticRWLocation() {
 		view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
 		view3D.toSceneCoords3D(tmpCoordsForOrigin);
 

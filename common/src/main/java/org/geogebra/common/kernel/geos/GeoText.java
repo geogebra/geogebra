@@ -688,7 +688,8 @@ public class GeoText extends GeoElement
 	private void setSameLocation(GeoText text) {
 		if (text.isAbsoluteScreenLocActive()) {
 			if (text.startPoint == null) {
-				nullifyStartPointAndSetScreenLoc(text);
+				hasAbsoluteScreenLocation = true;
+				setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(), text.getAbsoluteScreenLocY());
 			} else {
 				setAbsoluteStartPoint(text.startPoint, true);
 			}
@@ -699,20 +700,14 @@ public class GeoText extends GeoElement
 		}
 	}
 
-	private void nullifyStartPointAndSetScreenLoc(GeoText oldText) {
-		hasAbsoluteScreenLocation = true;
-		startPoint = null;
-		setAbsoluteScreenLoc(oldText.getAbsoluteScreenLocX(), oldText.getAbsoluteScreenLocY());
-	}
-
 	private void setAbsoluteStartPoint(GeoPointND oldStartPoint, boolean isAbsolute) {
 		hasAbsoluteScreenLocation = isAbsolute;
-			try {
-				setStartPoint(oldStartPoint);
-			} catch (CircularDefinitionException e) {
-				throw new RuntimeException(e);
-			}
+		try {
+			setStartPoint(oldStartPoint);
+		} catch (CircularDefinitionException e) {
+			throw new RuntimeException(e);
 		}
+	}
 
 	/**
 	 * Returns true for LaTeX texts
@@ -757,6 +752,10 @@ public class GeoText extends GeoElement
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+			startPoint = null;
+		}
 		if (!hasScreenLocation() && (x != 0 && y != 0)) {
 			setScreenLocation(x, y);
 		}
