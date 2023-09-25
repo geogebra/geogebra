@@ -13,7 +13,7 @@ public interface GeoGebraConstants {
 	public static final String BUILD_DATE = "19 September 2023";
 	/** complete version string */
 
-	public static final String VERSION_STRING = "5.0.803.0";
+	public static final String VERSION_STRING = "5.2.803.0";
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
@@ -107,7 +107,7 @@ public interface GeoGebraConstants {
 			// 6.0.x.x
 			switch (this) {
 			default:
-				// change 5.0.274.0 to 6.0.274.0
+				// change 5.2.274.0 to 6.0.274.0
 				return getVersionString6() + "-" + suffix;
 			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
@@ -160,12 +160,10 @@ public interface GeoGebraConstants {
 	public static final String XML_FILE_FORMAT = "5.0";
 
 	// This is used for checking if a minor update exists (on each run):
-	// DON'T change to https (causes problems)
 	public static final String VERSION_URL_MINOR =
-			"https://download.geogebra.org/installers/5.0/version.txt";
+			"https://download.geogebra.org/installers/5.2/version.txt";
 
 	// This is used for checking whether a major update exists (monthly):
-	// DON'T change to https (causes problems)
 	public static final String VERSION_URL = "https://download.geogebra.org/installers/version.txt";
 
 	public static final String INSTALLERS_URL = "https://www.geogebra.org/download";
@@ -174,7 +172,7 @@ public interface GeoGebraConstants {
 	public static final String SPLASH_STRING = "splash.png";
 	// archive
 	/** short version, for online archive */
-	public static final String SHORT_VERSION_STRING = "5.0";
+	public static final String SHORT_VERSION_STRING = "5.2";
 	// File format versions
 	/** XSD for ggb files */
 	public static final String GGB_XSD_FILENAME = "ggb.xsd";
@@ -191,11 +189,8 @@ public interface GeoGebraConstants {
 	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE
 			+ "geogebra-jars.zip";
 	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.0\\jars\\update";
+	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.2\\jars\\update";
 
-	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0"
-			+ "\\thirdparty\\update";
 
 	/** http prefix */
 	public static final String HTTP = "http://";
