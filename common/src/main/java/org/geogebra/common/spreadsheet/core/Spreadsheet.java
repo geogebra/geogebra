@@ -48,7 +48,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.setColor(controller.getStyle().getTextColor());
 		drawCells(graphics, viewport);
 		for (Selection selection: controller.getSelection()) {
-			renderer.drawSelection(selection.getRange(), graphics, viewport, controller.getLayout());
+			renderer.drawSelection(selection.getRange(), graphics,
+					viewport, controller.getLayout());
 		}
 		needsRedraw = false;
 	}
@@ -97,13 +98,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		this.viewport = viewport;
 		needsRedraw = true;
 	}
-
-	private boolean isSelected(int row, int column) {
-		return controller.isSelected(row, column);
-	}
-
-
-
 
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
 		controller.setControlsDelegate(controlsDelegate);

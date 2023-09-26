@@ -20,7 +20,8 @@ public final class SpreadsheetEditorListener implements MathFieldListener {
 	 * @param row spreadsheet row
 	 * @param column spreadsheet column
 	 */
-	public SpreadsheetEditorListener(MathFieldInternal mathField, Kernel kernel, int row, int column) {
+	public SpreadsheetEditorListener(MathFieldInternal mathField, Kernel kernel,
+			int row, int column) {
 		this.mathField = mathField;
 		this.kernel = kernel;
 		this.row = row;

@@ -23,7 +23,9 @@ public final class SpreadsheetController implements TabularSelection {
 
 	private final SpreadsheetStyle style = new SpreadsheetStyle();
 
-
+	/**
+	 * @param tabularData underlying data for the spreadsheet
+	 */
 	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
 		layout = new TableLayout(tabularData.numberOfRows(),
@@ -120,6 +122,13 @@ public final class SpreadsheetController implements TabularSelection {
 		this.controlsDelegate = controlsDelegate;
 	}
 
+	/**
+	 * @param x x-coordinate relative to viewport
+	 * @param y y-coordinate relative to viewport
+	 * @param modifiers event modifiers
+	 * @param viewport visible area
+	 * @return whether the event caused changes in spreadsheet requiring repaint
+	 */
 	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		hideCellEditor();
 		int column = layout.findColumn(x + viewport.getMinX());
@@ -135,6 +144,12 @@ public final class SpreadsheetController implements TabularSelection {
 		return false;
 	}
 
+	/**
+	 * @param x x-coordinate relative to viewport
+	 * @param y y-coordinate relative to viewport
+	 * @param modifiers event modifiers
+	 * @param viewport visible area
+	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		int row = layout.findRow(y + viewport.getMinY());
 		int column = layout.findColumn(x + viewport.getMinX());

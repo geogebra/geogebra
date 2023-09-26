@@ -8,6 +8,10 @@ public final class SelfRenderable {
 	private final CellRenderer renderer;
 	private final Object renderable;
 
+	/**
+	 * @param renderer renderer
+	 * @param renderable cached renderable value
+	 */
 	public SelfRenderable(CellRenderer renderer, Object renderable) {
 		this.renderer = renderer;
 		this.renderable = renderable;

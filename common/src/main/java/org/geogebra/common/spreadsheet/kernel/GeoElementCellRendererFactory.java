@@ -6,10 +6,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
 import org.geogebra.common.spreadsheet.rendering.LaTeXRenderer;
+import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.util.shape.Rectangle;
 
