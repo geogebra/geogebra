@@ -14,7 +14,7 @@ dependencies {
             project(':common')
 
     api group: 'com.google.elemental2', name: 'elemental2-core', version: '1.2.0'
-    api group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.2.0'
+    api group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.2.1'
     api group: 'com.google.elemental2', name: 'elemental2-webstorage', version: '1.2.0'
     api group: 'com.google.elemental2', name: 'elemental2-media', version: '1.2.0'
     api group: 'com.google.elemental2', name: 'elemental2-webgl', version: '1.2.0'
