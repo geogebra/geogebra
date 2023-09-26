@@ -2108,12 +2108,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				this.activity = new SuiteActivity(subApp,
 						!getSettings().getCasSettings().isEnabled());
 				setPerspective(p);
-				getGuiManager().resetPanels();
 				updateSidebarAndMenu(subApp);
 				reinitAlgebraView();
+				removeUndoRedoPanel();
+				getGuiManager().resetPanels();
 				setSuiteHeaderButton(subApp);
 			}
 			getDialogManager().hideCalcChooser();
+		}
+	}
+
+	private void removeUndoRedoPanel() {
+		ToolbarPanel unbundledToolbar = getGuiManager().getUnbundledToolbar();
+		if (unbundledToolbar != null) {
+			unbundledToolbar.removeToolsTab();
+			unbundledToolbar.removeUndoRedoPanel();
 		}
 	}
 
@@ -2371,11 +2380,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		clearConstruction();
 		resetToolbarPanel(); // after construction clear so that TV functions can be set up
 		setTmpPerspective(null);
-		ToolbarPanel unbundledToolbar = getGuiManager().getUnbundledToolbar();
-		if (unbundledToolbar != null) {
-			unbundledToolbar.removeToolsTab();
-			unbundledToolbar.removeUndoRedoPanel();
-		}
+		removeUndoRedoPanel();
 		getGuiManager().resetPanels();
 		getGuiManager().getLayout().applyPerspective(perspective);
 
