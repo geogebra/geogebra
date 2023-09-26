@@ -41,6 +41,9 @@ public class GlobalHeader implements EventRenderable {
 	private StandardButton examInfoBtn;
 
 	private boolean shareButtonInitialized;
+	private ActionButton undoButton;
+	private ActionButton redoButton;
+	private ActionButton settingsButton;
 
 	/**
 	 * Activate sign in button in external header
@@ -152,55 +155,41 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	private void initSettingButtonIfOnHeader() {
-		ActionButton settingsButton = getActionButton("settingsButton");
-		if (settingsButton != null) {
-			setTitle(settingsButton, "Settings");
-			settingsButton.setAction(() -> app.getGuiManager().showSciSettingsView());
+		if (settingsButton == null) {
+			settingsButton = getActionButton("settingsButton", "Settings");
+			if (settingsButton != null) {
+				settingsButton.setAction(() -> app.getGuiManager().showSciSettingsView());
+			}
 		}
 	}
 
-	private void setTitle(ActionButton settingsButton, String string) {
-		settingsButton.setTitle(string);
-		app.getLocalization().registerLocalizedUI(settingsButton);
-	}
-
 	private void initUndoRedoButtonsIfOnHeader() {
-		ActionButton undoButton = getUndoButton();
-		ActionButton redoButton = getRedoButton();
-		if (undoButton != null && redoButton != null) {
-			UndoRedoButtonsController.addUndoRedoFunctionality(undoButton,
-					redoButton, app.getKernel());
+		if (undoButton == null || redoButton == null) {
+			undoButton = getUndoButton();
+			redoButton = getRedoButton();
+			if (undoButton != null && redoButton != null) {
+				UndoRedoButtonsController.addUndoRedoFunctionality(undoButton,
+						redoButton, app.getKernel());
+			}
 		}
 	}
 
 	private ActionButton getUndoButton() {
-		ActionButton undoButton = getActionButton("undoButton");
-		if (undoButton != null) {
-			setTitle(undoButton, "Undo");
-		}
-		return undoButton;
+		return getActionButton("undoButton", "Undo");
 	}
 
 	private ActionButton getRedoButton() {
-		ActionButton undoButton = getDisappearingActionButton("redoButton");
-		if (undoButton != null) {
-			setTitle(undoButton, "Redo");
-		}
-		return undoButton;
-	}
-
-	private ActionButton getActionButton(String viewId) {
-		RootPanel view = getViewById(viewId);
+		RootPanel view = getViewById("redoButton");
 		if (view != null) {
-			return new ActionButton(app, view);
+			return new DisappearingActionButton(app, view, "Redo");
 		}
 		return null;
 	}
 
-	private DisappearingActionButton getDisappearingActionButton(String viewId) {
+	private ActionButton getActionButton(String viewId, String title) {
 		RootPanel view = getViewById(viewId);
 		if (view != null) {
-			return new DisappearingActionButton(app, view);
+			return new ActionButton(app, view, title);
 		}
 		return null;
 	}
@@ -272,19 +261,6 @@ public class GlobalHeader implements EventRenderable {
 		Function resize = GeoGebraGlobal.getGgbHeaderResize();
 		if (resize != null) {
 			resize.call();
-		}
-	}
-
-	/**
-	 * Update style of share button, NPE safe.
-	 *
-	 * @param selected
-	 *            whether to mark share button as selected
-	 */
-	public void selectShareButton(boolean selected) {
-		final RootPanel rp = getShareButton();
-		if (rp != null) {
-			Dom.toggleClass(rp, "selected", selected);
 		}
 	}
 

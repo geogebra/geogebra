@@ -1,7 +1,7 @@
 package org.geogebra.web.shared.view.button;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.RootPanel;
 
 /**
@@ -12,9 +12,10 @@ public class DisappearingActionButton extends ActionButton {
 	/**
 	 * @param app  The app.
 	 * @param view The wrapped view.
+	 * @param title translation key for title
 	 */
-	public DisappearingActionButton(App app, RootPanel view) {
-		super(app, view);
+	public DisappearingActionButton(AppW app, RootPanel view, String title) {
+		super(app, view, title);
 	}
 
 	@Override
