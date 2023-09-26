@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.advanced.CmdClosestPoint;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -26,7 +27,7 @@ public class CmdClosestPoint3D extends CmdClosestPoint {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -36,7 +37,7 @@ public class CmdClosestPoint3D extends CmdClosestPoint {
 			arg = resArgs(c);
 
 			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D()) {
-				return super.process(c);
+				return super.process(c, info);
 			}
 
 			if (arg[0].isPath() && arg[1].isGeoPoint()) {

@@ -11,6 +11,7 @@ import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
@@ -67,14 +68,16 @@ public class GLookAndFeel implements GLookAndFeelI {
 		// popup when the user wants to exit accidentally
 		if (windowClosingHandler == null) {
 			this.windowClosingHandler = this::askForSave;
-			DomGlobal.window.addEventListener("beforeunload", windowClosingHandler);
+			app.getGlobalHandlers().addEventListener(DomGlobal.window,
+					"beforeunload", windowClosingHandler);
 		}
 
 		if (this.windowCloseHandler == null) {
 			// onClose is called, if user leaves the page correct
 			// not called if browser crashes
 			this.windowCloseHandler = event -> app.getFileManager().deleteAutoSavedFile();
-			DomGlobal.window.addEventListener("unload", windowCloseHandler);
+			app.getGlobalHandlers().addEventListener(DomGlobal.window, "unload",
+					windowCloseHandler);
 		}
 	}
 
@@ -120,7 +123,7 @@ public class GLookAndFeel implements GLookAndFeelI {
     }
 
 	@Override
-	public SignInController getSignInController(App app) {
+	public SignInControllerI getSignInController(App app) {
 		return new SignInController(app, 0, null);
     }
 

@@ -82,7 +82,7 @@ public enum ExamRegion {
 	BAYERN_CAS() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Schulversuch CAS in Prüfungen";
+			return "Schulversuch CAS in Pr\u00FCfungen";
 		}
 
 		@Override
@@ -100,6 +100,28 @@ public enum ExamRegion {
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
 			model.setDefaultAppCode(CAS_APPCODE);
+		}
+	},
+	VLAANDEREN() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "Vlaanderen";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "Vlaanderen";
+		}
+
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+			model.setSubAppCodes(CAS_APPCODE);
+			model.setCommandFilter(CommandFilterFactory.createVlaanderenFilter());
+		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			model.setDefaultAppCode(GRAPHING_APPCODE);
 		}
 	};
 

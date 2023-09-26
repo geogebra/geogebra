@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
@@ -41,7 +41,7 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		implements Functional2Var, Traceable, Region,
-		MirrorableAtPlane, RotateableND, Transformable {
+		MirrorableAtPlane, RotatableND, Transformable {
 	private boolean isSurfaceOfRevolutionAroundOx = false;
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private double[] xyzuv;
@@ -708,30 +708,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S,
+	public void rotate(NumberValue r, Coords S,
 			GeoDirectionND orientation) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 		SurfaceTransform.rotate(fun, kernel, r, S, orientation, tmpMatrix4x4);
-	}
-
-	// private void transform(CoordMatrix4x4 m) {
-	//
-	// SurfaceTransform.transform(fun, kernel, m);
-	//
-	// }
-
-	@Override
-	public void rotate(NumberValue r, GeoLineND line) {
-
-		if (tmpMatrix4x4 == null) {
-			tmpMatrix4x4 = new CoordMatrix4x4();
-		}
-
-		SurfaceTransform.rotate(fun, kernel, r, line, tmpMatrix4x4);
-
 	}
 
 	@Override

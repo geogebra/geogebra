@@ -20,13 +20,13 @@ public final class CommandFilterFactory {
 				false);
 		commandNameFilter.addCommands(Commands.Mean, Commands.mean, Commands.SD,
 				Commands.stdev, Commands.SampleSD, Commands.stdevp,
-				Commands.nPr, Commands.nCr, Commands.Binomial, Commands.MAD,
-				Commands.mad);
+				Commands.nPr, Commands.nCr, Commands.Binomial, Commands.BinomialDist,
+				Commands.MAD, Commands.mad, Commands.Normal);
 		return commandNameFilter;
 	}
 
 	/**
-	 * Creates a CommandFilter for the Graphing app.
+	 * Creates a CommandFilter for the Graphing app (no cas: e.g. Solve).
 	 *
 	 * @return command filter
 	 */
@@ -74,7 +74,7 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * @return filer for IQB MMS exam
+	 * @return filter for IQB MMS exam
 	 */
 	public static CommandFilter createMmsFilter() {
 		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
@@ -123,11 +123,23 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * @return filer for Bayern CAS exam
+	 * @return filter for Bayern CAS exam
 	 */
 	public static CommandFilter createBayernCasFilter() {
 		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
 		nameFilter.addCommands(Commands.Plane);
+		return new EnglishCommandFilter(nameFilter);
+	}
+
+	/**
+	 * @return filter for Vlaanderen exam
+	 */
+	public static CommandFilter createVlaanderenFilter() {
+		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		nameFilter.addCommands(Commands.Derivative, Commands.NDerivative, Commands.Integral,
+				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
+				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
+				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
 		return new EnglishCommandFilter(nameFilter);
 	}
 
@@ -163,11 +175,11 @@ public final class CommandFilterFactory {
 				// CAS specific command
 				Commands.Delete, Commands.Poisson,
 				// Function Commands
-				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
-				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
-				Commands.NSolveODE, Commands.OsculatingCircle, Commands.ParametricDerivative,
-				Commands.PathParameter, Commands.RootList, Commands.Roots,
-				Commands.Spline,
+				Commands.Asymptote, Commands.CurveCartesian, Commands.Curve,
+				Commands.CurvatureVector, Commands.DataFunction, Commands.Function,
+				Commands.ImplicitCurve, Commands.IterationList, Commands.NSolveODE,
+				Commands.OsculatingCircle, Commands.ParametricDerivative, Commands.PathParameter,
+				Commands.RootList, Commands.Roots, Commands.Spline,
 				// Vector And Matrix Commands
 				Commands.ApplyMatrix,
 				//Geometry Commands

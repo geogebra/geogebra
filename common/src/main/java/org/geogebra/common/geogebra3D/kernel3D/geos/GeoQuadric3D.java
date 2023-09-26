@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
@@ -11,6 +12,7 @@ import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
@@ -38,7 +40,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.Region3D;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
@@ -60,8 +62,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
-		Region3D, Translateable, RotateableND, MirrorableAtPlane, Transformable,
-		Dilateable, HasVolume, GeoQuadric3DInterface, EquationValue {
+		Region3D, Translateable, RotatableND, MirrorableAtPlane, Transformable,
+		Dilateable, HasVolume, GeoQuadric3DInterface, EquationValue, MatrixTransformable {
 
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
 			"x z", "y z", "x", "y", "z" };
@@ -3029,21 +3031,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		CoordMatrix4x4.rotation4x4(r.getDouble(), S.getInhomCoordsInD3(),
 				tmpMatrix4x4);
-		rotate(tmpMatrix4x4);
+		matrixTransform(tmpMatrix4x4);
 
-		// planes
-		if (type == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES
-				|| type == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES
-				|| type == GeoQuadricNDConstants.QUADRIC_PLANE) {
-			planes[0].rotate(r, S);
-			if (type != GeoQuadricNDConstants.QUADRIC_PLANE) {
-				planes[1].rotate(r, S);
-			}
-		}
-		// line
-		else if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
-			line.rotate(r, S);
-		}
+		transformDegenerate(el -> rotate(r, S));
 	}
 
 	@Override
@@ -3053,24 +3043,28 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		CoordMatrix4x4.rotation4x4(r.getDouble(), tmpMatrix4x4);
-		rotate(tmpMatrix4x4);
+		matrixTransform(tmpMatrix4x4);
 
+		transformDegenerate(el -> el.rotate(r));
+	}
+
+	private void transformDegenerate(Consumer<MatrixTransformable> transform) {
 		// planes
 		if (type == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES
 				|| type == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES
 				|| type == GeoQuadricNDConstants.QUADRIC_PLANE) {
-			planes[0].rotate(r);
+			transform.accept(planes[0]);
 			if (type != GeoQuadricNDConstants.QUADRIC_PLANE) {
-				planes[1].rotate(r);
+				transform.accept(planes[1]);
 			}
 		}
 		// line
 		else if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
-			line.rotate(r);
+			transform.accept(line);
 		}
 	}
 
-	private void rotate(CoordMatrix4x4 tm) {
+	private void matrixTransform(CoordMatrix4x4 tm) {
 
 		// eigen matrix
 		eigenMatrix = tm.mul(eigenMatrix);
@@ -3090,15 +3084,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S,
+	public void rotate(NumberValue r, Coords S,
 			GeoDirectionND orientation) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 		CoordMatrix4x4.rotation4x4(orientation.getDirectionInD3().normalized(),
-				r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
-		rotate(tmpMatrix4x4);
+				r.getDouble(), S, tmpMatrix4x4);
+		matrixTransform(tmpMatrix4x4);
 
 		// planes
 		if (type == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES
@@ -3113,31 +3107,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		else if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
 			line.rotate(r, S, orientation);
 		}
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoLineND axis) {
-		if (tmpMatrix4x4 == null) {
-			tmpMatrix4x4 = new CoordMatrix4x4();
-		}
-		CoordMatrix4x4.rotation4x4(axis.getDirectionInD3().normalized(),
-				r.getDouble(), axis.getStartInhomCoords(), tmpMatrix4x4);
-		rotate(tmpMatrix4x4);
-
-		// planes
-		if (type == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES
-				|| type == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES
-				|| type == GeoQuadricNDConstants.QUADRIC_PLANE) {
-			planes[0].rotate(r, axis);
-			if (type != GeoQuadricNDConstants.QUADRIC_PLANE) {
-				planes[1].rotate(r, axis);
-			}
-		}
-		// line
-		else if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
-			this.line.rotate(r, axis);
-		}
-
 	}
 
 	// //////////////////////
@@ -3554,5 +3523,43 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				.mul(diagonalizedMatrix).mul(eigenMatrixInv);
 
 		setMatrix(finalMatrix);
+	}
+
+	@Override
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
+		matrixTransform(a00, a01, 0, a10, a11, 0, 0, 0, 1);
+	}
+
+	@Override
+	public void matrixTransform(double a00, double a01, double a02, double a10,
+			double a11, double a12, double a20, double a21, double a22) {
+
+		if (tmpMatrix4x4 == null) {
+			tmpMatrix4x4 = CoordMatrix4x4.identity();
+		} else {
+			tmpMatrix4x4.resetLastRowAndColumn();
+		}
+
+		tmpMatrix4x4.set(1, 1, a00);
+		tmpMatrix4x4.set(1, 2, a01);
+		tmpMatrix4x4.set(1, 3, a02);
+
+		tmpMatrix4x4.set(2, 1, a10);
+		tmpMatrix4x4.set(2, 2, a11);
+		tmpMatrix4x4.set(2, 3, a12);
+
+		tmpMatrix4x4.set(3, 1, a20);
+		tmpMatrix4x4.set(3, 2, a21);
+		tmpMatrix4x4.set(3, 3, a22);
+		showUndefinedInAlgebraView = true;
+		matrixTransform(tmpMatrix4x4);
+		volume = volume * Math.abs(tmpMatrix4x4.det());
+		transformDegenerate(el -> el.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22));
+		classifyQuadric();
+	}
+
+	@Override
+	public boolean isMatrixTransformable() {
+		return true;
 	}
 }

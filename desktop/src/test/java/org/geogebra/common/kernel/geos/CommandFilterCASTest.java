@@ -97,8 +97,6 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
                 "{y = x - 1}");
         t("Tangent((1, 0), x^2)",
                 "y = 2 * x - 1");
-        t("Tangent((0, 1), Curve(cos(z), sin(z), z, 0, π))",
-                "{y = 1}");
         t("Tangent(1, x^2)",
                 "y = 2 * x - 1");
         t("Tangent(x^2 + y^2 = 4, (x - 6)^2 + y^2 = 4)",

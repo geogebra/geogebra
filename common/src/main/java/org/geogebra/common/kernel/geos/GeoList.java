@@ -26,6 +26,7 @@ import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -263,6 +264,9 @@ public class GeoList extends GeoElement
 
 		isDefined = l.isDefined;
 		elementType = l.elementType;
+		if (l.isElementTypeXMLNeeded()) {
+			typeStringForXML = l.typeStringForXML;
+		}
 	}
 
 	/**
@@ -1038,13 +1042,11 @@ public class GeoList extends GeoElement
 		// update all registered locatables (they have this point as start
 		// point)
 		if (colorFunctionListener != null) {
-			// AbstractApplication.debug("GeoList update listeners");
 			for (int i = 0; i < colorFunctionListener.size(); i++) {
 				final GeoElement geo = colorFunctionListener.get(i);
 				// kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
 				geo.updateVisualStyle(GProperty.COLOR);
-				// AbstractApplication.debug(geo);
 			}
 			// kernel.notifyRepaint();
 		}
@@ -1104,11 +1106,6 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void setZero() {
-		elements.clear();
-	}
-
-	@Override
 	public void setLineThickness(final int thickness) {
 		super.setLineThickness(thickness);
 
@@ -1122,8 +1119,6 @@ public class GeoList extends GeoElement
 				geo.setLineThickness(thickness);
 			}
 		}
-
-		// Application.debug("GeoList.setLineThickness "+thickness);
 	}
 
 	/**
@@ -1228,8 +1223,6 @@ public class GeoList extends GeoElement
 
 				// get alpha value of first element
 				final double alpha = elements.get(0).getAlphaValue();
-
-				// Application.debug("setting list alpha to "+alpha);
 
 				super.setAlphaValue(alpha);
 
@@ -1581,7 +1574,7 @@ public class GeoList extends GeoElement
 		super.getStyleXML(sb);
 
 		getLineStyleXML(sb);
-		if ((size() == 0 || !isDefined()) && getTypeStringForXML() != null) {
+		if (isElementTypeXMLNeeded()) {
 			sb.append("\t<listType val=\"");
 			sb.append(getTypeStringForXML());
 			sb.append("\"/>\n");
@@ -1626,6 +1619,14 @@ public class GeoList extends GeoElement
 		if (startPoint != null) {
 			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 		}
+	}
+
+	/**
+	 *
+	 * @return if element type should be saved with XML.
+	 */
+	protected boolean isElementTypeXMLNeeded() {
+		return (size() == 0 || !isDefined()) && getTypeStringForXML() != null;
 	}
 
 	/**
@@ -1710,7 +1711,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public void pointChanged(final GeoPointND P) {
-		// Application.debug("pointChanged",1);
 
 		P.updateCoords();
 
@@ -1742,8 +1742,6 @@ public class GeoList extends GeoElement
 		// 0-1 for first obj
 		// 1-2 for second
 		// etc
-		// Application.debug(pp.t+" "+path.getMinParameter()+"
-		// "+path.getMaxParameter());
 
 		int closestPointIndexBack = closestPointIndex;
 		if (directionInfoOrdering != null) {
@@ -1775,7 +1773,6 @@ public class GeoList extends GeoElement
 	 *            point
 	 */
 	public void getNearestPoint(final GeoPointND p) {
-		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
 
@@ -1792,10 +1789,6 @@ public class GeoList extends GeoElement
 				}
 			}
 		}
-
-		// Application.debug("closestPointIndex="+closestPointIndex);
-
-		// return get(closestPointIndex).getNearestPoint(p);
 	}
 
 	@Override
@@ -1882,13 +1875,9 @@ public class GeoList extends GeoElement
 					path.getMinParameter(), path.getMaxParameter()));
 		}
 
-		// Application.debug("pathChanged "+n);
-
 		path.pathChanged(PI);
 
 		t = pp.getT();
-		// Application.debug(PathNormalizer.toNormalizedPathParameter(t,
-		// path.getMinParameter(), path.getMaxParameter()));
 
 		if ((directionInfoArray == null) || directionInfoArray[n]) {
 			pp.setT(PathNormalizer.toNormalizedPathParameter(t,
@@ -1909,7 +1898,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean isOnPath(final GeoPointND PI, final double eps) {
-		// Application.debug("isOnPath",1);
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
 			if (((PathOrPoint) geo).isOnPath(PI, eps)) {
@@ -3154,6 +3142,20 @@ public class GeoList extends GeoElement
 			return GColor.WHITE;
 		}
 		return bgColor;
+	}
+
+	/**
+	 * @return True if background color is set, false else
+	 */
+	public boolean isBackgroundColorSet() {
+		return bgColor != null;
+	}
+
+	/**
+	 * @return True if the default object color {@link ConstructionDefaults#colList} is set, false else
+	 */
+	public boolean isDefaultObjectColorSet() {
+		return objColor.equals(ConstructionDefaults.colList);
 	}
 
 	/**

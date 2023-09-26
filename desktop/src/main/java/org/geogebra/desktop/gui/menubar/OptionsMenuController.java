@@ -39,7 +39,6 @@ public class OptionsMenuController {
 			try {
 				String decStr = cmd.substring(0, 2).trim();
 				int decimals = Integer.parseInt(decStr);
-				// Application.debug("decimals " + decimals);
 
 				kernel.setPrintDecimals(decimals);
 				kernel.updateConstruction(false);
@@ -59,7 +58,6 @@ public class OptionsMenuController {
 			try {
 				String decStr = cmd.substring(0, 2).trim();
 				int figures = Integer.parseInt(decStr);
-				// Application.debug("figures " + figures);
 
 				kernel.setPrintFigures(figures);
 				kernel.updateConstruction(false);

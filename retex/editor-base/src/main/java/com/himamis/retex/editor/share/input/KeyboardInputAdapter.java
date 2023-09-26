@@ -92,6 +92,13 @@ public class KeyboardInputAdapter {
 			}
 		});
 
+		adapters.add(new StringInput("recurringDecimal") {
+			@Override
+			public void commit(MathFieldInternal mfi, String input) {
+				commitFunction(mfi, "recurringDecimal");
+			}
+		});
+
 		adapters.add(new StringInput("log_{10}") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
@@ -166,12 +173,21 @@ public class KeyboardInputAdapter {
 			return;
 		}
 
+		typeSilent(mfi, input);
+		mfi.notifyAndUpdate(String.valueOf(input.charAt(input.length() - 1)));
+	}
+
+	/**
+	 * Type characters without sending events
+	 * @param mfi math field
+	 * @param input input text
+	 */
+	public static void typeSilent(MathFieldInternal mfi, String input) {
 		EditorState editorState = mfi.getEditorState();
 		KeyListenerImpl keyListener = mfi.getKeyListener();
 		for (int i = 0; i < input.length(); i++) {
 			keyListener.onKeyTyped(input.charAt(i), editorState);
 		}
-		mfi.notifyAndUpdate(String.valueOf(input.charAt(input.length() - 1)));
 	}
 
 	/**

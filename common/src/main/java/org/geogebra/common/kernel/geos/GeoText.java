@@ -116,8 +116,8 @@ public class GeoText extends GeoElement
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
 
-	private GeoNumeric verticalAlignment;
-	private GeoNumeric horizontalAlignment;
+	private Integer verticalAlignment;
+	private Integer horizontalAlignment;
 
 	/**
 	 */
@@ -686,18 +686,26 @@ public class GeoText extends GeoElement
 	}
 
 	private void setSameLocation(GeoText text) {
-		if (text.hasAbsoluteScreenLocation) {
-			setAbsoluteScreenLocActive(true);
-			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(),
-					text.getAbsoluteScreenLocY());
+		if (text.isAbsoluteScreenLocActive()) {
+			if (text.startPoint == null) {
+				hasAbsoluteScreenLocation = true;
+				setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(), text.getAbsoluteScreenLocY());
+			} else {
+				setAbsoluteStartPoint(text.startPoint, true);
+			}
 		} else {
 			if (text.startPoint != null) {
-				try {
-					setStartPoint(text.startPoint);
-				} catch (Exception e) {
-					// Circular definition, do nothing
-				}
+				setAbsoluteStartPoint(text.startPoint, false);
 			}
+		}
+	}
+
+	private void setAbsoluteStartPoint(GeoPointND oldStartPoint, boolean isAbsolute) {
+		hasAbsoluteScreenLocation = isAbsolute;
+		try {
+			setStartPoint(oldStartPoint);
+		} catch (CircularDefinitionException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -744,6 +752,10 @@ public class GeoText extends GeoElement
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+			startPoint = null;
+		}
 		if (!hasScreenLocation() && (x != 0 && y != 0)) {
 			setScreenLocation(x, y);
 		}
@@ -778,7 +790,7 @@ public class GeoText extends GeoElement
 	@Override
 	public void setRealWorldLoc(double x, double y) {
 		GeoPointND locPoint = getStartPoint();
-		if (locPoint == null) {
+		if (locPoint == null || hasAbsoluteScreenLocation) {
 			locPoint = new GeoPoint(cons);
 			try {
 				setStartPoint(locPoint);
@@ -1063,11 +1075,6 @@ public class GeoText extends GeoElement
 		return ExtendedBoolean.FALSE;
 	}
 
-	@Override
-	public void setZero() {
-		str = "";
-	}
-
 	/**
 	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
 	 * (otherwise TreeSet deletes duplicates)
@@ -1188,9 +1195,6 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isSpreadsheetTraceable() {
-
-		// App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
-
 		switch (spreadsheetTraceableCase) {
 		case TRUE:
 			return true;
@@ -1555,20 +1559,28 @@ public class GeoText extends GeoElement
 		}
 	}
 
-	public void setHorizontalAlignment(GeoNumeric horizAlign) {
+	public void setHorizontalAlignment(Integer horizAlign) {
 		horizontalAlignment = horizAlign;
 	}
 
-	public GeoNumeric getHorizontalAlignment() {
+	public Integer getHorizontalAlignment() {
 		return horizontalAlignment;
 	}
 
-	public void setVerticalAlignment(GeoNumeric vertAlign) {
+	public void setVerticalAlignment(Integer vertAlign) {
 		verticalAlignment = vertAlign;
 	}
 
-	public GeoNumeric getVerticalAlignment() {
+	public Integer getVerticalAlignment() {
 		return verticalAlignment;
+	}
+
+	/**
+	 *
+	 * @return if text is aligned either horizontally or vertically.
+	 */
+	public boolean hasAlignment() {
+		return horizontalAlignment != null || verticalAlignment != null;
 	}
 
 	/**

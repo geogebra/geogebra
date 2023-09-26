@@ -696,7 +696,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		RecoSegment rs = recos[recognizer_queue_length - nsides];
 		RecoSegment r1;
 		RecoSegment r2;
-		// AbstractApplication.debug(rs.startpt);
 		if (rs.startpt != 0) {
 			return null;
 		}
@@ -704,8 +703,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			r1 = recos[recognizer_queue_length - nsides + i];
 			r2 = recos[
 					recognizer_queue_length - nsides + ((i + 1) % nsides)];
-			// AbstractApplication.debug(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2)
-			// > RECTANGLE_ANGLE_TOLERANCE);
 			if (Math.abs(Math.abs(r1.angle - r2.angle)
 					- Math.PI / 2) > RECTANGLE_ANGLE_TOLERANCE) {
 				return null;

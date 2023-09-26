@@ -13,6 +13,7 @@ import org.geogebra.web.full.gui.menubar.action.ExportImage;
 import org.geogebra.web.full.gui.menubar.action.OpenProfilePage;
 import org.geogebra.web.full.gui.menubar.action.ReportProblemAction;
 import org.geogebra.web.full.gui.menubar.action.SaveAction;
+import org.geogebra.web.full.gui.menubar.action.SaveLocalAction;
 import org.geogebra.web.full.gui.menubar.action.ShareAction;
 import org.geogebra.web.full.gui.menubar.action.ShowForumAction;
 import org.geogebra.web.full.gui.menubar.action.ShowLicenseAction;
@@ -47,6 +48,7 @@ public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory
 		actionHandler.setMenuAction(Action.SHOW_LICENSE, new ShowLicenseAction());
 		actionHandler.setMenuAction(Action.SHOW_SETTINGS, new ShowSettingsAction());
 		actionHandler.setMenuAction(Action.SAVE_FILE, new SaveAction());
+		actionHandler.setMenuAction(Action.SAVE_FILE_LOCAL, new SaveLocalAction());
 		actionHandler.setMenuAction(Action.SHARE_FILE, new ShareAction());
 		actionHandler.setMenuAction(Action.SHOW_TUTORIALS, new ShowTutorialsAction());
 		actionHandler.setMenuAction(Action.SHOW_FORUM, new ShowForumAction());

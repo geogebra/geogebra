@@ -70,8 +70,6 @@ public class CmdFillCells extends CommandProcessor {
 				int minRow = Math.min(startCoords.y, endCoords.y);
 				int maxRow = Math.max(startCoords.y, endCoords.y);
 
-				// Application.debug(minCol+" "+maxCol+" "+minRow+" "+maxRow);
-
 				GeoElement geo = arg[1];
 				GeoElement[] ret = {};
 
@@ -276,8 +274,6 @@ public class CmdFillCells extends CommandProcessor {
 
 					for (int i = list.size() - 1; i >= 0; i--) {
 						try {
-							// Application.debug("setting "+row+" "+(column+i)+"
-							// to "+list.get(i).toString());
 							kernel.getGeoElementSpreadsheet()
 									.setSpreadsheetCell(app, row, column + i,
 											list.get(i).copy());

@@ -12,9 +12,8 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
@@ -25,7 +24,7 @@ import org.geogebra.common.util.debug.Log;
  * @author ggb3D
  * 
  */
-public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
+public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 		MirrorableAtPlane {
 
 	private int index1;
@@ -335,16 +334,9 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
-		for (int i = 0; i < points.length; i++) {
-			((RotateableND) points[i]).rotate(r, S, orientation);
-		}
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoLineND line) {
-		for (int i = 0; i < points.length; i++) {
-			((RotateableND) points[i]).rotate(r, line);
+	public void rotate(NumberValue r, Coords S, GeoDirectionND orientation) {
+		for (GeoPointND point : points) {
+			((RotatableND) point).rotate(r, S, orientation);
 		}
 	}
 

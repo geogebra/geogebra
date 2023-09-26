@@ -1360,7 +1360,6 @@ public class AlgoDispatcher {
 		}
 		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, x,
 				y);
-		// Application.debug("PointIn - \n x="+x+"\n y="+y);
 		GeoPoint p = algo.getP();
 		if (complex) {
 			p.setMode(Kernel.COORD_COMPLEX);
@@ -2081,8 +2080,7 @@ public class AlgoDispatcher {
 		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false)) {
 
 			// dummy point
-			GeoPoint A = new GeoPoint(cons);
-			A.setZero();
+			GeoPoint A = createDummyPoint();
 			// we must check that getLabels() didn't return null
 			String label = labels == null ? null : labels[0];
 			AlgoIntersectFunctionsNewton algo = new AlgoIntersectFunctionsNewton(
@@ -2096,6 +2094,12 @@ public class AlgoDispatcher {
 		algo.setLabels(labels);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		return points;
+	}
+
+	private GeoPoint createDummyPoint() {
+		GeoPoint pt = new GeoPoint(cons);
+		pt.setCoords(0, 0, 1);
+		return pt;
 	}
 
 	/**
@@ -2173,8 +2177,7 @@ public class AlgoDispatcher {
 		if (isConditionalFunction(f)) {
 			GeoPoint A = initPoint;
 			if (A == null) {
-				A = new GeoPoint(cons);
-				A.setZero();
+				A = createDummyPoint();
 			}
 			AlgoIntersectFunctionLineNewton algo = new AlgoIntersectFunctionLineNewton(
 					cons, labels == null ? null : labels[0], f,
@@ -2189,8 +2192,7 @@ public class AlgoDispatcher {
 			// dummy point
 			GeoPoint A = initPoint;
 			if (A == null) {
-				A = new GeoPoint(cons);
-				A.setZero();
+				A = createDummyPoint();
 			}
 			// we must check that getLabels() didn't return null
 			String label = labels == null ? null : labels[0];

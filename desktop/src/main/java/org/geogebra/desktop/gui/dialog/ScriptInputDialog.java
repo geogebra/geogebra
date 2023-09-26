@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -63,8 +62,7 @@ public class ScriptInputDialog extends JPanel
 		this.model = model;
 		model.setListener(this);
 
-		inputPanel = new InputPanelD("", app, rows, cols, false,
-				 DialogType.GeoGebraEditor);
+		inputPanel = initInputPanel(rows, cols);
 		// init dialog using text
 		languageSelector = new JComboBox<>();
 		JPanel btPanel = new JPanel();
@@ -76,8 +74,7 @@ public class ScriptInputDialog extends JPanel
 		centerPanel.add(inputPanel, BorderLayout.CENTER);
 		add(centerPanel, BorderLayout.CENTER);
 		add(btPanel, BorderLayout.SOUTH);
-
-		inputPanel.getTextComponent().getDocument().addDocumentListener(this);
+		initInputPanel(rows, cols);
 	}
 
 	private void fillLanguageSelector() {
@@ -90,23 +87,15 @@ public class ScriptInputDialog extends JPanel
 		}
 	}
 
-	/**
-	 * Returns the inputPanel and sets its preferred size from the given row and
-	 * column value. Includes option to hide/show line numbering.
-	 * 
-	 * @param row number of rows
-	 * @param column number of columns
-	 * @return input panel
-	 */
-	public JPanel getInputPanel(int row, int column) {
-		Dimension dim = ((GeoGebraEditorPane) inputPanel.getTextComponent())
-				.getPreferredSizeFromRowColumn(row, column);
-		inputPanel.setPreferredSize(dim);
-		inputPanel.setShowLineNumbering(true);
+	private InputPanelD initInputPanel(int rows, int cols) {
+		InputPanelD scriptInputPanel = new InputPanelD("", app, rows, cols,
+				false, DialogType.GeoGebraEditor);
+		scriptInputPanel.getTextComponent().getDocument().addDocumentListener(this);
+		scriptInputPanel.setShowLineNumbering(true);
 		// add a small margin
-		inputPanel.getTextComponent()
+		scriptInputPanel.getTextComponent()
 				.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-		return inputPanel;
+		return scriptInputPanel;
 	}
 
 	private void processInput() {

@@ -3,9 +3,9 @@ package org.geogebra.web.html5.gui.util;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
-import org.gwtproject.event.dom.client.MouseDownHandler;
 import org.gwtproject.event.dom.client.TouchStartEvent;
-import org.gwtproject.event.dom.client.TouchStartHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistrations;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
@@ -26,43 +26,39 @@ public abstract class ClickStartHandler {
 	 *            Widget that the handlers are attached to
 	 * @param handler
 	 *            EventHandler (instance of this class)
+	 * @return handler registration
 	 */
-	public static void init(Widget w, final ClickStartHandler handler) {
-		w.addDomHandler(new MouseDownHandler() {
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				if (handler.preventDefault) {
-					event.preventDefault();
-				}
-				if (handler.stopPropagation) {
-					event.stopPropagation();
-				}
-				boolean right = event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT;
-				if (!CancelEventTimer.cancelMouseEvent()
-						&& !handler.onClickStart(event.getX(), event.getY(),
-								PointerEventType.MOUSE, right)) {
+	public static HandlerRegistration init(Widget w, final ClickStartHandler handler) {
+		HandlerRegistration mouseReg = w.addDomHandler(event -> {
+			if (handler.preventDefault) {
+				event.preventDefault();
+			}
+			if (handler.stopPropagation) {
+				event.stopPropagation();
+			}
+			boolean right = event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT;
+			if (!CancelEventTimer.cancelMouseEvent()
+					&& !handler.onClickStart(event.getX(), event.getY(),
+							PointerEventType.MOUSE, right)) {
 
-					handler.onClickStart(event.getX(), event.getY(),
-					        PointerEventType.MOUSE);
-				}
+				handler.onClickStart(event.getX(), event.getY(),
+						PointerEventType.MOUSE);
 			}
 		}, MouseDownEvent.getType());
 
-		w.addBitlessDomHandler(new TouchStartHandler() {
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				if (handler.preventDefault) {
-					event.preventDefault();
-				}
-				if (handler.stopPropagation) {
-					event.stopPropagation();
-				}
-				handler.onClickStart(event.getTouches().get(0).getClientX(),
-				        event.getTouches().get(0).getClientY(),
-				        PointerEventType.TOUCH);
-				CancelEventTimer.touchEventOccured();
+		HandlerRegistration touchReg = w.addBitlessDomHandler(event -> {
+			if (handler.preventDefault) {
+				event.preventDefault();
 			}
+			if (handler.stopPropagation) {
+				event.stopPropagation();
+			}
+			handler.onClickStart(event.getTouches().get(0).getClientX(),
+					event.getTouches().get(0).getClientY(),
+					PointerEventType.TOUCH);
+			CancelEventTimer.touchEventOccured();
 		}, TouchStartEvent.getType());
+		return HandlerRegistrations.compose(mouseReg, touchReg);
 	}
 
 	/**

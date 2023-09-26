@@ -40,7 +40,6 @@ public class GeoLaTeXCache implements LaTeXCache {
 			} catch (Exception ee) {
 				ee.printStackTrace();
 			}
-			// Application.debug("removing");
 		}
 
 		keyLaTeX = newKey;

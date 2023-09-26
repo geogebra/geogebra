@@ -2366,14 +2366,6 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		// f = 1.0 / lengthDefined;
 		center.mulInside(f);
 		normal.normalizeIfPossible();
-
-		// if (!center.isDefined()) {
-		// App.printStacktrace("!center.isDefined()");
-		// }
-		// if (!normal.isDefined()) {
-		// App.printStacktrace("!normal.isDefined()");
-		// }
-
 	}
 
 	/**

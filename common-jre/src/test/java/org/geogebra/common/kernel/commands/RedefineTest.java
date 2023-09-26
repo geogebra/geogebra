@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -14,18 +15,22 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.test.EventAcumulator;
 import org.geogebra.test.TestErrorHandler;
@@ -33,7 +38,9 @@ import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,9 +70,9 @@ public class RedefineTest extends BaseUnitTest {
 				StringTemplate.xmlTemplate);
 	}
 
-	private static void t(String input, String expected, StringTemplate tpl) {
+	private static void tRound(String input, String expected) {
 		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
-				tpl);
+				StringTemplate.editTemplate);
 	}
 
 	private void checkError(String s, String msg) {
@@ -82,7 +89,7 @@ public class RedefineTest extends BaseUnitTest {
 		t("B=(1,0)", "(1, 0)");
 		t("C=(0,0)", "(0, 0)");
 		t("D=(0,1)", "(0, 1)");
-		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
+		t("poly1=Polygon[A,B,C,D]", "1", "1", "1", "1", "1");
 		t("a", "1"); // polygon side
 		app.getKernel().setUndoActive(true);
 		app.getKernel().initUndoInfo();
@@ -132,10 +139,10 @@ public class RedefineTest extends BaseUnitTest {
 		t("B=(1,0)", "(1, 0)");
 		t("C=(0,0)", "(0, 0)");
 		t("D=(0,1)", "(0, 1)");
-		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
+		t("poly1=Polygon[A,B,C,D]", "1", "1", "1", "1", "1");
 		assertEquals("a_1 = Segment(A, B, poly1)",
 				lookup("a_1").getDefinitionForInputBar());
-		t("a_{1} = Segment(A, B, poly1)", new String[0]);
+		t("a_{1} = Segment(A, B, poly1)");
 		ap.changeGeoElement(lookup("a_1"),
 				"a_{1} = Segment(A, B, poly1)", true, true,
 				TestErrorHandler.INSTANCE, null);
@@ -144,8 +151,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void undoShouldNotRandomize() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("a=random()", "0.7275636800328681");
 
 		app.storeUndoInfo();
@@ -159,12 +165,11 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void randomizeUpdateConstruction() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("b=100", "100");
 		t("a=randomUniform(0,b)", "72.75636800328681");
 		((GeoNumeric) lookup("b")).setValue(10);
-		((GeoNumeric) lookup("b")).resetDefinition();
+		lookup("b").resetDefinition();
 		app.getKernel().updateConstruction(false);
 		t("a", "10");
 	}
@@ -173,7 +178,7 @@ public class RedefineTest extends BaseUnitTest {
 	public void setValueShouldChangeRandom() {
 		app.setRandomSeed(42);
 		t("a=random()", "0.7275636800328681");
-		t("SetValue(a,0.5)", new String[0]);
+		t("SetValue(a,0.5)");
 		t("a", "0.5");
 	}
 
@@ -181,7 +186,7 @@ public class RedefineTest extends BaseUnitTest {
 	public void setValueShouldChangeRandomSequence() {
 		app.setRandomSeed(42);
 		add("a=Sequence(RandomBetween(1,k),k,1,5)");
-		t("SetValue(a,{3,-2,3,2,5})", new String[0]);
+		t("SetValue(a,{3,-2,3,2,5})");
 		t("a", "{1, 1, 3, 2, 5}");
 	}
 
@@ -189,15 +194,14 @@ public class RedefineTest extends BaseUnitTest {
 	public void setValueShouldChangeShuffle() {
 		app.setRandomSeed(42);
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
-		t("SetValue(L_1, {1, 2, 3, 4, 5, 6, 7, 11, 9, 10})", new String[0]);
+		t("SetValue(L_1, {1, 2, 3, 4, 5, 6, 7, 11, 9, 10})");
 		t("L_1", "{1, 2, 3, 4, 5, 6, 7, 9, 10, 8}");
 	}
 
 	@Test
 	public void undoShouldNotRandomizeShufle() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
+		activateUndo();
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
 
 		app.storeUndoInfo();
@@ -212,7 +216,7 @@ public class RedefineTest extends BaseUnitTest {
 	public void setValueShouldChangeRandomElement() {
 		app.setRandomSeed(42);
 		t("P=RandomElement((1..10,1..10))", "(8, 8)");
-		t("SetValue(P, (7, 7))", new String[0]);
+		t("SetValue(P, (7, 7))");
 		t("P", "(7, 7)");
 	}
 
@@ -227,9 +231,13 @@ public class RedefineTest extends BaseUnitTest {
 	public void functionLHSShouldRemainConic() {
 		t("f(x,y)=xx+y", "x^(2) + y");
 		t("a:f(x,y)=0", TestStringUtil.unicode("x^2 + y = 0"));
-		assertEquals(lookup("a").getGeoClassType(), GeoClass.CONIC);
+		assertThat(lookup("a"), isConic());
 		reload();
-		hasType("a", GeoClass.CONIC);
+		assertThat(lookup("a"), isConic());
+	}
+
+	private Matcher<GeoElement> isConic() {
+		return hasProperty("type", GeoElement::getGeoClassType, GeoClass.CONIC);
 	}
 
 	@Test
@@ -243,31 +251,22 @@ public class RedefineTest extends BaseUnitTest {
 		assertEquals("t2 = Polygon(D, E, F)", lookup("t2").getDefinitionForInputBar());
 	}
 
-	private void hasType(String label, GeoClass geoClass) {
-		assertEquals(lookup(label).getGeoClassType(), geoClass);
-	}
-
 	@Test
 	public void copyOfConicShouldNotBeCellRange() {
-
 		t("B20:x^2+y=0", TestStringUtil.unicode("x^2 + y = 0"));
 		t("D20=B20", TestStringUtil.unicode("x^2 + y = 0"));
-		assertEquals(
-				lookup("D20").getGeoClassType(),
-				GeoClass.CONIC);
+		assertThat(lookup("D20"), isConic());
 		reload();
-		assertEquals(
-				lookup("D20").getGeoClassType(),
-				GeoClass.CONIC);
+		assertThat(lookup("D20"), isConic());
 	}
 
 	@Test
 	public void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
-		t("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
+		tRound("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
 				"(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5),"
-						+ " If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
-				StringTemplate.editTemplate);
+						+ " If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))")
+		);
 		t("B:ClosestPoint(A, b)", "(1, 1)");
 		t("A=(0, 0)", "(0, 0)");
 		t("B", "(0, 0)");
@@ -285,7 +284,7 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void pointOnPartialFunctionShouldStayUndefined() {
-		t("ZoomIn[0,0,100,100]", new String[0]);
+		t("ZoomIn[0,0,100,100]");
 		t("a=.9", "0.9");
 		// undefined for most onscreen points
 		t("f=If(x==0, 1, ?)",
@@ -299,17 +298,13 @@ public class RedefineTest extends BaseUnitTest {
 	public void anonymousLineShouldStayLine() {
 		app.getEuclidianView3D();
 		app.setActiveView(App.VIEW_EUCLIDIAN3D);
-		t("c=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-				StringTemplate.editTemplate);
+		tRound("c=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
 		app.setActiveView(App.VIEW_EUCLIDIAN);
-		t("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-				StringTemplate.editTemplate);
+		tRound("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
 
 		reload();
-		t("d", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-				StringTemplate.editTemplate);
-		t("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-				StringTemplate.editTemplate);
+		tRound("d", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
+		tRound("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))");
 	}
 
 	@Test
@@ -337,11 +332,8 @@ public class RedefineTest extends BaseUnitTest {
 		t("f(x)=x^2", "x^(2)");
 		t("f'(x)=f'", "(2 * x)");
 		ap.changeGeoElement(lookup("f'"), "f'(x)", true, true,
-				TestErrorHandler.INSTANCE, new AsyncOperation<GeoElementND>() {
-					@Override
-					public void callback(GeoElementND obj) {
-						// no callback
-					}
+				TestErrorHandler.INSTANCE, obj -> {
+					// no callback
 				});
 		t("f'(x)", "(2 * x)");
 	}
@@ -493,6 +485,15 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void strokeRedefinitionsShouldBeSoft() {
+		GeoElement stroke = add("stroke1=PolyLine((1,1),(2,3),true)");
+		GeoLocusStroke redefined = add("stroke1=PolyLine((1,4),(2,5),true)");
+		assertEquals(stroke, redefined);
+		assertThat(redefined, hasValue("Polyline[(1.0000E0,4.0000E0), "
+				+ "(2.0000E0,5.0000E0), (NaN,NaN), true]"));
+	}
+
+	@Test
 	public void softRedefineShouldUpdateSiblings() {
 		add("c=Cone((0,0,0),(0,0,1),2)");
 		EventAcumulator listener = new EventAcumulator();
@@ -561,6 +562,18 @@ public class RedefineTest extends BaseUnitTest {
 		assertThat(slider.getAnimationStepObject(), is(lookup("speed")));
 	}
 
+	@Test
+	public void sliderSizeShouldBePreserved() throws CircularDefinitionException {
+		GeoNumeric slider = add("a=Slider(-1,1,0.1)");
+		add("v=50");
+		GeoPoint position = add("(v,v)");
+		slider.setStartPoint(position);
+		slider.setSliderWidth(42, true);
+		reload();
+		slider = (GeoNumeric) lookup("a");
+		assertEquals(42, slider.getSliderWidth(), .1);
+	}
+
 	/**
 	 * @return matcher for inequalities
 	 */
@@ -578,4 +591,77 @@ public class RedefineTest extends BaseUnitTest {
 		};
 	}
 
+	@Test
+	public void redefineComplexToRealFunctionShouldWork() {
+		add("h(x) = x + i");
+		assertThat(lookup("h").getClass(), is(GeoSurfaceCartesian2D.class));
+		add("h(x) = 2*x/2");
+		assertThat(lookup("h").getClass(), is(GeoFunction.class));
+	}
+
+	@Test
+	public void redefineComplexToRealFunctionFromAVShouldWork() {
+		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(getApp());
+		GeoElementND h = add("h(x) = x + i", evalInfo);
+		assertThat(lookup("h").getClass(), is(GeoSurfaceCartesian2D.class));
+		getKernel().getAlgebraProcessor()
+						.changeGeoElementNoExceptionHandling(h, "h(x) = 2x/2", evalInfo,
+								true, null, null);
+		assertThat(lookup("h").getClass(), is(GeoFunction.class));
+	}
+
+	@Test
+	public void internalAnglesShouldReloadWithRepetition() {
+		add("countQuestion=42");
+		add("SetValue(countQuestion,41)");
+		add("A=(1,1)");
+		add("B=(1,2)");
+		add("C=(2,1)");
+		add("D=(-1,0.5)");
+
+		add("poly=Polygon({A,B,C,D})");
+		add("InteriorAngles(poly)");
+		//redefine
+		add("poly=Polygon({A,B,C,D,A})");
+		assertArrayEquals(new int[]{'c', 'A', 'B', 'C', 'D', 'p', Unicode.alpha,
+						Unicode.beta, Unicode.gamma, Unicode.delta, Unicode.epsilon},
+				Arrays.stream(getApp().getGgbApi().getAllObjectNames())
+						.mapToInt(s -> s.charAt(0)).toArray());
+	}
+
+	@Test
+	public void absPositionShouldSurviveRedefine() throws CircularDefinitionException {
+		GeoText text = add("text=\"foo\"");
+		add("a=3");
+		text.setAbsoluteScreenLocActive(true);
+		text.setStartPoint(getKernel().getAlgebraProcessor().evaluateToPoint("(a, 4)",
+				TestErrorHandler.INSTANCE, false));
+		add("text=a+\"foo\"");
+		assertThat(((GeoText) lookup("text")).getStartPoint()
+				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+	}
+
+	@Test
+	public void absPositionStaticTextShouldSurviveRedefine() throws CircularDefinitionException {
+		GeoText text = add("text=\"foo\"");
+		text.setAbsoluteScreenLocActive(true);
+		text.setAbsoluteScreenLoc(200, 300);
+		add("text=a+\"foo\"");
+		GeoText modifiedText = (GeoText) lookup("text");
+		assertEquals(modifiedText.getStartPoint(), null);
+		assertThat(modifiedText.getAbsoluteScreenLocX(), is(200));
+		assertThat(modifiedText.getAbsoluteScreenLocY(), is(300));
+	}
+
+	@Test
+	public void realWorldPositionShouldSurviveRedefine() throws CircularDefinitionException {
+		GeoText text = add("text=\"foo\"");
+		add("a=3");
+		text.setAbsoluteScreenLocActive(false);
+		text.setStartPoint(getKernel().getAlgebraProcessor().evaluateToPoint("(a, 4)",
+				TestErrorHandler.INSTANCE, false));
+		add("text=a+\"foo\"");
+		assertThat(((GeoText) lookup("text")).getStartPoint()
+				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+	}
 }

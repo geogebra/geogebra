@@ -32,6 +32,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
@@ -78,7 +79,6 @@ public class EuclidianStyleBarStatic {
 				if (geo.getParentAlgorithm() != null
 						&& geo.getParentAlgorithm().getInput().length == 3) {
 					// segment is output from a Polygon
-					// AbstractApplication.warn("segment from poly");
 					continue;
 				}
 			}
@@ -966,8 +966,8 @@ public class EuclidianStyleBarStatic {
 			// check if default geo use default label
 			if (geo.getLabelMode() == GeoElementND.LABEL_DEFAULT) {
 				// label visibility
-				int labelingStyle = app == null
-						? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
+				LabelVisibility labelingStyle = app == null
+						? LabelVisibility.UseDefaults
 						: app.getCurrentLabelingStyle();
 
 				// automatic labelling:
@@ -975,21 +975,21 @@ public class EuclidianStyleBarStatic {
 				// else -> no labels
 
 				switch (labelingStyle) {
-				case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON:
-				case ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS:
+				case AlwaysOn:
+				case UseDefaults:
 				default:
 					if (geo.isGeoNumeric()) {
 						return GeoElementND.LABEL_NAME_VALUE + 1;
 					}
 					return GeoElementND.LABEL_NAME + 1;
 
-				case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF:
+				case AlwaysOff:
 					if (geo.isGeoNumeric()) {
 						return GeoElementND.LABEL_NAME + 1;
 					}
 					return 0;
 
-				case ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY:
+				case PointsOnly:
 					if (geo.isGeoNumeric()) {
 						return GeoElementND.LABEL_NAME_VALUE + 1;
 					}

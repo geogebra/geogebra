@@ -182,7 +182,6 @@ public class AlgoVoronoi extends AlgoDiscrete {
 					// so no duplicates in the TreeMap
 					if (DoubleUtil.isEqual(p1.getX(), p2.getX())
 							&& DoubleUtil.isEqual(p1.getY(), p2.getY())) {
-						// Application.debug("equal2");
 						return 0;
 					}
 

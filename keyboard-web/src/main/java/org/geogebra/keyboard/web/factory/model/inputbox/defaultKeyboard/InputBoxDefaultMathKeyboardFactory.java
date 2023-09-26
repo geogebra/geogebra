@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
@@ -18,6 +19,8 @@ public class InputBoxDefaultMathKeyboardFactory implements KeyboardModelFactory 
 
 		RowImpl row = mathKeyboard.nextRow(9.2f);
 		MathKeyUtil.addXYZ(row, buttonFactory);
+		addInputButton(row, buttonFactory, ",");
+		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addFirstRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
@@ -26,12 +29,12 @@ public class InputBoxDefaultMathKeyboardFactory implements KeyboardModelFactory 
 		NumberKeyUtil.addSecondRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
-		MathKeyUtil.addImInfDegComma(row, buttonFactory);
+		MathKeyUtil.addPiEIDegree(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addThirdRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
-		MathKeyUtil.addParenthesesPiE(row, buttonFactory);
+		MathKeyUtil.addParenthesesFractionMixed(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addFourthRow(row, buttonFactory);
 

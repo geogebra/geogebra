@@ -77,11 +77,9 @@ public class Polynomial implements HasDebugString {
 	 */
 	Polynomial(Kernel kernel, Polynomial poly) {
 		this(kernel);
-		// Application.debug("poly copy constructor input: " + poly);
 		for (int i = 0; i < poly.length(); i++) {
 			append(new Term(poly.terms.get(i), kernel));
 		}
-		// Application.debug("poly copy constructor output: " + this);
 	}
 
 	/**
@@ -330,7 +328,6 @@ public class Polynomial implements HasDebugString {
 	 *            whether to use keep coefficients as fractions
 	 */
 	void simplify(Equation eq, boolean keepFraction) {
-		// Application.debug("simplify " + this);
 		ArrayList<Term> list;
 		Object[] t;
 		Term ti, tj;
@@ -391,7 +388,6 @@ public class Polynomial implements HasDebugString {
 		// sort the list
 		// java.util.Collections.sort( list );
 		terms = list;
-		// Application.debug("simplified to " + this);
 	}
 
 	/**

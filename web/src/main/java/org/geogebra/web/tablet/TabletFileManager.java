@@ -23,13 +23,13 @@ public class TabletFileManager extends FileManagerT {
 
 	private static TabletFileManager INSTANCE;
 	private final static int NO_CALLBACK = 0;
-	private TreeMap<Integer, MyCallback> callbacks;
+	private TreeMap<Integer, NativeBridgeCallback> callbacks;
 	private int callbacksCount = NO_CALLBACK;
 
-	private abstract static class MyCallback {
+	private abstract static class NativeBridgeCallback {
 		private int id;
 
-		protected MyCallback() {
+		protected NativeBridgeCallback() {
 			// protected
 		}
 
@@ -68,7 +68,7 @@ public class TabletFileManager extends FileManagerT {
 		INSTANCE = this;
 	}
 
-	protected int addNewCallback(MyCallback callback) {
+	protected int addNewCallback(NativeBridgeCallback callback) {
 		callbacksCount++;
 		callbacks.put(callbacksCount, callback);
 		callback.setId(callbacksCount);
@@ -77,7 +77,7 @@ public class TabletFileManager extends FileManagerT {
 
 	private void runCallback(int id, boolean success, Object result) {
 		if (id != NO_CALLBACK) {
-			MyCallback cb = callbacks.remove(id);
+			NativeBridgeCallback cb = callbacks.remove(id);
 			if (success) {
 				cb.onSuccess(result);
 			} else {
@@ -88,12 +88,12 @@ public class TabletFileManager extends FileManagerT {
 
 	@Override
 	protected void getFiles(final MaterialFilter filter) {
-		final int callbackParent = addNewCallback(new MyCallback() {
+		final int callbackParent = addNewCallback(new NativeBridgeCallback() {
 			@Override
 			public void onSuccess(Object resultParent) {
 				int length = (Integer) resultParent;
 				for (int i = 0; i < length; i++) {
-					int callback = addNewCallback(new MyCallback() {
+					int callback = addNewCallback(new NativeBridgeCallback() {
 						@Override
 						public void onSuccess(Object result) {
 							try {
@@ -173,7 +173,7 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	public void openMaterial(final Material material) {
 		String fileName = getFileKey(material);
-		int callback = addNewCallback(new MyCallback() {
+		int callback = addNewCallback(new NativeBridgeCallback() {
 			@Override
 			public void onSuccess(Object result) {
 				material.setBase64((String) result);
@@ -210,7 +210,7 @@ public class TabletFileManager extends FileManagerT {
 		final Material saveFileMaterial = material;
 		int callback;
 		if (cb != null) {
-			callback = addNewCallback(new MyCallback() {
+			callback = addNewCallback(new NativeBridgeCallback() {
 				@Override
 				public void onSuccess(Object result) {
 					saveFileMaterial.setLocalID((Integer) result);
@@ -248,7 +248,7 @@ public class TabletFileManager extends FileManagerT {
 	@JsIgnore
 	@Override
 	public void upload(final Material mat) {
-		int callback = addNewCallback(new MyCallback() {
+		int callback = addNewCallback(new NativeBridgeCallback() {
 			@Override
 			public void onSuccess(Object result) {
 				mat.setBase64((String) result);
@@ -331,7 +331,7 @@ public class TabletFileManager extends FileManagerT {
 		final String oldKey = getFileKey(mat);
 		mat.setBase64("");
 		mat.setTitle(newTitle);
-		int callback1 = addNewCallback(new MyCallback() {
+		int callback1 = addNewCallback(new NativeBridgeCallback() {
 			@Override
 			public void onSuccess(Object result) {
 				if (callback != null) {
@@ -376,7 +376,7 @@ public class TabletFileManager extends FileManagerT {
 			return;
 		}
 
-		int callback = addNewCallback(new MyCallback() {
+		int callback = addNewCallback(new NativeBridgeCallback() {
 			@Override
 			public void onSuccess(Object result) {
 				removeFile(mat);

@@ -4,12 +4,12 @@ import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
-import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -26,6 +26,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	private String leftBracket = "[";
 	private String rightBracket = "]";
 	private String comma = ",";
+	private boolean showPlaceholderAsQuestionmark;
 
 	/**
 	 * @param c
@@ -90,6 +91,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			}
 			break;
 		case FRAC:
+			if (buildMixedNumber(stringBuilder, mathFunction)) {
+				break;
+			}
 			stringBuilder.append("((");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
@@ -97,12 +101,33 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			stringBuilder.append("))");
 			break;
 		case MIXED_NUMBER:
+			boolean isNegative = mathFunction.getArgument(0).getArgument(0) != null
+					&& mathFunction.getArgument(0).getArgument(0).toString().equals("-");
+			if (isNegative) {
+				stringBuilder.append("-");
+			}
+			stringBuilder.append("(");
 			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append("\u2064(");
+			if (isNegative) {
+				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
+			}
+			stringBuilder.append(Unicode.INVISIBLE_PLUS);
+			stringBuilder.append("(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append(")");
+			stringBuilder.append("))");
+			break;
+		case RECURRING_DECIMAL:
+			int i = stringBuilder.length() + 1;
+			serialize(mathFunction.getArgument(0), stringBuilder);
+			while (i < stringBuilder.length()) {
+				stringBuilder.insert(i, Unicode.OVERLINE);
+				i += 2;
+			}
+			if (mathFunction.getArgument(0).size() != 0) {
+				stringBuilder.append(Unicode.OVERLINE);
+			}
 			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
@@ -233,8 +258,10 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	}
 
 	@Override
-	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
-		//no placeholders
+	void serialize(MathCharPlaceholder placeholder, StringBuilder sb) {
+		if (showPlaceholderAsQuestionmark) {
+			sb.append('?');
+		}
 	}
 
 	@Override
@@ -243,9 +270,19 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		if (mathSequence == null) {
 			return;
 		}
+		// print empty fraction as ?/?, but ignore empty scripts and allow sin()
+		if (mathSequence.size() == 0 && showPlaceholderAsQuestionmark
+				&& (isMatrixEntry(mathSequence) || mathSequence.getParent() == null)) {
+			stringBuilder.append('?');
+		}
 		for (MathComponent arg: mathSequence) {
 			serialize(arg, stringBuilder);
 		}
+	}
+
+	private boolean isMatrixEntry(MathSequence mathSequence) {
+		return mathSequence.getParent() instanceof MathArray
+				&& mathSequence.getParent().size() > 1;
 	}
 
 	/**
@@ -287,12 +324,43 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			MathArray root = (MathArray) formula.getRootComponent().getArgument(0);
 			if (root.isMatrix()) {
 				String[] parts = new String[root.size()];
+				StringBuilder sb = new StringBuilder();
 				for (int i = 0; i < root.size(); i++) {
-					parts[i] = serialize(root.getArgument(i));
+					sb.setLength(0);
+					serialize(root.getArgument(i), sb);
+					parts[i] = sb.toString();
 				}
 				return parts;
 			}
 		}
 		return new String[0];
+	}
+
+	/**
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
+	 * @return True if a mixed number was built
+	 */
+	@Override
+	public boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
+		//Check if a valid mixed number can be created (e.g.: no 'x')
+		if (isMixedNumber(stringBuilder) < 0 || !isValidMixedNumber(mathFunction)) {
+			return false;
+		}
+
+		stringBuilder.insert(isMixedNumber(stringBuilder), "(");
+		if (stringBuilder.charAt(stringBuilder.length() - 1) != Unicode.INVISIBLE_PLUS) {
+			stringBuilder.append(Unicode.INVISIBLE_PLUS);
+		}
+		stringBuilder.append("(");
+		serialize(mathFunction.getArgument(0), stringBuilder);
+		stringBuilder.append(")/(");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append("))");
+		return true;
+	}
+
+	public void setShowPlaceholderAsQuestionmark(boolean showPlaceholderAsQuestionmark) {
+		this.showPlaceholderAsQuestionmark = showPlaceholderAsQuestionmark;
 	}
 }

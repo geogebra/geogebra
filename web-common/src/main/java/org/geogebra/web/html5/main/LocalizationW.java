@@ -15,7 +15,7 @@ import org.geogebra.gwtutil.ScriptLoadCallback;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
-import org.geogebra.web.html5.util.MyDictionary;
+import org.geogebra.web.html5.util.TranslationDictionary;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
@@ -191,7 +191,7 @@ public final class LocalizationW extends Localization {
 		String str = StringUtil.removeSpaces(StringUtil.toLowerCaseUS(locColor));
 
 		try {
-			MyDictionary colorKeysDict = MyDictionary
+			TranslationDictionary colorKeysDict = TranslationDictionary
 					.getDictionary("colors", localeStr);
 			for (String key : colorKeysDict.keySet()) {
 				if (key != null
@@ -231,6 +231,11 @@ public final class LocalizationW extends Localization {
 	@Override
 	public String getLanguage() {
 		return localeStr.substring(0, 2);
+	}
+
+	@Override
+	public Language getLanguageEnum() {
+		return lang;
 	}
 
 	@Override
@@ -288,6 +293,11 @@ public final class LocalizationW extends Localization {
 	@Override
 	public String getLocaleStr() {
 		return localeStr;
+	}
+
+	@Override
+	public String getLanguageTag() {
+		return lang.toLanguageTag();
 	}
 
 	/**
@@ -358,7 +368,7 @@ public final class LocalizationW extends Localization {
 			app.doSetLanguage(lang0, false);
 		} else {
 			// load keys (into a JavaScript <script> tag)
-			String url = StyleInjector.devModeFix(GWT.getModuleBaseURL());
+			String url = StyleInjector.normalizeUrl(GWT.getModuleBaseURL());
 			if (url.startsWith(GeoGebraConstants.CDN_APPS + "latest")) {
 				url = GeoGebraConstants.CDN_APPS
 						+ GeoGebraConstants.VERSION_STRING + "/web3d/";

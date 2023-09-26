@@ -24,6 +24,8 @@ public interface SaveController {
 	 */
 	void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback, boolean addTempCheckBox);
 
+	void showLocalSaveDialog();
+
 	/**
 	 * Listener interface to communicate with caller GUI.
 	 * 

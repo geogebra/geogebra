@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
-import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
@@ -151,7 +150,6 @@ import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -234,7 +232,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private SaveController saveController = null;
 
 	private ShareControllerW shareController;
-	private MaterialsManagerI fm;
+	private FileManager fm;
 	private GoogleDriveOperation googleDriveOperation;
 	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
@@ -244,7 +242,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
-	private Map<String, Material> constructionJson = new HashMap<>();
+	private final Map<String, Material> constructionJson = new HashMap<>();
 	private final HashMap<String, UndoHistory> undoHistory = new HashMap<>();
 	private InputBoxType inputBoxType;
 	private List<String> functionVars = new ArrayList<>();
@@ -318,9 +316,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void setupSignInButton(GlobalHeader header) {
-		if (getLoginOperation() == null) {
-			initSignInEventFlow(new LoginOperationW(this));
-		}
+		ensureLoginOperation();
 		header.addSignIn(this);
 	}
 
@@ -408,7 +404,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				restoreMacro(editMacroName);
 				registerOpenFileListener(() -> openEditMacroFromStorage(editMacroName));
 				// Close the tab if the macro is removed from local storage
-				DomGlobal.window.addEventListener("storage", event -> {
+				getGlobalHandlers().addEventListener(DomGlobal.window, "storage", event -> {
 					StorageEvent storageEvent = (StorageEvent) event;
 					if (storageEvent.newValue == null
 							&& createStorageMacroKey(getEditMacro().getEditName())
@@ -418,15 +414,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				});
 				// Before the tab is closed, remove the macro from local storage
 				// in order to let the original app open the macro editing again.
-				DomGlobal.window.addEventListener("beforeunload", event -> {
-					removeMacroFromStorage(getEditMacro().getEditName());
-				});
+				getGlobalHandlers().addEventListener(DomGlobal.window, "beforeunload", event ->
+					removeMacroFromStorage(getEditMacro().getEditName())
+				);
 			} else {
 				removeAllMacrosFromStorage();
 				// Close all the editing tabs when the original app is closed.
-				DomGlobal.window.addEventListener("beforeunload", event -> {
-					removeAllMacrosFromStorage();
-				});
+				getGlobalHandlers().addEventListener(DomGlobal.window, "beforeunload", event ->
+						removeAllMacrosFromStorage());
 				// After the macro is edited and the save button is pressed, the editing tab
 				// sends a message to the original app containing the XML of the edited macro.
 				getGlobalHandlers().addEventListener(DomGlobal.window, "message", event -> {
@@ -434,10 +429,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					try {
 						JsPropertyMap<Object> messageProperties =
 								Js.asPropertyMap(Global.JSON.parse(editedMacroMessage));
-						getKernel().removeMacro(messageProperties
-								.get(EDITED_MACRO_NAME_KEY).toString());
-						if (addMacroXML(messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
-							setXML(getXML(), true);
+						Object macroName = messageProperties
+								.get(EDITED_MACRO_NAME_KEY);
+						if (macroName != null) {
+							getKernel().removeMacro(macroName.toString());
+							if (addMacroXML(
+									messageProperties.get(EDITED_MACRO_XML_KEY).toString())) {
+								setXML(getXML(), true);
+							}
 						}
 					} catch (Throwable err) {
 						Log.debug("Error occurred while updating the macro XML: " + err.getMessage()
@@ -495,7 +494,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void initMenu() {
 		if (isFloatingMenu()) {
-			initSignInEventFlow(new LoginOperationW(this));
+			ensureLoginOperation();
 			if (getVendorSettings().canSessionExpire()) {
 				AuthenticationModel model = getLoginOperation().getModel();
 				model.setSessionExpireTimer(newTimer(getDialogManager().getSessionExpireDialog(),
@@ -598,15 +597,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	void doShowStartTooltip(Perspective perspective) {
 		if (appletParameters.getDataParamShowStartTooltip(perspective != null)) {
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			getToolTipManager().setBlockToolTip(false);
 			String appName = perspective != null ? perspective.getId() : getConfig().getAppTitle();
 			String helpText = getLocalization().getPlain("CheckOutTutorial",
 					getLocalization().getMenu(appName));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+			getToolTipManager().showBottomInfoToolTip(
 					getLocalization().getMenu("NewToGeoGebra"), helpText,
 					getLocalization().getMenu("Help"), tooltipURL, this);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			getToolTipManager().setBlockToolTip(true);
 		}
 	}
 
@@ -695,6 +694,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
 			dockPanel.getToolbar().reset();
 			dockPanel.tryBuildZoomPanel();
+		}
+		if (activity instanceof ScientificActivity) {
+			((ScientificActivity) activity).initTableOfValues(this);
 		}
 	}
 
@@ -792,7 +794,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final MaterialsManagerI getFileManager() {
+	public final FileManager getFileManager() {
 		if (this.fm == null) {
 			this.fm = getDevice().createFileManager(this);
 		}
@@ -862,9 +864,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				.isCheckDone()) {
 			doOpenMaterial(id, onError);
 		} else {
-			if (getLoginOperation() == null) {
-				this.initSignInEventFlow(new LoginOperationW(this));
-			}
+			ensureLoginOperation();
 			toOpen = id;
 			// not logged in to Mebis while opening shared link: show login
 			// dialog first
@@ -884,8 +884,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						}
 					}
 				});
+				getLoginOperation().performTokenLogin();
 			}
 			Log.debug("listening");
+		}
+	}
+
+	/**
+	 * Make sure login operation is initialized
+	 */
+	public void ensureLoginOperation() {
+		if (getLoginOperation() == null) {
+			this.initSignInEventFlow(new LoginOperationW(this));
 		}
 	}
 
@@ -924,7 +934,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 							registerOpenFileListener(
 									getUpdateTitleCallback(material));
 							if (!StringUtil.empty(material.getFileName())) {
-								getViewW().processFileName(
+								getArchiveLoader().processFileName(
 										material.getFileName());
 							} else {
 								getGgbApi().setBase64(material.getBase64());
@@ -1022,9 +1032,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		AsyncOperation<GeoElementND[]> callback =
 				getConfig().hasAutomaticLabels() ? null : new LabelHiderCallback();
 		for (String command : commands.split(";")) {
-			Runnable r = () -> {
-				executeCommand(command, info, callback);
-			};
+			Runnable r = () -> executeCommand(command, info, callback);
 			getAsyncManager().runOrSchedule(r);
 		}
 	}
@@ -1533,14 +1541,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				return;
 			}
 
-			ClickStartHandler.init(oldSplitLayoutPanel,
+			getGlobalHandlers().add(ClickStartHandler.init(oldSplitLayoutPanel,
 					new ClickStartHandler() {
 						@Override
 						public void onClickStart(int x, int y,
 								final PointerEventType type) {
 							onUnhandledClick();
 						}
-					});
+					}));
 		}
 	}
 
@@ -1613,6 +1621,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (!isUnbundled()) {
 				setPerspectives(p);
 			}
+		} else {
+			updateContentPane();
 		}
 
 		getEuclidianView1().synCanvasSize();
@@ -1650,7 +1660,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		this.setPreferredSize(
 				new Dimension((int) this.getWidth(), (int) this.getHeight()));
 		setDefaultCursor();
-		checkScaleContainer();
 		frame.useDataParamBorder();
 
 		showStartTooltip(null);
@@ -1662,6 +1671,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
 		getScriptManager().ggbOnInit(); // should be only called after coord system is ready
+		checkScaleContainer();
 		onOpenFile();
 		if (!asSlide) {
 			// should run after coord system changed
@@ -2340,6 +2350,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void switchToSubapp(String subAppCode) {
 		getDialogManager().hideCalcChooser();
+		getKernel().getAlgebraProcessor().getCmdDispatcher()
+				.removeCommandFilter(getConfig().getCommandFilter());
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
@@ -2356,6 +2368,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().getUnbundledToolbar().removeToolsTab();
 		getGuiManager().getLayout().applyPerspective(perspective);
 		kernel.initUndoInfo();
+		kernel.getAlgebraProcessor().getCommandDispatcher()
+				.addCommandFilter(getConfig().getCommandFilter());
+		resetCommandDict();
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {
 				afterMaterialRestored();
@@ -2422,8 +2437,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
-
-		setUndoRedoPanelAllowed(!"probability".equals(subAppCode));
 
 		if (menuViewController != null) {
 			menuViewController.resetMenuOnAppSwitch(this);

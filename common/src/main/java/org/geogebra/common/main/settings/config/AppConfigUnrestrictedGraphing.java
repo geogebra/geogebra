@@ -40,11 +40,6 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
-		return null;
-	}
-
-	@Override
 	public String getAppTitle() {
 		return "CalculatorSuite";
 	}
@@ -71,6 +66,11 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 
 	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
+		return null;
+	}
+
+	@Override
+	public CommandFilter createCommandFilter() {
 		return null;
 	}
 

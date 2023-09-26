@@ -54,8 +54,6 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 			modifierKeyPressed = false;
 		}
 
-		// Application.debug(e+"");
-
 		String insertString = "";
 
 		switch (StringUtil.toLowerCaseUS(KeyEvent.getKeyText(e.getKeyCode()))

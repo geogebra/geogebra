@@ -3,8 +3,8 @@ package org.geogebra.web.editor;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.resources.StyleInjector;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
 
@@ -14,7 +14,7 @@ public class EditorKeyboard {
 
 	private TabbedKeyboard tabbedKeyboard;
 
-	void create(Element element) {
+	void create(AttributeProvider element) {
 		if (tabbedKeyboard != null) {
 			return;
 		}
@@ -24,15 +24,13 @@ public class EditorKeyboard {
 		tabbedKeyboard.addStyleName("detached");
 		FlowPanel keyboardWrapper = new FlowPanel();
 		keyboardWrapper.setStyleName("GeoGebraFrame");
-		keyboardWrapper.add(tabbedKeyboard);
 		RootPanel.get().add(keyboardWrapper);
 		tabbedKeyboard.clearAndUpdate();
-		DomGlobal.window.addEventListener("resize", evt -> onResize());
-		StyleInjector.onStylesLoaded(tabbedKeyboard::show);
-	}
-
-	private void onResize() {
-		tabbedKeyboard.onResize();
+		DomGlobal.window.addEventListener("resize", evt -> tabbedKeyboard.onResize());
+		StyleInjector.onStylesLoaded(() -> {
+			keyboardWrapper.add(tabbedKeyboard);
+			tabbedKeyboard.show();
+		});
 	}
 
 	public void setProcessing(KeyboardListener listener) {

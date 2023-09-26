@@ -6,7 +6,7 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.CaptionStyleDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -14,9 +14,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Caption style
  */
-public class CaptionStyleProperty extends AbstractEnumerableProperty {
-
-	private static final int LABEL_HIDDEN = 0;
+public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
 	private static final List<Integer> labelModes = Arrays.asList(
 			GeoElementND.LABEL_DEFAULT,
@@ -32,24 +30,26 @@ public class CaptionStyleProperty extends AbstractEnumerableProperty {
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.Caption");
 		delegate = new CaptionStyleDelegate(geoElement);
-		setValues("Hidden", "Name", "NameAndValue", "Value", "Caption");
+		setValues(labelModes.toArray(new Integer[0]));
+		setValueNames("Hidden", "Name", "NameAndValue", "Value", "Caption");
 	}
 
 	@Override
-	public int getIndex() {
+	public Integer getValue() {
 		GeoElement element = delegate.getElement();
 		if (!element.isLabelVisible()) {
-			return 0;
+			return labelModes.get(0);
 		}
-		int index = labelModes.indexOf(element.getLabelMode());
-		return index >= 0 ? index : 1;
+		int labelMode = element.getLabelMode();
+		int index = labelModes.indexOf(labelMode);
+		return index >= 0 ? Integer.valueOf(labelMode) : labelModes.get(1);
 	}
 
 	@Override
-	protected void setValueSafe(String value, int index) {
+	protected void doSetValue(Integer value) {
 		GeoElement element = delegate.getElement();
-		element.setLabelMode(labelModes.get(index));
-		element.setLabelVisible(index != LABEL_HIDDEN);
+		element.setLabelMode(value);
+		element.setLabelVisible(value != GeoElementND.LABEL_DEFAULT);
 		element.updateRepaint();
 	}
 

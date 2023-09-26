@@ -182,9 +182,6 @@ Leaflet
   pclzip
   : http://www.phpconcept.net/pclzip (LGPL 2.1)
 
-  php-ga (Google Analytics)
-  : http://code.google.com/p/php-ga (LGPL 3)
-
   webfont.js
   : https://github.com/typekit/webfontloader (Apache 2.0)
 
@@ -211,4 +208,3 @@ Leaflet
  
  Responsive theme
  : http://cyberchimps.com/responsive-theme/ (GPL 3)
-

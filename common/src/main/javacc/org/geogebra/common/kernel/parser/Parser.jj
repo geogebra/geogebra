@@ -295,6 +295,11 @@ public class Parser implements ParserInterface {
         return d;
     }
 
+    private RecurringDecimal parseRecurringDecimal(String imagePreperiod, String imageRecurring) {
+        return RecurringDecimal.parse(kernel, imagePreperiod,
+            imageRecurring.replace(String.valueOf(Unicode.OVERLINE), ""));
+    }
+
 }
 PARSER_END(Parser)
 
@@ -336,7 +341,7 @@ TOKEN :  {
   | < PARALLEL: ("\u2016" |"\u2225") >
   | < PERPENDICULAR: ("\u22a5" | "\u27c2") >
   | < EQUAL:    ("=" | "%=") > // %= for Giac
-  | < PLUS:     ("+" | "\u2064" ) >
+  | < PLUS:  "+"  >
   | < MINUS:    ("-"  | "\u2013" | "\u2212") >
   | < PLUSMINUS:    ("\u00b1") >
   | < SUPERSCRIPT_MINUS: "\u207b" >
@@ -345,6 +350,7 @@ TOKEN :  {
   | < MULTIPLY: ("*" | "\u22c5" | "\u2219" | "\u00D7") >
   | < VECTORPRODUCT: "\u2297" >
   | < DIVIDE:   ("/" | "\u00f7") >
+  | < INVISIBLE_PLUS: "\u2064" >
   | < FACTORIAL: "!" >
   | < UNDEFINED: ( "?" | "\ufffd" | "Undefined" | "NaN" ) >
 //  | < POWER0:   "\u2070" >
@@ -376,6 +382,7 @@ TOKEN :  {
   | < DERIVATIVE: "'" >
   | < TRUE:     ( "true" | "True" ) >
   | < FALSE:    ( "false" | "False" ) >
+  | < #OVERLINE: "\u0305" >
   | < DECIMAL_POINT:    ( "." | "\u066b" ) > // Arabic decimal point
   | < COMMA:    ( "," | "\u060c" | "\u23B8" ) > // Arabic comma, vertical bar for Austrian points
 }
@@ -387,10 +394,11 @@ TOKEN : {
   //|     < PARAMETRICVAR: (("\u0058") /*| ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))*/) > // X
   |     < FLOAT:  (<INTEGER> | <DECIMAL_POINT>)+ > //deliberately trap eg 1.2.3.4 , 1..2 here, error then thrown in MyDouble.parseDouble()
   |     < EFLOAT: <FLOAT> ("E") (<PLUS> | <MINUS>)? <INTEGER> >
+  |     < RECURRING_DIGITS: <OVERLINE> (<DIGIT> <OVERLINE>)* >
   |     < INTEGER: ( <DIGIT> )+ >
   |     < #DIGIT:                                     // unicode digits
          [
-          "\u0030"-"\u0039", // Roman
+          "\u0030"-"\u0039", // Arabic (=Latin)
           "\u0660"-"\u0669", // Arabic-Indic
           "\u06f0"-"\u06f9", // Extended Arabic-Indic
           "\u0966"-"\u096f", // Devanagari (Hindi)
@@ -1053,26 +1061,21 @@ ExpressionValue plusminusnode():
 }
 {
     ret = multterm()
-    (( x = <PLUS> | x = <MINUS> | x = <PLUSMINUS>) f = multterm()
+    (( x = <PLUS> | x = <MINUS> | x = <PLUSMINUS> ) f = multterm()
         {
             if (x.kind == PLUS) {
-                ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
+				ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
             } else if (x.kind == PLUSMINUS) {
                 ret = new ExpressionNode(kernel, ret, Operation.PLUSMINUS, f);
-            }
-            else {
+            } else {
               if (ret.isExpressionNode() && ((ExpressionNode) ret).isStringAddition()) {
                 ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
-                            ((ExpressionNode) ret).getRight(), Operation.MINUS,
-                            f));
-              }
-              else
-              {
+                            ((ExpressionNode) ret).getRight(), Operation.MINUS, f));
+              } else {
                  ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);
               }
             }
       }
-
     )*
     {
       //ret.simplifyLeafs();
@@ -1176,21 +1179,39 @@ ExpressionValue multterm():
 }
 
 /**
- * divterm =  unary / unary
+ * divterm =  mixednumberterm / mixednumberterm
  */
 ExpressionValue divterm():
 {
     ExpressionValue ret, f;
 }
 {
-    ret = enunary()
+    ret = mixednumberterm()
     (
-       <DIVIDE> f = enunary()
+       <DIVIDE> f = mixednumberterm()
         {
             ret = new ExpressionNode(kernel, ret, Operation.DIVIDE, f);
         }
     )*
     { return ret; }
+}
+
+/**
+* mixednumberterm = unary + divterm
+*/
+ExpressionValue mixednumberterm():
+{
+	ExpressionValue ret, f;
+}
+{
+	ret = enunary()
+	(
+		<INVISIBLE_PLUS> f = divterm()
+		{
+			ret = new ExpressionNode(kernel, ret, Operation.INVISIBLE_PLUS, f);
+		}
+	)*
+	{ return ret; }
 }
 
 /**
@@ -1467,7 +1488,7 @@ ExpressionValue list():
     "}"
    )
  )
-    {  return ifStructuresEnabled(myList);  }
+    {  return myList;  }
 }
 
 ExpressionValue numVecVariable():
@@ -1569,7 +1590,6 @@ Command spreadsheetRange():
   }
 }
 
-
 /**
  * floating point number: angle or numeric are distinguished
  */
@@ -1582,12 +1602,13 @@ ExpressionValue myDouble():
     Token degree = null;
     Token minutes = null;
     Token seconds = null;
+    Token recurringDigits = null;
     MyDouble d;
     ExpressionValue ret = null;
 }
 {
    (LOOKAHEAD(2)(
-     (c = <FLOAT> | c = <EFLOAT>)
+     (c = <FLOAT> | c = <EFLOAT> )
      ((percent ="%")
      | LOOKAHEAD(3)((degree = <DEGREE_SYMBOL>)
        (c2 = <FLOAT>)
@@ -1600,6 +1621,7 @@ ExpressionValue myDouble():
      | LOOKAHEAD(3)(minutes = <ANGLE_MINUTES> | minutes = "'")(s = <FLOAT>)(<ANGLE_SECONDS>)
      | (minutes = <ANGLE_MINUTES> | minutes = "'")
      | (seconds = <ANGLE_SECONDS>)
+     | (recurringDigits = <RECURRING_DIGITS> )
      )
     )
   {
@@ -1607,13 +1629,16 @@ ExpressionValue myDouble():
         boolean isAngle = false;
         boolean hasDegrees = false, hasMinutes = false, hasSeconds = false;
         double vd = 0, vm = 0, vs = 0;
-        if (degree != null) {
-                // if e.g. 3° (no minute no second) we need to do 3*° for CAS
+        if (recurringDigits != null) {
+            ret = parseRecurringDecimal(c.image.substring(0, c.image.length() - 1),
+                        c.image.charAt(c.image.length() - 1) + recurringDigits.image);
+        } else if (degree != null) {
+            // if e.g. 3deg (no minute no second) we need to do 3*deg for CAS
             if (c2 == null) {
                 d = newSpecialDegree();
                 return new ExpressionNode(kernel, parseDouble(image, false), Operation.MULTIPLY, d);
             }
-             // at least 3°5' or 3°5'' (or 3°5'7'')
+             // at least 3deg5' or 3deg5'' (or 3deg5'7'')
             isAngle = true;
             vd = MyDouble.parseDouble(loc, image);
             hasDegrees = true;
@@ -1654,10 +1679,10 @@ ExpressionValue myDouble():
         }
     }
 |
-    (c = <FLOAT> | c = <EFLOAT>)
+    (c = <FLOAT> | c = <EFLOAT> )
     {
-    String image = c.image.replaceFirst("e", "E");
-    ret = parseDouble(image, false);
+		String image = c.image.replaceFirst("e", "E");
+		ret = parseDouble(image, false);
     }
 |
     (c = <DEGREE_WORD> | c = <DEGREE_SYMBOL>)

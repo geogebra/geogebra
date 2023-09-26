@@ -55,14 +55,14 @@ public class PolygonTriangulation {
 	private Coords[] completeVertices = new Coords[0];
 	private Coords[] corners = null;
 
-	private static class MyTreeSet<E> extends TreeSet<E> {
+	private static class CrossPlatformTreeSet<E> extends TreeSet<E> {
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		protected MyTreeSet() {
+		protected CrossPlatformTreeSet() {
 			super();
 		}
 
@@ -179,7 +179,7 @@ public class PolygonTriangulation {
 				// copy segments
 				if (p1.toRight != null) {
 					if (p2.toRight == null) {
-						p2.toRight = new MyTreeSet<>();
+						p2.toRight = new CrossPlatformTreeSet<>();
 					}
 					for (Segment seg : p1.toRight) {
 						seg.leftPoint = p2;
@@ -189,7 +189,7 @@ public class PolygonTriangulation {
 
 				if (p1.toLeft != null) {
 					if (p2.toLeft == null) {
-						p2.toLeft = new MyTreeSet<>();
+						p2.toLeft = new CrossPlatformTreeSet<>();
 					}
 					for (Segment seg : p1.toLeft) {
 						seg.rightPoint = p2;
@@ -221,8 +221,8 @@ public class PolygonTriangulation {
 		Point prev; // previous point
 		Point next; // next point
 
-		MyTreeSet<Segment> toRight;
-		MyTreeSet<Segment> toLeft;
+		CrossPlatformTreeSet<Segment> toRight;
+		CrossPlatformTreeSet<Segment> toLeft;
 
 		boolean needsDiagonal = false;
 
@@ -275,7 +275,7 @@ public class PolygonTriangulation {
 
 		public boolean addSegmentToRight(Segment segment) {
 			if (toRight == null) {
-				toRight = new MyTreeSet<>();
+				toRight = new CrossPlatformTreeSet<>();
 			}
 			return toRight.add(segment);
 		}
@@ -286,7 +286,7 @@ public class PolygonTriangulation {
 
 		public boolean addSegmentToLeft(Segment segment) {
 			if (toLeft == null) {
-				toLeft = new MyTreeSet<>();
+				toLeft = new CrossPlatformTreeSet<>();
 			}
 			return toLeft.add(segment);
 		}
@@ -324,7 +324,7 @@ public class PolygonTriangulation {
 
 			if (toRight != null) {
 				if (p2.toRight == null) {
-					p2.toRight = new MyTreeSet<>();
+					p2.toRight = new CrossPlatformTreeSet<>();
 				}
 				for (Segment seg : toRight) {
 					seg.leftPoint = p2;
@@ -339,7 +339,7 @@ public class PolygonTriangulation {
 
 			if (toLeft != null) {
 				if (p2.toLeft == null) {
-					p2.toLeft = new MyTreeSet<>();
+					p2.toLeft = new CrossPlatformTreeSet<>();
 				}
 				for (Segment seg : toLeft) {
 					seg.rightPoint = p2;
@@ -1160,7 +1160,7 @@ public class PolygonTriangulation {
 		// aligned segments to right are cut
 		// aligned segments to left are ignored
 		error("=========== store points ============");
-		MyTreeSet<Point> pointSet = new MyTreeSet<>();
+		CrossPlatformTreeSet<Point> pointSet = new CrossPlatformTreeSet<>();
 
 		for (point = firstPoint; point.next != firstPoint; point = point.next) {
 			debug("" + point.name + "(" + point.id + ")");

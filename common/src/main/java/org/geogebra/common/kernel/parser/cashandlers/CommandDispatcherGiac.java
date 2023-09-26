@@ -75,6 +75,10 @@ public class CommandDispatcherGiac {
 		Beta(Operation.NO_OPERATION),
 		/** Gamma function */
 		Gamma(Operation.GAMMA),
+
+		// dirac
+		Dirac(Operation.DIRAC),
+		Heaviside(Operation.HEAVISIDE),
 		/** fractional part */
 		fPart(Operation.FRACTIONAL_PART),
 		/** fractional part */
@@ -127,6 +131,8 @@ public class CommandDispatcherGiac {
 		abs(Operation.ABS),
 		/** erf */
 		erf(Operation.ERF),
+		/** logical negation */
+		not(Operation.NOT),
 		/** symbolic x coord */
 		xcoord(Operation.XCOORD),
 		/** symbolic y coord */
@@ -149,6 +155,9 @@ public class CommandDispatcherGiac {
 
 		/** symbolic sum */
 		sum(Operation.SUM),
+
+		/** symbolic product */
+		product(Operation.PRODUCT),
 
 		/** inverse for Normal(0,1,x) */
 		normal_icdf(Operation.INVERSE_NORMAL),
@@ -282,6 +291,14 @@ public class CommandDispatcherGiac {
 								args.getItem(3)));
 
 				break;
+			case product:
+				ret = new ExpressionNode(kernel,
+						new MyNumberPair(kernel, args.getItem(0),
+								args.getItem(1)),
+						Operation.PRODUCT, new MyNumberPair(kernel, args.getItem(2),
+								args.getItem(3)));
+				break;
+
 			case piecewise:
 
 				if (args.getLength() < 3) {
@@ -296,6 +313,7 @@ public class CommandDispatcherGiac {
 				ret = new ExpressionNode(kernel, args.getItem(0));
 				break;
 			case LambertW:
+			case Dirac:
 				return null; //fallback to GGB parser
 			case Psi:
 				if (args.getLength() == 1) {
@@ -450,6 +468,7 @@ public class CommandDispatcherGiac {
 			case Zeta:
 			case fPart:
 			case Gamma:
+			case Heaviside:
 			case conj:
 			case sin:
 			case cos:
@@ -467,6 +486,7 @@ public class CommandDispatcherGiac {
 			case exp:
 			case erf:
 			case abs:
+			case not:
 			case xcoord:
 			case ycoord:
 			case zcoord:

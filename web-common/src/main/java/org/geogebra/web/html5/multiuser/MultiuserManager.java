@@ -30,10 +30,10 @@ public final class MultiuserManager implements EventListener {
 	 * @param user name of the user that changed this object
 	 * @param color color associated with the user
 	 * @param label label of the changed object
-	 * @param newGeo if the geo was added
+	 * @param implicit whether the geo was interacted with (add, update) without explicit selection
 	 */
 	public void addSelection(App app, String clientId, String user, GColor color, String label,
-			boolean newGeo) {
+			boolean implicit) {
 		GColor withAlpha = GColor.newColor(adjustColor(color.getRed()),
 				adjustColor(color.getGreen()), adjustColor(color.getBlue()), 127);
 		User currentUser = activeInteractions
@@ -47,7 +47,11 @@ public final class MultiuserManager implements EventListener {
 				entry.getValue().removeSelection(label);
 			}
 		}
-		currentUser.addSelection(app.getActiveEuclidianView(), label, newGeo);
+		if (implicit) {
+			currentUser.addInteraction(app.getActiveEuclidianView(), label);
+		} else {
+			currentUser.addSelection(app.getActiveEuclidianView(), label);
+		}
 	}
 
 	private int adjustColor(int component) {

@@ -214,7 +214,7 @@ public class AppConfigGeometry extends AbstractAppConfig {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
+	public CommandFilter createCommandFilter() {
 		return CommandFilterFactory.createNoCasCommandFilter();
 	}
 

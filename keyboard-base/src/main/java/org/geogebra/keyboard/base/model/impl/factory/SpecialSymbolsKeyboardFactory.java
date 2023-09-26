@@ -6,7 +6,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.APOSTROPH
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.CIRCLED_TIMES;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.COLON;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.COMMA;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ELEMENT_OF;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.HASHTAG;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
@@ -25,6 +24,7 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUOTATION
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHTWARDS_ARROW;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_SQUARE_BRACKET;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SECONDS;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.SEMICOLON;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF_OR_EQUAL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
@@ -80,7 +80,7 @@ public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 				Action.BACKSPACE_DELETE);
 
 		row = mathKeyboard.nextRow(8.0f);
-		addInputButton(row, buttonFactory, COMMA);
+		addInputButton(row, buttonFactory, SEMICOLON);
 		addInputButton(row, buttonFactory, APOSTROPHE);
 		addInputButton(row, buttonFactory, QUOTATION_MARK);
 		addInputButton(row, buttonFactory, MINUTES);

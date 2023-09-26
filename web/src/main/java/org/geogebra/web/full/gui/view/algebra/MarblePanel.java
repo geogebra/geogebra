@@ -7,6 +7,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -38,9 +39,8 @@ public class MarblePanel extends FlowPanel
 		marble = new Marble(item);
 		marble.setStyleName("marble");
 		marble.setEnabled(shouldShowMarble());
-
 		addStyleName("marblePanel");
-		
+
 		if (item.getAV().isInputActive() && item.getGeo() == null) {
 			addStyleName("plus");
 			initPlus();
@@ -218,7 +218,7 @@ public class MarblePanel extends FlowPanel
 
 	@Override
 	public void setIndex(int itemCount) {
-		// index not visible
+		DataTest.MARBLE.applyWithIndex(marble, itemCount);
 	}
 
 	@Override

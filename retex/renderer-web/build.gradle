@@ -1,13 +1,10 @@
 plugins {
 	id 'java-library'
 	id 'eclipse'
-	id 'org.wisepersist.gwt' version '1.1.19'
+	id 'org.docstr.gwt' version '1.1.26'
 }
 
 ext.gwtCompilerVersion = '2.10.0'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 gwt {
 	maxHeapSize = '2000M'
@@ -17,7 +14,7 @@ gwt {
 	devModules 'com.himamis.retex.renderer.JLaTeXMathGWTDev'
 	compiler {
 		if (project.hasProperty("gdetailed")) {
-			style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
+			style = org.docstr.gradle.plugins.gwt.Style.DETAILED
 		} else {
 			disableClassMetadata = true
 		}
@@ -39,11 +36,11 @@ dependencies {
 			files(file("build/generated/sources/annotationProcessor/java/main/")),
 			"org.gwtproject:gwt-dev:$gwtCompilerVersion",
 			"org.gwtproject:gwt-user:$gwtCompilerVersion",
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305081',
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305081:sources'
+			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201',
+			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201:sources'
 	testImplementation "com.google.gwt:gwt-user:$gwtCompilerVersion",
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305081',
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202305081:sources'
+			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201',
+			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201:sources'
 
 	annotationProcessor project(":gwtutil"),
 			'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
@@ -51,7 +48,7 @@ dependencies {
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
-task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
+task run(type: org.docstr.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
 	war = file('war')
 	cacheDir = file('build/gwt/devModeCache')
 	maxHeapSize = '4096m'

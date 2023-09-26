@@ -222,7 +222,7 @@ public class ConstructionDefaults implements SettingListener {
 	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
-	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
+	public static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
 
 	// quadrics
 	/** default alpha for quadrics */
@@ -698,6 +698,7 @@ public class ConstructionDefaults implements SettingListener {
 		// bool.setLocalVariableLabel(app.getPlain("Boolean"));
 		bool.setLocalVariableLabel("Boolean");
 		bool.setDefaultGeoType(DEFAULT_BOOLEAN);
+		bool.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		defaultGeoElements.put(DEFAULT_BOOLEAN, bool);
 
 		// list
@@ -973,11 +974,11 @@ public class ConstructionDefaults implements SettingListener {
 				((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
 			}
 			if (geo instanceof GeoInputBox) {
-				geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
+				geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 			}
 
 			if (!isReset) {
-				// set to highest used layer
+				// set to the highest used layer
 				setMaxLayerUsed(geo, app);
 			}
 
@@ -988,7 +989,7 @@ public class ConstructionDefaults implements SettingListener {
 		if (defaultLabelMode) {
 			// label visibility
 			int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS
-					: app.getCurrentLabelingStyle();
+					: app.getCurrentLabelingStyle().getValue();
 
 			// automatic labelling:
 			// if algebra window open -> all labels

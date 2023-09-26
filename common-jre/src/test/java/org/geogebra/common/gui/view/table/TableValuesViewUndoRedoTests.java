@@ -27,8 +27,7 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 		model = view.getTableValuesModel();
 		view.clearView();
 		processor = view.getProcessor();
-		getApp().setUndoRedoEnabled(true);
-		getApp().setUndoActive(true);
+		activateUndo();
 		getKernel().getConstruction().initUndoInfo();
 	}
 

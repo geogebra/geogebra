@@ -2471,7 +2471,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				dynamicStyleBar.updateVisualStyle(geo);
 			}
 		}
-		if (app.hasSpecialPointsManager()) {
+		if (app.hasSpecialPointsManager() && prop == GProperty.VISIBLE) {
 			app.getSpecialPointsManager().updateSpecialPoints(null);
 		}
 	}
@@ -5877,8 +5877,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 						(int) rect.getHeight());
 
 			g2d.translate(-rect.getX(), -rect.getY());
-			// Application.debug(rect.x+" "+rect.y+" "+rect.width+"
-			// "+rect.height);
 		} else {
 			// use points Export_1 and Export_2 to define corner
 			double[] exportCoords = getExportCoords();

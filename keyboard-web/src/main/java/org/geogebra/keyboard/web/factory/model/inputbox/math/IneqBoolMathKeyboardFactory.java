@@ -19,6 +19,7 @@ public class IneqBoolMathKeyboardFactory implements KeyboardModelFactory {
 
 		RowImpl row = mathKeyboard.nextRow(9.2f);
 		MathKeyUtil.addXYZ(row, buttonFactory);
+		addButton(row, buttonFactory.createEmptySpace(1.2f));
 		NumberKeyUtil.addFirstRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
@@ -32,7 +33,7 @@ public class IneqBoolMathKeyboardFactory implements KeyboardModelFactory {
 		NumberKeyUtil.addThirdRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
-		MathKeyUtil.addParenthesesPiE(row, buttonFactory);
+		MathKeyUtil.addParenthesesFractionMixed(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addFourthRow(row, buttonFactory);
 

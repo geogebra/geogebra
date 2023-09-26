@@ -1051,8 +1051,6 @@ public class CellRangeProcessor {
 
 		sb.deleteCharAt(sb.length() - 1); // remove trailing comma
 		sb.append('}');
-
-		// Application.debug(sb.toString());
 		return sb.toString();
 	}
 
@@ -1107,7 +1105,6 @@ public class CellRangeProcessor {
 		try {
 			expr = createMatrixExpression(column1, column2, row1, row2,
 					copyByValue, transpose);
-			// Application.debug(expr);
 			geos = app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(expr, false);
 		} catch (Exception ex) {
@@ -1157,7 +1154,6 @@ public class CellRangeProcessor {
 					transpose));
 			text.append("\"]");
 			Log.debug(text);
-			// Application.debug(text);
 			geos = app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(text.toString(), false);
 

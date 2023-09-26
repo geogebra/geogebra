@@ -100,9 +100,6 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 				coordsys.setEquationVector(oa, vn);
 			}
 		}
-
-		// Application.debug(cs.getCoordSys().getMatrixOrthonormal().toString());
-
 	}
 
 	/**

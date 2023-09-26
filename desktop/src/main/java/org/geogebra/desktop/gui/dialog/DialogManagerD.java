@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -42,7 +41,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.app.MyFileFilter;
+import org.geogebra.desktop.gui.app.FileExtensionFilter;
 import org.geogebra.desktop.gui.autocompletion.AutoCompletion;
 import org.geogebra.desktop.gui.toolbar.ToolbarConfigDialog;
 import org.geogebra.desktop.gui.util.GeoGebraFileChooser;
@@ -432,25 +431,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 		return true;
 	}
 
-	@Override
-	public void showLogInDialog() {
-		// No Login Dialog
-	}
-
-	@Override
-	public void showLogOutDialog() {
-		Object[] options = { getLocalization().getMenu("SignOut"),
-				getLocalization().getMenu("Cancel") };
-		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
-				getLocalization().getMenu("ReallySignOut"),
-				getLocalization().getMenu("Question"),
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-				options, options[0]);
-		if (n == 0) {
-			app.getLoginOperation().performLogOut();
-		}
-	}
-
 	/**
 	 * Creates a new JavaScript button at given location (screen coords).
 	 * 
@@ -572,7 +552,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	private class FileFilterChangedListener implements PropertyChangeListener {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (getFileChooser().getFileFilter() instanceof MyFileFilter) {
+			if (getFileChooser().getFileFilter() instanceof FileExtensionFilter) {
 				String fileName = null;
 				if (getFileChooser().getSelectedFile() != null) {
 					fileName = getFileChooser().getSelectedFile().getName();
@@ -586,7 +566,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 				if (fileName != null && fileName.indexOf(".") > -1) {
 					fileName = fileName.substring(0, fileName.lastIndexOf("."))
 							+ "."
-							+ ((MyFileFilter) getFileChooser().getFileFilter())
+							+ ((FileExtensionFilter) getFileChooser().getFileFilter())
 									.getExtension();
 
 					getFileChooser().setSelectedFile(new File(

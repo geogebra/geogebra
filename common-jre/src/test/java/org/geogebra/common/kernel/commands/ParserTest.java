@@ -133,6 +133,17 @@ public class ParserTest {
 				unicode("x (ln(x))^2"));
 	}
 
+	@Test
+	public void testRecurringDecimal() {
+		shouldReparseAs("1.2\u03053.4", unicode("1.2\u0305 * 3.4"));
+		shouldReparseAs("1.2\u030534", unicode("1.2\u0305 * 34"));
+	}
+
+	@Test
+	public void testRecurringDecimalInvalid() {
+		assertThrows(MyError.class, () -> parseExpression("1.2\u030534\u03055"));
+	}
+
 	private void checkSameStructure(String string, String string2) {
 		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));
@@ -290,11 +301,11 @@ public class ParserTest {
 	public void shouldKeepPriorityTwoBinary() {
 		Kernel kernel = app.getKernel();
 		for (Operation top : Operation.values()) {
-			if (!binary(top)) {
+			if (!binary(top) || top == Operation.INVISIBLE_PLUS) {
 				continue;
 			}
 			for (Operation bottom : Operation.values()) {
-				if (!binary(bottom)) {
+				if (!binary(bottom) || bottom == Operation.INVISIBLE_PLUS) {
 					continue;
 				}
 
@@ -424,8 +435,8 @@ public class ParserTest {
 				&& op != Operation.GAMMA_INCOMPLETE_REGULARIZED
 				&& op != Operation.FUNCTION && op != Operation.FUNCTION_NVAR
 				&& op != Operation.VEC_FUNCTION && op != Operation.DERIVATIVE
-				&& op != Operation.IF && op != Operation.IF_SHORT
-				&& op != Operation.IF_ELSE && op != Operation.SUM
+				&& op != Operation.IF && op != Operation.IF_SHORT && op != Operation.IF_ELSE
+				&& op != Operation.SUM && op != Operation.PRODUCT
 				&& op != Operation.INVERSE_NORMAL;
 	}
 

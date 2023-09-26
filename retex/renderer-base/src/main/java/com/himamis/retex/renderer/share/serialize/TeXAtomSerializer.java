@@ -182,7 +182,13 @@ public class TeXAtomSerializer {
 		}
 
 		if (root instanceof OverlinedAtom) {
-			return "Segment " + serialize(((OverlinedAtom) root).getTrueBase());
+			String base = serialize(((OverlinedAtom) root).getTrueBase());
+
+			// Only serialize to a recurring decimal if there are only digits
+			if (base.matches("\\d+")) {
+				return serializeOverLine(base);
+			}
+			return "Segment " + base;
 		}
 
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
@@ -307,6 +313,14 @@ public class TeXAtomSerializer {
 		// eg sum/product
 		return serialize(trueBase) + " from " + serialize(bigOp.getBottom()) + " to "
 				+ serialize(bigOp.getTop());
+	}
+
+	private String serializeOverLine(String base) {
+		String ret = "";
+		for (int i = 0; i < base.length(); i++) {
+			ret += base.charAt(i) + "\u0305";
+		}
+		return ret;
 	}
 
 	private boolean isTrigonometric(Atom trueBase) {

@@ -51,6 +51,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
@@ -74,13 +75,14 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.export.ConstructionProtocolExportDialogD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.javax.swing.GImageIconD;
-import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -91,13 +93,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		implements Printable, SettingListener, SetLabels {
 
 	static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
-	private static Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
-	private static Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
+	private static final Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
+	private static final Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
 
 	public JTable table;
 	// public JPanel cpPanel;
 
-	private TableColumn[] tableColumns;
+	private final TableColumn[] tableColumns;
 
 	// private AbstractAction printPreviewAction, exportHtmlAction;
 
@@ -128,7 +130,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		table = new JTable();
 		table.setAutoCreateColumnsFromModel(false);
-		table.setModel(((ConstructionTableDataD) data).getImpl().getImpl());
+		table.setModel(((ConstructionTableDataD) data).getImpl());
 		table.setRowSelectionAllowed(true);
 		table.setGridColor(Color.lightGray);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -356,13 +358,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						JDialog d = new ConstructionProtocolExportDialogD(view);
-						d.setVisible(true);
-					}
-				};
+				Thread runner = new Thread(() -> {
+					JDialog d = new ConstructionProtocolExportDialogD(view);
+					d.setVisible(true);
+				});
 				runner.start();
 
 				app.setDefaultCursor();
@@ -392,12 +391,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 									/* interactive */true /* , */
 							/* service *//* null */);
 							// service must be omitted for Java version 1.5.0
-						} catch (HeadlessException ex) {
-							// TODO Auto-generated catch block
-							ex.printStackTrace();
-						} catch (PrinterException ex) {
-							// TODO Auto-generated catch block
-							ex.printStackTrace();
+						} catch (HeadlessException | PrinterException ex) {
+							Log.debug(ex);
 						}
 
 					}
@@ -492,10 +487,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				}
 
 				// right click
-				if (AppD.isRightClick(e)) {
+				if (MouseEventUtil.isRightClick(e)) {
 					GeoElement geo = ((ConstructionTableDataD) data)
 							.getGeoElement(row);
-					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+					ArrayList<GeoElement> temp = new ArrayList<>();
 					temp.add(geo);
 					((GuiManagerD) app.getGuiManager()).showPopupMenu(temp,
 							table, mouseCoords);
@@ -547,13 +542,16 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 					&& (e.getClickCount() == 2)) {
 				setConstructionStep(-1);
 				table.repaint();
-			} else if ((e.getClickCount() == 1) && (AppD.isRightClick(e))
-					&& ((ob == table.getTableHeader()) || (ob == scrollPane))) {
-				ConstructionProtocolContextMenu contextMenu = new ConstructionProtocolContextMenu(
-						(AppD) app);
-				contextMenu.show(view.scrollPane, e.getPoint().x,
-						e.getPoint().y);
+			} else {
+				if ((e.getClickCount() == 1) && (MouseEventUtil.isRightClick(e))
+						&& ((ob == table.getTableHeader()) || (ob == scrollPane))) {
+					ConstructionProtocolContextMenu contextMenu =
+							new ConstructionProtocolContextMenu(
+									(AppD) app);
+					contextMenu.show(view.scrollPane, e.getPoint().x,
+							e.getPoint().y);
 
+				}
 			}
 		}
 
@@ -687,10 +685,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				// setSize(view.getWidth(), getHeight());
 			}
 			table.tableChanged(new TableModelEvent(
-					((ConstructionTableDataD) data).getImpl().getImpl()));
+					((ConstructionTableDataD) data).getImpl()));
 
 			// reinit view to update possible breakpoint changes
-			((ConstructionTableDataD) data).initView();
+			data.initView();
 			SwingUtilities.updateComponentTreeUI(view.scrollPane);
 		}
 	}
@@ -878,7 +876,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	public class ConstructionTableDataD extends ConstructionTableData {
 
-		protected MyGAbstractTableModel ctDataImpl;
+		protected ConstructionProtocolTableModel ctDataImpl;
 		protected ConstructionTableData ctData = this;
 
 		/**
@@ -886,12 +884,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		 */
 		public ConstructionTableDataD(SetLabels gui) {
 			super(gui);
-			ctDataImpl = new MyGAbstractTableModel();
+			ctDataImpl = new ConstructionProtocolTableModel();
 			// rowList = new ArrayList<RowData>();
 			// geoMap = new HashMap<GeoElement, RowData>();
 		}
 
-		public GAbstractTableModelD getImpl() {
+		public AbstractTableModel getImpl() {
 			return ctDataImpl;
 		}
 
@@ -1072,7 +1070,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return false;
 		}
 
-		public class MyGAbstractTableModel extends GAbstractTableModelD {
+		public class ConstructionProtocolTableModel extends AbstractTableModel {
 
 			@Override
 			public int getRowCount() {
@@ -1138,73 +1136,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		return r;
 	}
 
-	/*
-	 * public int print(Graphics pg, PageFormat pageFormat, int pageIndex)
-	 * throws PrinterException { Application.debug("CPView-print"); if
-	 * (pageIndex >= maxNumPage) return NO_SUCH_PAGE;
-	 * 
-	 * pg.translate((int) pageFormat.getImageableX(), (int)
-	 * pageFormat.getImageableY()); int wPage = (int)
-	 * pageFormat.getImageableWidth(); int hPage = (int)
-	 * pageFormat.getImageableHeight(); pg.setClip(0, 0, wPage, hPage);
-	 * 
-	 * // construction title int y = 0; Font titleFont =
-	 * table.getFont().deriveFont(Font.BOLD, table.getFont().getSize() + 2);
-	 * pg.setFont(titleFont); pg.setColor(Color.black); // Font fn =
-	 * pg.getFont(); FontMetrics fm = pg.getFontMetrics();
-	 * 
-	 * // title Construction cons = kernel.getConstruction(); String title =
-	 * cons.getTitle(); if (!"".equals(title)) { y += fm.getAscent();
-	 * pg.drawString(title, 0, y); }
-	 * 
-	 * // construction author and date String author = cons.getAuthor(); String
-	 * date = cons.getDate(); String line = null; if (!"".equals(author)) { line
-	 * = author; } if (!"".equals(date)) { if (line == null) line = date; else
-	 * line = line + " - " + date; } if (line != null) {
-	 * pg.setFont(table.getFont()); // fn = pg.getFont(); fm =
-	 * pg.getFontMetrics(); y += fm.getHeight(); pg.drawString(line, 0, y); }
-	 * 
-	 * y += 20; // space between title and table headers
-	 * 
-	 * Font headerFont = table.getFont().deriveFont(Font.BOLD);
-	 * pg.setFont(headerFont); fm = pg.getFontMetrics();
-	 * 
-	 * TableColumnModel colModel = table.getColumnModel(); int nColumns =
-	 * colModel.getColumnCount(); int x[] = new int[nColumns]; x[0] = 0;
-	 * 
-	 * int h = fm.getAscent(); y += h; // add ascent of header font because of
-	 * baseline
-	 * 
-	 * int nRow, nCol; for (nCol = 0; nCol < nColumns; nCol++) { TableColumn tk
-	 * = colModel.getColumn(nCol); int width = tk.getWidth(); // only print
-	 * column if there is enough space for it // if (x[nCol] + width > wPage) {
-	 * // nColumns = nCol; // break; // } if (nCol + 1 < nColumns) x[nCol + 1] =
-	 * x[nCol] + width; title = (String) tk.getIdentifier();
-	 * pg.drawString(title, x[nCol], y); }
-	 * 
-	 * Font tableFont = table.getFont(); pg.setFont(tableFont); fm =
-	 * pg.getFontMetrics();
-	 * 
-	 * int header = y; h = fm.getHeight(); int rowH = Math.max(h, 10); int
-	 * rowPerPage = (hPage - header) / rowH; maxNumPage = Math.max( (int)
-	 * Math.ceil(table.getRowCount() / (double) rowPerPage), 1);
-	 * 
-	 * // TableModel tblModel = table.getModel(); int iniRow = pageIndex *
-	 * rowPerPage; int endRow = Math.min(table.getRowCount(), iniRow +
-	 * rowPerPage); int yAdd, maxYadd = 0;
-	 * 
-	 * for (nRow = iniRow; nRow < endRow; nRow++) { y = y + h + maxYadd; //
-	 * maxYadd is additional space for indices of // last line maxYadd = 0; for
-	 * (nCol = 0; nCol < nColumns; nCol++) { int col =
-	 * table.getColumnModel().getColumn(nCol) .getModelIndex(); // Object obj =
-	 * data.getValueAt(nRow, col); // String str = obj.toString(); //
-	 * pg.drawString(str, x[nCol], y); String str = data.getPlainTextAt(nRow,
-	 * col); pg.setColor(data.getColorAt(nRow, col)); yAdd =
-	 * Drawable.drawIndexedString(app, (Graphics2D) pg, str, x[nCol], y).y; if
-	 * (yAdd > maxYadd) maxYadd = yAdd; } }
-	 * 
-	 * return PAGE_EXISTS; }
-	 */
 	/***************
 	 * HTML export *
 	 ***************/

@@ -63,6 +63,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		checkboxFixed = true;
 		setEuclidianVisible(false);
 		conditionals = new ArrayList<>();
+		setConstructionDefaults();
 	}
 
 	/**
