@@ -2108,6 +2108,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				this.activity = new SuiteActivity(subApp,
 						!getSettings().getCasSettings().isEnabled());
 				setPerspective(p);
+				getGuiManager().resetPanels();
 				updateSidebarAndMenu(subApp);
 				reinitAlgebraView();
 				setSuiteHeaderButton(subApp);
