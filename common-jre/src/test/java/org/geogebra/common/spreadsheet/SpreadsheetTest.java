@@ -14,7 +14,7 @@ import org.junit.Test;
 public class SpreadsheetTest extends BaseUnitTest {
 
 	@Test
-	public void test() {
+	public void testTextDataRendering() {
 		TestTabularData tabularData = new TestTabularData();
 		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
 				new TestCellRenderableFactory());
@@ -29,7 +29,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 	private static class TestCellRenderableFactory implements CellRenderableFactory {
 		@Override
 		public SelfRenderable getRenderable(Object data) {
-			return new SelfRenderable(new StringRenderer(), data);
+			return data == null ? null : new SelfRenderable(new StringRenderer(), data);
 		}
 	}
 }

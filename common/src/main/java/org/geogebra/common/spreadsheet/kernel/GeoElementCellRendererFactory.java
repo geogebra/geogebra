@@ -23,21 +23,21 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 	private final CheckboxCellRenderer checkboxCellRenderer = new CheckboxCellRenderer();
 
 	@Override
-	public SelfRenderable getRenderable(Object geo) {
-		if (geo == null) {
+	public SelfRenderable getRenderable(Object data) {
+		if (data == null) {
 			return null;
 		}
-		if (geo instanceof GeoFunction) {
-			TeXFormula tf = new TeXFormula(((GeoElement) geo)
+		if (data instanceof GeoFunction) {
+			TeXFormula tf = new TeXFormula(((GeoElement) data)
 					.toValueString(StringTemplate.latexTemplate));
 			return new SelfRenderable(laTeXRenderer,
 					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, 12));
 		}
-		if (geo instanceof GeoBoolean && ((GeoBoolean) geo).isIndependent()) {
-			return new SelfRenderable(checkboxCellRenderer, geo);
+		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {
+			return new SelfRenderable(checkboxCellRenderer, data);
 		}
 		return new SelfRenderable(stringRenderer,
-				((GeoElement) geo).toValueString(StringTemplate.defaultTemplate));
+				((GeoElement) data).toValueString(StringTemplate.defaultTemplate));
 	}
 
 	private static class CheckboxCellRenderer implements CellRenderer {
