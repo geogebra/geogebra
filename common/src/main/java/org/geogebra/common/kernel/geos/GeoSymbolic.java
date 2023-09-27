@@ -329,7 +329,8 @@ public class GeoSymbolic extends GeoElement
 
 	private boolean isTopLevelCommandNumeric() {
 		return getDefinition().getTopLevelCommand() != null
-				&& Commands.NSolve.name().equals(getDefinition().getTopLevelCommand().getName());
+				&& (Commands.NSolve.name().equals(getDefinition().getTopLevelCommand().getName())
+					|| Commands.Numeric.name().equals(getDefinition().getTopLevelCommand().getName()));
 	}
 
 	private Command getCasInput(ExpressionValue casInputArg) {
