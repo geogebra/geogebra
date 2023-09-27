@@ -9,6 +9,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentProgressBar;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.CSSEvents;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -23,6 +24,10 @@ public class DataImportSnackbar extends FlowPanel {
 		public void run() {
 			addStyleName("fadeIn");
 			Log.debug("SHOW NOW: " + System.currentTimeMillis());
+			if (startImportCallback != null) {
+				startImportCallback.run();
+				Log.debug("START IMPORT CALLBACK: " + System.currentTimeMillis());
+			}
 		}
 	};
 	private Timer fadeOut = new Timer() {
@@ -39,10 +44,13 @@ public class DataImportSnackbar extends FlowPanel {
 		}
 	};
 	private Runnable cancelImport;
+	private Runnable startImportCallback;
 	private Runnable onImportFinished = () -> {
 		if (fadeIn.isRunning()) {
+			Log.debug("CANCEL FADEIN: " + System.currentTimeMillis());
 			fadeIn.cancel();
 		} else {
+			Log.debug("RUN FADEOUT: " + System.currentTimeMillis());
 			fadeOut.run();
 		}
 	};
@@ -52,14 +60,17 @@ public class DataImportSnackbar extends FlowPanel {
 	 * @param appW - application
 	 * @param title - file name
 	 */
-	public DataImportSnackbar(AppW appW, String title) {
+	public DataImportSnackbar(AppW appW, String title, Runnable runnable) {
+		Log.debug("CREATE AND SHOW1 : " + System.currentTimeMillis());
 		this.appW = appW;
+		startImportCallback = runnable;
 		addStyleName("dataImporter");
 		buildGui(title);
+		Log.debug("CREATE AND SHOW2 : " + System.currentTimeMillis());
 		appW.getAppletFrame().add(this);
 		positionSnackbar();
-		addStyleName("fadeIn");
-		Log.debug("CREATE AND SHOW : " + System.currentTimeMillis());
+		fadeIn.schedule(2000);
+
 	}
 
 	/**

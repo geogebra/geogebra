@@ -45,13 +45,12 @@ public class CsvImportHandler {
 		Dom.addEventListener(el, "change", event -> {
 			HTMLInputElement input = Js.uncheckedCast(el);
 			File fileToHandle = input.files.getAt(0);
-			DataImportSnackbar progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name);
-			getTable().getTableValuesModel().setOnDataImportedRunnable(() ->
-					progressSnackbar.getOnImportFinished());
-			appW.invokeLater(() -> {
+			progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name, () -> {
 				getTable().clearView();
 				openCSV(fileToHandle);
 			});
+			getTable().getTableValuesModel().setOnDataImportedRunnable(() ->
+					progressSnackbar.getOnImportFinished());
 		});
 
 		return csvChooser;
