@@ -57,6 +57,7 @@ public class MyDouble extends ValidExpression
 	private double val;
 	private int angleDim = 0;
 
+
 	/**
 	 * kernel
 	 */
@@ -252,6 +253,12 @@ public class MyDouble extends ValidExpression
 			c.set(Double.NaN);
 			return;
 		}
+
+		if (a.isConstant() && b.isConstant()) {
+			c.set(a.val * bval);
+			return;
+		}
+
 		BigDecimal ba = a.toDecimal();
 		BigDecimal bb = b.toDecimal();
 		if (ba != null && bb != null) {
