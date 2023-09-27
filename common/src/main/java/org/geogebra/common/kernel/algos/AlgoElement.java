@@ -208,7 +208,7 @@ public abstract class AlgoElement extends ConstructionElement
 		while (it.hasNext()) {
 			OutputHandler<?> handler = it.next();
 			for (int k = 0; k < handler.size(); k++) {
-				output[i++] = handler.getElement(k);
+				output[i++] = handler.getElement(k).toGeoElement();
 			}
 		}
 	}
@@ -264,7 +264,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param <T>
 	 *            extends GeoElement: type of the OutputHandler
 	 */
-	public class OutputHandler<T extends GeoElement> {
+	public class OutputHandler<T extends GeoElementND> {
 		private ElementFactory<T> fac;
 		private ArrayList<T> outputList;
 		private String[] labels;
@@ -565,7 +565,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param <S>
 	 *            element type
 	 */
-	public interface ElementFactory<S extends GeoElement> {
+	public interface ElementFactory<S extends GeoElementND> {
 
 		/**
 		 * this is called by the OutputHandler every Time a new Element is
@@ -855,7 +855,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param output
 	 *            output element
 	 */
-	protected void setOutputDependencies(GeoElement output) {
+	protected void setOutputDependencies(GeoElementND output) {
 		// parent algorithm of output
 		output.setParentAlgorithm(this);
 
@@ -869,7 +869,7 @@ public abstract class AlgoElement extends ConstructionElement
 		// this is important for macro constructions that have input geos from
 		// outside the macro: the output should be part of the macro
 		// construction!
-		if (cons != output.cons) {
+		if (cons != output.getConstruction()) {
 			output.setConstruction(cons);
 		}
 
