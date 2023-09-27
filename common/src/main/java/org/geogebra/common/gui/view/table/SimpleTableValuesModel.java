@@ -41,6 +41,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
+	private Runnable onDataImported;
 
 	/**
 	 * Construct a SimpleTableValuesModel.
@@ -545,6 +546,17 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		collector.notifyDatasetChanged(this);
 		collector.endCollection(this);
 		resumeListeners(listener -> listener instanceof TableValuesPoints);
+	}
+
+	public void run() {
+		if (onDataImported != null) {
+			onDataImported.run();
+		}
+	}
+
+	@Override
+	public void setOnDataImportedRunnable(Runnable onDataImported) {
+		this.onDataImported = onDataImported;
 	}
 
 	private void importXColumn() {

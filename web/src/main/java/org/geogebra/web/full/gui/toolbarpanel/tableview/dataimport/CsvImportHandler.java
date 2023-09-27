@@ -20,6 +20,7 @@ import jsinterop.base.Js;
 public class CsvImportHandler {
 	protected AppW appW;
 	private FileUpload csvChooser;
+	private DataImportSnackbar progressSnackbar;
 	private Command csvHandler = () -> {
 		csvChooser = getCSVChooser();
 		if (getTable().isEmpty()) {
@@ -42,10 +43,15 @@ public class CsvImportHandler {
 		Element el = csvChooser.getElement();
 		el.setAttribute("accept", ".csv");
 		Dom.addEventListener(el, "change", event -> {
-			getTable().clearView();
 			HTMLInputElement input = Js.uncheckedCast(el);
 			File fileToHandle = input.files.getAt(0);
-			openCSV(fileToHandle);
+			DataImportSnackbar progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name);
+			getTable().getTableValuesModel().setOnDataImportedRunnable(() ->
+					progressSnackbar.getOnImportFinished());
+			appW.invokeLater(() -> {
+				getTable().clearView();
+				openCSV(fileToHandle);
+			});
 		});
 
 		return csvChooser;
@@ -70,7 +76,6 @@ public class CsvImportHandler {
 	private void importData(String csv, String fileName) {
 		DataImportHandler handler = new DataImportHandler((AppWFull) appW, fileName);
 		DataImporter importer = new DataImporter(getTable(), handler);
-		handler.scheduleSnackbar();
 		importer.importCSV(csv, appW.getLocalization().getDecimalPoint());
 		appW.storeUndoInfo();
 	}

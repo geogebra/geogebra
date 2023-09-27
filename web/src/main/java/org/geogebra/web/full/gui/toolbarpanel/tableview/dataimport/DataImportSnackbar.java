@@ -4,6 +4,7 @@ import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_300;
 import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_700;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentProgressBar;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -16,10 +17,12 @@ import org.gwtproject.user.client.ui.Label;
 
 public class DataImportSnackbar extends FlowPanel {
 	protected AppW appW;
+	private Label titleLbl;
 	private Timer fadeIn = new Timer() {
 		@Override
 		public void run() {
 			addStyleName("fadeIn");
+			Log.debug("SHOW NOW: " + System.currentTimeMillis());
 		}
 	};
 	private Timer fadeOut = new Timer() {
@@ -36,6 +39,13 @@ public class DataImportSnackbar extends FlowPanel {
 		}
 	};
 	private Runnable cancelImport;
+	private Runnable onImportFinished = () -> {
+		if (fadeIn.isRunning()) {
+			fadeIn.cancel();
+		} else {
+			fadeOut.run();
+		}
+	};
 
 	/**
 	 * data import snackbar
@@ -48,6 +58,8 @@ public class DataImportSnackbar extends FlowPanel {
 		buildGui(title);
 		appW.getAppletFrame().add(this);
 		positionSnackbar();
+		addStyleName("fadeIn");
+		Log.debug("CREATE AND SHOW : " + System.currentTimeMillis());
 	}
 
 	/**
@@ -83,7 +95,7 @@ public class DataImportSnackbar extends FlowPanel {
 
 		Image dataImg = new Image(MaterialDesignResources.INSTANCE.upload_file().withFill(
 				svgFiller.toString()).getSafeUri());
-		Label titleLbl = new Label(title);
+		titleLbl = new Label(title);
 
 		titleHolder.add(dataImg);
 		titleHolder.add(titleLbl);
@@ -123,13 +135,14 @@ public class DataImportSnackbar extends FlowPanel {
 
 	public void hide() {
 		fadeOut.run();
-	}
-
-	public void show() {
-		fadeIn.schedule(100);
+		Log.debug("HIDE NOW : " + System.currentTimeMillis());
 	}
 
 	private void positionSnackbar() {
 		addStyleName(appW.isPortrait() ? "portrait" : "landscape");
+	}
+
+	public Runnable getOnImportFinished() {
+		return onImportFinished;
 	}
 }

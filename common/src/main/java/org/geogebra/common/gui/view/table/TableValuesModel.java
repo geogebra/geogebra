@@ -115,4 +115,8 @@ public interface TableValuesModel {
 	 * @return The x values column with all the necessary settings set.
 	 */
 	GeoList setupXValues(GeoList xValues);
+
+	void setOnDataImportedRunnable(Runnable onDataImported);
+
+	void run();
 }
