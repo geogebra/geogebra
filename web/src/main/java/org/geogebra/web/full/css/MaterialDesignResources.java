@@ -15,6 +15,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/header/baseline-apps-24px.svg")
 	SVGResource apps_black();
 
+	@Source("org/geogebra/common/icons/svg/web/header/timer.svg")
+	SVGResource timer();
+
 	// settings panel
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/ic_arrow_drop_up_black_24px.svg")
 	SVGResource arrow_drop_up();

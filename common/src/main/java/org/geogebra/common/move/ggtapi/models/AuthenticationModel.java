@@ -21,7 +21,7 @@ public abstract class AuthenticationModel {
 	private GTimer logOutTimer;
 
 	/**
-	 * token name for user logged in got back from GGT
+	 * Storage key for the login token (access token in OAuth)
 	 */
 	protected static final String GGB_TOKEN_KEY_NAME = "token";
 

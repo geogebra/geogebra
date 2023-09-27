@@ -14,6 +14,7 @@ import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundProperty;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.EuclideanViewXRActionsPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.GraphicsActionsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
@@ -32,6 +33,8 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 			propertyList.add(new EuclideanViewXRActionsPropertyCollection(localization, view3D));
 			propertyList.add(new ARRatioPropertyCollection(app, localization));
 			propertyList.add(new BackgroundProperty(app, localization));
+		} else {
+			propertyList.add(new GraphicsActionsPropertyCollection(app, localization));
 		}
 		propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
 		propertyList.add(

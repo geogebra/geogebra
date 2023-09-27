@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian.draw.dropdown;
 
-import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.ROUND;
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
@@ -12,6 +10,7 @@ class DrawItems {
 	private final DrawDropDownList drawDropDownList;
 	private final ItemSelector selector;
 	private final DropDownModel model;
+	private static final int MIN_ROW_HEIGHT = 56;
 
 	DrawItems(DrawDropDownList drawDropDownList,
 			DropDownModel model, ItemSelector selector, OptionScroller scroller) {
@@ -66,11 +65,8 @@ class DrawItems {
 	private void drawItem(GGraphics2D g2, OptionItem item, boolean hover) {
 		scroller.clip(g2, item, selector.getDragOffset());
 
-		if (hover) {
-			drawHoveredItem(g2, item);
-		} else {
-			drawNormalItem(g2, item);
-		}
+		g2.setColor(hover ? selector.getColor() : model.getBackgroundColor());
+		drawItem(g2, item);
 
 		calculateItemRectangle(item);
 
@@ -94,8 +90,8 @@ class DrawItems {
 	private void drawItemAsPlain(GGraphics2D g2, OptionItem item) {
 		model.applyFontTo(g2);
 
-		double x = (items.getMaxWidth() - item.getWidth()) / 2.0;
-		double y = items.getMaxHeight() - OptionItemList.PADDING;
+		double x = OptionItemList.HORIZONTAL_PADDING;
+		double y = items.getMaxHeight() - OptionItemList.VERTICAL_PADDING;
 
 		EuclidianStatic.drawIndexedString(model.getApp(), g2,
 				item.getText(), item.getLeft() + x, item.getTop() + y, false);
@@ -106,25 +102,19 @@ class DrawItems {
 		int y = item.getTop();
 
 		drawDropDownList.drawLatex(g2, model.getGeoList(), model.getFont(), item.getText(),
-				x + (int) ((item.getBoundsWidth() - item.getWidth()) / 2),
+				x + OptionItemList.HORIZONTAL_PADDING,
 				y + (int) ((item.getBoundsHeight() - item.getHeight()) / 2));
 	}
 
 	private void calculateItemRectangle(OptionItem item) {
 		if (item.getRect() == null) {
 			item.setRect(AwtFactory.getPrototype().newRectangle(item.getLeft(),
-					item.getTop(), items.getMaxWidth(), items.getMaxHeight()));
+					item.getTop(), items.getMaxWidth(),
+					Math.max(items.getMaxHeight(), MIN_ROW_HEIGHT)));
 		}
 	}
 
-	private void drawNormalItem(GGraphics2D g2, OptionItem item) {
-		g2.setColor(model.getBackgroundColor());
+	private void drawItem(GGraphics2D g2, OptionItem item) {
 		g2.fillRect(item.getLeft(), item.getTop(), items.getMaxWidth(), items.getMaxHeight());
-	}
-
-	private void drawHoveredItem(GGraphics2D g2, OptionItem item) {
-		g2.setColor(selector.getColor());
-		g2.fillRoundRect(item.getLeft(), item.getTop(), items.getMaxWidth(),
-				items.getMaxHeight(), ROUND, ROUND);
 	}
 }

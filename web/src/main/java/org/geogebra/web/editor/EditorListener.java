@@ -76,14 +76,13 @@ public class EditorListener implements MathFieldListener {
 	}
 
 	private void notifyListeners(Object o) {
-		listeners.forEach((fn, index, ignore) -> {
+		for (int i = 0; i < listeners.length; i++) {
 			try {
-				fn.call(DomGlobal.window, o);
+				listeners.getAt(i).call(DomGlobal.window, o);
 			} catch (Exception e) {
 				ExceptionUnwrapper.printErrorMessage(e);
 			}
-			return null;
-		});
+		}
 	}
 
 	public void setMathField(MathFieldW mf) {

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcherStats;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.cas.giac.CASgiacW;
 
 import com.google.gwt.core.client.prefetch.RunAsyncCode;
 
@@ -32,7 +33,9 @@ public enum AsyncModule {
 
 	SCRIPTING(RunAsyncCode.runAsyncCode(CommandDispatcherScripting.class)),
 
-	DISCRETE(RunAsyncCode.runAsyncCode(CommandDispatcherDiscrete.class));
+	DISCRETE(RunAsyncCode.runAsyncCode(CommandDispatcherDiscrete.class)),
+
+	GIAC(RunAsyncCode.runAsyncCode(CASgiacW.class));
 
 	private final RunAsyncCode asyncCode;
 

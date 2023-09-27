@@ -589,10 +589,18 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
 	 * @return 2 letter language name, eg "en"
+	 * @deprecated Use {@link #getLanguageEnum()} to access the {@link Language} object
+	 * then use {@link Language#language} to get the language or {@link Language#toLanguageTag()}
+	 * to get the language tag.
 	 */
+	@Deprecated
 	public abstract String getLanguage();
+
+	/**
+	 * @return current language
+	 */
+	public abstract Language getLanguageEnum();
 
 	/**
 	 * @param lang
@@ -1121,7 +1129,7 @@ public abstract class Localization extends LocalizationI {
 	protected abstract boolean isCommandNull();
 
 	public int getRightAngleStyle() {
-		return Language.getRightAngleStyle(getLanguage());
+		return getLanguageEnum().getRightAngleStyle();
 	}
 
 	/**
@@ -1312,7 +1320,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return character for zero (0) in current language
 	 */
 	public char getZero() {
-		return Language.getUnicodeZero(getLanguage());
+		return getLanguageEnum().getUnicodeZero();
 	}
 
 	/**
@@ -1345,7 +1353,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	public boolean isUsingDecimalComma() {
-		return Language.isUsingDecimalComma(getLanguage());
+		return getLanguageEnum().isUsingDecimalComma();
 	}
 
 	/**

@@ -490,6 +490,14 @@ public class ExamEnvironment {
 	}
 
 	/**
+	 * @return wether we are in GENERIC(restricted graphing) exam mode
+	 */
+	public boolean isRestrictedGraphExam() {
+		return ExamRegion.GENERIC.getDisplayName(localization, appConfig).equals(getExamRegion()
+						.getDisplayName(localization, appConfig));
+	}
+
+	/**
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {

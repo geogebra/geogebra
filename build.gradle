@@ -11,6 +11,12 @@ subprojects {
 		natures 'org.springsource.ide.eclipse.gradle.core.nature'
 	}
 
+	java {
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(11)
+		}
+	}
+
 	// add auto formatter to every project
 	task eclipseJdtPrepare(type: Copy) {
 		description 'Copies Eclipse jdt.core preference file.'

@@ -13,7 +13,6 @@ import org.geogebra.common.plugin.EventType;
 
 class DrawOptions implements MoveSelector, OptionsInterface {
 	static final int MARGIN = 5;
-
 	static final int ROUND = 8;
 	private final DrawDropDownList drawDropDownList;
 	private final DropDownModel model;
