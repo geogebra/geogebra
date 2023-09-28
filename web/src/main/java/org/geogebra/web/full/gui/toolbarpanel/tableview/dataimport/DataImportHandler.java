@@ -10,6 +10,7 @@ public class DataImportHandler implements DataImporterDelegate {
 	protected AppWFull appW;
 	private String fileName;
 	private boolean continueImport = true;
+	private DataImportSnackbar progressSnackbar;
 
 	/**
 	 * data import handler

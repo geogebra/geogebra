@@ -1136,10 +1136,12 @@
 			transition: width 750ms cubic-bezier(0.3, 0.4, 0.5, 0.9) 0ms;
 
 			&.animBar1 {
+				width: 100%;
 				animation: animBar1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 			}
 
 			&.animBar2 {
+				width: 100%;
 				animation: animBar2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
 			}
 		}
@@ -1156,35 +1158,29 @@
 
 	@keyframes animBar1 {
 		0% {
-			left: -35%;
-			right: 100%;
+			transform: translateX(-35%);
 		}
 
 		60% {
-			left: 100%;
-			right: -90%;
+			transform: translateX(100%);
 		}
 
 		100% {
-			left: 100%;
-			right: -90%;
+			transform: translateX(100%);
 		}
 	}
 
 	@keyframes animBar2 {
 		0% {
-			left: -200%;
-			right: 100%;
+			transform: translateX(-200%);
 		}
 
 		60% {
-			left: 107%;
-			right: -8%;
+			transform: translateX(107%);
 		}
 
 		100% {
-			left: 107%;
-			right: -8%;
+			transform: translateX(107%);
 		}
 	}
 }
