@@ -279,11 +279,11 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 				return null;
 			});
 		}
-		Scheduler.get().scheduleDeferred(() -> {
-			if (tableModel.getRowCount() > 2) {
-				tableModel.run();
-			}
-		});
+
+
+		if (tableModel.getRowCount() > 2) {
+			tableModel.getOnDataImportedRunnable().run();
+		}
 	}
 
 	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {

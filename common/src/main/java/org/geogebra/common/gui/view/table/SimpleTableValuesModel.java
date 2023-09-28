@@ -548,10 +548,9 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		resumeListeners(listener -> listener instanceof TableValuesPoints);
 	}
 
-	public void run() {
-		if (onDataImported != null) {
-			onDataImported.run();
-		}
+	@Override
+	public Runnable getOnDataImportedRunnable() {
+		return onDataImported;
 	}
 
 	@Override

@@ -37,13 +37,6 @@ public class DataImportSnackbar extends FlowPanel {
 		}
 	};
 	private Runnable cancelImport;
-	private Runnable onImportFinished = () -> {
-		if (fadeIn.isRunning()) {
-			fadeIn.cancel();
-		} else {
-			fadeOut.run();
-		}
-	};
 
 	/**
 	 * data import snackbar
@@ -136,9 +129,5 @@ public class DataImportSnackbar extends FlowPanel {
 
 	private void positionSnackbar() {
 		addStyleName(appW.isPortrait() ? "portrait" : "landscape");
-	}
-
-	public Runnable getOnImportFinished() {
-		return onImportFinished;
 	}
 }

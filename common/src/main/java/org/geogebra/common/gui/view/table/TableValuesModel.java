@@ -116,7 +116,10 @@ public interface TableValuesModel {
 	 */
 	GeoList setupXValues(GeoList xValues);
 
+	/**
+	 * @param onDataImported - when data imported, hide loading snackbar
+	 */
 	void setOnDataImportedRunnable(Runnable onDataImported);
 
-	void run();
+	Runnable getOnDataImportedRunnable();
 }
