@@ -254,8 +254,9 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 
-		if (a.isConstant() && b.isConstant()) {
+		if (a.isImprecise() || b.wrap().isImprecise()) {
 			c.set(a.val * bval);
+			c.setImprecise(true);
 			return;
 		}
 
