@@ -112,6 +112,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		if (special != null) {
 			return special;
 		}
+
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
 		return handleOp(operation, lt, rt, left, right, tpl, holdsLaTeXtext);
 	}
@@ -411,13 +412,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		MyDouble num;
 		MyStringBuffer msb;
 
-		if (lt.wrap().containsFunctionVariable()) {
-			lt.wrap().setImprecise(true);
-		}
-
-		if (rt.wrap().wrap().containsFunctionVariable()) {
-			rt.wrap().wrap().setImprecise(true);
-		}
 		// Log.debug(lt.getClass()+" "+lt.toString());
 		// Log.debug(rt.getClass()+" "+rt.toString());
 
