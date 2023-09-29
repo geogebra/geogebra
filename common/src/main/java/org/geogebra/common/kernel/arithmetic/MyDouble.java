@@ -58,6 +58,7 @@ public class MyDouble extends ValidExpression
 	private double val;
 	private int angleDim = 0;
 
+	private boolean imprecise = false;
 
 	/**
 	 * kernel
@@ -255,7 +256,7 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 
-		ValidExpression bNode = b instanceof ValidExpression ? ((ValidExpression) b):null;
+		MyDouble bNode = b instanceof MyDouble ? ((MyDouble) b):null;
 
 		if (a.isImprecise() || bNode != null && bNode.isImprecise()) {
 			c.set(a.val * bval);
@@ -1322,4 +1323,11 @@ public class MyDouble extends ValidExpression
 		return new MyDouble(kernel2, -getDouble());
 	}
 
+	public boolean isImprecise() {
+		return imprecise;
+	}
+
+	public void setImprecise(boolean imprecise) {
+		this.imprecise = imprecise;
+	}
 }

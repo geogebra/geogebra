@@ -1932,13 +1932,13 @@ public enum Operation {
 	};
 
 	private static void checkImprecise(ExpressionValue value, ExpressionValue rt) {
-		if (!(value instanceof ValidExpression)) {
+		if (!(value instanceof MyDouble)) {
 			return;
 		}
-		ValidExpression ve = ((ValidExpression) value);
-		if (ve.containsFunctionVariable()) {
-			ve.setImprecise(true);
-			((ValidExpression)rt).setImprecise(true);
+		MyDouble myDouble = ((MyDouble) value);
+		if (myDouble.containsFunctionVariable()) {
+			myDouble.setImprecise(true);
+			((MyDouble)rt).setImprecise(true);
 		}
 	}
 
