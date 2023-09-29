@@ -23,7 +23,6 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.SafeHtmlCell;
-import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.safehtml.shared.SafeHtml;
@@ -280,8 +279,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			});
 		}
 
-
-		if (tableModel.getRowCount() > 2) {
+		if (tableModel.getRowCount() > 2 && tableModel.getOnDataImportedRunnable() != null) {
 			tableModel.getOnDataImportedRunnable().run();
 		}
 	}

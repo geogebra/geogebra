@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport;
 
-import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.importer.DataImporterDelegate;
 import org.geogebra.common.gui.view.table.importer.DataImporterError;
 import org.geogebra.common.gui.view.table.importer.DataImporterWarning;
