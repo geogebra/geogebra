@@ -15,9 +15,6 @@ import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.AnimationExportDialogD;
@@ -30,7 +27,6 @@ import org.geogebra.desktop.export.pstricks.PgfFrame;
 import org.geogebra.desktop.export.pstricks.PstricksFrame;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -38,7 +34,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * The "File" menu.
  */
-class FileMenuD extends BaseMenu implements EventRenderable {
+class FileMenuD extends BaseMenu {
 	private static final long serialVersionUID = -5154067739481481835L;
 
 	private AbstractAction newWindowAction;
@@ -105,17 +101,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		mi = add(loadAction);
 		setMenuShortCutAccelerator(mi, 'O'); // open
 
-		LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
-
-
 		loadURLMenuItem = add(loadURLAction);
-
-		// If GeoGebraTube is not available we disable the item and
-		// listen to the event that tube becomes available
-		if (!signIn.isTubeAvailable()) {
-			loadURLAction.setEnabled(false);
-			signIn.getView().add(this);
-		}
 
 		// recent SubMenu
 		JMenu submenuRecent = new JMenu(loc.getMenu("Recent"));
@@ -546,18 +532,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	@Override
 	public void update() {
 		// not needed
-	}
-
-	@Override
-	public void renderEvent(BaseEvent event) {
-		if (event instanceof TubeAvailabilityCheckEvent) {
-			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
-			if (!checkEvent.isAvailable()) {
-				remove(loadURLMenuItem);
-			} else {
-				loadURLAction.setEnabled(true);
-			}
-		}
 	}
 
 }

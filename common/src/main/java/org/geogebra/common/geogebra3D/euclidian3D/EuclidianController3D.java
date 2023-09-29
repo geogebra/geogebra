@@ -510,7 +510,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void moveTextAbsoluteLocation() {
+	protected void moveTextStaticRWLocation() {
 		view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
 		view3D.toSceneCoords3D(tmpCoordsForOrigin);
 
@@ -2340,7 +2340,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean switchModeForMouseReleased(int releaseMode, Hits hits,
-			boolean changedKernel, boolean control, PointerEventType type,
+			boolean changedKernel, boolean multipleSelect, PointerEventType type,
 			boolean runScripts) {
 		switch (releaseMode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
@@ -2372,7 +2372,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return true;
 		default:
 			return super.switchModeForMouseReleased(releaseMode, hits,
-					changedKernel, control, type, runScripts);
+					changedKernel, multipleSelect, type, runScripts);
 		}
 	}
 

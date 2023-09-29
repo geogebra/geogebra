@@ -2108,7 +2108,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 		try {
 			String verticalAsymptotes = transformedVericalAsymptotes(
-					"Simplify(1/(", "))", funVarStr);
+					"Numerator(Simplify(1/(", ")))", funVarStr);
 
 			// eg f(x):=2^x / (2^x - 3^x) gives "{?}"
 			if (GeoFunction.isInvalidForAsymptote(verticalAsymptotes)) {

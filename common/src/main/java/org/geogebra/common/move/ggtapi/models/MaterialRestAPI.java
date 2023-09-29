@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.Log;
 public class MaterialRestAPI implements BackendAPI {
 	private static final int SEARCH_COUNT = 30;
 	/** whether API is available */
-	protected boolean available = true;
+
 	/** whether availability check request was sent */
 	private boolean availabilityCheckDone = false;
 	private final String baseURL;
@@ -74,14 +74,6 @@ public class MaterialRestAPI implements BackendAPI {
 						callback.onError(exception);
 					}
 				});
-	}
-
-	@Override
-	public boolean checkAvailable(LogInOperation logInOperation) {
-		if (!availabilityCheckDone) {
-			performCookieLogin(logInOperation);
-		}
-		return available;
 	}
 
 	@Override
@@ -163,13 +155,13 @@ public class MaterialRestAPI implements BackendAPI {
 			final boolean automatic) {
 
 		HttpRequest request = service.createRequest(model);
+		request.setAuth(user.getLoginToken());
 		request.sendRequestPost(HttpMethod.GET.name(), baseURL + "/auth", null,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
 						try {
 							MaterialRestAPI.this.availabilityCheckDone = true;
-							MaterialRestAPI.this.available = true;
 
 							// Parse the userdata from the response
 							if (!parseUserDataFromResponse(user, responseStr)) {
@@ -188,7 +180,6 @@ public class MaterialRestAPI implements BackendAPI {
 					public void onError(String error) {
 						Log.error(error);
 						MaterialRestAPI.this.availabilityCheckDone = true;
-						MaterialRestAPI.this.available = false;
 
 						op.onEvent(new LoginEvent(user, false, automatic, null));
 					}
@@ -223,17 +214,6 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void uploadLocalMaterial(Material mat, MaterialCallbackI cb) {
 		// offline materials not supported
-	}
-
-	@Override
-	public boolean performCookieLogin(final LogInOperation op) {
-		op.passiveLogin();
-		return true;
-	}
-
-	@Override
-	public void performTokenLogin(LogInOperation op, String token) {
-		performCookieLogin(op);
 	}
 
 	/**
