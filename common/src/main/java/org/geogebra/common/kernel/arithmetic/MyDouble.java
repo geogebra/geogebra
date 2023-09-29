@@ -38,7 +38,6 @@ import org.geogebra.common.util.LambertW;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -256,9 +255,9 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 
-		MyDouble bNode = b instanceof MyDouble ? ((MyDouble) b):null;
+		MyDouble bDouble = b instanceof MyDouble ? (MyDouble) b : null;
 
-		if (a.isImprecise() || bNode != null && bNode.isImprecise()) {
+		if (a.isImprecise() || bDouble != null && bDouble.isImprecise()) {
 			c.set(a.val * bval);
 			c.setImprecise(true);
 			return;

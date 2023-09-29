@@ -46,7 +46,6 @@ public abstract class ValidExpression
 	private List<String> localVariables = new ArrayList<>();
 	private boolean inTree; // used by ExpressionNode
 
-
 	/**
 	 * @param label
 	 *            label to be added

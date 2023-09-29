@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -1935,10 +1934,10 @@ public enum Operation {
 		if (!(value instanceof MyDouble)) {
 			return;
 		}
-		MyDouble myDouble = ((MyDouble) value);
+		MyDouble myDouble = (MyDouble) value;
 		if (myDouble.containsFunctionVariable()) {
 			myDouble.setImprecise(true);
-			((MyDouble)rt).setImprecise(true);
+			((MyDouble) rt).setImprecise(true);
 		}
 	}
 
