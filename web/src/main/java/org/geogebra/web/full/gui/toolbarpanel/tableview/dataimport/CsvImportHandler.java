@@ -48,8 +48,7 @@ public class CsvImportHandler {
 
 			progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name);
 			getTable().getTableValuesModel().setOnDataImportedRunnable(() -> {
-				progressSnackbar.removeStyleName("fadeIn");
-				progressSnackbar.removeFromParent();
+				progressSnackbar.hide();
 			});
 
 			getTable().clearView();
@@ -76,7 +75,8 @@ public class CsvImportHandler {
 	}
 
 	private void importData(String csv, String fileName) {
-		DataImportHandler handler = new DataImportHandler((AppWFull) appW, fileName);
+		DataImportHandler handler = new DataImportHandler((AppWFull) appW, fileName,
+				progressSnackbar);
 		DataImporter importer = new DataImporter(getTable(), handler);
 		importer.importCSV(csv, appW.getLocalization().getDecimalPoint());
 		appW.storeUndoInfo();

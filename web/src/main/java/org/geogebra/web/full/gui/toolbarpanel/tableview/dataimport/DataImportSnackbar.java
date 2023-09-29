@@ -36,7 +36,6 @@ public class DataImportSnackbar extends FlowPanel {
 			removeFromParent();
 		}
 	};
-	private Runnable cancelImport;
 
 	/**
 	 * data import snackbar
@@ -49,20 +48,17 @@ public class DataImportSnackbar extends FlowPanel {
 		buildGui(title);
 		appW.getAppletFrame().add(this);
 		positionSnackbar();
-		fadeIn.run();
+		addStyleName("fadeIn");
 	}
 
 	/**
 	 * data import error snackbar
 	 * @param appW - application
 	 * @param title - file name
-	 * @param cancelImport - x button handler
 	 * @param tryAgainRunnable - handler for try again button
 	 */
-	public DataImportSnackbar(AppW appW, String title, Runnable cancelImport,
-			Command tryAgainRunnable) {
+	public DataImportSnackbar(AppW appW, String title, Command tryAgainRunnable) {
 		this.appW = appW;
-		this.cancelImport = cancelImport;
 		addStyleName("dataImporter");
 		addStyleName("error");
 		buildErrorGui(title, tryAgainRunnable);
@@ -73,13 +69,13 @@ public class DataImportSnackbar extends FlowPanel {
 	}
 
 	private void buildGui(String title) {
-		addTitleHolder(title, NEUTRAL_300);
+		addTitleHolder(title, NEUTRAL_300, false);
 
 		ComponentProgressBar progressBar = new ComponentProgressBar(true, false);
 		add(progressBar);
 	}
 
-	private void addTitleHolder(String title, GColor svgFiller) {
+	private void addTitleHolder(String title, GColor svgFiller, boolean addCloseBtn) {
 		FlowPanel titleHolder = new FlowPanel();
 		titleHolder.addStyleName("titleHolder");
 
@@ -90,11 +86,10 @@ public class DataImportSnackbar extends FlowPanel {
 		titleHolder.add(dataImg);
 		titleHolder.add(titleLbl);
 
-		if (cancelImport != null) {
+		if (addCloseBtn) {
 			StandardButton xButton = new StandardButton(MaterialDesignResources.INSTANCE.clear()
 					.withFill(NEUTRAL_300.toString()), 24);
 			xButton.addFastClickHandler(source -> {
-				cancelImport.run();
 				hide();
 			});
 			titleHolder.add(xButton);
@@ -104,7 +99,7 @@ public class DataImportSnackbar extends FlowPanel {
 	}
 
 	private void buildErrorGui(String title, Command tryAgainRunnable) {
-		addTitleHolder(title, NEUTRAL_700);
+		addTitleHolder(title, NEUTRAL_700, true);
 
 		FlowPanel errorHolder = new FlowPanel();
 		errorHolder.addStyleName("errorHolder");

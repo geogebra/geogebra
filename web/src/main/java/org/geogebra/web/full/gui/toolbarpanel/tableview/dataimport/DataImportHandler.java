@@ -9,17 +9,18 @@ import org.geogebra.web.full.main.AppWFull;
 public class DataImportHandler implements DataImporterDelegate {
 	protected AppWFull appW;
 	private String fileName;
-	private boolean continueImport = true;
 	private DataImportSnackbar progressSnackbar;
 
 	/**
 	 * data import handler
 	 * @param appW - application
 	 * @param fileName - file name
+	 * @param progressSnackbar - progress showing nackbar
 	 */
-	public DataImportHandler(AppWFull appW, String fileName) {
+	public DataImportHandler(AppWFull appW, String fileName, DataImportSnackbar progressSnackbar) {
 		this.appW = appW;
 		this.fileName = fileName;
+		this.progressSnackbar = progressSnackbar;
 	}
 
 	@Override
@@ -27,13 +28,9 @@ public class DataImportHandler implements DataImporterDelegate {
 		return true;
 	}
 
-	private TableValuesView getTable() {
-		return (TableValuesView) appW.getGuiManager().getTableValuesView();
-	}
-
 	@Override
 	public boolean onImportProgress(int currentRow, int totalRowCount) {
-		return continueImport;
+		return true;
 	}
 
 	@Override
@@ -43,10 +40,7 @@ public class DataImportHandler implements DataImporterDelegate {
 
 	@Override
 	public void onImportError(DataImporterError error, int currentRow) {
-		new DataImportSnackbar(appW, fileName, this::cancelImport, appW.getCsvHandler());
-	}
-
-	private void cancelImport() {
-		continueImport = false;
+		new DataImportSnackbar(appW, fileName, appW.getCsvHandler());
+		progressSnackbar.hide();
 	}
 }
