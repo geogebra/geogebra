@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -68,6 +67,6 @@ public class GeoListTest extends BaseUnitTest {
 		Objects.requireNonNull(drawList).toggleOptions();
 		add("SetValue(a,1)");
 		drawList.draw(new GGraphicsCommon());
-		assertThat(list.getSelectedElement(), nullValue());
+		assertThat(list.getSelectedElement(), hasValue("1"));
 	}
 }
