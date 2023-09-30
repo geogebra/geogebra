@@ -37,17 +37,7 @@ eclipse.classpath.file {
 		classpath.entries.removeAll { entry ->
 			entry.kind == 'lib' && entry.path.matches(".*common-jre/build/.*/test") 
 		}
-	}
-}
-
-compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-}
-
-compileTestJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -55,21 +45,17 @@ dependencies {
     implementation project(':common-jre')
     implementation project(':editor-desktop')
     implementation project(':jogl2')
-    implementation project(':input3D:impl')
     implementation project(':giac-jni')
     implementation 'netscape.javascript:jsobject:1',
-            'com.apple:mac_extensions:20040714',
             'com.ogprover:OpenGeoProver:20120725',
-            'com.sun:jna:4.1.0'
+            'net.java.dev.jna:jna:5.13.0'
 
-    implementation "com.jogamp:jogl-all:$joglVersion:natives-linux-amd64",
-        "com.jogamp:jogl-all:$joglVersion:natives-windows-i586",
-        "com.jogamp:jogl-all:$joglVersion:natives-windows-amd64",
-        "com.jogamp:jogl-all:$joglVersion:natives-macosx-universal"
-    runtimeOnly "com.jogamp:gluegen-rt:$joglVersion:natives-linux-amd64",
-        "com.jogamp:gluegen-rt:$joglVersion:natives-windows-i586",
-        "com.jogamp:gluegen-rt:$joglVersion:natives-windows-amd64", 
-        "com.jogamp:gluegen-rt:$joglVersion:natives-macosx-universal"
+    implementation "org.jogamp.jogl:jogl-all:$joglVersion:natives-linux-amd64",
+        "org.jogamp.jogl:jogl-all:$joglVersion:natives-windows-amd64",
+        "org.jogamp.jogl:jogl-all:$joglVersion:natives-macosx-universal"
+    runtimeOnly "org.jogamp.gluegen:gluegen-rt:$joglVersion:natives-linux-amd64",
+        "org.jogamp.gluegen:gluegen-rt:$joglVersion:natives-windows-amd64",
+        "org.jogamp.gluegen:gluegen-rt:$joglVersion:natives-macosx-universal"
     runtimeOnly "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",

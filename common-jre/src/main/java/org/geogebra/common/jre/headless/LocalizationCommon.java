@@ -51,7 +51,7 @@ public class LocalizationCommon extends LocalizationJre {
 
 	@Override
 	protected Locale getCommandLocale() {
-		return currentLocale;
+		return getLocale();
 	}
 
 	@Override

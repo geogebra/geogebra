@@ -7,4 +7,5 @@
   <set-property name="gwt.uncaughtexceptionhandler.windowonerror" value="IGNORE"/>
   <set-property name="user.agent" value="safari" />
   <set-property-fallback name="user.agent" value="safari"/>
+  <set-configuration-property name="user.agent.runtimeWarning" value="false"/>
 </module>
