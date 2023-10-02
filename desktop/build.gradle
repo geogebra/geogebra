@@ -58,7 +58,6 @@ dependencies {
         "org.jogamp.gluegen:gluegen-rt:$joglVersion:natives-macosx-universal"
     runtimeOnly "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64",
-        "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
 
     testImplementation project(':keyboard-base')
