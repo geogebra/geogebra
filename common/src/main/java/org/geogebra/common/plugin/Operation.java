@@ -1938,7 +1938,9 @@ public enum Operation {
 		ValidExpression ve = ((ValidExpression) value);
 		if (ve.containsFunctionVariable()) {
 			ve.setImprecise(true);
-			((ValidExpression)rt).setImprecise(true);
+			if (rt instanceof ValidExpression) {
+				((ValidExpression)rt).setImprecise(true);
+			}
 		}
 	}
 
