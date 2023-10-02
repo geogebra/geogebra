@@ -1935,11 +1935,11 @@ public enum Operation {
 		if (!(value instanceof ValidExpression)) {
 			return;
 		}
-		ValidExpression ve = ((ValidExpression) value);
+		ValidExpression ve = (ValidExpression) value;
 		if (ve.containsFunctionVariable()) {
 			ve.setImprecise(true);
 			if (rt instanceof ValidExpression) {
-				((ValidExpression)rt).setImprecise(true);
+				((ValidExpression) rt).setImprecise(true);
 			}
 		}
 	}
