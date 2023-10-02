@@ -2020,11 +2020,16 @@ public class CommandsTest {
 				false, "(1, 1)");
 		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
 				false, "(?, ?, ?)", "(0, 2, 0)");
-
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
 					"(1, 1, 0)");
 		}
+	}
+
+	@Test
+	public void testIntersectCurves3D() {
+		tRound("Intersect(Curve(v,v,pi/4,v,0,4),Curve(cos(u),sin(u),u,u,0,6),1,1)",
+				"(0.70711, 0.70711, 0.7854)");
 	}
 
 	@Test
@@ -4392,6 +4397,12 @@ public class CommandsTest {
 	public void testZipWithObject() {
 		t("a:x=y", "y = x");
 		t("RemoveUndefined(Zip(Object(xx), xx, {\"y\",\"a\",\"x\"}))", "{y = x}");
+	}
+
+	@Test
+	public void testZipWithText() {
+		t("Zip(Text[A,B,true,true,C,0], A, {\"t1\", \"t2\", \"t3\"}, B, {(0,1),(0,2),(0,3)} , "
+				+ "C, {-1, 0, 1})", "{\"t1\", \"t2\", \"t3\"}");
 	}
 
 	@Test

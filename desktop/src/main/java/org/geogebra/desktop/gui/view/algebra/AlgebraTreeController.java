@@ -16,6 +16,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -96,7 +97,7 @@ public class AlgebraTreeController extends AlgebraController
 		// right click is consumed in mousePressed, but in GeoGebra 3D,
 		// where heavyweight popup menus are enabled this doesn't work
 		// so make sure that this is no right click as well (ticket #302)
-		if (e.isConsumed() || AppD.isRightClick(e)) {
+		if (e.isConsumed() || MouseEventUtil.isRightClick(e)) {
 			return;
 		}
 

@@ -124,19 +124,14 @@ public abstract class ProbabilityCalculatorView
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
 	private final ProbabilityXAxis xAxis;
-	protected GeoPoint curvePoint;
-	protected GeoElement densityCurve;
-	protected GeoElement integral;
-	protected GeoElement ySegment;
-	protected GeoElement xSegment;
-	protected GeoElement discreteIntervalGraph;
-	protected GeoElement normalOverlay;
-	protected GeoElementND discreteGraph;
-	protected GeoList discreteValueList;
-	protected GeoList discreteProbList;
-	protected GeoList intervalProbList;
-	protected GeoList intervalValueList;
-	protected ArrayList<GeoElement> pointList;
+	private GeoElement densityCurve;
+	private GeoElement integral;
+	private GeoElement discreteIntervalGraph;
+	private GeoElement normalOverlay;
+	private GeoElementND discreteGraph;
+	private GeoList discreteValueList;
+	private GeoList discreteProbList;
+	private ArrayList<GeoElement> pointList;
 
 	// initing
 	protected boolean isIniting;
@@ -161,6 +156,7 @@ public abstract class ProbabilityCalculatorView
 	// rounding
 	protected int printDecimals = 4;
 	protected int printFigures = -1;
+	protected StringTemplate stringTemplate;
 
 	// flags
 	protected boolean showProbGeos = true;
@@ -491,7 +487,7 @@ public abstract class ProbabilityCalculatorView
 				curvePointNode, false);
 		cons.removeFromConstructionList(pAlgo);
 
-		curvePoint = (GeoPoint) pAlgo.getOutput(0);
+		GeoPoint curvePoint = (GeoPoint) pAlgo.getOutput(0);
 		curvePoint.setObjColor(COLOR_POINT);
 		curvePoint.setPointSize(4);
 		curvePoint.setLayer(f.getLayer() + 1);
@@ -513,7 +509,7 @@ public abstract class ProbabilityCalculatorView
 		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons,
 				curvePoint, (GeoPoint) pointAlgo.getOutput(0), null,
 				false);
-		xSegment = seg1.getOutput(0);
+		GeoElement xSegment = seg1.getOutput(0);
 		xSegment.setObjColor(GColor.BLUE);
 		xSegment.setLineThickness(3);
 		xSegment.setLineType(
@@ -537,7 +533,7 @@ public abstract class ProbabilityCalculatorView
 		AlgoRayPointVector seg2 = new AlgoRayPointVector(cons,
 				curvePoint, v);
 		cons.removeFromConstructionList(seg2);
-		ySegment = seg2.getOutput(0);
+		GeoElement ySegment = seg2.getOutput(0);
 		ySegment.setObjColor(GColor.RED);
 		ySegment.setLineThickness(3);
 		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
@@ -640,8 +636,8 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	private void createSimpleDiscreteGraph(GeoNumberValue xMin, GeoNumberValue xMax) {
-		intervalValueList = takeSubList(discreteValueList, xMin, xMax);
-		intervalProbList = takeSubList(discreteProbList, xMin, xMax);
+		GeoList intervalValueList = takeSubList(discreteValueList, xMin, xMax);
+		GeoList intervalProbList = takeSubList(discreteProbList, xMin, xMax);
 
 		discreteIntervalGraph = createIntervalGraph(intervalValueList, intervalProbList);
 		plotGeoList.add(discreteIntervalGraph);
@@ -1000,20 +996,21 @@ public abstract class ProbabilityCalculatorView
 	 * @return formatted number
 	 */
 	public String format(double x) {
-		StringTemplate highPrecision;
+		return kernel.format(x, getStringTemplate());
+	}
 
-		// override the default decimal place setting
-		if (printDecimals >= 0) {
-			int d = Math.max(printDecimals, 4);
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, d,
-					false);
-		} else {
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
-					printFigures, false);
+	private StringTemplate getStringTemplate() {
+		if (stringTemplate == null) {
+			// override the default decimal place setting
+			if (printDecimals >= 0) {
+				int decimals = Math.max(printDecimals, 4);
+				stringTemplate = StringTemplate.printDecimals(StringType.GEOGEBRA, decimals, false);
+			} else {
+				stringTemplate =
+						StringTemplate.printFigures(StringType.GEOGEBRA, printFigures, false);
+			}
 		}
-		// get the formatted string
-
-		return kernel.format(x, highPrecision);
+		return stringTemplate;
 	}
 
 	/**
@@ -1709,10 +1706,12 @@ public abstract class ProbabilityCalculatorView
 			if (printFigures != kernel.getPrintFigures()) {
 				printFigures = kernel.getPrintFigures();
 				printDecimals = -1;
+				stringTemplate = null;
 				return true;
 			}
 		} else if (printDecimals != kernel.getPrintDecimals()) {
 			printDecimals = kernel.getPrintDecimals();
+			stringTemplate = null;
 			return true;
 		}
 		return false;

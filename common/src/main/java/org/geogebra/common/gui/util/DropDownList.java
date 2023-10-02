@@ -7,7 +7,7 @@ import com.google.j2objc.annotations.Weak;
 
 public class DropDownList {
 
-	protected static final int BOX_ROUND = 8;
+	public static final int BOX_ROUND = 2;
 	public static final int MAX_WIDTH = 40;
 
 	protected int scrollDelay = 100;

@@ -747,4 +747,8 @@ public class AppletParameters {
 	public String getParamMultiplayerUrl() {
 		return getStringDataParam("multiplayerUrl", "");
 	}
+
+	public double getBorderRadius() {
+		return getIntDataParam("borderRadius", 0);
+	}
 }

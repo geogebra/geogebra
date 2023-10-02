@@ -3,8 +3,6 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -48,7 +46,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.event.dom.client.KeyCodes;
@@ -75,7 +72,6 @@ import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
 
-import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 
 public class AutoCompleteTextFieldW extends FlowPanel
@@ -130,7 +126,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private static final RegExp syntaxArgPattern = RegExp
 			.compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
-	private @CheckForNull CursorOverlay cursorOverlay;
+	private TextFieldController textFieldController;
 
 	private final AutocompleteProviderClassic inputSuggestions;
 	private final FlowPanel main = new FlowPanel();
@@ -152,6 +148,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	public void removeContent(IsWidget widget) {
 		main.remove(widget);
+	}
+
+	void updateInputBoxAlign() {
+		if (geoUsedForInputBox != null) {
+			setTextAlignmentsForInputBox(geoUsedForInputBox.getAlignment());
+		}
 	}
 
 	public interface InsertHandler {
@@ -333,6 +335,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		addContent(textField);
 		add(main);
+		textFieldController = createTextFieldController();
+	}
+
+	private TextFieldController createTextFieldController() {
+		DefaultTextFieldController defaultTextFieldController =
+				new DefaultTextFieldController(this);
+
+		return isCursorOverlayNeeded()
+				? new CursorOverlayController(this, main, defaultTextFieldController)
+				: defaultTextFieldController;
 	}
 
 	public void addContent(IsWidget widget) {
@@ -419,23 +431,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setFont(GFont font) {
-		String size = font.getSize() + "px";
-		Dom.setImportant(getInputElement().getStyle(), "font-size", size);
-		if (cursorOverlay != null) {
-			Dom.setImportant(cursorOverlay.getElement().getStyle(), "font-size",
-					size);
-		}
+		textFieldController.setFont(font);
 	}
 
 	@Override
 	public void setForeground(GColor color) {
-		if (!NavigatorUtil.isMobile()) {
-			textField.getElement().getStyle()
-					.setColor(GColor.getColorString(color));
-		}
-		if (cursorOverlay != null) {
-			cursorOverlay.getElement().getStyle().setColor(GColor.getColorString(color));
-		}
+		textFieldController.setForegroundColor(color);
 	}
 
 	@Override
@@ -502,51 +503,25 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setCaretPosition(int caretPos) {
 		textField.getValueBox().setCursorPos(caretPos);
-		if (cursorOverlay != null && cursorOverlay.isAttached()) {
-			updateCursorOverlay();
-		}
+		textFieldController.unselectAll();
+		textFieldController.update();
 	}
 
 	/**
 	 * Update overlay with cursor for mobile browsers
 	 */
 	public void updateCursorOverlay() {
-		if (cursorOverlay != null) {
-			cursorOverlay.update(getCursorPos(), getText());
-		}
-	}
-
-	private void enableCursorOverlay() {
-		setReadOnly(true);
-		if (cursorOverlay == null) {
-			cursorOverlay = new CursorOverlay();
-			addFocusHandler(evt -> addDummyCursor());
-			addBlurHandler(evt -> removeDummyCursor());
-			DomGlobal.setInterval(event -> updateCursorOverlay(), 200);
-			if (geoUsedForInputBox != null) {
-				setTextAlignmentsForInputBox(geoUsedForInputBox.getAlignment());
-			}
-		}
+		textFieldController.update();
 	}
 
 	@Override
 	public void addDummyCursor() {
-		if (cursorOverlay != null) {
-			main.add(cursorOverlay);
-			main.addStyleName("withCursorOverlay");
-			app.showKeyboard(this, true);
-		}
-		updateCursorOverlay();
+		textFieldController.addCursor();
 	}
 
 	@Override
 	public int removeDummyCursor() {
-		// check for isAttached to avoid infinite recursion
-		if (cursorOverlay != null && cursorOverlay.isAttached()) {
-			cursorOverlay.removeFromParent();
-			main.removeStyleName("withCursorOverlay");
-			CursorOverlay.hideKeyboard(app);
-		}
+		textFieldController.removeCursor();
 		return getCaretPosition();
 	}
 
@@ -571,22 +546,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					loc.getMenu("Syntax") + ":\n" + help, cmd, null));
 		} else if (app.getGuiManager() != null) {
 			app.getGuiManager().openCommandHelp(null);
-		}
-	}
-
-	private void clearSelection() {
-		int start = textField.getText()
-				.indexOf(textField.getValueBox().getSelectedText());
-		int end = start + textField.getValueBox().getSelectionLength();
-		// clear selection if there is one
-		if (start != end) {
-			int pos = getCaretPosition();
-			String oldText = getText();
-			String sb = oldText.substring(0, start) + oldText.substring(end);
-			setText(sb);
-			if (pos < sb.length()) {
-				setCaretPosition(pos);
-			}
 		}
 	}
 
@@ -727,9 +686,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			return;
 		}
 
-		if (cursorOverlay != null
-				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
-				&& e.getNativeEvent().getKeyCode() != 0) {
+		if (textFieldController.shouldBeKeyPressInserted(e)) {
 			insertString(Character.toString(ch));
 			text = getText();
 		}
@@ -737,7 +694,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				|| ch == ']')) {
 			return;
 		}
-		clearSelection();
+		textFieldController.clearSelection();
 		caretPos = getCaretPosition();
 
 		if (ch == '}' || ch == ')' || ch == ']') {
@@ -830,39 +787,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getGlobalKeyDispatcher().handleTab(e.isShiftKeyDown());
 			e.stopPropagation(); // avoid conflict with GeoTabber
 		}
-		handleTabletKeyboard(e);
-	}
-
-	private void handleTabletKeyboard(KeyDownEvent e) {
-		if (cursorOverlay == null) {
-			return;
-		}
-		int keyCode = e.getNativeKeyCode();
-		if (keyCode == 0 && NavigatorUtil.isiOS()) {
-			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
-			if (arrowType != -1) {
-				keyCode = arrowType;
-			}
-		}
-		switch (keyCode) {
-		case GWTKeycodes.KEY_BACKSPACE:
-			onBackSpace();
-			break;
-		case GWTKeycodes.KEY_LEFT:
-			onArrowLeft();
-			break;
-		case GWTKeycodes.KEY_RIGHT:
-			onArrowRight();
-			break;
-		case GWTKeycodes.KEY_UP:
-			handleUpArrow();
-			break;
-		case GWTKeycodes.KEY_DOWN:
-			handleDownArrow();
-			break;
-		default:
-			break;
-		}
+		textFieldController.handleKeyboardEvent(e);
 	}
 
 	@Override
@@ -993,7 +918,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
 					&& (e.getNativeKeyCode() != GWTKeycodes.KEY_A)) {
-				clearSelection();
+				textFieldController.clearSelection();
 			}
 
 			// handle alt-p etc
@@ -1005,7 +930,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
-	private void handleDownArrow() {
+	void handleDownArrow() {
 		if (!handleEscapeKey) {
 			return;
 		}
@@ -1062,7 +987,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
-	private void handleUpArrow() {
+	void handleUpArrow() {
 		if (!isSuggesting()) {
 			if (!handleEscapeKey) {
 				return;
@@ -1139,13 +1064,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	@Override
 	public void insertString(String text) {
-		int start = getSelectionStart();
-		int end = getSelectionEnd();
+		int start = textFieldController.getSelectionStart();
+		int end = textFieldController.getSelectionEnd();
 
 		setText(start, end, text);
 		if (insertHandler != null) {
 			insertHandler.onInsert(text);
 		}
+		textFieldController.unselectAll();
 		updateCursorOverlay();
 	}
 
@@ -1164,8 +1090,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	@Override
 	public void onBackSpace() {
-		int start = getSelectionStart();
-		int end = getSelectionEnd();
+		int start = textFieldController.getSelectionStart();
+		int end = textFieldController.getSelectionEnd();
 
 		if (end - start < 1) {
 			end = getCaretPosition();
@@ -1199,15 +1125,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (newPos <= getText().length()) {
 			setCaretPosition(newPos);
 		}
-	}
-
-	private int getSelectionEnd() {
-		return getSelectionStart()
-				+ textField.getValueBox().getSelectionLength();
-	}
-
-	private int getSelectionStart() {
-		return textField.getValueBox().getCursorPos();
 	}
 
 	@Override
@@ -1359,8 +1276,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public void enableGGBKeyboard() {
 		if (canHaveGGBKeyboard()) {
-			if (NavigatorUtil.isMobile() && !app.isWhiteboardActive()) {
-				enableCursorOverlay();
+			if (isCursorOverlayNeeded()) {
+				setReadOnly(true);
 			}
 			InputKeyboardButton button = app.getGuiManager().getInputKeyboardButton();
 			if (keyboardButtonEnabled && button != null) {
@@ -1370,11 +1287,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
+	private boolean isCursorOverlayNeeded() {
+		return NavigatorUtil.isMobile() && !app.isWhiteboardActive();
+	}
+
 	/**
 	 * Selects all text.
 	 */
 	public void selectAll() {
-		textField.getValueBox().selectAll();
+		textFieldController.selectAll();
 	}
 
 	@Override
@@ -1541,22 +1462,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setTextAlignmentsForInputBox(HorizontalAlignment alignment) {
-		getInputElement().getStyle().setTextAlign(textAlignToCssAlign(alignment));
-		if (cursorOverlay != null) {
-			cursorOverlay.getElement().getStyle().setProperty("justifyContent",
-					alignment.toString());
-		}
-	}
-
-	private TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
-		switch (alignment) {
-		default:
-		case LEFT:
-				return TextAlign.LEFT;
-		case CENTER:
-				return TextAlign.CENTER;
-		case RIGHT:
-				return TextAlign.RIGHT;
-		}
+		textFieldController.setHorizontalAlignment(alignment);
 	}
 }

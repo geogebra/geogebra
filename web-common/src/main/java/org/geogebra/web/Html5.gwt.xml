@@ -18,6 +18,7 @@
   <!-- not using any browser-specific overrides: only compile for one browser -->
   <set-property name="user.agent" value="safari" />
   <set-property-fallback name="user.agent" value="safari"/>
+  <set-configuration-property name="user.agent.runtimeWarning" value="false"/>
   <!-- #3511 -->
   <set-property name="compiler.stackMode" value="strip"/>
   <set-property name="gwt.uncaughtexceptionhandler.windowonerror" value="IGNORE"/>

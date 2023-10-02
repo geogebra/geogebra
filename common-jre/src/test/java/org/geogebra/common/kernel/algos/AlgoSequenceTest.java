@@ -59,6 +59,12 @@ public class AlgoSequenceTest extends BaseUnitTest {
 		assertThat(ptsBefore, greaterThan(ptsAfter * 10));
 	}
 
+	@Test
+	public void closestPointToSequenceOfPolygons() {
+		add("l1=Sequence(Polygon((p, 1), (p, 2), 4), p, 1, 5)");
+		assertThat(add("ClosestPoint(l1, (6, 1))"), hasValue("(5, 1)"));
+	}
+
 	private String functionPoints(GeoElement geoElement) {
 		ExpressionNode functionExpression = ((GeoFunction) geoElement).getFunctionExpression();
 		return Objects.requireNonNull(functionExpression).getRight().toValueString(

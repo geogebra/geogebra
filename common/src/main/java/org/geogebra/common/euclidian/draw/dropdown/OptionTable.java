@@ -1,13 +1,13 @@
 package org.geogebra.common.euclidian.draw.dropdown;
 
 import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.MARGIN;
-import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.ROUND;
+import static org.geogebra.common.gui.util.DropDownList.BOX_ROUND;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 class OptionTable {
 	private GRectangle bounds;
@@ -17,6 +17,9 @@ class OptionTable {
 	private final DrawItems drawItems;
 	private final OptionScroller scroller;
 	private int boxWidth;
+	private static final int HORIZONTAL_MARGIN = 1;
+	private static final int VERTICAL_MARGIN = 1;
+	private static final int BORDER_WIDTH = 1;
 
 	OptionTable(DropDownModel model,
 			DrawItems drawItems,
@@ -142,12 +145,14 @@ class OptionTable {
 
 	private void drawBox(GGraphics2D g2) {
 		g2.setPaint(model.getBackgroundColor());
-		int x = model.getLeft() - 1;
-		int y = model.getTop() - 1;
-		g2.fillRoundRect(x, y, getWidth() + 2,
-				getHeight() + 2, ROUND, ROUND);
-		g2.setPaint(GColor.DARK_GRAY);
-		g2.drawRoundRect(x, y, getWidth() + 2,
-				getHeight() + 2, ROUND, ROUND);
+		int x = model.getLeft() - HORIZONTAL_MARGIN;
+		int y = model.getTop() - VERTICAL_MARGIN;
+		g2.fillRoundRect(x, y, getWidth() + 2 * HORIZONTAL_MARGIN,
+				getHeight() + 2 * VERTICAL_MARGIN, BOX_ROUND, BOX_ROUND);
+
+		g2.setPaint(GeoGebraColorConstants.NEUTRAL_500);
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(BORDER_WIDTH));
+		g2.drawRoundRect(x, y, getWidth() + 2 * HORIZONTAL_MARGIN,
+				getHeight() + 2 * VERTICAL_MARGIN, BOX_ROUND, BOX_ROUND);
 	}
 }

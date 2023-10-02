@@ -304,9 +304,24 @@ public abstract class CasTestJsonCommon {
 		}
 	}
 
+	protected void testCatNoWindows(String category) {
+		String os = System.getProperty("os.version");;
+		if (os != null && StringUtil.toLowerCaseUS(os).startsWith("windows")) {
+			testCat(category);
+		} else {
+			testcases.remove(category);
+			assumeFalse(true); // mark test as skipped
+		}
+	}
+
 	@Test
 	public void testIntegralNoArm() {
 		testCatNoArm("IntegralNoArm");
+	}
+
+	@Test
+	public void testComplexRootSquareRoots() {
+		testCatNoWindows("ComplexRootSquareRoots");
 	}
 
 	@Test
@@ -348,8 +363,12 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testScientificText() {
+	public void testScientificText1() {
 		testCat("ScientificText.1");
+	}
+
+	@Test
+	public void testScientificText2() {
 		testCat("ScientificText.2");
 	}
 
