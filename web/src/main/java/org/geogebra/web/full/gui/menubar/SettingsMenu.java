@@ -30,6 +30,6 @@ public class SettingsMenu extends Submenu {
 
 	@Override
 	public void handleHeaderClick() {
-		((AppWFull) getApp()).getActivity().showSettingsView(getApp());
+		((AppWFull) getApp()).getCurrentActivity().showSettingsView(getApp());
 	}
 }

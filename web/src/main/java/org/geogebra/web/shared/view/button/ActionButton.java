@@ -3,10 +3,10 @@ package org.geogebra.web.shared.view.button;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.ActionView;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.RootPanel;
 
 /**
@@ -14,17 +14,20 @@ import org.gwtproject.user.client.ui.RootPanel;
  */
 public class ActionButton implements ActionView, SetLabels {
 
-	private App app;
-	private RootPanel view;
+	private final AppW app;
+	private final RootPanel view;
 	private String titleLocalizationKey;
 
 	/**
 	 * @param app The app.
 	 * @param view The wrapped view.
+	 * @param title translation key for title
 	 */
-	public ActionButton(App app, RootPanel view) {
+	public ActionButton(AppW app, RootPanel view, String title) {
 		this.app = app;
 		this.view = view;
+		setTitle(title);
+		app.getLocalization().registerLocalizedUI(this);
 	}
 
 	@Override
