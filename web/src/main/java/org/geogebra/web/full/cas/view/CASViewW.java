@@ -56,7 +56,7 @@ public class CASViewW extends CASView implements PrintableW {
 		component.addBitlessDomHandler(ml, TouchEndEvent.getType());
 
 		app.invokeLater(() -> {
-			getCAS().initCurrentCAS();
+			app.getAsyncManager().prefetch(null, "giac", "advanced");
 			GuiManagerW gm = (GuiManagerW) app.getGuiManager();
 			if (gm != null) {
 				gm.reInitHelpPanel(true);

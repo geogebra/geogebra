@@ -13,7 +13,9 @@ public class MowService implements Service {
 	@Override
 	public HttpRequest createRequest(AuthenticationModel model) {
 		model.restartSession();
-		return UtilFactory.getPrototype().newHttpRequest();
+		HttpRequest httpRequest = UtilFactory.getPrototype().newHttpRequest();
+		httpRequest.setAuth(model.getLoginToken());
+		return httpRequest;
 	}
 
 	@Override

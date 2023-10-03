@@ -10,10 +10,10 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "12 September 2023";
+	public static final String BUILD_DATE = "26 September 2023";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.802.0";
 
+	public static final String VERSION_STRING = "5.2.804.0";
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
@@ -107,8 +107,8 @@ public interface GeoGebraConstants {
 			// 6.0.x.x
 			switch (this) {
 			default:
-				// change 5.0.274.0 to 6.0.274.0
-				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
+				// change 5.2.274.0 to 6.0.274.0
+				return getVersionString6() + "-" + suffix;
 			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
 			}
@@ -160,12 +160,10 @@ public interface GeoGebraConstants {
 	public static final String XML_FILE_FORMAT = "5.0";
 
 	// This is used for checking if a minor update exists (on each run):
-	// DON'T change to https (causes problems)
 	public static final String VERSION_URL_MINOR =
-			"https://download.geogebra.org/installers/5.0/version.txt";
+			"https://download.geogebra.org/installers/5.2/version.txt";
 
 	// This is used for checking whether a major update exists (monthly):
-	// DON'T change to https (causes problems)
 	public static final String VERSION_URL = "https://download.geogebra.org/installers/version.txt";
 
 	public static final String INSTALLERS_URL = "https://www.geogebra.org/download";
@@ -174,7 +172,7 @@ public interface GeoGebraConstants {
 	public static final String SPLASH_STRING = "splash.png";
 	// archive
 	/** short version, for online archive */
-	public static final String SHORT_VERSION_STRING = "5.0";
+	public static final String SHORT_VERSION_STRING = "5.2";
 	// File format versions
 	/** XSD for ggb files */
 	public static final String GGB_XSD_FILENAME = "ggb.xsd";
@@ -191,11 +189,7 @@ public interface GeoGebraConstants {
 	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE
 			+ "geogebra-jars.zip";
 	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.0\\jars\\update";
-
-	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0"
-			+ "\\thirdparty\\update";
+	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.2\\jars\\update";
 
 	/** http prefix */
 	public static final String HTTP = "http://";
@@ -279,6 +273,6 @@ public interface GeoGebraConstants {
 	 * @return version string
 	 */
 	static String getVersionString6() {
-		return VERSION_STRING.replace("5.0.", "6.0.");
+		return VERSION_STRING.replace("5.2.", "6.0.");
 	}
 }

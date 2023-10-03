@@ -25,7 +25,7 @@ public class IneqBoolFunctionKeyboardFactory implements KeyboardModelFactory {
 		row = functionKeyboard.nextRow(9.2f);
 		FunctionKeyUtil.addInverseSinCosTan(row, buttonFactory, width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
-		MathKeyUtil.addImInfDegComma(row, buttonFactory);
+		MathKeyUtil.addPiEIDegree(row, buttonFactory);
 
 		row = functionKeyboard.nextRow(9.2f);
 		FunctionKeyUtil.addSecCscCot(row, buttonFactory, width);

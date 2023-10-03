@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 public class ListAsComboModel extends BooleanOptionModel {
 
@@ -49,6 +50,12 @@ public class ListAsComboModel extends BooleanOptionModel {
 	}
 
 	private void drawListAsComboBox(GeoList geo, boolean value) {
+		// Set default object and background color if needed
+		if (value && !geo.isBackgroundColorSet() && geo.isDefaultObjectColorSet()) {
+			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
+			geo.setBackgroundColor(geo.getBackgroundColor());
+		}
+
 		if (geo.getViewSet() == null) {
 			app.getEuclidianView1().drawListAsComboBox(geo, value);
 			return;

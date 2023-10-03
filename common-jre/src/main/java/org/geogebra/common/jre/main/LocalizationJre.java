@@ -35,7 +35,8 @@ public abstract class LocalizationJre extends Localization {
 	// supported GUI languages (from properties files)
 	protected ArrayList<Locale> supportedLocales = null;
 
-	protected Locale currentLocale = Locale.ENGLISH;
+	private Language currentLanguage = Language.English_US;
+	private Locale currentLocale = convertToLocale(currentLanguage);
 
 	/**
 	 * @param dimension 3 for 3D
@@ -61,6 +62,11 @@ public abstract class LocalizationJre extends Localization {
 
 	public Locale getLocale() {
 		return currentLocale;
+	}
+
+	@Override
+	public Language getLanguageEnum() {
+		return currentLanguage;
 	}
 
 	@Override
@@ -351,11 +357,22 @@ public abstract class LocalizationJre extends Localization {
 		}
 	}
 
+	private Language[] getSupportedLanguages() {
+		return getSupportedLanguages(hasAllLanguages());
+	}
+
 	/**
 	 * @return list of suported locales
 	 */
 	protected ArrayList<Locale> getSupportedLocales() {
-		return getSupportedLocales(app.has(Feature.ALL_LANGUAGES));
+		return getSupportedLocales(hasAllLanguages());
+	}
+
+	/**
+	 * @return true if it allows languages that are not fully translated.
+	 */
+	public boolean hasAllLanguages() {
+		return app.has(Feature.ALL_LANGUAGES);
 	}
 
 	private ArrayList<Locale> buildSupportedLocales(boolean prerelease) {
@@ -410,7 +427,8 @@ public abstract class LocalizationJre extends Localization {
 	 * @param locale current locale
 	 */
 	public void setLocale(Locale locale) {
-		currentLocale = getClosestSupportedLocale(locale);
+		currentLanguage = getClosestSupportedLanguage(locale);
+		currentLocale = convertToLocale(currentLanguage);
 		updateResourceBundles();
 	}
 
@@ -418,7 +436,7 @@ public abstract class LocalizationJre extends Localization {
 	 * @return locale for command translation
 	 */
 	protected Locale getCommandLocale() {
-		Language language = Language.getLanguage(getLanguage());
+		Language language = getLanguageEnum();
 		if (areEnglishCommandsForced() || (language != null && !language.hasTranslatedKeyboard())) {
 			return Locale.ENGLISH;
 		}
@@ -426,7 +444,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * Returns a locale that is supported and is closest to the query locale.
+	 * Returns a language that is supported and is closest to the query locale.
 	 * If present, it will return the perfect match.
 	 * Else, it looks for the closest, more general locale (for example it returns 'en'
 	 * for the query 'en-CA').
@@ -437,32 +455,32 @@ public abstract class LocalizationJre extends Localization {
 	 * @param query query locale
 	 * @return closest supported locale
 	 */
-	protected Locale getClosestSupportedLocale(Locale query) {
-		Set<String> subtags = convertToSubtagSet(query);
+	protected Language getClosestSupportedLanguage(Locale query) {
+		Set<String> subtags = convertToSubtagSet(query.toLanguageTag());
 
-		Locale match = null;
+		Language match = null;
 		int generalScore = 0;
 		int specificScore = Integer.MAX_VALUE;
-		for (Locale locale : getSupportedLocales()) {
-			if (locale.toLanguageTag().equals(query.toLanguageTag())) {
+		for (Language language : getSupportedLanguages()) {
+			if (language.toLanguageTag().equals(query.toLanguageTag())) {
 				// A perfect match found, return early
-				return locale;
-			} else if (locale.getLanguage().equals(query.getLanguage())) {
+				return language;
+			} else if (language.language.equals(query.getLanguage())) {
 				// The language matches
-				Set<String> supportedLocaleSubtags = convertToSubtagSet(locale);
+				Set<String> supportedLocaleSubtags = convertToSubtagSet(language.toLanguageTag());
 				if (subtags.containsAll(supportedLocaleSubtags)
 						&& supportedLocaleSubtags.size() > generalScore) {
 					// A closer, more general match found
-					match = locale;
+					match = language;
 					generalScore = supportedLocaleSubtags.size();
 				} else if (generalScore == 0 && supportedLocaleSubtags.containsAll(subtags)
 						&& supportedLocaleSubtags.size() < specificScore) {
 					// A closer more specific match found, and no general match found
 					specificScore = supportedLocaleSubtags.size();
-					match = locale;
+					match = language;
 				} else if (match == null) {
 					// Store a match to the language if there is none yet.
-					match = locale;
+					match = language;
 				}
 			}
 		}
@@ -470,11 +488,11 @@ public abstract class LocalizationJre extends Localization {
 			return match;
 		}
 
-		return Locale.ENGLISH;
+		return Language.English_US;
 	}
 
-	private static Set<String> convertToSubtagSet(Locale locale) {
-		return new HashSet<>(Arrays.asList(locale.toLanguageTag().split("-")));
+	private static Set<String> convertToSubtagSet(String languageTag) {
+		return new HashSet<>(Arrays.asList(languageTag.split("-")));
 	}
 
 	/**

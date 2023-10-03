@@ -890,6 +890,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						}
 					}
 				});
+				getLoginOperation().performTokenLogin();
 			}
 			Log.debug("listening");
 		}

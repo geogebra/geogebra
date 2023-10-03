@@ -3,8 +3,8 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -16,6 +16,7 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 	/** curve */
 	protected GeoCurveCartesianND curve;
 	private Solution soln;
+	protected OutputHandler<GeoPointND> outputPoints; // output
 
 	/**
 	 * 
@@ -101,7 +102,9 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 	/**
 	 * @return output handler
 	 */
-	protected abstract OutputHandler<GeoElement> getOutputPoints();
+	protected final OutputHandler<GeoPointND> getOutputPoints() {
+		return outputPoints;
+	}
 
 	/**
 	 * 
@@ -112,14 +115,47 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 	 * @param fv
 	 *            function variable
 	 */
-	protected abstract void updatePoint(GeoPointND point, double param,
-			FunctionVariable fv);
+	protected final void updatePoint(GeoPointND point, double param,
+			FunctionVariable fv) {
+
+		ExpressionNode xFun = curve.getFun(0).getExpression();
+		ExpressionNode yFun = curve.getFun(1).getExpression();
+		double z = 0;
+		fv.set(param);
+		if (curve.getDimension() > 2) {
+			z = curve.getFun(2).getExpression().evaluateDouble();
+		}
+		point.setCoords(xFun.evaluateDouble(), yFun.evaluateDouble(), z, 1.0);
+	}
 
 	/**
 	 * @param point
 	 *            point
 	 * @return check it's really on the coord sys element
 	 */
-	protected abstract boolean inCoordSys(GeoPointND point);
+	protected boolean inCoordSys(GeoPointND point) {
+		return true;
+	}
+
+	/**
+	 *
+	 * @return handler for output points
+	 */
+	protected OutputHandler<GeoPointND> createOutputPoints(boolean is3d) {
+		if (is3d) {
+			return new OutputHandler<>(() -> {
+				GeoPointND pt = kernel.getManager3D().point3D(0, 0, 0, false);
+				pt.setParentAlgorithm(this);
+				return pt;
+			});
+		} else {
+			return new OutputHandler<>(() -> {
+				GeoPoint p = new GeoPoint(cons);
+				p.setCoords(0, 0, 1);
+				p.setParentAlgorithm(this);
+				return p;
+			});
+		}
+	}
 
 }
