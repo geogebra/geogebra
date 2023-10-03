@@ -354,7 +354,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public void setVerticalAlignment(VerticalAlignment alignment) {
 		((HasVerticalAlignment) geo).setVerticalAlignment(alignment);
 		updateVerticalAlign();
-		geo.getKernel().notifyRepaint();
+		geo.updateRepaint();
 	}
 
 	@Override

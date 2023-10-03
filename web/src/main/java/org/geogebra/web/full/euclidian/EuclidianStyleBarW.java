@@ -53,6 +53,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.undo.UpdateStyleActionStore;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -1478,6 +1479,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void handleVerticalAlignment(ArrayList<GeoElement> targetGeos) {
 		VerticalAlignment alignment
 				= VerticalAlignment.values()[btnVerticalAlignment.getSelectedIndex()];
+		UpdateStyleActionStore store = new UpdateStyleActionStore(targetGeos);
 		inlineFormatter.formatInlineText(targetGeos, (formatter) -> {
 			if (alignment != null && !alignment.equals(formatter.getVerticalAlignment())) {
 				formatter.setVerticalAlignment(alignment);
@@ -1486,6 +1488,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			return false;
 		});
+		if (store.needUndo()) {
+			store.storeUndo();
+		}
 	}
 
 	private void createTextSizeBtn() {

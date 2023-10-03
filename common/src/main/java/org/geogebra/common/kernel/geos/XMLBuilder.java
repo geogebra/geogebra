@@ -459,11 +459,9 @@ public class XMLBuilder {
 			appendRGB(sb, borderColor);
 			sb.append("/>\n");
 		}
-		if (alignment != VerticalAlignment.TOP) {
-			sb.append("\t<verticalAlign val=\"");
-			sb.append(alignment.name().toLowerCase(Locale.ROOT));
-			sb.append("\"/>\n");
-		}
+		sb.append("\t<verticalAlign val=\"");
+		sb.append(alignment.name().toLowerCase(Locale.ROOT));
+		sb.append("\"/>\n");
 	}
 
 	/**
