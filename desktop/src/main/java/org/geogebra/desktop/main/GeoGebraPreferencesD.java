@@ -18,7 +18,6 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
@@ -67,11 +66,6 @@ public class GeoGebraPreferencesD {
 	/** Last version shown in download notification */
 	private static final String VERSION_LAST_NOTIFICATION_SHOWN = "version_notification_shown";
 
-	/**
-	 * save what kind of 3D input we use (if one)
-	 */
-	public static final String INPUT_3D = "input_3d";
-
 	// picture export dialog
 	public static final String EXPORT_PIC_FORMAT = "export_pic_format";
 	public static final String EXPORT_PIC_DPI = "export_pic_dpi";
@@ -83,7 +77,6 @@ public class GeoGebraPreferencesD {
 
 	// user data
 	public static final String USER_LOGIN_TOKEN = "user_login_token";
-	public static final String USER_LOGIN_SKIP = "user_login_skip";
 
 	// preferences node name for GeoGebra
 	private Preferences ggbPrefs;
@@ -220,25 +213,6 @@ public class GeoGebraPreferencesD {
 	public void saveVersionCheckAllow(String value) {
 		getPref().savePreference(GeoGebraPreferencesD.VERSION_CHECK_ALLOW,
 				value);
-	}
-
-	/**
-	 * set 3D input used
-	 * 
-	 * @param type
-	 *            type
-	 */
-	public void setInput3DType(String type) {
-		getPref().savePreference(GeoGebraPreferencesD.INPUT_3D, type);
-	}
-
-	/**
-	 * 
-	 * @return 3D input type currently used, "none" if none
-	 */
-	public String getInput3DType() {
-		return getPref().loadPreference(GeoGebraPreferencesD.INPUT_3D,
-				Input3DConstants.PREFS_NONE);
 	}
 
 	/**

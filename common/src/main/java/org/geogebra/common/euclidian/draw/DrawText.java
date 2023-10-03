@@ -126,7 +126,7 @@ public final class DrawText extends Drawable {
 		if (needsBoundingBoxUpdate(textChanged || positionChanged || fontChanged)) {
 			// ensure that bounding box gets updated by drawing text once
 			updateLabelRectangle();
-			if (text.hasAlignment()) {
+			if (text.hasAlignment() && text.isDefined()) {
 				align();
 				if (text.needsUpdatedBoundingBox()) {
 					updateLabelRectangle(); // recompute again to make Corner correct

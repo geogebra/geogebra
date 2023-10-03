@@ -1,12 +1,14 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -90,12 +92,27 @@ public class AbsoluteScreenPositionModelTest extends BaseUnitTest {
 		GeoList drop = add("drop={1,2,3}");
 		add("pic=ToolImage(42)");
 		drop.setDrawAsComboBox(true);
-		String[] def = new String[] {"Slider(-5,5,1)", "Checkbox()", "Button()", "InputBox()",
+		String[] def = new String[]{"Slider(-5,5,1)", "Checkbox()", "Button()", "InputBox()",
 				"drop", "pic", "\"GeoGebra rocks\""};
 		GeoElement[] geos = Arrays.stream(def).map(this::<GeoElement>add)
 				.toArray(GeoElement[]::new);
 		((GeoText) lookup("text1")).setAbsoluteScreenLocActive(true);
 		((GeoImage) lookup("pic")).setAbsoluteScreenLocActive(true);
 		return geos;
+	}
+
+	@Test
+	public void shouldSwitchFromDynamicToStatic() {
+		GeoText txt = add("\"move me\"");
+		add("a=42");
+		txt.setAbsoluteScreenLocActive(true);
+		AbsoluteScreenPositionModel model = new AbsoluteScreenPositionModel.ForX(getApp());
+		model.setGeos(new GeoElement[]{txt});
+		model.applyChanges("1+a");
+		assertThat(txt.getStartPoint().getDefinition(StringTemplate.defaultTemplate),
+				is("(1 + a, 0)"));
+		model.applyChanges("50");
+		assertThat(txt.getStartPoint(), nullValue());
+		assertThat(txt.getAbsoluteScreenLocX(), is(50));
 	}
 }

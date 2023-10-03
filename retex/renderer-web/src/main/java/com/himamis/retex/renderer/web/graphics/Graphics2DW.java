@@ -157,7 +157,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public AffineTransform getTransform() {
-		return context.getTransform();
+		return context.getAffineTransform();
 	}
 
 	@Override

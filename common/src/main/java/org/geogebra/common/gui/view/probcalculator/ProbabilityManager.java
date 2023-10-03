@@ -291,7 +291,7 @@ public class ProbabilityManager {
 		}
 
 		if (ret != null) {
-			ret.getConstruction().removeFromConstructionList(ret);
+			ret.remove();
 		} else {
 			Log.error("missing case");
 		}
@@ -377,7 +377,7 @@ public class ProbabilityManager {
 		}
 
 		if (ret != null) {
-			cons.removeFromConstructionList(ret);
+			ret.remove();
 		} else {
 			Log.error("missing case");
 		}
@@ -878,6 +878,35 @@ public class ProbabilityManager {
 	}
 
 	/**
+	 * Returns distribution algorithm for the given parameters
+	 * @param value variable value
+	 * @param parms distribution parameters
+	 * @param distType distribution type
+	 * @param isCumulative whether it's cumulative
+	 * @return probability algorithm
+	 */
+	public AlgoDistribution getDistributionAlgorithm(GeoNumeric value, GeoNumberValue[] parms,
+			Dist distType, boolean isCumulative) {
+		GeoNumberValue param1 = null, param2 = null, param3 = null;
+
+		if (parms.length > 0) {
+			param1 = parms[0];
+		}
+		if (parms.length > 1) {
+			param2 = parms[1];
+		}
+		if (parms.length > 2) {
+			param3 = parms[2];
+		}
+
+		Construction cons = app.getKernel().getConstruction();
+		AlgoDistribution algo = getCommand(distType, cons, param1, param2,
+				param3, value, isCumulative);
+
+		return algo;
+	}
+
+	/**
 	 * If isCumulative = true, returns P(X <= value) for the given distribution
 	 * If isCumulative = false, returns P(X = value) for the given distribution
 	 *
@@ -893,26 +922,9 @@ public class ProbabilityManager {
 	 */
 	public double probability(double value, GeoNumberValue[] parms, Dist distType,
 			boolean isCumulative) {
-
-		GeoNumberValue param1 = null, param2 = null, param3 = null;
-
-		Construction cons = app.getKernel().getConstruction();
-
-		if (parms.length > 0) {
-			param1 = parms[0];
-		}
-		if (parms.length > 1) {
-			param2 = parms[1];
-		}
-		if (parms.length > 2) {
-			param3 = parms[2];
-		}
-
-		AlgoDistribution algo = getCommand(distType, cons, param1, param2,
-				param3, new GeoNumeric(cons, value), isCumulative);
-
+		GeoNumeric numeric = new GeoNumeric(app.kernel.getConstruction(), value);
+		AlgoDistribution algo = getDistributionAlgorithm(numeric, parms, distType, isCumulative);
 		return algo.getResult().getDouble();
-
 	}
 
 	/**

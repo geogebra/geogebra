@@ -394,6 +394,7 @@ public enum Language {
 	final public String region;
 	/** Suppress script tag (see BCP 47) */
 	final public boolean suppressScript;
+	final private String languageTag;
 	final public String name;
 	// used to determine whether to put in release versions
 	final public boolean fullyTranslated;
@@ -440,6 +441,7 @@ public enum Language {
 		this.unicodeZero = unicodeZero;
 		this.region = region;
 		this.suppressScript = suppressScript;
+		this.languageTag = createLanguageTag();
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
@@ -569,6 +571,10 @@ public enum Language {
 	 * @return BCP 47 language tag
 	 */
 	public String toLanguageTag() {
+		return languageTag;
+	}
+
+	private String createLanguageTag() {
 		StringBuilder builder = new StringBuilder(language);
 		if (script != null && !suppressScript) {
 			builder.append("-");

@@ -594,6 +594,11 @@ public abstract class Localization extends LocalizationI {
 	public abstract Language getLanguage();
 
 	/**
+	 * @return current language
+	 */
+	public abstract Language getLanguageEnum();
+
+	/**
 	 * @param lang
 	 *            two letter language name
 	 * @return whether we are currently using given language

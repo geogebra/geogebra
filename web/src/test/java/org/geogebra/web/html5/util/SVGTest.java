@@ -3,7 +3,6 @@ package org.geogebra.web.html5.util;
 import static com.ibm.icu.impl.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
-import java.lang.annotation.Annotation;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +13,7 @@ import java.util.stream.Stream;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
+import org.gwtproject.resources.client.ClientBundle;
 import org.junit.Test;
 
 public class SVGTest {
@@ -33,10 +33,9 @@ public class SVGTest {
 		}
 		Stream.concat(Arrays.stream(ToolbarSvgResources.class.getMethods()),
 				Arrays.stream(ToolbarSvgResourcesSync.class.getMethods())).forEach(m -> {
-			Annotation[] a = m.getAnnotations();
-			if (a != null && a.length > 0) {
-				String src = a[0].toString();
-				src = src.substring(src.indexOf("org/"), src.indexOf("]"));
+			ClientBundle.Source a = m.getAnnotation(ClientBundle.Source.class);
+			if (a != null) {
+				String src = a.value()[0];
 				disk.remove(src);
 			}
 		});

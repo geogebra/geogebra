@@ -1279,9 +1279,18 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				String uris = (String) transfer.getTransferData(uriListFlavor);
 				StringTokenizer st = new StringTokenizer(uris, "\r\n");
 				while (st.hasMoreTokens()) {
-					URI uri = new URI(st.nextToken());
-					File f = new File(uri.toString());
-					fileName = f.getName();
+					URI uri;
+					File file;
+					String fullPath = st.nextToken();
+					// handle both "/Users/foo/bar.png" and "file:///Users/foo/bar.png"
+					if (fullPath.startsWith("/")) {
+						file = new File(fullPath);
+						uri = file.toURI();
+					} else {
+						uri = new URI(fullPath);
+						file = new File(uri);
+					}
+					fileName = file.getName();
 					img = ImageIO.read(uri.toURL());
 					if (img != null) {
 						nameList.add(getApp().createImage(new MyImageD(img),
@@ -1310,7 +1319,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				| URISyntaxException | ClassNotFoundException e) {
 			getApp().setDefaultCursor();
 			e.printStackTrace();
-			return null;
+			return new String[0];
 		}
 
 		getApp().setDefaultCursor();

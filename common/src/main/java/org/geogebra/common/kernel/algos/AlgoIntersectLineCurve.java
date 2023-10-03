@@ -25,10 +25,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
@@ -41,10 +41,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 
-	private GeoLine line; // input
-
-	@SuppressWarnings("javadoc")
-	protected OutputHandler<GeoElement> outputPoints; // output
+	private final GeoLine line; // input
 
 	/**
 	 * common constructor
@@ -59,11 +56,11 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	 *            curve
 	 */
 	public AlgoIntersectLineCurve(Construction c, String[] labels, GeoLine l,
-			GeoCurveCartesian p) {
+			GeoCurveCartesianND p) {
 
 		super(c);
 
-		outputPoints = createOutputPoints();
+		outputPoints = createOutputPoints(false);
 
 		this.line = l;
 		this.curve = p;
@@ -75,30 +72,6 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		outputPoints.setLabelsMulti(labels);
 
 		update();
-	}
-
-	/**
-	 * @param c
-	 *            cons
-	 */
-	public AlgoIntersectLineCurve(Construction c) {
-		super(c);
-	}
-
-	/**
-	 * 
-	 * @return handler for output points
-	 */
-	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(cons);
-				p.setCoords(0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectLineCurve.this);
-				return p;
-			}
-		});
 	}
 
 	@Override
@@ -150,16 +123,6 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	}
 
 	@Override
-	protected void updatePoint(GeoPointND point, double paramVal,
-			FunctionVariable fv) {
-		ExpressionNode xFun = curve.getFun(0).getExpression();
-		ExpressionNode yFun = curve.getFun(1).getExpression();
-		fv.set(paramVal);
-		point.setCoords(xFun.evaluateDouble(), yFun.evaluateDouble(), 1.0);
-
-	}
-
-	@Override
 	protected boolean inCoordSys(GeoPointND point) {
 		return line.isIntersectionPointIncident((GeoPoint) point,
 				Kernel.MIN_PRECISION);
@@ -169,13 +132,8 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	public String toString(StringTemplate tpl) {
 		return getLoc().getPlainDefault("IntersectionOfAandB",
 				"Intersection of %0 and %1",
-				((GeoElement) line).getLabel(tpl),
-				((GeoElement) curve).getLabel(tpl));
-	}
-
-	@Override
-	protected OutputHandler<GeoElement> getOutputPoints() {
-		return outputPoints;
+				line.getLabel(tpl),
+				curve.getLabel(tpl));
 	}
 
 }
