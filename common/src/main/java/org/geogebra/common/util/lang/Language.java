@@ -404,6 +404,7 @@ public enum Language {
 	final public String variant;
 	/** Suppress script tag (see BCP 47) */
 	final public boolean suppressScript;
+	final private String languageTag;
 	final public String name;
 	// used to determine whether to put in release versions
 	final public boolean fullyTranslated;
@@ -454,6 +455,7 @@ public enum Language {
 		this.region = region;
 		this.variant = variant;
 		this.suppressScript = suppressScript;
+		this.languageTag = createLanguageTag();
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar, boolean fullyTranslated,
@@ -601,16 +603,8 @@ public enum Language {
 		return Unicode.CURRENCY_DOLLAR + "";
 	}
 
-	final public static char getUnicodeZero(String language) {
-		return getLanguage(language).getUnicodeZero();
-	}
-
-	final public static int getRightAngleStyle(String language) {
-		return getLanguage(language).getRightAngleStyle();
-	}
-
-	public static boolean isUsingDecimalComma(String language) {
-		return getLanguage(language).decimalSeparator == ',';
+	public boolean isUsingDecimalComma() {
+		return decimalSeparator == ',';
 	}
 
 	final public int getRightAngleStyle() {
@@ -649,6 +643,10 @@ public enum Language {
 	 * @return BCP 47 language tag
 	 */
 	public String toLanguageTag() {
+		return languageTag;
+	}
+
+	private String createLanguageTag() {
 		StringBuilder builder = new StringBuilder(language);
 		if (script != null && !suppressScript) {
 			builder.append("-");

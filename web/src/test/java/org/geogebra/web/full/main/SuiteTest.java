@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Test;
@@ -19,6 +20,7 @@ public class SuiteTest {
 	@Test
 	public void examMode() {
 		AppWFull app = AppMocker.mockApplet(new AppletParameters("suite"));
+		GlobalHeader.INSTANCE.setApp(app);
 		app.setNewExam();
 		app.startExam();
 		app.switchToSubapp("geometry");

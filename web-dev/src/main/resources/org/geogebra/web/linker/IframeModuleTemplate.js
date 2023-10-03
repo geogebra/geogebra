@@ -106,8 +106,35 @@ window.__MODULE_FUNC__ = function() {
   // Provides getInstallLocationDoc() function.
   __INSTALL_LOCATION__
 
-  // Provides the installScript() function.
-  __INSTALL_SCRIPT__
+  // Installs the script directly, by simply appending a script tag with the
+  // src set to the correct location to the install location.
+  function installScript(filename) {
+    // Provides the setupWaitForBodyLoad()function
+    __WAIT_FOR_BODY_LOADED__
+
+    function installCode(code) {
+      var doc = getInstallLocationDoc();
+      var docbody = doc.body;
+      var script = doc.createElement('script');
+      script.language='javascript';
+      script.crossOrigin='';
+      script.src = code;
+      if (window.__MODULE_FUNC__.__errFn) {
+        script.onerror = function() {
+          window.__MODULE_FUNC__.__errFn('__MODULE_FUNC__', new Error("Failed to load " + code));
+        }
+      }
+      docbody.appendChild(script);
+    }
+
+    // Just pass along the filename so that a script tag can be installed in the
+    // iframe to download it.  Since we will be adding the iframe to the body,
+    // we still need to wait for the body to load before going forward.
+    setupWaitForBodyLoad(function() {
+      installCode(filename);
+    });
+  }
+
 
   // Sets the *.__installRunAsyncCode and
   // *.__startLoadingFragment functions

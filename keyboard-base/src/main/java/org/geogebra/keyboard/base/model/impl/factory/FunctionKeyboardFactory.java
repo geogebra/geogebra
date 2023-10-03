@@ -2,6 +2,8 @@ package org.geogebra.keyboard.base.model.impl.factory;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DEGREE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
@@ -37,8 +39,8 @@ public class FunctionKeyboardFactory implements KeyboardModelFactory {
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "{");
         addInputButton(row, buttonFactory, "}");
-        addInputButton(row, buttonFactory, ";");
-        addInputButton(row, buttonFactory, ":=", "\u2254");
+        addInputButton(row, buttonFactory, LEQ);
+        addInputButton(row, buttonFactory, GEQ);
 
         row = functionKeyboard.nextRow(9.2f);
         addInputButton(row, buttonFactory, "ln", width);

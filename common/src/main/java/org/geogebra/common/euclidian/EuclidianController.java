@@ -5667,13 +5667,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final void moveText() {
 		if (movedGeoText.isAbsoluteScreenLocActive()) {
-			movedGeoText.setAbsoluteScreenLoc(
-					(oldLoc.x + mouseLoc.x) - startLoc.x,
-					(oldLoc.y + mouseLoc.y) - startLoc.y);
+			if (movedGeoText.getStartPoint() == null) {
+				movedGeoText.setAbsoluteScreenLoc(
+						(oldLoc.x + mouseLoc.x) - startLoc.x,
+						(oldLoc.y + mouseLoc.y) - startLoc.y);
+			} // for dynamic abs location do nothing
 		} else {
 			if (movedGeoText.hasStaticLocation()) {
-				// absolute location: change location
-				moveTextAbsoluteLocation();
+				// static location: change location
+				moveTextStaticRWLocation();
 
 			} else {
 				// relative location: move label (change label offset)
@@ -5692,7 +5694,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		geo.updateVisualStyle(GProperty.POSITION);
 	}
 
-	protected void moveTextAbsoluteLocation() {
+	protected void moveTextStaticRWLocation() {
 		GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
 		loc.setCoords(xRW - getStartPointX(), yRW - getStartPointY(), 1.0);
 	}
@@ -5872,7 +5874,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			movedObject.setAbsoluteScreenLoc(
 					view.toScreenCoordX(xRW - getStartPointX()),
 					view.toScreenCoordY(yRW - getStartPointY()));
-		} else {
+		} else if (movedObject.getStartPoint() == null
+				|| movedObject.getStartPoint().isIndependent()) {
 			movedObject.setRealWorldLoc(xRW, yRW);
 		}
 		notifyPositionUpdate(movedObject);
@@ -6097,7 +6100,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean switchModeForMouseReleased(int evMode, Hits hitsReleased,
-			boolean kernelChanged, boolean controlDown, PointerEventType type,
+			boolean kernelChanged, boolean multipleSelect, PointerEventType type,
 			boolean runScripts) {
 		Hits hits;
 		boolean changedKernel = kernelChanged;
@@ -6142,7 +6145,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// Ctrl pressed, we need to select a point
 				setViewHits(type);
 				handleSelectClick(view.getHits().getTopHits(),
-						controlDown);
+						multipleSelect);
 			}
 			break;
 		case EuclidianConstants.MODE_SELECT:
@@ -6153,7 +6156,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// handle selection click
 			setViewHits(type);
 			handleSelectClick(view.getHits().getTopHits(),
-					controlDown);
+					multipleSelect);
 		default:
 
 			// change checkbox (boolean) state on mouse up only if there's been
@@ -6497,11 +6500,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
     }
 
 	protected void handleSelectClick(ArrayList<GeoElement> geos,
-			boolean ctrlDown) {
+			boolean uniqueSelect) {
 		if (geos == null) {
 			selection.clearSelectedGeos();
 		} else {
-			if (ctrlDown) {
+			if (uniqueSelect) {
 				selection.toggleSelectedGeoWithGroup(chooseGeo(geos, true));
 			} else {
 				Hits hits = new Hits();
@@ -7940,8 +7943,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		isMultiResize = false;
 		startBoundingBoxState = null;
 
-		// fix for meta-click to work on Mac/Linux
-		if (app.isControlDown(e)) {
+		if (app.hasMultipleSelectModifier(e)) {
 			return;
 		}
 		// move label?
@@ -9974,14 +9976,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseReleasedND(final AbstractEvent event,
 			boolean mayFocus) {
-		boolean right = app.isRightClick(event);
-		boolean control = app.isControlDown(event);
+		boolean control = event.isControlDown();
 		final boolean alt = event.isAltDown();
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
+		boolean rightClick = event.isRightClick();
 		PointerEventType type = event.getType();
 
 		if (isDraggingOccuredBeyondThreshold()) {
-			if (shouldClearSelectionAfterMove(right)) {
+			if (shouldClearSelectionAfterMove(rightClick)) {
 				clearSelectionsKeepLists(true, true);
 			} else {
 				dontClearSelection = true;
@@ -10010,7 +10012,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 
-		if (this.doubleClickStarted && !isDraggingOccuredBeyondThreshold() && !right) {
+		if (this.doubleClickStarted && !isDraggingOccuredBeyondThreshold() && !rightClick) {
 			wrapMouseclicked(control, 2, type);
 		}
 		this.doubleClickStarted = false;
@@ -10052,7 +10054,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// make sure we start the timer also for single point
 		if (penMode(mode)) {
-			getPen().handleMouseReleasedForPenMode(right, x, y,
+			getPen().handleMouseReleasedForPenMode(rightClick, x, y,
 					numOfTargets > 0);
 			view.invalidateCache();
 			draggingOccured = false;
@@ -10066,7 +10068,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (getMovedGeoPoint() != null) {
-			processReleaseForMovedGeoPoint(right);
+			processReleaseForMovedGeoPoint(rightClick);
 		}
 		if (movedGeoElement instanceof GeoPointND
 				&& movedGeoElement.hasChangeableCoordParentNumbers()
@@ -10088,7 +10090,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		transformCoords();
 		Hits hits = null;
 
-		if (specialRelease(x, y, event, right, alt, control, type)) {
+		if (specialRelease(x, y, event, control, type)) {
 			draggingOccured = false;
 			return;
 		}
@@ -10130,7 +10132,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// we want to be able to select multiple objects using the selection
 			// rectangle)
 			changedKernel = switchModeForMouseReleased(mode, hits,
-					changedKernel, control, type, mayFocus);
+					changedKernel, app.hasMultipleSelectModifier(event), type, mayFocus);
 		}
 
 		// remember helper point, see createNewPoint()
@@ -10265,8 +10267,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean specialRelease(int x, int y, AbstractEvent event,
-			boolean right, boolean alt, boolean control,
-			PointerEventType type) {
+			boolean control, PointerEventType type) {
 		if (checkResetOrAnimationHit(x, y)) {
 			return true;
 		}
@@ -10278,10 +10279,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// allow drag with right mouse button or ctrl
 		// make sure Ctrl still works for selection (when no dragging occured)
-		if (right || (control && isDraggingOccuredBeyondThreshold())) {
+		if (event.isRightClick() || (control && isDraggingOccuredBeyondThreshold())) {
 			if (!temporaryMode) {
-				processRightReleased(right, alt, control, event.isShiftDown(),
-						type);
+				processRightReleased(event, type);
 				return true;
 			}
 		}
@@ -10423,17 +10423,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void processRightReleased(boolean right, boolean alt,
-			boolean control, boolean shift, PointerEventType type) {
+	private void processRightReleased(AbstractEvent event, PointerEventType type) {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
 
-		// make sure cmd-click selects multiple points (not open
-		// properties)
-		if ((app.isMacOS() && control) || !right) {
-			return;
-		}
+		boolean control = event.isControlDown();
+		boolean alt = event.isAltDown();
+		boolean shift = event.isShiftDown();
+
 		if (isDraggingOccuredBeyondThreshold()) {
 			if (allowSelectionRectangle()) {
 				processSelectionRectangle(alt, control, shift);

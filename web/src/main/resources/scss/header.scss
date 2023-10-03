@@ -59,12 +59,6 @@ $button_hover_transition: background-color 0.15s;
 			}
 		}
 
-		.profilePanel {
-			padding: 12px;
-			margin: 0 12px 0 32px;
-			width: 64px;
-		}
-
 		.examInfoBtn {
 			right: 0;
 			position: absolute;
@@ -74,10 +68,8 @@ $button_hover_transition: background-color 0.15s;
 		.examTimer {
 			right: 72px;
 			position: absolute;
-			font-size: 24px;
-			font-weight: normal;
+			font-size: 20px;
 			margin: 20px 0px;
-			line-height: 1;
 		}
 	}
 
@@ -115,15 +107,21 @@ $button_hover_transition: background-color 0.15s;
 		}
 
 		.profilePanel {
-			height: 36px;
-			margin: 0 0 0 8px;
-			padding: 6px;
+        	width: 40px;
+        	height: 40px;
+        	margin: 4px 24px 4px 12px;
+        	padding-right: 14px;
 
-			.profileImage {
-				width: 36px;
-				height: 36px !important;
-			}
-		}
+       		.imageHolder {
+        		width: 40px;
+        		height: 40px;
+
+        		.profileImage {
+        			width: 32px;
+        			height: 32px;
+        		}
+        	}
+        }
 
 		.examTimer {
 			margin: 12px 0;

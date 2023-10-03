@@ -1303,6 +1303,8 @@ public class GuiManagerW extends GuiManager
 		if (browseGUIwasLoaded()) {
 			getBrowseView().setLabels();
 		}
+
+		GlobalHeader.INSTANCE.setLabels();
 	}
 
 	@Override

@@ -222,7 +222,7 @@ public class ConstructionDefaults implements SettingListener {
 	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
-	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
+	public static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
 
 	// quadrics
 	/** default alpha for quadrics */
@@ -989,7 +989,7 @@ public class ConstructionDefaults implements SettingListener {
 		if (defaultLabelMode) {
 			// label visibility
 			int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS
-					: app.getCurrentLabelingStyle();
+					: app.getCurrentLabelingStyle().getValue();
 
 			// automatic labelling:
 			// if algebra window open -> all labels

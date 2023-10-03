@@ -3,11 +3,8 @@ plugins {
 	id 'eclipse'
 	id 'pmd'
 	id 'checkstyle'
-	id 'org.wisepersist.gwt' version '1.1.19'
+	id 'org.docstr.gwt' version '1.1.26'
 }
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 evaluationDependsOn ':renderer-web'
 evaluationDependsOn ':editor-base'
@@ -22,7 +19,7 @@ gwt {
 	compiler {
 		logLevel = 'DEBUG'
 		if (project.hasProperty("gdetailed")) {
-			style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
+			style = org.docstr.gradle.plugins.gwt.Style.DETAILED
 		} else {
 			disableClassMetadata = true
 		}
@@ -45,7 +42,7 @@ dependencies {
 
 }
 
-task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
+task run(type: org.docstr.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
 	war = file('war')
 	description 'Starts a codeserver, and a simple webserver for development'
 }

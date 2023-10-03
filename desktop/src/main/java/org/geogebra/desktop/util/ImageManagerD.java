@@ -60,13 +60,13 @@ import com.himamis.retex.renderer.desktop.graphics.Base64;
  */
 public class ImageManagerD extends ImageManager {
 
-	private Hashtable<String, ImageIcon> iconTable = new Hashtable<>();
-	private Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
-	private static Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
+	private final Hashtable<String, ImageIcon> iconTable = new Hashtable<>();
+	private final Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
+	private static final Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
 
-	private Hashtable<String, ImageResourceD> fillableImgs = new Hashtable<>();
+	private final Hashtable<String, ImageResourceD> fillableImgs = new Hashtable<>();
 
-	private Toolkit toolKit;
+	private final Toolkit toolKit;
 	private MediaTracker tracker;
 
 	private int maxIconSize = 64; // DEFAULT_ICON_SIZE;
@@ -169,6 +169,7 @@ public class ImageManagerD extends ImageManager {
 	}
 
 	/**
+	 * Adds an external image files & changes ".gif" extensions to ".png".
 	 * @param fileName0 filename
 	 * @param img image
 	 */
@@ -461,7 +462,7 @@ public class ImageManagerD extends ImageManager {
 			String fn = fileName;
 			int index = fileName.lastIndexOf(File.separator);
 			if (index != -1) {
-				fn = fn.substring(index + 1, fn.length()); // filename without
+				fn = fn.substring(index + 1); // filename without
 			}
 			// path
 			fn = Util.processFilename(fn);
@@ -489,8 +490,7 @@ public class ImageManagerD extends ImageManager {
 					int pos = fileName.lastIndexOf('.');
 					String firstPart = pos > 0 ? fileName.substring(0, pos)
 							: "";
-					String extension = pos < fileName.length()
-							? fileName.substring(pos) : "";
+					String extension = fileName.substring(pos);
 					fileName = firstPart + n + extension;
 				} while (ImageManagerD.getExternalImage(fileName) != null);
 			}
@@ -519,6 +519,7 @@ public class ImageManagerD extends ImageManager {
 
 			BufferedImage image = null;
 			byte[] imageByte = Base64.decode(pngStr);
+
 			ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
 			try {
 				image = ImageIO.read(bis);
