@@ -27,6 +27,7 @@
 	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.20);
 }
 
+.compact.GeoGebraHeader.scientificHeader,
 .smallScreen.GeoGebraHeader.scientificHeader {
   	height: 80px;
 }
@@ -54,6 +55,7 @@
     white-space: nowrap;
 }
 
+.compact.GeoGebraHeader .appName,
 .smallScreen.GeoGebraHeader .appName {
     display: none;
 }
@@ -148,6 +150,7 @@ img.profileImage {
 	display: flex;
 }
 
+.GeoGebraFrame.GeoGebraHeader.suiteHeader.compact .upperHeader,
 .GeoGebraFrame.GeoGebraHeader.suiteHeader.smallScreen .upperHeader {
 	height: 44px;
 }
@@ -325,6 +328,7 @@ svg.icon.left {
     margin: 6px 0px 6px 18px;
 }
 
+.compact.GeoGebraFrame.scientificHeader .menuBtn,
 .smallScreen.GeoGebraFrame.scientificHeader .menuBtn {
   	margin-top: 4px;
   	margin-bottom: 4px;
@@ -335,6 +339,7 @@ svg.icon.left {
 }
 
 .compact.GeoGebraFrame .headerLogo,
+.compact.GeoGebraFrame.scientificHeader .headerLogo,
 .smallScreen.GeoGebraFrame.scientificHeader .headerLogo {
     margin: 0px ;
     height: 36px;

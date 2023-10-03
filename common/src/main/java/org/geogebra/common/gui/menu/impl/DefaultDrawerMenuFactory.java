@@ -207,10 +207,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				"exam_menu_entry", Action.START_EXAM_MODE);
 	}
 
-	protected static MenuItem share() {
-		return new ActionableItemImpl(Icon.EXPORT_FILE, "Share", Action.SHARE_FILE);
-	}
-
 	protected static MenuItem exportImage() {
 		return new ActionableItemImpl(Icon.EXPORT_IMAGE, "exportImage", Action.EXPORT_IMAGE);
 	}

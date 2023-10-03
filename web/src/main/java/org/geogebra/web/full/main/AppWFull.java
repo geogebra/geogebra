@@ -2110,7 +2110,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
 				reinitAlgebraView();
-				removeUndoRedoPanel();
 				getGuiManager().resetPanels();
 				setSuiteHeaderButton(subApp);
 			}

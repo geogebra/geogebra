@@ -21,10 +21,9 @@ public class ScientificHeaderResizer implements HeaderResizer {
 		if (header != null) {
 			reset(header);
 
-			if (frame.shouldHaveSmallScreenLayout()) {
+			if (frame.hasSmallWindowOrCompactHeader()) {
 				header.addClassName("compact");
-			}
-			else {
+			} else {
 				header.removeClassName("compact");
 			}
 
