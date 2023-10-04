@@ -296,7 +296,12 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 * Clears and initializes the model.
 	 */
 	void clearModel() {
-		columns.clear();
+		for (int i = columns.size() - 1; i >= 0; i--) {
+			GeoEvaluatable geoEvaluatable = columns.get(i).getEvaluatable();
+			if (geoEvaluatable.isGeoList()) {
+				geoEvaluatable.remove();
+			}
+		}
 		initializeModel();
 		collector.notifyDatasetChanged(this);
 	}
@@ -352,7 +357,11 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	void notifyDatasetChanged() {
-		forEachListener(listener -> listener.notifyDatasetChanged(this));
+		if (onDataImported != null) {
+			onDataImported.run();
+			onDataImported = null;
+		}
+ 		forEachListener(listener -> listener.notifyDatasetChanged(this));
 	}
 
 	private Stream<TableValuesListener> listenerStream() {
@@ -546,11 +555,6 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		collector.notifyDatasetChanged(this);
 		collector.endCollection(this);
 		resumeListeners(listener -> listener instanceof TableValuesPoints);
-	}
-
-	@Override
-	public Runnable getOnDataImportedRunnable() {
-		return onDataImported;
 	}
 
 	@Override

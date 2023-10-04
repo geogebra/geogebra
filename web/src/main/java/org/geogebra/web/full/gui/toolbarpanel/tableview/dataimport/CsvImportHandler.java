@@ -79,7 +79,6 @@ public class CsvImportHandler {
 				progressSnackbar);
 		DataImporter importer = new DataImporter(getTable(), handler);
 		importer.importCSV(csv, appW.getLocalization().getDecimalPoint());
-		appW.storeUndoInfo();
 	}
 
 	public Command getCsvHandler() {

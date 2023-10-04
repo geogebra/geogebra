@@ -278,10 +278,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 				return null;
 			});
 		}
-
-		if (tableModel.getRowCount() > 2 && tableModel.getOnDataImportedRunnable() != null) {
-			tableModel.getOnDataImportedRunnable().run();
-		}
 	}
 
 	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
