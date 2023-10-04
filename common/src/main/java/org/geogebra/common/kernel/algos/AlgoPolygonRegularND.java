@@ -97,8 +97,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 		int labelsLength = labels == null ? 0 : labels.length;
 
 		// set labels for segments only when points have labels
-		labelPointsAndSegments = A.isLabelSet() || B.isLabelSet()
-				|| labelsLength > 1;
+		labelPointsAndSegments = (A.isLabelSet() || B.isLabelSet()
+				|| labelsLength > 1) && !cons.isSuppressLabelsActive();
 		showNewSegmentsLabels = false;
 		showNewPointsLabels = false;
 

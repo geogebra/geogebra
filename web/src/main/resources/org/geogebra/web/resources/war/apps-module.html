@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>GeoGebra</title>
+    <meta property="og:title" content="GeoGebra Math Apps" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <meta name="description" content="Math apps demo.">
+    <link rel="shortcut icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
+    <link rel="icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
+    <style>
+        body,html {
+            margin:0;
+            padding:0;
+        }
+        main {
+            width:800px;
+            height:600px;
+            border:1px gray solid;
+            margin: 1em;
+        }
+    </style>
+</head>
+<body dir="ltr" tabindex="-1">
+<script type="module">
+    import {mathApps} from './web3d/web3d.nocache.mjs';
+    mathApps.create({'width':'800', 'height':'600',
+        'showAlgebraInput': 'true',
+        'material_id':'MJWHp9en'})
+        .inject(document.querySelector("#applet1"))
+        .getAPI().then(api => console.log(api.getAllObjectNames()));
+
+    mathApps.create({'width':'800', 'height':'600',
+        'showAlgebraInput': 'true',
+        .inject(document.querySelector("#applet2"));
+
+</script>
+<div id="applet1"></div>
+<div id="applet2"></div>
+</body>
+</html>

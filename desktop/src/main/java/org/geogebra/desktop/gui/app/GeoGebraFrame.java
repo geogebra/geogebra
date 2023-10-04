@@ -80,6 +80,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.HttpRequestD;
+import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -281,16 +282,15 @@ public class GeoGebraFrame extends JFrame
 
 	protected static synchronized void init(CommandLineArguments args,
 			GeoGebraFrame wnd) {
-
-		// Fixing #3772. TODO: This could be moved to somewhat later (to have
-		// proper logging), but *before* any GUI operations.
-		if (AppD.WINDOWS_VISTA_OR_LATER) {
+		initLogger(args);
+		// Fixing #3772
+		if (AppD.WINDOWS) {
 			try {
 				AppId.setCurrentProcessExplicitAppUserModelID("geogebra.AppId");
-				System.out.println("AppID = "
+				Log.debug("AppID = "
 						+ AppId.getCurrentProcessExplicitAppUserModelID());
 			} catch (Throwable t) {
-				System.err.println("problem setting AppId: " + t.getMessage());
+				Log.error("problem setting AppId: " + t.getMessage());
 			}
 		}
 
@@ -324,6 +324,31 @@ public class GeoGebraFrame extends JFrame
 
 	}
 
+	private static void initLogger(CommandLineArguments args) {
+		if (args != null && !args.containsArg("silent")) {
+			LoggerD logger = new LoggerD();
+			logger.setReading(true);
+			Log.setLogger(logger);
+			Log.setLogDestination(Log.LogDestination.CONSOLE);
+			if (args.containsArg("logLevel")) {
+				Log.setLogLevel(args.getStringValue("logLevel"));
+			}
+			if (args.containsArg("logFile")) {
+				Log.setLogDestination(Log.LogDestination.FILE);
+				logger.setLogFileImpl(args.getStringValue("logFile"));
+			}
+			if (args.containsArg("logShowCaller")) {
+				Log.setCallerShown(args.getBooleanValue("logShowCaller", true));
+			}
+			if (args.containsArg("logShowTime")) {
+				LoggerD.setTimeShown(args.getBooleanValue("logShowTime", true));
+			}
+			if (args.containsArg("logShowLevel")) {
+				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
+			}
+		}
+	}
+
 	/**
 	 * Returns the active GeoGebra window.
 	 * 
@@ -350,7 +375,7 @@ public class GeoGebraFrame extends JFrame
 	public static void initMacSpecifics() {
 		try {
 			// init mac application listener
-			MacApplicationListener.initMacApplicationListener();
+			new MacApplicationListener().initMacApplicationListener();
 
 			// mac menu bar
 			// System.setProperty("com.apple.macos.useScreenMenuBar", "true");
@@ -519,18 +544,15 @@ public class GeoGebraFrame extends JFrame
 				while ((ze = zis.getNextEntry()) != null) {
 					// get file name
 					String name = ze.getName();
-					FileOutputStream fos = new FileOutputStream(
-							updateDir + File.separator + name);
-					Log.debug("Extracting " + name);
-					try {
+					try (FileOutputStream fos = new FileOutputStream(
+							updateDir + File.separator + name)) {
+						Log.debug("Extracting " + name);
 
 						int l = 0;
 						// write buffer to file
 						while ((l = zis.read(buff)) > 0) {
 							fos.write(buff, 0, l);
 						}
-					} finally {
-						fos.close();
 					}
 				}
 				UtilD.delete(dest);

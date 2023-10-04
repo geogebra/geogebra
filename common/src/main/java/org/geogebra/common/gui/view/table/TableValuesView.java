@@ -287,7 +287,7 @@ public class TableValuesView implements TableValues, SettingListener {
 			} else {
 				model.removeEvaluatable(evaluatable, false);
 			}
-		} else if (geo instanceof GeoNumeric || geo instanceof GeoText) {
+		} else if (geo.isIndependent() && (geo instanceof GeoNumeric || geo instanceof GeoText)) {
 			model.maybeUpdateListElement(geo);
 		}
 	}

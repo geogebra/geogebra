@@ -83,11 +83,4 @@ public class LoginOperationD extends LogInOperation {
 		SwingUtilities.invokeLater(() -> LoginOperationD.super.dispatchEvent(event));
 	}
 
-	/**
-	 * @return boolean if the tube API is available
-	 */
-	public boolean isTubeAvailable() {
-		return getGeoGebraTubeAPI().isAvailable();
-	}
-
 }

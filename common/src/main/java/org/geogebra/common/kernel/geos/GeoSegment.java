@@ -634,9 +634,7 @@ final public class GeoSegment extends GeoLine
 			pnt2D = new Coords(3);
 		}
 		pnt2D.setCoordsIn2DView(Pnd);
-		PathParameter pp = getTempPathParameter();
-		doPointChanged(pnt2D, pp);
-		double t = pp.getT();
+		double t = projectCoordsAndComputePathParam(pnt2D);
 
 		return t >= -eps && t <= 1 + eps;
 	}
