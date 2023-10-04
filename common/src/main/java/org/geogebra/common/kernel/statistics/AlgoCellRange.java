@@ -313,7 +313,9 @@ public class AlgoCellRange extends AlgoElement {
 			sb.append(startCell);
 			sb.append(",");
 			sb.append(endCell);
-			sb.append(",\"point\")");
+			sb.append(",");
+			sb.append(geoList.getElementType().name);
+			sb.append(")");
 			return sb.toString();
 		}
 		return toStringOutput;
