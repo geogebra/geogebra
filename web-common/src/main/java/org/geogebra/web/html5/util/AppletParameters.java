@@ -520,6 +520,13 @@ public class AppletParameters {
 	/**
 	 * @return URL of materials plaftform API (empty string if not set)
 	 */
+	public String getMaterialId() {
+		return getStringDataParam("material_id", "");
+	}
+
+	/**
+	 * @return URL of materials plaftform API (empty string if not set)
+	 */
 	public String getLoginAPIurl() {
 		return getStringDataParam("loginApi", "");
 	}
