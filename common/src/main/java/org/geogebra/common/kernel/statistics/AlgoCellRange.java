@@ -298,11 +298,24 @@ public class AlgoCellRange extends AlgoElement {
 
 	@Override
 	final public String getDefinition(StringTemplate tpl) {
-		return toStringOutput;
+		return getStringOutput(tpl);
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
+		return getStringOutput(tpl);
+	}
+
+	private String getStringOutput(StringTemplate tpl) {
+		if (StringTemplate.xmlTemplate.equals(tpl)) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("CellRange(");
+			sb.append(startCell);
+			sb.append(",");
+			sb.append(endCell);
+			sb.append(",\"point\")");
+			return sb.toString();
+		}
 		return toStringOutput;
 	}
 
