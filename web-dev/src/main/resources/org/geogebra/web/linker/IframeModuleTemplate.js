@@ -187,9 +187,6 @@ window.__MODULE_FUNC__ = function() {
 
   // Provides the getCompiledCodeFilename() function
   function getCompiledCodeFilename() {
-
-
-
     // Default to 0, as the strongName for permutation 0 does not include a ":0" suffix
     // for backwards compatibility purposes (@see PermutationsUtil::addPermutationsJs).
     var softPermutationId = 0;
@@ -229,7 +226,17 @@ window.__MODULE_FUNC__ = function() {
 }
 
 window.__MODULE_FUNC__.submodules = {};
-window.__MODULE_FUNC__.onReady = function(submodule, render) {
+window.__MODULE_FUNC__.onReady = function(submodule, userRender) {
+  function beforeRender(options, onload) {
+     return new Promise(resolve => {
+       __BEFORE_RENDER__
+     });
+  }
+
+  const render = (options, onload) => {
+    beforeRender(options, onload).then(opts => userRender(opts, onload))
+  }
+
   for (let callback of window.__MODULE_FUNC__.submodules[submodule].callbacks) {
     callback(render);
   }
@@ -239,48 +246,51 @@ window.__MODULE_FUNC__.onReady = function(submodule, render) {
 window.__MODULE_FUNC__.succeeded = window.__MODULE_FUNC__();
 
 function Widget(options, submodule, baseTag)  {
-   const self = this;
-   self.loading = false;
-   this.apiCallbacks = [api => self.api = api];
+  const self = this;
+  self.loading = false;
+  this.apiCallbacks = [api => self.api = api];
 
-   function runCallbacks(api) {
-     for (const callback of self.apiCallbacks) {
-       callback(api);
-     }
-   }
+  function runCallbacks(api) {
+    for (const callback of self.apiCallbacks) {
+      callback(api);
+    }
+    if (options.removePreview) {
+      options.removePreview();
+    }
+  }
 
-   function load() {
-     self.loading = true;
-     if (submodule.render) {
-         submodule.render(options, runCallbacks);
-     } else {
-         submodule.callbacks.push(render => render(options, runCallbacks));
-     }
-   }
+  function load() {
+    self.loading = true;
+    if (submodule.render) {
+      submodule.render(options, runCallbacks);
+    } else {
+      submodule.callbacks.push(render => render(options, runCallbacks));
+    }
+  }
 
-   this.inject = function(element) {
-       const target = document.createElement(baseTag);
-       options.element = target;
-       element.appendChild(target);
-       load();
-       return this;
-   }
+  this.inject = function(element) {
+    const target = document.createElement(baseTag);
+    options.element = target;
+    element.appendChild(target);
+    load();
+    return this;
+  }
 
-   this.getAPI = function() {
-      return new Promise(resolve => {
-         if (self.api) {
-           resolve(self.api);
-         } else if (self.loading) {
-           self.apiCallbacks.push(resolve);
-         } else {
-           load(resolve);
-         }
-      });
-   }
+  this.getAPI = function() {
+    return new Promise(resolve => {
+      if (self.api) {
+        resolve(self.api);
+      } else if (self.loading) {
+        self.apiCallbacks.push(resolve);
+      } else {
+        load(resolve);
+      }
+    });
+  }
 
-   if (options.tagName || options.element) {
-      load();
-   }
+  if (options.tagName || options.element) {
+    load();
+  }
 }
 
 const createSubmoduleAPI = (submodule, baseTag) => {
@@ -291,6 +301,5 @@ const createSubmoduleAPI = (submodule, baseTag) => {
     }
   }
 };
-
 // add export statements
 __EXPORT_SUBMODULES__
