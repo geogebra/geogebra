@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.statistics;
 
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -30,13 +29,16 @@ public class CmdCellRange extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-
+		ExpressionNode[] args = c.getArguments();
 		switch (n) {
 		case 2:
 			return new GeoElement[]{ getAlgoCellRange(c).getList() };
 		case 3:
 			AlgoCellRange algo = getAlgoCellRange(c);
-			createCellContents(c, algo);
+			if (algo.getList().isEmptyList()) {
+				algo.getList().setTypeStringForXML(args[2].unwrap()
+						.toValueString(StringTemplate.defaultTemplate));
+			}
 			return new GeoElement[]{ getAlgoCellRange(c).getList() };
 
 		default:
@@ -54,24 +56,9 @@ public class CmdCellRange extends CommandProcessor {
 
 		// both start and end need to have valid spreadsheet coordinates
 
-		AlgoCellRange algo = app.getSpreadsheetTableModel()
+		return app.getSpreadsheetTableModel()
 				.getCellRangeManager()
 				.getAlgoCellRange(cons, c.getLabel(), start, end);
-		return algo;
-	}
-
-	private static void createCellContents(Command c, AlgoCellRange algo) {
-		CellRange range = algo.getCellRange();
-		ExpressionNode[] args = c.getArguments();
-		String elemType = args[2].toValueString(StringTemplate.xmlTemplate);
-		for (int column = range.getMinColumn(); column < range.getMaxColumn() + 1; column++) {
-			for (int row = range.getMinRow(); row < range.getMaxRow() + 1; row++) {
-				Kernel kernel = c.getKernel();
-				GeoElement geo = kernel.createGeoElement(kernel.getConstruction(), elemType);
-				geo.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
-				geo.setAuxiliaryObject(true);
-			}
-		}
 	}
 
 	private String spreadsheetLabel(ExpressionNode expressionNode, Command c) {

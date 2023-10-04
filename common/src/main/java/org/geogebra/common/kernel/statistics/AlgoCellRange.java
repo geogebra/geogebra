@@ -307,15 +307,15 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	private String getStringOutput(StringTemplate tpl) {
-		if (StringTemplate.xmlTemplate.equals(tpl)) {
+		if (StringTemplate.xmlTemplate.equals(tpl) && geoList.getTypeStringForXML() != null) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("CellRange(");
 			sb.append(startCell);
 			sb.append(",");
 			sb.append(endCell);
-			sb.append(",");
-			sb.append(geoList.getElementType().name);
-			sb.append(")");
+			sb.append(",\"");
+			sb.append(geoList.getTypeStringForXML());
+			sb.append("\")");
 			return sb.toString();
 		}
 		return toStringOutput;
