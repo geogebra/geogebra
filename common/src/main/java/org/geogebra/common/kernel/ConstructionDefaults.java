@@ -224,7 +224,7 @@ public class ConstructionDefaults implements SettingListener {
 	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
-	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
+	public static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
 
 	// quadrics
 	/** default alpha for quadrics */

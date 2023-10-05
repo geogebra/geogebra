@@ -75,44 +75,63 @@ public class AsyncManager {
 	 *                   (null -> preload all specified in defaultPreload)
 	 */
 	public void ensureModulesLoaded(String[] modules) {
-		final CommandDispatcher cmdDispatcher = app.getKernel()
-				.getAlgebraProcessor().getCmdDispatcher();
 		final AsyncModule[] preload = modules == null ? defaultPreload
 				: parse(modules);
 		for (AsyncModule module : preload) {
 			module.prefetch();
 		}
-		Runnable r = () -> {
-			for (AsyncModule module : preload) {
-				switch (module) {
-				case DISCRETE:
-					cmdDispatcher.getDiscreteDispatcher();
-					break;
-				case SCRIPTING:
-					cmdDispatcher.getScriptingDispatcher();
-					break;
-				case ADVANCED:
-					cmdDispatcher.getAdvancedDispatcher();
-					break;
-				case STATS:
-					cmdDispatcher.getStatsDispatcher();
-					break;
-				case PROVER:
-					cmdDispatcher.getProverDispatcher();
-					break;
-				case CAS:
-					cmdDispatcher.getCASDispatcher();
-					break;
-				case SPATIAL:
-					cmdDispatcher.get3DDispatcher();
-					break;
-				default:
-					Log.debug("Tring to preload nonexistent module: " + module);
-				}
-			}
-		};
+		Runnable r = () -> ensureAvailable(preload, null);
 
 		callbacks.add(0, r);
+	}
+
+	private void ensureAvailable(AsyncModule[] modules, Runnable callback) {
+		for (AsyncModule module: modules) {
+			final CommandDispatcher cmdDispatcher = app.getKernel()
+					.getAlgebraProcessor().getCmdDispatcher();
+			switch (module) {
+			case DISCRETE:
+				cmdDispatcher.getDiscreteDispatcher();
+				break;
+			case SCRIPTING:
+				cmdDispatcher.getScriptingDispatcher();
+				break;
+			case ADVANCED:
+				cmdDispatcher.getAdvancedDispatcher();
+				break;
+			case STATS:
+				cmdDispatcher.getStatsDispatcher();
+				break;
+			case PROVER:
+				cmdDispatcher.getProverDispatcher();
+				break;
+			case CAS:
+				cmdDispatcher.getCASDispatcher();
+				break;
+			case SPATIAL:
+				cmdDispatcher.get3DDispatcher();
+				break;
+			case GIAC:
+				app.getKernel().getGeoGebraCAS().initCurrentCAS();
+			default:
+				Log.debug("Tring to preload nonexistent module: " + module);
+			}
+		}
+		if (callback != null) {
+			callback.run();
+		}
+	}
+
+	/**
+	 * @param callback runs after all chunks are loaded
+	 * @param modules list of chunk names, see {@link AsyncModule}
+	 */
+	public void prefetch(Runnable callback, String... modules) {
+		final AsyncModule[] preload = parse(modules);
+		for (AsyncModule module : preload) {
+			module.prefetch();
+		}
+		runOrSchedule(() -> ensureAvailable(preload, callback));
 	}
 
 	private static AsyncModule[] parse(String[] modules) {

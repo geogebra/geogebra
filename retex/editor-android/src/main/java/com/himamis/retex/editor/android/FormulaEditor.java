@@ -15,12 +15,13 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.parser.Parser;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.renderer.android.FactoryProviderAndroid;
 import com.himamis.retex.renderer.android.graphics.ColorA;
@@ -283,7 +284,13 @@ public class FormulaEditor extends View implements MathField {
     }
 
     private void createTeXFormula() {
-        mMathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel, mParser, mText));
+        MathFormula formula;
+        try {
+            formula = mParser.parse(mText);
+        } catch (ParseException e) {
+            formula = new MathFormula(sMetaModel);
+        }
+        mMathFieldInternal.setFormula(formula);
     }
 
     private Insets createInsetsFromPadding() {

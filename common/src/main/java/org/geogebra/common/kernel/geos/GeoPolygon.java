@@ -2228,8 +2228,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	public double distance(final GeoPoint p) {
 		double d = Double.POSITIVE_INFINITY;
-		for (GeoSegmentND seg : getSegments()) {
-			double d1 = seg.distance(p);
+		for (int i = 0; i < points.length; i++) {
+			double d1 = getSegment(i).distance(p);
 			if (d1 < d) {
 				d = d1;
 			}

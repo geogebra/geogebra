@@ -1370,6 +1370,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return leftStr + rightStr
 	 */
 	public String invisiblePlusString(String leftStr, String rightStr) {
+		if (stringType == StringType.GIAC) {
+			return leftStr + "+" + rightStr;
+		}
 		return leftStr + Unicode.INVISIBLE_PLUS + rightStr;
 	}
 

@@ -5,14 +5,14 @@ package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLCapabilitiesImmutable;
-import javax.media.opengl.GLProfile;
-import javax.media.opengl.awt.GLCanvas;
-import javax.media.opengl.awt.GLJPanel;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLCapabilitiesImmutable;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.awt.GLJPanel;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.GLBuffers;
@@ -43,7 +43,7 @@ public class RendererJogl {
 	 * 
 	 * @return current GL (as GL2ES2)
 	 */
-	public javax.media.opengl.GL2ES2 getGL2ES2() {
+	public com.jogamp.opengl.GL2ES2 getGL2ES2() {
 		return gLDrawable.getGL().getGL2ES2();
 	}
 
@@ -57,7 +57,7 @@ public class RendererJogl {
 
 	public interface GLlocal extends GL2{}
 
-	public interface GL2ES2 extends javax.media.opengl.GL2ES2{}
+	public interface GL2ES2 extends com.jogamp.opengl.GL2ES2{}
 	
 	public static GLCapabilities caps = null;
 	

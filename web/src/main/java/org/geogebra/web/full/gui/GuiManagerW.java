@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -20,6 +21,9 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.gui.toolcategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -1304,6 +1308,8 @@ public class GuiManagerW extends GuiManager
 		if (browseGUIwasLoaded()) {
 			getBrowseView().setLabels();
 		}
+
+		GlobalHeader.INSTANCE.setLabels();
 	}
 
 	@Override
@@ -2268,5 +2274,34 @@ public class GuiManagerW extends GuiManager
 			inputKeyboardButton = new InputKeyboardButtonW(getApp());
 		}
 		return inputKeyboardButton;
+	}
+
+	@Override
+	public boolean toolbarHasImageMode() {
+		if (!app.showToolBar()) {
+			return false;
+		}
+		if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
+			Vector<ToolbarItem> toolbarItems =
+					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
+
+			for (ToolbarItem toolbarItem : toolbarItems) {
+				if (toolbarItem.getMode() == null) {
+					if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
+						return true;
+					}
+				} else if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
+					return true;
+				}
+			}
+		} else if (getApp().isWhiteboardActive()) {
+			return true;
+		} else {
+			ToolCollection toolCollection =
+					app.createToolCollectionFactory().createToolCollection();
+			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
+		}
+
+		return false;
 	}
 }

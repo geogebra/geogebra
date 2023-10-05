@@ -214,4 +214,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void openHelp(String page, Help type);
 
 	boolean isAlgebraViewActive();
+
+	/**
+	 * @return whether toolbar (classic or unbundled) is showing and contains image tool
+	 */
+	boolean toolbarHasImageMode();
 }

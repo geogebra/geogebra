@@ -11,6 +11,7 @@
   <source path='geogebra3D'/>
 
   <set-configuration-property name="js.identifier.blacklist" value="Ink" />
+  <set-configuration-property name="beforeRenderJS" value="org/geogebra/web/resources/js/materialFetcher.js" />
 
   <!-- Compile only one permutation -->
   <collapse-all-properties />

@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.regexp.shared.MatchResult;
@@ -193,7 +194,7 @@ public class SpreadsheetMouseListenerD
 	@Override
 	public void mousePressed(MouseEvent e) {
 
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (!view.hasViewFocus()) {
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
@@ -313,7 +314,7 @@ public class SpreadsheetMouseListenerD
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = e.isMetaDown() && e.getButton() == MouseEvent.BUTTON3;
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
 			table.getSpreadsheetModeProcessor().stopAutoFunction();
