@@ -38,7 +38,7 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public static final GlobalHeader INSTANCE = new GlobalHeader();
 
-	private ProfilePanel profilePanel;
+	private ProfileAvatar profilePanel;
 	private RootPanel signIn;
 	private AppW app;
 	private Label timer;
@@ -71,7 +71,7 @@ public class GlobalHeader implements EventRenderable {
 		if (event instanceof LoginEvent
 				&& ((LoginEvent) event).isSuccessful()) {
 			if (profilePanel == null) {
-				profilePanel = new ProfilePanel(app);
+				profilePanel = new ProfileAvatar(app);
 			}
 			signIn.setVisible(false);
 			profilePanel.setVisible(true);
@@ -329,6 +329,15 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public static boolean isInDOM() {
 		return RootPanel.get("headerID") != null;
+	}
+
+	/**
+	 * update ui on language change
+	 */
+	public void setLabels() {
+		if (profilePanel != null) {
+			profilePanel.setLabels();
+		}
 	}
 
 }

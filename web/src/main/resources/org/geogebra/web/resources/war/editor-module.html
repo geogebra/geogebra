@@ -23,7 +23,7 @@
 </head>
 <body dir="ltr" tabindex="-1">
 <main id="main1" data-param-editorBackgroundColor="yellow"></main>
-<main id="main2" data-param-editorBackgroundColor="green"></main>
+<main id="main2"></main>
 <main id="main3"></main>
 <main id="main4">Text before<span id="inline"></span>text after</main>
 <script type="module">
@@ -33,7 +33,7 @@
                 console.trace(evt);
             });
         });
-    editor.create(document.querySelector("#main2"));
+    editor.create({element:document.querySelector("#main2"), editorBackgroundColor: "wheat"});
     editor.create(document.querySelector("#main3"));
     formula.create({"latex":"\\frac{\\sqrt{3}}{\\frac12}", "fontSize": 42}).inject(document.querySelector("#inline"));
 </script>

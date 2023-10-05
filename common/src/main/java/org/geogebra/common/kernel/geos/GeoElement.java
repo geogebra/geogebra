@@ -1808,10 +1808,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return showInAlgebraView();
 	}
 
-	/**
-	 * @param algorithm
-	 *            algorithm responsible for computation of this object
-	 */
+	@Override
 	public void setParentAlgorithm(final AlgoElement algorithm) {
 		algoParent = algorithm;
 	}

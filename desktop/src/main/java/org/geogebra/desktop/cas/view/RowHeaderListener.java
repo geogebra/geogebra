@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionListener;
 
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -42,7 +43,7 @@ public class RowHeaderListener extends MouseAdapter
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		rightClick = AppD.isRightClick(e);
+		rightClick = MouseEventUtil.isRightClick(e);
 		table.stopEditing();
 		mousePressedRow = rowHeader.locationToIndex(e.getPoint());
 		table.setClickedRow(mousePressedRow);

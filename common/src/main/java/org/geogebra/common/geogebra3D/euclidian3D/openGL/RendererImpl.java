@@ -430,6 +430,9 @@ public abstract class RendererImpl {
 
 	public abstract void setLabelOrigin(float[] origin);
 
+	/**
+	 * @param location 3D coordinates of the currently drawn label
+	 */
 	public void setLabelLocation(float[] location) {
 		// Used for rotation in some shaders
 	}

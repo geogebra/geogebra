@@ -288,7 +288,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		boolean paramEquExists = checkForParamEquExistance(args, name);
 		// check if list of vars needs completion
 		boolean varComplNeeded = false;
-		String complOfVarsStr = "";
+		StringBuilder complOfVarsStr = new StringBuilder();
 
 		if (paramEquExists) {
 			// store nr of variables from input
@@ -335,7 +335,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				casParser.setNrOfVars(0);
 			}
 			for (String str : varsInEqus) {
-				complOfVarsStr += "," + addCASPrefix(str);
+				complOfVarsStr.append(",").append(getCasPrefix(str)).append(str);
 
 				// get equation of current variable
 				ValidExpression node = app.getKernel().getConstruction()
@@ -791,8 +791,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	// add ggbtmpvar as prefix if necessary
-	private static String addCASPrefix(String str) {
-		return needsTmpPrefix(str) ? Kernel.TMP_VARIABLE_PREFIX + str : str;
+	private static String getCasPrefix(String str) {
+		return needsTmpPrefix(str) ? Kernel.TMP_VARIABLE_PREFIX : "";
 	}
 
 	private static void updateArgsAndSbForPoint(ArrayList<ExpressionNode> args,

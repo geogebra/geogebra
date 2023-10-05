@@ -74,7 +74,7 @@ public class EditorKeyboardContext implements HasKeyboard {
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
-		return AppKeyboardType.fromName(element.getAttribute("data-param-keyboardtype"));
+		return AppKeyboardType.fromName(element.getAttribute("keyboardtype"));
 	}
 
 	@Override

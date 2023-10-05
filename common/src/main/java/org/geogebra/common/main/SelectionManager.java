@@ -198,6 +198,7 @@ public class SelectionManager {
 	 *            call (or not) updateSelection()
 	 */
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
+		tempSelectedBoolean = null;
 		int size = selectedGeos.size();
 		if (size > 0) {
 			focusedGroupElement = null;
@@ -216,8 +217,6 @@ public class SelectionManager {
 			if (updateSelection) {
 				updateSelection();
 			}
-
-			tempSelectedBoolean = null;
 
 			dispatchDeselected(null);
 		}
