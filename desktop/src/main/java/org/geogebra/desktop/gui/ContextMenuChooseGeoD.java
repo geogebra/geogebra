@@ -151,7 +151,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		JMenuItem mi = selectAnotherMenu.add(chooser);
 		mi.setBackground(bgColor);
 		mi.setText(getDescription(geo, true));
-		mi.addMouseListener(new MyMouseAdapter(geo));
+		mi.addMouseListener(new HighlightingMouseAdapter(geo));
 
 		// prevent to add meta twice
 		metas.add(geo);
@@ -191,11 +191,11 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 	}
 
-	private class MyMouseAdapter extends MouseAdapter {
+	private class HighlightingMouseAdapter extends MouseAdapter {
 
 		private GeoElement geo;
 
-		public MyMouseAdapter(GeoElement geo) {
+		public HighlightingMouseAdapter(GeoElement geo) {
 			this.geo = geo;
 		}
 

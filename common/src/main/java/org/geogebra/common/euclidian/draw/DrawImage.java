@@ -145,7 +145,7 @@ public class DrawImage extends Drawable {
 							// make sure old files work
 							// https://dev.geogebra.org/trac/changeset/57611
 							geo.getKernel().getApplication().fileVersionBefore(
-									new int[] { 5, 0, 397, 0 })
+									5, 0, 397, 0)
 											? -view.getInvXscale()
 											: -view.getInvYscale());
 				}
@@ -455,6 +455,10 @@ public class DrawImage extends Drawable {
 	public GRectangle2D getBoundsClipped() {
 		updateIfNeeded();
 		return super.getBoundsClipped();
+	}
+
+	protected GAffineTransform getTransform() {
+		return at;
 	}
 
 }

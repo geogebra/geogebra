@@ -884,6 +884,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						}
 					}
 				});
+				getLoginOperation().performTokenLogin();
 			}
 			Log.debug("listening");
 		}
@@ -1659,7 +1660,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		this.setPreferredSize(
 				new Dimension((int) this.getWidth(), (int) this.getHeight()));
 		setDefaultCursor();
-		checkScaleContainer();
 		frame.useDataParamBorder();
 
 		showStartTooltip(null);
@@ -1671,6 +1671,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
 		getScriptManager().ggbOnInit(); // should be only called after coord system is ready
+		checkScaleContainer();
 		onOpenFile();
 		if (!asSlide) {
 			// should run after coord system changed
@@ -2436,8 +2437,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
-
-		setUndoRedoPanelAllowed(!"probability".equals(subAppCode));
 
 		if (menuViewController != null) {
 			menuViewController.resetMenuOnAppSwitch(this);

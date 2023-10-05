@@ -40,9 +40,6 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 		P = new GeoPoint3D(cons, region);
 
 		setInputOutput(); // for AlgoElement
-
-		// App.printStacktrace(""+coords);
-
 		if (coords != null) {
 			P.setCoords(coords);
 		}

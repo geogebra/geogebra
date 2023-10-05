@@ -263,6 +263,9 @@ public class GeoList extends GeoElement
 
 		isDefined = l.isDefined;
 		elementType = l.elementType;
+		if (l.isElementTypeXMLNeeded()) {
+			typeStringForXML = l.typeStringForXML;
+		}
 	}
 
 	/**
@@ -1102,11 +1105,6 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void setZero() {
-		elements.clear();
-	}
-
-	@Override
 	public void setLineThickness(final int thickness) {
 		super.setLineThickness(thickness);
 
@@ -1575,7 +1573,7 @@ public class GeoList extends GeoElement
 		super.getStyleXML(sb);
 
 		getLineStyleXML(sb);
-		if ((size() == 0 || !isDefined()) && getTypeStringForXML() != null) {
+		if (isElementTypeXMLNeeded()) {
 			sb.append("\t<listType val=\"");
 			sb.append(getTypeStringForXML());
 			sb.append("\"/>\n");
@@ -1620,6 +1618,14 @@ public class GeoList extends GeoElement
 		if (startPoint != null) {
 			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 		}
+	}
+
+	/**
+	 *
+	 * @return if element type should be saved with XML.
+	 */
+	protected boolean isElementTypeXMLNeeded() {
+		return (size() == 0 || !isDefined()) && getTypeStringForXML() != null;
 	}
 
 	/**
@@ -1766,7 +1772,6 @@ public class GeoList extends GeoElement
 	 *            point
 	 */
 	public void getNearestPoint(final GeoPointND p) {
-		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
 

@@ -40,7 +40,6 @@ import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
-import com.himamis.retex.editor.share.util.Unicode;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -965,15 +964,15 @@ public class MyDouble extends ValidExpression
 	 * If a given String cannot be parsed, e.g. because someone typed more than 1 decimal point,
 	 * an exception will be thrown and then 'converted' to an InvalidInput Error
 	 *
-	 * @see MyDouble#serializeDigits(String, boolean) 
+	 * @see MyDouble#convertToLatinCharacters(String)
 	 * @param str String to be parsed
 	 * @param app Localization (for showing errors)
 	 * @return The value from the input String, as double
 	 */
 	public static double parseDouble(Localization app, String str) {
-		StringBuilder sb = serializeDigits(str, false);
+		String latinCharacters = convertToLatinCharacters(str);
 		try {
-			return StringUtil.parseDouble(sb.toString());
+			return StringUtil.parseDouble(latinCharacters);
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
 			throw new MyError(app, Errors.InvalidInput, str);
@@ -981,37 +980,24 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * Appends the characters from a given string to a StringBuilder that is then returned
+	 * Converts unicode characters from a string to Latin characters (=Arabic digits,
+	 * standard cecimal point). Characters that are neither digits nor localized decimal point
+	 * are mapped to other non-digit characters.
 	 * @param str String to be parsed (input)
-	 * @param isRecurringDecimal Whether we want to append Unicode.OVERLINE (\u0305)
-	 * @return StringBuilder
+	 * @return number translated to Latin characters;
+	 *         may contain non-ASCII characters if input was invalid
 	 */
-	public static StringBuilder serializeDigits(String str, boolean isRecurringDecimal) {
-		StringBuilder sb = new StringBuilder();
-		sb.setLength(0);
+	public static String convertToLatinCharacters(String str) {
+		StringBuilder sb = new StringBuilder(str.length());
 		for (int i = 0; i < str.length(); i++) {
 			int ch = str.charAt(i);
-			if (ch <= 0x30 || (isRecurringDecimal && ch == Unicode.OVERLINE)) {
-				sb.append(str.charAt(i)); // eg .
+			if (ch <= 0x100) {
+				sb.append(str.charAt(i)); // covers Arabic (=Latin) numerals, `.`, 'e', 'E'
 				continue;
 			}
 
-			// Unicode ranges for digits 0-9 in different languages
-			/*
-			 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",
-			 * "\u0966"-"\u096f", "\u09e6"-"\u09ef", "\u0a66"-"\u0a6f",
-			 * "\u0ae6"-"\u0aef", "\u0b66"-"\u0b6f", "\u0be7"-"\u0bef",
-			 * "\u0c66"-"\u0c6f", "\u0ce6"-"\u0cef", "\u0d66"-"\u0d6f",
-			 * "\u0e50"-"\u0e59", "\u0ed0"-"\u0ed9", "\u1040"-"\u1049"
-			 */
-
-			// check roman first (most common)
-			else if (ch <= 0x39) {
-				ch -= 0x30; // Roman (normal)
-			} else if (ch <= 0x100) {
-				sb.append(str.charAt(i)); // eg E
-				continue;
-			} else if (ch <= 0x669) {
+			// Unicode ranges below should match the <#DIGIT> token in Parser.jj
+			else if (ch <= 0x669) {
 				ch -= 0x660; // Arabic-Indic
 			} else if (ch == 0x66b) { // Arabic decimal point
 				sb.append(".");
@@ -1064,7 +1050,7 @@ public class MyDouble extends ValidExpression
 			}
 			sb.append(ch);
 		}
-		return sb;
+		return sb.toString();
 	}
 
 	/**

@@ -110,6 +110,21 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		setConstructionDefaults(); // init visual settings
 	}
 
+	/**
+	 * Sets a segment from its two endpoints.
+	 *
+	 * @param segment to set
+	 * @param startPoint of the segment.
+	 * @param endPoint of the segment.
+	 */
+	public static void setSegmentPoints(GeoSegment segment, GeoPoint startPoint,
+			GeoPoint endPoint) {
+		segment.setStartPoint(startPoint);
+		segment.setEndPoint(endPoint);
+		GeoVec3D.lineThroughPoints(startPoint, endPoint, segment);
+		segment.calcLength();
+	}
+
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYLINE;
@@ -423,11 +438,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		if (seg == null) {
 			seg = new GeoSegment(cons);
 		}
-		seg.setStartPoint(geoPoint);
-		seg.setEndPoint(geoPoint2);
-		GeoVec3D.lineThroughPoints(geoPoint, geoPoint2, seg);
-		seg.calcLength();
-
+		setSegmentPoints(seg, geoPoint, geoPoint2);
 	}
 
 	/**

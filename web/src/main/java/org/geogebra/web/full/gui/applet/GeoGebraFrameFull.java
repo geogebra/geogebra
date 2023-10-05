@@ -41,6 +41,8 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
+import org.geogebra.web.html5.bridge.AttributeProvider;
+import org.geogebra.web.html5.bridge.DOMAttributeProvider;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -164,7 +166,8 @@ public class GeoGebraFrameFull
 			AppletFactory factory, GLookAndFeel laf, GDevice device) {
 
 		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
-			AppletParameters parameters = new AppletParameters(geoGebraElement);
+			AppletParameters parameters = new AppletParameters(
+					new DOMAttributeProvider(geoGebraElement.getElement()));
 			final GeoGebraFrameFull inst = new GeoGebraFrameFull(factory, laf,
 					device, geoGebraElement, parameters);
 			LoggerW.startLogger(parameters);
@@ -183,13 +186,13 @@ public class GeoGebraFrameFull
 	 * @param clb
 	 *            call this after rendering
 	 */
-	public static void renderArticleElement(Element el, AppletFactory factory,
+	public static void renderArticleElement(AttributeProvider el, AppletFactory factory,
 			GLookAndFeel laf, JsConsumer<Object> clb) {
-		GeoGebraElement element = GeoGebraElement.as(el);
-		removeExistingInstance(el);
-		AppletParameters parameters = new AppletParameters(element);
+		GeoGebraElement element = GeoGebraElement.as(el.getElement());
+		removeExistingInstance(el.getElement());
+		AppletParameters parameters = new AppletParameters(el);
 		new GeoGebraFrameFull(factory, laf, null, element, parameters)
-				.renderArticleElementWithFrame(element, clb);
+				.renderArticleElementWithFrame(element, el, clb);
 	}
 
 	/**

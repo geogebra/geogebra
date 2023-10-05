@@ -82,10 +82,10 @@ public class DataSourcePanel extends JPanel
 	private JLabel lblTitle;
 	private JLabel lblStart;
 	private JLabel lblWidth;
-	private MyButton btnAdd;
-	private MyButton btnClear;
-	private MyButton btnDelete;
-	private MyButton btnOptions;
+	private ImageButton btnAdd;
+	private ImageButton btnClear;
+	private ImageButton btnDelete;
+	private ImageButton btnOptions;
 	private MyTextFieldD fldStart;
 	private MyTextFieldD fldWidth;
 
@@ -163,16 +163,16 @@ public class DataSourcePanel extends JPanel
 
 		lblTitle = new JLabel();
 
-		btnAdd = new MyButton(app.getScaledIcon(GuiResourcesD.LIST_ADD));
+		btnAdd = new ImageButton(app.getScaledIcon(GuiResourcesD.LIST_ADD));
 		btnAdd.addActionListener(this);
 
-		btnClear = new MyButton(app.getScaledIcon(GuiResourcesD.EDIT_CLEAR));
+		btnClear = new ImageButton(app.getScaledIcon(GuiResourcesD.EDIT_CLEAR));
 		btnClear.addActionListener(this);
 
-		btnDelete = new MyButton(app.getScaledIcon(GuiResourcesD.LIST_REMOVE));
+		btnDelete = new ImageButton(app.getScaledIcon(GuiResourcesD.LIST_REMOVE));
 		btnDelete.addActionListener(this);
 
-		btnOptions = new MyButton(
+		btnOptions = new ImageButton(
 				app.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
 		btnOptions.addActionListener(this);
 
@@ -450,7 +450,7 @@ public class DataSourcePanel extends JPanel
 
 	private void setColumnHeaders(JTable table) {
 
-		MyTableHeaderRenderer headerRenderer = new MyTableHeaderRenderer();
+		HeaderTableCellRenderer headerRenderer = new HeaderTableCellRenderer();
 
 		for (int vColIndex = 0; vColIndex < table.getColumnModel()
 				.getColumnCount(); vColIndex++) {
@@ -477,7 +477,7 @@ public class DataSourcePanel extends JPanel
 			// adjust mouseLoc to the coordinate space of this column header
 			mouseLoc.x = mouseLoc.x - table().getCellRect(0, column, true).x;
 
-			boolean isOver = ((MyTableHeaderRenderer) table().getColumnModel()
+			boolean isOver = ((HeaderTableCellRenderer) table().getColumnModel()
 					.getColumn(column).getHeaderRenderer()).isOverTraceButton(
 					mouseLoc);
 
@@ -560,7 +560,7 @@ public class DataSourcePanel extends JPanel
 	 * button for a selected column.
 	 * 
 	 */
-	public class MyTableHeaderRenderer extends JPanel
+	public class HeaderTableCellRenderer extends JPanel
 			implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
@@ -576,7 +576,7 @@ public class DataSourcePanel extends JPanel
 		private final ImageIcon importIcon;
 		private final ImageIcon importIconRollover;
 
-		protected MyTableHeaderRenderer() {
+		protected HeaderTableCellRenderer() {
 			setLayout(new BorderLayout());
 			setOpaque(true);
 			setBorder(headerBorder);
@@ -812,14 +812,14 @@ public class DataSourcePanel extends JPanel
 		return menu;
 	}
 
-	private static class MyButton extends JButton {
+	private static class ImageButton extends JButton {
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public MyButton(ImageIcon imageIcon) {
+		public ImageButton(ImageIcon imageIcon) {
 			super(imageIcon);
 			setMargin(new Insets(0, 0, 0, 0));
 			setBorderPainted(false);

@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
@@ -47,7 +48,7 @@ public class EditMenuW extends Submenu {
 		        .getEuclidianController().getJustCreatedGeos().isEmpty());
 		boolean haveSelection = !selection.getSelectedGeos().isEmpty();
 		clearItems();
-		if (getApp().isUndoRedoEnabled()) {
+		if (getApp().getUndoRedoMode() == UndoRedoMode.GUI) {
 			addUndoRedo();
 			// separator
 			addSeparator();

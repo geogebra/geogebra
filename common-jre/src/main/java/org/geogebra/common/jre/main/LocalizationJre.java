@@ -3,9 +3,11 @@ package org.geogebra.common.jre.main;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -190,6 +192,11 @@ public abstract class LocalizationJre extends Localization {
 	@Override
 	final public String getLocaleStr() {
 		return getLocale().toString();
+	}
+
+	@Override
+	public String getLanguageTag() {
+		return getLocale().toLanguageTag();
 	}
 
 	@Override
@@ -419,24 +426,55 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * Returns a locale object that has the same country and/or language as
-	 * locale. It first uses the BCP 47 defined lookup, if that produces no results, then it
-	 * uses the filter algorithm, if that results in a non-empty list, it returns the first value.
-	 * Otherwise, it returns the default English locale
+	 * Returns a locale that is supported and is closest to the query locale.
+	 * If present, it will return the perfect match.
+	 * Else, it looks for the closest, more general locale (for example it returns 'en'
+	 * for the query 'en-CA').
+	 * Else, it looks for the closest, more specific locale (for example it returns 'zh-CN'
+	 * for the query 'zh' out of the supported locales ['zh-Hant-TW', 'zh-CN', 'zh-TW']).
+	 * Else, it looks for a matching language.
+	 * Else, it returns the default locale (English).
+	 * @param query query locale
+	 * @return closest supported locale
 	 */
-	protected Locale getClosestSupportedLocale(Locale locale) {
-		ArrayList<Locale> supportedLocales = getSupportedLocales();
-		List<Locale.LanguageRange> range = Locale.LanguageRange.parse(locale.toLanguageTag());
-		Locale closest = Locale.lookup(range, supportedLocales);
-		if (closest != null) {
-			return closest;
+	protected Locale getClosestSupportedLocale(Locale query) {
+		Set<String> subtags = convertToSubtagSet(query);
+
+		Locale match = null;
+		int generalScore = 0;
+		int specificScore = Integer.MAX_VALUE;
+		for (Locale locale : getSupportedLocales()) {
+			if (locale.toLanguageTag().equals(query.toLanguageTag())) {
+				// A perfect match found, return early
+				return locale;
+			} else if (locale.getLanguage().equals(query.getLanguage())) {
+				// The language matches
+				Set<String> supportedLocaleSubtags = convertToSubtagSet(locale);
+				if (subtags.containsAll(supportedLocaleSubtags)
+						&& supportedLocaleSubtags.size() > generalScore) {
+					// A closer, more general match found
+					match = locale;
+					generalScore = supportedLocaleSubtags.size();
+				} else if (generalScore == 0 && supportedLocaleSubtags.containsAll(subtags)
+						&& supportedLocaleSubtags.size() < specificScore) {
+					// A closer more specific match found, and no general match found
+					specificScore = supportedLocaleSubtags.size();
+					match = locale;
+				} else if (match == null) {
+					// Store a match to the language if there is none yet.
+					match = locale;
+				}
+			}
 		}
-		List<Locale> filteredLocales = Locale.filter(range, supportedLocales);
-		if (filteredLocales.size() > 0) {
-			return filteredLocales.get(0);
+		if (match != null) {
+			return match;
 		}
 
 		return Locale.ENGLISH;
+	}
+
+	private static Set<String> convertToSubtagSet(Locale locale) {
+		return new HashSet<>(Arrays.asList(locale.toLanguageTag().split("-")));
 	}
 
 	/**

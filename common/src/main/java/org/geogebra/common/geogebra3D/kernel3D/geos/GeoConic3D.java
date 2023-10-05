@@ -99,8 +99,6 @@ public class GeoConic3D extends GeoConicND
 	 *            the 2D coordinate system
 	 */
 	public void setCoordSys(CoordSys cs) {
-
-		// Application.printStacktrace(cs.getMatrixOrthonormal().toString());
 		this.coordSys = cs;
 	}
 

@@ -52,7 +52,6 @@ public abstract class ValidExpression
 	 */
 	public void addLabel(String label) {
 		initLabels();
-		// App.printStacktrace(label+":"+(label==null));
 		labels.add(label);
 	}
 
@@ -623,5 +622,10 @@ public abstract class ValidExpression
 	 */
 	public boolean containsCommands() {
 		return inspect(t -> t instanceof Command);
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
 	}
 }

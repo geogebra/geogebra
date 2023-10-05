@@ -29,7 +29,7 @@
 
 			&.disabled {
 				cursor: default;
-				color: neutral("500");
+				color: neutral(500);
 			}
 		}
 	}
@@ -439,7 +439,7 @@
 		min-width: 64px;
 		height: 36px;
 		background: transparent;
-		color: colors.$mow_primary;
+		color: purple(600);
 		font-size: 90%;
 		letter-spacing: .04em;
 		line-height: 36px;
@@ -451,7 +451,7 @@
 		transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 		&:hover {
-			background: colors.$mow_card_background_hover;
+			background: neutral(200);
 		}
 
 		.gwt-Label {
@@ -459,7 +459,7 @@
 		}
 
 		&.disabled {
-			color: colors.$disabled-text-btn-col;
+			color: neutral(500);
 
 			&:hover {
 				background: transparent;
@@ -473,23 +473,23 @@
 		@extend .materialTextButton;
 
 		padding: 0px 16px;
-		background-color: colors.$mow_primary;
+		background-color: purple(600);
 		color: white;
 		box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
 		transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 		&:hover {
-			background: colors.$mow_primary;
+			background: purple(600);
 			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
 		}
 
 		&.disabled {
-			background-color: colors.$disabled-contained-btn-bg;
-			color: colors.$disabled-contained-btn-col;
+			background-color: neutral(300);
+			color: neutral(500);
 
 			&:hover {
 				cursor: default;
-				background: colors.$disabled-contained-btn-bg;
+				background: neutral(300);
 				box-shadow: none;
 			}
 		}
@@ -506,11 +506,11 @@
 	.dialogTextButton {
 		@extend .materialTextButton;
 
-		color: colors.$black-54;
+		color: neutral(700);
 
 		&:hover {
-			color: colors.$dialog-text-btn-hover;
-			background-color: colors.$selected-menuitem-background;
+			color: neutral(700);
+			background-color: neutral(200);
 		}
 	}
 
@@ -547,11 +547,11 @@
 		float: left;
 		min-width: 64px;
 		height: header.$button_height;
-		border-radius: 2px;
-		background-color: colors.$mow_grey_button;
+		border-radius: 4px;
+		background-color: neutral(200);
 		transition: header.$button_hover_transition;
 		&:hover {
-			background-color: colors.$mow_card_background_hover;
+			background-color: neutral(300);
 		}
 
 		img {
@@ -568,7 +568,14 @@
 			text-transform: uppercase;
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
-			color: neutral("700");
+			color: neutral(700);
+		}
+
+		&.disabled {
+			.gwt-Label {
+				color: neutral(500);
+				background-color: neutral(200);
+			}
 		}
 	}
 
@@ -579,7 +586,7 @@
 		.indicator {
 			height: 2px;
 			width: 90px;
-			background-color: colors.$purple-default;
+			background-color: purple(600);
 			top: 49px;
 			position: relative;
 			border-radius: 2px 2px 0 0;
@@ -589,7 +596,7 @@
 		}
 
 		.header {
-			border-bottom: 1px solid colors.$black-12;
+			border-bottom: 1px solid neutral(300);
 			.tabBtn {
 				min-width: 90px;
 				height: 48px;
@@ -599,16 +606,16 @@
 					line-height: 20px;
 					margin: 14px 16px;
 					text-align: center;
-					color: neutral("900");
+					color: neutral(900);
 				}
 
 				&:hover {
-					background-color: colors.$purple-default-12;
+					background-color: neutral(200);
 				}
 
 				&.selected {
 					.gwt-Label {
-						color: colors.$purple-default;
+						color: purple(600);
 					}
 					&:hover {
 						background-color: colors.$white;
@@ -638,7 +645,7 @@
 			margin-left: calc(50% - 56px); // (56+2*28)/2=56
 			margin-bottom: 16px;
 			opacity: 0.54;
-			background-color: colors.$mow_white_hover;
+			background-color: neutral(200);
 			border-radius: 50%;
 		}
 
@@ -786,7 +793,7 @@
 		height: 44px;
 		width: 100%;
 		max-width: 720px;
-		background-color: colors.$white-5-overlay;
+		background-color: neutral(200);
 		margin: 10px auto;
 		box-sizing: border-box;
 		border-radius: 22px;
@@ -796,8 +803,12 @@
 		.flatButtonHeader {
 			margin: auto 2px;
 
-			&:hover img {
-				opacity: 1;
+			&:hover {
+				background-color: neutral(300);
+
+				img {
+					opacity: 1;
+				}
 			}
 		}
 
@@ -815,7 +826,7 @@
 				background-color: transparent;
 				height: 20px;
 				display: flex;
-				color: neutral("900");
+				color: neutral(900);
 			}
 
 			input[type=text]:focus:not([readonly]) {
@@ -845,7 +856,7 @@
         }
 
         &:focus, &:hover, &.selected {
-            background-color: colors.$hover-calc-btn-bg;
+            background-color: neutral(200);
         }
      }
 
@@ -942,7 +953,7 @@
 		}
 
 		&:hover {
-			border-bottom: 2px solid neutral("900");
+			border-bottom: 2px solid neutral(900);
 
 			.arrow {
 				opacity: 0.87;
@@ -950,7 +961,7 @@
 
 			.optionLabelHolder {
 				.label {
-					color: neutral("900");
+					color: neutral(900);
 				}
 			}
 		}
@@ -1039,11 +1050,11 @@
 
 		&:not(.disabled):hover {
 			.inputLabel {
-				color: neutral("900");
+				color: neutral(900);
 			}
 
 			.inputPanel {
-				border-bottom: 2px solid neutral("900");
+				border-bottom: 2px solid neutral(900);
 
 				.AutoCompleteTextFieldW {
 					margin-bottom: 7px;

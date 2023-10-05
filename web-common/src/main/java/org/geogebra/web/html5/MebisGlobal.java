@@ -8,5 +8,6 @@ public class MebisGlobal {
 
 	public static native void toggleFullscreen();
 
-	public static native boolean nativeLogin();
+	public static native void nativeLogin();
+
 }

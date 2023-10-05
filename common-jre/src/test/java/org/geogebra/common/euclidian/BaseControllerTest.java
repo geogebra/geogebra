@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
@@ -177,6 +178,12 @@ public class BaseControllerTest extends BaseUnitTest {
 	protected void checkContentLabels(String... labels) {
 		assertEquals(Arrays.asList(labels),
 				Arrays.asList(getApp().getGgbApi().getAllObjectNames()));
+	}
+
+	protected GeoImage createImage() {
+		GeoImage img = new GeoImage(getApp().getKernel().getConstruction());
+		img.setImageFileName("foo.png", 50, 50);
+		return img;
 	}
 
 }

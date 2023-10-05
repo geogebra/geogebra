@@ -17,7 +17,7 @@ pipeline {
 
         stage('Build Web JS') {
             steps {
-                sh './gradlew web:deployIntoWar -Pgdraft=true -Pgmodule="org.geogebra.web.Web3D,org.geogebra.web.Editor"'
+                sh './gradlew web:deployIntoWar mergeDeploy -Pgdraft=true -Pgmodule="org.geogebra.web.Web3D,org.geogebra.web.Editor"'
                 dir('uitest') {
                     sh 'mkdir content; cp -r ../web/war/* content'
                 }

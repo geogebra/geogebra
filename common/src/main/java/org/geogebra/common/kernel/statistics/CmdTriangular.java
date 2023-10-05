@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -26,7 +27,7 @@ public class CmdTriangular extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c2) throws MyError {
+	public GeoElement[] process(Command c2, EvalInfo info) throws MyError {
 		int n = c2.getArgumentNumber();
 		boolean ok, ok2 = true;
 		GeoElement[] arg;

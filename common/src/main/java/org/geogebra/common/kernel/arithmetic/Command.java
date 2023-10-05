@@ -849,7 +849,6 @@ public class Command extends ValidExpression
 					Operation.MULTIPLY_OR_FUNCTION, en);
 			undecided.add(en2);
 		}
-		// App.printStacktrace("");
 		return en2;
 
 	}
