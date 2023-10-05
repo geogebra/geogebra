@@ -915,7 +915,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_CAMERA:
 			return "Camera";
 		case EuclidianConstants.MODE_PHOTO_LIBRARY:
-			return "Photo Library";
+			return "PhotoLibrary";
 		case EuclidianConstants.MODE_AUDIO:
 			return "Audio";
 		case EuclidianConstants.MODE_CALCULATOR:
