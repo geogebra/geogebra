@@ -359,7 +359,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 			onDataImported.run();
 			onDataImported = null;
 		}
- 		forEachListener(listener -> listener.notifyDatasetChanged(this));
+		forEachListener(listener -> listener.notifyDatasetChanged(this));
 	}
 
 	private Stream<TableValuesListener> listenerStream() {
