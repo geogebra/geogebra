@@ -423,7 +423,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void setFunctionVariables() {
-		if (!fVars.isEmpty() || !SymbolicUtil.isValueDefined(this)) {
+		if (!fVars.isEmpty() || SymbolicUtil.containsUndefinedOrIsEmpty(this)) {
 			return;
 		}
 		Iterable<FunctionVariable> variables = computeFunctionVariables();

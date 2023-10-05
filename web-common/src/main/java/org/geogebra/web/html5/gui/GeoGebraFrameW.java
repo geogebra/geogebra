@@ -435,6 +435,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				setBorder(dpBorder, thickness);
 			}
 		}
+		getElement().getStyle().setProperty("borderRadius",
+				appletParameters.getBorderRadius() + "px");
 		getElement().removeClassName(
 				APPLET_FOCUSED_CLASSNAME);
 		getElement().addClassName(

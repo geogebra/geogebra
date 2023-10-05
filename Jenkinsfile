@@ -13,7 +13,7 @@ def getChangelog() {
     return lines.join("\n").toString()
 }
 
-def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
+def isGiac = env.BRANCH_NAME.matches("(dependabot.*)?giac.*")
 def isEditor = env.BRANCH_NAME.matches("dev|(.*editor)")
 def hasSourcemap = env.BRANCH_NAME.matches("dev|mow-1378")
 def modules = isEditor ? '-Pgmodule="org.geogebra.web.SuperWeb,org.geogebra.web.WebSimple,org.geogebra.web.Editor"' : ''
@@ -146,6 +146,7 @@ pipeline {
                         s3uploadDefault("web/build/s3", "editor/**", "gzip")
                         s3uploadDefault("web/build/s3", "editor/**/*.mjs", "gzip", "", "text/javascript")
                     }
+                    s3uploadDefault("web/build/s3", "web3d/**/*.mjs", "gzip", "", "text/javascript")
                     s3uploadDefault("web/war", "**/*.html", "")
                     s3uploadDefault("web/war", "**/deployggb.js", "")
                     s3uploadDefault("web/war", "geogebra-live.js", "")
