@@ -120,4 +120,10 @@ public interface TableValuesModel {
 	 * @param onDataImported - when data imported, hide loading snackbar
 	 */
 	void setOnDataImportedRunnable(Runnable onDataImported);
+
+
+	/**
+	 * Remove all columns from construction
+	 */
+	void removeAllColumns();
 }

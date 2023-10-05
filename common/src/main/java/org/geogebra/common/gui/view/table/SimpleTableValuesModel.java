@@ -292,13 +292,17 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		column.notifyDatasetChanged(this);
 	}
 
+	@Override
+	public void removeAllColumns() {
+		for (int i = columns.size() - 1; i >= 0; i--) {
+			columns.get(i).getEvaluatable().remove();
+		}
+	}
+
 	/**
 	 * Clears and initializes the model.
 	 */
 	void clearModel() {
-		for (int i = columns.size() - 1; i >= 0; i--) {
-			columns.get(i).getEvaluatable().remove();
-		}
 		columns.clear();
 		initializeModel();
 		collector.notifyDatasetChanged(this);
@@ -355,11 +359,11 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	void notifyDatasetChanged() {
+		forEachListener(listener -> listener.notifyDatasetChanged(this));
 		if (onDataImported != null) {
 			onDataImported.run();
 			onDataImported = null;
 		}
-		forEachListener(listener -> listener.notifyDatasetChanged(this));
 	}
 
 	private Stream<TableValuesListener> listenerStream() {

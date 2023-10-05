@@ -47,11 +47,11 @@ public class CsvImportHandler {
 			File fileToHandle = input.files.getAt(0);
 
 			progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name);
+			getTable().getTableValuesModel().removeAllColumns();
+			getTable().clearView();
 			getTable().getTableValuesModel().setOnDataImportedRunnable(() -> {
 				progressSnackbar.hide();
 			});
-
-			getTable().clearView();
 			openCSV(fileToHandle);
 		});
 
