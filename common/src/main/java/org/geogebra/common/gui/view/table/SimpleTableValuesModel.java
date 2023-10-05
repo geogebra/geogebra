@@ -297,11 +297,9 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 */
 	void clearModel() {
 		for (int i = columns.size() - 1; i >= 0; i--) {
-			GeoEvaluatable geoEvaluatable = columns.get(i).getEvaluatable();
-			if (geoEvaluatable.isGeoList()) {
-				geoEvaluatable.remove();
-			}
+			columns.get(i).getEvaluatable().remove();
 		}
+		columns.clear();
 		initializeModel();
 		collector.notifyDatasetChanged(this);
 	}
