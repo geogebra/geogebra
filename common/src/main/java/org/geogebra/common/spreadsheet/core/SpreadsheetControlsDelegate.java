@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;

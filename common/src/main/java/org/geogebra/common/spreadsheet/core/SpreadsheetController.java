@@ -31,7 +31,7 @@ public final class SpreadsheetController implements TabularSelection {
 		this.tabularData = tabularData;
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), 20, 40);
-		contextMenuItems = new ContextMenuItems(tabularData);
+		contextMenuItems = new ContextMenuItems(tabularData, selectionController);
 	}
 
 	TableLayout getLayout() {
@@ -125,8 +125,8 @@ public final class SpreadsheetController implements TabularSelection {
 		int column = layout.findColumn(x + viewport.getMinX());
 		int row = layout.findRow(y + viewport.getMinY());
 		if (modifiers.rightButton) {
-			controlsDelegate.showContextMenu(contextMenuItems.get(column, row), new GPoint(x, y));
-
+			GPoint coords = new GPoint(x, y);
+			controlsDelegate.showContextMenu(contextMenuItems.get(column, row), coords);
 			return true;
 		}
 		if (isSelected(row, column)) {

@@ -1,21 +1,28 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.geogebra.common.util.debug.Log;
 
 public class ContextMenuItems {
 
 	private final TabularData tabularData;
+	private final SpreadsheetSelectionController selectionController;
 
-	public ContextMenuItems(TabularData tabularData) {
+	public ContextMenuItems(TabularData tabularData,
+			SpreadsheetSelectionController selectionController) {
+		this.selectionController = selectionController;
 		this.tabularData = tabularData;
 	}
 
 	Map<String, Runnable> get(int column, int row) {
-		if (column < 0) {
-			return rowItems(column);
-		} else if (row < 0) {
-			return columnItems(row);
+		Log.debug("col: " + column + " row: " + row);
+		if (column == -1) {
+			return rowItems(row);
+		} else if (row == -1) {
+			return columnItems(column);
 		}
 		return cellItems(column, row);
 	}
@@ -34,15 +41,49 @@ public class ContextMenuItems {
 		HashMap<String, Runnable> actions = new HashMap<>();
 		actions.put("ContextMenu.insertRowAbove", () -> {tabularData.insertRowAt(row);});
 		actions.put("ContextMenu.insertRowBelow", () -> {tabularData.insertRowAt(row + 1);});
-		actions.put("ContextMenu.deleteRow", () -> {tabularData.deleteRowAt(row);});
+		actions.put("ContextMenu.deleteRow", () -> deleteRowAt(row));
 		return actions;
+	}
+
+	private void deleteRowAt(int row) {
+		List<Selection> selections = selectionController.selections();
+		if (selections.isEmpty()) {
+			tabularData.deleteRowAt(row);
+		} else {
+			selections.stream().filter(selection -> selection.isRowOnly())
+					.forEach(selection -> deleteRowAt(selection.getRange().fromRow,
+							selection.getRange().toRow));
+			}
+		}
+
+	private void deleteRowAt(int fromRow, int toRow) {
+		for (int row = fromRow; row < toRow; row++) {
+			tabularData.deleteRowAt(row);
+		}
 	}
 
 	private Map<String, Runnable> columnItems(int column) {
 		HashMap<String, Runnable> actions = new HashMap<>();
 		actions.put("ContextMenu.insertColumnLeft", () -> {tabularData.insertColumnAt(column);});
 		actions.put("ContextMenu.insertColumnRight", () -> {tabularData.insertColumnAt(column + 1);});
-		actions.put("ContextMenu.deleteColumn", () -> {tabularData.deleteColumnAt(column);});
+		actions.put("ContextMenu.deleteColumn", () -> {deleteColumnAt(column);});
 		return actions;
+	}
+
+	private void deleteColumnAt(int row) {
+		List<Selection> selections = selectionController.selections();
+		if (selections.isEmpty()) {
+			tabularData.deleteRowAt(row);
+		} else {
+			selections.stream().filter(selection -> selection.isRowOnly())
+					.forEach(selection -> deleteColumnAt(selection.getRange().fromCol,
+							selection.getRange().toCol));
+			}
+		}
+
+	private void deleteColumnAt(int fromRow, int toRow) {
+		for (int row = fromRow; row < toRow; row++) {
+			tabularData.deleteRowAt(row);
+		}
 	}
 }
