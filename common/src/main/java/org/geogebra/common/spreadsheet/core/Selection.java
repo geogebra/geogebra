@@ -43,4 +43,12 @@ final class Selection {
 		return (range.fromCol <= column && range.toCol >= column || range.fromCol < 0)
 				&& (range.fromRow <= row && range.toRow >= row || range.fromRow < 0);
 	}
+
+	public boolean isRowOnly() {
+		return SelectionType.ROWS.equals(type);
+	}
+
+	public boolean isColumnOnly() {
+		return SelectionType.COLUMNS.equals(type);
+	}
 }
