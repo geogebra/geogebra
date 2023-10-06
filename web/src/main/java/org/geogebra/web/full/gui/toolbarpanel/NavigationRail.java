@@ -34,6 +34,7 @@ class NavigationRail extends FlowPanel {
 	private @CheckForNull StandardButton btnTools;
 	private @CheckForNull StandardButton btnDistribution;
 	private @CheckForNull StandardButton btnTableView;
+	private @CheckForNull StandardButton btnSpreadsheet;
 	private final FlowPanel contents;
 	private FlowPanel center;
 	private boolean animating = false;
@@ -98,6 +99,10 @@ class NavigationRail extends FlowPanel {
 			createTableViewButton();
 			center.add(btnTableView);
 		}
+		if (app.getConfig().hasSpreadsheetView()) {
+			createSpreadsheetButton();
+			center.add(btnSpreadsheet);
+		}
 		if (btnMenu != null && !isHeaderExternal()) {
 			center.addStyleName("withMenu");
 		}
@@ -126,6 +131,12 @@ class NavigationRail extends FlowPanel {
 		btnDistribution = createTabButton("Distribution",
 				MaterialDesignResources.INSTANCE.toolbar_distribution());
 		btnDistribution.addFastClickHandler(source -> onDistributionPressed());
+	}
+
+	private void createSpreadsheetButton() {
+		btnSpreadsheet = createTabButton("Spreadsheet",
+				MaterialDesignResources.INSTANCE.toolbar_spreadsheet());
+		btnSpreadsheet.addFastClickHandler(source -> onSpreadsheetPressed());
 	}
 
 	private StandardButton createTabButton(String label, SVGResource icon) {
@@ -195,6 +206,17 @@ class NavigationRail extends FlowPanel {
 	}
 
 	/**
+	 * Handler for spreadsheet view button.
+	 */
+	protected void onSpreadsheetPressed() {
+		if (isOpen() && toolbarPanel.getSelectedTabId() == TabIds.SPREADSHEET) {
+			onClosePressed(false);
+			return;
+		}
+		toolbarPanel.openSpreadsheetView(isOpen());
+	}
+
+	/**
 	 * Handler for Close button.
 	 */
 	protected void onClosePressed(boolean snap) {
@@ -236,11 +258,12 @@ class NavigationRail extends FlowPanel {
 		setButtonText(btnTools, "Tools");
 		setButtonText(btnTableView, "Table");
 		setButtonText(btnDistribution, "Distribution");
+		setButtonText(btnSpreadsheet, "Spreadsheet");
 	}
 
-	private void setButtonText(StandardButton btnTools, String key) {
-		if (btnTools != null) {
-			btnTools.setText(app.getLocalization().getMenu(key));
+	private void setButtonText(StandardButton btn, String key) {
+		if (btn != null) {
+			btn.setText(app.getLocalization().getMenu(key));
 		}
 	}
 
@@ -515,6 +538,7 @@ class NavigationRail extends FlowPanel {
 		setSelected(btnTools, tabId == TabIds.TOOLS, exam);
 		setSelected(btnTableView, tabId == TabIds.TABLE, exam);
 		setSelected(btnDistribution, tabId == TabIds.DISTRIBUTION, exam);
+		setSelected(btnSpreadsheet, tabId == TabIds.SPREADSHEET, exam);
 	}
 
 	public void setAVIconNonSelect(boolean exam) {
@@ -530,7 +554,7 @@ class NavigationRail extends FlowPanel {
 		int btnTop = 40;
 		context2d.globalAlpha = 0.54;
 		for (StandardButton btn: new StandardButton[]{btnAlgebra, btnTools, btnTableView,
-				btnDistribution}) {
+				btnDistribution, btnSpreadsheet}) {
 			if (btn != null) {
 				HTMLImageElement el = Js.uncheckedCast(btn.getImage().getElement());
 				context2d.drawImage(el, left + 24, top + btnTop);

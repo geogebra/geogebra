@@ -343,4 +343,9 @@ public interface AppConfig extends Serializable {
 	int getMainGraphicsViewId();
 
 	boolean hasOneVarStatistics();
+
+	/**
+	 * @return true, if app has spreadsheet view
+	 */
+	boolean hasSpreadsheetView();
 }

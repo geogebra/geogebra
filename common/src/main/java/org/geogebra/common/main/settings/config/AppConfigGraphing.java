@@ -361,4 +361,9 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	public boolean hasAlgebraView() {
 		return true;
 	}
+
+	@Override
+	public boolean hasSpreadsheetView() {
+		return true;
+	}
 }

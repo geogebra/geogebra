@@ -29,6 +29,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.SpreadsheetTab;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
@@ -88,6 +89,7 @@ public class ToolbarPanel extends FlowPanel
 	private @CheckForNull TableTab tabTable;
 	private @CheckForNull ToolsTab tabTools;
 	private @CheckForNull DistributionTab tabDist;
+	private @CheckForNull SpreadsheetTab spreadsheetTab;
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
@@ -313,6 +315,12 @@ public class ToolbarPanel extends FlowPanel
 			addTab(tabTable, false);
 		} else {
 			tabTable = null;
+		}
+		if (app.getConfig().hasSpreadsheetView()) {
+			spreadsheetTab = new SpreadsheetTab(this);
+			addTab(spreadsheetTab, false);
+		} else {
+			spreadsheetTab = null;
 		}
 		addMoveBtn();
 		heading = new FlowPanel();
@@ -843,6 +851,9 @@ public class ToolbarPanel extends FlowPanel
 			if (tabDist != null) {
 				tabDist.setActive(tab == TabIds.DISTRIBUTION);
 			}
+			if (spreadsheetTab != null) {
+				spreadsheetTab.setActive(tab == TabIds.SPREADSHEET);
+			}
 			resizeTabs();
 		});
 		updateMoveButton();
@@ -903,6 +914,18 @@ public class ToolbarPanel extends FlowPanel
 		}
 		switchTab(TabIds.DISTRIBUTION, fade);
 		setMoveMode();
+	}
+
+
+	/**
+	 * Open spreadsheet tab.
+	 * @param fade decides if tab should fade during animation.
+	 */
+	public void openSpreadsheetView(boolean fade) {
+		if (!app.getConfig().hasSpreadsheetView()) {
+			return;
+		}
+		switchTab(TabIds.SPREADSHEET, fade);
 	}
 
 	/**
@@ -1148,6 +1171,9 @@ public class ToolbarPanel extends FlowPanel
 		}
 		if (tabDist != null) {
 			tabDist.setLabels();
+		}
+		if (spreadsheetTab != null) {
+			spreadsheetTab.setLabels();
 		}
 	}
 
