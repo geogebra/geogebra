@@ -14,6 +14,7 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public final class SpreadsheetController implements TabularSelection {
 
+	private final ContextMenuItems contextMenuItems;
 	private SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
 	final private TabularData<?> tabularData;
@@ -30,6 +31,7 @@ public final class SpreadsheetController implements TabularSelection {
 		this.tabularData = tabularData;
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), 20, 40);
+		contextMenuItems = new ContextMenuItems(tabularData);
 	}
 
 	TableLayout getLayout() {
@@ -86,17 +88,6 @@ public final class SpreadsheetController implements TabularSelection {
 		return tabularData.getColumnName(column);
 	}
 
-	/**
-	 * @param column column number
-	 * @return actions for the column (map action's ggbtrans key -> action)
-	 */
-	public Map<String, Runnable> getContextMenu(int column) {
-		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("InsertColumn", () -> tabularData.insertColumnAt(column));
-		actions.put("DeleteColumn", () -> tabularData.deleteColumnAt(column));
-		return actions;
-	}
-
 	boolean showCellEditor(int row, int column, Rectangle viewport) {
 		if (controlsDelegate != null) {
 			Rectangle editorBounds = layout.getBounds(row, column)
@@ -134,7 +125,7 @@ public final class SpreadsheetController implements TabularSelection {
 		int column = layout.findColumn(x + viewport.getMinX());
 		int row = layout.findRow(y + viewport.getMinY());
 		if (modifiers.rightButton) {
-			controlsDelegate.showContextMenu(getContextMenu(column), new GPoint(x, y));
+			controlsDelegate.showContextMenu(contextMenuItems.get(column, row), new GPoint(x, y));
 
 			return true;
 		}

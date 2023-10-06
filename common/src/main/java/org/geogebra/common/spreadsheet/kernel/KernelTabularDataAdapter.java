@@ -192,4 +192,14 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 				? data.getLaTeXDescriptionRHS(false,
 				StringTemplate.editorTemplate) : "";
 	}
+
+	@Override
+	public void copy(int columnFrom, int rowFrom, int columnTo, int rowTo) {
+
+	}
+
+	@Override
+	public void cut(int columnFrom, int rowFrom, int columnTo, int rowTo) {
+
+	}
 }
