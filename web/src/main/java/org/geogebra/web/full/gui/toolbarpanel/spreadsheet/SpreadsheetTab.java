@@ -12,7 +12,7 @@ public class SpreadsheetTab extends ToolbarTab {
 
 	/**
 	 * Constructor
-	 * @param toolbarPanel
+	 * @param toolbarPanel - toolbar panel
 	 */
 	public SpreadsheetTab(ToolbarPanel toolbarPanel) {
 		super(toolbarPanel);

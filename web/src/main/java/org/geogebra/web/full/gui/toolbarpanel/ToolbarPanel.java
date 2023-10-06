@@ -916,7 +916,6 @@ public class ToolbarPanel extends FlowPanel
 		setMoveMode();
 	}
 
-
 	/**
 	 * Open spreadsheet tab.
 	 * @param fade decides if tab should fade during animation.
