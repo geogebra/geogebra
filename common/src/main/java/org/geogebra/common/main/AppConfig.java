@@ -74,7 +74,7 @@ public interface AppConfig extends Serializable {
 	int[] getSignificantFigures();
 
 	/**
-	 * @return the array of characters that can be used for the angle labels.
+	 * @return whether the characters for the angle should be greek
 	 */
 	boolean isGreekAngleLabels();
 

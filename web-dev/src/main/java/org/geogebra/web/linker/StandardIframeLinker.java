@@ -2,7 +2,9 @@ package org.geogebra.web.linker;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.gwt.core.ext.LinkerContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -48,6 +50,10 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 				+ ".nocache.js", lastModified);
 	}
 
+	protected String getJsInstallScript(LinkerContext context) {
+		return "org/geogebra/web/linker/installScriptDirect.js";
+	}
+
 	protected String generateSelectionScriptModule(TreeLogger logger,
 			LinkerContext context, ArtifactSet artifacts)
 			throws UnableToCompleteException {
@@ -62,16 +68,31 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 			exports.append("export const %0 = createSubmoduleAPI(\"%0\", \"%1\");\n"
 					.replace("%0", parts[0]).replace("%1", parts[1]));
 		}
+		Optional<String> beforeRenderJS = getBeforeRenderJS(context);
+		String beforeRenderContent = beforeRenderJS.isPresent()
+				? readFileToStringBuffer(beforeRenderJS.get(), logger).toString()
+				: "resolve(options)";
+
+		replaceAll(buffer, "__BEFORE_RENDER__", beforeRenderContent);
+
 		replaceAll(buffer, "__EXPORT_SUBMODULES__", exports.toString());
 		return fillSelectionScriptTemplate(
 				buffer, logger, context, artifacts, null);
 	}
 
 	private List<String> getExportFilename(LinkerContext context) {
+		return getConfigurationProperty(context, "es6export").collect(Collectors.toList());
+	}
+
+	private Stream<String> getConfigurationProperty(LinkerContext context, String name) {
 		return context.getConfigurationProperties().stream()
-				.filter(prop -> prop.getName().equals("es6export") && !prop.getValues().isEmpty())
-				.flatMap(prop -> Arrays.stream(prop.getValues().get(0).split(",")))
-				.collect(Collectors.toList());
+				.filter(prop -> prop.getName().equals(name) && !prop.getValues().isEmpty())
+				.flatMap(prop -> Arrays.stream(prop.getValues().get(0).split(",")));
+	}
+
+	private Optional<String> getBeforeRenderJS(LinkerContext context) {
+		return getConfigurationProperty(context, "beforeRenderJS")
+				.findAny();
 	}
 
 	@Override
