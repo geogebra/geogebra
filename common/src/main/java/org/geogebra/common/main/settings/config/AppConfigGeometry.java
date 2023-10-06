@@ -353,4 +353,9 @@ public class AppConfigGeometry extends AbstractAppConfig {
 	public boolean hasAlgebraView() {
 		return true;
 	}
+
+	@Override
+	public boolean hasSpreadsheetView() {
+		return false;
+	}
 }

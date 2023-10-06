@@ -215,4 +215,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public int getMainGraphicsViewId() {
 		return App.VIEW_EUCLIDIAN3D;
 	}
+
+	@Override
+	public boolean hasSpreadsheetView() {
+		return false;
+	}
 }
