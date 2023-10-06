@@ -5,7 +5,7 @@ import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 /**
  * Interacting with the structure and contents of tabular data.
  */
-public interface TabularData<T> extends HasTabularValues<T> {
+public interface TabularData<T> extends HasTabularValues<T>, CopyPasteCutTabularData {
 
 	// structure
 	void reset(int rows, int columns);
