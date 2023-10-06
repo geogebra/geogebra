@@ -380,7 +380,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public String getLastUsedSubApp() {
 		String lastUsedSubApp = BrowserStorage.LOCAL.getItem(BrowserStorage.LAST_USED_SUB_APP);
-		return lastUsedSubApp != "" ? lastUsedSubApp : GRAPHING_APPCODE;
+		return lastUsedSubApp != null && !lastUsedSubApp.isEmpty()
+				? lastUsedSubApp : GRAPHING_APPCODE;
 	}
 
 	/**
