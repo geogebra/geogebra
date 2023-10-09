@@ -5,13 +5,12 @@ import java.awt.GraphicsEnvironment;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Locale;
 
 import javax.swing.UIManager;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.main.FontManager;
-import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.awt.GFontD;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -63,8 +62,8 @@ public class FontManagerD extends FontManager {
 	 * Sets default font that works with the given language.
 	 * @throws NoFontException if no font works for given locale
 	 */
-	public void setLanguage(final Locale locale) throws NoFontException {
-		final String lang = locale.getLanguage();
+	public void setLanguage(final LocalizationJre localization) throws NoFontException {
+		final String lang = localization.getLocale().getLanguage();
 
 		// new font names for language
 		String fontNameSansSerif;
@@ -77,7 +76,7 @@ public class FontManagerD extends FontManager {
 		final LinkedList<String> tryFontsSerif = new LinkedList<>(
 				Arrays.asList(FONT_NAMES_SERIF));
 
-		final String testChar = Language.getTestChar(lang);
+		final String testChar = localization.getLanguage().getTestChar();
 		if (testChar != null) {
 			testCharacters.append(testChar);
 		}

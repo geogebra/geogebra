@@ -1474,6 +1474,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleLanguage(App app,
 			  LinkedHashMap<String, String> attrs) {
+		// this may be either BCP language tag or Java locale string (old files)
 		String lang = attrs.get("val");
 		app.setLanguage(lang);
 		return true;

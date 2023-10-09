@@ -49,7 +49,7 @@ public class AutocompleteProviderClassic {
 
 		boolean korean = false;
 		if (app.getLocalization() != null) {
-			korean = "ko".equals(app.getLocalization().getLanguage());
+			korean = app.getLocalization().languageIs("ko");
 		}
 
 		// start autocompletion only for words with at least two characters

@@ -107,7 +107,7 @@ public class GeoCasCell extends GeoElement
 	private String latex;
 	private String latexInput;
 	private String localizedInput;
-	private String currentLocaleStr;
+	private String currentLanguageTag;
 	private boolean suppressOutput = false;
 	private AssignmentType assignmentType = AssignmentType.NONE;
 
@@ -218,8 +218,8 @@ public class GeoCasCell extends GeoElement
 	public String getInput(final StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
 			// input with localized command names
-			if (currentLocaleStr == null
-					|| !currentLocaleStr.equals(getLoc().getLocaleStr())) {
+			if (currentLanguageTag == null
+					|| !currentLanguageTag.equals(getLoc().getLanguageTag())) {
 				updateLocalizedInput(tpl, input);
 			}
 			return localizedInput;
@@ -690,7 +690,7 @@ public class GeoCasCell extends GeoElement
 	private void updateLocalizedInput(final StringTemplate tpl,
 			final String input1) {
 		// for efficiency: localized input with local command names
-		currentLocaleStr = getLoc().getLocaleStr();
+		currentLanguageTag = getLoc().getLanguageTag();
 		localizedInput = localizeInput(input1, tpl);
 	}
 
