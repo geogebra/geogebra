@@ -252,6 +252,13 @@ public class MyDouble extends ValidExpression
 			c.set(Double.NaN);
 			return;
 		}
+
+		if (isNumberImprecise(a) || isNumberImprecise(b)) {
+			c.set(a.val * bval);
+			c.setImprecise(true);
+			return;
+		}
+
 		BigDecimal ba = a.toDecimal();
 		BigDecimal bb = b.toDecimal();
 		if (ba != null && bb != null) {
@@ -260,6 +267,11 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 		c.set(a.val * bval);
+	}
+
+	private static boolean isNumberImprecise(NumberValue numberValue) {
+		return numberValue instanceof ValidExpression
+				&& ((ValidExpression) numberValue).isImprecise();
 	}
 
 	/**
@@ -1310,5 +1322,4 @@ public class MyDouble extends ValidExpression
 	protected ExpressionValue unaryMinus(Kernel kernel2) {
 		return new MyDouble(kernel2, -getDouble());
 	}
-
 }

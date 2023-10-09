@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -508,11 +509,15 @@ public enum Operation {
 	// so that brackets work for eg a/(b/c)
 	// and are removed in (a/b)/c
 	// see case DIVIDE in ExpressionNode
+
 	MULTIPLY {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			    checkImprecise(left, lt);
+			    checkImprecise(right, rt);
+
 			return ev.handleMult(lt, rt, tpl, holdsLaTeX);
 
 		}
@@ -1925,6 +1930,19 @@ public enum Operation {
 					MyList.getCell(list, 0, 1));
 		}
 	};
+
+	private static void checkImprecise(ExpressionValue value, ExpressionValue rt) {
+		if (!(value instanceof ValidExpression)) {
+			return;
+		}
+		ValidExpression ve = (ValidExpression) value;
+		if (ve.containsFunctionVariable()) {
+			ve.setImprecise(true);
+			if (rt instanceof ValidExpression) {
+				((ValidExpression) rt).setImprecise(true);
+			}
+		}
+	}
 
 	protected ExpressionValue[] expandPlusMinus(ExpressionNode exp, Kernel kernel) {
 		ExpressionValue[] expand = new ExpressionValue[2];

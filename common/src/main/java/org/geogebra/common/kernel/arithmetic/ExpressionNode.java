@@ -130,9 +130,9 @@ public class ExpressionNode extends ValidExpression
 	public ExpressionNode(Kernel kernel, ExpressionValue leaf) {
 		this.kernel = kernel;
 		loc = kernel.getLocalization();
-
 		setLeft(leaf);
 		this.leaf = true;
+
 	}
 
 	/**
