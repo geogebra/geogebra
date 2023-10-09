@@ -41,6 +41,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
+	private Runnable onDataImported;
 
 	/**
 	 * Construct a SimpleTableValuesModel.
@@ -291,6 +292,13 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		column.notifyDatasetChanged(this);
 	}
 
+	@Override
+	public void removeAllColumns() {
+		for (int i = columns.size() - 1; i >= 0; i--) {
+			columns.get(i).getEvaluatable().remove();
+		}
+	}
+
 	/**
 	 * Clears and initializes the model.
 	 */
@@ -352,6 +360,10 @@ final class SimpleTableValuesModel implements TableValuesModel {
 
 	void notifyDatasetChanged() {
 		forEachListener(listener -> listener.notifyDatasetChanged(this));
+		if (onDataImported != null) {
+			onDataImported.run();
+			onDataImported = null;
+		}
 	}
 
 	private Stream<TableValuesListener> listenerStream() {
@@ -545,6 +557,11 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		collector.notifyDatasetChanged(this);
 		collector.endCollection(this);
 		resumeListeners(listener -> listener instanceof TableValuesPoints);
+	}
+
+	@Override
+	public void setOnDataImportedRunnable(Runnable onDataImported) {
+		this.onDataImported = onDataImported;
 	}
 
 	private void importXColumn() {

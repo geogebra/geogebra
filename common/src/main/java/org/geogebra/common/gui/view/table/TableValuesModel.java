@@ -115,4 +115,14 @@ public interface TableValuesModel {
 	 * @return The x values column with all the necessary settings set.
 	 */
 	GeoList setupXValues(GeoList xValues);
+
+	/**
+	 * @param onDataImported - when data imported, hide loading snackbar
+	 */
+	void setOnDataImportedRunnable(Runnable onDataImported);
+
+	/**
+	 * Remove all columns from construction
+	 */
+	void removeAllColumns();
 }
