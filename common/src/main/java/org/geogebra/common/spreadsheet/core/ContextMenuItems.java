@@ -8,7 +8,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class ContextMenuItems {
 
-	public static final int HEADER_INDEX = -1;
+	static final int HEADER_INDEX = -1;
 	private final TabularData tabularData;
 	private final SpreadsheetSelectionController selectionController;
 
@@ -56,8 +56,8 @@ public class ContextMenuItems {
 		}
 
 	private void deleteRowAt(int fromRow, int toRow) {
-		for (int row = fromRow; row < toRow; row++) {
-			tabularData.deleteRowAt(row);
+		for (int row = fromRow; row < toRow + 1; row++) {
+			tabularData.deleteRowAt(fromRow);
 		}
 	}
 
@@ -69,20 +69,20 @@ public class ContextMenuItems {
 		return actions;
 	}
 
-	private void deleteColumnAt(int row) {
+	private void deleteColumnAt(int column) {
 		List<Selection> selections = selectionController.selections();
 		if (selections.isEmpty()) {
-			tabularData.deleteRowAt(row);
+			tabularData.deleteColumnAt(column);
 		} else {
-			selections.stream().filter(selection -> selection.isRowOnly())
+			selections.stream().filter(selection -> selection.isColumnOnly())
 					.forEach(selection -> deleteColumnAt(selection.getRange().fromCol,
 							selection.getRange().toCol));
 			}
 		}
 
-	private void deleteColumnAt(int fromRow, int toRow) {
-		for (int row = fromRow; row < toRow; row++) {
-			tabularData.deleteRowAt(row);
+	private void deleteColumnAt(int fromColumn, int toColumn) {
+		for (int column = fromColumn; column < toColumn + 1; column++) {
+			tabularData.deleteColumnAt(fromColumn);
 		}
 	}
 }
