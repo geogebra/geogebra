@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.annotation.CheckForNull;
@@ -94,7 +95,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private boolean latexLoaded;
 	private int userWidth;
 	private TreeItem inputPanelTreeItem;
-	private ArrayList<Integer> collapsedNodes;
 	private boolean isShowingAuxiliaryObjects;
 	/** whether it's attached to kernel */
 	protected boolean attached = false;
@@ -139,7 +139,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private HashMap<GeoElement, RadioTreeItem> nodeTable = new HashMap<>(500);
 
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
-	private StringBuilder sbXML;
 
 	private RadioTreeItem activeItem;
 
@@ -191,7 +190,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// initializes the tree model, important to set tree mode first to avoid
 		// inf. loop #3651
-		treeMode = app.getSettings().getAlgebra().getTreeMode();
+		treeMode = getSettings().getTreeMode();
 		initModel();
 
 		setLabels();
@@ -208,8 +207,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		// Initialize settings and register listener
-		app.getSettings().getAlgebra().addListener(this);
-		settingsChanged(app.getSettings().getAlgebra());
+		getSettings().addListener(this);
+		settingsChanged(getSettings());
 	}
 
 	@Override
@@ -519,15 +518,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// no collapsed nodes
 		if (getTreeMode() == SortMode.ORDER) {
-			collapsedNodes = null;
+			getSettings().setCollapsedNodesNoFire(null);
 			return;
 		}
 
-		if (collapsedNodes == null) {
-			collapsedNodes = new ArrayList<>();
-		} else {
-			collapsedNodes.clear();
-		}
+		List<Integer> collapsedNodes = new ArrayList<>();
 
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem node = getItem(i);
@@ -535,6 +530,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				collapsedNodes.add(i);
 			}
 		}
+		getSettings().setCollapsedNodesNoFire(collapsedNodes);
+	}
+
+	private AlgebraSettings getSettings() {
+		return app.getSettings().getAlgebra();
 	}
 
 	/**
@@ -546,18 +546,18 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	/**
-	 * @param value
+	 * @param sortMode
 	 *            Either AlgebraView.MODE_DEPDENCY or AlgebraView.MODE_TYPE
 	 */
 	@Override
-	public void setTreeMode(SortMode value) {
-		if (getTreeMode().equals(value)) {
+	public void setTreeMode(SortMode sortMode) {
+		if (getTreeMode().equals(sortMode)) {
 			return;
 		}
 
 		clearView();
 
-		this.treeMode = value;
+		this.treeMode = sortMode;
 		initModel();
 
 		kernel.notifyAddAll(this);
@@ -571,64 +571,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            string builder
 	 */
 	public final void getXML(StringBuilder sb) {
-
-		if (sbXML == null) {
-			sbXML = new StringBuilder();
-		} else {
-			sbXML.setLength(0);
-		}
-
-		sbXML.append("\t<mode ");
-		sbXML.append("val=\"");
-		sbXML.append(getTreeMode().toInt());
-		sbXML.append("\"");
-		sbXML.append("/>\n");
-
-		// auxiliary objects
-		boolean flag = showAuxiliaryObjects();
-		if (flag) {
-			sbXML.append("\t<auxiliary ");
-			sbXML.append("show=\"");
-			sbXML.append(flag);
-			sbXML.append("\"");
-			sbXML.append("/>\n");
-		}
-
-		// collapsed nodes
 		updateCollapsedNodesIndices();
-		if (collapsedNodes != null && collapsedNodes.size() > 0) {
-			sbXML.append("\t<collapsed ");
-			sbXML.append("val=\"");
-			sbXML.append(collapsedNodes.get(0));
-			for (int i = 1; i < collapsedNodes.size(); i++) {
-				sbXML.append(",");
-				sbXML.append(collapsedNodes.get(i));
-			}
-			sbXML.append("\"");
-			sbXML.append("/>\n");
-		}
-
-		if (sbXML.length() > 0) {
-			sb.append("<algebraView>\n");
-			sb.append(sbXML);
-			sb.append("</algebraView>\n");
-		}
-	}
-
-	private void setCollapsedNodes(int[] collapsedNodes) {
-		if (collapsedNodes == null) {
-			return;
-		}
-
-		if (this.collapsedNodes == null) {
-			this.collapsedNodes = new ArrayList<>();
-		} else {
-			this.collapsedNodes.clear();
-		}
-
-		for (int collapsedNode : collapsedNodes) {
-			this.collapsedNodes.add(collapsedNode);
-		}
+		getSettings().getXML(sb, showAuxiliaryObjects());
 	}
 
 	/**
@@ -682,7 +626,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (!settingsChanged) {
 			// that means that no settings were stored in the file: reset
 			// settings to have default
-			AlgebraSettings settings = app.getSettings().getAlgebra();
+			AlgebraSettings settings = getSettings();
 			settings.reset();
 			settingsChanged(settings);
 		}
@@ -693,11 +637,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
 
 		// collapsed nodes
-		if (collapsedNodes == null) {
+		if (getSettings().getCollapsedNodes() == null) {
 			return;
 		}
 
-		for (int i : collapsedNodes) {
+		for (int i : getSettings().getCollapsedNodes()) {
 			TreeItem node = getItem(i);
 			if (node != null) {
 				node.setState(false);
@@ -715,7 +659,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		setTreeMode(algebraSettings.getTreeMode());
 		showAuxiliaryObjectsSettings = algebraSettings
 				.getShowAuxiliaryObjects();
-		setCollapsedNodes(algebraSettings.getCollapsedNodes());
 
 		settingsChanged = true;
 		resetItems(false);
@@ -2298,8 +2241,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// normally the "center" orientation should be handled by the
 		// VERTICAL_SPLIT check above
 		if (!avParent.isCenter(avDockPanel)) {
-			avParent.setWidgetSize(avDockPanel.asWidget(), w);
-			avDockPanel.deferredOnResize();
+			if (avParent.getWidgetSize(avDockPanel.asWidget()) != w) {
+				avParent.setWidgetSize(avDockPanel.asWidget(), w);
+				avDockPanel.deferredOnResize();
+			}
 		}
 	}
 

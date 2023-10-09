@@ -4428,14 +4428,17 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            string builder
 	 */
 	protected void getListenerTagsXML(StringBuilder sb) {
-		ScriptManager scriptManager = app.getScriptManager();
-		// updateListenerMap
-		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
-				"objectUpdate");
-		// clickListenerMap
-		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
-				"objectClick");
-
+		// we might be calling this from event dispatcher
+		// make sure we don't initialize ScriptManager here
+		if (app.hasScriptManager()) {
+			ScriptManager scriptManager = app.getScriptManager();
+			// updateListenerMap
+			getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
+					"objectUpdate");
+			// clickListenerMap
+			getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
+					"objectClick");
+		}
 	}
 
 	private void getListenerTagXML(StringBuilder sb,
