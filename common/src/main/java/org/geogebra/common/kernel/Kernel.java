@@ -2949,11 +2949,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			macroManager.setAllMacrosUnused();
 		}
 
-		// clear animations
-		if (animationManager != null) {
-			animationManager.stopAnimation();
-			animationManager.clearAnimatedGeos();
-		}
+		clearAnimations();
 		if (clearScripts) {
 			cons.getArbitraryConsTable().clear();
 		}
@@ -2961,6 +2957,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		app.getSettings().getProbCalcSettings().reset();
 		notifyClearView();
 		notifyRepaint();
+	}
+
+	/**
+	 * Stop any ongoing animations and clear the animation list
+	 */
+	public void clearAnimations() {
+		if (animationManager != null) {
+			animationManager.stopAnimation();
+			animationManager.clearAnimatedGeos();
+		}
 	}
 
 	/**

@@ -23,6 +23,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.SwingUtilities;
 
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
+
 /**
  * Dispatches all mouse and key events from the glass pane to a given component.
  */
@@ -99,7 +101,7 @@ public class GlassPaneListener
 					glassPanePoint, component);
 			component.dispatchEvent(new MouseEvent(component, e.getID(),
 					e.getWhen(), e.getModifiers(), componentPoint.x,
-					componentPoint.y, e.getClickCount(), AppD.isRightClick(e)));
+					componentPoint.y, e.getClickCount(), MouseEventUtil.isRightClick(e)));
 		}
 	}
 

@@ -11,6 +11,7 @@ import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
@@ -122,7 +123,7 @@ public class GLookAndFeel implements GLookAndFeelI {
     }
 
 	@Override
-	public SignInController getSignInController(App app) {
+	public SignInControllerI getSignInController(App app) {
 		return new SignInController(app, 0, null);
     }
 
@@ -188,8 +189,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 		if (Browser.isGeoGebraOrg()) {
 			Date exp = new Date(
 					System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365);
+			Language language1 = Language.fromLanguageTagOrLocaleString(lang);
 			Cookies.setCookie("GeoGebraLangUI",
-					Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
+					language1.toLanguageTag(), exp,
 					"geogebra.org", "/");
 		} else {
 			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);

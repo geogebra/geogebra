@@ -18,9 +18,6 @@ publishing {
 	}
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 dependencies {
 	javacc 'net.java.dev.javacc:javacc:7.0.12'
 	api project(':renderer-base')

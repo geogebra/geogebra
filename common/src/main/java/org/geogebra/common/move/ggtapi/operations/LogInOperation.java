@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -57,7 +58,11 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 */
 	public final void performTokenLogin() {
 		String token = getModel().getLoginToken();
-		getGeoGebraTubeAPI().performTokenLogin(this, token);
+		if (!StringUtil.empty(token)) {
+			this.performTokenLogin(token, true);
+		} else {
+			passiveLogin();
+		}
 	}
 
 	/**
@@ -131,20 +136,20 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	public abstract BackendAPI getGeoGebraTubeAPI();
 
 	/**
-	 * @param languageCode
+	 * @param languageTag
 	 *            The code of the current user language. This code will be used
 	 *            as URL parameter
 	 * @return The URL to the GeoGebraTube Login page including params for the
 	 *         client identification and the expiration time.
 	 */
-	public String getLoginURL(String languageCode) {
+	public String getLoginURL(String languageTag) {
 		String apiURL = getGeoGebraTubeAPI().getLoginUrl()
 				.replace("http://", "").replace("https://", "");
 		apiURL = apiURL.substring(0, apiURL.indexOf('/'));
 		String url = "https://" + apiURL + "/user/signin/caller/"
 				+ getURLLoginCaller() + "/expiration/"
 				+ getURLTokenExpirationMinutes() + "/clientinfo/"
-				+ getURLClientInfo() + "/?lang=" + languageCode;
+				+ getURLClientInfo() + "/?lang=" + languageTag;
 		if (!isExternalLoginAllowed()) {
 			return url + "&external=false";
 		}

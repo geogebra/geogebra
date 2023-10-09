@@ -78,7 +78,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	private static final int MAX_RECTANGLES = 10000;
 
 	// output
-	private GeoNumeric sum;
+	private BarChartGeoNumeric sum;
 
 	// input
 	private GeoNumberValue a;
@@ -109,8 +109,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	private double freqMax;
 	private double dataSize;
 
-	private String toolTipText;
-
 	// flag to determine if result sum measures area or length
 	private boolean isAreaSum = true;
 
@@ -140,13 +138,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		this.list1 = list1;
 
 		// output
-		sum = new GeoNumeric(cons) {
-			@Override
-			public String getTooltipText(final boolean colored,
-					final boolean alwaysOn) {
-				return toolTipText;
-			}
-		};
+		sum = new BarChartGeoNumeric(cons);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -391,13 +383,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		this.scale = scale;
 
-		sum = new GeoNumeric(cons) {
-			@Override
-			public String getTooltipText(final boolean colored,
-					final boolean alwaysOn) {
-				return toolTipText;
-			}
-		};
+		sum = new BarChartGeoNumeric(cons);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -441,13 +427,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		}
 		this.isCumulative = isCumulative;
 
-		sum = new GeoNumeric(cons) {
-			@Override
-			public String getTooltipText(final boolean colored,
-					final boolean alwaysOn) {
-				return toolTipText;
-			}
-		};
+		sum = new BarChartGeoNumeric(cons);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -1318,11 +1298,25 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		sb.append(kernel.format(percent, StringTemplate.defaultTemplate));
 		sb.append("%");
 
-		toolTipText = sb.toString();
+		sum.toolTipText = sb.toString();
 	}
 
 	@Override
 	public ChartStyle getStyle() {
 		return chartStyle;
+	}
+
+	private static class BarChartGeoNumeric extends GeoNumeric {
+		private String toolTipText;
+
+		public BarChartGeoNumeric(Construction cons) {
+			super(cons);
+		}
+
+		@Override
+		public String getTooltipText(final boolean colored,
+				final boolean alwaysOn) {
+			return toolTipText;
+		}
 	}
 }

@@ -1,6 +1,5 @@
 package org.geogebra.desktop.euclidian.event;
 
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
@@ -70,13 +69,12 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	@Override
 	public boolean isRightClick() {
-		return (event.getModifiers()
-				& InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK;
+		return MouseEventUtil.isRightClick(event);
 	}
 
 	@Override
 	public boolean isControlDown() {
-		return event.isControlDown();
+		return MouseEventUtil.isControlDown(event);
 	}
 
 	@Override
@@ -86,7 +84,7 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	@Override
 	public boolean isMetaDown() {
-		return event.isMetaDown();
+		return MouseEventUtil.isMetaDown(event);
 	}
 
 	@Override

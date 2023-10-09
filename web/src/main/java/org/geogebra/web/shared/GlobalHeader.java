@@ -6,6 +6,8 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -19,6 +21,8 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -34,7 +38,7 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public static final GlobalHeader INSTANCE = new GlobalHeader();
 
-	private ProfilePanel profilePanel;
+	private ProfileAvatar profilePanel;
 	private RootPanel signIn;
 	private AppW app;
 	private Label timer;
@@ -67,7 +71,7 @@ public class GlobalHeader implements EventRenderable {
 		if (event instanceof LoginEvent
 				&& ((LoginEvent) event).isSuccessful()) {
 			if (profilePanel == null) {
-				profilePanel = new ProfilePanel(app);
+				profilePanel = new ProfileAvatar(app);
 			}
 			signIn.setVisible(false);
 			profilePanel.setVisible(true);
@@ -231,7 +235,15 @@ public class GlobalHeader implements EventRenderable {
 		// remove other buttons
 		getButtonElement().getStyle()
 				.setDisplay(Display.NONE);
+		Image examImg = new Image(DefaultMenuIconProvider.INSTANCE.assignment().withFill("#388C83")
+				.getSafeUri().asString());
+		Label examType = new Label(app.getExam().getCalculatorNameForHeader());
+		examType.setStyleName("examType");
+
 		// exam panel with timer and info btn
+		Image timerImg = new Image(MaterialDesignResources.INSTANCE.timer()
+				.getSafeUri().asString());
+		timerImg.addStyleName("timerImg");
 		timer = new Label("0:00");
 		timer.setStyleName("examTimer");
 		examInfoBtn = new StandardButton(
@@ -245,6 +257,17 @@ public class GlobalHeader implements EventRenderable {
 		// The link should be disabled in all exam-capable apps since APPS-3289, but make sure
 		Dom.querySelector("#headerID a").setAttribute("href", "#");
 		RootPanel.get("examId").addStyleName("examPanel");
+
+		if (!app.getExam().isRestrictedGraphExam()) {
+			FlowPanel examTypeHolder = new FlowPanel();
+			examTypeHolder.getElement().setId("examTypeId");
+			examTypeHolder.addStyleName("examTypePanel");
+			examTypeHolder.add(examImg);
+			examTypeHolder.add(examType);
+			RootPanel.get("examId").add(examTypeHolder);
+		}
+
+		RootPanel.get("examId").add(timerImg);
 		RootPanel.get("examId").add(timer);
 		RootPanel.get("examId").add(examInfoBtn);
 		// run timer
@@ -255,6 +278,9 @@ public class GlobalHeader implements EventRenderable {
 					if (getApp().getExam().isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
+						examImg.setUrl(DefaultMenuIconProvider.INSTANCE.assignment()
+								.withFill("#B00020").getSafeUri().asString());
+						examType.addStyleName("cheat");
 					}
 					getTimer().setText(
 							getApp().getExam().getElapsedTimeLocalized());
@@ -303,6 +329,15 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public static boolean isInDOM() {
 		return RootPanel.get("headerID") != null;
+	}
+
+	/**
+	 * update ui on language change
+	 */
+	public void setLabels() {
+		if (profilePanel != null) {
+			profilePanel.setLabels();
+		}
 	}
 
 }

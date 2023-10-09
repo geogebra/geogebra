@@ -86,7 +86,7 @@ public class HTML5Export {
 		sb.append("\"buttonRounding\":0.7,\n");
 		sb.append("\"buttonShadows\":false,\n");
 		sb.append(
-				"\"language\":\"").append(app.getLocalization().getLanguage())
+				"\"language\":\"").append(app.getLocalization().getLanguageTag())
 				.append("\",\n");
 
 		sb.append(

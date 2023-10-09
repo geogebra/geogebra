@@ -1,34 +1,21 @@
 package org.geogebra.web.html5.gui.inputfield;
 
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.InlineLabel;
 
+/**
+ * Widget to emulate text cursor and selection on mobile platforms
+ * that the native one is problematic to handle
+ */
 public class CursorOverlay extends FlowPanel {
 
 	private String text = "";
 	int cursorPos = -1;
+	private boolean seleted = false;
 
 	public CursorOverlay() {
 		setStyleName("cursorOverlay");
-	}
-
-	/**
-	 * Hide keyboard and reset the keyaord field
-	 * @param app application
-	 */
-	public static void hideKeyboard(AppW app) {
-		if (CancelEventTimer.cancelKeyboardHide()) {
-			return;
-		}
-		KeyboardManagerInterface kbManager = app.getKeyboardManager();
-		if (app.hasPopup() && kbManager != null) {
-			kbManager.setOnScreenKeyboardTextField(null);
-			return;
-		}
-		app.hideKeyboard();
 	}
 
 	/**
@@ -41,7 +28,12 @@ public class CursorOverlay extends FlowPanel {
 		}
 		this.text = text;
 		this.cursorPos = cursorPos;
-		clear();
+		update();
+	}
+
+	private void update() {
+		CursorOverlay dummyCursor = this;
+		dummyCursor.clear();
 		InlineLabel prefix = new InlineLabel(text.substring(0, cursorPos));
 		add(prefix);
 		InlineLabel w = new InlineLabel("|");
@@ -56,5 +48,41 @@ public class CursorOverlay extends FlowPanel {
 			getElement().setScrollLeft(prefix.getOffsetWidth()
 					- this.getOffsetWidth() + scrollPadding);
 		}
+	}
+
+	/**
+	 *
+	 * @param alignment to set.
+	 */
+	public void setHorizontalAlignment(HorizontalAlignment alignment) {
+		getElement().getStyle().setProperty("justifyContent",
+				alignment.toString());
+	}
+
+	/**
+	 * Adds the non-native selection widget.
+	 */
+	public void addFakeSelection() {
+		seleted = true;
+		InlineLabel selectedText = new InlineLabel(text);
+		selectedText.addStyleName("select-content");
+		clear();
+		add(selectedText);
+	}
+
+	/**
+	 * Removes the non-native selection widget.
+	 */
+	public void removeFakeSelection() {
+		seleted = false;
+		update();
+	}
+
+	/**
+	 *
+	 * @return if the selection widget is present.
+	 */
+	public boolean hasFakeSelection() {
+		return seleted;
 	}
 }

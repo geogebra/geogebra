@@ -33,11 +33,6 @@ public class EditorKeyboardContext implements HasKeyboard {
 		return new LocalizationI() {
 
 			@Override
-			public String getLocaleStr() {
-				return "en_US";
-			}
-
-			@Override
 			public String getLanguageTag() {
 				return "en-US";
 			}
@@ -74,7 +69,7 @@ public class EditorKeyboardContext implements HasKeyboard {
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
-		return AppKeyboardType.fromName(element.getAttribute("data-param-keyboardtype"));
+		return AppKeyboardType.fromName(element.getAttribute("keyboardtype"));
 	}
 
 	@Override

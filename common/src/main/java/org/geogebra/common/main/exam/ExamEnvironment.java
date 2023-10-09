@@ -490,6 +490,14 @@ public class ExamEnvironment {
 	}
 
 	/**
+	 * @return wether we are in GENERIC(restricted graphing) exam mode
+	 */
+	public boolean isRestrictedGraphExam() {
+		return ExamRegion.GENERIC.getDisplayName(localization, appConfig).equals(getExamRegion()
+						.getDisplayName(localization, appConfig));
+	}
+
+	/**
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
@@ -589,13 +597,13 @@ public class ExamEnvironment {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
 		if (examStartTime < 0) {
-			return timeFormatter.format(localization.getLocaleStr(),
+			return timeFormatter.format(localization.getLanguageTag(),
 					0);
 		}
 
 		int millis = (int) (timestamp - examStartTime);
 
-		return timeFormatter.format(localization.getLocaleStr(),
+		return timeFormatter.format(localization.getLanguageTag(),
 				millis);
 	}
 

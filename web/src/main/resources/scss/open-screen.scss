@@ -8,69 +8,33 @@
 	.profilePanel {
 		cursor: pointer;
 		text-align: center;
-		padding-right: 10px;
-		width: 40px;
-		height: 40px;
+		width: 48px;
+		height: 48px;
 		overflow: hidden;
+		margin: 8px 12px 8px 32px;
 	}
 
 	.profilePanel .profileImage {
 		width: 40px;
+		height: 40px;
 		border-radius: 50%;
+		margin: 4px;
 	}
 
-	.profilePanel .optionsArrow {
+	.profilePanel .imageHolder {
+		width: 48px;
+		height: 48px;
 		position: absolute;
-		right: 0px;
-		bottom: 0px;
+		background: white;
+		border-radius: 50%;
+
+		&:hover {
+			background: neutral(200);
+		}
 	}
 
-	.profileOptionsPanel {
-		position: relative;
-		z-index: z-index.$z-profile-options-panel;
-	}
-
-	.profileOptionsPanel .arrow {
-		display: none;
-	}
-
-	.profileOptionsPanel .profileOptionsContent {
-		position: relative;
-		z-index: z-index.$z-profile-options-panel;
-		border-radius: 2px;
-		padding: 5px;
-		background-color: colors.$white;
-	
-		.username {
-			display: block;
-			padding: 4px;
-			margin: 4px;
-			line-height: 24px;
-			text-align: center;
-			color: colors.$purple-default;
-		}
-		 .editButton {
-			@extend %primaryButton;
-			border: 0;
-			display: block;
-			&:hover {
-				border: 0;
-			}
-		}
-		.logoutButton {
-			@extend %matButton;
-			display: block;
-			width: calc(100% - 48px);
-			color: colors.$black;
-			border: 0;
-
-			&:hover {			
-				background-color: colors.$white;
-			}
-			div {
-				text-align: center;
-			}
-		}
+	.profilePanel.selected .imageHolder {
+		background: neutral(200);
 	}
 
 	.openFileView {

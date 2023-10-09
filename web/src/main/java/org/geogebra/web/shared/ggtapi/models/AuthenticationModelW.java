@@ -47,6 +47,9 @@ public class AuthenticationModelW extends AuthenticationModel  {
 		if (authToken != null) {
 			return authToken;
 		}
+		if (BrowserStorage.SESSION.getItem(GGB_TOKEN_KEY_NAME) != null) {
+			return BrowserStorage.SESSION.getItem(GGB_TOKEN_KEY_NAME);
+		}
 		return BrowserStorage.LOCAL.getItem(GGB_TOKEN_KEY_NAME);
 	}
 
@@ -59,6 +62,7 @@ public class AuthenticationModelW extends AuthenticationModel  {
 		ensureInited();
 		this.app.dispatchEvent(new Event(EventType.LOGIN, null, ""));
 		BrowserStorage.LOCAL.removeItem(GGB_TOKEN_KEY_NAME);
+		BrowserStorage.SESSION.removeItem(GGB_TOKEN_KEY_NAME);
 		BrowserStorage.LOCAL.removeItem(GGB_LAST_USER);
 	}
 

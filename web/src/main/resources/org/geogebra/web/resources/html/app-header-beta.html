@@ -18,6 +18,15 @@ window.ggbHeaderResize = function(event) {
 	var rectExamLeft = elExam ? elExam.getBoundingClientRect().left : 0;
 	var overlap = rectAppPicker.right > Math.max(rectButtonsLeft, rectExamLeft);
 	elAppPicker.style.visibility = overlap ? "hidden" : "visible";
+
+	var headerAppSide = document.getElementById("headerID");
+	var headerAppSideRight = headerAppSide.getBoundingClientRect().right;
+	var elExamType = document.getElementById("examTypeId");
+    var examTypeLeft = elExamType ? elExamType.getBoundingClientRect().left : 0;
+	var overlapExam = examTypeLeft < headerAppSideRight;
+	if (elExamType) {
+	    elExamType.style.visibility = overlapExam ? "hidden" : "visible";
+	}
 }
 
 window.addEventListener("resize", ggbHeaderResize);

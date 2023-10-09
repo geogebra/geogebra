@@ -104,7 +104,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	private static final String[] vars = { "x", "y" };
 
 	private PVariable[] botanaVars; // only for an axis or a fixed slope line
-	private PathParameter tempPP;
 
 	private StringBuilder sbToString;
 
@@ -297,38 +296,27 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		// idea: calculate path parameter and check
 		// if it is in [0, 1] for a segment or greater than 0 for a ray
 
-		// remember the old point coordinates
-		double px = P.x, py = P.y, pz = P.z;
-		PathParameter tempParam = getTempPathParameter();
-		PathParameter pp = P.getPathParameter();
-		tempParam.set(pp);
-
 		// make sure we use point changed for a line to get parameters on
 		// the entire line when this is a segment or ray
-		doPointChanged(P);
+		Coords coords = P.getCoordsInD2();
+		double t = projectCoordsAndComputePathParam(coords);
 
 		boolean result;
 		switch (classType) {
 		case SEGMENT:
 			// segment: parameter in [0,1]
-			result = pp.t >= -eps && pp.t <= 1 + eps;
+			result = t >= -eps && t <= 1 + eps;
 			break;
 
 		case RAY:
 			// ray: parameter > 0
-			result = pp.t >= -eps;
+			result = t >= -eps;
 			break;
 
 		default:
 			// line: any parameter
 			result = true;
 		}
-
-		// restore old values
-		P.x = px;
-		P.y = py;
-		P.z = pz;
-		pp.set(tempParam);
 
 		return result;
 	}
@@ -375,23 +363,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return a possible parameter for the point P
 	 */
 	public double getPossibleParameter(Coords coords) {
-		PathParameter tempParam = getTempPathParameter();
-
-		// make sure we use point changed for a line to get parameters on
-		// the entire line when this is a segment or ray
-		doPointChanged(coords, tempParam);
-
-		return tempParam.t;
-	}
-
-	/**
-	 * @return temporary path parameter
-	 */
-	protected PathParameter getTempPathParameter() {
-		if (tempPP == null) {
-			tempPP = new PathParameter();
-		}
-		return tempPP;
+		// get parameters on the entire line when this is a segment or ray
+		return projectCoordsAndComputePathParam(coords);
 	}
 
 	/**
@@ -753,7 +726,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	private boolean isDegenerate() {
-		return x == 0 && y == 0 && MyDouble.isFinite(z);
+		return x == 0 && y == 0 && Double.isFinite(z);
 	}
 
 	/**
@@ -1152,6 +1125,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            path parameter of P
 	 */
 	public void doPointChanged(Coords coords, PathParameter pp) {
+		pp.t = projectCoordsAndComputePathParam(coords);
+	}
+
+	protected double projectCoordsAndComputePathParam(Coords coords) {
 		// project P on line
 		double px = coords.getX() / coords.getZ();
 		double py = coords.getY() / coords.getZ();
@@ -1160,9 +1137,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		double t = -(z + x * px + y * py) / (x * x + y * y);
 		// calculate projection point using perpendicular line
 
-		if (x == 0 && Double.isInfinite(px) && MyDouble.isFinite(py)) {
+		if (x == 0 && Double.isInfinite(px) && Double.isFinite(py)) {
 			py = -z / y;
-		} else if (y == 0 && Double.isInfinite(py) && MyDouble.isFinite(px)) {
+		} else if (y == 0 && Double.isInfinite(py) && Double.isFinite(px)) {
 			px = -z / x;
 		} else {
 			px += t * x;
@@ -1191,9 +1168,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			}
 		}
 		if (Math.abs(x) <= Math.abs(y)) {
-			pp.t = (spz * px - spx) / (y * spz);
+			return (spz * px - spx) / (y * spz);
 		} else {
-			pp.t = (spy - spz * py) / (x * spz);
+			return (spy - spz * py) / (x * spz);
 		}
 	}
 
@@ -1702,8 +1679,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return ret;
 		}
 
-		if (!MyDouble.isFinite(x) || !MyDouble.isFinite(y)
-				|| !MyDouble.isFinite(z)) {
+		if (!Double.isFinite(x) || !Double.isFinite(y)
+				|| !Double.isFinite(z)) {
 			return ret;
 		}
 

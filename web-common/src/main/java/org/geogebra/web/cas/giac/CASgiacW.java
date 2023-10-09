@@ -225,7 +225,7 @@ public class CASgiacW extends CASgiac {
 			// make sure CAS cells etc re-evaluated after CAS loaded
 			setUpInitCAS();
 
-			GWT.runAsync(new RunAsyncCallback() {
+			GWT.runAsync(CASgiacW.class, new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("GIAC webAssembly");
