@@ -8,6 +8,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class ContextMenuItems {
 
+	public static final int HEADER_INDEX = -1;
 	private final TabularData tabularData;
 	private final SpreadsheetSelectionController selectionController;
 
@@ -17,20 +18,18 @@ public class ContextMenuItems {
 		this.tabularData = tabularData;
 	}
 
-	public Map<String, Runnable> get(int column, int row) {
-		Log.debug("col: " + column + " row: " + row);
-		if (column == -1) {
-			return rowItems(row);
-		} else if (row == -1) {
+	public Map<String, Runnable> get(int row, int column) {
+		if (row == HEADER_INDEX) {
 			return columnItems(column);
+		} else if (column == HEADER_INDEX) {
+			return rowItems(row);
 		}
-		return cellItems(column, row);
+		return cellItems(row, column);
 	}
 
-	private Map<String, Runnable> cellItems(int column, int row) {
+	private Map<String, Runnable> cellItems(int row, int column) {
 		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("Delete", () -> tabularData.deleteColumnAt(column));
-		actions.put("Insert", () -> tabularData.insertColumnAt(column));
+		actions.put("Delete", () -> tabularData.setContent(row, column, null));
 		actions.put("Copy", () -> {tabularData.copy(column, row, column, row);});
 		actions.put("Paste", () -> {});
 		actions.put("Cut", () -> {tabularData.cut(column, row, column, row);});
