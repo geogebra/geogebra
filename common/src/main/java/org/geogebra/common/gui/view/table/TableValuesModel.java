@@ -121,7 +121,6 @@ public interface TableValuesModel {
 	 */
 	void setOnDataImportedRunnable(Runnable onDataImported);
 
-
 	/**
 	 * Remove all columns from construction
 	 */
