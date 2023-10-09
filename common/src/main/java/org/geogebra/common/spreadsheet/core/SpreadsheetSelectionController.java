@@ -25,7 +25,9 @@ final class SpreadsheetSelectionController {
 	}
 
 	void selectRow(int row, boolean extendingCurrentSelection) {
-		clearSelection();
+		if (!extendingCurrentSelection) {
+			clearSelection();
+		}
 		selections.add(new Selection(SelectionType.ROWS,
 				new TabularRange(row, row, -1, -1)));
 	}
