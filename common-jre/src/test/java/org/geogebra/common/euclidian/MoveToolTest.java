@@ -74,6 +74,18 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
+	public void moveShouldNotChangeInfiniteCircle() {
+		add("A=(1,-1)");
+		add("B=(2,-2)");
+		add("C=(3,-3)");
+		GeoElement circle = add("Circle(A,B,C)");
+		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
+		dragStart(100, 50);
+		dragEnd(100, 150);
+		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
+	}
+
+	@Test
 	public void selectionReadByScreenReaderOnce() {
 		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
 		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setScreenReader(screenReader);

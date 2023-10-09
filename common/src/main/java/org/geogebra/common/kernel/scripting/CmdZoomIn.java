@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -69,7 +68,7 @@ public class CmdZoomIn extends CmdScripting {
 			arg = resArgs(c);
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i] instanceof NumberValue)
-						|| !MyDouble.isFinite(arg[i].evaluateDouble())) {
+						|| !Double.isFinite(arg[i].evaluateDouble())) {
 					throw argErr(c, arg[i]);
 				}
 			}
@@ -91,7 +90,7 @@ public class CmdZoomIn extends CmdScripting {
 			arg = resArgs(c);
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i] instanceof NumberValue)
-						|| !MyDouble.isFinite(arg[i].evaluateDouble())) {
+						|| !Double.isFinite(arg[i].evaluateDouble())) {
 					throw argErr(c, arg[i]);
 				}
 			}

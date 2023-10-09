@@ -6632,7 +6632,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 		if (unwrap instanceof NumberValue) {
 			double val = evaluateDouble();
-			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
+			return Double.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);
 		}
 		return true;

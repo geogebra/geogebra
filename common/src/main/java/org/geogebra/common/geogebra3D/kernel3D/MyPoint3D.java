@@ -16,7 +16,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -111,7 +110,7 @@ public class MyPoint3D extends MyPoint {
 
 	@Override
 	public boolean isFinite() {
-		return super.isFinite() && MyDouble.isFinite(z);
+		return super.isFinite() && Double.isFinite(z);
 	}
 
 	@Override
