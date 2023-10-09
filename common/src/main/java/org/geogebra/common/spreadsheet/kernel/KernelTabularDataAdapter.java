@@ -147,12 +147,12 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void insertRowAt(int row) {
-		// TODO
+		CellRangeProcessor.shiftRowsDown(row, this);
 	}
 
 	@Override
 	public void deleteRowAt(int row) {
-		// TODO
+		CellRangeProcessor.shiftRowsUp(row, 1, this);
 	}
 
 	@Override

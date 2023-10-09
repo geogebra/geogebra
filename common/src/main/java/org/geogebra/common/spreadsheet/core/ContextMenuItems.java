@@ -17,7 +17,7 @@ public class ContextMenuItems {
 		this.tabularData = tabularData;
 	}
 
-	Map<String, Runnable> get(int column, int row) {
+	public Map<String, Runnable> get(int column, int row) {
 		Log.debug("col: " + column + " row: " + row);
 		if (column == -1) {
 			return rowItems(row);
