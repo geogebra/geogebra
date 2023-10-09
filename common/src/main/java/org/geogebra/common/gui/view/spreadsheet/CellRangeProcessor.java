@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1374,14 +1375,18 @@ public class CellRangeProcessor {
 	}
 
 	private void shiftRowsDown(int startRow) {
+		if (shiftRowsDown(startRow, adapter)) {
+			app.storeUndoInfo();
+		}
+	}
 
-		int maxColumn = tableModel.getHighestUsedColumn();
-		int maxRow = tableModel.getHighestUsedRow();
+	public static boolean shiftRowsDown(int startRow, HasTabularValues<GeoElement> tabularValues) {
+
 		boolean succ = false;
 
-		for (int row = maxRow; row >= startRow; --row) {
-			for (int column = 0; column <= maxColumn; ++column) {
-				GeoElement geo = RelativeCopy.getValue(app, column, row);
+		for (int row = tabularValues.numberOfRows(); row >= startRow; --row) {
+			for (int column = 0; column <= tabularValues.numberOfColumns(); ++column) {
+				GeoElement geo = tabularValues.contentAt(column, row);
 				if (geo == null) {
 					continue;
 				}
@@ -1391,21 +1396,23 @@ public class CellRangeProcessor {
 				succ = true;
 			}
 		}
+		return succ;
+	}
 
-		if (succ) {
+	private void shiftRowsUp(int startRow, int amount) {
+		if (shiftRowsUp(startRow, amount, adapter)) {
 			app.storeUndoInfo();
 		}
 	}
 
-	private void shiftRowsUp(int startRow, int shiftAmount) {
+	public static boolean shiftRowsUp(int startRow, int shiftAmount,
+			HasTabularValues<GeoElement> tabularValues) {
 
 		boolean succ = false;
-		int maxColumn = tableModel.getHighestUsedColumn();
-		int maxRow = tableModel.getHighestUsedRow();
 
-		for (int row = startRow; row <= maxRow; ++row) {
-			for (int column = 0; column <= maxColumn; ++column) {
-				GeoElement geo = RelativeCopy.getValue(app, column, row);
+		for (int row = startRow; row <= tabularValues.numberOfRows(); ++row) {
+			for (int column = 0; column <= tabularValues.numberOfColumns(); ++column) {
+				GeoElement geo = tabularValues.contentAt(column, row);
 				if (geo == null) {
 					continue;
 				}
@@ -1415,11 +1422,7 @@ public class CellRangeProcessor {
 				succ = true;
 			}
 		}
-
-		if (succ) {
-			app.storeUndoInfo();
-		}
-
+		return succ;
 	}
 
 	/**
