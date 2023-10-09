@@ -2017,15 +2017,16 @@ public class GeoNumeric extends GeoElement
 		if (!isSliderable()) {
 			return;
 		}
-
-		if (isAnimating()) {
-			sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
-					"Press space to stop animation"));
-		} else {
-			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
-					"Press space to start animation"));
+		if (getApp().isRightClickEnabled()) {
+			if (isAnimating()) {
+				sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
+						"Press space to stop animation"));
+			} else {
+				sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
+						"Press space to start animation"));
+			}
+			sb.endSentence();
 		}
-		sb.endSentence();
 		if (getIntervalMax() != getValue()) {
 			sb.append(loc.getMenuDefault("PressUpToIncrease",
 					"Press up arrow to increase the value"));
@@ -2048,16 +2049,18 @@ public class GeoNumeric extends GeoElement
 
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		if (isAnimating()) {
+		if (getApp().isRightClickEnabled()) {
+			if (isAnimating()) {
 
-			// don't need this for stopping as the value is read out afterwards
-			// anyway
-			addAuralCaption(sb);
-			sb.appendSpace();
-			sb.append(loc.getMenuDefault("AnimationStarted",
-					"animation is started"));
-		} else {
-			sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
+				// don't need this for stopping as the value is read out afterwards
+				// anyway
+				addAuralCaption(sb);
+				sb.appendSpace();
+				sb.append(loc.getMenuDefault("AnimationStarted",
+						"animation is started"));
+			} else {
+				sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
+			}
 		}
 		sb.endSentence();
 		return sb.toString();
