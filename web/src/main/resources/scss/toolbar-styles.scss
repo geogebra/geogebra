@@ -221,33 +221,11 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				}
 			}
 
-			.moreLessBtn {
-				border-radius: 2px;
-				font-size: 90%;
-				min-width: 64px;
-				color: colors.$teal-default;
-				text-transform: uppercase;
-				text-align: center;
-				float: left;
-				margin: 16px 0px 16px 0px;
-				padding: 0px 16px 0px 16px;
-				cursor: pointer;
-				transition: background-color 0.3s ease-out;
-
-				.gwt-Label {
-					line-height: 36px;
-					height: 36px;
-					min-width: 64px;
-					text-align: center;
-					align-content: center;
-					font-family: Roboto,sans-serif;
-					font-weight: 400;
-					letter-spacing: .5px;
-				}
+			.materialTextButton {
+				margin-top: 16px;
 
 				&:hover {
-					background-color: colors.$black-10;
-					color: colors.$teal-dark;
+					background-color: purple(100);
 				}
 			}
 		}

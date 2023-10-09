@@ -1011,8 +1011,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 
-		if (geo.isGeoText()) {
-			return ((GeoText) geo).getTextString();
+		if (geo.isGeoText() || geo.isGeoInputBox()) {
+			return geo.toValueString(StringTemplate.defaultTemplate);
 		}
 
 		if (geo.isGeoCasCell()) {

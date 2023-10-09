@@ -14,6 +14,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,6 +84,17 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		selectGeo(geoBoolean);
 		handleSpace();
 		assertThat(geoBoolean.getBoolean(), is(false));
+	}
+
+	@Test
+	public void handleSpaceOnSlider() {
+		GeoNumeric slider = add("a = Slider(-5,5,1)");
+		selectGeo(slider);
+		handleSpace();
+		assertThat(slider.isAnimating(), is(true));
+		getApp().setRightClickEnabled(false);
+		handleSpace();
+		assertThat(slider.isAnimating(), is(true));
 	}
 
 	private void handleSpace() {

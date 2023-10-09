@@ -707,6 +707,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (instances.isEmpty()) {
 			MathFieldW.removeAll();
 		}
+		app.getKernel().clearAnimations();
 		app.getGlobalHandlers().removeAllListeners();
 		app.getTimerSystem().detach();
 		Event.setEventListener(geoGebraElement.getElement(), null);

@@ -102,6 +102,7 @@ $button_hover_transition: background-color 0.15s;
 			line-height: $small_header_height;
 		}
 		.headerBackButton {
+			height: 40px;
 			margin-left: 8px;
 			margin-right: 24px;
 		}
@@ -142,6 +143,7 @@ $button_hover_transition: background-color 0.15s;
 			font-size: 112.5%;
 		}
 		.headerBackButton {
+			height: 40px;
 			margin: auto 8px;
 		}
 	}

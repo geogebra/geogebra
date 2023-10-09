@@ -1499,10 +1499,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private static boolean differAt(GeoFunction f1, GeoFunction f2, double x) {
 		double v1 = f1.value(x);
 		double v2 = f2.value(x);
-		if (!MyDouble.isFinite(v1) || Math.abs(v1) > 1E8) {
+		if (!Double.isFinite(v1) || Math.abs(v1) > 1E8) {
 			return false;
 		}
-		if (!MyDouble.isFinite(v2) || Math.abs(v2) > 1E8) {
+		if (!Double.isFinite(v2) || Math.abs(v2) > 1E8) {
 			return false;
 		}
 		return !DoubleUtil.isEqual(v1, v2, Kernel.MIN_PRECISION);

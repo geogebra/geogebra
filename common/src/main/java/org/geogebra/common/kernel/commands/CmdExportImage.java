@@ -232,7 +232,7 @@ public class CmdExportImage extends CmdScripting {
 			exportScale = pixelWidth / viewWidth;
 		}
 
-		if (exportScale <= 0 || !MyDouble.isFinite(exportScale)) {
+		if (exportScale <= 0 || !Double.isFinite(exportScale)) {
 			exportScale = 1;
 		}
 
