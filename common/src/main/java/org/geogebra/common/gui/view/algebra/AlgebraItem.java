@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -631,7 +630,7 @@ public class AlgebraItem {
 	public static boolean shouldShowSlider(GeoElement geo) {
 		return geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
-				&& MyDouble.isFinite(((GeoNumeric) geo).value);
+				&& Double.isFinite(((GeoNumeric) geo).value);
 	}
 
 	/**

@@ -51,10 +51,20 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	int getWidth();
 
 	/**
+	 * @return width in pixels of physical view as a double.
+	 */
+	double getWidthd();
+
+	/**
 	 * @return height in pixels of physical view. use getMaxYScreen() -
 	 *         getMinYScreen() if you need the width for exporting
 	 */
 	int getHeight();
+
+	/**
+	 * @return height in pixels of physical view as a double.
+	 */
+	double getHeightd();
 
 	/**
 	 * @return width of the EV's visible part

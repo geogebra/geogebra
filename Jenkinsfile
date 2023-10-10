@@ -146,6 +146,7 @@ pipeline {
                         s3uploadDefault("web/build/s3", "editor/**", "gzip")
                         s3uploadDefault("web/build/s3", "editor/**/*.mjs", "gzip", "", "text/javascript")
                     }
+                    s3uploadDefault("web/build/s3", "web3d/**/*.mjs", "gzip", "", "text/javascript")
                     s3uploadDefault("web/war", "**/*.html", "")
                     s3uploadDefault("web/war", "**/deployggb.js", "")
                     s3uploadDefault("web/war", "geogebra-live.js", "")

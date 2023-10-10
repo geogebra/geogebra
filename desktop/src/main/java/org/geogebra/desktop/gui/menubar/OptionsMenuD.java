@@ -112,11 +112,11 @@ public class OptionsMenuD extends BaseMenu
 	 * 
 	 * @param menu
 	 *            menu component
-	 * @param al
+	 * @param listener
 	 *            language change listener
 	 */
 	public static void addLanguageMenuItems(AppD app, JComponent menu,
-			ActionListener al) {
+			LanguageActionListener listener) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		boolean rtl = app.getLocalization().isRightToLeftReadingOrder();
@@ -165,8 +165,7 @@ public class OptionsMenuD extends BaseMenu
 			if (loc.toLanguageTag().equals(currentLocale)) {
 				mi.setSelected(true);
 			}
-			mi.setActionCommand(loc.toLanguageTag());
-			mi.addActionListener(al);
+			mi.addActionListener((ignore) -> listener.setLanguage(loc));
 			bg.add(mi);
 
 			if (ch <= 'D') {

@@ -89,8 +89,8 @@ import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.export.WorksheetExportDialog;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.export.pstricks.PstricksFrame;
-import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.app.FileExtensionFilter;
+import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
@@ -2598,8 +2598,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			KeyboardSettings settings = (KeyboardSettings) getApp()
 					.getSettings().getKeyboard();
 			virtualKeyboard = new VirtualKeyboardD(getApp(),
-					settings.getKeyboardWidth(), settings.getKeyboardHeight(),
-					(float) settings.getKeyboardOpacity());
+					settings.getKeyboardWidth(), settings.getKeyboardHeight());
 			settings.addListener(virtualKeyboard);
 		}
 

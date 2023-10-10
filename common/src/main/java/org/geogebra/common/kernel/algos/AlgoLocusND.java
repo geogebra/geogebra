@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
@@ -478,7 +477,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		// lines: start from startpoint to avoid inf. problems.
 		// Otherwise go from endpoint to endpoint
-		if (!MyDouble.isFinite(path.getMinParameter())
+		if (!Double.isFinite(path.getMinParameter())
 				&& 0 < path.getMaxParameter()) {
 			copyP.getPathParameter().setT(0);
 		} else {
