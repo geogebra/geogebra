@@ -15,6 +15,7 @@ public class ContextMenuItemsTest {
 	private ContextMenuItems items;
 	private SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
+	private TabularData<Object> data;
 
 	@Test
 	public void testCellMenuKeys() {
@@ -44,26 +45,24 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testDeleteCell() {
-		TabularData<Object> data = createTabularData();
+		createTabularData();
 		items = new ContextMenuItems(data, null);
 		runItemAt(2, 1, "Delete");
 		assertNull(data.contentAt(2, 1));
 	}
 
-	private TabularData<Object> createTabularData() {
-		TestTabularData data = new TestTabularData();
+	private void createTabularData() {
+		data = new TestTabularData();
 		for (int column = 0; column < data.numberOfColumns(); column++) {
 			for (int row = 0; row < data.numberOfRows(); row++) {
 				data.setContent(row, column, "cell" + row + "" + column);
 			}
 		}
-		return data;
-
 	}
 
 	@Test
 	public void testDeleteSingleRow() {
-		TabularData<Object> data = createTabularData();
+		createTabularData();
 		items = new ContextMenuItems(data, new SpreadsheetSelectionController());
 		assertEquals("cell40", data.contentAt(4, 0));
 		runItemAt(4, HEADER_INDEX, "ContextMenu.deleteRow");
@@ -80,7 +79,7 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testDeleteSelectedRows() {
-		TabularData<Object> data = createTabularData();
+		createTabularData();
 		items = new ContextMenuItems(data, selectionController);
 		assertEquals("cell40", data.contentAt(4, 0));
 		selectRows(4, 6);
@@ -96,7 +95,7 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testDeleteSingleColumn() {
-		TabularData<Object> data = createTabularData();
+		createTabularData();
 		items = new ContextMenuItems(data, selectionController);
 		assertEquals("cell04", data.contentAt(0, 4));
 		runItemAt(HEADER_INDEX, 4, "ContextMenu.deleteColumn");
@@ -105,7 +104,7 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testDeleteSelectedColumns() {
-		TabularData<Object> data = createTabularData();
+		createTabularData();
 		items = new ContextMenuItems(data, selectionController);
 		assertEquals("cell04", data.contentAt(0, 4));
 		selectColumns(4, 6);
@@ -120,17 +119,53 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertRowAbove() {
-		TabularData<Object> data = createTabularData();
+		createTabularData();
 		items = new ContextMenuItems(data, selectionController);
 		runItemAt(5, HEADER_INDEX, "ContextMenu.insertRowAbove");
-		assertNull(data.contentAt(5, 0));
+		checkNewRowAt(5);
+	}
+
+	private void checkNewRowAt(int row) {
+		int count = 0;
+		for (int column = 0; column < data.numberOfColumns(); column++) {
+			if (data.contentAt(row, column) == null) {
+				count++;
+			}
+		}
+		assertEquals(data.numberOfColumns(), count);
 	}
 
 	@Test
 	public void testInsertRowBelow() {
-		TabularData<Object> data = createTabularData();
+		createTabularData();
 		items = new ContextMenuItems(data, selectionController);
 		runItemAt(5, HEADER_INDEX, "ContextMenu.insertRowBelow");
-		assertNull(data.contentAt(6, 0));
+		checkNewRowAt(6);
+	}
+
+	@Test
+	public void testInsertColumnLeft() {
+		createTabularData();
+		items = new ContextMenuItems(data, selectionController);
+		runItemAt(HEADER_INDEX, 5,  "ContextMenu.insertColumnLeft");
+		checkNewColumnAt(5);
+	}
+
+	private void checkNewColumnAt(int column) {
+		int count = 0;
+		for (int row = 0; row < data.numberOfRows(); row++) {
+			if (data.contentAt(row, column) == null) {
+				count++;
+			}
+		}
+		assertEquals(data.numberOfRows(), count);
+	}
+
+	@Test
+	public void testInsertColumnRight() {
+		createTabularData();
+		items = new ContextMenuItems(data, selectionController);
+		runItemAt(HEADER_INDEX, 5,  "ContextMenu.insertColumnRight");
+		checkNewColumnAt(6);
 	}
 }
