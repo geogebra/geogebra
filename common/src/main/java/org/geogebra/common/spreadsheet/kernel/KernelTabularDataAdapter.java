@@ -195,11 +195,11 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void copy(int columnFrom, int rowFrom, int columnTo, int rowTo) {
-
+		// TODO
 	}
 
 	@Override
 	public void cut(int columnFrom, int rowFrom, int columnTo, int rowTo) {
-
+		// TODO
 	}
 }

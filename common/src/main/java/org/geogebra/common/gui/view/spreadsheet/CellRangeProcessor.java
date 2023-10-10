@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1380,6 +1379,13 @@ public class CellRangeProcessor {
 		}
 	}
 
+	/**
+	 * Shifts rows down.
+	 *
+	 * @param startRow the start row.
+	 * @param tabularValues the data operate on.
+	 * @return if the method was successful
+	 */
 	public static boolean shiftRowsDown(int startRow, HasTabularValues<GeoElement> tabularValues) {
 
 		boolean succ = false;
@@ -1405,6 +1411,14 @@ public class CellRangeProcessor {
 		}
 	}
 
+	/**
+	 * Shifts rows up.
+	 *
+	 * @param startRow the start row.
+	 * @param shiftAmount the amount.
+	 * @param tabularValues the data operate on.
+	 * @return if the method was successful
+	 */
 	public static boolean shiftRowsUp(int startRow, int shiftAmount,
 			HasTabularValues<GeoElement> tabularValues) {
 

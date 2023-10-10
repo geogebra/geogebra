@@ -10,12 +10,23 @@ public class ContextMenuItems {
 	private final TabularData tabularData;
 	private final SpreadsheetSelectionController selectionController;
 
+	/**
+	 *
+	 * @param tabularData {@link TabularData}
+	 * @param selectionController {@link SpreadsheetSelectionController}
+	 */
 	public ContextMenuItems(TabularData tabularData,
 			SpreadsheetSelectionController selectionController) {
 		this.selectionController = selectionController;
 		this.tabularData = tabularData;
 	}
 
+	/**
+	 * Gets the context menu items for the specific cell/row/column
+	 * @param row of the cell.
+	 * @param column of the cell.
+	 * @return map of the menu key and its action.
+	 */
 	public Map<String, Runnable> get(int row, int column) {
 		if (row == HEADER_INDEX) {
 			return columnItems(column);
@@ -28,9 +39,9 @@ public class ContextMenuItems {
 	private Map<String, Runnable> cellItems(int row, int column) {
 		HashMap<String, Runnable> actions = new HashMap<>();
 		actions.put("Delete", () -> deleteCells(row, column));
-		actions.put("Copy", () -> {tabularData.copy(column, row, column, row);});
+		actions.put("Copy", () -> tabularData.copy(column, row, column, row));
 		actions.put("Paste", () -> {});
-		actions.put("Cut", () -> {tabularData.cut(column, row, column, row);});
+		actions.put("Cut", () -> tabularData.cut(column, row, column, row));
 		return actions;
 	}
 
@@ -54,8 +65,8 @@ public class ContextMenuItems {
 
 	private Map<String, Runnable> rowItems(int row) {
 		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("ContextMenu.insertRowAbove", () -> {tabularData.insertRowAt(row);});
-		actions.put("ContextMenu.insertRowBelow", () -> {tabularData.insertRowAt(row + 1);});
+		actions.put("ContextMenu.insertRowAbove", () -> tabularData.insertRowAt(row));
+		actions.put("ContextMenu.insertRowBelow", () -> tabularData.insertRowAt(row + 1));
 		actions.put("ContextMenu.deleteRow", () -> deleteRowAt(row));
 		return actions;
 	}
@@ -79,9 +90,9 @@ public class ContextMenuItems {
 
 	private Map<String, Runnable> columnItems(int column) {
 		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("ContextMenu.insertColumnLeft", () -> {tabularData.insertColumnAt(column);});
-		actions.put("ContextMenu.insertColumnRight", () -> {tabularData.insertColumnAt(column + 1);});
-		actions.put("ContextMenu.deleteColumn", () -> {deleteColumnAt(column);});
+		actions.put("ContextMenu.insertColumnLeft", () -> tabularData.insertColumnAt(column));
+		actions.put("ContextMenu.insertColumnRight", () -> tabularData.insertColumnAt(column + 1));
+		actions.put("ContextMenu.deleteColumn", () -> deleteColumnAt(column));
 		return actions;
 	}
 
