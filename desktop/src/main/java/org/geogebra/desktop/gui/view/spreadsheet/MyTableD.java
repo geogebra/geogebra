@@ -38,6 +38,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
@@ -100,10 +101,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	public ArrayList<CellRange> selectedCellRanges;
+	public ArrayList<CellSelection> selectedCellRanges;
 
 	@Override
-	public ArrayList<CellRange> getSelectedCellRanges() {
+	public ArrayList<CellSelection> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
 
@@ -241,7 +242,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<>();
-		selectedCellRanges.add(new CellRange(app));
+		selectedCellRanges.add(new CellSelection(-1, -1));
 		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		setCellSelectionEnabled(true);
 
@@ -554,7 +555,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// create a cell range object to store
 		// the current table selection
 
-		CellRange newSelection = new CellRange(app);
+		CellSelection newSelection;
 
 		if (view.isTraceDialogVisible()) {
 
@@ -572,7 +573,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 			default:
 			case MyTableInterface.CELL_SELECT:
-				newSelection.setCellRange(
+				newSelection = new CellSelection(
 						getColumnModel().getSelectionModel()
 								.getAnchorSelectionIndex(),
 						getSelectionModel().getAnchorSelectionIndex(),
@@ -582,13 +583,13 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				break;
 
 			case MyTableInterface.ROW_SELECT:
-				newSelection.setCellRange(-1,
+				newSelection = new CellSelection(-1,
 						getSelectionModel().getAnchorSelectionIndex(), -1,
 						getSelectionModel().getLeadSelectionIndex());
 				break;
 
 			case MyTableInterface.COLUMN_SELECT:
-				newSelection.setCellRange(
+				newSelection = new CellSelection(
 						getColumnModel().getSelectionModel()
 								.getAnchorSelectionIndex(),
 						-1, getColumnModel().getSelectionModel()
@@ -655,7 +656,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				|| minSelectionRow - newSelection.getMinRow() != 0;
 
 		// update internal selection variables
-		newSelection.setActualRange();
+		newSelection = CellRange.getActual(newSelection, app);
 		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
 		minSelectionRow = newSelection.getMinRow();
@@ -675,7 +676,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
 		for (int i = 0; i < selectedCellRanges.size(); i++) {
-			list.addAll(0, (selectedCellRanges.get(i)).toGeoList());
+			list.addAll(0, CellRange.toGeoList(selectedCellRanges.get(i), app));
 		}
 
 		// if the geo selection has changed, update selected geos
@@ -761,7 +762,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	@Override
 	public boolean setSelection(int c, int r) {
-		CellRange cr = new CellRange(app, c, r, c, r);
+		CellSelection cr = new CellSelection(c, r, c, r);
 		return setSelection(cr);
 	}
 
@@ -773,7 +774,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return success
 	 */
 	public boolean setSelection(int c1, int r1, int c2, int r2) {
-		CellRange cr = new CellRange(app, c1, r1, c2, r2);
+		CellSelection cr = new CellSelection(c1, r1, c2, r2);
 		if (!cr.isValid()) {
 			return false;
 		}
@@ -782,7 +783,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	@Override
-	public boolean setSelection(CellRange cr) {
+	public boolean setSelection(CellSelection cr) {
 
 		if (cr != null && !cr.isValid()) {
 			return false;
@@ -925,7 +926,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		ArrayList<Integer> columns = new ArrayList<>();
 
-		for (CellRange cr : this.selectedCellRanges) {
+		for (CellSelection cr : this.selectedCellRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
 				if (!columns.contains(c)) {
 					columns.add(c);

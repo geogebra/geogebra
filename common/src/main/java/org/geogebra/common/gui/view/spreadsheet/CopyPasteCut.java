@@ -141,7 +141,7 @@ public abstract class CopyPasteCut {
 	 *            the target cell range
 	 * @return true if successful
 	 */
-	public boolean paste(CellRange cr) {
+	public boolean paste(CellSelection cr) {
 		return paste(cr.getMinColumn(), cr.getMinRow(), cr.getMaxColumn(),
 				cr.getMaxRow());
 	}
@@ -359,7 +359,7 @@ public abstract class CopyPasteCut {
 	 *            cell range
 	 * @return whether all cells were pasted successfully
 	 */
-	protected boolean pasteExternalMultiple(String[][] data, CellRange cr) {
+	protected boolean pasteExternalMultiple(String[][] data, CellSelection cr) {
 		return pasteExternalMultiple(data, cr.getMinColumn(), cr.getMinRow(),
 				cr.getMaxColumn(), cr.getMaxRow());
 	}

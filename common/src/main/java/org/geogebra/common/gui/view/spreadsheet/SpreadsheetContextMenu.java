@@ -27,7 +27,7 @@ public class SpreadsheetContextMenu<T> {
 	private ArrayList<GeoElement> geos;
 	private CellRangeProcessor cp;
 
-	private ArrayList<CellRange> selectedCellRanges;
+	private ArrayList<CellSelection> selectedCellRanges;
 	private int selectionType;
 
 	/** minimum selected row */

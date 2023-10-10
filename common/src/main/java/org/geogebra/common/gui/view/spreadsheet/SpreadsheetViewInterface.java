@@ -35,7 +35,7 @@ public interface SpreadsheetViewInterface extends View {
 
 	public void scrollIfNeeded(GeoElement geo, String labelNew);
 
-	public void showTraceDialog(GeoElement geo, CellRange traceCell);
+	public void showTraceDialog(GeoElement geo, CellSelection traceCell);
 
 	public void setKeyboardEnabled(boolean enable);
 

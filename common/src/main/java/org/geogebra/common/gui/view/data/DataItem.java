@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -43,12 +44,13 @@ public class DataItem {
 	private GeoClass geoClass = GeoClass.NUMERIC;
 
 	// source objects
-	private ArrayList<CellRange> rangeList;
+	private ArrayList<CellSelection> rangeList;
 	private GeoList geoList;
 	private Double[] leftBorder;
 	private String[] strInternal;
 
 	private String description = " ";
+	private final App app;
 
 	// =======================================
 	// Constructors
@@ -63,6 +65,7 @@ public class DataItem {
 	public DataItem(GeoList geoList) {
 		this.geoList = geoList;
 		this.sourceType = SourceType.LIST;
+		this.app = geoList.getApp();
 	}
 
 	/**
@@ -71,9 +74,10 @@ public class DataItem {
 	 * @param rangeList
 	 *            range list
 	 */
-	public DataItem(ArrayList<CellRange> rangeList) {
+	public DataItem(ArrayList<CellSelection> rangeList, App app) {
 		this.rangeList = rangeList;
 		this.sourceType = SourceType.SPREADSHEET;
+		this.app = app;
 	}
 
 	/**
@@ -82,10 +86,11 @@ public class DataItem {
 	 * @param cellRange
 	 *            cell range
 	 */
-	public DataItem(CellRange cellRange) {
+	public DataItem(CellSelection cellRange, App app) {
 		rangeList = new ArrayList<>();
 		rangeList.add(cellRange);
 		this.sourceType = SourceType.SPREADSHEET;
+		this.app = app;
 	}
 
 	/**
@@ -95,25 +100,28 @@ public class DataItem {
 	 * @param leftBorder
 	 *            left class borders
 	 */
-	public DataItem(Double[] leftBorder) {
+	public DataItem(Double[] leftBorder, App app) {
 		this.leftBorder = leftBorder;
 		this.sourceType = SourceType.CLASS;
+		this.app = app;
 	}
 
 	/**
 	 * @param internalData
 	 *            internal data
 	 */
-	public DataItem(String[] internalData) {
+	public DataItem(String[] internalData, App app) {
 		this.sourceType = SourceType.INTERNAL;
 		this.strInternal = internalData;
+		this.app = app;
 	}
 
 	/**
 	 * Constructs a DataItem without a given source object.
 	 */
-	public DataItem() {
+	public DataItem(App app) {
 		sourceType = SourceType.EMPTY;
+		this.app = app;
 	}
 
 	// ============================================
@@ -127,7 +135,7 @@ public class DataItem {
 	 * @param rangeList
 	 *            list of cell ranges
 	 */
-	public void setDataItem(ArrayList<CellRange> rangeList) {
+	public void setDataItem(ArrayList<CellSelection> rangeList) {
 		clearItem();
 		this.rangeList = rangeList;
 		this.sourceType = SourceType.SPREADSHEET;
@@ -161,7 +169,7 @@ public class DataItem {
 	/**
 	 * @return list of ranges
 	 */
-	public ArrayList<CellRange> getRangeList() {
+	public ArrayList<CellSelection> getRangeList() {
 		return rangeList;
 	}
 
@@ -236,8 +244,8 @@ public class DataItem {
 			if (rangeList == null) {
 				return false;
 			}
-			for (CellRange cr : rangeList) {
-				if (cr.containsGeoClass(geoClassType)) {
+			for (CellSelection cr : rangeList) {
+				if (CellRange.containsGeoClass(cr, geoClassType, app)) {
 					return true;
 				}
 			}
@@ -281,8 +289,8 @@ public class DataItem {
 			return geoList.size();
 		case SPREADSHEET:
 			int count = 0;
-			for (CellRange cr : rangeList) {
-				count += cr.getGeoCount(null);
+			for (CellSelection cr : rangeList) {
+				count += CellRange.getGeoCount(cr, null, app);
 			}
 			return count;
 		case CLASS:
@@ -347,7 +355,7 @@ public class DataItem {
 		} else if (enableHeader && sourceType == SourceType.SPREADSHEET) {
 
 			StringTemplate tpl = StringTemplate.defaultTemplate;
-			CellRange range = getRangeList().get(0);
+			CellSelection range = getRangeList().get(0);
 
 			if (range.isColumn() || range.isPartialColumn()) {
 				GeoElement geo = RelativeCopy.getValue(app,
@@ -410,7 +418,7 @@ public class DataItem {
 			boolean setLabel = false;
 
 			try {
-				ArrayList<CellRange> rangeListCopy = rangeListCopy(
+				ArrayList<CellSelection> rangeListCopy = rangeListCopy(
 						getRangeList(), enableHeader);
 
 				list = crProcessor(app).createList(rangeListCopy, scanByColumn,
@@ -475,10 +483,10 @@ public class DataItem {
 	 *            whether to remove headers
 	 * @return copies of ranges
 	 */
-	private static ArrayList<CellRange> rangeListCopy(ArrayList<CellRange> list,
+	private static ArrayList<CellSelection> rangeListCopy(ArrayList<CellSelection> list,
 			boolean removeHeaderCell) {
 
-		ArrayList<CellRange> list2 = new ArrayList<>();
+		ArrayList<CellSelection> list2 = new ArrayList<>();
 
 		list2.add(rangeCopy(list.get(0), removeHeaderCell));
 
@@ -497,14 +505,13 @@ public class DataItem {
 	 *            whether to remove header cell
 	 * @return duplicate cell range
 	 */
-	private static CellRange rangeCopy(CellRange cr, boolean removeHeaderCell) {
-		CellRange cr2 = cr.duplicate();
+	private static CellSelection rangeCopy(CellSelection cr, boolean removeHeaderCell) {
 		if (removeHeaderCell) {
-			cr2.setCellRange(cr.getMinColumn(), cr.getMinRow() + 1,
+			return new CellSelection(cr.getMinColumn(), cr.getMinRow() + 1,
 					cr.getMaxColumn(), cr.getMaxRow());
+		} else {
+			return cr.duplicate();
 		}
-		return cr2;
-
 	}
 
 	private static GeoList dependentListCopy(Construction cons,
@@ -585,9 +592,9 @@ public class DataItem {
 
 				boolean skipFirstCell = enableHeader;
 
-				for (CellRange cr : rangeList) {
+				for (CellSelection cr : rangeList) {
 
-					ArrayList<GeoElement> list = cr.toGeoList();
+					ArrayList<GeoElement> list = CellRange.toGeoList(cr, app);
 
 					// iterate through the list and set the row values
 					for (int i = 0; i < list.size(); i++) {

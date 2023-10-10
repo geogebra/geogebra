@@ -358,7 +358,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	 */
 	public CellFormatInterface getCellFormat(MyTableInterface table) {
 		if (formatHandler == null) {
-			formatHandler = new CellFormat(table, app);
+			formatHandler = new CellFormat(table);
 		} else if (table != null) {
 			formatHandler.setTable(table);
 		}

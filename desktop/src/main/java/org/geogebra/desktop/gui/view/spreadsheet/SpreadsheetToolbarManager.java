@@ -1,6 +1,7 @@
 package org.geogebra.desktop.gui.view.spreadsheet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.desktop.main.AppD;
@@ -38,7 +39,7 @@ public class SpreadsheetToolbarManager {
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-			if (!table.selectedCellRanges.get(0).isEmpty()) {
+			if (!CellRange.isEmpty(table.selectedCellRanges.get(0), app)) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_LIST);
 				id.setVisible(true);

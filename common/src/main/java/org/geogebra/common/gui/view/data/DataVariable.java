@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
@@ -30,6 +31,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class DataVariable {
+
+	private final App app;
 
 	/**
 	 * Identifier for the data grouping type
@@ -60,6 +63,7 @@ public class DataVariable {
 	 */
 	public DataVariable(App app) {
 		this.loc = app.getLocalization();
+		this.app = app;
 	}
 
 	// =============================================
@@ -125,13 +129,13 @@ public class DataVariable {
 			frequency = null;
 			classes = null;
 			if (values.size() == 0) {
-				values.add(new DataItem());
+				values.add(new DataItem(app));
 			}
 			break;
 
 		case FREQUENCY:
 			if (frequency == null) {
-				frequency = new DataItem();
+				frequency = new DataItem(app);
 				frequency.setGeoClass(GeoClass.NUMERIC);
 				frequency.setDescription(loc.getMenu("Frequency"));
 			}
@@ -140,12 +144,12 @@ public class DataVariable {
 
 		case CLASS:
 			if (frequency == null) {
-				frequency = new DataItem();
+				frequency = new DataItem(app);
 				frequency.setGeoClass(GeoClass.NUMERIC);
 				frequency.setDescription(loc.getMenu("Frequency"));
 			}
 			if (classes == null) {
-				classes = new DataItem(new Double[0]);
+				classes = new DataItem(new Double[0], app);
 				classes.setDescription(loc.getMenu("Classes"));
 			}
 
@@ -323,7 +327,7 @@ public class DataVariable {
 			values = new ArrayList<>();
 		}
 
-		DataItem item = new DataItem();
+		DataItem item = new DataItem(app);
 		item.setGeoClass(geoClass);
 		values.add(item);
 	}
@@ -633,8 +637,8 @@ public class DataVariable {
 				if (dataItem.getType() == SourceType.SPREADSHEET) {
 					try {
 						if (dataItem.getRangeList() != null) {
-							for (CellRange cr : dataItem.getRangeList()) {
-								if (cr.contains(geo)) {
+							for (CellSelection cr : dataItem.getRangeList()) {
+								if (cr.contains(geo.getSpreadsheetCoords())) {
 									return true;
 								}
 							}
@@ -663,7 +667,7 @@ public class DataVariable {
 		for (DataItem item : values) {
 
 			sb.append("<item ranges=\"");
-			ArrayList<CellRange> crList = item.getRangeList();
+			ArrayList<CellSelection> crList = item.getRangeList();
 			if (crList != null) {
 				appendCellRanges(sb, crList);
 			}
@@ -684,12 +688,12 @@ public class DataVariable {
 		sb.append("</variable>\n");
 	}
 
-	private void appendCellRanges(StringBuilder sb, ArrayList<CellRange> crList) {
+	private void appendCellRanges(StringBuilder sb, ArrayList<CellSelection> crList) {
 		boolean first = true;
-		for (CellRange cr : crList) {
+		for (CellSelection cr : crList) {
 			if (cr != null) {
 				sb.append(first ? "" : ",");
-				sb.append(cr.getLabel());
+				sb.append(CellRange.getLabel(cr));
 				first = false;
 			}
 		}

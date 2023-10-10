@@ -19,9 +19,9 @@ public interface MyTable extends MyTableInterface {
 
 	public CopyPasteCut getCopyPasteCut();
 
-	public ArrayList<CellRange> getSelectedCellRanges();
+	public ArrayList<CellSelection> getSelectedCellRanges();
 
-	public boolean setSelection(CellRange targetRange);
+	public boolean setSelection(CellSelection targetRange);
 
 	public void changeSelection(int y, int x, boolean b);
 

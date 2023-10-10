@@ -32,6 +32,7 @@ import javax.swing.table.TableColumn;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -531,7 +532,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	// =====================================================
 
 	@Override
-	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
+	public void showTraceDialog(GeoElement geo, CellSelection traceCell) {
 		if (traceDialog == null) {
 			traceDialog = new TraceDialog(app, geo, traceCell);
 		} else {
@@ -549,7 +550,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	 * @param anchorRow initial row
 	 * @return trace selection range
 	 */
-	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public CellSelection getTraceSelectionRange(int anchorColumn, int anchorRow) {
 		if (traceDialog == null) {
 			return null;
 		}

@@ -764,8 +764,8 @@ public class DataSourcePanel extends JPanel
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
 			itmNumeric.addActionListener(arg0 -> {
 				ArrayList<DataItem> itemList = new ArrayList<>();
-				itemList.add(new DataItem());
-				itemList.add(new DataItem());
+				itemList.add(new DataItem(app));
+				itemList.add(new DataItem(app));
 				var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
 				updatePanel(mode, false);
 			});
@@ -775,7 +775,7 @@ public class DataSourcePanel extends JPanel
 			itmPoint.setSelected(var.getGeoClass() == GeoClass.POINT);
 			itmPoint.addActionListener(arg0 -> {
 				ArrayList<DataItem> itemList = new ArrayList<>();
-				itemList.add(new DataItem());
+				itemList.add(new DataItem(app));
 				var.setDataVariableAsRawData(GeoClass.POINT, itemList);
 				updatePanel(mode, false);
 			});

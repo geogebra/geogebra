@@ -12,6 +12,7 @@ import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
@@ -114,7 +115,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	private final ArrayList<CellRange> selectedCellRanges;
+	private final ArrayList<CellSelection> selectedCellRanges;
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
@@ -250,7 +251,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<>();
-		selectedCellRanges.add(new CellRange(app));
+		selectedCellRanges.add(new CellSelection(-1, -1));
 
 		selectionType = MyTableInterface.CELL_SELECT;
 
@@ -274,7 +275,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	@Override
-	public ArrayList<CellRange> getSelectedCellRanges() {
+	public ArrayList<CellSelection> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
 
@@ -895,7 +896,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// create a cell range object to store
 		// the current table selection
 
-		CellRange newSelection = new CellRange(app);
+		CellSelection newSelection;
 
 		/*
 		 * TODO if (view.isTraceDialogVisible()) {
@@ -913,19 +914,21 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		switch (selectionType) {
 
 		case MyTableInterface.CELL_SELECT:
-			newSelection.setCellRange(anchorSelectionColumn,
+			newSelection = new CellSelection(anchorSelectionColumn,
 			        anchorSelectionRow, leadSelectionColumn, leadSelectionRow);
 			break;
 
 		case MyTableInterface.ROW_SELECT:
-			newSelection.setCellRange(-1, anchorSelectionRow, -1,
+			newSelection = new CellSelection(-1, anchorSelectionRow, -1,
 			        leadSelectionRow);
 			break;
 
 		case MyTableInterface.COLUMN_SELECT:
-			newSelection.setCellRange(anchorSelectionColumn, -1,
+			newSelection = new CellSelection(anchorSelectionColumn, -1,
 			        leadSelectionColumn, -1);
 			break;
+		default:
+			newSelection = new CellSelection(-1, -1);
 		}
 		/*
 		 * }
@@ -971,7 +974,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		// update internal selection variables
-		newSelection.setActualRange();
+		newSelection = CellRange.getActual(newSelection, app);
 		minSelectionRow = newSelection.getMinRow();
 		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
@@ -980,7 +983,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
 		for (int i = 0; i < selectedCellRanges.size(); i++) {
-			list.addAll(0, (selectedCellRanges.get(i)).toGeoList());
+			list.addAll(0, CellRange.toGeoList(selectedCellRanges.get(i), app));
 		}
 
 		// if the geo selection has changed, update selected geos
@@ -1046,7 +1049,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	@Override
 	public boolean setSelection(int c, int r) {
-		CellRange cr = new CellRange(app, c, r, c, r);
+		CellSelection cr = new CellSelection(c, r, c, r);
 		return setSelection(cr);
 	}
 
@@ -1062,14 +1065,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            max row
 	 */
 	public void setSelection(int c1, int r1, int c2, int r2) {
-		CellRange cr = new CellRange(app, c1, r1, c2, r2);
+		CellSelection cr = new CellSelection(c1, r1, c2, r2);
 		if (cr.isValid()) {
 			setSelection(cr);
 		}
 	}
 
 	@Override
-	public boolean setSelection(CellRange cr) {
+	public boolean setSelection(CellSelection cr) {
 		if (cr != null && !cr.isValid()) {
 			return false;
 		}
@@ -1236,7 +1239,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		ArrayList<Integer> columns = new ArrayList<>();
 
-		for (CellRange cr : this.selectedCellRanges) {
+		for (CellSelection cr : this.selectedCellRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
 				if (!columns.contains(c)) {
 					columns.add(c);
@@ -2158,9 +2161,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @param cellRangeList
 	 *            cells to update
 	 */
-	public void updateCellFormat(ArrayList<CellRange> cellRangeList) {
+	public void updateCellFormat(ArrayList<CellSelection> cellRangeList) {
 		for (int i = 0; i < cellRangeList.size(); i++) {
-			CellRange cr = cellRangeList.get(i);
+			CellSelection cr = cellRangeList.get(i);
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 				for (int column = cr.getMinColumn(); column <= cr
 				        .getMaxColumn(); column++) {

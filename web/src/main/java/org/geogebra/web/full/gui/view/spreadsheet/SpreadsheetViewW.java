@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
@@ -395,7 +395,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// =====================================================
 
 	@Override
-	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
+	public void showTraceDialog(GeoElement geo, CellSelection traceCell) {
 		// not implemented yet
 	}
 

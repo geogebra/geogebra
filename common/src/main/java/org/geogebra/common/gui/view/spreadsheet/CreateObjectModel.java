@@ -23,7 +23,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class CreateObjectModel {
 	private CellRangeProcessor cp;
-	private ArrayList<CellRange> selectedCellRanges;
+	private ArrayList<CellSelection> selectedCellRanges;
 
 	public static final int TYPE_LIST = 0;
 	public static final int TYPE_MATRIX = 2;
@@ -320,11 +320,11 @@ public class CreateObjectModel {
 		this.cp = cp;
 	}
 
-	public ArrayList<CellRange> getSelectedCellRanges() {
+	public ArrayList<CellSelection> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
 
-	public void setSelectedCellRanges(ArrayList<CellRange> selectedCellRanges) {
+	public void setSelectedCellRanges(ArrayList<CellSelection> selectedCellRanges) {
 		this.selectedCellRanges = selectedCellRanges;
 	}
 

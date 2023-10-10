@@ -101,7 +101,7 @@ public class RelativeCopy {
 			cons.startCollectingRedefineCalls();
 
 			boolean patternOK = isPatternSource(
-					new CellRange(app, sx1, sy1, sx2, sy2));
+					new CellSelection(sx1, sy1, sx2, sy2), app);
 
 			// ==============================================
 			// vertical drag
@@ -305,14 +305,14 @@ public class RelativeCopy {
 	 *            cell range
 	 * @return whether all geos are acceptable
 	 */
-	private static boolean isPatternSource(CellRange cellRange) {
+	private static boolean isPatternSource(CellSelection cellRange, App app) {
 		// don't allow empty cells
-		if (cellRange.hasEmptyCells()) {
+		if (CellRange.hasEmptyCells(cellRange, app)) {
 			return false;
 		}
 
 		// test for any unacceptable geos in the range
-		ArrayList<GeoElement> list = cellRange.toGeoList();
+		ArrayList<GeoElement> list = CellRange.toGeoList(cellRange, app);
 		for (GeoElement geo : list) {
 			if (!(geo.isGeoNumeric() || geo.isGeoFunction()
 					|| geo.isGeoPoint())) {

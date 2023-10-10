@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -41,7 +41,7 @@ public class AlgoCellRange extends AlgoElement {
 	private String endCell; // end cell name
 	private String toStringOutput;
 
-	private CellRange cellRange;
+	private CellSelection cellRange;
 	private ArrayList<GeoElement> listItems;
 	private GPoint startCoords;
 	private GPoint endCoords;
@@ -195,7 +195,7 @@ public class AlgoCellRange extends AlgoElement {
 		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endCell);
 		toStringOutput = startCell + ":" + endCell;
 
-		cellRange = new CellRange(cons.getApplication(), startCoords.x,
+		cellRange = new CellSelection(startCoords.x,
 				startCoords.y, endCoords.x, endCoords.y);
 
 		// build list with cells in range
@@ -286,7 +286,7 @@ public class AlgoCellRange extends AlgoElement {
 		return geoList;
 	}
 
-	public CellRange getCellRange() {
+	public CellSelection getCellRange() {
 		return cellRange;
 	}
 

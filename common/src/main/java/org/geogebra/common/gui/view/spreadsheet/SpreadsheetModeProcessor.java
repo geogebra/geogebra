@@ -34,7 +34,7 @@ public class SpreadsheetModeProcessor {
 	 * Creates autofunction cells based on the given cell range and the current
 	 * autofunction mode.
 	 */
-	public void performAutoFunctionCreation(CellRange cr, boolean shiftDown) {
+	public void performAutoFunctionCreation(CellSelection cr, boolean shiftDown) {
 
 		if (cr.isColumn() || cr.isRow()) {
 			return;
@@ -42,13 +42,13 @@ public class SpreadsheetModeProcessor {
 
 		boolean isOK = true;
 		GeoElement targetCell1 = null;
-		CellRange targetRange;
+		CellSelection targetRange;
 
 		// Case 1: Partial row, targetCell created beneath the column
 		if (cr.isPartialRow() || (!cr.isPartialColumn() && shiftDown)) {
 
 			int maxColumn = getMaxUsedColumn(cr) + 1;
-			targetRange = new CellRange(app, maxColumn, cr.getMinRow(),
+			targetRange = new CellSelection(maxColumn, cr.getMinRow(),
 					maxColumn, cr.getMaxRow());
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 
@@ -61,7 +61,7 @@ public class SpreadsheetModeProcessor {
 					targetCell1 = new GeoNumeric(kernel.getConstruction(), 0);
 					targetCell1.setLabel(GeoElementSpreadsheet
 							.getSpreadsheetCellName(maxColumn, row));
-					createAutoFunctionCell(targetCell1, new CellRange(app,
+					createAutoFunctionCell(targetCell1, new CellSelection(
 							cr.getMinColumn(), row, maxColumn - 1, row));
 				}
 			}
@@ -71,7 +71,7 @@ public class SpreadsheetModeProcessor {
 			table.repaint();
 		} else {
 			int maxRow = getMaxUsedRow(cr) + 1;
-			targetRange = new CellRange(app, cr.getMinColumn(), maxRow,
+			targetRange = new CellSelection(cr.getMinColumn(), maxRow,
 					cr.getMaxColumn(), maxRow);
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
 
@@ -91,7 +91,7 @@ public class SpreadsheetModeProcessor {
 					} else {
 						targetCell1 = cell;
 					}
-					createAutoFunctionCell(targetCell1, new CellRange(app, col,
+					createAutoFunctionCell(targetCell1, new CellSelection(col,
 							cr.getMinRow(), col, maxRow - 1));
 				}
 			}
@@ -102,7 +102,7 @@ public class SpreadsheetModeProcessor {
 		}
 	}
 
-	private int getMaxUsedColumn(CellRange cr) {
+	private int getMaxUsedColumn(CellSelection cr) {
 
 		if (cr.isRow() || cr.isColumn()) {
 			return cr.getMaxColumn();
@@ -117,7 +117,7 @@ public class SpreadsheetModeProcessor {
 		return cr.getMaxColumn() - 1;
 	}
 
-	private int getMaxUsedRow(CellRange cr) {
+	private int getMaxUsedRow(CellSelection cr) {
 
 		if (cr.isRow() || cr.isColumn()) {
 			return cr.getMaxRow();
@@ -142,7 +142,7 @@ public class SpreadsheetModeProcessor {
 	 *            input cell range
 	 * @return success
 	 */
-	public boolean createAutoFunctionCell(GeoElement functionTargetCell, CellRange cr) {
+	public boolean createAutoFunctionCell(GeoElement functionTargetCell, CellSelection cr) {
 
 		boolean success = true;
 
@@ -169,7 +169,7 @@ public class SpreadsheetModeProcessor {
 				+ "]";
 		Log.debug(expr);
 		// Create the new geo
-		if (!cr.contains(functionTargetCell)) {
+		if (!cr.contains(functionTargetCell.getSpreadsheetCoords())) {
 			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr,
 					false);
 		} else {
@@ -221,7 +221,7 @@ public class SpreadsheetModeProcessor {
 	 */
 	public void updateAutoFunction() {
 
-		if (targetCell == null || table.getSelectedCellRanges().get(0).isEmpty()
+		if (targetCell == null || CellRange.isEmpty(table.getSelectedCellRanges().get(0), app)
 				|| table.getTableMode() != MyTable.TABLE_MODE_AUTOFUNCTION) {
 			app.setMoveMode();
 			return;
@@ -248,7 +248,7 @@ public class SpreadsheetModeProcessor {
 		String expr = cmd + "[" + cellRangeString + "]";
 
 		// Evaluate the autofunction and put the result in targetCell
-		if (!table.getSelectedCellRanges().get(0).contains(targetCell)) {
+		if (!table.getSelectedCellRanges().get(0).contains(targetCell.getSpreadsheetCoords())) {
 			((GeoNumeric) targetCell).setValue(
 					kernel.getAlgebraProcessor().evaluateToDouble(expr));
 		} else {

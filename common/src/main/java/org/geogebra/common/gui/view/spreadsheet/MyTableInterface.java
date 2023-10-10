@@ -2,7 +2,7 @@ package org.geogebra.common.gui.view.spreadsheet;
 
 import org.geogebra.common.main.App;
 
-public interface MyTableInterface {
+public interface MyTableInterface extends HasTableSelection {
 
 	// Selection type
 	public static final int CELL_SELECT = 0;
@@ -15,19 +15,11 @@ public interface MyTableInterface {
 
 	public CellFormatInterface getCellFormatHandler();
 
-	public void updateCellFormat(String s);
-
-	public void repaint();
-
-	public void repaintAll();
-
 	public int getSelectionType();
 
 	public void selectionChanged();
 
 	public boolean setSelection(int i, int j);
-
-	public boolean isSelectAll();
 
 	public int getColumnCount();
 

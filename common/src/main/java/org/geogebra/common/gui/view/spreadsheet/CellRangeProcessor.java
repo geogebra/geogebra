@@ -88,9 +88,9 @@ public class CellRangeProcessor {
 	 *            cell range list to be cloned
 	 * @return copy of given cell range list
 	 */
-	public static ArrayList<CellRange> clone(ArrayList<CellRange> rangeList) {
-		ArrayList<CellRange> newList = new ArrayList<>();
-		for (CellRange cr : rangeList) {
+	public static ArrayList<CellSelection> clone(ArrayList<CellSelection> rangeList) {
+		ArrayList<CellSelection> newList = new ArrayList<>();
+		for (CellSelection cr : rangeList) {
 			newList.add(cr.duplicate());
 		}
 		return newList;
@@ -106,7 +106,7 @@ public class CellRangeProcessor {
 	 * @return true if the shapes of the given cell ranges support creating a
 	 *         point list, does not test the cell contents
 	 */
-	public boolean isCreatePointListPossible(ArrayList<CellRange> rangeList) {
+	public boolean isCreatePointListPossible(ArrayList<CellSelection> rangeList) {
 
 		// two adjacent rows or columns?
 		if (rangeList.size() == 1
@@ -116,7 +116,7 @@ public class CellRangeProcessor {
 				&& rangeList.get(1).getWidth() == 1) {
 			return true;
 		} else if (rangeList.size() == 1) {
-			return rangeList.get(0).isPointList();
+			return CellRange.isPointList(rangeList.get(0), app);
 		}
 
 		return false;
@@ -131,13 +131,13 @@ public class CellRangeProcessor {
 	 * @return whether operation table is possible
 	 */
 	public boolean isCreateOperationTablePossible(
-			ArrayList<CellRange> rangeList) {
+			ArrayList<CellSelection> rangeList) {
 
 		if (rangeList.size() != 1) {
 			return false;
 		}
 
-		CellRange cr = rangeList.get(0);
+		CellSelection cr = rangeList.get(0);
 		int r1 = cr.getMinRow();
 		int c1 = cr.getMinColumn();
 
@@ -165,8 +165,8 @@ public class CellRangeProcessor {
 	 *            selected ranges
 	 * @return whether matrix can be created
 	 */
-	public boolean isCreateMatrixPossible(ArrayList<CellRange> rangeList) {
-		return rangeList.size() == 1 && !rangeList.get(0).hasEmptyCells();
+	public boolean isCreateMatrixPossible(ArrayList<CellSelection> rangeList) {
+		return rangeList.size() == 1 && !CellRange.hasEmptyCells(rangeList.get(0), app);
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class CellRangeProcessor {
 	 *            desired class
 	 * @return whether one var stats dialog makes sense for selection
 	 */
-	public boolean isOneVarStatsPossible(ArrayList<CellRange> rangeList,
+	public boolean isOneVarStatsPossible(ArrayList<CellSelection> rangeList,
 			GeoClass geoClass) {
 		if (rangeList == null || rangeList.size() == 0) {
 			return false;
@@ -187,8 +187,8 @@ public class CellRangeProcessor {
 
 		int count = 0;
 
-		for (CellRange cr : rangeList) {
-			count += cr.getGeoCount(geoClass);
+		for (CellSelection cr : rangeList) {
+			count += CellRange.getGeoCount(cr, geoClass, app);
 			if (count >= 2) {
 				return true;
 			}
@@ -205,7 +205,7 @@ public class CellRangeProcessor {
 	 *            selected ranges
 	 * @return whether multi-var stats dialog makes sense for selection
 	 */
-	public boolean isMultiVarStatsPossible(ArrayList<CellRange> rangeList) {
+	public boolean isMultiVarStatsPossible(ArrayList<CellSelection> rangeList) {
 
 		if (rangeList == null || rangeList.size() == 0) {
 			return false;
@@ -214,13 +214,13 @@ public class CellRangeProcessor {
 		// if rangeList is a single cell range check that there are at least two
 		// columns and at least three non-empty rows
 		if (rangeList.size() == 1) {
-			CellRange cr = rangeList.get(0);
+			CellSelection cr = rangeList.get(0);
 			if (cr.getMaxColumn() - cr.getMinColumn() < 1) {
 				return false;
 			}
 
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
-				if (!containsMinimumGeoNumeric(new CellRange(app, col,
+				if (!containsMinimumGeoNumeric(new CellSelection(col,
 						cr.getMinRow(), col, cr.getMaxRow()), 3)) {
 					return false;
 				}
@@ -232,7 +232,7 @@ public class CellRangeProcessor {
 		// column
 		// has at least three data values.
 		int columnCount = 0;
-		for (CellRange cr : rangeList) {
+		for (CellSelection cr : rangeList) {
 			if (!cr.isColumn()) {
 				return false;
 			}
@@ -254,7 +254,7 @@ public class CellRangeProcessor {
 	 *            min count of numbers
 	 * @return whether range has enough numbers in it
 	 */
-	private boolean containsMinimumGeoNumeric(CellRange cellRange,
+	private boolean containsMinimumGeoNumeric(CellSelection cellRange,
 			int minimumCount) {
 		int count = 0;
 		for (int col = cellRange.getMinColumn(); col <= cellRange
@@ -281,10 +281,10 @@ public class CellRangeProcessor {
 	 * @return true if the given rangeList contains a GeoElement of the given
 	 *         GeoClass type
 	 */
-	public boolean containsGeoClass(ArrayList<CellRange> rangeList,
+	public boolean containsGeoClass(ArrayList<CellSelection> rangeList,
 			GeoClass geoClass) {
-		for (CellRange cr : rangeList) {
-			if (cr.containsGeoClass(geoClass)) {
+		for (CellSelection cr : rangeList) {
+			if (CellRange.containsGeoClass(cr, geoClass, app)) {
 				return true;
 			}
 		}
@@ -303,10 +303,10 @@ public class CellRangeProcessor {
 	 *            counted
 	 * @return total number of geos in all ranges
 	 */
-	public int getGeoCount(ArrayList<CellRange> rangeList, GeoClass geoClass) {
+	public int getGeoCount(ArrayList<CellSelection> rangeList, GeoClass geoClass) {
 		int count = 0;
-		for (CellRange cr : rangeList) {
-			count += cr.getGeoCount(geoClass);
+		for (CellSelection cr : rangeList) {
+			count += CellRange.getGeoCount(cr, geoClass, app);
 		}
 		return count;
 	}
@@ -316,7 +316,7 @@ public class CellRangeProcessor {
 	 *            list odf selcted ranges
 	 * @return whether it contains single 1D range
 	 */
-	public boolean is1DRangeList(ArrayList<CellRange> rangeList) {
+	public boolean is1DRangeList(ArrayList<CellSelection> rangeList) {
 		if (rangeList == null || rangeList.size() > 1) {
 			return false;
 		}
@@ -334,7 +334,7 @@ public class CellRangeProcessor {
 	 * 
 	 * @return list
 	 */
-	public GeoList createCollectionList(ArrayList<CellRange> rangeList,
+	public GeoList createCollectionList(ArrayList<CellSelection> rangeList,
 			boolean copyByValue, boolean addToConstruction,
 			boolean scanByColumn) {
 
@@ -342,21 +342,21 @@ public class CellRangeProcessor {
 		boolean oldSuppress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		CellRange tempRange = null;
+		CellSelection tempRange = null;
 
-		for (CellRange cr : rangeList) {
+		for (CellSelection cr : rangeList) {
 			if (scanByColumn) {
 				for (int col = cr.getMinColumn(); col <= cr
 						.getMaxColumn(); col++) {
 
 					if (cr.isColumn()) {
-						tempRange = new CellRange(app, col, -1);
-						tempRange.setActualRange();
+						tempRange = new CellSelection(col, -1);
+						tempRange = CellRange.getActual(tempRange, app);
 					} else {
-						tempRange = new CellRange(app, col, cr.getMinRow(), col,
+						tempRange = new CellSelection(col, cr.getMinRow(), col,
 								cr.getMaxRow());
 					}
-					ArrayList<CellRange> tempList = new ArrayList<>();
+					ArrayList<CellSelection> tempList = new ArrayList<>();
 					tempList.add(tempRange);
 					tempGeo.add(createList(tempList, true, copyByValue, false,
 							false, null, addToConstruction));
@@ -367,13 +367,13 @@ public class CellRangeProcessor {
 				for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 
 					if (cr.isRow()) {
-						tempRange = new CellRange(app, -1, row);
-						tempRange.setActualRange();
+						tempRange = new CellSelection(-1, row);
+						tempRange = CellRange.getActual(tempRange, app);
 					} else {
-						tempRange = new CellRange(app, cr.getMinColumn(), row,
+						tempRange = new CellSelection(cr.getMinColumn(), row,
 								cr.getMaxColumn(), row);
 					}
-					ArrayList<CellRange> tempList = new ArrayList<>();
+					ArrayList<CellSelection> tempList = new ArrayList<>();
 					tempList.add(tempRange);
 					tempGeo.add(createList(tempList, true, copyByValue, false,
 							false, null, addToConstruction));
@@ -397,7 +397,7 @@ public class CellRangeProcessor {
 	 *            whether to sort left to right
 	 * @return polyline
 	 */
-	public GeoElement createPolyLine(ArrayList<CellRange> rangeList,
+	public GeoElement createPolyLine(ArrayList<CellSelection> rangeList,
 			boolean byValue, boolean leftToRight) {
 		return createPolyLine(rangeList, byValue, leftToRight, false);
 	}
@@ -416,7 +416,7 @@ public class CellRangeProcessor {
 	 *            whether to store an undo point
 	 * @return polyline
 	 */
-	public GeoElement createPolyLine(ArrayList<CellRange> rangeList,
+	public GeoElement createPolyLine(ArrayList<CellSelection> rangeList,
 			boolean byValue, boolean leftToRight, boolean doStoreUndo) {
 
 		boolean doCreateFreePoints = true;
@@ -453,7 +453,7 @@ public class CellRangeProcessor {
 	 * pairs are joined vertically or horizontally and gets the row column
 	 * indices needed to traverse the cells.
 	 */
-	private static void getPointListDimensions(ArrayList<CellRange> rangeList,
+	private static void getPointListDimensions(ArrayList<CellSelection> rangeList,
 			PointDimension pd) {
 
 		pd.doHorizontalPairs = true;
@@ -538,7 +538,7 @@ public class CellRangeProcessor {
 	 *            created in addition to the list
 	 * @return GeoList
 	 */
-	public GeoList createPointGeoList(ArrayList<CellRange> rangeList,
+	public GeoList createPointGeoList(ArrayList<CellSelection> rangeList,
 			boolean byValue, boolean leftToRight, 
 			boolean doStoreUndo, boolean doCreateFreePoints) {
 
@@ -699,13 +699,13 @@ public class CellRangeProcessor {
 	 *            whether to sort left to right
 	 * @return range titles
 	 */
-	public String[] getPointListTitles(ArrayList<CellRange> rangeList,
+	public String[] getPointListTitles(ArrayList<CellSelection> rangeList,
 			boolean leftToRight) {
 
 		String[] title = new String[2];
 
 		// return null titles if data source is a point list
-		if (rangeList.size() == 1 && rangeList.get(0).isPointList()) {
+		if (rangeList.size() == 1 && CellRange.isPointList(rangeList.get(0), app)) {
 			return title;
 		}
 
@@ -722,11 +722,11 @@ public class CellRangeProcessor {
 			} else if (pd.r1 == 0) {
 				// column name
 				title[0] = getCellRangeString(
-						new CellRange(app, pd.c1, -1, pd.c1, -1));
+						new CellSelection(pd.c1, -1, pd.c1, -1));
 			} else {
 				// cell range
 				title[0] = getCellRangeString(
-						new CellRange(app, pd.c1, pd.r1, pd.c1, pd.r2));
+						new CellSelection(pd.c1, pd.r1, pd.c1, pd.r2));
 			}
 
 			// handle second title
@@ -737,11 +737,11 @@ public class CellRangeProcessor {
 			} else if (pd.r1 == 0) {
 				// column name
 				title[1] = getCellRangeString(
-						new CellRange(app, pd.c2, -1, pd.c2, -1));
+						new CellSelection(pd.c2, -1, pd.c2, -1));
 			} else {
 				// cell range
 				title[1] = getCellRangeString(
-						new CellRange(app, pd.c2, pd.r1, pd.c2, pd.r2));
+						new CellSelection(pd.c2, pd.r1, pd.c2, pd.r2));
 			}
 
 		} else { // vertical pairs
@@ -754,11 +754,11 @@ public class CellRangeProcessor {
 			} else if (pd.c1 == 0) {
 				// row name
 				title[0] = getCellRangeString(
-						new CellRange(app, -1, pd.r1, -1, pd.r1));
+						new CellSelection(-1, pd.r1, -1, pd.r1));
 			} else {
 				// cell range
 				title[0] = getCellRangeString(
-						new CellRange(app, pd.c1, pd.r1, pd.c2, pd.r1));
+						new CellSelection(pd.c1, pd.r1, pd.c2, pd.r1));
 			}
 
 			// handle second title
@@ -769,11 +769,11 @@ public class CellRangeProcessor {
 			} else if (pd.c1 == 0) {
 				// row name
 				title[1] = getCellRangeString(
-						new CellRange(app, -1, pd.r2, -1, pd.r2));
+						new CellSelection(-1, pd.r2, -1, pd.r2));
 			} else {
 				// cell range
 				title[1] = getCellRangeString(
-						new CellRange(app, pd.c1, pd.r2, pd.c2, pd.r2));
+						new CellSelection(pd.c1, pd.r2, pd.c2, pd.r2));
 			}
 
 		}
@@ -791,11 +791,11 @@ public class CellRangeProcessor {
 	 *            ranges
 	 * @return column titles
 	 */
-	public String[] getColumnTitles(ArrayList<CellRange> rangeList) {
+	public String[] getColumnTitles(ArrayList<CellSelection> rangeList) {
 
 		ArrayList<String> titleList = new ArrayList<>();
 
-		for (CellRange cr : rangeList) {
+		for (CellSelection cr : rangeList) {
 			// get column header or column name from each column in this cell
 			// range
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
@@ -807,7 +807,7 @@ public class CellRangeProcessor {
 				} else {
 					// use column name
 					titleList.add(getCellRangeString(
-							new CellRange(app, col, -1, col, -1)));
+							new CellSelection(col, -1, col, -1)));
 				}
 			}
 		}
@@ -824,7 +824,7 @@ public class CellRangeProcessor {
 	 * 
 	 * @return list
 	 */
-	public GeoElement createList(ArrayList<CellRange> rangeList,
+	public GeoElement createList(ArrayList<CellSelection> rangeList,
 			boolean scanByColumn, boolean copyByValue) {
 		return createList(rangeList, scanByColumn, copyByValue, false, false,
 				null, true);
@@ -836,7 +836,7 @@ public class CellRangeProcessor {
 	 * 
 	 * @return list
 	 */
-	public GeoList createList(ArrayList<CellRange> rangeList,
+	public GeoList createList(ArrayList<CellSelection> rangeList,
 			boolean scanByColumn, boolean copyByValue, boolean isSorted,
 			boolean doStoreUndo, GeoClass geoTypeFilter, boolean setLabel) {
 
@@ -858,7 +858,7 @@ public class CellRangeProcessor {
 
 			// create cellList: this holds a list of cell index pairs for the
 			// entire range
-			for (CellRange cr : rangeList) {
+			for (CellSelection cr : rangeList) {
 				cellList.addAll(cr.toCellList(scanByColumn));
 			}
 
@@ -935,9 +935,9 @@ public class CellRangeProcessor {
 			boolean isSorted, boolean storeUndoInfo, GeoClass geoTypeFilter,
 			boolean addToConstruction) {
 
-		ArrayList<CellRange> rangeList = new ArrayList<>();
-		CellRange cr = new CellRange(app, column, -1);
-		cr.setActualRange();
+		ArrayList<CellSelection> rangeList = new ArrayList<>();
+		CellSelection cr = new CellSelection(column, -1);
+		cr = CellRange.getActual(cr, app);
 		rangeList.add(cr);
 
 		return createList(rangeList, true, copyByValue, isSorted, storeUndoInfo,
@@ -945,9 +945,9 @@ public class CellRangeProcessor {
 	}
 
 	/** @return true if all cell ranges in the list are columns */
-	public boolean isAllColumns(ArrayList<CellRange> rangeList) {
+	public boolean isAllColumns(ArrayList<CellSelection> rangeList) {
 		boolean isAllColumns = true;
-		for (CellRange cr : rangeList) {
+		for (CellSelection cr : rangeList) {
 			if (!cr.isColumn()) {
 				isAllColumns = false;
 			}
@@ -967,12 +967,12 @@ public class CellRangeProcessor {
 	 *            whether to add result to construction
 	 * @return matrix definition
 	 */
-	public String createColumnMatrixExpression(ArrayList<CellRange> rangeList,
+	public String createColumnMatrixExpression(ArrayList<CellSelection> rangeList,
 			boolean copyByValue, boolean addToConstruction) {
 		GeoElement tempGeo;
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		for (CellRange cr : rangeList) {
+		for (CellSelection cr : rangeList) {
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
 				tempGeo = createListFromColumn(col, copyByValue, false, false,
 						GeoClass.NUMERIC, addToConstruction);
@@ -1428,7 +1428,7 @@ public class CellRangeProcessor {
 	 * @param cr
 	 *            selected range
 	 */
-	public void createOperationTable(CellRange cr) {
+	public void createOperationTable(CellSelection cr) {
 
 		int r1 = cr.getMinRow();
 		int c1 = cr.getMinColumn();
@@ -1459,7 +1459,7 @@ public class CellRangeProcessor {
 		}
 	}
 
-	public String getCellRangeString(CellRange range) {
+	public String getCellRangeString(CellSelection range) {
 		return getCellRangeString(range, true);
 	}
 
@@ -1470,7 +1470,7 @@ public class CellRangeProcessor {
 	 *            whether to return only first column
 	 * @return range description ("Row 7", "Column B", "A1:D3")
 	 */
-	public String getCellRangeString(CellRange range,
+	public String getCellRangeString(CellSelection range,
 			boolean onlyFirstRowColumn) {
 
 		String s;
@@ -1508,12 +1508,12 @@ public class CellRangeProcessor {
 	 *            list of ranges
 	 * @return list of range descriptions ("Row 7", "Column B", "A1:D3")
 	 */
-	public String getCellRangeString(ArrayList<CellRange> list) {
+	public String getCellRangeString(ArrayList<CellSelection> list) {
 		// if (list == null) {
 		// return "";
 		// }
 		StringBuilder sb = new StringBuilder();
-		for (CellRange cr : list) {
+		for (CellSelection cr : list) {
 			// cr.debug();
 			sb.append(getCellRangeString(cr, false));
 			sb.append(", ");

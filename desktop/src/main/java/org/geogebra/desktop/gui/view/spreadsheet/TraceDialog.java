@@ -48,7 +48,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -115,7 +115,7 @@ public class TraceDialog extends Dialog
 	private int mode = MODE_NORMAL;
 
 	// misc
-	private CellRange newTraceLocation;
+	private CellSelection newTraceLocation;
 	private boolean isIniting = false;
 	private JLabel lblStartRow;
 	private final LocalizationD loc;
@@ -130,7 +130,7 @@ public class TraceDialog extends Dialog
 	 * @param traceCell
 	 *            trce range
 	 */
-	public TraceDialog(AppD app, GeoElement selectedGeo, CellRange traceCell) {
+	public TraceDialog(AppD app, GeoElement selectedGeo, CellSelection traceCell) {
 		super(app.getFrame());
 
 		this.app = app;
@@ -172,7 +172,7 @@ public class TraceDialog extends Dialog
 	 * 
 	 */
 	public void setTraceDialogSelection(GeoElement selectedGeo0,
-			CellRange traceCell) {
+			CellSelection traceCell) {
 		GeoElement selectedGeo = selectedGeo0;
 		// if the traceCell column is tracing a geo then set selectedGeo to this
 		// geo
@@ -849,19 +849,20 @@ public class TraceDialog extends Dialog
 	 *            row
 	 * @return range
 	 */
-	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public CellSelection getTraceSelectionRange(int anchorColumn, int anchorRow) {
 
-		CellRange cr = new CellRange(app);
+		CellSelection cr;
 
 		switch (mode) {
 		default:
+			cr = new CellSelection(-1, -1);
 			// do nothing
 			break;
 		case MODE_NORMAL:
 			if (getSettings() == null) {
-				cr.setCellRange(-1, -1, -1, -1);
+				cr = new CellSelection(-1, -1, -1, -1);
 			} else {
-				cr.setCellRange(getSettings().traceColumn1,
+				cr = new CellSelection(getSettings().traceColumn1,
 						getSettings().traceRow1, getSettings().traceColumn2,
 						(getSettings().doRowLimit) ? getSettings().traceRow2
 								: app.getMaxSpreadsheetRowsVisible());
@@ -872,7 +873,7 @@ public class TraceDialog extends Dialog
 			if (newTraceLocation != null) {
 				cr = newTraceLocation;
 			} else {
-				cr = new CellRange(app, traceManager.getNextTraceColumn(), 0);
+				cr = new CellSelection(traceManager.getNextTraceColumn(), 0);
 			}
 			break;
 
@@ -883,7 +884,7 @@ public class TraceDialog extends Dialog
 					: app.getMaxSpreadsheetRowsVisible())
 					- getSettings().traceRow1;
 
-			cr.setCellRange(anchorColumn, anchorRow, anchorColumn + w,
+			cr = new CellSelection(anchorColumn, anchorRow, anchorColumn + w,
 					anchorRow + h);
 			break;
 		}

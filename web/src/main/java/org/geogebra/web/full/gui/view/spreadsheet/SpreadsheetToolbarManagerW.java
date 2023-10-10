@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.web.html5.main.AppW;
@@ -48,7 +49,7 @@ public class SpreadsheetToolbarManagerW {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
-			if (!table.getSelectedCellRanges().get(0).isEmpty()) {
+			if (!CellRange.isEmpty(table.getSelectedCellRanges().get(0), app)) {
 				openDialog(CreateObjectModel.TYPE_LIST, "CreateList");
 			}
 			break;
