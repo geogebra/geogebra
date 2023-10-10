@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.geogebra.common.util.debug.Log;
-
 public class ContextMenuItems {
 
 	static final int HEADER_INDEX = -1;
@@ -29,11 +27,29 @@ public class ContextMenuItems {
 
 	private Map<String, Runnable> cellItems(int row, int column) {
 		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("Delete", () -> tabularData.setContent(row, column, null));
+		actions.put("Delete", () -> deleteCells(row, column));
 		actions.put("Copy", () -> {tabularData.copy(column, row, column, row);});
 		actions.put("Paste", () -> {});
 		actions.put("Cut", () -> {tabularData.cut(column, row, column, row);});
 		return actions;
+	}
+
+	private void deleteCells(int row, int column) {
+		List<Selection> selections = selectionController.selections();
+		if (selections.isEmpty()) {
+			tabularData.setContent(row, column, null);
+		} else {
+			selections.stream().forEach(selection -> deleteCells(selection.getRange()));
+		}
+	}
+
+	private void deleteCells(TabularRange range) {
+		for (int row = range.fromRow; row < range.toRow; row++) {
+			for (int column = range.fromCol; column < range.toCol; column++) {
+				tabularData.setContent(row, column, null);
+			}
+
+		}
 	}
 
 	private Map<String, Runnable> rowItems(int row) {

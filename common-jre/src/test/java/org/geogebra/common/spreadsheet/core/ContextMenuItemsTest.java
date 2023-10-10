@@ -9,13 +9,33 @@ import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ContextMenuItemsTest {
 	private ContextMenuItems items;
-	private SpreadsheetSelectionController selectionController =
+	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
 	private TabularData<Object> data;
+
+	@Before
+	public void setUp() {
+		data = new TestTabularData();
+		fillTestData();
+		items = new ContextMenuItems(data, selectionController);
+	}
+
+	private void fillTestData() {
+		for (int column = 0; column < data.numberOfColumns(); column++) {
+			for (int row = 0; row < data.numberOfRows(); row++) {
+				data.setContent(row, column, cellData(row, column));
+			}
+		}
+	}
+
+	private static String cellData(int row, int column) {
+		return "cell" + row + column;
+	}
 
 	@Test
 	public void testCellMenuKeys() {
@@ -24,7 +44,6 @@ public class ContextMenuItemsTest {
 	}
 
 	private void testMenuKeys(int row, int column, String... keys) {
-		items = new ContextMenuItems(null, null);
 		Map<String, Runnable> map = items.get(row, column);
 		assertEquals(map.keySet(), Set.of(keys));
 	}
@@ -45,28 +64,29 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testDeleteCell() {
-		createTabularData();
-		items = new ContextMenuItems(data, null);
 		runItemAt(2, 1, "Delete");
 		assertNull(data.contentAt(2, 1));
 	}
 
-	private void createTabularData() {
-		data = new TestTabularData();
-		for (int column = 0; column < data.numberOfColumns(); column++) {
-			for (int row = 0; row < data.numberOfRows(); row++) {
-				data.setContent(row, column, "cell" + row + "" + column);
-			}
-		}
+	@Test
+	public void testDeleteSelectedCells() {
+		TabularRange range = new TabularRange(2, 4, 6, 8);
+		selectionController.select(new Selection(SelectionType.CELLS, range), false);
+		runItemAt(2, 4, "Delete");
+		checkRangeIsDeleted(range);
 	}
 
-	@Test
-	public void testDeleteSingleRow() {
-		createTabularData();
-		items = new ContextMenuItems(data, new SpreadsheetSelectionController());
-		assertEquals("cell40", data.contentAt(4, 0));
-		runItemAt(4, HEADER_INDEX, "ContextMenu.deleteRow");
-		assertEquals("cell50", data.contentAt(4, 0));
+	private void checkRangeIsDeleted(TabularRange range) {
+		int count = 0;
+		for (int row = range.fromRow; row < range.toRow; row++) {
+			for (int column = range.fromCol; column < range.toCol; column++) {
+				if (data.contentAt(row, column) == null) {
+					count++;
+				}
+			}
+		}
+		int allSelectedCells = (range.toRow - range.fromRow) * (range.toCol - range.fromCol);
+		assertEquals(allSelectedCells, count);
 	}
 
 	private void runItemAt(int row, int column, String menuItemKey) {
@@ -78,13 +98,16 @@ public class ContextMenuItemsTest {
 	}
 
 	@Test
-	public void testDeleteSelectedRows() {
-		createTabularData();
-		items = new ContextMenuItems(data, selectionController);
-		assertEquals("cell40", data.contentAt(4, 0));
-		selectRows(4, 6);
+	public void testDeleteSingleRow() {
 		runItemAt(4, HEADER_INDEX, "ContextMenu.deleteRow");
-		assertEquals("cell70", data.contentAt(4, 0));
+		checkRowReplaced(4, 5);
+	}
+
+	@Test
+	public void testDeleteSelectedRows() {
+		selectRows(3, 6);
+		runItemAt(3, HEADER_INDEX, "ContextMenu.deleteRow");
+		checkRowReplaced(3, 7);
 	}
 
 	private void selectRows(int fromRow, int toRow) {
@@ -93,23 +116,37 @@ public class ContextMenuItemsTest {
 				HEADER_INDEX, HEADER_INDEX)), false);
 	}
 
+	private void checkRowReplaced(int fromRow, int toRow) {
+		int count = 0;
+		for (int column = 0; column < data.numberOfColumns(); column++) {
+			if (data.contentAt(fromRow, column).equals(cellData(toRow, column))) {
+				count++;
+			}
+		}
+		assertEquals(data.numberOfColumns(), count);
+	}
+
 	@Test
 	public void testDeleteSingleColumn() {
-		createTabularData();
-		items = new ContextMenuItems(data, selectionController);
-		assertEquals("cell04", data.contentAt(0, 4));
 		runItemAt(HEADER_INDEX, 4, "ContextMenu.deleteColumn");
-		assertEquals("cell05", data.contentAt(0, 4));
+		checkColumnReplaced(4, 5);
+	}
+
+	private void checkColumnReplaced(int fromColumn, int toColumn) {
+		int count = 0;
+		for (int row = 0; row < data.numberOfRows(); row++) {
+			if (data.contentAt(row, fromColumn).equals(cellData(row, toColumn))) {
+				count++;
+			}
+		}
+		assertEquals(data.numberOfRows(), count);
 	}
 
 	@Test
 	public void testDeleteSelectedColumns() {
-		createTabularData();
-		items = new ContextMenuItems(data, selectionController);
-		assertEquals("cell04", data.contentAt(0, 4));
-		selectColumns(4, 6);
+		selectColumns(2, 6);
 		runItemAt(HEADER_INDEX, 4, "ContextMenu.deleteColumn");
-		assertEquals("cell07", data.contentAt(0, 4));
+		checkColumnReplaced(2, 7);
 	}
 
 	private void selectColumns(int fromColumn, int toColumn) {
@@ -119,8 +156,6 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertRowAbove() {
-		createTabularData();
-		items = new ContextMenuItems(data, selectionController);
 		runItemAt(5, HEADER_INDEX, "ContextMenu.insertRowAbove");
 		checkNewRowAt(5);
 	}
@@ -137,16 +172,12 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertRowBelow() {
-		createTabularData();
-		items = new ContextMenuItems(data, selectionController);
 		runItemAt(5, HEADER_INDEX, "ContextMenu.insertRowBelow");
 		checkNewRowAt(6);
 	}
 
 	@Test
 	public void testInsertColumnLeft() {
-		createTabularData();
-		items = new ContextMenuItems(data, selectionController);
 		runItemAt(HEADER_INDEX, 5,  "ContextMenu.insertColumnLeft");
 		checkNewColumnAt(5);
 	}
@@ -163,8 +194,6 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertColumnRight() {
-		createTabularData();
-		items = new ContextMenuItems(data, selectionController);
 		runItemAt(HEADER_INDEX, 5,  "ContextMenu.insertColumnRight");
 		checkNewColumnAt(6);
 	}
