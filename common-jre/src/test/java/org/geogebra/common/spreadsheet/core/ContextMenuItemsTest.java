@@ -117,4 +117,20 @@ public class ContextMenuItemsTest {
 		selectionController.select(new Selection(SelectionType.COLUMNS, new TabularRange(HEADER_INDEX,
 				HEADER_INDEX, fromColumn, toColumn)), false);
 	}
+
+	@Test
+	public void testInsertRowAbove() {
+		TabularData<Object> data = createTabularData();
+		items = new ContextMenuItems(data, selectionController);
+		runItemAt(5, HEADER_INDEX, "ContextMenu.insertRowAbove");
+		assertNull(data.contentAt(5, 0));
+	}
+
+	@Test
+	public void testInsertRowBelow() {
+		TabularData<Object> data = createTabularData();
+		items = new ContextMenuItems(data, selectionController);
+		runItemAt(5, HEADER_INDEX, "ContextMenu.insertRowBelow");
+		assertNull(data.contentAt(6, 0));
+	}
 }
