@@ -150,8 +150,9 @@ public class ContextMenuItemsTest {
 	}
 
 	private void selectColumns(int fromColumn, int toColumn) {
-		selectionController.select(new Selection(SelectionType.COLUMNS, new TabularRange(HEADER_INDEX,
-				HEADER_INDEX, fromColumn, toColumn)), false);
+		selectionController.select(new Selection(SelectionType.COLUMNS,
+				new TabularRange(HEADER_INDEX, HEADER_INDEX, fromColumn, toColumn)),
+				false);
 	}
 
 	@Test
