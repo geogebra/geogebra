@@ -150,4 +150,9 @@ public abstract class Analytics {
 			return value;
 		}
 	}
+
+	public static class ImageInputSource {
+		public static final String GALLERY = "gallery";
+		public static final String CAMERA = "camera";
+	}
 }
