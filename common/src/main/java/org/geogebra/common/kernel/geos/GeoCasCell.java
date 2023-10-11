@@ -1880,7 +1880,7 @@ public class GeoCasCell extends GeoElement
 			return false;
 		}
 
-		if (assignmentVar == null || assignmentVar.equals(PLOT_VAR)) {
+		if (assignmentVar == null || assignmentVar.equalsIgnoreCase(PLOT_VAR)) {
 			twinGeo.setLabel(null);
 		} else {
 			// allow GeoElement to get same label as CAS cell, so we temporarily
