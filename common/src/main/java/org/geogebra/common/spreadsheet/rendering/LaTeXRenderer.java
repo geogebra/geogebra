@@ -12,7 +12,8 @@ import com.himamis.retex.renderer.share.TeXIcon;
  */
 public final class LaTeXRenderer implements CellRenderer {
 	@Override
-	public void draw(Object data, GGraphics2D graphics, Rectangle cellBorder) {
+	public void draw(Object data, int fontStyle, int alignment,
+			GGraphics2D graphics, Rectangle cellBorder) {
 		graphics.setColor(GColor.BLACK);
 		((TeXIcon) data).paintIcon(() -> null, graphics.getGraphicsForLaTeX(),
 				cellBorder.getMinX(), cellBorder.getMinY());
@@ -21,5 +22,10 @@ public final class LaTeXRenderer implements CellRenderer {
 	@Override
 	public boolean match(Object renderable) {
 		return renderable instanceof TeXIcon;
+	}
+
+	@Override
+	public double measure(Object renderable, int fontStyle) {
+		return ((TeXIcon) renderable).getIconWidth();
 	}
 }

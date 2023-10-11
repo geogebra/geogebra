@@ -723,7 +723,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler()
 				.processXMLString(settings().cellFormat());
-
+		table.repaintAll();
 		// preferredSize
 		setPreferredSize(settings().preferredSize().getWidth(),
 				settings().preferredSize().getHeight());

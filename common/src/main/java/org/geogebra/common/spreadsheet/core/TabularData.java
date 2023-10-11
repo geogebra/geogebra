@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 
 /**
  * Interacting with the structure and contents of tabular data.
@@ -26,4 +27,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	void addChangeListener(TabularDataChangeListener listener);
 
 	String getEditableString(int row, int column);
+
+	CellFormat getFormat();
 }

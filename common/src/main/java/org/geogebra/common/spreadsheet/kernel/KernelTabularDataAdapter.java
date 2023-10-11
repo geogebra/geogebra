@@ -15,8 +15,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 
 /**
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
@@ -25,6 +27,17 @@ import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
+	private final CellFormat cellFormat;
+
+	/**
+	 * @param spreadsheetSettings spreadsheet settings
+	 */
+	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings) {
+		this.cellFormat = new CellFormat(null);
+		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
+		spreadsheetSettings.addListener((settings) ->
+				cellFormat.processXMLString(spreadsheetSettings.cellFormat()));
+	}
 
 	@Override
 	public void updateLocation(GeoElement geo) {
@@ -191,5 +204,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		return data != null
 				? data.getLaTeXDescriptionRHS(false,
 				StringTemplate.editorTemplate) : "";
+	}
+
+	@Override
+	public CellFormat getFormat() {
+		return cellFormat;
 	}
 }

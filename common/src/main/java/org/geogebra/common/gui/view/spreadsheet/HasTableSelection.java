@@ -6,6 +6,4 @@ public interface HasTableSelection {
 	void updateCellFormat(String cellFormatString);
 
 	void repaint();
-
-	void repaintAll();
 }

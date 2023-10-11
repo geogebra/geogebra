@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.spreadsheet;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 
 public interface MyTableInterface extends HasTableSelection {
 
@@ -30,5 +31,7 @@ public interface MyTableInterface extends HasTableSelection {
 	public CellRangeProcessor getCellRangeProcessor();
 
 	public void updateTableCellValue(Object value, int row, int column);
+
+	public void repaintAll();
 
 }

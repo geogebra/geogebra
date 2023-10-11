@@ -1,0 +1,64 @@
+package org.geogebra.common.spreadsheet.style;
+
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
+
+public final class SpreadsheetStyle {
+
+	private final CellFormat format;
+
+	public SpreadsheetStyle(CellFormat format) {
+		this.format = format;
+	}
+
+	private boolean showGrid = true;
+
+	public boolean isShowGrid() {
+		return showGrid;
+	}
+
+	public void setShowGrid(boolean showGrid) {
+		this.showGrid = showGrid;
+	}
+
+	public GColor getTextColor() {
+		return GColor.newColor(0, 0, 0, 0.87);
+	}
+
+	/**
+	 * @param row cell row
+	 * @param column cell column
+	 * @return whether to show border for given cell
+	 */
+	public boolean showBorder(int row, int column) {
+		Byte border = (Byte) format.getCellFormat(column, row, CellFormat.FORMAT_BORDER);
+		return border != null && border != 0;
+	}
+
+	/**
+	 * @param row cell row
+	 * @param column cell column
+	 * @return font style of given cell (see {@link GFont#getStyle()})
+	 */
+	public Integer getFontStyle(int row, int column) {
+		return (Integer) format.getCellFormat(column, row, CellFormat.FORMAT_FONTSTYLE);
+	}
+
+	/**
+	 * @param row cell row
+	 * @param column cell column
+	 * @param fallback color to use if no background set
+	 * @return background color of given cell
+	 */
+	public GColor getBackgroundColor(int row, int column, GColor fallback) {
+		GColor bgColor = (GColor) format.getCellFormat(column, row,
+				CellFormat.FORMAT_BGCOLOR);
+		return bgColor == null ? fallback : bgColor;
+	}
+
+	public Integer getAlignment(int row, int column) {
+		return (Integer) format.getCellFormat(column, row, CellFormat.FORMAT_ALIGN);
+	}
+
+	// grid lines, colors, fonts
+}

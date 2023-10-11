@@ -1,4 +1,4 @@
-package org.geogebra.common.gui.view.spreadsheet;
+package org.geogebra.common.spreadsheet.style;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,9 @@ import java.util.HashSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor.Direction;
+import org.geogebra.common.gui.view.spreadsheet.CellSelection;
+import org.geogebra.common.gui.view.spreadsheet.HasTableSelection;
+import org.geogebra.common.spreadsheet.core.Direction;
 
 /**
  * Helper class that handles cell formats for the spreadsheet table cell
@@ -26,7 +28,6 @@ import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor.Direction;
 public class CellFormat implements CellFormatInterface {
 
 	HasTableSelection table;
-	//App app;
 
 	private int highestIndexRow = 0;
 	private int highestIndexColumn = 0;
@@ -99,7 +100,7 @@ public class CellFormat implements CellFormatInterface {
 	 * @param table
 	 *            table
 	 */
-	public CellFormat(MyTableInterface table) {
+	public CellFormat(HasTableSelection table) {
 		this.table = table;
 
 		// Create instances of the format hash maps
@@ -180,7 +181,7 @@ public class CellFormat implements CellFormatInterface {
 	 */
 	@Override
 	public void shiftFormats(int startIndex, int shiftAmount,
-			CellRangeProcessor.Direction direction) {
+			Direction direction) {
 
 		if (startIndex - shiftAmount < 0) {
 			return;
@@ -531,9 +532,9 @@ public class CellFormat implements CellFormatInterface {
 
 		setCellFormatString();
 		if (table != null) {
+			table.updateCellFormat(cellFormatString);
 			table.repaint();
 		}
-
 	}
 
 	private void doSetFormat(ArrayList<CellSelection> crList, int formatType,
@@ -625,10 +626,6 @@ public class CellFormat implements CellFormatInterface {
 			cellFormatString = null;
 		} else {
 			cellFormatString = sb.toString();
-		}
-
-		if (table != null) {
-			table.updateCellFormat(cellFormatString);
 		}
 	}
 
@@ -1065,8 +1062,9 @@ public class CellFormat implements CellFormatInterface {
 			}
 		}
 		setCellFormatString();
-		table.repaintAll();
-
+		if (table != null) {
+			table.updateCellFormat(cellFormatString);
+		}
 	}
 
 	/**

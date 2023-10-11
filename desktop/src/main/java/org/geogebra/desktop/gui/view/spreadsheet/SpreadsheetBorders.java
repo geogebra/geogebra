@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.desktop.awt.GColorD;
 
 /**

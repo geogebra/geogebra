@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 
 public class TestTabularData implements TabularData<Object> {
 
@@ -89,5 +90,10 @@ public class TestTabularData implements TabularData<Object> {
 	@Override
 	public String getEditableString(int row, int column) {
 		return String.valueOf(contentAt(row, column));
+	}
+
+	@Override
+	public CellFormat getFormat() {
+		return new CellFormat(null);
 	}
 }
