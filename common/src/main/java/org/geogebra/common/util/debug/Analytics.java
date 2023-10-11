@@ -69,6 +69,7 @@ public abstract class Analytics {
 		public static final String SEARCH = "search";
 		public static final String TOOL_SELECTED = "tool_selected";
 		public static final String KEYBOARD = "keyboard";
+		public static final String INSERT_IMAGE = "insert_image";
 
 		private Event() {
 		}
