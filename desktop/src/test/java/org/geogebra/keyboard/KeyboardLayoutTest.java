@@ -55,7 +55,7 @@ public class KeyboardLayoutTest {
 			String[] rows = latinProvider.getLowerKeys();
 			List<Integer> lengths = Arrays.stream(rows).map(String::length)
 					.collect(Collectors.toList());
-			switch (lang.locale) {
+			switch (lang.toLanguageTag()) {
 			case "ne":
 				assertThat(lengths, is(Arrays.asList(18, 16, 14)));
 				break;
@@ -66,7 +66,7 @@ public class KeyboardLayoutTest {
 				assertThat(lengths, is(Arrays.asList(12, 14, 10)));
 				break;
 			default:
-				String loc = " (" + lang.locale + ")";
+				String loc = " (" + lang.toLanguageTag() + ")";
 				// 13 used for Icelandic, Thai and Yiddish
 				assertThat(rows[0] + loc, lengths.get(0), lessThanOrEqualTo(13));
 				assertThat(rows[1] + loc, lengths.get(1), lessThanOrEqualTo(lengths.get(0)));

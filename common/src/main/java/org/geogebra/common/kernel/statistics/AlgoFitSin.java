@@ -193,8 +193,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				expr);
 		Function f = new Function(node, X);
 		geofunction.setFunction(f);
-		geofunction.setDefined(MyDouble.isFinite(a) && MyDouble.isFinite(b)
-				&& MyDouble.isFinite(c) && MyDouble.isFinite(d));
+		geofunction.setDefined(Double.isFinite(a) && Double.isFinite(b)
+				&& Double.isFinite(c) && Double.isFinite(d));
 	}
 
 	// / ============= IMPLEMENTATION

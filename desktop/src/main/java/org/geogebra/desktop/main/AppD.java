@@ -161,6 +161,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.Log.LogDestination;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -2007,15 +2008,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return locale
 	 */
 	public static Locale getLocale(String languageISOCode) {
-		return Locale.forLanguageTag(languageISOCode);
+		Language lang = Language.fromLanguageTagOrLocaleString(languageISOCode);
+		return Locale.forLanguageTag(lang.toLanguageTag());
 	}
 
 	@Override
-	public void setTooltipLanguage(String s) {
+	public void setTooltipLanguage(String tagOrLocale) {
 
-		boolean updateNeeded = loc.setTooltipLanguage(s);
+		boolean updateNeeded = loc.setTooltipLanguage(tagOrLocale);
 
-		updateNeeded = updateNeeded || (loc.getTooltipLocale() != null);
+		updateNeeded = updateNeeded || (loc.getTooltipLanguage() != null);
 
 		if (updateNeeded) {
 			setLabels(); // update eg Tooltips for Toolbar
@@ -2042,18 +2044,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void setLanguage(String s) {
-		String[] parts = s.split("_");
-		String language = parts[0];
-		String country = parts.length > 1 ? parts[1] : null;
-		Locale locale = null;
-		if (language != null) {
-			if (country != null) {
-				locale = new Locale(language, country);
-			} else {
-				locale = new Locale(language);
-			}
-		}
-		setLocale(locale);
+		setLocale(getLocale(s));
 	}
 
 	/**
@@ -2102,7 +2093,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// update font for new language (needed for e.g. chinese)
 		try {
-			fontManager.setLanguage(loc.getLocale());
+			fontManager.setLanguage(loc);
 		} catch (Exception e) {
 			showGenericError(e);
 
@@ -2686,7 +2677,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public String getToolTooltipHTML(int mode) {
 
-		if (loc.getTooltipLocale() != null) {
+		if (loc.getTooltipLanguage() != null) {
 			loc.setTooltipFlag();
 		}
 
