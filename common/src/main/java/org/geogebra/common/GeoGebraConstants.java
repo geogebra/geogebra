@@ -17,10 +17,6 @@ public interface GeoGebraConstants {
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
-	/** Download update **/
-	public static final String DOWNLOAD_PACKAGE_WIN =
-			"https://download.geogebra.org/package/win";
-
 	/** App versions */
 	enum Version {
 		CAS,
@@ -179,9 +175,6 @@ public interface GeoGebraConstants {
 	/** XSD for ggt (macro) files */
 	public static final String GGT_XSD_FILENAME = "ggt.xsd";
 	// URLs
-	/** URL of GeoGebraWeb main js file (offline version) */
-	// public static final String GEOGEBRA_HTML5_BASE_OFFLINE =
-	// "web/web.nocache.js";
 	/** URL of GeoGebra jars */
 	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "https://jars.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
@@ -201,11 +194,8 @@ public interface GeoGebraConstants {
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
-	public final static String TUBE_URL_SHORT = "https://ggbm.at/";
-	public final static String GEOGEBRA_HELP_WEBSITE = "https://help.geogebra.org/";
+	String GEOGEBRA_HELP_WEBSITE = "https://wiki.geogebra.org/help/";
 
-	/** max possible heap space for applets in MB */
-	public final static int MAX_HEAP_SPACE = 1024;
 	/**
 	 * minimal precision in LocusEquation: by default rounding is at least 4
 	 * decimals (this changes dynamically when zooming in)
@@ -216,9 +206,6 @@ public interface GeoGebraConstants {
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	/** mimetype of GGB files */
 	public static final String GGW_MIME_TYPE = "application/vnd.geogebra.file";
-
-	/** Splash timeout in miliseconds */
-	public static final int SPLASH_DIALOG_DELAY = 1000;
 
 	/** license URL */
 	public static final String GGB_LICENSE_URL = "https://www.geogebra.org/license";
@@ -264,8 +251,6 @@ public interface GeoGebraConstants {
 	public static final String FORUM_URL = "https://www.reddit.com/r/geogebra/";
 
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
-
-	public static final String CDN_APPS = "https://cdn.geogebra.org/apps/";
 
 	/**
 	 * Get the version string for versions 6.0.*
