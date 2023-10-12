@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.toolbar;
 
-import java.awt.Component;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -93,11 +91,6 @@ public class ToolbarD extends JToolBar {
 
 		// create toolbar
 		removeAll();
-
-		// use specific layout for 3D inputs requiring huge GUI
-		if (app.useHugeGuiForInput3D()) {
-			setLayout(new GridLayout(0, 2));
-		}
 
 		setAlignmentX(LEFT_ALIGNMENT);
 
@@ -208,8 +201,6 @@ public class ToolbarD extends JToolBar {
 		int increment = app.getLocalization().isRightToLeftReadingOrder() ? -1
 				: 1;
 
-		beginAdd();
-
 		// for (int i = 0; i < toolbarVec.size(); i++) {
 		for (int i = first; i >= 0 && i < toolbarVec.size(); i += increment) {
 			ToolbarItem ob = toolbarVec.get(i);
@@ -241,43 +232,6 @@ public class ToolbarD extends JToolBar {
 			if (tm.getToolsCount() > 0) {
 				add(tm);
 			}
-		}
-
-		endAdd();
-
-	}
-
-	private ArrayList<Component> componentsToAdd;
-
-	private void beginAdd() {
-		if (app.useHugeGuiForInput3D()) {
-			if (componentsToAdd == null) {
-				componentsToAdd = new ArrayList<>();
-			}
-		}
-	}
-
-	@Override
-	public Component add(Component c) {
-		if (app.useHugeGuiForInput3D()) {
-			componentsToAdd.add(c);
-			return c;
-		}
-
-		return super.add(c);
-	}
-
-	private void endAdd() {
-		if (app.useHugeGuiForInput3D()) {
-			int size = componentsToAdd.size();
-			int halfSize = size / 2;
-			for (int i = 0; i < halfSize; i++) {
-				super.add(componentsToAdd.get(i));
-				if (halfSize + i < size) {
-					super.add(componentsToAdd.get(halfSize + i));
-				}
-			}
-			componentsToAdd.clear();
 		}
 	}
 

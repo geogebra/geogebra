@@ -845,7 +845,7 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @return text layout
 	 */
-	public static GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
+	public static @CheckForNull GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}

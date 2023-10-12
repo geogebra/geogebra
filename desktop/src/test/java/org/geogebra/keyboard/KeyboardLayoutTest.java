@@ -36,11 +36,11 @@ public class KeyboardLayoutTest {
 		}
 
 		assertEquals("∞,≟,≠,∧,∨,→,¬,⊗,∥,⟂,∈,⊂,⊆,∠,FLOOR,CEIL,[,],:,&,@,#,"
-						+ "Translate.currency,BACKSPACE_DELETE,,,',\",′,"
+						+ "Translate.currency,BACKSPACE_DELETE,;,',\",′,"
 						+ "″,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
 				resources.toString());
 		assertEquals("∞,≟,≠,∧,∨,→,¬,⊗,∥,⟂,∈,⊂,⊆,∠,⌊,⌈,[,],:,&,@,#,Translate.currency,"
-						+ "BACKSPACE_DELETE,,,',\",′,″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
+						+ "BACKSPACE_DELETE,;,',\",′,″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
 				actions.toString());
 	}
 

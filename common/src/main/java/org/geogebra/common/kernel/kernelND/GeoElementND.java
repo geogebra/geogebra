@@ -1669,4 +1669,12 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	String getStyleXML();
 
 	ExtendedBoolean isEqualExtended(GeoElementND geoPolygon);
+
+	/**
+	 * @param algoElement
+	 *            algorithm responsible for computation of this object
+	 */
+	void setParentAlgorithm(AlgoElement algoElement);
+
+	void setConstruction(Construction cons);
 }

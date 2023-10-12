@@ -423,7 +423,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void setFunctionVariables() {
-		if (!fVars.isEmpty() || !SymbolicUtil.isValueDefined(this)) {
+		if (!fVars.isEmpty() || SymbolicUtil.containsUndefinedOrIsEmpty(this)) {
 			return;
 		}
 		Iterable<FunctionVariable> variables = computeFunctionVariables();
@@ -1075,6 +1075,11 @@ public class GeoSymbolic extends GeoElement
 				sb.append(label);
 				sb.append(": ");
 			}
+		} else if (label != null && unwrapped instanceof Function) {
+			sb.append(label);
+			sb.append("(");
+			sb.append(((Function) unwrapped).getFunctionVariable());
+			sb.append(") = ");
 		}
 		super.getDefinitionXML(sb);
 	}

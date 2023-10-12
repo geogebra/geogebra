@@ -18,32 +18,23 @@ import org.geogebra.common.kernel.statistics.AlgoInversePoisson;
 import org.geogebra.common.kernel.statistics.AlgoPoisson;
 import org.geogebra.common.plugin.Operation;
 
-public class PoissonDistribution implements DiscreteDistribution {
+public class PoissonDistribution extends CachingDiscreteDistribution {
 
-	private final Kernel kernel;
-	private final GeoNumeric k;
-	private DiscreteProbability discreteProbability;
 	private final Construction cons;
-	private DistributionParameters oldParameters;
+	private final Kernel kernel;
 
 	/**
 	 *
 	 * @param cons the construction.
 	 */
 	public PoissonDistribution(Construction cons) {
-		k = new GeoNumeric(cons);
 		this.cons = cons;
 		kernel = cons.getKernel();
 	}
 
 	@Override
-	public DiscreteProbability create(DistributionParameters parameters) {
-		if (parameters.equals(oldParameters)) {
-			return discreteProbability;
-		}
-
+	protected DiscreteProbability createProbability(DistributionParameters parameters) {
 		GeoNumberValue meanGeo = parameters.at(0);
-		oldParameters = parameters;
 
 		AlgoInversePoisson maxSequenceValue = new AlgoInversePoisson(cons,
 				meanGeo, new GeoNumeric(cons, nearlyOne));
@@ -55,6 +46,7 @@ public class PoissonDistribution implements DiscreteDistribution {
 		cons.removeFromAlgorithmList(algoSeq);
 		GeoList values = (GeoList) algoSeq.getOutput(0);
 
+		GeoNumeric k = new GeoNumeric(cons);
 		AlgoListElement algo = new AlgoListElement(cons, values, k);
 		cons.removeFromConstructionList(algo);
 
@@ -74,15 +66,6 @@ public class PoissonDistribution implements DiscreteDistribution {
 		cons.removeFromConstructionList(algoSeq2);
 
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);
-		this.discreteProbability = new DiscreteProbability(values, probs);
-		return discreteProbability;
-	}
-
-	public GeoList probs() {
-		return discreteProbability.probabilities();
-	}
-
-	public GeoList values() {
-		return discreteProbability.values();
+		return new DiscreteProbability(values, probs);
 	}
 }

@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.bridge;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.gwtproject.dom.client.Element;
 
@@ -19,28 +20,29 @@ public class MapAttributeProvider implements AttributeProvider {
 		if (map != null) {
 			element = Js.uncheckedCast(map.get("element"));
 			map.delete("element");
-			map.forEach(key -> this.map.put(key, map.getAsAny(key).asString()));
+			map.forEach(key -> setAttribute(key,
+					map.getAsAny(key).asString()));
 		}
 	}
 
 	@Override
 	public String getAttribute(String attribute) {
-		return map.get(attribute);
+		return map.get(attribute.toLowerCase(Locale.US));
 	}
 
 	@Override
 	public boolean hasAttribute(String attribute) {
-		return map.containsKey(attribute);
+		return map.containsKey(attribute.toLowerCase(Locale.US));
 	}
 
 	@Override
 	public void removeAttribute(String attribute) {
-		map.remove(attribute);
+		map.remove(attribute.toLowerCase(Locale.US));
 	}
 
 	@Override
 	public void setAttribute(String attribute, String value) {
-		map.put(attribute, value);
+		map.put(attribute.toLowerCase(Locale.US), value);
 	}
 
 	@Override

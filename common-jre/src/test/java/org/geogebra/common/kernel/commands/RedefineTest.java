@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -39,6 +40,7 @@ import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -625,5 +627,41 @@ public class RedefineTest extends BaseUnitTest {
 						Unicode.beta, Unicode.gamma, Unicode.delta, Unicode.epsilon},
 				Arrays.stream(getApp().getGgbApi().getAllObjectNames())
 						.mapToInt(s -> s.charAt(0)).toArray());
+	}
+
+	@Test
+	public void absPositionShouldSurviveRedefine() throws CircularDefinitionException {
+		GeoText text = add("text=\"foo\"");
+		add("a=3");
+		text.setAbsoluteScreenLocActive(true);
+		text.setStartPoint(getKernel().getAlgebraProcessor().evaluateToPoint("(a, 4)",
+				TestErrorHandler.INSTANCE, false));
+		add("text=a+\"foo\"");
+		assertThat(((GeoText) lookup("text")).getStartPoint()
+				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+	}
+
+	@Test
+	public void absPositionStaticTextShouldSurviveRedefine() throws CircularDefinitionException {
+		GeoText text = add("text=\"foo\"");
+		text.setAbsoluteScreenLocActive(true);
+		text.setAbsoluteScreenLoc(200, 300);
+		add("text=a+\"foo\"");
+		GeoText modifiedText = (GeoText) lookup("text");
+		assertEquals(modifiedText.getStartPoint(), null);
+		assertThat(modifiedText.getAbsoluteScreenLocX(), is(200));
+		assertThat(modifiedText.getAbsoluteScreenLocY(), is(300));
+	}
+
+	@Test
+	public void realWorldPositionShouldSurviveRedefine() throws CircularDefinitionException {
+		GeoText text = add("text=\"foo\"");
+		add("a=3");
+		text.setAbsoluteScreenLocActive(false);
+		text.setStartPoint(getKernel().getAlgebraProcessor().evaluateToPoint("(a, 4)",
+				TestErrorHandler.INSTANCE, false));
+		add("text=a+\"foo\"");
+		assertThat(((GeoText) lookup("text")).getStartPoint()
+				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
 	}
 }

@@ -39,8 +39,7 @@
     function toggleFullscreen() {
         try {
             // the CSS class is defined in https://git.geogebra.org/mow/mow-front/blob/master/app.php
-            window.parent.$(window.parent.document.body).toggleClass(
-                "fullscreen-app");
+            window.parent.document.body.classList.toggle("fullscreen-app");
         } catch (ex) {
             // possibly the Mebis iframe is embedded in some non-standard page
             window.console.log(ex);
@@ -51,13 +50,10 @@
         try {
             if (window.parent && window.parent.login) {
                 window.parent.login();
-                return true;
             }
-            return false;
         } catch (ex) {
-            //running in CORS iframe
+            console.log("Cannot login from this frame");
         }
-        return false;
     }
 
     function ggbMultiplayerChange(users) {
@@ -66,6 +62,11 @@
 
     function isEmbed() {
         return false;
+    }
+    const accessToken = window.accessToken
+        || (window.parent.document.body && window.parent.document.body.getAttribute("data-accessToken"));
+    if (accessToken) {
+       sessionStorage.setItem("token", accessToken);
     }
 </script>
 <style>

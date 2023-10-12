@@ -9,7 +9,6 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.main.AppD;
@@ -23,7 +22,6 @@ class HelpMenuD extends BaseMenu {
 
 	private AbstractAction helpAction;
 	private AbstractAction tutorialAction;
-	private AbstractAction input3DTutorialAction;
 	private AbstractAction forumAction;
 	private AbstractAction infoAction;
 	private AbstractAction reportBugAction;
@@ -49,9 +47,6 @@ class HelpMenuD extends BaseMenu {
 		removeAll();
 
 		add(tutorialAction);
-		if (input3DTutorialAction != null) {
-			add(input3DTutorialAction);
-		}
 		JMenuItem mi = add(helpAction);
 		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
 		mi.setAccelerator(ks);
@@ -91,21 +86,6 @@ class HelpMenuD extends BaseMenu {
 							.getTutorialURL(app.getConfig()));
 				}
 			};
-
-			if (app.getInput3DType().equals(Input3DConstants.PREFS_REALSENSE)) {
-				input3DTutorialAction = new AbstractAction(
-						loc.getMenu("RealSense.Tutorial"), app.getEmptyIcon()) {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						app.getGuiManager()
-								.showURLinBrowser(App.REALSENSE_TUTORIAL);
-					}
-				};
-			} else {
-				input3DTutorialAction = null;
-			}
 
 			reportBugAction = new AbstractAction(loc.getMenu("ReportBug"),
 					app.getEmptyIcon()) {

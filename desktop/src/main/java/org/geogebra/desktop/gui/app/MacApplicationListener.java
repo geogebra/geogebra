@@ -1,5 +1,17 @@
 package org.geogebra.desktop.gui.app;
 
+import java.awt.Desktop;
+import java.awt.desktop.AboutEvent;
+import java.awt.desktop.AboutHandler;
+import java.awt.desktop.FilesEvent;
+import java.awt.desktop.OpenFilesEvent;
+import java.awt.desktop.OpenFilesHandler;
+import java.awt.desktop.PrintFilesEvent;
+import java.awt.desktop.PrintFilesHandler;
+import java.awt.desktop.QuitEvent;
+import java.awt.desktop.QuitHandler;
+import java.awt.desktop.QuitResponse;
+import java.awt.desktop.SystemEventListener;
 import java.io.File;
 
 import org.geogebra.common.util.debug.Log;
@@ -8,15 +20,19 @@ import org.geogebra.desktop.main.AppD;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class MacApplicationListener
-		implements com.apple.eawt.ApplicationListener {
+public class MacApplicationListener implements QuitHandler, AboutHandler, OpenFilesHandler,
+		SystemEventListener, PrintFilesHandler {
 
 	/**
 	 * Initialize the listener
 	 */
-	public static void initMacApplicationListener() {
-		com.apple.eawt.Application app = new com.apple.eawt.Application();
-		app.addApplicationListener(new MacApplicationListener());
+	public void initMacApplicationListener() {
+		Desktop desktop = Desktop.getDesktop();
+		desktop.setQuitHandler(this);
+		desktop.setAboutHandler(this);
+		desktop.setOpenFileHandler(this);
+		desktop.setPrintFileHandler(this);
+		desktop.addAppEventListener(this);
 	}
 
 	/**
@@ -42,90 +58,55 @@ public class MacApplicationListener
 	}
 
 	@Override
-	public synchronized void handleQuit(com.apple.eawt.ApplicationEvent ev) {
+	public void handleQuitRequestWith(QuitEvent e, QuitResponse response) {
 		// quit all frames
 		AppD app = getGGBInstance().getApplication();
 		app.exitAll();
 	}
 
 	@Override
-	public synchronized void handleAbout(
-			com.apple.eawt.ApplicationEvent event) {
-		event.setHandled(true);
+	public void handleAbout(AboutEvent e) {
 		AppD app = getGGBInstance().getApplication();
 		((GuiManagerD) app.getGuiManager()).showAboutDialog();
 	}
 
 	@Override
-	public synchronized void handleOpenFile(
-			com.apple.eawt.ApplicationEvent ev) {
-		Log.debug("handleOpenFile event, filename: " + ev.getFilename());
+	public void openFiles(OpenFilesEvent ev) {
+		Log.debug("handleOpenFile event, filenames: " + ev.getFiles());
 
+		openFirstFile(ev);
+
+	}
+
+	private void openFirstFile(FilesEvent ev) {
 		// open file
-		String fileName = ev.getFilename();
+		File openFile = ev.getFiles().isEmpty() ? null : ev.getFiles().get(0);
 
-		if (fileName != null) {
-			File openFile = new File(fileName);
-			if (openFile.exists()) {
-				// get application instance
-				GeoGebraFrame ggb = getGGBInstance();
-				AppD app = ggb.getApplication();
+		if (openFile != null && openFile.exists()) {
+			// get application instance
+			GeoGebraFrame ggb = getGGBInstance();
+			AppD app = ggb.getApplication();
 
-				// open file
-				File[] files = { openFile };
-				// #1541
-				boolean openInThisWindow = app.isSaved();
-				((GuiManagerD) app.getGuiManager()).doOpenFiles(files,
-						openInThisWindow);
+			// open file
+			File[] files = { openFile };
+			// #1541
+			boolean openInThisWindow = app.isSaved();
+			((GuiManagerD) app.getGuiManager()).doOpenFiles(files,
+					openInThisWindow);
 
-				// make sure window is visible
-				if (openInThisWindow) {
-					ggb.setVisible(true);
-				}
+			// make sure window is visible
+			if (openInThisWindow) {
+				ggb.setVisible(true);
 			}
 		}
 	}
 
 	@Override
-	public synchronized void handlePrintFile(
-			com.apple.eawt.ApplicationEvent event) {
-		Log.debug("handlePrintFile event, filename: " + event.getFilename());
+	public void printFiles(PrintFilesEvent event) {
+		Log.debug("handlePrintFile event, filename: " + event.getFiles());
 
-		handleOpenFile(event);
+		openFirstFile(event);
 		((GuiManagerD) getGGBInstance().getApplication().getGuiManager())
 				.showPrintPreview();
 	}
-
-	@Override
-	public synchronized void handleOpenApplication(
-			com.apple.eawt.ApplicationEvent ev) {
-		Log.debug("handleOpenApplication event, filename: " + ev.getFilename());
-
-		// open file
-		String fileName = ev.getFilename();
-		if (fileName != null) {
-			handleOpenFile(ev);
-		} else {
-			GeoGebraFrame
-					.doWithActiveInstance(wnd -> {
-						if (!wnd.isShowing()) {
-							wnd.setVisible(true);
-						}
-					});
-		}
-	}
-
-	@Override
-	public synchronized void handlePreferences(
-			com.apple.eawt.ApplicationEvent arg0) {
-		Log.debug("handlePreferences event, filename: " + arg0.getFilename());
-	}
-
-	@Override
-	public synchronized void handleReOpenApplication(
-			com.apple.eawt.ApplicationEvent arg0) {
-		Log.debug("handleReOpenApplication event, filename: "
-				+ arg0.getFilename());
-	}
-
 }

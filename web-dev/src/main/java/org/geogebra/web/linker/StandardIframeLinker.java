@@ -48,6 +48,10 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 				+ ".nocache.js", lastModified);
 	}
 
+	protected String getJsInstallScript(LinkerContext context) {
+		return "org/geogebra/web/linker/installScriptDirect.js";
+	}
+
 	protected String generateSelectionScriptModule(TreeLogger logger,
 			LinkerContext context, ArtifactSet artifacts)
 			throws UnableToCompleteException {

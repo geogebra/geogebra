@@ -254,12 +254,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		int iconSize = (int) Math.round(app.getScaledIconSize() * 0.75);
 
-		// magnify size for some 3D inputs
-		if (iconSize < AppD.HUGE_UNDO_BUTTON_SIZE
-				&& app.useHugeGuiForInput3D()) {
-			iconSize = AppD.HUGE_UNDO_BUTTON_SIZE;
-		}
-
 		// undo button
 
 		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager())
