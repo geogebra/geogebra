@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 $header_shadow:
 	0 4px 5px 0 colors.$black-14,
@@ -50,12 +51,12 @@ $button_hover_transition: background-color 0.15s;
 			min-width: fit-content;
 			border-radius: 2px;
 			cursor: pointer;
-			color: black;
-			opacity: 0.87;
+			color: neutral(900);
+			background: transparent;
+			transition: background-color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 			&:hover{
-				opacity: 0.87;
-				background-color: colors.$hover-calc-btn-bg;
+				background-color: neutral(200);
 			}
 		}
 
@@ -74,14 +75,7 @@ $button_hover_transition: background-color 0.15s;
 	}
 
 	.signInIcon {
-		opacity: 0.54;
-		margin-left: 8px;
-		padding: 12px;
-		cursor: pointer;
-
-		&:hover{
-			opacity: 1;
-		}
+		margin: 6px 8px;
 	}
 
 	%compactHeaderViewShared {
