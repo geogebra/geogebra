@@ -3685,11 +3685,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setAxesLabels(String[] axesLabels) {
-		this.axesLabels = axesLabels;
-		for (int i = 0; i < 3; i++) {
-			if (axesLabels[i] != null && axesLabels[i].length() == 0) {
-				axesLabels[i] = null;
-			}
+		for (int i = 0; i < axesLabels.length; i++) {
+			setAxisLabel(i, axesLabels[i]);
 		}
 	}
 
