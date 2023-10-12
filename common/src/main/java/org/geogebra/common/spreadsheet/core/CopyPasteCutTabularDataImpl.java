@@ -21,8 +21,8 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 	private void copyToBuffer(TabularRange range, StringBuilder sb) {
-		for (int row = range.fromRow; row < range.toRow; row++) {
-			for (int column = range.fromCol; column < range.toCol; column++) {
+		for (int row = range.fromRow; row < range.toRow + 1; row++) {
+			for (int column = range.fromCol; column < range.toCol + 1; column++) {
 				Object value = tabularData.contentAt(row, column);
 				sb.append(value);
 				if (column != range.toCol) {

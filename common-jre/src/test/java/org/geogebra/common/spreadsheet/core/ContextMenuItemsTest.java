@@ -19,14 +19,13 @@ public class ContextMenuItemsTest {
 			new SpreadsheetSelectionController();
 	private TabularData<Object> data;
 	private TestClipboard clipboard;
-	private CopyPasteCutTabularDataImpl copyPasteCut;
 
 	@Before
 	public void setUp() {
 		data = new TestTabularData();
 		fillTestData();
 		clipboard = new TestClipboard();
-		copyPasteCut = new CopyPasteCutTabularDataImpl(data, clipboard);
+		CopyPasteCutTabularDataImpl copyPasteCut = new CopyPasteCutTabularDataImpl(data, clipboard);
 		items = new ContextMenuItems(data, selectionController, copyPasteCut);
 	}
 
@@ -202,5 +201,26 @@ public class ContextMenuItemsTest {
 	public void testInsertColumnRight() {
 		runItemAt(HEADER_INDEX, 5,  "ContextMenu.insertColumnRight");
 		checkNewColumnAt(6);
+	}
+
+	@Test
+	public void testCopySingleCell() {
+		runItemAt(1, 1, "Copy");
+		assertEquals("cell11", clipboard.getContent());
+	}
+
+	@Test
+	public void testCopyCellSelection() {
+		selectCells(1, 4,1, 2);
+		runItemAt(1, 1, "Copy");
+		assertEquals("cell11\tcell12\tcell21\tcell22\tcell31\tcell32\tcell41\tcell42",
+				clipboard.getContent());
+	}
+
+
+	private void selectCells(int fromRow, int toRow, int fromColumn, int toColumn) {
+		selectionController.select(new Selection(SelectionType.COLUMNS,
+						new TabularRange(fromRow, toRow, fromColumn, toColumn)),
+				false);
 	}
 }

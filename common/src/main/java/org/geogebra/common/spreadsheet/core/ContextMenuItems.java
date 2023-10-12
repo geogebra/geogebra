@@ -42,12 +42,22 @@ public class ContextMenuItems {
 	private Map<String, Runnable> cellItems(int row, int column) {
 		HashMap<String, Runnable> actions = new HashMap<>();
 		actions.put("Delete", () -> deleteCells(row, column));
-		actions.put("Copy", () -> copyPasteCut.copy(new TabularRange(row, column, row, column),
-				""));
+		actions.put("Copy", () -> copyCells(row, column));
 		actions.put("Paste", () -> {});
 		actions.put("Cut", () -> copyPasteCut.cut(new TabularRange(row, column, row, column),
 				""));
 		return actions;
+	}
+
+	private void copyCells(int row, int column) {
+		List<Selection> selections = selectionController.selections();
+		if (selections.isEmpty()) {
+			copyPasteCut.copy(new TabularRange(row, column, row, column), "");
+		} else {
+			for (Selection selection: selections) {
+				copyPasteCut.copy(selection.getRange(), "");
+			}
+		}
 	}
 
 	private void deleteCells(int row, int column) {
