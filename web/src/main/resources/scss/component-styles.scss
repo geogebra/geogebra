@@ -791,7 +791,7 @@
 	.searchBar {
 		display: inline-flex;
 		height: 44px;
-		width: 100%;
+		flex-grow: 1;
 		max-width: 720px;
 		background-color: neutral(200);
 		margin: 10px auto;

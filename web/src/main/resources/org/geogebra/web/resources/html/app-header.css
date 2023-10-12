@@ -76,9 +76,10 @@
 .GeoGebraFrame .buttons {
 	position: absolute;
     top: 0px;
-    right: 16px;
+    right: 12px;
     display: flex;
     min-height: 48px;
+    align-items: center;
 }
 
 .GeoGebraFrame button {
@@ -93,7 +94,11 @@
 }
 
 .GeoGebraFrame .shareBtn {
-    margin: 14px 12px 14px 0;
+    margin: 6px;
+}
+
+.GeoGebraFrame .dialogContainedButton.assignBtn {
+    margin: 0 12px;
 }
 
 .GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
@@ -372,7 +377,7 @@ svg.icon.left {
 .compact.GeoGebraFrame .profilePanel {
 	width: 40px;
 	height: 40px;
-	margin: 4px 24px 4px 12px;
+	margin: 4px 12px 4px 12px;
 }
 
 .compact.GeoGebraFrame .profilePanel .imageHolder {

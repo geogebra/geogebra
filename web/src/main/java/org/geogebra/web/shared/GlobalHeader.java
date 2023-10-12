@@ -45,6 +45,7 @@ public class GlobalHeader implements EventRenderable {
 	private StandardButton examInfoBtn;
 
 	private boolean shareButtonInitialized;
+	private boolean assignButtonInitialized;
 
 	/**
 	 * Activate sign in button in external header
@@ -98,6 +99,22 @@ public class GlobalHeader implements EventRenderable {
 			shareButtonInitialized = true;
 			Dom.addEventListener(rp.getElement(), "click", (e) -> {
 				callback.callback(rp);
+				e.stopPropagation();
+				e.preventDefault();
+			});
+		}
+	}
+
+	/**
+	 * Initialize assignment button
+	 * @param onClick click handler
+	 */
+	public void initAssignButton(final Runnable onClick) {
+		final RootPanel assignButton = RootPanel.get("assignButton");
+		if (assignButton != null && !assignButtonInitialized) {
+			assignButtonInitialized = true;
+			Dom.addEventListener(assignButton.getElement(), "click", (e) -> {
+				onClick.run();
 				e.stopPropagation();
 				e.preventDefault();
 			});
