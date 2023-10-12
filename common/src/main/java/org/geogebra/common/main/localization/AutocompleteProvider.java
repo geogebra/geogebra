@@ -104,7 +104,7 @@ public class AutocompleteProvider {
 	 * @return whether to allow English commands as well
 	 */
 	public boolean isFallbackCompletionAllowed() {
-		return "zh".equals(app.getLocalization().getLanguage());
+		return app.getLocalization().languageIs("zh");
 	}
 
 	/**

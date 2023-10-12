@@ -75,7 +75,7 @@ public class Fractions {
 
 	private static ExpressionValue numericResolve(boolean pi, double ratio, ExpressionNode expr,
 			Kernel kernel) {
-		if (!MyDouble.isFinite(ratio)) {
+		if (!Double.isFinite(ratio)) {
 			return new ExpressionNode(kernel, expr.evaluateDouble());
 		}
 		return new ExpressionNode(kernel, pi ? Math.PI * ratio : ratio);

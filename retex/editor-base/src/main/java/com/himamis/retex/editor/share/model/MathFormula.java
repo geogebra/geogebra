@@ -29,79 +29,59 @@
 package com.himamis.retex.editor.share.model;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.parser.Parser;
 
 /**
  * Math editor content
  */
 public class MathFormula {
 
-    private MetaModel metaModel;
-    private MathSequence rootContainer;
+	private MetaModel metaModel;
+	private MathSequence rootContainer;
 
 	/**
-	 * @param metaModel
-	 *            model
+	 * @param metaModel model
 	 */
-    public MathFormula(MetaModel metaModel) {
-        this.metaModel = metaModel;
-    }
+	public MathFormula(MetaModel metaModel) {
+		this.metaModel = metaModel;
+	}
 
 	/**
-	 * @param metaModel
-	 *            meta model
+	 * @param metaModel meta model
 	 * @return empty formula
 	 */
-    public static MathFormula newFormula(MetaModel metaModel) {
-        MathFormula newFormula = new MathFormula(metaModel);
-        newFormula.setRootComponent(new MathSequence());
-        return newFormula;
-    }
+	public static MathFormula newFormula(MetaModel metaModel) {
+		MathFormula newFormula = new MathFormula(metaModel);
+		newFormula.setRootComponent(new MathSequence());
+		return newFormula;
+	}
 
 	/**
-	 * @param metaModel
-	 *            meta model
-	 * @param parser
-	 *            parser
-	 * @param text
-	 *            content
-	 * @return parsed formula (or empty if no parser)
-	 */
-    public static MathFormula newFormula(MetaModel metaModel, Parser parser, String text) {
-        if (text == null || parser == null) {
-            return newFormula(metaModel);
-        }
-        return parser.parse(metaModel, text);
-    }
-
-    /**
 	 * @return MetaModel
 	 */
-    public MetaModel getMetaModel() {
-        return metaModel;
-    }
+	public MetaModel getMetaModel() {
+		return metaModel;
+	}
 
 	/**
 	 * @return root component
 	 */
-    public MathSequence getRootComponent() {
-        return rootContainer;
-    }
+	public MathSequence getRootComponent() {
+		return rootContainer;
+	}
 
 	/**
-	 * @param rootContainer
-	 *            root component
+	 * @param rootContainer root component
 	 */
-    public void setRootComponent(MathSequence rootContainer) {
-        this.rootContainer = rootContainer;
-        rootContainer.setParent(null);
-    }
+	public void setRootComponent(MathSequence rootContainer) {
+		this.rootContainer = rootContainer;
+		rootContainer.setParent(null);
+	}
 
 	/**
 	 * @return whether the content is empty
 	 */
-    public boolean isEmpty() {
-        return rootContainer.size() == 0;
-    }
+	public boolean isEmpty() {
+		return rootContainer.size() == 0;
+	}
 
 }

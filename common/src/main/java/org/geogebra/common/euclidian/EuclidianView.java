@@ -2690,6 +2690,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
+	public double getWidthd() {
+		return getWidth();
+	}
+
+	@Override
+	public double getHeightd() {
+		return getHeight();
+	}
+
+	@Override
 	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algoParent) {
 		return companion.getFreeInputPoints(algoParent);
 	}
@@ -4798,7 +4808,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("\"/>\n");
 
 				sbxml.append("\t<language val=\"");
-				sbxml.append(app.getLocalization().getLocaleStr());
+				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");
 			}
 		}
@@ -5959,7 +5969,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (exportFrame != null) {
 			return (int) exportFrame.getMaxX();
 		}
-		return getWidth();
+		return (int) Math.ceil(getWidthd());
 	}
 
 	/**
@@ -5982,7 +5992,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return (int) exportFrame.getMaxY();
 		}
 
-		return getHeight();
+		return (int) Math.ceil(getHeightd());
 	}
 
 	/**

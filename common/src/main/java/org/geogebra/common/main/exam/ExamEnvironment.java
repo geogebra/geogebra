@@ -597,13 +597,13 @@ public class ExamEnvironment {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
 		if (examStartTime < 0) {
-			return timeFormatter.format(localization.getLocaleStr(),
+			return timeFormatter.format(localization.getLanguageTag(),
 					0);
 		}
 
 		int millis = (int) (timestamp - examStartTime);
 
-		return timeFormatter.format(localization.getLocaleStr(),
+		return timeFormatter.format(localization.getLanguageTag(),
 				millis);
 	}
 

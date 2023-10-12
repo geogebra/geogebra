@@ -240,7 +240,7 @@ public final class EuclidianConstants {
 	/** Graspable Math tool */
 	public static final int MODE_GRASPABLE_MATH = 79;
 
-	/** Photo library */
+	/** Photo Library */
 	public static final int MODE_PHOTO_LIBRARY = 80;
 
 	/** Point on Object */

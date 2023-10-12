@@ -1521,7 +1521,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public static void interpolate(double[] in, double[] out) {
 		double r = -in[1] / (in[0] - in[1]);
-		if (!MyDouble.isFinite(r) || r > 1.0 || r < 0.0) {
+		if (!Double.isFinite(r) || r > 1.0 || r < 0.0) {
 			r = 0.5;
 		}
 		out[0] = r * (in[2] - in[4]) + in[4];
