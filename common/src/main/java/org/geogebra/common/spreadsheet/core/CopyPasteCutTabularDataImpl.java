@@ -51,6 +51,15 @@ public class CopyPasteCutTabularDataImpl
 
 	@Override
 	public void cut(TabularRange range, String content) {
+		copy(range, content);
+		deleteRange(range);
+	}
 
+	private void deleteRange(TabularRange range) {
+		for (int row = range.fromRow; row < range.toRow + 1; row++) {
+			for (int column = range.fromCol; column < range.toCol + 1; column++) {
+				tabularData.setContent(row, column, null);
+			}
+		}
 	}
 }

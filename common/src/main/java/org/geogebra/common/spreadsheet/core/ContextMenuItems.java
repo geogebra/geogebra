@@ -44,8 +44,7 @@ public class ContextMenuItems {
 		actions.put("Delete", () -> deleteCells(row, column));
 		actions.put("Copy", () -> copyCells(row, column));
 		actions.put("Paste", () -> {});
-		actions.put("Cut", () -> copyPasteCut.cut(new TabularRange(row, column, row, column),
-				""));
+		actions.put("Cut", () -> cutCells(row, column));
 		return actions;
 	}
 
@@ -56,6 +55,17 @@ public class ContextMenuItems {
 		} else {
 			for (Selection selection: selections) {
 				copyPasteCut.copy(selection.getRange(), "");
+			}
+		}
+	}
+
+	private void cutCells(int row, int column) {
+		List<Selection> selections = selectionController.selections();
+		if (selections.isEmpty()) {
+			copyPasteCut.cut(new TabularRange(row, column, row, column), "");
+		} else {
+			for (Selection selection: selections) {
+				copyPasteCut.cut(selection.getRange(), "");
 			}
 		}
 	}
