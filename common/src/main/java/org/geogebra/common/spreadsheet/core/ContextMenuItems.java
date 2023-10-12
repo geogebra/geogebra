@@ -8,17 +8,20 @@ public class ContextMenuItems {
 
 	static final int HEADER_INDEX = -1;
 	private final TabularData tabularData;
+	private final CopyPasteCutTabularData copyPasteCut;
 	private final SpreadsheetSelectionController selectionController;
 
 	/**
-	 *
 	 * @param tabularData {@link TabularData}
 	 * @param selectionController {@link SpreadsheetSelectionController}
+	 * @param copyPasteCut
 	 */
 	public ContextMenuItems(TabularData tabularData,
-			SpreadsheetSelectionController selectionController) {
+			SpreadsheetSelectionController selectionController,
+			CopyPasteCutTabularData copyPasteCut) {
 		this.selectionController = selectionController;
 		this.tabularData = tabularData;
+		this.copyPasteCut = copyPasteCut;
 	}
 
 	/**
@@ -39,9 +42,11 @@ public class ContextMenuItems {
 	private Map<String, Runnable> cellItems(int row, int column) {
 		HashMap<String, Runnable> actions = new HashMap<>();
 		actions.put("Delete", () -> deleteCells(row, column));
-		actions.put("Copy", () -> tabularData.copy(column, row, column, row));
+		actions.put("Copy", () -> copyPasteCut.copy(new TabularRange(row, column, row, column),
+				""));
 		actions.put("Paste", () -> {});
-		actions.put("Cut", () -> tabularData.cut(column, row, column, row));
+		actions.put("Cut", () -> copyPasteCut.cut(new TabularRange(row, column, row, column),
+				""));
 		return actions;
 	}
 

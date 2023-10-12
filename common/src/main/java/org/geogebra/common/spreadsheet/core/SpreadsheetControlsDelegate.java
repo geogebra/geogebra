@@ -15,4 +15,6 @@ public interface SpreadsheetControlsDelegate {
 	void hideCellEditor();
 
 	void hideContextMenu();
+
+	ClipboardInterface getClipboard();
 }

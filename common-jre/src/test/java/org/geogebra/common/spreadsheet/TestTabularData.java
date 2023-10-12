@@ -90,14 +90,4 @@ public class TestTabularData implements TabularData<Object> {
 	public String getEditableString(int row, int column) {
 		return String.valueOf(contentAt(row, column));
 	}
-
-	@Override
-	public void copy(int columnFrom, int rowFrom, int columnTo, int rowTo) {
-
-	}
-
-	@Override
-	public void cut(int columnFrom, int rowFrom, int columnTo, int rowTo) {
-
-	}
 }

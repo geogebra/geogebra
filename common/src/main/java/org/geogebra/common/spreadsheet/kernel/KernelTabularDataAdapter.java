@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.CopyPasteCutTabularData;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 
@@ -191,15 +192,5 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		return data != null
 				? data.getLaTeXDescriptionRHS(false,
 				StringTemplate.editorTemplate) : "";
-	}
-
-	@Override
-	public void copy(int columnFrom, int rowFrom, int columnTo, int rowTo) {
-		// TODO
-	}
-
-	@Override
-	public void cut(int columnFrom, int rowFrom, int columnTo, int rowTo) {
-		// TODO
 	}
 }

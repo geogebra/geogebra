@@ -27,6 +27,7 @@ import javax.swing.border.BevelBorder;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
@@ -158,6 +159,9 @@ public class SpreadsheetDemo {
 			});
 			final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame, app);
 			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
+
+				private ClipboardInterface clipboard = new ClipboardD();
+
 				@Override
 				public SpreadsheetCellEditor getCellEditor() {
 					return editor;
@@ -189,6 +193,11 @@ public class SpreadsheetDemo {
 				@Override
 				public void hideContextMenu() {
 					contextMenu.setVisible(false);
+				}
+
+				@Override
+				public ClipboardInterface getClipboard() {
+					return clipboard;
 				}
 			});
 		}

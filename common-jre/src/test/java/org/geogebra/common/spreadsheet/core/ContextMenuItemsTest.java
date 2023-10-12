@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.awt.datatransfer.Clipboard;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,12 +18,16 @@ public class ContextMenuItemsTest {
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
 	private TabularData<Object> data;
+	private TestClipboard clipboard;
+	private CopyPasteCutTabularDataImpl copyPasteCut;
 
 	@Before
 	public void setUp() {
 		data = new TestTabularData();
 		fillTestData();
-		items = new ContextMenuItems(data, selectionController);
+		clipboard = new TestClipboard();
+		copyPasteCut = new CopyPasteCutTabularDataImpl(data, clipboard);
+		items = new ContextMenuItems(data, selectionController, copyPasteCut);
 	}
 
 	private void fillTestData() {
