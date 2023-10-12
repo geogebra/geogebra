@@ -317,6 +317,11 @@ svg.icon.left {
 .compact.GeoGebraFrame .shareBtn, .compact.GeoGebraFrame .signIn {
     display: none;
 }
+
+.compact.GeoGebraFrame .undoRedoSettingsPanelScientific .settingsBtnScientific{
+	margin: 0px;
+}
+
 .GeoGebraHeader .signInIcon {
     display: none;
 }
