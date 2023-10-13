@@ -33,7 +33,7 @@ public abstract class AlgoStats2D extends AlgoElement {
 
 	private GeoList geoListx; // input
 	private GeoList geoListy; // input
-	public GeoNumeric result; // output
+	private GeoNumeric result; // output
 
 	private int mode;
 

@@ -29,7 +29,7 @@ public abstract class UndoManager {
 
 	/** application */
 	@Weak
-	public App app;
+	protected App app;
 	/** construction */
 	@Weak
 	protected Construction construction;

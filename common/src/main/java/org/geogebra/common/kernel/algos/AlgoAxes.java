@@ -72,7 +72,7 @@ public class AlgoAxes extends AlgoAxesQuadricND {
 
 		super.compute();
 
-		P.setCoords(((GeoConic) c).b.getX(), ((GeoConic) c).b.getY(), 1.0);
+		P.setCoords(((GeoConic) c).getB().getX(), ((GeoConic) c).getB().getY(), 1.0);
 	}
 
 	@Override
@@ -80,8 +80,8 @@ public class AlgoAxes extends AlgoAxesQuadricND {
 		GeoLine axis = (GeoLine) axes[i];
 		axis.x = -((GeoConic) c).eigenvec[i].getY();
 		axis.y = ((GeoConic) c).eigenvec[i].getX();
-		axis.z = -(axis.x * ((GeoConic) c).b.getX()
-				+ axis.y * ((GeoConic) c).b.getY());
+		axis.z = -(axis.x * ((GeoConic) c).getB().getX()
+				+ axis.y * ((GeoConic) c).getB().getY());
 
 	}
 

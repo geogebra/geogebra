@@ -62,7 +62,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 		this.loc = app.getLocalization();
 		this.table = (MyTableD) view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
-		this.selectedCells = table.selectedCellRanges;
+		this.selectedCells = table.getSelectedCellRanges();
 
 		// toolbar settings
 		setFloatable(false);

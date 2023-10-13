@@ -335,7 +335,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/** XML input / output handler */
 	private MyXMLio myXMLio;
 	/** kernel */
-	public Kernel kernel;
+	protected Kernel kernel;
 	/** whether points can be created by other tools than point tool */
 	protected boolean isOnTheFlyPointCreationActive = true;
 	/** Settings object */

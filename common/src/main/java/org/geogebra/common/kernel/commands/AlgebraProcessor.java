@@ -1089,14 +1089,14 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
-		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
+		GeoElement symbolic = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		setLabel(sym, label);
-		return sym;
+		setLabel(symbolic, label);
+		return symbolic;
 	}
 
 	private ExpressionNode replaceFunctionVariables(ValidExpression expression) {

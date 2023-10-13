@@ -78,8 +78,8 @@ public class CopyPasteW extends CopyPaste {
 					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
 			txt.setLabel(null);
 			app.getDrawEquation().checkFirstCall(app);
-			String plain = new SyntaxAdapterImpl(app.getKernel()).convertMath(formula);
-			txt.setContent(plain);
+			String asciiFormula = new SyntaxAdapterImpl(app.getKernel()).convertMath(formula);
+			txt.setContent(asciiFormula);
 			center(txt, ev, app);
 		}
 	}
