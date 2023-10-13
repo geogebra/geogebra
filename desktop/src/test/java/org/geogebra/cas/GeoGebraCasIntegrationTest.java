@@ -2700,6 +2700,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	@Test
+	public void testVectorFunctionLabel() {
+		GeoCasCell h = new GeoCasCell(kernel.getConstruction());
+		h.setInput("h(t):=(t,t,t)");
+		h.computeOutput();
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput("Vector(h(0))");
+		f.computeOutput();
+		f.plot();
+		assertThat(f.getOutput(StringTemplate.defaultTemplate), equalTo("u:=(0, 0, 0)"));
+	}
+
+	@Test
 	public void testInequalityLabel() {
 		GeoCasCell f = add("b:= x<3");
 		f.plot();
