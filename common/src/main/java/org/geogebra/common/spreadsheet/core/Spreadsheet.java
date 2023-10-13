@@ -1,7 +1,10 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.awt.event.KeyEvent;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -129,7 +132,21 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
-		// extend selection
+		if (controller.hasSelection()) {
+			switch (keyCode) {
+			case KeyEvent.VK_LEFT:
+				controller.moveLeft(modifiers.shift);
+				return;
+			case KeyEvent.VK_RIGHT:
+				controller.moveRight(modifiers.shift);
+				return;
+			case KeyEvent.VK_UP:
+				controller.moveUp(modifiers.shift);
+				return;
+			case KeyEvent.VK_DOWN:
+				controller.moveDown(modifiers.shift);
+			}
+		}
 	}
 
 	public SpreadsheetController getController() {

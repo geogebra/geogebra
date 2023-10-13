@@ -8,7 +8,7 @@ interface TabularSelection {
 
 	void selectColumn(int column);
 
-	void select(Selection selection, boolean extend);
+	void select(Selection selection, boolean extend, boolean addSelection);
 
 	void selectAll();
 }

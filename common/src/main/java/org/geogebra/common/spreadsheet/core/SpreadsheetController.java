@@ -63,9 +63,14 @@ public final class SpreadsheetController implements TabularSelection {
 		selectionController.selectColumn(column, false);
 	}
 
+	/**
+	 * @param selection Selection that is to be selected
+	 * @param extend Whether we want to extend the current selection (SHIFT)
+	 * @param addSelection Whether we want to add the selection to the current selection (CTRL)
+	 */
 	@Override
-	public void select(Selection selection, boolean extend) {
-		selectionController.select(selection, extend);
+	public void select(Selection selection, boolean extend, boolean addSelection) {
+		selectionController.select(selection, extend, addSelection);
 	}
 
 	@Override
@@ -154,6 +159,41 @@ public final class SpreadsheetController implements TabularSelection {
 		int row = layout.findRow(y + viewport.getMinY());
 		int column = layout.findColumn(x + viewport.getMinX());
 		select(new Selection(SelectionType.CELLS, new TabularRange(row,
-				row, column, column)), modifiers.ctrl);
+				row, column, column)), modifiers.shift, modifiers.ctrl);
+	}
+
+	/**
+	 * @return True if there is currently at least one cell selected, false else
+	 */
+	public boolean hasSelection() {
+		return selectionController.hasSelection();
+	}
+
+	/**
+	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 */
+	public void moveLeft(boolean extendingCurrentSelection) {
+		selectionController.moveLeft(extendingCurrentSelection);
+	}
+
+	/**
+	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 */
+	public void moveRight(boolean extendingCurrentSelection) {
+		selectionController.moveRight(extendingCurrentSelection, layout.numberOfColumns());
+	}
+
+	/**
+	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 */
+	public void moveUp(boolean extendingCurrentSelection) {
+		selectionController.moveUp(extendingCurrentSelection);
+	}
+
+	/**
+	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 */
+	public void moveDown(boolean extendingCurrentSelection) {
+		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
 	}
 }
