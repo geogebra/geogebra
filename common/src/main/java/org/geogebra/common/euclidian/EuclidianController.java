@@ -5734,8 +5734,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// drag a parabola bit keep the vertex fixed
 			// CONIC_DOUBLE_LINE needed for y=0x^2
 
-			double vX = movedGeoConic.b.getX();
-			double vY = movedGeoConic.b.getY();
+			double vX = movedGeoConic.getB().getX();
+			double vY = movedGeoConic.getB().getY();
 
 			int eigenvecIndex = movedGeoConic
 					.getType() == GeoConicNDConstants.CONIC_PARABOLA ? 0 : 1;
@@ -6957,8 +6957,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			// make sure vertex snaps to grid for parabolas
 			if (movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
-				double vX = movedGeoConic.b.getX();
-				double vY = movedGeoConic.b.getY();
+				double vX = movedGeoConic.getB().getX();
+				double vY = movedGeoConic.getB().getY();
 
 				transformCoordsOffset[0] = vX - xRW;
 				transformCoordsOffset[1] = vY - yRW;

@@ -438,7 +438,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			return false;
 		}
 
-		hitting.origin.projectPlaneInPlaneCoords(v1, vn2, hitting.direction,
+		hitting.getOrigin().projectPlaneInPlaneCoords(v1, vn2, hitting.getDirection(),
 				center, tmpCoords);
 
 		if (DoubleUtil.isZero(tmpCoords.getW())) {

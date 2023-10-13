@@ -43,13 +43,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class ConstructionProtocolView implements ConstructionStepper {
 
 	@Weak
-	public App app;
+	protected App app;
 	@Weak
-	public Kernel kernel;
+	protected Kernel kernel;
 	@SuppressFBWarnings
-	public ConstructionTableData data;
+	protected ConstructionTableData data;
 	protected boolean isViewAttached;
-	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<>();
+	protected ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<>();
 
 	protected boolean useColors;
 	protected boolean addIcons;

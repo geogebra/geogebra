@@ -1013,7 +1013,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testCASSpecialPoints() {
 		t("f:x", "x");
-		GeoSymbolic line = (GeoSymbolic) app.kernel.lookupLabel("f");
+		GeoSymbolic line = (GeoSymbolic) app.getKernel().lookupLabel("f");
 		Suggestion suggestion = SuggestionRootExtremum.get(line);
 		Assert.assertNotNull(suggestion);
 		suggestion.execute(line);

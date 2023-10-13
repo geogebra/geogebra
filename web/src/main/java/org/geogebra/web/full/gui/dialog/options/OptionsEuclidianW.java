@@ -49,7 +49,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected AppW app;
 	protected MultiRowsTabPanel tabPanel;
 	protected EuclidianView view;
-	public EuclidianOptionsModel model;
+	protected EuclidianOptionsModel model;
 	protected BasicTab basicTab;
 	AxisTab xAxisTab;
 	AxisTab yAxisTab;

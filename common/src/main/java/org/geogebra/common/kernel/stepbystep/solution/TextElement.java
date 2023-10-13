@@ -4,12 +4,12 @@ public class TextElement {
 	public final String latex;
 	public final String plain;
 
-	public TextElement(String latex, String plain) {
+	public TextElement(String latex, String plainText) {
 		this.latex = latex;
-		this.plain = plain;
+		this.plain = plainText;
 	}
 
-	public TextElement(String plain) {
-		this(null, plain);
+	public TextElement(String plainText) {
+		this(null, plainText);
 	}
 }

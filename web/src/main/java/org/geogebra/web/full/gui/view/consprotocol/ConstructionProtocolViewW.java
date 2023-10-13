@@ -52,7 +52,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	/**
 	 * contains a scrollPanel with the {@link #table constructionstep-table}
 	 **/
-	public FlowPanel cpPanel;
+	private final FlowPanel cpPanel;
 	/** table with constructionsteps **/
 	protected CellTable<RowData> table;
 	ScrollPanel scrollPane;

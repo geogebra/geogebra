@@ -340,8 +340,8 @@ public class GeoGebraTubeExportD {
 		progressDialog.setVisible(false);
 	}
 
-	protected void statusLabelSetText(String plain) {
-		statusLabel.setText(plain);
+	protected void statusLabelSetText(String plainText) {
+		statusLabel.setText(plainText);
 	}
 
 	protected String encode(String str) {

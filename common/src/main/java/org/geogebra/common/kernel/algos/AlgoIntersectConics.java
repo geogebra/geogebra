@@ -352,11 +352,11 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		// intersect the two circles
 		// centres and radii of the circles
 		double r1 = A.getCircleRadius();
-		double x1 = A.b.getX();
-		double y1 = A.b.getY();
+		double x1 = A.getB().getX();
+		double y1 = A.getB().getY();
 		double r2 = B.getCircleRadius();
-		double x2 = B.b.getX();
-		double y2 = B.b.getY();
+		double x2 = B.getB().getX();
+		double y2 = B.getB().getY();
 
 		// distance between centres
 		double dist = Math.hypot(x1 - x2, y1 - y2);

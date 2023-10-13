@@ -53,7 +53,7 @@ public abstract class GlobalKeyDispatcher {
 
 	/** application */
 	@Weak
-	public final App app;
+	protected final App app;
 	/** selection */
 	@Weak
 	protected final SelectionManager selection;

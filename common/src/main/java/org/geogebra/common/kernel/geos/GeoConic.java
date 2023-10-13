@@ -304,8 +304,8 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		eigenvec[1].mult(-1.0);
 
 		// mirror translation vector b
-		b.mirror(Q);
-		setMidpoint(new double[] { b.getX(), b.getY() });
+		getB().mirror(Q);
+		setMidpoint(new double[] { getB().getX(), getB().getY() });
 
 		setAffineTransform();
 		updateDegenerates(p -> p.mirror(Q)); // for degenerate conics
@@ -374,8 +374,8 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		eigenvec[0].mirror(phi);
 		eigenvec[1].mirror(phi);
 
-		b.mirror(phi);
-		setMidpoint(new double[] { b.getX(), b.getY() });
+		getB().mirror(phi);
+		setMidpoint(new double[] { getB().getX(), getB().getY() });
 	}
 
 	// //////////////////////////////////////
@@ -534,8 +534,8 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 			sp = line.setStandardStartPoint();
 		}
 
-		b = new GeoVec2D(kernel, sp.getInhomX(), sp.getInhomY());
-		this.setMidpoint(b.getX(), b.getY());
+		setB(new GeoVec2D(kernel, sp.getInhomX(), sp.getInhomY()));
+		this.setMidpoint(getB().getX(), getB().getY());
 	}
 
 	@Override
