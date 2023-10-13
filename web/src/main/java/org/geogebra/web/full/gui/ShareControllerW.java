@@ -122,7 +122,7 @@ public class ShareControllerW implements ShareController {
 			LocalizationW loc = app.getLocalization();
 			String formatDate = DateTimeFormat.formatDate(new JsDate(), loc.getLanguageTag());
 			String appName = loc.getMenu(app.getConfig().getAppNameWithoutCalc());
-			material.setTitle(loc.getPlain("AssignmentTitlePattern",
+			material.setTitle(loc.getPlain("assignDialog.titlePattern",
 					appName, formatDate));
 		}
 		autoSaveMaterial(success -> callback.accept(app.getActiveMaterial()));

@@ -34,6 +34,7 @@
 .GeoGebraHeader .signIn {
 	color: #1C1C1F;
 	padding: 4px 8px;
+	margin: 16px 12px;
 	background-color: transparent;
 	transition: background-color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -103,14 +104,12 @@
 
 .GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
     text-transform: uppercase;
-    margin: 16px 8px 16px 12px;
     line-height: 24px;
     border-radius: 2px;
     cursor: pointer;
 }
-
 .GeoGebraHeader .profilePanel {
-    margin: 8px 24px 8px 12px;
+    margin: 8px;
 }
 
 img.profileImage {
@@ -348,6 +347,7 @@ svg.icon.left {
 }
 .GeoGebraHeader.compact .signInIcon {
     display: initial;
+    margin: 6px;
 }
 
 .compact.GeoGebraFrame .menuBtn {
@@ -377,7 +377,7 @@ svg.icon.left {
 .compact.GeoGebraFrame .profilePanel {
 	width: 40px;
 	height: 40px;
-	margin: 4px 12px 4px 12px;
+	margin: 4px 8px;
 }
 
 .compact.GeoGebraFrame .profilePanel .imageHolder {

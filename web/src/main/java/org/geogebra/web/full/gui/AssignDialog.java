@@ -62,6 +62,7 @@ public class AssignDialog extends ComponentDialog {
 	}
 
 	private void openNewTab(String pattern) {
+		hide();
 		materialProvider.afterSaved((material) -> {
 			String url = pattern
 					.replace("%0", Global.encodeURIComponent(material.getSharingKey()))

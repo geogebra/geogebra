@@ -110,7 +110,7 @@ public class GlobalHeader implements EventRenderable {
 	 * @param onClick click handler
 	 */
 	public void initAssignButton(final Runnable onClick) {
-		final RootPanel assignButton = RootPanel.get("assignButton");
+		final RootPanel assignButton = getAssignButton();
 		if (assignButton != null && !assignButtonInitialized) {
 			assignButtonInitialized = true;
 			Dom.addEventListener(assignButton.getElement(), "click", (e) -> {
@@ -119,6 +119,10 @@ public class GlobalHeader implements EventRenderable {
 				e.preventDefault();
 			});
 		}
+	}
+
+	private RootPanel getAssignButton() {
+		return RootPanel.get("assignButton");
 	}
 
 	private static RootPanel getShareButton() {
@@ -354,6 +358,10 @@ public class GlobalHeader implements EventRenderable {
 	public void setLabels() {
 		if (profilePanel != null) {
 			profilePanel.setLabels();
+		}
+		if (getAssignButton() != null && app != null) {
+			getAssignButton().getElement().setInnerText(app.getLocalization()
+					.getMenu("assignButton.title"));
 		}
 	}
 
