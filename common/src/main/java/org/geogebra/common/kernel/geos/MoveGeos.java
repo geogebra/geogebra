@@ -111,9 +111,7 @@ public class MoveGeos {
 	 * @return True if list contains of only movable GeoPoints / elements
 	 */
 	private static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
-		return list.size() == list.elements()
-				.filter(geo -> isMovableObject(geo, view) && geo.isMoveable())
-				.count();
+		return list.elements().allMatch(geo -> isMovableObject(geo, view) && geo.isMoveable());
 	}
 
 	/**
@@ -122,7 +120,7 @@ public class MoveGeos {
 	 * @return True if GeoElement is a GeoPoint or has only free input points
 	 */
 	private static boolean isMovableObject(GeoElement geo, EuclidianView view) {
-		return geo.hasOnlyFreeInputPoints(view) || geo.isGeoPoint();
+		return geo.hasOnlyFreeInputPoints(view) || geo.isMoveable(view) || geo.isGeoPoint();
 	}
 
 	/* visible for tests */
