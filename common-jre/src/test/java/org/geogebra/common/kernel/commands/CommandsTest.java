@@ -1027,7 +1027,8 @@ public class CommandsTest {
 				newPoint(-0.4410243233086352, 0.14553384365563557),
 				newPoint(-0.35858986503875784, -0.06827447415125582)
 		};
-		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.getKernel().getConstruction(), points);
+		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.getKernel().getConstruction(),
+				points);
 		GeoConicND conic = algo.getConic();
 		assertThat(conic, isDefined());
 	}

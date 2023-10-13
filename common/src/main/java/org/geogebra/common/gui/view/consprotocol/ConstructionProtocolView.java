@@ -43,9 +43,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class ConstructionProtocolView implements ConstructionStepper {
 
 	@Weak
-	protected App app;
+	protected final App app;
 	@Weak
-	protected Kernel kernel;
+	protected final Kernel kernel;
 	@SuppressFBWarnings
 	protected ConstructionTableData data;
 	protected boolean isViewAttached;
@@ -53,6 +53,14 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 	protected boolean useColors;
 	protected boolean addIcons;
+
+	/**
+	 * @param app application
+	 */
+	public ConstructionProtocolView(App app) {
+		this.app = app;
+		kernel = app.getKernel();
+	}
 
 	protected static String getAlgebra(GeoElement geo) {
 		if (geo instanceof GeoText) {

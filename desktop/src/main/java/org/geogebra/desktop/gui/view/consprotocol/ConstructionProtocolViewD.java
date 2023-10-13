@@ -121,9 +121,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 * @param app application
 	 */
 	public ConstructionProtocolViewD(final AppD app) {
-		this.app = app;
+		super(app);
 		this.loc = app.getLocalization();
-		kernel = app.getKernel();
 		data = new ConstructionTableDataD(this);
 		useColors = true;
 		addIcons = false;

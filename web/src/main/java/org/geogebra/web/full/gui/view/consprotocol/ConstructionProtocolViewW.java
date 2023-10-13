@@ -76,9 +76,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 *            {@link AppW}
 	 */
 	public ConstructionProtocolViewW(final AppW app) {
+		super(app);
 		cpPanel = new FlowPanel();
-		this.app = app;
-		kernel = app.getKernel();
 		data = new ConstructionTableDataW(this);
 
 		app.getGuiManager().registerConstructionProtocolView(this);
