@@ -54,13 +54,13 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	@Override
-	public void selectRow(int row) {
-		selectionController.selectRow(row, false);
+	public void selectRow(int row, boolean extend, boolean addSelection) {
+		selectionController.selectRow(row, layout.numberOfColumns(), extend, addSelection);
 	}
 
 	@Override
-	public void selectColumn(int column) {
-		selectionController.selectColumn(column, false);
+	public void selectColumn(int column, boolean extend, boolean addSelection) {
+		selectionController.selectColumn(column, layout.numberOfRows(), extend, addSelection);
 	}
 
 	/**
@@ -158,8 +158,15 @@ public final class SpreadsheetController implements TabularSelection {
 	public void handlePointerUp(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		int row = layout.findRow(y + viewport.getMinY());
 		int column = layout.findColumn(x + viewport.getMinX());
-		select(new Selection(SelectionType.CELLS, new TabularRange(row,
-				row, column, column)), modifiers.shift, modifiers.ctrl);
+
+		if (column < 0) { // Select row
+			selectRow(row, modifiers.ctrl, modifiers.ctrl);
+		} else if (row < 0) { // Select column
+			selectColumn(column, modifiers.shift, modifiers.ctrl);
+		} else { // Select cell
+			select(new Selection(SelectionType.CELLS, new TabularRange(row,
+					row, column, column)), modifiers.shift, modifiers.ctrl);
+		}
 	}
 
 	/**

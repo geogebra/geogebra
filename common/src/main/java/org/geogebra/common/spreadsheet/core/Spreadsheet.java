@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -133,6 +132,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
 		if (controller.hasSelection()) {
+			needsRedraw = true;
 			switch (keyCode) {
 			case KeyEvent.VK_LEFT:
 				controller.moveLeft(modifiers.shift);
@@ -145,6 +145,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 				return;
 			case KeyEvent.VK_DOWN:
 				controller.moveDown(modifiers.shift);
+				return;
+			default:
+				needsRedraw = false;
 			}
 		}
 	}
@@ -164,5 +167,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public void setHeightForRows(double height, int... rowIndices) {
 		controller.getLayout().setHeightForRows(height, rowIndices);
+	}
+
+	public boolean needsRedraw() {
+		return needsRedraw;
 	}
 }

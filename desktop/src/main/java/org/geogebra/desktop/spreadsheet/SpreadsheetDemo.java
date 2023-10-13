@@ -167,13 +167,15 @@ public class SpreadsheetDemo {
 
 				@Override
 				public void keyPressed(KeyEvent e) {
-
+					spreadsheet.handleKeyPressed(e.getKeyCode(), getModifiers(e));
+					if (spreadsheet.needsRedraw()) {
+						repaint();
+					}
 				}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
-					spreadsheet.handleKeyPressed(e.getKeyCode(), getModifiers(e));
-//					repaint();
+
 				}
 			});
 

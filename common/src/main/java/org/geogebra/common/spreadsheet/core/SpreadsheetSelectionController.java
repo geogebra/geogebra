@@ -32,14 +32,30 @@ final class SpreadsheetSelectionController {
 		this.selections.add(selection);
 	}
 
-	void selectRow(int row, boolean extendingCurrentSelection) {
-		setSelections(new Selection(SelectionType.ROWS,
-				new TabularRange(row, row, -1, -1)));
+	/**
+	 * Selects a row with given index
+	 * @param rowIndex Index
+	 * @param numberOfColumns Current amount of columns
+	 * @param extend Whether we want to extend the current selection
+	 * @param addSelection Whether we want to add it to the current selections
+	 */
+	void selectRow(int rowIndex, int numberOfColumns, boolean extend, boolean addSelection) {
+		Selection row = new Selection(SelectionType.ROWS,
+				new TabularRange(rowIndex, rowIndex, 0, numberOfColumns - 2));
+		select(row, extend, addSelection);
 	}
 
-	void selectColumn(int column, boolean extendingCurrentSelection) {
-		setSelections(new Selection(SelectionType.COLUMNS,
-				new TabularRange(-1, -1, column, column)));
+	/**
+	 * Selects a column with given index
+	 * @param columnIndex Index
+	 * @param numberOfRows Current amount of rows
+	 * @param extend Whether we want to extend the current selection
+	 * @param addSelection Whether we want to add it to the current selections
+	 */
+	void selectColumn(int columnIndex, int numberOfRows, boolean extend, boolean addSelection) {
+		Selection column = new Selection(SelectionType.COLUMNS,
+				new TabularRange(0, numberOfRows - 2, columnIndex, columnIndex));
+		select(column, extend, addSelection);
 	}
 
 	void selectCell(int row, int column, boolean extendingCurrentSelection) {
