@@ -17,10 +17,6 @@ public class TransformA extends Matrix implements Transform {
 		set(matrix);
 	}
 	
-	public Object getNativeObject() {
-		return this;
-	}
-
 	public double getTranslateX() {
 		getValues(mValues);
 		return mValues[MTRANS_X];

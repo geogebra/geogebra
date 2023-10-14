@@ -41,18 +41,6 @@ public class BasicStrokeA implements BasicStroke {
 		return mMiterLimit;
 	}
 
-	public int getCap() {
-		return mCap;
-	}
-
-	public int getJoin() {
-		return mJoin;
-	}
-
-	public Object getNativeObject() {
-		return null;
-	}
-
 	public Cap getNativeCap() {
 		switch (mCap) {
 		case CAP_BUTT:
