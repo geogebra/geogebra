@@ -1,14 +1,14 @@
 package com.himamis.retex.renderer.android.font;
 
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Rect;
+
 import com.himamis.retex.renderer.android.geom.Rectangle2DA;
 import com.himamis.retex.renderer.android.graphics.Graphics2DA;
 import com.himamis.retex.renderer.share.platform.font.TextLayout;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.Rect;
 
 public class TextLayoutA implements TextLayout {
 

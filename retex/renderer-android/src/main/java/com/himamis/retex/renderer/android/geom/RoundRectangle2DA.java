@@ -1,8 +1,8 @@
 package com.himamis.retex.renderer.android.geom;
 
-import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
-
 import android.graphics.RectF;
+
+import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 
 public class RoundRectangle2DA implements RoundRectangle2D {
 

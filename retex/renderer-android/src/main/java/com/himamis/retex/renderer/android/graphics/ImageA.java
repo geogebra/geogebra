@@ -1,11 +1,11 @@
 package com.himamis.retex.renderer.android.graphics;
 
-import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.Image;
-
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+
+import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
+import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 public class ImageA implements Image {
 	

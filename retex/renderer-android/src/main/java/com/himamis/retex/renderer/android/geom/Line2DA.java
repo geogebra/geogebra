@@ -1,8 +1,8 @@
 package com.himamis.retex.renderer.android.geom;
 
-import com.himamis.retex.renderer.share.platform.geom.Line2D;
-
 import android.graphics.PointF;
+
+import com.himamis.retex.renderer.share.platform.geom.Line2D;
 
 public class Line2DA implements Line2D {
 	

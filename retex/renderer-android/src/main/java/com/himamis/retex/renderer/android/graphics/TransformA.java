@@ -1,8 +1,8 @@
 package com.himamis.retex.renderer.android.graphics;
 
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
-
 import android.graphics.Matrix;
+
+import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class TransformA extends Matrix implements Transform {
 

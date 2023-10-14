@@ -1,5 +1,7 @@
 package com.himamis.retex.renderer.android;
 
+import android.content.res.AssetManager;
+
 import com.himamis.retex.renderer.android.font.FontFactoryAndroid;
 import com.himamis.retex.renderer.android.geom.GeomFactoryAndroid;
 import com.himamis.retex.renderer.android.graphics.GraphicsFactoryAndroid;
@@ -7,8 +9,6 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.FontFactory;
 import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
-
-import android.content.res.AssetManager;
 
 public class FactoryProviderAndroid extends FactoryProvider {
 	

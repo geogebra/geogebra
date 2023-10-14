@@ -1,11 +1,11 @@
 package com.himamis.retex.renderer.android.font;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
+
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
-
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
 
 public class FontLoaderA implements FontLoader {
 

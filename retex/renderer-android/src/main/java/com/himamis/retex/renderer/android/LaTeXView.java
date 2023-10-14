@@ -1,5 +1,12 @@
 package com.himamis.retex.renderer.android;
 
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.util.AttributeSet;
+import android.view.View;
+
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,13 +21,6 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
-
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.util.AttributeSet;
-import android.view.View;
 
 public class LaTeXView extends View {
 

@@ -1,9 +1,9 @@
 package com.himamis.retex.renderer.android.graphics;
 
-import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
-
 import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
+
+import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 
 public class BasicStrokeA implements BasicStroke {
 

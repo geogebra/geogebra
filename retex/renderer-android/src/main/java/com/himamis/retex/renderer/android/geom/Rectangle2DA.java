@@ -1,9 +1,9 @@
 package com.himamis.retex.renderer.android.geom;
 
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
-
 import android.graphics.Rect;
 import android.graphics.RectF;
+
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 
 public class Rectangle2DA implements Rectangle2D {
 

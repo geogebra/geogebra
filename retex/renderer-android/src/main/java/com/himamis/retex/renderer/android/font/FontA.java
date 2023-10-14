@@ -1,5 +1,7 @@
 package com.himamis.retex.renderer.android.font;
 
+import android.graphics.Typeface;
+
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.CharFont;
@@ -7,8 +9,6 @@ import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
-
-import android.graphics.Typeface;
 
 public class FontA implements Font {
 

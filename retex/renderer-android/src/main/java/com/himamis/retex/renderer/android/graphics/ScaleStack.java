@@ -1,10 +1,10 @@
 package com.himamis.retex.renderer.android.graphics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.graphics.Bitmap;
 import android.graphics.RectF;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScaleStack {
 
