@@ -14,9 +14,9 @@ final class SpreadsheetSelectionController {
 		selections.clear();
 	 }
 
-	void selectAll() {
+	void selectAll(int numberOfRows, int numberOfColumns) {
 		setSelections(new Selection(SelectionType.ALL,
-				new TabularRange(-1, -1, -1, -1)));
+				new TabularRange(0, numberOfRows - 2, 0, numberOfColumns - 2)));
 	}
 
 	List<Selection> selections() {
@@ -36,67 +36,72 @@ final class SpreadsheetSelectionController {
 	 * Selects a row with given index
 	 * @param rowIndex Index
 	 * @param numberOfColumns Current amount of columns
-	 * @param extend Whether we want to extend the current selection
+	 * @param extendSelection Whether we want to extend the current selection
 	 * @param addSelection Whether we want to add it to the current selections
 	 */
-	void selectRow(int rowIndex, int numberOfColumns, boolean extend, boolean addSelection) {
+	void selectRow(int rowIndex, int numberOfColumns,
+			boolean extendSelection, boolean addSelection) {
 		Selection row = new Selection(SelectionType.ROWS,
 				new TabularRange(rowIndex, rowIndex, 0, numberOfColumns - 2));
-		select(row, extend, addSelection);
+		select(row, extendSelection, addSelection);
 	}
 
 	/**
 	 * Selects a column with given index
 	 * @param columnIndex Index
 	 * @param numberOfRows Current amount of rows
-	 * @param extend Whether we want to extend the current selection
+	 * @param extendSelection Whether we want to extend the current selection
 	 * @param addSelection Whether we want to add it to the current selections
 	 */
-	void selectColumn(int columnIndex, int numberOfRows, boolean extend, boolean addSelection) {
+	void selectColumn(int columnIndex, int numberOfRows,
+			boolean extendSelection, boolean addSelection) {
 		Selection column = new Selection(SelectionType.COLUMNS,
 				new TabularRange(0, numberOfRows - 2, columnIndex, columnIndex));
-		select(column, extend, addSelection);
+		select(column, extendSelection, addSelection);
 	}
 
-	void selectCell(int row, int column, boolean extendingCurrentSelection) {
-		// stub
+	void selectCell(int rowIndex, int columnIndex, boolean extendSelection, boolean addSelection) {
+		Selection selection = Selection.getSingleCellSelection(rowIndex, columnIndex);
+		select(selection, extendSelection, addSelection);
 	}
 
 	/**
-	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 * @param extendSelection True if the current selection should expand, false else
 	 */
-	void moveLeft(boolean extendingCurrentSelection) {
+	void moveLeft(boolean extendSelection) {
 		if (getLastSelection() != null) {
-			select(getLastSelection().getLeft(), extendingCurrentSelection, false);
+			select(getLastSelection().getLeft(extendSelection), extendSelection, false);
 		}
 	}
 
 	/**
-	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 * @param extendSelection True if the current selection should expand, false else
 	 * @param numberOfColumns Number of rows
 	 */
-	void moveRight(boolean extendingCurrentSelection, int numberOfColumns) {
+	void moveRight(boolean extendSelection, int numberOfColumns) {
 		if (getLastSelection() != null) {
-			select(getLastSelection().getRight(numberOfColumns), extendingCurrentSelection, false);
+			select(getLastSelection().getRight(numberOfColumns, extendSelection),
+					extendSelection, false);
 		}
 	}
 
 	/**
-	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 * @param extendSelection True if the current selection should expand, false else
 	 */
-	void moveUp(boolean extendingCurrentSelection) {
+	void moveUp(boolean extendSelection) {
 		if (getLastSelection() != null) {
-			select(getLastSelection().getTop(), extendingCurrentSelection, false);
+			select(getLastSelection().getTop(extendSelection), extendSelection, false);
 		}
 	}
 
 	/**
-	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 * @param extendSelection True if the current selection should expand, false else
 	 * @param numberOfRows Number of rows
 	 */
-	void moveDown(boolean extendingCurrentSelection, int numberOfRows) {
+	void moveDown(boolean extendSelection, int numberOfRows) {
 		if (getLastSelection() != null) {
-			select(getLastSelection().getBottom(numberOfRows), extendingCurrentSelection, false);
+			select(getLastSelection().getBottom(numberOfRows, extendSelection),
+					extendSelection, false);
 		}
 	}
 
@@ -114,11 +119,11 @@ final class SpreadsheetSelectionController {
 
 	/**
 	 * @param selection {@link Selection}
-	 * @param extend Whether we want to extend the current selection (SHIFT)
+	 * @param extendSelection Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add this selection to the current selections (CTRL)
 	 */
-	public void select(Selection selection, boolean extend, boolean addSelection) {
-		if (extend && getLastSelection() != null) {
+	public void select(Selection selection, boolean extendSelection, boolean addSelection) {
+		if (extendSelection && getLastSelection() != null) {
 			extendSelection(getLastSelection(), selection, addSelection);
 			return;
 		} else if (!addSelection) {
@@ -170,7 +175,7 @@ final class SpreadsheetSelectionController {
 	/**
 	 * @return Last Selection if present, null otherwise
 	 */
-	private Selection getLastSelection() {
+	public Selection getLastSelection() {
 		return selections.isEmpty() ? null : selections.get(selections.size() - 1);
 	}
 }

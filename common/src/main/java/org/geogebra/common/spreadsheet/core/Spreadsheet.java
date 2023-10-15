@@ -1,7 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.awt.event.KeyEvent;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.util.shape.Rectangle;
@@ -49,7 +47,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		graphics.setColor(controller.getStyle().getTextColor());
 		drawCells(graphics, viewport);
-		for (Selection selection: controller.getSelection()) {
+		for (Selection selection: controller.getSelections()) {
 			renderer.drawSelection(selection.getRange(), graphics,
 					viewport, controller.getLayout());
 		}
@@ -131,25 +129,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
-		if (controller.hasSelection()) {
-			needsRedraw = true;
-			switch (keyCode) {
-			case KeyEvent.VK_LEFT:
-				controller.moveLeft(modifiers.shift);
-				return;
-			case KeyEvent.VK_RIGHT:
-				controller.moveRight(modifiers.shift);
-				return;
-			case KeyEvent.VK_UP:
-				controller.moveUp(modifiers.shift);
-				return;
-			case KeyEvent.VK_DOWN:
-				controller.moveDown(modifiers.shift);
-				return;
-			default:
-				needsRedraw = false;
-			}
-		}
+		needsRedraw = controller.handleKeyPressed(keyCode, modifiers);
 	}
 
 	public SpreadsheetController getController() {

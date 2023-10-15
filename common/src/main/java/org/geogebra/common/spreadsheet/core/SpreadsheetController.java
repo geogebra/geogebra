@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,11 +76,15 @@ public final class SpreadsheetController implements TabularSelection {
 
 	@Override
 	public void selectAll() {
-		selectionController.selectAll();
+		selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
+	}
+
+	public void selectCell(int rowIndex, int columnIndex, boolean extend, boolean addSelection) {
+		selectionController.selectCell(rowIndex, columnIndex, extend, addSelection);
 	}
 
 	// default visibility, same as Selection class
-	List<Selection> getSelection() {
+	List<Selection> getSelections() {
 		return selectionController.selections();
 	}
 
@@ -160,7 +165,7 @@ public final class SpreadsheetController implements TabularSelection {
 		int column = layout.findColumn(x + viewport.getMinX());
 
 		if (column < 0) { // Select row
-			selectRow(row, modifiers.ctrl, modifiers.ctrl);
+			selectRow(row, modifiers.shift, modifiers.ctrl);
 		} else if (row < 0) { // Select column
 			selectColumn(column, modifiers.shift, modifiers.ctrl);
 		} else { // Select cell
@@ -170,10 +175,36 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	/**
-	 * @return True if there is currently at least one cell selected, false else
+	 * Handles keys being pressed
+	 * @param keyCode Key Code
+	 * @param modifiers Modifiers
+	 * @return Whether the event caused changes in the spreadsheet requiring repaint
 	 */
-	public boolean hasSelection() {
-		return selectionController.hasSelection();
+	public boolean handleKeyPressed(int keyCode, Modifiers modifiers) {
+		if (selectionController.hasSelection()) {
+			switch (keyCode) {
+			case KeyEvent.VK_LEFT:
+				moveLeft(modifiers.shift);
+				return true;
+			case KeyEvent.VK_RIGHT:
+				moveRight(modifiers.shift);
+				return true;
+			case KeyEvent.VK_UP:
+				moveUp(modifiers.shift);
+				return true;
+			case KeyEvent.VK_DOWN:
+				moveDown(modifiers.shift);
+				return true;
+			case KeyEvent.VK_A:
+				if (modifiers.ctrl) {
+					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
+					return true;
+				}
+			default:
+				return false;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -202,5 +233,9 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public void moveDown(boolean extendingCurrentSelection) {
 		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
+	}
+
+	public Selection getLastSelection() {
+		return selectionController.getLastSelection();
 	}
 }
