@@ -443,8 +443,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			return currentDistance;
 		}
 
-		hitting.origin.projectPlaneThruVIfPossible(
-				polygon.getCoordSys().getMatrixOrthonormal(), hitting.direction,
+		hitting.getOrigin().projectPlaneThruVIfPossible(
+				polygon.getCoordSys().getMatrixOrthonormal(), hitting.getDirection(),
 				globalCoords, inPlaneCoords);
 
 		if (!hitting.isInsideClipping(globalCoords)) {

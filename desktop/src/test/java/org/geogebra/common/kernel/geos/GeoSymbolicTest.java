@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.geogebra.common.BaseUnitTest.hasValue;
+import static org.hamcrest.CoreMatchers.either;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -408,7 +409,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("list=Solutions(f''(x)=0)", "{(2 * sqrt(6) + 3) / 3}");
 		t("root=Element(list,1)", "(2 * sqrt(6) + 3) / 3");
 		t("Numeric(f(root))", Matchers.in(new String[]{"9.091256074573", "9.091256074574"}));
-		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513611798, x = 5.126711116935}");
+		t("Solve(f'(x)=tan(30deg))", Matchers.in(new String[]{
+				"{x = 0.94465136117983, x = 5.126711116934559}",
+				"{x = 0.9446513611798301, x = 5.12671111693456}",
+				"{x = 0.9446513611798, x = 5.126711116935}"}));
 		t("Tangent(2,f)", "y = -15 * sqrt(2) / 4 * x + 33 * sqrt(2) / 2");
 	}
 
@@ -1009,7 +1013,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testCASSpecialPoints() {
 		t("f:x", "x");
-		GeoSymbolic line = (GeoSymbolic) app.kernel.lookupLabel("f");
+		GeoSymbolic line = (GeoSymbolic) app.getKernel().lookupLabel("f");
 		Suggestion suggestion = SuggestionRootExtremum.get(line);
 		Assert.assertNotNull(suggestion);
 		suggestion.execute(line);
@@ -1439,7 +1443,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("{x = 4.134008006438, y = 1.134008006438}"));
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
-		symbolic = add("Solve(exp(|sin(x)|)=2)");
+		symbolic = add("sinsolve:=Solve(exp(|sin(x)|)=2)");
 		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve(ℯ^(abs(sin(x))) = 2)"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), anyOf(
@@ -1448,13 +1452,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 						+ "x = -98.15521845604, x = -93.48193341286, x = -69.88088457379, "
 						+ "x = -65.20759953054, x = -63.59769926661, x = -62.06600687697, "
 						+ "x = -60.45610661301, x = -58.92441422337, x = -54.17292130584, "
-						+ "x = -52.64122891619, x = -51.03132865224, x = -49.49963626261, "),
+						+ "x = -52.64122891619"),
 				startsWith("{x = -333.7746674754, x = -303.9686412034, x = -208.1109613317,"
 						+ " x = -168.880157099, x = -123.2879596848, x = -102.9067113736, "
 						+ "x = -98.1552184561, x = -93.48193341287, x = -69.88088457379, "
 						+ "x = -65.20759953057, x = -63.59769926661, x = -62.06600687698, "
 						+ "x = -60.45610661303, x = -58.92441422339, x = -54.17292130585, "
-						+ "x = -52.64122891621, x = -51.03132865226, x = -49.49963626262, ")));
+						+ "x = -52.64122891621")));
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
 		// 2 variables
@@ -1487,6 +1491,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -(1 / 5)^(1 / 1000), x = (1 / 5)^(1 / 1000)}"));
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
+
+		symbolic = add("Solve((1-0.0064)^(n)≤0.03,n)");
+		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("Solve((1 - 0.0064)^n ≤ 0.03, n)"));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{n ≥ ln(3 / 100) / ln(621 / 625)}"));
+		SymbolicUtil.toggleSymbolic(symbolic);
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				either(equalTo("{n ≥ 546.1445163345}"))
+						.or(equalTo("{n ≥ 546.1445163342}")));
 	}
 
 	@Test
@@ -1513,6 +1527,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolveNSolveCase5() {
 		GeoSymbolic symbolic = add("Solve(x^2>5)");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
+	}
+
+	@Test
+	public void testNumericWrapIsNumeric() {
+		GeoSymbolic symbolic = add("Solve((1-0.0064)^(x)≤0.03,x)");
+		assertThat(symbolic.isSymbolicMode(), equalTo(true));
+		SymbolicUtil.toggleSymbolic(symbolic);
+		assertThat(symbolic.isSymbolicMode(), equalTo(false));
 	}
 
 	@Test

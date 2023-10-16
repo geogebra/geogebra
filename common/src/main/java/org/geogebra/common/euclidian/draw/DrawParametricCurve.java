@@ -587,9 +587,9 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			}
 			if ((right < low && left < low && middle < low)
 					|| (right > high && left > high && middle > high)
-					|| (!MyDouble.isFinite(right)
-					&& !MyDouble.isFinite(left)
-					&& !MyDouble.isFinite(middle))) {
+					|| (!Double.isFinite(right)
+					&& !Double.isFinite(left)
+					&& !Double.isFinite(middle))) {
 				return false;
 			}
 

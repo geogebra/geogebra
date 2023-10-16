@@ -1590,7 +1590,7 @@ public class ConsElementXMLHandler {
 		try {
 			if (geo.isGeoList()) {
 				((GeoList) geo).setSelectedIndex(
-						Integer.parseInt(attrs.get("val")), false);
+						Integer.parseInt(attrs.get("val")));
 			}
 			return true;
 		} catch (RuntimeException e) {

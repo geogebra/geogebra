@@ -124,12 +124,12 @@ public class LoginOperationW extends LogInOperation {
 	}
 
 	@Override
-	public String getLoginURL(String languageCode) {
+	public String getLoginURL(String languageTag) {
 		if (!StringUtil.empty(app.getAppletParameters().getParamLoginURL())) {
 			return app.getAppletParameters().getParamLoginURL();
 		}
 
-		return super.getLoginURL(languageCode);
+		return super.getLoginURL(languageTag);
 	}
 
 	private void processCookie(boolean passive) {

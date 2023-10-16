@@ -147,25 +147,25 @@ public class SymbolicProcessor {
 				}
 			}
 		}
-		GeoSymbolic sym;
+		GeoSymbolic symbolic;
 		if (noDummyVars.size() > 0) {
 			AlgoDependentSymbolic ads =
 					new AlgoDependentSymbolic(cons,
 							replaced, noDummyVars, info.getArbitraryConstant(),
 							info.isLabelOutput());
-			sym = (GeoSymbolic) ads.getOutput(0);
+			symbolic = (GeoSymbolic) ads.getOutput(0);
 		} else {
-			sym = new GeoSymbolic(cons);
-			sym.setArbitraryConstant(info.getArbitraryConstant());
-			sym.setDefinition(replaced);
+			symbolic = new GeoSymbolic(cons);
+			symbolic.setArbitraryConstant(info.getArbitraryConstant());
+			symbolic.setDefinition(replaced);
 			if (info.isLabelOutput()) {
 				// add to cons before computing: arbitrary constant should be *after* this in XML
-				cons.addToConstructionList(sym, false);
+				cons.addToConstructionList(symbolic, false);
 			}
-			sym.computeOutput();
+			symbolic.computeOutput();
 		}
-		SymbolicUtil.handleSolveNSolve(sym);
-		return sym;
+		SymbolicUtil.handleSolveNSolve(symbolic);
+		return symbolic;
 	}
 
 	private boolean isInvalidArgNumberInFallback(Command cmd) {

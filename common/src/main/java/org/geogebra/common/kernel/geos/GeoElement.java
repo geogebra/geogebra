@@ -1808,10 +1808,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return showInAlgebraView();
 	}
 
-	/**
-	 * @param algorithm
-	 *            algorithm responsible for computation of this object
-	 */
+	@Override
 	public void setParentAlgorithm(final AlgoElement algorithm) {
 		algoParent = algorithm;
 	}
@@ -4431,14 +4428,17 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            string builder
 	 */
 	protected void getListenerTagsXML(StringBuilder sb) {
-		ScriptManager scriptManager = app.getScriptManager();
-		// updateListenerMap
-		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
-				"objectUpdate");
-		// clickListenerMap
-		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
-				"objectClick");
-
+		// we might be calling this from event dispatcher
+		// make sure we don't initialize ScriptManager here
+		if (app.hasScriptManager()) {
+			ScriptManager scriptManager = app.getScriptManager();
+			// updateListenerMap
+			getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
+					"objectUpdate");
+			// clickListenerMap
+			getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
+					"objectClick");
+		}
 	}
 
 	private void getListenerTagXML(StringBuilder sb,
@@ -6632,7 +6632,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 		if (unwrap instanceof NumberValue) {
 			double val = evaluateDouble();
-			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
+			return Double.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);
 		}
 		return true;

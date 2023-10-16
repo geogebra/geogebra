@@ -75,7 +75,7 @@ public final class WindowReference implements EventRenderable {
 			}
 			instance.wnd = createWindowReference(
 					app.getLocalization().getMenu("GeoGebraMaterials"),
-					lOW.getLoginURL(app.getLocalization().getLanguage()),
+					lOW.getLoginURL(app.getLocalization().getLanguageTagForLogin()),
 					callback);
 			lOW.getView().add(instance);
 			instance.initClosedCheck();

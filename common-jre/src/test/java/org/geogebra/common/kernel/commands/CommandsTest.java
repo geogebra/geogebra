@@ -1027,13 +1027,14 @@ public class CommandsTest {
 				newPoint(-0.4410243233086352, 0.14553384365563557),
 				newPoint(-0.35858986503875784, -0.06827447415125582)
 		};
-		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.kernel.getConstruction(), points);
+		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.getKernel().getConstruction(),
+				points);
 		GeoConicND conic = algo.getConic();
 		assertThat(conic, isDefined());
 	}
 
 	private GeoPoint newPoint(double x, double y) {
-		return new GeoPoint(app.kernel.getConstruction(), x, y, 0.001);
+		return new GeoPoint(app.getKernel().getConstruction(), x, y, 0.001);
 	}
 
 	@Test
@@ -2020,11 +2021,16 @@ public class CommandsTest {
 				false, "(1, 1)");
 		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
 				false, "(?, ?, ?)", "(0, 2, 0)");
-
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
 					"(1, 1, 0)");
 		}
+	}
+
+	@Test
+	public void testIntersectCurves3D() {
+		tRound("Intersect(Curve(v,v,pi/4,v,0,4),Curve(cos(u),sin(u),u,u,0,6),1,1)",
+				"(0.70711, 0.70711, 0.7854)");
 	}
 
 	@Test

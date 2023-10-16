@@ -608,24 +608,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void setLanguage(final String browserLang) {
-		final String lang = Language
-				.getClosestGWTSupportedLanguage(browserLang).getLocaleGWT();
+		Language language1 = Language
+				.fromLanguageTagOrLocaleString(browserLang);
+		final String languageTag = language1.toLanguageTag();
 		getLocalization().cancelCallback();
-		if (lang != null && lang.equals(loc.getLocaleStr())) {
-			Log.debug("Language is already " + loc.getLocaleStr());
+		if (languageTag.equals(loc.getLanguageTag())) {
+			Log.debug("Language is already " + loc.getLanguageTag());
 			setLabels();
 			notifyLocalizationLoaded();
 			return;
 		}
-		if (lang == null || "".equals(lang)) {
+		if (languageTag.isEmpty()) {
 			Log.warn("language being set to empty string");
 			setLanguage("en");
 			return;
 		}
 
-		Log.debug("setting language to:" + lang + ", browser lang:"
+		Log.debug("setting language to:" + languageTag + ", browser languageTag:"
 				+ browserLang);
-		getLocalization().loadScript(lang, this);
+		getLocalization().loadScript(languageTag, this);
 	}
 
 	/**
@@ -1524,7 +1525,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param fileToHandle
 	 *            javascript handle for the file
 	 * @return returns true, if fileToHandle image file, otherwise return false.
-	 *         Note that If the function returns true, it's don't mean, that the
+	 *         Note: If the function returns true, it doesn't mean the
 	 *         file opening was successful, and the opening finished already.
 	 */
 	public boolean openFileAsImage(File fileToHandle) {
@@ -1532,7 +1533,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (!fileToHandle.name.toLowerCase().matches(imageRegEx)) {
 			return false;
 		}
-
+		if (getGuiManager() == null || !getGuiManager().toolbarHasImageMode()) {
+			return true;
+		}
 		FileReader reader = new FileReader();
 		reader.addEventListener("load", (event) -> {
 			if (reader.readyState == FileReader.DONE) {
@@ -1577,7 +1580,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public final ClientInfo getClientInfo() {
 		ClientInfo clientInfo = new ClientInfo();
 		clientInfo.setModel(getLoginOperation().getModel());
-		clientInfo.setLanguage(getLocalization().getLanguage());
+		clientInfo.setLanguage(getLocalization().getLanguageTag());
 		clientInfo.setWidth((int) getWidth());
 		clientInfo.setHeight((int) getHeight());
 		clientInfo.setType(getClientType());

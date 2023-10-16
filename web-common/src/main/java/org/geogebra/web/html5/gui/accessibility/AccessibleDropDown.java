@@ -115,7 +115,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 			option.getElement().setAttribute("role", "option");
 			final int idx = i;
 			option.addDomHandler(e -> {
-						list.setSelectedIndex(idx, true);
+						list.setSelectedIndexUpdate(idx);
 						updateText();
 						button.getElement().focus();
 						toggle();

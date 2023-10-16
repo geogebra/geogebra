@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Language;
 
 import com.himamis.retex.editor.share.model.Korean;
 
@@ -27,7 +28,7 @@ public class InputHelper {
 	 */
 	public static boolean needsAutocomplete(CharSequence curWord,
 			Kernel kernel) {
-		if ("ko".equals(kernel.getLocalization().getLanguage())) {
+		if (kernel.getLocalization().languageIs("ko")) {
 			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
 				return false;
 			}
@@ -42,7 +43,7 @@ public class InputHelper {
 
 	private static boolean needsThreeLetters(Kernel kernel) {
 		// only Simplified chinese; Traditional is using english commands
-		return !"zh_CN".equals(kernel.getLocalization().getLocaleStr());
+		return Language.Chinese_Simplified != kernel.getLocalization().getLanguage();
 	}
 
 	/**

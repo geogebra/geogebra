@@ -755,11 +755,19 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			animation: blink 1s steps(2) infinite;
 			color: purple(600);
 		}
+		.select-content {
+			background: colors.$cursor-overlay-select;
+		}
+
+		user-select: none;
 	}
 
 	.withCursorOverlay input {
 		color: transparent;
+		user-select: none; /* standard */
+		pointer-events: none;
 	}
+
 
 	@keyframes blink {
 		0% {opacity: 0}

@@ -459,7 +459,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/** CAS parser */
-	public CASparser casParser;
+	protected CASparser casParser;
 
 	private static int nrOfReplacedConst = 0;
 	/**

@@ -60,6 +60,9 @@ public class AuralTextTest {
 	public void numberAural() {
 		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
+		app.setRightClickEnabled(false);
+		aural("sl=Slider(-5,5)", "Slider", "increase",
+				"decrease", "edit");
 		assertEquals("Slider sl equals 0",
 				((GeoNumeric) get("sl")).getAuralText());
 		aural("4", "Number");

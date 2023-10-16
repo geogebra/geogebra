@@ -90,7 +90,7 @@ public class AlgoVertexConic extends AlgoElement {
 
 		setInputOutput(); // for AlgoElement
 
-		b = c.b;
+		b = c.getB();
 		eigenvec = c.eigenvec;
 
 		compute();
