@@ -43,9 +43,20 @@ public class ContextMenuItems {
 		HashMap<String, Runnable> actions = new HashMap<>();
 		actions.put("Delete", () -> deleteCells(row, column));
 		actions.put("Copy", () -> copyCells(row, column));
-		actions.put("Paste", () -> {});
+		actions.put("Paste", () -> {pasteCells(row, column);});
 		actions.put("Cut", () -> cutCells(row, column));
 		return actions;
+	}
+
+	private void pasteCells(int row, int column) {
+		List<Selection> selections = selectionController.selections();
+		if (selections.isEmpty()) {
+			copyPasteCut.paste(row, column, "");
+		} else {
+			for (Selection selection: selections) {
+				copyPasteCut.copy(selection.getRange(), "");
+			}
+		}
 	}
 
 	private void copyCells(int row, int column) {

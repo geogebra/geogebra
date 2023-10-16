@@ -5,5 +5,7 @@ public interface CopyPasteCutTabularData {
 
 	void paste(TabularRange range, String content);
 
+	void paste(int row, int column, String content);
+
 	void cut(TabularRange range, String content);
 }

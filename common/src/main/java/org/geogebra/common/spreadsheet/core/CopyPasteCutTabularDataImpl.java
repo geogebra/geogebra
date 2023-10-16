@@ -20,6 +20,11 @@ public class CopyPasteCutTabularDataImpl
 		// TODO geo copy somewhere
 	}
 
+	@Override
+	public void paste(TabularRange range, String content) {
+
+	}
+
 	private void copyToBuffer(TabularRange range, StringBuilder sb) {
 		for (int row = range.fromRow; row < range.toRow + 1; row++) {
 			for (int column = range.fromCol; column < range.toCol + 1; column++) {
@@ -45,8 +50,8 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 	@Override
-	public void paste(TabularRange range, String content) {
-
+	public void paste(int row, int column, String content) {
+		tabularData.setContent(row, column, clipboard.getContent());
 	}
 
 	@Override

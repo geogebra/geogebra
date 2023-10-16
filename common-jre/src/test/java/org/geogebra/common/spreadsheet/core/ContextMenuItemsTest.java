@@ -244,4 +244,11 @@ public class ContextMenuItemsTest {
 			}
 		}
 	}
+
+	@Test
+	public void testPasteSingleCell() {
+		runItemAt(1, 1, "Copy");
+		runItemAt(2, 2, "Paste");
+		assertEquals("cell11", data.contentAt(2, 2));
+	}
 }
