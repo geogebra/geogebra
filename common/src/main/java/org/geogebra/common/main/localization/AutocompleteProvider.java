@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.LowerCaseDictionary;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.debug.Log;
 
 public class AutocompleteProvider {

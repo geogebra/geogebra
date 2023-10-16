@@ -63,6 +63,7 @@ public class CommandFilterTest extends BaseUnitTest {
 		List<String> integralsClassic = getApp().getCommandDictionary().getCompletions("Integ")
 				.stream().map(c -> c.content).collect(Collectors.toList());
 		// should not contain IntegralSymbolic
-		assertEquals(Arrays.asList("Integral", "IntegralBetween"), integralsClassic);
+		assertEquals(Arrays.asList("Integral", "IntegralBetween",
+				"IsInteger", "NIntegral"), integralsClassic);
 	}
 }
