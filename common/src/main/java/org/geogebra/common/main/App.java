@@ -775,7 +775,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// command dictionary for all public command names available in
 		// GeoGebra's input field
 		// removed check for null: commandDict.clear() removes keys, but they
-		// are still available with commandDict.getIterator()
+		// are still available with commandDict.iterator()
 		// so change English -> French -> English doesn't work in the input bar
 		// see AutoCompleteTextfield.lookup()
 		// if (commandDict == null)
