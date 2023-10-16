@@ -1530,6 +1530,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testNumericWrapIsNumeric() {
+		GeoSymbolic symbolic = add("Solve((1-0.0064)^(x)≤0.03,x)");
+		assertThat(symbolic.isSymbolicMode(), equalTo(true));
+		SymbolicUtil.toggleSymbolic(symbolic);
+		assertThat(symbolic.isSymbolicMode(), equalTo(false));
+	}
+
+	@Test
 	public void testQuartiles() {
 		add("l1 = {-2, 12, -23, 17, 15}");
 		add("l2 = {1,2,3,4}");
