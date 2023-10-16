@@ -350,7 +350,8 @@ svg.icon.left {
     display: none;
 }
 
-.compact.GeoGebraFrame .undoRedoSettingsPanelScientific .settingsBtnScientific{
+.compact.GeoGebraFrame .undoRedoSettingsPanelScientific .settingsBtnScientific,
+.compact.GeoGebraFrame .undoRedoSettingsPanelScientific .undoRedoCntScientific {
 	margin: 0px;
 }
 
