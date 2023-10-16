@@ -43,7 +43,7 @@ public class InputHelper {
 
 	private static boolean needsThreeLetters(Kernel kernel) {
 		// only Simplified chinese; Traditional is using english commands
-		return Language.Chinese_Simplified == kernel.getLocalization().getLanguage();
+		return Language.Chinese_Simplified != kernel.getLocalization().getLanguage();
 	}
 
 	/**
