@@ -8,7 +8,8 @@ import org.junit.Test;
 
 public class SpreadsheetControllerTest {
 
-	private final SpreadsheetController controller = new SpreadsheetController(new TestTabularData());
+	private final SpreadsheetController controller =
+			new SpreadsheetController(new TestTabularData());
 
 	@Test
 	public void testMove() {
