@@ -1,12 +1,13 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.shape.Rectangle;
+
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
  * A container for tabular data, with support for selecting parts of the data.
@@ -183,19 +184,19 @@ public final class SpreadsheetController implements TabularSelection {
 	public boolean handleKeyPressed(int keyCode, Modifiers modifiers) {
 		if (selectionController.hasSelection()) {
 			switch (keyCode) {
-			case KeyEvent.VK_LEFT:
+			case JavaKeyCodes.VK_LEFT:
 				moveLeft(modifiers.shift);
 				return true;
-			case KeyEvent.VK_RIGHT:
+			case JavaKeyCodes.VK_RIGHT:
 				moveRight(modifiers.shift);
 				return true;
-			case KeyEvent.VK_UP:
+			case JavaKeyCodes.VK_UP:
 				moveUp(modifiers.shift);
 				return true;
-			case KeyEvent.VK_DOWN:
+			case JavaKeyCodes.VK_DOWN:
 				moveDown(modifiers.shift);
 				return true;
-			case KeyEvent.VK_A:
+			case JavaKeyCodes.VK_A:
 				if (modifiers.ctrl) {
 					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
 					return true;
