@@ -47,11 +47,12 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem clearConstruction = clearConstruction();
 		MenuItem openFile = isScientific && !isSuiteApp() ? null : openFile();
 		MenuItem saveFile = isScientific && !isSuiteApp() ? null : saveFile();
+		MenuItem shareFile = isScientific && !isSuiteApp() ? null : share();
 		MenuItem switchCalculator = showSwitchCalculator();
 		MenuItem examLog = showExamLog();
 		MenuItem exitExam = createsExitExam ? exitExamMode() : null;
 		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(clearConstruction, openFile,
-				saveFile, switchCalculator, examLog, exitExam));
+				saveFile, shareFile, switchCalculator, examLog, exitExam));
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, group);
 	}
