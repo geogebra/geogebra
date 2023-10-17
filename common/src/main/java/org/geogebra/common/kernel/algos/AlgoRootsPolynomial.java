@@ -257,7 +257,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			if (f.isDefined()) {
 				Function fun = f.getFunctionForRoot();
 				// get polynomial factors anc calc roots
-				calcRootsMultiple(fun, 0, solution, eqnSolver);
+				calcRootsMultiple(fun, 0, solution, eqnSolver, false);
 			} else {
 				solution.resetRoots();
 			}
@@ -377,7 +377,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 */
 	public final void calcRoots(Function fun, int derivDegree) {
 		UnivariateFunction evalFunction = calcRootsMultiple(fun, derivDegree,
-				solution, eqnSolver);
+				solution, eqnSolver, true);
 
 		if (solution.curRealRoots > 1) {
 			solution.sortAndMakeUnique();
@@ -405,6 +405,23 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	public static UnivariateFunction calcRootsMultiple(Function fun,
 			int derivDegree, Solution solution,
 			EquationSolverInterface eqnSolver) {
+		return calcRootsMultiple(fun, derivDegree, solution, eqnSolver, false);
+	}
+
+	/**
+	 * @param fun
+	 *            function
+	 * @param derivDegree
+	 *            derivative degree
+	 * @param solution
+	 *            output solution
+	 * @param eqnSolver
+	 *            solver
+	 * @return function used for root finding
+	 */
+	public static UnivariateFunction calcRootsMultiple(Function fun,
+			int derivDegree, Solution solution,
+			EquationSolverInterface eqnSolver, boolean skipDoubleRoots) {
 		LinkedList<PolyFunction> factorList;
 		PolyFunction derivPoly = null; // only needed for derivatives
 		UnivariateFunction evalFunction = null; // needed to remove wrong extrema
@@ -423,11 +440,11 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 						false, false, true);
 				evalFunction = derivPoly;
 			} else {
-				evalFunction = fun.getDerivative(derivDegree, true);
+				evalFunction = fun.getDerivativeNoFractions(derivDegree, true);
 			}
 		} else {
 			// standard case
-			factorList = fun.getPolynomialFactors(false, false);
+			factorList = fun.getPolynomialFactors(skipDoubleRoots, false);
 		}
 
 		double[] roots;

@@ -2619,6 +2619,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdDerivativeNoCas() {
+		// no CAS used; ExpressionNode manipulations should keep fractions
+		tRound("Derivative[x^2/3]", unicode("2 / 3 x"));
+	}
+
+	@Test
 	public void cmdNet() {
 		tRound("Net[Cube[(0,0,2),(0,0,0)],1]",
 				"24", "(0, 0, 2)", "(0, 0, 0)", "(2, 0, 0)",
@@ -3294,6 +3300,24 @@ public class CommandsTest {
 		t("Root(a)", "(NaN, NaN)");
 		t("b:=0/5", "0");
 		t("Root(b)", "(NaN, NaN)");
+	}
+
+	@Test
+	public void cmdRootHighDeg() {
+		long time = System.currentTimeMillis();
+		t("Root((x+1)^99)", "(-1, 0)");
+		t("Root((x+1)^99+1)", "(NaN, NaN)");
+		assertTrue(System.currentTimeMillis() - time < 1000);
+	}
+
+	@Test
+	public void cmdExtremumHighDeg() {
+		long time = System.currentTimeMillis();
+		t("Extremum((x+1)^24)", "(-1, 0)");
+		tRound("Extremum((x+1)^98)", "(-1, 0)");
+		// nearly horizontal => x coordinate random, assert on y only
+		tRound("y(Extremum((x+1)^98+1))", "1");
+		assertTrue(System.currentTimeMillis() - time < 1000);
 	}
 
 	@Test

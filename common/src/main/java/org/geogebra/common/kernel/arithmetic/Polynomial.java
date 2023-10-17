@@ -584,10 +584,7 @@ public class Polynomial implements HasDebugString {
 	static Polynomial fromNode(ExpressionNode lhs, Equation eqn,
 			boolean keepFraction) {
 		ExpressionNode leftEN = lhs.getCopy(lhs.getKernel());
-		Polynomial poly = leftEN.makePolynomialTree(eqn, keepFraction);
-		// Log.debug("Coefficients:");
-		// Log.debug(poly);
-		return poly;
+		return leftEN.makePolynomialTree(eqn, keepFraction);
 	}
 
 	/**
