@@ -27,6 +27,10 @@ public class ScreenReader {
 	// we need)
 	final private static String TRANSLATION_PREFIX = "ScreenReader.";
 
+	/**
+	 * @param app - application
+	 * @return first seleted geo
+	 */
 	public static GeoElement getSelectedGeo(App app) {
 		if (app.getSelectionManager().getSelectedGeos().size() > 0) {
 			return app.getSelectionManager().getSelectedGeos().get(0);
