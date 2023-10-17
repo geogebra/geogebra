@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.menu.impl;
 
-import static org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory.share;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenu;
