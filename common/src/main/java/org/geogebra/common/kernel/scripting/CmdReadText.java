@@ -1,10 +1,15 @@
 package org.geogebra.common.kernel.scripting;
 
+import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.ScreenReader;
 
 /**
  * ReadText(Text)
@@ -31,8 +36,12 @@ public class CmdReadText extends CmdScripting {
 		if (args[0].isGeoText()) {
 
 			if (app.getActiveEuclidianView() != null) {
-				app.getActiveEuclidianView().getScreenReader()
-						.readDelayed(((GeoText) args[0]).getAuralText());
+				GeoElement selectedGeo = ScreenReader.getSelectedGeo(app);
+				// do not steal focus from selected inputbox
+				if (selectedGeo == null || !selectedGeo.isGeoInputBox()) {
+					app.getActiveEuclidianView().getScreenReader()
+							.readDelayed(((GeoText) args[0]).getAuralText());
+				}
 			}
 			return args;
 		}
