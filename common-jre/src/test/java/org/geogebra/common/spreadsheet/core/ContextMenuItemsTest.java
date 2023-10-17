@@ -264,4 +264,20 @@ public class ContextMenuItemsTest {
 		assertEquals("cell21", data.contentAt(3, 4));
 		assertEquals("cell22", data.contentAt(3, 5));
 	}
+
+	@Test
+	public void testPasteCellsToSelection() {
+		selectCells(1,2, 1, 2);
+		runItemAt(1, 1, "Copy");
+		selectCells(2, 4, 2, 6);
+		runItemAt(2, 4, "Paste");
+		assertEquals("cell11", data.contentAt(2, 4));
+		assertEquals("cell12", data.contentAt(2, 5));
+		assertEquals("cell21", data.contentAt(3, 4));
+		assertEquals("cell22", data.contentAt(3, 5));
+		assertEquals("cell11", data.contentAt(2, 6));
+		assertEquals("cell12", data.contentAt(2, 7));
+		assertEquals("cell21", data.contentAt(3, 6));
+		assertEquals("cell22", data.contentAt(3, 7));
+	}
 }
