@@ -3,6 +3,8 @@ package org.geogebra.common.spreadsheet.core;
 public interface CopyPasteCutTabularData {
 	void copy(TabularRange range, String content);
 
+	<T> void copyDeep(TabularRange range, String content);
+
 	void paste(TabularRange range, String content);
 
 	void paste(int row, int column, String content);

@@ -6,6 +6,7 @@ public class CopyPasteCutTabularDataImpl
 	private final TabularData tabularData;
 	private final ClipboardInterface clipboard;
 	private StringBuilder stringBuilder;
+	private TabularClipboard internalClipboard = null;
 
 	public CopyPasteCutTabularDataImpl(TabularData tabularData, ClipboardInterface clipboard) {
 		this.tabularData = tabularData;
@@ -21,7 +22,25 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 	@Override
+	public <T> void copyDeep(TabularRange range, String content) {
+		copy(range, content);
+		if (internalClipboard == null) {
+			internalClipboard = new TabularClipboard<T>(tabularData);
+		}
+		internalClipboard.copy(range);
+	}
+
+
+	@Override
 	public void paste(TabularRange range, String content) {
+		if (internalClipboard.isEmpty()) {
+			// TODO
+		} else {
+			internalClipboard.pasteInternalMultiple(range);
+		}
+	}
+
+	private void pasteExternalMultiple(TabularRange range, String content) {
 
 	}
 
@@ -51,20 +70,24 @@ public class CopyPasteCutTabularDataImpl
 
 	@Override
 	public void paste(int row, int column, String content) {
-		tabularData.setContent(row, column, clipboard.getContent());
+		if (internalClipboard != null) {
+			internalClipboard.pasteInternalMultiple(new TabularRange(row, column, row, column));
+		} else {
+			tabularData.setContent(row, column, clipboard.getContent());
+		}
 	}
+
 
 	@Override
 	public void cut(TabularRange range, String content) {
 		copy(range, content);
+		if (internalClipboard != null) {
+			internalClipboard.clear();
+		}
 		deleteRange(range);
 	}
 
 	private void deleteRange(TabularRange range) {
-		for (int row = range.fromRow; row < range.toRow + 1; row++) {
-			for (int column = range.fromCol; column < range.toCol + 1; column++) {
-				tabularData.setContent(row, column, null);
-			}
-		}
+		range.forEach(((row, column) -> tabularData.setContent(row, column, null)));
 	}
 }

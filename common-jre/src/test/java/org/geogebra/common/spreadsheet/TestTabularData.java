@@ -3,10 +3,13 @@ package org.geogebra.common.spreadsheet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.spreadsheet.core.PasteInterface;
+import org.geogebra.common.spreadsheet.core.PasteText;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
+import org.geogebra.common.spreadsheet.kernel.HasPaste;
 
-public class TestTabularData implements TabularData<Object> {
+public class TestTabularData implements TabularData<Object>, HasPaste {
 
 	List<List<Object>> data = new ArrayList<>();
 
@@ -89,5 +92,10 @@ public class TestTabularData implements TabularData<Object> {
 	@Override
 	public String getEditableString(int row, int column) {
 		return String.valueOf(contentAt(row, column));
+	}
+
+	@Override
+	public PasteInterface getPaste() {
+		return new PasteText();
 	}
 }

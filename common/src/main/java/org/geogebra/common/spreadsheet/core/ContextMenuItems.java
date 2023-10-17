@@ -54,7 +54,7 @@ public class ContextMenuItems {
 			copyPasteCut.paste(row, column, "");
 		} else {
 			for (Selection selection: selections) {
-				copyPasteCut.copy(selection.getRange(), "");
+				copyPasteCut.paste(selection.getRange(), "");
 			}
 		}
 	}
@@ -62,10 +62,10 @@ public class ContextMenuItems {
 	private void copyCells(int row, int column) {
 		List<Selection> selections = selectionController.selections();
 		if (selections.isEmpty()) {
-			copyPasteCut.copy(new TabularRange(row, column, row, column), "");
+			copyPasteCut.copyDeep(new TabularRange(row, column, row, column), "");
 		} else {
 			for (Selection selection: selections) {
-				copyPasteCut.copy(selection.getRange(), "");
+				copyPasteCut.copyDeep(selection.getRange(), "");
 			}
 		}
 	}

@@ -34,4 +34,16 @@ public final class TabularRange {
 		}
 		return null;
 	}
+
+	public boolean isSingleton() {
+		return fromRow == toRow && fromCol == toCol;
+	}
+
+	public void forEach(RangeAction action) {
+		for (int row = fromRow; row <= toRow; row++) {
+			for (int column = fromCol; column <= toCol; column++) {
+				action.run(row, column);
+			}
+		}
+	}
 }

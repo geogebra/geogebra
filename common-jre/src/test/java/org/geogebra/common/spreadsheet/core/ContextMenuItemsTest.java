@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ContextMenuItemsTest {
@@ -250,5 +251,17 @@ public class ContextMenuItemsTest {
 		runItemAt(1, 1, "Copy");
 		runItemAt(2, 2, "Paste");
 		assertEquals("cell11", data.contentAt(2, 2));
+	}
+
+	@Test
+	public void testPasteCellSelection() {
+		selectCells(1,2, 1, 2);
+		runItemAt(1, 1, "Copy");
+		selectionController.clearSelection();
+		runItemAt(2, 4, "Paste");
+		assertEquals("cell11", data.contentAt(2, 4));
+		assertEquals("cell12", data.contentAt(2, 5));
+		assertEquals("cell21", data.contentAt(3, 4));
+		assertEquals("cell22", data.contentAt(3, 5));
 	}
 }
