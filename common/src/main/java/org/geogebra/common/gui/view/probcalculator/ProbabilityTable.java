@@ -153,7 +153,7 @@ public abstract class ProbabilityTable {
 		if (distType == null) {
 			return;
 		}
-		GeoNumeric xValue = new GeoNumeric(app.kernel.getConstruction(), xMin);
+		GeoNumeric xValue = new GeoNumeric(app.getKernel().getConstruction(), xMin);
 		AlgoDistribution algoDistribution =
 				getProbManager().getDistributionAlgorithm(xValue, parms, distType, isCumulative());
 

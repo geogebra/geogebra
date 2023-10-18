@@ -655,7 +655,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		@Override
-		public void addItem(String plain) {
+		public void addItem(String item) {
 			// do nothing
 		}
 

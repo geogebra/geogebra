@@ -40,13 +40,13 @@ public class CurveHitting {
 	 */
 	public boolean hit(Hitting hitting, 
 			Path curve, double hitLineThickness) {
-		hittingPoint.setWillingCoords(hitting.origin);
-		hittingPoint.setWillingDirection(hitting.direction);
+		hittingPoint.setWillingCoords(hitting.getOrigin());
+		hittingPoint.setWillingDirection(hitting.getDirection());
 		GeoElement geo = parent.getGeoElement();
 		curve.pointChanged(hittingPoint);
 
 		Coords closestPoint = hittingPoint.getInhomCoordsInD3();
-		closestPoint.projectLine(hitting.origin, hitting.direction, project,
+		closestPoint.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
 				lineCoords);
 
 		// check if point on line is visible

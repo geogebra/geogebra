@@ -3469,7 +3469,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return e.isMiddleClick();
 	}
 
-
 	/**
 	 * isRightClickForceMetaDown
 	 * @param e event
@@ -3910,15 +3909,15 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 *  returns an AWT Font that can display a given string with the specified properties
 	 * @param string the string to be displayed
-	 * @param b whether the font should be bold or not
-	 * @param plain whether the font should be plain, italic, or bold-italic
-	 * @param i font size
+	 * @param serif whether the font should be serif or not
+	 * @param fontStyle whether the font should be plain, italic, or bold-italic
+	 * @param size font size
 	 * @return AWT Font
 	 */
-	public Font getFontCanDisplayAwt(String string, boolean b, int plain,
-			int i) {
-		return ((GFontD) getFontManager().getFontCanDisplay(string, b, plain,
-				i)).getAwtFont();
+	public Font getFontCanDisplayAwt(String string, boolean serif, int fontStyle,
+			int size) {
+		return ((GFontD) getFontManager().getFontCanDisplay(string, serif, fontStyle,
+				size)).getAwtFont();
 	}
 
 	public Font getFontCanDisplayAwt(String string) {
@@ -3928,12 +3927,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 *  returns a font that can display the string given
 	 * @param value string to be displayed
-	 * @param plain font size
+	 * @param fontStyle font style
 	 * @return AWT Font
 	 */
-	public Font getFontCanDisplayAwt(String value, int plain) {
+	public Font getFontCanDisplayAwt(String value, int fontStyle) {
 		int fontSize = settings.getFontSettings().getAppFontSize();
-		GFont font = getFontCreator().newSansSerifFont(value, plain, fontSize);
+		GFont font = getFontCreator().newSansSerifFont(value, fontStyle, fontSize);
 		return GFontD.getAwtFont(font);
 	}
 
@@ -4839,10 +4838,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return;
 		}
 
-		byte[] png;
+		byte[] pngData;
 		try {
-			png = Base64.decode(base64image.getBytes(Charsets.getUtf8()));
-			ByteArrayInputStream bis = new ByteArrayInputStream(png);
+			pngData = Base64.decode(base64image.getBytes(Charsets.getUtf8()));
+			ByteArrayInputStream bis = new ByteArrayInputStream(pngData);
 			BufferedImage image = ImageIO.read(bis);
 			copyImageToClipboard(image);
 		} catch (Exception e) {

@@ -574,11 +574,11 @@ public class DrawConic extends SetDrawable implements Previewable {
 			double val1 = conic.evaluate(view.toRealWorldCoordX(xTry[i]),
 					view.toRealWorldCoordY(yTry[i]));
 			if (conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES) {
-				val1 *= conic.evaluate(conic.b.getX() + lines[0].x + lines[1].x,
-						conic.b.getY() + lines[0].y + lines[1].y);
+				val1 *= conic.evaluate(conic.getB().getX() + lines[0].x + lines[1].x,
+						conic.getB().getY() + lines[0].y + lines[1].y);
 			}
 			if (conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
-				val1 *= conic.evaluate(conic.b.getX(), conic.b.getY());
+				val1 *= conic.evaluate(conic.getB().getX(), conic.getB().getY());
 			}
 			if (!DoubleUtil.isZero(val1)) {
 				return (val1 > 0) ^ fillShape.contains(xTry[i], yTry[i]);

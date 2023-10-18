@@ -351,10 +351,6 @@ public final class LocalizationW extends Localization {
 		} else {
 			// load keys (into a JavaScript <script> tag)
 			String url = StyleInjector.normalizeUrl(GWT.getModuleBaseURL());
-			if (url.startsWith(GeoGebraConstants.CDN_APPS + "latest")) {
-				url = GeoGebraConstants.CDN_APPS
-						+ GeoGebraConstants.VERSION_STRING + "/web3d/";
-			}
 			scriptCallback = new ScriptLoadCallback() {
 				private boolean canceled = false;
 

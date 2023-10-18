@@ -88,8 +88,8 @@ public class AlgoAngleConic extends AlgoAngle {
 	public boolean updateDrawInfo(double[] m, double[] firstVec,
 			DrawAngle drawable) {
 
-		m[0] = c.b.getX();
-		m[1] = c.b.getY();
+		m[0] = c.getB().getX();
+		m[1] = c.getB().getY();
 		firstVec[0] = 1;
 		firstVec[1] = 0;
 

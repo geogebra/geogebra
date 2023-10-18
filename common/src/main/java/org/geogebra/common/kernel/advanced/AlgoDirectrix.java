@@ -57,7 +57,7 @@ public class AlgoDirectrix extends AlgoElement {
 		this.c = c;
 
 		eigenvec = c.eigenvec;
-		b = c.b;
+		b = c.getB();
 
 		directrix = new GeoLine(cons);
 		directrix2 = new GeoLine(cons);

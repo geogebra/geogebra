@@ -51,8 +51,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	/** application */
 	AppD app;
 	protected final DynamicTextInputPane thisPane;
-	/** doc */
-	public DefaultStyledDocument doc;
+	private final DefaultStyledDocument doc;
 	private JTextComponent focusedTextComponent;
 
 	/**************************************
@@ -195,9 +194,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 		StringBuilder sb = new StringBuilder();
 		Element elem;
-		for (int i = 0; i < doc.getLength(); i++) {
+		for (int i = 0; i < getDoc().getLength(); i++) {
 			try {
-				elem = doc.getCharacterElement(i);
+				elem = getDoc().getCharacterElement(i);
 				if (elem.getName().equals("component")) {
 
 					DynamicTextField tf = (DynamicTextField) StyleConstants
@@ -227,7 +226,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 				} else if (elem.getName().equals("content")) {
 
-					String content = doc.getText(i, 1);
+					String content = getDoc().getText(i, 1);
 					currentQuote = StringUtil.processQuotes(sb, content,
 							currentQuote);
 
@@ -359,14 +358,19 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		try {
 			int offs = offs0;
 			if (offs == -1) {
-				offs = doc.getLength(); // insert at end
+				offs = getDoc().getLength(); // insert at end
 			}
-			doc.insertString(offs, str, a);
+			getDoc().insertString(offs, str, a);
 
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	/** @return document */
+	public DefaultStyledDocument getDoc() {
+		return doc;
 	}
 
 	/*********************************************************************
@@ -478,7 +482,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 		private class ArrowKeyListener extends KeyAdapter {
 
-			private DynamicTextField tf;
+			private final DynamicTextField tf;
 
 			public ArrowKeyListener(DynamicTextField tf) {
 				this.tf = tf;

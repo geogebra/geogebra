@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
+import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicSectionInterface;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -134,6 +135,7 @@ public class GeoConicSection extends GeoConic3D
 		}
 
 		// handle conic types
+		GeoVec2D b = getB();
 		switch (type) {
 		default:
 			// do nothing
@@ -189,7 +191,6 @@ public class GeoConicSection extends GeoConic3D
 			if (paramExtent[1] < 0) {
 				paramExtent[1] += Kernel.PI_2;
 			}
-
 			// set edges
 			if (!Double.isNaN(paramStart[0])) { // at least one edge
 				double x0 = getEigenvec(0).getX() * getHalfAxis(0);
