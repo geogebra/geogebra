@@ -117,7 +117,7 @@ public class MarblePanel extends FlowPanel
 
 	private void initHelpToggle() {
 		if (btnWarning == null) {
-			btnWarning = new StandardButton(GuiResourcesSimple.INSTANCE.icon_dialog_warning(), 24);
+			btnWarning = new StandardButton(MaterialDesignResources.INSTANCE.wrong_input(), 24);
 			// when clicked, this steals focus
 			// => we need to push focus to parent item
 			Dom.addEventListener(btnWarning.getElement(), "mouseover", event -> {
