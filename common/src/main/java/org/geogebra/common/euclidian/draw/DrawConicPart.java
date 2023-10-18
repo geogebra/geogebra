@@ -169,19 +169,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 				// offscreen points too
 			}
 
-			// draw trace
-			if (((Traceable) conicPart).getTrace()) {
-				isTracing = true;
-				GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null) {
-					drawTrace(g2);
-				}
-			} else {
-				if (isTracing) {
-					isTracing = false;
-					// view.updateBackground();
-				}
-			}
+			drawAndUpdateTraceIfNeeded(((Traceable) conicPart).getTrace());
 		}
 	}
 

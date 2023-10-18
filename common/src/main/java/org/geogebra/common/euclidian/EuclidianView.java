@@ -4620,14 +4620,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @return background graphics
-	 */
-	final public GGraphics2D getBackgroundGraphics() {
-		this.tracing = true;
-		return bgGraphics;
-	}
-
-	/**
 	 * returns settings in XML format
 	 * 
 	 * @param sbxml
@@ -6736,5 +6728,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public IntervalPathPlotter createIntervalPathPlotter(GeneralPathClippedForCurvePlotter gp) {
 		return new IntervalPathPlotterImpl(gp);
+	}
+
+	/**
+	 * Paints drawable's trace to background graphics
+	 * @param drawable object to draw as trace
+	 */
+	public void drawTrace(Drawable drawable) {
+		this.tracing = true;
+		if (bgGraphics != null) {
+			drawable.drawTrace(bgGraphics);
+		}
 	}
 }
