@@ -186,6 +186,7 @@ public class CSVParser {
 	 *            if true, characters outside the quotes are ignored
 	 * @param ignoreLeadingWhiteSpace
 	 *            if true, white space in front of a quote in a field is ignored
+	 * @param ignoreQuotations whether to ignore quotes
 	 */
 	public CSVParser(char separator, char quotechar, char escape,
 			boolean strictQuotes, boolean ignoreLeadingWhiteSpace,

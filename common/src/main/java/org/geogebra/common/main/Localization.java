@@ -476,17 +476,18 @@ public abstract class Localization extends LocalizationI {
 	 * @author Michael Borcherds, Markus Hohenwarter
 	 * @param key
 	 *            key
+	 * @param defaultPattern default translation pattern
 	 * @param args
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public String getPlainArray(String key, String default0,
+	final public String getPlainArray(String key, String defaultPattern,
 			String[] args) {
 		String str = getMenu(key);
 
-		if (default0 != null && key.equals(str)) {
+		if (defaultPattern != null && key.equals(str)) {
 			// lookup failed, use default
-			str = default0;
+			str = defaultPattern;
 		}
 
 		StringBuilder sbPlain = new StringBuilder();
