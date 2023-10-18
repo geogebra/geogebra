@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -156,6 +158,28 @@ public class SpreadsheetDemo {
 					repaint();
 				}
 			});
+			setFocusable(true);
+			addKeyListener(new KeyListener() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+
+				}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+					spreadsheet.handleKeyPressed(e.getKeyCode(), getModifiers(e));
+					if (spreadsheet.needsRedraw()) {
+						repaint();
+					}
+				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+
+				}
+			});
+
+
 			final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame, app);
 			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
 				@Override
@@ -194,8 +218,13 @@ public class SpreadsheetDemo {
 		}
 
 		private Modifiers getModifiers(MouseEvent event) {
-			return new Modifiers(event.isAltDown(), event.isControlDown(),
+			return new Modifiers(event.isAltDown(), event.isControlDown(), event.isShiftDown(),
 					event.getButton() == 3);
+		}
+
+		private Modifiers getModifiers(KeyEvent event) {
+			return new Modifiers(event.isAltDown(), event.isControlDown(),
+					event.isShiftDown(), false);
 		}
 
 		public Rectangle getViewport() {
