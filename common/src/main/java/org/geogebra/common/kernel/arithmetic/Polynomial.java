@@ -33,7 +33,7 @@ import com.google.j2objc.annotations.Weak;
 
 public class Polynomial implements HasDebugString {
 
-	private static final int MAX_ALLOWED_DEGREE = 1000;
+	private static final int MAX_ALLOWED_DEGREE = 300;
 
 	private ArrayList<Term> terms = new ArrayList<>();
 	@Weak

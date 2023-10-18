@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.algos.AlgoTableText;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -3313,10 +3314,12 @@ public class CommandsTest {
 	@Test
 	public void cmdExtremumHighDeg() {
 		long time = System.currentTimeMillis();
+		StringTemplate lowPrecision = StringTemplate.printDecimals(
+				ExpressionNodeConstants.StringType.GEOGEBRA, 2, false);
 		t("Extremum((x+1)^24)", "(-1, 0)");
-		tRound("Extremum((x+1)^98)", "(-1, 0)");
+		t("Extremum((x+1)^98)", lowPrecision, "(-1, 0)");
 		// nearly horizontal => x coordinate random, assert on y only
-		tRound("y(Extremum((x+1)^98+1))", "1");
+		t("y(Extremum((x+1)^98+1))", lowPrecision, "1");
 		assertTrue(System.currentTimeMillis() - time < 1000);
 	}
 

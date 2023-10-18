@@ -44,7 +44,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	private static final int INTERSECT_POLYNOMIALS = 1;
 	private static final int INTERSECT_POLY_LINE = 2;
 	private static final int MULTIPLE_ROOTS = 3;
-	private int mode;
+	private final int mode;
 
 	protected GeoFunctionable f; // input (g for intersection of polynomials)
 	GeoFunctionable g;
@@ -62,14 +62,18 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// used for AlgoExtremumPolynomial, see setRootPoints()
 	/** used for intersection of f and g */
 	protected Function diffFunction;
-	private GeoPoint tempPoint;
+	private final GeoPoint tempPoint;
 
 	/**
-	 * Computes all roots of f
+	 * Computes all roots of fn
+	 * @param cons construction
+	 * @param labels output labels
+	 * @param fn function
+	 * @param labelEnabled whether to allow output labeling
 	 */
 	public AlgoRootsPolynomial(Construction cons, String[] labels,
-			GeoFunctionable f2, boolean labelEnabled) {
-		this(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(), f2,
+			GeoFunctionable fn, boolean labelEnabled) {
+		this(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(), fn,
 				null, null);
 	}
 
@@ -417,6 +421,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 *            output solution
 	 * @param eqnSolver
 	 *            solver
+	 * @param skipDoubleRoots whether double roots *may* be skipped
+	 *           (ensuring uniqueness and sorting is up to the caller)
 	 * @return function used for root finding
 	 */
 	public static UnivariateFunction calcRootsMultiple(Function fun,
