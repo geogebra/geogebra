@@ -79,9 +79,9 @@ public class UndoManagerW extends DefaultUndoManager {
 	}
 
 	@Override
-	public void runAfterSlideLoaded(String slideID, Runnable run) {
+	public void runAfterSlideLoaded(String slideID, Runnable action) {
 		OpenFileListener callback = () -> {
-			run.run();
+			action.run();
 			updatePreviewCard(slideID);
 			return true;
 		};

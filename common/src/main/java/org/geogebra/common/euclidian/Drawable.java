@@ -703,6 +703,7 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @param fillShape
 	 *            shape to be filled
+	 * @param color hatching color
 	 */
 	public void fillWithHatchOrImage(GGraphics2D g2, GShape fillShape, GColor color) {
 		if (geo.getFillType() == FillType.IMAGE && geo.getFillImage() != null) {
