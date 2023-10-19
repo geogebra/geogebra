@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
-import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UpdateLocationView;
@@ -16,11 +15,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.spreadsheet.core.CopyPasteCutTabularData;
+import org.geogebra.common.spreadsheet.core.PasteGeos;
 import org.geogebra.common.spreadsheet.core.PasteInterface;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
-import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes

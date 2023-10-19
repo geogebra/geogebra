@@ -6,10 +6,9 @@ import java.util.List;
 import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 import org.geogebra.common.spreadsheet.kernel.HasPaste;
 
-public class TabularClipboard<T> implements HasTabularValues<T> {
+public class TabularClipboard<T> {
 	private final TabularData tabularData;
-	private List<List<T>> buffer = new ArrayList<>();
-	private TabularRange source;
+	private TabularBuffer buffer = new TabularBuffer<T>();
 	private PasteInterface paste;
 
 	public TabularClipboard(TabularData tabularData) {
@@ -20,12 +19,12 @@ public class TabularClipboard<T> implements HasTabularValues<T> {
 	}
 
 	public void copy(TabularRange range) {
-		this.source = range;
+		buffer.setSource(range);
 		clear();
 		for (int row = range.fromRow; row < range.toRow + 1; row++) {
 			List<T> rowData = new ArrayList<>();
 			for (int column = range.fromCol; column < range.toCol + 1; column++) {
-				rowData.add((T) tabularData.contentAt(row, column));
+			 	rowData.add((T) tabularData.contentAt(row, column));
 			}
 			buffer.add(rowData);
 		}
@@ -39,26 +38,10 @@ public class TabularClipboard<T> implements HasTabularValues<T> {
 		return buffer.isEmpty();
 	}
 
-	@Override
-	public T contentAt(int row, int column) {
-		List<T> rowList = buffer.get(row);
-		return rowList != null ? rowList.get(column) : null;
-	}
-
-	@Override
-	public int numberOfRows() {
-		return buffer.size();
-	}
-
-	@Override
-	public int numberOfColumns() {
-		return isEmpty()? 0 : buffer.get(0).size();
-	}
-
 
 	public void pasteInternalMultiple(TabularRange destination) {
-		int columnStep = numberOfRows();
-		int rowStep = numberOfColumns();
+		int columnStep = buffer.numberOfRows();
+		int rowStep = buffer.numberOfColumns();
 
 		if (columnStep == 0 || rowStep == 0) {
 			return;
@@ -80,7 +63,7 @@ public class TabularClipboard<T> implements HasTabularValues<T> {
 
 	private void pasteInternal(TabularRange destination) {
 		extendDataIfNeeded(destination);
-		paste.pasteInternal(tabularData, this, destination);
+		paste.pasteInternal(tabularData, buffer, destination);
 	}
 
 	private void extendDataIfNeeded(TabularRange destination) {

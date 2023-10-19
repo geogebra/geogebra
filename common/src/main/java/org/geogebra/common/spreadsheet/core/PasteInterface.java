@@ -1,9 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 
-import com.himamis.retex.renderer.share.Row;
-
-public interface PasteInterface {
-void pasteInternal(TabularData tabularData, HasTabularValues buffer, TabularRange destination);
+public interface PasteInterface<T> {
+void pasteInternal(TabularData<T> tabularData, TabularBuffer<T> buffer, TabularRange destination);
 }
