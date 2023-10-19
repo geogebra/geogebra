@@ -11,7 +11,6 @@ public class CopyPasteCutTabularDataImpl
 	private final TabularData tabularData;
 	private final ClipboardInterface clipboard;
 	private PasteInterface paste = null;
-	private StringBuilder stringBuilder;
 	private TabularBuffer buffer;
 
 	public CopyPasteCutTabularDataImpl(TabularData tabularData, ClipboardInterface clipboard) {
@@ -24,9 +23,24 @@ public class CopyPasteCutTabularDataImpl
 
 	@Override
 	public void copy(TabularRange range, String content) {
-		StringBuilder sb = getStringBuilder();
-		copyToBuffer(range, sb);
-		clipboard.setContent(sb.toString());
+		clipboard.setContent(toTabbedString(range));
+	}
+
+	private String toTabbedString(TabularRange range) {
+		StringBuilder sb = new StringBuilder();
+		for (int row = range.fromRow; row < range.toRow + 1; row++) {
+			for (int column = range.fromCol; column < range.toCol + 1; column++) {
+				Object value = tabularData.contentAt(row, column);
+				sb.append(value);
+				if (column != range.toCol) {
+					sb.append('\t');
+				}
+			}
+			if (row != range.toRow) {
+				sb.append('\t');
+			}
+		}
+		return sb.toString();
 	}
 
 	@Override
@@ -57,31 +71,7 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 	private void pasteExternalMultiple(TabularRange range, String content) {
-
-	}
-
-	private void copyToBuffer(TabularRange range, StringBuilder sb) {
-		for (int row = range.fromRow; row < range.toRow + 1; row++) {
-			for (int column = range.fromCol; column < range.toCol + 1; column++) {
-				Object value = tabularData.contentAt(row, column);
-				sb.append(value);
-				if (column != range.toCol) {
-					sb.append('\t');
-				}
-			}
-			if (row != range.toRow) {
-				sb.append('\t');
-			}
-		}
-	}
-
-	private StringBuilder getStringBuilder() {
-		if (stringBuilder == null) {
-			stringBuilder = new StringBuilder();
-		} else {
-			stringBuilder.setLength(0);
-		}
-		return stringBuilder;
+		// TODO
 	}
 
 	@Override
@@ -94,7 +84,7 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 
-	public void pasteInternalMultiple(TabularRange destination) {
+	private void pasteInternalMultiple(TabularRange destination) {
 		int columnStep = buffer.numberOfRows();
 		int rowStep = buffer.numberOfColumns();
 
@@ -136,7 +126,6 @@ public class CopyPasteCutTabularDataImpl
 			}
 		}
 	}
-
 
 	@Override
 	public void cut(TabularRange range, String content) {
