@@ -113,6 +113,7 @@ public class DrawLabel3D {
 	 *            abs offset in y
 	 * @param zOffset0
 	 *            abs offset in z
+	 * @param measuringGraphics auxiliary graphics for text measurements
 	 */
 	public void update(CaptionText caption, GFont font0, Coords v,
 			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
@@ -144,6 +145,7 @@ public class DrawLabel3D {
 	 *            abs offset in y
 	 * @param zOffset0
 	 *            abs offset in z
+	 * @param measuringGraphics auxiliary graphics for text measurements
 	 */
 	public void update(String text0, GFont font0, GColor fgColor, Coords v,
 			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
@@ -176,6 +178,7 @@ public class DrawLabel3D {
 	 *            abs offset in y
 	 * @param zOffset0
 	 *            abs offset in z
+	 * @param measuringGraphics auxiliary graphics for text measurements
 	 */
 	public void update(String text0, GFont font0, Coords v,
 			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {

@@ -372,6 +372,7 @@ public class EuclidianPen implements GTimerListener {
 	 *            x-coord
 	 * @param y
 	 *            y-coord
+	 * @param isPinchZooming whether we're currently pinch-zooming
 	 *
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y,

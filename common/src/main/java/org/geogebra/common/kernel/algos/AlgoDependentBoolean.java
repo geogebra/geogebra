@@ -48,10 +48,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	private final static CasAlgoChecker casAlgoChecker = new CasAlgoChecker();
 
 	/**
-	 * @param cons
-	 *            construction
-	 * @param root
-	 *            defining expression
+	 * @param cons construction
+	 * @param root defining expression
+	 * @param addToConstruction whether to add this to construction
 	 */
 	public AlgoDependentBoolean(Construction cons, ExpressionNode root, boolean addToConstruction) {
 		super(cons, addToConstruction);
