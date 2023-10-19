@@ -3578,6 +3578,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	public void drawObjects(GGraphics2D g2) {
+		tracing = false;
 		drawGeometricObjects(g2);
 		drawActionObjects(g2);
 
@@ -4594,20 +4595,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void setBoldAxes(boolean bold) {
 		axesLineType = getBoldAxes(bold, axesLineType);
-	}
-
-	/**
-	 * Tells if there are any traces in the background image.
-	 * 
-	 * @return true if there are any traces in background
-	 */
-	protected boolean isTracing() {
-		for (Drawable drawable : allDrawableList) {
-			if (drawable.isTracing()) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -5899,7 +5886,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// DRAWING
-		if (isTracing() || hasBackgroundImages()) {
+		if (isTraceDrawn() || hasBackgroundImages()) {
 			// draw background image to get the traces
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);

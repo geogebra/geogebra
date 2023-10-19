@@ -568,17 +568,21 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	public void paintBackground(GGraphics2D g2) {
-		g2.scale(1 / getPixelRatio(), 1 / getPixelRatio());
-		g2.drawImage(bgImage, 0, 0);
-		g2.scale(getPixelRatio(), getPixelRatio());
+	public void paintBackground(GGraphics2D g2d) {
+		g2d.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+		g2d.drawImage(bgImage, 0, 0);
+		g2d.scale(getPixelRatio(), getPixelRatio());
+	}
+
+	protected void drawBackgroundImage(GGraphics2D g2d) {
+		paintBackground(g2d);
 	}
 
 	@Override
-	protected void drawBackgroundWithImages(GGraphics2D g, boolean transparency) {
-		g.scale(getPixelRatio(), getPixelRatio());
-		super.drawBackgroundWithImages(g, transparency);
-		g.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+	protected void drawBackgroundWithImages(GGraphics2D g2d, boolean transparency) {
+		g2d.scale(getPixelRatio(), getPixelRatio());
+		super.drawBackgroundWithImages(g2d, transparency);
+		g2d.scale(1 / getPixelRatio(), 1 / getPixelRatio());
 	}
 
 	@Override
