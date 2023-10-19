@@ -312,10 +312,6 @@ SKIP : {
   | "\n"
 }
 
-//TOKEN : {
-//    < EOL: ";" >
-//}
-
 /* OPERATORS */
 TOKEN :  {
     < ASSIGNMENT: ( ":=" | "\u2254" ) >
@@ -462,7 +458,7 @@ TOKEN : {
 
 
 // labels for function names
-TOKEN: {
+TOKEN : {
     < X_FUNC:  ("x" | "xcoord")  ("("|"[")>
 |  < Y_FUNC:  ("y" | "ycoord")   ("("|"[")>
 |  < Z_FUNC:  ("z" | "zcoord")   ("("|"[")>
@@ -473,12 +469,10 @@ TOKEN: {
 |   < FUNCTION_POWER_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) (< POWERN > )("("|"[") >
 }
 
- TOKEN : {
+TOKEN : {
  < TEXT: "\""  (<CHAR>)* "\"" > |
  < #CHAR: ["\u0000"-"\u0021", "\u0023"-"\uffff"]  >
 }
-
-
 
 /**
  * for GeoGebra input field
@@ -1243,7 +1237,12 @@ ExpressionValue enunary():
     ExpressionValue ret;
 }
 {
-    (<MINUS> e = enpower()
+    (LOOKAHEAD(2) <MINUS> <MINUS> e = enpower()
+    	{
+			ret = e;
+		}
+|
+    <MINUS> e = enpower()
         { // -e  = -1*e
           ret = ExpressionNode.unaryMinus(kernel, e);
         }

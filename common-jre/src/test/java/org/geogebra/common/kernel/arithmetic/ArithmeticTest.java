@@ -523,6 +523,17 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("2.6" + Unicode.OVERLINE + " / 2", "1.3333333333333333");
 	}
 
+	@Test
+	public void testDoubleMinus() {
+		t("--2", "2");
+		t("-(-2)", "2");
+		t("--3--4", "7");
+		t("--2*3", "6");
+		t("--3 3", "9");
+		t("--2 --4", "6");
+		t("--5 * -3", "-15");
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);
