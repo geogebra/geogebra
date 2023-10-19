@@ -170,7 +170,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void setContent(int row, int column, Object content) {
-		data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, (GeoElement) content);
+		GeoElement geo = (GeoElement) content;
+		String labelNew = "Cell" + row + column;
+		geo.rename(labelNew);
+		data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
 	}
 
 	@Override

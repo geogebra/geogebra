@@ -5,33 +5,33 @@ import java.util.Comparator;
 class CellRecord {
 	private static Comparator<CellRecord> comparator;
 	int id;
-	int x1;
-	int y1;
-	int x2;
-	int y2;
+	int sourceRow;
+	int sourceCol;
+	int destRow;
+	int destCol;
 
-	public CellRecord(int id, int x1, int y1, int x2, int y2) {
+	public CellRecord(int id, int sourceRow, int sourceCol, int destRow, int destCol) {
 		this.id = id;
-		this.x1 = x1;
-		this.x2 = x2;
-		this.y1 = y1;
-		this.y2 = y2;
+		this.sourceRow = sourceRow;
+		this.destRow = destRow;
+		this.sourceCol = sourceCol;
+		this.destCol = destCol;
 	}
 
-	public int getx1() {
-		return x1;
+	public int getSourceRow() {
+		return sourceRow;
 	}
 
-	public int getx2() {
-		return x2;
+	public int getDestRow() {
+		return destRow;
 	}
 
-	public int gety1() {
-		return y1;
+	public int getSourceCol() {
+		return sourceCol;
 	}
 
-	public int gety2() {
-		return y2;
+	public int getDestCol() {
+		return destCol;
 	}
 
 	/**

@@ -13,9 +13,6 @@ public class PasteGeos implements PasteInterface<GeoElement> {
 	public void pasteInternal(TabularData<GeoElement> tabularData, TabularBuffer<GeoElement> buffer,
 			TabularRange destination) {
 		TabularRange source = buffer.getSource();
-		int x4 = destination.toCol;
-		int y4 = destination.toRow;
-
 		createConstructionIndexBuffer(source);
 		int count = storeConstuctionIndexes(buffer, destination, source);
 		pasteInConstructionIndexOrder(tabularData, buffer, count);
@@ -31,24 +28,25 @@ public class PasteGeos implements PasteInterface<GeoElement> {
 	private int storeConstuctionIndexes(TabularBuffer<GeoElement> buffer, TabularRange destination,
 			TabularRange source) {
 		int count = 0;
-		for (int x = source.fromCol; x <= source.toCol; ++x) {
-			int ix = x - source.fromCol;
-			for (int y = source.fromRow; y <= source.toRow; ++y) {
-				int iy = y - source.fromRow;
+		for (int col = source.fromCol; col <= source.toCol; ++col) {
+			int bufferCol = col - source.fromCol;
+			for (int row = source.fromRow; row <= source.toRow; ++row) {
+				int bufferRow = row - source.fromRow;
 
 				// check if we're pasting back into what we're copying from
 
-				if (ix + destination.fromCol <= destination.toCol
-						&& iy + destination.fromRow <= destination.toRow
-						&& (!isInSource(x, y, source, destination))) {
+				if (bufferCol + destination.fromCol <= destination.toCol
+						&& bufferRow + destination.fromRow <= destination.toRow
+						&& (!isInSource(col, row, source, destination))) {
 					// check we're not pasting over
 					// what we're copying
 
-					GeoElement value = buffer.contentAt(ix, iy);
+					GeoElement value = buffer.contentAt(bufferRow, bufferCol);
 					if (value != null) {
 						constructionIndexes[count] = new CellRecord(
-								value.getConstructionIndex(), ix,
-								iy, destination.fromCol - source.fromCol, destination.fromRow - source.fromRow);
+								value.getConstructionIndex(), bufferRow,
+								bufferCol, destination.fromRow + bufferRow,
+								destination.fromCol + bufferCol);
 						count++;
 					}
 				}
@@ -58,21 +56,21 @@ public class PasteGeos implements PasteInterface<GeoElement> {
 		return count;
 	}
 
-	private static boolean isInSource(int x, int y, TabularRange source, TabularRange destination) {
-		return x + (destination.fromCol - source.fromCol) <= source.toCol
-				&& x + (destination.fromCol - source.fromCol) >= source.fromCol && y + (
+	private static boolean isInSource(int col, int row, TabularRange source, TabularRange destination) {
+		return col + (destination.fromCol - source.fromCol) <= source.toCol
+				&& col + (destination.fromCol - source.fromCol) >= source.fromCol && row + (
 				destination.fromRow - source.fromRow) <= source.toRow
-				&& y + (destination.fromRow - source.fromRow) >= source.fromRow;
+				&& row + (destination.fromRow - source.fromRow) >= source.fromRow;
 	}
 
 	private void pasteInConstructionIndexOrder(TabularData<GeoElement> tabularData, TabularBuffer<GeoElement> buffer,
 			int count) {
 		for (int i = 0; i < count; i++) {
 			CellRecord r = constructionIndexes[i];
-			int ix = r.getx1();
-			int iy = r.gety1();
-			GeoElement copy = copyGeo(buffer.contentAt(ix, iy));
-			tabularData.setContent(r.getx2(), r.getx2(), copy);
+			int row = r.getSourceRow();
+			int column = r.getSourceCol();
+			GeoElement copy = copyGeo(buffer.contentAt(row, column));
+			tabularData.setContent(r.getDestRow(), r.getDestCol(), copy);
 		}
 	}
 
