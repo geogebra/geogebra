@@ -23,6 +23,8 @@ var __giac = [
 { cat:"Solve", cmd:"Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]", result:"{-ln(55)/ln(13/5)}|OR|{x = (-ln(11) - ln(5)) / (ln(13) - ln(5))}", notes:"Bavarian 83-1.ggb" },
 { cat:"SolveTrig", cmd:"Solve[(2 / 3 sin(3x) - 2 / 3)]", result:"{x = 2 / 3 n_0 \u03C0 + 1 / 6 \u03C0}", notes:"Bavarian 83-2.ggb" },
 { cat:"Solve", cmd:"Solve(ln(x-1)=1/2*ln(x))", result:"{x = (sqrt(5) + 3) / 2}" },
+{ cat:"Solve", cmd:"Solve({x*y^2=10,x*y^10=20})", result:"{{x = 5nroot(2,4)³, y = -nroot(2,8)}, {x = 5nroot(2,4)³, y = nroot(2,8)}}" },
+{ cat:"Solve", cmd:"Solve(cosh(x)=15/10)", result:"{x = -ln((sqrt(5) + 3) / 2), x = ln((sqrt(5) + 3) / 2)}" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt(1+x)sqrt(1-x)-sqrt(1-x^2)]", result:"0", notes:"#2952" },
 { cat:"Vector", cmd:"Vector[Vector[(1,2)] + Vector[(3,4,5)]]", result:"ggbvect((4, 6, 5))" },
 { cat:"Vector", cmd:"Vector[Vector[(1,2,3)] + Vector[(4,5)]]", result:"ggbvect((5, 7, 3))" },

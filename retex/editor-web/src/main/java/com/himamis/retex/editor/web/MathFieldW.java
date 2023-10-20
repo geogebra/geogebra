@@ -915,7 +915,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	public void clearState() {
-		Js.asPropertyMap(inputTextArea.getElement()).set("value", "");
+		Js.<HTMLTextAreaElement>uncheckedCast(inputTextArea.getElement()).value = "";
 	}
 
 	@Override
