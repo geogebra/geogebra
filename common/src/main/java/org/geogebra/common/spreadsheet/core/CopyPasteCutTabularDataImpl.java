@@ -1,6 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +12,11 @@ public class CopyPasteCutTabularDataImpl
 	private PasteInterface paste = null;
 	private TabularBuffer buffer;
 
+	/**
+	 *
+	 * @param tabularData {@link TabularData}
+	 * @param clipboard {@link ClipboardInterface}
+	 */
 	public CopyPasteCutTabularDataImpl(TabularData tabularData, ClipboardInterface clipboard) {
 		this.tabularData = tabularData;
 		this.clipboard = clipboard;
@@ -47,7 +51,7 @@ public class CopyPasteCutTabularDataImpl
 	public <T> void copyDeep(TabularRange range, String content) {
 		copy(range, content);
 		if (buffer == null) {
-			buffer = new TabularBuffer<T>();
+			buffer = new TabularBuffer<>();
 		}
 
 		buffer.setSource(range);
@@ -70,10 +74,6 @@ public class CopyPasteCutTabularDataImpl
 		}
 	}
 
-	private void pasteExternalMultiple(TabularRange range, String content) {
-		// TODO
-	}
-
 	@Override
 	public void paste(int row, int column, String content) {
 		if (buffer != null) {
@@ -82,7 +82,6 @@ public class CopyPasteCutTabularDataImpl
 			tabularData.setContent(row, column, clipboard.getContent());
 		}
 	}
-
 
 	private void pasteInternalMultiple(TabularRange destination) {
 		int columnStep = buffer.numberOfRows();
@@ -137,6 +136,6 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 	private void deleteRange(TabularRange range) {
-		range.forEach(((row, column) -> tabularData.setContent(row, column, null)));
+		range.forEach((row, column) -> tabularData.setContent(row, column, null));
 	}
 }

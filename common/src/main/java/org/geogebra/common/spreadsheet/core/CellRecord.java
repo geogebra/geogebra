@@ -48,8 +48,7 @@ class CellRecord {
 				}
 
 			};
-
 		}
-
 		return comparator;
-	}}
+	}
+}

@@ -5,13 +5,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.regexp.shared.MatchResult;
 
 public class CopyCellGeo {
 	private Kernel kernel;
@@ -37,20 +34,7 @@ public class CopyCellGeo {
 	public GeoElement copy(
 			GeoElement value, GeoElement oldValue, int dx, int dy,
 			int rowStart, int columnStart) throws ParseException, CircularDefinitionException {
-		if (value == null) {
-			if (oldValue != null) {
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-						.exec(oldValue
-								.getLabel(StringTemplate.defaultTemplate));
-				int column = GeoElementSpreadsheet
-						.getSpreadsheetColumn(matcher);
-				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
-//				prepareAddingValueToTableNoStoringUndoInfo(null,
-//						oldValue, column, row, true);
-			}
-			return null;
-		}
 		String text = getDefinitionOrValue(value);
 
 		// handle GeoText source value
@@ -79,21 +63,11 @@ public class CopyCellGeo {
 			text = ((GeoFunction) value).toSymbolicString(precision);
 		}
 
-		boolean freeImage = false;
-
-		if (value.isGeoImage()) {
-			GeoImage image = (GeoImage) value;
-			if (image.getParentAlgorithm() == null) {
-				freeImage = true;
-			}
-		}
 		boolean oldFlag = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
 		// FIXME maybe try-catch this?
 		ValidExpression exp = kernel.getParser().parseGeoGebraExpression(text);
 		kernel.setUseInternalCommandNames(oldFlag);
-
-//		updateCellReferences(exp, dx, dy);
 
 		text = exp.toString(precision);
 
@@ -119,5 +93,4 @@ public class CopyCellGeo {
 
 		return geo.getDefinition(precision);
 	}
-
 }

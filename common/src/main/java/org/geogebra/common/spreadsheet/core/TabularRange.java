@@ -39,6 +39,10 @@ public final class TabularRange {
 		return fromRow == toRow && fromCol == toCol;
 	}
 
+	/**
+	 * Run action for each (row, column) pair of the range.
+	 * @param action to run for each (row, column).
+	 */
 	public void forEach(RangeAction action) {
 		for (int row = fromRow; row <= toRow; row++) {
 			for (int column = fromCol; column <= toCol; column++) {

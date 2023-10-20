@@ -46,8 +46,8 @@ public class PasteGeosTest extends BaseUnitTest {
 
 	@Test
 	public void testPaste() {
-		copyPasteCut.copyDeep(new TabularRange(1, 2, 1, 2),"");
-		copyPasteCut.paste(new TabularRange(4, 5, 4, 5),"");
+		copyPasteCut.copyDeep(new TabularRange(1, 2, 1, 2), "");
+		copyPasteCut.paste(new TabularRange(4, 5, 4, 5), "");
 		checkContent(1, 1);
 		checkContent(4, 4);
 	}

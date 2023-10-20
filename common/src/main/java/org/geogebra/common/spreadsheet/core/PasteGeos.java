@@ -6,9 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 public class PasteGeos implements PasteInterface<GeoElement> {
 
-
 	private CellRecord[] constructionIndexes = null;
-	private CopyCellGeo copyCellGeo;
 
 	@Override
 	public void pasteInternal(TabularData<GeoElement> tabularData, TabularBuffer<GeoElement> buffer,
@@ -57,15 +55,16 @@ public class PasteGeos implements PasteInterface<GeoElement> {
 		return count;
 	}
 
-	private static boolean isInSource(int col, int row, TabularRange source, TabularRange destination) {
+	private static boolean isInSource(int col, int row, TabularRange source,
+			TabularRange destination) {
 		return col + (destination.fromCol - source.fromCol) <= source.toCol
 				&& col + (destination.fromCol - source.fromCol) >= source.fromCol && row + (
 				destination.fromRow - source.fromRow) <= source.toRow
 				&& row + (destination.fromRow - source.fromRow) >= source.fromRow;
 	}
 
-	private void pasteInConstructionIndexOrder(TabularData<GeoElement> tabularData, TabularBuffer<GeoElement> buffer,
-			int count) {
+	private void pasteInConstructionIndexOrder(TabularData<GeoElement> tabularData,
+			TabularBuffer<GeoElement> buffer, int count) {
 		for (int i = 0; i < count; i++) {
 			CellRecord r = constructionIndexes[i];
 			int row = r.getSourceRow();

@@ -212,12 +212,11 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testCopyCellSelection() {
-		selectCells(1, 4,1, 2);
+		selectCells(1,  4,1, 2);
 		runItemAt(1, 1, "Copy");
 		assertEquals("cell11\tcell12\tcell21\tcell22\tcell31\tcell32\tcell41\tcell42",
 				clipboard.getContent());
 	}
-
 
 	private void selectCells(int fromRow, int toRow, int fromColumn, int toColumn) {
 		selectionController.select(new Selection(SelectionType.COLUMNS,
@@ -234,7 +233,7 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testCutCellSelection() {
-		selectCells(1,4, 1, 2);
+		selectCells(1, 4, 1, 2);
 		runItemAt(1, 1, "Cut");
 		assertEquals("cell11\tcell12\tcell21\tcell22\tcell31\tcell32\tcell41\tcell42",
 				clipboard.getContent());
@@ -255,7 +254,7 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testPasteCellSelection() {
-		selectCells(1,2, 1, 2);
+		selectCells(1, 2, 1, 2);
 		runItemAt(1, 1, "Copy");
 		selectionController.clearSelection();
 		runItemAt(2, 4, "Paste");
@@ -267,7 +266,7 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testPasteCellsToSelection() {
-		selectCells(1,2, 1, 2);
+		selectCells(1, 2, 1, 2);
 		runItemAt(1, 1, "Copy");
 		selectCells(2, 4, 2, 6);
 		runItemAt(2, 4, "Paste");

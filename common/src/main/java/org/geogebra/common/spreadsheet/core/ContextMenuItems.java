@@ -14,7 +14,7 @@ public class ContextMenuItems {
 	/**
 	 * @param tabularData {@link TabularData}
 	 * @param selectionController {@link SpreadsheetSelectionController}
-	 * @param copyPasteCut
+	 * @param copyPasteCut {@link CopyPasteCutTabularData}
 	 */
 	public ContextMenuItems(TabularData tabularData,
 			SpreadsheetSelectionController selectionController,
@@ -43,7 +43,7 @@ public class ContextMenuItems {
 		HashMap<String, Runnable> actions = new HashMap<>();
 		actions.put("Delete", () -> deleteCells(row, column));
 		actions.put("Copy", () -> copyCells(row, column));
-		actions.put("Paste", () -> {pasteCells(row, column);});
+		actions.put("Paste", () -> pasteCells(row, column));
 		actions.put("Cut", () -> cutCells(row, column));
 		return actions;
 	}
