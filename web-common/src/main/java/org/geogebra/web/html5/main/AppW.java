@@ -820,8 +820,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				() -> getAsyncManager().scheduleCallback(
 						() -> runAfterLoadImages(def, asSlide)));
 		imageLoader.load();
-
-		fitSizeToScreen();
 	}
 
 	private void runAfterLoadImages(GgbArchive def, boolean asSlide) {
