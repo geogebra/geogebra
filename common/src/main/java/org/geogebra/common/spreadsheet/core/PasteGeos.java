@@ -8,6 +8,7 @@ public class PasteGeos implements PasteInterface<GeoElement> {
 
 
 	private CellRecord[] constructionIndexes = null;
+	private CopyCellGeo copyCellGeo;
 
 	@Override
 	public void pasteInternal(TabularData<GeoElement> tabularData, TabularBuffer<GeoElement> buffer,
@@ -74,8 +75,7 @@ public class PasteGeos implements PasteInterface<GeoElement> {
 		}
 	}
 
-	private GeoElement copyGeo(GeoElement geoElement) {
-		// TODO
-		return geoElement;
+	private GeoElement copyGeo(GeoElement value) {
+		return value.copy();
 	}
 }
