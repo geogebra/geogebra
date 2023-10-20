@@ -1235,16 +1235,13 @@ ExpressionValue enunary():
 {
     ExpressionValue e;
     ExpressionValue ret;
+	int minusCount = 0;
 }
 {
-    (LOOKAHEAD(2) <MINUS> <MINUS> e = enpower()
-    	{
-			ret = e;
-		}
-|
-    <MINUS> e = enpower()
-        { // -e  = -1*e
-          ret = ExpressionNode.unaryMinus(kernel, e);
+   (
+    (<MINUS> { minusCount++;} )+ e = enpower()
+        { // -e  = -1*e, --e = e
+          ret = minusCount % 2 == 0 ? e : ExpressionNode.unaryMinus(kernel, e);
         }
 |
    <PLUS> e = enpower()

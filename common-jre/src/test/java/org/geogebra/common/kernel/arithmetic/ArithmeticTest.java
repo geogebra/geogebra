@@ -524,14 +524,14 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDoubleMinus() {
+	public void testMultipleMinus() {
 		t("--2", "2");
 		t("-(-2)", "2");
 		t("--3--4", "7");
 		t("--2*3", "6");
-		t("--3 3", "9");
-		t("--2 --4", "6");
-		t("--5 * -3", "-15");
+		t("---4", "-4");
+		t("---5 ---3", "-8");
+		t("---3 + --2", "-1");
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {
