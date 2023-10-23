@@ -6,12 +6,11 @@ import org.geogebra.common.awt.GFont;
 public final class SpreadsheetStyle {
 
 	private final CellFormat format;
+	private boolean showGrid = true;
 
 	public SpreadsheetStyle(CellFormat format) {
 		this.format = format;
 	}
-
-	private boolean showGrid = true;
 
 	public boolean isShowGrid() {
 		return showGrid;

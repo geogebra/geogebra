@@ -152,8 +152,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 	 * @return success
 	 */
 	public boolean pasteFromURL(URL url) {
-		TabularRange cr = new TabularRange(0, 0, 0, 0);
-		return pasteFromURL(url, cr, true);
+		TabularRange tr = new TabularRange(0, 0, 0, 0);
+		return pasteFromURL(url, tr, true);
 	}
 
 	/**

@@ -41,7 +41,7 @@ public class AlgoCellRange extends AlgoElement {
 	private String endCell; // end cell name
 	private String toStringOutput;
 
-	private TabularRange cellRange;
+	private TabularRange tabularRange;
 	private ArrayList<GeoElement> listItems;
 	private GPoint startCoords;
 	private GPoint endCoords;
@@ -195,7 +195,7 @@ public class AlgoCellRange extends AlgoElement {
 		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endCell);
 		toStringOutput = startCell + ":" + endCell;
 
-		cellRange = new TabularRange(startCoords.x,
+		tabularRange = new TabularRange(startCoords.x,
 				startCoords.y, endCoords.x, endCoords.y);
 
 		// build list with cells in range
@@ -286,8 +286,8 @@ public class AlgoCellRange extends AlgoElement {
 		return geoList;
 	}
 
-	public TabularRange getCellRange() {
-		return cellRange;
+	public TabularRange getRange() {
+		return tabularRange;
 	}
 
 	@Override

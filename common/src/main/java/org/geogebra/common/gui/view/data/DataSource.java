@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -219,7 +219,7 @@ public class DataSource {
 
 		else if (geo.getSpreadsheetCoords() != null) {
 			return new DataItem(CellRangeProcessor
-					.clone(spreadsheetTable().getSelectedCellRanges()), app);
+					.clone(spreadsheetTable().getSelectedRanges()), app);
 		}
 
 		return null;
@@ -446,8 +446,8 @@ public class DataSource {
 			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					range.substring(range.indexOf(':') + 1));
 
-			TabularRange cr = new TabularRange(start.x, start.y, end.x, end.y);
-			ranges.add(cr);
+			TabularRange tr = new TabularRange(start.x, start.y, end.x, end.y);
+			ranges.add(tr);
 		}
 
 		if (frequencies != null) {
@@ -459,8 +459,8 @@ public class DataSource {
 			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					frequencies.substring(frequencies.indexOf(':') + 1));
 
-			TabularRange cr = new TabularRange(start.x, start.y, end.x, end.y);
-			ranges.add(cr);
+			TabularRange tr = new TabularRange(start.x, start.y, end.x, end.y);
+			ranges.add(tr);
 		}
 
 		setDataListFromSpreadsheet(mode, ranges);
@@ -527,7 +527,7 @@ public class DataSource {
 		// The cell range list returned by the spreadsheet can change
 		// dynamically, so we need to use a copy.
 		ArrayList<TabularRange> rangeList = CellRangeProcessor
-				.clone(spreadsheetTable().getSelectedCellRanges());
+				.clone(spreadsheetTable().getSelectedRanges());
 		setDataListFromSpreadsheet(mode, rangeList);
 	}
 
@@ -542,11 +542,11 @@ public class DataSource {
 		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 			if (isFrequencyFromColumn()) {
-				TabularRange cr = rangeList.get(0);
+				TabularRange tr = rangeList.get(0);
 
-				if (cr.is2D() || rangeListContainsFrequencies(rangeList)) {
+				if (tr.is2D() || rangeListContainsFrequencies(rangeList)) {
 					var.setGroupType(GroupType.FREQUENCY);
-					add1DCellRanges(rangeList, itemList);
+					add1DTabularRanges(rangeList, itemList);
 					ArrayList<DataItem> values = new ArrayList<>();
 					values.add(itemList.get(0));
 					var.setDataVariable(GroupType.FREQUENCY, GeoClass.NUMERIC,
@@ -572,7 +572,7 @@ public class DataSource {
 
 			} else {
 				// separate x, y lists
-				add1DCellRanges(rangeList, itemList);
+				add1DTabularRanges(rangeList, itemList);
 				if (itemList.size() < 2) {
 					itemList.add(new DataItem(app));
 				}
@@ -609,11 +609,11 @@ public class DataSource {
 	 * of the 1D cell ranges (vertical or horizontal) is determined from the
 	 * shape of the given cell ranges.
 	 */
-	private void add1DCellRanges(ArrayList<TabularRange> rangeList,
+	private void add1DTabularRanges(ArrayList<TabularRange> rangeList,
 			ArrayList<DataItem> itemList) {
 
 		ArrayList<TabularRange> r = null;
-		TabularRange sel = CellRange.getActual(rangeList.get(0), app);
+		TabularRange sel = CellRangeUtil.getActual(rangeList.get(0), app);
 		boolean scanByColumn = sel.getWidth() <= 2;
 
 		if (rangeList.size() == 1) { // single cell range

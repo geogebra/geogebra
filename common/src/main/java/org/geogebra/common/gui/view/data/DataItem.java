@@ -4,7 +4,7 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
@@ -83,12 +83,12 @@ public class DataItem {
 	/**
 	 * Constructs a DataItem from a single spreadsheet cell range.
 	 * 
-	 * @param cellRange
+	 * @param tabularRange
 	 *            cell range
 	 */
-	public DataItem(TabularRange cellRange, App app) {
+	public DataItem(TabularRange tabularRange, App app) {
 		rangeList = new ArrayList<>();
-		rangeList.add(cellRange);
+		rangeList.add(tabularRange);
 		this.sourceType = SourceType.SPREADSHEET;
 		this.app = app;
 	}
@@ -245,7 +245,7 @@ public class DataItem {
 				return false;
 			}
 			for (TabularRange cr : rangeList) {
-				if (CellRange.containsGeoClass(cr, geoClassType, app)) {
+				if (CellRangeUtil.containsGeoClass(cr, geoClassType, app)) {
 					return true;
 				}
 			}
@@ -290,7 +290,7 @@ public class DataItem {
 		case SPREADSHEET:
 			int count = 0;
 			for (TabularRange cr : rangeList) {
-				count += CellRange.getGeoCount(cr, null, app);
+				count += CellRangeUtil.getGeoCount(cr, null, app);
 			}
 			return count;
 		case CLASS:
@@ -594,7 +594,7 @@ public class DataItem {
 
 				for (TabularRange cr : rangeList) {
 
-					ArrayList<GeoElement> list = CellRange.toGeoList(cr, app);
+					ArrayList<GeoElement> list = CellRangeUtil.toGeoList(cr, app);
 
 					// iterate through the list and set the row values
 					for (int i = 0; i < list.size(); i++) {

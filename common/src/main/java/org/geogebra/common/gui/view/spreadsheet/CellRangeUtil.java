@@ -10,19 +10,13 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
- * Utility class for spreadsheet cell ranges.
+ * Utility class for spreadsheet tabular ranges.
  * 
- * A cell range is any rectangular block of cells defined by the column and row
- * index values of two diagonal corner cells. One corner is designated as the
- * anchor cell.
- * 
- * Rows and columns are defined using index values of -1 as follows. row:
- * minColumn and maxColumn = -1 column: minRow and maxRow = -1
- * 
- * @author George Sturr, 2010-1-23
+ * <p>Contains methods that cannot be part of TabularRange because they need to
+ * depend on the particular data provider (by reference Kernel, App or SpreadsheetTableModel)
  */
 
-final public class CellRange {
+final public class CellRangeUtil {
 
 	/** @return true if this cell range contains no geos */
 	public static boolean isEmpty(TabularRange selection, App app) {
@@ -153,7 +147,7 @@ final public class CellRange {
 	/**
 	 * @param geoClass
 	 *            class of construction elements
-	 * @return true if this CellRange contains a GeoElement of the given
+	 * @return true if this range contains a GeoElement of the given
 	 *         GeoClass type
 	 */
 	public static boolean containsGeoClass(TabularRange selection, GeoClass geoClass, App app) {

@@ -8,7 +8,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
@@ -115,11 +115,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	private final ArrayList<TabularRange> selectedCellRanges;
+	private final ArrayList<TabularRange> selectedRanges;
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
-	// Note: selectedCellRanges.get(0) gives the same selection but uses -1
+	// Note: selectedRanges.get(0) gives the same selection but uses -1
 	// flags
 	// the following are in Grid coordinates (TableModel coordinates+1)
 	protected int minSelectionRow = -1;
@@ -250,8 +250,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
-		selectedCellRanges = new ArrayList<>();
-		selectedCellRanges.add(new TabularRange(-1, -1));
+		selectedRanges = new ArrayList<>();
+		selectedRanges.add(new TabularRange(-1, -1));
 
 		selectionType = MyTableInterface.CELL_SELECT;
 
@@ -275,8 +275,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	@Override
-	public ArrayList<TabularRange> getSelectedCellRanges() {
-		return selectedCellRanges;
+	public ArrayList<TabularRange> getSelectedRanges() {
+		return selectedRanges;
 	}
 
 	/**
@@ -930,31 +930,22 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		default:
 			newSelection = new TabularRange(-1, -1);
 		}
-		/*
-		 * }
-		 */
-		// newSelection.debug();
-		/*
-		 * // return if it is not really a new cell
-		 * if(selectedCellRanges.size()>0 &&
-		 * newSelection.equals(selectedCellRanges.get(0))) return;
-		 */
 
 		// update the selection list
 
 		if (!GlobalKeyDispatcherW.getControlDown()) {
-			selectedCellRanges.clear();
+			selectedRanges.clear();
 			selectedColumnSet.clear();
 			selectedRowSet.clear();
-			selectedCellRanges.add(0, newSelection);
+			selectedRanges.add(0, newSelection);
 		} else { // ctrl-select
 			// handle dragging
-			if (selectedCellRanges.get(0).hasSameAnchor(newSelection)) {
-				selectedCellRanges.remove(0);
+			if (selectedRanges.get(0).hasSameAnchor(newSelection)) {
+				selectedRanges.remove(0);
 			}
 
 			// add the selection to the list
-			selectedCellRanges.add(0, newSelection);
+			selectedRanges.add(0, newSelection);
 		}
 
 		// update sets of selected rows/columns (used for rendering in the
@@ -974,7 +965,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		// update internal selection variables
-		newSelection = CellRange.getActual(newSelection, app);
+		newSelection = CellRangeUtil.getActual(newSelection, app);
 		minSelectionRow = newSelection.getMinRow();
 		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
@@ -982,8 +973,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
-		for (int i = 0; i < selectedCellRanges.size(); i++) {
-			list.addAll(0, CellRange.toGeoList(selectedCellRanges.get(i), app));
+		for (int i = 0; i < selectedRanges.size(); i++) {
+			list.addAll(0, CellRangeUtil.toGeoList(selectedRanges.get(i), app));
 		}
 
 		// if the geo selection has changed, update selected geos
@@ -1049,8 +1040,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	@Override
 	public boolean setSelection(int c, int r) {
-		TabularRange cr = new TabularRange(c, r, c, r);
-		return setSelection(cr);
+		TabularRange tr = new TabularRange(c, r, c, r);
+		return setSelection(tr);
 	}
 
 	/**
@@ -1065,20 +1056,20 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            max row
 	 */
 	public void setSelection(int c1, int r1, int c2, int r2) {
-		TabularRange cr = new TabularRange(c1, r1, c2, r2);
-		if (cr.isValid()) {
-			setSelection(cr);
+		TabularRange tr = new TabularRange(c1, r1, c2, r2);
+		if (tr.isValid()) {
+			setSelection(tr);
 		}
 	}
 
 	@Override
-	public boolean setSelection(TabularRange cr) {
-		if (cr != null && !cr.isValid()) {
+	public boolean setSelection(TabularRange tr) {
+		if (tr != null && !tr.isValid()) {
 			return false;
 		}
 
 		try {
-			if (cr == null || cr.isEmptyRange()) {
+			if (tr == null || tr.isEmptyRange()) {
 				minSelectionColumn = -1;
 				minSelectionRow = -1;
 				maxSelectionColumn = -1;
@@ -1093,26 +1084,26 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				setAutoscrolls(false);
 
 				// row selection
-				if (cr.isRow()) {
-					setRowSelectionInterval(cr.getMinRow(), cr.getMaxRow());
+				if (tr.isRow()) {
+					setRowSelectionInterval(tr.getMinRow(), tr.getMaxRow());
 
 					// column selection
-				} else if (cr.isColumn()) {
-					setColumnSelectionInterval(cr.getMinColumn(),
-					        cr.getMaxColumn());
+				} else if (tr.isColumn()) {
+					setColumnSelectionInterval(tr.getMinColumn(),
+					        tr.getMaxColumn());
 
 					// cell block selection
 				} else {
 					setSelectionType(MyTableInterface.CELL_SELECT);
-					changeSelection(cr.getMinRow(), cr.getMinColumn(), false);
-					changeSelection(cr.getMaxRow(), cr.getMaxColumn(), true);
+					changeSelection(tr.getMinRow(), tr.getMinColumn(), false);
+					changeSelection(tr.getMaxRow(), tr.getMaxColumn(), true);
 				}
 
 				selectionChanged();
 
 				// scroll to upper left corner of rectangle
 				setAutoscrolls(true);
-				scrollRectToVisible(cr.getMinColumn(), cr.getMinRow());
+				scrollRectToVisible(tr.getMinColumn(), tr.getMinRow());
 				repaint();
 			}
 		} catch (Exception e) {
@@ -1123,55 +1114,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return true;
 	}
 
-	// TODO Handle selection for a list of cell ranges
-
-	/*
-	 * public void setSelection(ArrayList<CellRange> selection){
-	 * 
-	 * selectionRectangleColor = (color == null) ? SELECTED_RECTANGLE_COLOR :
-	 * color;
-	 * 
-	 * // rectangle not drawn correctly without handle ... needs fix
-	 * this.doShowDragHandle = true; // doShowDragHandle;
-	 * 
-	 * if (selection == null) {
-	 * 
-	 * setSelectionType(COLUMN_SELECT);
-	 * 
-	 * // clear the selection visuals and the deselect geos from here //TODO:
-	 * this should be handled by the changeSelection() method
-	 * selectedColumnSet.clear(); selectedRowSet.clear();
-	 * this.minSelectionColumn = -1; this.minSelectionRow = -1;
-	 * this.maxSelectionColumn = -1; this.maxSelectionRow = -1;
-	 * app.setSelectedGeos(null); //setSelectionType(COLUMN_SELECT);
-	 * view.repaint(); setSelectionType(CELL_SELECT);
-	 * 
-	 * } else {
-	 * 
-	 * for (CellRange cr : selection) {
-	 * 
-	 * this.setAutoscrolls(false);
-	 * 
-	 * if (cr.isRow()) { setRowSelectionInterval(cr.getMinRow(),
-	 * cr.getMaxRow()); } else if (cr.isColumn()) {
-	 * setColumnSelectionInterval(cr.getMinColumn(), cr .getMaxColumn()); } else
-	 * { changeSelection(cr.getMinRow(), cr.getMinColumn(), false, false);
-	 * changeSelection(cr.getMaxRow(), cr.getMaxColumn(), false, true); }
-	 * 
-	 * // scroll to upper left corner of rectangle
-	 * 
-	 * this.setAutoscrolls(true);
-	 * scrollRectToVisible(getCellRect(cr.getMinRow(), cr.getMinColumn(),
-	 * true)); }
-	 * 
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
-
 	/**
-	 * Switch between column / row / range seletction.
+	 * Switch between column / row / range selection.
 	 * 
 	 * @param selType
 	 *            MyTableInterface.*_SELECT
@@ -1239,7 +1183,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		ArrayList<Integer> columns = new ArrayList<>();
 
-		for (TabularRange cr : this.selectedCellRanges) {
+		for (TabularRange cr : this.selectedRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
 				if (!columns.contains(c)) {
 					columns.add(c);
@@ -1960,8 +1904,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// selection for the
 		// autoFunction. The autoFunction values are previewed in the targetCell
 		// while dragging.
-		if (selectedCellRanges.size() == 1
-		        && selectedCellRanges.get(0).isSingleCell()) {
+		if (selectedRanges.size() == 1
+		        && selectedRanges.get(0).isSingleCell()) {
 
 			// Clear the target cell, exit if this is not possible
 			if (RelativeCopy.getValue(app, minSelectionColumn, minSelectionRow) != null) {
@@ -1989,11 +1933,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		// try to create autoFunction cell(s) adjacent to the selection
-		else if (selectedCellRanges.size() == 1) {
+		else if (selectedRanges.size() == 1) {
 
 			try {
 				getSpreadsheetModeProcessor()
-						.performAutoFunctionCreation(selectedCellRanges.get(0),
+						.performAutoFunctionCreation(selectedRanges.get(0),
 								GlobalKeyDispatcherW.getShiftDown());
 			} catch (Exception e) {
 				Log.debug(e);
@@ -2163,9 +2107,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public void updateCellFormat(ArrayList<TabularRange> cellRangeList) {
 		for (int i = 0; i < cellRangeList.size(); i++) {
-			TabularRange cr = cellRangeList.get(i);
-			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
-				for (int column = cr.getMinColumn(); column <= cr
+			TabularRange tr = cellRangeList.get(i);
+			for (int row = tr.getMinRow(); row <= tr.getMaxRow(); row++) {
+				for (int column = tr.getMinColumn(); column <= tr
 				        .getMaxColumn(); column++) {
 					updateCellFormat(row, column);
 				}

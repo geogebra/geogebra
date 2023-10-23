@@ -35,7 +35,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
@@ -101,16 +101,16 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	public ArrayList<TabularRange> selectedCellRanges;
+	public ArrayList<TabularRange> selectedRanges;
 
 	@Override
-	public ArrayList<TabularRange> getSelectedCellRanges() {
-		return selectedCellRanges;
+	public ArrayList<TabularRange> getSelectedRanges() {
+		return selectedRanges;
 	}
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
-	// Note: selectedCellRanges.get(0) gives the same selection but uses -1
+	// Note: selectedRanges.get(0) gives the same selection but uses -1
 	// flags
 	protected int minSelectionRow = -1;
 	protected int maxSelectionRow = -1;
@@ -241,8 +241,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
-		selectedCellRanges = new ArrayList<>();
-		selectedCellRanges.add(new TabularRange(-1, -1));
+		selectedRanges = new ArrayList<>();
+		selectedRanges.add(new TabularRange(-1, -1));
 		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		setCellSelectionEnabled(true);
 
@@ -600,37 +600,23 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		}
 
-		// newSelection.debug();
-		/*
-		 * // return if it is not really a new cell
-		 * if(selectedCellRanges.size()>0 &&
-		 * newSelection.equals(selectedCellRanges.get(0))) return;
-		 */
-
 		// update the selection list
 
 		if (!app.getControlDown()) {
-			selectedCellRanges.clear();
+			selectedRanges.clear();
 			selectedColumnSet.clear();
 			selectedRowSet.clear();
-			selectedCellRanges.add(0, newSelection);
+			selectedRanges.add(0, newSelection);
 
 		} else { // ctrl-select
 
-			/*
-			 * // return if we have already ctrl-selected this range for
-			 * (CellRange cr : selectedCellRanges) { if
-			 * (cr.equals(newSelection)){ System.out.println("reutrned");
-			 * return; } }
-			 */
-
 			// handle dragging
-			if (selectedCellRanges.get(0).hasSameAnchor(newSelection)) {
-				selectedCellRanges.remove(0);
+			if (selectedRanges.get(0).hasSameAnchor(newSelection)) {
+				selectedRanges.remove(0);
 			}
 
 			// add the selection to the list
-			selectedCellRanges.add(0, newSelection);
+			selectedRanges.add(0, newSelection);
 		}
 
 		// update sets of selected rows/columns (used for rendering in the
@@ -656,7 +642,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				|| minSelectionRow - newSelection.getMinRow() != 0;
 
 		// update internal selection variables
-		newSelection = CellRange.getActual(newSelection, app);
+		newSelection = CellRangeUtil.getActual(newSelection, app);
 		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
 		minSelectionRow = newSelection.getMinRow();
@@ -675,8 +661,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
-		for (int i = 0; i < selectedCellRanges.size(); i++) {
-			list.addAll(0, CellRange.toGeoList(selectedCellRanges.get(i), app));
+		for (int i = 0; i < selectedRanges.size(); i++) {
+			list.addAll(0, CellRangeUtil.toGeoList(selectedRanges.get(i), app));
 		}
 
 		// if the geo selection has changed, update selected geos
@@ -710,10 +696,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				getTableHeader().repaint();
 			}
 		}
-
-		// System.out.println("------------------");
-		// for (CellRange cr: selectedCellRanges)cr.debug();
-
 	}
 
 	/**
@@ -762,8 +744,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	@Override
 	public boolean setSelection(int c, int r) {
-		TabularRange cr = new TabularRange(c, r, c, r);
-		return setSelection(cr);
+		TabularRange tr = new TabularRange(c, r, c, r);
+		return setSelection(tr);
 	}
 
 	/**
@@ -774,23 +756,23 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return success
 	 */
 	public boolean setSelection(int c1, int r1, int c2, int r2) {
-		TabularRange cr = new TabularRange(c1, r1, c2, r2);
-		if (!cr.isValid()) {
+		TabularRange tr = new TabularRange(c1, r1, c2, r2);
+		if (!tr.isValid()) {
 			return false;
 		}
 
-		return setSelection(cr);
+		return setSelection(tr);
 	}
 
 	@Override
-	public boolean setSelection(TabularRange cr) {
+	public boolean setSelection(TabularRange tr) {
 
-		if (cr != null && !cr.isValid()) {
+		if (tr != null && !tr.isValid()) {
 			return false;
 		}
 
 		try {
-			if (cr == null || cr.isEmptyRange()) {
+			if (tr == null || tr.isEmptyRange()) {
 				getSelectionModel().clearSelection();
 
 			} else {
@@ -798,20 +780,20 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				this.setAutoscrolls(false);
 
 				// row selection
-				if (cr.isRow()) {
-					setRowSelectionInterval(cr.getMinRow(), cr.getMaxRow());
+				if (tr.isRow()) {
+					setRowSelectionInterval(tr.getMinRow(), tr.getMaxRow());
 
 					// column selection
-				} else if (cr.isColumn()) {
-					setColumnSelectionInterval(cr.getMinColumn(),
-							cr.getMaxColumn());
+				} else if (tr.isColumn()) {
+					setColumnSelectionInterval(tr.getMinColumn(),
+							tr.getMaxColumn());
 
 					// cell block selection
 				} else {
 					setSelectionType(MyTableInterface.CELL_SELECT);
-					changeSelection(cr.getMinRow(), cr.getMinColumn(), false,
+					changeSelection(tr.getMinRow(), tr.getMinColumn(), false,
 							false);
-					changeSelection(cr.getMaxRow(), cr.getMaxColumn(), false,
+					changeSelection(tr.getMaxRow(), tr.getMaxColumn(), false,
 							true);
 				}
 
@@ -820,7 +802,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				// scroll to upper left corner of rectangle
 				this.setAutoscrolls(true);
 				scrollRectToVisible(
-						getCellRect(cr.getMinRow(), cr.getMinColumn(), true));
+						getCellRect(tr.getMinRow(), tr.getMinColumn(), true));
 				repaint();
 			}
 		} catch (Exception e) {
@@ -926,7 +908,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		ArrayList<Integer> columns = new ArrayList<>();
 
-		for (TabularRange cr : this.selectedCellRanges) {
+		for (TabularRange cr : this.selectedRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
 				if (!columns.contains(c)) {
 					columns.add(c);
@@ -1700,8 +1682,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// selection for the
 		// autoFunction. The autoFunction values are previewed in the targetCell
 		// while dragging.
-		if (selectedCellRanges.size() == 1
-				&& selectedCellRanges.get(0).isSingleCell()) {
+		if (selectedRanges.size() == 1
+				&& selectedRanges.get(0).isSingleCell()) {
 
 			// Clear the target cell, exit if this is not possible
 			if (RelativeCopy.getValue(app, minSelectionColumn,
@@ -1736,11 +1718,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		// try to create autoFunction cell(s) adjacent to the selection
-		else if (selectedCellRanges.size() == 1) {
+		else if (selectedRanges.size() == 1) {
 
 			try {
 				getSpreadsheetModeProcessor().performAutoFunctionCreation(
-						selectedCellRanges.get(0), app.getShiftDown());
+						selectedRanges.get(0), app.getShiftDown());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

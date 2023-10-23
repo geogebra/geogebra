@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
@@ -669,14 +669,14 @@ public class DataVariable {
 			sb.append("<item ranges=\"");
 			ArrayList<TabularRange> crList = item.getRangeList();
 			if (crList != null) {
-				appendCellRanges(sb, crList);
+				appendTabularRanges(sb, crList);
 			}
 			sb.append("\"/>\n");
 		}
 		if (frequency != null) {
 			// save the frequencies to XML
 			sb.append("<item frequencies=\"");
-			appendCellRanges(sb, frequency.getRangeList());
+			appendTabularRanges(sb, frequency.getRangeList());
 			sb.append("\"/>\n");
 		}
 		if (classes != null) {
@@ -688,12 +688,12 @@ public class DataVariable {
 		sb.append("</variable>\n");
 	}
 
-	private void appendCellRanges(StringBuilder sb, ArrayList<TabularRange> crList) {
+	private void appendTabularRanges(StringBuilder sb, ArrayList<TabularRange> crList) {
 		boolean first = true;
 		for (TabularRange cr : crList) {
 			if (cr != null) {
 				sb.append(first ? "" : ",");
-				sb.append(CellRange.getLabel(cr));
+				sb.append(CellRangeUtil.getLabel(cr));
 				first = false;
 			}
 		}

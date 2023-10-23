@@ -440,11 +440,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private boolean isInsideCurrentSelection(GPoint point) {
-		ArrayList<TabularRange> cellRanges = table.getSelectedCellRanges();
+		ArrayList<TabularRange> tabularRanges = table.getSelectedRanges();
 		boolean inside = false;
 		int idx = 0;
-		while (!inside && idx < cellRanges.size()) {
-			inside = cellRanges.get(idx).contains(point);
+		while (!inside && idx < tabularRanges.size()) {
+			inside = tabularRanges.get(idx).contains(point);
 			idx++;
 		}
 		return inside;

@@ -286,9 +286,6 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 				if (point.x == this.overTraceButtonColumn) {
 					int column = point.getX();
 					table.setColumnSelectionInterval(column, column);
-					// ?//view.showTraceDialog(null,
-					// ?// table.selectedCellRanges.get(0));
-					// ?//e.consume();
 					return;
 				}
 
@@ -296,9 +293,6 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 				if (table
 						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
 					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
-					// ?//if (table.getTableHeader() != null) {
-					// ?// table.getTableHeader().requestFocusInWindow();
-					// ?//}
 				}
 
 				if (shiftDown) {

@@ -851,18 +851,18 @@ public class TraceDialog extends Dialog
 	 */
 	public TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 
-		TabularRange cr;
+		TabularRange tr;
 
 		switch (mode) {
 		default:
-			cr = new TabularRange(-1, -1);
+			tr = new TabularRange(-1, -1);
 			// do nothing
 			break;
 		case MODE_NORMAL:
 			if (getSettings() == null) {
-				cr = new TabularRange(-1, -1, -1, -1);
+				tr = new TabularRange(-1, -1, -1, -1);
 			} else {
-				cr = new TabularRange(getSettings().traceColumn1,
+				tr = new TabularRange(getSettings().traceColumn1,
 						getSettings().traceRow1, getSettings().traceColumn2,
 						(getSettings().doRowLimit) ? getSettings().traceRow2
 								: app.getMaxSpreadsheetRowsVisible());
@@ -871,9 +871,9 @@ public class TraceDialog extends Dialog
 
 		case MODE_ADD:
 			if (newTraceLocation != null) {
-				cr = newTraceLocation;
+				tr = newTraceLocation;
 			} else {
-				cr = new TabularRange(traceManager.getNextTraceColumn(), 0);
+				tr = new TabularRange(traceManager.getNextTraceColumn(), 0);
 			}
 			break;
 
@@ -884,12 +884,12 @@ public class TraceDialog extends Dialog
 					: app.getMaxSpreadsheetRowsVisible())
 					- getSettings().traceRow1;
 
-			cr = new TabularRange(anchorColumn, anchorRow, anchorColumn + w,
+			tr = new TabularRange(anchorColumn, anchorRow, anchorColumn + w,
 					anchorRow + h);
 			break;
 		}
 
-		return cr;
+		return tr;
 	}
 
 	@Override

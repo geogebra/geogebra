@@ -108,6 +108,13 @@ public class TabularRange {
 	}
 
 	/**
+	 * @return whether this contains a single cell
+	 */
+	public boolean isSingleCell() {
+		return (maxColumn == minColumn) && (maxRow == minRow);
+	}
+
+	/**
 	 * @return true if cell range is part of a row, but bigger than one cell
 	 */
 	public boolean isPartialRow() {
@@ -119,10 +126,6 @@ public class TabularRange {
 	 */
 	public boolean isPartialColumn() {
 		return !isSingleCell() && !isColumn() && (maxColumn - minColumn == 0);
-	}
-
-	public boolean isSingleCell() {
-		return (maxColumn == minColumn) && (maxRow == minRow);
 	}
 
 	public TabularRange duplicate() {
@@ -215,9 +218,8 @@ public class TabularRange {
 
 		if (isColumn()) {
 			for (int col = minColumn; col <= maxColumn; col++) {
-				TabularRange cr = new TabularRange(col, -1, col, 0, col, maxRow);
-				list.add(cr);
-				// cr.debug();
+				TabularRange tr = new TabularRange(col, -1, col, 0, col, maxRow);
+				list.add(tr);
 			}
 		} else {
 			for (int col = minColumn; col <= maxColumn; col++) {

@@ -302,18 +302,18 @@ public class RelativeCopy {
 	/**
 	 * Tests if a cell range can be used as the source for a pattern drag-copy.
 	 * 
-	 * @param cellRange
+	 * @param range
 	 *            cell range
 	 * @return whether all geos are acceptable
 	 */
-	private static boolean isPatternSource(TabularRange cellRange, App app) {
+	private static boolean isPatternSource(TabularRange range, App app) {
 		// don't allow empty cells
-		if (CellRange.hasEmptyCells(cellRange, app)) {
+		if (CellRangeUtil.hasEmptyCells(range, app)) {
 			return false;
 		}
 
 		// test for any unacceptable geos in the range
-		ArrayList<GeoElement> list = CellRange.toGeoList(cellRange, app);
+		ArrayList<GeoElement> list = CellRangeUtil.toGeoList(range, app);
 		for (GeoElement geo : list) {
 			if (!(geo.isGeoNumeric() || geo.isGeoFunction()
 					|| geo.isGeoPoint())) {

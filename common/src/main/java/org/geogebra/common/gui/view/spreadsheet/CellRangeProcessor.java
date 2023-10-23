@@ -120,7 +120,7 @@ public class CellRangeProcessor {
 				&& rangeList.get(1).getWidth() == 1) {
 			return true;
 		} else if (rangeList.size() == 1) {
-			return CellRange.isPointList(rangeList.get(0), app);
+			return CellRangeUtil.isPointList(rangeList.get(0), app);
 		}
 
 		return false;
@@ -141,21 +141,21 @@ public class CellRangeProcessor {
 			return false;
 		}
 
-		TabularRange cr = rangeList.get(0);
-		int r1 = cr.getMinRow();
-		int c1 = cr.getMinColumn();
+		TabularRange tr = rangeList.get(0);
+		int r1 = tr.getMinRow();
+		int c1 = tr.getMinColumn();
 
 		if (!(RelativeCopy.getValue(app, c1, r1) instanceof GeoFunctionNVar)) {
 			return false;
 		}
 
-		for (int r = r1 + 1; r <= cr.getMaxRow(); ++r) {
+		for (int r = r1 + 1; r <= tr.getMaxRow(); ++r) {
 			if (!(RelativeCopy.getValue(app, c1, r) instanceof GeoNumeric)) {
 				return false;
 			}
 		}
 
-		for (int c = c1 + 1; c <= cr.getMaxColumn(); ++c) {
+		for (int c = c1 + 1; c <= tr.getMaxColumn(); ++c) {
 			if (!(RelativeCopy.getValue(app, c, r1) instanceof GeoNumeric)) {
 				return false;
 			}
@@ -170,7 +170,7 @@ public class CellRangeProcessor {
 	 * @return whether matrix can be created
 	 */
 	public boolean isCreateMatrixPossible(ArrayList<TabularRange> rangeList) {
-		return rangeList.size() == 1 && !CellRange.hasEmptyCells(rangeList.get(0), app);
+		return rangeList.size() == 1 && !CellRangeUtil.hasEmptyCells(rangeList.get(0), app);
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class CellRangeProcessor {
 		int count = 0;
 
 		for (TabularRange cr : rangeList) {
-			count += CellRange.getGeoCount(cr, geoClass, app);
+			count += CellRangeUtil.getGeoCount(cr, geoClass, app);
 			if (count >= 2) {
 				return true;
 			}
@@ -218,14 +218,14 @@ public class CellRangeProcessor {
 		// if rangeList is a single cell range check that there are at least two
 		// columns and at least three non-empty rows
 		if (rangeList.size() == 1) {
-			TabularRange cr = rangeList.get(0);
-			if (cr.getMaxColumn() - cr.getMinColumn() < 1) {
+			TabularRange tr = rangeList.get(0);
+			if (tr.getMaxColumn() - tr.getMinColumn() < 1) {
 				return false;
 			}
 
-			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
+			for (int col = tr.getMinColumn(); col <= tr.getMaxColumn(); col++) {
 				if (!containsMinimumGeoNumeric(new TabularRange(col,
-						cr.getMinRow(), col, cr.getMaxRow()), 3)) {
+						tr.getMinRow(), col, tr.getMaxRow()), 3)) {
 					return false;
 				}
 			}
@@ -249,21 +249,21 @@ public class CellRangeProcessor {
 	}
 
 	/**
-	 * Returns true if the number of GeoNumeric cells in cellRange is at least
+	 * Returns true if the number of GeoNumeric cells in tabularRange is at least
 	 * minimumCount.
 	 * 
-	 * @param cellRange
+	 * @param tabularRange
 	 *            range
 	 * @param minimumCount
 	 *            min count of numbers
 	 * @return whether range has enough numbers in it
 	 */
-	private boolean containsMinimumGeoNumeric(TabularRange cellRange,
+	private boolean containsMinimumGeoNumeric(TabularRange tabularRange,
 			int minimumCount) {
 		int count = 0;
-		for (int col = cellRange.getMinColumn(); col <= cellRange
+		for (int col = tabularRange.getMinColumn(); col <= tabularRange
 				.getMaxColumn(); ++col) {
-			for (int row = cellRange.getMinRow(); row <= cellRange
+			for (int row = tabularRange.getMinRow(); row <= tabularRange
 					.getMaxRow(); ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, col, row);
 				if (geo != null && geo.isGeoNumeric()) {
@@ -288,7 +288,7 @@ public class CellRangeProcessor {
 	public boolean containsGeoClass(ArrayList<TabularRange> rangeList,
 			GeoClass geoClass) {
 		for (TabularRange cr : rangeList) {
-			if (CellRange.containsGeoClass(cr, geoClass, app)) {
+			if (CellRangeUtil.containsGeoClass(cr, geoClass, app)) {
 				return true;
 			}
 		}
@@ -310,7 +310,7 @@ public class CellRangeProcessor {
 	public int getGeoCount(ArrayList<TabularRange> rangeList, GeoClass geoClass) {
 		int count = 0;
 		for (TabularRange cr : rangeList) {
-			count += CellRange.getGeoCount(cr, geoClass, app);
+			count += CellRangeUtil.getGeoCount(cr, geoClass, app);
 		}
 		return count;
 	}
@@ -355,7 +355,7 @@ public class CellRangeProcessor {
 
 					if (cr.isColumn()) {
 						tempRange = new TabularRange(col, -1);
-						tempRange = CellRange.getActual(tempRange, app);
+						tempRange = CellRangeUtil.getActual(tempRange, app);
 					} else {
 						tempRange = new TabularRange(col, cr.getMinRow(), col,
 								cr.getMaxRow());
@@ -372,7 +372,7 @@ public class CellRangeProcessor {
 
 					if (cr.isRow()) {
 						tempRange = new TabularRange(-1, row);
-						tempRange = CellRange.getActual(tempRange, app);
+						tempRange = CellRangeUtil.getActual(tempRange, app);
 					} else {
 						tempRange = new TabularRange(cr.getMinColumn(), row,
 								cr.getMaxColumn(), row);
@@ -709,7 +709,7 @@ public class CellRangeProcessor {
 		String[] title = new String[2];
 
 		// return null titles if data source is a point list
-		if (rangeList.size() == 1 && CellRange.isPointList(rangeList.get(0), app)) {
+		if (rangeList.size() == 1 && CellRangeUtil.isPointList(rangeList.get(0), app)) {
 			return title;
 		}
 
@@ -822,7 +822,7 @@ public class CellRangeProcessor {
 	}
 
 	/**
-	 * Creates a GeoList from the cells in an array of cellranges. Empty cells
+	 * Creates a GeoList from the cells in an array of tabular ranges. Empty cells
 	 * are ignored. Uses these defaults: do not create undo point, do not sort,
 	 * do not filter by geo type, set a label.
 	 * 
@@ -835,7 +835,7 @@ public class CellRangeProcessor {
 	}
 
 	/**
-	 * Creates a GeoList from the cells in an array of CellRange. Empty cells
+	 * Creates a GeoList from the cells in an array of tabular ranges. Empty cells
 	 * are ignored
 	 * 
 	 * @return list
@@ -940,9 +940,9 @@ public class CellRangeProcessor {
 			boolean addToConstruction) {
 
 		ArrayList<TabularRange> rangeList = new ArrayList<>();
-		TabularRange cr = new TabularRange(column, -1);
-		cr = CellRange.getActual(cr, app);
-		rangeList.add(cr);
+		TabularRange tr = new TabularRange(column, -1);
+		tr = CellRangeUtil.getActual(tr, app);
+		rangeList.add(tr);
 
 		return createList(rangeList, true, copyByValue, isSorted, storeUndoInfo,
 				geoTypeFilter, addToConstruction);

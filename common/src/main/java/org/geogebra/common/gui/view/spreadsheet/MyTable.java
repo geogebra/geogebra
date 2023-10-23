@@ -20,7 +20,7 @@ public interface MyTable extends MyTableInterface {
 
 	public CopyPasteCut getCopyPasteCut();
 
-	public ArrayList<TabularRange> getSelectedCellRanges();
+	public ArrayList<TabularRange> getSelectedRanges();
 
 	public boolean setSelection(TabularRange targetRange);
 

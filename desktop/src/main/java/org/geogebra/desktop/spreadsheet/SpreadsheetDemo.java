@@ -88,8 +88,8 @@ public class SpreadsheetDemo {
 	}
 
 	private static String readDemoFile() throws URISyntaxException, IOException {
-		return new String(Files.readAllBytes(Paths.get(SpreadsheetDemo.class
-				.getResource("spreadsheet.xml").toURI())));
+		return Files.readString(Paths.get(SpreadsheetDemo.class
+				.getResource("spreadsheet.xml").toURI()));
 	}
 
 	private static void initParentPanel(JFrame frame, SpreadsheetPanel sp) {
@@ -172,7 +172,7 @@ public class SpreadsheetDemo {
 			addKeyListener(new KeyListener() {
 				@Override
 				public void keyTyped(KeyEvent e) {
-
+					// key press only
 				}
 
 				@Override
@@ -185,10 +185,9 @@ public class SpreadsheetDemo {
 
 				@Override
 				public void keyReleased(KeyEvent e) {
-
+					// key press only
 				}
 			});
-
 
 			final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame, app);
 			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
