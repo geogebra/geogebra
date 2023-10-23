@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.table.importer;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -9,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.RegressionSpecification;
@@ -399,6 +402,15 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		reload();
 		f = lookup("f");
 		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void importedListsShouldBeAuxiliary() {
+		Reader reader = new StringReader("1,2");
+		dataImporter.setsDiscardHeader(false);
+		dataImporter.importCSV(reader, '.');
+		assertThat(lookup("x_{1}").isAuxiliaryObject(), equalTo(true));
+		assertThat(lookup("y_{1}").isAuxiliaryObject(), equalTo(true));
 	}
 
 	// Helper methods
