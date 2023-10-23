@@ -3578,6 +3578,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	public void drawObjects(GGraphics2D g2) {
+		tracing = false;
 		drawGeometricObjects(g2);
 		drawActionObjects(g2);
 
@@ -4597,34 +4598,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Tells if there are any traces in the background image.
-	 * 
-	 * @return true if there are any traces in background
-	 */
-	protected boolean isTracing() {
-		for (Drawable drawable : allDrawableList) {
-			if (drawable.isTracing()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Tells if there are any images in the background.
 	 * 
 	 * @return whether there are any images in the background.
 	 */
 	protected boolean hasBackgroundImages() {
 		return bgImageList.size() > 0;
-	}
-
-	/**
-	 * @return background graphics
-	 */
-	final public GGraphics2D getBackgroundGraphics() {
-		this.tracing = true;
-		return bgGraphics;
 	}
 
 	/**
@@ -5907,7 +5886,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// DRAWING
-		if (isTracing() || hasBackgroundImages()) {
+		if (isTraceDrawn() || hasBackgroundImages()) {
 			// draw background image to get the traces
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
@@ -6736,5 +6715,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public IntervalPathPlotter createIntervalPathPlotter(GeneralPathClippedForCurvePlotter gp) {
 		return new IntervalPathPlotterImpl(gp);
+	}
+
+	/**
+	 * Paints drawable's trace to background graphics
+	 * @param drawable object to draw as trace
+	 */
+	public void drawTrace(Drawable drawable) {
+		this.tracing = true;
+		if (bgGraphics != null) {
+			drawable.drawTrace(bgGraphics);
+		}
 	}
 }

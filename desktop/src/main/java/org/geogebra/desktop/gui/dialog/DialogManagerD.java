@@ -553,9 +553,13 @@ public class DialogManagerD extends DialogManagerMinimal {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (getFileChooser().getFileFilter() instanceof FileExtensionFilter) {
+				File selectedFile = getFileChooser().getSelectedFile();
+				if (selectedFile != null && getFileChooser().getFileFilter().accept(selectedFile)) {
+					return;
+				}
 				String fileName = null;
-				if (getFileChooser().getSelectedFile() != null) {
-					fileName = getFileChooser().getSelectedFile().getName();
+				if (selectedFile != null) {
+					fileName = selectedFile.getName();
 				} else {
 					fileName = ((GuiManagerD) app.getGuiManager())
 							.getLastFileNameOfSaveDialog();
@@ -563,7 +567,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 				// fileName = getFileName(fileName);
 
-				if (fileName != null && fileName.indexOf(".") > -1) {
+				if (fileName != null && fileName.contains(".")) {
 					fileName = fileName.substring(0, fileName.lastIndexOf("."))
 							+ "."
 							+ ((FileExtensionFilter) getFileChooser().getFileFilter())
