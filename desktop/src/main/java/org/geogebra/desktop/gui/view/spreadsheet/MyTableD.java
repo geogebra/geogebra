@@ -37,7 +37,6 @@ import javax.swing.table.TableColumn;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
@@ -52,6 +51,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -101,10 +101,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	public ArrayList<CellSelection> selectedCellRanges;
+	public ArrayList<TabularRange> selectedCellRanges;
 
 	@Override
-	public ArrayList<CellSelection> getSelectedCellRanges() {
+	public ArrayList<TabularRange> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
 
@@ -242,7 +242,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<>();
-		selectedCellRanges.add(new CellSelection(-1, -1));
+		selectedCellRanges.add(new TabularRange(-1, -1));
 		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		setCellSelectionEnabled(true);
 
@@ -555,7 +555,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// create a cell range object to store
 		// the current table selection
 
-		CellSelection newSelection;
+		TabularRange newSelection;
 
 		if (view.isTraceDialogVisible()) {
 
@@ -573,7 +573,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 			default:
 			case MyTableInterface.CELL_SELECT:
-				newSelection = new CellSelection(
+				newSelection = new TabularRange(
 						getColumnModel().getSelectionModel()
 								.getAnchorSelectionIndex(),
 						getSelectionModel().getAnchorSelectionIndex(),
@@ -583,13 +583,13 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				break;
 
 			case MyTableInterface.ROW_SELECT:
-				newSelection = new CellSelection(-1,
+				newSelection = new TabularRange(-1,
 						getSelectionModel().getAnchorSelectionIndex(), -1,
 						getSelectionModel().getLeadSelectionIndex());
 				break;
 
 			case MyTableInterface.COLUMN_SELECT:
-				newSelection = new CellSelection(
+				newSelection = new TabularRange(
 						getColumnModel().getSelectionModel()
 								.getAnchorSelectionIndex(),
 						-1, getColumnModel().getSelectionModel()
@@ -762,7 +762,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	@Override
 	public boolean setSelection(int c, int r) {
-		CellSelection cr = new CellSelection(c, r, c, r);
+		TabularRange cr = new TabularRange(c, r, c, r);
 		return setSelection(cr);
 	}
 
@@ -774,7 +774,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return success
 	 */
 	public boolean setSelection(int c1, int r1, int c2, int r2) {
-		CellSelection cr = new CellSelection(c1, r1, c2, r2);
+		TabularRange cr = new TabularRange(c1, r1, c2, r2);
 		if (!cr.isValid()) {
 			return false;
 		}
@@ -783,7 +783,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	@Override
-	public boolean setSelection(CellSelection cr) {
+	public boolean setSelection(TabularRange cr) {
 
 		if (cr != null && !cr.isValid()) {
 			return false;
@@ -926,7 +926,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		ArrayList<Integer> columns = new ArrayList<>();
 
-		for (CellSelection cr : this.selectedCellRanges) {
+		for (TabularRange cr : this.selectedCellRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
 				if (!columns.contains(c)) {
 					columns.add(c);

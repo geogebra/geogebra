@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 public class SpreadsheetModeProcessor {
@@ -34,7 +35,7 @@ public class SpreadsheetModeProcessor {
 	 * Creates autofunction cells based on the given cell range and the current
 	 * autofunction mode.
 	 */
-	public void performAutoFunctionCreation(CellSelection cr, boolean shiftDown) {
+	public void performAutoFunctionCreation(TabularRange cr, boolean shiftDown) {
 
 		if (cr.isColumn() || cr.isRow()) {
 			return;
@@ -42,13 +43,13 @@ public class SpreadsheetModeProcessor {
 
 		boolean isOK = true;
 		GeoElement targetCell1 = null;
-		CellSelection targetRange;
+		TabularRange targetRange;
 
 		// Case 1: Partial row, targetCell created beneath the column
 		if (cr.isPartialRow() || (!cr.isPartialColumn() && shiftDown)) {
 
 			int maxColumn = getMaxUsedColumn(cr) + 1;
-			targetRange = new CellSelection(maxColumn, cr.getMinRow(),
+			targetRange = new TabularRange(maxColumn, cr.getMinRow(),
 					maxColumn, cr.getMaxRow());
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 
@@ -61,7 +62,7 @@ public class SpreadsheetModeProcessor {
 					targetCell1 = new GeoNumeric(kernel.getConstruction(), 0);
 					targetCell1.setLabel(GeoElementSpreadsheet
 							.getSpreadsheetCellName(maxColumn, row));
-					createAutoFunctionCell(targetCell1, new CellSelection(
+					createAutoFunctionCell(targetCell1, new TabularRange(
 							cr.getMinColumn(), row, maxColumn - 1, row));
 				}
 			}
@@ -71,7 +72,7 @@ public class SpreadsheetModeProcessor {
 			table.repaint();
 		} else {
 			int maxRow = getMaxUsedRow(cr) + 1;
-			targetRange = new CellSelection(cr.getMinColumn(), maxRow,
+			targetRange = new TabularRange(cr.getMinColumn(), maxRow,
 					cr.getMaxColumn(), maxRow);
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
 
@@ -91,7 +92,7 @@ public class SpreadsheetModeProcessor {
 					} else {
 						targetCell1 = cell;
 					}
-					createAutoFunctionCell(targetCell1, new CellSelection(col,
+					createAutoFunctionCell(targetCell1, new TabularRange(col,
 							cr.getMinRow(), col, maxRow - 1));
 				}
 			}
@@ -102,7 +103,7 @@ public class SpreadsheetModeProcessor {
 		}
 	}
 
-	private int getMaxUsedColumn(CellSelection cr) {
+	private int getMaxUsedColumn(TabularRange cr) {
 
 		if (cr.isRow() || cr.isColumn()) {
 			return cr.getMaxColumn();
@@ -117,7 +118,7 @@ public class SpreadsheetModeProcessor {
 		return cr.getMaxColumn() - 1;
 	}
 
-	private int getMaxUsedRow(CellSelection cr) {
+	private int getMaxUsedRow(TabularRange cr) {
 
 		if (cr.isRow() || cr.isColumn()) {
 			return cr.getMaxRow();
@@ -142,7 +143,7 @@ public class SpreadsheetModeProcessor {
 	 *            input cell range
 	 * @return success
 	 */
-	public boolean createAutoFunctionCell(GeoElement functionTargetCell, CellSelection cr) {
+	public boolean createAutoFunctionCell(GeoElement functionTargetCell, TabularRange cr) {
 
 		boolean success = true;
 

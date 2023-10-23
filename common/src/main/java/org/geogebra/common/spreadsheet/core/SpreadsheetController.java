@@ -172,7 +172,7 @@ public final class SpreadsheetController implements TabularSelection {
 		} else if (row < 0) { // Select column
 			selectColumn(column, modifiers.shift, modifiers.ctrl);
 		} else { // Select cell
-			select(new Selection(SelectionType.CELLS, new TabularRange(row,
+			select(new Selection(SelectionType.CELLS, TabularRange.range(row,
 					row, column, column)), modifiers.shift, modifiers.ctrl);
 		}
 	}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
@@ -20,6 +19,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -637,7 +637,7 @@ public class DataVariable {
 				if (dataItem.getType() == SourceType.SPREADSHEET) {
 					try {
 						if (dataItem.getRangeList() != null) {
-							for (CellSelection cr : dataItem.getRangeList()) {
+							for (TabularRange cr : dataItem.getRangeList()) {
 								if (cr.contains(geo.getSpreadsheetCoords())) {
 									return true;
 								}
@@ -667,7 +667,7 @@ public class DataVariable {
 		for (DataItem item : values) {
 
 			sb.append("<item ranges=\"");
-			ArrayList<CellSelection> crList = item.getRangeList();
+			ArrayList<TabularRange> crList = item.getRangeList();
 			if (crList != null) {
 				appendCellRanges(sb, crList);
 			}
@@ -688,9 +688,9 @@ public class DataVariable {
 		sb.append("</variable>\n");
 	}
 
-	private void appendCellRanges(StringBuilder sb, ArrayList<CellSelection> crList) {
+	private void appendCellRanges(StringBuilder sb, ArrayList<TabularRange> crList) {
 		boolean first = true;
-		for (CellSelection cr : crList) {
+		for (TabularRange cr : crList) {
 			if (cr != null) {
 				sb.append(first ? "" : ",");
 				sb.append(CellRange.getLabel(cr));

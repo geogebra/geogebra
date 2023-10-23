@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.spreadsheet;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 
 public interface MyTable extends MyTableInterface {
 
@@ -19,9 +20,9 @@ public interface MyTable extends MyTableInterface {
 
 	public CopyPasteCut getCopyPasteCut();
 
-	public ArrayList<CellSelection> getSelectedCellRanges();
+	public ArrayList<TabularRange> getSelectedCellRanges();
 
-	public boolean setSelection(CellSelection targetRange);
+	public boolean setSelection(TabularRange targetRange);
 
 	public void changeSelection(int y, int x, boolean b);
 

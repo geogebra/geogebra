@@ -48,12 +48,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.SpreadsheetTraceManager;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -115,7 +115,7 @@ public class TraceDialog extends Dialog
 	private int mode = MODE_NORMAL;
 
 	// misc
-	private CellSelection newTraceLocation;
+	private TabularRange newTraceLocation;
 	private boolean isIniting = false;
 	private JLabel lblStartRow;
 	private final LocalizationD loc;
@@ -130,7 +130,7 @@ public class TraceDialog extends Dialog
 	 * @param traceCell
 	 *            trce range
 	 */
-	public TraceDialog(AppD app, GeoElement selectedGeo, CellSelection traceCell) {
+	public TraceDialog(AppD app, GeoElement selectedGeo, TabularRange traceCell) {
 		super(app.getFrame());
 
 		this.app = app;
@@ -172,7 +172,7 @@ public class TraceDialog extends Dialog
 	 * 
 	 */
 	public void setTraceDialogSelection(GeoElement selectedGeo0,
-			CellSelection traceCell) {
+			TabularRange traceCell) {
 		GeoElement selectedGeo = selectedGeo0;
 		// if the traceCell column is tracing a geo then set selectedGeo to this
 		// geo
@@ -849,20 +849,20 @@ public class TraceDialog extends Dialog
 	 *            row
 	 * @return range
 	 */
-	public CellSelection getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 
-		CellSelection cr;
+		TabularRange cr;
 
 		switch (mode) {
 		default:
-			cr = new CellSelection(-1, -1);
+			cr = new TabularRange(-1, -1);
 			// do nothing
 			break;
 		case MODE_NORMAL:
 			if (getSettings() == null) {
-				cr = new CellSelection(-1, -1, -1, -1);
+				cr = new TabularRange(-1, -1, -1, -1);
 			} else {
-				cr = new CellSelection(getSettings().traceColumn1,
+				cr = new TabularRange(getSettings().traceColumn1,
 						getSettings().traceRow1, getSettings().traceColumn2,
 						(getSettings().doRowLimit) ? getSettings().traceRow2
 								: app.getMaxSpreadsheetRowsVisible());
@@ -873,7 +873,7 @@ public class TraceDialog extends Dialog
 			if (newTraceLocation != null) {
 				cr = newTraceLocation;
 			} else {
-				cr = new CellSelection(traceManager.getNextTraceColumn(), 0);
+				cr = new TabularRange(traceManager.getNextTraceColumn(), 0);
 			}
 			break;
 
@@ -884,7 +884,7 @@ public class TraceDialog extends Dialog
 					: app.getMaxSpreadsheetRowsVisible())
 					- getSettings().traceRow1;
 
-			cr = new CellSelection(anchorColumn, anchorRow, anchorColumn + w,
+			cr = new TabularRange(anchorColumn, anchorRow, anchorColumn + w,
 					anchorRow + h);
 			break;
 		}

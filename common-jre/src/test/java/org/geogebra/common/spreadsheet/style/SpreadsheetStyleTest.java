@@ -5,7 +5,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,9 +22,9 @@ public class SpreadsheetStyleTest extends BaseUnitTest {
 
 	@Test
 	public void changeShouldApplyToAllCells() {
-		CellSelection column = new CellSelection(1, -1, 1, -1);
+		TabularRange column = new TabularRange(1, -1, 1, -1);
 		cellFormat.setFormat(column, CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_CENTER);
-		CellSelection row = new CellSelection(-1, 5, -1, 5);
+		TabularRange row = new TabularRange(-1, 5, -1, 5);
 		cellFormat.setFormat(row, CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_RIGHT);
 		// selected column is centered
 		assertThat(style.getAlignment(0, 1), equalTo(CellFormat.ALIGN_CENTER));
@@ -39,9 +39,9 @@ public class SpreadsheetStyleTest extends BaseUnitTest {
 
 	@Test
 	public void shouldReload() {
-		CellSelection column = new CellSelection(1, -1, 1, -1);
+		TabularRange column = new TabularRange(1, -1, 1, -1);
 		cellFormat.setFormat(column, CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_CENTER);
-		CellSelection row = new CellSelection(-1, 5, -1, 5);
+		TabularRange row = new TabularRange(-1, 5, -1, 5);
 		cellFormat.setFormat(row, CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_RIGHT);
 		String forXML = cellFormat.encodeFormats().toString();
 		assertThat(forXML, equalTo("1,-1,a,0:-1,5,a,4"));

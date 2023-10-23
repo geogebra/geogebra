@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -19,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -44,7 +44,7 @@ public class DataItem {
 	private GeoClass geoClass = GeoClass.NUMERIC;
 
 	// source objects
-	private ArrayList<CellSelection> rangeList;
+	private ArrayList<TabularRange> rangeList;
 	private GeoList geoList;
 	private Double[] leftBorder;
 	private String[] strInternal;
@@ -74,7 +74,7 @@ public class DataItem {
 	 * @param rangeList
 	 *            range list
 	 */
-	public DataItem(ArrayList<CellSelection> rangeList, App app) {
+	public DataItem(ArrayList<TabularRange> rangeList, App app) {
 		this.rangeList = rangeList;
 		this.sourceType = SourceType.SPREADSHEET;
 		this.app = app;
@@ -86,7 +86,7 @@ public class DataItem {
 	 * @param cellRange
 	 *            cell range
 	 */
-	public DataItem(CellSelection cellRange, App app) {
+	public DataItem(TabularRange cellRange, App app) {
 		rangeList = new ArrayList<>();
 		rangeList.add(cellRange);
 		this.sourceType = SourceType.SPREADSHEET;
@@ -135,7 +135,7 @@ public class DataItem {
 	 * @param rangeList
 	 *            list of cell ranges
 	 */
-	public void setDataItem(ArrayList<CellSelection> rangeList) {
+	public void setDataItem(ArrayList<TabularRange> rangeList) {
 		clearItem();
 		this.rangeList = rangeList;
 		this.sourceType = SourceType.SPREADSHEET;
@@ -169,7 +169,7 @@ public class DataItem {
 	/**
 	 * @return list of ranges
 	 */
-	public ArrayList<CellSelection> getRangeList() {
+	public ArrayList<TabularRange> getRangeList() {
 		return rangeList;
 	}
 
@@ -244,7 +244,7 @@ public class DataItem {
 			if (rangeList == null) {
 				return false;
 			}
-			for (CellSelection cr : rangeList) {
+			for (TabularRange cr : rangeList) {
 				if (CellRange.containsGeoClass(cr, geoClassType, app)) {
 					return true;
 				}
@@ -289,7 +289,7 @@ public class DataItem {
 			return geoList.size();
 		case SPREADSHEET:
 			int count = 0;
-			for (CellSelection cr : rangeList) {
+			for (TabularRange cr : rangeList) {
 				count += CellRange.getGeoCount(cr, null, app);
 			}
 			return count;
@@ -355,7 +355,7 @@ public class DataItem {
 		} else if (enableHeader && sourceType == SourceType.SPREADSHEET) {
 
 			StringTemplate tpl = StringTemplate.defaultTemplate;
-			CellSelection range = getRangeList().get(0);
+			TabularRange range = getRangeList().get(0);
 
 			if (range.isColumn() || range.isPartialColumn()) {
 				GeoElement geo = RelativeCopy.getValue(app,
@@ -418,7 +418,7 @@ public class DataItem {
 			boolean setLabel = false;
 
 			try {
-				ArrayList<CellSelection> rangeListCopy = rangeListCopy(
+				ArrayList<TabularRange> rangeListCopy = rangeListCopy(
 						getRangeList(), enableHeader);
 
 				list = crProcessor(app).createList(rangeListCopy, scanByColumn,
@@ -483,10 +483,10 @@ public class DataItem {
 	 *            whether to remove headers
 	 * @return copies of ranges
 	 */
-	private static ArrayList<CellSelection> rangeListCopy(ArrayList<CellSelection> list,
+	private static ArrayList<TabularRange> rangeListCopy(ArrayList<TabularRange> list,
 			boolean removeHeaderCell) {
 
-		ArrayList<CellSelection> list2 = new ArrayList<>();
+		ArrayList<TabularRange> list2 = new ArrayList<>();
 
 		list2.add(rangeCopy(list.get(0), removeHeaderCell));
 
@@ -505,9 +505,9 @@ public class DataItem {
 	 *            whether to remove header cell
 	 * @return duplicate cell range
 	 */
-	private static CellSelection rangeCopy(CellSelection cr, boolean removeHeaderCell) {
+	private static TabularRange rangeCopy(TabularRange cr, boolean removeHeaderCell) {
 		if (removeHeaderCell) {
-			return new CellSelection(cr.getMinColumn(), cr.getMinRow() + 1,
+			return new TabularRange(cr.getMinColumn(), cr.getMinRow() + 1,
 					cr.getMaxColumn(), cr.getMaxRow());
 		} else {
 			return cr.duplicate();
@@ -592,7 +592,7 @@ public class DataItem {
 
 				boolean skipFirstCell = enableHeader;
 
-				for (CellSelection cr : rangeList) {
+				for (TabularRange cr : rangeList) {
 
 					ArrayList<GeoElement> list = CellRange.toGeoList(cr, app);
 

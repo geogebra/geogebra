@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
@@ -12,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
@@ -440,7 +440,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private boolean isInsideCurrentSelection(GPoint point) {
-		ArrayList<CellSelection> cellRanges = table.getSelectedCellRanges();
+		ArrayList<TabularRange> cellRanges = table.getSelectedCellRanges();
 		boolean inside = false;
 		int idx = 0;
 		while (!inside && idx < cellRanges.size()) {

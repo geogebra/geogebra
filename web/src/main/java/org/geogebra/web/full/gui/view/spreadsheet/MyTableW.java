@@ -10,7 +10,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
@@ -27,6 +26,7 @@ import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 import org.geogebra.common.util.MyMath;
@@ -115,7 +115,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	private final ArrayList<CellSelection> selectedCellRanges;
+	private final ArrayList<TabularRange> selectedCellRanges;
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
@@ -251,7 +251,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<>();
-		selectedCellRanges.add(new CellSelection(-1, -1));
+		selectedCellRanges.add(new TabularRange(-1, -1));
 
 		selectionType = MyTableInterface.CELL_SELECT;
 
@@ -275,7 +275,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	@Override
-	public ArrayList<CellSelection> getSelectedCellRanges() {
+	public ArrayList<TabularRange> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
 
@@ -896,7 +896,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// create a cell range object to store
 		// the current table selection
 
-		CellSelection newSelection;
+		TabularRange newSelection;
 
 		/*
 		 * TODO if (view.isTraceDialogVisible()) {
@@ -914,21 +914,21 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		switch (selectionType) {
 
 		case MyTableInterface.CELL_SELECT:
-			newSelection = new CellSelection(anchorSelectionColumn,
+			newSelection = new TabularRange(anchorSelectionColumn,
 			        anchorSelectionRow, leadSelectionColumn, leadSelectionRow);
 			break;
 
 		case MyTableInterface.ROW_SELECT:
-			newSelection = new CellSelection(-1, anchorSelectionRow, -1,
+			newSelection = new TabularRange(-1, anchorSelectionRow, -1,
 			        leadSelectionRow);
 			break;
 
 		case MyTableInterface.COLUMN_SELECT:
-			newSelection = new CellSelection(anchorSelectionColumn, -1,
+			newSelection = new TabularRange(anchorSelectionColumn, -1,
 			        leadSelectionColumn, -1);
 			break;
 		default:
-			newSelection = new CellSelection(-1, -1);
+			newSelection = new TabularRange(-1, -1);
 		}
 		/*
 		 * }
@@ -1049,7 +1049,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	@Override
 	public boolean setSelection(int c, int r) {
-		CellSelection cr = new CellSelection(c, r, c, r);
+		TabularRange cr = new TabularRange(c, r, c, r);
 		return setSelection(cr);
 	}
 
@@ -1065,14 +1065,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            max row
 	 */
 	public void setSelection(int c1, int r1, int c2, int r2) {
-		CellSelection cr = new CellSelection(c1, r1, c2, r2);
+		TabularRange cr = new TabularRange(c1, r1, c2, r2);
 		if (cr.isValid()) {
 			setSelection(cr);
 		}
 	}
 
 	@Override
-	public boolean setSelection(CellSelection cr) {
+	public boolean setSelection(TabularRange cr) {
 		if (cr != null && !cr.isValid()) {
 			return false;
 		}
@@ -1239,7 +1239,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		ArrayList<Integer> columns = new ArrayList<>();
 
-		for (CellSelection cr : this.selectedCellRanges) {
+		for (TabularRange cr : this.selectedCellRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
 				if (!columns.contains(c)) {
 					columns.add(c);
@@ -2161,9 +2161,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @param cellRangeList
 	 *            cells to update
 	 */
-	public void updateCellFormat(ArrayList<CellSelection> cellRangeList) {
+	public void updateCellFormat(ArrayList<TabularRange> cellRangeList) {
 		for (int i = 0; i < cellRangeList.size(); i++) {
-			CellSelection cr = cellRangeList.get(i);
+			TabularRange cr = cellRangeList.get(i);
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 				for (int column = cr.getMinColumn(); column <= cr
 				        .getMaxColumn(); column++) {

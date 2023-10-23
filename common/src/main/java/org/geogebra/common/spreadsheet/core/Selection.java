@@ -23,7 +23,7 @@ final class Selection {
 	}
 
 	boolean isEmpty() {
-		return range.isEmpty();
+		return range.isEmptyRange();
 	}
 
 	/**
@@ -47,8 +47,10 @@ final class Selection {
 	}
 
 	public boolean contains(int row, int column) {
-		return (range.fromCol <= column && range.toCol >= column || range.fromCol < 0)
-				&& (range.fromRow <= row && range.toRow >= row || range.fromRow < 0);
+		return (range.getMinColumn() <= column && range.getMaxColumn() >= column
+				|| range.getMaxRow() < 0)
+				&& (range.getMinRow() <= row && range.getMaxRow() >= row
+				|| range.getMinRow() < 0);
 	}
 
 	/**
@@ -58,13 +60,13 @@ final class Selection {
 	 */
 	public Selection getLeft(boolean extendSelection) {
 		if (this.type == SelectionType.ROWS) {
-			return getSingleCellSelection(this.range.toRow, 0);
+			return getSingleCellSelection(this.range.getToRow(), 0);
 		}
 
-		int leftColumnIndex = Math.max(this.range.toCol - 1, 0);
-		return new Selection(this.type, new TabularRange(
-				extendSelection ? this.range.fromRow : this.range.toRow, this.range.toRow,
-				leftColumnIndex, leftColumnIndex));
+		int leftColumnIndex = Math.max(this.range.getToColumn() - 1, 0);
+		return new Selection(this.type, TabularRange.range(
+				extendSelection ? this.range.getFromRow() : this.range.getToRow(),
+				this.range.getToRow(), leftColumnIndex, leftColumnIndex));
 	}
 
 	/**
@@ -75,13 +77,13 @@ final class Selection {
 	 */
 	public Selection getRight(int numberOfColumns, boolean extendSelection) {
 		if (this.type == SelectionType.ROWS) {
-			return getSingleCellSelection(this.range.toRow, numberOfColumns - 2);
+			return getSingleCellSelection(this.range.getToRow(), numberOfColumns - 2);
 		}
 
-		int rightColumnIndex = Math.min(this.range.toCol + 1, numberOfColumns - 2);
-		return new Selection(this.type, new TabularRange(
-				extendSelection ? this.range.fromRow : this.range.toRow, this.range.toRow,
-				rightColumnIndex, rightColumnIndex));
+		int rightColumnIndex = Math.min(this.range.getToColumn() + 1, numberOfColumns - 2);
+		return new Selection(this.type, TabularRange.range(
+				extendSelection ? this.range.getFromRow() : this.range.getToRow(),
+				this.range.getToRow(), rightColumnIndex, rightColumnIndex));
 	}
 
 	/**
@@ -91,13 +93,14 @@ final class Selection {
 	 */
 	public Selection getTop(boolean extendSelection) {
 		if (this.type == SelectionType.COLUMNS) {
-			return getSingleCellSelection(0, this.range.toCol);
+			return getSingleCellSelection(0, this.range.getToColumn());
 		}
 
-		int aboveRowIndex = Math.max(this.range.toRow - 1, 0);
-		return new Selection(this.type, new TabularRange(
+		int aboveRowIndex = Math.max(this.range.getToRow() - 1, 0);
+		return new Selection(this.type, TabularRange.range(
 				aboveRowIndex, aboveRowIndex,
-				extendSelection ? this.range.fromCol : this.range.toCol, this.range.toCol));
+				extendSelection ? this.range.getFromColumn() : this.range.getToColumn(),
+				this.range.getToColumn()));
 	}
 
 	/**
@@ -108,13 +111,14 @@ final class Selection {
 	 */
 	public Selection getBottom(int numberOfRows, boolean extendSelection) {
 		if (this.type == SelectionType.COLUMNS) {
-			return getSingleCellSelection(numberOfRows - 2, this.range.toCol);
+			return getSingleCellSelection(numberOfRows - 2, this.range.getToColumn());
 		}
 
-		int underneathRowIndex = Math.min(this.range.toRow + 1, numberOfRows - 2);
-		return new Selection(this.type, new TabularRange(
+		int underneathRowIndex = Math.min(this.range.getToRow() + 1, numberOfRows - 2);
+		return new Selection(this.type, TabularRange.range(
 				underneathRowIndex, underneathRowIndex,
-				extendSelection ? this.range.fromCol : this.range.toCol, this.range.toCol));
+				extendSelection ? this.range.getFromColumn() : this.range.getToColumn(),
+				this.range.getToColumn()));
 	}
 
 	/**
@@ -128,16 +132,16 @@ final class Selection {
 
 		if ((selectionType == SelectionType.CELLS && this.type != newSelection.type)
 				|| selectionType == SelectionType.ALL) {
-			return new Selection(selectionType, new TabularRange(
-					Math.min(this.range.fromRow, newSelection.range.fromRow),
-					Math.max(this.range.toRow, newSelection.range.toRow),
-					Math.min(this.range.fromCol, newSelection.range.fromCol),
-					Math.max(this.range.toCol, newSelection.range.toCol)));
+			return new Selection(selectionType, TabularRange.range(
+					Math.min(this.range.getMinRow(), newSelection.range.getMinRow()),
+					Math.max(this.range.getMaxRow(), newSelection.range.getMaxRow()),
+					Math.min(this.range.getMinColumn(), newSelection.range.getMinColumn()),
+					Math.max(this.range.getMaxColumn(), newSelection.range.getMaxColumn())));
 		}
 
-		return new Selection(selectionType, new TabularRange(
-				this.range.fromRow, newSelection.range.toRow,
-				this.range.fromCol, newSelection.range.toCol));
+		return new Selection(selectionType, TabularRange.range(
+				this.range.getFromRow(), newSelection.range.getToRow(),
+				this.range.getFromColumn(), newSelection.range.getToColumn()));
 	}
 
 	/**
@@ -146,7 +150,7 @@ final class Selection {
 	 * @return A single cell with given index
 	 */
 	public static Selection getSingleCellSelection(int rowIndex, int columnIndex) {
-		return new Selection(SelectionType.CELLS, new TabularRange(
+		return new Selection(SelectionType.CELLS, TabularRange.range(
 				rowIndex, rowIndex, columnIndex, columnIndex));
 	}
 

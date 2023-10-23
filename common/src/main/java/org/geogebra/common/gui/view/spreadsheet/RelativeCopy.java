@@ -32,6 +32,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -101,7 +102,7 @@ public class RelativeCopy {
 			cons.startCollectingRedefineCalls();
 
 			boolean patternOK = isPatternSource(
-					new CellSelection(sx1, sy1, sx2, sy2), app);
+					new TabularRange(sx1, sy1, sx2, sy2), app);
 
 			// ==============================================
 			// vertical drag
@@ -305,7 +306,7 @@ public class RelativeCopy {
 	 *            cell range
 	 * @return whether all geos are acceptable
 	 */
-	private static boolean isPatternSource(CellSelection cellRange, App app) {
+	private static boolean isPatternSource(TabularRange cellRange, App app) {
 		// don't allow empty cells
 		if (CellRange.hasEmptyCells(cellRange, app)) {
 			return false;

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
  * Utility class for spreadsheet cell ranges.
@@ -24,14 +25,14 @@ import org.geogebra.common.plugin.GeoClass;
 final public class CellRange {
 
 	/** @return true if this cell range contains no geos */
-	public static boolean isEmpty(CellSelection selection, App app) {
+	public static boolean isEmpty(TabularRange selection, App app) {
 		return toGeoList(selection, app).isEmpty();
 	}
 
 	/**
 	 * @return true if all non-empty cells in the given range are GeoPoint
 	 */
-	public static boolean isPointList(CellSelection selection, App app) {
+	public static boolean isPointList(TabularRange selection, App app) {
 		for (int col = selection.getMinColumn(); col <= selection.getMaxColumn(); ++col) {
 			for (int row = selection.getMinRow(); row <= selection.getMaxRow(); ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, col, row);
@@ -44,7 +45,7 @@ final public class CellRange {
 		return true;
 	}
 
-	public static CellSelection getActual(CellSelection selection, App app) {
+	public static TabularRange getActual(TabularRange selection, App app) {
 		return getActual(selection, app.getSpreadsheetTableModel());
 	}
 
@@ -53,19 +54,19 @@ final public class CellRange {
 	 * @param tableModel table model
 	 * @return intersection of potential selection with table model
 	 */
-	public static CellSelection getActual(CellSelection general, SpreadsheetTableModel tableModel) {
+	public static TabularRange getActual(TabularRange general, SpreadsheetTableModel tableModel) {
 		if (general.getMinRow() == -1 && general.getMaxRow() == -1
 				&& general.getMinColumn() == -1 && general.getMaxColumn() == -1) {
 			return general;
 		}
 
 		if (general.getMinRow() == -1 && general.getMaxRow() == -1) {
-			return new CellSelection(general.getMinColumn(), 0,
+			return new TabularRange(general.getMinColumn(), 0,
 					general.getMaxColumn(), tableModel.getRowCount() - 1);
 		}
 
 		if (general.getMinColumn() == -1 && general.getMaxColumn() == -1) {
-			return new CellSelection(0, general.getMinRow(),
+			return new TabularRange(0, general.getMinRow(),
 					tableModel.getColumnCount() - 1, general.getMaxRow());
 		}
 		return general;
@@ -76,7 +77,7 @@ final public class CellRange {
 	 * 
 	 * @return list of elements
 	 */
-	public static ArrayList<GeoElement> toGeoList(CellSelection selection, App app) {
+	public static ArrayList<GeoElement> toGeoList(TabularRange selection, App app) {
 
 		ArrayList<GeoElement> list = new ArrayList<>();
 
@@ -94,7 +95,7 @@ final public class CellRange {
 	/**
 	 * @return description e.g. A2:C3
 	 */
-	public static String getLabel(CellSelection selection) {
+	public static String getLabel(TabularRange selection) {
 		return GeoElementSpreadsheet.getSpreadsheetCellName(selection.getMinColumn(),
 				selection.getMinRow())
 				+ ":" + GeoElementSpreadsheet.getSpreadsheetCellName(selection.getMaxColumn(),
@@ -102,7 +103,7 @@ final public class CellRange {
 	}
 
 	/** @return true if at least one cell is empty (has no geo) */
-	public static  boolean hasEmptyCells(CellSelection selection, App app) {
+	public static  boolean hasEmptyCells(TabularRange selection, App app) {
 		boolean hasEmptyCells = false;
 		for (int col = selection.getMinColumn(); col <= selection.getMaxColumn(); ++col) {
 			for (int row = selection.getMinRow(); row <= selection.getMaxRow(); ++row) {
@@ -125,7 +126,7 @@ final public class CellRange {
 	 *            counted
 	 * @return count of geos of given type in the range
 	 */
-	public static int getGeoCount(CellSelection selection, GeoClass geoClass, App app) {
+	public static int getGeoCount(TabularRange selection, GeoClass geoClass, App app) {
 		int count = 0;
 		if (geoClass != null) {
 			for (int col = selection.getMinColumn(); col <= selection.getMaxColumn(); ++col) {
@@ -155,7 +156,7 @@ final public class CellRange {
 	 * @return true if this CellRange contains a GeoElement of the given
 	 *         GeoClass type
 	 */
-	public static boolean containsGeoClass(CellSelection selection, GeoClass geoClass, App app) {
+	public static boolean containsGeoClass(TabularRange selection, GeoClass geoClass, App app) {
 		for (int col = selection.getMinColumn(); col <= selection.getMaxColumn(); ++col) {
 			for (int row = selection.getMinRow(); row <= selection.getMaxRow(); ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, col, row);

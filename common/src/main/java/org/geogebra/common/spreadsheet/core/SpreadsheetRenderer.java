@@ -79,11 +79,11 @@ public final class SpreadsheetRenderer {
 		double offsetX = -viewport.getMinX() + layout.getRowHeaderWidth();
 		double offsetY = -viewport.getMinY() + layout.getColumnHeaderHeight();
 		graphics.translate(offsetX, offsetY);
-		if (selection.fromCol >= 0 && selection.fromRow >= 0) {
-			int minX = (int) layout.getX(selection.fromCol);
-			int minY = (int) layout.getY(selection.fromRow);
-			int maxX = (int) layout.getX(selection.toCol + 1);
-			int maxY = (int) layout.getY(selection.toRow + 1);
+		if (selection.getMinColumn() >= 0 && selection.getMinRow() >= 0) {
+			int minX = (int) layout.getX(selection.getMinColumn());
+			int minY = (int) layout.getY(selection.getMinRow());
+			int maxX = (int) layout.getX(selection.getMaxColumn() + 1);
+			int maxY = (int) layout.getY(selection.getMaxRow() + 1);
 			graphics.setColor(GColor.newColor(0, 0, 255, 100));
 			graphics.fillRect(minX, minY,
 					maxX - minX, maxY - minY);

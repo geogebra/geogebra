@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
@@ -149,7 +149,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void handleAlignment(ToggleButton button) {
-		ArrayList<CellSelection> selectedCells = table.getSelectedCellRanges();
+		ArrayList<TabularRange> selectedCells = table.getSelectedCellRanges();
 		Integer align = null;
 		if (button.isSelected()) {
 			if (button == btnLeftAlign) {
@@ -177,7 +177,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void handleFormatting() {
-		ArrayList<CellSelection> selectedCells = table.getSelectedCellRanges();
+		ArrayList<TabularRange> selectedCells = table.getSelectedCellRanges();
 		Integer fontStyle = CellFormat.STYLE_PLAIN;
 		if (btnBold.isSelected()) {
 			fontStyle += CellFormat.STYLE_BOLD;
@@ -197,7 +197,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			return;
 		}
 
-		ArrayList<CellSelection> selectedCells = table.getSelectedCellRanges();
+		ArrayList<TabularRange> selectedCells = table.getSelectedCellRanges();
 		if (source == btnBgColor) {
 			// set color in table (needed as geos can be renamed, deleted etc)
 			GColor bgCol = btnBgColor.getSelectedColor();
@@ -210,7 +210,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			
 			// set color for the actual geos
 			for (int i = 0; i < selectedCells.size(); i++) {
-				CellSelection cr = selectedCells.get(i);
+				TabularRange cr = selectedCells.get(i);
 				ArrayList<GeoElement> ar = CellRange.toGeoList(cr, app);
 				for (int j = 0; j < ar.size(); j++) {
 					GeoElement geo = ar.get(i);
@@ -230,7 +230,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		allowActionPerformed = false;
 
-		CellSelection range = table.getSelectedCellRanges().get(0);
+		TabularRange range = table.getSelectedCellRanges().get(0);
 
 		// update font style buttons
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,

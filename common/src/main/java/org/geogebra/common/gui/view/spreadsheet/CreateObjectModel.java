@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
 
@@ -23,7 +24,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class CreateObjectModel {
 	private CellRangeProcessor cp;
-	private ArrayList<CellSelection> selectedCellRanges;
+	private ArrayList<TabularRange> selectedCellRanges;
 
 	public static final int TYPE_LIST = 0;
 	public static final int TYPE_MATRIX = 2;
@@ -320,11 +321,11 @@ public class CreateObjectModel {
 		this.cp = cp;
 	}
 
-	public ArrayList<CellSelection> getSelectedCellRanges() {
+	public ArrayList<TabularRange> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
 
-	public void setSelectedCellRanges(ArrayList<CellSelection> selectedCellRanges) {
+	public void setSelectedCellRanges(ArrayList<TabularRange> selectedCellRanges) {
 		this.selectedCellRanges = selectedCellRanges;
 	}
 

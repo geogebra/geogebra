@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -15,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -435,7 +435,7 @@ public class DataSource {
 	 */
 	public void setDataListFromSettings(ArrayList<String> items, String frequencies, int mode) {
 		dataList.clear();
-		ArrayList<CellSelection> ranges = new ArrayList<>();
+		ArrayList<TabularRange> ranges = new ArrayList<>();
 
 		for (int i = 0; i < items.size(); i++) {
 			String range = items.get(i);
@@ -446,7 +446,7 @@ public class DataSource {
 			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					range.substring(range.indexOf(':') + 1));
 
-			CellSelection cr = new CellSelection(start.x, start.y, end.x, end.y);
+			TabularRange cr = new TabularRange(start.x, start.y, end.x, end.y);
 			ranges.add(cr);
 		}
 
@@ -459,7 +459,7 @@ public class DataSource {
 			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					frequencies.substring(frequencies.indexOf(':') + 1));
 
-			CellSelection cr = new CellSelection(start.x, start.y, end.x, end.y);
+			TabularRange cr = new TabularRange(start.x, start.y, end.x, end.y);
 			ranges.add(cr);
 		}
 
@@ -526,13 +526,13 @@ public class DataSource {
 
 		// The cell range list returned by the spreadsheet can change
 		// dynamically, so we need to use a copy.
-		ArrayList<CellSelection> rangeList = CellRangeProcessor
+		ArrayList<TabularRange> rangeList = CellRangeProcessor
 				.clone(spreadsheetTable().getSelectedCellRanges());
 		setDataListFromSpreadsheet(mode, rangeList);
 	}
 
 	private void setDataListFromSpreadsheet(int mode,
-			ArrayList<CellSelection> rangeList) {
+			ArrayList<TabularRange> rangeList) {
 		DataVariable var = new DataVariable(app);
 
 		ArrayList<DataItem> itemList = new ArrayList<>();
@@ -542,7 +542,7 @@ public class DataSource {
 		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 			if (isFrequencyFromColumn()) {
-				CellSelection cr = rangeList.get(0);
+				TabularRange cr = rangeList.get(0);
 
 				if (cr.is2D() || rangeListContainsFrequencies(rangeList)) {
 					var.setGroupType(GroupType.FREQUENCY);
@@ -581,16 +581,16 @@ public class DataSource {
 			break;
 
 		case DataAnalysisModel.MODE_MULTIVAR:
-			ArrayList<CellSelection> r;
-			for (CellSelection cr : rangeList) {
+			ArrayList<TabularRange> r;
+			for (TabularRange cr : rangeList) {
 				if (cr.isRow() || cr.isPartialRow()) {
 					r = cr.toPartialRowList();
-					for (CellSelection cr2 : r) {
+					for (TabularRange cr2 : r) {
 						itemList.add(new DataItem(cr2, app));
 					}
 				} else {
 					r = cr.toPartialColumnList();
-					for (CellSelection cr2 : r) {
+					for (TabularRange cr2 : r) {
 						itemList.add(new DataItem(cr2, app));
 					}
 				}
@@ -609,11 +609,11 @@ public class DataSource {
 	 * of the 1D cell ranges (vertical or horizontal) is determined from the
 	 * shape of the given cell ranges.
 	 */
-	private void add1DCellRanges(ArrayList<CellSelection> rangeList,
+	private void add1DCellRanges(ArrayList<TabularRange> rangeList,
 			ArrayList<DataItem> itemList) {
 
-		ArrayList<CellSelection> r = null;
-		CellSelection sel = CellRange.getActual(rangeList.get(0), app);
+		ArrayList<TabularRange> r = null;
+		TabularRange sel = CellRange.getActual(rangeList.get(0), app);
 		boolean scanByColumn = sel.getWidth() <= 2;
 
 		if (rangeList.size() == 1) { // single cell range
@@ -714,10 +714,10 @@ public class DataSource {
 	 * @return returns true if the first & last entries in the rangeList are neighboring cells
 	 * either column-wize or row-wize.
 	 */
-	public boolean rangeListContainsFrequencies(ArrayList<CellSelection> rangeList) {
+	public boolean rangeListContainsFrequencies(ArrayList<TabularRange> rangeList) {
 		if (!rangeList.isEmpty()) {
-			CellSelection first = rangeList.get(0);
-			CellSelection last = rangeList.get(rangeList.size() - 1);
+			TabularRange first = rangeList.get(0);
+			TabularRange last = rangeList.get(rangeList.size() - 1);
 			return (last.getMaxColumn() - first.getMinColumn() == 1)
 					|| (last.getMaxRow() - first.getMinRow() == 1);
 		}

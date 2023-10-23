@@ -13,9 +13,9 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
-import org.geogebra.common.gui.view.spreadsheet.CellSelection;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
@@ -38,7 +38,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 	private final AppD app;
 	private final MyTableD table;
 	private final CellFormat formatHandler;
-	private final ArrayList<CellSelection> selectedCells;
+	private final ArrayList<TabularRange> selectedCells;
 
 	private ToggleButtonD btnFormulaBar;
 	private ToggleButtonD btnLeftAlign;
@@ -264,7 +264,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 
 			// set color for the actual geos
 			for (int i = 0; i < selectedCells.size(); i++) {
-				CellSelection cr = selectedCells.get(i);
+				TabularRange cr = selectedCells.get(i);
 				ArrayList<GeoElement> ar = CellRange.toGeoList(cr, app);
 				for (int j = 0; j < ar.size(); j++) {
 					GeoElement geo = ar.get(j);
@@ -307,7 +307,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 	public void updateStyleBar() {
 		allowActionPerformed = false;
 
-		CellSelection range = table.getSelectedCellRanges().get(0);
+		TabularRange range = table.getSelectedCellRanges().get(0);
 
 		// update font style buttons
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,

@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
  * Superclass that creates a context menu for spreadsheet cells, rows and
@@ -27,7 +28,7 @@ public class SpreadsheetContextMenu<T> {
 	private ArrayList<GeoElement> geos;
 	private CellRangeProcessor cp;
 
-	private ArrayList<CellSelection> selectedCellRanges;
+	private ArrayList<TabularRange> selectedCellRanges;
 	private int selectionType;
 
 	/** minimum selected row */

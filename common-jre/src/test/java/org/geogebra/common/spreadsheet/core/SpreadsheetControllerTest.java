@@ -1,7 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.junit.Test;
@@ -21,7 +20,7 @@ public class SpreadsheetControllerTest {
 		controller.moveLeft(false);
 		controller.moveUp(false);
 
-		assertTrue(equals(initialCell, Selection.getSingleCellSelection(1, 1)));
+		assertRangeEquals(initialCell, Selection.getSingleCellSelection(1, 1));
 	}
 
 	@Test
@@ -31,7 +30,7 @@ public class SpreadsheetControllerTest {
 		controller.moveLeft(false);
 		controller.moveLeft(false);
 
-		assertTrue(equals(controller.getLastSelection(), Selection.getSingleCellSelection(3, 0)));
+		assertRangeEquals(controller.getLastSelection(), Selection.getSingleCellSelection(3, 0));
 	}
 
 	@Test
@@ -41,9 +40,9 @@ public class SpreadsheetControllerTest {
 		controller.moveRight(false);
 		controller.moveRight(false);
 
-		assertTrue(equals(controller.getLastSelection(),
+		assertRangeEquals(controller.getLastSelection(),
 				Selection.getSingleCellSelection(3,
-						controller.getLayout().numberOfColumns() - 2)));
+						controller.getLayout().numberOfColumns() - 2));
 	}
 
 	@Test
@@ -53,7 +52,7 @@ public class SpreadsheetControllerTest {
 		controller.moveUp(false);
 		controller.moveUp(false);
 
-		assertTrue(equals(controller.getLastSelection(), Selection.getSingleCellSelection(0, 3)));
+		assertRangeEquals(controller.getLastSelection(), Selection.getSingleCellSelection(0, 3));
 	}
 
 	@Test
@@ -63,8 +62,8 @@ public class SpreadsheetControllerTest {
 		controller.moveDown(false);
 		controller.moveDown(false);
 
-		assertTrue(equals(controller.getLastSelection(),
-				Selection.getSingleCellSelection(controller.getLayout().numberOfRows() - 2, 3)));
+		assertRangeEquals(controller.getLastSelection(),
+				Selection.getSingleCellSelection(controller.getLayout().numberOfRows() - 2, 3));
 	}
 
 	@Test
@@ -76,35 +75,38 @@ public class SpreadsheetControllerTest {
 		controller.moveDown(true);
 		controller.moveDown(true);
 
-		assertTrue(equals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, new TabularRange(1, 3, 1, 3))));
+		assertRangeEquals(controller.getLastSelection(),
+				new Selection(SelectionType.CELLS, TabularRange.range(1, 3, 1, 3)));
 	}
 
 	@Test
 	public void testExtendSelectionByMoving2() {
 		controller.selectCell(5, 5, false, false);
-
 		controller.moveUp(true);
 		controller.moveUp(true);
 		controller.moveLeft(true);
 		controller.moveLeft(true);
 
-		assertTrue(equals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, new TabularRange(5, 3, 5, 3))));
+		assertRangeEquals(controller.getLastSelection(),
+				new Selection(SelectionType.CELLS, TabularRange.range(3, 5, 3, 5)));
 	}
 
 	@Test
 	public void testExtendSelectionByMoving3() {
 		controller.selectCell(5, 5, false, false);
-
+		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveUp(true);
+		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveUp(true);
+		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveLeft(true);
+		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveLeft(true);
+		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveRight(true);
-
-		assertTrue(equals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, new TabularRange(5, 3, 5, 4))));
+		System.err.println(controller.getLastSelection().getRange().toString());
+		assertRangeEquals(controller.getLastSelection(),
+				new Selection(SelectionType.CELLS, TabularRange.range(3, 5, 4, 5)));
 	}
 
 	@Test
@@ -112,8 +114,8 @@ public class SpreadsheetControllerTest {
 		controller.selectCell(3, 3, false, false);
 		controller.selectCell(5, 5, true, false);
 
-		assertTrue(equals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, new TabularRange(3, 5, 3, 5))));
+		assertRangeEquals(controller.getLastSelection(),
+				new Selection(SelectionType.CELLS, TabularRange.range(3, 5, 3, 5)));
 	}
 
 	@Test
@@ -121,8 +123,8 @@ public class SpreadsheetControllerTest {
 		controller.selectCell(3, 3, false, false);
 		controller.selectCell(1, 1, true, false);
 
-		assertTrue(equals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, new TabularRange(3, 1, 3, 1))));
+		assertRangeEquals(controller.getLastSelection(),
+				new Selection(SelectionType.CELLS, TabularRange.range(3, 1, 3, 1)));
 	}
 
 	@Test
@@ -135,13 +137,13 @@ public class SpreadsheetControllerTest {
 		assertEquals(controller.getSelections().size(), 3);
 	}
 
-	private boolean equals(Selection selection, Selection other) {
+	private void assertRangeEquals(Selection selection, Selection other) {
 		TabularRange selectionRange = selection.getRange();
 		TabularRange otherRange = other.getRange();
-		return selection.getType() == other.getType()
-				&& (selectionRange.fromRow == otherRange.fromRow
-				&& selectionRange.toRow == otherRange.toRow
-				&& selectionRange.fromCol == otherRange.fromCol
-				&& selectionRange.toCol == otherRange.toCol);
+		assertEquals(selection.getType(), other.getType());
+		assertEquals(selectionRange.getMinRow(), otherRange.getMinRow());
+		assertEquals(selectionRange.getMaxRow(), otherRange.getMaxRow());
+		assertEquals(selectionRange.getMinColumn(), otherRange.getMinColumn());
+		assertEquals(selectionRange.getMaxColumn(), otherRange.getMaxColumn());
 	}
 }
