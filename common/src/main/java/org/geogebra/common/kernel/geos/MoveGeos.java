@@ -43,7 +43,6 @@ public class MoveGeos {
 		if (moveObjectsUpdateList == null) {
 			moveObjectsUpdateList = new ArrayList<>();
 		}
-		final ArrayList<GeoElement> geos = new ArrayList<>();
 
 		// make sure list is not moved twice
 		for (GeoElement geo : geosToMove) {
@@ -54,9 +53,26 @@ public class MoveGeos {
 			}
 		}
 
+		final ArrayList<GeoElement> geos = new ArrayList<>();
 		for (GeoElement geo: geosToMove) {
-			addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
+			if (!geo.isLocked()) { // Non fixed elements only
+				if (!geo.isGeoList()) {
+					if (isMovableObject(geo, view)) {
+						addWithSiblingsAndChildNodes(geo, geos, view);
+					}
+				} else {
+					if (shouldAddListAsWhole((GeoList) geo, view)) {
+						addWithSiblingsAndChildNodes(geo, geos, view);
+					} else {
+						((GeoList) geo).elements()
+								.filter(element -> isMovableObject(element, view))
+								.forEach(element -> addWithSiblingsAndChildNodes(element, geos,
+										view));
+					}
+				}
+			}
 		}
+
 		boolean moved = false;
 		final int size = geos.size();
 		moveObjectsUpdateList.clear();
@@ -87,6 +103,24 @@ public class MoveGeos {
 			}
 		}
 		return moved;
+	}
+
+	/**
+	 * @param list {@link GeoList}
+	 * @param view {@link EuclidianView}
+	 * @return True if list contains of only movable GeoPoints / elements
+	 */
+	private static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
+		return list.elements().allMatch(geo -> isMovableObject(geo, view) && geo.isMoveable());
+	}
+
+	/**
+	 * @param geo {@link GeoElement}
+	 * @param view {@link EuclidianView}
+	 * @return True if GeoElement is a GeoPoint or has only free input points
+	 */
+	private static boolean isMovableObject(GeoElement geo, EuclidianView view) {
+		return geo.hasOnlyFreeInputPoints(view) || geo.isMoveable(view) || geo.isGeoPoint();
 	}
 
 	/* visible for tests */
