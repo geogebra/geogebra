@@ -491,6 +491,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		for (int columnIdx = 0; columnIdx < nrColumns; columnIdx++) {
 			columnLabels[columnIdx] = columnIdx == 0 ? "x_{1}" : "y_{" + columnIdx + "}";
 			GeoList list = new GeoList(kernel.getConstruction());
+			list.setAuxiliaryObject(true);
 			importColumns[columnIdx] = list;
 		}
 	}
