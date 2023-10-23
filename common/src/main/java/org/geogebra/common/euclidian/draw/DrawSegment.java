@@ -53,7 +53,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 	private GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 
-	private GeoLineND s;
+	private final GeoLineND segment;
 
 	private boolean isVisible;
 	private boolean labelVisible;
@@ -75,15 +75,15 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	 * 
 	 * @param view
 	 *            Euclidian view to be used
-	 * @param s
+	 * @param segment
 	 *            Segment to be drawn
 	 */
-	public DrawSegment(EuclidianView view, GeoLineND s) {
+	public DrawSegment(EuclidianView view, GeoLineND segment) {
 		this.view = view;
-		this.s = s;
-		geo = (GeoElement) s;
+		this.segment = segment;
+		geo = (GeoElement) segment;
 		if (geo instanceof GeoSegment) {
-			segmentWithEndings = new DrawSegmentWithEndings(this);
+			segmentWithEndings = new DrawSegmentWithEndings(this, (GeoSegment) segment);
 		}
 		update();
 	}
@@ -102,7 +102,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT);
-
+		segment = (GeoSegment) geo;
 		updatePreview();
 	}
 
@@ -113,13 +113,13 @@ public class DrawSegment extends SetDrawable implements Previewable {
 			return;
 		}
 
-		Coords A = view.getCoordsForView(s.getStartInhomCoords());
+		Coords A = view.getCoordsForView(segment.getStartInhomCoords());
 		// check if in view
 		if (!DoubleUtil.isZero(A.getZ()) || !A.isFinite()) {
 			isVisible = false;
 			return;
 		}
-		Coords B = view.getCoordsForView(s.getEndInhomCoords());
+		Coords B = view.getCoordsForView(segment.getEndInhomCoords());
 		// check if in view
 		if (!DoubleUtil.isZero(B.getZ()) || !B.isFinite()) {
 			isVisible = false;
@@ -178,7 +178,10 @@ public class DrawSegment extends SetDrawable implements Previewable {
 					tmpClipPoints);
 		}
 
-		drawAndUpdateTraceIfNeeded(s.getTrace());
+		if (segmentWithEndings != null) {
+			segmentWithEndings.update();
+		}
+		drawAndUpdateTraceIfNeeded(segment.getTrace());
 
 		// if no label and no decoration then we're done
 		if (!labelVisible
@@ -410,7 +413,8 @@ public class DrawSegment extends SetDrawable implements Previewable {
 				drawSegmentWithEndings(g2);
 			} else {
 				if (isHighlighted()) {
-					drawHighlighted(g2, line);
+					setHighlightingStyle(g2);
+					g2.draw(line);
 				}
 				drawLineMiddleDecoration(g2);
 				drawLabelIfVisible(g2);
@@ -492,8 +496,8 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		if (hasSegmentStyle()) {
-			g2.fill(getDecoratedShape());
+		if (segmentWithEndings != null && hasSegmentStyle()) {
+			segmentWithEndings.draw(g2);
 		} else {
 			g2.draw(line);
 		}
@@ -642,34 +646,34 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		// distance
 		if (handler == EuclidianBoundingBoxHandler.TOP_LEFT) {
 			anchor = line.getP2();
-			updated = s.getStartPoint();
+			updated = segment.getStartPoint();
 		} else {
 			anchor = line.getP1();
-			updated = s.getEndPoint();
+			updated = segment.getEndPoint();
 		}
 		GPoint2D snap = ModeShape.snapPoint(anchor.getX(), anchor.getY(),
 				point.getX(), point.getY());
 		double realX = view.toRealWorldCoordX(snap.getX());
 		double realY = view.toRealWorldCoordY(snap.getY());
 		updated.setCoords(realX, realY, 1);
-		s.getParentAlgorithm().update();
+		segment.getParentAlgorithm().update();
 		view.getKernel().notifyRepaint();
 	}
 
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> pts) {
-		s.getStartPoint().setCoords(view.toRealWorldCoordX(pts.get(0).getX()),
+		segment.getStartPoint().setCoords(view.toRealWorldCoordX(pts.get(0).getX()),
 				view.toRealWorldCoordY(pts.get(0).getY()), 1);
-		s.getEndPoint().setCoords(view.toRealWorldCoordX(pts.get(1).getX()),
+		segment.getEndPoint().setCoords(view.toRealWorldCoordX(pts.get(1).getX()),
 				view.toRealWorldCoordY(pts.get(1).getY()), 1);
-		s.getParentAlgorithm().update();
+		segment.getParentAlgorithm().update();
 	}
 
 	@Override
 	public ArrayList<GPoint2D> toPoints() {
 		ArrayList<GPoint2D> ret = new ArrayList<>();
-		addPoint(s.getStartPoint(), ret);
-		addPoint(s.getEndPoint(), ret);
+		addPoint(segment.getStartPoint(), ret);
+		addPoint(segment.getEndPoint(), ret);
 		return ret;
 	}
 
@@ -683,16 +687,14 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		return line;
 	}
 
-	void drawHighlighted(GGraphics2D g2, GShape shape) {
-				g2.setPaint(geo.getSelColor());
-				g2.setStroke(selStroke);
-				g2.draw(shape);
+	void setHighlightingStyle(GGraphics2D g2) {
+		g2.setPaint(geo.getSelColor());
+		g2.setStroke(selStroke);
 	}
 
-	void fillShape(GGraphics2D g2, GShape lineWithEnds) {
+	void setBasicStyle(GGraphics2D g2) {
 		g2.setStroke(decoStroke);
 		g2.setColor(getObjectColor());
-		g2.fill(lineWithEnds);
 	}
 
 	public GBasicStroke getObjStroke() {
