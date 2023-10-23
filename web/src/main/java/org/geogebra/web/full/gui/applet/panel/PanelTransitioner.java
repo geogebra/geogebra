@@ -8,6 +8,7 @@ import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Shows and hides a panel. If the panel is an AnimatingPanel then the transition (showing/hiding)
@@ -67,7 +68,10 @@ public class PanelTransitioner {
 	private void hideFrameElements() {
 		final int childCount = mainFrame.getWidgetCount();
 		for (int i = 0; i < childCount; i++) {
-			mainFrame.getWidget(i).addStyleName("temporarilyHidden");
+			Widget w = mainFrame.getWidget(i);
+			if (!w.getStyleName().contains("TabbedKeyBoard")) {
+				w.addStyleName("temporarilyHidden");
+			}
 		}
 	}
 

@@ -2041,7 +2041,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public double getInnerWidth() {
-		return getKeyboardManager().getKeyboarWidth();
+		return getKeyboardManager().getKeyboardWidth();
 	}
 
 	@Override
