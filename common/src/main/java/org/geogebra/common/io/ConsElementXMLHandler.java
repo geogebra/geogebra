@@ -443,7 +443,7 @@ public class ConsElementXMLHandler {
 							: Kernel.COORD_CARTESIAN);
 		} else if (geo instanceof GeoPolyLine) {
 			geo.setVisibleInView3D(false);
-		} else if (geo instanceof GeoFunction) {
+		} else if (geo instanceof GeoFunction || geo instanceof EquationValue) {
 			geo.setFixed(false);
 		} else if (geo instanceof GeoAngle) {
 			((GeoAngle) geo).setEmphasizeRightAngle(true);
