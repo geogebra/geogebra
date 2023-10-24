@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
+import org.geogebra.common.kernel.geos.BarChartGeoNumeric;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -1544,11 +1545,11 @@ public abstract class GeoGebraExport {
 			fillType = geo.getFillType();
 			linecolor = geo.getObjectColor();
 
-			if (geo.getParentAlgorithm() instanceof AlgoBarChart) {
+			if (geo instanceof BarChartGeoNumeric) {
 
 				boolean setAlpha = false;
 
-				ChartStyle algo = ((AlgoBarChart) geo.getParentAlgorithm()).getStyle();
+				ChartStyle algo = ((BarChartGeoNumeric) geo).getStyle();
 				if (algo.getBarColor(barNumber) != null) {
 					linecolor = algo.getBarColor(barNumber);
 					setAlpha = true;

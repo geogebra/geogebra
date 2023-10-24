@@ -14,7 +14,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.statistics.AlgoPieChart;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
 
 public class DrawPieChart extends Drawable {
@@ -88,7 +87,7 @@ public class DrawPieChart extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isEuclidianVisible()) {
-			ChartStyle style = ((AlgoPieChart) geo.getParentAlgorithm()).getStyle();
+			ChartStyle style = chart.getStyle();
 			if (isHighlighted()) {
 				g2.setPaint(GColor.LIGHT_GRAY);
 				g2.setStroke(selStroke);
@@ -101,7 +100,7 @@ public class DrawPieChart extends Drawable {
 				chartFilling.fill(g2, slices.get(i), style, i + 1, this);
 			}
 			g2.setColor(getObjectColor());
-			if (rays.size() > 0) {
+			if (!rays.isEmpty()) {
 				for (GLine2D ray : rays) {
 					g2.draw(ray);
 				}

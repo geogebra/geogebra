@@ -4239,10 +4239,11 @@ public class CommandsTest {
 
 	@Test
 	public void cmdPieChart() {
-		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
-		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
+		// the "value" of pie chart is just the command name (no sensible way to define it)
+		t("p1=PieChart({1,2,3})", "PieChart");
+		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart");
 		assertThat(get("p2"), isDefined());
-		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
+		t("p3=PieChart({1,2,-3})", "PieChart");
 		assertThat(get("p3"), not(isDefined()));
 	}
 
