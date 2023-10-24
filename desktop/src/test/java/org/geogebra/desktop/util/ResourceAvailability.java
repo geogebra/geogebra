@@ -1,4 +1,4 @@
-package org.geogebra.resources;
+package org.geogebra.desktop.util;
 
 import java.net.URL;
 
@@ -7,10 +7,6 @@ import javax.swing.JPanel;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
-import org.geogebra.desktop.util.GuiResourcesD;
-import org.geogebra.desktop.util.ImageManagerD;
-import org.geogebra.desktop.util.ImageResourceD;
-import org.geogebra.desktop.util.StringUtilD;
 import org.junit.Assert;
 import org.junit.Test;
 
