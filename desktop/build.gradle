@@ -1,4 +1,4 @@
-plugins {
+ plugins {
     id "com.github.spotbugs" version "5.2.1"
     id 'application'
     id 'eclipse'
@@ -66,6 +66,8 @@ dependencies {
     testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
     testImplementation project(':ggbjdk')
     testImplementation project(path: ':common-jre', configuration: 'testArtifacts')
+
+    implementation "io.sf.carte:echosvg-all:$echosvgVersion"
 }
 
 mainClassName = "org.geogebra.desktop.GeoGebra3D"
