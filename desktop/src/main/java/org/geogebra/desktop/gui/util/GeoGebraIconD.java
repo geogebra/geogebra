@@ -40,6 +40,8 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.app.beans.SVGIcon;
 
+import io.sf.carte.echosvg.transcoder.TranscoderInput;
+
 /**
  * Creates various ImageIcons for use in lists and tables.
  * 
@@ -103,6 +105,9 @@ public class GeoGebraIconD {
 		return new ImageIcon(bufferedImage);
 	}
 
+	private static void echosvg() {
+		TranscoderInput input = new TranscoderInput();
+	}
 	/**
 	 * @param iconSize size
 	 * @return horizontal grid icon
