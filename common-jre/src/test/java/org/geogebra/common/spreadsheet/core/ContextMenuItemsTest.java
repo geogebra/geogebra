@@ -212,7 +212,7 @@ public class ContextMenuItemsTest {
 
 	@Test
 	public void testCopyCellSelection() {
-		selectCells(1,  4,1, 2);
+		selectCells(1, 4, 1, 2);
 		runItemAt(1, 1, "Copy");
 		assertEquals("cell11\tcell12\tcell21\tcell22\tcell31\tcell32\tcell41\tcell42",
 				clipboard.getContent());

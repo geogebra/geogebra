@@ -46,7 +46,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	private void removeByLabel(String labelSimple) {
 		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
-		if (pt.x != -1) {
+		if (pt != null && pt.x != -1) {
 			setContent(pt.y, pt.x, null);
 			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
 		}
