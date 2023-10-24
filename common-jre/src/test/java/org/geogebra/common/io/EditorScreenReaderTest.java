@@ -255,7 +255,7 @@ public class EditorScreenReaderTest {
 	private static void checkReader(String input, String... output) {
 		MathFormula mf = LaTeXSerializationTest.checkLaTeXRender(parser, input);
 
-		SyntaxAdapterImpl adapter = new SyntaxAdapterImpl(app.kernel);
+		SyntaxAdapterImpl adapter = new SyntaxAdapterImpl(app.getKernel());
 		final MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), adapter);
 		MathFieldInternal mfi = mathField.getInternal();
 		mfi.setFormula(Objects.requireNonNull(mf));

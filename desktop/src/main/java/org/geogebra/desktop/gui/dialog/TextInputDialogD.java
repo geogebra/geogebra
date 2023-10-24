@@ -845,7 +845,7 @@ public class TextInputDialogD extends InputDialogD
 					Element elem;
 					int i;
 					for (i = editor.getCaretPosition() - 1; i >= 0; i--) {
-						elem = editor.doc.getCharacterElement(i);
+						elem = editor.getDoc().getCharacterElement(i);
 						// give focus to first dynamic text field
 						if (elem.getName().equals("component")) {
 							DynamicTextField tf = (DynamicTextField) StyleConstants
@@ -859,9 +859,9 @@ public class TextInputDialogD extends InputDialogD
 					editor.setCaretPosition(i + 1);
 					break;
 				case KeyEvent.VK_RIGHT:
-					for (i = editor.getCaretPosition(); i < editor.doc
+					for (i = editor.getCaretPosition(); i < editor.getDoc()
 							.getLength(); i++) {
-						elem = editor.doc.getCharacterElement(i);
+						elem = editor.getDoc().getCharacterElement(i);
 						// give focus to first dynamic text field
 						if (elem.getName().equals("component")) {
 							DynamicTextField tf = (DynamicTextField) StyleConstants
@@ -897,8 +897,8 @@ public class TextInputDialogD extends InputDialogD
 	public void exitTextField(DynamicTextField tf, boolean isLeft) {
 		Element elem;
 		int i;
-		for (i = 0; i < editor.doc.getLength(); i++) {
-			elem = editor.doc.getCharacterElement(i);
+		for (i = 0; i < editor.getDoc().getLength(); i++) {
+			elem = editor.getDoc().getCharacterElement(i);
 			// find elem corresponding the text field
 			if (elem.getName().equals("component")) {
 				if (tf == (DynamicTextField) StyleConstants

@@ -282,7 +282,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 	}
 
 	void selectCurrentItem() {
-		geoList.setSelectedIndex(range.getSelected(), true);
+		geoList.setSelectedIndexUpdate(range.getSelected());
 	}
 
 	int getMaxItemWidth() {

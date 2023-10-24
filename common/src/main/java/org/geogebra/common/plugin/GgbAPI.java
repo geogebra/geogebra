@@ -1517,7 +1517,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * Mark state as saved
+	 * Mark state as (un)saved
+	 * @param saved whether construction state should be considered saved
 	 */
 	public void setSaved(boolean saved) {
 		if (saved) {

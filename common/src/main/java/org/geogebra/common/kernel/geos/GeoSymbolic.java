@@ -328,8 +328,23 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean isTopLevelCommandNumeric() {
-		return getDefinition().getTopLevelCommand() != null
-				&& Commands.NSolve.name().equals(getDefinition().getTopLevelCommand().getName());
+		Command topCommand = getDefinition().getTopLevelCommand();
+		return topCommand != null && (isNSolve(topCommand) || isNumericWrapOfSolve(topCommand));
+	}
+
+	private boolean isNSolve(Command command) {
+		return Commands.NSolve.name().equals(command.getName());
+	}
+	
+	private boolean isNumericWrapOfSolve(Command command) {
+		if (!Commands.Numeric.name().equals(command.getName())) {
+			return false;
+		}
+		ExpressionNode arg = command.getArgument(0);
+		if (arg.getTopLevelCommand() != null) {
+			return Commands.Solve.name().equals(arg.getTopLevelCommand().getName());
+		}
+		return false;
 	}
 
 	private Command getCasInput(ExpressionValue casInputArg) {

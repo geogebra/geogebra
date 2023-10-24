@@ -774,10 +774,10 @@ public class EuclidianViewD extends EuclidianView
 
 	// @Override
 	@Override
-	public void setToolTipText(String plain) {
+	public void setToolTipText(String plainText) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
-			evjpanel.setToolTipText(plain);
+			evjpanel.setToolTipText(plainText);
 		}
 	}
 
