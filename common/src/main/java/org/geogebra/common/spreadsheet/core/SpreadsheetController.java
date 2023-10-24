@@ -22,8 +22,6 @@ public final class SpreadsheetController implements TabularSelection {
 
 	private final SpreadsheetStyle style = new SpreadsheetStyle();
 
-	private CopyPasteCutTabularData copyPasteCut;
-
 	/**
 	 * @param tabularData underlying data for the spreadsheet
 	 */
@@ -31,12 +29,14 @@ public final class SpreadsheetController implements TabularSelection {
 		this.tabularData = tabularData;
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), 20, 40);
+		contextMenuItems = new ContextMenuItems(tabularData, selectionController,
+				getCopyPasteCut());
+	}
 
-		if (controlsDelegate != null) {
-			copyPasteCut = new CopyPasteCutTabularDataImpl(tabularData,
-					controlsDelegate.getClipboard());
-		}
-		contextMenuItems = new ContextMenuItems(tabularData, selectionController, copyPasteCut);
+	private CopyPasteCutTabularData getCopyPasteCut() {
+		return controlsDelegate != null
+				? new CopyPasteCutTabularDataImpl(tabularData, controlsDelegate.getClipboard())
+				: null;
 	}
 
 	TableLayout getLayout() {
