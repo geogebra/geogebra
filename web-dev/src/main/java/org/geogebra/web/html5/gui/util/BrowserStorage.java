@@ -12,6 +12,7 @@ public enum BrowserStorage {
 	public static final String COPY_SLIDE = "copyslide";
 	public static final String COPY_SLIDE_OBJECTS = "copyslideObjects";
 	public static final String KEYBOARD_WANTED = "keyboardwanted";
+	public static final String LAST_USED_SUB_APP = "lastUsedSubApp";
 
 	private Storage storage;
 

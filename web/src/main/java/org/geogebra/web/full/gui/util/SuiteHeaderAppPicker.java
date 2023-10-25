@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.AppDescription;
 import org.geogebra.web.full.gui.dialog.AppSwitcherPopup;
@@ -47,7 +46,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	}
 
 	private void createAppPickerButton(AppW app) {
-		setIconAndLabel(GeoGebraConstants.GRAPHING_APPCODE);
+		setIconAndLabel(((AppWFull) appW).getLastUsedSubApp());
 		setStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
 		suitePopup.addCloseHandler(close -> setExpanded(false));

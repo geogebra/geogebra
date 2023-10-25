@@ -178,19 +178,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 					tmpClipPoints);
 		}
 
-		// draw trace
-		if (s.getTrace()) {
-			isTracing = true;
-			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null) {
-				drawTrace(g2);
-			}
-		} else {
-			if (isTracing) {
-				isTracing = false;
-				// view.updateBackground();
-			}
-		}
+		drawAndUpdateTraceIfNeeded(s.getTrace());
 
 		// if no label and no decoration then we're done
 		if (!labelVisible

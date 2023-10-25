@@ -17,6 +17,7 @@ public class GeoTabberTest extends BaseUnitTest {
 		getApp().setShowToolBar(false);
 		Drawable d = (Drawable) getApp().getActiveEuclidianView().getDrawableND(txt);
 		assertThat("not highlighted by default", d.isHighlighted(), is(false));
+		getApp().getSelectionManager().removeSelectedGeo(txt);
 		GeoTabber tab = new GeoTabber(getApp());
 		tab.focusNext();
 		assertThat("highlighted from keyboard", d.isHighlighted(), is(true));

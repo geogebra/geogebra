@@ -1641,7 +1641,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param borderColor border color
 	 * @return tool icon
 	 */
-	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
+	public ScaledIcon getToolBarImage(String modeText, Color borderColor) {
 
 		ImageIcon icon = imageManager.getImageIcon(
 				imageManager.getToolImageResource(modeText), borderColor,
@@ -1659,13 +1659,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 			Log.debug("icon missing for mode " + modeText);
 		}
-
 		// scale icon if necessary
-		icon = ImageManagerD.getScaledIcon(icon,
-				Math.min(icon.getIconWidth(), imageManager.getMaxIconSize()),
-				Math.min(icon.getIconHeight(), imageManager.getMaxIconSize()));
+		return new ScaledIcon(ImageManagerD.getScaledIcon(icon,
+				Math.min(icon.getIconWidth(), imageManager.getMaxScaledIconSize()),
+				Math.min(icon.getIconHeight(), imageManager.getMaxScaledIconSize())),
 
-		return icon;
+				imageManager.getPixelRatio());
 	}
 
 	/**
@@ -1674,7 +1673,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public ImageIcon getToolIcon(Color border) {
 		ImageResourceD res;
-		if (imageManager.getMaxIconSize() <= 32) {
+		if (imageManager.getMaxIconSize() <= 32 && imageManager.getPixelRatio() <= 1.0) {
 			res = GuiResourcesD.TOOL_MODE32;
 		} else {
 			res = GuiResourcesD.TOOL_MODE64;
@@ -1796,8 +1795,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param mode mode
 	 * @return imageIcon
 	 */
-	public ImageIcon getModeIcon(int mode) {
-		ImageIcon icon;
+	public ScaledIcon getModeIcon(int mode) {
+		ScaledIcon icon;
 
 		Color border = Color.lightGray;
 
@@ -1810,13 +1809,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				MyImageD img = getExternalImage(iconName);
 				if (img == null || img.isSVG()) {
 					// default icon
-					icon = getToolIcon(border);
+					icon = new ScaledIcon(getToolIcon(border), imageManager.getPixelRatio());
 				} else {
 					// use image as icon
-					int size = imageManager.getMaxIconSize();
-					icon = new ImageIcon(ImageManagerD.addBorder(img.getImage()
+					int size = imageManager.getMaxScaledIconSize();
+					icon = new ScaledIcon(new ImageIcon(ImageManagerD.addBorder(img.getImage()
 							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
-							border, null));
+							border, null)), imageManager.getPixelRatio());
 				}
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
@@ -4905,7 +4904,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public String getModeIconBase64(int m) {
-		ImageIcon icon = getModeIcon(m);
+		ScaledIcon icon = getModeIcon(m);
 		Image img1 = icon.getImage();
 
 		BufferedImage img2 = ImageManagerD.toBufferedImage(img1);

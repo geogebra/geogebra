@@ -218,19 +218,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 				// offscreen points too
 			}
 
-			// draw trace
-			if (g.getTrace()) {
-				isTracing = true;
-				GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null) {
-					drawTrace(g2);
-				}
-			} else {
-				if (isTracing) {
-					isTracing = false;
-					// view.updateBackground();
-				}
-			}
+			drawAndUpdateTraceIfNeeded(g.getTrace());
 
 			if (labelVisible) {
 				labelDesc = getTopLevelGeo().getLabelDescription();
