@@ -4669,15 +4669,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void getXMLfixedTag(final StringBuilder sb) {
 		// is object fixed
 		if (fixed && isFixable()) {
-			sb.append("\t<fixed val=\"");
-			sb.append(fixed);
-			sb.append("\"/>\n");
+			sb.append("\t<fixed val=\"true\"/>\n");
 		}
 		// is selection allowed
 		if (!selectionAllowed) {
-			sb.append("\t<selectionAllowed val=\"");
-			sb.append(selectionAllowed);
-			sb.append("\"/>\n");
+			sb.append("\t<selectionAllowed val=\"false\"/>\n");
 		}
 	}
 
