@@ -4,8 +4,8 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;

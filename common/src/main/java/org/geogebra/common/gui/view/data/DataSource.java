@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
-import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
