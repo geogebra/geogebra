@@ -1,10 +1,11 @@
 package org.geogebra.common.spreadsheet.core;
 
-public class CopyPasteCutTabularDataImpl
+public final class CopyPasteCutTabularDataImpl
 		implements CopyPasteCutTabularData {
 	private final TabularData tabularData;
 	private final ClipboardInterface clipboard;
-	private TabularDataPasteInterface paste = null;
+	private final TabularDataPasteInterface paste;
+	private final TabularContent tabularContent;
 	private TabularBuffer buffer;
 
 	/**
@@ -16,30 +17,14 @@ public class CopyPasteCutTabularDataImpl
 		this.tabularData = tabularData;
 		this.clipboard = clipboard;
 		paste = tabularData.getPaste();
-
+		tabularContent = new TabularContent(tabularData);
 	}
 
 	@Override
 	public void copy(TabularRange range) {
-		clipboard.setContent(toTabbedString(range));
+		clipboard.setContent(tabularContent.toString(range));
 	}
 
-	private String toTabbedString(TabularRange range) {
-		StringBuilder sb = new StringBuilder();
-		for (int row = range.fromRow; row < range.toRow + 1; row++) {
-			for (int column = range.fromCol; column < range.toCol + 1; column++) {
-				Object value = tabularData.contentAt(row, column);
-				sb.append(value);
-				if (column != range.toCol) {
-					sb.append('\t');
-				}
-			}
-			if (row != range.toRow) {
-				sb.append('\t');
-			}
-		}
-		return sb.toString();
-	}
 
 	@Override
 	public void copyDeep(TabularRange range) {
@@ -117,10 +102,7 @@ public class CopyPasteCutTabularDataImpl
 		if (buffer != null) {
 			buffer.clear();
 		}
-		deleteRange(range);
-	}
-
-	private void deleteRange(TabularRange range) {
 		range.forEach((row, column) -> tabularData.setContent(row, column, null));
 	}
+
 }
