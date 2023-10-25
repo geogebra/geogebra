@@ -2388,8 +2388,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		frame.fitSizeToScreen();
 
 		kernel.initUndoInfo();
-		kernel.getAlgebraProcessor().getCommandDispatcher()
-				.addCommandFilter(getConfig().getCommandFilter());
+		kernel.resetFiltersFromConfig();
 		resetCommandDict();
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {

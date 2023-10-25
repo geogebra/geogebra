@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
@@ -5234,5 +5235,17 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	public GeoFunctionConverter getFunctionConverter() {
 		return functionConverter;
+	}
+
+	/**
+	 * Reset command, operation and parsing filters from current config
+	 */
+	public void resetFiltersFromConfig() {
+		AppConfig config = app.getConfig();
+		getAlgebraProcessor().getCommandDispatcher()
+				.addCommandFilter(config.getCommandFilter());
+		getAlgebraProcessor().setEnableStructures(config.isEnableStructures());
+		getExpressionNodeEvaluator()
+				.setOperationArgumentFilter(config.createOperationArgumentFilter());
 	}
 }
