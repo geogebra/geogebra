@@ -26,4 +26,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	void addChangeListener(TabularDataChangeListener listener);
 
 	String getEditableString(int row, int column);
+
+	TabularDataPasteInterface getPaste();
 }

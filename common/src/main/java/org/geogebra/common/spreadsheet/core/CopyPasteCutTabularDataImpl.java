@@ -9,7 +9,7 @@ public class CopyPasteCutTabularDataImpl
 		implements CopyPasteCutTabularData {
 	private final TabularData tabularData;
 	private final ClipboardInterface clipboard;
-	private PasteInterface paste = null;
+	private TabularDataPasteInterface paste = null;
 	private TabularBuffer buffer;
 
 	/**
@@ -20,13 +20,12 @@ public class CopyPasteCutTabularDataImpl
 	public CopyPasteCutTabularDataImpl(TabularData tabularData, ClipboardInterface clipboard) {
 		this.tabularData = tabularData;
 		this.clipboard = clipboard;
-		if (tabularData instanceof HasPaste) {
-			paste = ((HasPaste) tabularData).getPaste();
-		}
+		paste = tabularData.getPaste();
+
 	}
 
 	@Override
-	public void copy(TabularRange range, String content) {
+	public void copy(TabularRange range) {
 		clipboard.setContent(toTabbedString(range));
 	}
 
@@ -48,25 +47,16 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 	@Override
-	public <T> void copyDeep(TabularRange range, String content) {
-		copy(range, content);
+	public void copyDeep(TabularRange range) {
+		copy(range);
 		if (buffer == null) {
 			buffer = new TabularBuffer<>();
 		}
-
-		buffer.setSource(range);
-		buffer.clear();
-		for (int row = range.fromRow; row < range.toRow + 1; row++) {
-			List<T> rowData = new ArrayList<>();
-			for (int column = range.fromCol; column < range.toCol + 1; column++) {
-				rowData.add((T) tabularData.contentAt(row, column));
-			}
-			buffer.add(rowData);
-		}
+		buffer.copy(tabularData, range);
 	}
 
 	@Override
-	public void paste(TabularRange range, String content) {
+	public void paste(TabularRange range) {
 		if (buffer == null || buffer.isEmpty()) {
 			// TODO
 		} else {
@@ -75,7 +65,7 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 	@Override
-	public void paste(int row, int column, String content) {
+	public void paste(int row, int column) {
 		if (buffer != null) {
 			pasteInternalMultiple(new TabularRange(row, column, row, column));
 		} else {
@@ -127,8 +117,8 @@ public class CopyPasteCutTabularDataImpl
 	}
 
 	@Override
-	public void cut(TabularRange range, String content) {
-		copy(range, content);
+	public void cut(TabularRange range) {
+		copy(range);
 		if (buffer != null) {
 			buffer.clear();
 		}

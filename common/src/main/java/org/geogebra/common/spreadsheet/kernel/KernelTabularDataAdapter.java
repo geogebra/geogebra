@@ -15,8 +15,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.spreadsheet.core.PasteGeos;
-import org.geogebra.common.spreadsheet.core.PasteInterface;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteGeos;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 
@@ -24,8 +24,7 @@ import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
  * relevant notifications to Spreadsheet component.
  */
-public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement>,
-		HasPaste {
+public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 
@@ -203,7 +202,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public PasteInterface getPaste() {
-		return new PasteGeos();
+	public TabularDataPasteInterface getPaste() {
+		return new TabularDataPasteGeos();
 	}
 }

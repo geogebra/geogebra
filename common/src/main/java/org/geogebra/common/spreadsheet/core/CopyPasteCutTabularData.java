@@ -1,13 +1,13 @@
 package org.geogebra.common.spreadsheet.core;
 
 public interface CopyPasteCutTabularData {
-	void copy(TabularRange range, String content);
+	void copy(TabularRange range);
 
-	<T> void copyDeep(TabularRange range, String content);
+	void copyDeep(TabularRange range);
 
-	void paste(TabularRange range, String content);
+	void paste(TabularRange range);
 
-	void paste(int row, int column, String content);
+	void paste(int row, int column);
 
-	void cut(TabularRange range, String content);
+	void cut(TabularRange range);
 }

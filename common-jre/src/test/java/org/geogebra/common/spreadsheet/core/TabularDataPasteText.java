@@ -1,6 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-public class PasteText implements PasteInterface<String> {
+public class TabularDataPasteText implements TabularDataPasteInterface<String> {
 	@Override
 	public void pasteInternal(TabularData<String> tabularData,
 			TabularBuffer<String> buffer, TabularRange destination) {

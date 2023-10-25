@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 
-public class PasteGeos implements PasteInterface<GeoElement> {
+public class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
 
 	private CellRecord[] constructionIndexes = null;
 

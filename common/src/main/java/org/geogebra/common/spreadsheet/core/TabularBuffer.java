@@ -33,15 +33,23 @@ public class TabularBuffer<T> implements HasTabularValues<T> {
 		return data.isEmpty();
 	}
 
-	public void setSource(TabularRange source) {
-		this.source = source;
-	}
-
 	public void add(List<T> value) {
 		data.add(value);
 	}
 
 	public void clear() {
 		data.clear();
+	}
+
+	public void copy(TabularData tabularData, TabularRange range) {
+		this.source = range;
+		clear();
+		for (int row = range.fromRow; row < range.toRow + 1; row++) {
+			List<T> rowData = new ArrayList<>();
+			for (int column = range.fromCol; column < range.toCol + 1; column++) {
+				rowData.add((T) tabularData.contentAt(row, column));
+			}
+			add(rowData);
+		}
 	}
 }
