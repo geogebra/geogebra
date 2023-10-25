@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
@@ -18,6 +17,7 @@ import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -395,7 +395,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// =====================================================
 
 	@Override
-	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
+	public void showTraceDialog(GeoElement geo, TabularRange traceCell) {
 		// not implemented yet
 	}
 
@@ -723,7 +723,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler()
 				.processXMLString(settings().cellFormat());
-
+		table.repaintAll();
 		// preferredSize
 		setPreferredSize(settings().preferredSize().getWidth(),
 				settings().preferredSize().getHeight());

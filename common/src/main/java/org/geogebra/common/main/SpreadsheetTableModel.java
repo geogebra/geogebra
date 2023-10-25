@@ -1,8 +1,6 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
@@ -10,6 +8,8 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.spreadsheet.style.CellFormat;
+import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 
 /**
  * Abstract class for managing spreadsheet GeoElement cells in a table model
@@ -358,7 +358,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	 */
 	public CellFormatInterface getCellFormat(MyTableInterface table) {
 		if (formatHandler == null) {
-			formatHandler = new CellFormat(table, app);
+			formatHandler = new CellFormat(table);
 		} else if (table != null) {
 			formatHandler.setTable(table);
 		}

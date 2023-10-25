@@ -52,7 +52,7 @@ public class AlgoCellRangeManager {
 		}
 
 		for (AlgoCellRange algo : algos.values()) {
-			if (algo.getCellRange().contains(location)) {
+			if (algo.getRange().contains(location)) {
 				algo.updateList(geo, isRemoveAction);
 			}
 		}
@@ -72,7 +72,7 @@ public class AlgoCellRangeManager {
 		}
 
 		for (AlgoCellRange algo : algos.values()) {
-			if (algo.getCellRange().contains(location)) {
+			if (algo.getRange().contains(location)) {
 				algo.addToList(geo, location);
 			}
 		}

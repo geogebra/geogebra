@@ -16,7 +16,7 @@ final class SpreadsheetSelectionController {
 
 	void selectAll(int numberOfRows, int numberOfColumns) {
 		setSelections(new Selection(SelectionType.ALL,
-				new TabularRange(0, numberOfRows - 2, 0, numberOfColumns - 2)));
+				TabularRange.range(0, numberOfRows - 2, 0, numberOfColumns - 2)));
 	}
 
 	List<Selection> selections() {
@@ -42,7 +42,7 @@ final class SpreadsheetSelectionController {
 	void selectRow(int rowIndex, int numberOfColumns,
 			boolean extendSelection, boolean addSelection) {
 		Selection row = new Selection(SelectionType.ROWS,
-				new TabularRange(rowIndex, rowIndex, 0, numberOfColumns - 2));
+				TabularRange.range(rowIndex, rowIndex, 0, numberOfColumns - 2));
 		select(row, extendSelection, addSelection);
 	}
 
@@ -56,7 +56,7 @@ final class SpreadsheetSelectionController {
 	void selectColumn(int columnIndex, int numberOfRows,
 			boolean extendSelection, boolean addSelection) {
 		Selection column = new Selection(SelectionType.COLUMNS,
-				new TabularRange(0, numberOfRows - 2, columnIndex, columnIndex));
+				TabularRange.range(0, numberOfRows - 2, columnIndex, columnIndex));
 		select(column, extendSelection, addSelection);
 	}
 
@@ -76,7 +76,7 @@ final class SpreadsheetSelectionController {
 
 	/**
 	 * @param extendSelection True if the current selection should expand, false else
-	 * @param numberOfColumns Number of rows
+	 * @param numberOfColumns Number of columns in the table
 	 */
 	void moveRight(boolean extendSelection, int numberOfColumns) {
 		if (getLastSelection() != null) {

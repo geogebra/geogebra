@@ -12,7 +12,6 @@ import javax.swing.text.JTextComponent;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
@@ -21,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
@@ -517,7 +517,7 @@ public class SpreadsheetMouseListenerD
 
 			// save the selected cell position so it can be re-selected if
 			// needed
-			CellRange oldSelection = table.getSelectedCellRanges().get(0);
+			TabularRange oldSelection = table.getSelectedRanges().get(0);
 
 			if (mouseCell == null) { // user has dragged outside the table, to
 										// left or above

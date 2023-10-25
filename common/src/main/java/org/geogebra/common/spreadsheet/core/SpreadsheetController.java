@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -23,13 +24,14 @@ public final class SpreadsheetController implements TabularSelection {
 	private SpreadsheetControlsDelegate controlsDelegate;
 	private final TableLayout layout;
 
-	private final SpreadsheetStyle style = new SpreadsheetStyle();
+	private final SpreadsheetStyle style;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
 	 */
 	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
+		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), 20, 40);
 	}
@@ -170,7 +172,7 @@ public final class SpreadsheetController implements TabularSelection {
 		} else if (row < 0) { // Select column
 			selectColumn(column, modifiers.shift, modifiers.ctrl);
 		} else { // Select cell
-			select(new Selection(SelectionType.CELLS, new TabularRange(row,
+			select(new Selection(SelectionType.CELLS, TabularRange.range(row,
 					row, column, column)), modifiers.shift, modifiers.ctrl);
 		}
 	}

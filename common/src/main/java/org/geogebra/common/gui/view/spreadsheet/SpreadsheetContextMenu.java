@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
  * Superclass that creates a context menu for spreadsheet cells, rows and
@@ -27,7 +28,7 @@ public class SpreadsheetContextMenu<T> {
 	private ArrayList<GeoElement> geos;
 	private CellRangeProcessor cp;
 
-	private ArrayList<CellRange> selectedCellRanges;
+	private ArrayList<TabularRange> selectedRanges;
 	private int selectionType;
 
 	/** minimum selected row */
@@ -84,12 +85,12 @@ public class SpreadsheetContextMenu<T> {
 		this.loc = app.getLocalization();
 		cp = table.getCellRangeProcessor();
 
-		column1 = table.getSelectedCellRanges().get(0).getMinColumn();
-		column2 = table.getSelectedCellRanges().get(0).getMaxColumn();
-		row1 = table.getSelectedCellRanges().get(0).getMinRow();
-		row2 = table.getSelectedCellRanges().get(0).getMaxRow();
+		column1 = table.getSelectedRanges().get(0).getMinColumn();
+		column2 = table.getSelectedRanges().get(0).getMaxColumn();
+		row1 = table.getSelectedRanges().get(0).getMinRow();
+		row2 = table.getSelectedRanges().get(0).getMaxRow();
 		selectionType = table.getSelectionType();
-		selectedCellRanges = table.getSelectedCellRanges();
+		selectedRanges = table.getSelectedRanges();
 		geos = app.getSelectionManager().getSelectedGeos();
 	}
 
@@ -209,23 +210,23 @@ public class SpreadsheetContextMenu<T> {
 			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.ListOfPoints.toString();
-			enabled = cp.isCreatePointListPossible(selectedCellRanges);
+			enabled = cp.isCreatePointListPossible(selectedRanges);
 			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.Matrix.toString();
-			enabled = cp.isCreateMatrixPossible(selectedCellRanges);
+			enabled = cp.isCreateMatrixPossible(selectedRanges);
 			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.Table.toString();
-			enabled = cp.isCreateMatrixPossible(selectedCellRanges);
+			enabled = cp.isCreateMatrixPossible(selectedRanges);
 			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.PolyLine.toString();
-			enabled = cp.isCreatePointListPossible(selectedCellRanges);
+			enabled = cp.isCreatePointListPossible(selectedRanges);
 			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.OperationTable.toString();
-			enabled = cp.isCreateOperationTablePossible(selectedCellRanges);
+			enabled = cp.isCreateOperationTablePossible(selectedRanges);
 			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 		}
@@ -322,7 +323,7 @@ public class SpreadsheetContextMenu<T> {
 	}
 
 	private String getTitleString() {
-		if (selectedCellRanges.size() > 1) {
+		if (selectedRanges.size() > 1) {
 			return loc.getMenu("Selection");
 		}
 		String title = GeoElementSpreadsheet.getSpreadsheetCellName(column1,
@@ -483,7 +484,7 @@ public class SpreadsheetContextMenu<T> {
 			break;
 
 		case List:
-			cp.createList(selectedCellRanges, true, false);
+			cp.createList(selectedRanges, true, false);
 			break;
 
 		case ListOfPoints:
@@ -503,7 +504,7 @@ public class SpreadsheetContextMenu<T> {
 			break;
 
 		case OperationTable:
-			cp.createOperationTable(selectedCellRanges.get(0));
+			cp.createOperationTable(selectedRanges.get(0));
 			break;
 
 		case ImportDataFile:
@@ -588,7 +589,7 @@ public class SpreadsheetContextMenu<T> {
 	 * Create list of points from selected cells
 	 */
 	public void cmdListOfPoints() {
-		GeoElement newGeo = cp.createPointGeoList(selectedCellRanges, false,
+		GeoElement newGeo = cp.createPointGeoList(selectedRanges, false,
 				true, true, true);
 		app.getKernel().getConstruction()
 				.addToConstructionList(newGeo.getParentAlgorithm(), true);
@@ -599,7 +600,7 @@ public class SpreadsheetContextMenu<T> {
 	 * Create PolyLine object from selected cells
 	 */
 	public void cmdPolyLine() {
-		GeoElement newGeo = cp.createPolyLine(selectedCellRanges, false, true);
+		GeoElement newGeo = cp.createPolyLine(selectedRanges, false, true);
 		app.getKernel().getConstruction()
 				.addToConstructionList(newGeo.getParentAlgorithm(), true);
 		newGeo.setLabel(null);

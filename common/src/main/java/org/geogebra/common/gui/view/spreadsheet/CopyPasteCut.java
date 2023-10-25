@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -141,7 +142,7 @@ public abstract class CopyPasteCut {
 	 *            the target cell range
 	 * @return true if successful
 	 */
-	public boolean paste(CellRange cr) {
+	public boolean paste(TabularRange cr) {
 		return paste(cr.getMinColumn(), cr.getMinRow(), cr.getMaxColumn(),
 				cr.getMaxRow());
 	}
@@ -359,7 +360,7 @@ public abstract class CopyPasteCut {
 	 *            cell range
 	 * @return whether all cells were pasted successfully
 	 */
-	protected boolean pasteExternalMultiple(String[][] data, CellRange cr) {
+	protected boolean pasteExternalMultiple(String[][] data, TabularRange cr) {
 		return pasteExternalMultiple(data, cr.getMinColumn(), cr.getMinRow(),
 				cr.getMaxColumn(), cr.getMaxRow());
 	}
