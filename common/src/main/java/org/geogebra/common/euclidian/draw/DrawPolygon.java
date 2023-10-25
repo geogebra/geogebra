@@ -119,20 +119,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
 			}
-			// draw trace
-			if (poly.getTrace()) {
-				isTracing = true;
-				GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null) {
-					fill(g2, gp);
-				}
-			} else {
-				if (isTracing) {
-					isTracing = false;
-					// view.updateBackground();
-				}
-			}
+			drawAndUpdateTraceIfNeeded(poly.getTrace());
 		}
+	}
+
+	@Override
+	public void drawTrace(GGraphics2D g2) {
+		fill(g2, gp);
 	}
 
 	private void createInverseShape() {

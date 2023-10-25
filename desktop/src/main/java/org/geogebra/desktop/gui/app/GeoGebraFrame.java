@@ -1108,7 +1108,9 @@ public class GeoGebraFrame extends JFrame
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
-		// we only care about resize
+		if (app != null) {
+			app.getImageManager().updatePixelRatio(getGraphicsConfiguration());
+		}
 	}
 
 	@Override
