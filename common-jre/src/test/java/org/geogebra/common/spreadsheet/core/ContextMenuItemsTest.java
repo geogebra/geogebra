@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class ContextMenuItemsTest {
+public final class ContextMenuItemsTest {
 	private ContextMenuItems items;
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();

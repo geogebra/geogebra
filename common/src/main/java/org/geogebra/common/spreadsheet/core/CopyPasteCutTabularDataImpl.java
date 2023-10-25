@@ -1,10 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.geogebra.common.spreadsheet.kernel.HasPaste;
-
 public class CopyPasteCutTabularDataImpl
 		implements CopyPasteCutTabularData {
 	private final TabularData tabularData;
