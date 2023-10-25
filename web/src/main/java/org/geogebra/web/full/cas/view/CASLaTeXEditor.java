@@ -280,11 +280,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public String getCommand() {
-		return mf == null || shouldPreventSuggestions() ? "" : mf.getCurrentWord();
-	}
-
-	private boolean shouldPreventSuggestions() {
-		return inputSuggestions.isPreventedFor(mf.getInternal().getEditorState());
+		return inputSuggestions.getCommand(mf);
 	}
 
 	private AutoCompletePopup getInputSuggestions() {

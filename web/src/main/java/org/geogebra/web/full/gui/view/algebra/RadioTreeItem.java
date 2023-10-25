@@ -1740,7 +1740,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public String getCommand() {
-		return mf == null || controller.isSuggestionPrevented(mf) ? "" : mf.getCurrentWord();
+		return controller.getCommand(mf);
 	}
 
 	@Override
