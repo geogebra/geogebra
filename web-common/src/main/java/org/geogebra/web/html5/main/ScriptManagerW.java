@@ -104,7 +104,10 @@ public class ScriptManagerW extends ScriptManager {
 			JsEval.callNativeFunction(
 					appletFrame.getOnLoadCallback(), exportedApi);
 			// callback only needed on first file load, not switching slides
-			appletFrame.setOnLoadCallback(null);
+			if (!appletFrame.appletOnLoadCalled()) {
+				appletFrame.setOnLoadCallback(null);
+				appletFrame.appletOnLoadCalled(true);
+			}
 		}
 	}
 
