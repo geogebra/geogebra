@@ -2816,7 +2816,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 
 		@Override
-		public void addItem(String plain) {
+		public void addItem(String item) {
 			// nothing to do here
 		}
 
@@ -3043,8 +3043,8 @@ class TextFieldAlignmentPanel extends JPanel
 	}
 
 	@Override
-	public void addItem(String plain) {
-		comboBox.addItem(plain);
+	public void addItem(String item) {
+		comboBox.addItem(item);
 	}
 
 	@Override

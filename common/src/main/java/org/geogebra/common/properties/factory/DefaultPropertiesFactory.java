@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
@@ -73,13 +73,13 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	 * @return an array of algebra specific properties
 	 */
 	protected PropertiesArray createAlgebraProperties(App app, Localization localization) {
-		AlgebraView algebraView = app.getAlgebraView();
+		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
 		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("Algebra");
 		if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
 			return new PropertiesArray(name,
 					new AlgebraDescriptionProperty(kernel, localization),
-					new SortByProperty(algebraView, localization),
+					new SortByProperty(algebraSettings, localization),
 					new ShowAuxiliaryProperty(app, localization)
 			);
 		} else {

@@ -3065,11 +3065,11 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 				return false;
 			}
 			double dx = xyzf[GeoFunctionNVar.DICHO_FIRST][0]
-					- hitting.origin.getX();
+					- hitting.getOrigin().getX();
 			double dy = xyzf[GeoFunctionNVar.DICHO_FIRST][1]
-					- hitting.origin.getY();
+					- hitting.getOrigin().getY();
 			double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
-					- hitting.origin.getZ();
+					- hitting.getOrigin().getZ();
 			double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
 			setZPick(-d, -d, hitting.discardPositiveHits(), d);
 			setLastHitParameters(geoF, false);
@@ -3078,11 +3078,11 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 		if (isLessZ1) {
 			double dx = xyzf[GeoFunctionNVar.DICHO_FIRST][0]
-					- hitting.origin.getX();
+					- hitting.getOrigin().getX();
 			double dy = xyzf[GeoFunctionNVar.DICHO_FIRST][1]
-					- hitting.origin.getY();
+					- hitting.getOrigin().getY();
 			double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
-					- hitting.origin.getZ();
+					- hitting.getOrigin().getZ();
 			double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
 			setZPick(-d, -d, hitting.discardPositiveHits(), d);
 			setLastHitParameters(geoF, true);

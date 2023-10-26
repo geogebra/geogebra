@@ -285,6 +285,7 @@ public class ToolBar {
 	/**
 	 * @param includeGraspableMath whether to include GraspableMath
 	 * @param includeH5P whether to include H5P
+	 * @param fileFeaturesEnabled whether file pickers are allowed
 	 * @return definition for MOW media toolbar
 	 */
 	public static List<Integer> getNotesMediaToolBar(boolean includeGraspableMath,

@@ -102,20 +102,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			drawables.remove(i);
 		}
 
-		// draw trace
-		if (geoList.getTrace()) {
-			isTracing = true;
-			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null) {
-				drawTrace(g2);
-			}
-		} else {
-			if (isTracing) {
-				isTracing = false;
-				// view.updateBackground();
-			}
-		}
-
+		drawAndUpdateTraceIfNeeded(geoList.getTrace());
 	}
 
 	/**

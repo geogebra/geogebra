@@ -66,8 +66,8 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 	}
 
 	@Override
-	public void addItem(String plain) {
-		captions.addItem(plain);
+	public void addItem(String plainText) {
+		captions.addItem(plainText);
 	}
 
 	@Override

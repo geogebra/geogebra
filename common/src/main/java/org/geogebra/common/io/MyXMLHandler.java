@@ -1479,6 +1479,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleLanguage(App app,
 			  LinkedHashMap<String, String> attrs) {
+		// this may be either BCP language tag or Java locale string (old files)
 		String lang = attrs.get("val");
 		app.setLanguage(lang);
 		return true;
@@ -3618,9 +3619,9 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			String[] strings = attrs.get("val").split(",");
-			int[] vals = new int[strings.length];
-			for (int i = 0; i < strings.length; i++) {
-				vals[i] = Integer.parseInt(strings[i]);
+			ArrayList<Integer> vals = new ArrayList<>(strings.length);
+			for (String string : strings) {
+				vals.add(Integer.parseInt(string));
 			}
 			app.getSettings().getAlgebra().setCollapsedNodes(vals);
 			return true;

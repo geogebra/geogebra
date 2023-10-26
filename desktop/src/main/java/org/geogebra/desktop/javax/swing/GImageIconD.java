@@ -1,18 +1,18 @@
 package org.geogebra.desktop.javax.swing;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 
 import org.geogebra.common.javax.swing.GImageIcon;
 
 public class GImageIconD extends GImageIcon {
 
-	private ImageIcon impl;
+	private Icon impl;
 
-	public GImageIconD(ImageIcon ii) {
+	public GImageIconD(Icon ii) {
 		impl = ii;
 	}
 
-	public ImageIcon getImpl() {
+	public Icon getImpl() {
 		return impl;
 	}
 }

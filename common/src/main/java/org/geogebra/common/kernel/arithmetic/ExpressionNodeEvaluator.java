@@ -112,6 +112,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		if (special != null) {
 			return special;
 		}
+
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
 		return handleOp(operation, lt, rt, left, right, tpl, holdsLaTeXtext);
 	}

@@ -76,11 +76,11 @@ import com.himamis.retex.editor.share.input.Character;
 public class Construction {
 	private ConstructionCompanion companion;
 	/** maps arbconst indices to related numbers */
-	public Map<Integer, GeoNumeric> constsM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> constsM = new TreeMap<>();
 	/** maps arbint indices to related numbers */
-	public Map<Integer, GeoNumeric> intsM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> intsM = new TreeMap<>();
 	/** maps arbcomplex indices to related numbers */
-	public Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<>();
 
 	/**
 	 * used to keep track if file is 3D or just 2D
@@ -346,6 +346,18 @@ public class Construction {
 
 	public void setProtractor(GeoImage protractor) {
 		this.protractor = protractor;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryConstants() {
+		return constsM;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryInts() {
+		return intsM;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryComplexNumbers() {
+		return complexNumbersM;
 	}
 
 	/**
@@ -3757,4 +3769,5 @@ public class Construction {
 		}
 		return false;
 	}
+
 }

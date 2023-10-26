@@ -65,7 +65,7 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	protected HasKeyboard hasKeyboard;
 	private final ArrayList<Keyboard> layouts = new ArrayList<>(4);
-	private String keyboardLocale;
+	private String keyboardLanguageTag;
 	private UpdateKeyBoardListener updateKeyBoardListener;
 	protected KeyboardListener processField;
 	private FlowPanel tabs;
@@ -91,7 +91,7 @@ public class TabbedKeyboard extends FlowPanel
 	public TabbedKeyboard(HasKeyboard appKeyboard, boolean hasMoreButton) {
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
-		this.keyboardLocale = locale.getLocaleStr();
+		this.keyboardLanguageTag = locale.getLanguageTag();
 		this.switcher = new KeyboardSwitcher(this);
 		this.hasMoreButton = hasMoreButton;
 		this.keyboardMap = new HashMap<>();
@@ -301,8 +301,8 @@ public class TabbedKeyboard extends FlowPanel
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
 				return new KeyBoardButtonBase(
-						Language.getCurrency(keyboardLocale),
-						Language.getCurrency(keyboardLocale), b);
+						Language.getCurrency(keyboardLanguageTag),
+						Language.getCurrency(keyboardLanguageTag), b);
 			}
 
 			final String name = wb.getPrimaryActionName();
@@ -585,19 +585,18 @@ public class TabbedKeyboard extends FlowPanel
 	public void checkLanguage() {
 		switcher.reset();
 
-		// TODO validate?
-		String newKeyboardLocale = hasKeyboard.getLocalization().getLocaleStr();
+		String newKeyboardLocale = hasKeyboard.getLocalization().getLanguageTag();
 		if ((newKeyboardLocale != null
-				&& newKeyboardLocale.equals(keyboardLocale)) || factory == null) {
+				&& newKeyboardLocale.equals(keyboardLanguageTag)) || factory == null) {
 			return;
 		}
 
 		switcher.clear();
 		switcher.setup();
 		if (newKeyboardLocale != null) {
-			this.keyboardLocale = newKeyboardLocale;
+			this.keyboardLanguageTag = newKeyboardLocale;
 		} else {
-			this.keyboardLocale = Language.English_US.getLocaleGWT();
+			this.keyboardLanguageTag = Language.English_US.toLanguageTag();
 		}
 
 		clear();

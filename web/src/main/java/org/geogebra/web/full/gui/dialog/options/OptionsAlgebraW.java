@@ -86,8 +86,8 @@ public class OptionsAlgebraW
 		}
 
 		private void buildSortByUI() {
-			NamedEnumeratedProperty<?> sortProperty = new SortByProperty(app.getGuiManager()
-					.getAlgebraView(), app.getLocalization());
+			NamedEnumeratedProperty<?> sortProperty = new SortByProperty(app.getSettings()
+					.getAlgebra(), app.getLocalization());
 			sortMode = new CompDropDown(app, sortProperty);
 			lblSortMode = new FormLabel().setFor(sortMode);
 			lblSortMode.addStyleName("panelTitle");

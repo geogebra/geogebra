@@ -125,8 +125,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/** old value of transform */
 	protected GAffineTransform oldTransform;
 
-	/** translation vector (midpoint, vertex) */
-	public GeoVec2D b = new GeoVec2D(kernel);
+	private GeoVec2D b = new GeoVec2D(kernel);
 	/** start points for lines in degenerate cases */
 	protected GeoPoint[] startPoints;
 	/** points on this conic */
@@ -4388,5 +4387,14 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
 			classifyConic();
 		}
+	}
+
+	/** @return translation vector (midpoint, vertex) */
+	public GeoVec2D getB() {
+		return b;
+	}
+
+	public void setB(GeoVec2D b) {
+		this.b = b;
 	}
 }
