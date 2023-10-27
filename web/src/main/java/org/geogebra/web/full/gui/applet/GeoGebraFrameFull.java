@@ -79,7 +79,6 @@ import jsinterop.base.Js;
 
 /**
  * Frame for applets with GUI
- *
  */
 public class GeoGebraFrameFull
 		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
