@@ -41,12 +41,14 @@ pipeline {
     }
     agent {label nodeLabel}
     stages {
+        stage('skip on message') {
+            scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
+        }
         stage('cancel prev builds') {
             when {
                 expression { return env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'dev' }
             }
             steps {
-                scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
                 milestone label: '', ordinal:  Integer.parseInt(env.BUILD_ID) - 1
                 milestone label: '', ordinal:  Integer.parseInt(env.BUILD_ID)
             }
