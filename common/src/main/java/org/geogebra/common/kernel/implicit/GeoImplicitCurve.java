@@ -40,7 +40,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Mirrorable;
-import org.geogebra.common.kernel.geos.PointRotateable;
+import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
@@ -64,7 +64,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Translateable, Dilateable, Mirrorable, ConicMirrorable,
-		Transformable, PointRotateable, GeoImplicit, ReplaceChildrenByValues {
+		Transformable, Rotatable, GeoImplicit, ReplaceChildrenByValues {
 
 	/**
 	 * Border mask
@@ -108,6 +108,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private double[] eval = new double[2];
 	private boolean calcPath = true;
 	private boolean updatePathNeeded = false;
+	private Equation expanded;
 	private static long fastDrawThreshold = 10;
 
 	/**
@@ -399,6 +400,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		diffExp[2] = xy;
 	}
 
+	@Override
+	public void setExpanded(Equation expanded) {
+		this.expanded = expanded;
+	}
+
 	/**
 	 * Initialize the coeff arrays for the factors. They contain the
 	 * coefficients of the squarefree factors of the implicit curve. If there
@@ -647,8 +653,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (!isInputForm() && coeff != null) {
 			return toRawValueString(coeff, kernel, tpl);
 		}
+		if (expanded != null) {
+			return expanded.toValueString(tpl);
+		}
 		return getDefinition() == null ? ""
-				: getDefinition().toValueString(tpl);
+				: getDefinition().toString(tpl);
 	}
 
 	@Override
@@ -1512,7 +1521,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public static void interpolate(double[] in, double[] out) {
 		double r = -in[1] / (in[0] - in[1]);
-		if (!MyDouble.isFinite(r) || r > 1.0 || r < 0.0) {
+		if (!Double.isFinite(r) || r > 1.0 || r < 0.0) {
 			r = 0.5;
 		}
 		out[0] = r * (in[2] - in[4]) + in[4];

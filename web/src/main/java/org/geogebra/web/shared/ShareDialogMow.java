@@ -10,12 +10,12 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.operations.BackendAPI;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -26,13 +26,12 @@ import org.geogebra.web.shared.components.ComponentLinkBox;
 import org.geogebra.web.shared.components.ComponentSwitch;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  *  Joint share dialog for mow (group + link sharing)
@@ -93,20 +92,24 @@ public class ShareDialogMow extends ComponentDialog
 		});
 	}
 
-	private void updateMaterial(String visibility) {
-		boolean isMultiuser = multiuserSwitch != null && multiuserSwitch.isSwitchOn()
+	private boolean isMultiuserSwitchOn() {
+		return multiuserSwitch != null && multiuserSwitch.isSwitchOn()
 				&& !multiuserSharePanel.getElement().hasClassName("disabled");
+	}
+
+	private void updateMaterial(String visibility) {
+		boolean isMultiuser = isMultiuserSwitchOn();
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-				material.getSharingKeyOrId(), visibility,
+				material.getSharingKeySafe(), visibility,
 				material.getTitle(), null, callback,
 				material.getType(), isMultiuser);
 		Material activeMaterial = app.getActiveMaterial();
 		boolean currentlyEditing = activeMaterial != null
-				&& material.getSharingKeyOrId().equals(activeMaterial.getSharingKeyOrId());
+				&& material.getSharingKeySafe().equals(activeMaterial.getSharingKeySafe());
 		if (material.isMultiuser() && !isMultiuser) {
 			app.getShareController().saveAndTerminateMultiuser(material, callback);
 		} else if (!material.isMultiuser() && isMultiuser && currentlyEditing) {
-			app.getShareController().startMultiuser(material.getSharingKeyOrId());
+			app.getShareController().startMultiuser(material.getSharingKeySafe());
 		}
 		material.setVisibility(visibility);
 		material.setMultiuser(isMultiuser);
@@ -189,8 +192,10 @@ public class ShareDialogMow extends ComponentDialog
 
 	private void buildMultiuserPanel(FlowPanel dialogContent) {
 		multiuserSwitch = new ComponentSwitch(material.isMultiuser(), null);
-		Label multiuserShareLbl = new Label(localization.getMenu("shareDialog.multiUser"));
-		Label multiuserHelpLbl = new Label(localization.getMenu("shareDialog.multiUserHelp"));
+		Label multiuserShareLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				localization.getMenu("shareDialog.multiUser"), "linkShareOnOff");
+		Label multiuserHelpLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu("shareDialog.multiUserHelp"), "linkShareHelp");
 
 		multiuserSharePanel = buildSwitcherPanel(dialogContent, multiuserSwitch,
 				SharedResources.INSTANCE.groups(), multiuserShareLbl, multiuserHelpLbl, null);
@@ -202,9 +207,10 @@ public class ShareDialogMow extends ComponentDialog
 
 	private void buildShareByLinkPanel(FlowPanel dialogContent, String shareURL) {
 		shareSwitch = new ComponentSwitch(isMatShared(material), this::onSwitch);
-		linkShareOnOffLbl = new Label(localization.getMenu(
-				isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
-		linkShareHelpLbl = new Label(localization.getMenu(getLinkShareHelpLabelTextKey()));
+		linkShareOnOffLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(localization.getMenu(
+				isShareLinkOn() ? "linkShareOn" : "linkShareOff"), "linkShareOnOff");
+		linkShareHelpLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu(getLinkShareHelpLabelTextKey()), "linkShareHelp");
 
 		buildSwitcherPanel(dialogContent, shareSwitch, SharedResources.INSTANCE.mow_link_black(),
 				linkShareOnOffLbl, linkShareHelpLbl, shareURL);
@@ -225,8 +231,6 @@ public class ShareDialogMow extends ComponentDialog
 		FlowPanel textPanel = new FlowPanel();
 		textPanel.addStyleName("textPanel");
 
-		label.setStyleName("linkShareOnOff");
-		helpMsg.setStyleName("linkShareHelp");
 		textPanel.add(label);
 		textPanel.add(helpMsg);
 		switcherPanel.add(textPanel);
@@ -250,18 +254,18 @@ public class ShareDialogMow extends ComponentDialog
 				SharedResources.INSTANCE.groups(), 48);
 		groupImgHolder.add(groupImg);
 		noGroupPanel.add(groupImgHolder);
-		Label noGroupsLbl = new Label(localization.getMenu("NoGroups"));
-		noGroupsLbl.setStyleName("noGroupsLbl");
-		Label noGroupsHelpLbl = new Label(localization.getMenu("NoGroupShareTxt"));
-		noGroupsHelpLbl.setStyleName("noGroupsHelpLbl");
+		Label noGroupsLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				localization.getMenu("NoGroups"), "noGroupsLbl");
+		Label noGroupsHelpLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu("NoGroupShareTxt"), "noGroupsHelpLbl");
 		noGroupPanel.add(noGroupsLbl);
 		noGroupPanel.add(noGroupsHelpLbl);
 		dialogContent.add(noGroupPanel);
 	}
 
 	private void buildGroupPanel(FlowPanel dialogContent) {
-		Label selGroupLbl = new Label(localization.getMenu("shareGroupHelpText"));
-		selGroupLbl.setStyleName("selGrLbl");
+		Label selGroupLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu("shareGroupHelpText"), "selGrLbl");
 		dialogContent.add(selGroupLbl);
 		FlowPanel groupPanel = new FlowPanel();
 		groupPanel.addStyleName("groupPanel");
@@ -287,8 +291,8 @@ public class ShareDialogMow extends ComponentDialog
 	}
 
 	private void buildSharingAvailableInfo(FlowPanel dialogContent) {
-		Label sharingAvailableInfo = new Label(localization.getMenu("SharingAvailableMow"));
-		sharingAvailableInfo.setStyleName("shareLinkAvailableInfo");
+		Label sharingAvailableInfo = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				localization.getMenu("SharingAvailableMow"), "shareLinkAvailableInfo");
 		dialogContent.add(sharingAvailableInfo);
 	}
 
@@ -355,7 +359,7 @@ public class ShareDialogMow extends ComponentDialog
 			linkBox.setFocused(false);
 			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			linkBox.focus();
-			ToolTipManagerW.sharedInstance()
+			((AppW) app).getToolTipManager()
 			    .showBottomMessage(((AppW) app).getLocalization()
 			    .getMenu("linkCopyClipboard"), (AppW) app);
 		}
@@ -375,7 +379,7 @@ public class ShareDialogMow extends ComponentDialog
 	 */
 	protected void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
 		for (Map.Entry<GroupIdentifier, Boolean> group : changedGroups.entrySet()) {
-			app.getLoginOperation().getGeoGebraTubeAPI().setShared(material,
+			app.getLoginOperation().getResourcesAPI().setShared(material,
 					group.getKey(), group.getValue(), groupCallback);
 		}
 	}
@@ -399,9 +403,9 @@ public class ShareDialogMow extends ComponentDialog
 						}
 					}
 				};
-		BackendAPI api = app.getLoginOperation().getGeoGebraTubeAPI();
-		api.getGroups(material.getSharingKeyOrId(), GroupIdentifier.GroupCategory.CLASS, partial);
-		api.getGroups(material.getSharingKeyOrId(), GroupIdentifier.GroupCategory.COURSE, partial);
+		MaterialRestAPI api = app.getLoginOperation().getResourcesAPI();
+		api.getGroups(material.getSharingKeySafe(), GroupIdentifier.GroupCategory.CLASS, partial);
+		api.getGroups(material.getSharingKeySafe(), GroupIdentifier.GroupCategory.COURSE, partial);
 	}
 
 	/**
@@ -409,7 +413,7 @@ public class ShareDialogMow extends ComponentDialog
 	 *            shared with group successful or not
 	 */
 	protected void onGroupShareChanged(boolean success) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(
+		((AppW) app).getToolTipManager().showBottomMessage(
 				app.getLocalization()
 						.getMenu(success ? "GroupShareOk"
 								: "GroupShareFail"), (AppW) app);

@@ -3,11 +3,10 @@ package org.geogebra.web.full.main;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
+import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.openfileview.HeaderFileView;
-import org.geogebra.web.full.gui.openfileview.OpenFileView;
+import org.geogebra.web.full.gui.openfileview.OpenFileViewMebis;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -41,8 +40,9 @@ public class OpenSearch {
 	public final void show(String query) {
 		app.hideMenu();
 
-		if (isUnloggedOnWhiteboard()) {
-			loginAndOpen(query);
+		if (isOnMebisWithoutLogin()) {
+			app.getActivity().markSearchOpen();
+			app.getLoginOperation().showLoginDialog();
 		} else {
 			open(query);
 		}
@@ -62,8 +62,8 @@ public class OpenSearch {
 
 	private void showBrowserView(String query) {
 		BrowseViewI browseView = guiManager.getBrowseView(query);
-		if (browseView instanceof BrowseGUI) {
-			showBrowser((MyHeaderPanel) browseView);
+		if (browseView instanceof AnimatingPanel) {
+			showBrowser((AnimatingPanel) browseView);
 		} else {
 			showBrowser((HeaderFileView) browseView);
 		}
@@ -74,13 +74,13 @@ public class OpenSearch {
 				.startsWith("search:");
 	}
 
-	private boolean isUnloggedOnWhiteboard() {
-		return app.isWhiteboardActive()
+	private boolean isOnMebisWithoutLogin() {
+		return app.isMebis()
 				&& !app.getLoginOperation().isLoggedIn();
 	}
 
 	private void updateMaterials() {
-		((OpenFileView) guiManager.getBrowseView())
+		((OpenFileViewMebis) guiManager.getBrowseView())
 				.updateMaterials();
 	}
 
@@ -88,30 +88,20 @@ public class OpenSearch {
 		return app.isWhiteboardActive()
 				&& guiManager.browseGUIwasLoaded()
 				&& StringUtil.emptyTrim(query)
-				&& guiManager.getBrowseView() instanceof OpenFileView;
+				&& guiManager.getBrowseView() instanceof OpenFileViewMebis;
 	}
 
 	private void showBrowser(HeaderFileView fileView) {
 		showBrowser(fileView.getPanel());
 	}
 
-	private void showBrowser(MyHeaderPanel headerPanel) {
+	private void showBrowser(AnimatingPanel headerPanel) {
 		EuclidianController evController = app.getActiveEuclidianView().getEuclidianController();
 		if (evController != null) {
 			evController.hideDynamicStylebar();
 		}
 		frame.setApplication(app);
 		frame.showPanel(headerPanel);
-	}
-
-	private void loginAndOpen(String query) {
-		app.getActivity().markSearchOpen();
-		guiManager.listenToLogin();
-		app.getLoginOperation().showLoginDialog();
-		guiManager.setRunAfterLogin(() -> {
-			updateMaterials();
-			showBrowserView(query);
-		});
 	}
 
 	private void clearPerspective() {

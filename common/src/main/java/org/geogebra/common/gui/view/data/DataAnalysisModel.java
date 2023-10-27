@@ -411,11 +411,11 @@ public class DataAnalysisModel {
 	/**
 	 * Converts a double numeric value to formatted String
 	 * 
-	 * @param x
+	 * @param val
 	 *            number to be converted
 	 * @return formatted number string
 	 */
-	public String format(double x) {
+	public String format(double val) {
 		StringTemplate highPrecision;
 
 		// override the default decimal place setting if less than 4 decimals
@@ -428,9 +428,8 @@ public class DataAnalysisModel {
 					printFigures, false);
 		}
 		// get the formatted string
-		String result = kernel.format(x, highPrecision);
 
-		return result;
+		return kernel.format(val, highPrecision);
 	}
 
 	/**
@@ -478,12 +477,7 @@ public class DataAnalysisModel {
 		if (!isIniting() && ctrl.isInDataSource(geo)) {
 
 			// use a runnable to allow spreadsheet table model to update
-			app.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					ctrl.updateDataAnalysisView();
-				}
-			});
+			app.invokeLater(() -> ctrl.updateDataAnalysisView());
 		}
 	}
 

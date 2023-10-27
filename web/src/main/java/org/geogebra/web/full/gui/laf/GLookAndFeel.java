@@ -5,13 +5,13 @@ import java.util.Date;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.gwtutil.Cookies;
-import org.geogebra.web.full.gui.browser.MaterialListElement;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
@@ -68,14 +68,16 @@ public class GLookAndFeel implements GLookAndFeelI {
 		// popup when the user wants to exit accidentally
 		if (windowClosingHandler == null) {
 			this.windowClosingHandler = this::askForSave;
-			DomGlobal.window.addEventListener("beforeunload", windowClosingHandler);
+			app.getGlobalHandlers().addEventListener(DomGlobal.window,
+					"beforeunload", windowClosingHandler);
 		}
 
 		if (this.windowCloseHandler == null) {
 			// onClose is called, if user leaves the page correct
 			// not called if browser crashes
 			this.windowCloseHandler = event -> app.getFileManager().deleteAutoSavedFile();
-			DomGlobal.window.addEventListener("unload", windowCloseHandler);
+			app.getGlobalHandlers().addEventListener(DomGlobal.window, "unload",
+					windowCloseHandler);
 		}
 	}
 
@@ -120,21 +122,8 @@ public class GLookAndFeel implements GLookAndFeelI {
 	    return false;
     }
 
-	/**
-	 * @param m
-	 *            material
-	 * @param app
-	 *            app
-	 * @param isLocal
-	 *            whether his is a local file
-	 * @return panel with material preview + actions
-	 */
-	public MaterialListElement getMaterialElement(Material m, AppW app, boolean isLocal) {
-	    return new MaterialListElement(m, app, isLocal);
-    }
-
 	@Override
-	public SignInController getSignInController(App app) {
+	public SignInControllerI getSignInController(App app) {
 		return new SignInController(app, 0, null);
     }
 
@@ -146,6 +135,11 @@ public class GLookAndFeel implements GLookAndFeelI {
 	@Override
 	public boolean isExternalLoginAllowed() {
 		return true;
+	}
+
+	@Override
+	public ResourceAction getDisplayAction(ResourceAction action) {
+		return action;
 	}
 
 	@Override
@@ -195,8 +189,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 		if (Browser.isGeoGebraOrg()) {
 			Date exp = new Date(
 					System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365);
+			Language language1 = Language.fromLanguageTagOrLocaleString(lang);
 			Cookies.setCookie("GeoGebraLangUI",
-					Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
+					language1.toLanguageTag(), exp,
 					"geogebra.org", "/");
 		} else {
 			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);

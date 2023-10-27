@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.Rotateable;
+import org.geogebra.common.kernel.geos.Rotatable;
 
 /**
  *
@@ -116,8 +116,8 @@ public class AlgoRotate extends AlgoTransformation {
 			return;
 		}
 
-		if (outGeo instanceof Rotateable) {
-			((Rotateable) outGeo).rotate(angle);
+		if (outGeo instanceof Rotatable) {
+			((Rotatable) outGeo).rotate(angle);
 		}
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);

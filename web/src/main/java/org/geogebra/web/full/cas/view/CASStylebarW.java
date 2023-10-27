@@ -22,8 +22,7 @@ import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * StyleBar for CASview

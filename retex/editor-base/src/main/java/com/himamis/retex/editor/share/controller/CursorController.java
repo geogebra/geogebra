@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -24,30 +25,52 @@ public class CursorController {
 	 * @return whether we moved right
 	 */
 	public static boolean nextCharacter(EditorState editorState) {
+		return nextCharacter(editorState, true);
+	}
+
+	/**
+	 * Next character &rarr; key.
+	 *
+	 * @param editorState
+	 *            current state
+	 * @return whether we moved right
+	 */
+	public static boolean nextCharacter(EditorState editorState, boolean skipPlaceholders) {
+		if (isLastPlaceholderInProtectedParent(editorState)) {
+			return false;
+		}
+
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset < currentField.size()) {
 			MathComponent component = currentField.getArgument(currentOffset);
-			return nextCharacterInCurrentField(component, editorState);
+			return nextCharacterInCurrentField(component, editorState, skipPlaceholders);
 		} else {
 			return nextField(editorState);
 		}
 	}
 
+	private static boolean isLastPlaceholderInProtectedParent(EditorState editorState) {
+		int currentOffset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
+		return InputController.isFieldSeparatorInSequence(currentField)
+				&& currentOffset == currentField.size() - 1
+				&& currentField.getArgument(currentOffset) instanceof MathCharPlaceholder;
+	}
+
 	private static boolean nextCharacterInCurrentField(
-			MathComponent component, EditorState editorState) {
+			MathComponent component, EditorState editorState, boolean skipPlaceholders) {
 
 		MathContainer mathContainer = getMathContainer(component);
 		if (mathContainer != null && (mathContainer.hasChildren())) {
 			firstField(editorState, mathContainer);
-			return true;
 		} else {
 			editorState.incCurrentOffset();
-			if (component instanceof MathPlaceholder) {
+			if (skipPlaceholders && component instanceof MathPlaceholder) {
 				nextCharacter(editorState);
 			}
-			return true;
 		}
+		return true;
 	}
 
 	private static MathContainer getMathContainer(MathComponent component) {
@@ -84,7 +107,17 @@ public class CursorController {
 			lastField(editorState, mathContainer);
 		} else {
 			editorState.decCurrentOffset();
+			if (isPrevCharPlaceholder(editorState)  && !editorState.isInFraction()) {
+				editorState.decCurrentOffset();
+			}
 		}
+	}
+
+	private static boolean isPrevCharPlaceholder(EditorState editorState) {
+		MathSequence currentField = editorState.getCurrentField();
+		int offset = editorState.getCurrentOffset();
+		return offset > 0
+				&& currentField.getArgument(offset - 1) instanceof MathCharPlaceholder;
 	}
 
 	/**
@@ -148,7 +181,7 @@ public class CursorController {
 	}
 
 	/**
-	 * Move cursor to the right..
+	 * Move cursor to the right.
 	 *
 	 * @param editorState
 	 *            current state
@@ -331,6 +364,7 @@ public class CursorController {
 				if (downIndex >= 0 && downIndex < function.size()) {
 					editorState
 							.setCurrentField(function.getArgument(downIndex));
+					editorState.resetSelection();
 					editorState.setCurrentOffset(0);
 					return true;
 				}

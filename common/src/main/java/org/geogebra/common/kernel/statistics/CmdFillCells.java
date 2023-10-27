@@ -70,8 +70,6 @@ public class CmdFillCells extends CommandProcessor {
 				int minRow = Math.min(startCoords.y, endCoords.y);
 				int maxRow = Math.max(startCoords.y, endCoords.y);
 
-				// Application.debug(minCol+" "+maxCol+" "+minRow+" "+maxRow);
-
 				GeoElement geo = arg[1];
 				GeoElement[] ret = {};
 
@@ -123,7 +121,7 @@ public class CmdFillCells extends CommandProcessor {
 
 				}
 				if (!geo.isGeoList()) {
-
+					RelativeCopy relativeCopy = new RelativeCopy(kernel);
 					for (int row = minRow; row <= maxRow; row++) {
 						for (int col = minCol; col <= maxCol; col++) {
 							try {
@@ -137,9 +135,8 @@ public class CmdFillCells extends CommandProcessor {
 								// change to eg A2+1, A3+1, A4+1 etc
 								// FillCells[B1:B7,A1] doesn't change A1
 								// use FillCells[B1:B7,A1+0] for that
-								RelativeCopy.doCopyNoStoringUndoInfo0(kernel,
-										app, geo, null, col - minCol,
-										row - minRow, minRow, minCol);
+								relativeCopy.doCopyNoStoringUndoInfo0(geo, null,
+										col - minCol, row - minRow, minRow, minCol);
 
 								// old code
 								// kernelA.getGeoElementSpreadsheet()
@@ -277,8 +274,6 @@ public class CmdFillCells extends CommandProcessor {
 
 					for (int i = list.size() - 1; i >= 0; i--) {
 						try {
-							// Application.debug("setting "+row+" "+(column+i)+"
-							// to "+list.get(i).toString());
 							kernel.getGeoElementSpreadsheet()
 									.setSpreadsheetCell(app, row, column + i,
 											list.get(i).copy());

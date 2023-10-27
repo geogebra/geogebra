@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assume.assumeFalse;
 
 import java.util.HashSet;
+import java.util.Locale;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.view.CASCellProcessor;
@@ -29,6 +30,10 @@ import com.himamis.retex.editor.share.util.Unicode;
 @SuppressWarnings("javadoc")
 public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	private static final String GermanSolve = "L\u00f6se";
+	// 100 seconds max per method tested
+	@SuppressWarnings("deprecation")
+	@Rule
+	public Timeout globalTimeout = new Timeout(50000);
 
 	/**
 	 * Executes the given expression in the CAS.
@@ -144,11 +149,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		Log.debug(newPattern);
 		r(input, newPattern, expectedPattern);
 	}
-
-	// 100 seconds max per method tested
-	@SuppressWarnings("deprecation")
-	@Rule
-	public Timeout globalTimeout = new Timeout(50000);
 
 	// Self Test Section
 	@Test
@@ -1798,9 +1798,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"(0, (-13 * sqrt(224 * sqrt(10) + 687) * sqrt(10) * sqrt(31) "
 						+ "+ 27 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2883) / 1922)");
 		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
-		// this is always numeric, the 13th digit changed multiple times with new Giac
-		t("Numeric(Last[Tangent[P, c]],12)", "{y = 5.55821394864 * x - 0.026806742873}",
-				"{y = 5.55821394864 * x - 0.0268067428731}");
+		// this is always numeric, the last few digits changed multiple times with new Giac
+		t("Numeric(Last[Tangent[P, c]],10)", "{y = 5.558213949 * x - 0.02680674287}");
 	}
 
 	/* Variable not specified */
@@ -2276,7 +2275,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void casRundbrief_Figure5_1() {
 		// Suppress output using semicolon.
 		// Warning: This does not affect the output here!
-		// Therefore this test does not test suppression of the output,
+		// Therefore, this test does not test suppression of the output,
 		// but just semicolon at the end of the input not breaking anything
 		// here.
 		t("f(x) := (2x^2 - 3x + 4) / 2;", "x^(2) - 3 / 2 * x + 2");
@@ -2668,7 +2667,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				casResult = kernel.getGeoGebraCAS().getCurrentCAS()
 						.evaluateRaw("normal(sqrt(1+x)*sqrt(1-x)-sqrt(1-x^2))");
 			} catch (Throwable throwable) {
-				throwable.printStackTrace();
+				Log.debug(throwable);
 			}
 			Assert.assertEquals("Failed at " + i, "0", casResult);
 		}
@@ -2701,6 +2700,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	@Test
+	public void testVectorFunctionLabel() {
+		GeoCasCell h = new GeoCasCell(kernel.getConstruction());
+		h.setInput("h(t):=(t,t,t)");
+		h.computeOutput();
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput("Vector(h(0))");
+		f.computeOutput();
+		f.plot();
+		assertThat(f.getOutput(StringTemplate.defaultTemplate), equalTo("u:=(0, 0, 0)"));
+	}
+
+	@Test
 	public void testInequalityLabel() {
 		GeoCasCell f = add("b:= x<3");
 		f.plot();
@@ -2721,5 +2732,22 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		add("l2:={1,2,3}");
 		t("h(l1)", "{-8}");
 		t("Numeric[h(l2),5]", "{-18.683, -188.84, -1533.4}");
+	}
+
+	@Test
+	public void matrixFunctionEvaluation() {
+		add("f(x):=x^2");
+		t("f({{1,1},{0,1}})", "{{1,2},{0,1}}");
+	}
+
+	@Test
+	public void listCommandFunctionEvaluation() {
+		getApp().setLanguage(Locale.US);
+		tk("H(KL):=Sequence( {{Element(KL,j) (1,0,0)},{Element(KL,j) (0,1,0)},"
+				+ "{Element(KL,j) (0,0,1)},{1}},j,1,Length(KL) );",
+				"Sequence({{Element(KL, j) * (1, 0, 0)}, {Element(KL, j) * (0, 1, 0)},"
+						+ " {Element(KL, j) * (0, 0, 1)}, {1}}, j, 1, Length(KL))");
+		t("H({(1,2,3),(4,5,6),(7,8,9)})",
+				"{{{1}, {2}, {3}, {1}}, {{4}, {5}, {6}, {1}}, {{7}, {8}, {9}, {1}}}");
 	}
 }

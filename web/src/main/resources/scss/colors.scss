@@ -1,8 +1,8 @@
-// main colors
+@use 'colorMap' as *;
 // PURPLE
-$purple-light: #9984FF;
-$purple-default: #6557D2;
-$purple-dark: #4C42A1;
+$purple-light: purple(500);
+$purple-default: purple(600);
+$purple-dark: purple(700);
 $purple-dark-26: rgba($purple-dark, 0.26);
 $purple-dark-87: rgba($purple-dark, 0.87);
 $purple-default-12: rgba($purple-default, 0.12);
@@ -61,6 +61,8 @@ $red-87: rgba(255,0,0,.87);
 $red-A400: #FF1744;
 $red-A400-87: rgba(255, 23, 68,.87);
 $error: rgb(176,0,32);
+$error-border: #ce5c71;
+$error-background: #F1D1D7;
 $white: rgb(255, 255, 255);
 $white-12: rgba(255,255,255,0.12);
 $white-25: rgba(255,255,255,0.25);
@@ -141,3 +143,5 @@ $input-field-border: #d7d7d7;
 
 $switcher-off-track: #c5c5c5;
 $switcher-off-thumb: #f1f1f1;
+
+$cursor-overlay-select: #accef7;

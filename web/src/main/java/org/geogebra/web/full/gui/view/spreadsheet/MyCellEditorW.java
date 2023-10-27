@@ -11,12 +11,14 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.user.client.ui.SimplePanel;
 
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -306,9 +308,9 @@ public class MyCellEditorW implements BaseCellEditor {
 					}
 
 				} else {
-					GeoElementND newVal = RelativeCopy
-					        .prepareAddingValueToTableNoStoringUndoInfo(kernel,
-									app, text, value, column, row, false);
+					GeoElementND newVal = new RelativeCopy(kernel)
+					        .prepareAddingValueToTableNoStoringUndoInfo(text,
+									value, column, row, false);
 					if (newVal == null) {
 						return false;
 					}
@@ -370,10 +372,14 @@ public class MyCellEditorW implements BaseCellEditor {
 		public void onKeyDown(KeyDownEvent e) {
 
 			// stopping propagation is needed to prevent duplicate events
-			e.stopPropagation();
+			//e.stopPropagation();
 
 			checkCursorKeys(e);
 			int keyCode = e.getNativeKeyCode();
+
+			if (GlobalKeyDispatcherW.isLeftAltDown()) {
+				e.preventDefault();
+			}
 
 			if (keyCode == KeyCodes.KEY_ESCAPE) {
 				e.preventDefault();
@@ -390,6 +396,8 @@ public class MyCellEditorW implements BaseCellEditor {
 				// update the formula bar after escape
 				// ?//table.getView().updateFormulaBar();
 			}
+			autoCompleteTextField.onKeyDown(e);
+			e.stopPropagation();
 		}
 
 		@Override
@@ -426,6 +434,8 @@ public class MyCellEditorW implements BaseCellEditor {
 			// this also makes sure no top-level action is done on keyUp
 			// but the default action of the event should have already been
 			// expired
+			autoCompleteTextField.onKeyUp(e);
+			GlobalKeyDispatcherW.setDownKeys(e);
 			e.stopPropagation();
 		}
 
@@ -439,11 +449,8 @@ public class MyCellEditorW implements BaseCellEditor {
 			String text = autoCompleteTextField.getText();
 
 			int keyCode = e.getNativeKeyCode();
-			// Application.debug(e+"");
 			switch (keyCode) {
-			default:
-				// do nothing
-				break;
+
 			case KeyCodes.KEY_UP:
 			
 				if (isSuggesting()) {
@@ -452,8 +459,6 @@ public class MyCellEditorW implements BaseCellEditor {
 				if (isFormulaBarListener) {
 					return;
 				}
-
-				// Application.debug("UP");
 				stopCellEditing(0, -1, false);
 				// ?//e.consume();
 				setTabReturnCol(-1);
@@ -464,7 +469,6 @@ public class MyCellEditorW implements BaseCellEditor {
 					return;
 				}
 				Log.debug(" tab");
-				// Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right
 				if (getTabReturnCol() == -1) {
@@ -520,7 +524,6 @@ public class MyCellEditorW implements BaseCellEditor {
 					// ?//e.consume();
 					return;
 				}
-				// Application.debug("DOWN");
 				stopCellEditing(0, 1, false);
 				setTabReturnCol(-1);
 				break;
@@ -529,7 +532,6 @@ public class MyCellEditorW implements BaseCellEditor {
 				if (isFormulaBarListener) {
 					return;
 				}
-				// Application.debug("LEFT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == 0) {
 					stopCellEditing(-1, 0, false);
@@ -541,7 +543,6 @@ public class MyCellEditorW implements BaseCellEditor {
 				if (isFormulaBarListener) {
 					return;
 				}
-				// Application.debug("RIGHT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == text.length()) {
 					stopCellEditing(1, 0, false);
@@ -555,6 +556,15 @@ public class MyCellEditorW implements BaseCellEditor {
 				e.preventDefault();
 				// ?//e.consume();
 				setTabReturnCol(-1);
+				break;
+
+			default:
+				if (GlobalKeyDispatcherW.isLeftAltDown()) {
+					if (AltKeys.isGeoGebraShortcut(
+							e.getNativeKeyCode(), e.isShiftKeyDown(), true)) {
+						e.preventDefault();
+					}
+				}
 				break;
 
 			// An F1 keypress causes the focus to be lost, so we

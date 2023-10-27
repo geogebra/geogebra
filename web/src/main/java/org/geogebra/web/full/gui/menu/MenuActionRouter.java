@@ -9,8 +9,8 @@ import org.geogebra.common.gui.menu.SubmenuItem;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandler;
-
-import com.google.gwt.user.client.ui.Label;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.gwtproject.user.client.ui.Label;
 
 class MenuActionRouter {
 
@@ -48,8 +48,8 @@ class MenuActionRouter {
 		headerView.getBackButton().addFastClickHandler(source -> menuViewController.hideSubmenu());
 		HeaderedMenuView submenu = new HeaderedMenuView(menuView);
 		if (submenuItem.getBottomText() != null) {
-			Label version = new Label(submenuItem.getBottomText());
-			version.addStyleName("versionNumber");
+			Label version = BaseWidgetFactory.INSTANCE.newDisabledText(
+					submenuItem.getBottomText(), "versionNumber");
 			submenu.add(version);
 		}
 		submenu.setHeaderView(headerView);

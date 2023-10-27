@@ -11,13 +11,12 @@ import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
 /**
  * tab of tools
  */
-public class ToolsTab extends ToolbarPanel.ToolbarTab {
+public class ToolsTab extends ToolbarTab {
 
 	/**
 	 *
@@ -81,13 +80,11 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		moreBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.More"));
 		AriaHelper.hide(moreBtn);
-		moreBtn.addStyleName("moreLessBtn");
-		moreBtn.removeStyleName("button");
+		moreBtn.setStyleName("materialTextButton");
 		lessBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.Less"));
 		AriaHelper.hide(lessBtn);
-		lessBtn.addStyleName("moreLessBtn");
-		lessBtn.removeStyleName("button");
+		lessBtn.setStyleName("materialTextButton");
 		moreBtn.addFastClickHandler(source -> onMorePressed());
 
 		lessBtn.addFastClickHandler(source -> onLessPressed());

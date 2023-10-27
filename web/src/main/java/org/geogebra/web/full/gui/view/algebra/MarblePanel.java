@@ -7,12 +7,12 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.geogebra.web.html5.util.DataTest;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyDownHandler;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * @author Zbynek
@@ -39,9 +39,8 @@ public class MarblePanel extends FlowPanel
 		marble = new Marble(item);
 		marble.setStyleName("marble");
 		marble.setEnabled(shouldShowMarble());
-
 		addStyleName("marblePanel");
-		
+
 		if (item.getAV().isInputActive() && item.getGeo() == null) {
 			addStyleName("plus");
 			initPlus();
@@ -169,8 +168,7 @@ public class MarblePanel extends FlowPanel
 			cmPlus = new ContextMenuAVPlus(item);
 		}
 		item.cancelEditing();
-		cmPlus.show(btnPlus.getAbsoluteLeft() + 16,
-				btnPlus.getAbsoluteTop() + 6);
+		cmPlus.show(btnPlus,  16, 6);
 	}
 
 	@Override
@@ -220,7 +218,7 @@ public class MarblePanel extends FlowPanel
 
 	@Override
 	public void setIndex(int itemCount) {
-		// index not visible
+		DataTest.MARBLE.applyWithIndex(marble, itemCount);
 	}
 
 	@Override

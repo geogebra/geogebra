@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel;
 
+import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,6 +24,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -29,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
@@ -218,7 +222,7 @@ public class ConstructionDefaults implements SettingListener {
 	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
-	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
+	public static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
 
 	// quadrics
 	/** default alpha for quadrics */
@@ -694,6 +698,7 @@ public class ConstructionDefaults implements SettingListener {
 		// bool.setLocalVariableLabel(app.getPlain("Boolean"));
 		bool.setLocalVariableLabel("Boolean");
 		bool.setDefaultGeoType(DEFAULT_BOOLEAN);
+		bool.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		defaultGeoElements.put(DEFAULT_BOOLEAN, bool);
 
 		// list
@@ -962,8 +967,18 @@ public class ConstructionDefaults implements SettingListener {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
 			}
 
+			if (geo instanceof GeoButton && !(geo instanceof GeoInputBox)
+					&& geo.getBackgroundColor() == null) {
+				geo.setBackgroundColor(GeoGebraColorConstants.GEOGEBRA_ACCENT);
+				geo.setObjColor(GColor.WHITE);
+				((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
+			}
+			if (geo instanceof GeoInputBox) {
+				geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
+			}
+
 			if (!isReset) {
-				// set to highest used layer
+				// set to the highest used layer
 				setMaxLayerUsed(geo, app);
 			}
 
@@ -974,7 +989,7 @@ public class ConstructionDefaults implements SettingListener {
 		if (defaultLabelMode) {
 			// label visibility
 			int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS
-					: app.getCurrentLabelingStyle();
+					: app.getCurrentLabelingStyle().getValue();
 
 			// automatic labelling:
 			// if algebra window open -> all labels

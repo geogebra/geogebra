@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.kernelND;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.LocateableList;
+import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathOrPoint;
@@ -19,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.matrix.CoordSys;
@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 
 public interface GeoPointND extends PointProperties, Translateable,
-		SpreadsheetTraceable, PointRotateable, CoordStyle, VectorNDValue,
+		SpreadsheetTraceable, MatrixTransformable, CoordStyle, VectorNDValue,
 		Mirrorable, Dilateable, Animatable {
 
 	/** cannot move */
@@ -108,10 +108,11 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public boolean isFinite();
 
 	/**
+	 * @param absPosition whether the position is absolute (=in screen pixels)
 	 * @param sb string builder to append the correct xml representation as a
 	 *         start point for an object (button, vector, text)
 	 */
-	void appendStartPointXML(StringBuilder sb);
+	void appendStartPointXML(StringBuilder sb, boolean absPosition);
 
 	/**
 	 * @return list of locateables this is a start point of
@@ -466,6 +467,12 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public void addToPathParameter(double d);
 
 	/**
+	 * Sets the path parameter t of the point and updates it.
+	 * @param t path parameter
+	 */
+	public void updatePathParameter(double t);
+
+	/**
 	 * set region changed with x, y coords
 	 * 
 	 * @param x
@@ -482,4 +489,8 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 *            polygon
 	 */
 	void pointChanged(GeoPolygon polygon);
+
+	NumberValue getVerticalIncrement();
+
+	void setVerticalIncrement(NumberValue step);
 }

@@ -19,6 +19,13 @@ public class IntervalMultiply {
 	 * @return the result
 	 */
 	public Interval compute(Interval interval, Interval other) {
+		if (interval.isUndefined() || other.isUndefined()) {
+			return undefined();
+		}
+		if (interval.isZeroWithDelta(0) || other.isZeroWithDelta(0)) {
+			return IntervalConstants.zero();
+		}
+
 		Interval result = multiply(interval, other);
 		result.setInverted(interval.isInverted() || other.isInverted());
 		return result;
@@ -27,10 +34,6 @@ public class IntervalMultiply {
 	private Interval multiply(Interval interval, Interval other) {
 		if (interval.isZero() && other.isInverted()) {
 			return IntervalConstants.whole();
-		}
-
-		if (interval.isZero() || other.isZero()) {
-			return IntervalConstants.zero();
 		}
 
 		if (interval.isWhole() || other.isWhole()) {

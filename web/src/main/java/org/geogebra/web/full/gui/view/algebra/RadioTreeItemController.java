@@ -12,18 +12,15 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.ArrayList;
-
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -33,31 +30,32 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
+import org.gwtproject.core.client.JsArray;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.dom.client.Touch;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.event.dom.client.DoubleClickEvent;
+import org.gwtproject.event.dom.client.DoubleClickHandler;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseDownHandler;
+import org.gwtproject.event.dom.client.MouseEvent;
+import org.gwtproject.event.dom.client.MouseMoveEvent;
+import org.gwtproject.event.dom.client.MouseMoveHandler;
+import org.gwtproject.event.dom.client.MouseUpEvent;
+import org.gwtproject.event.dom.client.MouseUpHandler;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.event.dom.client.TouchEndHandler;
+import org.gwtproject.event.dom.client.TouchMoveEvent;
+import org.gwtproject.event.dom.client.TouchMoveHandler;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.event.dom.client.TouchStartHandler;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.editor.MathField;
 
 /**
  * Controller class of a AV item.
@@ -80,9 +78,11 @@ public class RadioTreeItemController implements ClickHandler,
 	private boolean markForEdit = false;
 	private long latestTouchEndTime = 0;
 	private int editHeigth;
-	private boolean inputAsText = false;
+
 	/** whether blur listener is disabled */
 	protected boolean preventBlur = false;
+
+	private InputSuggestions inputSuggestions;
 
 	/**
 	 * Creates controller for given item.
@@ -94,30 +94,28 @@ public class RadioTreeItemController implements ClickHandler,
 		this.item = item;
 		this.app = item.app;
 		selectionCtrl = getAV().getSelectionCtrl();
+		inputSuggestions = new InputSuggestions(item.geo);
 		addDomHandlers(item.main);
 	}
 
-	protected boolean isMarbleHit(MouseEvent<?> evt) {
-		return isMarbleHit(
-				PointerEvent.wrapEventAbsolute(evt, ZeroOffset.INSTANCE));
-	}
-
-	protected boolean isMarbleHit(PointerEvent wrappedEvent) {
-		return isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY(),
-				app.isRightClick(wrappedEvent));
-	}
-
-	protected boolean isMarbleHit(int x, int y, boolean rightClick) {
-		if (item.marblePanel != null && item.marblePanel.isHit(x, y)) {
-			if (!Browser.isTabletBrowser() && rightClick) {
-
-				onRightClick(x, y);
+	protected boolean checkMarbleHit(MouseEvent<?> evt) {
+		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(evt, ZeroOffset.INSTANCE);
+		int x = wrappedEvent.getX();
+		int y = wrappedEvent.getY();
+		boolean rightClick = app.isRightClick(wrappedEvent);
+		if (isMarbleHit(x, y)) {
+			if (rightClick) {
+				onRightClick(evt);
 				return false;
 			}
 			return true;
 		}
 
 		return false;
+	}
+
+	protected boolean isMarbleHit(int x, int y) {
+		return item.marblePanel != null && item.marblePanel.isHit(x, y);
 	}
 
 	protected static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
@@ -165,10 +163,10 @@ public class RadioTreeItemController implements ClickHandler,
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.INSTANCE);
-		onPointerDown(wrappedEvent);
+		onPointerDown(wrappedEvent, event);
 
 		CancelEventTimer.avRestoreWidth();
-		if (CancelEventTimer.cancelMouseEvent() || isMarbleHit(event)
+		if (CancelEventTimer.cancelMouseEvent() || checkMarbleHit(event)
 				|| app.isRightClick(wrappedEvent)) {
 			return;
 		}
@@ -224,7 +222,7 @@ public class RadioTreeItemController implements ClickHandler,
 	 * @return if editing can start or not.
 	 */
 	protected boolean canEditStart(MouseEvent<?> event) {
-		return !isMarbleHit(event) && !isWidgetHit(item.controls, event);
+		return !checkMarbleHit(event) && !isWidgetHit(item.controls, event);
 	}
 
 	@Override
@@ -258,7 +256,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.INSTANCE);
-		if (isMarbleHit(wrappedEvent)) {
+		if (isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY())) {
 			return;
 		}
 
@@ -344,7 +342,7 @@ public class RadioTreeItemController implements ClickHandler,
 			return;
 		}
 
-		if (isMarbleHit(x, y, false)) {
+		if (isMarbleHit(x, y)) {
 			getLongTouchManager().cancelTimer();
 		}
 
@@ -355,16 +353,20 @@ public class RadioTreeItemController implements ClickHandler,
 		// event.preventDefault();
 		handleAVItem(event);
 
-		onPointerDown(wrappedEvent);
+		onPointerDownMainButton(wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
 
-	protected void onPointerDown(AbstractEvent event) {
+	protected void onPointerDown(AbstractEvent event, MouseDownEvent nativeEvt) {
 		if (event.isRightClick()) {
-			onRightClick(event.getX(), event.getY());
+			onRightClick(nativeEvt);
 			return;
 		}
 
+		onPointerDownMainButton(event);
+	}
+
+	protected void onPointerDownMainButton(AbstractEvent event) {
 		if (checkEditing()) {
 			if (!getAV().isEditItem()) {
 				// e.g. Web.html might not be in editing mode
@@ -548,7 +550,7 @@ public class RadioTreeItemController implements ClickHandler,
 		return true;
 	}
 
-	private void onRightClick(int x, int y) {
+	private void onRightClick(MouseEvent<?> evt) {
 		if (!app.isRightClickEnabledForAV()) {
 			return;
 		}
@@ -559,23 +561,16 @@ public class RadioTreeItemController implements ClickHandler,
 
 		GeoElement geo = item.geo;
 		SelectionManager selection = app.getSelectionManager();
-		GPoint point = new GPoint(x + NavigatorUtil.getWindowScrollLeft(),
-				y + NavigatorUtil.getWindowScrollTop());
 		if (geo != null) {
-			if (selection.containsSelectedGeo(geo)) {
-				// popup menu for current selection
-				// (including selected object)
-				app.getGuiManager().showPopupMenu(
-						selection.getSelectedGeos(), item.getAV(), point);
-			} else { // select only this object and popup menu
+			if (!selection.containsSelectedGeo(geo)) {
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
-				ArrayList<GeoElement> temp = new ArrayList<>();
-				temp.add(geo);
-
-				app.getGuiManager().showPopupMenu(temp,
-						item.getAV(), point);
 			}
+			// else: keep (multi)selection, already includes clicked object
+			double scale = app.getGeoGebraElement().getScaleX();
+			app.getGuiManager().showPopupMenu(
+					selection.getSelectedGeos(), item.asWidget(), (int) (evt.getX() / scale),
+					(int) (evt.getY() / scale));
 		}
 	}
 
@@ -676,16 +671,15 @@ public class RadioTreeItemController implements ClickHandler,
 	 *            to set.
 	 */
 	protected void setInputAsText(boolean value) {
-		inputAsText = value;
-		item.setInputAsText(value);
+		inputSuggestions.setForceAsText(value);
+		item.onInputModeChange(value);
 	}
 
 	/**
 	 * @return if input should be treated as text item.
 	 */
 	public boolean isInputAsText() {
-		return inputAsText || (item.geo != null && item.geo.isGeoText()
-				&& !item.geo.isTextCommand());
+		return inputSuggestions.isTextInput();
 	}
 
 	/**
@@ -696,5 +690,14 @@ public class RadioTreeItemController implements ClickHandler,
 	 */
 	public void onEnter(boolean keepFocus, boolean createSliders) {
 		// overridden in subclass
+	}
+
+	/**
+	 *
+	 * @param mf the MathField the suggestion would happen
+	 * @return if suggestion is prevented.
+	 */
+	public boolean isSuggestionPrevented(MathField mf) {
+		return inputSuggestions.isPreventedFor(mf.getInternal().getEditorState());
 	}
 }

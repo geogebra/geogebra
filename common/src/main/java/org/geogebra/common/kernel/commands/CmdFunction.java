@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.commands;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
@@ -11,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -96,14 +95,13 @@ public class CmdFunction extends CommandProcessor {
 		boolean[] ok = new boolean[c.getArgumentNumber()];
 		GeoElement[] arg;
 		FunctionVariable fv;
-		boolean mayUseIndependent;
 		if (!cons.isFileLoading()) {
 			fv = null;
 			if (varName != null || kernel.getConstruction()
-					.getRegisteredFunctionVariable() != null) {
+					.hasRegisteredFunctionVariable()) {
 				if (varName == null) {
 					varName = kernel.getConstruction()
-							.getRegisteredFunctionVariable();
+							.getRegisteredFunctionVariables()[0];
 				}
 				fv = new FunctionVariable(kernel, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
@@ -130,32 +128,21 @@ public class CmdFunction extends CommandProcessor {
 				}
 
 				// construct the equivalent of parsing a<=x<=b
-				ExpressionNode left = new ExpressionNode(kernel, low,
-						Operation.LESS_EQUAL, fv);
-				ExpressionNode right = new ExpressionNode(kernel, fv,
-						Operation.LESS_EQUAL, high);
-				ExpressionNode interval = new ExpressionNode(kernel, left,
-						Operation.AND_INTERVAL, right);
-				Function intervalFun = new Function(interval, fv);
-				AlgoDependentFunction intervalAlgo = new AlgoDependentFunction(
-						cons, intervalFun, false);
-				GeoFunction intervalGeo = intervalAlgo.getFunction();
+				ExpressionNode interval = buildInterval(kernel, low, fv, high);
 
-				ArrayList<GeoFunction> conditions = new ArrayList<>();
-				conditions.add(intervalGeo);
-				mayUseIndependent = false;
+				boolean mayUseIndependent = !Inspecting.dynamicGeosFinder.check(geoFun)
+						&& !interval.inspect(Inspecting.dynamicGeosFinder);
 
 				// copied from CmdIf from here
 
 				ExpressionNode expr = new ExpressionNode(kernel,
-						wrap(conditions.get(0), fv, mayUseIndependent),
+						interval,
 						Operation.IF, wrap(geoFun, fv, mayUseIndependent));
 
 				Function fun = new Function(expr, fv);
 				GeoFunction gf;
 				if (mayUseIndependent) {
 					gf = new GeoFunction(cons, fun);
-
 				} else {
 					AlgoDependentFunction algo = new AlgoDependentFunction(
 							cons, fun, true);
@@ -172,10 +159,10 @@ public class CmdFunction extends CommandProcessor {
 		// old code, just for when file loading
 		EvalInfo argInfo = info.withLabels(false);
 		if (varName != null || kernel.getConstruction()
-				.getRegisteredFunctionVariable() != null) {
+				.hasRegisteredFunctionVariable()) {
 			if (varName == null) {
 				varName = kernel.getConstruction()
-						.getRegisteredFunctionVariable();
+						.getRegisteredFunctionVariables()[0];
 			}
 			fv = new FunctionVariable(kernel, varName);
 			int r = c.getArgument(0).replaceVariables(varName, fv);
@@ -229,6 +216,22 @@ public class CmdFunction extends CommandProcessor {
 			return ret;
 		}
 		throw argErr(c, getBadArg(ok, arg));
+	}
+
+	/**
+	 * @param kernel kernel for the result
+	 * @param low lower bound
+	 * @param fv function variable
+	 * @param high upper bound
+	 * @return expression low <= fv <= high
+	 */
+	public static ExpressionNode buildInterval(Kernel kernel, GeoNumberValue low,
+			FunctionVariable fv, GeoNumberValue high) {
+		ExpressionNode left = new ExpressionNode(kernel, low,
+				Operation.LESS_EQUAL, fv);
+		ExpressionNode right = new ExpressionNode(kernel, fv,
+				Operation.LESS_EQUAL, high);
+		return new ExpressionNode(kernel, left, Operation.AND_INTERVAL, right);
 	}
 
 	private GeoElement[] process2VarFunction(Command c) {
@@ -285,7 +288,7 @@ public class CmdFunction extends CommandProcessor {
 	/**
 	 * function limited to interval [a, b]
 	 */
-	final private GeoFunction function(String label, GeoFunctionable f,
+	private GeoFunction function(String label, GeoFunctionable f,
 			GeoNumberValue a, GeoNumberValue b) {
 		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, f, a,
 				b);

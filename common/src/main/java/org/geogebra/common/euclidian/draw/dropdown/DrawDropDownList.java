@@ -31,7 +31,6 @@ import org.geogebra.common.gui.util.DropDownListener;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.main.App;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -44,6 +43,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public final class DrawDropDownList extends CanvasDrawable
 		implements DropDownListener, MoveSelector {
 	private static final int LABEL_COMBO_GAP = 10;
+	private static final int COMBO_CONTEXT_GAP = 2;
 	public static final int COMBO_TEXT_MARGIN = 5;
 	private final DrawSelectedItem drawSelected;
 	private final OptionScroller scroller;
@@ -115,8 +115,8 @@ public final class DrawDropDownList extends CanvasDrawable
 		// eg: size changed etc
 		labelDesc = getLabelText();
 
-		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;
+		xLabel = geoList.getAbsoluteScreenLocX();
+		yLabel = geoList.getAbsoluteScreenLocY();
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 			getDynamicCaption().update();
 		}
@@ -168,7 +168,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		String labelText = getLabelText();
 		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
 		GColor bgColor = geo.getBackgroundColor() != null
-				? geo.getBackgroundColor() : view.getBackgroundCommon();
+				? geo.getBackgroundColor() : GColor.WHITE;
 
 		drawSelected.drawBounds(geoList, g2, bgColor, boxLeft, boxTop, boxWidth,
 				boxHeight);
@@ -197,15 +197,12 @@ public final class DrawDropDownList extends CanvasDrawable
 			drawLabel(g2, geoList, labelText);
 		}
 
-		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + 5);
+		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + COMBO_CONTEXT_GAP);
 	}
 
 	private void initScreenLocation() {
 		geoList.setScreenLocation(Math.min(xLabel, boxLeft),
 				Math.min(yLabel, boxTop));
-		ScreenLocation screenLocation = geoList.getScreenLocation();
-		screenLocation.initWidth(boxWidth);
-		screenLocation.initHeight(boxHeight);
 	}
 
 	private int alignTextToBottom(GGraphics2D g2, int top, int height,
@@ -265,7 +262,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		drawOptions.onResize(view.getWidth(), view.getHeight());
 
 		GeoElement geoItem = geoList.getSelectedElement();
-		if (GeoList.needsLatex(geoItem)) {
+		if (geoItem != null && GeoList.needsLatex(geoItem)) {
 			selectedText = geoItem.toLaTeXString(false,
 					StringTemplate.latexTemplate);
 			seLatex = true;
@@ -287,7 +284,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		if (seLatex) {
 			return draw ? drawLatex(g2, geoList, font, selectedText, left, top)
-					: measureLatex(g2, geoList, font, selectedText);
+					: measureLatex(geoList, font, selectedText, false);
 		}
 
 		g2.setFont(font);
@@ -568,5 +565,10 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	public boolean isControlHit(int x, int y) {
 		return drawSelected.isOpenButtonHit(x, y);
+	}
+
+	@Override
+	public boolean isHighlighted() {
+		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
 	}
 }

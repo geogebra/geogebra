@@ -30,16 +30,15 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.full.main.EmbedManagerW;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Command;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.Command;
 
 /**
  * Adds Inline Text related context menu items
@@ -312,7 +311,7 @@ public class InlineFormattingItems {
 		AriaMenuItem menuItem = factory.newAriaMenuItem(loc.getMenu(text), false,
 				command);
 		menuItem.getElement().getStyle()
-				.setPaddingLeft(16, Style.Unit.PX);
+				.setPaddingLeft(16, Unit.PX);
 		menu.addItem(menuItem);
 	}
 

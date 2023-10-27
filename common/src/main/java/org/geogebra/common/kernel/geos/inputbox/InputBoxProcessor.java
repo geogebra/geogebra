@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollectionSymbolic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -25,15 +26,20 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Updates linked element for an input box from user input
  */
 public class InputBoxProcessor {
 
-	private GeoInputBox inputBox;
+	private final GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private final Kernel kernel;
-	private AlgebraProcessor algebraProcessor;
+	private final AlgebraProcessor algebraProcessor;
+
+	private final UserInputConverter userInputConverter = new UserInputConverter();
 
 	/**
 	 * @param inputBox
@@ -56,7 +62,6 @@ public class InputBoxProcessor {
 	 */
 	public void updateLinkedGeo(EditorContent content, StringTemplate tpl) {
 		content.removeCommas(kernel.getLocalization());
-		String inputText = content.getEditorInput();
 
 		// first clear temp input, so that the string representation of the input
 		// box is correct when updating dependencies
@@ -65,16 +70,34 @@ public class InputBoxProcessor {
 		updateLinkedGeoNoErrorHandling(tpl, errorHandler, content);
 
 		if (errorHandler.errorOccured) {
-			if ("?".equals(inputText)) {
+			if (content.isEmpty(inputBox.isListEditor())) {
 				inputBox.setTempUserInput("", "");
 			} else {
-				inputBox.setTempUserInput(inputText, content.getLaTeX());
+				inputBox.setTempUserInput(processPlaceholders(content.getEditorInput()),
+						processLatexPlaceholders(content.getLaTeX()));
 			}
+
 			linkedGeo.setUndefined();
 			makeGeoIndependent();
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
 		}
+	}
+
+	private String processPlaceholders(String content) {
+		if (content == null) {
+			return null;
+		}
+		return content.replaceAll("\\{\\?}",
+				"{}");
+	}
+
+	private String processLatexPlaceholders(String contentLaTeX) {
+		if (contentLaTeX == null) {
+			return null;
+		}
+		return contentLaTeX.replace("?",
+				TeXSerializer.PLACEHOLDER);
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
@@ -120,13 +143,14 @@ public class InputBoxProcessor {
 		if (linkedGeo.isGeoText()) {
 			// set content first, make independent later, otherwise there is a conflict
 			// between Enter and blur handlers in Web
-			((GeoText) linkedGeo).setTextString(content.getEditorInput());
+			String editorInput = content.getEditorInput().replace(Unicode.MINUS, '-');
+			((GeoText) linkedGeo).setTextString(editorInput);
 			makeGeoIndependent();
 			linkedGeo.updateRepaint();
 			return;
 		}
 
-		String defineText = preprocess(content, tpl);
+		String defineText = prependLabel(preprocess(content, tpl), tpl);
 		if (linkedGeo.isPointOnPath() || linkedGeo.isPointInRegion()) {
 			GeoPointND val = algebraProcessor.evaluateToPoint(defineText, errorHandler, true);
 			if (val != null) {
@@ -150,15 +174,32 @@ public class InputBoxProcessor {
 				.withMultipleUnassignedAllowed().withPreventVariable();
 	}
 
+	private String prependLabel(String text, StringTemplate tpl) {
+		String defineText = text;
+		if (linkedGeo.isGeoLine()) {
+			String prefix = linkedGeo.getLabelSimple() + ":";
+			// need a: in front of
+			// X = (-0.69, 0) + \lambda (1, -2)
+			if (!defineText.startsWith(prefix)) {
+				defineText = prefix + defineText;
+			}
+		} else if (linkedGeo instanceof FunctionalNVar || isComplexFunction()) {
+			// string like f(x,y)=x^2
+			// or f(\theta) = \theta
+			defineText = linkedGeo.getLabelSimple() + "("
+					+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
+		}
+		return defineText;
+	}
+
 	private String preprocess(EditorContent content, StringTemplate tpl) {
-		String defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
-		if (linkedGeo.hasSpecialEditor() && content.hasEntries()) {
+		String defineText;
+		if (inputBox.isSymbolicModeWithSpecialEditor() && content.hasEntries()) {
 			defineText = buildListText(content);
-		} else if ("?".equals(content.getEditorInput())
-				|| ("".equals(content.getEditorInput()) && !inputBox.isListEditor())) {
+		} else if (content.isEmpty(inputBox.isListEditor())) {
 			defineText = "?";
 		} else if (linkedGeo.isGeoLine()) {
-
+			defineText = content.getEditorInput();
 			if (defineText.startsWith("f(x)=")) {
 				defineText = defineText.replace("f(x)=", "y=");
 			}
@@ -170,20 +211,8 @@ public class InputBoxProcessor {
 				// y = x + 1
 				defineText = "y=" + defineText;
 			}
-
-			String prefix = linkedGeo.getLabel(tpl) + ":";
-			// need a: in front of
-			// X = (-0.69, 0) + \lambda (1, -2)
-			if (!defineText.startsWith(prefix)) {
-				defineText = prefix + defineText;
-			}
-		}
-
-		if (linkedGeo instanceof FunctionalNVar || isComplexFunction()) {
-			// string like f(x,y)=x^2
-			// or f(\theta) = \theta
-			defineText = linkedGeo.getLabel(tpl) + "("
-					+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
+		} else {
+			defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
 		}
 
 		if (inputBox.isSymbolicMode() && inputBox.isListEditor()) {
@@ -194,7 +223,20 @@ public class InputBoxProcessor {
 			defineText = defineText.replace('I', 'i');
 		}
 
-		return defineText;
+		return emptyToUndefined(defineText);
+	}
+
+	private String emptyToUndefined(String text) {
+		if (!inputBox.isSymbolicModeWithSpecialEditor()) {
+			return text;
+		}
+		if (linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()) {
+			return userInputConverter.pointToUndefined(text);
+		}
+		if (linkedGeo.isGeoList() && ((GeoList) linkedGeo).isMatrix()) {
+			return userInputConverter.matrixToUndefined(text);
+		}
+		return text;
 	}
 
 	private String buildListText(EditorContent content) {
@@ -223,5 +265,19 @@ public class InputBoxProcessor {
 		} else {
 			return new RuleCollection(same, point, vector, numericAngle);
 		}
+	}
+
+	/**
+	 * @param editorState editor content
+	 * @param sb builder to append processed result
+	 * @return whether it's valid
+	 */
+	public boolean validate(EditorContent editorState, StringBuilder sb) {
+		String toCheck = preprocess(editorState, StringTemplate.defaultTemplate);
+		EvalInfo evalInfo = buildEvalInfo();
+		GeoElementND el = algebraProcessor.evaluateToGeoElement(toCheck, false,
+				evalInfo, linkedGeo);
+		sb.append(toCheck);
+		return el != null && evalInfo.getRedefinitionRule().allowed(linkedGeo, el);
 	}
 }

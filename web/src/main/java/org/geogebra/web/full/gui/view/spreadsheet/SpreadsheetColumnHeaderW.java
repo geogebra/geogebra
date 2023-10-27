@@ -10,22 +10,23 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.HumanInputEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Cursor;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.HumanInputEvent;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseMoveEvent;
+import org.gwtproject.event.dom.client.MouseUpEvent;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.event.dom.client.TouchMoveEvent;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FocusPanel;
+import org.gwtproject.user.client.ui.Grid;
+import org.gwtproject.user.client.ui.Widget;
 
 public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	private AppW app;
@@ -77,7 +78,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 
 		int columnWidth = table.preferredColumnWidth();
 		grid.getColumnFormatter().getElement(colIndex).getStyle()
-		        .setWidth(columnWidth, Style.Unit.PX);
+		        .setWidth(columnWidth, Unit.PX);
 
 		Element elm = grid.getCellFormatter().getElement(0, colIndex);
 		elm.addClassName("SVheader");
@@ -97,7 +98,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 
 		int rowHeight = app.getSettings().getSpreadsheet().preferredRowHeight();
 		grid.getRowFormatter().getElement(0).getStyle()
-		        .setHeight(rowHeight, Style.Unit.PX);
+		        .setHeight(rowHeight, Unit.PX);
 
 		for (int col = 0; col < grid.getColumnCount(); col++) {
 			initializeCell(col);
@@ -107,7 +108,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		focusPanel.addKeyDownHandler(this);
 		Style s = focusPanel.getElement().getStyle();
 		// s.setDisplay(Style.Display.NONE);
-		s.setPosition(Style.Position.ABSOLUTE);
+		s.setPosition(Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
 
@@ -153,11 +154,11 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	}
 
 	private void setColumnResizeCursor() {
-		grid.getElement().getStyle().setCursor(Style.Cursor.COL_RESIZE);
+		grid.getElement().getStyle().setCursor(Cursor.COL_RESIZE);
 	}
 
 	private void setDefaultCursor() {
-		grid.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+		grid.getElement().getStyle().setCursor(Cursor.DEFAULT);
 	}
 
 	/**
@@ -220,7 +221,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		}
 
 		grid.getColumnFormatter().getElement(columnIndex).getStyle()
-		        .setWidth(width, Style.Unit.PX);
+		        .setWidth(width, Unit.PX);
 	}
 
 	/**
@@ -357,10 +358,10 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 				SpreadsheetMouseListenerW.getAbsoluteY(event, app));
 		int r = this.getResizingColumn(p, getBoundary(e.getType()));
 
-		if (r >= 0 && !getCursor().equals(Style.Cursor.COL_RESIZE.getCssName())) {
+		if (r >= 0 && !getCursor().equals(Cursor.COL_RESIZE.getCssName())) {
 			setColumnResizeCursor();
 		} else if (r < 0
-				&& !getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
+				&& !getCursor().equals(Cursor.DEFAULT.getCssName())) {
 			setDefaultCursor();
 		}
 		// DRAG

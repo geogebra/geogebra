@@ -660,8 +660,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		GeoPlane3D plane = getPlane();
 
 		// project hitting origin on plane
-		hitting.origin.projectPlaneThruVIfPossible(
-				plane.getCoordSys().getDrawingMatrix(), hitting.direction,
+		hitting.getOrigin().projectPlaneThruVIfPossible(
+				plane.getCoordSys().getDrawingMatrix(), hitting.getDirection(),
 				globalCoords, inPlaneCoords);
 
 		if (!hitting.isInsideClipping(globalCoords)) {

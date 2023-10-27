@@ -16,7 +16,6 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -44,21 +43,19 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.ArchiveEntry;
+import org.geogebra.web.html5.util.ArchiveLoader;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.FFlate;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.ViewW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.core.Global;
 import elemental2.core.JsArray;
@@ -166,7 +163,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void openFile(String filename) {
 		resetPerspective();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processFileName(filename);
 	}
 
@@ -200,7 +197,7 @@ public class GgbAPIW extends GgbAPI {
 		// DPI ignored
 		url = ev.getExportImageDataUrl(exportScale, transparent, greyscale);
 
-		if (MyDouble.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
+		if (Double.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
 
 			JavaScriptInjector
 					.inject(GuiResourcesSimple.INSTANCE.rewritePHYS());
@@ -279,9 +276,9 @@ public class GgbAPIW extends GgbAPI {
 	 * @param callback
 	 *            callback
 	 */
-	public void getMacrosBase64(boolean includeThumbnail,
+	public void getAllMacrosBase64(boolean includeThumbnail,
 			StringConsumer callback) {
-		GgbFile archiveContent = createMacrosArchive();
+		GgbFile archiveContent = createAllMacrosArchive();
 		getZippedBase64Async(archiveContent, callback);
 	}
 
@@ -361,7 +358,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setFileJSON(Object obj) {
 		resetPerspective();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processJSON(obj);
 	}
 
@@ -381,10 +378,19 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @return base64 for ggt file
+	 * @return base64 string for the archived and zipped macros
 	 */
-	public String getMacrosBase64() {
-		GgbFile archiveContent = createMacrosArchive();
+	public String getAllMacrosBase64() {
+		GgbFile archiveContent = createAllMacrosArchive();
+		return getZippedBase64Sync(archiveContent);
+	}
+
+	/**
+	 * @param macro is the macro that needs to be archived and zipped
+	 * @return base64 string for the given macro
+	 */
+	public String getMacroBase64(Macro macro) {
+		GgbFile archiveContent = createMacroArchive(macro);
 		return getZippedBase64Sync(archiveContent);
 	}
 
@@ -422,7 +428,7 @@ public class GgbAPIW extends GgbAPI {
 		((ImageManagerW) app.getImageManager())
 				.adjustConstructionImages(getConstruction());
 		String constructionXml = getApplication().getXML();
-		String macroXml = getApplication().getMacroXMLorEmpty();
+		String allMacrosXml = getApplication().getAllMacrosXMLorEmpty();
 		StringBuilder defaults2d = new StringBuilder();
 		StringBuilder defaults3d = null;
 		if (app.is3D()) {
@@ -432,9 +438,9 @@ public class GgbAPIW extends GgbAPI {
 				.getDefaultsXML(defaults2d, defaults3d);
 		String geogebraJavascript = getKernel().getLibraryJavaScript();
 
-		if (!"".equals(macroXml)) {
+		if (!"".equals(allMacrosXml)) {
 			writeMacroImages(archiveContent);
-			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
+			archiveContent.put(MyXMLio.XML_FILE_MACRO, allMacrosXml);
 		}
 
 		if (defaults2d.length() > 0) {
@@ -517,14 +523,31 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @return archive with macros + icons
+	 * Creates an archive with all the macros
+	 * @return archive containing all macros and their icons
 	 */
-	public GgbFile createMacrosArchive() {
+	public GgbFile createAllMacrosArchive() {
 		GgbFile archiveContent = new GgbFile("");
 		writeMacroImages(archiveContent);
-		String macroXml = getApplication().getMacroXMLorEmpty();
-		if (!"".equals(macroXml)) {
+		String allMacrosXml = getApplication().getAllMacrosXMLorEmpty();
+		if (!"".equals(allMacrosXml)) {
 			writeMacroImages(archiveContent);
+			archiveContent.put(MyXMLio.XML_FILE_MACRO, allMacrosXml);
+		}
+		return archiveContent;
+	}
+
+	/**
+	 * Creates an archive with the given macro
+	 * @param macro is the macro that the archive needs to contain
+	 * @return archive containing the given macro and its icon
+	 */
+	public GgbFile createMacroArchive(Macro macro) {
+		GgbFile archiveContent = new GgbFile("");
+		writeMacroImage(archiveContent, macro);
+		String macroXml = getApplication().getMacroXMLorEmpty(macro);
+		if (!"".equals(macroXml)) {
+			writeMacroImage(archiveContent, macro);
 			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
 		}
 		return archiveContent;
@@ -595,7 +618,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	public void getZippedMacrosAsync(final FileConsumer clb) {
-		getCompressed(createMacrosArchive(), clb);
+		getCompressed(createAllMacrosArchive(), clb);
 	}
 
 	private void getCompressed(GgbFile arch, FileConsumer clb) {
@@ -649,9 +672,13 @@ public class GgbAPIW extends GgbAPI {
 	private void writeMacroImages(GgbFile archive) {
 		if (kernel.hasMacros()) {
 			ArrayList<Macro> macros = kernel.getAllMacros();
-			((ImageManagerW) app.getImageManager()).writeMacroImages(macros,
-					archive);
+			((ImageManagerW) app.getImageManager()).writeMacroImages(macros, archive);
 		}
+	}
+
+	private void writeMacroImage(GgbFile archive, Macro macro) {
+		((ImageManagerW) app.getImageManager())
+				.writeMacroImages(Arrays.asList(macro), archive);
 	}
 
 	/**
@@ -811,7 +838,7 @@ public class GgbAPIW extends GgbAPI {
 	 * it removes the style elements injected by the applet too.
 	 */
 	public void removeApplet() {
-		((AppW) app).getGeoGebraElement().removeFromParent();
+		((AppW) app).getGeoGebraElement().getElement().removeFromParent();
 		((AppW) app).getAppletFrame().remove();
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
@@ -820,7 +847,7 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void showTooltip(String tooltip) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, (AppW) app);
+		((AppW) app).getToolTipManager().showBottomMessage(tooltip, (AppW) app);
 	}
 
 	/**
@@ -829,12 +856,12 @@ public class GgbAPIW extends GgbAPI {
 	 * @param userName tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
-	 * @param newGeo if the geo was added
+	 * @param implicit whether the geo was interacted with (add, update) without explicit selection
 	 */
 	public void addMultiuserSelection(String clientId, String userName, String color,
-			String label, boolean newGeo) {
+			String label, boolean implicit) {
 		MultiuserManager.INSTANCE.addSelection(app, clientId, userName, GColor.parseHexColor(color),
-				label, newGeo);
+				label, implicit);
 	}
 
 	/**
@@ -886,16 +913,6 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * Remember where file was stored in WinStore app
-	 * 
-	 * @param s
-	 *            external saving path
-	 */
-	public void setExternalPath(String s) {
-		((AppW) app).setExternalPath(s);
-	}
-
-	/**
 	 * If all content is saved, run immediately, otherwise wait until user
 	 * saves.
 	 * 
@@ -904,6 +921,15 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void checkSaved(final JsRunnable callback) {
 		((AppW) app).checkSaved(active -> JsEval.callNativeFunction(callback));
+	}
+
+	@Override
+	public void setPerspective(String code) {
+		if (code.startsWith("save:")) {
+			app.getDialogManager().showSaveDialog();
+			return;
+		}
+		super.setPerspective(code);
 	}
 
 	/**
@@ -934,7 +960,7 @@ public class GgbAPIW extends GgbAPI {
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
 
-			evw.getExportSVG(1, true, (svg) -> {
+			evw.getExportSVG(true, (svg) -> {
 				if (filename != null) {
 					// can't use data:image/svg+xml;utf8 in IE11 / Edge
 					Browser.exportImage(Browser.encodeSVG(svg), filename);
@@ -1117,6 +1143,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
+	 * whether an object is interactive or not
+	 * @param label of the object
+	 * @return true, if object is interactive
+	 */
+	public boolean isInteractive(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		return geo != null && app.getSelectionManager().isSelectableForEV(geo);
+	}
+
+	/**
 	 *
 	 * @return then embedded calculator apis.
 	 */
@@ -1146,7 +1183,10 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void handlePageAction(String eventType, String pageIdx, Object appState) {
-		((AppW) app).getPageController().handlePageAction(eventType, pageIdx, appState);
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		if (pageController != null) {
+			pageController.handlePageAction(eventType, pageIdx, appState);
+		}
 	}
 
 	@Override
@@ -1289,5 +1329,13 @@ public class GgbAPIW extends GgbAPI {
 		} else {
 			setXML(content.xml);
 		}
+	}
+
+	/**
+	 * Show all objects in EuclidianView
+	 */
+	public void showAllObjects() {
+		app.setViewShowAllObjects();
+
 	}
 }

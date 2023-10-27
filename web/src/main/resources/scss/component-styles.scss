@@ -1,6 +1,7 @@
 @use 'colors';
 @use 'z-index';
 @use 'header';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 
@@ -24,12 +25,11 @@
 			margin-left: 20px;
 			margin-top: 8px;
 			margin-bottom: 8px;
-			color: colors.$text-primary;
 			font-size: 100%;
 
 			&.disabled {
 				cursor: default;
-				color: colors.$text-disabled;
+				color: neutral(500);
 			}
 		}
 	}
@@ -227,7 +227,6 @@
 
 		.inputLabel {
 			font-size: 75%;
-			color: colors.$text-secondary;
 			height: 12px;
 			line-height: 100%;
 			display: block;
@@ -319,18 +318,6 @@
 		}
 	}
 
-	.buttonInactive {
-		position: relative;
-		cursor: default;
-		img {
-			opacity: 0.26;
-		}
-
-		&:hover {
-			background-color: transparent;
-		}
-	}
-
 	/* DROPDOWN COMPONENT */
 	.dropDownSelectorContainer {
 		max-width: 200px;
@@ -366,12 +353,12 @@
 		.dropDownElement {
 			padding-left: 24px;
 			padding-right: 24px;
+			height: 32px;
 			line-height: 32px;
 		}
 
 		.dropDownElement:hover {
 			cursor: pointer;
-			background: colors.$black-04;
 		}
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {
@@ -412,7 +399,6 @@
 				font-size: 125%;
 				margin-bottom: 20px;
 				margin-left: 24px;
-				color: colors.$text-primary;
 			}
 
 			.dialogContent {
@@ -442,7 +428,6 @@
 				margin-left: 24px;
 				height: 14px;
 				font-size: 75%;
-				color: colors.$text-secondary;
 				line-height: 1.2;
 			}
 		}
@@ -454,7 +439,7 @@
 		min-width: 64px;
 		height: 36px;
 		background: transparent;
-		color: colors.$mow_primary;
+		color: purple(600);
 		font-size: 90%;
 		letter-spacing: .04em;
 		line-height: 36px;
@@ -466,7 +451,7 @@
 		transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 		&:hover {
-			background: colors.$mow_card_background_hover;
+			background: neutral(200);
 		}
 
 		.gwt-Label {
@@ -474,7 +459,7 @@
 		}
 
 		&.disabled {
-			color: colors.$disabled-text-btn-col;
+			color: neutral(500);
 
 			&:hover {
 				background: transparent;
@@ -488,23 +473,23 @@
 		@extend .materialTextButton;
 
 		padding: 0px 16px;
-		background-color: colors.$mow_primary;
+		background-color: purple(600);
 		color: white;
 		box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
 		transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 		&:hover {
-			background: colors.$mow_primary;
+			background: purple(600);
 			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
 		}
 
 		&.disabled {
-			background-color: colors.$disabled-contained-btn-bg;
-			color: colors.$disabled-contained-btn-col;
+			background-color: neutral(300);
+			color: neutral(500);
 
 			&:hover {
 				cursor: default;
-				background: colors.$disabled-contained-btn-bg;
+				background: neutral(300);
 				box-shadow: none;
 			}
 		}
@@ -521,11 +506,11 @@
 	.dialogTextButton {
 		@extend .materialTextButton;
 
-		color: colors.$black-54;
+		color: neutral(700);
 
 		&:hover {
-			color: colors.$dialog-text-btn-hover;
-			background-color: colors.$selected-menuitem-background;
+			color: neutral(700);
+			background-color: neutral(200);
 		}
 	}
 
@@ -553,7 +538,6 @@
 			font-size: 75%;
 			margin: 0px 24px;
 			flex-basis: auto;
-			color: colors.$text-disabled;
 			text-transform: uppercase;
 		}
 	}
@@ -563,11 +547,11 @@
 		float: left;
 		min-width: 64px;
 		height: header.$button_height;
-		border-radius: 2px;
-		background-color: colors.$mow_grey_button;
+		border-radius: 4px;
+		background-color: neutral(200);
 		transition: header.$button_hover_transition;
 		&:hover {
-			background-color: colors.$mow_card_background_hover;
+			background-color: neutral(300);
 		}
 
 		img {
@@ -584,7 +568,14 @@
 			text-transform: uppercase;
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
-			color: colors.$text-secondary;
+			color: neutral(700);
+		}
+
+		&.disabled {
+			.gwt-Label {
+				color: neutral(500);
+				background-color: neutral(200);
+			}
 		}
 	}
 
@@ -595,7 +586,7 @@
 		.indicator {
 			height: 2px;
 			width: 90px;
-			background-color: colors.$purple-default;
+			background-color: purple(600);
 			top: 49px;
 			position: relative;
 			border-radius: 2px 2px 0 0;
@@ -605,7 +596,7 @@
 		}
 
 		.header {
-			border-bottom: 1px solid colors.$black-12;
+			border-bottom: 1px solid neutral(300);
 			.tabBtn {
 				min-width: 90px;
 				height: 48px;
@@ -615,16 +606,16 @@
 					line-height: 20px;
 					margin: 14px 16px;
 					text-align: center;
-					color: colors.$text-primary;
+					color: neutral(900);
 				}
 
 				&:hover {
-					background-color: colors.$purple-default-12;
+					background-color: neutral(200);
 				}
 
 				&.selected {
 					.gwt-Label {
-						color: colors.$purple-default;
+						color: purple(600);
 					}
 					&:hover {
 						background-color: colors.$white;
@@ -654,13 +645,12 @@
 			margin-left: calc(50% - 56px); // (56+2*28)/2=56
 			margin-bottom: 16px;
 			opacity: 0.54;
-			background-color: colors.$mow_white_hover;
+			background-color: neutral(200);
 			border-radius: 50%;
 		}
 
 		.title {
 			margin-bottom: 8px;
-			color: colors.$text-primary;
 			font-size: 100%;
 			min-height: 20px;
 			line-height: 20px;
@@ -669,7 +659,6 @@
 		}
 
 		.subtext {
-			color: colors.$text-secondary;
 			font-size: 87%;
 			min-height: 20px;
 			line-height: 20px;
@@ -715,7 +704,6 @@
 			line-height: 36px;
 			margin-left: 16px;
 			font-size: 100%;
-			color: colors.$text-primary;
 		}
 
 		&:hover {
@@ -800,9 +788,108 @@
 		display: inline-grid;
 	}
 
+	.searchBar {
+		display: inline-flex;
+		height: 44px;
+		width: 100%;
+		max-width: 720px;
+		background-color: neutral(200);
+		margin: 10px auto;
+		box-sizing: border-box;
+		border-radius: 22px;
+		border: 2px solid transparent;
+		transition: border 200ms ease-in-out, background-color 200ms ease-in-out;
+
+		.flatButtonHeader {
+			margin: auto 2px;
+
+			&:hover {
+				background-color: neutral(300);
+
+				img {
+					opacity: 1;
+				}
+			}
+		}
+
+		.searchInputField {
+			width: 100%;
+			margin-right: 10px;
+
+			.TextField {
+				margin: 10px 0 10px 14px;
+				padding: 0px;
+				width: calc(100% - 14px) !important;
+				border: none;
+				border-radius: 0;
+				box-shadow: unset;
+				background-color: transparent;
+				height: 20px;
+				display: flex;
+				color: neutral(900);
+			}
+
+			input[type=text]:focus:not([readonly]) {
+				border: none;
+			}
+		}
+
+		&.focusState {
+			border-sizing: box;
+			border: solid 2px colors.$mow_dark;
+			background-color: white;
+		}
+	}
+
+	.flatButtonHeader {
+        padding: 6px;
+        cursor: pointer;
+        height: 36px;
+        float: left;
+        box-sizing: border-box;
+        border-radius: 50%;
+        transition: background-color 150ms ease 0ms;
+        position: relative;
+
+        img {
+        	opacity: 0.54;
+        }
+
+        &:focus, &:hover, &.selected {
+            background-color: neutral(200);
+        }
+     }
+
+     .buttonInactive {
+     	cursor: default;
+
+     	img {
+     		opacity: 0.26;
+     	}
+
+		&:hover {
+			background-color: transparent;
+		}
+     }
+
+	.searchBar.compact {
+		max-width: 488px;
+		height: 36px;
+		margin: 6px auto;
+
+		.flatButtonHeader {
+			height: 32px;
+			padding: 4px;
+			margin: 0px;
+		}
+
+		.TextField {
+			margin: 6px 0 6px 14px;
+		}
+	}
+
 	.toast {
 		position: absolute;
-		background-color: colors.$toast-background;
 		max-width: fit-content;
 		border-radius: 4px;
 		padding: 8px 12px;
@@ -837,7 +924,6 @@
 		.optionLabelHolder {
 			.label {
 				font-size: 75%;
-				color: colors.$text-secondary;
 				height: 12px;
 				line-height: 12px;
 			}
@@ -845,7 +931,12 @@
 			.selectedOption {
 				height: 20px;
 				margin: 8px 8px 0 0;
-				color: colors.$text-primary;
+			}
+
+			&.noLabel {
+				.selectedOption {
+					margin-top: 20px;
+				}
 			}
 		}
 
@@ -854,19 +945,24 @@
 			height: 20px;
 			margin: 18px 0 10px auto;
 			opacity: 0.54;
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
 		}
 
 		&:hover {
-			border-bottom: 2px solid colors.$text-primary;
-
-			.optionLabelHolder {
-				.label {
-					color: colors.$text-primary;
-				}
-			}
+			border-bottom: 2px solid neutral(900);
 
 			.arrow {
 				opacity: 0.87;
+			}
+
+			.optionLabelHolder {
+				.label {
+					color: neutral(900);
+				}
 			}
 		}
 
@@ -905,14 +1001,12 @@
 	}
 
 	.combobox {
-		margin-top: 40px;
 		width: fit-content;
 		min-width: 64px;
 		height: 50px;
 
 		.inputLabel {
 			font-size: 75%;
-			color: colors.$text-secondary;
 			height: 12px;
 			line-height: 100%;
 			display: block;
@@ -956,11 +1050,11 @@
 
 		&:not(.disabled):hover {
 			.inputLabel {
-				color: colors.$text-primary;
+				color: neutral(900);
 			}
 
 			.inputPanel {
-				border-bottom: 2px solid colors.$text-primary;
+				border-bottom: 2px solid neutral(900);
 
 				.AutoCompleteTextFieldW {
 					margin-bottom: 7px;
@@ -1005,6 +1099,7 @@
 					cursor: default;
 					color: colors.$black-36;
 					background-color: colors.$white;
+					border: none;
 				}
 			}
 

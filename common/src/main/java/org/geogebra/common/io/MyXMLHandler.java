@@ -1193,12 +1193,6 @@ public class MyXMLHandler implements DocHandler {
 
 			geoHandler.updatePointStyle(attrs);
 
-			String strBooleanSize = attrs.get("checkboxSize");
-			if (strBooleanSize != null) {
-				app.setCheckboxSize(Integer.parseInt(strBooleanSize));
-			}
-			// ev.setBooleanSize(Integer.parseInt(strBooleanSize));
-
 			boolean asm = parseBoolean(attrs.get("allowShowMouseCoords"));
 			ev.setAllowShowMouseCoords(asm);
 
@@ -1480,6 +1474,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleLanguage(App app,
 			  LinkedHashMap<String, String> attrs) {
+		// this may be either BCP language tag or Java locale string (old files)
 		String lang = attrs.get("val");
 		app.setLanguage(lang);
 		return true;
@@ -2910,8 +2905,6 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		// handle construction mode
 
-		// Application.debug("constMode = "+constMode+", eName = "+eName);
-
 		switch (constMode) {
 		case MODE_CONSTRUCTION:
 			if ("element".equals(eName)) {
@@ -3267,8 +3260,6 @@ public class MyXMLHandler implements DocHandler {
 				cons.registerFunctionVariable(var);
 			}
 		}
-
-		// Application.debug(name);
 		if (name != null) {
 			command = new Command(kernel, name, false); // do not translate name
 		} else {
@@ -3336,8 +3327,6 @@ public class MyXMLHandler implements DocHandler {
 				} else {
 					geo1 = kernel.lookupLabel(arg);
 				}
-
-				// Application.debug("input : "+geo.getLabel());
 
 				// arg is a label and does not conatin $ signs (e.g. $A1 in
 				// spreadsheet)
@@ -3522,7 +3511,7 @@ public class MyXMLHandler implements DocHandler {
 			ValidExpression ve = parser.parseGeoGebraExpression(exp);
 			if (label != null) {
 				if ("X".equals(ve.getLabel())
-						&& cons.getRegisteredFunctionVariable() == null) {
+						&& !cons.hasRegisteredFunctionVariable()) {
 					ve = new Equation(kernel, new Variable(kernel, "X"), ve);
 				}
 				ve.setLabel(label);
@@ -3571,7 +3560,8 @@ public class MyXMLHandler implements DocHandler {
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
-									.withSymbolicMode(mode));
+									.withSymbolicMode(mode)
+									.withForceFunctionsEnabled(true));
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {
@@ -3622,9 +3612,9 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			String[] strings = attrs.get("val").split(",");
-			int[] vals = new int[strings.length];
-			for (int i = 0; i < strings.length; i++) {
-				vals[i] = Integer.parseInt(strings[i]);
+			ArrayList<Integer> vals = new ArrayList<>(strings.length);
+			for (String string : strings) {
+				vals.add(Integer.parseInt(string));
 			}
 			app.getSettings().getAlgebra().setCollapsedNodes(vals);
 			return true;

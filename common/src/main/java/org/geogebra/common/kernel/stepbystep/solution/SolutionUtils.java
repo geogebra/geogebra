@@ -18,7 +18,7 @@ public class SolutionUtils {
 			case 3:
 				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
 			case 4:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.PURPLE_600);
 			case 0:
 				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
 			default:
@@ -107,7 +107,7 @@ public class SolutionUtils {
 		return sb.toString();
 	}
 
-	private static List<TextElement> substitute(String str, String[] latex, String[] plain) {
+	private static List<TextElement> substitute(String str, String[] latex, String[] plainText) {
 		List<TextElement> result = new ArrayList<>();
 
 		StringBuilder plainBuilder = new StringBuilder();
@@ -137,7 +137,7 @@ public class SolutionUtils {
 				if (mathMode) {
 					if (pos >= 0 && pos < latex.length) {
 						latexBuilder.append(latex[pos]);
-						plainBuilder.append(plain[pos]);
+						plainBuilder.append(plainText[pos]);
 					}
 				} else {
 					if (plainBuilder.length() != 0) {
@@ -146,7 +146,7 @@ public class SolutionUtils {
 					}
 
 					if (pos >= 0 && pos < latex.length) {
-						result.add(new TextElement(latex[pos], plain[pos]));
+						result.add(new TextElement(latex[pos], plainText[pos]));
 					}
 				}
 			} else {

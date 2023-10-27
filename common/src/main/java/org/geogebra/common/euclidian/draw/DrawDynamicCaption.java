@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -67,7 +68,6 @@ public class DrawDynamicCaption {
 					|| getDynamicCaption().isSerifFont();
 
 			GDimension size = app.getDrawEquation().measureEquation(app,
-					drawCaption.getGeoElement(),
 					textString, drawCaption.getTextFont(), serif);
 			if (size != null) {
 				captionWidth = size.getWidth();
@@ -151,7 +151,7 @@ public class DrawDynamicCaption {
 			int margin = getDynamicCaption().isLaTeX() ? DrawBoolean.LABEL_MARGIN_LATEX
 					: DrawBoolean.LABEL_MARGIN_TEXT;
 			drawCaption.xLabel = geo.labelOffsetX
-					+ ((DrawBoolean) drawable).getCheckBoxIcon().getIconWidth()
+					+ EuclidianConstants.DEFAULT_CHECKBOX_SIZE
 					+ margin + DrawBoolean.LEGACY_OFFSET;
 		} else {
 			drawCaption.xLabel = drawable.xLabel;

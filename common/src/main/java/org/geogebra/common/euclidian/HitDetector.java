@@ -131,14 +131,14 @@ public class HitDetector {
 	/**
 	 * @return button from hits, closest to the user
 	 */
-	public MyButton getHitButton() {
+	public DrawButtonWidget getHitButton() {
 		int size = hits.size();
 		for (int i = size - 1; i >= 0; i--) {
 			GeoElement geoElement = hits.get(i);
 			if (geoElement instanceof GeoButton) {
 				DrawableND drawable = ev.getDrawableFor(geoElement);
 				if (drawable instanceof DrawButton) {
-					return ((DrawButton) drawable).myButton;
+					return ((DrawButton) drawable).getWidget();
 				}
 			}
 		}

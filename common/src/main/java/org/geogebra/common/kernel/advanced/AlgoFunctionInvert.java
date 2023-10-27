@@ -308,8 +308,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 								&& ((ExpressionNode) right).getOperation()
 										.equals(Operation.DIVIDE)) {
 							// special case for x^(a/b) convert to x^(b/a)
-							// AbstractApplication.debug("special case for
-							// x^(a/b) convert to x^(b/a)");
 
 							ExpressionValue num = ((ExpressionNode) right)
 									.getLeft();
@@ -361,7 +359,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 					}
 					root = left;
 				} else {
-					// AbstractApplication.debug("failed at POWER");
 					return null;
 				}
 				break;
@@ -372,10 +369,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 						&& (right.contains(oldFV))) {
 					return null;
 				}
-				// AbstractApplication.debug("left"+((ExpressionNode)
-				// root).getLeft().isConstant());
-				// AbstractApplication.debug("right"+((ExpressionNode)
-				// root).getRight().isConstant());
 
 				if (!fvLeft) {
 					newRoot = new ExpressionNode(kernel, newRoot,
@@ -394,17 +387,18 @@ public class AlgoFunctionInvert extends AlgoElement {
 						&& (right.contains(oldFV))) {
 					return null;
 				}
-				// AbstractApplication.debug("left"+((ExpressionNode)
-				// root).getLeft().isConstant());
-				// AbstractApplication.debug("right"+((ExpressionNode)
-				// root).getRight().isConstant());
-
 				if (!fvLeft) {
-					// inverse of 3-x is 3-x
+					if (op.equals(Operation.DIVIDE) && left.evaluateDouble() == 0.0) {
+						return null; // 0 / x has no inverse
+					}
+					// inverse of 3-x is 3-x (and 3/x for 3/x)
 					newRoot = new ExpressionNode(kernel, left, op, newRoot);
 					root = right;
 				} else {
 					if (op.equals(Operation.DIVIDE)) {
+						if (right.evaluateDouble() == 0.0) {
+							return null; // x / 0 has no inverse
+						}
 						// inverse of x/3 is 3*x (not x*3)
 						newRoot = new ExpressionNode(kernel, right,
 								Operation.inverse(op), newRoot);
@@ -430,8 +424,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 				root = null;
 				break;
 			default: // eg ABS, CEIL etc
-				// AbstractApplication.debug("failed at"+ ((ExpressionNode)
-				// root).getOperation().toString());
 				return null;
 			}
 		}

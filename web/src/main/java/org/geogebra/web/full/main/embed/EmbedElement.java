@@ -6,9 +6,8 @@ import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Embedded element for a website or GeoGebra calculator.

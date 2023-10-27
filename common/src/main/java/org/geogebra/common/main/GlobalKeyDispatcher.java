@@ -19,8 +19,10 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -51,7 +53,7 @@ public abstract class GlobalKeyDispatcher {
 
 	/** application */
 	@Weak
-	public final App app;
+	protected final App app;
 	/** selection */
 	@Weak
 	protected final SelectionManager selection;
@@ -200,7 +202,7 @@ public abstract class GlobalKeyDispatcher {
 		}
 	}
 
-	private boolean handleUpDownArrowsForDropdown(ArrayList<GeoElement> geos,
+	private boolean handleUpDownArrowsForDropdown(List<GeoElement> geos,
 			boolean down) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
@@ -217,7 +219,7 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
-	private boolean handleLeftRightArrowsForDropdown(ArrayList<GeoElement> geos,
+	private boolean handleLeftRightArrowsForDropdown(List<GeoElement> geos,
 			boolean left) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
@@ -507,13 +509,6 @@ public abstract class GlobalKeyDispatcher {
 		return false; // overridden in desktop
 	}
 
-	/**
-	 * Translate keycode of event for KeyCodes instance
-	 * @param i event keycode
-	 * @return translated keycode
-	 */
-	protected abstract KeyCodes translateKey(int i);
-
 	protected boolean handleCtrlKey(KeyCodes key, boolean isShiftDown,
 			boolean fromSpreadsheet, boolean fromEuclidianView) {
 		return false;
@@ -522,16 +517,20 @@ public abstract class GlobalKeyDispatcher {
 	protected boolean handleCtrlKeys(KeyCodes key, boolean isShiftDown,
 			boolean fromSpreadsheet, boolean fromEuclidianView) {
 		boolean consumed = false;
+		// Only zoom, undo, redo available in simple applets, subject to enableShiftDragZoom and
+		// enableUndoRedo flags
+		if (!keyboardShortcutsEnabled() && key != KeyCodes.M
+				&& key != KeyCodes.Y && key != KeyCodes.Z && key != KeyCodes.SUBTRACT
+				&& key != KeyCodes.PLUS && key != KeyCodes.MINUS && key != KeyCodes.EQUALS) {
+			return false;
+		}
 		switch (key) {
 		case K1:
 		case NUMPAD1:
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-1 from working (| on some
 			// keyboards)
-			if (isShiftDown && keyboardShortcutsEnabled()
-					&& app.getGuiManager() != null) { // ||
-				// event.isAltDown())
-				// {
+			if (isShiftDown && app.getGuiManager() != null) {
 				if (app.isUnbundled() || app.isSuite()) {
 					int viewID = App.VIEW_EUCLIDIAN;
 					if ((Perspective.GRAPHER_3D + "").equals(
@@ -570,10 +569,7 @@ public abstract class GlobalKeyDispatcher {
 			// however .isAltDown() stops AltGr-2 from working (superscript
 			// 2 on some keyboards)
 			if (!(app.isUnbundled() || app.isSuite())) {
-				if (isShiftDown && keyboardShortcutsEnabled()
-						&& app.getGuiManager() != null) { // ||
-					// event.isAltDown())
-					// {
+				if (isShiftDown && app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2),
 							App.VIEW_EUCLIDIAN2);
@@ -596,11 +592,8 @@ public abstract class GlobalKeyDispatcher {
 			// however .isAltDown() stops AltGr-3 from working (^ on
 			// Croatian keyboard)
 			if (!(app.isUnbundled() || app.isSuite())) {
-				if (isShiftDown && keyboardShortcutsEnabled()
-						&& app.getGuiManager() != null
-						&& app.supportsView(App.VIEW_EUCLIDIAN3D)) { // ||
-					// event.isAltDown())
-					// {
+				if (isShiftDown && app.getGuiManager() != null
+						&& app.supportsView(App.VIEW_EUCLIDIAN3D)) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D),
 							App.VIEW_EUCLIDIAN3D);
@@ -619,8 +612,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case A:
 			if (isShiftDown) {
-				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
-						&& app.getGuiManager() != null) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_ALGEBRA),
 							App.VIEW_ALGEBRA);
@@ -634,8 +626,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case K:
 			if (isShiftDown) {
-				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
-						&& app.getGuiManager() != null
+				if (app.isUsingFullGui() && app.getGuiManager() != null
 						&& app.supportsView(App.VIEW_CAS) && !(app.isUnbundled() || app
 						.isSuite())) {
 					app.getGuiManager().setShowView(
@@ -648,8 +639,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case L:
 			if (isShiftDown) {
-				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
-						&& app.getGuiManager() != null) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager()
 									.showView(App.VIEW_CONSTRUCTION_PROTOCOL),
@@ -668,9 +658,8 @@ public abstract class GlobalKeyDispatcher {
 		case P:
 			if (isShiftDown) {
 				// toggle Probability View
-				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
-						&& app.getGuiManager() != null && !(app.isUnbundled() || app
-						.isSuite())) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null
+						&& !(app.isUnbundled() || app.isSuite())) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager()
 									.showView(App.VIEW_PROBABILITY_CALCULATOR),
@@ -744,10 +733,10 @@ public abstract class GlobalKeyDispatcher {
 			}
 			break;
 		case M:
-			if (isShiftDown) {
+			if (isShiftDown && keyboardShortcutsEnabled()) {
 				app.copyFullHTML5ExportToClipboard();
 				consumed = true;
-			} else {
+			} else if (app.isShiftDragZoomEnabled()) {
 				// Ctrl-M: standard view
 				app.setStandardView();
 			}
@@ -774,8 +763,7 @@ public abstract class GlobalKeyDispatcher {
 
 		// Ctrl + E: open object properties (needed here for spreadsheet)
 		case E:
-			if (keyboardShortcutsEnabled() && app.isUsingFullGui()
-					&& app.getGuiManager() != null) {
+			if (app.isUsingFullGui() && app.getGuiManager() != null) {
 				app.getGuiManager().setShowView(
 						!app.getGuiManager().showView(App.VIEW_PROPERTIES),
 						App.VIEW_PROPERTIES, false);
@@ -803,12 +791,14 @@ public abstract class GlobalKeyDispatcher {
 		// needed for detached views and MacOS
 		// Ctrl + Z: Undo
 		case Z:
-			if (app.getGuiManager() != null) {
+			if (isUndoRedoEnabled()) {
+				app.setWaitCursor();
 				if (isShiftDown) {
-					app.getGuiManager().redo();
+					app.getKernel().redo();
 				} else {
-					app.getGuiManager().undo();
+					app.getKernel().undo();
 				}
+				app.setDefaultCursor();
 			}
 			consumed = true;
 			break;
@@ -830,18 +820,16 @@ public abstract class GlobalKeyDispatcher {
 		// ctrl-R updates construction
 		// make sure it works in applets without a menubar
 		case R:
-			if (!app.isApplet() || keyboardShortcutsEnabled()) {
-				app.getKernel().updateConstruction(true);
-				app.setUnsaved();
-				consumed = true;
-			}
+			app.getKernel().updateConstruction(true);
+			app.setUnsaved();
+			consumed = true;
 			break;
 
 		// ctrl-shift-s (toggle spreadsheet)
 		case S:
 			if (isShiftDown) {
-				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
-						&& app.getGuiManager() != null && !(app.isUnbundled() || app.isSuite())) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null
+						&& !(app.isUnbundled() || app.isSuite())) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_SPREADSHEET),
 							App.VIEW_SPREADSHEET);
@@ -854,11 +842,12 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case Y:
-			if (!isShiftDown && app.getGuiManager() != null) {
+			if (!isShiftDown && isUndoRedoEnabled()) {
 				// needed for detached views and MacOS
 				// Cmd + Y: Redo
-
-				app.getGuiManager().redo();
+				app.setWaitCursor();
+				app.getKernel().redo();
+				app.setDefaultCursor();
 				consumed = true;
 			}
 			break;
@@ -885,14 +874,13 @@ public abstract class GlobalKeyDispatcher {
 			if (!EuclidianView
 					.isPenMode(app.getActiveEuclidianView().getMode())) {
 
-				boolean spanish = app.getLocalization().getLanguage()
-						.startsWith("es");
+				boolean spanish = app.getLocalization().languageIs("es");
 
 				// AltGr+ on Spanish keyboard is ] so
 				// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
 				// from eg Input Bar
-				if (!spanish || fromEuclidianView) {
-					EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
+				EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
+				if ((!spanish || fromEuclidianView) && ec.allowZoom()) {
 					double factor = key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT)
 							? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 							: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
@@ -962,6 +950,10 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
+	private boolean isUndoRedoEnabled() {
+		return app.getUndoRedoMode() == UndoRedoMode.GUI;
+	}
+
 	private GPoint getZoomPoint(EuclidianController ec) {
 		if (ec.getMouseLoc() != null) {
 			return ec.getMouseLoc();
@@ -996,12 +988,15 @@ public abstract class GlobalKeyDispatcher {
 		return app.isRightClickEnabled();
 	}
 
-	private void handleEscForDropdown() {
+	/**
+	 * Handle dropdowns on ESCAPE
+	 */
+	public void handleEscForDropdown() {
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (dl != null && dl.isOptionsVisible()) {
-				dl.toggleOptions();
+				dl.closeOptions();
 			}
 		}
 	}
@@ -1196,7 +1191,7 @@ public abstract class GlobalKeyDispatcher {
 	 * @return if key was consumed
 	 */
 	protected boolean handleSelectedGeosKeys(KeyCodes key,
-			ArrayList<GeoElement> geos, boolean isShiftDown,
+			List<GeoElement> geos, boolean isShiftDown,
 			boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet) {
 		// SPECIAL KEYS
 		double changeValX = 0; // later: changeVal = base or -base
@@ -1222,118 +1217,7 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		if (geos == null || geos.size() == 0) {
-
-			// Get the EuclidianView which has the focus
-			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			int width = ev.getWidth();
-			int height = ev.getHeight();
-			if (ev.hasFocus() && app.isShiftDragZoomEnabled()) {
-				switch (key) {
-
-				case PAGEUP:
-					ev.rememberOrigins();
-					ev.pageUpDownTranslateCoordSystem((int) (height * base));
-					return true;
-				case PAGEDOWN:
-					ev.rememberOrigins();
-					ev.pageUpDownTranslateCoordSystem(-(int) (height * base));
-					return true;
-				case INSERT:
-					ev.rememberOrigins();
-					ev.translateCoordSystemInPixels((int) (height * base), 0, 0);
-					return true;
-				case HOME:
-					ev.rememberOrigins();
-					ev.translateCoordSystemInPixels(-(int) (height * base), 0, 0);
-					return true;
-				case DOWN:
-
-					if (app.isUsingFullGui() && app.getGuiManager() != null
-							&& app.getGuiManager().noMenusOpen()) {
-						if (isShiftDown) {
-							EuclidianViewInterfaceCommon view = app
-									.getActiveEuclidianView();
-							if (!view.isLockedAxesRatio()) {
-								view.setCoordSystem(view.getXZero(),
-										view.getYZero(), view.getXscale(),
-										view.getYscale() * 0.9);
-							}
-
-						} else {
-							ev.rememberOrigins();
-							ev.translateCoordSystemInPixels(0,
-									(int) (height / 100.0 * base), 0);
-						}
-						return true;
-					}
-
-					break;
-
-				case UP:
-
-					if (app.isUsingFullGui() && app.getGuiManager() != null
-							&& app.getGuiManager().noMenusOpen()) {
-						if (isShiftDown) {
-							EuclidianViewInterfaceCommon view = app
-									.getActiveEuclidianView();
-							if (!view.isLockedAxesRatio()) {
-								view.setCoordSystem(view.getXZero(),
-										view.getYZero(), view.getXscale(),
-										view.getYscale() / 0.9);
-							}
-
-						} else {
-							ev.rememberOrigins();
-							ev.translateCoordSystemInPixels(0,
-									-(int) (height / 100.0 * base), 0);
-						}
-						return true;
-					}
-					break;
-
-				case LEFT:
-					if (app.isUsingFullGui() && app.getGuiManager() != null
-							&& app.getGuiManager().noMenusOpen()) {
-						if (isShiftDown) {
-							EuclidianViewInterfaceCommon view = app
-									.getActiveEuclidianView();
-							if (!view.isLockedAxesRatio()) {
-								view.setCoordSystem(view.getXZero(),
-										view.getYZero(), view.getXscale() * 0.9,
-										view.getYscale());
-							}
-						} else {
-							ev.rememberOrigins();
-							ev.translateCoordSystemInPixels(
-									-(int) (width / 100.0 * base), 0, 0);
-						}
-						return true;
-
-					}
-					break;
-
-				case RIGHT:
-					if (app.isUsingFullGui() && app.getGuiManager() != null
-							&& app.getGuiManager().noMenusOpen()) {
-						if (isShiftDown) {
-							EuclidianViewInterfaceCommon view = app
-									.getActiveEuclidianView();
-							if (!view.isLockedAxesRatio()) {
-								view.setCoordSystem(view.getXZero(),
-										view.getYZero(), view.getXscale() / 0.9,
-										view.getYscale());
-							}
-						} else {
-							ev.rememberOrigins();
-							ev.translateCoordSystemInPixels(
-									(int) (width / 100.0 * base), 0, 0);
-						}
-					}
-					return true;
-				}
-			}
-
-			return false;
+			return moveCoordSystem(key, base, isShiftDown);
 		}
 
 		// FUNCTION and DELETE keys
@@ -1496,9 +1380,10 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
-			double increment = getIncrement(geos);
-			double[] diff = new double[] { changeValX * increment,
-					changeValY * increment, changeValZ * increment};
+			double[] diff = getIncrement(geos);
+			diff[0] *= changeValX;
+			diff[1] *= changeValY;
+			diff[2] *= changeValZ;
 			moved = handleArrowKeyMovement(geos, diff);
 			hasUnsavedGeoChanges = true;
 		}
@@ -1584,78 +1469,12 @@ public abstract class GlobalKeyDispatcher {
 							&& geos.get(2).isGeoNumeric()));
 
 			for (int i = geos.size() - 1; i >= 0; i--) {
-
 				GeoElement geo = geos.get(i);
-
-				if (geo.isPointerChangeable()) {
-
-					// update number
-					if (geo.isGeoNumeric()
-							&& (!multipleSliders || index == i)) {
-						GeoNumeric num = (GeoNumeric) geo;
-						double numStep = getAnimationStep(num);
-						double newValue = num.getValue()
-								+ changeVal * numStep;
-
-						// HOME / END keys
-						if (Double.isInfinite(changeVal)) {
-							newValue = changeVal > 0 ? num.getIntervalMax()
-									: num.getIntervalMin();
-						}
-
-						if (numStep > Kernel.MIN_PRECISION) {
-							// round to decimal fraction, e.g. 2.800000000001 to
-							// 2.8
-							if (num.isGeoAngle()) {
-								newValue = Kernel.PI_180
-										* DoubleUtil.checkDecimalFraction(
-												newValue * Kernel.CONST_180_PI,
-												1 / numStep);
-							} else {
-								newValue = DoubleUtil.checkDecimalFraction(newValue,
-										1 / numStep);
-							}
-						}
-
-						// stop all animation if slider dragged
-						if (num.isAnimating()) {
-							num.getKernel().getAnimatonManager().stopAnimation();
-						}
-
-						num.setValue(newValue);
-						hasUnsavedGeoChanges = true;
-					}
-
-					// update point on path
-					else if (geo instanceof GeoPointND) {
-						GeoPointND p = (GeoPointND) geo;
-						if (p.isPointOnPath()) {
-							p.addToPathParameter(
-									changeVal * p.getAnimationStep());
-							ScreenReader.readGeoMoved((GeoElement) p);
-						}
-						hasUnsavedGeoChanges = true;
-					}
-				}
-
-				// update parent algo of dependent geo to update randomNumbers
-				else if (!geo.isIndependent()) {
-					// update labeled random number
-					if (geo.isLabelSet() && geo.isGeoNumeric()) {
-						GeoNumeric num = (GeoNumeric) geo;
-						if (num.isRandomGeo()) {
-							num.updateRandomGeo();
-						}
-					}
-
-					// update parent algorithm for unlabeled random numbers
-					// and all other algorithms
-					geo.getParentAlgorithm().update();
-				}
+				moveSliderPointOrRandomGeo(geo, changeVal, !multipleSliders || index == i);
 			}
 
 			// update all geos together
-			GeoElement.updateCascade(geos, getTempSet(), false);
+			GeoElement.updateCascade(geos, getTempSet(), true);
 			app.getKernel().notifyRepaint();
 
 			return true;
@@ -1664,10 +1483,221 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
-	private double getIncrement(ArrayList<GeoElement> geos) {
-		GeoElement geo = geos.get(0);
-		double increment = geo.getAnimationStep();
+	private void moveSliderPointOrRandomGeo(GeoElement geo,
+			double changeVal, boolean activeSlider) {
+		if (geo.isPointerChangeable()) {
 
+			// update number
+			if (geo.isGeoNumeric()
+					&& activeSlider) {
+				changeSliderValue((GeoNumeric) geo, changeVal);
+				hasUnsavedGeoChanges = true;
+			}
+
+			// update point on path
+			else if (geo instanceof GeoPointND) {
+				GeoPointND p = (GeoPointND) geo;
+				if (p.isPointOnPath()) {
+					if (p.getPath() instanceof GeoList) {
+						loopPointOnPath(changeVal, p);
+					} else {
+						p.addToPathParameter(changeVal * p.getAnimationStep());
+					}
+					ScreenReader.readGeoMoved((GeoElement) p);
+					hasUnsavedGeoChanges = true;
+				}
+			}
+		}
+
+		// update parent algo of dependent geo to update randomNumbers
+		else if (!geo.isIndependent()) {
+			// update labeled random number
+			AlgoElement parentAlgorithm = geo.getParentAlgorithm();
+			if (geo.isLabelSet()
+					&& (geo.isRandomGeo() || parentAlgorithm instanceof SetRandomValue)) {
+				parentAlgorithm.updateUnlabeledRandomGeos();
+				geo.updateRandomGeo();
+				hasUnsavedGeoChanges = true;
+			}
+
+			// update parent algorithm for unlabeled random numbers
+			// and all other algorithms
+			else if (parentAlgorithm.updateUnlabeledRandomGeos()) {
+				parentAlgorithm.compute();
+				hasUnsavedGeoChanges = true;
+			}
+		}
+	}
+
+	private static void loopPointOnPath(double changeVal, GeoPointND p) {
+		double nextIndex = p.getPathParameter().t;
+		int lastIndex = ((GeoList) p.getPath()).size() - 1;
+		if (nextIndex == 0 && changeVal < 0) {
+			p.updatePathParameter(lastIndex);
+		} else if (nextIndex == lastIndex && changeVal > 0) {
+			p.updatePathParameter(0);
+		} else {
+			p.addToPathParameter(changeVal);
+		}
+	}
+
+	private boolean moveCoordSystem(KeyCodes key, double base, boolean isShiftDown) {
+		// Get the EuclidianView which has the focus
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		int width = ev.getWidth();
+		int height = ev.getHeight();
+		if (ev.hasFocus() && app.isShiftDragZoomEnabled()) {
+			switch (key) {
+
+			case PAGEUP:
+				ev.rememberOrigins();
+				ev.pageUpDownTranslateCoordSystem((int) (height * base));
+				return true;
+			case PAGEDOWN:
+				ev.rememberOrigins();
+				ev.pageUpDownTranslateCoordSystem(-(int) (height * base));
+				return true;
+			case INSERT:
+				ev.rememberOrigins();
+				ev.translateCoordSystemInPixels((int) (height * base), 0, 0);
+				return true;
+			case HOME:
+				ev.rememberOrigins();
+				ev.translateCoordSystemInPixels(-(int) (height * base), 0, 0);
+				return true;
+			case DOWN:
+
+				if (app.isUsingFullGui() && app.getGuiManager() != null
+						&& app.getGuiManager().noMenusOpen()) {
+					if (isShiftDown) {
+						EuclidianViewInterfaceCommon view = app
+								.getActiveEuclidianView();
+						if (!view.isLockedAxesRatio()) {
+							view.setCoordSystem(view.getXZero(),
+									view.getYZero(), view.getXscale(),
+									view.getYscale() * 0.9);
+						}
+
+					} else {
+						ev.rememberOrigins();
+						ev.translateCoordSystemInPixels(0,
+								(int) (height / 100.0 * base), 0);
+					}
+					return true;
+				}
+
+				break;
+
+			case UP:
+
+				if (app.isUsingFullGui() && app.getGuiManager() != null
+						&& app.getGuiManager().noMenusOpen()) {
+					if (isShiftDown) {
+						EuclidianViewInterfaceCommon view = app
+								.getActiveEuclidianView();
+						if (!view.isLockedAxesRatio()) {
+							view.setCoordSystem(view.getXZero(),
+									view.getYZero(), view.getXscale(),
+									view.getYscale() / 0.9);
+						}
+
+					} else {
+						ev.rememberOrigins();
+						ev.translateCoordSystemInPixels(0,
+								-(int) (height / 100.0 * base), 0);
+					}
+					return true;
+				}
+				break;
+
+			case LEFT:
+				if (app.isUsingFullGui() && app.getGuiManager() != null
+						&& app.getGuiManager().noMenusOpen()) {
+					if (isShiftDown) {
+						EuclidianViewInterfaceCommon view = app
+								.getActiveEuclidianView();
+						if (!view.isLockedAxesRatio()) {
+							view.setCoordSystem(view.getXZero(),
+									view.getYZero(), view.getXscale() * 0.9,
+									view.getYscale());
+						}
+					} else {
+						ev.rememberOrigins();
+						ev.translateCoordSystemInPixels(
+								-(int) (width / 100.0 * base), 0, 0);
+					}
+					return true;
+
+				}
+				break;
+
+			case RIGHT:
+				if (app.isUsingFullGui() && app.getGuiManager() != null
+						&& app.getGuiManager().noMenusOpen()) {
+					if (isShiftDown) {
+						EuclidianViewInterfaceCommon view = app
+								.getActiveEuclidianView();
+						if (!view.isLockedAxesRatio()) {
+							view.setCoordSystem(view.getXZero(),
+									view.getYZero(), view.getXscale() / 0.9,
+									view.getYscale());
+						}
+					} else {
+						ev.rememberOrigins();
+						ev.translateCoordSystemInPixels(
+								(int) (width / 100.0 * base), 0, 0);
+					}
+				}
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void changeSliderValue(GeoNumeric num, double changeVal) {
+		double numStep = getAnimationStep(num);
+		double newValue = num.getValue()
+				+ changeVal * numStep;
+
+		// HOME / END keys
+		if (Double.isInfinite(changeVal)) {
+			newValue = changeVal > 0 ? num.getIntervalMax()
+					: num.getIntervalMin();
+		}
+
+		if (numStep > Kernel.MIN_PRECISION) {
+			// round to decimal fraction, e.g. 2.800000000001 to
+			// 2.8
+			if (num.isGeoAngle()) {
+				newValue = Kernel.PI_180
+						* DoubleUtil.checkDecimalFraction(
+						newValue * Kernel.CONST_180_PI,
+						1 / numStep);
+			} else {
+				newValue = DoubleUtil.checkDecimalFraction(newValue,
+						1 / numStep);
+			}
+		}
+
+		// stop all animation if slider dragged
+		if (num.isAnimating()) {
+			num.getKernel().getAnimatonManager().stopAnimation();
+		}
+
+		num.setValue(newValue);
+	}
+
+	private double[] getIncrement(List<? extends GeoElementND> geos) {
+		GeoElementND geo = geos.get(0);
+		double[] increment = {geo.getAnimationStep(), geo.getAnimationStep(),
+				geo.getAnimationStep()};
+		if (geo.isGeoPoint()) {
+			NumberValue verticalIncrement = ((GeoPointND) geo).getVerticalIncrement();
+			if (verticalIncrement != null) {
+				increment[1] = verticalIncrement.getDouble();
+			}
+		}
 		// eg for Polygon(A,B,C)
 		// use increment of A
 		if (!geo.isGeoNumeric() && !geo.isGeoPoint()) {
@@ -1676,7 +1706,7 @@ public abstract class GlobalKeyDispatcher {
 					.getFreeInputPoints(app.getActiveEuclidianView());
 
 			if (freeInputPoints != null && freeInputPoints.size() > 0) {
-				increment = freeInputPoints.get(0).getAnimationStep();
+				return getIncrement(freeInputPoints);
 			}
 
 		}
@@ -1695,7 +1725,7 @@ public abstract class GlobalKeyDispatcher {
 	 *            list of geos
 	 */
 	protected abstract void copyDefinitionsToInputBarAsList(
-			ArrayList<GeoElement> geos);
+			List<GeoElement> geos);
 
 	/**
 	 * @return handles enter

@@ -46,11 +46,12 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.platform.graphics.Color;
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
  * An atom representing a vertical row of other atoms.
  */
-public class CancelAtom extends Atom {
+public class CancelAtom extends Atom implements HasTrueBase {
 
 	public static enum Type {
 		SLASH, BACKSLASH, X
@@ -151,6 +152,11 @@ public class CancelAtom extends Atom {
 	@Override
 	public Atom getBase() {
 		return base.getBase();
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 
 }

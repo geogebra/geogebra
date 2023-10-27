@@ -30,12 +30,13 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.InputMode;
-import org.geogebra.common.gui.inputfield.MyTextField;
+import org.geogebra.common.gui.inputfield.TextFieldUtil;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -442,7 +443,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 					while (pos > 0 && getText().charAt(pos - 1) == '[') {
 						pos--;
 					}
-					String word = MyTextField.getWordAtPos(getText(), pos);
+					String word = TextFieldUtil.getWordAtPos(getText(), pos);
 					String lowerCurWord = word.toLowerCase();
 					String closest = getDictionary().lookup(lowerCurWord);
 
@@ -492,16 +493,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 			e.consume();
 			return;
 		}
-		// Application.debug(e+"");
-
-		/*
-		 * test code to generate unicode strings for Virtual Keyboard String
-		 * text = getText(); String outStr = ""; for (int i = 0 ; i <
-		 * text.length() ; i++) { int ch = text.charAt(i); if (ch < 128) outStr
-		 * += text.charAt(i); else { String unicode = Integer.toHexString(ch);
-		 * if (unicode.length() < 4) unicode = "\\u0"+unicode; else unicode =
-		 * "\\u"+unicode; outStr += unicode; } } Application.debug(outStr); //
-		 */
 
 		// ctrl pressed on Mac
 		// or alt on Windows
@@ -634,7 +625,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		// auto-close parentheses
 		if (!e.isAltDown() && (caretPos == text.length()
-				|| org.geogebra.common.gui.inputfield.MyTextField
+				|| TextFieldUtil
 						.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
 			this.setPreviewActive(false);
 			switch (ch) {
@@ -998,15 +989,27 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void requestFocus() {
 		super.requestFocus();
-		if (getDrawTextField() != null && getDrawTextField().hasError()) {
-			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
-					4, 1, 1, true));
+		if (getDrawTextField() != null) {
+			styleTextField();
 		} else {
 			setDefaultBorder();
 		}
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
+		}
+	}
+
+	private void styleTextField() {
+		if (getDrawTextField().hasError()) {
+			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED_BORDER),
+					2, 2, 2, true));
+			setBackground(GColor.ERROR_RED_BACKGROUND);
+		} else if (drawTextField != null) {
+			GColor borderColor = drawTextField.getGeoElement().getBackgroundColor()
+					== GColor.WHITE ? GColor.DEFAULT_PURPLE : drawTextField.getBorderColor();
+			setBorder(BorderFactory.createLineBorder(GColorD.getAwtColor(borderColor)));
+			setBackground(drawTextField.getGeoElement().getBackgroundColor());
 		}
 	}
 
@@ -1041,18 +1044,49 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		g2.setPaint(bgColor);
+		drawBounds(g2, bgColor, left, top, width, height, drawTextField);
+	}
+
+	/**
+	 * @param g2 graphics
+	 * @param bgColor background color (will be overridden on error)
+	 * @param left horizontal position in view (in pixels)
+	 * @param top vertical position in view (in pixels)
+	 * @param width width in pixels
+	 * @param height height in pixels
+	 * @param drawInputBox associated inputbox
+	 */
+	public static void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
+			int width, int height, DrawInputBox drawInputBox) {
+		GColor backgroundColor = drawInputBox.hasError() ? GColor.ERROR_RED_BACKGROUND : bgColor;
+		g2.setPaint(backgroundColor);
 		g2.fillRect(left, top, width, height);
 
-		// TF Rectangle
-		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED);
-			g2.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
-		} else {
-			g2.setPaint(GColor.TEXT_PRIMARY);
-		}
+		GColor borderColor = getBorderColor(backgroundColor, drawInputBox);
+		g2.setColor(borderColor);
+		drawInputBox.setBorderColor(borderColor);
+		setStrokeStyle(g2, drawInputBox);
+
 		g2.drawRect(left, top, width, height);
+	}
+
+	private static void setStrokeStyle(GGraphics2D g2, DrawInputBox drawInputBox) {
+		int lineWidth = drawInputBox.isEditing() ? 2 : 1;
+		int lineStyle = drawInputBox.hasError() ? EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
+				: EuclidianStyleConstants.LINE_TYPE_FULL;
+
+		g2.setStroke(EuclidianStatic.getStroke(lineWidth, lineStyle, GBasicStroke.JOIN_ROUND));
+	}
+
+	private static GColor getBorderColor(GColor backgroundColor, DrawInputBox drawInputBox) {
+		GColor borderColor;
+		if (backgroundColor == GColor.WHITE) {
+			borderColor = drawInputBox.isEditing() ? GeoGebraColorConstants.PURPLE_600
+					: GeoGebraColorConstants.NEUTRAL_500;
+		} else {
+			borderColor = GColor.getBorderColorFrom(backgroundColor);
+		}
+		return borderColor;
 	}
 
 	/**

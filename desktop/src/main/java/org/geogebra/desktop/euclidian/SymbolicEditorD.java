@@ -13,6 +13,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
@@ -20,6 +21,7 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
+import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -35,7 +37,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		box = Box.createHorizontalBox();
 
-		mathField = new MathFieldD(new SyntaxAdapterImpl(app.kernel), view::repaintView);
+		mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()), view::repaintView);
 
 		mathField.getInternal().setFieldListener(this);
 		mathField.setVisible(true);
@@ -54,21 +56,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 		});
 
 		box.add(mathField);
-	}
-
-	@Override
-	public void resetChanges() {
-		String text = getGeoInputBox().getTextForEditor();
-
-		boolean textMode = isTextMode();
-		mathField.getInternal().setPlainTextMode(textMode);
-		if (textMode) {
-			mathField.getInternal().setPlainText(text);
-		} else {
-			mathField.parse(text);
-		}
-
-		setProtection();
 	}
 
 	@Override
@@ -94,7 +81,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds, TextRendererSettings settings) {
 		setInputBox(geoInputBox);
 		getDrawInputBox().setEditing(true);
 
@@ -118,12 +105,13 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	public void repaintBox(GGraphics2D g) {
 		GColor bgColor = getGeoInputBox().getBackgroundColor() != null
-				? getGeoInputBox().getBackgroundColor() : view.getBackgroundCommon();
+				? getInputBoxBackgroundColor() : view.getBackgroundCommon();
 
 		g.saveTransform();
 		int boxY = (int) computeTop(box.getHeight());
 		int boxX = box.getX();
-		view.getTextField().drawBounds(g, bgColor, boxX, boxY, box.getWidth(), box.getHeight());
+		AutoCompleteTextFieldD.drawBounds(g, bgColor, boxX, boxY,
+				box.getWidth(), box.getHeight(), getDrawInputBox());
 
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
 		box.setBorder(null);
@@ -136,15 +124,21 @@ public class SymbolicEditorD extends SymbolicEditor {
 		g.resetClip();
 	}
 
+	private GColor getInputBoxBackgroundColor() {
+		return getGeoInputBox().hasError() ? GColor.ERROR_RED_BACKGROUND
+				: getGeoInputBox().getBackgroundColor();
+	}
+
 	@Override
 	public void onKeyTyped(String key) {
 		addDegree(key, mathField.getInternal());
 		String text = texSerializer.serialize(getMathFieldInternal().getFormula());
-		GDimension equationSize = app.getDrawEquation().measureEquation(app, null, text,
+		GDimension equationSize = app.getDrawEquation().measureEquation(app, text,
 				getDrawInputBox().getTextFont(text), false);
 		double currentHeight = equationSize.getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
 		box.setBounds(box.getX(), box.getY(), box.getWidth(),
 				Math.max((int) currentHeight, DrawInputBox.SYMBOLIC_MIN_HEIGHT));
+		dispatchKeyTypeEvent(key);
 		box.revalidate();
 		view.repaintView();
 	}
@@ -161,7 +155,13 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		applyChanges();
+		return true;
+	}
+
+	@Override
+	protected void selectEntryAt(int x, int y) {
+		mathField.getInternal().selectEntryAt(x, y);
 	}
 }

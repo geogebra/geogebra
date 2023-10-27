@@ -29,6 +29,7 @@
 package com.himamis.retex.editor.share.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.model.inspect.Inspecting;
@@ -39,7 +40,7 @@ import com.himamis.retex.editor.share.model.traverse.Traversing;
  *
  * @author Bea Petrovicova
  */
-abstract public class MathContainer extends MathComponent {
+abstract public class MathContainer extends MathComponent implements Iterable<MathComponent> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -501,20 +502,42 @@ abstract public class MathContainer extends MathComponent {
 		}
 
 		return getParent() != null && getParent().getParent() != null
-				&& getParent().getParent().isProtected && isComma(i);
+				&& getParent().getParent().isProtected
+				&& arguments.get(i).isFieldSeparator();
 	}
 
 	/**
 	 * Check if the i-th position of this container is a comma
 	 * @param i position to check
-	 * @return whether it is a comma
+	 * @return whether it is a separator (comma or vertical line)
 	 */
-	public boolean isComma(int i) {
+	public boolean isFieldSeparator(int i) {
 		if (i < 0 || i >= arguments.size()) {
 			return false;
 		}
 
-		return arguments.get(i) instanceof MathCharacter
-				&& ((MathCharacter) arguments.get(i)).getUnicode() == ',';
+		return arguments.get(i).isFieldSeparator();
+	}
+
+	@Override
+	public Iterator<MathComponent> iterator() {
+		return arguments.iterator();
+	}
+
+	/**
+	 * Replace several arguments with single one
+	 * @param start index of first argument
+	 * @param end index of last argument
+	 * @param array replacement
+	 * @return list of removed elements
+	 */
+	public ArrayList<MathComponent> replaceArguments(int start, int end, MathComponent array) {
+		ArrayList<MathComponent> removed = new ArrayList<>();
+		for (int i = end; i >= start; i--) {
+			removed.add(getArgument(i));
+			removeArgument(i);
+		}
+		addArgument(start, array);
+		return removed;
 	}
 }

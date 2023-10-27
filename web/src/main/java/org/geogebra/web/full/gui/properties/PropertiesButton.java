@@ -1,10 +1,9 @@
 package org.geogebra.web.full.gui.properties;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
-
-import com.google.gwt.user.client.Command;
+import org.gwtproject.user.client.Command;
 
 /**
  * Button for properties stylebar

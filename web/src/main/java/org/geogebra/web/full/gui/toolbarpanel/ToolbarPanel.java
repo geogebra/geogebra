@@ -5,10 +5,10 @@ import java.util.function.Supplier;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.MyModeChangedListener;
+import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.Perspective;
@@ -17,12 +17,14 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.layout.DockManagerW;
+import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.ViewCounter;
@@ -36,7 +38,6 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -47,27 +48,25 @@ import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.layout.client.Layout;
-import com.google.gwt.layout.client.Layout.AnimationCallback;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Float;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.layout.client.Layout;
+import org.gwtproject.layout.client.Layout.AnimationCallback;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
-import elemental2.dom.EventListener;
 
 /**
  * @author Laszlo Gal
  */
 public class ToolbarPanel extends FlowPanel
-		implements MyModeChangedListener, SideBarAccessibilityAdapter {
+		implements ModeChangeListener, SideBarAccessibilityAdapter {
 
 	/** Closed width of header in landscape mode */
 	public static final int CLOSED_WIDTH_LANDSCAPE = 72;
@@ -95,12 +94,14 @@ public class ToolbarPanel extends FlowPanel
 	private final ScheduledCommand deferredOnRes = this::resize;
 	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
+	private DockPanelDecorator decorator;
 
 	/**
 	 * @param app application
 	 */
-	public ToolbarPanel(AppW app) {
+	public ToolbarPanel(AppW app, DockPanelDecorator decorator) {
 		this.app = app;
+		this.decorator = decorator;
 		eventDispatcher = app.getEventDispatcher();
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
@@ -133,7 +134,7 @@ public class ToolbarPanel extends FlowPanel
 
 	/**
 	 * Updates the style of undo and redo buttons accordingly of they are active
-	 * or inactive
+	 * or inactiveAlgebraDockPanelW
 	 */
 	public void updateUndoRedoActions() {
 		if (undoRedoPanel == null) {
@@ -173,8 +174,8 @@ public class ToolbarPanel extends FlowPanel
 	private void setUndoPosition(double top, double left) {
 		assert undoRedoPanel != null;
 		undoRedoPanel.setVisible(true);
-		undoRedoPanel.getElement().getStyle().setTop(top, Style.Unit.PX);
-		undoRedoPanel.getElement().getStyle().setLeft(left, Style.Unit.PX);
+		undoRedoPanel.getElement().getStyle().setTop(top, Unit.PX);
+		undoRedoPanel.getElement().getStyle().setLeft(left, Unit.PX);
 	}
 
 	/**
@@ -188,7 +189,9 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void maybeAddUndoRedoPanel() {
-		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
+		boolean isAllowed = app.getUndoRedoMode() == UndoRedoMode.GUI
+				&& app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
+				&& app.getConfig().getVersion() != GeoGebraConstants.Version.PROBABILITY;
 		if (isAllowed) {
 			addUndoRedoButtons();
 		} else if (undoRedoPanel != null) {
@@ -317,7 +320,9 @@ public class ToolbarPanel extends FlowPanel
 		heading.setVisible(getToolbarDockPanel().isAlone());
 		createCloseButton();
 		heading.setStyleName("toolPanelHeading");
-		add(heading);
+		if (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC) {
+			add(heading);
+		}
 		add(main);
 		hideDragger();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
@@ -329,13 +334,17 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
+	public DockPanelDecorator getDecorator() {
+		return decorator;
+	}
+
 	private void createCloseButton() {
 		SVGResource icon = app.isPortrait() ? MaterialDesignResources.INSTANCE
 				.toolbar_close_portrait_black() : MaterialDesignResources.INSTANCE
 				.toolbar_close_landscape_black();
 		StandardButton close = new StandardButton(icon, null, 24, 24);
 		close.addStyleName("flatButton");
-		close.getElement().getStyle().setFloat(Style.Float.RIGHT);
+		close.getElement().getStyle().setFloat(Float.RIGHT);
 		close.addFastClickHandler(source -> {
 			navRail.setAnimating(true);
 			showOppositeView();
@@ -820,7 +829,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void switchTab(TabIds tab, boolean fade) {
-		ToolTipManagerW.sharedInstance().hideTooltip();
+		app.getToolTipManager().hideTooltip();
 		navRail.selectTab(tab);
 		openNoResize();
 		setFadeTabs(fade);
@@ -855,7 +864,7 @@ public class ToolbarPanel extends FlowPanel
 		if (tabTools != null) {
 			tabTools.setVisible(true);
 		}
-		ToolTipManagerW.sharedInstance().hideTooltip();
+		app.getToolTipManager().hideTooltip();
 
 		switchTab(TabIds.TOOLS, fade);
 		dispatchEvent(EventType.TOOLS_PANEL_SELECTED);
@@ -1157,7 +1166,7 @@ public class ToolbarPanel extends FlowPanel
 	 * Sets if current tab should animate or not.
 	 * @param fade to set.
 	 */
-	private void setFadeTabs(boolean fade) {
+	void setFadeTabs(boolean fade) {
 		tabAlgebra.setFade(fade);
 		if (tabTools != null) {
 			tabTools.setFade(fade);
@@ -1378,57 +1387,16 @@ public class ToolbarPanel extends FlowPanel
 		});
 	}
 
-	/**
-	 * Base class for Toolbar Tabs-
-	 * @author Laszlo
-	 */
-	public abstract static class ToolbarTab extends ScrollPanel implements ShowableTab, SetLabels {
-		/** Constructor */
-		public ToolbarTab(ToolbarPanel parent) {
-			setSize("100%", "100%");
-			setAlwaysShowScrollBars(false);
-
-			EventListener onTransitionEnd = evt -> parent.setFadeTabs(false);
-			Dom.addEventListener(this.getElement(), "transitionend",
-					onTransitionEnd);
-		}
-
-		@Override
-		public void onResize() {
-			setHeight("100%");
-		}
-
-		/**
-		 * Set tab the active one.
-		 * @param active to set.
-		 */
-		public void setActive(boolean active) {
-			Dom.toggleClass(this, "tab", "tab-hidden", active);
-			if (active) {
-				onActive();
-			}
-		}
-
-		/**
-		 * Sets if tab should fade during animation or not.
-		 * @param fade to set.
-		 */
-		public void setFade(boolean fade) {
-			setStyleName("tabFade", fade);
-		}
-
-		/**
-		 * Called when tab is activated.
-		 */
-		protected abstract void onActive();
-
-		public boolean isActive() {
-			return getElement().hasClassName("tab");
-		}
-
-	}
-
 	public void setAVIconNonSelect(boolean exam) {
 		navRail.setAVIconNonSelect(exam);
+	}
+
+	/**
+	 * Open function define dialog for table if table is empty
+	 */
+	public void openTableFunctionDialogIfEmpty() {
+		if (tabTable != null) {
+			tabTable.openDialogIfEmpty();
+		}
 	}
 }

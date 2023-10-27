@@ -4,13 +4,13 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 public class BorderStylePopup extends PopupMenuButtonW {
 
@@ -35,6 +35,7 @@ public class BorderStylePopup extends PopupMenuButtonW {
 	private void extendGUI() {
 		FlowPanel divider = new FlowPanel();
 		divider.addStyleName("divider");
+		divider.addStyleName(Shades.NEUTRAL_300.getName());
 		((ButtonPopupMenu) getMyPopup()).getPanel().add(divider);
 
 		borderThicknessBtn = new FlowPanel();

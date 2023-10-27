@@ -18,8 +18,8 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -27,14 +27,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.DeckPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.DeckPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
 /**
  * Class to dynamically display plots and statistics in coordination with the
@@ -296,7 +295,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		sliderNumClasses.setTickSpacing(1);
 
-		sliderNumClasses.addChangeHandler(event -> {
+		sliderNumClasses.addInputHandler(() -> {
 			getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
 			fldNumClasses.setText("" + getModel().getSettings()
 					.getNumClasses());

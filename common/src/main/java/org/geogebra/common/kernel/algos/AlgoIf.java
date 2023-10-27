@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -55,14 +54,7 @@ public class AlgoIf extends AlgoElement {
 		this.conditions = conditions;
 		this.alternatives = alternatives;
 
-		this.result = alternatives.get(0);
-		// create output GeoElement of same type as ifGeo
-		int i = 1;
-		while (i < alternatives.size()
-				&& TestGeo.canSet(alternatives.get(i), result)) {
-			result = alternatives.get(i);
-			i++;
-		}
+		this.result = GeoList.getGenericElement(alternatives);
 		result = result.copyInternal(cons);
 		if (result.isGeoList()) {
 			updateListType();

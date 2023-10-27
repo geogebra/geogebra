@@ -657,12 +657,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	final public String getHelpURL(final Help type, String pageName) {
 		// try to get help for given language
-		// eg http://help.geogebra.org/en_GB/cmd/FitLogistic
+		// eg http://help.geogebra.org/en-GB/cmd/FitLogistic
 
 		final StringBuilder urlSB = new StringBuilder();
 
 		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE);
-		urlSB.append(getApp().getLocalization().getLanguage()); // eg en_GB
+		urlSB.append(getApp().getLocalization().getLanguageTag()); // eg en-GB
 
 		switch (type) {
 		case COMMAND:
@@ -704,8 +704,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void redo() {
 		getApp().setWaitCursor();
 		kernel.redo();
-		updateActions();
-		getApp().resetPen();
 		getApp().setDefaultCursor();
 	}
 
@@ -713,8 +711,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void undo() {
 		getApp().setWaitCursor();
 		kernel.undo();
-		updateActions();
-		getApp().resetPen();
 		getApp().setDefaultCursor();
 	}
 

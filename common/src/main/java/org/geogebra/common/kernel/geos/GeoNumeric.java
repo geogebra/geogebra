@@ -21,17 +21,18 @@ package org.geogebra.common.kernel.geos;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.AnimationManager;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
@@ -46,16 +47,19 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -94,7 +98,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Default width of angle slider in pixels
 	 * 
-	 * Should be a factor of 360 to work well 72 gives increment of 5 degrees
+	 * <p>Should be a factor of 360 to work well 72 gives increment of 5 degrees
 	 * 144 gives increment of 2.5 degrees (doesn't look good) 180 gives
 	 * increment of 2 degrees
 	 */
@@ -123,7 +127,6 @@ public class GeoNumeric extends GeoElement
 	private double sliderWidth = this instanceof GeoAngle
 			? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
 	private double sliderBlobSize = DEFAULT_SLIDER_BLOB_SIZE;
-	private SliderPosition sliderPos;
 	private boolean sliderFixed = false;
 	private boolean sliderHorizontal = true;
 	private double animationValue = Double.NaN;
@@ -147,6 +150,7 @@ public class GeoNumeric extends GeoElement
 	private boolean showExtendedAV = true;
 	private static volatile Comparator<GeoNumberValue> comparator;
 	private BigDecimal exactValue;
+	private @CheckForNull GeoPointND startPoint;
 
 	/**
 	 * Creates new GeoNumeric
@@ -210,11 +214,6 @@ public class GeoNumeric extends GeoElement
 		GeoNumeric copy = new GeoNumeric(cons, value);
 		copy.setDrawable(isDrawable, false);
 		return copy;
-	}
-
-	@Override
-	public void setZero() {
-		setValue(0);
 	}
 
 	@Override
@@ -295,7 +294,7 @@ public class GeoNumeric extends GeoElement
 				}
 
 				// init screen location
-				if (sliderPos == null) {
+				if (startPoint == null) {
 					initScreenLocation();
 				}
 
@@ -350,20 +349,21 @@ public class GeoNumeric extends GeoElement
 			count++;
 		}
 
-		sliderPos = new SliderPosition();
-
+		startPoint = new GeoPoint(cons);
+		int x, y;
 		if (isAbsoluteScreenLocActive()) {
 			EuclidianViewInterfaceSlim ev = kernel.getApplication()
 					.getActiveEuclidianView();
 			EdgeInsets insets = ev.getSafeAreaInsets();
-			sliderPos.x = insets.getLeft() + 30;
-			sliderPos.y = insets.getTop() + 50 + 40 * count;
+			x = insets.getLeft() + 30;
+			y = insets.getTop() + 50 + 40 * count;
 			// make sure slider is visible on screen
-			sliderPos.y = (int) (sliderPos.y / 400) * 10 + sliderPos.y % 400;
+			y = (y / 400) * 10 + y % 400;
 		} else {
-			sliderPos.x = -5;
-			sliderPos.y = 10 - count;
+			x = -5;
+			y = 10 - count;
 		}
+		startPoint.setCoords(x, y, 1);
 	}
 
 	private int countSliders() {
@@ -376,9 +376,8 @@ public class GeoNumeric extends GeoElement
 
 		numbers.addAll(angles);
 
-		Iterator<GeoElement> it = numbers.iterator();
-		while (it.hasNext()) {
-			GeoNumeric num = (GeoNumeric) it.next();
+		for (GeoElement number : numbers) {
+			GeoNumeric num = (GeoNumeric) number;
 			if (num.isSlider()) {
 				count++;
 			}
@@ -406,7 +405,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	final public void setUndefined() {
+	public void setUndefined() {
 		value = Double.NaN;
 		exactValue = null;
 	}
@@ -645,11 +644,7 @@ public class GeoNumeric extends GeoElement
 				// if label starts with c_
 				// look up if it is stored as constant
 				GeoNumeric geo = this.cons.lookupConstantLabel(label);
-				if (geo != null) {
-					this.setSendValueToCas(false);
-				} else {
-					this.setSendValueToCas(true);
-				}
+				this.setSendValueToCas(geo == null);
 			}
 			if (!sendValueToCas) {
 				return "(" + Kernel.TMP_VARIABLE_PREFIX + label + ")";
@@ -659,23 +654,26 @@ public class GeoNumeric extends GeoElement
 					&& !(getParentAlgorithm() instanceof SetRandomValue)) {
 				return "exact(rand(0,1))";
 			}
-
-			if (Double.isNaN(value)) {
-				return "undef";
-			}
-
-			if (Double.isInfinite(value)) {
-				if (value > 0) {
-					return "inf";
-				}
-				return "-inf";
-			}
-			if (getDefinition() != null) {
+			if (getDefinition() != null && Double.isFinite(value)) {
 				return getDefinition().toValueString(tpl);
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
-		if (symbolicMode && getDefinition() != null && tpl.supportsFractions()) {
+
+		if (isRecurringDecimal()) {
+			RecurringDecimal rd = asRecurringDecimal();
+			if (symbolicMode) {
+				return RecurringDecimal.toFraction(rd.wrap(), tpl);
+			} else {
+				return kernel.format(rd.toDouble(), tpl);
+			}
+		}
+		// in general toFractionString falls back to printing evaluation result if not a fraction
+		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
+		if ((symbolicMode || DoubleUtil.isInteger(value))
+				&& getDefinition() != null
+				&& !getDefinition().isLeaf()
+				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);
@@ -852,11 +850,11 @@ public class GeoNumeric extends GeoElement
 
 		sb.append(" width=\"");
 		sb.append(sliderWidth);
-		if (sliderPos != null) {
+		if (startPoint != null) {
 			sb.append("\" x=\"");
-			sb.append(sliderPos.x);
+			sb.append(startPoint.getInhomX());
 			sb.append("\" y=\"");
-			sb.append(sliderPos.y);
+			sb.append(startPoint.getInhomY());
 		}
 		sb.append("\" fixed=\"");
 		sb.append(sliderFixed);
@@ -869,6 +867,9 @@ public class GeoNumeric extends GeoElement
 			sb.append("\t<pointSize val=\"");
 			sb.append(sliderBlobSize);
 			sb.append("\"/>\n");
+		}
+		if (startPoint != null && !startPoint.isAbsoluteStartPoint()) {
+			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 		}
 	}
 
@@ -977,11 +978,17 @@ public class GeoNumeric extends GeoElement
 		if (!force && sliderFixed) {
 			return;
 		}
-		if (sliderPos == null) {
-			sliderPos = new SliderPosition();
+		if (!hasAbsoluteScreenLocation && startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+			startPoint = null;
 		}
-		sliderPos.x = x;
-		sliderPos.y = y;
+		if (startPoint == null) {
+			startPoint = new GeoPoint(cons);
+			startPoint.setCoords(x, y, 1);
+		} else {
+			startPoint.setCoords(x, y, 1);
+			startPoint.update();
+		}
 		if (origSliderX == null) {
 			origSliderX = x;
 			origSliderY = y;
@@ -1038,7 +1045,7 @@ public class GeoNumeric extends GeoElement
 	 * @return x-coord of the slider
 	 */
 	public final double getSliderX() {
-		return sliderPos == null ? 0 : sliderPos.x;
+		return startPoint == null ? 0 : startPoint.getInhomX();
 	}
 
 	/**
@@ -1047,7 +1054,7 @@ public class GeoNumeric extends GeoElement
 	 * @return y-coord of the slider
 	 */
 	public final double getSliderY() {
-		return sliderPos == null ? 0 : sliderPos.y;
+		return startPoint == null ? 0 : startPoint.getInhomY();
 	}
 
 	/**
@@ -1056,7 +1063,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider max value wasn't disabled
 	 */
 	public final boolean isIntervalMaxActive() {
-		return MyDouble.isFinite(getIntervalMax());
+		return Double.isFinite(getIntervalMax());
 	}
 
 	/**
@@ -1065,7 +1072,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider min value wasn't disabled
 	 */
 	public final boolean isIntervalMinActive() {
-		return MyDouble.isFinite(getIntervalMin());
+		return Double.isFinite(getIntervalMin());
 	}
 
 	/**
@@ -1128,35 +1135,47 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return sliderPos == null ? 0 : (int) sliderPos.x;
+		return startPoint == null ? 0
+				: (int) (hasAbsoluteScreenLocation ? startPoint.getInhomX()
+				: app.getActiveEuclidianView().toScreenCoordX(startPoint.getInhomX()));
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return sliderPos == null ? 0 : (int) sliderPos.y;
+		return startPoint == null ? 0
+				: (int) (hasAbsoluteScreenLocation ? startPoint.getInhomY()
+				: app.getActiveEuclidianView().toScreenCoordY(startPoint.getInhomY()));
 	}
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
-		if (sliderPos == null) {
-			sliderPos = new SliderPosition();
+		if (hasAbsoluteScreenLocation) {
+			if (startPoint != null) {
+				startPoint.getLocateableList().unregisterLocateable(this);
+			}
+			startPoint = null;
 		}
-		sliderPos.x = x;
-		sliderPos.y = y;
+		if (startPoint == null) {
+			startPoint = new GeoPoint(cons, true);
+		}
+		startPoint.setCoords(x, y, 1);
 	}
 
 	@Override
 	public double getRealWorldLocX() {
-		return sliderPos == null ? 0 : sliderPos.x;
+		return startPoint == null ? 0 : startPoint.getInhomX();
 	}
 
 	@Override
 	public double getRealWorldLocY() {
-		return sliderPos == null ? 0 : sliderPos.y;
+		return startPoint == null ? 0 : startPoint.getInhomY();
 	}
 
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
+		if (flag == hasAbsoluteScreenLocation) {
+			return;
+		}
 		hasAbsoluteScreenLocation = flag;
 		if (flag) {
 			sliderWidth = this instanceof GeoAngle
@@ -1316,8 +1335,7 @@ public class GeoNumeric extends GeoElement
 	public void update(boolean drag) {
 		super.update(drag);
 		if (minMaxListeners != null) {
-			for (int i = 0; i < minMaxListeners.size(); i++) {
-				GeoNumeric geo = minMaxListeners.get(i);
+			for (GeoNumeric geo : minMaxListeners) {
 				geo.resolveMinMax();
 			}
 		}
@@ -1500,26 +1518,22 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Returns a comparator for NumberValue objects. If equal, doesn't return
-	 * zero (otherwise TreeSet deletes duplicates)
+	 * zero (otherwise TreeSet deletes duplicates, e.g. in Sort[{a,a}])
 	 * 
 	 * @return 1 if first is greater (or same but sooner in construction), -1
 	 *         otherwise
 	 */
 	public static Comparator<GeoNumberValue> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<GeoNumberValue>() {
-				@Override
-				public int compare(GeoNumberValue itemA, GeoNumberValue itemB) {
-
-					double comp = itemA.getDouble() - itemB.getDouble();
-					if (DoubleUtil.isZero(comp)) {
-						// don't return 0 for equal objects, otherwise the
-						// TreeSet deletes duplicates
-						return itemA.getConstructionIndex() > itemB
-								.getConstructionIndex() ? -1 : 1;
-					}
-					return comp < 0 ? -1 : +1;
+			comparator = (itemA, itemB) -> {
+				double comp = itemA.getDouble() - itemB.getDouble();
+				if (DoubleUtil.isZero(comp)) {
+					// don't return 0 for equal objects, otherwise the
+					// TreeSet deletes duplicates
+					return itemA.getConstructionIndex() > itemB
+							.getConstructionIndex() ? -1 : 1;
 				}
+				return comp < 0 ? -1 : +1;
 			};
 		}
 
@@ -1646,11 +1660,14 @@ public class GeoNumeric extends GeoElement
 				}
 			}
 		}
-	}
-
-	@Override
-	public boolean isLaTeXDrawableGeo() {
-		return false;
+		for (GeoElement animating: cons.getGeoSetConstructionOrder()) {
+			if (animating.getAnimationSpeedObject() == num) {
+				animating.setAnimationSpeedObject(this);
+			}
+			if (animating.getAnimationStepObject() == num) {
+				animating.setAnimationStep(this);
+			}
+		}
 	}
 
 	@Override
@@ -1661,10 +1678,8 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void addToSpreadsheetTraceList(
 			ArrayList<GeoNumeric> spreadsheetTraceList) {
-		GeoNumeric xx = this.copy(); // should handle GeoAngle
-		// too
-		spreadsheetTraceList.add(xx);
-
+		GeoNumeric copy = this.copy(); // should handle GeoAngle too
+		spreadsheetTraceList.add(copy);
 	}
 
 	@Override
@@ -1735,34 +1750,14 @@ public class GeoNumeric extends GeoElement
 
 		// label visibility
 		App app = getKernel().getApplication();
-		int labelingStyle = app == null
-				? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
+		LabelVisibility labelingStyle = app == null
+				? LabelVisibility.UseDefaults
 				: app.getCurrentLabelingStyle();
 
 		// automatic labelling:
 		// if algebra window open -> all labels
 		// else -> no labels
-		boolean visible = false;
-		switch (labelingStyle) {
-		case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON:
-			visible = true;
-			break;
-
-		case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF:
-			visible = false;
-			break;
-
-		case ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY:
-			// we want sliders and angles to be labeled always
-			visible = true;
-			break;
-
-		default:
-		case ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS:
-			// don't change anything
-			visible = true;
-			break;
-		}
+		boolean visible = labelingStyle != LabelVisibility.AlwaysOff;
 
 		if (visible) {
 			labelMode = LABEL_NAME_VALUE;
@@ -1849,10 +1844,10 @@ public class GeoNumeric extends GeoElement
 		if (!showExtendedAV) {
 			return;
 		}
-		SliderPosition old = sliderPos;
+		GeoPointND old = startPoint;
 		setEuclidianVisible(true);
 		setEuclidianVisible(false);
-		sliderPos = old;
+		startPoint = old;
 
 	}
 
@@ -2022,15 +2017,16 @@ public class GeoNumeric extends GeoElement
 		if (!isSliderable()) {
 			return;
 		}
-
-		if (isAnimating()) {
-			sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
-					"Press space to stop animation"));
-		} else {
-			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
-					"Press space to start animation"));
+		if (getApp().isRightClickEnabled()) {
+			if (isAnimating()) {
+				sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
+						"Press space to stop animation"));
+			} else {
+				sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
+						"Press space to start animation"));
+			}
+			sb.endSentence();
 		}
-		sb.endSentence();
 		if (getIntervalMax() != getValue()) {
 			sb.append(loc.getMenuDefault("PressUpToIncrease",
 					"Press up arrow to increase the value"));
@@ -2053,16 +2049,18 @@ public class GeoNumeric extends GeoElement
 
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		if (isAnimating()) {
+		if (getApp().isRightClickEnabled()) {
+			if (isAnimating()) {
 
-			// don't need this for stopping as the value is read out afterwards
-			// anyway
-			addAuralCaption(sb);
-			sb.appendSpace();
-			sb.append(loc.getMenuDefault("AnimationStarted",
-					"animation is started"));
-		} else {
-			sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
+				// don't need this for stopping as the value is read out afterwards
+				// anyway
+				addAuralCaption(sb);
+				sb.appendSpace();
+				sb.append(loc.getMenuDefault("AnimationStarted",
+						"animation is started"));
+			} else {
+				sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
+			}
 		}
 		sb.endSentence();
 		return sb.toString();
@@ -2120,7 +2118,81 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
-		return toLaTeXString(symbolic || symbolicContext, tpl);
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+		}
+
+		// set new location
+		if (p == null) {
+			if (startPoint != null) {
+				startPoint = startPoint.copy();
+			}
+		} else {
+			startPoint = p;
+
+			// add new dependencies
+			startPoint.getLocateableList().registerLocateable(this);
+		}
+	}
+
+	@Override
+	public GeoPointND getStartPoint() {
+		return this.startPoint;
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
+		setStartPoint(p);
+	}
+
+	@Override
+	public void initStartPoint(GeoPointND p, int number) {
+		startPoint = p;
+	}
+
+	@Override
+	public boolean hasStaticLocation() {
+		return false;
+	}
+
+	@Override
+	public boolean isAlwaysFixed() {
+		return false;
+	}
+
+	@Override
+	public void updateLocation() {
+		update();
+	}
+
+	@Override
+	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
+		if (isRecurringDecimal()) {
+			RecurringDecimal rd = asRecurringDecimal();
+			if (substituteNumbers) {
+				return symbolicMode ? rd.toFraction(tpl) : kernel.format(rd.toDouble(), tpl);
+			} else {
+				return rd.toString(tpl);
+			}
+		}
+
+		return super.getFormulaString(tpl, substituteNumbers);
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return getDefinition() != null && getDefinition().unwrap().isRecurringDecimal();
+	}
+
+	/**
+	 *
+	 * @return the RecurringDecimal object if it is one, null otherwise.
+	 */
+	public RecurringDecimal asRecurringDecimal() {
+		if (!isRecurringDecimal()) {
+			return null;
+		}
+		return (RecurringDecimal) getDefinition().unwrap();
 	}
 }

@@ -1,6 +1,7 @@
 @use 'colors';
 @use 'info-card';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame{
 	$pagecontrolpanelWidth: 269px;

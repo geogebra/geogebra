@@ -3,15 +3,15 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.gwtproject.event.dom.client.ChangeEvent;
+import org.gwtproject.event.dom.client.ChangeHandler;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.Panel;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
@@ -20,9 +20,9 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 public class HistoryPopupW extends GPopupPanel implements ClickHandler,
         KeyUpHandler, ChangeHandler {
 
-	private AutoCompleteW textField;
+	private final AutoCompleteTextFieldW textField;
 	private boolean downPopup;
-	private ListBox historyList;
+	private final ListBox historyList;
 	private String originalTextEditorContent;
 
 	/**
@@ -31,7 +31,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	 * @param root
 	 *            root for the popup
 	 */
-	public HistoryPopupW(AutoCompleteW autoCompleteTextField, Panel root) {
+	public HistoryPopupW(AutoCompleteTextFieldW autoCompleteTextField, Panel root) {
 		super(root, autoCompleteTextField.getApplication());
 		this.textField = autoCompleteTextField;
 

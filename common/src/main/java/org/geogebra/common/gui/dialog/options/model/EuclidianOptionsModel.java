@@ -83,7 +83,7 @@ public class EuclidianOptionsModel {
 		view.setAxesColor(col);
 	}
 
-	private EuclidianSettings getSettings() {
+	public EuclidianSettings getSettings() {
 		if (view == app.getEuclidianView1()) {
 			return app.getSettings().getEuclidian(1);
 		}
@@ -134,28 +134,6 @@ public class EuclidianOptionsModel {
 		}
 
 		view.setAllowToolTips(mode);
-	}
-
-	/**
-	 * Apply chosen right angle style
-	 * 
-	 * @param mode0
-	 *            - right angle style
-	 */
-	public void applyRightAngleStyle(int mode0) {
-		int mode = mode0;
-		if (mode == 0) {
-			mode = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE;
-		} else if (mode == 1) {
-			mode = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
-		} else if (mode == 2) {
-			mode = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
-		} else if (mode == 3) {
-			mode = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L;
-		}
-
-		app.setRightAngleStyle(mode);
-		app.getEuclidianView1().updateAllDrawables(true);
 	}
 
 	public void showAxes(boolean value) {
@@ -354,16 +332,7 @@ public class EuclidianOptionsModel {
 				loc.getMenu("Automatic"), loc.getMenu("Off") };
 	}
 
-	/**
-	 * fill list with right angle styles
-	 */
-	public String[] fillRightAngleCombo() {
-		return new String[] { app.getLocalization().getMenu("Off"),
-				"\u25a1", "\u2219", "\u2335" };
-	}
-
 	public void updateProperties() {
-
 		listener.updateAxes(view.getAxesColor(),
 				view.getShowXaxis() && view.getShowYaxis(), view.areAxesBold());
 
@@ -372,7 +341,7 @@ public class EuclidianOptionsModel {
 
 		listener.updateBackgroundColor(getBackgroundColor());
 		EuclidianSettings es = view.getSettings();
-		listener.updateRuler(es.getBackgroundType().value(), es.getBgRulerColor(),
+		listener.updateRuler(es.getBackgroundType(), es.getBgRulerColor(),
 				es.getRulerLineStyle(), es.isRulerBold());
 		int ind = view.getAllowToolTips();
 		int idx = -1;
@@ -435,12 +404,6 @@ public class EuclidianOptionsModel {
 		}
 	}
 
-	public void fillRulingCombo() {
-		for (BackgroundType type : BackgroundType.rulingOptions) {
-			listener.addRulerTypeItem(getTitleForRulingType(type), type);
-		}
-	}
-
 	public void fillAngleOptions() {
 		String[] angleOptions = { Unicode.PI_STRING + "/12",
 				Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
@@ -485,6 +448,20 @@ public class EuclidianOptionsModel {
 	public static double getGridTickAngle(double value) {
 		return Math.PI
 				/ Math.min(360, Math.round(Math.abs(Math.PI / value)));
+	}
+
+	/**
+	 * Change input value.
+	 * @param value - input value
+	 */
+	public String gridTickToString(Double value) {
+		if (DoubleUtil.isEqual(value, Math.PI)) {
+			return Unicode.PI_STRING;
+		}  else if (DoubleUtil.isEqual(value, Kernel.PI_HALF)) {
+			return Unicode.PI_HALF_STRING;
+		} else {
+			return view.getApplication().getKernel().format(value, StringTemplate.defaultTemplate);
+		}
 	}
 
 	public String gridAngleToString() {
@@ -576,8 +553,6 @@ public class EuclidianOptionsModel {
 
 		GColor getEuclidianBackground(int viewNumber);
 
-		void addRulerTypeItem(String item, BackgroundType type);
-
 		void enableAxesRatio(boolean value);
 
 		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
@@ -614,7 +589,7 @@ public class EuclidianOptionsModel {
 
 		void addAngleOptionItem(String item);
 
-		void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold);
+		void updateRuler(BackgroundType typeIdx, GColor color, int lineStyle, boolean bold);
 	}
 
 	/**
@@ -628,7 +603,7 @@ public class EuclidianOptionsModel {
 		settings.setBackgroundType(type);
 	}
 
-	private String getTransKeyForRulingType(BackgroundType rulingType) {
+	public String getTransKeyForRulingType(BackgroundType rulingType) {
 		switch (rulingType) {
 			case RULER:
 				return "Ruled";
@@ -653,10 +628,5 @@ public class EuclidianOptionsModel {
 			default:
 				return "NoRuling";
 		}
-	}
-
-	private String getTitleForRulingType(BackgroundType rulingType) {
-		Localization loc = app.getLocalization();
-		return loc.getMenu(getTransKeyForRulingType(rulingType));
 	}
 }

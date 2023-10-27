@@ -28,9 +28,9 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.euclidian.EuclidianViewWrapperPanel;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
-import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -38,15 +38,14 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TimerSystemW;
-
-import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.animation.client.AnimationScheduler;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
@@ -168,8 +167,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	/**
 	 * @return EV panel
 	 */
-	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
-		return new MyEuclidianViewPanel3D(this);
+	protected EuclidianViewWrapperPanel newMyEuclidianViewPanel() {
+		return new EuclidianViewWrapperPanel3D(this);
 	}
 
 	/**
@@ -178,7 +177,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @author mathieu
 	 *
 	 */
-	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements
+	private class EuclidianViewWrapperPanel3D extends EuclidianViewWrapperPanel implements
 	        RequiresResize {
 
 		/**
@@ -187,7 +186,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		 * @param ev
 		 *            euclidian view
 		 */
-		public MyEuclidianViewPanel3D(EuclidianView ev) {
+		public EuclidianViewWrapperPanel3D(EuclidianView ev) {
 			super(ev);
 		}
 
@@ -555,9 +554,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getElement().getParentElement().getStyle()
-					.setWidth(width, Style.Unit.PX);
+					.setWidth(width, Unit.PX);
 			g2p.getElement().getParentElement().getStyle()
-					.setHeight(height, Style.Unit.PX);
+					.setHeight(height, Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
 			Log.debug("Problem with the parent element of the canvas");
@@ -598,7 +597,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void getExportSVG(double scale, boolean transparency, Consumer<String> callback) {
+	public void getExportSVG(boolean transparency, Consumer<String> callback) {
 		// not implemented
 	}
 

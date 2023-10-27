@@ -16,13 +16,12 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InsertPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.style.shared.Overflow;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.InsertPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -236,7 +235,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
+	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel,
 			InsertPanel controls) {
 		if (allowZoomPanel()) {
 			dockLayoutPanel.addSouth(zoomPanel, 0);

@@ -6,10 +6,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ListBox;
 
 /**
  * Extension of StatTable that displays summary statistics for two data sets.
@@ -23,7 +22,7 @@ import com.google.gwt.user.client.ui.ListBox;
 public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	private AppW app;
 	private DataAnalysisViewW statDialog;
-	private MyTable statTable;
+	private StatDataTable statTable;
 	private TwoVarStatModel model;
 	private TwoVarInferencePanelW listener;
 	

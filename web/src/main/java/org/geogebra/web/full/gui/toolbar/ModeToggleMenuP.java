@@ -4,23 +4,21 @@ import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.HumanInputEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.HumanInputEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseMoveEvent;
+import org.gwtproject.event.dom.client.MouseMoveHandler;
+import org.gwtproject.event.dom.client.MouseUpEvent;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Small screen tool menu
@@ -224,12 +222,12 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 				event.stopPropagation();
 			}
 
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			app.getToolTipManager().setBlockToolTip(false);
 			// if we click the toolbar button, only interpret it as real click
 			// if there is only one tool in this menu
 			app.setMode(mode, event.getSource() == tbutton && menu.size() > 1
 					? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			app.getToolTipManager().setBlockToolTip(true);
 		}
 		tbutton.getElement().focus();
 	}

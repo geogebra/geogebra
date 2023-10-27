@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.DrawableND;
@@ -26,6 +28,7 @@ import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -45,6 +48,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -138,6 +142,7 @@ public class GeoList extends GeoElement
 	private boolean wasDefinedWithCurlyBrackets = true;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
+	private GeoPointND startPoint;
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -162,6 +167,22 @@ public class GeoList extends GeoElement
 		setEuclidianVisible(false);
 		// don't add here, see GGB-264
 		// setBackgroundColor(GColor.WHITE);
+	}
+
+	/**
+	 * @param elements list elements
+	 * @return the most generic element (one that can be set by others)
+	 */
+	public static GeoElement getGenericElement(ArrayList<GeoElement> elements) {
+		GeoElement result = elements.get(0);
+		// create output GeoElement of same type as ifGeo
+		int i = 1;
+		while (i < elements.size()
+				&& TestGeo.canSet(elements.get(i), result)) {
+			result = elements.get(i);
+			i++;
+		}
+		return result;
 	}
 
 	@Override
@@ -220,7 +241,7 @@ public class GeoList extends GeoElement
 		reuseDefinition(geo);
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
 			// 1 -> first element
-			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble(), false);
+			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble());
 			isDefined = true;
 
 			return;
@@ -245,6 +266,9 @@ public class GeoList extends GeoElement
 
 		isDefined = l.isDefined;
 		elementType = l.elementType;
+		if (l.isElementTypeXMLNeeded()) {
+			typeStringForXML = l.typeStringForXML;
+		}
 	}
 
 	/**
@@ -289,14 +313,11 @@ public class GeoList extends GeoElement
 	}
 
 	private GeoElement getCopyForList(final GeoElement geo) {
-		if (geo.isLabelSet()) {
-			// take original element
-			return geo;
-		}
 		// create a copy of geo
 		final GeoElement ret = geo.copyInternal(cons);
 		ret.setParentAlgorithm(getParentAlgorithm());
-		if (geo.getDefinition() != null) {
+		if (geo.getDefinition() != null
+				&& !geo.getDefinition().inspect(Inspecting.dynamicGeosFinder)) {
 			ret.setDefinition(geo.getDefinition().deepCopy(kernel));
 		}
 		return ret;
@@ -865,6 +886,9 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (isDefined && tpl.isDisplayStyle() && isMatrix()) {
+			return toMatrixString(false, tpl);
+		}
 		return isDefined ? buildValueString(tpl).toString() : "?";
 	}
 
@@ -889,6 +913,17 @@ public class GeoList extends GeoElement
 				tpl.getCommaOptionalSpace(sb, getLoc());
 			}
 			sb.append(geo.toOutputValueString(tpl));
+		}
+		return sb;
+	}
+
+	private StringBuilder appendElementsForXml(StringBuilder sb) {
+		for (int i = 0; i < elements.size(); i++) {
+			final GeoElement geo = elements.get(i);
+			if (i != 0) {
+				sb.append(',');
+			}
+			StringUtil.encodeXML(sb, geo.getLabel(StringTemplate.xmlTemplate));
 		}
 		return sb;
 	}
@@ -925,13 +960,15 @@ public class GeoList extends GeoElement
 				sb.append('}');
 			} else if (getDefinition() != null) {
 				getDefinitionXML(sb);
+			} else if (!isDefined) {
+				sb.append('?');
 			} else {
-				StringUtil.encodeXML(sb,
-						toValueString(StringTemplate.xmlTemplate));
+				sb.append('{');
+				appendElementsForXml(sb);
+				sb.append('}');
 			}
 			if (getTableColumn() != -1) {
-				sb.append("\" type=\"");
-				sb.append("list");
+				sb.append("\" type=\"list");
 			}
 			sb.append("\"/>\n");
 		}
@@ -997,7 +1034,7 @@ public class GeoList extends GeoElement
 	@Override
 	public void update(boolean drag) {
 		super.update(drag);
-
+		ensureSelectedIndexInRange();
 		// update information on whether this path is fit for AlgoLocus
 		// or it can only support AlgoLocusList (call this method here again
 		// because the GeoList might change - code will run only if locus used
@@ -1007,15 +1044,19 @@ public class GeoList extends GeoElement
 		// update all registered locatables (they have this point as start
 		// point)
 		if (colorFunctionListener != null) {
-			// AbstractApplication.debug("GeoList update listeners");
 			for (int i = 0; i < colorFunctionListener.size(); i++) {
 				final GeoElement geo = colorFunctionListener.get(i);
 				// kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
 				geo.updateVisualStyle(GProperty.COLOR);
-				// AbstractApplication.debug(geo);
 			}
 			// kernel.notifyRepaint();
+		}
+	}
+
+	private void ensureSelectedIndexInRange() {
+		if (selectedIndex < 0 || selectedIndex > size() - 1) {
+			selectedIndex = 0;
 		}
 	}
 
@@ -1073,11 +1114,6 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void setZero() {
-		elements.clear();
-	}
-
-	@Override
 	public void setLineThickness(final int thickness) {
 		super.setLineThickness(thickness);
 
@@ -1091,8 +1127,6 @@ public class GeoList extends GeoElement
 				geo.setLineThickness(thickness);
 			}
 		}
-
-		// Application.debug("GeoList.setLineThickness "+thickness);
 	}
 
 	/**
@@ -1197,8 +1231,6 @@ public class GeoList extends GeoElement
 
 				// get alpha value of first element
 				final double alpha = elements.get(0).getAlphaValue();
-
-				// Application.debug("setting list alpha to "+alpha);
 
 				super.setAlphaValue(alpha);
 
@@ -1510,43 +1542,39 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
-		return toLaTeXString(symbolic, false, tpl);
-	}
-
-	@Override
-	public String toLaTeXString(
-			final boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		if (isMatrix()) {
-
-			// int rows = size();
-			final int cols = ((GeoList) get(0)).size();
-
-			final StringBuilder sb = new StringBuilder();
-
-			sb.append("\\left(\\begin{array}{");
-			// eg rr
-			for (int i = 0; i < cols; i++) {
-				sb.append('r');
-			}
-			sb.append("}");
-			for (int i = 0; i < size(); i++) {
-				final GeoList row = (GeoList) get(i);
-				for (int j = 0; j < row.size(); j++) {
-					GeoElement geo = row.get(j);
-					sb.append(symbolic ? geo.getLabel(tpl)
-							: geo.toLaTeXString(false, symbolicContext, tpl));
-					if (j < row.size() - 1) {
-						sb.append("&");
-					}
-				}
-				sb.append("\\\\");
-			}
-			sb.append(" \\end{array}\\right)");
-			return sb.toString();
-			// return "\\begin{array}{ll}1&2 \\\\ 3&4 \\\\ \\end{array}";
+			return toMatrixString(symbolic, tpl);
 		}
 
 		return super.toLaTeXString(symbolic, tpl);
+	}
+
+	private String toMatrixString(boolean symbolic, StringTemplate tpl) {
+		// int rows = size();
+		final int cols = ((GeoList) get(0)).size();
+
+		final StringBuilder sb = new StringBuilder();
+
+		sb.append("\\left(\\begin{array}{");
+		// eg rr
+		for (int i = 0; i < cols; i++) {
+			sb.append('r');
+		}
+		sb.append("}");
+		for (int i = 0; i < size(); i++) {
+			final GeoList row = (GeoList) get(i);
+			for (int j = 0; j < row.size(); j++) {
+				GeoElement geo = row.get(j);
+				sb.append(symbolic ? geo.getLabel(tpl)
+						: geo.toLaTeXString(false, tpl));
+				if (j < row.size() - 1) {
+					sb.append("&");
+				}
+			}
+			sb.append("\\\\");
+		}
+		sb.append(" \\end{array}\\right)");
+		return sb.toString();
 	}
 
 	@Override
@@ -1554,7 +1582,7 @@ public class GeoList extends GeoElement
 		super.getStyleXML(sb);
 
 		getLineStyleXML(sb);
-		if ((size() == 0 || !isDefined()) && getTypeStringForXML() != null) {
+		if (isElementTypeXMLNeeded()) {
 			sb.append("\t<listType val=\"");
 			sb.append(getTypeStringForXML());
 			sb.append("\"/>\n");
@@ -1596,6 +1624,17 @@ public class GeoList extends GeoElement
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
 		}
+		if (startPoint != null) {
+			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
+		}
+	}
+
+	/**
+	 *
+	 * @return if element type should be saved with XML.
+	 */
+	protected boolean isElementTypeXMLNeeded() {
+		return (size() == 0 || !isDefined()) && getTypeStringForXML() != null;
 	}
 
 	/**
@@ -1610,23 +1649,23 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * @param selectedIndex0
+	 * @param selectedIndex
 	 *            new selected index
-	 * @param update
-	 *            t
 	 */
-	public void setSelectedIndex(final int selectedIndex0, boolean update) {
-		selectedIndex = selectedIndex0;
+	public void setSelectedIndex(final int selectedIndex) {
+		this.selectedIndex = selectedIndex;
+		ensureSelectedIndexInRange();
+	}
 
-		if (selectedIndex < 0 || selectedIndex > size() - 1) {
-			selectedIndex = 0;
-		}
-
-		if (update) {
-			updateCascade();
-			getKernel().notifyRepaint();
-			getKernel().storeUndoInfo();
-		}
+	/**
+	 * Select index, update cascade, create undo point
+	 * @param selectedIndex0 newly selected index
+	 */
+	public void setSelectedIndexUpdate(final int selectedIndex0) {
+		setSelectedIndex(selectedIndex0);
+		updateCascade();
+		getKernel().notifyRepaint();
+		getKernel().storeUndoInfo();
 	}
 
 	/*
@@ -1643,7 +1682,7 @@ public class GeoList extends GeoElement
 	 *
 	 * @return selected element
 	 */
-	public GeoElement getSelectedElement() {
+	public @CheckForNull GeoElement getSelectedElement() {
 		if ((selectedIndex > -1) && (selectedIndex < size())) {
 			return get(selectedIndex);
 		}
@@ -1680,7 +1719,6 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public void pointChanged(final GeoPointND P) {
-		// Application.debug("pointChanged",1);
 
 		P.updateCoords();
 
@@ -1712,8 +1750,6 @@ public class GeoList extends GeoElement
 		// 0-1 for first obj
 		// 1-2 for second
 		// etc
-		// Application.debug(pp.t+" "+path.getMinParameter()+"
-		// "+path.getMaxParameter());
 
 		int closestPointIndexBack = closestPointIndex;
 		if (directionInfoOrdering != null) {
@@ -1745,7 +1781,6 @@ public class GeoList extends GeoElement
 	 *            point
 	 */
 	public void getNearestPoint(final GeoPointND p) {
-		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
 
@@ -1762,10 +1797,6 @@ public class GeoList extends GeoElement
 				}
 			}
 		}
-
-		// Application.debug("closestPointIndex="+closestPointIndex);
-
-		// return get(closestPointIndex).getNearestPoint(p);
 	}
 
 	@Override
@@ -1852,13 +1883,9 @@ public class GeoList extends GeoElement
 					path.getMinParameter(), path.getMaxParameter()));
 		}
 
-		// Application.debug("pathChanged "+n);
-
 		path.pathChanged(PI);
 
 		t = pp.getT();
-		// Application.debug(PathNormalizer.toNormalizedPathParameter(t,
-		// path.getMinParameter(), path.getMaxParameter()));
 
 		if ((directionInfoArray == null) || directionInfoArray[n]) {
 			pp.setT(PathNormalizer.toNormalizedPathParameter(t,
@@ -1879,7 +1906,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean isOnPath(final GeoPointND PI, final double eps) {
-		// Application.debug("isOnPath",1);
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
 			if (((PathOrPoint) geo).isOnPath(PI, eps)) {
@@ -2286,12 +2312,12 @@ public class GeoList extends GeoElement
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return labelOffsetX;
+		return startPoint == null ? labelOffsetX : (int) startPoint.getInhomX();
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return labelOffsetY;
+		return startPoint == null ? labelOffsetY : (int) startPoint.getInhomY();
 	}
 
 	@Override
@@ -2900,7 +2926,7 @@ public class GeoList extends GeoElement
 			return new GeoNumeric(cons);
 		}
 		// list not zero length
-		return get(0).copyInternal(cons);
+		return getGenericElement(elements).copyInternal(cons);
 	}
 
 	@Override
@@ -3127,6 +3153,20 @@ public class GeoList extends GeoElement
 	}
 
 	/**
+	 * @return True if background color is set, false else
+	 */
+	public boolean isBackgroundColorSet() {
+		return bgColor != null;
+	}
+
+	/**
+	 * @return True if the default object color {@link ConstructionDefaults#colList} is set, false else
+	 */
+	public boolean isDefaultObjectColorSet() {
+		return objColor.equals(ConstructionDefaults.colList);
+	}
+
+	/**
 	 * Sets the total width of the geo.
 	 *
 	 * @param width
@@ -3180,9 +3220,12 @@ public class GeoList extends GeoElement
 	 *            template
 	 * @return The displayed string of item.
 	 */
-	public String getItemDisplayString(GeoElement geoItem,
+	public String getItemDisplayString(@CheckForNull GeoElement geoItem,
 			StringTemplate tpl) {
-		String displayString = "";
+		if (geoItem == null) {
+			return "";
+		}
+		String displayString;
 		if (!"".equals(geoItem.getRawCaption())) {
 			displayString =  geoItem.getCaption(tpl);
 		} else if (geoItem.isGeoPoint() || geoItem.isGeoVector() || geoItem.isGeoList()) {
@@ -3392,5 +3435,57 @@ public class GeoList extends GeoElement
 
 	private boolean isUndefinedList() {
 		return !elements.isEmpty() && elements().noneMatch(GeoElement::isDefined);
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+		}
+
+		// set new location
+		if (p == null) {
+			if (startPoint != null) {
+				startPoint = startPoint.copy();
+			}
+
+			labelOffsetX = 0;
+			labelOffsetY = 0;
+		} else {
+			startPoint = p;
+
+			// add new dependencies
+			startPoint.getLocateableList().registerLocateable(this);
+		}
+	}
+
+	@Override
+	public GeoPointND getStartPoint() {
+		return startPoint;
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
+		setStartPoint(p);
+	}
+
+	@Override
+	public void initStartPoint(GeoPointND p, int number) {
+		this.startPoint = p;
+	}
+
+	@Override
+	public boolean hasStaticLocation() {
+		return false;
+	}
+
+	@Override
+	public boolean isAlwaysFixed() {
+		return false;
+	}
+
+	@Override
+	public void updateLocation() {
+		update();
 	}
 }

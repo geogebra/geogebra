@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -12,16 +12,18 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.gui.toolcategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -44,15 +46,12 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.keyboard.web.KeyboardListener;
-import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.cas.view.CASViewW;
 import org.geogebra.web.full.cas.view.RowHeaderPopupMenuW;
@@ -62,7 +61,6 @@ import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
@@ -88,17 +86,19 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.action.SaveExamAction;
+import org.geogebra.web.full.gui.openfileview.OpenFileView;
+import org.geogebra.web.full.gui.openfileview.OpenFileViewMebis;
+import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.util.DateTimeFormat;
 import org.geogebra.web.full.gui.util.InputKeyboardButtonW;
-import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
-import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
@@ -108,10 +108,8 @@ import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.full.main.GDevice;
-import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
-import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
-import org.geogebra.web.full.util.keyboard.ScriptAreaProcessing;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -120,8 +118,6 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -131,21 +127,20 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
-
+import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URL;
 
 public class GuiManagerW extends GuiManager
-		implements GuiManagerInterfaceW, EventRenderable, SetLabels {
+		implements GuiManagerInterfaceW, SetLabels {
 
 	/**
 	 * container for the Popup that only one exist for a given type
@@ -158,7 +153,6 @@ public class GuiManagerW extends GuiManager
 	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<>();
 	protected BrowseViewI browseGUI;
 	protected LayoutW layout;
-	protected boolean uploadWaiting;
 	private CASViewW casView;
 	private Euclidian2DockPanelW euclidianView2DockPanel;
 	private String strCustomToolbarDefinition;
@@ -261,10 +255,10 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showPopupMenu(final ArrayList<GeoElement> geos,
-			final AlgebraView invoker, final GPoint p) {
+			final Widget invoker, final int x, int y) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
-		getPopupMenu(geos).show(p);
+		getPopupMenu(geos).showScaled(invoker.getElement(), x, y);
 	}
 
 	/**
@@ -276,7 +270,7 @@ public class GuiManagerW extends GuiManager
 		removePopup();
 		final SpreadsheetContextMenuW contextMenu = new SpreadsheetContextMenuW(
 				mt);
-		currentPopup = (AttachedToDOM) contextMenu.getMenuContainer();
+		currentPopup = contextMenu.getMenuContainer();
 		return contextMenu;
 	}
 
@@ -627,8 +621,8 @@ public class GuiManagerW extends GuiManager
 			root.setPixelSize(width - horizontalSpace, height - verticalSpace);
 			root.onResize();
 		} else {
-			geogebraFrame.getStyle().setHeight(height, Style.Unit.PX);
-			geogebraFrame.getStyle().setWidth(width, Style.Unit.PX);
+			geogebraFrame.getStyle().setHeight(height, Unit.PX);
+			geogebraFrame.getStyle().setWidth(width, Unit.PX);
 			getApp().getEuclidianViewpanel().setPixelSize(width, height);
 
 			// maybe onResize is OK too
@@ -684,8 +678,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void removeFromToolbarDefinition(final int mode) {
 		if (strCustomToolbarDefinition != null) {
-			// Application.debug("before: " + strCustomToolbarDefinition +
-			// ",  delete " + mode);
 			strCustomToolbarDefinition = strCustomToolbarDefinition.replaceAll(
 					Integer.toString(mode), "");
 
@@ -700,8 +692,6 @@ public class GuiManagerW extends GuiManager
 									Integer.toString(id - 1));
 				}
 			}
-
-			// Application.debug("after: " + strCustomToolbarDefinition);
 		}
 	}
 
@@ -1017,23 +1007,23 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void listenToLogin() {
-		uploadWaiting = true;
+	public void listenToLogin(Runnable onSuccess) {
+		runAfterLogin = onSuccess;
 		if (listeningToLogin) {
 			return;
 		}
 		listeningToLogin = true;
-		getApp().getLoginOperation().getView().add(this);
+		getApp().getLoginOperation().getView().add(this::uploadCallback);
 	}
 
 	@Override
 	public boolean save() {
 		if (getApp().isExam()) {
 			SaveExamAction.showExamSaveDialog(getApp());
-			return true;
 		} else {
-			return getApp().getFileManager().save(getApp());
+			getApp().getFileManager().save(getApp());
 		}
+		return true;
 	}
 
 	@Override
@@ -1318,6 +1308,8 @@ public class GuiManagerW extends GuiManager
 		if (browseGUIwasLoaded()) {
 			getBrowseView().setLabels();
 		}
+
+		GlobalHeader.INSTANCE.setLabels();
 	}
 
 	@Override
@@ -1755,12 +1747,12 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * @return {@link BrowseGUI}
+	 * @return {@link BrowseViewI}
 	 */
 	@Override
 	public BrowseViewI getBrowseView(String query) {
 		if (!browseGUIwasLoaded()) {
-			this.browseGUI = this.device.createBrowseView(this.getApp());
+			this.browseGUI = createBrowseView(this.getApp());
 			if (!StringUtil.emptyTrim(query)) {
 				this.browseGUI.displaySearchResults(query);
 			} else {
@@ -1773,8 +1765,25 @@ public class GuiManagerW extends GuiManager
 		return this.browseGUI;
 	}
 
+	private BrowseViewI createBrowseView(AppWFull app) {
+		if (app.isExam()) {
+			return new OpenTemporaryFileView(app);
+		} else {
+			BrowserDevice.FileOpenButton fileOpenButton =
+					new BrowserDevice.FileOpenButton("containedButton");
+			BrowseViewI openFileView;
+			if (app.isMebis()) {
+				openFileView = new OpenFileViewMebis(app, fileOpenButton);
+			} else {
+				openFileView = new OpenFileView(app, fileOpenButton);
+			}
+			fileOpenButton.setOpenFileView(openFileView);
+			return openFileView;
+		}
+	}
+
 	/**
-	 * @return true if {@link BrowseGUI} is not null
+	 * @return true if {@link OpenFileView} is not null
 	 */
 	public boolean browseGUIwasLoaded() {
 		return this.browseGUI != null;
@@ -1872,7 +1881,7 @@ public class GuiManagerW extends GuiManager
 
 	private void exportGGBDirectly() {
 		String extension = ((AppW) app).getFileExtension();
-		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date())
+		String currentDate = DateTimeFormat.format(new JsDate())
 				+ extension;
 		String filename = getApp().isMebis() ? currentDate : getApp().getExportTitle() + extension;
 		exportGgb(filename, extension);
@@ -1901,7 +1910,7 @@ public class GuiManagerW extends GuiManager
 				new Event(EventType.EXPORT, null, "[\"ggt\"]"));
 
 		if (NavigatorUtil.isFirefox()) {
-			getApp().getGgbApi().getMacrosBase64(true,
+			getApp().getGgbApi().getAllMacrosBase64(true,
 					getBase64DownloadCallback(filename));
 		} else {
 			getApp().getGgbApi().getZippedMacrosAsync(
@@ -1937,24 +1946,17 @@ public class GuiManagerW extends GuiManager
 					title);
 	}
 
-	@Override
-	public final void renderEvent(final BaseEvent event) {
-		if (this.uploadWaiting && event instanceof LoginEvent
-				&& ((LoginEvent) event).isSuccessful()) {
-			this.uploadWaiting = false;
-			runAfterSuccessfulLogin();
-		} else if (this.uploadWaiting && event instanceof StayLoggedOutEvent) {
-			this.uploadWaiting = false;
-			getApp().getFileManager().saveLoggedOut(getApp());
-		}
-	}
-
-	private void runAfterSuccessfulLogin() {
-		if (app.isMebis() && runAfterLogin != null) {
-			runAfterLogin.run();
-			setRunAfterLogin(null);
-		} else {
-			save();
+	private void uploadCallback(final BaseEvent event) {
+		if (runAfterLogin != null) {
+			if (event instanceof LoginEvent
+					&& ((LoginEvent) event).isSuccessful()) {
+				runAfterLogin.run();
+				this.runAfterLogin = null;
+			} else if (event instanceof StayLoggedOutEvent || (event instanceof LoginEvent
+					&& !((LoginEvent) event).isSuccessful())) {
+				runAfterLogin = null;
+				getApp().getFileManager().saveLoggedOut(getApp());
+			}
 		}
 	}
 
@@ -1979,42 +1981,6 @@ public class GuiManagerW extends GuiManager
 			return getGeneralToolbar().getDefaultToolbarString();
 		}
 		return "";
-	}
-
-	/**
-	 * Create keyboard adapter for text editing object.
-	 *
-	 * @param textField
-	 *            text / math editor
-	 * @return keyboard adapter
-	 */
-	public static KeyboardListener makeKeyboardListener(
-			MathKeyboardListener textField, HasLastItem lastItemProvider) {
-		if (textField instanceof RetexKeyboardListener) {
-			return new MathFieldProcessing(
-					((RetexKeyboardListener) textField).getMathField());
-		}
-		if (textField instanceof RadioTreeItem) {
-			return new AlgebraMathFieldProcessing(
-					(RadioTreeItem) textField,
-					lastItemProvider);
-		}
-		if (textField instanceof KeyboardListener) {
-			return (KeyboardListener) textField;
-		}
-		if (textField instanceof GTextBox) {
-			return new GTextBoxProcessing((GTextBox) textField);
-		}
-		if (textField instanceof AutoCompleteTextFieldW) {
-			return new AutocompleteProcessing(
-					(AutoCompleteTextFieldW) textField);
-		}
-
-		if (textField instanceof ScriptArea) {
-			return new ScriptAreaProcessing((ScriptArea) textField);
-		}
-
-		return null;
 	}
 
 	@Override
@@ -2268,8 +2234,8 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public SymbolicEditor createSymbolicEditor(EuclidianViewW view) {
-		return new SymbolicEditorW(app, view);
+	public SymbolicEditor createSymbolicEditor(EuclidianViewW view, TextRendererSettings settings) {
+		return new SymbolicEditorW(app, view, settings);
 	}
 
 	/**
@@ -2308,5 +2274,34 @@ public class GuiManagerW extends GuiManager
 			inputKeyboardButton = new InputKeyboardButtonW(getApp());
 		}
 		return inputKeyboardButton;
+	}
+
+	@Override
+	public boolean toolbarHasImageMode() {
+		if (!app.showToolBar()) {
+			return false;
+		}
+		if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
+			Vector<ToolbarItem> toolbarItems =
+					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
+
+			for (ToolbarItem toolbarItem : toolbarItems) {
+				if (toolbarItem.getMode() == null) {
+					if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
+						return true;
+					}
+				} else if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
+					return true;
+				}
+			}
+		} else if (getApp().isWhiteboardActive()) {
+			return true;
+		} else {
+			ToolCollection toolCollection =
+					app.createToolCollectionFactory().createToolCollection();
+			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
+		}
+
+		return false;
 	}
 }

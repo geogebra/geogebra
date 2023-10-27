@@ -24,36 +24,32 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.animation.client.Animation;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.EventTarget;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Display;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.logical.shared.CloseEvent;
+import org.gwtproject.event.logical.shared.CloseHandler;
+import org.gwtproject.event.logical.shared.HasCloseHandlers;
+import org.gwtproject.event.logical.shared.ResizeEvent;
+import org.gwtproject.event.logical.shared.ResizeHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.Event.NativePreviewEvent;
+import org.gwtproject.user.client.ui.HasAnimation;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.impl.PopupImpl;
 
-import com.google.gwt.animation.client.Animation;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.EventTarget;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.HasAnimation;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.DomGlobal;
@@ -178,7 +174,6 @@ public class GPopupPanel extends SimplePanel implements
 	private int leftPosition = -1;
 
 	private HandlerRegistration nativePreviewHandlerRegistration;
-	private HandlerRegistration historyHandlerRegistration;
 
 	/**
 	 * The {@link ResizeAnimation} used to open and close the
@@ -1092,7 +1087,7 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	@Override
-	protected com.google.gwt.user.client.Element getContainerElement() {
+	protected Element getContainerElement() {
 		return impl.getContainerElement(getPopupImplElement()).cast();
 	}
 
@@ -1107,7 +1102,7 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	@Override
-	protected com.google.gwt.user.client.Element getStyleElement() {
+	protected Element getStyleElement() {
 		return impl.getStyleElement(getPopupImplElement()).cast();
 	}
 
@@ -1394,8 +1389,9 @@ public class GPopupPanel extends SimplePanel implements
 	private static double getScaleNative(Element start, String dir) {
 		Element current = start;
 		while (Js.isTruthy(current)) {
-			if (!StringUtil.empty(start.getAttribute("data-scale" + dir))) {
-				return Double.parseDouble(start.getAttribute("data-scale" + dir));
+			String scaleAttr = current.getAttribute("data-scale" + dir);
+			if (!StringUtil.empty(scaleAttr)) {
+				return Double.parseDouble(scaleAttr);
 			}
 			current = current.getParentElement();
 		}
@@ -1503,30 +1499,11 @@ public class GPopupPanel extends SimplePanel implements
 			nativePreviewHandlerRegistration.removeHandler();
 			nativePreviewHandlerRegistration = null;
 		}
-		if (historyHandlerRegistration != null) {
-			historyHandlerRegistration.removeHandler();
-			historyHandlerRegistration = null;
-		}
 
 		// Create handlers if showing.
 		if (showing) {
 			nativePreviewHandlerRegistration = Event
-					.addNativePreviewHandler(new NativePreviewHandler() {
-						@Override
-						public void onPreviewNativeEvent(
-								NativePreviewEvent event) {
-							previewNativeEvent(event);
-						}
-					});
-			historyHandlerRegistration = History
-					.addValueChangeHandler(new ValueChangeHandler<String>() {
-						@Override
-						public void onValueChange(ValueChangeEvent<String> event) {
-							if (autoHideOnHistoryEvents) {
-								hide();
-							}
-						}
-					});
+					.addNativePreviewHandler(this::previewNativeEvent);
 		}
 	}
 	

@@ -1,14 +1,14 @@
 package com.himamis.retex.editor.web;
 
 import org.geogebra.gwtutil.NativePointerEvent;
+import org.gwtproject.event.dom.client.DoubleClickEvent;
+import org.gwtproject.event.dom.client.DoubleClickHandler;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.renderer.share.SelectionBox;
 
+import elemental2.core.Function;
 import elemental2.dom.HTMLElement;
 import jsinterop.base.Js;
 
@@ -17,10 +17,10 @@ import jsinterop.base.Js;
  */
 public class ClickAdapterW
 		implements DoubleClickHandler {
-	private ClickListener handler;
+	private final ClickListener handler;
 	private boolean pointerIsDown = false;
-	private Widget widget;
-	private MathFieldW field;
+	private final MathFieldW field;
+	private double scale = 1;
 
 	/**
 	 * @param handler
@@ -40,24 +40,28 @@ public class ClickAdapterW
 
 		event.preventDefault();
 		SelectionBox.touchSelection = "touch".equals(event.getPointerType());
-		handler.onPointerDown((int) event.getOffsetX(), (int) event.getOffsetY());
-		Event.setCapture(widget.getElement());
+		handler.onPointerDown(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
 		this.pointerIsDown = true;
+	}
+
+	/*
+	 * Converts from event pixels to formula pixels. Does *not* depend on device pixel ratio.
+	 */
+	private int toFormulaPx(double eventPx) {
+		return (int) (eventPx / scale);
 	}
 
 	private void onPointerUp(NativePointerEvent event) {
 		if (!field.isEnabled()) {
 			return;
 		}
-
-		Event.releaseCapture(widget.getElement());
 		this.pointerIsDown = false;
-		handler.onPointerUp((int) event.getOffsetX(), (int) event.getOffsetY());
+		handler.onPointerUp(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
 	}
 
 	private void onPointerMove(NativePointerEvent event) {
 		if (this.pointerIsDown) {
-			handler.onPointerMove((int) event.getOffsetX(), (int) event.getOffsetY());
+			handler.onPointerMove(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
 		}
 	}
 
@@ -71,12 +75,19 @@ public class ClickAdapterW
 		if (html == null) {
 			return;
 		}
-		widget = html;
 
 		HTMLElement element = Js.uncheckedCast(html.getElement());
 
 		element.addEventListener("pointerdown",
-				(event) -> onPointerDown(Js.uncheckedCast(event)));
+				(event) -> {
+					onPointerDown(Js.uncheckedCast(event));
+					Function capture = Js.uncheckedCast(Js.asPropertyMap(event.target)
+							.get("setPointerCapture"));
+					if (Js.isTruthy(capture)) {
+						NativePointerEvent ptr = Js.uncheckedCast(event);
+						capture.call(event.target, ptr.getPointerId());
+					}
+				});
 		element.addEventListener("pointerup",
 				(event) -> onPointerUp(Js.uncheckedCast(event)));
 		element.addEventListener("pointermove",
@@ -90,5 +101,9 @@ public class ClickAdapterW
 		if (field.isEnabled()) {
 			handler.onLongPress(event.getX(), event.getY());
 		}
+	}
+
+	public void setScale(double scale) {
+		this.scale = scale;
 	}
 }

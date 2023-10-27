@@ -584,13 +584,13 @@ public final class MyMath {
 	 * @return smallest number in the input
 	 */
 	public static double min(double[] data) {
-		double max = data[0];
+		double min = data[0];
 		for (int i = 0; i < data.length; i++) {
-			if (data[i] < max) {
-				max = data[i];
+			if (data[i] < min) {
+				min = data[i];
 			}
 		}
-		return max;
+		return min;
 	}
 
 	/**

@@ -209,12 +209,9 @@ public class CASgiacW extends CASgiac {
 
 		if (nativeCASloaded()) {
 
-			kernel.getApplication().invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					Log.debug(versionString + " is already loaded");
-					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-				}
+			kernel.getApplication().invokeLater(() -> {
+				Log.debug(versionString + " is already loaded");
+				kernel.getApplication().getGgbApi().initCAS();
 			});
 
 			return;
@@ -228,7 +225,7 @@ public class CASgiacW extends CASgiac {
 			// make sure CAS cells etc re-evaluated after CAS loaded
 			setUpInitCAS();
 
-			GWT.runAsync(new RunAsyncCallback() {
+			GWT.runAsync(CASgiacW.class, new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("GIAC webAssembly");

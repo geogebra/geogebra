@@ -1,19 +1,20 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.data.PlotSettings;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -120,26 +121,17 @@ public abstract class ProbabilityCalculatorView
 	protected GeoNumberValue[] parameters;
 	protected boolean isCumulative = false;
 
-	// maps for the distribution ComboBox
-	private HashMap<Dist, String> distributionMap;
-	private HashMap<String, Dist> reverseDistributionMap;
-
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
 	private final ProbabilityXAxis xAxis;
-	protected GeoPoint curvePoint;
-	protected GeoElement densityCurve;
-	protected GeoElement integral;
-	protected GeoElement ySegment;
-	protected GeoElement xSegment;
-	protected GeoElement discreteIntervalGraph;
-	protected GeoElement normalOverlay;
-	protected GeoElementND discreteGraph;
-	protected GeoList discreteValueList;
-	protected GeoList discreteProbList;
-	protected GeoList intervalProbList;
-	protected GeoList intervalValueList;
-	protected ArrayList<GeoElement> pointList;
+	private GeoElement densityCurve;
+	private GeoElement integral;
+	private GeoElement discreteIntervalGraph;
+	private GeoElement normalOverlay;
+	private GeoElementND discreteGraph;
+	private GeoList discreteValueList;
+	private GeoList discreteProbList;
+	private ArrayList<GeoElement> pointList;
 
 	// initing
 	protected boolean isIniting;
@@ -164,6 +156,7 @@ public abstract class ProbabilityCalculatorView
 	// rounding
 	protected int printDecimals = 4;
 	protected int printFigures = -1;
+	protected StringTemplate stringTemplate;
 
 	// flags
 	protected boolean showProbGeos = true;
@@ -222,8 +215,6 @@ public abstract class ProbabilityCalculatorView
 	 * Update localization arrays
 	 */
 	protected void setLabelArrays() {
-		distributionMap = probManager.getDistributionMap();
-		reverseDistributionMap = probManager.getReverseDistributionMap();
 		if (app.getConfig().hasDistributionView()) {
 			parameterLabels = probManager.getParameterLabelArrayPrefixed(app.getLocalization());
 		} else {
@@ -236,7 +227,7 @@ public abstract class ProbabilityCalculatorView
 	 * @return maximum value in the discrete value list.
 	 */
 	public int getDiscreteXMax() {
-		if (discreteValueList != null) {
+		if (discreteValueList != null && discreteValueList.size() > 0) {
 			GeoNumeric geo = (GeoNumeric) discreteValueList
 					.get(discreteValueList.size() - 1);
 			return (int) geo.getDouble();
@@ -306,13 +297,6 @@ public abstract class ProbabilityCalculatorView
 		}
 		if (probMode != PROB_RIGHT && getHigh() >= plotSettings.xMax) {
 			setHighDefault();
-		}
-		if (getHigh() == getLow() && !isDiscreteProbability()) {
-			if (getHigh() < getDefaultHigh()) {
-				setHighDefault();
-			} else {
-				setLowDefault();
-			}
 		}
 	}
 
@@ -440,7 +424,7 @@ public abstract class ProbabilityCalculatorView
 	// =================================================
 	// Plotting
 	// =================================================
-	private static final GColor colorPDF() {
+	private static GColor colorPDF() {
 		return GeoGebraColorConstants.DARKBLUE;
 	}
 
@@ -503,7 +487,7 @@ public abstract class ProbabilityCalculatorView
 				curvePointNode, false);
 		cons.removeFromConstructionList(pAlgo);
 
-		curvePoint = (GeoPoint) pAlgo.getOutput(0);
+		GeoPoint curvePoint = (GeoPoint) pAlgo.getOutput(0);
 		curvePoint.setObjColor(COLOR_POINT);
 		curvePoint.setPointSize(4);
 		curvePoint.setLayer(f.getLayer() + 1);
@@ -525,7 +509,7 @@ public abstract class ProbabilityCalculatorView
 		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons,
 				curvePoint, (GeoPoint) pointAlgo.getOutput(0), null,
 				false);
-		xSegment = seg1.getOutput(0);
+		GeoElement xSegment = seg1.getOutput(0);
 		xSegment.setObjColor(GColor.BLUE);
 		xSegment.setLineThickness(3);
 		xSegment.setLineType(
@@ -549,7 +533,7 @@ public abstract class ProbabilityCalculatorView
 		AlgoRayPointVector seg2 = new AlgoRayPointVector(cons,
 				curvePoint, v);
 		cons.removeFromConstructionList(seg2);
-		ySegment = seg2.getOutput(0);
+		GeoElement ySegment = seg2.getOutput(0);
 		ySegment.setObjColor(GColor.RED);
 		ySegment.setLineThickness(3);
 		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
@@ -626,10 +610,8 @@ public abstract class ProbabilityCalculatorView
 			xMax = xLow;
 		} else {
 			xLow = getDependentNumber(lowPlusOffset).getNumber();
-			xMin = new AlgoMin(cons, xLow, xHigh.getNumber()).getResult();
-			xMax = new AlgoMax(cons, xLow, xHigh.getNumber()).getResult();
-			cons.removeFromConstructionList(xMax.getParentAlgorithm());
-			cons.removeFromConstructionList(xMin.getParentAlgorithm());
+			xMin = xLow;
+			xMax = xHigh.getNumber();
 		}
 
 		if (isTwoTailedMode()) {
@@ -641,9 +623,9 @@ public abstract class ProbabilityCalculatorView
 									xLow, Operation.EQUAL_BOOLEAN, xHigh.getNumber()),
 							xminPlusOne), Operation.IF_ELSE, xMax);
 			AlgoDependentNumber adn = getDependentNumber(ex);
-			createTwoTailedDiscreteGraph(xMin, adn.getNumber());
+			createTwoTailedDiscreteGraph(capMax(xMin), capMax(adn.getNumber()));
 		} else {
-			createSimpleDiscreteGraph(xMin, xMax);
+			createSimpleDiscreteGraph(capMax(xMin), capMax(xMax));
 		}
 		createAxis();
 	}
@@ -654,8 +636,8 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	private void createSimpleDiscreteGraph(GeoNumberValue xMin, GeoNumberValue xMax) {
-		intervalValueList = takeSubList(discreteValueList, xMin, xMax);
-		intervalProbList = takeSubList(discreteProbList, xMin, xMax);
+		GeoList intervalValueList = takeSubList(discreteValueList, xMin, xMax);
+		GeoList intervalProbList = takeSubList(discreteProbList, xMin, xMax);
 
 		discreteIntervalGraph = createIntervalGraph(intervalValueList, intervalProbList);
 		plotGeoList.add(discreteIntervalGraph);
@@ -673,14 +655,9 @@ public abstract class ProbabilityCalculatorView
 	private void createTwoTailedDiscreteGraph(GeoNumberValue xMin,
 			GeoNumberValue xMax) {
 		GeoNumeric left = new GeoNumeric(cons, 1);
-		GeoNumberValue length = new AlgoListLength(cons, discreteValueList).getLength();
-		AlgoMin algoMin = new AlgoMin(cons, xMin, length);
-		cons.removeFromConstructionList(length.getParentAlgorithm());
-		cons.removeFromConstructionList(algoMin);
-
-		GeoList leftValues = takeSubList(discreteValueList, left, algoMin.getResult());
+		GeoList leftValues = takeSubList(discreteValueList, left, xMin);
 		GeoList rightValues = takeSubList(discreteValueList, xMax, null);
-		GeoList leftProbs = takeSubList(discreteProbList, left, algoMin.getResult());
+		GeoList leftProbs = takeSubList(discreteProbList, left, xMin);
 		GeoList rightProbs = takeSubList(discreteProbList, xMax, null);
 		GeoElement discreteIntervalGraphLeft = createIntervalGraph(leftValues, leftProbs);
 		GeoElement discreteIntervalGraphRight = createIntervalGraph(rightValues, rightProbs);
@@ -688,6 +665,16 @@ public abstract class ProbabilityCalculatorView
 				new DiscreteTwoTailedGraph(discreteIntervalGraphLeft, discreteIntervalGraphRight);
 		discreteTwoTailedGraph.addTo(plotGeoList);
 		hideSimpleDiscreteGraph();
+	}
+
+	private GeoNumberValue capMax(GeoNumberValue xMin) {
+		GeoNumberValue length = new AlgoListLength(cons, discreteValueList).getLength();
+		AlgoMax algoMax = new AlgoMax(cons, xMin, new GeoNumeric(cons, 1));
+		AlgoMin algoMin = new AlgoMin(cons, algoMax.getResult(), length);
+		cons.removeFromConstructionList(length.getParentAlgorithm());
+		cons.removeFromConstructionList(algoMin);
+		cons.removeFromConstructionList(algoMax);
+		return algoMin.getResult();
 	}
 
 	private void hideSimpleDiscreteGraph() {
@@ -805,22 +792,19 @@ public abstract class ProbabilityCalculatorView
 	 * Creates the integral graph by the given mode.
 	 */
 	protected void createIntegral() {
-		GeoNumberValue xLowOutput = getXOutputFrom(xAxis.lowPoint());
-		GeoNumberValue xHighOutput = getXOutputFrom(xAxis.highPoint());
+		GeoNumberValue xLowOutput = getXOutputFrom(xAxis.getLowExpression());
+		GeoNumberValue xHighOutput = getXOutputFrom(xAxis.getHighExpression());
 		if (isTwoTailedMode()) {
 			GeoNumeric minX = new GeoNumeric(cons, Double.NEGATIVE_INFINITY);
 			GeoNumeric maxX = new GeoNumeric(cons, Double.POSITIVE_INFINITY);
-			AlgoMin lowX = new AlgoMin(cons, xLowOutput, xHighOutput);
-			AlgoMax highX = new AlgoMax(cons, xLowOutput, xHighOutput);
 			cons.removeFromConstructionList(minX);
 			cons.removeFromConstructionList(maxX);
-			integralLeft = createIntegral(minX, lowX.getResult());
-			integralRight = createIntegral(highX.getResult(), maxX);
+			integralLeft = createIntegral(minX, xLowOutput);
+			integralRight = createIntegral(xHighOutput, maxX);
 			addTwoTailedGraph();
-			cons.removeFromConstructionList(lowX);
-			cons.removeFromConstructionList(highX);
 		} else {
 			integral = createIntegral(xLowOutput, xHighOutput);
+			setConditionToShow(integral);
 			removeTwoTailedGraph();
 		}
 	}
@@ -878,10 +862,19 @@ public abstract class ProbabilityCalculatorView
 		return output;
 	}
 
-	private GeoNumberValue getXOutputFrom(GeoPoint point) {
-		ExpressionNode node = new ExpressionNode(kernel, point,
-				Operation.XCOORD, null);
-		AlgoDependentNumber x = new AlgoDependentNumber(cons, node,
+	private void setConditionToShow(GeoElement integral) {
+		AlgoDependentBoolean cond = new AlgoDependentBoolean(kernel.getConstruction(),
+				new ExpressionNode(kernel, xAxis.getLowExpression(), Operation.LESS_EQUAL,
+						xAxis.getHighExpression()), false);
+		try {
+			integral.setShowObjectCondition(cond.getGeoBoolean());
+		} catch (CircularDefinitionException e) {
+			// cannot happen because condition is not depending on integral
+		}
+	}
+
+	private GeoNumberValue getXOutputFrom(ExpressionNode pointCoord) {
+		AlgoDependentNumber x = new AlgoDependentNumber(cons, pointCoord,
 				false);
 		cons.removeFromConstructionList(x);
 		return (GeoNumberValue) x.getOutput(0);
@@ -891,37 +884,9 @@ public abstract class ProbabilityCalculatorView
 	// Geo Handlers
 	// =================================================
 
-	private GeoElementND createGeoFromString(String text,
-			boolean suppressLabelCreation) {
-
-		try {
-
-			// create the geo
-			// ================================
-			boolean oldSuppressLabelMode = cons.isSuppressLabelsActive();
-			if (suppressLabelCreation) {
-				cons.setSuppressLabelCreation(true);
-			}
-
-			// workaround for eg CmdNormal -> always creates undo point
-			boolean oldEnableUndo = cons.isUndoEnabled();
-			cons.setUndoEnabled(false);
-
-			GeoElementND[] geos = kernel.getAlgebraProcessor()
-					.processAlgebraCommandNoExceptions(text, false);
-
-			cons.setUndoEnabled(oldEnableUndo);
-
-			if (suppressLabelCreation) {
-				cons.setSuppressLabelCreation(oldSuppressLabelMode);
-			}
-
-			return geos[0];
-
-		} catch (Exception e) {
-			Log.debug(e);
-			return null;
-		}
+	private GeoElementND createGeoFromString(String text) {
+		return kernel.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptions(text, false)[0];
 	}
 
 	private void hideAllGeosFromViews() {
@@ -984,9 +949,8 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		cons.setSuppressLabelCreation(suppressLabelCreation);
-		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points);
 
-		return polyLine;
+		return new AlgoPolyLine(cons, points);
 	}
 
 	/**
@@ -1032,20 +996,21 @@ public abstract class ProbabilityCalculatorView
 	 * @return formatted number
 	 */
 	public String format(double x) {
-		StringTemplate highPrecision;
+		return kernel.format(x, getStringTemplate());
+	}
 
-		// override the default decimal place setting
-		if (printDecimals >= 0) {
-			int d = Math.max(printDecimals, 4);
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, d,
-					false);
-		} else {
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
-					printFigures, false);
+	private StringTemplate getStringTemplate() {
+		if (stringTemplate == null) {
+			// override the default decimal place setting
+			if (printDecimals >= 0) {
+				int decimals = Math.max(printDecimals, 4);
+				stringTemplate = StringTemplate.printDecimals(StringType.GEOGEBRA, decimals, false);
+			} else {
+				stringTemplate =
+						StringTemplate.printFigures(StringType.GEOGEBRA, printFigures, false);
+			}
 		}
-		// get the formatted string
-
-		return kernel.format(x, highPrecision);
+		return stringTemplate;
 	}
 
 	/**
@@ -1202,20 +1167,19 @@ public abstract class ProbabilityCalculatorView
 
 			// create low point
 			expr = "Point[" + loc.getMenu("xAxis") + "]";
-			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr, false);
+			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr);
 			lowPointCopy.setVisualStyle(xAxis.lowPoint());
 			lowPointCopy.setLabelVisible(false);
 			lowPointCopy.setCoords(getLow(), 0, 1);
-			lowPointCopy.setLabel(null);
+			lowPointCopy.updateVisualStyleRepaint(GProperty.COMBINED);
 			newGeoList.add(lowPointCopy);
 
 			// create high point
-			GeoPoint highPointCopy = (GeoPoint) createGeoFromString(expr,
-					false);
+			GeoPoint highPointCopy = (GeoPoint) createGeoFromString(expr);
 			highPointCopy.setVisualStyle(xAxis.lowPoint());
 			highPointCopy.setLabelVisible(false);
 			highPointCopy.setCoords(getHigh(), 0, 1);
-			highPointCopy.setLabel(null);
+			highPointCopy.updateVisualStyleRepaint(GProperty.COMBINED);
 			newGeoList.add(highPointCopy);
 			StringTemplate tpl = StringTemplate.maxPrecision;
 
@@ -1253,29 +1217,19 @@ public abstract class ProbabilityCalculatorView
 							+ ",true]";
 				}
 
-				GeoElementND discreteGraphCopy = createGeoFromString(expr,
-						false);
+				GeoElementND discreteGraphCopy = createGeoFromString(expr);
 				discreteGraphCopy.setLabel(null);
 				discreteGraphCopy.setVisualStyle(discreteGraph.toGeoElement());
 				newGeoList.add(discreteGraphCopy);
 
 				// create interval bar chart
 				// ============================
-				double offset = 1
-						- discreteValueAt(0)
-						+ 0.5;
-				expr = "Take[" + discreteProbListCopy.getLabel(tpl) + ", x("
-						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
-						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElementND intervalProbList1 = createGeoFromString(expr,
-						false);
+				expr = sublist(discreteProbListCopy, lowPointCopy, highPointCopy, tpl);
+				GeoElementND intervalProbList1 = createGeoFromString(expr);
 				newGeoList.add(intervalProbList1);
 
-				expr = "Take[" + discreteValueListCopy.getLabel(tpl) + ", x("
-						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
-						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElementND intervalValueList1 = createGeoFromString(expr,
-						false);
+				expr = sublist(discreteValueListCopy, lowPointCopy, highPointCopy, tpl);
+				GeoElementND intervalValueList1 = createGeoFromString(expr);
 				newGeoList.add(intervalValueList1);
 
 				if (graphType == GRAPH_LINE) {
@@ -1290,7 +1244,7 @@ public abstract class ProbabilityCalculatorView
 				}
 
 				GeoElementND discreteIntervalGraphCopy = createGeoFromString(
-						expr, false);
+						expr);
 				discreteIntervalGraphCopy.setLabel(null);
 				discreteIntervalGraphCopy.setVisualStyle(discreteIntervalGraph);
 				newGeoList.add(discreteIntervalGraphCopy);
@@ -1308,14 +1262,7 @@ public abstract class ProbabilityCalculatorView
 
 				// integral
 				if (!isCumulative) {
-					expr = "Integral[" + densityCurveCopy.getLabel(tpl) + ", x("
-							+ lowPointCopy.getLabel(tpl) + "), x("
-							+ highPointCopy.getLabel(tpl) + ") , true ]";
-					GeoElementND integralCopy = createGeoFromString(expr,
-							false);
-					integralCopy.setVisualStyle(integral);
-					integralCopy.setLabel(null);
-					newGeoList.add(integralCopy);
+					exportIntegral(newGeoList, densityCurveCopy, lowPointCopy, highPointCopy, tpl);
 				}
 			}
 
@@ -1373,6 +1320,49 @@ public abstract class ProbabilityCalculatorView
 		app.setDefaultCursor();
 	}
 
+	private String sublist(GeoElement discreteProbListCopy, GeoPoint lowPointCopy,
+			GeoPoint highPointCopy, StringTemplate tpl) {
+		double offset = 1
+				- discreteValueAt(0)
+				+ 0.5;
+		String listLabel = discreteProbListCopy.getLabel(tpl);
+		if (isTwoTailedMode()) {
+			return "Join[First[" + listLabel + ", x("
+					+ lowPointCopy.getLabel(tpl) + ")+" + offset + "], "
+					+ "Take[" + listLabel
+					+ ",x(" + highPointCopy.getLabel(tpl) + ")+" + offset + "]]";
+		} else {
+			return "Take[" + listLabel + ", x("
+					+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
+					+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
+		}
+	}
+
+	private void exportIntegral(ArrayList<GeoElementND> newGeoList, GeoElement densityCurveCopy,
+			GeoPoint lowPointCopy, GeoPoint highPointCopy, StringTemplate tpl) {
+		if (isTwoTailedMode()) {
+			exportSingleIntegral(newGeoList, densityCurveCopy, "Corner[1]",
+					lowPointCopy.getLabel(tpl), tpl);
+			exportSingleIntegral(newGeoList, densityCurveCopy, highPointCopy.getLabel(tpl),
+					"Corner[3]", tpl);
+		} else {
+			exportSingleIntegral(newGeoList, densityCurveCopy, lowPointCopy.getLabel(tpl),
+					highPointCopy.getLabel(tpl), tpl);
+		}
+	}
+
+	private void exportSingleIntegral(ArrayList<GeoElementND> newGeoList,
+			GeoElement densityCurveCopy, String lowPointLabel, String highPointLabel,
+			StringTemplate tpl) {
+		String expr = "Integral[" + densityCurveCopy.getLabel(tpl) + ", x("
+				+ lowPointLabel + "), x("
+				+ highPointLabel + ") , true ]";
+		GeoElementND integralCopy = createGeoFromString(expr);
+		integralCopy.setVisualStyle(integral);
+		integralCopy.setLabel(null);
+		newGeoList.add(integralCopy);
+	}
+
 	@Override
 	public int getViewID() {
 		return App.VIEW_PROBABILITY_CALCULATOR;
@@ -1384,8 +1374,8 @@ public abstract class ProbabilityCalculatorView
 				(ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculatorNoFire(pcSettings.getDistributionType(),
 				pcSettings.getParameters(), pcSettings.isCumulative());
+		this.probMode = pcSettings.getProbMode();
 		if (pcSettings.isIntervalSet()) {
-			this.probMode = pcSettings.getProbMode();
 			setLow(pcSettings.getLow());
 			setHigh(pcSettings.getHigh());
 		}
@@ -1425,10 +1415,8 @@ public abstract class ProbabilityCalculatorView
 			return;
 		}
 
-		xAxis.swapIfNeeded();
-
 		if (geo.equals(xAxis.lowPoint())) {
-			if (isValidInterval(xAxis.lowPoint().getInhomX(), getHigh())) {
+			if (isValidIntervalForDrag(xAxis.lowPoint().getInhomX(), getHigh())) {
 				low = asNumeric(xAxis.lowPoint(), low);
 				updateIntervalProbability();
 				updateGUI();
@@ -1441,7 +1429,7 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		if (geo.equals(xAxis.highPoint())) {
-			if (isValidInterval(getLow(), xAxis.highPoint().getInhomX())) {
+			if (isValidIntervalForDrag(getLow(), xAxis.highPoint().getInhomX())) {
 				high = asNumeric(xAxis.highPoint(), high);
 				updateIntervalProbability();
 				updateGUI();
@@ -1457,7 +1445,7 @@ public abstract class ProbabilityCalculatorView
 
 	protected void selectProbabilityTableRows() {
 		int start = (int) getLow();
-		int end = (int) getHigh();
+		int end = Math.min((int) getHigh(), getDiscreteXMax());
 		if (isTwoTailedMode()) {
 			table.setTwoTailedSelection(start, end);
 		} else {
@@ -1550,17 +1538,25 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
+	 * Validation for typing -- less strict than dragging, probability out of domain considered 0
 	 * @param xLow - interval min
 	 * @param xHigh - interval max
 	 * @return whether interval is valid for given mode
 	 */
 	public boolean isValidInterval(double xLow, double xHigh) {
-		if (isTwoTailedMode()) {
-			return xLow <= xHigh;
-		}
+		return !(probManager.isDiscrete(selectedDist)
+				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh));
+	}
+
+	/**
+	 * Validation for point dragging -- do not let the points out of sensible area
+	 * @param xLow - interval min
+	 * @param xHigh - interval max
+	 * @return whether interval is valid for given mode
+	 */
+	public boolean isValidIntervalForDrag(double xLow, double xHigh) {
 		// don't allow non-integer bounds for discrete dist.
-		if (probManager.isDiscrete(selectedDist)
-				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh)) {
+		if (!isValidInterval(xLow, xHigh)) {
 			return false;
 		}
 
@@ -1568,8 +1564,11 @@ public abstract class ProbabilityCalculatorView
 		switch (selectedDist) {
 
 		default:
-			Log.debug("Unknown distribution.");
+			Log.debug("Unknown distribution: " + selectedDist);
 			return true;
+		case STUDENT:
+		case CAUCHY:
+		case LOGISTIC:
 		case NORMAL:
 			return true;
 		case BINOMIAL:
@@ -1584,6 +1583,9 @@ public abstract class ProbabilityCalculatorView
 
 		case CHISQUARE:
 		case EXPONENTIAL:
+		case GAMMA:
+		case WEIBULL:
+		case LOGNORMAL:
 			if (probMode != PROB_LEFT) {
 				isValid = xLow >= 0;
 			}
@@ -1704,10 +1706,12 @@ public abstract class ProbabilityCalculatorView
 			if (printFigures != kernel.getPrintFigures()) {
 				printFigures = kernel.getPrintFigures();
 				printDecimals = -1;
+				stringTemplate = null;
 				return true;
 			}
 		} else if (printDecimals != kernel.getPrintDecimals()) {
 			printDecimals = kernel.getPrintDecimals();
+			stringTemplate = null;
 			return true;
 		}
 		return false;
@@ -1953,10 +1957,8 @@ public abstract class ProbabilityCalculatorView
 		String mean = val[0] == null ? "?" : format(val[0]);
 		String sigma = val[1] == null ? "?" : format(val[1]);
 
-		String meanSigmaStr = Unicode.mu + " = " + mean + "   " + Unicode.sigma
+		return Unicode.mu + " = " + mean + "   " + Unicode.sigma
 				+ " = " + sigma;
-
-		return meanSigmaStr;
 	}
 
 	public void setHigh(double highValue) {
@@ -1983,29 +1985,8 @@ public abstract class ProbabilityCalculatorView
 				|| (selectedDist == Dist.F && parameters[1].getDouble() < 4));
 	}
 
-	public HashMap<Dist, String> getDistributionMap() {
-		return distributionMap;
-	}
-
-	protected void setDistributionMap(HashMap<Dist, String> distributionMap) {
-		this.distributionMap = distributionMap;
-	}
-
-	public HashMap<String, Dist> getReverseDistributionMap() {
-		return reverseDistributionMap;
-	}
-
-	protected void setReverseDistributionMap(
-			HashMap<String, Dist> reverseDistributionMap) {
-		this.reverseDistributionMap = reverseDistributionMap;
-	}
-
 	public String[][] getParameterLabels() {
 		return parameterLabels;
-	}
-
-	protected void setParameterLabels(String[][] parameterLabels) {
-		this.parameterLabels = parameterLabels;
 	}
 
 	public abstract ProbabilityManager getProbManager();

@@ -3,13 +3,13 @@ package org.geogebra.web.shared;
 import java.util.function.BiConsumer;
 
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
  * @author csilla
@@ -72,8 +72,8 @@ public class GroupButtonMow extends FlowPanel {
 		checkMark.addStyleName("checkMark");
 		contentPanel.add(groupImgHolder);
 		contentPanel.add(checkMark);
-		Label groupLbl = new Label(groupDescription.name);
-		groupLbl.setStyleName("groupName");
+		Label groupLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				groupDescription.name, "groupName");
 		contentPanel.add(groupLbl);
 		add(contentPanel);
 	}

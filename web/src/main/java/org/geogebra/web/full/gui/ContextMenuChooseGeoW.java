@@ -10,11 +10,10 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.MouseOverEvent;
+import org.gwtproject.event.dom.client.MouseOverEvent;
 
 /**
  * Menu for choosing geos

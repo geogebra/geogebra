@@ -3,6 +3,7 @@
  */
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	display: block;
@@ -88,26 +89,6 @@
 	.gwt-FileUpload {
 		margin-bottom: 10px;
 		font-size: 80%;
-	}
-
-	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
-	.inputHelp-detailPanelTitle .button, .optionsPopup .gwt-Button, .customizeToolbarButtonPanel .button,
-	.buttonSpreadsheet {
-		border-radius: 5px;
-		border: 1px solid #6161FF;
-		color: #6161FF;
-		background: none;
-		font-size: 110%;
-		padding: 4px 15px;
-		box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 0 2px rgba(204, 204, 204, 0.5);
-		cursor: pointer;
-		margin-left: 5px;
-		min-height: 0;
-
-		&.downloadBtn {
-			float: right;
-			width: 64px;
-		}
 	}
 
 	/* Pop-up Exam Mode Dialog */
@@ -250,7 +231,7 @@
 	}
 
 	.selectedItem, .highlighted {
-		background: #eeeeee;
+		background: neutral(200);
 	}
 
 	.gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
@@ -511,7 +492,8 @@
 	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
-		height: 15px;
+		height: 16px;
+		margin: -2px 0;
 	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected, .gwt-TabBar .gwt-TabBarItem-selected {
@@ -711,7 +693,6 @@
 	}
 
 	.menuSeparator {
-		background-color: #dedede;
 		height: 1px;
 		width: calc(100% - 56px);
 		list-style: none;
@@ -1078,9 +1059,9 @@
 
 	/*-------- SLIDER DIALOG ------------------------*/
 
-	.dialogContent .sliderIntervalPanel div,
-	.dialogContent .sliderWidthPanel div {
-		margin-right: 10px;
+	.dialogContent .sliderIntervalPanel .inlineOption,
+	.dialogContent .sliderWidthPanel .inlineOption {
+		margin: 8px 8px 0 0;
 		display: inline-block;
 		width: 30%;
 	}
@@ -1118,6 +1099,7 @@
 	.buttonDialog .scriptArea {
 		width: 100%;
 		height: 200px;
+		border-radius: 2px;
 	}
 
 	/* ------------ IMAGE DIALOG -------------*/
@@ -1505,6 +1487,7 @@
 		background-color: #FFFFFF;
 		width: 380px;
 		height: 100px;
+		overflow: auto;
 	}
 
 	.textEditorAdvancedPanel {
@@ -1769,15 +1752,6 @@
 		min-width: 100px;
 	}
 
-	.numberInput {
-		width: 70px;
-		margin-right: 20px;
-
-		.matKeyboardOpenBtn {
-			display: none;
-    	}
-    }
-
 	.optionsInput table {
 		display: inline-table;
 		button {
@@ -1787,11 +1761,6 @@
 
 	.textOptionsToolBar {
 		display: inline-block;
-	}
-
-	.objectPropertiesTextEditor {
-		width: 100%;
-		height: 100px;
 	}
 
 	.colorChooserPreview, .optionsSlider {
@@ -1899,17 +1868,6 @@
 		cursor: default;
 	}
 
-	.advanced-TextButtonPanel input.selected-value {
-		padding-right: 1.3em;
-	}
-
-	.advanced-TextButtonPanel .choice-button {
-		position: absolute;
-		right: 0.3em;
-		top: 0.3em;
-		cursor: pointer;
-	}
-
 	.geoSelectFirst {
 		width: 50%;
 	}
@@ -1917,11 +1875,6 @@
 	/*#####################################################################################
 	###       PROPABILITY CALCULATOR
 	#####################################################################################*/
-
-	.ProbabilityCalculatorStyleBarW .gwt-MenuItem {
-		margin: 0;
-		padding: 0;
-	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
 		// no scrollbar for main panel, only for value table
@@ -1990,7 +1943,20 @@
 	.comboParamPanel, .resultPanel {
 		display: flex;
 		flex-wrap: wrap;
-		line-height: 52px;
+	}
+
+	.resultPanel {
+		.gwt-Label {
+			line-height: 52px;
+		}
+	}
+
+	.comboParamPanel .comboDistribution {
+		line-height: 20px
+	}
+
+	.comboParamPanel .parameterPanel {
+		margin-top: 12px;
 	}
 
 	.comboParamPanel, .intervalPanel {
@@ -2619,8 +2585,7 @@
 	  ###   END OF CUSTOMIZE TOOLBAR GUI   ###
 	  ######################################## */
 
-	.popupSliderLabel,
-	.ggbFavorite {
+	.popupSliderLabel {
 		float: right;
 	}
 

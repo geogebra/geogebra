@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import javax.swing.JRootPane;
@@ -24,7 +25,7 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
-import org.geogebra.desktop.gui.app.MyFileFilter;
+import org.geogebra.desktop.gui.app.FileExtensionFilter;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
@@ -289,7 +290,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 			// ask if OK to discard current file
 			if (app.isSaved() || ((AppD) app).saveCurrentFile()) {
-				MyFileFilter fileFilter = new MyFileFilter();
+				FileExtensionFilter fileFilter = new FileExtensionFilter();
 				fileFilter.addExtension(FileExtensions.GEOGEBRA);
 				File[] options = ((AppD) app).getCurrentPath()
 						.listFiles(fileFilter);
@@ -351,7 +352,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	}
 
 	@Override
-	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
+	protected void copyDefinitionsToInputBarAsList(List<GeoElement> geos) {
 		JTextComponent textComponent = ((AlgebraInputD) ((GuiManagerD) app
 				.getGuiManager()).getAlgebraInput()).getTextField();
 
@@ -385,10 +386,5 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			app.setDefaultCursor();
 			newWindowAllowed = false;
 		}
-	}
-
-	@Override
-	protected KeyCodes translateKey(int i) {
-		return KeyCodes.translateJavacode(i);
 	}
 }

@@ -159,8 +159,6 @@ public class FormulaBar extends JToolBar
 		String cellContents = "";
 		GeoElement cellGeo = RelativeCopy.getValue(app, column, row);
 		if (cellGeo != null) {
-			// Application.debug("cell with geo selected at: " + row + " ," +
-			// column);
 			cellContents = cellGeo.getRedefineString(true, false);
 			int index = cellContents.indexOf("=");
 			if (!cellGeo.isGeoText()) {

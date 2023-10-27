@@ -233,8 +233,6 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            values {x1, x2, ...}
 	 */
 	public void set(double[] vals0) {
-		// Application.debug("-------------val.length =
-		// "+val.length+"\n-------------vals0.length = "+vals0.length);
 		for (int i = 0; i < vals0.length; i++) {
 			val[i] = vals0[i];
 		}
@@ -1251,7 +1249,6 @@ public class Coords implements AnimatableValue<Coords> {
 		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
-			// Application.printStacktrace("infinity");
 			inPlaneCoords.setX(0);
 			inPlaneCoords.setY(0);
 			inPlaneCoords.setZ(-1);
@@ -1306,7 +1303,6 @@ public class Coords implements AnimatableValue<Coords> {
 		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
-			// Application.printStacktrace("infinity");
 			globalCoords.set(vz);
 			return;
 		}
@@ -1609,9 +1605,6 @@ public class Coords implements AnimatableValue<Coords> {
 	 */
 	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords oldCoords,
 			Coords v, Coords globalCoords, Coords inPlaneCoords) {
-
-		// Application.debug(this+"\nold=\n"+oldCoords);
-
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
 		if (DoubleUtil.isZero(v3.dotproduct(v))) {
@@ -2789,10 +2782,10 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 	}
 
-	/** @return false if at least one value is infinite */
+	/** @return false if all values are finite (no MaM or infinity) */
 	public boolean isFinite() {
 		for (int i = 0; i < rows; i++) {
-			if (Double.isInfinite(val[i])) {
+			if (!Double.isFinite(val[i])) {
 				return false;
 			}
 		}

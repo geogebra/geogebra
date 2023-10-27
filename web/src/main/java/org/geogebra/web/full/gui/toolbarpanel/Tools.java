@@ -11,14 +11,14 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.DomGlobal;
 
@@ -196,8 +196,8 @@ public class Tools extends FlowPanel implements SetLabels {
 
 		private void initGui() {
 			if (category != null) {
-				categoryLabel = new Label(category.getLocalizedHeader(app.getLocalization()));
-				categoryLabel.setStyleName("catLabel");
+				categoryLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
+						category.getLocalizedHeader(app.getLocalization()), "catLabel");
 				add(categoryLabel);
 				AriaHelper.hide(categoryLabel);
 			}
@@ -255,12 +255,13 @@ public class Tools extends FlowPanel implements SetLabels {
 	 */
 	public void showTooltip(int mode) {
 		if (allowTooltips()) {
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			ToolTipManagerW.sharedInstance()
+			app.getToolTipManager().setBlockToolTip(false);
+			app.getToolTipManager()
 					.showBottomInfoToolTip(app.getToolName(mode), app.getToolHelp(mode),
 							app.getLocalization().getMenu("Help"),
-							app.getGuiManager().getTooltipURL(mode), app);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+							app.getGuiManager().getTooltipURL(mode), app,
+							ComponentSnackbar.TOOL_TOOLTIP_DURATION);
+			app.getToolTipManager().setBlockToolTip(true);
 		}
 	}
 }

@@ -69,7 +69,6 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		// this updates closestPointParameter and closestPointIndex
 		MyPoint closestPoint = getClosestPoint();
 
-		// Application.debug(pp.t);
 		if (closestPoint != null) {
 			coords.setX(closestPoint.x); // (1 - closestPointParameter) *
 			// locusPoint.x +

@@ -32,7 +32,7 @@ public class CmdProduct extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 
@@ -91,7 +91,7 @@ public class CmdProduct extends CommandProcessor {
 	private GeoElement[] productGeneric(GeoElement geoElement, GeoNumeric limit,
 			Command c) {
 		GeoList list = (GeoList) geoElement;
-		FoldComputer computer = CmdSum.getComputer(list);
+		FoldComputer computer = CmdSum.getFoldComputer(list);
 
 		if (computer != null) {
 			AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, c.getLabel(),

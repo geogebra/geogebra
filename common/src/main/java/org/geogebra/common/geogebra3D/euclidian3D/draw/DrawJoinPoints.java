@@ -289,14 +289,9 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 			GeoPointND secondPoint = getView3D().getCursor3D();
 			setPreviewableCoords(firstPoint, secondPoint);
 			getGeoElement().setEuclidianVisible(true);
-			// setWaitForUpdate();
 		} else {
 			getGeoElement().setEuclidianVisible(false);
-			// setWaitForUpdate();
 		}
-
-		// Application.debug("selectedPoints : "+selectedPoints+" --
-		// isEuclidianVisible : "+getGeoElement().isEuclidianVisible());
 
 		setWaitForUpdate();
 	}
@@ -328,8 +323,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		if (endPoint == null || startPoint == null) {
 			return false;
 		}
-		CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin,
-				hitting.direction, startPoint, endPoint.sub(startPoint),
+		CoordMatrixUtil.nearestPointsFromTwoLines(hitting.getOrigin(),
+				hitting.getDirection(), startPoint, endPoint.sub(startPoint),
 				project1.val, project2.val, lineCoords, tmp);
 
 		// check if hitting and line are parallel

@@ -216,7 +216,7 @@ public class PerspectiveDecoder {
 
 	/**
 	 * @param code default ID as string
-	 * @return default prespective with given defaultID
+	 * @return default perspective with given defaultID
 	 */
 	public static Perspective getDefaultPerspective(String code, Layout layout) {
 		for (int i = 0; i < layout.getDefaultPerspectivesLength(); i++) {

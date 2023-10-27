@@ -16,12 +16,11 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * 
@@ -32,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class TextPreviewPanelW extends TextPreviewer {
 
-	private MyEuclidianViewPanelForTextPreviewPanelW evPanel;
+	private TextPreviewEuclidianViewPanelW evPanel;
 
 	/**
 	 * @param kernel
@@ -105,15 +104,15 @@ public class TextPreviewPanelW extends TextPreviewer {
 	@Override
 	protected EuclidianViewW getEuclidianView() {
 		if (ev == null) {
-			ev = new MyEuclidianView(getEVPanel(), new EuclidianControllerW(
+			ev = new PreviewEuclidianView(getEVPanel(), new EuclidianControllerW(
 					kernel), EuclidianView.EVNO_GENERAL, null);
 		}
 		return (EuclidianViewW) ev;
 	}
 
-	private MyEuclidianViewPanelForTextPreviewPanelW getEVPanel() {
+	private TextPreviewEuclidianViewPanelW getEVPanel() {
 		if (evPanel == null) {
-			evPanel = new MyEuclidianViewPanelForTextPreviewPanelW();
+			evPanel = new TextPreviewEuclidianViewPanelW();
 		}
 		return evPanel;
 	}
@@ -129,9 +128,9 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 * Extension of EuclidianViewD for displaying preview text strings
 	 * 
 	 */
-	private static class MyEuclidianView extends EuclidianViewW {
+	private static class PreviewEuclidianView extends EuclidianViewW {
 
-		public MyEuclidianView(MyEuclidianViewPanelForTextPreviewPanelW panel,
+		public PreviewEuclidianView(TextPreviewEuclidianViewPanelW panel,
 				EuclidianController ec, 
 		        int evno, EuclidianSettings settings) {
 			super(panel, ec, evno, settings);
@@ -166,15 +165,15 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 * Panel for EuclidianView
 	 * 
 	 */
-	private class MyEuclidianViewPanelForTextPreviewPanelW extends AbsolutePanel implements
+	private class TextPreviewEuclidianViewPanelW extends AbsolutePanel implements
 	        EuclidianPanelWAbstract {
 
 		private Canvas canvas;
 
-		public MyEuclidianViewPanelForTextPreviewPanelW() {
+		public TextPreviewEuclidianViewPanelW() {
 			super();
 			canvas = Canvas.createIfSupported();
-			canvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			canvas.getElement().getStyle().setPosition(Position.ABSOLUTE);
 			canvas.getElement().getStyle().setZIndex(0);
 			add(canvas);
 		}

@@ -6,15 +6,15 @@ import java.util.Vector;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.event.dom.client.MouseOutEvent;
+import org.gwtproject.event.dom.client.MouseOverEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class CASSubstituteDialogW extends ComponentDialog {
 	private List<InputPanelW> substFields = new ArrayList<>();
@@ -35,9 +35,11 @@ public class CASSubstituteDialogW extends ComponentDialog {
 	private void buildGUI(Localization loc, Vector<Vector<String>> data) {
 		FlowPanel labelPanel = new FlowPanel();
 		labelPanel.addStyleName("flexGroup");
-		Label substLabel = new Label(loc.getMenu("Substitute"));
+		Label substLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				loc.getMenu("Substitute"));
 		labelPanel.add(substLabel);
-		Label withLabel = new Label(loc.getMenu("With"));
+		Label withLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				loc.getMenu("With"));
 		withLabel.addStyleName("with");
 		labelPanel.add(withLabel);
 		addDialogContent(labelPanel);

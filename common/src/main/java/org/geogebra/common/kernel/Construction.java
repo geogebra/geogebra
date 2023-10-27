@@ -76,11 +76,11 @@ import com.himamis.retex.editor.share.input.Character;
 public class Construction {
 	private ConstructionCompanion companion;
 	/** maps arbconst indices to related numbers */
-	public Map<Integer, GeoNumeric> constsM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> constsM = new TreeMap<>();
 	/** maps arbint indices to related numbers */
-	public Map<Integer, GeoNumeric> intsM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> intsM = new TreeMap<>();
 	/** maps arbcomplex indices to related numbers */
-	public Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<>();
 
 	/**
 	 * used to keep track if file is 3D or just 2D
@@ -180,7 +180,6 @@ public class Construction {
 	private GeoPoint origin;
 
 	private Stack<GeoElement> selfGeoStack = new Stack<>();
-	private boolean undoEnabled = true;
 
 	private boolean isGettingXMLForReplace;
 	private boolean spreadsheetTraces;
@@ -347,6 +346,18 @@ public class Construction {
 
 	public void setProtractor(GeoImage protractor) {
 		this.protractor = protractor;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryConstants() {
+		return constsM;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryInts() {
+		return intsM;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryComplexNumbers() {
+		return complexNumbersM;
 	}
 
 	/**
@@ -1077,7 +1088,6 @@ public class Construction {
 		for (int i = 0; i < algoList.size(); ++i) {
 			AlgoElement algo = algoList.get(i);
 			algo.update();
-			// AbstractApplication.debug("#"+i+" : "+algo);
 		}
 	}
 
@@ -1421,21 +1431,6 @@ public class Construction {
 		statement.getAlgorithmList().get(0).getXML_OGP(sb);
 	}
 
-	/**
-	 * @return true if undo is enabled
-	 */
-	public boolean isUndoEnabled() {
-		return undoEnabled;
-	}
-
-	/**
-	 * @param b
-	 *            true to enable undo
-	 */
-	public void setUndoEnabled(boolean b) {
-		undoEnabled = b;
-	}
-
 	/*
 	 * Construction List Management
 	 */
@@ -1718,31 +1713,8 @@ public class Construction {
 	private boolean softRedefine(GeoElement oldGeo, GeoElement newGeo) {
 		AlgoElement oldParent = oldGeo.getParentAlgorithm();
 		AlgoElement newParent = newGeo.getParentAlgorithm();
-		if (oldParent != null && newParent != null && oldParent.isCompatible(newParent)) {
-			ArrayList<Integer> updateInputIdx = new ArrayList<>();
-			for (int i = 0; i < oldParent.getInput().length; i++) {
-				if (oldParent.getInput(i) != newParent.getInput(i)) {
-					if (!Inspecting.dynamicGeosFinder.check(oldParent.getInput(i))
-							&& !Inspecting.dynamicGeosFinder.check(newParent.getInput(i))
-							&& oldParent.getInput(i).getGeoClassType()
-									== newParent.getInput(i).getGeoClassType()) {
-						updateInputIdx.add(i);
-					} else {
-						return false;
-					}
-				}
-			}
-			if (updateInputIdx.isEmpty()) {
-				// since we only get there if definition did change and command name is the same
-				// at least one input must have changed, but better to avoid OutOfBounds.
-				return false;
-			}
-			for (Integer i: updateInputIdx) {
-				oldParent.getInput(i).set(newParent.getInput(i));
-			}
-			// start cascade from the ancestor to make sure siblings are updated too
-			oldParent.getInput(updateInputIdx.get(0)).updateRepaint();
-			return true;
+		if (oldParent != null && newParent != null) {
+			return oldParent.setFrom(newParent);
 		}
 		return false;
 	}
@@ -1907,32 +1879,18 @@ public class Construction {
 				newGeoInputs = newGeoAlgo.getInputForUpdateSetPropagation();
 			}
 			isGettingXMLForReplace = false;
-
-			// Application.debug("oldGeo: " + oldGeo + ", visible: " +
-			// oldGeo.isEuclidianVisible() + ", algo: " + oldGeoAlgo);
-			// Application.debug("newGeo: " + newGeo + ", visible: " +
-			// newGeo.isEuclidianVisible() + ", algo: " + newGeoAlgo);
 		}
 
 		// restore old kernel settings
 
 		// replace Strings: oldXML by newXML in consXML
-		// Application.debug("cons=\n"+consXML+"\nold=\n"+oldXML+"\nnew=\n"+newXML);
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
 			restoreCurrentUndoInfo();
 			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
-			// Application.debug("consXML=\n" + consXML);
 			throw new MyError(getApplication().getLocalization(),
 					Errors.ReplaceFailed);
 		}
-
-		// System.out.println("REDEFINE: oldGeo: " + oldGeo + ", newGeo: " +
-		// newGeo);
-		// System.out.println(" old XML:\n" + consXML.substring(pos, pos +
-		// oldXML.length()));
-		// System.out.println(" new XML:\n" + newXML);
-		// System.out.println("END redefine.");
 
 		// get inputs position in consXML: we want to put new geo after that
 		int inputEndPos = -1;
@@ -2005,7 +1963,6 @@ public class Construction {
 			}
 		} else {
 			for (int i = step + 1; i <= s; ++i) {
-				// Application.debug(i+"");
 				ceList.get(i).notifyAdd();
 			}
 		}
@@ -2378,7 +2335,8 @@ public class Construction {
 
 		// if we get here, nothing worked:
 		// possibly auto-create new GeoElement with that name
-		if (allowAutoCreate && getApplication().getKernel()
+		if (allowAutoCreate
+				&& getApplication().getKernel()
 				.getAlgebraProcessor().enableStructures()) {
 			return autoCreateGeoElement(label1);
 		}
@@ -2463,14 +2421,6 @@ public class Construction {
 		}
 
 		// GGB-843
-		if (fileLoading && !isCasCellUpdate() && geoTable.containsKey(label)) {
-			GeoElement geo = geoTable.get(label);
-			if (geo instanceof GeoNumeric
-					&& !((GeoNumeric) geo).isDependentConst()) {
-				return true;
-			}
-		}
-
 		if (fileLoading && !casCellUpdate && isNotXmlLoading()) {
 			GeoNumeric geoNum = lookupConstantLabel(label);
 			if (geoNum != null) {
@@ -2705,8 +2655,7 @@ public class Construction {
 		boolean oldSuppressLabelsActive = isSuppressLabelsActive();
 		setSuppressLabelCreation(false);
 
-		// set 0 and label
-		// result.setZero();
+		// set auxiliary and label
 		result.setAuxiliaryObject(true);
 		result.setLabel(label);
 
@@ -2980,10 +2929,7 @@ public class Construction {
 	 * @see UndoManager#storeUndoInfo()
 	 */
 	public void storeUndoInfo() {
-		if (!isUndoEnabled()) {
-			return;
-		}
-		undoManager.storeUndoInfo();
+		getUndoManager().storeUndoInfo();
 	}
 
 	/**
@@ -3003,20 +2949,6 @@ public class Construction {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Redoes last undone step
-	 */
-	public void redo() {
-		undoManager.redo();
-	}
-
-	/**
-	 * Undoes last operation
-	 */
-	public void undo() {
-		undoManager.undo();
 	}
 
 	/**
@@ -3140,8 +3072,7 @@ public class Construction {
 	 * construction state to the undo info list.
 	 */
 	public void initUndoInfo() {
-		ensureUndoManagerExists();
-		undoManager.initUndoInfo();
+		getUndoManager().initUndoInfo();
 	}
 
 	/**
@@ -3159,8 +3090,7 @@ public class Construction {
 			EvalInfo info) throws Exception {
 		// try to process the new construction
 		try {
-			ensureUndoManagerExists();
-			undoManager.processXML(consXML.toString(), false, info);
+			processXML(consXML.toString(), false, info);
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
 			// kernel.updateConstruction();
@@ -3195,10 +3125,35 @@ public class Construction {
 	 */
 	public void processXML(StringBuilder xml) {
 		try {
-			undoManager.processXML(xml.toString(), false);
+			processXML(xml.toString(), false, null);
 		} catch (Exception e) {
 			Log.debug(e);
 		}
+	}
+
+	/**
+	 * Processes XML
+	 *
+	 * @param strXML
+	 *            XML string
+	 * @param isGGTOrDefaults
+	 *            whether to treat the XML as defaults
+	 * @param info
+	 *            EvalInfo (can be null)
+	 * @throws Exception
+	 *             on trouble with parsing or running commands
+	 */
+	final public synchronized void processXML(String strXML,
+			boolean isGGTOrDefaults, EvalInfo info) throws Exception {
+
+		boolean randomize = info != null && info.updateRandom();
+
+		setFileLoading(true);
+		setCasCellUpdate(true);
+		getXMLio().processXMLString(strXML, true, isGGTOrDefaults,
+				true, randomize);
+		setFileLoading(false);
+		setCasCellUpdate(false);
 	}
 
 	/**
@@ -3255,7 +3210,10 @@ public class Construction {
 		} else {
 			registeredFV.add(fv);
 		}
+	}
 
+	public boolean hasRegisteredFunctionVariable() {
+		return !registeredFV.isEmpty();
 	}
 
 	/**
@@ -3266,20 +3224,6 @@ public class Construction {
 	 */
 	public boolean isRegisteredFunctionVariable(String s) {
 		return registeredFV.contains(s);
-	}
-
-	/**
-	 * Returns function variable that should be recognized in If and Function
-	 * commands
-	 * 
-	 * @return local function variable or null if there is none
-	 */
-	public String getRegisteredFunctionVariable() {
-		Iterator<String> it = registeredFV.iterator();
-		if (it.hasNext()) {
-			return it.next();
-		}
-		return null;
 	}
 
 	/**
@@ -3825,4 +3769,5 @@ public class Construction {
 		}
 		return false;
 	}
+
 }

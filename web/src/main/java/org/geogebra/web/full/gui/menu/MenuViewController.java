@@ -36,11 +36,10 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.UriUtils;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Controller for the main menu in the apps.
@@ -142,15 +141,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	 */
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
-		String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
-		defaultDrawerMenuFactory =  new DefaultDrawerMenuFactory(
-				app.getPlatform(),
-				version, app.getLocalization().getPlainDefault("VersionA",
-				"Version %0", versionStr),
-				hasLoginButton(app) ? app.getLoginOperation() : null,
-				shouldCreateExamEntry(app),
-				app.enableFileFeatures(),
-				true);
+		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
 		if (!app.isExamStarted()) {
 			setDefaultMenu();
 		} else {
@@ -165,7 +156,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 					app.enableFileFeatures());
 		} else {
 			boolean addAppSwitcher = app.isSuite();
-			String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
+			String versionStr = GeoGebraConstants.getVersionString6();
 			return new DefaultDrawerMenuFactory(
 					app.getPlatform(),
 					version, app.getLocalization().getPlainDefault("VersionA",

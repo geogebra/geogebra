@@ -1,14 +1,13 @@
 package org.geogebra.web.full.javax.swing;
 
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HTML;
+import org.gwtproject.user.client.ui.Image;
 
 /**
  * Adds a menu item with a checkmark on its end.

@@ -45,7 +45,6 @@ import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
-import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
 import org.geogebra.web.full.gui.util.SaveDialogW;
@@ -54,18 +53,17 @@ import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.user.client.ui.FileUpload;
+import org.gwtproject.user.client.ui.Image;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 import elemental2.dom.File;
 
@@ -75,9 +73,8 @@ public class DialogManagerW extends DialogManager
 	private RecoverAutoSavedDialog autoSavedDialog;
 	protected SaveDialogI saveDialog = null;
 	private TemplateChooser templateChooser;
-	private PopupPanel loadingAnimation = null;
+	private GPopupPanel loadingAnimation = null;
 	private ColorChooserDialog colChooser = null;
-	private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
 	private CalculatorSwitcherDialog calcSwitcher;
 
 	/**
@@ -443,31 +440,36 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * @param doYouWantToSaveChanges true if doYooWantToSaveYourChangesDialog
-	 *        should be shown
 	 * @param addTempCheckBox
-	 *        true if checkbox should be visible
+	 *        true if template checkbox should be visible
 	 * @return {@link SaveDialogI}
 	 */
-	public SaveDialogI getSaveDialog(boolean doYouWantToSaveChanges, boolean addTempCheckBox) {
+	public SaveDialogI getSaveDialog(boolean addTempCheckBox) {
 		if (app.isMebis()) {
-			DialogData data = doYouWantToSaveChanges
-					? new DialogData("DoYouWantToSaveYourChanges",
-					"Discard", "Save")
-					:  new DialogData("Save",
+			DialogData data = new DialogData("Save",
 					"Cancel", "Save");
-
-			saveDialog = doYouWantToSaveChanges
-					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
-					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
+			saveDialog = new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null || isSuite()) {
 			DialogData data = getSaveDialogData();
-			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
+			saveDialog = new SaveDialogW((AppW) app, data);
 		}
 		// set default saveType
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 		return saveDialog;
+	}
+
+	/**
+	 * @return the "do you want to save" dialog
+	 */
+	public SaveDialogI getSaveCheckDialog() {
+		if (!app.isMebis() && ((AppW) app).getFileManager().isOnlineSavingPreferred()) {
+			return getSaveDialog(false);
+		}
+		DialogData data = new DialogData("DoYouWantToSaveYourChanges",
+					"Discard", "Save");
+
+		return new DoYouWantToSaveChangesDialog((AppW) app, data, true);
 	}
 
 	public DialogData getSaveDialogData() {
@@ -489,8 +491,9 @@ public class DialogManagerW extends DialogManager
 	/**
 	 * shows the {@link SaveDialogW} centered on the screen
 	 */
+	@Override
 	public void showSaveDialog() {
-		getSaveDialog(false, true).show();
+		getSaveDialog(true).show();
 	}
 
 	@Override
@@ -513,8 +516,7 @@ public class DialogManagerW extends DialogManager
 
 			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()
 					&& geos.get(0) instanceof GeoNumeric) {
-				// AbstractApplication.debug("TODO :
-				// propPanel.showSliderTab()");
+				// TODO  propPanel.showSliderTab()
 				subType = 2;
 			}
 		}
@@ -565,11 +567,11 @@ public class DialogManagerW extends DialogManager
 		loadingAnimation.show();
 	}
 
-	private static PopupPanel createLoadingAnimation() {
-		PopupPanel anim = new PopupPanel();
+	private GPopupPanel createLoadingAnimation() {
+		AppW appw = (AppW) app;
+		GPopupPanel anim = new GPopupPanel(appw.getAppletFrame(), app);
 		anim.addStyleName("loadinganimation");
-		anim.add(new Image(ImageResourceConverter
-				.convertToOldImageResource(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner())));
+		anim.add(new Image(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner()));
 		return anim;
 	}
 
@@ -656,10 +658,6 @@ public class DialogManagerW extends DialogManager
 	public Export3dDialogInterface getExport3dDialog(View view) {
 		DialogData data = new DialogData("DownloadAsStl", "Cancel", "Download");
 		return new Export3dDialog((AppW) app, data, view);
-	}
-
-	public void setWidgetFactory(BaseWidgetFactory widgetFactory) {
-		this.widgetFactory = widgetFactory;
 	}
 
 	@Override

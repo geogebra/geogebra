@@ -312,7 +312,7 @@ public class AlgebraProcessor {
 		AlgoElement algoParent = casCell.getParentAlgorithm();
 		boolean prevFree = algoParent == null;
 		boolean nowFree = !casCell.hasVariablesOrCommands();
-		boolean needsRedefinition = false;
+		boolean needsRedefinition;
 		// If we change dependencies of CAS cells, we need to update
 		// construction
 		// to make sure the CAS cells are painted in right order (#232)
@@ -494,7 +494,9 @@ public class AlgebraProcessor {
 			ErrorHelper.handleError(e, newValue, loc, handler);
 		} catch (ParseException exception) {
 			handler.showError(exception.getMessage());
-			callback.callback(geo);
+			if (callback != null) {
+				callback.callback(geo);
+			}
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (CommandNotLoadedError e) {
@@ -656,14 +658,12 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
-			} else if (geo.isGeoSurfaceCartesian()) {
+			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)) {
 				n.setForceSurfaceCartesian();
 			} else if (geo instanceof GeoFunctionNVar) {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
 					n.setForceInequality();
 				}
-			} else if (geo.isGeoAngle() && preventTypeChange) {
-				n.setForceAngle();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -679,6 +679,11 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
+	}
+
+	private static boolean isForceSurfaceCartesian(ValidExpression newValue, GeoElementND geo) {
+		return geo.isGeoSurfaceCartesian()
+				&& !(newValue.wrap().getLeft() instanceof Function);
 	}
 
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
@@ -707,7 +712,7 @@ public class AlgebraProcessor {
 	 * @return a_1 transformed into a_{1}
 	 */
 	public static String curlyLabel(String newLabel) {
-		if (newLabel.indexOf("_{") > 0 || newLabel.indexOf("_") == -1) {
+		if (newLabel.indexOf("_{") > 0 || !newLabel.contains("_")) {
 			return newLabel;
 		}
 		return newLabel.replace("_", "_{") + "}";
@@ -790,9 +795,7 @@ public class AlgebraProcessor {
 		try {
 			return processAlgebraCommandNoExceptionHandling(str, storeUndo,
 					ErrorHelper.silent(), false, null);
-		} catch (Exception e) {
-			return null;
-		} catch (MyError e) {
+		} catch (Exception | MyError e) {
 			return null;
 		}
 	}
@@ -1026,7 +1029,7 @@ public class AlgebraProcessor {
 							// insertStarIfNeeded(undefinedVariables,
 							// ve2, fvX2);
 							replaceUndefinedVariables(ve2,
-									new TreeSet<GeoNumeric>(), null,
+									new TreeSet<>(), null,
 									info.isMultipleUnassignedAllowed());
 						}
 						try {
@@ -1060,7 +1063,7 @@ public class AlgebraProcessor {
 			// ==========================
 			// step5: replace undefined variables
 			// ==========================
-			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null,
+			replaceUndefinedVariables(ve, new TreeSet<>(), null,
 					info.isMultipleUnassignedAllowed());
 
 			// Do not copy plain variables, as
@@ -1086,14 +1089,14 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
-		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
+		GeoElement symbolic = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		setLabel(sym, label);
-		return sym;
+		setLabel(symbolic, label);
+		return symbolic;
 	}
 
 	private ExpressionNode replaceFunctionVariables(ValidExpression expression) {
@@ -1167,6 +1170,7 @@ public class AlgebraProcessor {
 	/**
 	 * @param input
 	 *            whole command including label
+	 * @param allowedAssignmentRegex regular expression matching allowed assignment operators
 	 * @return cell
 	 */
 	public GeoCasCell checkCasEval(String input, String allowedAssignmentRegex) {
@@ -1334,6 +1338,8 @@ public class AlgebraProcessor {
 	 * @param except
 	 *            list of variable names that should not be replaced, null means
 	 *            replace everything
+	 * @param multiplication whether to interpret long unknown variable names as multiplication of
+	 *     more variables
 	 */
 	public void replaceUndefinedVariables(ValidExpression ve,
 			TreeSet<GeoNumeric> undefined, String[] except, boolean multiplication) {
@@ -1804,7 +1810,7 @@ public class AlgebraProcessor {
 		}
 
 		GeoPointND p = null;
-		GeoElementND[] temp = null;
+		GeoElementND[] temp;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			if (ve instanceof ExpressionNode) {
@@ -1856,7 +1862,7 @@ public class AlgebraProcessor {
 		cons.setSuppressLabelCreation(!createLabel);
 
 		GeoText text = null;
-		GeoElementND[] temp = null;
+		GeoElementND[] temp;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			temp = processValidExpression(ve);
@@ -1888,17 +1894,37 @@ public class AlgebraProcessor {
 	 * @param str
 	 *            stringInput
 	 * @param showErrors
-	 *            if false, only stacktraces are printed
-	 * @return implicit polygon or null
+	 *            if false, only stack traces are printed
+	 * @return construction element or null
 	 */
 	public GeoElementND evaluateToGeoElement(String str, boolean showErrors) {
+		return evaluateToGeoElement(str, showErrors,
+				new EvalInfo(!cons.isSuppressLabelsActive(), true), null);
+	}
+
+	/**
+	 * Parses given String str and tries to evaluate it to a GeoImplicitPoly
+	 * object. Returns null if something went wrong.
+	 *
+	 * @param str
+	 *            stringInput
+	 * @param showErrors
+	 *            if false, only stacktraces are printed
+	 * @param template used to determine preferred type flags
+	 * @return construction element or null
+	 */
+	public GeoElementND evaluateToGeoElement(String str, boolean showErrors, EvalInfo info,
+			GeoElementND template) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		GeoElementND geo = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElementND[] temp = processValidExpression(ve);
+			if (template != null) {
+				updateTypePreservingFlags(ve, template, info.isPreventingTypeChange());
+			}
+			GeoElementND[] temp = processValidExpression(ve, info);
 			geo = temp[0];
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
@@ -2295,7 +2321,7 @@ public class AlgebraProcessor {
 
 		// Equation in x,y (linear or quadratic are valid): line or conic
 		else if (ve instanceof Equation) {
-			ret = processEquation((Equation) ve, ve.wrap(), info);
+			ret = processEquationOrAssignment((Equation) ve, ve.wrap(), info, null);
 		}
 
 		// explicit Function in one variable
@@ -2327,7 +2353,7 @@ public class AlgebraProcessor {
 	 * @return GeoFunction
 	 */
 	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
-		if (!enableStructures()) {
+		if (!enableStructures() && !info.isForceFunctionsEnabled()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
@@ -2606,7 +2632,7 @@ public class AlgebraProcessor {
 		}
 	}
 
-	final private GeoElement dependentGeoCopy(GeoElement origGeoNode, ExpressionNode node) {
+	private GeoElement dependentGeoCopy(GeoElement origGeoNode, ExpressionNode node) {
 		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, origGeoNode, node);
 		return algo.getGeo();
 	}
@@ -2665,18 +2691,16 @@ public class AlgebraProcessor {
 	 * Multivariate Function depending on coefficients of arithmetic expressions
 	 * with variables, e.g. f(x,y) = a x^2 + b y^2
 	 */
-	final private GeoFunctionNVar dependentFunctionNVar(
+	private GeoFunctionNVar dependentFunctionNVar(
 			FunctionNVar fun) {
 		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons,
 				fun);
-		GeoFunctionNVar f = algo.getFunction();
-		return f;
+		return algo.getFunction();
 	}
 
 	/**
 	 * Processes given equation to an array containing single line / conic /
-	 * implicit polynomial. Throws MyError for degree 0 equations, eg. 1=2 or
-	 * x=x.
+	 * implicit polynomial. May throws MyError for degree 0 equations (see allowConstant)
 	 *
 	 * @param equ
 	 *            equation
@@ -2684,12 +2708,25 @@ public class AlgebraProcessor {
 	 *            definition node (not same as equation in case of list1(2))
 	 * @param info
 	 *            processing information
+	 * @param allowConstant
+	 *            true to allow equations like 2=3 or x=x, false to throw
+	 *            MyError for those
 	 * @return line, conic, implicit poly or plane
 	 * @throws MyError
 	 *             e.g. for invalid operation
 	 */
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
-			EvalInfo info) throws MyError {
+			boolean allowConstant, EvalInfo info) throws MyError {
+		return processEquation(equ, def, allowConstant, info, null);
+	}
+
+	/**
+	 * Processes given equation to an array containing single line / conic /
+	 * implicit polynomial. Throws MyError for degree 0 equations, eg. 1=2 or
+	 * x=x. Special handling for equations like z=7 that may be handled as assignment.
+	 */
+	private GeoElement[] processEquationOrAssignment(Equation equ, ExpressionNode def,
+			EvalInfo info, ExpressionValue evaluatedDef) throws MyError {
 		if (!enableStructures()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
@@ -2761,26 +2798,11 @@ public class AlgebraProcessor {
 			}
 		}
 		return processEquation(equ, def,
-				kernel.getConstruction().isFileLoading(), info);
+				kernel.getConstruction().isFileLoading(), info, evaluatedDef);
 	}
 
-	/**
-	 * @param equ
-	 *            equation
-	 * @param def
-	 *            defining expression (either wrapped equation or something like
-	 *            list1(1))
-	 * @param allowConstant
-	 *            true to allow equations like 2=3 or x=x, false to throw
-	 *            MyError for those
-	 * @param info
-	 *            evaluation flags
-	 * @return line, conic, implicit poly or plane
-	 * @throws MyError
-	 *             e.g. for invalid operation
-	 */
-	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
-			boolean allowConstant, EvalInfo info) throws MyError {
+	private GeoElement[] processEquation(Equation equ, ExpressionNode def,
+			boolean allowConstant, EvalInfo info, ExpressionValue evaluatedDef) throws MyError {
 		equ.initEquation();
 
 		// check no terms in z
@@ -2796,7 +2818,7 @@ public class AlgebraProcessor {
 		}
 
 		if (equ.isFunctionDependent() || equ.isForceFunction()) {
-			return functionOrImplicitPoly(equ, def, info);
+			return functionOrImplicitPoly(equ, def, info, evaluatedDef);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree()
 				? Math.max(equ.preferredDegree(), equ.degree()) : -1;
@@ -2806,7 +2828,7 @@ public class AlgebraProcessor {
 		// linear equation -> LINE
 		case 0:
 			if (allowConstant) {
-				return functionOrImplicitPoly(equ, def, info);
+				return functionOrImplicitPoly(equ, def, info, evaluatedDef);
 			}
 			return processLine(equ, def, info);
 		case 1:
@@ -2820,13 +2842,13 @@ public class AlgebraProcessor {
 			// if constants are allowed, build implicit poly
 		default:
 			// test for "y= <rhs>" here as well
-			return functionOrImplicitPoly(equ, def, info);
+			return functionOrImplicitPoly(equ, def, info, evaluatedDef);
 		}
 
 	}
 
 	private GeoElement[] functionOrImplicitPoly(Equation equ,
-			ExpressionNode def, EvalInfo info) {
+			ExpressionNode def, EvalInfo info, ExpressionValue evaluatedDef) {
 		String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate)
 				.trim();
 
@@ -2853,12 +2875,11 @@ public class AlgebraProcessor {
 			// try to use label of equation
 			fun.setLabel(equ.getLabel());
 			fun.setShortLHS("z");
-			GeoElement[] ret = processFunctionNVar(fun,
+			return processFunctionNVar(fun,
 					new EvalInfo(!cons.isSuppressLabelsActive()));
-			return ret;
 		}
 
-		return processImplicitPoly(equ, def, info);
+		return processImplicitPoly(equ, def, info, evaluatedDef);
 	}
 
 	private boolean canEvaluateToFunction(Equation equ) {
@@ -2902,7 +2923,7 @@ public class AlgebraProcessor {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isExplicit = equ.isExplicit("y");
-		boolean isIndependent = lhs.isConstant(info);
+		boolean isIndependent = lhs.isConstant(info) && !def.inspect(Inspecting.dynamicGeosFinder);
 		if (isIndependent) {
 			// get coefficients
 			double a = lhs.getCoeffValue("x");
@@ -2957,7 +2978,7 @@ public class AlgebraProcessor {
 	 * Line dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees. e.g. y = k x + d
 	 */
-	final private GeoLine dependentLine(Equation equ) {
+	private GeoLine dependentLine(Equation equ) {
 		AlgoDependentLine algo = new AlgoDependentLine(cons, equ);
 		return algo.getLine();
 	}
@@ -2973,7 +2994,7 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processConic(Equation equ, ExpressionNode def,
 			EvalInfo info) {
-		double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
+		double a, b, c, d, e, f;
 		GeoConic conic;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
@@ -3029,7 +3050,7 @@ public class AlgebraProcessor {
 	 * @return resulting implicit polynomial
 	 */
 	protected GeoElement[] processImplicitPoly(Equation equ,
-			ExpressionNode definition, EvalInfo info) {
+			ExpressionNode definition, EvalInfo info, ExpressionValue evaluatedDef) {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isIndependent = !equ.isFunctionDependent()
@@ -3037,7 +3058,7 @@ public class AlgebraProcessor {
 				&& !equ.hasVariableDegree()
 				&& (equ.isPolynomial() || !equ.inspect(Inspecting.dynamicGeosFinder));
 		GeoImplicit poly;
-		GeoElement geo = null;
+		GeoElement geo;
 		boolean is3d = equ.isForcedSurface() || equ.isForcedQuadric()
 				|| equ.isForcedPlane();
 		if (isIndependent || is3d) {
@@ -3049,7 +3070,7 @@ public class AlgebraProcessor {
 			}
 		} else {
 			AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(cons,
-					equ, definition, true);
+					equ, definition, true, evaluatedDef);
 
 			geo = algo.getGeo(); // might also return
 			// Line or Conic
@@ -3085,7 +3106,7 @@ public class AlgebraProcessor {
 			} else if (leaf instanceof Equation) {
 				Equation eqn = (Equation) leaf;
 				eqn.setLabels(n.getLabels());
-				return processEquation(eqn, n, info);
+				return processEquationOrAssignment(eqn, n, info, null);
 			} else if (leaf instanceof Function) {
 				Function fun = (Function) leaf;
 				fun.setLabels(n.getLabels());
@@ -3186,7 +3207,7 @@ public class AlgebraProcessor {
 			Equation eq = ((EquationValue) eval).getEquation();
 			eq.setFunctionDependent(true);
 			eq.setLabel(n.getLabel());
-			return processEquation(eq, n, info);
+			return processEquationOrAssignment(eq, n, info, eval);
 		} else if (eval instanceof Function) {
 			return processFunction((Function) eval, info);
 		} else if (eval instanceof FunctionNVar) {
@@ -3287,12 +3308,11 @@ public class AlgebraProcessor {
 	 * Number dependent on arithmetic expression with variables, represented by
 	 * a tree. e.g. t = 6z - 2
 	 */
-	final private GeoNumberValue dependentNumber(ExpressionNode root,
+	private GeoNumberValue dependentNumber(ExpressionNode root,
 			boolean isAngle, ExpressionValue evaluate) {
 		AlgoDependentNumber algo = new AlgoDependentNumber(cons, root, isAngle,
 				evaluate);
-		GeoNumberValue number = algo.getNumber();
-		return number;
+		return algo.getNumber();
 	}
 
 	private GeoElement[] processList(ExpressionNode n, MyList evalList,
@@ -3392,10 +3412,9 @@ public class AlgebraProcessor {
 	 * Text dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees. e.g. text = "Radius: " + r
 	 */
-	final private GeoText dependentText(ExpressionNode root) {
+	private GeoText dependentText(ExpressionNode root) {
 		AlgoDependentText algo = new AlgoDependentText(cons, root, true);
-		GeoText t = algo.getGeoText();
-		return t;
+		return algo.getGeoText();
 	}
 
 	/**
@@ -3423,7 +3442,7 @@ public class AlgebraProcessor {
 			ret.setDefinition(n);
 
 		} else {
-			ret = (new AlgoDependentBoolean(cons, n)).getGeoBoolean();
+			ret = (new AlgoDependentBoolean(cons, n, true)).getGeoBoolean();
 		}
 		ret.setLabel(label);
 		return array(ret);
@@ -3577,22 +3596,20 @@ public class AlgebraProcessor {
 	 * Point dependent on arithmetic expression with variables, represented by a
 	 * tree. e.g. P = (4t, 2s)
 	 */
-	final private GeoPoint dependentPoint(String label, ExpressionNode root,
+	private GeoPoint dependentPoint(String label, ExpressionNode root,
 			boolean complex) {
 		AlgoDependentPoint algo = new AlgoDependentPoint(cons, label, root,
 				complex);
-		GeoPoint P = algo.getPoint();
-		return P;
+		return algo.getPoint();
 	}
 
 	/**
 	 * Vector dependent on arithmetic expression with variables, represented by
 	 * a tree. e.g. v = u + 3 w
 	 */
-	final private GeoVector dependentVector(String label, ExpressionNode root) {
+	private GeoVector dependentVector(String label, ExpressionNode root) {
 		AlgoDependentVector algo = new AlgoDependentVector(cons, label, root);
-		GeoVector v = algo.getVector();
-		return v;
+		return algo.getVector();
 	}
 
 	/**
@@ -3613,7 +3630,7 @@ public class AlgebraProcessor {
 	/**
 	 * Creates a dependent copy of origGeo with label
 	 */
-	final private GeoElement dependentGeoCopy(String label,
+	private GeoElement dependentGeoCopy(String label,
 			ExpressionNode origGeoNode) {
 		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, origGeoNode);
 		algo.getGeo().setLabel(label);

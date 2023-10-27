@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.HasDebugString;
@@ -45,13 +46,14 @@ public abstract class ValidExpression
 	private List<String> localVariables = new ArrayList<>();
 	private boolean inTree; // used by ExpressionNode
 
+	private boolean imprecise = false;
+
 	/**
 	 * @param label
 	 *            label to be added
 	 */
 	public void addLabel(String label) {
 		initLabels();
-		// App.printStacktrace(label+":"+(label==null));
 		labels.add(label);
 	}
 
@@ -476,6 +478,13 @@ public abstract class ValidExpression
 	}
 
 	/**
+	 * @return true if this expression contains a dummy variable.
+	 */
+	public final boolean containsGeoDummyVariable() {
+		return this.inspect(v -> v instanceof GeoDummyVariable);
+	}
+
+	/**
 	 * @param name
 	 *            variable name
 	 * @return deep check for function variable with given name
@@ -608,5 +617,25 @@ public abstract class ValidExpression
 	@Override
 	public boolean isOperation(Operation operation) {
 		return false;
+	}
+
+	/**
+	 * @return whether this contains Command instances
+	 */
+	public boolean containsCommands() {
+		return inspect(t -> t instanceof Command);
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
+	}
+
+	public boolean isImprecise() {
+		return imprecise;
+	}
+
+	public void setImprecise(boolean imprecise) {
+		this.imprecise = imprecise;
 	}
 }

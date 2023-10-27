@@ -1,17 +1,13 @@
 package org.geogebra.web.full.euclidian;
 
-import java.util.HashMap;
-
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
-import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -20,13 +16,13 @@ import org.geogebra.web.html5.gui.accessibility.AccessibleInputBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.gwtproject.animation.client.AnimationScheduler;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
+import org.gwtproject.event.dom.client.ChangeEvent;
+import org.gwtproject.event.dom.client.ChangeHandler;
 
-import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.renderer.share.TeXFont;
 
@@ -38,33 +34,27 @@ import com.himamis.retex.renderer.share.TeXFont;
 public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
 		BlurHandler, ChangeHandler {
 
+	private static final int EDITOR_PADDING = 2;
 	private GRectangle bounds;
 	private final MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
 
 	/**
 	 * Constructor
-	 *
-	 * @param app
-	 *            The application.
+	 * @param app The application.
+	 * @param settings font size/padding/margin settings
 	 */
-	public SymbolicEditorW(App app, EuclidianViewW view) {
+	public SymbolicEditorW(App app, EuclidianViewW view, TextRendererSettings settings) {
 		super(app, view);
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
-		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
-		editor.getMathField().setMinHeight(DrawInputBox.SYMBOLIC_MIN_HEIGHT);
-		editor.getMathField().setRightMargin(8);
-		int baseFontSize = app.getSettings()
-				.getFontSettings().getAppFontSize() + 3;
-
-		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
-		editor.setFontSize(baseFontSize);
+		editor.setTextRendererSettings(settings);
+		decorator = new SymbolicEditorDecorator(editor, app.getFontSize(), settings.getFixMargin());
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds, TextRendererSettings settings) {
 		if (getDrawInputBox() != null && getDrawInputBox().getGeoElement() != geoInputBox) {
 			getDrawInputBox().setEditing(false);
 		}
@@ -76,6 +66,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.getMathField().setPixelRatio(((AppW) app).getPixelRatio());
 		editor.setFontType(geoInputBox.isSerifContent() ? TeXFont.SERIF
 				:  TeXFont.SANSSERIF);
+		editor.setTextRendererSettings(settings);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 		((AppWFull) app).setInputBoxType(geoInputBox.getInputBoxType());
 		((AppWFull) app).setInputBoxFunctionVars(geoInputBox.getFunctionVars());
@@ -104,17 +95,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 		decorator.update(bounds, getGeoInputBox());
 		setBaseline(bounds.getY() + bounds.getHeight() / 2d);
+
+		colorEditor();
 		editor.setVisible(true);
 
-		String text = getGeoInputBox().getTextForEditor();
-
-		boolean textMode = isTextMode();
-		editor.setTextMode(textMode);
-		if (textMode) {
-			getMathFieldInternal().setPlainText(text);
-		} else {
-			editor.getMathField().parse(text);
-		}
+		super.resetChanges();
 
 		editor.setLabel(getGeoInputBox().getAuralText());
 		if (getGeoInputBox().hasError()) {
@@ -122,9 +107,22 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		} else {
 			editor.setErrorText(null);
 		}
-		setProtection();
 
 		Scheduler.get().scheduleDeferred(editor::requestFocus);
+	}
+
+	private void colorEditor() {
+		GColor borderCol = getDrawInputBox().getBorderColor();
+		if (borderCol != null && !getDrawInputBox().hasError()) {
+			editor.getStyle().setBorderColor(borderCol.toString());
+			return;
+		}
+		if (getDrawInputBox().hasError()) {
+			editor.getStyle().clearBackgroundColor();
+			editor.getStyle().clearBorderColor();
+			return;
+		}
+		editor.getStyle().clearBorderColor();
 	}
 
 	@Override
@@ -156,17 +154,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		dispatchKeyTypeEvent(key);
 	}
 
-	private void dispatchKeyTypeEvent(String key) {
-		Event event = new Event(EventType.EDITOR_KEY_TYPED);
-		HashMap<String, Object> jsonArgument = new HashMap<>();
-		jsonArgument.put("key", key == null ? "" : key);
-		jsonArgument.put("label", getGeoInputBox() != null
-				? getGeoInputBox().getLabelSimple() : "");
-
-		event.setJsonArgument(jsonArgument);
-		app.dispatchEvent(event);
-	}
-
 	@Override
 	public void onEnter() {
 		super.onEnter();
@@ -175,14 +162,14 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	@Override
 	public boolean onEscape() {
-		resetChanges();
+		applyAndHide();
 		return true;
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		applyAndHide();
-		((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
+		return ((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
 	}
 
 	@Override
@@ -205,5 +192,10 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	public boolean onArrowKeyPressed(int keyCode) {
 		editor.scrollHorizontally();
 		return false;
+	}
+
+	@Override
+	public void selectEntryAt(int x, int y) {
+		editor.selectEntryAt(x - EDITOR_PADDING, y - EDITOR_PADDING);
 	}
 }

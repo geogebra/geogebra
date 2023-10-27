@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -19,7 +18,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Element;
 import javax.swing.text.JTextComponent;
@@ -53,8 +51,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	/** application */
 	AppD app;
 	protected final DynamicTextInputPane thisPane;
-	/** doc */
-	public DefaultStyledDocument doc;
+	private final DefaultStyledDocument doc;
 	private JTextComponent focusedTextComponent;
 
 	/**************************************
@@ -72,7 +69,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		this.addKeyListener(new GeoGebraKeys());
 		this.addFocusListener(this);
 		focusedTextComponent = this;
-		// this.setCaret(new MyCaret());
 	}
 
 	@Override
@@ -198,9 +194,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 		StringBuilder sb = new StringBuilder();
 		Element elem;
-		for (int i = 0; i < doc.getLength(); i++) {
+		for (int i = 0; i < getDoc().getLength(); i++) {
 			try {
-				elem = doc.getCharacterElement(i);
+				elem = getDoc().getCharacterElement(i);
 				if (elem.getName().equals("component")) {
 
 					DynamicTextField tf = (DynamicTextField) StyleConstants
@@ -230,7 +226,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 				} else if (elem.getName().equals("content")) {
 
-					String content = doc.getText(i, 1);
+					String content = getDoc().getText(i, 1);
 					currentQuote = StringUtil.processQuotes(sb, content,
 							currentQuote);
 
@@ -362,9 +358,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		try {
 			int offs = offs0;
 			if (offs == -1) {
-				offs = doc.getLength(); // insert at end
+				offs = getDoc().getLength(); // insert at end
 			}
-			doc.insertString(offs, str, a);
+			getDoc().insertString(offs, str, a);
 
 		} catch (BadLocationException e) {
 			e.printStackTrace();
@@ -372,35 +368,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 	}
 
-	/**
-	 * Custom caret with damage area set to a thin width. This allows the caret
-	 * to appear next to a DynamicTextField without destroying the field's
-	 * border.
-	 */
-	static class MyCaret extends DefaultCaret {
-
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * 
-		 */
-		public MyCaret() {
-			super();
-			this.setBlinkRate(500);
-		}
-
-		@Override
-		protected synchronized void damage(Rectangle r) {
-			if (r == null) {
-				return;
-			}
-			x = r.x;
-			y = r.y;
-			width = 4;
-			height = r.height;
-			repaint();
-
-		}
+	/** @return document */
+	public DefaultStyledDocument getDoc() {
+		return doc;
 	}
 
 	/*********************************************************************
@@ -431,7 +401,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			this.enableColoring(false);
 
 			// handle alt+arrow to exit the field
-			addKeyListener(new MyKeyListener(this));
+			addKeyListener(new ArrowKeyListener(this));
 
 			// add a mouse listener to trigger the context menu
 			addMouseListener(new MouseAdapter() {
@@ -510,11 +480,11 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			this.mode = mode;
 		}
 
-		private class MyKeyListener extends KeyAdapter {
+		private class ArrowKeyListener extends KeyAdapter {
 
-			private DynamicTextField tf;
+			private final DynamicTextField tf;
 
-			public MyKeyListener(DynamicTextField tf) {
+			public ArrowKeyListener(DynamicTextField tf) {
 				this.tf = tf;
 			}
 
@@ -556,13 +526,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				id.handleDocumentEvent();
 			});
 			contextMenu.add(item);
-			/*
-			 * item = new JCheckBoxMenuItem(app.getMenu("Formula"));
-			 * item.setSelected(mode == MODE_FORMULATEXT);
-			 * item.addActionListener(new ActionListener(){ public void
-			 * actionPerformed(ActionEvent arg0) { mode = MODE_FORMULATEXT; }
-			 * });
-			 */
 			contextMenu.add(item);
 
 			app.setComponentOrientation(contextMenu);

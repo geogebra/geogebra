@@ -3,15 +3,14 @@ package org.geogebra.web.html5.euclidian;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RequiresResize;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.style.shared.Overflow;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.RequiresResize;
 
 /**
  * Euclidian panel for WebSimple
@@ -41,7 +40,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 
 	private void loadComponent() {
 		eview1 = Canvas.createIfSupported();
-		eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		eview1.getElement().getStyle().setPosition(Position.RELATIVE);
 		eview1.getElement().getStyle().setZIndex(0);
 		eview1.setWidth("1px");
 		eview1.setHeight("1px");

@@ -9,11 +9,10 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -456,14 +455,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 
 	@Override
 	public void updateDividerLocation(int size, int orientation1) {
-
-		/*
-		 * AbstractApplication.debug("\nresizeW= "+getResizeWeight()
-		 * +"\nsize= "+size +"\nsavedSize= "+savedSize
-		 * +"\nsavedDividerLocation= "+savedDividerLocation
-		 * +"\nleft= "+getLeftComponent() +"\nright= "+getRightComponent());
-		 */
-
 		if (orientation1 == getOrientation()) {
 			if (getResizeWeight() == 0) {
 				setDividerLocationRecursive(
@@ -508,7 +499,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	private void setDividerLocationRecursive(int location, int size,
 			int orientation1) {
 		setDividerLocation(location);
-		// AbstractApplication.debug("location = "+location);
 		propagateDividerLocation(location, size - location, orientation1);
 	}
 

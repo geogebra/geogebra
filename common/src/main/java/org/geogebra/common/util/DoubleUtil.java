@@ -3,7 +3,6 @@ package org.geogebra.common.util;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
 public class DoubleUtil {
@@ -278,7 +277,7 @@ public class DoubleUtil {
 	 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
 	 * otherwise x is returned.
 	 * 
-	 * @param x
+	 * @param val
 	 *            input number
 	 * @param precision
 	 *            specifies how many decimals digits are accepted in results --
@@ -287,32 +286,32 @@ public class DoubleUtil {
 	 *         is less than this kernel's minimal precision
 	 */
 	
-	final public static double checkDecimalFraction(double x, double precision) {
+	public static double checkDecimalFraction(double val, double precision) {
 		double prec = Math.pow(10,
 				Math.floor(Math.log(Math.abs(precision)) / Math.log(10)));
 	
-		double fracVal = x * Kernel.INV_MIN_PRECISION;
+		double fracVal = val * Kernel.INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
 
 		if (isEqual(fracVal, roundVal, Kernel.STANDARD_PRECISION * prec)) {
 			return roundVal / Kernel.INV_MIN_PRECISION;
 		}
-		return x;
+		return val;
 	}
 
 	/**
-	 * @param x
-	 *            x
-	 * @return close decimal fraction or x if there is not one
+	 * @param val
+	 *            real number
+	 * @return close decimal fraction or val if there is not one
 	 */
-	final public static double checkDecimalFraction(double x) {
-		double fracVal = x * Kernel.INV_MIN_PRECISION;
+	public static double checkDecimalFraction(double val) {
+		double fracVal = val * Kernel.INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
 
 		if (isEqual(fracVal, roundVal, Kernel.STANDARD_PRECISION)) {
 			return roundVal / Kernel.INV_MIN_PRECISION;
 		}
-		return x;
+		return val;
 	}
 
 	/**
@@ -376,7 +375,7 @@ public class DoubleUtil {
 		// Log.debug("root " + root + " " + rootVal);
 		// Log.debug("root2 " + root2 + " " + root2Val);
 
-		if (!MyDouble.isFinite(rootVal) || !MyDouble.isFinite(root2Val)) {
+		if (!Double.isFinite(rootVal) || !Double.isFinite(root2Val)) {
 			// hole near/at root
 			return Double.NaN;
 		}
@@ -392,7 +391,7 @@ public class DoubleUtil {
 				&& Math.abs(polishedRoot[1]) < 20) {
 			root2 = polishedRoot[0] / polishedRoot[1];
 			root2Val = f.value(root2);
-			if (!MyDouble.isFinite(root2Val)) {
+			if (!Double.isFinite(root2Val)) {
 				// hole near/at root
 				return Double.NaN;
 			}
@@ -503,9 +502,8 @@ public class DoubleUtil {
 	 *       {min, min + step, min + 2*step, ..., min + i*step, max}
 	 *       otherwise, where min + i*step is the greatest such number
 	 *       that is smaller than max
-	 * @throws OutOfMemoryError if the range is too big
 	 */
-	public static double[] range(double min, double max, double step) throws OutOfMemoryError {
+	public static double[] range(double min, double max, double step) {
 		// To any future developer who wants to simplify this code:
 		// please double-triple check what you are doing, floating
 		// point numbers are _not_ easy to handle (APPS-158, APPS-1824)

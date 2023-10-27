@@ -13,7 +13,6 @@ import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -113,11 +112,11 @@ public class OptionsMenuD extends BaseMenu
 	 * 
 	 * @param menu
 	 *            menu component
-	 * @param al
+	 * @param listener
 	 *            language change listener
 	 */
 	public static void addLanguageMenuItems(AppD app, JComponent menu,
-			ActionListener al) {
+			LanguageActionListener listener) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		boolean rtl = app.getLocalization().isRightToLeftReadingOrder();
@@ -130,7 +129,7 @@ public class OptionsMenuD extends BaseMenu
 		menu.add(submenu3);
 		menu.add(submenu4);
 
-		String currentLocale = app.getLocale().toString();
+		String currentLocale = app.getLocale().toLanguageTag();
 
 		// change en_GB into enGB
 		currentLocale = currentLocale.replaceAll("_", "");
@@ -163,11 +162,10 @@ public class OptionsMenuD extends BaseMenu
 			mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
 					app.getGUIFontSize()));
 
-			if (loc.locale.equals(currentLocale)) {
+			if (loc.toLanguageTag().equals(currentLocale)) {
 				mi.setSelected(true);
 			}
-			mi.setActionCommand(loc.locale);
-			mi.addActionListener(al);
+			mi.addActionListener((ignore) -> listener.setLanguage(loc));
 			bg.add(mi);
 
 			if (ch <= 'D') {
@@ -220,15 +218,6 @@ public class OptionsMenuD extends BaseMenu
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				// set checkbox size to new default
-				app.getEuclidianView1().setBooleanSize(
-						EuclidianConstants.DEFAULT_CHECKBOX_SIZE);
-				if (app.hasEuclidianView2(1)) {
-					app.getEuclidianView2(1).setBooleanSize(
-							EuclidianConstants.DEFAULT_CHECKBOX_SIZE);
-				}
-
 				// set sliders to new styling
 				TreeSet<GeoElement> geos = app.getKernel().getConstruction()
 						.getGeoSetConstructionOrder();

@@ -799,9 +799,6 @@ public class DataAnalysisViewD extends JPanel
 	@Override
 	public void showComboPanel2(boolean show) {
 		if (show) {
-			if (comboPanelSplit == null) {
-				// Application.debug("splitpane null");
-			}
 			comboPanelSplit.setBottomComponent(dataDisplayPanel2);
 			comboPanelSplit.setDividerLocation(200);
 			comboPanelSplit.setDividerSize(4);

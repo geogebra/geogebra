@@ -2,11 +2,11 @@ package org.geogebra.web.full.gui.dialog.image;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * dialog to ask user for webcam permission and show error messages
@@ -35,7 +35,7 @@ public class WebcamPermissionDialog extends ComponentDialog {
 	}
 
 	private void buildContent(String localizedMsg) {
-		Label message = new Label(localizedMsg);
+		Label message = BaseWidgetFactory.INSTANCE.newSecondaryText(localizedMsg);
 		addDialogContent(message);
 	}
 }

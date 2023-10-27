@@ -13,13 +13,12 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Classic (no toolbar) dock panel for algebra
@@ -66,7 +65,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		if (decorator == null) {
 			return algebrap;
 		}
-		return decorator.decorate(algebrap, app);
+		return decorator.decorate(this, algebrap, app);
 	}
 
 	@Override
@@ -87,9 +86,6 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			wrapper = new FlowPanel();
 			aview = av;
 			wrapper.add(aview);
-			if (decorator != null) {
-				decorator.addLogo(wrapper, app);
-			}
 			algebrap.add(wrapper);
 			algebrap.addStyleName("algebraPanel");
 			algebrap.addDomHandler(event -> algebraPanelClicked(av, event), ClickEvent.getType());
@@ -224,7 +220,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		LatexTreeItemController itemController = ((RadioTreeItem) ml)
 				.getLatexController();
 		itemController.initAndShowKeyboard(false);
-		return itemController.getRetexListener();
+		return ml;
 	}
 
 	@Override
@@ -239,13 +235,5 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			return 120;
 		}
 		return Math.max(inputTreeItem.getOffsetHeight(), 120);
-	}
-
-	@Override
-	public void setLabels() {
-		super.setLabels();
-		if (decorator != null) {
-			decorator.setLabels();
-		}
 	}
 }

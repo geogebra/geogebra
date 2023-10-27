@@ -650,7 +650,7 @@ public class Korean {
 	/**
 	 * Splits double vowels and consonants and returns the
 	 * last component
-	 * DOES NOT SPLIT LONG CONSONANTS SUCH AS ᆻ
+	 * DOES NOT SPLIT LONG CONSONANTS SUCH AS \u11BB
 	 * @param ch korean character
 	 * @return last compatibility JAMO character
 	 */
@@ -758,8 +758,6 @@ public class Korean {
 		char vowel = (char) (0x1161
 				+ ((c - 44032 - (tail - 0x11a7)) % 588) / 28);
 		char lead = (char) (0x1100 + (c - 44032) / 588);
-		// Application.debug(Util.toHexString(c)+" decoded to
-		// "+Util.toHexString(lead)+Util.toHexString(vowel)+Util.toHexString(tail));
 		sBuilder.append(lead);
 		sBuilder.append(vowel);
 		if (!isKoreanLeadPlusVowelChar(c)) {

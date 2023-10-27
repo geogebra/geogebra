@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.VideoManager;
@@ -30,7 +29,7 @@ public abstract class UndoManager {
 
 	/** application */
 	@Weak
-	public App app;
+	protected App app;
 	/** construction */
 	@Weak
 	protected Construction construction;
@@ -129,46 +128,6 @@ public abstract class UndoManager {
 				return;
 			}
 		}
-	}
-
-	/**
-	 * Processes XML
-	 * 
-	 * @param strXML
-	 *            XML string
-	 * @param isGGTOrDefaults
-	 *            whether to treat the XML as defaults
-	 * @throws Exception
-	 *             on trouble with parsing or running commands
-	 */
-	final public synchronized void processXML(String strXML,
-			boolean isGGTOrDefaults) throws Exception {
-		processXML(strXML, isGGTOrDefaults, null);
-	}
-
-	/**
-	 * Processes XML
-	 * 
-	 * @param strXML
-	 *            XML string
-	 * @param isGGTOrDefaults
-	 *            whether to treat the XML as defaults
-	 * @param info
-	 *            EvalInfo (can be null)
-	 * @throws Exception
-	 *             on trouble with parsing or running commands
-	 */
-	final public synchronized void processXML(String strXML,
-			boolean isGGTOrDefaults, EvalInfo info) throws Exception {
-
-		boolean randomize = info != null && info.updateRandom();
-
-		construction.setFileLoading(true);
-		construction.setCasCellUpdate(true);
-		construction.getXMLio().processXMLString(strXML, true, isGGTOrDefaults,
-				true, randomize);
-		construction.setFileLoading(false);
-		construction.setCasCellUpdate(false);
 	}
 
 	/**
@@ -533,9 +492,10 @@ public abstract class UndoManager {
 	 * (or slides are not supported).
 	 * If the app needs to load the slide, the callback will run asynchronously.
 	 * @param slideID slide ID
+	 * @param callback callback to run when slide is loaded
 	 */
-	public void runAfterSlideLoaded(String slideID, Runnable run) {
-		run.run();
+	public void runAfterSlideLoaded(String slideID, Runnable callback) {
+		callback.run();
 	}
 
 	/**
@@ -566,6 +526,7 @@ public abstract class UndoManager {
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 		app.getActiveEuclidianView().restoreDynamicStylebar();
+		app.resetPen();
 	}
 
 	/**

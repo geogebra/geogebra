@@ -3,61 +3,58 @@ package org.geogebra.web.html5.gui.view.autocompletion;
 import java.util.Collection;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.GDecoratedPopupPanel;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
-
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.HasAllKeyHandlers;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Focusable;
-import com.google.gwt.user.client.ui.HasAnimation;
-import com.google.gwt.user.client.ui.HasEnabled;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle.Callback;
-import com.google.gwt.user.client.ui.SuggestOracle.Request;
-import com.google.gwt.user.client.ui.SuggestOracle.Response;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.TextBoxBase;
-import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwt.user.client.ui.ValueBoxBase;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.HasAllKeyHandlers;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyDownHandler;
+import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.event.dom.client.KeyPressHandler;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.event.logical.shared.HasSelectionHandlers;
+import org.gwtproject.event.logical.shared.SelectionEvent;
+import org.gwtproject.event.logical.shared.SelectionHandler;
+import org.gwtproject.event.logical.shared.ValueChangeEvent;
+import org.gwtproject.event.logical.shared.ValueChangeHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.user.client.ui.Composite;
+import org.gwtproject.user.client.ui.Focusable;
+import org.gwtproject.user.client.ui.HasAnimation;
+import org.gwtproject.user.client.ui.HasEnabled;
+import org.gwtproject.user.client.ui.HasText;
+import org.gwtproject.user.client.ui.HasValue;
+import org.gwtproject.user.client.ui.MultiWordSuggestOracle;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.SuggestOracle;
+import org.gwtproject.user.client.ui.SuggestOracle.Callback;
+import org.gwtproject.user.client.ui.SuggestOracle.Request;
+import org.gwtproject.user.client.ui.SuggestOracle.Response;
+import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
+import org.gwtproject.user.client.ui.TextBox;
+import org.gwtproject.user.client.ui.TextBoxBase;
+import org.gwtproject.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.ValueBoxBase;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
- * A {@link SuggestBox} is a text box or text area which displays a
+ * A {@link GSuggestBox} is a text box or text area which displays a
  * pre-configured set of selections that match the user's input.
  *
- * Each {@link SuggestBox} is associated with a single {@link SuggestOracle}.
+ * Each {@link GSuggestBox} is associated with a single {@link SuggestOracle}.
  * The {@link SuggestOracle} is used to provide a set of selections given a
  * specific query string.
  *
  * <p>
- * By default, the {@link SuggestBox} uses a {@link MultiWordSuggestOracle} as
+ * By default, the {@link GSuggestBox} uses a {@link MultiWordSuggestOracle} as
  * its oracle. Below we show how a {@link MultiWordSuggestOracle} can be
  * configured:
  * </p>
@@ -69,7 +66,7 @@ import com.google.gwt.user.client.ui.Widget;
  * oracle.add("Horse");
  * oracle.add("Canary");
  *
- * SuggestBox box = new SuggestBox(oracle);
+ * GSuggestBox box = new GSuggestBox(oracle);
  * </pre>
  *
  * Using the example above, if the user types "C" into the text widget, the
@@ -79,12 +76,12 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * <p>
  * Note that there is no method to retrieve the "currently selected suggestion"
- * in a SuggestBox, because there are points in time where the currently
+ * in a GSuggestBox, because there are points in time where the currently
  * selected suggestion is not defined. For example, if the user types in some
- * text that does not match any of the SuggestBox's suggestions, then the
- * SuggestBox will not have a currently selected suggestion. It is more useful
- * to know when a suggestion has been chosen from the SuggestBox's list of
- * suggestions. A SuggestBox fires {@link SelectionEvent SelectionEvents}
+ * text that does not match any of the GSuggestBox's suggestions, then the
+ * GSuggestBox will not have a currently selected suggestion. It is more useful
+ * to know when a suggestion has been chosen from the GSuggestBox's list of
+ * suggestions. A GSuggestBox fires {@link SelectionEvent SelectionEvents}
  * whenever a suggestion is chosen, and handlers for these events can be added
  * using the {@link #addSelectionHandler(SelectionHandler)} method.
  * </p>
@@ -178,7 +175,7 @@ public class GSuggestBox extends Composite
 		 * Set the debug id of widgets used in the SuggestionDisplay.
 		 *
 		 * @param suggestBoxBaseID
-		 *            the baseID of the {@link SuggestBox}
+		 *            the baseID of the {@link GSuggestBox}
 		 * @see UIObject#onEnsureDebugId(String)
 		 */
 		protected void onEnsureDebugId(String suggestBoxBaseID) {
@@ -272,7 +269,7 @@ public class GSuggestBox extends Composite
 	/**
 	 * <p>
 	 * The default implementation of {@link SuggestionDisplay} displays
-	 * suggestions in a {@link GPopupPanel} beneath the {@link SuggestBox}.
+	 * suggestions in a {@link GPopupPanel} beneath the {@link GSuggestBox}.
 	 * </p>
 	 *
 	 * <h3>CSS Style Rules</h3>
@@ -328,9 +325,9 @@ public class GSuggestBox extends Composite
 		private final GPopupPanel suggestionPopup;
 
 		/**
-		 * We need to keep track of the last {@link SuggestBox} because it acts
+		 * We need to keep track of the last {@link GSuggestBox} because it acts
 		 * as an autoHide partner for the {@link GPopupPanel}. If we use the
-		 * same display for multiple {@link SuggestBox}, we need to switch the
+		 * same display for multiple {@link GSuggestBox}, we need to switch the
 		 * autoHide partner.
 		 */
 		private GSuggestBox lastSuggestBox = null;
@@ -430,7 +427,7 @@ public class GSuggestBox extends Composite
 		 * @return the popup panel
 		 */
 		protected GPopupPanel createPopup(Panel panel, App app) {
-			GPopupPanel p = new GDecoratedPopupPanel(true, false,
+			GPopupPanel p = new GPopupPanel(true, false,
 					panel, app);
 			p.addStyleName("suggestPopup");
 			p.setStyleName("gwt-SuggestBoxPopup");
@@ -649,7 +646,7 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Creates a {@link SuggestBox} widget that wraps an existing &lt;input
+	 * Creates a {@link GSuggestBox} widget that wraps an existing &lt;input
 	 * type='text'&gt; element.
 	 *
 	 * This element must already be attached to the document. If the element is
@@ -682,17 +679,17 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Constructor for {@link SuggestBox}. Creates a
+	 * Constructor for {@link GSuggestBox}. Creates a
 	 * {@link MultiWordSuggestOracle} and {@link TextBox} to use with this
-	 * {@link SuggestBox}.
+	 * {@link GSuggestBox}.
 	 */
 	public GSuggestBox(Panel panel, App app) {
 		this(new MultiWordSuggestOracle(), panel, app);
 	}
 
 	/**
-	 * Constructor for {@link SuggestBox}. Creates a {@link TextBox} to use with
-	 * this {@link SuggestBox}.
+	 * Constructor for {@link GSuggestBox}. Creates a {@link TextBox} to use with
+	 * this {@link GSuggestBox}.
 	 *
 	 * @param oracle
 	 *            the oracle for this <code>SuggestBox</code>
@@ -702,8 +699,8 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Constructor for {@link SuggestBox}. The text box will be removed from
-	 * it's current location and wrapped by the {@link SuggestBox}.
+	 * Constructor for {@link GSuggestBox}. The text box will be removed from
+	 * it's current location and wrapped by the {@link GSuggestBox}.
 	 *
 	 * @param oracle
 	 *            supplies suggestions based upon the current contents of the
@@ -717,8 +714,8 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Constructor for {@link SuggestBox}. The text box will be removed from
-	 * it's current location and wrapped by the {@link SuggestBox}.
+	 * Constructor for {@link GSuggestBox}. The text box will be removed from
+	 * it's current location and wrapped by the {@link GSuggestBox}.
 	 *
 	 * @param oracle
 	 *            supplies suggestions based upon the current contents of the
@@ -789,7 +786,7 @@ public class GSuggestBox extends Composite
 
 	/**
 	 * Gets the suggest box's
-	 * {@link com.google.gwt.user.client.ui.SuggestOracle}.
+	 * {@link org.gwtproject.user.client.ui.SuggestOracle}.
 	 *
 	 * @return the {@link SuggestOracle}
 	 */

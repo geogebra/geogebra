@@ -1340,12 +1340,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		double xrangemax = a, xrangemin = a;
 		while (xrangemax < b) {
 			xrangemin = firstDefinedValue(geo, a, b);
-			// Application.debug("xrangemin "+xrangemin);
 			if (xrangemin == b) {
 				break;
 			}
 			xrangemax = maxDefinedValue(geo, xrangemin, b);
-			// Application.debug("xrangemax "+xrangemax);
 			startBeamer(sb);
 			if (forceGnuplot) {
 				if (!isLatexFunction(

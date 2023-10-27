@@ -128,8 +128,6 @@ public abstract class DrawEquation implements DrawEquationI {
 
 		// if we're exporting, we want to draw it full resolution
 		if (app.isExporting() || !useCache) {
-
-			// Application.debug("creating new icon for: "+text);
 			TeXIcon icon = createIcon(text, fgColor, font, style, maxWidth,
 					lineSpace, app);
 
@@ -160,8 +158,6 @@ public abstract class DrawEquation implements DrawEquationI {
 
 		} catch (final Exception e) {
 			Log.debug(e);
-			// Application.debug("LaTeX parse exception:
-			// "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
 			checkFirstCall(app);
 
@@ -320,9 +316,6 @@ public abstract class DrawEquation implements DrawEquationI {
 			// TeXLength.Unit.CM, lineSpace.doubleValue());
 			// }
 		} catch (final MyError e) {
-			// e.printStackTrace();
-			// Application.debug("MyError LaTeX parse exception:
-			// "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
 
 			formula = TeXFormula.getPartialTeXFormula(text);
@@ -336,9 +329,6 @@ public abstract class DrawEquation implements DrawEquationI {
 					TeXConstants.Align.LEFT);
 
 		} catch (final Exception e) {
-			// e.printStackTrace();
-			// Application.debug("LaTeX parse exception:
-			// "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
 
 			formula = TeXFormula.getPartialTeXFormula(text);

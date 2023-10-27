@@ -1,18 +1,20 @@
 package org.geogebra.web.full.gui.components;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	private final AppW app;
@@ -21,9 +23,10 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	private Label selectedOption;
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
+	private boolean fullWidth = false;
 
 	/**
-	 * Material rop-down component
+	 * Material drop-down component
 	 * @param app - see {@link AppW}
 	 * @param label - label of drop-down
 	 * @param items - popup elements
@@ -39,10 +42,44 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		initController(items);
 	}
 
+	/**
+	 * @param app - - see {@link AppW}
+	 * @param label - label of drop-down
+	 * @param items - popup elements
+	 * @param defaultIdx - default index
+	 */
+	public CompDropDown(AppW app, String label, List<String> items, int defaultIdx) {
+		this(app, label, items);
+		controller.setSelectedOption(defaultIdx);
+		updateSelectionText();
+	}
+
+	/**
+	 * @param app - - see {@link AppW}
+	 * @param label - label of drop-down
+	 * @param property - property
+	 */
+	public CompDropDown(AppW app, String label, NamedEnumeratedProperty<?> property) {
+		this(app, label, Arrays.asList(property.getValueNames()));
+		controller.setProperty(property);
+		if (property.getIndex() > -1) {
+			controller.setSelectedOption(property.getIndex());
+		}
+		updateSelectionText();
+	}
+
+	/**
+	 * @param app - see {@link AppW}
+	 * @param property - property
+	 */
+	public CompDropDown(AppW app, NamedEnumeratedProperty<?> property) {
+		this(app, null, property);
+	}
+
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
-		controller.setChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
-		updateSelectionText(controller.getSelectedText());
+		controller.addChangeHandler(this::updateSelectionText);
+		updateSelectionText();
 	}
 
 	private void buildGUI(String labelStr) {
@@ -50,13 +87,14 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		optionHolder.addStyleName("optionLabelHolder");
 
 		if (labelStr != null && !labelStr.isEmpty()) {
-			label = new Label(app.getLocalization().getMenu(labelStr));
-			label.addStyleName("label");
+			label = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					app.getLocalization().getMenu(labelStr), "label");
 			optionHolder.add(label);
+		} else {
+			optionHolder.addStyleName("noLabel");
 		}
 
-		selectedOption = new Label();
-		selectedOption.addStyleName("selectedOption");
+		selectedOption = BaseWidgetFactory.INSTANCE.newPrimaryText("", "selectedOption");
 		optionHolder.add(selectedOption);
 		add(optionHolder);
 
@@ -73,7 +111,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
-					controller.toggleAsDropDown();
+					controller.toggleAsDropDown(fullWidth);
 				}
 			}
 		});
@@ -98,14 +136,41 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			label.setText(app.getLocalization().getMenu(labelKey));
 		}
 		controller.setLabels();
-		updateSelectionText(controller.getSelectedText());
+		updateSelectionText();
 	}
 
-	private void updateSelectionText(String text) {
-		selectedOption.setText(text);
+	/**
+	 * This should be called automatically when an item is selected (by user or programmatically)
+	 */
+	private void updateSelectionText() {
+		selectedOption.setText(controller.getSelectedText());
 	}
 
-	public void setChangeHandler(Runnable changeHandler) {
-		controller.setChangeHandler(changeHandler);
+	public void addChangeHandler(Runnable changeHandler) {
+		controller.addChangeHandler(changeHandler);
+	}
+
+	/**
+	 * reset dropdown to default
+	 */
+	public void resetToDefault() {
+		controller.resetToDefault();
+		updateSelectionText();
+	}
+
+	public void setFullWidth(boolean isFullWidth) {
+		fullWidth = isFullWidth;
+	}
+
+	public boolean isFullWidth() {
+		return fullWidth;
+	}
+
+	/**
+	 * @param dropdownIndex selected index
+	 */
+	public void setSelectedIndex(int dropdownIndex) {
+		controller.setSelectedOption(dropdownIndex);
+		updateSelectionText();
 	}
 }

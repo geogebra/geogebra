@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.SortedSet;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -13,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
 
 import com.google.j2objc.annotations.Weak;
@@ -63,7 +65,8 @@ public class MyArbitraryConstant {
 	 * @return real constant
 	 */
 	public GeoNumeric nextConst(double myDouble, double initialValue) {
-		return nextConst(consts, ce.getConstruction().constsM, "c", myDouble, initialValue, 0);
+		return nextConst(consts, ce.getConstruction().getArbitraryConstants(),
+				"c", myDouble, initialValue, 0);
 	}
 
 	/**
@@ -71,7 +74,7 @@ public class MyArbitraryConstant {
 	 * @return integer constant
 	 */
 	public GeoNumeric nextInt(double myDouble) {
-		return nextConst(ints, ce.getConstruction().intsM, "k", myDouble, 0, 1);
+		return nextConst(ints, ce.getConstruction().getArbitraryInts(), "k", myDouble, 0, 1);
 	}
 
 	/**
@@ -79,7 +82,7 @@ public class MyArbitraryConstant {
 	 * @return complex constant
 	 */
 	public GeoNumeric nextComplex(double myDouble) {
-		return nextConst(complexNumbers, ce.getConstruction().complexNumbersM,
+		return nextConst(complexNumbers, ce.getConstruction().getArbitraryComplexNumbers(),
 				"c", myDouble, 0, 0);
 	}
 
@@ -131,12 +134,14 @@ public class MyArbitraryConstant {
 			Map<Integer, GeoNumeric> map, String prefix, int index,
 			double initialValue, double increment) {
 		Construction construction = ce.getConstruction();
-		String label = construction.getIndexLabel(prefix, true);
-		GeoNumeric constant;
-		if (symbolic) {
-			constant = createSymbolicConstant(construction, label);
-		} else {
-			constant = createNumericConstant(construction, label, initialValue, increment);
+		GeoNumeric constant = symbolic ? null : getNextFreeNumber(prefix + "_");
+		if (constant == null) {
+			String label = construction.getIndexLabel(prefix, true);
+			if (symbolic) {
+				constant = createSymbolicConstant(construction, label);
+			} else {
+				constant = createNumericConstant(construction, label, initialValue, increment);
+			}
 		}
 
 		consts2.add(position, constant);
@@ -144,6 +149,35 @@ public class MyArbitraryConstant {
 		map.put(index, constant);
 
 		return constant;
+	}
+
+	private GeoNumeric getNextFreeNumber(String prefix) {
+		if (ce.getGeoElements() == null) {
+			return null;
+		}
+		GeoElementND geoElement = ce.getGeoElements()[0];
+		SortedSet<GeoElement> after = ce.getConstruction().getGeoSetConstructionOrder()
+				.tailSet(geoElement.toGeoElement());
+		int found = 0;
+		for (ConstructionElement nextCE: after) {
+			if (!nextCE.isGeoElement()) {
+				continue;
+			}
+			GeoElement next = (GeoElement) nextCE;
+			if (next.getCorrespondingCasCell() != null) {
+				continue;
+			}
+			if (next.isGeoNumeric() && next.isIndependent()
+					&& next.getLabelSimple() != null && next.getLabelSimple().startsWith(prefix)) {
+				found++;
+				if (found > position && !((GeoNumeric) next).isDependentConst()) {
+					return wrapInAlgo((GeoNumeric) next);
+				}
+			} else {
+				break;
+			}
+		}
+		return null;
 	}
 
 	private GeoNumeric createNumericConstant(Construction cons,
@@ -167,9 +201,12 @@ public class MyArbitraryConstant {
 		cons.setNotXmlLoading(false);
 		cons.setSuppressLabelCreation(oldLabeling);
 
-		AlgoDependentArbconst algo = new AlgoDependentArbconst(cons, numeric, ce);
-		cons.removeFromConstructionList(algo);
+		return wrapInAlgo(numeric);
+	}
 
+	private GeoNumeric wrapInAlgo(GeoNumeric numeric) {
+		AlgoDependentArbconst algo = new AlgoDependentArbconst(ce.getConstruction(), numeric, ce);
+		ce.getConstruction().removeFromConstructionList(algo);
 		numeric.setIsDependentConst(true);
 		return numeric;
 	}

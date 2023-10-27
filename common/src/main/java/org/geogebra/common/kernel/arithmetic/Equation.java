@@ -450,7 +450,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
 		GeoElement ge = kernel.getAlgebraProcessor().processEquation(this,
-				this.wrap(), new EvalInfo(false))[0];
+				this.wrap(), true, new EvalInfo(false))[0];
 		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
 		return ge;
 	}

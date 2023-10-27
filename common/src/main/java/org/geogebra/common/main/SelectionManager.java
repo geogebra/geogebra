@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -30,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -197,6 +199,7 @@ public class SelectionManager {
 	 *            call (or not) updateSelection()
 	 */
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
+		tempSelectedBoolean = null;
 		int size = selectedGeos.size();
 		if (size > 0) {
 			focusedGroupElement = null;
@@ -215,8 +218,6 @@ public class SelectionManager {
 			if (updateSelection) {
 				updateSelection();
 			}
-
-			tempSelectedBoolean = null;
 
 			dispatchDeselected(null);
 		}
@@ -845,22 +846,26 @@ public class SelectionManager {
 		}
 	}
 
-	private EuclidianViewInterfaceCommon getViewOf(GeoElement geo) {
+	/**
+	 * @param geo element
+	 * @param app application
+	 * @return first view, in which the geo is visible, fallback to EV1
+	 */
+	public static EuclidianViewInterfaceCommon getViewOf(GeoElement geo, App app) {
 		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
 				? geo.getViewSet().get(0)
 				: -1;
-		App app1 = kernel.getApplication();
 		if (viewID == App.VIEW_EUCLIDIAN2) {
-			return app1.getEuclidianView2(1);
+			return app.getEuclidianView2(1);
 		} else if (viewID == App.VIEW_EUCLIDIAN3D) {
-			return app1.getEuclidianView3D();
+			return app.getEuclidianView3D();
 		}
 
-		return app1.getEuclidianView1();
+		return app.getEuclidianView1();
 	}
 
 	private void checkInputBoxAndFocus(GeoElement geo) {
-		EuclidianViewInterfaceCommon view = getViewOf(geo);
+		EuclidianViewInterfaceCommon view = getViewOf(geo, kernel.getApplication());
 		if (geo instanceof GeoInputBox && geo.isEuclidianVisible()) {
 			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
 		} else {
@@ -916,7 +921,12 @@ public class SelectionManager {
 		return tabbingSet.stream().filter(this::isSelectableForEV);
 	}
 
-	private boolean isSelectableForEV(GeoElement geo) {
+	/**
+	 * is selectable by the TAB handler
+	 * @param geo geo element
+	 * @return true, if the user can get to this element using TAB
+	 */
+	public boolean isSelectableForEV(GeoElement geo) {
 		if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
 			return false;
 		}
@@ -1381,7 +1391,7 @@ public class SelectionManager {
 	 * @return whether it needs outline
 	 */
 	public boolean isKeyboardFocused(GeoElement geo) {
-		if (geo.getApp().showToolBar()) {
+		if (geo.getApp().showToolBar() && (geo instanceof GeoImage || geo instanceof GeoText)) {
 			return geo.doHighlighting();
 		} else {
 			return keyboardSelection && selectedGeos.contains(geo);

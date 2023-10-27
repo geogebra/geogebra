@@ -25,9 +25,9 @@ import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.MyImageW;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
@@ -248,8 +248,8 @@ public class GGraphics2DW implements GGraphics2DWI {
 		// this.closePath();
 	}
 
-	private void ellipse(double d, double e, GColor blue) {
-		setColor(blue);
+	private void ellipse(double d, double e, GColor color) {
+		setColor(color);
 		context.beginPath();
 		context.arc(d, e, 1, 0, 6.28);
 		context.closePath();

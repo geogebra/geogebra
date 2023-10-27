@@ -36,7 +36,7 @@ public class CmdSelectObjects extends CmdScripting {
 				if (arg[i].isGeoElement()) {
 					final GeoElement geo = arg[i];
 					if (geo instanceof GeoInputBox) {
-						deferredFocus((GeoInputBox) geo, 5);
+						deferredFocus((GeoInputBox) geo);
 
 					} else {
 						app.getSelectionManager().addSelectedGeo(geo, false,
@@ -63,18 +63,13 @@ public class CmdSelectObjects extends CmdScripting {
 	 * 
 	 * @param geo
 	 *            input box
-	 * @param reps
-	 *            number of repetitions
 	 */
-	void deferredFocus(final GeoInputBox geo, final int reps) {
+	void deferredFocus(final GeoInputBox geo) {
 		final App app1 = app;
 		final long expiration = System.currentTimeMillis() + 1000;
-		Runnable callback = new Runnable() {
-			@Override
-			public void run() {
-				if (System.currentTimeMillis() < expiration) {
-					app1.getActiveEuclidianView().focusAndShowTextField(geo);
-				}
+		Runnable callback = () -> {
+			if (System.currentTimeMillis() < expiration) {
+				app1.getActiveEuclidianView().focusAndShowTextField(geo);
 			}
 		};
 		callback.run();

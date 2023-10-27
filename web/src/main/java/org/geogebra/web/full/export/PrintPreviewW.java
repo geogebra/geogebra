@@ -1,8 +1,12 @@
 package org.geogebra.web.full.export;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -10,14 +14,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCollection;
@@ -25,13 +26,13 @@ import elemental2.dom.HTMLCollection;
 /**
  * Print dialog
  */
-public class PrintPreviewW extends ComponentDialog implements ChangeHandler {
-	/** view list */
-	private ListBox cbView;
-	/** print panel */
+public class PrintPreviewW extends ComponentDialog {
+	private CompDropDown viewDropDown;
 	private FlowPanel printPanel;
 	private SimplePanel scalePanelHolder;
-	private Localization loc;
+	private final Localization loc;
+	private final List<String> keys = new ArrayList<>();
+	private final List<Integer> indices = new ArrayList<>();
 
 	/**
 	 * @param app application
@@ -54,44 +55,16 @@ public class PrintPreviewW extends ComponentDialog implements ChangeHandler {
 		printPanel.setStyleName("printPanel");
 		RootPanel.get().add(printPanel);
 
-		cbView = new ListBox();
-		// We can print EVs yet
-		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
-			cbView.addItem(loc.getMenu("DrawingPad"), App.VIEW_EUCLIDIAN
-					+ "");
-		}
-		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
-			cbView.addItem(loc.getMenu("DrawingPad2"), App.VIEW_EUCLIDIAN2
-					+ "");
-		}
-
-		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
-			cbView.addItem(loc.getMenu("AlgebraWindow"), App.VIEW_ALGEBRA
-					+ "");
-		}
-
-		if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			cbView.addItem(loc.getMenu("ConstructionProtocol"),
-					App.VIEW_CONSTRUCTION_PROTOCOL + "");
-		}
-
-		DockPanelW focusedPanel = ((GuiManagerW) app.getGuiManager())
-				.getLayout().getDockManager().getFocusedPanel();
-		if (focusedPanel == null) {
-			cbView.setItemSelected(0, true);
-		} else {
-			String id = String.valueOf(focusedPanel.getViewId());
-			int index = cbView.getItemCount() - 1;
-			while (!cbView.getValue(index).equals(id) && index != 0) {
-				index--;
-			}
-
-			cbView.setItemSelected(index, true);
-		}
-		cbView.addChangeHandler(this);
+		initKeysAndIndices();
+		viewDropDown = new CompDropDown((AppW) app, null, keys, getFocusedPanelIdx());
+		viewDropDown.setFullWidth(true);
+		viewDropDown.addChangeHandler(() -> {
+			scalePanelHolder.clear();
+			addScalePanelOrCreatePreview();
+		});
 
 		FlowPanel mainPanel = new FlowPanel();
-		mainPanel.add(cbView);
+		mainPanel.add(viewDropDown);
 		scalePanelHolder = new SimplePanel();
 		mainPanel.add(scalePanelHolder);
 
@@ -100,6 +73,36 @@ public class PrintPreviewW extends ComponentDialog implements ChangeHandler {
 
 		this.addCloseHandler(event -> onPreviewClose());
 		setDialogContent(mainPanel);
+	}
+
+	private void initKeysAndIndices() {
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
+			keys.add(loc.getMenu("DrawingPad"));
+			indices.add(App.VIEW_EUCLIDIAN);
+		}
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
+			keys.add(loc.getMenu("DrawingPad2"));
+			indices.add(App.VIEW_EUCLIDIAN2);
+		}
+		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
+			keys.add(loc.getMenu("AlgebraWindow"));
+			indices.add(App.VIEW_ALGEBRA);
+		}
+		if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+			keys.add(loc.getMenu("ConstructionProtocol"));
+			indices.add(App.VIEW_CONSTRUCTION_PROTOCOL);
+		}
+	}
+
+	private int getFocusedPanelIdx() {
+		DockPanelW focusedPanel = ((GuiManagerW) app.getGuiManager())
+				.getLayout().getDockManager().getFocusedPanel();
+		if (focusedPanel == null) {
+			return 0;
+		} else {
+			int id = focusedPanel.getViewId();
+			return indices.lastIndexOf(id);
+		}
 	}
 
 	/**
@@ -111,11 +114,10 @@ public class PrintPreviewW extends ComponentDialog implements ChangeHandler {
 	}
 
 	private void onPositiveButtonAction() {
-		if ((cbView.getSelectedValue()
-				.equals(App.VIEW_EUCLIDIAN + ""))
-				|| (cbView.getSelectedValue()
-				.equals(App.VIEW_EUCLIDIAN2 + ""))) {
-			createPreview(cbView.getSelectedValue());
+		int selectedValue = indices.get(viewDropDown.getSelectedIndex());
+		if (selectedValue == App.VIEW_EUCLIDIAN
+				|| selectedValue == App.VIEW_EUCLIDIAN2) {
+			createPreview(selectedValue + "");
 		} else {
 			DomGlobal.window.print();
 			removePrintPanelFromDOM();
@@ -123,27 +125,19 @@ public class PrintPreviewW extends ComponentDialog implements ChangeHandler {
 	}
 
 	private void addScalePanelOrCreatePreview() {
+		int selectedValue = indices.get(viewDropDown.getSelectedIndex());
 		AppW appw = (AppW) app;
-		if ((App.VIEW_EUCLIDIAN + "").equals(cbView.getSelectedValue())) {
+		if (App.VIEW_EUCLIDIAN == selectedValue) {
 			scalePanelHolder.add(new PrintScalePanelW(appw, app
 					.getEuclidianView1()));
 			setPosBtnDisabled(false);
-		} else if ((App.VIEW_EUCLIDIAN2 + "").equals(cbView
-				.getSelectedValue())) {
+		} else if (App.VIEW_EUCLIDIAN2 == selectedValue) {
 			scalePanelHolder
 					.add(new PrintScalePanelW(appw, app
 							.getEuclidianView2(1)));
 			setPosBtnDisabled(false);
 		} else {
-			createPreview(cbView.getSelectedValue());
-		}
-	}
-
-	@Override
-	public void onChange(ChangeEvent event) {
-		if (event.getSource() == cbView) {
-			scalePanelHolder.clear();
-			addScalePanelOrCreatePreview();
+			createPreview(selectedValue + "");
 		}
 	}
 

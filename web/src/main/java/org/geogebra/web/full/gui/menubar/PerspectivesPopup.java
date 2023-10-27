@@ -7,14 +7,13 @@ import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class PerspectivesPopup {
 	protected GPopupMenuW wrappedPopup;

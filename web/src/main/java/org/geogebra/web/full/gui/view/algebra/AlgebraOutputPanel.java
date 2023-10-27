@@ -13,12 +13,12 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HTML;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -73,9 +73,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	/**
 	 * @param parent parent panel
-	 * @param geo geoelement
+	 * @param geo geoElement
+	 * @return the symbolic button
 	 */
-	public static void createSymbolicButton(FlowPanel parent,
+	public static ToggleButton createSymbolicButton(FlowPanel parent,
 			final GeoElement geo) {
 
 		ToggleButton btnSymbolic = getSymbolicButtonIfExists(parent);
@@ -88,8 +89,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		btnSymbolic.addStyleName("symbolicButton");
 
-		if ((Unicode.CAS_OUTPUT_NUMERIC + "")
-				.equals(AlgebraItem.getOutputPrefix(geo))) {
+		if (AlgebraItem.getCASOutputType(geo) == AlgebraItem.CASOutputType.NUMERIC) {
 			btnSymbolic.setSelected(false);
 		} else {
 			btnSymbolic.setSelected(true);
@@ -97,10 +97,11 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 
 		parent.add(btnSymbolic);
+		return btnSymbolic;
 	}
 
 	private static void updateSymbolicIcons(GeoElement geo, ToggleButton btnSymbolic) {
-		if (geo.getDefinition().isFraction()) {
+		if (AlgebraItem.evaluatesToFraction(geo)) {
 			btnSymbolic.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
 			Dom.toggleClass(btnSymbolic, "show-fraction", !btnSymbolic.isSelected());
@@ -156,9 +157,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 		clear();
 		if (AlgebraItem.shouldShowSymbolicOutputButton(geo1)) {
-			if (AlgebraItem.getOutputPrefix(geo1)
-					.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
-				addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
+			if (AlgebraItem.getCASOutputType(geo1) == AlgebraItem.CASOutputType.NUMERIC) {
+				addPrefixLabel(getNumericPrefix(), latex);
 			} else {
 				addArrowPrefix();
 			}
@@ -191,6 +191,18 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		return true;
 	}
+
+	private String getNumericPrefix() {
+		return Unicode.CAS_OUTPUT_NUMERIC + "";
+	}
+
+	/*
+	private String getSymbolicPrefix(Kernel kernel) {
+		return kernel.getLocalization().rightToLeftReadingOrder
+				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
+				: Unicode.CAS_OUTPUT_PREFIX + "";
+	}
+	*/
 
 	/**
 	 * @param text

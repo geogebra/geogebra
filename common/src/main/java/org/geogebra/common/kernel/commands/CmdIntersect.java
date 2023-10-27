@@ -69,12 +69,10 @@ public class CmdIntersect extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-
-		// Application.debug(n,1);
 
 		switch (n) {
 		case 2:
@@ -136,14 +134,14 @@ public class CmdIntersect extends CommandProcessor {
 			return ret;
 		}
 		// Line - Parametric Curve
-		else if ((ok[0] = (arg[0].isGeoLine()))
-				&& (ok[1] = (arg[1] instanceof GeoCurveCartesian))) {
+		else if ((ok[0] = (arg[0] instanceof GeoLine))
+				&& (ok[1] = (arg[1] instanceof GeoCurveCartesianND))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectLineCurve(
 					c.getLabels(), (GeoLine) arg[0],
 					(GeoCurveCartesian) arg[1]);
 			return ret;
-		} else if ((ok[0] = (arg[0] instanceof GeoCurveCartesian))
-				&& (ok[1] = (arg[1].isGeoLine()))) {
+		} else if ((ok[0] = (arg[0] instanceof GeoCurveCartesianND))
+				&& (ok[1] = (arg[1] instanceof GeoLine))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectLineCurve(
 					c.getLabels(), (GeoLine) arg[1],
 					(GeoCurveCartesian) arg[0]);

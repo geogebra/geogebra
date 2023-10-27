@@ -66,6 +66,8 @@ public class AutocompleteProvider {
 		}
 		String syntaxString;
 		if (isCas()) {
+			app.getLocalization().getCommandSyntax()
+					.setSyntaxFilter(app.getConfig().newCommandSyntaxFilter());
 			syntaxString = app.getLocalization()
 					.getCommandSyntaxCAS(cmdInt);
 		} else {
@@ -102,7 +104,7 @@ public class AutocompleteProvider {
 	 * @return whether to allow English commands as well
 	 */
 	public boolean isFallbackCompletionAllowed() {
-		return "zh".equals(app.getLocalization().getLanguage());
+		return app.getLocalization().languageIs("zh");
 	}
 
 	/**
@@ -116,12 +118,14 @@ public class AutocompleteProvider {
 						GuiManagerInterface.Help.GENERIC));
 		List<String> cmdDict = getDictionary()
 				.getCompletions(curWord.toLowerCase());
+
 		if (cmdDict != null) {
 			Stream<Completion> commands = cmdDict.stream()
 					.map(command -> new Completion(command, getSyntaxes(command),
 							app.getInternalCommand(command), GuiManagerInterface.Help.COMMAND));
 			completions = Stream.concat(completions, commands);
 		}
+
 		return completions.filter(completion -> !completion.syntaxes.isEmpty());
 	}
 

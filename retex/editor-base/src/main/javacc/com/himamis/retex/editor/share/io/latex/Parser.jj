@@ -10,6 +10,7 @@ import com.himamis.retex.editor.share.model.*;
 import com.himamis.retex.editor.share.meta.*;
 import com.himamis.retex.editor.share.controller.*;
 import com.himamis.retex.editor.share.editor.FractionBracketRemover;
+import com.himamis.retex.editor.share.editor.MixedNumberBracketRemover;
 
 public class Parser {
 
@@ -62,7 +63,7 @@ public class Parser {
 	}
 
 	private static MetaCharacter createMetaCharacter(String character, MetaModel metaModel) {
-		MetaCharacter metaCharacter = null;
+		MetaCharacter metaCharacter;
 		if (metaModel.isOperator(character)) {
 			metaCharacter = metaModel.getOperator(character);
 		} else if (metaModel.isSymbol(character)) {
@@ -103,6 +104,7 @@ public class Parser {
 		editorState.setRootComponent(mathSequence);
 		mathContainerWithCommas(mathSequence);
 		mathFormula.getRootComponent().traverse(new FractionBracketRemover());
+		mathFormula.getRootComponent().traverse(new MixedNumberBracketRemover());
 		return mathFormula;
 	}
 }
@@ -122,18 +124,20 @@ PARSER_END(Parser)
 	   [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3","\u207a"] >
 	| < SUBSCRIPT : "_" >
 	| < FRACTION : "/" >
+	| < MIXED_NUMBER : "\u2064" >
 	| < PARANTHESES_OPEN : "(" >
 	| < PARANTHESES_CLOSE : ")" >
 	| < SQUARE_BRACKETS_OPEN : "[" >
 	| < SQUARE_BRACKETS_CLOSE : "]" >
 	| < CURLY_BRACKETS_OPEN : "{" >
 	| < CURLY_BRACKETS_CLOSE : "}" >
+	| < OVERLINE : "\u0305" >
 	| < LCEIL : "\u2308" >
 	| < RCEIL : "\u2309" >
 	| < LFLOOR : "\u230a" >
 	| < RFLOOR : "\u230b" >
 	| < QUOTE_START : "\""> : IN_QUOTE
-	| < SQRT : "sqrt(" >
+	| < SQRT : "sqrt(" | "\u221A(" >
 	| < CBRT : "cbrt(" >
 	| < NROOT : "nroot(" >
 	| < LOG : "log(" >
@@ -170,36 +174,40 @@ void mathContainer(MathContainer currentField) : {}
 
 void atomicWrapper(MathContainer currentField) : {}
 {
-	(
-		power(currentField)
+
+	power(currentField)
 	|
-		superscript(currentField)
+	superscript(currentField)
 	|
-		subscript(currentField)
+	subscript(currentField)
 	|
-		fraction(currentField)
+	fraction(currentField)
 	|
-		nroot(currentField)
+	mixedNumber(currentField)
 	|
-		log(currentField)
+	recurringDecimal(currentField)
 	|
-		defintSumProduct(currentField)
+	nroot(currentField)
 	|
-		atomicPrePost(currentField)
+	log(currentField)
 	|
-		absVecLimeq(currentField)
+	defintSumProduct(currentField)
 	|
-		LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
-		absVerticalBar(currentField)
+	atomicPrePost(currentField)
 	|
-		arrayParantheses(currentField)
+	absVecLimeq(currentField)
 	|
-		arrayFloorCeil(currentField)
+	LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
+	absVerticalBar(currentField)
 	|
-		arrayCurly(currentField)
+	arrayParantheses(currentField)
 	|
-		quotes(currentField)
-	)
+	arrayFloorCeil(currentField)
+	|
+	arrayCurly(currentField)
+	|
+	quotes(currentField)
+
 }
 
 void mathContainerWithCommas(MathContainer currentField) : {}
@@ -276,18 +284,78 @@ void fraction(MathContainer currentField) :
 {
 	<FRACTION> {
 		fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
-		//handle numerator
+    	//handle numerator
+    	MathSequence passArgs = new MathSequence();
+    	editorState.setCurrentField((MathSequence) currentField);
+    	editorState.setCurrentOffset(currentField.size());
+    	fraction.setArgument(0, passArgs);
+    	ArgumentHelper.passArgument(editorState, fraction);
+    	//handle denominator
+    	MathSequence mathSequence = new MathSequence();
+    	mathAtomOrPower(mathSequence);
+    	mathSequence.removeBrackets();
+    	fraction.setArgument(1, mathSequence);
+    	currentField.addArgument(fraction);
+	}
+}
+
+void mixedNumber(MathContainer currentField) :
+{
+	MathFunction mixedNumber;
+}
+{
+	<MIXED_NUMBER> {
+		mixedNumber = new MathFunction(metaModel.getGeneral(Tag.MIXED_NUMBER));
+
+		// Handle integer part
 		MathSequence passArgs = new MathSequence();
 		editorState.setCurrentField((MathSequence) currentField);
 		editorState.setCurrentOffset(currentField.size());
-		fraction.setArgument(0, passArgs);
-		ArgumentHelper.passArgument(editorState, fraction);
-		//handle denominator
-		MathSequence mathSequence = new MathSequence();
-		mathAtomOrPower(mathSequence);
-		mathSequence.removeBrackets();
-		fraction.setArgument(1, mathSequence);
-		currentField.addArgument(fraction);
+		mixedNumber.setArgument(0, passArgs);
+		ArgumentHelper.passArgument(editorState, mixedNumber);
+
+		// Handle numerator
+		MathSequence numerator = new MathSequence();
+		mathAtomOrPower(numerator);
+		numerator.removeBrackets();
+		mixedNumber.setArgument(1, numerator);
+		ArgumentHelper.passArgument(editorState, mixedNumber);
+
+		// Handle expected fraction sign "/"
+		MathSequence fraction = new MathSequence();
+		mathAtomOrPower(fraction);
+
+		// Extract denoinator
+		MathSequence denominator = ((MathFunction) fraction.getArgument(0)).getArgument(1);
+
+		denominator.removeBrackets();
+		mixedNumber.setArgument(2, denominator);
+		ArgumentHelper.passArgument(editorState, mixedNumber);
+		currentField.addArgument(mixedNumber);
+	}
+}
+
+void recurringDecimal(MathContainer currentField) :
+{
+	MathFunction recurringDecimal;
+}
+{
+	<OVERLINE> {
+		MathSequence passArg = new MathSequence();
+		editorState.setCurrentField((MathSequence) currentField);
+		editorState.setCurrentOffset(currentField.size());
+		if (currentField.size() > 1
+				&& currentField.getArgument(currentField.size() - 2).hasTag(Tag.RECURRING_DECIMAL)) {
+			// There is already a recurring decimal - just append the 2nd, 3rd, ... repeating digit
+			recurringDecimal = (MathFunction) currentField.getArgument(currentField.size() - 2);
+			ArgumentHelper.passSingleCharacter(editorState, recurringDecimal.getArgument(0));
+		} else {
+			// Create a new MathFunction
+			recurringDecimal = new MathFunction(metaModel.getGeneral(Tag.RECURRING_DECIMAL));
+			recurringDecimal.setArgument(0, passArg);
+			ArgumentHelper.passSingleCharacter(editorState, recurringDecimal.getArgument(0));
+			currentField.addArgument(recurringDecimal);
+		}
 	}
 }
 
@@ -300,7 +368,7 @@ void subscript(MathContainer currentField) :
 		MathFunction subscriptFunction = new MathFunction(metaModel.getGeneral(Tag.SUBSCRIPT));
 		subscript = new MathSequence();
 	}
-	((<CURLY_BRACKETS_OPEN> mathContainer(subscript) <CURLY_BRACKETS_CLOSE>)
+	((<CURLY_BRACKETS_OPEN> mathContainerWithCommas(subscript) <CURLY_BRACKETS_CLOSE>)
 	|
 	mathCharacter(subscript)) {
 		subscriptFunction.setArgument(0, subscript);
@@ -368,6 +436,9 @@ void absVecLimeq(MathContainer currentField) : {
 	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ> | symbol = <SQRT> | symbol = <CBRT>) {
 		// cut off the parentheses from the end
 		String image = symbol.image.substring(0, symbol.image.length() - 1);
+		if (image.equals("\u221A")) {
+			image = "sqrt";
+		}
 		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(image)));
 		MathSequence param1 = new MathSequence();
 		mathContainerWithCommas(param1);
@@ -462,7 +533,7 @@ void arrayCurly(MathContainer currentField) :
 		mathArray = new MathArray(metaModel.getArray(Tag.CURLY), 0);
 		currentField.addArgument(mathArray);
 	}
-	(mathContainer(mathSequence))
+	mathContainer(mathSequence)
 	{
 		mathArray.addArgument(mathSequence);
 		mathSequence = new MathSequence();

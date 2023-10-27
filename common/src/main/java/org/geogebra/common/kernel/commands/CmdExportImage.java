@@ -232,7 +232,7 @@ public class CmdExportImage extends CmdScripting {
 			exportScale = pixelWidth / viewWidth;
 		}
 
-		if (exportScale <= 0 || !MyDouble.isFinite(exportScale)) {
+		if (exportScale <= 0 || !Double.isFinite(exportScale)) {
 			exportScale = 1;
 		}
 
@@ -249,10 +249,10 @@ public class CmdExportImage extends CmdScripting {
 						grayscale);
 			} else {
 
-				String png = api.getPNGBase64(exportScale, transparent, dpi,
+				String pngBase64 = api.getPNGBase64(exportScale, transparent, dpi,
 						false, grayscale);
 
-				if (png == null) {
+				if (pngBase64 == null) {
 
 					int w = (int) Math.floor(ev.getExportWidth() * exportScale);
 					int h = (int) Math
@@ -263,14 +263,14 @@ public class CmdExportImage extends CmdScripting {
 				}
 
 				if (clipboard) {
-					kernel.getApplication().copyImageToClipboard(StringUtil.pngMarker + png);
+					kernel.getApplication().copyImageToClipboard(StringUtil.pngMarker + pngBase64);
 					return null;
 				}
 
 				if (label != null) {
-					addImageToConstruction(label, png, corner, corner2, false);
+					addImageToConstruction(label, pngBase64, corner, corner2, false);
 				} else {
-					kernel.getApplication().handleImageExport(png);
+					kernel.getApplication().handleImageExport(pngBase64);
 				}
 			}
 

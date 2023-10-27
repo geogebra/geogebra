@@ -2,9 +2,8 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
 public class AlgebraViewScroller {
 	private int savedPosition;
@@ -12,7 +11,6 @@ public class AlgebraViewScroller {
 	private final AlgebraViewW view;
 
 	/**
-	 *
 	 * @param panel to scroll
 	 * @param view the algebra view inside the panel.
 	 */

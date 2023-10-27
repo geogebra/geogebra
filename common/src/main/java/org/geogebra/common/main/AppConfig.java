@@ -74,7 +74,7 @@ public interface AppConfig extends Serializable {
 	int[] getSignificantFigures();
 
 	/**
-	 * @return the array of characters that can be used for the angle labels.
+	 * @return whether the characters for the angle should be greek
 	 */
 	boolean isGreekAngleLabels();
 
@@ -161,6 +161,11 @@ public interface AppConfig extends Serializable {
 	 * @return the Command filter for the app.
 	 */
 	CommandFilter getCommandFilter();
+
+	/**
+	 * @return new command filter for the app.
+	 */
+	CommandFilter createCommandFilter();
 
 	/**
 	 * @return the Command Argument filter for the app.
@@ -336,4 +341,6 @@ public interface AppConfig extends Serializable {
 	 * @return ID of the main graphics view (EV, EV 3D or probability)
 	 */
 	int getMainGraphicsViewId();
+
+	boolean hasOneVarStatistics();
 }

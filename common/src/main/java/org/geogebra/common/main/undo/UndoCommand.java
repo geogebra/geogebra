@@ -49,6 +49,7 @@ public class UndoCommand {
 	/**
 	 * @param action
 	 *            action
+	 * @param slideId slide ID in Notes
 	 * @param args
 	 *            action arguments
 	 */
@@ -86,13 +87,7 @@ public class UndoCommand {
 			undoManager.loadUndoInfo(appState, slideID);
 			undoManager.restoreAfterReload();
 		} else {
-			withCurrentSlide(undoManager, new Runnable() {
-
-				@Override
-				public void run() {
-					undoManager.executeAction(action, args);
-				}
-			});
+			withCurrentSlide(undoManager, () -> undoManager.executeAction(action, args));
 		}
 	}
 
@@ -131,15 +126,12 @@ public class UndoCommand {
 	 */
 	public void undo(final UndoManager undoManager) {
 		if (getAction() != null) {
-			withCurrentSlide(undoManager, new Runnable() {
-				@Override
-				public void run() {
-					undoManager.undoAction(action, args);
-					//TODO: maybe these actions should also take care of reloading
-					// the correct information without replay?
-					if (action == EventType.CLEAR_PAGE || action == EventType.REMOVE_PAGE) {
-						undoManager.replayActions(slideID, UndoCommand.this);
-					}
+			withCurrentSlide(undoManager, () -> {
+				undoManager.undoAction(action, args);
+				//TODO: maybe these actions should also take care of reloading
+				// the correct information without replay?
+				if (action == EventType.CLEAR_PAGE || action == EventType.REMOVE_PAGE) {
+					undoManager.replayActions(slideID, this);
 				}
 			});
 		} else {

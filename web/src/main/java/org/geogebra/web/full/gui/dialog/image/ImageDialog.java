@@ -14,11 +14,10 @@ import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FileUpload;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 public class ImageDialog extends ComponentDialog implements WebcamDialogInterface {
 	private FlowPanel cameraPanel;
@@ -45,10 +44,9 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 				});
 
 		InfoErrorData uploadData = new InfoErrorData(null, "ImageDialog.UploadImageMsg",
-				"ImageDialog.Browse");
+				"ImageDialog.Browse", MaterialDesignResources.INSTANCE.upload());
 		ComponentInfoErrorPanel uploadPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				uploadData, MaterialDesignResources.INSTANCE.upload(),
-				uploadImage::click);
+				uploadData, uploadImage::click);
 		uploadPanel.disableActionButton(!((AppW) app).enableFileFeatures());
 
 		TabData uploadTab = new TabData("Upload", uploadPanel);
@@ -64,10 +62,10 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 	}
 
 	private FlowPanel getErrorPanel(String title, String msg) {
-		InfoErrorData cameraData = new InfoErrorData(title, msg, null);
-		ComponentInfoErrorPanel cameraPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				cameraData, MaterialDesignResources.INSTANCE.no_camera(), null);
-		return cameraPanel;
+		InfoErrorData cameraData = new InfoErrorData(title, msg, null,
+				MaterialDesignResources.INSTANCE.no_camera());
+		return new ComponentInfoErrorPanel(app.getLocalization(),
+				cameraData, null);
 	}
 
 	private void loadCameraPanel() {
@@ -144,7 +142,7 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		tab.onResize();
 		if (!cameraPanel.getStyleName().contains("error")) {
 			cameraPanel.getElement().getStyle().setHeight(webcamInputPanel.getOffsetHeight() + 28,
-					Style.Unit.PX);
+					Unit.PX);
 		}
 	}
 }

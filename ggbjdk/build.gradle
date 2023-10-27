@@ -1,15 +1,12 @@
 plugins {
     id 'java-library'
-    id "com.github.spotbugs" version "5.0.13"
+    id "com.github.spotbugs" version "5.2.1"
 }
 description 'Platform independent supplementary files for graphics support'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 dependencies {
     implementation project(':common')
-    implementation "com.github.spotbugs:spotbugs-annotations:4.7.3"
+    implementation "com.github.spotbugs:spotbugs-annotations:4.8.0"
 }
 
 spotbugs {

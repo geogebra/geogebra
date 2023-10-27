@@ -16,10 +16,14 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.InputBoxBounds;
+import org.geogebra.common.euclidian.LatexRendererSettings;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -30,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -53,7 +56,7 @@ public class DrawInputBox extends CanvasDrawable {
 	public static final int SYMBOLIC_MIN_HEIGHT = 40;
 	public static final int MIN_HEIGHT = 24;
 
-	/** textfield */
+	/** input box */
 	private final GeoInputBox geoInputBox;
 
 	private boolean isVisible;
@@ -66,17 +69,22 @@ public class DrawInputBox extends CanvasDrawable {
 	private GFont textFont;
 	private TextRenderer textRenderer;
 	private GDimension labelDimension = null;
+	private GColor borderColor = null;
+
+	private final InputBoxBounds inputBoxBounds;
+	private TextRendererSettings rendererSettings;
 
 	/**
 	 * @param view
 	 *            view
 	 * @param geo
-	 *            textfield
+	 *            input box
 	 */
 	public DrawInputBox(EuclidianView view, GeoInputBox geo) {
 		this.view = view;
 		this.geoInputBox = geo;
 		this.geo = geo;
+		inputBoxBounds = new InputBoxBounds(geoInputBox);
 
 		if (getTextField() != null) {
 			getTextField().addFocusListener(new InputFieldListener());
@@ -94,7 +102,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * Listens to events in this textfield
+	 * Listens to events in this input box
 	 * 
 	 * @author Michael + Judit
 	 */
@@ -144,7 +152,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * Listens to key events in this textfield
+	 * Listens to key events in this input box
 	 * 
 	 * @author Michael + Judit
 	 */
@@ -218,12 +226,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void update(boolean forView) {
 		isVisible = geo.isEuclidianVisible();
-		if (geoInputBox.isSymbolicMode()) {
-			textRenderer = new LaTeXTextRenderer(this);
-		} else {
-			textRenderer = new SimpleTextRenderer(view.getApplication(), this);
-		}
-
+		updateRenderer();
 		if (getTextField() == null) {
 			updateLabel();
 			updateLabelSize();
@@ -267,6 +270,20 @@ public class DrawInputBox extends CanvasDrawable {
 		updateLabelSize();
 
 		view.getViewTextField().setBoxBounds(labelRectangle);
+	}
+
+	private void updateRenderer() {
+		if (geoInputBox.isSymbolicMode()) {
+			rendererSettings = LatexRendererSettings.createForInputBox(
+					geoInputBox.getApp().getFontSize(), geoInputBox.getFontSizeMultiplier());
+			textRenderer = new LaTeXTextRenderer(this, rendererSettings);
+		} else {
+			rendererSettings = new SimpleTextRendererSettings();
+			textRenderer = new SimpleTextRenderer(view.getApplication(), this,
+					rendererSettings);
+		}
+
+		inputBoxBounds.setRenderer(textRenderer);
 	}
 
 	private void updateLabelSize() {
@@ -381,7 +398,7 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 	}
 
-	private void drawTextfieldOnCanvas(GGraphics2D g2) {
+	private void drawInputBoxOnCanvas(GGraphics2D g2) {
 		drawBoundsOnCanvas(g2);
 		drawTextOnCanvas(g2);
 	}
@@ -392,8 +409,10 @@ public class DrawInputBox extends CanvasDrawable {
 				: view.getBackgroundCommon();
 
 		AutoCompleteTextField textField = getTextField();
+
 		if (textField != null) {
-			textField.drawBounds(g2, bgColor, getInputFieldBounds(g2));
+			inputBoxBounds.update(view, getLabelTop(), textFont, labelDesc);
+			textField.drawBounds(g2, bgColor, inputBoxBounds.getBounds());
 		}
 	}
 
@@ -404,18 +423,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * @return The bounds of the input box.
 	 */
 	public GRectangle getInputFieldBounds() {
-		return getInputFieldBounds(view.getGraphicsForPen());
-	}
-
-	private GRectangle getInputFieldBounds(GGraphics2D g2) {
-		GRectangle ret = textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
-		int viewHeight = view.getHeight();
-		double labelTop = getLabelTop();
-		if (labelTop > 0 && labelTop < viewHeight) { // window resized -> keep box offscreen
-			ret.setLocation((int) ret.getX(),
-					(int) MyMath.clamp(ret.getMinY(), 0, viewHeight - ret.getHeight()));
-		}
-		return ret;
+		return inputBoxBounds.getBounds();
 	}
 
 	private void drawTextOnCanvas(GGraphics2D g2) {
@@ -426,7 +434,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private void drawText(GGraphics2D g2, String text) {
-		int textTop = (int) Math.round(getInputFieldBounds(g2).getY());
+		int textTop = (int) Math.round(inputBoxBounds.getY());
 		textRenderer.drawText(geoInputBox, g2, textFont, text, getTextLeft(), textTop);
 	}
 
@@ -457,9 +465,9 @@ public class DrawInputBox extends CanvasDrawable {
 			view.getViewTextField().setBoxBounds(labelRectangle);
 		}
 
-		// no painting while editing to avoid double border: both symbolic and nonsymbolic
+		// no painting while editing to avoid double border: both symbolic and non-symbolic
 		if ((!editing && !isSelectedForInput()) || view.getApplication().isExporting()) {
-			drawTextfieldOnCanvas(g2);
+			drawInputBoxOnCanvas(g2);
 		}
 
 		highlightLabel(g2, latexLabel);
@@ -484,7 +492,7 @@ public class DrawInputBox extends CanvasDrawable {
 	@Override
 	protected boolean hitWidgetBounds(int x, int y) {
 		return geoInputBox.isSymbolicMode()
-			? getInputFieldBounds().contains(x, y)
+			? inputBoxBounds.contains(x, y)
 			: super.hitWidgetBounds(x, y);
 	}
 
@@ -558,8 +566,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void showWidget() {
 		if (geoInputBox.isSymbolicMode()) {
-			recomputeSize();
-			attachMathField();
+			attachMathField(view.getEuclidianController().getMouseLoc());
 			return;
 		}
 
@@ -573,7 +580,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * Get view's textfield and attach to this
+	 * Get view's input box and attach to this
 	 */
 	public void attachTextField() {
 		hideSymbolicField();
@@ -606,11 +613,15 @@ public class DrawInputBox extends CanvasDrawable {
 
 	/**
 	 * Attach the symbolic editor
+	 * @param caretPos caret position relative to view
 	 */
-	public void attachMathField() {
+	public void attachMathField(GPoint caretPos) {
+		recomputeSize();
 		hideTextField();
-		view.attachSymbolicEditor(geoInputBox, textRenderer.measureBounds(
-				view.getGraphicsForPen(), geoInputBox,  textFont, labelDesc));
+		updateRenderer();
+		inputBoxBounds.update(view, getLabelTop(), textFont, labelDesc);
+		view.attachSymbolicEditor(geoInputBox, inputBoxBounds.getBounds(),
+				rendererSettings, caretPos);
 		update();
 		view.repaintView();
 	}
@@ -640,7 +651,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * @return textfield (can be null if no implementation ie iOS, Android)
+	 * @return input box (can be null if no implementation ie iOS, Android)
 	 */
 	public AutoCompleteTextField getTextField() {
 		return view.getTextField(getGeoInputBox(), this);
@@ -672,11 +683,23 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 *
-	 * @return height of the label depending of whether it was latex or not
+	 * @return height of the label, depending on whether it was latex or not
 	 */
 	int getHeightForLabel(String label) {
 		return isLatexString(label) && labelDimension != null ? labelDimension.getHeight()
 				: getLabelTextHeight();
+	}
+
+	public void setBorderColor(GColor borderColor) {
+		this.borderColor = borderColor;
+	}
+
+	public GColor getBorderColor() {
+		return borderColor;
+	}
+
+	@Override
+	public boolean isHighlighted() {
+		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
 	}
 }

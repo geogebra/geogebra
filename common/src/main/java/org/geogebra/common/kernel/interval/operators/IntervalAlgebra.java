@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.interval.operators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.operators.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.operators.RMath.powLow;
 
@@ -74,7 +75,7 @@ public class IntervalAlgebra {
 
 		if (interval.isInverted()) {
 
-			return evaluator.computeInverted(evaluator.pow(interval.extractLow(), power),
+			return evaluator.unionInvertedResults(evaluator.pow(interval.extractLow(), power),
 					evaluator.pow(interval.extractHigh(), power));
 		}
 
@@ -161,6 +162,10 @@ public class IntervalAlgebra {
 			return one();
 		}
 
+		if (interval.isZeroWithDelta(IntervalConstants.PRECISION / 2)) {
+			return other.isPositive() ? zero() : undefined();
+		}
+
 		if (!other.isSingleton()) {
 			return powerOfInterval(interval, other);
 		}
@@ -179,7 +184,7 @@ public class IntervalAlgebra {
 			if (extractedHigh.isUndefined()) {
 				return undefined();
 			}
-			return evaluator.computeInverted(extractedLow, extractedHigh);
+			return evaluator.unionInvertedResults(extractedLow, extractedHigh);
 		}
 
 		double low = powLow(interval.getLow(), other.getLow());

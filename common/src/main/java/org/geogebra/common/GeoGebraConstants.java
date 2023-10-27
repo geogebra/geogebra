@@ -10,16 +10,12 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "22 November 2022";
+	public static final String BUILD_DATE = "25 October 2023";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.746.0";
 
+	public static final String VERSION_STRING = "5.2.810.0";
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
-
-	/** Download update **/
-	public static final String DOWNLOAD_PACKAGE_WIN =
-			"https://download.geogebra.org/package/win";
 
 	/** App versions */
 	enum Version {
@@ -107,8 +103,8 @@ public interface GeoGebraConstants {
 			// 6.0.x.x
 			switch (this) {
 			default:
-				// change 5.0.274.0 to 6.0.274.0
-				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
+				// change 5.2.274.0 to 6.0.274.0
+				return getVersionString6() + "-" + suffix;
 			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
 			}
@@ -160,12 +156,10 @@ public interface GeoGebraConstants {
 	public static final String XML_FILE_FORMAT = "5.0";
 
 	// This is used for checking if a minor update exists (on each run):
-	// DON'T change to https (causes problems)
 	public static final String VERSION_URL_MINOR =
-			"https://download.geogebra.org/installers/5.0/version.txt";
+			"https://download.geogebra.org/installers/5.2/version.txt";
 
 	// This is used for checking whether a major update exists (monthly):
-	// DON'T change to https (causes problems)
 	public static final String VERSION_URL = "https://download.geogebra.org/installers/version.txt";
 
 	public static final String INSTALLERS_URL = "https://www.geogebra.org/download";
@@ -174,16 +168,13 @@ public interface GeoGebraConstants {
 	public static final String SPLASH_STRING = "splash.png";
 	// archive
 	/** short version, for online archive */
-	public static final String SHORT_VERSION_STRING = "5.0";
+	public static final String SHORT_VERSION_STRING = "5.2";
 	// File format versions
 	/** XSD for ggb files */
 	public static final String GGB_XSD_FILENAME = "ggb.xsd";
 	/** XSD for ggt (macro) files */
 	public static final String GGT_XSD_FILENAME = "ggt.xsd";
 	// URLs
-	/** URL of GeoGebraWeb main js file (offline version) */
-	// public static final String GEOGEBRA_HTML5_BASE_OFFLINE =
-	// "web/web.nocache.js";
 	/** URL of GeoGebra jars */
 	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "https://jars.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
@@ -191,11 +182,7 @@ public interface GeoGebraConstants {
 	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE
 			+ "geogebra-jars.zip";
 	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.0\\jars\\update";
-
-	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0"
-			+ "\\thirdparty\\update";
+	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.2\\jars\\update";
 
 	/** http prefix */
 	public static final String HTTP = "http://";
@@ -207,11 +194,8 @@ public interface GeoGebraConstants {
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
-	public final static String TUBE_URL_SHORT = "https://ggbm.at/";
-	public final static String GEOGEBRA_HELP_WEBSITE = "https://help.geogebra.org/";
+	String GEOGEBRA_HELP_WEBSITE = "https://wiki.geogebra.org/help/";
 
-	/** max possible heap space for applets in MB */
-	public final static int MAX_HEAP_SPACE = 1024;
 	/**
 	 * minimal precision in LocusEquation: by default rounding is at least 4
 	 * decimals (this changes dynamically when zooming in)
@@ -222,9 +206,6 @@ public interface GeoGebraConstants {
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	/** mimetype of GGB files */
 	public static final String GGW_MIME_TYPE = "application/vnd.geogebra.file";
-
-	/** Splash timeout in miliseconds */
-	public static final int SPLASH_DIALOG_DELAY = 1000;
 
 	/** license URL */
 	public static final String GGB_LICENSE_URL = "https://www.geogebra.org/license";
@@ -271,14 +252,12 @@ public interface GeoGebraConstants {
 
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 
-	public static final String CDN_APPS = "https://cdn.geogebra.org/apps/";
-
 	/**
 	 * Get the version string for versions 6.0.*
 	 *
 	 * @return version string
 	 */
 	static String getVersionString6() {
-		return VERSION_STRING.replace("5.0.", "6.0.");
+		return VERSION_STRING.replace("5.2.", "6.0.");
 	}
 }

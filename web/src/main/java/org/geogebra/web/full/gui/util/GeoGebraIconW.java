@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
+import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -14,27 +16,31 @@ import org.geogebra.web.resources.SVGResource;
  */
 public class GeoGebraIconW {
 
-	private static MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
+	private static final MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
 
-	private static SVGResource[] segmentStartStyleIcons = {
+	private static final SVGResource[] segmentStartStyleIcons = {
 			matIcons.stylingbar_start_default(), matIcons.stylingbar_start_line(),
 			matIcons.stylingbar_start_square_outlined(), matIcons.stylingbar_start_square(),
 			matIcons.stylingbar_start_arrow(), matIcons.stylingbar_start_arrow_filled(),
 			matIcons.stylingbar_start_circle_outlined(), matIcons.stylingbar_start_circle()
 	};
 
-	private static SVGResource[] segmentEndStyleIcons = {
+	private static final SVGResource[] segmentEndStyleIcons = {
 			matIcons.stylingbar_end_default(), matIcons.stylingbar_end_line(),
 			matIcons.stylingbar_end_square_outlined(), matIcons.stylingbar_end_square(),
 			matIcons.stylingbar_end_arrow(), matIcons.stylingbar_end_arrow_filled(),
 			matIcons.stylingbar_end_circle_outlined(), matIcons.stylingbar_end_circle()
 	};
 
-	private static SVGResource[] gridStyleIcons = {
+	private static final SVGResource[] vectorHeadStyleIcons = {
+			matIcons.stylingbar_end_arrow_filled(),
+			matIcons.stylingbar_end_arrow()};
+
+	private static final SVGResource[] gridStyleIcons = {
 			matIcons.stylebar_empty(), matIcons.grid_black(),
 			matIcons.grid_polar(), matIcons.grid_isometric() };
 
-	private static SVGResource[] pointStyleSVGIcons = {
+	private static final SVGResource[] pointStyleSVGIcons = {
 			matIcons.point_full(),
 			matIcons.point_cross_diag(), matIcons.point_empty(),
 			matIcons.point_cross(), matIcons.point_diamond(),
@@ -42,7 +48,7 @@ public class GeoGebraIconW {
 			matIcons.point_down(), matIcons.point_right(),
 			matIcons.point_left(), matIcons.point_no_outline() };
 
-	private static SVGResource[] lineStyleSVGIcons = {
+	private static final SVGResource[] lineStyleSVGIcons = {
 			matIcons.line_solid(),
 			matIcons.line_dashed_long(), matIcons.line_dashed_short(),
 			matIcons.line_dotted(), matIcons.line_dash_dot(),
@@ -126,25 +132,6 @@ public class GeoGebraIconW {
 		if (bgColor != null) {
 			ret.setBgColor(bgColor.deriveWithAlpha((int) (alpha * 255)));
 		}
-		return ret;
-	}
-
-	/**
-	 * 
-	 * @param symbol
-	 *            {@code String}
-	 * @param fgColor
-	 *            {@link GColor}
-	 * @param bgColor
-	 *            {@link GColor}
-	 * @return {@link ImageOrText}
-	 */
-	public static ImageOrText createTextSymbolIcon(String symbol,
-	        GColor fgColor, GColor bgColor) {
-		ImageOrText ret = new ImageOrText();
-		ret.setText(symbol);
-		ret.setFgColor(fgColor);
-		ret.setBgColor(bgColor);
 		return ret;
 	}
 
@@ -270,5 +257,40 @@ public class GeoGebraIconW {
 			segmentEndIcons[i] = new ImageOrText(segmentEndStyleIcons[i], 24);
 		}
 		return segmentEndIcons;
+	}
+
+	/**
+	 * @return vector head style icons
+	 */
+	public static ImageOrText[] createVectorHeadStyleIcons() {
+		ImageOrText[] segmentEndIcons = new ImageOrText[vectorHeadStyleIcons.length];
+		for (int i = 0; i < vectorHeadStyleIcons.length; i++) {
+			segmentEndIcons[i] = new ImageOrText(vectorHeadStyleIcons[i], 24);
+		}
+		return segmentEndIcons;
+	}
+
+	/**
+	 * @return icons for all available segment decorations
+	 */
+	public static ImageOrText[] getSegmentDecoIcons() {
+		final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel
+				.getDecoTypeLength()];
+		for (int i = 0; i < iconArray.length; i++) {
+			iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
+		}
+		return iconArray;
+	}
+
+	/**
+	 * @return icons for all available angle decorations
+	 */
+	public static  ImageOrText[] getAngleDecoIcons() {
+		final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel
+				.getDecoTypeLength()];
+		for (int i = 0; i < iconArray.length; i++) {
+			iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
+		}
+		return iconArray;
 	}
 }

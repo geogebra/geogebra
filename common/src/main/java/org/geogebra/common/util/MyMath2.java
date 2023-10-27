@@ -77,7 +77,7 @@ public class MyMath2 {
 	 */
 	final public static double beta(double a, double b) {
 		double ret = Math.exp(Beta.logBeta(a, b));
-		if (!MyDouble.isFinite(ret)) {
+		if (!Double.isFinite(ret)) {
 			// handle negative cases
 			return Gamma.gamma(a) * Gamma.gamma(b) / Gamma.gamma(a + b);
 		}
@@ -346,8 +346,6 @@ public class MyMath2 {
 				// del = c*d
 				h = h.multiply(del);
 
-				// AbstractApplication.debug(Math.abs(delre - 1.0)+
-				// Math.abs(delim));
 				if (Math.abs(del.getReal() - 1.0)
 						+ Math.abs(del.getImaginary()) < Kernel.MIN_PRECISION) {
 					break;

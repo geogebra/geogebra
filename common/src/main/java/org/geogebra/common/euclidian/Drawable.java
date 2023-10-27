@@ -419,7 +419,6 @@ public abstract class Drawable extends DrawableND {
 		} else if (yLabel > screenHeight - insets.getBottom()) {
 			yLabel = screenHeight - insets.getBottom();
 		}
-
 		// update label rectangle position
 		labelRectangle.setLocation(xLabel, yLabel - view.getFontSize());
 	}
@@ -704,6 +703,7 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @param fillShape
 	 *            shape to be filled
+	 * @param color hatching color
 	 */
 	public void fillWithHatchOrImage(GGraphics2D g2, GShape fillShape, GColor color) {
 		if (geo.getFillType() == FillType.IMAGE && geo.getFillImage() != null) {
@@ -846,7 +846,7 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @return text layout
 	 */
-	public static GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
+	public static @CheckForNull GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}
@@ -1022,5 +1022,12 @@ public abstract class Drawable extends DrawableND {
 				(int) labelRectangle.getWidth() + HIGHLIGHT_OFFSET,
 				(int) labelRectangle.getHeight() + HIGHLIGHT_OFFSET,
 				HIGHLIGHT_DIAMETER, HIGHLIGHT_DIAMETER);
+	}
+
+	protected void drawAndUpdateTraceIfNeeded(boolean showTrace) {
+		isTracing = showTrace;
+		if (showTrace) {
+			view.drawTrace(this);
+		}
 	}
 }

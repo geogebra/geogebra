@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
@@ -8,18 +7,17 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 import jsinterop.base.Js;
 
 public class SplashDialog extends SimplePanel {
-
+	public static final int SPLASH_DIALOG_DELAY = 1000;
 	boolean appLoaded = false;
 	boolean timerEllapsed = false;
 	boolean previewExists = false;
@@ -49,7 +47,7 @@ public class SplashDialog extends SimplePanel {
 			AppletParameters parameters, GeoGebraFrameW frame) {
 		this.geoGebraElement = geoGebraElement;
 		this.geogebraFrame = frame;
-		previewExists = checkIfPreviewExists(geoGebraElement)
+		previewExists = checkIfPreviewExists(geoGebraElement.getElement())
 				|| AppConfigDefault
 						.isUnbundledOrNotes(parameters.getDataParamAppName());
 
@@ -78,7 +76,7 @@ public class SplashDialog extends SimplePanel {
 		};
 		afterConstructor.schedule(0);
 
-		t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
+		t.schedule(SPLASH_DIALOG_DELAY);
 	}
 
 	private void triggerImageLoaded() {
@@ -101,7 +99,7 @@ public class SplashDialog extends SimplePanel {
 	 */
 	protected void hide() {
 		this.removeFromParent();
-		removePreviewImg(geoGebraElement);
+		removePreviewImg(geoGebraElement.getElement());
 	}
 
 	private void removePreviewImg(Element thisArticle) {

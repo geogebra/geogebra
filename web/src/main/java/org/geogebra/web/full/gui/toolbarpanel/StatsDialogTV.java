@@ -8,14 +8,14 @@ import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class StatsDialogTV extends ComponentDialog {
 
@@ -53,8 +53,8 @@ public class StatsDialogTV extends ComponentDialog {
 			FlowPanel group = new FlowPanel();
 			group.addStyleName("group");
 
-			Label heading = new Label(row.getHeading());
-			heading.addStyleName("heading");
+			Label heading = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					row.getHeading(), "heading");
 			group.add(heading);
 
 			for (String value: row.getValues()) {
@@ -64,7 +64,7 @@ public class StatsDialogTV extends ComponentDialog {
 							GColor.newColor(0, 0, 0, 0.87), false);
 					group.add(canvas);
 				} else {
-					Label valueLbl = new Label(value);
+					Label valueLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(value, "value");
 					group.add(valueLbl);
 				}
 			}
@@ -80,11 +80,12 @@ public class StatsDialogTV extends ComponentDialog {
 	public void addRegressionChooserHasError(List<RegressionSpecification> available,
 			List<StatisticGroup> initialRegression) {
 		List<String> items = new ArrayList<>();
-		available.forEach(spec -> items.add(spec.getLabel()));
+		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
 
 		CompDropDown regressionChooser = new CompDropDown((AppW) app,
 				app.getLocalization().getMenu("RegressionModel"), items);
-		regressionChooser.setChangeHandler(() -> {
+		regressionChooser.setFullWidth(true);
+		regressionChooser.addChangeHandler(() -> {
 			RegressionSpecification regression = available
 					.get(regressionChooser.getSelectedIndex());
 			setRows(view.getRegression(column, regression));

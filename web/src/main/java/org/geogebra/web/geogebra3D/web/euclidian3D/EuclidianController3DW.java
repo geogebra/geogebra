@@ -17,8 +17,7 @@ import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.DOM;
+import org.gwtproject.user.client.DOM;
 
 import elemental2.dom.WheelEvent;
 
@@ -90,11 +89,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	public void onMouseWheel(WheelEvent event) {
 		mtg.onMouseWheel(event);
-	}
-
-	@Override
-	protected void initToolTipManager() {
-		mtg.initToolTipManager();
 	}
 
 	@Override

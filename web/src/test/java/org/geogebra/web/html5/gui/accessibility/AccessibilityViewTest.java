@@ -16,6 +16,8 @@ import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.DomMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
+import org.gwtproject.user.client.ui.Button;
+import org.gwtproject.user.client.ui.Label;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
@@ -26,8 +28,6 @@ import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
@@ -43,13 +43,12 @@ public class AccessibilityViewTest {
 
 	@Before
 	public void setup() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 		mockPanel = new ArrayFlowPanel();
 		baseWidgetFactory = getBaseWidgetFactory();
 	}
 
 	private void initAccessibilityViewFull() {
-		app = AppMocker.mockGraphing(AccessibilityViewTest.class);
+		app = AppMocker.mockGraphing();
 		aView = new AccessibilityView(app, baseWidgetFactory);
 	}
 

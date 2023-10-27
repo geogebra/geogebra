@@ -4,16 +4,16 @@ import org.geogebra.common.main.exam.ExamLogBuilder;
 import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Exam exit dialog with the whole information
@@ -41,7 +41,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	 */
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
 			Runnable returnHandler, Widget anchor, String positiveKey) {
-		super(app.getPanel(), app);
+		super(app.getAppletFrame(), app);
 		this.returnHandler = returnHandler;
 		this.anchor = anchor;
 		this.setStyleName("dialogComponent");
@@ -117,9 +117,8 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	}
 
 	private void buildContent(boolean isLogDialog) {
-		Label teacherText = new Label(app.getLocalization()
-				.getMenu("exam_log_show_screen_to_teacher"));
-		teacherText.setStyleName("textStyle");
+		Label teacherText = BaseWidgetFactory.INSTANCE.newPrimaryText(app.getLocalization()
+				.getMenu("exam_log_show_screen_to_teacher"), "textStyle");
 		if (!isLogDialog) {
 			contentPanel.add(teacherText);
 			addBlock("Duration", app.getExam().getElapsedTimeLocalized());
@@ -138,7 +137,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 
 	private void addBlock(String labelStr, String timeStr) {
 		Label label = new Label(app.getLocalization().getMenu(labelStr));
-		Label time = new Label(timeStr);
+		Label time = BaseWidgetFactory.INSTANCE.newPrimaryText(timeStr, "textStyle");
 		contentPanel.add(buildBlock(label, time));
 	}
 
@@ -148,25 +147,24 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 				.appendLogTimes(app.getLocalization(), new ExamLogBuilder() {
 					@Override
 					public void addLine(StringBuilder sb) {
-						addActivity(new Label(sb.toString()));
+						addActivity(sb.toString());
 					}
 				}, !isLogDialog);
 		return activityPanel;
 	}
 
 	/**
-	 * @param label
+	 * @param text
 	 *            activity row
 	 */
-	protected void addActivity(Label label) {
-		label.setStyleName("textStyle");
+	protected void addActivity(String text) {
+		Label label = BaseWidgetFactory.INSTANCE.newPrimaryText(text, "textStyle");
 		activityPanel.add(label);
 	}
 
 	private static FlowPanel buildBlock(Widget caption, Widget text) {
 		FlowPanel block = new FlowPanel();
 		caption.setStyleName("captionStyle");
-		text.setStyleName("textStyle");
 		block.add(caption);
 		block.add(text);
 		return block;

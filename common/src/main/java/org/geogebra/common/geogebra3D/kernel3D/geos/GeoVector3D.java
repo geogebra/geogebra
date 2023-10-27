@@ -18,7 +18,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasHeadStyle;
 import org.geogebra.common.kernel.geos.Transformable;
+import org.geogebra.common.kernel.geos.VectorHeadStyle;
 import org.geogebra.common.kernel.geos.VectorToMatrix;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -26,7 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
@@ -42,8 +44,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoVector3D extends GeoVec4D
-		implements GeoVectorND, RotateableND, 
-		MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable {
+		implements GeoVectorND, RotatableND,
+		MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable, HasHeadStyle {
 
 	private GeoPointND startPoint;
 
@@ -51,8 +53,8 @@ public class GeoVector3D extends GeoVec4D
 
 	private Coords labelPosition = new Coords(0, 0, 0, 0);
 
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
-	private StringBuilder sbToString = new StringBuilder(50);
+	private final StringBuilder sbBuildValueString = new StringBuilder(50);
+	private final StringBuilder sbToString = new StringBuilder(50);
 
 	private StringBuilder sb;
 
@@ -194,7 +196,7 @@ public class GeoVector3D extends GeoVec4D
 			try {
 				GeoPointND sp = vec.getStartPoint();
 				if (sp != null) {
-					if (vec.hasAbsoluteLocation()) {
+					if (vec.hasStaticLocation()) {
 						// create new location point
 						setStartPoint(sp.copy());
 					} else {
@@ -263,6 +265,9 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
+		if (tpl.isDisplayStyle()) {
+			return toLaTeXString(false, tpl);
+		}
 		return buildValueString(tpl).toString();
 	}
 
@@ -405,7 +410,7 @@ public class GeoVector3D extends GeoVec4D
 
 		// startPoint of vector
 		if (startPoint != null) {
-			startPoint.appendStartPointXML(sbXml);
+			startPoint.appendStartPointXML(sbXml, false);
 		}
 
 	}
@@ -421,11 +426,6 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
-
-		// Application.debug("point : "+((GeoElement) pI).getLabel());
-
-		// GeoPoint3D p = (GeoPoint3D) pI;
-
 		if (startPoint == p) {
 			return;
 		}
@@ -459,18 +459,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public GeoPointND[] getStartPoints() {
-		if (startPoint == null) {
-			return null;
-		}
-
-		GeoPointND[] ret = new GeoPointND[1];
-		ret[0] = startPoint;
-		return ret;
-	}
-
-	@Override
-	public boolean hasAbsoluteLocation() {
+	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
@@ -651,7 +640,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public void rotate(NumberValue phiValue, GeoPointND S,
+	public void rotate(NumberValue phiValue, Coords S,
 			GeoDirectionND orientation) {
 
 		// origin ignored
@@ -678,16 +667,6 @@ public class GeoVector3D extends GeoVec4D
 		Coords v2 = vn2.crossProduct4(v);
 		Coords v1 = v2.crossProduct4(vn2);
 		setCoords(v1.mul(cos).add(v2.mul(sin)).add(vn2.mul(v.dotproduct(vn2))));
-
-	}
-
-	@Override
-	public void rotate(NumberValue phiValue, GeoLineND line) {
-
-		// origin ignored
-		Coords vn = line.getDirectionInD3();
-
-		rotate(phiValue, vn);
 
 	}
 
@@ -843,5 +822,15 @@ public class GeoVector3D extends GeoVec4D
 			converter = new VectorToMatrix(kernel);
 		}
 		return converter;
+	}
+
+	@Override
+	public VectorHeadStyle getHeadStyle() {
+		return VectorHeadStyle.DEFAULT;
+	}
+
+	@Override
+	public void setHeadStyle(VectorHeadStyle headStyle) {
+		// not used
 	}
 }

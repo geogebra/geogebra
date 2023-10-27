@@ -127,7 +127,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public int getPickOrder() {
 		/*
-		 * Application.debug(alpha<1); if (alpha<1)
+		 * if (alpha<1)
 		 */
 		return DRAW_PICK_ORDER_SURFACE; // when transparent
 		/*
@@ -486,8 +486,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			s.next().updatePreview();
 		}
 
-		// Application.debug("DrawList3D:\n"+getView3D().getDrawList3D().toString());
-
 		// polygon itself
 
 		if (selectedPoints.size() < 2) {
@@ -579,8 +577,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			inPlaneCoords = new Coords(4);
 		}
 
-		hitting.origin.projectPlaneThruVIfPossible(
-				poly.getCoordSys().getMatrixOrthonormal(), hitting.direction,
+		hitting.getOrigin().projectPlaneThruVIfPossible(
+				poly.getCoordSys().getMatrixOrthonormal(), hitting.getDirection(),
 				globalCoords, inPlaneCoords);
 
 		if (!hitting.isInsideClipping(globalCoords)) {
@@ -614,7 +612,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				if (project == null) {
 					project = Coords.createInhomCoorsInD3();
 				}
-				p3d.projectLine(hitting.origin, hitting.direction, project,
+				p3d.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
 						parameters); // check distance to hitting line
 				double d = getView3D().getScaledDistance(p3d, project);
 				if (d <= poly.getLineThickness() + hitting.getThreshold()) {

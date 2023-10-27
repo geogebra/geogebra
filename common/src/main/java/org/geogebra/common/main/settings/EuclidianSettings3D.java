@@ -80,6 +80,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		xZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
 		dimension = 3;
+		axesLabels = new String[] {"x", "y", "z"};
 	}
 
 	/**
@@ -583,6 +584,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 		hasColoredAxes = true;
 
+		axesLabels = new String[] {"x", "y", "z"};
 	}
 
 	/**
@@ -617,11 +619,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @see org.geogebra.common.geogebra3D.io.MyXMLHandler3D
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference) {
-
-		// Application.debug("getXML: "+a+","+b);
-
-		// if (true) return "";
-
 		sb.append("<euclidianView3D>\n");
 
 		// coord system

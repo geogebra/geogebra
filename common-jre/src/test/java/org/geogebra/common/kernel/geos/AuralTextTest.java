@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -10,10 +12,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.script.GgbScript;
-import org.geogebra.test.RegexpMatch;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class AuralTextTest {
 
@@ -28,7 +30,7 @@ public class AuralTextTest {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
 		String[] sentences = aural.split("\\.");
-		Assert.assertTrue(aural.endsWith("."));
+		assertThat(aural, endsWith("."));
 		assertEquals(out.length, sentences.length);
 		for (int i = 0; i < out.length; i++) {
 			if (!sentences[i].matches(".*" + out[i] + ".*")) {
@@ -57,6 +59,9 @@ public class AuralTextTest {
 	@Test
 	public void numberAural() {
 		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
+				"decrease", "edit");
+		app.setRightClickEnabled(false);
+		aural("sl=Slider(-5,5)", "Slider", "increase",
 				"decrease", "edit");
 		assertEquals("Slider sl equals 0",
 				((GeoNumeric) get("sl")).getAuralText());
@@ -110,6 +115,10 @@ public class AuralTextTest {
 
 	@Test
 	public void textAural() {
+		aural("LaTeX(\"a\\geq b\\leq c\")", "a" + Unicode.GREATER_EQUAL + "b"
+				+ Unicode.LESS_EQUAL + "c", "edit");
+		aural("LaTeX(\"a\\ge b\\le c\")", "a" + Unicode.GREATER_EQUAL + "b"
+				+ Unicode.LESS_EQUAL + "c", "edit");
 		aural("LaTeX(\"b=a+\\mathbf{x^2}\")", "b equals a plus x squared", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^3}\")", "a plus x cubed", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^4}\")", "a plus x to the power of 4 end power", "edit");
@@ -118,12 +127,21 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\sqrt[3]{x}\")", "start cube root x end root", "edit");
 		aural("LaTeX(\"\\frac{x}{2}\")", "start fraction x over 2 end fraction", "edit");
 		aural("LaTeX(\"\\vec{x}\")", " vector x", "edit");
+		aural("LaTeX(\"\\ogonek{x}\")", "x with ogonek", "edit");
+		aural("LaTeX(\"\\cedilla{x}\")", "x with cedilla", "edit");
+		aural("LaTeX(\"\\displaylines{x\\\\y}\")", "x y", "edit");
+		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
 		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",
 				"edit");
+		aural("LaTeX(\"a\\Vert b\")", "a\u2016b", "edit");
 		aural("LaTeX(\"\\bgcolor{red}{\\text{not red text}}\")", "not red text",
 				"edit");
 		aural("TableText({{1,2,3},{3,4,5}})", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
 				"edit");
+		aural("TableText({{1,2,3},{3,4,5}},\"()\")", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
+				"edit");
+		aural("TableText({{1,2,3},{3,4,5}},\"||\")",
+				"Determinant\\(\\{\\{1,2,3\\},\\{3,4,5\\}\\}\\)", "edit");
 		aural("FractionText(1.5)", "start fraction 3 over 2 end fraction", "edit");
 		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");
@@ -147,7 +165,6 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\widehat{p}\")", "p with \u0302", "edit");
 		aural("LaTeX(\"\\underline{p}j\")", "pj", "edit");
-
 	}
 
 	@Test
@@ -194,13 +211,7 @@ public class AuralTextTest {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
 		String[] sentences = aural.split("\\.");
-		Assert.assertTrue(aural.endsWith("."));
-		if (out[0].matches(".*\\(.*")) {
-			out[0] = out[0].replace("(", "\\(");
-		}
-		if (out[0].matches(".*\\).*")) {
-			out[0] = out[0].replace(")", "\\)");
-		}
-		assertThat(sentences[0], RegexpMatch.matches(".*" + out[0] + ".*"));
+		assertThat(aural, endsWith("."));
+		assertThat(sentences[0], containsString(out[0]));
 	}
 }

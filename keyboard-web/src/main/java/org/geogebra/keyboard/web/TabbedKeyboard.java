@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.LocalizationI;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -17,20 +17,17 @@ import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
-import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
-import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
-import org.geogebra.keyboard.scientific.model.ScientificKeyboardFactory;
-import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
-import org.geogebra.keyboard.web.factory.KeyboardInputBox;
-import org.geogebra.keyboard.web.factory.KeyboardMow;
+import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
+import org.geogebra.keyboard.web.factory.InputBoxKeyboardFactory;
+import org.geogebra.keyboard.web.factory.NotesKeyboardFactory;
+import org.geogebra.keyboard.web.factory.SolverKeyboardFactory;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
+import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -61,26 +58,26 @@ public class TabbedKeyboard extends FlowPanel
 	/**
 	 * localization
 	 */
-	Localization locale;
+	LocalizationI locale;
 	private boolean isSmallKeyboard;
 	/**
 	 * application
 	 */
 	protected HasKeyboard hasKeyboard;
-	private ArrayList<Keyboard> layouts = new ArrayList<>(4);
-	private String keyboardLocale;
+	private final ArrayList<Keyboard> layouts = new ArrayList<>(4);
+	private String keyboardLanguageTag;
 	private UpdateKeyBoardListener updateKeyBoardListener;
 	protected KeyboardListener processField;
 	private FlowPanel tabs;
 	protected KeyboardSwitcher switcher;
-	private Map<KeyboardType, Widget> keyboardMap;
+	private final Map<KeyboardType, KeyPanelBase> keyboardMap;
 	private KeyboardFactory factory;
 	/**
 	 * true if keyboard wanted
 	 */
 	protected boolean keyboardWanted = false;
 	private ButtonRepeater repeater;
-	private boolean hasMoreButton;
+	private final boolean hasMoreButton;
 
 	private KeyboardSwitcher.SwitcherButton ansSwitcher;
 	private KeyboardSwitcher.SwitcherButton defaultSwitcher;
@@ -94,7 +91,7 @@ public class TabbedKeyboard extends FlowPanel
 	public TabbedKeyboard(HasKeyboard appKeyboard, boolean hasMoreButton) {
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
-		this.keyboardLocale = locale.getLocaleStr();
+		this.keyboardLanguageTag = locale.getLanguageTag();
 		this.switcher = new KeyboardSwitcher(this);
 		this.hasMoreButton = hasMoreButton;
 		this.keyboardMap = new HashMap<>();
@@ -120,19 +117,24 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	protected void closeButtonClicked() {
 		if (updateKeyBoardListener != null) {
-			updateKeyBoardListener.keyBoardNeeded(false, null);
+			updateKeyBoardListener.closeKeyboard();
 		}
 		keyboardWanted = false;
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
-	private KeyboardFactory initKeyboardFactory(InputBoxType inputBoxType) {
+	private KeyboardFactory initKeyboardFactory() {
 		KeyboardFactory factory;
-		if (inputBoxType != null) {
-			factory = new KeyboardInputBox(inputBoxType, hasKeyboard.getInputBoxFunctionVars());
+		if (hasKeyboard.getInputBoxType() != null) {
+			factory = new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
+					hasKeyboard.getInputBoxFunctionVars());
 		} else {
-			if (hasKeyboard.getKeyboardType() == AppKeyboardType.MOW) {
-				factory = KeyboardMow.INSTANCE;
+			if (hasKeyboard.getKeyboardType() == AppKeyboardType.NOTES) {
+				factory = NotesKeyboardFactory.INSTANCE;
+			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
+				factory = ScientificKeyboardFactory.INSTANCE;
+			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
+				factory = SolverKeyboardFactory.INSTANCE;
 			} else {
 				factory = KeyboardFactory.INSTANCE;
 			}
@@ -145,34 +147,47 @@ public class TabbedKeyboard extends FlowPanel
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
-		tabs = new FlowPanel();
 
-		createAnsMathKeyboard(factory);
-		createDefaultKeyboard(factory);
-		createFunctionsKeyboard(factory);
+		createAnsMathKeyboard();
+		createDefaultKeyboard();
+		createFunctionsKeyboard();
 		if (locale.isLatinKeyboard()) {
-			createLocalizedAbcKeyboard(factory, true);
+			createLocalizedAbcKeyboard(true);
 		} else {
 			createLatinKeyboard(factory);
-			createLocalizedAbcKeyboard(factory, false);
+			createLocalizedAbcKeyboard(false);
 		}
 		createSpecialSymbolsKeyboard(factory);
 		createGreekKeyboard(factory);
 
-		switcher.select(KeyboardType.NUMBERS);
+		selectNumberTab();
 		layout();
 	}
 
-	private void createAnsMathKeyboard(KeyboardFactory factory) {
-		KeyPanelBase keyboard = buildPanel(factory.createMathKeyboard(), this);
+	private void buildGUIScientific() {
+		createAnsMathKeyboard();
+		createDefaultKeyboard();
+		createFunctionsKeyboard();
+		createLocalizedAbcKeyboard(false);
+		selectNumberTab();
+		layout();
+	}
+
+	private void selectNumberTab() {
+		switcher.select(processField != null && processField.requestsAns() ? KeyboardType.NUMBERS
+				: KeyboardType.NUMBERS_DEFAULT);
+	}
+
+	private void createAnsMathKeyboard() {
+		KeyPanelBase keyboard = buildPanel(factory.createMathKeyboard());
 		addTab(keyboard, KeyboardType.NUMBERS);
 		ansSwitcher = switcher.addSwitch(keyboard, KeyboardType.NUMBERS, "123");
 		ansSwitcher.setVisible(false);
 		setDataTest(ansSwitcher, "keyboard-123-ans");
 	}
 
-	private void createFunctionsKeyboard(KeyboardFactory factory) {
-		KeyPanelBase functionKeyboard = buildPanel(factory.createFunctionsKeyboard(), this);
+	private void createFunctionsKeyboard() {
+		KeyPanelBase functionKeyboard = buildPanel(factory.createFunctionsKeyboard());
 		addTab(functionKeyboard, KeyboardType.OPERATORS);
 		functionKeyboard.setVisible(false);
 		KeyboardSwitcher.SwitcherButton function = switcher.addSwitch(functionKeyboard,
@@ -180,24 +195,22 @@ public class TabbedKeyboard extends FlowPanel
 		setDataTest(function, "keyboard-fx");
 	}
 
-	private void createDefaultKeyboard(KeyboardFactory factory) {
-		KeyPanelBase defaultKeyboard = buildPanel(factory.createDefaultKeyboard(), this);
+	private void createDefaultKeyboard() {
+		KeyPanelBase defaultKeyboard = buildPanel(factory.createDefaultKeyboard());
 		addTab(defaultKeyboard, KeyboardType.NUMBERS_DEFAULT);
 		defaultKeyboard.setVisible(false);
 		defaultSwitcher = switcher.addSwitch(defaultKeyboard, KeyboardType.NUMBERS_DEFAULT, "123");
 		setDataTest(defaultSwitcher, "keyboard-123");
 	}
 
-	private void createLocalizedAbcKeyboard(KeyboardFactory factory, boolean withGreek) {
+	private void createLocalizedAbcKeyboard(boolean withGreek) {
 		KeyboardRowDefinitionProvider krp = new KeyboardRowDefinitionProvider(locale);
 		String[] lowerKeys = krp.getLowerKeys();
-		factory.setLetterKeyboardFactory(new LetterKeyboardFactory());
 		Keyboard letterKeyboard = factory.createLettersKeyboard(lowerKeys[0],
 				lowerKeys[1],
 				lowerKeys[2], krp.getUpperKeys(), withGreek);
 
-		KeyPanelBase keyboard = buildPanel(letterKeyboard,
-				this);
+		KeyPanelBase keyboard = buildPanel(letterKeyboard);
 		addTab(keyboard, KeyboardType.ABC);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.ABC,
@@ -205,7 +218,7 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void createSpecialSymbolsKeyboard(KeyboardFactory factory) {
-		KeyPanelBase keyboard = buildPanel(factory.createSpecialSymbolsKeyboard(), this);
+		KeyPanelBase keyboard = buildPanel(factory.createSpecialSymbolsKeyboard());
 		addTab(keyboard, KeyboardType.SPECIAL);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.SPECIAL,
@@ -213,8 +226,7 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void createGreekKeyboard(KeyboardFactory factory) {
-		KeyPanelBase keyboard = buildPanel(factory.createGreekKeyboard(),
-				this);
+		KeyPanelBase keyboard = buildPanel(factory.createGreekKeyboard());
 		keyboard.setVisible(false);
 		addTab(keyboard, KeyboardType.GREEK);
 	}
@@ -225,7 +237,7 @@ public class TabbedKeyboard extends FlowPanel
 		String[] rows = latinProvider.getDefaultLowerKeys();
 		Keyboard keyboardModel = factory.createLettersKeyboard(rows[0], rows[1],
 				rows[2], latinProvider.getUpperKeys());
-		KeyPanelBase keyboard = buildPanel(keyboardModel, this);
+		KeyPanelBase keyboard = buildPanel(keyboardModel);
 		addTab(keyboard, KeyboardType.LATIN);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.LATIN, "ABC");
@@ -240,35 +252,6 @@ public class TabbedKeyboard extends FlowPanel
 		widget.getElement().setAttribute("data-test", value);
 	}
 
-	private void buildGUIScientific() {
-		this.tabs = new FlowPanel();
-
-		KeyPanelBase keyboard = buildPanel(
-				factory.getImpl(new ScientificKeyboardFactory()), this);
-		addTab(keyboard, KeyboardType.NUMBERS);
-		//skip more button
-		switcher.addSwitch(keyboard, KeyboardType.NUMBERS, "123");
-		
-		keyboard = buildPanel(
-				factory.getImpl(new ScientificFunctionKeyboardFactory()), this);
-		addTab(keyboard, KeyboardType.OPERATORS);
-		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, KeyboardType.OPERATORS, "f(x)");
-		ScientificLettersKeyboardFactory letterFactory = new ScientificLettersKeyboardFactory();
-		factory.setLetterKeyboardFactory(letterFactory);
-		KeyboardRowDefinitionProvider krp = new KeyboardRowDefinitionProvider(locale);
-		String[] lowerKeys = krp.getLowerKeys();
-		Keyboard letterKeyboard = factory.createLettersKeyboard(lowerKeys[0],
-				lowerKeys[1],
-				lowerKeys[2], krp.getUpperKeys());
-		keyboard = buildPanel(letterKeyboard, this);
-		addTab(keyboard, KeyboardType.ABC);
-		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, KeyboardType.ABC, "ABC");
-
-		layout();
-	}
-
 	private void layout() {
 		add(switcher);
 		add(tabs);
@@ -277,13 +260,12 @@ public class TabbedKeyboard extends FlowPanel
 		addStyleName("gwt-PopupPanel");
 	}
 
-	private KeyPanelBase buildPanel(Keyboard layout, final ButtonHandler bh) {
-		final KeyPanelBase keyboard = new KeyPanelBase(layout);
+	private KeyPanelBase buildPanel(Keyboard layout) {
+		final KeyPanelBase keyboard = new KeyPanelBase(layout, this);
 		layouts.add(layout);
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
-		updatePanel(keyboard, layout, bh);
-		layout.registerKeyboardObserver(l2 -> updatePanel(keyboard, l2, bh));
+		layout.registerKeyboardObserver(keyboard::updatePanel);
 		return keyboard;
 	}
 
@@ -298,69 +280,7 @@ public class TabbedKeyboard extends FlowPanel
 				? BASE_WIDTH : (hasKeyboard.getInnerWidth() - 10) / maxWeightSum);
 	}
 
-	/**
-	 * @param keyboard
-	 *            {@link KeyPanelBase}
-	 * @param layout
-	 *            {@link Keyboard}
-	 * @param bh
-	 *            {@link ButtonHandler}
-	 */
-	void updatePanel(KeyPanelBase keyboard, Keyboard layout, ButtonHandler bh) {
-		keyboard.reset(layout);
-		int index = 0;
-		for (Row row : layout.getModel().getRows()) {
-			for (WeightedButton wb : row.getButtons()) {
-				if (!Action.NONE.name().equals(wb.getPrimaryActionName())) {
-					KeyBoardButtonBase button = makeButton(wb, bh);
-					addSecondary(button, wb);
-					keyboard.addToRow(index, button);
-				}
-			}
-			index++;
-		}
-		updatePanelSize(keyboard);
-	}
-
-	/**
-	 * This is much faster than updatePanel as it doesn't clear the model. It
-	 * assumes the model and button layout are in sync.
-	 */
-	private void updatePanelSize(KeyPanelBase keyboard) {
-		int buttonIndex = 0;
-		int margins = 4;
-		if (keyboard.getLayout() == null) {
-			return;
-		}
-		KeyBoardButtonBase button = null;
-		double weightSum = 6; // initial guess
-		for (Row row : keyboard.getLayout().getModel().getRows()) {
-			weightSum = Math.max(row.getRowWeightSum(), weightSum);
-		}
-		int baseSize = getBaseSize(weightSum);
-		for (Row row : keyboard.getLayout().getModel().getRows()) {
-			double offset = 0;
-			for (WeightedButton wb : row.getButtons()) {
-				if (Action.NONE.name().equals(wb.getPrimaryActionName())) {
-					offset = wb.getWeight();
-				} else {
-					button = keyboard.getButtons().get(buttonIndex);
-					if (offset > 0) {
-						button.getElement().getStyle().setMarginLeft(
-								offset * baseSize + margins / 2d, Unit.PX);
-					}
-					button.getElement().getStyle().setWidth(
-							wb.getWeight() * baseSize - margins, Unit.PX);
-					offset = 0;
-					buttonIndex++;
-				}
-			}
-			if (Action.NONE.name().equals(row.getButtons()
-					.get(row.getButtons().size() - 1).getPrimaryActionName())) {
-				button.getElement().getStyle().setMarginRight(
-						offset * baseSize + margins / 2d, Unit.PX);
-			}
-		}
+	private void resizeContainer() {
 		if (hasKeyboard.getInnerWidth() < getMinWidthWithoutScaling()) {
 			addStyleName("scale");
 			removeStyleName("normal");
@@ -373,23 +293,16 @@ public class TabbedKeyboard extends FlowPanel
 			removeStyleName("scale");
 			removeStyleName("smallerFont");
 		}
-		// set width of switcher contents
-		if (hasKeyboard.getInnerWidth() > 700) {
-			switcher.getContent().getElement().getStyle().setWidth(644,
-					Unit.PX);
-		} else {
-			switcher.getContent().getElement().getStyle()
-					.setWidth(Math.min(644, hasKeyboard.getInnerWidth() - 10), Unit.PX);
-		}
 	}
 
-	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
+	protected KeyBoardButtonBase makeButton(WeightedButton wb) {
+		ButtonHandler b = this;
 		switch (wb.getResourceType()) {
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
 				return new KeyBoardButtonBase(
-						Language.getCurrency(keyboardLocale),
-						Language.getCurrency(keyboardLocale), b);
+						Language.getCurrency(keyboardLanguageTag),
+						Language.getCurrency(keyboardLanguageTag), b);
 			}
 
 			final String name = wb.getPrimaryActionName();
@@ -408,17 +321,10 @@ public class TabbedKeyboard extends FlowPanel
 					locale.getCommand(wb.getPrimaryActionName()),
 					wb.getPrimaryActionName(), b);
 		case DEFINED_CONSTANT:
-			return functionButton(wb, b);
+			return functionButton(wb);
 		case TEXT:
 		default:
 			return textButton(wb, b);
-		}
-	}
-
-	private static void addSecondary(KeyBoardButtonBase btn,
-			WeightedButton wb) {
-		if (wb.getActionsSize() > 1) {
-			btn.setSecondaryAction(wb.getActionName(1));
 		}
 	}
 
@@ -438,8 +344,7 @@ public class TabbedKeyboard extends FlowPanel
 		}
 		if ((Unicode.DIVIDE + "").equals(name)) {
 			// division button in scientific
-			return new KeyBoardButtonBase(Unicode.DIVIDE + "",
-					Unicode.DIVIDE + "", b);
+			return new KeyBoardButtonBase(Unicode.DIVIDE + "", "/", b);
 		}
 		if ("/".equals(name)) {
 			// division button in graphing
@@ -449,13 +354,24 @@ public class TabbedKeyboard extends FlowPanel
 			return new KeyBoardButtonBase("abs", "abs", b);
 		}
 		if ("-".equals(name)) {
-			return new KeyBoardButtonBase(Unicode.MINUS + "", b);
+			return new KeyBoardButtonBase(Unicode.MINUS + "", "-", b);
 		}
-		if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())
-				|| name.equals(Action.SWITCH_TO_GREEK_CHARACTERS.name())
-				|| name.equals(Action.SWITCH_TO_ABC.name())
-				|| name.equals(Action.ANS.name())) {
-			return functionButton(wb, this);
+		if (name.equals(Action.ANS.name())) {
+			return new KeyBoardButtonFunctionalBase("ans", this, Action.ANS);
+		}
+		if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS, this,
+					Action.SWITCH_TO_SPECIAL_SYMBOLS);
+		}
+		if (name.equals(Action.SWITCH_TO_GREEK_CHARACTERS.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardConstants.SWITCH_TO_GREEK_CHARACTERS, this,
+					Action.SWITCH_TO_GREEK_CHARACTERS);
+		}
+		if (name.equals(Action.SWITCH_TO_ABC.name())) {
+			return new KeyBoardButtonFunctionalBase("ABC", this,
+					Action.SWITCH_TO_ABC);
 		}
 
 		String caption = wb.getResourceName();
@@ -506,172 +422,128 @@ public class TabbedKeyboard extends FlowPanel
 		}
 	}
 
-	private KeyBoardButtonBase functionButton(WeightedButton button,
-			ButtonHandler bh) {
-		Localization loc = hasKeyboard.getLocalization();
+	private KeyBoardButtonBase functionButton(WeightedButton button) {
+		LocalizationI loc = hasKeyboard.getLocalization();
 		String resourceName = button.getResourceName();
-		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
+		ButtonHandler bh = this;
+		Resource resource = Resource.EMPTY_IMAGE;
+		try {
+			resource = Resource.valueOf(resourceName);
+		} catch (RuntimeException re) {
+			// not in enum
+		}
+		switch (resource) {
+		case RETURN_ENTER:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_enter_black(), bh,
-					Action.RETURN_ENTER, loc, "altText.Enter");
-		} else if (resourceName.equals(Resource.BACKSPACE_DELETE.name())) {
+					Action.RETURN_ENTER, loc, resource.altText);
+		case BACKSPACE_DELETE:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_backspace(), bh,
-					Action.BACKSPACE_DELETE, loc, "altText.Backspace");
-		} else if (resourceName.equals(Resource.LEFT_ARROW.name())) {
+					Action.BACKSPACE_DELETE, loc, resource.altText);
+		case LEFT_ARROW:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), bh,
-					Action.LEFT_CURSOR, loc, "altText.LeftArrow");
-		} else if (resourceName.equals(Resource.RIGHT_ARROW.name())) {
+					Action.LEFT_CURSOR, loc, resource.altText);
+		case RIGHT_ARROW:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowRight_black(), bh,
-					Action.RIGHT_CURSOR, loc, "altText.RightArrow");
-		}  else if (resourceName.equals(Resource.DOWN_ARROW.name())) {
+					Action.RIGHT_CURSOR, loc, resource.altText);
+		case DOWN_ARROW:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowDown_black(), bh,
-					Action.DOWN_CURSOR, loc, "altText.DownArrow");
-		}  else if (resourceName.equals(Resource.UP_ARROW.name())) {
+					Action.DOWN_CURSOR, loc, resource.altText);
+		case UP_ARROW:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowUp_black(), bh,
-					Action.UP_CURSOR, loc, "altText.UpArrow");
-		} else if (resourceName.equals(Resource.POWA2.name())) {
-			return new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.square(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Square");
-		} else if (resourceName.equals(Resource.FRACTION.name())) {
+					Action.UP_CURSOR, loc, resource.altText);
+		case FRACTION:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.fraction(),
-					"/", bh, false, loc,
-					"altText.Fraction");
-		} else if (resourceName.equals(Resource.INVERSE.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.inverse(),
-					Unicode.SUPERSCRIPT_MINUS_ONE_STRING, bh, false, 
-					loc, "altText.Inverse");
-		} else if (resourceName.equals(Resource.POWAB.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.power(),
-					button.getPrimaryActionName(), bh, false, loc, "altText.Power");
-		} else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
+					"/", bh, loc,
+					resource.altText);
+		case CAPS_LOCK:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shift(), bh,
-					Action.CAPS_LOCK, loc, "altText.CapsLockInactive");
-		} else if (resourceName.equals(Resource.CAPS_LOCK_ENABLED.name())) {
+					Action.CAPS_LOCK, loc, resource.altText);
+		case CAPS_LOCK_ENABLED:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
-					Action.CAPS_LOCK, loc, "altText.CapsLockActive");
-		} else if (resourceName.equals(Resource.POW10_X.name())) {
-			return new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.ten_power(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.PowTen");
-		} else if (resourceName.equals(Resource.POWE_X.name())) {
-			return  new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.e_power(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.PowE");
-		} else if (resourceName.equals(Resource.LOG_10.name())) {
+					Action.CAPS_LOCK, loc, resource.altText);
+		case LOG_10:
 			return new KeyBoardButtonBase("log_10",
-					loc.getAltText("altText.log10"),
+					loc.getAltText(resource.altText),
 					button.getPrimaryActionName(), bh);
-		} else if (resourceName.equals(Resource.LOG_B.name())) {
-			return  new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.log(),
-					button.getPrimaryActionName(), bh, true, loc, "altText.LogB");
-		} else if (resourceName.equals(Resource.A_N.name())) {
+		case A_N:
 			return new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.subscript(),
-					"_", bh, false, loc, "altText.Subscript");
-		} else if (resourceName.equals(Resource.N_ROOT.name())) {
-			return  new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.n_root(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Root");
-		} else if (resourceName.equals(Resource.INTEGRAL.name())) {
+					KeyboardResources.INSTANCE.subscript(),
+					"_", bh, loc, resource.altText);
+		case INTEGRAL:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.integral(),
-					button.getPrimaryActionName(), bh, loc, "Integral");
-		} else if (resourceName.equals(Resource.DERIVATIVE.name())) {
+					button.getPrimaryActionName(), bh, loc, resource.altText);
+		case DERIVATIVE:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.derivative(),
-					button.getPrimaryActionName(), bh, loc, "Derivative");
-		} else if (resourceName.equals(Resource.ABS.name())) {
+					button.getPrimaryActionName(), bh, loc, resource.altText);
+		case ABS:
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.abs(),
-					"abs", bh, false, loc, "altText.Abs");
-		} else if (resourceName.equals(Resource.CEIL.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.ceil(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Ceil");
-		} else if (resourceName.equals(Resource.FLOOR.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.floor(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Floor");
-		} else if (resourceName.equals(Resource.DEFINITE_INTEGRAL.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.definite_integral(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.DefiniteIntegral");
-		} else if (resourceName.equals(Resource.LIM.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.lim(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Lim");
-		} else if (resourceName.equals(Resource.PRODUCT.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.product(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Product");
-		} else if (resourceName.equals(Resource.SUM.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.sum(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Sum");
-		} else if (resourceName.equals(Resource.VECTOR.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.vector(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Vector");
-		} else if (resourceName.equals(Resource.ATOMIC_POST.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.atomic_post(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.AtomicPost");
-		} else if (resourceName.equals(Resource.ATOMIC_PRE.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.atomic_pre(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.AtomicPre");
+					"abs", bh, loc, resource.altText);
 		}
 
-		if (resourceName.equals(Resource.ROOT.name())) {
+		SVGResource svg = getSvg(resource);
+		if (svg != null) {
 			return new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.sqrt(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.SquareRoot");
-		}
-		if (KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS.equals(resourceName)) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS, bh,
-					Action.SWITCH_TO_SPECIAL_SYMBOLS);
-		}
-		if (KeyboardConstants.SWITCH_TO_GREEK_CHARACTERS.equals(resourceName)) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardConstants.SWITCH_TO_GREEK_CHARACTERS, bh,
-					Action.SWITCH_TO_GREEK_CHARACTERS);
-		}
-		if ("ABC".equals(resourceName)) {
-			return new KeyBoardButtonFunctionalBase("ABC", bh,
-					Action.SWITCH_TO_ABC);
-		}
-		if ("ans".equals(resourceName)) {
-			return new KeyBoardButtonFunctionalBase("ans", bh, Action.ANS);
+					svg, button.getPrimaryActionName(),
+					this, loc, resource.altText);
 		}
 		return new KeyBoardButtonBase(button.getPrimaryActionName(),
 				button.getPrimaryActionName(), bh);
+	}
+
+	private SVGResource getSvg(Resource keyboardResource) {
+		switch (keyboardResource) {
+		case POWA2:
+			return KeyboardResources.INSTANCE.square();
+		case INVERSE:
+			return KeyboardResources.INSTANCE.inverse();
+		case POWAB:
+			return KeyboardResources.INSTANCE.power();
+		case POW10_X:
+			return KeyboardResources.INSTANCE.ten_power();
+		case POWE_X:
+			return KeyboardResources.INSTANCE.e_power();
+		case N_ROOT:
+			return KeyboardResources.INSTANCE.n_root();
+		case LOG_B:
+			return KeyboardResources.INSTANCE.log();
+		case CEIL:
+			return KeyboardResources.INSTANCE.ceil();
+		case FLOOR:
+			return KeyboardResources.INSTANCE.floor();
+		case DEFINITE_INTEGRAL:
+			return KeyboardResources.INSTANCE.definite_integral();
+		case LIM:
+			return KeyboardResources.INSTANCE.lim();
+		case PRODUCT:
+			return KeyboardResources.INSTANCE.product();
+		case SUM:
+			return KeyboardResources.INSTANCE.sum();
+		case VECTOR:
+			return KeyboardResources.INSTANCE.vector();
+		case ATOMIC_POST:
+			return KeyboardResources.INSTANCE.atomic_post();
+		case ATOMIC_PRE:
+			return KeyboardResources.INSTANCE.atomic_pre();
+		case ROOT:
+			return KeyboardResources.INSTANCE.sqrt();
+		case MIXED_NUMBER:
+			return KeyboardResources.INSTANCE.mixed_number();
+		case RECURRING_DECIMAL:
+			return KeyboardResources.INSTANCE.recurring_decimal();
+		default: return null;
+		}
 	}
 
 	@Override
@@ -693,9 +565,10 @@ public class TabbedKeyboard extends FlowPanel
 		for (int i = 0; tabs != null && i < tabs.getWidgetCount(); i++) {
 			Widget wdgt = tabs.getWidget(i);
 			if (wdgt instanceof KeyPanelBase) {
-				updatePanelSize((KeyPanelBase) wdgt);
+				((KeyPanelBase) wdgt).updatePanelSize();
 			}
 		}
+		resizeContainer();
 	}
 
 	private void updateHeight() {
@@ -712,19 +585,18 @@ public class TabbedKeyboard extends FlowPanel
 	public void checkLanguage() {
 		switcher.reset();
 
-		// TODO validate?
-		String newKeyboardLocale = hasKeyboard.getLocalization().getLocaleStr();
+		String newKeyboardLocale = hasKeyboard.getLocalization().getLanguageTag();
 		if ((newKeyboardLocale != null
-				&& newKeyboardLocale.equals(keyboardLocale)) || factory == null) {
+				&& newKeyboardLocale.equals(keyboardLanguageTag)) || factory == null) {
 			return;
 		}
 
 		switcher.clear();
 		switcher.setup();
 		if (newKeyboardLocale != null) {
-			this.keyboardLocale = newKeyboardLocale;
+			this.keyboardLanguageTag = newKeyboardLocale;
 		} else {
-			this.keyboardLocale = Language.English_US.getLocaleGWT();
+			this.keyboardLanguageTag = Language.English_US.toLanguageTag();
 		}
 
 		clear();
@@ -735,7 +607,7 @@ public class TabbedKeyboard extends FlowPanel
 	 * rebuilds the keyboard layout based on the inputbox type
 	 */
 	public void clearAndUpdate() {
-		KeyboardFactory newFactory = initKeyboardFactory(hasKeyboard.getInputBoxType());
+		KeyboardFactory newFactory = initKeyboardFactory();
 		if (Objects.equals(factory, newFactory)) {
 			return;
 		} else {
@@ -752,11 +624,13 @@ public class TabbedKeyboard extends FlowPanel
 	 * (Re)build the UI.
 	 */
 	public void buildGUI() {
+		this.tabs = new FlowPanel();
 		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
 			buildGUIScientific();
 		} else {
 			buildGUIGgb();
 		}
+		resizeContainer();
 	}
 
 	@Override
@@ -790,19 +664,16 @@ public class TabbedKeyboard extends FlowPanel
 	 * @param keyboardType type of the keyboard
 	 * @return panel
 	 */
-	public Widget getKeyboard(KeyboardType keyboardType) {
+	public KeyPanelBase getKeyboard(KeyboardType keyboardType) {
 		return keyboardMap.get(keyboardType);
 	}
 
 	/**
-	 * check the minimum width. Either width of ABC panel or 123 panel. 70 =
-	 * width of button; 82 = padding
-	 *
+	 * Width of ABC panel is 10 * 70 + 82 (70 = width of button; 82 = padding)
+	 * Width of numbers panel is 850.
 	 */
 	private static int getMinWidthWithoutScaling() {
-		int abc = 10 * 70 + 82;
-		int numbers = 850;
-		return Math.max(abc, numbers);
+		return 850;
 	}
 
 	/**
@@ -868,6 +739,9 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void setSelected(KeyboardSwitcher.SwitcherButton btn, boolean selected) {
+		if (selected) {
+			btn.getKeyboard().updatePanel();
+		}
 		btn.getKeyboard().setVisible(selected);
 		switcher.setSelected(btn, selected);
 	}
@@ -900,7 +774,7 @@ public class TabbedKeyboard extends FlowPanel
 			} else
 			// matches sin, cos, tan, asin, acos, atan
 			if ((text.length() == 3 || text.length() == 4)
-					&& "asin acos atan".indexOf(text) > -1) {
+					&& "asin acos atan".contains(text)) {
 				text = hasKeyboard.getLocalization().getFunction(text);
 			}
 
@@ -931,7 +805,7 @@ public class TabbedKeyboard extends FlowPanel
 			// make sure enter is processed correctly
 			processField.onEnter();
 			if (processField.resetAfterEnter()) {
-				getUpdateKeyBoardListener().keyBoardNeeded(false, null);
+				getUpdateKeyBoardListener().closeKeyboard();
 			}
 			break;
 		case SWITCH_TO_SPECIAL_SYMBOLS:

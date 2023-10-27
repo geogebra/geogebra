@@ -13,18 +13,19 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.util.DataTest;
+import org.geogebra.web.html5.util.HasDataTest;
 import org.geogebra.web.html5.util.TestHarness;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Item action bar
  *
  */
 public class ItemControls extends FlowPanel
-		implements AnimPanelListener, SetLabels {
+		implements AnimPanelListener, SetLabels, HasDataTest {
 
 	private final RadioTreeItem radioTreeItem;
 	private final LatexTreeItemController ctrl;
@@ -60,7 +61,6 @@ public class ItemControls extends FlowPanel
 		if (btnMore == null) {
 			btnMore = new StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
 			btnMore.addStyleName("more");
-			TestHarness.setAttr(btnMore, "avItemMoreButton");
 			btnMore.addFastClickHandler((event) -> {
 					getController().preventBlur();
 					openMoreMenu();
@@ -135,7 +135,7 @@ public class ItemControls extends FlowPanel
 	}
 
 	private void showMoreMenu() {
-		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
+		cmMore.show(btnMore, 0, - 8);
 	}
 
 	private void cancelEditItem() {
@@ -374,6 +374,14 @@ public class ItemControls extends FlowPanel
 		}
 		if (animPanel != null) {
 			animPanel.setLabels(this.radioTreeItem.loc);
+		}
+	}
+
+	@Override
+	public void updateDataTest(int index) {
+		DataTest.ALGEBRA_ITEM_MORE_BUTTON.applyWithIndex(btnMore, index);
+		if (animPanel != null) {
+			animPanel.updateDataTest(index);
 		}
 	}
 }

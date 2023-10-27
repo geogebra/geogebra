@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -842,12 +841,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				// and find smallest one
 				// subsampling needed in case there are two eg minimums and we
 				// get the wrong one with extrFinder.findMinimum()
-				// Application.debug(left + " "+ visibleMin+" "+right +
-				// " "+visibleMax);
 				// subsample visible bit only
 				if (doSubSamples && ((STEP > 0 ? left : right) < visibleMax
 						&& (STEP > 0 ? right : left) > visibleMin)) {
-					// Application.debug("subsampling from "+left+" to "+right);
 					double y, minSample = left;
 					for (double x = left; x < right; x += subStep) {
 						y = fmin.value(x);
@@ -1265,7 +1261,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 		}
 		double val = f.value(bd);
-		return MyDouble.isFinite(val);
+		return Double.isFinite(val);
 	}
 
 	/**

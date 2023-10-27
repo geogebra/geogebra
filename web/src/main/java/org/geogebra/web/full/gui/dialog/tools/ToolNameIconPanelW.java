@@ -8,14 +8,15 @@ import org.geogebra.web.full.gui.ImageResizer;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
+import org.gwtproject.user.client.ui.FileUpload;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
 
 /**
  * Panel of Tool Creation Dialog. Contains tool name, command name, help and
@@ -57,11 +58,11 @@ public class ToolNameIconPanelW extends FlowPanel {
 	}
 
 	/**
-	 * 
 	 * @param app
 	 *            application
+	 * @param parent parent dialog
 	 */
-	public ToolNameIconPanelW(final App app) {
+	public ToolNameIconPanelW(final App app, GPopupPanel parent) {
 		this.app = (AppW) app;
 
 		listener = null;
@@ -94,7 +95,11 @@ public class ToolNameIconPanelW extends FlowPanel {
 				32);
 		StandardButton labelIcon = new StandardButton(loc.getMenu("Icon") + " ...");
 		labelIcon.addFastClickHandler(event -> {
-			UploadImagePanel.getUploadButton((AppW) app, this::resizeAndUpdateIcon).click();
+			FileUpload uploadButton =
+					UploadImagePanel.getUploadButton((AppW) app, this::resizeAndUpdateIcon);
+			// make sure synthetic click on file upload is not canceled
+			parent.addAutoHidePartner(uploadButton.getElement());
+			uploadButton.click();
 		});
 
 		if (!this.app.enableFileFeatures()) {
@@ -197,9 +202,7 @@ public class ToolNameIconPanelW extends FlowPanel {
 		String cmdName = getCommandName();
 		if (!macro.getCommandName().equals(cmdName)) {
 			// try to change
-			boolean cmdNameChanged = app.getKernel().setMacroCommandName(macro,
-			        cmdName);
-			if (!cmdNameChanged) {
+			if (!app.getKernel().setMacroCommandName(macro, cmdName)) {
 				// name used by macro: undo textfield change
 				tfCmdName.setInputText(macro.getCommandName());
 			}

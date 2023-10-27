@@ -3,8 +3,7 @@ package org.geogebra.web.html5.gui.util;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Image;
 
 /**
  * Image that prevents dragging by default
@@ -96,10 +95,10 @@ public class NoDragImage extends Image implements HasResource {
 	}
 
 	/**
-	 * Sets the ARIA role to presentation, effectively making this invisible to
-	 * screen readers
+	 * Mark image as presentation-only by setting empty alt.
+	 * Preferable to aria role because of wider support.
 	 */
 	public void setPresentation() {
-		getElement().setAttribute("role", "presentation");
+		getElement().setAttribute("alt", "");
 	}
 }

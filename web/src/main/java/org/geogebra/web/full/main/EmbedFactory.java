@@ -1,6 +1,5 @@
 package org.geogebra.web.full.main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EmbedManager;
@@ -9,9 +8,10 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.media.MediaURLParser;
-import org.geogebra.common.move.ggtapi.models.Chapter;
-import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
+import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -21,11 +21,9 @@ import org.geogebra.web.full.gui.dialog.MediaDialog;
 import org.geogebra.web.full.gui.dialog.MediaInputPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
-import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.user.client.DOM;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NodeList;
+import org.gwtproject.user.client.DOM;
 
 import elemental2.dom.DomGlobal;
 
@@ -74,7 +72,7 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 		}
 		String materialId = getGeoGebraMaterialId(url);
 		if (!StringUtil.empty(materialId)) {
-			getGeoGebraTubeAPI().getItem(materialId, this);
+			getResourcesAPI().getItem(materialId, this);
 		} else {
 			urlChecker.check(MediaURLParser.toEmbeddableUrl(url), this);
 		}
@@ -92,9 +90,8 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 		return MediaDialog.addProtocol(input);
 	}
 
-	private GeoGebraTubeAPI getGeoGebraTubeAPI() {
-		return new GeoGebraTubeAPIW(app.getClientInfo(),
-				false, app.getAppletParameters());
+	private MaterialRestAPI getResourcesAPI() {
+		return new MaterialRestAPI(MaterialRestAPI.marvlUrl, new MarvlService());
 	}
 
 	private String getGeoGebraMaterialId(String url) {
@@ -146,7 +143,7 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 	}
 
 	@Override
-	public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+	public void onLoaded(List<Material> result, Pagination meta) {
 		if (result.size() < 1) {
 			onError(null);
 		} else {

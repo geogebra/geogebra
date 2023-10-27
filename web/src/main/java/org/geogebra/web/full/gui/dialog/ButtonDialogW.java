@@ -1,24 +1,22 @@
 package org.geogebra.web.full.gui.dialog;
 
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.dialog.ButtonDialogModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.util.ScriptArea;
-import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Dialog for creating buttons and inputboxes
@@ -26,10 +24,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class ButtonDialogW extends ComponentDialog
 		implements HasKeyboardPopup {
-	private AutoCompleteTextFieldW tfCaption;
-	private ButtonDialogModel model;
+	private ComponentInputField captionInput;
+	private final ButtonDialogModel model;
 	private ScriptArea tfScript;
-	private Localization loc;
+	private final Localization loc;
 
 	/**
 	 * @param app
@@ -51,7 +49,7 @@ public class ButtonDialogW extends ComponentDialog
 		model = new ButtonDialogModel(app, x, y, inputBox);
 		addStyleName(inputBox ? "inputboxDialog" : "buttonDialog");
 		buildContent();
-		setOnPositiveAction(() -> model.apply(tfCaption.getText(), tfScript.getText()));
+		setOnPositiveAction(() -> model.apply(captionInput.getText(), tfScript.getText()));
 		if (!app.isWhiteboardActive()) {
 			app.registerPopup(this);
 		}
@@ -64,52 +62,15 @@ public class ButtonDialogW extends ComponentDialog
 
 	private void buildContent() {
 		// create caption panel
-		Label captionLabel = new Label(
-				app.isUnbundledOrWhiteboard() ? loc.getMenu("Button.Caption")
-						: loc.getMenu("Button.Caption") + ":");
-		if (app.isUnbundledOrWhiteboard()) {
-			captionLabel.addStyleName("coloredLabel");
-		}
 
 		String initString = model.getInitString();
-		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);
-		tfCaption = ip.getTextComponent();
-		if (tfCaption != null) {
-			tfCaption.setAutoComplete(false);
-		}
 
-		VerticalPanel captionPanel = new VerticalPanel();
-		captionPanel.add(captionLabel);
-		captionPanel.add(ip);
-		captionPanel.addStyleName("captionPanel");
+		captionInput = new ComponentInputField((AppW) app, "",
+				"Button.Caption", "", initString, -1, 1, null);
+		captionInput.getTextField().getTextComponent().setAutoComplete(false);
 
-		// combo box to link GeoElement to TextField
-		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
-
-		final ListBox cbAdd = new ListBox();
-		cbAdd.addItem("");
-		if (model.isTextField()) {
-			// lists for combo boxes to select input and output objects
-			// fill combobox models
-			for (GeoElement geo : sortedSet) {
-				if (!geo.isGeoImage() && !(geo.isGeoButton()) && !(geo.isGeoBoolean())) {
-					String str = geo.toString(StringTemplate.defaultTemplate);
-					cbAdd.addItem(str);
-				}
-			}
-
-			if (cbAdd.getItemCount() > 1) {
-				cbAdd.addChangeHandler(event -> updateModel(cbAdd));
-			}
-		}
-
-		Label scriptLabel = new Label(
-				app.isUnbundledOrWhiteboard()
-				? loc.getMenu("Script") : loc.getMenu("Script") + ":");
-		if (app.isUnbundledOrWhiteboard()) {
-			scriptLabel.addStyleName("coloredLabel");
-		}
+		Label scriptLabel = new Label(loc.getMenu("Script"));
+		scriptLabel.addStyleName("coloredLabel");
 		tfScript = new ScriptArea((AppW) app);
 		tfScript.enableGGBKeyboard();
 
@@ -117,23 +78,20 @@ public class ButtonDialogW extends ComponentDialog
 		scriptPanel.add(scriptLabel);
 		scriptPanel.add(tfScript);
 
-		VerticalPanel linkedPanel = new VerticalPanel();
-		Label linkedLabel = new Label(
-				app.isUnbundledOrWhiteboard() ? loc.getMenu("LinkedObject")
-						: loc.getMenu("LinkedObject") + ":");
-		if (app.isUnbundledOrWhiteboard()) {
-			linkedLabel.addStyleName("coloredLabel");
-		}
-		linkedPanel.add(linkedLabel);
-		linkedPanel.add(cbAdd);
-
 		FlowPanel contentPanel = new FlowPanel();
-
 		// create object list
-		contentPanel.add(captionPanel);
+		contentPanel.add(captionInput);
 
 		if (model.isTextField()) {
-			contentPanel.add(linkedPanel);
+			ArrayList<GeoElement> options = model.getLinkableObjects();
+			List<String> optionNames = options.stream()
+					.map(geo -> geo == null ? "" : geo.toString(StringTemplate.defaultTemplate))
+					.collect(Collectors.toList());
+			CompDropDown linkedDropDown = new CompDropDown((AppW) app, "LinkedObject", optionNames);
+			linkedDropDown.addChangeHandler(() -> updateModel(linkedDropDown, options));
+			linkedDropDown.setDisabled(options.size() < 2);
+			linkedDropDown.setFullWidth(true);
+			contentPanel.add(linkedDropDown);
 		} else {
 			contentPanel.add(scriptPanel);
 		}
@@ -146,28 +104,8 @@ public class ButtonDialogW extends ComponentDialog
 	 * @param cbAdd
 	 *            list of geos
 	 */
-	protected void updateModel(ListBox cbAdd) {
-		String text = cbAdd.getItemText(cbAdd.getSelectedIndex());
-		if ("".equals(text.trim())) {
-			model.setLinkedGeo(null);
-		}
-		GeoElement geo = getGeo(text);
-		if (geo == null) {
-			return;
-		}
-		model.setLinkedGeo(geo);
+	protected void updateModel(CompDropDown cbAdd, ArrayList<GeoElement> options) {
+		model.setLinkedGeo(options.get(cbAdd.getSelectedIndex()));
 	}
 
-	private GeoElement getGeo(String text) {
-		TreeSet<GeoElement> sortedSet1 = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
-		Iterator<GeoElement> it1 = sortedSet1.iterator();
-		while (it1.hasNext()) {
-			GeoElement geo = it1.next();
-			if (text.equals(geo.toString(StringTemplate.defaultTemplate))) {
-				return geo;
-			}
-		}
-		return null;
-	}
 }

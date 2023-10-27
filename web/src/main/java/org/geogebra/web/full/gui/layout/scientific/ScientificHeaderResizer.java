@@ -3,8 +3,7 @@ package org.geogebra.web.full.gui.layout.scientific;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 public class ScientificHeaderResizer implements HeaderResizer {
 
@@ -23,6 +22,8 @@ public class ScientificHeaderResizer implements HeaderResizer {
 			} else {
 				header.removeClassName("smallScreen");
 			}
+			Dom.toggleClass(header, "portrait", "landscape",
+					frame.getApp().isPortrait());
 		}
 	}
 

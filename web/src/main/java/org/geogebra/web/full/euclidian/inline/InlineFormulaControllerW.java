@@ -10,12 +10,14 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.Panel;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 
 public class InlineFormulaControllerW implements InlineFormulaController {
@@ -60,9 +62,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		parent.add(widget);
 
 		this.style = widget.getElement().getStyle();
-		style.setPosition(Style.Position.ABSOLUTE);
+		style.setPosition(Position.ABSOLUTE);
 		style.setProperty("transformOrigin", "0px 0px");
-		style.setPaddingLeft(DrawFormula.PADDING, Style.Unit.PX);
+		style.setPaddingLeft(DrawFormula.PADDING, Unit.PX);
 
 		mathFieldEditor.attach(widget);
 		mathFieldEditor.getMathField().setFixMargin(DrawFormula.PADDING);
@@ -74,19 +76,19 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	public void setLocation(int x, int y) {
 		// clamp forces the  editor to be in visible area, may still be behind keyboard
 		style.setLeft(MyMath.clamp(x, 0,
-				widget.getParent().getOffsetWidth() - formula.getMinWidth()), Style.Unit.PX);
+				widget.getParent().getOffsetWidth() - formula.getMinWidth()), Unit.PX);
 		style.setTop(MyMath.clamp(y, 0,
-				widget.getParent().getOffsetHeight() - formula.getMinHeight()), Style.Unit.PX);
+				widget.getParent().getOffsetHeight() - formula.getMinHeight()), Unit.PX);
 	}
 
 	@Override
 	public void setWidth(int width) {
-		style.setWidth(width, Style.Unit.PX);
+		style.setWidth(width, Unit.PX);
 	}
 
 	@Override
 	public void setHeight(int height) {
-		style.setHeight(height, Style.Unit.PX);
+		style.setHeight(height, Unit.PX);
 	}
 
 	@Override
@@ -211,8 +213,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onTab(boolean shiftDown) {
+		public boolean onTab(boolean shiftDown) {
 			// do nothing
+			return true;
 		}
 	}
 }

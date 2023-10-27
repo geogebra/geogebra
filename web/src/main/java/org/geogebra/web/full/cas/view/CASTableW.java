@@ -12,17 +12,16 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.TableCellElement;
-import com.google.gwt.dom.client.TableRowElement;
-import com.google.gwt.event.dom.client.HumanInputEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.TableCellElement;
+import org.gwtproject.dom.client.TableRowElement;
+import org.gwtproject.event.dom.client.HumanInputEvent;
+import org.gwtproject.event.dom.client.MouseUpEvent;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.Grid;
+import org.gwtproject.user.client.ui.HTMLTable;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * CAS table
@@ -37,7 +36,7 @@ public class CASTableW extends Grid implements CASTable {
 	private AppW app;
 	private int[] selectedRows = new int[0];
 	private CASTableControllerW ml;
-	private CASViewW view;
+	private final CASViewW view;
 
 	/**
 	 * @param app
@@ -54,8 +53,8 @@ public class CASTableW extends Grid implements CASTable {
 		this.ml = controller;
 
 		addStyleName("CAS-table");
-		insertRow(0, null, false);
 		view = casViewW;
+		insertRow(0, null, false);
 	}
 
 	@Override
@@ -95,7 +94,7 @@ public class CASTableW extends Grid implements CASTable {
 			this.insertRow(n);
 		}
 		// update keys (rows) in arbitrary constant table
-		updateAfterInsertArbConstTable(rows);
+		view.updateAfterInsertArbConstTable(rows);
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell,
 		        (AppW) getApplication());
@@ -121,35 +120,6 @@ public class CASTableW extends Grid implements CASTable {
 		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
 		outputWidget.addBitlessDomHandler(ml, TouchEndEvent.getType());
 		ClickStartHandler.initDefaults(outputWidget, true, true);
-	}
-
-	/**
-	 * Updates arbitraryConstantTable in construction.
-	 * 
-	 * @param row
-	 *            row index (starting from 0) where cell insertion is done
-	 */
-	private void updateAfterInsertArbConstTable(int row) {
-		if (app.getKernel().getConstruction().getArbitraryConsTable()
-				.size() > 0) {
-			// find last row number
-			Integer max = Collections.max(app.getKernel().getConstruction()
-					.getArbitraryConsTable().keySet());
-			for (int key = max; key >= row; key--) {
-				MyArbitraryConstant myArbConst = app.getKernel()
-						.getConstruction()
-					.getArbitraryConsTable().get(key);
-				if (myArbConst != null
-					&& !app.getKernel().getConstruction().isCasCellUpdate()
-					&& !app.getKernel().getConstruction().isFileLoading()
-					&& app.getKernel().getConstruction().isNotXmlLoading()) {
-					app.getKernel().getConstruction().getArbitraryConsTable()
-						.remove(key);
-					app.getKernel().getConstruction().getArbitraryConsTable()
-						.put(key + 1, myArbConst);
-				}
-			}
-		}
 	}
 
 	@Override
@@ -470,14 +440,14 @@ public class CASTableW extends Grid implements CASTable {
 	/**
 	 * Return value for {@link HTMLTable#getCellForEvent}.
 	 */
-	public class MyCell extends HTMLTable.Cell {
+	public class CellCoordinates extends HTMLTable.Cell {
 		/**
 		 * @param rowIndex
 		 *            row
 		 * @param cellIndex
 		 *            column
 		 */
-		public MyCell(int rowIndex, int cellIndex) {
+		public CellCoordinates(int rowIndex, int cellIndex) {
 			super(rowIndex, cellIndex);
 		}
 	}
@@ -491,7 +461,7 @@ public class CASTableW extends Grid implements CASTable {
 	 *            A click event of indeterminate origin
 	 * @return The appropriate cell, or null
 	 */
-	public MyCell getCellForEvent(HumanInputEvent<?> event) {
+	public CellCoordinates getCellForEvent(HumanInputEvent<?> event) {
 		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
 		if (td == null) {
 			return null;
@@ -500,7 +470,7 @@ public class CASTableW extends Grid implements CASTable {
 		int row = TableRowElement.as(td.getParentElement())
 				.getSectionRowIndex();
 		int column = TableCellElement.as(td).getCellIndex();
-		return new MyCell(row, column);
+		return new CellCoordinates(row, column);
 	}
 
 	/**

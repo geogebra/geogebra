@@ -1,14 +1,13 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Popup menu following the Material Design.
@@ -48,6 +47,13 @@ public class ComponentDropDownPopup {
 	 */
 	public void addItem(AriaMenuItem item) {
 		menu.addItem(item);
+	}
+
+	/**
+	 * add divider
+	 */
+	public void addDivider() {
+		menu.addVerticalSeparator();
 	}
 
 	/**
@@ -99,13 +105,15 @@ public class ComponentDropDownPopup {
 			menu.showAtPoint(getLeft(), popupTopWithMargin);
 			if (appBottom < popupTopWithMargin + getPopupHeight()) {
 				// popup bottom overflow, use available space and make scrollable
-				setHeightInPx(
-						appBottom - popupTopWithMargin - MARGIN_FROM_SCREEN - 2 * POPUP_PADDING);
+				setHeightInPx((int) (appBottom - popupTopWithMargin - MARGIN_FROM_SCREEN
+										- 2 * POPUP_PADDING - app.getAbsTop()));
 				if (popupTop < MARGIN_FROM_SCREEN) {
 					// selected item not on screen, scroll popup
 					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
 					setScrollTop(getSelectedItemTop() - diffAnchorPopupTop);
 				}
+			} else {
+				getStyle().setProperty("height", "");
 			}
 		}
 		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
@@ -116,31 +124,33 @@ public class ComponentDropDownPopup {
 	 * on top of the anchor otherwise.
 	 */
 	public void positionAsComboBox() {
-		int spaceBottom = (int) (app.getHeight()
-				- anchor.getElement().getAbsoluteBottom());
-		int spaceTop = anchor.getElement().getAbsoluteTop() - MARGIN_FROM_SCREEN;
+		int anchorBottom = (int) (anchor.getElement().getAbsoluteBottom() - app.getAbsTop());
+		int spaceBottom = (int) (app.getHeight() - anchorBottom);
+		int spaceTop = (int) (anchor.getElement().getAbsoluteTop() - app.getAbsTop()
+				- MARGIN_FROM_SCREEN);
 		int minSpaceBottom = 3 * getItemHeight() + MARGIN_FROM_SCREEN + POPUP_PADDING;
 		int popupHeight = getPopupHeight();
 
 		if (spaceBottom < minSpaceBottom) {
 			showAtTopOfAnchor(popupHeight, spaceTop);
 		} else {
-			showAtBottomOfAnchor(popupHeight, spaceBottom);
+			showAtBottomOfAnchor(popupHeight, anchorBottom);
 		}
 	}
 
 	private void showAtTopOfAnchor(int popupHeight, int spaceTop) {
-		int popupTop = popupHeight > spaceTop ? (int) app.getAbsTop() + MARGIN_FROM_SCREEN
-				: anchor.asWidget().getAbsoluteTop() - popupHeight;
-		showAtPoint(anchor.getAbsoluteLeft(), popupTop);
+		int popupTop = popupHeight > spaceTop ? MARGIN_FROM_SCREEN
+				: (int) (anchor.asWidget().getAbsoluteTop() - app.getAbsTop() - popupHeight);
+		showAtPoint(getLeft(), popupTop);
 
 		if (popupHeight > spaceTop) {
 			setHeightAndScrollTop(spaceTop);
 		}
 	}
 
-	private void showAtBottomOfAnchor(int popupHeight, int spaceBottom) {
-		showAtPoint(anchor.getAbsoluteLeft(), anchor.getElement().getAbsoluteBottom());
+	private void showAtBottomOfAnchor(int popupHeight, int bottomPos) {
+		showAtPoint(getLeft(), bottomPos);
+		int spaceBottom = (int) (app.getHeight() - bottomPos);
 		if (popupHeight > spaceBottom) {
 			setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
 		}

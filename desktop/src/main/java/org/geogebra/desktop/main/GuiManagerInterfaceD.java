@@ -37,8 +37,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	boolean belongsToToolCreator(ListCellRenderer renderer);
 
-	void login();
-
 	Component getInputHelpPanel();
 
 	void resetCasView();
@@ -68,4 +66,5 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	void showURLinBrowser(String strURL);
 
 	void updateToolbarDefinition();
+
 }

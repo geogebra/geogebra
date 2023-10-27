@@ -8,6 +8,8 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.bridge.AttributeProvider;
+import org.geogebra.web.html5.bridge.MapAttributeProvider;
 
 /**
  *
@@ -23,26 +25,26 @@ public class AppletParameters {
 	 *            name of app
 	 */
 	public AppletParameters(String appName) {
-		this.attributeProvider = new MapAttributeProvider();
+		this.attributeProvider = new MapAttributeProvider(null);
 		setAttribute("appName", appName);
 		setAttribute("width", "800");
 		setAttribute("height", "600");
 	}
 
-	public AppletParameters(GeoGebraElement element) {
+	public AppletParameters(AttributeProvider element) {
 		this.attributeProvider = element;
 	}
 
 	private String getAttribute(String attribute) {
-		return attributeProvider.getAttribute("data-param-" + attribute);
+		return attributeProvider.getAttribute(attribute);
 	}
 
-	private boolean hasAttribute(String attribute) {
-		return attributeProvider.hasAttribute("data-param-" + attribute);
+	public boolean hasAttribute(String attribute) {
+		return attributeProvider.hasAttribute(attribute);
 	}
 
 	public void removeAttribute(String attribute) {
-		attributeProvider.removeAttribute("data-param-" + attribute);
+		attributeProvider.removeAttribute(attribute);
 	}
 
 	/**
@@ -51,7 +53,7 @@ public class AppletParameters {
 	 * @return this
 	 */
 	public AppletParameters setAttribute(String attribute, String value) {
-		attributeProvider.setAttribute("data-param-" + attribute, value);
+		attributeProvider.setAttribute(attribute, value);
 		return this;
 	}
 
@@ -518,6 +520,13 @@ public class AppletParameters {
 	/**
 	 * @return URL of materials plaftform API (empty string if not set)
 	 */
+	public String getMaterialId() {
+		return getStringDataParam("material_id", "");
+	}
+
+	/**
+	 * @return URL of materials plaftform API (empty string if not set)
+	 */
 	public String getLoginAPIurl() {
 		return getStringDataParam("loginApi", "");
 	}
@@ -711,6 +720,10 @@ public class AppletParameters {
 		return getStringDataParam("detachKeyboard", "auto");
 	}
 
+	public String getParamShowKeyboardOnFocus(String fallback) {
+		return getStringDataParam("showKeyboardOnFocus", fallback);
+	}
+
 	/**
 	 * @return whether to use app mode (forces fit to screen and most UIs
 	 *         visible)
@@ -740,5 +753,9 @@ public class AppletParameters {
 
 	public String getParamMultiplayerUrl() {
 		return getStringDataParam("multiplayerUrl", "");
+	}
+
+	public double getBorderRadius() {
+		return getIntDataParam("borderRadius", 0);
 	}
 }

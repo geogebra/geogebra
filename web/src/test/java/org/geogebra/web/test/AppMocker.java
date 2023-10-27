@@ -1,6 +1,7 @@
 package org.geogebra.web.test;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.gui.applet.AppletFactory;
@@ -13,20 +14,19 @@ import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.impl.PopupImpl;
 
-import com.google.gwt.core.client.impl.SchedulerImpl;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 public class AppMocker {
 
-	private static class MyLog extends Log {
+	private static class TestLog extends Log {
 
 		@Override
 		public void print(Level level, Object logEntry) {
@@ -36,32 +36,35 @@ public class AppMocker {
 				System.out.println(logEntry);
 			}
 		}
+
 	}
 
-	public static AppWFull mockGraphing(Class<?> testClass) {
-		return mockApp("graphing", testClass);
+	public static AppWFull mockGraphing() {
+		return mockApp("graphing");
 	}
 
-	public static AppWFull mockCas(Class<?> testClass) {
-		return mockApp("cas", testClass);
+	public static AppWFull mockCas() {
+		return mockApp("cas");
 	}
 
-	public static AppWFull mockGeometry(Class<?> testClass) {
-		return mockApp("geometry", testClass);
+	public static AppWFull mockGeometry() {
+		return mockApp("geometry");
 	}
 
-	public static AppWFull mockNotes(Class<?> testClass) {
-		return mockApp("notes", testClass);
+	public static AppWFull mockNotes() {
+		return mockApp("notes");
 	}
 
 	/**
 	 * @param appName app name
-	 * @param testClass class
 	 * @return mock app
 	 */
-	private static AppWFull mockApp(String appName, Class<?> testClass) {
-		testClass.getClassLoader().setDefaultAssertionStatus(false);
+	private static AppWFull mockApp(String appName) {
 		return mockApplet(new AppletParameters(appName));
+	}
+
+	public static AppW mockScientific() {
+		return mockApp("scientific");
 	}
 
 	/**
@@ -87,11 +90,11 @@ public class AppMocker {
 	}
 
 	private static void setTestLogger() {
-		Log.setLogger(new MyLog());
+		Log.setLogger(new TestLog());
 	}
 
 	private static void setAppDefaults(App app) {
-		app.setUndoRedoEnabled(true);
+		app.setUndoRedoMode(UndoRedoMode.GUI);
 		app.setUndoActive(true);
 		app.getKernel().getConstruction().initUndoInfo();
 	}
@@ -102,7 +105,6 @@ public class AppMocker {
 	 */
 	public static AppWsimple mockAppletSimple(AppletParameters ae) {
 		useCommonFakeProviders();
-		useProviderForSchedulerImpl();
 		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(DomMocker.getGeoGebraElement(), ae,
 				 new CASFactoryW());
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
@@ -121,15 +123,8 @@ public class AppMocker {
 					}
 				});
 		Browser.mockWebGL();
-		FactoryProvider.setInstance(new FactoryProviderGWT());
+		FactoryProviderGWT.ensureLoaded();
 		setTestLogger();
 	}
 
-	/**
-	 * Use immediate executor for scheduled tasks
-	 */
-	public static void useProviderForSchedulerImpl() {
-		GwtMockito.useProviderForType(SchedulerImpl.class,
-				type -> new QueueScheduler());
-	}
 }

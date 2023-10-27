@@ -2,14 +2,14 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -24,17 +24,19 @@ public class ToolbarDockPanelW extends DockPanelW
 	private DockPanelData.TabIds tabId;
 	private static final int MIN_ROWS_WITHOUT_KEYBOARD = 5;
 	private static final int MIN_ROWS_WITH_KEYBOARD = 3;
+	private final DockPanelDecorator decorator;
 
 	/**
 	 * New panel with AV and tools
 	 */
-	public ToolbarDockPanelW() {
+	public ToolbarDockPanelW(DockPanelDecorator decorator) {
 		super(App.VIEW_ALGEBRA, null, false);
+		this.decorator = decorator;
 	}
 	
 	@Override
 	protected Widget loadComponent() {
-		toolbar = new ToolbarPanel(app);
+		toolbar = new ToolbarPanel(app, decorator);
 		setTabId(tabId);
 		return toolbar;
 	}
@@ -152,6 +154,9 @@ public class ToolbarDockPanelW extends DockPanelW
 	public void setLabels() {
 		if (toolbar != null) {
 			toolbar.setLabels();
+		}
+		if (decorator != null) {
+			decorator.setLabels();
 		}
 	}
 

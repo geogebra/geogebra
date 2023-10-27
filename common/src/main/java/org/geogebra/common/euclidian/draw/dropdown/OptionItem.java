@@ -75,7 +75,7 @@ class OptionItem {
 	}
 
 	private void calculateDimensionsForLatex() {
-		dimension = CanvasDrawable.measureLatex(list.getApp(), list,
+		dimension = CanvasDrawable.measureLatex(list.getApp(),
 				font, text, CanvasDrawable.shouldBeSerif(text, list.get(index),
 						false));
 	}
@@ -117,7 +117,7 @@ class OptionItem {
 	}
 
 	public boolean isHit(int x, int y) {
-		return rect != null && rect.contains(x, y);
+		return rect != null && rect.contains(x, y - OptionTableDimension.VERTICAL_PADDING);
 	}
 
 	public void setRect(GRectangle rect) {
@@ -129,7 +129,7 @@ class OptionItem {
 	}
 
 	public int getTop() {
-		return (int) rect.getBounds().getY();
+		return (int) rect.getBounds().getY() + OptionTableDimension.VERTICAL_PADDING;
 	}
 
 	public int getBottom() {

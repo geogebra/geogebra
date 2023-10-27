@@ -17,11 +17,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Display;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.DomGlobal;
 
@@ -425,7 +424,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 		if (homeBtn != null) {
 			// change style directly, aria-hidden + visibility should depend on zoom
-			Style.Display display = zoomButtonsVisible ? Style.Display.BLOCK : Style.Display.NONE;
+			Display display = zoomButtonsVisible ? Display.BLOCK : Display.NONE;
 			homeBtn.getElement().getStyle().setDisplay(display);
 		}
 	}

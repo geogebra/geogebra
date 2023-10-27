@@ -6,6 +6,7 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInter
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -29,9 +30,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.kernelND.RotatableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
@@ -44,8 +46,8 @@ import org.geogebra.common.util.ExtendedBoolean;
  */
 public class GeoPlane3D extends GeoElement3D
 		implements Functional2Var, ViewCreator, GeoCoords4D, GeoPlaneND,
-		Translateable, Traceable, RotateableND, MirrorableAtPlane,
-		Transformable, Dilateable {
+		Translateable, Traceable, RotatableND, MirrorableAtPlane,
+		Transformable, Dilateable, MatrixTransformable {
 
 	// values for grid and interactions
 	private double xmin;
@@ -181,7 +183,6 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public boolean isInRegion(GeoPointND P) {
 		Coords planeCoords = getNormalProjection(P.getInhomCoordsInD3())[1];
-		// Application.debug(P.getLabel()+":\n"+planeCoords);
 		return DoubleUtil.isEqual(planeCoords.get(3), 0, Kernel.STANDARD_PRECISION);
 	}
 
@@ -550,8 +551,8 @@ public class GeoPlane3D extends GeoElement3D
 	private static boolean bothSidesDefined(ExpressionNode definition) {
 		ExpressionValue ev = definition.unwrap();
 		if (ev instanceof Equation) {
-			return MyDouble.isFinite(((Equation) ev).getLHS().evaluateDouble())
-					&& MyDouble.isFinite(
+			return Double.isFinite(((Equation) ev).getLHS().evaluateDouble())
+					&& Double.isFinite(
 							((Equation) ev).getRHS().evaluateDouble());
 		}
 		return false;
@@ -799,16 +800,10 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public void rotate(NumberValue phiVal, GeoPointND Q,
+	public void rotate(NumberValue phiVal, Coords Q,
 			GeoDirectionND orientation) {
 
-		rotate(phiVal, Q.getInhomCoordsInD3(), orientation.getDirectionInD3());
-
-	}
-
-	@Override
-	public void rotate(NumberValue phiVal, GeoLineND line) {
-		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
+		rotate(phiVal, Q, orientation.getDirectionInD3());
 
 	}
 
@@ -931,4 +926,33 @@ public class GeoPlane3D extends GeoElement3D
 		return true;
 	}
 
+	@Override
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
+		matrixTransform(a00, a01, 0, a10, a11, 0, 0, 0, 1);
+	}
+
+	@Override
+	public void matrixTransform(double a00, double a01, double a02, double a10, double a11,
+			double a12, double a20, double a21, double a22) {
+		CoordMatrix4x4 tmpMatrix4x4 = CoordMatrix4x4.identity();
+
+		tmpMatrix4x4.set(1, 1, a00);
+		tmpMatrix4x4.set(1, 2, a01);
+		tmpMatrix4x4.set(1, 3, a02);
+
+		tmpMatrix4x4.set(2, 1, a10);
+		tmpMatrix4x4.set(2, 2, a11);
+		tmpMatrix4x4.set(2, 3, a12);
+
+		tmpMatrix4x4.set(3, 1, a20);
+		tmpMatrix4x4.set(3, 2, a21);
+		tmpMatrix4x4.set(3, 3, a22);
+		coordsys.matrixTransform(tmpMatrix4x4);
+		coordsys.makeEquationVector();
+	}
+
+	@Override
+	public boolean isMatrixTransformable() {
+		return true;
+	}
 }

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -42,20 +43,26 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class RelativeCopy {
 
 	protected Kernel kernel;
+	private ErrorHandler errorHandler;
 
 	App app;
 	// protected MyTable table;
 	protected static final RegExp pattern2 = RegExp
 			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
-	private static GeoElementND redefinedElement;
+	private GeoElementND redefinedElement;
 
 	/**
 	 * @param kernel
 	 *            kernel
 	 */
-	public RelativeCopy(Kernel kernel) {
+	public RelativeCopy(Kernel kernel, ErrorHandler handler) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
+		errorHandler = handler;
+	}
+
+	public RelativeCopy(Kernel kernel) {
+		this(kernel, kernel.getApplication().getDefaultErrorHandler());
 	}
 
 	/**
@@ -130,8 +137,7 @@ public class RelativeCopy {
 										.getSpreadsheetCellName(x, y + 1) + vs2;
 								String text = "=CopyFreeObject[2*" + d1 + "-"
 										+ d0 + "]";
-								doCopyNoStoringUndoInfo1(kernel, app, text, v4,
-										x, y);
+								doCopyNoStoringUndoInfo1(text, v4, x, y);
 							}
 						}
 					} else { // not two row source, so drag-copy the first row
@@ -171,8 +177,7 @@ public class RelativeCopy {
 										.getSpreadsheetCellName(x, y - 1) + vs2;
 								String text = "=CopyFreeObject[2*" + d1 + "-"
 										+ d0 + "]";
-								doCopyNoStoringUndoInfo1(kernel, app, text, v4,
-										x, y);
+								doCopyNoStoringUndoInfo1(text, v4, x, y);
 							}
 						}
 					} else {
@@ -218,8 +223,7 @@ public class RelativeCopy {
 										.getSpreadsheetCellName(x + 1, y) + vs2;
 								String text = "=CopyFreeObject[2*" + d1 + "-"
 										+ d0 + "]";
-								doCopyNoStoringUndoInfo1(kernel, app, text, v4,
-										x, y);
+								doCopyNoStoringUndoInfo1(text, v4, x, y);
 							}
 						}
 					} else {
@@ -258,8 +262,7 @@ public class RelativeCopy {
 										.getSpreadsheetCellName(x - 1, y) + vs2;
 								String text = "=CopyFreeObject[2*" + d1 + "-"
 										+ d0 + "]";
-								doCopyNoStoringUndoInfo1(kernel, app, text, v4,
-										x, y);
+								doCopyNoStoringUndoInfo1(text, v4, x, y);
 							}
 						}
 					} else {
@@ -334,11 +337,11 @@ public class RelativeCopy {
 	 *            destination minimum row
 	 * @param dy2
 	 *            destination maximum row
-	 * @throws Exception
-	 *             on parse problem, circular reference
+	 * @throws ParseException on parse problem
+	 * @throws CircularDefinitionException on circular reference
 	 */
 	public void doCopyVerticalNoStoringUndoInfo1(int x1, int x2, int sy,
-			int dy1, int dy2) throws Exception {
+			int dy1, int dy2) throws CircularDefinitionException, ParseException {
 
 		// create a treeset, ordered by construction index
 		// so that when we relative copy A1=1 B1=(A1+C1)/2 C1=3
@@ -365,9 +368,8 @@ public class RelativeCopy {
 						continue;
 					}
 
-					doCopyNoStoringUndoInfo0(kernel, app, geo,
+					doCopyNoStoringUndoInfo0(geo,
 							getValue(app, p.x, dy1 + iy), 0, y - sy);
-					// Application.debug(p.x+"");
 				}
 			}
 		}
@@ -388,11 +390,11 @@ public class RelativeCopy {
 	 *            destination minimum column
 	 * @param dx2
 	 *            destination maximum column
-	 * @throws Exception
-	 *             on parse error, circular reference
+	 * @throws ParseException on parse error
+	 * @throws CircularDefinitionException circular reference
 	 */
 	public void doCopyHorizontalNoStoringUndoInfo1(int y1, int y2, int sx,
-			int dx1, int dx2) throws Exception {
+			int dx1, int dx2) throws CircularDefinitionException, ParseException {
 
 		// create a treeset, ordered by construction index
 		// so that when we relative copy A1=1 A2=(A1+A3)/2 A3=3
@@ -421,19 +423,14 @@ public class RelativeCopy {
 						continue;
 					}
 
-					doCopyNoStoringUndoInfo0(kernel, app, geo,
+					doCopyNoStoringUndoInfo0(geo,
 							getValue(app, dx1 + ix, p.y), x - sx, 0);
-					// Application.debug(p.y+"");
 				}
 			}
 		}
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
-	 * @param app
-	 *            application
 	 * @param value
 	 *            copied value
 	 * @param oldValue
@@ -443,22 +440,18 @@ public class RelativeCopy {
 	 * @param dy
 	 *            row difference
 	 * @return element copy
-	 * @throws Exception
-	 *             on parse problem, circular reference
+	 * @throws ParseException on parse error
+	 * @throws CircularDefinitionException on circular reference
 	 */
-	public static GeoElementND doCopyNoStoringUndoInfo0(Kernel kernel, App app,
+	public GeoElementND doCopyNoStoringUndoInfo0(
 			GeoElement value, GeoElementND oldValue, int dx, int dy)
-			throws Exception {
+			throws CircularDefinitionException, ParseException {
 
-		return doCopyNoStoringUndoInfo0(kernel, app, value, oldValue, dx, dy,
+		return doCopyNoStoringUndoInfo0(value, oldValue, dx, dy,
 				-1, -1);
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
-	 * @param app
-	 *            application
 	 * @param value
 	 *            copied value
 	 * @param oldValue
@@ -472,12 +465,12 @@ public class RelativeCopy {
 	 * @param columnStart
 	 *            first column
 	 * @return element copy
-	 * @throws Exception
-	 *             on parse problem, circular reference
+	 * @throws ParseException on parse problem
+	 * @throws CircularDefinitionException on circular reference
 	 */
-	public static GeoElementND doCopyNoStoringUndoInfo0(Kernel kernel, App app,
+	public GeoElementND doCopyNoStoringUndoInfo0(
 			GeoElement value, GeoElementND oldValue, int dx, int dy,
-			int rowStart, int columnStart) throws Exception {
+			int rowStart, int columnStart) throws ParseException, CircularDefinitionException {
 		if (value == null) {
 			if (oldValue != null) {
 				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
@@ -487,7 +480,7 @@ public class RelativeCopy {
 						.getSpreadsheetColumn(matcher);
 				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
-				prepareAddingValueToTableNoStoringUndoInfo(kernel, app, null,
+				prepareAddingValueToTableNoStoringUndoInfo(null,
 						oldValue, column, row, true);
 			}
 			return null;
@@ -561,9 +554,6 @@ public class RelativeCopy {
 			text = "=" + text;
 		}
 
-		// Application.debug("add text = " + text + ", name = " + (char)('A' +
-		// column + dx) + (row + dy + 1));
-
 		// get location of source cell
 		// TODO: Why not always use getSpreadsheetCoords()?
 		int row0 = rowStart;
@@ -595,7 +585,7 @@ public class RelativeCopy {
 					.getSpreadsheetCellName(column0 + dx, row0 + dy));
 			value2.updateRepaint();
 		} else {
-			value2 = prepareAddingValueToTableNoStoringUndoInfo(kernel, app,
+			value2 = prepareAddingValueToTableNoStoringUndoInfo(
 					text, oldValue, column0 + dx, row0 + dy, true);
 		}
 		if (value2 == null) {
@@ -608,15 +598,11 @@ public class RelativeCopy {
 		String[] startPoints = null;
 		if (value instanceof Locateable) {
 			Locateable loc = (Locateable) value;
+			startPoints = new String[loc.getStartPointCount()];
 
-			GeoPointND[] pts = loc.getStartPoints();
-
-			if (pts != null) {
-
-				startPoints = new String[pts.length];
-
-				for (int i = 0; i < pts.length; i++) {
-					startPoints[i] = ((GeoElement) pts[i])
+			for (int i = 0; i < loc.getStartPointCount(); i++) {
+				if (loc.getStartPoint(i) != null) {
+					startPoints[i] = loc.getStartPoint(i)
 							.getLabel(highPrecision);
 
 					if (GeoElementSpreadsheet.spreadsheetPattern
@@ -653,7 +639,6 @@ public class RelativeCopy {
 			// removed as doesn't work for eg "random()" #388
 			// && !colorText.equals(oldColorText)) {
 			try {
-				// Application.debug("new color function: "+colorText);
 				GeoList newColorFunction = kernel.getAlgebraProcessor()
 						.evaluateToList(colorText);
 				value2.setColorFunction(newColorFunction);
@@ -669,10 +654,11 @@ public class RelativeCopy {
 
 		if (startPoints != null) {
 			for (int i = 0; i < startPoints.length; i++) {
-				((Locateable) value2).setStartPoint(kernel.getAlgebraProcessor()
-						.evaluateToPoint(startPoints[i],
-								app.getDefaultErrorHandler(), true),
-						i);
+				if (startPoints[i] != null) {
+					GeoPointND startPoint = kernel.getAlgebraProcessor()
+							.evaluateToPoint(startPoints[i], errorHandler, true);
+					((Locateable) value2).setStartPoint(startPoint, i);
+				}
 			}
 
 			value2.update();
@@ -681,7 +667,8 @@ public class RelativeCopy {
 		return value2;
 	}
 
-	private static String getUpdatedReference(GeoElement object, int dx, int dy) throws Exception {
+	private static String getUpdatedReference(GeoElement object, int dx, int dy)
+			throws ParseException {
 		String oldBoolText = object != null ? object.getLabel(StringTemplate.maxPrecision) : null;
 		if (oldBoolText != null) {
 			ValidExpression exp = object.getKernel().getParser()
@@ -754,10 +741,6 @@ public class RelativeCopy {
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
-	 * @param app
-	 *            application
 	 * @param text
 	 *            definition text
 	 * @param geoForStyle
@@ -766,24 +749,24 @@ public class RelativeCopy {
 	 *            column
 	 * @param row
 	 *            row
-	 * @throws Exception
-	 *             if definition of new geo fails
+	 * @throws ParseException on parse error
+	 * @throws CircularDefinitionException on circular reference
 	 */
-	public static void doCopyNoStoringUndoInfo1(Kernel kernel, App app,
+	public void doCopyNoStoringUndoInfo1(
 			String text, GeoElement geoForStyle, int column, int row)
-			throws Exception {
+			throws ParseException, CircularDefinitionException {
 		GeoElement oldValue = getValue(app, column, row);
 
 		if (text == null) {
 			if (oldValue != null) {
-				prepareAddingValueToTableNoStoringUndoInfo(kernel, app, null,
+				prepareAddingValueToTableNoStoringUndoInfo(null,
 						oldValue, column, row, true);
 			}
 			return;
 		}
 
-		GeoElementND value2 = prepareAddingValueToTableNoStoringUndoInfo(kernel,
-				app, text, oldValue, column, row, true);
+		GeoElementND value2 = prepareAddingValueToTableNoStoringUndoInfo(text,
+				oldValue, column, row, true);
 
 		if (geoForStyle != null) {
 			value2.setVisualStyle(geoForStyle);
@@ -874,7 +857,7 @@ public class RelativeCopy {
 	// =========================================================================
 
 	private static GeoElementND prepareNewValue(Kernel kernel, String name,
-			String inputText) throws Exception {
+			String inputText)  {
 		String text = inputText;
 		if (text == null) {
 			return null;
@@ -972,9 +955,8 @@ public class RelativeCopy {
 		return newValues[0];
 	}
 
-	private static void updateOldValue(final Kernel kernel,
-			final GeoElementND oldValue, String name, String text0,
-			final AsyncOperation<GeoElementND> callback) throws Exception {
+	private void updateOldValue(final GeoElementND oldValue, String name, String text0,
+			final AsyncOperation<GeoElementND> callback) {
 		String text = text0;
 		if (text.charAt(0) == '=') {
 			text = text.substring(1);
@@ -996,10 +978,6 @@ public class RelativeCopy {
 						if (oldValue.isAuxiliaryObject()) {
 							newValue.setAuxiliaryObject(true);
 						}
-
-						// Application.debug("GeoClassType = " +
-						// newValue.getGeoClassType()+" " +
-						// newValue.getGeoClassType());
 						if (newValue.getGeoClassType() == oldValue
 								.getGeoClassType()) {
 							// newValue.setVisualStyle(oldValue);
@@ -1012,7 +990,7 @@ public class RelativeCopy {
 
 	}
 
-	private static ErrorHandler getErrorHandler(final Kernel kernel,
+	private ErrorHandler getErrorHandler(final Kernel kernel,
 			final GeoElementND oldValue, final String name, final String text0,
 			final AsyncOperation<GeoElementND> callback) {
 		return new ErrorHandler() {
@@ -1022,7 +1000,7 @@ public class RelativeCopy {
 				Log.debug(msg);
 				if (Errors.CircularDefinition.getError(kernel.getLocalization())
 						.equals(msg)) {
-					kernel.getApplication().getDefaultErrorHandler()
+					errorHandler
 							.showError(msg);
 				} else {
 					handleThrowable();
@@ -1100,10 +1078,6 @@ public class RelativeCopy {
 	 * Prepares a spreadsheet cell editor string for processing in the kernel
 	 * and returns either (1) a new GeoElement for the cell or (2) null.
 	 * 
-	 * @param kernel
-	 *            kernel
-	 * @param app
-	 *            application
 	 * @param inputText
 	 *            string representation of the new GeoElement
 	 * @param oldValue
@@ -1115,12 +1089,10 @@ public class RelativeCopy {
 	 * @param internal
 	 *            whether to force internal command names
 	 * @return either (1) a new GeoElement for the cell or (2) null
-	 * @throws Exception
-	 *             on parse error or circular reference
 	 */
-	public static GeoElementND prepareAddingValueToTableNoStoringUndoInfo(
-			Kernel kernel, App app, String inputText, GeoElementND oldValue,
-			int column, int row, boolean internal) throws Exception {
+	public GeoElementND prepareAddingValueToTableNoStoringUndoInfo(
+			String inputText, GeoElementND oldValue,
+			int column, int row, boolean internal)  {
 		String text = inputText;
 		// get the cell name
 		String name = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
@@ -1175,7 +1147,7 @@ public class RelativeCopy {
 				kernel.setUseInternalCommandNames(oldFlag);
 				return ret;
 			}
-			updateOldValue(kernel, oldValue, name, text,
+			updateOldValue(oldValue, name, text,
 					new AsyncOperation<GeoElementND>() {
 
 						@Override

@@ -1066,4 +1066,8 @@ public abstract class DialogManager {
 	public void closeTemplateChooser() {
 		// only needed in web
 	}
+
+	public void showSaveDialog() {
+		// needed in web
+	}
 }

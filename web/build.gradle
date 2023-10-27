@@ -5,10 +5,10 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.0.13'
+    id 'com.github.spotbugs' version '5.2.1'
     id 'de.aaschmid.cpd' version '3.3'
-    id 'io.miret.etienne.sass' version '1.4.1'
-    id 'org.wisepersist.gwt' version '1.1.19'
+    id 'io.miret.etienne.sass' version '1.5.0'
+    id 'org.docstr.gwt' version '1.1.30'
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -17,9 +17,6 @@ evaluationDependsOn(':web-common')
 evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web-dev')
 evaluationDependsOn(':keyboard-web')
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 sourceSets {
     nonfree
@@ -51,14 +48,16 @@ task extractJs() {
 }
 
 dependencies {
+    def multiplayerVersion = "1.0.202310130847"
     implementation project(path: ':carota-web'),
         project(':web-dev'),
         project(':web-common'),
         project(':editor-web'),
         project(':keyboard-web'),
         'org.webjars.npm:pdfjs-dist:2.5.207',
-        "org.geogebra:multiplayer:1.0.202210261417",
-        "org.geogebra:multiplayer:1.0.202210180737:sources",
+        "org.geogebra:multiplayer:$multiplayerVersion",
+        "org.geogebra:multiplayer:$multiplayerVersion:sources",
+        'com.google.j2objc:annotations:2.8:sources',
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
         files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
@@ -148,7 +147,7 @@ gwt {
     if (project.hasProperty("gmodule")) {
         modules = project.getProperty("gmodule").split(",")
     } else {
-        modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
+        modules = ['org.geogebra.web.SuperWeb', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
           'org.geogebra.web.Tablet3D']
     }
     
@@ -175,7 +174,7 @@ gwt {
             localWorkers = project.getProperty("gworkers")
         }
         if (project.hasProperty("gdetailed")){
-            style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
+            style = org.docstr.gradle.plugins.gwt.Style.DETAILED
         } else {
             disableClassMetadata = true
         }
@@ -191,8 +190,9 @@ gwt {
     }
 }
 
-tasks.withType(org.wisepersist.gradle.plugins.gwt.AbstractGwtActionTask) {
+tasks.withType(org.docstr.gradle.plugins.gwt.AbstractGwtActionTask) {
     jvmArgs '-Xss512M'
+    useToolchain = true
 }
 
 
@@ -280,13 +280,22 @@ task createSolverHtml {
 
 task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     doLast {
-        ["web3d", "webSimple"].each { module ->
+        ["web3d", "webSimple", "editor"].each { module ->
             def dir = file("build/gwt/out/$module")
-            fileTree(dir).each { f ->
-                println "$f -> $f"
-                def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
-                file(outFile.parent).mkdirs()
-                ant.gzip(src: f, zipfile: outFile)
+            if (dir.exists()) {
+                fileTree(dir).each { f ->
+                    def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
+                    file(outFile.parent).mkdirs()
+                    ant.gzip(src: f, zipfile: outFile)
+                }
+            }
+            def srcMaps = file("build/gwt/out/WEB-INF/deploy/$module/symbolMaps/")
+            file("build/symbolMapsGz/$module").mkdirs()
+            if (srcMaps.exists()) {
+                fileTree(srcMaps).each { f ->
+                    def outFile = file("$f".replace(srcMaps.absolutePath, "build/symbolMapsGz/$module/"))
+                    ant.gzip(src: f, zipfile: outFile)
+                }
             }
         }
     }
@@ -296,6 +305,11 @@ task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverH
     description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
     from compileGwt
     into warDirRel
+
+    into ("web3d") {
+        from "$warDirRel/WEB-INF/deploy/web3d/symbolMaps"
+    }
+
 }
 
 task mergeDeploy(){
@@ -319,7 +333,7 @@ task mergeDeploy(){
 
 def gwtGlobalCache = file('build/gwt/devModeCache')
 
-class ReadableDev extends org.wisepersist.gradle.plugins.gwt.GwtDev {
+class ReadableDev extends org.docstr.gradle.plugins.gwt.GwtDev {
     protected void addArgs() {
         super.addArgs();
         args("-style", "PRETTY");
@@ -366,9 +380,10 @@ task createDraftBundleZip (type: Zip, dependsOn: 'compileSass') {
 task minifyLibs() {
     doLast {
         def libDir = "src/main/resources/org/geogebra/web/"
-        def libs = ["resources/js/rewrite_pHYs", "pub/js/canvas-to-svg.umd", "pub/js/canvas2pdf", "pub/js/whammy"]
+        def libDirCommon = "../web-common/$libDir"
+        def libs = ["$libDirCommon/resources/js/rewrite_pHYs", "$libDir/pub/js/canvas2pdf", "$libDir/pub/js/whammy"]
         libs.each({lib ->
-            def command = ['npx', 'terser', "${libDir}${lib}.js", "-o", "${libDir}${lib}.min.js",
+            def command = ['npx', 'terser', "${lib}.js", "-o", "${lib}.min.js",
             '--compress', '--mangle', '--comments', '/license/']
             exec { commandLine Os.isFamily(Os.FAMILY_WINDOWS) ? ['cmd', '/c'] + command : command}
         })

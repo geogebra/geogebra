@@ -16,14 +16,13 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.FocusEvent;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.Button;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 public class AccessibleDropDown implements AccessibleWidget {
 	private final GeoList list;
@@ -116,7 +115,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 			option.getElement().setAttribute("role", "option");
 			final int idx = i;
 			option.addDomHandler(e -> {
-						list.setSelectedIndex(idx, true);
+						list.setSelectedIndexUpdate(idx);
 						updateText();
 						button.getElement().focus();
 						toggle();
@@ -138,8 +137,8 @@ public class AccessibleDropDown implements AccessibleWidget {
 		if (drawable instanceof CanvasDrawable) {
 			GRectangle bounds = ((CanvasDrawable) drawable).getBounds();
 			if (bounds != null) {
-				button.getElement().getStyle().setTop(bounds.getMinY(), Style.Unit.PX);
-				button.getElement().getStyle().setLeft(bounds.getMinX(), Style.Unit.PX);
+				button.getElement().getStyle().setTop(bounds.getMinY(), Unit.PX);
+				button.getElement().getStyle().setLeft(bounds.getMinX(), Unit.PX);
 			}
 		}
 	}

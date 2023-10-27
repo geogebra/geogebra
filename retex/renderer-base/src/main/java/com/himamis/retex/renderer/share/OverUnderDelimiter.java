@@ -50,7 +50,7 @@ package com.himamis.retex.renderer.share;
  * A box representing another atom with a delimiter and a script above or under
  * it, with script and delimiter seperated by a kern.
  */
-public class OverUnderDelimiter extends Atom {
+public class OverUnderDelimiter extends Atom implements HasUnderOver {
 
 	// base and script atom
 	private final Atom base;
@@ -85,12 +85,12 @@ public class OverUnderDelimiter extends Atom {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		Box b = (base == null ? StrutBox.getEmpty() : base.createBox(env));
+		Box b = base == null ? StrutBox.getEmpty() : base.createBox(env);
 		Box del = DelimiterFactory.create(symbol.getCf(), env, b.getWidth());
 		Box scriptBox = null;
 		if (script != null) {
 			scriptBox = script
-					.createBox((over ? env.supStyle() : env.subStyle()));
+					.createBox(over ? env.supStyle() : env.subStyle());
 		}
 
 		// create centered horizontal box if smaller than maximum width
@@ -121,5 +121,20 @@ public class OverUnderDelimiter extends Atom {
 	@Override
 	public int getLimits() {
 		return base.getLimits();
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
+
+	@Override
+	public Atom getUnderOver() {
+		return symbol;
+	}
+
+	@Override
+	public boolean isUnder() {
+		return !over;
 	}
 }

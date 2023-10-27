@@ -39,7 +39,8 @@ import org.geogebra.common.util.StringUtil;
 public class GeoButton extends GeoElement implements TextProperties, Locateable,
 		AbsoluteScreenLocateable {
 
-	protected GeoPointND startPoint;
+	private GeoPointND startPoint;
+	private boolean absLocation = true;
 
 	private double width = 40.0;
 	private double height = 30.0;
@@ -51,7 +52,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 	private boolean fixedSize = false;
 
-	private Observer observer;
+	public final static int DEFAULT_BUTTON_HEIGHT = 36;
 
 	/**
 	 * Creates new button
@@ -122,11 +123,6 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	}
 
 	@Override
-	public void removeStartPoint(GeoPointND p) {
-		// empty implementation.
-	}
-
-	@Override
 	public GeoPointND getStartPoint() {
 		return startPoint;
 	}
@@ -137,28 +133,18 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	}
 
 	@Override
-	public GeoPointND[] getStartPoints() {
-		return new GeoPointND[] { startPoint };
-	}
-
-	@Override
 	public void initStartPoint(GeoPointND p, int number) {
 		startPoint = p;
 	}
 
 	@Override
-	public boolean hasAbsoluteLocation() {
+	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
 	@Override
 	public boolean isAlwaysFixed() {
 		return false;
-	}
-
-	@Override
-	public void setWaitForStartPoint() {
-		// empty implementation
 	}
 
 	@Override
@@ -173,7 +159,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 	@Override
 	public boolean isAbsoluteScreenLocActive() {
-		return startPoint == null;
+		return absLocation;
 	}
 
 	@Override
@@ -181,34 +167,55 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 		labelOffsetX = x;
 		labelOffsetY = y;
 		if (startPoint != null) {
-			updateRelLocation(kernel.getApplication().getActiveEuclidianView());
+			if (absLocation) {
+				startPoint.setCoords(labelOffsetX, labelOffsetY, 1);
+			} else {
+				assignStartPoint(null);
+			}
 		}
+		absLocation = true;
 		if (!hasScreenLocation()) {
 			setScreenLocation(x, y);
 		}
 	}
 
+	private void assignStartPoint(GeoPointND point) {
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+		}
+		startPoint = point;
+	}
+
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return labelOffsetX;
+		return startPoint != null ? (int) startPoint.getInhomX() : labelOffsetX;
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return labelOffsetY;
+		return startPoint != null ? (int) startPoint.getInhomY() : labelOffsetY;
 	}
 
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
+		if (flag == absLocation) {
+			return;
+		}
 		EuclidianView ev = kernel.getApplication().getActiveEuclidianView();
 		if (flag && startPoint != null) {
 			updateAbsLocation(ev);
-
-			startPoint = null;
+			if (hasStaticLocation()) {
+				assignStartPoint(null);
+			}
 		} else if (!flag) {
-			startPoint = new GeoPoint(cons);
+			if (startPoint != null) {
+				labelOffsetX = ev.toScreenCoordX(startPoint.getInhomX());
+				labelOffsetY = ev.toScreenCoordY(startPoint.getInhomY());
+			}
+			assignStartPoint(new GeoPoint(cons));
 			updateRelLocation(ev);
 		}
+		absLocation = flag;
 	}
 
 	/**
@@ -220,15 +227,23 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 */
 	public void updateAbsLocation(EuclidianView ev) {
 		if (startPoint != null) {
-			labelOffsetX = ev.toScreenCoordX(startPoint.getInhomX());
-			labelOffsetY = ev.toScreenCoordY(startPoint.getInhomY());
+			if (absLocation) {
+				labelOffsetX = (int) startPoint.getInhomX();
+				labelOffsetY = (int) startPoint.getInhomY();
+			} else {
+				labelOffsetX = ev.toScreenCoordX(startPoint.getInhomX());
+				labelOffsetY = ev.toScreenCoordY(startPoint.getInhomY());
+			}
 		}
 	}
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
-		startPoint = new GeoPoint(cons);
+		if (startPoint == null) {
+			startPoint = new GeoPoint(cons);
+		}
 		startPoint.setCoords(x, y, 1);
+		startPoint.update();
 	}
 
 	/**
@@ -267,9 +282,6 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 */
 	public void setWidth(double width) {
 		this.width = width;
-		if (hasScreenLocation()) {
-			getScreenLocation().initWidth((int) width);
-		}
 	}
 
 	/**
@@ -286,9 +298,6 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 */
 	public void setHeight(double height) {
 		this.height = height;
-		if (hasScreenLocation()) {
-			getScreenLocation().initHeight((int) height);
-		}
 	}
 
 	@Override
@@ -333,7 +342,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 * @return x coordinate of screen location.
 	 */
 	public int getScreenLocX(EuclidianViewInterfaceCommon ev) {
-		return startPoint == null ? labelOffsetX : ev.toScreenCoordX(startPoint.getInhomX());
+		return startPoint == null ? labelOffsetX : getXFromStartPoint(ev);
 	}
 
 	/**
@@ -343,7 +352,17 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 * @return y coordinate of screen location.
 	 */
 	public int getScreenLocY(EuclidianViewInterfaceCommon ev) {
-		return startPoint == null ? labelOffsetY : ev.toScreenCoordY(startPoint.getInhomY());
+		return startPoint == null ? labelOffsetY : getYFromStartPoint(ev);
+	}
+
+	private int getYFromStartPoint(EuclidianViewInterfaceCommon ev) {
+		return absLocation ? (int) startPoint.getInhomY()
+				: ev.toScreenCoordY(startPoint.getInhomY());
+	}
+
+	private int getXFromStartPoint(EuclidianViewInterfaceCommon ev) {
+		return absLocation ? (int) startPoint.getInhomX()
+				: ev.toScreenCoordX(startPoint.getInhomX());
 	}
 
 	@Override
@@ -380,7 +399,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 		return label;
 	}
 
@@ -465,8 +484,8 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 		if (isFixedSize()) {
 			XMLBuilder.dimension(sb, Integer.toString(getWidth()), Integer.toString(getHeight()));
 		}
-		if (!isAbsoluteScreenLocActive()) {
-			startPoint.appendStartPointXML(sb);
+		if (startPoint != null) {
+			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 		}
 	}
 
@@ -508,17 +527,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 */
 	public void setFixedSize(boolean fixedSize) {
 		this.fixedSize = fixedSize;
-		if (observer != null) {
-			observer.notifySizeChanged();
-		}
-	}
-
-	/**
-	 * @param observer
-	 *            object watching size of this button
-	 */
-	public void setObserver(Observer observer) {
-		this.observer = observer;
+		getKernel().notifyRepaint();
 	}
 
 	/** Object watching size of a button */

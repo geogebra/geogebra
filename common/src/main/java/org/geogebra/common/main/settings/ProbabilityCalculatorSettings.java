@@ -4,6 +4,7 @@ package org.geogebra.common.main.settings;
 
 import java.util.LinkedList;
 
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -217,6 +218,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		isOverlayActive = false;
 		low = null;
 		high = null;
+		distributionType = Dist.NORMAL;
+		parameters = new GeoNumeric[0];
+		probMode = ProbabilityCalculatorView.PROB_INTERVAL;
 		settingChanged();
 	}
 }

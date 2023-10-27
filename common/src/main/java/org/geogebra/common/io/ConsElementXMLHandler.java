@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -54,6 +56,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.HasAlignment;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
@@ -64,6 +67,7 @@ import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.geos.VectorHeadStyle;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
@@ -71,7 +75,6 @@ import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -81,9 +84,11 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
@@ -108,22 +113,23 @@ public class ConsElementXMLHandler {
 	// List of LocateableExpPair objects
 	// for setting the start points at the end of the construction
 	// (needed for GeoText and GeoVector)
-	private LinkedList<LocateableExpPair> startPointList = new LinkedList<>();
+	private final LinkedList<LocateableExpPair> startPointList = new LinkedList<>();
 
 	// List of GeoExpPair objects
 	// for setting the linked geos needed for GeoTextFields
-	private LinkedList<GeoExpPair> linkedGeoList = new LinkedList<>();
+	private final DynamicPropertyList linkedGeoList = new DynamicPropertyList();
 
 	// List of GeoExpPair condition objects
 	// for setting the conditions at the end of the construction
 	// (needed for GeoText and GeoVector)
-	private LinkedList<GeoExpPair> showObjectConditionList = new LinkedList<>();
-	private LinkedList<GeoExpPair> dynamicColorList = new LinkedList<>();
-	private LinkedList<GeoExpPair> animationSpeedList = new LinkedList<>();
-	private LinkedList<GeoExpPair> animationStepList = new LinkedList<>();
-	private LinkedList<GeoExpPair> dynamicCaptionList = new LinkedList<>();
-	private LinkedList<GeoElement> animatingList = new LinkedList<>();
-	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<>();
+	private final DynamicPropertyList showObjectConditionList = new DynamicPropertyList();
+	private final DynamicPropertyList dynamicColorList = new DynamicPropertyList();
+	private final DynamicPropertyList animationSpeedList = new DynamicPropertyList();
+	private final DynamicPropertyList animationStepList = new DynamicPropertyList();
+	private final DynamicPropertyList verticalIncrementList = new DynamicPropertyList();
+	private final DynamicPropertyList dynamicCaptionList = new DynamicPropertyList();
+	private final LinkedList<GeoElement> animatingList = new LinkedList<>();
+	private final LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<>();
 	private boolean lineStyleTagProcessed;
 	private boolean symbolicTagProcessed;
 	private boolean sliderTagProcessed;
@@ -136,29 +142,11 @@ public class ConsElementXMLHandler {
 	 */
 	private int docPointStyle;
 	@Weak
-	private App app;
+	private final App app;
 	@Weak
-	private MyXMLHandler xmlHandler;
+	private final MyXMLHandler xmlHandler;
 	private boolean needsConstructionDefaults;
 	private String pendingLabel;
-
-	private static class GeoExpPair {
-		private GeoElement geoElement;
-		String exp;
-
-		GeoExpPair(GeoElement g, String exp) {
-			setGeo(g);
-			this.exp = exp;
-		}
-
-		GeoElement getGeo() {
-			return geoElement;
-		}
-
-		void setGeo(GeoElement geo) {
-			this.geoElement = geo;
-		}
-	}
 
 	private static class GeoNumericMinMax {
 		private GeoElement geoElement;
@@ -302,19 +290,22 @@ public class ConsElementXMLHandler {
 	private boolean handleScript(LinkedHashMap<String, String> attrs,
 			ScriptType type) {
 		try {
-			String text = attrs.get("val");
-			if (text != null && text.length() > 0) {
-				Script script = app.createScript(type, text, false);
-				geo.setClickScript(script);
-			}
-			text = attrs.get("onUpdate");
-			if (text != null && text.length() > 0) {
-				Script script = app.createScript(type, text, false);
-				geo.setUpdateScript(script);
-			}
+			handleScript(attrs, type, "val", EventType.CLICK);
+			handleScript(attrs, type, "onUpdate", EventType.UPDATE);
+			handleScript(attrs, type, "onDragEnd", EventType.DRAG_END);
+			handleScript(attrs, type, "onChange", EventType.EDITOR_KEY_TYPED);
 			return true;
 		} catch (RuntimeException e) {
 			return false;
+		}
+	}
+
+	private void handleScript(LinkedHashMap<String, String> attrs, ScriptType type,
+			String attrName, EventType evtType) {
+		String text = attrs.get(attrName);
+		if (text != null && text.length() > 0) {
+			Script script = app.createScript(type, text, false);
+			geo.setScript(script, evtType);
 		}
 	}
 
@@ -327,7 +318,7 @@ public class ConsElementXMLHandler {
 				// they will be processed in processShowObjectConditionList()
 				// later
 				showObjectConditionList
-						.add(new GeoExpPair(geo, strShowObjectCond));
+						.add(geo, strShowObjectCond);
 			}
 
 			return true;
@@ -450,13 +441,19 @@ public class ConsElementXMLHandler {
 							? Kernel.COORD_CARTESIAN_3D
 							: Kernel.COORD_CARTESIAN);
 		} else if (geo instanceof GeoPolyLine) {
-			((GeoPolyLine) geo).setVisibleInView3D(false);
+			geo.setVisibleInView3D(false);
 		} else if (geo instanceof GeoFunction) {
 			geo.setFixed(false);
 		} else if (geo instanceof GeoAngle) {
 			((GeoAngle) geo).setEmphasizeRightAngle(true);
 		} else if (geo instanceof GeoText) {
 			geo.setBackgroundColor(null);
+		} else if (geo instanceof GeoButton) {
+			geo.setBackgroundColor(GColor.WHITE);
+			geo.setObjColor(GColor.BLACK);
+			((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
+		} else if (geo instanceof GeoInputBox) {
+			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		}
 	}
 
@@ -575,12 +572,12 @@ public class ConsElementXMLHandler {
 			String strStep = attrs.get("step");
 			if (strStep != null) {
 				// store speed expression to be processed later
-				animationStepList.add(new GeoExpPair(geo, strStep));
+				animationStepList.add(geo, strStep);
 			}
 			String strSpeed = attrs.get("speed");
 			if (strSpeed != null) {
 				// store speed expression to be processed later
-				animationSpeedList.add(new GeoExpPair(geo, strSpeed));
+				animationSpeedList.add(geo, strSpeed);
 			}
 
 			String type = attrs.get("type");
@@ -796,6 +793,20 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleHeadStyle(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoVector)) {
+			Log.error("wrong element type for <headStyle>: " + geo.getClass());
+			return false;
+		}
+		try {
+			int styleIndex = Integer.parseInt(attrs.get("val"));
+			((GeoVector) geo).setHeadStyle(VectorHeadStyle.values()[styleIndex]);
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
 	private boolean handleIsLaTeX(LinkedHashMap<String, String> attrs) {
 		try {
 			((GeoText) geo).setLaTeX(
@@ -804,6 +815,10 @@ public class ConsElementXMLHandler {
 		} catch (RuntimeException e) {
 			return false;
 		}
+	}
+
+	private void handleVerticalIncrement(LinkedHashMap<String, String> attrs) {
+		verticalIncrementList.add(geo, attrs.get("val"));
 	}
 
 	private boolean handleArcSize(LinkedHashMap<String, String> attrs) {
@@ -823,6 +838,9 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAbsoluteScreenLocation(
 			LinkedHashMap<String, String> attrs, boolean absolute) {
+		if (geo.isDefaultGeo()) {
+			return false;
+		}
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
 			Log.error("wrong element type for <absoluteScreenLocation>: "
 					+ geo.getClass());
@@ -834,12 +852,7 @@ public class ConsElementXMLHandler {
 			double x = Double.parseDouble(attrs.get("x"));
 			double y = Double.parseDouble(attrs.get("y"));
 			if (absolute) {
-				if (app.isWhiteboardActive() && absLoc.isGeoImage()) {
-					((GeoImage) absLoc).setAbsoluteScreenLoc((int) x, (int) y,
-							0);
-				} else {
-					absLoc.setAbsoluteScreenLoc((int) x, (int) y);
-				}
+				absLoc.setAbsoluteScreenLoc((int) x, (int) y);
 				absLoc.setAbsoluteScreenLocActive(true);
 			} else {
 				absLoc.setRealWorldLoc(x, y);
@@ -1211,7 +1224,10 @@ public class ConsElementXMLHandler {
 		}
 
 		Locateable locGeo = (Locateable) geo;
-
+		if (locGeo instanceof AbsoluteScreenLocateable) {
+			((AbsoluteScreenLocateable) locGeo).setAbsoluteScreenLocActive(
+					MyXMLHandler.parseBoolean(attrs.get("absolute")));
+		}
 		// relative start point (expression or label expected)
 		String exp = attrs.get("exp");
 		if (exp == null) {
@@ -1340,7 +1356,7 @@ public class ConsElementXMLHandler {
 		if (exp != null) {
 			// store (geo, expression, number) values
 			// they will be processed in processLinkedGeos() later
-			linkedGeoList.add(new GeoExpPair(geo, exp));
+			linkedGeoList.add(geo, exp);
 		} else {
 			return false;
 		}
@@ -1574,7 +1590,7 @@ public class ConsElementXMLHandler {
 		try {
 			if (geo.isGeoList()) {
 				((GeoList) geo).setSelectedIndex(
-						Integer.parseInt(attrs.get("val")), false);
+						Integer.parseInt(attrs.get("val")));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -1740,7 +1756,6 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
-		// Application.debug(attrs.toString());
 		if (!(geo.isGeoImplicitCurve())) {
 			Log.warn(
 					"wrong element type for <coefficients>: " + geo.getClass());
@@ -1810,7 +1825,6 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleUserInput(LinkedHashMap<String, String> attrs) {
-		// Application.debug(attrs.toString());
 		if (!(geo instanceof GeoImplicit)) {
 			Log.warn("wrong element type for <userinput>: " + geo.getClass());
 			return false;
@@ -1893,7 +1907,7 @@ public class ConsElementXMLHandler {
 					sb.append('}');
 
 					// need to to this at end of construction (dependencies!)
-					dynamicColorList.add(new GeoExpPair(geo, sb.toString()));
+					dynamicColorList.add(geo, sb.toString());
 					geo.setColorSpace(
 							colorSpace == null ? GeoElement.COLORSPACE_RGB
 									: Integer.parseInt(colorSpace));
@@ -2266,8 +2280,14 @@ public class ConsElementXMLHandler {
 			case "fading":
 				handleFading(attrs);
 				break;
+			case "headStyle":
+				handleHeadStyle(attrs);
+				return;
 			case "isLaTeX":
 				handleIsLaTeX(attrs);
+				break;
+			case "incrementY":
+				handleVerticalIncrement(attrs);
 				break;
 			case "inBackground":
 				handleInBackground(attrs);
@@ -2422,7 +2442,7 @@ public class ConsElementXMLHandler {
 			String dynamicCaption = attrs.get("val");
 			if (dynamicCaption != null) {
 				dynamicCaptionList
-						.add(new GeoExpPair(geo, dynamicCaption));
+						.add(geo, dynamicCaption);
 			}
 		} catch (RuntimeException e) {
 			Log.error("malformed <dynamicCaption>");
@@ -2497,109 +2517,71 @@ public class ConsElementXMLHandler {
 		} catch (Exception e) {
 			startPointList.clear();
 			Log.debug(e);
-			addError("Invalid start point: " + e.toString());
+			addError("Invalid start point: " + e);
 		}
 		startPointList.clear();
 	}
 
 	private void processLinkedGeoList() {
-		try {
-			for (GeoExpPair pair : linkedGeoList) {
-				((GeoInputBox) pair.getGeo())
-						.setLinkedGeo(xmlHandler.kernel.lookupLabel(pair.exp));
-			}
-		} catch (RuntimeException e) {
-			linkedGeoList.clear();
-			Log.debug(e);
-			addError("Invalid linked geo " + e.toString());
-		}
-		linkedGeoList.clear();
+		linkedGeoList.process((geo, str) -> {
+			((GeoInputBox) geo)
+					.setLinkedGeo(xmlHandler.kernel.lookupLabel(str));
+		});
 	}
 
 	private void processDynamicCaptionList() {
-		try {
-			for (GeoExpPair pair : dynamicCaptionList) {
-				GeoElement caption = xmlHandler.kernel.lookupLabel(pair.exp);
-				if (caption != null && caption.isGeoText()) {
-					GeoElementND text = pair.geoElement;
-					text.setDynamicCaption((GeoText) caption);
-				} else {
-					Log.warn("dynamicCaption is not a GeoText:" + pair.exp);
-					break;
-				}
+		dynamicCaptionList.process((geo, str) -> {
+			GeoElement caption = xmlHandler.kernel.lookupLabel(str);
+			if (caption != null && caption.isGeoText()) {
+				geo.setDynamicCaption((GeoText) caption);
+			} else {
+				Log.warn("dynamicCaption is not a GeoText:" + str);
 			}
-		} catch (RuntimeException e) {
-			Log.debug(e);
-		} finally {
-			dynamicCaptionList.clear();
-		}
+		});
 	}
 
 	private void processShowObjectConditionList() {
-		Iterator<GeoExpPair> it = showObjectConditionList.iterator();
 		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
-
-		while (it.hasNext()) {
-			try {
-				GeoExpPair pair = it.next();
-				GeoBoolean condition = algProc.evaluateToBoolean(pair.exp,
-						ErrorHelper.silent());
-				if (condition != null) {
-					pair.getGeo().setShowObjectCondition(condition);
-				} else {
-					addError("Invalid condition to show object: " + pair.exp);
-				}
-
-			} catch (Exception e) {
-				showObjectConditionList.clear();
-				Log.debug(e);
-				addError("Invalid condition to show object: " + e.toString());
+		showObjectConditionList.process((geo, str) -> {
+			GeoBoolean condition = algProc.evaluateToBoolean(str,
+					ErrorHelper.silent());
+			if (condition != null) {
+				geo.setShowObjectCondition(condition);
+			} else {
+				addError("Invalid condition to show object: " + str);
 			}
-		}
-		showObjectConditionList.clear();
+		});
 	}
 
 	private void processAnimationSpeedList() {
-		try {
-			Iterator<GeoExpPair> it = animationSpeedList.iterator();
-			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
-
-			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
-				GeoNumberValue num = algProc.evaluateToNumeric(pair.exp,
-						xmlHandler.handler);
-				pair.getGeo().setAnimationSpeedObject(num);
-			}
-		} catch (RuntimeException e) {
-			animationSpeedList.clear();
-			Log.debug(e);
-			addError("Invalid animation speed: " + e.toString());
-		}
-		animationSpeedList.clear();
+		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
+		animationSpeedList.process((geo, str) -> {
+			GeoNumberValue num = algProc.evaluateToNumeric(str,
+					xmlHandler.handler);
+			geo.setAnimationSpeedObject(num);
+		});
 	}
 
 	private void processAnimationStepList() {
-		try {
-			Iterator<GeoExpPair> it = animationStepList.iterator();
-			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
-
-			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
-				NumberValue num = algProc.evaluateToNumeric(pair.exp,
-						xmlHandler.handler);
-				if (pair.getGeo().isGeoNumeric()) {
-					((GeoNumeric) pair.getGeo())
-							.setAutoStep(Double.isNaN(num.getDouble()));
-				}
-				pair.getGeo().setAnimationStep(num);
-
+		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
+		animationStepList.process((geo, string) -> {
+			NumberValue num = algProc.evaluateToNumeric(string,
+					xmlHandler.handler);
+			if (geo.isGeoNumeric() && num != null) {
+				((GeoNumeric) geo)
+						.setAutoStep(Double.isNaN(num.getDouble()));
 			}
-		} catch (RuntimeException e) {
-			animationStepList.clear();
-			Log.debug(e);
-			addError("Invalid animation step: " + e.toString());
-		}
-		animationSpeedList.clear();
+			geo.setAnimationStep(num);
+		});
+	}
+
+	private void processVerticalIncrementList() {
+		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
+		verticalIncrementList.process((geo, string) -> {
+			NumberValue step = algProc.evaluateToNumeric(string,
+					xmlHandler.handler);
+			((GeoPointND) geo).setVerticalIncrement(step);
+		});
 	}
 
 	private void processAnimatingList() {
@@ -2608,7 +2590,7 @@ public class ConsElementXMLHandler {
 				animGeo.setAnimating(true);
 			}
 		} catch (RuntimeException e) {
-			addError("Invalid animating: " + e.toString());
+			addError("Invalid animating: " + e);
 		}
 		animatingList.clear();
 	}
@@ -2649,28 +2631,21 @@ public class ConsElementXMLHandler {
 		} catch (RuntimeException e) {
 			minMaxList.clear();
 			Log.debug(e);
-			addError("Invalid min/max: " + e.toString());
+			addError("Invalid min/max: " + e);
 		}
 		minMaxList.clear();
 	}
 
 	// Michael Borcherds 2008-05-18
 	private void processDynamicColorList() {
-		try {
-			Iterator<GeoExpPair> it = dynamicColorList.iterator();
-			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
-
-			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
-				pair.getGeo()
-						.setColorFunction(algProc.evaluateToList(pair.exp));
+		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
+		dynamicColorList.process((geo, str) -> {
+			GeoList col = algProc.evaluateToList(str);
+			if (col == null) {
+				addError("Invalid dynamic color: " + str);
 			}
-		} catch (RuntimeException e) {
-			dynamicColorList.clear();
-			Log.debug(e);
-			addError("Invalid dynamic color: " + e.toString());
-		}
-		dynamicColorList.clear();
+			geo.setColorFunction(col);
+		});
 	}
 
 	private void addError(String string) {
@@ -2686,10 +2661,10 @@ public class ConsElementXMLHandler {
 		processAnimationSpeedList();
 		processAnimationStepList();
 		processMinMaxList();
+		processVerticalIncrementList();
 
 		processAnimatingList(); // must be after min/maxList otherwise
 								// GeoElement.setAnimating doesn't work
-
 	}
 
 	protected void processDefaultLists() {
@@ -2708,6 +2683,7 @@ public class ConsElementXMLHandler {
 		minMaxList.clear();
 		animationStepList.clear();
 		animationSpeedList.clear();
+		verticalIncrementList.clear();
 		sliderTagProcessed = false;
 		fontTagProcessed = false;
 		lineStyleTagProcessed = false;
@@ -2747,8 +2723,6 @@ public class ConsElementXMLHandler {
 				|| !xmlHandler.kernel.getElementDefaultAllowed()) {
 			// does a geo element with this label exist?
 			geo1 = xmlHandler.kernel.lookupLabel(label);
-
-			// Application.debug(label+", geo="+geo);
 			// needed for TRAC-2719
 			// if geo wasn't found in construction list
 			// look in cas
@@ -2764,8 +2738,6 @@ public class ConsElementXMLHandler {
 				geo1 = xmlHandler.kernel.createGeoElement(xmlHandler.cons,
 						type);
 				pendingLabel = label;
-
-				// Application.debug(label+", "+geo.isLabelSet());
 
 				// independent GeoElements should be hidden by default
 				// (as older versions of this file format did not

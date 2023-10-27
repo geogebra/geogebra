@@ -2,12 +2,11 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
+import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.user.client.ui.InsertPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.InsertPanel;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Panel other than EV that can have navigation bar
@@ -95,7 +94,7 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
+	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel,
 			InsertPanel controls) {
 		if (zoomPanel != null) {
 			// This causes EV overlap toolbar
@@ -105,5 +104,4 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 
 		}
 	}
-
 }

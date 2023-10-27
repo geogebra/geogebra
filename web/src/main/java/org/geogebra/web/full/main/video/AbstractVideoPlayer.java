@@ -3,9 +3,9 @@ package org.geogebra.web.full.main.video;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.IsWidget;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.IsWidget;
 
 public abstract class AbstractVideoPlayer implements IsWidget {
 
@@ -38,8 +38,8 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	 */
 	public void update() {
 		Style style = asWidget().getElement().getStyle();
-		style.setLeft(video.getLeft(), Style.Unit.PX);
-		style.setTop(video.getTop(), Style.Unit.PX);
+		style.setLeft(video.getLeft(), Unit.PX);
+		style.setTop(video.getTop(), Unit.PX);
 
 		if (getVideo().hasSize()) {
 			asWidget().setWidth(getVideo().getWidth() + "px");

@@ -98,7 +98,8 @@ public class MyVec3DNode extends ValidExpression
 
 	private void initStringifier() {
 		VectorPrinterMapBuilder builder = new VectorPrinterMapBuilder3D();
-		stringifier = new VectorNodeStringifier(this, builder.build(this));
+		stringifier = new VectorNodeStringifier(this,
+				builder.build(kernel.getApplication().getSettings().getGeneral()));
 		stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
 	}
 
@@ -216,7 +217,6 @@ public class MyVec3DNode extends ValidExpression
 	 */
 	@Override
 	public double[] getPointAsDouble() {
-		// Application.debug("myvec");
 		return getCoords();
 	}
 

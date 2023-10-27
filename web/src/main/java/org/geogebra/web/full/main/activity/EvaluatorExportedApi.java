@@ -1,13 +1,12 @@
 package org.geogebra.web.full.main.activity;
 
-import org.geogebra.web.full.evaluator.EquationExportImage;
+import org.geogebra.web.editor.MathFieldExporter;
 import org.geogebra.web.html5.main.ExportedApi;
 import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.main.ScriptManagerW;
 
 import elemental2.core.Global;
-import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
@@ -28,7 +27,7 @@ public class EvaluatorExportedApi implements ExportedApi {
 	 * @param evaluatorActivity
 	 *            evaluator activity
 	 */
-	@SuppressWarnings("unusable-by-js")
+	@JsIgnore
 	public EvaluatorExportedApi(EvaluatorActivity evaluatorActivity) {
 		this.evaluatorActivity = evaluatorActivity;
 	}
@@ -62,12 +61,8 @@ public class EvaluatorExportedApi implements ExportedApi {
 		evaluatorActivity.getEditorAPI().evalLaTeX(formula);
 	}
 
-	@JsFunction
-	public interface EquationExportImageConsumer {
-		void accept(EquationExportImage image);
-	}
-
-	public void exportImage(JsPropertyMap<String> settings, EquationExportImageConsumer callback) {
+	public void exportImage(JsPropertyMap<String> settings,
+			MathFieldExporter.ImageConsumer callback) {
 		String type = Js.isTruthy(settings) ? settings.get("type") : null;
 		evaluatorActivity.exportImage(type, Js.isTruthy(settings.get("transparent")), callback);
 	}
@@ -83,11 +78,11 @@ public class EvaluatorExportedApi implements ExportedApi {
 	}
 
 	public void openKeyboard() {
-		evaluatorActivity.getEditor().setKeyboardVisibility(true);
+		evaluatorActivity.getEditor().forceKeyboardVisibility(true);
 	}
 
 	public void closeKeyboard() {
-		evaluatorActivity.getEditor().setKeyboardVisibility(false);
+		evaluatorActivity.getEditor().forceKeyboardVisibility(false);
 	}
 
 	public Object getSteps(JsPropertyMap<String> options) {

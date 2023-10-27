@@ -1432,7 +1432,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
-		// Log.printStacktrace(x + "");
 		String ret = formatRaw(x, tpl);
 
 		if (app.getLocalization().getZero() != '0') {
@@ -1855,8 +1854,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				sbBuildExplicitConicEquation.append(format(dabs, tpl));
 			}
 
-			// Application.debug(sbBuildExplicitConicEquation.toString());
-
 			return sbBuildExplicitConicEquation;
 		}
 	}
@@ -2195,7 +2192,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Returns formated angle (in degrees if necessary)
+	 * Returns formatted angle (in degrees if necessary)
 	 *
 	 * @param phi
 	 *            angle in radians
@@ -2223,6 +2220,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            string template
 	 * @param unbounded
 	 *            whether to allow angles out of [0,2pi]
+	 * @param forceDegrees whether to override kernel's degreeMode
 	 * @return formatted angle
 	 */
 	final public StringBuilder formatAngle(double alpha, double precision,
@@ -2952,11 +2950,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			macroManager.setAllMacrosUnused();
 		}
 
-		// clear animations
-		if (animationManager != null) {
-			animationManager.stopAnimation();
-			animationManager.clearAnimatedGeos();
-		}
+		clearAnimations();
 		if (clearScripts) {
 			cons.getArbitraryConsTable().clear();
 		}
@@ -2964,6 +2958,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		app.getSettings().getProbCalcSettings().reset();
 		notifyClearView();
 		notifyRepaint();
+	}
+
+	/**
+	 * Stop any ongoing animations and clear the animation list
+	 */
+	public void clearAnimations() {
+		if (animationManager != null) {
+			animationManager.stopAnimation();
+			animationManager.clearAnimatedGeos();
+		}
 	}
 
 	/**
@@ -3251,7 +3255,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns a GeoCasCell for the given label.
-	 * 
+	 * @param label cell label
 	 * @return may return null
 	 */
 	final public GeoCasCell lookupCasCellLabel(String label) {
@@ -3530,13 +3534,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            whether views should be notified
 	 */
 	public void setNotifyViewsActive(boolean flag) {
-		// Application.debug("setNotifyViews: " + flag);
 
 		if (flag != notifyViewsActive) {
 			notifyViewsActive = flag;
 
 			if (flag) {
-				// Application.debug("Activate VIEWS");
 				viewReiniting = true;
 
 				// "attach" views again
@@ -3554,8 +3556,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 				viewReiniting = false;
 			} else {
-				// Application.debug("Deactivate VIEWS");
-
 				// "detach" views
 				notifyClearView();
 			}
@@ -4020,6 +4020,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Notify views about finished paste.
+	 * @param pastedGeos pasted elements
 	 */
 	public void notifyPasteComplete(ArrayList<GeoElement> pastedGeos) {
 		if (notifyViewsActive && app.hasEventDispatcher()) {
@@ -4163,9 +4164,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Redo last action.
 	 */
 	public void redo() {
-		if (undoActive && cons.getUndoManager().redoPossible()) {
+		if (undoActive && cons.redoPossible()) {
 			app.batchUpdateStart();
-			cons.redo();
+			cons.getUndoManager().redo();
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
 			app.getEventDispatcher()
@@ -4203,10 +4204,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public void storeUndoInfoAndStateForModeStarting() {
 		if (cons != null) {
 			storeStateForModeStarting();
-			if (cons.isUndoEnabled()) {
-				// reuse cons.getCurrentUndoXML(true)
-				cons.getUndoManager().storeUndoInfo(false);
-			}
+			// reuse cons.getCurrentUndoXML(true)
+			cons.getUndoManager().storeUndoInfo(false);
 		}
 	}
 
@@ -4244,9 +4243,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				}
 			}
 
-			if (cons.getUndoManager().undoPossible()) {
+			if (cons.undoPossible()) {
 				app.batchUpdateStart();
-				cons.undo();
+				cons.getUndoManager().undo();
 
 				// repaint needed for last undo in second EuclidianView (bugfix)
 				if (!undoPossible()) {
@@ -4321,7 +4320,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Creates a new algorithm that uses the given macro.
-	 * 
+	 * @param labels output labels
+	 * @param macro macro
+	 * @param input macro input
 	 * @return output of macro algorithm
 	 */
 
@@ -4341,7 +4342,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Returns the kernel settings in XML format.
+	 * Serialized the kernel settings in XML format.
+	 * @param sb output string builder
+	 * @param asPreference whether this is for preference XML
 	 */
 	public void getKernelXML(StringBuilder sb, boolean asPreference) {
 
@@ -4443,6 +4446,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Creates a new macro within the kernel. A macro is a user defined command
 	 * in GeoGebra.
+	 * @param macro macro to add
 	 */
 	public void addMacro(Macro macro) {
 		if (macroManager == null) {
@@ -4456,14 +4460,22 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Removes a macro from the kernel.
+	 * @param macro macro to remove
 	 */
 	public void removeMacro(Macro macro) {
+		if (macro == null) {
+			return;
+		}
 		if (macroManager != null) {
 			macroManager.removeMacro(macro);
 		}
 
 		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null,
 				macro.getCommandName()));
+	}
+
+	public void removeMacro(String macroName) {
+		removeMacro(getMacro(macroName));
 	}
 
 	/**
@@ -4490,8 +4502,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return if the command name was really set
 	 */
 	public boolean setMacroCommandName(Macro macro, String cmdName) {
-		boolean nameUsed = macroManager.getMacro(cmdName) != null;
-		if (nameUsed || cmdName == null || cmdName.length() == 0) {
+		if (macroManager.getMacro(cmdName) != null
+				|| cmdName == null || cmdName.length() == 0) {
 			return false;
 		}
 
@@ -4523,7 +4535,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * 
 	 * @return macro construction XML
 	 */
-	public String getMacroXML(ArrayList<Macro> macros) {
+	public String getMacroXML(List<Macro> macros) {
 		if (hasMacros()) {
 			return MacroManager.getMacroXML(macros);
 		}
@@ -4587,10 +4599,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * used to delay animation start until everything loaded
+	 * used to delay animation start until everything loaded (desktop only)
+	 * @param animationRequested whether animation should start after file load
 	 */
-	public void setWantAnimationStarted(boolean want) {
-		wantAnimationStarted = want;
+	public void setWantAnimationStarted(boolean animationRequested) {
+		wantAnimationStarted = animationRequested;
 	}
 
 	public boolean wantAnimationStarted() {

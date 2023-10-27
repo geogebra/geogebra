@@ -31,6 +31,7 @@ package com.himamis.retex.editor.share.model;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.model.inspect.Inspecting;
 import com.himamis.retex.editor.share.model.traverse.Traversing;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Character. This class is part of model.
@@ -75,6 +76,13 @@ public class MathCharacter extends MathComponent {
     public String getTexName() {
         return meta.getTexName();
     }
+
+	/**
+	 * @return name for tex
+	 */
+	public String getCasValue() {
+		return meta.getName().name();
+	}
 
 	/**
 	 * For single character return unicode codepoint, for combined returns low surrogate
@@ -144,6 +152,10 @@ public class MathCharacter extends MathComponent {
 		return isOperator() || isSeparator() || Character.isSpace(meta.getUnicode());
 	}
 
+	public boolean isUnicodeMulOrDiv() {
+		return meta.getUnicode() == Unicode.DIVIDE ||  meta.getUnicode() == Unicode.MULTIPLY;
+	}
+
 	public String getUnicodeString() {
 		return meta.getUnicodeString();
 	}
@@ -170,6 +182,11 @@ public class MathCharacter extends MathComponent {
 
 	public boolean isUnicode(char c) {
 		return meta.getUnicode() == c;
+	}
+
+	@Override
+	public boolean isFieldSeparator() {
+		return meta.getUnicode() == ',' || meta.getUnicode() == Unicode.verticalLine;
 	}
 
 	public boolean isLetter() {

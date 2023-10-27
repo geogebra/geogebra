@@ -4,7 +4,10 @@ import static com.himamis.retex.editor.share.util.Unicode.DEGREE_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.IMAGINARY;
 import static com.himamis.retex.editor.share.util.Unicode.PI_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.theta_STRING;
+import static org.geogebra.common.BaseUnitTest.isDefined;
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -23,6 +26,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.algos.AlgoTableText;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -768,6 +772,10 @@ public class CommandsTest {
 	@Test
 	public void cmdApplyMatrix() {
 		t("ApplyMatrix[ {{1,2},{3,4}}, Polygon[(1,1),(2,1/2),4] ]", "2.5");
+		t("ApplyMatrix[ {{2,0,0},{0,3,0},{0,0,4}}, Sphere((0,0,1),1) ]",
+				"0.25x² + 0.1111111111111111y² + 0.0625z² - 0.5z = 0");
+		tRound("Coefficients[ApplyMatrix[ {{0,1},{-1,0}}, 2x+y+0z=1 ]] * sqrt(5)",
+				"{-1, 2, 0, 1}");
 	}
 
 	@Test
@@ -1020,13 +1028,14 @@ public class CommandsTest {
 				newPoint(-0.4410243233086352, 0.14553384365563557),
 				newPoint(-0.35858986503875784, -0.06827447415125582)
 		};
-		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.kernel.getConstruction(), points);
+		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.getKernel().getConstruction(),
+				points);
 		GeoConicND conic = algo.getConic();
-		assertTrue(conic.isDefined());
+		assertThat(conic, isDefined());
 	}
 
 	private GeoPoint newPoint(double x, double y) {
-		return new GeoPoint(app.kernel.getConstruction(), x, y, 0.001);
+		return new GeoPoint(app.getKernel().getConstruction(), x, y, 0.001);
 	}
 
 	@Test
@@ -1385,14 +1394,16 @@ public class CommandsTest {
 
 	@Test
 	public void cmdDifference() {
-		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
+		tRound("diff_{1}=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
 				"3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
 				"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1");
-		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
+		assertNotNull(app.getKernel().lookupLabel("diff_{1}"));
+		tRound("symDiff=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
 				"3", "3", "(3, 3)", "(1, 3)", "(1, 2)", "(2, 2)",
 				"(2, 1)", "(3, 1)", "(2, 1)", "(1, 1)", "(1, 2)",
 				"(0, 2)", "(0, 0)", "(2, 0)", "2", "1", "1", "1", "1",
 				"2", "1", "1", "1", "2", "2", "1");
+		assertNotNull(app.getKernel().lookupLabel("symDiff_{1}"));
 	}
 
 	@Test
@@ -1655,8 +1666,9 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFitLog() {
-		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
-				"1.7791376753366814 + (-0.5108496281733952 * ln(x))");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
+		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
+				"1.77913767533668 - 0.510849628173396ln(x)");
 	}
 
 	@Test
@@ -1667,8 +1679,9 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFitPow() {
-		t("FitPow[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
-				"(2.117291418376159 * x^(-1.0349179205718597))");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
+		t("FitPow[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
+				"2.11729141837616x^-1.03491792057186");
 	}
 
 	@Test
@@ -1712,7 +1725,10 @@ public class CommandsTest {
 
 	@Test
 	public void cmdFractionText() {
-		t("FractionText[ 42 ]", "42");
+		t("FractionText[ 4/6 ]", " \\frac{ 2 }{ 3 } ");
+		t("FractionText[ -4/6 ]", " \\frac{ -2 }{ 3 } ");
+		t("FractionText[ 4/6, false ]", " \\frac{ 2 }{ 3 } ");
+		t("FractionText[ -4/6 , false ]", "- \\frac{ 2 }{ 3 } ");
 		t("FractionText[ (1,1) ]", "{ \\left( 1,1 \\right) }");
 	}
 
@@ -1949,6 +1965,9 @@ public class CommandsTest {
 		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
 				deg("90"), deg("90"), deg("90"), deg("270"),
 				deg("90"), deg("90"));
+		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(0,1),(0,0))]",
+				"?", deg("90"), deg("90"), deg("90"),
+				"?");
 	}
 
 	@Test
@@ -2003,11 +2022,16 @@ public class CommandsTest {
 				false, "(1, 1)");
 		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
 				false, "(?, ?, ?)", "(0, 2, 0)");
-
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
 					"(1, 1, 0)");
 		}
+	}
+
+	@Test
+	public void testIntersectCurves3D() {
+		tRound("Intersect(Curve(v,v,pi/4,v,0,4),Curve(cos(u),sin(u),u,u,0,6),1,1)",
+				"(0.70711, 0.70711, 0.7854)");
 	}
 
 	@Test
@@ -2068,6 +2092,23 @@ public class CommandsTest {
 	@Test
 	public void cmdInverseBinomial() {
 		t("InverseBinomial[ 5, 0.5, 0.5 ]", "2");
+	}
+
+	@Test
+	public void cmdInverseBinomialMinimumTrials() {
+		t("InverseBinomialMinimumTrials[5, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[5, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[-0.01, 0.5, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 1.1, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, -1.1, 5]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, -12]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, 1.2]", "NaN");
+		t("InverseBinomialMinimumTrials[0.5, 0.0, 49]", "NaN");
+		t("InverseBinomialMinimumTrials[0.01, 0.7, 49]", "86");
+		t("InverseBinomialMinimumTrials[0.01, 0.1, 50]", "681");
+		t("InverseBinomialMinimumTrials[0.1, 0.5, 50]", "115");
+		t("InverseBinomialMinimumTrials[0.7, 1.0, 100]", "101");
+		t("InverseBinomialMinimumTrials[0.5, 0.5, 5]", "11");
 	}
 
 	@Test
@@ -2147,6 +2188,9 @@ public class CommandsTest {
 		t("Invert[If[x>1,x^3+1] ]", "If[cbrt(x - 1) > 1, cbrt(x - 1)]");
 		t("Invert[ If(x>2,x)+1 ]", "If[x - 1 > 2, x - 1]");
 		t("Invert[ If(x>2,sin(x)-x) ]", "?");
+		t("Invert[3+0/x]", "?");
+		t("Invert[3+x/0]", "?");
+		t("Invert[3+2/x]", "2 / (x - 3)");
 		AlgebraTestHelper.enableCAS(app, false);
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		t("Invert[ sin(x) ]", "NInvert[sin(x)]");
@@ -2377,7 +2421,7 @@ public class CommandsTest {
 		t("P=Point(xAxis)", "(0, 0)");
 		t("Q=P+(1,0)", "(1, 0)");
 		t("loc = Locus(Q,P)", "Locus[Q, P]");
-		assertTrue(get("loc").isDefined());
+		assertThat(get("loc"), isDefined());
 	}
 
 	@Test
@@ -2576,6 +2620,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdDerivativeNoCas() {
+		// no CAS used; ExpressionNode manipulations should keep fractions
+		tRound("Derivative[x^2/3]", unicode("2 / 3 x"));
+	}
+
+	@Test
 	public void cmdNet() {
 		tRound("Net[Cube[(0,0,2),(0,0,0)],1]",
 				"24", "(0, 0, 2)", "(0, 0, 0)", "(2, 0, 0)",
@@ -2666,6 +2716,7 @@ public class CommandsTest {
 	public void cmdNormalQuantilePlot() {
 		t("NormalQuantilePlot[ {2,3,4}]",
 				"{(2, -0.8193286198336103), (3, 0), (4, 0.8193286198336103), 2.8284271247461903}");
+		t("Slope(Element(NormalQuantilePlot[ {2,3,4}],4))", "1");
 	}
 
 	@Test
@@ -2807,6 +2858,7 @@ public class CommandsTest {
 	@Test
 	public void cmdParseToNumber() {
 		t("ParseToNumber[ \"7\"]", "7");
+		t("ParseToNumber[ \"/\"]", "NaN");
 		t("n1 = 5", "5");
 		t("txt = \"6\"", "6");
 		t("ParseToNumber[ n1, txt ]", "6"); // valid
@@ -3252,6 +3304,26 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdRootHighDeg() {
+		long time = System.currentTimeMillis();
+		t("Root((x+1)^99)", "(-1, 0)");
+		t("Root((x+1)^99+1)", "(NaN, NaN)");
+		assertTrue(System.currentTimeMillis() - time < 1000);
+	}
+
+	@Test
+	public void cmdExtremumHighDeg() {
+		long time = System.currentTimeMillis();
+		StringTemplate lowPrecision = StringTemplate.printDecimals(
+				ExpressionNodeConstants.StringType.GEOGEBRA, 2, false);
+		t("Extremum((x+1)^24)", "(-1, 0)");
+		t("Extremum((x+1)^98)", lowPrecision, "(-1, 0)");
+		// nearly horizontal => x coordinate random, assert on y only
+		t("y(Extremum((x+1)^98+1))", lowPrecision, "1");
+		assertTrue(System.currentTimeMillis() - time < 1000);
+	}
+
+	@Test
 	public void cmdRootList() {
 		t("RootList[ {1,2,3,4,5} ]", "{(1, 0), (2, 0), (3, 0), (4, 0), (5, 0)}");
 	}
@@ -3554,6 +3626,7 @@ public class CommandsTest {
 				get("A").getObjectColor().toString());
 		Assert.assertEquals("A,A1",
 				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
+		Assert.assertEquals(2, app.getKernel().getConstruction().steps());
 	}
 
 	@Test
@@ -3947,6 +4020,18 @@ public class CommandsTest {
 		t("tablesplit=TableText[1..5,\"h\",3]",
 				StringContains.containsString("array"));
 		checkSize("tablesplit", 3, 2);
+		t("tables=TableText[{1,2,3}, {4,5}, \"c\", 100]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{1,2}, {3, 4,5}, \"c\", 100, 120]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{{1,2,3}, {4,5}}, \"c\", 100]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
+		t("tables=TableText[{{1,2}, {3,4,5}}, \"c\", 100, 120]",
+				StringContains.containsString("array"));
+		checkSize("tables", 3, 2);
 	}
 
 	@Test
@@ -3976,8 +4061,11 @@ public class CommandsTest {
 		t("Tangent[ (1,1), x^2+y^2=1 ]", "y = 1", "x = 1");
 		t("Tangent[ (1,1), sin(x) ]",
 				"y = 0.5403023058681398x + 0.30116867893975674");
-		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]",
-				"y = 22.40252712698299x - 66.207581380949");
+		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision13 instead
+		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]", StringTemplate.maxPrecision13,
+				"y = 22.40252712698x - 66.20758138095");
+		t("Tangent[ (0, 1), Curve(cos(z), sin(z), z, 0, π)]",
+				"y = 1");
 	}
 
 	@Test
@@ -4153,9 +4241,9 @@ public class CommandsTest {
 	public void cmdPieChart() {
 		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
 		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
-		assertTrue(get("p2").isDefined());
+		assertThat(get("p2"), isDefined());
 		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
-		assertFalse(get("p3").isDefined());
+		assertThat(get("p3"), not(isDefined()));
 	}
 
 	private static void checkSize(String string, int cols, int rows) {
@@ -4330,6 +4418,19 @@ public class CommandsTest {
 		t("Zip[ i, i, {1, 2} ]", "{1, 2}");
 		t("Zip[ i + j, i, {1, 2}, j, {3, 4} ]", "{4, 6}");
 		t("Zip[ i + j, j, {1, 2}, i, {3, 4} ]", "{4, 6}");
+		t("Zip(2*A,A,{(1,1),(2,3),(4,5,6)})", "{(2, 2, 0), (4, 6, 0), (8, 10, 12)}");
+	}
+
+	@Test
+	public void testZipWithObject() {
+		t("a:x=y", "y = x");
+		t("RemoveUndefined(Zip(Object(xx), xx, {\"y\",\"a\",\"x\"}))", "{y = x}");
+	}
+
+	@Test
+	public void testZipWithText() {
+		t("Zip(Text[A,B,true,true,C,0], A, {\"t1\", \"t2\", \"t3\"}, B, {(0,1),(0,2),(0,3)} , "
+				+ "C, {-1, 0, 1})", "{\"t1\", \"t2\", \"t3\"}");
 	}
 
 	@Test
@@ -4400,5 +4501,24 @@ public class CommandsTest {
 	public void productDegree() {
 		t("f(x)=x^3-Product(Sequence(x+k,k,1,-1,-1))", "x^(3) - (((x + 1) * (x)) * (x - 1))");
 		t("Degree(f)", "1");
+	}
+
+	@Test
+	public void cmdDirac() {
+		t("Dirac(-1)", "0");
+		t("Dirac(-1, 1)", "0");
+		t("Dirac(0)", "Infinity");
+		t("Dirac(0, 1)", "Infinity");
+		t("Dirac(12)", "0");
+		t("Dirac(123, 3)", "0");
+	}
+
+	@Test
+	public void cmdHeaviside() {
+		t("Heaviside(-10000)", "0");
+		t("Heaviside(-1)", "0");
+		t("Heaviside(0)", "1");
+		t("Heaviside(1)", "1");
+		t("Heaviside(10000)", "1");
 	}
 }

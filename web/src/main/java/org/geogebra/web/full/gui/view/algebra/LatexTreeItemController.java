@@ -8,14 +8,14 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.event.dom.client.BlurEvent;
+import org.gwtproject.event.dom.client.BlurHandler;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -190,8 +190,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 *            text to be inserted
 	 */
 	public void autocomplete(String text) {
-		GuiManagerW.makeKeyboardListener(retexListener, null)
-				.insertString(text);
+		KeyboardInputAdapter.onKeyboardInput(getMathField().getInternal(), text);
 	}
 
 	/**
@@ -249,6 +248,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public boolean onEscape() {
+		if (autocomplete != null && autocomplete.isSuggesting()) {
+			autocomplete.hide();
+			return true;
+		}
 		if (item.geo != null || StringUtil.empty(item.getText())) {
 			onBlur(null);
 			app.getAccessibilityManager().focusGeo(item.geo);
@@ -258,7 +261,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	@Override
-	public void onTab(boolean shiftDown) {
+	public boolean onTab(boolean shiftDown) {
 		onEnter(false, false);
 		if (item.isInputTreeItem()) {
 			item.addDummyLabel();
@@ -266,10 +269,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 		app.hideKeyboard();
 		if (shiftDown) {
-			app.getAccessibilityManager()
+			return app.getAccessibilityManager()
 					.focusPrevious();
 		} else {
-			app.getAccessibilityManager()
+			return app.getAccessibilityManager()
 					.focusNext();
 		}
 	}

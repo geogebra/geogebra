@@ -15,19 +15,21 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.MyImageW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.FontStyle;
+import org.gwtproject.dom.style.shared.FontWeight;
+import org.gwtproject.dom.style.shared.TextAlign;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseDownHandler;
+import org.gwtproject.event.dom.client.MouseUpEvent;
+import org.gwtproject.event.dom.client.MouseUpHandler;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Grid;
+import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.base.Js;
@@ -87,22 +89,22 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		        CellFormat.FORMAT_FONTSTYLE);
 		s.setFontSize(app.getFontSize(), Unit.PX);
 		if (fontStyle == null) {
-			s.setFontStyle(Style.FontStyle.NORMAL);
-			s.setFontWeight(Style.FontWeight.NORMAL);
+			s.setFontStyle(FontStyle.NORMAL);
+			s.setFontWeight(FontWeight.NORMAL);
 
 		} else {
 			if (fontStyle == CellFormat.STYLE_ITALIC
 			        || fontStyle == CellFormat.STYLE_BOLD_ITALIC) {
-				s.setFontStyle(Style.FontStyle.ITALIC);
+				s.setFontStyle(FontStyle.ITALIC);
 			} else {
-				s.setFontStyle(Style.FontStyle.NORMAL);
+				s.setFontStyle(FontStyle.NORMAL);
 			}
 
 			if (fontStyle == CellFormat.STYLE_BOLD
 			        || fontStyle == CellFormat.STYLE_BOLD_ITALIC) {
-				s.setFontWeight(Style.FontWeight.BOLD);
+				s.setFontWeight(FontWeight.BOLD);
 			} else {
-				s.setFontWeight(Style.FontWeight.NORMAL);
+				s.setFontWeight(FontWeight.NORMAL);
 			}
 		}
 
@@ -477,7 +479,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			}, MouseDownEvent.getType());
 
 			fp.add(checkbox);
-			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
+			fp.getElement().getStyle().setTextAlign(TextAlign.CENTER);
 
 			checkbox.setDisabled(!cellGeo.isIndependent());
 			checkbox.setSelected(((GeoBoolean) cellGeo).getBoolean());
@@ -532,7 +534,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 			lb.addChangeHandler(ce -> {
 				if (view.allowSpecialEditor()) {
-					list.setSelectedIndex(lb.getSelectedIndex(), true);
+					list.setSelectedIndexUpdate(lb.getSelectedIndex());
 				}
 			});
 

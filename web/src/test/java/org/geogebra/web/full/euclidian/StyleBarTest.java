@@ -4,12 +4,11 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
+import org.gwtproject.user.client.ui.ComplexPanel;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwtmockito.WithClassesToStub;
 
 @RunWith(GgbMockitoTestRunner.class)
@@ -43,11 +42,6 @@ public class StyleBarTest {
 		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(
 				app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);
-	}
-
-	@Before
-	public void rootPanel() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 	}
 
 }

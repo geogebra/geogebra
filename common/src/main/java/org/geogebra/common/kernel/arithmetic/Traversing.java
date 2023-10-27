@@ -10,7 +10,6 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.variable.InputTokenizer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -769,8 +768,7 @@ public interface Traversing {
 				}
 			}
 			if (replace instanceof Variable
-					&& !name.equals(kernel.getConstruction()
-							.getRegisteredFunctionVariable())
+					&& !kernel.getConstruction().isRegisteredFunctionVariable(name)
 					&& !isException(name)) {
 				name = ((Variable) replace)
 						.getName(StringTemplate.defaultTemplate);
@@ -779,7 +777,6 @@ public interface Traversing {
 				GeoNumeric slider = geoClass == GeoClass.ANGLE
 						? new GeoAngle(kernel.getConstruction(), Math.PI / 4)
 						: new GeoNumeric(kernel.getConstruction(), 1);
-				kernel.getConstruction().setSuppressLabelCreation(old);
 				undefined.add(slider);
 				boolean visible = !kernel.getApplication()
 						.showView(App.VIEW_ALGEBRA)
@@ -787,6 +784,7 @@ public interface Traversing {
 				GeoNumeric.setSliderFromDefault(slider,
 						geoClass == GeoClass.ANGLE, visible);
 				slider.setLabel(name);
+				kernel.getConstruction().setSuppressLabelCreation(old);
 			}
 
 		}
@@ -854,7 +852,7 @@ public interface Traversing {
 				}
 
 				if (ExpressionNode.isImaginaryUnit(expressionFromVariableName.unwrap())) {
-					tree.add(InputTokenizer.IMAGINARY_STRING);
+					tree.add(Unicode.IMAGINARY_STRING);
 				}
 				if (expressionFromVariableName instanceof Variable
 						&& !variable

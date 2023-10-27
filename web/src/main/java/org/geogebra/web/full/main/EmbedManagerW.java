@@ -46,13 +46,12 @@ import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.GeoGebraElement;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Frame;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.core.Global;
 import jsinterop.base.Js;
@@ -73,7 +72,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 	private int counter;
 	private final HashMap<Integer, String> content = new HashMap<>();
-	private final HashMap<Integer, String> base64 = new HashMap<>();
+	private final HashMap<Integer, String> urls = new HashMap<>();
 	private final HashMap<GeoElement, Runnable> errorHandlers = new HashMap<>();
 
 	/**
@@ -168,16 +167,16 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
 			parameters.setAttribute(entry.getKey(), entry.getValue());
 		}
-		String currentBase64 = base64.get(drawEmbed.getEmbedID());
-		if (currentBase64 != null) {
-			parameters.setAttribute("ggbBase64", currentBase64);
+		String fileName = urls.get(drawEmbed.getEmbedID());
+		if (fileName != null) {
+			parameters.setAttribute("filename", fileName);
 		}
 		fr.setComputedWidth(parameters.getDataParamWidth());
 		fr.setComputedHeight(parameters.getDataParamHeight());
 		fr.setOnLoadCallback(exportedApi -> {
 			Map<String, Object> jsonArgument = new HashMap<>();
 			jsonArgument.put("api", exportedApi);
-			jsonArgument.put("loadedWithFile", currentBase64 != null);
+			jsonArgument.put("loadedWithFile", fileName != null);
 			app.dispatchEvent(new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed())
 					.setJsonArgument(jsonArgument));
 		});
@@ -195,7 +194,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 		element.setJsEnabled(isJsEnabled());
 		AppWFull appEmbedded = fr.getApp();
-		if (currentBase64 != null) {
+		if (fileName != null) {
 			appEmbedded.registerOpenFileListener(
 					getListener(drawEmbed, parameters, appEmbedded));
 			appEmbedded.getEventDispatcher().disableListeners();
@@ -505,7 +504,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	@Override
 	public void embed(Material material) {
 		int id = nextID();
-		base64.put(id, material.getBase64());
+		urls.put(id, material.getFileName());
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
 		ge.setSize(material.getWidth(), material.getHeight());
 		ge.setContentWidth(material.getWidth());
@@ -672,15 +671,15 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void setContentSync(String label, String contentBase64) {
+	public void setContentSync(String label, String url) {
 		GeoElement el = app.getKernel().lookupLabel(label);
 		if (el instanceof GeoEmbed) {
 			DrawableND de = app.getActiveEuclidianView().getDrawableFor(el);
 			int embedID = ((GeoEmbed) el).getEmbedID();
 			if (de instanceof DrawWidget && widgets.get(de) != null) {
-				widgets.get(de).setContent(contentBase64);
+				widgets.get(de).setContent(url);
 			} else {
-				base64.put(embedID, contentBase64);
+				urls.put(embedID, url);
 			}
 		}
 	}

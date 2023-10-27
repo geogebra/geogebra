@@ -6,11 +6,10 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.web.full.gui.view.data.StatTableW;
-import org.geogebra.web.full.gui.view.data.StatTableW.MyTable;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.geogebra.web.full.gui.view.data.StatTableW.StatDataTable;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * @author gabor
@@ -113,7 +112,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	
 	@Override
 	public void onClick(ClickEvent event) {
-		MyTable table = statTable.getTable();
+		StatDataTable table = statTable.getTable();
 		
 		table.handleSelection(event);
 

@@ -88,7 +88,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	private MyCellEditorList editorList;
 
 	protected RelativeCopy relativeCopy;
-	public CopyPasteCutD copyPasteCut;
+	protected CopyPasteCutD copyPasteCut;
 	protected SpreadsheetColumnControllerD.ColumnHeaderRenderer headerRenderer;
 	protected SpreadsheetViewD view;
 	protected DefaultTableModel tableModel;
@@ -100,7 +100,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	public ArrayList<CellRange> selectedCellRanges;
+	private ArrayList<CellRange> selectedCellRanges;
 
 	@Override
 	public ArrayList<CellRange> getSelectedCellRanges() {
@@ -151,8 +151,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
 	// after a repaint in MyTable.
-	public HashSet<GPoint> cellResizeHeightSet;
-	public HashSet<GPoint> cellResizeWidthSet;
+	protected HashSet<GPoint> cellResizeHeightSet;
+	protected HashSet<GPoint> cellResizeWidthSet;
 
 	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
 	private boolean doRecordRowHeights = true;
@@ -235,7 +235,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setSelectionForeground(Color.BLACK);
 
 		// add cell renderer & editors
-		setDefaultRenderer(Object.class, new MyCellRendererD(this));
+		setDefaultRenderer(Object.class, new SpreadsheetCellRendererD(this));
 		editor = new MyCellEditorSpreadsheet(kernel, getEditorController());
 		setDefaultEditor(Object.class, editor);
 
@@ -891,7 +891,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	private boolean isSelectAll = false;
 	private boolean isSelectNone = false;
 
-	@Override
 	public boolean isSelectNone() {
 		return isSelectNone;
 	}
@@ -1120,7 +1119,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			int x2 = point2.getX();
 			int y2 = point2.getY();
 			graphics.setColor(Color.GRAY);
-			// Application.debug(x1 + "," + y1 + "," + x2 + "," + y2);
 			graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 			graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
 			graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
@@ -1131,14 +1129,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// draw dragging frame
 		if (dragingToRow != -1 && dragingToColumn != -1) {
-			/*
-			 * Application.debug("minSelectionRow = " + minSelectionRow);
-			 * Application.debug("minSelectionColumn = " + minSelectionColumn);
-			 * Application.debug("maxSelectionRow = " + maxSelectionRow);
-			 * Application.debug("maxSelectionColumn = " + maxSelectionColumn);
-			 * Application.debug("dragingToRow = " + dragingToRow);
-			 * Application.debug("dragingToColumn = " + dragingToColumn); /*
-			 */
 			// -|1|-
 			// 2|-|3
 			// -|4|-

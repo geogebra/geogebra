@@ -325,17 +325,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			locus.setUndefined();
 			macroCons = null;
 		}
-
-		// //Application.debug("P: " + P + ", kernel class: " +
-		// P.kernel.getClass());
-		// Application.debug("Pcopy: " + Pcopy + ", kernel class: " +
-		// Pcopy.kernel.getClass());
-		// //Application.debug("P == Pcopy: " + (P == Pcopy));
-		// //Application.debug("Q: " + Q + ", kernel class: " +
-		// Q.kernel.getClass());
-		// Application.debug("Qcopy: " + Qcopy + ", kernel class: " +
-		// Qcopy.kernel.getClass());
-		// //Application.debug("Q == Qcopy: " + (Q == Qcopy));
 	}
 
 	/**
@@ -532,12 +521,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			if (differentFromLast(copyQ)) {
 				insertPoint(copyQ, distanceSmall(copyQ, false));
 			}
-
-			// Application.debug("run: " + runs);
-			// Application.debug("pointCount: " + pointCount);
-			// Application.debug(" startPos: " + QstartPos);
-			// Application.debug(" Qcopy: " + Qcopy);
-
 			// we are finished with all runs
 			// if we got back to the start position of Qcopy
 			// AND if the direction of moving along the path
@@ -555,18 +538,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 		// set defined/undefined
 		locus.setDefined(foundDefined);
-
-		// System.out.println(" first point: " +
-		// locus.getMyPointList().get(0));
-		// ArrayList list = locus.getMyPointList();
-		// for (int i=list.size()-10; i < list.size()-1; i++) {
-		// System.out.println(" point: " + list.get(i));
-		// }
-		// System.out.println(" last point: " +
-		// locus.getMyPointList().get(pointCount-1));
-
-		// Application.debug("LOCUS COMPUTE updateCascades: " + countUpdates +
-		// ", cache used: " + useCache);
 	}
 
 	protected abstract boolean differentFromLast(GeoPointND qcopy2);

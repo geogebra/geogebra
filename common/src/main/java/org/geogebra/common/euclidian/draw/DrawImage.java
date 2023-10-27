@@ -115,9 +115,10 @@ public class DrawImage extends Drawable {
 		// RELATIVE SCREEN POSITION
 		else {
 			boolean center = geoImage.isCentered();
-			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
-			GeoPoint B = center ? null : geoImage.getCorner(1);
-			GeoPoint D = center ? null : geoImage.getCorner(2);
+			int number = center ? 3 : 0;
+			GeoPoint A = geoImage.getStartPoint(number);
+			GeoPoint B = center ? null : geoImage.getStartPoint(1);
+			GeoPoint D = center ? null : geoImage.getStartPoint(2);
 			double ax = 0;
 			double ay = 0;
 			if (A != null) {
@@ -144,7 +145,7 @@ public class DrawImage extends Drawable {
 							// make sure old files work
 							// https://dev.geogebra.org/trac/changeset/57611
 							geo.getKernel().getApplication().fileVersionBefore(
-									new int[] { 5, 0, 397, 0 })
+									5, 0, 397, 0)
 											? -view.getInvXscale()
 											: -view.getInvYscale());
 				}
@@ -454,6 +455,10 @@ public class DrawImage extends Drawable {
 	public GRectangle2D getBoundsClipped() {
 		updateIfNeeded();
 		return super.getBoundsClipped();
+	}
+
+	protected GAffineTransform getTransform() {
+		return at;
 	}
 
 }

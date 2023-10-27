@@ -1,10 +1,10 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Header view containing a back button and a label.
@@ -40,14 +40,13 @@ public class HeaderView extends FlowPanel {
 		backButton = new StandardButton(
 				GuiResourcesSimple.INSTANCE.arrow_back(), null, 24);
 		backButton.setStyleName(BACK_BUTTON_STYLE_NAME);
+		backButton.addStyleName("flatButtonHeader");
 
 		add(backButton);
 	}
 
 	private void createCaption() {
-		caption = new Label();
-		caption.setStyleName(CAPTION_STYLE_NAME);
-
+		caption = BaseWidgetFactory.INSTANCE.newPrimaryText("", CAPTION_STYLE_NAME);
 		add(caption);
 	}
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.function.Predicate;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.StringTemplate;
@@ -42,7 +43,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasFaces;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
-import org.geogebra.common.util.GPredicate;
 
 /**
  * 
@@ -190,18 +190,6 @@ public class Hits extends ArrayList<GeoElement> {
 	public boolean hasZAxis() {
 		return hasZAxis;
 	}
-
-	/**
-	 * returns GeoElement whose label is at screen coords (x,y).
-	 */
-	/*
-	 * final public GeoElement getLabelHit(Point p) { if
-	 * (!app.isLabelDragsEnabled()) return null; DrawableIterator it =
-	 * allDrawableList.getIterator(); while (it.hasNext()) { Drawable d =
-	 * it.next(); if (d.hitLabel(p.x, p.y)) { GeoElement geo =
-	 * d.getGeoElement(); if (geo.isEuclidianVisible()) return geo; } } return
-	 * null; }
-	 */
 
 	/**
 	 * absorbs new elements in hits2 Tam: 2011/5/21
@@ -580,7 +568,6 @@ public class Hits extends ArrayList<GeoElement> {
 				// moveable object
 				if (geo.isMoveable(view)) {
 					moveableList.add(geo);
-					// Application.debug("moveable GeoElement = "+geo);
 				}
 				// point with changeable parent coords
 				else if (geo.isGeoPoint()) {
@@ -984,7 +971,7 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 
-	private Hits getWithMetaHits(GPredicate<GeoElement> filter) {
+	private Hits getWithMetaHits(Predicate<GeoElement> filter) {
 		Hits result = new Hits();
 
 		for (GeoElement geo : this) {
@@ -1009,12 +996,8 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return hits that has finite volume
 	 */
 	public Hits getFiniteVolumeIncludingMetaHits() {
-		return getWithMetaHits(new GPredicate<GeoElement>() {
-			@Override
-			public boolean test(GeoElement geo) {
-				return geo instanceof HasVolume && ((HasVolume) geo).hasFiniteVolume();
-			}
-		});
+		return getWithMetaHits(
+				geo -> geo instanceof HasVolume && ((HasVolume) geo).hasFiniteVolume());
 	}
 
 	/**
@@ -1022,12 +1005,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return hits that has finite volume
 	 */
 	public Hits getPolyhedronsIncludingMetaHits() {
-		return getWithMetaHits(new GPredicate<GeoElement>() {
-			@Override
-			public boolean test(GeoElement geo) {
-				return geo.isGeoPolyhedron();
-			}
-		});
+		return getWithMetaHits(GeoElement::isGeoPolyhedron);
 	}
 
 	/**

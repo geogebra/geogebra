@@ -3,17 +3,16 @@ package org.geogebra.web.html5.euclidian;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.web.html5.Browser;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.timer.client.Timer;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import jsinterop.base.Js;
 
 /**
- * Widget to able screen readers to read text from
+ * Widget to allow screen readers to read text from
  * non-accessible areas like EV1, EV3D
  * 
  * @author laszlo
@@ -44,16 +43,6 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		getElement().setAttribute("aria-relevant", "additions text");
 	}
 
-	private void createTimer() {
-		timer = new Timer() {
-
-			@Override
-			public void run() {
-				reset();
-			}
-		};
-	}
-
 	/**
 	 * Set text to read.
 	 * 
@@ -61,7 +50,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 *            to set.
 	 */
 	private void setText(String text) {
-		getElement().setInnerHTML(text);
+		getElement().setInnerText(text);
 	}
 
 	/**
@@ -86,10 +75,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	}
 
 	private void resetWithDelay() {
-		if (timer == null) {
-			createTimer();
-		}
-		timer.schedule(1000);
+		DomGlobal.setTimeout((ignore) -> reset(), 1000);
 	}
 
 	private void focus() {
@@ -109,12 +95,21 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 
 	@Override
 	public void readDelayed(final String text) {
-		new Timer() {
+		timer = new Timer() {
 			@Override
 			public void run() {
 				readTextImmediate(text);
+				timer = null;
 			}
-		}.schedule(200);
+		};
+		timer.schedule(200);
+	}
+
+	@Override
+	public void cancelReadDelayed() {
+		if (timer != null) {
+			timer.cancel();
+		}
 	}
 
 	private void readTextImmediate(String text) {

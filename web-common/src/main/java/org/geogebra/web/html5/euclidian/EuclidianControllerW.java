@@ -23,9 +23,8 @@ import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.DropHandler;
+import org.gwtproject.event.dom.client.DropEvent;
+import org.gwtproject.event.dom.client.DropHandler;
 
 import elemental2.dom.WheelEvent;
 
@@ -54,10 +53,11 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public void showListToolTip(String message) {
 		if (message != null && !"".equals(message)) {
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(message,
+			ToolTipManagerW toolTipManager = ((AppW) app).getToolTipManager();
+			toolTipManager.setBlockToolTip(false);
+			toolTipManager.showBottomInfoToolTip(message,
 					null, null, "", (AppW) app);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			toolTipManager.setBlockToolTip(true);
 		}
 	}
 
@@ -122,11 +122,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	private boolean shouldSetToolbar() {
 		return getEvNo() != EuclidianView.EVNO_GENERAL
 				|| (getView() instanceof EuclidianViewForPlaneInterface);
-	}
-
-	@Override
-	protected void initToolTipManager() {
-		mtg.initToolTipManager();
 	}
 
 	@Override

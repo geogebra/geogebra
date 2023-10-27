@@ -109,6 +109,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		GGB_IS_EQUALS("ggb_is_equals", "ggb_is_equals(a):=when(a==equal||a=='%=',true,false)"),
 
+		CHECK_DERIVATIVE("check_derivative", "check_derivative(a,b):="
+				+ "when(size(a)==1,a[0],flatten1([revlist(a),sort(remove(undef,map(a,r->"
+				+ "when(evalf(subst(r,x=xcoord(b))-ycoord(b))==0,r,undef))))])[-1])"),
+
 		/**
 		 * test if "=" or "%=" or ">" or ">=" - needed for eg
 		 * LeftSide({a,b}={1,2})
@@ -302,7 +306,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * Used internally.
 		 */
-		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /*print(polys);*/ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
+		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degs, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degs:=degree(polys[ii],vars); if (sum(degs)=1) begin pos:=find(1,degs); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /*print(polys);*/ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars. Used internally.
@@ -426,6 +430,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(AFACTOR_ALG_NUM, IRRED);
 			setDependency(ABSFACT, AFACTOR_ALG_NUM);
 			setDependency(COS_2PI_OVER_N_MINPOLY, FACTOR_SQR_FREE);
+			setDependency(CHECK_DERIVATIVE, XCOORD);
+			setDependency(CHECK_DERIVATIVE, YCOORD);
 		}
 
 		/**
@@ -453,7 +459,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/** CAS parser */
-	public CASparser casParser;
+	protected CASparser casParser;
 
 	private static int nrOfReplacedConst = 0;
 	/**

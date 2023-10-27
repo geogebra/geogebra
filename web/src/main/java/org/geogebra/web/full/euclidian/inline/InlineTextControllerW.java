@@ -28,10 +28,11 @@ import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.EditorChangeListener;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 import org.geogebra.web.richtext.impl.CarotaUtil;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Web implementation of the inline text controller.
@@ -141,7 +142,7 @@ public class InlineTextControllerW implements InlineTextController {
 		widget.addStyleName(INVISIBLE);
 		EventUtil.stopPointerEvents(widget.getElement(), btn -> btn <= 0);
 		style = widget.getElement().getStyle();
-		style.setPosition(Style.Position.ABSOLUTE);
+		style.setPosition(Position.ABSOLUTE);
 		Element editorElement = editor.getWidget().getElement();
 		parent.appendChild(editorElement);
 		// re-parent the textarea to make sure focus stays in view (MOW-1330)
@@ -184,7 +185,7 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	private void updateVerticalAlign() {
-		style.setPaddingTop(getValignPadding(), Style.Unit.PX);
+		style.setPaddingTop(getValignPadding(), Unit.PX);
 	}
 
 	@Override
@@ -195,8 +196,8 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void setLocation(int x, int y) {
-		style.setLeft(x, Style.Unit.PX);
-		style.setTop(y, Style.Unit.PX);
+		style.setLeft(x, Unit.PX);
+		style.setTop(y, Unit.PX);
 	}
 
 	@Override
@@ -215,13 +216,13 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void setWidth(int width) {
-		style.setWidth(width, Style.Unit.PX);
+		style.setWidth(width, Unit.PX);
 		editor.setWidth(width);
 	}
 
 	@Override
 	public void setHeight(int height) {
-		style.setHeight(height, Style.Unit.PX);
+		style.setHeight(height, Unit.PX);
 	}
 
 	@Override
@@ -229,6 +230,7 @@ public class InlineTextControllerW implements InlineTextController {
 		editor.deselect();
 		if (!editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			editor.getWidget().addStyleName(INVISIBLE);
+			textareaWrapper.removeFromParent(); // make sure no editable element on Android
 			geo.updateRepaint();
 			geo.unlockForMultiuser();
 		}
@@ -237,6 +239,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void toForeground(int x, int y) {
 		editor.getWidget().removeStyleName(INVISIBLE);
+		parent.appendChild(textareaWrapper);
 		editor.focus(x, y);
 	}
 

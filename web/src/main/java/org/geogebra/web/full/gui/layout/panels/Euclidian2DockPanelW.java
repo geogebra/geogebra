@@ -5,11 +5,10 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * This class may be redundant since EuclidianDockPanelW, but GeoGebra Desktop
@@ -52,7 +51,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
-			eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+			eview1.getElement().getStyle().setPosition(Position.RELATIVE);
 			eview1.getElement().getStyle().setZIndex(0);
 			euclidianpanel.getAbsolutePanel().add(eview1);
 		}

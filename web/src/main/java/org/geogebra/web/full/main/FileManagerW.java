@@ -2,6 +2,7 @@ package org.geogebra.web.full.main;
 
 import java.util.TreeSet;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManager;
@@ -21,10 +22,8 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-import com.google.gwt.storage.client.Storage;
-
 /**
- * Manager for files from {@link Storage localStorage}
+ * Manager for files from localStorage
  * 
  * JSON including the base64 and metadata is stored under
  * "file_[local-id]_[title]" key. The id field inside JSON is for Tube id, is
@@ -130,7 +129,7 @@ public class FileManagerW extends FileManager {
 				Material mat = JSONParserGGT.parseMaterial(this.stockStore
 				        .getItem(key));
 				if (mat == null) {
-					mat = new Material(0, MaterialType.ggb);
+					mat = new Material(MaterialType.ggb);
 					mat.setTitle(getTitleFromKey(key));
 				}
 				if (filter.check(mat)
@@ -240,10 +239,7 @@ public class FileManagerW extends FileManager {
 				.parseMaterial(materialJSON);
 		// maybe another user restores the file, so reset
 		// sensitive data
-		autoSaved.setAuthor("");
-		autoSaved.setAuthorId(0);
-		autoSaved.setId(0);
-		autoSaved.setGoogleID("");
+		autoSaved.setCreator(null);
 		openMaterial(autoSaved);
 	}
 
@@ -264,7 +260,7 @@ public class FileManagerW extends FileManager {
 	@Override
 	public void export(App app1) {
 		dialogEvent(app, "exportGGB");
-		((AppW) app1).getGuiManager().exportGGB(true);
+		((AppW) app1).getGuiManager().exportGGB(false);
 	}
 
 	@Override
@@ -282,7 +278,7 @@ public class FileManagerW extends FileManager {
 		} catch (Exception e) {
 			Log.warn("setting tube ID failed");
 		}
-		this.offlineIDs.add(mat.getId());
+		this.offlineIDs.add(mat.getLocalID());
 
 	}
 
@@ -300,7 +296,7 @@ public class FileManagerW extends FileManager {
 		}
 		try {
 			this.stockStore.setItem(key, material.toJson().toString());
-			this.offlineIDs.add(material.getId());
+			this.offlineIDs.add(material.getLocalID());
 		} catch (Exception e) {
 			Log.warn("Updating local copy failed.");
 		}
@@ -336,6 +332,18 @@ public class FileManagerW extends FileManager {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());
 		}
+	}
+
+	@Override
+	public boolean isOnlineSavingPreferred() {
+		return getFileProvider() != Material.Provider.LOCAL
+				&& app.getNetworkOperation().isOnline()
+				&& (app.getLoginOperation().isLoggedIn() || mayLogIn());
+	}
+
+	private boolean mayLogIn() {
+		return app.getPlatform() != GeoGebraConstants.Platform.OFFLINE
+				&& app.getLoginOperation().mayLogIn();
 	}
 
 	private static void dialogEvent(AppW app, String string) {

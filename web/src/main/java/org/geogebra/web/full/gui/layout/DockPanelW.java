@@ -25,16 +25,15 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.resources.client.ResourcePrototype;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.InsertPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.DockLayoutPanel;
+import org.gwtproject.user.client.ui.InsertPanel;
+import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.ResizeComposite;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
@@ -144,7 +143,7 @@ public abstract class DockPanelW extends ResizeComposite
 	private boolean dialog = false;
 
 	/** dock panel */
-	MyDockLayoutPanel dockPanel;
+	InnerDockLayoutPanel dockPanel;
 	/** the main panel of this stylebar */
 	//protected TitleBarPanel titleBarPanel;
 	protected DockControlPanel dockControlPanel;
@@ -276,7 +275,7 @@ public abstract class DockPanelW extends ResizeComposite
 			return;
 		}
 
-		dockPanel = new MyDockLayoutPanel();
+		dockPanel = new InnerDockLayoutPanel();
 		initWidget(dockPanel);
 	}
 
@@ -439,7 +438,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @param controls top controls panel
 	 *
 	 */
-	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
+	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel,
 			InsertPanel controls) {
 		if (zoomPanel != null) {
 			dockLayoutPanel.addSouth(zoomPanel, 0);
@@ -528,12 +527,12 @@ public abstract class DockPanelW extends ResizeComposite
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
 	 * extend DockPanelW itself
 	 */
-	public static class MyDockLayoutPanel extends DockLayoutPanel {
+	public static class InnerDockLayoutPanel extends DockLayoutPanel {
 		/**
 		 * Create new dock panel
 		 */
-		public MyDockLayoutPanel() {
-			super(Style.Unit.PX);
+		public InnerDockLayoutPanel() {
+			super(Unit.PX);
 			addStyleName("ggbdockpanelhack");
 			addAttachHandler(evt -> {
 				if (evt.isAttached()) {

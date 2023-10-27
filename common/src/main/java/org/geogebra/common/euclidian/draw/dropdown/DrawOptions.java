@@ -13,7 +13,6 @@ import org.geogebra.common.plugin.EventType;
 
 class DrawOptions implements MoveSelector, OptionsInterface {
 	static final int MARGIN = 5;
-
 	static final int ROUND = 8;
 	private final DrawDropDownList drawDropDownList;
 	private final DropDownModel model;
@@ -265,7 +264,12 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 
 	void toggle() {
 		if (visible) {
-			chooseItem(selector.hoveredIndex());
+			int hoveredIndex = selector.hoveredIndex();
+			if (hoveredIndex > -1) {
+				chooseItem(hoveredIndex);
+			} else {
+				setVisible(false);
+			}
 			app.setActiveView(view.getViewID());
 		} else {
 			setVisible(true);
@@ -283,7 +287,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 	}
 
 	void selectCurrentItem() {
-		geoList.setSelectedIndex(range.getSelected(), true);
+		geoList.setSelectedIndexUpdate(range.getSelected());
 	}
 
 	int getMaxItemWidth() {

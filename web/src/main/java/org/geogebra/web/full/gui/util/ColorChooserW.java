@@ -24,11 +24,11 @@ import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
@@ -446,8 +446,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			maxLabel = new Label("100");
 			sp.add(maxLabel);
 			add(sp);
-			slider.addChangeHandler(event -> onSliderInput());
-			Slider.addInputHandler(slider.getElement(), this);
+			slider.addInputHandler(this);
 		}
 
 		@Override

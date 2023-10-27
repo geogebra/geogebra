@@ -226,7 +226,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 		// give the table the focus in case the formula bar is the editor
 		if (table.getView().getFormulaBar().editorHasFocus()) {
-			// Application.debug("give focus to table");
 			table.requestFocus();
 		}
 	}
@@ -249,7 +248,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 		// give the table the focus in case the formula bar is the editor
 		if (table.getView().getFormulaBar().editorHasFocus()) {
-			// Application.debug("give focus to table");
 			table.requestFocus();
 		}
 		return success;
@@ -292,9 +290,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 					}
 
 				} else {
-					GeoElementND newVal = RelativeCopy
-							.prepareAddingValueToTableNoStoringUndoInfo(kernel,
-									app, text, value, column, row, false);
+					GeoElementND newVal = new RelativeCopy(kernel)
+							.prepareAddingValueToTableNoStoringUndoInfo(text,
+									value, column, row, false);
 					if (newVal == null) {
 						return false;
 					}

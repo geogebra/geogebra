@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.CasSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.CASSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.CasPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
@@ -76,8 +77,8 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public CommandFilter getCommandFilter() {
-		return CommandFilterFactory.createCasCommandFilter();
+	public CommandFilter createCommandFilter() {
+		 return CommandFilterFactory.createCasCommandFilter();
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	@CheckForNull
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
-		return null;
+		return new CASSyntaxFilter();
 	}
 
 	@Override

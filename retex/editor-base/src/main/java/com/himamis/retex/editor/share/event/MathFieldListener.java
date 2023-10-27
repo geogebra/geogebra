@@ -12,5 +12,5 @@ public interface MathFieldListener {
 
 	boolean onEscape();
 
-	void onTab(boolean shiftDown);
+	boolean onTab(boolean shiftDown);
 }

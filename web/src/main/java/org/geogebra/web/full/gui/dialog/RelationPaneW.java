@@ -3,18 +3,18 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HTML;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Web implementation of the Relation Tool dialog
@@ -108,6 +108,7 @@ public class RelationPaneW extends ComponentDialog
 
 		SimplePanel divider = new SimplePanel();
 		divider.addStyleName("divider");
+		divider.addStyleName(Shades.NEUTRAL_300.getName());
 		addDialogContent(divider);
 
 		Label symHeader = getHeader("RelationDialog.SymCheck");

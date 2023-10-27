@@ -1,10 +1,12 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.Shades;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 public class ComponentToast extends GPopupPanel {
 	private SimplePanel content;
@@ -16,9 +18,15 @@ public class ComponentToast extends GPopupPanel {
 	 * @param contentStr - content of the toast
 	 */
 	public ComponentToast(AppW app, String contentStr) {
-		super(app.getPanel(), app);
+		super(app.getAppletFrame(), app);
 		addStyleName("toast");
+		addStyleName(Shades.NEUTRAL_600.getName());
 		buildGUI(contentStr);
+		Dom.addEventListener(getElement(), "transitionend", evt -> {
+			if (!getElement().hasClassName("fadeIn")) {
+				removeFromParent();
+			}
+		});
 	}
 
 	private void buildGUI(String contentStr) {
@@ -40,14 +48,16 @@ public class ComponentToast extends GPopupPanel {
 	 * @param width - width of av input panel
 	 */
 	public void show(int left, int top, int bottom, int width) {
-		getRootPanel().add(this);
-		addStyleName("fadeIn");
+		if (!isAttached()) {
+			getRootPanel().add(this);
+		}
 		int toastWidth = app.isPortrait() ? width - 16 : width;
-		getElement().getStyle().setWidth(toastWidth - 2 * TOAST_PADDING, Style.Unit.PX);
+		getElement().getStyle().setWidth(toastWidth - 2 * TOAST_PADDING, Unit.PX);
 		int distAVBottomKeyboardTop = (int) (app.getHeight() - bottom
 				- ((AppW) app).getAppletFrame().getKeyboardHeight());
 		setPopupPosition(left, distAVBottomKeyboardTop >= getOffsetHeight()
 				? bottom : top - getOffsetHeight());
+		Scheduler.get().scheduleDeferred(() -> addStyleName("fadeIn"));
 	}
 
 	@Override

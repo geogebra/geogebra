@@ -11,8 +11,7 @@ import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
-
-import com.google.gwt.dom.client.Style.Unit;
+import org.gwtproject.dom.style.shared.Unit;
 
 import elemental2.dom.HTMLImageElement;
 

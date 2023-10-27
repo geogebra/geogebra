@@ -1,13 +1,12 @@
 package org.geogebra.web.full.gui.view.data;
 
 import org.geogebra.common.util.debug.Log;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Grid;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -17,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class StatTableW extends FlowPanel {
 
-	private MyTable myTable;
+	private StatDataTable statDataTable;
 
 	/**
 	 * Create new stats table
@@ -27,8 +26,8 @@ public class StatTableW extends FlowPanel {
 	}
 
 	private void initTable() {
-		myTable = new MyTable();
-		this.add(myTable);
+		statDataTable = new StatDataTable();
+		this.add(statDataTable);
 
 		// coloring and things here with css....
 	}
@@ -51,9 +50,9 @@ public class StatTableW extends FlowPanel {
 	public void setStatTable(int rows, String[] rowNames, int columns,
 			String[] columnNames) {
 
-		myTable.resize(rows, columns);
+		statDataTable.resize(rows, columns);
 		// set column names
-		myTable.setHeaderCells(columnNames);
+		statDataTable.setHeaderCells(columnNames);
 
 		// create row header
 		if (rowNames != null) {
@@ -61,7 +60,7 @@ public class StatTableW extends FlowPanel {
 			// rowHeaderModel = new DefaultListModel();
 			// .setModel(rowHeaderModel);
 			for (int i = 0; i < rowNames.length; i++) {
-				myTable.setWidget(i, 0, new Label(rowNames[i]));
+				statDataTable.setWidget(i, 0, new Label(rowNames[i]));
 			}
 		} else {
 			// setRowHeaderView(null);
@@ -76,9 +75,9 @@ public class StatTableW extends FlowPanel {
 	 */
 	@Override
 	public void clear() {
-		for (int r = 0; r < myTable.getRowCount(); r++) {
-			for (int c = 0; c < myTable.getColumnCount(); c++) {
-				myTable.setWidget(r, c, new Label(" "));
+		for (int r = 0; r < statDataTable.getRowCount(); r++) {
+			for (int c = 0; c < statDataTable.getColumnCount(); c++) {
+				statDataTable.setWidget(r, c, new Label(" "));
 			}
 		}
 	}
@@ -105,19 +104,19 @@ public class StatTableW extends FlowPanel {
 			boolean hasHeader) {
 		// set column names
 		if (columnNames != null && rowNames != null) {
-			myTable.resize(rowNames.length + 1, columnNames.length + 1);
+			statDataTable.resize(rowNames.length + 1, columnNames.length + 1);
 		}
 		try {
 			if (columnNames != null) {
 				for (int i = 0; i < columnNames.length; i++) {
-					myTable.setWidget(0, i + 1, new Label(columnNames[i]));
+					statDataTable.setWidget(0, i + 1, new Label(columnNames[i]));
 				}
 			}
 
 			int startRow = hasHeader ? 1 : 0;
 			if (rowNames != null) {
 				for (int i = 0; i < rowNames.length; i++) {
-					myTable.setWidget(startRow + i, 0, new Label(rowNames[i]));
+					statDataTable.setWidget(startRow + i, 0, new Label(rowNames[i]));
 				}
 			}
 		} catch (Exception e) {
@@ -131,7 +130,7 @@ public class StatTableW extends FlowPanel {
 	 *         Table for StatTable
 	 *
 	 */
-	public static class MyTable extends Grid /* do it with CellTable later */ {
+	public static class StatDataTable extends Grid /* do it with CellTable later */ {
 
 		private int firstRow = 0;
 
@@ -347,14 +346,14 @@ public class StatTableW extends FlowPanel {
 	 *            column
 	 */
 	public void setValueAt(String value, int row, int column) {
-		myTable.setValueAt(value, row, column);
+		statDataTable.setValueAt(value, row, column);
 	}
 
 	/**
 	 * @return wrapped table
 	 */
-	public MyTable getTable() {
-		return myTable;
+	public StatDataTable getTable() {
+		return statDataTable;
 	}
 
 }

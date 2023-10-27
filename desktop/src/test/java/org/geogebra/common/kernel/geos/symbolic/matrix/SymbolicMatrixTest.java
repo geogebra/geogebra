@@ -39,7 +39,7 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 				matrix.getDefinition(StringTemplate.editTemplate),
 				equalTo("{{a, 2}, {3, 4}}"));
 		assertThat(
-				matrix.getDefinition(StringTemplate.latexTemplate),
+				matrix.toLaTeXString(false, StringTemplate.latexTemplate),
 				equalTo("\\left(\\begin{array}{rr}1&2\\\\3&4\\\\ \\end{array}\\right)"));
 	}
 
@@ -55,6 +55,18 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 		assertThat(
 				vector.toLaTeXString(false, StringTemplate.latexTemplate),
 				equalTo("\\left(\\begin{array}{rr}a&b\\\\c&d\\\\ \\end{array}\\right)"));
+	}
+
+	@Test
+	public void testMatrixLatexStringForDependentWithTwin() {
+		add("b=3");
+		GeoSymbolic vector = add("m={{b,b}}");
+		assertThat(
+				vector.toLaTeXString(false, StringTemplate.latexTemplate),
+				equalTo("\\left(\\begin{array}{rr}3&3\\\\ \\end{array}\\right)"));
+		assertThat(
+				vector.toLaTeXString(true, StringTemplate.latexTemplate),
+				equalTo("\\left(\\begin{array}{rr}b&b\\\\ \\end{array}\\right)"));
 	}
 
 	@Test
@@ -76,5 +88,43 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 				eigenvectors.getLaTeXDescriptionRHS(true, template),
 				equalTo("\\left(\\begin{array}{rr}2.7445626465&-8.7445626465\\\\"
 						+ "6&6\\\\ \\end{array}\\right)"));
+	}
+
+	@Test
+	public void testIsMatrixNested() {
+		GeoSymbolic geo = add("SVD({{1,0},{0,4}})");
+		assertThat(geo.isMatrix(), is(false));
+		assertThat(geo.toValueString(StringTemplate.latexTemplate),
+				is("\\left\\{\\left(\\begin{array}{rr}0&-1\\\\1&0\\\\ \\end{array}\\right),"
+						+ " \\left(\\begin{array}{rr}4&0\\\\0&1\\\\ \\end{array}\\right),"
+						+ " \\left(\\begin{array}{rr}0&-1\\\\1&0\\\\ "
+						+ "\\end{array}\\right)\\right\\}"));
+		geo = add("Identity(2)");
+		assertThat(geo.isMatrix(), is(true));
+		assertThat(geo.toValueString(StringTemplate.latexTemplate),
+				is("\\left(\\begin{array}{rr}1&0\\\\0&1\\\\ \\end{array}\\right)"));
+		geo = add("Identity(2)*g");
+		assertThat(geo.isMatrix(), is(true));
+		assertThat(geo.toValueString(StringTemplate.latexTemplate),
+				is("\\left(\\begin{array}{rr}g&0\\\\0&g\\\\ \\end{array}\\right)"));
+		geo = add("{Identity(2)}");
+		assertThat(geo.isMatrix(), is(false));
+		assertThat(geo.toValueString(StringTemplate.latexTemplate),
+				is("\\left\\{\\left(\\begin{array}{rr}1&0\\\\0&1\\\\"
+						+ " \\end{array}\\right)\\right\\}"));
+	}
+
+	@Test
+	public void testIsMatrixNumeric() {
+		GeoSymbolic matrixList = add("{{{1/3}}}");
+		matrixList.setSymbolicMode(false, false);
+		String input = matrixList.getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate);
+		assertThat(input, is("l1\\, = \\,\\left\\{\\left(\\begin{array}{r}\\frac{1}{3}\\\\"
+				+ " \\end{array}\\right)\\right\\}"));
+		String output = matrixList.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
+		assertThat(output, is("l1\\, = \\,\\left\\{\\left(\\begin{array}{r}0.3333333333\\\\"
+				+ " \\end{array}\\right)\\right\\}"));
+		String plain = matrixList.toValueString(StringTemplate.defaultTemplate);
+		assertThat(plain, is("{{{0.3333333333}}}"));
 	}
 }

@@ -5,10 +5,9 @@ import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.logical.shared.CloseEvent;
+import org.gwtproject.event.logical.shared.CloseHandler;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * A popup panel, which holds the {@link InputBarHelpPanelW}
@@ -27,7 +26,7 @@ public class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
 	 *            CSS class
 	 */
 	public InputBarHelpPopup(AppW app, AutoCompleteW field, String className) {
-		super(app.getPanel(), app);
+		super(app.getAppletFrame(), app);
 		this.addStyleName(className);
 		this.setAutoHideEnabled(true);
 		((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel()).setInputField(field);

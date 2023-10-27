@@ -1,13 +1,13 @@
 package org.geogebra.web.html5.util.tabpanel;
 
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DeckPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.logical.shared.HasSelectionHandlers;
+import org.gwtproject.event.logical.shared.SelectionEvent;
+import org.gwtproject.event.logical.shared.SelectionHandler;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.user.client.ui.Composite;
+import org.gwtproject.user.client.ui.DeckPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class MultiRowsTabPanel extends Composite
 		implements HasSelectionHandlers<Integer> {

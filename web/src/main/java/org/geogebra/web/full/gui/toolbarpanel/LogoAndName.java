@@ -7,10 +7,9 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Widget;
 
 public class LogoAndName implements IsWidget, SetLabels {
 
@@ -52,10 +51,18 @@ public class LogoAndName implements IsWidget, SetLabels {
 		boolean showLogo = !app.getAppletFrame().isKeyboardShowing();
 		panel.setVisible(showLogo);
 		if (showLogo) {
-			int minHeight = parentHeight - panel.getOffsetHeight() - LOGO_MARGIN;
-			aView.getElement().getStyle().setProperty("minHeight", minHeight + "px");
+			placeLogoToBottom(aView, parentHeight);
 		} else {
-			aView.getElement().getStyle().clearProperty("minHeight");
+			removeLogoFromBottom(aView);
 		}
+	}
+
+	private void removeLogoFromBottom(AlgebraViewW aView) {
+		aView.getElement().getStyle().clearProperty("minHeight");
+	}
+
+	private void placeLogoToBottom(AlgebraViewW aView, int parentHeight) {
+		int minHeight = parentHeight - panel.getOffsetHeight() - LOGO_MARGIN;
+		aView.getElement().getStyle().setProperty("minHeight", minHeight + "px");
 	}
 }

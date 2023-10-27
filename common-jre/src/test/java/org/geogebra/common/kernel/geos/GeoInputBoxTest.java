@@ -94,7 +94,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
         add("m1 = {{1, 2, 3}, {4, 5, 6}}");
         GeoInputBox inputBox = add("InputBox(m1)");
         inputBox.setSymbolicMode(true, false);
-        assertEquals("\\left(\\begin{array}{rrr}1&2&3\\\\4&5&6\\\\ \\end{array}\\right)",
+        assertEquals("\\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\end{pmatrix}",
 				inputBox.getText());
     }
 
@@ -152,6 +152,18 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertTrue("List should remain a matrix", m1.isMatrix());
 		String texMatrix = "\\left(\\begin{array}{r}?\\\\?\\\\ \\end{array}\\right)";
 		assertThat(m1.toLaTeXString(false, StringTemplate.latexTemplate), is(texMatrix));
+	}
+
+	@Test
+	public void replaceQuestionMarkDoesNotEatBackslash() {
+		add("a = 1 1/3");
+		GeoInputBox inputBox = add("B = Inputbox(a)");
+		String tempDisplayInput = "\\? \\frac{\\nbsp}{\\nbsp}";
+		inputBox.updateLinkedGeo("? /", tempDisplayInput);
+
+		String texInputBox
+				= "\\{\\bgcolor{#dcdcdc}\\scalebox{1}[1.6]{\\phantom{g}}} \\frac{\\nbsp}{\\nbsp}";
+		assertEquals(texInputBox, inputBox.getDisplayText());
 	}
 
 	@Test
@@ -718,7 +730,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				+ Unicode.SUPERSCRIPT_0 + "+t", inputBox.getTextForEditor());
 
 		inputBox.updateLinkedGeo("-3/4t + 2*3/2");
-		assertEquals("(-3)/(4) t+2 (3)/(2)", inputBox.getTextForEditor());
+		assertEquals("(-3)/(4) t+2*(3)/(2)", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -855,5 +867,21 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		String updated = "l1 = {3, 4}";
 		input.updateLinkedGeo("3,4");
 		assertEquals(updated, linked.toString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void linesShouldPreserveQuestionMarkOnBadInput() {
+		add("a(x, y) = ?x + ?y");
+		GeoInputBox input = add("InputBox(a)");
+		String updated = "?x + ?y +";
+		input.updateLinkedGeo(updated);
+		assertEquals(updated, input.getTempUserEvalInput());
+	}
+
+	@Test
+	public void shouldHaveLabelInAV() {
+		add("a=1");
+		GeoInputBox input = add("ib=InputBox(a)");
+		assertEquals("ib", input.toString(StringTemplate.defaultTemplate));
 	}
 }

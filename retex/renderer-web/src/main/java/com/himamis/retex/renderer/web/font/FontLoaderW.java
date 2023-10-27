@@ -41,26 +41,21 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web.font;
 
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
+import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 public class FontLoaderW implements FontLoader {
-
-	private FontLoaderWrapper fontLoaderWrapper;
-
-	public FontLoaderW(FontLoaderWrapper fontLoaderWrapper) {
-		this.fontLoaderWrapper = fontLoaderWrapper;
-	}
 
 	@Override
 	public Font loadFont(String name) throws ResourceParseException {
 		String fontName = extractFileName(name);
-		AsyncLoadedFont font = fontLoaderWrapper.createNativeFont(name,
+		return Opentype.INSTANCE.createNativeFont(name,
 				fontName, Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
-		return font;
 	}
 
 	private static String extractFileName(String filePathName) {

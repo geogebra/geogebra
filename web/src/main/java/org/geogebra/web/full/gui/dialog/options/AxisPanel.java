@@ -1,21 +1,30 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_X;
+import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Y;
+import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Z;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
-import org.geogebra.web.full.gui.util.ComboBoxW;
-import org.geogebra.web.full.gui.util.NumberListBox;
+import org.geogebra.web.full.gui.components.ComponentCombobox;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.user.client.ui.FlowPanel;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
+import com.himamis.retex.editor.share.util.Greek;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class AxisPanel extends FlowPanel
 		implements SetLabels, IAxisModelListener {
@@ -29,10 +38,10 @@ public class AxisPanel extends FlowPanel
 	protected ComponentCheckbox cbDrawAtBorder;
 	protected ComponentCheckbox cbAllowSelection;
 
-	protected NumberListBox ncbTickDist;
-	protected ListBox lbTickStyle;
-	private ComboBoxW comboAxisLabel;
-	private ComboBoxW comboUnitLabel;
+	protected ComponentCombobox ncbTickDist;
+	protected CompDropDown lbTickStyle;
+	private ComponentCombobox comboAxisLabel;
+	private ComponentCombobox comboUnitLabel;
 	protected AutoCompleteTextFieldW tfCross;
 
 	private FormLabel crossAt;
@@ -81,12 +90,11 @@ public class AxisPanel extends FlowPanel
 				model::applyAllowSelection);
 
 		// ticks
-		lbTickStyle = new ListBox();
+		lbTickStyle = new CompDropDown(app, "", Arrays.asList("|'|'|", "|||", ""));
 		axisTicks = new FormLabel(loc.getMenu("AxisTicks") + ":")
 				.setFor(lbTickStyle);
-		model.fillTicksCombo();
-
-		lbTickStyle.addChangeHandler(event -> {
+		axisTicks.addStyleName("dropDownLabel");
+		lbTickStyle.addChangeHandler(() -> {
 			int type = lbTickStyle.getSelectedIndex();
 			model.applyTickStyle(type);
 		});
@@ -99,47 +107,39 @@ public class AxisPanel extends FlowPanel
 		cbManualTicks = new ComponentCheckbox(loc, false, "TickDistance",
 				this::onDistanceSelected);
 
-		ncbTickDist = new NumberListBox(app) {
-
-			@Override
-			protected void onValueChange(String value) {
-				model.applyTickDistance(ncbTickDist.getValue());
-
-			}
-		};
+		ncbTickDist = new ComponentCombobox(app, "", Arrays.asList("1",
+				Unicode.PI_STRING, Unicode.PI_HALF_STRING));
+		ncbTickDist.addChangeHandler(() -> {
+				model.applyTickDistance(ncbTickDist.getSelectedText());
+			});
 
 		FlowPanel distancePanel = new FlowPanel();
 		distancePanel.add(cbManualTicks);
 		distancePanel.add(ncbTickDist);
 
 		// axis and unit label
-		comboAxisLabel = new ComboBoxW(app) {
-
-			@Override
-			protected void onValueChange(String value) {
-				String text = getValue().trim();
-				model.applyAxisLabel(text);
-			}
-		};
-		comboAxisLabel.setEnabled(true);
+		comboAxisLabel = new ComponentCombobox(app, "", getLabelsList());
+		comboAxisLabel.addChangeHandler(() -> {
+			String text = comboAxisLabel.getSelectedText().trim();
+			model.applyAxisLabel(text);
+		});
+		comboAxisLabel.setDisabled(false);
 		model.fillAxisCombo();
 
 		axisLabel = new FormLabel(loc.getMenu("AxisLabel") + ":")
 				.setFor(comboAxisLabel);
 
-		comboUnitLabel = new ComboBoxW(app) {
-
-			@Override
-			protected void onValueChange(String value) {
-				String text = getValue().trim();
+		comboUnitLabel = new ComponentCombobox(app, "", Arrays.asList(Unicode.DEGREE_STRING + "",
+				Unicode.PI_STRING + "", "mm", "cm", "m", "km", Unicode.CURRENCY_DOLLAR + ""));
+		comboUnitLabel.addChangeHandler(() -> {
+				String text = comboUnitLabel.getSelectedText().trim();
 				model.applyUnitLabel(text);
-			}
-		};
+		});
 
-		model.fillUnitLabel();
 		axisUnitLabel = new FormLabel(loc.getMenu("AxisUnitLabel") + ":")
 				.setFor(comboUnitLabel);
-		comboUnitLabel.setEnabled(true);
+		axisUnitLabel.addStyleName("dropDownLabel");
+		comboUnitLabel.setDisabled(false);
 		FlowPanel labelPanel = new FlowPanel();
 		labelPanel.add(axisLabel);
 		labelPanel.add(comboAxisLabel);
@@ -170,10 +170,10 @@ public class AxisPanel extends FlowPanel
 		FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross,
 				cbDrawAtBorder);
 
-		distancePanel.setStyleName("listBoxPanel");
+		distancePanel.setStyleName("listBoxPanel tickPanel");
 		showTicksPanel.setStyleName("listBoxPanel");
-		labelPanel.setStyleName("listBoxPanel");
-		unitPanel.setStyleName("listBoxPanel");
+		labelPanel.setStyleName("listBoxPanel tickPanel");
+		unitPanel.setStyleName("listBoxPanel tickPanel");
 		tfCross.setStyleName("numberInput");
 
 		// add all panels
@@ -191,11 +191,35 @@ public class AxisPanel extends FlowPanel
 		updatePanel();
 	}
 
+	private List<String> getLabelsList() {
+		List<String> labels = new ArrayList<>();
+		String defaultLabel;
+		switch (getModel().getAxis()) {
+		case AXIS_X:
+			defaultLabel = "x";
+			break;
+		case AXIS_Y:
+		default:
+			defaultLabel = "y";
+			break;
+		case AXIS_Z:
+			defaultLabel = "z";
+			break;
+		}
+		labels.add(defaultLabel);
+		for (Greek greek : Greek.values()) {
+			if (!greek.upperCase && greek.unicode != Unicode.pi) {
+				labels.add(greek.getUnicodeNonCurly() + "");
+			}
+		}
+		return labels;
+	}
+
 	private void onDistanceSelected(boolean isTickDistanceOn) {
 		model.applyTickDistance(isTickDistanceOn);
-		ncbTickDist.setEnabled(isTickDistanceOn);
+		ncbTickDist.setDisabled(!isTickDistanceOn);
 		if (isTickDistanceOn) {
-			model.applyTickDistance(ncbTickDist.getValue());
+			model.applyTickDistance(ncbTickDist.getSelectedText());
 		}
 	}
 
@@ -216,11 +240,11 @@ public class AxisPanel extends FlowPanel
 		cbAxisNumber.setSelected(view.getShowAxesNumbers()[axis]);
 
 		cbManualTicks.setSelected(!view.isAutomaticAxesNumberingDistance()[axis]);
-		ncbTickDist.setSelected(model.getAxisDistance());
-		ncbTickDist.setEnabled(cbManualTicks.isSelected());
+		ncbTickDist.setDisabled(!cbManualTicks.isSelected());
 
-		comboAxisLabel.setSelected(view.getAxesLabels(true)[axis]);
-		comboUnitLabel.setSelected(view.getAxesUnitLabels()[axis]);
+		/*comboAxisLabel.setSelected(view.getAxesLabels(true)[axis]);
+		comboUnitLabel.se(view.getAxesUnitLabels()[axis]);*/
+		comboUnitLabel.setLabels();
 
 		int type = view.getAxesTickStyles()[axis];
 		lbTickStyle.setSelectedIndex(type);
@@ -261,21 +285,23 @@ public class AxisPanel extends FlowPanel
 		crossAt.setText(loc.getMenu("CrossAt") + ":");
 		cbDrawAtBorder.setLabels();
 		cbAllowSelection.setLabels();
+		comboUnitLabel.setLabels();
+		ncbTickDist.setLabels();
 	}
 
 	@Override
 	public void addTickItem(String item) {
-		lbTickStyle.addItem(item);
+		// nothing to do here
 	}
 
 	@Override
 	public void addAxisLabelItem(String item) {
-		comboAxisLabel.addItem(item == null ? "" : item);
+		// nothing to do here
 	}
 
 	@Override
 	public void addUnitLabelItem(String item) {
-		comboUnitLabel.addItem(item == null ? "" : item);
+		// nothing to do here
 	}
 
 	@Override

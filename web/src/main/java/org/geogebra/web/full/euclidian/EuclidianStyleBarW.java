@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.annotation.CheckForNull;
 
@@ -52,7 +53,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -77,8 +77,7 @@ import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * StyleBar for euclidianView
@@ -129,7 +128,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private ToggleButton btnFixObject;
 
 	private ToggleButton[] toggleBtnList;
-	private ToggleButton[] btnDeleteSizes = new ToggleButton[3];
+	private final ToggleButton[] btnDeleteSizes = new ToggleButton[3];
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
@@ -1452,7 +1451,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return geos.get(0).getGeoElementForPropertiesDialog();
 	}
 
-	private static boolean checkGeos(List<GeoElement> geos, GPredicate<GeoElement> check) {
+	private static boolean checkGeos(List<GeoElement> geos, Predicate<GeoElement> check) {
 		boolean geosOK = geos.size() > 0;
 		for (GeoElement geo : geos) {
 			if (!check.test(geo.getGeoElementForPropertiesDialog())) {

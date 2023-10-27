@@ -136,4 +136,18 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		IntervalNodeFunction g = converter.convert(f);
 		assertEquivalent(x -> new Interval(f.value(x)), g, 0, 10);
 	}
+
+	@Test
+	public void testDivBelowZeroThreshold() {
+		GeoFunction f = add("((1*10^(-13))/(1*10^(-13)))x");
+		IntervalNodeFunction g = converter.convert(f);
+		assertEquals(one(), g.value(one()));
+	}
+
+	@Test
+	public void testExpShouldBeNoUndefined() {
+		GeoFunction f = add("1-exp(-5x)");
+		IntervalNodeFunction g = converter.convert(f);
+		assertEquals(one(), g.value(interval(7.484375, 7.5)));
+	}
 }

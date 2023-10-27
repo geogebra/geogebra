@@ -2471,7 +2471,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				dynamicStyleBar.updateVisualStyle(geo);
 			}
 		}
-		if (app.hasSpecialPointsManager()) {
+		if (app.hasSpecialPointsManager() && prop == GProperty.VISIBLE) {
 			app.getSpecialPointsManager().updateSpecialPoints(null);
 		}
 	}
@@ -2582,26 +2582,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Sets the global size for checkboxes. Michael Borcherds 2008-05-12
-	 * 
-	 * @param size
-	 *            13 or 26
-	 */
-	public void setBooleanSize(int size) {
-		// only 13 and 26 currently allowed
-		app.setCheckboxSize(size);
-
-		updateAllDrawables(true);
-	}
-
-	/**
-	 * @return size of booleans (13 or 26)
-	 */
-	final public int getBooleanSize() {
-		return app.getCheckboxSize();
-	}
-
-	/**
 	 * @param setto
 	 *            tooltip mode
 	 */
@@ -2707,6 +2687,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public boolean isMoveable(GeoElement geo) {
 		return companion.isMoveable(geo);
+	}
+
+	@Override
+	public double getWidthd() {
+		return getWidth();
+	}
+
+	@Override
+	public double getHeightd() {
+		return getHeight();
 	}
 
 	@Override
@@ -3588,6 +3578,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	public void drawObjects(GGraphics2D g2) {
+		tracing = false;
 		drawGeometricObjects(g2);
 		drawActionObjects(g2);
 
@@ -4607,34 +4598,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Tells if there are any traces in the background image.
-	 * 
-	 * @return true if there are any traces in background
-	 */
-	protected boolean isTracing() {
-		for (Drawable drawable : allDrawableList) {
-			if (drawable.isTracing()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Tells if there are any images in the background.
 	 * 
 	 * @return whether there are any images in the background.
 	 */
 	protected boolean hasBackgroundImages() {
 		return bgImageList.size() > 0;
-	}
-
-	/**
-	 * @return background graphics
-	 */
-	final public GGraphics2D getBackgroundGraphics() {
-		this.tracing = true;
-		return bgGraphics;
 	}
 
 	/**
@@ -4818,7 +4787,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("\"/>\n");
 
 				sbxml.append("\t<language val=\"");
-				sbxml.append(app.getLocalization().getLocaleStr());
+				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");
 			}
 		}
@@ -5897,8 +5866,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 						(int) rect.getHeight());
 
 			g2d.translate(-rect.getX(), -rect.getY());
-			// Application.debug(rect.x+" "+rect.y+" "+rect.width+"
-			// "+rect.height);
 		} else {
 			// use points Export_1 and Export_2 to define corner
 			double[] exportCoords = getExportCoords();
@@ -5919,7 +5886,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// DRAWING
-		if (isTracing() || hasBackgroundImages()) {
+		if (isTraceDrawn() || hasBackgroundImages()) {
 			// draw background image to get the traces
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
@@ -5981,7 +5948,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (exportFrame != null) {
 			return (int) exportFrame.getMaxX();
 		}
-		return getWidth();
+		return (int) Math.ceil(getWidthd());
 	}
 
 	/**
@@ -6004,7 +5971,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return (int) exportFrame.getMaxY();
 		}
 
-		return getHeight();
+		return (int) Math.ceil(getHeightd());
 	}
 
 	/**
@@ -6245,10 +6212,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
+			getScreenReader().cancelReadDelayed();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {
-				drawInputBox.attachMathField();
+				drawInputBox.attachMathField(null);
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
 			}
@@ -6274,8 +6242,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void refreshTextfieldFocus(GeoInputBox inputBox) {
 		focusTextField(inputBox);
-		viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
-		getTextField().setSelection(0, getTextField().getText().length());
+		if (!inputBox.isSymbolicMode()) {
+			viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
+			getTextField().setSelection(0, getTextField().getText().length());
+		}
 	}
 
 	public ViewTextField getViewTextField() {
@@ -6479,17 +6449,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Attaches a symbolic-capable editor to the input box
-	 * @param geoInputBox
-	 *             the input box to attach
-	 * @param bounds
-	 *             where the editor should be attached to.
+	 * @param geoInputBox the input box to attach
+	 * @param bounds where the editor should be attached to.
+	 * @param textRendererSettings to set.
 	 */
-	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds,
+			TextRendererSettings textRendererSettings, GPoint caretPos) {
 		if (symbolicEditor == null) {
-			symbolicEditor = createSymbolicEditor();
+			symbolicEditor = createSymbolicEditor(textRendererSettings);
 		}
 		if (symbolicEditor != null) {
-			symbolicEditor.attach(geoInputBox, bounds);
+			symbolicEditor.attach(geoInputBox, bounds, textRendererSettings);
+			symbolicEditor.selectEntryAt(caretPos, bounds);
 		}
 	}
 
@@ -6506,13 +6477,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	protected SymbolicEditor createSymbolicEditor() {
+	protected SymbolicEditor createSymbolicEditor(TextRendererSettings settings) {
 		// overridden in web and desktop
 		return null;
 	}
 
 	public SymbolicEditor initSymbolicEditor() {
-		return createSymbolicEditor();
+		return createSymbolicEditor(LatexRendererSettings.create());
 	}
 
 	/**
@@ -6679,8 +6650,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
-	public Rectangle getVisibleRect() {
-		return visibleRect;
+	/**
+	 * @return center of the view in real world coords
+	 */
+	public GPoint2D getVisibleRectCenter() {
+		return new GPoint2D((visibleRect.getMinX() + visibleRect.getMaxX()) / 2,
+				(visibleRect.getMinY() + visibleRect.getMaxY()) / 2);
 	}
 
 	/**
@@ -6740,5 +6715,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public IntervalPathPlotter createIntervalPathPlotter(GeneralPathClippedForCurvePlotter gp) {
 		return new IntervalPathPlotterImpl(gp);
+	}
+
+	/**
+	 * Paints drawable's trace to background graphics
+	 * @param drawable object to draw as trace
+	 */
+	public void drawTrace(Drawable drawable) {
+		this.tracing = true;
+		if (bgGraphics != null) {
+			drawable.drawTrace(bgGraphics);
+		}
 	}
 }

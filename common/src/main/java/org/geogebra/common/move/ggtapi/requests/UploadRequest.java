@@ -67,8 +67,8 @@ public class UploadRequest implements Request {
 	public UploadRequest(Material mat) {
 		this.consTitle = mat.getTitle();
 		this.type = typeString(mat.getType());
-		if (mat.getId() != 0) {
-			this.uniqueID = mat.getId() + "";
+		if (mat.getSharingKey() != null) {
+			this.uniqueID = mat.getSharingKey();
 		}
 		this.base64 = mat.getBase64();
 		this.visibility = "P";
@@ -188,7 +188,7 @@ public class UploadRequest implements Request {
 			settings.put("-height", client.getHeight());
 
 			if (parent != null) {
-				task.put("parent", parent.getId());
+				task.put("parent", parent.getSharingKey());
 				settings.put("-toolbar", parent.getShowToolbar());
 				settings.put("-menubar", parent.getShowMenu());
 				settings.put("-inputbar", parent.getShowInputbar());

@@ -118,18 +118,39 @@ public class Ggb2giac {
 
 		// Giac syntax coeffs(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y,[x,y],[2,0])
 		// Coefficients(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y)
+		//2 vars with eq in 2nd degree -> conic, 3 vars with eq in 2nd degree -> quadric, everything else is a polynomial
 		String coeffsString = "[[coeffsarg:=%0],"
 				// rearrange equation to LHS-(RHS)
-				+ "[coeffsarg:=when(coeffsarg[0]==equal,left(coeffsarg)-right(coeffsarg),coeffsarg)]"
+		+ "[coeffsarg:=when(coeffsarg[0]==equal,left(coeffsarg)-right(coeffsarg),coeffsarg)],"
+		+ "[eqV:=[x,y,z] intersect lname(coeffsarg)],"
+		+ "when(coeffsarg[0]==equal,"
+			+ "?"
+			+ ","
+			+ "when(is_polynomial(coeffsarg),"
+				+"when(degree(subst(coeffsarg,[x=t,y=t,z=t]))==2,"
+					+ "when(size(eqV)==2,"
+						+ "ggbcoeffconic(coeffsarg)"
+						+ ","
+						+ "when(size(eqV)==3,ggbcoeffquadric(coeffsarg),coeffs(coeffsarg))"
+						+ ")"
+					+ ","
+					+ "coeffs(coeffsarg)"
+					+ ")"
+				+ ","
+				+ "{}"
+				+ ")"
+			+	 ")"
+		+ "][-1]";
 
-				+ ",when(coeffsarg[0]==equal,?,when(is_polynomial(coeffsarg),when(degree(coeffsarg,x)==2&&degree(coeffsarg,y)==2,"
-				// special syntax for conics / quadrics
-				// in x,y only (parameter ignored)
-				+ "when(length(lname(coeffsarg))==2,ggbcoeffconic(coeffsarg),ggbcoeffquadric(coeffsarg))"
-				+ ",coeffs(coeffsargREPLACEME)),{}))][-1]";
 
-		p("Coefficients.1", coeffsString.replace("REPLACEME", ""));
-		p("Coefficients.2", coeffsString.replace("REPLACEME", ",%1"));
+		String coeffs2String = "[[coeffsarg:=%0],"
+				// rearrange equation to LHS-(RHS)
+				+ "[coeffsarg:=when(coeffsarg[0]==equal,left(coeffsarg)-right(coeffsarg),coeffsarg)],"
+				+ "when(coeffsarg[0]==equal,?,when(is_polynomial(coeffsarg),coeffs(coeffsarg,%1),{}))"
+				+ "][-1]";
+
+		p("Coefficients.1", coeffsString);
+		p("Coefficients.2", coeffs2String);
 
 		p("CompleteSquare.1",
 				" [[ggbcmpsqarg0:=expand(%0)],when(size(simplify(%0))<=3,"
@@ -179,11 +200,11 @@ public class Ggb2giac {
 
 		// changed to give approximate answer (consistent with Input Bar)
 		// needed for eg ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]
-		p("ComplexRoot.1", "cfsolve(%0)");
+		String csolutions = "ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"
+				+ "normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])";
+		p("ComplexRoot.1", csolutions.replace("normal", "evalf"));
 
-		p("CSolutions.1",
-				"ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"
-						+ "normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
+		p("CSolutions.1", csolutions);
 		p("CSolutions.2", "ggbsort(normal(cZeros(%0,%1)))");
 
 		// DO NOT wrap in normal() otherwise these don't work
@@ -286,7 +307,7 @@ public class Ggb2giac {
 		// regroup/normal swapped for improved variable order eg x^2+a*x+b
 		// #5500 don't expand brackets automatically
 		p("Evaluate.1",
-				"[[[ggbevalarg:=?],[ggbevalarg:=%0],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]],when(length(\"\"+ggbevalans)<=length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1]");
+				"[[[ggbevalarg:=0/0],[ggbevalarg:=%0],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]],when(length(\"\"+ggbevalans)<=length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1]");
 
 		// split into real+imag #4522
 		p("Expand.1",
@@ -1024,17 +1045,17 @@ public class Ggb2giac {
 		// regroup so that exp(1)^2 is simplified
 		// regroup(inf) doesn't work,so extra check needed
 		p("Limit.2",
-				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
+				"[[ggblimvans:=0/0],[ggblimvans:=limit(%0,%1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("Limit.3",
-				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1,%2)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
+				"[[ggblimvans:=0/0],[ggblimvans:=limit(%0,%1,%2)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("LimitAbove.2",
-				"[[ggblimvans:=?],[ggblimvans:=limit(%0,x,%1,1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
+				"[[ggblimvans:=0/0],[ggblimvans:=limit(%0,x,%1,1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("LimitAbove.3",
-				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1,%2,1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
+				"[[ggblimvans:=0/0],[ggblimvans:=limit(%0,%1,%2,1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("LimitBelow.2",
-				"[[ggblimvans:=?],[ggblimvans:=limit(%0,x,%1,-1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
+				"[[ggblimvans:=0/0],[ggblimvans:=limit(%0,x,%1,-1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("LimitBelow.3",
-				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1,%2,-1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
+				"[[ggblimvans:=0/0],[ggblimvans:=limit(%0,%1,%2,-1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 
 		p("MatrixRank.1", "rank(%0)");
 		p("mean.1", listToNumber("mean"));
@@ -1069,7 +1090,7 @@ public class Ggb2giac {
 						+
 						// eg NSolve[a^4+34a^3 = 34]
 						// regroup() added for
-						// NSolve[BC^2=4^2+3^2-2*4*3*cos(50degrees)]
+						// NSolve[BC^2=4^2+3^2-2*4*3*cos(50deg)]
 						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(regroup(ggbnsans),ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],"
 						+ "when(dim(ggbnsans)==0,{},seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1))][3])],"
 						+ "ggbnsans][2])");
@@ -1119,7 +1140,7 @@ public class Ggb2giac {
 						+ "when((%0)[0]=='*',"
 						+ "when((%0)[2][0]=='inv'||length(%0)>2,getNum(%0),getNum(factor(ggbnumerans))),"
 						+ "getNum(factor(ggbnumerans))  )" + ")][1]");
-		String numericInit = "[[ggbnumans:=?],[ggbnumans:=%0],when(dim(lname(ggbnumans))==0||count_eq(unicode0176u,lname(ggbnumans))>0,";
+		String numericInit = "[[ggbnumans:=0/0],[ggbnumans:=%0],when(dim(lname(ggbnumans))==0||count_eq(unicode0176u,lname(ggbnumans))>0,";
 		p("Numeric.1",
 				numericInit
 						+
@@ -1177,7 +1198,6 @@ public class Ggb2giac {
 		// normal() makes sure answer is expanded
 		// '*' argument to make Product(list of matrices) work
 		p("Product.1", "normal(product(%0,'*'))");
-		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
@@ -1222,11 +1242,11 @@ public class Ggb2giac {
 
 		// default 15,like Input Bar version
 		p("ScientificText.1",
-				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstabsans))],"
+				" [[[ggbstinput:=%0],[ggbstans:=0/0],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=evalf(floor(log10(ggbstabsans)))],"
 						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,15)+\" * 10^ \"+ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
 		p("ScientificText.2",
-				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstabsans))],"
+				" [[[ggbstinput:=%0],[ggbstans:=0/0],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=evalf(floor(log10(ggbstabsans)))],"
 						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,%1)+\" * 10^ \"+ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
 		// stdevp / stdev different way round in Giac!
@@ -1246,15 +1266,17 @@ public class Ggb2giac {
 		// normal needed for Simplify[sqrt(2)*sqrt(5)]
 		// exp2pow(lin(pow2exp()) added for Simplify(x^(8*k+9)*x^(5*k))
 		// factor() for Simplify((x^2+2*x+1)/((x+1)^8))
+		// lname(0/0)[0] used instead of ? because ? is short-circuiting some commands
 		p("Simplify.1",
-				"[[[ggbsimparg0:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg0))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg0))))]],"
-						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||indexOf(?,lname(ggbsimpans2))!=?,ggbsimpans,ggbsimpans2)][1]");
+				"[[[ggbsimparg0:=%0],[ggbsimpans:=0/0],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg0))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg0))))]],"
+						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||contains(lname(ggbsimpans2),lname(0/0)[0]),ggbsimpans,ggbsimpans2)][1]");
 
 		p("Regroup.1", "regroup(%0)");
+		p("ExpSimplify.1", "lncollect(%0)");
 		p("ExpandOnly.1", "expand(%0)");
 
 		 p("Solutions.1",
-				"ggbsort(normal(zeros(%0,when(type(%0)==DOM_LIST,lname(%0),when(indexOf(x,lname(%0))!=?,x,lname(%0)[0])))))");
+				"ggbsort(normal(zeros(%0,when(type(%0)==DOM_LIST,lname(%0),when(contains(lname(%0),x),x,lname(%0)[0])))))");
 		p("Solutions.2", "ggbsort(normal(zeros(%0,%1)))");
 
 		// Root.1 and Solve.1 should be the same
@@ -1283,54 +1305,10 @@ public class Ggb2giac {
 						+ "(assume(%2),solve(%0,%1))[size(assume(%2),solve(%0,%1))-1],?)");
 
 		p("PlotSolve.1", pointList.replace("%0", root1));
-		p("SolveODE.1",
-				"[[solveodeans:=?],[solveodeans:=when((%0)[0]==equal,"
-						// case the equation contains only y and other variable
-						// as x,by default use for variable list y,x
-						// #5099
-						+ "when(size(lname(%0) intersect [x])==0&&size(lname(%0) intersect [y])==1&&size(lname(%0) minus [y])>0,normal(map(desolve(%0,x,y),x->y=x)),normal(map(desolve(%0),x->y=x)))"
-						+ ","
-						// add y'= if it's missing
-						+ "normal(map(desolve(y'=%0),x->y=x))" + ")],when(length(solveodeans)==1,solveodeans[0],solveodeans)][2]");
 
 
-		// goes through 1 point
-		// SolveODE[y''=x,(1,1)]
-		// goes through 1 point,y'= missing
-		// SolveODE[x,(1,1)]
-		// goes through 2 points
-		// SolveODE[y''=x,{(1,1),(2,2)}]
-		// can't do [solveodearg0:=%0] as y' is immediately simplified to 1
-		p("SolveODE.2", "" + "normal(y=when(type(%1)==DOM_LIST," +
-		// list of 2 points
-				"desolve([%0,y(xcoord(%1[0]))=ycoord(%1[0]),y(xcoord(%1[1]))=ycoord(%1[1])],x,y)"
-				+ "," +
-				// one point
-				"desolve(when((%0)[0]==equal,%0,y'=%0),x,y,%1)" + ")" + ""
-				+ "[0])");
 
-		// used by AlgoSolveODECAS.java
-		p("SolveODEPoint.2", ""
-				+ "[[odeans:=desolve(y'=%0,x,y,%1)],when(size(odeans)==0,?,when(size(odeans)==1,normal(y=odeans[0]),"
-				+ "[[diff0:=evalf(subst(odeans,{x=xcoord(%1),y=ycoord(%1)}))],"
-				// compare 2 solutions, pick one closest to point
-				// note: both could go through, pick just one
-				+ "when(abs(diff0[0]-ycoord(%1))<abs(diff0[1]-ycoord(%1)),normal(y=odeans[0]),normal(y=odeans[1]))"
-				+ "][-1]))][-1]");
-
-		p("SolveODE.3",
-				"when((%0)[0]==equal,"
-						+ "normal(map(desolve(%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
-						+ ","
-						// add y'= if it's missing
-						+ "normal(map(desolve(y'=%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
-						+ ")");
-		p("SolveODE.4", "when((%0)[0]==equal,"
-				+ "normal(map(desolve(%0,%2,%1,%3),x->%1=x)[0])" + ","
-				// add y'= if it's missing
-				+ "normal(map(desolve(y'=%0,%2,%1,%3),x->%1=x)[0])" + ")");
-		p("SolveODE.5", // SolveODE[y''=x,y,x,A,{B}]
-				"normal(map(desolve(%0,%2,%1,%3,%4),x->%1=x)[0])");
+		SolveODEGiac.add(Ggb2giac::p);
 		p("Substitute.2", "regroup(subst(%0,%1))");
 		p("Substitute.3", "regroup(subst(%0,%1,%2))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else
@@ -1351,6 +1329,9 @@ public class Ggb2giac {
 		// Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Sum.4",
 				"expand(subst(sum(subst(quote(%0),{%1},{ggbsumvar@1}),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
+
+		p("Product.4",
+				"expand(subst(product(subst(quote(%0),{%1},{ggbproductvar@1}),ggbproductvar@1,%2,%3),ggbproductvar@1,%1))");
 
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]
@@ -1390,7 +1371,7 @@ public class Ggb2giac {
 		p("IndexOf.2", "indexOf(%0,%1)+1");
 
 		p("ToComplex.1",
-				"[[ggbtcans:=?],[ggbtcans:=%0],[ggbtype:=type(evalf(ggbtcans))],"
+				"[[ggbtcans:=0/0],[ggbtcans:=%0],[ggbtype:=type(evalf(ggbtcans))],"
 						+
 						// ToComplex[3.1]
 						"when(ggbtype==DOM_INT||ggbtype==DOM_FLOAT,ggbtcans," +
@@ -1449,7 +1430,7 @@ public class Ggb2giac {
 		// tan(x/2)+tan(y/2)
 		// check both methods and pick the *longer* answer
 		p("TrigExpand.1",
-				"[[[ggbsimparg0:=%0],[ggbsimpans:=?],[ggbsimpans:=tan2sincos(trigexpand(ggbsimparg0))],[ggbsimpans2:=tlin(ggbsimparg0)]],"
+				"[[[ggbsimparg0:=%0],[ggbsimpans:=0/0],[ggbsimpans:=tan2sincos(trigexpand(ggbsimparg0))],[ggbsimpans2:=tlin(ggbsimparg0)]],"
 						+ "when(length(\"\"+ggbsimpans)>length(\"\"+ggbsimpans2),ggbsimpans,ggbsimpans2)][1]");
 		p("TrigExpand.2",
 				"[[ggbtrigarg0:=%0],when((%1)[0]=='tan',trigexpand(ggbtrigarg0),tan2sincos(trigexpand(ggbtrigarg0)))][1]");
@@ -1849,15 +1830,6 @@ public class Ggb2giac {
 						"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,ggbtanvar=ggbtanarg0))"
 						+ ")][1]");
 
-
-		// p("TangentThroughPoint.2",
-		// "[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]==equal,%1,y=%1),%0))],"
-		// +
-		// "[ggbans:=when(((ggbans)[0])==equal&&lhs(ggbans)==1 &&
-		// rhs(ggbans)==0,?,ggbans)],"
-		// +
-		// "[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,{ggbans})],ggbans][4]");
-
 		// see ToPoint.1
 		// eg Dot[Vector[(a,b)],Vector[(c,d)]]
 
@@ -1903,7 +1875,7 @@ public class Ggb2giac {
 
 		p("OrthogonalVector.1","["
 
-				+"[[orthvecarg:=%0],[orthveclist:=?], "
+				+"[[orthvecarg:=%0],[orthveclist:=0/0], "
 
 				// eg PerpendicularVector(Plane((0,0,0),(0,0,1),(1,2,3)))
 				+"[orthveclist:=when(sommet(orthvecarg[1])==hyperplan,orthvecarg[1,1], "
@@ -1955,6 +1927,16 @@ public class Ggb2giac {
 
 		p("RemoveUndefined.1", "when(type(%0)==DOM_LIST, remove(undef,%0),?)");
 		p("IsInteger.1", "when(type(%0)==DOM_INT,round(%0)==%0, false)");
+
+		p("ExtendedGCD.2", "when((type(%0)==DOM_INT)&&(type(%1)==DOM_INT), "
+				+ "iegcd(%0,%1), "
+				+ "when(is_polynomial(%0)&&is_polynomial(%1), egcd(%0,%1),)");
+		p("ModularExponent.3", "powmod(%0,%1,%2)");
+		p("CharacteristicPolynomial.1", "pcar(%0, x)");
+		p("MinimalPolynomial.1", "pmin(%0, x)");
+		p("LUDecomposition.1", "[[luarg:=%0], [lu0:=lu(luarg)], [lu1:=lu0[0]],[lu2:=lu0[1]],[lu3:=lu0[2]],[permu2mat(lu1),lu2,lu3]][-1]");
+		p("QRDecomposition.1", "{qr(%0)}");
+
 
 		return commandMap;
 	}

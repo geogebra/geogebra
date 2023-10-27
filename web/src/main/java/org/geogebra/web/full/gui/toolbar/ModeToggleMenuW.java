@@ -9,35 +9,34 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.HumanInputEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.HumanInputEvent;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseDownHandler;
+import org.gwtproject.event.dom.client.MouseOutEvent;
+import org.gwtproject.event.dom.client.MouseOutHandler;
+import org.gwtproject.event.dom.client.MouseOverEvent;
+import org.gwtproject.event.dom.client.MouseOverHandler;
+import org.gwtproject.event.dom.client.MouseUpEvent;
+import org.gwtproject.event.dom.client.MouseUpHandler;
+import org.gwtproject.event.dom.client.TouchEndEvent;
+import org.gwtproject.event.dom.client.TouchEndHandler;
+import org.gwtproject.event.dom.client.TouchStartEvent;
+import org.gwtproject.event.dom.client.TouchStartHandler;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class ModeToggleMenuW extends ListItem
 		implements MouseDownHandler, MouseUpHandler, TouchStartHandler,
@@ -350,12 +349,12 @@ public class ModeToggleMenuW extends ListItem
 			event.stopPropagation();
 		}
 
-		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+		app.getToolTipManager().setBlockToolTip(false);
 		// if we click the toolbar button, only interpret it as real click if
 		// there is only one tool in this menu
 		app.setMode(mode, event.getSource() == tbutton && menu.size() > 1
 				? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
-		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+		app.getToolTipManager().setBlockToolTip(true);
 
 		tbutton.getElement().focus();
 	}
@@ -436,7 +435,7 @@ public class ModeToggleMenuW extends ListItem
 	 *            tap event
 	 */
 	protected void showTooltipFor(HumanInputEvent<?> event) {
-		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+		app.getToolTipManager().setBlockToolTip(false);
 		int mode = -1;
 		if (event.getSource() == tbutton) {
 			mode = menu.get(0);
@@ -449,7 +448,7 @@ public class ModeToggleMenuW extends ListItem
 			// click if there is only one tool in this menu
 			showToolTipBottom(mode, ModeSetter.TOOLBAR);
 		}
-		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+		app.getToolTipManager().setBlockToolTip(true);
 
 	}
 
@@ -461,10 +460,10 @@ public class ModeToggleMenuW extends ListItem
 	 */
 	public void showToolTipBottom(int mode, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW && app.showToolBarHelp()) {
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					app.getToolName(mode), app.getToolHelp(mode),
-					app.getLocalization().getMenu("Help"),
-					app.getGuiManager().getTooltipURL(mode), app);
+			app.getToolTipManager().showBottomInfoToolTip(app.getToolName(mode),
+					app.getToolHelp(mode), app.getLocalization().getMenu("Help"),
+					app.getGuiManager().getTooltipURL(mode), app,
+					ComponentSnackbar.TOOL_TOOLTIP_DURATION);
 		}
 	}
 

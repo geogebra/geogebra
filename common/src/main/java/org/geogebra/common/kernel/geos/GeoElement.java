@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
+import org.geogebra.common.kernel.algos.StyleSensitiveAlgo;
 import org.geogebra.common.kernel.algos.TableAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -78,6 +79,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -752,13 +754,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return toOutputValueString(StringTemplate.editTemplate);
 	}
 
-	/**
-	 * Sets this object to zero (number = 0, points = (0,0), etc.)
-	 */
-	public void setZero() {
-		// overriden where needed
-	}
-
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
@@ -887,64 +882,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			blueD = 2 * blueD;
 		}
 
-		// Application.debug("red"+redD+"green"+greenD+"blue"+blueD);
-
 		// adjust color triple to alternate color spaces, default to RGB
 		switch (this.colorSpace) {
 
 		case GeoElement.COLORSPACE_HSB:
-
-			final int rgb = GColor.fromHSBtoRGB(redD, greenD, blueD);
-			redD = (rgb >> 16) & 0xFF;
-			greenD = (rgb >> 8) & 0xFF;
-			blueD = rgb & 0xFF;
-			return GColor.newColor((int) redD, (int) greenD, (int) blueD,
-					alpha);
-
+			return GColor.newColorHSB(redD, greenD, blueD);
 		case GeoElement.COLORSPACE_HSL:
-
-			// algorithm taken from wikipedia article:
-			// http://en.wikipedia.org/wiki/HSL_and_HSV
-
-			final double H = redD * 6;
-			final double S = greenD;
-			final double L = blueD;
-
-			final double C = (1 - Math.abs((2 * L) - 1)) * S;
-			final double X = C * (1 - Math.abs((H % 2) - 1));
-
-			double R1 = 0, G1 = 0, B1 = 0;
-
-			if (H < 1) {
-				R1 = C;
-				G1 = X;
-				B1 = 0;
-			} else if (H < 2) {
-				R1 = X;
-				G1 = C;
-				B1 = 0;
-			} else if (H < 3) {
-				R1 = 0;
-				G1 = C;
-				B1 = X;
-			} else if (H < 4) {
-				R1 = 0;
-				G1 = X;
-				B1 = C;
-			} else if (H < 5) {
-				R1 = X;
-				G1 = 0;
-				B1 = C;
-			} else {
-				R1 = C;
-				G1 = 0;
-				B1 = X;
-			}
-
-			final double m = L - (.5 * C);
-
-			return GColor.newColor((int) ((R1 + m) * 255.0),
-					(int) ((G1 + m) * 255.0), (int) ((B1 + m) * 255.0), alpha);
+			return GColor.newColorHSL(redD, greenD, blueD);
 
 		case GeoElement.COLORSPACE_RGB:
 		default:
@@ -1592,7 +1536,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		if (hasFixedDescendent) {
-			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
 		} else {
@@ -1865,10 +1808,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return showInAlgebraView();
 	}
 
-	/**
-	 * @param algorithm
-	 *            algorithm responsible for computation of this object
-	 */
+	@Override
 	public void setParentAlgorithm(final AlgoElement algorithm) {
 		algoParent = algorithm;
 	}
@@ -2078,7 +2018,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether this geo can be rotated
 	 */
 	public boolean isRotateMoveable() {
-		return isPointerChangeable() && (this instanceof PointRotateable);
+		return isPointerChangeable() && (this instanceof Rotatable);
 	}
 
 	/**
@@ -2121,9 +2061,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return animation step as geo
 	 */
 	public NumberValue getAnimationStepObject() {
-		if (animationIncrement == null) {
-			return null;
-		}
 		return animationIncrement;
 	}
 
@@ -2274,19 +2211,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
-		return getFormulaString(tpl, !symbolic);
-	}
-
-	/**
-	 * @param symbolic
-	 *            true to keep variable names
-	 * @param symbolicContext
-	 *            whether this method was called from a symbolic context
-	 * @param tpl
-	 *            string template
-	 * @return LaTeX string
-	 */
-	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		return getFormulaString(tpl, !symbolic);
 	}
 
@@ -2631,9 +2555,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			oldSpreadsheetCoords = spreadsheetCoords;
 			spreadsheetCoords = null;
 		}
-
-		// Application.debug("update spread sheet coords: " + this + ", " +
-		// spreadsheetCoords + ", old: " + oldSpreadsheetCoords);
 	}
 
 	/**
@@ -2807,12 +2728,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// use Greek upper case for labeling points if language is Greek
 			// (el)
 			if (getLoc().isUsingLocalizedLabels()) {
-				if (getLoc().languageIs(Language.Greek.locale)) {
+				if (getLoc().languageIs(Language.Greek.language)) {
 					chars = Greek.getGreekUpperCase();
-				} else if (getLoc().languageIs(Language.Arabic.locale)) {
+				} else if (getLoc().languageIs(Language.Arabic.language)) {
 					// Arabic / Arabic (Morocco)
 					chars = LabelType.arabic;
-				} else if (getLoc().languageIs(Language.Yiddish.locale)) {
+				} else if (getLoc().languageIs(Language.Yiddish.language)) {
 					chars = LabelType.yiddish;
 				} else {
 					chars = LabelType.pointLabels;
@@ -3145,9 +3066,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            whether this was triggered by drag
 	 */
 	public void update(boolean dragging) {
-		if (hasDynamicCaption()) {
-			dynamicCaption.update(dragging);
-		}
 		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
 		maybeUpdateSpecialPoints();
 
@@ -4510,14 +4428,17 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            string builder
 	 */
 	protected void getListenerTagsXML(StringBuilder sb) {
-		ScriptManager scriptManager = app.getScriptManager();
-		// updateListenerMap
-		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
-				"objectUpdate");
-		// clickListenerMap
-		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
-				"objectClick");
-
+		// we might be calling this from event dispatcher
+		// make sure we don't initialize ScriptManager here
+		if (app.hasScriptManager()) {
+			ScriptManager scriptManager = app.getScriptManager();
+			// updateListenerMap
+			getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
+					"objectUpdate");
+			// clickListenerMap
+			getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
+					"objectClick");
+		}
 	}
 
 	private void getListenerTagXML(StringBuilder sb,
@@ -4573,20 +4494,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (scripts == null) {
 			return;
 		}
-		Script clickScript = scripts[EventType.CLICK.ordinal()];
-		Script updateScript = scripts[EventType.UPDATE.ordinal()];
+		getScriptTag(EventType.CLICK, "val", sb);
+		getScriptTag(EventType.UPDATE, "onUpdate", sb);
+		getScriptTag(EventType.DRAG_END, "onDragEnd", sb);
+		getScriptTag(EventType.EDITOR_KEY_TYPED, "onChange", sb);
+	}
+
+	private void getScriptTag(EventType eventType, String val, StringBuilder sb) {
+		Script clickScript = scripts[eventType.ordinal()];
 		if (clickScript != null) {
 			sb.append("\t<");
 			sb.append(clickScript.getXMLName());
-			sb.append(" val=\"");
+			sb.append(" ").append(val).append("=\"");
 			StringUtil.encodeXML(sb, clickScript.getInternalText());
-			sb.append("\"/>\n");
-		}
-		if (updateScript != null) {
-			sb.append("\t<");
-			sb.append(updateScript.getXMLName());
-			sb.append(" onUpdate=\"");
-			StringUtil.encodeXML(sb, updateScript.getInternalText());
 			sb.append("\"/>\n");
 		}
 	}
@@ -5169,8 +5089,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/*
-	 * ** hightlighting and selecting only for internal purpouses, i.e. this is
-	 * not saved
+	 * hightlighting and selecting only for internal purpouses, i.e. this is not saved
 	 */
 	@Override
 	public boolean setSelected(final boolean flag) {
@@ -5323,8 +5242,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void setColorFunction(final GeoList col) {
-		// Application.debug("setColorFunction"+col.getValue());
-
 		// check for circular definition (not needed)
 		// if (this == col || isParentOf(col))
 		// throw new CircularDefinitionException();
@@ -5351,8 +5268,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (colFunction != null) {
 			colFunction.unregisterColorFunctionListener(this);
 		}
-		// Application.debug("removeColorFunction");
-		// if (colFunction == col)
 		colFunction = null;
 	}
 
@@ -6268,6 +6183,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
+	/**
+	 *
+	 * @return if geo is a result of some command.
+	 */
+	protected boolean isCommandOutput() {
+		return algoParent != null && algoParent.getClassName() != Algos.Expression;
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
@@ -6704,9 +6627,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
 			return false;
 		}
+		if (unwrap instanceof RecurringDecimal) {
+			return false;
+		}
 		if (unwrap instanceof NumberValue) {
 			double val = evaluateDouble();
-			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
+			return Double.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);
 		}
 		return true;
@@ -6734,6 +6660,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public final void updateVisualStyleRepaint(GProperty prop) {
 		updateVisualStyle(prop);
 		kernel.notifyRepaint();
+		if (algoUpdateSet != null) {
+			ArrayList<AlgoElement> toUpdate = new ArrayList<>();
+			for (AlgoElement algo: algoUpdateSet) {
+				if (algo instanceof StyleSensitiveAlgo
+						&& ((StyleSensitiveAlgo) algo).dependsOnInputStyle(prop)) {
+					toUpdate.add(algo);
+				}
+			}
+			AlgoElement.updateCascadeAlgos(toUpdate);
+		}
 	}
 
 	@Override
@@ -6745,7 +6681,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if ((isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
 				&& !"".equals(def0)) {
-			def0 = label + def0.replaceAll(",", " |");
+			def0 = label + def0;
 		}
 		if ("".equals(def0) || (!isDefined() && isIndependent())) {
 			return DescriptionMode.VALUE;
@@ -6757,6 +6693,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		String def = (isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
 				? def0 : addLabelText(def0);
+
 		String val = getAlgebraDescriptionDefault();
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;
@@ -7241,5 +7178,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public void removeZoomerAnimationListenerIfNeeded() {
 		// implemented in GeoFunction
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
 	}
 }

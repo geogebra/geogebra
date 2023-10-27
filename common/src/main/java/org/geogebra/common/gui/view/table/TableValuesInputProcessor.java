@@ -2,7 +2,10 @@ package org.geogebra.common.gui.view.table;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.advanced.AlgoParseToNumberOrFunction;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -54,6 +57,10 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		if (tableValues.getValues() == list && !list.isLabelSet()) {
 			model.setupXValues(list);
 			list.setLabel(cons.buildIndexedLabel("x", false));
+			if (GeoGebraConstants.PROBABILITY_APPCODE
+					.equals(cons.getApplication().getConfig().getSubAppCode())) {
+				cons.removeFromConstructionList(list);
+			}
 		}
 	}
 
@@ -66,7 +73,8 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			double parsedInput = Double.parseDouble(trimmedInput);
 			return model.createValue(parsedInput);
 		} catch (NumberFormatException e) {
-			return new GeoText(cons, input);
+			return new AlgoParseToNumberOrFunction(cons,
+					new GeoText(cons, input), null, Commands.ParseToNumber).getOutput(0);
 		}
 	}
 }

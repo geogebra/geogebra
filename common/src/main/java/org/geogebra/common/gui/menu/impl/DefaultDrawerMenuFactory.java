@@ -115,21 +115,33 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	private MenuItemGroup createMainMenuItemGroup() {
 		MenuItem clearConstruction = enableFileFeatures ? clearConstruction() : null;
-		MenuItem openFile = enableFileFeatures ? openFile() : null;
-		MenuItem save = enableFileFeatures && logInOperation != null ? saveFile() : null;
-		MenuItem share = enableFileFeatures ? share() : null;
-		MenuItem downloadAs = isDesktop() ? showDownloadAs() : null;
-		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
 		MenuItem startExamMode = createExamEntry ? startExamMode() : null;
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
-		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, share,
-				exportImage(), downloadAs, printPreview, startExamMode));
+		MenuItem openFile = enableFileFeatures ? openFile() : null;
+		MenuItem save = enableFileFeatures && logInOperation != null ? saveFileOnline() : null;
+		MenuItem saveOffline = enableFileFeatures && isWeb() ? saveFileLocal() : null;
+		MenuItem share = enableFileFeatures ? share() : null;
+		MenuItem downloadAs = isWeb() ? showDownloadAs() : null;
+		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
+		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, saveOffline,
+				share, exportImage(), downloadAs, printPreview, startExamMode));
+	}
+
+	protected MenuItem saveFileOnline() {
+		if (isMobile()) {
+			return saveFile();
+		}
+		return new ActionableItemImpl(Icon.SAVE_ONLINE, "SaveOnline", Action.SAVE_FILE);
+	}
+
+	protected MenuItem saveFileLocal() {
+		return new ActionableItemImpl(Icon.SAVE, "SaveToYourPC", Action.SAVE_FILE_LOCAL);
 	}
 
 	private boolean hasPrintPreview() {
-		return isDesktop() && version != GeoGebraConstants.Version.PROBABILITY;
+		return isWeb() && version != GeoGebraConstants.Version.PROBABILITY;
 	}
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {
@@ -163,7 +175,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				|| platform == GeoGebraConstants.Platform.IOS;
 	}
 
-	private boolean isDesktop() {
+	private boolean isWeb() {
 		return !isMobile();
 	}
 
@@ -210,23 +222,25 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	protected MenuItem showDownloadAs() {
-		ActionableItem png = new ActionableItemImpl(null, "Download.PNGImage", Action.DOWNLOAD_PNG);
+		ActionableItem downloadPng = new ActionableItemImpl(null,
+				"Download.PNGImage", Action.DOWNLOAD_PNG);
 		ActionableItem svg = new ActionableItemImpl(null, "Download.SVGImage", Action.DOWNLOAD_SVG);
 		ActionableItem pdf = new ActionableItemImpl(null,
 				"Download.PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
 		case PROBABILITY:
-			return buildDownloadAs(createDownloadGgb(), png);
+			return buildDownloadAs(createDownloadGgb(), downloadPng);
 		case NOTES:
-			return buildDownloadAs(createDownloadSlides(), png, svg, pdf);
+			return buildDownloadAs(createDownloadSlides(), downloadPng, svg, pdf);
 		case GRAPHING_3D:
 			ActionableItem dae = new ActionableItemImpl(
 					"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
 			ActionableItem html = new ActionableItemImpl(
 					"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-			return buildDownloadAs(createDownloadGgb(), png, createDownloadStl(), dae, html);
+			return buildDownloadAs(createDownloadGgb(), downloadPng,
+					createDownloadStl(), dae, html);
 		default:
-			return buildDownloadAs(createDownloadGgb(), png, svg, pdf, createDownloadStl());
+			return buildDownloadAs(createDownloadGgb(), downloadPng, svg, pdf, createDownloadStl());
 		}
 	}
 
@@ -249,4 +263,5 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	public LogInOperation getLogInOperation() {
 		return logInOperation;
 	}
+
 }

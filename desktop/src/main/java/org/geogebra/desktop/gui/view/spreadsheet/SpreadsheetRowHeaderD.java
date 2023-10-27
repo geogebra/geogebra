@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
@@ -38,7 +39,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	private AppD app;
 	private SpreadsheetViewD view;
 	private MyTableD table;
-	private MyListModel listModel;
+	private RowHeaderListModel listModel;
 
 	// note: MyTable uses its own minSelectionRow and maxSelectionRow.
 	// The selection listener keeps them in sync.
@@ -64,7 +65,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		this.table = table;
 		this.view = table.getView();
 
-		listModel = new MyListModel((DefaultTableModel) table.getModel());
+		listModel = new RowHeaderListModel((DefaultTableModel) table.getModel());
 		this.setModel(listModel);
 
 		setFocusable(true);
@@ -80,12 +81,12 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	}
 
-	public static class MyListModel extends AbstractListModel {
+	public static class RowHeaderListModel extends AbstractListModel {
 
 		private static final long serialVersionUID = 1L;
 		protected DefaultTableModel model;
 
-		public MyListModel(DefaultTableModel model) {
+		public RowHeaderListModel(DefaultTableModel model) {
 			this.model = model;
 		}
 
@@ -209,7 +210,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		// Double clicking on a row boundary auto-adjusts the
 		// height of the row above the boundary (the resizingRow)
 
-		if (resizingRow >= 0 && !AppD.isRightClick(e)
+		if (resizingRow >= 0 && !MouseEventUtil.isRightClick(e)
 				&& e.getClickCount() == 2) {
 			table.fitRow(resizingRow);
 			e.consume();
@@ -229,7 +230,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	@Override
 	public void mousePressed(MouseEvent e) {
 		boolean shiftPressed = e.isShiftDown();
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		int x = e.getX();
 		int y = e.getY();
@@ -284,7 +285,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (rightClick) {
 			if (!app.letShowPopupMenu()) {
@@ -340,7 +341,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (AppD.isRightClick(e)) {
+		if (MouseEventUtil.isRightClick(e)) {
 			return;
 		}
 
@@ -401,7 +402,6 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		boolean altDown = e.isAltDown();
 		boolean shiftDown = e.isShiftDown();
 
-		// Application.debug(keyCode);
 		switch (keyCode) {
 		default:
 			// do nothing

@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -30,7 +31,7 @@ public class CmdToComplexPolar extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		if (c.getArgumentNumber() != 1) {
 			throw argNumErr(c);
@@ -38,24 +39,22 @@ public class CmdToComplexPolar extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		AlgoToComplexPolar algo = null;
 		if (arg[0] instanceof GeoPoint) {
-			algo = new AlgoToComplexPolar(cons, c.getLabel(), (GeoPoint) arg[0],
-					coordStyle);
+			algo = new AlgoToComplexPolar(cons, (GeoPoint) arg[0], coordStyle);
 		}
 		if (arg[0] instanceof GeoVector) {
-			algo = new AlgoToComplexPolar(cons, c.getLabel(),
-					(GeoVector) arg[0], coordStyle);
+			algo = new AlgoToComplexPolar(cons, (GeoVector) arg[0], coordStyle);
 		}
 		if (arg[0] instanceof GeoList) {
-			algo = new AlgoToComplexPolar(cons, c.getLabel(), (GeoList) arg[0],
-					coordStyle);
+			algo = new AlgoToComplexPolar(cons, (GeoList) arg[0], coordStyle);
 		}
 		if (arg[0] instanceof GeoNumberValue) {
-			algo = new AlgoToComplexPolar(cons, c.getLabel(),
+			algo = new AlgoToComplexPolar(cons,
 					(GeoNumberValue) arg[0], coordStyle);
 		}
 		if (algo == null) {
 			throw argErr(arg[0], c);
 		}
+		algo.getResult().setLabel(c.getLabel());
 		return new GeoElement[] { algo.getResult() };
 	}
 

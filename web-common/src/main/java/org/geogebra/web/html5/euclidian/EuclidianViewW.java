@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -64,21 +65,21 @@ import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.CanvasPixelArray;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.canvas.dom.client.CanvasPixelArray;
+import org.gwtproject.canvas.dom.client.Context2d;
+import org.gwtproject.canvas.dom.client.ImageData;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.DropEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.user.client.ui.AbsolutePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -302,8 +303,13 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getWidth() {
-		return (int) (this.g2p.getCoordinateSpaceWidth()
-						/ this.g2p.getDevicePixelRatio());
+		return (int) getWidthd();
+	}
+
+	@Override
+	public double getWidthd() {
+		return this.g2p.getCoordinateSpaceWidth()
+				/ this.g2p.getDevicePixelRatio();
 	}
 
 	/**
@@ -313,8 +319,13 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getHeight() {
-		return (int) (this.g2p.getCoordinateSpaceHeight()
-						/ this.g2p.getDevicePixelRatio());
+		return (int) getHeightd();
+	}
+
+	@Override
+	public double getHeightd() {
+		return this.g2p.getCoordinateSpaceHeight()
+						/ this.g2p.getDevicePixelRatio();
 	}
 
 	@Override
@@ -429,16 +440,16 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void getExportSVG(double scale, boolean transparency, Consumer<String> callback) {
-		int width = (int) Math.floor(getExportWidth() * scale);
-		int height = (int) Math.floor(getExportHeight() * scale);
+	public void getExportSVG(boolean transparency, Consumer<String> callback) {
+		int width = (int) Math.floor(getExportWidth());
+		int height = (int) Math.floor(getExportHeight());
 
 		ExportLoader.onCanvas2SvgLoaded(() -> {
 			Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
 			CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
 			g4copy = new GGraphics2DW(ctx);
-			this.appW.setExporting(ExportType.SVG, scale);
-			exportPaintPre(g4copy, scale, transparency);
+			this.appW.setExporting(ExportType.SVG, 1);
+			exportPaintPre(g4copy, 1, transparency);
 			drawObjects(g4copy);
 			this.appW.setExporting(ExportType.NONE, 1);
 			String serializedSvg = canvas2svg.getSerializedSvg(true);
@@ -586,9 +597,9 @@ public class EuclidianViewW extends EuclidianView implements
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getElement().getParentElement().getStyle()
-			        .setWidth(width, Style.Unit.PX);
+			        .setWidth(width, Unit.PX);
 			g2p.getElement().getParentElement().getStyle()
-			        .setHeight(height, Style.Unit.PX);
+			        .setHeight(height, Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
 			Log.debug("Problem with the parent element of the canvas");
@@ -664,8 +675,8 @@ public class EuclidianViewW extends EuclidianView implements
 	/**
 	 * @return new panel
 	 */
-	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
-		return new MyEuclidianViewPanel(this);
+	protected EuclidianViewWrapperPanel newMyEuclidianViewPanel() {
+		return new EuclidianViewWrapperPanel(this);
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
@@ -686,7 +697,7 @@ public class EuclidianViewW extends EuclidianView implements
 		attachView();
 
 		if (getViewID() == App.VIEW_EUCLIDIAN || getViewID() == App.VIEW_EUCLIDIAN2) {
-			g2p.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			g2p.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		}
 
 		euclidiancontroller.setView(this);
@@ -1125,13 +1136,13 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected SymbolicEditor createSymbolicEditor() {
+	protected SymbolicEditor createSymbolicEditor(TextRendererSettings settings) {
 		GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
 		if (gm == null) {
 			return null;
 		}
 
-		return gm.createSymbolicEditor(this);
+		return gm.createSymbolicEditor(this, settings);
 	}
 
 	@Override
@@ -1253,8 +1264,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            app it needs to be attached to
 	 */
 	public static void attachReaderWidget(ReaderWidget screenReaderWidget, App app) {
-		if (((AppW) app).getPanel().getElement().getParentElement() != null) {
-			((AppW) app).getPanel().getElement().getParentElement()
+		if (((AppW) app).getAppletFrame().getElement().getParentElement() != null) {
+			((AppW) app).getAppletFrame().getElement().getParentElement()
 				.appendChild(screenReaderWidget.getElement());
 			((AppW) app).setLastFocusableWidget(screenReaderWidget);
 		}
@@ -1317,12 +1328,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 * Schedule background update.
 	 */
 	public void deferredUpdateBackground() {
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				updateBackgroundImage();
-			}
-		});
+		app.invokeLater(this::updateBackgroundImage);
 	}
 
 	private class DrawLaTeXCallBack implements Runnable {
@@ -1456,7 +1462,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (overlayGraphics == null) {
 			Canvas pCanvas = Canvas.createIfSupported();
 			overlayGraphics = new GGraphics2DW(pCanvas);
-			overlayGraphics.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			overlayGraphics.getElement().getStyle().setPosition(Position.ABSOLUTE);
 			overlayGraphics.setDevicePixelRatio(appW.getPixelRatio());
 			g2p.getElement().getParentElement()
 					.appendChild(overlayGraphics.getElement());

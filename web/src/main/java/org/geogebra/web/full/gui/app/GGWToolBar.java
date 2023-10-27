@@ -10,6 +10,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -27,25 +28,25 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.animation.client.AnimationScheduler;
+import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.TextDecoration;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.KeyCodes;
+import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.UriUtils;
+import org.gwtproject.user.client.ui.Composite;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.RequiresResize;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
-import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.TextDecoration;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.ScrollPanel;
 
 import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLElement;
@@ -318,7 +319,7 @@ public class GGWToolBar extends Composite
 			}
 			rightButtonPanel.add(getTimer());
 		}
-		if (app.isUndoRedoEnabled()) {
+		if (app.getUndoRedoMode() == UndoRedoMode.GUI) {
 			addUndoPanel();
 		}
 		this.menuBarShowing = false;
@@ -1056,7 +1057,7 @@ public class GGWToolBar extends Composite
 	 */
 	public int getMaxButtons(int appWidth) {
 		int extraButtons = 0;
-		if (app.isUndoRedoEnabled()) {
+		if (app.getUndoRedoMode() == UndoRedoMode.GUI) {
 			extraButtons = 95;
 		}
 		if (app.showMenuBar()) {

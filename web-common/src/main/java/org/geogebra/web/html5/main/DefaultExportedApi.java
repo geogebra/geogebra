@@ -3,8 +3,7 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
-
-import com.google.gwt.dom.client.Element;
+import org.gwtproject.dom.client.Element;
 
 import elemental2.core.Global;
 import elemental2.core.JsArray;
@@ -726,8 +725,8 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().showTooltip(tooltip + "");
 	}
 
-	public void addMultiuserSelection(String clientId, String user, String color, String label, boolean newGeo) {
-		getGgbAPI().addMultiuserSelection(clientId, user, color, label, newGeo);
+	public void addMultiuserSelection(String clientId, String user, String color, String label, boolean implicit) {
+		getGgbAPI().addMultiuserSelection(clientId, user, color, label, implicit);
 	}
 
 	public void removeMultiuserSelections(String clientId) {
@@ -744,9 +743,6 @@ public class DefaultExportedApi implements ExportedApi {
 		return false;
 	}
 
-	public void setExternalPath(String path) {
-		getGgbAPI().setExternalPath(path + "");
-	}
 
 	public void checkSaved(JsRunnable path) {
 		getGgbAPI().checkSaved(path);
@@ -837,6 +833,10 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void setInputBoxState(String state, String label) {
 		getGgbAPI().setInputBoxState(state, label);
+	}
+
+	public boolean isInteractive(String label) {
+		return getGgbAPI().isInteractive(label);
 	}
 
 	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,
@@ -1107,6 +1107,10 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void setAlgebraOptions(Object options) {
 		getGgbAPI().setAlgebraOptions(options);
+	}
+
+	public void showAllObjects() {
+		getGgbAPI().showAllObjects();
 	}
 
 	private GgbAPIW getGgbAPI() {

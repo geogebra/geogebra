@@ -24,7 +24,7 @@ public class ListSeparatorRenderer extends JLabel
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String SEPARATOR = "---";
+	public static final String SEPARATOR = "<------->";
 	JSeparator separator;
 
 	/**

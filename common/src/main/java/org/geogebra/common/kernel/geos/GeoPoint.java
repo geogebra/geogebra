@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.LocateableList;
-import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -46,6 +45,7 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacro;
+import org.geogebra.common.kernel.algos.AlgoPointInRegion;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -65,7 +65,6 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -90,7 +89,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus
  */
 public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
-		MatrixTransformable, ConicMirrorable, GeoPointND,
+		ConicMirrorable, GeoPointND,
 		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 	private static volatile Comparator<GeoPoint> comparatorX;
 
@@ -145,6 +144,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	private Coords tmpCoords;
 
 	private ArrayList<GeoElement> incidenceList;
+	private NumberValue verticalIncrement;
 
 	/**
 	 * create an undefined GeoPoint
@@ -268,11 +268,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public static boolean isComplexNumber(GeoElementND geo) {
 		return geo.isGeoPoint()
 				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX;
-	}
-
-	@Override
-	public void setZero() {
-		setCoords(0, 0, 1);
 	}
 
 	/**
@@ -772,6 +767,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public void addToPathParameter(double a) {
 		PathParameter parameter = getPathParameter();
 		parameter.t += a;
+
+		// update point relative to path
+		path.pathChanged(this);
+		updateCoords();
+	}
+
+	@Override
+	public void updatePathParameter(double t) {
+		PathParameter parameter = getPathParameter();
+		parameter.t = t;
 
 		// update point relative to path
 		path.pathChanged(this);
@@ -1599,9 +1604,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			return ",";
 		}
 		StringBuilder sb = new StringBuilder();
-		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN
-			&& !tpl.isForEditorParser()) {
-			sb.append(" |");
+		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
+			tpl.appendOptionalSpace(sb);
+			sb.append(tpl.getPointCoordBar());
 			tpl.appendOptionalSpace(sb);
 		} else {
 			tpl.getCommaOptionalSpace(sb, kernel.getLocalization());
@@ -1711,13 +1716,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
-				if (!tpl.isForEditorParser()) {
-					tpl.appendOptionalSpace(sbBuildValueString);
-					sbBuildValueString.append("|");
-					tpl.appendOptionalSpace(sbBuildValueString);
-					break;
-				}
-
+				tpl.appendOptionalSpace(sbBuildValueString);
+				sbBuildValueString.append(tpl.getPointCoordBar());
+				tpl.appendOptionalSpace(sbBuildValueString);
+				break;
 			default:
 				tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
 			}
@@ -1786,28 +1788,31 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// don't save default
 			// sb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
-
+		if (verticalIncrement != null) {
+			XMLBuilder.appendVerticalIncrement(sb, verticalIncrement);
+		}
 		XMLBuilder.appendPointProperties(sb, this);
 	}
 
 	@Override
-	public void appendStartPointXML(StringBuilder sb) {
+	public void appendStartPointXML(StringBuilder sb, boolean absPosition) {
 		sb.append("\t<startPoint ");
 
 		if (isAbsoluteStartPoint()) {
 			sb.append("x=\"");
 			sb.append(x);
-			sb.append("\"");
-			sb.append(" y=\"");
+			sb.append("\" y=\"");
 			sb.append(y);
-			sb.append("\"");
-			sb.append(" z=\"");
+			sb.append("\" z=\"");
 			sb.append(z);
 			sb.append("\"");
 		} else {
 			sb.append("exp=\"");
 			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");
+		}
+		if (absPosition) {
+			sb.append(" absolute=\"true\"");
 		}
 		sb.append("/>\n");
 	}
@@ -2118,7 +2123,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		case 2:
 			return getCoordsInD2();
 		case 3:
-			// Application.debug(getLabel()+": "+x+","+y+","+z);
 			return getCoordsInD3();
 		default:
 			return null;
@@ -2377,10 +2381,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			locateableList = ((GeoPointND) oldGeo).getLocateableList();
 			for (Locateable locPoint : locateableList) {
-				GeoPointND[] pts = locPoint.getStartPoints();
-				for (int i = 0; i < pts.length; i++) {
-					if (pts[i] == (GeoPoint) oldGeo) {
-						pts[i] = this;
+				for (int i = 0; i < locPoint.getStartPointCount(); i++) {
+					if (locPoint.getStartPoint(i) == oldGeo) {
+						locPoint.initStartPoint(this, i);
 					}
 				}
 				locPoint.toGeoElement().updateRepaint();
@@ -2929,29 +2932,47 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		// find closest point on each segment
 		PathParameter pp = getPathParameter();
-		GeoSegmentND[] segments = polygon.getSegments();
-		if (segments != null) {
 
-			for (int i = 0; i < segments.length; i++) {
-				setCoords2D(qx, qy, 1);
-				updateCoordsFrom2D(false);
-				segments[i].pointChanged(this);
-				coords = getCoordsInD2();
-				double x1 = coords.getX() / coords.getZ() - qx;
-				double y1 = coords.getY() / coords.getZ() - qy;
-				double dist = x1 * x1 + y1 * y1;
-				if (dist < minDist) {
-					minDist = dist;
-					// remember closest point
-					resx = coords.getX();
-					resy = coords.getY();
-					resz = coords.getZ();
-					param = i + pp.t;
-				}
+		for (int i = 0; i < polygon.getSegmentLength(); i++) {
+			setCoords2D(qx, qy, 1);
+			updateCoordsFrom2D(false);
+			polygon.getSegment(i).pointChanged(this);
+			coords = getCoordsInD2();
+			double x1 = coords.getX() / coords.getZ() - qx;
+			double y1 = coords.getY() / coords.getZ() - qy;
+			double dist = x1 * x1 + y1 * y1;
+			if (dist < minDist) {
+				minDist = dist;
+				// remember closest point
+				resx = coords.getX();
+				resy = coords.getY();
+				resz = coords.getZ();
+				param = i + pp.t;
 			}
 		}
+
 		setCoords2D(resx, resy, resz);
 		updateCoordsFrom2D(false);
 		pp.t = param;
+	}
+
+	@Override
+	public NumberValue getVerticalIncrement() {
+		return this.verticalIncrement;
+	}
+
+	@Override
+	public void setVerticalIncrement(NumberValue step) {
+		this.verticalIncrement = step;
+	}
+
+	@Override
+	protected boolean isCommandOutput() {
+		if (algoParent != null
+				&& (algoParent.getClass() == AlgoPointOnPath.class
+				|| algoParent.getClass() == AlgoPointInRegion.class)) {
+			return false;
+		}
+		return super.isCommandOutput();
 	}
 }

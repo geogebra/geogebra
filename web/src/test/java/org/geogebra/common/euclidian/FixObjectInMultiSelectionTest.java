@@ -33,7 +33,7 @@ public class FixObjectInMultiSelectionTest {
 
 	@Before
 	public void setup() {
-		app = AppMocker.mockNotes(getClass());
+		app = AppMocker.mockNotes();
 		construction = app.getKernel().getConstruction();
 		contextMenu = new ContextMenuMock(app);
 		selectionManager = app.getSelectionManager();

@@ -1,11 +1,14 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.statistics.AlgoDistribution;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 
+import com.google.j2objc.annotations.AutoreleasePool;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -147,17 +150,19 @@ public abstract class ProbabilityTable {
 
 	protected void fillRows(ProbabilityCalculatorSettings.Dist distType,
 			GeoNumberValue[] params, int xMin, int xMax) {
-		double prob;
-		int x = xMin;
-		int row = 0;
-		while (x <= xMax) {
+		if (distType == null) {
+			return;
+		}
+		GeoNumeric xValue = new GeoNumeric(app.getKernel().getConstruction(), xMin);
+		AlgoDistribution algoDistribution =
+				getProbManager().getDistributionAlgorithm(xValue, parms, distType, isCumulative());
 
-			if (distType != null) {
-				prob = getProbManager().probability(x, params, distType, isCumulative());
-				setRowValues(row, "" + x, "" + getProbCalc().format(prob));
-			}
-			x++;
-			row++;
+		for (@AutoreleasePool int x = xMin; x <= xMax; x++) {
+			xValue.setValue(x);
+			algoDistribution.compute();
+
+			double prob = algoDistribution.getResult().getDouble();
+			setRowValues(x - xMin, "" + x, "" + getProbCalc().format(prob));
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -9,6 +10,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
@@ -303,6 +305,17 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void elementOfShouldBeRay() {
+		add("l1={Ray((0,0),(1,1)),Ray((1,2),(2,4))}");
+		add("a=Slider(1,2,1)");
+		GeoLine el = add("r=l1(a)");
+		assertEquals(el.getTypeString(), "Ray");
+		add("SetValue(a,2)");
+		assertThat(el, hasValue("-2x + y = 0"));
+		assertThat(el.getStartPoint(), hasValue("(1, 2)"));
+	}
+
+	@Test
 	public void functionCopySHouldBeDependent() {
 		t("f:x", "x");
 		t("g(x)=f", "x");
@@ -340,6 +353,12 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("sin(asin(1+0.5i))", "1 + 0.5" + Unicode.IMAGINARY,
 				StringTemplate.editTemplate);
 		t("cos(acos(1+0.5i))", "1 + 0.5" + Unicode.IMAGINARY,
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void complexExpIntegral() {
+		t("expIntegral(1+2i)", "1.04217 + 3.7015" + Unicode.IMAGINARY,
 				StringTemplate.editTemplate);
 	}
 
@@ -470,6 +489,38 @@ public class ArithmeticTest extends BaseUnitTest {
 			power.append("*a");
 		}
 		t(power.toString(), "2.719642216442848", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	public void testPolarCoords() {
+		add("a=1");
+		t("(1,1)+(a;pi)", "(0, 1)", StringTemplate.editTemplate);
+		t("(2;a*pi)+(0,0)", "(2; 180" + Unicode.DEGREE_STRING + ")",
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void expandBracketsForImplicitCurve() {
+		add("s(x,y)=x+y");
+		t("s^3.2+3=0", "(x + y)^(3.2) + 3 = 0");
+	}
+
+	@Test
+	public void testMixedNumbers() {
+		t("2 " + Unicode.INVISIBLE_PLUS + "3 / 4 * 3", "8.25");
+		t("2 * 2" + Unicode.INVISIBLE_PLUS + "3 / 4", "5.5");
+		t("2 + 2" + Unicode.INVISIBLE_PLUS + "4 / 5", "4.8");
+		t("2.5 / 2" + Unicode.INVISIBLE_PLUS + "1 / 2", "1");
+		t("(2" + Unicode.INVISIBLE_PLUS + "1 / 2) / 2", "1.25");
+	}
+
+	@Test
+	public void testRecurringDecimals() {
+		t("1.23" + Unicode.OVERLINE + "4" + Unicode.OVERLINE, "1.2343434343434343");
+		t("1.3" + Unicode.OVERLINE + " / 0.5", "2.6666666666666665");
+		t("1.0" + Unicode.OVERLINE, "1");
+		t("1.3" + Unicode.OVERLINE + " * 3", "4");
+		t("2.6" + Unicode.OVERLINE + " / 2", "1.3333333333333333");
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {

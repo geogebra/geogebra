@@ -9,12 +9,12 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.dom.client.Style;
+import org.gwtproject.event.shared.HandlerRegistration;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.core.Function;
@@ -89,7 +89,9 @@ public class Browser {
 	 * @return URL using appropriate protocol (data or https)
 	 */
 	public static String normalizeURL(String thumb) {
-		if (thumb.startsWith("data:")) {
+		// plain http needed in MOW test environment
+		if (thumb.startsWith("data:") || (thumb.startsWith("http://")
+				&& "http:".equals(DomGlobal.location.protocol))) {
 			return thumb;
 		}
 		String url;

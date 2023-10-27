@@ -4,8 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Toolbar for mow

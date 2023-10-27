@@ -1,8 +1,9 @@
 package com.himamis.retex.editor.web;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.RootPanel;
+import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.RootPanel;
+
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
@@ -52,8 +53,9 @@ public class JlmEditorLib extends JlmLib {
 					}
 
 					@Override
-					public void onTab(boolean shiftDown) {
+					public boolean onTab(boolean shiftDown) {
 						// TODO Auto-generated method stub
+						return true;
 					}
 				});
 		fld.requestViewFocus();
@@ -65,7 +67,7 @@ public class JlmEditorLib extends JlmLib {
 		try {
 			MathFormula formula = new Parser(new MetaModel()).parse(ascii);
 			texFormula.root = new TeXBuilder().build(formula.getRootComponent(),
-					null, false);
+					null, -1, false);
 		} catch (ParseException e) {
 			FactoryProvider.debugS("Invalid input " + ascii);
 		}

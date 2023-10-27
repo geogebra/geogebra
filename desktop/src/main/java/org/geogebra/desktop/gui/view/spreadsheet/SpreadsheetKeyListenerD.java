@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.main.AppD;
 
+import com.himamis.retex.editor.share.util.AltKeys;
+
 public class SpreadsheetKeyListenerD implements KeyListener {
 
 	private final AppD app;
@@ -274,7 +276,6 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 		// needs to be here to stop keypress starting a cell edit after the undo
 		case KeyEvent.VK_Z: // undo
 			if (ctrlDown) {
-				// Application.debug("undo");
 				app.getGuiManager().undo();
 				e.consume();
 			} else {
@@ -285,7 +286,6 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 		// needs to be here to stop keypress starting a cell edit after the redo
 		case KeyEvent.VK_Y: // redo
 			if (ctrlDown) {
-				// Application.debug("redo");
 				app.getGuiManager().redo();
 				e.consume();
 			} else {
@@ -324,7 +324,6 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				if (keyCode == KeyEvent.VK_DELETE
 						|| keyCode == KeyEvent.VK_BACK_SPACE) {
 					e.consume();
-					// Application.debug("deleting...");
 					boolean storeUndo = table.delete();
 					if (storeUndo) {
 						app.storeUndoInfo();
@@ -398,7 +397,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 			//$FALL-THROUGH$
 		default:
 			if (!Character.isIdentifierIgnorable(e.getKeyChar())
-					&& !editor.isEditing() && !(ctrlDown || e.isAltDown())) {
+					&& !editor.isEditing() && isValidKeyCombination(e)) {
 				letterOrDigitTyped();
 			} else {
 				e.consume();
@@ -406,6 +405,14 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 			break;
 
 		}
+	}
+
+	private boolean isValidKeyCombination(KeyEvent e) {
+		return !e.isControlDown() && (!e.isAltDown() || isSpecialCharacter(e));
+	}
+
+	private boolean isSpecialCharacter(KeyEvent e) {
+		return AltKeys.isGeoGebraShortcut(e.getKeyCode(), e.isShiftDown(), false);
 	}
 
 	private void letterOrDigitTyped() {

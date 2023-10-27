@@ -211,7 +211,9 @@ public class ToolCreationDialogModel {
 	 */
 	public boolean finish(App appToSave, String cmdName, String toolName,
 			String toolHelp, boolean showInToolBar, String iconFileName) {
-
+		if (newTool == null) {
+			return false;
+		}
 		newTool.setCommandName(cmdName);
 		newTool.setToolName(toolName);
 		newTool.setToolHelp(toolHelp);
@@ -232,8 +234,7 @@ public class ToolCreationDialogModel {
 
 		// set macro mode
 		if (newTool.isShowInToolBar()) {
-			newTool.setViewId(
-					app.getGuiManager().getActiveEuclidianView().getViewID());
+			newTool.setViewId(app.getGuiManager().getActiveEuclidianView().getViewID());
 			int mode = kernel.getMacroID(newTool)
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			appToSave.getGuiManager().addToToolbarDefinition(mode);
@@ -263,15 +264,15 @@ public class ToolCreationDialogModel {
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
-			if (app.getMacro() != null) {
-				kernel.removeMacro(app.getMacro());
+			if (app.getEditMacro() != null) {
+				kernel.removeMacro(app.getEditMacro());
 			} else {
 				kernel.removeMacro(macro);
 			}
 			if (appToSave.addMacroXML(sb.toString())) {
 				// successfully saved, quitting
 				appToSave.setXML(appToSave.getXML(), true);
-				if (app.getMacro() != null) {
+				if (app.getEditMacro() != null) {
 					app.setSaved();
 					// app.exit(); TODO! goto last window...
 				}
@@ -349,10 +350,11 @@ public class ToolCreationDialogModel {
 	}
 
 	/**
-	 * Remove elements from output
+	 * Remove elements from a list
 	 * 
 	 * @param selIndices
-	 *            indices in output list
+	 *            indices in input/output list
+	 * @param output whether this is for input or output
 	 */
 	public void removeFromList(ArrayList<Integer> selIndices, boolean output) {
 		if (selIndices.isEmpty()) {

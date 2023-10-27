@@ -165,6 +165,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdSolveODETidyCas() {
+		t("SolveODE(2 x sqrt(y),(0,1))", "(1 / 4 * x^(4)) + x^(2) + 1");
+	}
+
+	@Test
 	public void cmdSolveODEUpdate() {
 		t("t=SolveODE(2x)", "x^(2)");
 		t("v=t(2)", "4");
@@ -221,6 +226,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void cmdAsymptote() {
+		t("Asymptote(ln(x)-ln(1-x))", "{x = 0}");
+		t("Asymptote(ln(x)+ln(1/(1-x)))", "{x = 0}");
+		t("Asymptote(ln(x/(1-x)))", "{x = 0}");
 		t("Asymptote[ x*y=1 ]", "x = 0", "y = 0");
 		t("Asymptote[ 1/x ]", "{y = 0, x = 0}");
 		t("Asymptote[ 1/x^3 ]", "{y = 0, x = 0}");
@@ -369,9 +377,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		img.setImageFileName(fn);
 		app.getImageManager().setCornersFromSelection(img, app);
 		img.setLabel("picT");
-		img.getCorner(0).setCoords(0, 0, 1);
-		img.getCorner(1).setCoords(10, 0, 1);
-		img.getCorner(1).updateCascade();
+		img.getStartPoint(0).setCoords(0, 0, 1);
+		img.getStartPoint(1).setCoords(10, 0, 1);
+		img.getStartPoint(1).updateCascade();
 		tRound("Corner(picT,1)", "(0, 0)");
 		tRound("Corner(picT,2)", "(10, 0)");
 		tRound("Corner(picT,3)", "(10, 10)");
@@ -519,5 +527,16 @@ public class CommandsUsingCASTest extends AlgebraTest {
 				"{(-nroot(1 / 20,50)) + 1 ≤ x ≤ nroot(1 / 20,50) + 1}");
 		t("NSolve((x-1)^99<1)", "?");
 		assertThat(System.currentTimeMillis() - time, lessThan(1E4));
+	}
+
+	/**
+	 * Checks that Giac computes this in as approximation (returns ?)
+	 * instead of precise value (would be Infinity). There is/was a crash in Giac when pi
+	 * is sent to Giac as a symbol, see TRAC-3865, TRAC-5532, APPS-4943
+	 */
+	@Test
+	public void useApproxBoundsForDefiniteIntegral() {
+		t("a=1", "1");
+		t("Integral[sin(x) / (1 + a² - 2a cos(x)), 0, pi]", "NaN");
 	}
 }

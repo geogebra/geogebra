@@ -4,15 +4,11 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
- * @author csilla
- * 
- *         material design switch component
- *
+ * material design switch component
  */
 public class ComponentSwitch extends FlowPanel {
 	private SimplePanel track;

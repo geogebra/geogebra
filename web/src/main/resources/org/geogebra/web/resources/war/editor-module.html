@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Evaluator - GeoGebra</title>
+    <meta property="og:title" content="Evaluator - GeoGebra" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <meta name="description" content="Editor demo.">
+    <link rel="shortcut icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
+    <link rel="icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
+    <style>
+        body,html {
+            margin:0;
+            padding:0;
+        }
+        main {
+            width:300px;
+            min-height:50px;
+            border:1px blue solid;
+            margin: 1em;
+        }
+    </style>
+</head>
+<body dir="ltr" tabindex="-1">
+<main id="main1" data-param-editorBackgroundColor="yellow"></main>
+<main id="main2"></main>
+<main id="main3"></main>
+<main id="main4">Text before<span id="inline"></span>text after</main>
+<script type="module">
+    import {editor, formula} from './editor/editor.nocache.mjs';
+    editor.create(document.querySelector("#main1")).getAPI().then(api => {
+            api.registerClientListener(evt => {
+                console.trace(evt);
+            });
+        });
+    editor.create({element:document.querySelector("#main2"), editorBackgroundColor: "wheat"});
+    editor.create(document.querySelector("#main3"));
+    formula.create({"latex":"\\frac{\\sqrt{3}}{\\frac12}", "fontSize": 42}).inject(document.querySelector("#inline"));
+</script>
+</body>
+</html>

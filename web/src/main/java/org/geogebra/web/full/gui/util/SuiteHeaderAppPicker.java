@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.AppDescription;
 import org.geogebra.web.full.gui.dialog.AppSwitcherPopup;
@@ -10,10 +9,8 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.GlobalHeader;
-
-import com.google.gwt.aria.client.Roles;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.RootPanel;
 
 public class SuiteHeaderAppPicker extends StandardButton {
 
@@ -49,7 +46,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	}
 
 	private void createAppPickerButton(AppW app) {
-		setIconAndLabel(GeoGebraConstants.GRAPHING_APPCODE);
+		setIconAndLabel(((AppWFull) appW).getLastUsedSubApp());
 		setStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
 		suitePopup.addCloseHandler(close -> setExpanded(false));
@@ -86,6 +83,6 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		this.getElement().appendChild(dropDownImg.getElement());
 		btnImage.setPresentation();
 
-		Roles.getButtonRole().removeAriaPressedState(getElement());
+		getElement().removeAttribute("aria-pressed");
 	}
 }

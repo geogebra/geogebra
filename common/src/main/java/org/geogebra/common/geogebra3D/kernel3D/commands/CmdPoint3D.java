@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.algos.AlgoPointsFromList;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdPoint;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -28,7 +29,7 @@ public class CmdPoint3D extends CmdPoint {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -77,7 +78,7 @@ public class CmdPoint3D extends CmdPoint {
 			}
 		}
 
-		return super.process(c);
+		return super.process(c, info);
 
 	}
 

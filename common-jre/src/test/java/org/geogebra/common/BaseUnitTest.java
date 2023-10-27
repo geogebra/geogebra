@@ -2,16 +2,20 @@ package org.geogebra.common;
 
 import static org.junit.Assert.fail;
 
+import java.util.function.Function;
+
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.AsyncOperation;
@@ -32,7 +36,7 @@ public class BaseUnitTest {
 	private Construction construction;
 	private AppCommon app;
 	private GeoElementFactory elementFactory;
-	private TypeSafeMatcher<GeoElementND> isDefined;
+	private static TypeSafeMatcher<GeoElementND> isDefined;
 
     /**
      * Setup test class before every test.
@@ -213,7 +217,10 @@ public class BaseUnitTest {
 		return kernel.lookupLabel(label);
 	}
 
-	protected TypeSafeMatcher<GeoElementND> isDefined() {
+	/**
+	 * @return matcher for defined elements
+	 */
+	public static TypeSafeMatcher<GeoElementND> isDefined() {
 		if (isDefined == null) {
 			isDefined = new TypeSafeMatcher<GeoElementND>() {
 				@Override
@@ -234,27 +241,44 @@ public class BaseUnitTest {
 	 * @param val expected value (for default template)
 	 * @return construction element matcher
 	 */
-	public static TypeSafeMatcher<GeoElementND> hasValue(String val) {
-		return new TypeSafeMatcher<GeoElementND>() {
+	public static TypeSafeMatcher<ExpressionValue> hasValue(String val) {
+		return hasProperty("value", geo -> geo.toValueString(StringTemplate.defaultTemplate), val);
+	}
+
+	/**
+	 * @param propName property name
+	 * @param prop property getter
+	 * @param val expected value
+	 * @return matcher for generic property
+	 * @param <A> object type
+	 * @param <B> property type
+	 */
+	public static <A, B> TypeSafeMatcher<A> hasProperty(String propName,
+			Function<A, B> prop, B val) {
+		return new TypeSafeMatcher<A>() {
 			@Override
-			protected boolean matchesSafely(GeoElementND item) {
-				return val.equals(item.toValueString(StringTemplate.defaultTemplate));
+			protected boolean matchesSafely(A item) {
+				return val.equals(prop.apply(item));
 			}
 
 			@Override
-			public void describeMismatchSafely(GeoElementND item, Description description) {
-				description.appendText("had value ").appendValue(item
-						.toValueString(StringTemplate.defaultTemplate));
+			public void describeMismatchSafely(A item, Description description) {
+				description.appendText("had " + propName + " ").appendValue(prop.apply(item));
 			}
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("value " + val);
+				description.appendText("has " + propName + " ").appendValue(val);
 			}
 		};
 	}
 
 	protected void reload() {
 		app.setXML(app.getXML(), true);
+	}
+
+	protected void activateUndo() {
+		app.setUndoRedoMode(UndoRedoMode.GUI);
+		app.setUndoActive(true);
 	}
 }

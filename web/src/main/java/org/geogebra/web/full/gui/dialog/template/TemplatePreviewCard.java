@@ -8,13 +8,13 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.DoubleClickEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 public class TemplatePreviewCard extends FlowPanel
         implements SetLabels, MaterialCardI {
@@ -67,9 +67,9 @@ public class TemplatePreviewCard extends FlowPanel
         // panel containing the info regarding the material
         FlowPanel infoPanel = new FlowPanel();
         infoPanel.setStyleName("cardInfoPanel");
-        Label cardTitle = new Label(getMaterial() == null ? app.getLocalization().getMenu(
-                "blankFile") : getMaterial().getTitle());
-        cardTitle.setStyleName("cardTitle");
+        String text = getMaterial() == null ? app.getLocalization().getMenu(
+                "blankFile") : getMaterial().getTitle();
+        Label cardTitle = BaseWidgetFactory.INSTANCE.newPrimaryText(text, "cardTitle");
         infoPanel.add(cardTitle);
         if (hasMoreButton) {
             ContextMenuButtonCard moreBtn = new ContextMenuButtonTemplateCard(app, this);
@@ -119,32 +119,8 @@ public class TemplatePreviewCard extends FlowPanel
     }
 
     @Override
-    public void rename(String title) {
-        // nothing to do here
-    }
-
-    @Override
-    public void copy() {
-        // nothing to do here
-    }
-
-    @Override
     public void onDelete() {
         // TODO handle delete here
     }
 
-    @Override
-    public String getCardTitle() {
-        return null;
-    }
-
-    @Override
-    public String getMaterialID() {
-        return null;
-    }
-
-    @Override
-    public void updateVisibility(Material material) {
-        // nothing to do here
-    }
 }

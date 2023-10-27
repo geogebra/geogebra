@@ -162,12 +162,7 @@ public abstract class CASgiacB extends CASgiac {
 	@Override
 	protected String evaluate(final String exp, final long timeoutMillis0)
 			throws Throwable {
-		Runnable evalFunction = new Runnable() {
-			@Override
-			public void run() {
-				threadResult = evalRaw(exp, timeoutMillis0);
-			}
-		};
+		Runnable evalFunction = () -> threadResult = evalRaw(exp, timeoutMillis0);
 
 		threadResult = null;
 

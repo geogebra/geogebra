@@ -216,7 +216,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		btnTraceDialog.setToolTipText(
 				app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
 		btnTraceDialog.addActionListener(
-				e -> showTraceDialog(null, table.selectedCellRanges.get(0)));
+				e -> showTraceDialog(null, table.getSelectedCellRanges().get(0)));
 
 		upperLeftCorner.setLayout(new BorderLayout());
 		upperLeftCorner.add(btnTraceDialog, BorderLayout.WEST);
@@ -338,7 +338,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	@Override
 	public void remove(GeoElement geo) {
-		// Application.debug(new Date() + " REMOVE: " + geo);
 
 		if (app.getTraceManager().isTraceGeo(geo)) {
 			app.getTraceManager().removeSpreadsheetTraceGeo(geo);

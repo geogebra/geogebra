@@ -15,6 +15,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/header/baseline-apps-24px.svg")
 	SVGResource apps_black();
 
+	@Source("org/geogebra/common/icons/svg/web/header/timer.svg")
+	SVGResource timer();
+
 	// settings panel
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/ic_arrow_drop_up_black_24px.svg")
 	SVGResource arrow_drop_up();
@@ -267,7 +270,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-clear-24px.svg")
 	SVGResource clear();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
 	SVGResource add_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add_purple.svg")
@@ -429,14 +432,8 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_search_black_24px.svg")
 	SVGResource search_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_save_black_24px.svg")
-	SVGResource save_black();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_collections_black_24px.svg")
 	SVGResource export_image_black();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_share_black_24px.svg")
-	SVGResource share_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
 	SVGResource file_download_black();
@@ -511,9 +508,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file.svg")
 	SVGResource file();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/folder-open.svg")
-	SVGResource folder_open();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_gesture_white_24px.svg")
 	SVGResource mow_pen_panel();
 
@@ -525,9 +519,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_add_white_24px.svg")
 	SVGResource add_white();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_label_outline_black_24px.svg")
-	SVGResource mow_label();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-folder_open-24px.svg")
 	SVGResource mow_pdf_open_folder();
@@ -547,6 +538,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-public-24px.svg")
 	SVGResource mow_card_public();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/link_black_24dp.svg")
+	SVGResource resource_card_shared();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/lightbulb_outline_black_24px.svg")
 	SVGResource mow_lightbulb();
 
@@ -554,7 +548,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	SVGResource move_canvas();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
 	SVGResource newFileMenu();
 
 	@Override
@@ -687,4 +681,16 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/camera_white.svg")
 	SVGResource camera_white();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/folder_black_24dp.svg")
+	SVGResource open_local_file();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/drive_icon_24px.svg")
+	SVGResource google_drive();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/login_black_24dp.svg")
+	SVGResource login();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/visibility_black_24dp.svg")
+	SVGResource visibility();
 }

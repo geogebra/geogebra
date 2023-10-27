@@ -6,11 +6,11 @@ import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-
-import com.google.gwt.user.client.ui.Label;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Dialog to enter in graphing or cas calc exam mode
@@ -30,8 +30,8 @@ public class ExamStartDialog extends ComponentDialog {
 	}
 
 	private void buildContent() {
-		Label startText = new Label(app.getLocalization().getMenu("exam_start_dialog_text"));
-		startText.addStyleName("examStartText");
+		Label startText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("exam_start_dialog_text"), "examStartText");
 		addDialogContent(startText);
 		if (app.isSuite()) {
 			ArrayList<RadioButtonData<ExamRegion>> data = new ArrayList<>();

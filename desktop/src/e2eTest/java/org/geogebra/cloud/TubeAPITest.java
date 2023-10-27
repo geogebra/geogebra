@@ -8,12 +8,11 @@ import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
@@ -45,33 +44,6 @@ public class TubeAPITest extends Assert {
 		Log.setLogger(new LoggerD());
 	}
 
-	@Test
-	public void testSearch() {
-
-		GeoGebraTubeAPID api = new GeoGebraTubeAPID(app
-						.has(Feature.TUBE_BETA),
-				getClient());
-		updateUrls(api);
-		final ArrayList<String> titles = new ArrayList<>();
-		api.search("pythagoras", new MaterialCallbackI() {
-
-			@Override
-			public void onLoaded(List<Material> result,
-					ArrayList<Chapter> meta) {
-				for (Material m : result) {
-					titles.add(m.getTitle());
-				}
-			}
-
-			@Override
-			public void onError(Throwable exception) {
-				exception.printStackTrace();
-
-			}
-		});
-		awaitValidTitlesExact("search", titles, 30);
-	}
-
 	private void updateUrls(GeoGebraTubeAPID api) {
 		if ("e2e".equals(System.getProperty("ggb.env"))) {
 			api.setURL("https://e2e.geogebra.org/api/json.php");
@@ -88,7 +60,7 @@ public class TubeAPITest extends Assert {
 		GeoGebraTubeAPID api = getAuthAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 
-		uploadMaterial(api, titles, 0, null);
+		uploadMaterial(api, titles, null, null);
 
 		awaitValidTitlesExact("upload", titles, 1);
 	}
@@ -98,13 +70,13 @@ public class TubeAPITest extends Assert {
 		final GeoGebraTubeAPID api = getAuthAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 
-		uploadMaterial(api, titles, 0, id -> uploadMaterial(api, titles, id, null));
+		uploadMaterial(api, titles, null, id -> uploadMaterial(api, titles, id, null));
 
 		awaitValidTitlesExact("upload", titles, 2);
 	}
 
 	private void uploadMaterial(GeoGebraTubeAPID api,
-			final ArrayList<String> titles, int id, final IdCallback callback) {
+			final ArrayList<String> titles, String id, final IdCallback callback) {
 
 		api.uploadMaterial(id + "", "O",
 				"testfile" + new Date() + Math.random(), circleBase64,
@@ -112,12 +84,12 @@ public class TubeAPITest extends Assert {
 
 					@Override
 					public void onLoaded(List<Material> result,
-							ArrayList<Chapter> meta) {
+							Pagination meta) {
 						if (result.size() > 0) {
 							for (Material m : result) {
 								titles.add(m.getTitle());
 								if (callback != null) {
-									callback.handle(m.getId());
+									callback.handle(m.getSharingKey());
 								}
 							}
 						} else {
@@ -134,60 +106,6 @@ public class TubeAPITest extends Assert {
 					}
 
 				}, MaterialType.ggb, false);
-	}
-
-	@Test
-	public void copyMaterial() {
-		final GeoGebraTubeAPID api = getAuthAPI();
-		final ArrayList<String> titles = new ArrayList<>();
-		final MaterialCallbackI copyCallback = new MaterialCallbackI() {
-
-			@Override
-			public void onLoaded(List<Material> result,
-					ArrayList<Chapter> meta) {
-				if (result.size() == 1) {
-					titles.add(result.get(0).getTitle());
-				} else {
-					titles.add("FAIL " + result.size());
-				}
-			}
-
-			@Override
-			public void onError(Throwable exception) {
-				exception.printStackTrace();
-				titles.add("FAIL " + exception.getMessage());
-
-			}
-		};
-		api.copy(new Material(144, MaterialType.ggb), "Copy of Mobile Example",
-				copyCallback);
-		awaitValidTitlesExact("upload", titles, 1);
-	}
-
-	@Test
-	public void getSingleMaterialShouldWorkWithEmptyToken() {
-		final GeoGebraTubeAPID api = getAuthAPI("");
-		final ArrayList<String> titles = new ArrayList<>();
-		final MaterialCallbackI getCallback = new MaterialCallbackI() {
-
-			@Override
-			public void onLoaded(List<Material> result,
-					ArrayList<Chapter> meta) {
-				if (result.size() == 1) {
-					titles.add(result.get(0).getTitle());
-				} else {
-					titles.add("FAIL " + result.size());
-				}
-			}
-
-			@Override
-			public void onError(Throwable exception) {
-				titles.add("FAIL " + exception.getMessage());
-
-			}
-		};
-		api.getItem("144", getCallback);
-		awaitValidTitlesExact("fetch", titles, 1);
 	}
 
 	private static void awaitValidTitlesExact(String description,
@@ -210,54 +128,6 @@ public class TubeAPITest extends Assert {
 					title.contains("FAIL"));
 		}
 	}
-
-	/**
-	 * Upload one material and delete all materials in account.
-	 */
-	@Test
-	public void testDelete() {
-		testUpload(); // ensure we have st to delete
-		final GeoGebraTubeAPID api = getAuthAPI();
-		final ArrayList<String> titles = new ArrayList<>();
-
-		api.getUsersOwnMaterials(new MaterialCallbackI() {
-
-			@Override
-			public void onLoaded(List<Material> result,
-					ArrayList<Chapter> meta) {
-
-				for (Material m : result) {
-					final Material mFinal = m;
-					api.deleteMaterial(m, new MaterialCallbackI() {
-
-						@Override
-						public void onLoaded(List<Material> result1,
-								ArrayList<Chapter> meta1) {
-
-							titles.add(mFinal.getTitle());
-
-						}
-
-						@Override
-						public void onError(Throwable exception) {
-							// TODO Auto-generated method stub
-
-						}
-					});
-					// titles.add(m.getTitle());
-				}
-			}
-
-			@Override
-			public void onError(Throwable exception) {
-				exception.printStackTrace();
-				Assert.assertNull(exception.getMessage());
-			}
-
-		}, Order.description);
-		awaitValidTitles("delete",  titles, 1);
-	}
-
 
 	private GeoGebraTubeAPID getAuthAPI() {
 		return getAuthAPI(getToken());

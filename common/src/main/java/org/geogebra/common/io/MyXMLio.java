@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.io;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.CheckForNull;
 
@@ -326,7 +326,7 @@ public abstract class MyXMLio {
 	 *            list of macros
 	 * @return XML representation of given macros in the kernel.
 	 */
-	public String getFullMacroXML(ArrayList<Macro> macros) {
+	public String getFullMacroXML(List<Macro> macros) {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, true, null, app);

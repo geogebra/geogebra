@@ -3,7 +3,9 @@ package com.himamis.retex.editor.share.serializer;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
@@ -56,6 +58,8 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\@ ");
 		} else if (" ".equals(name)) {
 			stringBuilder.append("\\nbsp{}");
+		} else if ("\u23B8".equals(name)) {
+			stringBuilder.append("\\vert{}");
 		} else if (lineBreakEnabled && 10 == name.charAt(0)) {
 			stringBuilder.append("\\\\\\vspace{0}");
 		} else if ("n".equals(name) && stringBuilder.length() > 0
@@ -155,10 +159,7 @@ public class TeXSerializer extends SerializerAdapter {
 						.substring(lengthBefore, stringBuilder.length()).trim()
 						.replace("\\nbsp", "").replace(cursor, "").isEmpty();
 				if (emptyFormula) {
-					String cursorFix = stringBuilder.toString().replace(cursor,
-							cursorBig);
-					stringBuilder.setLength(0);
-					stringBuilder.append(cursorFix);
+					fixCursor(stringBuilder);
 				}
 			} else {
 				serialize(sequence, stringBuilder, 0, sequence.size());
@@ -172,6 +173,13 @@ public class TeXSerializer extends SerializerAdapter {
 		if (sequence == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
+	}
+
+	private void fixCursor(StringBuilder stringBuilder) {
+		String cursorFix = stringBuilder.toString().replace(cursor,
+				cursorBig);
+		stringBuilder.setLength(0);
+		stringBuilder.append(cursorFix);
 	}
 
 	private String getPlaceholder(MathSequence sequence) {
@@ -204,6 +212,11 @@ public class TeXSerializer extends SerializerAdapter {
 			break;
 
 		case FRAC:
+			if (buildMixedNumber(stringBuilder, function)) {
+				stringBuilder.replace(0, stringBuilder.length(), stringBuilder
+						.toString().replace("\\nbsp{}", "")); // Remove spaces
+				break;
+			}
 			stringBuilder.append("{");
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("{");
@@ -307,7 +320,24 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(2), stringBuilder);
 			stringBuilder.append("}");
 			break;
-
+		case MIXED_NUMBER:
+			stringBuilder.append("{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}\\frac{");
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append("}{");
+			serialize(function.getArgument(2), stringBuilder);
+			stringBuilder.append("}");
+			break;
+		case RECURRING_DECIMAL:
+			stringBuilder.append("\\overline{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}");
+			MathComponent next = function.nextSibling();
+			if (!(next instanceof MathCharacter) || !((MathCharacter) next).isWordBreak()) {
+				stringBuilder.append("\\nbsp{}");
+			}
+			break;
 		default:
 			stringBuilder.append("{\\mathrm{");
 			stringBuilder.append(function.getTexName());
@@ -402,12 +432,64 @@ public class TeXSerializer extends SerializerAdapter {
 				.append("}");
 	}
 
+	@Override
+	void serialize(MathCharPlaceholder placeholder, StringBuilder stringBuilder) {
+		stringBuilder.append(PLACEHOLDER);
+	}
+
 	private static int letterLength(MathSequence symbol, int i) {
 		if (symbol.getArgument(i) instanceof MathCharacter) {
 			return ((MathCharacter) symbol.getArgument(i)).getTexName()
 					.length();
 		}
 		return 2;
+	}
+
+	/**
+	 * @param stringBuilder StringBuilder
+	 * @param mathFunction MathFunction
+	 * @return True if a mixed number was built
+	 */
+	@Override
+	public boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
+		//Check if a valid mixed number can be created (e.g.: no 'x')
+		if (isMixedNumber(stringBuilder) < 0 || !isValidMixedNumber(mathFunction)) {
+			return false;
+		}
+
+		stringBuilder.insert(isMixedNumber(stringBuilder), "{");
+		stringBuilder.append("}\\frac{");
+		serialize(mathFunction.getArgument(0), stringBuilder);
+		stringBuilder.append("}{");
+		serialize(mathFunction.getArgument(1), stringBuilder);
+		stringBuilder.append("}");
+		return true;
+	}
+
+	/**
+	 * Checks if the stringBuilder contains a mixed number e.g. 3 1/2 <br>
+	 * @param stringBuilder StringBuilder
+	 * @return Index >= 0 of where to put opening parentheses if there is a mixed number, -1 else
+	 */
+	@Override
+	public int isMixedNumber(StringBuilder stringBuilder) {
+		boolean isMixedNumber = false;
+		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
+			if (i >= 6 && stringBuilder.substring(i - 6, i + 1).equals("\\nbsp{}")
+					&& !isMixedNumber) {
+				i -= 6; // Expecting a space preceding the fraction
+				continue;
+			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
+				isMixedNumber = true; // Only allow digits 0 - 9 here
+			} else if (isMixedNumber
+					&& " +-*/(}{".contains(Character.toString(stringBuilder.charAt(i)))) {
+				return i + 1;
+			} else {
+				isMixedNumber = false;
+				break;
+			}
+		}
+		return isMixedNumber ? 0 : -1;
 	}
 
 	/**

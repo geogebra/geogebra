@@ -45,6 +45,10 @@ public enum Tag {
 
 	ATOMIC_POST("$atomicpost"),
 
+	MIXED_NUMBER("mixedNumber"),
+
+	RECURRING_DECIMAL("recurringDecimal"),
+
 	APPLY,
 
 	ABS("abs"),

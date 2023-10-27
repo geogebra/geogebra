@@ -4,12 +4,12 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -24,12 +24,9 @@ public class LoadFilePresenter {
 	 *            applet parameters
 	 * @param app
 	 *            app
-	 * @param vv
-	 *            zip loader
 	 */
-	public void onPageLoad(final AppletParameters view, final AppW app,
-			ViewW vv) {
-
+	public void onPageLoad(final AppletParameters view, final AppW app) {
+		ArchiveLoader vv = app.getArchiveLoader();
 		String base64String;
 		String filename;
 		app.checkScaleContainer();
@@ -48,7 +45,7 @@ public class LoadFilePresenter {
 			app.openMaterial(view.getDataParamTubeID(),
 					err -> {
 						openEmptyApp(app, view);
-						ToolTipManagerW.sharedInstance()
+						app.getToolTipManager()
 								.showBottomMessage(app.getLocalization()
 										.getError(err), app);
 					});
@@ -71,19 +68,18 @@ public class LoadFilePresenter {
 		if (!isApp) {
 			app.getAppletFrame().addStyleName("appletStyle");
 		}
-
-		boolean undoActive = (showToolBar || showMenuBar
-		        || view.getDataParamApp() || app.getScriptManager()
-						.getStoreUndoListeners().size() > 0)
-				&& view.getDataParamEnableUndoRedo();
-
+		UndoRedoMode undoRedoMode = UndoRedoMode.DISABLED;
+		if (view.getDataParamEnableUndoRedo()) {
+			if (showToolBar || showMenuBar) {
+				undoRedoMode = UndoRedoMode.GUI;
+			} else if (app.getScriptManager()
+					.getStoreUndoListeners().size() > 0) {
+				undoRedoMode = UndoRedoMode.EXTERNAL;
+			}
+		}
 		String language = view.getDataParamLanguage();
 		if (StringUtil.empty(language)) {
 			language = app.getLanguageFromCookie();
-
-			if (!StringUtil.empty(language) && app.getLAF() != null) {
-				app.getLAF().storeLanguage(language);
-			}
 		}
 
 		if (language != null) {
@@ -96,7 +92,7 @@ public class LoadFilePresenter {
 		}
 		app.setUseBrowserForJavaScript(view.getDataParamUseBrowserForJS());
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
-		app.setUndoRedoEnabled(view.getDataParamEnableUndoRedo());
+		app.setUndoRedoMode(undoRedoMode);
 		app.setRightClickEnabled(view.getDataParamEnableRightClick());
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
 		        || view.getDataParamApp());
@@ -113,14 +109,14 @@ public class LoadFilePresenter {
 				app.updateToolBar();
 			}
 			// only do this after app initialized
-			app.setUndoActive(undoActive);
+			app.setUndoActive(undoRedoMode != UndoRedoMode.DISABLED);
 			if (app.isSuite() && view.getDataParamShowAppsPicker()) {
 				app.getDialogManager().showCalcChooser(false);
 			}
 			app.getAsyncManager().scheduleCallback(() -> app.getScriptManager().ggbOnInit());
 		} else {
 			// only do this after app initialized
-			app.setUndoActive(undoActive);
+			app.setUndoActive(undoRedoMode != UndoRedoMode.DISABLED);
 		}
 		app.getLocalization().setUseLocalizedDigits(view.getParamUseLocalizedDigits(), app);
 		app.getLocalization().setUseLocalizedLabels(view.getParamUseLocalizedPointNames());
@@ -155,24 +151,12 @@ public class LoadFilePresenter {
 		}
 		if (app.getGuiManager() != null) {
 			if (perspective.startsWith("search:")) {
-				app.setCloseBrowserCallback(new Runnable() {
-
-					@Override
-					public void run() {
-						deferredOpenEmpty(app);
-					}
-				});
+				app.setCloseBrowserCallback(() -> deferredOpenEmpty(app));
 				app.openSearch(perspective.substring("search:".length()));
 				return true;
 
 			} else if (perspective.startsWith("customize:")) {
-				app.setCloseBrowserCallback(new Runnable() {
-
-					@Override
-					public void run() {
-						finishEmptyLoading(app, null);
-					}
-				});
+				app.setCloseBrowserCallback(() -> finishEmptyLoading(app, null));
 				app.showCustomizeToolbarGUI();
 				return true;
 			} else {
@@ -288,12 +272,7 @@ public class LoadFilePresenter {
 	 *            application
 	 */
 	private static void preloadParser(final AppW app) {
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				app.getParserFunctions();
-			}
-		});
+		app.invokeLater(app::getParserFunctions);
 	}
 
 	/**
@@ -302,7 +281,7 @@ public class LoadFilePresenter {
 	 * @param view
 	 *            zip handler
 	 */
-	public void processJSON(final String json, final ViewW view) {
+	public void processJSON(final String json, final ArchiveLoader view) {
 		view.processJSON(json);
 	}
 

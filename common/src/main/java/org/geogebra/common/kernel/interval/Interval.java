@@ -5,7 +5,6 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
 import java.util.Objects;
 
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.interval.operators.RMath;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -17,6 +16,7 @@ public class Interval {
 	private double low;
 	private double high;
 	private boolean inverted = false;
+	private double precision = PRECISION;
 
 	/**
 	 * Creates a singleton interval [value, value]
@@ -97,7 +97,7 @@ public class Interval {
 	}
 
 	/**
-	 * Makes interval undefined, which is represented by [∞, -∞]
+	 * Makes interval undefined, which is represented by [inf, -inf]
 	 */
 	public void setUndefined() {
 		set(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
@@ -137,7 +137,7 @@ public class Interval {
 		}
 
 		if (o instanceof Interval) {
-			return almostEqual((Interval) o, PRECISION);
+			return almostEqual((Interval) o, precision);
 		}
 		return false;
 
@@ -204,7 +204,7 @@ public class Interval {
 	 * @return if interval is in the form [n, n] where n is finite.
 	 */
 	public boolean isSingleton() {
-		return MyDouble.isFinite(low) && DoubleUtil.isEqual(high, low, 1E-7);
+		return Double.isFinite(low) && DoubleUtil.isEqual(high, low, 1E-7);
 	}
 
 	@Override
@@ -358,7 +358,7 @@ public class Interval {
 
 	/**
 	 * Checks if the interval is
-	 * either [-∞, -∞] or [∞, ∞].
+	 * either [-inf, -inf] or [inf, inf].
 	 *
 	 * @return true if infinite.
 	 */
@@ -403,7 +403,7 @@ public class Interval {
 	 * @return if interval is [0].
 	 */
 	public boolean isZero() {
-		return isZeroWithDelta(PRECISION);
+		return isZeroWithDelta(precision);
 	}
 
 	public boolean contains(double value) {
@@ -538,8 +538,8 @@ public class Interval {
 	 * @return if the interval is the unit one.
 	 */
 	public boolean isOne() {
-		return DoubleUtil.isEqual(low, 1, PRECISION)
-				&& DoubleUtil.isEqual(high, 1, PRECISION);
+		return DoubleUtil.isEqual(low, 1, precision)
+				&& DoubleUtil.isEqual(high, 1, precision);
 	}
 
 	/**
@@ -547,12 +547,12 @@ public class Interval {
 	 * @return if the interval is the negative unit one.
 	 */
 	public boolean isMinusOne() {
-		return DoubleUtil.isEqual(low, -1, PRECISION)
-				&& DoubleUtil.isEqual(high, -1, PRECISION);
+		return DoubleUtil.isEqual(low, -1, precision)
+				&& DoubleUtil.isEqual(high, -1, precision);
 	}
 
 	public boolean isFinite() {
-		return MyDouble.isFinite(low) && MyDouble.isFinite(high);
+		return Double.isFinite(low) && Double.isFinite(high);
 	}
 
 	/**
@@ -662,7 +662,7 @@ public class Interval {
 	/**
 	 *
 	 * @return if interval is inverted,
-	 * ie equals [-∞, low] union [high, ∞].
+	 * ie equals [-inf, low] union [high, inf].
 	 */
 	public boolean isInverted() {
 		return inverted;
@@ -674,7 +674,7 @@ public class Interval {
 	 * @return whether low bound is equal to a specific value.
 	 */
 	public boolean lowEquals(double low) {
-		return DoubleUtil.isEqual(this.low, low, PRECISION);
+		return DoubleUtil.isEqual(this.low, low, precision);
 	}
 
 	/**
@@ -683,7 +683,7 @@ public class Interval {
 	 * @return whether high bound is equal to a specific value.
 	 */
 	public boolean highEquals(double high) {
-		return DoubleUtil.isEqual(this.high, high, PRECISION);
+		return DoubleUtil.isEqual(this.high, high, precision);
 	}
 
 	/**
@@ -691,13 +691,13 @@ public class Interval {
 	 * @return round to zero within the given precision
 	 */
 	public Interval round() {
-		return new Interval(Math.abs(low) < PRECISION ? 0 : low,
-				Math.abs(high) < PRECISION ? 0 : high);
+		return new Interval(Math.abs(low) < precision ? 0 : low,
+				Math.abs(high) < precision ? 0 : high);
 	}
 
 	/**
 	 * Sets interval [low, high] inverted. This really means:
-	 * [-∞, low] union [high, ∞]
+	 * [-inf, low] union [high, inf]
 	 * @param inverted the flag to set.
 	 */
 	public void setInverted(boolean inverted) {
@@ -706,7 +706,7 @@ public class Interval {
 
 	/**
 	 *
-	 * @return [-∞, a] for inverted intervals, undefined() otherwise
+	 * @return [-inf, a] for inverted intervals, undefined() otherwise
 	 */
 	public Interval extractLow() {
 		return isInverted() ? new Interval(Double.NEGATIVE_INFINITY, low) : undefined();
@@ -714,7 +714,7 @@ public class Interval {
 
 	/**
 	 *
-	 * @return [high, ∞] for inverted intervals, undefined otherwise
+	 * @return [high, inf] for inverted intervals, undefined otherwise
 	 */
 	public Interval extractHigh() {
 		return isInverted() ? new Interval(high, Double.POSITIVE_INFINITY) : undefined();
@@ -726,5 +726,17 @@ public class Interval {
 
 	public double middle() {
 		return low + getLength() / 2;
+	}
+
+	/**
+	 * Set precision to determine zero interval
+	 * @param precision to set.
+	 */
+	public void setPrecision(double precision) {
+		this.precision = precision;
+	}
+
+	public void setDefaultPrecision() {
+		precision = PRECISION;
 	}
 }

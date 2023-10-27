@@ -3,8 +3,11 @@ package org.geogebra.common.kernel.interval.operators;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.apache.commons.math3.util.FastMath.nextAfter;
+import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
@@ -150,5 +153,57 @@ public class IntervalMiscTest {
 	public void testMin() {
 		assertEquals(interval(-1, 1),
 				Interval.min(interval(-1, 1), interval(5, 7)));
+	}
+
+	@Test
+	public void testLogXInverseAzZero() {
+		Interval x = aroundZero();
+		Interval xInverse = evaluator.multiplicativeInverse(x);
+		assertEquals(interval(9.210340371976182, POSITIVE_INFINITY), evaluator.log(xInverse));
+	}
+
+	@Test
+	public void testZeroDividedByLnAroundOne() {
+		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(0.985375))));
+		assertEquals(zero(), evaluator.divide(zero(), evaluator.log(around(1.015625))));
+	}
+
+	// APPS-4683
+	@Test
+	public void testZeroDivLnX() {
+		Interval x1 = interval(0.9895833333333334, 1.0);
+		Interval x2 = interval(0.9999999999999999, 1.0104166666666665);
+		Interval log1 = evaluator.log(x1);
+		Interval log2 = evaluator.log(x2);
+		Interval div1 = evaluator.divide(zero(), log1);
+		Interval div2 = evaluator.divide(zero(), log2);
+		assertTrue(div1.isZero() && div2.isZero());
+	}
+
+	@Test
+	public void lnInverseMultiplyZeroNegativeShouldBeUndefined() {
+		Interval x = interval(NEGATIVE_INFINITY, -IntervalConstants.PRECISION);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(undefined(), multiply);
+	}
+
+	@Test
+	public void lnInverseMultiplyZeroPositiveShouldBeZero() {
+		Interval x = interval(0, POSITIVE_INFINITY);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(zero(), multiply);
+	}
+
+	@Test
+	public void lnInverseMultiplyZeroAroundOneShouldBeZero() {
+		Interval x = interval(1.0, 1.015625);
+		Interval log = evaluator.log(x);
+		Interval inverse = evaluator.inverse(log);
+		Interval multiply = evaluator.multiply(zero(), inverse);
+		assertEquals(zero(), multiply);
 	}
 }

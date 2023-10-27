@@ -5,14 +5,12 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.event.dom.client.DoubleClickEvent;
+import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.dom.client.MouseEvent;
+import org.gwtproject.event.dom.client.MouseMoveEvent;
+import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Controller for slider items in AV that use RETEX editor.
@@ -20,11 +18,12 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  *
  */
-public class SliderTreeItemRetexController extends LatexTreeItemController
-		implements ValueChangeHandler<Double> {
+public class SliderTreeItemRetexController extends LatexTreeItemController {
 
 	private SliderTreeItemRetex slider;
 	private boolean hasUnsavedChanges;
+	private Timer debounce;
+	private Double targetValue;
 
 	/**
 	 * @param item
@@ -61,7 +60,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		if (isWidgetHit(slider.controls.getAnimPanel(), evt)
 				|| (slider.getMinMax() != null
 						&& slider.getMinMax().isVisible())
-				|| isMarbleHit(evt)) {
+				|| checkMarbleHit(evt)) {
 			return;
 		}
 		super.onDoubleClick(evt);
@@ -159,15 +158,24 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 				&& !isWidgetHit(slider.getMinMax(), x, y);
 	}
 
-	@Override
-	public void onValueChange(ValueChangeEvent<Double> event) {
+	/**
+	 * Handle slider drag
+	 * @param val slider value
+	 */
+	public void onValueChange(double val) {
+		if (debounce != null && debounce.isRunning()) {
+			targetValue = val;
+			return;
+		}
+		targetValue = Double.NaN;
+		getDebounceTimer().schedule(200);
 		slider.expandSize(slider.getWidthForEdit());
 		if (isEditing()) {
 			stopEdit();
 		}
 
 		GeoNumeric numeric = slider.getNum();
-		numeric.setValue(event.getValue());
+		numeric.setValue(val);
 		numeric.updateCascade();
 		hasUnsavedChanges = true;
 		if (!numeric.isAnimating()) {
@@ -180,6 +188,20 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		}
 		// updates other views (e.g. Euclidian)
 		getApp().getKernel().notifyRepaint();
+	}
+
+	private Timer getDebounceTimer() {
+		if (debounce == null) {
+			debounce = new Timer() {
+				@Override
+				public void run() {
+					if (!Double.isNaN(targetValue)) {
+						onValueChange(targetValue);
+					}
+				}
+			};
+		}
+		return debounce;
 	}
 
 	/**

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
@@ -17,9 +18,8 @@ import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLImageElement;
@@ -68,6 +68,7 @@ class NavigationRail extends FlowPanel {
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
+		updateIcons(app.isExam());
 	}
 
 	private void createCenter() {
@@ -139,11 +140,14 @@ class NavigationRail extends FlowPanel {
 	 */
 	protected void onAlgebraPressed() {
 		if (isOpen() && toolbarPanel.getSelectedTabId() == TabIds.ALGEBRA) {
+			if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+				return;
+			}
 			onClosePressed(false);
 			return;
 		}
 		toolbarPanel.openAlgebra(isOpen());
-		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().closeKeyboard();
 		toolbarPanel.getFrame().showKeyboardButton(true);
 	}
 
@@ -155,7 +159,7 @@ class NavigationRail extends FlowPanel {
 			onClosePressed(false);
 			return;
 		}
-		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().closeKeyboard();
 		toolbarPanel.getFrame().showKeyboardButton(false);
 		toolbarPanel.openTools(isOpen());
 	}
@@ -165,12 +169,18 @@ class NavigationRail extends FlowPanel {
 	 */
 	protected void onTableViewPressed() {
 		if (isOpen() && toolbarPanel.getSelectedTabId() == TabIds.TABLE) {
+			if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+				return;
+			}
 			onClosePressed(false);
 			return;
 		}
-		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().closeKeyboard();
 		toolbarPanel.getFrame().showKeyboardButton(true);
 		toolbarPanel.openTableView(null, isOpen());
+		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+			toolbarPanel.openTableFunctionDialogIfEmpty();
+		}
 	}
 
 	/**

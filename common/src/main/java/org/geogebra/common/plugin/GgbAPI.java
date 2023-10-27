@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
+import org.geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -27,7 +28,6 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -430,7 +430,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized void setFixed(String objName, boolean fixed) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo != null && geo.isFixable()) {
-			setFixedAndNotify(fixed, geo);
+			geo.setFixed(fixed);
+			geo.updateVisualStyleRepaint(GProperty.COMBINED);
 		}
 	}
 
@@ -439,16 +440,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			boolean selectionAllowed) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo != null) {
-			geo.setSelectionAllowed(selectionAllowed);
 			if (geo.isFixable()) {
-				setFixedAndNotify(fixed, geo);
+				geo.setFixed(fixed);
 			}
+			SelectionAllowedModel.applyTo(geo, app, selectionAllowed);
 		}
-	}
-
-	private static void setFixedAndNotify(boolean fixed, GeoElement geo) {
-		geo.setFixed(fixed);
-		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	/**
@@ -538,7 +534,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		AbsoluteScreenLocateable loc = (AbsoluteScreenLocateable) geo;
 		if (loc.isAbsoluteScreenLocActive()) {
 			loc.setAbsoluteScreenLoc((int) Math.round(x), (int) Math.round(y));
-		} else if (geo instanceof Locateable) {
+		} else {
 			GeoPoint corner = new GeoPoint(kernel.getConstruction());
 			EuclidianView ev = app.getEuclidianView1();
 			if (geo.isVisibleInView(ev.getViewID())
@@ -551,7 +547,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			corner.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y),
 					1);
 			try {
-				((Locateable) loc).setStartPoint(corner, index);
+				loc.setStartPoint(corner, index);
 			} catch (CircularDefinitionException e) {
 				// TODO Auto-generated catch block
 				Log.debug(e);
@@ -1015,8 +1011,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 
-		if (geo.isGeoText()) {
-			return ((GeoText) geo).getTextString();
+		if (geo.isGeoText() || geo.isGeoInputBox()) {
+			return geo.toValueString(StringTemplate.defaultTemplate);
 		}
 
 		if (geo.isGeoCasCell()) {
@@ -1284,7 +1280,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized void setRepaintingActive(boolean flag) {
-		// Application.debug("set repainting: " + flag);
 		kernel.setNotifyRepaintActive(flag);
 	}
 
@@ -1522,7 +1517,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * Mark state as saved
+	 * Mark state as (un)saved
+	 * @param saved whether construction state should be considered saved
 	 */
 	public void setSaved(boolean saved) {
 		if (saved) {
@@ -1688,10 +1684,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void setPerspective(String code) {
 		if (code.startsWith("search:")) {
 			app.openSearch(code.substring("search:".length()));
-			return;
-		}
-		if (code.startsWith("save:")) {
-			app.getGuiManager().save();
 			return;
 		}
 		if (code.startsWith("customize:")) {
@@ -2250,7 +2242,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public String getScreenReaderOutput(String label) {
 		GeoElement geo = kernel.lookupLabel(label);
-		return geo.toValueString(StringTemplate.screenReaderAscii);
+		return geo.toValueString(app.getScreenReaderTemplate());
 	}
 
 	/**
@@ -2446,7 +2438,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				(Consumer<String>) val2 -> es.setGridColor(GColor.parseHexColor(val2)));
 		opts.ifPropertySet("axesColor",
 				(Consumer<String>) val2 -> es.setAxesColor(GColor.parseHexColor(val2)));
-
+		opts.ifIntPropertySet("rulerType", es::setRulerType);
 		opts.ifObjectPropertySet("axes", axes -> {
 			for (char axis = 'x'; axis <= 'z'; axis++) {
 				final int axisNo = axis - 'x';
@@ -2518,6 +2510,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		opts.setProperty("bgColor", StringUtil.toHtmlColor(es.getBackground()));
 		opts.setProperty("gridColor", StringUtil.toHtmlColor(es.getGridColor()));
 		opts.setProperty("axesColor", StringUtil.toHtmlColor(es.getAxesColor()));
+		opts.setProperty("rulerType", es.getBackgroundType().value());
 
 		JsObjectWrapper axes = createWrapper();
 		for (char axis = 'x'; axis <= 'z'; axis++) {

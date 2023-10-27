@@ -252,6 +252,13 @@ public class MyDouble extends ValidExpression
 			c.set(Double.NaN);
 			return;
 		}
+
+		if (isNumberImprecise(a) || isNumberImprecise(b)) {
+			c.set(a.val * bval);
+			c.setImprecise(true);
+			return;
+		}
+
 		BigDecimal ba = a.toDecimal();
 		BigDecimal bb = b.toDecimal();
 		if (ba != null && bb != null) {
@@ -260,6 +267,11 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 		c.set(a.val * bval);
+	}
+
+	private static boolean isNumberImprecise(NumberValue numberValue) {
+		return numberValue instanceof ValidExpression
+				&& ((ValidExpression) numberValue).isImprecise();
 	}
 
 	/**
@@ -861,6 +873,26 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
+	 *
+	 * @return dirac(this)
+	 */
+	final public MyDouble dirac() {
+		set(val == 0 ? Double.POSITIVE_INFINITY : 0);
+		angleDim = 0;
+		return this;
+	}
+
+	/**
+	 *
+	 * @return heaviside(this)
+	 */
+	final public MyDouble heaviside() {
+		set(val < 0 ? 0 : 1);
+		angleDim = 0;
+		return this;
+	}
+
+	/**
 	 * @param lt
 	 *            function to evaluate
 	 * @return value of lt(this)
@@ -937,32 +969,47 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * extension of StringUtil.parseDouble() to cope with unicode digits eg
-	 * Arabic
-	 * 
-	 * @param str
-	 *            string to be parsed
-	 * @param app
-	 *            application for showing errors
-	 * @return value
+	 * Extension of StringUtil.parseDouble() to cope with unicode digits e.g. Arabic <br>
+	 * The ranges displayed in the serializeDigits method show which digits are accepted. <br>
+	 * This can for example be basic Latin characters,
+	 * Malayalam characters (Southern India) etc. <br>
+	 * If a given String cannot be parsed, e.g. because someone typed more than 1 decimal point,
+	 * an exception will be thrown and then 'converted' to an InvalidInput Error
+	 *
+	 * @see MyDouble#convertToLatinCharacters(String)
+	 * @param str String to be parsed
+	 * @param app Localization (for showing errors)
+	 * @return The value from the input String, as double
 	 */
 	public static double parseDouble(Localization app, String str) {
-		StringBuilder sb = new StringBuilder();
-		sb.setLength(0);
+		String latinCharacters = convertToLatinCharacters(str);
+		try {
+			return StringUtil.parseDouble(latinCharacters);
+		} catch (Exception e) {
+			// eg try to parse "1.2.3", "1..2"
+			throw new MyError(app, Errors.InvalidInput, str);
+		}
+	}
+
+	/**
+	 * Converts unicode characters from a string to Latin characters (=Arabic digits,
+	 * standard cecimal point). Characters that are neither digits nor localized decimal point
+	 * are mapped to other non-digit characters.
+	 * @param str String to be parsed (input)
+	 * @return number translated to Latin characters;
+	 *         may contain non-ASCII characters if input was invalid
+	 */
+	public static String convertToLatinCharacters(String str) {
+		StringBuilder sb = new StringBuilder(str.length());
 		for (int i = 0; i < str.length(); i++) {
 			int ch = str.charAt(i);
-			if (ch <= 0x30) {
-				sb.append(str.charAt(i)); // eg .
+			if (ch <= 0x100) {
+				sb.append(str.charAt(i)); // covers Arabic (=Latin) numerals, `.`, 'e', 'E'
 				continue;
 			}
 
-			// check roman first (most common)
-			else if (ch <= 0x39) {
-				ch -= 0x30; // Roman (normal)
-			} else if (ch <= 0x100) {
-				sb.append(str.charAt(i)); // eg E
-				continue;
-			} else if (ch <= 0x669) {
+			// Unicode ranges below should match the <#DIGIT> token in Parser.jj
+			else if (ch <= 0x669) {
 				ch -= 0x660; // Arabic-Indic
 			} else if (ch == 0x66b) { // Arabic decimal point
 				sb.append(".");
@@ -1015,20 +1062,7 @@ public class MyDouble extends ValidExpression
 			}
 			sb.append(ch);
 		}
-		try {
-			return StringUtil.parseDouble(sb.toString());
-		} catch (Exception e) {
-			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(app, Errors.InvalidInput, str);
-		}
-		/*
-		 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",
-		 * "\u0966"-"\u096f", "\u09e6"-"\u09ef", "\u0a66"-"\u0a6f",
-		 * "\u0ae6"-"\u0aef", "\u0b66"-"\u0b6f", "\u0be7"-"\u0bef",
-		 * "\u0c66"-"\u0c6f", "\u0ce6"-"\u0cef", "\u0d66"-"\u0d6f",
-		 * "\u0e50"-"\u0e59", "\u0ed0"-"\u0ed9", "\u1040"-"\u1049"
-		 */
-
+		return sb.toString();
 	}
 
 	/**
@@ -1156,15 +1190,6 @@ public class MyDouble extends ValidExpression
 		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 
-	/**
-	 * @param d
-	 *            number
-	 * @return whether d is valid finite real number
-	 */
-	public static boolean isFinite(double d) {
-		return !Double.isNaN(d) && !Double.isInfinite(d);
-	}
-
 	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
@@ -1288,5 +1313,4 @@ public class MyDouble extends ValidExpression
 	protected ExpressionValue unaryMinus(Kernel kernel2) {
 		return new MyDouble(kernel2, -getDouble());
 	}
-
 }

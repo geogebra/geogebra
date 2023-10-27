@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.function.Function;
+
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
@@ -8,7 +10,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
  */
 public class KeyListenerImpl {
 
-	private InputController inputController;
+	private final InputController inputController;
 
 	/**
 	 * @param inputController
@@ -26,7 +28,6 @@ public class KeyListenerImpl {
 	 * @return whether event was handled
 	 */
 	public boolean onKeyPressed(KeyEvent keyEvent, EditorState editorState) {
-		
 		// Ctrl, not AltGr
 		boolean ctrlPressed = ((keyEvent.getKeyModifiers()
 				& KeyEvent.CTRL_MASK) > 0)
@@ -53,6 +54,14 @@ public class KeyListenerImpl {
 				return true;
 			}
 			return false;
+		case JavaKeyCodes.VK_O:
+			if (ctrlPressed) {
+				if (!editorState.isInRecurringDecimal()) {
+					inputController.newFunction(editorState, "recurringDecimal", false, null);
+				}
+				return true;
+			}
+			return false;
 		case JavaKeyCodes.VK_X:
 			if (ctrlPressed) {
 				inputController.copy();
@@ -60,9 +69,15 @@ public class KeyListenerImpl {
 				return true;
 			}
 			return false;
+		case JavaKeyCodes.VK_M:
+			if (ctrlPressed) {
+				inputController.newFunction(editorState, "mixedNumber", false, null);
+				return true;
+			}
+			return false;
 		case JavaKeyCodes.VK_ESCAPE:
-			// see details in GGB-2235
-			// inputController.escSymbol(editorState);
+			// if math field doesn't have its own escape handler, blur it
+			inputController.getMathField().blur();
 			return true;
 		case JavaKeyCodes.VK_HOME:
 			if (shiftPressed) {
@@ -79,21 +94,9 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_LEFT:
-			boolean ret = CursorController.prevCharacter(editorState);
-			if (shiftPressed) {
-				editorState.extendSelection(true);
-			} else {
-				editorState.resetSelection();
-			}
-			return ret;
+			return handleLeftRight(editorState, true, shiftPressed);
 		case JavaKeyCodes.VK_RIGHT:
-			ret = CursorController.nextCharacter(editorState);
-			if (shiftPressed) {
-				editorState.extendSelection(false);
-			} else {
-				editorState.resetSelection();
-			}
-			return ret;
+			return handleLeftRight(editorState, false, shiftPressed);
 		case JavaKeyCodes.VK_UP:
 			return CursorController.upField(editorState);
 		case JavaKeyCodes.VK_DOWN:
@@ -109,24 +112,38 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_SHIFT:
-			return false;
 		case JavaKeyCodes.VK_OPEN_BRACKET:
 			return false;
 		case JavaKeyCodes.VK_TAB:
-			onTab(shiftPressed);
-			return true;
+			return onTab(shiftPressed);
 		default:
 			// InputController.deleteSelection(editorState);
 			return false;
 		}
 	}
 
+	private boolean handleLeftRight(EditorState editorState,
+			boolean left, boolean shiftPressed) {
+		boolean ret;
+		Function<EditorState, Boolean>
+				navigate = left ? CursorController::prevCharacter : CursorController::nextCharacter;
+		if (shiftPressed) {
+			ret = navigate.apply(editorState);
+			editorState.extendSelection(left);
+		} else {
+			ret = editorState.updateCursorFromSelection(left) || navigate.apply(editorState);
+			editorState.resetSelection();
+		}
+		return ret;
+	}
+
 	/**
 	 * @param shiftDown
 	 *            whether shift is pressed
+	 * @return tab handling
 	 */
-	public void onTab(boolean shiftDown) {
-		inputController.handleTab(shiftDown);
+	public boolean onTab(boolean shiftDown) {
+		return inputController.handleTab(shiftDown);
 	}
 
 	/**

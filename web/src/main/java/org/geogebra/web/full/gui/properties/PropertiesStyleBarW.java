@@ -6,19 +6,17 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
-
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * @author gabor
@@ -197,10 +195,10 @@ public class PropertiesStyleBarW extends
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		switch (type) {
 		case GLOBAL:
+		case LAYOUT:
+		case DEFAULTS: // layout,defaults not implemented in Web => no special icon
 			return MaterialDesignResources.INSTANCE.gear().getSafeUri()
 					.asString();
-		case DEFAULTS:
-			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:
 			return pr.menu_icon_spreadsheet_transparent().getSafeUri().asString();
 		case EUCLIDIAN:
@@ -213,8 +211,6 @@ public class PropertiesStyleBarW extends
 			return pr.menu_icon_algebra_transparent().getSafeUri().asString();
 		case OBJECTS:
 			return GuiResources.INSTANCE.properties_object().getSafeUri().asString();
-		case LAYOUT:
-			return AppResources.INSTANCE.options_layout24().getSafeUri().asString();
 		}
 		return null;
     }

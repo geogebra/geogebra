@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.inputbox.EditorContent;
@@ -92,6 +93,31 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		this.labelOffsetY = labelOffsetY;
 	}
 
+	/**
+	 *
+	 * @param geo to check.
+	 * @return if geo is linkable to inputBox.
+	 */
+	public static boolean isGeoLinkable(GeoElement geo) {
+		if (geo.isGeoImage() || geo.isGeoButton() || geo.isGeoBoolean()) {
+			return false;
+		}
+
+		if (hasCommand(geo.getDefinition())) {
+			return false;
+		}
+
+		return !geo.isCommandOutput();
+	}
+
+	private static boolean hasCommand(ExpressionNode node) {
+		return node != null && node.inspect(
+			t -> {
+				return t.isGeoElement() && ((GeoElement) t).isCommandOutput();
+			}
+		);
+	}
+
 	@Override
 	public boolean isChangeable() {
 		return true;
@@ -120,7 +146,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return text to edit with the symbolic editor
 	 */
 	public String getTextForEditor() {
-		String textForEditor = getTextForEditor(StringTemplate.editorTemplate);
+		String textForEditor = getTextForEditor(StringTemplate.inputBoxTemplate);
 		return textForEditor.replace(Unicode.IMAGINARY, 'i');
 	}
 
@@ -166,7 +192,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if (hasLaTeXEditableVector()) {
 			linkedGeoText = ((GeoVectorND) linkedGeo).toValueStringAsColumnVector(this.tpl);
 		} else if (linkedGeo.isPointInRegion() || linkedGeo.isPointOnPath()) {
-			linkedGeoText = linkedGeo.toValueString(StringTemplate.editorTemplate);
+			linkedGeoText = linkedGeo.toValueString(StringTemplate.inputBoxTemplate);
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true, tpl);
 		}
@@ -174,6 +200,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if ("?".equals(linkedGeoText)) {
 			return "";
 		}
+
 		return linkedGeoText;
 	}
 
@@ -606,5 +633,16 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public boolean isListEditor() {
 		return linkedGeo instanceof GeoList && linkedGeo.hasSpecialEditor()
 				&& !((GeoList) linkedGeo).isMatrix();
+	}
+
+	/**
+	 * @return whether it is a symbolic input box linked to a geo with special editor
+	 */
+	public boolean isSymbolicModeWithSpecialEditor() {
+		return isSymbolicMode() && linkedGeo.hasSpecialEditor();
+	}
+
+	public boolean validate(EditorContent editorState, StringBuilder sb) {
+		return inputBoxProcessor.validate(editorState, sb);
 	}
 }

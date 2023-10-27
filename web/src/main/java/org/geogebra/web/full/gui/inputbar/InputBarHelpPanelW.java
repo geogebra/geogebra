@@ -16,20 +16,19 @@ import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.gwtproject.dom.style.shared.Float;
+import org.gwtproject.dom.style.shared.TextAlign;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HasVerticalAlignment;
+import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.InlineLabel;
+import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.SplitLayoutPanel;
+import org.gwtproject.user.client.ui.Tree;
+import org.gwtproject.user.client.ui.TreeItem;
+import org.gwtproject.user.client.ui.VerticalPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import elemental2.core.JsString;
@@ -38,7 +37,7 @@ import elemental2.core.JsString;
  * @author G. Sturr
  * 
  */
-public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, BooleanRenderable {
+public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanRenderable {
 
 	private AppW app;
 	private Tree indexTree;
@@ -48,7 +47,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private LocaleSensitiveComparator comparator;
 	private SplitLayoutPanel sp;
 	private InlineLabel lblSyntax;
-	private MyTreeItem itmFunction;
+	private InputHelpTreeItem itmFunction;
 	private AutoCompleteW inputField;
 	private InputBarHelpPanel hp;
 
@@ -79,7 +78,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// button panel
 		FlowPanel pnlButton = new FlowPanel();
-		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
+		pnlButton.getElement().getStyle().setFloat(Float.RIGHT);
 
 		// create help button
 		btnOnlineHelp = new StandardButton(app.getLocalization().getMenu("ShowOnlineHelp"));
@@ -245,13 +244,13 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		indexTree.clear();
 
-		itmFunction = new MyTreeItem();
+		itmFunction = new InputHelpTreeItem();
 		itmFunction.setWidget(new TreeItemButton(
 				app.getLocalization().getMenu("MathematicalFunctions"),
 				itmFunction, false));
 		indexTree.addItem(itmFunction);
 
-		MyTreeItem itmAllCommands = new MyTreeItem();
+		InputHelpTreeItem itmAllCommands = new InputHelpTreeItem();
 		itmAllCommands.setWidget(new TreeItemButton(app.getLocalization()
 		        .getMenu("AllCommands"), itmAllCommands, false));
 
@@ -265,7 +264,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			if (cmdNames != null) {
 				String cmdSetName = app.getKernel().getAlgebraProcessor()
 						.getSubCommandSetName(index);
-				TreeItem itmCmdSet = new MyTreeItem();
+				TreeItem itmCmdSet = new InputHelpTreeItem();
 				itmCmdSet.setWidget(
 						new TreeItemButton(cmdSetName, itmCmdSet, false));
 				// add command set branch to tree
@@ -279,7 +278,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private void addCmdNames(TreeItem item, TreeSet<String> names) {
 		for (String cmdName : names) {
 			if (cmdName != null && cmdName.length() > 0) {
-				MyTreeItem cmd = new MyTreeItem();
+				InputHelpTreeItem cmd = new InputHelpTreeItem();
 				cmd.setWidget(new TreeItemButton(cmdName, cmd, true));
 				item.addItem(cmd);
 			}
@@ -304,9 +303,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 
-	private static class MyTreeItem extends TreeItem {
+	private static class InputHelpTreeItem extends TreeItem {
 
-		protected MyTreeItem() {
+		protected InputHelpTreeItem() {
 			// avoid synth access warning
 		}
 

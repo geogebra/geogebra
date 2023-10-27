@@ -94,15 +94,6 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
     abstract public MathComponent copy();
 
 	/**
-	 * @return this wrapped in MathSequence TODO unused?
-	 */
-	public MathSequence wrap() {
-		MathSequence seq = new MathSequence();
-		seq.addArgument(this);
-		return seq;
-	}
-
-	/**
 	 * @param tag
 	 *            container tag
 	 * @return whether this is a container with given tag
@@ -111,4 +102,21 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
 		return false;
 	}
 
+	/**
+	 * @return whether this is comma or vertical bar
+	 */
+	public boolean isFieldSeparator() {
+		return false;
+	}
+
+	/**
+	 * @return next sibling with the same parent
+	 */
+	public MathComponent nextSibling() {
+		if (parent == null) {
+			return null;
+		}
+		int parentIndex = getParentIndex();
+		return parentIndex >= parent.size() - 1 ? null : getParent().getArgument(parentIndex + 1);
+	}
 }

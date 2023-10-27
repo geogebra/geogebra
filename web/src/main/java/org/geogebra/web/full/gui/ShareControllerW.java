@@ -1,16 +1,14 @@
 package org.geogebra.web.full.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
-import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -32,12 +30,12 @@ import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.ui.Widget;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
@@ -117,9 +115,9 @@ public class ShareControllerW implements ShareController {
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
-				.getSaveDialog(false, false);
+				.getSaveDialog(false);
 		((SaveControllerW) app.getSaveController())
-				.showDialogIfNeeded(shareCallback, true, anchor,
+				.showDialogIfNeeded(shareCallback, true,
 						false, false);
 		saveDialog.setDiscardMode();
 	}
@@ -133,11 +131,7 @@ public class ShareControllerW implements ShareController {
 	}
 
 	private void loginForShare() {
-		app.getLoginOperation().getView().add(event -> {
-			if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
-				share();
-			}
-		});
+		app.getGuiManager().listenToLogin(this::share);
 		app.getLoginOperation().showLoginDialog();
 	}
 
@@ -216,12 +210,17 @@ public class ShareControllerW implements ShareController {
 
 	@Override
 	public void startMultiuser(String sharingKey) {
+		getFrame().updateUndoRedoButtonVisibility(false);
 		onMultiplayerLoad(sharingKey, ((ScriptManagerW) app.getScriptManager()).getApi(),
 				mp -> {
 					multiplayer = Js.uncheckedCast(mp);
 					multiplayer.addUserChangeListener(this::handleMultiuserChange);
 					multiplayer.start(app.getLoginOperation().getUserName());
 				});
+	}
+
+	private GeoGebraFrameFull getFrame() {
+		return  ((AppWFull) app).getAppletFrame();
 	}
 
 	@Override
@@ -238,7 +237,7 @@ public class ShareControllerW implements ShareController {
 					appF.getDevice(), GeoGebraElement.as(el), parameters);
 			fr.setOnLoadCallback(exportedApi -> {
 				fr.getApp().getActiveEuclidianView().getSettings().setPreferredSize(currentSize);
-				onMultiplayerLoad(mat.getSharingKeyOrId(), exportedApi,
+				onMultiplayerLoad(mat.getSharingKeySafe(), exportedApi,
 						mp -> saveAndTerminate(Js.uncheckedCast(mp), fr.getApp(), mat, after));
 			});
 			fr.runAsyncAfterSplash();
@@ -249,17 +248,18 @@ public class ShareControllerW implements ShareController {
 	public void terminateMultiuser(Material mat, MaterialCallbackI after) {
 		if (!terminateActiveMultiuser(mat)) {
 			// temporary instance, do not store
-			onMultiplayerLoad(mat.getSharingKeyOrId(), null,
+			onMultiplayerLoad(mat.getSharingKeySafe(), null,
 						mp -> Js.<GGBMultiplayer>uncheckedCast(mp).terminate());
 		}
 	}
 
 	private boolean terminateActiveMultiuser(Material mat) {
-		String sharingKey = mat.getSharingKeyOrId();
+		String sharingKey = mat.getSharingKeySafe();
 		Material activeMaterial = app.getActiveMaterial();
 		if (multiplayer != null && activeMaterial != null
 				&& activeMaterial.getSharingKey().equals(sharingKey)) {
 			multiplayer.terminate();
+			getFrame().updateUndoRedoButtonVisibility(true);
 			multiplayer = null;
 			return true;
 		}
@@ -272,7 +272,7 @@ public class ShareControllerW implements ShareController {
 			if (evt.connected) {
 				MaterialCallback cb = new MaterialCallback() {
 					@Override
-					public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+					public void onLoaded(List<Material> result, Pagination meta) {
 						mat.setFileName(result.get(0).getFileName());
 						mp.terminate();
 						if (after != null) {
@@ -282,7 +282,7 @@ public class ShareControllerW implements ShareController {
 				};
 				otherApp.getGgbApi().getBase64(true, base64 -> {
 					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-							mat.getSharingKeyOrId(), mat.getVisibility(), mat.getTitle(),
+							mat.getSharingKeySafe(), mat.getVisibility(), mat.getTitle(),
 							base64, cb, mat.getType(), false);
 					mp.terminate();
 				});
@@ -303,7 +303,7 @@ public class ShareControllerW implements ShareController {
 	private void handleMultiuserChange(JsArray<Object> users) {
 		if (users.length == 0
 				&& app.getActiveMaterial() != null
-				&& !app.getLoginOperation().getGeoGebraTubeAPI().owns(app.getActiveMaterial())) {
+				&& !app.getLoginOperation().getResourcesAPI().owns(app.getActiveMaterial())) {
 			CollaborationStoppedDialog dialog = new CollaborationStoppedDialog(app);
 			dialog.show();
 		}
@@ -330,8 +330,9 @@ public class ShareControllerW implements ShareController {
 				String paramMultiplayerUrl = app.getAppletParameters().getParamMultiplayerUrl();
 				JavaScriptInjector.inject(MultiplayerResources.INSTANCE.multiplayer());
 				JsPropertyMap<?> config = JsPropertyMap.of("collabUrl", paramMultiplayerUrl);
-
-				GGBMultiplayer multiplayer = new GGBMultiplayer(api, sharingKey, config,
+				String hostname = DomGlobal.location.hostname;
+				String teamId = hostname.replaceAll("\\W", "") + "_" + sharingKey;
+				GGBMultiplayer multiplayer = new GGBMultiplayer(api, teamId, config,
 						loggedInUser.getJWTToken());
 				callback.accept(multiplayer);
 			}

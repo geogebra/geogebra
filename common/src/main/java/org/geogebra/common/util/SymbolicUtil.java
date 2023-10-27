@@ -3,10 +3,11 @@ package org.geogebra.common.util;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 
@@ -52,9 +53,11 @@ public class SymbolicUtil {
 	 *
 	 */
 	public static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
+		GeoSymbolic opposite = getOpposite(symbolic);
 		String textOriginal = getValueString(symbolic);
-		String textOpposite = getOppositeValueString(symbolic);
-		return isDefined(textOriginal) && isDefined(textOpposite)
+		String textOpposite = getValueString(opposite);
+
+		return !containsUndefinedOrIsEmpty(symbolic) && !containsUndefinedOrIsEmpty(opposite)
 				&& !textOriginal.equals(textOpposite);
 	}
 
@@ -62,8 +65,12 @@ public class SymbolicUtil {
 		return symbolic.toValueString(StringTemplate.defaultTemplate);
 	}
 
-	private static boolean isDefined(String valueString) {
-		return !GeoFunction.isUndefined(valueString);
+	/**
+	 * @param geo - GeoElement to check
+	 * @return true if expression tree contains an undefined variable or empty list
+	 */
+	public static boolean containsUndefinedOrIsEmpty(GeoElement geo) {
+		return geo.inspect(new UndefinedOrEmptyChecker());
 	}
 
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
@@ -73,10 +80,6 @@ public class SymbolicUtil {
 		return opposite;
 	}
 
-	private static String getOppositeValueString(GeoSymbolic symbolic) {
-		return getValueString(getOpposite(symbolic));
-	}
-
 	/**
 	 * Handles the showing/hiding of Solve/NSolve variants
 	 * @param symbolic GeoSymbolic input
@@ -84,8 +87,8 @@ public class SymbolicUtil {
 	 */
 	public static void handleSolveNSolve(GeoSymbolic symbolic) {
 		if (isSolve(symbolic)) {
-			if (!isDefined(getValueString(symbolic))
-					&& isDefined(getOppositeValueString(symbolic))) {
+			if (containsUndefinedOrIsEmpty(symbolic)
+					&& !containsUndefinedOrIsEmpty(getOpposite(symbolic))) {
 				toggleNumericSolve(symbolic);
 				if (Commands.Solve.name()
 						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
@@ -93,8 +96,8 @@ public class SymbolicUtil {
 				}
 			}
 
-			if (isDefined(getValueString(symbolic))
-					&& !isDefined(getOppositeValueString(symbolic))) {
+			if (!containsUndefinedOrIsEmpty(symbolic)
+					&& containsUndefinedOrIsEmpty(getOpposite(symbolic))) {
 				if (Commands.Solve.name()
 						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
 					symbolic.setWrapInNumeric(true);
@@ -152,8 +155,8 @@ public class SymbolicUtil {
 			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
 				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
 			}
-			((HasSymbolicMode) geo).setSymbolicMode(
-					!((HasSymbolicMode) geo).isSymbolicMode(), true);
+			HasSymbolicMode hasSymbolicGeo = (HasSymbolicMode) geo;
+			hasSymbolicGeo.setSymbolicMode(!hasSymbolicGeo.isSymbolicMode(), true);
 
 			if (geo instanceof GeoSymbolic) {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
@@ -168,8 +171,26 @@ public class SymbolicUtil {
 			}
 
 			geo.updateRepaint();
-			return ((HasSymbolicMode) geo).isSymbolicMode();
+			return hasSymbolicGeo.isSymbolicMode();
 
+		}
+		return false;
+	}
+
+	/**
+	 * @param expression to be checked
+	 * @return true if numeric approximation should be calculated
+	 */
+	public static boolean shouldComputeNumericValue(ExpressionValue expression) {
+		if (expression != null && expression.isNumberValue()) {
+			ExpressionValue unwrapped = expression.unwrap();
+			if (expression.wrap().containsGeoDummyVariable()) {
+				return false;
+			}
+			if (unwrapped instanceof NumberValue) {
+				return ((NumberValue) unwrapped).isDefined();
+			}
+			return true;
 		}
 		return false;
 	}
