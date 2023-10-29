@@ -172,7 +172,6 @@ import elemental2.dom.File;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.URL;
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
@@ -2560,11 +2559,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
 			ScriptManagerW.export("ggbApplet", null);
 		}
-	}
-
-	protected void setGlobalApplet(Object api) {
-		Js.asPropertyMap(DomGlobal.document).set("ggbApplet", api);
-		Js.asPropertyMap(DomGlobal.window).set("ggbApplet", api);
 	}
 
 	// ============================================
