@@ -846,7 +846,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (def.hasDefaults3d()) {
 				getXMLio().processXMLString(def.getDefaults3d(), false, true);
 			}
-
+			if (!appletParameters.getDataParamTransparentGraphics()) {
+				// fix for half-pixel not having any color; set AFTER splash screen
+				// fallback compatible with applet-unfocused CSS class
+				getFrameElement().getStyle().setBackgroundColor(
+						appletParameters.getDataParamBorder("#D3D3D3"));
+			}
 			afterLoadFileAppOrNot(asSlide);
 		} catch (Exception e) {
 			Log.debug(e);
