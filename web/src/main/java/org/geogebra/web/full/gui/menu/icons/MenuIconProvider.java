@@ -35,8 +35,6 @@ public interface MenuIconProvider {
 
 	SVGResource school();
 
-	SVGResource questionAnswer();
-
 	SVGResource bugReport();
 
 	SVGResource info();

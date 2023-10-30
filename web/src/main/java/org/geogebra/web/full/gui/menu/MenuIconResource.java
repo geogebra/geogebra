@@ -46,8 +46,6 @@ class MenuIconResource {
 				return menuIconProvider.assignment();
 			case SCHOOL:
 				return menuIconProvider.school();
-			case QUESTION_ANSWER:
-				return menuIconProvider.questionAnswer();
 			case BUG_REPORT:
 				return menuIconProvider.bugReport();
 			case INFO:

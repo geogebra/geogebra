@@ -95,11 +95,11 @@ class HelpMenuD extends BaseMenu {
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraMenuBar.copyDebugInfoToClipboard(app);
 					app.getGuiManager().showURLinBrowser(
-							GeoGebraConstants.FORUM_URL);
+							GeoGebraConstants.REPORT_BUG_URL);
 				}
 			};
 
-			forumAction = new AbstractAction(loc.getMenu("GeoGebraForum"),
+			forumAction = new AbstractAction(loc.getMenu("Help"),
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 

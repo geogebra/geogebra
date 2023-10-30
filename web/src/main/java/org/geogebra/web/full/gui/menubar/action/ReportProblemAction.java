@@ -13,6 +13,6 @@ public class ReportProblemAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		DomGlobal.window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
+		DomGlobal.window.open(GeoGebraConstants.REPORT_BUG_URL, "_blank", "");
 	}
 }

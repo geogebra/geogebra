@@ -211,8 +211,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private MenuItem showHelpAndFeedback() {
 		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL,
 				"Tutorial", Action.SHOW_TUTORIALS);
-		ActionableItem askQuestion = new ActionableItemImpl(Icon.QUESTION_ANSWER,
-				"AskAQuestion", Action.SHOW_FORUM);
+		ActionableItem askQuestion = new ActionableItemImpl(Icon.HELP,
+				"Help", Action.SHOW_FORUM);
 		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
 				"ReportProblem", Action.REPORT_PROBLEM);
 		ActionableItem license = new ActionableItemImpl(Icon.INFO,
