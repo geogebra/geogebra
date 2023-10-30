@@ -100,14 +100,12 @@ public class ScriptManagerW extends ScriptManager {
 
 		GeoGebraFrameW appletFrame = ((AppW) app).getAppletFrame();
 		if (appletFrame != null
-		        && appletFrame.getOnLoadCallback() != null) {
+		        && appletFrame.getOnLoadCallback() != null
+				&& !appletFrame.appletOnLoadCalled()) {
 			JsEval.callNativeFunction(
 					appletFrame.getOnLoadCallback(), exportedApi);
 			// callback only needed on first file load, not switching slides
-			if (!appletFrame.appletOnLoadCalled()) {
-				appletFrame.setOnLoadCallback(null);
-				appletFrame.appletOnLoadCalled(true);
-			}
+			appletFrame.appletOnLoadCalled(true);
 		}
 	}
 

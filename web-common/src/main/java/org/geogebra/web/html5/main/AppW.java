@@ -934,8 +934,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void reset() {
 		if (currentFile != null) {
 			try {
-				loadGgbFile(currentFile, false);
 				getAppletFrame().resetAppletOnLoad();
+				loadGgbFile(currentFile, false);
 			} catch (Exception e) {
 				clearConstruction();
 			}
