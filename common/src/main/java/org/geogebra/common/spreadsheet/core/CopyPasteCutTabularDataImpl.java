@@ -81,19 +81,8 @@ public final class CopyPasteCutTabularDataImpl
 	}
 
 	private void extendDataIfNeeded(TabularRange destination) {
-		int maxRows = tabularData.numberOfRows();
-		if (maxRows < destination.toCol + 1) {
-			for (int i = maxRows; i <= destination.toCol; i++) {
-				tabularData.insertColumnAt(maxRows);
-			}
-		}
+		tabularData.ensureCapacity(destination.toRow, destination.toCol);
 
-		int maxColumns = tabularData.numberOfColumns();
-		if (maxColumns < destination.toCol + 1) {
-			for (int i = maxColumns; i <= destination.toCol; i++) {
-				tabularData.insertColumnAt(maxColumns);
-			}
-		}
 	}
 
 	@Override
@@ -104,5 +93,4 @@ public final class CopyPasteCutTabularDataImpl
 		}
 		range.forEach((row, column) -> tabularData.setContent(row, column, null));
 	}
-
 }

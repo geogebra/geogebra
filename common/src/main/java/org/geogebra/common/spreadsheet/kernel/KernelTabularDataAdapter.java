@@ -205,4 +205,21 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	public TabularDataPasteInterface getPaste() {
 		return new TabularDataPasteGeos();
 	}
+
+	@Override
+	public void ensureCapacity(int row, int col) {
+		int maxRows = numberOfRows();
+		if (maxRows < row + 1) {
+			for (int i = maxRows; i <= row; i++) {
+				insertRowAt(maxRows);
+			}
+		}
+
+		int maxColumns = numberOfColumns();
+		if (maxColumns < col + 1) {
+			for (int i = maxColumns; i <= col; i++) {
+				insertColumnAt(maxColumns);
+			}
+		}
+	}
 }

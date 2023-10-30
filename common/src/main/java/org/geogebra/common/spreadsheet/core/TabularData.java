@@ -28,4 +28,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	String getEditableString(int row, int column);
 
 	TabularDataPasteInterface getPaste();
+
+	void ensureCapacity(int row, int col);
 }
