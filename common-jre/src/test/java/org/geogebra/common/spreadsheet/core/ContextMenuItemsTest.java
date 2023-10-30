@@ -5,13 +5,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import java.awt.datatransfer.Clipboard;
 import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public final class ContextMenuItemsTest {
@@ -214,7 +212,7 @@ public final class ContextMenuItemsTest {
 	public void testCopyCellSelection() {
 		selectCells(1, 4, 1, 2);
 		runItemAt(1, 1, "Copy");
-		assertEquals("cell11\tcell12\tcell21\tcell22\tcell31\tcell32\tcell41\tcell42",
+		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
 				clipboard.getContent());
 	}
 
@@ -235,7 +233,7 @@ public final class ContextMenuItemsTest {
 	public void testCutCellSelection() {
 		selectCells(1, 4, 1, 2);
 		runItemAt(1, 1, "Cut");
-		assertEquals("cell11\tcell12\tcell21\tcell22\tcell31\tcell32\tcell41\tcell42",
+		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
 				clipboard.getContent());
 		TabularRange range = new TabularRange(1, 4, 1, 2);
 		for (int row = range.fromRow; row < range.toRow + 1; row++) {

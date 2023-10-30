@@ -6,7 +6,7 @@ public final class CopyPasteCutTabularDataImpl
 	private final ClipboardInterface clipboard;
 	private final TabularDataPasteInterface paste;
 	private final TabularContent tabularContent;
-	private TabularBuffer buffer;
+	private TabularBuffer internalClipboard;
 
 	/**
 	 *
@@ -27,44 +27,57 @@ public final class CopyPasteCutTabularDataImpl
 
 
 	@Override
-	public void copyDeep(TabularRange range) {
-		copy(range);
-		if (buffer == null) {
-			buffer = new TabularBuffer<>();
+	public void copyDeep(TabularRange source) {
+		copy(source);
+		if (internalClipboard == null) {
+			internalClipboard = new TabularBuffer<>();
 		}
-		buffer.copy(tabularData, range);
+		internalClipboard.copy(tabularData, source);
 	}
 
 	@Override
-	public void paste(TabularRange range) {
-		if (buffer == null || buffer.isEmpty()) {
-			// TODO
+	public void paste(TabularRange destination) {
+		if (internalClipboard != null && !internalClipboard.isEmpty()) {
+			pasteFromInternalClipboard(destination);
 		} else {
-			pasteInternalMultiple(range);
+			pasteFromExternalClipboard(destination);
 		}
+	}
+
+	private void pasteFromExternalClipboard(TabularRange destination) {
+		// TODO
 	}
 
 	@Override
-	public void paste(int row, int column) {
-		if (buffer != null) {
-			pasteInternalMultiple(new TabularRange(row, column, row, column));
+	public void paste(int startRow, int startColumn) {
+		if (internalClipboard != null) {
+			pasteFromInternalClipboard(new TabularRange(startRow, startColumn, startRow, startColumn));
 		} else {
-			tabularData.setContent(row, column, clipboard.getContent());
+			tabularData.setContent(startRow, startColumn, clipboard.getContent());
 		}
 	}
 
-	private void pasteInternalMultiple(TabularRange destination) {
-		int columnStep = buffer.numberOfRows();
-		int rowStep = buffer.numberOfColumns();
+	/**
+	 * Paste from internal clipboard
+	 *
+	 *  Note that if the source range is smaller, than the destination, the source is pasted
+	 *  multiple times to fill (and may ovelap) the destination.
+	 *
+	 *
+	 * @param destination to paste to
+	 */
+	private void pasteFromInternalClipboard(TabularRange destination) {
+		int columnStep = internalClipboard.numberOfRows();
+		int rowStep = internalClipboard.numberOfColumns();
 
 		if (columnStep == 0 || rowStep == 0) {
 			return;
 		}
 
-		int maxColumn = destination.isSingleton()
+		int maxColumn = destination.isEmpty()
 				? destination.fromCol + columnStep
 				: destination.toCol;
-		int maxRow = destination.isSingleton()
+		int maxRow = destination.isEmpty()
 				? destination.fromRow + rowStep
 				: destination.toRow;
 
@@ -75,21 +88,22 @@ public final class CopyPasteCutTabularDataImpl
 		}
 	}
 
+	/**
+	 * Paste content of the internal clipboard once. It also ensures that the data has the required
+	 * space to do the paste.
+	 *
+	 * @param destination to paste to
+	 */
 	private void pasteInternal(TabularRange destination) {
-		extendDataIfNeeded(destination);
-		paste.pasteInternal(tabularData, buffer, destination);
-	}
-
-	private void extendDataIfNeeded(TabularRange destination) {
 		tabularData.ensureCapacity(destination.toRow, destination.toCol);
-
+		paste.pasteInternal(tabularData, internalClipboard, destination);
 	}
 
 	@Override
 	public void cut(TabularRange range) {
 		copy(range);
-		if (buffer != null) {
-			buffer.clear();
+		if (internalClipboard != null) {
+			internalClipboard.clear();
 		}
 		range.forEach((row, column) -> tabularData.setContent(row, column, null));
 	}

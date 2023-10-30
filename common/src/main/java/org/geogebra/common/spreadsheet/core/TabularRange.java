@@ -35,10 +35,6 @@ public final class TabularRange {
 		return null;
 	}
 
-	public boolean isSingleton() {
-		return fromRow == toRow && fromCol == toCol;
-	}
-
 	/**
 	 * Run action for each (row, column) pair of the range.
 	 * @param action to run for each (row, column).

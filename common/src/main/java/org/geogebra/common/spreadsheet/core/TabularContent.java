@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 /**
  * Class to convert TabularData to string.
+ * Format: colunms are separated by \t and rows are separated by \n .
  */
 public final class TabularContent {
 	private final TabularData tabularData;
@@ -11,11 +12,11 @@ public final class TabularContent {
 	}
 
 	/**
-	 * Converts the range of cell values to a tab separated string.
-	 * The returning format is:
+	 * Converts the range of cell values to a separated string
+	 * by tabs between columns and newlines between rows.
 	 *
-	 * @param range to convert
-	 * @return the tabbed string
+	 * @param range to convert.
+	 * @return the string representation.
 	 */
 	String toString(TabularRange range) {
 		StringBuilder sb = new StringBuilder();
@@ -28,7 +29,7 @@ public final class TabularContent {
 				}
 			}
 			if (row != range.toRow) {
-				sb.append('\t');
+				sb.append('\n');
 			}
 		}
 		return sb.toString();
