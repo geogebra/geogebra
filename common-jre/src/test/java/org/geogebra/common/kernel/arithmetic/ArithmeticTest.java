@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.geogebra.test.commands.AlgebraTestHelper.shouldFail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -9,6 +10,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.test.TestStringUtil;
@@ -180,8 +182,8 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("a+x", "x + y + x");
 		t("a+y", "x + y + y");
 		t("a+a", "x + y + x + y");
-		AlgebraTestHelper.shouldFail("f+y", "Please check your input", getApp());
-		AlgebraTestHelper.shouldFail("y+f", "Please check your input", getApp());
+		shouldFail("f+y", "Please check your input", getApp());
+		shouldFail("y+f", "Please check your input", getApp());
 	}
 
 	@Test
@@ -214,6 +216,15 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("f(r)=((1..5)*r,sin(r)+1)",
 				"{((1 * r), sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1),"
 						+ " ((4 * r), sin(r) + 1), ((5 * r), sin(r) + 1)}");
+		t("1..2={sin(x),x}", "{1 = sin(x), x = 2}");
+		t("1..2={x}", "?");
+		shouldFail("{(1,2)}={(1,3)}", "Invalid equation", getApp());
+	}
+
+	@Test
+	public void equationListShouldUseColonInDefinition() {
+		GeoElement eqnList = add("1..1={x}");
+		assertEquals("eq1: 1" + Unicode.ELLIPSIS + "1={x}", eqnList.getDefinitionForEditor());
 	}
 
 	@Test
