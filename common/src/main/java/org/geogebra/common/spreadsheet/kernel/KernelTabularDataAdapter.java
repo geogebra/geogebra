@@ -15,10 +15,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.spreadsheet.core.TabularDataPasteGeos;
-import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteGeos;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 
 /**
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
@@ -206,20 +206,4 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		return new TabularDataPasteGeos();
 	}
 
-	@Override
-	public void ensureCapacity(int row, int col) {
-		int maxRows = numberOfRows();
-		if (maxRows < row + 1) {
-			for (int i = maxRows; i <= row; i++) {
-				insertRowAt(maxRows);
-			}
-		}
-
-		int maxColumns = numberOfColumns();
-		if (maxColumns < col + 1) {
-			for (int i = maxColumns; i <= col; i++) {
-				insertColumnAt(maxColumns);
-			}
-		}
-	}
 }

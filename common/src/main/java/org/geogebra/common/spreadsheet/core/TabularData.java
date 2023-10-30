@@ -29,5 +29,19 @@ public interface TabularData<T> extends HasTabularValues<T> {
 
 	TabularDataPasteInterface getPaste();
 
-	void ensureCapacity(int row, int col);
+	default void ensureCapacity(int row, int col) {
+		int maxRows = numberOfRows();
+		if (maxRows < row + 1) {
+			for (int i = maxRows; i <= row; i++) {
+				insertRowAt(maxRows);
+			}
+		}
+
+		int maxColumns = numberOfColumns();
+		if (maxColumns < col + 1) {
+			for (int i = maxColumns; i <= col; i++) {
+				insertColumnAt(maxColumns);
+			}
+		}
+	}
 }

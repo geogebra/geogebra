@@ -3,10 +3,10 @@ package org.geogebra.common.spreadsheet;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
-import org.geogebra.common.spreadsheet.core.TabularDataPasteText;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteText;
 
 public class TestTabularData implements TabularData<Object> {
 
@@ -94,24 +94,8 @@ public class TestTabularData implements TabularData<Object> {
 	}
 
 	@Override
-	public TabularDataPasteInterface getPaste() {
+	public TabularDataPasteInterface<?> getPaste() {
 		return new TabularDataPasteText();
 	}
 
-	@Override
-	public void ensureCapacity(int row, int col) {
-		int maxRows = numberOfRows();
-		if (maxRows < row + 1) {
-			for (int i = maxRows; i <= row; i++) {
-				insertRowAt(maxRows);
-			}
-		}
-
-		int maxColumns = numberOfColumns();
-		if (maxColumns < col + 1) {
-			for (int i = maxColumns; i <= col; i++) {
-				insertColumnAt(maxColumns);
-			}
-		}
-	}
 }
