@@ -5,7 +5,11 @@ import java.util.List;
 
 import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 
-public class TabularBuffer<T> implements HasTabularValues<T> {
+/**
+ * A tabular clipboard to copy to and paste to.
+ * @param <T> type of the content.
+ */
+public class TabularClipboard<T> implements HasTabularValues<T> {
 	private List<List<T>> data = new ArrayList<>();
 	private TabularRange source;
 
@@ -29,18 +33,26 @@ public class TabularBuffer<T> implements HasTabularValues<T> {
 		return isEmpty() ? 0 : data.get(0).size();
 	}
 
+	/**
+	 *
+	 * @return true if clipboard is empty.
+	 */
 	public boolean isEmpty() {
 		return data.isEmpty();
 	}
 
-	public void add(List<T> value) {
-		data.add(value);
-	}
-
+	/**
+	 * Clear buffer
+	 */
 	public void clear() {
 		data.clear();
 	}
 
+	/**
+	 * Copy from tabular data to the buffer.
+	 * @param tabularData to copy from.
+	 * @param range to copy.
+	 */
 	public void copy(TabularData tabularData, TabularRange range) {
 		this.source = range;
 		clear();
@@ -49,7 +61,7 @@ public class TabularBuffer<T> implements HasTabularValues<T> {
 			for (int column = range.fromCol; column < range.toCol + 1; column++) {
 				rowData.add((T) tabularData.contentAt(row, column));
 			}
-			add(rowData);
+			data.add(rowData);
 		}
 	}
 }

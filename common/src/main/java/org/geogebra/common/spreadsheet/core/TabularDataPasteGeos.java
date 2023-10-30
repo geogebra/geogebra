@@ -15,14 +15,14 @@ public class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElemen
 	 * will be the same as the copied ones.
 	 */
 	@Override
-	public void pasteInternal(TabularData<GeoElement> tabularData, TabularBuffer<GeoElement> buffer,
-			TabularRange destination) {
-		collectOperations(buffer, destination);
+	public void pasteInternal(TabularData<GeoElement> tabularData,
+			TabularClipboard<GeoElement> clipboard, TabularRange destination) {
+		collectOperations(clipboard, destination);
 		operations.sort();
-		operations.apply(buffer, tabularData);
+		operations.apply(clipboard, tabularData);
 	}
 
-	private void collectOperations(TabularBuffer<GeoElement> buffer, TabularRange destination) {
+	private void collectOperations(TabularClipboard<GeoElement> buffer, TabularRange destination) {
 		operations.clear();
 		TabularRange source = buffer.getSource();
 		for (int col = source.fromCol; col <= source.toCol; ++col) {
@@ -37,7 +37,7 @@ public class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElemen
 
 					GeoElement geo = buffer.contentAt(bufferRow, bufferCol);
 					if (geo != null) {
-						operations.add(geo.getConstructionIndex(),	bufferRow, bufferCol,
+						operations.add(geo.getConstructionIndex(), bufferRow, bufferCol,
 								destination.fromRow + bufferRow,
 								destination.fromCol + bufferCol);
 					}

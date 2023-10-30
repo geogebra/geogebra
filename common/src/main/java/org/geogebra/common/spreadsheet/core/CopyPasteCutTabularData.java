@@ -9,7 +9,7 @@ public interface CopyPasteCutTabularData {
 
 	/**
 	 * @param source range of cells to copy.
- 	 */
+	 */
 	void copy(TabularRange source);
 
 	/**

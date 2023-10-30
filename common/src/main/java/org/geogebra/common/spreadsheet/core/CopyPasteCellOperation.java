@@ -1,7 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.Comparator;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -54,7 +52,7 @@ final class CopyPasteCellOperation {
 	 * @param buffer to copy from.
 	 * @param tabularData to paste to.
 	 */
-	void apply(TabularBuffer<GeoElement> buffer, TabularData<GeoElement> tabularData) {
+	void apply(TabularClipboard<GeoElement> buffer, TabularData<GeoElement> tabularData) {
 		GeoElement copy = copyGeo(buffer.contentAt(sourceRow, sourceCol));
 		tabularData.setContent(destRow, destCol, copy);
 	}

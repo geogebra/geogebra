@@ -10,12 +10,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Sortable list of copy/paste cell operations.
  */
 public class CopyPasteCellOperationList {
+	private static Comparator<CopyPasteCellOperation> comparator;
 	private List<CopyPasteCellOperation> list = new ArrayList<>();
+
 	void clear() {
 		list.clear();
 	}
-
-	private static Comparator<CopyPasteCellOperation> comparator;
 
 	/**
 	 * Adds a copy/paste cell operation.
@@ -37,7 +37,7 @@ public class CopyPasteCellOperationList {
 	 * @param from buffer to copy from
 	 * @param to to paste to.
 	 */
-	void apply(TabularBuffer<GeoElement> from, TabularData<GeoElement> to) {
+	void apply(TabularClipboard<GeoElement> from, TabularData<GeoElement> to) {
 		for (CopyPasteCellOperation operation: list) {
 			operation.apply(from, to);
 		}
