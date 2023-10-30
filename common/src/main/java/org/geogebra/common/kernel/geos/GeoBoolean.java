@@ -149,7 +149,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		// update all registered locatables (they have this point as start
 		// point)
 		for (GeoElement geo: conditionals) {
-			geo.updateVisualStyle(GProperty.VISIBLE);
+			geo.notifyUpdate();
 		}
 	}
 
