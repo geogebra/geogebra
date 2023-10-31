@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Handles copy/paste of {@link TabularData} when the content of the cell
  * is a {@link GeoElement}.
  */
-public class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
+public final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
 
 	private CopyPasteCellOperationList operations = new CopyPasteCellOperationList();
 
@@ -24,7 +24,7 @@ public class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElemen
 
 	private void collectOperations(TabularClipboard<GeoElement> buffer, TabularRange destination) {
 		operations.clear();
-		TabularRange source = buffer.getSource();
+		TabularRange source = buffer.getSourceRange();
 		for (int col = source.fromCol; col <= source.toCol; ++col) {
 			int bufferCol = col - source.fromCol;
 			for (int row = source.fromRow; row <= source.toRow; ++row) {

@@ -9,12 +9,12 @@ import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
  * A tabular clipboard to copy to and paste to.
  * @param <T> type of the content.
  */
-public class TabularClipboard<T> implements HasTabularValues<T> {
+public final class TabularClipboard<T> implements HasTabularValues<T> {
 	private List<List<T>> data = new ArrayList<>();
-	private TabularRange source;
+	private TabularRange sourceRange;
 
-	public TabularRange getSource() {
-		return source;
+	public TabularRange getSourceRange() {
+		return sourceRange;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class TabularClipboard<T> implements HasTabularValues<T> {
 	 * @param range to copy.
 	 */
 	public void copy(TabularData tabularData, TabularRange range) {
-		this.source = range;
+		this.sourceRange = range;
 		clear();
 		for (int row = range.fromRow; row < range.toRow + 1; row++) {
 			List<T> rowData = new ArrayList<>();

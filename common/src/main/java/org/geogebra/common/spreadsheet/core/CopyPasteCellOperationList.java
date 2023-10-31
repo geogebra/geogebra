@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Sortable list of copy/paste cell operations.
  */
-public class CopyPasteCellOperationList {
+final class CopyPasteCellOperationList {
 	private static Comparator<CopyPasteCellOperation> comparator;
 	private List<CopyPasteCellOperation> list = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class CopyPasteCellOperationList {
 	 * @param destRow to paste to.
 	 * @param destCol to paste to.
 	 */
-	public void add(int id, int sourceRow, int sourceCol, int destRow, int destCol) {
+	void add(int id, int sourceRow, int sourceCol, int destRow, int destCol) {
 		list.add(new CopyPasteCellOperation(id, sourceRow, sourceCol,
 				destRow, destCol));
 	}
@@ -46,7 +46,7 @@ public class CopyPasteCellOperationList {
 	/**
 	 * Sort the list by id (construction order)
 	 */
-	public void sort() {
+	void sort() {
 		list.sort(getComparator());
 	}
 

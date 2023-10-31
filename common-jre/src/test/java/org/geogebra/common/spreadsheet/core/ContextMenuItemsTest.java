@@ -73,7 +73,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testDeleteSelectedCells() {
-		TabularRange range = new TabularRange(2, 4, 6, 8);
+		TabularRange range = new TabularRange(2, 6, 4, 8);
 		selectionController.select(new Selection(SelectionType.CELLS, range), false);
 		runItemAt(2, 4, "Delete");
 		checkRangeIsDeleted(range);
@@ -115,8 +115,8 @@ public final class ContextMenuItemsTest {
 
 	private void selectRows(int fromRow, int toRow) {
 		selectionController.select(new Selection(SelectionType.ROWS, new TabularRange(fromRow,
-				toRow,
-				HEADER_INDEX, HEADER_INDEX)), false);
+				HEADER_INDEX, toRow,
+				HEADER_INDEX)), false);
 	}
 
 	private void checkRowReplaced(int fromRow, int toRow) {
@@ -154,7 +154,7 @@ public final class ContextMenuItemsTest {
 
 	private void selectColumns(int fromColumn, int toColumn) {
 		selectionController.select(new Selection(SelectionType.COLUMNS,
-				new TabularRange(HEADER_INDEX, HEADER_INDEX, fromColumn, toColumn)),
+				new TabularRange(HEADER_INDEX, fromColumn, HEADER_INDEX, toColumn)),
 				false);
 	}
 
@@ -218,7 +218,7 @@ public final class ContextMenuItemsTest {
 
 	private void selectCells(int fromRow, int toRow, int fromColumn, int toColumn) {
 		selectionController.select(new Selection(SelectionType.COLUMNS,
-						new TabularRange(fromRow, toRow, fromColumn, toColumn)),
+						new TabularRange(fromRow, fromColumn, toRow, toColumn)),
 				false);
 	}
 
@@ -235,7 +235,7 @@ public final class ContextMenuItemsTest {
 		runItemAt(1, 1, "Cut");
 		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
 				clipboard.getContent());
-		TabularRange range = new TabularRange(1, 4, 1, 2);
+		TabularRange range = new TabularRange(1, 1, 4, 2);
 		for (int row = range.fromRow; row < range.toRow + 1; row++) {
 			for (int column = range.fromCol; column < range.toCol + 1; column++) {
 				assertNull(data.contentAt(row, column));

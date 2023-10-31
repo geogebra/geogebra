@@ -62,7 +62,7 @@ public class ContextMenuItems {
 	private void copyCells(int row, int column) {
 		List<Selection> selections = selectionController.selections();
 		if (selections.isEmpty()) {
-			copyPasteCut.copyDeep(new TabularRange(row, column, row, column));
+			copyPasteCut.copyDeep(new TabularRange(row, row, column, column));
 		} else {
 			for (Selection selection: selections) {
 				copyPasteCut.copyDeep(selection.getRange());
@@ -73,7 +73,7 @@ public class ContextMenuItems {
 	private void cutCells(int row, int column) {
 		List<Selection> selections = selectionController.selections();
 		if (selections.isEmpty()) {
-			copyPasteCut.cut(new TabularRange(row, column, row, column));
+			copyPasteCut.cut(new TabularRange(row, row, column, column));
 		} else {
 			for (Selection selection: selections) {
 				copyPasteCut.cut(selection.getRange());

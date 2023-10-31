@@ -150,6 +150,6 @@ public final class SpreadsheetController implements TabularSelection {
 		int row = layout.findRow(y + viewport.getMinY());
 		int column = layout.findColumn(x + viewport.getMinX());
 		select(new Selection(SelectionType.CELLS, new TabularRange(row,
-				row, column, column)), modifiers.ctrl);
+				column, row, column)), modifiers.ctrl);
 	}
 }

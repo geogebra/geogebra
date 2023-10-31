@@ -29,13 +29,13 @@ final class SpreadsheetSelectionController {
 			clearSelection();
 		}
 		selections.add(new Selection(SelectionType.ROWS,
-				new TabularRange(row, row, -1, -1)));
+				new TabularRange(row, -1, row, -1)));
 	}
 
 	void selectColumn(int column, boolean extendingCurrentSelection) {
 		clearSelection();
 		selections.add(new Selection(SelectionType.COLUMNS,
-				new TabularRange(-1, -1, column, column)));
+				new TabularRange(-1, column, -1, column)));
 	}
 
 	void selectCell(int row, int column, boolean extendingCurrentSelection) {

@@ -1405,8 +1405,8 @@ public class CellRangeProcessor {
 		return succ;
 	}
 
-	private void shiftRowsUp(int startRow, int amount) {
-		if (shiftRowsUp(startRow, amount, adapter)) {
+	private void shiftRowsUp(int startRow, int numberOfRowsBy) {
+		if (shiftRowsUp(startRow, numberOfRowsBy, adapter)) {
 			app.storeUndoInfo();
 		}
 	}
@@ -1415,11 +1415,11 @@ public class CellRangeProcessor {
 	 * Shifts rows up.
 	 *
 	 * @param startRow the start row.
-	 * @param shiftAmount the amount.
+	 * @param numberOfRowsBy the amount.
 	 * @param tabularValues the data operate on.
 	 * @return if the method was successful
 	 */
-	public static boolean shiftRowsUp(int startRow, int shiftAmount,
+	public static boolean shiftRowsUp(int startRow, int numberOfRowsBy,
 			HasTabularValues<GeoElement> tabularValues) {
 
 		boolean succ = false;
@@ -1431,7 +1431,7 @@ public class CellRangeProcessor {
 					continue;
 				}
 				String newLabel = GeoElementSpreadsheet
-						.getSpreadsheetCellName(column, row - shiftAmount);
+						.getSpreadsheetCellName(column, row - numberOfRowsBy);
 				geo.setLabel(newLabel);
 				succ = true;
 			}

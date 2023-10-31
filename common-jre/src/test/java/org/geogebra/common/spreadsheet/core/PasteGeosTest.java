@@ -6,7 +6,6 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,8 +45,8 @@ public class PasteGeosTest extends BaseUnitTest {
 
 	@Test
 	public void testPaste() {
-		copyPasteCut.copyDeep(new TabularRange(1, 2, 1, 2));
-		copyPasteCut.paste(new TabularRange(4, 5, 4, 5));
+		copyPasteCut.copyDeep(new TabularRange(1, 1, 2, 2));
+		copyPasteCut.paste(new TabularRange(4, 4, 5, 5));
 		checkContent(1, 1);
 		checkContent(4, 4);
 	}

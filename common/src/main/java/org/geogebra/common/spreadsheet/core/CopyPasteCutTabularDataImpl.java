@@ -51,8 +51,8 @@ public final class CopyPasteCutTabularDataImpl
 	@Override
 	public void paste(int startRow, int startColumn) {
 		if (internalClipboard != null) {
-			pasteFromInternalClipboard(new TabularRange(startRow, startColumn,
-					startRow, startColumn));
+			pasteFromInternalClipboard(new TabularRange(startRow, startRow, startColumn,
+					startColumn));
 		} else {
 			tabularData.setContent(startRow, startColumn, clipboard.getContent());
 		}
@@ -84,7 +84,7 @@ public final class CopyPasteCutTabularDataImpl
 
 		for (int column = destination.fromCol; column <= destination.toCol ; column += columnStep) {
 			for (int row = destination.fromRow; row <= destination.toRow ; row += rowStep) {
-				pasteInternal(new TabularRange(row, maxRow, column, maxColumn));
+				pasteInternal(new TabularRange(row, column, maxRow, maxColumn));
 			}
 		}
 	}
