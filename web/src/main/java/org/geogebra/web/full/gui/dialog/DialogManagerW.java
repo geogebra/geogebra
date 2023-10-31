@@ -47,7 +47,6 @@ import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
-import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
@@ -445,17 +444,11 @@ public class DialogManagerW extends DialogManager
 	 * @return {@link SaveDialogI}
 	 */
 	public SaveDialogI getSaveDialog(boolean addTempCheckBox) {
-		if (app.isMebis()) {
-			DialogData data = new DialogData("Save",
-					"Cancel", "Save");
-			saveDialog = new SaveDialogMow((AppW) app, data, addTempCheckBox);
-		} else if (saveDialog == null || isSuite()) {
-			DialogData data = getSaveDialogData();
-			saveDialog = new SaveDialogW((AppW) app, data);
-		}
-		// set default saveType
+		DialogData data = getSaveDialogData();
+		saveDialog = new SaveDialogMow((AppW) app, data, app.isMebis() ? addTempCheckBox : false);
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
+
 		return saveDialog;
 	}
 
@@ -473,7 +466,7 @@ public class DialogManagerW extends DialogManager
 	}
 
 	public DialogData getSaveDialogData() {
-		return new DialogData(getSaveDialogTitle(), "DontSave", "Save");
+		return new DialogData(getSaveDialogTitle(), "Cancel", "Save");
 	}
 
 	private String getSaveDialogTitle() {
@@ -488,12 +481,9 @@ public class DialogManagerW extends DialogManager
 		return app.getConfig().getAppCode().equals(GeoGebraConstants.SUITE_APPCODE);
 	}
 
-	/**
-	 * shows the {@link SaveDialogW} centered on the screen
-	 */
 	@Override
 	public void showSaveDialog() {
-		getSaveDialog(true).show();
+		getSaveDialog(false).show();
 	}
 
 	@Override

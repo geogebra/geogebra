@@ -121,9 +121,9 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	}
 
 	protected MaterialVisibility getSaveVisibility() {
-		Material activeMaterial = ((AppW) app).getActiveMaterial();
+		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial == null) {
-			return MaterialVisibility.Private;
+			return MaterialVisibility.Shared;
 		}
 
 		MaterialVisibility visibility = MaterialVisibility.value(activeMaterial.getVisibility());
@@ -192,7 +192,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	public void setTitle() {
 		app.getSaveController().updateSaveTitle(getInputField()
 						.getTextComponent(), getDefaultTitle());
-		inputPanel.setVisible(((AppW) app).getFileManager().isOnlineSavingPreferred());
+		//inputPanel.setVisible(((AppW) app).getFileManager().isOnlineSavingPreferred());
 		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());
 	}
 

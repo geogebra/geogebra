@@ -25,7 +25,7 @@ public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
 			if (templateCheckbox.isSelected()) {
 				setSaveType(Material.MaterialType.ggsTemplate);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
-			} else {
+			} else if (app.isMebis()) {
 				setSaveType(Material.MaterialType.ggs);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 			}
