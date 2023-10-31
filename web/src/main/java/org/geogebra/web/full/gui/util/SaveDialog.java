@@ -5,7 +5,7 @@ import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
+public class SaveDialog extends DoYouWantToSaveChangesDialog {
 	private ComponentCheckbox templateCheckbox;
 
 	/**
@@ -14,7 +14,7 @@ public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
 	 * @param dialogData - contains trans keys for title and buttons
 	 *
 	 */
-	public SaveDialogMow(AppW app, DialogData dialogData, boolean addTempCheckBox) {
+	public SaveDialog(AppW app, DialogData dialogData, boolean addTempCheckBox) {
 		super(app, dialogData, false);
 		if (addTempCheckBox) {
 			addStyleName("templateSave");

@@ -46,7 +46,7 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
 import org.geogebra.web.full.gui.util.SaveDialogI;
-import org.geogebra.web.full.gui.util.SaveDialogMow;
+import org.geogebra.web.full.gui.util.SaveDialog;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
@@ -445,7 +445,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	public SaveDialogI getSaveDialog(boolean addTempCheckBox) {
 		DialogData data = getSaveDialogData();
-		saveDialog = new SaveDialogMow((AppW) app, data, app.isMebis() ? addTempCheckBox : false);
+		saveDialog = new SaveDialog((AppW) app, data, app.isMebis() && addTempCheckBox);
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 
