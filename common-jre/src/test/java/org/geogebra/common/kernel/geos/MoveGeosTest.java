@@ -73,8 +73,7 @@ public class MoveGeosTest extends BaseUnitTest {
 		GeoPoint B = add("B=(6, 6)");
 		GeoList list = add("{Segment(A, B)}");
 		moveListDownRightByUnit(list);
-		assertTrue(new Coords(6, 7).isEqual(A.getInhomCoords()));
-		assertTrue(new Coords(7, 7).isEqual(B.getInhomCoords()));
+		assertTrue(MoveGeos.updateListHave(list, A, B));
 	}
 
 	private void moveListDownRightByUnit(GeoList list) {

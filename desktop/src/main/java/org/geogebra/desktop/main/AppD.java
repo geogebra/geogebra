@@ -2012,16 +2012,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void setTooltipLanguage(String tagOrLocale) {
+	public void setTooltipLanguage(String ttLanguage) {
+		setTooltipLanguage(Language.fromLanguageTagOrLocaleString(ttLanguage));
+	}
 
-		boolean updateNeeded = loc.setTooltipLanguage(tagOrLocale);
+	/**
+	 * @param ttLanguage tooltip language
+	 */
+	public void setTooltipLanguage(Language ttLanguage) {
+		boolean updateNeeded = loc.setTooltipLanguage(ttLanguage);
 
 		updateNeeded = updateNeeded || (loc.getTooltipLanguage() != null);
 
 		if (updateNeeded) {
 			setLabels(); // update eg Tooltips for Toolbar
 		}
-
 	}
 
 	@Override

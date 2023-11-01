@@ -265,7 +265,7 @@ public class AppCommon extends App {
 				}
 			}
 		}
-		return view == App.VIEW_EUCLIDIAN;
+		return false;
     }
 
     @Override

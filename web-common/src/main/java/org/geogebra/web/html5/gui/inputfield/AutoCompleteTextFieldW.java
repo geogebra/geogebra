@@ -126,7 +126,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private static final RegExp syntaxArgPattern = RegExp
 			.compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
-	private TextFieldController textFieldController;
+	private final TextFieldController textFieldController;
 
 	private final AutocompleteProviderClassic inputSuggestions;
 	private final FlowPanel main = new FlowPanel();
@@ -1140,6 +1140,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setText(String s) {
 		textField.getValueBox().setText(s);
+		textFieldController.update();
 	}
 
 	/**
