@@ -855,10 +855,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.mathFieldInternal.deleteCurrentWord();
 	}
 
-	public String getCurrentWord() {
-		return this.mathFieldInternal.getCurrentWord();
-	}
-
 	/**
 	 * Make the cursor blink in this editor.
 	 */

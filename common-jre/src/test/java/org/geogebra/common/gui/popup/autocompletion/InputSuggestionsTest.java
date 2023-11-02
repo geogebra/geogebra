@@ -1,9 +1,12 @@
 package org.geogebra.common.gui.popup.autocompletion;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.io.EditorTyper;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -71,6 +74,18 @@ public class InputSuggestionsTest extends BaseUnitTest {
 		shouldPreventSuggestions("Text(\"Int");
 		shouldPreventSuggestions("v_Point");
 		shouldPreventSuggestions("v^Point");
+	}
+
+	@Test
+	public void testGetCommand() {
+		assertThat(getCommandFor("a+Seg"), equalTo("Seg"));
+		assertThat(getCommandFor("a_Seg"), equalTo(""));
+	}
+
+	private String getCommandFor(String text) {
+		new EditorTyper(mathField).type(text);
+		InputSuggestions suggestions = new InputSuggestions(null);
+		return suggestions.getCommand(mathField);
 	}
 
 	@Test
