@@ -42,7 +42,7 @@ pipeline {
     agent {label nodeLabel}
     stages {
         stage('skip on message') {
-           steps { scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*') }
+           steps { scmSkip(deleteBuild: false, skipPattern:'.*\\[ci skip\\].*') }
         }
         stage('cancel prev builds') {
             when {

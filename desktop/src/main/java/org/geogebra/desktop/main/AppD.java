@@ -55,8 +55,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -3721,14 +3721,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		logger = Logger.getLogger("stdout");
 		los = new LoggingOutputStream(logger, StdOutErrLevel.STDOUT);
 
-		try {
-			System.setOut(new PrintStream(los, true, Charsets.UTF_8));
-			logger = Logger.getLogger("stderr");
-			los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
-			System.setErr(new PrintStream(los, true, Charsets.UTF_8));
-		} catch (UnsupportedEncodingException e) {
-			// do nothing
-		}
+		System.setOut(new PrintStream(los, true, StandardCharsets.UTF_8));
+		logger = Logger.getLogger("stderr");
+		los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
+		System.setErr(new PrintStream(los, true, StandardCharsets.UTF_8));
 
 		// show stdout going to logger
 		// System.out.println("Hello world!");
