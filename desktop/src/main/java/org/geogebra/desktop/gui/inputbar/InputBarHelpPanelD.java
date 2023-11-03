@@ -13,7 +13,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.Collator;
-import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -431,9 +430,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			addNodeInSortedOrder(rootSubCommands, child);
 
 			// add leaf nodes: sub-command names
-			Iterator<?> it = subDict[i].getIterator();
-			while (it.hasNext()) {
-				String cmdName = subDict[i].get(it.next());
+			for (String s : subDict[i]) {
+				String cmdName = subDict[i].get(s);
 				if (cmdName != null && cmdName.length() > 0) {
 					addNodeInSortedOrder(child,
 							new DefaultMutableTreeNode(cmdName));
@@ -443,9 +441,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		// laod the All Commands node
 		LowerCaseDictionary dict = app.getCommandDictionary();
-		Iterator<?> it = dict.getIterator();
-		while (it.hasNext()) {
-			String cmdName = dict.get(it.next());
+		for (String s : dict) {
+			String cmdName = dict.get(s);
 			if (cmdName != null && cmdName.length() > 0) {
 				addNodeInSortedOrder(rootAllCommands,
 						new DefaultMutableTreeNode(cmdName));
