@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -17,7 +18,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
@@ -40,10 +40,12 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
+import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.euclidian.CursorMap;
 import org.geogebra.desktop.factories.AwtFactoryD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
@@ -66,11 +68,11 @@ public class SpreadsheetDemo {
 					new GeoElementCellRendererFactory());
 
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
-			spreadsheet.setWidthForColumns(60, IntStream.range(0, 10).toArray());
-			spreadsheet.setHeightForRows(20, IntStream.range(0, 10).toArray());
+			spreadsheet.setWidthForColumns(60, 0, 10);
+			spreadsheet.setHeightForRows(20, 0, 10);
 
-			spreadsheet.setWidthForColumns(90, IntStream.range(2, 4).toArray());
-			spreadsheet.setHeightForRows(40, IntStream.range(3, 5).toArray());
+			spreadsheet.setWidthForColumns(90, 2, 4);
+			spreadsheet.setHeightForRows(40, 3, 5);
 			SpreadsheetPanel spreadsheetPanel = new SpreadsheetPanel(spreadsheet, appCommon, frame);
 			appCommon.getKernel().attach(adapter);
 			/*appCommon.getGgbApi().evalCommand(String.join("\n", "C4=7", "C5=8",
@@ -155,7 +157,7 @@ public class SpreadsheetDemo {
 
 			addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent event) {
+				public void mouseReleased(MouseEvent event) {
 					spreadsheet.handlePointerUp(event.getX(), event.getY(),
 							getModifiers(event));
 					repaint();
@@ -165,6 +167,19 @@ public class SpreadsheetDemo {
 				public void mousePressed(MouseEvent event) {
 					spreadsheet.handlePointerDown(event.getX(), event.getY(),
 							getModifiers(event));
+					repaint();
+				}
+			});
+			addMouseMotionListener(new MouseMotionAdapter() {
+				@Override
+				public void mouseMoved(MouseEvent e) {
+					MouseCursor cursor = spreadsheet.getCursor(e.getX(), e.getY());
+					setCursor(CursorMap.get(cursor));
+				}
+
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					spreadsheet.handlePointerMove(e.getX(), e.getY(), getModifiers(e));
 					repaint();
 				}
 			});

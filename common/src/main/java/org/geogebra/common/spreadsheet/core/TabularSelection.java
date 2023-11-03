@@ -6,6 +6,11 @@ interface TabularSelection {
 
 	void selectRow(int row, boolean extend, boolean addSelection);
 
+	/**
+	 * @param column column to select
+	 * @param extend whether to extend last selection
+	 * @param addSelection whether to add separate selection
+	 */
 	void selectColumn(int column, boolean extend, boolean addSelection);
 
 	void select(Selection selection, boolean extend, boolean addSelection);

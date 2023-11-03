@@ -6,6 +6,8 @@ public final class Modifiers {
 	public final boolean shift;
 	public final boolean rightButton;
 
+	public static final Modifiers NONE = new Modifiers(false, false, false, false);
+
 	/**
 	 * @param alt alt pressed?
 	 * @param ctrl ctrl (or cmd on Mac) pressed?

@@ -1,8 +1,9 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -12,6 +13,7 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public final class TableLayout {
 
+	private static final int MIN_CELL_SIZE = 10;
 	private double[] columnWidths;
 	private double[] rowHeights;
 	private double[] cumulativeWidths;
@@ -64,6 +66,28 @@ public final class TableLayout {
 				columnHeaderHeight);
 	}
 
+	MouseCursor getCursor(double x, double y, GPoint out) {
+		int row = findRow(y);
+		int column = findColumn(x);
+		out.setLocation(column, row);
+
+		if (row < 1 && column >= 0 && x > cumulativeWidths[column + 1] + rowHeaderWidth - 5) {
+			return MouseCursor.RESIZE_X;
+		}
+		if (row < 1 && column > 0 && x < cumulativeWidths[column] + rowHeaderWidth + 5) {
+			out.x--;
+			return MouseCursor.RESIZE_X;
+		}
+		if (column < 1 && row >= 0 &&  y > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
+			return MouseCursor.RESIZE_Y;
+		}
+		if (column < 1 && row > 0 && y < cumulativeHeights[row] + columnHeaderHeight + 5) {
+			out.y--;
+			return MouseCursor.RESIZE_Y;
+		}
+		return MouseCursor.DEFAULT;
+	}
+
 	/**
 	 * A (rectangular) portion of the table layout.
 	 */
@@ -96,28 +120,28 @@ public final class TableLayout {
 		cumulativeWidths = new double[columns];
 		rowHeights = new double[rows];
 		cumulativeHeights = new double[rows];
-		setWidthForColumns(defaultColumnWidth, IntStream.range(0, columns - 1).toArray());
-		setHeightForRows(defaultRowHeight, IntStream.range(0, rows - 1).toArray());
+		setWidthForColumns(defaultColumnWidth, 0, columns - 1);
+		setHeightForRows(defaultRowHeight, 0, rows - 1);
 	}
 
 	void setTableSize(int rows, int columns) {
 		// TODO
 	}
 
-	void setWidthForColumns(double width, int... columnIndices) {
-		for (int column: columnIndices) {
+	void setWidthForColumns(double width, int minColumn, int maxColumn) {
+		for (int column = minColumn; column <= maxColumn; column++) {
 			columnWidths[column] = width;
 		}
-		for (int column = columnIndices[0]; column < columnWidths.length - 1; column++) {
+		for (int column = minColumn; column < columnWidths.length - 1; column++) {
 			cumulativeWidths[column + 1] = cumulativeWidths[column] + columnWidths[column];
 		}
 	}
 
-	void setHeightForRows(double height, int... rowIndices) {
-		for (int row: rowIndices) {
+	void setHeightForRows(double height, int minRow, int maxRow) {
+		for (int row = minRow; row <= maxRow; row++) {
 			rowHeights[row] = height;
 		}
-		for (int row = rowIndices[0]; row < cumulativeHeights.length - 1; row++) {
+		for (int row = minRow; row < cumulativeHeights.length - 1; row++) {
 			cumulativeHeights[row + 1] = cumulativeHeights[row] + rowHeights[row];
 		}
 	}
@@ -157,5 +181,13 @@ public final class TableLayout {
 
 	double getColumnHeaderHeight() {
 		return columnHeaderHeight;
+	}
+
+	public double resizeColumn(int col, int x) {
+		return Math.max(MIN_CELL_SIZE, x - cumulativeWidths[col] - rowHeaderWidth);
+	}
+
+	public double resizeRow(int row, int y) {
+		return Math.max(MIN_CELL_SIZE, y - cumulativeHeights[row] - columnHeaderHeight);
 	}
 }
