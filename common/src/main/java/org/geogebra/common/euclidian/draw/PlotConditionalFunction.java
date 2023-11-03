@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.Gap;
@@ -29,6 +30,7 @@ class PlotConditionalFunction {
 	private double max;
 	private boolean labelVisible;
 	private boolean fillCurve;
+	private GPoint labelPoint;
 
 	public PlotConditionalFunction(EuclidianView view, PathPlotter gp) {
 		this.view = view;
@@ -49,7 +51,7 @@ class PlotConditionalFunction {
 		this.max = max;
 		this.labelVisible = labelVisible;
 		this.fillCurve = fillCurve;
-
+		this.labelPoint = null;
 		if (operation == Operation.IF_ELSE) {
 			plotIfElse();
 		} else if (operation == Operation.IF_LIST) {
@@ -82,9 +84,12 @@ class PlotConditionalFunction {
 	private void plotBetweenLimits(List<ExpressionValue> conditions) {
 		List<Double> limits = getLimits(conditions);
 		for (int i = 0; i < limits.size() - 1; i++) {
-			CurvePlotter.plotCurve(geoFunction, limits.get(i), limits.get(i + 1), view, gp,
-					labelVisible, fillCurve ? Gap.CORNER
-							: Gap.MOVE_TO);
+			GPoint partialLabel = CurvePlotter.plotCurve(geoFunction, limits.get(i),
+					limits.get(i + 1), view, gp, labelVisible,
+					fillCurve ? Gap.CORNER : Gap.MOVE_TO);
+			if (labelVisible && labelPoint == null) {
+				labelPoint = partialLabel;
+			}
 		}
 	}
 
@@ -119,5 +124,9 @@ class PlotConditionalFunction {
 				&& !comp.wrap().containsFreeFunctionVariable(null)) {
 			limits.add(comp.evaluateDouble());
 		}
+	}
+
+	public GPoint getLabelPoint() {
+		return labelPoint;
 	}
 }
