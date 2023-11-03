@@ -445,7 +445,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	public SaveDialogI getSaveDialog(boolean addTempCheckBox) {
 		DialogData data = getSaveDialogData();
-		saveDialog = new SaveDialog((AppW) app, data, app.isMebis() && addTempCheckBox);
+		saveDialog = new SaveDialog((AppW) app, data, addTempCheckBox);
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 
@@ -483,7 +483,7 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showSaveDialog() {
-		getSaveDialog(false).show();
+		getSaveDialog(app.isWhiteboardActive()).show();
 	}
 
 	@Override

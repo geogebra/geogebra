@@ -519,6 +519,10 @@
 		z-index: 0;
 	}
 
+	.embedContainer {
+		--ggb-primary-color: purple(600);
+	}
+
 	.h5pPreview {
 		width: 600px;
 		height: 300px;
