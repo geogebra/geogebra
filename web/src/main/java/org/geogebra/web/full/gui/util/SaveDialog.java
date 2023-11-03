@@ -30,7 +30,7 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 			if (templateCheckbox.isSelected()) {
 				setSaveType(Material.MaterialType.ggsTemplate);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
-			} else if (app.isMebis()) {
+			} else if (addTempCheckBox) {
 				setSaveType(Material.MaterialType.ggs);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 			}
