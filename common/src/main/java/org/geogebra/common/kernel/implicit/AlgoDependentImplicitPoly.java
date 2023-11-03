@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
@@ -67,8 +69,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 *            definition node
 	 * @param evaluatedDef result of evaluation of the definition node
 	 */
-	public AlgoDependentImplicitPoly(Construction c, Equation equ,
-			ExpressionNode definition, boolean simplify, ExpressionValue evaluatedDef) {
+	public AlgoDependentImplicitPoly(Construction c, Equation equ, ExpressionNode definition,
+			boolean simplify, @CheckForNull ExpressionValue evaluatedDef) {
 		super(c, false);
 		equation = equ;
 		if (equation.isFunctionDependent()) {
@@ -95,7 +97,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		switch (deg) {
 		// linear equation -> LINE
 		case 1:
-			if (evaluatedDef.unwrap() instanceof GeoLine) {
+			if (evaluatedDef != null && evaluatedDef.unwrap() instanceof GeoLine) {
 				geoElement = ((GeoLine) evaluatedDef.unwrap()).copy();
 			} else {
 				geoElement = new GeoLine(c);
