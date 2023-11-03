@@ -121,9 +121,9 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	}
 
 	protected MaterialVisibility getSaveVisibility() {
-		Material activeMaterial = ((AppW) app).getActiveMaterial();
+		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial == null) {
-			return MaterialVisibility.Private;
+			return MaterialVisibility.Shared;
 		}
 
 		MaterialVisibility visibility = MaterialVisibility.value(activeMaterial.getVisibility());

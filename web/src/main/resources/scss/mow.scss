@@ -75,8 +75,7 @@
 *   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
 ******************/
 	.mowDynStyleBar {
-		.btnCrop,.btnBold,.btnItalic,.btnUnderline,
-		 {
+		.btnCrop,.btnBold,.btnItalic,.btnUnderline {
 			border-radius: 2px;
 			margin-left: 0px;
 			margin-right: 8px;
@@ -517,6 +516,10 @@
 
 	.embedContainer .EuclidianPanel {
 		z-index: 0;
+	}
+
+	.embedContainer {
+		--ggb-primary-color: #{purple(600)};
 	}
 
 	.h5pPreview {

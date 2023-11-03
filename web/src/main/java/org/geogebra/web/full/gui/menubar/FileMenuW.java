@@ -78,8 +78,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void updateOpenFileButton() {
-		openFileItem.setHTML(MainMenu.getMenuBarHtmlClassic(
-				MaterialDesignResources.INSTANCE.openFileMenu().getSafeUri().asString(),
+		openFileItem.setHTML(MainMenu.getMenuBarHtml(
+				MaterialDesignResources.INSTANCE.openFileMenu(),
 				loc.getMenu("Open")));
 	}
 
