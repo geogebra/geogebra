@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.util;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
@@ -16,6 +19,7 @@ import org.gwtproject.user.client.ui.Image;
 public class SaveDialog extends DoYouWantToSaveChangesDialog {
 	private ComponentCheckbox templateCheckbox;
 	private Image providerImage;
+	private Map<Material.Provider, ImageResource> availableProviders;
 
 	/**
 	 * base dialog constructor
@@ -55,7 +59,12 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 	}
 
 	private void buildLocationDropDown() {
-		List<String> providers = Arrays.asList("GeoGebra", "Drive", "Local");
+		fillAvailableProviders();
+
+		List<String> providers = new ArrayList<>();
+		for (Material.Provider provider : availableProviders.keySet()) {
+			providers.add(provider.getName());
+		}
 		CompDropDown locationDropDown = new CompDropDown((AppW) app,
 				app.getLocalization().getMenu("Location"), providers);
 		locationDropDown.setFullWidth(true);
@@ -78,6 +87,26 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 		getContentPanel().add(locationHolder);
 	}
 
+	private void fillAvailableProviders() {
+		availableProviders = new HashMap<>();
+		availableProviders.put(Material.Provider.TUBE, getProviderIcon(Material.Provider.TUBE));
+
+		GeoGebraTubeUser user = null;
+		if (app.getLoginOperation() != null) {
+			user = app.getLoginOperation().getModel().getLoggedInUser();
+		}
+		if (user != null && user.hasGoogleDrive()
+				&& ((AppW) app).getLAF().supportsGoogleDrive()) {
+			availableProviders.put(Material.Provider.GOOGLE,
+					getProviderIcon(Material.Provider.GOOGLE));
+		}
+
+		if (((AppW) app).getLAF().supportsLocalSave()) {
+			availableProviders.put(Material.Provider.LOCAL,
+					getProviderIcon(Material.Provider.LOCAL));
+		}
+	}
+
 	@Override
 	public void show() {
 		super.show();
@@ -88,6 +117,10 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 
 	private ImageResource getProviderIcon(int selectedIdx) {
 		Material.Provider provider = getSelectedProvider(selectedIdx);
+		return getProviderIcon(provider);
+	}
+
+	private ImageResource getProviderIcon(Material.Provider provider) {
 		switch (provider) {
 			case GOOGLE:
 				return BrowseResources.INSTANCE.location_drive();
