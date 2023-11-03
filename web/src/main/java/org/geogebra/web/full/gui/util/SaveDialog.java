@@ -1,6 +1,11 @@
 package org.geogebra.web.full.gui.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -40,6 +45,11 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 		templateCheckbox = new ComponentCheckbox(app.getLocalization(), false,
 				"saveTemplate");
 		getContentPanel().add(templateCheckbox);
+
+		List<String> provider = Arrays.asList("tube", "drive", "local");
+		CompDropDown location = new CompDropDown((AppW) app,
+				app.getLocalization().getMenu("Location"), provider);
+		getContentPanel().add(location);
 	}
 
 	@Override
