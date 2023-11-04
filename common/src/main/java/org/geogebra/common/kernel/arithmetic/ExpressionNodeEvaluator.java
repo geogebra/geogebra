@@ -342,7 +342,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof Vector3DValue) {
 			return ((Vector3DValue) arg).getPointAsDouble()[0];
 		} else if (arg instanceof GeoLine) {
-			return ((GeoLine) arg).x;
+			return ((GeoLine) arg).getX();
 		} else if (op == Operation.REAL && arg instanceof NumberValue) {
 			// real(3) should return 3
 			return arg.evaluateDouble();
@@ -368,7 +368,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof Vector3DValue) {
 			return ((Vector3DValue) arg).getPointAsDouble()[1];
 		} else if (arg instanceof GeoLine) {
-			return ((GeoLine) arg).y;
+			return ((GeoLine) arg).getY();
 		} else if (op == Operation.IMAGINARY && arg instanceof NumberValue) {
 			// imaginary(3) should return 0
 			return 0;
@@ -389,7 +389,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (lt instanceof Vector3DValue) {
 			return ((Vector3DValue) lt).getPointAsDouble()[2];
 		} else if (lt instanceof GeoLine) {
-			return ((GeoLine) lt).z;
+			return ((GeoLine) lt).getZ();
 		}
 		throw polynomialOrDie(lt, "z(");
 	}
