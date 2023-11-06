@@ -587,9 +587,13 @@ public class EuclidianViewD extends EuclidianView
 
 	@Override
 	public void drawTrace(Drawable drawable) {
-		bgGraphics.scale(getPixelRatio(), getPixelRatio());
-		super.drawTrace(drawable);
-		bgGraphics.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+		// SpotBugs assumes any method can reset bgGraphics to null => keep local copy
+		GGraphics2D graphics = bgGraphics;
+		if (graphics != null) {
+			graphics.scale(getPixelRatio(), getPixelRatio());
+			super.drawTrace(drawable);
+			graphics.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+		}
 	}
 
 	public double getPixelRatio() {
