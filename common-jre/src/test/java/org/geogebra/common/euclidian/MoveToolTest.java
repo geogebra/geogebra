@@ -9,6 +9,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,7 +19,9 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -26,7 +29,7 @@ import org.mockito.Mockito;
 public class MoveToolTest extends BaseControllerTest {
 
 	@Test
-	public void moveShouldChangeSegment() {
+	public void moveShouldChangeSegment1() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
 		dragStart(50, 50);
@@ -35,7 +38,15 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveShouldChangeVector() {
+	public void moveShouldChangeSegment2() {
+		add("A = (0,0)");
+		GeoElement geo = add("f = Segment(A, (1,-1))");
+		moveObjectWithArrowKey(geo, 1, -2);
+		checkContent("A = (1, -2)", "f = 1.41421");
+	}
+
+	@Test
+	public void moveShouldChangeVector1() {
 		add("v = Vector((1,-1))");
 		dragStart(50, 50);
 		dragEnd(100, 150);
@@ -43,7 +54,14 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveShouldChangePolygon() {
+	public void moveShouldChangeVector2() {
+		GeoElement geo = add("v = Vector((1,-1))");
+		moveObjectWithArrowKey(geo, 1, -2);
+		checkContent("v = (2, -3)");
+	}
+
+	@Test
+	public void moveShouldChangePolygon1() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		dragStart(50, 50);
@@ -53,12 +71,30 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveShouldNotChangeFixedSegment() {
+	public void moveShouldChangePolygon2() {
+		add("A = (0,0)");
+		GeoElement geo = add("q = Polygon(A, (0,-1), 4)");
+		moveObjectWithArrowKey(geo, 1, -2);
+		checkContent("A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)",
+				"C = (2, -2)", "h = 1", "i = 1");
+	}
+
+	@Test
+	public void moveShouldNotChangeFixedSegment1() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
 		add("SetFixed(f,true)");
 		dragStart(50, 50);
 		dragEnd(100, 150);
+		checkContent("A = (0, 0)", "f = 1.41421");
+	}
+
+	@Test
+	public void moveShouldNotChangeFixedSegment2() {
+		add("A = (0,0)");
+		GeoElement geo = add("f = Segment(A, (1,-1))");
+		add("SetFixed(f,true)");
+		moveObjectWithArrowKey(geo, 1, -2);
 		checkContent("A = (0, 0)", "f = 1.41421");
 	}
 
@@ -221,6 +257,18 @@ public class MoveToolTest extends BaseControllerTest {
 		return new DragResult(((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocX() - 100,
 				((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocY() - 100,
 				listener.getEvents().toArray(new String[0]));
+	}
+
+	/**
+	 * Moves an object with arrow keys (Translation Vector (x, y, 0))
+	 * @param geo GeoElement
+	 * @param x x-Axis
+	 * @param y y-Axis
+	 */
+	private void moveObjectWithArrowKey(GeoElement geo, int x, int y) {
+		Coords coords = new Coords(7, 7, 7);
+		MoveGeos.moveObjects(Collections.singletonList(geo), new Coords(x, y, 0),
+				coords, coords, getApp().getActiveEuclidianView());
 	}
 
 	private static class DragResult {

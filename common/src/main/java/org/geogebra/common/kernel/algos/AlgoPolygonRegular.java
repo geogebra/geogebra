@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -272,6 +273,11 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			Log.debug("Problem with computing minimal poly of cos(2pi/n)");
 			throw new NoSymbolicParametersException();
 		}
+	}
+
+	@Override
+	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
+		return view.getFreeInputPoints(this).size() == 2;
 	}
 }
 
