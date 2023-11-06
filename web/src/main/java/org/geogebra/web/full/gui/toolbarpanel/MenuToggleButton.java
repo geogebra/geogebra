@@ -6,6 +6,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
+import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.RootPanel;
 
@@ -52,6 +53,7 @@ public class MenuToggleButton extends ToggleButton
 	@Override
 	public void setTitle(String title) {
 		AriaHelper.setTitle(this, title);
+		setImageAltText(title);
 	}
 
 	/**
@@ -66,6 +68,7 @@ public class MenuToggleButton extends ToggleButton
 			dummy.removeFromParent();
 		}
 		root.insert(this, 0);
+		GlobalHeader.INSTANCE.setMenuBtn(this);
 	}
 
 	/**
