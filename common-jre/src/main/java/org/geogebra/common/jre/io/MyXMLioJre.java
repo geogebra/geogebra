@@ -47,9 +47,8 @@ import org.geogebra.common.jre.io.file.InputStreamZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
@@ -410,13 +409,12 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 			}
 			// Save images used in single bars
-			AlgoElement algo = geo.getParentAlgorithm();
-			if (algo instanceof ChartStyleAlgo) {
-				int num = ((ChartStyleAlgo) algo).getIntervals();
+			if (geo instanceof ChartStyleGeo) {
+				int num = ((ChartStyleGeo) geo).getIntervals();
 				int k;
 				for (int i = 0; i < num; i++) {
 					k = i + 1;
-					ChartStyle algo1 = ((ChartStyleAlgo) algo).getStyle();
+					ChartStyle algo1 = ((ChartStyleGeo) geo).getStyle();
 					if (algo1.getBarImage(k) != null) {
 						geo.setImageFileName(
 								algo1.getBarImage(k));
