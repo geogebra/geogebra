@@ -341,7 +341,7 @@ public class GlobalHeader implements EventRenderable {
 			profilePanel.setLabels();
 		}
 		if (menuBtn != null) {
-			menuBtn.setTitle(app.getLocalization().getMenu("Menu"));
+			menuBtn.setLabel();
 		}
 	}
 

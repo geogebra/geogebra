@@ -50,8 +50,8 @@ public class MenuToggleButton extends ToggleButton
 		appW.toggleMenu();
 	}
 
-	@Override
-	public void setTitle(String title) {
+	public void setLabel() {
+		String title = appW.getLocalization().getMenu("Menu");
 		AriaHelper.setTitle(this, title);
 		setImageAltText(title);
 	}
