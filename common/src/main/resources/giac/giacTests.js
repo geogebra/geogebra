@@ -2647,6 +2647,10 @@ var __giac = [
 { cat:"Heaviside.1", cmd:"Heaviside(-1)", result: "0"},
 { cat:"Heaviside.1", cmd:"InverseLaplace[exp(-p)/p+1/p,p,t]", result: "Heaviside(t - 1) + 1"},
 { cat:"Heaviside.1", cmd:"Heaviside(1)", result: "1"},
+{ cat: "Solve", cmd:"Solve[x^(4/7)=15]", result: "{x = 15nroot(15,4)³}"},
+{ cat: "Solve", cmd:"Solve[x^(4/99)=15]", result: "{x = 16834112196028232574462890625nroot(15,4)³}"},
+{ cat: "Solve", cmd:"Solve[x^(4/100)=15]", result: "{x = 252511682940423488616943359375}"},
+{ cat: "Evaluate", cmd:"(-8)^(1/3)", result: "-2"},
 
 
 //JSONEND
