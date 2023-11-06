@@ -71,6 +71,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private final GLookAndFeelI laf;
 	private boolean forcedHeaderHidden = false;
 	private boolean isHeaderVisible;
+	private boolean appletOnLoadCalled = false;
 
 	/**
 	 * Callback from renderGGBElement to run, if everything is done
@@ -207,6 +208,27 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (app != null) {
 			app.adjustScreen(false);
 		}
+	}
+
+	/**
+	 * @param callbackCalled whether callback was called
+	 */
+	public void appletOnLoadCalled(boolean callbackCalled) {
+		appletOnLoadCalled = callbackCalled;
+	}
+
+	/***
+	 * resets appletOnLoad flag
+	 */
+	public void resetAppletOnLoad() {
+		appletOnLoadCalled = false;
+	}
+
+	/***
+	 * @return appletOnLoadCalled
+	 */
+	public boolean appletOnLoadCalled() {
+		return appletOnLoadCalled;
 	}
 
 	/**
