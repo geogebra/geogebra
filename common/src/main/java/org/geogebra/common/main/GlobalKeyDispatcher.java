@@ -988,12 +988,15 @@ public abstract class GlobalKeyDispatcher {
 		return app.isRightClickEnabled();
 	}
 
-	private void handleEscForDropdown() {
+	/**
+	 * Handle dropdowns on ESCAPE
+	 */
+	public void handleEscForDropdown() {
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (dl != null && dl.isOptionsVisible()) {
-				dl.toggleOptions();
+				dl.closeOptions();
 			}
 		}
 	}

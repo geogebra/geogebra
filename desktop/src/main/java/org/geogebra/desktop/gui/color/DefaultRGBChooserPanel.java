@@ -68,6 +68,47 @@ import org.geogebra.desktop.main.AppD;
  */
 public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	private static final long serialVersionUID = 1L;
+	/**
+	 * Whether the color change was initiated from the slider or spinner rather
+	 * than externally.
+	 */
+	private transient boolean internalChange = false;
+
+	/** The ChangeListener for the sliders. */
+	private transient ChangeListener colorChanger;
+
+	/** The ChangeListener for the spinners. */
+	private transient ChangeListener spinnerHandler;
+
+	/** The slider that handles the red values. */
+	private transient JSlider R;
+
+	/** The slider that handles the green values. */
+	private transient JSlider G;
+
+	/** The slider that handles the blue values. */
+	private transient JSlider B;
+
+	/** The label for the red slider. */
+	private transient JLabel redLabel;
+
+	/** The label for the green slider. */
+	private transient JLabel greenLabel;
+
+	/** The label for the blue slider. */
+	private transient JLabel blueLabel;
+
+	/** The spinner that handles the red values. */
+	private transient JSpinner RSpinner;
+
+	/** The spinner that handles the green values. */
+	private transient JSpinner GSpinner;
+
+	/** The spinner that handles the blue values. */
+	private transient JSpinner BSpinner;
+
+	private ColorPreviewPanel previewPanel;
+	protected transient AppD app;
 
 	/**
 	 * This class handles the slider value changes for all three sliders.
@@ -114,48 +155,6 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 			getColorSelectionModel().setSelectedColor(new Color(color));
 		}
 	}
-
-	/**
-	 * Whether the color change was initiated from the slider or spinner rather
-	 * than externally.
-	 */
-	private transient boolean internalChange = false;
-
-	/** The ChangeListener for the sliders. */
-	private transient ChangeListener colorChanger;
-
-	/** The ChangeListener for the spinners. */
-	private transient ChangeListener spinnerHandler;
-
-	/** The slider that handles the red values. */
-	private transient JSlider R;
-
-	/** The slider that handles the green values. */
-	private transient JSlider G;
-
-	/** The slider that handles the blue values. */
-	private transient JSlider B;
-
-	/** The label for the red slider. */
-	private transient JLabel redLabel;
-
-	/** The label for the green slider. */
-	private transient JLabel greenLabel;
-
-	/** The label for the blue slider. */
-	private transient JLabel blueLabel;
-
-	/** The spinner that handles the red values. */
-	private transient JSpinner RSpinner;
-
-	/** The spinner that handles the green values. */
-	private transient JSpinner GSpinner;
-
-	/** The spinner that handles the blue values. */
-	private transient JSpinner BSpinner;
-
-	private ColorPreviewPanel previewPanel;
-	protected transient AppD app;
 
 	public JComponent getPreview() {
 		return previewPanel;

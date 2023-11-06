@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import com.himamis.retex.editor.share.model.Korean;
 
 /**
@@ -88,7 +90,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	}
 
 	@Override
-	public Iterator<String> getIterator() {
+	public @Nonnull Iterator<String> iterator() {
 		return treeSet.iterator();
 	}
 
@@ -137,7 +139,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 *         exists
 	 */
 	@Override
-	public List<String> getCompletions(final String curr) {
+	public List<MatchedString> getCompletions(final String curr) {
 		if (curr == null || "".equals(curr)) {
 			return null;
 		}
@@ -145,13 +147,17 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		String currLowerCase = normalizer.transform(curr);
 		getGreatestCommonPrefix(currLowerCase);
 		try {
-			SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
-			ArrayList<String> completions = new ArrayList<>();
-			for (String comp : tailSet) {
-				if (!comp.startsWith(currLowerCase)) {
-					break;
+			ArrayList<MatchedString> completions = new ArrayList<>();
+			int initialMatches = 0;
+			for (String cmd: treeSet) {
+				int index = cmd.indexOf(currLowerCase);
+				if (index > -1) {
+					if (index == 0) {
+						completions.add(initialMatches++, new MatchedString(get(cmd), index));
+					} else {
+						completions.add(new MatchedString(get(cmd), index));
+					}
 				}
-				completions.add(get(comp));
 			}
 			if (completions.isEmpty()) {
 				return null;
@@ -219,16 +225,16 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	}
 
 	@Override
-	public List<String> getCompletionsKorean(final String curr) {
+	public List<MatchedString> getCompletionsKorean(final String curr) {
 		if (curr == null || "".equals(curr)) {
 			return null;
 		}
 
-		ArrayList<String> completions = new ArrayList<>();
+		ArrayList<MatchedString> completions = new ArrayList<>();
 		String koreanCurr = Korean.flattenKorean(curr);
 		for (String str : treeSet) {
 			if (Korean.flattenKorean(str).startsWith(koreanCurr)) {
-				completions.add(Korean.unflattenKorean(str).toString());
+				completions.add(new MatchedString(Korean.unflattenKorean(str).toString(), 0));
 			}
 		}
 

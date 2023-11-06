@@ -18,7 +18,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 
 	private final AutocompleteProvider suggestions;
 	private final AutoCompleteW component;
-	private int prefixLength = 0;
+	private String highlight;
 
 	/**
 	 * constructor for the command autocomplete popup
@@ -34,7 +34,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	}
 
 	private void fillContent(final String curWord) {
-		prefixLength = curWord.length();
+		highlight = curWord;
 		suggestions.getCompletions(curWord).forEach(this::addRow);
 	}
 
@@ -52,7 +52,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 			item.setFocusable(false);
 			submenu.addItem(item);
 		}
-		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.command),
+		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.getCommand(), cpl.getOffset()),
 				true, submenu);
 		menuItem.setSubmenuHeading(buildSubmenuHeading(cpl));
 		menuItem.addStyleName("no-image");
@@ -63,7 +63,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	private Widget buildSubmenuHeading(AutocompleteProvider.Completion command) {
 		FlowPanel heading = new FlowPanel();
 		heading.addStyleName("autocompleteSyntaxHeading");
-		heading.add(new Label(command.command));
+		heading.add(new Label(command.getCommand()));
 		if (!getApp().isExamStarted()) {
 			heading.add(createHelpButton(command));
 		}
@@ -78,10 +78,11 @@ public class AutoCompletePopup extends GPopupMenuW {
 		return button;
 	}
 
-	private String highlightSuffix(String command) {
-		String prefix = command.substring(0, prefixLength);
-		String suffix = command.substring(prefixLength);
-		return prefix + "<strong>" + suffix + "</strong>";
+	private String highlightSuffix(String command, int offset) {
+		String prefix = command.substring(0, offset);
+		String match = command.substring(offset, offset + highlight.length());
+		String suffix = command.substring(offset + highlight.length());
+		return prefix + "<strong>" + match + "</strong>" + suffix;
 	}
 
 	/**

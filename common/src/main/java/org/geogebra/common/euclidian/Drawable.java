@@ -1023,4 +1023,11 @@ public abstract class Drawable extends DrawableND {
 				(int) labelRectangle.getHeight() + HIGHLIGHT_OFFSET,
 				HIGHLIGHT_DIAMETER, HIGHLIGHT_DIAMETER);
 	}
+
+	protected void drawAndUpdateTraceIfNeeded(boolean showTrace) {
+		isTracing = showTrace;
+		if (showTrace) {
+			view.drawTrace(this);
+		}
+	}
 }

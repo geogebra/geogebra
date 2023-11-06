@@ -183,6 +183,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import elemental2.dom.MessageEvent;
 import elemental2.dom.URL;
 import elemental2.webstorage.StorageEvent;
 import jsinterop.base.Js;
@@ -434,7 +435,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				// After the macro is edited and the save button is pressed, the editing tab
 				// sends a message to the original app containing the XML of the edited macro.
 				getGlobalHandlers().addEventListener(DomGlobal.window, "message", event -> {
-					String editedMacroMessage = Js.asPropertyMap(event).get("data").toString();
+					MessageEvent<?> message = Js.uncheckedCast(event);
+					String editedMacroMessage = message.data.toString();
 					try {
 						JsPropertyMap<Object> messageProperties =
 								Js.asPropertyMap(Global.JSON.parse(editedMacroMessage));
@@ -2039,7 +2041,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public double getInnerWidth() {
-		return getKeyboardManager().getKeyboarWidth();
+		return getKeyboardManager().getKeyboardWidth();
 	}
 
 	@Override

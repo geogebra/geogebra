@@ -9,7 +9,7 @@ import org.gwtproject.user.client.ui.IsWidget;
 public interface HasHelpButton {
 
 	/**
-	 * @return command at caret
+	 * @return command at caret if commands are allowed, "" otherwise
 	 */
 	String getCommand();
 

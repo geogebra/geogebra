@@ -163,7 +163,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		gp.resetWithThickness(geo.getLineThickness());
 		intervalPlotter.update();
 		updateLabelPoint();
-		updateTrace(geo.getTrace());
+		drawAndUpdateTraceIfNeeded(geo.getTrace());
 	}
 
 	private void updateLabelPoint() {
@@ -278,22 +278,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
-		// draw trace
-		updateTrace(curve.getTrace());
-	}
-
-	private void updateTrace(boolean showTrace) {
-		if (showTrace) {
-			isTracing = true;
-			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null) {
-				drawTrace(g2);
-			}
-		} else {
-			if (isTracing) {
-				isTracing = false;
-			}
-		}
+		drawAndUpdateTraceIfNeeded(curve.getTrace());
 	}
 
 	private void updateLabel(GPoint labelPoint) {

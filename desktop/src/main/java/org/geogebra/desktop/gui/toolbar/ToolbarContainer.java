@@ -8,8 +8,6 @@ import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
@@ -74,15 +72,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	private JPanel toolbarHelpPanel;
 
-	/**
-	 * @return help panel
-	 */
-	public JPanel getToolbarHelpPanel() {
-		if (toolbarHelpPanel == null) {
-			buildToolbarHelpPanel();
-		}
-		return toolbarHelpPanel;
-	}
 
 	/**
 	 * Label in the help panel showing the current mode name.
@@ -107,6 +96,16 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	protected int orientation = SwingConstants.NORTH;
 
 	private JPanel gluePanel;
+
+	/**
+	 * @return help panel
+	 */
+	public JPanel getToolbarHelpPanel() {
+		if (toolbarHelpPanel == null) {
+			buildToolbarHelpPanel();
+		}
+		return toolbarHelpPanel;
+	}
 
 	/**
 	 * Create a new toolbar container.
