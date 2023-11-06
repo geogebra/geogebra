@@ -148,6 +148,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		String label = geoElement.getLabelSimple();
 		newElem.setVisualStyle(geoElement.toGeoElement());
 		geoElement.doRemove();
+		newElem.setDefinition(geoElement.getDefinition());
 		geoElement = newElem;
 		setInputOutput();
 		if (label != null) {
@@ -178,7 +179,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 				// boolean functionChanged=false;
 				Set<FunctionNVar> functions = new HashSet<>();
 				addAllFunctionalDescendents(this, functions,
-						new TreeSet<AlgoElement>());
+						new TreeSet<>());
 
 				if (!functions.equals(dependentFromFunctions)
 						|| equationExpanded.hasVariableDegree()

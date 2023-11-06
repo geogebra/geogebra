@@ -24,6 +24,9 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 		add("U=1");
 		add("rho=1");
 		add("c:(x^rho+y^rho)^(1/rho)=U");
+		assertThat(add("pt=Intersect(c,x=0)"), hasValue("(0, 1)"));
+		t("Delete(pt)");
+		t("SetValue(rho,3)");
 		assertThat(add("Intersect(c,x=0)"), hasValue("(0, 1)"));
 	}
 }
