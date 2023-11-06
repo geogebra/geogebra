@@ -192,7 +192,7 @@ public class DropDownComboBoxController implements SetLabels {
 	/**
 	 * reset dropdown to property value
 	 */
-	public void resetToDefault() {
+	public void resetFromModel() {
 		if (property.getIndex() > -1) {
 			setSelectedOption(property.getIndex());
 		}
