@@ -1,8 +1,10 @@
 package org.geogebra.common.move.ggtapi.models;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
@@ -29,6 +31,19 @@ public class Material implements Serializable {
 
 		public String getName() {
 			return name;
+		}
+
+		public static Provider getProviderForString(String providerStr) {
+			if (providerStr.equals(TUBE.getName())) {
+				return TUBE;
+			}
+			if (providerStr.equals(GOOGLE.getName())) {
+				return GOOGLE;
+			}
+			if (providerStr.equals(LOCAL.getName())) {
+				return LOCAL;
+			}
+			return TUBE;
 		}
 	}
 

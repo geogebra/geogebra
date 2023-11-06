@@ -69,14 +69,16 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 				app.getLocalization().getMenu("Location"), providers);
 		locationDropDown.setFullWidth(true);
 		locationDropDown.addChangeHandler(() -> {
-			int idx = locationDropDown.getSelectedIndex();
-			providerImage.setResource(getProviderIcon(idx));
-			((AppW) app).getFileManager().setFileProvider(getSelectedProvider(idx));
+			Material.Provider provider
+					= Material.Provider.getProviderForString(locationDropDown.getSelectedText());
+			providerImage.setResource(getProviderIcon(provider));
+			((AppW) app).getFileManager().setFileProvider(provider);
 		});
 
 		FlowPanel providerImageHolder = new FlowPanel();
 		providerImageHolder.addStyleName("imageHolder");
-		providerImage = new Image(getProviderIcon(locationDropDown.getSelectedIndex()));
+		providerImage = new Image(getProviderIcon(
+				Material.Provider.getProviderForString(locationDropDown.getSelectedText())));
 		providerImageHolder.add(providerImage);
 
 		FlowPanel locationHolder = new FlowPanel();
@@ -115,29 +117,15 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 				.equals(activeMaterial.getType()));
 	}
 
-	private ImageResource getProviderIcon(int selectedIdx) {
-		Material.Provider provider = getSelectedProvider(selectedIdx);
-		return getProviderIcon(provider);
-	}
-
 	private ImageResource getProviderIcon(Material.Provider provider) {
 		switch (provider) {
-			case GOOGLE:
-				return BrowseResources.INSTANCE.location_drive();
-			case LOCAL:
-				return BrowseResources.INSTANCE.location_local();
-			default:
-			case TUBE:
-				return BrowseResources.INSTANCE.location_tube();
-		}
-	}
-
-	private Material.Provider getSelectedProvider(int index) {
-		switch (index) {
-			default:
-			case 0: return Material.Provider.TUBE;
-			case 1: return Material.Provider.GOOGLE;
-			case 2: return Material.Provider.LOCAL;
+		case GOOGLE:
+			return BrowseResources.INSTANCE.location_drive();
+		case LOCAL:
+			return BrowseResources.INSTANCE.location_local();
+		default:
+		case TUBE:
+			return BrowseResources.INSTANCE.location_tube();
 		}
 	}
 }
