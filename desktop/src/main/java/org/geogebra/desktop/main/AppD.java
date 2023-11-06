@@ -4313,14 +4313,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		getCopyPaste()
-				.copyToXML(ad,
-						new ArrayList<>(ad.getKernel()
-				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
-				true);
-
-		// and paste
-		getCopyPaste().pasteFromXML(this, true);
+		getCopyPaste().insertFrom(ad, this);
 
 		// forgotten something important!
 		// ad should be closed!
