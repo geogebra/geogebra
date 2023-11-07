@@ -243,6 +243,17 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
+	public void moveWithArrowKeyShouldChange3DPolygon() {
+		GeoElement pointA = add("A = (1, -1, 0)");
+		add("B = (2, -1, 0)");
+		add("C = (2, -2, 0)");
+		add("D = (1, -2, 0)");
+		GeoElement poly = add("Polygon(A, B, C, D)");
+		moveObjectWithArrowKey(poly, 1, -1);
+		assertThat(pointA, hasValue("(2, -2, 0)"));
+	}
+
+	@Test
 	public void selectionReadByScreenReaderOnce() {
 		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
 		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setScreenReader(screenReader);
@@ -387,9 +398,8 @@ public class MoveToolTest extends BaseControllerTest {
 	 * @param y y-Axis
 	 */
 	private void moveObjectWithArrowKey(GeoElement geo, int x, int y) {
-		Coords coords = new Coords(0, 0, 0);
-		MoveGeos.moveObjects(Collections.singletonList(geo), new Coords(x, y, 0),
-				null, coords, getApp().getActiveEuclidianView());
+		MoveGeos.moveObjects(Collections.singletonList(geo), new Coords(x, y, 0, 0),
+				null, null, getApp().getActiveEuclidianView());
 	}
 
 	private static class DragResult {
