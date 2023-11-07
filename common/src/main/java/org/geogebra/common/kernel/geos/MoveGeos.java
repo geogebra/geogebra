@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Library class for moving geos by drag
@@ -105,7 +106,8 @@ public class MoveGeos {
 	 */
 	private static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
 		return list.elements().allMatch(geo -> !geo.isLocked() && geo.isMoveable(view)
-				&& (containsOnlyFreeInputPoints(geo, view) || geo.isGeoPoint()));
+				&& (containsOnlyFreeInputPoints(geo, view) || geo.isGeoPoint()))
+				|| list.getElementType() == GeoClass.NUMERIC;
 	}
 
 	/* visible for tests */
@@ -154,12 +156,9 @@ public class MoveGeos {
 	 */
 	private static boolean canAddFreeInputPoints(GeoElement geo, EuclidianView view) {
 		ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
-		if (freeInputs != null && !freeInputs.isEmpty()
+		return freeInputs != null && !freeInputs.isEmpty()
 				&& !freeInputsContainLockedElement(freeInputs)
-				&& containsOnlyFreeInputPoints(geo, view)) {
-			return true;
-		}
-		return false;
+				&& containsOnlyFreeInputPoints(geo, view);
 	}
 
 	/**
