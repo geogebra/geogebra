@@ -20,6 +20,8 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 	private ComponentCheckbox templateCheckbox;
 	private Image providerImage;
 	private Map<Material.Provider, ImageResource> availableProviders;
+	private CompDropDown locationDropDown;
+	private FlowPanel locationHolder;
 
 	/**
 	 * base dialog constructor
@@ -65,12 +67,11 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 		for (Material.Provider provider : availableProviders.keySet()) {
 			providers.add(provider.getName());
 		}
-		CompDropDown locationDropDown = new CompDropDown((AppW) app,
+		locationDropDown = new CompDropDown((AppW) app,
 				app.getLocalization().getMenu("Location"), providers);
 		locationDropDown.setFullWidth(true);
 		locationDropDown.addChangeHandler(() -> {
-			Material.Provider provider
-					= Material.Provider.getProviderForString(locationDropDown.getSelectedText());
+			Material.Provider provider = getSelectedProvider(locationDropDown.getSelectedText());
 			providerImage.setResource(getProviderIcon(provider));
 			((AppW) app).getFileManager().setFileProvider(provider);
 		});
@@ -81,7 +82,7 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 				Material.Provider.getProviderForString(locationDropDown.getSelectedText())));
 		providerImageHolder.add(providerImage);
 
-		FlowPanel locationHolder = new FlowPanel();
+		locationHolder = new FlowPanel();
 		locationHolder.addStyleName("locationHolder");
 		locationHolder.add(providerImageHolder);
 		locationHolder.add(locationDropDown);
@@ -115,6 +116,30 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 		Material activeMaterial = app.getActiveMaterial();
 		templateCheckbox.setSelected(activeMaterial != null && Material.MaterialType.ggsTemplate
 				.equals(activeMaterial.getType()));
+		updateProviderUI();
+	}
+
+	private void updateProviderUI() {
+		if (((AppW) app).isOffline()) {
+			locationHolder.setVisible(availableProviders.containsKey(Material.Provider.LOCAL));
+		} else {
+			locationHolder.setVisible(true);
+			int idxOfCurrentProvider = 0;
+			Material.Provider currentProvider = ((AppW) app).getFileManager().getFileProvider();
+			for (Material.Provider provider : availableProviders.keySet()) {
+				if (provider.equals(currentProvider)) {
+					break;
+				}
+				idxOfCurrentProvider++;
+			}
+			providerImage.setResource(getProviderIcon(currentProvider));
+			locationDropDown.setSelectedIndex(idxOfCurrentProvider);
+
+		}
+	}
+
+	private Material.Provider getSelectedProvider(String providerStr) {
+		return Material.Provider.getProviderForString(providerStr);
 	}
 
 	private ImageResource getProviderIcon(Material.Provider provider) {
