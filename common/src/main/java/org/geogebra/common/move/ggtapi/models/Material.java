@@ -17,7 +17,36 @@ import org.geogebra.common.util.debug.Log;
 public class Material implements Serializable {
 
     public enum Provider {
-		TUBE, GOOGLE, LOCAL
+		TUBE("GeoGebra"),
+		GOOGLE("Google Drive"),
+		LOCAL("Local");
+
+		private String name;
+
+		Provider(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		/**
+		 * @param providerStr - provider string
+		 * @return provider
+		 */
+		public static Provider getProviderForString(String providerStr) {
+			if (providerStr.equals(TUBE.getName())) {
+				return TUBE;
+			}
+			if (providerStr.equals(GOOGLE.getName())) {
+				return GOOGLE;
+			}
+			if (providerStr.equals(LOCAL.getName())) {
+				return LOCAL;
+			}
+			return TUBE;
+		}
 	}
 
 	public enum MaterialType {

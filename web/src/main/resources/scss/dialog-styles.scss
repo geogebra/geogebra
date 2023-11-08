@@ -1095,6 +1095,28 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-top: 4px;
 			margin-bottom: 20px;
 		}
+
+		.locationHolder {
+			display: flex;
+
+			.imageHolder {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				background-color: neutral(200);
+				margin: auto 12px auto 0;
+
+				img {
+					width: 20px;
+					height: 20px;
+					padding: 10px;
+				}
+			}
+
+			.dropDown {
+				width: 100%;
+			}
+		}
 	}
 
 /****************************************************
