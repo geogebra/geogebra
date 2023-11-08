@@ -45,7 +45,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 		graphics.setPaint(GColor.WHITE);
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
-		graphics.setColor(controller.getStyle().getTextColor());
 		drawCells(graphics, viewport);
 		for (Selection selection: controller.getSelections()) {
 			renderer.drawSelection(selection.getRange(), graphics,
@@ -67,22 +66,44 @@ public final class Spreadsheet implements TabularDataChangeListener {
 						controller.contentAt(row, column), controller.getStyle());
 			}
 		}
-		graphics.setColor(GColor.GRAY);
-		graphics.fillRect((int) offsetX, (int) offsetY, (int) rectangle.getWidth(),
-				(int) layout.getColumnHeaderHeight());
-		graphics.fillRect((int) offsetX, (int) offsetY, (int) layout.getRowHeaderWidth(),
-				(int) rectangle.getHeight());
-		graphics.setColor(controller.getStyle().getTextColor());
+		drawHeaderBackgroundAndOutline(graphics, rectangle, offsetX, offsetY);
 		graphics.translate(0, offsetY);
+		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
+			renderer.drawColumnHeaderBorder(column, graphics, controller.getStyle());
+		}
+		graphics.setColor(controller.getStyle().getTextColor());
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			renderer.drawColumnHeader(column, graphics, controller.getColumnName(column));
 		}
 
 		graphics.translate(offsetX, -offsetY);
+		graphics.setColor(controller.getStyle().getGridColor());
+		for (int row = portion.fromRow + 1; row <= portion.toRow; row++) {
+			renderer.drawRowHeaderBorder(row, graphics, controller.getStyle());
+		}
+		graphics.setColor(controller.getStyle().getTextColor());
 		for (int row = portion.fromRow; row <= portion.toRow; row++) {
 			renderer.drawRowHeader(row, graphics);
 		}
 		graphics.translate(0, offsetY);
+		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());
+		graphics.fillRect(0, 0, (int) layout.getRowHeaderWidth() - 1,
+				(int) layout.getColumnHeaderHeight() - 1);
+	}
+
+	private void drawHeaderBackgroundAndOutline(GGraphics2D graphics, Rectangle rectangle,
+			double offsetX, double offsetY) {
+		TableLayout layout = controller.getLayout();
+		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());
+		graphics.fillRect((int) offsetX, (int) offsetY, (int) rectangle.getWidth(),
+				(int) layout.getColumnHeaderHeight());
+		graphics.fillRect((int) offsetX, (int) offsetY, (int) layout.getRowHeaderWidth(),
+				(int) rectangle.getHeight());
+		double bottom = offsetY + layout.getColumnHeaderHeight();
+		graphics.setColor(controller.getStyle().getGridColor());
+		graphics.drawStraightLine(offsetX, bottom, offsetX + rectangle.getWidth(), bottom);
+		double right = offsetX + layout.getRowHeaderWidth();
+		graphics.drawStraightLine(right, offsetY, right, offsetY + rectangle.getHeight());
 	}
 
 	// keyboard (use com.himamis.retex.editor.share.event.KeyListener?)
@@ -139,6 +160,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	@Override
 	public void update(int row, int column) {
 		renderer.invalidate(row, column);
+		needsRedraw = true;
 	}
 
 	public void setWidthForColumns(double width, int[] columnIndices) {
@@ -151,5 +173,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public boolean needsRedraw() {
 		return needsRedraw;
+	}
+
+	public double getTotalWidth() {
+		return controller.getLayout().getTotalWidth();
+	}
+
+	public double getTotalHeight() {
+		return controller.getLayout().getTotalHeight();
 	}
 }

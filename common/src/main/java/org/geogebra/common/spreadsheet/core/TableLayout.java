@@ -11,13 +11,16 @@ import org.geogebra.common.util.shape.Rectangle;
  * @Note: This type is not designed to be thread-safe.
  */
 public final class TableLayout {
+	public static final int DEFAULT_CELL_WIDTH = 120;
+	public static final int DEFAUL_CELL_HEIGHT = 36;
+	public static final int DEFAULT_ROW_HEADER_WIDTH = 52;
 
 	private double[] columnWidths;
 	private double[] rowHeights;
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
-	private double rowHeaderWidth = 42;
-	private double columnHeaderHeight = 20;
+	private double rowHeaderWidth = DEFAULT_ROW_HEADER_WIDTH;
+	private double columnHeaderHeight = DEFAUL_CELL_HEIGHT;
 
 	public double getWidth(int column) {
 		return columnWidths[column];
@@ -64,6 +67,14 @@ public final class TableLayout {
 				columnHeaderHeight);
 	}
 
+	public double getTotalHeight() {
+		return cumulativeHeights[cumulativeHeights.length - 1] + getColumnHeaderHeight();
+	}
+
+	public double getTotalWidth() {
+		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
+	}
+
 	/**
 	 * A (rectangular) portion of the table layout.
 	 */
@@ -71,21 +82,17 @@ public final class TableLayout {
 
 		final int fromColumn;
 		final int fromRow;
-		final int numberOfColumns;
-		final int numberOfRows;
 		final double xOffset; // cumulated column widths left of fromColumn
 		final double yOffset;
 		final int toRow;
 		final int toColumn;
 
-		Portion(int fromColumn, int fromRow, int numberOfColumns, int numberOfRows, double xOffset,
+		Portion(int fromColumn, int fromRow, int toColumn, int toRow, double xOffset,
 				double yOffset) {
 			this.fromColumn = fromColumn;
 			this.fromRow = fromRow;
-			this.numberOfColumns = numberOfColumns;
-			this.numberOfRows = numberOfRows;
-			this.toRow = fromRow + numberOfRows - 1;
-			this.toColumn = fromColumn + numberOfColumns - 1;
+			this.toRow = toRow;
+			this.toColumn = toColumn;
 			this.xOffset = xOffset;
 			this.yOffset = yOffset;
 		}
@@ -93,11 +100,11 @@ public final class TableLayout {
 
 	TableLayout(int rows, int columns, float defaultRowHeight, float defaultColumnWidth) {
 		columnWidths = new double[columns];
-		cumulativeWidths = new double[columns];
+		cumulativeWidths = new double[columns + 1];
 		rowHeights = new double[rows];
-		cumulativeHeights = new double[rows];
-		setWidthForColumns(defaultColumnWidth, IntStream.range(0, columns - 1).toArray());
-		setHeightForRows(defaultRowHeight, IntStream.range(0, rows - 1).toArray());
+		cumulativeHeights = new double[rows + 1];
+		setWidthForColumns(defaultColumnWidth, IntStream.range(0, columns).toArray());
+		setHeightForRows(defaultRowHeight, IntStream.range(0, rows).toArray());
 	}
 
 	void setTableSize(int rows, int columns) {
@@ -108,7 +115,8 @@ public final class TableLayout {
 		for (int column: columnIndices) {
 			columnWidths[column] = width;
 		}
-		for (int column = columnIndices[0]; column < columnWidths.length - 1; column++) {
+
+		for (int column = columnIndices[0]; column < columnWidths.length; column++) {
 			cumulativeWidths[column + 1] = cumulativeWidths[column] + columnWidths[column];
 		}
 	}
@@ -117,7 +125,7 @@ public final class TableLayout {
 		for (int row: rowIndices) {
 			rowHeights[row] = height;
 		}
-		for (int row = rowIndices[0]; row < cumulativeHeights.length - 1; row++) {
+		for (int row = rowIndices[0]; row < rowHeights.length; row++) {
 			cumulativeHeights[row + 1] = cumulativeHeights[row] + rowHeights[row];
 		}
 	}
@@ -131,24 +139,24 @@ public final class TableLayout {
 	}
 
 	TableLayout.Portion getLayoutIntersecting(Rectangle visibleArea) {
-		int firstColumn = Math.max(0, findColumn(visibleArea.getMinX()));
+		int firstColumn = Math.max(0, findColumn(visibleArea.getMinX() + rowHeaderWidth));
 		int lastColumn = Math.min(columnWidths.length - 1, findColumn(visibleArea.getMaxX()) + 1);
-		int firstRow = Math.max(0, findRow(visibleArea.getMinY()));
+		int firstRow = Math.max(0, findRow(visibleArea.getMinY() + columnHeaderHeight));
 		int lastRow = Math.min(rowHeights.length - 1, findRow(visibleArea.getMaxY()) + 1);
-		return new Portion(firstColumn, firstRow, lastColumn - firstColumn, lastRow - firstRow,
+		return new Portion(firstColumn, firstRow, lastColumn, lastRow,
 				visibleArea.getMinX(), visibleArea.getMinY());
 	}
 
 	public int findColumn(double x) {
-		return closest(Arrays.binarySearch(cumulativeWidths, x - rowHeaderWidth));
+		return closest(Arrays.binarySearch(cumulativeWidths, x  - rowHeaderWidth));
 	}
 
 	public int findRow(double y) {
-		return closest(Arrays.binarySearch(cumulativeHeights, y - columnHeaderHeight));
+		return closest(Arrays.binarySearch(cumulativeHeights, y  - columnHeaderHeight));
 	}
 
 	private int closest(int searchResult) {
-		return searchResult > 0 ? searchResult : -2 - searchResult;
+		return searchResult >= 0 ? searchResult : -2 - searchResult;
 	}
 
 	double getRowHeaderWidth() {

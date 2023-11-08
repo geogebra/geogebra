@@ -9,7 +9,7 @@ import org.geogebra.common.util.shape.Rectangle;
 
 public final class SelfRenderable {
 
-	public static final int HORIZONTAL_PADDING = 5;
+	public static final int HORIZONTAL_PADDING = 6;
 	private final CellRenderer renderer;
 	private final Object renderable;
 	private final GColor background;
@@ -26,7 +26,7 @@ public final class SelfRenderable {
 		this.renderer = renderer;
 		this.renderable = renderable;
 		this.background = background;
-		this.alignment = alignment == null ? CellFormat.ALIGN_LEFT : alignment;
+		this.alignment = alignment == null ? CellFormat.ALIGN_RIGHT : alignment;
 		this.fontStyle = fontStyle == null ? GFont.PLAIN : fontStyle;
 		if (this.alignment != CellFormat.ALIGN_LEFT) {
 			width = renderer.measure(renderable, this.fontStyle);

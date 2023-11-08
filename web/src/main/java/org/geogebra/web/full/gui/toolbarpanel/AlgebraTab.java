@@ -1,10 +1,12 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.util.CustomScrollbar;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -152,7 +154,20 @@ public class AlgebraTab extends ToolbarTab {
 	}
 
 	@Override
+	public DockPanelData.TabIds getID() {
+		return DockPanelData.TabIds.ALGEBRA;
+	}
+
+	@Override
 	public void setLabels() {
 		logo.setLabels();
+	}
+
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
+		if (app.getInputPosition() != App.InputPosition.algebraView) {
+			return null;
+		}
+		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 	}
 }
