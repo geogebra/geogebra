@@ -318,10 +318,11 @@ public class GeoGebraFrameFull
 		if (toolbarPanel != null) {
 			toolbarPanel.updateMoveButton();
 		}
-		app.updateSplitPanelHeight();
-
-		keyboardHeight = 0;
-		app.updateViewSizes();
+		if (!getKeyboardManager().shouldDetach()) {
+			app.updateSplitPanelHeight();
+			keyboardHeight = 0;
+			app.updateViewSizes();
+		}
 		keyBoard.remove(() -> {
 			keyBoard.resetKeyboardState();
 			getApp().centerAndResizeViews();
@@ -404,11 +405,10 @@ public class GeoGebraFrameFull
 		} else {
 			keyboardHeight = keyboardManager
 					.estimateKeyboardHeight();
+			// only call these with attached keyboard to avoid Corner[] updates
+			app.updateSplitPanelHeight();
+			app.updateViewSizes();
 		}
-
-		app.updateSplitPanelHeight();
-
-		app.updateViewSizes();
 		keyboardManager.addKeyboard(this);
 		keyBoard.setVisible(true);
 		app.centerAndResizeViews();

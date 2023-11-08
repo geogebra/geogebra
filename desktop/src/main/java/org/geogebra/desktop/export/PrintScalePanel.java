@@ -174,28 +174,28 @@ public class PrintScalePanel extends JPanel {
 
 		switch (mode) {
 		case SIZEINCM:
-			PrintScalePanel.this.remove(pxModePanel);
-			PrintScalePanel.this.remove(fixedSizeModePanel);
-			PrintScalePanel.this.add(cmModePanel);
+			this.remove(pxModePanel);
+			this.remove(fixedSizeModePanel);
+			this.add(cmModePanel);
 			updateScaleTextFields();
 			break;
 		case SIZEINPX:
-			PrintScalePanel.this.remove(cmModePanel);
-			PrintScalePanel.this.remove(fixedSizeModePanel);
-			PrintScalePanel.this.add(pxModePanel);
+			this.remove(cmModePanel);
+			this.remove(fixedSizeModePanel);
+			this.add(pxModePanel);
 			updateSizeTextFields(ev.getExportWidth(), ev.getExportHeight());
 			break;
 		case FIXED_SIZE:
-			PrintScalePanel.this.remove(cmModePanel);
-			PrintScalePanel.this.remove(pxModePanel);
-			PrintScalePanel.this.add(fixedSizeModePanel);
+			this.remove(cmModePanel);
+			this.remove(pxModePanel);
+			this.add(fixedSizeModePanel);
 			updateFixedSizeTextFields();
 			revalidate();
 			repaint();
 			break;
 		}
 
-		SwingUtilities.updateComponentTreeUI(PrintScalePanel.this);
+		SwingUtilities.updateComponentTreeUI(this);
 		notifyListeners();
 	}
 
@@ -319,7 +319,7 @@ public class PrintScalePanel extends JPanel {
 				viewChanged = true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		updateFixedSizeTextFields();

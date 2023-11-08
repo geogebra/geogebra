@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -28,28 +29,36 @@ public class CmdCellRange extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-
+		ExpressionNode[] args = c.getArguments();
 		switch (n) {
 		case 2:
-
-			ExpressionNode[] args = c.getArguments();
-
-			// check if we really have two leafs
-
-			String start = spreadsheetLabel(args[0], c);
-			String end = spreadsheetLabel(args[1], c);
-
-			// both start and end need to have valid spreadsheet coordinates
-
-			AlgoCellRange algo = app.getSpreadsheetTableModel()
-					.getCellRangeManager()
-					.getAlgoCellRange(cons, c.getLabel(), start, end);
-			GeoElement[] ret = { algo.getList() };
-			return ret;
+			return new GeoElement[]{ getAlgoCellRange(c).getList() };
+		case 3:
+			AlgoCellRange algo = getAlgoCellRange(c);
+			if (algo.getList().isEmptyList()) {
+				algo.getList().setTypeStringForXML(args[2].unwrap()
+						.toValueString(StringTemplate.defaultTemplate));
+			}
+			return new GeoElement[]{ getAlgoCellRange(c).getList() };
 
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	private AlgoCellRange getAlgoCellRange(Command c) {
+		ExpressionNode[] args = c.getArguments();
+
+		// check if we really have two leafs
+
+		String start = spreadsheetLabel(args[0], c);
+		String end = spreadsheetLabel(args[1], c);
+
+		// both start and end need to have valid spreadsheet coordinates
+
+		return app.getSpreadsheetTableModel()
+				.getCellRangeManager()
+				.getAlgoCellRange(cons, c.getLabel(), start, end);
 	}
 
 	private String spreadsheetLabel(ExpressionNode expressionNode, Command c) {

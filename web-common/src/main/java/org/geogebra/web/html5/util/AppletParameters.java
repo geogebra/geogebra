@@ -356,10 +356,11 @@ public class AppletParameters {
 	}
 
 	/**
+	 * @param fallback border color if none is set
 	 * @return border color (valid CSS color)
 	 */
-	public String getDataParamBorder() {
-		return getStringDataParam("borderColor", "");
+	public String getDataParamBorder(String fallback) {
+		return getStringDataParam("borderColor", fallback);
 	}
 
 	/**

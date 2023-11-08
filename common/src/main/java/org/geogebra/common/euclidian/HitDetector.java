@@ -138,7 +138,7 @@ public class HitDetector {
 			if (geoElement instanceof GeoButton) {
 				DrawableND drawable = ev.getDrawableFor(geoElement);
 				if (drawable instanceof DrawButton) {
-					return ((DrawButton) drawable).myButton;
+					return ((DrawButton) drawable).getWidget();
 				}
 			}
 		}

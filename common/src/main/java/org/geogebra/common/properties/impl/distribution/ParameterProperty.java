@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNumericProperty;
 
 /**
@@ -18,14 +19,16 @@ public class ParameterProperty extends AbstractNumericProperty {
 	private final int parameterIndex;
 
 	/**
+	 * @param localization localization
 	 * @param algebraProcessor processor
 	 * @param view view
 	 * @param parameterIndex index of the parameter
 	 * @param localizedName localized name of the parameter
 	 */
-	public ParameterProperty(AlgebraProcessor algebraProcessor, ProbabilityCalculatorView view,
-			int parameterIndex, String localizedName) {
-		super(algebraProcessor, null, null);
+	public ParameterProperty(Localization localization, AlgebraProcessor algebraProcessor,
+			ProbabilityCalculatorView view, int parameterIndex,
+			String localizedName) {
+		super(algebraProcessor, localization, localizedName);
 		this.view = view;
 		this.parameterIndex = parameterIndex;
 		this.localizedName = localizedName;

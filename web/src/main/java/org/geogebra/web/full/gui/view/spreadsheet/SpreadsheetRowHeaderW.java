@@ -31,6 +31,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DataTransfer;
+import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
 
 /**
@@ -570,7 +571,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 				}
 		});
 		Dom.addEventListener(elem, "copy",
-				evt -> handler.onCopy(Js.isTruthy(Js.asPropertyMap(evt).get("altKey"))));
+				evt -> handler.onCopy(Js.isTruthy(Js.<KeyboardEvent>uncheckedCast(evt).altKey)));
 		Dom.addEventListener(elem, "cut", evt -> handler.onCut());
 			// do not prevent default!!!
 			// it will take care of the cut...

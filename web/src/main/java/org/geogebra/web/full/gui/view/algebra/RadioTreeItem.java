@@ -1753,7 +1753,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public String getCommand() {
-		return mf == null ? "" : mf.getCurrentWord();
+		return controller.getCommand(mf);
 	}
 
 	@Override
@@ -1790,10 +1790,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Show suggestions.
 	 */
 	public void popupSuggestions() {
-		if (controller.isSuggestionPrevented(mf)) {
-			return;
-		}
-
 		int left = getPopupSuggestionLeft();
 		int top = (int) (marblePanel.getAbsoluteTop() - app.getAbsTop());
 		getInputSuggestions().popupSuggestions(left, top, marblePanel.getOffsetHeight());

@@ -1750,18 +1750,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	/**
 	 * Subtracts two functions and stores the result to another
-	 * 
-	 * @param resultFun
-	 *            resulting function
 	 * @param fun1
 	 *            minuend
 	 * @param fun2
 	 *            subtrahend
-	 * @return resultFun
+	 * @return resulting function
 	 */
-	public static GeoFunction subtract(GeoFunction resultFun,
-			GeoFunctionable fun1, GeoFunctionable fun2) {
-
+	public static Function subtract(GeoFunctionable fun1, GeoFunctionable fun2) {
 		Kernel kernel = fun1.getKernel();
 
 		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
@@ -1776,12 +1771,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		ExpressionNode sum = new ExpressionNode(fun1.getKernel(),
 				left.replace(x1, x), Operation.MINUS, right.replace(x2, x));
 
-		Function f = new Function(sum, x);
-
-		resultFun.setFunction(f);
-		resultFun.setDefined(true);
-
-		return resultFun;
+		return new Function(sum, x);
 	}
 
 	/**

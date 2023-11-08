@@ -31,7 +31,6 @@ import java.awt.event.WindowListener;
 import java.awt.font.FontRenderContext;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -65,6 +64,26 @@ public class VirtualKeyboardD extends JFrame
 		implements ActionListener, SettingListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
+
+	public static final char KEYBOARD_NORMAL = ' ';
+	public static final char KEYBOARD_MATH = 'M';
+	public static final char KEYBOARD_NUMERIC = 'N';
+	// public static final char KEYBOARD_ALTGR = 'Q';
+	public static final char KEYBOARD_ACUTE = 'A';
+	public static final char KEYBOARD_GRAVE = 'G';
+	public static final char KEYBOARD_UMLAUT = 'U';
+	public static final char KEYBOARD_CEDILLA = 'c';
+	public static final char KEYBOARD_CARON = 'v';
+	public static final char KEYBOARD_CIRCUMFLEX = 'C';
+	public static final char KEYBOARD_BREVE = 'B';
+	public static final char KEYBOARD_TILDE = 'T';
+	public static final char KEYBOARD_OGONEK = 'O';
+	public static final char KEYBOARD_DOT_ABOVE = 'D';
+	public static final char KEYBOARD_RING_ABOVE = 'R';
+	public static final char KEYBOARD_DIALYTIKA_TONOS = 'd';
+	public static final char KEYBOARD_DOUBLE_ACUTE = 'a';
+	public static final char KEYBOARD_SOLIDUS = '/';
+	private char KEYBOARD_MODE = KEYBOARD_NORMAL;
 
 	/**
 	 * List with supported languages.
@@ -106,6 +125,12 @@ public class VirtualKeyboardD extends JFrame
 	private boolean shrink;
 
 	private LocalizationD loc;
+	private StringBuilder sbAlt;
+	private final StringBuilder sb = new StringBuilder();
+	private final HashMap<Integer, Font> fontsHash = new HashMap<>(30);
+	private final HashMap<String, KeyboardKeys> myKeys = new HashMap<>();
+
+	private Locale kbLocale = null;
 
 	/**
 	 * This is the default constructor
@@ -640,27 +665,6 @@ public class VirtualKeyboardD extends JFrame
 
 	}
 
-	public static final char KEYBOARD_NORMAL = ' ';
-	public static final char KEYBOARD_MATH = 'M';
-	public static final char KEYBOARD_NUMERIC = 'N';
-	// public static final char KEYBOARD_ALTGR = 'Q';
-	public static final char KEYBOARD_ACUTE = 'A';
-	public static final char KEYBOARD_GRAVE = 'G';
-	public static final char KEYBOARD_UMLAUT = 'U';
-	public static final char KEYBOARD_CEDILLA = 'c';
-	public static final char KEYBOARD_CARON = 'v';
-	public static final char KEYBOARD_CIRCUMFLEX = 'C';
-	public static final char KEYBOARD_BREVE = 'B';
-	public static final char KEYBOARD_TILDE = 'T';
-	public static final char KEYBOARD_OGONEK = 'O';
-	public static final char KEYBOARD_DOT_ABOVE = 'D';
-	public static final char KEYBOARD_RING_ABOVE = 'R';
-	public static final char KEYBOARD_DIALYTIKA_TONOS = 'd';
-	public static final char KEYBOARD_DOUBLE_ACUTE = 'a';
-	public static final char KEYBOARD_SOLIDUS = '/';
-
-	private char KEYBOARD_MODE = KEYBOARD_NORMAL;
-
 	/**
 	 * This method adds a char to the text-field
 	 */
@@ -796,8 +800,6 @@ public class VirtualKeyboardD extends JFrame
 
 	}
 
-	StringBuilder sbAlt;
-
 	private StringBuilder getAltStringBuilder() {
 		if (sbAlt == null) {
 			sbAlt = new StringBuilder();
@@ -848,8 +850,6 @@ public class VirtualKeyboardD extends JFrame
 			insertText(Keys.getLowerCase());
 		}
 	}
-
-	private final StringBuilder sb = new StringBuilder();
 
 	private KeyboardKeys getKey(int i, int j) {
 
@@ -1128,8 +1128,6 @@ public class VirtualKeyboardD extends JFrame
 		return getFont((int) (minButtonSize()), true);
 	}
 
-	private final HashMap<Integer, Font> fontsHash = new HashMap<>(30);
-
 	private Font getFont(int size, boolean setFont) {
 
 		Font ret = fontsHash.get(size);
@@ -1176,10 +1174,6 @@ public class VirtualKeyboardD extends JFrame
 		return fonts[minSize];
 
 	}
-
-	private final Hashtable<String, KeyboardKeys> myKeys = new Hashtable<>();
-
-	private Locale kbLocale = null;
 
 	private void setKbLocale(Locale loc) {
 		readConf(app, loc);

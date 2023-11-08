@@ -12,8 +12,8 @@ import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 public class EnglishCommandSyntax extends LocalizedCommandSyntax {
 
 	/**
-	 *
 	 * @param localization the localization.
+	 * @param syntaxFilter syntax filter
 	 */
 	public EnglishCommandSyntax(Localization localization, SyntaxFilter syntaxFilter) {
 		super(localization, syntaxFilter);

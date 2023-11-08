@@ -1013,7 +1013,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testCASSpecialPoints() {
 		t("f:x", "x");
-		GeoSymbolic line = (GeoSymbolic) app.kernel.lookupLabel("f");
+		GeoSymbolic line = (GeoSymbolic) app.getKernel().lookupLabel("f");
 		Suggestion suggestion = SuggestionRootExtremum.get(line);
 		Assert.assertNotNull(suggestion);
 		suggestion.execute(line);
@@ -1527,6 +1527,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolveNSolveCase5() {
 		GeoSymbolic symbolic = add("Solve(x^2>5)");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
+	}
+
+	@Test
+	public void testNumericWrapIsNumeric() {
+		GeoSymbolic symbolic = add("Solve((1-0.0064)^(x)≤0.03,x)");
+		assertThat(symbolic.isSymbolicMode(), equalTo(true));
+		SymbolicUtil.toggleSymbolic(symbolic);
+		assertThat(symbolic.isSymbolicMode(), equalTo(false));
 	}
 
 	@Test

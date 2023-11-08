@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
+import org.geogebra.common.kernel.geos.BarChartGeoNumeric;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -223,7 +224,7 @@ public class EuclidianDraw {
 			} else if (algo instanceof AlgoBoxPlot) {
 				d = new DrawBoxPlot(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoBarChart) {
-				d = new DrawBarGraph(ev, (GeoNumeric) geo);
+				d = new DrawBarGraph(ev, (BarChartGeoNumeric) geo);
 			} else if (algo instanceof AlgoCasCellInterface) {
 				ValidExpression ve = ((AlgoCasCellInterface) algo).getCasCell()
 						.getInputVE();

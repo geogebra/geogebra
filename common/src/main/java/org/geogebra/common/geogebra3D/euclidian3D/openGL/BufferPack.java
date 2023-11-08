@@ -17,7 +17,7 @@ class BufferPack extends BufferPackAbstract {
 	/** buffer for colors */
 	private GLBuffer colorBuffer;
 	/** buffer for indices */
-	public GLBufferIndices indicesBuffer;
+	protected GLBufferIndices indicesBuffer;
 
 	private int elementsSize;
 	private int indicesSize;

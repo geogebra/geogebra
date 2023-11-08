@@ -47,7 +47,8 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 		int count = ProbabilityManager.getParmCount(distribution);
 		for (int parameterIndex = 0; parameterIndex < count; parameterIndex++) {
 			ParameterProperty property = new ParameterProperty(
-					app.kernel.getAlgebraProcessor(),
+					localization,
+					app.getKernel().getAlgebraProcessor(),
 					probabilityCalculatorView,
 					parameterIndex,
 					labels[distribution.ordinal()][parameterIndex]
