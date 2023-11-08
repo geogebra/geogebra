@@ -114,9 +114,8 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectRows(int fromRow, int toRow) {
-		selectionController.select(new Selection(SelectionType.ROWS, new TabularRange(HEADER_INDEX,
-				fromRow,
-				HEADER_INDEX, toRow
+		selectionController.select(new Selection(SelectionType.ROWS,
+				new TabularRange(fromRow, HEADER_INDEX, toRow, HEADER_INDEX
 		)), false, false);
 	}
 
@@ -155,8 +154,8 @@ public final class ContextMenuItemsTest {
 
 	private void selectColumns(int fromColumn, int toColumn) {
 		selectionController.select(new Selection(SelectionType.COLUMNS,
-				new TabularRange(fromColumn, HEADER_INDEX, toColumn, HEADER_INDEX)),
-				false, true);
+				new TabularRange(HEADER_INDEX, fromColumn, HEADER_INDEX, toColumn)),
+				false, false);
 	}
 
 	@Test
@@ -220,7 +219,7 @@ public final class ContextMenuItemsTest {
 	private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
 		selectionController.select(new Selection(SelectionType.COLUMNS,
 						new TabularRange(fromRow, fromColumn, toRow, toColumn)),
-				false, true);
+				false, false);
 	}
 
 	@Test
@@ -236,7 +235,7 @@ public final class ContextMenuItemsTest {
 		runItemAt(1, 1, "Cut");
 		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
 				clipboard.getContent());
-		TabularRange range = new TabularRange(1, 1, 2, 4);
+		TabularRange range = new TabularRange(1, 1, 4, 2);
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {
 				assertNull(data.contentAt(row, column));
@@ -265,14 +264,6 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testPasteCellsToSelection() {
-		selectCells(1, 1, 2, 2);
-		runItemAt(1, 1, "Copy");
-		selectCells(2, 4, 2, 6);
-		runItemAt(2, 4, "Paste");
-		assertEquals("cell11", data.contentAt(2, 4));
-		assertEquals("cell12", data.contentAt(2, 5));
-		assertEquals("cell21", data.contentAt(3, 4));
-		assertEquals("cell22", data.contentAt(3, 5));
-		assertEquals("cell11", data.contentAt(2, 6));
+		fail();
 	}
 }
