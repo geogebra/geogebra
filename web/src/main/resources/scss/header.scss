@@ -15,6 +15,7 @@ $button_hover_transition: background-color 0.15s;
 
 	.headerView {
 		display: flex;
+		align-items: center;
 		height: $header_height;
 		position: relative;
 		top: 0px;
@@ -36,7 +37,7 @@ $button_hover_transition: background-color 0.15s;
 			font-size: 125%;
 			vertical-align: middle;
 			letter-spacing: 0.25px;
-			margin-right: 32px;
+			margin-right: 24px;
 			line-height: $header_height;
 		}
 		> .headerCaption:first-child {
@@ -45,7 +46,7 @@ $button_hover_transition: background-color 0.15s;
 
 		.signIn {
 			text-transform: uppercase;
-			margin: 16px 12px 16px 32px;
+			margin: 16px 24px 16px 24px;
 			padding: 4px 8px;
 			line-height: 24px;
 			min-width: fit-content;
@@ -74,8 +75,8 @@ $button_hover_transition: background-color 0.15s;
 		}
 	}
 
-	.signInIcon {
-		margin: 6px 8px;
+	.headerView .signInIcon {
+		margin: 0 18px;
 	}
 
 	%compactHeaderViewShared {
@@ -85,7 +86,7 @@ $button_hover_transition: background-color 0.15s;
 			margin: auto 4px;
 		}
 		.headerCaption {
-			margin: 0 8px 0 0;
+			margin: 0 24px 0 0;
 		}
 	}
 
@@ -98,14 +99,12 @@ $button_hover_transition: background-color 0.15s;
 		.headerBackButton {
 			height: 40px;
 			margin-left: 8px;
-			margin-right: 24px;
+			margin-right: 16px;
 		}
 
 		.profilePanel {
         	width: 40px;
         	height: 40px;
-        	margin: 4px 24px 4px 12px;
-        	padding-right: 14px;
 
        		.imageHolder {
         		width: 40px;

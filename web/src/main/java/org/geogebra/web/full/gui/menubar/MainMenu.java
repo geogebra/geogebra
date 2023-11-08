@@ -14,7 +14,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
@@ -55,12 +54,8 @@ public class MainMenu extends FlowPanel
 	Submenu userMenu;
 	/** sign in menu */
 	final SignInMenu signInMenu;
-	/**
-	 * simple logo menu item
-	 */
-	Submenu logoMenu;
 
-	private ClassicMenuItemProvider actionProvider;
+	private final ClassicMenuItemProvider actionProvider;
 
 	/**
 	 * Constructs the menubar
@@ -87,16 +82,9 @@ public class MainMenu extends FlowPanel
 		this.userMenu = new UserSubmenu(app);
 		actionProvider.addMenus(menus);
 
-		smallScreen = app.isUnbundled()
-				&& app.getAppletFrame().shouldHaveSmallScreenLayout();
-
 		initAriaStackPanel();
-		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
-			this.menuPanel.addStyleName("menuPanel");
-		} else if (smallScreen) {
-			initLogoMenu();
-		}
-		Dom.toggleClass(this, "menuWithLogo", smallScreen);
+
+		this.menuPanel.addStyleName("menuPanel");
 
 		for (Submenu menu : menus) {
 			addSubmenu(menu);
@@ -120,30 +108,20 @@ public class MainMenu extends FlowPanel
 		}
 	}
 
-	private void initLogoMenu() {
-		logoMenu = new LogoMenu(app);
-		addSubmenu(logoMenu);
-	}
-
 	private void initAriaStackPanel() {
 		this.menuPanel = new AriaStackPanel() {
 			@Override
 			public void showStack(int index) {
-				if (smallScreen && index == 0) {
-					super.showStack(1);
-					expandStack(1);
-				} else {
-					if (app.isUnbundledOrWhiteboard()) {
-						int selected = getSelectedIndex();
-						collapseStack(getSelectedIndex());
-						if (selected == index) {
-							closeAll();
-							return;
-						}
-						expandStack(index);
+				if (app.isUnbundledOrWhiteboard()) {
+					int selected = getSelectedIndex();
+					collapseStack(getSelectedIndex());
+					if (selected == index) {
+						closeAll();
+						return;
 					}
-					super.showStack(index);
+					expandStack(index);
 				}
+				super.showStack(index);
 
 				dispatchOpenEvent();
 
@@ -199,8 +177,7 @@ public class MainMenu extends FlowPanel
 			}
 
 			private void setStackText(int index, boolean expand) {
-				int step = smallScreen ? 1 : 0;
-				if (index < step || index >= menuPanel.getWidgetCount()) {
+				if (index < 0 || index >= menuPanel.getWidgetCount()) {
 					return;
 				}
 				// SVGResource img = menuImgs.get(index - step);
