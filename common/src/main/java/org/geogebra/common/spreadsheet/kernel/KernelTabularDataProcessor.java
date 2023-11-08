@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to handle insert/delete operations of TabularData that has geos
@@ -32,20 +33,25 @@ public class KernelTabularDataProcessor {
 	void insertRowAt(int startRow) {
 		for (int row = adapter.numberOfRows(); row >= startRow; --row) {
 			for (int column = 0; column <= adapter.numberOfColumns(); ++column) {
-				rename(adapter.contentAt(row, column), getCellName(row + 1, column));
+				renameCellGeo(row, column, row + 1, column);
 			}
 		};
 	}
 
-	private void rename(GeoElement geo, String newLabel) {
+	private void renameCellGeo(int sourceRow, int sourceColumn, int targetRow, int targetColumn) {
+		GeoElement geo = adapter.contentAt(sourceRow, sourceColumn);
+
 		if (geo == null) {
 			return;
 		}
-		geo.setLabel(newLabel);
+
+		String cellName = getCellName(targetRow, targetColumn);
+		Log.debug(geo.getLabelSimple() + " -> " + cellName);
+		geo.setLabel(cellName);
 	}
 
-	private String getCellName(int row, int column) {
-		return GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+	static String getCellName(int targetRow, int targetColumn) {
+		return GeoElementSpreadsheet.getSpreadsheetCellName(targetColumn, targetRow);
 	}
 
 	/**
@@ -54,11 +60,22 @@ public class KernelTabularDataProcessor {
 	 * See class documentation above.
 	 */
 	public void deleteRowAt(int rowToDelete) {
-		for (int row = rowToDelete; row <= adapter.numberOfRows(); ++row) {
+		for (int column = 0; column <= adapter.numberOfColumns(); ++column) {
+			removeContentAt(rowToDelete, column);
+		}
+
+		for (int row = rowToDelete + 1; row <= adapter.numberOfRows(); ++row) {
 			for (int column = 0; column <= adapter.numberOfColumns(); ++column) {
-				rename(adapter.contentAt(row, column), getCellName(row - 1, column));
+				renameCellGeo(row, column, row - 1, column);
 			}
 		};
+	}
+
+	private void removeContentAt(int row, int column) {
+		GeoElement geo = adapter.contentAt(row, column);
+		if (geo != null) {
+			geo.remove();
+		}
 	}
 
 	/**
@@ -69,7 +86,7 @@ public class KernelTabularDataProcessor {
 	public void insertColumnAt(int startColumn) {
 		for (int column = adapter.numberOfColumns(); column >= startColumn; --column) {
 			for (int row = 0; row <= adapter.numberOfRows(); ++row) {
-				rename(adapter.contentAt(row, column), getCellName(row, column + 1));
+				renameCellGeo(row, column, row, column + 1);
 			}
 		}
 	}
@@ -80,9 +97,13 @@ public class KernelTabularDataProcessor {
 	 * See class documentation above.
 	 */
 	public void deleteColumnAt(int columnToDelete) {
+		for (int row = 0; row <= adapter.numberOfRows(); ++row) {
+			removeContentAt(row, columnToDelete);
+		}
+
 		for (int column = columnToDelete; column <= adapter.numberOfColumns(); ++column) {
 			for (int row = 0; row <= adapter.numberOfRows(); ++row) {
-				rename(adapter.contentAt(row, column), getCellName(row, column - 1));
+				renameCellGeo(row, column, row, column - 1);
 			}
 		}
 	}
