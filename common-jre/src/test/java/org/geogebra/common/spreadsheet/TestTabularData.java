@@ -7,6 +7,7 @@ import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteText;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 
 public class TestTabularData implements TabularData<Object> {
 
@@ -98,4 +99,9 @@ public class TestTabularData implements TabularData<Object> {
 		return new TabularDataPasteText();
 	}
 
+
+	@Override
+	public CellFormat getFormat() {
+		return new CellFormat(null);
+	}
 }

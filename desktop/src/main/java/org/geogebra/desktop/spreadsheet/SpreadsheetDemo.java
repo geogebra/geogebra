@@ -6,10 +6,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -55,7 +61,8 @@ public class SpreadsheetDemo {
 			Dimension preferredSize = new Dimension(800, 600);
 			frame.setPreferredSize(preferredSize);
 			AppCommon appCommon = new AppCommon(new LocalizationCommon(3), new AwtFactoryD());
-			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter();
+			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(
+					appCommon.getSettings().getSpreadsheet());
 			Spreadsheet spreadsheet = new Spreadsheet(adapter,
 					new GeoElementCellRendererFactory());
 
@@ -67,9 +74,9 @@ public class SpreadsheetDemo {
 			spreadsheet.setHeightForRows(40, IntStream.range(3, 5).toArray());
 			SpreadsheetPanel spreadsheetPanel = new SpreadsheetPanel(spreadsheet, appCommon, frame);
 			appCommon.getKernel().attach(adapter);
-			appCommon.getGgbApi().evalCommand(String.join("\n", "C4=7", "C5=8",
-					"A1=4", "B2=true", "B3=Button()", "B4=sqrt(x)"));
-
+			/*appCommon.getGgbApi().evalCommand(String.join("\n", "C4=7", "C5=8",
+					"A1=4", "B2=true", "B3=Button()", "B4=sqrt(x)"));*/
+			appCommon.setXML(readDemoFile(), true);
 			spreadsheetPanel.setPreferredSize(preferredSize);
 			initParentPanel(frame, spreadsheetPanel);
 			spreadsheet.setViewport(spreadsheetPanel.getViewport());
@@ -79,6 +86,11 @@ public class SpreadsheetDemo {
 		} catch (Throwable t) {
 			Log.debug(t);
 		}
+	}
+
+	private static String readDemoFile() throws URISyntaxException, IOException {
+		return Files.readString(Paths.get(SpreadsheetDemo.class
+				.getResource("spreadsheet.xml").toURI()));
 	}
 
 	private static void initParentPanel(JFrame frame, SpreadsheetPanel sp) {
@@ -157,6 +169,27 @@ public class SpreadsheetDemo {
 					repaint();
 				}
 			});
+			setFocusable(true);
+			addKeyListener(new KeyListener() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// key press only
+				}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+					spreadsheet.handleKeyPressed(e.getKeyCode(), getModifiers(e));
+					if (spreadsheet.needsRedraw()) {
+						repaint();
+					}
+				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// key press only
+				}
+			});
+
 			final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame, app);
 			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
 
@@ -203,8 +236,13 @@ public class SpreadsheetDemo {
 		}
 
 		private Modifiers getModifiers(MouseEvent event) {
-			return new Modifiers(event.isAltDown(), event.isControlDown(),
+			return new Modifiers(event.isAltDown(), event.isControlDown(), event.isShiftDown(),
 					event.getButton() == 3);
+		}
+
+		private Modifiers getModifiers(KeyEvent event) {
+			return new Modifiers(event.isAltDown(), event.isControlDown(),
+					event.isShiftDown(), false);
 		}
 
 		public Rectangle getViewport() {

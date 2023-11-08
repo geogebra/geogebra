@@ -31,7 +31,6 @@ import javax.swing.table.TableColumn;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -44,6 +43,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.layout.LayoutD;
@@ -216,7 +216,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		btnTraceDialog.setToolTipText(
 				app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
 		btnTraceDialog.addActionListener(
-				e -> showTraceDialog(null, table.selectedCellRanges.get(0)));
+				e -> showTraceDialog(null, table.selectedRanges.get(0)));
 
 		upperLeftCorner.setLayout(new BorderLayout());
 		upperLeftCorner.add(btnTraceDialog, BorderLayout.WEST);
@@ -531,7 +531,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	// =====================================================
 
 	@Override
-	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
+	public void showTraceDialog(GeoElement geo, TabularRange traceCell) {
 		if (traceDialog == null) {
 			traceDialog = new TraceDialog(app, geo, traceCell);
 		} else {
@@ -549,7 +549,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	 * @param anchorRow initial row
 	 * @return trace selection range
 	 */
-	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 		if (traceDialog == null) {
 			return null;
 		}
@@ -1023,7 +1023,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler()
 				.processXMLString(settings().cellFormat());
-
+		table.repaintAll();
 		// preferredSize
 		spreadsheetWrapper.setPreferredSize(
 				GDimensionD.getAWTDimension(settings().preferredSize()));

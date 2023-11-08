@@ -4,11 +4,11 @@ interface TabularSelection {
 
 	void clearSelection();
 
-	void selectRow(int row);
+	void selectRow(int row, boolean extend, boolean addSelection);
 
-	void selectColumn(int column);
+	void selectColumn(int column, boolean extend, boolean addSelection);
 
-	void select(Selection selection, boolean extend);
+	void select(Selection selection, boolean extend, boolean addSelection);
 
 	void selectAll();
 }

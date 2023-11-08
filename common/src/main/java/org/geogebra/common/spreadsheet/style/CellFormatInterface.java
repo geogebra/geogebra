@@ -1,8 +1,10 @@
-package org.geogebra.common.gui.view.spreadsheet;
+package org.geogebra.common.spreadsheet.style;
 
 import java.util.HashMap;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.view.spreadsheet.HasTableSelection;
+import org.geogebra.common.spreadsheet.core.Direction;
 
 public interface CellFormatInterface {
 
@@ -17,10 +19,10 @@ public interface CellFormatInterface {
 	int getAlignment(int col, int row, boolean b);
 
 	void shiftFormats(int startIndex, int shiftAmount,
-			CellRangeProcessor.Direction direction);
+			Direction direction);
 
 	void setFormat(GPoint coords, int formatBgcolor, Object o);
 
-	void setTable(MyTableInterface table);
+	void setTable(HasTableSelection table);
 
 }

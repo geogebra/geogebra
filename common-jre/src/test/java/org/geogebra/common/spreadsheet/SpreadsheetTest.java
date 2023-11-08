@@ -4,10 +4,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
+import org.geogebra.common.spreadsheet.style.CellFormat;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Test;
 
@@ -28,8 +31,10 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	private static class TestCellRenderableFactory implements CellRenderableFactory {
 		@Override
-		public SelfRenderable getRenderable(Object data) {
-			return data == null ? null : new SelfRenderable(new StringRenderer(), data);
+		public SelfRenderable getRenderable(Object data, SpreadsheetStyle style,
+				int row, int column) {
+			return data == null ? null : new SelfRenderable(new StringRenderer(),
+					GFont.PLAIN, null, CellFormat.ALIGN_LEFT, data);
 		}
 	}
 }

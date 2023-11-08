@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 public final class Modifiers {
 	public final boolean alt;
 	public final boolean ctrl;
+	public final boolean shift;
 	public final boolean rightButton;
 
 	/**
@@ -10,9 +11,10 @@ public final class Modifiers {
 	 * @param ctrl ctrl (or cmd on Mac) pressed?
 	 * @param rightButton right mouse button pressed?
 	 */
-	public Modifiers(boolean alt, boolean ctrl, boolean rightButton) {
+	public Modifiers(boolean alt, boolean ctrl, boolean shift, boolean rightButton) {
 		this.alt = alt;
 		this.ctrl = ctrl;
+		this.shift = shift;
 		this.rightButton = rightButton;
 	}
 }

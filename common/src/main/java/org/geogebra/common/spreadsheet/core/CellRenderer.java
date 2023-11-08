@@ -10,14 +10,17 @@ public interface CellRenderer {
 
 	/**
 	 * @param data object to be rendered
+	 * @param fontStyle bitmask for GFont.BOLD and GFont.ITALIC
 	 * @param g2d graphics
 	 * @param cellBorder cell rectangle, coordinates relative to the graphics
 	 */
-	void draw(Object data, GGraphics2D g2d, Rectangle cellBorder);
+	void draw(Object data, int fontStyle, int alignment, GGraphics2D g2d, Rectangle cellBorder);
 
 	/**
 	 * @param renderable object to be potentially rendered
 	 * @return whether this can render given object
 	 */
 	boolean match(Object renderable);
+
+	double measure(Object renderable, int fontStyle);
 }

@@ -3,7 +3,10 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.shape.Rectangle;
+
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
  * A container for tabular data, with support for selecting parts of the data.
@@ -20,13 +23,14 @@ public final class SpreadsheetController implements TabularSelection {
 	private SpreadsheetControlsDelegate controlsDelegate;
 	private final TableLayout layout;
 
-	private final SpreadsheetStyle style = new SpreadsheetStyle();
+	private final SpreadsheetStyle style;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
 	 */
 	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
+		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), 20, 40);
 		contextMenuItems = new ContextMenuItems(tabularData, selectionController,
@@ -61,27 +65,36 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	@Override
-	public void selectRow(int row) {
-		selectionController.selectRow(row, false);
+	public void selectRow(int row, boolean extend, boolean addSelection) {
+		selectionController.selectRow(row, layout.numberOfColumns(), extend, addSelection);
 	}
 
 	@Override
-	public void selectColumn(int column) {
-		selectionController.selectColumn(column, false);
+	public void selectColumn(int column, boolean extend, boolean addSelection) {
+		selectionController.selectColumn(column, layout.numberOfRows(), extend, addSelection);
 	}
 
+	/**
+	 * @param selection Selection that is to be selected
+	 * @param extend Whether we want to extend the current selection (SHIFT)
+	 * @param addSelection Whether we want to add the selection to the current selection (CTRL)
+	 */
 	@Override
-	public void select(Selection selection, boolean extend) {
-		selectionController.select(selection, extend);
+	public void select(Selection selection, boolean extend, boolean addSelection) {
+		selectionController.select(selection, extend, addSelection);
 	}
 
 	@Override
 	public void selectAll() {
-		selectionController.selectAll();
+		selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
+	}
+
+	public void selectCell(int rowIndex, int columnIndex, boolean extend, boolean addSelection) {
+		selectionController.selectCell(rowIndex, columnIndex, extend, addSelection);
 	}
 
 	// default visibility, same as Selection class
-	List<Selection> getSelection() {
+	List<Selection> getSelections() {
 		return selectionController.selections();
 	}
 
@@ -149,7 +162,79 @@ public final class SpreadsheetController implements TabularSelection {
 	public void handlePointerUp(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		int row = layout.findRow(y + viewport.getMinY());
 		int column = layout.findColumn(x + viewport.getMinX());
-		select(new Selection(SelectionType.CELLS, new TabularRange(row,
-				column, row, column)), modifiers.ctrl);
+
+		if (column < 0) { // Select row
+			selectRow(row, modifiers.shift, modifiers.ctrl);
+		} else if (row < 0) { // Select column
+			selectColumn(column, modifiers.shift, modifiers.ctrl);
+		} else { // Select cell
+			select(new Selection(SelectionType.CELLS, TabularRange.range(row,
+					row, column, column)), modifiers.shift, modifiers.ctrl);
+		}
+	}
+
+	/**
+	 * Handles keys being pressed
+	 * @param keyCode Key Code
+	 * @param modifiers Modifiers
+	 * @return Whether the event caused changes in the spreadsheet requiring repaint
+	 */
+	public boolean handleKeyPressed(int keyCode, Modifiers modifiers) {
+		if (selectionController.hasSelection()) {
+			switch (keyCode) {
+			case JavaKeyCodes.VK_LEFT:
+				moveLeft(modifiers.shift);
+				return true;
+			case JavaKeyCodes.VK_RIGHT:
+				moveRight(modifiers.shift);
+				return true;
+			case JavaKeyCodes.VK_UP:
+				moveUp(modifiers.shift);
+				return true;
+			case JavaKeyCodes.VK_DOWN:
+				moveDown(modifiers.shift);
+				return true;
+			case JavaKeyCodes.VK_A:
+				if (modifiers.ctrl) {
+					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
+					return true;
+				}
+			default:
+				return false;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 */
+	public void moveLeft(boolean extendingCurrentSelection) {
+		selectionController.moveLeft(extendingCurrentSelection);
+	}
+
+	/**
+	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 */
+	public void moveRight(boolean extendingCurrentSelection) {
+		selectionController.moveRight(extendingCurrentSelection, layout.numberOfColumns());
+	}
+
+	/**
+	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 */
+	public void moveUp(boolean extendingCurrentSelection) {
+		selectionController.moveUp(extendingCurrentSelection);
+	}
+
+	/**
+	 * @param extendingCurrentSelection True if the current selection should expand, false else
+	 */
+	public void moveDown(boolean extendingCurrentSelection) {
+		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
+	}
+
+	public Selection getLastSelection() {
+		return selectionController.getLastSelection();
 	}
 }

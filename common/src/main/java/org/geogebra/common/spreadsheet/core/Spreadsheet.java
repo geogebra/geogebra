@@ -47,7 +47,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		graphics.setColor(controller.getStyle().getTextColor());
 		drawCells(graphics, viewport);
-		for (Selection selection: controller.getSelection()) {
+		for (Selection selection: controller.getSelections()) {
 			renderer.drawSelection(selection.getRange(), graphics,
 					viewport, controller.getLayout());
 		}
@@ -129,7 +129,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
-		// extend selection
+		needsRedraw = controller.handleKeyPressed(keyCode, modifiers);
 	}
 
 	public SpreadsheetController getController() {
@@ -147,5 +147,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public void setHeightForRows(double height, int... rowIndices) {
 		controller.getLayout().setHeightForRows(height, rowIndices);
+	}
+
+	public boolean needsRedraw() {
+		return needsRedraw;
 	}
 }

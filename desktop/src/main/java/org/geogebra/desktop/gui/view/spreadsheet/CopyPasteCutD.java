@@ -10,13 +10,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 
@@ -152,8 +152,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 	 * @return success
 	 */
 	public boolean pasteFromURL(URL url) {
-		CellRange cr = new CellRange(app, 0, 0, 0, 0);
-		return pasteFromURL(url, cr, true);
+		TabularRange tr = new TabularRange(0, 0, 0, 0);
+		return pasteFromURL(url, tr, true);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 	 * @param clearSpreadsheet whether to clear cells
 	 * @return success
 	 */
-	public boolean pasteFromURL(URL url, CellRange targetRange,
+	public boolean pasteFromURL(URL url, TabularRange targetRange,
 			boolean clearSpreadsheet) {
 
 		// read file

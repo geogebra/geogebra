@@ -32,6 +32,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -101,7 +102,7 @@ public class RelativeCopy {
 			cons.startCollectingRedefineCalls();
 
 			boolean patternOK = isPatternSource(
-					new CellRange(app, sx1, sy1, sx2, sy2));
+					new TabularRange(sx1, sy1, sx2, sy2), app);
 
 			// ==============================================
 			// vertical drag
@@ -301,18 +302,18 @@ public class RelativeCopy {
 	/**
 	 * Tests if a cell range can be used as the source for a pattern drag-copy.
 	 * 
-	 * @param cellRange
+	 * @param range
 	 *            cell range
 	 * @return whether all geos are acceptable
 	 */
-	private static boolean isPatternSource(CellRange cellRange) {
+	private static boolean isPatternSource(TabularRange range, App app) {
 		// don't allow empty cells
-		if (cellRange.hasEmptyCells()) {
+		if (CellRangeUtil.hasEmptyCells(range, app)) {
 			return false;
 		}
 
 		// test for any unacceptable geos in the range
-		ArrayList<GeoElement> list = cellRange.toGeoList();
+		ArrayList<GeoElement> list = CellRangeUtil.toGeoList(range, app);
 		for (GeoElement geo : list) {
 			if (!(geo.isGeoNumeric() || geo.isGeoFunction()
 					|| geo.isGeoPoint())) {
