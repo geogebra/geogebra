@@ -32,20 +32,23 @@ public class KernelTabularDataProcessor {
 	void insertRowAt(int startRow) {
 		for (int row = adapter.numberOfRows(); row >= startRow; --row) {
 			for (int column = 0; column <= adapter.numberOfColumns(); ++column) {
-				rename(adapter.contentAt(row, column), getCellName(row + 1, column));
+				renameCellGeo(row, column, row + 1, column);
 			}
 		};
 	}
 
-	private void rename(GeoElement geo, String newLabel) {
+	private void renameCellGeo(int sourceRow, int sourceColumn, int targetRow, int targetColumn) {
+		GeoElement geo = adapter.contentAt(sourceRow, sourceColumn);
+
 		if (geo == null) {
 			return;
 		}
-		geo.setLabel(newLabel);
+
+		geo.setLabel(getCellName(targetRow, targetColumn));
 	}
 
-	private String getCellName(int row, int column) {
-		return GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+	static String getCellName(int targetRow, int targetColumn) {
+		return GeoElementSpreadsheet.getSpreadsheetCellName(targetColumn, targetRow);
 	}
 
 	/**
@@ -56,7 +59,7 @@ public class KernelTabularDataProcessor {
 	public void deleteRowAt(int rowToDelete) {
 		for (int row = rowToDelete; row <= adapter.numberOfRows(); ++row) {
 			for (int column = 0; column <= adapter.numberOfColumns(); ++column) {
-				rename(adapter.contentAt(row, column), getCellName(row - 1, column));
+				renameCellGeo(row, column, row -1, column);
 			}
 		};
 	}
@@ -69,7 +72,7 @@ public class KernelTabularDataProcessor {
 	public void insertColumnAt(int startColumn) {
 		for (int column = adapter.numberOfColumns(); column >= startColumn; --column) {
 			for (int row = 0; row <= adapter.numberOfRows(); ++row) {
-				rename(adapter.contentAt(row, column), getCellName(row, column + 1));
+				renameCellGeo(row, column, row, column + 1);
 			}
 		}
 	}
@@ -82,8 +85,7 @@ public class KernelTabularDataProcessor {
 	public void deleteColumnAt(int columnToDelete) {
 		for (int column = columnToDelete; column <= adapter.numberOfColumns(); ++column) {
 			for (int row = 0; row <= adapter.numberOfRows(); ++row) {
-				rename(adapter.contentAt(row, column), getCellName(row, column - 1));
-			}
+				renameCellGeo(row, column, row, column - 1);		}
 		}
 	}
 }
