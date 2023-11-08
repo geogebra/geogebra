@@ -107,8 +107,7 @@ public class AlgoSpline extends AlgoElement {
 			input[0] = inputList;
 			input[1] = degree.toGeoElement();
 		}
-		super.setOutputLength(1);
-		super.setOutput(0, spline);
+		setOnlyOutput(spline);
 		setDependencies();
 	}
 

@@ -119,8 +119,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			input[1] = list;
 		}
 
-		setOutputLength(1);
-		setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

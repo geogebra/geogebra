@@ -90,8 +90,7 @@ public class AlgoClasses extends AlgoElement {
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
 
-		super.setOutputLength(1);
-		super.setOutput(0, classList);
+		setOnlyOutput(classList);
 		setDependencies(); // done by AlgoElement
 	}
 

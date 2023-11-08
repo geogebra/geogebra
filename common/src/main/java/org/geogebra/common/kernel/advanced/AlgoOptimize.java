@@ -97,8 +97,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 		input[0] = dep;
 		input[1] = indep.getGeo();
 
-		super.setOutputLength(1);
-		super.setOutput(0, result);
+		setOnlyOutput(result);
 
 		setDependencies(); // done by AlgoElement
 	}

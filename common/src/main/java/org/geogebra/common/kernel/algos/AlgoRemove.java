@@ -75,8 +75,7 @@ public class AlgoRemove extends AlgoElement {
 		input[0] = inputList;
 		input[1] = inputList2;
 
-		setOutputLength(1);
-		setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

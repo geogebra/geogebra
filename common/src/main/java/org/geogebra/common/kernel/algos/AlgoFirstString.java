@@ -73,8 +73,7 @@ public class AlgoFirstString extends AlgoElement {
 			input[0] = inputText;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputText);
+		setOnlyOutput(outputText);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -84,8 +84,7 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		input[1] = x.toGeoElement();
 		input[2] = y.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, M.toGeoElement());
+		setOnlyOutput(M);
 		setDependencies(); // done by AlgoElement
 	}
 

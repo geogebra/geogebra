@@ -123,8 +123,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 			input[1] = f;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, K);
+		setOnlyOutput(K);
 		setDependencies(); // done by AlgoElement
 	}
 

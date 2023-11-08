@@ -75,8 +75,7 @@ public class AlgoLineBisector extends AlgoElement
 		input[0] = A;
 		input[1] = B;
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

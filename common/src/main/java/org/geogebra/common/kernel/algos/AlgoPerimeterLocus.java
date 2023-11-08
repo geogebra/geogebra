@@ -58,8 +58,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = locus.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, circum);
+		setOnlyOutput(circum);
 		setDependencies();
 	}
 

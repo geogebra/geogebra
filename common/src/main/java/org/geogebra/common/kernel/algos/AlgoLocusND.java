@@ -344,8 +344,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		standardInput[0] = (GeoElement) locusPoint;
 		standardInput[1] = (GeoElement) movingPoint;
 
-		setOutputLength(1);
-		setOutput(0, locus);
+		setOnlyOutput(locus);
 
 		// handle dependencies
 		setEfficientDependencies(standardInput, efficientInput);

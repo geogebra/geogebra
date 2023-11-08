@@ -74,8 +74,7 @@ public class AlgoTextElement extends AlgoElement {
 		input[0] = text;
 		input[1] = numGeo;
 
-		super.setOutputLength(1);
-		super.setOutput(0, textOut);
+		setOnlyOutput(textOut);
 		setDependencies(); // done by AlgoElement
 	}
 

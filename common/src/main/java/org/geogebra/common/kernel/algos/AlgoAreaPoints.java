@@ -82,8 +82,7 @@ public class AlgoAreaPoints extends AlgoElement
 			input[i] = (GeoElement) P[i];
 		}
 
-		setOutputLength(1);
-		setOutput(0, area);
+		setOnlyOutput(area);
 		setDependencies(); // done by AlgoElement
 	}
 

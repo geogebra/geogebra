@@ -69,8 +69,7 @@ public class AlgoJoin extends AlgoElement {
 
 		input[0] = inputList;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

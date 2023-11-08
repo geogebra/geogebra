@@ -111,8 +111,7 @@ public class AlgoJoinPoints extends AlgoElement
 		input[0] = P;
 		input[1] = Q;
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

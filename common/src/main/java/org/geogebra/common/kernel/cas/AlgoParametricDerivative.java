@@ -64,8 +64,7 @@ public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 		input = new GeoElement[1];
 		input[0] = curve;
 
-		setOutputLength(1);
-		setOutput(0, paramDeriv);
+		setOnlyOutput(paramDeriv);
 		setDependencies(); // done by AlgoElement
 	}
 

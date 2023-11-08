@@ -163,8 +163,7 @@ public class AlgoIntegralFunctions extends AlgoElement
 			input[3] = b.toGeoElement(cons);
 			input[4] = evaluate;
 		}
-		setOutputLength(1);
-		setOutput(0, n);
+		setOnlyOutput(n);
 		setDependencies(); // done by AlgoElement
 	}
 

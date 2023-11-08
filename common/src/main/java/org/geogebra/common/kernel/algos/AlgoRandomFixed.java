@@ -74,8 +74,7 @@ public class AlgoRandomFixed extends AlgoElement {
 		input[1] = b.toGeoElement();
 		input[2] = new GeoBoolean(cons, true); // dummy
 
-		super.setOutputLength(1);
-		super.setOutput(0, num);
+		setOnlyOutput(num);
 		setDependencies(); // done by AlgoElement
 	}
 
