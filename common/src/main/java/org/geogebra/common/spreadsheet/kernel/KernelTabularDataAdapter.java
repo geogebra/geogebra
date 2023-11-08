@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UpdateLocationView;
@@ -27,6 +26,12 @@ import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
+
+	private final KernelTabularDataProcessor processor;
+
+	public KernelTabularDataAdapter() {
+		this.processor = new KernelTabularDataProcessor(this);
+	}
 
 	@Override
 	public void updateLocation(GeoElement geo) {
@@ -149,22 +154,22 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void insertRowAt(int row) {
-		CellRangeProcessor.shiftRowsDown(row, this);
+		processor.insertRowAt(row);
 	}
 
 	@Override
 	public void deleteRowAt(int row) {
-		CellRangeProcessor.shiftRowsUp(row, 1, this);
+		processor.deleteRowAt(row);
 	}
 
 	@Override
 	public void insertColumnAt(int column) {
-		CellRangeProcessor.shiftColumnsRight(column, this);
+		processor.insertColumnAt(column);
 	}
 
 	@Override
 	public void deleteColumnAt(int column) {
-		CellRangeProcessor.shiftColumnsLeft(column, 1, this);
+		processor.deleteColumnAt(column);
 	}
 
 	@Override
