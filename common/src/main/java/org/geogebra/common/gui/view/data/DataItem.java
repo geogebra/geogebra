@@ -507,8 +507,8 @@ public class DataItem {
 	 */
 	private static TabularRange rangeCopy(TabularRange cr, boolean removeHeaderCell) {
 		if (removeHeaderCell) {
-			return new TabularRange(cr.getMinColumn(), cr.getMinRow() + 1,
-					cr.getMaxColumn(), cr.getMaxRow());
+			return new TabularRange(cr.getMinRow() + 1, cr.getMinColumn(),
+					cr.getMaxRow(), cr.getMaxColumn());
 		} else {
 			return cr.duplicate();
 		}

@@ -495,7 +495,7 @@ public class CellFormat implements CellFormatInterface {
 	@Override
 	public void setFormat(GPoint cell, int formatType, Object formatValue) {
 		ArrayList<TabularRange> crList = new ArrayList<>();
-		crList.add(new TabularRange(cell.x, cell.y));
+		crList.add(new TabularRange(cell.y, cell.x));
 		setFormat(crList, formatType, formatValue);
 	}
 
@@ -509,7 +509,7 @@ public class CellFormat implements CellFormatInterface {
 	 */
 	public void doSetFormat(GPoint cell, int formatType, Object formatValue) {
 		ArrayList<TabularRange> crList = new ArrayList<>();
-		crList.add(new TabularRange(cell.x, cell.y));
+		crList.add(new TabularRange(cell.y, cell.x));
 		doSetFormat(crList, formatType, formatValue);
 	}
 
@@ -698,20 +698,20 @@ public class CellFormat implements CellFormatInterface {
 				break;
 
 			case BORDER_STYLE_INSIDE:
-				setFormat(new TabularRange(-1, cr.getMinRow(), -1,
-						cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
+				setFormat(new TabularRange(cr.getMinRow(), -1, cr.getMinRow(), -1
+				), FORMAT_BORDER, BORDER_LEFT);
 				if (cr.getMinRow() < cr.getMaxRow()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new TabularRange(-1, cr.getMinRow() + 1, -1,
-							cr.getMaxRow()), FORMAT_BORDER, b);
+					setFormat(new TabularRange(cr.getMinRow() + 1, -1, cr.getMaxRow(), -1
+					), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
-				setFormat(new TabularRange(-1, cr.getMinRow(), -1,
-						cr.getMinRow()), FORMAT_BORDER, BORDER_TOP);
-				setFormat(new TabularRange(-1, cr.getMaxRow(), -1,
-						cr.getMaxRow()), FORMAT_BORDER, BORDER_BOTTOM);
+				setFormat(new TabularRange(cr.getMinRow(), -1, cr.getMinRow(), -1
+				), FORMAT_BORDER, BORDER_TOP);
+				setFormat(new TabularRange(cr.getMaxRow(), -1, cr.getMaxRow(), -1
+				), FORMAT_BORDER, BORDER_BOTTOM);
 				break;
 			}
 
@@ -747,24 +747,24 @@ public class CellFormat implements CellFormatInterface {
 
 			case BORDER_STYLE_INSIDE:
 				setFormat(
-						new TabularRange(cr.getMinColumn(), -1,
-								cr.getMinColumn(), -1),
+						new TabularRange(-1, cr.getMinColumn(),
+								-1, cr.getMinColumn()),
 						FORMAT_BORDER, BORDER_TOP);
 				if (cr.getMinColumn() < cr.getMaxColumn()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new TabularRange(cr.getMinColumn() + 1, -1,
-							cr.getMaxColumn(), -1), FORMAT_BORDER, b);
+					setFormat(new TabularRange(-1, cr.getMinColumn() + 1,
+							-1, cr.getMaxColumn()), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
 				setFormat(
-						new TabularRange(cr.getMinColumn(), -1,
-								cr.getMinColumn(), -1),
+						new TabularRange(-1, cr.getMinColumn(),
+								-1, cr.getMinColumn()),
 						FORMAT_BORDER, BORDER_LEFT);
 				setFormat(
-						new TabularRange(cr.getMaxColumn(), -1,
-								cr.getMaxColumn(), -1),
+						new TabularRange(-1, cr.getMaxColumn(),
+								-1, cr.getMaxColumn()),
 						FORMAT_BORDER, BORDER_RIGHT);
 				break;
 

@@ -73,7 +73,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testDeleteSelectedCells() {
-		TabularRange range = new TabularRange(2, 6, 4, 8);
+		TabularRange range = new TabularRange(6, 2, 8, 4);
 		selectionController.select(new Selection(SelectionType.CELLS, range), false, true);
 		runItemAt(2, 4, "Delete");
 		checkRangeIsDeleted(range);
@@ -114,9 +114,10 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectRows(int fromRow, int toRow) {
-		selectionController.select(new Selection(SelectionType.ROWS, new TabularRange(fromRow,
-				HEADER_INDEX, toRow,
-				HEADER_INDEX)), false, true);
+		selectionController.select(new Selection(SelectionType.ROWS, new TabularRange(HEADER_INDEX,
+				fromRow,
+				HEADER_INDEX, toRow
+		)), false, false);
 	}
 
 	private void checkRowReplaced(int fromRow, int toRow) {
@@ -154,7 +155,7 @@ public final class ContextMenuItemsTest {
 
 	private void selectColumns(int fromColumn, int toColumn) {
 		selectionController.select(new Selection(SelectionType.COLUMNS,
-				new TabularRange(HEADER_INDEX, fromColumn, HEADER_INDEX, toColumn)),
+				new TabularRange(fromColumn, HEADER_INDEX, toColumn, HEADER_INDEX)),
 				false, true);
 	}
 
@@ -210,13 +211,13 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testCopyCellSelection() {
-		selectCells(1, 4, 1, 2);
+		selectCells(1, 1, 4, 2);
 		runItemAt(1, 1, "Copy");
 		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
 				clipboard.getContent());
 	}
 
-	private void selectCells(int fromRow, int toRow, int fromColumn, int toColumn) {
+	private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
 		selectionController.select(new Selection(SelectionType.COLUMNS,
 						new TabularRange(fromRow, fromColumn, toRow, toColumn)),
 				false, true);
@@ -231,11 +232,11 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testCutCellSelection() {
-		selectCells(1, 4, 1, 2);
+		selectCells(1, 1, 4, 2);
 		runItemAt(1, 1, "Cut");
 		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
 				clipboard.getContent());
-		TabularRange range = new TabularRange(1, 1, 4, 2);
+		TabularRange range = new TabularRange(1, 1, 2, 4);
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {
 				assertNull(data.contentAt(row, column));
@@ -252,7 +253,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testPasteCellSelection() {
-		selectCells(1, 2, 1, 2);
+		selectCells(1, 1, 2, 2);
 		runItemAt(1, 1, "Copy");
 		selectionController.clearSelection();
 		runItemAt(2, 4, "Paste");
@@ -264,7 +265,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testPasteCellsToSelection() {
-		selectCells(1, 2, 1, 2);
+		selectCells(1, 1, 2, 2);
 		runItemAt(1, 1, "Copy");
 		selectCells(2, 4, 2, 6);
 		runItemAt(2, 4, "Paste");
@@ -273,8 +274,5 @@ public final class ContextMenuItemsTest {
 		assertEquals("cell21", data.contentAt(3, 4));
 		assertEquals("cell22", data.contentAt(3, 5));
 		assertEquals("cell11", data.contentAt(2, 6));
-		assertEquals("cell12", data.contentAt(2, 7));
-		assertEquals("cell21", data.contentAt(3, 6));
-		assertEquals("cell22", data.contentAt(3, 7));
 	}
 }

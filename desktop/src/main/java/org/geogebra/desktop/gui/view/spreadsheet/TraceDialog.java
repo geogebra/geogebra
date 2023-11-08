@@ -862,10 +862,10 @@ public class TraceDialog extends Dialog
 			if (getSettings() == null) {
 				tr = new TabularRange(-1, -1, -1, -1);
 			} else {
-				tr = new TabularRange(getSettings().traceColumn1,
-						getSettings().traceRow1, getSettings().traceColumn2,
+				tr = new TabularRange(getSettings().traceRow1, getSettings().traceColumn1,
 						(getSettings().doRowLimit) ? getSettings().traceRow2
-								: app.getMaxSpreadsheetRowsVisible());
+								: app.getMaxSpreadsheetRowsVisible(), getSettings().traceColumn2
+				);
 			}
 			break;
 
@@ -873,7 +873,7 @@ public class TraceDialog extends Dialog
 			if (newTraceLocation != null) {
 				tr = newTraceLocation;
 			} else {
-				tr = new TabularRange(traceManager.getNextTraceColumn(), 0);
+				tr = new TabularRange(0, traceManager.getNextTraceColumn());
 			}
 			break;
 
@@ -884,8 +884,8 @@ public class TraceDialog extends Dialog
 					: app.getMaxSpreadsheetRowsVisible())
 					- getSettings().traceRow1;
 
-			tr = new TabularRange(anchorColumn, anchorRow, anchorColumn + w,
-					anchorRow + h);
+			tr = new TabularRange(anchorRow, anchorColumn, anchorRow + h, anchorColumn + w
+			);
 			break;
 		}
 

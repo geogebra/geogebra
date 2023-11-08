@@ -195,8 +195,8 @@ public class AlgoCellRange extends AlgoElement {
 		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endCell);
 		toStringOutput = startCell + ":" + endCell;
 
-		tabularRange = new TabularRange(startCoords.x,
-				startCoords.y, endCoords.x, endCoords.y);
+		tabularRange = new TabularRange(startCoords.y, startCoords.x,
+				endCoords.y, endCoords.x);
 
 		// build list with cells in range
 		listItems = initCellRangeList(startCoords, endCoords);
