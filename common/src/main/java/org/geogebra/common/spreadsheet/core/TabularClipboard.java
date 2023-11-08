@@ -56,9 +56,10 @@ public final class TabularClipboard<T> implements HasTabularValues<T> {
 	public void copy(TabularData tabularData, TabularRange range) {
 		this.sourceRange = range;
 		clear();
-		for (int row = range.fromRow; row < range.toRow + 1; row++) {
+		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			List<T> rowData = new ArrayList<>();
-			for (int column = range.fromCol; column < range.toCol + 1; column++) {
+			for (int column = range.getFromColumn(); column <
+					range.getToColumn() + 1; column++) {
 				rowData.add((T) tabularData.contentAt(row, column));
 			}
 			data.add(rowData);

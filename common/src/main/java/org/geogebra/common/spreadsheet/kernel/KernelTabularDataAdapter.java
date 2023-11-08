@@ -28,7 +28,9 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
+	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
+
 
 	/**
 	 * @param spreadsheetSettings spreadsheet settings
@@ -38,11 +40,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
 		spreadsheetSettings.addListener((settings) ->
 				cellFormat.processXMLString(spreadsheetSettings.cellFormat()));
-	}
-
-	private final KernelTabularDataProcessor processor;
-
-	public KernelTabularDataAdapter() {
 		this.processor = new KernelTabularDataProcessor(this);
 	}
 

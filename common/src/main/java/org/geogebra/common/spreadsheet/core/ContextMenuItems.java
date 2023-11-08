@@ -91,8 +91,8 @@ public class ContextMenuItems {
 	}
 
 	private void deleteCells(TabularRange range) {
-		for (int row = range.fromRow; row < range.toRow; row++) {
-			for (int column = range.fromCol; column < range.toCol; column++) {
+		for (int row = range.getFromRow(); row < range.getToRow(); row++) {
+			for (int column = range.getFromColumn(); column < range.getToRow(); column++) {
 				tabularData.setContent(row, column, null);
 			}
 
@@ -113,8 +113,8 @@ public class ContextMenuItems {
 			tabularData.deleteRowAt(row);
 		} else {
 			selections.stream().filter(selection -> selection.isRowOnly())
-					.forEach(selection -> deleteRowAt(selection.getRange().fromRow,
-							selection.getRange().toRow));
+					.forEach(selection -> deleteRowAt(selection.getRange().getFromRow(),
+							selection.getRange().getToRow()));
 			}
 		}
 
@@ -138,8 +138,8 @@ public class ContextMenuItems {
 			tabularData.deleteColumnAt(column);
 		} else {
 			selections.stream().filter(selection -> selection.isColumnOnly())
-					.forEach(selection -> deleteColumnAt(selection.getRange().fromCol,
-							selection.getRange().toCol));
+					.forEach(selection -> deleteColumnAt(selection.getRange().getFromColumn(),
+							selection.getRange().getToColumn()));
 			}
 		}
 

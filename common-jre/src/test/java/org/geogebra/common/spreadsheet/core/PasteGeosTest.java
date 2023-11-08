@@ -6,6 +6,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class PasteGeosTest extends BaseUnitTest {
 
 	@Before
 	public void setUp() throws Exception {
-		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter();
+		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(new SpreadsheetSettings());
 		tabularData.setContent(1, 1, add("1"));
 		tabularData.setContent(1, 2, add("2"));
 		tabularData.setContent(2, 1, add("Text(\"foo\")"));

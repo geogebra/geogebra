@@ -277,8 +277,8 @@ public class TabularRange {
 	 * @param action to run for each (row, column).
 	 */
 	public void forEach(RangeAction action) {
-		for (int row = anchorRow; row <= maxRow ; row++) {
-			for (int column = anchorColumn; column <= maxColumn; column++) {
+		for (int row = getFromRow(); row <= getToRow() ; row++) {
+			for (int column = getFromColumn(); column <= getToColumn(); column++) {
 				action.run(row, column);
 			}
 		}

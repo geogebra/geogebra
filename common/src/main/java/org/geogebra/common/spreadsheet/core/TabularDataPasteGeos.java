@@ -25,21 +25,21 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 	private void collectOperations(TabularClipboard<GeoElement> buffer, TabularRange destination) {
 		operations.clear();
 		TabularRange source = buffer.getSourceRange();
-		for (int col = source.fromCol; col <= source.toCol; ++col) {
-			int bufferCol = col - source.fromCol;
-			for (int row = source.fromRow; row <= source.toRow; ++row) {
-				int bufferRow = row - source.fromRow;
+		for (int col = source.getFromColumn(); col <= source.getToColumn(); ++col) {
+			int bufferCol = col - source.getFromColumn();
+			for (int row = source.getFromRow(); row <= source.getToRow(); ++row) {
+				int bufferRow = row - source.getFromRow();
 
 				// check if we're pasting back into what we're copying from
-				if (bufferCol + destination.fromCol <= destination.toCol
-						&& bufferRow + destination.fromRow <= destination.toRow
+				if (bufferCol + destination.getFromColumn() <= destination.getToColumn()
+						&& bufferRow + destination.getFromRow() <= destination.getToRow()
 						&& (!isInSource(col, row, source, destination))) {
 
 					GeoElement geo = buffer.contentAt(bufferRow, bufferCol);
 					if (geo != null) {
 						operations.add(geo.getConstructionIndex(), bufferRow, bufferCol,
-								destination.fromRow + bufferRow,
-								destination.fromCol + bufferCol);
+								destination.getFromRow() + bufferRow,
+								destination.getFromColumn() + bufferCol);
 					}
 				}
 			}
@@ -48,9 +48,9 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 
 	private static boolean isInSource(int col, int row, TabularRange source,
 			TabularRange destination) {
-		return col + (destination.fromCol - source.fromCol) <= source.toCol
-				&& col + (destination.fromCol - source.fromCol) >= source.fromCol && row + (
-				destination.fromRow - source.fromRow) <= source.toRow
-				&& row + (destination.fromRow - source.fromRow) >= source.fromRow;
+		return col + (destination.getFromColumn() - source.getFromColumn()) <= source.getToColumn()
+				&& col + (destination.getFromColumn() - source.getFromColumn()) >= source.getFromColumn() && row + (
+				destination.getFromRow() - source.getFromRow()) <= source.getToRow()
+				&& row + (destination.getFromRow() - source.getFromRow()) >= source.getFromRow();
 	}
 }

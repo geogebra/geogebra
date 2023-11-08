@@ -75,15 +75,15 @@ public final class CopyPasteCutTabularDataImpl
 			return;
 		}
 
-		int maxColumn = destination.isEmpty()
-				? destination.fromCol + columnStep
-				: destination.toCol;
-		int maxRow = destination.isEmpty()
-				? destination.fromRow + rowStep
-				: destination.toRow;
+		int maxColumn = destination.isSingleCell()
+				? destination.getFromColumn() + columnStep
+				: destination.getToColumn();
+		int maxRow = destination.isSingleCell()
+				? destination.getFromRow() + rowStep
+				: destination.getToRow();
 
-		for (int column = destination.fromCol; column <= destination.toCol ; column += columnStep) {
-			for (int row = destination.fromRow; row <= destination.toRow ; row += rowStep) {
+		for (int column = destination.getFromColumn(); column <= destination.getToColumn() ; column += columnStep) {
+			for (int row = destination.getFromRow(); row <= destination.getToRow(); row += rowStep) {
 				pasteInternal(new TabularRange(row, column, maxRow, maxColumn));
 			}
 		}
@@ -96,7 +96,7 @@ public final class CopyPasteCutTabularDataImpl
 	 * @param destination to paste to
 	 */
 	private void pasteInternal(TabularRange destination) {
-		tabularData.ensureCapacity(destination.toRow, destination.toCol);
+		tabularData.ensureCapacity(destination.getMaxRow(), destination.getMaxColumn());
 		paste.pasteInternal(tabularData, internalClipboard, destination);
 	}
 

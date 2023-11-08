@@ -20,15 +20,15 @@ public final class TabularContent {
 	 */
 	String toString(TabularRange range) {
 		StringBuilder sb = new StringBuilder();
-		for (int row = range.fromRow; row < range.toRow + 1; row++) {
-			for (int column = range.fromCol; column < range.toCol + 1; column++) {
+		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
+			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {
 				Object value = tabularData.contentAt(row, column);
 				sb.append(value);
-				if (column != range.toCol) {
+				if (column != range.getToColumn()) {
 					sb.append('\t');
 				}
 			}
-			if (row != range.toRow) {
+			if (row != range.getToRow()) {
 				sb.append('\n');
 			}
 		}
