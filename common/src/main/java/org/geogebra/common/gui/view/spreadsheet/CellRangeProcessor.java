@@ -1374,25 +1374,14 @@ public class CellRangeProcessor {
 	}
 
 	private void shiftRowsDown(int startRow) {
-		if (shiftRowsDown(startRow, adapter)) {
-			app.storeUndoInfo();
-		}
-	}
 
-	/**
-	 * Shifts rows down.
-	 *
-	 * @param startRow the start row.
-	 * @param tabularValues the data operate on.
-	 * @return if the method was successful
-	 */
-	public static boolean shiftRowsDown(int startRow, HasTabularValues<GeoElement> tabularValues) {
-
+		int maxColumn = tableModel.getHighestUsedColumn();
+		int maxRow = tableModel.getHighestUsedRow();
 		boolean succ = false;
 
-		for (int row = tabularValues.numberOfRows(); row >= startRow; --row) {
-			for (int column = 0; column <= tabularValues.numberOfColumns(); ++column) {
-				GeoElement geo = tabularValues.contentAt(row, column);
+		for (int row = maxRow; row >= startRow; --row) {
+			for (int column = 0; column <= maxColumn; ++column) {
+				GeoElement geo = RelativeCopy.getValue(app, column, row);
 				if (geo == null) {
 					continue;
 				}
@@ -1402,41 +1391,35 @@ public class CellRangeProcessor {
 				succ = true;
 			}
 		}
-		return succ;
-	}
 
-	private void shiftRowsUp(int startRow, int byNumberOfRows) {
-		if (shiftRowsUp(startRow, byNumberOfRows, adapter)) {
+		if (succ) {
 			app.storeUndoInfo();
 		}
 	}
 
-	/**
-	 * Shifts rows up.
-	 *
-	 * @param startRow the start row.
-	 * @param byNumberOfRows the amount.
-	 * @param tabularValues the data operate on.
-	 * @return if the method was successful
-	 */
-	public static boolean shiftRowsUp(int startRow, int byNumberOfRows,
-			HasTabularValues<GeoElement> tabularValues) {
+	private void shiftRowsUp(int startRow, int shiftAmount) {
 
 		boolean succ = false;
+		int maxColumn = tableModel.getHighestUsedColumn();
+		int maxRow = tableModel.getHighestUsedRow();
 
-		for (int row = startRow; row <= tabularValues.numberOfRows(); ++row) {
-			for (int column = 0; column <= tabularValues.numberOfColumns(); ++column) {
-				GeoElement geo = tabularValues.contentAt(column, row);
+		for (int row = startRow; row <= maxRow; ++row) {
+			for (int column = 0; column <= maxColumn; ++column) {
+				GeoElement geo = RelativeCopy.getValue(app, column, row);
 				if (geo == null) {
 					continue;
 				}
 				String newLabel = GeoElementSpreadsheet
-						.getSpreadsheetCellName(column, row - byNumberOfRows);
+						.getSpreadsheetCellName(column, row - shiftAmount);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
 		}
-		return succ;
+
+		if (succ) {
+			app.storeUndoInfo();
+		}
+
 	}
 
 	/**
