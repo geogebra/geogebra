@@ -124,9 +124,7 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	 * set output
 	 */
 	private void setOutput() {
-
-		setOutputLength(1);
-		setOutput(0, bisector);
+		setOnlyOutput(bisector);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -63,8 +63,7 @@ public class AlgoPolynomialMod extends AlgoElement {
 		input[0] = f1;
 		input[1] = f2;
 
-		setOutputLength(1);
-		setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

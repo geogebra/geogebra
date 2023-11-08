@@ -100,8 +100,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		input[6] = end;
 		input[7] = step;
 
-		super.setOutputLength(1);
-		super.setOutput(0, locus);
+		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -169,8 +169,7 @@ public class AlgoIteration extends AlgoElement {
 			input[2 + varCount] = nGeo;
 
 		} // done by AlgoElement
-		super.setOutputLength(1);
-		super.setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies();
 	}
 

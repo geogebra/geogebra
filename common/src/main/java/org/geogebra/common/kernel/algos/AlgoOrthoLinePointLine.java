@@ -49,10 +49,10 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 
 	protected GeoPoint P; // input
 	protected Lineable2D l; // input
-	private GeoLine g; // output
+	private final GeoLine g; // output
 	private PPolynomial[] polynomials;
 	private OrthoLinePointLineAdapter proverAdapter;
-	private double[] normal = new double[3];
+	private final double[] normal = new double[3];
 
 	/**
 	 * Creates new AlgoOrthoLinePointLine.
@@ -114,10 +114,8 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	// for AlgoElement
 	@Override
 	public void setInputOutput() {
-
 		setInput();
-		setOutputLength(1);
-		setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

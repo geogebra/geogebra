@@ -68,8 +68,7 @@ public class AlgoInputBox extends AlgoElement {
 			input[0] = linkedGeo;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, inputBox);
+		setOnlyOutput(inputBox);
 		setDependencies(); // done by AlgoElement
 	}
 

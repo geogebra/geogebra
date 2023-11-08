@@ -211,8 +211,7 @@ public class AlgoCellRange extends AlgoElement {
 		updateList();
 		update();
 
-		super.setOutputLength(1);
-		super.setOutput(0, geoList);
+		setOnlyOutput(geoList);
 
 		setDependenciesOutputOnly();
 

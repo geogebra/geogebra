@@ -170,8 +170,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 	}
 
 	protected void setOutput() {
-		super.setOutputLength(1);
-		super.setOutput(0, circle);
+		setOnlyOutput(circle);
 	}
 
 	// public GeoConicND getCircle() {

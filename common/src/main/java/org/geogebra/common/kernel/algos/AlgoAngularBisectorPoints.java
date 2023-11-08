@@ -102,8 +102,7 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 		input[1] = B;
 		input[2] = C;
 
-		setOutputLength(1);
-		setOutput(0, bisector);
+		setOnlyOutput(bisector);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -76,8 +76,7 @@ public class AlgoTakeString extends AlgoElement {
 		}
 		input[0] = inputText;
 		input[1] = m;
-		super.setOutputLength(1);
-		super.setOutput(0, outputText);
+		setOnlyOutput(outputText);
 		setDependencies(); // done by AlgoElement
 	}
 
