@@ -263,7 +263,52 @@ public final class ContextMenuItemsTest {
 	}
 
 	@Test
-	public void testPasteCellsToSelection() {
-		fail();
+	public void testPasteCellsToSmallerSelection() {
+		selectCells(1, 1, 1, 4);
+		runItemAt(1, 1, "Copy");
+		selectCells(10, 1, 10, 2);
+		runItemAt(10, 1, "Paste");
+		assertEquals("cell11", data.contentAt(10, 1));
+		assertEquals("cell12", data.contentAt(10, 2));
+		assertEquals("cell13", data.contentAt(10, 3));
+		assertEquals("cell14", data.contentAt(10, 4));
+	}
+
+	@Test
+	public void testPasteCellsToBiggerSelection() {
+		selectCells(1, 1, 2, 2);
+		runItemAt(1, 1, "Copy");
+		selectCells(10, 1, 14, 5);
+		runItemAt(11, 1, "Paste");
+		assertEquals("cell11", data.contentAt(10, 1));
+		assertEquals("cell12", data.contentAt(10, 2));
+		assertEquals("cell11", data.contentAt(10, 3));
+		assertEquals("cell12", data.contentAt(10, 4));
+		shoudStayDefault(10, 5);
+		shoudStayDefault(11, 5);
+		assertEquals("cell21", data.contentAt(11, 1));
+		assertEquals("cell22", data.contentAt(11, 2));
+		assertEquals("cell21", data.contentAt(11, 3));
+		assertEquals("cell22", data.contentAt(11, 4));
+
+		shoudStayDefault(12, 5);
+		assertEquals("cell11", data.contentAt(12, 1));
+		assertEquals("cell12", data.contentAt(12, 2));
+		assertEquals("cell11", data.contentAt(12, 3));
+		assertEquals("cell12", data.contentAt(12, 4));
+		assertEquals("cell21", data.contentAt(13, 1));
+		assertEquals("cell22", data.contentAt(13, 2));
+		assertEquals("cell21", data.contentAt(13, 3));
+		assertEquals("cell22", data.contentAt(13, 4));
+
+		shoudStayDefault(13, 5);
+		shoudStayDefault(14, 1);
+		shoudStayDefault(14, 2);
+		shoudStayDefault(14, 3);
+		shoudStayDefault(14, 4);
+	}
+
+	private void shoudStayDefault(int row, int column) {
+		assertEquals(cellData(row, column), data.contentAt(row, column));
 	}
 }

@@ -51,7 +51,7 @@ public final class CopyPasteCutTabularDataImpl
 	@Override
 	public void paste(int startRow, int startColumn) {
 		if (internalClipboard != null) {
-			pasteFromInternalClipboard(new TabularRange(startRow, startRow, startColumn, startColumn
+			pasteFromInternalClipboard(new TabularRange(startRow, startColumn, startRow, startColumn
 			));
 		} else {
 			tabularData.setContent(startRow, startColumn, clipboard.getContent());
@@ -61,32 +61,31 @@ public final class CopyPasteCutTabularDataImpl
 	/**
 	 * Paste from internal clipboard
 	 *
-	 *  Note that if the source range is smaller, than the destination, the source is pasted
-	 *  multiple times to fill (and may ovelap) the destination.
+	 *  If the data size on the internal clipboard differs, the following rules are true:
 	 *
+	 *  - if destination is smaller than the data, it is pasted once starting the first position
+	 *    of the destination.
+	 *
+	 *  - if destination is bigger, then data, it may be pasted multiple times
+	 *    but within desination boundaries.
 	 *
 	 * @param destination to paste to
 	 */
 	private void pasteFromInternalClipboard(TabularRange destination) {
-		int columnStep = internalClipboard.numberOfRows();
-		int rowStep = internalClipboard.numberOfColumns();
-
-		if (columnStep == 0 || rowStep == 0) {
+		if (internalClipboard.isEmpty()) {
 			return;
 		}
 
-		int maxColumn = destination.isSingleCell()
-				? destination.getFromColumn() + columnStep
-				: destination.getToColumn();
-		int maxRow = destination.isSingleCell()
-				? destination.getFromRow() + rowStep
-				: destination.getToRow();
-
-		for (int column = destination.getFromColumn(); column <= destination.getToColumn() ; column += columnStep) {
-			for (int row = destination.getFromRow(); row <= destination.getToRow(); row += rowStep) {
-				pasteInternal(new TabularRange(column, row, maxColumn, maxRow));
-			}
+		if (destination.isSingleCell() || isSmallerOrEqualThanClipboarData(destination)) {
+			pasteInternalOnce(destination);
+		} else {
+			pasteInternalMultiple(destination);
 		}
+	}
+
+	private boolean isSmallerOrEqualThanClipboarData(TabularRange destination) {
+		return destination.getWidth() <= internalClipboard.numberOfColumns()
+				|| destination.getHeight() <= internalClipboard.numberOfRows();
 	}
 
 	/**
@@ -95,9 +94,32 @@ public final class CopyPasteCutTabularDataImpl
 	 *
 	 * @param destination to paste to
 	 */
-	private void pasteInternal(TabularRange destination) {
+	private void pasteInternalOnce(TabularRange destination) {
 		tabularData.ensureCapacity(destination.getMaxRow(), destination.getMaxColumn());
 		paste.pasteInternal(tabularData, internalClipboard, destination);
+	}
+
+	/**
+	 * Data is pasted multiple times to destination within its boundaires.
+	 * Remaining cells stay untouched.
+	 * @param destination to paste to.
+	*/
+	private void pasteInternalMultiple(TabularRange destination) {
+		int columnStep = internalClipboard.numberOfRows();
+		int rowStep = internalClipboard.numberOfColumns();
+		int columnMultiplier = Math.max(destination.getWidth() / columnStep, 1);
+		int rowMultiplier = Math.max(destination.getHeight() / rowStep, 1);
+		int maxColumn = columnStep * columnMultiplier ;
+		int maxRow = rowStep * rowMultiplier;
+
+		for (int column = destination.getFromColumn();
+			 column < destination.getFromColumn() + maxColumn; column += columnStep) {
+			for (int row = destination.getFromRow(); row < destination.getFromRow() + maxRow;
+				 row += rowStep) {
+  				pasteInternalOnce(new TabularRange(row, column, row + columnStep,
+						column + rowStep));
+			}
+		}
 	}
 
 	@Override
