@@ -2,7 +2,6 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to handle insert/delete operations of TabularData that has geos
@@ -45,9 +44,7 @@ public class KernelTabularDataProcessor {
 			return;
 		}
 
-		String cellName = getCellName(targetRow, targetColumn);
-		Log.debug(geo.getLabelSimple() + " -> " + cellName);
-		geo.setLabel(cellName);
+		geo.setLabel(getCellName(targetRow, targetColumn));
 	}
 
 	static String getCellName(int targetRow, int targetColumn) {
