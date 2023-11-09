@@ -1280,6 +1280,20 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testSymbolicDiffersForPointCommands() {
+		GeoSymbolic root = add("Root(x-sqrt(3))");
+		GeoSymbolic extremum = add("Extremum(x^2+sqrt(3))");
+		GeoSymbolic extremumInterval = add("Extremum(x^2+sqrt(3),-5,5)");
+		GeoSymbolic intersect = add("Intersect(x=y,x=sqrt(3))");
+		GeoSymbolic intersectBoring = add("Intersect(x=y,x=0)");
+		assertThat(AlgebraItem.isSymbolicDiffers(root), is(true));
+		assertThat(AlgebraItem.isSymbolicDiffers(extremum), is(true));
+		assertThat(AlgebraItem.isSymbolicDiffers(extremumInterval), is(true));
+		assertThat(AlgebraItem.isSymbolicDiffers(intersect), is(true));
+		assertThat(AlgebraItem.isSymbolicDiffers(intersectBoring), is(false));
+	}
+
+	@Test
 	public void testNoToggleButtonForSymbolicUndefined() {
 		GeoSymbolic solve = add("Solve(0.05>=(1-x)^50)");
 		assertThat(AlgebraItem.isSymbolicDiffers(solve), is(true));
