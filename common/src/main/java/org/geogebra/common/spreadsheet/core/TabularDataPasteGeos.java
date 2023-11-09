@@ -22,6 +22,12 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 		operations.apply(clipboard, tabularData);
 	}
 
+	@Override
+	public void pasteExternal(TabularData<GeoElement> tabularData, ClipboardInterface clipboard,
+			TabularRange destination) {
+		// TODO
+	}
+
 	private void collectOperations(TabularClipboard<GeoElement> buffer, TabularRange destination) {
 		operations.clear();
 		TabularRange source = buffer.getSourceRange();

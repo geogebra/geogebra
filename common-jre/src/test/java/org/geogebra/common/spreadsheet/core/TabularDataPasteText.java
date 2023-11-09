@@ -12,4 +12,10 @@ public class TabularDataPasteText implements TabularDataPasteInterface<String> {
 			}
 		}
 	}
+
+	@Override
+	public void pasteExternal(TabularData<String> tabularData, ClipboardInterface clipboard,
+			TabularRange destination) {
+		// TODO
+	}
 }
