@@ -33,7 +33,7 @@ public class Bounds {
 	private ExpressionNode condition;
 	@Weak
 	private Kernel kernel;
-	private FunctionVariable fv;
+	private final FunctionVariable fv;
 
 	/**
 	 * @param kernel
@@ -435,13 +435,11 @@ public class Bounds {
 	 *            root of conditional expression
 	 * @param cases
 	 *            list of expressions for individual branches
-	 * @param conditions
-	 *            conditions for branches
 	 * @param parentCond
 	 *            condition for the root
 	 * @param exclusive
 	 *            whether to enforce mutually exclusive conditions
-	 * @return whether parentCond is completely covered by the cases
+	 * @return conditions for branches
 	 */
 	public static boolean collectCases(ExpressionNode condRoot,
 			ArrayList<ExpressionNode> cases, ArrayList<Bounds> conditions,
@@ -496,6 +494,30 @@ public class Bounds {
 			conditions.add(negativeCond);
 		}
 		return complete;
+	}
+
+	/**
+	 * @param kernel kernel
+	 * @param fv function variable
+	 * @param arguments "If" command arguments
+	 * @param cases output: cases
+	 * @param conditions output: conditions
+	 * @return whether all real numbers are covered by at least one condition
+	 */
+	public static boolean collectFromCommand(Kernel kernel, FunctionVariable fv,
+			ExpressionNode[] arguments, ArrayList<ExpressionNode> cases,
+			ArrayList<Bounds> conditions) {
+		for (int counter = 0; counter < arguments.length; counter += 2) {
+			if (counter + 1 < arguments.length) {
+				cases.add(arguments[counter + 1]);
+				conditions.add(new Bounds(kernel, fv).addRestriction(arguments[counter]));
+			} else {
+				cases.add(arguments[counter]);
+				conditions.add(new Bounds(kernel, fv));
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

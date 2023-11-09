@@ -116,13 +116,13 @@ public class StringTemplateTest {
 		tcl("If[x>1,x,If[x<=2,-x]]", caseImpossible);
 	}
 
-	private void tcl(String string, String string2) {
-		GeoElementND geo = add(string);
+	private void tcl(String command, String expected) {
+		GeoElementND geo = add(command);
 		assertThat(geo, instanceOf(GeoFunction.class));
 		assertEquals(
+				expected.replace("<=", Unicode.LESS_EQUAL + ""),
 				((GeoFunction) geo).conditionalLaTeX(false,
-						StringTemplate.latexTemplate),
-				string2.replace("<=", Unicode.LESS_EQUAL + ""));
+						StringTemplate.latexTemplate));
 	}
 
 	private void tex(String string, String string2) {
