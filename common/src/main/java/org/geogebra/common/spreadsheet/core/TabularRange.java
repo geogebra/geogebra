@@ -287,4 +287,29 @@ public class TabularRange {
 	public int getToColumn() {
 		return anchorColumn == minColumn ? maxColumn : minColumn;
 	}
+
+	/**
+	 * For finite ranges returns self. For infinite ranges returns
+	 * a range restricted to given number of rows/columns.
+	 * @param rowCount maximum row
+	 * @param columnCount maximum column
+	 * @return restricted range
+	 */
+	public TabularRange restrictTo(int rowCount, int columnCount) {
+		if (this.getMinRow() == -1 && this.getMaxRow() == -1
+				&& this.getMinColumn() == -1 && this.getMaxColumn() == -1) {
+			return this;
+		}
+
+		if (this.getMinRow() == -1) {
+			return new TabularRange(this.getMinColumn(), 0,
+					this.getMaxColumn(), rowCount - 1);
+		}
+
+		if (this.getMinColumn() == -1) {
+			return new TabularRange(0, this.getMinRow(),
+					columnCount - 1, this.getMaxRow());
+		}
+		return this;
+	}
 }

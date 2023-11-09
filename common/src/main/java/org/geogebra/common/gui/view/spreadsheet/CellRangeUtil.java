@@ -49,21 +49,7 @@ final public class CellRangeUtil {
 	 * @return intersection of potential selection with table model
 	 */
 	public static TabularRange getActual(TabularRange general, SpreadsheetTableModel tableModel) {
-		if (general.getMinRow() == -1 && general.getMaxRow() == -1
-				&& general.getMinColumn() == -1 && general.getMaxColumn() == -1) {
-			return general;
-		}
-
-		if (general.getMinRow() == -1 && general.getMaxRow() == -1) {
-			return new TabularRange(general.getMinColumn(), 0,
-					general.getMaxColumn(), tableModel.getRowCount() - 1);
-		}
-
-		if (general.getMinColumn() == -1 && general.getMaxColumn() == -1) {
-			return new TabularRange(0, general.getMinRow(),
-					tableModel.getColumnCount() - 1, general.getMaxRow());
-		}
-		return general;
+		return general.restrictTo(tableModel.getRowCount(), tableModel.getColumnCount());
 	}
 
 	/**

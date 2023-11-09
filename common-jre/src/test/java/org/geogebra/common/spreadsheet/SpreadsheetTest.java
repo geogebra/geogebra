@@ -57,18 +57,18 @@ public class SpreadsheetTest extends BaseUnitTest {
 		TestTabularData tabularData = new TestTabularData();
 		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
 				new TestCellRenderableFactory());
-		spreadsheet.setViewport(new Rectangle(0, 100, 0, 100));
+		spreadsheet.setViewport(new Rectangle(0, 140, 0, 100));
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
-		// initially we have 2 columns
-		assertThat(graphics.toString(), startsWith("col0,col1,1"));
+		// initially we have 3 columns
+		assertThat(graphics.toString(), startsWith("col0,col1,col2,1"));
 		spreadsheet.getController().selectColumn(1, false, false);
 		spreadsheet.getController().selectColumn(2, true, false);
 		spreadsheet.getController().selectColumn(3, true, false);
 		spreadsheet.getController().selectColumn(4, true, false);
-		spreadsheet.handlePointerDown(80, 5, Modifiers.NONE);
-		spreadsheet.handlePointerMove(50, 5, Modifiers.NONE);
-		spreadsheet.handlePointerUp(50, 5, Modifiers.NONE);
+		spreadsheet.handlePointerDown(122, 5, Modifiers.NONE);
+		spreadsheet.handlePointerMove(90, 5, Modifiers.NONE);
+		spreadsheet.handlePointerUp(90, 5, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 6
@@ -128,9 +128,9 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.getController().selectRow(2, true, false);
 		spreadsheet.getController().selectRow(3, true, false);
 		spreadsheet.getController().selectRow(4, true, false);
-		spreadsheet.handlePointerDown(15, 40, Modifiers.NONE);
-		spreadsheet.handlePointerMove(15, 60, Modifiers.NONE);
-		spreadsheet.handlePointerUp(15, 60, Modifiers.NONE);
+		spreadsheet.handlePointerDown(15, 60, Modifiers.NONE);
+		spreadsheet.handlePointerMove(15, 85, Modifiers.NONE);
+		spreadsheet.handlePointerUp(15, 85, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 3

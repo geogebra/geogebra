@@ -34,6 +34,10 @@
         <property name="message" value="Tabs only allowed as indentation"/>
     </module>
     <module name="RegexpSingleline">
+        <property name="format" value="System.(out|err)"/>
+        <property name="message" value="No direct logging"/>
+    </module>
+    <module name="RegexpSingleline">
         <property name="format" value="com.google.gwt.(core.client.JavaScriptObject|user|dom)"/>
         <property name="message" value="com.google.gwt exports should be replaced by org.gwtproject or elemental2"/>
     </module>

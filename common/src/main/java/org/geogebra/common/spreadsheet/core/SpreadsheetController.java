@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
@@ -62,12 +63,12 @@ public final class SpreadsheetController implements TabularSelection {
 
 	@Override
 	public void selectRow(int row, boolean extend, boolean addSelection) {
-		selectionController.selectRow(row, layout.numberOfColumns(), extend, addSelection);
+		selectionController.selectRow(row, extend, addSelection);
 	}
 
 	@Override
 	public void selectColumn(int column, boolean extend, boolean addSelection) {
-		selectionController.selectColumn(column, layout.numberOfRows(), extend, addSelection);
+		selectionController.selectColumn(column, extend, addSelection);
 	}
 
 	/**
@@ -156,7 +157,7 @@ public final class SpreadsheetController implements TabularSelection {
 
 			return true;
 		}
-		if (isSelected(row, column)) {
+		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
 		}
 		return false;
@@ -191,29 +192,38 @@ public final class SpreadsheetController implements TabularSelection {
 
 	private boolean finishDrag(int x, int y) {
 		List<Selection> sel = getSelections();
+		boolean handled = false;
 		switch (activeCursor) {
 		case RESIZE_X:
 			double width = layout.resizeColumn(lastPointerDown.x, x);
-			for (Selection selection : sel) {
-				if (selection.getType() == SelectionType.COLUMNS) {
-					layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
-							selection.getRange().getMaxColumn());
+			if (isSelected(-1, lastPointerDown.x)) {
+				for (Selection selection : sel) {
+					if (selection.getType() == SelectionType.COLUMNS) {
+						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
+								selection.getRange().getMaxColumn());
+					}
 				}
 			}
-			activeCursor = MouseCursor.DEFAULT;
-			return true;
+			handled = true;
+			break;
 		case RESIZE_Y:
-			double height = layout.resizeRow(lastPointerDown.y, y);
-			for (Selection selection : sel) {
-				if (selection.getType() == SelectionType.ROWS) {
-					layout.setHeightForRows(height, selection.getRange().getMinRow(),
-							selection.getRange().getMaxRow());
+			if (isSelected(lastPointerDown.x, -1)) {
+				double height = layout.resizeRow(lastPointerDown.y, y);
+				for (Selection selection : sel) {
+					if (selection.getType() == SelectionType.ROWS) {
+						layout.setHeightForRows(height, selection.getRange().getMinRow(),
+								selection.getRange().getMaxRow());
+					}
 				}
 			}
-			activeCursor = MouseCursor.DEFAULT;
-			return true;
+			handled = true;
+			break;
+		case DEFAULT:
+			handled = extendSelectionByDrag(x, y);
 		}
-		return false;
+		activeCursor = MouseCursor.DEFAULT;
+		lastPointerDown.setLocation(-1, -1);
+		return handled;
 	}
 
 	/**
@@ -301,12 +311,34 @@ public final class SpreadsheetController implements TabularSelection {
 			return true;
 		default:
 		case DEFAULT:
-			return extendSelectionByDrag();
+			return extendSelectionByDrag(x, y);
 		}
 	}
 
-	private boolean extendSelectionByDrag() {
-		//TODO
+	/**
+	 * @return selections limited to data size
+	 */
+	public List<TabularRange> getVisibleSelections() {
+		return getSelections().stream().map(this::intersectWithDataRange)
+				.collect(Collectors.toList());
+	}
+
+	private boolean extendSelectionByDrag(int x, int y) {
+		// TODO drag selection for columns and rows
+		if (lastPointerDown.x >= 0 && lastPointerDown.y >= 0) {
+			int row = getLayout().findRow(y);
+			int column = getLayout().findColumn(x);
+			selectionController.select(new Selection(SelectionType.CELLS,
+					new TabularRange(lastPointerDown.x, lastPointerDown.y, column, row)),
+					false, false);
+			return true;
+		}
 		return false;
 	}
+
+	private TabularRange intersectWithDataRange(Selection selection) {
+		return selection.getRange().restrictTo(tabularData.numberOfRows(),
+				tabularData.numberOfColumns());
+	}
+
 }

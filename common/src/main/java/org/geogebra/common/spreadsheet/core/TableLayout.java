@@ -117,9 +117,9 @@ public final class TableLayout {
 
 	TableLayout(int rows, int columns, float defaultRowHeight, float defaultColumnWidth) {
 		columnWidths = new double[columns];
-		cumulativeWidths = new double[columns];
+		cumulativeWidths = new double[columns + 1];
 		rowHeights = new double[rows];
-		cumulativeHeights = new double[rows];
+		cumulativeHeights = new double[rows + 1];
 		setWidthForColumns(defaultColumnWidth, 0, columns - 1);
 		setHeightForRows(defaultRowHeight, 0, rows - 1);
 	}

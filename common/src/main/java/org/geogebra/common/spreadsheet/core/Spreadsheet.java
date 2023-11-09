@@ -48,8 +48,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		graphics.setColor(controller.getStyle().getTextColor());
 		drawCells(graphics, viewport);
-		for (Selection selection: controller.getSelections()) {
-			renderer.drawSelection(selection.getRange(), graphics,
+		for (TabularRange range: controller.getVisibleSelections()) {
+			renderer.drawSelection(range, graphics,
 					viewport, controller.getLayout());
 		}
 		needsRedraw = false;
