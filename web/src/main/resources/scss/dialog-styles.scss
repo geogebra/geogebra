@@ -2090,16 +2090,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 		.icon {
 			border-radius: 50%;
-			background-color: purple(700);
 			margin-right: 16px;
-			min-width: 40px;
-			height: 40px;
-			background-size: 40px;
-			background-repeat: no-repeat;
-		}
-		.purpleIcon {
+			min-width: 24px;
+			height: 24px;
 			background-size: 24px;
-			background-position: 8px 8px;
+			background-repeat: no-repeat;
 		}
 	}
 }

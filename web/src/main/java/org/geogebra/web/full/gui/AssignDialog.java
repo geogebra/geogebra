@@ -28,24 +28,20 @@ public class AssignDialog extends ComponentDialog {
 		this.materialProvider = materialProvider;
 		addAssignButton("assignDialog.lesson", "assignDialog.lesson.description",
 				"https://www.geogebra.org/classroom/create?id=%0",
-				MaterialDesignResources.INSTANCE.geogebra_black().withFill("#FFF"), "purpleIcon");
+				MaterialDesignResources.INSTANCE.geogebra_color());
 		addAssignButton("assignDialog.google", "assignDialog.google.description",
 				"https://www.geogebra.org/classroom/embed/google-classroom/share"
 				+ "?materialId=%0&defaultLessonTitle=%1&backUrl=https://www.geogebra.org/m/%0",
-				MaterialDesignResources.INSTANCE.google_classroom(), null);
+				MaterialDesignResources.INSTANCE.google_classroom());
 	}
 
-	private void addAssignButton(String title, String subtitle, String pattern, SVGResource icon,
-			String iconClass) {
+	private void addAssignButton(String title, String subtitle, String pattern, SVGResource icon) {
 		FlowPanel classroom = new FlowPanel();
 		classroom.addStyleName("assignOption");
 		Dom.addEventListener(classroom.getElement(), "click",
 				click -> openNewTab(pattern));
 		Label image = new Label();
 		image.setStyleName("icon");
-		if (iconClass != null) {
-			image.addStyleName(iconClass);
-		}
 		image.getElement().getStyle().setBackgroundImage("url("
 				+ icon.getSafeUri().asString() + ")");
 		FlowPanel description = new FlowPanel();
