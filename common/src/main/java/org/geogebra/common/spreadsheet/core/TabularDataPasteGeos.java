@@ -55,8 +55,9 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 	private static boolean isInSource(int col, int row, TabularRange source,
 			TabularRange destination) {
 		return col + (destination.getFromColumn() - source.getFromColumn()) <= source.getToColumn()
-				&& col + (destination.getFromColumn() - source.getFromColumn()) >= source.getFromColumn() && row + (
-				destination.getFromRow() - source.getFromRow()) <= source.getToRow()
+				&& col
+				+ (destination.getFromColumn() - source.getFromColumn()) >= source.getFromColumn()
+				&& row + (destination.getFromRow() - source.getFromRow()) <= source.getToRow()
 				&& row + (destination.getFromRow() - source.getFromRow()) >= source.getFromRow();
 	}
 }

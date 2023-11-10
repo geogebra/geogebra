@@ -34,7 +34,7 @@ public class KernelTabularDataProcessor {
 			for (int column = 0; column <= adapter.numberOfColumns(); ++column) {
 				renameCellGeo(row, column, row + 1, column);
 			}
-		};
+		}
 	}
 
 	private void renameCellGeo(int sourceRow, int sourceColumn, int targetRow, int targetColumn) {
@@ -65,7 +65,7 @@ public class KernelTabularDataProcessor {
 			for (int column = 0; column <= adapter.numberOfColumns(); ++column) {
 				renameCellGeo(row, column, row - 1, column);
 			}
-		};
+		}
 	}
 
 	private void removeContentAt(int row, int column) {

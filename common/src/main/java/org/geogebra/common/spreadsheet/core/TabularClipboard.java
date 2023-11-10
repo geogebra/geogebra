@@ -58,8 +58,8 @@ public final class TabularClipboard<T> implements HasTabularValues<T> {
 		clear();
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			List<T> rowData = new ArrayList<>();
-			for (int column = range.getFromColumn(); column <
-					range.getToColumn() + 1; column++) {
+			for (int column = range.getFromColumn(); column
+					< range.getToColumn() + 1; column++) {
 				rowData.add((T) tabularData.contentAt(row, column));
 			}
 			data.add(rowData);

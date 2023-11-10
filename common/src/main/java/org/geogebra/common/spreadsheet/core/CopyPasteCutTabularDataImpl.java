@@ -116,8 +116,8 @@ public final class CopyPasteCutTabularDataImpl
 			 column < destination.getFromColumn() + maxColumn; column += columnStep) {
 			for (int row = destination.getFromRow(); row < destination.getFromRow() + maxRow;
 				 row += rowStep) {
-  				pasteInternalOnce(new TabularRange(row, column, row + columnStep,
-						column + rowStep));
+				pasteInternalOnce(new TabularRange(row, column,
+						row + columnStep, column + rowStep));
 			}
 		}
 	}

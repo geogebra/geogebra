@@ -1,12 +1,12 @@
 package org.geogebra.common.spreadsheet.core;
 
 /**
- * Interface to paste data typed <T> into the spreadsheet
+ * Interface to paste data typed T into the spreadsheet
  *
  * It handles both internal and external data pasting:
  * Internal means from spreadsheet to spreadsheed, while exterlal means it comes from
  * the system clipboard, its data must be parsed and the corresponding
- * cell elements of <T> has to be created.
+ * cell elements of T has to be created.
  *
  * @param <T> the main datatype of the cells,
  */

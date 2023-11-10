@@ -31,7 +31,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
 
-
 	/**
 	 * @param spreadsheetSettings spreadsheet settings
 	 */
@@ -220,7 +219,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	public TabularDataPasteInterface getPaste() {
 		return new TabularDataPasteGeos();
 	}
-
 
 	@Override
 	public CellFormat getFormat() {

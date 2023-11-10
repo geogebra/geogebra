@@ -99,7 +99,6 @@ public class TestTabularData implements TabularData<Object> {
 		return new TabularDataPasteText();
 	}
 
-
 	@Override
 	public CellFormat getFormat() {
 		return new CellFormat(null);

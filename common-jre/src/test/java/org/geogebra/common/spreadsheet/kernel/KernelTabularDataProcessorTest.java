@@ -21,7 +21,6 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	private GeoElementND geo3;
 	private GeoElementND geo4;
 
-
 	@Before
 	public void setUp() throws Exception {
 		adapter = new KernelTabularDataAdapter(new SpreadsheetSettings());

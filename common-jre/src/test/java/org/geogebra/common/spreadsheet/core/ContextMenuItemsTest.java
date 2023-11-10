@@ -88,7 +88,8 @@ public final class ContextMenuItemsTest {
 				}
 			}
 		}
-		int allSelectedCells = (range.getToRow() - range.getFromRow()) * (range.getToColumn() - range.getFromColumn());
+		int allSelectedCells = (range.getToRow() - range.getFromRow())
+				* (range.getToColumn() - range.getFromColumn());
 		assertEquals(allSelectedCells, count);
 	}
 
