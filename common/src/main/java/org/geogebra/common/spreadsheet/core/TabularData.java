@@ -24,11 +24,13 @@ public interface TabularData<T> extends HasTabularValues<T> {
 
 	String getColumnName(int column);
 
+	default String getRowName(int row) {
+		return String.valueOf(row + 1);
+	}
+
 	void addChangeListener(TabularDataChangeListener listener);
 
-	String getEditableString(int row, int column);
-
-	TabularDataPasteInterface getPaste();
+	TabularDataPasteInterface<T> getPaste();
 
 	/**
 	 * Checks the capacity of the data and expands it if needed.

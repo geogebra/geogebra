@@ -1,19 +1,19 @@
 package org.geogebra.common.spreadsheet.core;
 
-public final class CopyPasteCutTabularDataImpl
+public final class CopyPasteCutTabularDataImpl<T>
 		implements CopyPasteCutTabularData {
-	private final TabularData tabularData;
+	private final TabularData<T> tabularData;
 	private final ClipboardInterface clipboard;
-	private final TabularDataPasteInterface paste;
+	private final TabularDataPasteInterface<T> paste;
 	private final TabularContent tabularContent;
-	private TabularClipboard internalClipboard;
+	private TabularClipboard<T> internalClipboard;
 
 	/**
 	 *
 	 * @param tabularData {@link TabularData}
 	 * @param clipboard {@link ClipboardInterface}
 	 */
-	public CopyPasteCutTabularDataImpl(TabularData tabularData, ClipboardInterface clipboard) {
+	public CopyPasteCutTabularDataImpl(TabularData<T> tabularData, ClipboardInterface clipboard) {
 		this.tabularData = tabularData;
 		this.clipboard = clipboard;
 		paste = tabularData.getPaste();
@@ -76,14 +76,14 @@ public final class CopyPasteCutTabularDataImpl
 			return;
 		}
 
-		if (destination.isSingleCell() || isSmallerOrEqualThanClipboarData(destination)) {
+		if (destination.isSingleCell() || isSmallerOrEqualThanClipboardData(destination)) {
 			pasteInternalOnce(destination);
 		} else {
 			pasteInternalMultiple(destination);
 		}
 	}
 
-	private boolean isSmallerOrEqualThanClipboarData(TabularRange destination) {
+	private boolean isSmallerOrEqualThanClipboardData(TabularRange destination) {
 		return destination.getWidth() <= internalClipboard.numberOfColumns()
 				|| destination.getHeight() <= internalClipboard.numberOfRows();
 	}

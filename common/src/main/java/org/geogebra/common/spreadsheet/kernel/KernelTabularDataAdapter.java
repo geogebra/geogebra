@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -61,7 +60,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
 		if (pt != null && pt.x != -1) {
 			setContent(pt.y, pt.x, null);
-			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.y, pt.x));
 		}
 	}
 
@@ -76,7 +75,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
 		if (pt.x != -1) {
 			setContent(pt.y, pt.x, geo);
-			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.y, pt.x));
 		}
 	}
 
@@ -113,7 +112,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void clearView() {
 		data.clear();
-		changeListeners.forEach(listener -> listener.update(-1, -1));
+		changeListeners.forEach(listener -> listener.tabularDataDidChange(-1, -1));
 	}
 
 	@Override
@@ -208,15 +207,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public String getEditableString(int row, int column) {
-		GeoElement data = contentAt(row, column);
-		return data != null
-				? data.getLaTeXDescriptionRHS(false,
-				StringTemplate.editorTemplate) : "";
-	}
-
-	@Override
-	public TabularDataPasteInterface getPaste() {
+	public TabularDataPasteInterface<GeoElement> getPaste() {
 		return new TabularDataPasteGeos();
 	}
 

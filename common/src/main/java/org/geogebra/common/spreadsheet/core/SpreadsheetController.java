@@ -39,7 +39,7 @@ public final class SpreadsheetController implements TabularSelection {
 
 	private CopyPasteCutTabularData getCopyPasteCut() {
 		return controlsDelegate != null
-				? new CopyPasteCutTabularDataImpl(tabularData, controlsDelegate.getClipboard())
+				? new CopyPasteCutTabularDataImpl<>(tabularData, controlsDelegate.getClipboard())
 				: null;
 	}
 
@@ -106,6 +106,10 @@ public final class SpreadsheetController implements TabularSelection {
 		return tabularData.getColumnName(column);
 	}
 
+	public String getRowName(int column) {
+		return tabularData.getRowName(column);
+	}
+
 	boolean showCellEditor(int row, int column, Rectangle viewport) {
 		if (controlsDelegate != null) {
 			Rectangle editorBounds = layout.getBounds(row, column)
@@ -114,7 +118,7 @@ public final class SpreadsheetController implements TabularSelection {
 			SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
 			editor.setBounds(editorBounds);
 
-			editor.setContent(tabularData.getEditableString(row, column));
+			editor.setContent(tabularData.contentAt(row, column));
 			editor.setTargetCell(row, column);
 			return true;
 		}

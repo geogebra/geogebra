@@ -16,7 +16,7 @@ public final class ContextMenuItemsTest {
 	private ContextMenuItems items;
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
-	private TabularData<Object> data;
+	private TabularData<String> data;
 	private TestClipboard clipboard;
 
 	@Before
@@ -24,7 +24,8 @@ public final class ContextMenuItemsTest {
 		data = new TestTabularData();
 		fillTestData();
 		clipboard = new TestClipboard();
-		CopyPasteCutTabularDataImpl copyPasteCut = new CopyPasteCutTabularDataImpl(data, clipboard);
+		CopyPasteCutTabularDataImpl<?> copyPasteCut =
+				new CopyPasteCutTabularDataImpl<>(data, clipboard);
 		items = new ContextMenuItems(data, selectionController, copyPasteCut);
 	}
 

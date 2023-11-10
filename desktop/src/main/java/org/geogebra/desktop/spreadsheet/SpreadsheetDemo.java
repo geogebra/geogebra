@@ -39,6 +39,7 @@ import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
+import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.util.SyntaxAdapterImpl;
@@ -289,8 +290,8 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public void setContent(String content) {
-				mathField.parse(content);
+			public void setContent(Object content) {
+				mathField.parse(new KernelDataSerializer().getStringForEditor(content));
 			}
 		}
 	}

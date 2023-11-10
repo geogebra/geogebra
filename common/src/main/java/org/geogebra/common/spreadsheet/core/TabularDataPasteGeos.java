@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
 
-	private CopyPasteCellOperationList operations = new CopyPasteCellOperationList();
+	private final CopyPasteCellOperationList operations = new CopyPasteCellOperationList();
 
 	/**
 	 * Copy and paste geos ensuring that the creation order of the new, pasted geos

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class PasteGeosTest extends BaseUnitTest {
 
-	private CopyPasteCutTabularDataImpl copyPasteCut;
+	private CopyPasteCutTabularDataImpl<?> copyPasteCut;
 
 	@Before
 	public void setUp() throws Exception {
@@ -24,7 +24,7 @@ public class PasteGeosTest extends BaseUnitTest {
 		tabularData.setContent(2, 1, add("Text(\"foo\")"));
 		tabularData.setContent(2, 2, add("Button()"));
 
-		copyPasteCut = new CopyPasteCutTabularDataImpl(tabularData, new TestClipboard());
+		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, new TestClipboard());
 	}
 
 	@Test

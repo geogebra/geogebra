@@ -7,5 +7,5 @@ public interface SpreadsheetCellEditor {
 
 	void setTargetCell(int row, int column);
 
-	void setContent(String content);
+	void setContent(Object content);
 }

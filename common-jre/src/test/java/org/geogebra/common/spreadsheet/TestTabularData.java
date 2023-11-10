@@ -9,9 +9,9 @@ import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteText;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 
-public class TestTabularData implements TabularData<Object> {
+public class TestTabularData implements TabularData<String> {
 
-	List<List<Object>> data = new ArrayList<>();
+	List<List<String>> data = new ArrayList<>();
 
 	/**
 	 * Simple tabular data (initial size 100 x 100).
@@ -22,8 +22,8 @@ public class TestTabularData implements TabularData<Object> {
 		}
 	}
 
-	private List<Object> buildRow(int i) {
-		ArrayList<Object> row = new ArrayList<>(100);
+	private List<String> buildRow(int i) {
+		ArrayList<String> row = new ArrayList<>(100);
 		for (int j = 0; j < i; j++) {
 			row.add(null);
 		}
@@ -57,25 +57,25 @@ public class TestTabularData implements TabularData<Object> {
 
 	@Override
 	public void insertColumnAt(int column) {
-		for (List<Object> row: data) {
+		for (List<String> row: data) {
 			row.add(column, null);
 		}
 	}
 
 	@Override
 	public void deleteColumnAt(int column) {
-		for (List<Object> row: data) {
+		for (List<String> row: data) {
 			row.remove(column);
 		}
 	}
 
 	@Override
 	public void setContent(int row, int column, Object content) {
-		data.get(row).set(column, content);
+		data.get(row).set(column, (String) content);
 	}
 
 	@Override
-	public Object contentAt(int row, int column) {
+	public String contentAt(int row, int column) {
 		return data.get(row).get(column);
 	}
 
@@ -90,12 +90,7 @@ public class TestTabularData implements TabularData<Object> {
 	}
 
 	@Override
-	public String getEditableString(int row, int column) {
-		return String.valueOf(contentAt(row, column));
-	}
-
-	@Override
-	public TabularDataPasteInterface<?> getPaste() {
+	public TabularDataPasteInterface<String> getPaste() {
 		return new TabularDataPasteText();
 	}
 
