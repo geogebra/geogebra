@@ -80,8 +80,7 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		input = new GeoElement[1];
 		input[0] = f;
 
-		setOutputLength(1);
-		setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

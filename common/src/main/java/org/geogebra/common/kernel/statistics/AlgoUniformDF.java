@@ -107,8 +107,7 @@ public class AlgoUniformDF extends AlgoElement {
 			input[3] = (GeoElement) cumulative;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, ret);
+		setOnlyOutput(ret);
 		setDependencies(); // done by AlgoElement
 	}
 

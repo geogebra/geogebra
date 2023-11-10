@@ -163,8 +163,7 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		input[1] = (GeoElement) param2;
 		input[2] = surface;
 
-		super.setOutputLength(1);
-		super.setOutput(0, n);
+		setOnlyOutput(n);
 		setDependencies(); // done by AlgoElement
 	}
 

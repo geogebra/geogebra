@@ -73,8 +73,7 @@ public class AlgoKeepIf extends AlgoElement {
 		input[0] = boolFun;
 		input[1] = inputList;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

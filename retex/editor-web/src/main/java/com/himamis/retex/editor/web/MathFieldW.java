@@ -855,10 +855,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.mathFieldInternal.deleteCurrentWord();
 	}
 
-	public String getCurrentWord() {
-		return this.mathFieldInternal.getCurrentWord();
-	}
-
 	/**
 	 * Make the cursor blink in this editor.
 	 */
@@ -915,7 +911,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	public void clearState() {
-		Js.asPropertyMap(inputTextArea.getElement()).set("value", "");
+		Js.<HTMLTextAreaElement>uncheckedCast(inputTextArea.getElement()).value = "";
 	}
 
 	@Override

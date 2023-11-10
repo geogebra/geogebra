@@ -193,8 +193,7 @@ public class AlgoFrequency extends AlgoElement {
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
 
-		setOutputLength(1);
-		setOutput(0, frequency);
+		setOnlyOutput(frequency);
 		setDependencies(); // done by AlgoElement
 	}
 

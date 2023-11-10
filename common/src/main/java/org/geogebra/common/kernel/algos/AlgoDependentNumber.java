@@ -163,8 +163,7 @@ public class AlgoDependentNumber extends AlgoElement
 	@Override
 	protected void setInputOutput() {
 		setInputFrom(number.getDefinition());
-		setOutputLength(1);
-		setOutput(0, number.toGeoElement());
+		setOnlyOutput(number.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 

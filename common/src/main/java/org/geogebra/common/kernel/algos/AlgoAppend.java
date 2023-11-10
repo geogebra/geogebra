@@ -100,8 +100,7 @@ public class AlgoAppend extends AlgoElement {
 			input[1] = inputList;
 		}
 
-		setOutputLength(1);
-		setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

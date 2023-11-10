@@ -12,7 +12,7 @@ dependencies {
         "org.gwtproject:gwt-user:$gwtCompilerVersion",
         "org.gwtproject:gwt-dev:$gwtCompilerVersion",
             project(':common')
-
+    api 'org.gwtproject.core:gwt-core:1.0.0-RC2'
     api group: 'com.google.elemental2', name: 'elemental2-core', version: '1.2.1'
     api group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.2.1'
     api group: 'com.google.elemental2', name: 'elemental2-webstorage', version: '1.2.1'

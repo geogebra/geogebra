@@ -63,9 +63,9 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 
 	private AlgoBinomialDistBarChart(GeoNumberValue n, GeoNumberValue p,
 			GeoBoolean isCumulative, GeoNumberValue a, GeoNumberValue b,
-			double[] vals, double[] borders, int N) {
+			double[] vals, double[] borders) {
 		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_BINOMIAL, a,
-				b, vals, borders, N);
+				b, vals, borders);
 	}
 
 	@Override
@@ -85,8 +85,7 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 				(GeoNumberValue) this.getP2().deepCopy(kernel), b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-				getIntervals());
+				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()));
 	}
 
 }

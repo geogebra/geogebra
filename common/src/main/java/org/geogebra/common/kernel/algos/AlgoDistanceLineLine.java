@@ -77,8 +77,7 @@ public class AlgoDistanceLineLine extends AlgoElement {
 		input[0] = h;
 		input[1] = g;
 
-		super.setOutputLength(1);
-		super.setOutput(0, dist);
+		setOnlyOutput(dist);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -73,8 +73,8 @@ public class EuclidianViewJPanelD extends JPanel
 	}
 
 	@Override
-	public void setToolTipText(String plain) {
-		super.setToolTipText(plain);
+	public void setToolTipText(String plainText) {
+		super.setToolTipText(plainText);
 	}
 
 	private GGraphics2DD g2 = new GGraphics2DD(null);

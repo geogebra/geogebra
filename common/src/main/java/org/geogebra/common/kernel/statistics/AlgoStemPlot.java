@@ -95,8 +95,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			input[1] = scaleAdjustment;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

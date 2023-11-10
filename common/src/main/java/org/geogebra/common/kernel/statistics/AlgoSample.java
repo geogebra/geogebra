@@ -80,8 +80,7 @@ public class AlgoSample extends AlgoElement implements SetRandomValue {
 			input[2] = replacement;
 		}
 
-		setOutputLength(1);
-		setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

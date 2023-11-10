@@ -3,6 +3,7 @@ package org.geogebra.web.full.cas.view;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
@@ -43,6 +44,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		MathKeyboardListener, MathFieldListener, BlurHandler {
 	/** suggestions */
 	AutoCompletePopup sug;
+	private final InputSuggestions inputSuggestions;
 	private final MathFieldW mf;
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
@@ -63,6 +65,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 			final CASTableControllerW controller) {
 		this.app = (AppWFull) app;
 		this.controller = controller;
+		inputSuggestions = new InputSuggestions(null);
 		canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(new SyntaxAdapterImpl(app.getKernel()), this,
 				canvas, this);
@@ -277,7 +280,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public String getCommand() {
-		return mf == null ? "" : mf.getCurrentWord();
+		return inputSuggestions.getCommand(mf);
 	}
 
 	private AutoCompletePopup getInputSuggestions() {

@@ -1,11 +1,11 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math3.distribution.BinomialDistribution;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.statistics.AlgoDistribution;
 import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
@@ -33,8 +33,7 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 		input[0] = a.toGeoElement(cons);
 		input[1] = b.toGeoElement(cons);
 		input[2] = c.toGeoElement(cons);
-		super.setOutputLength(1);
-		setOutput(0, num);
+		setOnlyOutput(num);
 		setDependencies();
 	}
 

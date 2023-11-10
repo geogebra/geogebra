@@ -55,7 +55,6 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	private GeoFunctionable f0;
 	private GeoFunctionable f1;
 	private GeoFunctionable f2;
-	private GeoFunction diff;
 
 	// Vars
 	private int type = TYPE_ROOTS;
@@ -239,17 +238,12 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		if (!ok) {
 			double[] xs = new double[1];
 			setPoints(xs, ys(xs), 0);
+		} else if (type == TYPE_INTERSECTIONS) {
+			// Make a difference for intersections
+			compute2(GeoFunction.subtract(f1, f2));
 		} else {
-			if (type == TYPE_INTERSECTIONS) {
-				diff = new GeoFunction(cons);
-				diff = GeoFunction.subtract(diff, f1, f2); // Make a difference
-															// geofunction for
-															// intersections
-				compute2(diff);
-			} else {
-				compute2(f0);
-			} // if type
-		} // if ok input
+			compute2(f0.getFunctionForRoot());
+		}
 	}
 
 	private double[] ys(double[] xs) {
@@ -259,7 +253,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return getYs(f1, xs);
 	}
 
-	private final void compute2(GeoFunctionable f) {
+	private void compute2(Function function) {
 
 		double l = left.getDouble();
 		double r = right.getDouble();
@@ -282,7 +276,6 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		int n = findNumberOfSamples(l, r);
 		// make sure m is at least 1 even for invisible EV
 		int m = Math.max(n, 1);
-		Function function = f.getFunctionForRoot();
 		try { // To catch eventual wrong indexes in arrays...
 				// Adjust samples. Some research needed to find best factor in
 				// if(numberofroots<m*factor...

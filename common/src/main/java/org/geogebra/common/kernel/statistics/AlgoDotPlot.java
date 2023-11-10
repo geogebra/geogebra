@@ -118,8 +118,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 
 		setInput();
 
-		setOutputLength(1);
-		setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

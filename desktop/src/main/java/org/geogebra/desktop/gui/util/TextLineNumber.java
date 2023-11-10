@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -39,12 +40,12 @@ import org.geogebra.desktop.awt.GColorD;
  * component must use the same line height for each line. TextLineNumber
  * supports wrapped lines and will highlight the line number of the current line
  * in the text component.
- * 
- * This class was designed to be used as a component added to the row header of
+ *
+ * <p>This class was designed to be used as a component added to the row header of
  * a JScrollPane.
- * 
- * adapted from code by Rob Camick, http://tips4java.wordpress.com
- * 
+ *
+ * <p>adapted from <a href="https://tips4java.wordpress.com">code by Rob Camick</a>
+ *
  */
 public class TextLineNumber extends JPanel
 		implements CaretListener, DocumentListener, PropertyChangeListener {
@@ -56,16 +57,16 @@ public class TextLineNumber extends JPanel
 
 	private final static Border OUTER = new MatteBorder(0, 0, 0, 1, Color.GRAY);
 
-	private final static int HEIGHT = Integer.MAX_VALUE - 1000000;
+	// bigger than screen size, but multiplying by pixel ratio should not go out of int bounds
+	private final static int HEIGHT = Integer.MAX_VALUE / 16;
 
 	// Text component this TextTextLineNumber component is in sync with
 
-	private JTextComponent component;
+	private final JTextComponent component;
 
 	// Properties that can be changed
 
 	private boolean updateFont = true;
-	private int borderGap;
 	private Color currentLineForeground;
 	private float digitAlignment;
 	private int minimumDisplayDigits;
@@ -139,15 +140,6 @@ public class TextLineNumber extends JPanel
 	}
 
 	/**
-	 * Gets the border gap
-	 * 
-	 * @return the border gap in pixels
-	 */
-	public int getBorderGap() {
-		return borderGap;
-	}
-
-	/**
 	 * The border gap is used in calculating the left and right insets of the
 	 * border. Default value is 5.
 	 * 
@@ -155,7 +147,6 @@ public class TextLineNumber extends JPanel
 	 *            the gap in pixels
 	 */
 	public void setBorderGap(int borderGap) {
-		this.borderGap = borderGap;
 		Border inner = new EmptyBorder(0, borderGap, 0, borderGap);
 		setBorder(new CompoundBorder(OUTER, inner));
 		lastDigits = 0;
@@ -183,15 +174,6 @@ public class TextLineNumber extends JPanel
 	}
 
 	/**
-	 * Gets the digit alignment
-	 * 
-	 * @return the alignment of the painted digits
-	 */
-	public float getDigitAlignment() {
-		return digitAlignment;
-	}
-
-	/**
 	 * Specify the horizontal alignment of the digits within the component.
 	 * Common values would be:
 	 * <ul>
@@ -206,15 +188,6 @@ public class TextLineNumber extends JPanel
 	public void setDigitAlignment(float digitAlignment) {
 		this.digitAlignment = digitAlignment > 1.0f ? 1.0f
 				: digitAlignment < 0.0f ? -1.0f : digitAlignment;
-	}
-
-	/**
-	 * Gets the minimum display digits
-	 * 
-	 * @return the minimum display digits
-	 */
-	public int getMinimumDisplayDigits() {
-		return minimumDisplayDigits;
 	}
 
 	/**
@@ -270,9 +243,9 @@ public class TextLineNumber extends JPanel
 		// Determine the rows to draw within the clipped bounds.
 
 		Rectangle clip = g.getClipBounds();
-		int rowStartOffset = component.viewToModel(new Point(0, clip.y));
+		int rowStartOffset = component.viewToModel2D(new Point(0, clip.y));
 		int endOffset = component
-				.viewToModel(new Point(0, clip.y + clip.height));
+				.viewToModel2D(new Point(0, clip.y + clip.height));
 
 		while (rowStartOffset <= endOffset) {
 			try {
@@ -311,11 +284,8 @@ public class TextLineNumber extends JPanel
 		int caretPosition = component.getCaretPosition();
 		Element root = component.getDocument().getDefaultRootElement();
 
-		if (root.getElementIndex(rowStartOffset) == root
-				.getElementIndex(caretPosition)) {
-			return true;
-		}
-		return false;
+		return root.getElementIndex(rowStartOffset) == root
+				.getElementIndex(caretPosition);
 	}
 
 	/*
@@ -347,15 +317,15 @@ public class TextLineNumber extends JPanel
 			throws BadLocationException {
 		// Get the bounding rectangle of the row
 
-		Rectangle r = component.modelToView(rowStartOffset);
+		Rectangle2D r = component.modelToView2D(rowStartOffset);
 		int lineHeight = fontMetrics.getHeight();
-		int y = r.y + r.height;
+		int y = (int) (r.getY() + r.getHeight());
 		int descent = 0;
 
 		// The text needs to be positioned above the bottom of the bounding
 		// rectangle based on the descent of the font(s) contained on the row.
 
-		if (r.height == lineHeight) { // default font is being used
+		if ((int) r.getHeight() == lineHeight) { // default font is being used
 			descent = fontMetrics.getDescent();
 		} else { // We need to check all the attributes for font changes
 			if (fonts == null) {

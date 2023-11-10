@@ -315,9 +315,12 @@ public class Ggb2giac {
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		// Extrema / Turning Points (UK)
+		String extremumPrefix = "[[[ggbextremumfun:=when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0)],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)],";
+		String extremumAns = "[ggbextans:=extrema(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0))]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]";
 		p("Extremum.1",
-				"[[[ggbextremumfun:=when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0)],[ggbextans:=extrema(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0))],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]");
-
+				extremumPrefix + extremumAns);
+		p("Extremum.3",
+				extremumPrefix + "[assume(%1<x && %2>x)]," + extremumAns);
 		// InflectionPoint (internal name in XML wrong for historical reasons)
 		p("TurningPoint.1",
 				"[[[ggbinflfun:=%0],[ggbinflvar:=when(size(lname(ggbinflfun) intersect [x])==0,lname(ggbinflfun)[0],x)],[ggbinflans:=extrema(diff(%0,ggbinflvar))]],map(ggbinflans,it->point(it,normal(regroup(subst(ggbinflfun,ggbinflvar,it)))))][1]");

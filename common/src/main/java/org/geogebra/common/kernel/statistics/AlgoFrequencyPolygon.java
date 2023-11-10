@@ -148,8 +148,7 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 	}
 
 	private void setOutput() {
-		super.setOutputLength(1);
-		super.setOutput(0, outputPolyLine);
+		setOnlyOutput(outputPolyLine);
 	}
 
 	/**

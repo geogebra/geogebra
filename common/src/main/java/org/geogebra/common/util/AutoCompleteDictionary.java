@@ -1,6 +1,5 @@
 package org.geogebra.common.util;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -8,19 +7,14 @@ import java.util.List;
  * must implement. Note that implementations of this interface should perform
  * look ups as quickly as possible to avoid delays as the user types.
  */
-public interface AutoCompleteDictionary {
+public interface AutoCompleteDictionary extends Iterable<String> {
 	/**
 	 * Adds an entry to the dictionary.
 	 *
 	 * @param s
 	 *            The string to add to the dictionary.
 	 */
-	public void addEntry(String s);
-
-	/**
-	 * @return word iterator
-	 */
-	public Iterator<String> getIterator();
+	void addEntry(String s);
 
 	/**
 	 * Removes an entry from the dictionary.
@@ -30,7 +24,7 @@ public interface AutoCompleteDictionary {
 	 * @return True if successful, false if the string is not contained or
 	 *         cannot be removed.
 	 */
-	public boolean removeEntry(String s);
+	boolean removeEntry(String s);
 
 	/**
 	 * Perform a lookup and returns the closest matching string to the passed
@@ -44,7 +38,7 @@ public interface AutoCompleteDictionary {
 	 * @return null if no matching string, the closest matching string otherwise
 	 * 
 	 */
-	public String lookup(String s);
+	String lookup(String s);
 
 	/**
 	 * Find all possible completions of the argument and return them.
@@ -57,17 +51,17 @@ public interface AutoCompleteDictionary {
 	 * @return an iterable of strings if there is at least one completion,
 	 *         otherwise null.
 	 */
-	public List<String> getCompletions(String s);
+	List<MatchedString> getCompletions(String s);
 
 	/**
 	 * @param cmdPrefix
 	 *            prefix
 	 * @return completions
 	 */
-	public List<String> getCompletionsKorean(String cmdPrefix);
+	List<MatchedString> getCompletionsKorean(String cmdPrefix);
 
 	/**
 	 * @return number of completions
 	 */
-	public int size();
+	int size();
 }

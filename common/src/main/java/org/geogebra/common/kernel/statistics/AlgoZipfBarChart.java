@@ -39,9 +39,9 @@ public class AlgoZipfBarChart extends AlgoBarChart {
 
 	private AlgoZipfBarChart(GeoNumberValue n, GeoNumberValue p,
 			GeoBoolean isCumulative, GeoNumberValue a, GeoNumberValue b,
-			double[] vals, double[] borders, int N) {
+			double[] vals, double[] borders) {
 		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_ZIPF, a, b,
-				vals, borders, N);
+				vals, borders);
 	}
 
 	@Override
@@ -60,9 +60,7 @@ public class AlgoZipfBarChart extends AlgoBarChart {
 				(GeoNumberValue) this.getP2().deepCopy(kernel), b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-				getIntervals());
-
+				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()));
 	}
 
 }

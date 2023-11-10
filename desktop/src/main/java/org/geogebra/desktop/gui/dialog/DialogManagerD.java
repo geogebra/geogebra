@@ -151,12 +151,12 @@ public class DialogManagerD extends DialogManagerMinimal {
 	public void showPropertiesDialog(OptionType type,
 			ArrayList<GeoElement> geos) {
 
-		if (!((AppD) app).letShowPropertiesDialog()) {
+		if (!app.letShowPropertiesDialog()) {
 			return;
 		}
 
 		// get PropertiesView
-		PropertiesView pv = (PropertiesView) ((GuiManagerD) app.getGuiManager())
+		PropertiesView pv = (PropertiesView) app.getGuiManager()
 				.getPropertiesView();
 
 		// select geos
@@ -173,7 +173,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 		}
 
 		// show the view
-		((GuiManagerD) app.getGuiManager()).setShowView(true,
+		app.getGuiManager().setShowView(true,
 				App.VIEW_PROPERTIES);
 		if (geos != null && geos.size() == 1 && geos.get(0).isEuclidianVisible()
 				&& geos.get(0) instanceof GeoNumeric) {
@@ -269,7 +269,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 		} catch (Exception e) {
 			success = false;
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return success;
 	}
@@ -553,9 +553,13 @@ public class DialogManagerD extends DialogManagerMinimal {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (getFileChooser().getFileFilter() instanceof FileExtensionFilter) {
+				File selectedFile = getFileChooser().getSelectedFile();
+				if (selectedFile != null && getFileChooser().getFileFilter().accept(selectedFile)) {
+					return;
+				}
 				String fileName = null;
-				if (getFileChooser().getSelectedFile() != null) {
-					fileName = getFileChooser().getSelectedFile().getName();
+				if (selectedFile != null) {
+					fileName = selectedFile.getName();
 				} else {
 					fileName = ((GuiManagerD) app.getGuiManager())
 							.getLastFileNameOfSaveDialog();
@@ -563,7 +567,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 				// fileName = getFileName(fileName);
 
-				if (fileName != null && fileName.indexOf(".") > -1) {
+				if (fileName != null && fileName.contains(".")) {
 					fileName = fileName.substring(0, fileName.lastIndexOf("."))
 							+ "."
 							+ ((FileExtensionFilter) getFileChooser().getFileFilter())

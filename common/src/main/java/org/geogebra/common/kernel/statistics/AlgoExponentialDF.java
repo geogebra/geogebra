@@ -83,8 +83,7 @@ public class AlgoExponentialDF extends AlgoElement
 			input[2] = (GeoElement) cumulative;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, ret);
+		setOnlyOutput(ret);
 		setDependencies(); // done by AlgoElement
 	}
 
