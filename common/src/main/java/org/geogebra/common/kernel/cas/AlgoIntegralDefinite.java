@@ -262,8 +262,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			input[3] = evaluate;
 		}
 
-		setOutputLength(1);
-		setOutput(0, n);
+		setOnlyOutput(n);
 		setDependencies(); // done by AlgoElement
 	}
 

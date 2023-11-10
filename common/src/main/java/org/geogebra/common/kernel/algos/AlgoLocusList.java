@@ -282,8 +282,7 @@ public class AlgoLocusList extends AlgoElement {
 		standardInput[0] = locusPoint;
 		standardInput[1] = movingPoint;
 
-		setOutputLength(1);
-		setOutput(0, locus);
+		setOnlyOutput(locus);
 
 		// handle dependencies
 		setEfficientDependencies(standardInput, efficientInput);

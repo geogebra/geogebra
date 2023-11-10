@@ -89,8 +89,7 @@ public class AlgoJoinPointsRay extends AlgoElement
 		input[0] = P;
 		input[1] = Q;
 
-		super.setOutputLength(1);
-		super.setOutput(0, ray);
+		setOnlyOutput(ray);
 		setDependencies(); // done by AlgoElement
 	}
 

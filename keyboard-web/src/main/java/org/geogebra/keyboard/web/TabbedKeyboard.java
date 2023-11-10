@@ -135,9 +135,9 @@ public class TabbedKeyboard extends FlowPanel
 			case NOTES:
 				return new NotesKeyboardFactory();
 			case SCIENTIFIC:
-				return new SolverKeyboardFactory();
-			case SOLVER:
 				return new ScientificKeyboardFactory();
+			case SOLVER:
+				return new SolverKeyboardFactory();
 			default:
 				return new DefaultKeyboardFactory();
 			}

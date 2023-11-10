@@ -114,8 +114,7 @@ public class AlgoAngleLinePlane extends AlgoAngle
 		input[0] = (GeoElement) g;
 		input[1] = p;
 
-		setOutputLength(1);
-		setOutput(0, angle);
+		setOnlyOutput(angle);
 		setDependencies(); // done by AlgoElement
 	}
 

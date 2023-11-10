@@ -150,8 +150,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 		input[offset + 1] = from.toGeoElement();
 		input[offset + 2] = to.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, curve);
+		setOnlyOutput(curve);
 		setDependencies(); // done by AlgoElement
 	}
 

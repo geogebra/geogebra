@@ -65,9 +65,7 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	 * Set output.
 	 */
 	protected void setOutput() {
-
-		setOutputLength(1);
-		setOutput(0, outGeo);
+		setOnlyOutput(outGeo);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -615,8 +615,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			input = inputList.toArray(input);
 			break;
 		}
-		setOutputLength(1);
-		setOutput(0, sum);
+		setOnlyOutput(sum);
 		setDependencies(); // done by AlgoElement
 
 	}

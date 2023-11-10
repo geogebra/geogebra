@@ -64,8 +64,7 @@ public class AlgoCentroidPolygon extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = p;
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) centroid);
+		setOnlyOutput(centroid);
 		setDependencies(); // done by AlgoElement
 	}
 

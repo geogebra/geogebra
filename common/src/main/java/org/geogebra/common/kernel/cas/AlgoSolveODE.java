@@ -133,9 +133,7 @@ public class AlgoSolveODE extends AlgoElement {
 		input[i++] = end;
 		input[i++] = step;
 
-		super.setOutputLength(1);
-		// super.setOutput(0, g);
-		super.setOutput(0, locus);
+		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}
 
