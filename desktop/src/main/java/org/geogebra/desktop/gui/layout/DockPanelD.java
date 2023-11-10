@@ -1604,7 +1604,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// System.out.println("entered, not jpanel");
 			if (e.getSource() != titlePanel) {
 				e.consume();
 			} else if (!windowButton.isVisible()
@@ -1618,7 +1617,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// System.out.println("exited:");
 			if (!titlePanel.getVisibleRect().contains(e.getPoint())) {
 				windowButton.setVisible(false);
 			}

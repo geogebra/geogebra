@@ -236,7 +236,6 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 	@Override
 	public void updatePanel() {
-		// System.out.println("============= update stat panel");
 		if (statTable == null) {
 			return;
 		}

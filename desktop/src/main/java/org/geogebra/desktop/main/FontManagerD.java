@@ -214,8 +214,6 @@ public class FontManagerD extends FontManager {
 			// new font: create it and keep it in the HashMap
 			f = new Font(name, style, size);
 			fontMap.put(key.toString(), f);
-
-			// System.out.println("NEW font: " + f);
 		}
 
 		return new GFontD(f);

@@ -615,14 +615,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			selectedCellRanges.add(0, newSelection);
 
 		} else { // ctrl-select
-
-			/*
-			 * // return if we have already ctrl-selected this range for
-			 * (CellRange cr : selectedCellRanges) { if
-			 * (cr.equals(newSelection)){ System.out.println("reutrned");
-			 * return; } }
-			 */
-
 			// handle dragging
 			if (selectedCellRanges.get(0).hasSameAnchor(newSelection)) {
 				selectedCellRanges.remove(0);
@@ -709,10 +701,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				getTableHeader().repaint();
 			}
 		}
-
-		// System.out.println("------------------");
-		// for (CellRange cr: selectedCellRanges)cr.debug();
-
 	}
 
 	/**

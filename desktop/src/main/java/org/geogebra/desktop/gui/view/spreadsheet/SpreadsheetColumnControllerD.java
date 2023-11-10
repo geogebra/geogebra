@@ -316,7 +316,6 @@ public class SpreadsheetColumnControllerD
 			}
 		}
 
-		// System.out.println("isOver = " + isOver );
 		if (isOver && overTraceButtonColumn != column) {
 			overTraceButtonColumn = column;
 			if (table.getTableHeader() != null) {
@@ -570,8 +569,6 @@ public class SpreadsheetColumnControllerD
 				// layout.getLayoutComponent(app.borderWest()).getBounds(rect);
 				btnTrace.getBounds(rect);
 
-				// System.out.println(loc.toString() + " : " +
-				// rect.toString());
 				return rect.contains(loc);
 			} catch (Exception e) {
 				// e.printStackTrace();

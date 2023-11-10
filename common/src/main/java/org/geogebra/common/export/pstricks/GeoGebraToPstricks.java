@@ -150,13 +150,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		 */
 
 		drawAllElements();
-		/*
-		 * Object [] geos =
-		 * kernel.getConstruction().getGeoSetConstructionOrder().toArray(); for
-		 * (int i=0;i<geos.length;i++){ GeoElement g = (GeoElement)(geos[i]);
-		 * drawGeoElement(g,false); // System.out.println(g+" "
-		 * +beamerSlideNumber); }
-		 */
 
 		// add code for Points and Labels
 		if (codePoint.length() != 0) {
@@ -2021,8 +2014,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			sb.append("linecolor=");
 			colorCode(info.getLinecolor(), sb);
 		}
-		// System.out.println(geo.isFillable()+" "+transparency+"
-		// "+geo.getObjectType());
 		if (geo.isFillable() && transparency) {
 			switch (info.getFillType()) {
 			default:

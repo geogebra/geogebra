@@ -140,7 +140,6 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 					startX + step,
 					startX);
 			if (checkRoot(fun, root)) {
-				// System.out.println("1. Brent worked: " + root);
 				return root;
 			}
 		} catch (RuntimeException e) {
@@ -153,7 +152,6 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			root = rootFinderBrent.solve(MAX_ITERATIONS, fun, borders[0],
 					borders[1], startX);
 			if (checkRoot(fun, root)) {
-				// System.out.println("2. Brent worked: " + root);
 				return root;
 			}
 		} catch (RuntimeException e) {
@@ -179,7 +177,6 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			root = rootFinderNewton.solve(MAX_ITERATIONS, derivFun, borders[0],
 					borders[1], start1);
 			if (checkRoot(fun, root)) {
-				// System.out.println("Newton worked: " + root);
 				return root;
 			}
 		} catch (RuntimeException e) {

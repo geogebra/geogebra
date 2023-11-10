@@ -555,7 +555,6 @@ public class DataAnalysisViewD extends JPanel
 		Component[] components = c.getComponents();
 		for (Component com : components) {
 			if (com instanceof StatPanelInterface) {
-				// System.out.println(c.getClass().getSimpleName());
 				((StatPanelInterface) com).setLabels();
 			} else if (com instanceof Container) {
 				setLabelsRecursive((Container) com);

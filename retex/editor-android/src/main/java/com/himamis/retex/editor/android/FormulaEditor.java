@@ -108,7 +108,7 @@ public class FormulaEditor extends View implements MathField {
     }
 
     public void debug(@SuppressWarnings("unused") String message) {
-        //System.out.println(message);
+        //FactoryProvider.debugS(message);
     }
 
     @Override

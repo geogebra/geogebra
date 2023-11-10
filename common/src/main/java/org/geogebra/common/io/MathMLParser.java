@@ -893,8 +893,6 @@ public class MathMLParser {
 		this.closeBracketNext = false;
 		String endTag = generateEndTag(startTag);
 
-		// System.out.println(startTag+ " "+endTag);
-
 		int blockEnd = getBlockEnd(startTag, endTag);
 
 		String substBuf;
@@ -1036,11 +1034,9 @@ public class MathMLParser {
 				result.append(")");
 			}
 		}
-		// System.out.print(pos);
 		// TODO Warum braucht 'amayaOut.htm' diese Anweisung? -> 853, 853
 		// (<mprescripts/>)
 		pos = blockEnd;
-		// System.out.println(", "+pos+" ("+startTag+")");
 	}
 
 	/**
@@ -1239,7 +1235,6 @@ public class MathMLParser {
 	String parseBlockContent(String s) throws Exception {
 
 		// TODO hier!
-		// System.out.println("got '"+s+"'");
 
 		int sbIndex = 0;
 		StringBuilder sb = new StringBuilder(s);

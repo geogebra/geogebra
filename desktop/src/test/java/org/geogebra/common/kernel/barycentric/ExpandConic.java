@@ -48,13 +48,6 @@ public class ExpandConic {
 			Log.debug(e);
 		}
 		doExp();
-		/*
-		 * System.out.println(acyc.size()); System.out.println(nosym.size());
-		 * System.out.println(asym.size()); System.out.println(sym.size());
-		 * for(String s:nosym){ System.out.println(s); }
-		 * System.out.println("---"); for(String s:acyc){ System.out.println(s);
-		 * }
-		 */
 	}
 
 	private static void doExp() {
@@ -1569,10 +1562,6 @@ public class ExpandConic {
 			Log.debug(e);
 		}
 
-		if (!"0".equals(symhomCheck)) {
-			// System.out.println("weird hom"+name+":"+symhomCheck);
-		}
-
 		if (!"{0,0,0,0,0,0,0}".equals(cycloCheck)) {
 			acyc.add(name);
 			if (!name.endsWith("A") && !name.endsWith("B")
@@ -1600,12 +1589,8 @@ public class ExpandConic {
 			}
 			if ("0".equals(symCheck)) {
 				sym.add(name);
-				// System.out.println("case "+name.substring(1,4)+":return
-				// s("+toJava(coeffs)+");");
 			} else if ("0".equals(asymCheck)) {
 				asym.add(name);
-				// System.out.println("case "+name.substring(1,4)+":return
-				// a("+toJava(coeffs)+");");
 			} else {
 				nosym.add(name + ":" + symCheck + "\n" + asymCheck);
 			}

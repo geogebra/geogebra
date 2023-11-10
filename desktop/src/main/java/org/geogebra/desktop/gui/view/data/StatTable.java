@@ -353,7 +353,6 @@ public class StatTable extends JScrollPane {
 		} else {
 
 			prefWidth = Math.max(prefWidth, tableColumn.getMinWidth());
-			// System.out.println("pref width: " + prefWidth);
 		}
 		table.getTableHeader().setResizingColumn(tableColumn);
 		tableColumn.setWidth(prefWidth + table.getIntercellSpacing().width);

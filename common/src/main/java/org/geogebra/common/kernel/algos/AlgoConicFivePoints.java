@@ -246,8 +246,6 @@ public class AlgoConicFivePoints extends AlgoElement
 		}
 
 		conic.setMatrix(C);
-		// System.out.println(conic.getTypeString());
-
 	}
 
 	private void normalizeLines(int i) {

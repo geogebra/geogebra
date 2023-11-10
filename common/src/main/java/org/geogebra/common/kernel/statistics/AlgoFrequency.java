@@ -390,10 +390,6 @@ public class AlgoFrequency extends AlgoElement {
 					classFreq -= f.getCount(upperClassBound);
 				}
 
-				// System.out.println(" =================================");
-				// System.out.println("class freq: " + classFreq + " " +
-				// density);
-
 				if (doCumulative) {
 					cumulativeClassFreq += classFreq;
 				}
