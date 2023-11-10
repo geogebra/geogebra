@@ -1,7 +1,5 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ROOT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUP2;
 import static org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil.addFirstRow;
