@@ -78,7 +78,7 @@ public final class TableLayout {
 	/**
 	 * A (rectangular) portion of the table layout.
 	 */
-	static class Portion {
+	static final class Portion {
 
 		final int fromColumn;
 		final int fromRow;
@@ -147,16 +147,30 @@ public final class TableLayout {
 				visibleArea.getMinX(), visibleArea.getMinY());
 	}
 
+	/**
+	 * @param x pixel coordinate within viewport
+	 * @return hit column index (0 based, hitting left counts), -1 if header is hit
+	 */
 	public int findColumn(double x) {
-		return closest(Arrays.binarySearch(cumulativeWidths, x  - rowHeaderWidth));
+		return getClosestLowerIndex(cumulativeWidths, x - rowHeaderWidth);
 	}
 
+	/**
+	 * @param y pixel coordinate within viewport
+	 * @return hit row index (0 based, hitting top border counts), -1 if header is hit
+	 */
 	public int findRow(double y) {
-		return closest(Arrays.binarySearch(cumulativeHeights, y  - columnHeaderHeight));
+		return getClosestLowerIndex(cumulativeHeights, y - columnHeaderHeight);
 	}
 
-	private int closest(int searchResult) {
-		return searchResult >= 0 ? searchResult : -2 - searchResult;
+	private int getClosestLowerIndex(double[] borders, double value) {
+		int searchResult = Arrays.binarySearch(borders, value);
+		if (searchResult >= 0) {
+			return searchResult;
+		} else {
+			int closestHigherIndex = -1 - searchResult; // see contract of binarySearch
+			return closestHigherIndex - 1;
+		}
 	}
 
 	double getRowHeaderWidth() {

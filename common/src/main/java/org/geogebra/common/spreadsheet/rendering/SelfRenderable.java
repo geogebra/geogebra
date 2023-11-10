@@ -20,9 +20,23 @@ public final class SelfRenderable {
 	/**
 	 * @param renderer renderer
 	 * @param renderable cached renderable value
+	 * @param fontStyle optional font style ({@link GFont#getStyle})
+	 * @param alignment text alignment
 	 */
-	public SelfRenderable(CellRenderer renderer, Integer fontStyle, GColor background,
+	public SelfRenderable(CellRenderer renderer, Integer fontStyle,
 			Integer alignment, Object renderable) {
+		this(renderer, fontStyle, alignment, renderable, null);
+	}
+
+	/**
+	 * @param renderer renderer
+	 * @param renderable cached renderable value
+	 * @param fontStyle optional font style ({@link GFont#getStyle})
+	 * @param alignment text alignment
+	 * @param background background color
+	 */
+	public SelfRenderable(CellRenderer renderer, Integer fontStyle,
+			Integer alignment, Object renderable, GColor background) {
 		this.renderer = renderer;
 		this.renderable = renderable;
 		this.background = background;

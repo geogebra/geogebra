@@ -37,7 +37,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		public SelfRenderable getRenderable(Object data, SpreadsheetStyle style,
 				int row, int column) {
 			return data == null ? null : new SelfRenderable(new StringRenderer(),
-					GFont.PLAIN, null, CellFormat.ALIGN_LEFT, data);
+					GFont.PLAIN, CellFormat.ALIGN_LEFT, data);
 		}
 	}
 }

@@ -42,14 +42,15 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 			TeXFormula tf = new TeXFormula(((GeoElement) data)
 					.toValueString(StringTemplate.latexTemplate));
 			return new SelfRenderable(laTeXRenderer,
-					fontStyle, background, align,
-					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, 12));
+					fontStyle, align,
+					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, 12), background);
 		}
 		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {
-			return new SelfRenderable(checkboxCellRenderer, fontStyle, background, align, data);
+			return new SelfRenderable(checkboxCellRenderer, fontStyle, align, data, background);
 		}
-		return new SelfRenderable(stringRenderer, fontStyle, background, align,
-				((GeoElement) data).toValueString(StringTemplate.defaultTemplate));
+		return new SelfRenderable(stringRenderer, fontStyle, align,
+				((GeoElement) data).toValueString(StringTemplate.defaultTemplate),
+				background);
 	}
 
 	private static class CheckboxCellRenderer implements CellRenderer {
