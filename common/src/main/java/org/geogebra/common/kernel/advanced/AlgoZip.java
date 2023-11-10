@@ -116,8 +116,7 @@ public class AlgoZip extends AlgoElement {
 		if (varCount > listCount) {
 			input[listCount + varCount] = vars[varCount - 1];
 		}
-		setOutputLength(1);
-		setOutput(0, list);
+		setOnlyOutput(list);
 
 		list.setTypeStringForXML(expression.getXMLtypeString());
 

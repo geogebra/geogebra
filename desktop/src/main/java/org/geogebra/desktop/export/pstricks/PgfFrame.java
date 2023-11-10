@@ -151,36 +151,24 @@ public class PgfFrame extends ExportFrame {
 
 	@Override
 	protected boolean isBeamer() {
-		if (comboFormat.getSelectedIndex() == 3) {
-			return true;
-		}
-		return false;
+		return comboFormat.getSelectedIndex() == 3;
 	}
 
 	@Override
 	protected boolean isLaTeX() {
 		int id = comboFormat.getSelectedIndex();
-		if (id == 0 || id == 3) {
-			return true;
-		}
-		return false;
+		return id == 0 || id == 3;
 	}
 
 	@Override
 	protected boolean isPlainTeX() {
 		int id = comboFormat.getSelectedIndex();
-		if (id == 1) {
-			return true;
-		}
-		return false;
+		return id == 1;
 	}
 
 	@Override
 	protected boolean isConTeXt() {
 		int id = comboFormat.getSelectedIndex();
-		if (id == 2) {
-			return true;
-		}
-		return false;
+		return id == 2;
 	}
 }

@@ -87,8 +87,7 @@ public class AlgoMidpointSegment extends AlgoElement
 		input = new GeoElement[1];
 		input[0] = segment;
 
-		super.setOutputLength(1);
-		super.setOutput(0, M);
+		setOnlyOutput(M);
 		setDependencies(); // done by AlgoElement
 	}
 

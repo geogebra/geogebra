@@ -193,8 +193,7 @@ public class AlgoListElement extends AlgoElement {
 			}
 		}
 
-		setOutputLength(1);
-		setOutput(0, element);
+		setOnlyOutput(element);
 		setDependencies(); // done by AlgoElement
 	}
 

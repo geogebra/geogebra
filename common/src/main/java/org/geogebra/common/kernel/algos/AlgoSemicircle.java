@@ -110,8 +110,7 @@ public class AlgoSemicircle extends AlgoElement
 		input[0] = A;
 		input[1] = B;
 
-		setOutputLength(1);
-		setOutput(0, conicPart);
+		setOnlyOutput(conicPart);
 
 		setDependencies();
 	}

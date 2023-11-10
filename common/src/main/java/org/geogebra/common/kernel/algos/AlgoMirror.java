@@ -238,8 +238,7 @@ public class AlgoMirror extends AlgoTransformation implements
 		input[0] = inGeo;
 		input[1] = mirror;
 
-		setOutputLength(1);
-		setOutput(0, outGeo);
+		setOnlyOutput(outGeo);
 		setDependencies(); // done by AlgoElement
 	}
 

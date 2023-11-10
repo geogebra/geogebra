@@ -294,6 +294,7 @@ public class XMLBuilder {
 	 *            corner index
 	 * @param corners
 	 *            corners
+	 * @param isAbsolute whether the position is in screen pixels
 	 */
 	public static void getCornerPointXML(StringBuilder sb, int number, GeoPointND[] corners,
 			boolean isAbsolute) {

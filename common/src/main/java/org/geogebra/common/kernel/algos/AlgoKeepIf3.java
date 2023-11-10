@@ -73,8 +73,7 @@ public class AlgoKeepIf3 extends AlgoElement {
 		input[1] = var;
 		input[2] = inputList;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

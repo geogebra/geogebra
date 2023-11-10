@@ -2,10 +2,9 @@ package org.geogebra.desktop.main;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.geogebra.common.util.Charsets;
 
 /**
  * An OutputStream that writes contents to a Logger upon each call to flush()
@@ -47,7 +46,7 @@ class LoggingOutputStream extends ByteArrayOutputStream {
 		String record;
 		synchronized (this) {
 			super.flush();
-			record = this.toString(Charsets.UTF_8);
+			record = this.toString(StandardCharsets.UTF_8);
 			super.reset();
 
 			if (record.length() == 0 || record.equals(lineSeparator)) {

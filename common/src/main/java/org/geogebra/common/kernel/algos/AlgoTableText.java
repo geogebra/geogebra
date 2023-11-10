@@ -178,8 +178,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 
 	@Override
 	protected void setInputOutput() {
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

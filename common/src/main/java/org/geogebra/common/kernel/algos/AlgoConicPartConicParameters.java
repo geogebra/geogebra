@@ -62,8 +62,7 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 		input[1] = startParam.toGeoElement();
 		input[2] = endParam.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, conicPart);
+		setOnlyOutput(conicPart);
 
 		setDependencies();
 	}

@@ -131,8 +131,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 		input[1] = (GeoElement) B;
 		input[2] = (GeoElement) orientation;
 
-		setOutputLength(1);
-		setOutput(0, conicPart);
+		setOnlyOutput(conicPart);
 
 		setDependencies();
 	}

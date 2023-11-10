@@ -67,10 +67,8 @@ public class CASgiacD extends CASgiacJre {
 
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		if (giacLoaded) {

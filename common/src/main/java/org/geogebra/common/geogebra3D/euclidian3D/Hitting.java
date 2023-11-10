@@ -14,25 +14,19 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public class Hitting {
 
-	/**
-	 * origin of the ray
-	 */
-	public Coords origin;
+	private final Coords origin;
 
-	/**
-	 * direction of the ray
-	 */
-	public Coords direction;
+	private final Coords direction;
 
 	/**
 	 * origin of the ray (screen coords)
 	 */
-	public Coords originScreen;
+	private final Coords originScreen;
 
 	/**
 	 * direction of the ray (screen coords)
 	 */
-	public Coords directionScreen;
+	private final Coords directionScreen;
 
 	/**
 	 * View
@@ -289,4 +283,18 @@ public class Hitting {
 	public boolean discardPositiveHits() {
 	    return view.isXREnabled();
     }
+
+	/**
+	 * @return direction of the ray
+	 */
+	public Coords getDirection() {
+		return direction;
+	}
+
+	/**
+	 * @return origin of the ray
+	 */
+	public Coords getOrigin() {
+		return origin;
+	}
 }

@@ -93,8 +93,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		input[0] = f.toGeoElement();
 		input[1] = startGeo;
 
-		super.setOutputLength(1);
-		super.setOutput(0, rootPoint);
+		setOnlyOutput(rootPoint);
 		setDependencies();
 	}
 

@@ -179,6 +179,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private AbstractAction undoAction;
 	private AbstractAction redoAction;
 	private final LocalizationD loc;
+	ContextMenuGraphicsWindowD drawingPadpopupMenu;
+	ContextMenuGeoElementD popupMenu;
+	VirtualKeyboardListener currentKeyboardListener = null;
+	private InputBarHelpPanelD inputHelpPanel;
 
 	/**
 	 * Returns last filename that was used in save dialog (may be for .png,
@@ -194,7 +198,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		try {
 			return new DataFlavor(desc);
 		} catch (ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
+			Log.debug(cnfe);
 		}
 		return null;
 	}
@@ -749,7 +753,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 			return layout.getDockManager().getPanel(viewId).isVisible();
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -953,8 +957,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		GeoGebraMenuBar.showPrintPreview(getApp());
 	}
 
-	ContextMenuGraphicsWindowD drawingPadpopupMenu;
-
 	/**
 	 * Displays the Graphics View menu at the position p in the coordinate space
 	 * of euclidianView
@@ -968,8 +970,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				p.y);
 		drawingPadpopupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 	}
-
-	ContextMenuGeoElementD popupMenu;
 
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
@@ -1201,7 +1201,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			} catch (RuntimeException e) {
 				getApp().setDefaultCursor();
-				e.printStackTrace();
+				Log.debug(e);
 				getApp().showError(Errors.PasteImageFailed);
 				return null;
 			}
@@ -1318,7 +1318,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (RuntimeException | IOException | UnsupportedFlavorException
 				| URISyntaxException | ClassNotFoundException e) {
 			getApp().setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			return new String[0];
 		}
 
@@ -1440,7 +1440,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return ret;
 		} catch (Exception e) {
 			getApp().setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			getApp().showError(Errors.LoadFileFailed);
 			return null;
 		}
@@ -1521,7 +1521,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			getApp().setDefaultCursor();
 		} catch (Exception e) {
 			getApp().setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			getApp().showError(Errors.LoadFileFailed);
 			return null;
 		}
@@ -2149,7 +2149,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 									wnd.toFront();
 									wnd.requestFocus();
 								} catch (Exception e) {
-									e.printStackTrace();
+									Log.debug(e);
 								}
 							}
 						} else if (counter == 0) {
@@ -2431,7 +2431,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			URL url = getEscapedUrl(strURL);
 			showURLinBrowser(url);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -2530,8 +2530,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			layout.getDockManager().exitAllCurrent();
 		}
 	}
-
-	VirtualKeyboardListener currentKeyboardListener = null;
 
 	/**
 	 * @param keyboardListener current textfield
@@ -2652,8 +2650,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 		}
 	}
-
-	private InputBarHelpPanelD inputHelpPanel;
 
 	public boolean hasInputHelpPanel() {
 		return inputHelpPanel != null;

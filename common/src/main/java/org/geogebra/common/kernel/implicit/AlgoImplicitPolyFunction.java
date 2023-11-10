@@ -74,8 +74,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[] { function };
-		setOutputLength(1);
-		setOutput(0, implicitPoly.toGeoElement());
+		setOnlyOutput(implicitPoly);
 		setDependencies(); // done by AlgoElement
 	}
 

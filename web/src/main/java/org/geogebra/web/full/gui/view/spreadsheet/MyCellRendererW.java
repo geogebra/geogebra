@@ -534,7 +534,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 			lb.addChangeHandler(ce -> {
 				if (view.allowSpecialEditor()) {
-					list.setSelectedIndex(lb.getSelectedIndex(), true);
+					list.setSelectedIndexUpdate(lb.getSelectedIndex());
 				}
 			});
 
