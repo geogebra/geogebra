@@ -253,6 +253,8 @@ public class TabularRange {
 	}
 
 	/**
+	 * Merge two ranges into one if their union forms a rectangle
+	 * (i.e. they overlap or share an edge)
 	 * @param range other range
 	 * @return new range if this and the other range could be merged, null otherwise
 	 */
@@ -262,6 +264,13 @@ public class TabularRange {
 					|| (minRow >= range.minRow && minRow <= range.maxRow + 1)) {
 				return TabularRange.range(Math.min(minRow, range.minRow),
 						Math.max(maxRow, range.maxRow), minColumn, maxColumn);
+			}
+		}
+		if (minRow == range.minRow && maxRow == range.maxRow) {
+			if ((range.minColumn >= minColumn && range.minColumn <= maxColumn + 1)
+					|| (minColumn >= range.minColumn && minColumn <= range.maxColumn + 1)) {
+				return TabularRange.range(minRow, maxRow, Math.min(minColumn, range.minColumn),
+						Math.max(maxColumn, range.maxColumn));
 			}
 		}
 		return null;

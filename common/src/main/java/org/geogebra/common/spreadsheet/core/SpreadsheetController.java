@@ -174,7 +174,7 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param viewport visible area
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers, Rectangle viewport) {
-		if (finishDrag(x, y)) {
+		if (finishDrag(x, y, modifiers)) {
 			return;
 		}
 		int row = layout.findRow(y + viewport.getMinY());
@@ -190,7 +190,7 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 	}
 
-	private boolean finishDrag(int x, int y) {
+	private boolean finishDrag(int x, int y, Modifiers modifiers) {
 		List<Selection> sel = getSelections();
 		boolean handled = false;
 		switch (activeCursor) {
@@ -219,7 +219,7 @@ public final class SpreadsheetController implements TabularSelection {
 			handled = true;
 			break;
 		case DEFAULT:
-			handled = extendSelectionByDrag(x, y);
+			handled = extendSelectionByDrag(x, y, modifiers.ctrl);
 		}
 		activeCursor = MouseCursor.DEFAULT;
 		lastPointerDown.setLocation(-1, -1);
@@ -311,7 +311,7 @@ public final class SpreadsheetController implements TabularSelection {
 			return true;
 		default:
 		case DEFAULT:
-			return extendSelectionByDrag(x, y);
+			return extendSelectionByDrag(x, y, modifiers.ctrl);
 		}
 	}
 
@@ -323,15 +323,18 @@ public final class SpreadsheetController implements TabularSelection {
 				.collect(Collectors.toList());
 	}
 
-	private boolean extendSelectionByDrag(int x, int y) {
+	private boolean extendSelectionByDrag(int x, int y, boolean addSelection) {
 		// TODO drag selection for columns and rows
 		if (lastPointerDown.x >= 0 && lastPointerDown.y >= 0) {
 			int row = getLayout().findRow(y);
 			int column = getLayout().findColumn(x);
-			selectionController.select(new Selection(SelectionType.CELLS,
-					new TabularRange(lastPointerDown.x, lastPointerDown.y, column, row)),
-					false, false);
-			return true;
+			if (row != lastPointerDown.getY() || column != lastPointerDown.getX()) {
+				TabularRange range =
+						new TabularRange(lastPointerDown.x, lastPointerDown.y, column, row);
+				selectionController.select(new Selection(SelectionType.CELLS,
+								range), false, addSelection);
+				return true;
+			}
 		}
 		return false;
 	}
