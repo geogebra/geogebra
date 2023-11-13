@@ -1,8 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
@@ -17,6 +15,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
  */
 public final class SpreadsheetController implements TabularSelection {
 
+	private final ContextMenuItems contextMenuItems;
 	private SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
 	final private TabularData<?> tabularData;
@@ -35,6 +34,14 @@ public final class SpreadsheetController implements TabularSelection {
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
+		contextMenuItems = new ContextMenuItems(tabularData, selectionController,
+				getCopyPasteCut());
+	}
+
+	private CopyPasteCutTabularData getCopyPasteCut() {
+		return controlsDelegate != null
+				? new CopyPasteCutTabularDataImpl<>(tabularData, controlsDelegate.getClipboard())
+				: null;
 	}
 
 	TableLayout getLayout() {
@@ -100,15 +107,8 @@ public final class SpreadsheetController implements TabularSelection {
 		return tabularData.getColumnName(column);
 	}
 
-	/**
-	 * @param column column number
-	 * @return actions for the column (map action's ggbtrans key -> action)
-	 */
-	public Map<String, Runnable> getContextMenu(int column) {
-		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("InsertColumn", () -> tabularData.insertColumnAt(column));
-		actions.put("DeleteColumn", () -> tabularData.deleteColumnAt(column));
-		return actions;
+	public String getRowName(int column) {
+		return tabularData.getRowName(column);
 	}
 
 	boolean showCellEditor(int row, int column, Rectangle viewport) {
@@ -119,7 +119,7 @@ public final class SpreadsheetController implements TabularSelection {
 			SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
 			editor.setBounds(editorBounds);
 
-			editor.setContent(tabularData.getEditableString(row, column));
+			editor.setContent(tabularData.contentAt(row, column));
 			editor.setTargetCell(row, column);
 			return true;
 		}
@@ -148,8 +148,8 @@ public final class SpreadsheetController implements TabularSelection {
 		int column = layout.findColumn(x + viewport.getMinX());
 		int row = layout.findRow(y + viewport.getMinY());
 		if (modifiers.rightButton) {
-			controlsDelegate.showContextMenu(getContextMenu(column), new GPoint(x, y));
-
+			GPoint coords = new GPoint(x, y);
+			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
 			return true;
 		}
 		if (isSelected(row, column)) {

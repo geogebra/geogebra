@@ -446,7 +446,7 @@ public class DataSource {
 			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					range.substring(range.indexOf(':') + 1));
 
-			TabularRange tr = new TabularRange(start.x, start.y, end.x, end.y);
+			TabularRange tr = new TabularRange(start.y, start.x, end.y, end.x);
 			ranges.add(tr);
 		}
 
@@ -459,7 +459,7 @@ public class DataSource {
 			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					frequencies.substring(frequencies.indexOf(':') + 1));
 
-			TabularRange tr = new TabularRange(start.x, start.y, end.x, end.y);
+			TabularRange tr = new TabularRange(start.y, start.x, end.y, end.x);
 			ranges.add(tr);
 		}
 

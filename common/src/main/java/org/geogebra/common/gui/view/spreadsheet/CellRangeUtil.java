@@ -55,13 +55,13 @@ final public class CellRangeUtil {
 		}
 
 		if (general.getMinRow() == -1 && general.getMaxRow() == -1) {
-			return new TabularRange(general.getMinColumn(), 0,
-					general.getMaxColumn(), tableModel.getRowCount() - 1);
+			return new TabularRange(0, general.getMinColumn(),
+					tableModel.getRowCount() - 1, general.getMaxColumn());
 		}
 
 		if (general.getMinColumn() == -1 && general.getMaxColumn() == -1) {
-			return new TabularRange(0, general.getMinRow(),
-					tableModel.getColumnCount() - 1, general.getMaxRow());
+			return new TabularRange(general.getMinRow(), 0,
+					general.getMaxRow(), tableModel.getColumnCount() - 1);
 		}
 		return general;
 	}
