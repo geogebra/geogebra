@@ -35,8 +35,8 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
@@ -95,18 +95,23 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	protected DefaultTableModel tableModel;
 	private CellRangeProcessor crProcessor;
 	private MyTableColumnModelListener columnModelListener;
+	private boolean isSelectAll = false;
+	private boolean isSelectNone = false;
+	private Rectangle targetcellFrame;
+	final static float[] dash1 = { 2.0f };
+	final static BasicStroke dashed = new BasicStroke(3.0f,
+			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
+
+	private boolean allowEditing = false;
+
+	private SpreadsheetModeProcessor spredsheetModeProcessor;
 
 	/**
 	 * All currently selected cell ranges are held in this list. Cell ranges are
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	public ArrayList<TabularRange> selectedRanges;
-
-	@Override
-	public ArrayList<TabularRange> getSelectedRanges() {
-		return selectedRanges;
-	}
+	private final ArrayList<TabularRange> selectedRanges;
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
@@ -141,10 +146,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	protected boolean isOverDnDRegion = false;
 
-	public boolean isOverDnDRegion() {
-		return isOverDnDRegion;
-	}
-
 	// Keep track of ctrl-down. This is needed in some
 	// selection methods that do not receive key events.
 	protected boolean metaDown = false;
@@ -155,23 +156,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	protected HashSet<GPoint> cellResizeHeightSet;
 	protected HashSet<GPoint> cellResizeWidthSet;
 
-	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
+	private final ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
 	private boolean doRecordRowHeights = true;
 
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
-
-	// Collection of cells that contain geos that can be edited with one click,
-	// e.g. booleans, buttons, lists
-	protected HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<>();
-
-	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
-		return oneClickEditMap;
-	}
-
-	public void setOneClickEditMap(
-			HashMap<GPoint, GeoElement> oneClickEditMap) {
-		this.oneClickEditMap = oneClickEditMap;
-	}
 
 	// cursors
 	protected Cursor defaultCursor = Cursor.getDefaultCursor();
@@ -183,6 +171,28 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	protected Cursor grabCursor;
 
 	private SpreadsheetController controller;
+
+	// Collection of cells that contain geos that can be edited with one click,
+	// e.g. booleans, buttons, lists
+	protected HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<>();
+
+	public boolean isOverDnDRegion() {
+		return isOverDnDRegion;
+	}
+
+	@Override
+	public ArrayList<TabularRange> getSelectedRanges() {
+		return selectedRanges;
+	}
+
+	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
+		return oneClickEditMap;
+	}
+
+	public void setOneClickEditMap(
+			HashMap<GPoint, GeoElement> oneClickEditMap) {
+		this.oneClickEditMap = oneClickEditMap;
+	}
 
 	/*******************************************************************
 	 * Construct table
@@ -805,7 +815,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				repaint();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 
@@ -869,9 +879,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		super.setColumnSelectionInterval(col0, col1);
 		selectionChanged();
 	}
-
-	private boolean isSelectAll = false;
-	private boolean isSelectNone = false;
 
 	public boolean isSelectNone() {
 		return isSelectNone;
@@ -1017,7 +1024,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	// target selection frame
 	// =============================
-	private Rectangle targetcellFrame;
 
 	public Rectangle getTargetcellFrame() {
 		return targetcellFrame;
@@ -1026,10 +1032,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public void setTargetcellFrame(Rectangle targetcellFrame) {
 		this.targetcellFrame = targetcellFrame;
 	}
-
-	final static float[] dash1 = { 2.0f };
-	final static BasicStroke dashed = new BasicStroke(3.0f,
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
 	/**
 	 * Checks selection state and fixed geos
@@ -1322,10 +1324,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return viewColumnIndex;
 	}
 
-	private boolean allowEditing = false;
-
-	private SpreadsheetModeProcessor spredsheetModeProcessor;
-
 	public boolean isAllowEditing() {
 		return allowEditing;
 	}
@@ -1358,15 +1356,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// prevent editing fixed geos when allowEditing == true
 		GeoElement geo = (GeoElement) getModel().getValueAt(row, column);
-		if (geo != null && geo.isProtected(EventType.UPDATE)) {
-			return false;
-		}
-
 		// return true when editing is allowed (mostly for blank cells). This
 		// lets
 		// the JTable mousePressed listener catch double clicks and invoke the
 		// editor
-		return true;
+		return geo == null || !geo.isProtected(EventType.UPDATE);
 	}
 
 	/** Set editor text */
@@ -1409,7 +1403,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				view.updateRowHeightSetting(row, rowHeight);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -1422,7 +1416,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				view.updatePreferredRowHeight(rowHeight);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -1723,7 +1717,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				getSpreadsheetModeProcessor().performAutoFunctionCreation(
 						selectedRanges.get(0), app.getShiftDown());
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 			// Don't stay in this mode, we're done
