@@ -1483,6 +1483,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 *            builder for the expression XML tag
 	 */
 	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
+		String expString = toExpString(tpl);
 		sb.append("<expression");
 		// add label
 		if (/* output != null && */getOutputLength() == 1) {
@@ -1494,7 +1495,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 		// add expression
 		sb.append(" exp=\"");
-		StringUtil.encodeXML(sb, toExpString(tpl));
+		StringUtil.encodeXML(sb, expString);
 		sb.append("\"");
 
 		// make sure that a vector remains a vector and a point remains a point
