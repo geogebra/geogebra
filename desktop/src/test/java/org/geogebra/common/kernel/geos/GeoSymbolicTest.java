@@ -24,17 +24,15 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
-import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
@@ -44,6 +42,7 @@ import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -791,9 +790,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void redefinitionInOneCellsShouldWork() {
 		t("a=p+q", "p + q");
 		GeoElement a = getSymbolic("a");
-		ap.changeGeoElement(a, "a = p-q", true, false, TestErrorHandler.INSTANCE,
-				null);
+		redefineSymbolic(a, "a = p-q", TestErrorHandler.INSTANCE);
 		checkInput("a", "a = p - q");
+	}
+
+	private void redefineSymbolic(GeoElement geo, String def, ErrorHandler instance) {
+		ap.changeGeoElement(geo, def, true, false, instance,
+				null);
 	}
 
 	@Test
@@ -1277,6 +1280,22 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(AlgebraItem.isSymbolicDiffers(solveX_2), is(false));
 		assertThat(AlgebraItem.isSymbolicDiffers(solveA_1), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(solveA_2), is(false));
+	}
+
+	@Test
+	public void testSymbolicDiffersForMode() {
+		add("l={1,2,2}");
+		GeoSymbolic mode = add("mode=Mode(l)");
+		assertThat(AlgebraItem.isSymbolicDiffers(mode), is(false));
+	}
+
+	@Test
+	public void testRedefineForMode() {
+		GeoSymbolic list = add("l={1,2,2}");
+		GeoSymbolic mode = add("mode=Mode(l)");
+		assertThat(mode, hasValue("{2}"));
+		redefineSymbolic(list, "{1,3,3}", TestErrorHandler.INSTANCE);
+		assertThat(lookup("mode"), hasValue("{3}"));
 	}
 
 	@Test
@@ -1920,14 +1939,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testThrowsCircularDefinitionException() {
 		GeoElement element = add("c(0,0)");
-		AlgebraProcessor processor = kernel.getAlgebraProcessor();
-		EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(kernel, element, true);
-		processor.changeGeoElementNoExceptionHandling(element, "C=(0,0)", info, false, null,
-				ErrorHelper.silent());
-		info = EvalInfoFactory.getEvalInfoForRedefinition(kernel, element, true);
-		processor.changeGeoElementNoExceptionHandling(element, "C(0,0)", info, false, null,
-				ErrorHelper.silent());
+		redefineSymbolic(element, "C=(0,0)", TestErrorHandler.INSTANCE);
+		ErrorAccumulator errAcc = new ErrorAccumulator();
+		redefineSymbolic(element, "C(0,0)", errAcc);
 		assertThat(element.getDefinition(), is(notNullValue()));
+		assertThat(errAcc.getErrors(), equalTo("Circular definition"));
 	}
 
 	@Test
