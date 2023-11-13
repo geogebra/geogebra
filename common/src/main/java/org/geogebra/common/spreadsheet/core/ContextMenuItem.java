@@ -1,7 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 public class ContextMenuItem {
-	enum Identifer {
+	public enum Identifer {
 		CUT("Cut"), COPY("Copy"),
 		PASTE("Paste"),
 		DELETE("Delete"),
