@@ -102,7 +102,7 @@ public final class CommandFilterFactory {
 				Commands.Translate, Commands.Shear, Commands.Polygon,
 				Commands.Arc, Commands.Circle, Commands.CircleSector,
 				Commands.CircleArc, Commands.OsculatingCircle, Commands.Cubic,
-				Commands.Polygon, Commands.Line, Commands.Segment, Commands.Ray,
+				Commands.Line, Commands.Segment, Commands.Ray,
 				Commands.Ellipse, Commands.LineBisector, Commands.OrthogonalLine,
 				Commands.Asymptote, Commands.RigidPolygon, Commands.Tangent,
 				Commands.AngularBisector,
@@ -175,7 +175,7 @@ public final class CommandFilterFactory {
 				// CAS specific command
 				Commands.Delete, Commands.Poisson,
 				// Function Commands
-				Commands.Asymptote, Commands.CurveCartesian, Commands.Curve,
+				Commands.CurveCartesian, Commands.Curve,
 				Commands.CurvatureVector, Commands.DataFunction, Commands.Function,
 				Commands.ImplicitCurve, Commands.IterationList, Commands.NSolveODE,
 				Commands.OsculatingCircle, Commands.ParametricDerivative, Commands.PathParameter,
