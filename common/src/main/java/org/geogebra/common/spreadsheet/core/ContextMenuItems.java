@@ -1,11 +1,11 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer;
 
 public class ContextMenuItems {
-
 	static final int HEADER_INDEX = -1;
 	private final TabularData tabularData;
 	private final CopyPasteCutTabularData copyPasteCut;
@@ -30,7 +30,7 @@ public class ContextMenuItems {
 	 * @param column of the cell.
 	 * @return map of the menu key and its action.
 	 */
-	public Map<String, Runnable> get(int row, int column) {
+	public List<ContextMenuItem> get(int row, int column) {
 		if (row == HEADER_INDEX) {
 			return columnItems(column);
 		} else if (column == HEADER_INDEX) {
@@ -39,13 +39,13 @@ public class ContextMenuItems {
 		return cellItems(row, column);
 	}
 
-	private Map<String, Runnable> cellItems(int row, int column) {
-		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("Delete", () -> deleteCells(row, column));
-		actions.put("Copy", () -> copyCells(row, column));
-		actions.put("Paste", () -> pasteCells(row, column));
-		actions.put("Cut", () -> cutCells(row, column));
-		return actions;
+	private List<ContextMenuItem> cellItems(int row, int column) {
+		return Arrays.asList(
+				new ContextMenuItem(Identifer.DELETE, () -> deleteCells(row, column)),
+				new ContextMenuItem(Identifer.COPY, () -> copyCells(row, column)),
+				new ContextMenuItem(Identifer.CUT, () -> cutCells(row, column)),
+				new ContextMenuItem(Identifer.PASTE, () -> pasteCells(row, column))
+		);
 	}
 
 	private void pasteCells(int row, int column) {
@@ -99,12 +99,14 @@ public class ContextMenuItems {
 		}
 	}
 
-	private Map<String, Runnable> rowItems(int row) {
-		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("ContextMenu.insertRowAbove", () -> tabularData.insertRowAt(row));
-		actions.put("ContextMenu.insertRowBelow", () -> tabularData.insertRowAt(row + 1));
-		actions.put("ContextMenu.deleteRow", () -> deleteRowAt(row));
-		return actions;
+	private List<ContextMenuItem> rowItems(int row) {
+		return Arrays.asList(
+				new ContextMenuItem(Identifer.INSERT_ROW_ABOVE,
+						() -> tabularData.insertRowAt(row)),
+				new ContextMenuItem(Identifer.INSERT_ROW_BELOW,
+						() -> tabularData.insertRowAt(row + 1)),
+				new ContextMenuItem(Identifer.DELETE_ROW, () -> deleteRowAt(row))
+		);
 	}
 
 	private void deleteRowAt(int row) {
@@ -124,12 +126,16 @@ public class ContextMenuItems {
 		}
 	}
 
-	private Map<String, Runnable> columnItems(int column) {
-		HashMap<String, Runnable> actions = new HashMap<>();
-		actions.put("ContextMenu.insertColumnLeft", () -> tabularData.insertColumnAt(column));
-		actions.put("ContextMenu.insertColumnRight", () -> tabularData.insertColumnAt(column + 1));
-		actions.put("ContextMenu.deleteColumn", () -> deleteColumnAt(column));
-		return actions;
+	private List<ContextMenuItem> columnItems(int column) {
+		return Arrays.asList(
+				new ContextMenuItem(Identifer.INSERT_COLUMN_LEFT,
+						() -> tabularData.insertColumnAt(column)),
+				new ContextMenuItem(Identifer.INSERT_COLUMN_RIGHT,
+						() -> tabularData.insertColumnAt(column + 1)),
+				new ContextMenuItem(Identifer.DELETE_COLUMN,
+						() -> deleteColumnAt(column))
+
+				);
 	}
 
 	private void deleteColumnAt(int column) {

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import javax.swing.AbstractAction;
@@ -34,6 +34,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
@@ -202,15 +203,16 @@ public class SpreadsheetDemo {
 				}
 
 				@Override
-				public void showContextMenu(Map<String, Runnable> actions, GPoint position) {
+				public void showContextMenu(List<ContextMenuItem> items, GPoint position) {
 					contextMenu.show(editorOverlay, position.x, position.y);
 					contextMenu.removeAll();
-					for (Map.Entry<String, Runnable> action: actions.entrySet()) {
-						JMenuItem btn = new JMenuItem(action.getKey());
-						btn.setAction(new AbstractAction(action.getKey()) {
+					for (ContextMenuItem item: items) {
+						String localizationKey = item.getLocalizationKey();
+						JMenuItem btn = new JMenuItem(localizationKey);
+						btn.setAction(new AbstractAction(localizationKey) {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								action.getValue().run();
+								item.performAction();
 							}
 						});
 						contextMenu.add(btn);

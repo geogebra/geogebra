@@ -18,7 +18,7 @@ final class CopyPasteCellOperation {
 	private int destRow;
 	private int destCol;
 
-	public CopyPasteCellOperation(int id, int sourceRow, int sourceCol, int destRow, int destCol) {
+	CopyPasteCellOperation(int id, int sourceRow, int sourceCol, int destRow, int destCol) {
 		this.id = id;
 		this.sourceRow = sourceRow;
 		this.destRow = destRow;
@@ -26,38 +26,18 @@ final class CopyPasteCellOperation {
 		this.destCol = destCol;
 	}
 
-	public int getSourceRow() {
-		return sourceRow;
-	}
-
-	public int getDestRow() {
-		return destRow;
-	}
-
-	public int getSourceCol() {
-		return sourceCol;
-	}
-
-	public int getDestCol() {
-		return destCol;
-	}
-
-	public int getId() {
-		return id;
-	}
-
 	/**
 	 * Executes the paste from buffer to tabularData.
-	 *
 	 * @param buffer to copy from.
 	 * @param tabularData to paste to.
 	 */
 	void apply(TabularClipboard<GeoElement> buffer, TabularData<GeoElement> tabularData) {
-		GeoElement copy = copyGeo(buffer.contentAt(sourceRow, sourceCol));
+		GeoElement value = buffer.contentAt(sourceRow, sourceCol);
+		GeoElement copy = value.copy();
 		tabularData.setContent(destRow, destCol, copy);
 	}
 
-	private GeoElement copyGeo(GeoElement value) {
-		return value.copy();
+	int getId() {
+		return id;
 	}
 }

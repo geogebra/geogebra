@@ -8,8 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
 
-	private final CopyPasteCellOperationList operations = new CopyPasteCellOperationList();
-
 	/**
 	 * Copy and paste geos ensuring that the creation order of the new, pasted geos
 	 * will be the same as the copied ones.
@@ -17,7 +15,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 	@Override
 	public void pasteInternal(TabularData<GeoElement> tabularData,
 			TabularClipboard<GeoElement> clipboard, TabularRange destination) {
-		collectOperations(clipboard, destination);
+		CopyPasteCellOperationList operations = collectOperations(clipboard, destination);
 		operations.sort();
 		operations.apply(clipboard, tabularData);
 	}
@@ -28,8 +26,9 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 		// TODO
 	}
 
-	private void collectOperations(TabularClipboard<GeoElement> buffer, TabularRange destination) {
-		operations.clear();
+	private static CopyPasteCellOperationList collectOperations(TabularClipboard<GeoElement> buffer,
+			TabularRange destination) {
+		CopyPasteCellOperationList operations = new CopyPasteCellOperationList();
 		TabularRange source = buffer.getSourceRange();
 		for (int col = source.getFromColumn(); col <= source.getToColumn(); ++col) {
 			int bufferCol = col - source.getFromColumn();
@@ -50,6 +49,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 				}
 			}
 		}
+		return operations;
 	}
 
 	private static boolean isInSource(int col, int row, TabularRange source,

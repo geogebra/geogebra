@@ -1,6 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-public final class CopyPasteCutTabularDataImpl<T>
+final class CopyPasteCutTabularDataImpl<T>
 		implements CopyPasteCutTabularData {
 	private final TabularData<T> tabularData;
 	private final ClipboardInterface clipboard;
@@ -13,7 +13,7 @@ public final class CopyPasteCutTabularDataImpl<T>
 	 * @param tabularData {@link TabularData}
 	 * @param clipboard {@link ClipboardInterface}
 	 */
-	public CopyPasteCutTabularDataImpl(TabularData<T> tabularData, ClipboardInterface clipboard) {
+	CopyPasteCutTabularDataImpl(TabularData<T> tabularData, ClipboardInterface clipboard) {
 		this.tabularData = tabularData;
 		this.clipboard = clipboard;
 		paste = tabularData.getPaste();

@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Sortable list of copy/paste cell operations.
  */
 final class CopyPasteCellOperationList {
-	private static Comparator<CopyPasteCellOperation> comparator;
 	private List<CopyPasteCellOperation> list = new ArrayList<>();
 
 	void clear() {
@@ -47,19 +46,6 @@ final class CopyPasteCellOperationList {
 	 * Sort the list by id (construction order)
 	 */
 	void sort() {
-		list.sort(getComparator());
-	}
-
-	private static Comparator<CopyPasteCellOperation> getComparator() {
-		if (comparator == null) {
-			comparator = new Comparator<CopyPasteCellOperation>() {
-				@Override
-				public int compare(CopyPasteCellOperation a, CopyPasteCellOperation b) {
-					return a.getId() - b.getId();
-				}
-
-			};
-		}
-		return comparator;
+		list.sort(Comparator.comparing(CopyPasteCellOperation::getId));
 	}
 }

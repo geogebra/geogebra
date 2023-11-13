@@ -1,14 +1,27 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.COPY;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.CUT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.DELETE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.DELETE_COLUMN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.DELETE_ROW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.INSERT_COLUMN_LEFT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.INSERT_COLUMN_RIGHT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.INSERT_ROW_ABOVE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.INSERT_ROW_BELOW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.PASTE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,33 +55,33 @@ public final class ContextMenuItemsTest {
 	}
 
 	@Test
-	public void testCellMenuKeys() {
-		testMenuKeys(1, 1,
-				"Delete", "Copy", "Cut", "Paste");
+	public void testCellMenuOrder() {
+		testMenuOrder(1, 1, Arrays.asList(DELETE, COPY, CUT, PASTE));
 	}
 
-	private void testMenuKeys(int row, int column, String... keys) {
-		Map<String, Runnable> map = items.get(row, column);
-		assertEquals(map.keySet(), Set.of(keys));
-	}
-
-	@Test
-	public void testRowMenuKeys() {
-		testMenuKeys(1, HEADER_INDEX,
-				"ContextMenu.insertRowAbove",
-				"ContextMenu.insertRowBelow", "ContextMenu.deleteRow");
+	private void testMenuOrder(int row, int column, List<Identifer> identifiers) {
+		List<ContextMenuItem> menuItems = items.get(row, column);
+		List<Identifer> actual =
+				menuItems.stream().map(item -> item.identifer)
+						.collect(Collectors.toList());
+		assertEquals(actual, identifiers);
 	}
 
 	@Test
-	public void testColumnMenuKeys() {
-		testMenuKeys(HEADER_INDEX, 1,
-				"ContextMenu.insertColumnLeft", "ContextMenu.insertColumnRight",
-					"ContextMenu.deleteColumn");
+	public void testRowMenuOrder() {
+		testMenuOrder(1, HEADER_INDEX,
+				Arrays.asList(INSERT_ROW_ABOVE, INSERT_ROW_BELOW, DELETE_ROW));
+	}
+
+	@Test
+	public void testColumnMenuOrder() {
+		testMenuOrder(HEADER_INDEX, 1,
+				Arrays.asList(INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT, DELETE_COLUMN));
 	}
 
 	@Test
 	public void testDeleteCell() {
-		runItemAt(2, 1, "Delete");
+		runItemAt(2, 1, DELETE);
 		assertNull(data.contentAt(2, 1));
 	}
 
@@ -76,7 +89,7 @@ public final class ContextMenuItemsTest {
 	public void testDeleteSelectedCells() {
 		TabularRange range = new TabularRange(6, 2, 8, 4);
 		selectionController.select(new Selection(SelectionType.CELLS, range), false, true);
-		runItemAt(2, 4, "Delete");
+		runItemAt(2, 4, DELETE);
 		checkRangeIsDeleted(range);
 	}
 
@@ -94,24 +107,27 @@ public final class ContextMenuItemsTest {
 		assertEquals(allSelectedCells, count);
 	}
 
-	private void runItemAt(int row, int column, String menuItemKey) {
-		Runnable action = items.get(row, column).get(menuItemKey);
-		if (action == null) {
-			fail("No such menu item at (" + row + ", " + column + "): " + menuItemKey);
+	private void runItemAt(int row, int column, Identifer id) {
+		List<ContextMenuItem> contextMenuItems = items.get(row, column);
+		Optional<ContextMenuItem> item = contextMenuItems.stream()
+				.filter(t -> t.identifer.equals(id)).findAny();
+		if (item.isPresent()) {
+			item.get().performAction();
+		} else {
+			fail("No such menu item at (" + row + ", " + column + "): " + id);
 		}
-		action.run();
 	}
 
 	@Test
 	public void testDeleteSingleRow() {
-		runItemAt(4, HEADER_INDEX, "ContextMenu.deleteRow");
+		runItemAt(4, HEADER_INDEX, DELETE_ROW);
 		checkRowReplaced(4, 5);
 	}
 
 	@Test
 	public void testDeleteSelectedRows() {
 		selectRows(3, 6);
-		runItemAt(3, HEADER_INDEX, "ContextMenu.deleteRow");
+		runItemAt(3, HEADER_INDEX, DELETE_ROW);
 		checkRowReplaced(3, 7);
 	}
 
@@ -133,7 +149,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testDeleteSingleColumn() {
-		runItemAt(HEADER_INDEX, 4, "ContextMenu.deleteColumn");
+		runItemAt(HEADER_INDEX, 4, DELETE_COLUMN);
 		checkColumnReplaced(4, 5);
 	}
 
@@ -150,7 +166,7 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testDeleteSelectedColumns() {
 		selectColumns(2, 6);
-		runItemAt(HEADER_INDEX, 4, "ContextMenu.deleteColumn");
+		runItemAt(HEADER_INDEX, 4, DELETE_COLUMN);
 		checkColumnReplaced(2, 7);
 	}
 
@@ -162,7 +178,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertRowAbove() {
-		runItemAt(5, HEADER_INDEX, "ContextMenu.insertRowAbove");
+		runItemAt(5, HEADER_INDEX, INSERT_ROW_ABOVE);
 		checkNewRowAt(5);
 	}
 
@@ -178,13 +194,13 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertRowBelow() {
-		runItemAt(5, HEADER_INDEX, "ContextMenu.insertRowBelow");
+		runItemAt(5, HEADER_INDEX, INSERT_ROW_BELOW);
 		checkNewRowAt(6);
 	}
 
 	@Test
 	public void testInsertColumnLeft() {
-		runItemAt(HEADER_INDEX, 5,  "ContextMenu.insertColumnLeft");
+		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_LEFT);
 		checkNewColumnAt(5);
 	}
 
@@ -200,20 +216,20 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertColumnRight() {
-		runItemAt(HEADER_INDEX, 5,  "ContextMenu.insertColumnRight");
+		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_RIGHT);
 		checkNewColumnAt(6);
 	}
 
 	@Test
 	public void testCopySingleCell() {
-		runItemAt(1, 1, "Copy");
+		runItemAt(1, 1, COPY);
 		assertEquals("cell11", clipboard.getContent());
 	}
 
 	@Test
 	public void testCopyCellSelection() {
 		selectCells(1, 1, 4, 2);
-		runItemAt(1, 1, "Copy");
+		runItemAt(1, 1, COPY);
 		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
 				clipboard.getContent());
 	}
@@ -226,7 +242,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testCutSingleCell() {
-		runItemAt(1, 1, "Cut");
+		runItemAt(1, 1, CUT);
 		assertEquals("cell11", clipboard.getContent());
 		assertNull(data.contentAt(1, 1));
 	}
@@ -234,7 +250,7 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testCutCellSelection() {
 		selectCells(1, 1, 4, 2);
-		runItemAt(1, 1, "Cut");
+		runItemAt(1, 1, CUT);
 		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
 				clipboard.getContent());
 		TabularRange range = new TabularRange(1, 1, 4, 2);
@@ -247,17 +263,17 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testPasteSingleCell() {
-		runItemAt(1, 1, "Copy");
-		runItemAt(2, 2, "Paste");
+		runItemAt(1, 1, COPY);
+		runItemAt(2, 2, PASTE);
 		assertEquals("cell11", data.contentAt(2, 2));
 	}
 
 	@Test
 	public void testPasteCellSelection() {
 		selectCells(1, 1, 2, 2);
-		runItemAt(1, 1, "Copy");
+		runItemAt(1, 1, COPY);
 		selectionController.clearSelection();
-		runItemAt(2, 4, "Paste");
+		runItemAt(2, 4, PASTE);
 		assertEquals("cell11", data.contentAt(2, 4));
 		assertEquals("cell12", data.contentAt(2, 5));
 		assertEquals("cell21", data.contentAt(3, 4));
@@ -267,9 +283,9 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testPasteCellsToSmallerSelection() {
 		selectCells(1, 1, 1, 4);
-		runItemAt(1, 1, "Copy");
+		runItemAt(1, 1, COPY);
 		selectCells(10, 1, 10, 2);
-		runItemAt(10, 1, "Paste");
+		runItemAt(10, 1, PASTE);
 		assertEquals("cell11", data.contentAt(10, 1));
 		assertEquals("cell12", data.contentAt(10, 2));
 		assertEquals("cell13", data.contentAt(10, 3));
@@ -279,9 +295,9 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testPasteCellsToBiggerSelection() {
 		selectCells(1, 1, 2, 2);
-		runItemAt(1, 1, "Copy");
+		runItemAt(1, 1, COPY);
 		selectCells(10, 1, 14, 5);
-		runItemAt(11, 1, "Paste");
+		runItemAt(11, 1, PASTE);
 		assertEquals("cell11", data.contentAt(10, 1));
 		assertEquals("cell12", data.contentAt(10, 2));
 		assertEquals("cell11", data.contentAt(10, 3));
