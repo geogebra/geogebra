@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -16,7 +17,6 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
@@ -34,7 +34,6 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.full.gui.util.Domvas;
-import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
@@ -86,10 +85,9 @@ public class ToolbarPanel extends FlowPanel
 	private StandardButton moveBtn;
 	private Integer lastOpenWidth;
 	private AlgebraTab tabAlgebra;
+	private final List<ToolbarTab> tabs = new ArrayList<>();
 	private @CheckForNull TableTab tabTable;
 	private @CheckForNull ToolsTab tabTools;
-	private @CheckForNull DistributionTab tabDist;
-	private @CheckForNull SpreadsheetTab spreadsheetTab;
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
@@ -229,6 +227,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void addTab(ToolbarTab tab, boolean active) {
+		tabs.add(tab);
 		tab.addStyleName(active ? "tab" : "tab-hidden");
 		main.add(tab);
 	}
@@ -290,6 +289,7 @@ public class ToolbarPanel extends FlowPanel
 		sinkEvents(Event.ONCLICK);
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab(this);
+		tabs.add(tabAlgebra);
 		tabContainer = new TabContainer(this);
 
 		addTab(tabAlgebra, true);
@@ -297,16 +297,17 @@ public class ToolbarPanel extends FlowPanel
 			tabTools = new ToolsTab(this);
 			addTab(tabTools, false);
 		} else {
-			tabTools = null;
+			removeTab(TabIds.TOOLS);
 		}
 
 		StickyProbabilityTable table = null;
+		DistributionTab tabDist;
 		if (app.getConfig().hasDistributionView()) {
 			table = new StickyProbabilityTable();
 			tabDist = new DistributionTab(this, table);
 			addTab(tabDist, false);
 		} else {
-			tabDist = null;
+			removeTab(TabIds.DISTRIBUTION);
 		}
 		if (isTableTabExpected()) {
 			tabTable = new TableTab(this,
@@ -314,13 +315,14 @@ public class ToolbarPanel extends FlowPanel
 							(TableValuesView) app.getGuiManager().getTableValuesView()) : table);
 			addTab(tabTable, false);
 		} else {
-			tabTable = null;
+			removeTab(TabIds.TABLE);
 		}
+		SpreadsheetTab spreadsheetTab;
 		if (app.getConfig().hasSpreadsheetView()) {
 			spreadsheetTab = new SpreadsheetTab(this);
 			addTab(spreadsheetTab, false);
 		} else {
-			spreadsheetTab = null;
+			removeTab(TabIds.SPREADSHEET);
 		}
 		addMoveBtn();
 		heading = new FlowPanel();
@@ -339,6 +341,10 @@ public class ToolbarPanel extends FlowPanel
 				setHeaderStyle("examOk");
 			}
 		}
+	}
+
+	private void removeTab(TabIds tabID) {
+		tabs.removeIf(tab -> tab.getID() == tabID);
 	}
 
 	public DockPanelDecorator getDecorator() {
@@ -495,9 +501,6 @@ public class ToolbarPanel extends FlowPanel
 		moveBtn.setTitle(altText);
 		moveBtn.setAltText(altText);
 		moveBtn.setStyleName("moveFloatingBtn");
-		if (tabTable != null) {
-			moveBtn.addStyleName("moveBtnMiddleTab");
-		}
 		// moveMoveBtnDown style added for moveBtn to fix the position on tablet
 		// too
 		moveBtn.addStyleName("moveMoveBtnDown");
@@ -841,18 +844,8 @@ public class ToolbarPanel extends FlowPanel
 		openNoResize();
 		setFadeTabs(fade);
 		app.invokeLater(() -> {
-			tabAlgebra.setActive(tab == TabIds.ALGEBRA);
-			if (tabTools != null) {
-				tabTools.setActive(tab == TabIds.TOOLS);
-			}
-			if (tabTable != null) {
-				tabTable.setActive(tab == TabIds.TABLE);
-			}
-			if (tabDist != null) {
-				tabDist.setActive(tab == TabIds.DISTRIBUTION);
-			}
-			if (spreadsheetTab != null) {
-				spreadsheetTab.setActive(tab == TabIds.SPREADSHEET);
+			for (ToolbarTab tabUI : tabs) {
+				tabUI.setActive(tabUI.getID() == tab);
 			}
 			resizeTabs();
 		});
@@ -925,14 +918,7 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		switchTab(TabIds.SPREADSHEET, fade);
-	}
-
-	/**
-	 * This getter is public only for testing.
-	 * @return tool tab
-	 */
-	public @CheckForNull ToolsTab getToolsTab() {
-		return tabTools;
+		dispatchEvent(EventType.SPREADSHEET_PANEL_SELECTED);
 	}
 
 	/**
@@ -974,17 +960,8 @@ public class ToolbarPanel extends FlowPanel
 				+ getNavigationRailWidth() + "px)");
 
 		navRail.setVisible(!app.isPortrait() || !isKeyboardShowing());
-
-		if (tabAlgebra != null) {
-			tabAlgebra.onResize();
-		}
-
-		if (tabTools != null) {
-			tabTools.onResize();
-		}
-
-		if (tabTable != null) {
-			tabTable.onResize();
+		for (ToolbarTab tab: tabs) {
+			tab.onResize();
 		}
 	}
 
@@ -1053,18 +1030,13 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * @return keyboard listener of AV.
 	 */
-	public MathKeyboardListener getKeyboardListener(Supplier<MathKeyboardListener> fallback) {
-		if (isAlgebraViewActive()) {
-			if (tabAlgebra == null
-					|| app.getInputPosition() != InputPosition.algebraView) {
-				return null;
+	public MathKeyboardListener getKeyboardListener() {
+		for (ToolbarTab tab: tabs) {
+			if (getSelectedTabId() == tab.getID()) {
+				return tab.getKeyboardListener();
 			}
-			return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 		}
-		if (getSelectedTabId() == TabIds.TABLE && tabTable != null) {
-			return tabTable.getKeyboardListener(fallback);
-		}
-		return fallback.get();
+		return null;
 	}
 
 	/**
@@ -1151,9 +1123,6 @@ public class ToolbarPanel extends FlowPanel
 		if (undoRedoPanel != null) {
 			undoRedoPanel.setLabels();
 		}
-		if (tabTools != null) {
-			tabTools.setLabels();
-		}
 		if (moveBtn != null) {
 			String altText = app.getLocalization()
 					.getMenu(EuclidianConstants
@@ -1162,17 +1131,8 @@ public class ToolbarPanel extends FlowPanel
 			moveBtn.setTitle(altText);
 			moveBtn.setAltText(altText);
 		}
-		if (tabTable != null) {
-			tabTable.setLabels();
-		}
-		if (tabAlgebra != null) {
-			tabAlgebra.setLabels();
-		}
-		if (tabDist != null) {
-			tabDist.setLabels();
-		}
-		if (spreadsheetTab != null) {
-			spreadsheetTab.setLabels();
+		for (ToolbarTab tabUI : tabs) {
+			tabUI.setLabels();
 		}
 	}
 
@@ -1191,12 +1151,8 @@ public class ToolbarPanel extends FlowPanel
 	 * @param fade to set.
 	 */
 	void setFadeTabs(boolean fade) {
-		tabAlgebra.setFade(fade);
-		if (tabTools != null) {
-			tabTools.setFade(fade);
-		}
-		if (tabTable != null) {
-			tabTable.setFade(fade);
+		for (ToolbarTab tab: tabs) {
+			tab.setFade(fade);
 		}
 	}
 
@@ -1218,9 +1174,8 @@ public class ToolbarPanel extends FlowPanel
 	 * Update toolbar content
 	 */
 	public void updateContent() {
-		ToolsTab toolsTab = getToolsTab();
-		if (toolsTab != null) {
-			toolsTab.updateContent();
+		if (tabTools != null) {
+			tabTools.updateContent();
 		}
 	}
 
@@ -1240,11 +1195,11 @@ public class ToolbarPanel extends FlowPanel
 	public ShowableTab getTab(int tabIdentifier) {
 		switch (tabIdentifier) {
 		case App.VIEW_ALGEBRA:
-			return getAlgebraTab();
+			return getTab(TabIds.ALGEBRA);
 		case App.VIEW_TOOLS:
-			return getToolsTab();
+			return getTab(TabIds.TOOLS);
 		case App.VIEW_TABLE:
-			return getTableTab();
+			return getTab(TabIds.TABLE);
 		case App.VIEW_SIDE_PANEL:
 			return getTabContainer();
 		}
@@ -1253,18 +1208,15 @@ public class ToolbarPanel extends FlowPanel
 
 	/**
 	 * This getter is public for testing only.
-	 * @return algebra tab
-	 */
-	public AlgebraTab getAlgebraTab() {
-		return tabAlgebra;
-	}
-
-	/**
-	 * This getter is public for testing only.
 	 * @return table of values tab
 	 */
-	public TableTab getTableTab() {
-		return tabTable;
+	public ToolbarTab getTab(TabIds tabID) {
+		for (ToolbarTab tab: tabs) {
+			if (tab.getID() == tabID) {
+				return tab;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -1400,7 +1352,8 @@ public class ToolbarPanel extends FlowPanel
 			Runnable callback, int left, int top) {
 		navRail.paintToCanvas(context2d, left, top);
 		// if tool tabs is active, still paint algebra
-		ToolbarTab active = tabTable != null && tabTable.isActive() ? tabTable : tabAlgebra;
+		ToolbarTab active = getSelectedTabId() == TabIds.TABLE
+				? getTab(TabIds.TABLE) : getTab(TabIds.ALGEBRA);
 		active.getElement().addClassName("ggbScreenshot");
 		Domvas.get().toImage(active.getElement(), (image) -> {
 			context2d.drawImage(image, left + 72, top);

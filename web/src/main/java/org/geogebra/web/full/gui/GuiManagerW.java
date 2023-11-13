@@ -2265,7 +2265,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean isAlgebraViewActive() {
-		return getUnbundledToolbar().getAlgebraTab().isActive();
+		return getUnbundledToolbar().getTab(DockPanelData.TabIds.ALGEBRA).isActive();
 	}
 
 	@Override

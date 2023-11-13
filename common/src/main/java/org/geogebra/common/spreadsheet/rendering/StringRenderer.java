@@ -1,6 +1,5 @@
 package org.geogebra.common.spreadsheet.rendering;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
@@ -12,19 +11,21 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public class StringRenderer implements CellRenderer {
 	private static GFont baseFont = AwtFactory.getPrototype()
-			.newFont("serif", 0, 12);
+			.newFont("serif", 0, 14);
 	private static GGraphics2D measuringGraphics = AwtFactory.getPrototype()
 			.createBufferedImage(100, 100, true).createGraphics();
-	private static final int VERTICAL_PADDING = 3;
+
+	// design suggests 6px from text box in 36px cell,
+	// but canvas drawing does not consider text height
+	private static final int LINE_HEIGHT = 16;
 
 	@Override
 	public void draw(Object data, int fontStyle, int offset, GGraphics2D graphics,
 			Rectangle cellBorder) {
-		graphics.setColor(GColor.BLACK);
 		GFont font = baseFont.deriveFont(fontStyle);
 		graphics.setFont(font);
 		graphics.drawString(data.toString(), cellBorder.getMinX() + offset,
-				cellBorder.getMaxY() - VERTICAL_PADDING);
+				cellBorder.getMaxY() - (cellBorder.getHeight() - LINE_HEIGHT) / 2);
 	}
 
 	@Override

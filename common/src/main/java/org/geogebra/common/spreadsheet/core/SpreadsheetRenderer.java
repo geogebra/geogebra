@@ -1,6 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GBasicStroke;
@@ -11,6 +13,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -25,6 +28,8 @@ public final class SpreadsheetRenderer {
 	private final TableLayout layout;
 	private final Map<GPoint, SelfRenderable> renderableCache = new HashMap<>();
 	private final StringRenderer stringRenderer = new StringRenderer();
+	private final List<SelfRenderable> rowHeaders = new ArrayList<>();
+	private final List<SelfRenderable> columnHeaders = new ArrayList<>();
 	private final static GBasicStroke gridStroke = AwtFactory.getPrototype().newBasicStroke(1);
 	private final static GBasicStroke borderStroke = AwtFactory.getPrototype().newBasicStroke(2);
 
@@ -35,12 +40,8 @@ public final class SpreadsheetRenderer {
 
 	void drawCell(int row, int column, GGraphics2D graphics, Object content,
 			SpreadsheetStyle style) {
-		if (style.isShowGrid()) {
-			if (style.showBorder(row, column)) {
-				graphics.setStroke(borderStroke);
-			} else {
-				graphics.setStroke(gridStroke);
-			}
+		if (style.showBorder(row, column)) {
+			graphics.setStroke(borderStroke);
 			graphics.drawRect((int) layout.getX(column), (int) layout.getY(row),
 					(int) layout.getWidth(column), (int) layout.getHeight(row));
 		}
@@ -54,24 +55,57 @@ public final class SpreadsheetRenderer {
 				graphics.fillRect((int) cellBorder.getMinX(), (int) cellBorder.getMinY(),
 						(int) cellBorder.getWidth(), (int) cellBorder.getHeight());
 			}
+			graphics.setColor(style.getTextColor());
 			renderable.draw(graphics, cellBorder);
 		}
 	}
 
 	void drawRowHeader(int row, GGraphics2D graphics) {
 		Rectangle cellBorder = layout.getRowHeaderBounds(row);
-		graphics.drawRect(0, (int) layout.getY(row),
-				(int) layout.getRowHeaderWidth(), (int) layout.getHeight(row));
-		stringRenderer.draw(String.valueOf(row + 1), GFont.PLAIN,
-				SelfRenderable.HORIZONTAL_PADDING, graphics, cellBorder);
+		ensureHeaders(rowHeaders, row, String.valueOf(row + 1));
+		rowHeaders.get(row).draw(graphics, cellBorder);
+	}
+
+	void drawRowBorder(int row, GGraphics2D graphics, SpreadsheetStyle style) {
+		graphics.setStroke(gridStroke);
+		graphics.drawStraightLine(0, layout.getY(row),
+				style.isShowGrid()
+						? layout.getTotalWidth() : layout.getRowHeaderWidth(), layout.getY(row));
+	}
+
+	private void ensureHeaders(List<SelfRenderable> rowHeaders, int row,
+			String name) {
+		for (int i = rowHeaders.size(); i <= row; i++) {
+			rowHeaders.add(new SelfRenderable(stringRenderer, GFont.PLAIN,
+					CellFormat.ALIGN_CENTER, name));
+		}
+	}
+
+	void drawColumnBorder(int column, GGraphics2D graphics, SpreadsheetStyle style) {
+		graphics.setStroke(gridStroke);
+		graphics.drawStraightLine(layout.getX(column), 0, layout.getX(column),
+				style.isShowGrid()
+						? layout.getTotalHeight() : layout.getColumnHeaderHeight());
 	}
 
 	void drawColumnHeader(int column, GGraphics2D graphics, String name) {
 		Rectangle cellBorder = layout.getColumnHeaderBounds(column);
-		graphics.drawRect((int) layout.getX(column), 0,
-				(int) layout.getWidth(column), (int) layout.getColumnHeaderHeight());
-		stringRenderer.draw(name, GFont.PLAIN,
-				SelfRenderable.HORIZONTAL_PADDING, graphics, cellBorder);
+		ensureHeaders(columnHeaders, column, name);
+		columnHeaders.get(column).draw(graphics, cellBorder);
+	}
+
+	void drawHeaderBackgroundAndOutline(GGraphics2D graphics, Rectangle rectangle,
+			double offsetX, double offsetY, SpreadsheetStyle style) {
+		graphics.setColor(style.getHeaderBackgroundColor());
+		graphics.fillRect((int) offsetX, (int) offsetY, (int) rectangle.getWidth(),
+				(int) layout.getColumnHeaderHeight());
+		graphics.fillRect((int) offsetX, (int) offsetY, (int) layout.getRowHeaderWidth(),
+				(int) rectangle.getHeight());
+		double bottom = offsetY + layout.getColumnHeaderHeight();
+		graphics.setColor(style.getGridColor());
+		graphics.drawStraightLine(offsetX, bottom, offsetX + rectangle.getWidth(), bottom);
+		double right = offsetX + layout.getRowHeaderWidth();
+		graphics.drawStraightLine(right, offsetY, right, offsetY + rectangle.getHeight());
 	}
 
 	void drawSelection(TabularRange selection, GGraphics2D graphics,
