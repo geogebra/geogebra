@@ -174,17 +174,16 @@ public class VirtualKeyboardD extends JFrame
 		addWindowListener(new WindowListener() {
 			@Override
 			public void windowClosed(WindowEvent arg0) {
-				// System.out.println("Window close event occur");
+				// we only need closing
 			}
 
 			@Override
 			public void windowActivated(WindowEvent arg0) {
-				// System.out.println("Window Activated");
+				// we only need closing
 			}
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				// System.out.println("Window Closing");
 				// if closed with the X, stop it auto-opening
 				AppD.setVirtualKeyboardActive(false);
 				app.getGuiManager().updateMenubar();
@@ -192,22 +191,22 @@ public class VirtualKeyboardD extends JFrame
 
 			@Override
 			public void windowDeactivated(WindowEvent arg0) {
-				// System.out.println("Window Deactivated");
+				// we only need closing
 			}
 
 			@Override
 			public void windowDeiconified(WindowEvent arg0) {
-				// System.out.println("Window Deiconified");
+				// we only need closing
 			}
 
 			@Override
 			public void windowIconified(WindowEvent arg0) {
-				// System.out.println("Window Iconified");
+				// we only need closing
 			}
 
 			@Override
 			public void windowOpened(WindowEvent arg0) {
-				// System.out.println("Window Opened");
+				// we only need closing
 			}
 		});
 

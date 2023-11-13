@@ -1,4 +1,4 @@
-package test;
+package org.geogebra.jogl2.test;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -9,9 +9,11 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-
 public class TestSeveralViews {
 
+	/**
+	 * @param args command line args
+	 */
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame(); // Swing's JFrame or AWT's Frame
 

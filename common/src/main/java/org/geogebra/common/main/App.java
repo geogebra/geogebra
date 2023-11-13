@@ -3887,7 +3887,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * handle space key hitted
+	 * handle space key hit
 	 *
 	 * @return true if key is consumed
 	 */
@@ -3899,6 +3899,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
+			if (!selection.isSelectableForEV(geo)) {
+				// if some selection-preventing property (e.g. visibility) changed in scripts
+				// between selecting the geo and pressing <Space>, just do nothing
+				return false;
+			}
 			if (geo.isGeoBoolean()) {
 				if (!geo.isIndependent()) {
 					return true;

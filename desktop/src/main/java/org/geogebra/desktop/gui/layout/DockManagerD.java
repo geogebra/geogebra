@@ -921,14 +921,12 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		// we also get notified about other mouse events, but we want to ignore
 		// them
 		if (event.getID() != MouseEvent.MOUSE_CLICKED) {
-			// System.out.println(event);
 			return;
 		}
 
 		// determine ancestor element of the event source which is of type
 		// dock panel
 		Component source = (Component) event.getSource();
-		// System.out.println(" source: " + source);
 		DockPanelD dp = (DockPanelD) SwingUtilities
 				.getAncestorOfClass(DockPanelD.class, source);
 

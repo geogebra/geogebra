@@ -1344,18 +1344,12 @@ public class EuclidianStyleBarD extends JToolBar
 							break;
 						}
 					}
-					// System.out.println("index" + index);
 					btnTableTextBracket.setSelectedIndex(index);
 
 				} else {
 					this.setVisible(false);
 				}
 			}
-
-			/*
-			 * @Override public Point getToolTipLocation(MouseEvent e) { return
-			 * new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-			 */
 		};
 
 		btnTableTextBracket.addActionListener(this);

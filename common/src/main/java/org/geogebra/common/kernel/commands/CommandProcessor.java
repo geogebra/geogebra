@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandFunctionReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
@@ -157,7 +158,16 @@ public abstract class CommandProcessor {
 			}
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
+		unwrapSymbolicIfNeeded(result, info);
 		return result;
+	}
+
+	private void unwrapSymbolicIfNeeded(GeoElement[] result, EvalInfo info) {
+		if (info.getSymbolicMode() == SymbolicMode.NONE) {
+			for (int i = 0; i < result.length; i++) {
+				result[i] = result[i].unwrapSymbolic().toGeoElement();
+			}
+		}
 	}
 
 	/**

@@ -416,25 +416,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		fitter0.setCoeffBound(coeffBound);
 		fitter0.compute(y);
 
-		// t2 = System.currentTimeMillis();
-		// System.out.println("time of algebraic fit compute: " + (t2-t1));
-		// t1 = t2;
-
 		ValidExpression ve0 = sbToCAS(fitter0.formalSolution);
-
-		// t2 = System.currentTimeMillis();
-		// System.out.println("time of sb to ve: " + (t2-t1));
-		// t1 = t2;
 
 		if (fitter0.formalSolution.length() > 0
 				&& DoubleUtil.isEqual(ve0.evaluateDouble(), y)) {
 			sb1.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,
 					tpl, null, kernel));
-
-			// t2 = System.currentTimeMillis();
-			// System.out.println("time of ve to CAS: " + (t2-t1));
-			// t1 = t2;
-
 			return true;
 		}
 		return false;
@@ -938,13 +925,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				H[i][j] = 0;
 			}
 		}
-
-		// test property of H: the n-1 columns are orthogonal
-		/*
-		 * for (int i =0 ; i<n-1; i++) { for (int j=0; j<n-1; j++) { double sum
-		 * = 0; for (int k=0; k<n; k++) { sum += H[k][i]*H[k][j]; }
-		 * System.out.println(sum); } }
-		 */
 
 		// matrix P = In - x.x
 		// P = new double[n][n];
@@ -1458,8 +1438,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					}
 				}
 
-				// System.out.println("");
-
 				if (relationFound && !loopTillExhausted || relationExhausted) {
 					break;
 				}
@@ -1480,8 +1458,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 
 			xNorm = xNorm.sqrt();
-
-			// System.out.println(xNorm.toFullString());
 
 			for (int i = 0; i < n; i++) {
 				if (xNorm.getImpl().compareTo(BigDecimal.ZERO) != 0) {
@@ -1531,10 +1507,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					mHfull.setEntry(i, j, zero);
 				}
 			}
-
-			// test property of H: the n-1 columns are orthogonal
-
-			// System.out.println(H.transpose().multiply(H).toString());
 
 			// matrix P = In - x.x
 			/*
@@ -1598,7 +1570,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			for (int i = 0; i < n; i++) {
 				xB.setEntry(0, i, x_double[i]);
 			}
-			// System.out.println(A.toString());
 
 		}
 

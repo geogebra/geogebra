@@ -438,7 +438,6 @@ public class CellFormat implements CellFormatInterface {
 
 		// Check there is a format for this cell
 		if (formatMap.containsKey(cellKey)) {
-			// System.out.println("found" + cellKey.toString());
 			formatObject = formatMap.get(cellKey);
 		}
 
@@ -598,7 +597,6 @@ public class CellFormat implements CellFormatInterface {
 						testRow.setLocation(-1, row);
 						formatTable.remove(testCell);
 						if (formatTable.containsKey(testRow)) {
-							// System.out.println(row);
 							formatTable.put(testCell, value);
 						}
 					}
@@ -615,7 +613,6 @@ public class CellFormat implements CellFormatInterface {
 					highestIndexColumn = cr.getMaxColumn();
 				}
 
-				// System.out.println("other");
 				for (GPoint cellPoint : cr.toCellList(true)) {
 					formatTable.put(cellPoint, value);
 				}
@@ -1062,8 +1059,6 @@ public class CellFormat implements CellFormatInterface {
 		}
 
 		String[] cellGroup = xml.split(cellDelimiter);
-		// System.out.println("cellGroup: " +
-		// java.util.Arrays.toString(cellGroup));
 		for (int i = 0; i < cellGroup.length; i++) {
 			if (cellGroup.length > 0) {
 				processCellFormatString(cellGroup[i]);
@@ -1085,7 +1080,6 @@ public class CellFormat implements CellFormatInterface {
 		if ("null".equals(formatStr)) {
 			return;
 		}
-		// System.out.println("cellFormat: " + formatStr);
 		String[] f = formatStr.split(formatDelimiter);
 		GPoint cell = new GPoint(Integer.parseInt(f[0]),
 				Integer.parseInt(f[1]));

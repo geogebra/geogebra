@@ -60,10 +60,6 @@ public class DataImportD extends DataImport {
 
 		// try to extract a string from the Transferable
 		try {
-
-			// System.out.println("is HTML? " +
-			// contents.isDataFlavorSupported(HTMLflavor));
-
 			if (hasHTMLFlavor(contents)) {
 				transferString = DataImportD.convertHTMLTableToCSV(
 						(String) contents.getTransferData(HTMLflavor));
@@ -94,7 +90,6 @@ public class DataImportD extends DataImport {
 	public static String convertHTMLTableToCSV(String HTMLTableString) {
 
 		final StringBuilder sbHTML = new StringBuilder();
-		// System.out.println("html: " + HTMLTableString);
 		try {
 			// prepare the parser
 			HTMLEditorKit.ParserCallback callback = new HTMLEditorKit.ParserCallback() {

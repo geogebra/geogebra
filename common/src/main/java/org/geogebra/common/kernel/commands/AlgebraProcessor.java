@@ -889,7 +889,6 @@ public class AlgebraProcessor {
 					handler, callback0, info);
 
 		} catch (ParseException e) {
-			e.printStackTrace(System.out);
 			ErrorHelper.handleException(e, app, handler);
 		} catch (Exception e) {
 			Log.debug(e);
