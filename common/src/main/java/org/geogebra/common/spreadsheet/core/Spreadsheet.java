@@ -154,8 +154,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.getLayout().setWidthForColumns(width, minColumn, maxColumn);
 	}
 
-	public void setHeightForRows(double height, int minRow, int minColumn) {
-		controller.getLayout().setHeightForRows(height, minRow, minColumn);
+	public void setHeightForRows(double height, int minRow, int maxRow) {
+		controller.getLayout().setHeightForRows(height, minRow, maxRow);
 	}
 
 	public boolean needsRedraw() {

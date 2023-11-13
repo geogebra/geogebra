@@ -5,50 +5,58 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.util.stream.IntStream;
-
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.TableLayout;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SpreadsheetTest extends BaseUnitTest {
 
+
+	private final int colHeader = TableLayout.DEFAUL_CELL_HEIGHT;
+	private final int rowHeader = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
+	private Spreadsheet spreadsheet;
+	private TestTabularData tabularData;
+
+	@Before
+	public void setupSpreadsheet() {
+		tabularData = new TestTabularData();
+		spreadsheet = new Spreadsheet(tabularData,
+				new TestCellRenderableFactory());
+		spreadsheet.setHeightForRows(20, 0, 5);
+		spreadsheet.setWidthForColumns(40, 0, 5);
+		spreadsheet.setViewport(new Rectangle(0, 100, 0, 120));
+	}
+
 	@Test
 	public void testTextDataRendering() {
-		TestTabularData tabularData = new TestTabularData();
-		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory());
-		spreadsheet.setHeightForRows(20, IntStream.range(0, 5).toArray());
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		tabularData.setContent(0, 0, "foo");
 		tabularData.setContent(0, 1, "bar");
-		spreadsheet.setViewport(new Rectangle(0, 100, 0, 100));
 		spreadsheet.draw(graphics);
 		assertThat(graphics.toString(), equalTo("col0,col1,1,foo,bar,2,3,4,5"));
 	}
 
 	@Test
 	public void testSingleColumnResize() {
-		TestTabularData tabularData = new TestTabularData();
-		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory());
-		spreadsheet.setViewport(new Rectangle(0, 100, 0, 100));
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
+		spreadsheet.setViewport(new Rectangle(0, 120, 0, 100));
 		spreadsheet.draw(graphics);
 		// initially we have 2 columns
 		assertThat(graphics.toString(), startsWith("col0,col1,1"));
-		spreadsheet.handlePointerDown(80, 5, Modifiers.NONE);
-		spreadsheet.handlePointerMove(50, 5, Modifiers.NONE);
-		spreadsheet.handlePointerUp(50, 5, Modifiers.NONE);
+		spreadsheet.handlePointerDown(rowHeader + 40, 5, Modifiers.NONE);
+		spreadsheet.handlePointerMove(rowHeader + 10, 5, Modifiers.NONE);
+		spreadsheet.handlePointerUp(rowHeader + 10, 5, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 3
@@ -57,9 +65,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	@Test
 	public void testMultiColumnResize() {
-		TestTabularData tabularData = new TestTabularData();
-		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory());
 		spreadsheet.setViewport(new Rectangle(0, 140, 0, 100));
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
@@ -69,9 +74,9 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.getController().selectColumn(2, true, false);
 		spreadsheet.getController().selectColumn(3, true, false);
 		spreadsheet.getController().selectColumn(4, true, false);
-		spreadsheet.handlePointerDown(122, 5, Modifiers.NONE);
-		spreadsheet.handlePointerMove(90, 5, Modifiers.NONE);
-		spreadsheet.handlePointerUp(90, 5, Modifiers.NONE);
+		spreadsheet.handlePointerDown(rowHeader + 80, 5, Modifiers.NONE);
+		spreadsheet.handlePointerMove(rowHeader + 50, 5, Modifiers.NONE);
+		spreadsheet.handlePointerUp(rowHeader + 50, 5, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 6
@@ -80,17 +85,13 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	@Test
 	public void testSingleRowResize() {
-		TestTabularData tabularData = new TestTabularData();
-		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory());
-		spreadsheet.setViewport(new Rectangle(0, 100, 0, 100));
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// initially we have 5 rows
 		assertThat(graphics.toString(), endsWith(",5"));
-		spreadsheet.handlePointerDown(15, 40, Modifiers.NONE);
-		spreadsheet.handlePointerMove(15, 60, Modifiers.NONE);
-		spreadsheet.handlePointerUp(15, 60, Modifiers.NONE);
+		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE);
+		spreadsheet.handlePointerMove(15, colHeader + 40, Modifiers.NONE);
+		spreadsheet.handlePointerUp(15, colHeader + 40, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 4
@@ -99,10 +100,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	@Test
 	public void testNoHeaderRowResize() {
-		TestTabularData tabularData = new TestTabularData();
-		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory());
-		spreadsheet.setViewport(new Rectangle(0, 100, 0, 100));
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// initially we have 5 rows
@@ -119,10 +116,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	@Test
 	public void testMultiRowResize() {
-		TestTabularData tabularData = new TestTabularData();
-		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory());
-		spreadsheet.setViewport(new Rectangle(0, 100, 0, 100));
+		spreadsheet.setHeightForRows(20, 0, 5);
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// initially we have 5 rows
@@ -131,9 +125,9 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.getController().selectRow(2, true, false);
 		spreadsheet.getController().selectRow(3, true, false);
 		spreadsheet.getController().selectRow(4, true, false);
-		spreadsheet.handlePointerDown(15, 60, Modifiers.NONE);
-		spreadsheet.handlePointerMove(15, 85, Modifiers.NONE);
-		spreadsheet.handlePointerUp(15, 85, Modifiers.NONE);
+		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE);
+		spreadsheet.handlePointerMove(15, colHeader + 45, Modifiers.NONE);
+		spreadsheet.handlePointerUp(15, colHeader + 45, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 3

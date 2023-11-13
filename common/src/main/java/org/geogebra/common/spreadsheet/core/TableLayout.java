@@ -69,6 +69,14 @@ public final class TableLayout {
 				columnHeaderHeight);
 	}
 
+	public double getTotalHeight() {
+		return cumulativeHeights[cumulativeHeights.length - 1] + getColumnHeaderHeight();
+	}
+
+	public double getTotalWidth() {
+		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
+	}
+
 	MouseCursor getCursor(double x, double y, GPoint out) {
 		int row = findRow(y);
 		int column = findColumn(x);
@@ -89,14 +97,6 @@ public final class TableLayout {
 			return MouseCursor.RESIZE_Y;
 		}
 		return MouseCursor.DEFAULT;
-	}
-
-	public double getTotalHeight() {
-		return cumulativeHeights[cumulativeHeights.length - 1] + getColumnHeaderHeight();
-	}
-
-	public double getTotalWidth() {
-		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
 	}
 
 	/**
@@ -150,7 +150,7 @@ public final class TableLayout {
 			rowHeights[row] = height;
 		}
 
-		for (int row = minRow; row < cumulativeHeights.length; row++) {
+		for (int row = minRow; row < rowHeights.length; row++) {
 			cumulativeHeights[row + 1] = cumulativeHeights[row] + rowHeights[row];
 		}
 	}
@@ -165,9 +165,9 @@ public final class TableLayout {
 
 	TableLayout.Portion getLayoutIntersecting(Rectangle visibleArea) {
 		int firstColumn = Math.max(0, findColumn(visibleArea.getMinX() + rowHeaderWidth));
-		int lastColumn = Math.min(columnWidths.length - 1, findColumn(visibleArea.getMaxX()) + 1);
+		int lastColumn = Math.min(columnWidths.length - 1, findColumn(visibleArea.getMaxX()));
 		int firstRow = Math.max(0, findRow(visibleArea.getMinY() + columnHeaderHeight));
-		int lastRow = Math.min(rowHeights.length - 1, findRow(visibleArea.getMaxY()) + 1);
+		int lastRow = Math.min(rowHeights.length - 1, findRow(visibleArea.getMaxY()));
 		return new Portion(firstColumn, firstRow, lastColumn, lastRow,
 				visibleArea.getMinX(), visibleArea.getMinY());
 	}
