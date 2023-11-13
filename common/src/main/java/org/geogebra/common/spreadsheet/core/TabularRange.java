@@ -256,7 +256,6 @@ public class TabularRange {
 		return new TabularRange(fromRow, fromCol, toRow, toCol);
 	}
 
-
 	@CheckForNull TabularRange merge(TabularRange range) {
 		if (minColumn == range.minColumn && maxColumn == range.maxColumn) {
 			if ((range.minRow >= minRow && range.minRow <= maxRow + 1)

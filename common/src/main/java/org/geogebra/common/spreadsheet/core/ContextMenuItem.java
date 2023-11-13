@@ -13,7 +13,6 @@ public class ContextMenuItem {
 		DELETE_COLUMN("ContextMenu.deleteColumn");
 
 		public final String localizationKey;
-
 		private Identifer(String localizationKey) {
 			this.localizationKey = localizationKey;
 		}
@@ -22,6 +21,12 @@ public class ContextMenuItem {
 	private final Identifer identifer;
 
 	private final Runnable action;
+
+	/**
+	 *
+	 * @param identifer {@link Identifer}
+	 * @param action the menu action.
+	 */
 	public ContextMenuItem(Identifer identifer, Runnable action) {
 		this.identifer = identifer;
 		this.action = action;
