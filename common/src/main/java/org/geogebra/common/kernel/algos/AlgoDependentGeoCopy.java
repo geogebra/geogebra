@@ -72,8 +72,7 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		input = new GeoElement[1];
 		input[0] = origGeo;
 
-		setOutputLength(1);
-		setOutput(0, copyGeo);
+		setOnlyOutput(copyGeo);
 		setDependencies(); // done by AlgoElement
 	}
 

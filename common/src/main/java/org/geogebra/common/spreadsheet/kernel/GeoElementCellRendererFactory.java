@@ -7,11 +7,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
 import org.geogebra.common.spreadsheet.rendering.LaTeXRenderer;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -33,18 +35,22 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		GColor background = style.getBackgroundColor(row, column,
 				((GeoElement) data).getBackgroundColor());
 		Integer align = style.getAlignment(row, column);
+		if (align == null) {
+			align = (data instanceof GeoText) ? CellFormat.ALIGN_LEFT : CellFormat.ALIGN_RIGHT;
+		}
 		if (data instanceof GeoFunction) {
 			TeXFormula tf = new TeXFormula(((GeoElement) data)
 					.toValueString(StringTemplate.latexTemplate));
 			return new SelfRenderable(laTeXRenderer,
-					fontStyle, background, align,
-					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, 12));
+					fontStyle, align,
+					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, 12), background);
 		}
 		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {
-			return new SelfRenderable(checkboxCellRenderer, fontStyle, background, align, data);
+			return new SelfRenderable(checkboxCellRenderer, fontStyle, align, data, background);
 		}
-		return new SelfRenderable(stringRenderer, fontStyle, background, align,
-				((GeoElement) data).toValueString(StringTemplate.defaultTemplate));
+		return new SelfRenderable(stringRenderer, fontStyle, align,
+				((GeoElement) data).toValueString(StringTemplate.defaultTemplate),
+				background);
 	}
 
 	private static class CheckboxCellRenderer implements CellRenderer {

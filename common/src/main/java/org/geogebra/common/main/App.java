@@ -335,7 +335,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/** XML input / output handler */
 	private MyXMLio myXMLio;
 	/** kernel */
-	public Kernel kernel;
+	protected Kernel kernel;
 	/** whether points can be created by other tools than point tool */
 	protected boolean isOnTheFlyPointCreationActive = true;
 	/** Settings object */
@@ -775,7 +775,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// command dictionary for all public command names available in
 		// GeoGebra's input field
 		// removed check for null: commandDict.clear() removes keys, but they
-		// are still available with commandDict.getIterator()
+		// are still available with commandDict.iterator()
 		// so change English -> French -> English doesn't work in the input bar
 		// see AutoCompleteTextfield.lookup()
 		// if (commandDict == null)
@@ -1141,6 +1141,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			scriptManager = newScriptManager();
 		}
 		return scriptManager;
+	}
+
+	public final boolean hasScriptManager() {
+		return scriptManager != null;
 	}
 
 	/**
@@ -1825,9 +1829,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 		}
 
-		if (getGuiManager() != null) {
-			getGuiManager().getViewsXML(sb, asPreference);
-		}
+		getViewsXML(sb, asPreference);
 
 		if (asPreference) {
 			getKeyboardXML(sb);
@@ -1838,6 +1840,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		getScriptingXML(sb, asPreference);
 
 		return sb.toString();
+	}
+
+	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
+		if (getGuiManager() != null) {
+			getGuiManager().getViewsXML(sb, asPreference);
+		}
 	}
 
 	private void getScriptingXML(StringBuilder sb, boolean asPreference) {
@@ -1960,10 +1968,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * @param ttl
-	 *            tooltip language
+	 *            tooltip language, may be either BCP47 tag or Java locale string
 	 */
 	public void setTooltipLanguage(String ttl) {
-		// TODO Auto-generated method stub
+		// only in desktop ATM
 	}
 
 	public Perspective getTmpPerspective() {
@@ -3879,7 +3887,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * handle space key hitted
+	 * handle space key hit
 	 *
 	 * @return true if key is consumed
 	 */
@@ -3891,6 +3899,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
+			if (!selection.isSelectableForEV(geo)) {
+				// if some selection-preventing property (e.g. visibility) changed in scripts
+				// between selecting the geo and pressing <Space>, just do nothing
+				return false;
+			}
 			if (geo.isGeoBoolean()) {
 				if (!geo.isIndependent()) {
 					return true;
@@ -3912,7 +3925,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 				// <Space> -> toggle slider animation off/on
 				GeoNumeric num = (GeoNumeric) geo;
-				if (num.isAnimatable()) {
+				if (num.isAnimatable() && isRightClickEnabled()) {
 					num.setAnimating(!num.isAnimating());
 
 					storeUndoInfo();

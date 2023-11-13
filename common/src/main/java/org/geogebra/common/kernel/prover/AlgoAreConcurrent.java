@@ -91,8 +91,7 @@ public class AlgoAreConcurrent extends AlgoElement
 		input[1] = inputLine2;
 		input[2] = inputLine3;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputBoolean);
+		setOnlyOutput(outputBoolean);
 		setDependencies(); // done by AlgoElement
 	}
 

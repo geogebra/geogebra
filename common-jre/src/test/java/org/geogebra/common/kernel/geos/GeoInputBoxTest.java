@@ -877,4 +877,11 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		input.updateLinkedGeo(updated);
 		assertEquals(updated, input.getTempUserEvalInput());
 	}
+
+	@Test
+	public void shouldHaveLabelInAV() {
+		add("a=1");
+		GeoInputBox input = add("ib=InputBox(a)");
+		assertEquals("ib", input.toString(StringTemplate.defaultTemplate));
+	}
 }

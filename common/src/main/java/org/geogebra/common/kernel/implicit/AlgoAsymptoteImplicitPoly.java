@@ -82,8 +82,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = ip.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, g);
+		setOnlyOutput(g);
 
 		setDependencies(); // done by AlgoElement
 	}

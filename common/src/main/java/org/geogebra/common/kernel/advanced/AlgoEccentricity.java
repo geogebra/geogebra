@@ -63,8 +63,7 @@ public class AlgoEccentricity extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = c;
 
-		super.setOutputLength(1);
-		super.setOutput(0, num);
+		setOnlyOutput(num);
 		setDependencies(); // done by AlgoElement
 	}
 

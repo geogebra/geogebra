@@ -57,8 +57,7 @@ public class AlgoPathParameter extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = (GeoElement) point;
 
-		super.setOutputLength(1);
-		super.setOutput(0, value);
+		setOnlyOutput(value);
 		setDependencies();
 	}
 

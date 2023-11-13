@@ -91,8 +91,7 @@ public class AlgoVectorPoint extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = (GeoElement) P;
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) v);
+		setOnlyOutput(v);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -95,8 +95,7 @@ public class AlgoObject extends AlgoElement {
 		}
 
 		// output is a copy of the referenced object
-		super.setOutputLength(1);
-		super.setOutput(0, geo);
+		setOnlyOutput(geo);
 
 		setDependencies();
 	}

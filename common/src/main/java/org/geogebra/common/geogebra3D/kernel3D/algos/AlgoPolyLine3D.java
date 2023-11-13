@@ -139,8 +139,7 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 		// set output after, to avoid segments to have this to parent algo
 		// setOutput();
 
-		setOutputLength(1);
-		setOutput(0, poly);
+		setOnlyOutput(poly);
 		setDependencies();
 	}
 

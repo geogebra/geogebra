@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -92,7 +93,7 @@ public class SpreadsheetDemo {
 
 	private static String readDemoFile() throws URISyntaxException, IOException {
 		return Files.readString(Paths.get(SpreadsheetDemo.class
-				.getResource("spreadsheet.xml").toURI()));
+				.getResource("spreadsheet.xml").toURI()), StandardCharsets.UTF_8);
 	}
 
 	private static void initParentPanel(JFrame frame, SpreadsheetPanel sp) {

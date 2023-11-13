@@ -172,7 +172,6 @@ import elemental2.dom.File;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.URL;
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
@@ -608,24 +607,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void setLanguage(final String browserLang) {
-		final String lang = Language
-				.getClosestGWTSupportedLanguage(browserLang).getLocaleGWT();
+		Language language1 = Language
+				.fromLanguageTagOrLocaleString(browserLang);
+		final String languageTag = language1.toLanguageTag();
 		getLocalization().cancelCallback();
-		if (lang != null && lang.equals(loc.getLocaleStr())) {
-			Log.debug("Language is already " + loc.getLocaleStr());
+		if (languageTag.equals(loc.getLanguageTag())) {
+			Log.debug("Language is already " + loc.getLanguageTag());
 			setLabels();
 			notifyLocalizationLoaded();
 			return;
 		}
-		if (lang == null || "".equals(lang)) {
+		if (languageTag.isEmpty()) {
 			Log.warn("language being set to empty string");
 			setLanguage("en");
 			return;
 		}
 
-		Log.debug("setting language to:" + lang + ", browser lang:"
+		Log.debug("setting language to:" + languageTag + ", browser languageTag:"
 				+ browserLang);
-		getLocalization().loadScript(lang, this);
+		getLocalization().loadScript(languageTag, this);
 	}
 
 	/**
@@ -846,7 +846,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (def.hasDefaults3d()) {
 				getXMLio().processXMLString(def.getDefaults3d(), false, true);
 			}
-
+			if (!appletParameters.getDataParamTransparentGraphics()) {
+				// fix for half-pixel not having any color; set AFTER splash screen
+				// fallback compatible with applet-unfocused CSS class
+				getFrameElement().getStyle().setBackgroundColor(
+						appletParameters.getDataParamBorder("#D3D3D3"));
+			}
 			afterLoadFileAppOrNot(asSlide);
 		} catch (Exception e) {
 			Log.debug(e);
@@ -933,6 +938,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void reset() {
 		if (currentFile != null) {
 			try {
+				getAppletFrame().resetAppletOnLoad();
 				loadGgbFile(currentFile, false);
 			} catch (Exception e) {
 				clearConstruction();
@@ -1579,7 +1585,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public final ClientInfo getClientInfo() {
 		ClientInfo clientInfo = new ClientInfo();
 		clientInfo.setModel(getLoginOperation().getModel());
-		clientInfo.setLanguage(getLocalization().getLanguage());
+		clientInfo.setLanguage(getLocalization().getLanguageTag());
 		clientInfo.setWidth((int) getWidth());
 		clientInfo.setHeight((int) getHeight());
 		clientInfo.setType(getClientType());
@@ -2559,11 +2565,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
 			ScriptManagerW.export("ggbApplet", null);
 		}
-	}
-
-	protected void setGlobalApplet(Object api) {
-		Js.asPropertyMap(DomGlobal.document).set("ggbApplet", api);
-		Js.asPropertyMap(DomGlobal.window).set("ggbApplet", api);
 	}
 
 	// ============================================

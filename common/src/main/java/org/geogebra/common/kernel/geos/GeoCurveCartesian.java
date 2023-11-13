@@ -182,18 +182,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		// macro OUTPUT
 		if (geo.getConstruction() != this.cons && isAlgoMacroOutput()) {
 			if (!geo.isIndependent()) {
-				// System.out.println("set " + this.label);
-				// System.out.println(" funX before: " +
-				// funX.toLaTeXString(true));
-
 				// this object is an output object of AlgoMacro
 				// we need to check the references to all geos in its function's
 				// expression
 				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
 				algoMacro.initFunction(getFun(0));
 				algoMacro.initFunction(getFun(1));
-				// System.out.println(" funX after: " +
-				// funX.toLaTeXString(true));
 			}
 		}
 		this.distFun = null;

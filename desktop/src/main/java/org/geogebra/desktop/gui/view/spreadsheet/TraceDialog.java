@@ -932,7 +932,6 @@ public class TraceDialog extends Dialog
 	 *            app mode
 	 */
 	public void toolbarModeChanged(int euclidianMode) {
-		// System.out.println(euclidianMode);
 		if (!EuclidianConstants.isMoveOrSelectionMode(euclidianMode)
 				&& euclidianMode != EuclidianConstants.MODE_SELECTION_LISTENER
 				&& (mode == MODE_ADD || mode == MODE_LOCATE)) {
@@ -952,8 +951,6 @@ public class TraceDialog extends Dialog
 	 * Close this
 	 */
 	public void closeDialog() {
-
-		// System.out.println("closeDialog");
 		setMode(MODE_NORMAL);
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

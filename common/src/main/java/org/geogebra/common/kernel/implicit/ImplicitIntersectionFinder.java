@@ -6,7 +6,6 @@ import java.util.ListIterator;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -142,7 +141,7 @@ public final class ImplicitIntersectionFinder {
 		for (int i = 0; i < guess.size() && n < outputs; i++) {
 			evals = guess.get(i).val;
 
-			if (!MyDouble.isFinite(evals[0]) || !MyDouble.isFinite(evals[1])) {
+			if (!Double.isFinite(evals[0]) || !Double.isFinite(evals[1])) {
 				continue;
 			}
 
@@ -269,7 +268,7 @@ public final class ImplicitIntersectionFinder {
 		for (int i = 0; i < size; i++) {
 			evals = guess.get(i).val;
 
-			if (!MyDouble.isFinite(evals[0]) || !MyDouble.isFinite(evals[1])) {
+			if (!Double.isFinite(evals[0]) || !Double.isFinite(evals[1])) {
 				continue;
 			}
 

@@ -74,8 +74,7 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = v;
 
-		super.setOutputLength(1);
-		super.setOutput(0, n);
+		setOnlyOutput(n);
 		setDependencies(); // done by AlgoElement
 	}
 

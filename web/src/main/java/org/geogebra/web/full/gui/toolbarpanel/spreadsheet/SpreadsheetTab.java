@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
 
@@ -8,7 +9,8 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
  */
 public class SpreadsheetTab extends ToolbarTab {
 
-	private ToolbarPanel toolbarPanel;
+	private final ToolbarPanel toolbarPanel;
+	private SpreadsheetPanel spreadsheetPanel;
 
 	/**
 	 * Constructor
@@ -17,11 +19,11 @@ public class SpreadsheetTab extends ToolbarTab {
 	public SpreadsheetTab(ToolbarPanel toolbarPanel) {
 		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
-		createContent();
 	}
 
 	private void createContent() {
-		add(new SpreadsheetPanel());
+		this.spreadsheetPanel = new SpreadsheetPanel(toolbarPanel.getApp(), this);
+		add(spreadsheetPanel);
 	}
 
 	@Override
@@ -31,12 +33,14 @@ public class SpreadsheetTab extends ToolbarTab {
 
 	@Override
 	public void onResize() {
-		// fill
+		if (spreadsheetPanel != null) {
+			spreadsheetPanel.onResize();
+		}
 	}
 
 	@Override
 	public void open() {
-		// fill
+		toolbarPanel.openSpreadsheetView(true);
 	}
 
 	@Override
@@ -46,6 +50,13 @@ public class SpreadsheetTab extends ToolbarTab {
 
 	@Override
 	protected void onActive() {
-		// fill
+		if (spreadsheetPanel == null) {
+			createContent();
+		}
+	}
+
+	@Override
+	public DockPanelData.TabIds getID() {
+		return DockPanelData.TabIds.SPREADSHEET;
 	}
 }

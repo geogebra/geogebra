@@ -693,11 +693,10 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	/**
-	 *
-	 * @param mf the MathField the suggestion would happen
-	 * @return if suggestion is prevented.
+	 * @param mf the input MathField
+	 * @return currently typed command
 	 */
-	public boolean isSuggestionPrevented(MathField mf) {
-		return inputSuggestions.isPreventedFor(mf.getInternal().getEditorState());
+	public String getCommand(MathField mf) {
+		return inputSuggestions.getCommand(mf);
 	}
 }

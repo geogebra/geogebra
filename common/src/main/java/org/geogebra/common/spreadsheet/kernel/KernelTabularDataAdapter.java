@@ -152,12 +152,12 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public int numberOfRows() {
-		return 200;
+		return 100;
 	}
 
 	@Override
 	public int numberOfColumns() {
-		return 100;
+		return 26;
 	}
 
 	@Override

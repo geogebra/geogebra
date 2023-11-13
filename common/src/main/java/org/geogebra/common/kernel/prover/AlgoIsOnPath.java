@@ -68,8 +68,7 @@ public class AlgoIsOnPath extends AlgoElement
 		input[0] = inputPoint;
 		input[1] = (GeoElement) inputPath;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputBoolean);
+		setOnlyOutput(outputBoolean);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -6,6 +6,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.gui.util.InvalidToolFilter;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -80,13 +81,11 @@ public class ToolsTab extends ToolbarTab {
 		moreBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.More"));
 		AriaHelper.hide(moreBtn);
-		moreBtn.addStyleName("moreLessBtn");
-		moreBtn.removeStyleName("button");
+		moreBtn.setStyleName("materialTextButton");
 		lessBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.Less"));
 		AriaHelper.hide(lessBtn);
-		lessBtn.addStyleName("moreLessBtn");
-		lessBtn.removeStyleName("button");
+		lessBtn.setStyleName("materialTextButton");
 		moreBtn.addFastClickHandler(source -> onMorePressed());
 
 		lessBtn.addFastClickHandler(source -> onLessPressed());
@@ -200,6 +199,11 @@ public class ToolsTab extends ToolbarTab {
 	@Override
 	protected void onActive() {
 		// unused
+	}
+
+	@Override
+	public DockPanelData.TabIds getID() {
+		return DockPanelData.TabIds.TOOLS;
 	}
 
 	@Override

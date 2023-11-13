@@ -118,8 +118,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 			input[1] = f;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, v);
+		super.setOnlyOutput(v);
 		setDependencies(); // done by AlgoElement
 	}
 

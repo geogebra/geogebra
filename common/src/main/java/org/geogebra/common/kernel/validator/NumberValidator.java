@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.validator;
 
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsException;
 import org.geogebra.common.util.DoubleUtil;
@@ -35,7 +34,7 @@ public class NumberValidator {
 	 */
 	public double getDouble(String numberString, Double minValue) {
 		double number = stringParser.convertToDouble(numberString);
-		if (!MyDouble.isFinite(number)) {
+		if (!Double.isFinite(number)) {
 			throw new NumberFormatException("The number must be finite");
 		}
 		if (minValue != null && number <= minValue) {
@@ -57,7 +56,7 @@ public class NumberValidator {
 	public double getDoubleGreaterOrEqual(String numberString,
 			Double minValue) {
 		double number = stringParser.convertToDouble(numberString);
-		if (!MyDouble.isFinite(number)) {
+		if (!Double.isFinite(number)) {
 			throw new NumberFormatException("The number must be finite");
 		}
 		if (minValue != null) {

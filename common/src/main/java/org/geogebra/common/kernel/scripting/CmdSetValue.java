@@ -168,7 +168,8 @@ public class CmdSetValue extends CmdScripting {
 				&& !Double.isNaN(arg1.evaluateDouble())) {
 			int selectIdx = (int) Math.round(arg1.evaluateDouble()) - 1;
 			if (((GeoList) arg0).getSelectedIndex() != selectIdx) {
-				((GeoList) arg0).setSelectedIndex(selectIdx, true);
+				((GeoList) arg0).setSelectedIndex(selectIdx);
+				arg0.updateRepaint();
 			}
 		} else if (arg0.isIndependent() || arg0.isMoveable()) {
 			setValueIndependent(arg0, arg1);

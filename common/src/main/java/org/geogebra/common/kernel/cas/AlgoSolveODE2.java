@@ -100,8 +100,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		input[6] = end;
 		input[7] = step;
 
-		super.setOutputLength(1);
-		super.setOutput(0, locus);
+		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -167,9 +166,6 @@ public class AlgoSolveODE2 extends AlgoElement {
 		public void handleStep(StepInterpolator interpolator, boolean isLast) {
 			double t = interpolator.getCurrentTime();
 			double[] y1 = interpolator.getInterpolatedState();
-			// System.out.println(t + " " + y[0]+ " "+y[1]);
-
-			// g.add(new GeoPoint(cons, null, t, y[0], 1.0));
 			al.add(new MyPoint(t, y1[0], SegmentType.LINE_TO));
 		}
 	};

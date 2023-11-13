@@ -84,8 +84,7 @@ public class AlgoDependentListExpression extends AlgoElement
 	@Override
 	protected void setInputOutput() {
 		setInputFrom(list.getDefinition());
-		setOutputLength(1);
-		setOutput(0, list);
+		setOnlyOutput(list);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -104,8 +104,7 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[] { poly.toGeoElement(), line.toGeoElement() };
-		setOutputLength(1);
-		setOutput(0, tangentPoly.toGeoElement());
+		setOnlyOutput(tangentPoly);
 		setDependencies();
 	}
 

@@ -69,8 +69,7 @@ public class AlgoTextCorner extends AlgoElement {
 		input[0] = (GeoElement) txt;
 		input[1] = number.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, corner);
+		setOnlyOutput(corner);
 		setDependencies(); // done by AlgoElement
 	}
 

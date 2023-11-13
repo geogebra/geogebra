@@ -8,7 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -520,15 +521,15 @@ public class OptionsAdvancedD implements OptionPanelD,
 	}
 
 	private void updateTooltipLanguages() {
-		ArrayList<Locale> locales = getSupportedLocales();
-		if (cbTooltipLanguage.getItemCount() == locales.size() + 1) {
-			Locale ttl = app.getLocalization().getTooltipLocale();
-			if (ttl == null) {
+		List<Language> languages = getSupportedLanguages();
+		if (cbTooltipLanguage.getItemCount() == languages.size() + 1) {
+			Language tooltipLanguage = app.getLocalization().getTooltipLanguage();
+			if (tooltipLanguage == null) {
 				cbTooltipLanguage.setSelectedIndex(0);
 			} else {
 				boolean found = false;
-				for (int i = 0; i < locales.size(); i++) {
-					if (locales.get(i).toString().equals(ttl.toString())) {
+				for (int i = 0; i < languages.size(); i++) {
+					if (languages.get(i) == tooltipLanguage) {
 						cbTooltipLanguage.setSelectedIndex(i + 1);
 						found = true;
 						break;
@@ -560,12 +561,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 
 		} else if (source == cbTooltipLanguage) {
 			int index = cbTooltipLanguage.getSelectedIndex() - 1;
-			if (index == -1) {
-				app.setTooltipLanguage(null);
-			} else {
-				app.setTooltipLanguage(
-						getSupportedLocales().get(index).toString());
-			}
+			Language ttLanguage = index == -1 ? null : getSupportedLanguages().get(index);
+			app.setTooltipLanguage(ttLanguage);
 		} else if (source == cbUseLocalDigits) {
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
 		} else if (source == cbUseLocalLabels) {
@@ -618,13 +615,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 			}
 		} else if (source == cbKeyboardLanguage) {
 			int index = cbKeyboardLanguage.getSelectedIndex();
-			if (index == 0) {
-				((KeyboardSettings) settings.getKeyboard())
-						.setKeyboardLocale(app.getLocale().toString());
-			} else {
-				((KeyboardSettings) settings.getKeyboard()).setKeyboardLocale(
-						KeyboardSettings.getLocale(index - 1));
-			}
+			((KeyboardSettings) settings.getKeyboard()).setKeyboardLocale(
+						index);
 		} else if (source == cbKeyboardShowAutomatic) {
 			((KeyboardSettings) settings.getKeyboard()).setShowKeyboardOnStart(
 					cbKeyboardShowAutomatic.isSelected());
@@ -861,18 +853,13 @@ public class OptionsAdvancedD implements OptionPanelD,
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipLanguages() {
-		ArrayList<Locale> locales = getSupportedLocales();
+		List<Language> locales = getSupportedLanguages();
 		String[] languages = new String[locales.size() + 1];
 		languages[0] = loc.getMenu("Default");
-		String ggbLangCode;
 
 		for (int i = 0; i < locales.size(); i++) {
-			Locale locale = locales.get(i);
-			ggbLangCode = locale.getLanguage() + locale.getCountry()
-					+ locale.getVariant();
-
-			languages[i + 1] = Language.getDisplayName(ggbLangCode);
-			// AppD.debug(ggbLangCode+" "+languages[i + 1]);
+			Language locale = locales.get(i);
+			languages[i + 1] = locale.name;
 		}
 
 		int selectedIndex = cbTooltipLanguage.getSelectedIndex();
@@ -886,9 +873,9 @@ public class OptionsAdvancedD implements OptionPanelD,
 		updateTooltipLanguages();
 	}
 
-	private ArrayList<Locale> getSupportedLocales() {
-		return app.getLocalization()
-				.getSupportedLocales(app.has(Feature.ALL_LANGUAGES));
+	private List<Language> getSupportedLanguages() {
+		return Arrays.asList(app.getLocalization()
+				.getSupportedLanguages(app.has(Feature.ALL_LANGUAGES)));
 	}
 
 	/**

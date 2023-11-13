@@ -122,8 +122,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		input[1] = line;
 		input[2] = startPoint;
 
-		super.setOutputLength(1);
-		super.setOutput(0, rootPoint);
+		setOnlyOutput(rootPoint);
 		setDependencies();
 	}
 

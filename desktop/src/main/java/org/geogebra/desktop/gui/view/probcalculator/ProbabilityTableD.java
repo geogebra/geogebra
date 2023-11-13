@@ -113,13 +113,11 @@ public class ProbabilityTableD extends ProbabilityTable
 
 		if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_INTERVAL) {
-			// System.out.println(Arrays.toString(selectedRow));
 			String lowStr = (String) table.getModel().getValueAt(selRow[0], 0);
 			String highStr = (String) table.getModel()
 					.getValueAt(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			// System.out.println(low + " , " + high);
 			getProbCalc().setInterval(low, high);
 		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
@@ -129,7 +127,6 @@ public class ProbabilityTableD extends ProbabilityTable
 					.getValueAt(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			// System.out.println(low + " , " + high);
 			getProbCalc().setInterval(low, high);
 
 			// adjust the selection
@@ -156,8 +153,7 @@ public class ProbabilityTableD extends ProbabilityTable
 					.getValueAt(maxRow, 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			// System.out.println(low + " , " + high);
-			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
+			getProbCalc().setInterval(low, high);
 
 			table.getSelectionModel().removeListSelectionListener(this);
 			table.changeSelection(maxRow, 0, false, false);
@@ -184,8 +180,6 @@ public class ProbabilityTableD extends ProbabilityTable
 				lowIndex = 0;
 			}
 			int highIndex = highValue - getXMin();
-			// System.out.println("-------------");
-			// System.out.println(lowIndex + " , " + highIndex);
 
 			if (isCumulative()) {
 				statTable.getTable().changeSelection(highIndex, 0, false,
