@@ -71,8 +71,7 @@ public class AlgoAreCollinear extends AlgoElement
 		input[1] = inputPoint2.toGeoElement();
 		input[2] = inputPoint3.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputBoolean);
+		setOnlyOutput(outputBoolean);
 		setDependencies(); // done by AlgoElement
 	}
 

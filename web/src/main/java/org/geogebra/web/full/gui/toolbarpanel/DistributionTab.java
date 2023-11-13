@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.view.probcalculator.DistributionPanelSuite;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
@@ -38,6 +39,11 @@ public class DistributionTab extends ToolbarTab {
 	@Override
 	protected void onActive() {
 		// to do fill
+	}
+
+	@Override
+	public DockPanelData.TabIds getID() {
+		return DockPanelData.TabIds.DISTRIBUTION;
 	}
 
 	@Override

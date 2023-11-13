@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.util.stream.IntStream;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
@@ -25,6 +27,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		TestTabularData tabularData = new TestTabularData();
 		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
 				new TestCellRenderableFactory());
+		spreadsheet.setHeightForRows(20, IntStream.range(0, 5).toArray());
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		tabularData.setContent(0, 0, "foo");
 		tabularData.setContent(0, 1, "bar");
@@ -142,7 +145,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		public SelfRenderable getRenderable(Object data, SpreadsheetStyle style,
 				int row, int column) {
 			return data == null ? null : new SelfRenderable(new StringRenderer(),
-					GFont.PLAIN, null, CellFormat.ALIGN_LEFT, data);
+					GFont.PLAIN, CellFormat.ALIGN_LEFT, data);
 		}
 	}
 }

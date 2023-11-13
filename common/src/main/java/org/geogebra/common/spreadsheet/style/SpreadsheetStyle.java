@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.style;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 public final class SpreadsheetStyle {
 
@@ -21,7 +22,7 @@ public final class SpreadsheetStyle {
 	}
 
 	public GColor getTextColor() {
-		return GColor.newColor(0, 0, 0, 0.87);
+		return GeoGebraColorConstants.NEUTRAL_700;
 	}
 
 	/**
@@ -57,6 +58,14 @@ public final class SpreadsheetStyle {
 
 	public Integer getAlignment(int row, int column) {
 		return (Integer) format.getCellFormat(column, row, CellFormat.FORMAT_ALIGN);
+	}
+
+	public GColor getGridColor() {
+		return GeoGebraColorConstants.NEUTRAL_300;
+	}
+
+	public GColor getHeaderBackgroundColor() {
+		return GeoGebraColorConstants.NEUTRAL_200;
 	}
 
 	// grid lines, colors, fonts

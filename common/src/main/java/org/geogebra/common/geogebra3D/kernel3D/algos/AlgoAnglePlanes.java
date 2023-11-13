@@ -91,8 +91,7 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 		input[0] = p;
 		input[1] = q;
 
-		setOutputLength(1);
-		setOutput(0, angle);
+		setOnlyOutput(angle);
 		setDependencies(); // done by AlgoElement
 	}
 

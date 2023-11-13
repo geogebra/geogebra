@@ -6,12 +6,13 @@ public interface HasAlignment {
 
     /**
      *  sets the text alignment
+     * @param alignment horizontal alignment
      */
-    public void setAlignment(HorizontalAlignment alignment);
+	void setAlignment(HorizontalAlignment alignment);
 
     /**
      *
      * @return the text alignment
      */
-    public HorizontalAlignment getAlignment();
+	HorizontalAlignment getAlignment();
 }

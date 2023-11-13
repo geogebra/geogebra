@@ -60,8 +60,7 @@ public class AlgoOrientedHeight extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = (GeoElement) c;
 
-		super.setOutputLength(1);
-		super.setOutput(0, num);
+		setOnlyOutput(num);
 		setDependencies(); // done by AlgoElement
 	}
 

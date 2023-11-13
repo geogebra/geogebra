@@ -96,8 +96,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		input = new GeoElement[1];
 		input[0] = f == null ? g : f;
 
-		setOutputLength(1);
-		setOutput(0, slope);
+		setOnlyOutput(slope);
 		setDependencies(); // done by AlgoElement
 	}
 

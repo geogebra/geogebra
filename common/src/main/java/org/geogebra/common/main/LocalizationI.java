@@ -12,13 +12,7 @@ public abstract class LocalizationI {
 	public final static String FUNCTION_PREFIX = "Function.";
 
 	/**
-	 * Gets the current locale in string format, as defined in {@link Locale#toString()}
-	 * @return current locale
-	 */
-	public abstract String getLocaleStr();
-
-	/**
-	 * Gets the current locale as a well formed BCP-47 language tag.
+	 * Gets the current locale as a well-formed BCP-47 language tag.
 	 * @return current locale
 	 * @see Locale#toLanguageTag() toLanguageTag
 	 */

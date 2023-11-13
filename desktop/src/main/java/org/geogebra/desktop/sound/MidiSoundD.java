@@ -173,7 +173,6 @@ public class MidiSoundD implements MetaEventListener {
 	 */
 	@Override
 	public void meta(MetaMessage event) {
-		// System.out.println("midi sound event " + event.getType());
 		if (event.getType() == END_OF_TRACK_MESSAGE) {
 			closeMidiSound();
 		}
@@ -338,7 +337,6 @@ public class MidiSoundD implements MetaEventListener {
 			while ((text = reader.readLine()) != null) {
 				contents.append(text);
 			}
-			// System.out.println(contents.toString());
 			this.playSequenceFromJFugueString(contents.toString(), 0);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

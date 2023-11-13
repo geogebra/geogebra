@@ -303,8 +303,13 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getWidth() {
-		return (int) (this.g2p.getCoordinateSpaceWidth()
-						/ this.g2p.getDevicePixelRatio());
+		return (int) getWidthd();
+	}
+
+	@Override
+	public double getWidthd() {
+		return this.g2p.getCoordinateSpaceWidth()
+				/ this.g2p.getDevicePixelRatio();
 	}
 
 	/**
@@ -314,8 +319,13 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getHeight() {
-		return (int) (this.g2p.getCoordinateSpaceHeight()
-						/ this.g2p.getDevicePixelRatio());
+		return (int) getHeightd();
+	}
+
+	@Override
+	public double getHeightd() {
+		return this.g2p.getCoordinateSpaceHeight()
+						/ this.g2p.getDevicePixelRatio();
 	}
 
 	@Override

@@ -87,8 +87,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		input[1] = inGeo;
 		input[0] = matrix;
 
-		setOutputLength(1);
-		setOutput(0, outGeo);
+		setOnlyOutput(outGeo);
 		setDependencies(); // done by AlgoElement
 	}
 

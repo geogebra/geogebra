@@ -77,8 +77,7 @@ public class AlgoClosestPoint extends AlgoElement
 		input = new GeoElement[2];
 		input[0] = path.toGeoElement();
 		input[1] = point.toGeoElement();
-		setOutputLength(1);
-		setOutput(0, (GeoElement) P);
+		setOnlyOutput(P);
 		setDependencies(); // done by AlgoElement
 	}
 

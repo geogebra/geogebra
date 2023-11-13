@@ -18,4 +18,15 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 		assertThat(implicit.toValueString(StringTemplate.algebraTemplate),
 				is("r(2) / r(x) = 4".replace('r', Unicode.SQUARE_ROOT)));
 	}
+
+	@Test
+	public void variableDegreeTest() {
+		add("U=1");
+		add("rho=1");
+		add("c:(x^rho+y^rho)^(1/rho)=U");
+		assertThat(add("pt=Intersect(c,x=0)"), hasValue("(0, 1)"));
+		t("Delete(pt)");
+		t("SetValue(rho,3)");
+		assertThat(add("Intersect(c,x=0)"), hasValue("(0, 1)"));
+	}
 }

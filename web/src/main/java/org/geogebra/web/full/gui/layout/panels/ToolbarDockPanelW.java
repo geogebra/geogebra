@@ -66,7 +66,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		return toolbar.getKeyboardListener(super::getKeyboardListener);
+		return toolbar.getKeyboardListener();
 	}
 
 	/**

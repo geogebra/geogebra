@@ -6,7 +6,7 @@ package org.geogebra.common.util;
 public class DefaultTimeFormat implements TimeFormatAdapter {
 
     @Override
-    public String format(String localeStr, long timeIntervalMs) {
+    public String format(String languageTag, long timeIntervalMs) {
         int secs = (int) timeIntervalMs / 1000;
         int mins = secs / 60;
         secs -= mins * 60;

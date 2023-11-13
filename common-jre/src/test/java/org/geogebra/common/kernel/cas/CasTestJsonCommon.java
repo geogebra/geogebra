@@ -938,8 +938,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testExtremum() {
-		testCat("Extremum");
+	public void testExtremum1() {
+		testCat("Extremum.1");
+	}
+
+	@Test
+	public void testExtremum3() {
+		testCat("Extremum.3");
 	}
 
 	@Test

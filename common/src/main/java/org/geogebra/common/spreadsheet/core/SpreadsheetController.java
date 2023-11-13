@@ -37,7 +37,8 @@ public final class SpreadsheetController implements TabularSelection {
 		this.tabularData = tabularData;
 		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),
-				tabularData.numberOfColumns(), 20, 40);
+				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
+				TableLayout.DEFAULT_CELL_WIDTH);
 	}
 
 	TableLayout getLayout() {

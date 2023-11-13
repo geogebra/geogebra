@@ -193,8 +193,7 @@ public class AlgoFrequency extends AlgoElement {
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
 
-		setOutputLength(1);
-		setOutput(0, frequency);
+		setOnlyOutput(frequency);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -390,10 +389,6 @@ public class AlgoFrequency extends AlgoElement {
 				if ((i != length - 1 && increasing) || (i != 1 && !increasing)) {
 					classFreq -= f.getCount(upperClassBound);
 				}
-
-				// System.out.println(" =================================");
-				// System.out.println("class freq: " + classFreq + " " +
-				// density);
 
 				if (doCumulative) {
 					cumulativeClassFreq += classFreq;

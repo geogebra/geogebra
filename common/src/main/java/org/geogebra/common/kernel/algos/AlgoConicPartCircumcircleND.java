@@ -141,8 +141,7 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 		input[1] = (GeoElement) B;
 		input[2] = (GeoElement) C;
 
-		super.setOutputLength(1);
-		super.setOutput(0, conicPart);
+		setOnlyOutput(conicPart);
 
 		setDependencies();
 	}

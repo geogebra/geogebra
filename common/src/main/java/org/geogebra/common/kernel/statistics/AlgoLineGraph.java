@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.commands.Commands;
@@ -70,7 +69,7 @@ public class AlgoLineGraph extends AlgoElement {
 		double last = Double.NEGATIVE_INFINITY;
 		for (int i = 0; i < xValues.size(); i++) {
 			double value = xValues.get(i).evaluateDouble();
-			if (!MyDouble.isFinite(value) || value <= last) {
+			if (!Double.isFinite(value) || value <= last) {
 				return false;
 			}
 			last = value;
@@ -80,7 +79,7 @@ public class AlgoLineGraph extends AlgoElement {
 
 	private boolean areYValuesFinite() {
 		for (int i = 0; i < yValues.size(); i++) {
-			if (!MyDouble.isFinite(yValues.get(i).evaluateDouble())) {
+			if (!Double.isFinite(yValues.get(i).evaluateDouble())) {
 				return false;
 			}
 		}

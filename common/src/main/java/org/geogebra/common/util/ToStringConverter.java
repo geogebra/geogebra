@@ -7,7 +7,7 @@ public interface ToStringConverter<T> {
 
 	/**
 	 * Convert the object of type T to a String representation.
-	 *
+	 * @param object converted object
 	 * @return a String of the object.
 	 */
 	String convert(T object);

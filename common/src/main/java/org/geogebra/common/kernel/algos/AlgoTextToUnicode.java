@@ -55,8 +55,7 @@ public class AlgoTextToUnicode extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = text;
 
-		super.setOutputLength(1);
-		super.setOutput(0, list);
+		setOnlyOutput(list);
 		setDependencies(); // done by AlgoElement
 	}
 

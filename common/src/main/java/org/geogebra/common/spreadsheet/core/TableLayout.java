@@ -12,14 +12,17 @@ import org.geogebra.common.util.shape.Rectangle;
  * @Note: This type is not designed to be thread-safe.
  */
 public final class TableLayout {
+	public static final int DEFAULT_CELL_WIDTH = 120;
+	public static final int DEFAUL_CELL_HEIGHT = 36;
+	public static final int DEFAULT_ROW_HEADER_WIDTH = 52;
 
 	private static final int MIN_CELL_SIZE = 10;
 	private double[] columnWidths;
 	private double[] rowHeights;
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
-	private double rowHeaderWidth = 42;
-	private double columnHeaderHeight = 20;
+	private double rowHeaderWidth = DEFAULT_ROW_HEADER_WIDTH;
+	private double columnHeaderHeight = DEFAUL_CELL_HEIGHT;
 
 	public double getWidth(int column) {
 		return columnWidths[column];
@@ -78,7 +81,7 @@ public final class TableLayout {
 			out.x--;
 			return MouseCursor.RESIZE_X;
 		}
-		if (column < 1 && row >= 0 &&  y > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
+		if (column < 1 && row >= 0 && y > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
 			return MouseCursor.RESIZE_Y;
 		}
 		if (column < 1 && row > 0 && y < cumulativeHeights[row] + columnHeaderHeight + 5) {
@@ -88,28 +91,32 @@ public final class TableLayout {
 		return MouseCursor.DEFAULT;
 	}
 
+	public double getTotalHeight() {
+		return cumulativeHeights[cumulativeHeights.length - 1] + getColumnHeaderHeight();
+	}
+
+	public double getTotalWidth() {
+		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
+	}
+
 	/**
 	 * A (rectangular) portion of the table layout.
 	 */
-	static class Portion {
+	static final class Portion {
 
 		final int fromColumn;
 		final int fromRow;
-		final int numberOfColumns;
-		final int numberOfRows;
 		final double xOffset; // cumulated column widths left of fromColumn
 		final double yOffset;
 		final int toRow;
 		final int toColumn;
 
-		Portion(int fromColumn, int fromRow, int numberOfColumns, int numberOfRows, double xOffset,
+		Portion(int fromColumn, int fromRow, int toColumn, int toRow, double xOffset,
 				double yOffset) {
 			this.fromColumn = fromColumn;
 			this.fromRow = fromRow;
-			this.numberOfColumns = numberOfColumns;
-			this.numberOfRows = numberOfRows;
-			this.toRow = fromRow + numberOfRows - 1;
-			this.toColumn = fromColumn + numberOfColumns - 1;
+			this.toRow = toRow;
+			this.toColumn = toColumn;
 			this.xOffset = xOffset;
 			this.yOffset = yOffset;
 		}
@@ -132,7 +139,8 @@ public final class TableLayout {
 		for (int column = minColumn; column <= maxColumn; column++) {
 			columnWidths[column] = width;
 		}
-		for (int column = minColumn; column < columnWidths.length - 1; column++) {
+
+		for (int column = minColumn; column < columnWidths.length; column++) {
 			cumulativeWidths[column + 1] = cumulativeWidths[column] + columnWidths[column];
 		}
 	}
@@ -141,7 +149,8 @@ public final class TableLayout {
 		for (int row = minRow; row <= maxRow; row++) {
 			rowHeights[row] = height;
 		}
-		for (int row = minRow; row < cumulativeHeights.length - 1; row++) {
+
+		for (int row = minRow; row < cumulativeHeights.length; row++) {
 			cumulativeHeights[row + 1] = cumulativeHeights[row] + rowHeights[row];
 		}
 	}
@@ -155,24 +164,38 @@ public final class TableLayout {
 	}
 
 	TableLayout.Portion getLayoutIntersecting(Rectangle visibleArea) {
-		int firstColumn = Math.max(0, findColumn(visibleArea.getMinX()));
+		int firstColumn = Math.max(0, findColumn(visibleArea.getMinX() + rowHeaderWidth));
 		int lastColumn = Math.min(columnWidths.length - 1, findColumn(visibleArea.getMaxX()) + 1);
-		int firstRow = Math.max(0, findRow(visibleArea.getMinY()));
+		int firstRow = Math.max(0, findRow(visibleArea.getMinY() + columnHeaderHeight));
 		int lastRow = Math.min(rowHeights.length - 1, findRow(visibleArea.getMaxY()) + 1);
-		return new Portion(firstColumn, firstRow, lastColumn - firstColumn, lastRow - firstRow,
+		return new Portion(firstColumn, firstRow, lastColumn, lastRow,
 				visibleArea.getMinX(), visibleArea.getMinY());
 	}
 
+	/**
+	 * @param x pixel coordinate within viewport
+	 * @return hit column index (0 based, hitting left counts), -1 if header is hit
+	 */
 	public int findColumn(double x) {
-		return closest(Arrays.binarySearch(cumulativeWidths, x - rowHeaderWidth));
+		return getClosestLowerIndex(cumulativeWidths, x - rowHeaderWidth);
 	}
 
+	/**
+	 * @param y pixel coordinate within viewport
+	 * @return hit row index (0 based, hitting top border counts), -1 if header is hit
+	 */
 	public int findRow(double y) {
-		return closest(Arrays.binarySearch(cumulativeHeights, y - columnHeaderHeight));
+		return getClosestLowerIndex(cumulativeHeights, y - columnHeaderHeight);
 	}
 
-	private int closest(int searchResult) {
-		return searchResult > 0 ? searchResult : -2 - searchResult;
+	private int getClosestLowerIndex(double[] borders, double value) {
+		int searchResult = Arrays.binarySearch(borders, value);
+		if (searchResult >= 0) {
+			return searchResult;
+		} else {
+			int closestHigherIndex = -1 - searchResult; // see contract of binarySearch
+			return closestHigherIndex - 1;
+		}
 	}
 
 	double getRowHeaderWidth() {

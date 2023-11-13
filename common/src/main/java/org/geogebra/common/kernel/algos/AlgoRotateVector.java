@@ -79,8 +79,7 @@ public class AlgoRotateVector extends AlgoElement {
 		input[0] = A;
 		input[1] = angle;
 
-		setOutputLength(1);
-		setOutput(0, B);
+		setOnlyOutput(B);
 		setDependencies(); // done by AlgoElement
 	}
 

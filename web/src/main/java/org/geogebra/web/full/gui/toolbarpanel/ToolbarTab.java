@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
@@ -60,4 +62,12 @@ public abstract class ToolbarTab extends ScrollPanel implements ShowableTab, Set
 		return getElement().hasClassName("tab");
 	}
 
+	public abstract DockPanelData.TabIds getID();
+
+	/**
+	 * @return keyboard listener if the tab has editable content, null otherwise
+	 */
+	public MathKeyboardListener getKeyboardListener() {
+		return null;
+	}
 }
