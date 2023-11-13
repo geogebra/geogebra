@@ -10,11 +10,16 @@ import org.geogebra.common.euclidian.LatexRendererSettings;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.SymbolicEditorCommon;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.test.TestErrorHandler;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -51,6 +56,23 @@ public class GgbScriptTest extends BaseUnitTest {
 		pt.runClickScripts(null);
 		assertThat(getApp().getKernel().getConstruction()
 				.getUndoManager().undoPossible(), equalTo(true));
+	}
+
+	@Test
+	public void scriptShouldNotTriggeredConcurrentModification()
+			throws CircularDefinitionException {
+		GeoBoolean show = add("show=true");
+		GeoNumeric scriptable = add("scriptable=7");
+		GeoNumeric length = add("length=4");
+		GgbScript addPoint = makeScript("length=5");
+		scriptable.setUpdateScript(addPoint);
+		GeoList list = add("a=Sequence((k,k),k,1,length)");
+		scriptable.setShowObjectCondition(show);
+		list.setShowObjectCondition(show);
+		getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
+				"SetValue(show,false)", false, TestErrorHandler.INSTANCE,
+				false, foo -> {});
+		assertThat(length, hasValue("5"));
 	}
 
 	@Test
