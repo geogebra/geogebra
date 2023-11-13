@@ -2243,9 +2243,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			if (e.getSource() == thicknessSlider) {
 				model.applyThickness(thicknessSlider.getValue());
 			} else if (e.getSource() == opacitySlider) {
-				int value = (int) ((opacitySlider.getValue() / 100.0f)
-						* 255);
-				model.applyOpacity(value);
+				model.applyOpacityPercentage(opacitySlider.getValue());
 			}
 		}
 
@@ -2816,7 +2814,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 
 		@Override
-		public void addItem(String plain) {
+		public void addItem(String item) {
 			// nothing to do here
 		}
 
@@ -3043,8 +3041,8 @@ class TextFieldAlignmentPanel extends JPanel
 	}
 
 	@Override
-	public void addItem(String plain) {
-		comboBox.addItem(plain);
+	public void addItem(String item) {
+		comboBox.addItem(item);
 	}
 
 	@Override

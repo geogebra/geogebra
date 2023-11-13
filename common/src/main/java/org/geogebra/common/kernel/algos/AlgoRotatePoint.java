@@ -100,8 +100,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 		input[1] = angle.toGeoElement();
 		input[2] = (GeoElement) Q;
 
-		setOutputLength(1);
-		setOutput(0, outGeo);
+		setOnlyOutput(outGeo);
 		setDependencies(); // done by AlgoElement
 	}
 

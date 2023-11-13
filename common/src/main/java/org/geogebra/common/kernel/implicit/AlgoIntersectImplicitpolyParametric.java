@@ -21,6 +21,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -104,8 +106,7 @@ public class AlgoIntersectImplicitpolyParametric
 			}
 			GeoFunction fFun = f.getGeoFunction();
 			if (!f.isPolynomialFunction(false) || p.getCoeff() == null) {
-
-				computeNonPoly(fFun);
+				computeNonPoly(fFun, false);
 				return;
 			}
 			tx = new PolynomialFunction(new double[] { 0, 1 }); // x=t
@@ -126,7 +127,13 @@ public class AlgoIntersectImplicitpolyParametric
 				return;
 			}
 			if (p.getCoeff() == null) {
-				computeNonPoly(l.getGeoFunction());
+				if (l.getY() == 0.0) {
+					ExpressionNode exp = new ExpressionNode(kernel, -l.getZ() / l.getX());
+					GeoFunction constantInY = new GeoFunction(cons, new Function(kernel, exp));
+					computeNonPoly(constantInY, true);
+				} else {
+					computeNonPoly(l.getGeoFunction(), false);
+				}
 				return;
 			}
 			// get parametrisation of line
@@ -173,9 +180,10 @@ public class AlgoIntersectImplicitpolyParametric
 		mergeWithTangentPoints();
 	}
 
-	private void computeNonPoly(GeoFunction fun) {
+	private void computeNonPoly(GeoFunction fun, boolean transpose) {
 
-		GeoFunction paramEquation = new GeoFunction(cons, p, null, fun);
+		GeoFunction paramEquation = new GeoFunction(cons, p,
+				transpose ? fun : null, transpose ? null : fun);
 
 		AlgoRoots algo = new AlgoRoots(cons, paramEquation,
 				new GeoNumeric(cons, fun.getMinParameter()),
@@ -186,7 +194,8 @@ public class AlgoIntersectImplicitpolyParametric
 		List<double[]> valPairs = new ArrayList<>();
 		for (int i = 0; i < rootPoints.length; i++) {
 			double t = rootPoints[i].getX();
-			valPairs.add(new double[] { t, fun.value(t) });
+			valPairs.add(transpose ? new double[] { fun.value(t), t }
+					: new double[] { t, fun.value(t) });
 		}
 
 		setPoints(valPairs);

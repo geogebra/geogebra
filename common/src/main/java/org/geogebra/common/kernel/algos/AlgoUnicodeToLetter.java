@@ -57,8 +57,7 @@ public class AlgoUnicodeToLetter extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = a.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

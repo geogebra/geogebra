@@ -8,7 +8,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.print.PageFormat;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -30,7 +31,6 @@ import javax.swing.ScrollPaneConstants;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -379,22 +379,16 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 		// copy file log
 		if (app.logFile != null) {
-			sb.append("File log from " + app.logFile.toString() + ":\n");
+			sb.append("File log from ").append(app.logFile).append(":\n");
 			String NL = System.getProperty("line.separator");
-			Scanner scanner = null;
-			try {
-				scanner = new Scanner(new File(app.logFile.toString()),
-						Charsets.UTF_8);
+			try (Scanner scanner = new Scanner(new File(app.logFile.toString()),
+					StandardCharsets.UTF_8)) {
 				while (scanner.hasNextLine()) {
-					sb.append(scanner.nextLine() + NL);
+					sb.append(scanner.nextLine()).append(NL);
 				}
-			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
 				app.showMessage(
 						app.getLocalization().getMenu("CannotOpenLogFile"));
-			} finally {
-				if (scanner != null) {
-					scanner.close();
-				}
 			}
 			sb.append("\n");
 		}

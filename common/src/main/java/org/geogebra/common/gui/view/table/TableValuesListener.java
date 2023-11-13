@@ -42,6 +42,7 @@ public interface TableValuesListener {
 	/**
 	 * Notified when the cell has changed.
 	 * @param model the model
+	 * @param evaluatable list or function
 	 * @param column the index of the column
 	 * @param row the index of the row
 	 */

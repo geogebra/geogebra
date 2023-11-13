@@ -218,8 +218,7 @@ public class AlgoText extends AlgoElement {
 			}
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

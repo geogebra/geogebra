@@ -52,7 +52,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	/**
 	 * contains a scrollPanel with the {@link #table constructionstep-table}
 	 **/
-	public FlowPanel cpPanel;
+	private final FlowPanel cpPanel;
 	/** table with constructionsteps **/
 	protected CellTable<RowData> table;
 	ScrollPanel scrollPane;
@@ -76,9 +76,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 *            {@link AppW}
 	 */
 	public ConstructionProtocolViewW(final AppW app) {
+		super(app);
 		cpPanel = new FlowPanel();
-		this.app = app;
-		kernel = app.getKernel();
 		data = new ConstructionTableDataW(this);
 
 		app.getGuiManager().registerConstructionProtocolView(this);

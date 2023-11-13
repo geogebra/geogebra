@@ -8,6 +8,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.IsWidget;
@@ -80,6 +81,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		}
 		if (!app.isUnbundledOrWhiteboard()) {
 			addStyleName("highlightDraggers");
+		}
+		if (!app.getAppletParameters().getDataParamTransparentGraphics()) {
+			addStyleName(Shades.NEUTRAL_0.getName());
 		}
 	}
 

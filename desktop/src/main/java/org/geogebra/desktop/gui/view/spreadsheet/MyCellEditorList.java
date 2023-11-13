@@ -11,6 +11,7 @@ import javax.swing.JTable;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Cell editor for GeoBoolean.
@@ -39,12 +40,9 @@ public class MyCellEditorList extends DefaultCellEditor
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			editGeo.setSelectedIndex(comboBox.getSelectedIndex(), false);
-			editGeo.updateCascade();
-			editGeo.getKernel().notifyRepaint();
-			editGeo.getKernel().storeUndoInfo();
+			editGeo.setSelectedIndexUpdate(comboBox.getSelectedIndex());
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 	}
 

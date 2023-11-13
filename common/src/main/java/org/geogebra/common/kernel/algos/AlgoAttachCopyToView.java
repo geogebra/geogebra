@@ -142,8 +142,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		input[4] = screenCorner1.toGeoElement();
 		input[5] = screenCorner3.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, outGeo);
+		setOnlyOutput(outGeo);
 		setDependencies(); // done by AlgoElement
 	}
 

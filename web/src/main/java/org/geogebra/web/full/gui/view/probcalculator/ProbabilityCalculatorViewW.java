@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.view.probcalculator;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
@@ -69,8 +70,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 			distrPanel.setLabels();
 		}
 
-		if (getTable() != null) {
-			getTable().setLabels();
+		ProbabilityTable table = getTable();
+		if (table != null) {
+			table.setLabels();
 		}
 
 		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
@@ -227,7 +229,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	@Override
 	public void updateDiscreteTable() {
-		if (!isDiscreteProbability()) {
+		if (!isDiscreteProbability() || getTable() == null) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();

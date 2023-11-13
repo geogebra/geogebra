@@ -16,11 +16,11 @@ import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 
-public class DefaultKeyboardFactory implements KeyboardModelFactory {
+public class DefaultKeyboardModelFactory implements KeyboardModelFactory {
 
     private CharacterProvider charProvider;
 
-    public DefaultKeyboardFactory(CharacterProvider characterProvider) {
+    public DefaultKeyboardModelFactory(CharacterProvider characterProvider) {
         charProvider = characterProvider;
     }
 

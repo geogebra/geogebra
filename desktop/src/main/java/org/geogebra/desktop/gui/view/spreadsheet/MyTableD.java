@@ -89,7 +89,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	private MyCellEditorList editorList;
 
 	protected RelativeCopy relativeCopy;
-	public CopyPasteCutD copyPasteCut;
+	protected CopyPasteCutD copyPasteCut;
 	protected SpreadsheetColumnControllerD.ColumnHeaderRenderer headerRenderer;
 	protected SpreadsheetViewD view;
 	protected DefaultTableModel tableModel;
@@ -152,8 +152,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
 	// after a repaint in MyTable.
-	public HashSet<GPoint> cellResizeHeightSet;
-	public HashSet<GPoint> cellResizeWidthSet;
+	protected HashSet<GPoint> cellResizeHeightSet;
+	protected HashSet<GPoint> cellResizeWidthSet;
 
 	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
 	private boolean doRecordRowHeights = true;
@@ -609,7 +609,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			selectedRanges.add(0, newSelection);
 
 		} else { // ctrl-select
-
 			// handle dragging
 			if (selectedRanges.get(0).hasSameAnchor(newSelection)) {
 				selectedRanges.remove(0);

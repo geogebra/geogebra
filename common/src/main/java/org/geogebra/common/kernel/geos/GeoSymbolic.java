@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -328,8 +329,23 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean isTopLevelCommandNumeric() {
-		return getDefinition().getTopLevelCommand() != null
-				&& Commands.NSolve.name().equals(getDefinition().getTopLevelCommand().getName());
+		Command topCommand = getDefinition().getTopLevelCommand();
+		return topCommand != null && (isNSolve(topCommand) || isNumericWrapOfSolve(topCommand));
+	}
+
+	private boolean isNSolve(Command command) {
+		return Commands.NSolve.name().equals(command.getName());
+	}
+	
+	private boolean isNumericWrapOfSolve(Command command) {
+		if (!Commands.Numeric.name().equals(command.getName())) {
+			return false;
+		}
+		ExpressionNode arg = command.getArgument(0);
+		if (arg.getTopLevelCommand() != null) {
+			return Commands.Solve.name().equals(arg.getTopLevelCommand().getName());
+		}
+		return false;
 	}
 
 	private Command getCasInput(ExpressionValue casInputArg) {
@@ -671,7 +687,8 @@ public class GeoSymbolic extends GeoElement
 			expressionNode.setForceVector();
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
-		GeoElement result = elements.length > 1 ? toGeoList(elements) : elements[0];
+		GeoElement result = elements.length > 1 || needsListWrapping(elements[0])
+				? toGeoList(elements) : elements[0];
 		AlgoElement parentAlgo = elements[0].getParentAlgorithm();
 		if (cons.isRegisteredEuclidianViewCE(parentAlgo)) {
 			cons.unregisterEuclidianViewCE(parentAlgo);
@@ -681,6 +698,14 @@ public class GeoSymbolic extends GeoElement
 		}
 		result.setFixed(true);
 		return result;
+	}
+
+	private boolean needsListWrapping(GeoElement geo) {
+		// in AV these may return 1 or more points, in CAS they always return a list
+		// forcing list wrapping makes the style and behavior independent on number of results
+		GetCommand cmd = geo.getParentAlgorithm() == null
+				? null : geo.getParentAlgorithm().getClassName();
+		return cmd == Commands.Root || cmd == Commands.Extremum || cmd == Commands.Intersect;
 	}
 
 	private void registerFunctionVariablesIfHasFunction(ExpressionNode functionExpression) {

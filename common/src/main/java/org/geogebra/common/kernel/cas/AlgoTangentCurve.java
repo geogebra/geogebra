@@ -131,8 +131,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		input[0] = (GeoElement) P;
 		input[1] = f;
 
-		setOutputLength(1);
-		setOutput(0, tangent);
+		setOnlyOutput(tangent);
 		setDependencies(); // done by AlgoElement
 	}
 

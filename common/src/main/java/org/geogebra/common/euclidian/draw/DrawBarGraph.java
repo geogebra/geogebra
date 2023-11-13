@@ -10,7 +10,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.BarChartGeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -55,7 +55,7 @@ public class DrawBarGraph extends Drawable {
 	 * Use an array to customize bars
 	 */
 	private GeneralPathClipped[] gp;
-	private final GeoNumeric sum;
+	private final BarChartGeoNumeric barChart;
 	private AlgoBarChart algo;
 	private ArrayList<GeoPoint> pts;
 	private ArrayList<DrawPoint> drawPoints;
@@ -67,10 +67,10 @@ public class DrawBarGraph extends Drawable {
 	 * @param n
 	 *            number (bar chart)
 	 */
-	public DrawBarGraph(EuclidianView view, GeoNumeric n) {
+	public DrawBarGraph(EuclidianView view, BarChartGeoNumeric n) {
 		this.view = view;
 		chartFilling = new ChartFilling(view.getApplication());
-		sum = n;
+		barChart = n;
 		geo = n;
 
 		n.setDrawable(true);
@@ -110,11 +110,11 @@ public class DrawBarGraph extends Drawable {
 	public void draw(GGraphics2D g2) {
 		GColor color = geo.getObjectColor();
 		GColor selColor = geo.getSelColor();
-		ChartStyle chartStyle = ((AlgoBarChart) geo.getParentAlgorithm()).getStyle();
+		ChartStyle chartStyle = barChart.getStyle();
 		if (isVisible) {
 			try {
 				if (isHighlighted()) {
-					g2.setPaint(sum.getSelColor());
+					g2.setPaint(barChart.getSelColor());
 					g2.setStroke(selStroke);
 					for (int i = 0; i < gp.length; i++) {
 						int k = i + 1;
@@ -227,10 +227,10 @@ public class DrawBarGraph extends Drawable {
 			init();
 		}
 		labelVisible = geo.isLabelVisible();
-		updateStrokes(sum);
+		updateStrokes(barChart);
 
 		// init gp
-		gp = new GeneralPathClipped[algo.getIntervals()];
+		gp = new GeneralPathClipped[barChart.getIntervals()];
 		for (int i = 0; i < gp.length; i++) {
 			gp[i] = new GeneralPathClipped(view);
 			gp[i].resetWithThickness(geo.getLineThickness());
@@ -240,7 +240,7 @@ public class DrawBarGraph extends Drawable {
 		double[] yVal = algo.getValues();
 
 		double width = algo.getWidth();
-		int N = algo.getIntervals();
+		int N = barChart.getIntervals();
 
 		if (algo.hasPoints()) {
 			updatePointLists();
@@ -476,9 +476,9 @@ public class DrawBarGraph extends Drawable {
 		int n;
 		if (drawType == DrawType.STEP_GRAPH_CONTINUOUS
 				|| drawType == DrawType.STEP_GRAPH_JUMP) {
-			n = 2 * algo.getIntervals() - 1;
+			n = 2 * barChart.getIntervals() - 1;
 		} else {
-			n = algo.getIntervals();
+			n = barChart.getIntervals();
 		}
 
 		// adjust the lists

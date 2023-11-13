@@ -1,4 +1,4 @@
-package org.geogebra.main;
+package org.geogebra.desktop.main;
 
 import static org.junit.Assert.assertEquals;
 
@@ -52,6 +52,16 @@ public class APITest {
 		assertEquals("f(x):=x+1", casInput(0));
 		api.evalCommand("$3=7");
 		assertEquals("7", casInput(2));
+	}
+
+	@Test
+	public void getValueStringTest() {
+		api.evalCommand("txt=\"foo\"");
+		api.evalCommand("input=InputBox(txt)");
+		api.evalCommand("a=4");
+		assertEquals("foo", api.getValueString("txt"));
+		assertEquals("foo", api.getValueString("input"));
+		assertEquals("a = 4", api.getValueString("a"));
 	}
 
 	@Test

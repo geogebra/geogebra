@@ -100,8 +100,7 @@ public class AlgoDistancePointObject extends AlgoElement
 		input[0] = (GeoElement) P;
 		input[1] = g.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, dist);
+		setOnlyOutput(dist);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -68,8 +68,7 @@ public class AlgoRayPointVector extends AlgoElement {
 		input[0] = P;
 		input[1] = v;
 
-		setOutputLength(1);
-		setOutput(0, ray);
+		setOnlyOutput(ray);
 		setDependencies(); // done by AlgoElement
 	}
 

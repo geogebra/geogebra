@@ -43,66 +43,6 @@ public class Decoder {
 	private boolean stop;
 	private volatile boolean pause;
 
-	// public static void mainBits(String[] args) throws Exception {
-	// Decoder.testBits();
-	// Decoder.testBits();
-	// }
-
-	// public static void testBits() throws Exception {
-	// Random r = new Random();
-	// byte[] data = new byte[2000];
-	// r.nextBytes(data);
-	// BitReservoir bytes = new BitReservoir2();
-	// BitReservoir2 bytes2 = new BitReservoir2();
-	// for(int i=0; i<data.length; i++) {
-	// bytes.putByte(data[i] & 0xff);
-	// bytes2.putByte(data[i] & 0xff);
-	// }
-	// long time = System.currentTimeMillis();
-	// for(int a = 0; a<30000; a++) {
-	// for(int i=0; i<data.length * 8; i++) {
-	//// int b = bytes.getOneBit();
-	// int b2 = bytes2.getOneBit();
-	// }
-	// }
-	// // old: 7188, 11625
-	// // int:
-	// // byte: 6219,4484
-	// System.out.println(System.currentTimeMillis() - time);
-	// }
-
-	// public static void main(String[] a) throws Exception {
-	// Decoder decoder = new Decoder();
-	// BENCHMARK = false;
-	// for (int i = 0; i < a.length; i++) {
-	// decoder.playAll(new File(a[i]));
-	// }
-	// BENCHMARK = false;
-	// decoder.mainTest();
-	// System.out.println(Layer3Decoder.count);
-	// mainTest();
-	// System.exit(0);
-	// mainTest();
-	// mainTest();
-	// }
-
-	// private void playAll(File file) throws Exception {
-	// if (file.isDirectory()) {
-	// File[] list = file.listFiles();
-	// for (int i = 0; i < list.length; i++) {
-	// File temp = list[i];
-	// int x = (int) (Math.random() * list.length);
-	// list[i] = list[x];
-	// list[x] = temp;
-	// }
-	// for (int i = 0; i < list.length; i++) {
-	// playAll(list[i]);
-	// }
-	// } else {
-	// play(new BufferedInputStream(new FileInputStream(file), 4 * 1024));
-	// }
-	// }
-
 	public void decodeFrame(Header header, Bitstream stream)
 			throws IOException {
 		if (!initialized) {

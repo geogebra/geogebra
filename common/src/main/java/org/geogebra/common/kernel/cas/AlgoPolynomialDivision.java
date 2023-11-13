@@ -76,8 +76,7 @@ public class AlgoPolynomialDivision extends AlgoElement {
 		input[0] = f1;
 		input[1] = f2;
 
-		setOutputLength(1);
-		setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

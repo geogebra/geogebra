@@ -133,14 +133,12 @@ public class LineAndPointUtils {
 			line1Lambda = null;
 		} else {
 			line1Lambda = (line1Y2 - line1Y1) / (line1X2 - line1X1);
-			// System.out.println("line1 -> " + line1Lambda);
 		}
 
 		if (line2X2.compareTo(line2X1) == 0) {
 			line2Lambda = null;
 		} else {
 			line2Lambda = (line2Y2 - line2Y1) / (line2X2 - line2X1);
-			// System.out.println("line2 -> " + line2Lambda);
 		}
 
 		// Both lines are vertical:

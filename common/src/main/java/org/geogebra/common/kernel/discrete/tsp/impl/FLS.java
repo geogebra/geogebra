@@ -155,8 +155,6 @@ public final class FLS {
 		// total tour distance
 		double best = distance(points);
 
-		// System.out.printf("tour length = %.4f\n", best);
-
 		// total number of cities in the tour
 		final int numCities = points.length;
 

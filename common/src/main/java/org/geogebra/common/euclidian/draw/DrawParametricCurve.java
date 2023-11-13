@@ -35,12 +35,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
@@ -76,21 +73,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
 
-	private PlotConditionalFunction plotConditional;
-
-	private static final Inspecting containsLog = new Inspecting() {
-		@Override
-		public boolean check(ExpressionValue v) {
-			if (v instanceof ExpressionNode) {
-				Operation op = ((ExpressionNode) v).getOperation();
-
-				return op == Operation.LOG || op == Operation.LOG2
-						|| op == Operation.LOG10 || op == Operation.LOGB;
-			}
-
-			return false;
-		}
-	};
+	private final PlotConditionalFunction plotConditional;
 
 	/**
 	 * Creates graphical representation of the curve
@@ -163,7 +146,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		gp.resetWithThickness(geo.getLineThickness());
 		intervalPlotter.update();
 		updateLabelPoint();
-		updateTrace(geo.getTrace());
+		drawAndUpdateTraceIfNeeded(geo.getTrace());
 	}
 
 	private void updateLabelPoint() {
@@ -217,27 +200,12 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		double min = curve.getMinParameter();
 		double max = curve.getMaxParameter();
 
-		CurveEvaluable toPlot = curve;
-
 		if (curve.toGeoElement().isGeoFunction()) {
 			GeoFunction function = (GeoFunction) curve.toGeoElement();
 			double minView, maxView;
 
-			GeoFunction inverted;
-			if (function.getFunction().inspect(containsLog)
-					&& canInvert(function.getFunction().getExpression())
-					&& (inverted = invertFunction(function)) != null) {
-				toPlot = inverted;
-
-				min = function.hasInterval() ? function.getIntervalMin() : Double.NEGATIVE_INFINITY;
-				max = function.hasInterval() ? function.getIntervalMax() : Double.POSITIVE_INFINITY;
-
-				minView = view.getYmin();
-				maxView = view.getYmax();
-			} else {
-				minView = view.getXmin();
-				maxView = view.getXmax();
-			}
+			minView = view.getXmin();
+			maxView = view.getXmax();
 
 			if (min < minView || Double.isInfinite(min)) {
 				min = minView;
@@ -247,6 +215,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			}
 
 			if (plotConditional.update(function, min, max, labelVisible, fillCurve)) {
+				updateLabelAndTrace(plotConditional.getLabelPoint());
 				return;
 			}
 		}
@@ -257,7 +226,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
-			labelPoint = CurvePlotter.plotCurve(toPlot, min, max, view, gp,
+			labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp,
 					labelVisible, fillCurve ? Gap.CORNER
 							: Gap.MOVE_TO);
 		}
@@ -269,6 +238,10 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			// offscreen points too
 		}
 
+		updateLabelAndTrace(labelPoint);
+	}
+
+	private void updateLabelAndTrace(GPoint labelPoint) {
 		if (labelPoint != null) {
 			updateLabel(labelPoint);
 		}
@@ -278,22 +251,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
-		// draw trace
-		updateTrace(curve.getTrace());
-	}
-
-	private void updateTrace(boolean showTrace) {
-		if (showTrace) {
-			isTracing = true;
-			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null) {
-				drawTrace(g2);
-			}
-		} else {
-			if (isTracing) {
-				isTracing = false;
-			}
-		}
+		drawAndUpdateTraceIfNeeded(curve.getTrace());
 	}
 
 	private void updateLabel(GPoint labelPoint) {
@@ -383,54 +341,14 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	}
 
 	private Inspecting checkPointwise() {
-		return new Inspecting() {
+		return v -> {
+			if (v.isExpressionNode() && ((ExpressionNode) v)
+					.getOperation() == Operation.DATA) {
 
-			@Override
-			public boolean check(ExpressionValue v) {
-				if (v.isExpressionNode() && ((ExpressionNode) v)
-						.getOperation() == Operation.DATA) {
-
-					return updateDataExpression((ExpressionNode) v);
-				}
-				return false;
+				return updateDataExpression((ExpressionNode) v);
 			}
+			return false;
 		};
-	}
-
-	private boolean canInvert(ExpressionValue ev) {
-		if (ev instanceof ExpressionNode) {
-			ExpressionNode en = (ExpressionNode) ev;
-			Operation op = en.getOperation();
-
-			if (op != Operation.LOG && op != Operation.LOG2
-					&& op != Operation.LOG10 && op != Operation.LOGB
-					&& op != Operation.PLUS && op != Operation.MINUS
-					&& op != Operation.MULTIPLY && op != Operation.DIVIDE) {
-				return false;
-			}
-
-			return canInvert(en.getLeft()) && canInvert(en.getRight());
-		}
-
-		return ev instanceof MyDouble;
-	}
-
-	private GeoFunction invertFunction(GeoFunction function) {
-		FunctionVariable oldFV = function.getFunction().getFunctionVariable();
-		FunctionVariable newFV = new FunctionVariable(view.getKernel(), "y");
-
-		ExpressionNode inverse = AlgoFunctionInvert.invert(function.getFunctionExpression(),
-				oldFV, newFV, view.getKernel());
-
-		if (inverse == null) {
-			return null;
-		}
-
-		Function func = new Function(inverse, newFV);
-		GeoFunction result = new GeoFunction(view.getKernel().getConstruction(), func);
-		result.swapEval();
-
-		return result;
 	}
 
 	/**
@@ -587,9 +505,9 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			}
 			if ((right < low && left < low && middle < low)
 					|| (right > high && left > high && middle > high)
-					|| (!MyDouble.isFinite(right)
-					&& !MyDouble.isFinite(left)
-					&& !MyDouble.isFinite(middle))) {
+					|| (!Double.isFinite(right)
+					&& !Double.isFinite(left)
+					&& !Double.isFinite(middle))) {
 				return false;
 			}
 
@@ -668,7 +586,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		return AwtFactory.getPrototype().newRectangle(gp.getBounds());
 	}
 
-	final private static boolean filling(CurveEvaluable curve) {
+	private static boolean filling(CurveEvaluable curve) {
 		return !curve.isFunctionInX() && curve.toGeoElement().isFilled();
 	}
 

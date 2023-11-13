@@ -265,7 +265,7 @@ public class AppCommon extends App {
 				}
 			}
 		}
-		return false;
+		return view == App.VIEW_EUCLIDIAN;
     }
 
     @Override
@@ -797,5 +797,10 @@ public class AppCommon extends App {
 
 	public void setImageManager(ImageManager imgManager) {
 		imageManager = imgManager;
+	}
+
+	@Override
+	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
+		getSettings().getAlgebra().getXML(sb, asPreference);
 	}
 }

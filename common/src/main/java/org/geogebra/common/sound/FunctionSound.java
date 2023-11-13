@@ -188,14 +188,11 @@ public abstract class FunctionSound {
 	 */
 	protected void loadBuffer16(double time) {
 		double value;
-		// Log.debug((byte)(-10.7));
-		// System.out.print("\nstart: ");
 		for (int k = 0; k < getBuf().length / 2; k++) {
 			if (k < 5 || k > getBuf().length / 2 - 6) {
 				Log.debug(k + " " + (time + 1.0 * k * getSamplePeriod()));
 			}
 			value = getF().value(time + 1.0 * k * getSamplePeriod());
-			// System.out.print(value+",");
 			// clip sound data
 			if (value > 1.0) {
 				value = 1.0;
@@ -242,9 +239,6 @@ public abstract class FunctionSound {
 
 		short value = isFadeOut ? peakValue : 0;
 
-		// System.out.println("peak: " + peakValue);
-		// System.out.println("delta: " + delta);
-
 		for (int k = 0; k < numSamples; k++) {
 			if (getBitDepth() == 8) {
 				fadeBuf[k] = (byte) value;
@@ -254,7 +248,6 @@ public abstract class FunctionSound {
 			}
 
 			value += delta;
-			// System.out.println(value);
 		}
 
 		return fadeBuf;

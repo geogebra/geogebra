@@ -37,7 +37,8 @@ dependencies {
 			"org.gwtproject:gwt-dev:$gwtCompilerVersion",
 			"org.gwtproject:gwt-user:$gwtCompilerVersion",
 			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201',
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201:sources'
+			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201:sources',
+			'org.gwtproject.core:gwt-core:1.0.0-RC2'
 	testImplementation "com.google.gwt:gwt-user:$gwtCompilerVersion",
 			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201',
 			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201:sources'

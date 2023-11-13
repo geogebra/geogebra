@@ -141,8 +141,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 		input[0] = (GeoElement) P;
 		input[1] = f.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, tangent);
+		setOnlyOutput(tangent);
 		setDependencies(); // done by AlgoElement
 	}
 

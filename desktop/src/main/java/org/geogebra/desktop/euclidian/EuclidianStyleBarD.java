@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -42,8 +41,8 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
+import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -59,47 +58,10 @@ public class EuclidianStyleBarD extends JToolBar
 
 	/***/
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Class for buttons visible only when no geo is selected and no geo is to
-	 * be created
-	 * 
-	 * @author mathieu
-	 * 
-	 */
-	protected class ToggleButtonDforEV extends ToggleButtonD {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * constructor
-		 * 
-		 * @param icon
-		 *            icon of the button
-		 * @param height
-		 *            height of the button
-		 */
-		public ToggleButtonDforEV(ImageIcon icon, int height) {
-			super(icon, height);
-
-		}
-
-		@Override
-		public void update(List<GeoElement> geos) {
-			this.setVisible(geos.size() == 0 && !EuclidianView.isPenMode(mode)
-					&& mode != EuclidianConstants.MODE_DELETE
-					&& mode != EuclidianConstants.MODE_ERASER);
-		}
-	}
-
 	// ggb
 	EuclidianController ec;
 	protected EuclidianViewInterfaceCommon ev;
 	protected AppD app;
-	private Construction cons;
 
 	// buttons and lists of buttons
 	protected ColorPopupMenuButton btnColor;
@@ -155,6 +117,43 @@ public class EuclidianStyleBarD extends JToolBar
 
 	HashMap<Integer, Integer> pointStyleMap;
 	protected final LocalizationD loc;
+	protected ArrayList<GeoElement> activeGeoList;
+	protected String specialJustification;
+
+	/**
+	 * Class for buttons visible only when no geo is selected and no geo is to
+	 * be created
+	 * 
+	 * @author mathieu
+	 * 
+	 */
+	protected class ToggleButtonDforEV extends ToggleButtonD {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * constructor
+		 * 
+		 * @param icon
+		 *            icon of the button
+		 * @param height
+		 *            height of the button
+		 */
+		public ToggleButtonDforEV(ImageIcon icon, int height) {
+			super(icon, height);
+
+		}
+
+		@Override
+		public void update(List<GeoElement> geos) {
+			this.setVisible(geos.size() == 0 && !EuclidianView.isPenMode(mode)
+					&& mode != EuclidianConstants.MODE_DELETE
+					&& mode != EuclidianConstants.MODE_ERASER);
+		}
+	}
 
 	/*************************************************
 	 * Constructs a styleBar
@@ -170,7 +169,6 @@ public class EuclidianStyleBarD extends JToolBar
 		ec = ev.getEuclidianController();
 		app = (AppD) ev.getApplication();
 		this.loc = app.getLocalization();
-		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
 		selection = new EuclidianStyleBarSelection(app, ec);
@@ -277,9 +275,6 @@ public class EuclidianStyleBarD extends JToolBar
 	public void restoreDefaultGeo() {
 		selection.restoreDefaultGeoFromConstruction();
 	}
-
-	protected ArrayList<GeoElement> activeGeoList;
-	protected String specialJustification;
 
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
@@ -1349,18 +1344,12 @@ public class EuclidianStyleBarD extends JToolBar
 							break;
 						}
 					}
-					// System.out.println("index" + index);
 					btnTableTextBracket.setSelectedIndex(index);
 
 				} else {
 					this.setVisible(false);
 				}
 			}
-
-			/*
-			 * @Override public Point getToolTipLocation(MouseEvent e) { return
-			 * new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-			 */
 		};
 
 		btnTableTextBracket.addActionListener(this);

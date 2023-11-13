@@ -71,6 +71,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private final GLookAndFeelI laf;
 	private boolean forcedHeaderHidden = false;
 	private boolean isHeaderVisible;
+	private boolean appletOnLoadCalled = false;
 
 	/**
 	 * Callback from renderGGBElement to run, if everything is done
@@ -207,6 +208,27 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (app != null) {
 			app.adjustScreen(false);
 		}
+	}
+
+	/**
+	 * @param callbackCalled whether callback was called
+	 */
+	public void appletOnLoadCalled(boolean callbackCalled) {
+		appletOnLoadCalled = callbackCalled;
+	}
+
+	/***
+	 * resets appletOnLoad flag
+	 */
+	public void resetAppletOnLoad() {
+		appletOnLoadCalled = false;
+	}
+
+	/***
+	 * @return appletOnLoadCalled
+	 */
+	public boolean appletOnLoadCalled() {
+		return appletOnLoadCalled;
 	}
 
 	/**
@@ -413,8 +435,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static void setBorder(GeoGebraElement ae, Element gfE,
 			String dpBorder, int px) {
 		ae.getStyle().setBorderWidth(0, Unit.PX);
-		ae.getStyle().setBorderStyle(BorderStyle.SOLID);
-		ae.getStyle().setBorderColor(dpBorder);
 		gfE.getStyle().setBorderWidth(px, Unit.PX);
 		gfE.getStyle().setBorderStyle(BorderStyle.SOLID);
 		gfE.getStyle().setBorderColor(dpBorder);
@@ -426,14 +446,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * or leaves it invisible if "none" was set.
 	 */
 	public void useDataParamBorder() {
-		String dpBorder = appletParameters.getDataParamBorder();
+		String dpBorder = appletParameters.getDataParamBorder("");
 		int thickness = appletParameters.getBorderThickness() / 2;
-		if (dpBorder != null) {
-			if ("none".equals(dpBorder)) {
-				setBorder("transparent", thickness);
-			} else {
-				setBorder(dpBorder, thickness);
-			}
+		if ("none".equals(dpBorder)) {
+			setBorder("transparent", thickness);
+		} else {
+			setBorder(dpBorder, thickness);
 		}
 		getElement().getStyle().setProperty("borderRadius",
 				appletParameters.getBorderRadius() + "px");
@@ -449,7 +467,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * "#9999ff" for this purpose.
 	 */
 	public void useFocusedBorder() {
-		String dpBorder = appletParameters.getDataParamBorder();
+		String dpBorder = appletParameters.getDataParamBorder("");
 		getElement().removeClassName(
 				APPLET_UNFOCUSED_CLASSNAME);
 		getElement()
@@ -707,6 +725,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (instances.isEmpty()) {
 			MathFieldW.removeAll();
 		}
+		app.getKernel().clearAnimations();
 		app.getGlobalHandlers().removeAllListeners();
 		app.getTimerSystem().detach();
 		Event.setEventListener(geoGebraElement.getElement(), null);

@@ -81,8 +81,7 @@ public class AlgoRandomElement extends AlgoElement implements SetRandomValue {
 		input = new GeoElement[1];
 		input[0] = geoList;
 
-		setOutputLength(1);
-		setOutput(0, element);
+		setOnlyOutput(element);
 		setDependencies(); // done by AlgoElement
 	}
 

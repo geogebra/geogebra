@@ -117,8 +117,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		standardInput[0] = this.path.toGeoElement();
 		standardInput[1] = this.movingPoint;
 
-		setOutputLength(1);
-		setOutput(0, this.geoPoly.toGeoElement());
+		setOnlyOutput(this.geoPoly);
 
 		setEfficientDependencies(standardInput, efficientInput);
 
@@ -279,8 +278,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		standardInput[0] = this.path.toGeoElement();
 		standardInput[1] = this.movingPoint;
 
-		setOutputLength(1);
-		setOutput(0, this.geoPoly.toGeoElement());
+		setOnlyOutput(this.geoPoly);
 
 		setEfficientDependencies(standardInput, efficientInput);
 		efficientInputFingerprint = fingerprint(efficientInput);

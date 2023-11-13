@@ -56,8 +56,7 @@ public class AlgoListLength extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = geoList;
 
-		super.setOutputLength(1);
-		super.setOutput(0, length);
+		setOnlyOutput(length);
 		setDependencies(); // done by AlgoElement
 	}
 

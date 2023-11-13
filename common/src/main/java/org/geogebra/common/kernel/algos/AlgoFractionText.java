@@ -69,8 +69,7 @@ public class AlgoFractionText extends AlgoElement {
 		} else {
 			input  = new GeoElement[]{num.toGeoElement(), singleFraction};
 		}
-		setOutputLength(1);
-		setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

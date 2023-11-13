@@ -73,7 +73,7 @@ class NavigationRail extends FlowPanel {
 	}
 
 	private void createCenter() {
-		if (!app.showToolBar()) {
+		if (!toolbarPanel.needsNavRail()) {
 			return;
 		}
 
