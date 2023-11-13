@@ -62,7 +62,7 @@ public final class ContextMenuItemsTest {
 	private void testMenuOrder(int row, int column, List<Identifer> identifiers) {
 		List<ContextMenuItem> menuItems = items.get(row, column);
 		List<Identifer> actual =
-				menuItems.stream().map(item -> item.identifer)
+				menuItems.stream().map(ContextMenuItem::getIdentifier)
 						.collect(Collectors.toList());
 		assertEquals(actual, identifiers);
 	}
@@ -110,7 +110,7 @@ public final class ContextMenuItemsTest {
 	private void runItemAt(int row, int column, Identifer id) {
 		List<ContextMenuItem> contextMenuItems = items.get(row, column);
 		Optional<ContextMenuItem> item = contextMenuItems.stream()
-				.filter(t -> t.identifer.equals(id)).findAny();
+				.filter(t -> t.getIdentifier().equals(id)).findAny();
 		if (item.isPresent()) {
 			item.get().performAction();
 		} else {

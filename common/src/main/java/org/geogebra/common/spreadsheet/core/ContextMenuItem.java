@@ -1,7 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 public class ContextMenuItem {
-	public enum Identifer {
+	enum Identifer {
 		CUT("Cut"), COPY("Copy"),
 		PASTE("Paste"),
 		DELETE("Delete"),
@@ -17,22 +17,25 @@ public class ContextMenuItem {
 		private Identifer(String localizationKey) {
 			this.localizationKey = localizationKey;
 		}
-
 	}
 
-	public final Identifer identifer;
-	public final Runnable action;
+	private final Identifer identifer;
 
-	ContextMenuItem(Identifer identifer, Runnable action) {
+	private final Runnable action;
+	public ContextMenuItem(Identifer identifer, Runnable action) {
 		this.identifer = identifer;
 		this.action = action;
 	}
 
-	public final String getLocalizationKey() {
+	public String getLocalizationKey() {
 		return identifer.localizationKey;
 	}
 
-	public final void performAction() {
+	public void performAction() {
 		action.run();
+	}
+
+	public Identifer getIdentifier() {
+		return identifer;
 	}
 }
