@@ -59,8 +59,7 @@ public class AlgoAxisStep extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[0];
 
-		setOutputLength(1);
-		setOutput(0, num);
+		setOnlyOutput(num);
 		setDependencies(); // done by AlgoElement
 	}
 

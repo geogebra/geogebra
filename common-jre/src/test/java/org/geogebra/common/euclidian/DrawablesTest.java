@@ -154,7 +154,7 @@ public class DrawablesTest {
 
 	private GPoint getLabelPosition(GeoElementND f) {
 		DrawableND draw = Objects.requireNonNull(app.getEuclidianView1().getDrawableFor(f));
-		return new GPoint((int) draw.getxLabel(), (int) draw.getyLabel());
+		return new GPoint((int) draw.getLabelX(), (int) draw.getLabelY());
 	}
 
 	private static boolean expectDrawableFor(GeoElementND type) {

@@ -1,4 +1,4 @@
-package org.geogebra.main;
+package org.geogebra.desktop.main;
 
 import static org.junit.Assert.assertEquals;
 

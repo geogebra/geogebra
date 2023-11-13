@@ -169,8 +169,7 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 			input[2] = refPoint;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, point);
+		setOnlyOutput(point);
 
 		setDependencies(); // done by AlgoElement
 	}

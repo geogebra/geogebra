@@ -138,9 +138,9 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			restoreSettingsBtn.setStyleName("settingsBtn");
 			restoreSettingsBtn.addFastClickHandler(source -> {
 				resetDefault();
-				fontSizeDropDown.resetToDefault();
-				labelingDropDown.resetToDefault();
-				roundingDropDown.resetToDefault();
+				fontSizeDropDown.resetFromModel();
+				labelingDropDown.resetFromModel();
+				roundingDropDown.resetFromModel();
 			});
 			saveRestoreRow = LayoutUtilW
 					.panelRow(saveSettingsBtn, restoreSettingsBtn);
@@ -161,9 +161,9 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * update gui
 		 */
 		public void updateGUI() {
-			labelingDropDown.resetToDefault();
-			fontSizeDropDown.resetToDefault();
-			languageDropDown.resetToDefault();
+			labelingDropDown.resetFromModel();
+			fontSizeDropDown.resetFromModel();
+			languageDropDown.resetFromModel();
 			saveRestoreRow.setVisible(!app.isExam());
 		}
 

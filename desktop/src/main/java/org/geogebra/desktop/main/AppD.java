@@ -55,8 +55,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -2012,16 +2012,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void setTooltipLanguage(String tagOrLocale) {
+	public void setTooltipLanguage(String ttLanguage) {
+		setTooltipLanguage(Language.fromLanguageTagOrLocaleString(ttLanguage));
+	}
 
-		boolean updateNeeded = loc.setTooltipLanguage(tagOrLocale);
+	/**
+	 * @param ttLanguage tooltip language
+	 */
+	public void setTooltipLanguage(Language ttLanguage) {
+		boolean updateNeeded = loc.setTooltipLanguage(ttLanguage);
 
 		updateNeeded = updateNeeded || (loc.getTooltipLanguage() != null);
 
 		if (updateNeeded) {
 			setLabels(); // update eg Tooltips for Toolbar
 		}
-
 	}
 
 	@Override
@@ -3716,14 +3721,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		logger = Logger.getLogger("stdout");
 		los = new LoggingOutputStream(logger, StdOutErrLevel.STDOUT);
 
-		try {
-			System.setOut(new PrintStream(los, true, Charsets.UTF_8));
-			logger = Logger.getLogger("stderr");
-			los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
-			System.setErr(new PrintStream(los, true, Charsets.UTF_8));
-		} catch (UnsupportedEncodingException e) {
-			// do nothing
-		}
+		System.setOut(new PrintStream(los, true, StandardCharsets.UTF_8));
+		logger = Logger.getLogger("stderr");
+		los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
+		System.setErr(new PrintStream(los, true, StandardCharsets.UTF_8));
 
 		// show stdout going to logger
 		// System.out.println("Hello world!");
@@ -4312,14 +4313,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		getCopyPaste()
-				.copyToXML(ad,
-						new ArrayList<>(ad.getKernel()
-				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
-				true);
-
-		// and paste
-		getCopyPaste().pasteFromXML(this, true);
+		getCopyPaste().insertFrom(ad, this);
 
 		// forgotten something important!
 		// ad should be closed!

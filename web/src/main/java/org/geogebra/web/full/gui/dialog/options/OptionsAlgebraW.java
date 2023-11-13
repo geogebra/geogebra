@@ -134,7 +134,7 @@ public class OptionsAlgebraW
 		 */
 		public void updateSortMode() {
 			sortMode.setLabels();
-			sortMode.resetToDefault();
+			sortMode.resetFromModel();
 		}
 
 		/**
@@ -145,7 +145,7 @@ public class OptionsAlgebraW
 					.setText(getApp().getLocalization().getMenu("Coordinates")
 							+ ":");
 			coordStyle.setLabels();
-			coordStyle.resetToDefault();
+			coordStyle.resetFromModel();
 		}
 
 		/**
@@ -159,7 +159,7 @@ public class OptionsAlgebraW
 			lblAngleUnit
 					.setText(getApp().getLocalization().getMenu("AngleUnit") + ":");
 			angleUnit.setLabels();
-			angleUnit.resetToDefault();
+			angleUnit.resetFromModel();
 		}
 
 		/**
@@ -167,7 +167,7 @@ public class OptionsAlgebraW
 		 */
 		public void updateDescription() {
 			description.setLabels();
-			description.resetToDefault();
+			description.resetFromModel();
 		}
 
 		/**

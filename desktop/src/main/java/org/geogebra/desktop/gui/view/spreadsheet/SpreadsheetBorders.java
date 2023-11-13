@@ -43,7 +43,6 @@ public class SpreadsheetBorders {
 			if (b != null) {
 				c = cell.x;
 				r = cell.y;
-				// System.out.println(cell.toString());
 				if (c == -1 || r == -1) {
 					handleRowOrColumnGridFormat(g2, table, c, r, b);
 				} else {

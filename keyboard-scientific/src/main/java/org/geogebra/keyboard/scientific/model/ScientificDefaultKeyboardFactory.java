@@ -25,10 +25,6 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
 
     private final boolean showAnsButtton;
 
-    public ScientificDefaultKeyboardFactory() {
-        this(true);
-    }
-
     public ScientificDefaultKeyboardFactory(boolean showAnsButton) {
         this.showAnsButtton = showAnsButton;
     }

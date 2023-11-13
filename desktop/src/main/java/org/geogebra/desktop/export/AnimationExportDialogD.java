@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Iterator;
@@ -30,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.util.AnimatedGifEncoder;
@@ -75,6 +74,7 @@ public class AnimationExportDialogD extends Dialog {
 	private LocalizationD loc;
 
 	private JProgressBar progressBar;
+	private RotOzSlider rotOzSlider;
 
 	/**
 	 * Construct dialog.
@@ -182,8 +182,6 @@ public class AnimationExportDialogD extends Dialog {
 				GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL,
 				new Insets(5, 5, 5, 5), 0, 0);
 	}
-
-	private RotOzSlider rotOzSlider;
 
 	private static class RotOzSlider implements AnimationExportSlider {
 
@@ -375,7 +373,7 @@ public class AnimationExportDialogD extends Dialog {
 
 		} catch (Exception ex) {
 			app.showError(Errors.SaveFileFailed);
-			ex.printStackTrace();
+			Log.debug(ex);
 		} finally {
 			app.setDefaultCursor();
 		}

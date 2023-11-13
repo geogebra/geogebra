@@ -68,7 +68,7 @@ public class GeoGebra {
 		try {
 			startGeoGebra(args);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 			System.err.flush();
 			AppD.exit(10);
 		}

@@ -1401,8 +1401,6 @@ public class CellRangeProcessor {
 
 		for (int r = r1 + 1; r <= cr.getMaxRow(); ++r) {
 			for (int c = c1 + 1; c <= cr.getMaxColumn(); ++c) {
-				// System.out.println(AbstractGeoElementSpreadsheet.getSpreadsheetCellName(c,
-				// r) + ": " + text);
 
 				text = GeoElementSpreadsheet.getSpreadsheetCellName(c, r) + "="
 						+ fcn.getLabel(StringTemplate.defaultTemplate) + "(";
@@ -1413,9 +1411,6 @@ public class CellRangeProcessor {
 
 				geos = app.getKernel().getAlgebraProcessor()
 						.processAlgebraCommandNoExceptions(text, false);
-
-				// geos[0].setLabel(AbstractGeoElementSpreadsheet.getSpreadsheetCellName(c,
-				// r));
 				geos[0].setAuxiliaryObject(true);
 			}
 		}

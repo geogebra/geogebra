@@ -95,8 +95,7 @@ public class AlgoDependentConic extends AlgoElement
 		input = equation.getGeoElementVariables(
 				SymbolicMode.NONE);
 
-		super.setOutputLength(1);
-		super.setOutput(0, conic);
+		setOnlyOutput(conic);
 		setDependencies(); // done by AlgoElement
 	}
 

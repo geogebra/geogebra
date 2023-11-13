@@ -829,6 +829,12 @@
 				color: neutral(900);
 			}
 
+			.withCursorOverlay .TextField {
+				color: transparent;
+				user-select: none; /* standard */
+				pointer-events: none;
+            }
+
 			input[type=text]:focus:not([readonly]) {
 				border: none;
 			}

@@ -5,16 +5,20 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
-public class GeoPieChart extends GeoElement {
+public class GeoPieChart extends GeoElement implements ChartStyleGeo {
 	private final ArrayList<Double> data = new ArrayList<>();
 	private GPoint2D center;
 	private double radius = 3;
+	private final ChartStyle chartStyle = new ChartStyle(new int[]{0x6557d2, 0xe0bf00,
+			0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70});
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -64,12 +68,12 @@ public class GeoPieChart extends GeoElement {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLabelSimple() + tpl.getEqualsWithSpace() + getDefinition(tpl);
+		return getLabelSimple() + tpl.getEqualsWithSpace() + toValueString(tpl);
 	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return getDefinition(tpl);
+		return tpl.isPrintLocalizedCommandNames() ? getLoc().getCommand("PieChart") : "PieChart";
 	}
 
 	@Override
@@ -139,4 +143,13 @@ public class GeoPieChart extends GeoElement {
 		getExtraTagsXML(sb);
 	}
 
+	@Override
+	public ChartStyle getStyle() {
+		return chartStyle;
+	}
+
+	@Override
+	public int getIntervals() {
+		return data.size();
+	}
 }

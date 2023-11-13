@@ -195,19 +195,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		locus.setLabel(label);
 	}
 
-	// private void printMacroConsStatus() {
-	// System.out.print("MOVER POINT: " + Pcopy);
-	// System.out.print(", pp.t: " + Pcopy.getPathParameter().t);
-	// System.out.println(", locus point: " + Qcopy);
-	//
-	// TreeSet geos = macroCons.getGeoSetLabelOrder();
-	// Iterator it = geos.iterator();
-	// while (it.hasNext()) {
-	// GeoElement geo = (GeoElement) it.next();
-	// System.out.println(" " + geo);
-	// }
-	// }
-
 	@Override
 	public Commands getClassName() {
 		return Commands.Locus;
@@ -344,8 +331,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		standardInput[0] = (GeoElement) locusPoint;
 		standardInput[1] = (GeoElement) movingPoint;
 
-		setOutputLength(1);
-		setOutput(0, locus);
+		setOnlyOutput(locus);
 
 		// handle dependencies
 		setEfficientDependencies(standardInput, efficientInput);
@@ -699,20 +685,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 				copyQ.setDefinition(qDef);
 			}
 		}
-
-		// if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
-		// if (!foundDefined)
-		// System.out.print(locus.label + " FIRST DEFINED param: " +
-		// Pcopy.getPathParameter().t);
-		// else
-		// System.out.print(locus.label + " param: " +
-		// Pcopy.getPathParameter().t);
-		// System.out.println(", Qcopy: " + Qcopy);
-		// } else {
-		// System.out.print(locus.label + " param: " +
-		// Pcopy.getPathParameter().t);
-		// System.out.println(", Qcopy: NOT DEFINED");
-		// }
 
 		// check found defined
 		if (!foundDefined && copyQ.isDefined() && !copyQ.isInfinite()) {

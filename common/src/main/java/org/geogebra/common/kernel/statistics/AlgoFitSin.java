@@ -229,8 +229,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			}
 		} // for
 		a = sum / size;
-		b = (max - min) / 2.0d; // System.out.println("a= "+a+" b= "+b+" max=
-								// "+max+" min= "+min);
+		b = (max - min) / 2.0d;
 
 		// Find c:
 		// This time first and second local max/min, between rise and fall and
@@ -299,15 +298,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 																					// period,
 																					// hopefully
 		} // if too few extrema
-		c = PI * numberofhalfperiods / min_max_distance; // debug("Final c:
-															// "+c);
-		// System.out.println("c="+c); //**************
+		c = PI * numberofhalfperiods / min_max_distance;
 		double c2 = 2 * Math.PI / ((xd[size - 1] - xd[0]) * 2 / changes);
-		// System.out.println("or..."+c2);
-		// System.out.println("changes: "+changes);
 		if (changes > 2) {
 			c = (c + c2) / 2; // compromise?
-		// System.out.println("final c: "+c);
 		}
 
 		// Find d
@@ -464,10 +458,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 					lambda = lambda * multfaktor; // Not going well :-(
 					multfaktor *= 2; // LM drives hard...
 				} // if going the right way
-			} // if(error)-else
-				// System.out.println( ""+da+"\t"+db+"\t"+dc+"\t"+dd+"\n"+
-				// ""+a+"\t"+b+"\t"+c+"\t"+d+"\n" );//out
-		} // while(da+db+dc>eps)
+			}
+		}
 
 		// Reduce d to interval <-pi,pi>
 		// d=Rdft.reduce(d);//put here not in rdft!

@@ -443,12 +443,10 @@ public class DataItem {
 
 				try {
 					double num = Double.parseDouble(s[i]);
-					// System.out.println(num);
 					GeoElement geo = new GeoNumeric(cons);
 					((GeoNumeric) geo).setValue(num);
 					list.add(geo);
 				} catch (Exception e) {
-					// e.printStackTrace();
 					Log.error(e.getMessage());
 				}
 			}
@@ -624,7 +622,6 @@ public class DataItem {
 
 			case CLASS:
 				Double[] leftBorder1 = getLeftBorder();
-				// System.out.println("=====> " + Arrays.toString(leftBorder));
 
 				// load the array into the column
 				for (int i = 0; i < leftBorder1.length - 1; i++) {

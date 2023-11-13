@@ -1,4 +1,4 @@
-package test;
+package org.geogebra.jogl2.test;
 
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Animator;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Component3D;
@@ -24,13 +24,15 @@ public class View implements GLEventListener {
 
 	private GLU glu; // for the GL Utility
 
-	float r, g, b;
+	float r;
+	float g;
+	float b;
 
 	int speed;
 
 	long time;
 
-	public View(float r, float g, float b, int speed) {
+	View(float r, float g, float b, int speed) {
 
 		this.r = r;
 		this.g = g;
@@ -42,19 +44,15 @@ public class View implements GLEventListener {
 		jogl = new RendererJogl();
 
 		// canvas = view;
-		System.out.println("create 3D component");
 		RendererJogl.initCaps(false);
 		canvas = RendererJogl.createComponent3D(false);
 
-		System.out.println("add gl event listener");
 		canvas.addGLEventListener(this);
 
-		System.out.println("create animator");
 		animator = RendererJogl.createAnimator(canvas, 60);
 		// animator.setRunAsFastAsPossible(true);
 		// animator.setRunAsFastAsPossible(false);
 
-		System.out.println("start animator");
 		animator.start();
 	}
 
@@ -84,6 +82,7 @@ public class View implements GLEventListener {
 
 		gl.glEnd();
 	}
+
 	@Override
 	public void dispose(GLAutoDrawable arg0) {
 		// TODO Auto-generated method stub

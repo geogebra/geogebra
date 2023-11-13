@@ -174,7 +174,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * g2d of bgImage: used for axis, grid, background images and object traces
 	 */
-	protected GGraphics2D bgGraphics;
+	protected @CheckForNull GGraphics2D bgGraphics;
 	// selection rectangle colors
 	private static final GColor selRectBorder = GColor.newColor(200, 200, 230);
 	private static final GColor selRectFill = GColor.newColor(200, 200, 230, 50);
