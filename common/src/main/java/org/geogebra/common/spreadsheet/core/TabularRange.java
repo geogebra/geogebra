@@ -327,13 +327,13 @@ public class TabularRange {
 		}
 
 		if (this.getMinRow() == -1) {
-			return new TabularRange(this.getMinColumn(), 0,
-					this.getMaxColumn(), rowCount - 1);
+			return new TabularRange(0, this.getMinColumn(),
+					rowCount - 1, this.getMaxColumn());
 		}
 
 		if (this.getMinColumn() == -1) {
 			return new TabularRange(0, this.getMinRow(),
-					columnCount - 1, this.getMaxRow());
+					this.getMaxRow(), columnCount - 1);
 		}
 		return this;
 	}

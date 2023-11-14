@@ -11,26 +11,26 @@ import org.junit.Test;
 
 public class TabularRangeTest {
 
-	private final TabularRange cellA3 = new TabularRange(0, 2, 0, 2);
-	private final TabularRange cellB3 = new TabularRange(1, 2, 1, 2);
-	private final TabularRange cellA4 = new TabularRange(0, 3, 0, 3);
+	private final TabularRange cellA3 = new TabularRange(2, 0, 2, 0);
+	private final TabularRange cellB3 = new TabularRange(2, 1, 2, 1);
+	private final TabularRange cellA4 = new TabularRange(3, 0, 3, 0);
 
 	@Test
 	public void testMergeIdentical() {
-		assertRangeEquals(cellA3.merge(cellA3), 0, 2, 0 , 2);
-		assertRangeEquals(cellB3.merge(cellB3), 1, 2, 1 , 2);
+		assertRangeEquals(cellA3.merge(cellA3), 2, 0, 2, 0);
+		assertRangeEquals(cellB3.merge(cellB3), 2, 1, 2, 1);
 	}
 
 	@Test
 	public void testMergeAdjacentHorizontal() {
-		assertRangeEquals(cellA3.merge(cellB3), 0, 2, 1 , 2);
-		assertRangeEquals(cellB3.merge(cellA3), 0, 2, 1 , 2);
+		assertRangeEquals(cellA3.merge(cellB3), 2, 0, 2, 1);
+		assertRangeEquals(cellB3.merge(cellA3), 2, 0, 2, 1);
 	}
 
 	@Test
 	public void testMergeAdjacentVertical() {
-		assertRangeEquals(cellA3.merge(cellA4), 0, 2, 0 , 3);
-		assertRangeEquals(cellA4.merge(cellA3), 0, 2, 0 , 3);
+		assertRangeEquals(cellA3.merge(cellA4), 2, 0, 3, 0);
+		assertRangeEquals(cellA4.merge(cellA3), 2, 0, 3, 0);
 	}
 
 	@Test
@@ -39,8 +39,8 @@ public class TabularRangeTest {
 		assertThat(cellB3.merge(cellA4), nullValue());
 	}
 
-	private void assertRangeEquals(@Nullable TabularRange range, int anchorColumn,
-			int anchorRow, int col2, int row2) {
+	private void assertRangeEquals(@Nullable TabularRange range, int anchorRow, int anchorColumn,
+			int row2, int col2) {
 		assertNotNull(range);
 		assertEquals(range.getFromRow(), anchorRow);
 		assertEquals(range.getFromColumn(), anchorColumn);

@@ -1,7 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GPoint;
@@ -332,7 +331,7 @@ public final class SpreadsheetController implements TabularSelection {
 			int column = getLayout().findColumn(x);
 			if (row != lastPointerDown.getY() || column != lastPointerDown.getX()) {
 				TabularRange range =
-						new TabularRange(lastPointerDown.x, lastPointerDown.y, column, row);
+						new TabularRange(lastPointerDown.y, lastPointerDown.x, row, column);
 				selectionController.select(new Selection(SelectionType.CELLS,
 								range), false, addSelection);
 				return true;
