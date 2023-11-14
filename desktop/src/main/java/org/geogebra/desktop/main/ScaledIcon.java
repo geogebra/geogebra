@@ -24,7 +24,7 @@ public class ScaledIcon implements Icon {
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
 		((Graphics2D) g).scale(1 / ratio, 1 / ratio);
-		source.paintIcon(c, g, x, y);
+		source.paintIcon(c, g, (int) Math.round(x * ratio), (int) Math.round(y * ratio));
 		((Graphics2D) g).scale(ratio, ratio);
 	}
 
