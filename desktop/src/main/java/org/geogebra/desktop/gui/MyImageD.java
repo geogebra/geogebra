@@ -32,53 +32,60 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
 
-import com.kitfox.svg.SVGCache;
-import com.kitfox.svg.SVGDiagram;
-import com.kitfox.svg.SVGUniverse;
-import com.kitfox.svg.xml.StyleAttribute;
+import io.sf.carte.echosvg.swing.JSVGCanvas;
+import io.sf.carte.echosvg.swing.svg.JSVGComponent;
+import io.sf.carte.echosvg.swing.svg.SVGLoadEventDispatcherAdapter;
+import io.sf.carte.echosvg.swing.svg.SVGLoadEventDispatcherEvent;
 
 public class MyImageD implements MyImageJre {
 
-	private final Image img;
-	private SVGDiagram diagram;
-	private URI uri;
+	private Image img = null;
 	// SVG as XML
-	private final StringBuilder svg;
+	private final StringBuilder sb;
+	private JSVGComponent svgComponent;
+	private boolean ready = false;
 
 	/**
 	 * @param img bitmap image
 	 */
 	public MyImageD(Image img) {
 		this.img = img;
-		this.svg = null;
+		this.sb = null;
+
 	}
 
 	/**
 	 * Load SVG from String
-	 * 
-	 * @param svgStr SVG content
-	 * @param name name
+	 * @param svgContent SVG content
 	 */
-	public MyImageD(String svgStr, String name) {
-		svg = new StringBuilder(svgStr.length());
-		svg.append(svgStr);
-		img = null;
-		InputStream stream = new ByteArrayInputStream(svgStr.getBytes(Charsets.getUtf8()));
-
-		SVGUniverse universe = SVGCache.getSVGUniverse();
-		try {
-			uri = universe.loadSVG(stream, name);
-			diagram = universe.getDiagram(uri);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public MyImageD(String svgContent) {
+		sb = new StringBuilder(svgContent.length());
+		sb.append(svgContent);
+		createSVGComponent(sb.toString());
 	}
 
-	private MyImageD(StringBuilder svgStr, SVGDiagram diagram, URI uri) {
-		this.svg = svgStr;
-		this.diagram = diagram;
-		this.img = null;
-		this.uri = uri;
+	private void createSVGComponent(String url) {
+		svgComponent = new JSVGComponent();
+		svgComponent.loadSVGDocument(url);
+		svgComponent.addSVGLoadEventDispatcherListener(new SVGLoadEventDispatcherAdapter() {
+			@Override
+			public void svgLoadEventDispatchCompleted(SVGLoadEventDispatcherEvent e) {
+				ready = true;
+			}
+
+			@Override
+			public void svgLoadEventDispatchFailed(SVGLoadEventDispatcherEvent e) {
+				Log.debug("Failed to load SVG: " + url);
+			}
+		});
+	}
+
+	private MyImageD(StringBuilder svgStr, JSVGCanvas canvas, URI uri) {
+		this.sb = svgStr;
+
+		createSVGComponent(sb.toString());
+
+		//this.uri = uri;
 	}
 
 	/**
@@ -86,7 +93,7 @@ public class MyImageD implements MyImageJre {
 	 */
 	public String getMD5() {
 		if (img == null) {
-			return AppD.md5EncryptStatic(svg.toString());
+			return AppD.md5EncryptStatic(svgComponent.toString());
 		}
 
 		try {
@@ -120,23 +127,20 @@ public class MyImageD implements MyImageJre {
 	}
 
 	private static MyImageD loadAsSvg(InputStream in, URL url) {
-		StringBuilder svg = new StringBuilder();
+		StringBuilder svgSb = new StringBuilder();
 		try (BufferedReader reader = new BufferedReader(
 				new InputStreamReader(in, Charsets.getUtf8()))) {
 			for (String line = reader
 					.readLine(); line != null; line = reader.readLine()) {
-				svg.append(line);
-				svg.append('\n');
+				svgSb.append(line);
+				svgSb.append('\n');
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		svg = new StringBuilder(ImageManager.fixSVG(svg.toString()));
-		SVGUniverse universe = SVGCache.getSVGUniverse();
-		URI uri = universe.loadSVG(url);
-		SVGDiagram diagram = universe.getDiagram(uri);
-		return new MyImageD(svg, diagram, uri);
+		svgSb = new StringBuilder(ImageManager.fixSVG(svgSb.toString()));
+		return new MyImageD(svgSb.toString());
 	}
 
 	/**
@@ -163,7 +167,7 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public boolean isSVG() {
-		return diagram != null;
+		return ready;
 	}
 
 	@Override
@@ -172,8 +176,8 @@ public class MyImageD implements MyImageJre {
 			return img.getHeight(null);
 		}
 
-		if (diagram != null) {
-			return (int) (diagram.getHeight() + 0.5);
+		if (svgComponent != null) {
+			return (int) (svgComponent.getHeight() + 0.5);
 		}
 
 		return 1;
@@ -185,8 +189,8 @@ public class MyImageD implements MyImageJre {
 			return img.getWidth(null);
 		}
 
-		if (diagram != null) {
-			return (int) (diagram.getWidth() + 0.5);
+		if (svgComponent != null) {
+			return (int) (svgComponent.getWidth() + 0.5);
 		}
 
 		return 1;
@@ -194,16 +198,12 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public GGraphics2D createGraphics() {
-		return new GGraphics2DD((Graphics2D) img.getGraphics());
-	}
-
-	public SVGDiagram getDiagram() {
-		return diagram;
+		return new GGraphics2DD((Graphics2D) svgComponent.getGraphics());
 	}
 
 	@Override
 	public String getSVG() {
-		return svg.toString();
+		return sb.toString();
 	}
 
 	@Override
@@ -242,7 +242,7 @@ public class MyImageD implements MyImageJre {
 			String svg = UtilD.loadIntoString(is);
 			is.close();
 
-			return new MyImageD(svg, fileName);
+			return new MyImageD(svg);
 		}
 		// returns null if the file isn't an image
 		BufferedImage bi = ImageIO.read(file);
@@ -255,18 +255,19 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public MyImage tintedSVG(GColor color, Runnable onLoad) {
-		if (svg == null) {
+		if (sb == null) {
 			return null;
 		}
-		SVGUniverse universe = SVGCache.getSVGUniverse();
+		// TODO
+//		SVGUniverse universe = SVGCache.getSVGUniverse();
 		try {
-			ByteArrayInputStream stream = new ByteArrayInputStream(svg.toString()
+			ByteArrayInputStream stream = new ByteArrayInputStream(sb.toString()
 					.getBytes(Charsets.getUtf8()));
-			URI uri = universe.loadSVG(stream, UUID.randomUUID() + "-tint.svg");
-			SVGDiagram diagram = universe.getDiagram(uri);
-			StyleAttribute fill = diagram.getRoot().getPresAbsolute("fill");
-			fill.setStringValue(color.toString());
-			return new MyImageD(svg, diagram, uri);
+//			URI uri = universe.loadSVG(stream, UUID.randomUUID() + "-tint.svg");
+//			SVGsvg svg = universe.getsvg(uri);
+//			StyleAttribute fill = svg.getRoot().getPresAbsolute("fill");
+//			fill.setStringValue(color.toString());
+			return new MyImageD(sb.toString());
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
 		}
