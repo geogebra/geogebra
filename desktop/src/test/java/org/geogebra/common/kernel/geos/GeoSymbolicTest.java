@@ -2103,4 +2103,17 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		app.setXML(app.getXML(), true);
 		assertEquals(2, app.getActiveEuclidianView().getAllDrawableList().size());
 	}
+
+	@Test
+	public void bracketShouldBeMultiplicationForSymbolicNumbers() {
+		add("a=2");
+		add("p=0.1");
+		t("NSolve(a(4)=x)", "{x = 8}");
+		t("p(1-p)", "9 / 100");
+	}
+
+	@Test
+	public void bracketShouldBeMultiplicationForSymbolicNumbersWithoutDefiningA() {
+		t("NSolve(-4 a(2)=16)", "{a = -2}");
+	}
 }
