@@ -196,8 +196,8 @@ public final class SpreadsheetController implements TabularSelection {
 		boolean handled = false;
 		switch (activeCursor) {
 		case RESIZE_X:
-			double width = layout.resizeColumn(lastPointerDown.x, x);
 			if (isSelected(-1, lastPointerDown.x)) {
+				double width = layout.resizeColumn(lastPointerDown.x, x);
 				for (Selection selection : sel) {
 					if (selection.getType() == SelectionType.COLUMNS) {
 						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
@@ -208,7 +208,7 @@ public final class SpreadsheetController implements TabularSelection {
 			handled = true;
 			break;
 		case RESIZE_Y:
-			if (isSelected(lastPointerDown.x, -1)) {
+			if (isSelected(lastPointerDown.y, -1)) {
 				double height = layout.resizeRow(lastPointerDown.y, y);
 				for (Selection selection : sel) {
 					if (selection.getType() == SelectionType.ROWS) {
