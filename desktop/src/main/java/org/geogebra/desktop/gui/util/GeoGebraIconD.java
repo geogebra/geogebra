@@ -16,7 +16,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
-import java.net.URI;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -25,6 +24,7 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -37,10 +37,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
-import com.kitfox.svg.SVGCache;
-import com.kitfox.svg.app.beans.SVGIcon;
 
-import io.sf.carte.echosvg.transcoder.TranscoderInput;
 
 /**
  * Creates various ImageIcons for use in lists and tables.
@@ -91,23 +88,24 @@ public class GeoGebraIconD {
 	 */
 	public static ImageIcon createFileImageIcon(ImageResourceD res) {
 		URL url = GeoGebraIconD.class.getResource(res.getFilename());
-		URI uri = SVGCache.getSVGUniverse().loadSVG(url);
 
-		SVGIcon icon = new SVGIcon();
-		icon.setAntiAlias(true);
-		icon.setAutosize(SVGIcon.AUTOSIZE_STRETCH);
-		icon.setPreferredSize(new Dimension(32, 32));
-		icon.setSvgURI(uri);
-		BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth(),
-				icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-		icon.paintIcon(null, bufferedImage.createGraphics(), 0, 0);
+		try {
+			JSVGIcon icon = new JSVGIcon(url);
+			icon.setAntiAlias(true);
+			icon.setAutoSize(JSVGIcon.AutoSize.STRETCH);
+			icon.setPreferredSize(new Dimension(32, 32));
+//			icon.setSvgURI(uri);
+			BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth(),
+					icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+			icon.paintIcon(null, bufferedImage.createGraphics(), 0, 0);
+			return new ImageIcon(bufferedImage);
+		} catch (Exception e) {
+			Log.debug("Error loading icon: " + url);
+		}
+		return null;
 
-		return new ImageIcon(bufferedImage);
 	}
 
-	private static void echosvg() {
-		TranscoderInput input = new TranscoderInput();
-	}
 	/**
 	 * @param iconSize size
 	 * @return horizontal grid icon
@@ -880,5 +878,4 @@ public class GeoGebraIconD {
 
 		return new ImageIcon(image);
 	}
-
 }
