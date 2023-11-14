@@ -914,18 +914,18 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		switch (selectionType) {
 
 		case MyTableInterface.CELL_SELECT:
-			newSelection = new TabularRange(anchorSelectionColumn,
-			        anchorSelectionRow, leadSelectionColumn, leadSelectionRow);
+			newSelection = new TabularRange(anchorSelectionRow, anchorSelectionColumn,
+					leadSelectionRow, leadSelectionColumn);
 			break;
 
 		case MyTableInterface.ROW_SELECT:
-			newSelection = new TabularRange(-1, anchorSelectionRow, -1,
-			        leadSelectionRow);
+			newSelection = new TabularRange(anchorSelectionRow, -1, leadSelectionRow, -1
+			);
 			break;
 
 		case MyTableInterface.COLUMN_SELECT:
-			newSelection = new TabularRange(anchorSelectionColumn, -1,
-			        leadSelectionColumn, -1);
+			newSelection = new TabularRange(-1, anchorSelectionColumn,
+					-1, leadSelectionColumn);
 			break;
 		default:
 			newSelection = new TabularRange(-1, -1);
@@ -1040,7 +1040,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	@Override
 	public boolean setSelection(int c, int r) {
-		TabularRange tr = new TabularRange(c, r, c, r);
+		TabularRange tr = new TabularRange(r, c, r, c);
 		return setSelection(tr);
 	}
 
@@ -1056,7 +1056,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            max row
 	 */
 	public void setSelection(int c1, int r1, int c2, int r2) {
-		TabularRange tr = new TabularRange(c1, r1, c2, r2);
+		TabularRange tr = new TabularRange(r1, c1, r2, c2);
 		if (tr.isValid()) {
 			setSelection(tr);
 		}

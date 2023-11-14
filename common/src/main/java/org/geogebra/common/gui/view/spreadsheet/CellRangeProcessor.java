@@ -224,8 +224,8 @@ public class CellRangeProcessor {
 			}
 
 			for (int col = tr.getMinColumn(); col <= tr.getMaxColumn(); col++) {
-				if (!containsMinimumGeoNumeric(new TabularRange(col,
-						tr.getMinRow(), col, tr.getMaxRow()), 3)) {
+				if (!containsMinimumGeoNumeric(new TabularRange(tr.getMinRow(), col,
+						tr.getMaxRow(), col), 3)) {
 					return false;
 				}
 			}
@@ -354,11 +354,11 @@ public class CellRangeProcessor {
 						.getMaxColumn(); col++) {
 
 					if (cr.isColumn()) {
-						tempRange = new TabularRange(col, -1);
+						tempRange = new TabularRange(-1, col);
 						tempRange = CellRangeUtil.getActual(tempRange, app);
 					} else {
-						tempRange = new TabularRange(col, cr.getMinRow(), col,
-								cr.getMaxRow());
+						tempRange = new TabularRange(cr.getMinRow(), col, cr.getMaxRow(), col
+						);
 					}
 					ArrayList<TabularRange> tempList = new ArrayList<>();
 					tempList.add(tempRange);
@@ -371,11 +371,11 @@ public class CellRangeProcessor {
 				for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 
 					if (cr.isRow()) {
-						tempRange = new TabularRange(-1, row);
+						tempRange = new TabularRange(row, -1);
 						tempRange = CellRangeUtil.getActual(tempRange, app);
 					} else {
-						tempRange = new TabularRange(cr.getMinColumn(), row,
-								cr.getMaxColumn(), row);
+						tempRange = new TabularRange(row, cr.getMinColumn(),
+								row, cr.getMaxColumn());
 					}
 					ArrayList<TabularRange> tempList = new ArrayList<>();
 					tempList.add(tempRange);
@@ -726,11 +726,11 @@ public class CellRangeProcessor {
 			} else if (pd.r1 == 0) {
 				// column name
 				title[0] = getCellRangeString(
-						new TabularRange(pd.c1, -1, pd.c1, -1));
+						new TabularRange(-1, pd.c1, -1, pd.c1));
 			} else {
 				// cell range
 				title[0] = getCellRangeString(
-						new TabularRange(pd.c1, pd.r1, pd.c1, pd.r2));
+						new TabularRange(pd.r1, pd.c1, pd.r2, pd.c1));
 			}
 
 			// handle second title
@@ -741,11 +741,11 @@ public class CellRangeProcessor {
 			} else if (pd.r1 == 0) {
 				// column name
 				title[1] = getCellRangeString(
-						new TabularRange(pd.c2, -1, pd.c2, -1));
+						new TabularRange(-1, pd.c2, -1, pd.c2));
 			} else {
 				// cell range
 				title[1] = getCellRangeString(
-						new TabularRange(pd.c2, pd.r1, pd.c2, pd.r2));
+						new TabularRange(pd.r1, pd.c2, pd.r2, pd.c2));
 			}
 
 		} else { // vertical pairs
@@ -758,11 +758,11 @@ public class CellRangeProcessor {
 			} else if (pd.c1 == 0) {
 				// row name
 				title[0] = getCellRangeString(
-						new TabularRange(-1, pd.r1, -1, pd.r1));
+						new TabularRange(pd.r1, -1, pd.r1, -1));
 			} else {
 				// cell range
 				title[0] = getCellRangeString(
-						new TabularRange(pd.c1, pd.r1, pd.c2, pd.r1));
+						new TabularRange(pd.r1, pd.c1, pd.r1, pd.c2));
 			}
 
 			// handle second title
@@ -773,11 +773,11 @@ public class CellRangeProcessor {
 			} else if (pd.c1 == 0) {
 				// row name
 				title[1] = getCellRangeString(
-						new TabularRange(-1, pd.r2, -1, pd.r2));
+						new TabularRange(pd.r2, -1, pd.r2, -1));
 			} else {
 				// cell range
 				title[1] = getCellRangeString(
-						new TabularRange(pd.c1, pd.r2, pd.c2, pd.r2));
+						new TabularRange(pd.r2, pd.c1, pd.r2, pd.c2));
 			}
 
 		}
@@ -811,7 +811,7 @@ public class CellRangeProcessor {
 				} else {
 					// use column name
 					titleList.add(getCellRangeString(
-							new TabularRange(col, -1, col, -1)));
+							new TabularRange(-1, col, -1, col)));
 				}
 			}
 		}
@@ -940,7 +940,7 @@ public class CellRangeProcessor {
 			boolean addToConstruction) {
 
 		ArrayList<TabularRange> rangeList = new ArrayList<>();
-		TabularRange tr = new TabularRange(column, -1);
+		TabularRange tr = new TabularRange(-1, column);
 		tr = CellRangeUtil.getActual(tr, app);
 		rangeList.add(tr);
 

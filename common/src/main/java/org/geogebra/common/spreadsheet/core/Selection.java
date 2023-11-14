@@ -174,4 +174,12 @@ final class Selection {
 			return SelectionType.CELLS;
 		}
 	}
+
+	public boolean isRowOnly() {
+		return SelectionType.ROWS.equals(type);
+	}
+
+	public boolean isColumnOnly() {
+		return SelectionType.COLUMNS.equals(type);
+	}
 }

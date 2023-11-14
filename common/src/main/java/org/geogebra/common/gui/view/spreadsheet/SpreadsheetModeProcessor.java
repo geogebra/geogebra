@@ -49,8 +49,8 @@ public class SpreadsheetModeProcessor {
 		if (cr.isPartialRow() || (!cr.isPartialColumn() && shiftDown)) {
 
 			int maxColumn = getMaxUsedColumn(cr) + 1;
-			targetRange = new TabularRange(maxColumn, cr.getMinRow(),
-					maxColumn, cr.getMaxRow());
+			targetRange = new TabularRange(cr.getMinRow(), maxColumn,
+					cr.getMaxRow(), maxColumn);
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 
 				// try to clear the target cell, exit if this is not possible
@@ -63,7 +63,7 @@ public class SpreadsheetModeProcessor {
 					targetCell1.setLabel(GeoElementSpreadsheet
 							.getSpreadsheetCellName(maxColumn, row));
 					createAutoFunctionCell(targetCell1, new TabularRange(
-							cr.getMinColumn(), row, maxColumn - 1, row));
+							row, cr.getMinColumn(), row, maxColumn - 1));
 				}
 			}
 
@@ -72,8 +72,8 @@ public class SpreadsheetModeProcessor {
 			table.repaint();
 		} else {
 			int maxRow = getMaxUsedRow(cr) + 1;
-			targetRange = new TabularRange(cr.getMinColumn(), maxRow,
-					cr.getMaxColumn(), maxRow);
+			targetRange = new TabularRange(maxRow, cr.getMinColumn(),
+					maxRow, cr.getMaxColumn());
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
 
 				// try to clear the target cell, exit if this is not possible
@@ -92,8 +92,8 @@ public class SpreadsheetModeProcessor {
 					} else {
 						targetCell1 = cell;
 					}
-					createAutoFunctionCell(targetCell1, new TabularRange(col,
-							cr.getMinRow(), col, maxRow - 1));
+					createAutoFunctionCell(targetCell1, new TabularRange(cr.getMinRow(), col,
+							maxRow - 1, col));
 				}
 			}
 

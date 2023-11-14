@@ -102,7 +102,7 @@ public class RelativeCopy {
 			cons.startCollectingRedefineCalls();
 
 			boolean patternOK = isPatternSource(
-					new TabularRange(sx1, sy1, sx2, sy2), app);
+					new TabularRange(sy1, sx1, sy2, sx2), app);
 
 			// ==============================================
 			// vertical drag

@@ -7,6 +7,11 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 
+/**
+ * Represents a row x column range of tabular data with absolute and inclusive end cells.
+ * For example TabularRange(2, 1, 5, 7) means an 3x6 sized area
+ * begins from row 2 column 1 and ends at row 5 column 7
+ */
 public class TabularRange {
 	private final int anchorColumn;
 	private final int anchorRow;
@@ -16,15 +21,15 @@ public class TabularRange {
 	private final int maxRow;
 
 	/**
-	 * @param anchorColumn anchor column
 	 * @param anchorRow anchor row
-	 * @param minColumn lowest column
+	 * @param anchorColumn anchor column
 	 * @param minRow lowest row
-	 * @param maxColumn highest colu,m
+	 * @param minColumn lowest column
 	 * @param maxRow highest row
+	 * @param maxColumn highest colu,m
 	 */
-	public TabularRange(int anchorColumn, int anchorRow, int minColumn,
-			int minRow, int maxColumn, int maxRow) {
+	public TabularRange(int anchorRow, int anchorColumn, int minRow, int minColumn,
+			int maxRow, int maxColumn) {
 		this.anchorColumn = anchorColumn;
 		this.anchorRow = anchorRow;
 		this.minColumn = minColumn;
@@ -34,13 +39,12 @@ public class TabularRange {
 	}
 
 	/**
-	 * @param anchorColumn anchor column
 	 * @param anchorRow anchor row
-	 * @param col2 end column
+	 * @param anchorColumn anchor column
 	 * @param row2 end row
+	 * @param col2 end column
 	 */
-	public TabularRange(int anchorColumn, int anchorRow, int col2,
-			int row2) {
+	public TabularRange(int anchorRow, int anchorColumn, int row2, int col2) {
 		minColumn = Math.min(anchorColumn, col2);
 		maxColumn = Math.max(anchorColumn, col2);
 		minRow = Math.min(anchorRow, row2);
@@ -50,8 +54,8 @@ public class TabularRange {
 		this.anchorRow = anchorRow;
 	}
 
-	public TabularRange(int anchorColumn, int anchorRow) {
-		this(anchorColumn, anchorRow, anchorColumn, anchorRow);
+	public TabularRange(int anchorRow, int anchorColumn) {
+		this(anchorRow, anchorColumn, anchorRow, anchorColumn);
 	}
 
 	public int getMinRow() {
@@ -129,7 +133,7 @@ public class TabularRange {
 	}
 
 	public TabularRange duplicate() {
-		return new TabularRange(anchorColumn, anchorRow, minColumn, minRow, maxColumn, maxRow);
+		return new TabularRange(anchorRow, anchorColumn, minRow, minColumn, maxRow, maxColumn);
 	}
 
 	/**
@@ -218,12 +222,12 @@ public class TabularRange {
 
 		if (isColumn()) {
 			for (int col = minColumn; col <= maxColumn; col++) {
-				TabularRange tr = new TabularRange(col, -1, col, 0, col, maxRow);
+				TabularRange tr = new TabularRange(-1, col, 0, col, maxRow, col);
 				list.add(tr);
 			}
 		} else {
 			for (int col = minColumn; col <= maxColumn; col++) {
-				list.add(new TabularRange(col, minRow, col, maxRow));
+				list.add(new TabularRange(minRow, col, maxRow, col));
 			}
 		}
 
@@ -238,18 +242,18 @@ public class TabularRange {
 
 		if (isRow()) {
 			for (int row = minRow; row <= maxRow; row++) {
-				list.add(new TabularRange(0, row, -1, row, maxColumn, row));
+				list.add(new TabularRange(row, 0, row, -1, row, maxColumn));
 			}
 		} else {
 			for (int row = minRow; row <= maxRow; row++) {
-				list.add(new TabularRange(minColumn, row, maxColumn, row));
+				list.add(new TabularRange(row, minColumn, row, maxColumn));
 			}
 		}
 		return list;
 	}
 
 	public static TabularRange range(int fromRow, int toRow, int fromCol, int toCol) {
-		return new TabularRange(fromCol, fromRow, toCol, toRow);
+		return new TabularRange(fromRow, fromCol, toRow, toCol);
 	}
 
 	/**
@@ -274,6 +278,18 @@ public class TabularRange {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Run action for each (row, column) pair of the range.
+	 * @param action to run for each (row, column).
+	 */
+	public void forEach(RangeAction action) {
+		for (int row = getFromRow(); row <= getToRow() ; row++) {
+			for (int column = getFromColumn(); column <= getToColumn(); column++) {
+				action.run(row, column);
+			}
+		}
 	}
 
 	@Override

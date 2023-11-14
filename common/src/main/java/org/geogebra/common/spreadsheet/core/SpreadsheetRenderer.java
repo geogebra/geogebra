@@ -60,7 +60,7 @@ public final class SpreadsheetRenderer {
 		}
 	}
 
-	void drawRowHeader(int row, GGraphics2D graphics) {
+	void drawRowHeader(int row, GGraphics2D graphics, String name) {
 		Rectangle cellBorder = layout.getRowHeaderBounds(row);
 		ensureHeaders(rowHeaders, row, String.valueOf(row + 1));
 		rowHeaders.get(row).draw(graphics, cellBorder);

@@ -584,27 +584,26 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			default:
 			case MyTableInterface.CELL_SELECT:
 				newSelection = new TabularRange(
-						getColumnModel().getSelectionModel()
+						getSelectionModel().getAnchorSelectionIndex(), getColumnModel().getSelectionModel()
 								.getAnchorSelectionIndex(),
-						getSelectionModel().getAnchorSelectionIndex(),
-						getColumnModel().getSelectionModel()
-								.getLeadSelectionIndex(),
-						getSelectionModel().getLeadSelectionIndex());
+						getSelectionModel().getLeadSelectionIndex(), getColumnModel().getSelectionModel()
+								.getLeadSelectionIndex()
+				);
 				break;
 
 			case MyTableInterface.ROW_SELECT:
-				newSelection = new TabularRange(-1,
-						getSelectionModel().getAnchorSelectionIndex(), -1,
-						getSelectionModel().getLeadSelectionIndex());
+				newSelection = new TabularRange(getSelectionModel().getAnchorSelectionIndex(), -1,
+						getSelectionModel().getLeadSelectionIndex(), -1
+				);
 				break;
 
 			case MyTableInterface.COLUMN_SELECT:
 				newSelection = new TabularRange(
-						getColumnModel().getSelectionModel()
+						-1, getColumnModel().getSelectionModel()
 								.getAnchorSelectionIndex(),
 						-1, getColumnModel().getSelectionModel()
-								.getLeadSelectionIndex(),
-						-1);
+								.getLeadSelectionIndex()
+				);
 				break;
 			}
 
@@ -753,7 +752,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	@Override
 	public boolean setSelection(int c, int r) {
-		TabularRange tr = new TabularRange(c, r, c, r);
+		TabularRange tr = new TabularRange(r, c, r, c);
 		return setSelection(tr);
 	}
 
@@ -765,7 +764,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return success
 	 */
 	public boolean setSelection(int c1, int r1, int c2, int r2) {
-		TabularRange tr = new TabularRange(c1, r1, c2, r2);
+		TabularRange tr = new TabularRange(r1, c1, r2, c2);
 		if (!tr.isValid()) {
 			return false;
 		}

@@ -85,7 +85,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 		graphics.setColor(controller.getStyle().getTextColor());
 		for (int row = portion.fromRow; row <= portion.toRow; row++) {
-			renderer.drawRowHeader(row, graphics);
+			renderer.drawRowHeader(row, graphics, controller.getRowName(row));
 		}
 		graphics.translate(0, offsetY);
 		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());
@@ -145,7 +145,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	@Override
-	public void update(int row, int column) {
+	public void tabularDataDidChange(int row, int column) {
 		renderer.invalidate(row, column);
 		needsRedraw = true;
 	}

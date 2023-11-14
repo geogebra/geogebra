@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -18,6 +16,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteGeos;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 
 /**
@@ -27,6 +27,7 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
+	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
 
 	/**
@@ -37,6 +38,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
 		spreadsheetSettings.addListener((settings) ->
 				cellFormat.processXMLString(spreadsheetSettings.cellFormat()));
+		this.processor = new KernelTabularDataProcessor(this);
 	}
 
 	@Override
@@ -56,9 +58,9 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	private void removeByLabel(String labelSimple) {
 		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
-		if (pt.x != -1) {
+		if (pt != null && pt.x != -1) {
 			setContent(pt.y, pt.x, null);
-			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.y, pt.x));
 		}
 	}
 
@@ -73,7 +75,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
 		if (pt.x != -1) {
 			setContent(pt.y, pt.x, geo);
-			changeListeners.forEach(listener -> listener.update(pt.y, pt.x));
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.y, pt.x));
 		}
 	}
 
@@ -110,7 +112,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void clearView() {
 		data.clear();
-		changeListeners.forEach(listener -> listener.update(-1, -1));
+		changeListeners.forEach(listener -> listener.tabularDataDidChange(-1, -1));
 	}
 
 	@Override
@@ -160,27 +162,33 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void insertRowAt(int row) {
-		// TODO
+		processor.insertRowAt(row);
 	}
 
 	@Override
 	public void deleteRowAt(int row) {
-		// TODO
+		processor.deleteRowAt(row);
 	}
 
 	@Override
 	public void insertColumnAt(int column) {
-		CellRangeProcessor.shiftColumnsRight(column, this);
+		processor.insertColumnAt(column);
 	}
 
 	@Override
 	public void deleteColumnAt(int column) {
-		CellRangeProcessor.shiftColumnsLeft(column, 1, this);
+		processor.deleteColumnAt(column);
 	}
 
 	@Override
 	public void setContent(int row, int column, Object content) {
-		data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, (GeoElement) content);
+		if (content != null) {
+			GeoElement geo = (GeoElement) content;
+			geo.rename(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
+			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
+		} else {
+			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
+		}
 	}
 
 	@Override
@@ -199,11 +207,8 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public String getEditableString(int row, int column) {
-		GeoElement data = contentAt(row, column);
-		return data != null
-				? data.getLaTeXDescriptionRHS(false,
-				StringTemplate.editorTemplate) : "";
+	public TabularDataPasteInterface<GeoElement> getPaste() {
+		return new TabularDataPasteGeos();
 	}
 
 	@Override
