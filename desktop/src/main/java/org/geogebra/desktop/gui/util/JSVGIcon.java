@@ -18,7 +18,6 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.w3c.dom.svg.SVGDocument;
 
-import com.kitfox.svg.app.beans.SVGIcon;
 
 import io.sf.carte.echosvg.anim.dom.SAXSVGDocumentFactory;
 import io.sf.carte.echosvg.bridge.BridgeContext;
