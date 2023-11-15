@@ -1,5 +1,6 @@
 package org.geogebra.desktop.gui.util;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,8 +11,13 @@ import java.awt.geom.Rectangle2D;
 import java.net.URL;
 
 import javax.swing.Icon;
+import javax.swing.JLabel;
 
+import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.util.GuiResourcesD;
 import org.w3c.dom.svg.SVGDocument;
+
+import com.kitfox.svg.app.beans.SVGIcon;
 
 import io.sf.carte.echosvg.anim.dom.SAXSVGDocumentFactory;
 import io.sf.carte.echosvg.bridge.BridgeContext;
@@ -27,33 +33,52 @@ public final class JSVGIcon implements Icon {
 		HORIZONTAL,
 		VERTICAL,
 		BEST_FIT,
-		STRETCH;
-
+		STRETCH
 	}
-
 
 	enum Interpolation {
 		NEAREST_NEIGHBOR,
 		BILINEAR,
 		BICUBIC;
+
+		void apply(Graphics2D g) {
+			switch (this) {
+			case NEAREST_NEIGHBOR:
+				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+						RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+				break;
+			case BILINEAR:
+				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+						RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				break;
+			case BICUBIC:
+				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+						RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+				break;
+			}
+		}
 	}
 
 	private Dimension preferredSize = null;
 	private boolean clipToViewbox;
-	private AffineTransform scaleXform = new AffineTransform();
+	private final AffineTransform scaleXform = new AffineTransform();
 	private final GraphicsNode svgIcon;
 
 	private boolean antiAlias;
-	private AutoSize autoSize;
+	private AutoSize autoSize = AutoSize.NONE;
 	private Interpolation interpolation = Interpolation.NEAREST_NEIGHBOR;
 
-	/**
-	 * Method to fetch the SVG icon from an url
-	 * @param url the url from which to fetch the SVG icon
-	 */
 	public JSVGIcon(URL url) throws Exception {
+		this(url.toString());
+	}
+
+		/**
+		 * Method to fetch the SVG icon from an url
+		 * @param url the url from which to fetch the SVG icon
+		 */
+	public JSVGIcon(String url) throws Exception {
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
-		SVGDocument doc = f.createSVGDocument(url.toString());
+		SVGDocument doc = f.createSVGDocument(url);
 		UserAgent userAgent = new UserAgentAdapter();
 		DocumentLoader loader = new DocumentLoader(userAgent);
 		BridgeContext ctx = new BridgeContext(userAgent, loader);
@@ -72,10 +97,12 @@ public final class JSVGIcon implements Icon {
 	 * @param scaleY the Y scaling to be applied to the icon before drawing
 	 */
 	private void paintSvgIcon(Graphics2D g, int x, int y, double scaleX, double scaleY) {
+		AffineTransform oldTransform = g.getTransform();
 		AffineTransform transform =
 				new AffineTransform(scaleX, 0.0, 0.0, scaleY, x, y);
 		svgIcon.setTransform(transform);
 		svgIcon.paint(g);
+		svgIcon.setTransform(oldTransform);
 	}
 
 	@Override
@@ -90,7 +117,7 @@ public final class JSVGIcon implements Icon {
 	}
 
 	private int getSvgHeight() {
-		return (int) svgIcon.getPrimitiveBounds().getHeight();
+		return (int) svgIcon.getBounds().getHeight();
 	}
 
 	@Override
@@ -105,17 +132,17 @@ public final class JSVGIcon implements Icon {
 	}
 
 	private int getSvgWidth() {
-		return (int) svgIcon.getPrimitiveBounds().getWidth();
+		return (int) svgIcon.getBounds().getWidth();
 	}
 
 	@Override
 	public void paintIcon(Component comp, Graphics gg, int x, int y) {
 		Graphics2D g = (Graphics2D) gg.create();
-		paintIcon(comp, g, x, y);
+		paintIcon(g, x, y);
 		g.dispose();
 	}
 
-	private void paintIcon(Component comp, Graphics2D g, int x, int y) {
+	private void paintIcon(Graphics2D g, int x, int y) {
 		Object oldAliasHint = g
 				.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -124,20 +151,8 @@ public final class JSVGIcon implements Icon {
 
 		Object oldInterpolationHint = g
 				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
-		switch (interpolation) {
-		case NEAREST_NEIGHBOR:
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-			break;
-		case BILINEAR:
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			break;
-		case BICUBIC:
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-			break;
-		}
+
+		interpolation.apply(g);
 
 		g.translate(x, y);
 		if (clipToViewbox) {
@@ -146,8 +161,8 @@ public final class JSVGIcon implements Icon {
 
 		if (autoSize == AutoSize.NONE) {
 			try {
-//				g.drawImage(svgIcon.);
 				g.translate(-x, -y);
+				svgIcon.paint(g);
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 						oldAliasHint);
 			} catch (Exception e) {
@@ -178,29 +193,16 @@ public final class JSVGIcon implements Icon {
 			scaleW = scaleH = height / diaHeight;
 			break;
 		case BEST_FIT:
-			scaleW = scaleH = (height / diaHeight < width / diaWidth)
-					? height / diaHeight : width / diaWidth;
+			scaleW = Math.min(height / diaHeight, width / diaWidth);
+			scaleH = scaleW;
+
 			break;
 		case STRETCH:
 			scaleW = width / diaWidth;
 			scaleH = height / diaHeight;
 			break;
 		}
-
-		scaleXform.setToScale(scaleW, scaleH);
-
-		AffineTransform oldXform = g.getTransform();
-		g.transform(scaleXform);
-
-//		try {
-//	//		diagram.render(g);
-//		} catch (SVGException e) {
-//			throw new RuntimeException(e);
-//		}
-
-		g.setTransform(oldXform);
-
-		g.translate(-x, -y);
+		paintSvgIcon(g, -x, -y, scaleW, scaleH);
 
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldAliasHint);
 		if (oldInterpolationHint != null) {
@@ -208,6 +210,7 @@ public final class JSVGIcon implements Icon {
 					oldInterpolationHint);
 		}
 	}
+
 
 
 	public void setAntiAlias(boolean antiAlias) {
@@ -220,5 +223,22 @@ public final class JSVGIcon implements Icon {
 
 	public void setPreferredSize(Dimension dimension) {
 		this.preferredSize = dimension;
+	}
+
+	public  static void main(String args[]) throws Exception
+	{
+		GuiResourcesD res = GuiResourcesD.FILLING_SETTINGS;
+		URL url = GeoGebraIconD.class.getResource(res.getFilename());
+		JSVGIcon image =
+				new JSVGIcon(url);
+		image.autoSize = AutoSize.STRETCH;
+		image.antiAlias = true;
+		Dimension dimension = new Dimension(256, 256);
+		image.setPreferredSize(dimension);
+		JLabel label = new JLabel(image);
+		label.setPreferredSize(dimension);
+		label.setBackground(Color.BLUE);
+		javax.swing.JOptionPane.showMessageDialog(null,
+				label);
 	}
 }
