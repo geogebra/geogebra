@@ -332,7 +332,7 @@ public class TabularRange {
 		}
 
 		if (this.getMinColumn() == -1) {
-			return new TabularRange(0, this.getMinRow(),
+			return new TabularRange(this.getMinRow(), 0, 
 					this.getMaxRow(), columnCount - 1);
 		}
 		return this;
