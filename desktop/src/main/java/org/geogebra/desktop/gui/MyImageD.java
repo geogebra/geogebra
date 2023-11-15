@@ -2,6 +2,7 @@ package org.geogebra.desktop.gui;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -29,21 +30,21 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.gui.util.JSvgImage;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
 
+import com.himamis.retex.renderer.desktop.graphics.ImageD;
+
 import io.sf.carte.echosvg.swing.JSVGCanvas;
-import io.sf.carte.echosvg.swing.svg.JSVGComponent;
-import io.sf.carte.echosvg.swing.svg.SVGLoadEventDispatcherAdapter;
-import io.sf.carte.echosvg.swing.svg.SVGLoadEventDispatcherEvent;
 
 public class MyImageD implements MyImageJre {
 
 	private Image img = null;
 	// SVG as XML
 	private final StringBuilder sb;
-	private JSVGComponent svgComponent;
-	private boolean ready = false;
+	private JSvgImage svgImage;
 
 	/**
 	 * @param img bitmap image
@@ -61,31 +62,15 @@ public class MyImageD implements MyImageJre {
 	public MyImageD(String svgContent) {
 		sb = new StringBuilder(svgContent.length());
 		sb.append(svgContent);
-		createSVGComponent(sb.toString());
-	}
-
-	private void createSVGComponent(String url) {
-		svgComponent = new JSVGComponent();
-		svgComponent.loadSVGDocument(url);
-		svgComponent.addSVGLoadEventDispatcherListener(new SVGLoadEventDispatcherAdapter() {
-			@Override
-			public void svgLoadEventDispatchCompleted(SVGLoadEventDispatcherEvent e) {
-				ready = true;
-			}
-
-			@Override
-			public void svgLoadEventDispatchFailed(SVGLoadEventDispatcherEvent e) {
-				Log.debug("Failed to load SVG: " + url);
-			}
-		});
+		svgImage = JSvgImage.fromContent(sb.toString());
+		img = new BufferedImage(svgImage.getWidth(), svgImage.getHeight(),
+				BufferedImage.TYPE_INT_ARGB);
+		svgImage.paint((Graphics2D) img.getGraphics());
 	}
 
 	private MyImageD(StringBuilder svgStr, JSVGCanvas canvas, URI uri) {
 		this.sb = svgStr;
-
-		createSVGComponent(sb.toString());
-
-		//this.uri = uri;
+		svgImage = JSvgImage.fromUrl(sb.toString());
 	}
 
 	/**
@@ -93,7 +78,7 @@ public class MyImageD implements MyImageJre {
 	 */
 	public String getMD5() {
 		if (img == null) {
-			return AppD.md5EncryptStatic(svgComponent.toString());
+			return AppD.md5EncryptStatic(svgImage.toString());
 		}
 
 		try {
@@ -167,7 +152,7 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public boolean isSVG() {
-		return ready;
+		return svgImage != null;
 	}
 
 	@Override
@@ -176,8 +161,8 @@ public class MyImageD implements MyImageJre {
 			return img.getHeight(null);
 		}
 
-		if (svgComponent != null) {
-			return (int) (svgComponent.getHeight() + 0.5);
+		if (svgImage != null) {
+			return (int) (svgImage.getHeight() + 0.5);
 		}
 
 		return 1;
@@ -189,8 +174,8 @@ public class MyImageD implements MyImageJre {
 			return img.getWidth(null);
 		}
 
-		if (svgComponent != null) {
-			return (int) (svgComponent.getWidth() + 0.5);
+		if (svgImage != null) {
+			return (int) (svgImage.getWidth() + 0.5);
 		}
 
 		return 1;
@@ -198,7 +183,7 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public GGraphics2D createGraphics() {
-		return new GGraphics2DD((Graphics2D) svgComponent.getGraphics());
+		return new GGraphics2DD((Graphics2D) img.getGraphics());
 	}
 
 	@Override
