@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeSupport;
 import java.net.URL;
 
 import javax.swing.Icon;
@@ -28,6 +29,13 @@ import io.sf.carte.echosvg.bridge.UserAgentAdapter;
 import io.sf.carte.echosvg.gvt.GraphicsNode;
 
 public final class JSVGIcon implements Icon {
+
+
+	public static final String PROP_AUTOSIZE = "PROP_AUTOSIZE";
+	private final JSvgImage image;
+	private Object oldAliasHint;
+	private Object oldInterpolationHint;
+
 	enum AutoSize {
 		NONE,
 		HORIZONTAL,
@@ -62,11 +70,13 @@ public final class JSVGIcon implements Icon {
 	private Dimension preferredSize = null;
 	private boolean clipToViewbox;
 	private final AffineTransform scaleXform = new AffineTransform();
-	private final GraphicsNode svgIcon;
 
 	private boolean antiAlias;
 	private AutoSize autoSize = AutoSize.NONE;
 	private Interpolation interpolation = Interpolation.NEAREST_NEIGHBOR;
+	private final PropertyChangeSupport changes = new PropertyChangeSupport(
+			this);
+
 
 	public JSVGIcon(URL url) throws Exception {
 		this(url.toString());
@@ -76,48 +86,8 @@ public final class JSVGIcon implements Icon {
 		 * Method to fetch the SVG icon from an url
 		 * @param url the url from which to fetch the SVG icon
 		 */
-	public JSVGIcon(String url) throws Exception {
-		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
-		SVGDocument doc = f.createSVGDocument(url);
-		UserAgent userAgent = new UserAgentAdapter();
-		DocumentLoader loader = new DocumentLoader(userAgent);
-		BridgeContext ctx = new BridgeContext(userAgent, loader);
-		ctx.setDynamicState(BridgeContext.DYNAMIC);
-		GVTBuilder builder = new GVTBuilder();
-		this.svgIcon = builder.build(ctx, doc);
-	}
-
-	/**
-	 * Method to paint the icon using Graphics2D. Note that the scaling factors have nothing to do with the zoom
-	 * operation, the scaling factors set the size your icon relative to the other objects on your canvas.
-	 * @param g the graphics context used for drawing
-	 * @param x the X coordinate of the top left corner of the icon
-	 * @param y the Y coordinate of the top left corner of the icon
-	 * @param scaleX the X scaling to be applied to the icon before drawing
-	 * @param scaleY the Y scaling to be applied to the icon before drawing
-	 */
-	private void paintSvgIcon(Graphics2D g, int x, int y, double scaleX, double scaleY) {
-		AffineTransform oldTransform = g.getTransform();
-		AffineTransform transform =
-				new AffineTransform(scaleX, 0.0, 0.0, scaleY, x, y);
-		svgIcon.setTransform(transform);
-		svgIcon.paint(g);
-		svgIcon.setTransform(oldTransform);
-	}
-
-	@Override
-	public int getIconHeight() {
-		if (preferredSize != null
-				&& (autoSize == AutoSize.VERTICAL || autoSize == AutoSize.STRETCH
-				|| autoSize == AutoSize.BEST_FIT)) {
-			return preferredSize.height;
-		}
-
-		return getSvgHeight();
-	}
-
-	private int getSvgHeight() {
-		return (int) svgIcon.getBounds().getHeight();
+	public JSVGIcon(String url) {
+		image = JSvgImage.fromUrl(url);
 	}
 
 	@Override
@@ -128,11 +98,18 @@ public final class JSVGIcon implements Icon {
 			return preferredSize.width;
 		}
 
-		return getSvgWidth();
+		return (int) image.getWidth();
 	}
 
-	private int getSvgWidth() {
-		return (int) svgIcon.getBounds().getWidth();
+	@Override
+	public int getIconHeight() {
+		if (preferredSize != null
+				&& (autoSize == AutoSize.VERTICAL || autoSize == AutoSize.STRETCH
+				|| autoSize == AutoSize.BEST_FIT)) {
+			return preferredSize.height;
+		}
+
+		return (int) image.getHeight();
 	}
 
 	@Override
@@ -143,26 +120,20 @@ public final class JSVGIcon implements Icon {
 	}
 
 	private void paintIcon(Graphics2D g, int x, int y) {
-		Object oldAliasHint = g
-				.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				antiAlias ? RenderingHints.VALUE_ANTIALIAS_ON
-						: RenderingHints.VALUE_ANTIALIAS_OFF);
-
-		Object oldInterpolationHint = g
-				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+		saveRenderingHints(g);
 
 		interpolation.apply(g);
 
 		g.translate(x, y);
+
 		if (clipToViewbox) {
-			g.setClip(new Rectangle2D.Float(0, 0, getSvgWidth(), getSvgHeight()));
+			g.setClip(new Rectangle2D.Float(0, 0, image.getWidth(), image.getHeight()));
 		}
 
 		if (autoSize == AutoSize.NONE) {
 			try {
 				g.translate(-x, -y);
-				svgIcon.paint(g);
+				image.paint(g);
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 						oldAliasHint);
 			} catch (Exception e) {
@@ -177,8 +148,8 @@ public final class JSVGIcon implements Icon {
 		if (width == 0 || height == 0) {
 			return;
 		}
-		double diaWidth = getSvgWidth();
-		double diaHeight = getSvgHeight();
+		double diaWidth = image.getWidth();
+		double diaHeight = image.getHeight();
 
 		double scaleW = 1;
 		double scaleH = 1;
@@ -202,8 +173,12 @@ public final class JSVGIcon implements Icon {
 			scaleH = height / diaHeight;
 			break;
 		}
-		paintSvgIcon(g, -x, -y, scaleW, scaleH);
+		g.translate(-x, -y);
+		image.paint(g, 0,0, scaleW, scaleH);
+		restoreRenderingHints(g);
+	}
 
+	private void restoreRenderingHints(Graphics2D g) {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldAliasHint);
 		if (oldInterpolationHint != null) {
 			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
@@ -211,18 +186,35 @@ public final class JSVGIcon implements Icon {
 		}
 	}
 
+	private void saveRenderingHints(Graphics2D g) {
+		oldAliasHint = g
+				.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				antiAlias ? RenderingHints.VALUE_ANTIALIAS_ON
+						: RenderingHints.VALUE_ANTIALIAS_OFF);
+
+		oldInterpolationHint = g
+				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+	}
 
 
 	public void setAntiAlias(boolean antiAlias) {
+		boolean old = this.antiAlias;
 		this.antiAlias = antiAlias;
+		changes.firePropertyChange("antiAlias", old, antiAlias);
 	}
 
 	public void setAutoSize(AutoSize autoSize) {
+		AutoSize old = this.autoSize;
 		this.autoSize = autoSize;
+		changes.firePropertyChange(PROP_AUTOSIZE, old, autoSize);
 	}
 
 	public void setPreferredSize(Dimension dimension) {
+		Dimension old = this.preferredSize;
 		this.preferredSize = dimension;
+		changes.firePropertyChange("preferredSize", old, preferredSize);
+
 	}
 
 	public  static void main(String args[]) throws Exception
