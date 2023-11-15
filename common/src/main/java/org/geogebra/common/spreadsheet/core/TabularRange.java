@@ -256,12 +256,25 @@ public class TabularRange {
 		return new TabularRange(fromRow, fromCol, toRow, toCol);
 	}
 
-	@CheckForNull TabularRange merge(TabularRange range) {
+	/**
+	 * Merge two ranges into one if their union forms a rectangle
+	 * (i.e. they overlap or share an edge)
+	 * @param range other range
+	 * @return new range if this and the other range could be merged, null otherwise
+	 */
+	public @CheckForNull TabularRange merge(TabularRange range) {
 		if (minColumn == range.minColumn && maxColumn == range.maxColumn) {
 			if ((range.minRow >= minRow && range.minRow <= maxRow + 1)
 					|| (minRow >= range.minRow && minRow <= range.maxRow + 1)) {
 				return TabularRange.range(Math.min(minRow, range.minRow),
 						Math.max(maxRow, range.maxRow), minColumn, maxColumn);
+			}
+		}
+		if (minRow == range.minRow && maxRow == range.maxRow) {
+			if ((range.minColumn >= minColumn && range.minColumn <= maxColumn + 1)
+					|| (minColumn >= range.minColumn && minColumn <= range.maxColumn + 1)) {
+				return TabularRange.range(minRow, maxRow, Math.min(minColumn, range.minColumn),
+						Math.max(maxColumn, range.maxColumn));
 			}
 		}
 		return null;
@@ -298,5 +311,30 @@ public class TabularRange {
 
 	public int getToColumn() {
 		return anchorColumn == minColumn ? maxColumn : minColumn;
+	}
+
+	/**
+	 * For finite ranges returns self. For infinite ranges returns
+	 * a range restricted to given number of rows/columns.
+	 * @param rowCount maximum row
+	 * @param columnCount maximum column
+	 * @return restricted range
+	 */
+	public TabularRange restrictTo(int rowCount, int columnCount) {
+		if (this.getMinRow() == -1 && this.getMaxRow() == -1
+				&& this.getMinColumn() == -1 && this.getMaxColumn() == -1) {
+			return this;
+		}
+
+		if (this.getMinRow() == -1) {
+			return new TabularRange(0, this.getMinColumn(),
+					rowCount - 1, this.getMaxColumn());
+		}
+
+		if (this.getMinColumn() == -1) {
+			return new TabularRange(this.getMinRow(), 0, 
+					this.getMaxRow(), columnCount - 1);
+		}
+		return this;
 	}
 }

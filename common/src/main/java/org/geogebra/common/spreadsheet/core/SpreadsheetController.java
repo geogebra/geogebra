@@ -1,9 +1,11 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -24,6 +26,8 @@ public final class SpreadsheetController implements TabularSelection {
 	private final TableLayout layout;
 
 	private final SpreadsheetStyle style;
+	private MouseCursor activeCursor = MouseCursor.DEFAULT;
+	private final GPoint lastPointerDown = new GPoint(-1, -1);
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -67,12 +71,12 @@ public final class SpreadsheetController implements TabularSelection {
 
 	@Override
 	public void selectRow(int row, boolean extend, boolean addSelection) {
-		selectionController.selectRow(row, layout.numberOfColumns(), extend, addSelection);
+		selectionController.selectRow(row, extend, addSelection);
 	}
 
 	@Override
 	public void selectColumn(int column, boolean extend, boolean addSelection) {
-		selectionController.selectColumn(column, layout.numberOfRows(), extend, addSelection);
+		selectionController.selectColumn(column, extend, addSelection);
 	}
 
 	/**
@@ -145,6 +149,8 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		hideCellEditor();
+		activeCursor = layout.getCursor(x + viewport.getMinX(), y + viewport.getMinY(),
+				lastPointerDown);
 		int column = layout.findColumn(x + viewport.getMinX());
 		int row = layout.findRow(y + viewport.getMinY());
 		if (modifiers.rightButton) {
@@ -152,10 +158,14 @@ public final class SpreadsheetController implements TabularSelection {
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
 			return true;
 		}
-		if (isSelected(row, column)) {
+		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
 		}
 		return false;
+	}
+
+	public MouseCursor getCursor(int x, int y, Rectangle viewport) {
+		return layout.getCursor(x + viewport.getMinX(), y + viewport.getMinY(), new GPoint());
 	}
 
 	/**
@@ -165,6 +175,9 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param viewport visible area
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers, Rectangle viewport) {
+		if (finishDrag(x, y, modifiers)) {
+			return;
+		}
 		int row = layout.findRow(y + viewport.getMinY());
 		int column = layout.findColumn(x + viewport.getMinX());
 
@@ -176,6 +189,42 @@ public final class SpreadsheetController implements TabularSelection {
 			select(new Selection(SelectionType.CELLS, TabularRange.range(row,
 					row, column, column)), modifiers.shift, modifiers.ctrl);
 		}
+	}
+
+	private boolean finishDrag(int x, int y, Modifiers modifiers) {
+		List<Selection> sel = getSelections();
+		boolean handled = false;
+		switch (activeCursor) {
+		case RESIZE_X:
+			if (isSelected(-1, lastPointerDown.x)) {
+				double width = layout.resizeColumn(lastPointerDown.x, x);
+				for (Selection selection : sel) {
+					if (selection.getType() == SelectionType.COLUMNS) {
+						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
+								selection.getRange().getMaxColumn());
+					}
+				}
+			}
+			handled = true;
+			break;
+		case RESIZE_Y:
+			if (isSelected(lastPointerDown.y, -1)) {
+				double height = layout.resizeRow(lastPointerDown.y, y);
+				for (Selection selection : sel) {
+					if (selection.getType() == SelectionType.ROWS) {
+						layout.setHeightForRows(height, selection.getRange().getMinRow(),
+								selection.getRange().getMaxRow());
+					}
+				}
+			}
+			handled = true;
+			break;
+		case DEFAULT:
+			handled = extendSelectionByDrag(x, y, modifiers.ctrl);
+		}
+		activeCursor = MouseCursor.DEFAULT;
+		lastPointerDown.setLocation(-1, -1);
+		return handled;
 	}
 
 	/**
@@ -242,4 +291,58 @@ public final class SpreadsheetController implements TabularSelection {
 	public Selection getLastSelection() {
 		return selectionController.getLastSelection();
 	}
+
+	/**
+	 * @param x event x-coordinate in pixels
+	 * @param y event y-coordinate in pixels
+	 * @param modifiers alt/ctrl/shift
+	 * @return whether something changed and repaint is needed
+	 */
+	public boolean handlePointerMove(int x, int y, Modifiers modifiers) {
+		switch (activeCursor) {
+		case RESIZE_X:
+			// only handle the dragged column here, the rest of selection on pointer up
+			// otherwise left border of dragged column could move, causing feedback loop
+			double width = layout.resizeColumn(lastPointerDown.x, x);
+			layout.setWidthForColumns(width, lastPointerDown.x, lastPointerDown.x);
+			return true;
+		case RESIZE_Y:
+			double height = layout.resizeRow(lastPointerDown.y, y);
+			layout.setHeightForRows(height, lastPointerDown.y, lastPointerDown.y);
+			return true;
+		default:
+		case DEFAULT:
+			return extendSelectionByDrag(x, y, modifiers.ctrl);
+		}
+	}
+
+	/**
+	 * @return selections limited to data size
+	 */
+	public List<TabularRange> getVisibleSelections() {
+		return getSelections().stream().map(this::intersectWithDataRange)
+				.collect(Collectors.toList());
+	}
+
+	private boolean extendSelectionByDrag(int x, int y, boolean addSelection) {
+		// TODO drag selection for columns and rows
+		if (lastPointerDown.x >= 0 && lastPointerDown.y >= 0) {
+			int row = getLayout().findRow(y);
+			int column = getLayout().findColumn(x);
+			if (row != lastPointerDown.getY() || column != lastPointerDown.getX()) {
+				TabularRange range =
+						new TabularRange(lastPointerDown.y, lastPointerDown.x, row, column);
+				selectionController.select(new Selection(SelectionType.CELLS,
+								range), false, addSelection);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private TabularRange intersectWithDataRange(Selection selection) {
+		return selection.getRange().restrictTo(tabularData.numberOfRows(),
+				tabularData.numberOfColumns());
+	}
+
 }

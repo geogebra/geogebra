@@ -47,10 +47,7 @@ final class Selection {
 	}
 
 	public boolean contains(int row, int column) {
-		return (range.getMinColumn() <= column && range.getMaxColumn() >= column
-				|| range.getMaxRow() < 0)
-				&& (range.getMinRow() <= row && range.getMaxRow() >= row
-				|| range.getMinRow() < 0);
+		return range.contains(row, column);
 	}
 
 	/**

@@ -35,28 +35,26 @@ final class SpreadsheetSelectionController {
 	/**
 	 * Selects a row with given index
 	 * @param rowIndex Index
-	 * @param numberOfColumns Current amount of columns
 	 * @param extendSelection Whether we want to extend the current selection
 	 * @param addSelection Whether we want to add it to the current selections
 	 */
-	void selectRow(int rowIndex, int numberOfColumns,
+	void selectRow(int rowIndex,
 			boolean extendSelection, boolean addSelection) {
 		Selection row = new Selection(SelectionType.ROWS,
-				TabularRange.range(rowIndex, rowIndex, 0, numberOfColumns - 2));
+				TabularRange.range(rowIndex, rowIndex, -1, -1));
 		select(row, extendSelection, addSelection);
 	}
 
 	/**
 	 * Selects a column with given index
 	 * @param columnIndex Index
-	 * @param numberOfRows Current amount of rows
 	 * @param extendSelection Whether we want to extend the current selection
 	 * @param addSelection Whether we want to add it to the current selections
 	 */
-	void selectColumn(int columnIndex, int numberOfRows,
+	void selectColumn(int columnIndex,
 			boolean extendSelection, boolean addSelection) {
 		Selection column = new Selection(SelectionType.COLUMNS,
-				TabularRange.range(0, numberOfRows - 2, columnIndex, columnIndex));
+				TabularRange.range(-1, -1, columnIndex, columnIndex));
 		select(column, extendSelection, addSelection);
 	}
 

@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -46,8 +47,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.setPaint(GColor.WHITE);
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		drawCells(graphics, viewport);
-		for (Selection selection: controller.getSelections()) {
-			renderer.drawSelection(selection.getRange(), graphics,
+		for (TabularRange range: controller.getVisibleSelections()) {
+			renderer.drawSelection(range, graphics,
 					viewport, controller.getLayout());
 		}
 		needsRedraw = false;
@@ -132,7 +133,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public void handlePointerMove(int x, int y, Modifiers modifiers) {
-		// extend selection
+		needsRedraw = controller.handlePointerMove(x, y, modifiers);
 	}
 
 	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
@@ -149,16 +150,20 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		needsRedraw = true;
 	}
 
-	public void setWidthForColumns(double width, int[] columnIndices) {
-		controller.getLayout().setWidthForColumns(width, columnIndices);
+	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
+		controller.getLayout().setWidthForColumns(width, minColumn, maxColumn);
 	}
 
-	public void setHeightForRows(double height, int... rowIndices) {
-		controller.getLayout().setHeightForRows(height, rowIndices);
+	public void setHeightForRows(double height, int minRow, int maxRow) {
+		controller.getLayout().setHeightForRows(height, minRow, maxRow);
 	}
 
 	public boolean needsRedraw() {
 		return needsRedraw;
+	}
+
+	public MouseCursor getCursor(int x, int y) {
+		return controller.getCursor(x, y, viewport);
 	}
 
 	public double getTotalWidth() {

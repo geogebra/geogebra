@@ -9,7 +9,7 @@ public final class KernelDataSerializer {
 	 * @return string representation for editor
 	 */
 	public String getStringForEditor(Object data) {
-		return data == null ? null
+		return data == null ? ""
 				: ((GeoElement) data).getRedefineString(true, false);
 	}
 }

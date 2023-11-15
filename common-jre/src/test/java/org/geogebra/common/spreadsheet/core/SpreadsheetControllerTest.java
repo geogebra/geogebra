@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
@@ -94,17 +96,11 @@ public class SpreadsheetControllerTest {
 	@Test
 	public void testExtendSelectionByMoving3() {
 		controller.selectCell(5, 5, false, false);
-		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveUp(true);
-		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveUp(true);
-		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveLeft(true);
-		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveLeft(true);
-		System.err.println(controller.getLastSelection().getRange().toString());
 		controller.moveRight(true);
-		System.err.println(controller.getLastSelection().getRange().toString());
 		assertRangeEquals(controller.getLastSelection(),
 				new Selection(SelectionType.CELLS, TabularRange.range(3, 5, 4, 5)));
 	}
@@ -135,6 +131,16 @@ public class SpreadsheetControllerTest {
 		controller.selectCell(7, 7, true, true);
 
 		assertEquals(controller.getSelections().size(), 3);
+	}
+
+	@Test
+	public void testIsSelected() {
+		controller.selectColumn(2, false, false);
+		controller.selectColumn(3, true, false);
+		assertThat(controller.isSelected(3, 3), equalTo(true));
+		assertThat(controller.isSelected(-1, 3), equalTo(true));
+		assertThat(controller.isSelected(3, 4), equalTo(false));
+		assertThat(controller.isSelected(-1, 4), equalTo(false));
 	}
 
 	private void assertRangeEquals(Selection selection, Selection other) {
