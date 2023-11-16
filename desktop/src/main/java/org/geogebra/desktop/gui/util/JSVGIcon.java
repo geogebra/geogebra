@@ -14,18 +14,7 @@ import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.util.GuiResourcesD;
-import org.w3c.dom.svg.SVGDocument;
-
-
-import io.sf.carte.echosvg.anim.dom.SAXSVGDocumentFactory;
-import io.sf.carte.echosvg.bridge.BridgeContext;
-import io.sf.carte.echosvg.bridge.DocumentLoader;
-import io.sf.carte.echosvg.bridge.GVTBuilder;
-import io.sf.carte.echosvg.bridge.UserAgent;
-import io.sf.carte.echosvg.bridge.UserAgentAdapter;
-import io.sf.carte.echosvg.gvt.GraphicsNode;
 
 public final class JSVGIcon implements Icon {
 

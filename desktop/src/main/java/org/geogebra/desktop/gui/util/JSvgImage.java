@@ -4,10 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.URI;
 
 import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.svg.SVGDocument;
@@ -24,12 +24,6 @@ public class JSvgImage {
 
 	private final GraphicsNode node;
 
-	public static JSvgImage fromFile(File file) throws IOException {
-		FileInputStream is = new FileInputStream(file);
-		String content = UtilD.loadIntoString(is);
-		is.close();
-		return fromContent(content);
-	}
 	private JSvgImage(SVGDocument doc) {
 		UserAgent userAgent = new UserAgentAdapter();
 		DocumentLoader loader = new DocumentLoader(userAgent);
@@ -38,14 +32,23 @@ public class JSvgImage {
 		GVTBuilder builder = new GVTBuilder();
 		node = builder.build(ctx, doc);
 	}
+	public static JSvgImage fromFile(File file) throws IOException {
+		FileInputStream is = new FileInputStream(file);
+		String content = UtilD.loadIntoString(is);
+		is.close();
+		return fromContent(content, file.toURI().toString());
+	}
 
-	public static JSvgImage fromContent(String content) {
+	public static JSvgImage fromContent(String string) {
+		return fromContent(string, "file:nouri");
+	}
+
+	public static JSvgImage fromContent(String content, String uriString) {
 		Reader reader = new StringReader(content);
-		String uri = "file:make-something-up";
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
 		SVGDocument doc;
 		try {
-			doc = f.createSVGDocument(uri, reader);
+			doc = f.createSVGDocument(uriString, reader);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
