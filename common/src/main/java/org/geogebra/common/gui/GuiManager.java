@@ -661,15 +661,23 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		final StringBuilder urlSB = new StringBuilder();
 
-		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE);
+		if (type == Help.COMMAND && pageName == null) {
+			urlSB.append(GeoGebraConstants.GEOGEBRA_WIKI);
+		} else {
+			urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE);
+		}
 		urlSB.append(getApp().getLocalization().getLanguageTag()); // eg en-GB
 
 		switch (type) {
 		case COMMAND:
 			String cmdPageName = getApp().getLocalization().getEnglishCommand(
 					pageName);
-			urlSB.append("/cmd/");
-			urlSB.append(cmdPageName);
+			if ("".equals(cmdPageName)) {
+				urlSB.append("/Category:Commands");
+			} else {
+				urlSB.append("/cmd/");
+				urlSB.append(cmdPageName);
+			}
 			break;
 		case TOOL:
 			urlSB.append("/tool/");
