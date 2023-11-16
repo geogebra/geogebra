@@ -198,14 +198,7 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int x, int y) {
 		MyImageD imgD = (MyImageD) img;
-
-		if (imgD.isSVG()) {
-			translate(x, y);
-			impl.drawImage(imgD.getImage(), 0, 0, null);
-			translate(-x, -y);
-		} else {
-			impl.drawImage(imgD.getImage(), x, y, null);
-		}
+		imgD.render(impl, x, y);
 	}
 
 	@Override
@@ -449,14 +442,8 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
 			int dy, int dw, int dh) {
-		if (img.isSVG()) {
-			impl.translate(dx, dy);
-			impl.drawImage(((MyImageD) img).getImage(), 0, 0, null);
-			impl.translate(-dx, -dy);
-		} else {
-			impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + dw, dy + dh,
-					sx, sy, sx + sw, sy + sh, null);
-		}
+		MyImageD myImageD = (MyImageD) img;
+		myImageD.render(impl, sx, sy, sw, sh, dx, dy, dw, dh);
 	}
 
 	@Override

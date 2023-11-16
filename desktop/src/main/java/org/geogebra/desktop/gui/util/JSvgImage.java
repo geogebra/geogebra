@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.util;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -21,7 +20,6 @@ public class JSvgImage {
 
 	private final GraphicsNode node;
 
-	private BufferedImage image;
 	private JSvgImage(SVGDocument doc) {
 		UserAgent userAgent = new UserAgentAdapter();
 		DocumentLoader loader = new DocumentLoader(userAgent);
@@ -49,17 +47,14 @@ public class JSvgImage {
 	 * @param url the url from which to fetch the SVG image
 	 */
 	public static JSvgImage fromUrl(String url) {
-		String uri = "file:make-something-up";
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
-		SVGDocument doc = null;
 		try {
-			doc = f.createSVGDocument(url);
+			SVGDocument doc = f.createSVGDocument(url);
+			return new JSvgImage(doc);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return new JSvgImage(doc);
 	}
-
 
 	/**
 	 * Method to paint the icon using Graphics2D. Note that the scaling factors have nothing to do with the zoom
@@ -89,9 +84,5 @@ public class JSvgImage {
 
 	public int getHeight() {
 		return (int) node.getPrimitiveBounds().getHeight();
-	}
-
-	public BufferedImage getImage() {
-		return image;
 	}
 }

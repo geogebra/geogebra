@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -30,12 +29,9 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.util.JSvgImage;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
-
-import com.himamis.retex.renderer.desktop.graphics.ImageD;
 
 import io.sf.carte.echosvg.swing.JSVGCanvas;
 
@@ -63,9 +59,6 @@ public class MyImageD implements MyImageJre {
 		sb = new StringBuilder(svgContent.length());
 		sb.append(svgContent);
 		svgImage = JSvgImage.fromContent(sb.toString());
-		img = new BufferedImage(svgImage.getWidth(), svgImage.getHeight(),
-				BufferedImage.TYPE_INT_ARGB);
-		svgImage.paint((Graphics2D) img.getGraphics());
 	}
 
 	private MyImageD(StringBuilder svgStr, JSVGCanvas canvas, URI uri) {
@@ -259,4 +252,28 @@ public class MyImageD implements MyImageJre {
 		return null;
 	}
 
+	public void render(Graphics2D impl, int x, int y) {
+		if (isSVG()) {
+			renderSvg(impl, x, y);
+		} else {
+			impl.drawImage(img, x, y, null);
+		}
+	}
+
+	private void renderSvg(Graphics2D g, int x, int y) {
+		g.translate(-x, -y);
+		svgImage.paint(g);
+		g.translate(x, y);
+	}
+
+	public void render(Graphics2D impl, int sx, int sy, int sw, int sh, int dx, int dy, int dw,
+			int dh) {
+		if (isSVG()) {
+			renderSvg(impl, dx, dy);
+		} else {
+			impl.drawImage(
+					img, dx, dy, dx + dw, dy + dh,
+					sx, sy, sx + sw, sy + sh, null);
+		}
+	}
 }
