@@ -2,10 +2,14 @@ package org.geogebra.desktop.gui.util;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.svg.SVGDocument;
 
 import io.sf.carte.echosvg.anim.dom.SAXSVGDocumentFactory;
@@ -20,6 +24,12 @@ public class JSvgImage {
 
 	private final GraphicsNode node;
 
+	public static JSvgImage fromFile(File file) throws IOException {
+		FileInputStream is = new FileInputStream(file);
+		String content = UtilD.loadIntoString(is);
+		is.close();
+		return fromContent(content);
+	}
 	private JSvgImage(SVGDocument doc) {
 		UserAgent userAgent = new UserAgentAdapter();
 		DocumentLoader loader = new DocumentLoader(userAgent);

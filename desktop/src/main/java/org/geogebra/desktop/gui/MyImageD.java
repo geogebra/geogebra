@@ -7,11 +7,9 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.security.MessageDigest;
@@ -31,15 +29,12 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.util.JSvgImage;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.UtilD;
-
-import io.sf.carte.echosvg.swing.JSVGCanvas;
 
 public class MyImageD implements MyImageJre {
 
 	private Image img = null;
 	// SVG as XML
-	private final StringBuilder sb;
+	private StringBuilder sb;
 	private JSvgImage svgImage;
 
 	/**
@@ -61,9 +56,8 @@ public class MyImageD implements MyImageJre {
 		svgImage = JSvgImage.fromContent(sb.toString());
 	}
 
-	private MyImageD(StringBuilder svgStr, JSVGCanvas canvas, URI uri) {
-		this.sb = svgStr;
-		svgImage = JSvgImage.fromUrl(sb.toString());
+	private MyImageD(JSvgImage svgImage) {
+		this.svgImage = svgImage;
 	}
 
 	/**
@@ -214,14 +208,11 @@ public class MyImageD implements MyImageJre {
 	 */
 	public static MyImageD fromFile(File file, String fileName)
 			throws IOException {
+
 		if (fileName.endsWith(".svg")) {
-
-			FileInputStream is = new FileInputStream(file);
-			String svg = UtilD.loadIntoString(is);
-			is.close();
-
-			return new MyImageD(svg);
+			return new MyImageD(JSvgImage.fromFile(file));
 		}
+
 		// returns null if the file isn't an image
 		BufferedImage bi = ImageIO.read(file);
 

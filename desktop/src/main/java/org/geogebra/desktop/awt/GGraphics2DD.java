@@ -450,5 +450,4 @@ public class GGraphics2DD implements GGraphics2D {
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx, dy, null);
 	}
-
 }
