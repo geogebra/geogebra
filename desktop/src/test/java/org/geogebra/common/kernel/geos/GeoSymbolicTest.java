@@ -2116,4 +2116,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void bracketShouldBeMultiplicationForSymbolicNumbersWithoutDefiningA() {
 		t("NSolve(-4 a(2)=16)", "{a = -2}");
 	}
+
+	@Test
+	public void bracketShouldNotBeMultiplicationForSymbolicVariables() {
+		t("Derivative(f(x)*g(x))", "f'(x) * g(x) + g'(x) * f(x)");
+	}
 }

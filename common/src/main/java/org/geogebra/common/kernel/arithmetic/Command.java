@@ -507,6 +507,9 @@ public class Command extends ValidExpression
 
 		// not yet evaluated: process command
 		if (evalGeos == null) {
+			if (!kernel.getAlgebraProcessor().getCommandDispatcher().hasProcessor(this)) {
+				return false;
+			}
 			evalGeos = evaluateMultiple(new EvalInfo(false));
 		}
 

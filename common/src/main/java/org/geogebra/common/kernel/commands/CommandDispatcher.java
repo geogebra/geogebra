@@ -1037,4 +1037,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	public void applyExamRestrictions() {
 		app.resetCommandDict();
 	}
+
+	public boolean hasProcessor(Command command) {
+		return getProcessor(command) != null;
+	}
 }
