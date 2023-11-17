@@ -24,8 +24,8 @@ public class ComponentSnackbar extends FlowPanel {
 	private Timer fadeOut = new Timer() {
 		@Override
 		public void run() {
-			//removeStyleName("fadeIn");
-			//remove.schedule(2000);
+			removeStyleName("fadeIn");
+			remove.schedule(2000);
 		}
 	};
 	private Timer remove = new Timer() {
@@ -44,7 +44,6 @@ public class ComponentSnackbar extends FlowPanel {
 	 */
 	public ComponentSnackbar(AppW app, String title, String text, String buttonText) {
 		addStyleName("snackbarComponent");
-		addStyleName(Shades.NEUTRAL_800.getName());
 		getElement().setId("snackbarID");
 		if (app.isWhiteboardActive()) {
 			addStyleName("mowPosition");
