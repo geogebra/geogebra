@@ -439,7 +439,7 @@
 	}
 
 	.MyCanvasButton:disabled:hover {
-		border: #DCDCDC solid 1px;
+		border: neutral(500) solid 1px;
 	}
 
 	.MyToggleButton, .MyCanvasButton {
@@ -840,7 +840,7 @@
 	.MyCanvasButton {
 		text-align: center;
 		border-radius: 5px;
-		border: #DCDCDC solid 1px;
+		border: neutral(500) solid 1px;
 		background-color: #FFFFFF;
 		padding: 3px;
 		width: 24px;
