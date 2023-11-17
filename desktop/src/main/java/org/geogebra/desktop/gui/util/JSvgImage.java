@@ -5,11 +5,12 @@ import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
-import java.net.URI;
 
 import org.geogebra.desktop.util.UtilD;
+import org.w3c.dom.Document;
 import org.w3c.dom.svg.SVGDocument;
 
 import io.sf.carte.echosvg.anim.dom.SAXSVGDocumentFactory;
@@ -23,10 +24,22 @@ import io.sf.carte.echosvg.gvt.GraphicsNode;
 public class JSvgImage {
 
 	private final GraphicsNode node;
+	private static final String BLANK
+			= "data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\"/>";
 
 	private JSvgImage(SVGDocument doc) {
 		UserAgent userAgent = new UserAgentAdapter();
-		DocumentLoader loader = new DocumentLoader(userAgent);
+		DocumentLoader loader = new DocumentLoader(userAgent) {
+			@Override
+			public Document loadDocument(String uri) throws IOException {
+				return documentFactory.createSVGDocument(BLANK);
+			}
+
+			@Override
+			public Document loadDocument(String uri, InputStream is) throws IOException {
+				return documentFactory.createSVGDocument(BLANK);
+			}
+		};
 		BridgeContext ctx = new BridgeContext(userAgent, loader);
 		ctx.setDynamicState(BridgeContext.DYNAMIC);
 		GVTBuilder builder = new GVTBuilder();
