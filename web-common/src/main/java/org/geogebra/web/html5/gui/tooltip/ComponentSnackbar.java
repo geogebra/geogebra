@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
