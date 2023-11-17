@@ -60,9 +60,4 @@ public class SuiteActivity extends BaseActivity {
 			return super.getAVMenuItems(view);
 		}
 	}
-
-	@Override
-	public void start(AppW app) {
-		app.getAsyncManager().prefetch(null, "advanced");
-	}
 }
