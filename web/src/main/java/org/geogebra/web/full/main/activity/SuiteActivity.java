@@ -13,7 +13,6 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection3D;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Activity class for the GeoGebra Suite app
