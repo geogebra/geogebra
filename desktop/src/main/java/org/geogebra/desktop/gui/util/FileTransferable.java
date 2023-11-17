@@ -23,7 +23,7 @@ import java.util.List;
 public class FileTransferable implements Transferable {
 	DataFlavor[] dataFlavors = { DataFlavor.javaFileListFlavor };
 
-	List<File> files = new LinkedList<File>();
+	List<File> files = new LinkedList<>();
 
 	public FileTransferable(File file) {
 		files.add(file);
