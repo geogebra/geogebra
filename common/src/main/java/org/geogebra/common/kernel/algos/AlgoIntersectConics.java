@@ -154,10 +154,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		ArrayList<GeoPointND> list2 = B.getPointsOnConic();
 
 		if (list1 != null && list2 != null) {
-			for (int i = 0; i < list1.size(); i++) {
-				if (list1.get(i).getIncidenceList() != null
-						&& list1.get(i).getIncidenceList().contains(B)) {
-					preexistPoints.add(list1.get(i));
+			for (GeoPointND point : list1) {
+				if (point.getIncidenceList() != null
+						&& point.getIncidenceList().contains(B)) {
+					preexistPoints.add(point);
 				}
 			}
 		}
@@ -429,9 +429,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		// get points on conic and see if one of them is on line g
 		ArrayList<GeoPointND> pointsOnConic = A.getPointsOnConic();
 		if (pointsOnConic != null) {
-			int size = pointsOnConic.size();
-			for (int i = 0; i < size; i++) {
-				GeoPointND p = pointsOnConic.get(i);
+			for (GeoPointND p : pointsOnConic) {
 				if (p.isLabelSet() && p.getIncidenceList() != null
 						&& p.getIncidenceList().contains(B)) {
 
@@ -518,10 +516,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		if (firstIntersection) {
 			// init points in order P[0], P[1] , ...
 			int count = 0;
-			for (int i = 0; i < Q.length; i++) {
+			for (GeoPoint point : Q) {
 				// make sure intersection points lie on limited paths
-				if (Q[i].isDefined() && pointLiesOnBothPaths(Q[i])) {
-					P[count].setCoords(Q[i]);
+				if (point.isDefined() && pointLiesOnBothPaths(point)) {
+					P[count].setCoords(point);
 					D[count].setCoords(P[count]);
 					firstIntersection = false;
 					count++;
@@ -940,7 +938,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		for (int i = 0; i < solnr; i++) {
 			// A + x B
 			for (int j = 0; j < 6; j++) {
-				flatDeg[j] = (flatA[j] + sol[i] * flatB[j]);
+				flatDeg[j] = flatA[j] + sol[i] * flatB[j];
 			}
 
 			// check if det(A + x B) = 0
@@ -1065,6 +1063,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			fillQuarticRoots2(eqn, b, c, f, e, l, k, m, p, o);
 		}
 		int roots = kernel.getEquationSolver().polynomialRoots(eqn, false);
+		if (roots > 1) {
+			Arrays.sort(eqn, 0, roots);
+		}
 		intersectLines(vertical, eqn, roots, points, tempLine, c1, c2, set, eps);
 
 		// found some points
@@ -1253,10 +1254,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	}
 
 	private void savePoints(ArrayList<MyPoint> set, GeoPoint[] points) {
-		for (int i = 0; i < points.length; i++) {
-			if (points[i] != null && points[i].isDefined()
-					&& points[i].isFinite() && !contains(set, points[i])) {
-				MyPoint pt = new MyPoint(points[i].x, points[i].y);
+		for (GeoPoint point : points) {
+			if (point != null && point.isDefined()
+					&& point.isFinite() && !contains(set, point)) {
+				MyPoint pt = new MyPoint(point.x, point.y);
 				set.add(pt);
 			}
 		}
@@ -1264,9 +1265,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	}
 
 	private boolean contains(ArrayList<MyPoint> set, GeoPoint geoPoint) {
-
-		for (int i = 0; i < set.size(); i++) {
-			MyPoint pt = set.get(i);
+		for (MyPoint pt : set) {
 			if (DoubleUtil.isEqual(pt.x, geoPoint.inhomX)
 					&& DoubleUtil.isEqual(pt.y, geoPoint.inhomY)) {
 				return true;
@@ -1383,8 +1382,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	private static void normalizeArray(double[] array) {
 		// find max abs value in array
 		double max = 0;
-		for (int i = 0; i < array.length; i++) {
-			double abs = Math.abs(array[i]);
+		for (double val : array) {
+			double abs = Math.abs(val);
 			if (abs > max) {
 				max = abs;
 			}
