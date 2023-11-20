@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.URL;
 
 import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.Document;
@@ -96,10 +97,10 @@ public final class JSVGImage {
 	 * Method to fetch the SVG image from an url
 	 * @param url the url from which to fetch the SVG image
 	 */
-	public static JSVGImage fromUrl(String url) {
+	public static JSVGImage fromUrl(URL url) {
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
 		try {
-			SVGDocument doc = f.createSVGDocument(url);
+			SVGDocument doc = f.createSVGDocument(url.toString());
 			return new JSVGImage(doc);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
