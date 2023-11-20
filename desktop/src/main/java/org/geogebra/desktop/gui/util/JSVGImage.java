@@ -9,7 +9,9 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.concurrent.CancellationException;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.Document;
 import org.w3c.dom.svg.SVGDocument;
@@ -21,6 +23,7 @@ import io.sf.carte.echosvg.bridge.DocumentLoader;
 import io.sf.carte.echosvg.bridge.GVTBuilder;
 import io.sf.carte.echosvg.bridge.UserAgent;
 import io.sf.carte.echosvg.bridge.UserAgentAdapter;
+import io.sf.carte.echosvg.dom.util.SAXIOException;
 import io.sf.carte.echosvg.gvt.GraphicsNode;
 
 /**
@@ -31,9 +34,9 @@ public final class JSVGImage {
 	private static final String NO_URI = "file:nouri";
 	private static final String BLANK_SVG
 			= "data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\"/>";
-	private final GraphicsNode node;
-	private final float width;
-	private final float height;
+	private GraphicsNode node;
+	private float width = 0;
+	private float height = 0;
 
 	/**
 	 *
@@ -51,14 +54,24 @@ public final class JSVGImage {
 			public Document loadDocument(String uri, InputStream is) throws IOException {
 				return documentFactory.createSVGDocument(BLANK_SVG);
 			}
+
 		};
 		BridgeContext ctx = new BridgeContext(userAgent, loader);
 		ctx.setDynamicState(BridgeContext.DYNAMIC);
 		GVTBuilder builder = new GVTBuilder();
-		node = builder.build(ctx, doc);
-		SVGSVGElement rootElement = doc.getRootElement();
-		width =  rootElement.getWidth().getBaseVal().getValue();
-		height = rootElement.getHeight().getBaseVal().getValue();
+		try {
+			node = builder.build(ctx, doc);
+			SVGSVGElement rootElement = doc.getRootElement();
+			width = rootElement.getWidth().getBaseVal().getValue();
+			height = rootElement.getHeight().getBaseVal().getValue();
+		} catch (Exception e) {
+			node = null;
+			Log.debug("Something is went wrong");
+		}
+	}
+
+	public JSVGImage() {
+
 	}
 
 	/**
@@ -87,6 +100,8 @@ public final class JSVGImage {
 		SVGDocument doc;
 		try {
 			doc = f.createSVGDocument(NO_URI, reader);
+		} catch (SAXIOException se) {
+			return new JSVGImage();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -117,11 +132,18 @@ public final class JSVGImage {
 	 * @param scaleY the Y scaling to be applied to the image before drawing
 	 */
 	public void paint(Graphics2D g, int x, int y, double scaleX, double scaleY) {
+		if (isInvalid()) {
+			return;
+		}
 		AffineTransform oldTransform = g.getTransform();
 		AffineTransform transform = new AffineTransform(scaleX, 0.0, 0.0, scaleY, x, y);
 		node.setTransform(transform);
 		node.paint(g);
 		node.setTransform(oldTransform);
+	}
+
+	private boolean isInvalid() {
+		return node == null;
 	}
 
 	/**
@@ -130,6 +152,10 @@ public final class JSVGImage {
 	 * @param g to paint to.
 	 */
 	public void paint(Graphics2D g) {
+		if (isInvalid()) {
+			return;
+		}
+
 		node.paint(g);
 	}
 
