@@ -254,6 +254,39 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
+	public void moveWithMouseShouldChangeOutputOfTranslate1() {
+		add("A = (2, 2)");
+		add("v = Vector((-1, -3))");
+		GeoElement point = add("Translate(A, v)");
+		dragStart(50, 50);
+		dragEnd(100, 100);
+		assertThat(point, hasValue("(2, -2)"));
+	}
+
+	@Test
+	public void moveWithArrowKeyShouldChangeOutputOfTranslate1() {
+		add("A = (2, 2)");
+		add("v = Vector((-1, -3))");
+		GeoElement point = add("Translate(A, v)");
+		moveObjectWithArrowKey(point, 1, -1);
+		assertThat(point, hasValue("(2, -2)"));
+	}
+
+	@Test
+	public void moveWithMouseShouldChangeOutputOfTranslate2() {
+		//TODO
+	}
+
+	@Test
+	public void moveWithArrowKeyShouldChangeOutputOfTranslate2() {
+		add("A = (2, 2)");
+		add("v = Vector((-1, -3))");
+		GeoElement list = add("{Translate(A, v)}");
+		moveObjectWithArrowKey(list, 1, -1);
+		assertThat(list, hasValue("{(2, -2)}"));
+	}
+
+	@Test
 	public void selectionReadByScreenReaderOnce() {
 		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
 		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setScreenReader(screenReader);

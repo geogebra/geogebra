@@ -15,6 +15,7 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -6027,8 +6028,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			tmpCoordsL3 = new Coords(4);
 		}
 		view.getCompanion().getCoordsFromView(xRW, yRW, tmpCoordsL3);
-		MoveGeos.moveObjects(translateableGeos, translationVec, tmpCoordsL3,
-				null, view);
+		MoveGeos.moveObjects(translateableGeos, translationVec, tmpCoordsL3, null, view);
 		kernel.movedGeoSet(translateableGeos);
 	}
 
@@ -6724,7 +6724,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		// STANDARD case: get free input points of dependent movedGeoElement
 		if (!handleMovedElementDependentWithChangeableParent()
 				&& movedGeoElement.hasMoveableInputPoints(view)) {
 			// allow only moving of the following object types
@@ -6742,13 +6741,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				} else {
 					translateableGeos.clear();
 				}
-
-				if (movedGeoElement.isGeoList()
-						&& ((GeoList) movedGeoElement).getElementType() == GeoClass.POINT) {
-					translateableGeos.add(movedGeoElement);
-				} else {
-					addMovedGeoElementFreeInputPointsToTranslateableGeos();
-				}
+				translateableGeos.add(movedGeoElement);
 			}
 		}
 
@@ -7266,14 +7259,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.setShowMouseCoords(false);
 		setDragCursor();
-	}
-
-	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
-		ArrayList<GeoElementND> freeInputPoints = movedGeoElement
-				.getFreeInputPoints(view);
-		for (GeoElementND p : freeInputPoints) {
-			translateableGeos.add((GeoElement) p);
-		}
 	}
 
 	private boolean tempRightClick() {
