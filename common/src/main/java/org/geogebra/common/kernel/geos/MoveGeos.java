@@ -201,7 +201,7 @@ public class MoveGeos {
 			moveObjectsUpdateList.add(geo1);
 			movedGeo = true;
 		} else if (isOutputOfTranslate(geo1)) {
-			movedGeo = moveTranslateOutput(geo1, rwTransVec, endPosition, moveObjectsUpdateList);
+			movedGeo = moveTranslateOutput(geo1, rwTransVec, null, moveObjectsUpdateList);
 		} else {
 			ArrayList<GeoElement> tempMoveObjectList = geo1.kernel
 					.getApplication().getSelectionManager()

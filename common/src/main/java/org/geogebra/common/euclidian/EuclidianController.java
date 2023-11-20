@@ -15,7 +15,6 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -6725,27 +6724,33 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (!handleMovedElementDependentWithChangeableParent()
-				&& movedGeoElement.hasMoveableInputPoints(view)) {
-			// allow only moving of the following object types
-			if (movedGeoElement.isGeoLine() || movedGeoElement.isGeoPolygon()
-					|| movedGeoElement.isGeoCurveCartesian()
-					|| (movedGeoElement instanceof GeoPolyLine)
-					|| (movedGeoElement instanceof GeoPieChart)
-					|| movedGeoElement.isGeoConic()
-					|| movedGeoElement.isGeoImage()
-					|| movedGeoElement.isGeoList()
-					|| movedGeoElement.isGeoVector()
-					|| movedGeoElement instanceof GeoLocusStroke) {
-				if (translateableGeos == null) {
-					translateableGeos = new ArrayList<>();
-				} else {
-					translateableGeos.clear();
-				}
-				translateableGeos.add(movedGeoElement);
+				&& isElementAllowedToMove(movedGeoElement)) {
+			if (translateableGeos == null) {
+				translateableGeos = new ArrayList<>();
+			} else {
+				translateableGeos.clear();
 			}
+			translateableGeos.add(movedGeoElement);
 		}
 
 		handleMovedElementDependentInitMode();
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @return True if the GeoElement is allowed to be moved, false else
+	 */
+	private boolean isElementAllowedToMove(GeoElement geo) {
+		return geo.isGeoLine()
+				|| geo.isGeoPolygon()
+				|| geo.isGeoCurveCartesian()
+				|| geo instanceof GeoPolyLine
+				|| geo instanceof GeoPieChart
+				|| geo.isGeoConic()
+				|| geo.isGeoImage()
+				|| geo.isGeoList()
+				|| geo.isGeoVector()
+				|| geo instanceof GeoLocusStroke;
 	}
 
 	private GeoElementND getTranslationVector(GeoPointND... pts) {

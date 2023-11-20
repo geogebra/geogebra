@@ -46,7 +46,7 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangeVector() {
+	public void moveWithMouseShouldChangeVector1() {
 		add("v = Vector((1,-1))");
 		dragStart(50, 50);
 		dragEnd(100, 150);
@@ -54,10 +54,25 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeVector() {
+	public void moveWithArrowKeyShouldChangeVector1() {
 		GeoElement geo = add("v = Vector((1,-1))");
 		moveObjectWithArrowKey(geo, 1, -2);
 		checkContent("v = (2, -3)");
+	}
+
+	@Test
+	public void moveWithMouseShouldChangeVector2() {
+		add("list = {Vector((1,-1))}");
+		dragStart(50, 50);
+		dragEnd(100, 150);
+		checkContent("list = {(2, -3)}");
+	}
+
+	@Test
+	public void moveWithArrowKeyShouldChangeVector2() {
+		GeoElement list = add("list = {Vector((1,-1))}");
+		moveObjectWithArrowKey(list, 1, -2);
+		checkContent("list = {(2, -3)}");
 	}
 
 	@Test
