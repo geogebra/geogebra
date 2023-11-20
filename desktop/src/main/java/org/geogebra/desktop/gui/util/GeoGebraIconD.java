@@ -92,7 +92,7 @@ public class GeoGebraIconD {
 		try {
 			JSVGIcon icon = new JSVGIcon(url);
 			icon.setAntiAlias(true);
-			icon.setAutoSize(JSVGIcon.AutoSize.STRETCH);
+			icon.setAutoSize(JSVGAutoSize.STRETCH);
 			icon.setPreferredSize(new Dimension(32, 32));
 
 			BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth() + 5,
