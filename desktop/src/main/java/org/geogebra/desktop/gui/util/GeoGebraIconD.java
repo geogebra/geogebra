@@ -95,8 +95,8 @@ public class GeoGebraIconD {
 			icon.setAutoSize(JSVGIcon.AutoSize.STRETCH);
 			icon.setPreferredSize(new Dimension(32, 32));
 
-			BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth(),
-					icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+			BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth() + 5,
+					icon.getIconHeight() + 5, BufferedImage.TYPE_INT_ARGB);
 			icon.paintIcon(null, bufferedImage.createGraphics(), 0, 0);
 			return new ImageIcon(bufferedImage);
 		} catch (Exception e) {
