@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.util;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,6 +11,7 @@ import java.beans.PropertyChangeSupport;
 import java.net.URL;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -20,7 +20,7 @@ public final class JSVGIcon implements Icon {
 
 
 	public static final String PROP_AUTOSIZE = "PROP_AUTOSIZE";
-	private final JSvgImage image;
+	private final JSVGImage image;
 	private Object oldAliasHint;
 	private Object oldInterpolationHint;
 
@@ -75,7 +75,7 @@ public final class JSVGIcon implements Icon {
 		 * @param url the url from which to fetch the SVG icon
 		 */
 	public JSVGIcon(String url) {
-		image = JSvgImage.fromUrl(url);
+		image = JSVGImage.fromUrl(url);
 	}
 
 	@Override
@@ -102,12 +102,15 @@ public final class JSVGIcon implements Icon {
 
 	@Override
 	public void paintIcon(Component comp, Graphics gg, int x, int y) {
-		Graphics2D g = (Graphics2D) gg.create();
-		paintIcon(g, x, y);
-		g.dispose();
+//		Graphics2D g = (Graphics2D) gg.create();
+		paintIcon((Graphics2D) gg, x, y);
+		gg.dispose();
 	}
 
 	private void paintIcon(Graphics2D g, int x, int y) {
+		image.paint(g, x, y, 1,1);
+	}
+	private void paintIcon_(Graphics2D g, int x, int y) {
 		saveRenderingHints(g);
 
 		interpolation.apply(g);
@@ -205,19 +208,10 @@ public final class JSVGIcon implements Icon {
 
 	}
 
-	public  static void main(String args[]) throws Exception
-	{
+	public  static void main(String args[]) throws Exception {
 		GuiResourcesD res = GuiResourcesD.FILLING_SETTINGS;
-		URL url = GeoGebraIconD.class.getResource(res.getFilename());
-		JSVGIcon image =
-				new JSVGIcon(url);
-		image.autoSize = AutoSize.STRETCH;
-		image.antiAlias = true;
-		Dimension dimension = new Dimension(256, 256);
-		image.setPreferredSize(dimension);
+		ImageIcon image = GeoGebraIconD.createFileImageIcon(res);
 		JLabel label = new JLabel(image);
-		label.setPreferredSize(dimension);
-		label.setBackground(Color.BLUE);
 		javax.swing.JOptionPane.showMessageDialog(null,
 				label);
 	}
