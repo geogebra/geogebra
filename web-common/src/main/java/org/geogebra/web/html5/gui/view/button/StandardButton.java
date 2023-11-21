@@ -81,13 +81,13 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
-	 * constructor for MyCanvasButton like colored button,
+	 * constructor for IconButton like colored button,
 	 * context menu buttons and dyn stylebar buttons
 	 * @param width - width
 	 */
 	public StandardButton(int width) {
 		this();
-		setStyleName("MyCanvasButton");
+		setStyleName("IconButton");
 		this.width = width;
 		this.height = -1;
 		colorLbl = new Label();

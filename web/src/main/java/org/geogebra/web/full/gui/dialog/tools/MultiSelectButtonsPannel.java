@@ -29,7 +29,7 @@ class MultiSelectButtonsPannel extends FlowPanel {
 			FastClickHandler clickHandler) {
 		StandardButton btn = new StandardButton(img, null, 24);
 		btn.addFastClickHandler(clickHandler);
-		btn.addStyleName("MyCanvasButton");
+		btn.addStyleName("IconButton");
 		add(btn);
 	}
 }

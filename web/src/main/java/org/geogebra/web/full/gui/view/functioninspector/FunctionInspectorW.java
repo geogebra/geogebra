@@ -224,7 +224,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void buildHelpPanel() {
 		btnHelp = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
 				null, 24);
-		btnHelp.addStyleName("MyCanvasButton");
+		btnHelp.addStyleName("IconButton");
 		btnHelp.addStyleName("fiButton");
 		btnHelp.addFastClickHandler(
 				source -> app.getGuiManager().openHelp("Function_Inspector_Tool"));
@@ -308,7 +308,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	private void createBtnRemoveColumn() {
 		btnRemoveColumn = new StandardButton(MaterialDesignResources.INSTANCE.clear(), null, 24);
-		btnRemoveColumn.addStyleName("MyCanvasButton");
+		btnRemoveColumn.addStyleName("IconButton");
 		btnRemoveColumn.addFastClickHandler(event -> removeColumn());
 	}
 

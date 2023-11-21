@@ -83,7 +83,7 @@ public class AlgebraInputW extends FlowPanel
 		}
 
 		initButton();
-		btnHelpToggle.removeStyleName("MyToggleButton");
+		btnHelpToggle.removeStyleName("ToggleButton");
 		btnHelpToggle.addStyleName("inputHelp-toggleButton");
 
 		btnHelpToggle.addFastClickHandler(event ->

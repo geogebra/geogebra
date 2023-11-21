@@ -29,8 +29,8 @@ public class ContextMenuPopup extends StandardButton
 		this.app = app;
 		this.popup = popup;
 		initPopup();
-		addStyleName("MyCanvasButton");
-		addStyleName("MyCanvasButton-borderless");
+		addStyleName("IconButton");
+		addStyleName("IconButton-borderless");
 		app.addWindowResizeListener(this);
 	}
 

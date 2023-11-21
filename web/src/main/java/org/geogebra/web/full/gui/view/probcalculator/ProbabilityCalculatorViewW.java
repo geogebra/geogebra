@@ -141,7 +141,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				: GuiResources.INSTANCE.normal_overlay());
 		btnNormalOverlay.addStyleName("probCalcStylbarBtn");
 		if (app.getConfig().hasDistributionView()) {
-			btnNormalOverlay.removeStyleName("MyToggleButton");
+			btnNormalOverlay.removeStyleName("ToggleButton");
 			btnNormalOverlay.addStyleName("suite");
 		}
 		btnNormalOverlay.addFastClickHandler(event -> {
