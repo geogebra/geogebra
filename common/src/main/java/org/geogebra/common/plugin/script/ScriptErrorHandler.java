@@ -67,8 +67,7 @@ public class ScriptErrorHandler implements ErrorHandler {
 				(line + 1)
 						+ "",
 				evt.target.getLabel(StringTemplate.defaultTemplate));
-		app.getDefaultErrorHandler().showCommandError(command, message);
-		app.showErrorSnackbar(errorMessage);
+		app.getDefaultErrorHandler().showCommandError(command, errorMessage);
 
 	}
 

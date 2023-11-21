@@ -1690,10 +1690,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		getErrorHandler().showCommandError(command, message);
 	}
 
-	public void showErrorSnackbar(String msg) {
-		// overridden in other classes
-	}
-
 	/**
 	 * Show localized message for an error.
 	 *
