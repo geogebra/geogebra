@@ -673,22 +673,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					continue;
 				}
 			} catch (Exception e) {
-				// nothing happens
+				continue; // not a translatable command => skip
 			}
-			try {
-				String local = getLocalization().getCommand(cmd);
-				putInTranslateCommandTable(Commands.valueOf(cmd), local);
-				if (local != null) {
-					commandDictCAS.addEntry(local);
-					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
-				} else {
-					commandDictCAS.addEntry(cmd);
-					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
-				}
-			} catch (Exception mre) {
-				commandDictCAS.addEntry(cmd);
-				subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
-			}
+			String local = getLocalization().getCommand(cmd);
+			putInTranslateCommandTable(Commands.valueOf(cmd), local);
+			commandDictCAS.addEntry(local);
+			subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
 		}
 	}
 
@@ -854,25 +844,31 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	}
 
-	private void putInTranslateCommandTable(Commands comm, String local) {
+	private boolean putInTranslateCommandTable(Commands comm, String local) {
 		String internal = comm.name();
 		// Check that we don't overwrite local with English
 		HashMap<String, String> translateCommandTable = getLocalization()
 				.getTranslateCommandTable();
+		int added = 0;
+		String lowerCaseUS = StringUtil.toLowerCaseUS(internal);
 		if (!translateCommandTable
-				.containsKey(StringUtil.toLowerCaseUS(internal))) {
-			translateCommandTable.put(StringUtil.toLowerCaseUS(internal),
+				.containsKey(lowerCaseUS)) {
+			translateCommandTable.put(lowerCaseUS,
 					Commands.englishToInternal(comm).name());
+			added++;
 		}
 		if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
-			return;
+			return added > 0;
 		}
 
 		if (local != null) {
-			translateCommandTable.put(StringUtil.toLowerCaseUS(local),
+			String old = translateCommandTable.put(StringUtil.toLowerCaseUS(local),
 					Commands.englishToInternal(comm).name());
+			if (old == null) {
+				added++;
+			}
 		}
-
+		return added > 0;
 	}
 
 	/**

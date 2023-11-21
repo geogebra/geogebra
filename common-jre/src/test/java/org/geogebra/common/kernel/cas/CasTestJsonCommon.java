@@ -122,11 +122,9 @@ public abstract class CasTestJsonCommon {
 		for (String key : Ggb2giac.getMap(app).keySet()) {
 			if (testcases != null && testcases.get(key) == null
 					&& testcases.get(key.substring(0, key.indexOf("."))) == null
-					&& forCAS(key) && !"ApproximateSolution.3".equals(key)
-					&& !"AssumeInteger.2".equals(key)
+					&& forCAS(key)
 					&& !"Binomial.2".equals(key)
-					&& !"CorrectSolution.3".equals(key)
-					&& !"Eliminate.2".equals(key) && !"ExpandOnly.1".equals(key)
+					&& !"Eliminate.2".equals(key)
 					&& !"ExpSimplify.1".equals(key)
 					&& !"GroebnerDegRevLex.1".equals(key)
 					&& !"GroebnerDegRevLex.2".equals(key)
@@ -136,11 +134,9 @@ public abstract class CasTestJsonCommon {
 					&& !"GroebnerLexDeg.2".equals(key)
 					&& !"InverseBinomial.3".equals(key)
 					&& !"Radius.1".equals(key) && !"Random.2".equals(key)
-					&& !"Regroup.1".equals(key)
 					&& !"SolveODEPoint.2".equals(key)
 					&& !"SolveQuartic.1".equals(key)
-					&& !"TurningPoint.1".equals(key)
-					&& !"UnitOrthogonalVector.1".equals(key)) {
+					&& !"TurningPoint.1".equals(key)) {
 				missing = key;
 			}
 		}
