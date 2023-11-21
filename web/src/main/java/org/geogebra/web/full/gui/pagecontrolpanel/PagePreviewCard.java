@@ -284,4 +284,14 @@ public class PagePreviewCard extends FlowPanel
 	public String getID() {
 		return file.getID();
 	}
+
+	/**
+	 * Replace file with a new one
+	 * @param pageId id of the new file
+	 */
+	public void replaceId(String pageId) {
+		if (!file.getID().equals(pageId)) {
+			file = file.duplicate(pageId);
+		}
+	}
 }
