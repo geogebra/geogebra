@@ -65,13 +65,12 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * True if this is the main toolbar which also contains the undo buttons.
 	 */
-	private boolean isMain;
+	private final boolean isMain;
 
 	/**
 	 * Help panel.
 	 */
 	private JPanel toolbarHelpPanel;
-
 
 	/**
 	 * Label in the help panel showing the current mode name.
@@ -124,7 +123,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		this.isMain = isMain;
 
 		// add general toolbar
-		toolbars = new ArrayList<ToolbarD>(1);
+		toolbars = new ArrayList<>(1);
 
 		if (isMain) {
 			addToolbar(new ToolbarD(app));
@@ -202,12 +201,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	}
 
-	boolean showHelpBar = false;
-
-	JLabel lblTest = new JLabel();
-
-	private JPanel gridButtonPanel;
-
 	private JPanel buildToolbarHelpPanel() {
 		// mode label
 		modeNameLabel = new JLabel();
@@ -227,12 +220,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		if (isMain) {
 			JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-			if (orientation == SwingConstants.EAST
-					|| orientation == SwingConstants.WEST) {
-				// p2.add(undoPanel);
-			}
 			p.add(p2, loc.borderEast());
-
 		}
 
 		toolbarHelpPanel.add(Box.createVerticalGlue());
@@ -312,7 +300,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setToolTipText(loc.getMenuTooltip("Help"));
 		btnHelp.addActionListener(arg0 -> new HelpDialog(app).openToolHelp());
 
-		gridButtonPanel = new JPanel(new BorderLayout());
+		JPanel gridButtonPanel = new JPanel(new BorderLayout());
 
 		if (orientation == SwingConstants.NORTH
 				|| orientation == SwingConstants.SOUTH) {

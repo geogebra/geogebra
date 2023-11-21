@@ -143,6 +143,14 @@
 		}
 	}
 
+	.marblePanel.error :hover{
+		cursor: default;
+
+		img {
+			opacity: .54;
+		}
+	}
+
 	.marble {
 		height: 18px;
 		width: 18px;

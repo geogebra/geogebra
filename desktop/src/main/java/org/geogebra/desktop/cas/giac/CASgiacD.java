@@ -12,6 +12,8 @@ import org.geogebra.desktop.main.AppD;
  */
 public class CASgiacD extends CASgiacJre {
 
+	private static boolean giacLoaded = false;
+
 	/**
 	 * @param casParser
 	 *            casParser
@@ -19,8 +21,6 @@ public class CASgiacD extends CASgiacJre {
 	public CASgiacD(CASparser casParser) {
 		super(casParser);
 	}
-
-	private static boolean giacLoaded = false;
 
 	static {
 		try {

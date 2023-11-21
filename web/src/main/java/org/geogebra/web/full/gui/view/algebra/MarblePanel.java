@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -117,7 +116,7 @@ public class MarblePanel extends FlowPanel
 
 	private void initHelpToggle() {
 		if (btnWarning == null) {
-			btnWarning = new StandardButton(GuiResourcesSimple.INSTANCE.icon_dialog_warning(), 24);
+			btnWarning = new StandardButton(MaterialDesignResources.INSTANCE.wrong_input(), 24);
 			// when clicked, this steals focus
 			// => we need to push focus to parent item
 			Dom.addEventListener(btnWarning.getElement(), "mouseover", event -> {

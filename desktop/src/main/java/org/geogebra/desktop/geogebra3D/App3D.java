@@ -63,6 +63,12 @@ public class App3D extends AppD {
 	private EuclidianView3D euclidianView3D;
 	private EuclidianController3D euclidianController3D;
 
+	private EuclidianCursor oldCursorMode;
+
+	private boolean useShaders;
+
+	private boolean isStereo3D;
+
 	/**
 	 * @param args arguments
 	 * @param frame frame
@@ -275,8 +281,6 @@ public class App3D extends AppD {
 		return true;
 	}
 
-	private EuclidianCursor oldCursorMode;
-
 	@Override
 	protected void handleShiftEvent(boolean isShiftDown) {
 		if (!this.isEuclidianView3Dinited()) {
@@ -423,10 +427,6 @@ public class App3D extends AppD {
 		}
 
 	}
-
-	private boolean useShaders;
-
-	private boolean isStereo3D;
 
 	public boolean isStereo3D() {
 		return isStereo3D;
