@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.geogebra.common.cas.view.CASInputHandler;
@@ -41,12 +40,12 @@ import org.geogebra.desktop.util.CASDropTargetListener;
  */
 public class CASViewD extends CASView implements Gridable, SetOrientation {
 
-	private JComponent component;
+	private final JComponent component;
 
 	private CASTableD consoleTable;
 
 	private CASSubDialogD subDialog;
-	private ListSelectionModel listSelModel;
+	private final ListSelectionModel listSelModel;
 
 	final private AppD app;
 	final private RowHeaderD rowHeader;

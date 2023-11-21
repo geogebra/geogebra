@@ -21,7 +21,6 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.print.Book;
@@ -194,8 +193,8 @@ public class PrintPreviewD extends JDialog {
 								Cursor.DEFAULT_CURSOR));
 						setVisible(false);
 					} catch (PrinterException ex) {
-						ex.printStackTrace();
-						Log.debug("Printing error: " + ex.toString());
+						Log.debug("Printing error: ");
+						Log.debug(ex);
 					}
 				}
 			};
@@ -482,7 +481,7 @@ public class PrintPreviewD extends JDialog {
 								.booleanValue());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -652,7 +651,7 @@ public class PrintPreviewD extends JDialog {
 			return m_target.get(targetIndex).print(tempGraphics, pageFormat,
 					pageIndex) == Printable.PAGE_EXISTS;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}

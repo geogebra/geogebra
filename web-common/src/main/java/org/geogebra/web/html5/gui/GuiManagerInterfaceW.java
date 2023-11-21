@@ -62,6 +62,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	BrowseViewI getBrowseView();
 
+	/**
+	 * @return true if Open File View is not null
+	 */
+	boolean isOpenFileViewLoaded();
+
 	void showSciSettingsView();
 
 	void showToolBar(boolean show);

@@ -349,14 +349,21 @@ public class ModeToggleMenuW extends ListItem
 			event.stopPropagation();
 		}
 
+		focusViewAndSetMode(mode, event);
+
+		tbutton.getElement().focus();
+	}
+
+	protected void focusViewAndSetMode(int mode, DomEvent<?> event) {
 		app.getToolTipManager().setBlockToolTip(false);
 		// if we click the toolbar button, only interpret it as real click if
 		// there is only one tool in this menu
+		if (app.getActiveEuclidianView() != null) {
+			app.getActiveEuclidianView().requestFocus();
+		}
 		app.setMode(mode, event.getSource() == tbutton && menu.size() > 1
 				? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
 		app.getToolTipManager().setBlockToolTip(true);
-
-		tbutton.getElement().focus();
 	}
 
 	@Override

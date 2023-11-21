@@ -69,8 +69,7 @@ public class SoundManagerD implements SoundManager {
 			try {
 				midiSound = new MidiSoundD(app);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		return midiSound;
@@ -111,8 +110,7 @@ public class SoundManagerD implements SoundManager {
 			currentSoundType = SOUNDTYPE_MIDI;
 			getMidiSound().playSequenceNote(note, duration, instrument);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -186,7 +184,7 @@ public class SoundManagerD implements SoundManager {
 				getMidiSound().playMidiFile(fileName);
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 		});
@@ -207,7 +205,7 @@ public class SoundManagerD implements SoundManager {
 			currentSoundType = SOUNDTYPE_MIDI;
 			getMidiSound().playSequenceFromJFugueString(noteString, instrument);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -230,7 +228,7 @@ public class SoundManagerD implements SoundManager {
 			currentSoundType = SOUNDTYPE_FUNCTION;
 			getFunctionSound().playFunction(f, min, max, sampleRate, bitDepth);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

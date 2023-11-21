@@ -86,7 +86,7 @@ public class OpenSearch {
 
 	private boolean hasOpenFileViewOnWhiteboard(String query) {
 		return app.isWhiteboardActive()
-				&& guiManager.browseGUIwasLoaded()
+				&& guiManager.isOpenFileViewLoaded()
 				&& StringUtil.emptyTrim(query)
 				&& guiManager.getBrowseView() instanceof OpenFileViewMebis;
 	}
@@ -115,7 +115,7 @@ public class OpenSearch {
 		app.hideMenu();
 		OpenTemporaryFileView openFileView =
 				(OpenTemporaryFileView) guiManager.getBrowseView();
-		if (guiManager.browseGUIwasLoaded()) {
+		if (guiManager.isOpenFileViewLoaded()) {
 			openFileView.loadAllMaterials(0);
 		}
 		showBrowser(openFileView);
