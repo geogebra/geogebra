@@ -3301,6 +3301,8 @@ public class CommandsTest {
 		t("Root(a)", "(NaN, NaN)");
 		t("b:=0/5", "0");
 		t("Root(b)", "(NaN, NaN)");
+		t("Root(x^6 - 2x^5 - 4x^4 + 8x^3)", "(-2, 0)", "(0, 0)", "(2, 0)");
+		t("Root(x^8 - x^4)", "(-1, 0)", "(0, 0)", "(1, 0)");
 	}
 
 	@Test

@@ -106,7 +106,7 @@ public class GgbAPID extends GgbAPIJre {
 			bos.flush();
 			return bos.toByteArray();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}
@@ -144,7 +144,7 @@ public class GgbAPID extends GgbAPIJre {
 		try {
 			openFileUnsafe(strURL);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -287,7 +287,7 @@ public class GgbAPID extends GgbAPIJre {
 
 			return ret;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}

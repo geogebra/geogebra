@@ -160,7 +160,8 @@ public class Browser {
 		return host != null
 				&& (host.contains("geogebra.org")
 					|| host.contains("localhost")
-					|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"));
+					|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"))
+				&& !host.contains("test.geogebra.org") && !host.contains("file://");
 	}
 
 	/**

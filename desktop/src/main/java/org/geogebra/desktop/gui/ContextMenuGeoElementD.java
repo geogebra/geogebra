@@ -16,7 +16,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -693,7 +692,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			});
 		}
 
-		if (((AppD) app).letShowPropertiesDialog()
+		if (app.letShowPropertiesDialog()
 				&& getGeo().hasProperties()) {
 			wrappedPopup.addSeparator();
 

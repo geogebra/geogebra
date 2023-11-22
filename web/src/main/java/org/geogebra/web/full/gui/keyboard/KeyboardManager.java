@@ -119,10 +119,12 @@ public class KeyboardManager
 	 * @return the preferred keyboard width
 	 */
 	public double getKeyboardWidth() {
-		HeaderFileView headerFileView = (HeaderFileView) app.getGuiManager().getBrowseView();
 		double appWidth = app.getWidth();
-		if (headerFileView != null && headerFileView.getPanel().getOffsetWidth() > 0) {
-			appWidth = headerFileView.getPanel().getOffsetWidth();
+		if (app.getGuiManager().isOpenFileViewLoaded()) {
+			HeaderFileView headerFileView = (HeaderFileView) app.getGuiManager().getBrowseView();
+			if (headerFileView != null && headerFileView.getPanel().getOffsetWidth() > 0) {
+				appWidth = headerFileView.getPanel().getOffsetWidth();
+			}
 		}
 
 		return shouldDetach()
