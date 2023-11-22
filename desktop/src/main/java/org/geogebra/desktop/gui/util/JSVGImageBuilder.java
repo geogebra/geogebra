@@ -10,7 +10,6 @@ import static org.geogebra.desktop.gui.util.JSVGConstants.UNSUPPORTED_SVG;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PipedReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
@@ -36,8 +35,9 @@ import io.sf.carte.echosvg.gvt.GraphicsNode;
 public final class JSVGImageBuilder {
 
 	private static String content;
-	private static int count=0;
-	private static final JSVGImage BLANK = fromContent(BLANK_SVG);
+	private static int loopGuard = 0;
+	private static JSVGImage blankImage = null;
+	private static JSVGImage unsupportedImage = null;
 	private JSVGImageBuilder() {
 		// utility class
 	}
@@ -53,20 +53,15 @@ public final class JSVGImageBuilder {
 		FileInputStream is = new FileInputStream(file);
 		String content = UtilD.loadIntoString(is);
 		is.close();
-		return fromContent(content, file.getName());
+		return fromContent(content);
 	}
 
 	/**
 	 * Create {@link JSVGImage} from SVG string content.
 	 * @param content of the SVG.
-	 * @param name
 	 * @return the new {@link JSVGImage}.
 	 */
 	public static JSVGImage fromContent(String content) {
-		return fromContent(content, "-");
-	}
-
-	public static JSVGImage fromContent(String content, String name) {
 		JSVGImageBuilder.content = content;
 		Reader reader = new StringReader(content);
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
@@ -74,23 +69,38 @@ public final class JSVGImageBuilder {
 		try {
 			doc = f.createSVGDocument(NO_URI, reader);
 		} catch (SAXIOException se) {
-			return fromContent(process(content), "");
+			return fromContent(fixHeader(content));
 		} catch (IOException e) {
-			return BLANK;
+			return blankImage();
 		}
-		return newImage(name, doc);
+		return newImage(doc);
 	}
 
-	private static JSVGImage newImage(String name, SVGDocument doc) {
-		count++;
+	private static JSVGImage blankImage() {
+		if (blankImage == null) {
+			blankImage = fromContent(BLANK_SVG);
+		}
+		return blankImage;
+	}
+
+	private static JSVGImage newImage(SVGDocument doc) {
+		loopGuard++;
 		try {
 			return build(doc);
 		} catch (Exception e) {
-			if (count >  2) {
-				return BLANK;
+			if (loopGuard > 2) {
+				loopGuard = 0;
+				return unsupportedImage();
 			}
-			return fromContent(process(ImageManagerD.fixSVG(content)), "");
+			return fromContent(fixHeader(ImageManagerD.fixSVG(content)));
 		}
+	}
+
+	private static JSVGImage unsupportedImage() {
+		if (unsupportedImage == null) {
+			unsupportedImage = fromContent(UNSUPPORTED_SVG);
+		}
+		return unsupportedImage;
 	}
 
 	private static JSVGImage build(SVGDocument doc) {
@@ -108,7 +118,7 @@ public final class JSVGImageBuilder {
 				rootElement.getHeight().getBaseVal().getValue());
 	}
 
-		private static String process(String content){
+		private static String fixHeader(String content){
 			int beginIndex = content.indexOf("<svg");
 			if (beginIndex == -1) {
 				return BLANK_SVG;
@@ -125,7 +135,7 @@ public final class JSVGImageBuilder {
 			SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
 			try {
 				SVGDocument doc = f.createSVGDocument(url.toString());
-				return newImage(url.getPath(), doc);
+				return newImage(doc);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}

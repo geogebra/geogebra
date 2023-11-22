@@ -54,7 +54,7 @@ public class MyImageD implements MyImageJre {
 	public MyImageD(String svgContent) {
 		sb = new StringBuilder(svgContent.length());
 		sb.append(svgContent);
-		svgImage = JSVGImageBuilder.fromContent(sb.toString(), "");
+		svgImage = JSVGImageBuilder.fromContent(sb.toString());
 	}
 
 	private MyImageD(JSVGImage svgImage) {
