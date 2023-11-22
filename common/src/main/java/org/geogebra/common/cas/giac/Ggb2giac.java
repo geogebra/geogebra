@@ -1967,14 +1967,4 @@ public class Ggb2giac {
 		return "normal(" + string + "(%0))";
 	}
 
-	/** TODO remove whe solver removed*/
-	public static void addSolveCommands() {
-		p("AssumeInteger.2", "[assume(%0,integer),%1][1]");
-		p("Regroup.1", "regroup(%0)");
-		p("ApproximateSolution.3",
-				"abs(simplify(texpand(subst(%0,%2)-subst(%1,%2))))<0.00001");
-		p("CorrectSolution.3",
-				"simplify(texpand(subst(%0,%2)-subst(%1,%2)))==0");
-	}
-
 }

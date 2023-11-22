@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.stepbystep.CASConflictException;
-import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
@@ -123,33 +121,8 @@ public class StepEquation extends StepSolvable {
 	public List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv,
 			SolutionBuilder sb) throws CASException {
 		SolveTracker tracker = new SolveTracker();
-		List<StepSolution> solutions = solve(sv, sb, tracker);
 
-		for (StepNode solution : solutions) {
-			if (solution instanceof StepExpression) {
-				String casCommand;
-				if (tracker.isApproximate() != null && tracker.isApproximate()) {
-					Log.error("approximating");
-					casCommand = "ApproximateSolution(" + LHS + ", " + RHS + ", " + sv + " = "
-							+ solution + ")";
-				} else {
-					casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = "
-							+ solution + ")";
-				}
-
-				String withAssumptions = StepHelper
-						.getAssumptions(add((StepExpression) solution, add(LHS, RHS)), casCommand);
-
-				String result = kernel.evaluateCachedGeoGebraCAS(withAssumptions, null);
-
-				if (!"true".equals(result)) {
-					List<StepNode> CASSolutions = StepHelper.getCASSolutions(this, sv, kernel);
-					throw new CASConflictException(sb.getSteps(), solutions, CASSolutions);
-				}
-			}
-		}
-
-		return solutions;
+		return solve(sv, sb, tracker);
 	}
 
 	@Override

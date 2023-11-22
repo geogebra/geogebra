@@ -80,6 +80,13 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 						.count());
 	}
 
+	@Test
+	public void shouldShowCasSpecific() {
+		AutocompleteProvider casProvider = new AutocompleteProvider(getApp(), true);
+		assertEquals(3, casProvider.getCompletions("Groebner").count());
+		assertEquals(0, casProvider.getCompletions("ExpSimplify").count());
+	}
+
 	private Stream<AutocompleteProvider.Completion> getExactSyntaxMatchOf(AppConfig config,
 			String name) {
 		App app = AppCommonFactory.create(config);

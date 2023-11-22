@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
 import org.geogebra.common.kernel.stepbystep.solution.TableElement;
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
-import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryInteger;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
@@ -402,20 +401,6 @@ public class StepHelper {
 		}
 
 		return x.getValueAt(variable, evaluateAt.getValue()) < 0;
-	}
-
-	public static String getAssumptions(StepExpression sn, String s) {
-		if (sn instanceof StepArbitraryInteger) {
-			return "AssumeInteger(" + sn.toString() + ", " + s + ")";
-		} else if (sn instanceof StepOperation) {
-			String temp = s;
-			for (StepExpression operand : (StepOperation) sn) {
-				temp = getAssumptions(operand, temp);
-			}
-			return temp;
-		}
-
-		return s;
 	}
 
 	public static double getCoefficientValue(StepExpression sn, StepExpression s) {
