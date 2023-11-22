@@ -53,7 +53,7 @@ public class MyImageD implements MyImageJre {
 	public MyImageD(String svgContent) {
 		sb = new StringBuilder(svgContent.length());
 		sb.append(svgContent);
-		svgImage = JSVGImage.fromContent(sb.toString());
+		svgImage = JSVGImage.fromContent(sb.toString(), "");
 	}
 
 	private MyImageD(JSVGImage svgImage) {
@@ -90,7 +90,7 @@ public class MyImageD implements MyImageJre {
 
 	/**
 	 * Loads internal image as SVG
-	 * @param filename internal path (/org/geogebra/...)
+	 * @param filename internal pah (/org/geogebra/...)
 	 * @return SVG image
 	 */
 	public static MyImageD loadAsSvg(String filename) {

@@ -601,4 +601,8 @@ public class ImageManagerD extends ImageManager {
 			Log.debug(ex);
 		}
 	}
+
+	public static String fixSVG(String content) {
+		return ImageManager.fixSVG(content);
+	}
 }
