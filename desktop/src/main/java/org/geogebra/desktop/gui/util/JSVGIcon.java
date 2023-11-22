@@ -32,7 +32,7 @@ public final class JSVGIcon implements Icon {
 	 * @param url the url from which to fetch the SVG icon
 	 */
 	public JSVGIcon(URL url) {
-		image = JSVGImage.fromUrl(url);
+		image = JSVGImageBuilder.fromUrl(url);
 	}
 
 	@Override

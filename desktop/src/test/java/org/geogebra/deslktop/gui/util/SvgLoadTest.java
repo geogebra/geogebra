@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.desktop.gui.util.JSVGImage;
+import org.geogebra.desktop.gui.util.JSVGImageBuilder;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
@@ -30,6 +31,7 @@ public class SvgLoadTest extends BaseUnitTest {
 			UtilD.loadFileIntoByteArray(E2E_RESOURCES + "svgs.ggb"),
 			false);
 
+
 	@Test
 	public void testLoadSvgs() {
 		app.getGgbApi().setBase64(svgsBase64);
@@ -42,7 +44,7 @@ public class SvgLoadTest extends BaseUnitTest {
 
 	private static void load(String svg) {
 		try {
-			JSVGImage image = JSVGImage.fromFile(new File(E2E_RESOURCES + svg));
+			JSVGImage image = JSVGImageBuilder.fromFile(new File(E2E_RESOURCES + svg));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

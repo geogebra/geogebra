@@ -28,6 +28,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.util.JSVGImage;
+import org.geogebra.desktop.gui.util.JSVGImageBuilder;
 import org.geogebra.desktop.main.AppD;
 
 public class MyImageD implements MyImageJre {
@@ -53,7 +54,7 @@ public class MyImageD implements MyImageJre {
 	public MyImageD(String svgContent) {
 		sb = new StringBuilder(svgContent.length());
 		sb.append(svgContent);
-		svgImage = JSVGImage.fromContent(sb.toString(), "");
+		svgImage = JSVGImageBuilder.fromContent(sb.toString(), "");
 	}
 
 	private MyImageD(JSVGImage svgImage) {
@@ -210,7 +211,7 @@ public class MyImageD implements MyImageJre {
 			throws IOException {
 
 		if (fileName.endsWith(".svg")) {
-			return new MyImageD(JSVGImage.fromFile(file));
+			return new MyImageD(JSVGImageBuilder.fromFile(file));
 		}
 
 		// returns null if the file isn't an image
