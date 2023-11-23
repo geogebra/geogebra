@@ -89,14 +89,14 @@ public class DoubleUtil {
 				|| eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION);
 	}
 
-	/** @return is abs(x) &lt; epsilon ? */
-	final public static boolean isZero(double x) {
-		return (-Kernel.STANDARD_PRECISION < x) && (x < Kernel.STANDARD_PRECISION);
+	/** @return is abs(val) &lt; STANDARD_PRECISION ? */
+	public static boolean isZero(double val) {
+		return (-Kernel.STANDARD_PRECISION < val) && (val < Kernel.STANDARD_PRECISION);
 	}
 
-	/** @return is abs(x) &lt; epsilon ? */
-	final public static boolean isZero(double x, double eps) {
-		return (-eps < x) && (x < eps);
+	/** @return is abs(val) &lt; epsilon ? */
+	public static boolean isZero(double val, double eps) {
+		return (-eps < val) && (val < eps);
 	}
 
 	/**

@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -131,11 +130,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 	@Override
 	public final void compute() {
 		if (g != null) {
-			if (g.isDefined() && !DoubleUtil.isZero(g.y)) {
-				slope.setValue(-g.x / g.y);
-			} else {
-				slope.setUndefined();
-			}
+			slope.setValue(g.getSlope());
 		} else {
 			if (f.isDefined()) {
 				slope.setValue(

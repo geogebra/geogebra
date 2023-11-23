@@ -15,6 +15,7 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -642,6 +644,19 @@ public class Hits extends ArrayList<GeoElement> {
 		return result;
 	}
 
+	final public Hits getHits(Predicate<Object> condition, Hits result, int max) {
+		result.clear();
+		for (GeoElement geo: this) {
+			if (condition.test(geo)) {
+				result.add(geo);
+			}
+			if (result.size() == max) {
+				return result;
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * @param result
 	 *            hits to store result
@@ -1080,5 +1095,19 @@ public class Hits extends ArrayList<GeoElement> {
 	@Override
 	public int hashCode() {
 		return super.hashCode();
+	}
+
+	public void removeParallelLines() {
+		HashSet<Double> distinctLines = new HashSet<>();
+		for (int i = size() - 1; i >= 0; i--) {
+			if (get(i) instanceof GeoLine) {
+				double slope = ((GeoLine) get(i)).getSlope();
+				if (distinctLines.contains(slope)) {
+					remove(i);
+				} else {
+					distinctLines.add(slope);
+				}
+			}
+		}
 	}
 }
