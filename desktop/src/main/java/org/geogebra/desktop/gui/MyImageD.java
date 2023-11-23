@@ -225,22 +225,7 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public MyImage tintedSVG(GColor color, Runnable onLoad) {
-		if (sb == null) {
-			return null;
-		}
 		// TODO
-//		SVGUniverse universe = SVGCache.getSVGUniverse();
-		try {
-			ByteArrayInputStream stream = new ByteArrayInputStream(sb.toString()
-					.getBytes(Charsets.getUtf8()));
-//			URI uri = universe.loadSVG(stream, UUID.randomUUID() + "-tint.svg");
-//			SVGsvg svg = universe.getsvg(uri);
-//			StyleAttribute fill = svg.getRoot().getPresAbsolute("fill");
-//			fill.setStringValue(color.toString());
-			return new MyImageD(sb.toString());
-		} catch (Exception e) {
-			Log.debug(e.getMessage());
-		}
 		return null;
 	}
 

@@ -1,8 +1,5 @@
 package org.geogebra.deslktop.gui.util;
 
-
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -15,7 +12,6 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class SvgLoadTest extends BaseUnitTest {
 
@@ -30,7 +26,6 @@ public class SvgLoadTest extends BaseUnitTest {
 	private static final String svgsBase64 = Base64.encodeToString(
 			UtilD.loadFileIntoByteArray(E2E_RESOURCES + "svgs.ggb"),
 			false);
-
 
 	@Test
 	public void testLoadSvgs() {
@@ -53,6 +48,5 @@ public class SvgLoadTest extends BaseUnitTest {
 	@Test
 	public void testLoad2() {
 		load("2.svg");
-
 	}
 }
