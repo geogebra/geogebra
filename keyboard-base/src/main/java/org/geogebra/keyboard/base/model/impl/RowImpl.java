@@ -8,13 +8,7 @@ import org.geogebra.keyboard.base.model.WeightedButton;
 
 public class RowImpl implements Row {
 
-    private float rowWeightSum;
-
     private List<WeightedButton> buttons = new ArrayList<>();
-
-    RowImpl(float rowWeightSum) {
-        this.rowWeightSum = rowWeightSum;
-    }
 
     public void addButton(WeightedButton button) {
         buttons.add(button);
@@ -22,7 +16,13 @@ public class RowImpl implements Row {
 
     @Override
     public float getRowWeightSum() {
-        return rowWeightSum;
+        float sumOfButtonWeights = 0;
+
+        for (WeightedButton button : buttons) {
+            sumOfButtonWeights += button.getWeight();
+        }
+
+        return sumOfButtonWeights;
     }
 
     @Override
