@@ -150,7 +150,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 			ArrayList<MatchedString> completions = new ArrayList<>();
 			int initialMatches = 0;
 			for (String cmd: treeSet) {
-				int index = cmd.indexOf(currLowerCase);
+				int index = get(cmd).toLowerCase().indexOf(currLowerCase);
 				if (index > -1) {
 					if (index == 0) {
 						completions.add(initialMatches++, new MatchedString(get(cmd), index));
