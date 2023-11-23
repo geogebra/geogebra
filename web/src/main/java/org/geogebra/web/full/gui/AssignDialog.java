@@ -64,6 +64,7 @@ public class AssignDialog extends ComponentDialog {
 					.replace("%0", Global.encodeURIComponent(material.getSharingKey()))
 					.replace("%1", Global.encodeURIComponent(material.getTitle()));
 			DomGlobal.window.open(url);
+			materialProvider.setAssign(false);
 		});
 	}
 }

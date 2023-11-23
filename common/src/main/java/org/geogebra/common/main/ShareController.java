@@ -26,4 +26,8 @@ public interface ShareController {
 	void disconnectMultiuser();
 
 	void assign();
+
+	void setAssign(boolean isAssign);
+
+	boolean isAssign();
 }

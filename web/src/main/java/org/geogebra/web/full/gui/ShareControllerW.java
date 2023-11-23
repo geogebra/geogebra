@@ -63,6 +63,7 @@ public class ShareControllerW implements ShareController {
 	private final AppW app;
 	private Widget anchor = null;
 	private GGBMultiplayer multiplayer;
+	private boolean isAssign = false;
 
 	/**
 	 * Constructor
@@ -204,6 +205,7 @@ public class ShareControllerW implements ShareController {
 	}
 
 	private void showAssignDialog() {
+		isAssign = true;
 		DialogData data = new DialogData("assignDialog.title", "Cancel", null);
 		AssignDialog shareDialogMow = new AssignDialog(getAppW(), data,
 				this);
@@ -374,5 +376,15 @@ public class ShareControllerW implements ShareController {
 				callback.accept(multiplayer);
 			}
 		});
+	}
+
+	@Override
+	public void setAssign(boolean isAssign) {
+		this.isAssign = isAssign;
+	}
+
+	@Override
+	public boolean isAssign() {
+		return isAssign;
 	}
 }
