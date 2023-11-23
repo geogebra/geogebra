@@ -26,6 +26,7 @@ public class AlgoRandomUniformList extends AlgoElement
 	private GeoNumberValue length;
 	// output
 	private GeoList list;
+	private boolean isRandom;
 
 	/**
 	 * @param cons
@@ -38,10 +39,13 @@ public class AlgoRandomUniformList extends AlgoElement
 	 *            upper bound for uniform distribution
 	 * @param length
 	 *            list length
+	 * @param isRandom
+	 * 			  true for CmdRandom
 	 */
 	public AlgoRandomUniformList(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length, boolean isRandom) {
 		super(cons);
+		this.isRandom = isRandom;
 		this.a = a;
 		this.b = b;
 		this.length = length;
@@ -57,7 +61,7 @@ public class AlgoRandomUniformList extends AlgoElement
 
 	@Override
 	public GetCommand getClassName() {
-		return Commands.RandomUniform;
+		return isRandom ? Commands.Random : Commands.RandomUniform;
 	}
 
 	@Override

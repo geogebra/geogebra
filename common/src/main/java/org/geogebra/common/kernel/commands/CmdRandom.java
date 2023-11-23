@@ -65,7 +65,7 @@ public class CmdRandom extends CommandProcessor {
 			} else if (arg[2] instanceof GeoNumberValue) {
 				AlgoRandomUniformList algo = new AlgoRandomUniformList(cons,
 						c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]);
+						(GeoNumberValue) arg[2], true);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else {
