@@ -621,46 +621,24 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return array of GeoElements NOT passing test out of hits
 	 */
 	final public Hits getOtherHits(TestGeo geoclass, Hits result) {
-		return getHits(geoclass, true, result);
+		return getHits(geoclass.negate(), result);
 	}
 
 	/**
-	 * @param geoclass
+	 * Stores all GeoElements that satisfy given condition to result list.
+	 * @param condition
 	 *            test for type
 	 * @param result
 	 *            hits object for result
-	 * @return array of GeoElements passing test out of hits
+	 * @return list of GeoElements passing test out of hits
 	 */
-	final public Hits getHits(TestGeo geoclass, Hits result) {
-		return getHits(geoclass, false, result);
-	}
-
-	/**
-	 * Stores all GeoElements of type geoclass to result list.
-	 * 
-	 * @param geoclass
-	 *            test
-	 * 
-	 * @param other
-	 *            == true: returns array of GeoElements NOT passing test out of
-	 *            hits.
-	 * @param result
-	 *            Hits in which the result should be stored
-	 * @return result
-	 */
-	final protected Hits getHits(TestGeo geoclass, boolean other, Hits result) {
+	final public Hits getHits(Predicate<Object> condition, Hits result) {
 		result.clear();
-		for (int i = 0; i < size(); ++i) {
-			boolean success = geoclass.check(get(i));
-			if (other) {
-				success = !success;
-			}
-			if (success) {
-				result.add(get(i));
+		for (GeoElement geo: this) {
+			if (condition.test(geo)) {
+				result.add(geo);
 			}
 		}
-		// return result.size() == 0 ? null : result;
-
 		return result;
 	}
 
@@ -772,26 +750,26 @@ public class Hits extends ArrayList<GeoElement> {
 		// point in there?
 		Hits topHitsList = new Hits();
 		if (containsComboBox(topHitsList)) {
-			getHits(TestGeo.GEOLIST_AS_COMBO, false, topHitsList);
+			getHits(TestGeo.GEOLIST_AS_COMBO, topHitsList);
 			return topHitsList;
 		}
 		if (containsGeoPoint(topHitsList)) {
 			// Hits topHitsList = new Hits();
-			getHits(TestGeo.GEOPOINTND, false, topHitsList);
+			getHits(TestGeo.GEOPOINTND, topHitsList);
 			return topHitsList;
 		}
 		if (containsGeoTextfield(topHitsList)) {
-			getHits(TestGeo.GEOTEXTFIELD, false, topHitsList);
+			getHits(TestGeo.GEOTEXTFIELD, topHitsList);
 			return topHitsList;
 		}
 		// text in there?
 		if (containsGeoText(topHitsList)) {
-			getHits(TestGeo.GEOTEXT, false, topHitsList);
+			getHits(TestGeo.GEOTEXT, topHitsList);
 			return topHitsList;
 		}
 
 		if (containsGeoNumeric()) {
-			getHits(TestGeo.GEONUMERIC, false, topHitsList);
+			getHits(TestGeo.GEONUMERIC, topHitsList);
 			return topHitsList;
 		}
 		return cloneHits();
