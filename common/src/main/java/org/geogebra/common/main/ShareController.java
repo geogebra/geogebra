@@ -27,5 +27,7 @@ public interface ShareController {
 
 	void assign();
 
+	void setAssign(boolean isAssign);
+
 	boolean isAssign();
 }

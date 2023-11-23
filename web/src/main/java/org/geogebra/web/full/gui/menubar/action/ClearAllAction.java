@@ -34,6 +34,7 @@ public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOper
 
 	@Override
 	public void callback(Boolean obj) {
+		app.getShareController().setAssign(false);
 		app.tryLoadTemplatesOnFileNew();
 	}
 }

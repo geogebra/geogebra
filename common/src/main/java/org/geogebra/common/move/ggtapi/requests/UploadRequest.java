@@ -207,7 +207,7 @@ public class UploadRequest implements Request {
 				settings.put("-reseticon", false);
 				settings.put("-toolbar", isNotesOrAssign);
 				settings.put("-menubar", false);
-				settings.put("-inputbar", false);
+				settings.put("-inputbar", client.isAssign());
 				settings.put("-stylebar", isNotesOrAssign);
 				settings.put("-rightclick", isNotesOrAssign);
 				settings.put("-zoombuttons", isNotesOrAssign);

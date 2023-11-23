@@ -81,6 +81,7 @@ public class MaterialCardController implements OpenFileListener {
 	 * Load online file.
 	 */
 	public void loadOnlineFile() {
+		app.getShareController().setAssign(false);
 		if (!StringUtil.empty(getMaterial().getFileName())) {
 			app.resetUrl();
 			load();

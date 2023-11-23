@@ -378,6 +378,7 @@ public class ShareControllerW implements ShareController {
 		});
 	}
 
+	@Override
 	public void setAssign(boolean isAssign) {
 		this.isAssign = isAssign;
 	}
