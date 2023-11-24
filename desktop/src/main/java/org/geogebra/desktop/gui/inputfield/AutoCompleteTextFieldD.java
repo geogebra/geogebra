@@ -878,6 +878,14 @@ public class AutoCompleteTextFieldD extends MathTextField
 		}
 	}
 
+	@Override
+	public void insertString(String text) {
+		super.insertString(text);
+		// make sure AutoComplete works
+		updateCurrentWord(false);
+		startAutoCompletion();
+	}
+
 	/**
 	 * @return previous input from input textfield's history
 	 */
