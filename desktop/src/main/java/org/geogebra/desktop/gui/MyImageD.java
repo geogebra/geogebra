@@ -176,7 +176,7 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public String getSVG() {
-		return sb.toString();
+		return svgImage.getContent();
 	}
 
 	@Override

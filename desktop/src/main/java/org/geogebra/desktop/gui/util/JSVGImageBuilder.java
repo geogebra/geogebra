@@ -18,16 +18,9 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.svg.SVGDocument;
-import org.w3c.dom.svg.SVGSVGElement;
 
 import io.sf.carte.echosvg.anim.dom.SAXSVGDocumentFactory;
-import io.sf.carte.echosvg.bridge.BridgeContext;
-import io.sf.carte.echosvg.bridge.DocumentLoader;
-import io.sf.carte.echosvg.bridge.GVTBuilder;
-import io.sf.carte.echosvg.bridge.UserAgent;
-import io.sf.carte.echosvg.bridge.UserAgentAdapter;
 import io.sf.carte.echosvg.dom.util.SAXIOException;
-import io.sf.carte.echosvg.gvt.GraphicsNode;
 
 /**
  * Class to load and paint SVGs.
@@ -35,17 +28,15 @@ import io.sf.carte.echosvg.gvt.GraphicsNode;
  */
 public final class JSVGImageBuilder {
 
-	private static String content;
-	private static int loopGuard = 0;
 	private static JSVGImage blankImage = null;
 	private static JSVGImage unsupportedImage = null;
+
 	private JSVGImageBuilder() {
 		// utility class
 	}
 
 	/**
 	 * Create {@link JSVGImage} from file
-	 *
 	 * @param file of the svg.
 	 * @return the new {@link JSVGImage}.
 	 * @throws IOException if there is some I/O issue.
@@ -63,18 +54,23 @@ public final class JSVGImageBuilder {
 	 * @return the new {@link JSVGImage}.
 	 */
 	public static JSVGImage fromContent(String content) {
-		JSVGImageBuilder.content = content;
-		Reader reader = new StringReader(content);
+		return fromContent(new JSVGModel(content));
+	}
+
+
+	private static JSVGImage fromContent(JSVGModel model) {
+		Reader reader = new StringReader(model.content);
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
-		SVGDocument doc;
 		try {
-			doc = f.createSVGDocument(NO_URI, reader);
+			model.doc = f.createSVGDocument(NO_URI, reader);
 		} catch (SAXIOException se) {
-			return fromContent(fixHeader(content));
+			model.content = fixHeader(model.content);
+			return fromContent(model);
 		} catch (IOException e) {
 			return blankImage();
 		}
-		return newImage(doc);
+
+		return newImage(model);
 	}
 
 	private static JSVGImage blankImage() {
@@ -84,16 +80,17 @@ public final class JSVGImageBuilder {
 		return blankImage;
 	}
 
-	private static JSVGImage newImage(SVGDocument doc) {
-		loopGuard++;
+	private static JSVGImage newImage(JSVGModel model) {
+		model.nextTry();
 		try {
-			return build(doc);
+			model.build();
+			return new JSVGImage(model);
 		} catch (Exception e) {
-			if (loopGuard > 2) {
-				loopGuard = 0;
+			if (model.isMaxTriesReached()) {
 				return unsupportedImage();
 			}
-			return fromContent(fixHeader(ImageManagerD.fixSVG(content)));
+			model.content = fixHeader(ImageManagerD.fixSVG(model.content));
+			return fromContent(model);
 		}
 	}
 
@@ -104,45 +101,32 @@ public final class JSVGImageBuilder {
 		return unsupportedImage;
 	}
 
-	private static JSVGImage build(SVGDocument doc) {
-		UserAgent userAgent = new UserAgentAdapter();
-
-		DocumentLoader loader = new SVGDocumentLoaderNoError(userAgent);
-
-		BridgeContext ctx = new BridgeContext(userAgent, loader);
-		ctx.setDynamicState(BridgeContext.DYNAMIC);
-		GVTBuilder builder = new GVTBuilder();
-		GraphicsNode node = builder.build(ctx, doc);
-		SVGSVGElement rootElement = doc.getRootElement();
-		return new JSVGImage(doc, node, rootElement.getWidth().getBaseVal().getValue(),
-				rootElement.getHeight().getBaseVal().getValue());
+	private static String fixHeader(String content) {
+		int beginIndex = content.indexOf("<svg");
+		if (beginIndex == -1) {
+			return BLANK_SVG;
+		}
+		String body = content.substring(beginIndex);
+		return HEADER + body;
 	}
 
-		private static String fixHeader(String content){
-			int beginIndex = content.indexOf("<svg");
-			if (beginIndex == -1) {
-				return BLANK_SVG;
-			}
-			String body = content.substring(beginIndex);
-			return HEADER + body;
+	/**
+	 * Method to fetch the SVG image from an url
+	 * @param url the url from which to fetch the SVG image
+	 */
+	public static JSVGImage fromUrl(URL url) {
+		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
+		try {
+			SVGDocument doc = f.createSVGDocument(url.toString());
+			return newImage(new JSVGModel(doc));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
-
-		/**
-		 * Method to fetch the SVG image from an url
-		 * @param url the url from which to fetch the SVG image
-		 */
-		public static JSVGImage fromUrl(URL url){
-			SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
-			try {
-				SVGDocument doc = f.createSVGDocument(url.toString());
-				return newImage(doc);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
+	}
 
 	public static JSVGImage tint(SVGDocument doc, GColor color) {
-			doc.getDocumentElement().setAttribute("fill", color.toString());
-			return build(doc);
+		doc.getDocumentElement().setAttribute("fill", color.toString());
+		((JSVGModel) doc).build();
+		return new JSVGImage((JSVGModel) doc);
 	}
 }
