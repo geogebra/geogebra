@@ -47,7 +47,7 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-		RowImpl row = mathKeyboard.nextRow(10.0f);
+		RowImpl row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, INFINITY);
 		addInputButton(row, buttonFactory, String.valueOf(QUESTIONED_EQUAL_TO));
 		addInputButton(row, buttonFactory, NOT_EQUAL_TO);
@@ -59,7 +59,7 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, PERPENDICULAR);
 		addInputButton(row, buttonFactory, CIRCLED_TIMES);
 
-		row = mathKeyboard.nextRow(10.0f);
+		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, ELEMENT_OF);
 		addInputButton(row, buttonFactory, SUBSET_OF);
 		addInputButton(row, buttonFactory, SUBSET_OF_OR_EQUAL_TO);
@@ -71,7 +71,7 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, HASHTAG);
 		addInputButton(row, buttonFactory, AT);
 
-		row = mathKeyboard.nextRow(10.0f);
+		row = mathKeyboard.nextRow();
 		addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR,
 				LEFT_FLOOR + "", 1.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.CEIL,
@@ -93,7 +93,7 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
 				Action.BACKSPACE_DELETE);
 
-		row = mathKeyboard.nextRow(10.0f);
+		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
 		addInputButton(row, buttonFactory, RIGHT_SQUARE_BRACKET);
 		addInputButton(row, buttonFactory, QUOTATION_MARK);

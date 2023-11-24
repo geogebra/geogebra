@@ -32,7 +32,7 @@ public class SolverDefaultKeyboardFactory implements KeyboardModelFactory {
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-		RowImpl row = mathKeyboard.nextRow(9.2f);
+		RowImpl row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, charProvider.xForButton(), charProvider.xAsInput());
 		addInputButton(row, buttonFactory, charProvider.yForButton(), charProvider.yAsInput());
 		addInputButton(row, buttonFactory, charProvider.zForButton(), charProvider.zAsInput());
@@ -40,7 +40,7 @@ public class SolverDefaultKeyboardFactory implements KeyboardModelFactory {
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		addFirstRow(row, buttonFactory);
 
-		row = mathKeyboard.nextRow(9.2f);
+		row = mathKeyboard.nextRow();
 		addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
 		addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
 		addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
@@ -49,7 +49,7 @@ public class SolverDefaultKeyboardFactory implements KeyboardModelFactory {
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		addSecondRow(row, buttonFactory);
 
-		row = mathKeyboard.nextRow(9.2f);
+		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, "<");
 		addInputButton(row, buttonFactory, ">");
 		addInputButton(row, buttonFactory, LEQ);
@@ -57,7 +57,7 @@ public class SolverDefaultKeyboardFactory implements KeyboardModelFactory {
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		addThirdRow(row, buttonFactory);
 
-		row = mathKeyboard.nextRow(9.2f);
+		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, "(");
 		addInputButton(row, buttonFactory, ")");
 		addConstantInputButton(row, buttonFactory, Resource.FRACTION, "/");

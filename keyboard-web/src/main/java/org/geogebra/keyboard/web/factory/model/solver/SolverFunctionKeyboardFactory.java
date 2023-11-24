@@ -28,7 +28,7 @@ public class SolverFunctionKeyboardFactory implements KeyboardModelFactory {
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		KeyboardModelImpl functionKeyboard = new KeyboardModelImpl();
 		float width = 5.0f / 3;
-		RowImpl row = functionKeyboard.nextRow(9.2f);
+		RowImpl row = functionKeyboard.nextRow();
 		addTranslateInputCommandButton(row, buttonFactory, "sin", "sin", width);
 		addTranslateInputCommandButton(row, buttonFactory, "cos", "cos", width);
 		addTranslateInputCommandButton(row, buttonFactory, "tan", "tan", width);
@@ -38,7 +38,7 @@ public class SolverFunctionKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, CURLY_PI, PI);
 		addInputButton(row, buttonFactory, DEGREE);
 
-		row = functionKeyboard.nextRow(9.2f);
+		row = functionKeyboard.nextRow();
 		FunctionKeyUtil.addInverseSinCosTan(row, buttonFactory, width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		addInputButton(row, buttonFactory, "{");
@@ -46,7 +46,7 @@ public class SolverFunctionKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, SEMICOLON);
 		addInputButton(row, buttonFactory, ":=", "\u2254");
 
-		row = functionKeyboard.nextRow(9.2f);
+		row = functionKeyboard.nextRow();
 		addInputButton(row, buttonFactory, "ln", width);
 		addConstantInputButton(row, buttonFactory, Resource.LOG_10, "log_{10}", width);
 		addConstantInputButton(row, buttonFactory, Resource.LOG_B, "logb", width);
@@ -57,7 +57,7 @@ public class SolverFunctionKeyboardFactory implements KeyboardModelFactory {
 		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
 				Action.BACKSPACE_DELETE);
 
-		row = functionKeyboard.nextRow(9.2f);
+		row = functionKeyboard.nextRow();
 		addConstantInputButton(row, buttonFactory, Resource.POWE_X, EULER + "^", width);
 		addConstantInputButton(row, buttonFactory, Resource.POW10_X, "10^", width);
 		addConstantInputButton(row, buttonFactory, Resource.RECURRING_DECIMAL,
