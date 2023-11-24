@@ -225,8 +225,7 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public MyImage tintedSVG(GColor color, Runnable onLoad) {
-		// TODO
-		return null;
+		return new MyImageD(svgImage.tint(color));
 	}
 
 	public void render(Graphics2D impl, int x, int y) {

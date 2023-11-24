@@ -4,6 +4,9 @@ package org.geogebra.desktop.gui.util;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import org.geogebra.common.awt.GColor;
+import org.w3c.dom.svg.SVGDocument;
+
 import io.sf.carte.echosvg.gvt.GraphicsNode;
 
 /**
@@ -12,11 +15,13 @@ import io.sf.carte.echosvg.gvt.GraphicsNode;
  */
 public final class JSVGImage {
 
+	private final SVGDocument doc;
 	private final GraphicsNode node;
 	private final int width;
 	private final int height;
 
-	public JSVGImage(GraphicsNode node, float w, float h) {
+	public JSVGImage(SVGDocument doc, GraphicsNode node, float w, float h) {
+		this.doc = doc;
 		this.node = node;
 		this.width = (int) w;
 		this.height = (int) h;
@@ -73,5 +78,9 @@ public final class JSVGImage {
 		 */
 		public float getHeight () {
 			return height;
+		}
+
+		public JSVGImage tint(GColor color) {
+			return JSVGImageBuilder.tint(doc, color);
 		}
 	}

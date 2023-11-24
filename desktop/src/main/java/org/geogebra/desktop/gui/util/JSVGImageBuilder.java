@@ -14,6 +14,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.svg.SVGDocument;
@@ -112,9 +113,8 @@ public final class JSVGImageBuilder {
 		ctx.setDynamicState(BridgeContext.DYNAMIC);
 		GVTBuilder builder = new GVTBuilder();
 		GraphicsNode node = builder.build(ctx, doc);
-
 		SVGSVGElement rootElement = doc.getRootElement();
-		return new JSVGImage(node, rootElement.getWidth().getBaseVal().getValue(),
+		return new JSVGImage(doc, node, rootElement.getWidth().getBaseVal().getValue(),
 				rootElement.getHeight().getBaseVal().getValue());
 	}
 
@@ -140,4 +140,9 @@ public final class JSVGImageBuilder {
 				throw new RuntimeException(e);
 			}
 		}
+
+	public static JSVGImage tint(SVGDocument doc, GColor color) {
+			doc.getDocumentElement().setAttribute("fill", color.toString());
+			return build(doc);
+	}
 }
