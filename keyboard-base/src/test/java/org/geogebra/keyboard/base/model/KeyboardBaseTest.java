@@ -14,11 +14,15 @@ public class KeyboardBaseTest {
     @Test
     public void testRowWeights() {
         ButtonFactory unmodifiedButtonFactory = new ButtonFactory(null);
-        ButtonFactory accentButtonFactory = new ButtonFactory(new KeyModifier[]{new AccentModifier()});
-        ButtonFactory capsLockButtonFactory = new ButtonFactory(new KeyModifier[]{new CapsLockModifier()});
+        ButtonFactory accentButtonFactory = new ButtonFactory(
+                new KeyModifier[]{new AccentModifier()}
+        );
+        ButtonFactory capsLockButtonFactory = new ButtonFactory(
+                new KeyModifier[]{new CapsLockModifier()}
+        );
 
         WeightedButton[] buttons = new WeightedButtonImpl[3];
-        buttons[0] = unmodifiedButtonFactory.createInputButton("test", "test", "t");
+        buttons[0] = unmodifiedButtonFactory.createInputButton("test", "t", "t");
         buttons[1] = accentButtonFactory.createInputButton("a", "a", "a");
         buttons[2] = capsLockButtonFactory.createInputButton("b", "b", "b");
 
