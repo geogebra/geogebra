@@ -3,7 +3,6 @@
 package org.geogebra.desktop.gui.util;
 
 import static org.geogebra.desktop.gui.util.JSVGConstants.BLANK_SVG;
-import static org.geogebra.desktop.gui.util.JSVGConstants.HEADER;
 import static org.geogebra.desktop.gui.util.JSVGConstants.NO_URI;
 import static org.geogebra.desktop.gui.util.JSVGConstants.UNSUPPORTED_SVG;
 
@@ -14,8 +13,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
 
-import org.geogebra.common.awt.GColor;
-import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.svg.SVGDocument;
 
@@ -64,7 +61,7 @@ public final class JSVGImageBuilder {
 		try {
 			model.doc = f.createSVGDocument(NO_URI, reader);
 		} catch (SAXIOException se) {
-			model.content = fixHeader(model.content);
+			model.fixHeader();
 			return fromContent(model);
 		} catch (IOException e) {
 			return blankImage();
@@ -89,7 +86,7 @@ public final class JSVGImageBuilder {
 			if (model.isMaxTriesReached()) {
 				return unsupportedImage();
 			}
-			model.content = fixHeader(ImageManagerD.fixSVG(model.content));
+			model.tidyContent();
 			return fromContent(model);
 		}
 	}
@@ -101,14 +98,6 @@ public final class JSVGImageBuilder {
 		return unsupportedImage;
 	}
 
-	private static String fixHeader(String content) {
-		int beginIndex = content.indexOf("<svg");
-		if (beginIndex == -1) {
-			return BLANK_SVG;
-		}
-		String body = content.substring(beginIndex);
-		return HEADER + body;
-	}
 
 	/**
 	 * Method to fetch the SVG image from an url
@@ -124,9 +113,4 @@ public final class JSVGImageBuilder {
 		}
 	}
 
-	public static JSVGImage tint(SVGDocument doc, GColor color) {
-		doc.getDocumentElement().setAttribute("fill", color.toString());
-		((JSVGModel) doc).build();
-		return new JSVGImage((JSVGModel) doc);
-	}
 }

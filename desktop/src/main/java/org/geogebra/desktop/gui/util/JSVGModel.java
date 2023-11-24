@@ -1,5 +1,10 @@
 package org.geogebra.desktop.gui.util;
 
+import static org.geogebra.desktop.gui.util.JSVGConstants.BLANK_SVG;
+import static org.geogebra.desktop.gui.util.JSVGConstants.HEADER;
+
+import org.geogebra.common.awt.GColor;
+import org.geogebra.desktop.util.ImageManagerD;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGSVGElement;
 
@@ -10,7 +15,7 @@ import io.sf.carte.echosvg.bridge.UserAgent;
 import io.sf.carte.echosvg.bridge.UserAgentAdapter;
 import io.sf.carte.echosvg.gvt.GraphicsNode;
 
-class JSVGModel {
+public class JSVGModel {
 	public static final int MAX_TRIES = 2;
 	SVGDocument doc;
 	String content;
@@ -65,5 +70,26 @@ class JSVGModel {
 		this.width = (int) root.getWidth().getBaseVal().getValue();
 		this.height = (int) root.getHeight().getBaseVal().getValue();
 
+	}
+
+	public void tidyContent() {
+		content = ImageManagerD.fixSVG(content);
+		fixHeader();
+	}
+
+
+	void fixHeader() {
+		int beginIndex = content.indexOf("<svg");
+		if (beginIndex == -1) {
+			content = BLANK_SVG;
+			return;
+		}
+		String body = content.substring(beginIndex);
+		content = HEADER + body;
+	}
+
+	void setFill(GColor color) {
+		doc.getDocumentElement().setAttribute("fill", color.toString());
+		build();
 	}
 }

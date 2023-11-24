@@ -69,7 +69,8 @@ public final class JSVGImage {
 	}
 
 	public JSVGImage tint(GColor color) {
-		return JSVGImageBuilder.tint(model.doc, color);
+		model.setFill(color);
+		return new JSVGImage(model);
 	}
 
 	public String getContent() {
