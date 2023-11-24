@@ -37,6 +37,4 @@ public class KeyboardBaseTest {
                 0.0
         );
     }
-
-
 }
