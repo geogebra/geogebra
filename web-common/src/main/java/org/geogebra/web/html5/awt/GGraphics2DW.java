@@ -891,11 +891,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 		context.drawImage(((MyImageW) img).getImage(), dx, dy, dw, dh);
 	}
 
-	@Override
-	public Graphics2DInterface getGraphicsForLaTeX() {
-		return new Graphics2DW(getContext());
-	}
-
 	public void drawImage(HTMLImageElement img, int x, int y) {
 		context.drawImage(img, x, y);
 	}

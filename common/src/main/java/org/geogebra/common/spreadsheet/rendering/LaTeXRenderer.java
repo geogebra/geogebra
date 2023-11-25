@@ -11,11 +11,18 @@ import com.himamis.retex.renderer.share.TeXIcon;
  * Renderer for LaTeX cells
  */
 public final class LaTeXRenderer implements CellRenderer {
+
+	private AwtReTeXGraphicsBridge bridge;
+
+	public LaTeXRenderer(AwtReTeXGraphicsBridge bridge) {
+		this.bridge = bridge;
+	}
+
 	@Override
 	public void draw(Object data, int fontStyle, int alignment,
 			GGraphics2D graphics, Rectangle cellBorder) {
 		graphics.setColor(GColor.BLACK);
-		((TeXIcon) data).paintIcon(() -> null, graphics.getGraphicsForLaTeX(),
+		((TeXIcon) data).paintIcon(() -> null, bridge.convert(graphics),
 				cellBorder.getMinX(), cellBorder.getMinY());
 	}
 

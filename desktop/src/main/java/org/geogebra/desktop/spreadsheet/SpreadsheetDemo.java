@@ -51,6 +51,7 @@ import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.CursorMap;
 import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.gui.spreadsheet.AwtReTeXGraphicsBridgeD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -69,7 +70,7 @@ public class SpreadsheetDemo {
 			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(
 					appCommon.getSettings().getSpreadsheet());
 			Spreadsheet spreadsheet = new Spreadsheet(adapter,
-					new GeoElementCellRendererFactory());
+					new GeoElementCellRendererFactory(new AwtReTeXGraphicsBridgeD()));
 
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
 			spreadsheet.setWidthForColumns(60, 0, 10);
