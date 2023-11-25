@@ -22,12 +22,8 @@ public class DefaultKeyboardFactoryTests {
     public void testMathKeyboardRowWeights() {
         Keyboard mathKeyboard = keyboardFactory.createMathKeyboard();
 
-        for (int rowIndex = 0; rowIndex < 4; rowIndex++) {
-            assertEquals(
-                    9.2,
-                    mathKeyboard.getModel().getRows().get(rowIndex).getRowWeightSum(),
-                    precision
-            );
+        for (Row row : mathKeyboard.getModel().getRows()) {
+            assertEquals(9.2, row.getRowWeightSum(), precision);
         }
     }
 
@@ -35,12 +31,8 @@ public class DefaultKeyboardFactoryTests {
     public void testFunctionsKeyboardRowWeights() {
         Keyboard functionsKeyboard = keyboardFactory.createFunctionsKeyboard();
 
-        for (int rowIndex = 0; rowIndex < 4; rowIndex++) {
-            assertEquals(
-                    9.2,
-                    functionsKeyboard.getModel().getRows().get(rowIndex).getRowWeightSum(),
-                    precision
-            );
+        for (Row row : functionsKeyboard.getModel().getRows()) {
+            assertEquals(9.2, row.getRowWeightSum(), precision);
         }
     }
 
@@ -50,12 +42,8 @@ public class DefaultKeyboardFactoryTests {
                 "qwertyuiop", "asdfghjkl", "zxcvbnm"
         );
 
-        for (int rowIndex = 0; rowIndex < 4; rowIndex++) {
-            assertEquals(
-                    10.0,
-                    lettersKeyboard.getModel().getRows().get(rowIndex).getRowWeightSum(),
-                    precision
-            );
+        for (Row row : lettersKeyboard.getModel().getRows()) {
+            assertEquals(10.0, row.getRowWeightSum(), precision);
         }
     }
 
@@ -63,12 +51,8 @@ public class DefaultKeyboardFactoryTests {
     public void testSpecialSymbolsKeyboardRowWeights() {
         Keyboard specialSymbolsKeyboard = keyboardFactory.createSpecialSymbolsKeyboard();
 
-        for (int rowIndex = 0; rowIndex < 4; rowIndex++) {
-            assertEquals(
-                    8.0,
-                    specialSymbolsKeyboard.getModel().getRows().get(rowIndex).getRowWeightSum(),
-                    precision
-            );
+        for (Row row : specialSymbolsKeyboard.getModel().getRows()) {
+            assertEquals(8.0, row.getRowWeightSum(), precision);
         }
     }
 }

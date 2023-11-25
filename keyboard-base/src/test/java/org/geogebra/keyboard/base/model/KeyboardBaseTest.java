@@ -10,6 +10,7 @@ import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 import org.junit.Test;
 
 public class KeyboardBaseTest {
+    private final double precision = 1.0E-6;
 
     @Test
     public void testRowWeights() {
@@ -32,9 +33,9 @@ public class KeyboardBaseTest {
         row.addButton(buttons[2]);
 
         assertEquals(
-                row.getRowWeightSum(),
                 buttons[0].getWeight() + buttons[1].getWeight() + buttons[2].getWeight(),
-                0.0
+                row.getRowWeightSum(),
+                precision
         );
     }
 }

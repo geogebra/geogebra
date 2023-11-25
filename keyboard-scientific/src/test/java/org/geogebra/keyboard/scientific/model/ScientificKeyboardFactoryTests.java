@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
+import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,12 +23,8 @@ public class ScientificKeyboardFactoryTests {
     public void testMathKeyboardRowWeights() {
         Keyboard mathKeyboard = keyboardFactory.createMathKeyboard();
 
-        for (int rowIndex = 0; rowIndex < 4; rowIndex++) {
-            assertEquals(
-                    9.2,
-                    mathKeyboard.getModel().getRows().get(rowIndex).getRowWeightSum(),
-                    precision
-            );
+        for (Row row : mathKeyboard.getModel().getRows()) {
+            assertEquals(9.2, row.getRowWeightSum(), precision);
         }
     }
 
@@ -35,12 +32,8 @@ public class ScientificKeyboardFactoryTests {
     public void testFunctionsKeyboardRowWeights() {
         Keyboard functionsKeyboard = keyboardFactory.createFunctionsKeyboard();
 
-        for (int rowIndex = 0; rowIndex < 4; rowIndex++) {
-            assertEquals(
-                    7.2,
-                    functionsKeyboard.getModel().getRows().get(rowIndex).getRowWeightSum(),
-                    precision
-            );
+        for (Row row : functionsKeyboard.getModel().getRows()) {
+            assertEquals(7.2, row.getRowWeightSum(), precision);
         }
     }
 
@@ -50,12 +43,8 @@ public class ScientificKeyboardFactoryTests {
                 "abcdefghi", "jklmnopqr", "stuvwxyz"
         );
 
-        for (int rowIndex = 0; rowIndex < 4; rowIndex++) {
-            assertEquals(
-                    9.0,
-                    lettersKeyboard.getModel().getRows().get(rowIndex).getRowWeightSum(),
-                    precision
-            );
+        for (Row row : lettersKeyboard.getModel().getRows()) {
+            assertEquals(9.0, row.getRowWeightSum(), precision);
         }
     }
 }
