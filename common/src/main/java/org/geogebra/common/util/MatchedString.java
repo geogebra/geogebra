@@ -4,11 +4,18 @@ public class MatchedString {
 	public final String content;
 	public final int from;
 
-	// neccessary for Objective-C
+	/**
+	 * Note: This is neccessary for Objective-C.
+	 * @return content
+	 */
 	public String getContent() {
 		return content;
 	}
 
+	/**
+	 * Note: This is neccessary for Objective-C.
+	 * @return from
+	 */
 	public int getFrom() {
 		return from;
 	}
