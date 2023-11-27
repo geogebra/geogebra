@@ -6,6 +6,22 @@ public class MatchedString {
 	public final int to;
 
 	/**
+	 * Note: This is neccessary for Objective-C.
+	 * @return content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * Note: This is neccessary for Objective-C.
+	 * @return from
+	 */
+	public int getFrom() {
+		return from;
+	}
+
+	/**
 	 * @param content text content
 	 * @param from index of first matched character
 	 * @param to index of last matched character + 1

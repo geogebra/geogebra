@@ -248,7 +248,8 @@ public interface GeoGebraConstants {
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
-	public static final String FORUM_URL = "https://www.reddit.com/r/geogebra/";
+	public static final String FORUM_URL = "https://help.geogebra.org/";
+	public static final String REPORT_BUG_URL = "https://www.reddit.com/r/geogebra/";
 
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 

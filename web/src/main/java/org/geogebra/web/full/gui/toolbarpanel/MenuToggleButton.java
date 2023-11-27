@@ -26,7 +26,7 @@ public class MenuToggleButton extends ToggleButton
 	public MenuToggleButton(AppW app) {
 		super(MaterialDesignResources.INSTANCE.toolbar_menu_black(),
 				MaterialDesignResources.INSTANCE.toolbar_menu_black());
-		removeStyleName("MyToggleButton");
+		removeStyleName("ToggleButton");
 		this.appW = app;
 		buildUI();
 	}

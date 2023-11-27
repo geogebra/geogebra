@@ -138,7 +138,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		tbLockRatio = new ToggleButton(MaterialDesignResources.INSTANCE.lock_open_black(),
 				MaterialDesignResources.INSTANCE.lock_black());
-		tbLockRatio.removeStyleName("MyToggleButton");
+		tbLockRatio.removeStyleName("ToggleButton");
 		tbLockRatio.setSelected(optionsEuclidianW.view.isLockedAxesRatio());
 		tbLockRatio.setEnabled(optionsEuclidianW.view.isZoomable());
 
