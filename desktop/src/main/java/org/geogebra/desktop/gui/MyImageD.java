@@ -236,9 +236,9 @@ public class MyImageD implements MyImageJre {
 	}
 
 	private void renderSvg(Graphics2D g, int x, int y) {
-		g.translate(-x, -y);
-		svgImage.paint(g);
 		g.translate(x, y);
+		svgImage.paint(g);
+		g.translate(-x, -y);
 	}
 
 	public void render(Graphics2D impl, int sx, int sy, int sw, int sh, int dx, int dy, int dw,
