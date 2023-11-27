@@ -150,11 +150,14 @@ public class LowerCaseDictionary extends HashMap<String, String>
 			ArrayList<MatchedString> completions = new ArrayList<>();
 			int initialMatches = 0;
 			for (String cmd: treeSet) {
-				int index = get(cmd).toLowerCase().indexOf(currLowerCase);
+				int index = cmd.indexOf(currLowerCase);
 				if (index > -1) {
 					if (index == 0) {
 						completions.add(initialMatches++, new MatchedString(get(cmd), index));
 					} else {
+						if (cmd.length() != getOriginalLength(get(cmd), cmd.length())) {
+							index = get(cmd).toLowerCase().indexOf(currLowerCase);
+						}
 						completions.add(new MatchedString(get(cmd), index));
 					}
 				}
@@ -166,6 +169,17 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	private int getOriginalLength(String original, int normalizedLength) {
+		int originalLength = 0;
+		int normalizedPrefix = 0;
+		while (normalizedPrefix < normalizedLength) {
+			normalizedPrefix +=  normalizer.transform(
+					String.valueOf(original.charAt(originalLength))).length();
+			originalLength++;
+		}
+		return originalLength;
 	}
 
 	/**
