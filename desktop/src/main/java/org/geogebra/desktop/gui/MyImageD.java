@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +26,7 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.gui.util.JSVGImage;
+import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.gui.util.JSVGImageBuilder;
 import org.geogebra.desktop.main.AppD;
 
@@ -36,7 +35,7 @@ public class MyImageD implements MyImageJre {
 	private Image img = null;
 	// SVG as XML
 	private StringBuilder sb;
-	private JSVGImage svgImage;
+	private SVGImage svgImage;
 
 	/**
 	 * @param img bitmap image
@@ -57,7 +56,7 @@ public class MyImageD implements MyImageJre {
 		svgImage = JSVGImageBuilder.fromContent(sb.toString());
 	}
 
-	private MyImageD(JSVGImage svgImage) {
+	private MyImageD(SVGImage svgImage) {
 		this.svgImage = svgImage;
 	}
 

@@ -11,11 +11,11 @@ import org.geogebra.common.awt.GColor;
  * Class to load and paint SVGs.
  * Note that links within SVG are replaced to blank images for security reasons.
  */
-public final class JSVGImage {
+public final class SVGImage {
 
-	private final JSVGModel model;
+	private final SVGModel model;
 
-	public JSVGImage(JSVGModel model) {
+	public SVGImage(SVGModel model) {
 		this.model = model;
 
 	}
@@ -29,18 +29,14 @@ public final class JSVGImage {
 	 * @param scaleY the Y scaling to be applied to the image before drawing
 	 */
 	public void paint(Graphics2D g, int x, int y, double scaleX, double scaleY) {
-		if (isInvalid()) {
+		if (model.isInvalid()) {
 			return;
 		}
 		AffineTransform oldTransform = g.getTransform();
 		AffineTransform transform = new AffineTransform(scaleX, 0.0, 0.0, scaleY, x, y);
-		model.node.setTransform(transform);
-		model.node.paint(g);
-		model.node.setTransform(oldTransform);
-	}
-
-	private boolean isInvalid() {
-		return model.node == null;
+		model.setTransform(transform);
+		model.paint(g);
+		model.setTransform(oldTransform);
 	}
 
 	/**
@@ -48,11 +44,7 @@ public final class JSVGImage {
 	 * @param g to paint to.
 	 */
 	public void paint(Graphics2D g) {
-		if (isInvalid()) {
-			return;
-		}
-
-		model.node.paint(g);
+		model.paint(g);
 	}
 
 	/**
@@ -69,21 +61,21 @@ public final class JSVGImage {
 		return model.getHeight();
 	}
 
-	public JSVGImage tint(GColor color) {
+	public SVGImage tint(GColor color) {
 		model.setFill(color);
-		return new JSVGImage(model);
+		return new SVGImage(model);
 	}
 
 	public String getContent() {
-		return model.content;
+		return model.getContent();
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof JSVGImage)) return false;
-		JSVGImage jsvgImage = (JSVGImage) o;
-		return Objects.equals(model, jsvgImage.model);
+		if (!(o instanceof SVGImage)) return false;
+		SVGImage SVGImage = (SVGImage) o;
+		return Objects.equals(model, SVGImage.model);
 	}
 
 	@Override

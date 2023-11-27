@@ -16,7 +16,7 @@ import javax.swing.Icon;
 public final class JSVGIcon implements Icon {
 
 	public static final String PROP_AUTOSIZE = "PROP_AUTOSIZE";
-	private final JSVGImage image;
+	private final SVGImage image;
 	private Object oldAliasHint;
 	private Object oldInterpolationHint;
 	private Dimension preferredSize = null;

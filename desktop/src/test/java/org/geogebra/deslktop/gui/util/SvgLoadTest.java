@@ -1,13 +1,18 @@
 package org.geogebra.deslktop.gui.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.io.file.ByteArrayZipFile;
+import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.jre.util.Base64;
-import org.geogebra.desktop.gui.util.JSVGImage;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.gui.util.JSVGImageBuilder;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -18,29 +23,38 @@ import org.junit.Test;
 public class SvgLoadTest extends BaseUnitTest {
 
 	static AppDNoGui app;
-	private static JSVGImage image;
+	private static SVGImage image;
 
 	@Before
 	public void setUp() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 	}
 
-	public static final String E2E_RESOURCES = "src/e2eTest/resources/";
-	private static final String svgsBase64 = Base64.encodeToString(
-			UtilD.loadFileIntoByteArray(E2E_RESOURCES + "svgs.ggb"),
-			false);
+	public static final String E2E_RESOURCES = "src/e2eTest/resources/svg/";
 
 	@Test
-	public void testLoadSvgs() {
-		app.getGgbApi().setBase64(svgsBase64);
+	public void testLoadSvgsGGB() {
+		loadGGB("svgs.ggb");
+	}
+
+	private void loadGGB(String fileName) {
+		byte[] array = UtilD.loadFileIntoByteArray(E2E_RESOURCES + fileName);
+		assertNotNull("File error: " + fileName, array);
+		assertTrue(app.loadXML(new ByteArrayZipFile(array)));
+
+	}
+
+	@Test
+	public void testLoadVrTGGB() {
+		loadGGB("material-VrT75QCK.ggb");
 	}
 
 	@Test
 	public void testLoadWhiteListIssue() {
-		load("issue41.svg");
+		loadSvg("issue41.svg");
 	}
 
-	private static void load(String svg) {
+	private static void loadSvg(String svg) {
 		try {
 			image = JSVGImageBuilder.fromFile(new File(E2E_RESOURCES + svg));
 		} catch (IOException e) {
@@ -50,20 +64,18 @@ public class SvgLoadTest extends BaseUnitTest {
 
 	@Test
 	public void testLoad2() {
-		load("2.svg");
+		loadSvg("2.svg");
 	}
 
 	@Test
 	public void imageReloadTest() {
-		load("2.svg");
-		JSVGImage image2 = JSVGImageBuilder.fromContent(image.getContent());
+		loadSvg("2.svg");
+		SVGImage image2 = JSVGImageBuilder.fromContent(image.getContent());
 		assertEquals(image, image2);
 	}
 
 	@Test
 	public void name() {
-		load("issue41.svg");
-		String xml = app.getXML();
-		app.setXML(xml, true);
+		loadSvg("badLink.svg");
 	}
 }

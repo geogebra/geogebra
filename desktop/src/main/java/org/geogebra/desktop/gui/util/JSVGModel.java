@@ -3,13 +3,18 @@ package org.geogebra.desktop.gui.util;
 import static org.geogebra.desktop.gui.util.JSVGConstants.BLANK_SVG;
 import static org.geogebra.desktop.gui.util.JSVGConstants.HEADER;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.desktop.util.ImageManagerD;
+import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGSVGElement;
 
+import io.sf.carte.echosvg.anim.dom.SAXSVGDocumentFactory;
 import io.sf.carte.echosvg.bridge.BridgeContext;
 import io.sf.carte.echosvg.bridge.DocumentLoader;
 import io.sf.carte.echosvg.bridge.GVTBuilder;
@@ -17,7 +22,7 @@ import io.sf.carte.echosvg.bridge.UserAgent;
 import io.sf.carte.echosvg.bridge.UserAgentAdapter;
 import io.sf.carte.echosvg.gvt.GraphicsNode;
 
-public class JSVGModel {
+public class JSVGModel implements SVGModel {
 	public static final int MAX_TRIES = 2;
 	SVGDocument doc;
 	String content;
@@ -51,16 +56,28 @@ public class JSVGModel {
 		this.doc = doc;
 	}
 
+	@Override
 	public int getWidth() {
 		return width;
 	}
 
+	@Override
 	public int getHeight() {
 		return height;
 	}
 
 	public void build() {
-		UserAgent userAgent = new UserAgentAdapter();
+		UserAgent userAgent = new UserAgentAdapter() {
+			@Override
+			public SVGDocument getBrokenLinkDocument(Element e, String url, String message) {
+				SAXSVGDocumentFactory documentFactory = new SAXSVGDocumentFactory();
+				try {
+					return documentFactory.createSVGDocument(BLANK_SVG);
+				} catch (IOException ex) {
+					throw new RuntimeException(ex);
+				}
+			}
+		};
 
 		DocumentLoader loader = new SVGDocumentLoaderNoError(userAgent);
 
@@ -90,7 +107,8 @@ public class JSVGModel {
 		content = HEADER + body;
 	}
 
-	void setFill(GColor color) {
+	@Override
+	public void setFill(GColor color) {
 		doc.getDocumentElement().setAttribute("fill", color.toString());
 		build();
 	}
@@ -107,5 +125,29 @@ public class JSVGModel {
 	@Override
 	public int hashCode() {
 		return Objects.hash(content, width, height);
+	}
+
+	@Override
+	public void paint(Graphics2D g) {
+		if (isInvalid()) {
+			return;
+		}
+
+		node.paint(g);
+	}
+
+	@Override
+	public boolean isInvalid() {
+		return node == null;
+	}
+
+	@Override
+	public void setTransform(AffineTransform transform) {
+		node.setTransform(transform);
+	}
+
+	@Override
+	public String getContent() {
+		return content;
 	}
 }
