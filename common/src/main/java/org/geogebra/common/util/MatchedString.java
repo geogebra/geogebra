@@ -14,11 +14,19 @@ public class MatchedString {
 	}
 
 	/**
-	 * Note: This is neccessary for Objective-C.
+	 * Note: This is necessary for Objective-C.
 	 * @return from
 	 */
 	public int getFrom() {
 		return from;
+	}
+
+	/**
+	 * Note: This is necessary for Objective-C.
+	 * @return to
+	 */
+	public int getTo() {
+		return to;
 	}
 
 	/**
@@ -30,10 +38,6 @@ public class MatchedString {
 		this.content = content;
 		this.from = from;
 		this.to = to;
-	}
-
-	public int getTo() {
-		return to;
 	}
 
 	/**

@@ -20,6 +20,7 @@ public class LowerCaseDictionaryTest {
 		dict.addEntry("b\u00C6c");
 		assertThat(completionOf("ae"), equalTo("b[\u00C6]c"));
 		assertThat(completionOf("bae"), equalTo("[b\u00C6]c"));
+		assertThat(completionOf("ba"), equalTo("[b\u00C6]c"));
 		assertThat(completionOf("aec"), equalTo("b[\u00C6c]"));
 		assertThat(completionOf("baec"), equalTo("[b\u00C6c]"));
 	}
