@@ -660,7 +660,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// eg http://help.geogebra.org/en-GB/cmd/FitLogistic
 
 		final StringBuilder urlSB = new StringBuilder();
-
 		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE);
 		urlSB.append(getApp().getLocalization().getLanguageTag()); // eg en-GB
 
@@ -668,8 +667,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		case COMMAND:
 			String cmdPageName = getApp().getLocalization().getEnglishCommand(
 					pageName);
-			urlSB.append("/cmd/");
-			urlSB.append(cmdPageName);
+			if ("".equals(cmdPageName)) {
+				urlSB.append("/article/Category:Commands");
+			} else {
+				urlSB.append("/cmd/");
+				urlSB.append(cmdPageName);
+			}
 			break;
 		case TOOL:
 			urlSB.append("/tool/");
