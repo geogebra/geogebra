@@ -695,7 +695,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public String getReportBugUrl() {
-		return GeoGebraConstants.FORUM_URL;
+		return GeoGebraConstants.REPORT_BUG_URL;
 	}
 
 	@Override
