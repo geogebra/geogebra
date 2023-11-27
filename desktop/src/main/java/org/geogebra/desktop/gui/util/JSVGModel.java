@@ -3,6 +3,8 @@ package org.geogebra.desktop.gui.util;
 import static org.geogebra.desktop.gui.util.JSVGConstants.BLANK_SVG;
 import static org.geogebra.desktop.gui.util.JSVGConstants.HEADER;
 
+import java.util.Objects;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.w3c.dom.svg.SVGDocument;
@@ -91,5 +93,19 @@ public class JSVGModel {
 	void setFill(GColor color) {
 		doc.getDocumentElement().setAttribute("fill", color.toString());
 		build();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof JSVGModel)) return false;
+		JSVGModel jsvgModel = (JSVGModel) o;
+		return  width == jsvgModel.width && height == jsvgModel.height
+				&& Objects.equals(content, jsvgModel.content);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(content, width, height);
 	}
 }

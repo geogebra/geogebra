@@ -1,5 +1,7 @@
 package org.geogebra.deslktop.gui.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -16,6 +18,7 @@ import org.junit.Test;
 public class SvgLoadTest extends BaseUnitTest {
 
 	static AppDNoGui app;
+	private static JSVGImage image;
 
 	@Before
 	public void setUp() {
@@ -39,7 +42,7 @@ public class SvgLoadTest extends BaseUnitTest {
 
 	private static void load(String svg) {
 		try {
-			JSVGImage image = JSVGImageBuilder.fromFile(new File(E2E_RESOURCES + svg));
+			image = JSVGImageBuilder.fromFile(new File(E2E_RESOURCES + svg));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -48,5 +51,19 @@ public class SvgLoadTest extends BaseUnitTest {
 	@Test
 	public void testLoad2() {
 		load("2.svg");
+	}
+
+	@Test
+	public void imageReloadTest() {
+		load("2.svg");
+		JSVGImage image2 = JSVGImageBuilder.fromContent(image.getContent());
+		assertEquals(image, image2);
+	}
+
+	@Test
+	public void name() {
+		load("issue41.svg");
+		String xml = app.getXML();
+		app.setXML(xml, true);
 	}
 }

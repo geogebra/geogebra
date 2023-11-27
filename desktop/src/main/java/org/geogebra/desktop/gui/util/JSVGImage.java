@@ -3,6 +3,7 @@ package org.geogebra.desktop.gui.util;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
 
@@ -75,5 +76,18 @@ public final class JSVGImage {
 
 	public String getContent() {
 		return model.content;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof JSVGImage)) return false;
+		JSVGImage jsvgImage = (JSVGImage) o;
+		return Objects.equals(model, jsvgImage.model);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(model);
 	}
 }
