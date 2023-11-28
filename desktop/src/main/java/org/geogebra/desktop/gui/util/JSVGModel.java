@@ -127,7 +127,7 @@ public class JSVGModel implements SVGModel {
 		if (isInvalid()) {
 			return;
 		}
-
+		node.setComposite(g.getComposite());
 		node.paint(g);
 	}
 
