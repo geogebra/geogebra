@@ -2151,6 +2151,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 						+ "\\\\ b& : b > x\\\\ c + 1& : c > x \\end{array}\\right. "));
 	}
 
+	@Test
+	public void symbolicValueShouldBeUsedToComputeDescendants() {
+		GeoSymbolic a = add("a=sin(42deg)");
+		a.setSymbolicMode(false, true);
+		t("Solve(a/9=sin(x)/10)", "{x = 2 * k_{1} * π + sin⁻¹(10 * "
+				+ "cos(4 * π / 15) / 9), x = 2 * k_{1} * π + π - sin⁻¹(10 * cos(4 * π / 15) / 9)}");
+	}
+
 	private Matcher<GeoSymbolic> hasFormulaString(String f) {
 		return hasProperty("formula",
 				geo -> geo.getFormulaString(StringTemplate.latexTemplate, true), f);

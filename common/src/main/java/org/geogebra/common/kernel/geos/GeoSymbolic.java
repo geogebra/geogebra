@@ -151,7 +151,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (symbolicMode || !hasNumericValue()) {
+		if ((symbolicMode || tpl.getStringType().isGiac()) || !hasNumericValue()) {
 			if (value != null) {
 				return value.toValueString(tpl);
 			}
