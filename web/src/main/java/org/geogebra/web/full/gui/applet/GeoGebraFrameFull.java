@@ -11,7 +11,6 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -776,11 +775,7 @@ public class GeoGebraFrameFull
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
 		}
-		Material mat = app.getActiveMaterial();
-		boolean isMultiuserMat = mat != null && mat.isMultiuser();
-		if (app.getAppletParameters().getDataParamEnableUndoRedo()
-			&& (app.getAppletParameters().getParamMultiplayerUrl().isEmpty()
-			|| !isMultiuserMat)) {
+		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
 			add(notesLayout.getUndoRedoButtons());
 		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
