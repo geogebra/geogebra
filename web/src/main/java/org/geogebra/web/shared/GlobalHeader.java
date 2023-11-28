@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
@@ -47,6 +48,7 @@ public class GlobalHeader implements EventRenderable {
 	private StandardButton examInfoBtn;
 
 	private boolean shareButtonInitialized;
+	private Runnable updateExamType = () -> {};
 
 	/**
 	 * Activate sign in button in external header
@@ -237,10 +239,7 @@ public class GlobalHeader implements EventRenderable {
 		// remove other buttons
 		getButtonElement().getStyle()
 				.setDisplay(Display.NONE);
-		Image examImg = new Image(DefaultMenuIconProvider.INSTANCE.assignment().withFill("#388C83")
-				.getSafeUri().asString());
-		Label examType = new Label(app.getExam().getCalculatorNameForHeader());
-		examType.setStyleName("examType");
+
 
 		// exam panel with timer and info btn
 		Image timerImg = new Image(MaterialDesignResources.INSTANCE.timer()
@@ -258,20 +257,21 @@ public class GlobalHeader implements EventRenderable {
 		getButtonElement().getParentElement().appendChild(exam);
 		// The link should be disabled in all exam-capable apps since APPS-3289, but make sure
 		Dom.querySelector("#headerID a").setAttribute("href", "#");
-		RootPanel.get("examId").addStyleName("examPanel");
+		RootPanel examId = RootPanel.get("examId");
+		examId.addStyleName("examPanel");
 
-		if (!app.getExam().isRestrictedGraphExam()) {
-			FlowPanel examTypeHolder = new FlowPanel();
-			examTypeHolder.getElement().setId("examTypeId");
-			examTypeHolder.addStyleName("examTypePanel");
-			examTypeHolder.add(examImg);
-			examTypeHolder.add(examType);
-			RootPanel.get("examId").add(examTypeHolder);
+		if (SafeExamBrowser.get() != null && SafeExamBrowser.get().security != null) {
+			SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
+			String hash = security.browserExamKey.substring(0, 8);
+			security.updateKeys((ignore) ->
+					addExamType("Safe Exam Browser (" + hash + ")"));
+		} else if (!app.getExam().isRestrictedGraphExam()) {
+			addExamType(app.getExam().getCalculatorNameForHeader());
 		}
 
-		RootPanel.get("examId").add(timerImg);
-		RootPanel.get("examId").add(timer);
-		RootPanel.get("examId").add(examInfoBtn);
+		examId.add(timerImg);
+		examId.add(timer);
+		examId.add(examInfoBtn);
 		// run timer
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
@@ -280,9 +280,7 @@ public class GlobalHeader implements EventRenderable {
 					if (getApp().getExam().isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
-						examImg.setUrl(DefaultMenuIconProvider.INSTANCE.assignment()
-								.withFill("#B00020").getSafeUri().asString());
-						examType.addStyleName("cheat");
+						updateExamType.run();
 					}
 					getTimer().setText(
 							getApp().getExam().getElapsedTimeLocalized());
@@ -291,6 +289,24 @@ public class GlobalHeader implements EventRenderable {
 			}
 		});
 		onResize();
+	}
+
+	private void addExamType(String examTypeName) {
+		Image examImg = new Image(DefaultMenuIconProvider.INSTANCE.assignment().withFill("#388C83")
+				.getSafeUri().asString());
+		Label examType = new Label(examTypeName);
+		examType.setStyleName("examType");
+		FlowPanel examTypeHolder = new FlowPanel();
+		examTypeHolder.getElement().setId("examTypeId");
+		examTypeHolder.addStyleName("examTypePanel");
+		examTypeHolder.add(examImg);
+		examTypeHolder.add(examType);
+		RootPanel.get("examId").add(examTypeHolder);
+		updateExamType = () -> {
+			examImg.setUrl(DefaultMenuIconProvider.INSTANCE.assignment()
+					.withFill("#B00020").getSafeUri().asString());
+			examType.addStyleName("cheat");
+		};
 	}
 
 	/**

@@ -125,6 +125,20 @@ public enum ExamRegion {
 		}
 	};
 
+	/**
+	 * Case-insensitive version of valueOf
+	 * @param shortName exam name
+	 * @return exam region
+	 */
+	public static ExamRegion byName(String shortName) {
+		for (ExamRegion region: values()) {
+			if (region.name().equalsIgnoreCase(shortName)) {
+				return region;
+			}
+		}
+		return GENERIC;
+	}
+
 	public abstract String getDisplayName(Localization loc, AppConfig config);
 
 	public abstract String getShortDisplayName(Localization loc, AppConfig config);

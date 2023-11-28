@@ -8,6 +8,7 @@ import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.Label;
@@ -33,7 +34,7 @@ public class ExamStartDialog extends ComponentDialog {
 		Label startText = BaseWidgetFactory.INSTANCE.newSecondaryText(
 				app.getLocalization().getMenu("exam_start_dialog_text"), "examStartText");
 		addDialogContent(startText);
-		if (app.isSuite()) {
+		if (mayChoseType((AppW) app)) {
 			ArrayList<RadioButtonData<ExamRegion>> data = new ArrayList<>();
 			for (ExamRegion region : ExamRegion.values()) {
 				String displayName = region.getDisplayName(app.getLocalization(),
@@ -44,12 +45,20 @@ public class ExamStartDialog extends ComponentDialog {
 					app.getLocalization(), data, ExamRegion.GENERIC, (selectedRegion) ->
 				this.selectedRegion = selectedRegion);
 			addDialogContent(regionPicker);
+		} else if (app.isSuite()) {
+			selectedRegion = ExamRegion.byName(((AppW) app)
+					.getAppletParameters().getParamExamMode());
 		}
+	}
+
+	private boolean mayChoseType(AppW app) {
+		return app.isSuite() && (!app.isLockedExam()
+				|| ExamUtil.CHOOSE.equals(app.getAppletParameters().getParamExamMode()));
 	}
 
 	@Override
 	public void onEscape() {
-		if (!((AppW) app).getAppletParameters().getParamLockExam()) {
+		if (!((AppW) app).isLockedExam()) {
 			hide();
 		}
 	}

@@ -23,6 +23,7 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.panel.PanelTransitioner;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -122,13 +123,12 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(GeoGebraElement geoGebraElement,
 			AppletParameters parameters, GLookAndFeelI laf) {
 		if (SecureBrowser.get() != null && SecureBrowser.get().security != null) {
-			parameters.setAttribute("lockExam", "true");
+			parameters.setAttribute("examMode", ExamUtil.CHOOSE);
 			SecureBrowser.get().security.lockDown(true,
 					(state) -> Log.info("Lockdown successful"),
 					(state) -> Log.error("Lockdown failed")
 			);
 		}
-
 		AppW application = factory.getApplet(geoGebraElement, parameters, this, laf, this.device);
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
