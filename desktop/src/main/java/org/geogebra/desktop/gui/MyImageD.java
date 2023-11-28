@@ -32,6 +32,7 @@ import org.geogebra.desktop.main.AppD;
 
 public class MyImageD implements MyImageJre {
 
+	public static final double DELTA = 0;
 	private Image img = null;
 	// SVG as XML
 	private StringBuilder sb;
@@ -162,7 +163,7 @@ public class MyImageD implements MyImageJre {
 		}
 
 		if (svgImage != null) {
-			return (int) (svgImage.getWidth() + 0.5);
+			return (int) (svgImage.getWidth() + DELTA);
 		}
 
 		return 1;

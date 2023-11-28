@@ -35,11 +35,6 @@ public class JSVGModel implements SVGModel {
 		this.content = content;
 	}
 
-	public JSVGModel(SVGDocument doc, String content) {
-		this(content);
-		this.doc = doc;
-	}
-
 	public JSVGModel(SVGDocument doc) {
 		this.doc = doc;
 	}
