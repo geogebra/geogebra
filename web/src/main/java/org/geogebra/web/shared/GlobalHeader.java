@@ -1,5 +1,7 @@
 package org.geogebra.web.shared;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -24,6 +26,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -48,7 +51,7 @@ public class GlobalHeader implements EventRenderable {
 	private StandardButton examInfoBtn;
 
 	private boolean shareButtonInitialized;
-	private Runnable updateExamType = () -> {};
+	private @CheckForNull FlowPanel examTypeHolder;
 
 	/**
 	 * Activate sign in button in external header
@@ -237,9 +240,7 @@ public class GlobalHeader implements EventRenderable {
 			return;
 		}
 		// remove other buttons
-		getButtonElement().getStyle()
-				.setDisplay(Display.NONE);
-
+		getButtonElement().getStyle().setDisplay(Display.NONE);
 
 		// exam panel with timer and info btn
 		Image timerImg = new Image(MaterialDesignResources.INSTANCE.timer()
@@ -280,7 +281,9 @@ public class GlobalHeader implements EventRenderable {
 					if (getApp().getExam().isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
-						updateExamType.run();
+						if (examTypeHolder != null) {
+							examTypeHolder.addStyleName("cheat");
+						}
 					}
 					getTimer().setText(
 							getApp().getExam().getElapsedTimeLocalized());
@@ -292,21 +295,19 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	private void addExamType(String examTypeName) {
-		Image examImg = new Image(DefaultMenuIconProvider.INSTANCE.assignment().withFill("#388C83")
-				.getSafeUri().asString());
+		HTML examImg = new HTML(DefaultMenuIconProvider.INSTANCE.assignment().getSVG());
+		examImg.setStyleName("examTypeIcon");
 		Label examType = new Label(examTypeName);
 		examType.setStyleName("examType");
-		FlowPanel examTypeHolder = new FlowPanel();
+		examTypeHolder = new FlowPanel();
 		examTypeHolder.getElement().setId("examTypeId");
 		examTypeHolder.addStyleName("examTypePanel");
+		if (app.isLockedExam()) {
+			examTypeHolder.addStyleName("locked");
+		}
 		examTypeHolder.add(examImg);
 		examTypeHolder.add(examType);
 		RootPanel.get("examId").add(examTypeHolder);
-		updateExamType = () -> {
-			examImg.setUrl(DefaultMenuIconProvider.INSTANCE.assignment()
-					.withFill("#B00020").getSafeUri().asString());
-			examType.addStyleName("cheat");
-		};
 	}
 
 	/**
