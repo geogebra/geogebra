@@ -93,7 +93,7 @@ dependencies {
     testImplementation project(':ggbjdk')
     testImplementation project(path: ':common-jre', configuration: 'testArtifacts')
 
-    implementation "io.sf.carte:echosvg-swing:$echosvgVersion"
+    implementation "io.sf.carte:echosvg-all:$echosvgVersion"
 }
 
 mainClassName = "org.geogebra.desktop.GeoGebra3D"
