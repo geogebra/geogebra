@@ -114,6 +114,7 @@ public class DrawImage extends Drawable {
 
 		// RELATIVE SCREEN POSITION
 		else {
+
 			boolean center = geoImage.isCentered();
 			int number = center ? 3 : 0;
 			GeoPoint A = geoImage.getStartPoint(number);
@@ -247,7 +248,7 @@ public class DrawImage extends Drawable {
 
 	private static boolean isTranslation(GAffineTransform at2) {
 		return DoubleUtil.isEqual(at2.getScaleX(), 1.0, Kernel.MAX_PRECISION)
-				&& DoubleUtil.isEqual(at2.getScaleY(), 1.0, Kernel.MAX_PRECISION)
+  				&& DoubleUtil.isEqual(at2.getScaleY(), 1.0, Kernel.MAX_PRECISION)
 				&& DoubleUtil.isEqual(at2.getShearX(), 0.0, Kernel.MAX_PRECISION)
 				&& DoubleUtil.isEqual(at2.getShearY(), 0.0, Kernel.MAX_PRECISION);
 	}

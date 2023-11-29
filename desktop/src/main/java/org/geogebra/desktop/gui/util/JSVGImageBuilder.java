@@ -57,6 +57,7 @@ public final class JSVGImageBuilder {
 
 
 	private static SVGImage fromContent(JSVGModel model) {
+		model.tidyContent();
 		Reader reader = new StringReader(model.content);
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();
 
@@ -85,11 +86,7 @@ public final class JSVGImageBuilder {
 			model.build();
 			return new SVGImage(model);
 		} catch (Exception e) {
-			if (model.isMaxTriesReached()) {
-				return unsupportedImage();
-			}
-			model.tidyContent();
-			return fromContent(model);
+			return unsupportedImage();
 		}
 	}
 
