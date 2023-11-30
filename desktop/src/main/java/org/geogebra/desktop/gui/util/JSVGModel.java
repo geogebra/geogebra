@@ -31,6 +31,7 @@ public class JSVGModel implements SVGModel {
 	GraphicsNode node;
 	private int width;
 	private int height;
+	private boolean tidy = false;
 
 	public JSVGModel(String content) {
 		this.content = content;
@@ -87,8 +88,11 @@ public class JSVGModel implements SVGModel {
 	}
 
 	public void tidyContent() {
-		content = ImageManagerD.fixSVG(content);
-		fixHeader();
+		if (!tidy) {
+			content = ImageManagerD.fixSVG(content);
+			fixHeader();
+		}
+		tidy = true;
 	}
 
 

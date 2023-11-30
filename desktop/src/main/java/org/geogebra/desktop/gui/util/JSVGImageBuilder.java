@@ -13,6 +13,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
 
+import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.svg.SVGDocument;
@@ -63,9 +64,9 @@ public final class JSVGImageBuilder {
 
 		try {
 			model.doc = f.createSVGDocument(NO_URI, reader);
-		} catch (SAXIOException se) {
-			model.fixHeader();
-			return fromContent(model);
+
+		} catch (SAXIOException e) {
+			LoggerD.debug(e.getMessage());
 		} catch (DOMException | IOException e) {
 			return blankImage();
 		}
