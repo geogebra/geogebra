@@ -165,7 +165,7 @@ public enum TestGeo implements Predicate<Object> {
 	GEOCASCELL {
 		@Override
 		public boolean test(Object ob) {
-			return ob instanceof GeoButton;
+			return ob instanceof GeoCasCell;
 		}
 	},
 
