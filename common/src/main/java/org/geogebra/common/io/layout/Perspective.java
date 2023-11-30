@@ -459,7 +459,7 @@ public class Perspective {
 			DockPanelData data = getDockPanelData()[i];
 			if (data.storeXml()) {
 				sb.append("\t\t");
-				sb.append(data.getXml());
+				data.getXml(sb);
 			}
 		}
 		sb.append("\t</views>\n");
