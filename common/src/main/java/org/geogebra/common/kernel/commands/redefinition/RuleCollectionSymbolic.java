@@ -14,6 +14,9 @@ public class RuleCollectionSymbolic extends RuleCollection {
 	public boolean allowed(GeoElementND from, GeoElementND to) {
 		if (from instanceof GeoList && to instanceof GeoList) {
 			GeoList toList = (GeoList) to;
+			if (toList.isMatrix()) {
+				return ((GeoList) from).elements().allMatch(el -> allowed(el, toList.get(0)));
+			}
 			return toList.size() == 0
 					|| allowed(getElementType((GeoList) from), toList.getElementType());
 		}

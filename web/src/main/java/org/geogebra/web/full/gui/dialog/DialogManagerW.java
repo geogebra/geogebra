@@ -456,9 +456,6 @@ public class DialogManagerW extends DialogManager
 	 * @return the "do you want to save" dialog
 	 */
 	public SaveDialogI getSaveCheckDialog() {
-		if (!app.isMebis() && ((AppW) app).getFileManager().isOnlineSavingPreferred()) {
-			return getSaveDialog(false);
-		}
 		DialogData data = new DialogData("DoYouWantToSaveYourChanges",
 					"Discard", "Save");
 

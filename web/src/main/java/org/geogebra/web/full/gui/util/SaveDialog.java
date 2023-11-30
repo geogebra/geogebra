@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -19,7 +19,7 @@ import org.gwtproject.user.client.ui.Image;
 public class SaveDialog extends DoYouWantToSaveChangesDialog {
 	private ComponentCheckbox templateCheckbox;
 	private Image providerImage;
-	private Map<Material.Provider, ImageResource> availableProviders;
+	private Set<Material.Provider> availableProviders;
 	private CompDropDown locationDropDown;
 	private FlowPanel locationHolder;
 
@@ -64,7 +64,7 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 		fillAvailableProviders();
 
 		List<String> providers = new ArrayList<>();
-		for (Material.Provider provider : availableProviders.keySet()) {
+		for (Material.Provider provider : availableProviders) {
 			providers.add(provider.getName());
 		}
 		locationDropDown = new CompDropDown((AppW) app,
@@ -91,8 +91,8 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 	}
 
 	private void fillAvailableProviders() {
-		availableProviders = new HashMap<>();
-		availableProviders.put(Material.Provider.TUBE, getProviderIcon(Material.Provider.TUBE));
+		availableProviders = new HashSet<>();
+		availableProviders.add(Material.Provider.TUBE);
 
 		GeoGebraTubeUser user = null;
 		if (app.getLoginOperation() != null) {
@@ -100,13 +100,7 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 		}
 		if (user != null && user.hasGoogleDrive()
 				&& ((AppW) app).getLAF().supportsGoogleDrive()) {
-			availableProviders.put(Material.Provider.GOOGLE,
-					getProviderIcon(Material.Provider.GOOGLE));
-		}
-
-		if (((AppW) app).getLAF().supportsLocalSave()) {
-			availableProviders.put(Material.Provider.LOCAL,
-					getProviderIcon(Material.Provider.LOCAL));
+			availableProviders.add(Material.Provider.GOOGLE);
 		}
 	}
 
@@ -121,12 +115,12 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 
 	private void updateProviderUI() {
 		if (((AppW) app).isOffline()) {
-			locationHolder.setVisible(availableProviders.containsKey(Material.Provider.LOCAL));
+			locationHolder.setVisible(false);
 		} else {
-			locationHolder.setVisible(true);
+			locationHolder.setVisible(availableProviders.size() > 1);
 			int idxOfCurrentProvider = 0;
 			Material.Provider currentProvider = ((AppW) app).getFileManager().getFileProvider();
-			for (Material.Provider provider : availableProviders.keySet()) {
+			for (Material.Provider provider : availableProviders) {
 				if (provider.equals(currentProvider)) {
 					break;
 				}
@@ -134,7 +128,6 @@ public class SaveDialog extends DoYouWantToSaveChangesDialog {
 			}
 			providerImage.setResource(getProviderIcon(currentProvider));
 			locationDropDown.setSelectedIndex(idxOfCurrentProvider);
-
 		}
 	}
 

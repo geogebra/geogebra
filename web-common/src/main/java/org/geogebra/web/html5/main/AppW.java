@@ -66,7 +66,6 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -1280,9 +1279,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether file is valid
 	 */
 	public boolean openFile(File fileToHandle) {
-		if (getLAF().supportsLocalSave()) {
-			getFileManager().setFileProvider(Provider.LOCAL);
-		}
 		resetPerspectiveParam();
 		resetUrl();
 		return doOpenFile(fileToHandle);
