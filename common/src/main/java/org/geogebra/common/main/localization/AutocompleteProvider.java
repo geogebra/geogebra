@@ -169,6 +169,10 @@ public class AutocompleteProvider {
 			this.helpType = helpType;
 		}
 
+		public MatchedString getMatch() {
+			return match;
+		}
+
 		public String getCommand() {
 			return match.content;
 		}
