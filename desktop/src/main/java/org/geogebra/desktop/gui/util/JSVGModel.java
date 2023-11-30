@@ -5,6 +5,7 @@ import static org.geogebra.desktop.gui.util.JSVGConstants.HEADER;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -83,7 +84,6 @@ public class JSVGModel implements SVGModel {
 		SVGSVGElement root = doc.getRootElement();
 		this.width = (int) root.getWidth().getBaseVal().getValue();
 		this.height = (int) root.getHeight().getBaseVal().getValue();
-
 	}
 
 	public void tidyContent() {

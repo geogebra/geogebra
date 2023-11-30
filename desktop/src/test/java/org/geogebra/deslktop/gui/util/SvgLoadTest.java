@@ -9,11 +9,8 @@ import java.io.IOException;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.io.file.ByteArrayZipFile;
-import org.geogebra.common.io.file.ZipFile;
-import org.geogebra.common.jre.util.Base64;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.gui.util.JSVGImageBuilder;
+import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
