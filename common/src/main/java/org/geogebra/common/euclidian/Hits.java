@@ -644,6 +644,13 @@ public class Hits extends ArrayList<GeoElement> {
 		return result;
 	}
 
+	/**
+	 * Stores all GeoElements that satisfy given condition to result list.
+	 * @param condition test for type
+	 * @param result hits object for result
+	 * @param max maximum allowed size for result
+	 * @return list of GeoElements passing test out of hits
+	 */
 	final public Hits getHits(Predicate<Object> condition, Hits result, int max) {
 		result.clear();
 		for (GeoElement geo: this) {
@@ -1097,6 +1104,9 @@ public class Hits extends ArrayList<GeoElement> {
 		return super.hashCode();
 	}
 
+	/**
+	 * Removes parallel lines from the current hits
+	 */
 	public void removeParallelLines() {
 		HashSet<Double> distinctLines = new HashSet<>();
 		for (int i = size() - 1; i >= 0; i--) {
