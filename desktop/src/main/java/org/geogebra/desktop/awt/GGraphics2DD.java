@@ -416,7 +416,7 @@ public class GGraphics2DD implements GGraphics2D {
 			saveTransform();
 			scale((double) width / img.getWidth(),
 					(double) height / img.getHeight());
-			impl.drawImage(img.getImage(), 0, 0, null);
+			img.render(impl, 0, 0);
 			restoreTransform();
 		} else {
 			impl.drawImage(img.getImage(), 0, 0, width, height, null);

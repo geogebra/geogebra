@@ -3,6 +3,7 @@ package org.geogebra.deslktop.gui.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import org.geogebra.desktop.gui.util.JSVGImageBuilder;
 import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.UtilD;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,23 +29,23 @@ public class SvgLoadTest extends BaseUnitTest {
 		app = new AppDNoGui(new LocalizationD(3), false);
 	}
 
-	public static final String E2E_RESOURCES = "src/e2eTest/resources/svg/";
+	public static final String RESOURCES = "src/test/resources/svg/";
 
 	@Test
 	public void testLoadSvgsGGB() {
-		loadGGB("svgs.ggb");
+		loadGGB("svgs.ggb", 100);
 	}
 
-	private void loadGGB(String fileName) {
-		byte[] array = UtilD.loadFileIntoByteArray(E2E_RESOURCES + fileName);
+	private void loadGGB(String fileName, int count) {
+		byte[] array = UtilD.loadFileIntoByteArray(RESOURCES + fileName);
 		assertNotNull("File error: " + fileName, array);
 		assertTrue(app.loadXML(new ByteArrayZipFile(array)));
-
+		assertEquals(count, ((ImageManagerD) app.getImageManager()).getImageCount());
 	}
 
 	@Test
 	public void testLoadVrTGGB() {
-		loadGGB("material-VrT75QCK.ggb");
+		loadGGB("material-VrT75QCK.ggb", 1);
 	}
 
 	@Test
@@ -53,9 +55,9 @@ public class SvgLoadTest extends BaseUnitTest {
 
 	private static void loadSvg(String svg) {
 		try {
-			image = JSVGImageBuilder.fromFile(new File(E2E_RESOURCES + svg));
+			image = JSVGImageBuilder.fromFile(new File(RESOURCES + svg));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			fail(e.getMessage());
 		}
 	}
 
@@ -72,7 +74,7 @@ public class SvgLoadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void name() {
+	public void loadBadLink() {
 		loadSvg("badLink.svg");
 	}
 }

@@ -114,7 +114,6 @@ public class DrawImage extends Drawable {
 
 		// RELATIVE SCREEN POSITION
 		else {
-
 			boolean center = geoImage.isCentered();
 			int number = center ? 3 : 0;
 			GeoPoint A = geoImage.getStartPoint(number);

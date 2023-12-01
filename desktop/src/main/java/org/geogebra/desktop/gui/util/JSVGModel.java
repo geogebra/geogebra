@@ -2,10 +2,10 @@ package org.geogebra.desktop.gui.util;
 
 import static org.geogebra.desktop.gui.util.JSVGConstants.BLANK_SVG;
 import static org.geogebra.desktop.gui.util.JSVGConstants.HEADER;
+import static org.geogebra.desktop.gui.util.JSVGConstants.UNSUPPORTED_SVG;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -99,7 +99,7 @@ public class JSVGModel implements SVGModel {
 	void fixHeader() {
 		int beginIndex = content.indexOf("<svg");
 		if (beginIndex == -1) {
-			content = BLANK_SVG;
+			content = UNSUPPORTED_SVG;
 			return;
 		}
 		String body = content.substring(beginIndex);
