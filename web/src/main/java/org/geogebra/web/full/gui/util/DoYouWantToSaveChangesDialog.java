@@ -123,7 +123,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	protected MaterialVisibility getSaveVisibility() {
 		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial == null) {
-			return MaterialVisibility.Shared;
+			return app.isMebis() ? MaterialVisibility.Private : MaterialVisibility.Shared;
 		}
 
 		MaterialVisibility visibility = MaterialVisibility.value(activeMaterial.getVisibility());
