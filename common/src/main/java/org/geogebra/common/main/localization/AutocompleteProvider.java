@@ -52,15 +52,15 @@ public class AutocompleteProvider {
 		}
 		ArrayList<MatchedString> syntaxes = new ArrayList<>();
 		for (MatchedString cmd : commands) {
-			addSyntaxes(cmd.content, cmd.from, syntaxes);
+			addSyntaxes(cmd, syntaxes);
 		}
 		return syntaxes;
 	}
 
-	private void addSyntaxes(String cmd, int from, ArrayList<MatchedString> syntaxes) {
-		String syntaxString = getSyntaxString(cmd);
+	private void addSyntaxes(MatchedString match, ArrayList<MatchedString> syntaxes) {
+		String syntaxString = getSyntaxString(match.content);
 		for (String syntax : syntaxString.split("\\n")) {
-			syntaxes.add(new MatchedString(syntax, from));
+			syntaxes.add(new MatchedString(syntax, match.from, match.to));
 		}
 	}
 
@@ -126,7 +126,7 @@ public class AutocompleteProvider {
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
 		Stream<Completion> completions = app.getParserFunctions().getCompletions(curWord).stream()
-				.map(function -> new Completion(new MatchedString(function.split("\\(")[0], 0),
+				.map(function -> new Completion(getMatch(function, curWord),
 						Collections.singletonList(function), App.WIKI_OPERATORS,
 						GuiManagerInterface.Help.GENERIC));
 		List<MatchedString> cmdDict = getDictionary()
@@ -141,6 +141,10 @@ public class AutocompleteProvider {
 		}
 
 		return completions.filter(completion -> !completion.syntaxes.isEmpty());
+	}
+
+	private MatchedString getMatch(String function, String curWord) {
+		return new MatchedString(function.split("\\(")[0], 0, curWord.length());
 	}
 
 	private boolean isCas() {
