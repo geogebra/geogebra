@@ -1987,6 +1987,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testHiddenCommands() {
+		shouldFail("ExpSimplify(x)", "Unknown command");
+		shouldFail("SolveODEPoint(x,(1,2))", "Unknown command");
+	}
+
+	@Test
 	public void functionsShouldWorkInNSolve() {
 		add("f(x)=.05x^3-.8x^2+3x");
 		t("NSolve(2f(x) = f(x+1))",
