@@ -711,7 +711,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getShapeMode().clearPointList();
 			view.repaintView();
 		}
-
+		if (!EuclidianConstants.isMoveOrSelectionMode(newMode)) {
+			app.getSpecialPointsManager().updateSpecialPoints(null);
+		}
 		// GGB-545
 		// problem with
 		// http://tube-beta.geogebra.org/student/99999?cb=jenkins4576
