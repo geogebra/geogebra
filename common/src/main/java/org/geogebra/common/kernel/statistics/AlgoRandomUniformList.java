@@ -26,7 +26,6 @@ public class AlgoRandomUniformList extends AlgoElement
 	private GeoNumberValue length;
 	// output
 	private GeoList list;
-	private boolean isRandom;
 
 	/**
 	 * @param cons
@@ -39,13 +38,10 @@ public class AlgoRandomUniformList extends AlgoElement
 	 *            upper bound for uniform distribution
 	 * @param length
 	 *            list length
-	 * @param isRandom
-	 * 			  true for CmdRandom
 	 */
 	public AlgoRandomUniformList(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length, boolean isRandom) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
 		super(cons);
-		this.isRandom = isRandom;
 		this.a = a;
 		this.b = b;
 		this.length = length;
@@ -61,7 +57,7 @@ public class AlgoRandomUniformList extends AlgoElement
 
 	@Override
 	public GetCommand getClassName() {
-		return isRandom ? Commands.Random : Commands.RandomUniform;
+		return Commands.RandomUniform;
 	}
 
 	@Override
@@ -79,7 +75,7 @@ public class AlgoRandomUniformList extends AlgoElement
 		return list;
 	}
 
-	private void ensureListSize(int n) {
+	public void ensureListSize(int n) {
 
 		// TODO: is suppress labels needed here?
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
@@ -115,10 +111,18 @@ public class AlgoRandomUniformList extends AlgoElement
 		ensureListSize((int) length.getDouble());
 
 		for (int i = 0; i < list.size(); i++) {
-			((GeoNumeric) list.get(i)).setValue(cons.getApplication()
-					.randomUniform(a.getDouble(), b.getDouble()));
+			((GeoNumeric) list.get(i)).setValue(getRandomNumber(a.getDouble(),
+					b.getDouble()));
 		}
+	}
 
+	/**
+	 * @param a - low
+	 * @param b - high
+	 * @return random number between a and b
+	 */
+	public double getRandomNumber(double a, double b) {
+		return cons.getApplication().randomUniform(a, b);
 	}
 
 	@Override
