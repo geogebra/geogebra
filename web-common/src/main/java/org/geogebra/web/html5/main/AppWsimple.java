@@ -3,6 +3,8 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
@@ -163,4 +165,33 @@ public class AppWsimple extends AppW {
 		frame.initCasFactory();
 	}
 
+	@Override
+	public ErrorHandler getDefaultErrorHandler() {
+		return new ErrorHandler() {
+			@Override
+			public void showError(String msg) {
+				getToolTipManager().showBottomMessage(msg, frame.getApp());
+			}
+
+			@Override
+			public void showCommandError(String command, String message) {
+				getToolTipManager().showBottomMessage(message, frame.getApp());
+			}
+
+			@Override
+			public String getCurrentCommand() {
+				return null;
+			}
+
+			@Override
+			public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
+				return false;
+			}
+
+			@Override
+			public void resetError() {
+				// nothing to di here
+			}
+		};
+	}
 }

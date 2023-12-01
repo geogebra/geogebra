@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
+import static org.geogebra.common.BaseUnitTest.hasProperty;
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.CoreMatchers.either;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -44,6 +45,7 @@ import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -1985,6 +1987,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testHiddenCommands() {
+		shouldFail("ExpSimplify(x)", "Unknown command");
+		shouldFail("SolveODEPoint(x,(1,2))", "Unknown command");
+	}
+
+	@Test
 	public void functionsShouldWorkInNSolve() {
 		add("f(x)=.05x^3-.8x^2+3x");
 		t("NSolve(2f(x) = f(x+1))",
@@ -2132,5 +2140,25 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("g(x) = 2 * 5");
 		app.setXML(app.getXML(), true);
 		assertEquals(2, app.getActiveEuclidianView().getAllDrawableList().size());
+	}
+
+	@Test
+	public void testFormulaString() {
+		assertThat(add("f=If(x<a,x+1)"),
+				hasFormulaString("x + 1, \\;\\;\\;\\; \\left(a > x \\right)"));
+		assertThat(add("h=If(x<a,a,b)"),
+				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x\\\\"
+						+ " b& : \\text{otherwise} \\end{array}\\right. "));
+		assertThat(add("h=If(x<a,a,x<b,b,c+1)"),
+				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x"
+						+ "\\\\ b& : b > x\\\\ c + 1& : \\text{otherwise} \\end{array}\\right. "));
+		assertThat(add("h=If(x<a,a,x<b,b,x<c,c+1)"),
+				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x"
+						+ "\\\\ b& : b > x\\\\ c + 1& : c > x \\end{array}\\right. "));
+	}
+
+	private Matcher<GeoSymbolic> hasFormulaString(String f) {
+		return hasProperty("formula",
+				geo -> geo.getFormulaString(StringTemplate.latexTemplate, true), f);
 	}
 }

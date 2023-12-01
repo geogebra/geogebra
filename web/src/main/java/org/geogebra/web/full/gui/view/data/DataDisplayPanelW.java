@@ -157,7 +157,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			}
 		};
 		btnExport.getPopupMenu().addStyleName("gwt-ToggleButton");
-		btnExport.getPopupMenu().addStyleName("MyToggleButton");
+		btnExport.getPopupMenu().addStyleName("ToggleButton");
 
 		// create sub-control panels
 		createDisplayTypeComboBox();

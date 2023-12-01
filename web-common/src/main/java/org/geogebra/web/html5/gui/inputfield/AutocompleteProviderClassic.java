@@ -75,7 +75,8 @@ public class AutocompleteProviderClassic {
 
 		// Start with the built-in function completions
 		completions = app.getParserFunctions().getCompletions(cmdPrefix).stream()
-				.map(c -> new MatchedString(c, 0)).collect(Collectors.toList());
+				.map(c -> new MatchedString(c, 0, currentWord.length()))
+				.collect(Collectors.toList());
 		addToCompletions(commandCompletions);
 	}
 

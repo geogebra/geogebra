@@ -16,7 +16,7 @@ public interface SharedResources extends ClientBundle {
     @Source("org/geogebra/common/icons/png/web/algebra-view-tree-closed.png")
     ImageResource algebra_tree_closed();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_help_outline_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/help-24px.svg")
 	SVGResource icon_help_black();
 
 	@Source("org/geogebra/common/icons/png/web/button_cancel.png")
