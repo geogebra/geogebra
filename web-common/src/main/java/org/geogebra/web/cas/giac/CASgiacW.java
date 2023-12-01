@@ -49,7 +49,6 @@ public class CASgiacW extends CASgiac {
 		super(casParser);
 		this.kernel = kernel;
 
-		App.setCASVersionString("Giac/JS");
 		Log.debug("starting CAS");
 		if (externalCAS) {
 			Log.debug("switching to external");

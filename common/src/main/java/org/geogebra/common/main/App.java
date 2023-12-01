@@ -501,18 +501,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return CAS version
+	 * @return CAS version (for debug info)
 	 */
-	public static final String getCASVersionString() {
+	public static String getCASVersionString() {
 		return CASVersionString;
 
 	}
 
 	/**
 	 * @param string
-	 *            CAS version string
+	 *            CAS version string (for debug info)
 	 */
-	public static final void setCASVersionString(String string) {
+	public static void setCASVersionString(String string) {
 		CASVersionString = string;
 	}
 
@@ -523,7 +523,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            string version, eg 4.9.38.0
 	 * @return version as list of ints, eg [4,9,38,0]
 	 */
-	static final public int[] getSubValues(String version) {
+	static public int[] getSubValues(String version) {
 		String[] values = version.split("\\.");
 		int[] ret = new int[values.length];
 		for (int i = 0; i < values.length; i++) {
@@ -575,7 +575,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            view id
 	 * @return true if id is a 3D view id
 	 */
-	public static final boolean isView3D(int id) {
+	public static boolean isView3D(int id) {
 		if (id == App.VIEW_EUCLIDIAN3D) {
 			return true;
 		}
@@ -4466,7 +4466,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            labeling style (GeoElement.LABEL_*)
 	 * @return localized labeling style
 	 */
-	final public static String getLabelStyleName(App app, int id) {
+	public static String getLabelStyleName(App app, int id) {
 		switch (id) {
 		case -1:
 			return app.getLocalization().getMenu("Hidden");
