@@ -3152,8 +3152,6 @@ public class AlgebraProcessor {
 		if (n.containsFreeFunctionVariable(null)) {
 			n = makeFunctionNVar(n).wrap();
 		}
-		String s = n.toString(StringTemplate.defaultTemplate);
-		Log.debug(s);
 		eval = n.evaluate(StringTemplate.defaultTemplate);
 		if (eval instanceof ValidExpression && label != null) {
 			((ValidExpression) eval).setLabel(label);
