@@ -294,4 +294,8 @@ public class IntervalNodeEvaluator {
 	public Interval multiplicativeInverse(Interval interval) {
 		return divide.compute(one(), interval);
 	}
+
+	public Interval logBase(Interval base, Interval arg) {
+		return divide(log(arg), log(base));
+	}
 }
