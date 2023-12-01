@@ -493,6 +493,12 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void sufficientPrecisionForDivision() {
+		t("490/0.035", "14000", StringTemplate.maxDecimals);
+		t("0.49/0.035", "14", StringTemplate.maxDecimals);
+	}
+
+	@Test
 	public void sufficientPrecisionForRepeatedMultiplication() {
 		t("a=1000/999", "1.001", StringTemplate.editTemplate);
 		StringBuilder power = new StringBuilder("a");

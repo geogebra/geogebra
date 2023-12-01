@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.HashSet;
 
 import org.apache.commons.math3.util.Precision;
@@ -312,7 +313,24 @@ public class MyDouble extends ValidExpression
 	 */
 	final public static void div(MyDouble a, MyDouble b, MyDouble c) {
 		c.angleDim = a.angleDim - b.angleDim;
-		c.set(a.val / b.val);
+		if (isImpreciseDiv(a, b)) {
+			c.set(a.val / b.val);
+			c.setImprecise(true);
+			return;
+		}
+
+		BigDecimal numerator = a.toBigDecimal();
+		BigDecimal denominator = b.toBigDecimal();
+		c.set(numerator.divide(denominator, MathContext.DECIMAL128).doubleValue());
+	}
+
+	private static boolean isImpreciseDiv(MyDouble a, MyDouble b) {
+		return a.isImprecise() || b.isImprecise() || b.val == 0
+				|| !Double.isFinite(a.val)	|| !Double.isFinite(b.val) || !a.isDefined();
+	}
+
+	private BigDecimal toBigDecimal() {
+		return new BigDecimal(val + "");
 	}
 
 	/**
