@@ -75,8 +75,10 @@ public class AlgoRandomUniformList extends AlgoElement
 		return list;
 	}
 
+	/**
+	 * @param n - size of list
+	 */
 	public void ensureListSize(int n) {
-
 		// TODO: is suppress labels needed here?
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);

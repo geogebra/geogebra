@@ -3089,7 +3089,7 @@ public class CommandsTest {
 				// both Random() and random() should do the same
 		t("RandomBetween[ 42, 50 ]", "47");
 		t("RandomBetween[ 42, 50, true ]", "44");
-		t("RandomBetween[ 1, 10, 3 ]", "{7.548073120295813, 7.149011245838609, 3.7784750979939377}");
+		t("RandomBetween[ 1, 10, 3 ]", "{7, 2, 5}");
 	}
 
 	@Test

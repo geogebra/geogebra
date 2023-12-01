@@ -5,20 +5,15 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoRandomList extends AlgoRandomUniformList {
-	private GeoNumberValue a;
-	private GeoNumberValue b;
-	private GeoNumberValue length;
-	private GeoList list;
 
 	/**
 	 * @param cons construction
 	 * @param label output label
 	 * @param a lower bound for uniform distribution
 	 * @param b upper bound for uniform distribution
-	 * @param length
+	 * @param length of list
 	 */
 	public AlgoRandomList(Construction cons, String label,
 			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
