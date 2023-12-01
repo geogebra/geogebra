@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoRandomList extends AlgoRandomUniformList {
