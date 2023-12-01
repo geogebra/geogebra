@@ -46,6 +46,10 @@ public class CmdAsymptote extends CommandProcessor implements UsesCAS {
 
 			} else if (arg[0].isGeoFunction()) {
 
+				if (!containsValidFunctionVariable((GeoFunction) arg[0])) {
+					throw argErr(c, ((GeoFunction) arg[0]).getFunctionVariables()[0]);
+				}
+
 				AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction(cons,
 						c.getLabel(), (GeoFunction) arg[0]);
 
@@ -64,5 +68,13 @@ public class CmdAsymptote extends CommandProcessor implements UsesCAS {
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	private boolean containsValidFunctionVariable(GeoFunction function) {
+		if (function.getFunctionVariables().length == 1) {
+			String var = function.getFunctionVariables()[0].getSetVarString();
+			return var.equals("x") || var.equals("y") || var.equals("z") || var.equals("t");
+		}
+		return false;
 	}
 }
