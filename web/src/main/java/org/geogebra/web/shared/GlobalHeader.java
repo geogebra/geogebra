@@ -299,15 +299,16 @@ public class GlobalHeader implements EventRenderable {
 		examImg.setStyleName("examTypeIcon");
 		Label examType = new Label(examTypeName);
 		examType.setStyleName("examType");
-		examTypeHolder = new FlowPanel();
-		examTypeHolder.getElement().setId("examTypeId");
-		examTypeHolder.addStyleName("examTypePanel");
-		if (app.isLockedExam()) {
-			examTypeHolder.addStyleName("locked");
+		FlowPanel examTypePanel = new FlowPanel();
+		examTypePanel.getElement().setId("examTypeId");
+		examTypePanel.addStyleName("examTypePanel");
+		if (app != null && app.isLockedExam()) {
+			examTypePanel.addStyleName("locked");
 		}
-		examTypeHolder.add(examImg);
-		examTypeHolder.add(examType);
-		RootPanel.get("examId").add(examTypeHolder);
+		examTypePanel.add(examImg);
+		examTypePanel.add(examType);
+		this.examTypeHolder = examTypePanel;
+		RootPanel.get("examId").add(examTypePanel);
 	}
 
 	/**
