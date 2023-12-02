@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.html5.Browser;
