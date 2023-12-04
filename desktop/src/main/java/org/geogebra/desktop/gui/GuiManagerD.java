@@ -1249,16 +1249,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 							fileName));
 					imageFound = true;
 				}
-				// System.out.println(nameList.toString());
 
 			}
 
 			if (!imageFound && transfer
 					.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-				// java.util.List list = null;
-
-				// list = (java.util.List)
-				// transfer.getTransferData(DataFlavor.javaFileListFlavor);
 
 				List<File> list = (List<File>) transfer
 						.getTransferData(DataFlavor.javaFileListFlavor);
@@ -1270,7 +1265,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						imageFound = true;
 					}
 				}
-				// System.out.println(nameList.toString());
 
 			}
 
@@ -1298,7 +1292,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						imageFound = true;
 					}
 				}
-				// System.out.println(nameList.toString());
 			}
 
 			if (!imageFound && transfer.isDataFlavorSupported(urlFlavor)) {

@@ -10,10 +10,10 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "07 November 2023";
+	public static final String BUILD_DATE = "28 November 2023";
 	/** complete version string */
 
-	public static final String VERSION_STRING = "5.2.812.0";
+	public static final String VERSION_STRING = "5.2.815.0";
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
@@ -248,7 +248,8 @@ public interface GeoGebraConstants {
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
-	public static final String FORUM_URL = "https://www.reddit.com/r/geogebra/";
+	public static final String FORUM_URL = "https://help.geogebra.org/";
+	public static final String REPORT_BUG_URL = "https://www.reddit.com/r/geogebra/";
 
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 

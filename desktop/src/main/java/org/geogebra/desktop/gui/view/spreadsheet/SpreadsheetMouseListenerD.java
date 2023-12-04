@@ -460,7 +460,6 @@ public class SpreadsheetMouseListenerD
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION
 				|| table.getTableMode() == MyTable.TABLE_MODE_DROP) {
-			// System.out.println("drop is dragging ");
 			return;
 		}
 

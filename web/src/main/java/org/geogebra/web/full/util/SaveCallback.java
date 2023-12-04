@@ -90,7 +90,7 @@ public class SaveCallback {
 				|| mat.getType().equals(MaterialType.ggs)) {
 			app.setActiveMaterial(mat);
 			onSaved(app, state, false);
-			if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
+			if (((GuiManagerW) app.getGuiManager()).isOpenFileViewLoaded()) {
 				if (!isLocal) {
 					mat.setSyncStamp(mat.getModified());
 				}

@@ -48,7 +48,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	private boolean checkboxFixed;
 	private boolean showExtendedAV = true;
 
-	private final List<GeoElement> conditionals;
+	private List<GeoElement> conditionals;
 	private GeoPointND startPoint;
 
 	/**
@@ -124,7 +124,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 *            geo which should use this boolean as condition to show
 	 */
 	public void registerConditionListener(GeoElement geo) {
-		conditionals.add(geo);
+		ArrayList<GeoElement> newConditionals = new ArrayList<>(conditionals);
+		newConditionals.add(geo);
+		conditionals = newConditionals;
 	}
 
 	/**
@@ -134,7 +136,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 *            geo which uses this boolean as condition to show
 	 */
 	public void unregisterConditionListener(GeoElement geo) {
-		conditionals.remove(geo);
+		ArrayList<GeoElement> newConditionals = new ArrayList<>(conditionals);
+		newConditionals.remove(geo);
+		conditionals = newConditionals;
 	}
 
 	/**
@@ -399,9 +403,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 		GeoBoolean geoBoolean = (GeoBoolean) oldGeo;
 		conditionals.clear();
-		for (GeoElement conditional : geoBoolean.conditionals) {
-			registerConditionListener(conditional);
-		}
+		conditionals.addAll(geoBoolean.conditionals);
 	}
 
 	@Override

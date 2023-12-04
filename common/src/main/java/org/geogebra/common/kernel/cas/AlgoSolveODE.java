@@ -207,7 +207,6 @@ public class AlgoSolveODE extends AlgoElement {
 				throws IllegalArgumentException {
 			double t = interpolator.getCurrentTime();
 			double[] y1 = interpolator.getInterpolatedState();
-			// System.out.println(t + " " + y[0]);
 
 			if (!quotient) {
 				al.add(new MyPoint(t, y1[0], SegmentType.LINE_TO));

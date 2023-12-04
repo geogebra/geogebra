@@ -64,6 +64,10 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
+	private Component canvas;
+	private boolean exportToClipboard;
+	private File exportFile;
+	private int exportDPI;
 
 	/**
 	 * constructor
@@ -93,8 +97,6 @@ public class EuclidianView3DD extends EuclidianView3D
 		}
 
 	}
-
-	private Component canvas;
 
 	@Override
 	protected void createPanel() {
@@ -447,10 +449,6 @@ public class EuclidianView3DD extends EuclidianView3D
 
 		return getRenderer().getExportImage();
 	}
-
-	private boolean exportToClipboard;
-	private File exportFile;
-	private int exportDPI;
 
 	@Override
 	public void exportImagePNG(double scale, boolean transparency, int dpi,

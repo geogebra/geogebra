@@ -84,7 +84,7 @@ public class ScientificActivity extends BaseActivity {
 
 	@Override
 	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem, boolean forInput) {
-		return new AVItemHeaderScientific();
+		return new AVItemHeaderScientific(radioTreeItem.getApplication().getLocalization());
 	}
 
 	@Override

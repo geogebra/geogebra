@@ -501,18 +501,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return CAS version
+	 * @return CAS version (for debug info)
 	 */
-	public static final String getCASVersionString() {
+	public static String getCASVersionString() {
 		return CASVersionString;
 
 	}
 
 	/**
 	 * @param string
-	 *            CAS version string
+	 *            CAS version string (for debug info)
 	 */
-	public static final void setCASVersionString(String string) {
+	public static void setCASVersionString(String string) {
 		CASVersionString = string;
 	}
 
@@ -523,7 +523,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            string version, eg 4.9.38.0
 	 * @return version as list of ints, eg [4,9,38,0]
 	 */
-	static final public int[] getSubValues(String version) {
+	static public int[] getSubValues(String version) {
 		String[] values = version.split("\\.");
 		int[] ret = new int[values.length];
 		for (int i = 0; i < values.length; i++) {
@@ -575,7 +575,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            view id
 	 * @return true if id is a 3D view id
 	 */
-	public static final boolean isView3D(int id) {
+	public static boolean isView3D(int id) {
 		if (id == App.VIEW_EUCLIDIAN3D) {
 			return true;
 		}
@@ -673,22 +673,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					continue;
 				}
 			} catch (Exception e) {
-				// nothing happens
+				continue; // not a translatable command => skip
 			}
-			try {
-				String local = getLocalization().getCommand(cmd);
-				putInTranslateCommandTable(Commands.valueOf(cmd), local);
-				if (local != null) {
-					commandDictCAS.addEntry(local);
-					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
-				} else {
-					commandDictCAS.addEntry(cmd);
-					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
-				}
-			} catch (Exception mre) {
-				commandDictCAS.addEntry(cmd);
-				subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
-			}
+			String local = getLocalization().getCommand(cmd);
+			putInTranslateCommandTable(Commands.valueOf(cmd), local);
+			commandDictCAS.addEntry(local);
+			subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
 		}
 	}
 
@@ -854,25 +844,31 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	}
 
-	private void putInTranslateCommandTable(Commands comm, String local) {
+	private boolean putInTranslateCommandTable(Commands comm, String local) {
 		String internal = comm.name();
 		// Check that we don't overwrite local with English
 		HashMap<String, String> translateCommandTable = getLocalization()
 				.getTranslateCommandTable();
+		int added = 0;
+		String lowerCaseUS = StringUtil.toLowerCaseUS(internal);
 		if (!translateCommandTable
-				.containsKey(StringUtil.toLowerCaseUS(internal))) {
-			translateCommandTable.put(StringUtil.toLowerCaseUS(internal),
+				.containsKey(lowerCaseUS)) {
+			translateCommandTable.put(lowerCaseUS,
 					Commands.englishToInternal(comm).name());
+			added++;
 		}
 		if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
-			return;
+			return added > 0;
 		}
 
 		if (local != null) {
-			translateCommandTable.put(StringUtil.toLowerCaseUS(local),
+			String old = translateCommandTable.put(StringUtil.toLowerCaseUS(local),
 					Commands.englishToInternal(comm).name());
+			if (old == null) {
+				added++;
+			}
 		}
-
+		return added > 0;
 	}
 
 	/**
@@ -2110,6 +2106,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	final public void initKernel() {
 		kernel = companion.newKernel();
 		kernel.setAngleUnit(appConfig.getDefaultAngleUnit());
+		kernel.setSymbolicMode(appConfig.getSymbolicMode());
 		// ensure that the selection manager is created
 		getSelectionManager();
 	}
@@ -4469,7 +4466,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            labeling style (GeoElement.LABEL_*)
 	 * @return localized labeling style
 	 */
-	final public static String getLabelStyleName(App app, int id) {
+	public static String getLabelStyleName(App app, int id) {
 		switch (id) {
 		case -1:
 			return app.getLocalization().getMenu("Hidden");

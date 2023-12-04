@@ -610,20 +610,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			}
 		}
 
-		// if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
-		// if (!foundDefined)
-		// System.out.print(locus.label + " FIRST DEFINED param: " +
-		// Pcopy.getPathParameter().t);
-		// else
-		// System.out.print(locus.label + " param: " +
-		// Pcopy.getPathParameter().t);
-		// System.out.println(", Qcopy: " + Qcopy);
-		// } else {
-		// System.out.print(locus.label + " param: " +
-		// Pcopy.getPathParameter().t);
-		// System.out.println(", Qcopy: NOT DEFINED");
-		// }
-
 		// check found defined
 		if (!foundDefined && copyQ.isDefined() && !copyQ.isInfinite()) {
 			sliderMover.init(copyP);

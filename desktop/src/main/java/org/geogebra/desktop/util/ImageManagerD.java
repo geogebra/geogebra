@@ -496,7 +496,7 @@ public class ImageManagerD extends ImageManager {
 			return fileName;
 		} catch (Exception e) {
 			app.setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			app.showError(Errors.LoadFileFailed);
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
@@ -516,19 +516,10 @@ public class ImageManagerD extends ImageManager {
 			BufferedImage image = null;
 			byte[] imageByte = Base64.decode(pngStr);
 
-			ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-			try {
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
 				image = ImageIO.read(bis);
 			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (bis != null) {
-					try {
-						bis.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				Log.debug(e);
 			}
 
 			if (image != null) {

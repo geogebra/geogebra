@@ -1304,7 +1304,7 @@ public class GuiManagerW extends GuiManager
 		}
 
 		getApp().getDialogManager().setLabels();
-		if (browseGUIwasLoaded()) {
+		if (isOpenFileViewLoaded()) {
 			getBrowseView().setLabels();
 		}
 
@@ -1750,7 +1750,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	@Override
 	public BrowseViewI getBrowseView(String query) {
-		if (!browseGUIwasLoaded()) {
+		if (!isOpenFileViewLoaded()) {
 			this.browseGUI = createBrowseView(this.getApp());
 			if (!StringUtil.emptyTrim(query)) {
 				this.browseGUI.displaySearchResults(query);
@@ -1781,10 +1781,8 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	/**
-	 * @return true if {@link OpenFileView} is not null
-	 */
-	public boolean browseGUIwasLoaded() {
+	@Override
+	public boolean isOpenFileViewLoaded() {
 		return this.browseGUI != null;
 	}
 

@@ -3578,7 +3578,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	public void drawObjects(GGraphics2D g2) {
-		tracing = false;
 		drawGeometricObjects(g2);
 		drawActionObjects(g2);
 
@@ -3626,7 +3625,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		bgImageList.drawAll(g);
 		setBackgroundUpdating(false);
 
-		drawBackground(g, false);
+		drawBackground(g);
 	}
 
 	private void setBackgroundUpdating(boolean b) {
@@ -3720,10 +3719,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					// g2.drawImage(bgImage, 0, 0, null);
 					firstPaint = false;
 				} else {
-					drawBackgroundWithImages(g2);
+					drawBackgroundWithImages(g2, false);
 				}
 			} else {
-				drawBackgroundWithImages(g2);
+				drawBackgroundWithImages(g2, false);
 			}
 		} else {
 			paintBackground(g2);
@@ -3734,6 +3733,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Updates background image
 	 */
 	final public void updateBackgroundImage() {
+		tracing = false;
 		if (bgGraphics != null) {
 			drawBackgroundWithImages(bgGraphics, false);
 		}
@@ -3873,26 +3873,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param g
-	 *            background graphics
-	 */
-	protected void drawBackgroundWithImages(GGraphics2D g) {
-		drawBackgroundWithImages(g, false);
-	}
-
-	/**
-	 * Draws axes, grid and background images
+	 * Draws axes, grid and background images. Does NOT clear background.
 	 * 
 	 * @param g
 	 *            graphics
-	 * @param clear
-	 *            clear traces before drawing
 	 */
-	final protected void drawBackground(GGraphics2D g, boolean clear) {
-		if (clear) {
-			clearBackground(g);
-		}
-
+	final protected void drawBackground(GGraphics2D g) {
 		g.setAntialiasing();
 
 		// handle drawing axes near the screen edge
@@ -5896,7 +5882,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		} else {
 			// just clear the background if transparency is disabled (clear =
 			// draw background color)
-			drawBackground(g2d, !transparency);
+			if (!transparency) {
+				clearBackground(g2d);
+			}
+			drawBackground(g2d);
 		}
 
 		g2d.setAntialiasing();
@@ -6328,7 +6317,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param x
 	 *            x-coord
 	 * @param y
-	 *            y=coord
+	 *            y-coord
 	 * @param col
 	 *            text color
 	 */

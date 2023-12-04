@@ -49,9 +49,6 @@ public class ResourceAvailability {
 			}
 			switch (i) {
 			case EuclidianConstants.MODE_SELECTION_LISTENER:
-			case EuclidianConstants.MODE_PEN_PANEL:
-			case EuclidianConstants.MODE_TOOLS_PANEL:
-			case EuclidianConstants.MODE_MEDIA_PANEL:
 			case EuclidianConstants.MODE_VIDEO:
 			case EuclidianConstants.MODE_AUDIO:
 			case EuclidianConstants.MODE_CALCULATOR:

@@ -8,6 +8,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
+import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -40,6 +41,7 @@ public class GlobalHeader implements EventRenderable {
 
 	private ProfileAvatar profilePanel;
 	private RootPanel signIn;
+	private MenuToggleButton menuBtn;
 	private AppW app;
 	private Label timer;
 	private StandardButton examInfoBtn;
@@ -314,6 +316,12 @@ public class GlobalHeader implements EventRenderable {
 		if (profilePanel != null) {
 			profilePanel.setLabels();
 		}
+		if (menuBtn != null) {
+			menuBtn.setLabel();
+		}
 	}
 
+	public void setMenuBtn(MenuToggleButton menuBtn) {
+		this.menuBtn = menuBtn;
+	}
 }

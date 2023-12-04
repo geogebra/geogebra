@@ -826,13 +826,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return dialogManager;
 	}
 
-	private void showBrowser(MyHeaderPanel bg) {
+	private void showBrowser(MyHeaderPanel headerPanel) {
 		EuclidianController evController = getActiveEuclidianView().getEuclidianController();
 		if (evController != null) {
 			evController.hideDynamicStylebar();
 		}
 		getAppletFrame().setApplication(this);
-		getAppletFrame().showPanel(bg);
+		getAppletFrame().showPanel(headerPanel);
 	}
 
 	@Override

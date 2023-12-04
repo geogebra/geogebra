@@ -637,7 +637,7 @@ class FillingPanelD extends JPanel
 					selectedBarButton = Integer
 							.parseInt(((JToggleButton) arg0.getSource())
 									.getActionCommand());
-					FillingPanelD.this.update(model.getGeos());
+					this.update(model.getGeos());
 				});
 				group.add(selectionBarButtons[i]);
 				barsPanel.add(selectionBarButtons[i]);
