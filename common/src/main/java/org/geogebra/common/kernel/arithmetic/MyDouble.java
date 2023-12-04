@@ -326,7 +326,7 @@ public class MyDouble extends ValidExpression
 
 	private static boolean isImpreciseDiv(MyDouble a, MyDouble b) {
 		return a.isImprecise() || b.isImprecise() || b.val == 0
-				|| !Double.isFinite(a.val)	|| !Double.isFinite(b.val) || !a.isDefined();
+				|| !Double.isFinite(a.val) || !Double.isFinite(b.val) || !a.isDefined();
 	}
 
 	private BigDecimal toBigDecimal() {
