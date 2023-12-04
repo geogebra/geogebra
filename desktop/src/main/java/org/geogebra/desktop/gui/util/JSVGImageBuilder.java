@@ -2,7 +2,6 @@
 
 package org.geogebra.desktop.gui.util;
 
-import static org.geogebra.desktop.gui.util.JSVGConstants.BLANK_SVG;
 import static org.geogebra.desktop.gui.util.JSVGConstants.NO_URI;
 import static org.geogebra.desktop.gui.util.JSVGConstants.UNSUPPORTED_SVG;
 
@@ -74,13 +73,6 @@ public final class JSVGImageBuilder {
 		return newImage(model);
 	}
 
-	private static SVGImage blankImage() {
-		if (blankImage == null) {
-			blankImage = fromContent(BLANK_SVG);
-		}
-		return blankImage;
-	}
-
 	private static SVGImage newImage(JSVGModel model) {
 		model.nextTry();
 		try {
@@ -91,7 +83,7 @@ public final class JSVGImageBuilder {
 		}
 	}
 
-	private static SVGImage unsupportedImage() {
+	public static SVGImage unsupportedImage() {
 		if (unsupportedImage == null) {
 			unsupportedImage = fromContent(UNSUPPORTED_SVG);
 		}
