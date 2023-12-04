@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.TestEvent;
-import org.geogebra.test.TestStringUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -150,6 +150,32 @@ public class ControllerTest extends BaseControllerTest {
 	}
 
 	@Test
+	public void intersectToolDoubleHit() {
+		setMode(EuclidianConstants.MODE_INTERSECT);
+		t("a:x=1");
+		t("b:Ray((1,-1),(-1,-1))");
+		t("c:Circle((1,-1),3)");
+		click(200, 50); // hit circle
+		click(50, 50); // hit both ray and line
+		checkContent("a: x = 1", "b: y = -1", unicode("c: (x - 1)^2 + (y + 1)^2 = 9"),
+				"A = (1, 2)", "B = (1, -4)");
+		checkHiddenContent();
+	}
+
+	@Test
+	public void intersectToolIncident() {
+		setMode(EuclidianConstants.MODE_INTERSECT);
+		t("a:x=1");
+		t("b:Segment((1,-2),(1,5))");
+		t("c:Circle((1,-1),3)");
+		click(50, 50); // hit both incident lines
+		click(200, 50); // hit circle
+		checkContent("a: x = 1", "b = 7", unicode("c: (x - 1)^2 + (y + 1)^2 = 9"),
+				"A = (1, 2)");
+		checkHiddenContent();
+	}
+
+	@Test
 	public void intersectToolAbs() {
 		setMode(EuclidianConstants.MODE_INTERSECT);
 		// TODO AlgebraTest.enableCAS(app, false);
@@ -210,7 +236,7 @@ public class ControllerTest extends BaseControllerTest {
 		click(50, 50);
 		click(100, 100);
 		checkContent("A = (1, -1)", "B = (2, -2)",
-				TestStringUtil.unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
+				unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
@@ -220,7 +246,7 @@ public class ControllerTest extends BaseControllerTest {
 		click(100, 100);
 		click(100, 0);
 		checkContent("A = (0, 0)", "B = (2, -2)", "C = (2, 0)",
-				TestStringUtil.unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
+				unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
@@ -243,7 +269,7 @@ public class ControllerTest extends BaseControllerTest {
 		click(150, 200);
 		resetMouseLocation();
 		click(200, 150);
-		checkContent(TestStringUtil.unicode("c: x^2 + y^2 = 25"), "A = (3, -4)",
+		checkContent(unicode("c: x^2 + y^2 = 25"), "A = (3, -4)",
 				"f: 3x - 4y = 25");
 	}
 
@@ -294,7 +320,7 @@ public class ControllerTest extends BaseControllerTest {
 		t(circle);
 		click(150, 200);
 		checkContent("A = (0, 0)", "B = (2, -2)", "C = (1, -1)",
-				TestStringUtil.unicode(circle), "D = (0, 0)");
+				unicode(circle), "D = (0, 0)");
 	}
 
 	@Test
@@ -374,8 +400,8 @@ public class ControllerTest extends BaseControllerTest {
 		click(150, 200);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "A' = (4, -4)",
-				TestStringUtil.unicode(circle),
-				TestStringUtil.unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
+				unicode(circle),
+				unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
 	}
 
 	@Test
@@ -390,8 +416,8 @@ public class ControllerTest extends BaseControllerTest {
 		click(150, 200);
 		click(100, 100);
 		checkContent(line, "A = (0, 0)", "A' = (4, -4)",
-				TestStringUtil.unicode(circle),
-				TestStringUtil.unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
+				unicode(circle),
+				unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
 	}
 
 	@Test
@@ -570,7 +596,7 @@ public class ControllerTest extends BaseControllerTest {
 		click(0, 0);
 		click(150, 0);
 		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)",
-				TestStringUtil.unicode("c: (x - 3)^2 + y^2 = 8"));
+				unicode("c: (x - 3)^2 + y^2 = 8"));
 	}
 
 	@Test
@@ -581,7 +607,7 @@ public class ControllerTest extends BaseControllerTest {
 		click(50, 50);
 		click(100, 100);
 
-		checkContent(TestStringUtil.unicode("c: x^2 + y^2 = 8"), "A = (1, -1)",
+		checkContent(unicode("c: x^2 + y^2 = 8"), "A = (1, -1)",
 				"A' = (4, -4)");
 	}
 
@@ -613,7 +639,7 @@ public class ControllerTest extends BaseControllerTest {
 		click(50, 50);
 		click(100, 100);
 		checkContent("f: y = -1", "A = (2, -2)",
-				TestStringUtil.unicode("c: x^2 - 4x + 2y = -7"));
+				unicode("c: x^2 - 4x + 2y = -7"));
 	}
 
 	@Test
@@ -775,21 +801,6 @@ public class ControllerTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void penPanelTool() {
-		setMode(EuclidianConstants.MODE_PEN_PANEL); // TODO 112
-	}
-
-	@Test
-	public void toolsPanelTool() {
-		setMode(EuclidianConstants.MODE_TOOLS_PANEL); // TODO 113
-	}
-
-	@Test
-	public void mediaPanelTool() {
-		setMode(EuclidianConstants.MODE_MEDIA_PANEL); // TODO 114
-	}
-
-	@Test
 	public void videoTool() {
 		setMode(EuclidianConstants.MODE_VIDEO); // TODO 115
 	}
@@ -855,8 +866,7 @@ public class ControllerTest extends BaseControllerTest {
 		GeoConic c = (GeoConic) getApp().getKernel().getAlgebraProcessor()
 				.evaluateToGeoElement(string, false);
 		c.setToImplicit();
-		return TestStringUtil
-				.unicode(c.toValueString(StringTemplate.editTemplate));
+		return unicode(c.toValueString(StringTemplate.editTemplate));
 	}
 
 }
