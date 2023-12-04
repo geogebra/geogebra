@@ -2169,4 +2169,22 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		return hasProperty("formula",
 				geo -> geo.getFormulaString(StringTemplate.latexTemplate, true), f);
 	}
+
+	@Test
+	public void bracketShouldBeMultiplicationForSymbolicNumbers() {
+		add("a=2");
+		add("p=0.1");
+		t("NSolve(a(4)=x)", "{x = 8}");
+		t("p(1-p)", "9 / 100");
+	}
+
+	@Test
+	public void bracketShouldBeMultiplicationForSymbolicNumbersWithoutDefiningA() {
+		t("NSolve(-4 a(2)=16)", "{a = -2}");
+	}
+
+	@Test
+	public void bracketShouldNotBeMultiplicationForSymbolicVariables() {
+		t("Derivative(f(x)*g(x))", "f'(x) * g(x) + g'(x) * f(x)");
+	}
 }

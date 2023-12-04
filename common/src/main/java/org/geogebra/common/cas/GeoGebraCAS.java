@@ -558,6 +558,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if (!handled) {
 				// sbCASCommand.append("re(");
 				sbCASCommand.append(tpl.printVariableName(name));
+
+				if (args.size() == 1 && args.get(0).isConstant()) {
+					sbCASCommand.append('*');
+				}
+
 				sbCASCommand.append('(');
 			}
 			for (int i = 0; i < args.size(); i++) {
