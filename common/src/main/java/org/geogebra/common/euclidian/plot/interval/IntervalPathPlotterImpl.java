@@ -38,10 +38,26 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 
 	@Override
 	public void segment(EuclidianViewBounds bounds, double x1, double y1, double x2, double y2) {
+		double sy1 = bounds.toScreenCoordYd(y1);
+		double sy2 = bounds.toScreenCoordYd(y2);
+
+		if (isSegmentOffscreenUp(sy1, sy2) || isSegmentOffscreenDown(sy1,
+				bounds.getHeight() - PLOT_MARGIN, sy2)) {
+			return;
+		}
+
 		segment(bounds.toScreenCoordXd(x1),
-				bounds.toScreenCoordYd(y1),
+				sy1,
 				bounds.toScreenCoordXd(x2),
-				bounds.toScreenCoordYd(y2));
+				sy2);
+	}
+
+	private static boolean isSegmentOffscreenDown(double sy1, int h, double sy2) {
+		return sy1 > h && sy2 > h;
+	}
+
+	private static boolean isSegmentOffscreenUp(double sy1, double sy2) {
+		return sy1 < PLOT_MARGIN && sy2 < PLOT_MARGIN;
 	}
 
 	@Override
