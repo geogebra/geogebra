@@ -111,7 +111,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	public final void authorizeUser(final GeoGebraTubeUser user,
 			final LogInOperation op, final boolean automatic) {
 		if ("".equals(user.getLoginToken())) {
-			op.stayLoggedOut();
+			op.loginCanceled();
 			return;
 		}
 		performRequest(

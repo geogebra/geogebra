@@ -31,7 +31,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	public DoYouWantToSaveChangesDialog(AppW app,
 			DialogData dialogData, boolean autoHide) {
 		super(app, dialogData, autoHide, true);
-		addStyleName("saveDialogMow");
+		addStyleName("saveDialog");
 		buildContent();
 		initActions();
 		DialogUtil.hideOnLogout(app, this);
@@ -76,6 +76,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		setOnNegativeAction(app.getSaveController()::cancel);
 		setOnPositiveAction(() -> {
 			if (((AppW) app).getFileManager().saveCurrentLocalIfPossible(app)) {
+				app.getSaveController().runAfterSaveCallback(true);
 				return;
 			}
 			if (!((AppW) app).getFileManager().isOnlineSavingPreferred()) {
