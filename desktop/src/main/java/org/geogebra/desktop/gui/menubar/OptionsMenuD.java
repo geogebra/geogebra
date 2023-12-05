@@ -135,7 +135,9 @@ public class OptionsMenuD extends BaseMenu
 		currentLocale = currentLocale.replaceAll("_", "");
 		StringBuilder sb = new StringBuilder(20);
 
-		for (Language loc : Language.values()) {
+		Language[] supportedLanguages = app.getLocalization()
+				.getSupportedLanguages(app.isPrerelease());
+		for (Language loc : supportedLanguages) {
 
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
