@@ -72,7 +72,7 @@ public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	 * @return if button was toggled or not.
 	 */
 	public boolean handle(Object source) {
-		if (!(source instanceof  ToggleButton)) {
+		if (!(source instanceof  ToggleButton) || getElement().hasClassName("disabled")) {
 			return false;
 		}
 		ToggleButton sourceButton = (ToggleButton) source;

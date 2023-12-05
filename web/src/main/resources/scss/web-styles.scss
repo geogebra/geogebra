@@ -1966,6 +1966,10 @@
 		align-items: center;
 	}
 
+	.intervalPanel .disabled {
+		opacity: 0.36;
+	}
+
 	.parameterPanel, .resultPanel {
 		display: flex;
 		align-items: center;
