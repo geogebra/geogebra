@@ -513,8 +513,8 @@ public class MyTextFieldD extends JTextField
 
 		// g2.setClip(0, 0, width, height);
 
-		if (pos - scrollOffset + insets.left >= 0
-				&& pos + advance - scrollOffset <= width) {
+		if (pos - scrollOffset <= width
+				&&  pos + advance - scrollOffset >= 0) {
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
 		}
 
