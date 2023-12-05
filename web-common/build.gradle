@@ -3,7 +3,7 @@ plugins {
     id 'org.docstr.gwt' version '1.1.30'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '6.0.1'
+    id 'com.github.spotbugs' version '5.2.5'
 }
 
 description 'Web platform code which does not use the GWT Widgets library'
