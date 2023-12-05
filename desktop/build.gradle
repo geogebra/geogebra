@@ -5,18 +5,6 @@
     id 'checkstyle'
 }
 
- repositories {
-     maven {
-         url "https://css4j.github.io/maven/"
-         mavenContent {
-             releasesOnly()
-         }
-         content {
-             includeGroup 'io.sf.carte'
-             includeGroup 'io.sf.jclf'
-         }
-     }
- }
  project.setDescription('Parts of GeoGebra related to desktop platforms')
 
 sourceSets {
