@@ -311,10 +311,31 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void checkExamPerspective() {
 		if (isLockedExam()) {
-			setNewExam(ExamRegion.byName(appletParameters.getParamExamMode()));
-			appletParameters.setAttribute("perspective", "");
-			afterLocalizationLoaded(this::examWelcome);
+			ExamRegion examMode = findExamMode(appletParameters.getParamExamMode());
+			if (examMode != null) {
+				setNewExam(examMode);
+				appletParameters.setAttribute("perspective", "");
+				afterLocalizationLoaded(this::examWelcome);
+			} else {
+				String appCode = appletParameters.getDataParamAppName();
+				String supportedModes = isSuite() ? ExamRegion.getSupportedModes(appCode) : appCode;
+				showErrorDialog("Invalid exam mode: "
+						+ appletParameters.getParamExamMode()
+						+ "\n Supported exam modes: " + supportedModes);
+				appletParameters.setAttribute("examMode", "");
+			}
 		}
+	}
+
+	private ExamRegion findExamMode(String paramExamMode) {
+		if (paramExamMode.equals(appletParameters.getDataParamAppName())
+			|| paramExamMode.equals(ExamRegion.CHOOSE)) {
+			return ExamRegion.GENERIC;
+		}
+		if (isSuite()) {
+			return ExamRegion.byName(paramExamMode);
+		}
+		return null;
 	}
 
 	private void setupSignInButton(GlobalHeader header) {
@@ -381,6 +402,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return last used subapp, if saved in local storage, graphing otherwise
 	 */
 	public String getLastUsedSubApp() {
+		if (isLockedExam()) {
+			return GRAPHING_APPCODE;
+		}
 		String lastUsedSubApp = BrowserStorage.LOCAL.getItem(BrowserStorage.LAST_USED_SUB_APP);
 		return lastUsedSubApp != null && !lastUsedSubApp.isEmpty()
 				? lastUsedSubApp : GRAPHING_APPCODE;

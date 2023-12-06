@@ -17,7 +17,6 @@ import jsinterop.base.Js;
  */
 public class ExamUtil {
 
-	public static final String CHOOSE = "choose";
 	private AppW app;
 	private static boolean examModeRunning = false;
 

@@ -11,6 +11,7 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
@@ -23,7 +24,6 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.panel.PanelTransitioner;
-import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -123,7 +123,7 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(GeoGebraElement geoGebraElement,
 			AppletParameters parameters, GLookAndFeelI laf) {
 		if (SecureBrowser.get() != null && SecureBrowser.get().security != null) {
-			parameters.setAttribute("examMode", ExamUtil.CHOOSE);
+			parameters.setAttribute("examMode", ExamRegion.CHOOSE);
 			SecureBrowser.get().security.lockDown(true,
 					(state) -> Log.info("Lockdown successful"),
 					(state) -> Log.error("Lockdown failed")
