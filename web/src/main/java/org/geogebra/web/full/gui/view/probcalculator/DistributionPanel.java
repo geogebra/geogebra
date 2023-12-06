@@ -89,6 +89,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	 */
 	public void disableInterval(boolean disable) {
 		if (modeGroup != null) {
+			modeGroup.disableButtons(disable);
 			Dom.toggleClass(modeGroup, "disabled", disable);
 		}
 	}
