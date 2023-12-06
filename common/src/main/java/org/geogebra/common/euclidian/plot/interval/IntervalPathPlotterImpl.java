@@ -5,7 +5,7 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.interval.Interval;
 
 public class IntervalPathPlotterImpl implements IntervalPathPlotter {
-	public static final int PLOT_MARGIN = 5;
+	public static final int PLOT_MARGIN = 1;
 	private final GeneralPathClipped gp;
 
 	/**
@@ -38,22 +38,37 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 
 	@Override
 	public void segment(EuclidianViewBounds bounds, double x1, double y1, double x2, double y2) {
-		double sy1 = bounds.toScreenCoordYd(y1);
-		double sy2 = bounds.toScreenCoordYd(y2);
+//		segment(bounds.toScreenCoordXd(x1),
+//				bounds.toScreenCoordYd(y1),
+//				bounds.toScreenCoordXd(x2),
+//				bounds.toScreenCoordYd(y2));
+	segmentClipped(bounds.toScreenCoordXd(x1),
+				bounds.toScreenCoordYd(y1),
+				bounds.toScreenCoordXd(x2),
+				bounds.toScreenCoordYd(y2),
+				bounds.getHeight());
+	}
 
-		if (isSegmentOffscreenUp(sy1, sy2) || isSegmentOffscreenDown(sy1,
-				bounds.getHeight() - PLOT_MARGIN, sy2)) {
+	private void segmentClipped(double screenX1, double screenY1,
+			double screenX2, double screenY2, int height) {
+
+		if (isSegmentOffscreen(screenY1, screenY2, height)) {
 			return;
 		}
 
-		segment(bounds.toScreenCoordXd(x1),
-				sy1,
-				bounds.toScreenCoordXd(x2),
-				sy2);
+		segment(screenX1, screenY1, screenX2, screenY2);
+	}
+
+	static boolean isSegmentOffscreen(double screenY1, double screenY2, int height) {
+		if (screenY1 < PLOT_MARGIN && screenY2 < PLOT_MARGIN) {
+			return true;
+		}
+
+		return screenY1 > height - PLOT_MARGIN && screenY2 > height - PLOT_MARGIN;
 	}
 
 	private static boolean isSegmentOffscreenDown(double sy1, int h, double sy2) {
-		return sy1 > h && sy2 > h;
+		return sy1 > h - PLOT_MARGIN && sy2 > h - PLOT_MARGIN;
 	}
 
 	private static boolean isSegmentOffscreenUp(double sy1, double sy2) {
@@ -62,6 +77,9 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 
 	@Override
 	public void draw(GGraphics2D g2) {
+		if (gp.size() == 0) {
+			return;
+		}
 		g2.draw(gp);
 	}
 
@@ -81,5 +99,4 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 				x.middle(),
 				bounds.getYmin());
 	}
-
 }
