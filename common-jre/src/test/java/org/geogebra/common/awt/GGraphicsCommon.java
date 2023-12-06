@@ -2,9 +2,6 @@ package org.geogebra.common.awt;
 
 import org.geogebra.common.gui.font.GFontCommon;
 
-import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.stubs.GraphicsStub;
-
 /**
  * Class used for testing.
  */
@@ -233,10 +230,5 @@ public class GGraphicsCommon implements GGraphics2D {
     @Override
     public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
         // ignore empty method
-    }
-
-    @Override
-    public Graphics2DInterface getGraphicsForLaTeX() {
-        return new GraphicsStub();
     }
 }
