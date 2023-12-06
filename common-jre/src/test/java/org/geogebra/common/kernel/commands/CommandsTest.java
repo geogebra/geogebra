@@ -3089,11 +3089,12 @@ public class CommandsTest {
 				// both Random() and random() should do the same
 		t("RandomBetween[ 42, 50 ]", "47");
 		t("RandomBetween[ 42, 50, true ]", "44");
+		t("RandomBetween[ 1, 10, 3 ]", "{10, 4, 3}");
 	}
 
 	@Test
 	public void cmdRandomBinomial() {
-		t("RandomBinomial[ 42, 0.05 ]", "1");
+		t("RandomBinomial[ 42, 0.05 ]", "2");
 	}
 
 	@Test

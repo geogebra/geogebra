@@ -1213,7 +1213,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @return list of page IDs in notes
+	 * @return array of page IDs in notes
 	 */
 	public String[] getPages() {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
@@ -1326,7 +1326,7 @@ public class GgbAPIW extends GgbAPI {
 		PageListControllerInterface pc = ((AppW) app).getPageController();
 		if (pc != null) {
 			pc.setPageContent(pageId, content);
-		} else {
+		} else if (!StringUtil.empty(content.xml)) {
 			setXML(content.xml);
 		}
 	}

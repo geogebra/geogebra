@@ -1260,6 +1260,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return new PathMoverLine();
 	}
 
+	/**
+	 * @return slope of the line, NaN if vertical or undefined
+	 */
+	public double getSlope() {
+		if (isDefined() && !DoubleUtil.isZero(y)) {
+			return -x / y;
+		} else {
+			return Double.NaN;
+		}
+	}
+
 	private class PathMoverLine extends PathMoverGeneric {
 
 		public PathMoverLine() {

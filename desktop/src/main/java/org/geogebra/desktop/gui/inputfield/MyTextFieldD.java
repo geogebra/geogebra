@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.inputfield;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -51,13 +50,12 @@ public class MyTextFieldD extends JTextField
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
+	private final AppD app;
 
 	// symbol table popup fields
 	private SymbolTablePopupD tablePopup;
-	private MyTextFieldD thisField = this;
 
-	private ImageIcon icon = GeoGebraIconD
+	private final ImageIcon icon = GeoGebraIconD
 			.createSymbolTableIcon(this.getFont());
 	private boolean showSymbolTableIcon = false;
 
@@ -73,10 +71,10 @@ public class MyTextFieldD extends JTextField
 	private boolean isColoringLabels;
 
 	// matched brackets color = cyan (better contrast than "Light sea green")
-	private static GColor COLOR_MATCHED = GeoGebraColorConstants.BALANCED_BRACKET_COLOR;
+	private static final GColor COLOR_MATCHED = GeoGebraColorConstants.BALANCED_BRACKET_COLOR;
 
 	// unmatched brackets color = red
-	private static GColor COLOR_UNMATCHED = GeoGebraColorConstants.UNBALANCED_BRACKET_COLOR;
+	private static final GColor COLOR_UNMATCHED = GeoGebraColorConstants.UNBALANCED_BRACKET_COLOR;
 
 	// class for distinguishing graphically existing object
 	private ColorProvider ip;
@@ -210,14 +208,14 @@ public class MyTextFieldD extends JTextField
 	public void focusGained(FocusEvent e) {
 
 		if (selectAllOnFocus) {
-			thisField.setText(thisField.getText());
-			thisField.selectAll();
+			setText(getText());
+			selectAll();
 		}
 
 		if (showSymbolTableIcon && hasFocus()) {
 			borderBtn.setIconVisible(0, true);
 		}
-		thisField.repaint();
+		repaint();
 
 		if (app.getGuiManager() != null) {
 			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this,
@@ -231,7 +229,7 @@ public class MyTextFieldD extends JTextField
 		if (showSymbolTableIcon) {
 			borderBtn.setIconVisible(0, false);
 		}
-		thisField.repaint();
+		repaint();
 
 		if (app.getGuiManager() != null) {
 			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
@@ -285,13 +283,6 @@ public class MyTextFieldD extends JTextField
 
 		// reset the caret position
 		setCaretPosition(pos1 + text.length());
-
-		// make sure AutoComplete works
-		if (this instanceof AutoCompleteTextFieldD) {
-			AutoCompleteTextFieldD tf = (AutoCompleteTextFieldD) this;
-			tf.updateCurrentWord(false);
-			tf.startAutoCompletion();
-		}
 	}
 
 	/**
@@ -348,7 +339,6 @@ public class MyTextFieldD extends JTextField
 	private int width = 0;
 	private int textBottom;
 	private int fontHeight;
-	private FontRenderContext frc;
 	private Font font;
 	private Graphics2D g2;
 	private Insets insets;
@@ -373,7 +363,7 @@ public class MyTextFieldD extends JTextField
 		// get font info
 		fontHeight = g2.getFontMetrics().getHeight();
 		textBottom = (getHeight() - fontHeight) / 2 + fontHeight - 4;
-		frc = g2.getFontRenderContext();
+		FontRenderContext frc = g2.getFontRenderContext();
 		font = g2.getFont();
 
 		// get textField dimensions
@@ -386,7 +376,7 @@ public class MyTextFieldD extends JTextField
 		pos = 0; // text start position (not in pixels)
 		if (getHorizontalAlignment() == SwingConstants.RIGHT) {
 			pos = Math.max(0,
-					getHorizontalVisibility().getExtent() - getLength(text));
+					getHorizontalVisibility().getExtent() - getLength(text, frc));
 		}
 		int selStart = getSelectionStart();
 		int selEnd = getSelectionEnd();
@@ -425,6 +415,9 @@ public class MyTextFieldD extends JTextField
 
 		// redraw the text using color
 		boolean textMode = false;
+		StringBuilder block = new StringBuilder();
+		GColor previousFg = GeoGebraColorConstants.INPUT_DEFAULT_COLOR;
+		boolean previousSelected = false;
 		for (int i = 0; i < text.length(); i++) {
 
 			GColor fg = null;
@@ -454,16 +447,23 @@ public class MyTextFieldD extends JTextField
 					fg = GeoGebraColorConstants.INPUT_DEFAULT_COLOR;
 				}
 			}
-			if (fg != null) {
-				g2.setColor(GColorD.getAwtColor(fg));
-			}
 			// now draw the text
-			drawText(text.charAt(i) + "", i >= selStart && i < selEnd);
+			boolean selected = i >= selStart && i < selEnd;
 
-			if (i + 1 == caret) {
-				caretPos = pos;
+			if (fg != previousFg || previousSelected != selected) {
+				g2.setColor(GColorD.getAwtColor(previousFg));
+				drawText(block.toString(), previousSelected, frc);
+				block.setLength(0);
 			}
+			block.append(text.charAt(i));
+			if (i + 1 == caret) {
+				caretPos = pos + getLength(block.toString(), frc);
+			}
+			previousFg = fg;
+			previousSelected = selected;
 		}
+		g2.setColor(GColorD.getAwtColor(previousFg));
+		drawText(block.toString(), previousSelected, frc);
 
 		// draw caret if there's been no caret movement since last repaint
 		if (caretUpdated) {
@@ -482,7 +482,7 @@ public class MyTextFieldD extends JTextField
 
 	}
 
-	private float getLength(String text) {
+	private float getLength(String text, FontRenderContext frc) {
 		if (text == null || text.length() == 0) {
 			return 0;
 		}
@@ -490,19 +490,18 @@ public class MyTextFieldD extends JTextField
 		return layout.getAdvance();
 	}
 
-	private void drawText(String str, boolean selected/* , Color bg */) {
+	private void drawText(String str, boolean selected , FontRenderContext frc) {
 		if ("".equals(str)) {
 			return;
 		}
 
 		// compute advance
-		FontMetrics metrics = g2.getFontMetrics(font);
-		float advance = metrics.stringWidth(str);
+		float advance = getLength(str, frc);
 
 		if (selected) {
 			g2.setColor(getSelectionColor());
 			g2.fillRect((int) pos - scrollOffset + insets.left,
-					textBottom - fontHeight + 4, (int) advance, fontHeight);
+					textBottom - fontHeight + 4, (int) Math.ceil(advance), fontHeight);
 			g2.setColor(getSelectedTextColor());
 		}
 		// there is no background coloring now
@@ -514,8 +513,8 @@ public class MyTextFieldD extends JTextField
 
 		// g2.setClip(0, 0, width, height);
 
-		if (pos - scrollOffset + insets.left >= 0
-				&& pos + advance - scrollOffset <= width) {
+		if (pos - scrollOffset <= width
+				&&  pos + advance - scrollOffset >= 0) {
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
 		}
 

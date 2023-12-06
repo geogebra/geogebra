@@ -152,10 +152,15 @@ public class LowerCaseDictionary extends HashMap<String, String>
 			for (String cmd: treeSet) {
 				int index = cmd.indexOf(currLowerCase);
 				if (index > -1) {
+					String entry = get(cmd);
+					int matchTo = getOriginalLength(entry, index + curr.length());
 					if (index == 0) {
-						completions.add(initialMatches++, new MatchedString(get(cmd), index));
+						completions.add(initialMatches++, new MatchedString(entry, index, matchTo));
 					} else {
-						completions.add(new MatchedString(get(cmd), index));
+						if (cmd.length() != entry.length()) {
+							index = getOriginalLength(entry, index);
+						}
+						completions.add(new MatchedString(entry, index, matchTo));
 					}
 				}
 			}
@@ -166,6 +171,17 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	private int getOriginalLength(String original, int normalizedLength) {
+		int originalLength = 0;
+		int normalizedPrefix = 0;
+		while (normalizedPrefix < normalizedLength) {
+			normalizedPrefix +=  normalizer.transform(
+					String.valueOf(original.charAt(originalLength))).length();
+			originalLength++;
+		}
+		return originalLength;
 	}
 
 	/**
@@ -234,7 +250,8 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		String koreanCurr = Korean.flattenKorean(curr);
 		for (String str : treeSet) {
 			if (Korean.flattenKorean(str).startsWith(koreanCurr)) {
-				completions.add(new MatchedString(Korean.unflattenKorean(str).toString(), 0));
+				completions.add(new MatchedString(Korean.unflattenKorean(str).toString(),
+						0, curr.length()));
 			}
 		}
 

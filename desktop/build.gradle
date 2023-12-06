@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.spotbugs" version "5.2.1"
+    id "com.github.spotbugs" version "5.2.5"
     id 'application'
     id 'eclipse'
     id 'checkstyle'
