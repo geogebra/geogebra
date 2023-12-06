@@ -1990,7 +1990,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private static boolean containsOnlyMoveableGeos(
 			final ArrayList<GeoElementND> geos) {
-		if ((geos == null) || (geos.size() == 0)) {
+		if (geos == null || geos.isEmpty()) {
 			return false;
 		}
 

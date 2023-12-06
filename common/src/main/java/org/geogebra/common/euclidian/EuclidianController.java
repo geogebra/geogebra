@@ -6025,8 +6025,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			tmpCoordsL3 = new Coords(4);
 		}
 		view.getCompanion().getCoordsFromView(xRW, yRW, tmpCoordsL3);
-		MoveGeos.moveObjects(translateableGeos, translationVec, tmpCoordsL3,
-				null, view);
+		MoveGeos.moveObjects(translateableGeos, translationVec, tmpCoordsL3, null, view);
 		kernel.movedGeoSet(translateableGeos);
 	}
 
@@ -6722,35 +6721,34 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		// STANDARD case: get free input points of dependent movedGeoElement
 		if (!handleMovedElementDependentWithChangeableParent()
-				&& movedGeoElement.hasMoveableInputPoints(view)) {
-			// allow only moving of the following object types
-			if (movedGeoElement.isGeoLine() || movedGeoElement.isGeoPolygon()
-					|| movedGeoElement.isGeoCurveCartesian()
-					|| (movedGeoElement instanceof GeoPolyLine)
-					|| (movedGeoElement instanceof GeoPieChart)
-					|| movedGeoElement.isGeoConic()
-					|| movedGeoElement.isGeoImage()
-					|| movedGeoElement.isGeoList()
-					|| movedGeoElement.isGeoVector()
-					|| movedGeoElement instanceof GeoLocusStroke) {
-				if (translateableGeos == null) {
-					translateableGeos = new ArrayList<>();
-				} else {
-					translateableGeos.clear();
-				}
-
-				if (movedGeoElement.isGeoList()
-						&& ((GeoList) movedGeoElement).getElementType() == GeoClass.POINT) {
-					translateableGeos.add(movedGeoElement);
-				} else {
-					addMovedGeoElementFreeInputPointsToTranslateableGeos();
-				}
+				&& isElementAllowedToMove(movedGeoElement)) {
+			if (translateableGeos == null) {
+				translateableGeos = new ArrayList<>();
+			} else {
+				translateableGeos.clear();
 			}
+			translateableGeos.add(movedGeoElement);
 		}
 
 		handleMovedElementDependentInitMode();
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @return True if the GeoElement is allowed to be moved, false else
+	 */
+	private boolean isElementAllowedToMove(GeoElement geo) {
+		return geo.isGeoLine()
+				|| geo.isGeoPolygon()
+				|| geo.isGeoCurveCartesian()
+				|| geo instanceof GeoPolyLine
+				|| geo instanceof GeoPieChart
+				|| geo.isGeoConic()
+				|| geo.isGeoImage()
+				|| geo.isGeoList()
+				|| geo.isGeoVector()
+				|| geo instanceof GeoLocusStroke;
 	}
 
 	private GeoElementND getTranslationVector(GeoPointND... pts) {
@@ -7264,14 +7262,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.setShowMouseCoords(false);
 		setDragCursor();
-	}
-
-	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
-		ArrayList<GeoElementND> freeInputPoints = movedGeoElement
-				.getFreeInputPoints(view);
-		for (GeoElementND p : freeInputPoints) {
-			translateableGeos.add((GeoElement) p);
-		}
 	}
 
 	private boolean tempRightClick() {
