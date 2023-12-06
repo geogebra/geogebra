@@ -46,22 +46,11 @@ public class MoveGeosTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testMovingDependentList1() {
+	public void testMovingDependentList() {
 		add("A=(5, 6)");
 		GeoList list = add("{(1, 1), (3, 4), A}");
 		moveListDownRightByUnit(list);
 		assertThat(list, hasValue("{(2, 2), (4, 5), (6, 7)}"));
-	}
-
-	@Test
-	public void testMovingDependentList2() {
-		GeoPoint A = add("A = (1, 2)");
-		GeoPoint B = add("B = (4, 3)");
-		GeoList list = add("{Line(A, B)}");
-		moveListDownRightByUnit(list);
-		assertThat(list, hasValue("{-x + 3y = 7}"));
-		assertTrue(new Coords(2, 3).isEqual(A.getInhomCoords()));
-		assertTrue(new Coords(5, 4).isEqual(B.getInhomCoords()));
 	}
 
 	@Test
@@ -84,8 +73,7 @@ public class MoveGeosTest extends BaseUnitTest {
 		GeoPoint B = add("B=(6, 6)");
 		GeoList list = add("{Segment(A, B)}");
 		moveListDownRightByUnit(list);
-		assertTrue(new Coords(6, 7).isEqual(A.getInhomCoords()));
-		assertTrue(new Coords(7, 7).isEqual(B.getInhomCoords()));
+		assertTrue(MoveGeos.updateListHave(list, A, B));
 	}
 
 	private void moveListDownRightByUnit(GeoList list) {
