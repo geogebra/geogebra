@@ -7182,4 +7182,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public boolean isRecurringDecimal() {
 		return false;
 	}
+
+	/**
+	 * @return True if this is a free input point, false else
+	 */
+	public boolean isFreeInputPoint() {
+		return isGeoPoint() && (isIndependent() || isMoveable());
+	}
 }

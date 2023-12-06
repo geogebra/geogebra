@@ -289,7 +289,12 @@ public class MoveToolTest extends BaseControllerTest {
 
 	@Test
 	public void moveWithMouseShouldChangeOutputOfTranslate2() {
-		//TODO
+		add("A = (2, 2)");
+		add("v = Vector((-1, -3))");
+		GeoElement list = add("{Translate(A, v)}");
+		dragStart(50, 50);
+		dragEnd(100, 100);
+		assertThat(list, hasValue("{(2, -2)}"));
 	}
 
 	@Test

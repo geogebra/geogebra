@@ -172,14 +172,13 @@ public class MoveGeos {
 	/**
 	 * @param geo GeoElement
 	 * @param view EuclidianView
-	 * @return True if there is a parent algorithm and the passed GeoElement contains only free
-	 * input points
+	 * @return True if there is a parent algorithm that contains only free input points or if
+	 * the parent algorithm is null, false else
 	 */
 	private static boolean containsOnlyFreeInputPoints(GeoElement geo, EuclidianView view) {
 		AlgoElement parentAlgorithm = geo.getParentAlgorithm();
-		return parentAlgorithm != null
-				&& (parentAlgorithm.getInputLength() == geo.getFreeInputPoints(view).size()
-				|| parentAlgorithm.hasOnlyFreeInputPoints(view));
+		return parentAlgorithm == null
+				|| (parentAlgorithm.hasOnlyFreeInputPoints(view));
 	}
 
 	/**

@@ -1180,10 +1180,8 @@ public abstract class AlgoElement extends ConstructionElement
 			if (!(this instanceof DependentAlgo)) {
 				boolean allIndependent = true;
 				for (int i = 0; i < input.length; i++) {
-					if (input[i].isGeoPoint()
-							&& (input[i].isIndependent()
-									|| input[i].isMoveable())) {
-						freeInputPoints.add((GeoPointND) input[i]);
+					if (input[i].isFreeInputPoint()) {
+						freeInputPoints.add(input[i]);
 						allIndependent &= input[i].isIndependent();
 					}
 				}
