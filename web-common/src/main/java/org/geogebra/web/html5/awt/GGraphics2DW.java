@@ -28,8 +28,6 @@ import org.geogebra.web.html5.main.MyImageW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 
-import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
@@ -889,11 +887,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		context.drawImage(((MyImageW) img).getImage(), dx, dy, dw, dh);
-	}
-
-	@Override
-	public Graphics2DInterface getGraphicsForLaTeX() {
-		return new Graphics2DW(getContext());
 	}
 
 	public void drawImage(HTMLImageElement img, int x, int y) {

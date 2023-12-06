@@ -35,7 +35,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(
 				app.getSettings().getSpreadsheet());
 		app.getKernel().notifyAddAll(tabularData);
-		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory());
+		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory(
+				new AwtReTexGraphicsBridgeW()));
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
 		updateTotalSize();

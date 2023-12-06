@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
+import org.geogebra.common.spreadsheet.rendering.AwtReTeXGraphicsBridge;
 import org.geogebra.common.spreadsheet.rendering.LaTeXRenderer;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
@@ -22,9 +23,13 @@ import com.himamis.retex.renderer.share.TeXFormula;
 
 public final class GeoElementCellRendererFactory implements CellRenderableFactory {
 
-	private final LaTeXRenderer laTeXRenderer = new LaTeXRenderer();
+	private final LaTeXRenderer laTeXRenderer;
 	private final StringRenderer stringRenderer = new StringRenderer();
 	private final CheckboxCellRenderer checkboxCellRenderer = new CheckboxCellRenderer();
+
+	public GeoElementCellRendererFactory(AwtReTeXGraphicsBridge bridge) {
+		this.laTeXRenderer = new LaTeXRenderer(bridge);
+	}
 
 	@Override
 	public SelfRenderable getRenderable(Object data, SpreadsheetStyle style, int row, int column) {
