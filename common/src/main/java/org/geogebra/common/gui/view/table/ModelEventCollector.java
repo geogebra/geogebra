@@ -103,21 +103,11 @@ public class ModelEventCollector implements TableValuesListener {
 		ModelEvent eventClone = event.copy();
 		clearModificationEvents();
 
-		if (eventClone.datasetChanged && changeEventReceived(eventClone, model)) {
+		if (eventClone.datasetChanged) {
 			model.notifyDatasetChanged();
 		} else {
 			fireAllModificationEvents(model, eventClone);
 		}
-	}
-
-	private boolean changeEventReceived(ModelEvent event, SimpleTableValuesModel model) {
-		if (event.cellsChanged.isEmpty() && event.columnsChanged.isEmpty()
-				&& event.columnsRemoved.isEmpty() && event.columnsAdded.isEmpty()
-				&& event.rowsChanged.isEmpty()) {
-			int newRowCount = model.getRowCount();
-			return newRowCount != event.initialRowCount;
-		}
-		return true;
 	}
 
 	private void fireAllModificationEvents(SimpleTableValuesModel model, ModelEvent event) {
