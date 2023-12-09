@@ -314,6 +314,8 @@ public class MyDouble extends ValidExpression
 	final public static void div(MyDouble a, MyDouble b, MyDouble c) {
 		c.angleDim = a.angleDim - b.angleDim;
 		if (isImpreciseDiv(a, b)) {
+			a.setImprecise(true);
+			b.setImprecise(true);
 			c.set(a.val / b.val);
 			c.setImprecise(true);
 			return;
@@ -325,7 +327,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	private static boolean isImpreciseDiv(MyDouble a, MyDouble b) {
-		return a.isImprecise() || b.isImprecise() || b.val == 0
+		return isNumberImprecise(a) || isNumberImprecise(b) || b.val == 0
 				|| !Double.isFinite(a.val) || !Double.isFinite(b.val) || !a.isDefined();
 	}
 

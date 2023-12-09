@@ -41,6 +41,13 @@ public class CreateSliderTest extends BaseSymbolicTest {
 		assertThat(numeric.isSliderable(), is(true));
 		assertThat(numeric.getLabelSimple(), is("a"));
 	}
+	@Test
+    public void testSliderImprecise() {
+		GeoSymbolic symbolic = add("a=4.669");
+		createSlider.execute(symbolic);
+		GeoNumeric div = add("a/4");
+		assertThat(div.getFunctionExpression().isImprecise(), is(true));
+	}
 
 	@Test
 	public void testIsAvailable() {

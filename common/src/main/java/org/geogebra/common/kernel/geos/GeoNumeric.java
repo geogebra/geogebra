@@ -685,9 +685,16 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public MyDouble getNumber() {
 		if (toDecimal() == null) {
-			return new MyDouble(kernel, value);
+			MyDouble myDouble = new MyDouble(kernel, value);
+			if (isSliderable()) {
+				myDouble.setImprecise(true);
+			}
+			return myDouble;
 		} else {
 			MySpecialDouble val = new MySpecialDouble(kernel, value);
+			if (isSliderable()) {
+				val.setImprecise(true);
+			}
 			val.set(toDecimal());
 			return val;
 		}
