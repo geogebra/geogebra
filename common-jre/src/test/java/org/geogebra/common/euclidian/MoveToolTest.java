@@ -19,6 +19,8 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -29,7 +31,7 @@ import org.mockito.Mockito;
 public class MoveToolTest extends BaseControllerTest {
 
 	@Test
-	public void moveWithMouseShouldChangeSegment() {
+	public void moveWithMouseShouldChangeSegment1() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
 		dragStart(50, 50);
@@ -38,11 +40,28 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeSegment() {
+	public void moveWithArrowKeyShouldChangeSegment1() {
 		add("A = (0,0)");
-		GeoElement geo = add("f = Segment(A, (1,-1))");
-		moveObjectWithArrowKey(geo, 1, -2);
+		GeoElement segment = add("f = Segment(A, (1,-1))");
+		moveObjectWithArrowKey(segment, 1, -2);
 		checkContent("A = (1, -2)", "f = 1.41421");
+	}
+
+	@Test
+	public void moveWithMouseShouldChangeSegment2() {
+		add("A = (1, -1)");
+		GeoSegment segment = (GeoSegment) add("f = Segment((x(A), y(A)), (2, -2))");
+		dragStart(100, 100);
+		dragEnd(150, 150);
+		assertTrue(new Coords(2, -2).isEqual(segment.getStartPoint().getInhomCoordsInD2()));
+	}
+
+	@Test
+	public void moveWithArrowKeyShouldChangeSegment2() {
+		add("A = (1, -1)");
+		GeoSegment segment = (GeoSegment) add("f = Segment((x(A), y(A)), (2, -2))");
+		moveObjectWithArrowKey(segment, 1, -1);
+		assertTrue(new Coords(2, -2).isEqual(segment.getStartPoint().getInhomCoordsInD2()));
 	}
 
 	@Test
