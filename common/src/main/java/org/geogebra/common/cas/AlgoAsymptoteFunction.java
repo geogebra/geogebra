@@ -90,7 +90,7 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 					.isEnabled();
 		}
 
-		if (!enabled || !f.isDefined()) {
+		if (!enabled || !f.isDefined() || !containsValidFunctionVariable()) {
 			g.setUndefined();
 			return;
 		}
@@ -114,6 +114,19 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 		} catch (Throwable th) {
 			g.setUndefined();
 		}
+	}
+
+	/**
+	 * @param function GeoFunction
+	 * @return True if the input function contains only one function variable that is x/y/z/t,
+	 * false else
+	 */
+	private boolean containsValidFunctionVariable() {
+		if (f.getFunctionVariables().length == 1) {
+			String var = f.getFunctionVariables()[0].getSetVarString();
+			return var.equals("x") || var.equals("y") || var.equals("z") || var.equals("t");
+		}
+		return false;
 	}
 
 }

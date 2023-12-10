@@ -732,11 +732,6 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		}
 
-		// Return '?' for invalid output of Asymptote command
-		if (plainResult.contains("ggbtmpvarAsymptote")) {
-			return "?";
-		}
-
 		// get initial nr of vars
 		int nrOfVars = casParser.getNrOfVars();
 		StringBuilder newPlainResult = new StringBuilder();
