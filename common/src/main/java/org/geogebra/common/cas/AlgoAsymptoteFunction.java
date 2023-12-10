@@ -117,7 +117,6 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 	}
 
 	/**
-	 * @param function GeoFunction
 	 * @return True if the input function contains only one function variable that is x/y/z/t,
 	 * false else
 	 */
