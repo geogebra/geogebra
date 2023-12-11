@@ -106,7 +106,7 @@ public class MoveGeos {
 	 */
 	private static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
 		return list.elements().allMatch(geo -> !geo.isLocked() && geo.isMoveable(view)
-				&& (containsOnlyFreeInputPoints(geo, view) || geo.isGeoPoint()))
+				&& (containsFreeInputPoints(geo, view) || geo.isGeoPoint()))
 				|| list.getElementType() == GeoClass.NUMERIC;
 	}
 
@@ -158,7 +158,7 @@ public class MoveGeos {
 		ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
 		return freeInputs != null && !freeInputs.isEmpty()
 				&& !freeInputsContainLockedElement(freeInputs)
-				&& containsOnlyFreeInputPoints(geo, view);
+				&& containsFreeInputPoints(geo, view);
 	}
 
 	/**
@@ -172,13 +172,15 @@ public class MoveGeos {
 	/**
 	 * @param geo GeoElement
 	 * @param view EuclidianView
-	 * @return True if there is a parent algorithm that contains only free input points or if
-	 * the parent algorithm is null, false else
+	 * @return True if <li>There is no parent algorithm OR</li>
+	 * <li>The parent algorithm contains only free input points OR</li>
+	 * <li>The GeoElement has movable input points</li>
 	 */
-	private static boolean containsOnlyFreeInputPoints(GeoElement geo, EuclidianView view) {
+	private static boolean containsFreeInputPoints(GeoElement geo, EuclidianView view) {
 		AlgoElement parentAlgorithm = geo.getParentAlgorithm();
 		return parentAlgorithm == null
-				|| (parentAlgorithm.hasOnlyFreeInputPoints(view));
+				|| parentAlgorithm.hasOnlyFreeInputPoints(view)
+				|| geo.hasMoveableInputPoints(view);
 	}
 
 	/**

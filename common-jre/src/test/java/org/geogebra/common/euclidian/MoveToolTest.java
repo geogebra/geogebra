@@ -19,8 +19,6 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -45,23 +43,6 @@ public class MoveToolTest extends BaseControllerTest {
 		GeoElement segment = add("f = Segment(A, (1,-1))");
 		moveObjectWithArrowKey(segment, 1, -2);
 		checkContent("A = (1, -2)", "f = 1.41421");
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeSegment2() {
-		add("A = (1, -1)");
-		GeoSegment segment = (GeoSegment) add("f = Segment((x(A), y(A)), (2, -2))");
-		dragStart(100, 100);
-		dragEnd(150, 150);
-		assertTrue(new Coords(2, -2).isEqual(segment.getStartPoint().getInhomCoordsInD2()));
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeSegment2() {
-		add("A = (1, -1)");
-		GeoSegment segment = (GeoSegment) add("f = Segment((x(A), y(A)), (2, -2))");
-		moveObjectWithArrowKey(segment, 1, -1);
-		assertTrue(new Coords(2, -2).isEqual(segment.getStartPoint().getInhomCoordsInD2()));
 	}
 
 	@Test
@@ -95,7 +76,7 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithMouseShouldChangePolygon() {
+	public void moveWithMouseShouldChangePolygon1() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		dragStart(50, 50);
@@ -105,12 +86,50 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangePolygon2() {
+	public void moveWithArrowKeyShouldChangePolygon1() {
 		add("A = (0,0)");
 		GeoElement geo = add("q = Polygon(A, (0,-1), 4)");
 		moveObjectWithArrowKey(geo, 1, -2);
 		checkContent("A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)",
 				"C = (2, -2)", "h = 1", "i = 1");
+	}
+
+	@Test
+	public void moveWithMouseShouldChangePolygon2() {
+		GeoElement A = add("A = (0,0)");
+		GeoElement q = add("q = Polygon((x(A), y(A)), (2, 0), (2, -2), (0, -2))");
+		dragStart(50, 50);
+		dragEnd(100, 100);
+		assertThat(A, hasValue("(0, 0)"));
+		assertThat(q, hasValue("6"));
+	}
+
+	@Test
+	public void moveWithArrowKeyShouldChangePolygon2() {
+		GeoElement A = add("A = (0,0)");
+		GeoElement q = add("q = Polygon((x(A), y(A)), (2, 0), (2, -2), (0, -2))");
+		moveObjectWithArrowKey(q, 1, -1);
+		assertThat(A, hasValue("(0, 0)"));
+		assertThat(q, hasValue("6"));
+	}
+
+	@Test
+	public void moveWithMouseShouldChangePolygon3() {
+		GeoElement A = add("A = (0,0)");
+		GeoElement q = add("q = Polygon(A, A + (2, 0), A + (2, -2), A + (0, -2))");
+		dragStart(50, 50);
+		dragEnd(100, 100);
+		assertThat(A, hasValue("(1, -1)"));
+		assertThat(q, hasValue("4"));
+	}
+
+	@Test
+	public void moveWithArrowKeyShouldChangePolygon3() {
+		GeoElement A = add("A = (0,0)");
+		GeoElement q = add("q = Polygon(A, A + (2, 0), A + (2, -2), A + (0, -2))");
+		moveObjectWithArrowKey(q, 1, -1);
+		assertThat(A, hasValue("(1, -1)"));
+		assertThat(q, hasValue("4"));
 	}
 
 	@Test
