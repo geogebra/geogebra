@@ -1,7 +1,6 @@
 package org.geogebra.common.cas;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -171,21 +170,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		resetCounter();
-
-		if (resultContainsCommandName(result)) {
-			return "?";
-		}
-
 		return result;
-	}
-
-	/**
-	 * @param result CAS result
-	 * @return True if the CAS result contains a Command name, false else
-	 */
-	private boolean resultContainsCommandName(String result) {
-		return Arrays.stream(Commands.values())
-				.anyMatch(command -> result.contains(command.toString()));
 	}
 
 	@Override
