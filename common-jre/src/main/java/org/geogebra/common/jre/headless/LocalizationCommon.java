@@ -1,7 +1,10 @@
 package org.geogebra.common.jre.headless;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.geogebra.common.jre.main.LocalizationJre;
@@ -56,7 +59,12 @@ public class LocalizationCommon extends LocalizationJre {
 
 	@Override
 	protected ResourceBundle createBundle(String key, Locale locale) {
-		return ResourceBundle.getBundle(key, locale, control);
+		try {
+			return ResourceBundle.getBundle(key, locale, control);
+		} catch (MissingResourceException mre) {
+			// running without resources: load empty bundle
+			return new EmptyResourceBundle();
+		}
 	}
 
 	@Override
@@ -84,4 +92,15 @@ public class LocalizationCommon extends LocalizationJre {
 		return RB_SYMBOL;
 	}
 
+	private static class EmptyResourceBundle extends ResourceBundle {
+		@Override
+		protected Object handleGetObject(String key) {
+			throw new MissingResourceException("Not found", getClass().getName(), key);
+		}
+
+		@Override
+		public Enumeration<String> getKeys() {
+			return Collections.emptyEnumeration();
+		}
+	}
 }
