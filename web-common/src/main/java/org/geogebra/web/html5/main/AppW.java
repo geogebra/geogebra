@@ -1036,6 +1036,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			Material material = getExam().getTempStorage().newMaterial();
 			setActiveMaterial(material);
 		}
+		setSaved();
 	}
 
 	private void resetPages() {

@@ -1,10 +1,12 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -31,13 +33,13 @@ public class ClearAllActionTest {
 		addObject("x");
 		action.execute(null, app);
 		app.getSaveController().cancel();
-		Assert.assertEquals(0, app.getKernel().getConstruction()
-				.getGeoSetConstructionOrder().size());
+		assertThat(app.getKernel().getConstruction()
+				.getGeoSetConstructionOrder().size(), equalTo(0));
+		assertThat(app.isSaved(), equalTo(true));
 	}
 
 	private static void addObject(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				true);
-
 	}
 }
