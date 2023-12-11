@@ -26,10 +26,16 @@ final class SpreadsheetSelectionController {
 	/**
 	 * Clears the list of selection and adds a single element to it
 	 * @param selection Selection
+	 * @return whether selection changed
 	 */
-	public void setSelections(Selection selection) {
+	public boolean setSelections(Selection selection) {
+		if (selections.size() == 1
+				&& selections.get(0).getRange().isEqualCells(selection.getRange())) {
+			return false;
+		}
 		this.selections.clear();
 		this.selections.add(selection);
+		return true;
 	}
 
 	/**
@@ -120,13 +126,12 @@ final class SpreadsheetSelectionController {
 	 * @param extendSelection Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add this selection to the current selections (CTRL)
 	 */
-	public void select(Selection selection, boolean extendSelection, boolean addSelection) {
+	public boolean select(Selection selection, boolean extendSelection, boolean addSelection) {
 		if (extendSelection && getLastSelection() != null) {
 			extendSelection(getLastSelection(), selection, addSelection);
-			return;
+			return true;
 		} else if (!addSelection) {
-			setSelections(selection);
-			return;
+			return setSelections(selection);
 		}
 		ArrayList<Selection> independent = new ArrayList<>();
 		Selection merged = selection;
@@ -141,6 +146,7 @@ final class SpreadsheetSelectionController {
 		selections.clear();
 		selections.addAll(independent);
 		selections.add(merged);
+		return true;
 	}
 
 	/**

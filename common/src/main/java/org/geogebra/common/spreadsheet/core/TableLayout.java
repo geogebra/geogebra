@@ -55,6 +55,20 @@ public final class TableLayout {
 				cumulativeHeights[row] + rowHeights[row]);
 	}
 
+	Rectangle getBounds(TabularRange selection, Rectangle viewport) {
+		double offsetX = -viewport.getMinX() + getRowHeaderWidth();
+		double offsetY = -viewport.getMinY() + getColumnHeaderHeight();
+		if (selection.getMinColumn() >= 0 && selection.getMinRow() >= 0) {
+			int minX = (int) getX(selection.getMinColumn());
+			int minY = (int) getY(selection.getMinRow());
+			int maxX = (int) getX(selection.getMaxColumn() + 1);
+			int maxY = (int) getY(selection.getMaxRow() + 1);
+			return new Rectangle(minX + offsetX, maxX + offsetX,
+					minY + offsetY, maxY + offsetY);
+		}
+		return null;
+	}
+
 	Rectangle getRowHeaderBounds(int row) {
 		return new Rectangle(0,
 				rowHeaderWidth,

@@ -155,8 +155,15 @@ public class TabularRange {
 	 * @return Whether this range contains given row and column
 	 */
 	public boolean contains(int row, int column) {
-		return (row >= minRow && row <= maxRow || minRow == -1)
-				&& (column >= minColumn && column <= maxColumn || minColumn == -1);
+		return intersectsRow(row) && intersectsColumn(column);
+	}
+
+	public boolean intersectsColumn(int column) {
+		return column >= minColumn && column <= maxColumn || minColumn == -1;
+	}
+
+	public boolean intersectsRow(int row) {
+		return row >= minRow && row <= maxRow || minRow == -1;
 	}
 
 	/**
@@ -336,5 +343,14 @@ public class TabularRange {
 					this.getMaxRow(), columnCount - 1);
 		}
 		return this;
+	}
+
+	/**
+	 * @param other other range
+	 * @return whether both ranges cover the same part of spreadsheet, ignoring their direction
+	 */
+	public boolean isEqualCells(TabularRange other) {
+		return minColumn == other.minColumn && maxColumn == other.maxColumn
+				&& minRow == other.minRow && maxRow == other.maxRow;
 	}
 }

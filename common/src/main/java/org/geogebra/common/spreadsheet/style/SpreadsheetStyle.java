@@ -68,5 +68,21 @@ public final class SpreadsheetStyle {
 		return GeoGebraColorConstants.NEUTRAL_200;
 	}
 
+	public GColor getSelectionColor() {
+		return GeoGebraColorConstants.PURPLE_100;
+	}
+
+	public GColor getSelectionBorder() {
+		return GeoGebraColorConstants.PURPLE_600;
+	}
+
+	public GColor getSelectionHeaderColor() {
+		return GeoGebraColorConstants.NEUTRAL_700;
+	}
+
+	public GColor getSelectedTextColor() {
+		return GColor.WHITE;
+	}
+
 	// grid lines, colors, fonts
 }
