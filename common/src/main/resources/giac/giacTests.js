@@ -944,7 +944,7 @@ var __giac = [
 { cat:"BinomialCoefficient.2", cmd:"BinomialCoefficient[52,13]", result:"635013559600" },
 { cat:"Asymptote", cmd:"Asymptote[(x^2+x-1)/(x-1)]", result:"{-x + y = 2, x = 1}|OR|{y=x+2,x=1}|OR|{x -1 + y = 2, x = 1}", notes:"Input Bar command, uses CAS #3354" },
 { cat:"Asymptote", cmd:"Asymptote(2^x / (2^x - 3^x))", result:"{y = 0, y = 1, x = 0}", notes:"Input Bar command, uses CAS" },
-{ cat:"Asymptote", cmd:"Asymptote(1/p)", result:"?"},
+{ cat:"Asymptote", cmd:"Asymptote(1/p)", result:"Asymptote(1 / p)"},
 { cat:"SolveODE.2", cmd:"SolveODE[y'-4y=8,(0,5)]", result:"y = 7\u212f^(4x) - 2" },
 { cat:"conjugate", cmd:"conjugate(a+\u03AF*b)", result:"a-\u03AF b" },
 { cat:"IntegralBetween", cmd:"IntegralBetween[(3-x)/2,1/x,1,2]", result:"(-4 ln(2) + 3) / 4|OR|-ln(2) + 3 / 4|OR|-ln(2) - 5 / 4 + 2", notes:"can we simplify this?" },
