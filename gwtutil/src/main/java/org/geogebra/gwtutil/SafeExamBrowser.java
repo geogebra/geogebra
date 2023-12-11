@@ -14,7 +14,7 @@ public class SafeExamBrowser {
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
 	public static class SebSecurity {
-		public String browserExamKey;
+		public String configKey;
 
 		public native void updateKeys(JsConsumer<Void> callback);
 	}

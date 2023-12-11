@@ -263,7 +263,7 @@ public class GlobalHeader implements EventRenderable {
 
 		if (SafeExamBrowser.get() != null && SafeExamBrowser.get().security != null) {
 			SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
-			String hash = security.browserExamKey.substring(0, 8);
+			String hash = security.configKey.substring(0, 8);
 			security.updateKeys((ignore) ->
 					addExamType("Safe Exam Browser (" + hash + ")"));
 		} else if (!app.getExam().isRestrictedGraphExam()) {
