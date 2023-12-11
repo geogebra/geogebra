@@ -26,7 +26,6 @@ import io.sf.carte.echosvg.dom.util.SAXIOException;
  */
 public final class JSVGImageBuilder {
 
-	private static SVGImage blankImage = null;
 	private static SVGImage unsupportedImage = null;
 
 	private JSVGImageBuilder() {

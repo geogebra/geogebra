@@ -605,12 +605,4 @@ public class ImageManagerD extends ImageManager {
 	public static String fixSVG(String content) {
 		return ImageManager.fixSVG(content);
 	}
-
-	/**
-	 *
-	 * @return item count of the external map.
-	 */
-	public int getImageCount() {
-		return externalImageTable.size();
-	}
 }
