@@ -1,5 +1,6 @@
 package org.geogebra.desktop.plugin;
 
+import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
@@ -70,30 +71,14 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		if (f.hasTag(FTAG)) {
 			int methodId = f.methodId();
 			switch (methodId) {
-			case Id_alert: {
-
-				if (args.length > 1) {
-					String error = argNumError(args.length,
-							"alert( <String> )");
-					app.showError(error);
-					throw new Error(error);
-				}
-
+			case Id_alert:
 				String value = getElementAsString(args, 0);
-				((GgbAPID) app.getGgbApi()).alert(value);
-
+				((GgbAPIJre) app.getGgbApi()).alert(value);
 				return "";
-			}
-			case Id_prompt: {
+			case Id_prompt:
 				Object value0 = getElementAsString(args, 0);
 				Object value1 = getElementAsString(args, 1);
-				/*
-				 * String s = (String)JOptionPane.showInputDialog(
-				 * app.getFrame(), value0, "GeoGebra",
-				 * JOptionPane.PLAIN_MESSAGE, null, null, value1);
-				 */
-				return ((GgbAPID) app.getGgbApi()).prompt(value0, value1);
-			}
+				return ((GgbAPIJre) app.getGgbApi()).prompt(value0, value1);
 			case Id_clearInterval:
 			case Id_clearTimeout:
 			case Id_setInterval:
