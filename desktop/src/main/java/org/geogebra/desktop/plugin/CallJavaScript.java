@@ -20,7 +20,9 @@ public class CallJavaScript {
 	 * @return global scope
 	 */
 	public static Scriptable evalGlobalScript(App app) {
-		ContextFactory.initGlobal(SandboxContextFactory.getInstance());
+		if (!ContextFactory.hasExplicitGlobal()) {
+			ContextFactory.initGlobal(SandboxContextFactory.getInstance());
+		}
 
 		// create new scope
 		Context cx = Context.enter();

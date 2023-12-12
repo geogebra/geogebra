@@ -3,7 +3,6 @@ package org.geogebra.desktop.plugin;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.debug.Log;
 import org.mozilla.javascript.Context;
@@ -96,28 +95,6 @@ public class GeoGebraGlobal implements IdFunctionCall {
 			value = ((NativeJavaObject) value).unwrap();
 		}
 		return value.toString();
-	}
-
-	private StringBuilder sb;
-	int[] linep = new int[1];
-
-	private String argNumError(int argNumber, String syntax) {
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
-		}
-		Context.getSourcePositionFromStack(linep); // line number of error
-		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0] + ""));
-		sb.append("\n");
-		sb.append(Errors.IllegalArgumentNumber.getError(loc));
-		sb.append(": ");
-		sb.append(argNumber);
-		sb.append("\n\n");
-		sb.append(loc.getMenu("Syntax"));
-		sb.append(":\n");
-		sb.append(syntax);
-		return sb.toString();
 	}
 
 	/**
