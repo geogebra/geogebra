@@ -497,12 +497,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected static void removeAxes(ArrayList<GeoElement> geos) {
-		for (int i = geos.size() - 1; i >= 0; i--) {
-			GeoElement geo = geos.get(i);
-			if (geo instanceof GeoAxis) {
-				geos.remove(i);
-			}
-		}
+		geos.removeIf(GeoElement::isAxis);
 	}
 
 	/**
@@ -2083,6 +2078,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (hits.size() > 2) {
 			removeAxes(hits);
 		}
+		if (hits.size() > 1) {
+			hits.removeParallelLines();
+		}
 
 		if (hits.isEmpty()) {
 			return null;
@@ -2095,23 +2093,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// check how many interesting hits we have
 		if (!selPreview && (hits.size() > (2 - selGeos()))) {
 			Hits goodHits = new Hits();
-			hits.getHits(TestGeo.GEOLINEND, tempArrayList);
+			hits.getHits(TestGeo.GEOLINEND, tempArrayList, 1);
 			goodHits.addAll(tempArrayList);
 
 			if (goodHits.size() < 2) {
-				hits.getHits(TestGeo.GEOCONICND, tempArrayList);
+				hits.getHits(TestGeo.GEOCONICND, tempArrayList, 1);
 				goodHits.addAll(tempArrayList);
 			}
 			if (goodHits.size() < 2) {
-				hits.getHits(TestGeo.GEOFUNCTION, tempArrayList);
+				hits.getHits(TestGeo.GEOFUNCTION, tempArrayList, 1);
 				goodHits.addAll(tempArrayList);
 			}
 			if (goodHits.size() < 2) {
-				hits.getHits(TestGeo.GEOPOLYGON, tempArrayList);
+				hits.getHits(TestGeo.GEOPOLYGON, tempArrayList, 1);
 				goodHits.addAll(tempArrayList);
 			}
 			if (goodHits.size() < 2) {
-				hits.getHits(TestGeo.GEOPOLYLINE, tempArrayList);
+				hits.getHits(TestGeo.GEOPOLYLINE, tempArrayList, 1);
 				goodHits.addAll(tempArrayList);
 			}
 

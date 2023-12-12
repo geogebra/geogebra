@@ -25,7 +25,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
     @Override
     public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
         KeyboardModelImpl functionKeyboard = new KeyboardModelImpl();
-        RowImpl row = functionKeyboard.nextRow(9.2f);
+        RowImpl row = functionKeyboard.nextRow();
         addInputButton(row, buttonFactory, "\u00B0");
         addInputButton(row, buttonFactory, "'");
         addInputButton(row, buttonFactory, "\u2033");
@@ -35,7 +35,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
         addTranslateInputCommandButton(row, buttonFactory, "stdev", "stdev", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "stdevp", "stdevp", 1.0f);
 
-        row = functionKeyboard.nextRow(9.2f);
+        row = functionKeyboard.nextRow();
         addTranslateInputCommandButton(row, buttonFactory, "asin", "asin", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "acos", "acos", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "atan", "atan", 1.0f);
@@ -45,7 +45,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
         addInputCommandButton(row, buttonFactory, "\u207FC\u1D63", "nCr", 1.0f);
         addInputButton(row, buttonFactory, "!");
 
-        row = functionKeyboard.nextRow(9.2f);
+        row = functionKeyboard.nextRow();
         addInputButton(row, buttonFactory, CURLY_EULER, EULER);
         addConstantInputButton(row, buttonFactory, Resource.POWE_X, EULER + "^", 1.0f);
         addConstantInputButton(row, buttonFactory, Resource.POW10_X, "10^", 1.0f);
@@ -55,7 +55,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
         addInputCommandButton(row, buttonFactory, "round", "round", 1.0f);
         addInputCommandButton(row, buttonFactory, "mad", "mad", 1.0f);
 
-        row = functionKeyboard.nextRow(9.2f);
+        row = functionKeyboard.nextRow();
         addInputButton(row, buttonFactory, "{");
         addInputButton(row, buttonFactory, "}");
         addConstantInputButton(row, buttonFactory, Resource.ABS, "|");

@@ -526,10 +526,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		setSaved();
 
-		if (getCASVersionString().equals("")) {
-			setCASVersionString(loc.getMenu("CASInitializing"));
-		}
-
 		// user authentication handling
 		initSignInEventFlow();
 		if (kernel.wantAnimationStarted()) {

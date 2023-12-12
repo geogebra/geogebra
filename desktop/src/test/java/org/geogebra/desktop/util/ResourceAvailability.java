@@ -1,5 +1,8 @@
 package org.geogebra.desktop.util;
 
+import static org.junit.Assert.assertFalse;
+
+import java.io.File;
 import java.net.URL;
 
 import javax.swing.JPanel;
@@ -36,6 +39,23 @@ public class ResourceAvailability {
 	}
 
 	@Test
+	public void noDupes() {
+		assertNoDupesRecursive("src/main/resources", "src/gpl/resources");
+		assertNoDupesRecursive("src/main/resources", "src/nonfree/resources");
+	}
+
+	private void assertNoDupesRecursive(String f1, String f2) {
+		for (String fn: new File(f1).list()) {
+			if (new File(f1 + "/" + fn).isDirectory()) {
+				assertNoDupesRecursive(f1 + "/" + fn, f2 + "/" + fn);
+			} else {
+				assertFalse("Duplicate found:" + f2 + "/" + fn,
+						new File(f2 + "/" + fn).exists());
+			}
+		}
+	}
+
+	@Test
 	public void checkToolIcons() {
 		StringUtil.setPrototypeIfNull(new StringUtilD());
 		ImageManagerD man = new ImageManagerD(new JPanel());
@@ -49,9 +69,6 @@ public class ResourceAvailability {
 			}
 			switch (i) {
 			case EuclidianConstants.MODE_SELECTION_LISTENER:
-			case EuclidianConstants.MODE_PEN_PANEL:
-			case EuclidianConstants.MODE_TOOLS_PANEL:
-			case EuclidianConstants.MODE_MEDIA_PANEL:
 			case EuclidianConstants.MODE_VIDEO:
 			case EuclidianConstants.MODE_AUDIO:
 			case EuclidianConstants.MODE_CALCULATOR:

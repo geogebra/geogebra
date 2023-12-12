@@ -2,18 +2,18 @@ plugins {
     id 'java-library'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.2.1'
+    id 'com.github.spotbugs' version '5.2.5'
     id 'org.javacc.javacc' version '3.0.0'
 }
 
 project.setDescription('Common parts of GeoGebra for various platforms')
 
 dependencies {
-    javacc 'net.java.dev.javacc:javacc:7.0.12'
+    javacc 'net.java.dev.javacc:javacc:7.0.13'
     api project(':editor-base')
     api project(':renderer-base')
     api 'com.google.j2objc:annotations:2.8'
-    api 'com.github.spotbugs:spotbugs-annotations:4.8.0'
+    api 'com.github.spotbugs:spotbugs-annotations:4.8.2'
     api 'com.google.code.findbugs:jsr305:3.0.2'
 }
 

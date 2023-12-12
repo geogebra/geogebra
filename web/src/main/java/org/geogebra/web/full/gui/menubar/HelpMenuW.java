@@ -96,8 +96,8 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 	private void addForumItem(final AppW app, Localization loc) {
 		forum = addItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.forum_black(),
-						loc.getMenu("GeoGebraForum")),
+						SharedResources.INSTANCE.icon_help_black(),
+						loc.getMenu("Help")),
 				true, new MenuCommand(app) {
 
 					@Override
@@ -116,7 +116,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
-						app.getFileManager().open(GeoGebraConstants.FORUM_URL);
+						app.getFileManager().open(GeoGebraConstants.REPORT_BUG_URL);
 					}
 				});
 	}
