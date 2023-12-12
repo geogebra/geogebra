@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.table;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,6 +22,7 @@ public class ModelEventCollectorTests extends BaseUnitTest {
         simpleTableValuesModel = mock(SimpleTableValuesModel.class);
         geoEvaluatable = mock(GeoEvaluatable.class);
 
+        // Mocked getRowCount() method used in startCollection()
         when(simpleTableValuesModel.getRowCount()).thenReturn(5);
     }
 
@@ -64,5 +66,23 @@ public class ModelEventCollectorTests extends BaseUnitTest {
                 .notifyCellChanged(geoEvaluatable, 1, 2);
         verify(simpleTableValuesModel, times(1))
                 .notifyColumnChanged(geoEvaluatable, 3);
+    }
+
+    @Test
+    public void testCollectionWithIgnoredRowsRemovedNotification() {
+        modelEventCollector.startCollection(simpleTableValuesModel);
+        modelEventCollector.notifyRowsRemoved(simpleTableValuesModel, 0, 2);
+        modelEventCollector.endCollection(simpleTableValuesModel);
+
+        verify(simpleTableValuesModel, never()).notifyRowsRemoved(0, 2);
+    }
+
+    @Test
+    public void testCollectionWithIgnoredRowsAddedNotification() {
+        modelEventCollector.startCollection(simpleTableValuesModel);
+        modelEventCollector.notifyRowsAdded(simpleTableValuesModel, 0, 2);
+        modelEventCollector.endCollection(simpleTableValuesModel);
+
+        verify(simpleTableValuesModel, never()).notifyRowsAdded(0, 2);
     }
 }

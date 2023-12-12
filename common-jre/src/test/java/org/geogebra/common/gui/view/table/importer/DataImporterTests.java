@@ -371,6 +371,26 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	}
 
 	@Test
+	public void testOverwriteExistingDataWithTheSameDimensions() {
+		inputData(new String[]{"1", "3", "5", "7", "9"}, new String[]{"2", "4", "6", "8", "10"});
+		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+
+		Reader reader = loadSample("strings-comma-noheader.csv");
+		boolean success = dataImporter.importCSV(reader, '.');
+		assertTrue(success);
+
+		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+		assertEquals(1.0, tableValuesView.getTableValuesModel().getValueAt(0, 0), 0.0);
+		assertEquals("a", tableValuesView.getTableValuesModel().getCellAt(0, 1).getInput());
+		assertEquals(3.0, tableValuesView.getTableValuesModel().getValueAt(2, 0), 0.0);
+		assertEquals("c", tableValuesView.getTableValuesModel().getCellAt(2, 1).getInput());
+		assertEquals(5.0, tableValuesView.getTableValuesModel().getValueAt(4, 0), 0.0);
+		assertEquals("e", tableValuesView.getTableValuesModel().getCellAt(4, 1).getInput());
+	}
+
+	@Test
 	public void testReloadRegression() {
 		inputData(new String[]{"1", "2", "3"}, new String[]{"2", "4", "6"});
 		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
