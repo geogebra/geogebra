@@ -9,7 +9,7 @@ public class CommandTableFilterTest {
 
 	@Test
 	public void testFilter3DTable() {
-		CommandFilter filter = new CommandTableFilter(CommandsConstants.TABLE_3D);
+		CommandFilter filter = new TableCommandFilter(CommandsConstants.TABLE_3D);
 		Assert.assertFalse(filter.isCommandAllowed(Commands.Cube));
 		Assert.assertFalse(filter.isCommandAllowed(Commands.Cone));
 		Assert.assertTrue(filter.isCommandAllowed(Commands.Angle));
@@ -17,7 +17,7 @@ public class CommandTableFilterTest {
 
 	@Test
 	public void testFilterMultipleTables() {
-		CommandFilter filter = new CommandTableFilter(CommandsConstants.TABLE_ALGEBRA,
+		CommandFilter filter = new TableCommandFilter(CommandsConstants.TABLE_ALGEBRA,
 				CommandsConstants.TABLE_GEOMETRY, CommandsConstants.TABLE_SCRIPTING);
 		Assert.assertFalse(filter.isCommandAllowed(Commands.NSolve));
 		Assert.assertFalse(filter.isCommandAllowed(Commands.Angle));
