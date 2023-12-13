@@ -74,13 +74,14 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		addFocusBlurHandlers();
 		addHoverHandlers();
 		setOnNegativeAction(app.getSaveController()::cancel);
+		Runnable afterSave = () -> app.getSaveController().runAfterSaveCallback(true);
 		setOnPositiveAction(() -> {
-			if (((AppW) app).getFileManager().saveCurrentLocalIfPossible(app)) {
-				app.getSaveController().runAfterSaveCallback(true);
+			if (((AppW) app).getFileManager().saveCurrentLocalIfPossible(app,
+					afterSave)) {
 				return;
 			}
 			if (!((AppW) app).getFileManager().isOnlineSavingPreferred()) {
-				app.getSaveController().showLocalSaveDialog();
+				app.getSaveController().showLocalSaveDialog(afterSave);
 			} else {
 				if (!app.getLoginOperation().isLoggedIn()) {
 					hide();

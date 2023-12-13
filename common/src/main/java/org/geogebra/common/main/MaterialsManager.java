@@ -193,7 +193,7 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	protected abstract void setTubeID(String localKey, Material newMat);
 
 	@Override
-	public boolean saveCurrentLocalIfPossible(App app) {
+	public boolean saveCurrentLocalIfPossible(App app, Runnable callback) {
 		return false;
 	}
 

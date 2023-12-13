@@ -77,7 +77,7 @@ public interface MaterialsManagerI {
 	 */
 	void open(String url);
 
-	boolean saveCurrentLocalIfPossible(App app);
+	boolean saveCurrentLocalIfPossible(App app, Runnable callback);
 
 	boolean isOnlineSavingPreferred();
 }

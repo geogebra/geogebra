@@ -1029,7 +1029,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
-
+		resetFileHandle();
 		resetUI();
 		resetUrl();
 		if (isExam()) {
@@ -1037,6 +1037,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			setActiveMaterial(material);
 		}
 		setSaved();
+	}
+
+	protected void resetFileHandle() {
+		// only with full UI
 	}
 
 	private void resetPages() {
