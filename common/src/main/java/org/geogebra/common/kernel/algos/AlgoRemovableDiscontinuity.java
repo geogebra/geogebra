@@ -2,9 +2,11 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -30,6 +32,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 
 	private final GeoFunction f; // input
 	private final MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private final boolean checkLimits;
 
 	/**
 	 * @param cons Construction
@@ -40,6 +43,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		super(cons, labels, true);
 
 		this.f = f;
+		this.checkLimits = false;
 
 		setInputOutput();
 		compute();
@@ -50,12 +54,14 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	 * @param f Function to evaluate for removable discontinuities
 	 * @param labels labels for output
 	 * @param setLabels whether to set labels
+	 * @param checkLimits Whether to check if limits are equal before calculating them with GIAC
 	 */
 	public AlgoRemovableDiscontinuity(Construction cons, GeoFunction f, String[] labels,
-			boolean setLabels) {
+			boolean setLabels, boolean checkLimits) {
 		super(cons, labels, setLabels);
 
 		this.f = f;
+		this.checkLimits = checkLimits;
 
 		setInputOutput();
 		compute();
@@ -112,15 +118,26 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		List<NumberValue> values = getValues(exp);
 		for (NumberValue value: values) {
 			double x = value.getDouble();
+			if (checkLimits && hasEqualLimit(x)) {
+				double above = limit(x, -1);
+				double below = limit(x, 1);
 
-			double above = limit(x, 1);
-			double below = limit(x, -1);
-
-			add(x, above, result);
-			if (above != below) {
-				add(x, above, result);
+				if (above == below) {
+					add(x, above, result);
+				}
 			}
 		}
+	}
+
+	/**
+	 * @param x Value of variable x
+	 * @return True if the limits above and below are equal (using {@link Kernel#MAX_PRECISION}),
+	 * false else
+	 */
+	private boolean hasEqualLimit(double x) {
+		final double precision = Kernel.MAX_PRECISION;
+		Comparator<Double> comparator = Kernel.doubleComparator(precision);
+		return comparator.compare(f.value(x + precision), f.value(x - precision)) == 0;
 	}
 
 	private List<NumberValue> getValues(ExpressionValue exp) {

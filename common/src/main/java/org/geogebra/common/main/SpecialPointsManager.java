@@ -213,7 +213,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			}
 		}
 		AlgoRemovableDiscontinuity algoRemovableDiscontinuity =
-				new AlgoRemovableDiscontinuity(kernel.getConstruction(), geo, null, false);
+				new AlgoRemovableDiscontinuity(kernel.getConstruction(), geo, null, false, true);
 		processAlgo(geo, algoRemovableDiscontinuity, retList,
 				EuclidianStyleConstants.POINT_STYLE_CIRCLE);
 
