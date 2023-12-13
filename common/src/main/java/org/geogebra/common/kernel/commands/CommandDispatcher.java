@@ -1017,11 +1017,13 @@ public abstract class CommandDispatcher implements Restrictable {
 		return isAllowedByNameFilter(Commands.Solve);
 	}
 
+	@Deprecated
 	@Override
 	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
 		return model.getCommandFilter() != null;
 	}
 
+	@Deprecated
 	@Override
 	public void setExamRestrictionModel(ExamRestrictionModel model) {
 		if (model == null) {
@@ -1033,6 +1035,7 @@ public abstract class CommandDispatcher implements Restrictable {
 		}
 	}
 
+	@Deprecated
 	@Override
 	public void applyExamRestrictions() {
 		app.resetCommandDict();

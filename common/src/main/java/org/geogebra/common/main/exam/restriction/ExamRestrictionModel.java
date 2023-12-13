@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 /**
  * Model containing the exam restrictions.
  */
+@Deprecated // use org.geogebra.common.exam instead
 public class ExamRestrictionModel {
 	private List<String> subAppCodes = Collections.emptyList();
 	private String defaultAppCode;

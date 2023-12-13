@@ -3,6 +3,7 @@ package org.geogebra.common.main.exam.restriction;
 /**
  * Class to create restrictions for exams based on the locale.
  */
+@Deprecated // use org.geogebra.common.exam instead
 public class ExamRestrictionFactory {
 
 	/**

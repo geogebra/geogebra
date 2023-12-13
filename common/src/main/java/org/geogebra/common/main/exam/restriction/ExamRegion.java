@@ -129,7 +129,9 @@ public enum ExamRegion {
 
 	public abstract String getShortDisplayName(Localization loc, AppConfig config);
 
+	@Deprecated
 	public abstract void applyRestrictions(ExamRestrictionModel model);
 
+	@Deprecated
 	public abstract void setDefaultSubAppCode(ExamRestrictionModel model);
 }

@@ -16,7 +16,7 @@ public class TempStorage {
     private int tempMaterialId;
     private Map<Integer, Material> tempMaterials;
 
-    TempStorage() {
+    public TempStorage() {
         tempMaterials = new LinkedHashMap<>();
     }
 

@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.main.MyError;
 
 /**
- * Filters out commands that are not allowed
+ * Filters out commands that are not allowed in certain contexts (apps).
  */
 public interface CommandArgumentFilter {
 
@@ -15,14 +15,14 @@ public interface CommandArgumentFilter {
 	 * @param commandProcessor
 	 *            makes it possible to check the argument list of the command
 	 * @throws MyError
-	 *             if the command is allowed otherwise false
+	 *             if the command (with the given arguments) is not allowed
 	 */
 	void checkAllowed(Command command, CommandProcessor commandProcessor)
 			throws MyError;
 
 	/**
 	 * @param commandName command name
-	 * @return True if the command with the name commandName is one of the filtered commands
+	 * @return True if the command with the name commandName is one of the filtered commands.
 	 */
 	boolean isFilteredCommand(String commandName);
 }

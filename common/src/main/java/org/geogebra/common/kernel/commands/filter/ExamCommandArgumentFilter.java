@@ -9,9 +9,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Filters out the commands that are not enabled in the exam mode
  */
-public class ExamCommandFilter extends BaseCommandArgumentFilter {
+public class ExamCommandArgumentFilter extends BaseCommandArgumentFilter {
 
-	public ExamCommandFilter() {
+	public ExamCommandArgumentFilter() {
 		super(Commands.SetFixed, Commands.CopyFreeObject);
 	}
 
