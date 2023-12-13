@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.resources.SVGResourcePrototype;
 import org.gwtproject.canvas.client.Canvas;
@@ -43,13 +42,19 @@ public final class MyImageW implements MyImage {
 		width = img.width;
 		height = img.height;
 		if (width == 0 || height == 0) {
-			// hack for IE10/11/12
-			// can't work out SVG height unless it's attached to the DOM
-			DomGlobal.document.body.append(img);
-			width = img.offsetWidth;
-			height = img.offsetHeight;
-			DomGlobal.document.body.removeChild(img);
+			getSizesFromDOM();
 		}
+	}
+
+	/*
+	 * hack for IE10/11/12
+	 * can't work out SVG height unless it's attached to the DOM
+	 */
+	private void getSizesFromDOM() {
+		DomGlobal.document.body.append(img);
+		width = img.offsetWidth;
+		height = img.offsetHeight;
+		DomGlobal.document.body.removeChild(img);
 	}
 
 	@Override
@@ -123,7 +128,6 @@ public final class MyImageW implements MyImage {
 	}
 
 	public void render(JLMContext2d context, int x, int y) {
-		Log.debug("w: " + width + "h: " + height);
 		context.drawImage(img, x, y);
 	}
 }
