@@ -698,4 +698,13 @@ public class RedefineTest extends BaseUnitTest {
 		assertEquals("f,a,b,c,A,B,d,e,s",
 				String.join(",", getApp().getGgbApi().getAllObjectNames()));
 	}
+
+	@Test
+	public void equalShouldNotChangeType() {
+		add("l={1}");
+		add("b:l(1)==2");
+		add("l={x}");
+		reload();
+		assertThat(lookup("b"), hasValue("false"));
+	}
 }
