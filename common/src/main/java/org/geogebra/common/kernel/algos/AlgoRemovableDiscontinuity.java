@@ -116,9 +116,9 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	private void solveDivision(ExpressionValue exp, List<MyPoint> result) {
 		arbconst.startBlocking();
 		List<NumberValue> values = getValues(exp);
-		for (NumberValue value: values) {
+		for (NumberValue value : values) {
 			double x = value.getDouble();
-			if (checkLimits && hasEqualLimit(x)) {
+			if (!checkLimits || hasEqualLimit(x)) {
 				double above = limit(x, -1);
 				double below = limit(x, 1);
 
