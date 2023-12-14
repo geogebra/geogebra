@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.main.AppD;
@@ -135,7 +136,9 @@ public class OptionsMenuD extends BaseMenu
 		currentLocale = currentLocale.replaceAll("_", "");
 		StringBuilder sb = new StringBuilder(20);
 
-		for (Language loc : Language.values()) {
+		Language[] supportedLanguages = app.getLocalization()
+				.getSupportedLanguages(app.has(Feature.ALL_LANGUAGES));
+		for (Language loc : supportedLanguages) {
 
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
