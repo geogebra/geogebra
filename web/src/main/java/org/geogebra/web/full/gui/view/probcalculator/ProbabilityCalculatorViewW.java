@@ -64,6 +64,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	@Override
+	public void disableInterval(boolean disable) {
+		distrPanel.disableInterval(disable);
+	}
+
+	@Override
 	public void setLabels() {
 		setLabelArrays();
 		if (distrPanel != null) {
