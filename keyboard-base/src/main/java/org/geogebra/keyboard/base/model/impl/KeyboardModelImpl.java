@@ -11,12 +11,10 @@ public class KeyboardModelImpl implements KeyboardModel {
     private List<Row> rows = new ArrayList<>();
 
 	/**
-	 * @param rowWeightSum
-	 *            total buttons weight
 	 * @return new row
 	 */
-    public RowImpl nextRow(float rowWeightSum) {
-        RowImpl row = new RowImpl(rowWeightSum);
+    public RowImpl nextRow() {
+        RowImpl row = new RowImpl();
         rows.add(row);
         return row;
     }

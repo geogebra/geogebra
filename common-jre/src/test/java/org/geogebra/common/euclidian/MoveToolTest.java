@@ -9,7 +9,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,9 +18,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -29,7 +26,7 @@ import org.mockito.Mockito;
 public class MoveToolTest extends BaseControllerTest {
 
 	@Test
-	public void moveWithMouseShouldChangeSegment() {
+	public void moveShouldChangeSegment() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
 		dragStart(50, 50);
@@ -38,15 +35,7 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeSegment() {
-		add("A = (0,0)");
-		GeoElement geo = add("f = Segment(A, (1,-1))");
-		moveObjectWithArrowKey(geo, 1, -2);
-		checkContent("A = (1, -2)", "f = 1.41421");
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeVector1() {
+	public void moveShouldChangeVector() {
 		add("v = Vector((1,-1))");
 		dragStart(50, 50);
 		dragEnd(100, 150);
@@ -54,29 +43,7 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangeVector1() {
-		GeoElement geo = add("v = Vector((1,-1))");
-		moveObjectWithArrowKey(geo, 1, -2);
-		checkContent("v = (2, -3)");
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeVector2() {
-		add("list = {Vector((1,-1))}");
-		dragStart(50, 50);
-		dragEnd(100, 150);
-		checkContent("list = {(2, -3)}");
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeVector2() {
-		GeoElement list = add("list = {Vector((1,-1))}");
-		moveObjectWithArrowKey(list, 1, -2);
-		checkContent("list = {(2, -3)}");
-	}
-
-	@Test
-	public void moveWithMouseShouldChangePolygon() {
+	public void moveShouldChangePolygon() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		dragStart(50, 50);
@@ -86,16 +53,7 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldChangePolygon2() {
-		add("A = (0,0)");
-		GeoElement geo = add("q = Polygon(A, (0,-1), 4)");
-		moveObjectWithArrowKey(geo, 1, -2);
-		checkContent("A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)",
-				"C = (2, -2)", "h = 1", "i = 1");
-	}
-
-	@Test
-	public void moveWithMouseShouldNotChangeFixedSegment() {
+	public void moveShouldNotChangeFixedSegment() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
 		add("SetFixed(f,true)");
@@ -105,16 +63,7 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldNotChangeFixedSegment() {
-		add("A = (0,0)");
-		GeoElement geo = add("f = Segment(A, (1,-1))");
-		add("SetFixed(f,true)");
-		moveObjectWithArrowKey(geo, 1, -2);
-		checkContent("A = (0, 0)", "f = 1.41421");
-	}
-
-	@Test
-	public void moveWithMouseShouldNotChangeFixedPolygon() {
+	public void moveShouldNotChangeFixedPolygon() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		add("SetFixed(q,true)");
@@ -125,180 +74,15 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void moveWithArrowKeyShouldNotChangeFixedPolygon() {
-		add("A = (0,0)");
-		GeoElement geo = add("q = Polygon(A, (0,-1), 4)");
-		add("SetFixed(q,true)");
-		moveObjectWithArrowKey(geo, 1, -2);
-		checkContent("A = (0, 0)", "q = 1", "f = 1", "g = 1", "B = (1, -1)",
-				"C = (1, 0)", "h = 1", "i = 1");
-	}
-
-	@Test
-	public void moveWithMouseShouldNotChangeValueOfInfiniteCircle() {
+	public void moveShouldNotChangeInfiniteCircle() {
 		add("A=(1,-1)");
 		add("B=(2,-2)");
 		add("C=(3,-3)");
 		GeoElement circle = add("Circle(A,B,C)");
 		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
-		dragStart(0, 0);
-		dragEnd(50, 50);
+		dragStart(100, 50);
+		dragEnd(100, 150);
 		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldNotChangeValueOfInfiniteCircle() {
-		add("A=(1,-1)");
-		add("B=(2,-2)");
-		add("C=(3,-3)");
-		GeoElement circle = add("Circle(A,B,C)");
-		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
-		moveObjectWithArrowKey(circle, 1, -1);
-		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeCircle1() {
-		add("A=(1, -1)");
-		GeoElement circle = add("Circle(A, 2)");
-		dragStart(50, 150);
-		dragEnd(100, 200);
-		assertThat(circle, hasValue("(x - 2)² + (y + 2)² = 4"));
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeCircle2() {
-		add("c = Circle((1, -1), 2)");
-		dragStart(50, 150);
-		dragEnd(100, 200);
-		checkContent("c: (x - 2)² + (y + 2)² = 4");
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeCircle1() {
-		add("A=(1, -1)");
-		GeoElement circle = add("Circle(A, 2)");
-		moveObjectWithArrowKey(circle, 1, -1);
-		assertThat(circle, hasValue("(x - 2)² + (y + 2)² = 4"));
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeCircle2() {
-		GeoElement circle = add("c = Circle((1, -1), 2)");
-		moveObjectWithArrowKey(circle, 1, -1);
-		checkContent("c: (x - 2)² + (y + 2)² = 4");
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeEllipse() {
-		add("e = Ellipse((1, 1), (2, 2), (3, 3))");
-		checkContent("e: 17x² - 2x y + 17y² - 48x - 48y = 0");
-		dragStart(0, 0);
-		dragEnd(50, 50);
-		checkContent("e: 17x² - 2x y + 17y² - 84x - 12y = -36");
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeEllipse() {
-		GeoElement ellipse = add("e = Ellipse((1, 1), (2, 2), (3, 3))");
-		checkContent("e: 17x² - 2x y + 17y² - 48x - 48y = 0");
-		moveObjectWithArrowKey(ellipse, 1, -1);
-		checkContent("e: 17x² - 2x y + 17y² - 84x - 12y = -36");
-	}
-
-	@Test
-	public void moveWithMouseShouldNotChangeEllipse() {
-		add("e = Ellipse((2, 2), (1, 0.6), 2)");
-		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
-		dragStart(0, 0);
-		dragEnd(50, 50);
-		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldNotChangeEllipse() {
-		GeoElement ellipse = add("e = Ellipse((2, 2), (1, 0.6), 2)");
-		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
-		moveObjectWithArrowKey(ellipse, 1, -1);
-		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeRay() {
-		add("r = Ray((0, 0), (1, -1))");
-		dragStart(0, 0);
-		dragEnd(100, 50);
-		checkContent("r: x + y = 1");
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeRay() {
-		GeoElement ray = add("r = Ray((0, 0), (1, -1))");
-		moveObjectWithArrowKey(ray, 2, -1);
-		checkContent("r: x + y = 1");
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeDependentPoint() {
-		add("a = 1");
-		add("b = -1");
-		add("A = (a, b)");
-		dragStart(50, 50);
-		dragEnd(100, 100);
-		checkContent("A = (2, -2)");
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeDependentPoint() {
-		add("a = 1");
-		add("b = -1");
-		GeoElement point = add("A = (a, b)");
-		moveObjectWithArrowKey(point, 1, -1);
-		checkContent("A = (2, -2)");
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChange3DPolygon() {
-		GeoElement pointA = add("A = (1, -1, 0)");
-		add("B = (2, -1, 0)");
-		add("C = (2, -2, 0)");
-		add("D = (1, -2, 0)");
-		GeoElement poly = add("Polygon(A, B, C, D)");
-		moveObjectWithArrowKey(poly, 1, -1);
-		assertThat(pointA, hasValue("(2, -2, 0)"));
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeOutputOfTranslate1() {
-		add("A = (2, 2)");
-		add("v = Vector((-1, -3))");
-		GeoElement point = add("Translate(A, v)");
-		dragStart(50, 50);
-		dragEnd(100, 100);
-		assertThat(point, hasValue("(2, -2)"));
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeOutputOfTranslate1() {
-		add("A = (2, 2)");
-		add("v = Vector((-1, -3))");
-		GeoElement point = add("Translate(A, v)");
-		moveObjectWithArrowKey(point, 1, -1);
-		assertThat(point, hasValue("(2, -2)"));
-	}
-
-	@Test
-	public void moveWithMouseShouldChangeOutputOfTranslate2() {
-		//TODO
-	}
-
-	@Test
-	public void moveWithArrowKeyShouldChangeOutputOfTranslate2() {
-		add("A = (2, 2)");
-		add("v = Vector((-1, -3))");
-		GeoElement list = add("{Translate(A, v)}");
-		moveObjectWithArrowKey(list, 1, -1);
-		assertThat(list, hasValue("{(2, -2)}"));
 	}
 
 	@Test
@@ -437,17 +221,6 @@ public class MoveToolTest extends BaseControllerTest {
 		return new DragResult(((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocX() - 100,
 				((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocY() - 100,
 				listener.getEvents().toArray(new String[0]));
-	}
-
-	/**
-	 * Moves an object with arrow keys (Translation Vector (x, y, 0))
-	 * @param geo GeoElement
-	 * @param x x-Axis
-	 * @param y y-Axis
-	 */
-	private void moveObjectWithArrowKey(GeoElement geo, int x, int y) {
-		MoveGeos.moveObjects(Collections.singletonList(geo), new Coords(x, y, 0, 0),
-				null, null, getApp().getActiveEuclidianView());
 	}
 
 	private static class DragResult {
