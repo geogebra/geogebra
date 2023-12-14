@@ -28,6 +28,7 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
+@Deprecated // use org.geogebra.common.exam instead
 public class ExamEnvironment {
 
 	private static final long EXAM_START_TIME_NOT_STARTED = -1;

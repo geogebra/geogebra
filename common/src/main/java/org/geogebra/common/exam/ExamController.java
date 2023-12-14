@@ -14,12 +14,38 @@ import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.ownership.NonOwning;
 
 /**
- * A controller that coordinates exam mode.
+ * A controller for coordinating exam mode.
  * <p/>
- * <h3>Side Effects</h3>
- * emanating from this controller:
+ * <h3>Responsibilities</h3>
+ * Here's the list of responsibilites of this controller:
  * <ul>
- * <li> The exam controller will potentially (depending on the exam region) call
+ *     <li><b>Exam state</b>: Starting, stopping, and finishing up the exam, and making the
+ *     current exam state available (both as a getter, and as a change notification to registered
+ *     listeners).
+ *     <li><b>Start/end date</b>: Setting the exam start and end date, and providing date and
+ *     time formatting for these.
+ *     <li><b>Restrictions</b>: Applying restrictions to the {@link CommandDispatcher} during the
+ *     exam.
+ *     <li><b>Events</b>: Collect relevant events (e.g., cheating attempts).
+ * </ul>
+ * <h3>NOT Responsibilities</h3>
+ * Conversely, here's what's not in the responsibility of this controller:
+ * <ul>
+ *     <li><b>Clipboard</b>: The delegate is asked to clear the clipboard at the appropriate
+ *     points. Why? Because I didn't want to introduce a clipboard abstraction (type) just for this
+ *     single action.
+ *     <li><b>Apps</b>: The delegate is asked to clear out the (other) apps at the appropriate
+ *     points. Why? Because the App instances are managed (and owned) differently on the different
+ *     platforms.
+ * </ul>
+ * <h3>Side Effects</h3>
+ * The ExamController tries to be as side effect-free as possible, so that it's easier to
+ * understand and maintain. For this reason, certain behavior is not implemented in the
+ * controller itself, but signalled to observers via actions emitted by the controller.
+ * <p/>
+ * Any side effects emanating from the ExamController are documented here:
+ * <ul>
+ * <li> The ExamController will potentially (depending on the exam region) call
  * 	 <ul>
  * 	     <li>{@link CommandDispatcher#addCommandFilter(CommandFilter)}
  *   	 <li>{@link CommandDispatcher#addCommandArgumentFilter(CommandArgumentFilter)}
@@ -34,21 +60,37 @@ import org.geogebra.common.ownership.NonOwning;
  */
 public final class ExamController {
 
+	@NonOwning
+	private ExamControllerDelegate delegate;
+
+	@NonOwning
+	private CommandDispatcher commandDispatcher;
+
+	private ExamConfiguration configuration;
 	private ExamState state;
 	private Date startDate, endDate;
 	private Set<ExamListener> listeners = new HashSet<ExamListener>();
-
 	private final TempStorage tempStorage = new TempStorage();
-	@NonOwning
-	private CommandDispatcher commandDispatcher;
 	private CommandFilter examCommandFilter;
 	private final CommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
 
 	// filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
 
-	public ExamController(@NonOwning CommandDispatcher commandDispatcher/* TODO more dependencies? */) {
+	// TODO more dependencies needed?
+	public ExamController(@NonOwning CommandDispatcher commandDispatcher) {
 		this.commandDispatcher = commandDispatcher;
+	}
+
+	/**
+	 * Sets the delegate.
+	 *
+	 * It is assumed that the delegate is set before attempting to start an exam.
+	 *
+	 * @param delegate The delegate.
+	 */
+	public void setDelegate(@NonOwning  ExamControllerDelegate delegate) {
+		this.delegate = delegate;
 	}
 
 	/**
@@ -60,7 +102,14 @@ public final class ExamController {
 		return state;
 	}
 
-	private void setExamState(ExamState newState) {
+	/**
+	 * Changes state and notifies listeners about the state change.
+	 *
+	 * Note: If newState is equal to the current state, nothing happens.
+	 *
+	 * @param newState The new state to change to.
+	 */
+	private void setState(ExamState newState) {
 		if (newState == state) {
 			return;
 		}
@@ -69,60 +118,77 @@ public final class ExamController {
 	}
 
 	/**
-	 * Starts a new exam.
+	 * Get ready for a new exam.
 	 *
-	 * @throws IllegalStateException if the exam controller is not in the INACTIVE state.
+	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#INACTIVE}
+	 * state.
 	 */
-	public void startExam(ExamRegion region, boolean enableCAS) {
+	public void prepareExam() {
 		if (state != ExamState.INACTIVE) {
 			throw new IllegalStateException();
 		}
-		sendActionRequired(ExamAction.CLEAR_CLIPBOARD);
-		sendActionRequired(ExamAction.CLEAR_APPS);
-		tempStorage.clearTempMaterials();
-		applyRestrictions(region);
-		state = ExamState.ACTIVE;
-		startDate = new Date();
+		setState(ExamState.PREPARING);
 	}
 
 	/**
-	 * Stops the current exam.
+	 * Starts the exam.
 	 *
-	 * @throws IllegalStateException if the exam controller is not in the ACTIVE state.
+	 * @throws IllegalStateException if the exam controller is not in the
+	 * {@link ExamState#PREPARING} state.
+	 */
+	public void startExam(ExamRegion region, ExamConfiguration configuration) {
+		if (state != ExamState.PREPARING) {
+			throw new IllegalStateException();
+		}
+		this.configuration = configuration;
+		applyConfiguration(configuration);
+		applyRestrictions(region);
+		requestClearClipboard();
+		requestClearAllApps();
+		tempStorage.clearTempMaterials();
+
+		startDate = new Date();
+		setState(ExamState.ACTIVE);
+	}
+
+	/**
+	 * Stops the exam.
+	 *
+	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#ACTIVE}
+	 * 	state.
 	 */
 	public void stopExam() {
 		if (state != ExamState.ACTIVE) {
 			throw new IllegalStateException();
 		}
-		state = ExamState.SUMMARY;
 		endDate = new Date();
+		state = ExamState.WRAPPING_UP;
 	}
 
 	/**
 	 * Finishes the current exam.
 	 *
-	 * @throws IllegalStateException if the exam controller is not in the SUMMARY state.
+	 * @throws IllegalStateException if the exam controller is not in the
+	 * {@link ExamState#WRAPPING_UP} state.
 	 */
 	public void finishExam() {
-		if (state != ExamState.SUMMARY) {
+		if (state != ExamState.WRAPPING_UP) {
 			throw new IllegalStateException();
 		}
-		state = ExamState.INACTIVE;
-		startDate = endDate = null;
 		unapplyRestrictions();
 		tempStorage.clearTempMaterials();
-		sendActionRequired(ExamAction.CLEAR_CLIPBOARD);
-		sendActionRequired(ExamAction.CLEAR_APPS);
-//		setShowSyntax(true);
-
-		// TODO
-//		https://geogebra-jira.atlassian.net/browse/GGB-1306
-//		after ending the exam, CAS and 3D need to be enabled again (unless specified by data-param)
-//		when there is no data-param for CAS, start Exam should not jump to CAS
+		requestClearClipboard();
+		requestClearAllApps();
+//		setShowSyntax(true); // handle externally?
+		startDate = endDate = null;
+		state = ExamState.INACTIVE;
 	}
 
+	private void transitionTo(ExamState newState) {
+
+	}
 	/**
-	 * Adds an `ExamListener.
+	 * Adds an {@link ExamListener}.
 	 * @param listener The listener to add.
 	 * Trying to add a listener that is already registered will have no effect.
 	 */
@@ -145,10 +211,20 @@ public final class ExamController {
 		}
 	}
 
-	private void sendActionRequired(ExamAction action) {
-		for (ExamListener listener : listeners) {
-			listener.examActionRequired(action);
+	private void requestClearClipboard() {
+		if (delegate != null) {
+			delegate.clearClipboard();
 		}
+	}
+
+	private void requestClearAllApps() {
+		if (delegate != null) {
+			delegate.clearAllApps();
+		}
+	}
+
+	private void applyConfiguration(ExamConfiguration configuration) {
+		// TODO apply configuration / disable subapps (CAS)
 	}
 
 	private void applyRestrictions(ExamRegion region) {

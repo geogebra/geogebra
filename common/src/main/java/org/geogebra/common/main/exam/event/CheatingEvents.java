@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Stores the cheating events.
  */
+@Deprecated
 public class CheatingEvents {
 
     private List<CheatingEvent> events;
