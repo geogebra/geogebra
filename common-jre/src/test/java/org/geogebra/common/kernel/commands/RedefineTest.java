@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -40,7 +39,6 @@ import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -663,5 +661,41 @@ public class RedefineTest extends BaseUnitTest {
 		add("text=a+\"foo\"");
 		assertThat(((GeoText) lookup("text")).getStartPoint()
 				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+	}
+
+	@Test
+	public void constructionOrderShouldNotChangeMuch() {
+		add("f:x");
+		add("a=1");
+		add("b=2");
+		add("l={a,b}");
+		add("c=3");
+		add("d=4");
+		add("e=5");
+		add("s=Sum(l)");
+		// redefine
+		assertEquals("f,a,b,l,c,d,e,s",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		add("l={a,b,c}");
+		assertEquals("f,a,b,c,l,d,e,s",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+	}
+
+	@Test
+	public void constructionOrderShouldNotChangeMuchWithSiblings() {
+		add("f:x");
+		add("a=1");
+		add("b=2");
+		add("Intersect(x^2=a,y=b)"); // autolabel A
+		add("c=3");
+		add("d=4");
+		add("e=5");
+		add("s=Angle(A)");
+		// redefine
+		assertEquals("f,a,b,A,B,c,d,e,s",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		add("A=Intersect(x^2=a,y=b+c)");
+		assertEquals("f,a,b,c,A,B,d,e,s",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
 	}
 }
