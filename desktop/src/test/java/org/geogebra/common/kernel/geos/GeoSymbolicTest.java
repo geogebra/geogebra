@@ -2189,4 +2189,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void bracketShouldNotBeMultiplicationForSymbolicVariables() {
 		t("Derivative(f(x)*g(x))", "f'(x) * g(x) + g'(x) * f(x)");
 	}
+
+	@Test
+	public void shouldExpandExpressionInIntegral() {
+		t("h=x^2", "x^(2)");
+		t("Integral(h,0,1)", "1 / 3");
+	}
 }
