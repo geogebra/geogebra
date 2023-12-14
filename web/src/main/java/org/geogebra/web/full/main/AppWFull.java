@@ -2434,6 +2434,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return material != null;
 	}
 
+	@Override
 	protected void resetFileHandle() {
 		if (fm != null) {
 			fm.resetFileHandle();
