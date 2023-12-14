@@ -170,7 +170,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		resetCounter();
-
 		return result;
 	}
 

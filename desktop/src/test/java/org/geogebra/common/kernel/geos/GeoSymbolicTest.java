@@ -1291,11 +1291,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic extremumInterval = add("Extremum(x^2+sqrt(3),-5,5)");
 		GeoSymbolic intersect = add("Intersect(x=y,x=sqrt(3))");
 		GeoSymbolic intersectBoring = add("Intersect(x=y,x=0)");
+		GeoSymbolic asymptote = add("Asymptote(3x/4)");
 		assertThat(AlgebraItem.isSymbolicDiffers(root), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(extremum), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(extremumInterval), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(intersect), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(intersectBoring), is(false));
+		assertThat(AlgebraItem.isSymbolicDiffers(asymptote), is(true));
 	}
 
 	@Test
