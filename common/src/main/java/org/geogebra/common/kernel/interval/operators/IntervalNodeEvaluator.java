@@ -98,13 +98,12 @@ public class IntervalNodeEvaluator {
 	}
 
 	/**
-	 * Computes x mod y (x - k * y)
+	 * Computes x mod y (x - k * y), result is stored in input interval
 	 *
 	 * @param other argument.
-	 * @return this as result
 	 */
-	public Interval fmod(Interval interval, Interval other) {
-		return algebra.fmod(interval, other);
+	public void fmod(Interval interval, Interval other) {
+		algebra.fmod(interval, other);
 	}
 
 	/**
