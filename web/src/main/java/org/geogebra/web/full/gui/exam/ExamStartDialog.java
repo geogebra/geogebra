@@ -45,8 +45,7 @@ public class ExamStartDialog extends ComponentDialog {
 				this.selectedRegion = selectedRegion);
 			addDialogContent(regionPicker);
 		} else if (app.isSuite()) {
-			selectedRegion = ExamRegion.byName(((AppW) app)
-					.getAppletParameters().getParamExamMode());
+			selectedRegion = ((AppWFull) app).getForcedExamRegion();
 		}
 	}
 

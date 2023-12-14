@@ -311,7 +311,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void checkExamPerspective() {
 		if (isLockedExam()) {
-			ExamRegion examMode = findExamMode(appletParameters.getParamExamMode());
+			ExamRegion examMode = getForcedExamRegion();
 			if (examMode != null) {
 				setNewExam(examMode);
 				appletParameters.setAttribute("perspective", "");
@@ -327,7 +327,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	private ExamRegion findExamMode(String paramExamMode) {
+	/**
+	 * @return exam region forced by examMode and appName parameters
+	 */
+	public ExamRegion getForcedExamRegion() {
+		String paramExamMode = appletParameters.getParamExamMode();
 		if (paramExamMode.equals(appletParameters.getDataParamAppName())
 			|| paramExamMode.equals(ExamRegion.CHOOSE)) {
 			return ExamRegion.GENERIC;
