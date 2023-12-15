@@ -101,4 +101,8 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 		close();
 		app.checkSaved(callback);
 	}
+
+	public void removeMaterial(Material mat) {
+		tempStorage.removeMaterial(mat);
+	}
 }

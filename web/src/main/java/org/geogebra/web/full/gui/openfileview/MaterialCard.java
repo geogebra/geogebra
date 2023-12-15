@@ -119,9 +119,12 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		removeDialog.setOnPositiveAction(this::onConfirmDelete);
 	}
 
-	/**
-	 * @return card title
-	 */
+	@Override
+	public MaterialCardController getController() {
+		return controller;
+	}
+
+	@Override
 	public String getCardTitle() {
 		return getMaterial().getTitle();
 	}

@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui.openfileview;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
+import org.geogebra.web.full.gui.dialog.template.ContextMenuButtonDeleteCard;
+import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.full.gui.util.ExamSaveDialog;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -11,7 +13,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Material card
  */
-public class TemporaryCard extends FlowPanel {
+public class TemporaryCard extends FlowPanel implements MaterialCardI {
 	private final AppW app;
 	private final MaterialCardController controller;
 
@@ -49,11 +51,37 @@ public class TemporaryCard extends FlowPanel {
 	}
 
 	private void initGui() {
-		this.setStyleName("materialCard");
+		setStyleName("materialCard");
 		Material material = controller.getMaterial();
+
 		MaterialImagePanel imgPanel = new MaterialImagePanel(material);
 		CardInfoPanel infoPanel = new CardInfoPanel(material.getTitle(), "");
+
+		ContextMenuButtonCard moreBtn = new ContextMenuButtonDeleteCard(app, this, true);
+		infoPanel.add(moreBtn);
+
 		add(imgPanel);
 		add(infoPanel);
+	}
+
+	@Override
+	public void remove() {
+		app.getGuiManager().getBrowseView().removeMaterial(controller.getMaterial());
+		removeFromParent();
+	}
+
+	@Override
+	public void onDelete() {
+		// nothing to do here
+	}
+
+	@Override
+	public String getCardTitle() {
+		return controller.getMaterial().getTitle();
+	}
+
+	@Override
+	public MaterialCardController getController() {
+		return controller;
 	}
 }

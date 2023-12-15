@@ -55,6 +55,10 @@ public class TempStorage {
         return materials;
     }
 
+    public void removeMaterial(Material mat) {
+        tempMaterials.remove(mat.getLocalID());
+    }
+
     /**
      * Reinitializes the tempMaterials and the next id is set back to 0
      */
