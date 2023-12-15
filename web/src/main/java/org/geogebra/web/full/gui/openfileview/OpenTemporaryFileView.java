@@ -102,7 +102,8 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 		app.checkSaved(callback);
 	}
 
+	@Override
 	public void removeMaterial(Material mat) {
-		tempStorage.removeMaterial(mat);
+		tempStorage.deleteTempMaterial(mat);
 	}
 }
