@@ -34,7 +34,6 @@ public class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
         initPopup();
     }
 
-
     @Override
     protected void initPopup() {
         super.initPopup();
