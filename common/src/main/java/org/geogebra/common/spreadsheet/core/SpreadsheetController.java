@@ -3,7 +3,10 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
@@ -26,8 +29,7 @@ public final class SpreadsheetController implements TabularSelection {
 	private final TableLayout layout;
 
 	private final SpreadsheetStyle style;
-	private MouseCursor activeCursor = MouseCursor.DEFAULT;
-	private final GPoint lastPointerDown = new GPoint(-1, -1);
+	private DragAction dragAction = new DragAction(MouseCursor.DEFAULT, -1, -1);
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -85,8 +87,8 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param addSelection Whether we want to add the selection to the current selection (CTRL)
 	 */
 	@Override
-	public void select(Selection selection, boolean extend, boolean addSelection) {
-		selectionController.select(selection, extend, addSelection);
+	public boolean select(Selection selection, boolean extend, boolean addSelection) {
+		return selectionController.select(selection, extend, addSelection);
 	}
 
 	@Override
@@ -149,23 +151,66 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		hideCellEditor();
-		activeCursor = layout.getCursor(x + viewport.getMinX(), y + viewport.getMinY(),
-				lastPointerDown);
-		int column = layout.findColumn(x + viewport.getMinX());
-		int row = layout.findRow(y + viewport.getMinY());
+		dragAction = getDragAction(x, y, viewport);
+		if (modifiers.shift) {
+			setDragStartLocationFromSelection();
+		}
+		if (dragAction.activeCursor != MouseCursor.DEFAULT) {
+			return true;
+		}
+		int column = findColumnOrHeader(x, viewport);
+		int row = findRowOrHeader(y, viewport);
 		if (modifiers.rightButton) {
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
-			return true;
 		}
 		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
 		}
-		return false;
+		boolean changed = false;
+		if (!modifiers.ctrl  && !modifiers.shift && selectionController.hasSelection()) {
+			selectionController.clearSelection();
+			changed = true;
+		}
+		if (column < 0) { // Select row
+			selectRow(row, modifiers.shift, modifiers.ctrl);
+			changed = true;
+		} else if (row < 0) { // Select column
+			selectColumn(column, modifiers.shift, modifiers.ctrl);
+			changed = true;
+		} else { // Select cell
+			changed = select(new Selection(SelectionType.CELLS, TabularRange.range(row,
+					row, column, column)), modifiers.shift, modifiers.ctrl) || changed;
+		}
+		return changed;
 	}
 
-	public MouseCursor getCursor(int x, int y, Rectangle viewport) {
-		return layout.getCursor(x + viewport.getMinX(), y + viewport.getMinY(), new GPoint());
+	private int findRowOrHeader(int y, Rectangle viewport) {
+		return y < layout.getColumnHeaderHeight() ? -1
+				: layout.findRow(y + viewport.getMinY());
+	}
+
+	private int findColumnOrHeader(int x, Rectangle viewport) {
+		return x < layout.getRowHeaderWidth() ? - 1
+				: layout.findColumn(x + viewport.getMinX());
+	}
+
+	private void setDragStartLocationFromSelection() {
+		Selection lastSelection = selectionController.getLastSelection();
+		if (lastSelection != null) {
+			TabularRange lastRange = lastSelection.getRange();
+			dragAction = new DragAction(MouseCursor.DEFAULT,
+					lastRange.getMinColumn(), lastRange.getMinRow());
+		}
+	}
+
+	DragAction getDragAction(int x, int y, Rectangle viewport) {
+		GPoint2D draggingDot = getDraggingDot(viewport);
+		if (draggingDot != null && draggingDot.distance(x, y) < 18) {
+			return new DragAction(MouseCursor.DRAG_DOT, layout.findRow(y + viewport.getMinY()),
+					layout.findColumn(x + viewport.getMinX()));
+		}
+		return layout.getResizeAction(x + viewport.getMinX(), y + viewport.getMinY());
 	}
 
 	/**
@@ -175,29 +220,11 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param viewport visible area
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers, Rectangle viewport) {
-		if (finishDrag(x, y, modifiers)) {
-			return;
-		}
-		int row = layout.findRow(y + viewport.getMinY());
-		int column = layout.findColumn(x + viewport.getMinX());
-
-		if (column < 0) { // Select row
-			selectRow(row, modifiers.shift, modifiers.ctrl);
-		} else if (row < 0) { // Select column
-			selectColumn(column, modifiers.shift, modifiers.ctrl);
-		} else { // Select cell
-			select(new Selection(SelectionType.CELLS, TabularRange.range(row,
-					row, column, column)), modifiers.shift, modifiers.ctrl);
-		}
-	}
-
-	private boolean finishDrag(int x, int y, Modifiers modifiers) {
 		List<Selection> sel = getSelections();
-		boolean handled = false;
-		switch (activeCursor) {
+		switch (dragAction.activeCursor) {
 		case RESIZE_X:
-			if (isSelected(-1, lastPointerDown.x)) {
-				double width = layout.resizeColumn(lastPointerDown.x, x);
+			if (isSelected(-1, dragAction.column)) {
+				double width = layout.resizeColumn(dragAction.column, x);
 				for (Selection selection : sel) {
 					if (selection.getType() == SelectionType.COLUMNS) {
 						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
@@ -205,11 +232,10 @@ public final class SpreadsheetController implements TabularSelection {
 					}
 				}
 			}
-			handled = true;
 			break;
 		case RESIZE_Y:
-			if (isSelected(lastPointerDown.y, -1)) {
-				double height = layout.resizeRow(lastPointerDown.y, y);
+			if (isSelected(dragAction.row, -1)) {
+				double height = layout.resizeRow(dragAction.row, y);
 				for (Selection selection : sel) {
 					if (selection.getType() == SelectionType.ROWS) {
 						layout.setHeightForRows(height, selection.getRange().getMinRow(),
@@ -217,14 +243,13 @@ public final class SpreadsheetController implements TabularSelection {
 					}
 				}
 			}
-			handled = true;
 			break;
 		case DEFAULT:
-			handled = extendSelectionByDrag(x, y, modifiers.ctrl);
+		default:
+			extendSelectionByDrag(x, y, modifiers.ctrl, viewport);
+		// TODO implement formula propagation with DRAG_DOT
 		}
-		activeCursor = MouseCursor.DEFAULT;
-		lastPointerDown.setLocation(-1, -1);
-		return handled;
+		dragAction = new DragAction(MouseCursor.DEFAULT, -1, -1);
 	}
 
 	/**
@@ -298,21 +323,21 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param modifiers alt/ctrl/shift
 	 * @return whether something changed and repaint is needed
 	 */
-	public boolean handlePointerMove(int x, int y, Modifiers modifiers) {
-		switch (activeCursor) {
+	public boolean handlePointerMove(int x, int y, Modifiers modifiers, Rectangle viewport) {
+		switch (dragAction.activeCursor) {
 		case RESIZE_X:
 			// only handle the dragged column here, the rest of selection on pointer up
 			// otherwise left border of dragged column could move, causing feedback loop
-			double width = layout.resizeColumn(lastPointerDown.x, x);
-			layout.setWidthForColumns(width, lastPointerDown.x, lastPointerDown.x);
+			double width = layout.resizeColumn(dragAction.column, x + viewport.getMinX());
+			layout.setWidthForColumns(width, dragAction.column, dragAction.column);
 			return true;
 		case RESIZE_Y:
-			double height = layout.resizeRow(lastPointerDown.y, y);
-			layout.setHeightForRows(height, lastPointerDown.y, lastPointerDown.y);
+			double height = layout.resizeRow(dragAction.row, y + viewport.getMinY());
+			layout.setHeightForRows(height, dragAction.row, dragAction.row);
 			return true;
 		default:
 		case DEFAULT:
-			return extendSelectionByDrag(x, y, modifiers.ctrl);
+			return extendSelectionByDrag(x, y, modifiers.ctrl, viewport);
 		}
 	}
 
@@ -324,18 +349,16 @@ public final class SpreadsheetController implements TabularSelection {
 				.collect(Collectors.toList());
 	}
 
-	private boolean extendSelectionByDrag(int x, int y, boolean addSelection) {
-		// TODO drag selection for columns and rows
-		if (lastPointerDown.x >= 0 && lastPointerDown.y >= 0) {
-			int row = getLayout().findRow(y);
-			int column = getLayout().findColumn(x);
-			if (row != lastPointerDown.getY() || column != lastPointerDown.getX()) {
-				TabularRange range =
-						new TabularRange(lastPointerDown.y, lastPointerDown.x, row, column);
-				selectionController.select(new Selection(SelectionType.CELLS,
-								range), false, addSelection);
-				return true;
-			}
+	private boolean extendSelectionByDrag(int x, int y, boolean addSelection, Rectangle viewport) {
+		if (dragAction.column >= 0 || dragAction.row >= 0) {
+			int row = findRowOrHeader(y, viewport);
+			int column = findColumnOrHeader(x, viewport);
+
+			TabularRange range =
+					new TabularRange(dragAction.row, dragAction.column, row, column);
+			return selectionController.select(new Selection(SelectionType.CELLS,
+							range), false, addSelection);
+
 		}
 		return false;
 	}
@@ -345,4 +368,35 @@ public final class SpreadsheetController implements TabularSelection {
 				tabularData.numberOfColumns());
 	}
 
+	/**
+	 * @param column column index
+	 * @return whether selection contains at least one cell in given column
+	 */
+	public boolean isSelectionIntersectingColumn(int column) {
+		return selectionController.selections().stream()
+				.anyMatch(sel -> sel.getRange().intersectsColumn(column));
+	}
+
+	/**
+	 * @param row row index
+	 * @return whether selection contains at least one cell in given row
+	 */
+	public boolean isSelectionIntersectingRow(int row) {
+		return selectionController.selections().stream()
+				.anyMatch(sel -> sel.getRange().intersectsRow(row));
+	}
+
+	@CheckForNull GPoint2D getDraggingDot(Rectangle viewport) {
+		List<TabularRange> visibleSelections = getVisibleSelections();
+		if (!visibleSelections.isEmpty()) {
+			TabularRange lastSelection = visibleSelections.get(visibleSelections.size() - 1);
+			Rectangle bounds = layout.getBounds(lastSelection, viewport);
+			if (bounds != null && bounds.getMaxX() >  layout.getRowHeaderWidth()
+					&& bounds.getMaxY() > layout.getColumnHeaderHeight()) {
+				return new GPoint2D(bounds.getMaxX(), bounds.getMaxY());
+			}
+			return null;
+		}
+		return null;
+	}
 }

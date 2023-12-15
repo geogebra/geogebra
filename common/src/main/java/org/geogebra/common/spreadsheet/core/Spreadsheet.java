@@ -1,7 +1,10 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -25,7 +28,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public Spreadsheet(TabularData<?> tabularData, CellRenderableFactory rendererFactory) {
 		controller = new SpreadsheetController(tabularData);
-		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory);
+		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
+				controller.getStyle());
 		viewport = new Rectangle(0, 0, 0, 0);
 		tabularData.addChangeListener(this);
 	}
@@ -46,51 +50,73 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 		graphics.setPaint(GColor.WHITE);
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
-		drawCells(graphics, viewport);
-		for (TabularRange range: controller.getVisibleSelections()) {
+		List<TabularRange> visibleSelections = controller.getVisibleSelections();
+		for (TabularRange range: visibleSelections) {
 			renderer.drawSelection(range, graphics,
 					viewport, controller.getLayout());
+		}
+		drawCells(graphics, viewport);
+		for (TabularRange range: visibleSelections) {
+			renderer.drawSelectionBorder(range, graphics,
+					viewport, controller.getLayout());
+		}
+		GPoint2D draggingDot = controller.getDraggingDot(viewport);
+		if (draggingDot != null) {
+			renderer.drawDraggingDot(draggingDot, graphics);
 		}
 		needsRedraw = false;
 	}
 
-	void drawCells(GGraphics2D graphics, Rectangle rectangle) {
+	void drawCells(GGraphics2D graphics, Rectangle viewport) {
 		TableLayout layout = controller.getLayout();
 		TableLayout.Portion portion =
-				layout.getLayoutIntersecting(rectangle);
-		double offsetX = rectangle.getMinX() - layout.getRowHeaderWidth();
-		double offsetY = rectangle.getMinY() - layout.getColumnHeaderHeight();
+				layout.getLayoutIntersecting(viewport);
+		double offsetX = viewport.getMinX() - layout.getRowHeaderWidth();
+		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
 		graphics.translate(-offsetX, -offsetY);
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
 				renderer.drawCell(row, column, graphics,
-						controller.contentAt(row, column), controller.getStyle());
+						controller.contentAt(row, column));
 			}
 		}
-		renderer.drawHeaderBackgroundAndOutline(graphics, rectangle, offsetX, offsetY,
-				controller.getStyle());
-		graphics.translate(0, offsetY);
-		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
-			renderer.drawColumnBorder(column, graphics, controller.getStyle());
+		renderer.drawHeaderBackgroundAndOutline(graphics, viewport, offsetX, offsetY);
+		for (Selection range: controller.getSelections()) {
+			renderer.drawSelectionHeader(range, graphics,
+					this.viewport, controller.getLayout());
 		}
-		graphics.setColor(controller.getStyle().getTextColor());
+		graphics.translate(0, offsetY);
+		graphics.setColor(controller.getStyle().getGridColor());
+		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
+			renderer.drawColumnBorder(column, graphics);
+		}
+
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
+			setHeaderColor(graphics, controller.isSelected(-1, column));
 			renderer.drawColumnHeader(column, graphics, controller.getColumnName(column));
 		}
 
 		graphics.translate(offsetX, -offsetY);
 		graphics.setColor(controller.getStyle().getGridColor());
 		for (int row = portion.fromRow + 1; row <= portion.toRow; row++) {
-			renderer.drawRowBorder(row, graphics, controller.getStyle());
+			renderer.drawRowBorder(row, graphics);
 		}
-		graphics.setColor(controller.getStyle().getTextColor());
 		for (int row = portion.fromRow; row <= portion.toRow; row++) {
+			setHeaderColor(graphics, controller.isSelected(row, -1));
 			renderer.drawRowHeader(row, graphics, controller.getRowName(row));
 		}
 		graphics.translate(0, offsetY);
 		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());
-		graphics.fillRect(0, 0, (int) layout.getRowHeaderWidth() - 1,
-				(int) layout.getColumnHeaderHeight() - 1);
+		graphics.fillRect(0, 0, (int) layout.getRowHeaderWidth(),
+				(int) layout.getColumnHeaderHeight());
+	}
+
+	private void setHeaderColor(GGraphics2D graphics, boolean isSelected) {
+		if (isSelected) {
+			graphics.setColor(controller.getStyle().getSelectedTextColor());
+		} else {
+			graphics.setColor(controller.getStyle().getTextColor());
+		}
 	}
 
 	// keyboard (use com.himamis.retex.editor.share.event.KeyListener?)
@@ -133,7 +159,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public void handlePointerMove(int x, int y, Modifiers modifiers) {
-		needsRedraw = controller.handlePointerMove(x, y, modifiers);
+		needsRedraw = controller.handlePointerMove(x, y, modifiers, viewport) || needsRedraw;
 	}
 
 	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
@@ -163,7 +189,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public MouseCursor getCursor(int x, int y) {
-		return controller.getCursor(x, y, viewport);
+		return controller.getDragAction(x, y, viewport).activeCursor;
 	}
 
 	public double getTotalWidth() {

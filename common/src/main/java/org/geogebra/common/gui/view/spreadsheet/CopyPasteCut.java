@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
@@ -553,7 +554,7 @@ public abstract class CopyPasteCut {
 	 * @return if at least one object was deleted
 	 */
 	public static boolean delete(App app, int column1, int row1, int column2,
-			int row2, int selectionType) {
+			int row2, SelectionType selectionType) {
 		boolean succ = false;
 		TreeSet<GeoElement> toRemove = new TreeSet<>();
 		for (int column = column1; column <= column2; ++column) {
@@ -575,7 +576,7 @@ public abstract class CopyPasteCut {
 
 		// Let the trace manager know about the delete
 		// TODO add SelectAll
-		if (selectionType == MyTableInterface.COLUMN_SELECT) {
+		if (selectionType == SelectionType.COLUMNS) {
 			app.getTraceManager().handleColumnDelete(column1, column2);
 		} else {
 			app.getTraceManager().handleColumnDelete(column1, row1, column2,

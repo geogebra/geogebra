@@ -13,7 +13,7 @@ interface TabularSelection {
 	 */
 	void selectColumn(int column, boolean extend, boolean addSelection);
 
-	void select(Selection selection, boolean extend, boolean addSelection);
+	boolean select(Selection selection, boolean extend, boolean addSelection);
 
 	void selectAll();
 }

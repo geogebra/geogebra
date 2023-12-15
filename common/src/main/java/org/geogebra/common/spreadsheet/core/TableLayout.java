@@ -2,7 +2,6 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Arrays;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -55,6 +54,20 @@ public final class TableLayout {
 				cumulativeHeights[row] + rowHeights[row]);
 	}
 
+	Rectangle getBounds(TabularRange selection, Rectangle viewport) {
+		double offsetX = -viewport.getMinX() + getRowHeaderWidth();
+		double offsetY = -viewport.getMinY() + getColumnHeaderHeight();
+		if (selection.getMinColumn() >= 0 && selection.getMinRow() >= 0) {
+			int minX = (int) getX(selection.getMinColumn());
+			int minY = (int) getY(selection.getMinRow());
+			int maxX = (int) getX(selection.getMaxColumn() + 1);
+			int maxY = (int) getY(selection.getMaxRow() + 1);
+			return new Rectangle(minX + offsetX, maxX + offsetX,
+					minY + offsetY, maxY + offsetY);
+		}
+		return null;
+	}
+
 	Rectangle getRowHeaderBounds(int row) {
 		return new Rectangle(0,
 				rowHeaderWidth,
@@ -77,26 +90,23 @@ public final class TableLayout {
 		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
 	}
 
-	MouseCursor getCursor(double x, double y, GPoint out) {
+	DragAction getResizeAction(double x, double y) {
 		int row = findRow(y);
 		int column = findColumn(x);
-		out.setLocation(column, row);
 
 		if (row < 1 && column >= 0 && x > cumulativeWidths[column + 1] + rowHeaderWidth - 5) {
-			return MouseCursor.RESIZE_X;
+			return new DragAction(MouseCursor.RESIZE_X, row, column);
 		}
 		if (row < 1 && column > 0 && x < cumulativeWidths[column] + rowHeaderWidth + 5) {
-			out.x--;
-			return MouseCursor.RESIZE_X;
+			return new DragAction(MouseCursor.RESIZE_X, row, column - 1);
 		}
 		if (column < 1 && row >= 0 && y > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
-			return MouseCursor.RESIZE_Y;
+			return new DragAction(MouseCursor.RESIZE_Y, row, column);
 		}
 		if (column < 1 && row > 0 && y < cumulativeHeights[row] + columnHeaderHeight + 5) {
-			out.y--;
-			return MouseCursor.RESIZE_Y;
+			return new DragAction(MouseCursor.RESIZE_Y, row - 1, column);
 		}
-		return MouseCursor.DEFAULT;
+		return new DragAction(MouseCursor.DEFAULT, row, column);
 	}
 
 	/**
@@ -206,11 +216,11 @@ public final class TableLayout {
 		return columnHeaderHeight;
 	}
 
-	public double resizeColumn(int col, int x) {
+	public double resizeColumn(int col, double x) {
 		return Math.max(MIN_CELL_SIZE, x - cumulativeWidths[col] - rowHeaderWidth);
 	}
 
-	public double resizeRow(int row, int y) {
+	public double resizeRow(int row, double y) {
 		return Math.max(MIN_CELL_SIZE, y - cumulativeHeights[row] - columnHeaderHeight);
 	}
 }

@@ -13,13 +13,13 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventUtil;
@@ -222,8 +222,8 @@ public class SpreadsheetMouseListenerD
 		if (!rightClick) {
 
 			// memory testing
-			if (table.getSelectionType() != MyTableInterface.CELL_SELECT) {
-				table.setSelectionType(MyTableInterface.CELL_SELECT);
+			if (table.getSelectionType() != SelectionType.CELLS) {
+				table.setSelectionType(SelectionType.CELLS);
 			}
 
 			// force column selection
@@ -438,8 +438,8 @@ public class SpreadsheetMouseListenerD
 					|| p.getX() > table.maxSelectionColumn) {
 				// switch to cell selection mode
 
-				if (table.getSelectionType() != MyTableInterface.CELL_SELECT) {
-					table.setSelectionType(MyTableInterface.CELL_SELECT);
+				if (table.getSelectionType() != SelectionType.CELLS) {
+					table.setSelectionType(SelectionType.CELLS);
 				}
 
 				// now change the selection

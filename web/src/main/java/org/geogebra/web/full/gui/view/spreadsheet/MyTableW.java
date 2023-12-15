@@ -12,7 +12,6 @@ import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetModeProcessor;
@@ -26,6 +25,7 @@ import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
@@ -138,7 +138,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected HashSet<Integer> selectedColumnSet = new HashSet<>();
 	protected HashSet<Integer> selectedRowSet = new HashSet<>();
 
-	private int selectionType;
+	private SelectionType selectionType;
 
 	private GColor selectionRectangleColor = SELECTED_RECTANGLE_COLOR;
 
@@ -251,9 +251,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// initialize selection fields
 		selectedRanges = new ArrayList<>();
-		selectedRanges.add(new TabularRange(-1, -1));
 
-		selectionType = MyTableInterface.CELL_SELECT;
+		selectionType = SelectionType.CELLS;
 
 		// add table model listener
 		((SpreadsheetTableModelSimple) tableModel)
@@ -755,11 +754,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			String cs = copyString();
 			view.spreadsheetWrapper.setSelectedContent(cs);
 			if (rowHeader != null
-					&& selectionType == MyTableInterface.ROW_SELECT) {
+					&& selectionType == SelectionType.ROWS) {
 				rowHeader.focusPanel.setSelectedContent(cs);
 			}
 		} else if (rowHeader != null
-				&& selectionType == MyTableInterface.ROW_SELECT) {
+				&& selectionType == SelectionType.ROWS) {
 			rowHeader.focusPanel.setSelectedContent(copyString());
 		}
 	}
@@ -858,7 +857,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public void selectAll() {
 
-		setSelectionType(MyTableInterface.CELL_SELECT);
+		setSelectionType(SelectionType.CELLS);
 		setAutoscrolls(false);
 
 		// select the upper left corner cell
@@ -912,23 +911,24 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		 */
 
 		switch (selectionType) {
-
-		case MyTableInterface.CELL_SELECT:
+		default:
+		case CELLS:
 			newSelection = new TabularRange(anchorSelectionRow, anchorSelectionColumn,
 					leadSelectionRow, leadSelectionColumn);
 			break;
 
-		case MyTableInterface.ROW_SELECT:
+		case ROWS:
 			newSelection = new TabularRange(anchorSelectionRow, -1, leadSelectionRow, -1
 			);
 			break;
 
-		case MyTableInterface.COLUMN_SELECT:
+		case COLUMNS:
 			newSelection = new TabularRange(-1, anchorSelectionColumn,
 					-1, leadSelectionColumn);
 			break;
-		default:
-			newSelection = new TabularRange(-1, -1);
+		case ALL:
+			newSelection = new TabularRange(-1, -1,
+					-1, -1);
 		}
 
 		// update the selection list
@@ -940,7 +940,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			selectedRanges.add(0, newSelection);
 		} else { // ctrl-select
 			// handle dragging
-			if (selectedRanges.get(0).hasSameAnchor(newSelection)) {
+			if (!selectedRanges.isEmpty() && selectedRanges.get(0).hasSameAnchor(newSelection)) {
 				selectedRanges.remove(0);
 			}
 
@@ -950,14 +950,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
-		if (selectionType == MyTableInterface.COLUMN_SELECT) {
+		if (selectionType == SelectionType.COLUMNS) {
 			for (int i = newSelection.getMinColumn(); i <= newSelection
 			        .getMaxColumn(); i++) {
 				selectedColumnSet.add(i);
 			}
 		}
 
-		if (selectionType == MyTableInterface.ROW_SELECT) {
+		if (selectionType == SelectionType.ROWS) {
 			for (int i = newSelection.getMinRow(); i <= newSelection
 			        .getMaxRow(); i++) {
 				selectedRowSet.add(i);
@@ -973,8 +973,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
-		for (int i = 0; i < selectedRanges.size(); i++) {
-			list.addAll(0, CellRangeUtil.toGeoList(selectedRanges.get(i), app));
+		for (TabularRange selectedRange : selectedRanges) {
+			list.addAll(0, CellRangeUtil.toGeoList(selectedRange, app));
 		}
 
 		// if the geo selection has changed, update selected geos
@@ -1019,7 +1019,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public void setInitialCellSelection(int row0, int column0) {
 
-		setSelectionType(MyTableInterface.CELL_SELECT);
+		setSelectionType(SelectionType.CELLS);
 		int row = row0;
 		int column = column0;
 		if (column == -1) {
@@ -1094,7 +1094,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 					// cell block selection
 				} else {
-					setSelectionType(MyTableInterface.CELL_SELECT);
+					setSelectionType(SelectionType.CELLS);
 					changeSelection(tr.getMinRow(), tr.getMinColumn(), false);
 					changeSelection(tr.getMaxRow(), tr.getMaxColumn(), true);
 				}
@@ -1120,10 +1120,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @param selType
 	 *            MyTableInterface.*_SELECT
 	 */
-	public void setSelectionType(int selType) {
+	public void setSelectionType(SelectionType selType) {
 
 		if (view.isColumnSelect()) {
-			this.selectionType = MyTableInterface.COLUMN_SELECT;
+			this.selectionType = SelectionType.COLUMNS;
 		} else {
 
 			// in web, selectionType should do what setSelectionMode do too
@@ -1133,7 +1133,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	@Override
-	public int getSelectionType() {
+	public SelectionType getSelectionType() {
 		return selectionType;
 	}
 
@@ -1144,7 +1144,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            lead row
 	 */
 	public void setRowSelectionInterval(int row0, int row1) {
-		setSelectionType(MyTableInterface.ROW_SELECT);
+		setSelectionType(SelectionType.ROWS);
 		anchorSelectionRow = row0;
 		leadSelectionRow = row1;
 		selectionChanged();
@@ -1157,7 +1157,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            lead column
 	 */
 	public void setColumnSelectionInterval(int col0, int col1) {
-		setSelectionType(MyTableInterface.COLUMN_SELECT);
+		setSelectionType(SelectionType.COLUMNS);
 		anchorSelectionColumn = col0;
 		leadSelectionColumn = col1;
 		selectionChanged();

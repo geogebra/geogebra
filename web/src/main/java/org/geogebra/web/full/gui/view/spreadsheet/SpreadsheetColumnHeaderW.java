@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -174,7 +174,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 			/*Style s = grid.getCellFormatter().getElement(0, colIndex)
 			        .getStyle();*/
 
-			if (table.getSelectionType() == MyTableInterface.ROW_SELECT) {
+			if (table.getSelectionType() == SelectionType.ROWS) {
 				//setBgColorIfNeeded(s, defaultBackground);
 				updateCellSelection(false, colIndex);
 			} else {
@@ -291,8 +291,8 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 
 				// otherwise handle column selection
 				if (table
-						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+						.getSelectionType() != SelectionType.COLUMNS) {
+					table.setSelectionType(SelectionType.COLUMNS);
 				}
 
 				if (shiftDown) {
@@ -427,8 +427,8 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	public void updateSelection(GPoint p) {
 		// switch to column selection mode and select column
 		if (table
-				.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-			table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+				.getSelectionType() != SelectionType.COLUMNS) {
+			table.setSelectionType(SelectionType.COLUMNS);
 		}
 
 		// selectNone();
