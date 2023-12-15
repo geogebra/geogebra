@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
@@ -29,7 +30,7 @@ public class SpreadsheetContextMenu<T> {
 	private CellRangeProcessor cp;
 
 	private ArrayList<TabularRange> selectedRanges;
-	private int selectionType;
+	private SelectionType selectionType;
 
 	/** minimum selected row */
 	private int row1 = -1;
@@ -151,14 +152,14 @@ public class SpreadsheetContextMenu<T> {
 		// ===============================================
 		boolean enabled = false;
 
-		if (selectionType == MyTableInterface.COLUMN_SELECT
-				|| selectionType == MyTableInterface.ROW_SELECT) {
+		if (selectionType == SelectionType.COLUMNS
+				|| selectionType == SelectionType.ROWS) {
 
 			addSeparator();
 
 			subMenu = addSubMenu(loc.getMenu("Insert"), null);
 
-			if (selectionType == MyTableInterface.COLUMN_SELECT) {
+			if (selectionType == SelectionType.COLUMNS) {
 
 				cmdString = MenuCommand.InsertLeft.toString();
 				addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString),
@@ -169,7 +170,7 @@ public class SpreadsheetContextMenu<T> {
 						true);
 			}
 
-			if (selectionType == MyTableInterface.ROW_SELECT) {
+			if (selectionType == SelectionType.ROWS) {
 
 				cmdString = MenuCommand.InsertAbove.toString();
 				addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString),
@@ -180,13 +181,13 @@ public class SpreadsheetContextMenu<T> {
 						true);
 			}
 
-			if (selectionType == MyTableInterface.COLUMN_SELECT) {
+			if (selectionType == SelectionType.COLUMNS) {
 				cmdString = MenuCommand.DeleteColumn.toString();
 				enabled = true;
 				addMenuItem(cmdString, getDeleteColumnString(), enabled);
 			}
 
-			if (selectionType == MyTableInterface.ROW_SELECT) {
+			if (selectionType == SelectionType.ROWS) {
 				cmdString = MenuCommand.DeleteRow.toString();
 				enabled = true;
 				addMenuItem(cmdString, getDeleteRowString(), enabled);
@@ -264,7 +265,7 @@ public class SpreadsheetContextMenu<T> {
 
 			app.isHTML5Applet();
 			if (geo.isSpreadsheetTraceable()
-					&& selectionType != MyTableInterface.ROW_SELECT) {
+					&& selectionType != SelectionType.ROWS) {
 
 				boolean showRecordToSpreadsheet = true;
 				// check if other geos are recordable

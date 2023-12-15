@@ -26,7 +26,7 @@ public class TabularRange {
 	 * @param minRow lowest row
 	 * @param minColumn lowest column
 	 * @param maxRow highest row
-	 * @param maxColumn highest colu,m
+	 * @param maxColumn highest column
 	 */
 	public TabularRange(int anchorRow, int anchorColumn, int minRow, int minColumn,
 			int maxRow, int maxColumn) {
@@ -328,21 +328,18 @@ public class TabularRange {
 	 * @return restricted range
 	 */
 	public TabularRange restrictTo(int rowCount, int columnCount) {
-		if (this.getMinRow() == -1 && this.getMaxRow() == -1
-				&& this.getMinColumn() == -1 && this.getMaxColumn() == -1) {
-			return this;
+		TabularRange ret = this;
+
+		if (ret.getMinRow() == -1) {
+			ret = new TabularRange(0, ret.getMinColumn(),
+					rowCount - 1, ret.getMaxColumn());
 		}
 
-		if (this.getMinRow() == -1) {
-			return new TabularRange(0, this.getMinColumn(),
-					rowCount - 1, this.getMaxColumn());
+		if (ret.getMinColumn() == -1) {
+			ret = new TabularRange(ret.getMinRow(), 0,
+					ret.getMaxRow(), columnCount - 1);
 		}
-
-		if (this.getMinColumn() == -1) {
-			return new TabularRange(this.getMinRow(), 0, 
-					this.getMaxRow(), columnCount - 1);
-		}
-		return this;
+		return ret;
 	}
 
 	/**

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -252,8 +252,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private void changeSelection(GPoint point, boolean extend) {
-		if (table.getSelectionType() != MyTableInterface.CELL_SELECT) {
-			table.setSelectionType(MyTableInterface.CELL_SELECT);
+		if (table.getSelectionType() != SelectionType.CELLS) {
+			table.setSelectionType(SelectionType.CELLS);
 		}
 		table.changeSelection(point, extend);
 	}

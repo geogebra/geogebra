@@ -189,7 +189,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public MouseCursor getCursor(int x, int y) {
-		return controller.getCursor(x, y, viewport);
+		return controller.getDragAction(x, y, viewport).activeCursor;
 	}
 
 	public double getTotalWidth() {

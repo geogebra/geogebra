@@ -26,6 +26,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.annotation.CheckForNull;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -849,13 +850,13 @@ public class TraceDialog extends Dialog
 	 *            row
 	 * @return range
 	 */
-	public TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public @CheckForNull TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 
 		TabularRange tr;
 
 		switch (mode) {
 		default:
-			tr = new TabularRange(-1, -1);
+			tr = null;
 			// do nothing
 			break;
 		case MODE_NORMAL:

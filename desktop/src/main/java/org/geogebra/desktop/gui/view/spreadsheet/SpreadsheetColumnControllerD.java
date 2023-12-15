@@ -24,9 +24,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
@@ -147,8 +147,8 @@ public class SpreadsheetColumnControllerD
 
 					// otherwise handle column selection
 					if (table
-							.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-						table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+							.getSelectionType() != SelectionType.COLUMNS) {
+						table.setSelectionType(SelectionType.COLUMNS);
 						if (table.getTableHeader() != null) {
 							table.getTableHeader().requestFocusInWindow();
 						}
@@ -201,8 +201,8 @@ public class SpreadsheetColumnControllerD
 					|| p.getX() > table.maxSelectionColumn) {
 				// switch to column selection mode and select column
 				if (table
-						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+						.getSelectionType() != SelectionType.COLUMNS) {
+					table.setSelectionType(SelectionType.COLUMNS);
 				}
 
 				// selectNone();
@@ -503,7 +503,7 @@ public class SpreadsheetColumnControllerD
 
 			lblHeader.setText(value.toString());
 
-			if (table1.getSelectionType() == MyTableInterface.ROW_SELECT) {
+			if (table1.getSelectionType() == SelectionType.ROWS) {
 				setBackground(defaultBackground);
 			} else {
 				if (table1.selectedColumnSet.contains(colIndex)

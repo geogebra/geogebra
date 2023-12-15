@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckForNull;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -549,7 +550,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	 * @param anchorRow initial row
 	 * @return trace selection range
 	 */
-	public TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public @CheckForNull TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 		if (traceDialog == null) {
 			return null;
 		}
