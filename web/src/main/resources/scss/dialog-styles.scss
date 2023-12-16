@@ -202,7 +202,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				top: auto;
 			 }
 
-			.MyCanvasButton {
+			.IconButton {
 				border-radius: 2px;
 				bottom: 15px;
 				left: 24px !important;
@@ -213,7 +213,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* text tool dialog */
 	.inputDialogComponent.TextInputDialog {
 
-		.MyToggleButton {
+		.ToggleButton {
 			border-radius: 2px;
 			line-height: 24px;
 			vertical-align: middle;
@@ -1799,7 +1799,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			top: 8px;
 			display: inline-block;
 
-			.MyCanvasButton {
+			.IconButton {
 				margin-bottom: 8px;
 			}
 		}

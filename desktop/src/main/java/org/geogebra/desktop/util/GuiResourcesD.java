@@ -426,9 +426,11 @@ public enum GuiResourcesD implements ImageResourceD {
 			+ "stylingbar/segmentEnd/end_square.svg"),
 
 	STYLEBAR_END_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/"
-			+ "web/stylingbar/segmentEnd/end_square_outlined.svg");
+			+ "web/stylingbar/segmentEnd/end_square_outlined.svg"),
 
-	private String filename;
+	SPLASH("/org/geogebra/desktop/splash.png");
+
+	private final String filename;
 
 	GuiResourcesD(String filename) {
 		this.filename = filename;

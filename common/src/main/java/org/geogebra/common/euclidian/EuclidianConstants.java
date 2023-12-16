@@ -403,12 +403,6 @@ public final class EuclidianConstants {
 	public static final int MODE_ERASER = 110;
 	/** Highlighter */
 	public static final int MODE_HIGHLIGHTER = 111;
-	/** Pen Panel */
-	public static final int MODE_PEN_PANEL = 112;
-	/** Tools Panel */
-	public static final int MODE_TOOLS_PANEL = 113;
-	/** Media Panel */
-	public static final int MODE_MEDIA_PANEL = 114;
 	/** Video */
 	public static final int MODE_VIDEO = 115;
 	/** Audio */
@@ -901,12 +895,6 @@ public final class EuclidianConstants {
 			return "Eraser";
 		case EuclidianConstants.MODE_HIGHLIGHTER:
 			return "Highlighter";
-		case EuclidianConstants.MODE_PEN_PANEL:
-			return "PenPanel";
-		case EuclidianConstants.MODE_TOOLS_PANEL:
-			return "ToolsPanel";
-		case EuclidianConstants.MODE_MEDIA_PANEL:
-			return "MediaPanel";
 		case EuclidianConstants.MODE_VIDEO:
 			return "Video";
 		case EuclidianConstants.MODE_CAMERA:

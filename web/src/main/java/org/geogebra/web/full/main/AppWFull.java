@@ -393,7 +393,17 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	private void startActivity() {
 		initActivity();
+		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
+	}
+
+	/**
+	 * Preloads the advanced commands for the CAS sub-app in suite
+	 */
+	private void preloadAdvancedCommandsForSuiteCAS() {
+		if (isSuite() && "cas".equals(activity.getConfig().getSubAppCode())) {
+			getAsyncManager().prefetch(null, "advanced");
+		}
 	}
 
 	/**
@@ -2370,6 +2380,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
+		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
 		getKernel().removeAllMacros();
 		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));

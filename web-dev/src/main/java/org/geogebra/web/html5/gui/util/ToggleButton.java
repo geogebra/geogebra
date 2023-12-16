@@ -31,7 +31,7 @@ public class ToggleButton extends FocusWidget {
 	public ToggleButton(ResourcePrototype svgRes) {
 		this();
 		svgUp = svgRes;
-		addStyleName("MyToggleButton");
+		addStyleName("ToggleButton");
 		setSelected(false);
 		setIcon(svgRes);
 	}
@@ -42,7 +42,7 @@ public class ToggleButton extends FocusWidget {
 	 */
 	public ToggleButton(String labelStr) {
 		this();
-		addStyleName("MyToggleButton");
+		addStyleName("ToggleButton");
 		setSelected(false);
 		label = new Label(labelStr);
 		getElement().appendChild(label.getElement());

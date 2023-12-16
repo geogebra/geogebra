@@ -113,6 +113,7 @@ public class ModelEventCollector implements TableValuesListener {
 	private void fireAllModificationEvents(SimpleTableValuesModel model, ModelEvent event) {
 		for (ColumnEvent columnEvent : event.columnsRemoved) {
 			model.notifyColumnRemoved(columnEvent.evaluatable, columnEvent.columnIndex);
+			event.cellsChanged.removeIf(cell -> cell.columnIndex == columnEvent.columnIndex);
 		}
 		for (ColumnEvent columnEvent : event.columnsAdded) {
 			model.notifyColumnAdded(columnEvent.evaluatable, columnEvent.columnIndex);
@@ -120,10 +121,12 @@ public class ModelEventCollector implements TableValuesListener {
 		for (ColumnEvent columnEvent : event.columnsChanged) {
 			model.notifyColumnChanged(columnEvent.evaluatable, columnEvent.columnIndex);
 		}
+
 		int newRowCount = model.getRowCount();
 		if (newRowCount < event.initialRowCount) {
 			model.notifyRowsRemoved(newRowCount, event.initialRowCount - 1);
 			event.rowsChanged.removeIf(row -> row >= newRowCount);
+			event.cellsChanged.removeIf(cell -> cell.rowIndex >= newRowCount);
 		} else if (newRowCount > event.initialRowCount) {
 			model.notifyRowsAdded(event.initialRowCount, newRowCount - 1);
 			event.rowsChanged.removeIf(row -> row >= event.initialRowCount);

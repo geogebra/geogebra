@@ -285,38 +285,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	}
 
 	/**
-	 * set the left component and check if it's empty when loading file
-	 * 
-	 * @param component
-	 *            componenent
-	 */
-	public void setLeftComponentCheckEmpty(Widget component) {
-
-		// ensure visibility flags of dock panels set to false
-		if (leftComponent != null) {
-			((DockComponent) leftComponent).setDockPanelsVisible(false);
-		}
-
-		setLeftComponent(component);
-	}
-
-	/**
-	 * set the right component and check if it's empty when loading file
-	 * 
-	 * @param component
-	 *            componenent
-	 */
-	public void setRightComponentCheckEmpty(Widget component) {
-
-		// ensure visibility flags of dock panels set to false
-		if (rightComponent != null) {
-			((DockComponent) rightComponent).setDockPanelsVisible(false);
-		}
-
-		setRightComponent(component);
-	}
-
-	/**
 	 * Set the left component of this DockSplitPane and remove the divider if
 	 * the left component is null.
 	 * 
@@ -564,6 +532,27 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	public void setComponentOrder(DockPanelW left, DockPanelW right) {
 		leftComponent = left;
 		rightComponent = right;
+	}
+
+	public Widget getChild(int direction) {
+		return direction == 1 ? getRightComponent() : getLeftComponent();
+	}
+
+	/**
+	 * set the index-th component and check if it's empty when loading file
+	 * @param index 0 for left/top, 1 for right/bottom
+	 * @param component component
+	 */
+	public void setComponentCheckEmpty(int index, Widget component) {
+		// ensure visibility flags of dock panels set to false
+		if (getChild(index) != null) {
+			((DockComponent) getChild(index)).setDockPanelsVisible(false);
+		}
+		if (index == 1) {
+			setRightComponent(component);
+		} else {
+			setLeftComponent(component);
+		}
 	}
 
 	/*************************************************************************

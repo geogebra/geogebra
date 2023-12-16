@@ -787,7 +787,7 @@ public class Equation extends ValidExpression implements EquationValue {
 					true, true).wrap();
 			return this;
 		}
-		if (!rhsConstant) {
+		if (!rhsConstant && kernel.getSymbolicMode() != SymbolicMode.SYMBOLIC_AV) {
 			return this;
 		}
 		rhs.setLabel(name);
