@@ -9,7 +9,9 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
+import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.ownership.NonOwning;
 
@@ -69,19 +71,22 @@ public final class ExamController {
 	private CommandDispatcher commandDispatcher;
 	@NonOwning
 	private ExamRegion examRegion;
+	@NonOwning
+	private Localization localization;
 
 	private ExamConfiguration configuration;
 	private ExamState state;
 	private Date startDate, endDate;
 	private Set<ExamListener> listeners = new HashSet<ExamListener>();
 	private final TempStorage tempStorage = new TempStorage();
+//	private CheatingEvents cheatingEvents = new CheatingEvents();
 	private CommandFilter examCommandFilter;
 	private final CommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
 
 	// filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
 
-	// TODO more dependencies needed?
+	// TODO more dependencies needed? (current) localization?
 	public ExamController(@NonOwning CommandDispatcher commandDispatcher) {
 		this.commandDispatcher = commandDispatcher;
 	}
@@ -89,12 +94,25 @@ public final class ExamController {
 	/**
 	 * Sets the delegate.
 	 *
-	 * It is assumed that the delegate is set before attempting to start an exam.
+	 * @apiNote It is assumed that the delegate is set before attempting to start an exam.
 	 *
 	 * @param delegate The delegate.
 	 */
 	public void setDelegate(@NonOwning ExamControllerDelegate delegate) {
 		this.delegate = delegate;
+	}
+
+	/**
+	 * Sets the localization.
+	 *
+	 * Make sure to call this method whenever the current localization changes.
+	 *
+	 * @apiNote It is assumed that the localization is set before attempting to start an exam.
+	 *
+	 * @param localization The current localization.
+	 */
+	public void setLocalization(@NonOwning Localization localization) {
+		this.localization = localization;
 	}
 
 	/**
@@ -150,6 +168,7 @@ public final class ExamController {
 		requestClearClipboard();
 		requestClearAllApps();
 		tempStorage.clearTempMaterials();
+//		cheatingEvents = new CheatingEvents();
 
 		startDate = new Date();
 		setState(ExamState.ACTIVE);

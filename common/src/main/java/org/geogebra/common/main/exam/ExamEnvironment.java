@@ -182,35 +182,35 @@ public class ExamEnvironment {
 	 *            The translation identifier from the Translation enum.
 	 * @return The translation identified by the Translation parameter.
 	 */
-	public String getTranslatedString(Translation translation) {
-		switch (translation) {
-		case EXAM_MODE:
-			return localization.getMenu("exam_menu_entry");
-		case OK:
-			return localization.getMenu("OK");
-		case ALERT:
-			return localization.getMenu("exam_alert");
-		case SHOW_TO_TEACHER:
-			return localization.getMenu("exam_log_show_screen_to_teacher");
-		case DATE:
-			return localization.getMenu("exam_start_date");
-		case START_TIME:
-			return localization.getMenu("exam_start_time");
-		case END_TIME:
-			return localization.getMenu("exam_end_time");
-		case ACTIVITY:
-			return localization.getMenu("exam_activity");
-		case EXAM_STARTED:
-			return localization.getMenu("exam_started");
-		case EXAM_ENDED:
-			return localization.getMenu("exam_ended");
-		case EXIT:
-			return localization.getMenu("Exit");
-		case DURATION:
-			return localization.getMenu("Duration");
-		}
-		return null;
-	}
+//	public String getTranslatedString(Translation translation) {
+//		switch (translation) {
+//		case EXAM_MODE:
+//			return localization.getMenu("exam_menu_entry");
+//		case OK:
+//			return localization.getMenu("OK");
+//		case ALERT:
+//			return localization.getMenu("exam_alert");
+//		case SHOW_TO_TEACHER:
+//			return localization.getMenu("exam_log_show_screen_to_teacher");
+//		case DATE:
+//			return localization.getMenu("exam_start_date");
+//		case START_TIME:
+//			return localization.getMenu("exam_start_time");
+//		case END_TIME:
+//			return localization.getMenu("exam_end_time");
+//		case ACTIVITY:
+//			return localization.getMenu("exam_activity");
+//		case EXAM_STARTED:
+//			return localization.getMenu("exam_started");
+//		case EXAM_ENDED:
+//			return localization.getMenu("exam_ended");
+//		case EXIT:
+//			return localization.getMenu("Exit");
+//		case DURATION:
+//			return localization.getMenu("Duration");
+//		}
+//		return null;
+//	}
 
 	/**
 	 * @return The exam date in localized format.
