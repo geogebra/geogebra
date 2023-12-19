@@ -12,19 +12,15 @@ LEAD DEVELOPER
   * Michael Borcherds (UK 2007-)
 
 DEVELOPERS
-  * Gabor Ancsin (Hungary 2009-)
   * Balazs Bencze (Romania 2012-)
   * Mathieu Blossier (France 2008-)
   * Judit Elias (Hungary 2009-)
-  * Krisztina Frank (Austria 2016-)
   * Laszlo Gal (Hungary 2013-)
   * Alicia Hofstaetter (Austria 2016-)
-  * Fabian Jordan (Austria 2016-)
-  * Barna Karacsony (Romania 2017-)
   * Zbynek Konecny (Czech Republic 2010-)
-  * Zoltan Kovacs (Austria 2010-)
+  * Zoltan Kovacs (Hungary 2010-)
+  * Thomas Krismayer (Austria 2012-)
   * Wolfgang Kuellinger (Austria 2014-)
-  * Elena Lettner (Austria 2016-)
   * Stefan Lizelfelner (Austria 2013-)
   * Bernard Parisse (France 2013-)
   * Csilla Solyom-Gecse (Austria 2015-)
@@ -32,6 +28,7 @@ DEVELOPERS
 
 CONTRIBUTORS
   * Shamshad Alam (GSoC 2015)
+  * Gabor Ancsin (Hungary 2009-20)
   * Lucas Binter (Austria 2011-12)
   * Philipp Birklbauer (Austria 2010-13)
   * Giuliano Bellucci (Italy 2013-)
@@ -53,6 +50,7 @@ CONTRIBUTORS
   * Ann-Christin Holzinger (Austria 2015)
   * Henrietta Hoszu (Romania 2016)
   * Rana Issa (Austria 2011-12)
+  * Fabian Jordan (Austria 2016-20)
   * Hunor Karaman (Romania 2018-)
   * Ted Kosan (USA 2008-09)
   * Thomas Krismayer (Austria 2012-16)
@@ -62,6 +60,7 @@ CONTRIBUTORS
   * Corinna Kroehn (Austria 2011-12)
   * Cong Liu (USA 2007-09)
   * Julian Lettner (Austria 2011)
+  * Elena Lettner (Austria 2016-23)
   * Thilina Madumal (GSoC 2015)
   * Matthias Meisinger (Austria 2011-13)
   * Joan Carles Naranjo (Spain 2007)
@@ -323,18 +322,17 @@ Libraries used by GeoGebra:
   * Giac, http://www-fourier.ujf-grenoble.fr/~parisse/giac.html (GPL3)
   * Gluegen, http://java.net/projects/gluegen/sources/svn/show and
     http://kenai.com/projects/gluegen/sources/gluegen-git/show (BSD)
-  * JFugue 2.1 (LGPL), http://www.jfugue.org/jfugue-2.1.zip (LGPL)
+  * JFugue 2.1 (LGPL), http://www.jfugue.org/ (LGPL)
   * JLaTeXMath, https://github.com/opencollab/jlatexmath (GPL2+)
   * JOGL 2, https://github.com/sgothel/jogl (BSD),
-  * JUNG, http://jung.sourceforge.net (BSD)
-  * OpenCSV, http://opencsv.sourceforge.net/ (Apache 2.0)
-  * OpenGeoProver, http://code.google.com/p/open-geo-prover/ (GPL3)
+  * JUNG, https://jung.sourceforge.net (BSD)
+  * OpenCSV, https://opencsv.sourceforge.net/ (Apache 2.0)
+  * OpenGeoProver, https://github.com/ivan-z-petrovic/open-geo-prover (GPL3)
   * SVG Salamander, http://svgsalamander.java.net/ (LGPL / BSD)
   * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
-  * zip.js, http://gildas-lormeau.github.com/zip.js/ (BSD)
   
 For other tools used for running or building GeoGebra please see
-http://dev.geogebra.org/trac/wiki/SourcesForUsedLibraries
+https://github.com/geogebra/geogebra/blob/master/doc/Libraries.md
 
 ------------------------------------------------------------------------
 International GeoGebra Institute

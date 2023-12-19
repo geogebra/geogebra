@@ -1966,6 +1966,15 @@
 		align-items: center;
 	}
 
+	.intervalPanel.disabled {
+		opacity: 0.36;
+
+		button {
+			cursor: default;
+			border-color: neutral(500);
+		}
+	}
+
 	.parameterPanel, .resultPanel {
 		display: flex;
 		align-items: center;

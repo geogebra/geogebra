@@ -253,6 +253,19 @@ public enum IntervalOperation {
 		}
 	},
 
+	LOGB {
+		@Override
+		public IntervalExpressionValue handle(IntervalNodeEvaluator evaluator, IntervalNode left,
+				IntervalNode right) {
+			return toValue(evaluator.logBase(left.value(), right.value()));
+		}
+
+		@Override
+		public Operation mappedOperation() {
+			return Operation.LOGB;
+		}
+	},
+
 	SEC {
 		@Override
 		public IntervalExpressionValue handle(IntervalNodeEvaluator evaluator, IntervalNode left,

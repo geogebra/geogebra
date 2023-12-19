@@ -10,10 +10,10 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "06 December 2023";
+	public static final String BUILD_DATE = "12 December 2023";
 	/** complete version string */
 
-	public static final String VERSION_STRING = "5.2.817.0";
+	public static final String VERSION_STRING = "5.2.818.0";
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
@@ -164,8 +164,6 @@ public interface GeoGebraConstants {
 
 	public static final String INSTALLERS_URL = "https://www.geogebra.org/download";
 
-	/** Splash filename -- used for online */
-	public static final String SPLASH_STRING = "splash.png";
 	// archive
 	/** short version, for online archive */
 	public static final String SHORT_VERSION_STRING = "5.2";

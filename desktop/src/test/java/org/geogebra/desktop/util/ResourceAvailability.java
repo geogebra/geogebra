@@ -1,5 +1,8 @@
 package org.geogebra.desktop.util;
 
+import static org.junit.Assert.assertFalse;
+
+import java.io.File;
 import java.net.URL;
 
 import javax.swing.JPanel;
@@ -32,6 +35,23 @@ public class ResourceAvailability {
 			}
 			URL url = ResourceAvailability.class.getResource(fn);
 			Assert.assertNotNull("" + res, url);
+		}
+	}
+
+	@Test
+	public void noDupes() {
+		assertNoDupesRecursive("src/main/resources", "src/gpl/resources");
+		assertNoDupesRecursive("src/main/resources", "src/nonfree/resources");
+	}
+
+	private void assertNoDupesRecursive(String f1, String f2) {
+		for (String fn: new File(f1).list()) {
+			if (new File(f1 + "/" + fn).isDirectory()) {
+				assertNoDupesRecursive(f1 + "/" + fn, f2 + "/" + fn);
+			} else {
+				assertFalse("Duplicate found:" + f2 + "/" + fn,
+						new File(f2 + "/" + fn).exists());
+			}
 		}
 	}
 

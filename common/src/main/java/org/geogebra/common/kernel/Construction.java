@@ -2468,19 +2468,22 @@ public class Construction {
 		}
 
 		// reordering is needed
+
+		// move oldGeo to its maximum construction index
+		boolean changed = moveInConstructionList(oldGeo,
+				Math.min(oldGeo.getMaxConstructionIndex(), maxPredIndex));
 		// move all predecessors of newGeo (i.e. all objects that geo depends
 		// upon) as far as possible to the left in the construction list
-		boolean changed = false;
 		for (GeoElement pred : predSet) {
-			changed |= moveInConstructionList(pred, pred.getMinConstructionIndex());
+			if (pred.getConstructionIndex() >= oldGeo.getConstructionIndex()) {
+				changed |= moveInConstructionList(pred, Math.max(pred.getMinConstructionIndex(),
+						oldGeo.getConstructionIndex()));
+			}
 		}
 
 		// move newGeo to the left as well (important if newGeo already existed
 		// in construction)
 		changed |= moveInConstructionList(newGeo, newGeo.getMinConstructionIndex());
-
-		// move oldGeo to its maximum construction index
-		changed |= moveInConstructionList(oldGeo, oldGeo.getMaxConstructionIndex());
 
 		return changed;
 	}

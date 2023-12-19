@@ -177,6 +177,8 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("g4:f+f", "x^(2) + x^(2)");
 		t("g5:f(x)+f", "x^(2) + x^(2)");
 		t("g6(t)=t+f", "t + t^(2)");
+		t("g7:f*2", "(x^(2) * 2)");
+		t("g8:2+f", "2 + x^(2)");
 		t("a(x,y)=x + y", "x + y");
 		t("a+f", "x + y + x^(2)");
 		t("a+x", "x + y + x");
