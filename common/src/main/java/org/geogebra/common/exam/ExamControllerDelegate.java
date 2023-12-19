@@ -10,7 +10,8 @@ public interface ExamControllerDelegate {
 	 * Clear (i.e., reset the contents of) all subapps.
 	 *
 	 * @implNote The reason this is handled via the delegate is that the different client
-	 * platforms handle ownership of the {@link org.geogebra.common.main.App} instances differently.
+	 * platforms handle ownership of the {@link org.geogebra.common.main.App App} instances
+	 * differently.
 	 */
 	void clearAllApps();
 

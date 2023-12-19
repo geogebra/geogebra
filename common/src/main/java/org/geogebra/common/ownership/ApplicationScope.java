@@ -13,8 +13,6 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
  * <p/>
  * @apiNote Note that this class is not instantiated automatically, each
  * client platform can decide when to set it up, and where to store it.
- *
- * @implNote This class is not designed to be thread-safe.
  */
 public final class ApplicationScope {
 

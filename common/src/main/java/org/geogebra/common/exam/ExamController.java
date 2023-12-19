@@ -47,16 +47,18 @@ import org.geogebra.common.ownership.NonOwning;
  * <ul>
  * <li> The ExamController will potentially (depending on the exam region) call
  * 	 <ul>
- * 	     <li>{@link CommandDispatcher#addCommandFilter(CommandFilter)}
- *   	 <li>{@link CommandDispatcher#addCommandArgumentFilter(CommandArgumentFilter)}
+ * 	     <li>{@link CommandDispatcher#addCommandFilter(CommandFilter) addCommandFilter()}
+ *   	 <li>{@link CommandDispatcher#addCommandArgumentFilter(CommandArgumentFilter) addCommandArgumentFilter()}
  *   </ul>
  *   on exam start (in this order), and the corresponding
  *   <ul>
- *       <li>{@link CommandDispatcher#removeCommandFilter(CommandFilter)}
- *   	 <li>{@link CommandDispatcher#removeCommandArgumentFilter(CommandArgumentFilter)}
+ *       <li>{@link CommandDispatcher#removeCommandFilter(CommandFilter) removeCommandFilter()}
+ *   	 <li>{@link CommandDispatcher#removeCommandArgumentFilter(CommandArgumentFilter) removeCommandArgumentFilter()}
  *   </ul>
  *   on exam end (in this order).
  * </ul>
+ *
+ *  @implNote This class is not designed to be thread-safe.
  */
 public final class ExamController {
 
@@ -65,6 +67,8 @@ public final class ExamController {
 
 	@NonOwning
 	private CommandDispatcher commandDispatcher;
+	@NonOwning
+	private ExamRegion examRegion;
 
 	private ExamConfiguration configuration;
 	private ExamState state;
@@ -89,14 +93,14 @@ public final class ExamController {
 	 *
 	 * @param delegate The delegate.
 	 */
-	public void setDelegate(@NonOwning  ExamControllerDelegate delegate) {
+	public void setDelegate(@NonOwning ExamControllerDelegate delegate) {
 		this.delegate = delegate;
 	}
 
 	/**
 	 * @return The current exam state.
 	 * <p/>
-	 * Also observable through {@link ExamListener#examStateChanged(ExamState)}.
+	 * Also observable through {@link ExamListener#examStateChanged(ExamState) examStateChanged()}.
 	 */
 	public ExamState getState() {
 		return state;
@@ -120,7 +124,7 @@ public final class ExamController {
 	/**
 	 * Get ready for a new exam.
 	 *
-	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#INACTIVE}
+	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#INACTIVE INACTIVE}
 	 * state.
 	 */
 	public void prepareExam() {
@@ -134,7 +138,7 @@ public final class ExamController {
 	 * Starts the exam.
 	 *
 	 * @throws IllegalStateException if the exam controller is not in the
-	 * {@link ExamState#PREPARING} state.
+	 * {@link ExamState#PREPARING PREPARING} state.
 	 */
 	public void startExam(ExamRegion region, ExamConfiguration configuration) {
 		if (state != ExamState.PREPARING) {
@@ -154,7 +158,7 @@ public final class ExamController {
 	/**
 	 * Stops the exam.
 	 *
-	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#ACTIVE}
+	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#ACTIVE ACTIVE}
 	 * 	state.
 	 */
 	public void stopExam() {
@@ -169,7 +173,7 @@ public final class ExamController {
 	 * Finishes the current exam.
 	 *
 	 * @throws IllegalStateException if the exam controller is not in the
-	 * {@link ExamState#WRAPPING_UP} state.
+	 * {@link ExamState#WRAPPING_UP WRAPPING_UP} state.
 	 */
 	public void finishExam() {
 		if (state != ExamState.WRAPPING_UP) {
@@ -184,9 +188,6 @@ public final class ExamController {
 		state = ExamState.INACTIVE;
 	}
 
-	private void transitionTo(ExamState newState) {
-
-	}
 	/**
 	 * Adds an {@link ExamListener}.
 	 * @param listener The listener to add.
