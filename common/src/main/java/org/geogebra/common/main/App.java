@@ -383,7 +383,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private SpreadsheetTraceManager traceManager;
 
 	// Exam
+	@Deprecated // use ExamController instead
 	private ExamEnvironment exam;
+	@Deprecated // use ExamController instead
 	protected RestrictExam restrictions;
 
 	// moved to Application from EuclidianView as the same value is used across
@@ -3974,23 +3976,28 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return true;
 	}
 
-	@Override
+	@Deprecated // use ExamController instead
+	@Override // from deprecated ExamProvider
 	public ExamEnvironment getExam() {
 		return exam;
 	}
 
+	@Deprecated // use ExamController instead
 	public boolean isExam() {
 		return getExam() != null;
 	}
 
+	@Deprecated // use ExamController instead
 	public boolean isExamStarted() {
 		return isExam() && getExam().isStarted();
 	}
 
+	@Deprecated // use ExamController instead
 	public void setExam(ExamEnvironment exam) {
 		this.exam = exam;
 	}
 
+	@Deprecated // use ExamController instead
 	public void setNewExam() {
 		setNewExam(ExamRegion.GENERIC);
 	}
@@ -3998,6 +4005,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * Initializes a new ExamEnvironment instance.
 	 */
+	@Deprecated // use ExamController instead
 	public void setNewExam(ExamRegion region) {
 		ExamEnvironment examEnvironment = newExamEnvironment();
 		examEnvironment.setExamRegion(region);
@@ -4011,10 +4019,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		examEnvironment.setCopyPaste(getCopyPaste());
 	}
 
+	@Deprecated // use ExamController instead
 	protected ExamEnvironment newExamEnvironment() {
 		return new ExamEnvironment(getLocalization());
 	}
 
+	@Deprecated // use ExamController instead
 	private void initRestrictions(ExamRegion region) {
 		RestrictExam oldRestrictions = restrictions;
 		restrictions = ExamRestrictionFactory.create(region);
@@ -4028,6 +4038,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @param restrictable the component to restrict.
 	 */
+	@Deprecated // use ExamController instead
 	public void registerRestrictable(Restrictable restrictable) {
 		if (restrictions == null) {
 			ExamEnvironment exam = getExam();
@@ -4040,6 +4051,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * Start exam with current timestamp.
 	 */
+	@Deprecated // use ExamController instead
 	public void startExam() {
 		getExam().prepareExamForStarting();
 		getExam().setStart((new Date()).getTime());
@@ -4049,6 +4061,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * If an exam is active, re-enable any exam restrictions.
 	 */
+	@Deprecated // use ExamController instead
 	public void reEnableExamRestrictions() {
 		if (getExam() != null && isExamStarted() && restrictions != null) {
 			restrictions.enable();
@@ -4058,6 +4071,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * Show exam welcome message.
 	 */
+	@Deprecated // use ExamController instead
 	public void examWelcome() {
 		// overridden in platforms supporting exam
 	}
@@ -5077,6 +5091,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param commandDispatcher command dispatcher
 	 */
 	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
+		// TODO exam
 		ExamEnvironment examEnvironment = getExam();
 		if (examEnvironment != null) {
 			examEnvironment.setCommandDispatcher(commandDispatcher);

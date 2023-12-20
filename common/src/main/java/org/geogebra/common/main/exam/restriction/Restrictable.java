@@ -5,7 +5,7 @@ package org.geogebra.common.main.exam.restriction;
  * When exam finishes, permit() method should restore the normal
  * state/behaviour.
  * */
-@Deprecated // use org.geogebra.common.exam instead
+@Deprecated // use org.geogebra.common.exam API instead
 public interface Restrictable {
 
 	/**

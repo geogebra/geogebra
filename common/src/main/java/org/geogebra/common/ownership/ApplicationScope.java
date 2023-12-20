@@ -11,29 +11,24 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
  * as a home for object with application lifetime that don't have a
  * direct owner.
  * <p/>
- * @apiNote Note that this class is not instantiated automatically, each
- * client platform can decide when to set it up, and where to store it.
  */
 public final class ApplicationScope {
 
-	private ExamController examController;
+	public static ExamController examController;
 
 	/**
-	 * Create and initialize eager objects.
+	 * Prevent instantiation.
 	 */
-	public void initialize() {
-	}
+	private ApplicationScope() { }
 
-	/**
-	 * Create the exam controller.
-	 * @param kernel
-	 * @param commandDispatcher
-	 */
-	public void createExamController(CommandDispatcher commandDispatcher) {
-		examController = new ExamController(commandDispatcher);
-	}
-
-	public ExamController getExamController() {
-		return examController;
-	}
+//	/**
+//	 * Accessor for Objective-C.
+//	 */
+//	public static ExamController getExamController() {
+//		return examController;
+//	}
+//
+//	public static void setExamController(ExamController examController) {
+//		ApplicationScope.examController = examController;
+//	}
 }
