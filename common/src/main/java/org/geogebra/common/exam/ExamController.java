@@ -75,7 +75,7 @@ public final class ExamController {
 	private Localization localization;
 
 	private ExamConfiguration configuration;
-	private ExamState state;
+	private ExamState state = ExamState.INACTIVE;
 	private Date startDate, endDate;
 	private Set<ExamListener> listeners = new HashSet<ExamListener>();
 	private final TempStorage tempStorage = new TempStorage();
@@ -140,6 +140,20 @@ public final class ExamController {
 	}
 
 	/**
+	 * @return The exam start date, if an exam is currently active, or null otherwise.
+	 */
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	/**
+	 * @return The exam end date, if the exam has been stopped, or null otherwise.
+	 */
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	/**
 	 * Get ready for a new exam.
 	 *
 	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#INACTIVE INACTIVE}
@@ -185,7 +199,7 @@ public final class ExamController {
 			throw new IllegalStateException();
 		}
 		endDate = new Date();
-		state = ExamState.WRAPPING_UP;
+		setState(ExamState.WRAPPING_UP);
 	}
 
 	/**
@@ -204,7 +218,7 @@ public final class ExamController {
 		requestClearAllApps();
 //		setShowSyntax(true); // handle externally?
 		startDate = endDate = null;
-		state = ExamState.INACTIVE;
+		setState(ExamState.INACTIVE);
 	}
 
 	/**
