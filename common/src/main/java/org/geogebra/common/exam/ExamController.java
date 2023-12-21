@@ -72,7 +72,7 @@ public final class ExamController {
 	@NonOwning
 	private ExamRegion examRegion;
 	@NonOwning
-	private Localization localization;
+//	private Localization localization;
 
 	private ExamConfiguration configuration;
 	private ExamState state = ExamState.INACTIVE;
@@ -86,9 +86,7 @@ public final class ExamController {
 	// filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
 
-	// TODO more dependencies needed? (current) localization?
-	public ExamController(@NonOwning CommandDispatcher commandDispatcher) {
-		this.commandDispatcher = commandDispatcher;
+	public ExamController() {
 	}
 
 	/**
@@ -102,18 +100,18 @@ public final class ExamController {
 		this.delegate = delegate;
 	}
 
-	/**
-	 * Sets the localization.
-	 *
-	 * Make sure to call this method whenever the current localization changes.
-	 *
-	 * @apiNote It is assumed that the localization is set before attempting to start an exam.
-	 *
-	 * @param localization The current localization.
-	 */
-	public void setLocalization(@NonOwning Localization localization) {
-		this.localization = localization;
-	}
+//	/**
+//	 * Sets the localization.
+//	 *
+//	 * Make sure to call this method whenever the current localization changes.
+//	 *
+//	 * @apiNote It is assumed that the localization is set before attempting to start an exam.
+//	 *
+//	 * @param localization The current localization.
+//	 */
+//	public void setLocalization(@NonOwning Localization localization) {
+//		this.localization = localization;
+//	}
 
 	/**
 	 * @return The current exam state.

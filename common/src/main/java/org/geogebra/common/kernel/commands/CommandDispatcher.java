@@ -33,6 +33,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 import org.geogebra.common.main.exam.restriction.Restrictable;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -44,13 +45,16 @@ import com.google.j2objc.annotations.Weak;
 public abstract class CommandDispatcher implements Restrictable {
 
 	/** kernel **/
+	@NonOwning
 	@Weak
 	protected Kernel kernel;
+	@NonOwning
 	@Weak
 	private Construction cons;
 	/**
 	 * Application
 	 */
+	@NonOwning
 	@Weak
 	protected App app;
 
@@ -322,9 +326,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	public CommandProcessor commandTableSwitch(Command c) {
 		String cmdName = c.getName();
 		try {
-
 			Commands command = Commands.valueOf(cmdName);
-
 			if (!isAllowedByNameFilter(command)) {
 				Log.info("The command is not allowed by the command filter");
 				return null;

@@ -26,8 +26,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app = AppCommonFactory.create();
 		app.setConfig(new AppConfigNotes());
 
-		examController = new ExamController(app.getKernel().getAlgebraProcessor().getCommandDispatcher());
+		examController = new ExamController();
 		examController.setDelegate(this);
+//		examController.setcomm
 		examController.addListener(new ExamListener() {
 			@Override
 			public void examStateChanged(ExamState newState) {
