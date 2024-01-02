@@ -684,15 +684,27 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public MyDouble getNumber() {
-		if (toDecimal() == null || !getDefinition().isConstant() ) {
-			MyDouble myDouble = new MyDouble(kernel, value);
-			myDouble.setImprecise(true);
-			return myDouble;
+		if (hasExactConstantValue()) {
+			return getExactNumber();
 		} else {
-			MySpecialDouble val = new MySpecialDouble(kernel, value);
-			val.set(toDecimal());
-			return val;
+			return getImpreciseNumber();
 		}
+	}
+
+	private boolean hasExactConstantValue() {
+		return toDecimal() != null && getDefinition().isConstant();
+	}
+
+	private MySpecialDouble getExactNumber() {
+		MySpecialDouble val = new MySpecialDouble(kernel, value);
+		val.set(toDecimal());
+		return val;
+	}
+
+	private MyDouble getImpreciseNumber() {
+		MyDouble myDouble = new MyDouble(kernel, value);
+		myDouble.setImprecise(true);
+		return myDouble;
 	}
 
 	@Override
