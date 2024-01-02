@@ -57,7 +57,7 @@ public class TemporaryCard extends FlowPanel implements MaterialCardI {
 		MaterialImagePanel imgPanel = new MaterialImagePanel(material);
 		CardInfoPanel infoPanel = new CardInfoPanel(material.getTitle(), "");
 
-		ContextMenuButtonCard moreBtn = new ContextMenuButtonDeleteCard(app, this, true);
+		ContextMenuButtonCard moreBtn = new ContextMenuButtonDeleteCard(app, this);
 		infoPanel.add(moreBtn);
 
 		add(imgPanel);
@@ -72,7 +72,7 @@ public class TemporaryCard extends FlowPanel implements MaterialCardI {
 
 	@Override
 	public void onDelete() {
-		// nothing to do here
+		controller.showDeleteConfirmDialog(this);
 	}
 
 	@Override

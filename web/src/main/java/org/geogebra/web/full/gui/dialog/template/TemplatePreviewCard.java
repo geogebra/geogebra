@@ -121,7 +121,7 @@ public class TemplatePreviewCard extends FlowPanel
 
     @Override
     public void onDelete() {
-        // nothing to do here
+        controller.onConfirmDelete(this);
     }
 
     @Override
