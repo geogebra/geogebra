@@ -536,8 +536,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			checkImprecise(left.wrap(), lt);
-			checkImprecise(right.wrap(), rt);
+			checkImprecise(left, lt);
+			checkImprecise(right, rt);
 			return ev.handleDivide(lt, rt, left, right);
 		}
 	},
