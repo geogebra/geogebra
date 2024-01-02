@@ -41,7 +41,6 @@ public class CmdPolyLine extends CommandProcessor {
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
 			throw argErr(c, arg[0]);
-
 		case 2:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
@@ -52,59 +51,10 @@ public class CmdPolyLine extends CommandProcessor {
 
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
-			if (arg[0].isGeoPoint()) {
-
-				if (!arg[1].isGeoPoint() && !(arg[1].isGeoBoolean()
-						&& arg[1].evaluateDouble() > 0)) {
-					throw argErr(c, arg[1]);
-				}
-
-				return genericPolyline(arg[1], arg, c);
-			}
 			throw argErr(c, arg[0]);
 		default:
-			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
-			return genericPolyline(lastArg, null, c);
-
+			throw argNumErr(c);
 		}
-	}
-
-	private GeoElement[] genericPolyline(GeoElement lastArg, GeoElement[] arg0,
-			Command c) {
-
-		boolean penStroke = false;
-		int size = c.getArgumentNumber();
-		if (lastArg.isGeoBoolean()) {
-			// pen stroke
-			// last argument is boolean (normally true)
-			size = size - 1;
-			penStroke = ((GeoBoolean) lastArg).getBoolean();
-		}
-		if (penStroke) {
-			ArrayList<MyPoint> myPoints = new ArrayList<>();
-			for (int i = 0; i < size; i++) {
-				MyVecNode vec = (MyVecNode) c.getArgument(i).unwrap();
-				myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
-						vec.getY().evaluateDouble()));
-			}
-			AlgoLocusStroke algo = new AlgoLocusStroke(cons, myPoints);
-			algo.getOutput(0).setLabel(c.getLabel());
-			return algo.getOutput();
-		}
-		GeoElement[] arg = arg0 == null ? resArgs(c) : arg0;
-		// polygon for given points
-		GeoPointND[] points = new GeoPointND[size];
-		// check arguments
-		boolean is3D = false;
-		for (int i = 0; i < size; i++) {
-			if (!(arg[i].isGeoPoint())) {
-				throw argErr(c, arg[i]);
-			}
-			points[i] = (GeoPointND) arg[i];
-			is3D = checkIs3D(is3D, arg[i]);
-		}
-		// everything ok
-		return polyLine(c.getLabel(), points, is3D);
 	}
 
 	/**
@@ -121,7 +71,7 @@ public class CmdPolyLine extends CommandProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param is3D
 	 *            true if already 3D
 	 * @param geo

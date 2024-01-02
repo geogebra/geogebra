@@ -58,7 +58,7 @@ public class AlgoLocusStroke extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.PolyLine;
+		return Commands.PenStroke;
 	}
 
 	@Override
