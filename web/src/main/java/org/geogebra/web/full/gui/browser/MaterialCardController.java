@@ -284,6 +284,10 @@ public class MaterialCardController implements OpenFileListener {
 		return true; // one time only
 	}
 
+	/**
+	 * show confirmation dialog for delete
+	 * @param card material/template/temporary card
+	 */
 	public void showDeleteConfirmDialog(MaterialCardI card) {
 		DialogData data = new DialogData(null, "Cancel", "Delete");
 		ComponentDialog removeDialog = new RemoveDialog(app, data, card);
