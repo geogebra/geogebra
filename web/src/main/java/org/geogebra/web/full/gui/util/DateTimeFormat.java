@@ -17,4 +17,15 @@ public class DateTimeFormat {
 		return jsDate.toLocaleDateString("de-DE")
 				+ " " + jsDate.toLocaleTimeString("de-DE", timeOptions);
 	}
+
+	/**
+	 * Format date only, using medium verbosity
+	 * @param date date
+	 * @param languageTag locale's BCP47 language tag
+	 * @return formatted date
+	 */
+	public static String formatDate(JsDate date, String languageTag) {
+		JsPropertyMap<?> timeOptions = JsPropertyMap.of("dateStyle", "medium");
+		return date.toLocaleDateString(languageTag, timeOptions);
+	}
 }
