@@ -1,14 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.MyVecNode;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
