@@ -356,11 +356,22 @@ public final class SpreadsheetController implements TabularSelection {
 
 			TabularRange range =
 					new TabularRange(dragAction.row, dragAction.column, row, column);
-			return selectionController.select(new Selection(SelectionType.CELLS,
+			SelectionType type = getDragSelectionType();
+			return selectionController.select(new Selection(type,
 							range), false, addSelection);
 
 		}
 		return false;
+	}
+
+	private SelectionType getDragSelectionType() {
+		if (dragAction.column < 0) {
+			return SelectionType.ROWS;
+		}
+		if (dragAction.row < 0) {
+			return SelectionType.COLUMNS;
+		}
+		return SelectionType.CELLS;
 	}
 
 	private TabularRange intersectWithDataRange(Selection selection) {
