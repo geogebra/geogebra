@@ -16,17 +16,24 @@ public class AlgebraCanvasExporter {
 	private final AppW app;
 	private final GGraphics2DW graphics;
 	private final ArrayList<GeoElement> elements;
+	private final int offsetWidth;
 	private static final int RECTANGLE_WIDTH = 58;
 	private static final int RECTANGLE_HEIGHT = 48;
 	private static final int DESCRIPTION_PADDING_X = 10;
 	private static final int MARBLE_PADDING_X = 19;
-
+	private static final int MARBLE_PADDING_Y = 15;
 	private static final int MARBLE_SIZE = 18;
 	private static final GColor marbleColor = GColor.newColor(77, 77, 255, 255);
 
-	public AlgebraCanvasExporter(AppW app, CanvasRenderingContext2D context2d) {
+	/**
+	 * @param app AppW
+	 * @param context2d Context
+	 * @param offsetWidth Parent panel width
+	 */
+	public AlgebraCanvasExporter(AppW app, CanvasRenderingContext2D context2d, int offsetWidth) {
 		this.app = app;
 		this.graphics = new GGraphics2DW(context2d);
+		this.offsetWidth = offsetWidth;
 		this.elements =
 				app.getKernel().getConstruction().getGeoSetConstructionOrder().stream()
 						.filter(GeoElement::isAlgebraShowable)
@@ -51,7 +58,7 @@ public class AlgebraCanvasExporter {
 		for (int i = 0; i < elements.size(); i++) {
 			graphics.drawString(elements.get(i).getAlgebraDescriptionDefault(),
 					left + RECTANGLE_WIDTH + DESCRIPTION_PADDING_X,
-					top + RECTANGLE_HEIGHT * i + RECTANGLE_HEIGHT / 2.0 + fontSize / 2.0);
+					top + RECTANGLE_HEIGHT * i + RECTANGLE_HEIGHT / 2.0 + fontSize / 3.0);
 		}
 	}
 
@@ -61,7 +68,8 @@ public class AlgebraCanvasExporter {
 		graphics.drawLine(RECTANGLE_WIDTH + left, top, RECTANGLE_WIDTH + left,
 				elements.size() * RECTANGLE_HEIGHT);
 		for (int i = 1; i <= elements.size(); i++) {
-			graphics.drawLine(left, top + i * RECTANGLE_HEIGHT, 500, top + i * RECTANGLE_HEIGHT);
+			graphics.drawLine(left, top + i * RECTANGLE_HEIGHT,
+					offsetWidth, top + i * RECTANGLE_HEIGHT);
 		}
 	}
 
@@ -70,20 +78,24 @@ public class AlgebraCanvasExporter {
 		fillMarbles(left, top);
 	}
 
-	//TODO Alignments (draw + fill)
 	private void drawMarbleOutlines(int left, int top) {
 		graphics.setColor(marbleColor);
+		graphics.setStrokeLineWidth(1);
 		for (int i = 0; i < elements.size(); i++) {
 			graphics.drawRoundRect(left + MARBLE_PADDING_X,
-					top + RECTANGLE_HEIGHT * i + RECTANGLE_HEIGHT / 2, MARBLE_SIZE, MARBLE_SIZE, 20, 20);
+					top + RECTANGLE_HEIGHT * i + MARBLE_PADDING_Y, MARBLE_SIZE, MARBLE_SIZE,
+					MARBLE_SIZE, MARBLE_SIZE);
 		}
 	}
 
 	private void fillMarbles(int left, int top) {
 		graphics.setColor(marbleColor.deriveWithAlpha(102));
 		for (int i = 0; i < elements.size(); i++) {
-			graphics.fillRoundRect(left + MARBLE_PADDING_X,
-					top + RECTANGLE_HEIGHT * i + RECTANGLE_HEIGHT / 2, MARBLE_SIZE, MARBLE_SIZE, 20, 20);
+			if (elements.get(i).isEuclidianVisible()) {
+				graphics.fillRoundRect(left + MARBLE_PADDING_X,
+						top + RECTANGLE_HEIGHT * i + MARBLE_PADDING_Y, MARBLE_SIZE, MARBLE_SIZE,
+						MARBLE_SIZE, MARBLE_SIZE);
+			}
 		}
 	}
 }

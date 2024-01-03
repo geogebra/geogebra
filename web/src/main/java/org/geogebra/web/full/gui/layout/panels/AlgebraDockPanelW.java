@@ -4,7 +4,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
@@ -248,7 +247,8 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		context2d.save();
 		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
 		context2d.clip();
-		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(app, context2d);
+		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(app, context2d,
+				getOffsetWidth());
 		exporter.paintToCanvas(left, top);
 		context2d.restore();
 		callback.run();
