@@ -162,4 +162,26 @@ public abstract class GgbAPIJre extends GgbAPI {
 	abstract protected String base64encodePNG(boolean transparent, double DPI,
 			double exportScale, EuclidianView ev);
 
+	/**
+	 * pops up message dialog with "OK" and "Stop Script"
+	 *
+	 * @param message
+	 *            to display
+	 */
+	public void alert(String message) {
+		// overridden in desktop
+	}
+
+	/**
+	 * JavaScript-like prompt
+	 *
+	 * @param promptText
+	 *            prompt text
+	 * @param initValue
+	 *            default value
+	 * @return user's response
+	 */
+	public String prompt(Object promptText, Object initValue) {
+		return "";
+	}
 }

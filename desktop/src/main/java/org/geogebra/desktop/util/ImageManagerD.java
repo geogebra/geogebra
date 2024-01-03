@@ -529,7 +529,7 @@ public class ImageManagerD extends ImageManager {
 		} else if (urlBase64.startsWith("<svg")
 				|| urlBase64.startsWith("<?xml")) {
 
-			MyImageD img = new MyImageD(urlBase64, filename0);
+			MyImageD img = new MyImageD(urlBase64);
 
 			addExternalImage(filename0, img);
 
@@ -600,5 +600,17 @@ public class ImageManagerD extends ImageManager {
 		} catch (RuntimeException ex) {
 			Log.debug(ex);
 		}
+	}
+
+	public static String fixSVG(String content) {
+		return ImageManager.fixSVG(content);
+	}
+
+	/**
+	 *
+	 * @return item count of the external map.
+	 */
+	public int getImageCount() {
+		return externalImageTable.size();
 	}
 }
