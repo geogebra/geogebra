@@ -105,5 +105,8 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 	@Override
 	public void removeMaterial(Material mat) {
 		tempStorage.deleteTempMaterial(mat);
+		if (tempStorage.isEmpty()) {
+			common.showEmptyListNotification(getInfoErrorData());
+		}
 	}
 }
