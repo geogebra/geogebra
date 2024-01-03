@@ -2079,4 +2079,28 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.textEditPopup {
 		box-shadow: none;
 	}
+
+	.assignOption {
+		display: flex;
+		padding: 8px 0;
+		cursor: pointer;
+		&:hover {
+			background-color:neutral(200)
+		}
+		.subtitle {
+			font-size: 87.5%;
+			line-height: 20px;
+		}
+		.title {
+			line-height: 24px;
+		}
+		.icon {
+			border-radius: 50%;
+			margin-right: 16px;
+			min-width: 24px;
+			height: 24px;
+			background-size: 24px;
+			background-repeat: no-repeat;
+		}
+	}
 }

@@ -3723,4 +3723,13 @@ public class ExpressionNode extends ValidExpression
 			return val;
 		}).wrap();
 	}
+
+	/**
+	 * @return whether this expression is something else than '?'
+	 */
+	public boolean isDefined() {
+		ExpressionValue def = unwrap();
+		return !(def instanceof MyDouble && def.isConstant()
+				&& Double.isNaN(def.evaluateDouble()));
+	}
 }

@@ -29,7 +29,8 @@ public class ConvertToCanvas implements ImagePreprocessor {
 
 	@Override
 	public boolean match(FileExtensions extension, int size) {
-		return (matchExtension(extension) && alwaysApply) || size > maxSize;
+		return (matchExtension(extension) && alwaysApply)
+				|| (maxSize > 0 && size > maxSize);
 	}
 
 	private boolean matchExtension(FileExtensions extension) {

@@ -707,7 +707,8 @@ public class GeoSymbolic extends GeoElement
 		// forcing list wrapping makes the style and behavior independent on number of results
 		GetCommand cmd = geo.getParentAlgorithm() == null
 				? null : geo.getParentAlgorithm().getClassName();
-		return cmd == Commands.Root || cmd == Commands.Extremum || cmd == Commands.Intersect;
+		return cmd == Commands.Root || cmd == Commands.Extremum || cmd == Commands.Intersect
+				|| cmd == Commands.Asymptote;
 	}
 
 	private void registerFunctionVariablesIfHasFunction(ExpressionNode functionExpression) {

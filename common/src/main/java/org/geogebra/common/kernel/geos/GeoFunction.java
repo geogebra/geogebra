@@ -1487,10 +1487,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	protected static boolean isFunctionDefined(FunctionNVar fun) {
-		// function defined as "?"
-		ExpressionValue def = fun.getExpression().unwrap();
-		return !(def instanceof MyDouble && def.isConstant()
-				&& Double.isNaN(def.evaluateDouble()));
+		return fun.getExpression().isDefined();
 	}
 
 	/*

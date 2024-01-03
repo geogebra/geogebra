@@ -46,7 +46,7 @@ public class SolverSpecialSymbolsKeyboardFactory implements KeyboardModelFactory
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-		RowImpl row = mathKeyboard.nextRow(8.0f);
+		RowImpl row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, INFINITY);
 		addInputButton(row, buttonFactory, String.valueOf(QUESTIONED_EQUAL_TO));
 		addInputButton(row, buttonFactory, NOT_EQUAL_TO);
@@ -56,7 +56,7 @@ public class SolverSpecialSymbolsKeyboardFactory implements KeyboardModelFactory
 		addInputButton(row, buttonFactory, NOT_SIGN);
 		addInputButton(row, buttonFactory, CIRCLED_TIMES);
 
-		row = mathKeyboard.nextRow(8.0f);
+		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, PARALLEL_TO);
 		addInputButton(row, buttonFactory, PERPENDICULAR);
 		addInputButton(row, buttonFactory, ELEMENT_OF);
@@ -68,7 +68,7 @@ public class SolverSpecialSymbolsKeyboardFactory implements KeyboardModelFactory
 		addConstantInputCommandButton(row, buttonFactory, Resource.CEIL,
 				LEFT_CEILING + "", 1.0f);
 
-		row = mathKeyboard.nextRow(8.0f);
+		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
 		addInputButton(row, buttonFactory, RIGHT_SQUARE_BRACKET);
 		addInputButton(row, buttonFactory, COLON);
@@ -80,7 +80,7 @@ public class SolverSpecialSymbolsKeyboardFactory implements KeyboardModelFactory
 		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
 				Action.BACKSPACE_DELETE);
 
-		row = mathKeyboard.nextRow(8.0f);
+		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, COMMA);
 		addInputButton(row, buttonFactory, APOSTROPHE);
 		addInputButton(row, buttonFactory, QUOTATION_MARK);

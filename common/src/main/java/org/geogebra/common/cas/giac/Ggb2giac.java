@@ -1517,9 +1517,9 @@ public class Ggb2giac {
 						+ "[v:=-p/3/u]," + "[x1:=u+v-b/3],"
 						+ "[x2:=u*j+v*conj(j)-b/3],"
 						+ "[x3:=u*conj(j)+v*j-b/3],"
-						+ "[x1s:=regroup(normal(x1))],"
-						+ "[x2s:=regroup(normal(x2))],"
-						+ "[x3s:=regroup(normal(x3))],"
+						+ "[x1s:=when(length(lname(x1))==0,regroup(normal(x1)),regroup(x1))],"
+						+ "[x2s:=when(length(lname(x2))==0,regroup(normal(x2)),regroup(x2))],"
+						+ "[x3s:=when(length(lname(x3))==0,regroup(normal(x3)),regroup(x3))],"
 
 						// for debugging
 						// + "[p,q,d,u,v,x1,x2,x3],"

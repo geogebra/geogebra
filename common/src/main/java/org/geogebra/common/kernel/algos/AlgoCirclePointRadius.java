@@ -19,7 +19,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -202,10 +201,5 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 
 		return botanaPolynomials;
 
-	}
-
-	@Override
-	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
-		return view.getFreeInputPoints(this).size() == 1;
 	}
 }

@@ -12,6 +12,7 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -84,6 +85,16 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	}
 
 	/**
+	 * @param disable whether to disable or not
+	 */
+	public void disableInterval(boolean disable) {
+		if (modeGroup != null) {
+			modeGroup.disableButtons(disable);
+			Dom.toggleClass(modeGroup, "disabled", disable);
+		}
+	}
+
+	/**
 	 * add parameter label and input field to UI
 	 * @param parent - parent holder div
 	 */
@@ -153,8 +164,10 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	 */
 	public void initCumulativeWidget() {
 		cumulativeWidget = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
-		cumulativeWidget.addFastClickHandler((e) ->
-				view.setCumulative(cumulativeWidget.isSelected()));
+		cumulativeWidget.addFastClickHandler((e) -> {
+				view.setCumulative(cumulativeWidget.isSelected());
+				disableInterval(cumulativeWidget.isSelected());
+		});
 	}
 
 	/**

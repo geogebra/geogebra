@@ -102,4 +102,13 @@ public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 		}
 		return -1;
 	}
+
+	/**
+	 * @param disable whether to disable buttons or not
+	 */
+	public void disableButtons(boolean disable) {
+		for (ToggleButton button : buttons.values()) {
+			button.setEnabled(!disable);
+		}
+	}
 }
