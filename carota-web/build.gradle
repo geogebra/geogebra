@@ -4,7 +4,7 @@ plugins {
     id 'pmd'
 }
 
-def murokVersion = "1.0.202312151809-SNAPSHOT"
+def murokVersion = "1.0.202401031329"
 
 dependencies {
     api 'com.google.elemental2:elemental2-core:1.2.1',

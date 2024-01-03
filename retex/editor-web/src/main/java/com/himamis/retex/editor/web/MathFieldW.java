@@ -369,7 +369,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		html2.getElement().setAttribute("role", "application");
 		html2.addDomHandler(event -> {
 			// don't kill Ctrl+V or write V
-		if (controlDown(event)
+			if (controlDown(event)
 					&& (event.getCharCode() == 'v'
 							|| event.getCharCode() == 'V')
 					|| isLeftAltDown()) {
