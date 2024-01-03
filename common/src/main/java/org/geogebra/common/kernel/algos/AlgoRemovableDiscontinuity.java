@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
@@ -25,6 +24,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
@@ -32,7 +32,8 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 
 	private final GeoFunction f; // input
 	private final MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
-	private final boolean checkLimits;
+	private final boolean checkLimitsSymbolically;
+	private static final double NUMERIC_LIMIT_CHECK_PRECISION = Kernel.MAX_PRECISION;
 
 	/**
 	 * @param cons Construction
@@ -43,7 +44,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		super(cons, labels, true);
 
 		this.f = f;
-		this.checkLimits = false;
+		this.checkLimitsSymbolically = true;
 
 		setInputOutput();
 		compute();
@@ -54,14 +55,14 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	 * @param f Function to evaluate for removable discontinuities
 	 * @param labels labels for output
 	 * @param setLabels whether to set labels
-	 * @param checkLimits Whether to check if limits are equal before calculating them with GIAC
+	 * @param checkLimitsSymbolically Whether to check if limits are equal symbolically (no GIAC)
 	 */
 	public AlgoRemovableDiscontinuity(Construction cons, GeoFunction f, String[] labels,
-			boolean setLabels, boolean checkLimits) {
+			boolean setLabels, boolean checkLimitsSymbolically) {
 		super(cons, labels, setLabels);
 
 		this.f = f;
-		this.checkLimits = checkLimits;
+		this.checkLimitsSymbolically = checkLimitsSymbolically;
 
 		setInputOutput();
 		compute();
@@ -118,26 +119,21 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		List<NumberValue> values = getValues(exp);
 		for (NumberValue value : values) {
 			double x = value.getDouble();
-			if (!checkLimits || hasEqualLimit(x)) {
-				double above = limit(x, -1);
-				double below = limit(x, 1);
-
-				if (above == below) {
-					add(x, above, result);
-				}
+			if (checkLimitsSymbolically) {
+				add(x, limit(x, 0), result);
+			} else if (hasEqualLimit(x, NUMERIC_LIMIT_CHECK_PRECISION)) {
+				add(x, f.value(x + NUMERIC_LIMIT_CHECK_PRECISION), result);
 			}
 		}
 	}
 
 	/**
 	 * @param x Value of variable x
-	 * @return True if the limits above and below are equal (using {@link Kernel#MAX_PRECISION}),
-	 * false else
+	 * @param precision Precision to be used when comparing the above and below limit
+	 * @return True if the limits above and below are equal, false else
 	 */
-	private boolean hasEqualLimit(double x) {
-		final double precision = Kernel.MAX_PRECISION;
-		Comparator<Double> comparator = Kernel.doubleComparator(precision);
-		return comparator.compare(f.value(x + precision), f.value(x - precision)) == 0;
+	private boolean hasEqualLimit(double x, double precision) {
+		return DoubleUtil.isEqual(f.value(x + precision), f.value(x - precision), precision);
 	}
 
 	private List<NumberValue> getValues(ExpressionValue exp) {
@@ -155,7 +151,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	}
 
 	private void add(double x, double y, List<MyPoint> result) {
-		if (!Double.isInfinite(y)) {
+		if (!Double.isInfinite(y) && !Double.isNaN(y)) {
 			MyPoint point = new MyPoint(x, y);
 			result.add(point);
 		}
@@ -173,7 +169,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 					.getDouble();
 		} catch (Throwable e) {
 			Log.debug(e);
-			return 0;
+			return Double.NaN;
 		}
 	}
 
