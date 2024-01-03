@@ -45,10 +45,38 @@ public class CmdPolyLine extends CommandProcessor {
 
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
+			if (arg[0].isGeoPoint()) {
+
+				if (!arg[1].isGeoPoint() && !(arg[1].isGeoBoolean()
+						&& arg[1].evaluateDouble() > 0)) {
+					throw argErr(c, arg[1]);
+				}
+
+				return genericPolyline(arg[1], arg, c);
+			}
 			throw argErr(c, arg[0]);
 		default:
-			throw argNumErr(c);
+			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
+			return genericPolyline(lastArg, null, c);
 		}
+	}
+
+	private GeoElement[] genericPolyline(GeoElement lastArg, GeoElement[] arg0, Command c) {
+		int size = c.getArgumentNumber();
+		GeoElement[] arg = arg0 == null ? resArgs(c) : arg0;
+		// polygon for given points
+		GeoPointND[] points = new GeoPointND[size];
+		// check arguments
+		boolean is3D = false;
+		for (int i = 0; i < size; i++) {
+			if (!(arg[i].isGeoPoint())) {
+				throw argErr(c, arg[i]);
+			}
+			points[i] = (GeoPointND) arg[i];
+			is3D = checkIs3D(is3D, arg[i]);
+		}
+		// everything ok
+		return polyLine(c.getLabel(), points, is3D);
 	}
 
 	/**

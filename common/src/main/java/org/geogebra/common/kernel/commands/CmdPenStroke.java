@@ -36,16 +36,16 @@ public class CmdPenStroke extends CommandProcessor {
 					throw argErr(c, arg[1]);
 				}
 
-				return genericPolyline(arg[1], arg, c);
+				return genericPolyline(arg[1], c);
 			}
 			throw argErr(c, arg[0]);
 		default:
 			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
-			return genericPolyline(lastArg, null, c);
+			return genericPolyline(lastArg, c);
 		}
 	}
 
-	private GeoElement[] genericPolyline(GeoElement lastArg, GeoElement[] arg0, Command c) {
+	private GeoElement[] genericPolyline(GeoElement lastArg, Command c) {
 		boolean penStroke = false;
 		int size = c.getArgumentNumber();
 		if (lastArg.isGeoBoolean()) {
