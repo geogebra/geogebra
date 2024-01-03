@@ -1,9 +1,9 @@
 package org.geogebra.suite;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -17,6 +17,17 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 public class SpecialPointsTest extends BaseSuiteTest {
+
+	@Test
+	public void testRemovableDiscontinuity1() {
+		SpecialPointsManager manager = getApp().getSpecialPointsManager();
+
+		GeoElement element = add("f(x)=(3-x)/(2x^2-6x)");
+		manager.updateSpecialPoints(element);
+		List<GeoElement> specialPoints = manager.getSelectedPreviewPoints();
+		assertThat(specialPoints,
+				CoreMatchers.hasItem(hasToString("null = (3, -0.17)")));
+	}
 
 	@Test
 	public void testRemovableDiscontinuityPointStyle() {
@@ -37,17 +48,6 @@ public class SpecialPointsTest extends BaseSuiteTest {
 				EvalInfoFactory.getEvalInfoForAV(getApp()));
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
 		manager.updateSpecialPoints(element);
-	}
-
-	@Test
-	public void testRemovableDiscontinuity1() {
-		SpecialPointsManager manager = getApp().getSpecialPointsManager();
-
-		GeoElement element = add("f(x)=(3-x)/(2x^2-6x)");
-		manager.updateSpecialPoints(element);
-		List<GeoElement> specialPoints = manager.getSelectedPreviewPoints();
-		assertThat(specialPoints,
-				CoreMatchers.hasItem(hasToString("null = (3, -0.17)")));
 	}
 
 	/**
@@ -89,7 +89,9 @@ public class SpecialPointsTest extends BaseSuiteTest {
 		GeoElement element = add("f(x)=((abs(x-3))/(x-3))");
 		manager.updateSpecialPoints(element);
 		List<GeoElement> specialPoints = manager.getSelectedPreviewPoints();
-		assertThat(specialPoints,
-				not(CoreMatchers.hasItem(hasToString("null = (3, -1)"))));
+		assertThat(specialPoints, CoreMatchers.everyItem(anyOf(
+				hasValue("(0, -1)"),
+				hasValue("(?, ?)"))
+		));
 	}
 }
