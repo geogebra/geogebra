@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ConditionalSerializer;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -76,6 +77,7 @@ public class GeoSymbolic extends GeoElement
 	private ExpressionValue numericValue;
 	private int numericPrintFigures;
 	private int numericPrintDecimals;
+	private ConditionalSerializer conditionalSerializer;
 
 	/**
 	 * @param c construction
@@ -149,7 +151,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (symbolicMode || !hasNumericValue()) {
+		if ((symbolicMode || tpl.getStringType().isGiac()) || !hasNumericValue()) {
 			if (value != null) {
 				return value.toValueString(tpl);
 			}
@@ -705,7 +707,8 @@ public class GeoSymbolic extends GeoElement
 		// forcing list wrapping makes the style and behavior independent on number of results
 		GetCommand cmd = geo.getParentAlgorithm() == null
 				? null : geo.getParentAlgorithm().getClassName();
-		return cmd == Commands.Root || cmd == Commands.Extremum || cmd == Commands.Intersect;
+		return cmd == Commands.Root || cmd == Commands.Extremum || cmd == Commands.Intersect
+				|| cmd == Commands.Asymptote;
 	}
 
 	private void registerFunctionVariablesIfHasFunction(ExpressionNode functionExpression) {
@@ -1125,5 +1128,33 @@ public class GeoSymbolic extends GeoElement
 
 	private boolean isCasValueDefined() {
 		return !value.inspect(Inspecting.isUndefinedInspector);
+	}
+
+	@Override
+	public String getFormulaString(StringTemplate tpl,
+			boolean substituteNumbers) {
+		if (substituteNumbers && tpl.isLatex()) {
+			if (twinGeo instanceof GeoFunction) {
+				return twinGeo.getFormulaString(tpl, true);
+			}
+			if (value != null && value.wrap().isTopLevelCommand("If")) {
+				FunctionVariable fv = getFunctionVariables()[0];
+				ArrayList<ExpressionNode> cases = new ArrayList<>();
+				ArrayList<Bounds> conditions = new ArrayList<>();
+				ExpressionNode[] arguments = ((Command) value.unwrap()).getArguments();
+				boolean complete = Bounds.collectFromCommand(kernel,
+						fv, arguments, cases, conditions);
+				return getConditionalSerializer().appendConditionalLaTeX(cases, conditions,
+						complete, true, tpl);
+			}
+		}
+		return super.getFormulaString(tpl, substituteNumbers);
+	}
+
+	private ConditionalSerializer getConditionalSerializer() {
+		if (conditionalSerializer == null) {
+			conditionalSerializer = new ConditionalSerializer(kernel, this);
+		}
+		return conditionalSerializer;
 	}
 }

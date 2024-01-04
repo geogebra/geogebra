@@ -118,10 +118,13 @@ public class SymbolicProcessor {
 		try {
 			if (expressionValue instanceof Command) {
 				cmd = (Command) replaced.unwrap();
-				if (!cmdDispatcher.isAllowedByNameFilter(Commands.valueOf(cmd.getName()))) {
+				Commands command = Commands.stringToCommand(cmd.getName());
+				boolean isAvailable = kernel.getGeoGebraCAS().isCommandAvailable(cmd);
+				if (command != null && !cmdDispatcher.isAllowedByNameFilter(command)
+					|| (command == null && isAvailable)) {
 					throw new MyError(kernel.getLocalization(), MyError.Errors.UnknownCommand);
 				}
-				if (!kernel.getGeoGebraCAS().isCommandAvailable(cmd)
+				if (!isAvailable
 						&& isInvalidArgNumberInFallback(cmd)) {
 					throw buildArgNumberError(cmd);
 				}

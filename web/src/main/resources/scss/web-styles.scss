@@ -431,25 +431,25 @@
 		color: #6666FF;
 	}
 
-	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled, .MyToggleButton.gwt-ToggleButton-down-disabled,
-	.MyCanvasButton:disabled {
+	.button:disabled, .ToggleButton.gwt-ToggleButton-up-disabled, .ToggleButton.gwt-ToggleButton-down-disabled,
+	.IconButton:disabled {
 		cursor: default !important;
 		opacity: .5;
 		zoom: 1;
 	}
 
-	.MyCanvasButton:disabled:hover {
-		border: #DCDCDC solid 1px;
+	.IconButton:disabled:hover {
+		border: neutral(500) solid 1px;
 	}
 
-	.MyToggleButton, .MyCanvasButton {
+	.ToggleButton, .IconButton {
 		img {
 			width: 24px;
 			opacity: 0.7;
 		}
 	}
 
-	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus {
+	.button:disabled, .ToggleButton.gwt-ToggleButton-up-disabled:focus, .ToggleButton.gwt-ToggleButton-down-disabled:focus {
 		outline: none;
 	}
 
@@ -782,7 +782,7 @@
 		margin-left: -4px;
 	}
 
-	.button.MyCanvasButton.MyCanvasButton-borderless.matDynStyleContextButton img {
+	.button.IconButton.IconButton-borderless.matDynStyleContextButton img {
 		opacity: 0.54;
 
 		&:hover {
@@ -836,11 +836,10 @@
 		background-color: #DCDCDC;
 	}
 
-	.MyToggleButton,
-	.MyCanvasButton {
+	.ToggleButton, .IconButton {
 		text-align: center;
 		border-radius: 5px;
-		border: #DCDCDC solid 1px;
+		border: neutral(500) solid 1px;
 		background-color: #FFFFFF;
 		padding: 3px;
 		width: 24px;
@@ -849,13 +848,13 @@
 		cursor: pointer;
 	}
 
-	.MyCanvasButton.MyCanvasButton-borderless {
+	.IconButton.IconButton-borderless {
 		border: none;
 		padding: 4px; /* more padding for the missing border*/
 		margin-right: 15px;
 	}
 
-	.MyCanvasButton .buttonContent {
+	.IconButton .buttonContent {
 		background-repeat: no-repeat;
 		background-position: center center;
 		width: 24px;
@@ -866,7 +865,7 @@
 		}
 	}
 
-	.MyCanvasButton.btnTextColor .buttonContent,
+	.IconButton.btnTextColor .buttonContent,
 	.btnUseAsText .html-face {
 		line-height: 22px;
 		font-size: 22px;
@@ -1967,6 +1966,15 @@
 		align-items: center;
 	}
 
+	.intervalPanel.disabled {
+		opacity: 0.36;
+
+		button {
+			cursor: default;
+			border-color: neutral(500);
+		}
+	}
+
 	.parameterPanel, .resultPanel {
 		display: flex;
 		align-items: center;
@@ -1981,7 +1989,7 @@
 		}
 	}
 
-	.comboParamPanel .MyToggleButton, .comboParamPanel .gwt-ListBox {
+	.comboParamPanel .ToggleButton, .comboParamPanel .gwt-ListBox {
 		display: inline-block;
 		margin-right: 10px;
 	}
@@ -2252,7 +2260,7 @@
 		width: calc(100% - 150px);
 	}
 
-	.functionInspectorMainPanel .panelRowIndent .MyToggleButton {
+	.functionInspectorMainPanel .panelRowIndent .ToggleButton {
 		/* bigger buttons needed, because of wrong size of images */
 		width: 30px;
 		height: 30px;

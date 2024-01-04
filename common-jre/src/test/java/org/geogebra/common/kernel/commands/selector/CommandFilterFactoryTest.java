@@ -62,6 +62,12 @@ public class CommandFilterFactoryTest {
 	}
 
 	@Test
+	public void testCasCommandFilterForAsymptoteCommand() {
+		filter = CommandFilterFactory.createCasCommandFilter();
+		assertAllowed(true, Commands.Asymptote);
+	}
+
+	@Test
 	public void testMmsCommandFilter() {
 		filter = CommandFilterFactory.createMmsFilter();
 		assertAllowed(false, Commands.AreEqual);
@@ -78,6 +84,7 @@ public class CommandFilterFactoryTest {
 		assertAllowed(false, Commands.MinorAxis);
 		assertAllowed(false, Commands.Side);
 		assertAllowed(false, Commands.Reflect);
+		assertAllowed(false, Commands.Asymptote);
 	}
 
 	@Test

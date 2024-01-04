@@ -2258,4 +2258,11 @@ public abstract class ProbabilityCalculatorView
 		updateOutput(false);
 		updateResult();
 	}
+
+	/**
+	 * @param disable whether to disable or not
+	 */
+	public void disableInterval(boolean disable) {
+		// overridden for platform
+	}
 }

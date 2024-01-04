@@ -20,23 +20,28 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testFmod() {
-		Interval n = evaluator.fmod(interval(5.3, 5.3), interval(2, 2));
+		Interval n = fmod(interval(5.3, 5.3), interval(2, 2));
 		assertTrue(n.almostEqual(interval(1.3, 1.3), 1E-7));
 
-		n = evaluator.fmod(interval(5, 7), interval(2, 3));
+		n = fmod(interval(5, 7), interval(2, 3));
 		assertTrue(n.almostEqual(interval(2, 5), 1E-7));
 
-		n = evaluator.fmod(interval(18.5, 18.5), interval(4.2, 4.2));
+		n = fmod(interval(18.5, 18.5), interval(4.2, 4.2));
 		assertTrue(n.almostEqual(interval(1.7, 1.7), 1E-7));
 
-		n = evaluator.fmod(interval(-10, -10), interval(3, 3));
+		n = fmod(interval(-10, -10), interval(3, 3));
 		assertTrue(n.almostEqual(interval(-1, -1), 1E-7));
 
-		n = evaluator.fmod(new Interval(), IntervalConstants.undefined());
+		n = fmod(new Interval(), IntervalConstants.undefined());
 		assertTrue(n.isUndefined());
 
-		n = evaluator.fmod(interval(2, 2), interval(2, 2));
+		n = fmod(interval(2, 2), interval(2, 2));
 		assertTrue(n.almostEqual(zero(), 1E-7));
+	}
+
+	private Interval fmod(Interval base, Interval mod) {
+		evaluator.fmod(base, mod);
+		return base;
 	}
 
 	@Test

@@ -64,6 +64,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	@Override
+	public void disableInterval(boolean disable) {
+		distrPanel.disableInterval(disable);
+	}
+
+	@Override
 	public void setLabels() {
 		setLabelArrays();
 		if (distrPanel != null) {
@@ -141,7 +146,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				: GuiResources.INSTANCE.normal_overlay());
 		btnNormalOverlay.addStyleName("probCalcStylbarBtn");
 		if (app.getConfig().hasDistributionView()) {
-			btnNormalOverlay.removeStyleName("MyToggleButton");
+			btnNormalOverlay.removeStyleName("ToggleButton");
 			btnNormalOverlay.addStyleName("suite");
 		}
 		btnNormalOverlay.addFastClickHandler(event -> {

@@ -67,7 +67,8 @@ public abstract class AbstractSettings implements Resetable {
 	}
 
 	void notifyListeners() {
-		for (SettingListener listener : listeners) {
+		LinkedList<SettingListener> clone = new LinkedList<>(listeners);
+		for (SettingListener listener : clone) {
 			listener.settingsChanged(this);
 		}
 	}
@@ -90,9 +91,7 @@ public abstract class AbstractSettings implements Resetable {
 		// notify listeners
 		if (runningBatches == 1) {
 			if (settingsChanged) {
-				for (SettingListener listener : listeners) {
-					listener.settingsChanged(this);
-				}
+				notifyListeners();
 			}
 		}
 		runningBatches--;

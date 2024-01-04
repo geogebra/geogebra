@@ -16,11 +16,11 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.net.URL;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraServer;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class GeoGebra {
 
@@ -54,8 +54,7 @@ public class GeoGebra {
 
 		if (showSplash) {
 			// Show splash screen
-			URL imageURL = GeoGebra.class.getResource(
-					"/org/geogebra/desktop/" + GeoGebraConstants.SPLASH_STRING);
+			URL imageURL = GeoGebra.class.getResource(GuiResourcesD.SPLASH.getFilename());
 			if (imageURL != null) {
 				splashFrame = SplashWindow.splash(
 						Toolkit.getDefaultToolkit().createImage(imageURL));
