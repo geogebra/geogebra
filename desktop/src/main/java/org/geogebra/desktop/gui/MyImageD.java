@@ -4,14 +4,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.security.MessageDigest;
@@ -29,56 +26,39 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.gui.util.SVGImage;
+import org.geogebra.desktop.gui.util.JSVGImageBuilder;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.UtilD;
-
-import com.kitfox.svg.SVGCache;
-import com.kitfox.svg.SVGDiagram;
-import com.kitfox.svg.SVGUniverse;
-import com.kitfox.svg.xml.StyleAttribute;
 
 public class MyImageD implements MyImageJre {
 
-	private final Image img;
-	private SVGDiagram diagram;
-	private URI uri;
+	public static final double DELTA = 0;
+	private Image img = null;
 	// SVG as XML
-	private final StringBuilder svg;
+	private StringBuilder sb;
+	private SVGImage svgImage;
 
 	/**
 	 * @param img bitmap image
 	 */
 	public MyImageD(Image img) {
 		this.img = img;
-		this.svg = null;
+		this.sb = null;
+
 	}
 
 	/**
 	 * Load SVG from String
-	 * 
-	 * @param svgStr SVG content
-	 * @param name name
+	 * @param svgContent SVG content
 	 */
-	public MyImageD(String svgStr, String name) {
-		svg = new StringBuilder(svgStr.length());
-		svg.append(svgStr);
-		img = null;
-		InputStream stream = new ByteArrayInputStream(svgStr.getBytes(Charsets.getUtf8()));
-
-		SVGUniverse universe = SVGCache.getSVGUniverse();
-		try {
-			uri = universe.loadSVG(stream, name);
-			diagram = universe.getDiagram(uri);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public MyImageD(String svgContent) {
+		sb = new StringBuilder(svgContent.length());
+		sb.append(svgContent);
+		svgImage = JSVGImageBuilder.fromContent(sb.toString());
 	}
 
-	private MyImageD(StringBuilder svgStr, SVGDiagram diagram, URI uri) {
-		this.svg = svgStr;
-		this.diagram = diagram;
-		this.img = null;
-		this.uri = uri;
+	private MyImageD(SVGImage svgImage) {
+		this.svgImage = svgImage;
 	}
 
 	/**
@@ -86,7 +66,7 @@ public class MyImageD implements MyImageJre {
 	 */
 	public String getMD5() {
 		if (img == null) {
-			return AppD.md5EncryptStatic(svg.toString());
+			return AppD.md5EncryptStatic(svgImage.toString());
 		}
 
 		try {
@@ -111,7 +91,7 @@ public class MyImageD implements MyImageJre {
 
 	/**
 	 * Loads internal image as SVG
-	 * @param filename internal path (/org/geogebra/...)
+	 * @param filename internal pah (/org/geogebra/...)
 	 * @return SVG image
 	 */
 	public static MyImageD loadAsSvg(String filename) {
@@ -120,23 +100,20 @@ public class MyImageD implements MyImageJre {
 	}
 
 	private static MyImageD loadAsSvg(InputStream in, URL url) {
-		StringBuilder svg = new StringBuilder();
+		StringBuilder svgSb = new StringBuilder();
 		try (BufferedReader reader = new BufferedReader(
 				new InputStreamReader(in, Charsets.getUtf8()))) {
 			for (String line = reader
 					.readLine(); line != null; line = reader.readLine()) {
-				svg.append(line);
-				svg.append('\n');
+				svgSb.append(line);
+				svgSb.append('\n');
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		svg = new StringBuilder(ImageManager.fixSVG(svg.toString()));
-		SVGUniverse universe = SVGCache.getSVGUniverse();
-		URI uri = universe.loadSVG(url);
-		SVGDiagram diagram = universe.getDiagram(uri);
-		return new MyImageD(svg, diagram, uri);
+		svgSb = new StringBuilder(ImageManager.fixSVG(svgSb.toString()));
+		return new MyImageD(svgSb.toString());
 	}
 
 	/**
@@ -163,7 +140,7 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public boolean isSVG() {
-		return diagram != null;
+		return svgImage != null;
 	}
 
 	@Override
@@ -172,8 +149,8 @@ public class MyImageD implements MyImageJre {
 			return img.getHeight(null);
 		}
 
-		if (diagram != null) {
-			return (int) (diagram.getHeight() + 0.5);
+		if (svgImage != null) {
+			return (int) (svgImage.getHeight() + 0.5);
 		}
 
 		return 1;
@@ -185,8 +162,8 @@ public class MyImageD implements MyImageJre {
 			return img.getWidth(null);
 		}
 
-		if (diagram != null) {
-			return (int) (diagram.getWidth() + 0.5);
+		if (svgImage != null) {
+			return (int) (svgImage.getWidth() + DELTA);
 		}
 
 		return 1;
@@ -197,13 +174,9 @@ public class MyImageD implements MyImageJre {
 		return new GGraphics2DD((Graphics2D) img.getGraphics());
 	}
 
-	public SVGDiagram getDiagram() {
-		return diagram;
-	}
-
 	@Override
 	public String getSVG() {
-		return svg.toString();
+		return svgImage.getContent();
 	}
 
 	@Override
@@ -236,14 +209,11 @@ public class MyImageD implements MyImageJre {
 	 */
 	public static MyImageD fromFile(File file, String fileName)
 			throws IOException {
+
 		if (fileName.endsWith(".svg")) {
-
-			FileInputStream is = new FileInputStream(file);
-			String svg = UtilD.loadIntoString(is);
-			is.close();
-
-			return new MyImageD(svg, fileName);
+			return new MyImageD(JSVGImageBuilder.fromFile(file));
 		}
+
 		// returns null if the file isn't an image
 		BufferedImage bi = ImageIO.read(file);
 
@@ -255,22 +225,31 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public MyImage tintedSVG(GColor color, Runnable onLoad) {
-		if (svg == null) {
-			return null;
-		}
-		SVGUniverse universe = SVGCache.getSVGUniverse();
-		try {
-			ByteArrayInputStream stream = new ByteArrayInputStream(svg.toString()
-					.getBytes(Charsets.getUtf8()));
-			URI uri = universe.loadSVG(stream, UUID.randomUUID() + "-tint.svg");
-			SVGDiagram diagram = universe.getDiagram(uri);
-			StyleAttribute fill = diagram.getRoot().getPresAbsolute("fill");
-			fill.setStringValue(color.toString());
-			return new MyImageD(svg, diagram, uri);
-		} catch (Exception e) {
-			Log.debug(e.getMessage());
-		}
-		return null;
+		return new MyImageD(svgImage.tint(color));
 	}
 
+	public void render(Graphics2D impl, int x, int y) {
+		if (isSVG()) {
+			renderSvg(impl, x, y);
+		} else {
+			impl.drawImage(img, x, y, null);
+		}
+	}
+
+	private void renderSvg(Graphics2D g, int x, int y) {
+		g.translate(x, y);
+		svgImage.paint(g);
+		g.translate(-x, -y);
+	}
+
+	public void render(Graphics2D impl, int sx, int sy, int sw, int sh, int dx, int dy, int dw,
+			int dh) {
+		if (isSVG()) {
+			renderSvg(impl, dx, dy);
+		} else {
+			impl.drawImage(
+					img, dx, dy, dx + dw, dy + dh,
+					sx, sy, sx + sw, sy + sh, null);
+		}
+	}
 }
