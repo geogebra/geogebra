@@ -505,15 +505,6 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * @return inverf(this)
-	 */
-	final public MyDouble inverf() {
-		set(MyMath2.inverf(val));
-		angleDim = 0;
-		return this;
-	}
-
-	/**
 	 * @param order
 	 *            order
 	 * @return polygamma(this,order)
