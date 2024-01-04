@@ -110,7 +110,7 @@ public class MyXMLioD extends MyXMLioJre {
 			} else if (StringUtil.toLowerCaseUS(name).endsWith("svg")) {
 				String svg = UtilD.loadIntoString(zip);
 
-				MyImageD img = new MyImageD(svg, name);
+				MyImageD img = new MyImageD(svg);
 
 				((AppDI) app).addExternalImage(name, img);
 
