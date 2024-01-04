@@ -85,12 +85,7 @@ public class GraphingCommandArgumentFilterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPolylineWithPointsAndBooleanAllowed() {
+	public void testPenStrokeWithPointsShouldBeAllowed() {
 		assertThat(addAvInput("PenStroke((1, 3), (4, 3))"), is(notNullValue()));
-	}
-
-	@Test
-	public void testPolylineWithPointListAndBooleanAllowed() {
-		assertThat(addAvInput("PenStroke({(1, 3), (4, 3)})"), is(notNullValue()));
 	}
 }

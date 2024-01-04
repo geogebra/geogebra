@@ -38,30 +38,22 @@ public class CmdPolyLine extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-
-				if (!arg[1].isGeoBoolean()) {
-					throw argErr(c, arg[1]);
-				}
-
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
 			if (arg[0].isGeoPoint()) {
-
-				if (!arg[1].isGeoPoint() && !(arg[1].isGeoBoolean()
-						&& arg[1].evaluateDouble() > 0)) {
+				if (!arg[1].isGeoPoint() && arg[1].evaluateDouble() > 0) {
 					throw argErr(c, arg[1]);
 				}
 
-				return genericPolyline(arg[1], arg, c);
+				return genericPolyline(arg, c);
 			}
 			throw argErr(c, arg[0]);
 		default:
-			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
-			return genericPolyline(lastArg, null, c);
+			return genericPolyline(null, c);
 		}
 	}
 
-	private GeoElement[] genericPolyline(GeoElement lastArg, GeoElement[] arg0, Command c) {
+	private GeoElement[] genericPolyline(GeoElement[] arg0, Command c) {
 		int size = c.getArgumentNumber();
 		GeoElement[] arg = arg0 == null ? resArgs(c) : arg0;
 		// polygon for given points
