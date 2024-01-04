@@ -78,9 +78,7 @@ pipeline {
                     pmdParser(pattern: '**/build/reports/pmd/main.xml'),
                     checkStyle(pattern: '**/build/reports/checkstyle/*.xml')
                 ]
-                publishCoverage adapters: [jacocoAdapter('**/build/reports/jacoco/test/*.xml')],
-                    sourceFileResolver: sourceFiles('NEVER_STORE')
-
+                recordCoverage sourceCodeRetention: 'NEVER', tools: [[pattern: '\'**/build/reports/jacoco/test/*.xml\'']]
             }
         }
         stage('giac test') {
