@@ -23,7 +23,6 @@ public class AlgebraCanvasExporter {
 	private static final int MARBLE_PADDING_X = 19;
 	private static final int MARBLE_PADDING_Y = 15;
 	private static final int MARBLE_SIZE = 18;
-	private static final GColor marbleColor = GColor.newColor(77, 77, 255, 255);
 
 	/**
 	 * @param app AppW
@@ -50,18 +49,6 @@ public class AlgebraCanvasExporter {
 		drawAlgebraDescriptions(left, top);
 	}
 
-	private void drawAlgebraDescriptions(int left, int top) {
-		int fontSize = app.getFontSize();
-		GFont font = app.getFontCommon(false, GFont.PLAIN, fontSize);
-		graphics.setFont(font);
-		graphics.setColor(GColor.BLACK);
-		for (int i = 0; i < elements.size(); i++) {
-			graphics.drawString(elements.get(i).getAlgebraDescriptionDefault(),
-					left + RECTANGLE_WIDTH + DESCRIPTION_PADDING_X,
-					top + RECTANGLE_HEIGHT * i + RECTANGLE_HEIGHT / 2.0 + fontSize / 3.0);
-		}
-	}
-
 	private void drawLines(int left, int top) {
 		graphics.setColor(GColor.LIGHT_GRAY);
 		graphics.setStrokeLineWidth(0.5);
@@ -79,9 +66,9 @@ public class AlgebraCanvasExporter {
 	}
 
 	private void drawMarbleOutlines(int left, int top) {
-		graphics.setColor(marbleColor);
 		graphics.setStrokeLineWidth(1);
 		for (int i = 0; i < elements.size(); i++) {
+			graphics.setColor(elements.get(i).getAlgebraColor());
 			graphics.drawRoundRect(left + MARBLE_PADDING_X,
 					top + RECTANGLE_HEIGHT * i + MARBLE_PADDING_Y, MARBLE_SIZE, MARBLE_SIZE,
 					MARBLE_SIZE, MARBLE_SIZE);
@@ -89,13 +76,29 @@ public class AlgebraCanvasExporter {
 	}
 
 	private void fillMarbles(int left, int top) {
-		graphics.setColor(marbleColor.deriveWithAlpha(102));
 		for (int i = 0; i < elements.size(); i++) {
 			if (elements.get(i).isEuclidianVisible()) {
+				graphics.setColor(elements.get(i).getAlgebraColor().deriveWithAlpha(102));
 				graphics.fillRoundRect(left + MARBLE_PADDING_X,
 						top + RECTANGLE_HEIGHT * i + MARBLE_PADDING_Y, MARBLE_SIZE, MARBLE_SIZE,
 						MARBLE_SIZE, MARBLE_SIZE);
 			}
 		}
+	}
+
+	private void drawAlgebraDescriptions(int left, int top) {
+		int fontSize = app.getFontSize();
+		GFont font = app.getFontCommon(false, GFont.PLAIN, fontSize);
+		graphics.setFont(font);
+		graphics.setColor(GColor.BLACK);
+		for (int i = 0; i < elements.size(); i++) {
+			graphics.drawString(getAlgebraDescription(elements.get(i)),
+					left + RECTANGLE_WIDTH + DESCRIPTION_PADDING_X,
+					top + RECTANGLE_HEIGHT * i + RECTANGLE_HEIGHT / 2.0 + fontSize / 3.0);
+		}
+	}
+
+	private String getAlgebraDescription(GeoElement geo) {
+		return geo.getAlgebraDescriptionDefault();
 	}
 }
