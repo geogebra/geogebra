@@ -15,28 +15,28 @@ public class ModeDeleteTest extends BaseControllerTest {
 	@Test
 	public void eraserTest() throws InterruptedException {
 		setMode(EuclidianConstants.MODE_ERASER);
-		add("stroke = PolyLine((2,-4),(2,-2),(4,-2),(4,-4), true)");
+		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		click(140, 90);
 
-		assertEquals("Polyline[(2.0000E0,-4.0000E0), (1.8720E0,-3.5232E0), "
+		assertEquals("PenStroke[(2.0000E0,-4.0000E0), (1.8720E0,-3.5232E0), "
 						+ "(1.7760E0,-3.0656E0), (1.7440E0,-2.6464E0), (1.8080E0,-2.2848E0),"
 						+ " (2.0000E0,-2.0000E0), (2.3360E0,-1.8080E0), (2.6000E0,-1.7365E0),"
 						+ " (?,?), (3.0000E0,-1.7000E0), (3.2320E0,-1.7120E0),"
 						+ " (3.6640E0,-1.8080E0), (4.0000E0,-2.0000E0), (4.1920E0,-2.2848E0),"
 						+ " (4.2560E0,-2.6464E0), (4.2240E0,-3.0656E0), (4.1280E0,-3.5232E0),"
-						+ " (4.0000E0,-4.0000E0), (?,?), true]",
+						+ " (4.0000E0,-4.0000E0), (?,?)]",
 				getDefinition());
 
-		add("stroke = PolyLine((2,-4),(2,-2),(4,-2),(4,-4), true)");
+		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		click(100, 100);
 
-		assertEquals("Polyline[(2.0000E0,-4.0000E0), (1.8720E0,-3.5232E0),"
+		assertEquals("PenStroke[(2.0000E0,-4.0000E0), (1.8720E0,-3.5232E0),"
 						+ " (1.7760E0,-3.0656E0), (1.7440E0,-2.6464E0), (1.8080E0,-2.2848E0),"
 						+ " (1.8456E0,-2.2000E0), (?,?), (2.2000E0,-1.8664E0),"
 						+ " (2.3360E0,-1.8080E0), (2.7680E0,-1.7120E0), (3.2320E0,-1.7120E0),"
 						+ " (3.6640E0,-1.8080E0), (4.0000E0,-2.0000E0), (4.1920E0,-2.2848E0),"
 						+ " (4.2560E0,-2.6464E0), (4.2240E0,-3.0656E0), (4.1280E0,-3.5232E0),"
-						+ " (4.0000E0,-4.0000E0), (?,?), true]",
+						+ " (4.0000E0,-4.0000E0), (?,?)]",
 				getDefinition());
 	}
 
@@ -44,22 +44,22 @@ public class ModeDeleteTest extends BaseControllerTest {
 	public void eraserTestStraight() {
 		setMode(EuclidianConstants.MODE_ERASER);
 		// delete the middle
-		add("stroke = PolyLine((2,-2),(3,-2),(4,-2), true)");
+		add("stroke = PenStroke((2,-2),(3,-2),(4,-2))");
 		int x = 145;
 		int y = 95;
 		dragStart(x, y);
 		dragEnd(x + 5, y + 5);
-		assertEquals("Polyline[(2.0000E0,-2.0000E0), (2.8000E0,-2.0000E0), (?,?),"
-						+ " (3.2000E0,-2.0000E0), (4.0000E0,-2.0000E0), (?,?), true]",
+		assertEquals("PenStroke[(2.0000E0,-2.0000E0), (2.8000E0,-2.0000E0), (?,?),"
+						+ " (3.2000E0,-2.0000E0), (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
 		// delete the start
-		add("stroke = PolyLine((2,-2),(3,-2),(4,-2), true)");
+		add("stroke = PenStroke((2,-2),(3,-2),(4,-2))");
 		x = 95;
 		y = 95;
 		dragStart(x, y);
 		dragEnd(x + 5, y + 5);
-		assertEquals("Polyline[(2.2000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
-						+ " (4.0000E0,-2.0000E0), (?,?), true]",
+		assertEquals("PenStroke[(2.2000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
+						+ " (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
 	}
 

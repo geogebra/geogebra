@@ -2911,6 +2911,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdPenStroke() {
+		t("PenStroke[ (1,1), (2,2) ]",
+				"PenStroke[(1.0000E0,1.0000E0), (2.0000E0,2.0000E0), (NaN,NaN)]");
+	}
+
+	@Test
 	public void cmdPercentile() {
 		t("Percentile[ {1,2,3,4,5}, 0.05 ]", "1");
 	}
@@ -2997,7 +3003,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdPolyLine() {
-		//t("PolyLine[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", "6.755851322151136");
+		t("PolyLine[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", "6.755851322151136");
 		t("PolyLine[ (1,1), (3,1/3), (5,1/5) ]", "4.112624623895307");
 	}
 

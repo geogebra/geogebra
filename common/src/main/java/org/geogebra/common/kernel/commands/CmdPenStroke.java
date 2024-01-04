@@ -24,47 +24,19 @@ public class CmdPenStroke extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
-		int n = c.getArgumentNumber();
-		GeoElement[] arg;
-		switch (n) {
-		case 1:
-			arg = resArgs(c);
-			if (arg[0].isGeoPoint()) {
-
-				if (!arg[1].isGeoPoint() && !(arg[1].isGeoBoolean()
-						&& arg[1].evaluateDouble() > 0)) {
-					throw argErr(c, arg[1]);
-				}
-
-				return genericPolyline(arg[1], c);
-			}
-			throw argErr(c, arg[0]);
-		default:
-			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
-			return genericPolyline(lastArg, c);
-		}
+		return genericPolyline(c);
 	}
 
-	private GeoElement[] genericPolyline(GeoElement lastArg, Command c) {
-		boolean penStroke = false;
+	private GeoElement[] genericPolyline(Command c) {
 		int size = c.getArgumentNumber();
-		if (lastArg.isGeoBoolean()) {
-			// pen stroke
-			// last argument is boolean (normally true)
-			size = size - 1;
-			penStroke = ((GeoBoolean) lastArg).getBoolean();
+		ArrayList<MyPoint> myPoints = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			MyVecNode vec = (MyVecNode) c.getArgument(i).unwrap();
+			myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
+					vec.getY().evaluateDouble()));
 		}
-		if (penStroke) {
-			ArrayList<MyPoint> myPoints = new ArrayList<>();
-			for (int i = 0; i < size; i++) {
-				MyVecNode vec = (MyVecNode) c.getArgument(i).unwrap();
-				myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
-						vec.getY().evaluateDouble()));
-			}
-			AlgoLocusStroke algo = new AlgoLocusStroke(cons, myPoints);
-			algo.getOutput(0).setLabel(c.getLabel());
-			return algo.getOutput();
-		}
-		return null;
+		AlgoLocusStroke algo = new AlgoLocusStroke(cons, myPoints);
+		algo.getOutput(0).setLabel(c.getLabel());
+		return algo.getOutput();
 	}
 }

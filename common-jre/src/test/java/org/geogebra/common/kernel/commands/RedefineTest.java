@@ -484,11 +484,11 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void strokeRedefinitionsShouldBeSoft() {
-		GeoElement stroke = add("stroke1=PolyLine((1,1),(2,3),true)");
-		GeoLocusStroke redefined = add("stroke1=PolyLine((1,4),(2,5),true)");
+		GeoElement stroke = add("stroke1=PenStroke((1,1),(2,3))");
+		GeoLocusStroke redefined = add("stroke1=PenStroke((1,4),(2,5))");
 		assertEquals(stroke, redefined);
-		assertThat(redefined, hasValue("Polyline[(1.0000E0,4.0000E0), "
-				+ "(2.0000E0,5.0000E0), (NaN,NaN), true]"));
+		assertThat(redefined, hasValue("PenStroke[(1.0000E0,4.0000E0), "
+				+ "(2.0000E0,5.0000E0), (NaN,NaN)]"));
 	}
 
 	@Test
@@ -503,7 +503,7 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void pointsOnLocusShouldReload() {
-		add("stroke1=PolyLine((0,0), (1,0), (2,0), true)");
+		add("stroke1=PenStroke((0,0), (1,0), (2,0))");
 		add("pts=Sequence(Point(stroke1, i), i, 0, 1, 0.5)");
 		// only testing that it reloads OK, actual values seem a bit off
 		assertThat(lookup("pts"), hasValue("{(0, 0), (1.5, 0), (?, ?)}"));
