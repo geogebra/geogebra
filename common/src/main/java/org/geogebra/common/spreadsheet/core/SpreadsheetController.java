@@ -21,7 +21,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 public final class SpreadsheetController implements TabularSelection {
 
 	private final ContextMenuItems contextMenuItems;
-	private SpreadsheetSelectionController selectionController
+	private final SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
 	final private TabularData<?> tabularData;
 
@@ -87,8 +87,9 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param addSelection Whether we want to add the selection to the current selection (CTRL)
 	 */
 	@Override
-	public boolean select(Selection selection, boolean extend, boolean addSelection) {
-		return selectionController.select(selection, extend, addSelection);
+	public boolean select(TabularRange selection, boolean extend, boolean addSelection) {
+		return selectionController.select(new Selection(SelectionType.CELLS, selection),
+				extend, addSelection);
 	}
 
 	@Override
@@ -179,8 +180,8 @@ public final class SpreadsheetController implements TabularSelection {
 			selectColumn(column, modifiers.shift, modifiers.ctrl);
 			changed = true;
 		} else { // Select cell
-			changed = select(new Selection(SelectionType.CELLS, TabularRange.range(row,
-					row, column, column)), modifiers.shift, modifiers.ctrl) || changed;
+			changed = select(TabularRange.range(row, row, column, column),
+					modifiers.shift, modifiers.ctrl) || changed;
 		}
 		return changed;
 	}
@@ -224,7 +225,8 @@ public final class SpreadsheetController implements TabularSelection {
 		switch (dragAction.activeCursor) {
 		case RESIZE_X:
 			if (isSelected(-1, dragAction.column)) {
-				double width = layout.resizeColumn(dragAction.column, x);
+				double width = layout.getWidthForColumnResize(dragAction.column,
+						x + viewport.getMinX());
 				for (Selection selection : sel) {
 					if (selection.getType() == SelectionType.COLUMNS) {
 						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
@@ -235,7 +237,8 @@ public final class SpreadsheetController implements TabularSelection {
 			break;
 		case RESIZE_Y:
 			if (isSelected(dragAction.row, -1)) {
-				double height = layout.resizeRow(dragAction.row, y);
+				double height = layout.getHeightForRowResize(dragAction.row,
+						y + viewport.getMinY());
 				for (Selection selection : sel) {
 					if (selection.getType() == SelectionType.ROWS) {
 						layout.setHeightForRows(height, selection.getRange().getMinRow(),
@@ -313,7 +316,7 @@ public final class SpreadsheetController implements TabularSelection {
 		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
 	}
 
-	public Selection getLastSelection() {
+	Selection getLastSelection() {
 		return selectionController.getLastSelection();
 	}
 
@@ -328,11 +331,13 @@ public final class SpreadsheetController implements TabularSelection {
 		case RESIZE_X:
 			// only handle the dragged column here, the rest of selection on pointer up
 			// otherwise left border of dragged column could move, causing feedback loop
-			double width = layout.resizeColumn(dragAction.column, x + viewport.getMinX());
+			double width = layout.getWidthForColumnResize(dragAction.column,
+					x + viewport.getMinX());
 			layout.setWidthForColumns(width, dragAction.column, dragAction.column);
 			return true;
 		case RESIZE_Y:
-			double height = layout.resizeRow(dragAction.row, y + viewport.getMinY());
+			double height = layout.getHeightForRowResize(dragAction.row,
+					y + viewport.getMinY());
 			layout.setHeightForRows(height, dragAction.row, dragAction.row);
 			return true;
 		default:
