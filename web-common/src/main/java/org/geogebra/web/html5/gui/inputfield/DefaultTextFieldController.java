@@ -62,7 +62,6 @@ public final class DefaultTextFieldController implements TextFieldController {
 	public void setFont(GFont font) {
 		String size = font.getSize() + "px";
 		Dom.setImportant(textField.getInputElement().getStyle(), "font-size", size);
-
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public final class DefaultTextFieldController implements TextFieldController {
 
 	@Override
 	public void setForegroundColor(GColor color) {
-		textField.getElement().getStyle()
+		textField.getTextField().getValueBox().getElement().getStyle()
 				.setColor(GColor.getColorString(color));
 	}
 

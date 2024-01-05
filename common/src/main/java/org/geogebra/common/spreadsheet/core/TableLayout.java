@@ -216,11 +216,11 @@ public final class TableLayout {
 		return columnHeaderHeight;
 	}
 
-	public double resizeColumn(int col, double x) {
+	public double getWidthForColumnResize(int col, double x) {
 		return Math.max(MIN_CELL_SIZE, x - cumulativeWidths[col] - rowHeaderWidth);
 	}
 
-	public double resizeRow(int row, double y) {
+	public double getHeightForRowResize(int row, double y) {
 		return Math.max(MIN_CELL_SIZE, y - cumulativeHeights[row] - columnHeaderHeight);
 	}
 }

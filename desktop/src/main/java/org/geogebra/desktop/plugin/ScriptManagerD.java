@@ -44,7 +44,7 @@ public class ScriptManagerD extends ScriptManagerJre {
 	 */
 	public void evalJavaScript(App app, String script, String arg) {
 		ensureGlobalScript(app);
-		CallJavaScript.evalScript(app, script, arg);
+		CallJavaScript.evalScript(app, script);
 	}
 
 	@Override

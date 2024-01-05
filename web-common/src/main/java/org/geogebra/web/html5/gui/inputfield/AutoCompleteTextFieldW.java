@@ -344,7 +344,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		DefaultTextFieldController defaultTextFieldController =
 				new DefaultTextFieldController(this);
 
-		return isCursorOverlayNeeded()
+		return isCursorOverlayNeeded() && canHaveGGBKeyboard()
 				? new CursorOverlayController(this, main, defaultTextFieldController)
 				: defaultTextFieldController;
 	}

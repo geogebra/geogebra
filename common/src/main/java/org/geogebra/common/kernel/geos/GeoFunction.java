@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoFunctionInterval;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
+import org.geogebra.common.kernel.arithmetic.ConditionalSerializer;
 import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -110,7 +111,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	/** upper interval bound */
 	protected double intervalMax;
 	private boolean evalSwapped;
-	// parent conditional function
 
 	private Boolean isInequality = null;
 	private String shortLHS;
@@ -137,6 +137,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private AlgoDependentFunction dependentFunction;
 	private int tableViewColumn = -1;
 	private boolean pointsVisible = true;
+	private ConditionalSerializer conditionalSerializer;
 
 	/**
 	 * Creates new function
@@ -1486,10 +1487,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	protected static boolean isFunctionDefined(FunctionNVar fun) {
-		// function defined as "?"
-		ExpressionValue def = fun.getExpression().unwrap();
-		return !(def instanceof MyDouble && def.isConstant()
-				&& Double.isNaN(def.evaluateDouble()));
+		return fun.getExpression().isDefined();
 	}
 
 	/*
@@ -1879,8 +1877,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * Adds horizontal negative asymptotes to the StringBuilder over-ridden in
-	 * GeoFunctionConditional
+	 * Adds horizontal negative asymptotes to the StringBuilder
 	 *
 	 * @param sb
 	 *            StringBuilder for the result
@@ -1891,8 +1888,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * Adds diagonal positive asymptotes to the StringBuilder over-ridden in
-	 * GeoFunctionConditional
+	 * Adds diagonal positive asymptotes to the StringBuilder
 	 * @param sb
 	 *            StringBuilder for the result
 	 */
@@ -1902,8 +1898,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * Adds diagonal negative asymptotes to the StringBuilder over-ridden in
-	 * GeoFunctionConditional
+	 * Adds diagonal negative asymptotes to the StringBuilder
 	 * @param sb
 	 *            StringBuilder for the result
 	 */
@@ -2536,7 +2531,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					ret = "?";
 				} else if (interval && tpl.hasType(StringType.LATEX)
 						&& getParentAlgorithm() instanceof AlgoFunctionInterval) {
-					ret = getSingleCondition(
+					ret = getConditionalSerializer().getSingleCondition(
 							((AlgoFunctionInterval) getParentAlgorithm()).getCondition(),
 							getFunctionExpression(), substituteNumbers).toString();
 				} else {
@@ -2608,93 +2603,28 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	public String conditionalLaTeX(boolean substituteNumbers,
 			StringTemplate tpl) {
-		StringBuilder sbLaTeX;
+		String latex;
 		ExpressionNode expr = getFunctionExpression();
 		if (expr.getOperation().isIf()
 				&& !expr.getRight().wrap().isConditional()) {
-			sbLaTeX = getSingleCondition(expr.getLeft(), expr.getRight(), substituteNumbers);
+			latex = getConditionalSerializer().getSingleCondition(expr.getLeft(),
+					expr.getRight(), substituteNumbers).toString();
 		} else {
-			sbLaTeX = new StringBuilder();
 			ArrayList<ExpressionNode> cases = new ArrayList<>();
 			ArrayList<Bounds> conditions = new ArrayList<>();
 			boolean complete = Bounds.collectCases(expr, cases, conditions,
 					new Bounds(kernel, getFunctionVariables()[0]), false);
-
-			{
-				int lastValid = conditions.size() - 1;
-				while (lastValid >= 0 && !conditions.get(lastValid).isValid()) {
-					lastValid--;
-				}
-				int firstValid = 0;
-				while (firstValid < conditions.size()
-						&& !conditions.get(firstValid).isValid()) {
-					firstValid++;
-				}
-				if (firstValid > lastValid) {
-					sbLaTeX.append('?');
-					return sbLaTeX.toString();
-
-				}
-				if (firstValid == lastValid) {
-					sbLaTeX.append(cases.get(firstValid)
-							.toLaTeXString(!substituteNumbers, tpl));
-					if (!complete) {
-
-						sbLaTeX.append(", \\;\\;\\;\\; \\left(");
-						sbLaTeX.append(conditions.get(firstValid).toLaTeXString(
-								!substituteNumbers, getVarString(tpl), tpl));
-						sbLaTeX.append(" \\right)");
-
-					}
-					return sbLaTeX.toString();
-				}
-				sbLaTeX.append("\\left\\{\\begin{array}{ll} ");
-				for (int i = firstValid; i <= lastValid; i++) {
-					if (conditions.get(i).isValid()) {
-						sbLaTeX.append(cases.get(i)
-								.toLaTeXString(!substituteNumbers, tpl));
-						sbLaTeX.append("& : ");
-						if (i == cases.size() - 1 && complete) {
-							sbLaTeX.append("\\text{");
-							sbLaTeX.append(getLoc().getMenu("otherwise"));
-							sbLaTeX.append("}");
-						} else {
-
-							sbLaTeX.append(conditions.get(i).toLaTeXString(
-									!substituteNumbers, getVarString(tpl),
-									tpl));
-							if (i != lastValid) {
-								sbLaTeX.append("\\\\ ");
-							}
-						}
-					}
-				}
-				sbLaTeX.append(" \\end{array}\\right. ");
-			}
+			latex = getConditionalSerializer()
+					.appendConditionalLaTeX(cases, conditions, complete, substituteNumbers, tpl);
 		}
-
-		return sbLaTeX.toString().replace("\\questeq", "=");
+		return latex.replace("\\questeq", "=");
 	}
 
-	private StringBuilder getSingleCondition(ExpressionValue condition,
-			ExpressionValue expression, boolean substituteNumbers) {
-		StringBuilder sbLaTeX = new StringBuilder();
-		if (substituteNumbers) {
-			sbLaTeX.append(expression
-					.toValueString(StringTemplate.latexTemplate));
-			sbLaTeX.append(", \\;\\;\\;\\; \\left(");
-			sbLaTeX.append(condition
-					.toValueString(StringTemplate.latexTemplate));
-		} else {
-			sbLaTeX.append(
-					expression.toString(StringTemplate.latexTemplate));
-			sbLaTeX.append(", \\;\\;\\;\\; \\left(");
-			sbLaTeX.append(
-					condition.toString(StringTemplate.latexTemplate));
+	private ConditionalSerializer getConditionalSerializer() {
+		if (conditionalSerializer == null) {
+			conditionalSerializer = new ConditionalSerializer(kernel, this);
 		}
-
-		sbLaTeX.append(" \\right)");
-		return sbLaTeX;
+		return conditionalSerializer;
 	}
 
 	@Override

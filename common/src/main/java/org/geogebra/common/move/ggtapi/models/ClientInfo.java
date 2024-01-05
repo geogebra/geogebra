@@ -8,6 +8,7 @@ public class ClientInfo {
 	private int height;
 	private String language;
 	private String appName;
+	private boolean isAssign;
 
 	public AuthenticationModel getModel() {
 		return model;
@@ -63,5 +64,13 @@ public class ClientInfo {
 
 	public void setAppName(String appName) {
 		this.appName = appName;
+	}
+
+	public boolean isAssign() {
+		return isAssign;
+	}
+
+	public void setAssign(boolean isAssign) {
+		this.isAssign = isAssign;
 	}
 }

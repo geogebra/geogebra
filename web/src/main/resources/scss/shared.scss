@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 $keyboard_button_transition: opacity .3s ease;
 %matButton {
 	margin: 8px !important;
@@ -35,7 +36,6 @@ $keyboard_button_transition: opacity .3s ease;
 .GeoGebraFrame {
 	.gwt-DialogBox {
 		z-index: z-index.$z-dialog-over-keyboard;
-		/*box-shadow: 1px 1px 6px 1px #666666;*/
 
 		background-color: rgba(255,255,255,0.9);
 		border-radius: 2px;
@@ -57,7 +57,7 @@ $keyboard_button_transition: opacity .3s ease;
 	}
 
 	.dialogContent {
-		color: #666666;
+		color: neutral(700);
 	}
 
 	.dialogContent table {

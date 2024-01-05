@@ -105,6 +105,7 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback, boolean addTempCheckBox) {
+		app.getShareController().setAssign(false);
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
 				.getSaveCheckDialog();
 		AsyncOperation<Boolean> callback = saved -> {

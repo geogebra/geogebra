@@ -390,7 +390,17 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	private void startActivity() {
 		initActivity();
+		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
+	}
+
+	/**
+	 * Preloads the advanced commands for the CAS sub-app in suite
+	 */
+	private void preloadAdvancedCommandsForSuiteCAS() {
+		if (isSuite() && "cas".equals(activity.getConfig().getSubAppCode())) {
+			getAsyncManager().prefetch(null, "advanced");
+		}
 	}
 
 	/**
@@ -1462,6 +1472,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()) {
 			frame.attachNotesUI(this);
 		}
+		GlobalHeader.INSTANCE.initAssignButton(() -> {
+			getShareController().assign();
+		});
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
@@ -2367,6 +2380,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
+		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
 		getKernel().removeAllMacros();
 		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));

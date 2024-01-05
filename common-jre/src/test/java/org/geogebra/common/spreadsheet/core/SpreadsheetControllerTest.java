@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Test;
 
 public class SpreadsheetControllerTest {
@@ -79,6 +80,28 @@ public class SpreadsheetControllerTest {
 
 		assertRangeEquals(controller.getLastSelection(),
 				new Selection(SelectionType.CELLS, TabularRange.range(1, 3, 1, 3)));
+	}
+
+	@Test
+	public void testExtendSelectionByHorizontalDrag() {
+		Rectangle viewport = new Rectangle(0, 500, 0, 500);
+		controller.handlePointerDown(101, 3, Modifiers.NONE, viewport);
+		controller.handlePointerMove(241, 3, Modifiers.NONE, viewport);
+		controller.handlePointerUp(241, 3, Modifiers.NONE, viewport);
+
+		assertRangeEquals(controller.getLastSelection(),
+				new Selection(SelectionType.COLUMNS, TabularRange.range(-1, -1, 0, 1)));
+	}
+
+	@Test
+	public void testExtendSelectionByVerticalDrag() {
+		Rectangle viewport = new Rectangle(0, 500, 0, 500);
+		controller.handlePointerDown(3, 50, Modifiers.NONE, viewport);
+		controller.handlePointerMove(3, 150, Modifiers.NONE, viewport);
+		controller.handlePointerUp(3, 150, Modifiers.NONE, viewport);
+
+		assertRangeEquals(controller.getLastSelection(),
+				new Selection(SelectionType.ROWS, TabularRange.range(0, 3, -1, -1)));
 	}
 
 	@Test

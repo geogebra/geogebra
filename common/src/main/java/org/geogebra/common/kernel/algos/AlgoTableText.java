@@ -40,14 +40,14 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	private final static RegExp matchLRC = RegExp
 			.compile("([^.%lrcap]*)([.%lrcap]*)([^.%lrcap]*)");
 
-	private GeoList geoList; // input
-	private GeoText text; // output
-	private GeoText args; // input
-	private GeoNumberValue[] minWidthHeight; // input min width / min height
+	private final GeoList geoList; // input
+	private final GeoText text; // output
+	private final GeoText args; // input
+	private final GeoNumberValue[] minWidthHeight; // input min width / min height
 
 	private GeoList[] geoLists;
 
-	private StringBuffer sb = new StringBuffer();
+	private final StringBuffer sb = new StringBuffer();
 
 	private enum Alignment {
 		VERTICAL, HORIZONTAL
@@ -239,9 +239,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 						break;
 					}
 				}
-
-				// Log.debug("verticalLinesArray = "
-				// + verticalLinesArray.toString());
 			}
 
 			if ((pos = optionsStr.indexOf("_")) > -1) {
@@ -259,9 +256,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 						break;
 					}
 				}
-
-				// Log.debug("horizontalLinesArray = "
-				// + horizontalLinesArray.toString());
 			}
 
 			verticalLinesJustEdges = optionsStr.contains("/");
@@ -306,7 +300,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 				closeString = "}";
 			}
 
-		} else if (geoList.get(tableColumns - 1).isGeoText()) {
+		} else if ((geoLists == null || geoLists[0] != geoList)
+				&& geoList.get(tableColumns - 1).isGeoText()) {
 
 			// support for older files before the fix
 			GeoText options = (GeoText) geoList.get(tableColumns - 1);
@@ -354,58 +349,51 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 		if (!geoList.isDefined() || columns == 0) {
 			text.setTextString("");
 			return;
-			// throw new MyError(app, app.getInvalidInputError());
+		}
+
+		initDimensions();
+
+		if (columns == 0 || rows == 0) {
+			text.setTextString("");
+			return;
 		}
 
 		parseArgs();
 
-		// support for older files before the fix
-		if (geoList.get(columns - 1).isGeoText()) {
-			columns--;
-		}
-
-		if (columns == 0) {
-			text.setTextString("");
-			return;
-			// throw new MyError(app, app.getInvalidInputError());
-		}
-
-		if (geoLists == null || geoLists.length < columns) {
-			geoLists = new GeoList[columns];
-		}
-
-		rows = 0;
-
-		for (int c = 0; c < columns; c++) {
-			GeoElement geo = geoList.get(c);
-			if (!geo.isGeoList()) {
-				text.setTextString("");
-				return;
-				// throw new MyError(app,
-				// loc.getPlain("SyntaxErrorAisNotAList",geo.toValueString()));
-			}
-			geoLists[c] = (GeoList) geoList.get(c);
-			if (geoLists[c].size() > rows) {
-				rows = geoLists[c].size();
-			}
-		}
-
-		if (rows == 0) {
-			text.setTextString("");
-			return;
-			// throw new MyError(app, app.getInvalidInputError());
-		}
-
-		sb.setLength(0);
-
 		StringTemplate tpl = text.getStringTemplate();
-
-		latex(tpl);
-		text.setTextString(sb.toString());
+		text.setTextString(latex(tpl));
 	}
 
-	private void latex(StringTemplate tpl) {
+	private void initDimensions() {
+		rows = 0;
+		if (geoList.elements().noneMatch(GeoElement::isGeoList)) {
+			geoLists = new GeoList[]{geoList};
+			columns = 1;
+			rows = geoList.size();
+		} else if (columns >= 1) {
+			// support for older files before the fix
+			if (geoList.get(columns - 1).isGeoText()) {
+				columns--;
+			}
+			if (geoLists == null || geoLists.length < columns) {
+				geoLists = new GeoList[columns];
+			}
+			for (int c = 0; c < columns; c++) {
+				GeoElement geo = geoList.get(c);
+				if (!geo.isGeoList()) {
+					rows = 0;
+					return;
+				}
+				geoLists[c] = (GeoList) geoList.get(c);
+				if (geoLists[c].size() > rows) {
+					rows = geoLists[c].size();
+				}
+			}
+		}
+	}
 
+	private String latex(StringTemplate tpl) {
+		sb.setLength(0);
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('{');
@@ -486,6 +474,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('}');
+		return sb.toString();
 	}
 
 	/**
@@ -496,8 +485,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 		if (minWidthHeight == null) {
 			sb.append(getJustificationLaTeX(c)); // "l", "r" or "c"
 		} else {
-			sb.append(Character.toUpperCase(getJustification(c)) + "{"
-					+ minWidthHeight[0].evaluateDouble() + "}");
+			sb.append(Character.toUpperCase(getJustification(c))).append("{")
+					.append(minWidthHeight[0].evaluateDouble()).append("}");
 		}
 	}
 
@@ -506,7 +495,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	 */
 	private void addNewLine() {
 		if (minWidthHeight != null && minWidthHeight.length == 2) {
-			sb.append("\\\\[" + minWidthHeight[1].evaluateDouble() + "]");
+			sb.append("\\\\[").append(minWidthHeight[1].evaluateDouble()).append("]");
 		} else {
 			sb.append(" \\\\ "); // newline in LaTeX ie \\
 		}

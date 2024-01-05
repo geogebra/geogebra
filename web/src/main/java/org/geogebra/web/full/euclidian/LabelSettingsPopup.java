@@ -66,7 +66,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 						.mode_showhidelabel_32(), 24));
 		createPopup();
 
-		addStyleName("MyCanvasButton");
+		addStyleName("IconButton");
 		model = new NameValueModel(app, this);
 	}
 

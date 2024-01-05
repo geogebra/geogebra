@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
+import static org.geogebra.common.BaseUnitTest.hasProperty;
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.CoreMatchers.either;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -44,6 +45,7 @@ import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -1289,11 +1291,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic extremumInterval = add("Extremum(x^2+sqrt(3),-5,5)");
 		GeoSymbolic intersect = add("Intersect(x=y,x=sqrt(3))");
 		GeoSymbolic intersectBoring = add("Intersect(x=y,x=0)");
+		GeoSymbolic asymptote = add("Asymptote(3x/4)");
 		assertThat(AlgebraItem.isSymbolicDiffers(root), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(extremum), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(extremumInterval), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(intersect), is(true));
 		assertThat(AlgebraItem.isSymbolicDiffers(intersectBoring), is(false));
+		assertThat(AlgebraItem.isSymbolicDiffers(asymptote), is(true));
 	}
 
 	@Test
@@ -1985,6 +1989,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testHiddenCommands() {
+		shouldFail("ExpSimplify(x)", "Unknown command");
+		shouldFail("SolveODEPoint(x,(1,2))", "Unknown command");
+	}
+
+	@Test
 	public void functionsShouldWorkInNSolve() {
 		add("f(x)=.05x^3-.8x^2+3x");
 		t("NSolve(2f(x) = f(x+1))",
@@ -2132,5 +2142,57 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("g(x) = 2 * 5");
 		app.setXML(app.getXML(), true);
 		assertEquals(2, app.getActiveEuclidianView().getAllDrawableList().size());
+	}
+
+	@Test
+	public void testFormulaString() {
+		assertThat(add("f=If(x<a,x+1)"),
+				hasFormulaString("x + 1, \\;\\;\\;\\; \\left(a > x \\right)"));
+		assertThat(add("h=If(x<a,a,b)"),
+				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x\\\\"
+						+ " b& : \\text{otherwise} \\end{array}\\right. "));
+		assertThat(add("h=If(x<a,a,x<b,b,c+1)"),
+				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x"
+						+ "\\\\ b& : b > x\\\\ c + 1& : \\text{otherwise} \\end{array}\\right. "));
+		assertThat(add("h=If(x<a,a,x<b,b,x<c,c+1)"),
+				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x"
+						+ "\\\\ b& : b > x\\\\ c + 1& : c > x \\end{array}\\right. "));
+	}
+
+	@Test
+	public void symbolicValueShouldBeUsedToComputeDescendants() {
+		GeoSymbolic a = add("a=sin(42deg)");
+		a.setSymbolicMode(false, true);
+		t("Solve(a/9=sin(x)/10)", "{x = 2 * k_{1} * π + sin⁻¹(10 * "
+				+ "cos(4 * π / 15) / 9), x = 2 * k_{1} * π + π - sin⁻¹(10 * cos(4 * π / 15) / 9)}");
+	}
+
+	private Matcher<GeoSymbolic> hasFormulaString(String f) {
+		return hasProperty("formula",
+				geo -> geo.getFormulaString(StringTemplate.latexTemplate, true), f);
+	}
+
+	@Test
+	public void bracketShouldBeMultiplicationForSymbolicNumbers() {
+		add("a=2");
+		add("p=0.1");
+		t("NSolve(a(4)=x)", "{x = 8}");
+		t("p(1-p)", "9 / 100");
+	}
+
+	@Test
+	public void bracketShouldBeMultiplicationForSymbolicNumbersWithoutDefiningA() {
+		t("NSolve(-4 a(2)=16)", "{a = -2}");
+	}
+
+	@Test
+	public void bracketShouldNotBeMultiplicationForSymbolicVariables() {
+		t("Derivative(f(x)*g(x))", "f'(x) * g(x) + g'(x) * f(x)");
+	}
+
+	@Test
+	public void shouldExpandExpressionInIntegral() {
+		t("h=x^2", "x^(2)");
+		t("Integral(h,0,1)", "1 / 3");
 	}
 }

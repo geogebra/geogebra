@@ -421,7 +421,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} else {
 			Log.debug("Not setting up logging via LogManager");
 		}
-
+		System.setProperty("io.sf.carte.echosvg.warn_destination", "false");
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
 
@@ -525,10 +525,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		getFactory();
 
 		setSaved();
-
-		if (getCASVersionString().equals("")) {
-			setCASVersionString(loc.getMenu("CASInitializing"));
-		}
 
 		// user authentication handling
 		initSignInEventFlow();
@@ -3679,7 +3675,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					"Logging into explicitly defined file, not using LogManager");
 			return;
 		}
-
 		// initialize logging to go to rolling log file
 		logManager = LogManager.getLogManager();
 		logManager.reset();
