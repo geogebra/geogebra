@@ -320,7 +320,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 
 	private void createMenuItem(final MenuItem menuItem, MenuItemGroupView parent) {
 		MenuItemView view = createMenuItemView(menuItem);
-		view.addFastClickHandler(source -> menuActionRouter.handleMenuItem(menuItem));
+		view.setScheduledCommand(() -> menuActionRouter.handleMenuItem(menuItem));
 		parent.add(view);
 	}
 
