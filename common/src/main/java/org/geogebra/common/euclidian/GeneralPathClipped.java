@@ -34,7 +34,7 @@ public class GeneralPathClipped implements GShape {
 	protected EuclidianViewInterfaceSlim view;
 	private int lineThickness;
 
-	private double largestCoord;
+	private boolean smallPolygon = true;
 	private boolean polygon = true;
 
 	private boolean needClosePath;
@@ -82,7 +82,8 @@ public class GeneralPathClipped implements GShape {
 		gp.reset();
 		oldBounds = bounds;
 		bounds = null;
-		largestCoord = 0;
+		smallPolygon = true;
+		polygon = true;
 		needClosePath = false;
 	}
 
@@ -112,7 +113,7 @@ public class GeneralPathClipped implements GShape {
 		}
 
 		gp.reset();
-		if (largestCoord < MAX_COORD_VALUE || !polygon) {
+		if (smallPolygon || !polygon) {
 			addSimpleSegments();
 		} else {
 			addClippedSegmentsWithSutherladHoloman();
@@ -260,7 +261,6 @@ public class GeneralPathClipped implements GShape {
 		}
 
 		MyPoint p = new MyPoint(x, y, SegmentType.LINE_TO);
-		updateBounds(p);
 		pathPoints.ensureCapacity(pos + 1);
 		while (pathPoints.size() <= pos) {
 			pathPoints.add(null);
@@ -300,13 +300,8 @@ public class GeneralPathClipped implements GShape {
 					: AwtFactory.getPrototype().newRectangle2D();
 			bounds.setRect(x, y, 0, 0);
 		}
-
-		if (Math.abs(x) > largestCoord) {
-			largestCoord = Math.abs(x);
-		}
-		if (Math.abs(y) > largestCoord) {
-			largestCoord = Math.abs(y);
-		}
+		smallPolygon = smallPolygon && polygon
+				&& Math.abs(x) < MAX_COORD_VALUE && Math.abs(y) < MAX_COORD_VALUE;
 
 		bounds.add(x, y);
 	}
@@ -392,12 +387,14 @@ public class GeneralPathClipped implements GShape {
 
 	@Override
 	public GRectangle getBounds() {
+		Log.error("bounds?");
 		return bounds == null ? AwtFactory.getPrototype().newRectangle()
 				: bounds.getBounds();
 	}
 
 	@Override
 	public GRectangle2D getBounds2D() {
+		Log.error("bounds 2d?");
 		return bounds == null ? AwtFactory.getPrototype().newRectangle2D()
 				: bounds;
 	}
