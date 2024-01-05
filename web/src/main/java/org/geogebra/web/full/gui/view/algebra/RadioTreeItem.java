@@ -1058,6 +1058,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	public FlowPanel getContent() {
+		return this.content;
+	}
+
 	/**
 	 * Update position of buttons
 	 */
