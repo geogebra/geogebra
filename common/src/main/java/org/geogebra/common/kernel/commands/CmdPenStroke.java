@@ -36,6 +36,9 @@ public class CmdPenStroke extends CommandProcessor {
 		int size = c.getArgumentNumber();
 		ArrayList<MyPoint> myPoints = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
+			if (!(c.getArgument(i).unwrap() instanceof MyVecNode)) {
+				throw argErr(c, c.getArgument(i).unwrap());
+			}
 			MyVecNode vec = (MyVecNode) c.getArgument(i).unwrap();
 			myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
 					vec.getY().evaluateDouble()));
