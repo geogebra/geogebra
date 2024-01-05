@@ -23,7 +23,13 @@ public class CmdPenStroke extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
-		return genericPolyline(c);
+		int n = c.getArgumentNumber();
+		switch (n) {
+		case 0:
+			throw argNumErr(c);
+		default:
+			return genericPolyline(c);
+		}
 	}
 
 	private GeoElement[] genericPolyline(Command c) {

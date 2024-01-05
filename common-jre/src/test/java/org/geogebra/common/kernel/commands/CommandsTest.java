@@ -2911,8 +2911,8 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdPenStroke() {
-		t("PenStroke[ (1,1), (2,2) ]",
+	public void cmdPenstroke() {
+		t("PenStroke[(1,1),(2,2)]",
 				"PenStroke[(1.0000E0,1.0000E0), (2.0000E0,2.0000E0), (NaN,NaN)]");
 	}
 

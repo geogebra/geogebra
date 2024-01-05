@@ -18,7 +18,7 @@ public class ModeDeleteTest extends BaseControllerTest {
 		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		click(140, 90);
 
-		assertEquals("PenStroke[(2.0000E0,-4.0000E0), (1.8720E0,-3.5232E0), "
+		assertEquals("Penstroke[(2.0000E0,-4.0000E0), (1.8720E0,-3.5232E0), "
 						+ "(1.7760E0,-3.0656E0), (1.7440E0,-2.6464E0), (1.8080E0,-2.2848E0),"
 						+ " (2.0000E0,-2.0000E0), (2.3360E0,-1.8080E0), (2.6000E0,-1.7365E0),"
 						+ " (?,?), (3.0000E0,-1.7000E0), (3.2320E0,-1.7120E0),"
@@ -30,7 +30,7 @@ public class ModeDeleteTest extends BaseControllerTest {
 		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		click(100, 100);
 
-		assertEquals("PenStroke[(2.0000E0,-4.0000E0), (1.8720E0,-3.5232E0),"
+		assertEquals("Penstroke[(2.0000E0,-4.0000E0), (1.8720E0,-3.5232E0),"
 						+ " (1.7760E0,-3.0656E0), (1.7440E0,-2.6464E0), (1.8080E0,-2.2848E0),"
 						+ " (1.8456E0,-2.2000E0), (?,?), (2.2000E0,-1.8664E0),"
 						+ " (2.3360E0,-1.8080E0), (2.7680E0,-1.7120E0), (3.2320E0,-1.7120E0),"
@@ -49,7 +49,7 @@ public class ModeDeleteTest extends BaseControllerTest {
 		int y = 95;
 		dragStart(x, y);
 		dragEnd(x + 5, y + 5);
-		assertEquals("PenStroke[(2.0000E0,-2.0000E0), (2.8000E0,-2.0000E0), (?,?),"
+		assertEquals("Penstroke[(2.0000E0,-2.0000E0), (2.8000E0,-2.0000E0), (?,?),"
 						+ " (3.2000E0,-2.0000E0), (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
 		// delete the start
@@ -58,7 +58,7 @@ public class ModeDeleteTest extends BaseControllerTest {
 		y = 95;
 		dragStart(x, y);
 		dragEnd(x + 5, y + 5);
-		assertEquals("PenStroke[(2.2000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
+		assertEquals("Penstroke[(2.2000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
 						+ " (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
 	}
