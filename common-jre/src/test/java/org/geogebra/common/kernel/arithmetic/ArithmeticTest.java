@@ -4,6 +4,7 @@ import static org.geogebra.test.commands.AlgebraTestHelper.shouldFail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -13,6 +14,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
@@ -492,6 +494,24 @@ public class ArithmeticTest extends BaseUnitTest {
 	public void sufficientPrecisionForMultiplication() {
 		t("3 * 325.94", "977.82", StringTemplate.maxDecimals);
 		t("325.94 * 3", "977.82", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	public void sufficientPrecisionForDivision() {
+		t("490/0.035", "14000", StringTemplate.maxDecimals);
+		t("0.49/0.035", "14", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	public void testImpreciseForDivisionIncludingSlider() {
+		GeoNumeric a = add("a = 1");
+		a.setShowExtendedAV(true);
+		a.initAlgebraSlider();
+		assertTrue(a.getNumber().isImprecise());
+		GeoNumeric b = add("a/7.01");
+		assertTrue(b.getNumber().isImprecise());
+		GeoNumeric c = add("7.01/a");
+		assertTrue(b.getNumber().isImprecise());
 	}
 
 	@Test
