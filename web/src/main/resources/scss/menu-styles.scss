@@ -58,10 +58,13 @@ $menuWidth: 320px;
 				line-height: 48px;
 				border-radius: 0px 24px 24px 0px;
 				white-space: nowrap;
+				font-size: 87%;
+				vertical-align: middle;
+				padding-left: 16px;
 				&:hover {
 					background-color: neutral(200);
 				}
-				.gwt-Image {
+				.menuImg {
 					vertical-align: middle;
 					display: inline-block;
 					width: 24px;
@@ -69,16 +72,16 @@ $menuWidth: 320px;
 					margin: 12px 0 12px 16px;
 					opacity: 0.54;
 				}
-				.gwt-Label, .html-face {
+				.html-face {
 					display: inline-block;
 					font-size: 87%;
 					vertical-align: middle;
 				}
-				.gwt-Label {
-					padding-left: 16px;
-				}
+				//.gwt-Label {
+				//	padding-left: 16px;
+				//}
 				&.userMenuItemView {
-					.gwt-Image {
+					.menuImg {
 						margin: 2px 8px 6px 12px;
 						border-radius: 50%;
 						object-fit: cover;
