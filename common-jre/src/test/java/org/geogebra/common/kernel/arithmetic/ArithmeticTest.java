@@ -567,6 +567,24 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("---3 + --2", "-1");
 	}
 
+	@Test
+	public void testFactorial() {
+		t("0!", "1");
+		t("6!", "720");
+		t("?!", "NaN");
+		t("(-5)!", "NaN");
+		t("infinity!", "NaN");
+		t("(-infinity)!", "NaN");
+	}
+
+	@Test
+	public void testGamma() {
+		t("gamma(5)", "24", StringTemplate.editTemplate);
+		t("gamma(-5)", "NaN");
+		t("gamma(-1/2)+2*sqrt(pi)", "0");
+		t("gamma(infinity)", "NaN");
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);
