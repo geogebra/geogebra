@@ -159,7 +159,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 	@Override
 	protected void onEscape() {
-		if (!app.getAppletParameters().getParamLockExam()) {
+		if (!app.isLockedExam()) {
 			hide();
 		}
 	}

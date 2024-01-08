@@ -108,7 +108,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 					MaterialDesignResources.INSTANCE.exam_error(), 24);
 			titlePanel.add(LayoutUtilW.panelRowIndent(alertImg, examTitle));
 		} else {
-			if (((AppW) app).getAppletParameters().getParamLockExam()) {
+			if (((AppW) app).isLockedExam()) {
 				titlePanel.addStyleName("locked");
 			}
 			titlePanel.add(examTitle);
