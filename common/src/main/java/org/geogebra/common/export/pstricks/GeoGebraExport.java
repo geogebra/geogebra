@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawAngle;
@@ -98,14 +99,16 @@ public abstract class GeoGebraExport {
 	protected int format = 0;
 	protected boolean isBeamer = false;
 	protected int barNumber;
-	private StringTemplate tpl;
+	private final StringTemplate tpl;
+	private final ExportGraphicsFactory graphicsFactory;
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public GeoGebraExport(App app) {
+	public GeoGebraExport(App app, ExportGraphicsFactory graphicsFactory) {
 		this.app = app;
+		this.graphicsFactory = graphicsFactory;
 		this.kernel = app.getKernel();
 		this.construction = kernel.getConstruction();
 		this.euclidianView = app.getActiveEuclidianView();
@@ -850,28 +853,23 @@ public abstract class GeoGebraExport {
 
 		if (tree.getLeft() != null) {
 			for (int i = 0; i < tree.getLeft().getSize(); i++) {
-				g = createGraphics(ef, tree.getLeft().get(i));
+				g = graphicsFactory.createGraphics(ef, tree.getLeft().get(i), this);
 				drawable.draw(g);
 			}
 		}
 		if (tree.getRight() != null) {
 			for (int i = 0; i < tree.getLeft().getSize(); i++) {
-				g = createGraphics(ef, tree.getRight().get(i));
+				g = graphicsFactory.createGraphics(ef, tree.getRight().get(i), this);
 				drawable.draw(g);
 			}
 		}
 		if (tree.getIneq() != null) {
-			g = createGraphics(ef, tree.getIneq());
+			g = graphicsFactory.createGraphics(ef, tree.getIneq(), this);
 			drawable.draw(g);
 		}
 		// Only for syntax. Never throws
 
 	}
-
-	// Create the appropriate instance of MyGraphics of various implementations
-	// (pstricks,pgf,asymptote)
-	abstract protected GGraphics2D createGraphics(FunctionalNVar ef,
-			Inequality inequality);
 
 	abstract protected boolean fillSpline(GeoCurveCartesian[] curves);
 
@@ -1528,6 +1526,27 @@ public abstract class GeoGebraExport {
 			codePreamble.append("\\usepackage{").append(packages.toString()).append("}\n");
 		}
 	}
+
+	/**
+	 * @param s
+	 *            shape
+	 * @param ineq
+	 *            inequality
+	 * @param geo
+	 *            element
+	 */
+	public void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo) {
+		double[] ds = geo.getKernel().getViewBoundsForGeo((GeoElement) geo);
+		fillIneq(s, ineq, geo, ds);
+	}
+
+	/**
+	 * @param s shape
+	 * @param ineq inequality
+	 * @param geo element
+	 * @param ds bounds, see getViewBoundsForGeo
+	 */
+	public abstract void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo, double[] ds);
 
 	protected class Info {
 

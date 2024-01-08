@@ -9,7 +9,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.util.FileExtensions;
 
 public class PgfFrame extends ExportFrame {
@@ -21,7 +21,7 @@ public class PgfFrame extends ExportFrame {
 	/**
 	 * @param ggb2pgf PGF converters
 	 */
-	public PgfFrame(final GeoGebraToPgf ggb2pgf) {
+	public PgfFrame(final GeoGebraExport ggb2pgf) {
 		super(ggb2pgf, "GeneratePgf");
 		fileExtension = FileExtensions.TEX;
 		fileExtensionMsg = "TeX ";
