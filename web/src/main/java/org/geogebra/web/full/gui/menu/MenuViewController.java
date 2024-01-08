@@ -47,13 +47,6 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class MenuViewController implements EventRenderable, SetLabels, RequiresResize {
 
-	private static final String MENU_PANEL_GLASS = "menuPanelGlass";
-	private static final String MENU_PANEL_CONTAINER_STYLE = "menuPanelContainer";
-	private static final String MAIN_MENU_STYLE = "mainMenu";
-	private static final String SUB_MENU_STYLE = "subMenu";
-	private static final String TRANSITION_IN_STYLE = "transitionIn";
-	private static final String TRANSITION_OUT_STYLE = "transitionOut";
-
 	private MenuViewListener menuViewListener;
 
 	private SimplePanel menuPanelGlass;
@@ -100,7 +93,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 
 	private void createViews() {
 		menuPanelGlass = new SimplePanel();
-		menuPanelGlass.addStyleName(MENU_PANEL_GLASS);
+		menuPanelGlass.addStyleName("menuPanelGlass");
 		floatingMenuView = new FloatingMenuView();
 		floatingMenuView.setVisible(false);
 
@@ -111,11 +104,11 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		headeredMenuView = new HeaderedMenuView(menuView);
 		headeredMenuView.setHeaderView(headerView);
 		headeredMenuView.setTitleHeader(true);
-		headeredMenuView.addStyleName(MAIN_MENU_STYLE);
-		submenuContainer.addStyleName(SUB_MENU_STYLE);
+		headeredMenuView.addStyleName("mainMenu");
+		submenuContainer.addStyleName("subMenu");
 
 		FlowPanel menuPanelContainer = new FlowPanel();
-		menuPanelContainer.addStyleName(MENU_PANEL_CONTAINER_STYLE);
+		menuPanelContainer.addStyleName("menuPanelContainer");
 		menuPanelContainer.add(headeredMenuView);
 		menuPanelContainer.add(submenuContainer);
 
@@ -293,8 +286,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private void setMenuTransition(Widget widget, boolean transitionIn) {
-		widget.setStyleName(TRANSITION_IN_STYLE, transitionIn);
-		widget.setStyleName(TRANSITION_OUT_STYLE, !transitionIn);
+		widget.setStyleName("transitionIn", transitionIn);
+		widget.setStyleName("transitionOut", !transitionIn);
 	}
 
 	HeaderView createHeaderView() {
