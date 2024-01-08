@@ -346,7 +346,7 @@ public class AriaMenuBar extends FlowPanel {
 				return;
 			}
 			break;
-		} // end switch (DOM.eventGetType(event))
+		}
 
 		super.onBrowserEvent(event);
 	}

@@ -1,13 +1,14 @@
 package org.geogebra.web.full.gui.menu;
 
 import org.geogebra.web.html5.gui.Shades;
-import org.gwtproject.user.client.ui.FlowPanel;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
-class MenuView extends FlowPanel {
+class MenuView extends AriaMenuBar {
 
 	MenuView() {
+		super();
 		addStyleName("menuView");
 	}
 
