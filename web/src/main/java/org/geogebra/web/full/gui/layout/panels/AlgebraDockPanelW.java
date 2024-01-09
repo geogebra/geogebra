@@ -247,7 +247,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		context2d.save();
 		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
 		context2d.clip();
-		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(app, aview, context2d,
+		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(aview, context2d,
 				getOffsetWidth());
 		exporter.paintToCanvas(left, top);
 		context2d.restore();
