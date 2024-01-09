@@ -46,10 +46,6 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 		return new ActionableItemImpl(Icon.SAVE, "Save", Action.SAVE_FILE);
 	}
 
-	protected static MenuItem share() {
-		return new ActionableItemImpl(Icon.EXPORT_FILE, "Share", Action.SHARE_FILE);
-	}
-
 	@Nullable
 	MenuItem showSwitchCalculator() {
 		return isSuiteApp
