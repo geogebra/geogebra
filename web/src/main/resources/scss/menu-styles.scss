@@ -43,14 +43,10 @@ $menuWidth: 320px;
 	.menuView {
 		width: 100%;
 		padding: 8px 0px;
-		.menuItemGroupView {
-			width: 100%;
-			padding-right: 10px;
-			box-sizing: border-box;
-			.groupLabel {
-				font-size: 75%;
-				text-transform: uppercase;
-				margin: 8px 16px 8px 16px;
+		.groupLabel {
+			font-size: 75%;
+			text-transform: uppercase;
+			margin: 8px 16px 8px 16px;
 			}
 			.menuItemView {
 				width: 100%;
@@ -87,6 +83,11 @@ $menuWidth: 320px;
 					padding-left: 16px;
 				}
 			}
+		.menuItemGroupView {
+			width: 100%;
+			padding-right: 10px;
+			box-sizing: border-box;
+
 		}
 		.divider {
 			height: 1px;
