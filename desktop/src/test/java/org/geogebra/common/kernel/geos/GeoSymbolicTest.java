@@ -2195,4 +2195,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("h=x^2", "x^(2)");
 		t("Integral(h,0,1)", "1 / 3");
 	}
+
+	@Test
+	public void booleansShouldNotHaveNumericValue() {
+		GeoSymbolic p = add("IsPrime(4)");
+		p.setSymbolicMode(false, true);
+		p.update();
+		assertThat(SymbolicUtil.shouldComputeNumericValue(p.getValue()), equalTo(false));
+		assertThat(p, hasValue("false"));
+	}
 }
