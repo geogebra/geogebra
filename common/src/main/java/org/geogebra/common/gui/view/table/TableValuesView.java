@@ -92,6 +92,9 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void ensureHasLabel(GeoEvaluatable evaluatable) {
+		if (!evaluatable.getRawCaption().isEmpty() && evaluatable.isLabelSet()) {
+			return;
+		}
 		if (algebraLabelVisibleCheck) {
 			labelController.ensureHasLabel(evaluatable);
 		} else {
