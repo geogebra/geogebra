@@ -33,6 +33,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
@@ -245,6 +246,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 			floatingMenuView.setVisible(visible);
 			notifyMenuViewVisibilityChanged(visible);
 			hideSubmenu();
+			menuView.selectItem(0);
 		}
 	}
 
@@ -308,8 +310,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		//MenuItemGroupView view = new MenuItemGroupView(title);
 		for (MenuItem menuItem : menuItemGroup.getMenuItems()) {
 			MenuItemView item = createMenuItemView(menuItem);
-			item.addDomHandler(event -> menuActionRouter.handleMenuItem(menuItem),
-					ClickEvent.getType());
+			item.setScheduledCommand(() -> menuActionRouter.handleMenuItem(menuItem));
 			menuView.addItem(item);
 		}
 		//menuView.addItem(view);

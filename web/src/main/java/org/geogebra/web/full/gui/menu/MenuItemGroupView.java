@@ -1,10 +1,10 @@
 package org.geogebra.web.full.gui.menu;
 
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.gwtproject.user.client.ui.FlowPanel;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.gwtproject.user.client.ui.Label;
 
-class MenuItemGroupView extends FlowPanel {
+class MenuItemGroupView extends AriaMenuItem {
 
 	MenuItemGroupView(String title) {
 		setStyleName("menuItemGroupView");
