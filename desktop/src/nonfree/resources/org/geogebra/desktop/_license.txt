@@ -275,7 +275,7 @@ law).
 to you without any offer or promise of support or future development by
 the International GeoGebra Institute or any third party. Please note
 that support services are available under the terms of our Collaboration
-Agreement – please contact office@geogebra.org for more information.
+Agreement - please contact office@geogebra.org for more information.
 
 7. You may install GeoGebra on multiple devices in multiple locations
 PROVIDED THAT you always use the Software for non-commercial purposes
@@ -328,7 +328,6 @@ Libraries used by GeoGebra:
   * JUNG, https://jung.sourceforge.net (BSD)
   * OpenCSV, https://opencsv.sourceforge.net/ (Apache 2.0)
   * OpenGeoProver, https://github.com/ivan-z-petrovic/open-geo-prover (GPL3)
-  * SVG Salamander, http://svgsalamander.java.net/ (LGPL / BSD)
   * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
   
 For other tools used for running or building GeoGebra please see

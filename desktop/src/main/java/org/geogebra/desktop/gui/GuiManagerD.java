@@ -50,7 +50,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.VirtualKeyboardListener;
@@ -87,7 +86,6 @@ import org.geogebra.desktop.euclidian.event.MouseEventND;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.export.WorksheetExportDialog;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.export.pstricks.PstricksFrame;
 import org.geogebra.desktop.gui.app.FileExtensionFilter;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -2896,9 +2894,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	@Override
 	public void showPSTricksExport() {
-		GeoGebraToPstricks export = new GeoGebraToPstricksD(getApp());
-		new PstricksFrame(export).setVisible(true);
-
+		app.newGeoGebraToPstricks(PstricksFrame::new);
 	}
 
 	@Override

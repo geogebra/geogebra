@@ -71,7 +71,7 @@ ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
     def inlinedCss = inlineCss ? getCss() : ""
     return replaceVendor(html, "GeoGebra", offline)
             .replace("<!--SPLASH-->", splash)
-            .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
+            .replace("<!--SPLASH STYLE-->", '<style>' + template("splash-style.css") + '</style>')
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PIWIK PRO-->", template("partials/piwikpro.html"))
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
@@ -97,18 +97,21 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     header = partials(header, app.partials)
     def inlinedCss = inlineCss ? getCss() : ""
     def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
-    def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
+    def startscreenStyle = "startscreen " + app.id + (offline ? " offline" : "")
     def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
             "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
     def splashContent = template("${app.id}-splash.html")
     def firebaseAppId = app.firebaseAppId ?: ""
     def measurementId = app.measurementId ?: ""
     def piwikpro = vendor == "Mebis" ? "" : template("partials/piwikpro.html")
+    def splashStyle = "<style>" + file("war/css/app-header.css").text + "</style>"
+    if (!inlineCss) {
+       splashStyle = "<link rel=stylesheet href=\"css/app-header.css\"/>"
+    }
     return replaceVendor(html, vendor, offline)
             .replace("<!--PIWIK PRO-->", piwikpro)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
-            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px')
-                    .replace('$logo_cursor', offline ? 'default' : 'pointer'))
+            .replace("<!--SPLASH STYLE-->", splashStyle)
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", vendor == "Mebis" ? "/static/tafel.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
@@ -123,5 +126,5 @@ ext.solverHtml = { ->
     def header = partials(template("app-header-beta.html"), null);
     template("solver-template.html")
             .replace("<!--HEADER-->", header)
-            .replace("<!--SPLASH STYLE-->", template("app-header.css"))
+            .replace("<!--SPLASH STYLE-->", file("war/css/app-header.css").text)
 }

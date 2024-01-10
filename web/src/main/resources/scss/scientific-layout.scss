@@ -1,11 +1,8 @@
 @use 'colors';
 @use 'dimens';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
-
-	.tab.scientific {
-		background-color: colors.$gray-background;
-	}
 
     .algebraPanelScientificSmallScreen {
         padding-top: 8px;
@@ -55,7 +52,7 @@
     }
 
     .scientificSettingsView {
-        background-color: colors.$gray-background;
+        background-color: neutral(100);
     }
 
     .scientificSettingsViewSmall {
@@ -63,7 +60,7 @@
     }
 
     %sheetOfPaper {
-        background-color: colors.$gray-background;
+        background-color: neutral(100);
          &>div {
             @extend %paperWidth;
             min-height: calc(100% - 24px);
