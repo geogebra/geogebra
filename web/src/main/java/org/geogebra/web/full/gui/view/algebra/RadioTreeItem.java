@@ -2186,4 +2186,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public void setIndex(int index) {
 		this.index = index;
 	}
+
+	public Canvas getCanvas() {
+		return this.canvas;
+	}
 }

@@ -6,6 +6,8 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.canvas.client.Canvas;
@@ -69,48 +71,56 @@ public class AlgebraCanvasExporter {
 	}
 
 	/**
-	 * Draws the outlines of the marbles and consequently fills them if needed
+	 * Draws the outlines of all visible marbles and consequently fills them if needed
 	 * @param left Horizontal offset
 	 * @param top Vertical offset
 	 */
 	private void drawMarbles(int left, int top) {
-		drawMarbleOutlines(left, top);
-		fillMarbles(left, top);
+		GeoElement geo;
+		TreeItem item;
+
+		for (int i = 0; i < algebraView.getItemCount() - 1; i++) {
+			item = algebraView.getItem(i);
+			geo = getGeoElement(item);
+
+			if (geo != null && !item.getHTML().contains("marbleHidden")) {
+				drawMarbleOutline(left, top, geo, item, i);
+				if (geo.isEuclidianVisible()) {
+					fillMarble(left, top, geo, item, i);
+				}
+			}
+		}
 	}
 
-	private void drawMarbleOutlines(int left, int top) {
+	/**
+	 * Draws the outline of a marble
+	 * @param left Horizontal offset
+	 * @param top Vertical offset
+	 * @param geo GeoElement
+	 * @param item TreeItem
+	 * @param index Index of the TreeItem
+	 */
+	private void drawMarbleOutline(int left, int top, GeoElement geo, TreeItem item, int index) {
 		graphics.setStrokeLineWidth(1);
-		GeoElement geo;
-		TreeItem item;
-
-		for (int i = 0; i < algebraView.getItemCount() - 1; i++) {
-			item = algebraView.getItem(i);
-			geo = getGeoElement(item);
-
-			if (geo != null) {
-				graphics.setColor(geo.getAlgebraColor());
-				graphics.drawRoundRect(left + MARBLE_PADDING_X,
-						top + getYCoordinateForItem(i) + getMarblePaddingY(item),
-						MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE);
-			}
-		}
+		graphics.setColor(geo.getAlgebraColor());
+		graphics.drawRoundRect(left + MARBLE_PADDING_X,
+				top + getYCoordinateForItem(index) + getMarblePaddingY(item),
+				MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE);
 	}
 
-	private void fillMarbles(int left, int top) {
-		GeoElement geo;
-		TreeItem item;
-
-		for (int i = 0; i < algebraView.getItemCount() - 1; i++) {
-			item = algebraView.getItem(i);
-			geo = getGeoElement(item);
-
-			if (geo != null && geo.isEuclidianVisible()) {
-				graphics.setColor(geo.getAlgebraColor().deriveWithAlpha(102));
-				graphics.fillRoundRect(left + MARBLE_PADDING_X,
-						top + getYCoordinateForItem(i) + getMarblePaddingY(item),
-						MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE);
-			}
-		}
+	/**
+	 * Fills a marble
+	 * @param left Horizontal offset
+	 * @param top Vertical offset
+	 * @param geo GeoElement
+	 * @param item TreeItem
+	 * @param index Index of the TreeItem
+	 */
+	private void fillMarble(int left, int top, GeoElement geo, TreeItem item, int index) {
+		graphics.setColor(geo.getAlgebraColor().deriveWithAlpha(102));
+		graphics.fillRoundRect(left + MARBLE_PADDING_X,
+				top + getYCoordinateForItem(index) + getMarblePaddingY(item),
+				MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE);
 	}
 
 	/**
@@ -130,8 +140,7 @@ public class AlgebraCanvasExporter {
 			item = algebraView.getItem(i);
 			geo = getGeoElement(item);
 			if (geo != null) {
-				drawAlgebraDescription(i, geo,
-						left + RECTANGLE_WIDTH + DESCRIPTION_PADDING_X,
+				drawAlgebraDescription(i, geo, left + RECTANGLE_WIDTH + DESCRIPTION_PADDING_X,
 						top + getYCoordinateForItem(i)
 								+ item.getOffsetHeight() / 2.0 + fontSize / 3.0);
 			}
@@ -143,19 +152,17 @@ public class AlgebraCanvasExporter {
 		if (item instanceof RadioTreeItem) {
 			Widget widget = ((RadioTreeItem) item).getContent().getWidget(0);
 			if (widget instanceof Canvas) {
-				HTMLCanvasElement formula = Js.uncheckedCast(widget.getElement());
-				graphics.getContext().drawImage(formula, x - DESCRIPTION_PADDING_X / 2.0,
-						y - item.getOffsetHeight() / 2.0);
+				drawSingleWidget(widget, item, x, y);
+				return;
+			} else if (isDrawableFraction(geo, item)) {
+				drawFraction(item, geo, x, y);
 				return;
 			}
 		}
 
 		if (AlgebraItem.getDescriptionModeForGeo(geo, app.getSettings().getAlgebra().getStyle())
 				== DescriptionMode.DEFINITION_VALUE) {
-			graphics.drawString(geo.getNameAndDefinition(StringTemplate.algebraTemplate),
-					x, y - item.getOffsetHeight() * (1 / 4.0));
-			graphics.drawString("= " + geo.toOutputValueString(StringTemplate.algebraTemplate),
-					x, y + item.getOffsetHeight() * (1 / 4.0));
+			drawDefinitionAndValue(geo, item, x, y);
 			return;
 		}
 		graphics.drawString(geo.getAlgebraDescriptionDefault(), x, y);
@@ -165,11 +172,7 @@ public class AlgebraCanvasExporter {
 	 * @return The length for the vertical line drawn
 	 */
 	private int getVerticalLineLength() {
-		int length = 0;
-		for (int i = 0; i < algebraView.getItemCount() - 1; i++) {
-			length += algebraView.getItem(i).getOffsetHeight();
-		}
-		return length;
+		return getYCoordinateForItem(algebraView.getItemCount() - 1);
 	}
 
 	/**
@@ -202,5 +205,46 @@ public class AlgebraCanvasExporter {
 			return ((RadioTreeItem) item).getGeo();
 		}
 		return null;
+	}
+
+	private void drawSingleWidget(Widget widget, TreeItem item, double x, double y) {
+		HTMLCanvasElement formula = Js.uncheckedCast(widget.getElement());
+		double formulaHeight = StringUtil.parseDouble(formula.getAttribute("height"));
+
+		graphics.getContext().drawImage(formula, x - DESCRIPTION_PADDING_X / 2.0,
+				y - item.getOffsetHeight() / 2.0 + formulaHeight * 0.1,
+				StringUtil.parseDouble(formula.getAttribute("width")),
+				formulaHeight * 0.9);
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @param item TreeItem
+	 * @return True if geo is a fraction that and can be drawn to canvas
+	 */
+	private boolean isDrawableFraction(GeoElement geo, TreeItem item) {
+		return geo.getDefinition() != null
+				&& geo.getDefinition().getOperation() == Operation.DIVIDE
+				&& ((RadioTreeItem) item).getCanvas() != null;
+	}
+
+	private void drawFraction(TreeItem item, GeoElement geo, double x, double y) {
+		HTMLCanvasElement formula =
+				Js.uncheckedCast(((RadioTreeItem) item).getCanvas().getElement());
+		double formulaHeight = StringUtil.parseDouble(formula.getAttribute("height"));
+
+		graphics.getContext().drawImage(formula, x - DESCRIPTION_PADDING_X / 2.0,
+				y - item.getOffsetHeight() / 2.0 + formulaHeight * 0.1,
+				StringUtil.parseDouble(formula.getAttribute("width")),
+				formulaHeight * 0.9);
+		graphics.drawString("= " + geo.evaluateDouble(), x,
+				y + item.getOffsetHeight() / 4.0);
+	}
+
+	private void drawDefinitionAndValue(GeoElement geo, TreeItem item, double x, double y) {
+		graphics.drawString(geo.getNameAndDefinition(StringTemplate.algebraTemplate),
+				x, y - item.getOffsetHeight() / 4.0);
+		graphics.drawString("= " + geo.toOutputValueString(StringTemplate.algebraTemplate),
+				x, y + item.getOffsetHeight() / 4.0);
 	}
 }
