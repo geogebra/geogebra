@@ -40,7 +40,7 @@ class MenuActionRouter {
 	}
 
 	private void handleSubmenu(SubmenuItem submenuItem) {
-		final MenuView menuView = new MenuView();
+		final MenuView menuView = new MenuView(menuViewController);
 		menuViewController.setMenuItemGroups(menuView,
 				Collections.singletonList(submenuItem.getGroup()));
 		HeaderView headerView = menuViewController.createHeaderView();

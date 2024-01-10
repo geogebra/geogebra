@@ -33,7 +33,6 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
@@ -101,7 +100,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		submenuContainer = new SimplePanel();
 		headerView = createHeaderView();
 		headerView.getBackButton().removeFromParent();
-		menuView = new MenuView();
+		menuView = new MenuView(this);
 		headeredMenuView = new HeaderedMenuView(menuView);
 		headeredMenuView.setHeaderView(headerView);
 		headeredMenuView.setTitleHeader(true);

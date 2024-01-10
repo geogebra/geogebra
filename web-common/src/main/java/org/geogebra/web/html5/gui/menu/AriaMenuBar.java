@@ -339,8 +339,7 @@ public class AriaMenuBar extends FlowPanel {
 				moveSelectionUp();
 				eatEvent(event);
 				return;
-			}
-			else if (keyCode == KeyCodes.KEY_DOWN && handleArrows) {
+			} else if (keyCode == KeyCodes.KEY_DOWN && handleArrows) {
 				moveSelectionDown();
 				eatEvent(event);
 				return;
