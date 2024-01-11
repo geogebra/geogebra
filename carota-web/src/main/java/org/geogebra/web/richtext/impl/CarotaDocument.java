@@ -1,11 +1,14 @@
 package org.geogebra.web.richtext.impl;
 
+import elemental2.core.JsArray;
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
 public class CarotaDocument implements HasContent {
+
+	public JsArray<Carota.InsertFilter> insertFilters;
 
 	@Override
 	public native void draw(CanvasRenderingContext2D canvasElement);
