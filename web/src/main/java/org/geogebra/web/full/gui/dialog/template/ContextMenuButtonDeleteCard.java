@@ -1,18 +1,20 @@
 package org.geogebra.web.full.gui.dialog.template;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
 
-public class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
-    private  TemplatePreviewCard templateCard;
+public class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
+    private MaterialCardI card;
 
     /**
      * @param app application
+     * @param card material card
      */
-    public ContextMenuButtonTemplateCard(AppW app, TemplatePreviewCard templateCard) {
+    public ContextMenuButtonDeleteCard(AppW app, MaterialCardI card) {
         super(app);
-        this.templateCard = templateCard;
+        this.card = card;
         initPopup();
     }
 
@@ -28,7 +30,7 @@ public class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
     }
 
     private void onDelete() {
-        templateCard.getController().onConfirmDelete(templateCard);
+        card.onDelete();
     }
 
     @Override
