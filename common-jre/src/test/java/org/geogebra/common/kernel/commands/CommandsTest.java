@@ -3013,6 +3013,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdPolynomialMultiVariable() {
+		t("Polynomial[y^2+(x+y)^2]", "x^(2) + 2 * x * y + 2 * y^(2)");
+	}
+
+
+		@Test
 	public void cmdPrimeFactors() {
 		t("PrimeFactors[ 42 ]", "{2, 3, 7}");
 	}

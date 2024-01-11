@@ -3,9 +3,11 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoPolynomialFromCoordinates;
 import org.geogebra.common.kernel.algos.AlgoPolynomialFromFunction;
+import org.geogebra.common.kernel.algos.AlgoPolynomialFromFunctionNVar;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
@@ -40,6 +42,13 @@ public class CmdPolynomial extends CommandProcessor {
 				AlgoPolynomialFromFunction algo = new AlgoPolynomialFromFunction(
 						cons, c.getLabel(),
 						(GeoFunctionable) arg[0]);
+
+				GeoElement[] ret = { algo.getPolynomial() };
+				return ret;
+			} else if (arg[0].isGeoFunctionNVar()) {
+				AlgoPolynomialFromFunctionNVar algo = new AlgoPolynomialFromFunctionNVar(
+						cons, c.getLabel(),
+						(GeoFunctionNVar) arg[0]);
 
 				GeoElement[] ret = { algo.getPolynomial() };
 				return ret;
