@@ -96,18 +96,17 @@ public final class SpreadsheetRenderer {
 		columnHeaders.get(column).draw(graphics, cellBorder);
 	}
 
-	void drawHeaderBackgroundAndOutline(GGraphics2D graphics, Rectangle rectangle,
-			double offsetX, double offsetY) {
+	void drawHeaderBackgroundAndOutline(GGraphics2D graphics, Rectangle rectangle) {
 		graphics.setColor(style.getHeaderBackgroundColor());
-		graphics.fillRect((int) offsetX, (int) offsetY, (int) rectangle.getWidth(),
+		graphics.fillRect(0, 0, (int) rectangle.getWidth(),
 				(int) layout.getColumnHeaderHeight());
-		graphics.fillRect((int) offsetX, (int) offsetY, (int) layout.getRowHeaderWidth(),
+		graphics.fillRect(0, 0, (int) layout.getRowHeaderWidth(),
 				(int) rectangle.getHeight());
-		double bottom = offsetY + layout.getColumnHeaderHeight();
+		double bottom = layout.getColumnHeaderHeight();
 		graphics.setColor(style.getGridColor());
-		graphics.drawStraightLine(offsetX, bottom, offsetX + rectangle.getWidth(), bottom);
-		double right = offsetX + layout.getRowHeaderWidth();
-		graphics.drawStraightLine(right, offsetY, right, offsetY + rectangle.getHeight());
+		graphics.drawStraightLine(0, bottom, rectangle.getWidth(), bottom);
+		double right =  layout.getRowHeaderWidth();
+		graphics.drawStraightLine(right, 0, right, rectangle.getHeight());
 	}
 
 	void drawSelection(TabularRange selection, GGraphics2D graphics,
@@ -147,27 +146,27 @@ public final class SpreadsheetRenderer {
 		double offsetY = -viewport.getMinY() + layout.getColumnHeaderHeight();
 		TabularRange range = selection.getRange();
 
-		int minX = (int) -offsetX;
+		int minX = 0;
 		int minY, height, width;
 		if (range.getMinRow() >= 0) {
-			minY = (int) (layout.getY(range.getMinRow()));
+			minY = (int) (layout.getY(range.getMinRow()) + offsetY);
 			height = (int) (layout.getY(range.getMaxRow() + 1)
 					- layout.getY(range.getMinRow()));
 		} else {
-			minY = (int) -offsetY;
+			minY = 0;
 			height = (int) viewport.getHeight();
 		}
 		graphics.setColor(range.getMinColumn() == -1 ? style.getSelectionHeaderColor()
 				: style.getGridColor());
 		graphics.fillRect(minX, minY,
 				(int) layout.getRowHeaderWidth(), height);
-		minY = (int) -offsetY;
+		minY = 0;
 		if (range.getMinColumn() >= 0) {
-			minX = (int) (layout.getX(range.getMinColumn()));
+			minX = (int) (layout.getX(range.getMinColumn()) + offsetX);
 			width = (int) (layout.getX(range.getMaxColumn() + 1)
 					- layout.getX(range.getMinColumn()));
 		} else {
-			minX = (int) -offsetX;
+			minX = 0;
 			width = (int) viewport.getWidth();
 		}
 		graphics.setColor(range.getMinRow() == -1 ? style.getSelectionHeaderColor()

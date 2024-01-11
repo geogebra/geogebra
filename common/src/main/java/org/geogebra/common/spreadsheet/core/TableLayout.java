@@ -90,20 +90,25 @@ public final class TableLayout {
 		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
 	}
 
-	DragAction getResizeAction(double x, double y) {
+	DragAction getResizeAction(double xAbs, double yAbs, Rectangle viewport) {
+		double x = xAbs + viewport.getMinX();
+		double y = yAbs + viewport.getMinY();
 		int row = findRow(y);
 		int column = findColumn(x);
-
-		if (row < 1 && column >= 0 && x > cumulativeWidths[column + 1] + rowHeaderWidth - 5) {
+		if (yAbs < columnHeaderHeight && column >= 0
+				&& x > cumulativeWidths[column + 1] + rowHeaderWidth - 5) {
 			return new DragAction(MouseCursor.RESIZE_X, row, column);
 		}
-		if (row < 1 && column > 0 && x < cumulativeWidths[column] + rowHeaderWidth + 5) {
+		if (yAbs < columnHeaderHeight && column > 0
+				&& x < cumulativeWidths[column] + rowHeaderWidth + 5) {
 			return new DragAction(MouseCursor.RESIZE_X, row, column - 1);
 		}
-		if (column < 1 && row >= 0 && y > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
+		if (xAbs < rowHeaderWidth && row >= 0
+				&& y > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
 			return new DragAction(MouseCursor.RESIZE_Y, row, column);
 		}
-		if (column < 1 && row > 0 && y < cumulativeHeights[row] + columnHeaderHeight + 5) {
+		if (xAbs < rowHeaderWidth && row > 0
+				&& y < cumulativeHeights[row] + columnHeaderHeight + 5) {
 			return new DragAction(MouseCursor.RESIZE_Y, row - 1, column);
 		}
 		return new DragAction(MouseCursor.DEFAULT, row, column);

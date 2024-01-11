@@ -1,9 +1,16 @@
 .GeoGebraFrame {
 	.spreadsheetPanel {
-		position: relative;
+		height: 100%;
 		overflow: hidden;
 	}
 	.spreadsheetWidget {
 		position: absolute;
+	}
+	.spreadsheetScrollOverlay {
+		position: absolute;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
 	}
 }
