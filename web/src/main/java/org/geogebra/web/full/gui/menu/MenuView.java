@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menu;
 
-import org.geogebra.common.gui.menu.SubmenuItem;
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.gwtproject.event.dom.client.KeyCodes;
