@@ -121,6 +121,7 @@ import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
@@ -3005,10 +3006,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	/*
+	/**
 	 * loads an XML file as a String
+	 * @param xml construction XML
 	 */
-	@Override
 	public boolean loadXML(String xml) {
 		try {
 
@@ -3026,9 +3027,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			hideDockBarPopup();
 
 			return true;
-		} catch (Exception err) {
+		} catch (RuntimeException | XMLParseException err) {
 			setCurrentFile(null);
-			err.printStackTrace();
+			Log.debug(err);
 			return false;
 		}
 	}

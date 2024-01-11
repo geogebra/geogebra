@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
@@ -681,7 +682,7 @@ public class GeoSymbolic extends GeoElement
 		};
 	}
 
-	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+	private GeoElement process(ExpressionNode expressionNode) throws CircularDefinitionException {
 		registerFunctionVariablesIfHasFunction(expressionNode);
 		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();

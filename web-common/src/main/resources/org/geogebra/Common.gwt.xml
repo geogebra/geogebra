@@ -9,6 +9,4 @@
 
   <source path='common' />
 
-  <super-source path='common-super' />
-
 </module>

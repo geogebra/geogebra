@@ -37,6 +37,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.Construction;
@@ -566,21 +567,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public boolean loadXML(final String xml) throws Exception {
-		Runnable r = () -> {
-			try {
-				getXMLio().processXMLString(xml, true, false);
-			} catch (Exception e) {
-				Log.debug(e);
-			}
-		};
-
-		getAsyncManager().scheduleCallback(r);
-
-		return true;
-	}
-
-	@Override
 	public MyXMLioW createXMLio(Construction cons) {
 		return new MyXMLioW(cons.getKernel(), cons);
 	}
@@ -854,7 +840,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						appletParameters.getDataParamBorder("#D3D3D3"));
 			}
 			afterLoadFileAppOrNot(asSlide);
-		} catch (Exception e) {
+		} catch (XMLParseException | RuntimeException e) {
 			Log.debug(e);
 		}
 	}
