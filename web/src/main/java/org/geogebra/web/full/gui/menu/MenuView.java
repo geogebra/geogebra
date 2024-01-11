@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.menu;
 
+import org.geogebra.common.gui.menu.SubmenuItem;
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.gwtproject.event.dom.client.KeyCodes;
@@ -20,7 +21,12 @@ class MenuView extends AriaMenuBar {
 	public void onBrowserEvent(Event event) {
 		if (DOM.eventGetType(event) == Event.ONKEYDOWN
 				&& event.getKeyCode() == KeyCodes.KEY_ESCAPE) {
-			controller.setMenuVisible(!isVisible());
+			if (controller.isSubMenu(getParent())) {
+				controller.hideSubmenu();
+			} else {
+				controller.setMenuVisible(!isVisible());
+			}
+			return;
 		}
 		super.onBrowserEvent(event);
 	}

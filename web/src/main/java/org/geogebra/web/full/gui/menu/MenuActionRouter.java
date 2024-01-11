@@ -54,5 +54,6 @@ class MenuActionRouter {
 		}
 		submenu.setHeaderView(headerView);
 		menuViewController.showSubmenu(submenu);
+		menuView.selectItem(0);
 	}
 }

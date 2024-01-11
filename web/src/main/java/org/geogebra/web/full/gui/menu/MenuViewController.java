@@ -236,6 +236,10 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		updateMenuItemGroups();
 	}
 
+	public boolean isSubMenu(Widget widget) {
+		return submenuContainer.getWidget() == widget;
+	}
+
 	/**
 	 * Sets the menu visibility.
 	 * @param visible true to show the menu
@@ -273,6 +277,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	void showSubmenu(HeaderedMenuView headeredSubmenu) {
 		submenuContainer.setWidget(headeredSubmenu);
 		setSubmenuVisibility(true);
+
 	}
 
 	void hideSubmenu() {
