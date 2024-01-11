@@ -96,7 +96,6 @@ Libraries used by GeoGebra:
   * JUNG, https://jung.sourceforge.net (BSD)
   * OpenCSV, https://opencsv.sourceforge.net/ (Apache 2.0)
   * OpenGeoProver, https://github.com/ivan-z-petrovic/open-geo-prover (GPL3)
-  * SVG Salamander, http://svgsalamander.java.net/ (LGPL / BSD)
   * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
   
 For other tools used for running or building GeoGebra please see

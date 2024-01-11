@@ -10,7 +10,7 @@ import org.gwtproject.user.client.ui.Label;
  * Confirmation dialog for removing cards.
  */
 public class RemoveDialog extends ComponentDialog {
-	private MaterialCard card;
+	private MaterialCardI card;
 
 	/**
 	 * @param app
@@ -20,7 +20,7 @@ public class RemoveDialog extends ComponentDialog {
 	 * @param card
 	 *            card
 	 */
-	public RemoveDialog(AppW app, DialogData data, MaterialCard card) {
+	public RemoveDialog(AppW app, DialogData data, MaterialCardI card) {
 		super(app, data, true, true);
 		this.card = card;
 		addStyleName("removeMaterial");

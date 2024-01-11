@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Abstract class for cartesian curves in any dimension
@@ -248,7 +249,21 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	final public boolean isDefined() {
-		return isDefined && fun != null;
+		return isDefined && fun != null && (point == null || point.isDefined());
+	}
+
+	@Override
+	protected void getExpressionXML(StringBuilder sb) {
+		if (isIndependent() && getDefinition() == null && !isDefined && complexVariable != null) {
+			sb.append("<expression label=\"");
+			StringUtil.encodeXML(sb, label);
+			sb.append("\" exp=\"");
+			StringUtil.encodeXML(sb, getAssignmentLHS(StringTemplate.xmlTemplate));
+			sb.append(" = ?");
+			sb.append("\" type=\"surfacecartesian\"/>\n");
+		} else {
+			super.getExpressionXML(sb);
+		}
 	}
 
 	/**

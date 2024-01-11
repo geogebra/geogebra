@@ -8,7 +8,7 @@ import java.awt.Insets;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
+import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.util.FileExtensions;
 
 /**
@@ -21,7 +21,7 @@ public class PstricksFrame extends ExportFrame {
 	/**
 	 * @param ggb2pst PSTricks converter
 	 */
-	public PstricksFrame(final GeoGebraToPstricks ggb2pst) {
+	public PstricksFrame(final GeoGebraExport ggb2pst) {
 		super(ggb2pst, "GeneratePstricks");
 		initGui();
 		fileExtension = FileExtensions.TEX;
@@ -132,7 +132,7 @@ public class PstricksFrame extends ExportFrame {
 		js.setPreferredSize(new Dimension(400, 400));
 		getContentPane().add(panel);
 		centerOnScreen();
-
+		setVisible(true);
 	}
 
 	// end changes.

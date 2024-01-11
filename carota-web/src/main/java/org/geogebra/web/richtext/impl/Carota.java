@@ -1,5 +1,6 @@
 package org.geogebra.web.richtext.impl;
 
+import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -25,5 +26,10 @@ public class Carota {
 
 	@JsProperty
 	public native CarotaRuns getRuns();
+
+	@JsFunction
+	public interface InsertFilter {
+		String onInserted(String text);
+	}
 
 }
