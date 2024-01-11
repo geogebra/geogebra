@@ -71,7 +71,7 @@ public final class ExamController {
 	private CommandDispatcher commandDispatcher;
 	@NonOwning
 	private ExamRegion examRegion;
-	@NonOwning
+//	@NonOwning
 //	private Localization localization;
 
 	private ExamConfiguration configuration;

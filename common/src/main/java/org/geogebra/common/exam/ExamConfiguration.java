@@ -5,6 +5,6 @@ package org.geogebra.common.exam;
  */
 public final class ExamConfiguration {
 	// TODO
-	//  - allowed subapps (current CAS/3D checkboxes in Classic)
+	//  - allowed subapps (corresponding to current CAS/3D checkboxes in Classic)
 	//  - ?
 }

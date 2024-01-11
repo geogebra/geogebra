@@ -40,20 +40,17 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Runs commands and handles string to command processor conversion.
- *
  */
 public abstract class CommandDispatcher implements Restrictable {
 
-	/** kernel **/
 	@NonOwning
 	@Weak
 	protected Kernel kernel;
+
 	@NonOwning
 	@Weak
 	private Construction cons;
-	/**
-	 * Application
-	 */
+
 	@NonOwning
 	@Weak
 	protected App app;
