@@ -108,6 +108,9 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -176,9 +179,7 @@ import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.export.PrintPreviewD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
+import org.geogebra.desktop.export.pstricks.ExportGraphicsFactoryD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.FactoryD;
@@ -4616,18 +4617,18 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void newGeoGebraToPstricks(AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToPstricksD(this));
+		callback.callback(new GeoGebraToPstricks(this, new ExportGraphicsFactoryD()));
 	}
 
 	@Override
 	public void newGeoGebraToAsymptote(
 			AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToAsymptoteD(this));
+		callback.callback(new GeoGebraToAsymptote(this, new ExportGraphicsFactoryD()));
 	}
 
 	@Override
 	public void newGeoGebraToPgf(AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToPgfD(this));
+		callback.callback(new GeoGebraToPgf(this, new ExportGraphicsFactoryD()));
 	}
 
 	public void setPrintPreview(PrintPreviewD printPreviewD) {

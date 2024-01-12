@@ -268,7 +268,7 @@ task copyHandlebars(dependsOn: 'compileSass') {
     }
 }
 
-task createSolverHtml {
+task createSolverHtml(dependsOn: 'compileSass') {
     doLast {
         String solver = solverHtml()
         // for localhost and autotest

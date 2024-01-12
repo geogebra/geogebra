@@ -334,7 +334,7 @@ public class ToolbarPanel extends FlowPanel
 		add(main);
 		hideDragger();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
-			if (app.getAppletParameters().getParamLockExam()) {
+			if (app.isLockedExam()) {
 				setHeaderStyle("examLock");
 			} else {
 				setHeaderStyle("examOk");

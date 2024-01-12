@@ -63,6 +63,7 @@ import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.undo.UndoHistory;
@@ -309,11 +310,36 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void checkExamPerspective() {
-		if (appletParameters.getParamLockExam()) {
-			setNewExam();
-			appletParameters.setAttribute("perspective", "");
-			afterLocalizationLoaded(this::examWelcome);
+		if (isLockedExam()) {
+			ExamRegion examMode = getForcedExamRegion();
+			if (examMode != null) {
+				setNewExam(examMode);
+				appletParameters.setAttribute("perspective", "");
+				afterLocalizationLoaded(this::examWelcome);
+			} else {
+				String appCode = appletParameters.getDataParamAppName();
+				String supportedModes = isSuite() ? ExamRegion.getSupportedModes(appCode) : appCode;
+				showErrorDialog("Invalid exam mode: "
+						+ appletParameters.getParamExamMode()
+						+ "\n Supported exam modes: " + supportedModes);
+				appletParameters.setAttribute("examMode", "");
+			}
 		}
+	}
+
+	/**
+	 * @return exam region forced by examMode and appName parameters
+	 */
+	public ExamRegion getForcedExamRegion() {
+		String paramExamMode = appletParameters.getParamExamMode();
+		if (paramExamMode.equals(appletParameters.getDataParamAppName())
+			|| paramExamMode.equals(ExamRegion.CHOOSE)) {
+			return ExamRegion.GENERIC;
+		}
+		if (isSuite()) {
+			return ExamRegion.byName(paramExamMode);
+		}
+		return null;
 	}
 
 	private void setupSignInButton(GlobalHeader header) {
@@ -384,6 +410,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return last used subapp, if saved in local storage, graphing otherwise
 	 */
 	public String getLastUsedSubApp() {
+		if (isLockedExam()) {
+			return GRAPHING_APPCODE;
+		}
 		String lastUsedSubApp = BrowserStorage.LOCAL.getItem(BrowserStorage.LAST_USED_SUB_APP);
 		return lastUsedSubApp != null && !lastUsedSubApp.isEmpty()
 				? lastUsedSubApp : GRAPHING_APPCODE;
@@ -750,7 +779,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				new StartExamAction(this).execute(null, this);
 			} else {
 				resetViewsEnabled();
-				String negativeKey = getAppletParameters().getParamLockExam()
+				String negativeKey = isLockedExam()
 						? null : "Cancel";
 				DialogData data = new DialogData("exam_custom_header",
 						negativeKey, "exam_start_button");
@@ -2310,8 +2339,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
 				menuViewController.setExamMenu();
-				boolean examLock = getAppletParameters().getParamLockExam();
-				guiManager.setUnbundledHeaderStyle(examLock ? "examLock" : "examOk");
+				guiManager.setUnbundledHeaderStyle(isLockedExam() ? "examLock" : "examOk");
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
 				GlobalHeader.INSTANCE.addExamTimer();
