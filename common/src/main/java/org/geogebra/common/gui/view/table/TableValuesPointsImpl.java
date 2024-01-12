@@ -184,6 +184,13 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		points.addAll(Collections.nCopies(size, null));
 	}
 
+	/**
+	 * @return points list size, if not initialized -1
+	 */
+	public int getPointsSize() {
+		return points != null ? points.size() : -1;
+	}
+
 	private void createAndAddPoints(GeoEvaluatable evaluatable, int column) {
 		List<GeoPoint> list = createPoints(evaluatable, column);
 		setPoints(list, column, false);
