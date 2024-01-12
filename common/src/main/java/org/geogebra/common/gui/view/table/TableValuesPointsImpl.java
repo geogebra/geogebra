@@ -260,4 +260,12 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		}
 		construction.getKernel().getApplication().storeUndoInfo();
 	}
+
+	@Override
+	public void createAndAddPoints() {
+		for (int column = 1; column < model.getColumnCount(); column++) {
+			initPoints(column);
+			addPointsToList(view.getEvaluatable(column), column);
+		}
+	}
 }
