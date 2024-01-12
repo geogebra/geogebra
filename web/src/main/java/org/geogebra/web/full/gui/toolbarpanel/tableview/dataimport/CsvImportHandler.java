@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport;
 
-import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.importer.DataImporter;
 import org.geogebra.web.full.gui.dialog.OverwriteDataDialog;
@@ -50,14 +49,8 @@ public class CsvImportHandler {
 			progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name);
 			getTable().getTableValuesModel().removeAllColumns();
 			getTable().clearView();
-			getTable().getTableValuesModel().setOnDataImportedRunnable(() -> {
-				progressSnackbar.hide();
-				final TableValuesPoints tvPoints = appW.getGuiManager()
-						.getTableValuesPoints();
-				if (tvPoints != null) {
-					tvPoints.createAndAddPoints();
-				}
-			});
+			getTable().getTableValuesModel().setOnDataImportedRunnable(()
+					-> progressSnackbar.hide());
 			openCSV(fileToHandle);
 		});
 

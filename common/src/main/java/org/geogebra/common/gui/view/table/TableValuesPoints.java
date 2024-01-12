@@ -20,9 +20,4 @@ public interface TableValuesPoints extends TableValuesListener {
      * @param visible visibility
      */
     void setPointsVisible(int column, boolean visible);
-
-    /**
-     * Creates after data import table value points
-     */
-    void createAndAddPoints();
 }

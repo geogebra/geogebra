@@ -157,6 +157,11 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		}
 	}
 
+	@Override
+	public void notifyResumed() {
+		createAndAddPoints();
+	}
+
 	private void addPointsToList(GeoEvaluatable evaluatable, int column) {
 		if (evaluatable != null && evaluatable.isPointsVisible()) {
 			createAndAddPoints(evaluatable, column);
@@ -261,8 +266,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		construction.getKernel().getApplication().storeUndoInfo();
 	}
 
-	@Override
-	public void createAndAddPoints() {
+	private void createAndAddPoints() {
 		for (int column = 1; column < model.getColumnCount(); column++) {
 			initPoints(column);
 			addPointsToList(view.getEvaluatable(column), column);
