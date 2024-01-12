@@ -15,14 +15,12 @@ package org.geogebra.desktop.util;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.MediaTracker;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
@@ -70,12 +68,14 @@ public class ImageManagerD extends ImageManager {
 	private MediaTracker tracker;
 
 	private int maxIconSize = 64; // DEFAULT_ICON_SIZE;
+	private double pixelRatio = 1;
 
 	/**
 	 * Creates a new ImageManager for the given JFrame.
 	 */
 	public ImageManagerD(Component comp) {
 		toolKit = Toolkit.getDefaultToolkit();
+		updatePixelRatio(comp.getGraphicsConfiguration());
 		tracker = new MediaTracker(comp);
 	}
 
@@ -386,15 +386,7 @@ public class ImageManagerD extends ImageManager {
 	 * @return scaled image
 	 */
 	public static Image getScaledImage(Image img, int width, int height) {
-		// scale image
-		BufferedImage scaledImage = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics2D = scaledImage.createGraphics();
-		graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-		graphics2D.drawImage(img, 0, 0, width, height, null);
-		graphics2D.dispose();
-		return scaledImage;
+		return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 	}
 
 	/**
@@ -423,7 +415,7 @@ public class ImageManagerD extends ImageManager {
 	 * @return path to folder with toolbar icons for current font size
 	 */
 	public String getToolbarIconPath() {
-		if (getMaxIconSize() <= 32) {
+		if (getMaxIconSize() <= 32 && pixelRatio <= 1) {
 			return "/org/geogebra/common/icons_toolbar/p32/";
 		}
 		return "/org/geogebra/common/icons_toolbar/p64/";
@@ -446,6 +438,10 @@ public class ImageManagerD extends ImageManager {
 
 	public int getMaxIconSize() {
 		return maxIconSize;
+	}
+
+	public int getMaxScaledIconSize() {
+		return (int) (maxIconSize * pixelRatio);
 	}
 
 	/**
@@ -500,7 +496,7 @@ public class ImageManagerD extends ImageManager {
 			return fileName;
 		} catch (Exception e) {
 			app.setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			app.showError(Errors.LoadFileFailed);
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
@@ -520,19 +516,10 @@ public class ImageManagerD extends ImageManager {
 			BufferedImage image = null;
 			byte[] imageByte = Base64.decode(pngStr);
 
-			ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-			try {
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
 				image = ImageIO.read(bis);
 			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (bis != null) {
-					try {
-						bis.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				Log.debug(e);
 			}
 
 			if (image != null) {
@@ -542,7 +529,7 @@ public class ImageManagerD extends ImageManager {
 		} else if (urlBase64.startsWith("<svg")
 				|| urlBase64.startsWith("<?xml")) {
 
-			MyImageD img = new MyImageD(urlBase64, filename0);
+			MyImageD img = new MyImageD(urlBase64);
 
 			addExternalImage(filename0, img);
 
@@ -593,5 +580,29 @@ public class ImageManagerD extends ImageManager {
 		fillableImgs.put("remove", GuiResourcesD.REMOVE);
 		fillableImgs.put("add", GuiResourcesD.ADD);
 		fillableImgs.put("check_mark", GuiResourcesD.CHECK_MARK);
+	}
+
+	public double getPixelRatio() {
+		return pixelRatio;
+	}
+
+	/**
+	 *
+	 * @param panel graphics configuration
+	 */
+	public void updatePixelRatio(GraphicsConfiguration panel) {
+		try {
+			double oldRatio = pixelRatio;
+			pixelRatio = panel.getDefaultTransform().getScaleX();
+			if (pixelRatio != oldRatio) {
+				iconTable.clear();
+			}
+		} catch (RuntimeException ex) {
+			Log.debug(ex);
+		}
+	}
+
+	public static String fixSVG(String content) {
+		return ImageManager.fixSVG(content);
 	}
 }

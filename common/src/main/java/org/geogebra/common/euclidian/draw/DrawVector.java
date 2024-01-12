@@ -148,13 +148,7 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 
 	private void updateTrace() {
 		traceDrawingNeeded = v.getTrace();
-		if (v.getTrace()) {
-			isTracing = true;
-		} else {
-			if (isTracing) {
-				isTracing = false;
-			}
-		}
+		isTracing = v.getTrace();
 	}
 
 	private void updateLabelPosition() {
@@ -188,7 +182,8 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 		}
 
 		if (traceDrawingNeeded) {
-			drawTraceToBackground();
+			traceDrawingNeeded = false;
+			view.drawTrace(this);
 		}
 
 		if (isHighlighted()) {
@@ -201,11 +196,6 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 			drawVectorLabel(g2);
 		}
 
-	}
-
-	private void drawTraceToBackground() {
-		traceDrawingNeeded = false;
-		drawTrace(view.getBackgroundGraphics());
 	}
 
 	@Override

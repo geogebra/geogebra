@@ -108,6 +108,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public boolean isFinite();
 
 	/**
+	 * @param absPosition whether the position is absolute (=in screen pixels)
 	 * @param sb string builder to append the correct xml representation as a
 	 *         start point for an object (button, vector, text)
 	 */

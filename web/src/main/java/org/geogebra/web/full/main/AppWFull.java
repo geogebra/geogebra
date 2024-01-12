@@ -63,6 +63,7 @@ import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.undo.UndoHistory;
@@ -183,6 +184,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import elemental2.dom.MessageEvent;
 import elemental2.dom.URL;
 import elemental2.webstorage.StorageEvent;
 import jsinterop.base.Js;
@@ -308,11 +310,36 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void checkExamPerspective() {
-		if (appletParameters.getParamLockExam()) {
-			setNewExam();
-			appletParameters.setAttribute("perspective", "");
-			afterLocalizationLoaded(this::examWelcome);
+		if (isLockedExam()) {
+			ExamRegion examMode = getForcedExamRegion();
+			if (examMode != null) {
+				setNewExam(examMode);
+				appletParameters.setAttribute("perspective", "");
+				afterLocalizationLoaded(this::examWelcome);
+			} else {
+				String appCode = appletParameters.getDataParamAppName();
+				String supportedModes = isSuite() ? ExamRegion.getSupportedModes(appCode) : appCode;
+				showErrorDialog("Invalid exam mode: "
+						+ appletParameters.getParamExamMode()
+						+ "\n Supported exam modes: " + supportedModes);
+				appletParameters.setAttribute("examMode", "");
+			}
 		}
+	}
+
+	/**
+	 * @return exam region forced by examMode and appName parameters
+	 */
+	public ExamRegion getForcedExamRegion() {
+		String paramExamMode = appletParameters.getParamExamMode();
+		if (paramExamMode.equals(appletParameters.getDataParamAppName())
+			|| paramExamMode.equals(ExamRegion.CHOOSE)) {
+			return ExamRegion.GENERIC;
+		}
+		if (isSuite()) {
+			return ExamRegion.byName(paramExamMode);
+		}
+		return null;
 	}
 
 	private void setupSignInButton(GlobalHeader header) {
@@ -367,8 +394,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			break;
 		case SUITE_APPCODE:
 			String disableCAS = NavigatorUtil.getUrlParameter("disableCAS");
-			activity = new SuiteActivity(GeoGebraConstants.GRAPHING_APPCODE,
-					"".equals(disableCAS) || "true".equals(disableCAS));
+			activity = new SuiteActivity(getLastUsedSubApp(), "".equals(disableCAS)
+					|| "true".equals(disableCAS));
 			break;
 		default:
 			activity = new ClassicActivity(new AppConfigDefault());
@@ -376,11 +403,33 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
+	 * @return last used subapp, if saved in local storage, graphing otherwise
+	 */
+	public String getLastUsedSubApp() {
+		if (isLockedExam()) {
+			return GRAPHING_APPCODE;
+		}
+		String lastUsedSubApp = BrowserStorage.LOCAL.getItem(BrowserStorage.LAST_USED_SUB_APP);
+		return lastUsedSubApp != null && !lastUsedSubApp.isEmpty()
+				? lastUsedSubApp : GRAPHING_APPCODE;
+	}
+
+	/**
 	 * Initialize the activity
 	 */
 	private void startActivity() {
 		initActivity();
+		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
+	}
+
+	/**
+	 * Preloads the advanced commands for the CAS sub-app in suite
+	 */
+	private void preloadAdvancedCommandsForSuiteCAS() {
+		if (isSuite() && "cas".equals(activity.getConfig().getSubAppCode())) {
+			getAsyncManager().prefetch(null, "advanced");
+		}
 	}
 
 	/**
@@ -425,7 +474,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				// After the macro is edited and the save button is pressed, the editing tab
 				// sends a message to the original app containing the XML of the edited macro.
 				getGlobalHandlers().addEventListener(DomGlobal.window, "message", event -> {
-					String editedMacroMessage = Js.asPropertyMap(event).get("data").toString();
+					MessageEvent<?> message = Js.uncheckedCast(event);
+					String editedMacroMessage = message.data.toString();
 					try {
 						JsPropertyMap<Object> messageProperties =
 								Js.asPropertyMap(Global.JSON.parse(editedMacroMessage));
@@ -723,7 +773,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				new StartExamAction(this).execute(null, this);
 			} else {
 				resetViewsEnabled();
-				String negativeKey = getAppletParameters().getParamLockExam()
+				String negativeKey = isLockedExam()
 						? null : "Cancel";
 				DialogData data = new DialogData("exam_custom_header",
 						negativeKey, "exam_start_button");
@@ -809,13 +859,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return dialogManager;
 	}
 
-	private void showBrowser(MyHeaderPanel bg) {
+	private void showBrowser(MyHeaderPanel headerPanel) {
 		EuclidianController evController = getActiveEuclidianView().getEuclidianController();
 		if (evController != null) {
 			evController.hideDynamicStylebar();
 		}
 		getAppletFrame().setApplication(this);
-		getAppletFrame().showPanel(bg);
+		getAppletFrame().showPanel(headerPanel);
 	}
 
 	@Override
@@ -1451,6 +1501,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()) {
 			frame.attachNotesUI(this);
 		}
+		GlobalHeader.INSTANCE.initAssignButton(() -> {
+			getShareController().assign();
+		});
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
@@ -2030,7 +2083,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public double getInnerWidth() {
-		return getKeyboardManager().getKeyboarWidth();
+		return getKeyboardManager().getKeyboardWidth();
 	}
 
 	@Override
@@ -2271,8 +2324,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
 				menuViewController.setExamMenu();
-				boolean examLock = getAppletParameters().getParamLockExam();
-				guiManager.setUnbundledHeaderStyle(examLock ? "examLock" : "examOk");
+				guiManager.setUnbundledHeaderStyle(isLockedExam() ? "examLock" : "examOk");
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
 				GlobalHeader.INSTANCE.addExamTimer();
@@ -2349,12 +2401,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void switchToSubapp(String subAppCode) {
+		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subAppCode);
 		getDialogManager().hideCalcChooser();
 		getKernel().getAlgebraProcessor().getCmdDispatcher()
 				.removeCommandFilter(getConfig().getCommandFilter());
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
+		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
 		getKernel().removeAllMacros();
 		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));

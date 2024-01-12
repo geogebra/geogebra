@@ -369,7 +369,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		html2.getElement().setAttribute("role", "application");
 		html2.addDomHandler(event -> {
 			// don't kill Ctrl+V or write V
-		if (controlDown(event)
+			if (controlDown(event)
 					&& (event.getCharCode() == 'v'
 							|| event.getCharCode() == 'V')
 					|| isLeftAltDown()) {
@@ -855,10 +855,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.mathFieldInternal.deleteCurrentWord();
 	}
 
-	public String getCurrentWord() {
-		return this.mathFieldInternal.getCurrentWord();
-	}
-
 	/**
 	 * Make the cursor blink in this editor.
 	 */
@@ -915,7 +911,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	public void clearState() {
-		Js.asPropertyMap(inputTextArea.getElement()).set("value", "");
+		Js.<HTMLTextAreaElement>uncheckedCast(inputTextArea.getElement()).value = "";
 	}
 
 	@Override

@@ -173,8 +173,7 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	protected void setInputOutput() {
 		setInput();
 
-		super.setOutputLength(1);
-		super.setOutput(0, conic);
+		setOnlyOutput(conic);
 		setDependencies(); // done by AlgoElement
 	}
 

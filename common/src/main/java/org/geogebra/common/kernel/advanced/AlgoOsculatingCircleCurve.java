@@ -103,8 +103,7 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 		} else {
 			input[1] = f;
 		}
-		super.setOutputLength(1);
-		super.setOutput(0, circle);
+		setOnlyOutput(circle);
 		setDependencies(); // done by AlgoElement
 	}
 

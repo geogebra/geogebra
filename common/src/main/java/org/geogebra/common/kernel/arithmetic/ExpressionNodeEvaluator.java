@@ -291,8 +291,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		else if ((lt instanceof FunctionalNVar)
 				&& (rt instanceof FunctionalNVar)
-				&& !operation.equals(Operation.EQUAL_BOOLEAN)
-				&& !operation.equals(Operation.NOT_EQUAL)) {
+				&& isNotEqualityCheck(operation)) {
 			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt,
 					(FunctionalNVar) rt);
 		} else if ((lt instanceof GeoCurveCartesianND)
@@ -305,7 +304,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// we want to use function arithmetic in cases like f*2 or f+x^2, but
 		// not for f(2), f'(2) etc.
 		else if ((lt instanceof FunctionalNVar) && rt instanceof NumberValue
-				&& (operation.ordinal() < Operation.FUNCTION.ordinal())) {
+				&& (operation.ordinal() < Operation.FUNCTION.ordinal())
+				&& isNotEqualityCheck(operation)) {
 			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
 					right, true);
 		} else if ((rt instanceof FunctionalNVar)
@@ -314,6 +314,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					left, false);
 		}
 		return null;
+	}
+
+	private boolean isNotEqualityCheck(Operation operation) {
+		return !operation.equals(Operation.EQUAL_BOOLEAN)
+				&& !operation.equals(Operation.NOT_EQUAL);
 	}
 
 	private ExpressionValue listOperation(ListValue lt, Operation operation,
@@ -342,7 +347,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof Vector3DValue) {
 			return ((Vector3DValue) arg).getPointAsDouble()[0];
 		} else if (arg instanceof GeoLine) {
-			return ((GeoLine) arg).x;
+			return ((GeoLine) arg).getX();
 		} else if (op == Operation.REAL && arg instanceof NumberValue) {
 			// real(3) should return 3
 			return arg.evaluateDouble();
@@ -368,7 +373,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof Vector3DValue) {
 			return ((Vector3DValue) arg).getPointAsDouble()[1];
 		} else if (arg instanceof GeoLine) {
-			return ((GeoLine) arg).y;
+			return ((GeoLine) arg).getY();
 		} else if (op == Operation.IMAGINARY && arg instanceof NumberValue) {
 			// imaginary(3) should return 0
 			return 0;
@@ -389,7 +394,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (lt instanceof Vector3DValue) {
 			return ((Vector3DValue) lt).getPointAsDouble()[2];
 		} else if (lt instanceof GeoLine) {
-			return ((GeoLine) lt).z;
+			return ((GeoLine) lt).getZ();
 		}
 		throw polynomialOrDie(lt, "z(");
 	}

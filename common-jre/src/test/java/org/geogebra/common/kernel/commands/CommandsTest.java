@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.algos.AlgoTableText;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -2619,6 +2620,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdDerivativeNoCas() {
+		// no CAS used; ExpressionNode manipulations should keep fractions
+		tRound("Derivative[x^2/3]", unicode("2 / 3 x"));
+	}
+
+	@Test
 	public void cmdNet() {
 		tRound("Net[Cube[(0,0,2),(0,0,0)],1]",
 				"24", "(0, 0, 2)", "(0, 0, 0)", "(2, 0, 0)",
@@ -3082,11 +3089,12 @@ public class CommandsTest {
 				// both Random() and random() should do the same
 		t("RandomBetween[ 42, 50 ]", "47");
 		t("RandomBetween[ 42, 50, true ]", "44");
+		t("RandomBetween[ 1, 10, 3 ]", "{10, 4, 3}");
 	}
 
 	@Test
 	public void cmdRandomBinomial() {
-		t("RandomBinomial[ 42, 0.05 ]", "1");
+		t("RandomBinomial[ 42, 0.05 ]", "2");
 	}
 
 	@Test
@@ -3294,6 +3302,28 @@ public class CommandsTest {
 		t("Root(a)", "(NaN, NaN)");
 		t("b:=0/5", "0");
 		t("Root(b)", "(NaN, NaN)");
+		t("Root(x^6 - 2x^5 - 4x^4 + 8x^3)", "(-2, 0)", "(0, 0)", "(2, 0)");
+		t("Root(x^8 - x^4)", "(-1, 0)", "(0, 0)", "(1, 0)");
+	}
+
+	@Test
+	public void cmdRootHighDeg() {
+		long time = System.currentTimeMillis();
+		t("Root((x+1)^99)", "(-1, 0)");
+		t("Root((x+1)^99+1)", "(NaN, NaN)");
+		assertTrue(System.currentTimeMillis() - time < 1000);
+	}
+
+	@Test
+	public void cmdExtremumHighDeg() {
+		long time = System.currentTimeMillis();
+		StringTemplate lowPrecision = StringTemplate.printDecimals(
+				ExpressionNodeConstants.StringType.GEOGEBRA, 2, false);
+		t("Extremum((x+1)^24)", "(-1, 0)");
+		t("Extremum((x+1)^98)", lowPrecision, "(-1, 0)");
+		// nearly horizontal => x coordinate random, assert on y only
+		t("y(Extremum((x+1)^98+1))", lowPrecision, "1");
+		assertTrue(System.currentTimeMillis() - time < 1000);
 	}
 
 	@Test
@@ -4212,10 +4242,11 @@ public class CommandsTest {
 
 	@Test
 	public void cmdPieChart() {
-		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
-		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
+		// the "value" of pie chart is just the command name (no sensible way to define it)
+		t("p1=PieChart({1,2,3})", "PieChart");
+		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart");
 		assertThat(get("p2"), isDefined());
-		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
+		t("p3=PieChart({1,2,-3})", "PieChart");
 		assertThat(get("p3"), not(isDefined()));
 	}
 

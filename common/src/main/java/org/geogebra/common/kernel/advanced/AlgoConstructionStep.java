@@ -66,8 +66,7 @@ public class AlgoConstructionStep extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[0];
 
-		super.setOutputLength(1);
-		super.setOutput(0, num);
+		setOnlyOutput(num);
 		setDependencies(); // done by AlgoElement
 	}
 

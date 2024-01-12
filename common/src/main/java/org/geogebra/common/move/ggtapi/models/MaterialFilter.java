@@ -6,6 +6,7 @@ public abstract class MaterialFilter {
 	public abstract boolean check(Material m);
 
 	/**
+	 * @param appName app code for filtering
 	 * @return filter that filters for app name
 	 */
 	public static MaterialFilter getAppNameFilter(final String appName) {

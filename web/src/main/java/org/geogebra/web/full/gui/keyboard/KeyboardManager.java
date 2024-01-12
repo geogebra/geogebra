@@ -20,6 +20,7 @@ import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.AlgebraMathFieldProcessing;
 import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
 import org.geogebra.web.full.gui.dialog.text.TextEditPanelProcessing;
+import org.geogebra.web.full.gui.openfileview.HeaderFileView;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -114,13 +115,21 @@ public class KeyboardManager
 	}
 
 	/**
-	 *
+	 * OpenFileView width if open, app width (dockpanel width) otherwise
 	 * @return the preferred keyboard width
 	 */
-	public double getKeyboarWidth() {
+	public double getKeyboardWidth() {
+		double appWidth = app.getWidth();
+		if (app.getGuiManager().isOpenFileViewLoaded()) {
+			HeaderFileView headerFileView = (HeaderFileView) app.getGuiManager().getBrowseView();
+			if (headerFileView != null && headerFileView.getPanel().getOffsetWidth() > 0) {
+				appWidth = headerFileView.getPanel().getOffsetWidth();
+			}
+		}
+
 		return shouldDetach()
 				? NavigatorUtil.getWindowWidth()
-				: app.getWidth();
+				: appWidth;
 	}
 
 	/**

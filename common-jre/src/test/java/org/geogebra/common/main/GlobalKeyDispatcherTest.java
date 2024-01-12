@@ -13,8 +13,10 @@ import java.util.stream.Collectors;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,6 +82,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 	@Test
 	public void handleSpaceOnIndependentBoolean() {
 		GeoBoolean geoBoolean = add("a = true");
+		geoBoolean.setEuclidianVisible(true);
 		assertThat(geoBoolean.getBoolean(), is(true));
 		selectGeo(geoBoolean);
 		handleSpace();
@@ -110,6 +113,22 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		selectGeo(dependent);
 		handleSpace();
 		assertThat(dependent.getBoolean(), is(false));
+	}
+
+	@Test
+	public void handleSpaceOnHidingButton() {
+		GeoButton button = add("btn=Button()");
+		GeoNumeric counter = add("counter=1");
+		GgbScript script = new GgbScript(getApp(), "SetVisibleInView(btn,1,false)"
+				+ "\ncounter=counter+1");
+		button.setClickScript(script);
+		selectGeo(button);
+		handleSpace();
+		assertThat(counter.getValue(), is(2.0));
+		// button should still be selected, but do nothing (APPS-5151, APPS-4792)
+		assertThat(button, hasProperty("selected", GeoElement::isSelected, true));
+		handleSpace();
+		assertThat(counter.getValue(), is(2.0));
 	}
 
 	@Test

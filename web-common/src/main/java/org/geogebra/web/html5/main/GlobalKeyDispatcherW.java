@@ -163,6 +163,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					}
 				} else if (kc == KeyCodes.ESCAPE) {
 					escPressed = true;
+					handleEscForDropdown();
 					if (app.isApplet()) {
 						((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
 					} else {

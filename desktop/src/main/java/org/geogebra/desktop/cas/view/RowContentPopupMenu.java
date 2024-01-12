@@ -183,8 +183,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 					data = (String) contents
 							.getTransferData(DataFlavor.stringFlavor);
 				} catch (Exception ex) {
-					Log.error(ex.getMessage());
-					ex.printStackTrace();
+					Log.debug(ex);
 				}
 			}
 			editor.insertText(data);

@@ -402,7 +402,7 @@ public class Function extends FunctionNVar
 	 */
 	final public LinkedList<PolyFunction> getSymbolicPolynomialDerivativeFactors(
 			int n, boolean rootFindingSimplification) {
-		Function deriv = getDerivative(n, true, false, true);
+		Function deriv = getDerivative(n, false, false, true);
 		if (deriv == null) {
 			return null;
 		}
@@ -509,7 +509,7 @@ public class Function extends FunctionNVar
 			}
 			if (symbolicPolyFactorList.get(rootIdx) == null) {
 				symbolicPolyFactorList.set(rootIdx,
-						new LinkedList<PolyFunction>());
+						new LinkedList<>());
 			} else {
 				symbolicPolyFactorList.get(rootIdx).clear();
 			}
@@ -673,13 +673,18 @@ public class Function extends FunctionNVar
 			// build the factor: expanded ev, get the coefficients and build
 			// a polynomial with them
 			PolyFunction factor = expandToPolyFunction(ev, symbolic,
-					assumeFalseIfCASNeeded);
+					assumeFalseIfCASNeeded, false);
 			if (factor == null) {
 				return false; // did not work
 			}
 			l.add(factor);
 		}
 		return true;
+	}
+
+	public PolyFunction expandToPolyFunction(ExpressionValue ev,
+			boolean symbolic, boolean assumeFalseIfCASNeeded) {
+		return expandToPolyFunction(ev, symbolic, assumeFalseIfCASNeeded, symbolic);
 	}
 
 	/**
@@ -699,8 +704,8 @@ public class Function extends FunctionNVar
 	 *            prove it's polynomial without CAS
 	 */
 	public PolyFunction expandToPolyFunction(ExpressionValue ev,
-			boolean symbolic, boolean assumeFalseIfCASNeeded) {
-		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev, symbolic);
+			boolean symbolic, boolean assumeFalseIfCASNeeded, boolean keepFractions) {
+		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev, symbolic, keepFractions);
 		// TODO: make sure expandToPolyFunctionNoCas does not mess with ev
 		// instead of the next line
 		initFunction();
@@ -761,7 +766,7 @@ public class Function extends FunctionNVar
 	}
 
 	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
-			boolean symbolic) {
+			boolean symbolic, boolean keepFractions) {
 		PolyFunction polyFun = null;
 		FunctionVariable xVar = new FunctionVariable(kernel, "x");
 		ExpressionValue[][] coeff = null;
@@ -776,7 +781,7 @@ public class Function extends FunctionNVar
 		Equation equ = new Equation(kernel, replaced, new MyDouble(kernel, 0));
 
 		try {
-			coeff = Polynomial.fromNode(replaced, equ, symbolic).getCoeff();
+			coeff = Polynomial.fromNode(replaced, equ, keepFractions).getCoeff();
 			terms = coeff.length;
 		} catch (Throwable t) {
 			Log.warn(ev + " couldn't be transformed to polynomial:"

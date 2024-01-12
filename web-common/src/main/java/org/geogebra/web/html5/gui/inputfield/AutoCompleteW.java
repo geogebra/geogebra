@@ -24,6 +24,10 @@ public interface AutoCompleteW {
 
 	void updatePosition(AbstractSuggestionDisplay sug);
 
+	/**
+	 * @return current command: in context where commands are allowed that means current word,
+	 * otherwise empty string.
+	 */
 	String getCommand();
 
 	AppW getApplication();

@@ -880,7 +880,7 @@ public class GeoList extends GeoElement
 	@Override
 	public String toString(StringTemplate tpl) {
 		return label
-				+ tpl.getEqualsWithSpace()
+				+ getLabelDelimiterWithSpace(tpl)
 				+ toValueString(tpl);
 	}
 
@@ -3487,5 +3487,14 @@ public class GeoList extends GeoElement
 	@Override
 	public void updateLocation() {
 		update();
+	}
+
+	@Override
+	public char getLabelDelimiter() {
+		ExpressionNode definition = getDefinition();
+		if (definition != null && definition.unwrap() instanceof Equation) {
+			return ':';
+		}
+		return '=';
 	}
 }

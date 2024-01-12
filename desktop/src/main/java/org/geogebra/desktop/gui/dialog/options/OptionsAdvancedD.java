@@ -561,12 +561,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 
 		} else if (source == cbTooltipLanguage) {
 			int index = cbTooltipLanguage.getSelectedIndex() - 1;
-			if (index == -1) {
-				app.setTooltipLanguage(null);
-			} else {
-				app.setTooltipLanguage(
-						getSupportedLanguages().get(index).toString());
-			}
+			Language ttLanguage = index == -1 ? null : getSupportedLanguages().get(index);
+			app.setTooltipLanguage(ttLanguage);
 		} else if (source == cbUseLocalDigits) {
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
 		} else if (source == cbUseLocalLabels) {

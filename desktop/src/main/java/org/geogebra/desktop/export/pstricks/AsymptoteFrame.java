@@ -7,7 +7,7 @@ import java.awt.Insets;
 
 import javax.swing.JComboBox;
 
-import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.util.FileExtensions;
 
 /**
@@ -24,7 +24,7 @@ public class AsymptoteFrame extends ExportFrame {
 	 * 
 	 * @param ggb2asy ggb -> Asymptote converter
 	 */
-	public AsymptoteFrame(final GeoGebraToAsymptote ggb2asy) {
+	public AsymptoteFrame(final GeoGebraExport ggb2asy) {
 		super(ggb2asy,
 				ggb2asy.getApp().getLocalization().getMenu("GenerateCode"));
 		fileExtension = FileExtensions.ASYMTOTE;

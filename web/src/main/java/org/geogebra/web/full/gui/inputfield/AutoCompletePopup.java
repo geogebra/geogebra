@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.inputfield;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
@@ -18,7 +19,6 @@ public class AutoCompletePopup extends GPopupMenuW {
 
 	private final AutocompleteProvider suggestions;
 	private final AutoCompleteW component;
-	private int prefixLength = 0;
 
 	/**
 	 * constructor for the command autocomplete popup
@@ -34,7 +34,6 @@ public class AutoCompletePopup extends GPopupMenuW {
 	}
 
 	private void fillContent(final String curWord) {
-		prefixLength = curWord.length();
 		suggestions.getCompletions(curWord).forEach(this::addRow);
 	}
 
@@ -52,7 +51,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 			item.setFocusable(false);
 			submenu.addItem(item);
 		}
-		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.command),
+		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.match),
 				true, submenu);
 		menuItem.setSubmenuHeading(buildSubmenuHeading(cpl));
 		menuItem.addStyleName("no-image");
@@ -63,7 +62,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	private Widget buildSubmenuHeading(AutocompleteProvider.Completion command) {
 		FlowPanel heading = new FlowPanel();
 		heading.addStyleName("autocompleteSyntaxHeading");
-		heading.add(new Label(command.command));
+		heading.add(new Label(command.getCommand()));
 		if (!getApp().isExamStarted()) {
 			heading.add(createHelpButton(command));
 		}
@@ -78,10 +77,9 @@ public class AutoCompletePopup extends GPopupMenuW {
 		return button;
 	}
 
-	private String highlightSuffix(String command) {
-		String prefix = command.substring(0, prefixLength);
-		String suffix = command.substring(prefixLength);
-		return prefix + "<strong>" + suffix + "</strong>";
+	private String highlightSuffix(MatchedString command) {
+		String[] parts = command.getParts();
+		return parts[0] + "<strong>" + parts[1] + "</strong>" + parts[2];
 	}
 
 	/**

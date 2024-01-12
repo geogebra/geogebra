@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -14,16 +16,34 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.SegmentStyle;
 
 public class DrawSegmentWithEndings {
+	private final GeoSegment segment;
 	private GLine2D line;
 	private final DrawSegment drawSegment;
 	private int lineThickness;
 	private int posX;
 	private int posY;
 	private boolean isStartStyle;
-	private GShape shape;
+	private @CheckForNull GShape solidStart;
+	private @CheckForNull GShape solidEnd;
+	private GShape subtractedLine;
 
-	public DrawSegmentWithEndings(DrawSegment drawSegment) {
+	/**
+	 * @param drawSegment segment drawable
+	 * @param segment segment construction element
+	 */
+	public DrawSegmentWithEndings(DrawSegment drawSegment, GeoSegment segment) {
 		this.drawSegment = drawSegment;
+		this.segment = segment;
+	}
+
+	/**
+	 * Update all parts of the drawn shape
+	 */
+	public void update() {
+		SegmentStyle startStyle = segment.getStartStyle();
+		SegmentStyle endStyle = segment.getEndStyle();
+
+		createSolidShape(startStyle, endStyle);
 	}
 
 	/**
@@ -31,50 +51,33 @@ public class DrawSegmentWithEndings {
 	 * @param g2 {@link GGraphics2D}
 	 */
 	public void draw(GGraphics2D g2) {
-		GeoElement geo = drawSegment.getGeoElement();
-		if (!geo.isGeoSegment()) {
-			return;
+		if (drawSegment.isHighlighted()) {
+			drawSegment.setHighlightingStyle(g2);
+			g2.draw(line);
+			drawSafely(solidStart, g2, true);
+			drawSafely(solidEnd, g2, true);
 		}
+		drawSegment.setBasicStyle(g2);
+		g2.fill(subtractedLine);
 
-		GeoSegment segment = (GeoSegment) geo;
-		SegmentStyle startStyle = segment.getStartStyle();
-		SegmentStyle endStyle = segment.getEndStyle();
-		shape = startStyle.isOutline() || endStyle.isOutline()
-				? createOutlinedShape(startStyle, endStyle)
-			    : createSolidShape(startStyle, endStyle);
-		draw(g2, shape);
+		drawSafely(solidStart, g2, segment.getStartStyle().isOutline());
+		drawSafely(solidEnd, g2, segment.getEndStyle().isOutline());
 	}
 
-	private GShape createOutlinedShape(SegmentStyle startStyle, SegmentStyle endStyle) {
-		GShape solidStart = createSolidStart(startStyle);
-		GShape solidEnd = createSolidEnd(endStyle);
-		GArea subtractedLine = substractFromLine(solidStart, solidEnd);
-		GShape outlinedStart = createOutlinedStart(startStyle);
-		GShape outlinedEnd = createOutlinedEnd(endStyle);
-		GShape[] shapes = new GShape[]{outlinedStart == null ? solidStart : outlinedStart,
-				outlinedEnd == null ? solidEnd : outlinedEnd};
-		GShape lineWithEnds = GCompositeShape.union(subtractedLine, shapes);
-		return lineWithEnds;
+	private void drawSafely(GShape end, GGraphics2D g2, boolean outline) {
+		if (end != null) {
+			if (outline) {
+				g2.draw(end);
+			} else {
+				g2.fill(end);
+			}
+		}
 	}
 
-	private GShape createOutlinedStart(SegmentStyle style) {
-		isStartStyle = true;
-		calculatePositions();
-		return createOutlinedEnding(style);
-	}
-
-	private GShape createOutlinedEnd(SegmentStyle style) {
-		isStartStyle = false;
-		calculatePositions();
-		return createOutlinedEnding(style);
-	}
-
-	private GShape createSolidShape(SegmentStyle startStyle, SegmentStyle endStyle) {
-		GShape solidStart = createSolidStart(startStyle);
-		GShape solidEnd = createSolidEnd(endStyle);
-		GArea subtractedLine = substractFromLine(solidStart, solidEnd);
-		GShape lineWithEnds = GCompositeShape.union(subtractedLine, solidStart, solidEnd);
-		return lineWithEnds;
+	private void createSolidShape(SegmentStyle startStyle, SegmentStyle endStyle) {
+		solidStart = createSolidStart(startStyle);
+		solidEnd = createSolidEnd(endStyle);
+		subtractedLine = substractFromLine(solidStart, solidEnd);
 	}
 
 	private GShape createSolidStart(SegmentStyle style) {
@@ -87,13 +90,6 @@ public class DrawSegmentWithEndings {
 		isStartStyle = false;
 		calculatePositions();
 		return createSolidEnding(style);
-	}
-
-	private void draw(GGraphics2D g2, GShape lineWithEnds) {
-		if (drawSegment.isHighlighted()) {
-			drawSegment.drawHighlighted(g2, lineWithEnds);
-		}
-		drawSegment.fillShape(g2, lineWithEnds);
 	}
 
 	private GArea substractFromLine(GShape... shapes) {
@@ -126,7 +122,6 @@ public class DrawSegmentWithEndings {
 		case ARROW:
 		case ARROW_FILLED:
 			return getArrow(style);
-
 		}
 		return null;
 	}
@@ -143,8 +138,7 @@ public class DrawSegmentWithEndings {
 		GLine2D line2D = AwtFactory.getPrototype().newLine2D();
 		line2D.setLine(x1, y1, x1, y2);
 		GShape strokedShape = drawSegment.getDecoStroke().createStrokedShape(line2D, 255);
-		GShape rotatedLine = t.createTransformedShape(strokedShape);
-		return rotatedLine;
+		return t.createTransformedShape(strokedShape);
 	}
 
 	private void initRotateTrans(double angle, double transX, double transY,
@@ -163,45 +157,11 @@ public class DrawSegmentWithEndings {
 	private GShape getSolidSquare(GAffineTransform t) {
 		GRectangle2D r = AwtFactory.getPrototype().newRectangle(posX, posY,
 				lineThickness * 2, lineThickness * 2);
-		GShape rotatedSquare = t.createTransformedShape(r);
-		return rotatedSquare;
-	}
-
-	private GShape createOutlinedEnding(SegmentStyle style) {
-		if (style.isDefault() || !style.isOutline()) {
-			return null;
-		}
-		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
-		initRotateTrans(getAngle(), posX + lineThickness,
-				posY + lineThickness, t);
-		switch (style) {
-		case SQUARE:
-		case SQUARE_OUTLINE:
-			return getOutlinedSquare(t);
-		case CIRCLE:
-		case CIRCLE_OUTLINE:
-			return getOutlinedCircle();
-
-		}
-		return null;
-	}
-
-	private GShape getOutlinedCircle() {
-		GEllipse2DDouble circleOutline = AwtFactory.getPrototype().newEllipse2DDouble();
-		circleOutline.setFrame(posX, posY, lineThickness * 2, lineThickness * 2);
-		return createStrokedShape(circleOutline);
+		return t.createTransformedShape(r);
 	}
 
 	private GShape createStrokedShape(GShape shape) {
 		return drawSegment.getDecoStroke().createStrokedShape(shape, 255);
-	}
-
-	private GShape getOutlinedSquare(GAffineTransform t) {
-		GRectangle2D r = AwtFactory.getPrototype().newRectangle(posX, posY,
-				lineThickness * 2, lineThickness * 2);
-		GShape squareOutline = createStrokedShape(r);
-		GShape rotatedSquare = t.createTransformedShape(squareOutline);
-		return rotatedSquare;
 	}
 
 	private void calculatePositions() {
@@ -217,8 +177,7 @@ public class DrawSegmentWithEndings {
 	private double getAngle() {
 		double deltaX = line.getX2() - line.getX1();
 		double deltaY = line.getY2() - line.getY1();
-		double angle = Math.atan2(deltaY, deltaX);
-		return angle;
+		return Math.atan2(deltaY, deltaX);
 	}
 
 	private GShape getArrow(SegmentStyle style) {
@@ -251,6 +210,6 @@ public class DrawSegmentWithEndings {
 	}
 
 	public GShape getShape() {
-		return shape;
+		return subtractedLine;
 	}
 }

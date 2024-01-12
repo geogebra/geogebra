@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.geogebra.common.jre.util.StreamUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
@@ -58,13 +59,9 @@ public class NativeLibClassPathLoader {
 			UtilD.delete(tmpFile);
 			ins.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Log.debug("error loading: " + fname);
-			try {
-				ins.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			StreamUtil.closeSilent(ins);
 			return false;
 		}
 

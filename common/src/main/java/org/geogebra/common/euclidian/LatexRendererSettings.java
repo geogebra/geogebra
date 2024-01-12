@@ -30,6 +30,7 @@ public class LatexRendererSettings implements TextRendererSettings {
 	/**
 	 * Like create(baseFontSize), but no bottomOffset, as input boxes require it.
 	 * @param baseFontSize the base baseFontSize.
+	 * @param fontMultiplier font size multiplier
 	 * @return a new instance
 	 */
 	public static LatexRendererSettings createForInputBox(int baseFontSize, double fontMultiplier) {

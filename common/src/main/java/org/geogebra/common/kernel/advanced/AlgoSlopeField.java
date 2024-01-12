@@ -157,8 +157,7 @@ public class AlgoSlopeField extends AlgoElement {
 			input[i++] = maxY;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, locus);
+		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}
 

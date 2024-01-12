@@ -81,8 +81,7 @@ public class AlgoIntegral extends AlgoCasBase {
 			input[++length] = var;
 		}
 
-		setOutputLength(1);
-		setOutput(0, g.toGeoElement());
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

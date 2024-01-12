@@ -397,19 +397,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 			return;
 		}
 
-		// draw trace
-		if (conic.getTrace()) {
-			isTracing = true;
-			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null) {
-				drawTrace(g2);
-			}
-		} else {
-			if (isTracing) {
-				isTracing = false;
-				// view.updateBackground();
-			}
-		}
+		drawAndUpdateTraceIfNeeded(conic.getTrace());
 
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();

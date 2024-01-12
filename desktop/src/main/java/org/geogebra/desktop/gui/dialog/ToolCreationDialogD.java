@@ -197,7 +197,7 @@ public class ToolCreationDialogD extends Dialog
 
 			// show error message
 			app.showError(Errors.ToolCreationFailed, e.getMessage());
-			e.printStackTrace();
+			Log.debug(e);
 			newTool = null;
 			return false;
 		}
@@ -441,7 +441,7 @@ public class ToolCreationDialogD extends Dialog
 			// center
 			setLocationRelativeTo(app.getFrame());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

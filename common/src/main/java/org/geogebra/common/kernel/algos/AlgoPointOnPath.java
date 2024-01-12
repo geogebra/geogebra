@@ -176,8 +176,7 @@ public class AlgoPointOnPath extends AlgoElement
 			input[0] = path.toGeoElement();
 			input[1] = param.toGeoElement();
 		}
-		setOutputLength(1);
-		setOutput(0, (GeoElement) P);
+		setOnlyOutput(P);
 		setDependencies(); // done by AlgoElement
 	}
 

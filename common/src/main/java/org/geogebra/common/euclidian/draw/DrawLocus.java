@@ -123,19 +123,8 @@ public class DrawLocus extends Drawable {
 			addLabelOffsetEnsureOnScreen(1.0, 1.0, view.getFontLine());
 		}
 
-		// draw trace
-		if (geo.isTraceable() && (geo instanceof Traceable) && ((Traceable) geo).getTrace()) {
-			isTracing = true;
-			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null) {
-				drawTrace(g2);
-			}
-		} else {
-			if (isTracing) {
-				isTracing = false;
-				// view.updateBackground();
-			}
-		}
+		drawAndUpdateTraceIfNeeded(geo.isTraceable()
+				&& (geo instanceof Traceable) && ((Traceable) geo).getTrace());
 		if (geo.isInverseFill()) {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));

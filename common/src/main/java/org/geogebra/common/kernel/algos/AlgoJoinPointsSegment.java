@@ -142,8 +142,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 			// input[1] = Q;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, s);
+		setOnlyOutput(s);
 
 		// setDependencies();
 		setEfficientDependencies(input, efficientInput);

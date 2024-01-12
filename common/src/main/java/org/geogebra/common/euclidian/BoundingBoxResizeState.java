@@ -81,6 +81,7 @@ public class BoundingBoxResizeState {
 	}
 
 	/**
+	 * @param geo construction element
 	 * @return positions of the corners of the geo from the side of bounding box
 	 *         in ratio [minX, maxX, minY, maxY]
 	 */

@@ -10,12 +10,14 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.test.OrderingComparison;
 import org.junit.Test;
 
 public class IntervalTrigonometricTest {
@@ -46,6 +48,12 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 1), cos(interval(-PI / 2, PI)));
 		assertEquals(interval(-1, 0), cos(interval(PI / 2, PI)));
 		assertEquals(interval(-1, 1), cos(whole()));
+		long time = System.currentTimeMillis();
+		assertEquals(interval(0, 1),
+				cos(interval(1000 * PI, 1000 * PI + PI / 2)));
+		assertEquals(interval(0, 1),
+				cos(interval(-1000 * PI, -1000 * PI + PI / 2)));
+		assertThat(System.currentTimeMillis() - time, OrderingComparison.lessThan(100L));
 	}
 
 	private Interval cos(Interval value) {

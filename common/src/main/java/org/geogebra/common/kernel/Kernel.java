@@ -2192,7 +2192,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Returns formated angle (in degrees if necessary)
+	 * Returns formatted angle (in degrees if necessary)
 	 *
 	 * @param phi
 	 *            angle in radians
@@ -2220,6 +2220,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            string template
 	 * @param unbounded
 	 *            whether to allow angles out of [0,2pi]
+	 * @param forceDegrees whether to override kernel's degreeMode
 	 * @return formatted angle
 	 */
 	final public StringBuilder formatAngle(double alpha, double precision,
@@ -3254,7 +3255,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns a GeoCasCell for the given label.
-	 * 
+	 * @param label cell label
 	 * @return may return null
 	 */
 	final public GeoCasCell lookupCasCellLabel(String label) {
@@ -4019,6 +4020,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Notify views about finished paste.
+	 * @param pastedGeos pasted elements
 	 */
 	public void notifyPasteComplete(ArrayList<GeoElement> pastedGeos) {
 		if (notifyViewsActive && app.hasEventDispatcher()) {
@@ -4318,7 +4320,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Creates a new algorithm that uses the given macro.
-	 * 
+	 * @param labels output labels
+	 * @param macro macro
+	 * @param input macro input
 	 * @return output of macro algorithm
 	 */
 
@@ -4338,7 +4342,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Returns the kernel settings in XML format.
+	 * Serialized the kernel settings in XML format.
+	 * @param sb output string builder
+	 * @param asPreference whether this is for preference XML
 	 */
 	public void getKernelXML(StringBuilder sb, boolean asPreference) {
 
@@ -4440,6 +4446,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Creates a new macro within the kernel. A macro is a user defined command
 	 * in GeoGebra.
+	 * @param macro macro to add
 	 */
 	public void addMacro(Macro macro) {
 		if (macroManager == null) {
@@ -4453,6 +4460,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Removes a macro from the kernel.
+	 * @param macro macro to remove
 	 */
 	public void removeMacro(Macro macro) {
 		if (macro == null) {
@@ -4591,10 +4599,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * used to delay animation start until everything loaded
+	 * used to delay animation start until everything loaded (desktop only)
+	 * @param animationRequested whether animation should start after file load
 	 */
-	public void setWantAnimationStarted(boolean want) {
-		wantAnimationStarted = want;
+	public void setWantAnimationStarted(boolean animationRequested) {
+		wantAnimationStarted = animationRequested;
 	}
 
 	public boolean wantAnimationStarted() {

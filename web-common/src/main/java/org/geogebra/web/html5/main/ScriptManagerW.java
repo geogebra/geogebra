@@ -13,6 +13,7 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.JsRunnable;
 
 import elemental2.core.Function;
@@ -28,6 +29,7 @@ public class ScriptManagerW extends ScriptManager {
 
 	public static final String ASSESSMENT_APP_PREFIX = "ggbAssess";
 	private final JsPropertyMap<Object> exportedApi;
+	private static boolean mayExportDefaultApplet = true;
 
 	/**
 	 * @param app
@@ -41,6 +43,13 @@ public class ScriptManagerW extends ScriptManager {
 		if (!app.getAppletId().startsWith(ASSESSMENT_APP_PREFIX)) {
 			export(exportedApi);
 		}
+		if (app.getAppletId().equals(AppletParameters.DEFAULT_APPLET_ID)) {
+			preventExport();
+		}
+	}
+
+	private static void preventExport() {
+		mayExportDefaultApplet = false;
 	}
 
 	private JsPropertyMap<Object> bindMethods(ExportedApi exporter) {
@@ -100,11 +109,12 @@ public class ScriptManagerW extends ScriptManager {
 
 		GeoGebraFrameW appletFrame = ((AppW) app).getAppletFrame();
 		if (appletFrame != null
-		        && appletFrame.getOnLoadCallback() != null) {
+		        && appletFrame.getOnLoadCallback() != null
+				&& !appletFrame.appletOnLoadCalled()) {
 			JsEval.callNativeFunction(
 					appletFrame.getOnLoadCallback(), exportedApi);
 			// callback only needed on first file load, not switching slides
-			appletFrame.setOnLoadCallback(null);
+			appletFrame.appletOnLoadCalled(true);
 		}
 	}
 
@@ -116,11 +126,13 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	protected void callListener(String listener, Object[] args) {
+		updateGlobalApplet();
 		JsEval.callNativeGlobalFunction(listener, args);
 	}
 
 	@Override
 	protected void callNativeListener(Object listener, Object[] args) {
+		updateGlobalApplet();
 		JsEval.callNativeFunction(listener, args);
 	}
 
@@ -213,5 +225,14 @@ public class ScriptManagerW extends ScriptManager {
 
 	public Object getApi() {
 		return exportedApi;
+	}
+
+	private void updateGlobalApplet() {
+		// if one applet has "ggbApplet" as ID, keep the global reference
+		// also only export it if it's already global (see ASSESSMENT_APP_PREFIX)
+		if (mayExportDefaultApplet
+				&& Js.asPropertyMap(DomGlobal.window).has("ggbApplet")) {
+			export("ggbApplet", exportedApi);
+		}
 	}
 }

@@ -111,7 +111,7 @@ public class KeyboardSwitcher extends FlowPanel {
 				// Do not focus the button
 			}
 		};
-		closeButton.removeStyleName("MyToggleButton");
+		closeButton.removeStyleName("ToggleButton");
 		closeButton.getElement().setAttribute("aria-label",
 				tabbedkeyboard.locale.getMenu("Close"));
 		closeButton.addStyleName("closeTabbedKeyboardButton");
@@ -140,7 +140,7 @@ public class KeyboardSwitcher extends FlowPanel {
 		moreButton.getElement().setAttribute("aria-label",
 				tabbedkeyboard.locale.getMenu("Commands"));
 
-		moreButton.removeStyleName("MyToggleButton");
+		moreButton.removeStyleName("ToggleButton");
 		moreButton.addStyleName("moreKeyboardButton");
 
 		moreButton.addFastClickHandler((source) -> tabbedkeyboard.toggleHelp(moreButton

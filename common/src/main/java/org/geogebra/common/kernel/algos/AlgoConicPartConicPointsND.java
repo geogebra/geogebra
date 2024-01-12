@@ -101,8 +101,7 @@ public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
 		input[1] = (GeoElement) startPoint;
 		input[2] = (GeoElement) endPoint;
 
-		super.setOutputLength(1);
-		super.setOutput(0, conicPart);
+		setOnlyOutput(conicPart);
 
 		setDependencies();
 	}

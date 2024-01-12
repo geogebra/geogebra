@@ -41,6 +41,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.AutoCompleteDictionary;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -702,30 +703,30 @@ public class AutoCompleteTextFieldD extends MathTextField
 		return false;
 	}
 
-	private List<String> resetCompletions() {
+	private void resetCompletions() {
 		String text = getText();
 		updateCurrentWord(false);
 		completions = null;
 		if (isEqualsRequired && !text.startsWith("=")) {
-			return null;
+			return;
 		}
 
 		boolean korean = app.getLocale().getLanguage().equals("ko");
 		// start autocompletion only for long enough words
 		if (!InputHelper.needsAutocomplete(curWord, app.getKernel())) {
 			completions = null;
-			return null;
+			return;
 		}
 
 		cmdPrefix = curWord.toString();
-
+		List<MatchedString> completionMatches;
 		if (korean) {
-			completions = getDictionary().getCompletionsKorean(cmdPrefix);
+			completionMatches = getDictionary().getCompletionsKorean(cmdPrefix);
 		} else {
-			completions = getDictionary().getCompletions(cmdPrefix);
+			completionMatches = getDictionary().getCompletions(cmdPrefix);
 		}
 
-		List<String> commandCompletions = getSyntaxes(completions);
+		List<String> commandCompletions = getSyntaxes(completionMatches);
 
 		// Start with the built-in function completions
 		completions = app.getParserFunctions().getCompletions(cmdPrefix);
@@ -735,21 +736,20 @@ public class AutoCompleteTextFieldD extends MathTextField
 		} else if (commandCompletions != null) {
 			completions.addAll(commandCompletions);
 		}
-		return completions;
 	}
 
 	/*
 	 * Take a list of commands and return all possible syntaxes for these
 	 * commands
 	 */
-	private List<String> getSyntaxes(List<String> commands) {
+	private List<String> getSyntaxes(List<MatchedString> commands) {
 		if (commands == null) {
 			return null;
 		}
 		ArrayList<String> syntaxes = new ArrayList<>();
-		for (String cmd : commands) {
+		for (MatchedString cmd : commands) {
 
-			String cmdInt = app.getInternalCommand(cmd);
+			String cmdInt = app.getInternalCommand(cmd.content);
 
 			if (cmdInt == null || "undefined".equals(cmdInt)) {
 				Log.error("Can't find command " + cmd);
@@ -769,7 +769,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 					|| syntaxString.endsWith(Localization.syntaxCAS)) {
 
 				// command not found, check for macros
-				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
+				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd.content);
 				if (macro != null) {
 					syntaxes.add(macro.toString());
 				} else {
@@ -876,6 +876,14 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (historyPopup != null && !isBorderButtonVisible(1)) {
 			setBorderButtonVisible(1, true);
 		}
+	}
+
+	@Override
+	public void insertString(String text) {
+		super.insertString(text);
+		// make sure AutoComplete works
+		updateCurrentWord(false);
+		startAutoCompletion();
 	}
 
 	/**

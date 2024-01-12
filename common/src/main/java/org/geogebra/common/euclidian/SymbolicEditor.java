@@ -113,6 +113,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	/**
 	 * @param caretLocation position of caret relative to view
+	 * @param bounds input field bounds in view (in pixels)
 	 */
 	public void selectEntryAt(GPoint caretLocation, GRectangle2D bounds) {
 		if (caretLocation != null) {

@@ -12,6 +12,8 @@ import org.geogebra.desktop.main.AppD;
  */
 public class CASgiacD extends CASgiacJre {
 
+	private static boolean giacLoaded = false;
+
 	/**
 	 * @param casParser
 	 *            casParser
@@ -19,8 +21,6 @@ public class CASgiacD extends CASgiacJre {
 	public CASgiacD(CASparser casParser) {
 		super(casParser);
 	}
-
-	private static boolean giacLoaded = false;
 
 	static {
 		try {
@@ -35,14 +35,8 @@ public class CASgiacD extends CASgiacJre {
 					// Architecture on OSX seems to be x86_64, but let's make sure
 					file = "javagiac";
 				}
-			} else if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))
-					// System.getenv("PROCESSOR_ARCHITECTURE") can return null
-					// (seems to
-					// happen on linux)
-					|| "amd64".equals(System.getProperty("os.arch"))) {
-				file = "javagiac64";
 			} else {
-				file = "javagiac";
+				file = "javagiac64";
 			}
 
 			Log.debug("Loading Giac dynamic library: " + file);
@@ -67,10 +61,8 @@ public class CASgiacD extends CASgiacJre {
 
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		if (giacLoaded) {

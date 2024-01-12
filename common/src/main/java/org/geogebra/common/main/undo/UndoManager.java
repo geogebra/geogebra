@@ -492,9 +492,10 @@ public abstract class UndoManager {
 	 * (or slides are not supported).
 	 * If the app needs to load the slide, the callback will run asynchronously.
 	 * @param slideID slide ID
+	 * @param callback callback to run when slide is loaded
 	 */
-	public void runAfterSlideLoaded(String slideID, Runnable run) {
-		run.run();
+	public void runAfterSlideLoaded(String slideID, Runnable callback) {
+		callback.run();
 	}
 
 	/**

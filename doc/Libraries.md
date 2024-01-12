@@ -101,9 +101,6 @@ The following tools are used as part of GeoGebra's software development process.
   Sliding Menu
   : https://github.com/jfeinstein10/SlidingMenu (Apache 2.0)
 
-  SVG Salamander
-  : https://svgsalamander.java.net/ (LGPL / BSD)
-
   Swifter
   : https://github.com/httpswift/swifter (BSD 3)
 

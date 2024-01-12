@@ -66,11 +66,9 @@ var codebase = "<!--CODEBASE-->";
 			$e("ggw").className="geogebraweb";
 
 			$e("ggw").setAttribute("data-param-appname", window.appID || "classic");
-
-			if(id){
-				if ((id+"").substring(0,4) == "exam") {
-					$e("ggw").setAttribute("data-param-lockExam","true");
-				}
+			if (getURLparam("examMode")) {
+				setParamFromURL("examMode");
+			} else if(id){
 				if (isAppSupportingPerspective(id + "")) {
 					$e("ggw").setAttribute("data-param-perspective", id);
 					if (c("mowToolbar")) {
@@ -272,17 +270,7 @@ var codebase = "<!--CODEBASE-->";
 		return "en";
 	}
 	function getURLparam(param){
-		var parts = location.href.split("?");
-		if(parts.length<2){
-			return null;
-		}
-		params=parts[1].split("&");
-		for(var i=0;i<params.length;i++){
-			if(params[i].indexOf(param + "=")==0){
-				return params[i].substring(param.length + 1);
-			}
-		}
-		return null;
+		return new URLSearchParams(location.search).get(param);
 	}
 	function switchLang(lang){
 		var storedTranslation = {};
@@ -492,8 +480,8 @@ document.isChromeWebapp = function isChromeWebapp() {
         width:100%;
         height:100%;
     }
-	<!--SPLASH STYLE-->
     </style>
+	<!--SPLASH STYLE-->
 	<!--PRELOADED CSS-->
 </head>
 <body dir="ltr" tabindex="-1" onload="loadApp()">

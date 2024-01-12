@@ -74,8 +74,7 @@ public abstract class AlgoEquationCoefficients extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = eqn.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

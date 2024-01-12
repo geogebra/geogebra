@@ -92,12 +92,6 @@ public class Ggb2giac {
 
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 
-		p("CorrectSolution.3",
-				"simplify(texpand(subst(%0,%2)-subst(%1,%2)))==0");
-		p("ApproximateSolution.3",
-				"abs(simplify(texpand(subst(%0,%2)-subst(%1,%2))))<0.00001");
-		p("AssumeInteger.2", "[assume(%0,integer),%1][1]");
-
 		// factor over complex rationals
 		// [ggbans:=%0] first in case something goes wrong,eg CFactor[sqrt(21)
 		// -2sqrt(7) x <complexi>+3sqrt(3) x^2 <complexi>+6x^3]
@@ -315,9 +309,12 @@ public class Ggb2giac {
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		// Extrema / Turning Points (UK)
+		String extremumPrefix = "[[[ggbextremumfun:=when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0)],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)],";
+		String extremumAns = "[ggbextans:=extrema(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0))]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]";
 		p("Extremum.1",
-				"[[[ggbextremumfun:=when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0)],[ggbextans:=extrema(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0))],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]");
-
+				extremumPrefix + extremumAns);
+		p("Extremum.3",
+				extremumPrefix + "[assume(%1<x && %2>x)]," + extremumAns);
 		// InflectionPoint (internal name in XML wrong for historical reasons)
 		p("TurningPoint.1",
 				"[[[ggbinflfun:=%0],[ggbinflvar:=when(size(lname(ggbinflfun) intersect [x])==0,lname(ggbinflfun)[0],x)],[ggbinflans:=extrema(diff(%0,ggbinflvar))]],map(ggbinflans,it->point(it,normal(regroup(subst(ggbinflfun,ggbinflvar,it)))))][1]");
@@ -1271,9 +1268,7 @@ public class Ggb2giac {
 				"[[[ggbsimparg0:=%0],[ggbsimpans:=0/0],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg0))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg0))))]],"
 						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||contains(lname(ggbsimpans2),lname(0/0)[0]),ggbsimpans,ggbsimpans2)][1]");
 
-		p("Regroup.1", "regroup(%0)");
 		p("ExpSimplify.1", "lncollect(%0)");
-		p("ExpandOnly.1", "expand(%0)");
 
 		 p("Solutions.1",
 				"ggbsort(normal(zeros(%0,when(type(%0)==DOM_LIST,lname(%0),when(contains(lname(%0),x),x,lname(%0)[0])))))");
@@ -1522,9 +1517,9 @@ public class Ggb2giac {
 						+ "[v:=-p/3/u]," + "[x1:=u+v-b/3],"
 						+ "[x2:=u*j+v*conj(j)-b/3],"
 						+ "[x3:=u*conj(j)+v*j-b/3],"
-						+ "[x1s:=regroup(normal(x1))],"
-						+ "[x2s:=regroup(normal(x2))],"
-						+ "[x3s:=regroup(normal(x3))],"
+						+ "[x1s:=when(length(lname(x1))==0,regroup(normal(x1)),regroup(x1))],"
+						+ "[x2s:=when(length(lname(x2))==0,regroup(normal(x2)),regroup(x2))],"
+						+ "[x3s:=when(length(lname(x3))==0,regroup(normal(x3)),regroup(x3))],"
 
 						// for debugging
 						// + "[p,q,d,u,v,x1,x2,x3],"

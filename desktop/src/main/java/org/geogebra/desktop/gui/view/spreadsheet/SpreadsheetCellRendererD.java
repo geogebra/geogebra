@@ -302,7 +302,6 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 						if (geo.isGeoText()) {
 							isSerif = ((GeoText) geo).isSerifFont();
 						}
-						// System.out.println(latexStr);
 						app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
 								latexStr, getFont(), isSerif,
 								GColorD.getAwtColor(geo.getAlgebraColor()),

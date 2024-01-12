@@ -4,7 +4,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.plugin.Event;
 
 public class MacOSMouseEventPrototype implements MouseEventPrototype {
 

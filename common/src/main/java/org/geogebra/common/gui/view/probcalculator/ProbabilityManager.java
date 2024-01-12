@@ -429,8 +429,8 @@ public class ProbabilityManager {
 	 * type. /* Key = distribution type constant /* Value = default parameter
 	 * values for the distribution type
 	 *
-	 * @param dist
-	 *            distribution
+	 * @param dist distribution
+	 * @param cons construction
 	 * @return default parameters
 	 */
 	public static GeoNumeric[] getDefaultParameters(Dist dist, Construction cons) {

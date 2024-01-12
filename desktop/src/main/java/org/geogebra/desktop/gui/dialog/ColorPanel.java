@@ -37,7 +37,7 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.AlgoPieChart;
 import org.geogebra.common.main.App;
@@ -281,7 +281,7 @@ class ColorPanel extends JPanel
 	// and bar has tag for value
 
 	private void setPreview(GeoElement geo, double alpha0) {
-		ChartStyleAlgo algo = (ChartStyleAlgo) geo.getParentAlgorithm();
+		ChartStyleGeo algo = (ChartStyleGeo) geo;
 		double alpha = alpha0;
 		if (selectedBarButton != 0
 				&& (algo.getStyle().getBarAlpha(selectedBarButton) != -1)) {
@@ -291,7 +291,7 @@ class ColorPanel extends JPanel
 	}
 
 	private void setOpacitySliderForChart(GeoElement geo, double alpha0) {
-		ChartStyleAlgo algo = (ChartStyleAlgo) geo.getParentAlgorithm();
+		ChartStyleGeo algo = (ChartStyleGeo) geo;
 		double alpha = alpha0;
 		if (selectedBarButton != 0 && algo.getStyle().getBarAlpha(selectedBarButton) > -1) {
 			alpha = algo.getStyle().getBarAlpha(selectedBarButton);
@@ -302,8 +302,8 @@ class ColorPanel extends JPanel
 	}
 
 	private void setChooser(GeoElement geo0) {
-		if (geo0.getParentAlgorithm() instanceof ChartStyleAlgo) {
-			ChartStyleAlgo algo = (ChartStyleAlgo) geo0.getParentAlgorithm();
+		if (geo0 instanceof ChartStyleGeo) {
+			ChartStyleGeo algo = (ChartStyleGeo) geo0;
 			if (selectedBarButton != 0
 					&& algo.getStyle().getBarColor(selectedBarButton) != null) {
 				GColor color = algo.getStyle().getBarColor(selectedBarButton);
@@ -345,7 +345,7 @@ class ColorPanel extends JPanel
 	private void updateBarsColorAndAlpha(GeoElement geo, Color col,
 			double alpha,
 			boolean updateAlphaOnly) {
-		ChartStyle algo = ((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle();
+		ChartStyle algo = ((ChartStyleGeo) geo).getStyle();
 		if (selectedBarButton == 0) {
 			for (int i = 1; i < selectionBarButtons.length; i++) {
 				algo.setBarColor(null, i);
@@ -542,7 +542,7 @@ class ColorPanel extends JPanel
 
 		// set the preview panel (do this after the alpha level is set
 		// above)
-		if (geo0.getParentAlgorithm() instanceof ChartStyleAlgo) {
+		if (geo0 instanceof ChartStyleGeo) {
 			isBarChart = true;
 			setPreview(geo0, alpha);
 		} else {

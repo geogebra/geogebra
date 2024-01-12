@@ -78,8 +78,7 @@ public class AlgoRootInterval extends AlgoElement {
 		input[1] = a.toGeoElement();
 		input[2] = b.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, rootPoint);
+		setOnlyOutput(rootPoint);
 		setDependencies();
 	}
 

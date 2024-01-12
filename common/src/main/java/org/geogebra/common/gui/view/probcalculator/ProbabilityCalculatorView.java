@@ -3,6 +3,8 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
@@ -104,7 +106,7 @@ public abstract class ProbabilityCalculatorView
 
 	private EuclidianView plotPanel;
 
-	private ProbabilityTable table;
+	private @Nullable ProbabilityTable table;
 	/** enable/disable integral ---- use for testing */
 	protected boolean hasIntegral = true;
 
@@ -1446,10 +1448,12 @@ public abstract class ProbabilityCalculatorView
 	protected void selectProbabilityTableRows() {
 		int start = (int) getLow();
 		int end = Math.min((int) getHigh(), getDiscreteXMax());
-		if (isTwoTailedMode()) {
-			table.setTwoTailedSelection(start, end);
-		} else {
-			table.setSelectionByRowValue(start, end);
+		if (table != null) {
+			if (isTwoTailedMode()) {
+				table.setTwoTailedSelection(start, end);
+			} else {
+				table.setSelectionByRowValue(start, end);
+			}
 		}
 	}
 
@@ -2253,5 +2257,12 @@ public abstract class ProbabilityCalculatorView
 	public void onParameterUpdate() {
 		updateOutput(false);
 		updateResult();
+	}
+
+	/**
+	 * @param disable whether to disable or not
+	 */
+	public void disableInterval(boolean disable) {
+		// overridden for platform
 	}
 }

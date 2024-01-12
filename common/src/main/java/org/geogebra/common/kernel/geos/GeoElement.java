@@ -63,7 +63,6 @@ import org.geogebra.common.kernel.algos.AlgoIntegralODE;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.StyleSensitiveAlgo;
@@ -1262,12 +1261,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
 
-		if (geo.getParentAlgorithm() instanceof ChartStyleAlgo && this
-				.getParentAlgorithm() instanceof ChartStyleAlgo) {
-			int barNumber = ((ChartStyleAlgo) geo.getParentAlgorithm()).getIntervals();
+		if (geo instanceof ChartStyleGeo && this instanceof ChartStyleGeo) {
+			int barNumber = ((ChartStyleGeo) geo).getIntervals();
 			for (int i = 0; i <= barNumber; i++) {
-				((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().setBarColor(
-						((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle().getBarColor(i), i);
+				((ChartStyleGeo) this).getStyle().setBarColor(
+						((ChartStyleGeo) geo).getStyle().getBarColor(i), i);
 			}
 		}
 	}
@@ -4707,9 +4705,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	protected void getExtraTagsXML(StringBuilder sb) {
-		if (this.getParentAlgorithm() instanceof ChartStyleAlgo) {
-			((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().barXml(sb,
-					((ChartStyleAlgo) this.getParentAlgorithm()).getIntervals());
+		if (this instanceof ChartStyleGeo) {
+			((ChartStyleGeo) this).getStyle().barXml(sb,
+					((ChartStyleGeo) this).getIntervals());
 		}
 	}
 

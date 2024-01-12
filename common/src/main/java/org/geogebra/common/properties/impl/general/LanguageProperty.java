@@ -39,6 +39,7 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
      * Constructs a language property.
      *
      * @param app          app
+     * @param onLanguageSetCallback called when language changed
      * @param localization localization
      */
 	public LanguageProperty(App app, Localization localization,

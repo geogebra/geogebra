@@ -106,8 +106,7 @@ public class AlgoAreEqual extends AlgoElement
 		input[0] = inputElement1;
 		input[1] = inputElement2;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputBoolean);
+		setOnlyOutput(outputBoolean);
 		setDependencies(); // done by AlgoElement
 	}
 

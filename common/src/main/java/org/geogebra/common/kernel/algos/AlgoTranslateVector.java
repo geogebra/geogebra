@@ -91,8 +91,7 @@ public class AlgoTranslateVector extends AlgoElement {
 		input[0] = (GeoElement) v;
 		input[1] = (GeoElement) A;
 
-		setOutputLength(1);
-		setOutput(0, (GeoElement) w);
+		setOnlyOutput(w);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -72,8 +72,7 @@ public class AlgoInsert extends AlgoElement {
 		input[1] = inputList;
 		input[2] = n;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -65,8 +65,7 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		input[1] = t0;
 		input[2] = t1;
 
-		setOutputLength(1);
-		setOutput(0, length);
+		setOnlyOutput(length);
 		setDependencies(); // done by AlgoElement
 	}
 

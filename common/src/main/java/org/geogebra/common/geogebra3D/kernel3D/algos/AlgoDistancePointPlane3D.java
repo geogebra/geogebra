@@ -60,8 +60,7 @@ public class AlgoDistancePointPlane3D extends AlgoElement3D {
 		input[0] = (GeoElement) point;
 		input[1] = plane;
 
-		super.setOutputLength(1);
-		super.setOutput(0, dist);
+		setOnlyOutput(dist);
 		setDependencies(); // done by AlgoElement
 	}
 

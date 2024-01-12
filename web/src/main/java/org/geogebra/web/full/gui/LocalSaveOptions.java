@@ -5,7 +5,6 @@ import org.geogebra.common.util.MimeType;
 import org.geogebra.common.util.StringUtil;
 
 import elemental2.core.JsArray;
-import elemental2.core.JsObject;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -33,8 +32,7 @@ public class LocalSaveOptions {
 	 * @return the save options as a property map.
 	 */
 	public JsPropertyMap<Object> asPropertyMap() {
-		JsObject object = JsObject.create(null);
-		JsPropertyMap<Object> propertyMap = Js.asPropertyMap(object);
+		JsPropertyMap<Object> propertyMap = JsPropertyMap.of();
 		propertyMap.set("suggestedName", getSuggestedName());
 		propertyMap.set("types", getAcceptedMimeTypes());
 		// propertyMap.set("excludeAcceptAllOption", "true"); // it does not seem to work.

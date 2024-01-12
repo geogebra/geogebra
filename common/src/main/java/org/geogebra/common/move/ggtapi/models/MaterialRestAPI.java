@@ -45,6 +45,7 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
+	 * @param service backend service (Marvl/Mebis)
 	 * @param baseURL URL of the API; endpoints append eg. "/materials" to it
 	 */
 	public MaterialRestAPI(String baseURL, Service service) {
@@ -347,6 +348,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 * Get materials created by user + shared with user's group
 	 * @param callback callback
 	 * @param order order
+	 * @param offset number of materials to skip
 	 */
 	public void getUsersAndSharedMaterials(MaterialCallbackI callback, ResourceOrdering order,
 			int offset) {

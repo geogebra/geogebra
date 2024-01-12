@@ -8,6 +8,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.IsWidget;
@@ -80,6 +81,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		}
 		if (!app.isUnbundledOrWhiteboard()) {
 			addStyleName("highlightDraggers");
+		}
+		if (!app.getAppletParameters().getDataParamTransparentGraphics()) {
+			addStyleName(Shades.NEUTRAL_0.getName());
 		}
 	}
 
@@ -278,38 +282,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		} else {
 			throw new IllegalArgumentException();
 		}
-	}
-
-	/**
-	 * set the left component and check if it's empty when loading file
-	 * 
-	 * @param component
-	 *            componenent
-	 */
-	public void setLeftComponentCheckEmpty(Widget component) {
-
-		// ensure visibility flags of dock panels set to false
-		if (leftComponent != null) {
-			((DockComponent) leftComponent).setDockPanelsVisible(false);
-		}
-
-		setLeftComponent(component);
-	}
-
-	/**
-	 * set the right component and check if it's empty when loading file
-	 * 
-	 * @param component
-	 *            componenent
-	 */
-	public void setRightComponentCheckEmpty(Widget component) {
-
-		// ensure visibility flags of dock panels set to false
-		if (rightComponent != null) {
-			((DockComponent) rightComponent).setDockPanelsVisible(false);
-		}
-
-		setRightComponent(component);
 	}
 
 	/**
@@ -560,6 +532,27 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	public void setComponentOrder(DockPanelW left, DockPanelW right) {
 		leftComponent = left;
 		rightComponent = right;
+	}
+
+	public Widget getChild(int direction) {
+		return direction == 1 ? getRightComponent() : getLeftComponent();
+	}
+
+	/**
+	 * set the index-th component and check if it's empty when loading file
+	 * @param index 0 for left/top, 1 for right/bottom
+	 * @param component component
+	 */
+	public void setComponentCheckEmpty(int index, Widget component) {
+		// ensure visibility flags of dock panels set to false
+		if (getChild(index) != null) {
+			((DockComponent) getChild(index)).setDockPanelsVisible(false);
+		}
+		if (index == 1) {
+			setRightComponent(component);
+		} else {
+			setLeftComponent(component);
+		}
 	}
 
 	/*************************************************************************
