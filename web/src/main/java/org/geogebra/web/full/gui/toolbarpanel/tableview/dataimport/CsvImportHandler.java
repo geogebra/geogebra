@@ -49,9 +49,8 @@ public class CsvImportHandler {
 			progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name);
 			getTable().getTableValuesModel().removeAllColumns();
 			getTable().clearView();
-			getTable().getTableValuesModel().setOnDataImportedRunnable(() -> {
-				progressSnackbar.hide();
-			});
+			getTable().getTableValuesModel().setOnDataImportedRunnable(()
+					-> progressSnackbar.hide());
 			openCSV(fileToHandle);
 		});
 

@@ -157,6 +157,11 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		}
 	}
 
+	@Override
+	public void notifyResumed() {
+		createAndAddPoints();
+	}
+
 	private void addPointsToList(GeoEvaluatable evaluatable, int column) {
 		if (evaluatable != null && evaluatable.isPointsVisible()) {
 			createAndAddPoints(evaluatable, column);
@@ -177,6 +182,13 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	private void initPoints(int column) {
 		int size = Math.max(column - points.size() + 1, 0);
 		points.addAll(Collections.nCopies(size, null));
+	}
+
+	/**
+	 * @return points list size, if not initialized -1
+	 */
+	public int getPointsSize() {
+		return points != null ? points.size() : -1;
 	}
 
 	private void createAndAddPoints(GeoEvaluatable evaluatable, int column) {
@@ -259,5 +271,12 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 			removePoints(column);
 		}
 		construction.getKernel().getApplication().storeUndoInfo();
+	}
+
+	private void createAndAddPoints() {
+		for (int column = 1; column < model.getColumnCount(); column++) {
+			initPoints(column);
+			addPointsToList(view.getEvaluatable(column), column);
+		}
 	}
 }

@@ -366,6 +366,10 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
+	void notifyResumed() {
+		forEachListener(listener -> listener.notifyResumed());
+	}
+
 	private Stream<TableValuesListener> listenerStream() {
 		return Stream.concat(columns.stream(), listeners.stream());
 	}
@@ -629,5 +633,6 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		}
 		suspendedListeners.removeAll(resumedListeners);
 		listeners.addAll(resumedListeners);
+		notifyResumed();
 	}
 }

@@ -428,6 +428,14 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertTrue(lookup("y_{1}").isAuxiliaryObject());
 	}
 
+	@Test
+	public void afterDataImportTVPointsShouldBeInitializedAndNotBeVisible() {
+		Reader reader = loadSample("integers-empty-comma-header.csv");
+		dataImporter.importCSV(reader, '.');
+		assertFalse(tableValuesPoints.arePointsVisible(1));
+		assertEquals(3, tableValuesPoints.getPointsSize());
+	}
+
 	// Helper methods
 
 	private Reader loadSample(String filename) {
