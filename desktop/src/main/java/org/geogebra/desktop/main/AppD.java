@@ -1657,11 +1657,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			Log.debug("icon missing for mode " + modeText);
 		}
 		// scale icon if necessary
-		return new ScaledIcon(ImageManagerD.getScaledIcon(icon,
-				Math.min(icon.getIconWidth(), imageManager.getMaxScaledIconSize()),
-				Math.min(icon.getIconHeight(), imageManager.getMaxScaledIconSize())),
-
-				imageManager.getPixelRatio());
+		int maxSize = imageManager.getMaxIconSize();
+		return imageManager.getResponsiveScaledIcon(icon, maxSize);
 	}
 
 	/**
@@ -3799,7 +3796,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public DrawEquationD getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationD();
+			drawEquation = new DrawEquationD(getFrame());
 		}
 		return drawEquation;
 	}
