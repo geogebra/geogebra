@@ -1271,8 +1271,8 @@ public class Ggb2giac {
 		p("ExpSimplify.1", "lncollect(%0)");
 
 		 p("Solutions.1",
-				"ggbsort(normal(zeros(%0,when(type(%0)==DOM_LIST,lname(%0),when(contains(lname(%0),x),x,lname(%0)[0])))))");
-		p("Solutions.2", "ggbsort(normal(zeros(%0,%1)))");
+				"ggbsort(normal(solve(%0,when(type(%0)==DOM_LIST,lname(%0),when(contains(lname(%0),x),x,lname(%0)[0])),'!=')))");
+		p("Solutions.2", "ggbsort(normal(solve(%0,%1,'!=')))");
 
 		// Root.1 and Solve.1 should be the same
 		String root1 = "ggbsort(normal([op(solve(%0))]))";
