@@ -68,8 +68,8 @@ public class ModeDeleteTest extends BaseControllerTest {
 						+ " (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
 		getKernel().undo();
-		assertEquals("Polyline[(2.0000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
-						+ " (4.0000E0,-2.0000E0), (?,?), true]",
+		assertEquals("PenStroke[(2.0000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
+						+ " (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
 	}
 
@@ -89,14 +89,14 @@ public class ModeDeleteTest extends BaseControllerTest {
 		getConstruction().getUndoManager().setAllowCheckpoints(false);
 		setMode(EuclidianConstants.MODE_ERASER);
 		// delete the start
-		add("stroke = PolyLine((2,-2),(3,-2),(4,-2), true)");
+		add("stroke = PenStroke((2,-2),(3,-2),(4,-2))");
 		dragLinear(95, 95, 130, 105);
-		assertEquals("Polyline[(2.8000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
-						+ " (4.0000E0,-2.0000E0), (?,?), true]",
+		assertEquals("PenStroke[(2.8000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
+						+ " (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
 		getKernel().undo();
-		assertEquals("Polyline[(2.0000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
-						+ " (4.0000E0,-2.0000E0), (?,?), true]",
+		assertEquals("PenStroke[(2.0000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
+						+ " (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
 	}
 
