@@ -1,11 +1,14 @@
 package org.geogebra.web.shared;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
@@ -23,6 +26,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -48,6 +52,7 @@ public class GlobalHeader implements EventRenderable {
 
 	private boolean shareButtonInitialized;
 	private boolean assignButtonInitialized;
+	private @CheckForNull FlowPanel examTypeHolder;
 
 	/**
 	 * Activate sign in button in external header
@@ -256,12 +261,7 @@ public class GlobalHeader implements EventRenderable {
 			return;
 		}
 		// remove other buttons
-		getButtonElement().getStyle()
-				.setDisplay(Display.NONE);
-		Image examImg = new Image(DefaultMenuIconProvider.INSTANCE.assignment().withFill("#388C83")
-				.getSafeUri().asString());
-		Label examType = new Label(app.getExam().getCalculatorNameForHeader());
-		examType.setStyleName("examType");
+		getButtonElement().getStyle().setDisplay(Display.NONE);
 
 		// exam panel with timer and info btn
 		Image timerImg = new Image(MaterialDesignResources.INSTANCE.timer()
@@ -279,20 +279,21 @@ public class GlobalHeader implements EventRenderable {
 		getButtonElement().getParentElement().appendChild(exam);
 		// The link should be disabled in all exam-capable apps since APPS-3289, but make sure
 		Dom.querySelector("#headerID a").setAttribute("href", "#");
-		RootPanel.get("examId").addStyleName("examPanel");
+		RootPanel examId = RootPanel.get("examId");
+		examId.addStyleName("examPanel");
 
-		if (!app.getExam().isRestrictedGraphExam()) {
-			FlowPanel examTypeHolder = new FlowPanel();
-			examTypeHolder.getElement().setId("examTypeId");
-			examTypeHolder.addStyleName("examTypePanel");
-			examTypeHolder.add(examImg);
-			examTypeHolder.add(examType);
-			RootPanel.get("examId").add(examTypeHolder);
+		if (SafeExamBrowser.get() != null && SafeExamBrowser.get().security != null) {
+			SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
+			String hash = security.configKey.substring(0, 8);
+			security.updateKeys((ignore) ->
+					addExamType("Safe Exam Browser (" + hash + ")"));
+		} else if (!app.getExam().isRestrictedGraphExam()) {
+			addExamType(app.getExam().getCalculatorNameForHeader());
 		}
 
-		RootPanel.get("examId").add(timerImg);
-		RootPanel.get("examId").add(timer);
-		RootPanel.get("examId").add(examInfoBtn);
+		examId.add(timerImg);
+		examId.add(timer);
+		examId.add(examInfoBtn);
 		// run timer
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
@@ -301,9 +302,9 @@ public class GlobalHeader implements EventRenderable {
 					if (getApp().getExam().isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
-						examImg.setUrl(DefaultMenuIconProvider.INSTANCE.assignment()
-								.withFill("#B00020").getSafeUri().asString());
-						examType.addStyleName("cheat");
+						if (examTypeHolder != null) {
+							examTypeHolder.addStyleName("cheat");
+						}
 					}
 					getTimer().setText(
 							getApp().getExam().getElapsedTimeLocalized());
@@ -312,6 +313,23 @@ public class GlobalHeader implements EventRenderable {
 			}
 		});
 		onResize();
+	}
+
+	private void addExamType(String examTypeName) {
+		HTML examImg = new HTML(DefaultMenuIconProvider.INSTANCE.assignment().getSVG());
+		examImg.setStyleName("examTypeIcon");
+		Label examType = new Label(examTypeName);
+		examType.setStyleName("examType");
+		FlowPanel examTypePanel = new FlowPanel();
+		examTypePanel.getElement().setId("examTypeId");
+		examTypePanel.addStyleName("examTypePanel");
+		if (app != null && app.isLockedExam()) {
+			examTypePanel.addStyleName("locked");
+		}
+		examTypePanel.add(examImg);
+		examTypePanel.add(examType);
+		this.examTypeHolder = examTypePanel;
+		RootPanel.get("examId").add(examTypePanel);
 	}
 
 	/**

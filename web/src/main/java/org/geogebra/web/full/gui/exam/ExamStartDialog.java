@@ -33,7 +33,7 @@ public class ExamStartDialog extends ComponentDialog {
 		Label startText = BaseWidgetFactory.INSTANCE.newSecondaryText(
 				app.getLocalization().getMenu("exam_start_dialog_text"), "examStartText");
 		addDialogContent(startText);
-		if (app.isSuite()) {
+		if (mayChoseType((AppW) app)) {
 			ArrayList<RadioButtonData<ExamRegion>> data = new ArrayList<>();
 			for (ExamRegion region : ExamRegion.values()) {
 				String displayName = region.getDisplayName(app.getLocalization(),
@@ -44,12 +44,19 @@ public class ExamStartDialog extends ComponentDialog {
 					app.getLocalization(), data, ExamRegion.GENERIC, (selectedRegion) ->
 				this.selectedRegion = selectedRegion);
 			addDialogContent(regionPicker);
+		} else if (app.isSuite()) {
+			selectedRegion = ((AppWFull) app).getForcedExamRegion();
 		}
+	}
+
+	private boolean mayChoseType(AppW app) {
+		return app.isSuite() && (!app.isLockedExam()
+				|| ExamRegion.CHOOSE.equals(app.getAppletParameters().getParamExamMode()));
 	}
 
 	@Override
 	public void onEscape() {
-		if (!((AppW) app).getAppletParameters().getParamLockExam()) {
+		if (!((AppW) app).isLockedExam()) {
 			hide();
 		}
 	}

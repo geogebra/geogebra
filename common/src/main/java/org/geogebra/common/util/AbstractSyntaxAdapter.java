@@ -25,8 +25,19 @@ public abstract class AbstractSyntaxAdapter implements SyntaxAdapter {
 			return convertMathMLtoGGB(exp);
 		} else if (mightBeLaTeXSyntax(exp)) {
 			return convertLaTeXtoGGB(exp);
+		} else if (checkClipboardFormat(exp)) {
+			return "";
 		}
 		return exp;
+	}
+
+	/**
+	 * Checks if text is in a special clipboard format, pastes objects from clipboard as side effect
+	 * @param text inserted text
+	 * @return whether text was in a special clipboard format
+	 */
+	protected boolean checkClipboardFormat(String text) {
+		return false;
 	}
 
 	/**

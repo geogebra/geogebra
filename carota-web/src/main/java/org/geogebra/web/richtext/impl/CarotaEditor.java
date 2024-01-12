@@ -154,6 +154,11 @@ public class CarotaEditor implements Editor {
 		editor.setExternalScale(sx);
 	}
 
+	@Override
+	public void addInsertFilter(Carota.InsertFilter handleInsert) {
+		editor.insertFilters.push(handleInsert);
+	}
+
 	private CarotaRange getRange() {
 		if (isEditing()) {
 			return editor.selectedRange();

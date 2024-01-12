@@ -4,6 +4,7 @@ import static org.geogebra.test.commands.AlgebraTestHelper.shouldFail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -13,6 +14,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
@@ -495,6 +497,24 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void sufficientPrecisionForDivision() {
+		t("490/0.035", "14000", StringTemplate.maxDecimals);
+		t("0.49/0.035", "14", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	public void testImpreciseForDivisionIncludingSlider() {
+		GeoNumeric a = add("a = 1");
+		a.setShowExtendedAV(true);
+		a.initAlgebraSlider();
+		assertTrue(a.getNumber().isImprecise());
+		GeoNumeric b = add("a/7.01");
+		assertTrue(b.getNumber().isImprecise());
+		GeoNumeric c = add("7.01/a");
+		assertTrue(b.getNumber().isImprecise());
+	}
+
+	@Test
 	public void sufficientPrecisionForRepeatedMultiplication() {
 		t("a=1000/999", "1.001", StringTemplate.editTemplate);
 		StringBuilder power = new StringBuilder("a");
@@ -545,6 +565,24 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("---4", "-4");
 		t("---5 ---3", "-8");
 		t("---3 + --2", "-1");
+	}
+
+	@Test
+	public void testFactorial() {
+		t("0!", "1");
+		t("6!", "720");
+		t("?!", "NaN");
+		t("(-5)!", "NaN");
+		t("infinity!", "NaN");
+		t("(-infinity)!", "NaN");
+	}
+
+	@Test
+	public void testGamma() {
+		t("gamma(5)", "24", StringTemplate.editTemplate);
+		t("gamma(-5)", "NaN");
+		t("gamma(-1/2)+2*sqrt(pi)", "0");
+		t("gamma(infinity)", "NaN");
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {
