@@ -25,8 +25,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.MyImageD;
 
-import com.kitfox.svg.SVGException;
-
 /**
  * Desktop implementation of Graphics2D; wraps the java.awt.Graphics2D class
  * 
@@ -200,18 +198,7 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int x, int y) {
 		MyImageD imgD = (MyImageD) img;
-
-		if (imgD.isSVG()) {
-			try {
-				translate(x, y);
-				imgD.getDiagram().render(impl);
-				translate(-x, -y);
-			} catch (SVGException e) {
-				Log.debug(e);
-			}
-		} else {
-			impl.drawImage(imgD.getImage(), x, y, null);
-		}
+		imgD.render(impl, x, y);
 	}
 
 	@Override
@@ -426,15 +413,11 @@ public class GGraphics2DD implements GGraphics2D {
 	 */
 	public void drawImageScaled(MyImageD img, int width, int height) {
 		if (img.isSVG()) {
-			try {
-				saveTransform();
-				scale((double) width / img.getWidth(),
-						(double) height / img.getHeight());
-				img.getDiagram().render(impl);
-				restoreTransform();
-			} catch (SVGException e) {
-				Log.debug(e);
-			}
+			saveTransform();
+			scale((double) width / img.getWidth(),
+					(double) height / img.getHeight());
+			img.render(impl, 0, 0);
+			restoreTransform();
 		} else {
 			impl.drawImage(img.getImage(), 0, 0, width, height, null);
 		}
@@ -459,23 +442,12 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
 			int dy, int dw, int dh) {
-		if (img.isSVG()) {
-			impl.translate(dx, dy);
-			try {
-				((MyImageD) img).getDiagram().render(impl);
-			} catch (SVGException e) {
-				Log.debug(e);
-			}
-			impl.translate(-dx, -dy);
-		} else {
-			impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + dw, dy + dh,
-					sx, sy, sx + sw, sy + sh, null);
-		}
+		MyImageD myImageD = (MyImageD) img;
+		myImageD.render(impl, sx, sy, sw, sh, dx, dy, dw, dh);
 	}
 
 	@Override
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx, dy, null);
 	}
-
 }

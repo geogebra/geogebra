@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
@@ -17,11 +18,13 @@ import org.geogebra.multiplayer.MultiplayerResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.browser.CollaborationStoppedDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.util.DateTimeFormat;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.util.GGBMultiplayer;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -38,6 +41,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
 import elemental2.core.JsArray;
+import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -45,20 +49,21 @@ import jsinterop.base.JsPropertyMap;
 /**
  * If no existent material -> show save dialog and ask for title to save
  * 
- * If material existent -> always auto save before share
+ * <p>If material existent -> always auto save before share
  * 
- * Share with group -> material stays private (visibility)
+ * <p>Share with group -> material stays private (visibility)
  * 
- * Share by link -> material will be shared (visibility)
+ * <p>Share by link -> material will be shared (visibility)
  * 
  * @author laszlo
  *
  */
 public class ShareControllerW implements ShareController {
 
-	private AppW app;
+	private final AppW app;
 	private Widget anchor = null;
 	private GGBMultiplayer multiplayer;
+	private boolean isAssign = false;
 
 	/**
 	 * Constructor
@@ -79,35 +84,49 @@ public class ShareControllerW implements ShareController {
 
 	@Override
 	public void share() {
+		runAfterLogin(this::shareAsLoggedIn);
+	}
+
+	@Override
+	public void assign() {
+		runAfterLogin(this::showAssignDialog);
+	}
+
+	private void shareAsLoggedIn() {
 		AsyncOperation<Boolean> shareCallback = getShareCallback();
 		// not saved as material yet
 		Material activeMaterial = app.getActiveMaterial();
 		boolean untitled = activeMaterial == null
 				|| activeMaterial.getType() == Material.MaterialType.ggsTemplate;
-		if (untitled || "P".equals(activeMaterial.getVisibility())) {
-			if (!app.getLoginOperation().isLoggedIn()) {
-				// not saved, not logged in
-				loginForShare();
-			} else {
-				// not saved, logged in
-				if (untitled) {
-				    saveUntitledMaterial(shareCallback);
-				} else {
-					autoSaveMaterial(shareCallback);
-				}
-			}
+		if (untitled) {
+			// not saved, logged in
+			saveUntitledMaterial(shareCallback);
 		} else {
-			// share public or shared material but not logged in
-			if (!app.getLoginOperation().isLoggedIn()) {
-				// not saved, not logged in
-				loginForShare();
-			}
 			// auto save changes of existent material before share
-			else if (app.getActiveMaterial() != null
-					&& app.getLoginOperation().isLoggedIn()) {
-				autoSaveMaterial(shareCallback);
-			}
+			autoSaveMaterial(shareCallback);
 		}
+	}
+
+	/**
+	 * Make sure current file is saved (using generated name if needed) and run a callback
+	 * @param callback run after save
+	 */
+	public void afterSaved(Consumer<Material> callback) {
+		Material activeMaterial = app.getActiveMaterial();
+		boolean untitled = activeMaterial == null
+				|| activeMaterial.getType() == Material.MaterialType.ggsTemplate;
+		if (untitled) {
+			// not saved, logged in
+			Material material = new Material(app.isWhiteboardActive() ? Material.MaterialType.ggs
+					: Material.MaterialType.ggb);
+			app.setActiveMaterial(material);
+			LocalizationW loc = app.getLocalization();
+			String formatDate = DateTimeFormat.formatDate(new JsDate(), loc.getLanguageTag());
+			String appName = loc.getMenu(app.getConfig().getAppNameWithoutCalc());
+			material.setTitle(loc.getPlain("assignDialog.titlePattern",
+					appName, formatDate));
+		}
+		autoSaveMaterial(success -> callback.accept(app.getActiveMaterial()));
 	}
 
 	/**
@@ -123,54 +142,74 @@ public class ShareControllerW implements ShareController {
 	}
 
 	private void autoSaveMaterial(AsyncOperation<Boolean> shareCallback) {
-		if (app.isSaved()) {
+		boolean updatedVisibility = ensureMaterialSharingVisibility();
+		if (app.isSaved() && !updatedVisibility) {
 			shareCallback.callback(true);
 		} else {
 			app.getSaveController().saveActiveMaterial(shareCallback);
 		}
 	}
 
-	private void loginForShare() {
-		app.getGuiManager().listenToLogin(this::share);
-		app.getLoginOperation().showLoginDialog();
+	private boolean ensureMaterialSharingVisibility() {
+		Material activeMaterial = app.getActiveMaterial();
+		if (app.isMebis() || activeMaterial == null) {
+			// mebis can share private materials with group
+			return false;
+		}
+		if ("P".equals(activeMaterial.getVisibility())) {
+			activeMaterial.setVisibility(MaterialVisibility.Shared.getToken());
+			return true;
+		}
+		return false;
+	}
+
+	private void runAfterLogin(Runnable afterLogin) {
+		if (app.getLoginOperation().isLoggedIn()) {
+			afterLogin.run();
+		} else {
+			app.getGuiManager().listenToLogin(afterLogin);
+			app.getLoginOperation().showLoginDialog();
+		}
 	}
 
 	private AsyncOperation<Boolean> getShareCallback() {
-		return new AsyncOperation<Boolean>() {
-			protected ShareLinkDialog shareDialog;
-			protected ShareDialogMow shareDialogMow;
+		return active -> {
+			if (!active) {
+				return;
+			}
 
-			@Override
-			public void callback(Boolean active) {
-				if (!active) {
-					return;
-				}
-
-				String sharingKey = "";
-				Material activeMaterial = getAppW().getActiveMaterial();
-				if (activeMaterial != null && activeMaterial.getSharingKey() != null) {
-					sharingKey = activeMaterial.getSharingKey();
-				}
-				if (getAppW().isMebis()) {
-					DialogData data = new DialogData("Share", "Cancel", "Save");
-					shareDialogMow = new ShareDialogMow(getAppW(), data,
-							getAppW().getCurrentURL(sharingKey, true),
-							null);
-					shareDialogMow.setCallback(new MaterialCallback() {
-						// empty callback, just to avoid NPEs
-					});
-					shareDialogMow.show();
-				} else {
-					DialogData data = new DialogData("Share",
-							null, null);
-					shareDialog = new ShareLinkDialog(getAppW(), data,
-							getAppW().getCurrentURL(sharingKey, true),
-							getAnchor());
-					shareDialog.show();
-					shareDialog.center();
-				}
+			String sharingKey = "";
+			Material activeMaterial = getAppW().getActiveMaterial();
+			if (activeMaterial != null && activeMaterial.getSharingKey() != null) {
+				sharingKey = activeMaterial.getSharingKey();
+			}
+			if (getAppW().isMebis()) {
+				DialogData data = new DialogData("Share", "Cancel", "Save");
+				ShareDialogMow shareDialogMow = new ShareDialogMow(getAppW(), data,
+						getAppW().getCurrentURL(sharingKey, true),
+						null);
+				shareDialogMow.setCallback(new MaterialCallback() {
+					// empty callback, just to avoid NPEs
+				});
+				shareDialogMow.show();
+			} else {
+				DialogData data = new DialogData("Share",
+						null, null);
+				ShareLinkDialog shareDialog = new ShareLinkDialog(getAppW(), data,
+						getAppW().getCurrentURL(sharingKey, true),
+						getAnchor());
+				shareDialog.show();
+				shareDialog.center();
 			}
 		};
+	}
+
+	private void showAssignDialog() {
+		isAssign = true;
+		DialogData data = new DialogData("assignDialog.title", "Cancel", null);
+		AssignDialog shareDialogMow = new AssignDialog(getAppW(), data,
+				this);
+		shareDialogMow.show();
 	}
 
 	/**
@@ -337,5 +376,15 @@ public class ShareControllerW implements ShareController {
 				callback.accept(multiplayer);
 			}
 		});
+	}
+
+	@Override
+	public void setAssign(boolean isAssign) {
+		this.isAssign = isAssign;
+	}
+
+	@Override
+	public boolean isAssign() {
+		return isAssign;
 	}
 }

@@ -1,5 +1,6 @@
 package org.geogebra.desktop.plugin;
 
+import org.geogebra.common.jre.headless.GgbAPIHeadless;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.mozilla.javascript.ClassShutter;
@@ -19,7 +20,9 @@ public class CallJavaScript {
 	 * @return global scope
 	 */
 	public static Scriptable evalGlobalScript(App app) {
-		ContextFactory.initGlobal(SandboxContextFactory.getInstance());
+		if (!ContextFactory.hasExplicitGlobal()) {
+			ContextFactory.initGlobal(SandboxContextFactory.getInstance());
+		}
 
 		// create new scope
 		Context cx = Context.enter();
@@ -53,9 +56,8 @@ public class CallJavaScript {
 	 * 
 	 * @param app application
 	 * @param script script content
-	 * @param arg argument TODO ignored
 	 */
-	public static void evalScript(App app, String script, String arg) {
+	public static void evalScript(App app, String script) {
 		Context cx = Context.enter();
 		cx.getWrapFactory().setJavaPrimitiveWrap(false);
 		cx.initStandardObjects();
@@ -112,6 +114,7 @@ public class CallJavaScript {
 			Log.debug("Rhino attempting to use class " + fullClassName);
 			
 			return fullClassName.equals(org.geogebra.desktop.plugin.GgbAPID.class.getName())
+					|| fullClassName.equals(GgbAPIHeadless.class.getName())
 					// needed for setTimeout() emulation
 					// https://gist.github.com/murkle/f4d0c02aa595f404df143d0bd31b6b88
 					|| fullClassName.equals(java.util.Timer.class.getName())
