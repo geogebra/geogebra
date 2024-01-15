@@ -17,13 +17,11 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Try to expand the given function to a polynomial.
@@ -96,47 +94,30 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 	}
 
 	private ExpressionNode buildFromCoeff(ExpressionValue[][] coeff) {
-		MyDouble coeffMyDouble = null;
-		for (int i = 0; i < coeff.length; i++) {
-			for (int j = 0; j < coeff[i].length; j++) {
+		for (int i = coeff.length - 1; i >= 0; i--) {
+			for (int j = coeff[i].length - 1; j >= 0; j--) {
 				ExpressionValue coeffNode = coeff[i][j];
 				if (coeffNode == null) {
 					continue;
 				}
-				ExpressionNode c = new ExpressionNode(coeffNode.wrap());
-				double coeffValue = c.evaluateDouble();
+				double coeffValue = coeffNode.evaluateDouble();
 				if (Double.isNaN(coeffValue) || Double.isInfinite(coeffValue)) {
 					return poly;
 				} else if (coeffValue == 0) {
 					continue; // this part vanished
 				}
-				ExpressionValue product = getProductOfPowerFVars(coeffValue, i, j);
+				ExpressionValue product = getProductOfPowerFVars(i, j);
 
-				if (poly == null) {
-					if (product != null) {
-						poly = product.wrap();
-					}
-				} else {
-					if (coeffValue < 0) {
-						if (coeffMyDouble != null) {
-							coeffMyDouble.set(-coeffValue); // change sign
-						}
-						poly = new ExpressionNode(kernel, poly, Operation.MINUS,
-								product);
-					} else {
-						poly = new ExpressionNode(kernel, poly, Operation.PLUS,
-								product);
-					}
-				}
+				poly = AlgoPolynomialFromCoordinates.addToPoly(poly, product, coeffValue, kernel);
 			}
 		}
 		return poly;
 	}
 
-	private ExpressionValue getProductOfPowerFVars(double coeffValue, int powOfX, int powOfY) {
+	private ExpressionValue getProductOfPowerFVars(int powOfX, int powOfY) {
 		ExpressionValue xPower = makePowerExp(xVar, powOfX);
 		ExpressionValue yPower = makePowerExp(yVar, powOfY);
-		return combineParts(mulWithCoeff(xPower, coeffValue), yPower);
+		return combineParts(xPower, yPower);
 	}
 
 	private ExpressionValue makePowerExp(FunctionVariable fVar, int power) {
@@ -153,33 +134,12 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 
 	}
 
-	private ExpressionValue mulWithCoeff(ExpressionValue powerExp, double coeff) {
-		if (DoubleUtil.isEqual(coeff, 1.0)
-				|| (poly != null && DoubleUtil.isEqual(coeff, -1.0))) {
-			if (powerExp == null) {
-				return new MyDouble(kernel, 1.0);
-			} else {
-				return powerExp;
-			}
-		} else {
-			MyDouble coeffExpression = coeff == -1
-					? new MinusOne(kernel)
-					: new MyDouble(kernel, coeff);
-			return powerExp == null
-					? coeffExpression
-					: new ExpressionNode(kernel, coeffExpression, Operation.MULTIPLY, powerExp);
-
+	private ExpressionValue combineParts(ExpressionValue xPart, ExpressionValue yPart) {
+		if (xPart == null) {
+			return yPart;
 		}
-	}
-
-	private ExpressionNode combineParts(ExpressionValue xPart, ExpressionValue yPart) {
-		if (xPart != null && (yPart == null || yPart.evaluateDouble() == 1)) {
-			return xPart.wrap();
-		}
-		if (xPart == null && (yPart != null || xPart.evaluateDouble() == 1)) {
-			return yPart.wrap();
-		}if (xPart == null && yPart == null) {
-			return null;
+		if (yPart == null) {
+			return xPart;
 		}
 		return new ExpressionNode(kernel, xPart, Operation.MULTIPLY, yPart);
 	}
