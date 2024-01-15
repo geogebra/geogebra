@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.main.exam.ExamLogBuilder;
-import org.geogebra.common.main.exam.ExamRegion;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;

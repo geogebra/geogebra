@@ -9,18 +9,9 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 
 public final class VlaanderenExamRestrictions extends ExamRestrictions {
 
-	@Override
-	public List<SuiteSubApp> getDisabledSubApps() {
-		return Arrays.asList(SuiteSubApp.CAS);
-	}
-
-	@Override
-	public SuiteSubApp getDefaultSubApp() {
-		return SuiteSubApp.GRAPHING;
-	}
-
-	@Override
-	public CommandFilter getCommandFilter() {
-		return CommandFilterFactory.createVlaanderenFilter();
+	public VlaanderenExamRestrictions() {
+		super(Arrays.asList(SuiteSubApp.CAS),
+				SuiteSubApp.GRAPHING,
+				CommandFilterFactory.createVlaanderenFilter());
 	}
 }

@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
-import org.geogebra.common.main.exam.ExamRegion;
 import org.geogebra.common.ownership.NonOwning;
 
 import com.google.j2objc.annotations.Weak;
@@ -74,8 +73,7 @@ public final class ExamController {
 	@NonOwning
 	private ExamRegion examRegion;
 
-	private ExamConfiguration configuration;
-	private ExamState state = ExamState.INACTIVE;
+	private ExamState state = ExamState.IDLE;
 	private Date startDate, endDate;
 	private final Set<ExamListener> listeners = new HashSet<ExamListener>();
 	private final TempStorage tempStorage = new TempStorage();
@@ -148,18 +146,14 @@ public final class ExamController {
 	/**
 	 * Get ready for a new exam.
 	 *
-	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#INACTIVE INACTIVE}
+	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#IDLE INACTIVE}
 	 * state.
 	 */
 	public void prepareExam() {
-		if (state != ExamState.INACTIVE) {
+		if (state != ExamState.IDLE) {
 			throw new IllegalStateException();
 		}
 		setState(ExamState.PREPARING);
-	}
-
-	public void startExam(ExamRegion region) {
-		startExam(region, null);
 	}
 
 	/**
@@ -168,21 +162,18 @@ public final class ExamController {
 	 * @throws IllegalStateException if the exam controller is not in the
 	 * {@link ExamState#PREPARING PREPARING} state.
 	 */
-	public void startExam(ExamRegion region, ExamConfiguration configuration) {
+	public void startExam(ExamRegion region) {
 		if (state != ExamState.PREPARING) {
 			throw new IllegalStateException();
 		}
-		this.configuration = configuration;
-		applyConfiguration(configuration);
 		applyRestrictions(region);
 		requestAction(ExamAction.CLEAR_CLIPBOARD);
 		requestAction(ExamAction.CLEAR_APPS);
-		requestAction(ExamAction.HIDE_SYNTAX_IN_COMMAND_ERROR_MESSAGES);
 		tempStorage.clearTempMaterials();
 		cheatingEvents = new CheatingEvents();
 
 		startDate = new Date();
-		setState(ExamState.ACTIVE);
+		setState(ExamState.ACTIVE); // TODO suppress syntax in CommandErrorMessageBuilder
 	}
 
 	/**
@@ -213,23 +204,16 @@ public final class ExamController {
 		tempStorage.clearTempMaterials();
 		requestAction(ExamAction.CLEAR_CLIPBOARD);
 		requestAction(ExamAction.CLEAR_APPS);
-		requestAction(ExamAction.SHOW_SYNTAX_IN_COMMAND_ERROR_MESSAGES);
 		startDate = endDate = null;
-		setState(ExamState.INACTIVE);
+		setState(ExamState.IDLE);
 	}
 
-	// TODO remove - unclear semantics
 	public boolean isExamActive() {
 		return state == ExamState.ACTIVE;
 	}
 
-	// TODO remove - unclear semantics
-	public boolean isExamInPreparationOrActiveOrWrappingUp() {
-		return state != ExamState.INACTIVE;
-	}
-
 	public boolean isIdle() {
-		return state == ExamState.INACTIVE;
+		return state == ExamState.IDLE;
 	}
 
 	/**
@@ -262,10 +246,6 @@ public final class ExamController {
 		}
 	}
 
-	private void applyConfiguration(ExamConfiguration configuration) {
-		// TODO apply configuration / disable subapps (CAS)
-	}
-
 	private void applyRestrictions(ExamRegion region) {
 		ExamRestrictions restrictions = ExamRestrictions.forRegion(region);
 		if (restrictions != null) {
@@ -275,6 +255,8 @@ public final class ExamController {
 			}
 		}
 		commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
+
+		// TODO suppress syntax in CommandErrorMessageBuilder
 	}
 
 	private void unapplyRestrictions() {
@@ -283,6 +265,8 @@ public final class ExamController {
 		}
 		examCommandFilter = null;
 		commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
+
+		// TODO enable syntax in CommandErrorMessageBuilder
 	}
 
 	// TODO try to remove

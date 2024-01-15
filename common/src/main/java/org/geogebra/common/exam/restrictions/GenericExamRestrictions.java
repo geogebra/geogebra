@@ -7,18 +7,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 
 public final class GenericExamRestrictions extends ExamRestrictions {
 
-	@Override
-	public List<SuiteSubApp> getDisabledSubApps() {
-		return null;
-	}
-
-	@Override
-	public SuiteSubApp getDefaultSubApp() {
-		return null;
-	}
-
-	@Override
-	public CommandFilter getCommandFilter() {
-		return null;
+	public GenericExamRestrictions() {
+		super(null, SuiteSubApp.GRAPHING, null);
 	}
 }

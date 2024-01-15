@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
-import org.geogebra.common.main.exam.ExamRegion;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;

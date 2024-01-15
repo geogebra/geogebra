@@ -14,7 +14,6 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.main.exam.ExamRegion;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +44,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testPrepareExam() {
-		assertEquals(ExamState.INACTIVE, examController.getState());
+		assertEquals(ExamState.IDLE, examController.getState());
 		examController.prepareExam();
 		assertNull(examController.getStartDate()); // not yet started
 		assertNull(examController.getEndDate()); // not yet ended
@@ -83,15 +82,14 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(examController.getStartDate());
 		assertNull(examController.getEndDate());
 
-		assertEquals(ExamState.INACTIVE, examController.getState()); // back to initial state
+		assertEquals(ExamState.IDLE, examController.getState()); // back to initial state
 		assertEquals(Arrays.asList(ExamState.PREPARING, ExamState.ACTIVE,
-				ExamState.WRAPPING_UP, ExamState.INACTIVE), examStates);
+				ExamState.WRAPPING_UP, ExamState.IDLE), examStates);
 	}
 
 	private void startExam(ExamRegion examRegion) {
 		examController.prepareExam();
-		ExamConfiguration configuration = new ExamConfiguration();
-		examController.startExam(examRegion, configuration);
+		examController.startExam(examRegion);
 	}
 
 	private <T> void assertContains(T value, Collection<T> collection) {

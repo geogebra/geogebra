@@ -5,7 +5,7 @@ package org.geogebra.common.exam;
  */
 public enum ExamState {
 	/** No exam is currently active. */
-	INACTIVE,
+	IDLE,
 
 	/** The exam is about to start (e.g., the app is showing a Start Exam dialog, the browser
 	 * is going into fullscreen, etc.). */

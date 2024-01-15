@@ -1,4 +1,4 @@
-package org.geogebra.common.main.exam;
+package org.geogebra.common.exam;
 
 import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
@@ -33,6 +33,7 @@ public enum ExamRegion {
 			return loc.getMenu(shortAppName);
 		}
 
+		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			// no specific restrictions
@@ -76,6 +77,7 @@ public enum ExamRegion {
 			return "Niedersachsen";
 		}
 
+		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setRestrictedSubAppCodes(G3D_APPCODE);
@@ -97,6 +99,7 @@ public enum ExamRegion {
 			return "Schulversuch CAS";
 		}
 
+		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setRestrictedSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE,
@@ -120,6 +123,7 @@ public enum ExamRegion {
 			return "Vlaanderen";
 		}
 
+		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setRestrictedSubAppCodes(CAS_APPCODE);
