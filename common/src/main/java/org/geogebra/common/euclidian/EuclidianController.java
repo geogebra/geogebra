@@ -733,7 +733,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
 							ModeSetter.DOCK_PANEL);
 				} else {
-					app.setMode(EuclidianConstants.MODE_SELECT,
+					app.setMode(EuclidianConstants.MODE_MOVE,
 							ModeSetter.DOCK_PANEL);
 				}
 				return;
