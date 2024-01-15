@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
+import org.gwtproject.dom.style.shared.Unit;
 
 /**
  * Tab of Spreadsheet View.
@@ -22,8 +23,9 @@ public class SpreadsheetTab extends ToolbarTab {
 	}
 
 	private void createContent() {
-		this.spreadsheetPanel = new SpreadsheetPanel(toolbarPanel.getApp(), this);
+		this.spreadsheetPanel = new SpreadsheetPanel(toolbarPanel.getApp());
 		add(spreadsheetPanel);
+		spreadsheetPanel.getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
 	}
 
 	@Override
