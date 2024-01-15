@@ -3014,7 +3014,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdPolynomialMultiVariable() {
-		t("Polynomial[y^2+(x+y)^2]", "x^(2) + 2 * x * y + 2 * y^(2)");
+		t("Polynomial[y^2+(x+y)^2]", "(2 * y^(2)) + ((2 * x) * y) + x^(2)");
 	}
 
 
