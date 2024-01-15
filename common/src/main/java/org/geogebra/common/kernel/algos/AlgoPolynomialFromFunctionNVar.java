@@ -13,6 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -71,6 +73,8 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 	// ON CHANGE: similar code is in AlgoTaylorSeries
 	@Override
 	public final void compute() {
+		FunctionNVar functionNVar = f.getFunction();
+		PolyFunction polyFunction = functionNVar.expandToPolyFunction();
 	}
 
 }

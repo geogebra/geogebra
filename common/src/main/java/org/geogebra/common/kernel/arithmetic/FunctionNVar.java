@@ -74,6 +74,7 @@ public class FunctionNVar extends ValidExpression
 	private String casEvalStringSymbolic;
 
 	private boolean forceInequality;
+	private double[][][] coeffSquarefree;
 
 	private final static class RandomCheck implements Inspecting {
 		protected RandomCheck() {
@@ -1527,5 +1528,72 @@ public class FunctionNVar extends ValidExpression
 	@Override
 	public void setForceInequality(boolean forceInequality) {
 		this.forceInequality = forceInequality;
+	}
+
+	public PolyFunction expandToPolyFunction() {
+
+		PolyFunction polyFun = null;
+		int terms = -1;
+		ExpressionValue[][] coeff = null;
+		ExpressionNode lhs = replaceFunctionVarsIn(getExpression());
+		Equation equ = new Equation(kernel, lhs, new MyDouble(kernel, 0));
+
+		if (!equ.isPolynomial()) {
+			return null;
+		}
+
+		try {
+			Polynomial polynomial = Polynomial.fromNode(lhs, equ, false);
+			equ.initEquation();
+			coeff = polynomial.getCoeff();
+			terms = coeff.length;
+		} catch (Throwable t) {
+			Log.warn(getExpression() + " couldn't be transformed to polynomial:"
+					+ t.getMessage());
+			return null;
+		}
+
+		double[] xCoeffs = getValidCoeffs(coeff, 0);
+		double[] yCoeffs = getValidCoeffs(coeff, 1);
+
+		for (int i = 0; i < coeff.length; i++) {
+			ExpressionValue x = coeff[i][0];
+			if (x != null) Log.debug(x + "x");
+			ExpressionValue y = coeff[i][1];
+			if (y != null) Log.debug(y + "y");
+		}
+
+		return null;
+	}
+
+	private static double[] getValidCoeffs(ExpressionValue[][] coeff, int varIdx) {
+		int terms = coeff.length;
+		double[] coeffValues = new double[terms];
+		// shorten [5,0,0] to [5] but keep [0] as is
+		int validCoeffs = Math.min(1, coeff.length);
+		for (int i = 0; i < coeff.length; i++) {
+			if (coeff[i][varIdx] instanceof ExpressionNode) {
+				coeffValues[i] = coeff[i][varIdx].evaluateDouble(); // for ticket
+				// #2276
+				// ---Tam
+			} else {
+				coeffValues[i] = coeff[i][varIdx] instanceof NumberValue
+						? coeff[i][varIdx].evaluateDouble() : 0;
+			}
+			if (coeffValues[i] != 0) {
+				validCoeffs = i + 1;
+			}
+		}
+		return coeffValues;
+	}
+
+	private ExpressionNode replaceFunctionVarsIn(ExpressionValue ev) {
+		FunctionVariable xVar = new FunctionVariable(kernel, "x");
+		FunctionVariable yVar = new FunctionVariable(kernel, "y");
+		Traversing.VariableReplacer repl = kernel.getVariableReplacer();
+		repl.addVars("x", fVars[0]);
+		repl.addVars("y", fVars[1]);
+		ExpressionNode functionNode = ev.deepCopy(kernel).wrap();
+		return functionNode.traverse(repl).wrap();
 	}
 }
