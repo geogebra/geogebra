@@ -2157,6 +2157,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(add("h=If(x<a,a,x<b,b,x<c,c+1)"),
 				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x"
 						+ "\\\\ b& : b > x\\\\ c + 1& : c > x \\end{array}\\right. "));
+		assertThat(add("x+x"), hasFormulaString("2 \\; x"));
 	}
 
 	@Test
