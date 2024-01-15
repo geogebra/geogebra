@@ -158,7 +158,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	@Override
-	public void notifyResumed() {
+	public void notifyImportFinished(TableValuesModel model) {
 		createAndAddPoints();
 	}
 

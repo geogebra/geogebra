@@ -80,9 +80,9 @@ public interface TableValuesListener {
 	void notifyDatasetChanged(TableValuesModel model);
 
 	/**
-	 * Notifies when the listeners are resumed after data import
+	 * Notifies listeners when data import has finished.
 	 */
-	default void notifyResumed() {
+	default void notifyImportFinished(TableValuesModel model) {
 		// ignore
 	}
 }

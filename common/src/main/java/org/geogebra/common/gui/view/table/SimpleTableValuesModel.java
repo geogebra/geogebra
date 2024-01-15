@@ -366,8 +366,8 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
-	void notifyResumed() {
-		forEachListener(listener -> listener.notifyResumed());
+	private void notifyImportFinished() {
+		forEachListener(listener -> listener.notifyImportFinished(this));
 	}
 
 	private Stream<TableValuesListener> listenerStream() {
@@ -564,6 +564,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		collector.notifyDatasetChanged(this);
 		collector.endCollection(this);
 		resumeListeners(listener -> listener instanceof TableValuesPoints);
+		notifyImportFinished();
 	}
 
 	@Override
@@ -633,6 +634,5 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		}
 		suspendedListeners.removeAll(resumedListeners);
 		listeners.addAll(resumedListeners);
-		notifyResumed();
 	}
 }
