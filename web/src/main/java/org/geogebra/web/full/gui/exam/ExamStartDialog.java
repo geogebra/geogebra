@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.exam;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.main.exam.restriction.ExamRegion;
+import org.geogebra.common.main.exam.ExamRegion;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.main.AppWFull;

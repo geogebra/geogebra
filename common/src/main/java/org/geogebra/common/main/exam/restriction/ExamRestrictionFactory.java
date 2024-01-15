@@ -1,5 +1,7 @@
 package org.geogebra.common.main.exam.restriction;
 
+import org.geogebra.common.main.exam.ExamRegion;
+
 /**
  * Class to create restrictions for exams based on the locale.
  */

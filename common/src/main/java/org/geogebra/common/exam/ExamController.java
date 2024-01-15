@@ -9,11 +9,12 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
+import org.geogebra.common.main.exam.ExamRegion;
 import org.geogebra.common.ownership.NonOwning;
+
+import com.google.j2objc.annotations.Weak;
 
 /**
  * A controller for coordinating exam mode.
@@ -64,6 +65,7 @@ import org.geogebra.common.ownership.NonOwning;
  */
 public final class ExamController {
 
+	@Weak
 	@NonOwning
 	private ExamControllerDelegate delegate;
 
@@ -71,15 +73,13 @@ public final class ExamController {
 	private CommandDispatcher commandDispatcher;
 	@NonOwning
 	private ExamRegion examRegion;
-//	@NonOwning
-//	private Localization localization;
 
 	private ExamConfiguration configuration;
 	private ExamState state = ExamState.INACTIVE;
 	private Date startDate, endDate;
-	private Set<ExamListener> listeners = new HashSet<ExamListener>();
+	private final Set<ExamListener> listeners = new HashSet<ExamListener>();
 	private final TempStorage tempStorage = new TempStorage();
-//	private CheatingEvents cheatingEvents = new CheatingEvents();
+	private CheatingEvents cheatingEvents = new CheatingEvents();
 	private CommandFilter examCommandFilter;
 	private final CommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
 
@@ -100,19 +100,13 @@ public final class ExamController {
 		this.delegate = delegate;
 	}
 
-//	/**
-//	 * Sets the localization.
-//	 *
-//	 * Make sure to call this method whenever the current localization changes.
-//	 *
-//	 * @apiNote It is assumed that the localization is set before attempting to start an exam.
-//	 *
-//	 * @param localization The current localization.
-//	 */
-//	public void setLocalization(@NonOwning Localization localization) {
-//		this.localization = localization;
-//	}
-
+	/**
+	 * Sets the command dispatcher.
+	 * @param commandDispatcher The command dispatcher.
+	 */
+	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
+		this.commandDispatcher = commandDispatcher;
+	}
 	/**
 	 * @return The current exam state.
 	 * <p/>
@@ -164,6 +158,10 @@ public final class ExamController {
 		setState(ExamState.PREPARING);
 	}
 
+	public void startExam(ExamRegion region) {
+		startExam(region, null);
+	}
+
 	/**
 	 * Starts the exam.
 	 *
@@ -177,10 +175,11 @@ public final class ExamController {
 		this.configuration = configuration;
 		applyConfiguration(configuration);
 		applyRestrictions(region);
-		requestClearClipboard();
-		requestClearAllApps();
+		requestAction(ExamAction.CLEAR_CLIPBOARD);
+		requestAction(ExamAction.CLEAR_APPS);
+		requestAction(ExamAction.HIDE_SYNTAX_IN_COMMAND_ERROR_MESSAGES);
 		tempStorage.clearTempMaterials();
-//		cheatingEvents = new CheatingEvents();
+		cheatingEvents = new CheatingEvents();
 
 		startDate = new Date();
 		setState(ExamState.ACTIVE);
@@ -212,11 +211,25 @@ public final class ExamController {
 		}
 		unapplyRestrictions();
 		tempStorage.clearTempMaterials();
-		requestClearClipboard();
-		requestClearAllApps();
-//		setShowSyntax(true); // handle externally?
+		requestAction(ExamAction.CLEAR_CLIPBOARD);
+		requestAction(ExamAction.CLEAR_APPS);
+		requestAction(ExamAction.SHOW_SYNTAX_IN_COMMAND_ERROR_MESSAGES);
 		startDate = endDate = null;
 		setState(ExamState.INACTIVE);
+	}
+
+	// TODO remove - unclear semantics
+	public boolean isExamActive() {
+		return state == ExamState.ACTIVE;
+	}
+
+	// TODO remove - unclear semantics
+	public boolean isExamInPreparationOrActiveOrWrappingUp() {
+		return state != ExamState.INACTIVE;
+	}
+
+	public boolean isIdle() {
+		return state == ExamState.INACTIVE;
 	}
 
 	/**
@@ -243,15 +256,9 @@ public final class ExamController {
 		}
 	}
 
-	private void requestClearClipboard() {
+	private void requestAction(ExamAction action) {
 		if (delegate != null) {
-			delegate.clearClipboard();
-		}
-	}
-
-	private void requestClearAllApps() {
-		if (delegate != null) {
-			delegate.clearAllApps();
+			delegate.requestAction(action);
 		}
 	}
 
@@ -278,8 +285,8 @@ public final class ExamController {
 		commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
 	}
 
-//	private void setShowSyntax(boolean showSyntax) {
-//		CommandErrorMessageBuilder builder = localization.getCommandErrorMessageBuilder();
-//		builder.setShowingSyntax(showSyntax);
-//	}
+	// TODO try to remove
+	public TempStorage getTempStorage() {
+		return tempStorage;
+	}
 }

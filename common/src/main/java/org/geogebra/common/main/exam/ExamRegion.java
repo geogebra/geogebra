@@ -1,4 +1,4 @@
-package org.geogebra.common.main.exam.restriction;
+package org.geogebra.common.main.exam;
 
 import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
@@ -15,6 +15,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 
 public enum ExamRegion {
 
@@ -77,7 +78,7 @@ public enum ExamRegion {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(G3D_APPCODE);
+			model.setRestrictedSubAppCodes(G3D_APPCODE);
 		}
 
 		@Override
@@ -98,7 +99,7 @@ public enum ExamRegion {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE,
+			model.setRestrictedSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE,
 					PROBABILITY_APPCODE);
 			model.setCommandFilter(CommandFilterFactory.createBayernCasFilter());
 		}
@@ -121,7 +122,7 @@ public enum ExamRegion {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(CAS_APPCODE);
+			model.setRestrictedSubAppCodes(CAS_APPCODE);
 			model.setCommandFilter(CommandFilterFactory.createVlaanderenFilter());
 		}
 

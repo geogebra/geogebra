@@ -1,13 +1,12 @@
 package org.geogebra.common.exam.restrictions;
 
 import java.util.List;
-import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
+import org.geogebra.common.main.exam.ExamRegion;
 
 /**
  * Restrictions that apply during an exam.

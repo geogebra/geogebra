@@ -7,6 +7,7 @@ package org.geogebra.common.main.exam.event;
 public class CheatingEvent {
 
     private CheatingAction action;
+    // TODO change to Date
     private Long time;
 
     /**

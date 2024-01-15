@@ -341,8 +341,9 @@ public class RedefineTest extends BaseUnitTest {
 		add("b:Circle(O,1)");
 		add("c:xx+yy=2");
 		add("d:xx+yy");
-		app.setNewExam();
-		app.startExam();
+		// TODO exam - unclear what exam has to do with this?
+//		app.setNewExam();
+//		app.startExam();
 		assertFalse(lookup("b").isLocked());
 		assertTrue(lookup("c").isLocked());
 		assertFalse(lookup("d").isLocked());

@@ -1,0 +1,8 @@
+package org.geogebra.common.exam;
+
+public enum ExamAction {
+	CLEAR_APPS,
+	CLEAR_CLIPBOARD,
+	HIDE_SYNTAX_IN_COMMAND_ERROR_MESSAGES,
+	SHOW_SYNTAX_IN_COMMAND_ERROR_MESSAGES
+}
