@@ -2911,6 +2911,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdPenStroke() {
+		t("PenStroke[(1,1),(2,2)]",
+				"PenStroke[(1.0000E0,1.0000E0), (2.0000E0,2.0000E0), (NaN,NaN)]");
+	}
+
+	@Test
 	public void cmdPercentile() {
 		t("Percentile[ {1,2,3,4,5}, 0.05 ]", "1");
 	}

@@ -63,7 +63,7 @@ public class DrawablesTest {
 				"Semicircle[(0,0),(1,1)]", "xx", "1<x<2", "x=y", "{(1,1)}",
 				"ConvexHull[(0,0),(0,1),(1,0)]", "7",
 				"Polygon[(0,0),(0,1),(1,0)]", "Polyline[(0,0),(0,1),(1,0)]",
-				"Polyline[(0,0),(0,1),(1,0),true]", "Ray[(0,0),(2,3)]",
+				"PenStroke[(0,0),(0,1),(1,0)]", "Ray[(0,0),(2,3)]",
 				"Segment[(0,0),(2,3)]", "Vector[(0,0),(2,3)]",
 				"FormulaText[x^2]", "(t,t^3)", "x^4+y^4=1", "x>y",
 				"Spline[(0,0),(0,1),(1,0),(2,3)]", "Turtle[]", "(1,1,0)",
