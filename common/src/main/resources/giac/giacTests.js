@@ -2422,6 +2422,8 @@ var __giac = [
 { cat:"Solve", cmd:"Solve({A=a+b*c/(b+c) , B=b+a*c/(a+c) , C=c+a*b/(a+b)} , {a,b,c} )", result:"{{a = (-2A\u00B2 B\u00B2 C - 2A\u00B2 B C\u00B2 + 2A B\u00B2 C\u00B2) / (A\u00B2 B\u00B2 - 2A\u00B2 B C + A\u00B2 C\u00B2 - 2A B\u00B2 C - 2A B C\u00B2 + B\u00B2 C\u00B2), b = (-2A\u00B2 B\u00B2 C + 2A\u00B2 B C\u00B2 - 2A B\u00B2 C\u00B2) / (A\u00B2 B\u00B2 - 2A\u00B2 B C + A\u00B2 C\u00B2 - 2A B\u00B2 C - 2A B C\u00B2 + B\u00B2 C\u00B2), c = (2A\u00B2 B\u00B2 C - 2A\u00B2 B C\u00B2 - 2A B\u00B2 C\u00B2) / (A\u00B2 B\u00B2 - 2A\u00B2 B C + A\u00B2 C\u00B2 - 2A B\u00B2 C - 2A B C\u00B2 + B\u00B2 C\u00B2)}}" },
 { cat:"Solve", cmd:"Solve(x/sqrt(x))", result:"{}"},
 { cat:"Solutions", cmd:"Solutions(x/sqrt(x))", result:"{}"},
+{ cat:"NSolutions", cmd:"NSolutions(x/sqrt(x))", result:"{0}"},
+{ cat:"NSolve", cmd:"NSolve(x/sqrt(x))", result:"{x = 0}"},
 { cat:"Solutions", cmd:"Solutions({Q+r v+s u=P+t a + k b},{r,s,t,k})", result:"{{(P - Q + a t + b k - s u) / v, s, t, k}}"},
 { cat:"Evaluate", cmd:"Evaluate({{1,2},{3,4}}*{{-1,4},{5,-2}})", result:"{{9, 0}, {17, 4}}" },
 { cat:"Product", cmd:"Product({{{1,2},{3,4}},{{-1,4},{5,-2}}})", result:"{{9, 0}, {17, 4}}" },
