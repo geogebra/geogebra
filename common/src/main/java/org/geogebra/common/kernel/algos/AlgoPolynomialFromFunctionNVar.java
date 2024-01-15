@@ -83,10 +83,10 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
-		FunctionNVar inFun = f.getFunction();
 		xVar = new FunctionVariable(kernel, "x");
 		yVar = new FunctionVariable(kernel, "y");
-		ExpressionValue[][] coeff = inFun.getCoeff();
+		ExpressionValue[][] coeff = f.getFunction().getCoeff();
+		poly = null;
 		ExpressionNode expressionNode = buildFromCoeff(coeff);
 		if (expressionNode != null) {
 			FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{xVar, yVar});
@@ -96,7 +96,6 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 	}
 
 	private ExpressionNode buildFromCoeff(ExpressionValue[][] coeff) {
-		poly = null; // expression for the expanded polynomial
 		MyDouble coeffMyDouble = null;
 		for (int i = 0; i < coeff.length; i++) {
 			for (int j = 0; j < coeff[i].length; j++) {
@@ -105,32 +104,28 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 					continue;
 				}
 				ExpressionNode c = new ExpressionNode(coeffNode.wrap());
-				double cf = c.evaluateDouble();
-				if (Double.isNaN(cf) || Double.isInfinite(cf)) {
+				double coeffValue = c.evaluateDouble();
+				if (Double.isNaN(coeffValue) || Double.isInfinite(coeffValue)) {
 					return poly;
-				} else if (cf == 0) {
+				} else if (coeffValue == 0) {
 					continue; // this part vanished
 				}
-				boolean negativeCoeff = cf < 0;
-				ExpressionValue xPower = makePowerExp(xVar, i);
-				ExpressionValue yPower = makePowerExp(yVar, j);
-				ExpressionValue xPart = makePartExp(xPower, cf);
-				ExpressionValue yPart = makePartExp(yPower, 1);
-				ExpressionValue mul = combineParts(xPart, yPart);
+				ExpressionValue product = getProductOfPowerFVars(coeffValue, i, j);
+
 				if (poly == null) {
-					if (mul != null) {
-						poly = mul.wrap();
+					if (product != null) {
+						poly = product.wrap();
 					}
 				} else {
-					if (negativeCoeff) {
+					if (coeffValue < 0) {
 						if (coeffMyDouble != null) {
-							coeffMyDouble.set(-cf); // change sign
+							coeffMyDouble.set(-coeffValue); // change sign
 						}
 						poly = new ExpressionNode(kernel, poly, Operation.MINUS,
-								mul);
+								product);
 					} else {
 						poly = new ExpressionNode(kernel, poly, Operation.PLUS,
-								mul);
+								product);
 					}
 				}
 			}
@@ -138,20 +133,13 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		return poly;
 	}
 
-	private ExpressionNode combineParts(ExpressionValue xPart, ExpressionValue yPart) {
-		if (xPart != null && (yPart == null || yPart.evaluateDouble() == 1)) {
-			return xPart.wrap();
-		}
-		if (xPart == null && (yPart != null || xPart.evaluateDouble() == 1)) {
-			return yPart.wrap();
-		}if (xPart == null && yPart == null) {
-			return null;
-		}
-		return new ExpressionNode(kernel, xPart, Operation.MULTIPLY, yPart);
+	private ExpressionValue getProductOfPowerFVars(double coeffValue, int powOfX, int powOfY) {
+		ExpressionValue xPower = makePowerExp(xVar, powOfX);
+		ExpressionValue yPower = makePowerExp(yVar, powOfY);
+		return combineParts(mulWithCoeff(xPower, coeffValue), yPower);
 	}
 
 	private ExpressionValue makePowerExp(FunctionVariable fVar, int power) {
-		ExpressionValue powerExp;
 		switch (power) {
 		case 0:
 			return null;
@@ -165,27 +153,34 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 
 	}
 
-	private ExpressionValue makePartExp(ExpressionValue powerExp, double coeff) {
-		ExpressionValue partExp;
-		MyDouble coeffMyDouble = null;
-		// check for poly != null rather than k != n-1 in case the leading
-		// coefficient was 0, eg FitPoly[{(1,-1),(0,0),(-1,-1),(2,-4)},3]
+	private ExpressionValue mulWithCoeff(ExpressionValue powerExp, double coeff) {
 		if (DoubleUtil.isEqual(coeff, 1.0)
 				|| (poly != null && DoubleUtil.isEqual(coeff, -1.0))) {
 			if (powerExp == null) {
-				partExp = new MyDouble(kernel, 1.0);
+				return new MyDouble(kernel, 1.0);
 			} else {
-				partExp = powerExp;
+				return powerExp;
 			}
 		} else {
-			coeffMyDouble = coeff == -1 ? new MinusOne(kernel) : new MyDouble(kernel, coeff);
-			if (powerExp == null) {
-				partExp = coeffMyDouble;
-			} else {
-				partExp = new ExpressionNode(kernel, coeffMyDouble,
-						Operation.MULTIPLY, powerExp);
-			}
+			MyDouble coeffExpression = coeff == -1
+					? new MinusOne(kernel)
+					: new MyDouble(kernel, coeff);
+			return powerExp == null
+					? coeffExpression
+					: new ExpressionNode(kernel, coeffExpression, Operation.MULTIPLY, powerExp);
+
 		}
-		return partExp;
+	}
+
+	private ExpressionNode combineParts(ExpressionValue xPart, ExpressionValue yPart) {
+		if (xPart != null && (yPart == null || yPart.evaluateDouble() == 1)) {
+			return xPart.wrap();
+		}
+		if (xPart == null && (yPart != null || xPart.evaluateDouble() == 1)) {
+			return yPart.wrap();
+		}if (xPart == null && yPart == null) {
+			return null;
+		}
+		return new ExpressionNode(kernel, xPart, Operation.MULTIPLY, yPart);
 	}
 }
