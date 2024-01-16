@@ -45,7 +45,8 @@ class MenuActionRouter {
 				Collections.singletonList(submenuItem.getGroup()));
 		HeaderView headerView = menuViewController.createHeaderView();
 		headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
-		headerView.getBackButton().addFastClickHandler(source -> menuViewController.hideSubmenu());
+		headerView.getBackButton().addFastClickHandler(source ->
+				menuViewController.hideSubmenuAndMoveFocus());
 		HeaderedMenuView submenu = new HeaderedMenuView(menuView);
 		if (submenuItem.getBottomText() != null) {
 			Label version = BaseWidgetFactory.INSTANCE.newDisabledText(

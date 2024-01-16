@@ -18,6 +18,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
@@ -33,7 +34,6 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.UriUtils;
@@ -248,7 +248,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		if (visible != floatingMenuView.isVisible()) {
 			floatingMenuView.setVisible(visible);
 			notifyMenuViewVisibilityChanged(visible);
-			hideSubmenu();
+			hideSubmenuAndMoveFocus();
 			menuView.selectItem(0);
 		}
 	}
@@ -280,9 +280,10 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 
 	}
 
-	void hideSubmenu() {
+	void hideSubmenuAndMoveFocus() {
 		if (submenuContainer.getWidget() != null) {
 			setSubmenuVisibility(false);
+			menuView.selectItem(menuView.getSelectedIndex());
 		}
 	}
 
@@ -311,20 +312,11 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	private void createMenuItemGroup(MenuView menuView, MenuItemGroup menuItemGroup) {
 		String titleKey = menuItemGroup.getTitle();
 		String title = titleKey == null ? null : localization.getMenu(titleKey);
-		//MenuItemGroupView view = new MenuItemGroupView(title);
 		for (MenuItem menuItem : menuItemGroup.getMenuItems()) {
 			MenuItemView item = createMenuItemView(menuItem);
 			item.setScheduledCommand(() -> menuActionRouter.handleMenuItem(menuItem));
 			menuView.addItem(item);
 		}
-		//menuView.addItem(view);
-	}
-
-	private void createMenuItem(final MenuItem menuItem, MenuItemGroupView parent) {
-		MenuItemView view = createMenuItemView(menuItem);
-		view.addDomHandler(event -> menuActionRouter.handleMenuItem(menuItem),
-				ClickEvent.getType());
-		parent.add(view);
 	}
 
 	private MenuItemView createMenuItemView(MenuItem menuItem) {
