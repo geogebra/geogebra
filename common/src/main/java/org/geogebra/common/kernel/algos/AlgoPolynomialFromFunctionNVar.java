@@ -33,8 +33,8 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 	private GeoFunctionNVar f; // input
 	private GeoFunctionNVar g; // output
 	private ExpressionNode poly;
-	private FunctionVariable xVar;
-	private FunctionVariable yVar;
+	private FunctionVariable var1;
+	private FunctionVariable var2;
 
 	/**
 	 * @param cons construction
@@ -82,13 +82,20 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 			return;
 		}
 		FunctionVariable[] functionVariables = f.getFunctionVariables();
-		xVar = new FunctionVariable(kernel, functionVariables[0].getSetVarString());
-		yVar = new FunctionVariable(kernel, functionVariables[1].getSetVarString());
+		if (functionVariables.length != 2) {
+			g.setUndefined();
+			return;
+		}
+
+		String varName1 = functionVariables[0].getSetVarString();
+		String varName2 = functionVariables[1].getSetVarString();
 		ExpressionValue[][] coeff = f.getFunction().getCoeff();
 		poly = null;
+		var1 = new FunctionVariable(kernel, varName1);
+		var2 = new FunctionVariable(kernel, varName2);
 		ExpressionNode expressionNode = buildFromCoeff(coeff);
 		if (expressionNode != null) {
-			FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{xVar, yVar});
+			FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{var1, var2});
 			g.setFunction(functionNVar);
 
 		}
@@ -107,18 +114,24 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 				} else if (coeffValue == 0) {
 					continue; // this part vanished
 				}
-				ExpressionValue product = getProductOfPowerFVars(i, j);
 
-				poly = AlgoPolynomialFromCoordinates.addToPoly(poly, product, coeffValue, kernel);
+				poly = AlgoPolynomialFromCoordinates.addToPoly(poly,
+						makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)),
+						coeffValue,
+						kernel);
 			}
 		}
 		return poly;
 	}
 
-	private ExpressionValue getProductOfPowerFVars(int powOfX, int powOfY) {
-		ExpressionValue xPower = makePowerExp(xVar, powOfX);
-		ExpressionValue yPower = makePowerExp(yVar, powOfY);
-		return combineParts(xPower, yPower);
+	private ExpressionValue makeProduct(ExpressionValue part1, ExpressionValue part2) {
+		if (part1 == null) {
+			return part2;
+		}
+		if (part2 == null) {
+			return part1;
+		}
+		return new ExpressionNode(kernel, part1, Operation.MULTIPLY, part2);
 	}
 
 	private ExpressionValue makePowerExp(FunctionVariable fVar, int power) {
@@ -133,15 +146,5 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 					new MyDouble(kernel, power));
 		}
 
-	}
-
-	private ExpressionValue combineParts(ExpressionValue xPart, ExpressionValue yPart) {
-		if (xPart == null) {
-			return yPart;
-		}
-		if (yPart == null) {
-			return xPart;
-		}
-		return new ExpressionNode(kernel, xPart, Operation.MULTIPLY, yPart);
 	}
 }

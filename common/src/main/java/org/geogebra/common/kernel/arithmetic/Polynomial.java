@@ -534,20 +534,21 @@ public class Polynomial implements HasDebugString {
 	 *
 	 * @return Coefficient matrix of this polynomial (in var1 and var2)
 	 */
-	public ExpressionValue[][] getCoeff(String varName1, String varName2) {
+	public ExpressionValue[][] getCoeff(String... varNames) {
 		simplify(null, false);
 		Iterator<Term> it = terms.iterator();
 		// TODO implement support for z as var
-		int degX = 0;
-		int degY = 0;
-		char var1 = varName1.charAt(0);
-		char var2 = varName2.charAt(0);
+		char var1 = varNames[0].charAt(0);
+		char var2 = varNames[1].charAt(0);
+		int degVar1 = 0;
+		int degVar2 = 0;
+
 		while (it.hasNext()) {
 			Term t = it.next();
-			degX = Math.max(degX, t.degree(var1));
-			degY = Math.max(degY, t.degree(var2));
+			degVar1 = Math.max(degVar1, t.degree(var1));
+			degVar2 = Math.max(degVar2, t.degree(var2));
 		}
-		ExpressionValue[][] coeff = new ExpressionValue[degX + 1][degY + 1];
+		ExpressionValue[][] coeff = new ExpressionValue[degVar1 + 1][degVar2 + 1];
 		it = terms.iterator();
 		while (it.hasNext()) {
 			Term t = it.next();
