@@ -6,13 +6,11 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.TreeItem;
-import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
@@ -149,15 +147,18 @@ public class AlgebraCanvasExporter {
 
 	private void drawAlgebraDescription(int index, GeoElement geo, double x, double y) {
 		TreeItem item = algebraView.getItem(index);
-		if (item instanceof RadioTreeItem) {
-			Widget widget = ((RadioTreeItem) item).getContent().getWidget(0);
-			if (widget instanceof Canvas) {
-				drawSingleWidget(widget, item, x, y);
-				return;
-			} else if (isDrawableFraction(geo, item)) {
-				drawFraction(item, geo, x, y);
-				return;
+		if (item instanceof RadioTreeItem
+				&& ((RadioTreeItem) item).getCanvas() != null
+				&& ((RadioTreeItem) item).isLatex()) {
+			Canvas canvas = ((RadioTreeItem) item).getCanvas();
+			HTMLCanvasElement canvasElement = Js.uncheckedCast(canvas.getElement());
+			drawCanvas(canvasElement, item, x, y - item.getOffsetHeight() / 2.0,
+					!((RadioTreeItem) item).shouldBuildItemWithTwoRows());
+
+			if (((RadioTreeItem) item).shouldBuildItemWithTwoRows()) {
+				drawSecondRow(geo, item, x, y);
 			}
+			return;
 		}
 
 		if (AlgebraItem.getDescriptionModeForGeo(geo, app.getSettings().getAlgebra().getStyle())
@@ -207,36 +208,44 @@ public class AlgebraCanvasExporter {
 		return null;
 	}
 
-	private void drawSingleWidget(Widget widget, TreeItem item, double x, double y) {
-		HTMLCanvasElement formula = Js.uncheckedCast(widget.getElement());
-		double formulaHeight = StringUtil.parseDouble(formula.getAttribute("height"));
-
-		graphics.getContext().drawImage(formula, x - DESCRIPTION_PADDING_X / 2.0,
-				y - item.getOffsetHeight() / 2.0 + formulaHeight * 0.1,
-				StringUtil.parseDouble(formula.getAttribute("width")),
-				formulaHeight * 0.9);
-	}
-
 	/**
-	 * @param geo GeoElement
+	 * Draws a canvas to the screen
+	 * @param canvas HTMLCanvasElement
 	 * @param item TreeItem
-	 * @return True if geo is a fraction that and can be drawn to canvas
+	 * @param x x-Coordinate
+	 * @param y y-Coordinate
+	 * @param center Whether this should be centered or not, depending on if an item has two output rows or not
 	 */
-	private boolean isDrawableFraction(GeoElement geo, TreeItem item) {
-		return geo.getDefinition() != null
-				&& geo.getDefinition().getOperation() == Operation.DIVIDE
-				&& ((RadioTreeItem) item).getCanvas() != null;
+	private void drawCanvas(HTMLCanvasElement canvas, TreeItem item,
+			double x, double y, boolean center) {
+		double canvasHeight = StringUtil.parseDouble(canvas.getAttribute("height"));
+		double verticalGap = center ? (item.getOffsetHeight() - canvasHeight) / 2.0 : 0;
+
+		graphics.getContext().drawImage(canvas, x - DESCRIPTION_PADDING_X / 2.0,
+				y + verticalGap,
+				StringUtil.parseDouble(canvas.getAttribute("width")) * 0.9,
+				canvasHeight * 0.9);
 	}
 
-	private void drawFraction(TreeItem item, GeoElement geo, double x, double y) {
-		HTMLCanvasElement formula =
-				Js.uncheckedCast(((RadioTreeItem) item).getCanvas().getElement());
-		double formulaHeight = StringUtil.parseDouble(formula.getAttribute("height"));
+	private void drawSecondRow(GeoElement geo, TreeItem item, double x, double y) {
+		if (((RadioTreeItem) item).getOutputPanel() != null) {
+			Canvas canvas = ((RadioTreeItem) item).getOutputPanel().getValCanvas();
+			if (canvas != null) {
+				HTMLCanvasElement canvasElement = Js.uncheckedCast(canvas.getElement());
+				double canvasElementHeight = StringUtil.parseDouble(
+						canvasElement.getAttribute("height"));
+				double verticalGap = item.getOffsetHeight() / 2.0 - canvasElementHeight;
 
-		graphics.getContext().drawImage(formula, x - DESCRIPTION_PADDING_X / 2.0,
-				y - item.getOffsetHeight() / 2.0 + formulaHeight * 0.1,
-				StringUtil.parseDouble(formula.getAttribute("width")),
-				formulaHeight * 0.9);
+				graphics.drawString("= ", x, y + verticalGap + canvasElementHeight / 2.0);
+				drawCanvas(canvasElement, item, x + app.getFontSize(),
+						y + verticalGap - app.getFontSize() / 3.0, false);
+			} else {
+				String outputText = ((RadioTreeItem) item).getOutputPanel().getValuePanel()
+						.getElement().getInnerText();
+				graphics.drawString("= " + outputText, x, y + item.getOffsetHeight() / 4.0);
+			}
+			return;
+		}
 		graphics.drawString("= " + geo.evaluateDouble(), x,
 				y + item.getOffsetHeight() / 4.0);
 	}

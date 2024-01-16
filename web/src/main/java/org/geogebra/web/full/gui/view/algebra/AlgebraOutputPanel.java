@@ -36,6 +36,14 @@ public class AlgebraOutputPanel extends FlowPanel {
 		valuePanel.addStyleName("avValue");
 	}
 
+	public Canvas getValCanvas() {
+		return this.valCanvas;
+	}
+
+	public FlowPanel getValuePanel() {
+		return this.valuePanel;
+	}
+
 	/**
 	 * @param text
 	 *            prefix

@@ -403,7 +403,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (controller.isEditing() || geo == null) {
 				return;
 			}
-			if ((AlgebraItem.shouldShowBothRows(geo) && !isLatexTrivial()) || lastTeX != null) {
+			if (shouldBuildItemWithTwoRows()) {
 				buildItemWithTwoRows();
 				updateItemColor();
 			} else {
@@ -412,6 +412,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			buildItemWithSingleRow();
 		}
+	}
+
+	public boolean shouldBuildItemWithTwoRows() {
+		return (AlgebraItem.shouldShowBothRows(geo) && !isLatexTrivial()) || lastTeX != null;
 	}
 
 	private void buildItemWithTwoRows() {
@@ -2189,5 +2193,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	public Canvas getCanvas() {
 		return this.canvas;
+	}
+
+	public AlgebraOutputPanel getOutputPanel() {
+		return this.outputPanel;
+	}
+
+	public boolean isLatex() {
+		return this.latex;
 	}
 }
