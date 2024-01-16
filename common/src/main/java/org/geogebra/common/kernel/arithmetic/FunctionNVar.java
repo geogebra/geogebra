@@ -1553,7 +1553,7 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	private ExpressionNode replaceFunctionVarsIn(ExpressionValue ev) {
-		FunctionVariable[] vars = getFunction().getFunctionVariables();
+		FunctionVariable[] vars = getFunctionVariables();
 		String var1 = vars[0].getSetVarString();
 		String var2 = vars[1].getSetVarString();
 		FunctionVariable xVar = new FunctionVariable(kernel, var1);
