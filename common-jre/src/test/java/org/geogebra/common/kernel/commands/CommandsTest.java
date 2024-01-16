@@ -3017,6 +3017,7 @@ public class CommandsTest {
 		t("Polynomial[y^2+(x+y)^2]", "x^(2) + (2 * (x * y)) + (2 * y^(2))");
 		t("Polynomial[x+y-1]", "x + y - 1");
 		t("Polynomial[x-y+1]", "x - y + 1");
+		t("Polynomial[-y+1+x]", "x - y + 1");
 		t("Polynomial[-x+y-1]", "(-x) + y - 1");
 		t("Polynomial[0x+0y-1]", "-1");
 		t("Polynomial(sin(x) + y)", "y");

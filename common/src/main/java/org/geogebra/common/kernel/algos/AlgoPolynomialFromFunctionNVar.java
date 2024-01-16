@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -93,15 +96,18 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		poly = null;
 		var1 = new FunctionVariable(kernel, varName1);
 		var2 = new FunctionVariable(kernel, varName2);
-		ExpressionNode expressionNode = buildFromCoeff(coeff);
-		if (expressionNode != null) {
+		List<CoeffProduct> products = buildFromCoeff(coeff);
+		products.sort(CoeffProduct.newComparator(var1, var2));
+		createPolyFrom(products);
+		if (poly != null) {
 			FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{var1, var2});
 			g.setFunction(functionNVar);
 
 		}
 	}
 
-	private ExpressionNode buildFromCoeff(ExpressionValue[][] coeff) {
+	private List<CoeffProduct> buildFromCoeff(ExpressionValue[][] coeff) {
+		List<CoeffProduct> products = new ArrayList<>();
 		for (int i = coeff.length - 1; i >= 0; i--) {
 			for (int j = coeff[i].length - 1; j >= 0; j--) {
 				ExpressionValue coeffNode = coeff[i][j];
@@ -110,16 +116,24 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 				}
 				double coeffValue = coeffNode.evaluateDouble();
 				if (Double.isNaN(coeffValue) || Double.isInfinite(coeffValue)) {
-					return poly;
+					return products;
 				} else if (coeffValue == 0) {
 					continue; // this part vanished
 				}
 
-				poly = AlgoPolynomialFromCoordinates.addToPoly(poly,
-						makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)),
-						coeffValue,
-						kernel);
+				CoeffProduct product =
+						new CoeffProduct(makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)),
+								coeffValue, Math.max(i, j));
+				products.add(product);
 			}
+		}
+		return products;
+	}
+
+	private ExpressionNode createPolyFrom(List<CoeffProduct> products) {
+		for (CoeffProduct p: products) {
+			poly = AlgoPolynomialFromCoordinates.addToPoly(poly, p.getExpression(),
+					p.getCoeffValue(), kernel);
 		}
 		return poly;
 	}
