@@ -1538,14 +1538,13 @@ public class FunctionNVar extends ValidExpression
 		ExpressionNode lhs = replaceFunctionVarsIn(getExpression());
 		Equation equ = new Equation(kernel, lhs, new MyDouble(kernel, 0));
 
-		if (!equ.isPolynomial()) {
-			return null;
-		}
-
 		try {
 			Polynomial polynomial = Polynomial.fromNode(lhs, equ, false);
 			equ.initEquation();
-			return polynomial.getCoeff();
+			FunctionVariable[] vars = getFunction().getFunctionVariables();
+			String var1 = vars[0].getSetVarString();
+			String var2 = vars[1].getSetVarString();
+			return polynomial.getCoeff(var1, var2);
 		} catch (Throwable t) {
 			Log.warn(getExpression() + " couldn't be transformed to polynomial:"
 					+ t.getMessage());
@@ -1554,11 +1553,14 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	private ExpressionNode replaceFunctionVarsIn(ExpressionValue ev) {
-		FunctionVariable xVar = new FunctionVariable(kernel, "x");
-		FunctionVariable yVar = new FunctionVariable(kernel, "y");
+		FunctionVariable[] vars = getFunction().getFunctionVariables();
+		String var1 = vars[0].getSetVarString();
+		String var2 = vars[1].getSetVarString();
+		FunctionVariable xVar = new FunctionVariable(kernel, var1);
+		FunctionVariable yVar = new FunctionVariable(kernel, var2);
 		Traversing.VariableReplacer repl = kernel.getVariableReplacer();
-		repl.addVars("x", fVars[0]);
-		repl.addVars("y", fVars[1]);
+		repl.addVars(var1, fVars[0]);
+		repl.addVars(var2, fVars[1]);
 		ExpressionNode functionNode = ev.deepCopy(kernel).wrap();
 		return functionNode.traverse(repl).wrap();
 	}

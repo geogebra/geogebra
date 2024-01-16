@@ -3019,6 +3019,7 @@ public class CommandsTest {
 		t("Polynomial[x-y+1]", "x - y + 1");
 		t("Polynomial[-x+y-1]", "(-x) + y - 1");
 		t("Polynomial[0x+0y-1]", "-1");
+		t("Polynomial(sin(x) + y)", "y");
 	}
 
 		@Test

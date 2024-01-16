@@ -1,10 +1,13 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.junit.Test;
 
 /**
@@ -19,5 +22,19 @@ public class PolynomialTest extends BaseUnitTest {
 		assertTrue(function.isPolynomialFunction(false, false));
 		function = add("x^301");
 		assertFalse(function.isPolynomialFunction(false, false));
+	}
+
+	@Test
+	public void testMultiVariablesXYPolynomials() {
+		add("f(x,y)=x+y");
+		GeoFunctionNVar poly = add("Polynomial(f)");
+		assertEquals("x + y", poly.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void testMultiVariablePolynomials() {
+		add("f(a,b)=a+b");
+		GeoFunctionNVar poly = add("Polynomial(f)");
+		assertEquals("a + b", poly.toValueString(StringTemplate.defaultTemplate));
 	}
 }

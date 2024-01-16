@@ -81,8 +81,9 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
-		xVar = new FunctionVariable(kernel, "x");
-		yVar = new FunctionVariable(kernel, "y");
+		FunctionVariable[] functionVariables = f.getFunctionVariables();
+		xVar = new FunctionVariable(kernel, functionVariables[0].getSetVarString());
+		yVar = new FunctionVariable(kernel, functionVariables[1].getSetVarString());
 		ExpressionValue[][] coeff = f.getFunction().getCoeff();
 		poly = null;
 		ExpressionNode expressionNode = buildFromCoeff(coeff);
