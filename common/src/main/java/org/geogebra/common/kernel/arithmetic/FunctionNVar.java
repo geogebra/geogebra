@@ -1541,7 +1541,7 @@ public class FunctionNVar extends ValidExpression
 		try {
 			Polynomial polynomial = Polynomial.fromNode(lhs, equ, false);
 			equ.initEquation();
-			FunctionVariable[] vars = getFunction().getFunctionVariables();
+			FunctionVariable[] vars = getFunctionVariables();
 			String var1 = vars[0].getSetVarString();
 			String var2 = vars[1].getSetVarString();
 			return polynomial.getCoeff(var1, var2);
