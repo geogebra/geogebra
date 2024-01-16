@@ -23,7 +23,6 @@
   <set-property name="compiler.stackMode" value="strip"/>
   <set-property name="gwt.uncaughtexceptionhandler.windowonerror" value="IGNORE"/>
   <set-property name="gwt.logging.enabled" value="FALSE"/>
-  <set-configuration-property name="js.identifier.blacklist" value="Ink" />
   <replace-with class="org.geogebra.web.html5.util.OfflineLoadingStrategy">
     <when-type-is
         class="com.google.gwt.core.client.impl.AsyncFragmentLoader.LoadingStrategy"/>
