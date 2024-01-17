@@ -103,12 +103,11 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		var1 = new FunctionVariable(kernel, varName1);
 		var2 = new FunctionVariable(kernel, varName2);
 		List<CoeffPowerProduct> products = buildFromCoeff(coeff);
-		products.sort(CoeffPowerProduct.newComparator(var1, var2));
+		products.sort(CoeffPowerProduct.getComparator());
 		createPolyFrom(products);
 		if (poly != null) {
 			FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{var1, var2});
 			g.setFunction(functionNVar);
-
 		}
 	}
 
@@ -130,7 +129,7 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 				CoeffPowerProduct product =
 						new CoeffPowerProduct(
 								makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)),
-								coeffValue, Math.max(i, j));
+								coeffValue, i + j, i);
 				products.add(product);
 			}
 		}
