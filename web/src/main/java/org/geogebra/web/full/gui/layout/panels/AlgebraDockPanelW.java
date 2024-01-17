@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.toolbarpanel.AlgebraViewScroller;
 import org.geogebra.web.full.gui.view.algebra.AlgebraCanvasExporter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -242,7 +243,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		drawWhiteBackground(context2d, left, top);
 		context2d.save();
 		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
@@ -251,6 +252,8 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 				getOffsetWidth());
 		exporter.paintToCanvas(left, top);
 		context2d.restore();
-		callback.run();
+		if (counter != null) {
+			counter.decrement();
+		}
 	}
 }
