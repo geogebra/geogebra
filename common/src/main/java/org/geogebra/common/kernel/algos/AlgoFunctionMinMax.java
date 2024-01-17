@@ -97,8 +97,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 		input[1] = left.toGeoElement();
 		input[2] = right.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, E);
+		setOnlyOutput(E);
 
 		setDependencies(); // done by AlgoElement
 	}

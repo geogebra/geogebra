@@ -85,8 +85,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		input = new GeoElement[1];
 		input[0] = (GeoElement) p;
 
-		setOutputLength(1);
-		setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

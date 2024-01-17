@@ -78,7 +78,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Andy Zhu
  */
 
-public abstract class GeoGebraToAsymptote extends GeoGebraExport {
+public class GeoGebraToAsymptote extends GeoGebraExport {
 
 	private boolean eurosym = false; // Use euro symbol
 	private boolean compact = false; // compact code
@@ -117,11 +117,11 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	public boolean fillInequality = false;
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
+	 * @param graphicsFactory export graphics factory
 	 */
-	public GeoGebraToAsymptote(final App app) {
-		super(app);
+	public GeoGebraToAsymptote(final App app, ExportGraphicsFactory graphicsFactory) {
+		super(app, graphicsFactory);
 	}
 
 	/**
@@ -2331,8 +2331,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			if (drawGeo == null) {
 				return;
 			}
-			double xLabel = drawGeo.getxLabel();
-			double yLabel = drawGeo.getyLabel();
+			double xLabel = drawGeo.getLabelX();
+			double yLabel = drawGeo.getLabelY();
 			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
 			yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
 
@@ -3852,17 +3852,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		return true;
 	}
 
-	/**
-	 * @param s
-	 *            shape
-	 * @param ineq
-	 *            inequality
-	 * @param geo
-	 *            element
-	 * @param ds
-	 *            bounds, see getViewBoundsForGeo
-	 */
-	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
+	@Override
+	public void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		importpackage.add("patterns");
 		GColor c = ((GeoElement) geo).getObjectColor();

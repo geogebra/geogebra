@@ -80,8 +80,7 @@ public class AlgoLimit extends AlgoElement
 		input[0] = f;
 		input[1] = num.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, outNum);
+		setOnlyOutput(outNum);
 		setDependencies(); // done by AlgoElement
 	}
 

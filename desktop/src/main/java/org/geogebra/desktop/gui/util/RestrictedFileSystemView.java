@@ -11,6 +11,7 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.filechooser.FileView;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.UtilD;
 
 /* http://jython.svn.sourceforge.net/viewvc/jython/branches/Release_2_2maint/installer/src/java/org/python/util/install/RestrictedFileSystemView.java?view=markup&pathrev=4161
@@ -279,7 +280,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 				tempFile.deleteOnExit();
 				_defaultDirectory = tempFile.getParentFile();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		return _defaultDirectory;
@@ -313,7 +314,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 */
 	@Override
 	public File[] getFiles(File dir, boolean useFileHiding) {
-		Vector<File> files = new Vector<File>();
+		Vector<File> files = new Vector<>();
 
 		// add all files in dir
 		File[] names;

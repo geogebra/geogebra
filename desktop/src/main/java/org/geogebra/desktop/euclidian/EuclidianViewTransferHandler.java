@@ -106,7 +106,6 @@ public class EuclidianViewTransferHandler extends TransferHandler
 		setSupportedFlavours();
 
 		for (int i = 0, n = flavor.length; i < n; i++) {
-			// System.out.println(flavor[i].getMimeType());
 			for (int j = 0, m = supportedFlavors.length; j < m; j++) {
 				if (flavor[i].equals(supportedFlavors[j])) {
 					return true;

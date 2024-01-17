@@ -112,8 +112,7 @@ public class AlgoDilate extends AlgoTransformation {
 			input[2] = (GeoElement) S;
 		}
 
-		setOutputLength(1);
-		setOutput(0, outGeo);
+		setOnlyOutput(outGeo);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -72,8 +72,7 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 		input[2] = (GeoElement) getC();
 		input[3] = (GeoElement) orientation;
 
-		setOutputLength(1);
-		setOutput(0, getAngle());
+		setOnlyOutput(getAngle());
 		setDependencies(); // done by AlgoElement
 	}
 

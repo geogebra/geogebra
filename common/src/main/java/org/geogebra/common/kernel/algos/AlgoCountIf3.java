@@ -74,8 +74,7 @@ public class AlgoCountIf3 extends AlgoElement {
 		input[1] = var;
 		input[2] = inputList;
 
-		super.setOutputLength(1);
-		super.setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

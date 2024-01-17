@@ -188,34 +188,22 @@ public class DockManagerW extends DockManager {
 			for (int i = 1; i < spData.length; ++i) {
 				DockSplitPaneW currentParent = rootPane;
 
-				// a similar system as it's used to determine the position of
-				// the dock panels (see comment in DockManager::show())
-				// 0: turn left/up, 1: turn right/down
-				String[] directions = spData[i].getLocation().split(",");
+				int[] selectors = spData[i].getChildSelectors();
 
 				// get the parent split pane, the last position is reserved for
 				// the location
 				// of the current split pane and therefore ignored here
-				for (int j = 0; j < directions.length - 1; ++j) {
-					if (directions[j].equals("0")) {
-						currentParent = (DockSplitPaneW) currentParent
-								.getLeftComponent();
-					} else {
-						currentParent = (DockSplitPaneW) currentParent
-								.getRightComponent();
-					}
+				for (int j = 0; j < selectors.length - 1; ++j) {
+					currentParent = (DockSplitPaneW) currentParent
+							.getChild(selectors[j]);
 				}
 
 				// insert the split pane
-				if (directions[directions.length - 1].equals("0")) {
-					currentParent.setLeftComponentCheckEmpty(splitPanes[i]);
-				} else {
-					currentParent.setRightComponentCheckEmpty(splitPanes[i]);
-				}
+				currentParent.setComponentCheckEmpty(selectors[selectors.length - 1],
+						splitPanes[i]);
 			}
 			// sort panels right to left: needed for fullscreen button
-			Arrays.sort(dpData, Comparator.comparing(o ->
-					o.getEmbeddedDef().replace('0', '4')));
+			Arrays.sort(dpData, Comparator.comparing(DockPanelData::getRightToLeftSortingKey));
 			// now insert the dock panels
 			for (DockPanelData dpItem : dpData) {
 				DockPanelW panel = getPanel(dpItem.getViewId());
@@ -231,22 +219,16 @@ public class DockManagerW extends DockManager {
 				app.getGuiManager().attachView(panel.getViewId());
 
 				DockSplitPaneW currentParent = rootPane;
-				String[] directions = dpItem.getEmbeddedDef().split(",");
+				int[] selectors = dpItem.getChildSelectors();
 
 				/*
 				 * Get the parent split pane of this dock panel and ignore the
-				 * last direction as its reserved for the position of the dock
+				 * last direction as it's reserved for the position of the dock
 				 * panel itself.
 				 *
 				 */
-				for (int j = 0; j < directions.length - 1; ++j) {
-					Widget current;
-					if (directions[j].equals("0")
-							|| directions[j].equals("3")) {
-						current = currentParent.getLeftComponent();
-					} else {
-						current = currentParent.getRightComponent();
-					}
+				for (int j = 0; j < selectors.length - 1; ++j) {
+					Widget current = currentParent.getChild(selectors[j]);
 					if (current instanceof  DockSplitPaneW) {
 						currentParent = (DockSplitPaneW) current;
 					}
@@ -254,11 +236,8 @@ public class DockManagerW extends DockManager {
 				if (currentParent == null) {
 					Log.error("Invalid perspective");
 					currentParent = rootPane;
-				} else if (directions[directions.length - 1].equals("0")
-						|| directions[directions.length - 1].equals("3")) {
-					currentParent.setLeftComponentCheckEmpty(panel);
 				} else {
-					currentParent.setRightComponentCheckEmpty(panel);
+					currentParent.setComponentCheckEmpty(selectors[selectors.length - 1], panel);
 				}
 
 				panel.setEmbeddedSize(dpItem.getEmbeddedSize());
@@ -782,25 +761,7 @@ public class DockManagerW extends DockManager {
 
 		app.persistWidthAndHeight();
 		// Transform the definition into an array of integers
-		String[] def = panel.getEmbeddedDef().split(",");
-		int[] locations = new int[def.length];
-
-		for (int i = 0; i < def.length; ++i) {
-			if (def[i].length() == 0) {
-				def[i] = "1";
-			}
-
-			locations[i] = Integer.parseInt(def[i]);
-
-			if (locations[i] > 3 || locations[i] < 0) {
-				locations[i] = 3; // left as default direction
-			}
-		}
-
-		// We insert this panel at the left by default
-		if (locations.length == 0) {
-			locations = new int[] { 3 };
-		}
+		int[] locations = DockPanelData.parseLocation(panel.getEmbeddedDef());
 
 		DockSplitPaneW currentPane = rootPane;
 		int secondLastPos = -1;
@@ -1138,7 +1099,7 @@ public class DockManagerW extends DockManager {
 		// app.validateComponent();
 		// }
 
-		if (fromDrop) {
+		if (fromDrop && opposite != null) {
 			if (opposite.getParent() instanceof DockSplitPaneW) {
 				((DockSplitPaneW) opposite.getParent()).onResize();
 			} else if (opposite instanceof DockSplitPaneW) {

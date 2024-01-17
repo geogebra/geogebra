@@ -74,8 +74,7 @@ public class AlgoClosestPointToRegion3D extends AlgoElement3D
 		input[0] = (GeoElement) r;
 		input[1] = (GeoElement) P;
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) geoPointOnRegion);
+		setOnlyOutput(geoPointOnRegion);
 		setDependencies(); // done by AlgoElement
 	}
 

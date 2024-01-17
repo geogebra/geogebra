@@ -438,8 +438,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 		}
 
-		setOutputLength(1);
-		setOutput(0, sum);
+		setOnlyOutput(sum);
 		setDependencies();
 	}
 

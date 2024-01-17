@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import java.util.function.Predicate;
+
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
@@ -43,14 +45,14 @@ import org.geogebra.common.kernel.kernelND.Region3D;
  * @author Zbynek & Arpad
  *
  */
-public enum TestGeo {
+public enum TestGeo implements Predicate<Object> {
 
 	// true GeoElements
 
 	/** Test for GEOANGLE */
 	GEOANGLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoAngle;
 		}
 	},
@@ -58,7 +60,7 @@ public enum TestGeo {
 	/** Test for GEODUMMYVARIABLE */
 	GEODUMMYVARIABLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoDummyVariable;
 		}
 	},
@@ -66,7 +68,7 @@ public enum TestGeo {
 	/** Test for GEONUMERIC */
 	GEONUMERIC {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoNumeric;
 		}
 	},
@@ -74,7 +76,7 @@ public enum TestGeo {
 	/** Test for GEOAXIS */
 	GEOAXIS {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoAxis;
 		}
 	},
@@ -82,7 +84,7 @@ public enum TestGeo {
 	/** Test for GEOSEGMENT */
 	GEOSEGMENT {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoSegment;
 		}
 	},
@@ -90,7 +92,7 @@ public enum TestGeo {
 	/** Test for GEOSEGMENTND */
 	GEOSEGMENTND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoSegmentND;
 		}
 	},
@@ -98,7 +100,7 @@ public enum TestGeo {
 	/** Test for GEORAY */
 	GEORAY {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoRay;
 		}
 	},
@@ -106,7 +108,7 @@ public enum TestGeo {
 	/** Test for GEOLINE */
 	GEOLINE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoLine;
 		}
 	},
@@ -114,7 +116,7 @@ public enum TestGeo {
 	/** Test for GEOLINEND */
 	GEOLINEND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoLineND;
 		}
 	},
@@ -122,7 +124,7 @@ public enum TestGeo {
 	/** Test for GEOVECTOR */
 	GEOVECTOR {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoVector;
 		}
 	},
@@ -130,7 +132,7 @@ public enum TestGeo {
 	/** Test for GEOVECTORND */
 	GEOVECTORND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoVectorND;
 		}
 	},
@@ -138,7 +140,7 @@ public enum TestGeo {
 	/** Test for GEOBOOLEAN */
 	GEOBOOLEAN {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoBoolean;
 		}
 	},
@@ -146,7 +148,7 @@ public enum TestGeo {
 	/** Test for GEOTEXTFIELD */
 	GEOTEXTFIELD {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoInputBox;
 		}
 	},
@@ -154,7 +156,7 @@ public enum TestGeo {
 	/** Test for GEOBUTTON */
 	GEOBUTTON {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoButton;
 		}
 	},
@@ -162,15 +164,15 @@ public enum TestGeo {
 	/** Test for GEOCASCELL */
 	GEOCASCELL {
 		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoButton;
+		public boolean test(Object ob) {
+			return ob instanceof GeoCasCell;
 		}
 	},
 
 	/** Test for GEOCONICPART */
 	GEOCONICPART {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoConicPart;
 		}
 	},
@@ -178,7 +180,7 @@ public enum TestGeo {
 	/** Test for GEOCONIC */
 	GEOCONIC {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoConic;
 		}
 	},
@@ -186,7 +188,7 @@ public enum TestGeo {
 	/** Test for GEOCONICND */
 	GEOCONICND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoConicND;
 		}
 	},
@@ -194,7 +196,7 @@ public enum TestGeo {
 	/** Test for GEOQUADRIC3D */
 	GEOQUADRIC3D {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoQuadric3DInterface;
 		}
 	},
@@ -204,7 +206,7 @@ public enum TestGeo {
 	 */
 	GEOIMPLICITSURFACE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoImplicitSurfaceND;
 		}
 	},
@@ -212,7 +214,7 @@ public enum TestGeo {
 	/** Test for GEOQUADRIC3D */
 	GEOQUADRIC3DLIMITED {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoQuadric3DLimitedInterface;
 		}
 	},
@@ -220,7 +222,7 @@ public enum TestGeo {
 	/** Test for GEOQUADRICND */
 	GEOQUADRICND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoQuadricND;
 		}
 	},
@@ -228,7 +230,7 @@ public enum TestGeo {
 	/** Test for GEOPOLYHEDRON */
 	GEOPOLYHEDRON {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoPolyhedronInterface;
 		}
 	},
@@ -236,7 +238,7 @@ public enum TestGeo {
 	/** Test for GEOCURVECARTESIAN */
 	GEOCURVECARTESIAN {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoCurveCartesian;
 		}
 	},
@@ -244,7 +246,7 @@ public enum TestGeo {
 	/** Test for GEOCURVECARTESIAN3D */
 	GEOCURVECARTESIAN3D {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoCurveCartesian3DInterface;
 		}
 	},
@@ -252,7 +254,7 @@ public enum TestGeo {
 	/** Test for GEOCURVECARTESIANND */
 	GEOCURVECARTESIANND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoCurveCartesianND;
 		}
 	},
@@ -260,7 +262,7 @@ public enum TestGeo {
 	/** Test for GEOFUNCTION */
 	GEOFUNCTION {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoFunction;
 		}
 	},
@@ -268,7 +270,7 @@ public enum TestGeo {
 	/** Test for GEOFUNCTIONNVAR */
 	GEOFUNCTIONNVAR {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoFunctionNVar;
 		}
 	},
@@ -276,7 +278,7 @@ public enum TestGeo {
 	/** Test for GEOFUNCTION2VAR */
 	GEOFUNCTION2VAR {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			if (ob instanceof GeoFunctionNVar) {
 				return ((GeoFunctionNVar) ob).isFun2Var();
 			}
@@ -287,7 +289,7 @@ public enum TestGeo {
 	/** Test for GEOIMAGE */
 	GEOIMAGE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoImage;
 		}
 	},
@@ -295,7 +297,7 @@ public enum TestGeo {
 	/** Test for GEOLIST */
 	GEOLIST {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoList;
 		}
 	},
@@ -303,7 +305,7 @@ public enum TestGeo {
 	/** Test for GEOLIST as combo box */
 	GEOLIST_AS_COMBO {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoList && ((GeoList) ob).drawAsComboBox();
 		}
 	},
@@ -311,7 +313,7 @@ public enum TestGeo {
 	/** Test for GEOLOCUS */
 	GEOLOCUS {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoLocus;
 		}
 	},
@@ -319,7 +321,7 @@ public enum TestGeo {
 	/** Test for GEOPOINT2 */
 	GEOPOINT {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoPoint;
 		}
 	},
@@ -327,7 +329,7 @@ public enum TestGeo {
 	/** Test for GEOPOINTND */
 	GEOPOINTND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoPointND;
 		}
 	},
@@ -335,7 +337,7 @@ public enum TestGeo {
 	/** Test for GEOPOLYGON */
 	GEOPOLYGON {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoPolygon;
 		}
 	},
@@ -343,7 +345,7 @@ public enum TestGeo {
 	/** Test for Equilateral rectangle */
 	GEOEQUILATERALTRIANGLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return checkIsRegularPolygon(ob, 3);
 		}
 	},
@@ -351,7 +353,7 @@ public enum TestGeo {
 	/** Test for Equilateral rectangle */
 	GEOSQUARE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return checkIsRegularPolygon(ob, 4);
 		}
 	},
@@ -359,7 +361,7 @@ public enum TestGeo {
 	/** Test for Regular pentagon */
 	GEOREGULARPENTAGON {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return checkIsRegularPolygon(ob, 5);
 		}
 	},
@@ -367,7 +369,7 @@ public enum TestGeo {
 	/** Test for GEOPOLYGON3D */
 	GEOPOLYGON3D {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoPolygon3DInterface;
 		}
 	},
@@ -375,7 +377,7 @@ public enum TestGeo {
 	/** Test for GEOPOLYLINE */
 	GEOPOLYLINE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoPolyLine;
 		}
 	},
@@ -383,7 +385,7 @@ public enum TestGeo {
 	/** Test for GEOSCRIPTACTION */
 	GEOSCRIPTACTION {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoScriptAction;
 		}
 	},
@@ -391,7 +393,7 @@ public enum TestGeo {
 	/** Test for GEOTEXT */
 	GEOTEXT {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoText;
 		}
 	},
@@ -399,7 +401,7 @@ public enum TestGeo {
 	/** Test for GEOIMPLICITPOLY */
 	GEOIMPLICIT {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoImplicit;
 		}
 	},
@@ -407,15 +409,15 @@ public enum TestGeo {
 	/** Test for GEOCOORDSYS2D, not GEOPLANEND */
 	GEOCOORDSYS2DNOTPLANE {
 		@Override
-		public boolean check(Object ob) {
-			return TestGeo.GEOCOORDSYS2D.check(ob) && !TestGeo.GEOPLANEND.check(ob);
+		public boolean test(Object ob) {
+			return TestGeo.GEOCOORDSYS2D.test(ob) && !TestGeo.GEOPLANEND.test(ob);
 		}
 	},
 
 	/** Test for GEOPLANEND */
 	GEOPLANEND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoPlaneND;
 		}
 	},
@@ -423,7 +425,7 @@ public enum TestGeo {
 	/** Test for GEOCOORDSYS2D */
 	GEOCOORDSYS2D {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoCoordSys2D;
 		}
 	},
@@ -431,14 +433,14 @@ public enum TestGeo {
 	/** Test for GEODIRECTIONND */
 	GEODIRECTIONND {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoDirectionND;
 		}
 	},
 	/** Test for GEOCOORDSYS1D */
 	GEOCOORDSYS1D {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoCoordSys1DInterface;
 		}
 	},
@@ -446,7 +448,7 @@ public enum TestGeo {
 	/** Test for NUMBERVALUE */
 	NUMBERVALUE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof NumberValue;
 		}
 	},
@@ -454,7 +456,7 @@ public enum TestGeo {
 	/** Test for PATH */
 	PATH {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof Path;
 		}
 	},
@@ -462,7 +464,7 @@ public enum TestGeo {
 	/** Test for REGION3D */
 	REGION3D {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			if (ob instanceof Region3D) {
 				return true;
 			}
@@ -473,7 +475,7 @@ public enum TestGeo {
 	/** Test for DILATEABLE */
 	DILATEABLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof Dilateable;
 		}
 	},
@@ -481,7 +483,7 @@ public enum TestGeo {
 	/** Test for TRANSLATEABLE */
 	TRANSLATEABLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof Translateable;
 		}
 	},
@@ -489,7 +491,7 @@ public enum TestGeo {
 	/** Test for MOVEABLE */
 	MOVEABLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			if (!(ob instanceof GeoElement)) {
 				return false;
 			}
@@ -500,7 +502,7 @@ public enum TestGeo {
 	/** Test for ROTATEMOVEABLE */
 	ROTATEMOVEABLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			if (!(ob instanceof GeoElement)) {
 				return false;
 			}
@@ -511,7 +513,7 @@ public enum TestGeo {
 	/** Test for TRANSFORMABLE */
 	TRANSFORMABLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof Transformable;
 		}
 	},
@@ -519,7 +521,7 @@ public enum TestGeo {
 	/** Test for ROTATEABLE */
 	ROTATEABLE {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof Rotatable;
 		}
 	},
@@ -527,7 +529,7 @@ public enum TestGeo {
 	/** Test for GEOELEMENT */
 	GEOELEMENT {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return ob instanceof GeoElement;
 		}
 	},
@@ -535,14 +537,14 @@ public enum TestGeo {
 	/** Test for OBJECT */
 	OBJECT {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			return true;
 		}
 	},
 	/** path hit on boundary */
 	PATH_NO_FILL_HIT {
 		@Override
-		public boolean check(Object ob) {
+		public boolean test(Object ob) {
 			if (ob instanceof GeoConicND) {
 				return ((GeoConicND) ob)
 						.getLastHitType() == HitType.ON_BOUNDARY;
@@ -560,7 +562,7 @@ public enum TestGeo {
 	 * @return true if ob is regular polygon and has correct number of vertices
 	 */
 	static boolean checkIsRegularPolygon(Object ob, int vertexCount) {
-		if (TestGeo.GEOPOLYGON.check(ob)) {
+		if (TestGeo.GEOPOLYGON.test(ob)) {
 			GeoPolygon polygon = (GeoPolygon) ob;
 			if (polygon.getPointsLength() != vertexCount) {
 				return false;
@@ -577,7 +579,9 @@ public enum TestGeo {
 	 *            object to test
 	 * @return true if object passes
 	 */
-	public abstract boolean check(Object ob);
+	public boolean check(Object ob) {
+		return test(ob);
+	}
 
 	/**
 	 * @param obj
@@ -586,7 +590,7 @@ public enum TestGeo {
 	 */
 	public static TestGeo getSpecificTest(Object obj) {
 		for (TestGeo t : TestGeo.values()) {
-			if (t.check(obj)) {
+			if (t.test(obj)) {
 				return t;
 			}
 		}

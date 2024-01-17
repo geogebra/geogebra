@@ -125,8 +125,7 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 		input[1] = startPoint;
 		input[2] = endPoint;
 
-		super.setOutputLength(1);
-		super.setOutput(0, conicPart);
+		setOnlyOutput(conicPart);
 
 		setDependencies();
 	}

@@ -875,7 +875,8 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void drawImage(MyImage img, int x, int y) {
-		context.drawImage(((MyImageW) img).getImage(), x, y);
+		MyImageW imageW = (MyImageW) img;
+		imageW.render(context, x, y);
 	}
 
 	@Override

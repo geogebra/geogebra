@@ -41,6 +41,9 @@ pipeline {
     }
     agent {label nodeLabel}
     stages {
+        stage('skip on message') {
+           steps { scmSkip(deleteBuild: false, skipPattern:'.*\\[ci skip\\].*') }
+        }
         stage('cancel prev builds') {
             when {
                 expression { return env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'dev' }
@@ -75,9 +78,7 @@ pipeline {
                     pmdParser(pattern: '**/build/reports/pmd/main.xml'),
                     checkStyle(pattern: '**/build/reports/checkstyle/*.xml')
                 ]
-                publishCoverage adapters: [jacocoAdapter('**/build/reports/jacoco/test/*.xml')],
-                    sourceFileResolver: sourceFiles('NEVER_STORE')
-
+                recordCoverage sourceCodeRetention: 'NEVER', tools: [[pattern: '**/build/reports/jacoco/test/*.xml']]
             }
         }
         stage('giac test') {

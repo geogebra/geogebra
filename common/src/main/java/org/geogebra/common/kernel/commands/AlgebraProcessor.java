@@ -889,7 +889,6 @@ public class AlgebraProcessor {
 					handler, callback0, info);
 
 		} catch (ParseException e) {
-			e.printStackTrace(System.out);
 			ErrorHelper.handleException(e, app, handler);
 		} catch (Exception e) {
 			Log.debug(e);
@@ -2809,12 +2808,7 @@ public class AlgebraProcessor {
 		checkNoTermsInZ(equ);
 		checkNoTheta(equ);
 		if (equ.getLHS().evaluatesToList() || equ.getRHS().evaluatesToList()) {
-			AlgoDependentEquationList algo = new AlgoDependentEquationList(cons,
-					equ);
-			GeoList list = algo.getList();
-			list.setLabel(equ.getLabel());
-			return list.asArray();
-
+			return proceeEquationList(equ);
 		}
 
 		if (equ.isFunctionDependent() || equ.isForceFunction()) {
@@ -2845,6 +2839,20 @@ public class AlgebraProcessor {
 			return functionOrImplicitPoly(equ, def, info, evaluatedDef);
 		}
 
+	}
+
+	private GeoElement[] proceeEquationList(Equation equ) {
+		AlgoDependentEquationList algo = new AlgoDependentEquationList(cons,
+				equ);
+		if (algo.validate()) {
+			GeoList list = algo.getList();
+			list.setLabel(equ.getLabel());
+			return list.asArray();
+		} else {
+			algo.getList().remove();
+			throw new MyError(loc, Errors.InvalidEquation,
+					equ.toString(StringTemplate.defaultTemplate));
+		}
 	}
 
 	private GeoElement[] functionOrImplicitPoly(Equation equ,

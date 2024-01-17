@@ -459,7 +459,6 @@ public class StatisticsCalculatorProcessor {
 					* (sc.observed[i][0] - sc.observed[i][1])
 					/ sc.observed[i][1];
 			sc.testStat += sc.diff[i][0];
-			// System.out.println(i + ", " + 0 + "diff: " + sc.diff[i][0]);
 		}
 
 		// degree of freedom

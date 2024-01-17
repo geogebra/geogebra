@@ -1,16 +1,20 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.geogebra.test.commands.AlgebraTestHelper.shouldFail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
@@ -175,13 +179,15 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("g4:f+f", "x^(2) + x^(2)");
 		t("g5:f(x)+f", "x^(2) + x^(2)");
 		t("g6(t)=t+f", "t + t^(2)");
+		t("g7:f*2", "(x^(2) * 2)");
+		t("g8:2+f", "2 + x^(2)");
 		t("a(x,y)=x + y", "x + y");
 		t("a+f", "x + y + x^(2)");
 		t("a+x", "x + y + x");
 		t("a+y", "x + y + y");
 		t("a+a", "x + y + x + y");
-		AlgebraTestHelper.shouldFail("f+y", "Please check your input", getApp());
-		AlgebraTestHelper.shouldFail("y+f", "Please check your input", getApp());
+		shouldFail("f+y", "Please check your input", getApp());
+		shouldFail("y+f", "Please check your input", getApp());
 	}
 
 	@Test
@@ -214,6 +220,15 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("f(r)=((1..5)*r,sin(r)+1)",
 				"{((1 * r), sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1),"
 						+ " ((4 * r), sin(r) + 1), ((5 * r), sin(r) + 1)}");
+		t("1..2={sin(x),x}", "{1 = sin(x), x = 2}");
+		t("1..2={x}", "?");
+		shouldFail("{(1,2)}={(1,3)}", "Invalid equation", getApp());
+	}
+
+	@Test
+	public void equationListShouldUseColonInDefinition() {
+		GeoElement eqnList = add("1..1={x}");
+		assertEquals("eq1: 1" + Unicode.ELLIPSIS + "1={x}", eqnList.getDefinitionForEditor());
 	}
 
 	@Test
@@ -482,6 +497,24 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void sufficientPrecisionForDivision() {
+		t("490/0.035", "14000", StringTemplate.maxDecimals);
+		t("0.49/0.035", "14", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	public void testImpreciseForDivisionIncludingSlider() {
+		GeoNumeric a = add("a = 1");
+		a.setShowExtendedAV(true);
+		a.initAlgebraSlider();
+		assertTrue(a.getNumber().isImprecise());
+		GeoNumeric b = add("a/7.01");
+		assertTrue(b.getNumber().isImprecise());
+		GeoNumeric c = add("7.01/a");
+		assertTrue(b.getNumber().isImprecise());
+	}
+
+	@Test
 	public void sufficientPrecisionForRepeatedMultiplication() {
 		t("a=1000/999", "1.001", StringTemplate.editTemplate);
 		StringBuilder power = new StringBuilder("a");
@@ -521,6 +554,35 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("1.0" + Unicode.OVERLINE, "1");
 		t("1.3" + Unicode.OVERLINE + " * 3", "4");
 		t("2.6" + Unicode.OVERLINE + " / 2", "1.3333333333333333");
+	}
+
+	@Test
+	public void testMultipleMinus() {
+		t("--2", "2");
+		t("-(-2)", "2");
+		t("--3--4", "7");
+		t("--2*3", "6");
+		t("---4", "-4");
+		t("---5 ---3", "-8");
+		t("---3 + --2", "-1");
+	}
+
+	@Test
+	public void testFactorial() {
+		t("0!", "1");
+		t("6!", "720");
+		t("?!", "NaN");
+		t("(-5)!", "NaN");
+		t("infinity!", "NaN");
+		t("(-infinity)!", "NaN");
+	}
+
+	@Test
+	public void testGamma() {
+		t("gamma(5)", "24", StringTemplate.editTemplate);
+		t("gamma(-5)", "NaN");
+		t("gamma(-1/2)+2*sqrt(pi)", "0");
+		t("gamma(infinity)", "NaN");
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {

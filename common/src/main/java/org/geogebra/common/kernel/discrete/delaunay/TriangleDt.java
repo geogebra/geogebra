@@ -50,9 +50,6 @@ public class TriangleDt {
 			c = B;
 		}
 		circumcircle();
-		// _id = _counter++;
-		// _counter++;_c2++;
-		// if(_counter%10000 ==0) System.out.println("Triangle: "+_counter);
 	}
 
 	/**

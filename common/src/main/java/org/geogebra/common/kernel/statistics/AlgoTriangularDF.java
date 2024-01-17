@@ -92,8 +92,7 @@ public class AlgoTriangularDF extends AlgoElement {
 			input[4] = (GeoElement) cumulative;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, ret);
+		setOnlyOutput(ret);
 		setDependencies(); // done by AlgoElement
 	}
 

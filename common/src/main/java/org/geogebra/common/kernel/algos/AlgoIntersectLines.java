@@ -96,8 +96,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		input[0] = g;
 		input[1] = h;
 
-		super.setOutputLength(1);
-		super.setOutput(0, S);
+		setOnlyOutput(S);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -59,8 +59,7 @@ public class AlgoAngleConic extends AlgoAngle {
 		input = new GeoElement[1];
 		input[0] = c;
 
-		setOutputLength(1);
-		setOutput(0, angle);
+		setOnlyOutput(angle);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -70,8 +70,7 @@ public class AlgoRotateText extends AlgoElement {
 
 		args.addTextDescendant(text);
 
-		setOutputLength(1);
-		setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

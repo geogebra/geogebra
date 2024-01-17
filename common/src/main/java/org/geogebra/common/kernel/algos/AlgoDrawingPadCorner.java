@@ -134,8 +134,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) corner);
+		setOnlyOutput(corner);
 		setDependencies(); // done by AlgoElement
 	}
 

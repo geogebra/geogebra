@@ -145,8 +145,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 			input[4] = var_step.toGeoElement();
 		}
 
-		setOutputLength(1);
-		setOutput(0, list);
+		setOnlyOutput(list);
 
 		setDependencies(); // done by AlgoElement
 	}

@@ -58,8 +58,7 @@ public class AlgoPerimeterPoly extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = polygon;
 
-		super.setOutputLength(1);
-		super.setOutput(0, circum);
+		setOnlyOutput(circum);
 		setDependencies();
 	}
 

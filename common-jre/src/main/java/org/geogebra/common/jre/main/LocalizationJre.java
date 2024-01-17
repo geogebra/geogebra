@@ -264,22 +264,20 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * @param tagOrLocaleString language for tooltips
-	 * @return success
+	 * @param ttLanguage language for tooltips
+	 * @return whether the language changed
 	 */
-	final public boolean setTooltipLanguage(String tagOrLocaleString) {
-		Language locale = Language.fromLanguageTagOrLocaleString(tagOrLocaleString);
-
+	final public boolean setTooltipLanguage(Language ttLanguage) {
 		boolean updateNeeded = rbmenuTT != null;
 
 		rbmenuTT = null;
 
-		if (locale == null) {
+		if (ttLanguage == null) {
 			tooltipLanguage = null;
-		} else if (getLanguage() == locale) {
+		} else if (getLanguage() == ttLanguage) {
 			tooltipLanguage = null;
 		} else {
-			tooltipLanguage = locale;
+			tooltipLanguage = ttLanguage;
 		}
 		return updateNeeded;
 	}

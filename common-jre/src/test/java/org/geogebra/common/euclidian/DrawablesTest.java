@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.atLeastOnce;
@@ -27,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
@@ -152,9 +155,24 @@ public class DrawablesTest {
 		assertEquals(new GPoint(83, 592), getLabelPosition(g));
 	}
 
+	@Test
+	public void testTracing() {
+		GeoElementND pt = add("A=(1,1)");
+		((Traceable) pt).setTrace(true);
+		pt.updateRepaint();
+		EuclidianView view = app.getActiveEuclidianView();
+		assertThat(view.isTraceDrawn(), equalTo(true));
+		pt.setEuclidianVisible(false);
+		pt.updateRepaint();
+		assertThat("trace still drawn but draw trace flag was reset",
+				view.isTraceDrawn(), equalTo(true));
+		view.zoomAroundCenter(2);
+		assertThat(view.isTraceDrawn(), equalTo(false));
+	}
+
 	private GPoint getLabelPosition(GeoElementND f) {
 		DrawableND draw = Objects.requireNonNull(app.getEuclidianView1().getDrawableFor(f));
-		return new GPoint((int) draw.getxLabel(), (int) draw.getyLabel());
+		return new GPoint((int) draw.getLabelX(), (int) draw.getLabelY());
 	}
 
 	private static boolean expectDrawableFor(GeoElementND type) {

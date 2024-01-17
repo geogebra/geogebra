@@ -146,8 +146,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = f;
-		setOutputLength(1);
-		setOutput(0, square);
+		setOnlyOutput(square);
 		setDependencies();
 
 	}

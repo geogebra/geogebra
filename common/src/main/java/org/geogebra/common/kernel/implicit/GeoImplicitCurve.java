@@ -2466,4 +2466,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		super.setViewFlags(viewSet);
 		updatePath();
 	}
+
+	public boolean isValidType() {
+		return expression.getExpression().evaluatesToNumber(true);
+	}
 }

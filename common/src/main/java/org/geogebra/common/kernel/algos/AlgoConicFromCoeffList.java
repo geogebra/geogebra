@@ -57,9 +57,7 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[] { L };
-
-		setOutputLength(1);
-		setOutput(0, conic);
+		setOnlyOutput(conic);
 
 		setDependencies(); // done by AlgoElement
 	}

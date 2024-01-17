@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.statistics;
 
-import org.geogebra.common.kernel.AlgoInverseBinomialMinimumTrials;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;

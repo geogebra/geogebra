@@ -1,5 +1,6 @@
 package org.geogebra.web.richtext;
 
+import org.geogebra.web.richtext.impl.Carota;
 import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
@@ -92,4 +93,6 @@ public interface Editor {
 	int getMinHeight();
 
 	void setExternalScale(double sx);
+
+	void addInsertFilter(Carota.InsertFilter handleInsert);
 }

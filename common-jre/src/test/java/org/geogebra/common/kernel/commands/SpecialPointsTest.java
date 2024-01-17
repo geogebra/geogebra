@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -64,6 +65,15 @@ public class SpecialPointsTest extends BaseUnitTest {
 		updateSpecialPoints("f");
 		// 4 visible, 1 undefined
 		assertEquals(5, numberOfSpecialPoints());
+	}
+
+	@Test
+	public void specialPointInShowHideMode() {
+		getApp().setMode(EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+		add("f:y=x^2-6x+8");
+		updateSpecialPoints("f");
+		// no special points, we're not selecting
+		assertEquals(0, numberOfSpecialPoints());
 	}
 
 	@Test

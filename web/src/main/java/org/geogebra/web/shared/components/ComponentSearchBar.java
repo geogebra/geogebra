@@ -1,13 +1,18 @@
 package org.geogebra.web.shared.components;
 
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
+import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ComponentSearchBar extends FlowPanel {
+public class ComponentSearchBar extends FlowPanel implements FocusListenerDelegate {
 	private final AppW app;
 	private InputPanelW inputTextField;
 	private StandardButton clearButton;
@@ -27,44 +32,45 @@ public class ComponentSearchBar extends FlowPanel {
 		clearButton = new StandardButton(MaterialDesignResources.INSTANCE.clear(), 24);
 		clearButton.setVisible(false);
 
-		inputTextField = new InputPanelW("", app, -1, -1, false);
+		inputTextField = new InputPanelW(app, -1, false);
 		inputTextField.getTextComponent().getTextBox().getElement().setAttribute(
 				"placeholder", app.getLocalization().getMenu("search_geogebra_materials"));
 		inputTextField.addStyleName("searchInputField");
+		inputTextField.getTextComponent().addFocusListener(this);
 		inputTextField.getTextComponent().addKeyHandler(evt -> {
 			if (evt.isEnterKey()) {
 				startSearch();
-				inputTextField.getTextComponent().getTextBox().setFocus(false);
 			}
 		});
 		inputTextField.getTextComponent().getTextBox().addKeyUpHandler(evt -> {
 			clearButton.setVisible(!inputTextField.getText().isEmpty());
 		});
 		add(inputTextField);
-		addFocusBlurHandlers();
 
 		addClearButton();
 	}
 
-	private void addFocusBlurHandlers() {
-		inputTextField.getTextComponent().getTextBox()
-				.addFocusHandler(event -> setFocusState());
-		inputTextField.getTextComponent().getTextBox()
-				.addBlurHandler(event -> resetInputField());
-	}
-
 	/**
-	 * sets the style of InputPanel to focus state
+	 * sets the style of InputPanel to focus state and shows keyboard
 	 */
 	protected void setFocusState() {
 		addStyleName("focusState");
+		if (NavigatorUtil.isMobile()) {
+			KeyboardManagerInterface keyboard = app.getKeyboardManager();
+			if (keyboard instanceof KeyboardManager) {
+				((KeyboardManager) keyboard).resizeKeyboard();
+				((KeyboardManager) keyboard).selectTab(KeyboardType.ABC);
+			}
+			app.showKeyboard(inputTextField.getTextComponent(), true);
+		}
 	}
 
 	/**
-	 * Resets input style on blur
+	 * Resets input style on blur and hides keyboard
 	 */
-	public void resetInputField() {
+	public void removeFocusState() {
 		removeStyleName("focusState");
+		app.hideKeyboard();
 	}
 
 	private void addClearButton() {
@@ -97,5 +103,23 @@ public class ComponentSearchBar extends FlowPanel {
 
 	private void startSearch() {
 		app.getGuiManager().getBrowseView().displaySearchResults(inputTextField.getText());
+	}
+
+	@Override
+	public void focusLost() {
+		removeStyleName("focusState");
+		app.hideKeyboard();
+	}
+
+	@Override
+	public void focusGained() {
+		addStyleName("focusState");
+		if (NavigatorUtil.isMobile()) {
+			KeyboardManagerInterface keyboard = app.getKeyboardManager();
+			if (keyboard instanceof KeyboardManager) {
+				((KeyboardManager) keyboard).selectTab(KeyboardType.ABC);
+			}
+			app.showKeyboard(inputTextField.getTextComponent(), true);
+		}
 	}
 }

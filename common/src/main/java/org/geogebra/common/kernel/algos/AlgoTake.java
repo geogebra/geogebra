@@ -77,8 +77,7 @@ public class AlgoTake extends AlgoElement {
 		input[0] = inputList;
 		input[1] = m;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

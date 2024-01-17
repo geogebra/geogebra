@@ -194,30 +194,19 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 			for (int i = 1; i < spData.length; ++i) {
 				DockSplitPane currentParent = rootPane;
 
-				// a similar system as it's used to determine the position of
-				// the dock panels (see comment in DockManager::show())
-				// 0: turn left/up, 1: turn right/down
-				String[] directions = spData[i].getLocation().split(",");
+				int[] selectors = spData[i].getChildSelectors();
 
 				// get the parent split pane, the last position is reserved for
 				// the location
 				// of the current split pane and therefore ignored here
-				for (int j = 0; j < directions.length - 1; ++j) {
-					if (directions[j].equals("0")) {
-						currentParent = (DockSplitPane) currentParent
-								.getLeftComponent();
-					} else {
-						currentParent = (DockSplitPane) currentParent
-								.getRightComponent();
-					}
+				for (int j = 0; j < selectors.length - 1; ++j) {
+					currentParent = (DockSplitPane) currentParent
+								.getChild(selectors[j]);
 				}
 
 				// insert the split pane
-				if (directions[directions.length - 1].equals("0")) {
-					currentParent.setLeftComponentCheckEmpty(splitPanes[i]);
-				} else {
-					currentParent.setRightComponentCheckEmpty(splitPanes[i]);
-				}
+				currentParent.setComponentCheckEmpty(selectors[selectors.length - 1],
+						splitPanes[i]);
 			}
 
 			// now insert the dock panels
@@ -241,35 +230,28 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 				}
 
 				DockSplitPane currentParent = rootPane;
-				String[] directions = dpData[i].getEmbeddedDef().split(",");
+				int[] selectors = dpData[i].getChildSelectors();
 
 				/*
 				 * Get the parent split pane of this dock panel and ignore the
-				 * last direction as its reserved for the position of the dock
+				 * last direction as it's reserved for the position of the dock
 				 * panel itself.
 				 * 
 				 * In contrast to the algorithm used in the show() method we'll
 				 * not take care of invalid positions as the data should not be
 				 * corrupted.
 				 */
-				for (int j = 0; j < directions.length - 1; ++j) {
-					if (directions[j].equals("0")
-							|| directions[j].equals("3")) {
-						currentParent = (DockSplitPane) currentParent
-								.getLeftComponent();
-					} else {
-						currentParent = (DockSplitPane) currentParent
-								.getRightComponent();
-					}
+				for (int j = 0; j < selectors.length - 1; ++j) {
+					currentParent = (DockSplitPane) currentParent
+							.getChild(selectors[j]);
+
 				}
 				if (currentParent == null) {
 					Log.error("Invalid perspective");
 
-				} else if (directions[directions.length - 1].equals("0")
-						|| directions[directions.length - 1].equals("3")) {
-					currentParent.setLeftComponentCheckEmpty(panel);
 				} else {
-					currentParent.setRightComponentCheckEmpty(panel);
+					currentParent.setComponentCheckEmpty(selectors[selectors.length - 1],
+							panel);
 				}
 
 				panel.updatePanel();
@@ -569,25 +551,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 			panel.createFrame();
 		} else {
 			// Transform the definition into an array of integers
-			String[] def = panel.getEmbeddedDef().split(",");
-			int[] locations = new int[def.length];
-
-			for (int i = 0; i < def.length; ++i) {
-				if (def[i].length() == 0) {
-					def[i] = "1";
-				}
-
-				locations[i] = Integer.parseInt(def[i]);
-
-				if (locations[i] > 3 || locations[i] < 0) {
-					locations[i] = 3; // left as default direction
-				}
-			}
-
-			// We insert this panel at the left by default
-			if (locations.length == 0) {
-				locations = new int[] { 3 };
-			}
+			int[] locations = DockPanelData.parseLocation(panel.getEmbeddedDef());
 
 			DockSplitPane currentPane = rootPane;
 			int secondLastPos = -1;
@@ -921,14 +885,12 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		// we also get notified about other mouse events, but we want to ignore
 		// them
 		if (event.getID() != MouseEvent.MOUSE_CLICKED) {
-			// System.out.println(event);
 			return;
 		}
 
 		// determine ancestor element of the event source which is of type
 		// dock panel
 		Component source = (Component) event.getSource();
-		// System.out.println(" source: " + source);
 		DockPanelD dp = (DockPanelD) SwingUtilities
 				.getAncestorOfClass(DockPanelD.class, source);
 

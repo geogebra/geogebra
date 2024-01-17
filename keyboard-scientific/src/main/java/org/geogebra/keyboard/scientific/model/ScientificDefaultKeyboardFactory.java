@@ -25,10 +25,6 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
 
     private final boolean showAnsButtton;
 
-    public ScientificDefaultKeyboardFactory() {
-        this(true);
-    }
-
     public ScientificDefaultKeyboardFactory(boolean showAnsButton) {
         this.showAnsButtton = showAnsButton;
     }
@@ -37,7 +33,7 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
     public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-        RowImpl row = mathKeyboard.nextRow(9.2f);
+        RowImpl row = mathKeyboard.nextRow();
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
         addConstantInputButton(row, buttonFactory, Resource.INVERSE, "x^(-1)");
@@ -49,7 +45,7 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
         addInputButton(row, buttonFactory, MULTIPLICATION, "*");
         addInputButton(row, buttonFactory, DIVISION, DIVISION);
 
-        row = mathKeyboard.nextRow(9.2f);
+        row = mathKeyboard.nextRow();
         addTranslateInputCommandButton(row, buttonFactory, "sin", "sin", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "cos", "cos", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "tan", "tan", 1.0f);
@@ -61,7 +57,7 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
         addInputButton(row, buttonFactory, "+");
         addInputButton(row, buttonFactory, "-");
 
-        row = mathKeyboard.nextRow(9.2f);
+        row = mathKeyboard.nextRow();
         addInputButton(row, buttonFactory, "ln", 1.0f);
         addConstantInputButton(row, buttonFactory, Resource.LOG_10, "log_{10}");
         addConstantInputButton(row, buttonFactory, Resource.FRACTION, "/");
@@ -74,7 +70,7 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
         addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
                 Action.BACKSPACE_DELETE);
 
-        row = mathKeyboard.nextRow(9.2f);
+        row = mathKeyboard.nextRow();
         if (showAnsButtton) {
             addCustomButton(row, buttonFactory, "ans", Action.ANS);
         } else {

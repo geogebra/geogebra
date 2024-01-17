@@ -3,7 +3,6 @@ package org.geogebra.common.gui.inputbar;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -62,9 +61,8 @@ public class InputBarHelpPanel {
 
 		TreeSet<String> cmdTree = new TreeSet<>(comparator);
 
-		Iterator<String> it = subDict[index].getIterator();
-		while (it.hasNext()) {
-			String cmd = subDict[index].get(it.next());
+		for (String s : subDict[index]) {
+			String cmd = subDict[index].get(s);
 			if (cmd != null && cmd.length() > 0) {
 				cmdTree.add(cmd);
 			}
@@ -86,9 +84,8 @@ public class InputBarHelpPanel {
 		TreeSet<String> treeSet = new TreeSet<>(comparator);
 
 		LowerCaseDictionary dict = app.getCommandDictionary();
-		Iterator<String> it = dict.getIterator();
-		while (it.hasNext()) {
-			String cmdName = dict.get(it.next());
+		for (String s : dict) {
+			String cmdName = dict.get(s);
 			if (cmdName != null && cmdName.length() > 0) {
 				treeSet.add(cmdName);
 			}

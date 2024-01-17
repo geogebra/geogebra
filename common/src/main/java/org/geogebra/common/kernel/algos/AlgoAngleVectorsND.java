@@ -79,8 +79,7 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 		input[0] = (GeoElement) v;
 		input[1] = (GeoElement) w;
 
-		setOutputLength(1);
-		setOutput(0, angle);
+		setOnlyOutput(angle);
 		setDependencies(); // done by AlgoElement
 	}
 

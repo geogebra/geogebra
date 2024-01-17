@@ -12,6 +12,7 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -21,7 +22,7 @@ import org.gwtproject.user.client.ui.Widget;
 public class DistributionPanel extends FlowPanel implements InsertHandler {
 	private ProbabilityCalculatorViewW view;
 	private Localization loc;
-	private CompDropDown comboDistribution;
+	private CompDropDown distributionDroDown;
 	private ToggleButton cumulativeWidget;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
@@ -81,6 +82,16 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 		});
 
 		add(modeGroup);
+	}
+
+	/**
+	 * @param disable whether to disable or not
+	 */
+	public void disableInterval(boolean disable) {
+		if (modeGroup != null) {
+			modeGroup.disableButtons(disable);
+			Dom.toggleClass(modeGroup, "disabled", disable);
+		}
 	}
 
 	/**
@@ -153,8 +164,10 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	 */
 	public void initCumulativeWidget() {
 		cumulativeWidget = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
-		cumulativeWidget.addFastClickHandler((e) ->
-				view.setCumulative(cumulativeWidget.isSelected()));
+		cumulativeWidget.addFastClickHandler((e) -> {
+				view.setCumulative(cumulativeWidget.isSelected());
+				disableInterval(cumulativeWidget.isSelected());
+		});
 	}
 
 	/**
@@ -164,12 +177,12 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	public void buildDistrComboBox(FlowPanel parent) {
 		DistributionTypeProperty distTypeProperty = new DistributionTypeProperty(loc, view);
 		String comboLbl = getApp().getConfig().hasDistributionView() ? "Distribution" : null;
-		comboDistribution = new CompDropDown(getApp(), comboLbl, distTypeProperty);
+		distributionDroDown = new CompDropDown(getApp(), comboLbl, distTypeProperty);
 		if (getApp().getConfig().hasDistributionView()) {
-			comboDistribution.setFullWidth(true);
+			distributionDroDown.setFullWidth(true);
 		}
-		comboDistribution.addStyleName("comboDistribution");
-		parent.add(comboDistribution);
+		distributionDroDown.addStyleName("comboDistribution");
+		parent.add(distributionDroDown);
 	}
 
 	private AppW getApp() {
@@ -182,6 +195,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	public void updateGUI() {
 		updateCumulative();
 		updateParameters();
+		distributionDroDown.resetFromModel();
 		modeGroup.setMode(view.getProbMode());
 	}
 
@@ -193,7 +207,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	 * update translation
 	 */
 	public void setLabels() {
-		comboDistribution.setLabels();
+		distributionDroDown.setLabels();
 		if (cumulativeWidget != null) {
 			cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
 		}

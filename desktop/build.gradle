@@ -1,11 +1,11 @@
 plugins {
-    id "com.github.spotbugs" version "5.2.1"
+    id "com.github.spotbugs" version "5.2.5"
     id 'application'
     id 'eclipse'
     id 'checkstyle'
 }
 
-project.setDescription('Parts of GeoGebra related to desktop platforms')
+ project.setDescription('Parts of GeoGebra related to desktop platforms')
 
 sourceSets {
     nonfree
@@ -66,6 +66,8 @@ dependencies {
     testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
     testImplementation project(':ggbjdk')
     testImplementation project(path: ':common-jre', configuration: 'testArtifacts')
+
+    implementation "io.sf.carte:echosvg-all:$echosvgVersion"
 }
 
 mainClassName = "org.geogebra.desktop.GeoGebra3D"

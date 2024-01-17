@@ -170,10 +170,7 @@ public abstract class DataAnalysisController {
 
 		// check for empty lists
 		for (int i = 0; i < list.size(); i++) {
-			// System.out.println("data list " + i + " size: "
-			// + list.get(i).size());
 			if (list.get(i).size() < 1) {
-				// System.out.println("invalid data list");
 				return false;
 			}
 		}
@@ -314,11 +311,7 @@ public abstract class DataAnalysisController {
 	 *            removed geo
 	 */
 	protected void handleRemovedDataGeo(GeoElement geo) {
-
-		// System.out.println("removed: " + geo.toString());
 		if (isInDataSource(geo)) {
-			// System.out.println("stat dialog removed: " + geo.toString());
-
 			dataSource.clearData();
 			this.setValidData(false);
 			updateDataAnalysisView();

@@ -35,7 +35,7 @@ public class StartExamAction extends DefaultMenuAction<Void> {
 			app.fileNew();
 			app.clearSubAppCons();
 			app.getLAF().toggleFullscreen(true);
-			String cancel = app.getAppletParameters().getParamLockExam() ? null : "Cancel";
+			String cancel = app.isLockedExam() ? null : "Cancel";
 			DialogData data = new DialogData("exam_menu_enter", cancel,
 					"exam_start_button");
 			ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
