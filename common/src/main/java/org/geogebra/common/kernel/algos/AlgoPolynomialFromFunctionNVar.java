@@ -85,7 +85,7 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 			return;
 		}
 		FunctionVariable[] functionVariables = f.getFunctionVariables();
-		if (functionVariables.length != 2) {
+		if (functionVariables.length != 2 || f.getFunction() == null) {
 			g.setUndefined();
 			return;
 		}
@@ -96,8 +96,8 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		poly = null;
 		var1 = new FunctionVariable(kernel, varName1);
 		var2 = new FunctionVariable(kernel, varName2);
-		List<CoeffProduct> products = buildFromCoeff(coeff);
-		products.sort(CoeffProduct.newComparator(var1, var2));
+		List<CoeffPowerProduct> products = buildFromCoeff(coeff);
+		products.sort(CoeffPowerProduct.newComparator(var1, var2));
 		createPolyFrom(products);
 		if (poly != null) {
 			FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{var1, var2});
@@ -106,8 +106,8 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		}
 	}
 
-	private List<CoeffProduct> buildFromCoeff(ExpressionValue[][] coeff) {
-		List<CoeffProduct> products = new ArrayList<>();
+	private List<CoeffPowerProduct> buildFromCoeff(ExpressionValue[][] coeff) {
+		List<CoeffPowerProduct> products = new ArrayList<>();
 		for (int i = coeff.length - 1; i >= 0; i--) {
 			for (int j = coeff[i].length - 1; j >= 0; j--) {
 				ExpressionValue coeffNode = coeff[i][j];
@@ -121,8 +121,9 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 					continue; // this part vanished
 				}
 
-				CoeffProduct product =
-						new CoeffProduct(makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)),
+				CoeffPowerProduct product =
+						new CoeffPowerProduct(
+								makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)),
 								coeffValue, Math.max(i, j));
 				products.add(product);
 			}
@@ -130,8 +131,8 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		return products;
 	}
 
-	private ExpressionNode createPolyFrom(List<CoeffProduct> products) {
-		for (CoeffProduct p: products) {
+	private ExpressionNode createPolyFrom(List<CoeffPowerProduct> products) {
+		for (CoeffPowerProduct p: products) {
 			poly = AlgoPolynomialFromCoordinates.addToPoly(poly, p.getExpression(),
 					p.getCoeffValue(), kernel);
 		}

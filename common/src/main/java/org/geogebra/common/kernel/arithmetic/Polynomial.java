@@ -530,6 +530,7 @@ public class Polynomial implements HasDebugString {
 	public ExpressionValue[][] getCoeff() {
 		return getCoeff("x", "y");
 	}
+
 	/**
 	 *
 	 * @return Coefficient matrix of this polynomial (in var1 and var2)

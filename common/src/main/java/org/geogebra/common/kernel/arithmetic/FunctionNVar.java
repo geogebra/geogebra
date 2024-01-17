@@ -74,7 +74,6 @@ public class FunctionNVar extends ValidExpression
 	private String casEvalStringSymbolic;
 
 	private boolean forceInequality;
-	private double[][][] coeffSquarefree;
 
 	private final static class RandomCheck implements Inspecting {
 		protected RandomCheck() {
@@ -1530,10 +1529,13 @@ public class FunctionNVar extends ValidExpression
 		this.forceInequality = forceInequality;
 	}
 
+	/**
+	 * If it is a two variable function, it returns the coefficents of the function
+	 * written in polynomial form if possible, null otherwise.
+	 *
+	 * @return the coefficents if possible, null otherwise.
+	 */
 	public ExpressionValue[][] getCoeff() {
-
-		PolyFunction polyFun = null;
-		int terms = -1;
 		ExpressionValue[][] coeff = null;
 		ExpressionNode lhs = replaceFunctionVarsIn(getExpression());
 		Equation equ = new Equation(kernel, lhs, new MyDouble(kernel, 0));
@@ -1556,8 +1558,6 @@ public class FunctionNVar extends ValidExpression
 		FunctionVariable[] vars = getFunctionVariables();
 		String var1 = vars[0].getSetVarString();
 		String var2 = vars[1].getSetVarString();
-		FunctionVariable xVar = new FunctionVariable(kernel, var1);
-		FunctionVariable yVar = new FunctionVariable(kernel, var2);
 		Traversing.VariableReplacer repl = kernel.getVariableReplacer();
 		repl.addVars(var1, fVars[0]);
 		repl.addVars(var2, fVars[1]);
