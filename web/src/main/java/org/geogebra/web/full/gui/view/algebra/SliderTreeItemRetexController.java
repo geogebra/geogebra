@@ -168,7 +168,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController {
 			return;
 		}
 		targetValue = Double.NaN;
-		getDebounceTimer().schedule(200);
+		getDebounceTimer().schedule(30);
 		slider.expandSize(slider.getWidthForEdit());
 		if (isEditing()) {
 			stopEdit();

@@ -45,7 +45,6 @@ public class CommandFilterTest extends BaseUnitTest {
 				List<Integer> signature = CommandSignatures
 						.getSignature(cmd.name(), app);
 				if (signature != null && !signature.contains(0)) {
-
 					AlgebraTestHelper.shouldFail(cmd + "()", "number of arg",
 							"only",
 							app);

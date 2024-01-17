@@ -76,7 +76,7 @@ public class InputController {
 		this.allowAbs = allowAbs;
 	}
 
-	final static private String getLetter(MathComponent component)
+	static private String getLetter(MathComponent component)
 			throws Exception {
 		if (!(component instanceof MathCharacter)) {
 			throw new Exception("Math component is not a character");

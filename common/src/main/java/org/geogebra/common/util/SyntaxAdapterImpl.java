@@ -61,4 +61,8 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 		return operation != null && casName.length() > 1;
 	}
 
+	protected Kernel getKernel() {
+		return kernel;
+	}
+
 }

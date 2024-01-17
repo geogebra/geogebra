@@ -1,25 +1,26 @@
-package org.geogebra.export;
+package org.geogebra.common.export.pstricks;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.awt.GGraphicsCommon;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.export.pstricks.ExportFrameMinimal;
-import org.geogebra.common.export.pstricks.GeoGebraExport;
-import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
-import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.common.main.AppCommon3D;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PstricksTest {
-	private static AppDNoGui app;
+	private static AppCommon3D app;
 	private static ArrayList<String> inputs;
+	private final ExportGraphicsFactory exportGraphicsFactory
+			= ExportGraphicsCommon::new;
 
 	@Before
 	public void clear() {
@@ -31,7 +32,7 @@ public class PstricksTest {
 	/** Setup the app */
 	@BeforeClass
 	public static void setup() {
-		app = AlgebraTest.createApp();
+		app = AppCommonFactory.create3D();
 		inputs = new ArrayList<>();
 		createObjects();
 	}
@@ -46,20 +47,20 @@ public class PstricksTest {
 
 	@Test
 	public void exportPstricks() {
-		GeoGebraExport ps = new GeoGebraToPstricksD(app);
+		GeoGebraExport ps = new GeoGebraToPstricks(app, exportGraphicsFactory);
 		testInputs(ps, "\\end{document}");
 	}
 
 	@Test
 	public void exportPgf() {
-		GeoGebraExport ps = new GeoGebraToPgfD(app);
+		GeoGebraExport ps = new GeoGebraToPgf(app, exportGraphicsFactory);
 		testInputs(ps, "\\end{document}");
 
 	}
 
 	@Test
 	public void exportAsymptote() {
-		GeoGebraExport ps = new GeoGebraToAsymptoteD(app);
+		GeoGebraExport ps = new GeoGebraToAsymptote(app, exportGraphicsFactory);
 		testInputs(ps, "/* end of picture */");
 	}
 
@@ -146,5 +147,23 @@ public class PstricksTest {
 		ps.generateAllCode();
 		return frame.getCode();
 
+	}
+
+	private static class ExportGraphicsCommon extends GGraphicsCommon {
+		private final GeoGebraExport export;
+		private final Inequality inequality;
+		private final FunctionalNVar geo;
+
+		public ExportGraphicsCommon(FunctionalNVar geo, Inequality inequality,
+				GeoGebraExport export) {
+			this.export = export;
+			this.inequality = inequality;
+			this.geo = geo;
+		}
+
+		@Override
+		public void fill(GShape s) {
+			export.fillIneq(s, inequality, geo);
+		}
 	}
 }

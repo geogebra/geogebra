@@ -3,9 +3,9 @@ package org.geogebra.web.full.gui.view.table;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
-import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.test.AppMocker;
@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 public class ScientificEvaluatablesTest {
 	private AppW app;
 	protected TableValuesView view;
-	protected TableValuesModel model;
 
 	@Before
 	public void setUp() {
@@ -33,8 +32,8 @@ public class ScientificEvaluatablesTest {
 	}
 
 	private void tableShouldContain(String fBody, String gBody) {
-		functionShouldBe("f(x) = " + fBody, f());
-		functionShouldBe("g(x) = " + gBody, g());
+		functionShouldBe(LabelManager.HIDDEN_PREFIX + "f(x) = " + fBody, f());
+		functionShouldBe(LabelManager.HIDDEN_PREFIX + "g(x) = " + gBody, g());
 	}
 
 	private GeoEvaluatable g() {

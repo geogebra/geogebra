@@ -11,7 +11,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
@@ -20,9 +19,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.AnimationExportDialogD;
 import org.geogebra.desktop.export.WorksheetExportDialog;
 import org.geogebra.desktop.export.pstricks.AsymptoteFrame;
-import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.export.pstricks.PgfFrame;
 import org.geogebra.desktop.export.pstricks.PstricksFrame;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -374,8 +370,7 @@ class FileMenuD extends BaseMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					GeoGebraToPstricksD export = new GeoGebraToPstricksD(app);
-					new PstricksFrame(export).setVisible(true);
+					app.newGeoGebraToPstricks(PstricksFrame::new);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPstricks not available");
 				}
@@ -390,8 +385,7 @@ class FileMenuD extends BaseMenu {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					GeoGebraToPgfD export = new GeoGebraToPgfD(app);
-					new PgfFrame(export);
+					app.newGeoGebraToPgf(PgfFrame::new);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPGF not available");
 				}
@@ -408,8 +402,7 @@ class FileMenuD extends BaseMenu {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					GeoGebraToAsymptote export = new GeoGebraToAsymptoteD(app);
-					new AsymptoteFrame(export);
+					app.newGeoGebraToAsymptote(AsymptoteFrame::new);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToAsymptote not available");
 				}
