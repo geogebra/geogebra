@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -449,6 +450,23 @@ public class MoveToolTest extends BaseControllerTest {
 		dragStart(75, 75);
 		dragEnd(75, 125);
 		assertThat(corner, hasValue("(1, -2)"));
+	}
+
+	@Test
+	public void movePointShouldRunOnUpdate() {
+		GeoElement point = add("A = (1, -1)");
+		point.setUpdateScript(new GgbScript(getApp(), "If[A==(2.5,-1), SelectObjects[]]"));
+		dragStart(50, 50);
+		dragEnd(150, 50);
+		assertThat(point, hasValue("(3, -1)"));
+	}
+
+	@Test
+	public void moveSegmentShouldRunOnUpdateForEndPoints() {
+		add("A = (0,0)");
+		GeoElement segment = add("f = Segment(A, (1,-1))");
+		moveObjectWithArrowKey(segment, 1, -2);
+		checkContent("A = (1, -2)", "f = 1.41421");
 	}
 
 	private void assertFurnitureDragBehavior(GeoElement furniture) {
