@@ -248,9 +248,16 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		if (visible != floatingMenuView.isVisible()) {
 			floatingMenuView.setVisible(visible);
 			notifyMenuViewVisibilityChanged(visible);
-			hideSubmenuAndMoveFocus();
+			updateFocus();
+		}
+	}
+
+	private void updateFocus() {
+		hideSubmenuAndMoveFocus();
+		if (floatingMenuView.isVisible()) {
 			menuView.selectItem(0);
 		}
+
 	}
 
 	private void notifyMenuViewVisibilityChanged(boolean visible) {
