@@ -42,7 +42,8 @@ public class PolynomialTest extends BaseUnitTest {
 	public void testMultiCharVariables() {
 		add("f(abc,def)=(abc+def)^(2)");
 		GeoFunctionNVar poly = add("Polynomial(f)");
-		assertEquals("abc\u00B2 + 2abc def + def\u00B2", poly.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("abc\u00B2 + 2abc def + def\u00B2",
+				poly.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test

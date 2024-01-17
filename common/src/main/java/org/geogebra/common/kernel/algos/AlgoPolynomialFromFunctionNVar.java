@@ -85,24 +85,24 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 			return;
 		}
 		FunctionVariable[] functionVariables = f.getFunctionVariables();
-		if (functionVariables.length != 2 || f.getFunction() == null) {
+		FunctionNVar function = f.getFunction();
+		if (functionVariables.length != 2 || function == null) {
 			g.setUndefined();
 			return;
 		}
 
 		String varName1 = functionVariables[0].getSetVarString();
 		String varName2 = functionVariables[1].getSetVarString();
-		ExpressionValue[][] coeff = f.getFunction().getCoeff();
+		ExpressionValue[][] coeff = function.getCoeff();
 		poly = null;
 		var1 = new FunctionVariable(kernel, varName1);
 		var2 = new FunctionVariable(kernel, varName2);
 		List<CoeffPowerProduct> products = buildFromCoeff(coeff);
-		products.sort(CoeffPowerProduct.newComparator(var1, var2));
+		products.sort(CoeffPowerProduct.getComparator());
 		createPolyFrom(products);
 		if (poly != null) {
 			FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{var1, var2});
 			g.setFunction(functionNVar);
-
 		}
 	}
 
@@ -124,7 +124,7 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 				CoeffPowerProduct product =
 						new CoeffPowerProduct(
 								makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)),
-								coeffValue, Math.max(i, j));
+								coeffValue, i + j, i);
 				products.add(product);
 			}
 		}
