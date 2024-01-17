@@ -85,14 +85,20 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 			return;
 		}
 		FunctionVariable[] functionVariables = f.getFunctionVariables();
-		if (functionVariables.length != 2 || f.getFunction() == null) {
+		if (functionVariables.length != 2) {
 			g.setUndefined();
 			return;
 		}
 
 		String varName1 = functionVariables[0].getSetVarString();
 		String varName2 = functionVariables[1].getSetVarString();
-		ExpressionValue[][] coeff = f.getFunction().getCoeff();
+		FunctionNVar functionNVar1 = f.getFunction();
+		if (functionNVar1 == null) {
+			g.setUndefined();
+			return;
+		}
+
+		ExpressionValue[][] coeff = functionNVar1.getCoeff();
 		poly = null;
 		var1 = new FunctionVariable(kernel, varName1);
 		var2 = new FunctionVariable(kernel, varName2);
