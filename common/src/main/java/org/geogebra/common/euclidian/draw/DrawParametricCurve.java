@@ -603,4 +603,8 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			intervalPlotter.disable();
 		}
 	}
+
+	public boolean isIntervalPlotterEnabled() {
+		return this.intervalPlotter.isEnabled();
+	}
 }
