@@ -19,10 +19,11 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.plugin.script.GgbScript;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -453,23 +454,27 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void movePointShouldRunOnUpdate() {
+	public void movePointShouldSnapOnDrag() {
 		GeoElement point = add("A = (0, 0)");
-		add("Segment(A, (1, 1))");
-		point.setUpdateScript(new GgbScript(getApp(), "If[A==(1,0), SelectObjects[]]"));
+		snapToGrid();
 		dragStart(0, 0);
-		dragEnd(200, 0);
-		assertThat(point, hasValue("(1, 0)"));
+		dragEnd(205, 0);
+		assertThat(point, hasValue("(4, 0)"));
+	}
+
+	private void snapToGrid() {
+		getApp().getActiveEuclidianView().setPointCapturing(
+				EuclidianStyleConstants.POINT_CAPTURING_ON
+		);
 	}
 
 	@Test
-	public void moveSegmentShouldRunOnUpdate() {
-		GeoElement point = add("A = (0, 0)");
-		GeoBoolean updateRan = (GeoBoolean) add("b = false");
-		point.setUpdateScript(new GgbScript(getApp(), "b = true"));
+	public void moveSegmentShouldSnapOnDrag() {
+		GeoSegment segment = (GeoSegment) add("Segment((0, 0), (1, 1))");
+		snapToGrid();
 		dragStart(0, 0);
-		dragEnd(200, 0);
-		assertThat(updateRan, hasValue("true"));
+		dragEnd(205, 0);
+		assertThat(segment.startPoint, hasValue("(4, 0)"));
 	}
 
 	@Test
