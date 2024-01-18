@@ -75,7 +75,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Le Coq loic
  */
 
-public abstract class GeoGebraToPstricks extends GeoGebraExport {
+public class GeoGebraToPstricks extends GeoGebraExport {
 	private boolean eurosym = false;
 	private static final int FORMAT_BEAMER = 1;
 	private StringBuilder codeBeginPic;
@@ -86,11 +86,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	/**
 	 * Constructor for GeoGeBra export
 	 * 
-	 * @param app
-	 *            GeoGeBra Application
+	 * @param app application
+	 * @param graphicsFactory export graphics factory
 	 */
-	public GeoGebraToPstricks(App app) {
-		super(app);
+	public GeoGebraToPstricks(App app, ExportGraphicsFactory graphicsFactory) {
+		super(app, graphicsFactory);
 	}
 
 	@Override
@@ -2480,17 +2480,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		return true;
 	}
 
-	/**
-	 * @param s
-	 *            shape
-	 * @param ineq
-	 *            inequality
-	 * @param geo
-	 *            inequality function
-	 * @param ds
-	 *            view bounds
-	 */
-	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
+	@Override
+	public void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);
 		switch (ineq.getType()) {

@@ -1,3 +1,6 @@
+@use 'colors';
+@use 'colorMap' as *;
+
 .GeoGebraHeader{
 	display: flex;
     border-bottom: 1px solid #dcdcdc;
@@ -32,7 +35,7 @@
 }
 
 .GeoGebraHeader .signIn {
-	color: #1C1C1F;
+	color: neutral(900);
 	padding: 4px 8px;
 	margin: 16px 12px;
 	background-color: transparent;
@@ -40,7 +43,7 @@
 }
 
 .GeoGebraHeader .signIn:hover{
-	background-color: #F3F2F7;
+	background-color: neutral(200);
 }
 
 .GeoGebraHeader .appName {
@@ -127,12 +130,22 @@ img.profileImage {
 
 .GeoGebraHeader .examTypePanel {
 	display: flex;
+	align-items: center;
+	color: colors.$teal-default;
+}
+
+.GeoGebraHeader .examTypePanel.locked {
+	color: colors.$exam-lock;
 }
 
 .GeoGebraHeader .examType {
 	font-size: 20px;
-	color: #388C83;
-	margin: 20px 32px 20px 8px;
+	margin: 8px 32px 8px 8px;
+	max-width: 300px;
+}
+
+.GeoGebraHeader .examTypeIcon {
+	height: 24px;
 }
 
 .GeoGebraHeader .timerImg {
@@ -140,8 +153,8 @@ img.profileImage {
 	opacity: 0.54;
 }
 
-.GeoGebraHeader .examType.cheat {
-	color: #B00020;
+.GeoGebraHeader .examTypePanel.cheat {
+	color: colors.$exam-red;
 }
 
 .GeoGebraHeader .examInfoBtn {
@@ -161,11 +174,6 @@ img.profileImage {
     height: 48px;
     margin: 8px 0px;
     float: left;
-    cursor: $logo_cursor;
-}
-
-.GeoGebraFrame .headerLogo .a {
-    cursor: $logo_cursor;
 }
 
 .GeoGebraFrame.GeoGebraHeader.suiteHeader {
@@ -180,14 +188,14 @@ img.profileImage {
 	margin: 14px 0px;
 	border-radius: 18px;
 	box-sizing: border-box;
-	border: 1px solid #B4B3BA;
+	border: 1px solid neutral(500);
 	cursor: pointer;
 	transition: background-color 100ms ease-in-out;
 }
 
 .GeoGebraHeader .suiteAppPickerButton:hover,
 .GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] {
-	background-color: #F3F2F7;
+	background-color: neutral(200);
 }
 
 .GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] .dropDownImg {
@@ -220,32 +228,21 @@ img.profileImage {
 .application .GeoGebraHeader.mobile{
 	display:flex;
 }
-.startscreen a, .startscreen a:visited{
-	margin: 10px;
-	padding:8px;
-	border-radius: 2px;
-	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-	font-size:16px;
-	color: rgba(0,0,0,0.85);
-    text-decoration:none;
-    display:inline-block;
-    width: 250px;
-    transition: 0.2s;
-}
-.startscreen a.tryApp, .startscreen a.tryApp:visited{
-	background-color:#6557D2;
-	color:rgba(255,255,255,0.85);
-}
+
 .startscreen .appName{
 	margin-top: 0;
 	margin-bottom: 10px;
 }
 .GeoGebraHeader a{
-	color: #008475;
     text-decoration: none;
     margin-left: 8px;
     margin-right: 0px;
 }
+
+.logoLink[href='#'] { // no cursor for offline link
+  cursor: default;
+}
+
 .GeoGebraHeader ul{
     list-style-type:none;
     margin: 0;
@@ -264,14 +261,18 @@ img.profileImage {
 
 .startscreen{
 	position: absolute;
-	top: $height;
+	top: 64px;
 	width: 100%;
-	height:calc(100% - $height);
+	height:calc(100% - 64px);
 }
 
-.startscreen.offline, .startscreen.notes{
+.startscreen.notes-mebis {
 	top: 0;
 	height: 100%;
+}
+
+.startscreen.notes .mowOpenMenuButton {
+	display: none;
 }
 
 .startscreen .logo{

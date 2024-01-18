@@ -132,7 +132,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version, app.isSuite());
-		examDrawerMenuFactory.setCreatesExitExam(!app.getAppletParameters().getParamLockExam());
+		examDrawerMenuFactory.setCreatesExitExam(!app.isLockedExam());
 	}
 
 	/**
