@@ -35,29 +35,30 @@ public class DrawParametricCurveTest extends BaseUnitTest {
 
 	@Test
 	public void viewFromPlaneShouldNotPlotFunctions() {
-		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()), 0,
-				new EuclidianSettingsForPlane(getApp()), new GGraphicsCommon());
+		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()),
+				0, new EuclidianSettingsForPlane(getApp()), new GGraphicsCommon());
 		assertTrue(testFunctions(false, view,
 				"sin(x)", "cos(x)", "x^2", "abs(x)", "tan(t)", "x + 3", "x / 2"));
 	}
 
 	@Test
 	public void view3DShouldPlotFunctions() {
-		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()), 0,
-				new EuclidianSettings3D(getApp()), new GGraphicsCommon());
+		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()),
+				0, new EuclidianSettings3D(getApp()), new GGraphicsCommon());
 		assertTrue(testFunctions(true, view,
 				"sin(x)", "cos(x)", "x^2", "abs(x)", "tan(t)", "x + 3", "x / 2"));
 	}
 
 	@Test
 	public void viewShouldPlotFunctions() {
-		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()), 0,
-				new EuclidianSettings(getApp()), new GGraphicsCommon());
+		EuclidianView view = new EuclidianViewNoGui(getApp().newEuclidianController(getKernel()),
+				0, new EuclidianSettings(getApp()), new GGraphicsCommon());
 		assertTrue(testFunctions(true, view,
 				"sin(x)", "cos(x)", "x^2", "abs(x)", "tan(t)", "x + 3", "x / 2"));
 	}
 
-	private boolean testFunctions(boolean shouldEnableIntervalPlotter, EuclidianView view, String... inputs) {
+	private boolean testFunctions(boolean shouldEnableIntervalPlotter,
+			EuclidianView view, String... inputs) {
 		return Arrays.stream(inputs).allMatch(input -> shouldEnableIntervalPlotter
 				== isIntervalPlotterEnabledForInput(input, view));
 	}
