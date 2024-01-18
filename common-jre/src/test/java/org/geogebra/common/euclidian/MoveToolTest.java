@@ -454,11 +454,22 @@ public class MoveToolTest extends BaseControllerTest {
 
 	@Test
 	public void movePointShouldRunOnUpdate() {
-		GeoElement point = add("A = (1, -1)");
-		point.setUpdateScript(new GgbScript(getApp(), "If[A==(2.5,-1), SelectObjects[]]"));
-		dragStart(50, 50);
-		dragEnd(150, 50);
-		assertThat(point, hasValue("(3, -1)"));
+		GeoElement point = add("A = (0, 0)");
+		add("Segment(A, (1, 1))");
+		point.setUpdateScript(new GgbScript(getApp(), "If[A==(1,0), SelectObjects[]]"));
+		dragStart(0, 0);
+		dragEnd(200, 0);
+		assertThat(point, hasValue("(1, 0)"));
+	}
+
+	@Test
+	public void moveSegmentShouldRunOnUpdate() {
+		GeoElement point = add("A = (0, 0)");
+		GeoBoolean updateRan = (GeoBoolean) add("b = false");
+		point.setUpdateScript(new GgbScript(getApp(), "b = true"));
+		dragStart(0, 0);
+		dragEnd(200, 0);
+		assertThat(updateRan, hasValue("true"));
 	}
 
 	@Test
