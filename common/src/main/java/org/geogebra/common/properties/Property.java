@@ -19,4 +19,8 @@ public interface Property {
      * @return true iff the property is enabled
      */
     boolean isEnabled();
+
+    default void freeze() { }
+
+    default void unfreeze() { }
 }

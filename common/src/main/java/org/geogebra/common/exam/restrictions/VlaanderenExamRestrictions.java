@@ -1,17 +1,63 @@
 package org.geogebra.common.exam.restrictions;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
+import org.geogebra.common.kernel.commands.selector.NameCommandFilter;
+import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 
-public final class VlaanderenExamRestrictions extends ExamRestrictions {
+final class VlaanderenExamRestrictions extends ExamRestrictions {
 
-	public VlaanderenExamRestrictions() {
-		super(Arrays.asList(SuiteSubApp.CAS),
+	VlaanderenExamRestrictions() {
+		super(Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
-				CommandFilterFactory.createVlaanderenFilter());
+				VlaanderenExamRestrictions.createExpressionFilter(),
+				VlaanderenExamRestrictions.createCommandFilter(),
+				null);
+	}
+
+	// replaces exam-related method in CommandFilterFactory
+	private static CommandFilter createCommandFilter() {
+		NameCommandFilter nameFilter = new NameCommandFilter(true,
+				Commands.Derivative, Commands.NDerivative, Commands.Integral,
+				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
+				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
+				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
+		return new EnglishCommandFilter(nameFilter);
+	}
+
+	private static ExpressionFilter createExpressionFilter() {
+		return new OperationExpressionFilter(Operation.OR, Operation.AND);
+	}
+
+	@Override
+	protected void freeze(Set<Property> properties) {
+		properties.stream()
+				.filter(property -> {
+					return property instanceof AngleUnitProperty;
+				})
+				.findFirst()
+				.ifPresent(property -> {
+					property.freeze(); /* reset value, disable changing */
+				});
+	}
+
+	@Override
+	protected void unfreeze(Set<Property> properties) {
+		properties.stream()
+				.filter(property -> {
+					return property instanceof AngleUnitProperty;
+				})
+				.findFirst()
+				.ifPresent(property -> {
+					property.unfreeze(); /* set value, disable changing */
+				});
 	}
 }

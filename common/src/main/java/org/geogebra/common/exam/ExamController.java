@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
-import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
@@ -71,15 +71,16 @@ public final class ExamController {
 	@NonOwning
 	private CommandDispatcher commandDispatcher;
 	@NonOwning
+	private AlgebraProcessor algebraProcessor;
+
 	private ExamRegion examRegion;
+	private ExamRestrictions examRestrictions;
 
 	private ExamState state = ExamState.IDLE;
 	private Date startDate, endDate;
 	private final Set<ExamListener> listeners = new HashSet<ExamListener>();
 	private final TempStorage tempStorage = new TempStorage();
 	private CheatingEvents cheatingEvents = new CheatingEvents();
-	private CommandFilter examCommandFilter;
-	private final CommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
 
 	// filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
@@ -105,6 +106,16 @@ public final class ExamController {
 	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
 		this.commandDispatcher = commandDispatcher;
 	}
+
+	/**
+	 * Sets the algebra processor.
+	 *
+	 * @param algebraProcessor The algebra processor.
+	 */
+	public void setAlgebraProcessor(AlgebraProcessor algebraProcessor) {
+		this.algebraProcessor = algebraProcessor;
+	}
+
 	/**
 	 * @return The current exam state.
 	 * <p/>
@@ -247,29 +258,20 @@ public final class ExamController {
 	}
 
 	private void applyRestrictions(ExamRegion region) {
-		ExamRestrictions restrictions = ExamRestrictions.forRegion(region);
-		if (restrictions != null) {
-			examCommandFilter = restrictions.getCommandFilter();
-			if (examCommandFilter != null) {
-				commandDispatcher.addCommandFilter(examCommandFilter);
-			}
+		examRestrictions = ExamRestrictions.forRegion(region);
+		if (examRestrictions != null) {
+			examRestrictions.apply(commandDispatcher, algebraProcessor);
 		}
-		commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
-
-		// TODO suppress syntax in CommandErrorMessageBuilder
+		// TODO suppress syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 	}
 
 	private void unapplyRestrictions() {
-		if (examCommandFilter != null) {
-			commandDispatcher.removeCommandFilter(examCommandFilter);
+		if (examRestrictions != null) {
+			examRestrictions.unapply(commandDispatcher, algebraProcessor);
 		}
-		examCommandFilter = null;
-		commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
-
-		// TODO enable syntax in CommandErrorMessageBuilder
+		// TODO enable syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 	}
 
-	// TODO try to remove
 	public TempStorage getTempStorage() {
 		return tempStorage;
 	}

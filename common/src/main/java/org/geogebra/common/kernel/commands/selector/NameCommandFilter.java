@@ -10,7 +10,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Filters commands by their name.
  */
-class NameCommandFilter implements CommandFilter {
+public class NameCommandFilter implements CommandFilter {
 
     private Set<Commands> allowedCommands;
 	private boolean inverse;
@@ -21,16 +21,21 @@ class NameCommandFilter implements CommandFilter {
 	 * @param inverse
 	 *            whether to invert selection
 	 */
-	NameCommandFilter(boolean inverse) {
+	public NameCommandFilter(boolean inverse) {
         allowedCommands = new HashSet<>();
 		this.inverse = inverse;
     }
+
+	public NameCommandFilter(boolean inverse, Commands... commands) {
+		this.inverse = inverse;
+		allowedCommands = Set.of(commands);
+	}
 
 	/**
 	 * @param commands
 	 *            allowed commands
 	 */
-    void addCommands(Commands... commands) {
+	public void addCommands(Commands... commands) {
         allowedCommands.addAll(Arrays.asList(commands));
     }
 

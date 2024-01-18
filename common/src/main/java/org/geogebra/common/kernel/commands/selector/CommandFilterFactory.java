@@ -67,6 +67,16 @@ public final class CommandFilterFactory {
 		return nameFilter;
 	}
 
+	/**
+	 * @return filter for Bayern CAS exam
+	 */
+	@Deprecated // move to org.geogebra.common.exam.restrictions.ExamRestrictions?
+	public static CommandFilter createBayernCasFilter() {
+		NameCommandFilter nameFilter = new NameCommandFilter(true);
+		nameFilter.addCommands(Commands.Plane);
+		return new EnglishCommandFilter(nameFilter);
+	}
+
 	private static void addBooleanCommands(NameCommandFilter nameFilter) {
 		nameFilter.addCommands(Commands.AreCollinear,
 				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
@@ -119,15 +129,6 @@ public final class CommandFilterFactory {
 				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
 				Commands.IsTangent, Commands.IsInRegion);
 		addBooleanCommands(nameFilter);
-		return new EnglishCommandFilter(nameFilter);
-	}
-
-	/**
-	 * @return filter for Bayern CAS exam
-	 */
-	public static CommandFilter createBayernCasFilter() {
-		NameCommandFilter nameFilter = new NameCommandFilter(true);
-		nameFilter.addCommands(Commands.Plane);
 		return new EnglishCommandFilter(nameFilter);
 	}
 

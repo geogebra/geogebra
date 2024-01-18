@@ -54,4 +54,8 @@ public interface ValuedProperty<V> extends Property {
 	 * @param observer value observer
 	 */
 	void removeValueObserver(PropertyValueObserver observer);
+
+	default void freezeValue(V fixedValue) { }
+
+	default void unfreezeValue() { }
 }
