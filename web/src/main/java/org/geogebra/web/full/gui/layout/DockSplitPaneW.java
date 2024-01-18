@@ -550,9 +550,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 					counter.increment();
 				}
 				int dx = orientation == SwingConstants.HORIZONTAL_SPLIT
-						? leftComponent.getOffsetWidth() : 0;
+						? leftComponent.getOffsetWidth() + getSplitterSize() : 0;
 				int dy = orientation == SwingConstants.VERTICAL_SPLIT
-						? leftComponent.getOffsetHeight() : 0;
+						? leftComponent.getOffsetHeight() + getSplitterSize() : 0;
 				((PaintToCanvas) rightComponent)
 						.paintToCanvas(context2d, counter, x + dx, y + dy);
 			}
