@@ -470,10 +470,10 @@ public class MoveToolTest extends BaseControllerTest {
 
 	@Test
 	public void moveSegmentShouldSnapOnDrag() {
-		GeoSegment segment = (GeoSegment) add("Segment((0, 0), (1, 1))");
+		GeoSegment segment = (GeoSegment) add("Segment((0, 0), (1, 0))");
 		snapToGrid();
-		dragStart(0, 0);
-		dragEnd(205, 0);
+		dragStart(25, 0);
+		dragEnd(230, 0);
 		assertThat(segment.startPoint, hasValue("(4, 0)"));
 	}
 
