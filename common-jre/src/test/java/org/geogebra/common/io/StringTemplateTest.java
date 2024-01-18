@@ -260,4 +260,39 @@ public class StringTemplateTest {
 		assertEquals("1 / (3*10^(-20))",
 				num.getDefinition(StringTemplate.editTemplate));
 	}
+
+	@Test
+	public void vectorMultiplicationShouldUseBrackets() {
+		add("u = Vector((1,2), (2,3))");
+		add("v = Vector((3,1), (5,2))");
+		add("w = Vector((0,2), (2,4))");
+		plain("a = u * (v * w)", "a = u (v w)");
+		plain("b = (u * v) * w", "b = (u v) w");
+		plain("c = v * v * 3", "c = (v v) * 3");
+	}
+
+	@Test
+	public void testMatrixVectorMultiplicationShouldUseBrackets() {
+		add("u = Vector((1,2), (2,3))");
+		add("v = Vector((3,1), (5,2))");
+		add("M = {{1,3},{2,4}}");
+		plain("a = M * (v * u)", "a = M (v u)");
+		plain("b = v * (u * M)", "b = v (u M)");
+	}
+
+	@Test
+	public void vectorMultiplicationShouldNotUseBrackets() {
+		add("u = Vector((1,2), (2,3))");
+		add("v = Vector((3,1), (5,2))");
+		plain("a = u * v", "a = u v");
+		plain("b = u * 3", "b = u * 3");
+	}
+
+	@Test
+	public void matrixMultiplicationShouldNotUseBrackets() {
+		add("M = {{1,3},{2,4}}");
+		add("N = {{0,-1},{1,0}}");
+		plain("m1 = (N * M) * M", "m1 = N M M");
+		plain("m2 = M * M * N", "m2 = M M N");
+	}
 }
