@@ -8,8 +8,8 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
-import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -84,7 +84,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		MetaModel model = new MetaModel();
 		model.enableSubstitutions();
 		model.setForceBracketAfterFunction(true);
-		mathField = new MathFieldW(new SyntaxAdapterImpl(kernel), main,
+		mathField = new MathFieldW(new SyntaxAdapterImplWithPaste(kernel), main,
 				canvas, listener, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setOnBlur(this);

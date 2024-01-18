@@ -56,6 +56,14 @@ public class TempStorage {
     }
 
     /**
+     * delete material from temp storage
+     * @param material material
+     */
+    public void deleteTempMaterial(Material material) {
+        tempMaterials.remove(material.getLocalID());
+    }
+
+    /**
      * Reinitializes the tempMaterials and the next id is set back to 0
      */
     public void clearTempMaterials() {

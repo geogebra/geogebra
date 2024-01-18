@@ -240,6 +240,9 @@ public final class EuclidianConstants {
 	/** Graspable Math tool */
 	public static final int MODE_GRASPABLE_MATH = 79;
 
+	/** Photo Library */
+	public static final int MODE_PHOTO_LIBRARY = 80;
+
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 
@@ -899,6 +902,8 @@ public final class EuclidianConstants {
 			return "Video";
 		case EuclidianConstants.MODE_CAMERA:
 			return "Camera";
+		case EuclidianConstants.MODE_PHOTO_LIBRARY:
+			return "PhotoLibrary";
 		case EuclidianConstants.MODE_AUDIO:
 			return "Audio";
 		case EuclidianConstants.MODE_CALCULATOR:

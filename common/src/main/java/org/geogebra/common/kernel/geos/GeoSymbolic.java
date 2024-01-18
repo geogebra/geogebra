@@ -436,8 +436,10 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void setSymbolicMode() {
-		boolean isValueDefined = isCasValueDefined();
-		setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+		if (kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+			boolean isValueDefined = isCasValueDefined();
+			setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+		}
 	}
 
 	private void setFunctionVariables() {

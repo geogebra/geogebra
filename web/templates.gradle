@@ -105,7 +105,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def measurementId = app.measurementId ?: ""
     def piwikpro = vendor == "Mebis" ? "" : template("partials/piwikpro.html")
     def splashStyle = "<style>" + file("war/css/app-header.css").text + "</style>"
-    if (!inlineCss) {
+    if (!inlineCss && vendor != "Mebis") {
        splashStyle = "<link rel=stylesheet href=\"css/app-header.css\"/>"
     }
     return replaceVendor(html, vendor, offline)

@@ -8,8 +8,6 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.dialog.ComponentDialog;
-import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -113,15 +111,15 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 
 	@Override
 	public void onDelete() {
-		DialogData data = new DialogData(null, "Cancel", "Delete");
-		ComponentDialog removeDialog = new RemoveDialog(app, data, this);
-		removeDialog.show();
-		removeDialog.setOnPositiveAction(this::onConfirmDelete);
+		controller.showDeleteConfirmDialog(this);
 	}
 
-	/**
-	 * @return card title
-	 */
+	@Override
+	public MaterialCardController getController() {
+		return controller;
+	}
+
+	@Override
 	public String getCardTitle() {
 		return getMaterial().getTitle();
 	}

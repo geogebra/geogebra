@@ -15,8 +15,11 @@ import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
+import org.geogebra.web.full.gui.openfileview.RemoveDialog;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 /**
@@ -280,6 +283,17 @@ public class MaterialCardController implements OpenFileListener {
 			app.getShareController().startMultiuser(material.getSharingKeySafe());
 		}
 		return true; // one time only
+	}
+
+	/**
+	 * show confirmation dialog for delete
+	 * @param card material/template/temporary card
+	 */
+	public void showDeleteConfirmDialog(MaterialCardI card) {
+		DialogData data = new DialogData(null, "Cancel", "Delete");
+		ComponentDialog removeDialog = new RemoveDialog(app, data, card);
+		removeDialog.show();
+		removeDialog.setOnPositiveAction(() -> onConfirmDelete(card));
 	}
 
 }
