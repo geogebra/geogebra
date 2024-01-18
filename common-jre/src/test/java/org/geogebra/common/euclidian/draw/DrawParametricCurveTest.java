@@ -57,8 +57,8 @@ public class DrawParametricCurveTest extends BaseUnitTest {
 				"sin(x)", "cos(x)", "x^2", "abs(x)", "tan(t)", "x + 3", "x / 2"));
 	}
 
-	private boolean testFunctions(boolean shouldEnablePlotter, EuclidianView view, String... inputs) {
-		return Arrays.stream(inputs).allMatch(input -> shouldEnablePlotter
+	private boolean testFunctions(boolean shouldEnableIntervalPlotter, EuclidianView view, String... inputs) {
+		return Arrays.stream(inputs).allMatch(input -> shouldEnableIntervalPlotter
 				== isIntervalPlotterEnabledForInput(input, view));
 	}
 
