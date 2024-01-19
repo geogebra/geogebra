@@ -325,8 +325,6 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private void createMenuItemGroup(MenuView menuView, MenuItemGroup menuItemGroup) {
-		String titleKey = menuItemGroup.getTitle();
-		String title = titleKey == null ? null : localization.getMenu(titleKey);
 		for (MenuItem menuItem : menuItemGroup.getMenuItems()) {
 			MenuItemView item = createMenuItemView(menuItem);
 			item.setScheduledCommand(() -> menuActionRouter.handleMenuItem(menuItem));
