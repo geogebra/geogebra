@@ -553,6 +553,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case nPr:
 			case PolyLine:
 			case Polyline:
+			case PenStroke:
 			case PointIn:
 			case Line:
 			case Ray:

@@ -2157,6 +2157,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(add("h=If(x<a,a,x<b,b,x<c,c+1)"),
 				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x"
 						+ "\\\\ b& : b > x\\\\ c + 1& : c > x \\end{array}\\right. "));
+		assertThat(add("x+x"), hasFormulaString("2 \\; x"));
 	}
 
 	@Test
@@ -2194,5 +2195,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void shouldExpandExpressionInIntegral() {
 		t("h=x^2", "x^(2)");
 		t("Integral(h,0,1)", "1 / 3");
+	}
+
+	@Test
+	public void booleansShouldNotHaveNumericValue() {
+		GeoSymbolic p = add("IsPrime(4)");
+		p.setSymbolicMode(false, true);
+		p.update();
+		assertThat(SymbolicUtil.shouldComputeNumericValue(p.getValue()), equalTo(false));
+		assertThat(p, hasValue("false"));
 	}
 }

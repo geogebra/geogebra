@@ -1,7 +1,6 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -22,13 +21,6 @@ public interface GDevice {
 	 * @return whether device is offline
 	 */
 	boolean isOffline(AppW app);
-
-	/**
-	 * @param app
-	 *            application
-	 * @return image input dialog
-	 */
-	UploadImageDialog getImageInputDialog(AppW app);
 
 	/**
 	 * TODO make this browser-dependent, not GDevice dependent

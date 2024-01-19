@@ -436,8 +436,10 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void setSymbolicMode() {
-		boolean isValueDefined = isCasValueDefined();
-		setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+		if (kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+			boolean isValueDefined = isCasValueDefined();
+			setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+		}
 	}
 
 	private void setFunctionVariables() {
@@ -1134,9 +1136,6 @@ public class GeoSymbolic extends GeoElement
 	public String getFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
 		if (substituteNumbers && tpl.isLatex()) {
-			if (twinGeo instanceof GeoFunction) {
-				return twinGeo.getFormulaString(tpl, true);
-			}
 			if (value != null && value.wrap().isTopLevelCommand("If")) {
 				FunctionVariable fv = getFunctionVariables()[0];
 				ArrayList<ExpressionNode> cases = new ArrayList<>();

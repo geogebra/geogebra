@@ -428,7 +428,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	private void preloadAdvancedCommandsForSuiteCAS() {
 		if (isSuite() && "cas".equals(activity.getConfig().getSubAppCode())) {
-			getAsyncManager().prefetch(null, "advanced");
+			getAsyncManager().prefetch(null, "advanced", "giac");
 		}
 	}
 

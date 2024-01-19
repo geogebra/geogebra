@@ -11,7 +11,6 @@
   <source path='cas/giac'/>
 
  <set-configuration-property name="devModeRedirectEnabled" value="false"/>
- <set-configuration-property name="js.identifier.blacklist" value="Ink" />
 
     <!-- Compile only one permutation -->
   <collapse-all-properties />
