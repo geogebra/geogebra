@@ -1,7 +1,6 @@
 package org.geogebra.common.scientific;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -16,7 +15,7 @@ public class LabelController {
 	 * @param element the element
 	 * @return true if it has label
 	 */
-	public boolean hasLabel(GeoElement element) {
+	public boolean hasLabel(GeoElementND element) {
 		return element.isLabelSet() && element.isAlgebraLabelVisible();
 	}
 
@@ -50,28 +49,22 @@ public class LabelController {
 	}
 
 	/**
-	 * @param elementND
+	 * @param element
 	 *            construction element
 	 */
-	public void ensureHasLabel(GeoElementND elementND) {
-		GeoElement element = asGeoElement(elementND);
+	public void ensureHasLabel(GeoElementND element) {
 		if (element != null && !hasLabel(element)) {
 			showLabel(element);
 		}
 	}
 
-	private GeoElement asGeoElement(GeoElementND elementND) {
-		return elementND instanceof GeoElement ? (GeoElement) elementND : null;
-	}
-
 	/**
 	 * Ensures that table column has a label without algebra label visibility.
 	 *
-	 * @param elementND
+	 * @param element
 	 *            construction element
 	 */
-	public void ensureHasLabelNoAlgebra(GeoElementND elementND) {
-		GeoElement element = asGeoElement(elementND);
+	public void ensureHasLabelNoAlgebra(GeoElementND element) {
 		if (element != null && !element.isLabelSet()) {
 			showLabel(element);
 		}

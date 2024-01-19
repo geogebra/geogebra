@@ -73,19 +73,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 				layout.getLayoutIntersecting(viewport);
 		double offsetX = viewport.getMinX() - layout.getRowHeaderWidth();
 		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
-		graphics.translate(-offsetX, -offsetY);
-		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
-			for (int row = portion.fromRow; row <= portion.toRow; row++) {
-				renderer.drawCell(row, column, graphics,
-						controller.contentAt(row, column));
-			}
-		}
-		renderer.drawHeaderBackgroundAndOutline(graphics, viewport, offsetX, offsetY);
+		drawContentCells(graphics, portion, offsetX, offsetY);
+		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
 		for (Selection range: controller.getSelections()) {
 			renderer.drawSelectionHeader(range, graphics,
 					this.viewport, controller.getLayout());
 		}
-		graphics.translate(0, offsetY);
+		graphics.translate(-offsetX, 0);
 		graphics.setColor(controller.getStyle().getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
 			renderer.drawColumnBorder(column, graphics);
@@ -109,6 +103,18 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());
 		graphics.fillRect(0, 0, (int) layout.getRowHeaderWidth(),
 				(int) layout.getColumnHeaderHeight());
+	}
+
+	private void drawContentCells(GGraphics2D graphics, TableLayout.Portion portion,
+			double offsetX, double offsetY) {
+		graphics.translate(-offsetX, -offsetY);
+		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
+			for (int row = portion.fromRow; row <= portion.toRow; row++) {
+				renderer.drawCell(row, column, graphics,
+						controller.contentAt(row, column));
+			}
+		}
+		graphics.translate(offsetX, offsetY);
 	}
 
 	private void setHeaderColor(GGraphics2D graphics, boolean isSelected) {

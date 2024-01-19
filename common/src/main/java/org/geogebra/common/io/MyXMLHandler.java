@@ -3502,6 +3502,10 @@ public class MyXMLHandler implements DocHandler {
 			errors.add("exp missing in <expression>");
 			return;
 		}
+		if (exp.startsWith("PolyLine[") && exp.endsWith(", true]")) {
+			exp = exp.replace("PolyLine[", "PenStroke[");
+			exp = exp.replace(", true]", "]");
+		}
 
 		// type may be vector or point, this is important to distinguish between
 		// them

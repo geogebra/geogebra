@@ -211,7 +211,7 @@ public final class SpreadsheetController implements TabularSelection {
 			return new DragAction(MouseCursor.DRAG_DOT, layout.findRow(y + viewport.getMinY()),
 					layout.findColumn(x + viewport.getMinX()));
 		}
-		return layout.getResizeAction(x + viewport.getMinX(), y + viewport.getMinY());
+		return layout.getResizeAction(x, y, viewport);
 	}
 
 	/**

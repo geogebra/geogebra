@@ -7,6 +7,4 @@
   <inherits name="elemental2.core.Core"/>
   <inherits name="elemental2.webstorage.WebStorage" />
   <inherits name="elemental2.media.Media" />
-
-  <set-configuration-property name="js.identifier.blacklist" value="Ink" />
 </module>
