@@ -272,7 +272,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void testMatrixVectorMultiplicationShouldUseBrackets() {
+	public void matrixVectorMultiplicationShouldUseBrackets() {
 		add("u = Vector((1,2), (2,3))");
 		add("v = Vector((3,1), (5,2))");
 		add("M = {{1,3},{2,4}}");

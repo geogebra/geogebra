@@ -1807,13 +1807,26 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 
 		if (ExpressionNode.opID(value.unwrap()) == Operation.MULTIPLY.ordinal()) {
-			ExpressionValue left = value.wrap().getLeft();
-			ExpressionValue right = value.wrap().getRight();
-			return ((left.evaluatesToList() || isNDvector(left)) && (isNDvector(right)))
-					|| (isNDvector(left) && (right.evaluatesToList() || isNDvector(right)));
+			return isVectorMatrixMultiplication(value);
 		}
 
 		return ExpressionNode.opID(value.unwrap()) < Operation.MULTIPLY.ordinal();
+	}
+
+	/**
+	 * Multiplying a vector with another vector or a vector with a matrix should
+	 * append brackets left and right
+	 * @param value ExpressionValue
+	 * @return True if this is a vector * vector or vector * matrix multiplication, false else
+	 */
+	private boolean isVectorMatrixMultiplication(ExpressionValue value) {
+		ExpressionValue left = value.wrap().getLeft();
+		ExpressionValue right = value.wrap().getRight();
+		if (left != null && right != null) {
+			return ((left.evaluatesToList() || isNDvector(left)) && (isNDvector(right)))
+					|| (isNDvector(left) && (right.evaluatesToList() || isNDvector(right)));
+		}
+		return false;
 	}
 
 	/**
