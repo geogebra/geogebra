@@ -17,7 +17,7 @@ public class DrawParametricCurveTest extends BaseUnitTest {
 		GeoFunction f = add("If(x<1,1/0,x-1)");
 		f.setLabelVisible(true);
 		f.updateRepaint();
-		Drawable drawable = (Drawable) getApp().getActiveEuclidianView().getDrawableFor(f);
+		Drawable drawable = getDrawable(f);
 		assertNotNull(drawable);
 		assertThat(drawable.getLabelX(), equalTo(480.0));
 		assertThat(drawable.getLabelY(), equalTo(300.0));

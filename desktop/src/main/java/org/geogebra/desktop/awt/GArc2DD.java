@@ -85,7 +85,7 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 
 	@Override
 	public GPoint2D getEndPoint() {
-		return new GPoint2D(impl.getStartPoint().getX(), impl.getStartPoint().getY());
+		return new GPoint2D(impl.getEndPoint().getX(), impl.getEndPoint().getY());
 	}
 
 	@Override

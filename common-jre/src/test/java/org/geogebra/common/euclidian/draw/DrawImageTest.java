@@ -13,13 +13,12 @@ public class DrawImageTest extends BaseControllerTest {
 	public void translateShouldNotFixateCorners() {
 		add("ZoomIn(0,0,800,600)");
 		GeoImage img = createImage();
-		GeoPoint pt = (GeoPoint) add("(100,100)");
+		GeoPoint pt = add("(100,100)");
 		img.setCorner(pt, 0);
 		img.setLabel("pic1");
-		GeoImage translated = (GeoImage) add("Translate(pic1, (1,0))");
-		DrawImage drawImage = (DrawImage) getApp().getActiveEuclidianView().getDrawableFor(img);
-		DrawImage drawTranslated = (DrawImage) getApp().getActiveEuclidianView()
-				.getDrawableFor(translated);
+		GeoImage translated = add("Translate(pic1, (1,0))");
+		DrawImage drawImage = (DrawImage) getDrawable(img);
+		DrawImage drawTranslated = (DrawImage) getDrawable(translated);
 		assertEquals(1.0, drawImage.getTransform().getScaleX(), 0.1);
 		assertEquals(1.0, drawTranslated.getTransform().getScaleX(), 0.1);
 		add("ZoomIn(0,0,1600,1200)");
@@ -37,9 +36,8 @@ public class DrawImageTest extends BaseControllerTest {
 		img.setCentered(true);
 		img.setLabel("pic1");
 		GeoImage translated = (GeoImage) add("Translate(pic1, (100,0))");
-		DrawImage drawImage = (DrawImage) getApp().getActiveEuclidianView().getDrawableFor(img);
-		DrawImage drawTranslated = (DrawImage) getApp().getActiveEuclidianView()
-				.getDrawableFor(translated);
+		DrawImage drawImage = (DrawImage) getDrawable(img);
+		DrawImage drawTranslated = (DrawImage) getDrawable(translated);
 		// width 50px, centered at 100 -> x from 75 to 125
 		assertEquals(75, drawImage.getTransform().getTranslateX(), 0.1);
 		// translated by 100px
@@ -60,10 +58,9 @@ public class DrawImageTest extends BaseControllerTest {
 		img.setCorner(pt, 0);
 		img.setCorner(pt2, 1);
 		img.setLabel("pic1");
-		GeoImage translated = (GeoImage) add("Translate(pic1, (1,0))");
-		DrawImage drawImage = (DrawImage) getApp().getActiveEuclidianView().getDrawableFor(img);
-		DrawImage drawTranslated = (DrawImage) getApp().getActiveEuclidianView()
-				.getDrawableFor(translated);
+		GeoImage translated = add("Translate(pic1, (1,0))");
+		DrawImage drawImage = (DrawImage) getDrawable(img);
+		DrawImage drawTranslated = (DrawImage) getDrawable(translated);
 		assertEquals(2.0, drawImage.getTransform().getScaleX(), 0.1);
 		assertEquals(2.0, drawTranslated.getTransform().getScaleX(), 0.1);
 		add("ZoomIn(0,0,1600,1200)");
