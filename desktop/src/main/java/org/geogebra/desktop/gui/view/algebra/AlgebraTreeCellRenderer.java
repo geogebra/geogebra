@@ -3,11 +3,8 @@ package org.geogebra.desktop.gui.view.algebra;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -19,7 +16,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * Algebra view cell renderer
@@ -33,10 +32,10 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 	protected AppD app;
 	protected final AlgebraTree view;
 	protected Kernel kernel;
-	private ImageIcon iconShown;
-	private ImageIcon iconHidden;
+	private ScaledIcon iconShown;
+	private ScaledIcon iconHidden;
 
-	private ImageIcon latexIcon;
+	private ScaledIcon latexIcon;
 
 	/**
 	 * @param app application
@@ -56,13 +55,16 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 	 * Update icons
 	 */
 	public void update() {
-		setIconShown(app.getScaledIcon(GuiResourcesD.ALGEBRA_SHOWN));
-		setIconHidden(app.getScaledIcon(GuiResourcesD.ALGEBRA_HIDDEN));
+		ImageManagerD imageManager = app.getImageManager();
+		iconShown = imageManager.getResponsiveScaledIcon(imageManager.getImageIcon(
+				GuiResourcesD.ALGEBRA_SHOWN), 16);
+		iconHidden = imageManager.getResponsiveScaledIcon(imageManager.getImageIcon(
+				GuiResourcesD.ALGEBRA_HIDDEN), 16);
 
 		setOpenIcon(app.getScaledIcon(GuiResourcesD.TREE_OPENED));
 		setClosedIcon(app.getScaledIcon(GuiResourcesD.TREE_CLOSED));
 
-		latexIcon = new ImageIcon();
+		latexIcon = new ScaledIcon(this);
 	}
 
 	/**
@@ -117,7 +119,7 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 					app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
 							latexStr, latexFont, false, getForeground(),
 							this.getBackground());
-					setIcon(joinIcons((ImageIcon) getIcon(), latexIcon));
+					setIcon(ScaledIcon.joinIcons((ScaledIcon) getIcon(), latexIcon, this));
 					setText(" ");
 				}
 			}
@@ -165,53 +167,11 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 		return this;
 	}
 
-	/**
-	 * Creates a new ImageIcon by joining them together (leftIcon to rightIcon).
-	 * 
-	 * @param leftIcon left icon
-	 * @param rightIcon right icon
-	 * @return merged icon
-	 */
-	private static ImageIcon joinIcons(ImageIcon leftIcon,
-			ImageIcon rightIcon) {
-
-		if (leftIcon == null) {
-			return rightIcon;
-		}
-
-		if (rightIcon == null) {
-			return leftIcon;
-		}
-
-		int w1 = leftIcon.getIconWidth();
-		int w2 = rightIcon.getIconWidth();
-		int h1 = leftIcon.getIconHeight();
-		int h2 = rightIcon.getIconHeight();
-		int h = Math.max(h1, h2);
-		int mid = h / 2;
-		BufferedImage image = new BufferedImage(w1 + w2, h,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = (Graphics2D) image.getGraphics();
-		g2.drawImage(leftIcon.getImage(), 0, mid - h1 / 2, null);
-		g2.drawImage(rightIcon.getImage(), w1, mid - h2 / 2, null);
-		g2.dispose();
-
-		return new ImageIcon(image);
-	}
-
-	public ImageIcon getIconShown() {
+	public ScaledIcon getIconShown() {
 		return iconShown;
 	}
 
-	public void setIconShown(ImageIcon iconShown) {
-		this.iconShown = iconShown;
-	}
-
-	public ImageIcon getIconHidden() {
+	public ScaledIcon getIconHidden() {
 		return iconHidden;
-	}
-
-	public void setIconHidden(ImageIcon iconHidden) {
-		this.iconHidden = iconHidden;
 	}
 } // MyRenderer
