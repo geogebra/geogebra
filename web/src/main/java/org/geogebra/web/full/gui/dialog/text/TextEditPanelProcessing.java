@@ -6,17 +6,19 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.user.client.Event;
 
+import elemental2.dom.DomGlobal;
+
 /**
  * Connector for keyboard and text input dialog
  */
 public class TextEditPanelProcessing implements KeyboardListener {
-	private TextEditPanel field;
+	private GeoTextEditor field;
 
 	/**
 	 * @param field
 	 *            textbox
 	 */
-	public TextEditPanelProcessing(TextEditPanel field) {
+	public TextEditPanelProcessing(GeoTextEditor field) {
 		this.field = field;
 	}
 
@@ -31,16 +33,12 @@ public class TextEditPanelProcessing implements KeyboardListener {
 
 	@Override
 	public void onEnter() {
-		NativeEvent event2 = Document.get().createKeyDownEvent(false, false,
-				false, false, ENTER);
-		field.onBrowserEvent(Event.as(event2));
+		field.newLine();
 	}
 
 	@Override
 	public void onBackSpace() {
-		String oldText = field.getTextArea().getText();
-		String newText = oldText.substring(0, oldText.length() - 1);
-		field.setText(newText);
+		field.onBackspace();
 	}
 
 	@Override
@@ -55,9 +53,7 @@ public class TextEditPanelProcessing implements KeyboardListener {
 	 *            text to be inserted
 	 */
 	private void insertAtEnd(String text) {
-		String oldText = field.getTextArea().getText();
-		String newText = oldText + text;
-		field.setText(newText);
+		field.insertElement(DomGlobal.document.createTextNode(text));
 	}
 
 	@Override
@@ -87,7 +83,7 @@ public class TextEditPanelProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public TextEditPanel getField() {
+	public GeoTextEditor getField() {
 		return field;
 	}
 
