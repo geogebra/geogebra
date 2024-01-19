@@ -557,7 +557,7 @@ public class GeoGebraFrame extends JFrame
 				}
 				UtilD.delete(dest);
 
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				Log.error("Unsuccessful update");
 			} finally {
 				if (zis != null) {
