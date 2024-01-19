@@ -6730,10 +6730,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			} else {
 				translateableGeos.clear();
 			}
-			translateableGeos.add(movedGeoElement);
+
+			if (movedGeoElement.isGeoSegment()) {
+				addMovedGeoElementFreeInputPointsToTranslateableGeos();
+			} else {
+				translateableGeos.add(movedGeoElement);
+			}
 		}
 
 		handleMovedElementDependentInitMode();
+	}
+
+	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
+		ArrayList<GeoElementND> freeInputPoints = movedGeoElement
+				.getFreeInputPoints(view);
+		for (GeoElementND p : freeInputPoints) {
+			translateableGeos.add((GeoElement) p);
+		}
 	}
 
 	/**
