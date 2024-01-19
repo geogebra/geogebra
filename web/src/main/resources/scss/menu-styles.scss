@@ -81,6 +81,7 @@ $menuWidth: 320px;
 				}
 				&.noImage {
 					padding-left: 16px;
+					width: calc(100% - 16px);
 				}
 			}
 		.divider {

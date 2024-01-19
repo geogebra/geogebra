@@ -285,7 +285,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		}
 	}
 
-	private boolean isLastGroupOfGroupList(MenuItemGroup group, List<MenuItemGroup> menuItemGroups) {
+	private boolean isLastGroupOfGroupList(MenuItemGroup group,
+			List<MenuItemGroup> menuItemGroups) {
 		return menuItemGroups.get(menuItemGroups.size() - 1).equals(group);
 	}
 

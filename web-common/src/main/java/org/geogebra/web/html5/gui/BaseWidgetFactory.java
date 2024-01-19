@@ -117,6 +117,9 @@ public class BaseWidgetFactory {
 		return label;
 	}
 
+	/**
+	 * @return divider component
+	 */
 	public SimplePanel newDivider() {
 		SimplePanel widget = new SimplePanel();
 		widget.addStyleName("divider");
