@@ -31,6 +31,7 @@ import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
@@ -247,8 +248,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	public void setMenuVisible(boolean visible) {
 		if (visible != floatingMenuView.isVisible()) {
 			floatingMenuView.setVisible(visible);
-			notifyMenuViewVisibilityChanged(visible);
 			updateFocus();
+			notifyMenuViewVisibilityChanged(visible);
 		}
 	}
 
@@ -257,6 +258,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		if (floatingMenuView.isVisible()) {
 			menuView.selectItem(0);
 		}
+		setMenuTransition(menuView, floatingMenuView.isVisible());
 	}
 
 	private void notifyMenuViewVisibilityChanged(boolean visible) {
@@ -306,8 +308,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private void setMenuTransition(Widget widget, boolean transitionIn) {
-		widget.setStyleName("transitionIn", transitionIn);
-		widget.setStyleName("transitionOut", !transitionIn);
+		Dom.toggleClass(widget, "transitionIn", "transitionOut", transitionIn);
 	}
 
 	HeaderView createHeaderView() {

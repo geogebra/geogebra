@@ -21,7 +21,7 @@ class MenuView extends AriaMenuBar {
 			if (controller.isSubMenu(getParent())) {
 				controller.hideSubmenuAndMoveFocus();
 			} else {
-				controller.setMenuVisible(!isVisible());
+				controller.setMenuVisible(false);
 			}
 			return;
 		}

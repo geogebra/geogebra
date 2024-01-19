@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.menu;
 
+import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 class FloatingMenuView extends SimplePanel {
@@ -13,8 +14,7 @@ class FloatingMenuView extends SimplePanel {
 	@Override
 	public void setVisible(boolean visible) {
 		isVisible = visible;
-		setStyleName("transitionIn", visible);
-		setStyleName("transitionOut", !visible);
+		Dom.toggleClass(this, "transitionIn", "transitionOut", visible);
 	}
 
 	@Override
