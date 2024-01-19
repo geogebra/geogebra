@@ -1,11 +1,9 @@
 package org.geogebra.web.full.gui.menu;
 
-import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
-import org.gwtproject.user.client.ui.SimplePanel;
 
 class MenuView extends AriaMenuBar {
 	protected MenuViewController controller;
@@ -28,12 +26,5 @@ class MenuView extends AriaMenuBar {
 			return;
 		}
 		super.onBrowserEvent(event);
-	}
-
-	private void createDivider() {
-		SimplePanel widget = new SimplePanel();
-		widget.addStyleName("divider");
-		widget.addStyleName(Shades.NEUTRAL_300.getName());
-		add(widget);
 	}
 }

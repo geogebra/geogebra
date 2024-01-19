@@ -18,7 +18,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
@@ -30,6 +29,7 @@ import org.geogebra.web.full.gui.menu.action.SuiteMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
@@ -257,7 +257,6 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		if (floatingMenuView.isVisible()) {
 			menuView.selectItem(0);
 		}
-
 	}
 
 	private void notifyMenuViewVisibilityChanged(boolean visible) {
@@ -278,7 +277,14 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		menuView.clear();
 		for (MenuItemGroup group : menuItemGroups) {
 			createMenuItemGroup(menuView, group);
+			if (!isLastGroupOfGroupList(group, menuItemGroups)) {
+				menuView.add(BaseWidgetFactory.INSTANCE.newDivider());
+			}
 		}
+	}
+
+	private boolean isLastGroupOfGroupList(MenuItemGroup group, List<MenuItemGroup> menuItemGroups) {
+		return menuItemGroups.get(menuItemGroups.size() - 1).equals(group);
 	}
 
 	void showSubmenu(HeaderedMenuView headeredSubmenu) {
