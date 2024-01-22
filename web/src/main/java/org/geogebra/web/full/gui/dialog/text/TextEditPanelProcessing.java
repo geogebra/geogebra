@@ -2,9 +2,6 @@ package org.geogebra.web.full.gui.dialog.text;
 
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.user.client.Event;
 
 import elemental2.dom.DomGlobal;
 
@@ -12,7 +9,7 @@ import elemental2.dom.DomGlobal;
  * Connector for keyboard and text input dialog
  */
 public class TextEditPanelProcessing implements KeyboardListener {
-	private GeoTextEditor field;
+	private final GeoTextEditor field;
 
 	/**
 	 * @param field
@@ -59,12 +56,6 @@ public class TextEditPanelProcessing implements KeyboardListener {
 	@Override
 	public void onArrow(ArrowType type) {
 		// solve later
-	}
-
-	@Override
-	public boolean resetAfterEnter() {
-		// overridden for RTI
-		return false;
 	}
 
 	@Override

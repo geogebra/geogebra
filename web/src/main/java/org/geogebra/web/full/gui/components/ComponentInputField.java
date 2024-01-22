@@ -17,11 +17,11 @@ import org.gwtproject.user.client.ui.Label;
  * input field material design component
  */
 public class ComponentInputField extends FlowPanel implements SetLabels, Input {
-	private Localization loc;
+	private final Localization loc;
 	private String errorTextKey;
-	private String labelTextKey;
-	private String placeholderTextKey;
-	private String suffixTextKey;
+	private final String labelTextKey;
+	private final String placeholderTextKey;
+	private final String suffixTextKey;
 	private FlowPanel contentPanel;
 	private FormLabel labelText;
 	private InputPanelW inputTextField;
