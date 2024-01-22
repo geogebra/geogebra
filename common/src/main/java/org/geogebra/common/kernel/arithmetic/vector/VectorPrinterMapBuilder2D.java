@@ -16,9 +16,6 @@ public class VectorPrinterMapBuilder2D implements VectorPrinterMapBuilder {
         printerMap.put(VectorPrintingMode.Polar, new PolarPrinter());
         printerMap.put(VectorPrintingMode.Cartesian, new CartesianPrinter(settings));
         printerMap.put(VectorPrintingMode.Vector, new VectorPrinter());
-        printerMap.put(VectorPrintingMode.GiacPolar, new GiacPolarPrinter());
-        printerMap.put(VectorPrintingMode.Giac, new GiacPrinter());
-        printerMap.put(VectorPrintingMode.CasLatex, new CasLatexPrinter());
         return printerMap;
     }
 }

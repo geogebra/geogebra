@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.factories.FormatFactory;
@@ -18,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.GeneralSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -1409,6 +1412,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void getMinus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER_ASCII) {
 			sb.append(ScreenReader.getMinus(loc));
+		} else if (stringType == StringType.SCREEN_READER_UNICODE) {
+			sb.append(" ").append(Unicode.MINUS).append(" ");
 		} else {
 			appendOptionalSpace(sb);
 			sb.append("-");
@@ -3686,7 +3691,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(ScreenReader.getComma());
 		} else {
 			sb.append(localization.getComma());
-			appendOptionalSpace(sb);
+			if (isLatex()) {
+				sb.append("\\;");
+			} else {
+				appendOptionalSpace(sb);
+			}
 		}
 	}
 
@@ -3741,5 +3750,30 @@ public class StringTemplate implements ExpressionNodeConstants {
 		StringTemplate copy = copy();
 		copy.printFormPI = piString;
 		return copy;
+	}
+
+	/**
+	 * @param strToString formatted number
+	 * @return number with - replaced for current string template
+	 */
+	public String fixMinus(String strToString) {
+		if (stringType == ExpressionNodeConstants.StringType.SCREEN_READER_UNICODE) {
+			return strToString.replace("-", String.valueOf(Unicode.MINUS));
+		}
+		return strToString;
+	}
+
+	/**
+	 * @param settings settings defining coordinate style
+	 * @return delimiter for cartesian coordinates
+	 */
+	public String getCartesianDelimiter(@CheckForNull GeneralSettings settings) {
+		if (isLatex()) {
+			return ",\\;";
+		}
+		String delimiter = settings != null
+				&& settings.getCoordFormat() == Kernel.COORD_STYLE_AUSTRIAN
+				? (getOptionalSpace() + getPointCoordBar()) : ",";
+		return delimiter + getOptionalSpace();
 	}
 }

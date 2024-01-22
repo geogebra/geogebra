@@ -267,7 +267,15 @@ public class ScreenReader {
 		return app.getScreenReaderTemplate().getStringType()
 				== ExpressionNodeConstants.StringType.SCREEN_READER_ASCII
 				? new ScreenReaderSerializationAdapter(app.getLocalization())
-				: new DefaultSerializationAdapter();
+				: new UtfScreenReaderSerializationAdapter();
+	}
+
+	private static class UtfScreenReaderSerializationAdapter extends DefaultSerializationAdapter {
+
+		@Override
+		public String transformBrackets(String left, String base, String right) {
+			return left + " " + base + right;
+		}
 	}
 
 	/**

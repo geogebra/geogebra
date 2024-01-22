@@ -28,6 +28,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.SymbolicUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Utitlity class for AV items
@@ -98,6 +99,7 @@ public class AlgebraItem {
 		if (text1 == null) {
 			return text2 != null;
 		}
+		Log.debug(text1 + "\n" + text2);
 		return !text1.equals(text2)
 				&& !GeoFunction.isUndefined(text1) && !GeoFunction.isUndefined(text2);
 	}

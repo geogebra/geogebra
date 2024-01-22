@@ -1437,8 +1437,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (app.getLocalization().getZero() != '0') {
 			ret = internationalizeDigits(ret, tpl);
 		}
-
-		return ret;
+		return tpl.fixMinus(ret);
 	}
 
 	/**

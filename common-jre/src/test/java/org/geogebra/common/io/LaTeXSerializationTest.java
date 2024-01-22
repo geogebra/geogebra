@@ -199,14 +199,14 @@ public class LaTeXSerializationTest {
 	public void testParseLaTeX() {
 		// Configuration.getFontMapping();
 		checkLaTeX("4+x", "4+x");
-		checkLaTeX("4-x", "4-x");
+		checkLaTeX("4-x", "4" + Unicode.MINUS + "x");
 		checkLaTeX("\\frac{4}{x}", "(4)/(x)");
 		checkLaTeX("4 \\times x", "4" + Unicode.MULTIPLY + "x");
 
-		checkLaTeX("\\frac{x+y}{x-y}", "(x+y)/(x-y)");
+		checkLaTeX("\\frac{x+y}{x-y}", "(x+y)/(x" + Unicode.MINUS + "y)");
 		checkLaTeX("\\sqrt{x+y}", "sqrt(x+y)");
 		checkLaTeX("\\sqrt{x}+2", "sqrt(x)+2");
-		checkLaTeX("1-\\sqrt[3]{x}", "1-nroot(x,3)");
+		checkLaTeX("1-\\sqrt[3]{x}", "1" + Unicode.MINUS + "nroot(x,3)");
 		checkLaTeX("X=\\left(x_0+2x_x,y_0+2x_y\\right)",
 				"X=(x_0+2x_x,y_0+2x_y)");
 		checkLaTeX("i=\\left[0,\\frac{6\\pi}{p}...24\\pi\\right]",
@@ -215,7 +215,8 @@ public class LaTeXSerializationTest {
 				"\\left(\\left(1-t\\right)\\left(x_1\\right)+t\\left(x_1+R\\ "
 						+ "f\\left(j\\right)\\right),\\left(1-t\\right)\\left(y_1\\right)"
 						+ "+t\\left(y_1+Rg\\left(j\\right)\\right)\\right)",
-				"((1-t)(x_1)+t(x_1+R f(j)),(1-t)(y_1)+t(y_1+Rg(j)))");
+				"((1" + Unicode.MINUS + "t)(x_1)+t(x_1+R f(j)),(1"
+						+ Unicode.MINUS + "t)(y_1)+t(y_1+Rg(j)))");
 		checkLaTeX("\\frac{x^2}{m^2}+\\frac{y^2}{n^2}\\ge2",
 				"(x^(2))/(m^(2))+(y^(2))/(n^(2))" + Unicode.GREATER_EQUAL
 						+ "2");

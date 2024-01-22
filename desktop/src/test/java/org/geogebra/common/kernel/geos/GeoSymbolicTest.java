@@ -1930,7 +1930,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolutionsString() {
 		GeoSymbolic solutions = add("Solutions(x^2=5)");
 		assertThat(AlgebraItem.getLatexString(solutions, null, false),
-				equalTo("l1\\, = \\,\\left\\{-\\sqrt{5}, \\sqrt{5}\\right\\}"));
+				equalTo("l1\\, = \\,\\left\\{-\\sqrt{5},\\;\\sqrt{5}\\right\\}"));
 	}
 
 	@Test
