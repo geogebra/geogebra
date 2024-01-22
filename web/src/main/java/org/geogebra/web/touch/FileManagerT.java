@@ -60,13 +60,6 @@ public abstract class FileManagerT extends FileManager {
 	protected void doOpenMaterial(Material m) {
 		super.openMaterial(m);
 	}
-	
-	/**
-	 * @param m {@link Material}
-	 */
-	protected void doUpload(Material m) {
-		super.upload(m);
-	}
 
 	@Override
 	public void export(final App app1) {
@@ -82,11 +75,6 @@ public abstract class FileManagerT extends FileManager {
 		// TODO check if it really happened
 		appW.dispatchEvent(
 				new Event(EventType.EXPORT, null, "[\"" + extension + "\"]"));
-	}
-
-	@Override
-	public boolean hasBase64(Material material) {
-		return true;
 	}
 
 	@Override
