@@ -14,7 +14,7 @@ public class OperationExpressionFilter implements ExpressionFilter {
 		this.filteredOperations = Set.of(filteredOperations);
 	}
 
-	private boolean isFilteredOperations(ExpressionValue expressionValue) {
+	private boolean isFilteredOperation(ExpressionValue expressionValue) {
 		return filteredOperations.stream()
 				.filter(operation -> expressionValue.isOperation(operation))
 				.findFirst()
@@ -23,7 +23,7 @@ public class OperationExpressionFilter implements ExpressionFilter {
 
 	@Override
 	public boolean isAllowed(ExpressionNode expression) {
-		boolean containsFilteredOperations = expression.inspect(expressionValue -> isFilteredOperations(expressionValue));
+		boolean containsFilteredOperations = expression.inspect(expressionValue -> isFilteredOperation(expressionValue));
 		return !containsFilteredOperations;
 	}
 }
