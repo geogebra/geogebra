@@ -457,6 +457,9 @@ public class GeneralPathClipped implements GShape {
 				addPoint(current[0], current[1], SegmentType.CONTROL);
 				addPoint(current[2], current[3], SegmentType.CONTROL);
 				addPoint(current[4], current[5], SegmentType.CURVE_TO);
+				break;
+			default: // skip
+				break;
 			}
 		}
 	}
