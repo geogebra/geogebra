@@ -55,6 +55,10 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		g.setLabel(label);
 	}
 
+	public static boolean hasMoreThanTwoVariables(GeoFunctionNVar funNVar) {
+		return funNVar.getFunctionVariables().length > 2;
+	}
+
 	@Override
 	public Commands getClassName() {
 		return Commands.Polynomial;
@@ -85,10 +89,6 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 			return;
 		}
 		FunctionVariable[] functionVariables = f.getFunctionVariables();
-		if (functionVariables.length != 2) {
-			g.setUndefined();
-			return;
-		}
 
 		String varName1 = functionVariables[0].getSetVarString();
 		String varName2 = functionVariables[1].getSetVarString();

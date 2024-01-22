@@ -46,9 +46,14 @@ public class CmdPolynomial extends CommandProcessor {
 				GeoElement[] ret = { algo.getPolynomial() };
 				return ret;
 			} else if (arg[0].isGeoFunctionNVar()) {
+				if (AlgoPolynomialFromFunctionNVar.hasMoreThanTwoVariables((GeoFunctionNVar) arg[0])) {
+					throw argErr(c, arg[0]);
+				}
+
 				AlgoPolynomialFromFunctionNVar algo = new AlgoPolynomialFromFunctionNVar(
 						cons, c.getLabel(),
 						(GeoFunctionNVar) arg[0]);
+
 
 				GeoElement[] ret = { algo.getPolynomial() };
 				return ret;
