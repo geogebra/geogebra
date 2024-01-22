@@ -387,14 +387,12 @@ public class GeneralPathClipped implements GShape {
 
 	@Override
 	public GRectangle getBounds() {
-		Log.error("bounds?");
 		return bounds == null ? AwtFactory.getPrototype().newRectangle()
 				: bounds.getBounds();
 	}
 
 	@Override
 	public GRectangle2D getBounds2D() {
-		Log.error("bounds 2d?");
 		return bounds == null ? AwtFactory.getPrototype().newRectangle2D()
 				: bounds;
 	}
