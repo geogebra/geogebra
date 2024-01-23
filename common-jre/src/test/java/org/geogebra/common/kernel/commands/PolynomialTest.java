@@ -36,6 +36,10 @@ public class PolynomialTest extends BaseUnitTest {
 		add("f(x,y,z)=x+y+z");
 		GeoFunctionNVar poly = add("Polynomial(f)");
 		assertEquals("?", poly.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("undefined", poly.getAlgebraDescriptionForPreviewOutput());
+		assertEquals("?", poly.toOutputValueString(StringTemplate.defaultTemplate));
+		assertEquals("?", poly.getLaTeXDescriptionRHS(true,
+				StringTemplate.defaultTemplate));
 	}
 
 	@Test

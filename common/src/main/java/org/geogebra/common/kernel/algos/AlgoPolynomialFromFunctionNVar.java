@@ -91,6 +91,7 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		FunctionVariable[] functionVariables = f.getFunctionVariables();
 
 		if (functionVariables.length > 2) {
+			g.setFunction(f.getFunction());
 			g.setUndefined();
 			return;
 		}
