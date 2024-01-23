@@ -126,8 +126,119 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * @throws XMLParseException if XML is not valid
 	 * @throws IOException if stream cannot be read
 	 */
-	protected abstract void readZip(ZipInputStream zip, boolean isGGTfile)
-			throws IOException, XMLParseException;
+	protected void readZip(ZipInputStream zip, boolean isGGTfile)
+			throws IOException, XMLParseException {
+		// we have to read everything (i.e. all images)
+		// before we process the XML file, that's why we
+		// read the XML file into a buffer first
+		byte[] xmlFileBuffer = null;
+		byte[] macroXmlFileBuffer = null;
+		byte[] defaults2dXmlFileBuffer = null;
+		byte[] defaults3dXmlFileBuffer = null;
+		boolean xmlFound = false;
+		boolean macroXMLfound = false;
+		boolean javaScriptFound = false;
+		boolean structureFound = false;
+
+		// get all entries from the zip archive
+		while (true) {
+			ZipEntry entry = null;
+			try {
+				entry = zip.getNextEntry();
+			} catch (Exception e) {
+				Log.error(e.getMessage());
+			}
+			if (entry == null) {
+				break;
+			}
+			String name = entry.getName();
+
+			if (name.equals("structure.json")) {
+				structureFound = true;
+			} else if (name.equals(XML_FILE)) {
+				// load xml file into memory first
+				xmlFileBuffer = StreamUtil.loadIntoMemory(zip);
+				xmlFound = true;
+				handler = getGGBHandler();
+			} else if (name.equals(XML_FILE_DEFAULTS_2D)) {
+				// load defaults xml file into memory first
+				defaults2dXmlFileBuffer = StreamUtil.loadIntoMemory(zip);
+				handler = getGGBHandler();
+			} else if (app.is3D() && name.equals(XML_FILE_DEFAULTS_3D)) {
+				// load defaults xml file into memory first
+				defaults3dXmlFileBuffer = StreamUtil.loadIntoMemory(zip);
+				handler = getGGBHandler();
+			} else if (name.equals(XML_FILE_MACRO)) {
+				// load macro xml file into memory first
+				macroXmlFileBuffer = StreamUtil.loadIntoMemory(zip);
+				macroXMLfound = true;
+				handler = getGGBHandler();
+			} else if (name.equals(JAVASCRIPT_FILE)) {
+				// load JavaScript
+				kernel.setLibraryJavaScript(StreamUtil.loadIntoString(zip));
+				javaScriptFound = true;
+			} else if (StringUtil.toLowerCaseUS(name).endsWith("svg")) {
+				String svg = StreamUtil.loadIntoString(zip);
+
+				loadSVG(svg, name);
+
+			} else {
+				loadBitmap(zip, name);
+			}
+
+			// get next entry
+			try {
+				zip.closeEntry();
+			} catch (Exception e) {
+				Log.error(e.getMessage());
+			}
+		}
+		zip.close();
+
+		if (!isGGTfile) {
+			// ggb file: remove all macros from kernel before processing
+			kernel.removeAllMacros();
+		}
+
+		// process macros
+		if (macroXmlFileBuffer != null) {
+			// don't clear kernel for macro files
+			kernel.getConstruction().setFileLoading(true);
+			processXMLBuffer(macroXmlFileBuffer, !isGGTfile, isGGTfile);
+			kernel.getConstruction().setFileLoading(false);
+		}
+
+		// process construction
+		if (!isGGTfile && xmlFileBuffer != null) {
+			kernel.getConstruction().setFileLoading(true);
+			app.getCompanion().resetEuclidianViewForPlaneIds();
+			processXMLBuffer(xmlFileBuffer, !macroXMLfound, isGGTfile);
+			kernel.getConstruction().setFileLoading(false);
+		}
+
+		// process defaults (after construction for labeling styles)
+		if (defaults2dXmlFileBuffer != null) {
+			kernel.getConstruction().setFileLoading(true);
+			processXMLBuffer(defaults2dXmlFileBuffer, false, true);
+			kernel.getConstruction().setFileLoading(false);
+		}
+		if (defaults3dXmlFileBuffer != null) {
+			kernel.getConstruction().setFileLoading(true);
+			processXMLBuffer(defaults3dXmlFileBuffer, false, true);
+			kernel.getConstruction().setFileLoading(false);
+		}
+
+		if (!javaScriptFound && !isGGTfile) {
+			kernel.resetLibraryJavaScript();
+		}
+		if (!(macroXMLfound || xmlFound || structureFound)) {
+			throw new IOException("No XML data found in file.");
+		}
+	}
+
+	protected abstract void loadSVG(String svg, String name);
+
+	protected abstract void loadBitmap(ZipInputStream zip, String name);
 
 	/**
 	 * Handles the XML file stored in buffer.
@@ -495,7 +606,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 */
 	abstract protected MyImageJre getExternalImage(String fileName);
 
-	final private void writeImageToZip(ZipOutputStream zip, String fileName,
+	private void writeImageToZip(ZipOutputStream zip, String fileName,
 			MyImageJre img) {
 		// create new entry in zip archive
 		try {
