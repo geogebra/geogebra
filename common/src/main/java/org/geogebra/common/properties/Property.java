@@ -20,7 +20,7 @@ public interface Property {
      */
     boolean isEnabled();
 
-    default void freeze() { }
+    void freeze();
 
-    default void unfreeze() { }
+    void unfreeze();
 }

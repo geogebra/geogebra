@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 
 /**
@@ -19,6 +20,13 @@ public class AbstractProperty implements Property {
 	public AbstractProperty(Localization localization, String name) {
 		this.localization = localization;
 		this.name = name;
+	}
+
+	public AbstractProperty(PropertiesRegistry propertiesRegistry, Localization localization, String name) {
+		this(localization, name);
+		if (propertiesRegistry != null) {
+			propertiesRegistry.register(this);
+		}
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
@@ -50,13 +51,14 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	 */
 	protected PropertiesArray createGeneralProperties(
 			App app, Localization localization,
+			PropertiesRegistry propertiesRegistry,
 			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
 		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("General");
 		Settings settings = app.getSettings();
 		return new PropertiesArray(name,
 				new RoundingIndexProperty(app, localization),
-				new AngleUnitProperty(kernel, localization),
+				new AngleUnitProperty(kernel, localization, propertiesRegistry),
 				new LabelingProperty(localization, settings.getLabelSettings()),
 				new CoordinatesProperty(kernel, localization),
 				new FontSizeProperty(

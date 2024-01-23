@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.properties.Property;
 
@@ -39,6 +40,8 @@ public class ExamRestrictions {
 	private final ExpressionFilter expressionFilter;
 	private final CommandFilter commandFilter;
 	private final CommandArgumentFilter commandArgumentFilter;
+	// independent of exam region
+	private final ExamCommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
 
 	private final Set<Property> properties = new HashSet<>();
 	private final Set<ExamRestrictable> restrictables = new HashSet<>();
@@ -70,7 +73,7 @@ public class ExamRestrictions {
 			CommandFilter commandFilter,
 			CommandArgumentFilter commandArgumentFilter) {
 		this.disabledSubApps = disabledSubApps;
-		this.defaultSubApp = defaultSubApp;
+		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.expressionFilter = expressionFilter;
 		this.commandFilter = commandFilter;
 		this.commandArgumentFilter = commandArgumentFilter;
@@ -118,42 +121,44 @@ public class ExamRestrictions {
 	 * Apply the restrictions.
 	 *
 	 * @param commandDispatcher The command dispatcher.
-	 * @param algebraProcessor The algebra processor.
 	 * TODO add more arguments if necessary
 	 */
-	public void apply(CommandDispatcher commandDispatcher, AlgebraProcessor algebraProcessor) {
+	public final void apply(CommandDispatcher commandDispatcher, AlgebraProcessor algebraProcessor) {
 		if (commandFilter != null) {
 			commandDispatcher.addCommandFilter(commandFilter);
 		}
+		commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
 		if (commandArgumentFilter != null) {
 			commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
 		}
-
+		if (expressionFilter != null) {
+			algebraProcessor.addExpressionFilter(expressionFilter);
+		}
 		freeze(properties);
-
 		restrictables.stream()
-				.forEach(restrictable -> restrictable.applyRestrictions(this) );
+				.forEach(restrictable -> restrictable.applyRestrictions(this));
 	}
 
 	/**
 	 * Revert the changes from {@link #apply(CommandDispatcher, AlgebraProcessor)}.
 	 *
 	 * @param commandDispatcher The command dispatcher.
-	 * @param algebraProcessor The algebra processor.
 	 * TODO add more arguments if necessary
 	 */
-	public void unapply(CommandDispatcher commandDispatcher, AlgebraProcessor algebraProcessor) {
+	public final void unapply(CommandDispatcher commandDispatcher, AlgebraProcessor algebraProcessor) {
 		if (commandFilter != null) {
 			commandDispatcher.removeCommandFilter(commandFilter);
 		}
+		commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
 		if (commandArgumentFilter != null) {
 			commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
 		}
-
+		if (expressionFilter != null) {
+			algebraProcessor.removeExpressionFilter(expressionFilter);
+		}
 		unfreeze(properties);
-
 		restrictables.stream()
-				.forEach(restrictable -> restrictable.unapplyRestrictions(this) );
+				.forEach(restrictable -> restrictable.unapplyRestrictions(this));
 	}
 
 	/**

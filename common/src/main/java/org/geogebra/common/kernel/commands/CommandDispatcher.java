@@ -82,8 +82,8 @@ public abstract class CommandDispatcher implements Restrictable {
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
-	private List<CommandFilter> commandFilters;
-	private List<CommandArgumentFilter> commandArgumentFilters;
+	private List<CommandFilter> commandFilters = new ArrayList<>();
+	private List<CommandArgumentFilter> commandArgumentFilters = new ArrayList<>();
 
 	/** number of visible tables */
 	public static final int tableCount = 20;
@@ -155,8 +155,6 @@ public abstract class CommandDispatcher implements Restrictable {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		commandFilters = new ArrayList<>();
-		commandArgumentFilters = new ArrayList<>();
 		addCommandFilter(app.getConfig().getCommandFilter());
 		addCommandArgumentFilter(app.getConfig().getCommandArgumentFilter());
 	}
@@ -204,13 +202,15 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param command
 	 *            command
 	 * @return whether selector accepts it
+	 *  TODO rename to isAllowedByCommandFilter? (maybe find a better name)
 	 */
 	public boolean isAllowedByNameFilter(Commands command) {
-		boolean allowed = true;
 		for (CommandFilter filter : commandFilters) {
-			allowed = allowed && filter.isCommandAllowed(command);
+			if (!filter.isCommandAllowed(command)) {
+				return false;
+			}
 		}
-		return allowed;
+		return true;
 	}
 
 	private void checkAllowedByArgumentFilter(Command command,
@@ -985,7 +985,9 @@ public abstract class CommandDispatcher implements Restrictable {
 	 *            to remove.
 	 */
 	public void removeCommandFilter(CommandFilter filter) {
-		commandFilters.remove(filter);
+		if (filter != null) {
+			commandFilters.remove(filter);
+		}
 	}
 
 	/**
@@ -1007,7 +1009,9 @@ public abstract class CommandDispatcher implements Restrictable {
 	 *            to remove.
 	 */
 	public void removeCommandArgumentFilter(CommandArgumentFilter filter) {
-		commandArgumentFilters.remove(filter);
+		if (filter != null) {
+			commandArgumentFilters.remove(filter);
+		}
 	}
 
 	/**

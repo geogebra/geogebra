@@ -7,8 +7,6 @@ import java.util.Set;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
-import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.ownership.NonOwning;
@@ -26,8 +24,8 @@ import com.google.j2objc.annotations.Weak;
  *     listeners).
  *     <li><b>Start/end date</b>: Setting the exam start and end date, and providing date and
  *     time formatting for these.
- *     <li><b>Restrictions</b>: Applying restrictions to the {@link CommandDispatcher} during the
- *     exam.
+ *     <li><b>Restrictions</b>: Applying restrictions on the {@link CommandDispatcher} at the
+ *     start of an exam, and reverting those restrictions when the exam ends.
  *     <li><b>Events</b>: Collect relevant events (e.g., cheating attempts).
  * </ul>
  * <h3>NOT Responsibilities</h3>
@@ -39,25 +37,6 @@ import com.google.j2objc.annotations.Weak;
  *     <li><b>Apps</b>: The delegate is asked to clear out the (other) apps at the appropriate
  *     points. Why? Because the App instances are managed (and owned) differently on the different
  *     platforms.
- * </ul>
- * <h3>Side Effects</h3>
- * The ExamController tries to be as side effect-free as possible, so that it's easier to
- * understand and maintain. For this reason, certain behavior is not implemented in the
- * controller itself, but signalled to observers via actions emitted by the controller.
- * <p/>
- * Any side effects emanating from the ExamController are documented here:
- * <ul>
- * <li> The ExamController will potentially (depending on the exam region) call
- * 	 <ul>
- * 	     <li>{@link CommandDispatcher#addCommandFilter(CommandFilter) addCommandFilter()}
- *   	 <li>{@link CommandDispatcher#addCommandArgumentFilter(CommandArgumentFilter) addCommandArgumentFilter()}
- *   </ul>
- *   on exam start (in this order), and the corresponding
- *   <ul>
- *       <li>{@link CommandDispatcher#removeCommandFilter(CommandFilter) removeCommandFilter()}
- *   	 <li>{@link CommandDispatcher#removeCommandArgumentFilter(CommandArgumentFilter) removeCommandArgumentFilter()}
- *   </ul>
- *   on exam end (in this order).
  * </ul>
  *
  *  @implNote This class is not designed to be thread-safe.
@@ -258,6 +237,7 @@ public final class ExamController {
 	}
 
 	private void applyRestrictions(ExamRegion region) {
+		// TODO app.resetCommandDict()
 		examRestrictions = ExamRestrictions.forRegion(region);
 		if (examRestrictions != null) {
 			examRestrictions.apply(commandDispatcher, algebraProcessor);

@@ -2,8 +2,8 @@ package org.geogebra.common.kernel.arithmetic.filter;
 
 import java.util.Set;
 
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.plugin.Operation;
 
 public class OperationExpressionFilter implements ExpressionFilter {
@@ -22,7 +22,7 @@ public class OperationExpressionFilter implements ExpressionFilter {
 	}
 
 	@Override
-	public boolean isAllowed(ExpressionNode expression) {
+	public boolean isAllowed(ValidExpression expression) {
 		boolean containsFilteredOperations = expression.inspect(expressionValue -> isFilteredOperation(expressionValue));
 		return !containsFilteredOperations;
 	}

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
+import org.geogebra.common.properties.PropertiesRegistry;
 
 /**
  * Base class for enumerated properties. When overriding this class, make sure to call
@@ -22,6 +23,10 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	 */
 	public AbstractEnumeratedProperty(Localization localization, String name) {
 		super(localization, name);
+	}
+
+	public AbstractEnumeratedProperty(PropertiesRegistry propertiesRegistry, Localization localization, String name) {
+		super(propertiesRegistry, localization, name);
 	}
 
 	protected void setValues(V... values) {

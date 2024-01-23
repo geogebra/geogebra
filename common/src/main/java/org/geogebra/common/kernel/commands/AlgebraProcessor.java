@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -70,6 +71,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariable
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMultiplyFixer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -181,6 +183,8 @@ public class AlgebraProcessor {
 	 */
 	protected ParametricProcessor paramProcessor;
 
+	private final List<ExpressionFilter> expressionFilters = new ArrayList<>();
+
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
 	private CommandFilter noCASfilter;
@@ -248,6 +252,27 @@ public class AlgebraProcessor {
 	 */
 	public boolean isCommandAvailable(String cmd) {
 		return cmdDispatcher.isCommandAvailable(cmd);
+	}
+
+	public void addExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			expressionFilters.add(filter);
+		}
+	}
+
+	public void removeExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			expressionFilters.remove(filter);
+		}
+	}
+
+	private boolean isExpressionAllowed(ValidExpression expression) {
+		for (ExpressionFilter expressionFilter : expressionFilters) {
+			if (!expressionFilter.isAllowed(expression)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -921,6 +946,10 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
+		// Alternative 1 to disabling certain expressions (see Alternative 2)
+		if (!isExpressionAllowed(ve)) {
+			return null;
+		}
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
 				info.isMultipleUnassignedAllowed());
@@ -1163,7 +1192,12 @@ public class AlgebraProcessor {
 	 */
 	public ValidExpression getValidExpressionNoExceptionHandling(
 			final String cmd) throws Exception {
-		return parser.parseGeoGebraExpression(cmd);
+		ValidExpression expression = parser.parseGeoGebraExpression(cmd);
+		// Alternative 2 to disabling certain expressions (see Alternative 1)
+		if (!isExpressionAllowed(expression)) {
+			return null;
+		}
+		return expression;
 	}
 
 	/**
@@ -3749,6 +3783,10 @@ public class AlgebraProcessor {
 	 * @param commandFilter
 	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
+	 * TODO replace calls like
+	 * kernel.getAlgebraProcessor()
+	 * 					.addCommandFilter(CommandFilterFactory.createNoCasCommandFilter());
+	 * with a call to kernel.getAlgebraProcessor().disableCAS()
 	 */
 	public void addCommandFilter(CommandFilter commandFilter) {
 		cmdDispatcher.addCommandFilter(commandFilter);

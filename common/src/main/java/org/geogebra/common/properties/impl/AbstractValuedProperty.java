@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 
@@ -23,6 +24,10 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 	 */
 	public AbstractValuedProperty(Localization localization, String name) {
 		super(localization, name);
+	}
+
+	public AbstractValuedProperty(PropertiesRegistry propertiesRegistry, Localization localization, String name) {
+		super(propertiesRegistry, localization, name);
 	}
 
 	@Override
