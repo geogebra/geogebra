@@ -28,13 +28,13 @@ import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
-import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.EnumeratedPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.IconsEnumeratedPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.NamedEnumeratedPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.RangePropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.StringPropertyCollection;
+import org.geogebra.common.properties.impl.collections.BooleanPropertyCollection;
+import org.geogebra.common.properties.impl.collections.ColorPropertyCollection;
+import org.geogebra.common.properties.impl.collections.EnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.collections.IconsEnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
+import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**

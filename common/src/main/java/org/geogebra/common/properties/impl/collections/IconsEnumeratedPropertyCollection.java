@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl.objects.collection;
+package org.geogebra.common.properties.impl.collections;
 
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;

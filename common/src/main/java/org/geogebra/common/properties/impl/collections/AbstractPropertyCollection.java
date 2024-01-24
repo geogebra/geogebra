@@ -1,8 +1,9 @@
-package org.geogebra.common.properties.impl;
+package org.geogebra.common.properties.impl.collections;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
+import org.geogebra.common.properties.impl.AbstractProperty;
 
 /**
  * Implements the PropertyCollection interface.
@@ -11,6 +12,7 @@ public abstract class AbstractPropertyCollection<P extends Property> extends Abs
 		implements PropertyCollection<P> {
 
 	private P[] properties;
+	protected boolean isFrozen = false;
 
 	/**
 	 * Constructs an AbstractPropertyCollection.
@@ -35,5 +37,15 @@ public abstract class AbstractPropertyCollection<P extends Property> extends Abs
 	 */
 	protected void setProperties(P[] properties) {
 		this.properties = properties;
+	}
+
+	@Override
+	public void freeze() {
+		isFrozen = true;
+	}
+
+	@Override
+	public void unfreeze() {
+		isFrozen = false;
 	}
 }

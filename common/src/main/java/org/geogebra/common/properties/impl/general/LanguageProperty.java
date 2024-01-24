@@ -16,37 +16,19 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
     @Weak
     private final App app;
-    private OnLanguageSetCallback onLanguageSetCallback;
 
     private String[] languageCodes;
 
-	public interface OnLanguageSetCallback {
-		void run(String lang);
-	}
-
     /**
      * Constructs a language property.
      *
      * @param app          app
      * @param localization localization
      */
-    public LanguageProperty(App app, Localization localization) {
-        super(localization, "Language");
+    public LanguageProperty(App app, Localization localization, PropertiesRegistry propertiesRegistry) {
+        super(localization, "Language", propertiesRegistry);
         this.app = app;
         setupValues(app, localization);
-    }
-
-    /**
-     * Constructs a language property.
-     *
-     * @param app          app
-     * @param onLanguageSetCallback called when language changed
-     * @param localization localization
-     */
-	public LanguageProperty(App app, Localization localization,
-			OnLanguageSetCallback onLanguageSetCallback) {
-        this(app, localization);
-        this.onLanguageSetCallback = onLanguageSetCallback;
     }
 
     private void setupValues(App app, Localization localization) {
@@ -66,9 +48,6 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
     @Override
     protected void doSetValue(String value) {
         app.setLanguage(value);
-        if (onLanguageSetCallback != null) {
-            onLanguageSetCallback.run(value);
-        }
     }
 
     @Override

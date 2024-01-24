@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
@@ -16,7 +17,7 @@ public class CasPropertiesFactory extends DefaultPropertiesFactory {
 	protected PropertiesArray createGeneralProperties(
 			App app,
 			Localization localization,
-			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
+			PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("General");
 		Settings settings = app.getSettings();
@@ -28,6 +29,6 @@ public class CasPropertiesFactory extends DefaultPropertiesFactory {
 						localization,
 						settings.getFontSettings(),
 						app.getSettingsUpdater().getFontSettingsUpdater()),
-				new LanguageProperty(app, localization, onLanguageSetCallback));
+				new LanguageProperty(app, localization, propertiesRegistry));
 	}
 }

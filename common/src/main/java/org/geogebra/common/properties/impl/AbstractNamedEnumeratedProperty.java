@@ -24,8 +24,8 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 		super(localization, name);
 	}
 
-	public AbstractNamedEnumeratedProperty(PropertiesRegistry propertiesRegistry, Localization localization, String name) {
-		super(propertiesRegistry, localization, name);
+	public AbstractNamedEnumeratedProperty(Localization localization, String name, PropertiesRegistry propertiesRegistry) {
+		super(localization, name, propertiesRegistry);
 	}
 
 	/**

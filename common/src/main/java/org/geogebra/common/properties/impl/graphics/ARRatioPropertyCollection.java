@@ -4,10 +4,11 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.AbstractPropertyCollection;
+import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 
 public class ARRatioPropertyCollection extends AbstractPropertyCollection<Property> {
 
+	private boolean isFrozen = false;
 	/**
 	 * Constructs a ar ratio property collection.
 	 * @param app application
@@ -20,5 +21,15 @@ public class ARRatioPropertyCollection extends AbstractPropertyCollection<Proper
 		Property arRatio = new ARRatioProperty(localization, view3D);
 		Property ratioUnit = new RatioUnitProperty(localization, view3D);
 		setProperties(new Property[]{arRatio, ratioUnit});
+	}
+
+	@Override
+	public void freeze() {
+		isFrozen = true;
+	}
+
+	@Override
+	public void unfreeze() {
+		isFrozen = false;
 	}
 }

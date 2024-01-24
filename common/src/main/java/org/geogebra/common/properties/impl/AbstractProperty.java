@@ -7,7 +7,7 @@ import org.geogebra.common.properties.Property;
 /**
  * Helper class for implementing the localized name of a property.
  */
-public class AbstractProperty implements Property {
+public abstract class AbstractProperty implements Property {
 
 	private Localization localization;
 	private String name;
@@ -22,7 +22,7 @@ public class AbstractProperty implements Property {
 		this.name = name;
 	}
 
-	public AbstractProperty(PropertiesRegistry propertiesRegistry, Localization localization, String name) {
+	public AbstractProperty(Localization localization, String name, PropertiesRegistry propertiesRegistry) {
 		this(localization, name);
 		if (propertiesRegistry != null) {
 			propertiesRegistry.register(this);

@@ -4,9 +4,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractActionableProperty;
 
-public class StandardViewAction extends AbstractProperty implements ActionableIconProperty {
+public class StandardViewAction extends AbstractActionableProperty implements ActionableIconProperty {
 
 	final EuclidianView euclidianView;
 
@@ -21,7 +21,7 @@ public class StandardViewAction extends AbstractProperty implements ActionableIc
 	}
 
 	@Override
-	public void performAction() {
+	public void doPerformAction() {
 		euclidianView.setStandardView(true);
 	}
 
@@ -29,4 +29,6 @@ public class StandardViewAction extends AbstractProperty implements ActionableIc
 	public PropertyResource getIcon() {
 		return PropertyResource.ICON_STANDARD_VIEW;
 	}
+
+
 }

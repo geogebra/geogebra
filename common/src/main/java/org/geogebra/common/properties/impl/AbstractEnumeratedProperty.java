@@ -25,8 +25,8 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 		super(localization, name);
 	}
 
-	public AbstractEnumeratedProperty(PropertiesRegistry propertiesRegistry, Localization localization, String name) {
-		super(propertiesRegistry, localization, name);
+	public AbstractEnumeratedProperty(Localization localization, String name, PropertiesRegistry propertiesRegistry) {
+		super(localization, name, propertiesRegistry);
 	}
 
 	protected void setValues(V... values) {

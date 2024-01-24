@@ -36,8 +36,8 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
-			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
-		return Arrays.asList(createGeneralProperties(app, localization, onLanguageSetCallback),
+			PropertiesRegistry propertiesRegistry) {
+		return Arrays.asList(createGeneralProperties(app, localization, propertiesRegistry),
 				createGraphicsProperties(app, localization),
 				createAlgebraProperties(app, localization));
 	}
@@ -51,8 +51,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	 */
 	protected PropertiesArray createGeneralProperties(
 			App app, Localization localization,
-			PropertiesRegistry propertiesRegistry,
-			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
+			PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("General");
 		Settings settings = app.getSettings();
@@ -65,7 +64,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						localization,
 						settings.getFontSettings(),
 						app.getSettingsUpdater().getFontSettingsUpdater()),
-				new LanguageProperty(app, localization, onLanguageSetCallback));
+				new LanguageProperty(app, localization, propertiesRegistry));
 	}
 
 	/**

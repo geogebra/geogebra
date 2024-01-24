@@ -10,13 +10,13 @@ import org.geogebra.common.gui.view.probcalculator.PropertyResultPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.common.properties.impl.distribution.IntervalProperty;
 import org.geogebra.common.properties.impl.distribution.IsCumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.geogebra.common.properties.impl.distribution.ProbabilityResultProperty;
-import org.geogebra.common.properties.impl.general.LanguageProperty;
 
 public class DistributionPropertiesFactory implements PropertiesFactory {
 
@@ -33,7 +33,7 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
-			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
+			PropertiesRegistry propertiesRegistry) {
 		ensureLabelsExist(localization);
 
 		ArrayList<Property> properties = new ArrayList<>(Arrays.asList(

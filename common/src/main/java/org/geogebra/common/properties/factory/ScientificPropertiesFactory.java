@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
@@ -15,23 +16,23 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
-			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
-		return Arrays.asList(createGeneralProperties(app, localization, onLanguageSetCallback));
+			PropertiesRegistry propertiesRegistry) {
+		return Arrays.asList(createGeneralProperties(app, localization, propertiesRegistry));
 	}
 
 	private PropertiesArray createGeneralProperties(
 			App app,
 			Localization localization,
-			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
+			PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("General");
 		return new PropertiesArray(name,
-				new AngleUnitProperty(kernel, localization),
+				new AngleUnitProperty(kernel, localization, propertiesRegistry),
 				new RoundingIndexProperty(app, localization),
 				new FontSizeProperty(
 						localization,
 						app.getSettings().getFontSettings(),
 						app.getSettingsUpdater().getFontSettingsUpdater()),
-				new LanguageProperty(app, localization, onLanguageSetCallback));
+				new LanguageProperty(app, localization, propertiesRegistry));
 	}
 }
