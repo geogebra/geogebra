@@ -3070,16 +3070,6 @@ public class Construction {
 	/**
 	 * Tries to build the new construction from the given XML string.
 	 */
-
-	private void buildConstruction(StringBuilder consXML, String oldXML)
-			throws XMLParseException {
-		buildConstruction(consXML, oldXML, null);
-	}
-
-	/**
-	 * Tries to build the new construction from the given XML string.
-	 */
-
 	private void buildConstruction(StringBuilder consXML, String oldXML,
 			EvalInfo info) throws XMLParseException {
 		// try to process the new construction
