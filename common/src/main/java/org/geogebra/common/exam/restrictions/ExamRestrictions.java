@@ -1,6 +1,5 @@
 package org.geogebra.common.exam.restrictions;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
@@ -46,7 +45,6 @@ public class ExamRestrictions {
 	private final ExamCommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
 
 	private final Set<String> frozenProperties;
-	private final Set<ExamRestrictable> restrictables = new HashSet<>();
 
 	/**
 	 * Prevent use of no-arg constructor.
@@ -101,17 +99,6 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * Register an object that may need to apply additional restrictions/customization
-	 * for certain types of exams.
-	 *
-	 * @param restrictable An object that may need to perform additional customization
-	 * when an exam is started.
-	 */
-	public void registerRestrictable(ExamRestrictable restrictable) {
-		restrictables.add(restrictable);
-	}
-
-	/**
 	 * Apply the restrictions.
 	 *
 	 * @param commandDispatcher The command dispatcher.
@@ -136,8 +123,6 @@ public class ExamRestrictions {
 				freeze(property);
 			}
 		}
-		restrictables.stream()
-				.forEach(restrictable -> restrictable.applyRestrictions(this));
 	}
 
 	/**
@@ -165,8 +150,6 @@ public class ExamRestrictions {
 				unfreeze(property);
 			}
 		}
-		restrictables.stream()
-				.forEach(restrictable -> restrictable.unapplyRestrictions(this));
 	}
 
 	/**

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -59,6 +60,7 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	private ExamRegion examRegion;
 	private ExamRestrictions examRestrictions;
+	private final Set<ExamRestrictable> restrictables = new HashSet<>();
 
 	private ExamState state = ExamState.IDLE;
 	private Date startDate, endDate;
@@ -109,6 +111,35 @@ public final class ExamController implements PropertiesRegistryListener {
 	public void setPropertiesRegistry(PropertiesRegistry propertiesRegistry) {
 		this.propertiesRegistry = propertiesRegistry;
 		propertiesRegistry.addListener(this);
+	}
+
+	/**
+	 * Register an object that may need to apply additional restrictions/customization
+	 * for certain types of exams.
+	 *
+	 * @param restrictable An object that may need to perform additional customization
+	 * when an exam is started.
+	 */
+	public void registerRestrictable(ExamRestrictable restrictable) {
+		restrictables.add(restrictable);
+	}
+
+	/**
+	 * Adds an {@link ExamListener}.
+	 * @param listener The listener to add.
+	 * Trying to add a listener that is already registered will have no effect.
+	 */
+	public void addListener(@NonOwning ExamListener listener) {
+		listeners.add(listener);
+	}
+
+	/**
+	 * Removes an `ExamListener`.
+	 * @param listener The listener to remove.
+	 * Trying to remove a listener that is not registered will have no effect.
+	 */
+	public void removeListener(ExamListener listener) {
+		listeners.remove(listener);
 	}
 
 	/**
@@ -222,24 +253,6 @@ public final class ExamController implements PropertiesRegistryListener {
 		return state == ExamState.IDLE;
 	}
 
-	/**
-	 * Adds an {@link ExamListener}.
-	 * @param listener The listener to add.
-	 * Trying to add a listener that is already registered will have no effect.
-	 */
-	public void addListener(@NonOwning ExamListener listener) {
-		listeners.add(listener);
-	}
-
-	/**
-	 * Removes an `ExamListener`.
-	 * @param listener The listener to remove.
-	 * Trying to remove a listener that is not registered will have no effect.
-	 */
-	public void removeListener(ExamListener listener) {
-		listeners.remove(listener);
-	}
-
 	private void notifyListeners(ExamState newState) {
 		for (ExamListener listener : listeners) {
 			listener.examStateChanged(newState);
@@ -257,15 +270,21 @@ public final class ExamController implements PropertiesRegistryListener {
 		examRestrictions = ExamRestrictions.forRegion(region);
 		if (examRestrictions != null) {
 			examRestrictions.apply(commandDispatcher, algebraProcessor, propertiesRegistry);
+			for (ExamRestrictable restrictable : restrictables) {
+				restrictable.applyRestrictions(examRestrictions);
+			}
+			// TODO suppress syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 		}
-		// TODO suppress syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 	}
 
 	private void unapplyRestrictions() {
 		if (examRestrictions != null) {
 			examRestrictions.unapply(commandDispatcher, algebraProcessor, propertiesRegistry);
+			for (ExamRestrictable restrictable : restrictables) {
+				restrictable.unapplyRestrictions(examRestrictions);
+			}
+			// TODO enable syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 		}
-		// TODO enable syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 		examRestrictions = null;
 	}
 
@@ -281,5 +300,4 @@ public final class ExamController implements PropertiesRegistryListener {
 			examRestrictions.propertyRegistered(property);
 		}
 	}
-
 }
