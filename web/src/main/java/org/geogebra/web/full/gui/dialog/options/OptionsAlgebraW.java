@@ -86,8 +86,8 @@ public class OptionsAlgebraW
 		}
 
 		private void buildSortByUI() {
-			NamedEnumeratedProperty<?> sortProperty = new SortByProperty(app.getGuiManager()
-					.getAlgebraView(), app.getLocalization());
+			NamedEnumeratedProperty<?> sortProperty = new SortByProperty(app.getSettings()
+					.getAlgebra(), app.getLocalization());
 			sortMode = new CompDropDown(app, sortProperty);
 			lblSortMode = new FormLabel().setFor(sortMode);
 			lblSortMode.addStyleName("panelTitle");
@@ -134,7 +134,7 @@ public class OptionsAlgebraW
 		 */
 		public void updateSortMode() {
 			sortMode.setLabels();
-			sortMode.resetToDefault();
+			sortMode.resetFromModel();
 		}
 
 		/**
@@ -145,7 +145,7 @@ public class OptionsAlgebraW
 					.setText(getApp().getLocalization().getMenu("Coordinates")
 							+ ":");
 			coordStyle.setLabels();
-			coordStyle.resetToDefault();
+			coordStyle.resetFromModel();
 		}
 
 		/**
@@ -159,7 +159,7 @@ public class OptionsAlgebraW
 			lblAngleUnit
 					.setText(getApp().getLocalization().getMenu("AngleUnit") + ":");
 			angleUnit.setLabels();
-			angleUnit.resetToDefault();
+			angleUnit.resetFromModel();
 		}
 
 		/**
@@ -167,7 +167,7 @@ public class OptionsAlgebraW
 		 */
 		public void updateDescription() {
 			description.setLabels();
-			description.resetToDefault();
+			description.resetFromModel();
 		}
 
 		/**

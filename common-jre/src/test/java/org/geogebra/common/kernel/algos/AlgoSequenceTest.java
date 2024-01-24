@@ -3,10 +3,16 @@ package org.geogebra.common.kernel.algos;
 import static org.geogebra.test.OrderingComparison.greaterThan;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import java.util.Objects;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GGraphicsCommon;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -63,6 +69,30 @@ public class AlgoSequenceTest extends BaseUnitTest {
 	public void closestPointToSequenceOfPolygons() {
 		add("l1=Sequence(Polygon((p, 1), (p, 2), 4), p, 1, 5)");
 		assertThat(add("ClosestPoint(l1, (6, 1))"), hasValue("(5, 1)"));
+	}
+
+	@Test
+	public void pieChartSequenceTest() {
+		GGraphicsCommon graphics = createGraphicsWithDrawable(
+				"s1=Sequence(PieChart({1,2,3},(k,1),.5),k,1,3)");
+		verify(graphics, atLeast(5)).setColor(any());
+		verify(graphics, atLeast(5)).fill(any());
+	}
+
+	@Test
+	public void chartSequenceTest() {
+		GGraphicsCommon graphics = createGraphicsWithDrawable(
+				"s2=Sequence(BarChart({1,2,3},{4,5,6}/k),k,1,3)");
+		verify(graphics, atLeast(5)).fill(any());
+	}
+
+	private GGraphicsCommon createGraphicsWithDrawable(String def) {
+		GeoList charts = add(def);
+		Drawable drawCharts = (Drawable) getApp().getActiveEuclidianView().getDrawableFor(charts);
+		GGraphicsCommon graphics = spy(new GGraphicsCommon());
+		Objects.requireNonNull(drawCharts).draw(graphics);
+		return graphics;
+
 	}
 
 	private String functionPoints(GeoElement geoElement) {

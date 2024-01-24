@@ -14,6 +14,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -107,7 +108,7 @@ public class GeoCasCell extends GeoElement
 	private String latex;
 	private String latexInput;
 	private String localizedInput;
-	private String currentLocaleStr;
+	private String currentLanguageTag;
 	private boolean suppressOutput = false;
 	private AssignmentType assignmentType = AssignmentType.NONE;
 
@@ -218,8 +219,8 @@ public class GeoCasCell extends GeoElement
 	public String getInput(final StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
 			// input with localized command names
-			if (currentLocaleStr == null
-					|| !currentLocaleStr.equals(getLoc().getLocaleStr())) {
+			if (currentLanguageTag == null
+					|| !currentLanguageTag.equals(getLoc().getLanguageTag())) {
 				updateLocalizedInput(tpl, input);
 			}
 			return localizedInput;
@@ -690,7 +691,7 @@ public class GeoCasCell extends GeoElement
 	private void updateLocalizedInput(final StringTemplate tpl,
 			final String input1) {
 		// for efficiency: localized input with local command names
-		currentLocaleStr = getLoc().getLocaleStr();
+		currentLanguageTag = getLoc().getLanguageTag();
 		localizedInput = localizeInput(input1, tpl);
 	}
 
@@ -1880,7 +1881,7 @@ public class GeoCasCell extends GeoElement
 			return false;
 		}
 
-		if (assignmentVar == null || assignmentVar.equals(PLOT_VAR)) {
+		if (assignmentVar == null || assignmentVar.equalsIgnoreCase(PLOT_VAR)) {
 			twinGeo.setLabel(null);
 		} else {
 			// allow GeoElement to get same label as CAS cell, so we temporarily
@@ -2016,7 +2017,8 @@ public class GeoCasCell extends GeoElement
 							(DrawInformationAlgo) ((GeoElement) outputVE
 									.unwrap()).getDrawAlgorithm());
 				}
-			} catch (Exception e) {
+			} catch (XMLParseException | CircularDefinitionException
+					 | RuntimeException e) {
 				Log.debug(e);
 			}
 		} else {

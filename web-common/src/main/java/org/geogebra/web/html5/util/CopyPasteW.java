@@ -78,8 +78,8 @@ public class CopyPasteW extends CopyPaste {
 					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
 			txt.setLabel(null);
 			app.getDrawEquation().checkFirstCall(app);
-			String plain = new SyntaxAdapterImpl(app.getKernel()).convertMath(formula);
-			txt.setContent(plain);
+			String asciiFormula = new SyntaxAdapterImpl(app.getKernel()).convertMath(formula);
+			txt.setContent(asciiFormula);
 			center(txt, ev, app);
 		}
 	}
@@ -263,6 +263,7 @@ public class CopyPasteW extends CopyPaste {
 			// not sure if any browser enters this at the time of writing
 			Clipboard.readText().then(
 				(text) -> {
+					app.getActiveEuclidianView().requestFocus();
 					pasteText(app, text);
 					return null;
 				},
@@ -274,6 +275,19 @@ public class CopyPasteW extends CopyPaste {
 		} else {
 			handleStorageFallback(callback);
 		}
+	}
+
+	/**
+	 * @param app application
+	 * @param text clipboard content
+	 * @return whether this is valid encoding of GGB paste data
+	 */
+	public static boolean pasteIfEncoded(App app, String text) {
+		if (text.startsWith(pastePrefix)) {
+			pasteEncoded(app, text);
+			return true;
+		}
+		return false;
 	}
 
 	private static void pasteText(App app, String text) {
@@ -406,6 +420,7 @@ public class CopyPasteW extends CopyPaste {
 			String text = clipboardData.getData("text/plain");
 			if (Js.isTruthy(text)) {
 				pasteText(app, text);
+				event.preventDefault(); // avoid conflict with Murok
 				return;
 			}
 

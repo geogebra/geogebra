@@ -22,11 +22,6 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 	private SyntheticArtifact module;
 
 	@Override
-	protected String getJsInstallLocation(LinkerContext context) {
-		return "org/geogebra/web/linker/installLocationIframe.js";
-	}
-
-	@Override
 	protected EmittedArtifact emitSelectionScript(TreeLogger logger,
 			final LinkerContext context, ArtifactSet artifacts)
 			throws UnableToCompleteException {
@@ -48,10 +43,6 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 				+ ".nocache.mjs", lastModified);
 		return emitString(logger, selectionScript, context.getModuleName()
 				+ ".nocache.js", lastModified);
-	}
-
-	protected String getJsInstallScript(LinkerContext context) {
-		return "org/geogebra/web/linker/installScriptDirect.js";
 	}
 
 	protected String generateSelectionScriptModule(TreeLogger logger,

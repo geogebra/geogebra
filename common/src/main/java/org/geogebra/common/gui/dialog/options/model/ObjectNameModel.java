@@ -128,7 +128,7 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	private boolean hasLabelOfCurrentGeo() {
-		return getLabelController().hasLabel((GeoElement) getCurrentGeo());
+		return getLabelController().hasLabel(getCurrentGeo());
 	}
 
 	private void resetLabel(String name) {

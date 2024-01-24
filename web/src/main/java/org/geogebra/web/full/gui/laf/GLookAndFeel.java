@@ -189,8 +189,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 		if (Browser.isGeoGebraOrg()) {
 			Date exp = new Date(
 					System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365);
+			Language language1 = Language.fromLanguageTagOrLocaleString(lang);
 			Cookies.setCookie("GeoGebraLangUI",
-					Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
+					language1.toLanguageTag(), exp,
 					"geogebra.org", "/");
 		} else {
 			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);

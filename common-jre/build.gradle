@@ -3,7 +3,7 @@ plugins {
     id 'pmd'
     id 'checkstyle'
     id 'jacoco'
-    id 'com.github.spotbugs' version '5.1.3'
+    id 'com.github.spotbugs' version '5.2.5'
 }
 
 description 'Common parts of GeoGebra that depends on JRE support.'
@@ -13,6 +13,8 @@ dependencies {
     implementation project(':giac-jni')
     implementation project(':renderer-base')
     implementation project(':editor-base')
+    // built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
+    api "org.mozilla:rhino:1.7.15-SNAPSHOT"
     testImplementation project(':ggbjdk')
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"

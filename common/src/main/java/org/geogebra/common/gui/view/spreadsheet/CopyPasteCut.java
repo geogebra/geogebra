@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.TreeSet;
 
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.EventType;
@@ -238,11 +240,9 @@ public abstract class CopyPasteCut {
 	 * @param maxRow
 	 *            maximum target row
 	 * @return true if successful
-	 * @throws Exception
-	 *             on parse problem, circular reference
 	 */
 	public boolean pasteInternal(int column1, int row1, int maxColumn,
-			int maxRow) throws Exception {
+			int maxRow) {
 		int width = getCellBufferGeo().length;
 		if (width == 0) {
 			return false;
@@ -339,7 +339,7 @@ public abstract class CopyPasteCut {
 			}
 
 			succ = true;
-		} catch (Exception e) {
+		} catch (CircularDefinitionException | ParseException | RuntimeException e) {
 			Log.debug(e);
 		} finally {
 			app.setDefaultCursor();

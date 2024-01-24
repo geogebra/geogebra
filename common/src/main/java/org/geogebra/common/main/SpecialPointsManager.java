@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -81,14 +82,17 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 *            geo which special points will be updated
 	 */
 	public void updateSpecialPoints(GeoElement geo) {
-		if (!kernel.getApplication().getConfig().hasPreviewPoints() || isUpdating) {
+		App application = kernel.getApplication();
+		if (!application.getConfig().hasPreviewPoints() || isUpdating) {
 			return;
 		}
 		// Prevent calling update special points recursively
 		isUpdating = true;
 
 		clearSpecPoints();
-		updateSpecialPointsInternal(geo);
+		if (EuclidianConstants.isMoveOrSelectionMode(application.getMode())) {
+			updateSpecialPointsInternal(geo);
+		}
 		fireSpecialPointsChangedEvent();
 
 		isUpdating = false;
@@ -213,7 +217,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			}
 		}
 		AlgoRemovableDiscontinuity algoRemovableDiscontinuity =
-				new AlgoRemovableDiscontinuity(kernel.getConstruction(), geo, null, false);
+				new AlgoRemovableDiscontinuity(kernel.getConstruction(), geo, null, false, false);
 		processAlgo(geo, algoRemovableDiscontinuity, retList,
 				EuclidianStyleConstants.POINT_STYLE_CIRCLE);
 

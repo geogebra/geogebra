@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -76,11 +77,11 @@ import com.himamis.retex.editor.share.input.Character;
 public class Construction {
 	private ConstructionCompanion companion;
 	/** maps arbconst indices to related numbers */
-	public Map<Integer, GeoNumeric> constsM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> constsM = new TreeMap<>();
 	/** maps arbint indices to related numbers */
-	public Map<Integer, GeoNumeric> intsM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> intsM = new TreeMap<>();
 	/** maps arbcomplex indices to related numbers */
-	public Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<>();
+	private Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<>();
 
 	/**
 	 * used to keep track if file is 3D or just 2D
@@ -346,6 +347,18 @@ public class Construction {
 
 	public void setProtractor(GeoImage protractor) {
 		this.protractor = protractor;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryConstants() {
+		return constsM;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryInts() {
+		return intsM;
+	}
+
+	public Map<Integer, GeoNumeric> getArbitraryComplexNumbers() {
+		return complexNumbersM;
 	}
 
 	/**
@@ -1524,11 +1537,12 @@ public class Construction {
 	 *            Geo to be replaced.
 	 * @param newGeo
 	 *            Geo to be used instead.
-	 * @throws Exception
+	 * @throws CircularDefinitionException
 	 *             i.e. for circular definition
+	 * @throws XMLParseException if replacement creates invalid XML
 	 */
 	public void replace(GeoElement oldGeo, GeoElement newGeo)
-			throws Exception {
+			throws CircularDefinitionException, XMLParseException {
 		replace(oldGeo, newGeo, null);
 	}
 
@@ -1542,11 +1556,12 @@ public class Construction {
 	 *            Geo to be used instead.
 	 * @param info
 	 *            EvalInfo (can be null)
-	 * @throws Exception
+	 * @throws CircularDefinitionException
 	 *             i.e. for circular definition
+	 * @throws XMLParseException if replacement causes invalid XML
 	 */
 	public void replace(GeoElement oldGeo, GeoElement newGeo, EvalInfo info)
-			throws Exception {
+			throws CircularDefinitionException, XMLParseException {
 		if (oldGeo == null || newGeo == null || oldGeo == newGeo) {
 			return;
 		}
@@ -1712,7 +1727,7 @@ public class Construction {
 
 	private void buildConstructionWithGlobalListeners(
 			StringBuilder consXML, String oldXML,
-			EvalInfo info) throws Exception {
+			EvalInfo info) throws XMLParseException {
 
 		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
 		scriptManager.keepListenersOnReset();
@@ -1742,10 +1757,9 @@ public class Construction {
 	 * Processes all collected redefine calls as a batch to improve performance.
 	 * 
 	 * @see #startCollectingRedefineCalls()
-	 * @throws Exception
-	 *             i.e. for circular definition
+	 * @throws XMLParseException if replacement produces invalid XML
 	 */
-	public void processCollectedRedefineCalls() throws Exception {
+	public void processCollectedRedefineCalls() throws XMLParseException {
 		collectRedefineCalls = false;
 
 		if (redefineMap == null || redefineMap.size() == 0) {
@@ -1773,7 +1787,7 @@ public class Construction {
 				throw new MyError(getApplication().getLocalization(),
 						Errors.ReplaceFailed);
 			}
-		} catch (Exception e) {
+		} catch (XMLParseException | RuntimeException e) {
 			throw e;
 		} finally {
 			stopCollectingRedefineCalls();
@@ -1788,10 +1802,10 @@ public class Construction {
 	 * 
 	 * @param casCell
 	 *            casCell to be changed
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             in case of malformed XML
 	 */
-	public void changeCasCell(GeoCasCell casCell, String oldXML) throws Exception {
+	public void changeCasCell(GeoCasCell casCell, String oldXML) throws XMLParseException {
 		setUpdateConstructionRunning(true);
 		// move all predecessors of casCell to the left of casCell in
 		// construction list
@@ -2462,19 +2476,22 @@ public class Construction {
 		}
 
 		// reordering is needed
+
+		// move oldGeo to its maximum construction index
+		boolean changed = moveInConstructionList(oldGeo,
+				Math.min(oldGeo.getMaxConstructionIndex(), maxPredIndex));
 		// move all predecessors of newGeo (i.e. all objects that geo depends
 		// upon) as far as possible to the left in the construction list
-		boolean changed = false;
 		for (GeoElement pred : predSet) {
-			changed |= moveInConstructionList(pred, pred.getMinConstructionIndex());
+			if (pred.getConstructionIndex() >= oldGeo.getConstructionIndex()) {
+				changed |= moveInConstructionList(pred, Math.max(pred.getMinConstructionIndex(),
+						oldGeo.getConstructionIndex()));
+			}
 		}
 
 		// move newGeo to the left as well (important if newGeo already existed
 		// in construction)
 		changed |= moveInConstructionList(newGeo, newGeo.getMinConstructionIndex());
-
-		// move oldGeo to its maximum construction index
-		changed |= moveInConstructionList(oldGeo, oldGeo.getMaxConstructionIndex());
 
 		return changed;
 	}
@@ -3053,8 +3070,18 @@ public class Construction {
 	/**
 	 * Tries to build the new construction from the given XML string.
 	 */
+
+	private void buildConstruction(StringBuilder consXML, String oldXML)
+			throws XMLParseException {
+		buildConstruction(consXML, oldXML, null);
+	}
+
+	/**
+	 * Tries to build the new construction from the given XML string.
+	 */
+
 	private void buildConstruction(StringBuilder consXML, String oldXML,
-			EvalInfo info) throws Exception {
+			EvalInfo info) throws XMLParseException {
 		// try to process the new construction
 		try {
 			processXML(consXML.toString(), false, info);
@@ -3072,7 +3099,7 @@ public class Construction {
 		}
 	}
 
-	private void restoreAfterRedefine(String oldXML, EvalInfo info) throws Exception {
+	private void restoreAfterRedefine(String oldXML, EvalInfo info) throws XMLParseException {
 		if (oldXML != null) {
 			buildConstruction(new StringBuilder(oldXML), null, info);
 		}
@@ -3101,11 +3128,10 @@ public class Construction {
 	 *            whether to treat the XML as defaults
 	 * @param info
 	 *            EvalInfo (can be null)
-	 * @throws Exception
-	 *             on trouble with parsing or running commands
+	 * @throws XMLParseException when XML is not valid
 	 */
 	final public synchronized void processXML(String strXML,
-			boolean isGGTOrDefaults, EvalInfo info) throws Exception {
+			boolean isGGTOrDefaults, EvalInfo info) throws XMLParseException {
 
 		boolean randomize = info != null && info.updateRandom();
 
@@ -3730,4 +3756,5 @@ public class Construction {
 		}
 		return false;
 	}
+
 }

@@ -46,6 +46,8 @@ public abstract class ValidExpression
 	private List<String> localVariables = new ArrayList<>();
 	private boolean inTree; // used by ExpressionNode
 
+	private boolean imprecise = false;
+
 	/**
 	 * @param label
 	 *            label to be added
@@ -627,5 +629,13 @@ public abstract class ValidExpression
 	@Override
 	public boolean isRecurringDecimal() {
 		return false;
+	}
+
+	public boolean isImprecise() {
+		return imprecise;
+	}
+
+	public void setImprecise(boolean imprecise) {
+		this.imprecise = imprecise;
 	}
 }

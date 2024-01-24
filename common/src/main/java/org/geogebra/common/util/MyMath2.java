@@ -14,14 +14,11 @@ import org.geogebra.common.util.mathIT.Riemann;
  * important for minimal applets
  */
 public class MyMath2 {
-	final private static int CANTOR_MAX_ITERATIONS = 1000;
-	private static double TMIN = 2.0;
-	private static int MAXIT = 100; // Maximum number of iterations allowed.
+	private static final int MAXIT = 100; // Maximum number of iterations allowed.
 
-	private static double C2sqrtPi = 1.1283791670955125738961589;
 	private static int factorialTop = 4;
 
-	private static double[] factorialTable = new double[33];
+	private static final double[] factorialTable = new double[33];
 
 	static {
 		factorialTable[0] = 1.0;
@@ -38,7 +35,7 @@ public class MyMath2 {
 	 *            x
 	 * @return gamma(a,x)
 	 */
-	final public static double gammaIncomplete(double a, double x) {
+	public static double gammaIncomplete(double a, double x) {
 
 		try {
 			// see http://mathworld.wolfram.com/RegularizedGammaFunction.html
@@ -58,7 +55,7 @@ public class MyMath2 {
 	 *            x
 	 * @return gammaRegularized(a,x)
 	 */
-	final public static double gammaIncompleteRegularized(double a, double x) {
+	public static double gammaIncompleteRegularized(double a, double x) {
 		try {
 			return Gamma.regularizedGammaP(a, x);
 		} catch (RuntimeException e) {
@@ -75,9 +72,9 @@ public class MyMath2 {
 	 *            real number
 	 * @return beta(a,b)
 	 */
-	final public static double beta(double a, double b) {
+	public static double beta(double a, double b) {
 		double ret = Math.exp(Beta.logBeta(a, b));
-		if (!MyDouble.isFinite(ret)) {
+		if (!Double.isFinite(ret)) {
 			// handle negative cases
 			return Gamma.gamma(a) * Gamma.gamma(b) / Gamma.gamma(a + b);
 		}
@@ -93,7 +90,7 @@ public class MyMath2 {
 	 *            x
 	 * @return betaIncomplete(a,b,x)
 	 */
-	final public static double betaIncomplete(double a, double b, double x) {
+	public static double betaIncomplete(double a, double b, double x) {
 
 		try {
 			return Beta.regularizedBeta(x, a, b) * beta(a, b);
@@ -113,7 +110,7 @@ public class MyMath2 {
 	 *            x
 	 * @return beta(a,b,x)
 	 */
-	final public static double betaIncompleteRegularized(double a, double b,
+	public static double betaIncompleteRegularized(double a, double b,
 			double x) {
 
 		try {
@@ -134,15 +131,15 @@ public class MyMath2 {
 	 *            real number
 	 * @return factorial
 	 */
-	final public static double factorial(double x) {
+	public static double factorial(double x) {
 
-		if (x < 0 || x > 170.624) {
+		if (x < 0 || x > 170.624 || !Double.isFinite(x)) {
 			// infinity, undefined is better
 			return Double.NaN;
 		}
 
 		// big x or floating point x is computed using gamma function
-		if (x < 0 || x > 32 || x - Math.floor(x) > 1E-10) {
+		if (x > 32 || x - Math.floor(x) > 1E-10) {
 			// exp of log(gamma(x+1))
 			return Math.exp(Gamma.logGamma(x + 1.0));
 		}
@@ -161,7 +158,7 @@ public class MyMath2 {
 	 *            real number
 	 * @return gamma(x)
 	 */
-	final public static double gamma(double x) {
+	public static double gamma(double x) {
 
 		// Michael Borcherds 2008-05-04
 		if (x <= 0 && DoubleUtil.isEqual(x, Math.round(x))) {
@@ -177,44 +174,6 @@ public class MyMath2 {
 	}
 
 	/**
-	 * 
-	 * http://en.wikipedia.org/wiki/Cantor_function
-	 * 
-	 * @param x
-	 *            real number
-	 * @return cantor(x) (calculated iteratively)
-	 */
-	final public static double cantor(double x) {
-		return cantor(x, 0);
-	}
-
-	final private static double cantor(double x, double depth) {
-		if (x < 0) {
-			return 0;
-		}
-
-		if (x > 1) {
-			return 1;
-		}
-
-		double x3 = 3 * x;
-
-		if (0 <= x3 && x3 <= 1) {
-			if (depth > CANTOR_MAX_ITERATIONS) {
-				return 0.25;
-			}
-			return cantor(3 * x, depth + 1) / 2;
-		} else if (1 < x3 && x3 < 2) {
-			return 0.5;
-		}
-
-		if (depth > CANTOR_MAX_ITERATIONS) {
-			return 0.75;
-		}
-		return (cantor(x3 - 2, depth + 1) + 1) / 2;
-	}
-
-	/**
 	 * @param mean
 	 *            mean
 	 * @param standardDeviation
@@ -223,7 +182,7 @@ public class MyMath2 {
 	 *            real number
 	 * @return erf(x) for given distribution
 	 */
-	final public static double erf(double mean, double standardDeviation,
+	public static double erf(double mean, double standardDeviation,
 			double x) {
 
 		try {
@@ -239,52 +198,11 @@ public class MyMath2 {
 		}
 	}
 
-	/**
-	 * Inverse of the error function Erf.
-	 *
-	 * Implementation: Inversion by Newton iteration of erf(x). The initial
-	 * value x0 = 0. For |z| <= 0.84 (=erf(1)) at most 4 iterations are
-	 * necessary.
-	 * 
-	 * adapted from
-	 * http://www.mathematik.uni-bielefeld.de/~sillke/ALGORITHMS/special
-	 * -functions/inv_erf.c (in fact needs up to about 20 in extreme cases for
-	 * very small z)
-	 * 
-	 * @param z
-	 *            z
-	 * @return inverf(z)
-	 */
-	final public static double inverf(double z) {
-
-		if (z > 1 || z < -1) {
-			return Double.NaN;
-		}
-
-		/* f(x) = erf(x) - z */
-		/* f'(x) = c*exp(-x*x) */
-		/* f''(x) = -2 f'(x) */
-		double c = C2sqrtPi;
-		double f = -z, f1 = c;
-		double q = f / f1, x = -q, x0 = 0;
-
-		while (Math.abs(x - x0) > 1e-12 && Math.abs(f) > 1e-14) {
-			/* Newton 2nd order: x <- x - f/f'(1 + f*f''/(2 f'^2)) */
-			x0 = x;
-			f = MyMath2.erf(x) - z;
-			f1 = c * Math.exp(-x * x);
-			q = f / f1;
-			x -= q * (1 - x * q); /* Newton Step 2nd order */
-		}
-
-		return x;
-	}
-
-	final public static double psi(double x) {
+	public static double psi(double x) {
 		return Gamma.digamma(x);
 	}
 
-	final public static double logGamma(double x) {
+	public static double logGamma(double x) {
 		return Gamma.logGamma(x);
 	}
 
@@ -295,7 +213,7 @@ public class MyMath2 {
 	 *            real number
 	 * @return polyGamma_order(x)
 	 */
-	final public static double polyGamma(NumberValue order, double x) {
+	public static double polyGamma(NumberValue order, double x) {
 		int o = (int) order.getDouble();
 		switch (o) {
 		case 0:
@@ -327,7 +245,8 @@ public class MyMath2 {
 			return new Complex(Double.NEGATIVE_INFINITY, 0);
 
 		}
-		if (t > TMIN) {
+		double tMin = 2.0;
+		if (t > tMin) {
 			b = new Complex(1, t);
 			c = new Complex(1000, 0);
 			d = one.divide(b);
@@ -402,7 +321,7 @@ public class MyMath2 {
 	 *            number
 	 * @return cosine integral of given number
 	 */
-	final public static double ci(double a) {
+	public static double ci(double a) {
 		if (a < 0) {
 			return Double.NaN;
 		}
@@ -417,20 +336,20 @@ public class MyMath2 {
 	 *            number
 	 * @return sine integral of given number
 	 */
-	final public static double si(double a) {
+	public static double si(double a) {
 		return cisi(a).getImaginary();
 	}
 
 	/**
 	 * Returns exponential integral of given number, for negative values returns
 	 * undefined
-	 * 
+	 *
 	 * @param a
 	 *            number
-	 * @return exponential integral of given number
-	 *         http://mathworld.wolfram.com/ExponentialIntegral.html
+	 * @return <a href="http://mathworld.wolfram.com/ExponentialIntegral.html">
+	 *            Exponential integral</a> of given number
 	 */
-	final public static double ei(double a) {
+	public static double ei(double a) {
 		double ret = MyDouble.EULER_GAMMA + Math.log(Math.abs(a)) + a;
 		double add = a;
 		for (int i = 2; i < MAXIT; i++) {
@@ -450,11 +369,11 @@ public class MyMath2 {
 	}
 
 	/**
-	 * Rieman zeta function (for reals)
+	 * Riemann zeta function (for reals)
 	 * 
 	 * @param val
 	 *            argument
-	 * @return rieman zeta of val
+	 * @return Riemann zeta of val
 	 */
 	public static double zeta(double val) {
 		if (val < 0 && DoubleUtil.isInteger(val / 2)) {

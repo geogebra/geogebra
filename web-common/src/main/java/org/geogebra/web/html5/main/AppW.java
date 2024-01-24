@@ -23,6 +23,9 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -34,6 +37,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.Construction;
@@ -98,9 +102,7 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
-import org.geogebra.web.html5.export.GeoGebraToAsymptoteW;
-import org.geogebra.web.html5.export.GeoGebraToPgfW;
-import org.geogebra.web.html5.export.GeoGebraToPstricksW;
+import org.geogebra.web.html5.export.ExportGraphicsFactoryW;
 import org.geogebra.web.html5.factories.AwtFactoryW;
 import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
@@ -172,7 +174,6 @@ import elemental2.dom.File;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.URL;
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
@@ -566,21 +567,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public boolean loadXML(final String xml) throws Exception {
-		Runnable r = () -> {
-			try {
-				getXMLio().processXMLString(xml, true, false);
-			} catch (Exception e) {
-				Log.debug(e);
-			}
-		};
-
-		getAsyncManager().scheduleCallback(r);
-
-		return true;
-	}
-
-	@Override
 	public MyXMLioW createXMLio(Construction cons) {
 		return new MyXMLioW(cons.getKernel(), cons);
 	}
@@ -608,24 +594,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void setLanguage(final String browserLang) {
-		final String lang = Language
-				.getClosestGWTSupportedLanguage(browserLang).getLocaleGWT();
+		Language language1 = Language
+				.fromLanguageTagOrLocaleString(browserLang);
+		final String languageTag = language1.toLanguageTag();
 		getLocalization().cancelCallback();
-		if (lang != null && lang.equals(loc.getLocaleStr())) {
-			Log.debug("Language is already " + loc.getLocaleStr());
+		if (languageTag.equals(loc.getLanguageTag())) {
+			Log.debug("Language is already " + loc.getLanguageTag());
 			setLabels();
 			notifyLocalizationLoaded();
 			return;
 		}
-		if (lang == null || "".equals(lang)) {
+		if (languageTag.isEmpty()) {
 			Log.warn("language being set to empty string");
 			setLanguage("en");
 			return;
 		}
 
-		Log.debug("setting language to:" + lang + ", browser lang:"
+		Log.debug("setting language to:" + languageTag + ", browser languageTag:"
 				+ browserLang);
-		getLocalization().loadScript(lang, this);
+		getLocalization().loadScript(languageTag, this);
 	}
 
 	/**
@@ -846,9 +833,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (def.hasDefaults3d()) {
 				getXMLio().processXMLString(def.getDefaults3d(), false, true);
 			}
-
+			if (!appletParameters.getDataParamTransparentGraphics()) {
+				// fix for half-pixel not having any color; set AFTER splash screen
+				// fallback compatible with applet-unfocused CSS class
+				getFrameElement().getStyle().setBackgroundColor(
+						appletParameters.getDataParamBorder("#D3D3D3"));
+			}
 			afterLoadFileAppOrNot(asSlide);
-		} catch (Exception e) {
+		} catch (XMLParseException | RuntimeException e) {
 			Log.debug(e);
 		}
 	}
@@ -933,6 +925,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void reset() {
 		if (currentFile != null) {
 			try {
+				getAppletFrame().resetAppletOnLoad();
 				loadGgbFile(currentFile, false);
 			} catch (Exception e) {
 				clearConstruction();
@@ -1579,12 +1572,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public final ClientInfo getClientInfo() {
 		ClientInfo clientInfo = new ClientInfo();
 		clientInfo.setModel(getLoginOperation().getModel());
-		clientInfo.setLanguage(getLocalization().getLanguage());
+		clientInfo.setLanguage(getLocalization().getLanguageTag());
 		clientInfo.setWidth((int) getWidth());
 		clientInfo.setHeight((int) getHeight());
 		clientInfo.setType(getClientType());
 		clientInfo.setId(getClientID());
 		clientInfo.setAppName(getConfig().getAppCode());
+		clientInfo.setAssign(getShareController().isAssign());
 		return clientInfo;
 	}
 
@@ -2561,11 +2555,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	protected void setGlobalApplet(Object api) {
-		Js.asPropertyMap(DomGlobal.document).set("ggbApplet", api);
-		Js.asPropertyMap(DomGlobal.window).set("ggbApplet", api);
-	}
-
 	// ============================================
 	// LAYOUT & GUI UPDATES
 	// ============================================
@@ -3102,7 +3091,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			@Override
 			public void onSuccess() {
 				LoggerW.loaded("export");
-				callback.callback(new GeoGebraToPstricksW(AppW.this));
+				callback.callback(new GeoGebraToPstricks(AppW.this, new ExportGraphicsFactoryW()));
 
 			}
 		});
@@ -3122,7 +3111,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			@Override
 			public void onSuccess() {
 				LoggerW.loaded("export");
-				callback.callback(new GeoGebraToAsymptoteW(AppW.this));
+				callback.callback(new GeoGebraToAsymptote(AppW.this, new ExportGraphicsFactoryW()));
 
 			}
 		});
@@ -3142,7 +3131,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			@Override
 			public void onSuccess() {
 				LoggerW.loaded("export");
-				callback.callback(new GeoGebraToPgfW(AppW.this));
+				callback.callback(new GeoGebraToPgf(AppW.this, new ExportGraphicsFactoryW()));
 
 			}
 		});
@@ -3618,5 +3607,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			toolTipManager = new ToolTipManagerW();
 		}
 		return toolTipManager;
+	}
+
+	public boolean isLockedExam() {
+		return !StringUtil.empty(getAppletParameters().getParamExamMode());
 	}
 }

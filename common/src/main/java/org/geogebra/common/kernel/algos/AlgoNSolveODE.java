@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -164,7 +163,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		@Override
 		public void handleStep(StepInterpolator interpolator, boolean isLast) {
 			double t = interpolator.getCurrentTime();
-			if (!MyDouble.isFinite(t)) {
+			if (!Double.isFinite(t)) {
 				throw new IllegalArgumentException(
 						"Invalid value of time:" + t);
 			}

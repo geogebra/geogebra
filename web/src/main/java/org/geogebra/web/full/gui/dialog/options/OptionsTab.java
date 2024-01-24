@@ -655,7 +655,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		@Override
-		public void addItem(String plain) {
+		public void addItem(String item) {
 			// do nothing
 		}
 
@@ -799,10 +799,7 @@ public class OptionsTab extends FlowPanel {
 			// opacitySlider.setSnapToTicks(true);
 			lineOpacityPanel.add(opacitySlider);
 
-			opacitySlider.addInputHandler(event -> {
-				int value = (int) ((opacitySlider.getValue() / 100.0) * 255);
-				model.applyOpacity(value);
-			});
+			opacitySlider.addInputHandler(model::applyOpacityPercentage);
 			opacitySlider.addValueChangeHandler(val -> model.storeUndoInfo());
 
 			stylePanel = new FlowPanel();

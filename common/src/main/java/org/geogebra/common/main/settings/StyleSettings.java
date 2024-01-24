@@ -1,7 +1,6 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 public class StyleSettings {
 
@@ -20,7 +19,7 @@ public class StyleSettings {
 	 * @param percent how rounded buttons are
 	 */
 	public void setButtonRounding(double percent) {
-		if (!MyDouble.isFinite(percent)) {
+		if (!Double.isFinite(percent)) {
 			this.buttonRounding = 0.2;
 		} else if (percent < 0) {
 			this.buttonRounding = 0;

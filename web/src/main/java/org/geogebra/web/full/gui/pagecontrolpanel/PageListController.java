@@ -673,6 +673,10 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void setPageContent(String pageId, PageContent content) {
+		if (StringUtil.empty(content.xml)) {
+			slides.get(content.order).replaceId(pageId);
+			return;
+		}
 		PagePreviewCard target = findById(pageId).orElse(null);
 		if (target == null) {
 			target = addSlide(slides.size(), new GgbFile(pageId));

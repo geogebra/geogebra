@@ -111,9 +111,9 @@ public class AlgebraViewD extends AlgebraTree
 		super(algCtrl, true);
 
 		// Initialize settings and register listener
-		app.getSettings().getAlgebra().addListener(this);
+		getSettings().addListener(this);
 
-		settingsChanged(app.getSettings().getAlgebra());
+		settingsChanged(getSettings());
 
 	}
 
@@ -341,17 +341,17 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	/**
-	 * @param value
+	 * @param sortMode
 	 *            Either AlgebraView.MODE_DEPDENCY or AlgebraView.MODE_TYPE
 	 */
 	@Override
-	public void setTreeMode(SortMode value) {
-		if (getTreeMode().equals(value)) {
+	public void setTreeMode(SortMode sortMode) {
+		if (getTreeMode().equals(sortMode)) {
 			return;
 		}
 		clearView();
 
-		this.treeMode = value;
+		this.treeMode = sortMode;
 		initModel();
 
 		kernel.notifyAddAll(this);
@@ -916,23 +916,16 @@ public class AlgebraViewD extends AlgebraTree
 				&& geo.isSetAlgebraVisible();
 	}
 
-	private StringBuilder sbXML;
-
 	private void updateCollapsedNodesIndices() {
 
 		// no collapsed nodes
 		if (getTreeMode() == SortMode.ORDER) {
-			collapsedNodes = null;
+			getSettings().setCollapsedNodesNoFire(null);
 			return;
 		}
 
-		if (collapsedNodes == null) {
-			collapsedNodes = new ArrayList<>();
-		} else {
-			collapsedNodes.clear();
-		}
-
 		DefaultMutableTreeNode root = getRoot();
+		ArrayList<Integer> collapsedNodes = new ArrayList<>();
 		for (int i = 0; i < root.getChildCount(); i++) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
 					.getChildAt(i);
@@ -940,6 +933,7 @@ public class AlgebraViewD extends AlgebraTree
 				collapsedNodes.add(i);
 			}
 		}
+		getSettings().setCollapsedNodesNoFire(collapsedNodes);
 
 	}
 
@@ -947,67 +941,13 @@ public class AlgebraViewD extends AlgebraTree
 	 * returns settings in XML format
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference) {
-
-		if (sbXML == null) {
-			sbXML = new StringBuilder();
-		} else {
-			sbXML.setLength(0);
-		}
-
-		sbXML.append("\t<mode ");
-		sbXML.append("val=\"");
-		sbXML.append(getTreeMode().toInt());
-		sbXML.append("\"");
-		sbXML.append("/>\n");
-
-		// auxiliary objects
-		boolean flag = showAuxiliaryObjects();
-		if (flag) {
-			sbXML.append("\t<auxiliary ");
-			sbXML.append("show=\"");
-			sbXML.append(flag);
-			sbXML.append("\"");
-			sbXML.append("/>\n");
-		}
-
 		// collapsed nodes
 		updateCollapsedNodesIndices();
-		if (collapsedNodes != null && collapsedNodes.size() > 0) {
-			sbXML.append("\t<collapsed ");
-			sbXML.append("val=\"");
-			sbXML.append(collapsedNodes.get(0));
-			for (int i = 1; i < collapsedNodes.size(); i++) {
-				sbXML.append(",");
-				sbXML.append(collapsedNodes.get(i));
-			}
-			sbXML.append("\"");
-			sbXML.append("/>\n");
-		}
-
-		if (sbXML.length() > 0) {
-			sb.append("<algebraView>\n");
-			sb.append(sbXML);
-			sb.append("</algebraView>\n");
-		}
-
+		getSettings().getXML(sb, showAuxiliaryObjects());
 	}
 
-	private ArrayList<Integer> collapsedNodes;
-
-	private void setCollapsedNodes(int[] collapsedNodes) {
-		if (collapsedNodes == null) {
-			return;
-		}
-
-		if (this.collapsedNodes == null) {
-			this.collapsedNodes = new ArrayList<>();
-		} else {
-			this.collapsedNodes.clear();
-		}
-
-		for (int i = 0; i < collapsedNodes.length; i++) {
-			this.collapsedNodes.add(collapsedNodes[i]);
-		}
+	private AlgebraSettings getSettings() {
+		return app.getSettings().getAlgebra();
 	}
 
 	/**
@@ -1018,7 +958,7 @@ public class AlgebraViewD extends AlgebraTree
 		if (!settingsChanged) {
 			// that means that no settings were stored in the file: reset
 			// settings to have default
-			AlgebraSettings settings = app.getSettings().getAlgebra();
+			AlgebraSettings settings = getSettings();
 			settings.reset();
 			settingsChanged(settings);
 		}
@@ -1029,12 +969,12 @@ public class AlgebraViewD extends AlgebraTree
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
 
 		// collapsed nodes
-		if (collapsedNodes == null) {
+		if (getSettings().getCollapsedNodes() == null) {
 			return;
 		}
 
 		DefaultMutableTreeNode root = getRoot();
-		for (int i : collapsedNodes) {
+		for (int i : getSettings().getCollapsedNodes()) {
 			// validate i, #4346
 			if (i >= root.getChildCount()) {
 				continue;
@@ -1057,7 +997,6 @@ public class AlgebraViewD extends AlgebraTree
 		setTreeMode(algebraSettings.getTreeMode());
 		showAuxiliaryObjectsSettings = algebraSettings
 				.getShowAuxiliaryObjects();
-		setCollapsedNodes(algebraSettings.getCollapsedNodes());
 
 		settingsChanged = true;
 

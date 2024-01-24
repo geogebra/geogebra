@@ -118,7 +118,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	private double z2D = 0;
 
 	/** temp inhomogeneous coordinates */
-	public Coords inhom = Coords.createInhomCoorsInD3();
+	private Coords inhom = Coords.createInhomCoorsInD3();
 	private Coords inhom2D;
 	private double zScale = 1;
 	private boolean setEuclidianVisibleBySetParentAlgorithm = true;

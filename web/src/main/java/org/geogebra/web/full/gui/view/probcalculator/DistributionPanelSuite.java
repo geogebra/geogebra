@@ -37,8 +37,10 @@ public class DistributionPanelSuite extends DistributionPanel {
 	public void initCumulativeWidget() {
 		FlowPanel cumulativeRow = new FlowPanel();
 		cumulativeRow.addStyleName("row");
-		cumulativeWidget = new ComponentSwitch(false, (source) ->
-				getView().setCumulative(source));
+		cumulativeWidget = new ComponentSwitch(false, (source) -> {
+			getView().setCumulative(source);
+			disableInterval(source);
+		});
 		cumulativeLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(
 				getView().getApp().getLocalization().getMenu("Cumulative"));
 		cumulativeRow.add(cumulativeLbl);

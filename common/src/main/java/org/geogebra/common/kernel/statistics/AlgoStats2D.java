@@ -33,7 +33,7 @@ public abstract class AlgoStats2D extends AlgoElement {
 
 	private GeoList geoListx; // input
 	private GeoList geoListy; // input
-	public GeoNumeric result; // output
+	private GeoNumeric result; // output
 
 	private int mode;
 
@@ -120,20 +120,18 @@ public abstract class AlgoStats2D extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = geoListx;
 
-		setOutputLength(1);
-		setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 		compute();
 	}
 
 	@Override
-	protected void setInputOutput() {
+	protected final void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = geoListx;
 		input[1] = geoListy;
 
-		setOutputLength(1);
-		setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -505,7 +505,7 @@ public class EditorTypingTest {
 		MetaModel model = new MetaModel();
 		model.setForceBracketAfterFunction(true);
 		EditorChecker inputBoxChecker = new EditorChecker(app, model);
-		inputBoxChecker.setFormatConverter(new SyntaxAdapterImpl(app.kernel));
+		inputBoxChecker.setFormatConverter(new SyntaxAdapterImpl(app.getKernel()));
 
 		inputBoxChecker.type("sin9x").checkAsciiMath("sin(9x)");
 		inputBoxChecker.fromParser("");

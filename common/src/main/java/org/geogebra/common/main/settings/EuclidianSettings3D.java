@@ -80,6 +80,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		xZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
 		dimension = 3;
+		axesLabels = new String[] {"x", "y", "z"};
 	}
 
 	/**
@@ -586,6 +587,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 		hasColoredAxes = true;
 
+		axesLabels = new String[] {"x", "y", "z"};
 	}
 
 	/**

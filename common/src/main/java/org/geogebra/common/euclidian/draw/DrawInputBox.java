@@ -613,6 +613,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	/**
 	 * Attach the symbolic editor
+	 * @param caretPos caret position relative to view
 	 */
 	public void attachMathField(GPoint caretPos) {
 		recomputeSize();

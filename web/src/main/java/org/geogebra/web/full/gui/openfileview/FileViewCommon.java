@@ -137,7 +137,6 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		getHeader().add(signInTextButton);
 
 		signInIconButton = getLoginIconButton(signInController);
-		signInIconButton.setStyleName("signInIcon");
 		getHeader().add(signInIconButton);
 
 		profilePanel = new ProfileAvatar(app);
@@ -167,7 +166,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 
 	private StandardButton getLoginIconButton(SignInControllerI signInController) {
 		StandardButton button = new StandardButton(MaterialDesignResources.INSTANCE.login(), 24);
-		button.addStyleName("signInIcon");
+		button.setStyleName("signInIcon flatButtonHeader");
 		button.addFastClickHandler(event -> {
 			signInController.login();
 			signInController.initLoginTimer();

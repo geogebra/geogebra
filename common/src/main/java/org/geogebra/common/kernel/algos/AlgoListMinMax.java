@@ -78,8 +78,7 @@ public class AlgoListMinMax extends AlgoElement {
 			input[1] = freqList;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, min);
+		setOnlyOutput(min);
 		setDependencies(); // done by AlgoElement
 	}
 

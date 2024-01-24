@@ -657,19 +657,22 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	final public String getHelpURL(final Help type, String pageName) {
 		// try to get help for given language
-		// eg http://help.geogebra.org/en_GB/cmd/FitLogistic
+		// eg http://help.geogebra.org/en-GB/cmd/FitLogistic
 
 		final StringBuilder urlSB = new StringBuilder();
-
 		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE);
-		urlSB.append(getApp().getLocalization().getLanguage()); // eg en_GB
+		urlSB.append(getApp().getLocalization().getLanguageTag()); // eg en-GB
 
 		switch (type) {
 		case COMMAND:
 			String cmdPageName = getApp().getLocalization().getEnglishCommand(
 					pageName);
-			urlSB.append("/cmd/");
-			urlSB.append(cmdPageName);
+			if ("".equals(cmdPageName)) {
+				urlSB.append("/article/Category:Commands");
+			} else {
+				urlSB.append("/cmd/");
+				urlSB.append(cmdPageName);
+			}
 			break;
 		case TOOL:
 			urlSB.append("/tool/");
@@ -692,7 +695,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public String getReportBugUrl() {
-		return GeoGebraConstants.FORUM_URL;
+		return GeoGebraConstants.REPORT_BUG_URL;
 	}
 
 	@Override

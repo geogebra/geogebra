@@ -67,8 +67,7 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
 		input[0] = (GeoElement) g3D;
 		input[1] = (GeoElement) h3D;
 
-		super.setOutputLength(1);
-		super.setOutput(0, geoPointOnG);
+		setOnlyOutput(geoPointOnG);
 		setDependencies(); // done by AlgoElement
 	}
 

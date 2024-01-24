@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
 /**
@@ -40,7 +41,9 @@ public class CmdRunClickScript extends CmdScripting {
 			if (args[0].isGeoInputBox()) {
 				((GeoInputBox) args[0]).textSubmitted();
 			} else {
-				args[0].runClickScripts(null);
+				app.dispatchEvent(
+						new Event(EventType.CLICK, args[0], args[0].getLabelSimple())
+								.setAlwaysDispatched(true));
 			}
 			return args;
 

@@ -69,8 +69,7 @@ public class AlgoOsculatingCircle extends AlgoElement {
 		input[0] = A;
 		input[1] = f;
 
-		super.setOutputLength(1);
-		super.setOutput(0, circle);
+		setOnlyOutput(circle);
 		setDependencies(); // done by AlgoElement
 	}
 

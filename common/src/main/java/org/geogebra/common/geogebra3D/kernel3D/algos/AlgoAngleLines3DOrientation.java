@@ -97,8 +97,7 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 		input[1] = (GeoElement) geth();
 		input[2] = (GeoElement) orientation;
 
-		setOutputLength(1);
-		setOutput(0, getAngle());
+		setOnlyOutput(getAngle());
 		setDependencies(); // done by AlgoElement
 
 	}

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
 /**
@@ -11,16 +12,16 @@ import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
  */
 public class SortByProperty extends AbstractNamedEnumeratedProperty<AlgebraView.SortMode> {
 
-	private AlgebraView algebraView;
+	private AlgebraSettings algebraSettings;
 
 	/**
 	 * Constructs a sort by property object.
-	 * @param algebraView algebra view
+	 * @param algebraSettings algebra view
 	 * @param localization localization
 	 */
-	public SortByProperty(AlgebraView algebraView, Localization localization) {
+	public SortByProperty(AlgebraSettings algebraSettings, Localization localization) {
 		super(localization, "SortBy");
-		this.algebraView = algebraView;
+		this.algebraSettings = algebraSettings;
 		setupValues();
 	}
 
@@ -32,11 +33,11 @@ public class SortByProperty extends AbstractNamedEnumeratedProperty<AlgebraView.
 
 	@Override
 	public AlgebraView.SortMode getValue() {
-		return algebraView.getTreeMode();
+		return algebraSettings.getTreeMode();
 	}
 
 	@Override
 	protected void doSetValue(AlgebraView.SortMode value) {
-		algebraView.setTreeMode(value);
+		algebraSettings.setTreeMode(value);
 	}
 }

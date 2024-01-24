@@ -73,8 +73,7 @@ public class AlgoCountIf extends AlgoElement {
 		input[0] = boolFun;
 		input[1] = list;
 
-		super.setOutputLength(1);
-		super.setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

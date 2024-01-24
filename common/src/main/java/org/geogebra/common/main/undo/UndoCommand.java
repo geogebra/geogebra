@@ -55,6 +55,7 @@ public class UndoCommand {
 	/**
 	 * @param action
 	 *            action
+	 * @param slideId slide ID in Notes
 	 * @param args
 	 *            action arguments
 	 */

@@ -72,8 +72,7 @@ public class AlgoFoldFunctions extends AlgoElement {
 			input[1] = truncate;
 		}
 
-		setOutputLength(1);
-		setOutput(0, resultFun);
+		setOnlyOutput(resultFun);
 		setDependencies(); // done by AlgoElement
 	}
 

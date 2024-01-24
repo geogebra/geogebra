@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.main.AppD;
@@ -112,11 +113,11 @@ public class OptionsMenuD extends BaseMenu
 	 * 
 	 * @param menu
 	 *            menu component
-	 * @param al
+	 * @param listener
 	 *            language change listener
 	 */
 	public static void addLanguageMenuItems(AppD app, JComponent menu,
-			ActionListener al) {
+			LanguageActionListener listener) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		boolean rtl = app.getLocalization().isRightToLeftReadingOrder();
@@ -135,7 +136,9 @@ public class OptionsMenuD extends BaseMenu
 		currentLocale = currentLocale.replaceAll("_", "");
 		StringBuilder sb = new StringBuilder(20);
 
-		for (Language loc : Language.values()) {
+		Language[] supportedLanguages = app.getLocalization()
+				.getSupportedLanguages(app.has(Feature.ALL_LANGUAGES));
+		for (Language loc : supportedLanguages) {
 
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
@@ -165,8 +168,7 @@ public class OptionsMenuD extends BaseMenu
 			if (loc.toLanguageTag().equals(currentLocale)) {
 				mi.setSelected(true);
 			}
-			mi.setActionCommand(loc.toLanguageTag());
-			mi.addActionListener(al);
+			mi.addActionListener((ignore) -> listener.setLanguage(loc));
 			bg.add(mi);
 
 			if (ch <= 'D') {

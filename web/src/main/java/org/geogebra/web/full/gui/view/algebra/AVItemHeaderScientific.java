@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
@@ -14,11 +16,13 @@ public class AVItemHeaderScientific extends SimplePanel
 
 	private Label number;
 	private NoDragImage warningImage;
+	private Localization loc;
 
 	/**
 	 * Create new number header
 	 */
-	public AVItemHeaderScientific() {
+	public AVItemHeaderScientific(Localization loc) {
+		this.loc = loc;
 		setStyleName("avItemHeaderScientific");
 		number = BaseWidgetFactory.INSTANCE.newSecondaryText("", "avItemNumber");
 		setWidget(number);
@@ -27,6 +31,11 @@ public class AVItemHeaderScientific extends SimplePanel
 	@Override
 	public void updateIcons(boolean warning) {
 		setWidget(warning ? getWarningImage() : number);
+		if (warning) {
+			AriaHelper.setTitle(this, loc.getInvalidInputError());
+		} else {
+			AriaHelper.removeTitle(this);
+		}
 	}
 
 	private NoDragImage getWarningImage() {

@@ -164,8 +164,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 		input[1] = (GeoElement) vertexN;
 		input[2] = (GeoElement) leg2N;
 
-		setOutputLength(1);
-		setOutput(0, angle);
+		setOnlyOutput(angle);
 		setDependencies(); // done by AlgoElement
 	}
 

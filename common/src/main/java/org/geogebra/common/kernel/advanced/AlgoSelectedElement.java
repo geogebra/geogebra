@@ -75,8 +75,7 @@ public class AlgoSelectedElement extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = geoList;
 
-		setOutputLength(1);
-		setOutput(0, element);
+		setOnlyOutput(element);
 		setDependencies(); // done by AlgoElement
 	}
 

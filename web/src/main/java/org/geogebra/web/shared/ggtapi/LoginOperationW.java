@@ -16,6 +16,7 @@ import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.MessageEvent;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -72,7 +73,8 @@ public class LoginOperationW extends LogInOperation {
 		app.getGlobalHandlers().addEventListener(DomGlobal.window,
 						"message",
 						event -> {
-							Object data = Js.asPropertyMap(event).get("data");
+							MessageEvent<?> message = Js.uncheckedCast(event);
+							Object data = message.data;
 							// later if event.origin....
 							if ("string".equals(Js.typeof(data))) {
 								try {
@@ -124,12 +126,12 @@ public class LoginOperationW extends LogInOperation {
 	}
 
 	@Override
-	public String getLoginURL(String languageCode) {
+	public String getLoginURL(String languageTag) {
 		if (!StringUtil.empty(app.getAppletParameters().getParamLoginURL())) {
 			return app.getAppletParameters().getParamLoginURL();
 		}
 
-		return super.getLoginURL(languageCode);
+		return super.getLoginURL(languageTag);
 	}
 
 	private void processCookie(boolean passive) {

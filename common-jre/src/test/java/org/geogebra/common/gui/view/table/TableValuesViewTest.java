@@ -846,4 +846,21 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		assertThat(view.getStatistics1Var(0).get(0).getValues()[0], containsString("2.5"));
 	}
+
+	@Test
+	public void testRegressionApps5158() {
+		processor.processInput("1", view.getValues(), 0);
+		processor.processInput("2", view.getValues(), 1);
+		processor.processInput("3", view.getValues(), 2);
+
+		processor.processInput("4", null, 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		processor.processInput("5", list, 1);
+		processor.processInput("6", list, 2);
+
+		assertEquals("6", model.getCellAt(2, 1).getInput());
+		processor.processInput("", list, 2);
+
+		assertEquals("", model.getCellAt(2, 1).getInput());
+	}
 }

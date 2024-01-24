@@ -211,8 +211,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private MenuItem showHelpAndFeedback() {
 		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL,
 				"Tutorial", Action.SHOW_TUTORIALS);
-		ActionableItem askQuestion = new ActionableItemImpl(Icon.QUESTION_ANSWER,
-				"AskAQuestion", Action.SHOW_FORUM);
+		ActionableItem askQuestion = new ActionableItemImpl(Icon.HELP,
+				"Help", Action.SHOW_FORUM);
 		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
 				"ReportProblem", Action.REPORT_PROBLEM);
 		ActionableItem license = new ActionableItemImpl(Icon.INFO,
@@ -222,23 +222,25 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	protected MenuItem showDownloadAs() {
-		ActionableItem png = new ActionableItemImpl(null, "Download.PNGImage", Action.DOWNLOAD_PNG);
+		ActionableItem downloadPng = new ActionableItemImpl(null,
+				"Download.PNGImage", Action.DOWNLOAD_PNG);
 		ActionableItem svg = new ActionableItemImpl(null, "Download.SVGImage", Action.DOWNLOAD_SVG);
 		ActionableItem pdf = new ActionableItemImpl(null,
 				"Download.PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
 		case PROBABILITY:
-			return buildDownloadAs(createDownloadGgb(), png);
+			return buildDownloadAs(createDownloadGgb(), downloadPng);
 		case NOTES:
-			return buildDownloadAs(createDownloadSlides(), png, svg, pdf);
+			return buildDownloadAs(createDownloadSlides(), downloadPng, svg, pdf);
 		case GRAPHING_3D:
 			ActionableItem dae = new ActionableItemImpl(
 					"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
 			ActionableItem html = new ActionableItemImpl(
 					"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-			return buildDownloadAs(createDownloadGgb(), png, createDownloadStl(), dae, html);
+			return buildDownloadAs(createDownloadGgb(), downloadPng,
+					createDownloadStl(), dae, html);
 		default:
-			return buildDownloadAs(createDownloadGgb(), png, svg, pdf, createDownloadStl());
+			return buildDownloadAs(createDownloadGgb(), downloadPng, svg, pdf, createDownloadStl());
 		}
 	}
 

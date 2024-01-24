@@ -429,8 +429,8 @@ public class ProbabilityManager {
 	 * type. /* Key = distribution type constant /* Value = default parameter
 	 * values for the distribution type
 	 *
-	 * @param dist
-	 *            distribution
+	 * @param dist distribution
+	 * @param cons construction
 	 * @return default parameters
 	 */
 	public static GeoNumeric[] getDefaultParameters(Dist dist, Construction cons) {
@@ -922,7 +922,7 @@ public class ProbabilityManager {
 	 */
 	public double probability(double value, GeoNumberValue[] parms, Dist distType,
 			boolean isCumulative) {
-		GeoNumeric numeric = new GeoNumeric(app.kernel.getConstruction(), value);
+		GeoNumeric numeric = new GeoNumeric(app.getKernel().getConstruction(), value);
 		AlgoDistribution algo = getDistributionAlgorithm(numeric, parms, distType, isCumulative);
 		return algo.getResult().getDouble();
 	}

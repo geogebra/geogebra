@@ -726,7 +726,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	private boolean isDegenerate() {
-		return x == 0 && y == 0 && MyDouble.isFinite(z);
+		return x == 0 && y == 0 && Double.isFinite(z);
 	}
 
 	/**
@@ -1137,9 +1137,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		double t = -(z + x * px + y * py) / (x * x + y * y);
 		// calculate projection point using perpendicular line
 
-		if (x == 0 && Double.isInfinite(px) && MyDouble.isFinite(py)) {
+		if (x == 0 && Double.isInfinite(px) && Double.isFinite(py)) {
 			py = -z / y;
-		} else if (y == 0 && Double.isInfinite(py) && MyDouble.isFinite(px)) {
+		} else if (y == 0 && Double.isInfinite(py) && Double.isFinite(px)) {
 			px = -z / x;
 		} else {
 			px += t * x;
@@ -1258,6 +1258,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public PathMover createPathMover() {
 		return new PathMoverLine();
+	}
+
+	/**
+	 * @return slope of the line, NaN if vertical or undefined
+	 */
+	public double getSlope() {
+		if (isDefined() && !DoubleUtil.isZero(y)) {
+			return -x / y;
+		} else {
+			return Double.NaN;
+		}
 	}
 
 	private class PathMoverLine extends PathMoverGeneric {
@@ -1679,8 +1690,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return ret;
 		}
 
-		if (!MyDouble.isFinite(x) || !MyDouble.isFinite(y)
-				|| !MyDouble.isFinite(z)) {
+		if (!Double.isFinite(x) || !Double.isFinite(y)
+				|| !Double.isFinite(z)) {
 			return ret;
 		}
 

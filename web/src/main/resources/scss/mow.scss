@@ -57,8 +57,8 @@
 		}
 	}
 
-	.MyCanvasButton, .MyToggleButton {
-		border: colors.$tool-border solid 1px;
+	.IconButton, .ToggleButton {
+		border: neutral(500) solid 1px;
 
 		&:hover, &.active, &.selected, &.gwt-ToggleButton-down {
 			border: colors.$mow_primary solid 1px;
@@ -222,7 +222,7 @@
 		will-change: transform;
 		z-index: z-index.$z-page-control-button;
 
-		background-color: purple(600);
+		background-color: colors.$mow_primary;
 		box-shadow: 0px 2px 10px colors.$black-30, 0px 0px 1px colors.$black-10, inset 0px 1px 0px colors.$white-25, inset 0px -1px 0px colors.$black-15;
 		transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
 
@@ -483,7 +483,7 @@
 			background: none;
 		}
 
-		.MyToggleButton {
+		.ToggleButton {
 			border-radius: 2px;
 			display: inline-block;
 			margin: 0 8px 0 0;

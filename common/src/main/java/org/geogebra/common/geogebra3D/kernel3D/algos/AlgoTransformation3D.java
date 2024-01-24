@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 
@@ -91,9 +90,9 @@ public class AlgoTransformation3D {
 		double[] min = new double[2];
 		double[] max = new double[2];
 		for (int dim = 0; dim < 2; dim++) {
-			min[dim] = MyDouble.isFinite(geoFun.getMinParameter(dim))
+			min[dim] = Double.isFinite(geoFun.getMinParameter(dim))
 					? geoFun.getMinParameter(dim) : -10;
-			max[dim] = MyDouble.isFinite(geoFun.getMaxParameter(dim))
+			max[dim] = Double.isFinite(geoFun.getMaxParameter(dim))
 					? geoFun.getMaxParameter(dim) : 10;
 		}
 		surface.setStartParameter(min);

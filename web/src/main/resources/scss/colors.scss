@@ -1,8 +1,8 @@
-// main colors
+@use 'colorMap' as *;
 // PURPLE
-$purple-light: #9984FF;
-$purple-default: #6557D2;
-$purple-dark: #4C42A1;
+$purple-light: purple(500);
+$purple-default: purple(600);
+$purple-dark: purple(700);
 $purple-dark-26: rgba($purple-dark, 0.26);
 $purple-dark-87: rgba($purple-dark, 0.87);
 $purple-default-12: rgba($purple-default, 0.12);
@@ -47,7 +47,6 @@ $popup-shadow: rgba(102,102,102,0.3); // used for dyn stylebar and preview point
 $material-black900: #212121;
 $focus-black: $material-black900;
 $white-5-overlay: #F5F5F5;
-$gray-background: #f9f9f9;
 $dialog-text-btn-hover: #6b6b6b;
 $disabled-contained-btn-bg: #E4E4E4;
 $disabled-contained-btn-col: rgba(0,0,0,0.38);

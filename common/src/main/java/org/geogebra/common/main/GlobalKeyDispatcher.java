@@ -53,7 +53,7 @@ public abstract class GlobalKeyDispatcher {
 
 	/** application */
 	@Weak
-	public final App app;
+	protected final App app;
 	/** selection */
 	@Weak
 	protected final SelectionManager selection;
@@ -874,8 +874,7 @@ public abstract class GlobalKeyDispatcher {
 			if (!EuclidianView
 					.isPenMode(app.getActiveEuclidianView().getMode())) {
 
-				boolean spanish = app.getLocalization().getLanguage()
-						.startsWith("es");
+				boolean spanish = app.getLocalization().languageIs("es");
 
 				// AltGr+ on Spanish keyboard is ] so
 				// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
@@ -989,12 +988,15 @@ public abstract class GlobalKeyDispatcher {
 		return app.isRightClickEnabled();
 	}
 
-	private void handleEscForDropdown() {
+	/**
+	 * Handle dropdowns on ESCAPE
+	 */
+	public void handleEscForDropdown() {
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (dl != null && dl.isOptionsVisible()) {
-				dl.toggleOptions();
+				dl.closeOptions();
 			}
 		}
 	}

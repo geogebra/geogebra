@@ -16,7 +16,6 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -198,7 +197,7 @@ public class GgbAPIW extends GgbAPI {
 		// DPI ignored
 		url = ev.getExportImageDataUrl(exportScale, transparent, greyscale);
 
-		if (MyDouble.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
+		if (Double.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
 
 			JavaScriptInjector
 					.inject(GuiResourcesSimple.INSTANCE.rewritePHYS());
@@ -1214,7 +1213,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @return list of page IDs in notes
+	 * @return array of page IDs in notes
 	 */
 	public String[] getPages() {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
@@ -1327,7 +1326,7 @@ public class GgbAPIW extends GgbAPI {
 		PageListControllerInterface pc = ((AppW) app).getPageController();
 		if (pc != null) {
 			pc.setPageContent(pageId, content);
-		} else {
+		} else if (!StringUtil.empty(content.xml)) {
 			setXML(content.xml);
 		}
 	}

@@ -23,7 +23,7 @@ public class SmartSignInController extends SignInController {
 	public void login() {
 		String url = "https://accounts.geogebra.org/user/signin"
 				+ "/caller/web/expiration/600/clientinfo/smart"
-				+ "/?lang=" + app.getLocalization().getLocaleStr() + "&url="
+				+ "/?lang=" + app.getLocalization().getLanguageTagForLogin() + "&url="
 				+ Global.encodeURIComponent(DomGlobal.location.href);
 
 		DomGlobal.location.replace(url);

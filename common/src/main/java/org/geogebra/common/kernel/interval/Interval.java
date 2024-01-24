@@ -5,7 +5,6 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
 import java.util.Objects;
 
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.interval.operators.RMath;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -205,7 +204,7 @@ public class Interval {
 	 * @return if interval is in the form [n, n] where n is finite.
 	 */
 	public boolean isSingleton() {
-		return MyDouble.isFinite(low) && DoubleUtil.isEqual(high, low, 1E-7);
+		return Double.isFinite(low) && DoubleUtil.isEqual(high, low, 1E-7);
 	}
 
 	@Override
@@ -553,7 +552,7 @@ public class Interval {
 	}
 
 	public boolean isFinite() {
-		return MyDouble.isFinite(low) && MyDouble.isFinite(high);
+		return Double.isFinite(low) && Double.isFinite(high);
 	}
 
 	/**

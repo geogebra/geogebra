@@ -110,11 +110,11 @@ public class GeoGebraTubeUser {
 	}
 
 	/**
-	 * @param URL
+	 * @param profileURL
 	 *            of the profile page
 	 */
-	public void setProfileURL(String URL) {
-		this.profileURL = URL;
+	public void setProfileURL(String profileURL) {
+		this.profileURL = profileURL;
 	}
 
 	/**

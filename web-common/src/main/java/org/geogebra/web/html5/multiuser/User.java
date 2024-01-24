@@ -119,7 +119,10 @@ class User {
 
 				graphics.fill(area);
 			} else if (d != null) {
-				graphics.draw(d.getBoundsForStylebarPosition());
+				GRectangle2D bounds = d.getBoundsForStylebarPosition();
+				if (bounds != null) {
+					graphics.draw(bounds);
+				}
 			}
 		} else if (geos.size() > 1) {
 			graphics.draw(view.getEuclidianController().calculateBounds(geos));

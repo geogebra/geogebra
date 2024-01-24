@@ -266,7 +266,7 @@ public class DrawPoint3D extends Drawable3DCurves
 			int pointSize, Coords project, double[] parameters,
 			boolean checkRealPointSize) {
 
-		p.projectLine(hitting.origin, hitting.direction, project, parameters);
+		p.projectLine(hitting.getOrigin(), hitting.getDirection(), project, parameters);
 
 		if (!hitting.isInsideClipping(project)) {
 			return false;

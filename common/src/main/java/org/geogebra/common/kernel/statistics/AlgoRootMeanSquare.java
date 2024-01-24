@@ -60,8 +60,7 @@ public class AlgoRootMeanSquare extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
-		setOutputLength(1);
-		setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

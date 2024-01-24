@@ -117,7 +117,8 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	@Override
 	public void tabResized() {
-		int tableWidth = isDiscreteProbability() ? ((ProbabilityTableW) getTable()).getStatTable()
+		ProbabilityTableW table = (ProbabilityTableW) getTable();
+		int tableWidth = isDiscreteProbability() && table != null ? table.getStatTable()
 				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
 		int width = mainSplitPane.getOffsetWidth()
 				- tableWidth
@@ -128,8 +129,8 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 			plotSplitPane.setWidth(width + "px");
 		}
 
-		if (height > 0 && isDiscreteProbability()) {
-			((ProbabilityTableW) getTable()).getWrappedPanel()
+		if (height > 0 && isDiscreteProbability() && table != null) {
+			table.getWrappedPanel()
 					.setPixelSize(tableWidth, height);
 		}
 	}
@@ -179,11 +180,14 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	@Override
 	protected void addRemoveTable(boolean showTable) {
-		FlowPanel tablePanel = ((ProbabilityTableW) getTable()).getWrappedPanel();
-		if (showTable) {
-			mainSplitPane.add(tablePanel);
-		} else {
-			mainSplitPane.remove(tablePanel);
+		ProbabilityTableW table = (ProbabilityTableW) getTable();
+		if (table != null) {
+			FlowPanel tablePanel = table.getWrappedPanel();
+			if (showTable) {
+				mainSplitPane.add(tablePanel);
+			} else {
+				mainSplitPane.remove(tablePanel);
+			}
 		}
 		tabResized();
 	}

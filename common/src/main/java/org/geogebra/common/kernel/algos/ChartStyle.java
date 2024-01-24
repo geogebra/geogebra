@@ -240,12 +240,12 @@ public class ChartStyle {
 	/**
 	 * Appends description of a bar to string builder.
 	 *
-	 * @param sb
-	 *            XML string builder
+	 * @param sb XML string builder
+	 * @param count number of bars
 	 */
-	public void barXml(StringBuilder sb, int N) {
+	public void barXml(StringBuilder sb, int count) {
 		sb.append("\t<tags>\n");
-		for (int i = 1; i <= N; i++) {
+		for (int i = 1; i <= count; i++) {
 			if (getBarColor(i) != null) {
 				appendTag(sb, "barColor", i, GColor.getColorString(getBarColor(i)));
 			}

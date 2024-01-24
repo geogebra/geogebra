@@ -1018,8 +1018,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 
-		if (geo.isGeoText()) {
-			return ((GeoText) geo).getTextString();
+		if (geo.isGeoText() || geo.isGeoInputBox()) {
+			return geo.toValueString(StringTemplate.defaultTemplate);
 		}
 
 		if (geo.isGeoCasCell()) {
@@ -1522,7 +1522,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * Mark state as saved
+	 * Mark state as (un)saved
+	 * @param saved whether construction state should be considered saved
 	 */
 	public void setSaved(boolean saved) {
 		if (saved) {

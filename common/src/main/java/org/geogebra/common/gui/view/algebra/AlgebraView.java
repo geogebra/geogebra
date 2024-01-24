@@ -117,7 +117,11 @@ public interface AlgebraView extends Editing, SetLabels {
 
 	public SortMode getTreeMode();
 
-	void setTreeMode(SortMode value);
+	/**
+	 * Should not be called directly, use AlgebraSettings instead
+	 * @param sortMode sort mode
+	 */
+	void setTreeMode(SortMode sortMode);
 
 	/**
 	 * This is just used from Html5/Web, but interface is in Common

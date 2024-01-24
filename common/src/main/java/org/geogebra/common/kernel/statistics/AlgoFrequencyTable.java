@@ -231,8 +231,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			break;
 		}
 
-		setOutputLength(1);
-		setOutput(0, table);
+		setOnlyOutput(table);
 		setDependencies(); // done by AlgoElement
 	}
 

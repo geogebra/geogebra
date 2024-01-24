@@ -64,7 +64,7 @@ public class AlgoCenterConic extends AlgoCenterQuadricND {
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			GeoVec2D b = ((GeoConicND) c).b;
+			GeoVec2D b = ((GeoConicND) c).getB();
 			setCoords(b.getX(), b.getY());
 			break;
 

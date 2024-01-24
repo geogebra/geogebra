@@ -22,6 +22,7 @@ public class RecurringDecimal extends MyDouble {
 	public RecurringDecimal(Kernel kernel, RecurringDecimalModel model) {
 		super(kernel, model.toDouble());
 		this.model = model;
+		setImprecise(true);
 	}
 
 	public double toDouble() {
@@ -35,6 +36,7 @@ public class RecurringDecimal extends MyDouble {
 	public RecurringDecimal(RecurringDecimal rd) {
 		super(rd);
 		this.model = rd.model;
+		this.setImprecise(true);
 	}
 
 	/**

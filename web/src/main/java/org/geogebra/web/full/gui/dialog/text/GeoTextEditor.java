@@ -232,8 +232,7 @@ public class GeoTextEditor extends FocusWidget {
 	 */
 	public void insertTextString(String str0, boolean isLatex) {
 
-		boolean convertGreekLetters = !app.getLocalization().getLanguage()
-				.equals("gr");
+		boolean convertGreekLetters = !app.getLocalization().languageIs("gr");
 
 		if (str0 != null) {
 			String str = str0;

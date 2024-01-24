@@ -889,7 +889,6 @@ public class AlgebraProcessor {
 					handler, callback0, info);
 
 		} catch (ParseException e) {
-			e.printStackTrace(System.out);
 			ErrorHelper.handleException(e, app, handler);
 		} catch (Exception e) {
 			Log.debug(e);
@@ -1089,14 +1088,14 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
-		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
+		GeoElement symbolic = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		setLabel(sym, label);
-		return sym;
+		setLabel(symbolic, label);
+		return symbolic;
 	}
 
 	private ExpressionNode replaceFunctionVariables(ValidExpression expression) {
@@ -1159,11 +1158,11 @@ public class AlgebraProcessor {
 	 * @param cmd
 	 *            command
 	 * @return valid expression
-	 * @throws Exception
-	 *             exception
+	 * @throws ParseException
+	 *             exception if syntax is invalid
 	 */
 	public ValidExpression getValidExpressionNoExceptionHandling(
-			final String cmd) throws Exception {
+			final String cmd) throws ParseException {
 		return parser.parseGeoGebraExpression(cmd);
 	}
 
@@ -1964,11 +1963,11 @@ public class AlgebraProcessor {
 	 * @return resulting elements
 	 * @throws MyError
 	 *             e.g. for wrong syntax
-	 * @throws Exception
-	 *             e.g. for circular definition
+	 * @throws CircularDefinitionException
+	 *             for circular definition
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve)
-			throws MyError, Exception {
+			throws MyError, CircularDefinitionException {
 		return processValidExpression(ve,
 				new EvalInfo(!cons.isSuppressLabelsActive(), true));
 	}
@@ -1982,12 +1981,12 @@ public class AlgebraProcessor {
 	 *            processing information
 	 * @throws MyError
 	 *             e.g. on wrong syntax
-	 * @throws Exception
-	 *             e.g. for circular definition
+	 * @throws CircularDefinitionException
+	 *             for circular definition
 	 * @return resulting geos
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve,
-			EvalInfo info) throws MyError, Exception {
+			EvalInfo info) throws MyError, CircularDefinitionException {
 		EvalInfo evalInfo = info;
 		ValidExpression expression = ve;
 		// check for existing labels
@@ -2811,12 +2810,7 @@ public class AlgebraProcessor {
 		checkNoTermsInZ(equ);
 		checkNoTheta(equ);
 		if (equ.getLHS().evaluatesToList() || equ.getRHS().evaluatesToList()) {
-			AlgoDependentEquationList algo = new AlgoDependentEquationList(cons,
-					equ);
-			GeoList list = algo.getList();
-			list.setLabel(equ.getLabel());
-			return list.asArray();
-
+			return proceeEquationList(equ);
 		}
 
 		if (equ.isFunctionDependent() || equ.isForceFunction()) {
@@ -2847,6 +2841,20 @@ public class AlgebraProcessor {
 			return functionOrImplicitPoly(equ, def, info, evaluatedDef);
 		}
 
+	}
+
+	private GeoElement[] proceeEquationList(Equation equ) {
+		AlgoDependentEquationList algo = new AlgoDependentEquationList(cons,
+				equ);
+		if (algo.validate()) {
+			GeoList list = algo.getList();
+			list.setLabel(equ.getLabel());
+			return list.asArray();
+		} else {
+			algo.getList().remove();
+			throw new MyError(loc, Errors.InvalidEquation,
+					equ.toString(StringTemplate.defaultTemplate));
+		}
 	}
 
 	private GeoElement[] functionOrImplicitPoly(Equation equ,

@@ -19,11 +19,11 @@ public class AlgebraSettings extends AbstractSettings {
 	private boolean showAuxiliaryObjects = false;
 	private boolean modeChanged = false;
 
-	private int[] collapsedNodes = null;
+	private List<Integer> collapsedNodes = null;
 
 	private int style = AlgebraStyle.VALUE;
 
-	private static List<Integer> styleModes = Arrays.asList(
+	private static final List<Integer> styleModes = Arrays.asList(
 			Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE,
 			Kernel.ALGEBRA_STYLE_VALUE, Kernel.ALGEBRA_STYLE_DEFINITION,
 			Kernel.ALGEBRA_STYLE_DESCRIPTION);
@@ -96,16 +96,20 @@ public class AlgebraSettings extends AbstractSettings {
 	 * @param collapsedNodes
 	 *            array of indices
 	 */
-	public void setCollapsedNodes(int[] collapsedNodes) {
+	public void setCollapsedNodes(List<Integer> collapsedNodes) {
 		this.collapsedNodes = collapsedNodes;
 		settingChanged();
 	}
 
+	public void setCollapsedNodesNoFire(List<Integer> collapsedNodes) {
+		this.collapsedNodes = collapsedNodes;
+	}
+
 	/**
 	 * 
-	 * @return array of indices of collapsed nodes
+	 * @return list of indices of collapsed nodes
 	 */
-	public int[] getCollapsedNodes() {
+	public List<Integer> getCollapsedNodes() {
 		return this.collapsedNodes;
 	}
 
@@ -188,5 +192,38 @@ public class AlgebraSettings extends AbstractSettings {
 
 	public void setStyle(int style) {
 		this.style = style;
+	}
+
+	/**
+	 * Prints settings to XML
+	 * @param sb string builder
+	 * @param showAuxiliaryObjects whether aux objects are visible in AV
+	 */
+	public void getXML(StringBuilder sb, boolean showAuxiliaryObjects) {
+		sb.append("<algebraView>\n");
+		sb.append("\t<mode val=\"");
+		sb.append(getTreeMode().toInt());
+		sb.append("\"/>\n");
+
+		// auxiliary objects
+		if (showAuxiliaryObjects) {
+			sb.append("\t<auxiliary show=\"true\"/>");
+		}
+
+		// collapsed nodes
+		appendCollapsedNodes(sb);
+		sb.append("</algebraView>\n");
+	}
+
+	private void appendCollapsedNodes(StringBuilder sbXML) {
+		if (collapsedNodes != null && collapsedNodes.size() > 0) {
+			sbXML.append("\t<collapsed val=\"");
+			sbXML.append(collapsedNodes.get(0));
+			for (int i = 1; i < collapsedNodes.size(); i++) {
+				sbXML.append(",");
+				sbXML.append(collapsedNodes.get(i));
+			}
+			sbXML.append("\"/>\n");
+		}
 	}
 }

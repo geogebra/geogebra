@@ -42,9 +42,9 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.euclidian.CoordSystemAnimationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
-import org.geogebra.desktop.euclidian.CoordSystemAnimationD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
@@ -64,6 +64,10 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
+	private Component canvas;
+	private boolean exportToClipboard;
+	private File exportFile;
+	private int exportDPI;
 
 	/**
 	 * constructor
@@ -93,8 +97,6 @@ public class EuclidianView3DD extends EuclidianView3D
 		}
 
 	}
-
-	private Component canvas;
 
 	@Override
 	protected void createPanel() {
@@ -366,10 +368,10 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	// @Override
 	@Override
-	public void setToolTipText(String plain) {
+	public void setToolTipText(String plainText) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
-			evjpanel.setToolTipText(plain);
+			evjpanel.setToolTipText(plainText);
 		}
 	}
 
@@ -447,10 +449,6 @@ public class EuclidianView3DD extends EuclidianView3D
 
 		return getRenderer().getExportImage();
 	}
-
-	private boolean exportToClipboard;
-	private File exportFile;
-	private int exportDPI;
 
 	@Override
 	public void exportImagePNG(double scale, boolean transparency, int dpi,

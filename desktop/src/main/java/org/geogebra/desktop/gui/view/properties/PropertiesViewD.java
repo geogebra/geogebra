@@ -81,6 +81,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	// private JButton restoreDefaultsButton, saveButton;
 
 	protected boolean isIniting = true;
+	private int mode = EuclidianConstants.MODE_MOVE;
 
 	/**************************************************
 	 * Constructor
@@ -567,8 +568,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		((OptionsObjectD) getObjectPanel()).getTree().clearView();
 
 	}
-
-	private int mode = EuclidianConstants.MODE_MOVE;
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {

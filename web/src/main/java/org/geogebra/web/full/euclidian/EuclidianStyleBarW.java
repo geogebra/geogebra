@@ -558,7 +558,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		StandardButton btnDelete = new StandardButton(
 				MaterialDesignResources.INSTANCE.delete_black(), null, 24);
-		btnDelete.setStyleName("MyCanvasButton");
+		btnDelete.setStyleName("IconButton");
 		ClickStartHandler.init(btnDelete, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {

@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.geogebra.common.BaseUnitTest.hasValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.AppCommonFactory;
@@ -9,8 +12,11 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.desktop.cas.giac.CASgiacD;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,6 +90,20 @@ public class DelayedCasLoadingTest {
 				f.getOutput(StringTemplate.testTemplate));
 	}
 
+	@Test
+	public void symbolicShouldNotSwitchSymbolicFlag() {
+		app.setConfig(new AppConfigCas());
+		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		GeoSymbolic sym = (GeoSymbolic) add("p=IsPrime(4)");
+		assertThat(sym.isSymbolicMode(), equalTo(true));
+		assertThat(sym, hasValue("?"));
+		active = true;
+		app.getKernel().refreshCASCommands();
+		assertThat(sym, hasValue("false"));
+		app.setXML(app.getXML(), true);
+		assertThat(app.getKernel().lookupLabel("p"), hasValue("false"));
+	}
+
 	private GeoElementND add(String s) {
 		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(s, false)[0];
 	}
@@ -102,6 +122,11 @@ public class DelayedCasLoadingTest {
 		protected String evaluate(String exp, long timeoutMilliseconds)
 				throws Throwable {
 			return active ? super.evaluate(exp, timeoutMilliseconds) : "?";
+		}
+
+		@Override
+		public boolean isLoaded() {
+			return active;
 		}
 	}
 }

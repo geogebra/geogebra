@@ -24,4 +24,10 @@ public interface ShareController {
 	void saveAndTerminateMultiuser(Material mat, MaterialCallbackI after);
 
 	void disconnectMultiuser();
+
+	void assign();
+
+	void setAssign(boolean isAssign);
+
+	boolean isAssign();
 }

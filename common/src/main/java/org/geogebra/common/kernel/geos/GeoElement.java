@@ -63,7 +63,6 @@ import org.geogebra.common.kernel.algos.AlgoIntegralODE;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.StyleSensitiveAlgo;
@@ -1262,12 +1261,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
 
-		if (geo.getParentAlgorithm() instanceof ChartStyleAlgo && this
-				.getParentAlgorithm() instanceof ChartStyleAlgo) {
-			int barNumber = ((ChartStyleAlgo) geo.getParentAlgorithm()).getIntervals();
+		if (geo instanceof ChartStyleGeo && this instanceof ChartStyleGeo) {
+			int barNumber = ((ChartStyleGeo) geo).getIntervals();
 			for (int i = 0; i <= barNumber; i++) {
-				((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().setBarColor(
-						((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle().getBarColor(i), i);
+				((ChartStyleGeo) this).getStyle().setBarColor(
+						((ChartStyleGeo) geo).getStyle().getBarColor(i), i);
 			}
 		}
 	}
@@ -1992,7 +1990,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private static boolean containsOnlyMoveableGeos(
 			final ArrayList<GeoElementND> geos) {
-		if ((geos == null) || (geos.size() == 0)) {
+		if (geos == null || geos.isEmpty()) {
 			return false;
 		}
 
@@ -4428,14 +4426,17 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            string builder
 	 */
 	protected void getListenerTagsXML(StringBuilder sb) {
-		ScriptManager scriptManager = app.getScriptManager();
-		// updateListenerMap
-		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
-				"objectUpdate");
-		// clickListenerMap
-		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
-				"objectClick");
-
+		// we might be calling this from event dispatcher
+		// make sure we don't initialize ScriptManager here
+		if (app.hasScriptManager()) {
+			ScriptManager scriptManager = app.getScriptManager();
+			// updateListenerMap
+			getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
+					"objectUpdate");
+			// clickListenerMap
+			getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
+					"objectClick");
+		}
 	}
 
 	private void getListenerTagXML(StringBuilder sb,
@@ -4700,9 +4701,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	protected void getExtraTagsXML(StringBuilder sb) {
-		if (this.getParentAlgorithm() instanceof ChartStyleAlgo) {
-			((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().barXml(sb,
-					((ChartStyleAlgo) this.getParentAlgorithm()).getIntervals());
+		if (this instanceof ChartStyleGeo) {
+			((ChartStyleGeo) this).getStyle().barXml(sb,
+					((ChartStyleGeo) this).getIntervals());
 		}
 	}
 
@@ -6625,7 +6626,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 		if (unwrap instanceof NumberValue) {
 			double val = evaluateDouble();
-			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
+			return Double.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);
 		}
 		return true;
@@ -7176,5 +7177,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean isRecurringDecimal() {
 		return false;
+	}
+
+	/**
+	 * @return True if this is a free input point, false else
+	 */
+	public boolean isFreeInputPoint() {
+		return isGeoPoint() && (isIndependent() || isMoveable());
 	}
 }

@@ -640,8 +640,6 @@ public class FunctionNVar extends ValidExpression
 				if (resultFun != null) {
 					resultFun.getExpression().traverse(
 							ArbconstReplacer.getReplacer(arbconst));
-					// System.out.println("caching worked: " + casString +
-					// " -> " + resultFun);
 					return resultFun;
 				}
 			}
@@ -650,8 +648,6 @@ public class FunctionNVar extends ValidExpression
 					? kernel.evaluateGeoGebraCAS(casString, arbconst) : // symbolic
 					kernel.evaluateCachedGeoGebraCAS(casString, arbconst); // value
 																			// string
-			// System.out.println("evaluateGeoGebraCAS: " + casString + " -> " +
-			// result);
 
 			// parse CAS result back into GeoGebra
 			String tmpLabel = kernel.getConstruction().getConstructionDefaults()

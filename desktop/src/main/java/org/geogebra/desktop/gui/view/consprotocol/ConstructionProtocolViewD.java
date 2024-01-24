@@ -96,7 +96,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	private static final Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
 	private static final Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
 
-	public JTable table;
+	protected JTable table;
 	// public JPanel cpPanel;
 
 	private final TableColumn[] tableColumns;
@@ -111,7 +111,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	// public ConstructionProtocolNavigationD protNavBar; // navigation bar of
 	// protocol window
 	private final ConstructionProtocolViewD view = this;
-	public JScrollPane scrollPane;
+	protected JScrollPane scrollPane;
 	private ConstructionProtocolStyleBar helperBar;
 	private AbstractAction exportHtmlAction;
 	private AbstractAction printPreviewAction;
@@ -121,9 +121,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 * @param app application
 	 */
 	public ConstructionProtocolViewD(final AppD app) {
-		this.app = app;
+		super(app);
 		this.loc = app.getLocalization();
-		kernel = app.getKernel();
 		data = new ConstructionTableDataD(this);
 		useColors = true;
 		addIcons = false;

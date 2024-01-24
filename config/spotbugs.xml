@@ -18,6 +18,20 @@
         <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
     </Match>
     <Match>
+        <Bug pattern="CT_CONSTRUCTOR_THROW" />
+    </Match>
+    <Match>
+        <!-- we might want to replace these with getters. 128 cases -->
+        <Bug pattern="PA_PUBLIC_PRIMITIVE_ATTRIBUTE" />
+    </Match>
+    <Match>
+        <!-- name clashes with standard java classes: intentional for ggbjdk, not a big issue overall. 185 cases -->
+        <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES" />
+    </Match>
+    <Match>
+        <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_FIELD_NAMES" />
+    </Match>
+    <Match>
         <Class name="org.geogebra.web.html5.GeoGebraGlobal"/>
         <Bug pattern="MS_CANNOT_BE_FINAL" />
     </Match>

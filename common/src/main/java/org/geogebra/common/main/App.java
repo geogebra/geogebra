@@ -338,7 +338,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/** XML input / output handler */
 	private MyXMLio myXMLio;
 	/** kernel */
-	public Kernel kernel;
+	protected Kernel kernel;
 	/** whether points can be created by other tools than point tool */
 	protected boolean isOnTheFlyPointCreationActive = true;
 	/** Settings object */
@@ -448,7 +448,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
 
-	private final AppConfig appConfig = new AppConfigDefault();
+	protected AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
 
@@ -504,18 +504,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return CAS version
+	 * @return CAS version (for debug info)
 	 */
-	public static final String getCASVersionString() {
+	public static String getCASVersionString() {
 		return CASVersionString;
 
 	}
 
 	/**
 	 * @param string
-	 *            CAS version string
+	 *            CAS version string (for debug info)
 	 */
-	public static final void setCASVersionString(String string) {
+	public static void setCASVersionString(String string) {
 		CASVersionString = string;
 	}
 
@@ -526,7 +526,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            string version, eg 4.9.38.0
 	 * @return version as list of ints, eg [4,9,38,0]
 	 */
-	static final public int[] getSubValues(String version) {
+	static public int[] getSubValues(String version) {
 		String[] values = version.split("\\.");
 		int[] ret = new int[values.length];
 		for (int i = 0; i < values.length; i++) {
@@ -578,7 +578,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            view id
 	 * @return true if id is a 3D view id
 	 */
-	public static final boolean isView3D(int id) {
+	public static boolean isView3D(int id) {
 		if (id == App.VIEW_EUCLIDIAN3D) {
 			return true;
 		}
@@ -676,22 +676,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					continue;
 				}
 			} catch (Exception e) {
-				// nothing happens
+				continue; // not a translatable command => skip
 			}
-			try {
-				String local = getLocalization().getCommand(cmd);
-				putInTranslateCommandTable(Commands.valueOf(cmd), local);
-				if (local != null) {
-					commandDictCAS.addEntry(local);
-					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
-				} else {
-					commandDictCAS.addEntry(cmd);
-					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
-				}
-			} catch (Exception mre) {
-				commandDictCAS.addEntry(cmd);
-				subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
-			}
+			String local = getLocalization().getCommand(cmd);
+			putInTranslateCommandTable(Commands.valueOf(cmd), local);
+			commandDictCAS.addEntry(local);
+			subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
 		}
 	}
 
@@ -778,7 +768,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// command dictionary for all public command names available in
 		// GeoGebra's input field
 		// removed check for null: commandDict.clear() removes keys, but they
-		// are still available with commandDict.getIterator()
+		// are still available with commandDict.iterator()
 		// so change English -> French -> English doesn't work in the input bar
 		// see AutoCompleteTextfield.lookup()
 		// if (commandDict == null)
@@ -857,25 +847,31 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	}
 
-	private void putInTranslateCommandTable(Commands comm, String local) {
+	private boolean putInTranslateCommandTable(Commands comm, String local) {
 		String internal = comm.name();
 		// Check that we don't overwrite local with English
 		HashMap<String, String> translateCommandTable = getLocalization()
 				.getTranslateCommandTable();
+		int added = 0;
+		String lowerCaseUS = StringUtil.toLowerCaseUS(internal);
 		if (!translateCommandTable
-				.containsKey(StringUtil.toLowerCaseUS(internal))) {
-			translateCommandTable.put(StringUtil.toLowerCaseUS(internal),
+				.containsKey(lowerCaseUS)) {
+			translateCommandTable.put(lowerCaseUS,
 					Commands.englishToInternal(comm).name());
+			added++;
 		}
 		if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
-			return;
+			return added > 0;
 		}
 
 		if (local != null) {
-			translateCommandTable.put(StringUtil.toLowerCaseUS(local),
+			String old = translateCommandTable.put(StringUtil.toLowerCaseUS(local),
 					Commands.englishToInternal(comm).name());
+			if (old == null) {
+				added++;
+			}
 		}
-
+		return added > 0;
 	}
 
 	/**
@@ -1144,6 +1140,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			scriptManager = newScriptManager();
 		}
 		return scriptManager;
+	}
+
+	public final boolean hasScriptManager() {
+		return scriptManager != null;
 	}
 
 	/**
@@ -1832,9 +1832,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 		}
 
-		if (getGuiManager() != null) {
-			getGuiManager().getViewsXML(sb, asPreference);
-		}
+		getViewsXML(sb, asPreference);
 
 		if (asPreference) {
 			getKeyboardXML(sb);
@@ -1845,6 +1843,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		getScriptingXML(sb, asPreference);
 
 		return sb.toString();
+	}
+
+	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
+		if (getGuiManager() != null) {
+			getGuiManager().getViewsXML(sb, asPreference);
+		}
 	}
 
 	private void getScriptingXML(StringBuilder sb, boolean asPreference) {
@@ -1967,10 +1971,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * @param ttl
-	 *            tooltip language
+	 *            tooltip language, may be either BCP47 tag or Java locale string
 	 */
 	public void setTooltipLanguage(String ttl) {
-		// TODO Auto-generated method stub
+		// only in desktop ATM
 	}
 
 	public Perspective getTmpPerspective() {
@@ -2109,6 +2113,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	final public void initKernel() {
 		kernel = companion.newKernel();
 		kernel.setAngleUnit(appConfig.getDefaultAngleUnit());
+		kernel.setSymbolicMode(appConfig.getSymbolicMode());
 		// ensure that the selection manager is created
 		getSelectionManager();
 	}
@@ -3886,7 +3891,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * handle space key hitted
+	 * handle space key hit
 	 *
 	 * @return true if key is consumed
 	 */
@@ -3898,6 +3903,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
+			if (!selection.isSelectableForEV(geo)) {
+				// if some selection-preventing property (e.g. visibility) changed in scripts
+				// between selecting the geo and pressing <Space>, just do nothing
+				return false;
+			}
 			if (geo.isGeoBoolean()) {
 				if (!geo.isIndependent()) {
 					return true;
@@ -3919,7 +3929,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 				// <Space> -> toggle slider animation off/on
 				GeoNumeric num = (GeoNumeric) geo;
-				if (num.isAnimatable()) {
+				if (num.isAnimatable() && isRightClickEnabled()) {
 					num.setAnimating(!num.isAnimating());
 
 					storeUndoInfo();
@@ -4463,7 +4473,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            labeling style (GeoElement.LABEL_*)
 	 * @return localized labeling style
 	 */
-	final public static String getLabelStyleName(App app, int id) {
+	public static String getLabelStyleName(App app, int id) {
 		switch (id) {
 		case -1:
 			return app.getLocalization().getMenu("Hidden");

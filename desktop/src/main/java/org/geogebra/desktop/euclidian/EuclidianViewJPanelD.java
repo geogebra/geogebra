@@ -20,6 +20,8 @@ public class EuclidianViewJPanelD extends JPanel
 	private static final long serialVersionUID = 1L;
 
 	EuclidianView view;
+	protected Color bgColor;
+	private final GGraphics2DD g2 = new GGraphics2DD(null);
 
 	/**
 	 * @param view view
@@ -48,8 +50,6 @@ public class EuclidianViewJPanelD extends JPanel
 		this(view, true);
 	}
 
-	protected Color bgColor;
-
 	@Override
 	public Color getBackground() {
 		return bgColor;
@@ -73,11 +73,9 @@ public class EuclidianViewJPanelD extends JPanel
 	}
 
 	@Override
-	public void setToolTipText(String plain) {
-		super.setToolTipText(plain);
+	public void setToolTipText(String plainText) {
+		super.setToolTipText(plainText);
 	}
-
-	private GGraphics2DD g2 = new GGraphics2DD(null);
 
 	@Override
 	final public void paint(Graphics g) {

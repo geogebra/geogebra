@@ -577,8 +577,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			inPlaneCoords = new Coords(4);
 		}
 
-		hitting.origin.projectPlaneThruVIfPossible(
-				poly.getCoordSys().getMatrixOrthonormal(), hitting.direction,
+		hitting.getOrigin().projectPlaneThruVIfPossible(
+				poly.getCoordSys().getMatrixOrthonormal(), hitting.getDirection(),
 				globalCoords, inPlaneCoords);
 
 		if (!hitting.isInsideClipping(globalCoords)) {
@@ -612,7 +612,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				if (project == null) {
 					project = Coords.createInhomCoorsInD3();
 				}
-				p3d.projectLine(hitting.origin, hitting.direction, project,
+				p3d.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
 						parameters); // check distance to hitting line
 				double d = getView3D().getScaledDistance(p3d, project);
 				if (d <= poly.getLineThickness() + hitting.getThreshold()) {

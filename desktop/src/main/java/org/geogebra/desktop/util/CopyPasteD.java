@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.undo.AppState;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 
@@ -54,8 +55,8 @@ public class CopyPasteD extends CopyPaste {
 	protected StringBuilder copiedXMLforSameWindow;
 	protected ArrayList<String> copiedXMLlabelsforSameWindow;
 	protected EuclidianViewInterfaceCommon copySource;
-	protected Object copyObject;
-	protected Object copyObject2;
+	protected AppState copyObject;
+	protected AppState copyObject2;
 
 	/**
 	 * Returns whether the clipboard is empty
@@ -528,10 +529,7 @@ public class CopyPasteD extends CopyPaste {
 		if (app.getActiveEuclidianView() != copySource) {
 			return false;
 		}
-		if (copyObject != copyObject2) {
-			return false;
-		}
-		return true;
+		return copyObject == copyObject2;
 	}
 
 	/**
@@ -672,5 +670,20 @@ public class CopyPasteD extends CopyPaste {
 	public void copyTextToSystemClipboard(String text) {
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(new StringSelection(text), null);
+	}
+
+	/**
+	 * Copy and paste all geos from source app to target app.
+	 * @param fromApp source app
+	 * @param toApp target app
+	 */
+	public void insertFrom(App fromApp, App toApp) {
+		copyToXML(fromApp,
+						new ArrayList<>(fromApp.getKernel()
+								.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
+						true);
+
+		// and paste
+		pasteFromXML(toApp, true);
 	}
 }

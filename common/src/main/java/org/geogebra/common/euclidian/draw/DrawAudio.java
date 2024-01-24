@@ -12,7 +12,6 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoWidget;
@@ -122,7 +121,7 @@ public class DrawAudio extends DrawWidget {
 
 		double d = geoAudio.getDuration();
 		double param = geoAudio.getCurrentTime() / d;
-		if (!MyDouble.isFinite(param) || param < 0) {
+		if (!Double.isFinite(param) || param < 0) {
 			param = 0;
 		}
 		sliderLeft = (int) (x + txtLayout.getBounds().getWidth()

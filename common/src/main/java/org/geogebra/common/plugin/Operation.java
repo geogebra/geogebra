@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -242,7 +243,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), DoubleUtil.isGreater(b, a),
 						defined);
@@ -264,7 +265,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), DoubleUtil.isGreater(a, b),
 						defined);
@@ -286,7 +287,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
 						DoubleUtil.isGreaterEqual(b, a), defined);
@@ -309,7 +310,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
 						DoubleUtil.isGreaterEqual(a, b), defined);
@@ -508,11 +509,15 @@ public enum Operation {
 	// so that brackets work for eg a/(b/c)
 	// and are removed in (a/b)/c
 	// see case DIVIDE in ExpressionNode
+
 	MULTIPLY {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			    checkImprecise(left, lt);
+			    checkImprecise(right, rt);
+
 			return ev.handleMult(lt, rt, tpl, holdsLaTeX);
 
 		}
@@ -531,6 +536,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			checkImprecise(left, lt);
+			checkImprecise(right, rt);
 			return ev.handleDivide(lt, rt, left, right);
 		}
 	},
@@ -1597,7 +1604,7 @@ public enum Operation {
 
 				double num = lt.evaluateDouble();
 
-				if (MyDouble.isFinite(num)) {
+				if (Double.isFinite(num)) {
 
 					return new MyDouble(kernel, num < 0 ? Math.PI : 0);
 				}
@@ -1925,6 +1932,19 @@ public enum Operation {
 					MyList.getCell(list, 0, 1));
 		}
 	};
+
+	private static void checkImprecise(ExpressionValue value, ExpressionValue rt) {
+		if (!(value instanceof ValidExpression)) {
+			return;
+		}
+		ValidExpression ve = (ValidExpression) value;
+		if (ve.containsFunctionVariable()) {
+			ve.setImprecise(true);
+			if (rt instanceof ValidExpression) {
+				((ValidExpression) rt).setImprecise(true);
+			}
+		}
+	}
 
 	protected ExpressionValue[] expandPlusMinus(ExpressionNode exp, Kernel kernel) {
 		ExpressionValue[] expand = new ExpressionValue[2];

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.HashSet;
 
 import org.apache.commons.math3.util.Precision;
@@ -252,6 +253,13 @@ public class MyDouble extends ValidExpression
 			c.set(Double.NaN);
 			return;
 		}
+
+		if (isNumberImprecise(a) || isNumberImprecise(b)) {
+			c.set(a.val * bval);
+			c.setImprecise(true);
+			return;
+		}
+
 		BigDecimal ba = a.toDecimal();
 		BigDecimal bb = b.toDecimal();
 		if (ba != null && bb != null) {
@@ -260,6 +268,11 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 		c.set(a.val * bval);
+	}
+
+	private static boolean isNumberImprecise(NumberValue numberValue) {
+		return numberValue instanceof ValidExpression
+				&& ((ValidExpression) numberValue).isImprecise();
 	}
 
 	/**
@@ -300,7 +313,26 @@ public class MyDouble extends ValidExpression
 	 */
 	final public static void div(MyDouble a, MyDouble b, MyDouble c) {
 		c.angleDim = a.angleDim - b.angleDim;
-		c.set(a.val / b.val);
+		if (isImpreciseDiv(a, b)) {
+			a.setImprecise(true);
+			b.setImprecise(true);
+			c.set(a.val / b.val);
+			c.setImprecise(true);
+			return;
+		}
+
+		BigDecimal numerator = a.toBigDecimal();
+		BigDecimal denominator = b.toBigDecimal();
+		c.set(numerator.divide(denominator, MathContext.DECIMAL128).doubleValue());
+	}
+
+	private static boolean isImpreciseDiv(MyDouble a, MyDouble b) {
+		return isNumberImprecise(a) || isNumberImprecise(b) || b.val == 0
+				|| !Double.isFinite(a.val) || !Double.isFinite(b.val) || !a.isDefined();
+	}
+
+	private BigDecimal toBigDecimal() {
+		return new BigDecimal(val + "");
 	}
 
 	/**
@@ -488,15 +520,6 @@ public class MyDouble extends ValidExpression
 	 */
 	final public MyDouble erf() {
 		set(MyMath2.erf(0.0, 1.0, val));
-		angleDim = 0;
-		return this;
-	}
-
-	/**
-	 * @return inverf(this)
-	 */
-	final public MyDouble inverf() {
-		set(MyMath2.inverf(val));
 		angleDim = 0;
 		return this;
 	}
@@ -1178,15 +1201,6 @@ public class MyDouble extends ValidExpression
 		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 
-	/**
-	 * @param d
-	 *            number
-	 * @return whether d is valid finite real number
-	 */
-	public static boolean isFinite(double d) {
-		return !Double.isNaN(d) && !Double.isInfinite(d);
-	}
-
 	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
@@ -1310,5 +1324,4 @@ public class MyDouble extends ValidExpression
 	protected ExpressionValue unaryMinus(Kernel kernel2) {
 		return new MyDouble(kernel2, -getDouble());
 	}
-
 }

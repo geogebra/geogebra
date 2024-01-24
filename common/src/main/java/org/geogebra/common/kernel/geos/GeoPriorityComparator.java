@@ -4,7 +4,8 @@ public interface GeoPriorityComparator {
 
 	/**
 	 * Compare drawing priority of `a` and `b`
-	 *
+	 * @param a first compared element
+	 * @param b second compared element
 	 * @param checkLastHitType
 	 *            whether hits on boundary should be preferred to hits on
 	 *            filling

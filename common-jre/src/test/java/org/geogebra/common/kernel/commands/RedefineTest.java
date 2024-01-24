@@ -485,11 +485,11 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void strokeRedefinitionsShouldBeSoft() {
-		GeoElement stroke = add("stroke1=PolyLine((1,1),(2,3),true)");
-		GeoLocusStroke redefined = add("stroke1=PolyLine((1,4),(2,5),true)");
+		GeoElement stroke = add("stroke1=PenStroke((1,1),(2,3))");
+		GeoLocusStroke redefined = add("stroke1=PenStroke((1,4),(2,5))");
 		assertEquals(stroke, redefined);
-		assertThat(redefined, hasValue("Polyline[(1.0000E0,4.0000E0), "
-				+ "(2.0000E0,5.0000E0), (NaN,NaN), true]"));
+		assertThat(redefined, hasValue("PenStroke[(1.0000E0,4.0000E0), "
+				+ "(2.0000E0,5.0000E0), (NaN,NaN)]"));
 	}
 
 	@Test
@@ -504,7 +504,7 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void pointsOnLocusShouldReload() {
-		add("stroke1=PolyLine((0,0), (1,0), (2,0), true)");
+		add("stroke1=PenStroke((0,0), (1,0), (2,0))");
 		add("pts=Sequence(Point(stroke1, i), i, 0, 1, 0.5)");
 		// only testing that it reloads OK, actual values seem a bit off
 		assertThat(lookup("pts"), hasValue("{(0, 0), (1.5, 0), (?, ?)}"));
@@ -673,5 +673,51 @@ public class RedefineTest extends BaseUnitTest {
 		assertThat(lookup("c"), not(isFixed));
 		reload();
 		assertThat(lookup("c"), not(isFixed));
+	}
+
+	@Test
+	public void constructionOrderShouldNotChangeMuch() {
+		add("f:x");
+		add("a=1");
+		add("b=2");
+		add("l={a,b}");
+		add("c=3");
+		add("d=4");
+		add("e=5");
+		add("s=Sum(l)");
+		// redefine
+		assertEquals("f,a,b,l,c,d,e,s",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		add("l={a,b,c}");
+		assertEquals("f,a,b,c,l,d,e,s",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+	}
+
+	@Test
+	public void constructionOrderShouldNotChangeMuchWithSiblings() {
+		add("f:x");
+		add("a=1");
+		add("b=2");
+		add("Intersect(x^2=a,y=b)"); // autolabel A
+		add("c=3");
+		add("d=4");
+		add("e=5");
+		add("s=Angle(A)");
+		// redefine
+		assertEquals("f,a,b,A,B,c,d,e,s",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		add("A=Intersect(x^2=a,y=b+c)");
+		assertEquals("f,a,b,c,A,B,d,e,s",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+	}
+
+	@Test
+	public void equalShouldNotChangeType() {
+		add("l={1}");
+		add("b:l(1)==2");
+		add("l={x}");
+		reload();
+		assertThat(lookup("b"), hasValue("false"));
+>>>>>>> f53d26c51af26013afa6c12502b70ad0631a5304
 	}
 }

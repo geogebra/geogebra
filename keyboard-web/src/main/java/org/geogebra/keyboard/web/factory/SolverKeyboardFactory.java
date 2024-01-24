@@ -1,20 +1,20 @@
 package org.geogebra.keyboard.web.factory;
 
-import org.geogebra.keyboard.base.KeyboardFactory;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.CharacterProvider;
 import org.geogebra.keyboard.base.model.impl.factory.DefaultCharProvider;
 import org.geogebra.keyboard.web.factory.model.solver.SolverDefaultKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.solver.SolverFunctionKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.solver.SolverSpecialSymbolsKeyboardFactory;
 
-public final class SolverKeyboardFactory extends KeyboardFactory {
+public final class SolverKeyboardFactory extends DefaultKeyboardFactory {
 
 	public static final SolverKeyboardFactory INSTANCE = new SolverKeyboardFactory();
 
 	/**
 	 * Keyboard layout for solver
 	 */
-	protected SolverKeyboardFactory() {
+	public SolverKeyboardFactory() {
 		this(new DefaultCharProvider());
 	}
 
@@ -24,9 +24,9 @@ public final class SolverKeyboardFactory extends KeyboardFactory {
 	 */
 	public SolverKeyboardFactory(CharacterProvider charProvider) {
 		super();
-		setDefaultKeyboardFactory(new SolverDefaultKeyboardFactory(charProvider));
-		setMathKeyboardFactory(new SolverDefaultKeyboardFactory(charProvider));
-		setFunctionKeyboardFactory(new SolverFunctionKeyboardFactory());
-		setSpecialSymbolsKeyboardFactory(new SolverSpecialSymbolsKeyboardFactory());
+		defaultKeyboardModelFactory = new SolverDefaultKeyboardFactory(charProvider);
+		mathKeyboardFactory = new SolverDefaultKeyboardFactory(charProvider);
+		functionKeyboardFactory = new SolverFunctionKeyboardFactory();
+		specialSymbolsKeyboardFactory = new SolverSpecialSymbolsKeyboardFactory();
 	}
 }

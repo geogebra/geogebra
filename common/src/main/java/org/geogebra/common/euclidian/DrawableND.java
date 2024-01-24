@@ -108,17 +108,15 @@ public abstract class DrawableND {
 	/**
 	 * @return x-coord of the label
 	 */
-	public double getxLabel() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getLabelX() {
+		return 0; // fallback for 3D
 	}
 
 	/**
 	 * @return y-coord of the label
 	 */
-	public double getyLabel() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getLabelY() {
+		return 0; // fallback for 3D
 	}
 
 	/**

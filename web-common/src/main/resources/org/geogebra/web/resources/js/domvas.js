@@ -11,11 +11,15 @@
 		if (supportsCSSText) {
 			elem.style.cssText = computedStyle.cssText; //.replace(/font:(.*)([0-9.]*px)\/([0-9.]*px)/,"font-size:$2;font:$1");
 		} else {
- 			// Really, Firefox?
+ 			// Fallback for FireFox and Safari
 			for (var prop in computedStyle) {
 				if (isNaN(parseInt(prop, 10)) && typeof computedStyle[prop] !== 'function'
-						&& !(/^(cssText|length|parentRule|all|inset)$/).test(prop)) {
-					elem.style[prop] = computedStyle[prop];
+						&& !(/^(cssText|length|parentRule|all|inset|cssRules)$/).test(prop)) {
+					try {
+						elem.style[prop] = computedStyle[prop];
+					} catch (ex) {
+						console.log("Cannot set property " + prop);
+					}
 				}
 			}
 

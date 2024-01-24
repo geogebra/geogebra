@@ -214,8 +214,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		input[1] = (GeoElement) this.poly;
 		input[2] = this.startPoint;
 
-		super.setOutputLength(1);
-		super.setOutput(0, rootPoint);
+		setOnlyOutput(rootPoint);
 		setDependencies();
 	}
 

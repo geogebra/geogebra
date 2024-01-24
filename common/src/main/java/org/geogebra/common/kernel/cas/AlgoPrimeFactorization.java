@@ -76,8 +76,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = num.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

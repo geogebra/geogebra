@@ -2782,10 +2782,10 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 	}
 
-	/** @return false if at least one value is infinite */
+	/** @return false if all values are finite (no MaM or infinity) */
 	public boolean isFinite() {
 		for (int i = 0; i < rows; i++) {
-			if (Double.isInfinite(val[i])) {
+			if (!Double.isFinite(val[i])) {
 				return false;
 			}
 		}

@@ -87,7 +87,6 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
-import org.xml.sax.SAXException;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -283,17 +282,17 @@ public class MyXMLHandler implements DocHandler {
 	// ===============================================
 
 	@Override
-	final public void text(String str) throws SAXException {
+	final public void text(String str) throws XMLParseException {
 		// do nothing
 	}
 
 	@Override
-	final public void startDocument() throws SAXException {
+	final public void startDocument() throws XMLParseException {
 		reset(true);
 	}
 
 	@Override
-	final public void endDocument() throws SAXException {
+	final public void endDocument() throws XMLParseException {
 		if (errors.size() > 0) {
 			StringBuilder sb = new StringBuilder();
 			for (String error : errors) {
@@ -304,7 +303,7 @@ public class MyXMLHandler implements DocHandler {
 					new MyError(loc, Errors.LoadFileFailed, sb.toString()));
 		}
 		if (mode == MODE_INVALID) {
-			throw new SAXException(
+			throw new XMLParseException(
 					loc.getPlain("XMLTagANotFound", "<geogebra>"));
 		}
 	}
@@ -318,18 +317,11 @@ public class MyXMLHandler implements DocHandler {
 
 	@Override
 	final public void startElement(String eName,
-			LinkedHashMap<String, String> attrs) throws SAXException {
-		// final public void startElement(
-		// String namespaceURI,
-		// String sName,
-		// String qName,
-		// LinkedHashMap<String, String> attrs)
-		// throws SAXException {
-		// String eName = qName;
+			LinkedHashMap<String, String> attrs) throws XMLParseException {
 
 		if (kernel.userStopsLoading()) {
 			kernel.setUserStopsLoading(false);
-			throw new SAXException("User has cancelled loading");
+			throw new XMLParseException("User has cancelled loading");
 		}
 
 		switch (mode) {
@@ -487,7 +479,7 @@ public class MyXMLHandler implements DocHandler {
 	final public void endElement(String eName)
 			// public void endElement(String namespaceURI, String sName, String
 			// qName)
-			throws SAXException {
+			throws XMLParseException {
 		// String eName = qName;
 		switch (mode) {
 		default:
@@ -1474,6 +1466,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleLanguage(App app,
 			  LinkedHashMap<String, String> attrs) {
+		// this may be either BCP language tag or Java locale string (old files)
 		String lang = attrs.get("val");
 		app.setLanguage(lang);
 		return true;
@@ -3501,6 +3494,10 @@ public class MyXMLHandler implements DocHandler {
 			errors.add("exp missing in <expression>");
 			return;
 		}
+		if (exp.startsWith("PolyLine[") && exp.endsWith(", true]")) {
+			exp = exp.replace("PolyLine[", "PenStroke[");
+			exp = exp.replace(", true]", "]");
+		}
 
 		// type may be vector or point, this is important to distinguish between
 		// them
@@ -3611,9 +3608,9 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			String[] strings = attrs.get("val").split(",");
-			int[] vals = new int[strings.length];
-			for (int i = 0; i < strings.length; i++) {
-				vals[i] = Integer.parseInt(strings[i]);
+			ArrayList<Integer> vals = new ArrayList<>(strings.length);
+			for (String string : strings) {
+				vals.add(Integer.parseInt(string));
 			}
 			app.getSettings().getAlgebra().setCollapsedNodes(vals);
 			return true;

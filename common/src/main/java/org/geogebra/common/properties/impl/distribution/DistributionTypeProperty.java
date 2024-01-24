@@ -15,6 +15,7 @@ public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<
 	/**
 	 * Constructs an DistributionTypeProperty
 	 * @param localization the localization used
+	 * @param view probability calculator view
 	 */
 	public DistributionTypeProperty(Localization localization, ProbabilityCalculatorView view) {
 		super(localization, "Distribution");

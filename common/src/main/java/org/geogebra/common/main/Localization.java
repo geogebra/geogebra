@@ -32,7 +32,7 @@ public abstract class Localization extends LocalizationI {
 	static final public String ROUNDING_MENU_SEPARATOR = "---";
 
 	// Giac works to 13 sig digits (for "double" calculations)
-	private int dimension = 2;
+	private final int dimension;
 
 	private StringBuilder sbOrdinal = new StringBuilder();
 	private boolean isAutoCompletePossible = true;
@@ -57,10 +57,10 @@ public abstract class Localization extends LocalizationI {
 	/** comma (different in Arabic) */
 	private char unicodeComma = ','; // \u060c for Arabic comma
 
-	private int[] decimalPlaces = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
-	private int[] significantFigures = {3, 5, 10, 15};
+	private int[] decimalPlacesOptions = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
+	private int[] significantFiguresOptions = {3, 5, 10, 15};
 
-	private CommandErrorMessageBuilder commandErrorMessageBuilder;
+	private final CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
 	 * eg Symbol.And
@@ -75,7 +75,7 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
-		this.significantFigures[significantFigures.length - 1] = maxFigures;
+		this.significantFiguresOptions[significantFiguresOptions.length - 1] = maxFigures;
 		this.commandErrorMessageBuilder = new CommandErrorMessageBuilder(this);
 	}
 
@@ -123,7 +123,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return the decimal places in this localization
 	 */
 	public int[] getDecimalPlaces() {
-		return decimalPlaces;
+		return decimalPlacesOptions;
 	}
 
 	/**
@@ -132,14 +132,14 @@ public abstract class Localization extends LocalizationI {
 	 * @param decimalPlaces decimal places
 	 */
 	public void setDecimalPlaces(int[] decimalPlaces) {
-		this.decimalPlaces = decimalPlaces;
+		this.decimalPlacesOptions = decimalPlaces;
 	}
 
 	/**
 	 * @return the sigificant figures in this localization
 	 */
 	public int[] getSignificantFigures() {
-		return significantFigures;
+		return significantFiguresOptions;
 	}
 
 	/**
@@ -148,7 +148,7 @@ public abstract class Localization extends LocalizationI {
 	 * @param significantFigures significant figures
 	 */
 	public void setSignificantFigures(int[] significantFigures) {
-		this.significantFigures = significantFigures;
+		this.significantFiguresOptions = significantFigures;
 	}
 
 	/**
@@ -186,7 +186,7 @@ public abstract class Localization extends LocalizationI {
 				match = text.indexOf(affix);
 				// match > 0 can be assumed because an affix will not start the
 				// text
-				if ((match > -1) && (match > 0)) {
+				if (match > 0) {
 					// Affix found. Get the previous character.
 					String prevChars = translationFixPronouncedPrevChars(text,
 							match, 1);
@@ -281,7 +281,7 @@ public abstract class Localization extends LocalizationI {
 	 * Gets the previous "pronounced" characters from text before the match
 	 * position for the given length. The returned text will be lowercased.
 	 * 
-	 * Example: translationFixPrevChars("ABC_{123}", 8, 4) gives "c123"
+	 * <p>Example: translationFixPrevChars("ABC_{123}", 8, 4) gives "c123"
 	 * 
 	 * @param text
 	 *            the text to pronounce
@@ -294,7 +294,7 @@ public abstract class Localization extends LocalizationI {
 	private static String translationFixPronouncedPrevChars(String text,
 			int match, int length) {
 		int pos = match;
-		String rettext = "";
+		StringBuilder rettext = new StringBuilder();
 		int rettextlen = 0;
 		String thisChar;
 		String ignoredChars = "_{}";
@@ -302,12 +302,12 @@ public abstract class Localization extends LocalizationI {
 		while ((rettextlen < length) && (pos > 0)) {
 			thisChar = text.substring(pos - 1, pos);
 			if (!ignoredChars.contains(thisChar)) {
-				rettext = thisChar.toLowerCase() + rettext;
+				rettext.insert(0, thisChar.toLowerCase());
 				rettextlen++;
 			}
 			pos--;
 		}
-		return rettext;
+		return rettext.toString();
 	}
 
 	/**
@@ -410,7 +410,7 @@ public abstract class Localization extends LocalizationI {
 			}
 		}
 
-		if ("".equals(replace)) {
+		if (replace.isEmpty()) {
 			// No replace.
 			return text;
 		}
@@ -476,17 +476,18 @@ public abstract class Localization extends LocalizationI {
 	 * @author Michael Borcherds, Markus Hohenwarter
 	 * @param key
 	 *            key
+	 * @param defaultPattern default translation pattern
 	 * @param args
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public String getPlainArray(String key, String default0,
+	final public String getPlainArray(String key, String defaultPattern,
 			String[] args) {
 		String str = getMenu(key);
 
-		if (default0 != null && key.equals(str)) {
+		if (defaultPattern != null && key.equals(str)) {
 			// lookup failed, use default
-			str = default0;
+			str = defaultPattern;
 		}
 
 		StringBuilder sbPlain = new StringBuilder();
@@ -589,13 +590,9 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * @return 2 letter language name, eg "en"
-	 * @deprecated Use {@link #getLanguageEnum()} to access the {@link Language} object
-	 * then use {@link Language#language} to get the language or {@link Language#toLanguageTag()}
-	 * to get the language tag.
+	 * @return active language
 	 */
-	@Deprecated
-	public abstract String getLanguage();
+	public abstract Language getLanguage();
 
 	/**
 	 * @return current language
@@ -608,7 +605,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return whether we are currently using given language
 	 */
 	public boolean languageIs(String lang) {
-		return getLanguage().equals(lang);
+		return getLanguage().language.equals(lang);
 	}
 
 	/**
@@ -622,24 +619,22 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public String translationFix(String text) {
 		// Currently no other language is supported than Hungarian.
-		String lang = getLanguage();
-		if (!("hu".equals(lang))) {
-			return text;
+		if (languageIs("hu")) {
+			return translationFixHu(text);
 		}
-		return translationFixHu(text);
+		return text;
 	}
 
 	/**
-	 * given 1, return eg 1st, 1e, 1:e according to the language
-	 * 
-	 * http://en.wikipedia.org/wiki/Ordinal_indicator
-	 * 
+	 * given 1, return eg 1st, 1e, 1:e according to the language, see
+	 * <a href="http://en.wikipedia.org/wiki/Ordinal_indicator">ordinal indicator</a>
+	 *
 	 * @param n
 	 *            number
 	 * @return corresponding ordinal number
 	 */
 	public String getOrdinalNumber(int n) {
-		String lang = getLanguage();
+		String lang = getLanguage().language;
 
 		if ("en".equals(lang)) {
 			return getOrdinalNumberEn(n);
@@ -740,9 +735,8 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * given 1, return eg 1st (English only)
-	 * 
-	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 * given 1, return eg 1st (English only), see
+	 * <a href=http://en.wikipedia.org/wiki/Ordinal_indicator>ordinal indicator</a>
 	 * 
 	 * @param n
 	 *            number
@@ -784,7 +778,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return whether to use prime notation
 	 */
 	public boolean primeNotation() {
-		return !getLocaleStr().startsWith("en");
+		return !languageIs("en");
 	}
 
 	/**
@@ -796,17 +790,15 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public String intervalStartBracket(boolean closed,
 			StringTemplate template) {
-		String lang = getLanguage();
-
 		if (closed) {
-			if ("cs".equals(lang)) {
+			if (languageIs("cs")) {
 				return template.leftAngleBracket();
 			}
 
 			return template.leftSquareBracket();
 		}
 
-		if ("hu".equals(lang) || "fr".equals(lang)) {
+		if (languageIs("hu") || languageIs("fr")) {
 			return template.invertedLeftSquareBracket();
 		}
 
@@ -821,17 +813,15 @@ public abstract class Localization extends LocalizationI {
 	 * @return interval end bracket
 	 */
 	public String intervalEndBracket(boolean closed, StringTemplate template) {
-		String lang = getLanguage();
-
 		if (closed) {
-			if ("cs".equals(lang)) {
+			if (languageIs("cs")) {
 				return template.rightAngleBracket();
 			}
 
 			return template.rightSquareBracket();
 		}
 
-		if ("hu".equals(lang) || "fr".equals(lang)) {
+		if (languageIs("hu") || languageIs("fr")) {
 			return template.invertedRightSquareBracket();
 		}
 
@@ -843,17 +833,17 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public String[] getRoundingMenu() {
 		List<String> list = new ArrayList<>();
-		for (int i = 0; i < decimalPlaces.length; i++) {
+		for (int decimalPlaces : decimalPlacesOptions) {
 			String key = "ADecimalPlaces";
 			// zero is singular in eg French
-			if (decimalPlaces[i] == 0 && !isZeroPlural(getLanguage())) {
+			if (decimalPlaces == 0 && !isZeroPlural()) {
 				key = "ADecimalPlace";
 			}
-			list.add(getPlain(key, String.valueOf(decimalPlaces[i])));
+			list.add(getPlain(key, String.valueOf(decimalPlaces)));
 		}
 		list.add(ROUNDING_MENU_SEPARATOR);
-		for (int i = 0; i < significantFigures.length; i++) {
-			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigures[i])));
+		for (int significantFigures : significantFiguresOptions) {
+			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigures)));
 		}
 
 		String[] array = new String[list.size()];
@@ -865,12 +855,10 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
 	 * 
-	 * @param lang
-	 *            language code
 	 * @return whether 0 is plural
 	 */
-	public boolean isZeroPlural(String lang) {
-		return !lang.startsWith("fr");
+	public boolean isZeroPlural() {
+		return languageIs("fr");
 	}
 
 	/**
@@ -1004,7 +992,7 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
 	 * 
-	 * Calls {@link #updateLanguageFlags(String)} to apply the change, but just
+	 * <p>Calls {@link #updateLanguageFlags(String)} to apply the change, but just
 	 * if the new flag differs from the current.
 	 * 
 	 * @param useLocalizedDigits
@@ -1018,7 +1006,7 @@ public abstract class Localization extends LocalizationI {
 		}
 
 		this.useLocalizedDigits = useLocalizedDigits;
-		updateLanguageFlags(getLanguage());
+		updateLanguageFlags(getLanguage().language);
 		app.getKernel().updateConstruction(false);
 		app.setUnsaved();
 
@@ -1129,7 +1117,7 @@ public abstract class Localization extends LocalizationI {
 	protected abstract boolean isCommandNull();
 
 	public int getRightAngleStyle() {
-		return getLanguageEnum().getRightAngleStyle();
+		return getLanguage().getRightAngleStyle();
 	}
 
 	/**
@@ -1202,12 +1190,9 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
-	 * return East/West as appropriate for eg Hebrew / Arabic
-	 * 
-	 * return String rather than app.borderWest() so we're not dependent on awt
-	 * 
-	 * @return "West" or "East"
+	 * Return East/West as appropriate for eg Hebrew / Arabic
+	 *
+	 * @return "West" or "East" (String rather than app.borderWest() so we're not dependent on awt)
 	 */
 	final public String borderWest() {
 		if (!isRightToLeftReadingOrder()) {
@@ -1217,12 +1202,9 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
 	 * return East/West as appropriate for eg Hebrew / Arabic
 	 * 
-	 * return String rather than app.borderEast() so we're not dependent on awt
-	 * 
-	 * @return "East" or "West"
+	 * @return "East" or "West" (String rather than app.borderEast() so we're not dependent on awt)
 	 */
 	final public String borderEast() {
 		if (isRightToLeftReadingOrder()) {
@@ -1320,7 +1302,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return character for zero (0) in current language
 	 */
 	public char getZero() {
-		return getLanguageEnum().getUnicodeZero();
+		return getLanguage().getUnicodeZero();
 	}
 
 	/**
@@ -1353,7 +1335,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	public boolean isUsingDecimalComma() {
-		return getLanguageEnum().isUsingDecimalComma();
+		return getLanguage().isUsingDecimalComma();
 	}
 
 	/**
@@ -1368,4 +1350,11 @@ public abstract class Localization extends LocalizationI {
 		return commandSyntax;
 	}
 
+	/**
+	 * The accounts website uses ISO 639-2 language names, but with _ as subtag separator
+	 * @return language tag with underscores
+	 */
+	public String getLanguageTagForLogin() {
+		return getLanguageTag().replace("-", "_");
+	}
 }

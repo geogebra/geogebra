@@ -27,7 +27,7 @@ public class ColorProvider {
 	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\p{Nd})*'?"
 			+ "(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\p{Nd})*)";
 	private static final String LABEL_PARAM = LABEL_REGEX_STRING + "(\\(|\\[)?";
-	private static final String STRING = "((\\P{M}\\p{M}*)*)";
+	private static final String COMMAND_ARG = "((\\P{M}\\p{M}*)*)";
 	private static final String WHITESPACE = "\\p{Z}*";
 
 	/** Colors */
@@ -49,7 +49,7 @@ public class ColorProvider {
 
 	/** Regular expression objects */
 	private RegExp commandReg = RegExp
-			.compile(LABEL_REGEX_STRING + "\\[(" + STRING + "|,)\\]", "g");
+			.compile(LABEL_REGEX_STRING + "\\[(" + COMMAND_ARG + "|,)\\]", "g");
 	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>",
 			"g");
 	private RegExp assignmentReg;

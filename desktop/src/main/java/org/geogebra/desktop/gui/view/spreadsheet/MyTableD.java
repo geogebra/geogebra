@@ -88,7 +88,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	private MyCellEditorList editorList;
 
 	protected RelativeCopy relativeCopy;
-	public CopyPasteCutD copyPasteCut;
+	protected CopyPasteCutD copyPasteCut;
 	protected SpreadsheetColumnControllerD.ColumnHeaderRenderer headerRenderer;
 	protected SpreadsheetViewD view;
 	protected DefaultTableModel tableModel;
@@ -100,7 +100,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	public ArrayList<CellRange> selectedCellRanges;
+	private ArrayList<CellRange> selectedCellRanges;
 
 	@Override
 	public ArrayList<CellRange> getSelectedCellRanges() {
@@ -151,8 +151,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
 	// after a repaint in MyTable.
-	public HashSet<GPoint> cellResizeHeightSet;
-	public HashSet<GPoint> cellResizeWidthSet;
+	protected HashSet<GPoint> cellResizeHeightSet;
+	protected HashSet<GPoint> cellResizeWidthSet;
 
 	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
 	private boolean doRecordRowHeights = true;
@@ -615,14 +615,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			selectedCellRanges.add(0, newSelection);
 
 		} else { // ctrl-select
-
-			/*
-			 * // return if we have already ctrl-selected this range for
-			 * (CellRange cr : selectedCellRanges) { if
-			 * (cr.equals(newSelection)){ System.out.println("reutrned");
-			 * return; } }
-			 */
-
 			// handle dragging
 			if (selectedCellRanges.get(0).hasSameAnchor(newSelection)) {
 				selectedCellRanges.remove(0);
@@ -709,10 +701,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				getTableHeader().repaint();
 			}
 		}
-
-		// System.out.println("------------------");
-		// for (CellRange cr: selectedCellRanges)cr.debug();
-
 	}
 
 	/**

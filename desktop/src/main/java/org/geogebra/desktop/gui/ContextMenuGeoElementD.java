@@ -666,7 +666,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			});
 		}
 
-		if (((AppD) app).letShowPropertiesDialog()
+		if (app.letShowPropertiesDialog()
 				&& getGeo().hasProperties()) {
 			wrappedPopup.addSeparator();
 

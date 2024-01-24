@@ -262,7 +262,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		drawOptions.onResize(view.getWidth(), view.getHeight());
 
 		GeoElement geoItem = geoList.getSelectedElement();
-		if (GeoList.needsLatex(geoItem)) {
+		if (geoItem != null && GeoList.needsLatex(geoItem)) {
 			selectedText = geoItem.toLaTeXString(false,
 					StringTemplate.latexTemplate);
 			seLatex = true;

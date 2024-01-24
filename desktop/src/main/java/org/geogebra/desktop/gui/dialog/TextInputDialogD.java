@@ -97,14 +97,12 @@ public class TextInputDialogD extends InputDialogD
 		implements DocumentListener, TextInputDialog {
 
 	// editor and preview panels
-	private DynamicTextInputPane editor;
-	private TextPreviewPanelD textPreviewer;
+	private final DynamicTextInputPane editor;
+	private final TextPreviewPanelD textPreviewer;
 
 	// GUI
 	private JCheckBox cbLaTeX;
-	private JToolBar toolBar;
 	private JPanel previewPanel;
-	private JPanel editPanel;
 	private JPanel toolPanel;
 	private PopupMenuButtonD btInsertLaTeX;
 	private PopupMenuButtonD btInsertUnicode;
@@ -135,6 +133,16 @@ public class TextInputDialogD extends InputDialogD
 	// map to hold LatexButton menu titles
 	private HashMap<String, JMenuItem> laTexButtonTitleMap;
 	private boolean mayDetectLaTeX = true;
+
+	/**
+	 * used for update to avoid several updates
+	 */
+	private boolean handlingDocumentEventOff = false;
+
+	/**
+	 * false on init, become true when an edit occurs
+	 */
+	private boolean editOccurred = false;
 
 	/**
 	 * Input Dialog for a GeoText object
@@ -262,7 +270,7 @@ public class TextInputDialogD extends InputDialogD
 		// build toolbar
 		toolPanel = new JPanel(new BorderLayout());
 
-		toolBar = new JToolBar();
+		JToolBar toolBar = new JToolBar();
 		toolBar.add(cbLaTeX);
 		toolBar.add(btInsertLaTeX);
 		toolBar.add(Box.createRigidArea(new Dimension(5, 1)));
@@ -282,7 +290,7 @@ public class TextInputDialogD extends InputDialogD
 		editHeader = new JLabel();
 		editHeader.setBorder(BorderFactory.createEmptyBorder(2, 2, 0, 2));
 
-		editPanel = new JPanel(new BorderLayout(2, 2));
+		JPanel editPanel = new JPanel(new BorderLayout(2, 2));
 		editPanel.add(editHeader, BorderLayout.NORTH);
 		editPanel.add(inputPanel, BorderLayout.CENTER);
 		editPanel.add(toolPanel, BorderLayout.SOUTH);
@@ -672,7 +680,7 @@ public class TextInputDialogD extends InputDialogD
 
 		this.editGeo = geo;
 		boolean createText = geo == null;
-		isLaTeX = geo == null ? false : geo.isLaTeX();
+		isLaTeX = geo != null && geo.isLaTeX();
 
 		// TODO: not sure if this old code is needed anymore
 		if (createText) {
@@ -822,7 +830,7 @@ public class TextInputDialogD extends InputDialogD
 
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 	}
 
@@ -845,7 +853,7 @@ public class TextInputDialogD extends InputDialogD
 					Element elem;
 					int i;
 					for (i = editor.getCaretPosition() - 1; i >= 0; i--) {
-						elem = editor.doc.getCharacterElement(i);
+						elem = editor.getDoc().getCharacterElement(i);
 						// give focus to first dynamic text field
 						if (elem.getName().equals("component")) {
 							DynamicTextField tf = (DynamicTextField) StyleConstants
@@ -859,9 +867,9 @@ public class TextInputDialogD extends InputDialogD
 					editor.setCaretPosition(i + 1);
 					break;
 				case KeyEvent.VK_RIGHT:
-					for (i = editor.getCaretPosition(); i < editor.doc
+					for (i = editor.getCaretPosition(); i < editor.getDoc()
 							.getLength(); i++) {
-						elem = editor.doc.getCharacterElement(i);
+						elem = editor.getDoc().getCharacterElement(i);
 						// give focus to first dynamic text field
 						if (elem.getName().equals("component")) {
 							DynamicTextField tf = (DynamicTextField) StyleConstants
@@ -897,8 +905,8 @@ public class TextInputDialogD extends InputDialogD
 	public void exitTextField(DynamicTextField tf, boolean isLeft) {
 		Element elem;
 		int i;
-		for (i = 0; i < editor.doc.getLength(); i++) {
-			elem = editor.doc.getCharacterElement(i);
+		for (i = 0; i < editor.getDoc().getLength(); i++) {
+			elem = editor.getDoc().getCharacterElement(i);
 			// find elem corresponding the text field
 			if (elem.getName().equals("component")) {
 				if (tf == (DynamicTextField) StyleConstants
@@ -975,16 +983,6 @@ public class TextInputDialogD extends InputDialogD
 	public void removeUpdate(DocumentEvent e) {
 		handleDocumentEvent();
 	}
-
-	/**
-	 * used for update to avoid several updates
-	 */
-	private boolean handlingDocumentEventOff = false;
-
-	/**
-	 * false on init, become true when an edit occurs
-	 */
-	private boolean editOccurred = false;
 
 	/**
 	 * 

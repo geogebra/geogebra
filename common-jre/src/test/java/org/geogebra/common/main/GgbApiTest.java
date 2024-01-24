@@ -141,7 +141,8 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testEvalXML() {
+	public void testOldPolylineSyntaxRedirectoToPenstroke() {
+		app.setGraphingConfig();
 		// eval xml will mark the object as needing update
 		api.evalXML("<expression label=\"stroke1\" "
 						+ "exp=\"PolyLine[(-3.5800,2.7200), (NaN,NaN), true]\" />"

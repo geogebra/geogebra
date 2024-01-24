@@ -174,7 +174,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * g2d of bgImage: used for axis, grid, background images and object traces
 	 */
-	protected GGraphics2D bgGraphics;
+	protected @CheckForNull GGraphics2D bgGraphics;
 	// selection rectangle colors
 	private static final GColor selRectBorder = GColor.newColor(200, 200, 230);
 	private static final GColor selRectFill = GColor.newColor(200, 200, 230, 50);
@@ -2690,6 +2690,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
+	public double getWidthd() {
+		return getWidth();
+	}
+
+	@Override
+	public double getHeightd() {
+		return getHeight();
+	}
+
+	@Override
 	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algoParent) {
 		return companion.getFreeInputPoints(algoParent);
 	}
@@ -3615,7 +3625,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		bgImageList.drawAll(g);
 		setBackgroundUpdating(false);
 
-		drawBackground(g, false);
+		drawBackground(g);
 	}
 
 	private void setBackgroundUpdating(boolean b) {
@@ -3709,10 +3719,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					// g2.drawImage(bgImage, 0, 0, null);
 					firstPaint = false;
 				} else {
-					drawBackgroundWithImages(g2);
+					drawBackgroundWithImages(g2, false);
 				}
 			} else {
-				drawBackgroundWithImages(g2);
+				drawBackgroundWithImages(g2, false);
 			}
 		} else {
 			paintBackground(g2);
@@ -3723,6 +3733,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Updates background image
 	 */
 	final public void updateBackgroundImage() {
+		tracing = false;
 		if (bgGraphics != null) {
 			drawBackgroundWithImages(bgGraphics, false);
 		}
@@ -3862,26 +3873,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param g
-	 *            background graphics
-	 */
-	protected void drawBackgroundWithImages(GGraphics2D g) {
-		drawBackgroundWithImages(g, false);
-	}
-
-	/**
-	 * Draws axes, grid and background images
+	 * Draws axes, grid and background images. Does NOT clear background.
 	 * 
 	 * @param g
 	 *            graphics
-	 * @param clear
-	 *            clear traces before drawing
 	 */
-	final protected void drawBackground(GGraphics2D g, boolean clear) {
-		if (clear) {
-			clearBackground(g);
-		}
-
+	final protected void drawBackground(GGraphics2D g) {
 		g.setAntialiasing();
 
 		// handle drawing axes near the screen edge
@@ -4587,34 +4584,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Tells if there are any traces in the background image.
-	 * 
-	 * @return true if there are any traces in background
-	 */
-	protected boolean isTracing() {
-		for (Drawable drawable : allDrawableList) {
-			if (drawable.isTracing()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Tells if there are any images in the background.
 	 * 
 	 * @return whether there are any images in the background.
 	 */
 	protected boolean hasBackgroundImages() {
 		return bgImageList.size() > 0;
-	}
-
-	/**
-	 * @return background graphics
-	 */
-	final public GGraphics2D getBackgroundGraphics() {
-		this.tracing = true;
-		return bgGraphics;
 	}
 
 	/**
@@ -4798,7 +4773,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("\"/>\n");
 
 				sbxml.append("\t<language val=\"");
-				sbxml.append(app.getLocalization().getLocaleStr());
+				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");
 			}
 		}
@@ -5897,7 +5872,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// DRAWING
-		if (isTracing() || hasBackgroundImages()) {
+		if (isTraceDrawn() || hasBackgroundImages()) {
 			// draw background image to get the traces
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
@@ -5907,7 +5882,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		} else {
 			// just clear the background if transparency is disabled (clear =
 			// draw background color)
-			drawBackground(g2d, !transparency);
+			if (!transparency) {
+				clearBackground(g2d);
+			}
+			drawBackground(g2d);
 		}
 
 		g2d.setAntialiasing();
@@ -5959,7 +5937,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (exportFrame != null) {
 			return (int) exportFrame.getMaxX();
 		}
-		return getWidth();
+		return (int) Math.ceil(getWidthd());
 	}
 
 	/**
@@ -5982,7 +5960,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return (int) exportFrame.getMaxY();
 		}
 
-		return getHeight();
+		return (int) Math.ceil(getHeightd());
 	}
 
 	/**
@@ -6339,7 +6317,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param x
 	 *            x-coord
 	 * @param y
-	 *            y=coord
+	 *            y-coord
 	 * @param col
 	 *            text color
 	 */
@@ -6726,5 +6704,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public IntervalPathPlotter createIntervalPathPlotter(GeneralPathClippedForCurvePlotter gp) {
 		return new IntervalPathPlotterImpl(gp);
+	}
+
+	/**
+	 * Paints drawable's trace to background graphics
+	 * @param drawable object to draw as trace
+	 */
+	public void drawTrace(Drawable drawable) {
+		this.tracing = true;
+		if (bgGraphics != null) {
+			drawable.drawTrace(bgGraphics);
+		}
 	}
 }

@@ -12,9 +12,12 @@ import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 
-public abstract class StepSolvable extends StepTransformable {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+public abstract class StepSolvable extends StepTransformable {
+	@SuppressFBWarnings("PA_PUBLIC_MUTABLE_OBJECT_ATTRIBUTE")
 	public final StepExpression LHS;
+	@SuppressFBWarnings("PA_PUBLIC_MUTABLE_OBJECT_ATTRIBUTE")
 	public final StepExpression RHS;
 
 	protected final boolean swapped;

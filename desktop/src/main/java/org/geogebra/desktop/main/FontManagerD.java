@@ -5,13 +5,12 @@ import java.awt.GraphicsEnvironment;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Locale;
 
 import javax.swing.UIManager;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.main.FontManager;
-import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.awt.GFontD;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -63,8 +62,8 @@ public class FontManagerD extends FontManager {
 	 * Sets default font that works with the given language.
 	 * @throws NoFontException if no font works for given locale
 	 */
-	public void setLanguage(final Locale locale) throws NoFontException {
-		final String lang = locale.getLanguage();
+	public void setLanguage(final LocalizationJre localization) throws NoFontException {
+		final String lang = localization.getLocale().getLanguage();
 
 		// new font names for language
 		String fontNameSansSerif;
@@ -77,7 +76,7 @@ public class FontManagerD extends FontManager {
 		final LinkedList<String> tryFontsSerif = new LinkedList<>(
 				Arrays.asList(FONT_NAMES_SERIF));
 
-		final String testChar = Language.getTestChar(lang);
+		final String testChar = localization.getLanguage().getTestChar();
 		if (testChar != null) {
 			testCharacters.append(testChar);
 		}
@@ -215,8 +214,6 @@ public class FontManagerD extends FontManager {
 			// new font: create it and keep it in the HashMap
 			f = new Font(name, style, size);
 			fontMap.put(key.toString(), f);
-
-			// System.out.println("NEW font: " + f);
 		}
 
 		return new GFontD(f);
@@ -348,52 +345,52 @@ public class FontManagerD extends FontManager {
 		return serifFont;
 	}
 
-	private static void setLAFFont(final Font plain) {
-		UIManager.put("ColorChooser.font", plain);
-		UIManager.put("FileChooser.font", plain);
+	private static void setLAFFont(final Font font) {
+		UIManager.put("ColorChooser.font", font);
+		UIManager.put("FileChooser.font", font);
 
 		// Panel, Pane, Bars
-		UIManager.put("Panel.font", plain);
-		UIManager.put("TextPane.font", plain);
-		UIManager.put("OptionPane.font", plain);
-		UIManager.put("OptionPane.messageFont", plain);
-		UIManager.put("OptionPane.buttonFont", plain);
-		UIManager.put("EditorPane.font", plain);
-		UIManager.put("ScrollPane.font", plain);
-		UIManager.put("TabbedPane.font", plain);
-		UIManager.put("ToolBar.font", plain);
-		UIManager.put("ProgressBar.font", plain);
-		UIManager.put("Viewport.font", plain);
-		UIManager.put("TitledBorder.font", plain);
+		UIManager.put("Panel.font", font);
+		UIManager.put("TextPane.font", font);
+		UIManager.put("OptionPane.font", font);
+		UIManager.put("OptionPane.messageFont", font);
+		UIManager.put("OptionPane.buttonFont", font);
+		UIManager.put("EditorPane.font", font);
+		UIManager.put("ScrollPane.font", font);
+		UIManager.put("TabbedPane.font", font);
+		UIManager.put("ToolBar.font", font);
+		UIManager.put("ProgressBar.font", font);
+		UIManager.put("Viewport.font", font);
+		UIManager.put("TitledBorder.font", font);
 
 		// Buttons
-		UIManager.put("Button.font", plain);
-		UIManager.put("RadioButton.font", plain);
-		UIManager.put("ToggleButton.font", plain);
-		UIManager.put("ComboBox.font", plain);
-		UIManager.put("CheckBox.font", plain);
+		UIManager.put("Button.font", font);
+		UIManager.put("RadioButton.font", font);
+		UIManager.put("ToggleButton.font", font);
+		UIManager.put("ComboBox.font", font);
+		UIManager.put("CheckBox.font", font);
 
 		// Menus
-		UIManager.put("Menu.font", plain);
-		UIManager.put("Menu.acceleratorFont", plain);
-		UIManager.put("PopupMenu.font", plain);
-		UIManager.put("MenuBar.font", plain);
-		UIManager.put("MenuItem.font", plain);
-		UIManager.put("MenuItem.acceleratorFont", plain);
-		UIManager.put("CheckBoxMenuItem.font", plain);
-		UIManager.put("RadioButtonMenuItem.font", plain);
+		UIManager.put("Menu.font", font);
+		UIManager.put("Menu.acceleratorFont", font);
+		UIManager.put("PopupMenu.font", font);
+		UIManager.put("MenuBar.font", font);
+		UIManager.put("MenuItem.font", font);
+		UIManager.put("MenuItem.acceleratorFont", font);
+		UIManager.put("CheckBoxMenuItem.font", font);
+		UIManager.put("RadioButtonMenuItem.font", font);
 
 		// Fields, Labels
-		UIManager.put("Label.font", plain);
-		UIManager.put("Table.font", plain);
-		UIManager.put("TableHeader.font", plain);
-		UIManager.put("Tree.font", plain);
-		UIManager.put("Tree.rowHeight", Integer.valueOf(plain.getSize() + 5));
-		UIManager.put("List.font", plain);
-		UIManager.put("TextField.font", plain);
-		UIManager.put("PasswordField.font", plain);
-		UIManager.put("TextArea.font", plain);
-		UIManager.put("ToolTip.font", plain);
+		UIManager.put("Label.font", font);
+		UIManager.put("Table.font", font);
+		UIManager.put("TableHeader.font", font);
+		UIManager.put("Tree.font", font);
+		UIManager.put("Tree.rowHeight", Integer.valueOf(font.getSize() + 5));
+		UIManager.put("List.font", font);
+		UIManager.put("TextField.font", font);
+		UIManager.put("PasswordField.font", font);
+		UIManager.put("TextArea.font", font);
+		UIManager.put("ToolTip.font", font);
 	}
 
 	/**

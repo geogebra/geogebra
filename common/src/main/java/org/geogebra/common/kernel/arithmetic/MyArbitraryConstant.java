@@ -65,7 +65,8 @@ public class MyArbitraryConstant {
 	 * @return real constant
 	 */
 	public GeoNumeric nextConst(double myDouble, double initialValue) {
-		return nextConst(consts, ce.getConstruction().constsM, "c", myDouble, initialValue, 0);
+		return nextConst(consts, ce.getConstruction().getArbitraryConstants(),
+				"c", myDouble, initialValue, 0);
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class MyArbitraryConstant {
 	 * @return integer constant
 	 */
 	public GeoNumeric nextInt(double myDouble) {
-		return nextConst(ints, ce.getConstruction().intsM, "k", myDouble, 0, 1);
+		return nextConst(ints, ce.getConstruction().getArbitraryInts(), "k", myDouble, 0, 1);
 	}
 
 	/**
@@ -81,7 +82,7 @@ public class MyArbitraryConstant {
 	 * @return complex constant
 	 */
 	public GeoNumeric nextComplex(double myDouble) {
-		return nextConst(complexNumbers, ce.getConstruction().complexNumbersM,
+		return nextConst(complexNumbers, ce.getConstruction().getArbitraryComplexNumbers(),
 				"c", myDouble, 0, 0);
 	}
 

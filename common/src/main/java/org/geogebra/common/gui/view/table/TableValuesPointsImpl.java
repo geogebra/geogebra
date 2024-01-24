@@ -24,6 +24,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	/**
 	 * Construct a new object of Table Values Points.
 	 * @param construction the construction to add points to
+	 * @param view table view
 	 * @param model model
 	 */
 	public TableValuesPointsImpl(Construction construction, TableValues view,
@@ -39,6 +40,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	 * Construct and register a new object of Table Values Points.
 	 * @param construction the construction to add points to
 	 * @param model model
+	 * @param view table view
 	 * @return points model
 	 */
 	public static TableValuesPointsImpl create(Construction construction, TableValues view,

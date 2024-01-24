@@ -194,8 +194,7 @@ public class AlgoFinancial extends AlgoElement {
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
 
-		setOutputLength(1);
-		setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 
 	}

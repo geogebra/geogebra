@@ -49,7 +49,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected AppW app;
 	protected MultiRowsTabPanel tabPanel;
 	protected EuclidianView view;
-	public EuclidianOptionsModel model;
+	protected EuclidianOptionsModel model;
 	protected BasicTab basicTab;
 	AxisTab xAxisTab;
 	AxisTab yAxisTab;
@@ -438,7 +438,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			enableGrid(isShown);
 			cbShowGrid.setSelected(isShown);
 			cbBoldGrid.setSelected(isBold);
-			lbGridType.resetToDefault();
+			lbGridType.resetFromModel();
 			lbGridType.setLabels();
 			btGridColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
 			updateGridColorButton(color);

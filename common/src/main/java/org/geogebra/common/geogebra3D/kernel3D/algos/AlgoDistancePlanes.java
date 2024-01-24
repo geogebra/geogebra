@@ -57,8 +57,7 @@ public class AlgoDistancePlanes extends AlgoElement3D {
 		input[0] = (GeoElement) g3D;
 		input[1] = (GeoElement) h3D;
 
-		super.setOutputLength(1);
-		super.setOutput(0, dist);
+		setOnlyOutput(dist);
 		setDependencies(); // done by AlgoElement
 	}
 

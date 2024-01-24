@@ -3,7 +3,8 @@ package org.geogebra.keyboard.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
@@ -17,6 +18,7 @@ import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
 import org.geogebra.keyboard.web.factory.InputBoxKeyboardFactory;
@@ -65,7 +67,7 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	protected HasKeyboard hasKeyboard;
 	private final ArrayList<Keyboard> layouts = new ArrayList<>(4);
-	private String keyboardLocale;
+	private String keyboardLanguageTag;
 	private UpdateKeyBoardListener updateKeyBoardListener;
 	protected KeyboardListener processField;
 	private FlowPanel tabs;
@@ -91,7 +93,7 @@ public class TabbedKeyboard extends FlowPanel
 	public TabbedKeyboard(HasKeyboard appKeyboard, boolean hasMoreButton) {
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
-		this.keyboardLocale = locale.getLocaleStr();
+		this.keyboardLanguageTag = locale.getLanguageTag();
 		this.switcher = new KeyboardSwitcher(this);
 		this.hasMoreButton = hasMoreButton;
 		this.keyboardMap = new HashMap<>();
@@ -123,23 +125,30 @@ public class TabbedKeyboard extends FlowPanel
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
-	private KeyboardFactory initKeyboardFactory() {
-		KeyboardFactory factory;
+	private KeyboardFactory createKeyboardFactory() {
 		if (hasKeyboard.getInputBoxType() != null) {
-			factory = new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
+			return new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
 					hasKeyboard.getInputBoxFunctionVars());
 		} else {
-			if (hasKeyboard.getKeyboardType() == AppKeyboardType.NOTES) {
-				factory = NotesKeyboardFactory.INSTANCE;
-			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
-				factory = ScientificKeyboardFactory.INSTANCE;
-			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
-				factory = SolverKeyboardFactory.INSTANCE;
-			} else {
-				factory = KeyboardFactory.INSTANCE;
+			AppKeyboardType type = hasKeyboard.getKeyboardType();
+			switch (type) {
+			case NOTES:
+				return new NotesKeyboardFactory();
+			case SCIENTIFIC:
+				return new ScientificKeyboardFactory();
+			case SOLVER:
+				return new SolverKeyboardFactory();
+			default:
+				return new DefaultKeyboardFactory();
 			}
 		}
-		return factory;
+	}
+
+	private boolean hasKeyboardFactoryChanged(@Nonnull KeyboardFactory newFactory) {
+		if (factory == null) {
+			return true;
+		}
+		return !newFactory.equals(factory);
 	}
 
 	private void buildGUIGgb() {
@@ -301,8 +310,8 @@ public class TabbedKeyboard extends FlowPanel
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
 				return new KeyBoardButtonBase(
-						Language.getCurrency(keyboardLocale),
-						Language.getCurrency(keyboardLocale), b);
+						Language.getCurrency(keyboardLanguageTag),
+						Language.getCurrency(keyboardLanguageTag), b);
 			}
 
 			final String name = wb.getPrimaryActionName();
@@ -585,19 +594,18 @@ public class TabbedKeyboard extends FlowPanel
 	public void checkLanguage() {
 		switcher.reset();
 
-		// TODO validate?
-		String newKeyboardLocale = hasKeyboard.getLocalization().getLocaleStr();
+		String newKeyboardLocale = hasKeyboard.getLocalization().getLanguageTag();
 		if ((newKeyboardLocale != null
-				&& newKeyboardLocale.equals(keyboardLocale)) || factory == null) {
+				&& newKeyboardLocale.equals(keyboardLanguageTag)) || factory == null) {
 			return;
 		}
 
 		switcher.clear();
 		switcher.setup();
 		if (newKeyboardLocale != null) {
-			this.keyboardLocale = newKeyboardLocale;
+			this.keyboardLanguageTag = newKeyboardLocale;
 		} else {
-			this.keyboardLocale = Language.English_US.getLocaleGWT();
+			this.keyboardLanguageTag = Language.English_US.toLanguageTag();
 		}
 
 		clear();
@@ -608,13 +616,11 @@ public class TabbedKeyboard extends FlowPanel
 	 * rebuilds the keyboard layout based on the inputbox type
 	 */
 	public void clearAndUpdate() {
-		KeyboardFactory newFactory = initKeyboardFactory();
-		if (Objects.equals(factory, newFactory)) {
+		KeyboardFactory newFactory = createKeyboardFactory();
+		if (!hasKeyboardFactoryChanged(newFactory)) {
 			return;
-		} else {
-			factory = newFactory;
 		}
-
+		factory = newFactory;
 		switcher.clear();
 		switcher.setup();
 		clear();

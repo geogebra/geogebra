@@ -53,6 +53,18 @@ public class IntervalMiscTest {
 	}
 
 	@Test
+	public void testLogB() {
+		assertEquals(interval(0, 0), evaluator.logBase(interval(3, 3),
+				interval(1, 1)));
+		assertEquals(interval(2, 3), evaluator.logBase(interval(2, 2),
+				interval(4, 8)));
+		assertEquals(interval(2, 4), evaluator.logBase(interval(2, 4),
+				interval(16, 16)));
+		assertEquals(undefined(), evaluator.logBase(interval(1, 1),
+				interval(3, 3)));
+	}
+
+	@Test
 	public void testHull() {
 		assertEquals(interval(-1, 7),
 				evaluator.hull(interval(-1, 1), interval(5, 7)));

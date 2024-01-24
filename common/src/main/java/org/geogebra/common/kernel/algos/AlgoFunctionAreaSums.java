@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -643,8 +642,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			input = inputList.toArray(input);
 			break;
 		}
-		setOutputLength(1);
-		setOutput(0, sum);
+		setOnlyOutput(sum);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -1262,7 +1260,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 		}
 		double val = f.value(bd);
-		return MyDouble.isFinite(val);
+		return Double.isFinite(val);
 	}
 
 	/**

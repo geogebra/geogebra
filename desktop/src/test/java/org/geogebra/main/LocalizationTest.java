@@ -25,7 +25,7 @@ public class LocalizationTest {
 		for (Language lang : Language.values()) {
 			File trans = new File(
 					"../web/src/nonfree/resources/org/geogebra/web/pub/js/properties_keys_"
-							+ lang.getLocaleGWT() + ".js");
+							+ lang.toLanguageTag() + ".js");
 			Assert.assertTrue(trans.getAbsolutePath(),
 					available.remove(trans.getAbsolutePath()));
 
@@ -50,7 +50,8 @@ public class LocalizationTest {
 		checkAlias(Language.Filipino, "fil", "tl");
 		checkAlias(Language.Yiddish, "yi", "ji");
 		checkAlias(Language.Mongolian, "mn", "mn-mn");
-		checkAlias(Language.Mongolian_Traditional, "mn-mn-mt", "mn-Mong");
+		// mn-mn-MT was a GeoGebra-specific name, no longer supported
+		checkAlias(Language.Mongolian_Traditional, "mn-Mong");
 		checkAlias(Language.English_UK, "en-GB");
 		checkAlias(Language.English_US, "en-US", "en", "whatever");
 	}
@@ -58,7 +59,7 @@ public class LocalizationTest {
 	private void checkAlias(Language lang, String... aliases) {
 		for (String alias : aliases) {
 			Assert.assertEquals(alias + " should stand for " + lang,
-					Language.getClosestGWTSupportedLanguage(alias),
+					Language.fromLanguageTagOrLocaleString(alias),
 					lang);
 		}
 	}
