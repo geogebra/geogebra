@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.ValuedProperty;
 
 /**
  * Represents restrictions that apply during an exam. Restrictions for the
@@ -43,7 +45,7 @@ public class ExamRestrictions {
 	// independent of exam region
 	private final ExamCommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
 
-	private final Set<Property> properties = new HashSet<>();
+	private final Set<String> frozenProperties;
 	private final Set<ExamRestrictable> restrictables = new HashSet<>();
 
 	/**
@@ -55,6 +57,7 @@ public class ExamRestrictions {
 		this.expressionFilter = null;
 		this.commandFilter = null;
 		this.commandArgumentFilter = null;
+		this.frozenProperties = null;
 	}
 
 	/**
@@ -71,12 +74,14 @@ public class ExamRestrictions {
 			SuiteSubApp defaultSubApp,
 			ExpressionFilter expressionFilter,
 			CommandFilter commandFilter,
-			CommandArgumentFilter commandArgumentFilter) {
+			CommandArgumentFilter commandArgumentFilter,
+			Set<String> frozenProperties) {
 		this.disabledSubApps = disabledSubApps;
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.expressionFilter = expressionFilter;
 		this.commandFilter = commandFilter;
 		this.commandArgumentFilter = commandArgumentFilter;
+		this.frozenProperties = frozenProperties;
 	}
 
 	/**
@@ -96,17 +101,6 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * Register a property that may be "frozen" for certain types of exams.
-	 * It is safe to register any property - it will simply be ignored if none
-	 * of the exam types places restrictions on this property.
-	 *
-	 * @param property A property that may be restricted ("frozen") during exams.
-	 */
-	public void registerProperty(Property property) {
-		properties.add(property);
-	}
-
-	/**
 	 * Register an object that may need to apply additional restrictions/customization
 	 * for certain types of exams.
 	 *
@@ -123,7 +117,9 @@ public class ExamRestrictions {
 	 * @param commandDispatcher The command dispatcher.
 	 * TODO add more arguments if necessary
 	 */
-	public final void apply(CommandDispatcher commandDispatcher, AlgebraProcessor algebraProcessor) {
+	public final void apply(CommandDispatcher commandDispatcher,
+			AlgebraProcessor algebraProcessor,
+			PropertiesRegistry propertiesRegistry) {
 		if (commandFilter != null) {
 			commandDispatcher.addCommandFilter(commandFilter);
 		}
@@ -134,7 +130,12 @@ public class ExamRestrictions {
 		if (expressionFilter != null) {
 			algebraProcessor.addExpressionFilter(expressionFilter);
 		}
-		freeze(properties);
+		for (String frozenProperty : frozenProperties) {
+			Property property = propertiesRegistry.lookup(frozenProperty);
+			if (property != null) {
+				freeze(property);
+			}
+		}
 		restrictables.stream()
 				.forEach(restrictable -> restrictable.applyRestrictions(this));
 	}
@@ -145,7 +146,9 @@ public class ExamRestrictions {
 	 * @param commandDispatcher The command dispatcher.
 	 * TODO add more arguments if necessary
 	 */
-	public final void unapply(CommandDispatcher commandDispatcher, AlgebraProcessor algebraProcessor) {
+	public final void unapply(CommandDispatcher commandDispatcher,
+			AlgebraProcessor algebraProcessor,
+			PropertiesRegistry propertiesRegistry) {
 		if (commandFilter != null) {
 			commandDispatcher.removeCommandFilter(commandFilter);
 		}
@@ -156,25 +159,65 @@ public class ExamRestrictions {
 		if (expressionFilter != null) {
 			algebraProcessor.removeExpressionFilter(expressionFilter);
 		}
-		unfreeze(properties);
+		for (String frozenProperty : frozenProperties) {
+			Property property = propertiesRegistry.lookup(frozenProperty);
+			if (property != null) {
+				unfreeze(property);
+			}
+		}
 		restrictables.stream()
 				.forEach(restrictable -> restrictable.unapplyRestrictions(this));
 	}
 
 	/**
-	 * "Freeze" certain properties (i.e. prevent changing the value, or triggering the action)
-	 * at the start of the exam.
+	 * Handles lazy property instantiation/registration.
 	 *
-	 * @param properties The set of registered properties.
+	 * @param property A property that just got registered.
 	 */
-	protected void freeze(Set<Property> properties) {
+	public void propertyRegistered(Property property) {
+		if (frozenProperties.contains(property.getRawName())) {
+			freeze(property);
+		}
 	}
 
 	/**
-	 * "Unfreeze" certain properties at the end of the exam.
+	 * "Freeze" a property (i.e. prevent changing the value, or triggering the action)
+	 * at the start of the exam.
 	 *
-	 * @param properties The set of registered properties.
+	 * @param property A property.
 	 */
-	protected void unfreeze(Set<Property> properties) {
+	protected void freeze(Property property) {
+		property.freeze();
+		if (property instanceof ValuedProperty) {
+			freezeValue((ValuedProperty) property);
+		}
+	}
+
+	/**
+	 * "Unfreeze" a property at the end of the exam.
+	 *
+	 * @param property A property.
+	 */
+	protected void unfreeze(Property property) {
+		property.unfreeze();
+		if (property instanceof ValuedProperty) {
+			freezeValue((ValuedProperty) property);
+		}
+	}
+
+	/**
+	 * Override to freeze the value of a property.
+	 *
+	 * @param property A property whose value should be fixed during an exam.
+	 */
+	protected void freezeValue(ValuedProperty property) {
+	}
+
+	/**
+	 * Override to unfreeze the value of a property.
+	 *
+	 * @param property A property should be fixed during an exam.
+	 */
+	protected  void unfreezeValue(ValuedProperty property) {
 	}
 }

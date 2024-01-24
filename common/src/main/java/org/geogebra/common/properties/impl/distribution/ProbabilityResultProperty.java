@@ -63,6 +63,11 @@ public class ProbabilityResultProperty implements Property {
 	}
 
 	@Override
+	public String getRawName() {
+		return null;
+	}
+
+	@Override
 	public boolean isEnabled() {
 		return true;
 	}

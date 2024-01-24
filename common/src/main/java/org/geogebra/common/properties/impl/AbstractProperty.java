@@ -36,6 +36,11 @@ public abstract class AbstractProperty implements Property {
 	}
 
 	@Override
+	public String getRawName() {
+		return name;
+	}
+
+	@Override
 	public boolean isEnabled() {
 		return true;
 	}

@@ -10,6 +10,9 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.ownership.NonOwning;
+import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.PropertiesRegistryListener;
+import org.geogebra.common.properties.Property;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -41,7 +44,7 @@ import com.google.j2objc.annotations.Weak;
  *
  *  @implNote This class is not designed to be thread-safe.
  */
-public final class ExamController {
+public final class ExamController implements PropertiesRegistryListener {
 
 	@Weak
 	@NonOwning
@@ -51,6 +54,8 @@ public final class ExamController {
 	private CommandDispatcher commandDispatcher;
 	@NonOwning
 	private AlgebraProcessor algebraProcessor;
+	@NonOwning
+	private PropertiesRegistry propertiesRegistry;
 
 	private ExamRegion examRegion;
 	private ExamRestrictions examRestrictions;
@@ -79,7 +84,8 @@ public final class ExamController {
 	}
 
 	/**
-	 * Sets the command dispatcher.
+	 * Sets the command dispatcher (dependency).
+	 *
 	 * @param commandDispatcher The command dispatcher.
 	 */
 	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
@@ -87,12 +93,22 @@ public final class ExamController {
 	}
 
 	/**
-	 * Sets the algebra processor.
+	 * Sets the algebra processor (dependency).
 	 *
 	 * @param algebraProcessor The algebra processor.
 	 */
 	public void setAlgebraProcessor(AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
+	}
+
+	/**
+	 * Sets the properties registry (dependency).
+	 *
+	 * @param propertiesRegistry The properties registry.
+	 */
+	public void setPropertiesRegistry(PropertiesRegistry propertiesRegistry) {
+		this.propertiesRegistry = propertiesRegistry;
+		propertiesRegistry.addListener(this);
 	}
 
 	/**
@@ -240,19 +256,30 @@ public final class ExamController {
 		// TODO app.resetCommandDict()
 		examRestrictions = ExamRestrictions.forRegion(region);
 		if (examRestrictions != null) {
-			examRestrictions.apply(commandDispatcher, algebraProcessor);
+			examRestrictions.apply(commandDispatcher, algebraProcessor, propertiesRegistry);
 		}
 		// TODO suppress syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 	}
 
 	private void unapplyRestrictions() {
 		if (examRestrictions != null) {
-			examRestrictions.unapply(commandDispatcher, algebraProcessor);
+			examRestrictions.unapply(commandDispatcher, algebraProcessor, propertiesRegistry);
 		}
 		// TODO enable syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
+		examRestrictions = null;
 	}
 
 	public TempStorage getTempStorage() {
 		return tempStorage;
 	}
+
+	// PropertiesRegistryListener
+
+	@Override
+	public void propertyRegistered(Property property) {
+		if (examRestrictions != null) {
+			examRestrictions.propertyRegistered(property);
+		}
+	}
+
 }

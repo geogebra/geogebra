@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.kernel.commands.selector.NameCommandFilter;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 
 final class VlaanderenExamRestrictions extends ExamRestrictions {
@@ -20,7 +20,8 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				SuiteSubApp.GRAPHING,
 				VlaanderenExamRestrictions.createExpressionFilter(),
 				VlaanderenExamRestrictions.createCommandFilter(),
-				null);
+				null,
+				Set.of("AngleUnit"));
 	}
 
 	// replaces exam-related method in CommandFilterFactory
@@ -38,26 +39,14 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 	}
 
 	@Override
-	protected void freeze(Set<Property> properties) {
-		properties.stream()
-				.filter(property -> {
-					return property instanceof AngleUnitProperty;
-				})
-				.findFirst()
-				.ifPresent(property -> {
-					property.freeze(); /* reset value, disable changing */
-				});
+	protected void freezeValue(ValuedProperty property) {
+		if (property instanceof AngleUnitProperty) {
+		}
 	}
 
 	@Override
-	protected void unfreeze(Set<Property> properties) {
-		properties.stream()
-				.filter(property -> {
-					return property instanceof AngleUnitProperty;
-				})
-				.findFirst()
-				.ifPresent(property -> {
-					property.unfreeze(); /* set value, disable changing */
-				});
+	protected void unfreezeValue(ValuedProperty property) {
+		if (property instanceof AngleUnitProperty) {
+		}
 	}
 }
