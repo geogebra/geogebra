@@ -15,6 +15,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 	private final T[] properties;
 	private final Set<PropertyValueObserver> observers = new HashSet<>();
 	private boolean isFrozen = false;
+	private S previousValue = null;
 
 	AbstractValuedPropertyCollection(T[] properties) {
 		if (properties.length == 0) {
@@ -103,5 +104,16 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 	@Override
 	public void unfreeze() {
 		isFrozen = false;
+	}
+
+	@Override
+	public void freezeValue(S fixedValue) {
+		previousValue = getValue();
+		setValue(fixedValue);
+	}
+
+	@Override
+	public void unfreezeValue() {
+		setValue(previousValue);
 	}
 }
