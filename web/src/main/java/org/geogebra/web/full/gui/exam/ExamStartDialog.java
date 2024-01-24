@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.exam;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.main.AppWFull;
@@ -17,7 +17,7 @@ import org.gwtproject.user.client.ui.Label;
  */
 public class ExamStartDialog extends ComponentDialog {
 
-	private ExamRegion selectedRegion = ExamRegion.GENERIC;
+	private ExamType selectedRegion = ExamType.GENERIC;
 
 	/**
 	 * @param app application
@@ -34,14 +34,14 @@ public class ExamStartDialog extends ComponentDialog {
 				app.getLocalization().getMenu("exam_start_dialog_text"), "examStartText");
 		addDialogContent(startText);
 		if (mayChoseType((AppW) app)) {
-			ArrayList<RadioButtonData<ExamRegion>> data = new ArrayList<>();
-			for (ExamRegion region : ExamRegion.values()) {
+			ArrayList<RadioButtonData<ExamType>> data = new ArrayList<>();
+			for (ExamType region : ExamType.values()) {
 				String displayName = region.getDisplayName(app.getLocalization(),
 						app.getConfig());
 				data.add(new RadioButtonData<>(displayName, region));
 			}
-			RadioButtonPanel<ExamRegion> regionPicker = new RadioButtonPanel<>(
-					app.getLocalization(), data, ExamRegion.GENERIC, (selectedRegion) ->
+			RadioButtonPanel<ExamType> regionPicker = new RadioButtonPanel<>(
+					app.getLocalization(), data, ExamType.GENERIC, (selectedRegion) ->
 				this.selectedRegion = selectedRegion);
 			addDialogContent(regionPicker);
 		} else if (app.isSuite()) {
@@ -51,7 +51,7 @@ public class ExamStartDialog extends ComponentDialog {
 
 	private boolean mayChoseType(AppW app) {
 		return app.isSuite() && (!app.isLockedExam()
-				|| ExamRegion.CHOOSE.equals(app.getAppletParameters().getParamExamMode()));
+				|| ExamType.CHOOSE.equals(app.getAppletParameters().getParamExamMode()));
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class ExamStartDialog extends ComponentDialog {
 		}
 	}
 
-	public ExamRegion getSelectedRegion() {
+	public ExamType getSelectedRegion() {
 		return selectedRegion;
 	}
 }

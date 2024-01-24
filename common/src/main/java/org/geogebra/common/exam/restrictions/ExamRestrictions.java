@@ -3,13 +3,14 @@ package org.geogebra.common.exam.restrictions;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.ValuedProperty;
@@ -27,7 +28,7 @@ import org.geogebra.common.properties.ValuedProperty;
  */
 public class ExamRestrictions {
 
-	public static ExamRestrictions forRegion(ExamRegion region) {
+	public static ExamRestrictions forRegion(ExamType region) {
 		switch (region) {
 		case VLAANDEREN:
 			return new VlaanderenExamRestrictions();
@@ -36,6 +37,7 @@ public class ExamRestrictions {
 		}
 	}
 
+	private final ExamType examType;
 	private final Set<SuiteSubApp> disabledSubApps;
 	private final SuiteSubApp defaultSubApp;
 	private final ExpressionFilter expressionFilter;
@@ -50,6 +52,7 @@ public class ExamRestrictions {
 	 * Prevent use of no-arg constructor.
 	 */
 	private ExamRestrictions() {
+		this.examType = null;
 		this.disabledSubApps = null;
 		this.defaultSubApp = null;
 		this.expressionFilter = null;
@@ -61,6 +64,7 @@ public class ExamRestrictions {
 	/**
 	 * Prevent instantiation, except by subclasses.
 	 *
+	 * @param examType The exam type.
 	 * @param disabledSubApps The set of disabled subapps for this exam type.
 	 * @param defaultSubApp The subapp to activate at the start of an exam,
 	 * if the current subapp is in the list of restricted subapps.
@@ -68,12 +72,14 @@ public class ExamRestrictions {
 	 * @param commandFilter An optional command filter to apply during exams.
 	 * @param commandArgumentFilter An optional command argument filter to apply during exams.
 	 */
-	protected ExamRestrictions(Set<SuiteSubApp> disabledSubApps,
+	protected ExamRestrictions(ExamType examType,
+			Set<SuiteSubApp> disabledSubApps,
 			SuiteSubApp defaultSubApp,
 			ExpressionFilter expressionFilter,
 			CommandFilter commandFilter,
 			CommandArgumentFilter commandArgumentFilter,
 			Set<String> frozenProperties) {
+		this.examType = examType;
 		this.disabledSubApps = disabledSubApps;
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.expressionFilter = expressionFilter;
@@ -81,6 +87,8 @@ public class ExamRestrictions {
 		this.commandArgumentFilter = commandArgumentFilter;
 		this.frozenProperties = frozenProperties;
 	}
+
+	public ExamType getExamType() { return examType; }
 
 	/**
 	 * @return The list of disabled (not allowed) subapps during exam, or `null` if there
@@ -202,5 +210,9 @@ public class ExamRestrictions {
 	 * @param property A property should be fixed during an exam.
 	 */
 	protected  void unfreezeValue(ValuedProperty property) {
+	}
+
+	public boolean isSelectionAllowed(GeoElementND geoND) {
+		return true;
 	}
 }

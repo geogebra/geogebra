@@ -54,7 +54,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testStartExam() {
-		startExam(ExamRegion.VLAANDEREN);
+		startExam(ExamType.VLAANDEREN);
 		assertNotNull(examController.getStartDate()); // started
 		assertNull(examController.getEndDate()); // not yet ended
 		assertEquals(ExamState.ACTIVE, examController.getState());
@@ -65,7 +65,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testStopExam() {
-		startExam(ExamRegion.VLAANDEREN);
+		startExam(ExamType.VLAANDEREN);
 		examController.stopExam();
 		assertNotNull(examController.getStartDate()); // started
 		assertNotNull(examController.getEndDate()); // ended
@@ -76,7 +76,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testFinishExam() {
-		startExam(ExamRegion.VLAANDEREN);
+		startExam(ExamType.VLAANDEREN);
 		examController.stopExam();
 		examController.finishExam();
 		assertNull(examController.getStartDate());
@@ -87,9 +87,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				ExamState.WRAPPING_UP, ExamState.IDLE), examStates);
 	}
 
-	private void startExam(ExamRegion examRegion) {
+	private void startExam(ExamType examType) {
 		examController.prepareExam();
-		examController.startExam(examRegion);
+		examController.startExam(examType);
 	}
 
 	private <T> void assertContains(T value, Collection<T> collection) {

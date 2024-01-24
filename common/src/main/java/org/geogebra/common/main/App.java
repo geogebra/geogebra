@@ -37,7 +37,7 @@ import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -3999,14 +3999,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	@Deprecated // use ExamController instead
 	public void setNewExam() {
-		setNewExam(ExamRegion.GENERIC);
+		setNewExam(ExamType.GENERIC);
 	}
 
 	/**
 	 * Initializes a new ExamEnvironment instance.
 	 */
 	@Deprecated // use ExamController instead
-	public void setNewExam(ExamRegion region) {
+	public void setNewExam(ExamType region) {
 		ExamEnvironment examEnvironment = newExamEnvironment();
 		examEnvironment.setExamRegion(region);
 		initRestrictions(region);
@@ -4025,7 +4025,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	@Deprecated // use ExamController instead
-	private void initRestrictions(ExamRegion region) {
+	private void initRestrictions(ExamType region) {
 		RestrictExam oldRestrictions = restrictions;
 		restrictions = ExamRestrictionFactory.create(region);
 		if (oldRestrictions != null) {
@@ -4042,7 +4042,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void registerRestrictable(Restrictable restrictable) {
 		if (restrictions == null) {
 			ExamEnvironment exam = getExam();
-			ExamRegion region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
+			ExamType region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
 			restrictions = ExamRestrictionFactory.create(region);
 		}
 		restrictions.register(restrictable);

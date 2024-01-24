@@ -30,7 +30,7 @@ import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
-import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
@@ -311,14 +311,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void checkExamPerspective() {
 		if (isLockedExam()) {
-			ExamRegion examMode = getForcedExamRegion();
+			ExamType examMode = getForcedExamRegion();
 			if (examMode != null) {
 				setNewExam(examMode);
 				appletParameters.setAttribute("perspective", "");
 				afterLocalizationLoaded(this::examWelcome);
 			} else {
 				String appCode = appletParameters.getDataParamAppName();
-				String supportedModes = isSuite() ? ExamRegion.getSupportedModes(appCode) : appCode;
+				String supportedModes = isSuite() ? ExamType.getSupportedModes(appCode) : appCode;
 				showErrorDialog("Invalid exam mode: "
 						+ appletParameters.getParamExamMode()
 						+ "\n Supported exam modes: " + supportedModes);
@@ -330,14 +330,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	/**
 	 * @return exam region forced by examMode and appName parameters
 	 */
-	public ExamRegion getForcedExamRegion() {
+	public ExamType getForcedExamRegion() {
 		String paramExamMode = appletParameters.getParamExamMode();
 		if (paramExamMode.equals(appletParameters.getDataParamAppName())
-			|| paramExamMode.equals(ExamRegion.CHOOSE)) {
-			return ExamRegion.GENERIC;
+			|| paramExamMode.equals(ExamType.CHOOSE)) {
+			return ExamType.GENERIC;
 		}
 		if (isSuite()) {
-			return ExamRegion.byName(paramExamMode);
+			return ExamType.byName(paramExamMode);
 		}
 		return null;
 	}
