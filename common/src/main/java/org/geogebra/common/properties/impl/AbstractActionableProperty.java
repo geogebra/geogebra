@@ -5,8 +5,6 @@ import org.geogebra.common.properties.ActionableProperty;
 
 public abstract class AbstractActionableProperty extends AbstractProperty implements ActionableProperty {
 
-	private boolean isFrozen = false;
-
 	public AbstractActionableProperty(Localization localization, String name) {
 		super(localization, name);
 	}
@@ -20,14 +18,4 @@ public abstract class AbstractActionableProperty extends AbstractProperty implem
 	}
 
 	protected abstract void doPerformAction();
-
-	@Override
-	public void freeze() {
-		isFrozen = true;
-	}
-
-	@Override
-	public void unfreeze() {
-		isFrozen = false;
-	}
 }

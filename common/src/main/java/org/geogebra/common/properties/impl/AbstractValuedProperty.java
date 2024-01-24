@@ -15,7 +15,6 @@ import org.geogebra.common.properties.ValuedProperty;
 public abstract class AbstractValuedProperty<S> extends AbstractProperty
 		implements ValuedProperty<S> {
 
-	private boolean isFrozen = false;
 	private S previousValue = null;
 
 	private final Set<PropertyValueObserver> observers = new HashSet<>();
@@ -70,16 +69,6 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 
 	private void notifyObservers(Consumer<PropertyValueObserver> eventCall) {
 		observers.forEach(eventCall);
-	}
-
-	@Override
-	public void freeze() {
-		isFrozen = true;
-	}
-
-	@Override
-	public void unfreeze() {
-		isFrozen = false;
 	}
 
 	@Override

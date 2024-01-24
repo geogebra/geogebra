@@ -12,7 +12,6 @@ public abstract class AbstractPropertyCollection<P extends Property> extends Abs
 		implements PropertyCollection<P> {
 
 	private P[] properties;
-	protected boolean isFrozen = false;
 
 	/**
 	 * Constructs an AbstractPropertyCollection.
@@ -37,15 +36,5 @@ public abstract class AbstractPropertyCollection<P extends Property> extends Abs
 	 */
 	protected void setProperties(P[] properties) {
 		this.properties = properties;
-	}
-
-	@Override
-	public void freeze() {
-		isFrozen = true;
-	}
-
-	@Override
-	public void unfreeze() {
-		isFrozen = false;
 	}
 }
