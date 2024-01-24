@@ -718,6 +718,5 @@ public class RedefineTest extends BaseUnitTest {
 		add("l={x}");
 		reload();
 		assertThat(lookup("b"), hasValue("false"));
->>>>>>> f53d26c51af26013afa6c12502b70ad0631a5304
 	}
 }
