@@ -880,7 +880,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnSegmentEndStyle.setIcon(segmentEndStyleIcons[0]);
-		setPopupHandlerWithUndoPoint(btnSegmentStartStyle, this::handleSegmentEnd);
+		setPopupHandlerWithUndoPoint(btnSegmentEndStyle, this::handleSegmentEnd);
 		btnSegmentEndStyle.setKeepVisible(false);
 	}
 
