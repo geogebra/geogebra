@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -344,6 +346,26 @@ public class MoveToolTest extends BaseControllerTest {
 		GeoElement list = add("{Translate(A, v)}");
 		moveObjectWithArrowKey(list, 1, -1);
 		assertThat(list, hasValue("{(2, -2)}"));
+	}
+
+	@Test
+	public void moveWithArrowKeyShouldNotChangeTextWithDependentAbsolutePosition() {
+		add("posX = 100");
+		add("posY = 100");
+		GeoText text = (GeoText) add("Text(\"Try me\")");
+		text.setAbsoluteScreenLocActive(true);
+
+		AbsoluteScreenPositionModel modelForX = new AbsoluteScreenPositionModel.ForX(getApp());
+		modelForX.setGeos(new GeoElement[]{text});
+		modelForX.applyChanges("posX");
+
+		AbsoluteScreenPositionModel modelForY = new AbsoluteScreenPositionModel.ForY(getApp());
+		modelForY.setGeos(new GeoElement[]{text});
+		modelForY.applyChanges("posY");
+
+		moveObjectWithArrowKey(text, 1, -1);
+		assertEquals(100, text.getAbsoluteScreenLocX());
+		assertEquals(100, text.getAbsoluteScreenLocY());
 	}
 
 	@Test
