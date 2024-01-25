@@ -389,14 +389,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	}
 
 	@Test
-	public void testOverwriteExistingDataWhileShowingTableValuePoints() {
-		inputData(new String[]{"0"}, new String[]{"0"});
-		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
-		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
-
-		tableValuesPoints.setPointsVisible(1, true);
-		assertTrue(tableValuesPoints.arePointsVisible(1));
-
+	public void testOverwriteImportedDataWhileShowingTableValuePoints() {
 		Reader reader = loadSample("strings-comma-noheader.csv");
 		boolean success = dataImporter.importCSV(reader, '.');
 		assertTrue(success);
@@ -409,6 +402,20 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals("c", tableValuesView.getTableValuesModel().getCellAt(2, 1).getInput());
 		assertEquals(5.0, tableValuesView.getTableValuesModel().getValueAt(4, 0), 0.0);
 		assertEquals("e", tableValuesView.getTableValuesModel().getCellAt(4, 1).getInput());
+
+		assertFalse(tableValuesPoints.arePointsVisible(1));
+		tableValuesPoints.setPointsVisible(1, true);
+		assertTrue(tableValuesPoints.arePointsVisible(1));
+
+		reader = loadSample("integers-noheader.csv");
+		success = dataImporter.importCSV(reader, '.');
+		assertTrue(success);
+
+		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
+		for (int row = 0; row < 10; row++) {
+			assertEquals(row + 1, tableValuesView.getTableValuesModel().getValueAt(row, 0), 0.0);
+		}
 
 		assertFalse(tableValuesPoints.arePointsVisible(1));
 	}
