@@ -1,17 +1,20 @@
 package org.geogebra.common.util;
 
+import org.apache.commons.math3.fraction.Fraction;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Matrix format allowing conversion from/to MyList and GeoList, supporting
@@ -248,7 +251,24 @@ public class GgbMat extends Array2DRowRealMatrix {
 		for (int r = 0; r < getRowDimension(); r++) {
 			GeoList columnList = new GeoList(cons);
 			for (int c = 0; c < getColumnDimension(); c++) {
-				columnList.add(new GeoNumeric(cons, getEntry(r, c)));
+				double value = getEntry(r, c);
+				GeoNumeric num = new GeoNumeric(cons, value);
+
+				if (!DoubleUtil.isInteger(value) && !DoubleUtil.isZero(value) && !Double.isInfinite(value)) {
+					double rounded = DoubleUtil.checkDecimalFraction(value);
+					Fraction frac = new Fraction(rounded);
+
+					num.setDefinition(
+						new ExpressionNode(
+							cons.getKernel(),
+							new ExpressionNode(cons.getKernel(), frac.getNumerator()), 
+							Operation.DIVIDE, 
+							new ExpressionNode(cons.getKernel(), frac.getDenominator())
+						)
+					);
+
+				}
+				columnList.add(num); 
 			}
 			outputList.add(columnList);
 		}
@@ -272,8 +292,24 @@ public class GgbMat extends Array2DRowRealMatrix {
 		for (int r = 0; r < getRowDimension(); r++) {
 			MyList columnList = new MyList(kernel);
 			for (int c = 0; c < getColumnDimension(); c++) {
-				columnList.addListElement(new GeoNumeric(
-						kernel.getConstruction(), getEntry(r, c)));
+				double value = getEntry(r, c);
+				GeoNumeric num = new GeoNumeric(kernel.getConstruction(), value);
+
+				if (!DoubleUtil.isInteger(value) && !DoubleUtil.isZero(value) && !Double.isInfinite(value)) {
+					double rounded = DoubleUtil.checkDecimalFraction(value);
+					Fraction frac = new Fraction(rounded);
+
+					num.setDefinition(
+						new ExpressionNode(
+							kernel,
+							new ExpressionNode(kernel, frac.getNumerator()), 
+							Operation.DIVIDE, 
+							new ExpressionNode(kernel, frac.getDenominator())
+						)
+					);
+
+				}
+				columnList.addListElement(num);
 			}
 			outputList.addListElement(columnList);
 		}
