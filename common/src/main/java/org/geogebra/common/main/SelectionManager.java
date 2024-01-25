@@ -303,9 +303,6 @@ public class SelectionManager implements ExamRestrictable {
 	 */
 	public final void addSelectedGeo(GeoElementND geoND, boolean repaint,
 			boolean updateSelection) {
-		if (!isSelectionAllowed(geoND)) {
-			return;
-		}
 		if ((geoND == null) || selectedGeos.contains(geoND)) {
 			return;
 		}
@@ -1418,7 +1415,7 @@ public class SelectionManager implements ExamRestrictable {
 		this.examRestrictions = null;
 	}
 
-	private boolean isSelectionAllowed(GeoElementND geoND) {
+	public boolean isSelectionAllowed(GeoElementND geoND) {
 		if (examRestrictions != null) {
 			return examRestrictions.isSelectionAllowed(geoND);
 		}

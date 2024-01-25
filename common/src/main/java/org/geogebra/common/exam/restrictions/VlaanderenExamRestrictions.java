@@ -56,8 +56,8 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 	@Override
 	public boolean isSelectionAllowed(GeoElementND geoND) {
 		if (geoND.isFunctionOrEquationFromUser()) {
-			return
+			return false;
 		}
-			return true;
+		return true;
 	}
 }

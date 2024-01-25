@@ -412,6 +412,7 @@ public class AlgebraItem {
 
 	/**
 	 * add geo to selection with its special points.
+	 * TODO update docs to describe what this _actually_ does
 	 *
 	 * @param geo
 	 *            The geo element to add.
@@ -421,6 +422,9 @@ public class AlgebraItem {
 	public static void addSelectedGeoWithSpecialPoints(GeoElementND geo,
 			App app) {
 		if (!app.getConfig().hasPreviewPoints()) {
+			return;
+		}
+		if (!app.getSelectionManager().isSelectionAllowed(geo)) {
 			return;
 		}
 		app.getSelectionManager().clearSelectedGeos(false, false);
