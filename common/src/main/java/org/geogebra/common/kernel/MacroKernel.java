@@ -15,6 +15,7 @@ package org.geogebra.common.kernel;
 import java.util.LinkedHashMap;
 
 import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -111,10 +112,9 @@ public class MacroKernel extends Kernel {
 	 * 
 	 * @param xmlString
 	 *            XML representation of the construction
-	 * @throws Exception
-	 *             if reading XML fails
+	 *  @throws XMLParseException if the xml is invalid
 	 */
-	public void loadXML(String xmlString) throws Exception {
+	public void loadXML(String xmlString) throws XMLParseException {
 		macroCons.loadXML(xmlString);
 	}
 

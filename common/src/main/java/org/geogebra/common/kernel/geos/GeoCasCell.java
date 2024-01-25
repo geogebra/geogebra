@@ -14,6 +14,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -2016,7 +2017,8 @@ public class GeoCasCell extends GeoElement
 							(DrawInformationAlgo) ((GeoElement) outputVE
 									.unwrap()).getDrawAlgorithm());
 				}
-			} catch (Exception e) {
+			} catch (XMLParseException | CircularDefinitionException
+					 | RuntimeException e) {
 				Log.debug(e);
 			}
 		} else {

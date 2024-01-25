@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
@@ -683,7 +684,7 @@ public class GeoSymbolic extends GeoElement
 		};
 	}
 
-	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+	private GeoElement process(ExpressionNode expressionNode) throws CircularDefinitionException {
 		registerFunctionVariablesIfHasFunction(expressionNode);
 		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
@@ -1136,9 +1137,6 @@ public class GeoSymbolic extends GeoElement
 	public String getFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
 		if (substituteNumbers && tpl.isLatex()) {
-			if (twinGeo instanceof GeoFunction) {
-				return twinGeo.getFormulaString(tpl, true);
-			}
 			if (value != null && value.wrap().isTopLevelCommand("If")) {
 				FunctionVariable fv = getFunctionVariables()[0];
 				ArrayList<ExpressionNode> cases = new ArrayList<>();

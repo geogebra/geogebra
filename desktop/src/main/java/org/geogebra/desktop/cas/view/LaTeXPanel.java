@@ -26,6 +26,7 @@ public class LaTeXPanel extends JPanel {
 	private AppD app;
 	private String latex;
 	private BufferedImage image;
+	private double ratio = 1.0;
 	private Graphics2D g2image;
 	private Dimension equSize;
 
@@ -79,16 +80,20 @@ public class LaTeXPanel extends JPanel {
 			return new Dimension(0, 0);
 		}
 		g2image.setBackground(getBackground());
+		ratio = app.getImageManager().getPixelRatio();
+		g2image.scale(ratio, ratio);
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
 
 		GGraphics2DD.setAntialiasing(g2image);
 
+		GGraphics2DD g2 = new GGraphics2DD(g2image);
+
 		GDimension fd = app.getDrawEquation().drawEquation(app, null,
-				new GGraphics2DD(g2image), 0, 0, latex,
+				g2, 0, 0, latex,
 				app.getPlainFontCommon(), false,
 				GColorD.newColor(getForeground()),
 				GColorD.newColor(getBackground()), true, false, null);
-
+		g2.scale(1 / ratio, 1 / ratio);
 		return GDimensionD.getAWTDimension(fd);
 	}
 
@@ -125,9 +130,13 @@ public class LaTeXPanel extends JPanel {
 			// draw part of image that contains equation
 			if (image != null && equSize != null) {
 				g.drawImage(image, 0, 0, equSize.width, equSize.height, 0, 0,
-						equSize.width, equSize.height, null);
+						physicalPx(equSize.width), physicalPx(equSize.height), null);
 			}
 		}
+	}
+
+	private int physicalPx(int size) {
+		return (int) Math.round(size * ratio);
 	}
 
 }

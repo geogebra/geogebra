@@ -166,7 +166,7 @@ public abstract class DrawEquation implements DrawEquationI {
 						.getPartialTeXFormula(text);
 				im = TeXFormula.asImage(formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, style), convertColor(GColor.BLACK),
-						convertColor(GColor.WHITE));
+						convertColor(GColor.WHITE), getPixelRatio());
 
 				// toJavaString() to help diagnose non-printable characters
 				Log.warn("latex syntax error\n" + text + "\n"
@@ -187,9 +187,9 @@ public abstract class DrawEquation implements DrawEquationI {
 				Log.debug(e2);
 			}
 		}
-
-		g2.drawImage(im, x, y);
-
+		g2.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+		g2.drawImage(im, (int) (x * getPixelRatio()), (int) (y * getPixelRatio()));
+		g2.scale(getPixelRatio(), getPixelRatio());
 		if (width == -1) {
 			width = im.getWidth();
 		}
@@ -198,6 +198,10 @@ public abstract class DrawEquation implements DrawEquationI {
 		}
 
 		return AwtFactory.getPrototype().newDimension(width, height);
+	}
+
+	public double getPixelRatio() {
+		return 1;
 	}
 
 	/**

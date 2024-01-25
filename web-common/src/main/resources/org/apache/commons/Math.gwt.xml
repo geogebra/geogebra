@@ -1,4 +1,3 @@
 <module>
   <source path="math3" />
-  <super-source path="common-super" />
 </module>

@@ -149,8 +149,7 @@ public abstract class CasTestJsonCommon {
 
 	protected void runCases(ArrayList<CasTest> cases) {
 		Assert.assertNotEquals(0, cases.size());
-		StringBuilder[] failures = new StringBuilder[] { new StringBuilder(),
-				new StringBuilder() };
+		StringBuilder failures = new StringBuilder();
 		for (CasTest cmd : cases) {
 			Log.debug(cmd.input);
 			if (!StringUtil.empty(cmd.rounding)) {
@@ -160,16 +159,16 @@ public abstract class CasTestJsonCommon {
 			}
 			t(failures, cmd.input, cmd.output);
 		}
-		Assert.assertEquals(failures[0].toString(), failures[1].toString());
+		Assert.assertEquals("", failures.toString());
 	}
 
-	private static void t(StringBuilder[] failures, String input,
+	private static void t(StringBuilder failures, String input,
 			String expectedResult) {
 		String[] validResults = expectedResult.split("\\|OR\\|");
 		ta(failures, input, validResults, validResults);
 	}
 
-	private static void ta(StringBuilder[] failures,
+	private static void ta(StringBuilder failures,
 			String input, String[] expectedResult, String... validResults) {
 		String result;
 
@@ -218,10 +217,11 @@ public abstract class CasTestJsonCommon {
 			} catch (Throwable t) {
 				if (i == expectedResult.length - 1) {
 					Log.debug(t);
-					failures[0].append(expectedResult[0] == null ? "null"
-							: normalizeExpected(expectedResult[0]));
-					failures[0].append(" input: ").append(input).append('\n');
-					failures[1].append(result).append('\n');
+					String expected = expectedResult[0] == null ? "null"
+							: normalizeExpected(expectedResult[0]);
+					failures.append("\n  in: ").append(input)
+							.append("\n exp: ").append(expected)
+							.append("\n out: ").append(result).append('\n');
 				}
 			}
 		}

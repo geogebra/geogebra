@@ -73,7 +73,8 @@ public final class JLaTeXMathCache {
 	private static ConcurrentMap<CachedTeXFormula, SoftReference<CachedImage>> cache = new ConcurrentHashMap<CachedTeXFormula, SoftReference<CachedImage>>(
 			128);
 	private static int max = Integer.MAX_VALUE;
-	private static ReferenceQueue queue = new ReferenceQueue();
+	private static final ReferenceQueue<CachedImage> queue = new ReferenceQueue<>();
+	private static double pixelRatio = 1;
 
 	private JLaTeXMathCache() {
 	}
@@ -87,8 +88,7 @@ public final class JLaTeXMathCache {
 	public static void setMaxCachedObjects(int max) {
 		JLaTeXMathCache.max = Math.max(max, 1);
 		cache.clear();
-		cache = new ConcurrentHashMap<CachedTeXFormula, SoftReference<CachedImage>>(
-				JLaTeXMathCache.max);
+		cache = new ConcurrentHashMap<>(JLaTeXMathCache.max);
 	}
 
 	/**
@@ -308,20 +308,21 @@ public final class JLaTeXMathCache {
 				cached.type, cached.fgcolor);
 		icon.setInsets(new Insets(cached.inset, cached.inset, cached.inset,
 				cached.inset));
-		Image image = new Graphics().createImage(icon.getIconWidth(),
-				icon.getIconHeight(), Image.TYPE_INT_ARGB);
+		Image image = new Graphics().createImage((int) Math.round(icon.getIconWidth() * pixelRatio),
+				(int) Math.round(icon.getIconHeight() * pixelRatio), Image.TYPE_INT_ARGB);
 		Graphics2DInterface g2 = image.createGraphics2D();
+		g2.scale(pixelRatio, pixelRatio);
 		icon.paintIcon(null, g2, 0, 0);
 		g2.dispose();
 		cached.setDimensions(icon.getIconWidth(), icon.getIconHeight(),
 				icon.getIconDepth());
-		SoftReference<CachedImage> img = new SoftReference<CachedImage>(
+		SoftReference<CachedImage> img = new SoftReference<>(
 				new CachedImage(image, cached), queue);
 
 		if (cache.size() >= max) {
-			Reference soft;
+			Reference<? extends CachedImage> soft;
 			while ((soft = queue.poll()) != null) {
-				CachedImage ci = (CachedImage) soft.get();
+				CachedImage ci = soft.get();
 				if (ci != null) {
 					cache.remove(ci.cachedTf);
 				}
@@ -339,6 +340,13 @@ public final class JLaTeXMathCache {
 		cache.put(cached, img);
 
 		return img;
+	}
+
+	public static void setPixelRatio(double pixelRatio) {
+		if (pixelRatio != JLaTeXMathCache.pixelRatio) {
+			cache.clear();
+		}
+		JLaTeXMathCache.pixelRatio = pixelRatio;
 	}
 
 	private static class CachedImage {

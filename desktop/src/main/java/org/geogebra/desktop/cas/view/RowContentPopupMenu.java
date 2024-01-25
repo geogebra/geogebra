@@ -9,7 +9,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
@@ -21,6 +20,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 /**
  * Provides a popup menu for copying the text of a {@link GeoCasCell} to the
@@ -151,7 +151,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 			data = new StringSelection(libreofficeOutput);
 
 		} else if ("copyAsImage".equals(ac)) {
-			ImageIcon latexIcon = new ImageIcon();
+			ScaledIcon latexIcon = new ScaledIcon(this);
 			Font latexFont = new Font(app.getPlainFont().getName(),
 					app.getPlainFont().getStyle(),
 					app.getPlainFont().getSize() - 1);

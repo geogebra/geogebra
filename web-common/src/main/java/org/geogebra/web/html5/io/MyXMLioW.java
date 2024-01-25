@@ -1,10 +1,12 @@
 package org.geogebra.web.html5.io;
 
+import java.io.IOException;
 import java.io.StringReader;
 
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
@@ -42,7 +44,7 @@ public class MyXMLioW extends MyXMLio {
 
 	@Override
 	protected void parseXML(MyXMLHandler xmlHandler, XMLStream stream)
-			throws Exception {
+			throws IOException, XMLParseException {
 		xmlParser.parse(xmlHandler,
 				new StringReader(((XMLStreamStringW) stream).getString()));
 	}
@@ -67,7 +69,7 @@ public class MyXMLioW extends MyXMLio {
 	}
 
 	@Override
-	public final void readZipFromString(ZipFile zipFile) throws Exception {
+	public final void readZipFromString(ZipFile zipFile) {
 		Base64ZipFile zip = (Base64ZipFile) zipFile;
 
 		String base64 = zip.getBase64();

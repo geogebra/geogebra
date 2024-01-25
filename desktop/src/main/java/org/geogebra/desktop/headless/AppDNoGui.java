@@ -130,7 +130,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	public DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
 			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
-			drawEquation = new DrawEquationD();
+			drawEquation = new DrawEquationD(null);
 		}
 		return drawEquation;
 	}
