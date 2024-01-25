@@ -27,8 +27,12 @@ public class PolynomialTest extends BaseUnitTest {
 	@Test
 	public void testMultiVariablesXYPolynomials() {
 		add("f(x,y)=x+y");
-		GeoFunctionNVar poly = add("Polynomial(f)");
-		assertEquals("x + y", poly.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("x + y", polynomial("f"));
+	}
+
+	private String polynomial(String function) {
+		return add("Polynomial(" + function + ")")
+				.toValueString(StringTemplate.defaultTemplate);
 	}
 
 	@Test
@@ -45,15 +49,20 @@ public class PolynomialTest extends BaseUnitTest {
 	@Test
 	public void testMultiCharVariables() {
 		add("f(abc,def)=(abc+def)^(2)");
-		GeoFunctionNVar poly = add("Polynomial(f)");
-		assertEquals("abc\u00B2 + 2abc def + def\u00B2",
-				poly.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("abc\u00B2 + 2abc def + def\u00B2", polynomial("f"));
 	}
 
 	@Test
 	public void testMultiVariablePolynomials() {
 		add("f(a,b)=a+b");
-		GeoFunctionNVar poly = add("Polynomial(f)");
-		assertEquals("a + b", poly.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("a + b", polynomial("f"));
+	}
+
+	@Test
+	public void testExtraBrackets() {
+		assertEquals("-x y", polynomial("-x y"));
+		assertEquals("-x\u00b2 y", polynomial("-x^(2) y"));
+		assertEquals("-5x y", polynomial("-5x y"));
+		assertEquals("-5x\u00b3 y", polynomial("-5x^(3) y"));
 	}
 }

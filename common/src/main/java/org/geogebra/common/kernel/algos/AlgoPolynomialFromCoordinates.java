@@ -267,8 +267,12 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			if (powerExp == null) {
 				partExp = coeffMyDouble;
 			} else {
-				partExp = new ExpressionNode(kernel, coeffMyDouble,
-						Operation.MULTIPLY, powerExp);
+				if (coeff == -1 && powerExp.wrap().isOperation(Operation.MULTIPLY)) {
+					partExp = multiplyFirstOperandOnly(powerExp, kernel, coeffMyDouble);
+				} else {
+					partExp = new ExpressionNode(kernel, coeffMyDouble,
+							Operation.MULTIPLY, powerExp);
+				}
 			}
 		}
 
@@ -287,6 +291,21 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 						partExp);
 			}
 		}
+	}
+
+	private static ExpressionValue multiplyFirstOperandOnly(ExpressionValue powerExp, Kernel kernel,
+			MyDouble coeffMyDouble) {
+		ExpressionNode firstOperand = powerExp.wrap().getLeftTree();
+		ExpressionNode node =
+				new ExpressionNode(kernel, coeffMyDouble, Operation.MULTIPLY,
+						firstOperand
+				);
+		return new ExpressionNode(kernel, node,
+				Operation.MULTIPLY, powerExp.wrap().getRightTree());
+	}
+
+	private static boolean isMuliplcation(ExpressionValue powerExp) {
+		return powerExp.wrap().isOperation(Operation.MULTIPLY);
 	}
 
 	private static void polcoeBig(double[] xx, double[] yy, int n,
