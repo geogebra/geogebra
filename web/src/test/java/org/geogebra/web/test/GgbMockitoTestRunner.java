@@ -141,7 +141,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(GPopupPanel.class, "getContainerElement", Void.class);
         StubGenerator.replaceMethodWithMock(MathFieldW.class, "addFocusListener", Void.class);
         StubGenerator.replaceMethodWithMock(CarotaEditor.class, "addInsertFilter", Void.class);
-
+        StubGenerator.replaceMethodWithMock(MathFieldW.class, "checkCode", Void.class);
     }
 
     @Override
