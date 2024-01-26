@@ -65,8 +65,7 @@ public class ControllerTest extends BaseControllerTest {
 					app.getActiveEuclidianView().getEuclidianController()
 							.wrapMousePressed(evt);
 					app.getActiveEuclidianView().getEuclidianController()
-							.
-							wrapMouseReleased(evt);
+							.wrapMouseReleased(evt);
 				}
 			}
 
