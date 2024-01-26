@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.ActionType;
@@ -43,8 +44,21 @@ public class UpdateActionStore {
 	 */
 	public void storeSelection() {
 		if (undoItems.isEmpty()) {
-			store(selection.getSelectedGeos());
+			store(getGeosToStore());
 		}
+	}
+
+	private ArrayList<GeoElement> getGeosToStore() {
+		ArrayList<GeoElement> geosToStore = new ArrayList<>();
+		for (GeoElement geo : selection.getSelectedGeos()) {
+			if (geo.getParentAlgorithm() != null) {
+				geosToStore.addAll(geo.getParentAlgorithm().getDefinedAndLabeledInput());
+			} else if (geo instanceof GeoImage) {
+				geosToStore.addAll(((GeoImage) geo).getDefinedStartPoints());
+			}
+			geosToStore.add(geo);
+		}
+		return geosToStore;
 	}
 
 	/**

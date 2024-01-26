@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -155,7 +156,10 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 		}
 		app.setDefaultCursor();
 		if (!isInternalFile) {
-			app.getUndoManager().storeAddGeo(geoImage);
+			ArrayList<GeoElement> geosToStore = new ArrayList<>();
+			geosToStore.addAll(geoImage.getDefinedStartPoints());
+			geosToStore.add(geoImage);
+			app.getUndoManager().storeAddGeo(geosToStore);
 
 		}
 		geoImage.setImagePropertiesIfNecessary();

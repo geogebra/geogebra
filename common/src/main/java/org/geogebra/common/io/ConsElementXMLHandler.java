@@ -2505,9 +2505,6 @@ public class ConsElementXMLHandler {
 		try {
 			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 			List<Locateable> changedLocateables = getLocateablesFromStartPointList();
-			if (needsConstructionDefaults) {
-				preprocessStartPoints(changedLocateables);
-			}
 			for (LocateableExpPair pair : startPointList) {
 				GeoPointND P = pair.point != null ? pair.point
 						: algProc.evaluateToPoint(pair.exp,
@@ -2535,14 +2532,6 @@ public class ConsElementXMLHandler {
 			}
 		}
 		return changedLocateables;
-	}
-
-	private void preprocessStartPoints(List<Locateable> updatedImages) {
-		for (Locateable img: updatedImages) {
-			if (img instanceof GeoImage) {
-				((GeoImage) img).removeCorners();
-			}
-		}
 	}
 
 	private void processLinkedGeoList() {
