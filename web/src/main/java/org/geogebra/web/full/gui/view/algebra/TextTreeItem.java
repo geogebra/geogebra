@@ -10,7 +10,7 @@ import org.gwtproject.user.client.ui.TreeItem;
  *
  */
 public class TextTreeItem extends RadioTreeItem {
-	private GeoText text = null;
+	private final GeoText text;
 
 	/**
 	 * @param geo0
