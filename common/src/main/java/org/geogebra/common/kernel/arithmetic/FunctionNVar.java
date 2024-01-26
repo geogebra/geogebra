@@ -645,8 +645,8 @@ public class FunctionNVar extends ValidExpression
 			}
 			// evaluate expression by CAS
 			String result = symbolic
-					? kernel.evaluateGeoGebraCAS(casString, arbconst) : // symbolic
-					kernel.evaluateCachedGeoGebraCAS(casString, arbconst); // value
+					? kernel.evaluateGeoGebraCAS(casString, arbconst) // symbolic
+					: kernel.evaluateCachedGeoGebraCAS(casString, arbconst); // value
 																			// string
 
 			// parse CAS result back into GeoGebra
@@ -1536,13 +1536,15 @@ public class FunctionNVar extends ValidExpression
 	 * @return the coefficents if possible, null otherwise.
 	 */
 	public ExpressionValue[][] getCoeff() {
-		ExpressionValue[][] coeff = null;
 		ExpressionNode lhs = replaceFunctionVarsIn(getExpression());
 		Equation equ = new Equation(kernel, lhs, new MyDouble(kernel, 0));
 
 		try {
 			Polynomial polynomial = Polynomial.fromNode(lhs, equ, false);
 			equ.initEquation();
+			if (!equ.isPolynomial()) {
+				return null;
+			}
 			FunctionVariable[] vars = getFunctionVariables();
 			String var1 = vars[0].getSetVarString();
 			String var2 = vars[1].getSetVarString();
