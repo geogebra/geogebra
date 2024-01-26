@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -28,6 +30,23 @@ public class PolynomialTest extends BaseUnitTest {
 	public void testMultiVariablesXYPolynomials() {
 		add("f(x,y)=x+y");
 		assertEquals("x + y", polynomial("f"));
+		add("g(x,y)=0");
+		assertEquals("0", polynomial("g"));
+	}
+
+	@Test
+	public void testMultiVariablesXYNonPolynomials() {
+		assertEquals("?", polynomial("(x+y)^-2"));
+		assertEquals("?", polynomial("(x+y)^(3/2)"));
+	}
+
+	@Test
+	public void testMultiVariablesVarDegreePolynomials() {
+		add("k=-4");
+		GeoFunctionNVar varDegree = add("Polynomial((x+y)^k)");
+		assertThat(varDegree, hasValue("?"));
+		add("SetValue(k,2)");
+		assertThat(varDegree, hasValue(unicode("x^2 + 2x y + y^2")));
 	}
 
 	private String polynomial(String function) {

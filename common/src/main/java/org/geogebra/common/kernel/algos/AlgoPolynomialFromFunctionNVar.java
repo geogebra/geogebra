@@ -84,7 +84,8 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 	// ON CHANGE: similar code is in AlgoTaylorSeries
 	@Override
 	public final void compute() {
-		if (!f.isDefined()) {
+		FunctionNVar functionNVar1 = f.getFunction();
+		if (!f.isDefined() || functionNVar1 == null) {
 			g.setUndefined();
 			return;
 		}
@@ -98,24 +99,24 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 
 		String varName1 = functionVariables[0].getSetVarString();
 		String varName2 = functionVariables[1].getSetVarString();
-		FunctionNVar functionNVar1 = f.getFunction();
 
-		if (functionNVar1 == null) {
+		ExpressionValue[][] coeff = functionNVar1.getCoeff();
+		if (coeff == null) {
 			g.setUndefined();
 			return;
 		}
-
-		ExpressionValue[][] coeff = functionNVar1.getCoeff();
 		poly = null;
 		var1 = new FunctionVariable(kernel, varName1);
 		var2 = new FunctionVariable(kernel, varName2);
 		List<CoeffPowerProduct> products = buildFromCoeff(coeff);
 		products.sort(CoeffPowerProduct.getComparator());
 		createPolyFrom(products);
-		if (poly != null) {
-			FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{var1, var2});
-			g.setFunction(functionNVar);
+		if (poly == null) {
+			poly = new ExpressionNode(kernel, 0);
 		}
+		FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{var1, var2});
+		g.setDefined(true);
+		g.setFunction(functionNVar);
 	}
 
 	private List<CoeffPowerProduct> buildFromCoeff(ExpressionValue[][] coeff) {
