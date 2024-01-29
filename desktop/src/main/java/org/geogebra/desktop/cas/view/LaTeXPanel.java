@@ -58,7 +58,7 @@ public class LaTeXPanel extends JPanel {
 		equSize = drawEquationToImage();
 
 		// check if image was big enough for equation
-		if (ensureImageSize(equSize.width, equSize.height)) {
+		if (ensureImageSize(equSize.width * ratio, equSize.height * ratio)) {
 			equSize = drawEquationToImage();
 		}
 
@@ -97,10 +97,10 @@ public class LaTeXPanel extends JPanel {
 		return GDimensionD.getAWTDimension(fd);
 	}
 
-	private boolean ensureImageSize(int width, int height) {
+	private boolean ensureImageSize(double width, double height) {
 		if (image == null || image.getWidth() < width
 				|| image.getHeight() < height) {
-			image = new BufferedImage(width, height,
+			image = new BufferedImage((int) Math.ceil(width), (int) Math.ceil(height),
 					BufferedImage.TYPE_INT_ARGB);
 			g2image = image.createGraphics();
 			return true;
