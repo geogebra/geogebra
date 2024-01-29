@@ -3,7 +3,7 @@ package org.geogebra.common.exam.restrictions;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.Commands;
@@ -18,7 +18,7 @@ import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 final class VlaanderenExamRestrictions extends ExamRestrictions {
 
 	VlaanderenExamRestrictions() {
-		super(ExamType.VLAANDEREN,
+		super(ExamRegion.VLAANDEREN,
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
 				VlaanderenExamRestrictions.createExpressionFilter(),

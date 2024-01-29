@@ -11,7 +11,7 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
@@ -123,7 +123,7 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(GeoGebraElement geoGebraElement,
 			AppletParameters parameters, GLookAndFeelI laf) {
 		if (SecureBrowser.get() != null && SecureBrowser.get().security != null) {
-			parameters.setAttribute("examMode", ExamType.CHOOSE);
+			parameters.setAttribute("examMode", ExamRegion.CHOOSE);
 			SecureBrowser.get().security.lockDown(true,
 					(state) -> Log.info("Lockdown successful"),
 					(state) -> Log.error("Lockdown failed")

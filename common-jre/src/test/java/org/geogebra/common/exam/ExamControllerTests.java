@@ -54,7 +54,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testStartExam() {
-		startExam(ExamType.VLAANDEREN);
+		startExam(ExamRegion.VLAANDEREN);
 		assertNotNull(examController.getStartDate()); // started
 		assertNull(examController.getEndDate()); // not yet ended
 		assertEquals(ExamState.ACTIVE, examController.getState());
@@ -65,7 +65,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testStopExam() {
-		startExam(ExamType.VLAANDEREN);
+		startExam(ExamRegion.VLAANDEREN);
 		examController.stopExam();
 		assertNotNull(examController.getStartDate()); // started
 		assertNotNull(examController.getEndDate()); // ended
@@ -76,7 +76,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testFinishExam() {
-		startExam(ExamType.VLAANDEREN);
+		startExam(ExamRegion.VLAANDEREN);
 		examController.stopExam();
 		examController.finishExam();
 		assertNull(examController.getStartDate());
@@ -87,7 +87,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				ExamState.WRAPPING_UP, ExamState.IDLE), examStates);
 	}
 
-	private void startExam(ExamType examType) {
+	private void startExam(ExamRegion examType) {
 		examController.prepareExam();
 		examController.startExam(examType);
 	}

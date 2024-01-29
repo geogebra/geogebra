@@ -17,7 +17,8 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 
-public enum ExamType {
+// TODO rename to ExamType
+public enum ExamRegion {
 
 	GENERIC() {
 		@Override
@@ -143,8 +144,8 @@ public enum ExamType {
 	 * @param shortName exam name
 	 * @return exam region
 	 */
-	public static ExamType byName(String shortName) {
-		for (ExamType region: values()) {
+	public static ExamRegion byName(String shortName) {
+		for (ExamRegion region: values()) {
 			if (region.name().equalsIgnoreCase(shortName)) {
 				return region;
 			}
@@ -157,8 +158,8 @@ public enum ExamType {
 	 * @return list of supported mode IDs
 	 */
 	public static String getSupportedModes(String appCode) {
-		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamType.values())
-					.filter(r -> r != ExamType.GENERIC)
+		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamRegion.values())
+					.filter(r -> r != ExamRegion.GENERIC)
 					.map(r -> r.name().toLowerCase(Locale.ROOT)))
 					.collect(Collectors.joining(", "));
 	}

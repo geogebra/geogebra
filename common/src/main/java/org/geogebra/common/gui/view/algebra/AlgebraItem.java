@@ -412,8 +412,7 @@ public class AlgebraItem {
 
 	/**
 	 * add geo to selection with its special points.
-	 * TODO update docs to describe what this _actually_ does
-	 *
+	 * TODO rename to selectGeo(WithSpecialPoints?)
 	 * @param geo
 	 *            The geo element to add.
 	 * @param app

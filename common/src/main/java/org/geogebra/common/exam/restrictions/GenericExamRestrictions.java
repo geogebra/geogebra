@@ -1,11 +1,11 @@
 package org.geogebra.common.exam.restrictions;
 
-import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.ExamRegion;
 
 final class GenericExamRestrictions extends ExamRestrictions {
 
 	GenericExamRestrictions() {
-		super(ExamType.GENERIC,
+		super(ExamRegion.GENERIC,
 				null,
 				null,
 				null,

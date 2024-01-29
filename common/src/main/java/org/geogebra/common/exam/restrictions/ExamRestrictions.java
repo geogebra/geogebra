@@ -3,7 +3,7 @@ package org.geogebra.common.exam.restrictions;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -28,7 +28,7 @@ import org.geogebra.common.properties.ValuedProperty;
  */
 public class ExamRestrictions {
 
-	public static ExamRestrictions forRegion(ExamType region) {
+	public static ExamRestrictions forRegion(ExamRegion region) {
 		switch (region) {
 		case VLAANDEREN:
 			return new VlaanderenExamRestrictions();
@@ -37,7 +37,7 @@ public class ExamRestrictions {
 		}
 	}
 
-	private final ExamType examType;
+	private final ExamRegion examType;
 	private final Set<SuiteSubApp> disabledSubApps;
 	private final SuiteSubApp defaultSubApp;
 	private final ExpressionFilter expressionFilter;
@@ -72,13 +72,13 @@ public class ExamRestrictions {
 	 * @param commandFilter An optional command filter to apply during exams.
 	 * @param commandArgumentFilter An optional command argument filter to apply during exams.
 	 */
-	protected ExamRestrictions(ExamType examType,
-			Set<SuiteSubApp> disabledSubApps,
-			SuiteSubApp defaultSubApp,
-			ExpressionFilter expressionFilter,
-			CommandFilter commandFilter,
-			CommandArgumentFilter commandArgumentFilter,
-			Set<String> frozenProperties) {
+	protected ExamRestrictions(ExamRegion examType,
+							   Set<SuiteSubApp> disabledSubApps,
+							   SuiteSubApp defaultSubApp,
+							   ExpressionFilter expressionFilter,
+							   CommandFilter commandFilter,
+							   CommandArgumentFilter commandArgumentFilter,
+							   Set<String> frozenProperties) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps;
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -88,7 +88,7 @@ public class ExamRestrictions {
 		this.frozenProperties = frozenProperties;
 	}
 
-	public ExamType getExamType() { return examType; }
+	public ExamRegion getExamType() { return examType; }
 
 	/**
 	 * @return The list of disabled (not allowed) subapps during exam, or `null` if there

@@ -58,7 +58,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	@NonOwning
 	private PropertiesRegistry propertiesRegistry;
 
-	private ExamType examType;
+	private ExamRegion examType;
 	private ExamRestrictions examRestrictions;
 	private final Set<ExamRestrictable> restrictables = new HashSet<>();
 
@@ -199,7 +199,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * @throws IllegalStateException if the exam controller is not in the
 	 * {@link ExamState#PREPARING PREPARING} state.
 	 */
-	public void startExam(ExamType region) {
+	public void startExam(ExamRegion region) {
 		if (state != ExamState.PREPARING) {
 			throw new IllegalStateException();
 		}
@@ -265,7 +265,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void applyRestrictions(ExamType region) {
+	private void applyRestrictions(ExamRegion region) {
 		// TODO app.resetCommandDict()
 		examRestrictions = ExamRestrictions.forRegion(region);
 		if (examRestrictions != null) {
