@@ -93,8 +93,6 @@ public class MyXMLioD extends MyXMLioJre {
 
 	}
 
-
-
 	/**
 	 * Get the preview image of a ggb file.
 	 * 
@@ -137,5 +135,4 @@ public class MyXMLioD extends MyXMLioJre {
 
 		return result;
 	}
-
 }

@@ -179,9 +179,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 				javaScriptFound = true;
 			} else if (StringUtil.toLowerCaseUS(name).endsWith("svg")) {
 				String svg = StreamUtil.loadIntoString(zip);
-
 				loadSVG(svg, name);
-
 			} else {
 				loadBitmap(zip, name);
 			}
