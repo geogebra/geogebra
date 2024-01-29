@@ -47,6 +47,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		app.getKernel().notifyAddAll(tabularData);
 		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory(
 				new AwtReTexGraphicsBridgeW()));
+		spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegateW(app));
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
