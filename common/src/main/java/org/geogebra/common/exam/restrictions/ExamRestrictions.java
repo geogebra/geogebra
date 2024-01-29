@@ -172,6 +172,16 @@ public class ExamRestrictions {
 	}
 
 	/**
+	 * Unfreezes a property
+	 * @param property
+	 */
+	public void propertyUnregistered(Property property) {
+		if (frozenProperties.contains(property.getRawName())) {
+			unfreeze(property);
+		}
+	}
+
+	/**
 	 * "Freeze" a property (i.e. prevent changing the value, or triggering the action)
 	 * at the start of the exam.
 	 *

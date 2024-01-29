@@ -4,10 +4,9 @@ import org.geogebra.common.exam.ExamController;
 
 /**
  * A container for objects with global lifetime, i.e., objects that may live from
- * app launch until app termination.
+ * host app launch until host app termination.
  *
- * Note: By "app", we here mean the iOS/Android/Web app, not the
- * `org.geogebra.common.main.App` instance.
+ * Note: By "host app", we mean the iOS/Android/Web app that hosts the GeoGebra code.
  * <p/>
  * This container serves as a home for objects with global lifetime that don't have a
  * direct owner (i.e., no "parent"). Try to put as few objects as possible in here.

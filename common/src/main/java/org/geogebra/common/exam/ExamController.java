@@ -300,4 +300,9 @@ public final class ExamController implements PropertiesRegistryListener {
 			examRestrictions.propertyRegistered(property);
 		}
 	}
+
+	@Override
+	public void propertyUnregistered(Property property) {
+
+	}
 }

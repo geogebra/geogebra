@@ -27,6 +27,8 @@ public interface Property {
      */
     boolean isEnabled();
 
+    boolean isFrozen();
+
     void freeze();
 
     void unfreeze();

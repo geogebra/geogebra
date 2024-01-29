@@ -102,6 +102,11 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 	}
 
 	@Override
+	public boolean isFrozen() {
+		return isFrozen;
+	}
+
+	@Override
 	public void freeze() {
 		isFrozen = true;
 	}
