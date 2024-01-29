@@ -92,12 +92,6 @@ public class GTextBoxProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public boolean resetAfterEnter() {
-		// overridden for RTI
-		return false;
-	}
-
-	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// overridden for RTI
 	}
