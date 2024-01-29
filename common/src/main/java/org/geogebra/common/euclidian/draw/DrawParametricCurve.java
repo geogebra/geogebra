@@ -134,7 +134,8 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	}
 
 	private boolean isIntervalPlotterPreferred() {
-		return IntervalFunctionSupport.isSupported(geo) && !view.isPlotPanel();
+		return IntervalFunctionSupport.isSupported(geo)
+				&& !view.isPlotPanel() && !view.isViewForPlane();
 	}
 
 	private boolean isIntervalPlotterActive() {
@@ -601,5 +602,9 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		if (intervalPlotter != null) {
 			intervalPlotter.disable();
 		}
+	}
+
+	public boolean isIntervalPlotterEnabled() {
+		return this.intervalPlotter.isEnabled();
 	}
 }

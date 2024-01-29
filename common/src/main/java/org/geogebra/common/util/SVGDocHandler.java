@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.io.DocHandler;
+import org.geogebra.common.io.XMLParseException;
 
 /**
  * Parse a single svg element to get width, height and viewBox
@@ -17,8 +18,7 @@ public class SVGDocHandler implements DocHandler {
 	private Map<String, String> attrs = new HashMap<>();
 
 	@Override
-	public void startElement(String tag, LinkedHashMap<String, String> h)
-			throws Exception {
+	public void startElement(String tag, LinkedHashMap<String, String> h) {
 		// copy the map: h is emptied after parsing
 		for (Entry<String, String> entry : h.entrySet()) {
 			this.attrs.put(entry.getKey(), entry.getValue());
@@ -26,22 +26,22 @@ public class SVGDocHandler implements DocHandler {
 	}
 
 	@Override
-	public void endElement(String tag) throws Exception {
+	public void endElement(String tag) throws XMLParseException {
 		// just one tag, ignore
 	}
 
 	@Override
-	public void startDocument() throws Exception {
+	public void startDocument() throws XMLParseException {
 		// just one tag, ignore
 	}
 
 	@Override
-	public void endDocument() throws Exception {
+	public void endDocument() throws XMLParseException {
 		// just one tag, ignore
 	}
 
 	@Override
-	public void text(String str) throws Exception {
+	public void text(String str) throws XMLParseException {
 		// just one tag, ignore
 	}
 

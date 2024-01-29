@@ -4,34 +4,31 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
-public class BaseControllerTest {
-	private static AppCommon3D app;
-	private static EuclidianController ec;
+public class BaseControllerTest extends BaseUnitTest {
+	private EuclidianController ec;
 
-	@Before
-	public void clear() {
-		reset();
+	@Override
+	public AppCommon createAppCommon() {
+		return AppCommonFactory.create3D();
 	}
 
 	/**
 	 * Setup the app
 	 */
-	@BeforeClass
-	public static void setup() {
-		app = AppCommonFactory.create3D();
-		ec = app.getActiveEuclidianView().getEuclidianController();
+	@Before
+	public void setupController() {
+		ec = getApp().getActiveEuclidianView().getEuclidianController();
+		reset();
 	}
 
 	/**
@@ -39,7 +36,7 @@ public class BaseControllerTest {
 	 *            app mode
 	 */
 	protected void setMode(int mode) {
-		app.setMode(mode);
+		getApp().setMode(mode);
 	}
 
 	/**
@@ -66,13 +63,13 @@ public class BaseControllerTest {
 	 * @param y
 	 *            screen y-coordinate
 	 */
-	protected static void dragStart(int x, int y, boolean right) {
+	protected void dragStart(int x, int y, boolean right) {
 		TestEvent evt = new TestEvent(x, y, null, right);
 		ec.setDraggingDelay(0);
 		ec.wrapMousePressed(evt);
 	}
 
-	protected static void dragStart(int x, int y) {
+	protected void dragStart(int x, int y) {
 		dragStart(x, y, false);
 	}
 
@@ -84,21 +81,22 @@ public class BaseControllerTest {
 	 * @param y
 	 *            screen y-coordinate
 	 */
-	protected static void dragEnd(int x, int y, boolean right) {
+	protected void dragEnd(int x, int y, boolean right) {
 		TestEvent evt = new TestEvent(x, y, null, right);
 		ec.wrapMouseDragged(evt, true);
 		ec.wrapMouseDragged(evt, true);
 		ec.wrapMouseReleased(evt);
 	}
 
-	protected static void dragEnd(int x, int y) {
+	protected void dragEnd(int x, int y) {
 		dragEnd(x, y, false);
 	}
 
 	/**
 	 * Reset the app
 	 */
-	protected static void reset() {
+	protected void reset() {
+		AppCommon app = getApp();
 		app.getKernel().clearConstruction(true);
 		app.initDialogManager(true);
 		app.getActiveEuclidianView().clearView();
@@ -112,26 +110,6 @@ public class BaseControllerTest {
 				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_OFF);
 		app.getSettings().endBatch();
 		ec.setLastMouseUpLoc(null);
-	}
-
-	/**
-	 * @return application
-	 */
-	protected AppCommon getApp() {
-		return app;
-	}
-
-	/**
-	 * Add object to the construction using a command
-	 * 
-	 * @param cmd
-	 *            command
-	 * @return first created geo
-	 */
-	protected GeoElement add(String cmd) {
-		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(cmd, false);
-		return geos == null || geos.length == 0 ? null : geos[0].toGeoElement();
 	}
 
 	/**
@@ -168,7 +146,7 @@ public class BaseControllerTest {
 	 */
 	protected void checkContentWithVisibility(boolean visible, String... desc) {
 		int i = 0;
-		for (String label : app.getGgbApi().getAllObjectNames()) {
+		for (String label : getApp().getGgbApi().getAllObjectNames()) {
 			GeoElement geo = lookup(label);
 			if (geo.isEuclidianVisible() == visible) {
 				assertTrue(
@@ -182,15 +160,6 @@ public class BaseControllerTest {
 			}
 		}
 		assertEquals(desc.length, i);
-	}
-
-	/**
-	 * @param label
-	 *            label
-	 * @return construction element
-	 */
-	protected GeoElement lookup(String label) {
-		return app.getKernel().lookupLabel(label);
 	}
 
 	protected GeoImage createImage() {

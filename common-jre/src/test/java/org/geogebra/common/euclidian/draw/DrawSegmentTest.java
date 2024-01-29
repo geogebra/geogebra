@@ -19,7 +19,7 @@ public class DrawSegmentTest extends BaseUnitTest {
 	@Test
 	public void allStylesShouldBePaintedToGraphics() {
 		GeoSegment seg = add("Segment((0,0),(1,1))");
-		Drawable drawable = (Drawable) getApp().getActiveEuclidianView().getDrawableFor(seg);
+		Drawable drawable = getDrawable(seg);
 		GGraphicsCommon g2d = new GGraphicsCommon() {
 			@Override
 			public void fill(GShape sh) {

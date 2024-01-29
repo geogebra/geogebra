@@ -557,7 +557,7 @@ public class GeoGebraFrame extends JFrame
 				}
 				UtilD.delete(dest);
 
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				Log.error("Unsuccessful update");
 			} finally {
 				if (zis != null) {
@@ -1109,7 +1109,10 @@ public class GeoGebraFrame extends JFrame
 	@Override
 	public void componentMoved(ComponentEvent e) {
 		if (app != null) {
-			app.getImageManager().updatePixelRatio(getGraphicsConfiguration());
+			if (app.getImageManager().updatePixelRatio(getGraphicsConfiguration())
+					&& app.getGuiManager() != null) {
+				app.getGuiManager().updateFonts();
+			}
 		}
 	}
 

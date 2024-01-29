@@ -13,15 +13,19 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -345,6 +349,26 @@ public class MoveToolTest extends BaseControllerTest {
 	}
 
 	@Test
+	public void moveWithArrowKeyShouldNotChangeTextWithDependentAbsolutePosition() {
+		add("posX = 100");
+		add("posY = 100");
+		GeoText text = (GeoText) add("Text(\"Try me\")");
+		text.setAbsoluteScreenLocActive(true);
+
+		AbsoluteScreenPositionModel modelForX = new AbsoluteScreenPositionModel.ForX(getApp());
+		modelForX.setGeos(new GeoElement[]{text});
+		modelForX.applyChanges("posX");
+
+		AbsoluteScreenPositionModel modelForY = new AbsoluteScreenPositionModel.ForY(getApp());
+		modelForY.setGeos(new GeoElement[]{text});
+		modelForY.applyChanges("posY");
+
+		moveObjectWithArrowKey(text, 1, -1);
+		assertEquals(100, text.getAbsoluteScreenLocX());
+		assertEquals(100, text.getAbsoluteScreenLocY());
+	}
+
+	@Test
 	public void selectionReadByScreenReaderOnce() {
 		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
 		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setScreenReader(screenReader);
@@ -449,6 +473,38 @@ public class MoveToolTest extends BaseControllerTest {
 		dragStart(75, 75);
 		dragEnd(75, 125);
 		assertThat(corner, hasValue("(1, -2)"));
+	}
+
+	@Test
+	public void movePointShouldSnapOnDrag() {
+		GeoElement point = add("A = (0, 0)");
+		snapToGrid();
+		dragStart(0, 0);
+		dragEnd(205, 0);
+		assertThat(point, hasValue("(4, 0)"));
+	}
+
+	private void snapToGrid() {
+		getApp().getActiveEuclidianView().setPointCapturing(
+				EuclidianStyleConstants.POINT_CAPTURING_ON
+		);
+	}
+
+	@Test
+	public void moveSegmentShouldSnapOnDrag() {
+		GeoSegment segment = (GeoSegment) add("Segment((0, 0), (1, 0))");
+		snapToGrid();
+		dragStart(25, 0);
+		dragEnd(230, 0);
+		assertThat(segment.startPoint, hasValue("(4, 0)"));
+	}
+
+	@Test
+	public void moveSegmentShouldRunOnUpdateForEndPoints() {
+		add("A = (0,0)");
+		GeoElement segment = add("f = Segment(A, (1,-1))");
+		moveObjectWithArrowKey(segment, 1, -2);
+		checkContent("A = (1, -2)", "f = 1.41421");
 	}
 
 	private void assertFurnitureDragBehavior(GeoElement furniture) {

@@ -90,8 +90,8 @@ public class DrawInputBoxTest extends BaseUnitTest {
 		inputBoxNumber
 				.setClickScript(
 						new GgbScript(getApp(), "UpdateConstruction()"));
-		AutoCompleteTextFieldC tf = (AutoCompleteTextFieldC) ((DrawInputBox) ev
-				.getDrawableFor(inputBoxNumber)).getTextField();
+		AutoCompleteTextFieldC tf = (AutoCompleteTextFieldC)
+				((DrawInputBox) getDrawable(inputBoxNumber)).getTextField();
 		tf.setUsedForInputBox(inputBoxNumber);
 		tf.requestFocus();
 		tf.setText("2");

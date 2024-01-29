@@ -811,9 +811,6 @@ public class TabbedKeyboard extends FlowPanel
 		case RETURN_ENTER:
 			// make sure enter is processed correctly
 			processField.onEnter();
-			if (processField.resetAfterEnter()) {
-				getUpdateKeyBoardListener().closeKeyboard();
-			}
 			break;
 		case SWITCH_TO_SPECIAL_SYMBOLS:
 			switcher.select(KeyboardType.SPECIAL);

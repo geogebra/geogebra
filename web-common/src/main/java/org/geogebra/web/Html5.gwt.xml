@@ -14,7 +14,6 @@
   <resource path='resources'/>
   <resource path='pub/js'/>
   <resource path='exam'/>
-  <super-source path='html5-super' />
   <!-- not using any browser-specific overrides: only compile for one browser -->
   <set-property name="user.agent" value="safari" />
   <set-property-fallback name="user.agent" value="safari"/>

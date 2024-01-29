@@ -6,7 +6,6 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.UserPublic;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -52,15 +51,6 @@ public abstract class FileManager extends MaterialsManager {
 	 */
 	public abstract void saveFile(String base64, long modified,
 	        final SaveCallback cb);
-
-	/**
-	 * loads every file of the device depending on the {@link MaterialFilter
-	 * filter} into the BrowseView.
-	 *
-	 * @param materialFilter
-	 *            filter
-	 */
-	protected abstract void getFiles(MaterialFilter materialFilter);
 
 	/**
 	 * Overwritten for phone
@@ -119,23 +109,6 @@ public abstract class FileManager extends MaterialsManager {
 			mat.setURL(activeMaterial.getURL());
 		}
 		return mat;
-	}
-
-	/**
-	 * @param query
-	 *            String
-	 */
-	@Override
-	public void search(final String query) {
-		getFiles(MaterialFilter.getSearchFilter(query));
-	}
-
-	/**
-	 * adds the files from the current user to the {@link org.geogebra.web.full.gui.openfileview.OpenFileView}
-	 */
-	@Override
-	public void getUsersMaterials() {
-		getFiles(MaterialFilter.getAppNameFilter(app.getConfig().getAppCode()));
 	}
 
 	@Override

@@ -81,6 +81,4 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler);
 
 	void onBackSpace();
-
-	void setText(String text);
 }

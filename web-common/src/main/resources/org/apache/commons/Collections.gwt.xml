@@ -1,4 +1,3 @@
 <module>
   <source path="collections15" />
-  <super-source path="common-super" />
 </module>
