@@ -47,20 +47,40 @@ import com.google.j2objc.annotations.Weak;
  */
 public final class ExamController implements PropertiesRegistryListener {
 
+	private static class Dependencies {
+		@NonOwning
+		final Object context;
+		@NonOwning
+		final CommandDispatcher commandDispatcher;
+		@NonOwning
+		final AlgebraProcessor algebraProcessor;
+		@NonOwning
+		Set<ExamRestrictable> restrictables;
+
+		Dependencies(Object context,
+				CommandDispatcher commandDispatcher,
+				AlgebraProcessor algebraProcessor,
+				Set<ExamRestrictable> restrictables) {
+			this.context = context;
+			this.commandDispatcher = commandDispatcher;
+			this.algebraProcessor = algebraProcessor;
+			this.restrictables = restrictables;
+		}
+	}
+
 	@Weak
 	@NonOwning
-	private ExamControllerDelegate delegate;
+	public ExamControllerDelegate delegate;
 
-	@NonOwning
-	private CommandDispatcher commandDispatcher;
-	@NonOwning
-	private AlgebraProcessor algebraProcessor;
 	@NonOwning
 	private PropertiesRegistry propertiesRegistry;
 
+	private Set<Dependencies> dependencies = new HashSet<>();
+	private Set<ExamRestrictable> restrictables = new HashSet<>();
+	private Dependencies activeDependencies;
+
 	private ExamRegion examType;
 	private ExamRestrictions examRestrictions;
-	private final Set<ExamRestrictable> restrictables = new HashSet<>();
 
 	private ExamState state = ExamState.IDLE;
 	private Date startDate, endDate;
@@ -71,57 +91,57 @@ public final class ExamController implements PropertiesRegistryListener {
 	// filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
 
-	public ExamController() {
+	public ExamController(PropertiesRegistry propertiesRegistry) {
+		this.propertiesRegistry = propertiesRegistry;
+		propertiesRegistry.addListener(this);
 	}
 
 	/**
 	 * Sets the delegate.
-	 *
-	 * @apiNote It is assumed that the delegate is set before attempting to start an exam.
-	 *
 	 * @param delegate The delegate.
+	 * @apiNote It is assumed that the delegate is set before attempting to start an exam.
+	 * @implNote This method is provided for J2ObjC.
 	 */
 	public void setDelegate(@NonOwning ExamControllerDelegate delegate) {
 		this.delegate = delegate;
 	}
 
 	/**
-	 * Sets the command dispatcher (dependency).
+	 * Sets the dependencies.
 	 *
-	 * @param commandDispatcher The command dispatcher.
+	 * This needs to be called before an exam starts, and also when the App instance changes
+	 * during an exam, so what we can unapply the restrictions on the current dependencies,
+	 * and apply the restrictions on the new dependencies.
 	 */
-	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
-		this.commandDispatcher = commandDispatcher;
-	}
-
-	/**
-	 * Sets the algebra processor (dependency).
-	 *
-	 * @param algebraProcessor The algebra processor.
-	 */
-	public void setAlgebraProcessor(AlgebraProcessor algebraProcessor) {
-		this.algebraProcessor = algebraProcessor;
-	}
-
-	/**
-	 * Sets the properties registry (dependency).
-	 *
-	 * @param propertiesRegistry The properties registry.
-	 */
-	public void setPropertiesRegistry(PropertiesRegistry propertiesRegistry) {
-		this.propertiesRegistry = propertiesRegistry;
-		propertiesRegistry.addListener(this);
+	public void setActiveContext(Object activeContext,
+			CommandDispatcher commandDispatcher,
+			AlgebraProcessor algebraProcessor) {
+		// unapply restrictions for current dependencies, if exam active
+		if (activeDependencies != null) {
+			unapplyRestrictions(activeDependencies);
+			restrictables = new HashSet<>();
+		}
+		this.activeDependencies = new Dependencies(activeContext,
+				commandDispatcher,
+				algebraProcessor,
+				restrictables);
+		// apply restrictions for new dependencies, if exam active
+		if (examRestrictions != null) {
+			applyRestrictions(examType, activeDependencies);
+		}
 	}
 
 	/**
 	 * Register an object that may need to apply additional restrictions/customization
 	 * for certain types of exams.
-	 *
 	 * @param restrictable An object that may need to perform additional customization
 	 * when an exam is started.
 	 */
 	public void registerRestrictable(ExamRestrictable restrictable) {
-		restrictables.add(restrictable);
+		restrictables.add(restrictable); // this may be shared with activeDependencies, if non-null
+		if (examRestrictions != null) {
+			restrictable.applyRestrictions(examRestrictions);
+		}
 	}
 
 	/**
@@ -155,7 +175,6 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * Changes state and notifies listeners about the state change.
 	 *
 	 * Note: If newState is equal to the current state, nothing happens.
-	 *
 	 * @param newState The new state to change to.
 	 */
 	private void setState(ExamState newState) {
@@ -182,7 +201,6 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Get ready for a new exam.
-	 *
 	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#IDLE INACTIVE}
 	 * state.
 	 */
@@ -195,15 +213,15 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Starts the exam.
-	 *
 	 * @throws IllegalStateException if the exam controller is not in the
 	 * {@link ExamState#PREPARING PREPARING} state.
 	 */
-	public void startExam(ExamRegion region) {
+	public void startExam(ExamRegion examType) {
 		if (state != ExamState.PREPARING) {
 			throw new IllegalStateException();
 		}
-		applyRestrictions(region);
+		this.examType = examType;
+		applyRestrictions(examType, activeDependencies);
 		requestAction(ExamAction.CLEAR_CLIPBOARD);
 		requestAction(ExamAction.CLEAR_APPS);
 		tempStorage.clearTempMaterials();
@@ -215,9 +233,8 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Stops the exam.
-	 *
 	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#ACTIVE ACTIVE}
-	 * 	state.
+	 * state.
 	 */
 	public void stopExam() {
 		if (state != ExamState.ACTIVE) {
@@ -229,7 +246,6 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Finishes the current exam.
-	 *
 	 * @throws IllegalStateException if the exam controller is not in the
 	 * {@link ExamState#WRAPPING_UP WRAPPING_UP} state.
 	 */
@@ -237,7 +253,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (state != ExamState.WRAPPING_UP) {
 			throw new IllegalStateException();
 		}
-		unapplyRestrictions();
+		unapplyRestrictions(activeDependencies);
 		tempStorage.clearTempMaterials();
 		requestAction(ExamAction.CLEAR_CLIPBOARD);
 		requestAction(ExamAction.CLEAR_APPS);
@@ -265,22 +281,34 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void applyRestrictions(ExamRegion region) {
-		// TODO app.resetCommandDict()
-		examRestrictions = ExamRestrictions.forRegion(region);
-		if (examRestrictions != null) {
-			examRestrictions.apply(commandDispatcher, algebraProcessor, propertiesRegistry);
-			for (ExamRestrictable restrictable : restrictables) {
+	private void applyRestrictions(ExamRegion examType, Dependencies dependencies) {
+		// TODO app.resetCommandDict() (register as ExamRestrictable?)
+		examRestrictions = ExamRestrictions.forExamType(examType);
+		if (examRestrictions == null) {
+			return; // log/throw?
+		}
+		if (dependencies != null) {
+			examRestrictions.apply(dependencies.commandDispatcher,
+					dependencies.algebraProcessor,
+					propertiesRegistry,
+					dependencies.context);
+			for (ExamRestrictable restrictable : dependencies.restrictables) {
 				restrictable.applyRestrictions(examRestrictions);
 			}
 			// TODO suppress syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 		}
 	}
 
-	private void unapplyRestrictions() {
-		if (examRestrictions != null) {
-			examRestrictions.unapply(commandDispatcher, algebraProcessor, propertiesRegistry);
-			for (ExamRestrictable restrictable : restrictables) {
+	private void unapplyRestrictions(Dependencies dependencies) {
+		if (examRestrictions == null) {
+			return;
+		}
+		if (dependencies != null) {
+			examRestrictions.unapply(dependencies.commandDispatcher,
+					dependencies.algebraProcessor,
+					propertiesRegistry,
+					dependencies.context);
+			for (ExamRestrictable restrictable : dependencies.restrictables) {
 				restrictable.unapplyRestrictions(examRestrictions);
 			}
 			// TODO enable syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)

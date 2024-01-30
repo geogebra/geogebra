@@ -28,8 +28,8 @@ import org.geogebra.common.properties.ValuedProperty;
  */
 public class ExamRestrictions {
 
-	public static ExamRestrictions forRegion(ExamRegion region) {
-		switch (region) {
+	public static ExamRestrictions forExamType(ExamRegion examType) {
+		switch (examType) {
 		case VLAANDEREN:
 			return new VlaanderenExamRestrictions();
 		default:
@@ -109,12 +109,12 @@ public class ExamRestrictions {
 	/**
 	 * Apply the restrictions.
 	 *
-	 * @param commandDispatcher The command dispatcher.
 	 * TODO add more arguments if necessary
 	 */
 	public final void apply(CommandDispatcher commandDispatcher,
 			AlgebraProcessor algebraProcessor,
-			PropertiesRegistry propertiesRegistry) {
+			PropertiesRegistry propertiesRegistry,
+			Object context) {
 		if (commandFilter != null) {
 			commandDispatcher.addCommandFilter(commandFilter);
 		}
@@ -126,7 +126,7 @@ public class ExamRestrictions {
 			algebraProcessor.addExpressionFilter(expressionFilter);
 		}
 		for (String frozenProperty : frozenProperties) {
-			Property property = propertiesRegistry.lookup(frozenProperty);
+			Property property = propertiesRegistry.lookup(frozenProperty, context);
 			if (property != null) {
 				freeze(property);
 			}
@@ -134,14 +134,12 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * Revert the changes from {@link #apply(CommandDispatcher, AlgebraProcessor)}.
-	 *
-	 * @param commandDispatcher The command dispatcher.
-	 * TODO add more arguments if necessary
+	 * Revert the changes from {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}.
 	 */
 	public final void unapply(CommandDispatcher commandDispatcher,
 			AlgebraProcessor algebraProcessor,
-			PropertiesRegistry propertiesRegistry) {
+			PropertiesRegistry propertiesRegistry,
+			Object context) {
 		if (commandFilter != null) {
 			commandDispatcher.removeCommandFilter(commandFilter);
 		}
@@ -153,7 +151,7 @@ public class ExamRestrictions {
 			algebraProcessor.removeExpressionFilter(expressionFilter);
 		}
 		for (String frozenProperty : frozenProperties) {
-			Property property = propertiesRegistry.lookup(frozenProperty);
+			Property property = propertiesRegistry.lookup(frozenProperty, context);
 			if (property != null) {
 				unfreeze(property);
 			}

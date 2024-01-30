@@ -15,6 +15,8 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +25,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private AppCommon app;
 	private CommandDispatcher commandDispatcher;
 	private ExamController examController;
+	private Object context = new Object();
+	private PropertiesRegistry propertiesRegistry;
 	private List<ExamState> examStates = new ArrayList<>();
 	private List<ExamAction> actions = new ArrayList<>();
 
@@ -32,9 +36,13 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app.setConfig(new AppConfigNotes());
 		commandDispatcher = new CommandDispatcherJre(app.getKernel());
 
-		examController = new ExamController();
+		propertiesRegistry = new DefaultPropertiesRegistry();
+		examController = new ExamController(propertiesRegistry,
+				new ExamController.Dependencies(context,
+						commandDispatcher,
+						null,
+						null));
 		examController.setDelegate(this);
-		examController.setCommandDispatcher(commandDispatcher);
 		examController.addListener(newState -> {
 			examStates.add(newState);
 		});

@@ -17,7 +17,14 @@ public interface PropertiesRegistry {
 	void removeListener(PropertiesRegistryListener listener);
 
 	/**
-	 * Register a property with the registry.
+	 * Set the current context.
+	 *
+	 * @param context The current context (may be `null`).
+	 */
+	void setCurrentContext(Object context);
+
+	/**
+	 * Register a property with the registry in the current context.
 	 *
 	 * If a property with the same raw name has been registered previously, the old
 	 * instance is unregistered before registering the new instance. This should prevent
@@ -35,17 +42,33 @@ public interface PropertiesRegistry {
 	void register(Property property);
 
 	/**
-	 * Remove a property from the registry.
+	 * Same as {@link #register(Property)}, but using the provided context instead of the
+	 * current context.
+	 */
+	void register(Property property, Object context);
+
+	/**
+	 * Remove a property from the registry in the current context.
 	 *
 	 * @param property A property that has previously been registered.
 	 */
 	void unregister(Property property);
+	/**
+	 * Same as {@link #unregister(Property)}, but using the provided context instead of the
+	 * current context.
+	 */
+	void unregister(Property property, Object context);
 
 	/**
-	 * Look up a property by raw (unlocalized) name.
+	 * Look up a property by raw (unlocalized) name in the current context.
 	 *
 	 * @param rawName The raw (unlocalized) name of a property.
 	 * @return The property if found, or null if no such property has been registered.
 	 */
 	Property lookup(String rawName);
+	/**
+	 * Same as {@link #lookup(String)}, but using the provided context instead of the
+	 * current context.
+	 */
+	Property lookup(String rawName, Object context);
 }
