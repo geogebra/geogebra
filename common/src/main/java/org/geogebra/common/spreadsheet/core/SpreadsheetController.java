@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
@@ -148,9 +149,11 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param y y-coordinate relative to viewport
 	 * @param modifiers event modifiers
 	 * @param viewport visible area
+	 * @param adjustViewport Function to adjust the passed viewport
 	 * @return whether the event caused changes in spreadsheet requiring repaint
 	 */
-	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
+	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport,
+			BiConsumer<Double, Double> adjustViewport) {
 		hideCellEditor();
 		dragAction = getDragAction(x, y, viewport);
 		if (modifiers.shift) {
@@ -161,6 +164,9 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 		int column = findColumnOrHeader(x, viewport);
 		int row = findRowOrHeader(y, viewport);
+
+		adjustViewportIfNeeded(row, column, viewport, adjustViewport);
+
 		if (modifiers.rightButton) {
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
@@ -202,6 +208,16 @@ public final class SpreadsheetController implements TabularSelection {
 			TabularRange lastRange = lastSelection.getRange();
 			dragAction = new DragAction(MouseCursor.DEFAULT,
 					lastRange.getMinColumn(), lastRange.getMinRow());
+		}
+	}
+
+	private void adjustViewportIfNeeded(int row, int column, Rectangle viewport,
+			BiConsumer<Double, Double> adjustViewport) {
+		if (layout.getX(column + 1) + layout.getRowHeaderWidth() > viewport.getWidth()) {
+			adjustViewport.accept(30.0, 0.0);
+		}
+		if (layout.getY(row + 1) + layout.getColumnHeaderHeight() > viewport.getHeight()) {
+			adjustViewport.accept(0.0, 30.0);
 		}
 	}
 
