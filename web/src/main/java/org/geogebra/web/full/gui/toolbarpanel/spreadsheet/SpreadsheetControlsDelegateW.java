@@ -25,7 +25,6 @@ public class SpreadsheetControlsDelegateW implements
 	@Override
 	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
 		GPopupMenuW contextMenu = new GPopupMenuW(appW);
-		contextMenu.getPopupPanel().setAutoHideEnabled(false);
 		for (ContextMenuItem item : actions) {
 			contextMenu.addItem(new AriaMenuItem(appW.getLocalization()
 					.getMenu(item.getLocalizationKey()), false, () -> item.performAction()));
