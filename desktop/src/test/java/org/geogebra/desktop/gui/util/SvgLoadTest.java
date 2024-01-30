@@ -1,4 +1,4 @@
-package org.geogebra.deslktop.gui.util;
+package org.geogebra.desktop.gui.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -12,9 +12,6 @@ import java.io.IOException;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.jre.gui.MyImageJre;
-import org.geogebra.desktop.gui.util.JSVGConstants;
-import org.geogebra.desktop.gui.util.JSVGImageBuilder;
-import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;

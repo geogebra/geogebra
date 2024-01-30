@@ -49,7 +49,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		inputPanel.setStyleName("mowInputPanelContent");
 		inputPanel.addStyleName("emptyState");
 
-		titleField = new InputPanelW("", app, 1, 25, false);
+		titleField = new InputPanelW("", app, 25, false);
 		FormLabel titleLbl = new FormLabel().setFor(titleField.getTextComponent());
 		titleLbl.setText(app.getLocalization().getMenu("Title"));
 		titleLbl.addStyleName("inputLabel");

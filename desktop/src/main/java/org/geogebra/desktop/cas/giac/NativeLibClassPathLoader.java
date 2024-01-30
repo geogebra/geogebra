@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.geogebra.common.jre.util.StreamUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
@@ -42,26 +41,20 @@ public class NativeLibClassPathLoader {
 		}
 
 		String filename = prefix + libname + extension;
-		InputStream ins = ClassLoader.getSystemResourceAsStream(filename);
-
-		if (ins == null) {
-			Log.error(filename + " not found");
-			return false;
-		}
-
 		String fname = prefix + libname + Math.random() + extension;
-
-		try {
+		try (InputStream ins = ClassLoader.getSystemResourceAsStream(filename)) {
+			if (ins == null) {
+				Log.error(filename + " not found");
+				return false;
+			}
 
 			// Math.random() to avoid problems with 2 instances
 			File tmpFile = writeTmpFile(ins, fname);
 			System.load(tmpFile.getAbsolutePath());
 			UtilD.delete(tmpFile);
-			ins.close();
 		} catch (IOException e) {
 			Log.debug(e);
 			Log.debug("error loading: " + fname);
-			StreamUtil.closeSilent(ins);
 			return false;
 		}
 

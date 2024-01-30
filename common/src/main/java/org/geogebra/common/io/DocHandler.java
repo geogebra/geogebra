@@ -28,38 +28,38 @@ public interface DocHandler {
 	 *            element name
 	 * @param h
 	 *            attributes
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if invalid
 	 */
 	public void startElement(String tag, LinkedHashMap<String, String> h)
-			throws Exception;
+			throws XMLParseException;
 
 	/**
 	 * @param tag
 	 *            element name
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void endElement(String tag) throws Exception;
+	public void endElement(String tag) throws XMLParseException;
 
 	/**
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void startDocument() throws Exception;
+	public void startDocument() throws XMLParseException;
 
 	/**
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void endDocument() throws Exception;
+	public void endDocument() throws XMLParseException;
 
 	/**
 	 * @param str
 	 *            string between start and end tags
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	public void text(String str) throws Exception;
+	public void text(String str) throws XMLParseException;
 
 }

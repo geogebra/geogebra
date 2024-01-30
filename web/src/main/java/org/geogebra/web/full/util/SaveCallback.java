@@ -50,10 +50,7 @@ public class SaveCallback {
 		if (!isMacro) {
 			app.setSaved();
 			String msg = state == SaveState.ERROR
-					? (app.getLocalization().getMenu("SaveAccountFailed")
-							+ "\n"
-							+ app.getLocalization()
-									.getMenu("SavedLocalCopySuccessfully"))
+					? app.getLocalization().getMenu("SaveAccountFailed")
 					: loc.getMenu("SavedSuccessfully");
 			Material activeMaterial = app.getActiveMaterial();
 			if (activeMaterial != null

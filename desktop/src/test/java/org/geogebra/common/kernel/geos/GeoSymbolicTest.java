@@ -466,7 +466,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solutions(x*a^2=4*a, a)", "{4 / x, 0}");
 		t("Solutions(x^2=4x)", "{0, 4}");
 		t("Solutions({x=4x+y,y+x=2},{x, y})", "{{-1, 3}}");
-		t("Solutions(sin(x)=cos(x))",
+		t("Assume(-pi<x<pi, Solutions(sin(x)=cos(x)))",
 				"{-3 / 4 * " + pi + ", 1 / 4 * " + pi + "}");
 		t("Solutions(x^2=1)", "{-1, 1}");
 		t("Solutions({x+y=1, x-y=3})", "{{2, -1}}");
@@ -2157,6 +2157,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(add("h=If(x<a,a,x<b,b,x<c,c+1)"),
 				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x"
 						+ "\\\\ b& : b > x\\\\ c + 1& : c > x \\end{array}\\right. "));
+		assertThat(add("x+x"), hasFormulaString("2 \\; x"));
 	}
 
 	@Test

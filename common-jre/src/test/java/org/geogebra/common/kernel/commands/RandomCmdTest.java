@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -136,7 +137,7 @@ public class RandomCmdTest extends BaseUnitTest {
 		String old = a.toValueString(StringTemplate.editTemplate);
 		try {
 			getApp().getXMLio().processXMLString(getApp().getXML(), true, false, false);
-		} catch (Exception e) {
+		} catch (XMLParseException e) {
 			throw new IllegalStateException(e);
 		}
 		assertEquals(cmd + " is not stable", old,

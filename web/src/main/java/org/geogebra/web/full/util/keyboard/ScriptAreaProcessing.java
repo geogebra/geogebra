@@ -97,12 +97,6 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public boolean resetAfterEnter() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// not needed
 	}

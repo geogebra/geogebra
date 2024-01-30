@@ -35,6 +35,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 1L;
@@ -46,7 +47,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 	private MyTableInterface myTable;
 
 	// LaTeX
-	private ImageIcon latexIcon;
+	private ScaledIcon latexIcon;
 	private ImageIcon emptyIcon;
 	private String latexStr;
 
@@ -85,7 +86,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 		// The cell renderer extends JLabel...its icon is used to display LaTeX.
-		latexIcon = new ImageIcon();
+		latexIcon =  new ScaledIcon(this);
 		emptyIcon = new ImageIcon();
 
 		cellPoint = new GPoint(); // used for cell format calls

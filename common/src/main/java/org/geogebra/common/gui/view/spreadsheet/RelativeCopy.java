@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -289,8 +290,8 @@ public class RelativeCopy {
 					+ "dx2 = " + dx2 + "\r\n" + "dy2 = " + dy2 + "\r\n";
 			throw new RuntimeException(
 					"Error from RelativeCopy.doCopy:\r\n" + msg);
-		} catch (Exception ex) {
-			// kernel.getApplication().showError(ex.getMessage());
+		} catch (XMLParseException | CircularDefinitionException | ParseException
+				 | RuntimeException ex) {
 			Log.debug(ex);
 			return false;
 		} finally {

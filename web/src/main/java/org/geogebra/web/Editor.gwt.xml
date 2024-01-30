@@ -14,7 +14,6 @@
         <exclude name="**/WebSimple*"/>
     </source>
     <public path="pub"/>
-    <super-source path='html5-super' />
     <entry-point class='org.geogebra.web.editor.EditorEntry'/>
     <!-- #3511 -->
     <inherits name="org.gwtproject.resources.Resources" />
@@ -24,9 +23,8 @@
     <inherits name="com.himamis.retex.editor.JLMEditorDev" />
 
     <!-- Specify the paths for translatable code                    -->
+    <!-- resources is both in source and resource bacause of SVGResource classes -->
     <source path='resources'/>
-    <!-- resources is both in source and resource bacause of SVGResource, SassResource classes -->
-    <super-source path='html5-super' />
     <!-- not using any browser-specific overrides: only compile for one browser -->
     <set-property name="user.agent" value="safari" />
     <set-property-fallback name="user.agent" value="safari"/>
