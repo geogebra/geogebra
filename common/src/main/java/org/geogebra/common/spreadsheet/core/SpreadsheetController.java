@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -29,13 +30,14 @@ public final class SpreadsheetController implements TabularSelection {
 	private final TableLayout layout;
 
 	private final SpreadsheetStyle style;
-	private DragAction dragAction = new DragAction(MouseCursor.DEFAULT, -1, -1);
+	private DragAction dragAction;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
 	 */
 	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
+		resetDragAction();
 		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
@@ -127,7 +129,9 @@ public final class SpreadsheetController implements TabularSelection {
 			editor.setBounds(editorBounds);
 
 			editor.setContent(tabularData.contentAt(row, column));
+			editor.setAlign(tabularData.getAlignment(row, column));
 			editor.setTargetCell(row, column);
+			resetDragAction();
 			return true;
 		}
 		return false;
@@ -252,16 +256,23 @@ public final class SpreadsheetController implements TabularSelection {
 			extendSelectionByDrag(x, y, modifiers.ctrl, viewport);
 		// TODO implement formula propagation with DRAG_DOT
 		}
+		resetDragAction();
+	}
+
+	private void resetDragAction() {
 		dragAction = new DragAction(MouseCursor.DEFAULT, -1, -1);
 	}
 
 	/**
 	 * Handles keys being pressed
 	 * @param keyCode Key Code
+	 * @param key unicode value
 	 * @param modifiers Modifiers
+	 * @param viewport viewport
 	 * @return Whether the event caused changes in the spreadsheet requiring repaint
 	 */
-	public boolean handleKeyPressed(int keyCode, Modifiers modifiers) {
+	public boolean handleKeyPressed(int keyCode, String key,
+			Modifiers modifiers, Rectangle viewport) {
 		if (selectionController.hasSelection()) {
 			switch (keyCode) {
 			case JavaKeyCodes.VK_LEFT:
@@ -281,11 +292,26 @@ public final class SpreadsheetController implements TabularSelection {
 					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
 					return true;
 				}
+			case JavaKeyCodes.VK_ENTER:
+				showCellEditorAtSelection(viewport);
+				return true;
 			default:
+				if (!modifiers.ctrl && !modifiers.alt && !StringUtil.empty(key)) {
+					showCellEditorAtSelection(viewport);
+					controlsDelegate.getCellEditor().setContent(key);
+				}
 				return false;
 			}
 		}
 		return false;
+	}
+
+	private void showCellEditorAtSelection(Rectangle viewport) {
+		Selection last = getLastSelection();
+		TabularRange range = last == null ? null : last.getRange();
+		if (range != null) {
+			showCellEditor(range.getFromRow(), range.getFromColumn(), viewport);
+		}
 	}
 
 	/**
@@ -316,7 +342,7 @@ public final class SpreadsheetController implements TabularSelection {
 		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
 	}
 
-	Selection getLastSelection() {
+	@CheckForNull Selection getLastSelection() {
 		return selectionController.getLastSelection();
 	}
 
@@ -403,6 +429,9 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	@CheckForNull GPoint2D getDraggingDot(Rectangle viewport) {
+		if (controlsDelegate.getCellEditor().isVisible()) {
+			return null;
+		}
 		List<TabularRange> visibleSelections = getVisibleSelections();
 		if (!visibleSelections.isEmpty()) {
 			TabularRange lastSelection = visibleSelections.get(visibleSelections.size() - 1);
