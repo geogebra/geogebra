@@ -443,11 +443,11 @@ public class GeoImage extends GeoElement implements
 	}
 
 	/**
-	 * @return List of corner points that are not null and defined
+	 * @return List of corner points that are not null, defined, and labeled
 	 */
-	public List<GeoPoint> getDefinedStartPoints() {
+	public List<GeoPoint> getDefinedAndLabeledStartPoints() {
 		return Arrays.stream(corners).filter(point -> point != null
-				&& point.isDefined()).collect(Collectors.toList());
+				&& point.isDefined() && point.isLabelSet()).collect(Collectors.toList());
 	}
 
 	/**

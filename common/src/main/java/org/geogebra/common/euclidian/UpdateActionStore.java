@@ -54,7 +54,7 @@ public class UpdateActionStore {
 			if (geo.getParentAlgorithm() != null) {
 				geosToStore.addAll(geo.getParentAlgorithm().getDefinedAndLabeledInput());
 			} else if (geo instanceof GeoImage) {
-				geosToStore.addAll(((GeoImage) geo).getDefinedStartPoints());
+				geosToStore.addAll(((GeoImage) geo).getDefinedAndLabeledStartPoints());
 			}
 			geosToStore.add(geo);
 		}

@@ -157,7 +157,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 		app.setDefaultCursor();
 		if (!isInternalFile) {
 			ArrayList<GeoElement> geosToStore = new ArrayList<>();
-			geosToStore.addAll(geoImage.getDefinedStartPoints());
+			geosToStore.addAll(geoImage.getDefinedAndLabeledStartPoints());
 			geosToStore.add(geoImage);
 			app.getUndoManager().storeAddGeo(geosToStore);
 
