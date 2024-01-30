@@ -325,7 +325,7 @@ public class ParametricProcessor {
 						.getReplacer(locVar, fv[0], kernel);
 				// replace GeoNumeric with function variable
 				exp.traverse(repl);
-				GeoElement[] line = ap.processLine(eq, buildParamEq(exp), info);
+				GeoElement[] line = ap.processLine(eq, buildParamEq(exp, label), info);
 				((GeoLineND) line[0]).setToUser();
 				line[0].update();
 				return line;
@@ -568,10 +568,13 @@ public class ParametricProcessor {
 	/**
 	 * @param exp
 	 *            RHS of parametric equation
+	 * @param label label used for original definition, keep track to make auto-labeling work
 	 * @return equation X = exp
 	 */
-	protected ExpressionNode buildParamEq(ExpressionNode exp) {
-		return new Equation(kernel, new Variable(kernel, "X"), exp).wrap();
+	protected ExpressionNode buildParamEq(ExpressionNode exp, String label) {
+		ExpressionNode ret = new Equation(kernel, new Variable(kernel, "X"), exp).wrap();
+		ret.setLabel(label);
+		return ret;
 	}
 
 	private GeoElement[] paramConic(Equation eq, ExpressionNode exp,
@@ -579,7 +582,7 @@ public class ParametricProcessor {
 		eq.initEquation();
 		eq.setForceConic();
 		eq.setLabel(label);
-		GeoElement[] ret = ap.processConic(eq, buildParamEq(exp), info);
+		GeoElement[] ret = ap.processConic(eq, buildParamEq(exp, label), info);
 		((GeoConicND) ret[0]).toParametric(param);
 		((GeoConicND) ret[0]).update();
 		return ret;
