@@ -884,4 +884,15 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox input = add("ib=InputBox(a)");
 		assertEquals("ib", input.toString(StringTemplate.defaultTemplate));
 	}
+
+	@Test
+	public void asindThrowsNoErrorForAngleInputbox() {
+		add("a=22°");
+		GeoInputBox input = add("ib=InputBox(a)");
+		String updated = "asind(0.5)";
+		input.updateLinkedGeo(updated);
+		assertFalse(input.hasError());
+		assertEquals("\\operatorname{sin⁻¹} \\left( 0.5 \\right)", input.getText());
+	}
+
 }
