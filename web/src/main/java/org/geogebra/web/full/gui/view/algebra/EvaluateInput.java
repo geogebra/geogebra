@@ -123,9 +123,7 @@ public class EvaluateInput {
 			}
 
 			if (!app.getConfig().hasAutomaticLabels()) {
-				if (!(geos.length == 1 && geos[0].isLabelSet())) {
-					new LabelHiderCallback().callback(geos);
-				}
+				new LabelHiderCallback().callback(geos);
 			}
 			if (geos.length == 1) {
 				// need label if we type just eg
