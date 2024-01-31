@@ -108,8 +108,9 @@ final class SpreadsheetSelectionController {
 	 * @param numberOfRows Number of rows
 	 */
 	void moveDown(boolean extendSelection, int numberOfRows) {
-		if (getLastSelection() != null) {
-			select(getLastSelection().getBottom(numberOfRows, extendSelection),
+		Selection lastSelection = getLastSelection();
+		if (lastSelection != null) {
+			select(lastSelection.getBottom(numberOfRows, extendSelection),
 					extendSelection, false);
 		}
 	}
@@ -132,8 +133,9 @@ final class SpreadsheetSelectionController {
 	 * @param addSelection Whether we want to add this selection to the current selections (CTRL)
 	 */
 	public boolean select(Selection selection, boolean extendSelection, boolean addSelection) {
-		if (extendSelection && getLastSelection() != null) {
-			extendSelection(getLastSelection(), selection, addSelection);
+		Selection lastSelection = getLastSelection();
+		if (extendSelection && lastSelection != null) {
+			extendSelection(lastSelection, selection, addSelection);
 			return true;
 		} else if (!addSelection) {
 			return setSelections(selection);

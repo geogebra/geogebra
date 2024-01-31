@@ -18,6 +18,8 @@ import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Panel;
 
+import com.google.gwt.core.client.Scheduler;
+
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
 
 	private final SpreadsheetCellEditorW editor;
@@ -26,13 +28,10 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		private final MathFieldEditor mathField;
 		private final Panel parent;
 		private final AppW app;
-		private final SpreadsheetControlsDelegateW controls;
 
-		public SpreadsheetCellEditorW(AppW app, Panel parent,
-				SpreadsheetControlsDelegateW controls) {
-			this.mathField = new MathTextFieldW(app);
+		public SpreadsheetCellEditorW(AppW app, Panel parent, MathTextFieldW mathField) {
+			this.mathField = mathField;
 			mathField.addStyleName("spreadsheetEditor");
-			this.controls = controls;
 			this.parent = parent;
 			this.app = app;
 		}
@@ -47,6 +46,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			mathField.setRightMargin(8);
 			mathField.setVisible(true);
 			mathField.requestFocus();
+			Scheduler.get().scheduleDeferred(mathField::requestFocus);
 		}
 
 		@Override
@@ -77,13 +77,14 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			return mathField.isVisible();
 		}
 
+		@Override
 		public void hide() {
 			mathField.setVisible(false);
 		}
 	}
 
-	public SpreadsheetControlsDelegateW(AppW app, Panel parent) {
-		editor = new SpreadsheetCellEditorW(app, parent, this);
+	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
+		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 	}
 
 	@Override

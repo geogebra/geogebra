@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.dom.style.shared.Unit;
 
 /**
@@ -60,5 +61,10 @@ public class SpreadsheetTab extends ToolbarTab {
 	@Override
 	public DockPanelData.TabIds getID() {
 		return DockPanelData.TabIds.SPREADSHEET;
+	}
+
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
+		return spreadsheetPanel.getKeyboardListener();
 	}
 }

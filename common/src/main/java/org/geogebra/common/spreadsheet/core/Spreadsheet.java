@@ -206,4 +206,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		return controller.getLayout().getTotalHeight();
 	}
 
+	public boolean isEditorActive() {
+		return controller.isEditorActive();
+	}
 }

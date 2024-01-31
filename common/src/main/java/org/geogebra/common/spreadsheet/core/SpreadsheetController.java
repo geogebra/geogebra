@@ -296,10 +296,11 @@ public final class SpreadsheetController implements TabularSelection {
 				showCellEditorAtSelection(viewport);
 				return true;
 			default:
+				SpreadsheetControlsDelegate controls = controlsDelegate;
 				if (!modifiers.ctrl && !modifiers.alt && !StringUtil.empty(key)
-					&& controlsDelegate != null) {
+					&& controls != null) {
 					showCellEditorAtSelection(viewport);
-					controlsDelegate.getCellEditor().setContent(key);
+					controls.getCellEditor().setContent(key);
 				}
 				return false;
 			}
@@ -430,7 +431,7 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	@CheckForNull GPoint2D getDraggingDot(Rectangle viewport) {
-		if (controlsDelegate != null && controlsDelegate.getCellEditor().isVisible()) {
+		if (isEditorActive()) {
 			return null;
 		}
 		List<TabularRange> visibleSelections = getVisibleSelections();
@@ -444,5 +445,12 @@ public final class SpreadsheetController implements TabularSelection {
 			return null;
 		}
 		return null;
+	}
+
+	/**
+	 * @return whether editor is currently visible
+	 */
+	public boolean isEditorActive() {
+		return controlsDelegate != null && controlsDelegate.getCellEditor().isVisible();
 	}
 }
