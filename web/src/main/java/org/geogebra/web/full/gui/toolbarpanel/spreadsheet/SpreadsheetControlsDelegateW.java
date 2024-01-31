@@ -82,7 +82,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		public void hide() {
 			mathField.setVisible(false);
 		}
-	}
+
+		public AppW getApp() {
+			return app;
+		}
+ 	}
 
 	public SpreadsheetControlsDelegateW(AppW app, Panel parent) {
 		editor = new SpreadsheetCellEditorW(app, parent, this);
@@ -95,9 +99,9 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
-		GPopupMenuW contextMenu = new GPopupMenuW(appW);
+		GPopupMenuW contextMenu = new GPopupMenuW(editor.getApp());
 		for (ContextMenuItem item : actions) {
-			contextMenu.addItem(new AriaMenuItem(appW.getLocalization()
+			contextMenu.addItem(new AriaMenuItem(editor.getApp().getLocalization()
 					.getMenu(item.getLocalizationKey()), false, () -> item.performAction()));
 		}
 		contextMenu.showAtPoint(coords.x, coords.y);
