@@ -9983,6 +9983,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		final boolean alt = event.isAltDown();
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		boolean rightClick = event.isRightClick();
+		boolean setOldModeForView = true;
 		PointerEventType type = event.getType();
 
 		if (isDraggingOccuredBeyondThreshold()) {
@@ -10011,6 +10012,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (geo != null) {
 				selectAndShowSelectionUI(geo);
 			}
+			setOldModeForView = false;
 		}
 
 		lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
@@ -10168,7 +10170,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (temporaryMode) {
 			// Michael Borcherds 2007-10-13 BEGIN
-			view.setMode(oldMode);
+			if (setOldModeForView) {
+				view.setMode(oldMode);
+			}
 			temporaryMode = false;
 			this.defaultEventType = oldEventType;
 			// Michael Borcherds 2007-12-08 BEGIN bugfix: couldn't select
