@@ -111,11 +111,11 @@ public class CellFormat implements CellFormatInterface {
 	}
 
 	@Override
-	public int getAlignment(int col, int row, boolean b) {
+	public int getAlignment(int col, int row, boolean isText) {
 		Integer alignment = (Integer) getCellFormat(col, row, CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
 			return alignment;
-		} else if (b) {
+		} else if (isText) {
 			return ALIGN_LEFT;
 		} else {
 			return ALIGN_RIGHT;
