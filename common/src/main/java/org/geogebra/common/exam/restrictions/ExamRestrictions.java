@@ -115,15 +115,19 @@ public class ExamRestrictions {
 			AlgebraProcessor algebraProcessor,
 			PropertiesRegistry propertiesRegistry,
 			Object context) {
-		if (commandFilter != null) {
-			commandDispatcher.addCommandFilter(commandFilter);
+		if  (commandDispatcher != null) {
+			if (commandFilter != null) {
+				commandDispatcher.addCommandFilter(commandFilter);
+			}
+			commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
+			if (commandArgumentFilter != null) {
+				commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
+			}
 		}
-		commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
-		if (commandArgumentFilter != null) {
-			commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
-		}
-		if (expressionFilter != null) {
-			algebraProcessor.addExpressionFilter(expressionFilter);
+		if (algebraProcessor != null) {
+			if (expressionFilter != null) {
+				algebraProcessor.addExpressionFilter(expressionFilter);
+			}
 		}
 		for (String frozenProperty : frozenProperties) {
 			Property property = propertiesRegistry.lookup(frozenProperty, context);
@@ -140,15 +144,19 @@ public class ExamRestrictions {
 			AlgebraProcessor algebraProcessor,
 			PropertiesRegistry propertiesRegistry,
 			Object context) {
-		if (commandFilter != null) {
-			commandDispatcher.removeCommandFilter(commandFilter);
+		if (commandDispatcher != null) {
+			if (commandFilter != null) {
+				commandDispatcher.removeCommandFilter(commandFilter);
+			}
+			commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
+			if (commandArgumentFilter != null) {
+				commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
+			}
 		}
-		commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
-		if (commandArgumentFilter != null) {
-			commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
-		}
-		if (expressionFilter != null) {
-			algebraProcessor.removeExpressionFilter(expressionFilter);
+		if (algebraProcessor != null) {
+			if (expressionFilter != null) {
+				algebraProcessor.removeExpressionFilter(expressionFilter);
+			}
 		}
 		for (String frozenProperty : frozenProperties) {
 			Property property = propertiesRegistry.lookup(frozenProperty, context);

@@ -37,11 +37,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		commandDispatcher = new CommandDispatcherJre(app.getKernel());
 
 		propertiesRegistry = new DefaultPropertiesRegistry();
-		examController = new ExamController(propertiesRegistry,
-				new ExamController.Dependencies(context,
-						commandDispatcher,
-						null,
-						null));
+		examController = new ExamController(propertiesRegistry);
+		examController.setActiveContext(context, commandDispatcher, null);
 		examController.setDelegate(this);
 		examController.addListener(newState -> {
 			examStates.add(newState);

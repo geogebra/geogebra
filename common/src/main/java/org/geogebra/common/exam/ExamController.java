@@ -47,7 +47,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public final class ExamController implements PropertiesRegistryListener {
 
-	private static class Dependencies {
+	private static class ContextDependencies {
 		@NonOwning
 		final Object context;
 		@NonOwning
@@ -57,7 +57,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		@NonOwning
 		Set<ExamRestrictable> restrictables;
 
-		Dependencies(Object context,
+		ContextDependencies(Object context,
 				CommandDispatcher commandDispatcher,
 				AlgebraProcessor algebraProcessor,
 				Set<ExamRestrictable> restrictables) {
@@ -75,9 +75,9 @@ public final class ExamController implements PropertiesRegistryListener {
 	@NonOwning
 	private PropertiesRegistry propertiesRegistry;
 
-	private Set<Dependencies> dependencies = new HashSet<>();
+	private Set<ContextDependencies> dependencies = new HashSet<>();
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
-	private Dependencies activeDependencies;
+	private ContextDependencies activeDependencies;
 
 	private ExamRegion examType;
 	private ExamRestrictions examRestrictions;
@@ -88,7 +88,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	private final TempStorage tempStorage = new TempStorage();
 	private CheatingEvents cheatingEvents = new CheatingEvents();
 
-	// filter for apps with no CAS
+	// TODO filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
 
 	public ExamController(PropertiesRegistry propertiesRegistry) {
@@ -107,25 +107,25 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Sets the dependencies.
+	 * Set the active context (App instance) and its dependent objects.
 	 *
 	 * This needs to be called before an exam starts, and also when the App instance changes
 	 * during an exam, so what we can unapply the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
-	public void setActiveContext(Object activeContext,
+	public void setActiveContext(Object context,
 			CommandDispatcher commandDispatcher,
 			AlgebraProcessor algebraProcessor) {
-		// unapply restrictions for current dependencies, if exam active
-		if (activeDependencies != null) {
+		// unapply restrictions for current dependencies, if exam is active
+		if (examRestrictions != null && activeDependencies != null) {
 			unapplyRestrictions(activeDependencies);
 			restrictables = new HashSet<>();
 		}
-		this.activeDependencies = new Dependencies(activeContext,
+		this.activeDependencies = new ContextDependencies(context,
 				commandDispatcher,
 				algebraProcessor,
 				restrictables);
-		// apply restrictions for new dependencies, if exam active
+		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
 			applyRestrictions(examType, activeDependencies);
 		}
@@ -134,6 +134,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	/**
 	 * Register an object that may need to apply additional restrictions/customization
 	 * for certain types of exams.
+	 *
 	 * @param restrictable An object that may need to perform additional customization
 	 * when an exam is started.
 	 */
@@ -281,7 +282,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void applyRestrictions(ExamRegion examType, Dependencies dependencies) {
+	private void applyRestrictions(ExamRegion examType, ContextDependencies dependencies) {
 		// TODO app.resetCommandDict() (register as ExamRestrictable?)
 		examRestrictions = ExamRestrictions.forExamType(examType);
 		if (examRestrictions == null) {
@@ -299,7 +300,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void unapplyRestrictions(Dependencies dependencies) {
+	private void unapplyRestrictions(ContextDependencies dependencies) {
 		if (examRestrictions == null) {
 			return;
 		}
@@ -331,6 +332,5 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	@Override
 	public void propertyUnregistered(Property property) {
-
 	}
 }
