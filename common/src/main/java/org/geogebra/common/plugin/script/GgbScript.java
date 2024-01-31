@@ -43,7 +43,8 @@ public class GgbScript extends Script {
 		if (text == null) {
 			return true;
 		}
-		scriptText = substitutePlaceholders(text, evt);
+		scriptText = script2LocalizedScript(app, text);
+		scriptText = substitutePlaceholders(scriptText, evt);
 		String[] lines = scriptText.split("\n");
 		boolean success = true;
 		for (int i = 0; i < lines.length; i++) {
