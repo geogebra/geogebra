@@ -3,6 +3,8 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 final class SpreadsheetSelectionController {
 	private final ArrayList<Selection> selections = new ArrayList<>();
 
@@ -179,7 +181,7 @@ final class SpreadsheetSelectionController {
 	/**
 	 * @return Last Selection if present, null otherwise
 	 */
-	public Selection getLastSelection() {
+	public @CheckForNull Selection getLastSelection() {
 		return selections.isEmpty() ? null : selections.get(selections.size() - 1);
 	}
 }

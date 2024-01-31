@@ -14,9 +14,13 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.event.dom.client.KeyEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
+
+import com.himamis.retex.editor.share.util.KeyCodes;
 
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
@@ -47,10 +51,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		app.getKernel().notifyAddAll(tabularData);
 		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory(
 				new AwtReTexGraphicsBridgeW()));
-		spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegateW(app));
+
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
+		spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegateW(app, this));
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
@@ -77,6 +82,15 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			spreadsheet.handlePointerMove(offsetX, offsetY,
 					getModifiers(ptr));
 		});
+		scrollContent.getElement().setTabIndex(0);
+		scrollContent.addDomHandler(evt -> {
+			spreadsheet.handleKeyPressed(KeyCodes.translateGWTcode(
+					evt.getNativeKeyCode()).getJavaKeyCode(),
+					Js.asPropertyMap(evt.getNativeEvent()).getAsAny("key").asString(),
+					getKeyboardModifiers(evt));
+			evt.stopPropagation(); // do not let global event handler interfere
+			evt.preventDefault(); // do not scroll the view
+		}, KeyDownEvent.getType());
 		updateTotalSize();
 		DomGlobal.setInterval((ignore) -> {
 			repaint();
@@ -84,6 +98,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay.addScrollHandler(event -> {
 			onScroll();
 		});
+	}
+
+	private Modifiers getKeyboardModifiers(KeyEvent<?> evt) {
+		return new Modifiers(evt.isAltKeyDown(),
+				evt.isControlKeyDown(), evt.isShiftKeyDown(), false);
 	}
 
 	private int getEventX(NativePointerEvent ptr) {
