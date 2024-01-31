@@ -3851,7 +3851,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (selGeos() > 1 && selPoints() == 0
-				&& getSelectedGeoList().get(0) instanceof GeoPointND) {
+				&& getSelectedGeoList().get(0) instanceof GeoPointND
+				&& view.getSelectionRectangle() == null) {
 			// If a point is selected as first geo, it is not added to
 			// selectedPoints, because the last point that is selected is used
 			// as rotation center.

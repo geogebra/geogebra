@@ -426,8 +426,69 @@ public class ControllerTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void rotateByAngleTool() {
-		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE); // TODO 32
+	public void rotateByAngleToolMultiplePointsToExistingPoint() {
+		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+		t("A = (1, -1)");
+		t("B = (2, -1)");
+		t("C = (2, -2)");
+		dragStart(25, 25);
+		dragEnd(125, 75);
+		prepareInput("180deg");
+		click(100, 100);
+		checkContent("A = (1, -1)", "B = (2, -1)", "C = (2, -2)", "A' = (3, -3)", "B' = (2, -3)");
+		events.clear();
+	}
+
+	@Test
+	public void rotateByAngleToolPointToExistingPoint() {
+		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+		t("A = (1, -1)");
+		t("B = (2, -2)");
+		click(50, 50);
+		prepareInput("180deg");
+		click(100, 100);
+		checkContent("A = (1, -1)", "B = (2, -2)", "A' = (3, -3)");
+		events.clear();
+	}
+
+	@Test
+	public void rotateByAngleToolMultiplePointsToNewPoint() {
+		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+		t("A = (1, -1)");
+		t("B = (3, -2)");
+		dragStart(25, 25);
+		dragEnd(175, 125);
+		prepareInput("270deg");
+		click(150, 150);
+		checkContent("A = (1, -1)", "B = (3, -2)", "C = (3, -3)", "A' = (1, -5)", "B' = (2, -3)");
+		events.clear();
+	}
+
+	@Test
+	public void rotateByAngleToolObjectToExistingPoint() {
+		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+		t("t1 = Polygon((1,-1),(2,-2),(1,-2))");
+		t("A = (3, -3)");
+		click(60, 80);
+		prepareInput("270deg");
+		click(150, 150);
+		checkContent("t1 = 0.5", "f = 1.41421", "g = 1", "h = 1", "A = (3, -3)", "t1' = 0.5");
+		events.clear();
+	}
+
+	@Test
+	public void rotateByAngleToolMultipleObjectsToNewPoint() {
+		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+		t("c = Circle((1, -1), 0.5)");
+		t("d = Circle((3, -1), 0.5)");
+		t("A = (2, -2)");
+		dragStart(10, 10);
+		dragEnd(190, 80);
+		prepareInput("180deg");
+		click(100, 100);
+		checkContent("c: (x - 1)² + (y + 1)² = 0.25", "d: (x - 3)² + (y + 1)² = 0.25",
+				"A = (2, -2)", "c': (x - 3)² + (y + 3)² = 0.25", "d': (x - 1)² + (y + 3)² = 0.25");
+		events.clear();
 	}
 
 	@Test
