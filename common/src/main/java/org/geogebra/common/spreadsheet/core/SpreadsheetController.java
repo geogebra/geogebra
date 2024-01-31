@@ -156,6 +156,7 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		hideCellEditor();
+		controlsDelegate.hideContextMenu();
 		dragAction = getDragAction(x, y, viewport);
 		if (modifiers.shift) {
 			setDragStartLocationFromSelection();

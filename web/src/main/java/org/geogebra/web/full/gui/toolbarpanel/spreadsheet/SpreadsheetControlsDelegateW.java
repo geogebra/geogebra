@@ -11,11 +11,14 @@ import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Panel;
@@ -23,6 +26,7 @@ import org.gwtproject.user.client.ui.Panel;
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
 
 	private final SpreadsheetCellEditorW editor;
+	private GPopupMenuW contextMenu;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -90,6 +94,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	public SpreadsheetControlsDelegateW(AppW app, Panel parent) {
 		editor = new SpreadsheetCellEditorW(app, parent, this);
+		contextMenu = new GPopupMenuW(editor.getApp());
 	}
 
 	@Override
@@ -99,13 +104,22 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
-		GPopupMenuW contextMenu = new GPopupMenuW(editor.getApp());
+		contextMenu.clearItems();
 		for (ContextMenuItem item : actions) {
-			contextMenu.addItem(new AriaMenuItem(editor.getApp().getLocalization()
-					.getMenu(item.getLocalizationKey()), false, () -> item.performAction()));
+			SVGResource image = getActionIcon(item.getIdentifier());
+			String itemText = editor.getApp().getLocalization()
+					.getMenu(item.getLocalizationKey());
+			AriaMenuItem menuItem;
+
+			if (image != null) {
+				menuItem = new AriaMenuItem(MainMenu.getMenuBarHtml(image, itemText),
+						true, () -> item.performAction());
+			} else {
+				menuItem = new AriaMenuItem(itemText, true, () -> item.performAction());
+			}
+			contextMenu.addItem(menuItem);
 		}
 		contextMenu.showAtPoint(coords.x, coords.y);
-
 	}
 
 	@Override
@@ -115,11 +129,33 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public void hideContextMenu() {
-
+		contextMenu.hide();
 	}
 
 	@Override
 	public ClipboardInterface getClipboard() {
 		return null;
+	}
+
+	private SVGResource getActionIcon(ContextMenuItem.Identifer action) {
+		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
+		switch (action) {
+		case CUT:
+			return res.cut_black();
+		case COPY:
+			return res.INSTANCE.copy_black();
+		case PASTE:
+			return res.paste_black();
+		case DELETE:
+			return res.delete_black();
+		case INSERT_ROW_ABOVE:
+		case INSERT_ROW_BELOW:
+		case DELETE_ROW:
+		case INSERT_COLUMN_LEFT:
+		case INSERT_COLUMN_RIGHT:
+		case DELETE_COLUMN:
+		default:
+			return null;
+		}
 	}
 }

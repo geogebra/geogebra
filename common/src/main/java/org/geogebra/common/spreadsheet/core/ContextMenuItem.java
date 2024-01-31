@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import org.geogebra.common.move.ggtapi.models.ResourceAction;
+
 public class ContextMenuItem {
 	public enum Identifer {
 		CUT("Cut"), COPY("Copy"),
@@ -43,4 +45,5 @@ public class ContextMenuItem {
 	public Identifer getIdentifier() {
 		return identifer;
 	}
+
 }
