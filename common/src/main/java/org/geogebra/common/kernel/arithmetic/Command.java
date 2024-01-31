@@ -21,7 +21,9 @@ package org.geogebra.common.kernel.arithmetic;
 import static org.geogebra.common.kernel.arithmetic.ExpressionNode.getLabelOrDefinition;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
@@ -250,7 +252,7 @@ public class Command extends ValidExpression
 			}
 			sbToString.setLength(0);
 			if ("Integral".equals(name)) {
-				String var = getIntegralVar(tpl);
+				String var = getIntegralVar(tpl, symbolic);
 				appendIntegral(this, sbToString, var, tpl);
 				return sbToString.toString();
 			} else if ("Sum".equals(name) && getArgumentNumber() == 4) {
@@ -321,10 +323,11 @@ public class Command extends ValidExpression
 	 * Guess the function variable from first argument of Integral
 	 * Side effect: replace f -> f(v) in the first argument
 	 */
-	private String getIntegralVar(StringTemplate tpl) {
-		Set<GeoElement> vars = getArgument(0)
-				.getVariables(SymbolicMode.NONE);
-		String var = "x";
+	private String getIntegralVar(StringTemplate tpl, boolean symbolic) {
+		ExpressionNode argument = getArgument(0);
+		Set<GeoElement> vars = argument
+				.getVariables(symbolic ? SymbolicMode.SYMBOLIC : SymbolicMode.NONE);
+		String var = getFunctionVarName(argument);
 		if (vars != null && !vars.isEmpty()) {
 			for (GeoElement geo : vars) {
 				// get function from construction
@@ -338,12 +341,29 @@ public class Command extends ValidExpression
 				// make sure that we get from set the variable and not
 				// the function, needed for TRAC-5364
 				if (geo instanceof GeoDummyVariable && geoFunc == null
-						&& geoCASCell == null) {
+						&& geoCASCell == null && !symbolic) {
 					var = geo.toString(tpl);
 				}
 			}
 		}
 		return var;
+	}
+
+	private String getFunctionVarName(ExpressionNode node) {
+		if (node.containsFreeFunctionVariable("x")) {
+			return "x";
+		}
+
+		List<String> names = new ArrayList<>();
+		node.inspect(v -> {
+					if (v instanceof FunctionVariable) {
+						names.add(((FunctionVariable) v).getSetVarString());
+						return true;
+					}
+					return false;
+				});
+		Collections.sort(names);
+		return names.size() > 0 ? names.get(0) : "x";
 	}
 
 	private void replaceFunctionNode(GeoElement geo, GeoElement geoFunc) {

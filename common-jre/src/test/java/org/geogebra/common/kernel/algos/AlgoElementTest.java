@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
@@ -21,6 +22,15 @@ public class AlgoElementTest extends BaseUnitTest {
 		assertThat(add("Integral(f)"), hasLaTeXDefinition("\\int f\\,\\mathrm{d}n"));
 		assertThat(add("Sequence(Integral(x^k),k,1,2)"), hasLaTeXDefinition(
 				"Sequence\\left(\\int x^{k}\\,\\mathrm{d}x, k, 1, 2 \\right)"));
+	}
+
+	@Test
+	public void latexIntegralShouldHaveCorrectDerivativeVariable() {
+		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		assertThat(add("Integral(x-d,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}x - d\\,\\mathrm{d}x"));
+		assertThat(add("Integral(t-d,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}t - d\\,\\mathrm{d}t"));
 	}
 
 	private TypeSafeMatcher<GeoElement> hasLaTeXDefinition(String def) {
