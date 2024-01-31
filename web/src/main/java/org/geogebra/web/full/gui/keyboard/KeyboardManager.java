@@ -26,11 +26,9 @@ import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
-import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
 import org.geogebra.web.full.util.keyboard.ScriptAreaProcessing;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -351,9 +349,6 @@ public class KeyboardManager
 		}
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
-		}
-		if (textField instanceof GTextBox) {
-			return new GTextBoxProcessing((GTextBox) textField);
 		}
 		if (textField instanceof GeoTextEditor) {
 			return new TextEditPanelProcessing((GeoTextEditor) textField);
