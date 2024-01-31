@@ -1,6 +1,8 @@
 package org.geogebra.common.ownership;
 
 import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 
 /**
  * A container for objects with global lifetime, i.e., objects that may live from
@@ -17,6 +19,8 @@ import org.geogebra.common.exam.ExamController;
  * object in here.
  */
 public final class GlobalScope {
+
+	public static PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
 	public static ExamController examController;
 
