@@ -28,4 +28,10 @@ public final class GlobalScope {
 	 * Prevent instantiation.
 	 */
 	private GlobalScope() { }
+	
+	public static void createExamController() {
+		if (examController == null) {
+			examController = new ExamController(propertiesRegistry);
+		}
+	}
 }

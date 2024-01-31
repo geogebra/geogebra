@@ -40,9 +40,9 @@ public class ExamRestrictions {
 	private final ExamRegion examType;
 	private final Set<SuiteSubApp> disabledSubApps;
 	private final SuiteSubApp defaultSubApp;
-	private final ExpressionFilter expressionFilter;
-	private final CommandFilter commandFilter;
-	private final CommandArgumentFilter commandArgumentFilter;
+	private final Set<ExpressionFilter> expressionFilters;
+	private final Set<CommandFilter> commandFilters;
+	private final Set<CommandArgumentFilter> commandArgumentFilters;
 	// independent of exam region
 	private final ExamCommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
 
@@ -55,9 +55,9 @@ public class ExamRestrictions {
 		this.examType = null;
 		this.disabledSubApps = null;
 		this.defaultSubApp = null;
-		this.expressionFilter = null;
-		this.commandFilter = null;
-		this.commandArgumentFilter = null;
+		this.expressionFilters = null;
+		this.commandFilters = null;
+		this.commandArgumentFilters = null;
 		this.frozenProperties = null;
 	}
 
@@ -68,23 +68,23 @@ public class ExamRestrictions {
 	 * @param disabledSubApps The set of disabled subapps for this exam type.
 	 * @param defaultSubApp The subapp to activate at the start of an exam,
 	 * if the current subapp is in the list of restricted subapps.
-	 * @param expressionFilter An optional expression filter (e.g., ||) to apply during exams.
-	 * @param commandFilter An optional command filter to apply during exams.
-	 * @param commandArgumentFilter An optional command argument filter to apply during exams.
+	 * @param expressionFilters An optional set of expression filters (e.g., ||) to apply during exams.
+	 * @param commandFilters An optional command filter to apply during exams.
+	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
 	 */
 	protected ExamRestrictions(ExamRegion examType,
 							   Set<SuiteSubApp> disabledSubApps,
 							   SuiteSubApp defaultSubApp,
-							   ExpressionFilter expressionFilter,
-							   CommandFilter commandFilter,
-							   CommandArgumentFilter commandArgumentFilter,
+							   Set<ExpressionFilter> expressionFilters,
+							   Set<CommandFilter> commandFilters,
+							   Set<CommandArgumentFilter> commandArgumentFilters,
 							   Set<String> frozenProperties) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps;
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
-		this.expressionFilter = expressionFilter;
-		this.commandFilter = commandFilter;
-		this.commandArgumentFilter = commandArgumentFilter;
+		this.expressionFilters = expressionFilters;
+		this.commandFilters = commandFilters;
+		this.commandArgumentFilters = commandArgumentFilters;
 		this.frozenProperties = frozenProperties;
 	}
 
@@ -116,17 +116,23 @@ public class ExamRestrictions {
 			PropertiesRegistry propertiesRegistry,
 			Object context) {
 		if  (commandDispatcher != null) {
-			if (commandFilter != null) {
-				commandDispatcher.addCommandFilter(commandFilter);
+			if (commandFilters != null) {
+				for (CommandFilter commandFilter : commandFilters) {
+					commandDispatcher.addCommandFilter(commandFilter);
+				}
 			}
 			commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
-			if (commandArgumentFilter != null) {
-				commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
+			if (commandArgumentFilters != null) {
+				for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
+					commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
+				}
 			}
 		}
 		if (algebraProcessor != null) {
-			if (expressionFilter != null) {
-				algebraProcessor.addExpressionFilter(expressionFilter);
+			if (expressionFilters != null) {
+				for (ExpressionFilter expressionFilter : expressionFilters) {
+					algebraProcessor.addExpressionFilter(expressionFilter);
+				}
 			}
 		}
 		for (String frozenProperty : frozenProperties) {
@@ -145,17 +151,23 @@ public class ExamRestrictions {
 			PropertiesRegistry propertiesRegistry,
 			Object context) {
 		if (commandDispatcher != null) {
-			if (commandFilter != null) {
-				commandDispatcher.removeCommandFilter(commandFilter);
+			if (commandFilters != null) {
+				for (CommandFilter commandFilter : commandFilters) {
+					commandDispatcher.removeCommandFilter(commandFilter);
+				}
 			}
 			commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
-			if (commandArgumentFilter != null) {
-				commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
+			if (commandArgumentFilters != null) {
+				for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
+					commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
+				}
 			}
 		}
 		if (algebraProcessor != null) {
-			if (expressionFilter != null) {
-				algebraProcessor.removeExpressionFilter(expressionFilter);
+			if (expressionFilters != null) {
+				for (ExpressionFilter expressionFilter : expressionFilters) {
+					algebraProcessor.removeExpressionFilter(expressionFilter);
+				}
 			}
 		}
 		for (String frozenProperty : frozenProperties) {
