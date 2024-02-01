@@ -11,12 +11,14 @@ import static org.mockito.Mockito.verify;
 import java.util.Objects;
 import java.util.TreeSet;
 
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.io.XmlTestUtil;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -37,17 +39,16 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-public class DrawablesTest {
-	private AppCommon3D app;
+public class DrawablesTest extends BaseUnitTest {
+
 	private GGraphicsCommon graphics;
 
-	@Before
-	public void setupApp() {
+	@Override
+	public AppCommon createAppCommon() {
 		graphics = spy(new GGraphicsCommon());
-		app = new AppCommon3D(new LocalizationCommonUTF(3),
+		return new AppCommon3D(new LocalizationCommonUTF(3),
 				new AwtFactoryCommon()) {
 			@Override
 			protected GGraphics2D createGraphics() {
@@ -63,7 +64,7 @@ public class DrawablesTest {
 				"Semicircle[(0,0),(1,1)]", "xx", "1<x<2", "x=y", "{(1,1)}",
 				"ConvexHull[(0,0),(0,1),(1,0)]", "7",
 				"Polygon[(0,0),(0,1),(1,0)]", "Polyline[(0,0),(0,1),(1,0)]",
-				"Polyline[(0,0),(0,1),(1,0),true]", "Ray[(0,0),(2,3)]",
+				"PenStroke[(0,0),(0,1),(1,0)]", "Ray[(0,0),(2,3)]",
 				"Segment[(0,0),(2,3)]", "Vector[(0,0),(2,3)]",
 				"FormulaText[x^2]", "(t,t^3)", "x^4+y^4=1", "x>y",
 				"Spline[(0,0),(0,1),(1,0),(2,3)]", "Turtle[]", "(1,1,0)",
@@ -81,7 +82,7 @@ public class DrawablesTest {
 				"formula", "table", "mindMap" };
 
 		add("toolPic=ToolImage[2]");
-		Construction construction = app.getKernel().getConstruction();
+		Construction construction = getKernel().getConstruction();
 		GeoAudio au = new GeoAudio(construction);
 		au.setLabel("audio");
 		GeoVideo video = new GeoVideo(construction);
@@ -100,18 +101,18 @@ public class DrawablesTest {
 		GeoMindMapNode mindMap = new GeoMindMapNode(construction, new GPoint2D());
 		mindMap.setLabel("mindMap");
 		TreeSet<GeoClass> types = new TreeSet<>();
-		for (int i = 0; i < def.length; i++) {
-			GeoElementND geo = add(def[i]);
-			DrawableND draw = app.getEuclidianView1().newDrawable(geo);
+		for (String s : def) {
+			GeoElementND geo = add(s);
+			DrawableND draw = getApp().getEuclidianView1().newDrawable(geo);
 			assertEquals(geo.getDefinitionForInputBar(),
 					expectDrawableFor(geo), draw != null);
 			types.add(geo.getGeoClassType());
 		}
-		XmlTestUtil.checkCurrentXML(app);
+		XmlTestUtil.checkCurrentXML(getApp());
 		for (GeoClass type : GeoClass.values()) {
 			Assert.assertTrue(type + "", types.contains(type)
 					|| (GeoClass.IMPLICIT_SURFACE_3D == type
-							&& !app.has(Feature.IMPLICIT_SURFACES))
+							&& !getApp().has(Feature.IMPLICIT_SURFACES))
 					|| GeoClass.SURFACECARTESIAN == type
 					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type
 					|| GeoClass.DEFAULT == type
@@ -121,10 +122,11 @@ public class DrawablesTest {
 
 	}
 
-	private GeoElementND add(String s) {
-		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+	@Override
+	protected GeoElementND add(String s) {
+		AlgebraProcessor ap = getKernel().getAlgebraProcessor();
 		GeoElementND[] ret = ap.processAlgebraCommand(s, false);
-		return ret.length > 0 ? ret[0] : new GeoScriptAction(app.getKernel().getConstruction());
+		return ret.length > 0 ? ret[0] : new GeoScriptAction(getKernel().getConstruction());
 	}
 
 	@Test
@@ -143,12 +145,12 @@ public class DrawablesTest {
 		g.setLabelVisible(true);
 		f.update();
 		g.update();
-		app.getEuclidianView1().setRealWorldCoordSystem(-1,
+		getApp().getEuclidianView1().setRealWorldCoordSystem(-1,
 				1, -100, 100);
 		// f is diagonal, g close to x-axis
 		assertEquals(new GPoint(8, 583), getLabelPosition(f));
 		assertEquals(new GPoint(8, 292), getLabelPosition(g));
-		app.getEuclidianView1().setRealWorldCoordSystem(-120,
+		getApp().getEuclidianView1().setRealWorldCoordSystem(-120,
 				120, -1, 1);
 		// g is diagonal, f close to y-axis
 		assertEquals(new GPoint(407, 592), getLabelPosition(f));
@@ -160,7 +162,7 @@ public class DrawablesTest {
 		GeoElementND pt = add("A=(1,1)");
 		((Traceable) pt).setTrace(true);
 		pt.updateRepaint();
-		EuclidianView view = app.getActiveEuclidianView();
+		EuclidianView view = getApp().getActiveEuclidianView();
 		assertThat(view.isTraceDrawn(), equalTo(true));
 		pt.setEuclidianVisible(false);
 		pt.updateRepaint();
@@ -171,7 +173,7 @@ public class DrawablesTest {
 	}
 
 	private GPoint getLabelPosition(GeoElementND f) {
-		DrawableND draw = Objects.requireNonNull(app.getEuclidianView1().getDrawableFor(f));
+		DrawableND draw = Objects.requireNonNull(getDrawable(f));
 		return new GPoint((int) draw.getLabelX(), (int) draw.getLabelY());
 	}
 

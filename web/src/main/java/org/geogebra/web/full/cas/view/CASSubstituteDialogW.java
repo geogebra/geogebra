@@ -53,14 +53,14 @@ public class CASSubstituteDialogW extends ComponentDialog {
 		FlowPanel block = new FlowPanel();
 		block.addStyleName("flexGroup");
 
-		InputPanelW subst = new InputPanelW(data.get(idx).get(0), app, 1, -1, false);
+		InputPanelW subst = new InputPanelW(data.get(idx).get(0), app,  false);
 		subst.addTextComponentKeyUpHandler(event -> {
 			int substIdx = substFields.indexOf(subst);
 			if (substIdx > -1) {
 				data.get(substIdx).set(0, subst.getText());
 			}
 		});
-		InputPanelW with = new InputPanelW(data.get(idx).get(1), app, 1, -1, false);
+		InputPanelW with = new InputPanelW(data.get(idx).get(1), app,  false);
 		with.getTextComponent().addStyleName("with");
 		with.addTextComponentKeyUpHandler(event -> {
 			setPosBtnDisabled(false);

@@ -7,10 +7,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.HasAllKeyHandlers;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -33,7 +30,6 @@ import org.gwtproject.user.client.ui.HasText;
 import org.gwtproject.user.client.ui.HasValue;
 import org.gwtproject.user.client.ui.MultiWordSuggestOracle;
 import org.gwtproject.user.client.ui.Panel;
-import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SuggestOracle;
 import org.gwtproject.user.client.ui.SuggestOracle.Callback;
 import org.gwtproject.user.client.ui.SuggestOracle.Request;
@@ -643,39 +639,6 @@ public class GSuggestBox extends Composite
 		public void setSuggestion(Suggestion suggestion) {
 			this.suggestion = suggestion;
 		}
-	}
-
-	/**
-	 * Creates a {@link GSuggestBox} widget that wraps an existing &lt;input
-	 * type='text'&gt; element.
-	 *
-	 * This element must already be attached to the document. If the element is
-	 * removed from the document, you must call
-	 * {@link RootPanel#detachNow(Widget)}.
-	 *
-	 * @param oracle
-	 *            the suggest box oracle to use
-	 * @param element
-	 *            the element to be wrapped
-	 * @param panel
-	 *            panel
-	 * @param app
-	 *            application
-	 * @return suggest box for given input
-	 */
-	public static GSuggestBox wrap(SuggestOracle oracle, Element element,
-			Panel panel, App app) {
-		// Assert that the element is attached.
-		assert Document.get().getBody().isOrHasChild(element);
-
-		GTextBox textBox = new GTextBox(element);
-		GSuggestBox suggestBox = new GSuggestBox(oracle, textBox, panel, app);
-
-		// Mark it attached and remember it for cleanup.
-		suggestBox.onAttach();
-		RootPanel.detachOnWindowClose(suggestBox);
-
-		return suggestBox;
 	}
 
 	/**

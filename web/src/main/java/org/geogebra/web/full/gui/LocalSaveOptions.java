@@ -51,7 +51,9 @@ public class LocalSaveOptions {
 		JsPropertyMap<String> mimeTypes = Js.uncheckedCast(JsPropertyMap.of());
 		mimeTypes.set(mimeType.type(), mimeType.dotExtension());
 		JsPropertyMap<String> types = Js.uncheckedCast(JsPropertyMap.of());
+		types.set("description", mimeType.getDescription(app.getLocalization()));
 		types.set("accept", Js.uncheckedCast(mimeTypes));
 		return JsArray.of(types);
 	}
+
 }

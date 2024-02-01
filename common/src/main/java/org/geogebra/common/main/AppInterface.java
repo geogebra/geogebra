@@ -92,10 +92,10 @@ public interface AppInterface {
 	 *            JS method name
 	 * @param arg
 	 *            arguments
-	 * @throws Exception
+	 * @throws RuntimeException
 	 *             when script contains errors
 	 */
-	public abstract void evalJavaScript(App app, String script, String arg) throws Exception;
+	void evalJavaScript(App app, String script, String arg);
 
 	/**
 	 * @return width of the whole application (central panel) This is needed for
@@ -212,8 +212,6 @@ public interface AppInterface {
 	 * Clear construction and reset settings from preferences
 	 */
 	public abstract void fileNew();
-
-	public abstract boolean loadXML(String xml) throws Exception;
 
 	/**
 	 * copy bitmap of EV to clipboard

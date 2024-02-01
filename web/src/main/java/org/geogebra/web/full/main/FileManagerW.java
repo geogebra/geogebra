@@ -8,8 +8,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
@@ -115,29 +113,6 @@ public class FileManagerW extends FileManager {
 			}
 		}
 		return nextFreeID;
-	}
-
-	@Override
-	protected void getFiles(final MaterialFilter filter) {
-		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
-			return;
-		}
-
-		for (int i = 0; i < this.stockStore.getLength(); i++) {
-			final String key = this.stockStore.key(i);
-			if (key.startsWith(MaterialsManager.FILE_PREFIX)) {
-				Material mat = JSONParserGGT.parseMaterial(this.stockStore
-				        .getItem(key));
-				if (mat == null) {
-					mat = new Material(MaterialType.ggb);
-					mat.setTitle(getTitleFromKey(key));
-				}
-				if (filter.check(mat)
-						&& app.getLoginOperation().mayView(mat)) {
-					addMaterial(mat);
-				}
-			}
-		}
 	}
 
 	@Override
@@ -309,7 +284,7 @@ public class FileManagerW extends FileManager {
 		DialogData data = new DialogData(titleKey, "Cancel", "Export");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
 		ComponentInputField inputTextField = new ComponentInputField(app, "", "", "",
-				filename + "." + extension, -1, 1, "");
+				filename + "." + extension, -1, "");
 		dialog.addDialogContent(inputTextField);
 		dialog.setOnPositiveAction(() -> {
 			exportImage(url, inputTextField.getText(), extension2);
@@ -319,12 +294,6 @@ public class FileManagerW extends FileManager {
 		});
 		dialog.show();
 		dialogEvent(app, "exportPNG");
-	}
-
-	@Override
-	public boolean hasBase64(Material material) {
-		return material.getBase64() != null
-				&& material.getBase64().length() > 0;
 	}
 
 	@Override

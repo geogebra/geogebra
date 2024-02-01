@@ -12,20 +12,15 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
-import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
-import org.gwtproject.event.dom.client.KeyPressHandler;
-import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.ui.DisclosurePanel;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -34,14 +29,14 @@ import org.gwtproject.user.client.ui.Widget;
  * Panel to manage editing of GeoText strings.
  */
 public class TextEditPanel extends FlowPanel
-		implements FastClickHandler, FocusHandler, ITextEditPanel, SetLabels, HasKeyboardTF {
+		implements FastClickHandler, FocusHandler, ITextEditPanel, SetLabels {
 
-	private AppW app;
-	private DynamicTextProcessor dTProcessor;
+	private final AppW app;
+	private final DynamicTextProcessor dTProcessor;
 	/** editor */
 	protected GeoTextEditor editor;
 	private FlowPanel toolBar;
-	private TextPreviewPanelW previewer;
+	private final TextPreviewPanelW previewer;
 
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
@@ -51,9 +46,9 @@ public class TextEditPanel extends FlowPanel
 	private ToggleButton btnSerif;
 	private ToggleButton btnLatex;
 	private GeoElementSelectionListener sl;
-	private DisclosurePanel disclosurePanel;
-	private Localization loc;
-	private TextEditAdvancedPanel advancedPanel;
+	private final DisclosurePanel disclosurePanel;
+	private final Localization loc;
+	private final TextEditAdvancedPanel advancedPanel;
 	private boolean mayDetectLaTeX = true;
 
 	/**
@@ -254,102 +249,16 @@ public class TextEditPanel extends FlowPanel
 		toolBar.add(btnLatex);
 	}
 
-	@Override
-	public void startOnscreenKeyboardEditing() {
-		// later
-	}
-
-	@Override
-	public void endOnscreenKeyboardEditing() {
-		// later
-	}
-
-	@Override
-	public void addDummyCursor() {
-		// later
-	}
-
-	@Override
-	public int removeDummyCursor() {
-		return -1;
-	}
-
-	@Override
-	public void setReadOnly(boolean readonly) {
-		getTextArea().editBox.setEditable(!readonly);
-	}
-
-	@Override
-	public int getCursorPos() {
-		return getTextArea().editBox.getCursorPos();
-	}
-
-	@Override
-	public void setCursorPos(int pos) {
-		getTextArea().editBox.setCursorPos(pos);
-	}
-
-	@Override
-	public void setValue(String text) {
-		setText(text);
-	}
-
-	@Override
-	public HandlerRegistration addFocusHandler(FocusHandler handler) {
-		return getTextArea().editBox.addFocusHandler(handler);
-	}
-
-	@Override
-	public HandlerRegistration addBlurHandler(BlurHandler handler) {
-		return getTextArea().editBox.addBlurHandler(handler);
-	}
-
-	@Override
-	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
-		return getTextArea().editBox.addKeyPressHandler(handler);
-	}
-
-	@Override
-	public void onBackSpace() {
-		// later
-	}
-
-	@Override
 	public void setText(String text) {
 		editor.getElement().setInnerHTML(text);
 	}
 
-	@Override
-	public void setFocus(boolean focus) {
-		editor.editBox.setFocus(focus);
-	}
-
-	@Override
-	public void ensureEditing() {
-		// later
-	}
-
-	@Override
+	/**
+	 * @return text definition
+	 */
 	public String getText() {
-		Log.debug("ggb text string: " + dTProcessor
-				.buildGeoGebraString(editor.getDynamicTextList(), isLatex()));
 		return dTProcessor.buildGeoGebraString(editor.getDynamicTextList(),
 				isLatex());
-	}
-
-	@Override
-	public boolean needsAutofocus() {
-		return false;
-	}
-
-	@Override
-	public boolean hasFocus() {
-		return editor.editBox.hasFocus();
-	}
-
-	@Override
-	public boolean acceptsCommandInserts() {
-		return false;
 	}
 
 	/**

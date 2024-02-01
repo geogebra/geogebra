@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -108,13 +109,30 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	}
 
 	@Override
+	public void replaceChildrenByValues(GeoElement var) {
+		this.functionExpression.getFunctionExpression().replaceChildrenByValues(var);
+		super.replaceChildrenByValues(var);
+	}
+
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (!isDefined()) {
 			return "?";
 		}
 		StringBuilder valueSb = new StringBuilder(50);
-		valueSb.append("(");
-		if (functionExpression != null) {
+		valueSb.append(tpl.leftBracket());
+		appendSurfaceEquation(valueSb, tpl);
+		valueSb.append(",");
+		valueSb.append(
+				GeoPlane3D.buildValueString(tpl, kernel, planeEquation, false));
+		valueSb.append(tpl.rightBracket());
+		return valueSb.toString();
+	}
+
+	private void appendSurfaceEquation(StringBuilder valueSb, StringTemplate tpl) {
+		if (!isInputForm() && getCoeff() != null) {
+			valueSb.append(toRawValueString(tpl));
+		} else if (functionExpression != null) {
 			valueSb.append(
 					functionExpression.getExpression().toValueString(tpl));
 			valueSb.append(" = ");
@@ -138,14 +156,18 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 						false, false, true, tpl));
 			}
 		} else {
-			valueSb.append(getExpression().toValueString(tpl));
 			valueSb.append(" = 0");
 		}
-		valueSb.append(",");
-		valueSb.append(
-				GeoPlane3D.buildValueString(tpl, kernel, planeEquation, false));
-		valueSb.append(")");
-		return valueSb.toString();
+	}
+
+	@Override
+	protected String[] getVariableNames() {
+		switch (type) {
+		default:
+		case DEFAULT: return super.getVariableNames();
+		case PLANE_XY: return new String[]{"x", "z"};
+		case PLANE_X: return new String[]{"y", "z"};
+		}
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -20,6 +20,7 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphicsWrapper;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
@@ -32,7 +33,13 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 public class DrawEquationD extends DrawEquation {
 
+	private final JFrame frame;
 	boolean drawEquationJLaTeXMathFirstCall = true;
+
+	public DrawEquationD(JFrame frame) {
+		super();
+		this.frame = frame;
+	}
 
 	@Override
 	public void checkFirstCall(App app) {
@@ -107,7 +114,7 @@ public class DrawEquationD extends DrawEquation {
 	 * @param bgColor
 	 *            background color
 	 */
-	public void drawLatexImageIcon(final AppD app, ImageIcon latexIcon,
+	public void drawLatexImageIcon(final AppD app, ScaledIcon latexIcon,
 			final String latex, final Font font, final boolean serif,
 			final Color fgColor, final Color bgColor) {
 
@@ -127,10 +134,11 @@ public class DrawEquationD extends DrawEquation {
 				ColorD.get(bgColor), true, null, null);
 
 		// Now use this size and draw again to get the final image
-		image = new BufferedImage(d.getWidth(), d.getHeight(),
+		image = new BufferedImage((int) (d.getWidth() * getPixelRatio()), (int) (d.getHeight() * getPixelRatio()),
 				BufferedImage.TYPE_INT_ARGB);
 		g2image = image.createGraphics();
 		g2image.setBackground(bgColor);
+		g2image.scale(getPixelRatio(), getPixelRatio());
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
 
 		GGraphics2DD.setAntialiasing(g2image);
@@ -140,6 +148,7 @@ public class DrawEquationD extends DrawEquation {
 				ColorD.get(bgColor), true, null, null);
 
 		latexIcon.setImage(image);
+		latexIcon.setRatio(getPixelRatio());
 	}
 
 	@Override
@@ -176,11 +185,19 @@ public class DrawEquationD extends DrawEquation {
 			key = geo.getLaTeXCache().getCachedLaTeXKey(text,
 					font.getSize() + 3, style, fgColor);
 		}
-
+		JLaTeXMathCache.setPixelRatio(getPixelRatio());
 		int[] ret2 = JLaTeXMathCache.getCachedTeXFormulaDimensions(key);
 		ret[0] = ret2[0];
 		ret[1] = ret2[1];
 		return JLaTeXMathCache.getCachedTeXFormulaImage(key);
+	}
+
+	@Override
+	public double getPixelRatio() {
+		if (frame == null) {
+			return 1;
+		}
+		return frame.getGraphicsConfiguration().getDefaultTransform().getScaleX();
 	}
 
 }

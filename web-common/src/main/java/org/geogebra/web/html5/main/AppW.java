@@ -37,6 +37,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.Construction;
@@ -84,7 +85,6 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
@@ -150,7 +150,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.UUIDW;
-import org.geogebra.web.html5.util.debug.AnalyticsW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.core.client.Scheduler;
@@ -296,9 +295,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					Browser.addMutationObserver(getParent(
 							getAppletParameters().getParamScaleContainerClass()),
 							this::checkScaleContainer));
-		}
-		if (getAppletParameters().getDataParamApp()) {
-			initializeAnalytics();
 		}
 	}
 
@@ -563,21 +559,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void callAppletJavaScript(String fun, String arg) {
 		Log.debug("calling function: " + fun + "(" + arg + ")");
 		JsEval.callNativeGlobalFunction(fun, arg);
-	}
-
-	@Override
-	public boolean loadXML(final String xml) throws Exception {
-		Runnable r = () -> {
-			try {
-				getXMLio().processXMLString(xml, true, false);
-			} catch (Exception e) {
-				Log.debug(e);
-			}
-		};
-
-		getAsyncManager().scheduleCallback(r);
-
-		return true;
 	}
 
 	@Override
@@ -854,7 +835,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						appletParameters.getDataParamBorder("#D3D3D3"));
 			}
 			afterLoadFileAppOrNot(asSlide);
-		} catch (Exception e) {
+		} catch (XMLParseException | RuntimeException e) {
 			Log.debug(e);
 		}
 	}
@@ -3559,14 +3540,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public GlobalHandlerRegistry getGlobalHandlers() {
 		return dropHandlers;
-	}
-
-	private void initializeAnalytics() {
-		try {
-			Analytics.setInstance(new AnalyticsW());
-		} catch (Throwable e) {
-			Log.debug("Could not initialize analytics object." + e);
-		}
 	}
 
 	/**

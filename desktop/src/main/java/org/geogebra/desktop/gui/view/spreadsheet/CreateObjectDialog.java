@@ -15,7 +15,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -36,6 +35,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 /**
  * Dialog to create GeoElements (lists, matrices, tabletext, etc.) from
@@ -305,7 +305,7 @@ public class CreateObjectDialog extends InputDialogD
 
 	@Override
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
-		ImageIcon latexIcon = new ImageIcon();
+		ScaledIcon latexIcon = new ScaledIcon(app.getFrame());
 		Font latexFont = new Font(app.getPlainFont().getName(),
 				app.getPlainFont().getStyle(),
 				app.getPlainFont().getSize() - 1);

@@ -35,7 +35,7 @@ public class ScriptArea extends TextArea
 	public ScriptArea(AppW app) {
 		this.app = app;
 		setStyleName("scriptArea");
-		dummyCursor = new DummyCursor(this, app);
+		dummyCursor = new DummyCursor(this, this, app);
 		addKeyPressHandler(this);
 		addKeyDownHandler(this);
 		addKeyUpHandler(this);

@@ -41,7 +41,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 		setStyleName("mowInputPanelContent");
 		addStyleName("emptyState");
 
-		inputField = new InputPanelW("", app, 1, -1, false);
+		inputField = new InputPanelW("", app,  false);
 
 		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
 		inputLabel.setText(app.getLocalization().getMenu(labelTransKey));

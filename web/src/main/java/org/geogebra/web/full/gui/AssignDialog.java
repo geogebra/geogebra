@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -13,6 +14,7 @@ import org.gwtproject.user.client.ui.Label;
 
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
+import jsinterop.base.JsPropertyMap;
 
 public class AssignDialog extends ComponentDialog {
 	private final ShareControllerW materialProvider;
@@ -31,7 +33,7 @@ public class AssignDialog extends ComponentDialog {
 				MaterialDesignResources.INSTANCE.geogebra_color());
 		addAssignButton("assignDialog.google", "assignDialog.google.description",
 				"https://www.geogebra.org/classroom/embed/google-classroom/share"
-				+ "?materialId=%0&defaultLessonTitle=%1&backUrl=https://www.geogebra.org/m/%0",
+				+ "?material=%1&backUrl=https://www.geogebra.org/m/%0",
 				MaterialDesignResources.INSTANCE.google_classroom());
 	}
 
@@ -62,9 +64,15 @@ public class AssignDialog extends ComponentDialog {
 		materialProvider.afterSaved((material) -> {
 			String url = pattern
 					.replace("%0", Global.encodeURIComponent(material.getSharingKey()))
-					.replace("%1", Global.encodeURIComponent(material.getTitle()));
+					.replace("%1", Global.encodeURIComponent(toJson(material)));
 			DomGlobal.window.open(url);
 			materialProvider.setAssign(false);
 		});
+	}
+
+	private String toJson(Material material) {
+		JsPropertyMap<Object> materialProps = JsPropertyMap.of("id", material.getSharingKey(),
+				"title", material.getTitle());
+		return Global.JSON.stringify(materialProps);
 	}
 }

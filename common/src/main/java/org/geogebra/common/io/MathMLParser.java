@@ -844,7 +844,7 @@ public class MathMLParser {
 			// TODO besser result stutzen? -> return new
 			// StringBuilder(result) o. result.toString()
 			return result.toString();
-		} catch (Exception e) {
+		} catch (XMLParseException | RuntimeException e) {
 			Log.debug(e);
 		}
 		return null; // TODO statt exception, speter lo(umlaut)schen
@@ -888,7 +888,7 @@ public class MathMLParser {
 	 *             if an error occurs while parsing
 	 */
 	void parseBlock(String startTag, StringBuilder result, boolean appendSpace)
-			throws Exception {
+			throws XMLParseException {
 		boolean closeBracketNow = this.closeBracketNext;
 		this.closeBracketNext = false;
 		String endTag = generateEndTag(startTag);
@@ -985,7 +985,7 @@ public class MathMLParser {
 							try {
 								blockNumber = Integer.parseInt(blockNumberStr);
 							} catch (NumberFormatException nfe) {
-								throw new Exception(
+								throw new XMLParseException(
 										"Parsing error at character " + pos
 												+ ": Unparseable block number in substitution.");
 							}
@@ -1232,7 +1232,7 @@ public class MathMLParser {
 	 * @throws Exception
 	 *             if HTML wrapped entities were expected but not found
 	 */
-	String parseBlockContent(String s) throws Exception {
+	String parseBlockContent(String s) throws XMLParseException {
 
 		// TODO hier!
 
@@ -1302,7 +1302,7 @@ public class MathMLParser {
 						sbIndex++;
 					}
 				} catch (StringIndexOutOfBoundsException sioobe) {
-					throw new Exception("Parsing error at character " + pos
+					throw new XMLParseException("Parsing error at character " + pos
 							+ ": MathML code is not HTML wrapped.");
 				}
 
