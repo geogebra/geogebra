@@ -132,11 +132,6 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	@Override
-	public void onInsertString() {
-		// nothing to do.
-	}
-
-	@Override
 	public void onEnter() {
 		String oldLabel = getGeoInputBox().getLabelSimple();
 		applyChanges();

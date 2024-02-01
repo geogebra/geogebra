@@ -54,11 +54,6 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 	}
 
 	@Override
-	public void onInsertString() {
-		// nothing to do
-	}
-
-	@Override
 	public boolean onEscape() {
 		return false;
 	}

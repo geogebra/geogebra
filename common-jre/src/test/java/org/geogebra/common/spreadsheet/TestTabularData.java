@@ -98,4 +98,9 @@ public class TestTabularData implements TabularData<String> {
 	public CellFormat getFormat() {
 		return new CellFormat(null);
 	}
+
+	@Override
+	public int getAlignment(int row, int column) {
+		return CellFormat.ALIGN_RIGHT;
+	}
 }

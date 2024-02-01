@@ -168,8 +168,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		needsRedraw = controller.handlePointerMove(x, y, modifiers, viewport) || needsRedraw;
 	}
 
-	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
-		needsRedraw = controller.handleKeyPressed(keyCode, modifiers);
+	public void handleKeyPressed(int keyCode, String key, Modifiers modifiers) {
+		needsRedraw = controller.handleKeyPressed(keyCode, key, modifiers, viewport) || needsRedraw;
 	}
 
 	public SpreadsheetController getController() {
@@ -204,5 +204,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public double getTotalHeight() {
 		return controller.getLayout().getTotalHeight();
+	}
+
+	public boolean isEditorActive() {
+		return controller.isEditorActive();
 	}
 }
