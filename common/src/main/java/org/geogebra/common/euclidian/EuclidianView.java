@@ -754,17 +754,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (mode == this.mode && mode != EuclidianConstants.MODE_IMAGE) {
 			return;
 		}
-		boolean clearSelectedGeos = clearSelectedGeos(mode);
+		boolean shouldClearSelectedGeos = shouldClearSelectedGeos(mode);
 		this.mode = mode;
 		initCursor();
 		getEuclidianController().clearJustCreatedGeos();
 		getEuclidianController().setMode(mode, m);
-		if (clearRectangle(mode)) {
+		if (shouldClearRectangle(mode)) {
 			setSelectionRectangle(null);
 			if (hasDynamicStyleBar()) {
 				dynamicStyleBar.setVisible(false);
 			}
-			if (clearSelectedGeos) {
+			if (shouldClearSelectedGeos) {
 				getEuclidianController().clearSelections();
 			}
 		}
@@ -779,9 +779,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * whether to clear selection rectangle when mode selected
+	 * @return True if selection rectangle should be cleared when a certain mode is being
+	 * selected, false else
 	 */
-	final private static boolean clearRectangle(int mode) {
+	final private static boolean shouldClearRectangle(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
@@ -801,7 +802,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param newMode New Mode which is being set
 	 * @return True if the bounding boxes and selected geos should be cleared, false else
 	 */
-	final private boolean clearSelectedGeos(int newMode) {
+	final private boolean shouldClearSelectedGeos(int newMode) {
 		return (this.mode == EuclidianConstants.MODE_SELECT_MOW
 				|| this.mode == EuclidianConstants.MODE_SELECT)
 				&& newMode == EuclidianConstants.MODE_MOVE;
