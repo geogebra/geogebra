@@ -41,6 +41,18 @@ public interface Region extends GeoElementND {
 	public boolean isInRegion(GeoPointND P);
 
 	/**
+	 * Per default, this method will just call {@link #isInRegion(GeoPointND)} and not try
+	 * to force usage of real coordinates
+	 * @param P Point
+	 * @param forceRealCoords Whether usage of real coordinates should be forced
+	 * (instead of willing coordinates)
+	 * @return True if the given point lies inside this Region
+	 */
+	public default boolean isInRegion(GeoPointND P, boolean forceRealCoords) {
+		return isInRegion(P);
+	}
+
+	/**
 	 * says if the point (x0,y0) is in the region
 	 * 
 	 * @param x0

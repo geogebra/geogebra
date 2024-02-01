@@ -61,7 +61,7 @@ public class AlgoIsInRegion extends AlgoElement {
 			result.setValue(false);
 			return;
 		}
-		result.setValue(region.isInRegion(pi));
+		result.setValue(region.isInRegion(pi, true));
 	}
 
 	@Override

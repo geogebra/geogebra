@@ -581,14 +581,18 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
-		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
+		return isInRegion(PI, false);
+	}
 
-		if (coords == null) { // point is not in plane containing the polygon
+	@Override
+	public boolean isInRegion(GeoPointND PI, boolean forceRealCoords) {
+		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys(), forceRealCoords);
+
+		if (coords == null) {
 			return false;
 		}
 
 		return isInRegion(coords.getX(), coords.getY());
-
 	}
 
 	@Override

@@ -2369,8 +2369,13 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public boolean isInRegion(GeoPointND P) {
+		return isInRegion(P, false);
+	}
+
+	@Override
+	public boolean isInRegion(GeoPointND P, boolean forceRealCoords) {
 		for (GeoPolygon3D p : getPolygons()) {
-			if (p.isInRegion(P)) {
+			if (p.isInRegion(P, forceRealCoords)) {
 				return true;
 			}
 		}
