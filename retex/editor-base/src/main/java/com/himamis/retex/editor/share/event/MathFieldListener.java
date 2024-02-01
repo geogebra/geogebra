@@ -8,7 +8,9 @@ public interface MathFieldListener {
 
 	boolean onArrowKeyPressed(int keyCode);
 
-	void onInsertString();
+	default void onInsertString() {
+		// rarely needed
+	}
 
 	boolean onEscape();
 

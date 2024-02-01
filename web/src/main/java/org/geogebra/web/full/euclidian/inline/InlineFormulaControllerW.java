@@ -203,11 +203,6 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onInsertString() {
-			// do nothing
-		}
-
-		@Override
 		public boolean onEscape() {
 			return false;
 		}
