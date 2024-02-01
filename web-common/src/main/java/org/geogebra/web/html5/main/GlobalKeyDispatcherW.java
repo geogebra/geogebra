@@ -167,11 +167,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					if (app.isApplet()) {
 						((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
 					} else {
-						if (!app.isWhiteboardActive()) {
-							app.setMoveMode();
-						} else {
-							app.getActiveEuclidianView().getEuclidianController().clearSelections();
-						}
+						app.setMoveMode();
+						app.getActiveEuclidianView().getEuclidianController().clearSelections();
+						app.getActiveEuclidianView().setSelectionRectangle(null);
 					}
 					handled = true;
 				} else {
