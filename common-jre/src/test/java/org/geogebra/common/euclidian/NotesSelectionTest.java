@@ -5,7 +5,7 @@ import static org.junit.Assert.assertArrayEquals;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Test;
 
-public class NotesSelectionTest extends BaseControllerTest {
+public class NotesSelectionTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void selectionRectangleShouldSelectPartOfStroke() {
