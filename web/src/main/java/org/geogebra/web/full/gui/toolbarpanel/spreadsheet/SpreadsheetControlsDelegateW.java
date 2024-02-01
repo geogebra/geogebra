@@ -11,34 +11,27 @@ import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Panel;
 
+import com.google.gwt.core.client.Scheduler;
+
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
 
 	private final SpreadsheetCellEditorW editor;
-	private GPopupMenuW contextMenu;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
 		private final Panel parent;
 		private final AppW app;
-		private final SpreadsheetControlsDelegateW controls;
 
-		public SpreadsheetCellEditorW(AppW app, Panel parent,
-				SpreadsheetControlsDelegateW controls) {
-			this.mathField = new MathTextFieldW(app);
+		public SpreadsheetCellEditorW(AppW app, Panel parent, MathTextFieldW mathField) {
+			this.mathField = mathField;
 			mathField.addStyleName("spreadsheetEditor");
-			this.controls = controls;
 			this.parent = parent;
 			this.app = app;
 		}
@@ -53,13 +46,14 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			mathField.setRightMargin(8);
 			mathField.setVisible(true);
 			mathField.requestFocus();
+			Scheduler.get().scheduleDeferred(mathField::requestFocus);
 		}
 
 		@Override
 		public void setTargetCell(int row, int column) {
 			mathField.getMathField().getInternal().setFieldListener(
 					new SpreadsheetEditorListener(mathField.getMathField().getInternal(),
-							app.getKernel(), row, column, controls));
+							app.getKernel(), row, column, this));
 		}
 
 		@Override
@@ -83,6 +77,14 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			return mathField.isVisible();
 		}
 
+		@Override
+		public void hide() {
+			mathField.setVisible(false);
+		}
+	}
+
+	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
+		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		public void hide() {
 			mathField.setVisible(false);
 		}

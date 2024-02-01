@@ -26,7 +26,7 @@ public final class SpreadsheetController implements TabularSelection {
 			= new SpreadsheetSelectionController();
 	final private TabularData<?> tabularData;
 
-	private SpreadsheetControlsDelegate controlsDelegate;
+	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
 	private final TableLayout layout;
 
 	private final SpreadsheetStyle style;
@@ -138,8 +138,8 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	private void hideCellEditor() {
-		if (controlsDelegate != null) {
-			controlsDelegate.hideCellEditor();
+		if (controlsDelegate != null && controlsDelegate.getCellEditor() != null) {
+			controlsDelegate.getCellEditor().hide();
 		}
 	}
 
@@ -166,10 +166,9 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 		int column = findColumnOrHeader(x, viewport);
 		int row = findRowOrHeader(y, viewport);
-		if (modifiers.rightButton || modifiers.ctrl) {
+		if ((modifiers.rightButton || modifiers.ctrl) && controlsDelegate != null) {
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
-			return true;
 		}
 		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
@@ -298,9 +297,11 @@ public final class SpreadsheetController implements TabularSelection {
 				showCellEditorAtSelection(viewport);
 				return true;
 			default:
-				if (!modifiers.ctrl && !modifiers.alt && !StringUtil.empty(key)) {
+				SpreadsheetControlsDelegate controls = controlsDelegate;
+				if (!modifiers.ctrl && !modifiers.alt && !StringUtil.empty(key)
+					&& controls != null) {
 					showCellEditorAtSelection(viewport);
-					controlsDelegate.getCellEditor().setContent(key);
+					controls.getCellEditor().setContent(key);
 				}
 				return false;
 			}
@@ -431,7 +432,7 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	@CheckForNull GPoint2D getDraggingDot(Rectangle viewport) {
-		if (controlsDelegate.getCellEditor().isVisible()) {
+		if (isEditorActive()) {
 			return null;
 		}
 		List<TabularRange> visibleSelections = getVisibleSelections();
@@ -445,5 +446,12 @@ public final class SpreadsheetController implements TabularSelection {
 			return null;
 		}
 		return null;
+	}
+
+	/**
+	 * @return whether editor is currently visible
+	 */
+	public boolean isEditorActive() {
+		return controlsDelegate != null && controlsDelegate.getCellEditor().isVisible();
 	}
 }

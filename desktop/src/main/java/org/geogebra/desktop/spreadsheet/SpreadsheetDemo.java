@@ -242,11 +242,6 @@ public class SpreadsheetDemo {
 				}
 
 				@Override
-				public void hideCellEditor() {
-					editorBox.setVisible(false);
-				}
-
-				@Override
 				public void hideContextMenu() {
 					contextMenu.setVisible(false);
 				}
@@ -311,7 +306,7 @@ public class SpreadsheetDemo {
 			@Override
 			public void setTargetCell(int row, int column) {
 				mathField.getInternal().setFieldListener(new SpreadsheetEditorListener(
-						mathField.getInternal(), app.getKernel(), row, column, controls));
+						mathField.getInternal(), app.getKernel(), row, column, this));
 			}
 
 			@Override
@@ -332,6 +327,11 @@ public class SpreadsheetDemo {
 			@Override
 			public boolean isVisible() {
 				return editorBox.isVisible();
+			}
+
+			@Override
+			public void hide() {
+				editorBox.setVisible(false);
 			}
 		}
 	}

@@ -15,4 +15,6 @@ public interface SpreadsheetCellEditor {
 	void scrollHorizontally();
 
 	boolean isVisible();
+
+	void hide();
 }

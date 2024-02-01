@@ -2,7 +2,7 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -14,21 +14,22 @@ public final class SpreadsheetEditorListener implements MathFieldListener {
 	final Kernel kernel;
 	private final int row;
 	private final int column;
-	private final SpreadsheetControlsDelegate controls;
+	private final SpreadsheetCellEditor editor;
 
 	/**
 	 * @param mathField math input
 	 * @param kernel kernel
 	 * @param row spreadsheet row
 	 * @param column spreadsheet column
+	 * @param editor equation editor for spreadsheet
 	 */
 	public SpreadsheetEditorListener(MathFieldInternal mathField, Kernel kernel,
-			int row, int column, SpreadsheetControlsDelegate controls) {
+			int row, int column, SpreadsheetCellEditor editor) {
 		this.mathField = mathField;
 		this.kernel = kernel;
 		this.row = row;
 		this.column = column;
-		this.controls = controls;
+		this.editor = editor;
 	}
 
 	@Override
@@ -37,28 +38,23 @@ public final class SpreadsheetEditorListener implements MathFieldListener {
 				+ Unicode.ASSIGN_STRING + mathField.getText();
 		kernel.getAlgebraProcessor().processAlgebraCommand(
 				cmd, true);
-		controls.hideCellEditor();
+		editor.hide();
 	}
 
 	@Override
 	public void onKeyTyped(String key) {
-		controls.getCellEditor().scrollHorizontally();
+		editor.scrollHorizontally();
 	}
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-		controls.getCellEditor().scrollHorizontally();
+		editor.scrollHorizontally();
 		return false;
 	}
 
 	@Override
-	public void onInsertString() {
-		// not needed
-	}
-
-	@Override
 	public boolean onEscape() {
-		controls.hideCellEditor();
+		editor.hide();
 		return true;
 	}
 

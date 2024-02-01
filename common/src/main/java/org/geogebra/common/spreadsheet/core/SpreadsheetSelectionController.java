@@ -75,8 +75,9 @@ final class SpreadsheetSelectionController {
 	 * @param extendSelection True if the current selection should expand, false else
 	 */
 	void moveLeft(boolean extendSelection) {
-		if (getLastSelection() != null) {
-			select(getLastSelection().getLeft(extendSelection), extendSelection, false);
+		Selection lastSelection = getLastSelection();
+		if (lastSelection != null) {
+			select(lastSelection.getLeft(extendSelection), extendSelection, false);
 		}
 	}
 
@@ -85,8 +86,9 @@ final class SpreadsheetSelectionController {
 	 * @param numberOfColumns Number of columns in the table
 	 */
 	void moveRight(boolean extendSelection, int numberOfColumns) {
-		if (getLastSelection() != null) {
-			select(getLastSelection().getRight(numberOfColumns, extendSelection),
+		Selection lastSelection = getLastSelection();
+		if (lastSelection != null) {
+			select(lastSelection.getRight(numberOfColumns, extendSelection),
 					extendSelection, false);
 		}
 	}
@@ -95,8 +97,9 @@ final class SpreadsheetSelectionController {
 	 * @param extendSelection True if the current selection should expand, false else
 	 */
 	void moveUp(boolean extendSelection) {
-		if (getLastSelection() != null) {
-			select(getLastSelection().getTop(extendSelection), extendSelection, false);
+		Selection lastSelection = getLastSelection();
+		if (lastSelection != null) {
+			select(lastSelection.getTop(extendSelection), extendSelection, false);
 		}
 	}
 
@@ -105,8 +108,9 @@ final class SpreadsheetSelectionController {
 	 * @param numberOfRows Number of rows
 	 */
 	void moveDown(boolean extendSelection, int numberOfRows) {
-		if (getLastSelection() != null) {
-			select(getLastSelection().getBottom(numberOfRows, extendSelection),
+		Selection lastSelection = getLastSelection();
+		if (lastSelection != null) {
+			select(lastSelection.getBottom(numberOfRows, extendSelection),
 					extendSelection, false);
 		}
 	}
@@ -129,8 +133,9 @@ final class SpreadsheetSelectionController {
 	 * @param addSelection Whether we want to add this selection to the current selections (CTRL)
 	 */
 	public boolean select(Selection selection, boolean extendSelection, boolean addSelection) {
-		if (extendSelection && getLastSelection() != null) {
-			extendSelection(getLastSelection(), selection, addSelection);
+		Selection lastSelection = getLastSelection();
+		if (extendSelection && lastSelection != null) {
+			extendSelection(lastSelection, selection, addSelection);
 			return true;
 		} else if (!addSelection) {
 			return setSelections(selection);
