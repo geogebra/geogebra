@@ -553,7 +553,7 @@ public abstract class ScriptManager implements EventListener {
 	}
 
 	public boolean isJsEnabled() {
-		return jsEnabled;
+		return !ScriptType.JAVASCRIPT.isDisabled();
 	}
 
 	public void setJsEnabled(boolean jsEnabled) {

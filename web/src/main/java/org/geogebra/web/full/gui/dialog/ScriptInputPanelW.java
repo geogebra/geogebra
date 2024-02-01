@@ -70,7 +70,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 		btPanel.setStyleName("optionsPanel");
 
 		languageSelector = new ListBox();
-		for (ScriptType type : ScriptType.values()) {
+		for (ScriptType type : ScriptType.enabledValues()) {
 			languageSelector
 					.addItem(app.getLocalization().getMenu(type.getName()));
 		}

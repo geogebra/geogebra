@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -684,8 +685,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	private void updateJsEnabled() {
-		app.getScriptManager().setJsEnabled(!app.isMebis()
-				|| app.getLoginOperation().isTeacherLoggedIn());
+		boolean jsEnabled = !app.isMebis()
+				|| app.getLoginOperation().isTeacherLoggedIn();
+		if (!jsEnabled) {
+			ScriptType.JAVASCRIPT.disable();
+		}
 
 	}
 

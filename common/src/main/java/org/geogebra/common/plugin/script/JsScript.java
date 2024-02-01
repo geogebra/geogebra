@@ -25,6 +25,10 @@ public class JsScript extends Script {
 
 	@Override
 	public boolean run(Event evt) throws ScriptError {
+		if (getType().isDisabled()) {
+			return false;
+		}
+
 		String label = evt.target.getLabel(StringTemplate.defaultTemplate);
 		boolean update = evt.type == EventType.UPDATE;
 		try {
