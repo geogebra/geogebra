@@ -169,7 +169,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public void handleKeyPressed(int keyCode, String key, Modifiers modifiers) {
-		needsRedraw = controller.handleKeyPressed(keyCode, key, modifiers, viewport);
+		needsRedraw = controller.handleKeyPressed(keyCode, key, modifiers, viewport) || needsRedraw;
 	}
 
 	public SpreadsheetController getController() {
