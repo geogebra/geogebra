@@ -31,7 +31,9 @@ public class ContextMenuItems {
 	 * @return map of the menu key and its action.
 	 */
 	public List<ContextMenuItem> get(int row, int column) {
-		if (row == HEADER_INDEX) {
+		if (row == HEADER_INDEX && column == HEADER_INDEX) {
+			return tableItems(row, column);
+		} else if (row == HEADER_INDEX) {
 			return columnItems(column);
 		} else if (column == HEADER_INDEX) {
 			return rowItems(row);
@@ -39,12 +41,32 @@ public class ContextMenuItems {
 		return cellItems(row, column);
 	}
 
+	private List<ContextMenuItem> tableItems(int row, int column) {
+		return Arrays.asList(
+				new ContextMenuItem(Identifer.CUT, () -> cutCells(row, column)),
+				new ContextMenuItem(Identifer.COPY, () -> copyCells(row, column)),
+				new ContextMenuItem(Identifer.PASTE, () -> pasteCells(row, column))
+		);
+	}
+
 	private List<ContextMenuItem> cellItems(int row, int column) {
 		return Arrays.asList(
-				new ContextMenuItem(Identifer.DELETE, () -> deleteCells(row, column)),
-				new ContextMenuItem(Identifer.COPY, () -> copyCells(row, column)),
 				new ContextMenuItem(Identifer.CUT, () -> cutCells(row, column)),
-				new ContextMenuItem(Identifer.PASTE, () -> pasteCells(row, column))
+				new ContextMenuItem(Identifer.COPY, () -> copyCells(row, column)),
+				new ContextMenuItem(Identifer.PASTE, () -> pasteCells(row, column)),
+				new ContextMenuItem(Identifer.DIVIDER),
+				new ContextMenuItem(Identifer.INSERT_ROW_ABOVE,
+						() -> tabularData.insertRowAt(row)),
+				new ContextMenuItem(Identifer.INSERT_ROW_BELOW,
+						() -> tabularData.insertRowAt(row + 1)),
+				new ContextMenuItem(Identifer.INSERT_COLUMN_LEFT,
+						() -> tabularData.insertColumnAt(column)),
+				new ContextMenuItem(Identifer.INSERT_COLUMN_RIGHT,
+						() -> tabularData.insertColumnAt(column + 1)),
+				new ContextMenuItem(Identifer.DIVIDER),
+				new ContextMenuItem(Identifer.DELETE_ROW, () -> deleteRowAt(row)),
+				new ContextMenuItem(Identifer.DELETE_COLUMN,
+						() -> deleteColumnAt(column))
 		);
 	}
 
@@ -95,16 +117,20 @@ public class ContextMenuItems {
 			for (int column = range.getFromColumn(); column < range.getToRow(); column++) {
 				tabularData.setContent(row, column, null);
 			}
-
 		}
 	}
 
 	private List<ContextMenuItem> rowItems(int row) {
 		return Arrays.asList(
+				new ContextMenuItem(Identifer.CUT, () -> {}),
+				new ContextMenuItem(Identifer.COPY, () -> {}),
+				new ContextMenuItem(Identifer.PASTE, () -> {}),
+				new ContextMenuItem(Identifer.DIVIDER),
 				new ContextMenuItem(Identifer.INSERT_ROW_ABOVE,
 						() -> tabularData.insertRowAt(row)),
 				new ContextMenuItem(Identifer.INSERT_ROW_BELOW,
 						() -> tabularData.insertRowAt(row + 1)),
+				new ContextMenuItem(Identifer.DIVIDER),
 				new ContextMenuItem(Identifer.DELETE_ROW, () -> deleteRowAt(row))
 		);
 	}
@@ -128,13 +154,17 @@ public class ContextMenuItems {
 
 	private List<ContextMenuItem> columnItems(int column) {
 		return Arrays.asList(
+				new ContextMenuItem(Identifer.CUT, () -> {}),
+				new ContextMenuItem(Identifer.COPY, () -> {}),
+				new ContextMenuItem(Identifer.PASTE, () -> {}),
+				new ContextMenuItem(Identifer.DIVIDER),
 				new ContextMenuItem(Identifer.INSERT_COLUMN_LEFT,
 						() -> tabularData.insertColumnAt(column)),
 				new ContextMenuItem(Identifer.INSERT_COLUMN_RIGHT,
 						() -> tabularData.insertColumnAt(column + 1)),
+				new ContextMenuItem(Identifer.DIVIDER),
 				new ContextMenuItem(Identifer.DELETE_COLUMN,
 						() -> deleteColumnAt(column))
-
 				);
 	}
 

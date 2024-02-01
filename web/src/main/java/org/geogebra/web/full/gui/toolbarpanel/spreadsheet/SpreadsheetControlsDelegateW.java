@@ -11,9 +11,14 @@ import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
+import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Panel;
@@ -23,6 +28,7 @@ import com.google.gwt.core.client.Scheduler;
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
 
 	private final SpreadsheetCellEditorW editor;
+	private GPopupMenuW contextMenu;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -81,21 +87,14 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		public void hide() {
 			mathField.setVisible(false);
 		}
-	}
-
-	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
-		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
-		public void hide() {
-			mathField.setVisible(false);
-		}
 
 		public AppW getApp() {
 			return app;
 		}
- 	}
+	}
 
-	public SpreadsheetControlsDelegateW(AppW app, Panel parent) {
-		editor = new SpreadsheetCellEditorW(app, parent, this);
+	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
+		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		contextMenu = new GPopupMenuW(editor.getApp());
 	}
 
@@ -108,25 +107,25 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
 		contextMenu.clearItems();
 		for (ContextMenuItem item : actions) {
-			SVGResource image = getActionIcon(item.getIdentifier());
-			String itemText = editor.getApp().getLocalization()
-					.getMenu(item.getLocalizationKey());
-			AriaMenuItem menuItem;
-
-			if (image != null) {
-				menuItem = new AriaMenuItem(MainMenu.getMenuBarHtml(image, itemText),
-						true, () -> item.performAction());
+			if (ContextMenuItem.Identifer.DIVIDER.equals(item.getIdentifier())) {
+				contextMenu.addVerticalSeparator();
 			} else {
-				menuItem = new AriaMenuItem(itemText, true, () -> item.performAction());
+				SVGResource image = getActionIcon(item.getIdentifier());
+				String itemText = editor.getApp().getLocalization()
+						.getMenu(item.getLocalizationKey());
+				AriaMenuItem menuItem;
+
+				if (image != null) {
+					menuItem = new AriaMenuItem(MainMenu.getMenuBarHtml(image, itemText),
+							true, () -> item.performAction());
+				} else {
+					menuItem = new AriaMenuItem(itemText, true, () -> item.performAction());
+				}
+				contextMenu.addItem(menuItem);
 			}
-			contextMenu.addItem(menuItem);
 		}
 		contextMenu.showAtPoint(coords.x, coords.y);
-	}
-
-	@Override
-	public void hideCellEditor() {
-		editor.hide();
+		contextMenu.getPopupMenu().selectItem(0);
 	}
 
 	@Override
