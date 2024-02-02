@@ -1,0 +1,23 @@
+@use 'colors';
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame{
+	.toolboxMow {
+	    position: absolute;
+	    top: 200px;
+        border-radius: 36px;
+        width: 64px;
+        padding: 8px;
+        box-shadow: 0px 2px 24px -1px #85848A24;
+
+        &.leftAligned {
+        	left: 16px;
+        }
+
+        .divider {
+        	height: 1px;
+        	background-color: colors.$tool-border;
+        }
+	}
+}

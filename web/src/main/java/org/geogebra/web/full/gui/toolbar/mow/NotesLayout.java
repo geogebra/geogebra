@@ -9,6 +9,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -24,7 +25,8 @@ public class NotesLayout implements SetLabels {
 	private final static int FLOATING_BTNS_WIDTH = 48;
 	private final static int FLOATING_BTNS_MARGIN_RIGHT = 16;
 	private final AppW appW;
-	private final @CheckForNull ToolbarMow toolbar;
+	//private final @CheckForNull ToolbarMow toolbar;
+	private final @CheckForNull ToolboxMow toolbar;
 	private StandardButton pageControlButton;
 	private @CheckForNull PageListPanel pageControlPanel;
 	/** panel containing undo and redo */
@@ -39,7 +41,7 @@ public class NotesLayout implements SetLabels {
 	 */
 	public NotesLayout(AppW appW) {
 		this.appW = appW;
-		this.toolbar = appW.showToolBar() ? new ToolbarMow(appW, this) : null;
+		this.toolbar = appW.showToolBar() ? new ToolboxMow(appW) : null;
 		createUndoRedoButtons();
 		createPageControlButton();
 		setLabels();
@@ -73,10 +75,7 @@ public class NotesLayout implements SetLabels {
 
 	private void movePageControlButtonAboveToolbar() {
 		pageControlButton.getElement().getStyle().clearBottom();
-		Dom.toggleClass(
-				pageControlButton,
-				"showMowSubmenu", "hideMowSubmenu",
-				isNotesToolbarOpen());
+		//Dom.toggleClass(pageControlButton, "showMowSubmenu", "hideMowSubmenu", isNotesToolbarOpen());
 		pageControlButton.addStyleName("narrowscreen");
 	}
 
@@ -87,7 +86,6 @@ public class NotesLayout implements SetLabels {
 	private void moveZoomPanelAboveToolbar() {
 		EuclidianDockPanelW dockPanel = getDockPanel();
 		dockPanel.moveZoomPanelAboveToolbar();
-		dockPanel.moveZoomPanelUpOrDown(isNotesToolbarOpen());
 	}
 
 	private EuclidianDockPanelW getDockPanel() {
@@ -165,7 +163,7 @@ public class NotesLayout implements SetLabels {
 	@Override
 	public void setLabels() {
 		if (toolbar != null) {
-			toolbar.setLabels();
+			// TODO toolbar.setLabels();
 		}
 		pageControlButton
 				.setTitle(appW.getLocalization().getMenu("PageControl"));
@@ -230,27 +228,11 @@ public class NotesLayout implements SetLabels {
 	 */
 	public void setMode(int mode) {
 		if (toolbar != null) {
-			toolbar.setMode(mode);
+			// TODO toolbar.setMode(mode);
 		}
 	}
 
 	public Widget getToolbar() {
 		return toolbar;
-	}
-
-	/**
-	 * @return true if toolbar open, false otherwise
-	 */
-	public boolean isNotesToolbarOpen() {
-		return toolbar != null && toolbar.isOpen();
-	}
-
-	/**
-	 * @param open true if should open notes toolbar
-	 */
-	public void setToolbarOpen(boolean open) {
-		if (toolbar != null) {
-			toolbar.openCloseNotesToolbar(open);
-		}
 	}
 }

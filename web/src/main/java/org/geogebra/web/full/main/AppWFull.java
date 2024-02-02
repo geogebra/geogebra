@@ -2517,7 +2517,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void setNotesToolbarOpen(boolean open) {
-		getAppletFrame().setNotesToolbarOpen(open);
+		//getAppletFrame().setNotesToolbarOpen(open);
 	}
 
 	/**
