@@ -40,9 +40,6 @@ public class GgbScript extends Script {
 	@Override
 	public boolean run(Event evt) throws ScriptError {
 		String scriptText;
-		if (getType().isDisabled()) {
-			return false;
-		}
 
 		if (text == null) {
 			return true;

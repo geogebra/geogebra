@@ -80,7 +80,7 @@ public class CalcEmbedElement extends EmbedElement {
 	@Override
 	public void setJsEnabled(boolean jsEnabled) {
 		if (!jsEnabled) {
-			ScriptType.JAVASCRIPT.disable();
+			frame.getApp().getScriptManager().disable(ScriptType.JAVASCRIPT);;
 		}
 
 		GuiManagerW guiManager = frame.getApp().getGuiManager();

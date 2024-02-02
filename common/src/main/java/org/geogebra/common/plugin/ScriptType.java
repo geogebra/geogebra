@@ -1,9 +1,6 @@
 package org.geogebra.common.plugin;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.script.GgbScript;
@@ -35,21 +32,11 @@ public enum ScriptType {
 
 	private String name;
 	private String xmlName;
-	private boolean disabled = false;
 	private static HashMap<String, ScriptType> xmlMap = new HashMap<>();
 
 	ScriptType(String name, String xmlName) {
 		this.name = name;
 		this.xmlName = xmlName;
-	}
-
-	public boolean isDisabled() {
-		return disabled;
-	}
-
-	public static List<ScriptType> enabledValues() {
-		return Arrays.stream(values()).filter(t -> !t.disabled)
-				.collect(Collectors.toList());
 	}
 
 	/**
@@ -79,10 +66,6 @@ public enum ScriptType {
 	 */
 	public String getXMLName() {
 		return xmlName;
-	}
-
-	public void disable() {
-		disabled = true;
 	}
 
 	/**

@@ -78,7 +78,6 @@ import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
-import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
@@ -296,9 +295,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					Browser.addMutationObserver(getParent(
 							getAppletParameters().getParamScaleContainerClass()),
 							this::checkScaleContainer));
-		}
-		if (appletParameters.getDisableJavaScript()) {
-			ScriptType.JAVASCRIPT.disable();
 		}
 	}
 
