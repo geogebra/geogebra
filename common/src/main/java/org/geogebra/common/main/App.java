@@ -2199,16 +2199,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Changes current mode to move mode if whiteboard is not active
 	 */
 	public void setMoveMode() {
-		if (!isWhiteboardActive()) {
-			setMoveMode(ModeSetter.TOOLBAR);
-		}
+		setMoveMode(ModeSetter.TOOLBAR);
 	}
 
 	/**
 	 * Changes current mode to move mode
 	 */
-	private void setMoveMode(ModeSetter m) {
-		setMode(EuclidianConstants.MODE_MOVE, m);
+	public void setMoveMode(ModeSetter m) {
+		if (!isWhiteboardActive()) {
+			setMode(EuclidianConstants.MODE_MOVE, m);
+		}
 	}
 
 	/**
