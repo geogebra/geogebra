@@ -103,7 +103,7 @@ public class ContextMenuItems {
 		}
 	}
 
-	private void deleteCells(int row, int column) {
+	/*private void deleteCells(int row, int column) {
 		List<Selection> selections = selectionController.selections();
 		if (selections.isEmpty()) {
 			tabularData.setContent(row, column, null);
@@ -118,7 +118,7 @@ public class ContextMenuItems {
 				tabularData.setContent(row, column, null);
 			}
 		}
-	}
+	}*/
 
 	private List<ContextMenuItem> rowItems(int row) {
 		return Arrays.asList(

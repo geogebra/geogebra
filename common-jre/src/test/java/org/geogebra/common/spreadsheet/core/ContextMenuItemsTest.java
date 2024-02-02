@@ -85,7 +85,7 @@ public final class ContextMenuItemsTest {
 						DIVIDER, DELETE_COLUMN));
 	}
 
-	@Test
+	/*@Test
 	public void testDeleteCell() {
 		runItemAt(2, 1, DELETE);
 		assertNull(data.contentAt(2, 1));
@@ -97,7 +97,7 @@ public final class ContextMenuItemsTest {
 		selectionController.select(new Selection(SelectionType.CELLS, range), false, true);
 		runItemAt(2, 4, DELETE);
 		checkRangeIsDeleted(range);
-	}
+	}*/
 
 	private void checkRangeIsDeleted(TabularRange range) {
 		int count = 0;

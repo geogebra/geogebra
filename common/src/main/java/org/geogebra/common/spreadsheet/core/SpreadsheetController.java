@@ -171,13 +171,14 @@ public final class SpreadsheetController implements TabularSelection {
 		if ((modifiers.rightButton || modifiers.ctrl) && controlsDelegate != null) {
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
-			return true;
+			//return true;
 		}
 		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
 		}
 		boolean changed = false;
-		if (!modifiers.ctrl  && !modifiers.shift && selectionController.hasSelection()) {
+		if (!modifiers.ctrl && !modifiers.shift && !modifiers.rightButton
+				&& selectionController.hasSelection()) {
 			selectionController.clearSelection();
 			changed = true;
 		}

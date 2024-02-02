@@ -93,6 +93,12 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 	}
 
+	/**
+	 * Spreadsheet controls delegate
+	 * @param app - application
+	 * @param parent - parent panel
+	 * @param mathTextField - math text field
+	 */
 	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		contextMenu = new GPopupMenuW(editor.getApp());
