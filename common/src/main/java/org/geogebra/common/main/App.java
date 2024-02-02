@@ -2208,6 +2208,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void setMoveMode(ModeSetter m) {
 		if (!isWhiteboardActive()) {
 			setMode(EuclidianConstants.MODE_MOVE, m);
+		} else {
+			setMode(EuclidianConstants.MODE_SELECT_MOW, m);
 		}
 	}
 
