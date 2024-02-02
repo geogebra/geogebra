@@ -18,7 +18,7 @@ import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LayerManagerTest extends BaseControllerTest {
+public class LayerManagerTest extends BaseEuclidianControllerTest {
 
 	private LayerManager layerManager;
 	private GeoElement[] geos;

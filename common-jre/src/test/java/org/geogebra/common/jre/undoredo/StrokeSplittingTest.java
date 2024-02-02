@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNotEquals;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.BaseControllerTest;
+import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
@@ -21,7 +21,7 @@ import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StrokeSplittingTest extends BaseControllerTest {
+public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 
 	EuclidianController ec;
 	EuclidianStyleBarSelection selection;
@@ -98,7 +98,7 @@ public class StrokeSplittingTest extends BaseControllerTest {
 
 		int undoPoints = getConstruction().getUndoManager().getHistorySize();
 		assertEquals(undoPoints, 6);
-		String s3Original = lookup("stroke3").getDefinition(StringTemplate.testTemplate);;
+		String s3Original = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		getKernel().undo(); //undos dragging
 		String s3Dragged = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		assertNotEquals(s3Original, s3Dragged);

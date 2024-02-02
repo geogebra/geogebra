@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASTable;
-import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -31,7 +30,7 @@ public class CASTableW extends Grid implements CASTable {
 	public static final int COL_CAS_CELLS_WEB = 1;
 	/** column index of marbles */
 	public static final int COL_CAS_HEADER = 0;
-	private CASTableCellEditor editor;
+	private CASLaTeXEditor editor;
 	private CASTableCellW editing;
 	private AppW app;
 	private int[] selectedRows = new int[0];
@@ -197,7 +196,7 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	@Override
-	public CASTableCellEditor getEditor() {
+	public CASLaTeXEditor getEditor() {
 		if (editor == null) {
 			editor = new CASLaTeXEditor(app, ml);
 			editor.setPixelRatio(app.getPixelRatio());

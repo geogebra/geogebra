@@ -102,7 +102,13 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	public void showNumberInputDialogRotate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
-		// TODO Auto-generated method stub
+		DialogManager.rotateObject(app, getInput(),
+				getClockwise(), selectedPolygons,
+				new DialogManager.CreateGeoForRotatePoint(selectedPoints[0]), selGeos,
+				ec, this,
+				obj -> {
+					// ignore
+				});
 	}
 
 	@Override
