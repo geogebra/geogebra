@@ -13,7 +13,7 @@ public class PointFromSequenceTest extends BaseUnitTest {
 	private GeoPoint point;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		kernel = getApp().getKernel();
 	}
 

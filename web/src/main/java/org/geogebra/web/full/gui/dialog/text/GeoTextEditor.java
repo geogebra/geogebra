@@ -12,14 +12,19 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.ClickEvent;
+import org.gwtproject.event.dom.client.FocusHandler;
+import org.gwtproject.event.dom.client.KeyPressHandler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FocusWidget;
 
@@ -37,7 +42,7 @@ import jsinterop.base.Js;
  * @author G. Sturr
  * 
  */
-public class GeoTextEditor extends FocusWidget {
+public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 
 	private static final String DYNAMIC_TEXT_CLASS = "dynamicText";
 	private final AppW app;
@@ -45,6 +50,7 @@ public class GeoTextEditor extends FocusWidget {
 
 	protected GPopupPanel textEditPopup;
 	protected EditorTextField editBox;
+	private elemental2.dom.Element targetChild;
 
 	/**************************************
 	 * Constructor
@@ -185,10 +191,14 @@ public class GeoTextEditor extends FocusWidget {
 	 */
 	public void insertElement(Node elem) {
 		getElement().focus();
-		Range range = DomGlobal.document.getSelection().getRangeAt(0);
-		range.deleteContents();
-		range.insertNode(elem);
-		range.collapse(false);
+		try {
+			Range range = DomGlobal.document.getSelection().getRangeAt(0);
+			range.deleteContents();
+			range.insertNode(elem);
+			range.collapse(false);
+		} catch (RuntimeException ex) {
+			getTargetElement().appendChild(Js.uncheckedCast(elem));
+		}
 		editPanel.updatePreviewPanel();
 	}
 
@@ -375,11 +385,126 @@ public class GeoTextEditor extends FocusWidget {
 		}
 	}
 
-	public String getText() {
-		return getElement().getInnerText();
-	}
-
 	public GTextBox getEditor() {
 		return editBox;
+	}
+
+	/**
+	 * Remove single character from the end
+	 */
+	public void onBackspace() {
+		elemental2.dom.Element el = getTargetElement();
+		if (el.lastChild != null) {
+			String textContent = el.lastChild.textContent;
+			if (textContent.length() > 1) {
+				el.lastChild.textContent = textContent.substring(0, textContent.length() - 1);
+			} else {
+				el.removeChild(el.lastChild);
+			}
+		} else if (el != Js.uncheckedCast(getElement())) {
+			el.remove();
+			targetChild = null;
+		}
+	}
+
+	private elemental2.dom.Element getTargetElement() {
+		if (targetChild != null) {
+			return targetChild;
+		}
+		return Js.uncheckedCast(getElement());
+	}
+
+	@Override
+	public int removeDummyCursor() {
+		return -1;
+	}
+
+	@Override
+	public void setReadOnly(boolean readonly) {
+		editBox.setEditable(!readonly);
+	}
+
+	@Override
+	public int getCursorPos() {
+		return editBox.getCursorPos();
+	}
+
+	@Override
+	public void setCursorPos(int pos) {
+		editBox.setCursorPos(pos);
+	}
+
+	@Override
+	public void setValue(String text) {
+		// only used by dummy cursor (not supported)
+	}
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return editBox.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return editBox.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
+		return editBox.addKeyPressHandler(handler);
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		editBox.setFocus(focus);
+	}
+
+	@Override
+	public void ensureEditing() {
+		// later
+	}
+
+	@Override
+	public void onBackSpace() {
+		// later
+	}
+
+	@Override
+	public boolean needsAutofocus() {
+		return false;
+	}
+
+	@Override
+	public boolean hasFocus() {
+		return editBox.hasFocus();
+	}
+
+	@Override
+	public boolean acceptsCommandInserts() {
+		return false;
+	}
+
+	@Override
+	public void startOnscreenKeyboardEditing() {
+		// later
+	}
+
+	@Override
+	public void endOnscreenKeyboardEditing() {
+		// later
+	}
+
+	@Override
+	public void addDummyCursor() {
+		// later
+	}
+
+	/**
+	 * Add new line
+	 */
+	public void newLine() {
+		elemental2.dom.Element line = DomGlobal.document.createElement("DIV");
+		insertElement(line);
+		targetChild = line;
 	}
 }

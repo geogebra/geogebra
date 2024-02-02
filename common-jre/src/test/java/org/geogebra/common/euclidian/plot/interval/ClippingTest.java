@@ -28,7 +28,7 @@ public class ClippingTest extends BaseUnitTest {
 		GeoFunction f = add("sec(cot(x))");
 		view.update(f);
 		view.setRealWorldCoordSystem(-10, 10, -0.5, 0.5);
-		Drawable drawable = (Drawable) view.getDrawableFor(f);
+		Drawable drawable = getDrawable(f);
 		if (drawable == null) {
 			fail();
 		}

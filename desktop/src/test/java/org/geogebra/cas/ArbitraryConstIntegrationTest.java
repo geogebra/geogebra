@@ -103,8 +103,8 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_1() {
-		ta("SolveODE[y''-5y'+6y=0]", "y = c_{1} * " + Unicode.EULER_STRING
-				+ "^(3 * x) + c_{2} * " + Unicode.EULER_STRING + "^(2 * x)");
+		ta("SolveODE[y''-5y'+6y=0]", "y = c_{1} * (" + Unicode.EULER_STRING
+				+ "^(x))^(3) + c_{2} * (" + Unicode.EULER_STRING + "^(x))^(2)");
 	}
 
 	@Test
@@ -139,24 +139,23 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_7() {
-		ta("SolveODE[y''=y]", "y = c_{1} *" + Unicode.EULER_STRING
-				+ "^(x) + c_{2} *" + Unicode.EULER_STRING + "^(-x)");
+		ta("SolveODE[y''=y]", "y = (c_{1} * (" + Unicode.EULER_STRING + "^(x))^(2) "
+				+ "+ c_{2}) / " + Unicode.EULER_STRING + "^(x)");
 	}
 
 	@Test
 	public void solveODE_8() {
 		ta("SolveODE[2y''+y'-y=0]",
-				"y = c_{1} *" + Unicode.EULER_STRING + "^(-x) + c_{2} *"
-						+ Unicode.EULER_STRING + "^(x/2)",
+				"y = (c_{1} + c_{2} * " + Unicode.EULER_STRING + "^(x) * "
+				+ Unicode.EULER_STRING + "^(x / 2)) / " + Unicode.EULER_STRING + "^(x)",
 				"y = c_{1} *" + Unicode.EULER_STRING + "^(x / 2) + c_{2} *"
 						+ Unicode.EULER_STRING + "^(-x)");
 	}
 
 	@Test
 	public void solveODE_9() {
-		ta("SolveODE[y''-5y=0]",
-				"y = c_{1} *" + Unicode.EULER_STRING + "^(sqrt(5) * x) + c_{2} *"
-						+ Unicode.EULER_STRING + "^(-sqrt(5) * x)");
+		ta("SolveODE[y''-5y=0]", "y = (c_{1} * (" + Unicode.EULER_STRING
+				+ "^(sqrt(5) * x))^(2) + c_{2}) / " + Unicode.EULER_STRING + "^(sqrt(5) * x)");
 	}
 
 	@Test
@@ -181,9 +180,8 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_13() {
-		ta("SolveODE[y''=2y]",
-				"y = c_{1} * " + Unicode.EULER_STRING + "^(sqrt(2) * x) + c_{2} * "
-						+ Unicode.EULER_STRING + "^(-sqrt(2) * x)");
+		ta("SolveODE[y''=2y]", "y = (c_{1} * (" + Unicode.EULER_STRING
+				+ "^(sqrt(2) * x))^(2) + c_{2}) / " + Unicode.EULER_STRING + "^(sqrt(2) * x)");
 	}
 
 	@Test

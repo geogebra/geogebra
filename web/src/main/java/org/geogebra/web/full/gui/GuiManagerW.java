@@ -1857,7 +1857,7 @@ public class GuiManagerW extends GuiManager
 			DialogData data = new DialogData("Save", "Cancel", "Save");
 			ComponentDialog dialog = new ComponentDialog((AppW) app, data, false, true);
 			ComponentInputField inputTextField = new ComponentInputField((AppW) app,
-					"", "", "", getApp().getExportTitle() + extension, -1, 1,
+					"", "", "", getApp().getExportTitle() + extension, -1,
 					"");
 			dialog.addDialogContent(inputTextField);
 			dialog.setOnPositiveAction(() -> {

@@ -40,7 +40,6 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
-import org.geogebra.common.jre.util.StreamUtil;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
@@ -87,14 +86,10 @@ public class UtilD {
 	 * @return file content
 	 */
 	public static String loadFileIntoString(String filename) {
-		InputStream ios = null;
-		try {
-			ios = new FileInputStream(filename);
+		try (FileInputStream ios = new FileInputStream(filename)) {
 			return loadIntoString(ios);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
-		} finally {
-			StreamUtil.closeSilent(ios);
 		}
 		return null;
 	}

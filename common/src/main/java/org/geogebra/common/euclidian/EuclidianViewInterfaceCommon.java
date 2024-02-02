@@ -787,20 +787,6 @@ public interface EuclidianViewInterfaceCommon
 	public int getEuclidianViewNo();
 
 	/**
-	 * @param rwX
-	 *            real world x-coord
-	 * @return screen x-coord
-	 */
-	public double toScreenCoordXd(double rwX);
-
-	/**
-	 * @param rwY
-	 *            real world y-coord
-	 * @return screen y-coord
-	 */
-	public double toScreenCoordYd(double rwY);
-
-	/**
 	 * Zooms about P with given factor
 	 * 
 	 * @param originX

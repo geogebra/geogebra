@@ -445,7 +445,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
 
-	private final AppConfig appConfig = new AppConfigDefault();
+	protected AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
 

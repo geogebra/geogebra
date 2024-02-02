@@ -25,7 +25,7 @@ public class AlgoAngleLines3DTest extends BaseUnitTest {
 	public void angleShouldWorkInIf() {
 		t("a=If(true,Angle(xAxis,zAxis))", "90*" + Unicode.DEGREE_STRING);
 		t("SetVisibleInView(a,1,true)");
-		DrawableND drawable = getApp().getEuclidianView1().getDrawableFor(lookup("a"));
+		DrawableND drawable = getDrawable(lookup("a"));
 		GGraphics2D g2 = mock(GGraphics2D.class);
 		assertNotNull(drawable);
 		((DrawAngleFor3D) drawable).draw(g2);

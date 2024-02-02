@@ -14,13 +14,13 @@ package org.geogebra.desktop.main.undo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 import javax.swing.DefaultListSelectionModel;
 
-import org.geogebra.common.jre.util.StreamUtil;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.undo.AppState;
@@ -123,13 +123,15 @@ public class UndoManagerD extends UndoManager {
 	@Override
 	final protected synchronized void loadUndoInfo(final AppState info,
 			String slideID) {
+		if (!(info instanceof FileAppState)) {
+			Log.warn("Invalid undo state");
+			restoreCurrentUndoInfo();
+			return;
+		}
+		File tempFile = ((FileAppState) info).getFile();
 
-		InputStream is = null;
-
-		try {
+		try (FileInputStream is = new FileInputStream(tempFile)) {
 			// load from file
-			File tempFile = ((FileAppState) info).getFile();
-			is = new FileInputStream(tempFile);
 
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -171,14 +173,12 @@ public class UndoManagerD extends UndoManager {
 				listSelModel.setSelectionInterval(minIndex, maxIndex);
 			}
 			app.getEventDispatcher().enableListeners();
-		} catch (Exception e) {
-			Log.error("setUndoInfo: " + e);
-			e.printStackTrace();
+		} catch (IOException | XMLParseException | RuntimeException e) {
+			Log.error("Problem setting undo info");
+			Log.debug(e);
 			restoreCurrentUndoInfo();
 		} catch (java.lang.OutOfMemoryError err) {
 			Log.error("UndoManager.loadUndoInfo: " + err);
-		} finally {
-			StreamUtil.closeSilent(is);
 		}
 
 	}
