@@ -28,13 +28,28 @@ public class ScriptInputModel extends OptionsModel {
 	 * @return array of all possible models
 	 */
 	public static ScriptInputModel[] getModels(App app) {
+		// TODO: cleanup duplications.
+		if (needsGlobalJavaScript(app)) {
+			return new ScriptInputModel[] {
+					new ScriptInputModel(app, EventType.CLICK, "OnClick"),
+					new ScriptInputModel(app, EventType.UPDATE, "OnUpdate"),
+					new ScriptInputModel(app, EventType.DRAG_END, "OnDragEnd"),
+					new ScriptInputModel(app, EventType.EDITOR_KEY_TYPED, "OnChange"),
+					new ScriptInputModel(app,  EventType.LOAD_PAGE, "GlobalJavaScript")
+			};
+		}
+
 		return new ScriptInputModel[] {
 				new ScriptInputModel(app, EventType.CLICK, "OnClick"),
 				new ScriptInputModel(app, EventType.UPDATE, "OnUpdate"),
 				new ScriptInputModel(app, EventType.DRAG_END, "OnDragEnd"),
-				new ScriptInputModel(app, EventType.EDITOR_KEY_TYPED, "OnChange"),
-				new ScriptInputModel(app,  EventType.LOAD_PAGE, "GlobalJavaScript")
+				new ScriptInputModel(app, EventType.EDITOR_KEY_TYPED, "OnChange")
 		};
+	}
+
+	private static boolean needsGlobalJavaScript(App app) {
+		return app.getScriptManager().isJsEnabled()
+				&& !app.getScriptManager().isDisabled(ScriptType.JAVASCRIPT);
 	}
 
 	public boolean isForcedJs() {

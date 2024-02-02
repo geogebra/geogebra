@@ -1,11 +1,13 @@
 package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -605,5 +607,10 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	public boolean isDisabled(ScriptType scriptType) {
 		return disabledTypes.contains(scriptType);
+	}
+
+	public List<ScriptType> availableTypes() {
+		return Arrays.stream(ScriptType.values())
+				.filter(t -> !disabledTypes.contains(t)).collect(Collectors.toList());
 	}
 }
