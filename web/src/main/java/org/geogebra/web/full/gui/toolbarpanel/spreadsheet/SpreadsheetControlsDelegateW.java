@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
@@ -29,6 +30,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	private final SpreadsheetCellEditorW editor;
 	private GPopupMenuW contextMenu;
+	private Localization loc;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -101,7 +103,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	 */
 	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
-		contextMenu = new GPopupMenuW(editor.getApp());
+		contextMenu = new GPopupMenuW(app);
+		loc = app.getLocalization();
 	}
 
 	@Override
@@ -117,8 +120,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 				contextMenu.addVerticalSeparator();
 			} else {
 				SVGResource image = getActionIcon(item.getIdentifier());
-				String itemText = editor.getApp().getLocalization()
-						.getMenu(item.getLocalizationKey());
+				String itemText = loc.getMenu(item.getLocalizationKey());
 				AriaMenuItem menuItem;
 
 				if (image != null) {
@@ -150,7 +152,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		case CUT:
 			return res.cut_black();
 		case COPY:
-			return res.INSTANCE.copy_black();
+			return res.copy_black();
 		case PASTE:
 			return res.paste_black();
 		case DELETE:

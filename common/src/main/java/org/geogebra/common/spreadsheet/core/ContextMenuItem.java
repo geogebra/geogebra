@@ -21,7 +21,7 @@ public class ContextMenuItem {
 
 	private final Identifer identifer;
 
-	private Runnable action;
+	private final Runnable action;
 
 	/**
 	 * @param identifer {@link Identifer}
@@ -37,6 +37,7 @@ public class ContextMenuItem {
 	 */
 	public ContextMenuItem(Identifer identifer) {
 		this.identifer = identifer;
+		action = null;
 	}
 
 	public String getLocalizationKey() {

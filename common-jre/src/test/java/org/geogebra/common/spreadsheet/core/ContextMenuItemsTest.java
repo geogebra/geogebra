@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public final class ContextMenuItemsTest {
@@ -85,19 +86,21 @@ public final class ContextMenuItemsTest {
 						DIVIDER, DELETE_COLUMN));
 	}
 
-	/*@Test
+	@Ignore
+	@Test
 	public void testDeleteCell() {
 		runItemAt(2, 1, DELETE);
 		assertNull(data.contentAt(2, 1));
 	}
 
+	@Ignore
 	@Test
 	public void testDeleteSelectedCells() {
 		TabularRange range = new TabularRange(6, 2, 8, 4);
 		selectionController.select(new Selection(SelectionType.CELLS, range), false, true);
 		runItemAt(2, 4, DELETE);
 		checkRangeIsDeleted(range);
-	}*/
+	}
 
 	private void checkRangeIsDeleted(TabularRange range) {
 		int count = 0;
