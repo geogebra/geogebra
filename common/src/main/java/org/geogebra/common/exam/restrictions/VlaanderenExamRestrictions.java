@@ -7,6 +7,7 @@ import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.RadianExpressionFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
@@ -42,7 +43,8 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 	private static Set<ExpressionFilter> createExpressionFilters() {
 		return Set.of(
 				new OperationExpressionFilter(Operation.OR, Operation.AND),
-				new ComplexExpressionFilter());
+				new ComplexExpressionFilter(),
+				new RadianExpressionFilter());
 	}
 
 	@Override
