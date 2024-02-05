@@ -5,7 +5,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class EuclidianPenFreehandTest extends BaseControllerTest {
+public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void freehandPenShouldRecognizeSegment() {

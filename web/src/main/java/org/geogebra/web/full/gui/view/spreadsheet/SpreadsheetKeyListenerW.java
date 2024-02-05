@@ -636,7 +636,8 @@ public class SpreadsheetKeyListenerW
 	}
 
 	private boolean isValidKeyCombination(KeyDownEvent e) {
-		return !e.isControlKeyDown() && (!e.isAltKeyDown() || isSpecialCharacter(e));
+		return !e.isControlKeyDown() && !e.isMetaKeyDown()
+				&& (!e.isAltKeyDown() || isSpecialCharacter(e));
 	}
 
 	private boolean isSpecialCharacter(KeyDownEvent e) {

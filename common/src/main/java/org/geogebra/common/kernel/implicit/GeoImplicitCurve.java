@@ -110,6 +110,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private boolean updatePathNeeded = false;
 	private Equation expanded;
 	private static long fastDrawThreshold = 10;
+	private static final String[] XY_VARIABLES = {"x", "y"};
 
 	/**
 	 * Construct an empty Implicit Curve Object
@@ -651,7 +652,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			return "?";
 		}
 		if (!isInputForm() && coeff != null) {
-			return toRawValueString(coeff, kernel, tpl);
+			return toRawValueString(tpl);
 		}
 		if (expanded != null) {
 			return expanded.toValueString(tpl);
@@ -690,6 +691,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		evalArray[0] = x;
 		evalArray[1] = y;
 		return this.expression.evaluate(evalArray);
+	}
+
+	@Override
+	public boolean isLaTeXDrawableGeo() {
+		return getToStringMode() == GeoLine.EQUATION_USER || coeff == null;
 	}
 
 	/**
@@ -2210,11 +2216,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *            string template
 	 * @return string representation of polynomial with given coefficients
 	 */
-	protected static String toRawValueString(double[][] coeff, Kernel kernel,
-			StringTemplate tpl0) {
+	protected String toRawValueString(StringTemplate tpl0) {
 		if (coeff == null) {
 			return "";
 		}
+		String[] varNames = getVariableNames();
 		StringTemplate tpl = tpl0.deriveWithQuestionmark(true);
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
@@ -2256,7 +2262,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 							}
 						}
 						if (i > 0) {
-							sb.append(tpl.printVariableName("x"));
+							sb.append(tpl.printVariableName(varNames[0]));
 						}
 						addPow(sb, i, tpl);
 						if (j > 0) {
@@ -2265,7 +2271,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 							} else if (i > 0) { // insert blank after x^i
 								sb.append(' ');
 							}
-							sb.append(tpl.printVariableName("y"));
+							sb.append(tpl.printVariableName(varNames[1]));
 						}
 						addPow(sb, j, tpl);
 						sb.append(' ');
@@ -2275,6 +2281,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		return sb.toString();
+	}
+
+	protected String[] getVariableNames() {
+		return XY_VARIABLES;
 	}
 
 	private static void addPow(StringBuilder sb, int exp, StringTemplate tpl) {
