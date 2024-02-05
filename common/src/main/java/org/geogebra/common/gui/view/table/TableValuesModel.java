@@ -116,6 +116,8 @@ public interface TableValuesModel {
 	 */
 	GeoList setupXValues(GeoList xValues);
 
+	boolean isImportingData();
+
 	/**
 	 * @param onDataImported - when data imported, hide loading snackbar
 	 */

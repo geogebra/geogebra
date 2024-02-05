@@ -151,6 +151,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		for (int i = points.size() - 1; i >= 0; i--) {
 			removePointsFromList(i);
 		}
+		if (model.isImportingData()) {
+			return; // no automatic point creation during import
+		}
 		for (int column = 1; column < model.getColumnCount(); column++) {
 			GeoEvaluatable evaluatable = view.getEvaluatable(column);
 			addPointsToList(evaluatable, column);
