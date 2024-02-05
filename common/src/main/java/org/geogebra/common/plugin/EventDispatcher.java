@@ -86,9 +86,10 @@ public class EventDispatcher implements ClientView {
 			if (affectsSelfGeo) {
 				app.getKernel().getConstruction().setSelfGeo(evt.target);
 			}
-			for (EventListener listener : listeners) {
-				listener.sendEvent(evt);
+			for (int i = 0; i < listeners.size(); i++) {
+				listeners.get(i).sendEvent(evt);
 			}
+
 			if (affectsSelfGeo) {
 				app.getKernel().getConstruction().restoreSelfGeo();
 			}
