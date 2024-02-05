@@ -75,7 +75,8 @@ public class NotesLayout implements SetLabels {
 
 	private void movePageControlButtonAboveToolbar() {
 		pageControlButton.getElement().getStyle().clearBottom();
-		//Dom.toggleClass(pageControlButton, "showMowSubmenu", "hideMowSubmenu", isNotesToolbarOpen());
+		//Dom.toggleClass(pageControlButton, "showMowSubmenu",
+		// "hideMowSubmenu", isNotesToolbarOpen());
 		pageControlButton.addStyleName("narrowscreen");
 	}
 

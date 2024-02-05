@@ -16,6 +16,10 @@ public class ToolboxMow extends FlowPanel {
 	private final AppW appW;
 	private ToolboxDecorator decorator;
 
+	/**
+	 * MOW toolbox
+	 * @param appW - application
+	 */
 	public ToolboxMow(AppW appW) {
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this);
@@ -33,16 +37,15 @@ public class ToolboxMow extends FlowPanel {
 				MODE_HIGHLIGHTER, MODE_ERASER));
 	}
 
-
 	private void addActionButton(SVGResource image, Runnable handler) {
-		StandardButton actionBtn = new StandardButton(image, null, 24, 24);
+		StandardButton actionBtn = new StandardButton(image, null, 48, 48);
 		actionBtn.addFastClickHandler((event) -> handler.run());
 
 		add(actionBtn);
 	}
 
 	private void addCategoryButton(SVGResource image, List<Integer> tools) {
-		StandardButton categoryBtn = new StandardButton(image, null, 24, 24);
+		StandardButton categoryBtn = new StandardButton(image, null, 48, 48);
 		categoryBtn.addFastClickHandler((event)
 				-> {
 			CategoryPopup popup = new CategoryPopup(appW, tools);
