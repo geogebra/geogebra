@@ -7,7 +7,6 @@
 	    position: absolute;
 	    top: 200px;
         border-radius: 36px;
-        width: 64px;
         padding: 8px;
         box-shadow: 0px 2px 24px -1px #85848A24;
 
@@ -17,7 +16,19 @@
 
         .divider {
         	height: 1px;
-        	background-color: colors.$tool-border;
+        	margin: 8px 0;
+        	background-color: neutral(300);
+        }
+
+        .actionButton {
+        	width: 24px;
+        	height: 24px;
+        	padding: 12px;
+        	border-radius: 50%;
+
+        	&:hover {
+        		background-color: purple(100);
+        	}
         }
 	}
 }

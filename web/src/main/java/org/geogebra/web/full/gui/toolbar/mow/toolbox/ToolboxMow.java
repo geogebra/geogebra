@@ -5,6 +5,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.*;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -30,27 +31,30 @@ public class ToolboxMow extends FlowPanel {
 	private void buildGui() {
 		decorator.positionLeft();
 
-		addActionButton(ToolbarSvgResources.INSTANCE.mode_move_32(),
+		addActionButton(ToolbarSvgResources.INSTANCE.mode_pen(),
 				() -> appW.setMoveMode());
 		addDivider();
-		addCategoryButton(ToolbarSvgResources.INSTANCE.mode_pen(), Arrays.asList(MODE_PEN,
+		addCategoryButton(MaterialDesignResources.INSTANCE.toolbar_tools(), Arrays.asList(MODE_PEN,
 				MODE_HIGHLIGHTER, MODE_ERASER));
 	}
 
 	private void addActionButton(SVGResource image, Runnable handler) {
-		StandardButton actionBtn = new StandardButton(image, null, 48, 48);
+		StandardButton actionBtn = new StandardButton(image, null, 24, 24);
+		actionBtn.addStyleName("actionButton");
 		actionBtn.addFastClickHandler((event) -> handler.run());
 
 		add(actionBtn);
 	}
 
 	private void addCategoryButton(SVGResource image, List<Integer> tools) {
-		StandardButton categoryBtn = new StandardButton(image, null, 48, 48);
+		StandardButton categoryBtn = new StandardButton(image, null, 24, 24);
+		categoryBtn.addStyleName("actionButton");
 		categoryBtn.addFastClickHandler((event)
 				-> {
 			CategoryPopup popup = new CategoryPopup(appW, tools);
-			popup.show(categoryBtn.getElement().getAbsoluteRight(),
-					categoryBtn.getElement().getAbsoluteTop());
+			popup.show(categoryBtn.getElement().getAbsoluteRight() + 16,
+					categoryBtn.getElement().getAbsoluteTop()
+							- categoryBtn.getElement().getClientHeight() - 16);
 		});
 
 		add(categoryBtn);
