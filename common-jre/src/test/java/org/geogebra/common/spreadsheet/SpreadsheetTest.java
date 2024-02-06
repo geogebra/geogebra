@@ -53,7 +53,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// initially we have 2 columns
 		assertThat(graphics.toString(), startsWith("col0,col1,1"));
-		spreadsheet.handlePointerDown(rowHeader + 40, 5, Modifiers.NONE);
+		spreadsheet.handlePointerDown(rowHeader + 40, 5, Modifiers.NONE, null, null);
 		spreadsheet.handlePointerMove(rowHeader + 10, 5, Modifiers.NONE);
 		spreadsheet.handlePointerUp(rowHeader + 10, 5, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
@@ -73,7 +73,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.getController().selectColumn(2, true, false);
 		spreadsheet.getController().selectColumn(3, true, false);
 		spreadsheet.getController().selectColumn(4, true, false);
-		spreadsheet.handlePointerDown(rowHeader + 80, 5, Modifiers.NONE);
+		spreadsheet.handlePointerDown(rowHeader + 80, 5, Modifiers.NONE, null, null);
 		spreadsheet.handlePointerMove(rowHeader + 50, 5, Modifiers.NONE);
 		spreadsheet.handlePointerUp(rowHeader + 50, 5, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
@@ -88,7 +88,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// initially we have 5 rows
 		assertThat(graphics.toString(), endsWith(",5"));
-		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE);
+		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE, null, null);
 		spreadsheet.handlePointerMove(15, colHeader + 40, Modifiers.NONE);
 		spreadsheet.handlePointerUp(15, colHeader + 40, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
@@ -104,7 +104,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		// initially we have 5 rows
 		assertThat(graphics.toString(), endsWith(",5"));
 		assertThat(spreadsheet.getCursor(15, 23), equalTo(MouseCursor.DEFAULT));
-		spreadsheet.handlePointerDown(15, 23, Modifiers.NONE);
+		spreadsheet.handlePointerDown(15, 23, Modifiers.NONE, null, null);
 		spreadsheet.handlePointerMove(15, 23, Modifiers.NONE);
 		spreadsheet.handlePointerUp(15, 40, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
@@ -124,7 +124,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.getController().selectRow(2, true, false);
 		spreadsheet.getController().selectRow(3, true, false);
 		spreadsheet.getController().selectRow(4, true, false);
-		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE);
+		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE, null, null);
 		spreadsheet.handlePointerMove(15, colHeader + 45, Modifiers.NONE);
 		spreadsheet.handlePointerUp(15, colHeader + 45, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();

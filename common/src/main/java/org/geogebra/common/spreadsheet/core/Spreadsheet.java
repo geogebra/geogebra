@@ -1,7 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -158,11 +158,18 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param x screen coordinate of event
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
+	 * <br/>
+	 * @param adjustViewportHorizontallyIfNeeded Function used to adjust the viewport
+	 * horizontally if needed, returns true if something that requires redrawing has changed
+	 * <br/>
+	 * @param adjustViewportVerticallyIfNeeded Function used to adjust the viewport
+	 * vertically if needed, returns true if something that requires redrawing has changed
 	 */
-	public void handlePointerDown(int x, int y, Modifiers modifiers) {
-		BiConsumer<Double, Double> adjustViewport = (dx, dy)
-				-> { setViewport(viewport.translatedBy(dx, dy)); };
-		needsRedraw = controller.handlePointerDown(x, y, modifiers, viewport, adjustViewport);
+	public void handlePointerDown(int x, int y, Modifiers modifiers,
+			BiFunction<Integer, Rectangle, Boolean> adjustViewportHorizontallyIfNeeded,
+			BiFunction<Integer, Rectangle, Boolean> adjustViewportVerticallyIfNeeded) {
+		needsRedraw = controller.handlePointerDown(x, y, modifiers, viewport,
+				adjustViewportHorizontallyIfNeeded, adjustViewportVerticallyIfNeeded);
 
 		// start selecting
 	}

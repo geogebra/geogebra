@@ -85,7 +85,7 @@ public class SpreadsheetControllerTest {
 	@Test
 	public void testExtendSelectionByHorizontalDrag() {
 		Rectangle viewport = new Rectangle(0, 500, 0, 500);
-		controller.handlePointerDown(101, 3, Modifiers.NONE, viewport, null);
+		controller.handlePointerDown(101, 3, Modifiers.NONE, viewport, null, null);
 		controller.handlePointerMove(241, 3, Modifiers.NONE, viewport);
 		controller.handlePointerUp(241, 3, Modifiers.NONE, viewport);
 
@@ -96,7 +96,7 @@ public class SpreadsheetControllerTest {
 	@Test
 	public void testExtendSelectionByVerticalDrag() {
 		Rectangle viewport = new Rectangle(0, 500, 0, 500);
-		controller.handlePointerDown(3, 50, Modifiers.NONE, viewport, null);
+		controller.handlePointerDown(3, 50, Modifiers.NONE, viewport, null, null);
 		controller.handlePointerMove(3, 150, Modifiers.NONE, viewport);
 		controller.handlePointerUp(3, 150, Modifiers.NONE, viewport);
 

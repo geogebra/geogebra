@@ -2,9 +2,11 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.ViewportAdjuster;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;
+import org.geogebra.common.util.Scrollable;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
@@ -40,6 +42,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	// on high-res screens
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
+	private final ViewportAdjuster viewportAdjuster;
 
 	/**
 	 * @param app application
@@ -65,12 +68,18 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay.setWidget(scrollContent);
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
 		add(scrollOverlay);
+
+		Scrollable scrollable = createScrollable();
+		viewportAdjuster = new ViewportAdjuster(spreadsheet.getController().getLayout(),
+				scrollable);
+
 		Element spreadsheetElement = scrollContent.getElement();
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
-			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
-					getModifiers(ptr));
+			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr), getModifiers(ptr),
+					viewportAdjuster.adjustViewportHorizontallyIfNeeded(),
+					viewportAdjuster.adjustViewportVerticallyIfNeeded());
 		});
 		registry.addEventListener(spreadsheetElement, "pointerup", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
@@ -175,7 +184,50 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return scrollOverlay.getOffsetWidth();
 	}
 
+	private int getScrollBarWidth() {
+		return getWidth() - scrollOverlay.getElement().getClientWidth();
+	}
+
 	public MathKeyboardListener getKeyboardListener() {
 		return mathField.getKeyboardListener();
+	}
+
+	private Scrollable createScrollable() {
+		return new Scrollable() {
+			@Override
+			public void setVerticalScrollPosition(int position) {
+				scrollOverlay.setVerticalScrollPosition(position);
+			}
+
+			@Override
+			public int getVerticalScrollPosition() {
+				return scrollOverlay.getVerticalScrollPosition();
+			}
+
+			@Override
+			public void setHorizontalScrollPosition(int position) {
+				scrollOverlay.setHorizontalScrollPosition(position);
+			}
+
+			@Override
+			public int getHorizontalScrollPosition() {
+				return scrollOverlay.getHorizontalScrollPosition();
+			}
+
+			@Override
+			public int getWidth() {
+				return SpreadsheetPanel.this.getWidth();
+			}
+
+			@Override
+			public int getHeight() {
+				return SpreadsheetPanel.this.getHeight();
+			}
+
+			@Override
+			public int getScrollBarWidth() {
+				return SpreadsheetPanel.this.getScrollBarWidth();
+			}
+		};
 	}
 }
