@@ -218,13 +218,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			}
 
 			@Override
-			public int getWidth() {
-				return SpreadsheetPanel.this.getWidth();
+			public int getOffsetWidth() {
+				return getWidth();
 			}
 
 			@Override
-			public int getHeight() {
-				return SpreadsheetPanel.this.getHeight();
+			public int getOffsetHeight() {
+				return getHeight();
 			}
 
 			@Override

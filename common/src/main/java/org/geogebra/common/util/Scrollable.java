@@ -10,9 +10,9 @@ public interface Scrollable {
 
 	int getHorizontalScrollPosition();
 
-	int getWidth();
+	int getOffsetWidth();
 
-	int getHeight();
+	int getOffsetHeight();
 
 	int getScrollBarWidth();
 }
