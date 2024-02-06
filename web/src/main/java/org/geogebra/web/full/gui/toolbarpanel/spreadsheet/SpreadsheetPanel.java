@@ -80,6 +80,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr), getModifiers(ptr),
 					viewportAdjuster.adjustViewportHorizontallyIfNeeded(),
 					viewportAdjuster.adjustViewportVerticallyIfNeeded());
+			if (ptr.getButton() == 2) {
+				event.preventDefault();
+			}
 		});
 		registry.addEventListener(spreadsheetElement, "pointerup", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);

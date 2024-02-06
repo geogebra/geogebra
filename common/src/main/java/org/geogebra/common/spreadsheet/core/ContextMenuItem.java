@@ -1,7 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 public class ContextMenuItem {
-	public enum Identifer {
+	public enum Identifier {
 		CUT("Cut"), COPY("Copy"),
 		PASTE("Paste"),
 		DELETE("Delete"),
@@ -10,37 +10,46 @@ public class ContextMenuItem {
 		DELETE_ROW("ContextMenu.deleteRow"),
 		INSERT_COLUMN_LEFT("ContextMenu.insertColumnLeft"),
 		INSERT_COLUMN_RIGHT("ContextMenu.insertColumnRight"),
-		DELETE_COLUMN("ContextMenu.deleteColumn");
+		DELETE_COLUMN("ContextMenu.deleteColumn"),
+		DIVIDER("");
 
 		public final String localizationKey;
-		private Identifer(String localizationKey) {
+		Identifier(String localizationKey) {
 			this.localizationKey = localizationKey;
 		}
 	}
 
-	private final Identifer identifer;
+	private final Identifier identifier;
 
 	private final Runnable action;
 
 	/**
-	 *
-	 * @param identifer {@link Identifer}
+	 * @param identifier {@link Identifier}
 	 * @param action the menu action.
 	 */
-	public ContextMenuItem(Identifer identifer, Runnable action) {
-		this.identifer = identifer;
+	public ContextMenuItem(Identifier identifier, Runnable action) {
+		this.identifier = identifier;
 		this.action = action;
 	}
 
+	/**
+	 * @param identifier {@link Identifier}
+	 */
+	public ContextMenuItem(Identifier identifier) {
+		this.identifier = identifier;
+		action = null;
+	}
+
 	public String getLocalizationKey() {
-		return identifer.localizationKey;
+		return identifier.localizationKey;
 	}
 
 	public void performAction() {
 		action.run();
 	}
 
-	public Identifer getIdentifier() {
-		return identifer;
+	public Identifier getIdentifier() {
+		return identifier;
 	}
+
 }

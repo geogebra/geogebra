@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
@@ -11,9 +12,14 @@ import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
+import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Panel;
@@ -23,6 +29,8 @@ import com.google.gwt.core.client.Scheduler;
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
 
 	private final SpreadsheetCellEditorW editor;
+	private GPopupMenuW contextMenu;
+	private Localization loc;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -83,8 +91,16 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 	}
 
+	/**
+	 * Spreadsheet controls delegate
+	 * @param app - application
+	 * @param parent - parent panel
+	 * @param mathTextField - math text field
+	 */
 	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
+		contextMenu = new GPopupMenuW(app);
+		loc = app.getLocalization();
 	}
 
 	@Override
@@ -94,12 +110,31 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
-		//TODO APPS-5395
+		contextMenu.clearItems();
+		for (ContextMenuItem item : actions) {
+			if (ContextMenuItem.Identifier.DIVIDER.equals(item.getIdentifier())) {
+				contextMenu.addVerticalSeparator();
+			} else {
+				SVGResource image = getActionIcon(item.getIdentifier());
+				String itemText = loc.getMenu(item.getLocalizationKey());
+				AriaMenuItem menuItem;
+
+				if (image != null) {
+					menuItem = new AriaMenuItem(MainMenu.getMenuBarHtml(image, itemText),
+							true, () -> item.performAction());
+				} else {
+					menuItem = new AriaMenuItem(itemText, true, () -> item.performAction());
+				}
+				contextMenu.addItem(menuItem);
+			}
+		}
+		contextMenu.showAtPoint(coords.x, coords.y);
+		contextMenu.getPopupMenu().selectItem(0);
 	}
 
 	@Override
 	public void hideContextMenu() {
-		//TODO APPS-5395
+		contextMenu.hide();
 	}
 
 	@Override
@@ -107,4 +142,25 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		return null;
 	}
 
+	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {
+		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
+		switch (action) {
+		case CUT:
+			return res.cut_black();
+		case COPY:
+			return res.copy_black();
+		case PASTE:
+			return res.paste_black();
+		case DELETE:
+			return res.delete_black();
+		case INSERT_ROW_ABOVE:
+		case INSERT_ROW_BELOW:
+		case DELETE_ROW:
+		case INSERT_COLUMN_LEFT:
+		case INSERT_COLUMN_RIGHT:
+		case DELETE_COLUMN:
+		default:
+			return null;
+		}
+	}
 }

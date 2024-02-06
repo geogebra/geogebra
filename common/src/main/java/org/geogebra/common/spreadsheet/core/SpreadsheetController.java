@@ -165,6 +165,9 @@ public final class SpreadsheetController implements TabularSelection {
 			BiFunction<Integer, Rectangle, Boolean> adjustViewportHorizontallyIfNeeded,
 			BiFunction<Integer, Rectangle, Boolean> adjustViewportVerticallyIfNeeded) {
 		hideCellEditor();
+		if (controlsDelegate != null) {
+			controlsDelegate.hideContextMenu();
+		}
 		dragAction = getDragAction(x, y, viewport);
 		if (modifiers.shift) {
 			setDragStartLocationFromSelection();
@@ -182,9 +185,11 @@ public final class SpreadsheetController implements TabularSelection {
 					| adjustViewportVerticallyIfNeeded.apply(row, viewport);
 		}
 
-		if (modifiers.rightButton && controlsDelegate != null) {
+		if ((modifiers.rightButton || modifiers.ctrl) && controlsDelegate != null) {
+			selectionController.clearSelection();
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
+			resetDragAction();
 		}
 		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
@@ -314,7 +319,7 @@ public final class SpreadsheetController implements TabularSelection {
 			default:
 				SpreadsheetControlsDelegate controls = controlsDelegate;
 				if (!modifiers.ctrl && !modifiers.alt && !StringUtil.empty(key)
-						&& controls != null) {
+					&& controls != null) {
 					showCellEditorAtSelection(viewport);
 					controls.getCellEditor().setContent(key);
 				}
@@ -407,7 +412,7 @@ public final class SpreadsheetController implements TabularSelection {
 					new TabularRange(dragAction.row, dragAction.column, row, column);
 			SelectionType type = getDragSelectionType();
 			return selectionController.select(new Selection(type,
-					range), false, addSelection);
+							range), false, addSelection);
 
 		}
 		return false;
