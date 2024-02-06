@@ -837,13 +837,6 @@ public class GeoGebraFrameFull
 	}
 
 	/**
-	 * @return true if toolbar open, false otherwise
-	 */
-	public boolean isNotesToolbarOpen() {
-		return false;
-	}
-
-	/**
 	 * @return MOW toolbar
 	 */
 	public NotesLayout getNotesLayout() {

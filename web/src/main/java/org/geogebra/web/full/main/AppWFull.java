@@ -1930,13 +1930,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
 		super.getLayoutXML(sb, asPreference);
-
-		if (isWhiteboardActive()) {
-			sb.append("\t<notesToolbarOpen");
-			sb.append(" val=\"");
-			sb.append(getAppletFrame().isNotesToolbarOpen());
-			sb.append("\"/>\n");
-		}
 	}
 
 	@Override
@@ -2513,11 +2506,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
 			GlobalHeader.onResize();
 		}
-	}
-
-	@Override
-	public void setNotesToolbarOpen(boolean open) {
-		//getAppletFrame().setNotesToolbarOpen(open);
 	}
 
 	/**

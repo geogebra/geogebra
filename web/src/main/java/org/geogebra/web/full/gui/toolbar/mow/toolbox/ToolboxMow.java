@@ -37,10 +37,6 @@ public class ToolboxMow extends FlowPanel {
 		addDivider();
 		addCategoryButton(MaterialDesignResources.INSTANCE.toolbar_tools(), Arrays.asList(MODE_PEN,
 				MODE_HIGHLIGHTER, MODE_ERASER));
-
-		appW.invokeLater(() ->
-				decorator.calculateTop(appW.getAppletFrame().getOffsetHeight())
-		);
 	}
 
 	private void addActionButton(SVGResource image, Runnable handler) {
