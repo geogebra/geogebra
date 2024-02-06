@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.arithmetic;
 import static org.geogebra.common.kernel.arithmetic.ExpressionNode.getLabelOrDefinition;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -55,6 +56,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class Command extends ValidExpression
 		implements ReplaceChildrenByValues, GetItem, HasArguments {
 
+	public static final List<String> DEFAULT_FUNCTION_VARIABLE_ORDER = Arrays.asList("x", "t");
 	// list of arguments
 	private final ArrayList<ExpressionNode> args = new ArrayList<>();
 	private String name; // internal command name (in English)
@@ -327,7 +329,7 @@ public class Command extends ValidExpression
 		ExpressionNode argument = getArgument(0);
 		Set<GeoElement> vars = argument
 				.getVariables(symbolic ? SymbolicMode.SYMBOLIC : SymbolicMode.NONE);
-		String var = getFunctionVarName(argument);
+		String var = getFunctionVarName(argument, vars);
 		if (vars != null && !vars.isEmpty()) {
 			for (GeoElement geo : vars) {
 				// get function from construction
@@ -349,21 +351,44 @@ public class Command extends ValidExpression
 		return var;
 	}
 
-	private String getFunctionVarName(ExpressionNode node) {
-		if (node.containsFreeFunctionVariable("x")) {
-			return "x";
+	private String getFunctionVarName(ExpressionNode node, Set<GeoElement> vars) {
+		for (String funcVar: DEFAULT_FUNCTION_VARIABLE_ORDER) {
+			if (node.containsFreeFunctionVariable(funcVar)) {
+				return funcVar;
+			}
 		}
 
-		List<String> names = new ArrayList<>();
+		List<String> integralVarNames = getFunctionVarNames(node);
+
+		if (vars != null) {
+			List<String> dummyVarNames = getDummyVarNames(vars);
+			Collections.sort(dummyVarNames);
+			integralVarNames.addAll(dummyVarNames);
+		}
+		return integralVarNames.size() > 0 ? integralVarNames.get(0) : "x";
+	}
+
+	private static List<String> getDummyVarNames(Set<GeoElement> vars) {
+		final ArrayList<String> list = new ArrayList<>();
+		for (GeoElement var: vars) {
+			if (var instanceof GeoDummyVariable) {
+				list.add(((GeoDummyVariable)var).getVarName());
+			}
+		}
+		return list;
+	}
+
+	private static List<String> getFunctionVarNames(ExpressionNode node) {
+		final List<String> list = new ArrayList<>();
+
 		node.inspect(v -> {
 					if (v instanceof FunctionVariable) {
-						names.add(((FunctionVariable) v).getSetVarString());
+						list.add(((FunctionVariable) v).getSetVarString());
 						return true;
 					}
 					return false;
 				});
-		Collections.sort(names);
-		return names.size() > 0 ? names.get(0) : "x";
+		return list;
 	}
 
 	private void replaceFunctionNode(GeoElement geo, GeoElement geoFunc) {

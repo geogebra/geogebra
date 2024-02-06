@@ -31,6 +31,12 @@ public class AlgoElementTest extends BaseUnitTest {
 				"\\int\\limits_{a}^{b}x - d\\,\\mathrm{d}x"));
 		assertThat(add("Integral(t-d,a,b)"), hasLaTeXDefinition(
 				"\\int\\limits_{a}^{b}t - d\\,\\mathrm{d}t"));
+		assertThat(add("Integral(s-d,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}s - d\\,\\mathrm{d}d"));
+		assertThat(add("Integral(s-r,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}s - r\\,\\mathrm{d}r"));
+		assertThat(add("Integral(t-x,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x"));
 	}
 
 	private TypeSafeMatcher<GeoElement> hasLaTeXDefinition(String def) {
