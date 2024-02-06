@@ -6,6 +6,10 @@ import org.gwtproject.dom.style.shared.Unit;
 public class ToolboxDecorator {
 	private final ToolboxMow toolboxMow;
 
+	/**
+	 * constructor
+	 * @param toolbox - mow toolbox to decorate
+	 */
 	public ToolboxDecorator(ToolboxMow toolbox) {
 		toolboxMow = toolbox;
 		toolboxMow.addStyleName("toolboxMow");
