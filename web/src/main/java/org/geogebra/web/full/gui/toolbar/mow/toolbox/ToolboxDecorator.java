@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
 
 public class ToolboxDecorator {
@@ -30,8 +31,11 @@ public class ToolboxDecorator {
 	 * @param canvasHeight - place available
 	 */
 	public void calculateTop(double canvasHeight) {
-		int toolboxHeight = toolboxMow.getElement().getOffsetHeight();
+		int toolboxHeight = toolboxMow.getElement().getAbsoluteBottom() 
+				-  toolboxMow.getElement().getAbsoluteTop();
 		double top = (canvasHeight - toolboxHeight) / 2;
-		toolboxMow.getElement().getStyle().setTop(top, Unit.PX);
+
+		Style style = toolboxMow.getElement().getStyle();
+		style.setTop(top, Unit.PX);
 	}
 }

@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 public class ToolboxMow extends FlowPanel {
@@ -24,6 +25,7 @@ public class ToolboxMow extends FlowPanel {
 	public ToolboxMow(AppW appW) {
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this);
+		RootPanel.get().add(this);
 		buildGui();
 	}
 
@@ -36,7 +38,9 @@ public class ToolboxMow extends FlowPanel {
 		addCategoryButton(MaterialDesignResources.INSTANCE.toolbar_tools(), Arrays.asList(MODE_PEN,
 				MODE_HIGHLIGHTER, MODE_ERASER));
 
-		decorator.calculateTop(appW.getHeight());
+		appW.invokeLater(() ->
+				decorator.calculateTop(appW.getAppletFrame().getOffsetHeight())
+		);
 	}
 
 	private void addActionButton(SVGResource image, Runnable handler) {
