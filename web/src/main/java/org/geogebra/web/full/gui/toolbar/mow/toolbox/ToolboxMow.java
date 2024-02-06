@@ -24,7 +24,6 @@ public class ToolboxMow extends FlowPanel {
 	public ToolboxMow(AppW appW) {
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this);
-		addStyleName("toolboxMow");
 		buildGui();
 	}
 
@@ -36,6 +35,8 @@ public class ToolboxMow extends FlowPanel {
 		addDivider();
 		addCategoryButton(MaterialDesignResources.INSTANCE.toolbar_tools(), Arrays.asList(MODE_PEN,
 				MODE_HIGHLIGHTER, MODE_ERASER));
+
+		decorator.calculateTop(appW.getHeight());
 	}
 
 	private void addActionButton(SVGResource image, Runnable handler) {
