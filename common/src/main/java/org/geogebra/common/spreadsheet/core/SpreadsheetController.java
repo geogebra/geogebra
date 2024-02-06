@@ -156,6 +156,9 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		hideCellEditor();
+		if (controlsDelegate != null) {
+			controlsDelegate.hideContextMenu();
+		}
 		dragAction = getDragAction(x, y, viewport);
 		if (modifiers.shift) {
 			setDragStartLocationFromSelection();
@@ -165,15 +168,17 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 		int column = findColumnOrHeader(x, viewport);
 		int row = findRowOrHeader(y, viewport);
-		if (modifiers.rightButton && controlsDelegate != null) {
+		if ((modifiers.rightButton || modifiers.ctrl) && controlsDelegate != null) {
+			selectionController.clearSelection();
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
+			resetDragAction();
 		}
 		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
 		}
 		boolean changed = false;
-		if (!modifiers.ctrl  && !modifiers.shift && selectionController.hasSelection()) {
+		if (!modifiers.ctrl && !modifiers.shift && selectionController.hasSelection()) {
 			selectionController.clearSelection();
 			changed = true;
 		}
