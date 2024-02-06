@@ -112,7 +112,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
 		contextMenu.clearItems();
 		for (ContextMenuItem item : actions) {
-			if (ContextMenuItem.Identifer.DIVIDER.equals(item.getIdentifier())) {
+			if (ContextMenuItem.Identifier.DIVIDER.equals(item.getIdentifier())) {
 				contextMenu.addVerticalSeparator();
 			} else {
 				SVGResource image = getActionIcon(item.getIdentifier());
@@ -142,7 +142,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		return null;
 	}
 
-	private SVGResource getActionIcon(ContextMenuItem.Identifer action) {
+	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {
 		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
 		switch (action) {
 		case CUT:

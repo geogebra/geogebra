@@ -3,7 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
 public class ContextMenuItems {
 	static final int HEADER_INDEX = -1;
@@ -43,29 +43,29 @@ public class ContextMenuItems {
 
 	private List<ContextMenuItem> tableItems(int row, int column) {
 		return Arrays.asList(
-				new ContextMenuItem(Identifer.CUT, () -> cutCells(row, column)),
-				new ContextMenuItem(Identifer.COPY, () -> copyCells(row, column)),
-				new ContextMenuItem(Identifer.PASTE, () -> pasteCells(row, column))
+				new ContextMenuItem(Identifier.CUT, () -> cutCells(row, column)),
+				new ContextMenuItem(Identifier.COPY, () -> copyCells(row, column)),
+				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(row, column))
 		);
 	}
 
 	private List<ContextMenuItem> cellItems(int row, int column) {
 		return Arrays.asList(
-				new ContextMenuItem(Identifer.CUT, () -> cutCells(row, column)),
-				new ContextMenuItem(Identifer.COPY, () -> copyCells(row, column)),
-				new ContextMenuItem(Identifer.PASTE, () -> pasteCells(row, column)),
-				new ContextMenuItem(Identifer.DIVIDER),
-				new ContextMenuItem(Identifer.INSERT_ROW_ABOVE,
+				new ContextMenuItem(Identifier.CUT, () -> cutCells(row, column)),
+				new ContextMenuItem(Identifier.COPY, () -> copyCells(row, column)),
+				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(row, column)),
+				new ContextMenuItem(Identifier.DIVIDER),
+				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
 						() -> tabularData.insertRowAt(row)),
-				new ContextMenuItem(Identifer.INSERT_ROW_BELOW,
+				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
 						() -> tabularData.insertRowAt(row + 1)),
-				new ContextMenuItem(Identifer.INSERT_COLUMN_LEFT,
+				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
 						() -> tabularData.insertColumnAt(column)),
-				new ContextMenuItem(Identifer.INSERT_COLUMN_RIGHT,
+				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
 						() -> tabularData.insertColumnAt(column + 1)),
-				new ContextMenuItem(Identifer.DIVIDER),
-				new ContextMenuItem(Identifer.DELETE_ROW, () -> deleteRowAt(row)),
-				new ContextMenuItem(Identifer.DELETE_COLUMN,
+				new ContextMenuItem(Identifier.DIVIDER),
+				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row)),
+				new ContextMenuItem(Identifier.DELETE_COLUMN,
 						() -> deleteColumnAt(column))
 		);
 	}
@@ -122,16 +122,16 @@ public class ContextMenuItems {
 
 	private List<ContextMenuItem> rowItems(int row) {
 		return Arrays.asList(
-				new ContextMenuItem(Identifer.CUT, () -> {}),
-				new ContextMenuItem(Identifer.COPY, () -> {}),
-				new ContextMenuItem(Identifer.PASTE, () -> {}),
-				new ContextMenuItem(Identifer.DIVIDER),
-				new ContextMenuItem(Identifer.INSERT_ROW_ABOVE,
+				new ContextMenuItem(Identifier.CUT, () -> {}),
+				new ContextMenuItem(Identifier.COPY, () -> {}),
+				new ContextMenuItem(Identifier.PASTE, () -> {}),
+				new ContextMenuItem(Identifier.DIVIDER),
+				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
 						() -> tabularData.insertRowAt(row)),
-				new ContextMenuItem(Identifer.INSERT_ROW_BELOW,
+				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
 						() -> tabularData.insertRowAt(row + 1)),
-				new ContextMenuItem(Identifer.DIVIDER),
-				new ContextMenuItem(Identifer.DELETE_ROW, () -> deleteRowAt(row))
+				new ContextMenuItem(Identifier.DIVIDER),
+				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row))
 		);
 	}
 
@@ -154,16 +154,16 @@ public class ContextMenuItems {
 
 	private List<ContextMenuItem> columnItems(int column) {
 		return Arrays.asList(
-				new ContextMenuItem(Identifer.CUT, () -> {}),
-				new ContextMenuItem(Identifer.COPY, () -> {}),
-				new ContextMenuItem(Identifer.PASTE, () -> {}),
-				new ContextMenuItem(Identifer.DIVIDER),
-				new ContextMenuItem(Identifer.INSERT_COLUMN_LEFT,
+				new ContextMenuItem(Identifier.CUT, () -> {}),
+				new ContextMenuItem(Identifier.COPY, () -> {}),
+				new ContextMenuItem(Identifier.PASTE, () -> {}),
+				new ContextMenuItem(Identifier.DIVIDER),
+				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
 						() -> tabularData.insertColumnAt(column)),
-				new ContextMenuItem(Identifer.INSERT_COLUMN_RIGHT,
+				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
 						() -> tabularData.insertColumnAt(column + 1)),
-				new ContextMenuItem(Identifer.DIVIDER),
-				new ContextMenuItem(Identifer.DELETE_COLUMN,
+				new ContextMenuItem(Identifier.DIVIDER),
+				new ContextMenuItem(Identifier.DELETE_COLUMN,
 						() -> deleteColumnAt(column))
 				);
 	}

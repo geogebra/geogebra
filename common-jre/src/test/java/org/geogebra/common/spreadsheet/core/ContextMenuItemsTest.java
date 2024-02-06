@@ -1,16 +1,16 @@
 package org.geogebra.common.spreadsheet.core;
 
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.COPY;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.CUT;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.DELETE;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.DELETE_COLUMN;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.DELETE_ROW;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.DIVIDER;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.INSERT_COLUMN_LEFT;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.INSERT_COLUMN_RIGHT;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.INSERT_ROW_ABOVE;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.INSERT_ROW_BELOW;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer.PASTE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CUT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_ROW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DIVIDER;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_LEFT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
-import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifer;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -64,9 +64,9 @@ public final class ContextMenuItemsTest {
 						DELETE_COLUMN));
 	}
 
-	private void testMenuOrder(int row, int column, List<Identifer> identifiers) {
+	private void testMenuOrder(int row, int column, List<Identifier> identifiers) {
 		List<ContextMenuItem> menuItems = items.get(row, column);
-		List<Identifer> actual =
+		List<Identifier> actual =
 				menuItems.stream().map(ContextMenuItem::getIdentifier)
 						.collect(Collectors.toList());
 		assertEquals(actual, identifiers);
@@ -116,7 +116,7 @@ public final class ContextMenuItemsTest {
 		assertEquals(allSelectedCells, count);
 	}
 
-	private void runItemAt(int row, int column, Identifer id) {
+	private void runItemAt(int row, int column, Identifier id) {
 		List<ContextMenuItem> contextMenuItems = items.get(row, column);
 		Optional<ContextMenuItem> item = contextMenuItems.stream()
 				.filter(t -> t.getIdentifier().equals(id)).findAny();
