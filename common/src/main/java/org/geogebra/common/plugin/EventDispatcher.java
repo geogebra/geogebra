@@ -2,7 +2,11 @@ package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.ClientView;
 import org.geogebra.common.kernel.ModeSetter;
@@ -35,6 +39,8 @@ public class EventDispatcher implements ClientView {
 	private App app;
 	private ArrayList<EventListener> listeners = new ArrayList<>();
 	protected boolean listenersEnabled = true;
+
+	private final Set<ScriptType> disabledTypes = new HashSet<>();
 
 	/**
 	 * @param app
@@ -86,14 +92,31 @@ public class EventDispatcher implements ClientView {
 			if (affectsSelfGeo) {
 				app.getKernel().getConstruction().setSelfGeo(evt.target);
 			}
-			for (int i = 0; i < listeners.size(); i++) {
-				listeners.get(i).sendEvent(evt);
+			for (EventListener listener : listeners) {
+				listener.sendEvent(evt);
 			}
-
 			if (affectsSelfGeo) {
 				app.getKernel().getConstruction().restoreSelfGeo();
 			}
 		}
+	}
+
+	/**
+	 * Disable specified script type to run.
+	 *
+	 * @param scriptType to disable.
+	 */
+	public void disable(ScriptType scriptType) {
+		disabledTypes.add(scriptType);
+	}
+
+	/**
+	 *
+	 * @param scriptType to check.
+	 * @return if scriptType is allowed to run.
+	 */
+	public boolean isDisabled(ScriptType scriptType) {
+		return disabledTypes.contains(scriptType);
 	}
 
 	public void disableListeners() {
@@ -337,6 +360,14 @@ public class EventDispatcher implements ClientView {
 				dispatchEvent(new Event(EventType.UPDATE, el));
 			}
 		}
+	}
+
+	/**
+	 * @return list of available script types
+	 */
+	public List<ScriptType> availableTypes() {
+		return Arrays.stream(ScriptType.values())
+				.filter(t -> !disabledTypes.contains(t)).collect(Collectors.toList());
 	}
 
 }

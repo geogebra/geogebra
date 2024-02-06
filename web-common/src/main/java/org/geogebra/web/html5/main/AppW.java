@@ -76,8 +76,10 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
@@ -549,6 +551,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public ScriptManager newScriptManager() {
 		return new ScriptManagerW(this, new DefaultExportedApi());
+	}
+
+	@Override
+	protected EventDispatcher newEventDispatcher() {
+		EventDispatcher dispatcher = new EventDispatcher(this);
+		if (getAppletParameters().getDisableJavaScript()) {
+			dispatcher.disable(ScriptType.JAVASCRIPT);
+		}
+		return dispatcher;
 	}
 
 	// ================================================

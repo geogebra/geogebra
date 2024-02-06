@@ -47,10 +47,6 @@ public class ScriptManagerW extends ScriptManager {
 		if (app.getAppletId().equals(AppletParameters.DEFAULT_APPLET_ID)) {
 			preventExport();
 		}
-
-		if (app.getAppletParameters().getDisableJavaScript()) {
-			disable(ScriptType.JAVASCRIPT);
-		}
 	}
 
 	private static void preventExport() {
@@ -88,7 +84,7 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	public void ggbOnInit() {
-		if (isDisabled(ScriptType.JAVASCRIPT)) {
+		if (app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
 			return;
 		}
 

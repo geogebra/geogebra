@@ -31,7 +31,7 @@ public class GeoScriptRunner implements EventListener {
 			return;
 		}
 
-		if (app.getScriptManager().isDisabled(script.getType())) {
+		if (app.getEventDispatcher().isDisabled(script.getType())) {
 			return;
 		}
 

@@ -1,13 +1,9 @@
 package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -36,7 +32,6 @@ public abstract class ScriptManager implements EventListener {
 	protected final ArrayList<JsReference> clientListeners = new ArrayList<>();
 	private boolean keepListenersOnReset = true;
 
-	private Set<ScriptType> disabledTypes = new HashSet<>();
 	private final HashMap<String, JsReference> nameToScript = new HashMap<>();
 
 	private ArrayList<JsReference>[] listenerLists() {
@@ -591,26 +586,4 @@ public abstract class ScriptManager implements EventListener {
 		return alias;
 	}
 
-	/**
-	 * Disable specified script type to run.
-	 *
-	 * @param scriptType to disable.
-	 */
-	public void disable(ScriptType scriptType) {
-		disabledTypes.add(scriptType);
-	}
-
-	/**
-	 *
-	 * @param scriptType to check.
-	 * @return if scriptType is allowed to run.
-	 */
-	public boolean isDisabled(ScriptType scriptType) {
-		return disabledTypes.contains(scriptType);
-	}
-
-	public List<ScriptType> availableTypes() {
-		return Arrays.stream(ScriptType.values())
-				.filter(t -> !disabledTypes.contains(t)).collect(Collectors.toList());
-	}
 }

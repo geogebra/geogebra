@@ -86,7 +86,7 @@ public class EmbedElement {
 		getGreatParent().setVisible(visible);
 	}
 
-	public void setJsEnabled(boolean b) {
+	public void setJsEnabled(boolean uiEnabled, boolean runningEnabled) {
 		// only for ggb
 	}
 

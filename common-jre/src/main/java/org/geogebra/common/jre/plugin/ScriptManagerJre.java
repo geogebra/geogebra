@@ -23,7 +23,7 @@ public abstract class ScriptManagerJre extends ScriptManager {
 
     @Override
     public void ggbOnInit() {
-        if (isDisabled(ScriptType.JAVASCRIPT)) {
+        if (app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
             return;
         }
 
