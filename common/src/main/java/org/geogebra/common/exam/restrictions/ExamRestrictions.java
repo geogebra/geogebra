@@ -49,19 +49,6 @@ public class ExamRestrictions {
 	private final Set<String> frozenProperties;
 
 	/**
-	 * Prevent use of no-arg constructor.
-	 */
-	private ExamRestrictions() {
-		this.examType = null;
-		this.disabledSubApps = null;
-		this.defaultSubApp = null;
-		this.expressionFilters = null;
-		this.commandFilters = null;
-		this.commandArgumentFilters = null;
-		this.frozenProperties = null;
-	}
-
-	/**
 	 * Prevent instantiation, except by subclasses.
 	 *
 	 * @param examType The exam type.
