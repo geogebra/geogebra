@@ -89,10 +89,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		public void hide() {
 			mathField.setVisible(false);
 		}
-
-		public AppW getApp() {
-			return app;
-		}
 	}
 
 	/**
