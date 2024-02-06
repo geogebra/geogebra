@@ -117,6 +117,15 @@ public interface TableValuesModel {
 	GeoList setupXValues(GeoList xValues);
 
 	/**
+	 * This flag is set to true at the start of data import, and set back to false
+	 * after any change notifications caused by the data import have been sent out.
+	 * Registered TableValuesListeners can query this flag to detect if a change
+	 * notification was caused by a data import.
+	 * @return true during import.
+	 */
+	boolean isImportingData();
+
+	/**
 	 * @param onDataImported - when data imported, hide loading snackbar
 	 */
 	void setOnDataImportedRunnable(Runnable onDataImported);

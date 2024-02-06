@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.geogebra.common.gui.view.table.column.TableValuesColumn;
@@ -29,7 +28,6 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	private final Kernel kernel;
 
 	private final List<TableValuesListener> listeners;
-	private final List<TableValuesListener> suspendedListeners;
 	private final List<TableValuesColumn> columns;
 
 	private GeoList[] importColumns;
@@ -41,6 +39,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
+	private boolean isImportingData;
 	private Runnable onDataImported;
 
 	/**
@@ -51,7 +50,6 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		this.kernel = kernel;
 		this.settings = settings;
 		this.listeners = new ArrayList<>();
-		this.suspendedListeners = new ArrayList<>();
 		this.columns = new ArrayList<>();
 		this.collector = new ModelEventCollector();
 		GeoList values = getValueList();
@@ -553,7 +551,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		if (importColumns.length == 0 || columnLabels.length != importColumns.length) {
 			return;
 		}
-		suspendListeners(listener -> listener instanceof TableValuesPoints);
+		isImportingData = true;
 		collector.startCollection(this);
 		removeXColumn();
 		removeYColumns();
@@ -563,8 +561,13 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		kernel.storeUndoInfo();
 		collector.notifyDatasetChanged(this);
 		collector.endCollection(this);
-		resumeListeners(listener -> listener instanceof TableValuesPoints);
 		notifyImportFinished();
+		isImportingData = false;
+	}
+
+	@Override
+	public boolean isImportingData() {
+		return isImportingData;
 	}
 
 	@Override
@@ -604,35 +607,15 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	private void removeXColumn() {
 		GeoList xValues = settings.getValueList();
 		kernel.getConstruction().removeFromConstructionList(xValues);
+		collector.notifyColumnRemoved(this, xValues, 0);
 		settings.setValueList(null);
 	}
 
 	private void removeYColumns() {
 		for (int columnIdx = 1; columnIdx < columns.size(); columnIdx++) {
 			TableValuesColumn column = columns.get(columnIdx);
+			collector.notifyColumnRemoved(this, column.getEvaluatable(), 0);
 			column.getEvaluatable().setTableColumn(-1);
 		}
-	}
-
-	private void suspendListeners(Predicate<TableValuesListener> predicate) {
-		List<TableValuesListener> suspendedListeners = new ArrayList<>();
-		for (TableValuesListener listener : listeners) {
-			if (predicate.test(listener)) {
-				suspendedListeners.add(listener);
-			}
-		}
-		listeners.removeAll(suspendedListeners);
-		this.suspendedListeners.addAll(suspendedListeners);
-	}
-
-	private void resumeListeners(Predicate<TableValuesListener> predicate) {
-		List<TableValuesListener> resumedListeners = new ArrayList<>();
-		for (TableValuesListener listener : suspendedListeners) {
-			if (predicate.test(listener)) {
-				resumedListeners.add(listener);
-			}
-		}
-		suspendedListeners.removeAll(resumedListeners);
-		listeners.addAll(resumedListeners);
 	}
 }
