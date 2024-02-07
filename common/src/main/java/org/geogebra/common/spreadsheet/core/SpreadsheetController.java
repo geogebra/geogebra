@@ -283,6 +283,7 @@ public final class SpreadsheetController implements TabularSelection {
 			case JavaKeyCodes.VK_LEFT:
 				moveLeft(modifiers.shift);
 				return true;
+			case JavaKeyCodes.VK_TAB:
 			case JavaKeyCodes.VK_RIGHT:
 				moveRight(modifiers.shift);
 				return true;
