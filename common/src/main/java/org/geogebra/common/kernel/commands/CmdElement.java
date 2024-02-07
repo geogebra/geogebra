@@ -44,7 +44,7 @@ public class CmdElement extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoListElement algo = new AlgoListElement(cons,
-						(GeoList) arg[0], (GeoNumberValue) arg[1]);
+						(GeoList) arg[0], (GeoNumberValue) arg[1], info.isLabelOutput());
 				algo.getElement().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getElement() };
 				return ret;
@@ -76,7 +76,7 @@ public class CmdElement extends CommandProcessor {
 			}
 
 			AlgoListElement algo = new AlgoListElement(cons,
-					(GeoList) arg[0], nvs);
+					(GeoList) arg[0], nvs, info.isLabelOutput());
 			algo.getElement().setLabel(c.getLabel());
 			GeoElement[] ret = { algo.getElement() };
 			return ret;
