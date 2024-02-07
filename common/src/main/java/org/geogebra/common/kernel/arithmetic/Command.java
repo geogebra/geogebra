@@ -135,12 +135,13 @@ public class Command extends ValidExpression
 	 * <br/>
 	 * E.g.: Trying to translate the french command 'Intersection' to the internal counterpart
 	 * 'Intersect' should be prohibited, since both are valid, internal commands (avoid clashes)
-	 * @param command The command's name
+	 * @param commandName The command's name
 	 * @return True if this command can be translated safely, false else
 	 */
 	private boolean canCommandBeTranslatedSafely(String commandName) {
 		String internalCommandName = app.getReverseCommand(commandName);
-		return internalCommandName.equals(commandName) || Commands.stringToCommand(commandName) == null;
+		return internalCommandName.equals(commandName)
+				|| Commands.stringToCommand(commandName) == null;
 	}
 
 	/**
