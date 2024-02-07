@@ -101,6 +101,12 @@ public class EuclidianViewD extends EuclidianView
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
 	private double pixelRatio = 1;
+	// temp image
+	private final GGraphics2D g2Dtemp = new GGraphics2DD(
+			new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)
+					.createGraphics());
+	private boolean printScaleString;
+	private final ScreenReaderAdapter screenReader = new ScreenReaderAdapterD();
 
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
@@ -444,7 +450,7 @@ public class EuclidianViewD extends EuclidianView
 				GraphicExportDialog.sendToClipboard(file);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -587,9 +593,13 @@ public class EuclidianViewD extends EuclidianView
 
 	@Override
 	public void drawTrace(Drawable drawable) {
-		bgGraphics.scale(getPixelRatio(), getPixelRatio());
-		super.drawTrace(drawable);
-		bgGraphics.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+		// SpotBugs assumes any method can reset bgGraphics to null => keep local copy
+		GGraphics2D graphics = bgGraphics;
+		if (graphics != null) {
+			graphics.scale(getPixelRatio(), getPixelRatio());
+			super.drawTrace(drawable);
+			graphics.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+		}
 	}
 
 	public double getPixelRatio() {
@@ -887,13 +897,6 @@ public class EuclidianViewD extends EuclidianView
 	public void setBackground(GColor bgColor) {
 		evjpanel.setBackground(GColorD.getAwtColor(bgColor));
 	}
-
-	// temp image
-	private final GGraphics2D g2Dtemp = new GGraphics2DD(
-			new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)
-					.createGraphics());
-	private boolean printScaleString;
-	private ScreenReaderAdapter screenReader = new ScreenReaderAdapterD();
 
 	/**
 	 * @return temporary graphics that is stored in this view

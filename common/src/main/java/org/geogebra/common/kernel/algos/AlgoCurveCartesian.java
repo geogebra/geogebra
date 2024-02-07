@@ -150,8 +150,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 		input[offset + 1] = from.toGeoElement();
 		input[offset + 2] = to.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, curve);
+		setOnlyOutput(curve);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -225,4 +224,14 @@ public class AlgoCurveCartesian extends AlgoElement {
 		return false;
 	}
 
+	/**
+	 * Update function variable used by curve from the local variable used by command
+	 */
+	public void updateVariableName() {
+		// enough to do this for 1 function as they all share the same function variable
+		Function fun = curve.getFun(1);
+		if (fun != null) {
+			fun.getFunctionVariable().setVarString(localVar.getLabelSimple());
+		}
+	}
 }

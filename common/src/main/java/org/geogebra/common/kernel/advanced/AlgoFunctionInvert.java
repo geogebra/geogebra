@@ -75,8 +75,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = f;
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

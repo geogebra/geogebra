@@ -7,11 +7,13 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
@@ -60,6 +62,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean localizeCmds;
 	private boolean usePrefix;
+	/**
+	 * Using surd does not work in combination with the Solve command
+	 */
+	private boolean useSurdForFractionalPowers = true;
 	private boolean questionMarkForNaN = true;
 
 	private boolean numeric = true;
@@ -70,6 +76,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean shouldPrintMethodsWithParenthesis;
 	private boolean forEditorParser = false;
 	private boolean allowShortLhs = true;
+	private boolean allowPiHack = true;
+	private boolean supportsFractions = true;
+	private char pointCoordBar = '|';
+	private boolean displayStyle;
 
 	/**
 	 * Default template, but do not localize commands
@@ -84,11 +94,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private static final double[] precisions = new double[] { 5E-1, 5E-2, 5E-3,
 			5E-4, 5E-5, 5E-6, 5E-7, 5E-8, 5E-9, 5E-10, 5E-11, 5E-12, 5E-13,
 			5E-14, 5E-15, 5E-16, 5E-17 };
-
-	private boolean allowPiHack = true;
-
-	private boolean supportsFractions = true;
-	private char pointCoordBar = '|';
 
 	/**
 	 * Template which prints numbers with maximal precision and adds prefix to
@@ -255,7 +260,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		giacTemplate.localizeCmds = false;
 		giacTemplate.setType(StringType.GIAC);
 		giacTemplate.nf = FormatFactory.getPrototype().getNumberFormat(15);
-
 	}
 
 	/**
@@ -543,8 +547,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testNumeric.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
 	}
-
-	private boolean displayStyle;
 
 	/**
 	 * Creates default string template
@@ -929,6 +931,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.pointCoordBar = pointCoordBar;
 		result.allowPiHack = allowPiHack;
 		result.displayStyle = displayStyle;
+		result.useSurdForFractionalPowers = useSurdForFractionalPowers;
+		result.changeArcTrig = changeArcTrig;
+		result.numeric = numeric;
+		result.niceQuotes = niceQuotes;
+		result.printsUnicodeSqrt = printsUnicodeSqrt;
+		result.shouldPrintMethodsWithParenthesis = shouldPrintMethodsWithParenthesis;
+		result.forEditorParser = forEditorParser;
+		result.allowShortLhs = allowShortLhs;
 		return result;
 	}
 
@@ -2971,18 +2981,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 				&& right.isConstant()) {
 			ExpressionNode enR = (ExpressionNode) right;
 
-			// was simplify(surd, causes problems
-			// GGB-321
-			sb.append("surd(");
-			sb.append(leftStr);
-			sb.append(',');
-			// #4186: make sure we send value string to CAS
-			sb.append(expToString(enR.getRight(), valueForm));
-			sb.append(")");
-			sb.append("^(");
-			sb.append(expToString(enR.getLeft(), valueForm));
-			sb.append(")");
-
+			if (containsVariable(left) && !useSurdForFractionalPowers) {
+				powerStringGiacWithCaret(sb, leftStr, enR, valueForm);
+			} else {
+				powerStringGiacWithSurd(sb, leftStr, enR, valueForm);
+			}
 		} else {
 
 			sb.append("(");
@@ -3001,6 +3004,41 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(")");
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * @param value ExpressionValue
+	 * @return True if the passed ExpressionValue contains a Variable, FunctionVariable,
+	 * or GeoDummyVariable
+	 */
+	private boolean containsVariable(ExpressionValue value) {
+		return value.inspect((v) -> v.isVariable()
+				|| v instanceof FunctionVariable
+				|| v instanceof GeoDummyVariable);
+	}
+
+	private void powerStringGiacWithCaret(StringBuilder sb, String leftStr,
+			ExpressionNode right, boolean valueForm) {
+		sb.append("((");
+		sb.append(leftStr);
+		sb.append(")^((");
+		sb.append(expToString(right.getLeft(), valueForm));
+		sb.append(")/(");
+		sb.append(expToString(right.getRight(), valueForm));
+		sb.append(")))");
+	}
+
+	private void powerStringGiacWithSurd(StringBuilder sb, String leftStr,
+			ExpressionNode right, boolean valueForm) {
+		// GGB-321
+		sb.append("surd(");
+		sb.append(leftStr);
+		sb.append(',');
+		// #4186: make sure we send value string to CAS
+		sb.append(expToString(right.getRight(), valueForm));
+		sb.append(")^(");
+		sb.append(expToString(right.getLeft(), valueForm));
+		sb.append(")");
 	}
 
 	/**
@@ -3675,6 +3713,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 		assert stringType == StringType.LATEX;
 		StringTemplate copy = copy();
 		copy.displayStyle = true;
+		return copy;
+	}
+
+	/**
+	 * @return Copy of this that does not use surd for fractional powers
+	 */
+	public StringTemplate deriveWithoutSurds() {
+		assert stringType == StringType.GIAC;
+		StringTemplate copy = copy();
+		copy.useSurdForFractionalPowers = false;
 		return copy;
 	}
 

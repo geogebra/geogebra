@@ -103,8 +103,7 @@ public class AlgoIntegralODE extends AlgoElement {
 		input[0] = geo;
 		input[1] = p;
 
-		super.setOutputLength(1);
-		super.setOutput(0, locus);
+		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}
 

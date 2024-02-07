@@ -3,6 +3,7 @@ package org.geogebra.common.gui.popup.autocompletion;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 import com.himamis.retex.editor.share.controller.EditorState;
+import com.himamis.retex.editor.share.editor.MathField;
 
 /**
  * Class to decide if a text typed into a MathField should have suggestions.
@@ -44,5 +45,15 @@ public class InputSuggestions {
 	 */
 	public void setForceAsText(boolean value) {
 		this.forceAsText = value;
+	}
+
+	/**
+	 * @param mf math input field
+	 * @return current command: in context where commands are allowed that means current word,
+	 * otherwise empty string.
+	 */
+	public String getCommand(MathField mf) {
+		return mf == null || isPreventedFor(mf.getInternal().getEditorState())
+				? "" : mf.getInternal().getCurrentWord();
 	}
 }

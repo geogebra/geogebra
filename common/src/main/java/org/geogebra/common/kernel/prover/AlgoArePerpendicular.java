@@ -87,8 +87,7 @@ public class AlgoArePerpendicular extends AlgoElement
 		input[0] = inputLine1;
 		input[1] = inputLine2;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputBoolean);
+		setOnlyOutput(outputBoolean);
 		setDependencies(); // done by AlgoElement
 	}
 

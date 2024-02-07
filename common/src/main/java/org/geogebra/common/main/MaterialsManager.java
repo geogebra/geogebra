@@ -89,59 +89,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
 
-	/**
-	 * uploads the material and removes it from localStorage
-	 * 
-	 * @param mat
-	 *            {@link Material}
-	 */
-	public void upload(final Material mat) {
-		final String localKey = getFileKey(mat);
-		mat.setTitle(getTitleFromKey(mat.getTitle()));
-		getApp().getLoginOperation().getGeoGebraTubeAPI().uploadLocalMaterial(
-				mat,
-				new MaterialCallbackI() {
-
-					@Override
-					public void onLoaded(final List<Material> parseResponse,
-							Pagination meta) {
-						if (parseResponse.size() == 1) {
-							mat.setTitle(getTitleFromKey(mat.getTitle()));
-							mat.setLocalID(
-									MaterialsManager.getIDFromKey(localKey));
-							final Material newMat = parseResponse.get(0);
-							if (mat.thumbnailIsBase64()) {
-								newMat.setThumbnailBase64(mat.getThumbnail());
-							} else {
-								newMat.setThumbnailUrl(mat.getThumbnail());
-							}
-							newMat.setSyncStamp(newMat.getModified());
-							if (!MaterialsManager.this
-									.shouldKeep(mat.getLocalID())) {
-								delete(mat, true, () -> {
-									// nothing to do here
-								});
-							} else {
-								// Meta may have changed (tube ID), sync
-								// timestamp needs changing always
-								MaterialsManager.this.setTubeID(localKey,
-										newMat);
-
-							}
-							// TODO moved out of refresh material; do we need it
-							// twice (see above)?
-							newMat.setSyncStamp(newMat.getModified());
-							refreshMaterial(newMat);
-						}
-					}
-
-					@Override
-					public void onError(final Throwable exception) {
-						// TODO
-					}
-				});
-	}
-
 	@Override
 	public void getFromTube(final int id, final boolean fromAnotherDevice) {
 		getApp().getLoginOperation().getResourcesAPI().getItem(id + "",

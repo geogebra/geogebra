@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -965,6 +966,9 @@ public class ConstructionDefaults implements SettingListener {
 
 			if (geo instanceof GeoFunction) {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
+			}
+			if (geo instanceof GeoPieChart) {
+				geo.setAlphaValue(1);
 			}
 
 			if (geo instanceof GeoButton && !(geo instanceof GeoInputBox)

@@ -133,9 +133,7 @@ public class AlgoSolveODE extends AlgoElement {
 		input[i++] = end;
 		input[i++] = step;
 
-		super.setOutputLength(1);
-		// super.setOutput(0, g);
-		super.setOutput(0, locus);
+		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -209,7 +207,6 @@ public class AlgoSolveODE extends AlgoElement {
 				throws IllegalArgumentException {
 			double t = interpolator.getCurrentTime();
 			double[] y1 = interpolator.getInterpolatedState();
-			// System.out.println(t + " " + y[0]);
 
 			if (!quotient) {
 				al.add(new MyPoint(t, y1[0], SegmentType.LINE_TO));

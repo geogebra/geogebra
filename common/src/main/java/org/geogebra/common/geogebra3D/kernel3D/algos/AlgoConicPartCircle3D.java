@@ -176,10 +176,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	@Override
 	protected void setInputOutput() {
 		setInput();
-
-		super.setOutputLength(1);
-		super.setOutput(0, conicPart);
-
+		setOnlyOutput(conicPart);
 		setDependencies();
 	}
 

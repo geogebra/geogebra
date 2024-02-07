@@ -55,8 +55,7 @@ public class AlgoNormalize extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = geoList;
 
-		setOutputLength(1);
-		setOutput(0, normalList);
+		setOnlyOutput(normalList);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -247,8 +247,6 @@ public class AnimationManager implements GTimerListener {
 						.getLastRepaintTime();
 			}
 			adaptFrameRate(compTime);
-			// System.out.println("UPDATE compTime: " + compTime +
-			// ", frameRate: " + frameRate);
 
 			// collect some potential garbage
 			kernel.notifyRemoveGroup();

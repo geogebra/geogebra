@@ -553,6 +553,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case nPr:
 			case PolyLine:
 			case Polyline:
+			case PenStroke:
 			case PointIn:
 			case Line:
 			case Ray:
@@ -1036,5 +1037,9 @@ public abstract class CommandDispatcher implements Restrictable {
 	@Override
 	public void applyExamRestrictions() {
 		app.resetCommandDict();
+	}
+
+	public boolean hasProcessor(Command command) {
+		return getProcessor(command) != null;
 	}
 }

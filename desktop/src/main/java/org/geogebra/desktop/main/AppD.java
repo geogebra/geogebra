@@ -55,8 +55,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -108,6 +108,9 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -118,6 +121,7 @@ import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
@@ -176,9 +180,7 @@ import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.export.PrintPreviewD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
+import org.geogebra.desktop.export.pstricks.ExportGraphicsFactoryD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.FactoryD;
@@ -421,7 +423,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} else {
 			Log.debug("Not setting up logging via LogManager");
 		}
-
+		System.setProperty("io.sf.carte.echosvg.warn_destination", "false");
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
 
@@ -525,10 +527,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		getFactory();
 
 		setSaved();
-
-		if (getCASVersionString().equals("")) {
-			setCASVersionString(loc.getMenu("CASInitializing"));
-		}
 
 		// user authentication handling
 		initSignInEventFlow();
@@ -1660,11 +1658,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			Log.debug("icon missing for mode " + modeText);
 		}
 		// scale icon if necessary
-		return new ScaledIcon(ImageManagerD.getScaledIcon(icon,
-				Math.min(icon.getIconWidth(), imageManager.getMaxScaledIconSize()),
-				Math.min(icon.getIconHeight(), imageManager.getMaxScaledIconSize())),
-
-				imageManager.getPixelRatio());
+		int maxSize = imageManager.getMaxIconSize();
+		return imageManager.getResponsiveScaledIcon(icon, maxSize);
 	}
 
 	/**
@@ -3008,10 +3003,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	/*
+	/**
 	 * loads an XML file as a String
+	 * @param xml construction XML
 	 */
-	@Override
 	public boolean loadXML(String xml) {
 		try {
 
@@ -3029,9 +3024,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			hideDockBarPopup();
 
 			return true;
-		} catch (Exception err) {
+		} catch (RuntimeException | XMLParseException err) {
 			setCurrentFile(null);
-			err.printStackTrace();
+			Log.debug(err);
 			return false;
 		}
 	}
@@ -3679,7 +3674,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					"Logging into explicitly defined file, not using LogManager");
 			return;
 		}
-
 		// initialize logging to go to rolling log file
 		logManager = LogManager.getLogManager();
 		logManager.reset();
@@ -3721,14 +3715,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		logger = Logger.getLogger("stdout");
 		los = new LoggingOutputStream(logger, StdOutErrLevel.STDOUT);
 
-		try {
-			System.setOut(new PrintStream(los, true, Charsets.UTF_8));
-			logger = Logger.getLogger("stderr");
-			los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
-			System.setErr(new PrintStream(los, true, Charsets.UTF_8));
-		} catch (UnsupportedEncodingException e) {
-			// do nothing
-		}
+		System.setOut(new PrintStream(los, true, StandardCharsets.UTF_8));
+		logger = Logger.getLogger("stderr");
+		los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
+		System.setErr(new PrintStream(los, true, StandardCharsets.UTF_8));
 
 		// show stdout going to logger
 		// System.out.println("Hello world!");
@@ -3807,7 +3797,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public DrawEquationD getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationD();
+			drawEquation = new DrawEquationD(getFrame());
 		}
 		return drawEquation;
 	}
@@ -4317,14 +4307,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		getCopyPaste()
-				.copyToXML(ad,
-						new ArrayList<>(ad.getKernel()
-				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
-				true);
-
-		// and paste
-		getCopyPaste().pasteFromXML(this, true);
+		getCopyPaste().insertFrom(ad, this);
 
 		// forgotten something important!
 		// ad should be closed!
@@ -4632,18 +4615,18 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void newGeoGebraToPstricks(AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToPstricksD(this));
+		callback.callback(new GeoGebraToPstricks(this, new ExportGraphicsFactoryD()));
 	}
 
 	@Override
 	public void newGeoGebraToAsymptote(
 			AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToAsymptoteD(this));
+		callback.callback(new GeoGebraToAsymptote(this, new ExportGraphicsFactoryD()));
 	}
 
 	@Override
 	public void newGeoGebraToPgf(AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToPgfD(this));
+		callback.callback(new GeoGebraToPgf(this, new ExportGraphicsFactoryD()));
 	}
 
 	public void setPrintPreview(PrintPreviewD printPreviewD) {

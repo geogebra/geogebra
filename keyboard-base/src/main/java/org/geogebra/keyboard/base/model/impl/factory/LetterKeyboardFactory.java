@@ -138,26 +138,22 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 
 		KeyboardModelImpl letterKeyboard = new KeyboardModelImpl();
 
-		createRow(letterKeyboard, buttonFactory, topRow, rowWeightSum,
-				topRowPadding);
-		createRow(letterKeyboard, buttonFactory, middleRow, rowWeightSum,
-				middleRowPadding);
+		createRow(letterKeyboard, buttonFactory, topRow, topRowPadding);
+		createRow(letterKeyboard, buttonFactory, middleRow, middleRowPadding);
 
-		RowImpl bottomRowImpl = letterKeyboard.nextRow(rowWeightSum);
+		RowImpl bottomRowImpl = letterKeyboard.nextRow();
 
 		if (bottomActionLeft != null) {
 			addActionButton(bottomRowImpl, buttonFactory, bottomActionLeft, actionButtonSize);
 		}
-		addButton(bottomRowImpl,
-				buttonFactory.createEmptySpace(actionButtonMargin));
+		addButton(bottomRowImpl, buttonFactory.createEmptySpace(actionButtonMargin));
 		addButtons(bottomRowImpl, buttonFactory, bottomRow);
-		addButton(bottomRowImpl,
-				buttonFactory.createEmptySpace(actionButtonMargin));
+		addButton(bottomRowImpl, buttonFactory.createEmptySpace(actionButtonMargin));
 		addConstantCustomButton(bottomRowImpl, buttonFactory,
 				Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE,
 				actionButtonSize);
 
-		RowImpl controlRowImpl = letterKeyboard.nextRow(rowWeightSum);
+		RowImpl controlRowImpl = letterKeyboard.nextRow();
 		if (controlActionLeft != null) {
 			addActionButton(controlRowImpl, buttonFactory, controlActionLeft, actionButtonSize);
 		}
@@ -170,16 +166,16 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 				Action.LEFT_CURSOR);
 		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.RIGHT_ARROW,
 				Action.RIGHT_CURSOR);
-		addConstantCustomButton(controlRowImpl, buttonFactory,
-				Resource.RETURN_ENTER, Action.RETURN_ENTER);
+		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.RETURN_ENTER,
+				Action.RETURN_ENTER);
 
 		return letterKeyboard;
 	}
 
 	private void createRow(KeyboardModelImpl keyboard,
-			ButtonFactory buttonFactory, String definition, float rowWeightSum,
+			ButtonFactory buttonFactory, String definition,
 			float rowPadding) {
-		RowImpl rowImpl = keyboard.nextRow(rowWeightSum);
+		RowImpl rowImpl = keyboard.nextRow();
 		addPaddingIfNecessary(rowImpl, buttonFactory, rowPadding);
 		addButtons(rowImpl, buttonFactory, definition);
 		addPaddingIfNecessary(rowImpl, buttonFactory, rowPadding);

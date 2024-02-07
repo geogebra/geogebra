@@ -17,23 +17,23 @@ public class InputBoxDefaultMathKeyboardFactory implements KeyboardModelFactory 
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-		RowImpl row = mathKeyboard.nextRow(9.2f);
+		RowImpl row = mathKeyboard.nextRow();
 		MathKeyUtil.addXYZ(row, buttonFactory);
 		addInputButton(row, buttonFactory, ",");
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addFirstRow(row, buttonFactory);
 
-		row = mathKeyboard.nextRow(9.2f);
+		row = mathKeyboard.nextRow();
 		MathKeyUtil.addSqExpRootFrac(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addSecondRow(row, buttonFactory);
 
-		row = mathKeyboard.nextRow(9.2f);
+		row = mathKeyboard.nextRow();
 		MathKeyUtil.addPiEIDegree(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addThirdRow(row, buttonFactory);
 
-		row = mathKeyboard.nextRow(9.2f);
+		row = mathKeyboard.nextRow();
 		MathKeyUtil.addParenthesesFractionMixed(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addFourthRow(row, buttonFactory);

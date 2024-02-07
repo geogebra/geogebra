@@ -41,30 +41,20 @@ public class NativeLibClassPathLoader {
 		}
 
 		String filename = prefix + libname + extension;
-		InputStream ins = ClassLoader.getSystemResourceAsStream(filename);
-
-		if (ins == null) {
-			Log.error(filename + " not found");
-			return false;
-		}
-
 		String fname = prefix + libname + Math.random() + extension;
-
-		try {
+		try (InputStream ins = ClassLoader.getSystemResourceAsStream(filename)) {
+			if (ins == null) {
+				Log.error(filename + " not found");
+				return false;
+			}
 
 			// Math.random() to avoid problems with 2 instances
 			File tmpFile = writeTmpFile(ins, fname);
 			System.load(tmpFile.getAbsolutePath());
 			UtilD.delete(tmpFile);
-			ins.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Log.debug("error loading: " + fname);
-			try {
-				ins.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
 			return false;
 		}
 

@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.operators.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.operators.RMath.powLow;
@@ -35,13 +34,15 @@ public class IntervalAlgebra {
 	 * @param other argument.
 	 * @return this as result
 	 */
-	Interval fmod(Interval interval, Interval other) {
+	void fmod(Interval interval, Interval other) {
 		if (interval.isUndefined() || other.isUndefined()) {
-			return undefined();
+			interval.setUndefined();
+			return;
 		}
 
 		if (interval.isUndefined()) {
-			return whole();
+			interval.setWhole();
+			return;
 		}
 
 		double yb = interval.getLow() < 0 ? other.getLow() : other.getHigh();
@@ -52,11 +53,9 @@ public class IntervalAlgebra {
 			n = Math.floor(n);
 		}
 
-		Interval result = new Interval(interval);
 		Interval multiplicand = new Interval(other);
 		// x mod y = x - n * y
-		result.subtract(evaluator.multiply(multiplicand, new Interval(n)));
-		return result;
+		interval.subtract(evaluator.multiply(multiplicand, new Interval(n)));
 	}
 
 	/**

@@ -541,7 +541,7 @@ public class TeXFormula {
 			double size, Color fg, Color bg) throws ParseException {
 		TeXFormula f = new TeXFormula(formula);
 		TeXIcon icon = f.createTeXIcon(style, size);
-		return asImage(icon, fg, bg);
+		return asImage(icon, fg, bg, 1);
 	}
 
 	/**
@@ -550,9 +550,10 @@ public class TeXFormula {
 	 * @param bg background color
 	 * @return image
 	 */
-	public static Image asImage(TeXIcon icon, Color fg, Color bg) {
+	public static Image asImage(TeXIcon icon, Color fg, Color bg, double pixelRatio) {
 		icon.setInsets(new Insets(2, 2, 2, 2));
-		int w = icon.getIconWidth(), h = icon.getIconHeight();
+		int w = (int) Math.round(pixelRatio * icon.getIconWidth());
+		int h = (int) Math.round(pixelRatio * icon.getIconHeight());
 
 		Image image = new Graphics().createImage(w, h,
 				bg == null ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
@@ -563,6 +564,7 @@ public class TeXFormula {
 		}
 
 		icon.setForeground(fg == null ? Colors.BLACK : fg);
+		g2.scale(pixelRatio, pixelRatio);
 		icon.paintIcon(null, g2, 0, 0);
 		g2.dispose();
 
@@ -583,7 +585,7 @@ public class TeXFormula {
 	public Image createBufferedImage(int style, double size, Color fg, Color bg)
 			throws ParseException {
 		TeXIcon icon = createTeXIcon(style, size);
-		return asImage(icon, fg, bg);
+		return asImage(icon, fg, bg, 1);
 	}
 
 }

@@ -119,7 +119,6 @@ public class AlgoFitPoly extends AlgoElement implements FitAlgo {
 				regok = false; // 24.04.08: Only 1<=degree
 			} // if
 		}
-			// System.out.println("Used: "+(System.currentTimeMillis()-ms));
 		if (!regok) {
 			geofunction.setUndefined();
 			return;

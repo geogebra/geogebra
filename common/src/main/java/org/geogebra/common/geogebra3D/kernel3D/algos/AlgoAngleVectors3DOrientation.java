@@ -53,8 +53,7 @@ public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D {
 		input[1] = (GeoElement) getw();
 		input[2] = (GeoElement) orientation;
 
-		setOutputLength(1);
-		setOutput(0, getAngle());
+		setOnlyOutput(getAngle());
 		setDependencies(); // done by AlgoElement
 	}
 

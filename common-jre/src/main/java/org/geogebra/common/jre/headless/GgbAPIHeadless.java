@@ -6,6 +6,8 @@ import org.geogebra.common.main.App;
 
 public class GgbAPIHeadless extends GgbAPIJre {
 
+	private ApiDelegate delegate;
+
 	public GgbAPIHeadless(App app) {
 		super(app);
 	}
@@ -28,7 +30,9 @@ public class GgbAPIHeadless extends GgbAPIJre {
 
 	@Override
 	public void openFile(String strURL) {
-		// stub
+		if (delegate != null) {
+			delegate.openFile(strURL);
+		}
 	}
 
 	@Override
@@ -46,9 +50,15 @@ public class GgbAPIHeadless extends GgbAPIJre {
 	}
 
 	@Override
-	protected String base64encodePNG(boolean transparent, double DPI,
+	protected String base64encodePNG(boolean transparent, double dpi,
 			double exportScale, EuclidianView ev) {
-		// stub
+		if (delegate != null) {
+			return delegate.base64encodePNG(transparent, dpi, exportScale, ev);
+		}
 		return "";
+	}
+
+	public void setImageExporter(ApiDelegate exporter) {
+		this.delegate = exporter;
 	}
 }

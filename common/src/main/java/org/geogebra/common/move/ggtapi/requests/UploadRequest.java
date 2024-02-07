@@ -200,15 +200,17 @@ public class UploadRequest implements Request {
 				settings.put("-stylebar", parent.getAllowStylebar());
 				settings.put("-zoombuttons", parent.getShowZoomButtons());
 			} else {
-				boolean isNotes = GeoGebraConstants.NOTES_APPCODE.equals(client.getAppName());
+				boolean isNotesOrAssign
+						= GeoGebraConstants.NOTES_APPCODE.equals(client.getAppName())
+						|| client.isAssign();
 				settings.put("-undoredo", true);
 				settings.put("-reseticon", false);
-				settings.put("-toolbar", isNotes);
+				settings.put("-toolbar", isNotesOrAssign);
 				settings.put("-menubar", false);
-				settings.put("-inputbar", false);
-				settings.put("-stylebar", isNotes);
-				settings.put("-rightclick", isNotes);
-				settings.put("-zoombuttons", isNotes);
+				settings.put("-inputbar", client.isAssign());
+				settings.put("-stylebar", isNotesOrAssign);
+				settings.put("-rightclick", isNotesOrAssign);
+				settings.put("-zoombuttons", isNotesOrAssign);
 			}
 			task.put("settings", settings);
 

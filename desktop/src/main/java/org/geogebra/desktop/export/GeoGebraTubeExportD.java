@@ -6,10 +6,10 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -345,12 +345,7 @@ public class GeoGebraTubeExportD {
 	}
 
 	protected String encode(String str) {
-		try {
-			return URLEncoder.encode(str, Charsets.UTF_8);
-		} catch (UnsupportedEncodingException e) {
-			Log.debug("error from GeoGebraTubeExport.encode()");
-			return str;
-		}
+		return URLEncoder.encode(str, StandardCharsets.UTF_8);
 	}
 
 	/**

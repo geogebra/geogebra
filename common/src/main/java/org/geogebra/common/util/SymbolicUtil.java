@@ -1,6 +1,7 @@
 package org.geogebra.common.util;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -36,9 +37,7 @@ public class SymbolicUtil {
 			if (firstCommand.getArgumentNumber() > 0
 					&& firstCommand.getArgument(0).getLeft() instanceof Command) {
 				Command secondCommand = (Command) firstCommand.getArgument(0).getLeft();
-				if (Commands.Solve.getCommand().equals(secondCommand.getName())) {
-					return true;
-				}
+				return Commands.Solve.getCommand().equals(secondCommand.getName());
 			}
 		}
 		return false;
@@ -182,7 +181,8 @@ public class SymbolicUtil {
 	 * @return true if numeric approximation should be calculated
 	 */
 	public static boolean shouldComputeNumericValue(ExpressionValue expression) {
-		if (expression != null && expression.isNumberValue()) {
+		if (expression != null && expression.isNumberValue()
+				&& !(expression.unwrap() instanceof BooleanValue)) {
 			ExpressionValue unwrapped = expression.unwrap();
 			if (expression.wrap().containsGeoDummyVariable()) {
 				return false;

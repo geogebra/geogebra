@@ -135,8 +135,7 @@ public class AlgoVerticalText extends AlgoElement {
 			input[1] = startPoint.toGeoElement();
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

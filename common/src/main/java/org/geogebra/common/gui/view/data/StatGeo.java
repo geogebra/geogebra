@@ -1153,8 +1153,6 @@ public class StatGeo {
 	}
 
 	private void removeFromConstructionList(ConstructionElement ce) {
-		// System.out.println("remove from cons:" + removeFromConstruction);
-
 		if (removeFromConstruction) {
 			cons.removeFromConstructionList(ce);
 		}

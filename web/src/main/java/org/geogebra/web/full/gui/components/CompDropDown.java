@@ -12,11 +12,10 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
+public class CompDropDown extends FlowPanel implements SetLabels {
 	private final AppW app;
 	private Label label;
 	private String labelKey;
@@ -151,10 +150,10 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	}
 
 	/**
-	 * reset dropdown to default
+	 * reset dropdown to the model (property) value
 	 */
-	public void resetToDefault() {
-		controller.resetToDefault();
+	public void resetFromModel() {
+		controller.resetFromModel();
 		updateSelectionText();
 	}
 

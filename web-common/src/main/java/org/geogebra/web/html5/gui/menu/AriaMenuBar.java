@@ -242,10 +242,15 @@ public class AriaMenuBar extends FlowPanel {
 			next = 0;
 		}
 		if (next < allItems.size()) {
-			selectItem(allItems.get(next));
+			selectAndScroll(allItems.get(next));
 			return true;
 		}
 		return false;
+	}
+
+	private void selectAndScroll(AriaMenuItem item) {
+		selectItem(item);
+		item.getElement().scrollIntoView();
 	}
 
 	/**
@@ -259,7 +264,7 @@ public class AriaMenuBar extends FlowPanel {
 			next = allItems.size() - 1;
 		}
 		if (next >= 0 && next < allItems.size()) {
-			selectItem(allItems.get(next));
+			selectAndScroll(allItems.get(next));
 			return true;
 		}
 		return false;

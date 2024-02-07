@@ -28,6 +28,7 @@ import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
 
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.io.MyXMLioJre;
@@ -56,7 +57,7 @@ public class MyXMLioD extends MyXMLioJre {
 
 	@Override
 	protected final void readZip(ZipInputStream zip, boolean isGGTfile)
-			throws Exception {
+			throws IOException, XMLParseException {
 
 		// we have to read everything (i.e. all images)
 		// before we process the XML file, that's why we
@@ -110,7 +111,7 @@ public class MyXMLioD extends MyXMLioJre {
 			} else if (StringUtil.toLowerCaseUS(name).endsWith("svg")) {
 				String svg = UtilD.loadIntoString(zip);
 
-				MyImageD img = new MyImageD(svg, name);
+				MyImageD img = new MyImageD(svg);
 
 				((AppDI) app).addExternalImage(name, img);
 
@@ -126,7 +127,7 @@ public class MyXMLioD extends MyXMLioJre {
 				} catch (IOException e) {
 					Log.debug("readZipFromURL: image could not be loaded: "
 							+ name);
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 
@@ -176,7 +177,7 @@ public class MyXMLioD extends MyXMLioJre {
 			kernel.resetLibraryJavaScript();
 		}
 		if (!(macroXMLfound || xmlFound || structureFound)) {
-			throw new Exception("No XML data found in file.");
+			throw new IOException("No XML data found in file.");
 		}
 	}
 

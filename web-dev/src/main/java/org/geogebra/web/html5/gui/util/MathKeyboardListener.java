@@ -14,8 +14,6 @@ public interface MathKeyboardListener {
 
 	Widget asWidget();
 
-	String getText();
-
 	boolean needsAutofocus();
 
 	boolean hasFocus();

@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -31,6 +30,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
@@ -1134,7 +1134,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleExtraTag(LinkedHashMap<String, String> attrs) {
-		ChartStyle algo = ((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle();
+		ChartStyle algo = ((ChartStyleGeo) geo).getStyle();
 		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))
 				&& !"".equals(attrs.get("barNumber"))) {
 			switch (attrs.get("key")) {
@@ -1667,7 +1667,7 @@ public class ConsElementXMLHandler {
 		try {
 			handleMatrixConicOrQuadric(attrs);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1677,11 +1677,8 @@ public class ConsElementXMLHandler {
 	 * 
 	 * @param attrs
 	 *            attributes
-	 * @throws Exception
-	 *             exception
 	 */
-	private void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs)
-			throws Exception {
+	private void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs) {
 		if (geo.isGeoQuadric()) {
 			if (geo.isDefaultGeo()) { // avoid setting for default geo
 				return;

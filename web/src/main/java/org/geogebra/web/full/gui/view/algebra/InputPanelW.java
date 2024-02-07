@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -11,9 +10,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  */
 public class InputPanelW extends FlowPanel {
 
-	private AutoCompleteTextFieldW textComponent;
-	private boolean showSymbolPopup;
-	private TextEditPanel textAreaComponent;
+	private final AutoCompleteTextFieldW textComponent;
 
 	/**
 	 * @param app
@@ -34,6 +31,11 @@ public class InputPanelW extends FlowPanel {
 		enableGGBKeyboard(app, false, textComponent);
 	}
 
+	public InputPanelW(String initText, App app,
+			boolean showSymbolPopupIcon) {
+		this(initText, app, -1, showSymbolPopupIcon);
+	}
+
 	/**
 	 * @param initText
 	 *            initial text
@@ -41,39 +43,20 @@ public class InputPanelW extends FlowPanel {
 	 *            application
 	 * @param columns
 	 *            number of columns
-	 * @param rows
-	 *            number of rows
 	 * @param showSymbolPopupIcon
 	 *            whether to show symbol icon
 	 */
-	public InputPanelW(String initText, App app, int rows, int columns,
+	public InputPanelW(String initText, App app, int columns,
 			boolean showSymbolPopupIcon) {
-
-		this.showSymbolPopup = showSymbolPopupIcon;
-
 		// set up the text component:
-		// either a textfield or HTML textpane
-		if (rows > 1) {
-			textAreaComponent = new TextEditPanel(app);
-			if (initText != null) {
-				textAreaComponent.setText(initText);
-			}
-			add(textAreaComponent);
-		} else {
-			textComponent = new AutoCompleteTextFieldW(columns, app);
-			textComponent.prepareShowSymbolButton(showSymbolPopup);
-			if (initText != null) {
-				textComponent.setText(initText);
-			}
-			add(textComponent);
+		textComponent = new AutoCompleteTextFieldW(columns, app);
+		textComponent.prepareShowSymbolButton(showSymbolPopupIcon);
+		if (initText != null) {
+			textComponent.setText(initText);
 		}
-
-		if (textComponent != null) {
-			AutoCompleteTextFieldW atf = textComponent;
-			atf.setAutoComplete(false);
-
-			enableGGBKeyboard(app, showSymbolPopupIcon, atf);
-		}
+		add(textComponent);
+		textComponent.setAutoComplete(false);
+		enableGGBKeyboard(app, showSymbolPopupIcon, textComponent);
 	}
 
 	private void enableGGBKeyboard(App app, boolean showKeyboardButton,
@@ -100,20 +83,10 @@ public class InputPanelW extends FlowPanel {
 	}
 
 	/**
-	 * @return multiline editable field
-	 */
-	public TextEditPanel getTextAreaComponent() {
-		return textAreaComponent;
-	}
-
-	/**
 	 * @return text
 	 */
 	public String getText() {
-		if (textComponent != null) {
-			return textComponent.getText();
-		}
-		return textAreaComponent.getText();
+		return textComponent.getText();
 	}
 
 	/**
@@ -122,22 +95,12 @@ public class InputPanelW extends FlowPanel {
 	public void addTextComponentKeyUpHandler(KeyUpHandler k) {
 		getTextComponent().addKeyUpHandler(k);
 	}
-	
-	/**
-	 * Move focus to textarea without sheduler
-	 */
-	protected void focusTextImmediate() {
-		textAreaComponent.getTextArea().setFocus(true);
-	}
 
 	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (textComponent != null) {
 			textComponent.setVisible(visible);
-		}
-		if (textAreaComponent != null) {
-			textAreaComponent.setVisible(visible);
 		}
 	}
 	

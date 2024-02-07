@@ -1,11 +1,9 @@
 package org.geogebra.web.html5.gui.textbox;
 
 import org.geogebra.common.util.TextObject;
-import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
@@ -21,7 +19,7 @@ import org.gwtproject.user.client.ui.TextBox;
  * @author Balazs
  */
 public class GTextBox extends TextBox
-		implements NativePreviewHandler, MathKeyboardListener, TextObject {
+		implements NativePreviewHandler, TextObject {
 	// On iOS when using a bluetooth keyboard, the onkeyup event reports
 	// the charcode to be 0. To solve this, we save the character code
 	// in the onkeydown event, and we use that for the onkeyup
@@ -32,10 +30,6 @@ public class GTextBox extends TextBox
 	protected boolean isShiftKeyDown;
 	protected boolean isMetaKeyDown;
 	private  boolean isFocused = false;
-
-	public GTextBox(Element e) {
-		super(e);
-	}
 
 	public GTextBox() {
 		this(false, null);
@@ -96,23 +90,11 @@ public class GTextBox extends TextBox
 	}
 
 	@Override
-	public void ensureEditing() {
-		this.setFocus(true);
-
-	}
-
-	@Override
 	public void setFocus(boolean b) {
 		super.setFocus(b);
 		isFocused = b;
 	}
 
-	@Override
-	public boolean needsAutofocus() {
-		return false;
-	}
-
-	@Override
 	public boolean hasFocus() {
 		return isFocused;
 	}
@@ -122,8 +104,4 @@ public class GTextBox extends TextBox
 		this.setReadOnly(!editable);
 	}
 
-	@Override
-	public boolean acceptsCommandInserts() {
-		return false;
-	}
 }

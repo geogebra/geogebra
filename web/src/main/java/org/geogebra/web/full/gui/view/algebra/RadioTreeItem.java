@@ -40,7 +40,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -53,6 +52,7 @@ import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
+import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
@@ -1612,7 +1612,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		FactoryProviderGWT.ensureLoaded();
-		mf = new MathFieldW(new SyntaxAdapterImpl(kernel), latexItem, canvas,
+		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(kernel), latexItem, canvas,
 				getLatexController());
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
@@ -1740,7 +1740,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public String getCommand() {
-		return mf == null ? "" : mf.getCurrentWord();
+		return controller.getCommand(mf);
 	}
 
 	@Override
@@ -1777,10 +1777,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Show suggestions.
 	 */
 	public void popupSuggestions() {
-		if (controller.isSuggestionPrevented(mf)) {
-			return;
-		}
-
 		int left = getPopupSuggestionLeft();
 		int top = (int) (marblePanel.getAbsoluteTop() - app.getAbsTop());
 		getInputSuggestions().popupSuggestions(left, top, marblePanel.getOffsetHeight());

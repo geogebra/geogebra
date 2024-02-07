@@ -10,7 +10,7 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='geogebra3D'/>
 
-  <set-configuration-property name="js.identifier.blacklist" value="Ink" />
+  <define-configuration-property is-multi-valued="true" name="beforeRenderJS"/>
   <set-configuration-property name="beforeRenderJS" value="org/geogebra/web/resources/js/materialFetcher.js" />
 
   <!-- Compile only one permutation -->

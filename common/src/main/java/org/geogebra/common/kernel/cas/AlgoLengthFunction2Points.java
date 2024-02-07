@@ -64,8 +64,7 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 		input[1] = A.toGeoElement();
 		input[2] = B.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, length);
+		setOnlyOutput(length);
 		setDependencies(); // done by AlgoElement
 	}
 

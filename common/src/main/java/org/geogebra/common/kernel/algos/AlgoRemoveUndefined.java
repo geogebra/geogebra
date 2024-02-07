@@ -68,8 +68,7 @@ public class AlgoRemoveUndefined extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
-		setOutputLength(1);
-		setOutput(0, outputList);
+		setOnlyOutput(outputList);
 		setDependencies(); // done by AlgoElement
 	}
 

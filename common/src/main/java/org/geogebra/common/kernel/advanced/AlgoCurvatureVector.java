@@ -77,8 +77,7 @@ public class AlgoCurvatureVector extends AlgoElement {
 		input[0] = A;
 		input[1] = f;
 
-		super.setOutputLength(1);
-		super.setOutput(0, v);
+		setOnlyOutput(v);
 		setDependencies(); // done by AlgoElement
 	}
 

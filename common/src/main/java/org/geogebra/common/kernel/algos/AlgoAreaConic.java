@@ -73,8 +73,7 @@ public class AlgoAreaConic extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = conic;
 
-		setOutputLength(1);
-		setOutput(0, area);
+		setOnlyOutput(area);
 		setDependencies(); // done by AlgoElement
 	}
 

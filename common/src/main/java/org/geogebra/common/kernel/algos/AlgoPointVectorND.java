@@ -74,8 +74,7 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 		input[0] = (GeoElement) P;
 		input[1] = (GeoElement) v;
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) Q);
+		setOnlyOutput(Q);
 		setDependencies(); // done by AlgoElement
 	}
 

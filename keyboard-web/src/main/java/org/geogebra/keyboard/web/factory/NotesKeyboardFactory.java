@@ -1,17 +1,15 @@
 package org.geogebra.keyboard.web.factory;
 
-import org.geogebra.keyboard.base.KeyboardFactory;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.MowSpecialSymbolsKeyboardFactory;
 
-public final class NotesKeyboardFactory extends KeyboardFactory {
-
-	public static final NotesKeyboardFactory INSTANCE = new NotesKeyboardFactory();
+public final class NotesKeyboardFactory extends DefaultKeyboardFactory {
 
 	/**
 	 * Keyboard layout for MOW
 	 */
-	private NotesKeyboardFactory() {
+	public NotesKeyboardFactory() {
 		super();
-		setSpecialSymbolsKeyboardFactory(new MowSpecialSymbolsKeyboardFactory());
+		specialSymbolsKeyboardFactory = new MowSpecialSymbolsKeyboardFactory();
 	}
 }

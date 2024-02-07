@@ -50,10 +50,7 @@ public class SaveCallback {
 		if (!isMacro) {
 			app.setSaved();
 			String msg = state == SaveState.ERROR
-					? (app.getLocalization().getMenu("SaveAccountFailed")
-							+ "\n"
-							+ app.getLocalization()
-									.getMenu("SavedLocalCopySuccessfully"))
+					? app.getLocalization().getMenu("SaveAccountFailed")
 					: loc.getMenu("SavedSuccessfully");
 			Material activeMaterial = app.getActiveMaterial();
 			if (activeMaterial != null
@@ -90,7 +87,7 @@ public class SaveCallback {
 				|| mat.getType().equals(MaterialType.ggs)) {
 			app.setActiveMaterial(mat);
 			onSaved(app, state, false);
-			if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
+			if (((GuiManagerW) app.getGuiManager()).isOpenFileViewLoaded()) {
 				if (!isLocal) {
 					mat.setSyncStamp(mat.getModified());
 				}

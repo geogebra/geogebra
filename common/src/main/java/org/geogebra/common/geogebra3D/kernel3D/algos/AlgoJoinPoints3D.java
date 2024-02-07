@@ -154,7 +154,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 			setInputOutput(
 					new GeoElement[] { (GeoElement) P, (GeoElement) Q, poly },
 					new GeoElement[] { (GeoElement) P, (GeoElement) Q },
-					new GeoElement[] { cs });
+					cs);
 		}
 	}
 

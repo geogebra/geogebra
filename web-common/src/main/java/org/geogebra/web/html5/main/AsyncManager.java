@@ -114,7 +114,7 @@ public class AsyncManager {
 			case GIAC:
 				app.getKernel().getGeoGebraCAS().initCurrentCAS();
 			default:
-				Log.debug("Tring to preload nonexistent module: " + module);
+				Log.debug("Trying to preload nonexistent module: " + module);
 			}
 		}
 		if (callback != null) {

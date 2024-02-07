@@ -174,4 +174,6 @@ public class CarotaTable implements HasContentAndFormat {
 	public native void setExternalPaint(boolean externalPaint);
 
 	public native void setHitCell(double x, double y);
+
+	public native void addInsertFilter(Carota.InsertFilter filter);
 }

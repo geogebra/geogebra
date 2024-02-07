@@ -26,7 +26,7 @@ public class ScriptInputModelTest extends BaseUnitTest {
 		GeoElement polyRegular = add("Polygon((1,2),(2,1),5)");
 		assertEquals(standardOptionsWithDrag, getAvailable(polyRegular));
 
-		GeoElement stroke = add("PolyLine((1,2),(2,1), true)");
+		GeoElement stroke = add("PenStroke((1,2),(2,1))");
 		assertEquals(standardOptionsWithDrag, getAvailable(stroke));
 
 		GeoElement circle = add("Circle((0,1),(1,2))");

@@ -136,7 +136,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 		UndoRedoTester undoRedoTester = new UndoRedoTester(getApp());
 		undoRedoTester.setupUndoRedo();
 
-		addAvInput("stroke = Polyline((1, 3), (4, 3), true)");
+		addAvInput("stroke = PenStroke((1, 3), (4, 3))");
 		undoRedoTester.undo();
 		GeoLocusStroke stroke = undoRedoTester.getAfterRedo("stroke");
 		assertThat(stroke, is(notNullValue()));
@@ -144,7 +144,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 
 	@Test
 	public void locusBasedOnStrokeShouldHaveEnoughPoints() {
-		addAvInput("stroke = Polyline((1, 3), (4, 3), (2,5), true)");
+		addAvInput("stroke = PenStroke((1, 3), (4, 3), (2,5))");
 		add("A=Point(stroke)");
 		add("B=A-(1,1)");
 		add("loc=Locus(B,A)");

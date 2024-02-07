@@ -799,10 +799,7 @@ public class OptionsTab extends FlowPanel {
 			// opacitySlider.setSnapToTicks(true);
 			lineOpacityPanel.add(opacitySlider);
 
-			opacitySlider.addInputHandler(event -> {
-				int value = (int) ((opacitySlider.getValue() / 100.0) * 255);
-				model.applyOpacity(value);
-			});
+			opacitySlider.addInputHandler(model::applyOpacityPercentage);
 			opacitySlider.addValueChangeHandler(val -> model.storeUndoInfo());
 
 			stylePanel = new FlowPanel();
@@ -990,7 +987,7 @@ public class OptionsTab extends FlowPanel {
 
 			FlowPanel mainPanel = new FlowPanel();
 			label = new Label();
-			inputPanel = new InputPanelW(null, app, 1, -1, false);
+			inputPanel = new InputPanelW(null, app, false);
 			textField = inputPanel.getTextComponent();
 			textField.setAutoComplete(false);
 			textField.addBlurHandler(event -> model.applyChanges(textField.getText()));
@@ -1055,8 +1052,8 @@ public class OptionsTab extends FlowPanel {
 					getModel()::applyChanges);
 			setLabels();
 
-			ipButtonWidth = new InputPanelW(null, app, 1, -1, false);
-			ipButtonHeight = new InputPanelW(null, app, 1, -1, false);
+			ipButtonWidth = new InputPanelW(null, app, false);
+			ipButtonHeight = new InputPanelW(null, app, false);
 
 			tfButtonWidth = ipButtonWidth.getTextComponent();
 			tfButtonWidth.setAutoComplete(false);

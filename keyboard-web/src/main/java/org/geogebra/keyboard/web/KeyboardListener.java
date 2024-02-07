@@ -67,11 +67,6 @@ public interface KeyboardListener {
 	void insertString(String text);
 
 	/**
-	 * @return false
-	 */
-	boolean resetAfterEnter();
-
-	/**
 	 * @param text
 	 *            true if text
 	 */

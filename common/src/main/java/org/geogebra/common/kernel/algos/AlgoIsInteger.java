@@ -60,8 +60,7 @@ public class AlgoIsInteger extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = inputGeo;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputBoolean);
+		setOnlyOutput(outputBoolean);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -8,13 +8,16 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ConditionalSerializer;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -75,6 +78,7 @@ public class GeoSymbolic extends GeoElement
 	private ExpressionValue numericValue;
 	private int numericPrintFigures;
 	private int numericPrintDecimals;
+	private ConditionalSerializer conditionalSerializer;
 
 	/**
 	 * @param c construction
@@ -148,7 +152,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (symbolicMode || !hasNumericValue()) {
+		if ((symbolicMode || tpl.getStringType().isGiac()) || !hasNumericValue()) {
 			if (value != null) {
 				return value.toValueString(tpl);
 			}
@@ -433,8 +437,10 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void setSymbolicMode() {
-		boolean isValueDefined = isCasValueDefined();
-		setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+		if (kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+			boolean isValueDefined = isCasValueDefined();
+			setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
+		}
 	}
 
 	private void setFunctionVariables() {
@@ -678,7 +684,7 @@ public class GeoSymbolic extends GeoElement
 		};
 	}
 
-	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+	private GeoElement process(ExpressionNode expressionNode) throws CircularDefinitionException {
 		registerFunctionVariablesIfHasFunction(expressionNode);
 		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
@@ -686,7 +692,8 @@ public class GeoSymbolic extends GeoElement
 			expressionNode.setForceVector();
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
-		GeoElement result = elements.length > 1 ? toGeoList(elements) : elements[0];
+		GeoElement result = elements.length > 1 || needsListWrapping(elements[0])
+				? toGeoList(elements) : elements[0];
 		AlgoElement parentAlgo = elements[0].getParentAlgorithm();
 		if (cons.isRegisteredEuclidianViewCE(parentAlgo)) {
 			cons.unregisterEuclidianViewCE(parentAlgo);
@@ -696,6 +703,15 @@ public class GeoSymbolic extends GeoElement
 		}
 		result.setFixed(true);
 		return result;
+	}
+
+	private boolean needsListWrapping(GeoElement geo) {
+		// in AV these may return 1 or more points, in CAS they always return a list
+		// forcing list wrapping makes the style and behavior independent on number of results
+		GetCommand cmd = geo.getParentAlgorithm() == null
+				? null : geo.getParentAlgorithm().getClassName();
+		return cmd == Commands.Root || cmd == Commands.Extremum || cmd == Commands.Intersect
+				|| cmd == Commands.Asymptote;
 	}
 
 	private void registerFunctionVariablesIfHasFunction(ExpressionNode functionExpression) {
@@ -1115,5 +1131,30 @@ public class GeoSymbolic extends GeoElement
 
 	private boolean isCasValueDefined() {
 		return !value.inspect(Inspecting.isUndefinedInspector);
+	}
+
+	@Override
+	public String getFormulaString(StringTemplate tpl,
+			boolean substituteNumbers) {
+		if (substituteNumbers && tpl.isLatex()) {
+			if (value != null && value.wrap().isTopLevelCommand("If")) {
+				FunctionVariable fv = getFunctionVariables()[0];
+				ArrayList<ExpressionNode> cases = new ArrayList<>();
+				ArrayList<Bounds> conditions = new ArrayList<>();
+				ExpressionNode[] arguments = ((Command) value.unwrap()).getArguments();
+				boolean complete = Bounds.collectFromCommand(kernel,
+						fv, arguments, cases, conditions);
+				return getConditionalSerializer().appendConditionalLaTeX(cases, conditions,
+						complete, true, tpl);
+			}
+		}
+		return super.getFormulaString(tpl, substituteNumbers);
+	}
+
+	private ConditionalSerializer getConditionalSerializer() {
+		if (conditionalSerializer == null) {
+			conditionalSerializer = new ConditionalSerializer(kernel, this);
+		}
+		return conditionalSerializer;
 	}
 }

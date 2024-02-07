@@ -82,11 +82,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public boolean resetAfterEnter() {
-		return false;
-	}
-
-	@Override
 	public void endEditing() {
 		field.endOnscreenKeyboardEditing();
 	}

@@ -189,8 +189,6 @@ public class CopyPasteCutD extends CopyPasteCut {
 			return false;
 		}
 
-		// System.out.println(dataFile.getName() + ": " + contents.capacity());
-
 		boolean succ = true;
 
 		String[][] data = DataImport.parseExternalData(app,
