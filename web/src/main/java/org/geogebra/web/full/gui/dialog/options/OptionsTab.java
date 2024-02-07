@@ -220,6 +220,7 @@ public class OptionsTab extends FlowPanel {
 	 *            current width
 	 */
 	public void onResize(int height, int width) {
+		this.setHeight(height + "px");
 		this.setWidth(width + "px");
     }
 

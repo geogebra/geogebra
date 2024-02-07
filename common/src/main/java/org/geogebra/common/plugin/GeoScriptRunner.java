@@ -43,22 +43,18 @@ public class GeoScriptRunner implements EventListener {
 		try {
 			if (evt.type == EventType.CLICK) {
 				if (evt.isAlwaysDispatched()) {
-					run(script, evt);
+					script.run(evt);
 				} else {
 					handleClick(script, evt);
 				}
 			} else {
 				app.setBlockUpdateScripts(true);
-				boolean ok = run(script, evt);
+				boolean ok = script.run(evt);
 				app.setBlockUpdateScripts(!ok);
 			}
 		} catch (ScriptError e) {
 			app.showError(e.getScriptError());
 		}
-	}
-
-	private boolean run(Script script, Event evt) throws ScriptError {
-		return script.run(evt);
 	}
 
 	/* Some scripts (especially JS) may have no impact on construction and should not
