@@ -557,7 +557,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected EventDispatcher newEventDispatcher() {
 		EventDispatcher dispatcher = new EventDispatcher(this);
 		if (getAppletParameters().getDisableJavaScript()) {
-			dispatcher.disable(ScriptType.JAVASCRIPT);
+			dispatcher.disableScriptType(ScriptType.JAVASCRIPT);
 		}
 		return dispatcher;
 	}

@@ -40,7 +40,7 @@ public class EventDispatcher implements ClientView {
 	private ArrayList<EventListener> listeners = new ArrayList<>();
 	protected boolean listenersEnabled = true;
 
-	private final Set<ScriptType> disabledTypes = new HashSet<>();
+	private final Set<ScriptType> disabledScriptTypes = new HashSet<>();
 
 	/**
 	 * @param app
@@ -106,8 +106,8 @@ public class EventDispatcher implements ClientView {
 	 *
 	 * @param scriptType to disable.
 	 */
-	public void disable(ScriptType scriptType) {
-		disabledTypes.add(scriptType);
+	public void disableScriptType(ScriptType scriptType) {
+		disabledScriptTypes.add(scriptType);
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class EventDispatcher implements ClientView {
 	 * @return if scriptType is allowed to run.
 	 */
 	public boolean isDisabled(ScriptType scriptType) {
-		return disabledTypes.contains(scriptType);
+		return disabledScriptTypes.contains(scriptType);
 	}
 
 	public void disableListeners() {
@@ -367,7 +367,7 @@ public class EventDispatcher implements ClientView {
 	 */
 	public List<ScriptType> availableTypes() {
 		return Arrays.stream(ScriptType.values())
-				.filter(t -> !disabledTypes.contains(t)).collect(Collectors.toList());
+				.filter(t -> !disabledScriptTypes.contains(t)).collect(Collectors.toList());
 	}
 
 }

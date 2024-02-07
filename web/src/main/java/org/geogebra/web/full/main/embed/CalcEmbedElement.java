@@ -82,7 +82,7 @@ public class CalcEmbedElement extends EmbedElement {
 
 		frame.getApp().getScriptManager().setJsEnabled(jsEnabled);
 
-		frame.getApp().getEventDispatcher().disable(ScriptType.JAVASCRIPT);
+		frame.getApp().getEventDispatcher().disableScriptType(ScriptType.JAVASCRIPT);
 
 		GuiManagerW guiManager = frame.getApp().getGuiManager();
 		if (guiManager != null) {
