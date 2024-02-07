@@ -645,8 +645,8 @@ public class FunctionNVar extends ValidExpression
 			}
 			// evaluate expression by CAS
 			String result = symbolic
-					? kernel.evaluateGeoGebraCAS(casString, arbconst) : // symbolic
-					kernel.evaluateCachedGeoGebraCAS(casString, arbconst); // value
+					? kernel.evaluateGeoGebraCAS(casString, arbconst) // symbolic
+					: kernel.evaluateCachedGeoGebraCAS(casString, arbconst); // value
 																			// string
 
 			// parse CAS result back into GeoGebra
@@ -1527,5 +1527,43 @@ public class FunctionNVar extends ValidExpression
 	@Override
 	public void setForceInequality(boolean forceInequality) {
 		this.forceInequality = forceInequality;
+	}
+
+	/**
+	 * If it is a two variable function, it returns the coefficents of the function
+	 * written in polynomial form if possible, null otherwise.
+	 *
+	 * @return the coefficents if possible, null otherwise.
+	 */
+	public ExpressionValue[][] getCoeff() {
+		ExpressionNode lhs = replaceFunctionVarsIn(getExpression());
+		Equation equ = new Equation(kernel, lhs, new MyDouble(kernel, 0));
+
+		try {
+			Polynomial polynomial = Polynomial.fromNode(lhs, equ, false);
+			equ.initEquation();
+			if (!equ.isPolynomial()) {
+				return null;
+			}
+			FunctionVariable[] vars = getFunctionVariables();
+			String var1 = vars[0].getSetVarString();
+			String var2 = vars[1].getSetVarString();
+			return polynomial.getCoeff(var1, var2);
+		} catch (Throwable t) {
+			Log.warn(getExpression() + " couldn't be transformed to polynomial:"
+					+ t.getMessage());
+			return null;
+		}
+	}
+
+	private ExpressionNode replaceFunctionVarsIn(ExpressionValue ev) {
+		FunctionVariable[] vars = getFunctionVariables();
+		String var1 = vars[0].getSetVarString();
+		String var2 = vars[1].getSetVarString();
+		Traversing.VariableReplacer repl = kernel.getVariableReplacer();
+		repl.addVars(var1, fVars[0]);
+		repl.addVars(var2, fVars[1]);
+		ExpressionNode functionNode = ev.deepCopy(kernel).wrap();
+		return functionNode.traverse(repl).wrap();
 	}
 }

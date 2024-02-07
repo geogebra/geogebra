@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.junit.Test;
 
-public class HittingTest extends BaseControllerTest {
+public class HittingTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void polygonTool() {

@@ -25,7 +25,7 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
-public class ControllerTest extends BaseControllerTest {
+public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	private static ArrayList<TestEvent> events = new ArrayList<>();
 	private static String[] lastCheck;
 	private static boolean lastVisibility;
