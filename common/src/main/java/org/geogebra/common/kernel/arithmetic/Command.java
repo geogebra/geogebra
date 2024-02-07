@@ -21,7 +21,6 @@ package org.geogebra.common.kernel.arithmetic;
 import static org.geogebra.common.kernel.arithmetic.ExpressionNode.getLabelOrDefinition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -56,7 +55,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class Command extends ValidExpression
 		implements ReplaceChildrenByValues, GetItem, HasArguments {
 
-	public static final List<String> DEFAULT_FUNCTION_VARIABLE_ORDER = Arrays.asList("x", "t");
+	private static final String DEFAULT_FUNCTION_VAR_NAME = "x";
 	// list of arguments
 	private final ArrayList<ExpressionNode> args = new ArrayList<>();
 	private String name; // internal command name (in English)
@@ -352,20 +351,18 @@ public class Command extends ValidExpression
 	}
 
 	private String getFunctionVarName(ExpressionNode node, Set<GeoElement> vars) {
-		for (String funcVar: DEFAULT_FUNCTION_VARIABLE_ORDER) {
-			if (node.containsFreeFunctionVariable(funcVar)) {
-				return funcVar;
-			}
+		if (node.containsFreeFunctionVariable(DEFAULT_FUNCTION_VAR_NAME)) {
+			return DEFAULT_FUNCTION_VAR_NAME;
 		}
 
 		List<String> integralVarNames = getFunctionVarNames(node);
 
 		if (vars != null) {
 			List<String> dummyVarNames = getDummyVarNames(vars);
-			Collections.sort(dummyVarNames);
 			integralVarNames.addAll(dummyVarNames);
 		}
-		return integralVarNames.size() > 0 ? integralVarNames.get(0) : "x";
+		Collections.sort(integralVarNames);
+		return integralVarNames.size() > 0 ? integralVarNames.get(0) : DEFAULT_FUNCTION_VAR_NAME;
 	}
 
 	private static List<String> getDummyVarNames(Set<GeoElement> vars) {

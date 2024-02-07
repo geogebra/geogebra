@@ -30,7 +30,7 @@ public class AlgoElementTest extends BaseUnitTest {
 		assertThat(add("Integral(x-d,a,b)"), hasLaTeXDefinition(
 				"\\int\\limits_{a}^{b}x - d\\,\\mathrm{d}x"));
 		assertThat(add("Integral(t-d,a,b)"), hasLaTeXDefinition(
-				"\\int\\limits_{a}^{b}t - d\\,\\mathrm{d}t"));
+				"\\int\\limits_{a}^{b}t - d\\,\\mathrm{d}d"));
 		assertThat(add("Integral(s-d,a,b)"), hasLaTeXDefinition(
 				"\\int\\limits_{a}^{b}s - d\\,\\mathrm{d}d"));
 		assertThat(add("Integral(s-r,a,b)"), hasLaTeXDefinition(
