@@ -5110,14 +5110,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return "[main thread]";
 	}
 
-	/**
-	 * opens/closes notes toolbar
-	 * @param open true if should open notes toolbar
-	 */
-	public void setNotesToolbarOpen(boolean open) {
-		// nothing to do here
-	}
-
 	public @CheckForNull Material getActiveMaterial() {
 		return activeMaterial;
 	}

@@ -1,0 +1,34 @@
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame{
+	.toolboxMow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		border-radius: 36px;
+		padding: 8px;
+		box-shadow: 0px 2px 24px -1px #85848A24;
+
+		&.leftAligned {
+			left: 16px;
+		}
+
+		.divider {
+			height: 1px;
+			margin: 8px 0;
+			background-color: neutral(300);
+		}
+
+		.actionButton {
+			width: 24px;
+			height: 24px;
+			padding: 12px;
+			border-radius: 50%;
+
+			&:hover {
+				background-color: purple(100);
+			}
+		}
+	}
+}
