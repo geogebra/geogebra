@@ -14,6 +14,10 @@ import org.geogebra.common.util.debug.Log;
  */
 public class Derivative {
 
+	private static final Inspecting checkCoordOperations = v -> v.isOperation(Operation.XCOORD)
+			|| v.isOperation(Operation.YCOORD)
+			|| v.isOperation(Operation.ZCOORD);
+
 	/**
 	 * @param left
 	 *            left expression
@@ -449,10 +453,6 @@ public class Derivative {
 		// undefined
 		return wrap(kernel0, Double.NaN);
 	}
-
-	private static final Inspecting checkCoordOperations = v -> v.isOperation(Operation.XCOORD)
-					|| v.isOperation(Operation.YCOORD)
-					|| v.isOperation(Operation.ZCOORD);
 
 	private static ExpressionNode coordDerivative(ExpressionValue left, int i,
 			FunctionVariable fv, Kernel kernel0) {
