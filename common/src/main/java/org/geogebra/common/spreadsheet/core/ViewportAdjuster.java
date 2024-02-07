@@ -6,7 +6,7 @@ import org.geogebra.common.util.Scrollable;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
- * A utility class designed to adjust the viewport if a cell that is not fully visible is being clicked
+ * A utility class designed to adjust the viewport if a cell that is not fully visible is clicked
  */
 public class ViewportAdjuster {
 
