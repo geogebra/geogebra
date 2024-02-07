@@ -3532,16 +3532,16 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
 		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
-		return isInRegion(PI, coords);
+		return isInRegion(coords);
 	}
 
 	@Override
 	public boolean isInRegionInRealCoords(GeoPointND PI) {
 		Coords coords = PI.getCoordsInD2IfInPlaneInRealCoords(getCoordSys());
-		return isInRegion(PI, coords);
+		return isInRegion(coords);
 	}
 
-	private boolean isInRegion(GeoPointND PI, Coords coords) {
+	private boolean isInRegion(Coords coords) {
 		return coords != null && isInRegion(coords.getX(), coords.getY());
 	}
 
