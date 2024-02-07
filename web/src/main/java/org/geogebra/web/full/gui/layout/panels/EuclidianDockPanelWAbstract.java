@@ -356,15 +356,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	/**
-	 * Move zoom panel to avoid conflicts with toolbar
-	 */
-	public void moveZoomPanelAboveToolbar() {
-		if (zoomPanel != null) {
-			zoomPanel.addStyleName("narrowscreen");
-		}
-	}
-
-	/**
 	 * Checks if zoom panel fit on Euclidian View with given height and
 	 * shows/hides it respectively.
 	 *

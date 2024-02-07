@@ -73,18 +73,8 @@ public class NotesLayout implements SetLabels {
 		pageControlButton.removeStyleName("narrowscreen");
 	}
 
-	private void movePageControlButtonAboveToolbar() {
-		pageControlButton.getElement().getStyle().clearBottom();
-		pageControlButton.addStyleName("narrowscreen");
-	}
-
 	private void moveZoomPanelDown() {
 		getDockPanel().moveZoomPanelToBottom();
-	}
-
-	private void moveZoomPanelAboveToolbar() {
-		EuclidianDockPanelW dockPanel = getDockPanel();
-		dockPanel.moveZoomPanelAboveToolbar();
 	}
 
 	private EuclidianDockPanelW getDockPanel() {
@@ -128,9 +118,6 @@ public class NotesLayout implements SetLabels {
 		if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
 			moveZoomPanelDown();
 			movePageControlButtonDown();
-		} else {
-			moveZoomPanelAboveToolbar();
-			movePageControlButtonAboveToolbar();
 		}
 	}
 
