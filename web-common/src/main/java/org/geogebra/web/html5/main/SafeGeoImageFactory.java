@@ -156,11 +156,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 		}
 		app.setDefaultCursor();
 		if (!isInternalFile) {
-			ArrayList<GeoElement> geosToStore = new ArrayList<>();
-			geoImage.matrixTransform(1, 0, 0, 1);
-			geosToStore.addAll(geoImage.getDefinedAndLabeledStartPoints());
-			geosToStore.add(geoImage);
-			app.getUndoManager().storeAddGeo(geosToStore);
+			addImageSafelyToUndoManager();
 		}
 		geoImage.setImagePropertiesIfNecessary();
 	}
@@ -185,6 +181,19 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 			geoImage.setLabel(null);
 			GeoImage.updateInstances(app);
 		}
+	}
+
+	/**
+	 * Adds the created GeoImage to the UndoManager while making sure all corner points and the
+	 * crop box are correctly initialized and all defined and labeled start points are added
+	 */
+	private void addImageSafelyToUndoManager() {
+		geoImage.matrixTransform(1, 0, 0, 1);
+		geoImage.ensureCropBox();
+		ArrayList<GeoElement> geosToStore = new ArrayList<>();
+		geosToStore.addAll(geoImage.getDefinedAndLabeledStartPoints());
+		geosToStore.add(geoImage);
+		app.getUndoManager().storeAddGeo(geosToStore);
 	}
 
 	/**
