@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -244,18 +244,16 @@ public class ColorObjectModel extends OptionsModel {
 	}
 
 	public ChartStyle getChartStyle() {
-		AlgoElement algo = getAlgorithm();
-		return algo instanceof ChartStyleAlgo ? ((ChartStyleAlgo) algo).getStyle() : null;
+		return isBarChart() ? ((ChartStyleGeo) getGeoAt(0)).getStyle() : null;
 
 	}
 
 	public boolean isBarChart() {
-		return getAlgorithm() instanceof ChartStyleAlgo;
+		return getGeoAt(0) instanceof ChartStyleGeo;
 	}
 
 	public int getBarChartIntervals() {
-		AlgoElement algo = getAlgorithm();
-		return algo instanceof ChartStyleAlgo ? ((ChartStyleAlgo) algo).getIntervals() : 0;
+		return isBarChart() ? ((ChartStyleGeo) getGeoAt(0)).getIntervals() : 0;
 	}
 
 	public void applyBar(int idx, GColor color, double alpha) {

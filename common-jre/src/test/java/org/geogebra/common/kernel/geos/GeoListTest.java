@@ -62,8 +62,7 @@ public class GeoListTest extends BaseUnitTest {
 		list.setEuclidianVisible(true);
 		list.setSelectedIndex(4);
 		list.updateRepaint();
-		DrawDropDownList drawList = (DrawDropDownList) getApp()
-				.getActiveEuclidianView().getDrawableFor(list);
+		DrawDropDownList drawList = (DrawDropDownList) getDrawable(list);
 		Objects.requireNonNull(drawList).toggleOptions();
 		add("SetValue(a,1)");
 		drawList.draw(new GGraphicsCommon());

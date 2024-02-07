@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Library class for moving geos by drag
@@ -43,7 +44,6 @@ public class MoveGeos {
 		if (moveObjectsUpdateList == null) {
 			moveObjectsUpdateList = new ArrayList<>();
 		}
-		final ArrayList<GeoElement> geos = new ArrayList<>();
 
 		// make sure list is not moved twice
 		for (GeoElement geo : geosToMove) {
@@ -54,9 +54,18 @@ public class MoveGeos {
 			}
 		}
 
+		final ArrayList<GeoElement> geos = new ArrayList<>();
 		for (GeoElement geo: geosToMove) {
-			addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
+			if (!geo.isLocked()) { // Non fixed elements only
+				if (!geo.isGeoList() || shouldAddListAsWhole((GeoList) geo, view)) {
+					addWithSiblingsAndChildNodes(geo, geos, view);
+				} else {
+					((GeoList) geo).elements().forEach(
+							element -> addWithSiblingsAndChildNodes(element, geos, view));
+				}
+			}
 		}
+
 		boolean moved = false;
 		final int size = geos.size();
 		moveObjectsUpdateList.clear();
@@ -89,19 +98,31 @@ public class MoveGeos {
 		return moved;
 	}
 
+	/**
+	 * @param list GeoList
+	 * @param view EuclidianView
+	 * @return True if list contains of only movable objects and the list can therefore be added
+	 * as a whole to the GeoElements that need to be moved, false else
+	 */
+	private static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
+		return list.elements().allMatch(geo -> !geo.isLocked() && geo.isMoveable(view)
+				&& (containsFreeInputPoints(geo, view) || geo.isGeoPoint()))
+				|| list.getElementType() == GeoClass.NUMERIC;
+	}
+
 	/* visible for tests */
 	static void addWithSiblingsAndChildNodes(GeoElement geo, ArrayList<GeoElement> geos,
 			EuclidianView view) {
 		if (!geos.contains(geo)) {
-			if (!geo.isMoveable() && !isOutputOfTranslate(geo) && !geo.isGeoList()) {
+
+			if (shouldTryAddingFreeInputPoints(geo) && canAddFreeInputPoints(geo, view)) {
 				ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
-				if (freeInputs != null && !freeInputs.isEmpty()) {
-					for (GeoElementND point: freeInputs) {
-						addWithSiblingsAndChildNodes(point.toGeoElement(), geos, view);
-					}
-					return;
+				for (GeoElementND point : freeInputs) {
+					addWithSiblingsAndChildNodes(point.toGeoElement(), geos, view);
 				}
+				return;
 			}
+
 			geos.add(geo);
 			Group group = geo.getParentGroup();
 			if (group != null) {
@@ -116,6 +137,50 @@ public class MoveGeos {
 			}
 
 		}
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @return True if we should try to add the individual, free input points of a GeoElement -
+	 * false else
+	 */
+	private static boolean shouldTryAddingFreeInputPoints(GeoElement geo) {
+		return !geo.isMoveable() && !isOutputOfTranslate(geo) && !geo.isGeoList();
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @param view EuclidianView
+	 * @return True if we can actually add free input points to the list of movable GeoElements,
+	 * false else
+	 */
+	private static boolean canAddFreeInputPoints(GeoElement geo, EuclidianView view) {
+		ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
+		return freeInputs != null && !freeInputs.isEmpty()
+				&& !freeInputsContainLockedElement(freeInputs)
+				&& containsFreeInputPoints(geo, view);
+	}
+
+	/**
+	 * @param freeInputs Free input points
+	 * @return True if the list of free inputs contains at least one locked object, false else
+	 */
+	private static boolean freeInputsContainLockedElement(ArrayList<GeoElementND> freeInputs) {
+		return freeInputs.stream().anyMatch(GeoElementND::isLocked);
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @param view EuclidianView
+	 * @return True if <li>There is no parent algorithm OR</li>
+	 * <li>The parent algorithm contains only free input points OR</li>
+	 * <li>The GeoElement has movable input points</li>
+	 */
+	private static boolean containsFreeInputPoints(GeoElement geo, EuclidianView view) {
+		AlgoElement parentAlgorithm = geo.getParentAlgorithm();
+		return parentAlgorithm == null
+				|| parentAlgorithm.hasOnlyFreeInputPoints(view)
+				|| geo.hasMoveableInputPoints(view);
 	}
 
 	/**
@@ -137,7 +202,7 @@ public class MoveGeos {
 			moveObjectsUpdateList.add(geo1);
 			movedGeo = true;
 		} else if (isOutputOfTranslate(geo1)) {
-			movedGeo = moveTranslateOutput(geo1, rwTransVec, endPosition, moveObjectsUpdateList);
+			movedGeo = moveTranslateOutput(geo1, rwTransVec, null, moveObjectsUpdateList);
 		} else {
 			ArrayList<GeoElement> tempMoveObjectList = geo1.kernel
 					.getApplication().getSelectionManager()
@@ -230,7 +295,8 @@ public class MoveGeos {
 
 		// absolute position on screen
 		else if (geo1.isAbsoluteScreenLocateable()
-				&& ((AbsoluteScreenLocateable) geo1).isAbsoluteScreenLocActive()) {
+				&& ((AbsoluteScreenLocateable) geo1).isAbsoluteScreenLocActive()
+				&& ((AbsoluteScreenLocateable) geo1).hasStaticLocation()) {
 			final AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) geo1;
 			final int vxPixel = (int) Math
 					.round(geo1.kernel.getXscale() * rwTransVec.getX());

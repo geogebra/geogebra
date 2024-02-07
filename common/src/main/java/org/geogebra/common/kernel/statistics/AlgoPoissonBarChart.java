@@ -60,10 +60,9 @@ public class AlgoPoissonBarChart extends AlgoBarChart {
 	}
 
 	private AlgoPoissonBarChart(GeoNumberValue mean, GeoBoolean isCumulative,
-			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders,
-			int N) {
+			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders) {
 		super(mean, null, null, isCumulative,
-				AlgoBarChart.TYPE_BARCHART_POISSON, a, b, vals, borders, N);
+				AlgoBarChart.TYPE_BARCHART_POISSON, a, b, vals, borders);
 	}
 
 	@Override
@@ -81,8 +80,7 @@ public class AlgoPoissonBarChart extends AlgoBarChart {
 				(GeoNumberValue) this.getP1().deepCopy(kernel), b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-				getIntervals());
+				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()));
 
 	}
 

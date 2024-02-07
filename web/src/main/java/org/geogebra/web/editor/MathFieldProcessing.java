@@ -68,12 +68,6 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public boolean resetAfterEnter() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// TODO Auto-generated method stub
 	}

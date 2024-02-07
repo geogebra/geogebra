@@ -8,6 +8,8 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.resources.SVGResourcePrototype;
 import org.gwtproject.canvas.client.Canvas;
 
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -40,13 +42,19 @@ public final class MyImageW implements MyImage {
 		width = img.width;
 		height = img.height;
 		if (width == 0 || height == 0) {
-			// hack for IE10/11/12
-			// can't work out SVG height unless it's attached to the DOM
-			DomGlobal.document.body.append(img);
-			width = img.offsetWidth;
-			height = img.offsetHeight;
-			DomGlobal.document.body.removeChild(img);
+			getSizesFromDOM();
 		}
+	}
+
+	/*
+	 * hack for IE10/11/12
+	 * can't work out SVG height unless it's attached to the DOM
+	 */
+	private void getSizesFromDOM() {
+		DomGlobal.document.body.append(img);
+		width = img.offsetWidth;
+		height = img.offsetHeight;
+		DomGlobal.document.body.removeChild(img);
 	}
 
 	@Override
@@ -117,5 +125,9 @@ public final class MyImageW implements MyImage {
 		} catch (RuntimeException ex) {
 			return null;
 		}
+	}
+
+	public void render(JLMContext2d context, int x, int y) {
+		context.drawImage(img, x, y);
 	}
 }

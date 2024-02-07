@@ -255,7 +255,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private int getNavigationRailHeight() {
-		if (!app.showToolBar() || isKeyboardShowing()) {
+		if (!needsNavRail() || isKeyboardShowing()) {
 			return 0;
 		}
 		return app.isPortrait() ? ToolbarPanel.CLOSED_HEIGHT_PORTRAIT : 0;
@@ -281,7 +281,7 @@ public class ToolbarPanel extends FlowPanel
 		addStyleName("toolbar");
 		maybeAddUndoRedoPanel();
 		navRail = new NavigationRail(this);
-		if (app.showToolBar()) {
+		if (needsNavRail()) {
 			add(navRail);
 		}
 		main = new FlowPanel();
@@ -325,12 +325,16 @@ public class ToolbarPanel extends FlowPanel
 		add(main);
 		hideDragger();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
-			if (app.getAppletParameters().getParamLockExam()) {
+			if (app.isLockedExam()) {
 				setHeaderStyle("examLock");
 			} else {
 				setHeaderStyle("examOk");
 			}
 		}
+	}
+
+	protected boolean needsNavRail() {
+		return app.showToolBar() || app.getConfig().hasDistributionView();
 	}
 
 	public DockPanelDecorator getDecorator() {
@@ -437,11 +441,11 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private boolean isToolsTabExpected() {
-		return app.getConfig().showToolsPanel() && app.showToolBar();
+		return app.getConfig().showToolsPanel() && needsNavRail();
 	}
 
 	private boolean isTableTabExpected() {
-		return app.getConfig().hasTableView() && app.showToolBar();
+		return app.getConfig().hasTableView() && needsNavRail();
 	}
 
 	@Override
@@ -879,7 +883,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param fade decides if tab should fade during animation.
 	 */
 	public void openTableView(@Nullable GeoEvaluatable geo, boolean fade) {
-		if (!app.showToolBar() || !app.getConfig().hasTableView()) {
+		if (!needsNavRail() || !app.getConfig().hasTableView()) {
 			openAlgebra(fade);
 			return;
 		}
@@ -1258,7 +1262,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @return navigation rail width
 	 */
 	public int getNavigationRailWidth() {
-		if (!app.showToolBar() || app.isPortrait()) {
+		if (!needsNavRail() || app.isPortrait()) {
 			return 0;
 		}
 		return app.getAppletFrame().hasCompactNavigationRail()

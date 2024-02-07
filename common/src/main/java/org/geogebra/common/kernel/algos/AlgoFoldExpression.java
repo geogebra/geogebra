@@ -101,8 +101,7 @@ public class AlgoFoldExpression extends AlgoElement {
 		input[2] = from;
 		input[3] = to;
 
-		setOutputLength(1);
-		setOutput(0, resultFun);
+		setOnlyOutput(resultFun);
 		setDependencies(); // done by AlgoElement
 	}
 

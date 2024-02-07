@@ -787,7 +787,7 @@ public class Equation extends ValidExpression implements EquationValue {
 					true, true).wrap();
 			return this;
 		}
-		if (!rhsConstant) {
+		if (!rhsConstant && kernel.getSymbolicMode() != SymbolicMode.SYMBOLIC_AV) {
 			return this;
 		}
 		rhs.setLabel(name);
@@ -899,7 +899,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	/**
-	 * Converts equation ofthe form y=f(x) to a function
+	 * Converts equation of the form y=f(x) to a function
 	 * @return this as function of x or null if not possible
 	 */
 	public Function asFunction() {

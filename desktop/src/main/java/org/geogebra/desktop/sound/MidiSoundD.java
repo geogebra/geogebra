@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
@@ -23,7 +24,6 @@ import javax.swing.JFileChooser;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.jfugue.Pattern;
@@ -82,7 +82,7 @@ public class MidiSoundD implements MetaEventListener {
 				setChannels(synthesizer.getChannels());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 
@@ -173,7 +173,6 @@ public class MidiSoundD implements MetaEventListener {
 	 */
 	@Override
 	public void meta(MetaMessage event) {
-		// System.out.println("midi sound event " + event.getType());
 		if (event.getType() == END_OF_TRACK_MESSAGE) {
 			closeMidiSound();
 		}
@@ -269,9 +268,9 @@ public class MidiSoundD implements MetaEventListener {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		} catch (InvalidMidiDataException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -297,7 +296,7 @@ public class MidiSoundD implements MetaEventListener {
 			}
 
 		} catch (MidiUnavailableException | IOException | InvalidMidiDataException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -313,7 +312,7 @@ public class MidiSoundD implements MetaEventListener {
 			sequencer.open();
 			synthesizer.open();
 		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		String noteString = "I[" + instrument + "] " + noteString0;
@@ -325,32 +324,18 @@ public class MidiSoundD implements MetaEventListener {
 
 	private void playJFugueFromFile(File file, URL url) throws IOException {
 
-		StringBuffer contents = new StringBuffer();
-		BufferedReader reader = null;
+		StringBuilder contents = new StringBuilder();
 
-		try {
-			reader = file == null
-					? new BufferedReader(new InputStreamReader(url.openStream(),
-							Charsets.getUtf8()))
-					: new BufferedReader(new InputStreamReader(
-							new FileInputStream(file), Charsets.getUtf8()));
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+				file == null ? url.openStream() : new FileInputStream(file),
+				StandardCharsets.UTF_8))) {
 			String text = null;
 			while ((text = reader.readLine()) != null) {
 				contents.append(text);
 			}
-			// System.out.println(contents.toString());
 			this.playSequenceFromJFugueString(contents.toString(), 0);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (reader != null) {
-					reader.close();
-				}
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Log.debug(e);
 		}
 	}
 

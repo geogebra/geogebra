@@ -70,8 +70,7 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 		input = new GeoElement[1];
 		input[0] = f;
 
-		setOutputLength(1);
-		setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -91,7 +90,7 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 					.isEnabled();
 		}
 
-		if (!enabled || !f.isDefined()) {
+		if (!enabled || !f.isDefined() || !containsValidFunctionVariable()) {
 			g.setUndefined();
 			return;
 		}
@@ -115,6 +114,18 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 		} catch (Throwable th) {
 			g.setUndefined();
 		}
+	}
+
+	/**
+	 * @return True if the input function contains only one function variable that is x/y/z/t,
+	 * false else
+	 */
+	private boolean containsValidFunctionVariable() {
+		if (f.getFunctionVariables().length == 1) {
+			String var = f.getFunctionVariables()[0].getSetVarString();
+			return var.equals("x") || var.equals("y") || var.equals("z") || var.equals("t");
+		}
+		return false;
 	}
 
 }

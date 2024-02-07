@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.LowerCaseDictionary;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.debug.Log;
 
 public class AutocompleteProvider {
@@ -45,18 +46,32 @@ public class AutocompleteProvider {
 	 *            commands
 	 * @return syntaxes
 	 */
-	public List<String> getSyntaxes(List<String> commands) {
+	public List<MatchedString> getSyntaxes(List<MatchedString> commands) {
 		if (commands == null) {
 			return null;
 		}
-		ArrayList<String> syntaxes = new ArrayList<>();
-		for (String cmd : commands) {
+		ArrayList<MatchedString> syntaxes = new ArrayList<>();
+		for (MatchedString cmd : commands) {
 			addSyntaxes(cmd, syntaxes);
 		}
 		return syntaxes;
 	}
 
+	private void addSyntaxes(MatchedString match, ArrayList<MatchedString> syntaxes) {
+		String syntaxString = getSyntaxString(match.content);
+		for (String syntax : syntaxString.split("\\n")) {
+			syntaxes.add(new MatchedString(syntax, match.from, match.to));
+		}
+	}
+
 	private void addSyntaxes(String cmd, ArrayList<String> syntaxes) {
+		String syntaxString = getSyntaxString(cmd);
+		for (String syntax : syntaxString.split("\\n")) {
+			syntaxes.add(syntax);
+		}
+	}
+
+	private String getSyntaxString(String cmd) {
 		String cmdInt = app.getInternalCommand(cmd);
 		boolean englishOnly = cmdInt == null
 				&& isFallbackCompletionAllowed();
@@ -78,7 +93,7 @@ public class AutocompleteProvider {
 		}
 
 		if (syntaxString == null || syntaxString.isEmpty()) {
-			return;
+			return "";
 		}
 
 		if (syntaxString.endsWith(Localization.syntaxCAS)
@@ -87,17 +102,15 @@ public class AutocompleteProvider {
 			Macro macro = forCAS ? null
 					: app.getKernel().getMacro(cmd);
 			if (macro != null) {
-				syntaxes.add(macro.toString());
+				return macro.toString();
 			} else {
 				// syntaxes.add(cmdInt + "[]");
 				Log.debug("Can't find syntax for: " + cmd);
 			}
 
-			return;
+			return "";
 		}
-		for (String syntax : syntaxString.split("\\n")) {
-			syntaxes.add(syntax);
-		}
+		return syntaxString;
 	}
 
 	/**
@@ -113,20 +126,25 @@ public class AutocompleteProvider {
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
 		Stream<Completion> completions = app.getParserFunctions().getCompletions(curWord).stream()
-				.map(function -> new Completion(function.split("\\(")[0],
+				.map(function -> new Completion(getMatch(function, curWord),
 						Collections.singletonList(function), App.WIKI_OPERATORS,
 						GuiManagerInterface.Help.GENERIC));
-		List<String> cmdDict = getDictionary()
+		List<MatchedString> cmdDict = getDictionary()
 				.getCompletions(curWord.toLowerCase());
 
 		if (cmdDict != null) {
 			Stream<Completion> commands = cmdDict.stream()
-					.map(command -> new Completion(command, getSyntaxes(command),
-							app.getInternalCommand(command), GuiManagerInterface.Help.COMMAND));
+					.map(command -> new Completion(command, getSyntaxes(command.content),
+							app.getInternalCommand(command.content),
+							GuiManagerInterface.Help.COMMAND));
 			completions = Stream.concat(completions, commands);
 		}
 
 		return completions.filter(completion -> !completion.syntaxes.isEmpty());
+	}
+
+	private MatchedString getMatch(String function, String curWord) {
+		return new MatchedString(function.split("\\(")[0], 0, curWord.length());
 	}
 
 	private boolean isCas() {
@@ -138,21 +156,25 @@ public class AutocompleteProvider {
 	}
 
 	public static class Completion {
-		public final String command;
+		public final MatchedString match;
 		public final List<String> syntaxes;
 		public final String helpPage;
 		public final GuiManagerInterface.Help helpType;
 
-		private Completion(String command, List<String> syntaxes, String helpPage,
+		private Completion(MatchedString match, List<String> syntaxes, String helpPage,
 				GuiManagerInterface.Help helpType) {
-			this.command = command;
+			this.match = match;
 			this.syntaxes = syntaxes;
 			this.helpPage = helpPage;
 			this.helpType = helpType;
 		}
 
+		public MatchedString getMatch() {
+			return match;
+		}
+
 		public String getCommand() {
-			return command;
+			return match.content;
 		}
 
 		public List<String> getSyntaxes() {
@@ -165,6 +187,15 @@ public class AutocompleteProvider {
 
 		public GuiManagerInterface.Help getHelpType() {
 			return helpType;
+		}
+
+		public int getOffset() {
+			return match.from;
+		}
+
+		@Override
+		public String toString() {
+			return match.content;
 		}
 	}
 }

@@ -75,7 +75,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Le Coq loic
  */
 
-public abstract class GeoGebraToPstricks extends GeoGebraExport {
+public class GeoGebraToPstricks extends GeoGebraExport {
 	private boolean eurosym = false;
 	private static final int FORMAT_BEAMER = 1;
 	private StringBuilder codeBeginPic;
@@ -86,11 +86,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	/**
 	 * Constructor for GeoGeBra export
 	 * 
-	 * @param app
-	 *            GeoGeBra Application
+	 * @param app application
+	 * @param graphicsFactory export graphics factory
 	 */
-	public GeoGebraToPstricks(App app) {
-		super(app);
+	public GeoGebraToPstricks(App app, ExportGraphicsFactory graphicsFactory) {
+		super(app, graphicsFactory);
 	}
 
 	@Override
@@ -150,13 +150,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		 */
 
 		drawAllElements();
-		/*
-		 * Object [] geos =
-		 * kernel.getConstruction().getGeoSetConstructionOrder().toArray(); for
-		 * (int i=0;i<geos.length;i++){ GeoElement g = (GeoElement)(geos[i]);
-		 * drawGeoElement(g,false); // System.out.println(g+" "
-		 * +beamerSlideNumber); }
-		 */
 
 		// add code for Points and Labels
 		if (codePoint.length() != 0) {
@@ -1739,8 +1732,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			if (drawGeo == null) {
 				return;
 			}
-			double xLabel = drawGeo.getxLabel();
-			double yLabel = drawGeo.getyLabel();
+			double xLabel = drawGeo.getLabelX();
+			double yLabel = drawGeo.getLabelY();
 			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
 			yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
 
@@ -2021,8 +2014,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			sb.append("linecolor=");
 			colorCode(info.getLinecolor(), sb);
 		}
-		// System.out.println(geo.isFillable()+" "+transparency+"
-		// "+geo.getObjectType());
 		if (geo.isFillable() && transparency) {
 			switch (info.getFillType()) {
 			default:
@@ -2489,17 +2480,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		return true;
 	}
 
-	/**
-	 * @param s
-	 *            shape
-	 * @param ineq
-	 *            inequality
-	 * @param geo
-	 *            inequality function
-	 * @param ds
-	 *            view bounds
-	 */
-	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
+	@Override
+	public void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);
 		switch (ineq.getType()) {

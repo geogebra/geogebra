@@ -96,8 +96,7 @@ public class AlgoIf extends AlgoElement {
 			input[input.length - 1] = alternatives.get(alternatives.size() - 1);
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, result);
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

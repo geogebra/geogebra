@@ -106,8 +106,7 @@ public class AlgoIndexOf extends AlgoElement {
 			input[2] = start.toGeoElement();
 		}
 
-		setOutputLength(1);
-		setOutput(0, index);
+		setOnlyOutput(index);
 		setDependencies(); // done by AlgoElement
 	}
 

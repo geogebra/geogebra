@@ -193,10 +193,6 @@ public class DataImport {
 
 		String s2 = s;
 
-		// System.out.println("====================");
-		// System.out.println(decimalSeparator + " | " + groupingSeparator);
-		// System.out.println("test string: " + s);
-
 		if (regex.test(s)) {
 			// change 1,234,567 to 1234567
 			s2 = s2.replace(",", "");
@@ -204,9 +200,6 @@ public class DataImport {
 			// change 0,12345 to 012345
 			s2 = s2.replace(",", ".");
 		}
-
-		// System.out.println("converted string: " + s2);
-		// System.out.println("is number: " + RelativeCopy.isNumber(s2));
 
 		if (RelativeCopy.isNumber(s2)) {
 			return s2;

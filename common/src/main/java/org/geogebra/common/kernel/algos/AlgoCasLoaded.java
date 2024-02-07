@@ -24,8 +24,7 @@ public class AlgoCasLoaded extends AlgoElement implements UsesCAS {
 	@Override
 	protected void setInputOutput() {
 		output = new GeoBoolean(cons, false);
-		setOutputLength(1);
-		setOutput(0, output);
+		setOnlyOutput(output);
 		input = new GeoElement[0];
 		setDependencies();
 	}

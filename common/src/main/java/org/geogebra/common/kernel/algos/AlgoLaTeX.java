@@ -117,8 +117,7 @@ public class AlgoLaTeX extends AlgoElement {
 			input[i] = geos.get(i);
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

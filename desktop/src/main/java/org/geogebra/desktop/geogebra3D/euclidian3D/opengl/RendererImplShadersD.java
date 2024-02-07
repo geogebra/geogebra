@@ -86,9 +86,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 		// Compile the vertexShader String into a program.
 		String[] vlines = new String[] { vertexShaderString };
 
-		// for (int i = 0; i < vlines.length; i++)
-		// System.out.println(vlines[i]);
-
 		int[] vlengths = new int[] { vlines[0].length() };
 		jogl.getGL2ES2().glShaderSource(vertShader, vlines.length,
 				vlines, vlengths, 0);

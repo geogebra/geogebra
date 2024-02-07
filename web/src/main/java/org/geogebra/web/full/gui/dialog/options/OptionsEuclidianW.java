@@ -437,7 +437,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			enableGrid(isShown);
 			cbShowGrid.setSelected(isShown);
 			cbBoldGrid.setSelected(isBold);
-			lbGridType.resetToDefault();
+			lbGridType.resetFromModel();
 			lbGridType.setLabels();
 			btGridColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
 			updateGridColorButton(color);
@@ -730,7 +730,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 	
 	protected AutoCompleteTextFieldW getTextField() {
-		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW input = new InputPanelW(null, app, true);
 		AutoCompleteTextFieldW tf = input.getTextComponent();
 		tf.setStyleName("numberInput");
 		return tf;

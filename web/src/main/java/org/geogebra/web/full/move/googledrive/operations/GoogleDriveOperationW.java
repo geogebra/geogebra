@@ -268,8 +268,8 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 				"description", description
 		);
 
-		if ((getFolderId() != null) && !"".equals(getFolderId())) {
-			metaData.set("parents", new JsArray<>(JsPropertyMap.of("id", getFolderId())));
+		if (!StringUtil.empty(getFolderId())) {
+			metaData.set("parents", new JsArray<Object>(JsPropertyMap.of("id", getFolderId())));
 		}
 
 		metaData.set("thumbnail", JsPropertyMap.of(
@@ -346,8 +346,8 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 	}
 
 	private void checkIfOpenedFromGoogleDrive() {
-		String state = NavigatorUtil.getUrlParameter("state");
-		if (state != null && !"".equals(state)) {
+		String state = Browser.isGeoGebraOrg() ? NavigatorUtil.getUrlParameter("state") : null;
+		if (!StringUtil.empty(state)) {
 			googleDriveURL = Js.uncheckedCast(Global.JSON.parse(state));
 			if (!this.loggedIn) {
 				login(true);

@@ -889,7 +889,6 @@ public class AlgebraProcessor {
 					handler, callback0, info);
 
 		} catch (ParseException e) {
-			e.printStackTrace(System.out);
 			ErrorHelper.handleException(e, app, handler);
 		} catch (Exception e) {
 			Log.debug(e);
@@ -1159,11 +1158,11 @@ public class AlgebraProcessor {
 	 * @param cmd
 	 *            command
 	 * @return valid expression
-	 * @throws Exception
-	 *             exception
+	 * @throws ParseException
+	 *             exception if syntax is invalid
 	 */
 	public ValidExpression getValidExpressionNoExceptionHandling(
-			final String cmd) throws Exception {
+			final String cmd) throws ParseException {
 		return parser.parseGeoGebraExpression(cmd);
 	}
 
@@ -1963,11 +1962,11 @@ public class AlgebraProcessor {
 	 * @return resulting elements
 	 * @throws MyError
 	 *             e.g. for wrong syntax
-	 * @throws Exception
-	 *             e.g. for circular definition
+	 * @throws CircularDefinitionException
+	 *             for circular definition
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve)
-			throws MyError, Exception {
+			throws MyError, CircularDefinitionException {
 		return processValidExpression(ve,
 				new EvalInfo(!cons.isSuppressLabelsActive(), true));
 	}
@@ -1981,12 +1980,12 @@ public class AlgebraProcessor {
 	 *            processing information
 	 * @throws MyError
 	 *             e.g. on wrong syntax
-	 * @throws Exception
-	 *             e.g. for circular definition
+	 * @throws CircularDefinitionException
+	 *             for circular definition
 	 * @return resulting geos
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve,
-			EvalInfo info) throws MyError, Exception {
+			EvalInfo info) throws MyError, CircularDefinitionException {
 		EvalInfo evalInfo = info;
 		ValidExpression expression = ve;
 		// check for existing labels

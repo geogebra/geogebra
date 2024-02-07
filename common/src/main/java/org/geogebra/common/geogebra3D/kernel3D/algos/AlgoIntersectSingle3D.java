@@ -109,8 +109,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 			input[2] = (GeoElement) refPoint;
 		}
 
-		setOutputLength(1);
-		this.setOutput(0, point);
+		setOnlyOutput(point);
 
 		setDependencies(); // done by AlgoElement
 	}

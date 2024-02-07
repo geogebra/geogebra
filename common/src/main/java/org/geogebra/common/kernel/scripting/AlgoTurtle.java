@@ -80,8 +80,7 @@ public class AlgoTurtle extends AlgoElement {
 		input = new GeoElement[0];
 
 		// set output
-		setOutputLength(1);
-		setOutput(0, turtle);
+		setOnlyOutput(turtle);
 		setDependencies();
 	}
 

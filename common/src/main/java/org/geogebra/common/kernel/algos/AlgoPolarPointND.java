@@ -76,8 +76,7 @@ public abstract class AlgoPolarPointND extends AlgoElement {
 		input[0] = (GeoElement) line;
 		input[1] = c;
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) polar);
+		setOnlyOutput(polar);
 		setDependencies(); // done by AlgoElement
 	}
 

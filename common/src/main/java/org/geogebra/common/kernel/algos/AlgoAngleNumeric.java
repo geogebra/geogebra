@@ -60,8 +60,7 @@ public class AlgoAngleNumeric extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = num;
 
-		setOutputLength(1);
-		setOutput(0, angle);
+		setOnlyOutput(angle);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -265,7 +265,7 @@ public class AppCommon extends App {
 				}
 			}
 		}
-		return false;
+		return view == App.VIEW_EUCLIDIAN;
     }
 
     @Override
@@ -525,11 +525,6 @@ public class AppCommon extends App {
     @Override
     public void fileNew() {
 		clearConstruction();
-    }
-
-    @Override
-    public boolean loadXML(String xml) {
-        return false;
     }
 
     @Override

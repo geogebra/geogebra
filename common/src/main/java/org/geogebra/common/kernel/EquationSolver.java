@@ -63,7 +63,14 @@ public class EquationSolver implements EquationSolverInterface {
 		for (int i = degree; i >= 0 && roots[i] == 0; i--) {
 			degree--;
 		}
-
+		int shift = 0;
+		for (int i = 0; i <= degree && roots[i] == 0; i++) {
+			shift++;
+		}
+		if (shift > 0) {
+			shiftLeft(roots, degree, shift);
+			degree -= shift;
+		}
 		switch (degree) { // degree of polynomial
 		case -1:
 		case 0:
@@ -89,11 +96,21 @@ public class EquationSolver implements EquationSolverInterface {
 			break;
 
 		default:
-			realRoots = laguerreAll(roots);
+			realRoots = laguerreAll(roots, degree + 1);
 		}
 
-		// solveQuadratic and solveCubic may return -1
-		return Math.max(0, realRoots);
+		int zeroRoots = multiple ? shift : Math.min(shift , 1);
+		realRoots = Math.max(realRoots, 0); // solveQuadratic and solveCubic may return -1
+		for (int i = realRoots; i <= degree + shift; i++) {
+			roots[i] = 0.0;
+		}
+		return realRoots + zeroRoots;
+	}
+
+	private void shiftLeft(double[] roots, int degree, int shift) {
+		for (int i = 0; i <= degree - shift; i++) {
+			roots[i] = roots[i + shift];
+		}
 	}
 
 	@Override
@@ -289,7 +306,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            precision
 	 * @return number of roots
 	 */
-	final static public int solveCubicS(double[] eqn, double[] res,
+	static public int solveCubicS(double[] eqn, double[] res,
 			double eps) {
 		int roots = 0;
 		double d = eqn[3];
@@ -302,7 +319,7 @@ public class EquationSolver implements EquationSolverInterface {
 		double c = eqn[0] / d;
 		if (c == 0) {
 			double[] shifted = new double[] {eqn[1], eqn[2], eqn[3]};
-			int quadRoots = solveQuadraticS(shifted, res, eps);
+			int quadRoots = Math.max(solveQuadraticS(shifted, res, eps), 0);
 			res[quadRoots] = 0;
 			return quadRoots + 1;
 		}
@@ -523,10 +540,12 @@ public class EquationSolver implements EquationSolverInterface {
 	 * 
 	 * @param eqn
 	 *            coefficients of polynomial
+	 * @param validCoeff number of valid coefficients
 	 */
-	private int laguerreAll(double[] eqn) {
+	private int laguerreAll(double[] eqn, int validCoeff) {
 		// for fast evaluation of polynomial (used for root polishing)
-		PolyFunction polyFunc = new PolyFunction(eqn, eqn.length);
+		double[] coeff = (validCoeff == eqn.length) ? eqn : Arrays.copyOf(eqn, validCoeff);
+		PolyFunction polyFunc = new PolyFunction(coeff, coeff.length);
 		PolyFunction derivFunc = polyFunc.getDerivative();
 
 		Complex[] complexRoots = null;
@@ -534,8 +553,7 @@ public class EquationSolver implements EquationSolverInterface {
 			if (laguerreSolver == null) {
 				laguerreSolver = new LaguerreSolver();
 			}
-
-			complexRoots = laguerreSolver.solveAllComplex(eqn, LAGUERRE_START,
+			complexRoots = laguerreSolver.solveAllComplex(coeff, LAGUERRE_START,
 					LAGUERRE_MAX_EVAL);
 		} catch (ArithmeticException e) {
 			Log.warn("Too many iterations. Degree: " + eqn.length);

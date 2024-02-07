@@ -190,8 +190,7 @@ public class AlgoIterationList extends AlgoElement {
 			input[1 + varCount] = over[0];
 			input[2 + varCount] = nGeo;
 
-			setOutputLength(1);
-			setOutput(0, list);
+			setOnlyOutput(list);
 
 			list.setTypeStringForXML(expression.getXMLtypeString());
 
@@ -207,8 +206,7 @@ public class AlgoIterationList extends AlgoElement {
 		input[1] = startValueGeo;
 		input[2] = nGeo;
 
-		super.setOutputLength(1);
-		super.setOutput(0, list);
+		setOnlyOutput(list);
 		setDependencies(); // done by AlgoElement
 
 	}

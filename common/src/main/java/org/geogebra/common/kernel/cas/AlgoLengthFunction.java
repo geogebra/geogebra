@@ -78,8 +78,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		input[1] = A;
 		input[2] = B;
 
-		setOutputLength(1);
-		setOutput(0, length);
+		setOnlyOutput(length);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -74,8 +74,7 @@ public class AlgoCubic extends AlgoElement {
 		input[2] = C;
 		input[3] = n.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, poly.toGeoElement());
+		setOnlyOutput(poly);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -41,7 +41,6 @@ public class ANOVAStatTableModel extends StatTableModel {
 				}
 			}
 			categoryData.add(valueArray);
-			// System.out.println(Arrays.toString(valueArray));
 		}
 
 		return categoryData;

@@ -1,7 +1,6 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -98,11 +97,6 @@ public class BrowserDevice implements GDevice {
 	@Override
 	public boolean isOffline(AppW app) {
 		return !app.getNetworkOperation().isOnline();
-	}
-
-	@Override
-	public UploadImageDialog getImageInputDialog(AppW app) {
-		return null;
 	}
 
 	@Override

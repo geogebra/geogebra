@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -21,8 +23,8 @@ public class DrawSegmentWithEndings {
 	private int posX;
 	private int posY;
 	private boolean isStartStyle;
-	private GShape solidStart;
-	private GShape solidEnd;
+	private @CheckForNull GShape solidStart;
+	private @CheckForNull GShape solidEnd;
 	private GShape subtractedLine;
 
 	/**
@@ -52,20 +54,23 @@ public class DrawSegmentWithEndings {
 		if (drawSegment.isHighlighted()) {
 			drawSegment.setHighlightingStyle(g2);
 			g2.draw(line);
-			g2.draw(solidStart);
-			g2.draw(solidEnd);
+			drawSafely(solidStart, g2, true);
+			drawSafely(solidEnd, g2, true);
 		}
 		drawSegment.setBasicStyle(g2);
 		g2.fill(subtractedLine);
-		if (segment.getStartStyle().isOutline()) {
-			g2.draw(solidStart);
-		} else {
-			g2.fill(solidStart);
-		}
-		if (segment.getEndStyle().isOutline()) {
-			g2.draw(solidEnd);
-		} else {
-			g2.fill(solidEnd);
+
+		drawSafely(solidStart, g2, segment.getStartStyle().isOutline());
+		drawSafely(solidEnd, g2, segment.getEndStyle().isOutline());
+	}
+
+	private void drawSafely(GShape end, GGraphics2D g2, boolean outline) {
+		if (end != null) {
+			if (outline) {
+				g2.draw(end);
+			} else {
+				g2.fill(end);
+			}
 		}
 	}
 

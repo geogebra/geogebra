@@ -13,7 +13,6 @@ import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -122,25 +121,11 @@ public abstract class CasTestJsonCommon {
 		for (String key : Ggb2giac.getMap(app).keySet()) {
 			if (testcases != null && testcases.get(key) == null
 					&& testcases.get(key.substring(0, key.indexOf("."))) == null
-					&& forCAS(key) && !"ApproximateSolution.3".equals(key)
-					&& !"AssumeInteger.2".equals(key)
+					&& forCAS(key)
 					&& !"Binomial.2".equals(key)
-					&& !"CorrectSolution.3".equals(key)
-					&& !"Eliminate.2".equals(key) && !"ExpandOnly.1".equals(key)
 					&& !"ExpSimplify.1".equals(key)
-					&& !"GroebnerDegRevLex.1".equals(key)
-					&& !"GroebnerDegRevLex.2".equals(key)
-					&& !"GroebnerLex.1".equals(key)
-					&& !"GroebnerLex.2".equals(key)
-					&& !"GroebnerLexDeg.1".equals(key)
-					&& !"GroebnerLexDeg.2".equals(key)
-					&& !"InverseBinomial.3".equals(key)
-					&& !"Radius.1".equals(key) && !"Random.2".equals(key)
-					&& !"Regroup.1".equals(key)
 					&& !"SolveODEPoint.2".equals(key)
-					&& !"SolveQuartic.1".equals(key)
-					&& !"TurningPoint.1".equals(key)
-					&& !"UnitOrthogonalVector.1".equals(key)) {
+					&& !"SolveQuartic.1".equals(key)) {
 				missing = key;
 			}
 		}
@@ -164,8 +149,7 @@ public abstract class CasTestJsonCommon {
 
 	protected void runCases(ArrayList<CasTest> cases) {
 		Assert.assertNotEquals(0, cases.size());
-		StringBuilder[] failures = new StringBuilder[] { new StringBuilder(),
-				new StringBuilder() };
+		StringBuilder failures = new StringBuilder();
 		for (CasTest cmd : cases) {
 			Log.debug(cmd.input);
 			if (!StringUtil.empty(cmd.rounding)) {
@@ -175,16 +159,16 @@ public abstract class CasTestJsonCommon {
 			}
 			t(failures, cmd.input, cmd.output);
 		}
-		Assert.assertEquals(failures[0].toString(), failures[1].toString());
+		Assert.assertEquals("", failures.toString());
 	}
 
-	private static void t(StringBuilder[] failures, String input,
+	private static void t(StringBuilder failures, String input,
 			String expectedResult) {
 		String[] validResults = expectedResult.split("\\|OR\\|");
 		ta(failures, input, validResults, validResults);
 	}
 
-	private static void ta(StringBuilder[] failures,
+	private static void ta(StringBuilder failures,
 			String input, String[] expectedResult, String... validResults) {
 		String result;
 
@@ -233,10 +217,11 @@ public abstract class CasTestJsonCommon {
 			} catch (Throwable t) {
 				if (i == expectedResult.length - 1) {
 					Log.debug(t);
-					failures[0].append(expectedResult[0] == null ? "null"
-							: normalizeExpected(expectedResult[0]));
-					failures[0].append(" input: ").append(input).append('\n');
-					failures[1].append(result).append('\n');
+					String expected = expectedResult[0] == null ? "null"
+							: normalizeExpected(expectedResult[0]);
+					failures.append("\n  in: ").append(input)
+							.append("\n exp: ").append(expected)
+							.append("\n out: ").append(result).append('\n');
 				}
 			}
 		}
@@ -258,17 +243,14 @@ public abstract class CasTestJsonCommon {
 	}
 
 	private static Traversing getGGBVectAdder() {
-		return new Traversing() {
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev.unwrap() instanceof MyVecNDNode
-						&& ((MyVecNDNode) ev.unwrap()).isCASVector()) {
-					return new Variable(kernel, "ggbvect").wrap()
-							.apply(Operation.FUNCTION, ev);
+		return ev -> {
+			if (ev.unwrap() instanceof MyVecNDNode
+					&& ((MyVecNDNode) ev.unwrap()).isCASVector()) {
+				return new Variable(kernel, "ggbvect").wrap()
+						.apply(Operation.FUNCTION, ev);
 
-				}
-				return ev;
 			}
+			return ev;
 		};
 	}
 
@@ -396,6 +378,11 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testBinomialDist() {
 		testCat("BinomialDist");
+	}
+
+	@Test
+	public void testInverseBinomial() {
+		testCat("InverseBinomial.3");
 	}
 
 	@Test
@@ -631,7 +618,7 @@ public abstract class CasTestJsonCommon {
 
 	@Test
 	public void testInflectionPoint() {
-		testCat("InflectionPoint");
+		testCat("TurningPoint.1");
 	}
 
 	@Test
@@ -840,7 +827,7 @@ public abstract class CasTestJsonCommon {
 
 	@Test
 	public void testRandomBetween() {
-		testCat("RandomBetween");
+		testCat("Random.2");
 	}
 
 	@Test
@@ -1094,7 +1081,7 @@ public abstract class CasTestJsonCommon {
 
 	@Test
 	public void testUnitPerpendicularVector() {
-		testCat("UnitPerpendicularVector");
+		testCat("UnitOrthogonalVector.1");
 	}
 
 	@Test
@@ -1249,7 +1236,7 @@ public abstract class CasTestJsonCommon {
 
 	@Test
 	public void testRadius() {
-		testCat("Radius");
+		testCat("Radius.1");
 	}
 
 	@Test
@@ -1523,5 +1510,28 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testHeaviside() {
 		testCat("Heaviside.1");
+	}
+
+	@Test
+	public void testGroebnerLex() {
+		testCat("GroebnerLex.1");
+		testCat("GroebnerLex.2");
+	}
+
+	@Test
+	public void testGroebnerLexDeg() {
+		testCat("GroebnerLexDeg.1");
+		testCat("GroebnerLexDeg.2");
+	}
+
+	@Test
+	public void testGroebnerDegRevLex() {
+		testCat("GroebnerDegRevLex.1");
+		testCat("GroebnerDegRevLex.2");
+	}
+
+	@Test
+	public void testEliminate() {
+		testCat("Eliminate.2");
 	}
 }

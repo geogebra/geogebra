@@ -6,6 +6,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
+import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.RootPanel;
 
@@ -25,7 +26,7 @@ public class MenuToggleButton extends ToggleButton
 	public MenuToggleButton(AppW app) {
 		super(MaterialDesignResources.INSTANCE.toolbar_menu_black(),
 				MaterialDesignResources.INSTANCE.toolbar_menu_black());
-		removeStyleName("MyToggleButton");
+		removeStyleName("ToggleButton");
 		this.appW = app;
 		buildUI();
 	}
@@ -49,9 +50,13 @@ public class MenuToggleButton extends ToggleButton
 		appW.toggleMenu();
 	}
 
-	@Override
-	public void setTitle(String title) {
+	/**
+	 * update on language change
+	 */
+	public void setLabel() {
+		String title = appW.getLocalization().getMenu("Menu");
 		AriaHelper.setTitle(this, title);
+		setImageAltText(title);
 	}
 
 	/**
@@ -66,6 +71,7 @@ public class MenuToggleButton extends ToggleButton
 			dummy.removeFromParent();
 		}
 		root.insert(this, 0);
+		GlobalHeader.INSTANCE.setMenuBtn(this);
 	}
 
 	/**

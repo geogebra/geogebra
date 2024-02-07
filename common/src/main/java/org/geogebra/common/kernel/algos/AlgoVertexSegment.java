@@ -77,8 +77,7 @@ public class AlgoVertexSegment extends AlgoElement {
 		input[0] = (GeoElement) segment;
 		input[1] = (GeoElement) index;
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) M);
+		setOnlyOutput(M);
 		setDependencies(); // done by AlgoElement
 	}
 

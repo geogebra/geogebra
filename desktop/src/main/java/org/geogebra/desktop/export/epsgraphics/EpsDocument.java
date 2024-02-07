@@ -103,7 +103,7 @@ final class EpsDocument {
 			}
 		}
 		_lastG = g;
-		epsContent.append(line + "\n");
+		epsContent.append(line).append("\n");
 	}
 
 	/**
@@ -117,11 +117,10 @@ final class EpsDocument {
 			writer.append("%!PS-Adobe-3.0 EPSF-3.0\n");
 			writer.append("%%Creator: EpsGraphics " + EpsGraphics.VERSION
 					+ " by Thomas Abeel, http://www.sourceforge.net/epsgraphics/\n");
-			writer.append("%%Title: " + title + "\n");
-			writer.append("%%CreationDate: " + new Date() + "\n");
-			writer.append(
-					"%%BoundingBox: 0 0 " + ((int) Math.ceil(maxX + offsetX))
-							+ " " + ((int) Math.ceil(maxY + offsetY)) + "\n");
+			writer.append("%%Title: ").append(title).append("\n");
+			writer.append("%%CreationDate: ").append(new Date()).append("\n");
+			writer.append("%%BoundingBox: 0 0 ").append((int) Math.ceil(maxX + offsetX)).append(" ")
+					.append((int) Math.ceil(maxY + offsetY)).append("\n");
 			writer.append("%%DocumentData: Clean7Bit\n");
 			writer.append("%%LanguageLevel: 2\n");
 			writer.append("%%DocumentProcessColors: Black\n");
@@ -131,7 +130,7 @@ final class EpsDocument {
 			writer.append("%%Page: 1 1\n");
 			writer.append("%%EndComments\n\n");
 			writer.append("gsave\n");
-			writer.append(offsetX + " " + (maxY + offsetY) + " translate\n");
+			writer.append(offsetX).append(" ").append(maxY + offsetY).append(" translate\n");
 
 		} catch (Exception e) {
 			Log.debug("problem writing EPS header: " + e.getMessage());

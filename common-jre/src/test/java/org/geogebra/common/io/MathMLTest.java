@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -197,8 +199,7 @@ public class MathMLTest {
 			String s = mathmlTest[i];
 
 			String latex = mathmlParser.parse(s, false, false);
-
-			System.out.println(latex);
+			assertNotNull(latex);
 		}
 	}
 
@@ -212,7 +213,7 @@ public class MathMLTest {
 
 			String latex = mathmlParser.parse(s, false, false);
 
-			System.out.println(latex);
+			assertNotNull(latex);
 		}
 	}
 }

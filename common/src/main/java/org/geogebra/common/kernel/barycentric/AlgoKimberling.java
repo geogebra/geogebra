@@ -71,8 +71,7 @@ public class AlgoKimberling extends AlgoElement {
 		input[2] = C.toGeoElement();
 		input[3] = n.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, M.toGeoElement());
+		setOnlyOutput(M);
 		setDependencies(); // done by AlgoElement
 	}
 

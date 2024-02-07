@@ -47,6 +47,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 import com.himamis.retex.renderer.desktop.graphics.Base64;
 
@@ -496,7 +497,7 @@ public class ImageManagerD extends ImageManager {
 			return fileName;
 		} catch (Exception e) {
 			app.setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			app.showError(Errors.LoadFileFailed);
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
@@ -516,19 +517,10 @@ public class ImageManagerD extends ImageManager {
 			BufferedImage image = null;
 			byte[] imageByte = Base64.decode(pngStr);
 
-			ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-			try {
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
 				image = ImageIO.read(bis);
 			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (bis != null) {
-					try {
-						bis.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				Log.debug(e);
 			}
 
 			if (image != null) {
@@ -538,7 +530,7 @@ public class ImageManagerD extends ImageManager {
 		} else if (urlBase64.startsWith("<svg")
 				|| urlBase64.startsWith("<?xml")) {
 
-			MyImageD img = new MyImageD(urlBase64, filename0);
+			MyImageD img = new MyImageD(urlBase64);
 
 			addExternalImage(filename0, img);
 
@@ -599,15 +591,35 @@ public class ImageManagerD extends ImageManager {
 	 *
 	 * @param panel graphics configuration
 	 */
-	public void updatePixelRatio(GraphicsConfiguration panel) {
+	public boolean updatePixelRatio(GraphicsConfiguration panel) {
 		try {
 			double oldRatio = pixelRatio;
 			pixelRatio = panel.getDefaultTransform().getScaleX();
 			if (pixelRatio != oldRatio) {
 				iconTable.clear();
+				return true;
 			}
 		} catch (RuntimeException ex) {
 			Log.debug(ex);
 		}
+		return false;
+	}
+
+	/**
+	 * @param icon unscaled icon
+	 * @param maxSize maximum size in pixels (assuming width == height)
+	 * @return icon respecting pixel ratio
+	 */
+	public ScaledIcon getResponsiveScaledIcon(ImageIcon icon, int maxSize) {
+		int maxScaledSize = (int) (maxSize * getPixelRatio());
+		return new ScaledIcon(ImageManagerD.getScaledIcon(icon,
+				Math.min(icon.getIconWidth(), maxScaledSize),
+				Math.min(icon.getIconHeight(), maxScaledSize)),
+
+				getPixelRatio());
+	}
+
+	public static String fixSVG(String content) {
+		return ImageManager.fixSVG(content);
 	}
 }

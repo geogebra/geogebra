@@ -429,6 +429,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 			column.remove(row);
 			if (columnIndex == 0) {
 				collector.notifyRowChanged(this, row);
+			} else {
+				collector.notifyCellChanged(this, evaluatable, columnIndex, row);
 			}
 		}
 

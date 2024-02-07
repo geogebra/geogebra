@@ -83,8 +83,7 @@ public class AlgoFunctionInterval extends AlgoElement {
 		input[1] = ageo;
 		input[2] = bgeo;
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

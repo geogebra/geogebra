@@ -39,11 +39,10 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.statistics.AlgoPieChart;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -621,10 +620,9 @@ class FillingPanelD extends JPanel
 			remove(barsPanel);
 		}
 		GeoElement geo0 = model.getGeoAt(0);
-		AlgoElement algo = geo0.getParentAlgorithm();
-		if (algo instanceof ChartStyleAlgo) {
-			int numBar = ((ChartStyleAlgo) algo).getIntervals();
-			boolean isPie = algo instanceof AlgoPieChart;
+		if (geo0 instanceof ChartStyleGeo) {
+			int numBar = ((ChartStyleGeo) geo0).getIntervals();
+			boolean isPie = geo0 instanceof GeoPieChart;
 			JToggleButton[] selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
@@ -639,7 +637,7 @@ class FillingPanelD extends JPanel
 					selectedBarButton = Integer
 							.parseInt(((JToggleButton) arg0.getSource())
 									.getActionCommand());
-					FillingPanelD.this.update(model.getGeos());
+					this.update(model.getGeos());
 				});
 				group.add(selectionBarButtons[i]);
 				barsPanel.add(selectionBarButtons[i]);

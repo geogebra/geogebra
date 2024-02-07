@@ -157,6 +157,8 @@ public enum Commands implements CommandsConstants,
 
 	PolyLine(TABLE_GEOMETRY),
 
+	PenStroke(TABLE_GEOMETRY),
+
 	PointIn(TABLE_GEOMETRY),
 
 	AffineRatio(TABLE_GEOMETRY),
@@ -256,7 +258,6 @@ public enum Commands implements CommandsConstants,
 
 	/**
 	 * bad translation, actually InflectionPoint
-	 *
 	 * name just used internally and in XML
 	 */
 	TurningPoint(TABLE_FUNCTION),
@@ -266,9 +267,6 @@ public enum Commands implements CommandsConstants,
 	Function(TABLE_FUNCTION),
 
 	Extremum(TABLE_FUNCTION),
-
-	/** move to TABLE_FUNCTION when released */
-	Holes(TABLE_ENGLISH),
 
 	RemovableDiscontinuity(TABLE_FUNCTION),
 
@@ -1214,7 +1212,7 @@ public enum Commands implements CommandsConstants,
 
 	TrigCombine(TABLE_FUNCTION),
 
-	nPr(TABLE_ENGLISH),
+	nPr(TABLE_PROBABILITY),
 
 	CASLoaded(TABLE_GEOGEBRA),
 

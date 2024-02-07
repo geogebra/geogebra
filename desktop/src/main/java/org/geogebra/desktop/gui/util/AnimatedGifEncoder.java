@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * Class AnimatedGifEncoder - Encodes a GIF file consisting of one or more
  * frames.
@@ -170,7 +172,7 @@ public class AnimatedGifEncoder {
 			writePixels(); // encode and write pixel data
 			firstFrame = false;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ok = false;
 		}
 
@@ -181,7 +183,7 @@ public class AnimatedGifEncoder {
 	 * Flushes any pending data and closes output file. If writing to an
 	 * OutputStream, the stream is not closed.
 	 * 
-	 * @return true if succesful
+	 * @return true if successful
 	 */
 	public boolean finish() {
 		if (!started) {
@@ -196,7 +198,7 @@ public class AnimatedGifEncoder {
 				out.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ok = false;
 		}
 
@@ -286,7 +288,7 @@ public class AnimatedGifEncoder {
 		try {
 			writeString("GIF89a"); // header
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ok = false;
 		}
 		return started = ok;
@@ -306,7 +308,7 @@ public class AnimatedGifEncoder {
 			ok = start(out);
 			closeStream = true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ok = false;
 		}
 		return started = ok;
@@ -323,7 +325,7 @@ public class AnimatedGifEncoder {
 			ok = start(out);
 			closeStream = true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ok = false;
 		}
 		return started = ok;

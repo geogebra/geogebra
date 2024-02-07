@@ -140,7 +140,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	private double nx;
 	private double ny;
 	private double lambda;
-	private int index = 0;
 	private GeoVec2D c = new GeoVec2D(kernel);
 	/** error DetS */
 	public double errDetS = Kernel.STANDARD_PRECISION;
@@ -2827,6 +2826,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		ny = eigenvec[1].getY() - temp2;
 
 		// take line with smallest change of direction
+		int index;
 		if (Math.abs(nx * lines[0].x + ny * lines[0].y) < Math
 				.abs(nx * lines[1].x + ny * lines[1].y)) {
 			index = 1;
@@ -2834,20 +2834,14 @@ public abstract class GeoConicND extends GeoQuadricND
 			index = 0;
 		}
 
-		lines[index].x = nx;
-		lines[index].y = ny;
-		lines[index].z = -(nx * b.getX() + ny * b.getY());
+		lines[index].setCoords(nx, ny, -(nx * b.getX() + ny * b.getY()));
 
 		// n = T . (mu, 1)
 		nx = eigenvec[1].getX() + temp1;
 		ny = eigenvec[1].getY() + temp2;
-		index = 1 - index;
-		lines[index].x = nx;
-		lines[index].y = ny;
-		lines[index].z = -(nx * b.getX() + ny * b.getY());
+		lines[1 - index].setCoords(nx, ny, -(nx * b.getX() + ny * b.getY()));
 
 		setStartPointsForLines();
-		// lines[1]);
 	}
 
 	final private void ellipse(double[] mu1) {

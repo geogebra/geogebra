@@ -44,6 +44,7 @@ public class TemplatePreviewCard extends FlowPanel
         }, DoubleClickEvent.getType());
     }
 
+    @Override
     public MaterialCardController getController() {
         return controller;
     }
@@ -72,7 +73,7 @@ public class TemplatePreviewCard extends FlowPanel
         Label cardTitle = BaseWidgetFactory.INSTANCE.newPrimaryText(text, "cardTitle");
         infoPanel.add(cardTitle);
         if (hasMoreButton) {
-            ContextMenuButtonCard moreBtn = new ContextMenuButtonTemplateCard(app, this);
+            ContextMenuButtonCard moreBtn = new ContextMenuButtonDeleteCard(app, this);
             infoPanel.add(moreBtn);
         }
         this.add(infoPanel);
@@ -120,7 +121,11 @@ public class TemplatePreviewCard extends FlowPanel
 
     @Override
     public void onDelete() {
-        // TODO handle delete here
+        controller.onConfirmDelete(this);
     }
 
+    @Override
+    public String getCardTitle() {
+        return getMaterial().getTitle();
+    }
 }

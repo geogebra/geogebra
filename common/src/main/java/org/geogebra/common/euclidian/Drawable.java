@@ -218,12 +218,12 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	@Override
-	public double getxLabel() {
+	public double getLabelX() {
 		return xLabel;
 	}
 
 	@Override
-	public double getyLabel() {
+	public double getLabelY() {
 		return yLabel;
 	}
 

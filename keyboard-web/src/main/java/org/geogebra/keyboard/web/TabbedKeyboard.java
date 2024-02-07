@@ -3,7 +3,8 @@ package org.geogebra.keyboard.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
@@ -17,6 +18,7 @@ import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
 import org.geogebra.keyboard.web.factory.InputBoxKeyboardFactory;
@@ -123,23 +125,30 @@ public class TabbedKeyboard extends FlowPanel
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
-	private KeyboardFactory initKeyboardFactory() {
-		KeyboardFactory factory;
+	private KeyboardFactory createKeyboardFactory() {
 		if (hasKeyboard.getInputBoxType() != null) {
-			factory = new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
+			return new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
 					hasKeyboard.getInputBoxFunctionVars());
 		} else {
-			if (hasKeyboard.getKeyboardType() == AppKeyboardType.NOTES) {
-				factory = NotesKeyboardFactory.INSTANCE;
-			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
-				factory = ScientificKeyboardFactory.INSTANCE;
-			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
-				factory = SolverKeyboardFactory.INSTANCE;
-			} else {
-				factory = KeyboardFactory.INSTANCE;
+			AppKeyboardType type = hasKeyboard.getKeyboardType();
+			switch (type) {
+			case NOTES:
+				return new NotesKeyboardFactory();
+			case SCIENTIFIC:
+				return new ScientificKeyboardFactory();
+			case SOLVER:
+				return new SolverKeyboardFactory();
+			default:
+				return new DefaultKeyboardFactory();
 			}
 		}
-		return factory;
+	}
+
+	private boolean hasKeyboardFactoryChanged(@Nonnull KeyboardFactory newFactory) {
+		if (factory == null) {
+			return true;
+		}
+		return !newFactory.equals(factory);
 	}
 
 	private void buildGUIGgb() {
@@ -607,13 +616,11 @@ public class TabbedKeyboard extends FlowPanel
 	 * rebuilds the keyboard layout based on the inputbox type
 	 */
 	public void clearAndUpdate() {
-		KeyboardFactory newFactory = initKeyboardFactory();
-		if (Objects.equals(factory, newFactory)) {
+		KeyboardFactory newFactory = createKeyboardFactory();
+		if (!hasKeyboardFactoryChanged(newFactory)) {
 			return;
-		} else {
-			factory = newFactory;
 		}
-
+		factory = newFactory;
 		switcher.clear();
 		switcher.setup();
 		clear();
@@ -804,9 +811,6 @@ public class TabbedKeyboard extends FlowPanel
 		case RETURN_ENTER:
 			// make sure enter is processed correctly
 			processField.onEnter();
-			if (processField.resetAfterEnter()) {
-				getUpdateKeyBoardListener().closeKeyboard();
-			}
 			break;
 		case SWITCH_TO_SPECIAL_SYMBOLS:
 			switcher.select(KeyboardType.SPECIAL);

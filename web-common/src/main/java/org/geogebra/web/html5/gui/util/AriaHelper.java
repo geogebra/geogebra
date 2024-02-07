@@ -24,6 +24,15 @@ public class AriaHelper {
 	}
 
 	/**
+	 * Remove aria-label and data-title
+	 * @param ui - UI element
+	 */
+	public static void removeTitle(UIObject ui) {
+		ui.getElement().removeAttribute("data-title");
+		ui.getElement().removeAttribute("aria-label");
+	}
+
+	/**
 	 * Adds aria-hidden to given element
 	 * 
 	 * @param widget - widget to be hidden

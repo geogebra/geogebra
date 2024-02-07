@@ -87,11 +87,8 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-
 		setInput();
-
-		super.setOutputLength(1);
-		super.setOutput(0, conic);
+		setOnlyOutput(conic);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -58,7 +58,7 @@ public class AlgoLocusStroke extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.PolyLine;
+		return Commands.PenStroke;
 	}
 
 	@Override
@@ -79,8 +79,7 @@ public class AlgoLocusStroke extends AlgoElement {
 		}
 
 		// set output
-		setOutputLength(1);
-		setOutput(0, poly);
+		setOnlyOutput(poly);
 		setDependencies();
 	}
 
@@ -117,7 +116,7 @@ public class AlgoLocusStroke extends AlgoElement {
 		if (xmlPoints == null) {
 			xmlPoints = new StringBuilder();
 			// add expression
-			xmlPoints.append(" exp=\"PolyLine[");
+			xmlPoints.append(" exp=\"PenStroke[");
 			appendPoints(xmlPoints);
 			xmlPoints.append("]\" />\n");
 		}
@@ -135,7 +134,7 @@ public class AlgoLocusStroke extends AlgoElement {
 			sb.append(formatter.format(m.getY()));
 			sb.append("), ");
 		});
-		sb.append("true");
+		sb.delete(sb.length() - 2, sb.length());
 	}
 
 	@Override
@@ -145,7 +144,7 @@ public class AlgoLocusStroke extends AlgoElement {
 
 	@Override
 	public String getDefinition(StringTemplate tpl) {
-		String def = "PolyLine";
+		String def = "PenStroke";
 		// #2706
 		if (input == null) {
 			return null;

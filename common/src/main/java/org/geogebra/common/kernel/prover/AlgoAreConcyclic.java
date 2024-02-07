@@ -99,8 +99,7 @@ public class AlgoAreConcyclic extends AlgoElement
 		input[2] = inputPoint3;
 		input[3] = inputPoint4;
 
-		super.setOutputLength(1);
-		super.setOutput(0, outputBoolean);
+		setOnlyOutput(outputBoolean);
 		setDependencies(); // done by AlgoElement
 	}
 

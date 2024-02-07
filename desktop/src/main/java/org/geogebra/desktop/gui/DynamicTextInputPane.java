@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -233,7 +234,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				}
 
 			} catch (BadLocationException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 
@@ -363,7 +364,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			getDoc().insertString(offs, str, a);
 
 		} catch (BadLocationException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -373,11 +374,10 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		return doc;
 	}
 
-	/*********************************************************************
+	/**
 	 * Class for the dynamic text container.
 	 * 
 	 */
-	@SuppressWarnings("javadoc")
 	public class DynamicTextField extends MyTextFieldD {
 
 		private static final long serialVersionUID = 1L;

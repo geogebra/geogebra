@@ -40,6 +40,7 @@ import java.util.zip.ZipOutputStream;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.jre.gui.MyImageJre;
@@ -47,9 +48,8 @@ import org.geogebra.common.jre.io.file.InputStreamZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
@@ -89,11 +89,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 *            input stream
 	 * @param isGGTfile
 	 *            true for ggt files
-	 * @throws Exception
-	 *             when file is not accessible / is not valid ggb
+	 * @throws XMLParseException if XML is not valid
+	 * @throws IOException if stream cannot be read
 	 */
 	public final void readZipFromInputStream(InputStream is, boolean isGGTfile)
-			throws Exception {
+			throws IOException, XMLParseException {
 
 		ZipInputStream zip = new ZipInputStream(is);
 
@@ -102,7 +102,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	}
 
 	@Override
-	public void readZipFromString(ZipFile zipFile) throws Exception {
+	public void readZipFromString(ZipFile zipFile) throws IOException, XMLParseException {
 		if (zipFile instanceof ByteArrayZipFile) {
 			ByteArrayZipFile byteArrayZipFile = (ByteArrayZipFile) zipFile;
 			ZipInputStream zip = new ZipInputStream(
@@ -123,11 +123,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 *            zip input stream
 	 * @param isGGTfile
 	 *            true for ggt files
-	 * @throws Exception
-	 *             when file is not accessible / is not valid ggb
+	 * @throws XMLParseException if XML is not valid
+	 * @throws IOException if stream cannot be read
 	 */
 	protected abstract void readZip(ZipInputStream zip, boolean isGGTfile)
-			throws Exception;
+			throws IOException, XMLParseException;
 
 	/**
 	 * Handles the XML file stored in buffer.
@@ -138,19 +138,17 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 *            whether to clear construction
 	 * @param isGGTOrDefaults
 	 *            whether this is just ggt/defaults (no construction)
-	 * @throws Exception
-	 *             on parsing error
+	 * @throws XMLParseException if XML is not valid
+	 * @throws IOException if stream cannot be read
 	 */
 	protected void processXMLBuffer(byte[] buffer, boolean clearConstruction,
-			boolean isGGTOrDefaults) throws Exception {
+			boolean isGGTOrDefaults) throws XMLParseException, IOException {
 		// handle the data in the memory buffer
-		ByteArrayInputStream bs = new ByteArrayInputStream(buffer);
-		XMLStreamInputStream ir = new XMLStreamInputStream(bs);
-
-		// process xml file
-		doParseXML(ir, clearConstruction, isGGTOrDefaults, true, true, true);
-
-		bs.close();
+		try (ByteArrayInputStream bs = new ByteArrayInputStream(buffer)) {
+			XMLStreamInputStream ir = new XMLStreamInputStream(bs);
+			// process xml file
+			doParseXML(ir, clearConstruction, isGGTOrDefaults, true, true, true);
+		}
 	}
 
 	/**
@@ -159,10 +157,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * 
 	 * @param is
 	 *            input stream
-	 * @throws Exception
-	 *             on parsing error
+	 * @throws XMLParseException if XML is not valid
+	 * @throws IOException if stream cannot be read
 	 */
-	public final void readZipFromMemory(InputStream is) throws Exception {
+	public final void readZipFromMemory(InputStream is) throws IOException, XMLParseException {
 		ZipInputStream zip = new ZipInputStream(is);
 
 		// get all entries from the zip archive
@@ -176,7 +174,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			zip.close();
 		} else {
 			zip.close();
-			throw new Exception(XML_FILE + " not found");
+			throw new IOException(XML_FILE + " not found");
 		}
 
 	}
@@ -410,13 +408,12 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 			}
 			// Save images used in single bars
-			AlgoElement algo = geo.getParentAlgorithm();
-			if (algo instanceof ChartStyleAlgo) {
-				int num = ((ChartStyleAlgo) algo).getIntervals();
+			if (geo instanceof ChartStyleGeo) {
+				int num = ((ChartStyleGeo) geo).getIntervals();
 				int k;
 				for (int i = 0; i < num; i++) {
 					k = i + 1;
-					ChartStyle algo1 = ((ChartStyleAlgo) algo).getStyle();
+					ChartStyle algo1 = ((ChartStyleGeo) geo).getStyle();
 					if (algo1.getBarImage(k) != null) {
 						geo.setImageFileName(
 								algo1.getBarImage(k));
@@ -592,7 +589,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 	@Override
 	final protected void parseXML(MyXMLHandler xmlHandler, XMLStream stream)
-			throws Exception {
+			throws XMLParseException, IOException {
 		XMLStreamJre streamJre = (XMLStreamJre) stream;
 		xmlParser.parse(xmlHandler, streamJre.getReader());
 		streamJre.closeReader();
@@ -605,16 +602,15 @@ public abstract class MyXMLioJre extends MyXMLio {
 	public interface XMLStreamJre extends XMLStream {
 		/**
 		 * @return reader
-		 * @throws Exception
-		 *             e
+		 * @throws IOException when reader creation fails
 		 */
-		public Reader getReader() throws Exception;
+		public Reader getReader() throws IOException;
 
 		/**
-		 * @throws Exception
+		 * @throws IOException
 		 *             when closing goes wrong
 		 */
-		public void closeReader() throws Exception;
+		public void closeReader() throws IOException;
 	}
 
 	/**
@@ -634,13 +630,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 		}
 
 		@Override
-		public Reader getReader() throws Exception {
+		public Reader getReader() {
 			rs = new StringReader(str);
 			return rs;
 		}
 
 		@Override
-		public void closeReader() throws Exception {
+		public void closeReader() {
 			rs.close();
 		}
 	}
@@ -667,13 +663,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 		}
 
 		@Override
-		public Reader getReader() throws Exception {
+		public Reader getReader() {
 			reader = new InputStreamReader(is, Charsets.getUtf8());
 			return reader;
 		}
 
 		@Override
-		public void closeReader() throws Exception {
+		public void closeReader() throws IOException {
 			reader.close();
 		}
 	}

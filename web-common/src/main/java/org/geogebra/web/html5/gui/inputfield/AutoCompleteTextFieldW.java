@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -27,6 +28,7 @@ import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -342,7 +344,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		DefaultTextFieldController defaultTextFieldController =
 				new DefaultTextFieldController(this);
 
-		return isCursorOverlayNeeded()
+		return isCursorOverlayNeeded() && canHaveGGBKeyboard()
 				? new CursorOverlayController(this, main, defaultTextFieldController)
 				: defaultTextFieldController;
 	}
@@ -417,16 +419,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	/**
-	 * @return list of completions
+	 * Reset completions
 	 */
-	public List<String> resetCompletions() {
+	public void resetCompletions() {
 		String text = getText();
 		updateCurrentWord(false);
 		if (equalSignRequired && !text.startsWith("=")) {
 			inputSuggestions.cancelAutoCompletion();
-			return null;
+			return;
 		}
-		return inputSuggestions.resetCompletions(curWord);
+		inputSuggestions.resetCompletions(curWord);
 	}
 
 	@Override
@@ -479,7 +481,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return curWord.toString();
 	}
 
-	public List<String> getCompletions() {
+	public List<MatchedString> getCompletions() {
 		return inputSuggestions.getCompletions();
 	}
 
@@ -1051,11 +1053,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void onSelection(SelectionEvent<Suggestion> event) {
 		suggestionJustHappened = true;
-		List<String> completions = getCompletions();
+		List<MatchedString> completions = getCompletions();
 		if (completions != null) {
-			int index = completions
-					.indexOf(event.getSelectedItem().getReplacementString());
-			validateAutoCompletion(index, completions);
+			String selString = event.getSelectedItem().getReplacementString();
+			Optional<MatchedString> selected = completions.stream()
+					.filter(c -> c.content.equals(selString)).findFirst();
+			selected.ifPresent(
+					highlightedString -> validateAutoCompletion(highlightedString.content));
 		}
 	}
 
@@ -1160,18 +1164,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	/**
 	 * Ticket #1167 Auto-completes input; <br>
 	 *
-	 * @param index
-	 *            index of the chosen command in the completions list
-	 * @param completionList
-	 *            list of completions
+	 * @param command selected command syntax
 	 * @author Arnaud
 	 */
-    private void validateAutoCompletion(int index, List<String> completionList) {
-		if (completionList == null || index < 0 || index >= completionList.size()) {
-			return;
-		}
-
-		String command = completionList.get(index);
+    private void validateAutoCompletion(String command) {
 		int bracketIndex = command.indexOf('[');
 
 		// Special case if the completion is a built-in function
@@ -1400,9 +1396,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void autocomplete(String s) {
 		getTextField().setText(s);
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add(s);
-		validateAutoCompletion(0, arr);
+		validateAutoCompletion(s);
 	}
 
 	@Override

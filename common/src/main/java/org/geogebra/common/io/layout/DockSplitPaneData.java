@@ -7,9 +7,9 @@ package org.geogebra.common.io.layout;
  * @author Florian Sonner
  */
 public class DockSplitPaneData {
-	private String location;
+	private final String location;
 	private double dividerLocation;
-	private int orientation;
+	private final int orientation;
 
 	/**
 	 * @param location
@@ -69,5 +69,17 @@ public class DockSplitPaneData {
 	 */
 	public void setDivider(double ratio) {
 		this.dividerLocation = ratio;
+	}
+
+	/**
+	 * @return array of child selecting indices; 0 for left/top, 1 for right/bottom
+	 */
+	public int[] getChildSelectors() {
+		String[] def = location.split(",");
+		int[] selectors = new int[def.length];
+		for (int i = 0; i < selectors.length; i++) {
+			selectors[i] = "0".equals(def[i]) ? 0 : 1;
+		}
+		return selectors;
 	}
 }

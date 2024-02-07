@@ -202,15 +202,10 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 							mydoubles[i]
 									.evaluate(StringTemplate.defaultTemplate))
 					.wrap();
-			// System.out.println("Replaced:
-			// "+((NumberValue)pars[i]).toString()+"with:
-			// "+mydoubles[i].toString());
-		} // for all parameters
-			// System.out.println("enf(etter replace): "+enf.toString());
+		}
 		enf.resolveVariables(new EvalInfo(false));
 		// should we dispose this??? if(this.newf!=null)
-		this.newf = new Function(enf, fvar); // System.out.println("new
-												// function: "+newf.toString());
+		this.newf = new Function(enf, fvar);
 
 	}
 

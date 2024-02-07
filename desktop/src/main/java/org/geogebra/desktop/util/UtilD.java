@@ -40,7 +40,6 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
-import org.geogebra.common.jre.util.StreamUtil;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
@@ -49,6 +48,9 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus Hohenwarter
  */
 public class UtilD {
+
+	private static String tempDir = null;
+	private static Comparator<File> comparator;
 
 	/**
 	 * Adds key listener recursively to all subcomponents of container.
@@ -84,14 +86,10 @@ public class UtilD {
 	 * @return file content
 	 */
 	public static String loadFileIntoString(String filename) {
-		InputStream ios = null;
-		try {
-			ios = new FileInputStream(filename);
+		try (FileInputStream ios = new FileInputStream(filename)) {
 			return loadIntoString(ios);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
-		} finally {
-			StreamUtil.closeSilent(ios);
 		}
 		return null;
 	}
@@ -103,9 +101,8 @@ public class UtilD {
 	public static byte[] loadFileIntoByteArray(String filename) {
 		File file = new File(filename);
 		byte[] buffer = new byte[(int) file.length()];
-		InputStream ios = null;
-		try {
-			ios = new FileInputStream(file);
+		try (InputStream ios = new FileInputStream(file)) {
+
 			if (ios.read(buffer) == -1) {
 				Log.error("problem loading " + filename);
 				return null;
@@ -113,14 +110,6 @@ public class UtilD {
 			return buffer;
 		} catch (RuntimeException | IOException e) {
 			Log.error("problem loading " + filename);
-		} finally {
-			try {
-				if (ios != null) {
-					ios.close();
-				}
-			} catch (IOException e) {
-				Log.error("problem loading " + filename);
-			}
 		}
 		return null;
 	}
@@ -140,7 +129,7 @@ public class UtilD {
 				sb.append(line).append("\n");
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		return sb.toString();
@@ -200,8 +189,6 @@ public class UtilD {
 		return sb.toString();
 	}
 
-	private static Comparator<File> comparator;
-
 	/**
 	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
 	 * (otherwise TreeSet deletes duplicates)
@@ -224,22 +211,12 @@ public class UtilD {
 	 *            filename
 	 */
 	public static void writeStringToFile(String s, String filename) {
-
-		Writer out;
-		try {
-
-			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(filename), Charsets.getUtf8()));
-
-			try {
-				out.write(s);
-			} finally {
-				out.close();
-			}
-
+		try (Writer out = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(filename), Charsets.getUtf8()))) {
+			out.write(s);
 		} catch (Exception e) {
 			Log.error("problem writing file " + filename);
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -254,24 +231,13 @@ public class UtilD {
 	 *            filename
 	 */
 	public static void writeStringToFile(String s, File file) {
-
-		Writer out;
-		try {
-
-			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(file), Charsets.getUtf8()));
-
-			try {
-				out.write(s);
-			} finally {
-				out.close();
-			}
-
+		try (Writer out = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(file), Charsets.getUtf8()))) {
+			out.write(s);
 		} catch (Exception e) {
 			Log.error("problem writing file " + file.getName());
-			e.printStackTrace();
+			Log.debug(e);
 		}
-
 	}
 
 	/**
@@ -285,11 +251,9 @@ public class UtilD {
 			out.write(bytes);
 		} catch (Exception e) {
 			Log.error("problem writing file " + filename);
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
-
-	private static String tempDir = null;
 
 	/**
 	 * @return temporary directory (ends with a separator)

@@ -91,13 +91,11 @@ public class LineStyleModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 		GeoElement temp, geo0 = getGeoAt(0);
-		// Log.debug("geo0 = " + geo0 + ", lineTypeEnabled=" + lineTypeEnabled);
 		if (listener != null) {
 			listener.setThicknessSliderValue(geo0.getLineThickness());
 			// allow polygons to have thickness 0
 			listener.setThicknessSliderMinimum(maxMinimumThickness());
-			int opacity = (int) ((geo0.getLineOpacity() / 255.0f) * 100);
-			listener.setOpacitySliderValue(opacity);
+			listener.setOpacitySliderValue(getOpacityPercentage());
 			listener.setLineTypeVisible(lineTypeEnabled);
 			listener.setLineStyleHiddenVisible(lineStyleHiddenEnabled);
 			listener.setLineOpacityVisible(lineOpacityEnabled);
@@ -138,6 +136,10 @@ public class LineStyleModel extends OptionsModel {
 
 	}
 
+	public int getOpacityPercentage() {
+		return Math.round((getGeoAt(0).getLineOpacity() / 255.0f) * 100);
+	}
+
 	public void applyThickness(int value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
@@ -164,7 +166,8 @@ public class LineStyleModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
-	public void applyOpacity(int value) {
+	public void applyOpacityPercentage(int percentage) {
+		int value = Math.round(((percentage / 100.0f) * 255));
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineOpacity(value);

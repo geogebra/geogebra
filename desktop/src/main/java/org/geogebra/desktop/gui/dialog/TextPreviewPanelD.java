@@ -75,8 +75,6 @@ public class TextPreviewPanelD extends TextPreviewer {
 			GeoGebraIconD.drawLatexImageIcon((AppD) getApp(), testIcon,
 					previewGeo.getTextString(), ((AppD) getApp()).getPlainFont(),
 					true, Color.black, null);
-			// System.out.println("=============> " + testIcon.getIconHeight() +
-			// " : " + testIcon.getIconWidth());
 
 			// get the dimensions from the icon and add some padding
 			d.height = testIcon.getIconHeight() + padding;

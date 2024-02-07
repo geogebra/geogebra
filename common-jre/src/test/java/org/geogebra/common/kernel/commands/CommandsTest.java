@@ -2911,6 +2911,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdPenStroke() {
+		t("PenStroke[(1,1),(2,2)]",
+				"PenStroke[(1.0000E0,1.0000E0), (2.0000E0,2.0000E0), (NaN,NaN)]");
+	}
+
+	@Test
 	public void cmdPercentile() {
 		t("Percentile[ {1,2,3,4,5}, 0.05 ]", "1");
 	}
@@ -3013,6 +3019,20 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdPolynomialMultiVariable() {
+		t("Polynomial[y^2+(x+y)^2]", "x^(2) + (2 * (x * y)) + (2 * y^(2))");
+		t("Polynomial[x+y-1]", "x + y - 1");
+		t("Polynomial[x-y+1]", "x - y + 1");
+		t("Polynomial[-y+1+x]", "x - y + 1");
+		t("Polynomial[-x+y-1]", "(-x) + y - 1");
+		t("Polynomial[x+y-z]", "?");
+		t("Polynomial[0x+0y-1]", "-1");
+		t("Polynomial(sin(x) + y)", "?");
+		t("Polynomial(x^2 y^2 + x^3 + x^2 y + y^3 + x*y + 1)",
+				"(x^(2) * y^(2)) + x^(3) + (x^(2) * y) + y^(3) + (x * y) + 1");
+	}
+
+	@Test
 	public void cmdPrimeFactors() {
 		t("PrimeFactors[ 42 ]", "{2, 3, 7}");
 	}
@@ -3089,11 +3109,12 @@ public class CommandsTest {
 				// both Random() and random() should do the same
 		t("RandomBetween[ 42, 50 ]", "47");
 		t("RandomBetween[ 42, 50, true ]", "44");
+		t("RandomBetween[ 1, 10, 3 ]", "{10, 4, 3}");
 	}
 
 	@Test
 	public void cmdRandomBinomial() {
-		t("RandomBinomial[ 42, 0.05 ]", "1");
+		t("RandomBinomial[ 42, 0.05 ]", "2");
 	}
 
 	@Test
@@ -3301,6 +3322,8 @@ public class CommandsTest {
 		t("Root(a)", "(NaN, NaN)");
 		t("b:=0/5", "0");
 		t("Root(b)", "(NaN, NaN)");
+		t("Root(x^6 - 2x^5 - 4x^4 + 8x^3)", "(-2, 0)", "(0, 0)", "(2, 0)");
+		t("Root(x^8 - x^4)", "(-1, 0)", "(0, 0)", "(1, 0)");
 	}
 
 	@Test
@@ -4239,10 +4262,11 @@ public class CommandsTest {
 
 	@Test
 	public void cmdPieChart() {
-		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
-		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
+		// the "value" of pie chart is just the command name (no sensible way to define it)
+		t("p1=PieChart({1,2,3})", "PieChart");
+		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart");
 		assertThat(get("p2"), isDefined());
-		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
+		t("p3=PieChart({1,2,-3})", "PieChart");
 		assertThat(get("p3"), not(isDefined()));
 	}
 

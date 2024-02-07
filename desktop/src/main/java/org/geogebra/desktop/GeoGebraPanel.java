@@ -19,6 +19,7 @@ import org.geogebra.desktop.plugin.GgbAPID;
  */
 public class GeoGebraPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private final AppD app;
 
 	/**
 	 * Test method that demonstrates how to embed a GeoGebraPanel into another
@@ -65,8 +66,6 @@ public class GeoGebraPanel extends JPanel {
 		f.setSize(800, 600);
 		f.setVisible(true);
 	}
-
-	private final AppD app;
 
 	/**
 	 * Creates a GeoGebraPanel. Note that you need to call buildGUI() after this

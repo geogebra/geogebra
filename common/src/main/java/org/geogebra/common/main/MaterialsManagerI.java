@@ -15,10 +15,6 @@ public interface MaterialsManagerI {
 	 */
 	void delete(Material material, boolean permanent, Runnable onSuccess);
 
-	void getUsersMaterials();
-
-	void search(String query);
-
 	void rename(String newTitle, Material mat);
 
 	void rename(String newTitle, Material mat, Runnable callback);
@@ -46,8 +42,6 @@ public interface MaterialsManagerI {
 	void export(App app);
 
 	void exportImage(String url, String string, String extension);
-
-	boolean hasBase64(Material material);
 
 	void nativeShare(String s, String string);
 

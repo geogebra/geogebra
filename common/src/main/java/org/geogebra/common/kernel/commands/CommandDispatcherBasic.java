@@ -64,6 +64,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdCAStoOperation(kernel, Operation.NPR);
 		case PolyLine:
 			return new CmdPolyLine(kernel);
+		case PenStroke:
+			return new CmdPenStroke(kernel);
 		case PointIn:
 			return new CmdPointIn(kernel);
 		case Line:

@@ -118,8 +118,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		efficientInput = inSet.toArray(efficientInput);
 		standardInput[1] = this.movingPoint;
 
-		setOutputLength(1);
-		setOutput(0, this.geoPoly.toGeoElement());
+		setOnlyOutput(this.geoPoly);
 
 		setEfficientDependencies(standardInput, efficientInput);
 		// Removing extra algos manually:

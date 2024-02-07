@@ -49,6 +49,19 @@ public class SelectionTableD extends JTable {
 
 	private boolean showSelection = true;
 
+
+	private final Object[] data;
+	private final int numRows;
+	private final int numColumns;
+	private int columnWidth;
+
+	private Dimension iconSize;
+
+	private SelectionTable mode;
+
+	boolean useColorSwatchBorder = false;
+	private String[] toolTipArray = null;
+
 	public void setShowSelection(boolean showSelection) {
 		this.showSelection = showSelection;
 	}
@@ -57,20 +70,10 @@ public class SelectionTableD extends JTable {
 		this.horizontalAlignment = horizontalAlignment;
 	}
 
-	private final Object[] data;
-	private final int numRows;
-	private final int numColumns;
-	private int columnWidth;
-
 	public int getColumnWidth() {
 		return columnWidth;
 	}
 
-	private Dimension iconSize;
-
-	private SelectionTable mode;
-
-	boolean useColorSwatchBorder = false;
 
 	/**
 	 * @param useColorSwatchBorder to use border for swatch icons
@@ -79,8 +82,6 @@ public class SelectionTableD extends JTable {
 		this.useColorSwatchBorder = useColorSwatchBorder;
 		setCellDimensions();
 	}
-
-	private String[] toolTipArray = null;
 
 	/**
 	 * Sets the tooTip strings for the selection table; the toolTipArray should

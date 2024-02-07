@@ -66,7 +66,7 @@ public class ButtonDialogW extends ComponentDialog
 		String initString = model.getInitString();
 
 		captionInput = new ComponentInputField((AppW) app, "",
-				"Button.Caption", "", initString, -1, 1, null);
+				"Button.Caption", "", initString, -1, null);
 		captionInput.getTextField().getTextComponent().setAutoComplete(false);
 
 		Label scriptLabel = new Label(loc.getMenu("Script"));

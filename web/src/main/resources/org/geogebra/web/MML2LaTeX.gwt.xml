@@ -6,7 +6,6 @@
   <add-linker name="sso" />
   
   <source path='mml'/>
-   <super-source path='html5-super' />
   
   <entry-point class='org.geogebra.web.mml.MML2LaTeX'/>
   <!-- #3511 -->

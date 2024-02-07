@@ -23,19 +23,19 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	/**
 	 * @return true if this is Graphics or Graphics 2
 	 */
-	public boolean isDefault2D();
+	boolean isDefault2D();
 
 	/**
 	 * @return true if this is Graphics 3D
 	 */
-	public boolean isEuclidianView3D();
+	boolean isEuclidianView3D();
 
 	/**
 	 * @param algo
 	 *            algorithm
 	 * @return free input points of given algorithm
 	 */
-	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algo);
+	ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algo);
 
 	/**
 	 * @param geoElement
@@ -93,7 +93,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 *            screen coord
 	 * @return real world coord
 	 */
-	public double toRealWorldCoordX(double x);
+	double toRealWorldCoordX(double x);
 
 	/**
 	 * convert screen coordinate x to real world coordinate x
@@ -102,7 +102,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 *            screen coord
 	 * @return real world coord
 	 */
-	public double toRealWorldCoordY(double y);
+	double toRealWorldCoordY(double y);
 
 	/**
 	 * Update bounds from bound objects
@@ -201,7 +201,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 *
 	 * @return point capturing mode.
 	 */
-	public int getPointCapturingMode();
+	int getPointCapturingMode();
 
 	/**
 	 * @param capturingMode
@@ -232,7 +232,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 * @param ymax
 	 *            y max
 	 */
-	public void setRealWorldCoordSystem(double xmin, double xmax, double ymin,
+	void setRealWorldCoordSystem(double xmin, double xmax, double ymin,
 			double ymax);
 
 	/**
@@ -241,40 +241,55 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 * @param point
 	 *            point
 	 */
-	public void centerView(GeoPointND point);
+	void centerView(GeoPointND point);
 
 	/**
 	 * @return y-offset of topmost slider in pixels
 	 */
-	public int getSliderOffsetY();
+	int getSliderOffsetY();
 
 	/**
 	 * @return settings
 	 */
-	public EuclidianSettings getSettings();
+	EuclidianSettings getSettings();
 
 	/**
 	 * @return y-offset of first combobox
 	 */
-	public int getComboOffsetY();
+	int getComboOffsetY();
 
 	/**
 	 * @param sys
 	 *            coord system
 	 * @return whether the system is incident with the one of this view
 	 */
-	public boolean isInPlane(CoordSys sys);
+	boolean isInPlane(CoordSys sys);
 
 	/**
 	 * Get the safe area insets of this view.
 	 * @return safe area insets
 	 */
-	public EdgeInsets getSafeAreaInsets();
+	EdgeInsets getSafeAreaInsets();
 
 	/**
 	 * Set the safe area insets for this view.
 	 * @param safeAreaInsets safe area insets
 	 */
-	public void setSafeAreaInsets(EdgeInsets safeAreaInsets);
+	void setSafeAreaInsets(EdgeInsets safeAreaInsets);
+
+	/**
+	 * @param rwX
+	 *            real world x-coord
+	 * @return screen x-coord
+	 */
+	double toScreenCoordXd(double rwX);
+
+	/**
+	 * @param rwY
+	 *            real world y-coord
+	 * @return screen y-coord
+	 */
+	double toScreenCoordYd(double rwY);
 
 }
+

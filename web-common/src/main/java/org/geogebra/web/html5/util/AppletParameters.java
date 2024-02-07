@@ -159,10 +159,10 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return true, if data-param-lockExam attribute is set to true
+	 * @return value of data-param-examMode or null
 	 */
-	public boolean getParamLockExam() {
-		return getBoolDataParam("lockExam", false);
+	public String getParamExamMode() {
+		return getStringDataParam("examMode", null);
 	}
 
 	public boolean hasDataParamEnable3D() {
