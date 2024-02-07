@@ -115,7 +115,8 @@ public class Command extends ValidExpression
 		 * other languages to use English names for different commands
 		 */
 
-		if (translateName && !kernel.isUsingInternalCommandNames()) {
+		if (translateName && !kernel.isUsingInternalCommandNames()
+				&& canCommandBeTranslatedSafely(name)) {
 			// translate command name to internal name
 			this.name = app.getReverseCommand(name);
 			// in CAS functions get parsed as commands as well and we want to
@@ -126,6 +127,20 @@ public class Command extends ValidExpression
 		} else {
 			this.name = name;
 		}
+	}
+
+	/**
+	 * If a command and its internal translation are not identical, it can only be translated
+	 * safely if the <b>non-internal command is an invalid internal command</b>
+	 * <br/>
+	 * E.g.: Trying to translate the french command 'Intersection' to the internal counterpart
+	 * 'Intersect' should be prohibited, since both are valid, internal commands (avoid clashes)
+	 * @param command The command's name
+	 * @return True if this command can be translated safely, false else
+	 */
+	private boolean canCommandBeTranslatedSafely(String commandName) {
+		String internalCommandName = app.getReverseCommand(commandName);
+		return internalCommandName.equals(commandName) || Commands.stringToCommand(commandName) == null;
 	}
 
 	/**
