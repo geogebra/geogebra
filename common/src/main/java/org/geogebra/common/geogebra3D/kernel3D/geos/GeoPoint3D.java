@@ -437,7 +437,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public Coords getCoordsInD2IfInPlane(CoordSys coordSys, boolean forceRealCoords) {
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys) {
+		return getCoordsInD2IfInPlane(coordSys, true);
+	}
+
+	private Coords getCoordsInD2IfInPlane(CoordSys coordSys, boolean forceRealCoords) {
 		if (setCoords2D(coordSys, forceRealCoords)) {
 			return tmpCoordsLength3;
 		}

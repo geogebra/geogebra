@@ -249,17 +249,13 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public Coords getCoordsInD2IfInPlane(CoordSys coordSys);
 
 	/**
-	 * Per default, this method will just call {@link #getCoordsInD2IfInPlane(CoordSys)} and
-	 * not try to force usage of real coordinates
+	 * Same as {@link #getCoordsInD2IfInPlane(CoordSys)}, but forces usage of real coordinates
+	 * if necessary
 	 * @param coordSys Coord system
-	 * @param forceRealCoords Whether usage of real coordinates should be forced
-	 * (instead of willing coordinates)
 	 * @return the coords of the point in 2D (projected on coord sys) or null if
 	 *         not included in coord sys
 	 */
-	public default Coords getCoordsInD2IfInPlane(CoordSys coordSys, boolean forceRealCoords) {
-		return getCoordsInD2IfInPlane(coordSys);
-	}
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys);
 
 	/**
 	 * @return path on which this point lies
