@@ -19,9 +19,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -754,6 +756,14 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	final public GeoElement[] getInput() {
 		return input;
+	}
+
+	/**
+	 * @return List of input elements that are not null, defined, and labeled
+	 */
+	final public List<GeoElement> getDefinedAndLabeledInput() {
+		return Arrays.stream(input).filter(geo -> geo != null
+				&& geo.isDefined() && geo.isLabelSet()).collect(Collectors.toList());
 	}
 
 	/**

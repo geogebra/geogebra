@@ -13,6 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
@@ -437,6 +440,14 @@ public class GeoImage extends GeoElement implements
 	 */
 	public GeoPoint[] getStartPoints() {
 		return corners;
+	}
+
+	/**
+	 * @return List of corner points that are not null, defined, and labeled
+	 */
+	public List<GeoPoint> getDefinedAndLabeledStartPoints() {
+		return Arrays.stream(corners).filter(point -> point != null
+				&& point.isDefined() && point.isLabelSet()).collect(Collectors.toList());
 	}
 
 	/**
@@ -1214,15 +1225,6 @@ public class GeoImage extends GeoElement implements
 		corners[0] = corners[CENTER_INDEX];
 		for (int i = 1; i < 4; i++) {
 			corners[i] = null;
-		}
-	}
-
-	/**
-	 * Remove all corner points of the image.
-	 */
-	public void removeCorners() {
-		for (int i = 1; i < corners.length; i++) {
-			removeCorner(i);
 		}
 	}
 
