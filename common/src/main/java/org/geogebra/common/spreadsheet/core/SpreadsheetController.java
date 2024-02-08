@@ -12,7 +12,9 @@ import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Rectangle;
 
+import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
  * A container for tabular data, with support for selecting parts of the data.
@@ -137,8 +139,12 @@ public final class SpreadsheetController implements TabularSelection {
 		return false;
 	}
 
-	private void hideCellEditor() {
+	/**
+	 *
+	 */
+	public void saveContentAndHideCellEditor() {
 		if (controlsDelegate != null && controlsDelegate.getCellEditor() != null) {
+			controlsDelegate.getCellEditor().onEnter();
 			controlsDelegate.getCellEditor().hide();
 		}
 	}
@@ -155,7 +161,7 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @return whether the event caused changes in spreadsheet requiring repaint
 	 */
 	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
-		hideCellEditor();
+		saveContentAndHideCellEditor();
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
 		}

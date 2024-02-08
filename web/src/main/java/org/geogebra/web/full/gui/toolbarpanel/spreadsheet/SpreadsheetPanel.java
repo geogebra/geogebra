@@ -23,12 +23,13 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
+import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 
-public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
+public class SpreadsheetPanel extends FlowPanel implements RequiresResize, UnhandledArrowListener {
 
 	private final Canvas spreadsheetWidget;
 	private final Spreadsheet spreadsheet;
@@ -60,6 +61,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
 		mathField = new MathTextFieldW(app);
+		mathField.setUnhandledArrowListener(this);
+
 		spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegateW(app, this, mathField));
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
@@ -180,5 +183,12 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	public MathKeyboardListener getKeyboardListener() {
 		return mathField.getKeyboardListener();
+	}
+
+	@Override
+	public void onArrow(int keyCode) {
+		spreadsheet.getController().saveContentAndHideCellEditor();
+		spreadsheet.handleKeyPressed(KeyCodes.translateGWTcode(
+				keyCode).getJavaKeyCode(), "", new Modifiers(false, false, false, false));
 	}
 }

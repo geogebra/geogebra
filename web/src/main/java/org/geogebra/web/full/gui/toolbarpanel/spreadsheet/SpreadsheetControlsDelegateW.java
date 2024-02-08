@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
+
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
@@ -36,6 +37,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		private final MathFieldEditor mathField;
 		private final Panel parent;
 		private final AppW app;
+		private SpreadsheetEditorListener listener;
 
 		public SpreadsheetCellEditorW(AppW app, Panel parent, MathTextFieldW mathField) {
 			this.mathField = mathField;
@@ -59,9 +61,17 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 		@Override
 		public void setTargetCell(int row, int column) {
+			listener = new SpreadsheetEditorListener(mathField.getMathField().getInternal(),
+					app.getKernel(), row, column, this);
 			mathField.getMathField().getInternal().setFieldListener(
-					new SpreadsheetEditorListener(mathField.getMathField().getInternal(),
-							app.getKernel(), row, column, this));
+					listener);
+		}
+
+		@Override
+		public void onEnter() {
+			if (listener != null) {
+				listener.onEnter();
+			}
 		}
 
 		@Override
