@@ -92,7 +92,7 @@ public class GgbScriptTest extends BaseUnitTest {
 	 * Related to APPS-5357
 	 */
 	@Test
-	public void scriptShouldBeTranslatedBeforeExecution() {
+	public void scriptShouldTranslateInterToIntersection() {
 		getApp().setLocale(Locale.UK);
 		add("l1 = {1, 2}");
 		add("l2 = {2, 4}");
