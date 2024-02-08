@@ -4,16 +4,23 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.test.commands.ErrorAccumulator;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 
-	private final ErrorAccumulator errorHandler = new ErrorAccumulator();
+	private ErrorAccumulator errorHandler;
+	private ScheduledPreviewFromInputBar preview;
+
+	@Before
+	public void setupPreview() {
+		preview = new ScheduledPreviewFromInputBar(getKernel(),
+				Integer.MAX_VALUE);
+		errorHandler = new ErrorAccumulator();
+	}
 
 	@Test
 	public void shouldValidate() {
-		ScheduledPreviewFromInputBar preview = new ScheduledPreviewFromInputBar(getKernel(),
-				Integer.MAX_VALUE);
 		preview.updatePreviewFromInputBar("a=1", errorHandler);
 		assertEquals("", errorHandler.getErrors());
 		preview.updatePreviewFromInputBar("a=", errorHandler);
@@ -28,7 +35,6 @@ public class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 	@Test
 	public void shouldValidateRedefinition() {
 		add("a=2");
-		ScheduledPreviewFromInputBar preview = new ScheduledPreviewFromInputBar(getKernel());
 		preview.updatePreviewFromInputBar("a=1", errorHandler);
 		assertEquals("", errorHandler.getErrors());
 		preview.updatePreviewFromInputBar("a=1+", errorHandler);
