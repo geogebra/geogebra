@@ -923,4 +923,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void letterOrDigitTyped() {
 		this.sskl.letterOrDigitTyped();
 	}
+
+	public SpreadsheetKeyListenerW getSpreadsheetListener() {
+		return this.sskl;
+	}
 }
