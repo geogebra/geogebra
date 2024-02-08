@@ -61,7 +61,6 @@ import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
@@ -1848,36 +1847,9 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 *
-	 * @param showDialog whether the download dialog should be shown or is it downloading directly
 	 */
 	@Override
-	public void exportGGB(boolean showDialog) {
-		final String extension = ((AppW) app).getFileExtension();
-		if (showDialog) {
-			DialogData data = new DialogData("Save", "Cancel", "Save");
-			ComponentDialog dialog = new ComponentDialog((AppW) app, data, false, true);
-			ComponentInputField inputTextField = new ComponentInputField((AppW) app,
-					"", "", "", getApp().getExportTitle() + extension, -1,
-					"");
-			dialog.addDialogContent(inputTextField);
-			dialog.setOnPositiveAction(() -> {
-				String filename = inputTextField.getText();
-				if (StringUtil.emptyTrim(filename)) {
-					filename = getApp().getExportTitle();
-				}
-
-				if (!filename.endsWith(extension)) {
-					filename += extension;
-				}
-				exportGgb(filename, extension);
-			});
-			dialog.show();
-		} else {
-			exportGGBDirectly();
-		}
-	}
-
-	private void exportGGBDirectly() {
+	public void exportGGB() {
 		String extension = ((AppW) app).getFileExtension();
 		String currentDate = DateTimeFormat.format(new JsDate())
 				+ extension;

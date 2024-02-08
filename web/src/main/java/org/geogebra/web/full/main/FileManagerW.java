@@ -229,7 +229,7 @@ public class FileManagerW extends FileManager {
 	@Override
 	public void export(App app1) {
 		dialogEvent(app, "exportGGB");
-		((AppW) app1).getGuiManager().exportGGB(false);
+		((AppW) app1).getGuiManager().exportGGB();
 	}
 
 	@Override
