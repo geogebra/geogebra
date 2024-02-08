@@ -33,8 +33,6 @@ public interface MaterialsManagerI {
 
 	boolean save(App app);
 
-	void saveLoggedOut(App app);
-
 	boolean shouldKeep(int i);
 
 	void getFromTube(int id, boolean fromAnotherDevice);

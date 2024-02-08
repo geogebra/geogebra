@@ -1953,7 +1953,7 @@ public class GuiManagerW extends GuiManager
 			} else if (event instanceof StayLoggedOutEvent || (event instanceof LoginEvent
 					&& !((LoginEvent) event).isSuccessful())) {
 				runAfterLogin = null;
-				getApp().getFileManager().saveLoggedOut(getApp());
+				getApp().getFileManager().showOfflineErrorTooltip(getApp());
 			}
 		}
 	}
