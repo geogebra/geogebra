@@ -1419,6 +1419,9 @@ public class SelectionManager implements ExamRestrictable {
 	}
 
 	public boolean isSelectionAllowed(GeoElementND geoND) {
+		if (geoND == null) {
+			return false;
+		}
 		if (geoND.isFunctionOrEquationFromUser()) {
 			return false;
 		}

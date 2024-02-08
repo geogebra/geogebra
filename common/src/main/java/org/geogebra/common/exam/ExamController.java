@@ -55,7 +55,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		@NonOwning
 		final AlgebraProcessor algebraProcessor;
 		@NonOwning
-		Set<ExamRestrictable> restrictables;
+		final Set<ExamRestrictable> restrictables;
 
 		ContextDependencies(Object context,
 				CommandDispatcher commandDispatcher,

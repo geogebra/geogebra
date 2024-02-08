@@ -22,8 +22,10 @@ import org.geogebra.common.properties.ValuedProperty;
  * All the different kinds of restrictions go in here:
  * <ul>
  * <li>disabled subapps,</li>
- * <li>disabled commands (see e.g. `CommandFilterFactory.createBayernCasFilter())`, and</li>
- * <li>disabled properties.</li>
+ * <li>restricted commands,</li>
+ * <li>restricted expressions,</li>
+ * <li>frozen properties,</li>
+ * <li>etc.</li>
  * </ul>
  */
 public class ExamRestrictions {
@@ -45,7 +47,6 @@ public class ExamRestrictions {
 	private final Set<CommandArgumentFilter> commandArgumentFilters;
 	// independent of exam region
 	private final ExamCommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
-
 	private final Set<String> frozenProperties;
 
 	/**
@@ -75,7 +76,7 @@ public class ExamRestrictions {
 		this.frozenProperties = frozenProperties;
 	}
 
-	public ExamRegion getExamType() { return examType; }
+	public final ExamRegion getExamType() { return examType; }
 
 	/**
 	 * @return The list of disabled (not allowed) subapps during exam, or `null` if there
@@ -98,7 +99,7 @@ public class ExamRestrictions {
 	 *
 	 * TODO add more arguments if necessary
 	 */
-	public final void apply(CommandDispatcher commandDispatcher,
+	public void apply(CommandDispatcher commandDispatcher,
 			AlgebraProcessor algebraProcessor,
 			PropertiesRegistry propertiesRegistry,
 			Object context) {
@@ -133,7 +134,7 @@ public class ExamRestrictions {
 	/**
 	 * Revert the changes from {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}.
 	 */
-	public final void unapply(CommandDispatcher commandDispatcher,
+	public void unapply(CommandDispatcher commandDispatcher,
 			AlgebraProcessor algebraProcessor,
 			PropertiesRegistry propertiesRegistry,
 			Object context) {
