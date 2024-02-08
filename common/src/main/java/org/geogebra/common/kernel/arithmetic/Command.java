@@ -354,8 +354,12 @@ public class Command extends ValidExpression
 		if (node.containsFreeFunctionVariable(DEFAULT_FUNCTION_VAR_NAME)) {
 			return DEFAULT_FUNCTION_VAR_NAME;
 		}
+		ExpressionNodeCollector<String> collector =
+				new ExpressionNodeCollector<>(node);
 
-		List<String> integralVarNames = getFunctionVarNames(node);
+		List<String> integralVarNames = collector
+				.filter(v -> v instanceof FunctionVariable)
+				.mapTo(t -> ((FunctionVariable)(t.unwrap())).getSetVarString());
 
 		if (vars != null) {
 			List<String> dummyVarNames = getDummyVarNames(vars);
@@ -372,19 +376,6 @@ public class Command extends ValidExpression
 				list.add(((GeoDummyVariable)var).getVarName());
 			}
 		}
-		return list;
-	}
-
-	private static List<String> getFunctionVarNames(ExpressionNode node) {
-		final List<String> list = new ArrayList<>();
-
-		node.inspect(v -> {
-					if (v instanceof FunctionVariable) {
-						list.add(((FunctionVariable) v).getSetVarString());
-						return true;
-					}
-					return false;
-				});
 		return list;
 	}
 
