@@ -10,7 +10,7 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Test;
 
-public class GroupControllerTest extends BaseControllerTest {
+public class GroupControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void clickShouldSelectAllGeosInGroup() {

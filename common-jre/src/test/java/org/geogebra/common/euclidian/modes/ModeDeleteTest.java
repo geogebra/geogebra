@@ -2,7 +2,7 @@ package org.geogebra.common.euclidian.modes;
 
 import static org.junit.Assert.assertEquals;
 
-import org.geogebra.common.euclidian.BaseControllerTest;
+import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.jre.util.ScientificFormat;
 import org.geogebra.common.kernel.StringTemplate;
@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.junit.Test;
 
-public class ModeDeleteTest extends BaseControllerTest {
+public class ModeDeleteTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void eraserTest() throws InterruptedException {

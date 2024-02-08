@@ -31,12 +31,25 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testAuralDegreeUnicode() {
+		auralText("LaTeX(\"\\text{a 7\\degree}\")", "a 7°");
+		auralText("LaTeX(\"\\text{a 1\\degree}\")", "a 1°");
+	}
+
+	private void auralText(String in, String expected) {
+		GeoElement geo = add(in);
+		String aural = geo.getAuralText(new ScreenReaderBuilderDot(getApp().getLocalization()))
+				.split("\\. ")[0];
+		assertEquals(expected, aural);
+	}
+
+	@Test
 	public void testLaTeX() {
-		aural("LaTeX(x-y)", "x" + Unicode.MINUS + "y");
-		aural("LaTeX(\"x-y\")", "x" + Unicode.MINUS + "y");
-		aural("LaTeX(\"\\text{x-y}\")", "x\u2010y");
-		aural("LaTeX((-1,2))", "( " + Unicode.MINUS + "1, 2)");
-		aural("LaTeX((1,2,3))", "( 1, 2, 3)");
+		auralText("LaTeX(x-y)", "x" + Unicode.MINUS + "y");
+		auralText("LaTeX(\"x-y\")", "x" + Unicode.MINUS + "y");
+		auralText("LaTeX(\"\\text{x-y}\")", "x\u2010y");
+		auralText("LaTeX((-1,2))", "( " + Unicode.MINUS + "1, 2)");
+		auralText("LaTeX((1,2,3))", "( 1, 2, 3)");
 	}
 
 	@Test
@@ -45,13 +58,6 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 		auralDefinition("-1", Unicode.MINUS + "1");
 		auralDefinition("a-1-a", "a " + Unicode.MINUS + " 1 " + Unicode.MINUS + " a");
 		auralValue("x-y", "d(x, y) = x " + Unicode.MINUS + " y");
-	}
-
-	private void aural(String in, String expected) {
-		GeoElement geo = add(in);
-		String aural = geo.getAuralText(new ScreenReaderBuilderDot(getApp().getLocalization()))
-				.split("\\. ")[0];
-		assertEquals(expected, aural);
 	}
 
 	private void auralValue(String in, String expected) {

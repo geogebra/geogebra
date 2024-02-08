@@ -2,7 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.junit.Test;
 
-public class ModeChangeTest extends BaseControllerTest {
+public class ModeChangeTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void previewPointsShouldBeRemovedOnCancel() {

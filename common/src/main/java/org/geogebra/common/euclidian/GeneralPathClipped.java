@@ -435,4 +435,30 @@ public class GeneralPathClipped implements GShape {
 	public int size() {
 		return pathPoints.size();
 	}
+
+	/**
+	 * Append given path to this to create one continuous path (ignoring CLOSE and MOVE_TOs).
+	 * NOTE: QUAD_TO is not supported.
+	 * @param path path to append
+	 */
+	public void append(GShape path) {
+		GPathIterator iterator = path.getPathIterator(null);
+		double[] current = new double[6];
+		while (!iterator.isDone()) {
+			int type = iterator.currentSegment(current);
+			iterator.next();
+			switch (type) {
+			case GPathIterator.SEG_LINETO:
+				lineTo(current[0], current[1]);
+				break;
+			case GPathIterator.SEG_CUBICTO:
+				addPoint(current[0], current[1], SegmentType.CONTROL);
+				addPoint(current[2], current[3], SegmentType.CONTROL);
+				addPoint(current[4], current[5], SegmentType.CURVE_TO);
+				break;
+			default: // skip
+				break;
+			}
+		}
+	}
 }

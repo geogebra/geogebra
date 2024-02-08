@@ -27,6 +27,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -2204,5 +2205,31 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		p.update();
 		assertThat(SymbolicUtil.shouldComputeNumericValue(p.getValue()), equalTo(false));
 		assertThat(p, hasValue("false"));
+	}
+
+	@Test
+	public void shouldNotHideParametricLabel() {
+		GeoElement[] parametric = new GeoElement[] {
+				add("g1: X=(1,2)+s (4,5)"),
+				add("g2: X=(1,2,3)+s (4,5,6)"),
+				add("g3: X=(1,2)+sin(s)*(4,5)+cos(s)*(7,8)"),
+				add("g4: X=(1,2,3)+sin(s)*(4,5,6)+cos(s)*(7,8,9)")
+		};
+		new LabelHiderCallback().callback(parametric);
+		for (GeoElement geo: parametric) {
+			assertThat(geo.getLabelSimple(), startsWith("g"));
+		}
+	}
+
+	@Test
+	public void shouldHideAutomaticLabel() {
+		GeoElement[] parametric = new GeoElement[] {
+				add("x=y"),
+				add("y=z+x")
+		};
+		new LabelHiderCallback().callback(parametric);
+		for (GeoElement geo: parametric) {
+			assertThat(geo.getLabelSimple(), startsWith(LabelManager.HIDDEN_PREFIX));
+		}
 	}
 }

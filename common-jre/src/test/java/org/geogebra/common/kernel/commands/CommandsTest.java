@@ -3021,6 +3021,20 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdPolynomialMultiVariable() {
+		t("Polynomial[y^2+(x+y)^2]", "x^(2) + (2 * (x * y)) + (2 * y^(2))");
+		t("Polynomial[x+y-1]", "x + y - 1");
+		t("Polynomial[x-y+1]", "x - y + 1");
+		t("Polynomial[-y+1+x]", "x - y + 1");
+		t("Polynomial[-x+y-1]", "(-x) + y - 1");
+		t("Polynomial[x+y-z]", "?");
+		t("Polynomial[0x+0y-1]", "-1");
+		t("Polynomial(sin(x) + y)", "?");
+		t("Polynomial(x^2 y^2 + x^3 + x^2 y + y^3 + x*y + 1)",
+				"(x^(2) * y^(2)) + x^(3) + (x^(2) * y) + y^(3) + (x * y) + 1");
+	}
+
+	@Test
 	public void cmdPrimeFactors() {
 		t("PrimeFactors[ 42 ]", "{2, 3, 7}");
 	}

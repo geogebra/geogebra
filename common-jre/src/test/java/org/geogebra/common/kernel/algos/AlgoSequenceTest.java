@@ -88,7 +88,7 @@ public class AlgoSequenceTest extends BaseUnitTest {
 
 	private GGraphicsCommon createGraphicsWithDrawable(String def) {
 		GeoList charts = add(def);
-		Drawable drawCharts = (Drawable) getApp().getActiveEuclidianView().getDrawableFor(charts);
+		Drawable drawCharts = getDrawable(charts);
 		GGraphicsCommon graphics = spy(new GGraphicsCommon());
 		Objects.requireNonNull(drawCharts).draw(graphics);
 		return graphics;

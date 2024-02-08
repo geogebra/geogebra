@@ -295,7 +295,8 @@ public class MoveGeos {
 
 		// absolute position on screen
 		else if (geo1.isAbsoluteScreenLocateable()
-				&& ((AbsoluteScreenLocateable) geo1).isAbsoluteScreenLocActive()) {
+				&& ((AbsoluteScreenLocateable) geo1).isAbsoluteScreenLocActive()
+				&& ((AbsoluteScreenLocateable) geo1).hasStaticLocation()) {
 			final AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) geo1;
 			final int vxPixel = (int) Math
 					.round(geo1.kernel.getXscale() * rwTransVec.getX());

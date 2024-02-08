@@ -39,6 +39,13 @@ public class AuralTextTest {
 		}
 	}
 
+	private static void auralExact(String in, String expected) {
+		GeoElementND[] geos = add(in);
+		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
+		String[] sentences = aural.split("\\.");
+		assertEquals(expected, sentences[0]);
+	}
+
 	private static GeoElementND[] add(String in) {
 		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(in,
 				true);
@@ -169,6 +176,12 @@ public class AuralTextTest {
 		aural("LaTeX(\"x-y\")", "x minus y", "edit");
 		aural("LaTeX(\"\\text{x-y}\")", "x\u2010y", "edit");
 		aural("LaTeX((-1,2))", "open parenthesis  minus 1 comma  2 close parenthesis", "edit");
+	}
+
+	@Test
+	public void testAuralDegree() {
+		auralExact("LaTeX(\"a \\text{7\\degree}\")", "a7 degrees");
+		auralExact("LaTeX(\"a \\text{1\\degree}\")", "a1 degree");
 	}
 
 	@Test

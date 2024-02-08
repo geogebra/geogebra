@@ -28,6 +28,6 @@ public class GeoTextTest extends BaseUnitTest {
 	@Test
 	public void alignmentForUndefinedText() {
 		GeoText text = add("Text(If(false,7),(1,1),false,false,0,0)");
-		assertThat(getApp().getActiveEuclidianView().getDrawableFor(text), notNullValue());
+		assertThat(getDrawable(text), notNullValue());
 	}
 }

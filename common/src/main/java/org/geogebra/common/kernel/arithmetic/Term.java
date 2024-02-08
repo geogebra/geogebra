@@ -35,6 +35,7 @@ public class Term implements Comparable<Object> {
 	/** coefficient */
 	ExpressionValue coefficient; // has to evaluate() to NumberValue
 	private StringBuilder variables;
+	private String cachedVariables;
 
 	// private Kernel kernel;
 
@@ -80,7 +81,7 @@ public class Term implements Comparable<Object> {
 	 *            kernel for coefficient
 	 */
 	public Term(Term t, Kernel kernel) {
-		variables = new StringBuilder(t.variables.toString());
+		variables = new StringBuilder(t.getVars());
 		setCoefficient(ExpressionNode.copy(t.coefficient, kernel));
 	}
 
@@ -103,7 +104,10 @@ public class Term implements Comparable<Object> {
 	 * @return variables
 	 */
 	String getVars() {
-		return variables.toString();
+		if (cachedVariables == null) {
+			cachedVariables = variables.toString();
+		}
+		return cachedVariables;
 	}
 
 	/**
@@ -113,6 +117,7 @@ public class Term implements Comparable<Object> {
 	void setVariables(String vars) {
 		variables.setLength(0);
 		variables.append(vars);
+		cachedVariables = null;
 	}
 
 	/**
@@ -122,6 +127,7 @@ public class Term implements Comparable<Object> {
 	void setVariables(StringBuilder vars) {
 		variables.setLength(0);
 		variables.append(vars);
+		cachedVariables = null;
 	}
 
 	/**
@@ -244,6 +250,7 @@ public class Term implements Comparable<Object> {
 		setCoefficient(
 				multiply(coefficient, t.coefficient, kernel, keepFraction));
 		variables.append(t.variables);
+		cachedVariables = null;
 		sort(variables);
 	}
 
@@ -397,7 +404,7 @@ public class Term implements Comparable<Object> {
 		if (o instanceof Term) {
 			Term t = (Term) o;
 			return coefficient == t.coefficient
-					&& variables.toString().equals(t.variables.toString());
+					&& getVars().equals(t.getVars());
 		}
 		return false;
 	}
@@ -414,14 +421,14 @@ public class Term implements Comparable<Object> {
 	 * @return True if contins given variable
 	 */
 	boolean contains(String var) {
-		return variables.toString().indexOf(var) >= 0;
+		return getVars().indexOf(var) >= 0;
 	}
 
 	@Override
 	public int compareTo(Object o) {
 		if (o instanceof Term) {
-			return ((Term) o).variables.toString()
-					.compareTo(variables.toString());
+			return ((Term) o).getVars()
+					.compareTo(getVars());
 		}
 
 		return Integer.MAX_VALUE;
@@ -489,7 +496,7 @@ public class Term implements Comparable<Object> {
 	}
 
 	private String variableString(StringTemplate tpl) {
-		String str = variables.toString();
+		String str = getVars();
 
 		if ((tpl.hasCASType()) && variables.length() >= 1) {
 
