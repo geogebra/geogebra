@@ -7,14 +7,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.BaseControllerTest;
+import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.junit.Test;
 
-public class UndoManagerTest extends BaseControllerTest {
+public class UndoManagerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void undoDeletionGraphing() {
