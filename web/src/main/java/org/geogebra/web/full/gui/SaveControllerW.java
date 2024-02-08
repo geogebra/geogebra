@@ -432,7 +432,6 @@ public class SaveControllerW implements SaveController {
 				if (exception.getMessage().contains("auth")) {
 					getAppW().getLoginOperation().performTokenLogin();
 				}
-				getAppW().getGuiManager().exportGGB(true);
 				saveLocalIfNeeded(
 						SaveControllerW.getCurrentTimestamp(getAppW()),
 						SaveState.ERROR);

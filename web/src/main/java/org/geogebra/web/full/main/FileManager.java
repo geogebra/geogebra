@@ -222,7 +222,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * Shows error tooltip when saving online fails.
 	 * @param appw app
 	 */
-	protected void showOfflineErrorTooltip(AppW appw) {
+	public void showOfflineErrorTooltip(AppW appw) {
 		if (!appw.getNetworkOperation().isOnline()) {
 			app.getToolTipManager().showBottomMessage(appw
 					.getLocalization()
