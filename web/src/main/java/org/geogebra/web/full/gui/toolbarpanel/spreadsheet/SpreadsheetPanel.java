@@ -72,14 +72,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		Scrollable scrollable = createScrollable();
 		viewportAdjuster = new ViewportAdjuster(spreadsheet.getController().getLayout(),
 				scrollable);
+		spreadsheet.getController().setViewportAdjuster(viewportAdjuster);
 
 		Element spreadsheetElement = scrollContent.getElement();
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
-			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr), getModifiers(ptr),
-					viewportAdjuster.adjustViewportHorizontallyIfNeeded(),
-					viewportAdjuster.adjustViewportVerticallyIfNeeded());
+			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr), getModifiers(ptr));
 			if (ptr.getButton() == 2) {
 				event.preventDefault();
 			}
@@ -215,16 +214,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			@Override
 			public int getHorizontalScrollPosition() {
 				return scrollOverlay.getHorizontalScrollPosition();
-			}
-
-			@Override
-			public int getOffsetWidth() {
-				return getWidth();
-			}
-
-			@Override
-			public int getOffsetHeight() {
-				return getHeight();
 			}
 
 			@Override

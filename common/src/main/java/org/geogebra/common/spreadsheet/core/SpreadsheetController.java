@@ -1,7 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
@@ -32,6 +31,7 @@ public final class SpreadsheetController implements TabularSelection {
 
 	private final SpreadsheetStyle style;
 	private DragAction dragAction;
+	private @CheckForNull ViewportAdjuster viewportAdjuster;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -148,22 +148,18 @@ public final class SpreadsheetController implements TabularSelection {
 		this.controlsDelegate = controlsDelegate;
 	}
 
+	public void setViewportAdjuster(ViewportAdjuster viewportAdjuster) {
+		this.viewportAdjuster = viewportAdjuster;
+	}
+
 	/**
 	 * @param x x-coordinate relative to viewport
 	 * @param y y-coordinate relative to viewport
 	 * @param modifiers event modifiers
 	 * @param viewport visible area
-	 * <br/>
-	 * @param adjustViewportHorizontallyIfNeeded Function used to adjust the viewport
-	 * horizontally if needed, returns true if something that requires redrawing has changed
-	 * <br/>
-	 * @param adjustViewportVerticallyIfNeeded Function used to adjust the viewport
-	 * vertically if needed, returns true if something that requires redrawing has changed
 	 * @return whether the event caused changes in spreadsheet requiring repaint
 	 */
-	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport,
-			BiFunction<Integer, Rectangle, Boolean> adjustViewportHorizontallyIfNeeded,
-			BiFunction<Integer, Rectangle, Boolean> adjustViewportVerticallyIfNeeded) {
+	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
 		hideCellEditor();
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
@@ -179,10 +175,9 @@ public final class SpreadsheetController implements TabularSelection {
 		int row = findRowOrHeader(y, viewport);
 
 		boolean changed = false;
-		if (adjustViewportHorizontallyIfNeeded != null
-				&& adjustViewportVerticallyIfNeeded != null) {
-			changed = adjustViewportHorizontallyIfNeeded.apply(column, viewport)
-					| adjustViewportVerticallyIfNeeded.apply(row, viewport);
+		if (viewportAdjuster != null) {
+			changed = viewportAdjuster.adjustViewportHorizontallyIfNeeded(column, viewport)
+					| viewportAdjuster.adjustViewportVerticallyIfNeeded(row, viewport);
 		}
 
 		if ((modifiers.rightButton || modifiers.ctrl) && controlsDelegate != null) {
@@ -294,28 +289,33 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public boolean handleKeyPressed(int keyCode, String key,
 			Modifiers modifiers, Rectangle viewport) {
+		boolean moveOccured = false;
 		if (selectionController.hasSelection()) {
 			switch (keyCode) {
 			case JavaKeyCodes.VK_LEFT:
 				moveLeft(modifiers.shift);
-				return true;
+				moveOccured = true;
+				break;
 			case JavaKeyCodes.VK_RIGHT:
 				moveRight(modifiers.shift);
-				return true;
+				moveOccured = true;
+				break;
 			case JavaKeyCodes.VK_UP:
 				moveUp(modifiers.shift);
-				return true;
+				moveOccured = true;
+				break;
 			case JavaKeyCodes.VK_DOWN:
 				moveDown(modifiers.shift);
+				moveOccured = true;
+				break;
+			case JavaKeyCodes.VK_ENTER:
+				showCellEditorAtSelection(viewport);
 				return true;
 			case JavaKeyCodes.VK_A:
 				if (modifiers.ctrl) {
 					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
 					return true;
 				}
-			case JavaKeyCodes.VK_ENTER:
-				showCellEditorAtSelection(viewport);
-				return true;
 			default:
 				SpreadsheetControlsDelegate controls = controlsDelegate;
 				if (!modifiers.ctrl && !modifiers.alt && !StringUtil.empty(key)
@@ -326,7 +326,11 @@ public final class SpreadsheetController implements TabularSelection {
 				return false;
 			}
 		}
-		return false;
+		if (moveOccured) {
+			adjustViewportHorizontallyIfNeeded(viewport);
+			adjustViewportVerticallyIfNeeded(viewport);
+		}
+		return moveOccured;
 	}
 
 	private void showCellEditorAtSelection(Rectangle viewport) {
@@ -363,6 +367,35 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public void moveDown(boolean extendingCurrentSelection) {
 		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
+	}
+
+	/**
+	 * Adjusts the viewport horizontally if the selected cell or column is not fully visible
+	 * @param viewport Viewport
+	 */
+	private void adjustViewportHorizontallyIfNeeded(Rectangle viewport) {
+		if (canViewportBeAdjusted()) {
+			viewportAdjuster.adjustViewportHorizontallyIfNeeded(
+					getLastSelection().getRange().getToColumn(), viewport);
+		}
+	}
+
+	/**
+	 * Adjusts the viewport vertically if the selected cell or row is not fully visible
+	 * @param viewport Viewport
+	 */
+	private void adjustViewportVerticallyIfNeeded(Rectangle viewport) {
+		if (canViewportBeAdjusted()) {
+			viewportAdjuster.adjustViewportVerticallyIfNeeded(
+					getLastSelection().getRange().getToRow(), viewport);
+		}
+	}
+
+	/**
+	 * @return True if the viewport can be adjusted, false else
+	 */
+	private boolean canViewportBeAdjusted() {
+		return getLastSelection() != null && viewportAdjuster != null;
 	}
 
 	@CheckForNull Selection getLastSelection() {

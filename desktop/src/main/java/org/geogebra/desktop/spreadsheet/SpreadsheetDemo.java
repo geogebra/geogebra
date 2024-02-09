@@ -171,7 +171,7 @@ public class SpreadsheetDemo {
 				@Override
 				public void mousePressed(MouseEvent event) {
 					spreadsheet.handlePointerDown(event.getX(), event.getY(),
-							getModifiers(event), null, null);
+							getModifiers(event));
 					repaint();
 				}
 			});
