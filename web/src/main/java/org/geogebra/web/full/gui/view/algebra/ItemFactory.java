@@ -40,7 +40,7 @@ public class ItemFactory {
 			ti = new SliderTreeItemRetex(ob);
 		} else if (matchCheckbox(ob)) {
 			ti = new CheckboxTreeItem(ob);
-		} else if (TextTreeItem.match(ob)) {
+		} else if (AlgebraItem.isTextItem(ob)) {
 			ti = new TextTreeItem(ob);
 		} else {
 			ti = new RadioTreeItem(ob);
