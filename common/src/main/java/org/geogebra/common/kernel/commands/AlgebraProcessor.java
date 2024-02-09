@@ -683,11 +683,6 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private static boolean isForceSurfaceCartesian(ValidExpression newValue, GeoElementND geo) {
-		return geo.isGeoSurfaceCartesian()
-				&& !(newValue.wrap().getLeft() instanceof Function);
-	}
-
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && symbolicProcessor != null) {
 			symbolicProcessor.updateLabel(expression, info);
