@@ -62,14 +62,6 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 		return screenY1 > height - PLOT_MARGIN && screenY2 > height - PLOT_MARGIN;
 	}
 
-	private static boolean isSegmentOffscreenDown(double sy1, int h, double sy2) {
-		return sy1 > h - PLOT_MARGIN && sy2 > h - PLOT_MARGIN;
-	}
-
-	private static boolean isSegmentOffscreenUp(double sy1, double sy2) {
-		return sy1 < PLOT_MARGIN && sy2 < PLOT_MARGIN;
-	}
-
 	@Override
 	public void draw(GGraphics2D g2) {
 		g2.draw(gp);
