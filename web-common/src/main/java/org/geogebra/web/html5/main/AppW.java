@@ -50,7 +50,6 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -2949,14 +2948,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
 		return new GTimerW(listener, delay);
-	}
-
-	@Override
-	public void readLater(GeoNumeric geo) {
-		if (!kernel.getConstruction().isFileLoading()
-				&& (!appletParameters.preventFocus() || !geo.isAnimating())) {
-			getAccessibilityManager().readSliderUpdate(geo);
-		}
 	}
 
 	/**

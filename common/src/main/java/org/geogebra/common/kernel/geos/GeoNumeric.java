@@ -605,8 +605,15 @@ public class GeoNumeric extends GeoElement
 			animationValue = value;
 		}
 
+		notifyScreenReader();
+	}
+
+	/**
+	 * Let screen reader announce the latest value update
+	 */
+	public void notifyScreenReader() {
 		if (isLabelSet() && isSliderable() && isSelected()) {
-			kernel.getApplication().readLater(this);
+			kernel.getApplication().getAccessibilityManager().readSliderUpdate(this);
 		}
 	}
 

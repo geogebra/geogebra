@@ -4127,14 +4127,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @param geo
-	 *            slider to be read by screen reader
-	 */
-	public void readLater(GeoNumeric geo) {
-		// implemented in AppW
-	}
-
-	/**
 	 * @param subApp subapp code
 	 * @param p perspective
 	 */
