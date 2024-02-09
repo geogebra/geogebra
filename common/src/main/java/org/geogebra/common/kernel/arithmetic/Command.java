@@ -253,7 +253,7 @@ public class Command extends ValidExpression
 			}
 			sbToString.setLength(0);
 			if ("Integral".equals(name)) {
-				String var = getIntegralVar(tpl, symbolic);
+				String var = getIntegralVar(tpl);
 				appendIntegral(this, sbToString, var, tpl);
 				return sbToString.toString();
 			} else if ("Sum".equals(name) && getArgumentNumber() == 4) {
@@ -324,10 +324,10 @@ public class Command extends ValidExpression
 	 * Guess the function variable from first argument of Integral
 	 * Side effect: replace f -> f(v) in the first argument
 	 */
-	private String getIntegralVar(StringTemplate tpl, boolean symbolic) {
+	private String getIntegralVar(StringTemplate tpl) {
 		ExpressionNode argument = getArgument(0);
-		Set<GeoElement> vars = argument
-				.getVariables(symbolic ? SymbolicMode.SYMBOLIC : SymbolicMode.NONE);
+		SymbolicMode symbolicMode = kernel.getSymbolicMode();
+		Set<GeoElement> vars = argument.getVariables(symbolicMode);
 		String var = getFunctionVarName(argument, vars);
 		if (vars != null && !vars.isEmpty()) {
 			for (GeoElement geo : vars) {
@@ -342,7 +342,7 @@ public class Command extends ValidExpression
 				// make sure that we get from set the variable and not
 				// the function, needed for TRAC-5364
 				if (geo instanceof GeoDummyVariable && geoFunc == null
-						&& geoCASCell == null && !symbolic) {
+						&& geoCASCell == null && SymbolicMode.NONE.equals(symbolicMode)) {
 					var = geo.toString(tpl);
 				}
 			}

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ExpressionNodeCollector<T> {
+public final class ExpressionNodeCollector<T> {
 	private final ExpressionNode root;
 	private List<ExpressionNode> filteredNodes = new ArrayList<>();
 
@@ -15,9 +15,15 @@ public class ExpressionNodeCollector<T> {
 
 	public ExpressionNodeCollector<T> filter(Inspecting filter) {
 		root.inspect(v -> {
+			if (v == null) {
+				return false;
+			}
 			if (filter.check(v)) {
-				filteredNodes.add(v.wrap());
-				return true;
+				ExpressionNode node = v.wrap();
+				filteredNodes.add(node);
+				ExpressionValue left = node.getLeft();
+				ExpressionValue right = node.getRight();
+				return left != null && filter.check(left) && right != null && filter.check(right);
 			}
 			return false;
 		});
