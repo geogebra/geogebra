@@ -8,9 +8,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.awt.Button;
 import java.awt.event.KeyEvent;
 
 import org.geogebra.common.BaseUnitTest;
@@ -30,7 +30,6 @@ import org.geogebra.common.util.Scrollable;
 import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 public class SpreadsheetTest extends BaseUnitTest {
 
@@ -252,23 +251,30 @@ public class SpreadsheetTest extends BaseUnitTest {
 	}
 
 	private void fakeLeftArrowPress(Rectangle viewport) {
-		KeyEvent e = new KeyEvent(new Button(), 1, System.currentTimeMillis(), 0, 37, ' ');
+		KeyEvent e = fakeKeyEvent(37);
 		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE, viewport);
 	}
 
 	private void fakeUpArrowPress(Rectangle viewport) {
-		KeyEvent e = new KeyEvent(new Button(), 1, System.currentTimeMillis(), 0, 38, ' ');
+		KeyEvent e = fakeKeyEvent(38);
 		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE, viewport);
 	}
 
 	private void fakeRightArrowPress(Rectangle viewport) {
-		KeyEvent e = new KeyEvent(new Button(), 1, System.currentTimeMillis(), 0, 39, ' ');
+		KeyEvent e = fakeKeyEvent(39);
 		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE, viewport);
 	}
 
 	private void fakeDownArrowPress(Rectangle viewport) {
-		KeyEvent e = new KeyEvent(new Button(), 1, System.currentTimeMillis(), 0, 40, ' ');
+		KeyEvent e = fakeKeyEvent(40);
 		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE, viewport);
+	}
+
+	private KeyEvent fakeKeyEvent(int keyCode) {
+		KeyEvent event = mock(KeyEvent.class);
+		when(event.getKeyCode()).thenReturn(keyCode);
+		when(event.getKeyChar()).thenReturn(' ');
+		return event;
 	}
 
 	private ViewportAdjuster getViewportAdjuster() {
@@ -276,7 +282,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 	}
 
 	private Scrollable getMockForScrollable() {
-		Scrollable scrollable = Mockito.mock(Scrollable.class);
+		Scrollable scrollable = mock(Scrollable.class);
 		doAnswer(invocation -> {
 			int position = invocation.getArgument(0);
 			viewport = viewport.translatedBy(0, position);
