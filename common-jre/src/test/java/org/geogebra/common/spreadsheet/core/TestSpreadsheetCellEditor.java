@@ -43,6 +43,21 @@ public class TestSpreadsheetCellEditor
 		visible = false;
 	}
 
+	@Override
+	public void onEnter() {
+		// not needed
+	}
+
+	@Override
+	public void runOnTabCallback() {
+		// not needed
+	}
+
+	@Override
+	public void requestFocus() {
+		// not needed
+	}
+
 	public Object getContent() {
 		return content;
 	}
