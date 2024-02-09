@@ -32,7 +32,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final SpreadsheetCellEditorW editor;
 	private GPopupMenuW contextMenu;
 	private Localization loc;
-	private Runnable onTabCallback;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -40,14 +39,21 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		private final AppW app;
 		private SpreadsheetEditorListener listener;
 		private Runnable onTabCallback;
+		private Runnable requestFocusCallback;
 
-		public SpreadsheetCellEditorW(AppW app, Panel parent, MathTextFieldW mathField,
-				Runnable onTabCallback) {
+		public SpreadsheetCellEditorW(AppW app, Panel parent, MathTextFieldW mathField) {
 			this.mathField = mathField;
 			mathField.addStyleName("spreadsheetEditor");
 			this.parent = parent;
 			this.app = app;
-			this.onTabCallback = onTabCallback;
+		}
+
+		public void setOnTabCallback(Runnable callback) {
+			onTabCallback = callback;
+		}
+
+		public void setRequestFocusCallback(Runnable requestFocus) {
+			requestFocusCallback = requestFocus;
 		}
 
 		@Override
@@ -76,6 +82,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			if (listener != null) {
 				listener.onEnter();
 			}
+			requestFocus();
 		}
 
 		@Override
@@ -83,6 +90,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			if (onTabCallback != null) {
 				onTabCallback.run();
 			}
+			requestFocus();
 		}
 
 		@Override
@@ -110,6 +118,13 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		public void hide() {
 			mathField.setVisible(false);
 		}
+
+		@Override
+		public void requestFocus() {
+			if (requestFocusCallback != null) {
+				requestFocusCallback.run();
+			}
+		}
 	}
 
 	/**
@@ -118,11 +133,18 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	 * @param parent - parent panel
 	 * @param mathTextField - math text field
 	 */
-	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField,
-			Runnable onTabCallback) {
-		editor = new SpreadsheetCellEditorW(app, parent, mathTextField, onTabCallback);
+	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
+		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
+	}
+
+	public void setOnTabCallback(Runnable callback) {
+		editor.setOnTabCallback(callback);
+	}
+
+	public void setRequestFocusCallback(Runnable requestFocus) {
+		editor.setRequestFocusCallback(requestFocus);
 	}
 
 	@Override

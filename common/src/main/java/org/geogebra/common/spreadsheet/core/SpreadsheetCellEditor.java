@@ -21,4 +21,6 @@ public interface SpreadsheetCellEditor {
 	void onEnter();
 
 	void runOnTabCallback();
+
+	void requestFocus();
 }

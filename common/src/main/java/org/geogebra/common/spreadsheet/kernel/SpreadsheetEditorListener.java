@@ -41,6 +41,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener {
 					cmd, true);
 		}
 		editor.hide();
+		editor.requestFocus();
 	}
 
 	@Override
@@ -57,6 +58,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener {
 	@Override
 	public boolean onEscape() {
 		editor.hide();
+		editor.requestFocus();
 		return true;
 	}
 
