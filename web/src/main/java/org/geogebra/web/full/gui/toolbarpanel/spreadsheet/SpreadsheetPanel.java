@@ -63,7 +63,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize, Unhan
 		mathField = new MathTextFieldW(app);
 		mathField.setUnhandledArrowListener(this);
 
-		spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegateW(app, this, mathField));
+		spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegateW(app, this, mathField,
+				() -> {
+			spreadsheet.getController().moveRight(false);
+				}));
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");

@@ -32,18 +32,22 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final SpreadsheetCellEditorW editor;
 	private GPopupMenuW contextMenu;
 	private Localization loc;
+	private Runnable onTabCallback;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
 		private final Panel parent;
 		private final AppW app;
 		private SpreadsheetEditorListener listener;
+		private Runnable onTabCallback;
 
-		public SpreadsheetCellEditorW(AppW app, Panel parent, MathTextFieldW mathField) {
+		public SpreadsheetCellEditorW(AppW app, Panel parent, MathTextFieldW mathField,
+				Runnable onTabCallback) {
 			this.mathField = mathField;
 			mathField.addStyleName("spreadsheetEditor");
 			this.parent = parent;
 			this.app = app;
+			this.onTabCallback = onTabCallback;
 		}
 
 		@Override
@@ -71,6 +75,13 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		public void onEnter() {
 			if (listener != null) {
 				listener.onEnter();
+			}
+		}
+
+		@Override
+		public void runOnTabCallback() {
+			if (onTabCallback != null) {
+				onTabCallback.run();
 			}
 		}
 
@@ -107,8 +118,9 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	 * @param parent - parent panel
 	 * @param mathTextField - math text field
 	 */
-	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
-		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
+	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField,
+			Runnable onTabCallback) {
+		editor = new SpreadsheetCellEditorW(app, parent, mathTextField, onTabCallback);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
 	}

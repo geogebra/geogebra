@@ -34,10 +34,12 @@ public final class SpreadsheetEditorListener implements MathFieldListener {
 
 	@Override
 	public void onEnter() {
-		String cmd = GeoElementSpreadsheet.getSpreadsheetCellName(column, row)
-				+ Unicode.ASSIGN_STRING + mathField.getText();
-		kernel.getAlgebraProcessor().processAlgebraCommand(
-				cmd, true);
+		if (!mathField.getText().isEmpty()) {
+			String cmd = GeoElementSpreadsheet.getSpreadsheetCellName(column, row)
+					+ Unicode.ASSIGN_STRING + mathField.getText();
+			kernel.getAlgebraProcessor().processAlgebraCommand(
+					cmd, true);
+		}
 		editor.hide();
 	}
 
@@ -60,6 +62,8 @@ public final class SpreadsheetEditorListener implements MathFieldListener {
 
 	@Override
 	public boolean onTab(boolean shiftDown) {
-		return false;
+		onEnter();
+		editor.runOnTabCallback();
+		return true;
 	}
 }

@@ -19,4 +19,6 @@ public interface SpreadsheetCellEditor {
 	void hide();
 
 	void onEnter();
+
+	void runOnTabCallback();
 }
