@@ -14,14 +14,16 @@ public interface EventListener {
 	 * @param evt
 	 *            the event
 	 */
-	public void sendEvent(Event evt);
+	void sendEvent(Event evt);
 
 	/**
 	 * This method is called every time we have a new construction. The event
 	 * listener should get rid of all the scripts
 	 * 
-	 * At the moment this is triggered when View.clearView() is called TODO
+	 * <p>At the moment this is triggered when View.clearView() is called TODO
 	 * check that this only really happens when a new file is created or opened.
 	 */
-	public void reset();
+	default void reset() {
+		// not needed in most cases
+	}
 }

@@ -35,12 +35,10 @@ public class TextBuilder {
 	/**
 	 * @param fontStyle se GFont.getStyle()
 	 * @param isSerif whether to use serif font
-	 * @return this
 	 */
-	public TextBuilder setStyle(int fontStyle, boolean isSerif) {
+	public void setStyle(int fontStyle, boolean isSerif) {
 		this.fontStyle = fontStyle;
 		this.isSerif = isSerif;
-		return this;
 	}
 
 	/**
@@ -95,25 +93,12 @@ public class TextBuilder {
 				t.setVisibleInViewForPlane(false);
 				app.removeFromViewsForPlane(t);
 			} else if (activeView.isDefault2D()) {
-				if (app
-						.isEuclidianView3Dinited()) {
-					app
-							.removeFromViews3D(t);
-				} else {
-					t.removeViews3D();
-				}
+				removeFromViews3D(t);
 				t.setVisibleInViewForPlane(false);
-				app
-						.removeFromViewsForPlane(t);
+				app.removeFromViewsForPlane(t);
 			} else { // view for plane
 				app.removeFromEuclidianView(t);
-				if (app
-						.isEuclidianView3Dinited()) {
-					app
-							.removeFromViews3D(t);
-				} else {
-					t.removeViews3D();
-				}
+				removeFromViews3D(t);
 				t.setVisibleInViewForPlane(true);
 				app.addToViewsForPlane(t);
 			}
@@ -123,6 +108,14 @@ public class TextBuilder {
 		activeView.getEuclidianController()
 				.memorizeJustCreatedGeos(t.asArray());
 		t.setLabel(null);
+	}
+
+	private void removeFromViews3D(GeoText t) {
+		if (app.isEuclidianView3Dinited()) {
+			app.removeFromViews3D(t);
+		} else {
+			t.removeViews3D();
+		}
 	}
 
 	private AsyncOperation<GeoElementND[]> getCallback(
