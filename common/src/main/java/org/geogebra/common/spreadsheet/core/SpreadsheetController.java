@@ -12,9 +12,7 @@ import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Rectangle;
 
-import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
-import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
  * A container for tabular data, with support for selecting parts of the data.

@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
-
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;

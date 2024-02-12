@@ -117,7 +117,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize, Unhan
 	}
 
 	private SpreadsheetControlsDelegateW initDelegate() {
-		SpreadsheetControlsDelegateW delegate = new SpreadsheetControlsDelegateW(app, this, mathField);
+		SpreadsheetControlsDelegateW delegate = new SpreadsheetControlsDelegateW(app,
+				this, mathField);
 		delegate.setOnTabCallback(() -> spreadsheet.getController().moveRight(false));
 		delegate.setRequestFocusCallback(this::requestFocus);
 
