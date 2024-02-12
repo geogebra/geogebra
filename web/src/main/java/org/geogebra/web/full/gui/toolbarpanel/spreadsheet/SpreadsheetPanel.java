@@ -30,7 +30,6 @@ import jsinterop.base.Js;
 
 public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
-	private final Canvas spreadsheetWidget;
 	private final Spreadsheet spreadsheet;
 	private final GGraphics2DW graphics;
 	private final AppW app;
@@ -45,7 +44,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	 * @param app application
 	 */
 	public SpreadsheetPanel(AppW app) {
-		spreadsheetWidget = Canvas.createIfSupported();
+		Canvas spreadsheetWidget = Canvas.createIfSupported();
 		spreadsheetWidget.addStyleName("spreadsheetWidget");
 		graphics = new GGraphics2DW(spreadsheetWidget);
 		this.app = app;
@@ -151,10 +150,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		graphics.setDevicePixelRatio(app.getPixelRatio());
 		graphics.setCoordinateSpaceSize(getWidth(), getHeight());
 		onScroll();
-	}
-
-	private int toLogicalPx(int size) {
-		 return (int) Math.round(size * app.getPixelRatio());
 	}
 
 	private void repaint() {
