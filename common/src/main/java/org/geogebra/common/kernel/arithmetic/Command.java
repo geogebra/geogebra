@@ -359,7 +359,7 @@ public class Command extends ValidExpression
 
 		List<String> integralVarNames = collector
 				.filter(v -> v instanceof FunctionVariable)
-				.mapTo(t -> ((FunctionVariable)(t.unwrap())).getSetVarString());
+				.mapTo(t -> ((FunctionVariable) (t.unwrap())).getSetVarString());
 
 		if (vars != null) {
 			List<String> dummyVarNames = getDummyVarNames(vars);
@@ -373,7 +373,7 @@ public class Command extends ValidExpression
 		final ArrayList<String> list = new ArrayList<>();
 		for (GeoElement var: vars) {
 			if (var instanceof GeoDummyVariable) {
-				list.add(((GeoDummyVariable)var).getVarName());
+				list.add(((GeoDummyVariable) var).getVarName());
 			}
 		}
 		return list;

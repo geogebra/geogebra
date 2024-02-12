@@ -26,7 +26,7 @@ public class ExpressionNodeCollectorTest extends BaseUnitTest {
 		ExpressionNodeCollector<Double> collector =
 				new ExpressionNodeCollector<>(function.getFunctionExpression());
 		List<Double> actual = collector.filter(ExpressionValue::isConstant)
-				.mapTo(t -> (t.unwrap().evaluateDouble()));
+				.mapTo(t -> t.unwrap().evaluateDouble());
 		assertEquals(Arrays.asList(2.0, 45.0, 43.0), actual);
 
 	}
