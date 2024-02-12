@@ -8,14 +8,10 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 class HeaderedMenuView extends FlowPanel {
 
-	private static final String HEADERED_MENU_STLYE = "headeredMenuView";
-	private static final String HEADER_DIVIDER_STYLE = "headerDivider";
-	private static final String TITLE_HEADER_STYLE = "titleHeader";
-
 	private HeaderView headerView;
 
 	HeaderedMenuView(@Nonnull MenuView menuView) {
-		setStyleName(HEADERED_MENU_STLYE);
+		setStyleName("headeredMenuView");
 		add(menuView);
 	}
 
@@ -32,7 +28,7 @@ class HeaderedMenuView extends FlowPanel {
 
 	void setTitleHeader(boolean titleHeader) {
 		if (headerView != null) {
-			headerView.setStyleName(TITLE_HEADER_STYLE, titleHeader);
+			headerView.setStyleName("titleHeader", titleHeader);
 		}
 	}
 
@@ -50,7 +46,7 @@ class HeaderedMenuView extends FlowPanel {
 
 	private void styleHeaderView() {
 		if (headerView != null) {
-			headerView.addStyleName(HEADER_DIVIDER_STYLE);
+			headerView.addStyleName("headerDivider");
 		}
 	}
 }

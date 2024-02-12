@@ -5,6 +5,7 @@ import org.gwtproject.user.client.ui.Button;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 public class BaseWidgetFactory {
 
@@ -114,5 +115,15 @@ public class BaseWidgetFactory {
 		}
 		label.addStyleName(foreground.getFgColName());
 		return label;
+	}
+
+	/**
+	 * @return divider component
+	 */
+	public SimplePanel newDivider() {
+		SimplePanel widget = new SimplePanel();
+		widget.addStyleName("divider");
+		widget.addStyleName(Shades.NEUTRAL_300.getName());
+		return widget;
 	}
 }

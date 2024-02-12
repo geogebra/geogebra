@@ -28,6 +28,19 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 		auralValue("a+sqrt(x)", "g(x) = 7 + sqrt(x)");
 	}
 
+	@Test
+	public void testAuralDegreeUnicode() {
+		auralText("LaTeX(\"\\text{a 7\\degree}\")", "a 7°");
+		auralText("LaTeX(\"\\text{a 1\\degree}\")", "a 1°");
+	}
+
+	private void auralText(String in, String expected) {
+		GeoElement geo = add(in);
+		String aural = geo.getAuralText(new ScreenReaderBuilderDot(getApp().getLocalization()))
+				.split("\\. ")[0];
+		assertEquals(expected, aural);
+	}
+
 	private void auralValue(String in, String expected) {
 		GeoElement geo = add(in);
 		assertEquals(expected, geo.toString(getApp().getScreenReaderTemplate()));
