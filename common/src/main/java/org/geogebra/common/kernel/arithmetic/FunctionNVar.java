@@ -216,6 +216,7 @@ public class FunctionNVar extends ValidExpression
 		if (expression != null) {
 			expression.replaceChildrenByValues(geo);
 		}
+		ineqs = null;
 	}
 
 	/**

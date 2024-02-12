@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
@@ -41,6 +42,16 @@ public class AlgoElementTest extends BaseUnitTest {
 	@Test
 	public void testSequenceInequality2() {
 		add("a: y" + Unicode.LESS_EQUAL + "x^(2) " + Unicode.AND
+				+ " y" + Unicode.GREATER_EQUAL + " 0 " + Unicode.AND + " x" + Unicode.GREATER_EQUAL
+				+ "-0 " + Unicode.AND + " x" + Unicode.LESS_EQUAL + "1");
+		GeoList list = add("{a(x+1,y), a(x+2,y)}");
+		assertEquals(list.toValueString(StringTemplate.defaultTemplate),
+				add("Sequence(a(x+i,y),i,1,2)").toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void testSequenceIneqTree() {
+		GeoFunctionNVar f = add("a: y" + Unicode.LESS_EQUAL + "x^(2) " + Unicode.AND
 				+ " y" + Unicode.GREATER_EQUAL + " 0 " + Unicode.AND + " x" + Unicode.GREATER_EQUAL
 				+ "-0 " + Unicode.AND + " x" + Unicode.LESS_EQUAL + "1");
 		GeoList list = add("{a(x+1,y), a(x+2,y)}");
