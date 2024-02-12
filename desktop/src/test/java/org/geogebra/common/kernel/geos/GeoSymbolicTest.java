@@ -2232,4 +2232,21 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 			assertThat(geo.getLabelSimple(), startsWith(LabelManager.HIDDEN_PREFIX));
 		}
 	}
+
+	@Test
+	public void maxCommandShouldHaveSymbolicToggle() {
+		t("f(x) = x^2 * 0.6^x + 4", "(3 / 5)^(x) * x^(2) + 4");
+		t("A = Max(f, 0, 10)", "(-2 / ln(3 / 5), (4 * (3 / 5)^(-2 / ln(3 / 5)) + "
+				+ "4 * (ln(3 / 5))^(2)) / (ln(3 / 5))^(2))");
+		GeoSymbolic maxCommand = getSymbolic("A");
+		assertTrue(AlgebraItem.isSymbolicDiffers(maxCommand));
+	}
+
+	@Test
+	public void minCommandShouldHaveSymbolicToggle() {
+		t("f(x) = x^2 * 0.6^x + 4", "(3 / 5)^(x) * x^(2) + 4");
+		t("A = Min(f, 0, 5)", "(0, 4)");
+		GeoSymbolic minCommand = getSymbolic("A");
+		assertTrue(AlgebraItem.isSymbolicDiffers(minCommand));
+	}
 }
