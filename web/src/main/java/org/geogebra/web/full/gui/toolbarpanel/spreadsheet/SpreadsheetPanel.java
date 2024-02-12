@@ -7,6 +7,7 @@ import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.gwtutil.NativePointerEvent;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -70,7 +71,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
 			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
 					getModifiers(ptr));
-			if (ptr.getButton() == 2) {
+			if (ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey())) {
 				event.preventDefault();
 			}
 		});
@@ -132,7 +133,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private Modifiers getModifiers(NativePointerEvent ptr) {
 		return new Modifiers(ptr.getAltKey(), ptr.getCtrlKey(), ptr.getShiftKey(),
-				ptr.getButton() == 2);
+				ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey()));
 	}
 
 	private void updateTotalSize() {

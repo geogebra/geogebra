@@ -168,7 +168,7 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 		int column = findColumnOrHeader(x, viewport);
 		int row = findRowOrHeader(y, viewport);
-		if ((modifiers.rightButton || modifiers.ctrl) && controlsDelegate != null) {
+		if (modifiers.rightButton && controlsDelegate != null) {
 			selectionController.clearSelection();
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
