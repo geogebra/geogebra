@@ -21,16 +21,12 @@ package org.geogebra.desktop.util;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Comparator;
@@ -40,6 +36,7 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
+import org.geogebra.common.jre.io.StreamUtil;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
@@ -70,24 +67,12 @@ public class UtilD {
 	}
 
 	/**
-	 * Writes all contents of the given InputStream to a byte array.
-	 * @return bytes from the stream
-	 * @throws IOException if I/O problem occurs
-	 */
-	public static byte[] loadIntoMemory(InputStream is) throws IOException {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		copyStream(is, bos);
-		bos.close();
-		return bos.toByteArray();
-	}
-
-	/**
 	 * @param filename filename
 	 * @return file content
 	 */
 	public static String loadFileIntoString(String filename) {
 		try (FileInputStream ios = new FileInputStream(filename)) {
-			return loadIntoString(ios);
+			return StreamUtil.loadIntoString(ios);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
 		}
@@ -112,41 +97,6 @@ public class UtilD {
 			Log.error("problem loading " + filename);
 		}
 		return null;
-	}
-
-	/**
-	 * Writes all contents of the given InputStream to a String
-	 * @return stream content
-	 */
-	public static String loadIntoString(InputStream is) {
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(is, Charsets.getUtf8()));
-		StringBuilder sb = new StringBuilder();
-
-		String line;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line).append("\n");
-			}
-		} catch (IOException e) {
-			Log.debug(e);
-		}
-
-		return sb.toString();
-	}
-
-	/**
-	 * @param in input stream
-	 * @param out output stream
-	 * @throws IOException if I/O error occurs
-	 */
-	public static void copyStream(InputStream in, OutputStream out)
-			throws IOException {
-		byte[] buf = new byte[4096];
-		int len;
-		while ((len = in.read(buf)) > -1) {
-			out.write(buf, 0, len);
-		}
 	}
 
 	/**
