@@ -39,6 +39,8 @@ public class MenuToggleButton extends ToggleButton
 				return;
 			}
 			toggleMenu();
+			event.preventDefault();
+			event.stopPropagation();
 		});
 	}
 
