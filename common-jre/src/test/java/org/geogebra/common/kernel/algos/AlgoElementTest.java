@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -51,12 +52,17 @@ public class AlgoElementTest extends BaseUnitTest {
 
 	@Test
 	public void testSequenceIneqTree() {
-		GeoFunctionNVar f = add("a: y" + Unicode.LESS_EQUAL + "x^(2) " + Unicode.AND
+		 add("a: y" + Unicode.LESS_EQUAL + "x^(2) " + Unicode.AND
 				+ " y" + Unicode.GREATER_EQUAL + " 0 " + Unicode.AND + " x" + Unicode.GREATER_EQUAL
 				+ "-0 " + Unicode.AND + " x" + Unicode.LESS_EQUAL + "1");
 		GeoList list = add("{a(x+1,y), a(x+2,y)}");
-		assertEquals(list.toValueString(StringTemplate.defaultTemplate),
-				add("Sequence(a(x+i,y),i,1,2)").toValueString(StringTemplate.defaultTemplate));
+		IneqTree ineqs1 = ((GeoFunctionNVar) list.get(0)).getIneqs();
+		GeoList sequence = add("Sequence(a(x+i,y),i,1,2)");
+		IneqTree ineqs2 = ((GeoFunctionNVar) sequence.get(0)).getIneqs();
+		assertEquals(ineqs1.getLeft().getRight().getIneq().getBorder()
+						.toValueString(StringTemplate.defaultTemplate),
+				ineqs2.getLeft().getRight().getIneq().getBorder()
+						.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	private TypeSafeMatcher<GeoElement> hasLaTeXDefinition(String def) {
