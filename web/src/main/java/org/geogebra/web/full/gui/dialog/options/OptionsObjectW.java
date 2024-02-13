@@ -203,8 +203,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.setStyleName("optionsInput");
 			// non auto complete input panel
-			InputPanelW inputPanel = new InputPanelW(null, getAppW(), 1, -1,
-					true);
+			InputPanelW inputPanel = new InputPanelW(null, getAppW(), true);
 			tfCondition = inputPanel.getTextComponent();
 
 			title = new FormLabel().setFor(tfCondition);
@@ -374,13 +373,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			model = new ColorFunctionModel(app, this);
 			setModel(model);
 			// non auto complete input panel
-			InputPanelW inputPanelR = new InputPanelW(null, getAppW(), 1, -1,
-					true);
-			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), 1, -1,
-					true);
-			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), 1, -1,
-					true);
-			inputPanelA = new InputPanelW(null, getAppW(), 1, -1, true);
+			InputPanelW inputPanelR = new InputPanelW(null, getAppW(), true);
+			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), true);
+			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), true);
+			inputPanelA = new InputPanelW(null, getAppW(),  true);
 			tfRed = inputPanelR.getTextComponent();
 			tfGreen = inputPanelG.getTextComponent();
 			tfBlue = inputPanelB.getTextComponent();

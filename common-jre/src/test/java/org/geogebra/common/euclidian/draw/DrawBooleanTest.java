@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-import org.geogebra.common.euclidian.BaseControllerTest;
+import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 
-public class DrawBooleanTest extends BaseControllerTest {
+public class DrawBooleanTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void hitBooleanWithDynamicCaptionShouldBeOneEvent() {

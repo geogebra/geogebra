@@ -48,7 +48,6 @@ import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1180,10 +1179,8 @@ public abstract class AlgoElement extends ConstructionElement
 			if (!(this instanceof DependentAlgo)) {
 				boolean allIndependent = true;
 				for (int i = 0; i < input.length; i++) {
-					if (input[i].isGeoPoint()
-							&& (input[i].isIndependent()
-									|| input[i].isMoveable())) {
-						freeInputPoints.add((GeoPointND) input[i]);
+					if (input[i].isFreeInputPoint()) {
+						freeInputPoints.add(input[i]);
 						allIndependent &= input[i].isIndependent();
 					}
 				}

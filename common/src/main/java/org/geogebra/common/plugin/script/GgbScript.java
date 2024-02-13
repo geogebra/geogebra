@@ -43,6 +43,8 @@ public class GgbScript extends Script {
 		if (text == null) {
 			return true;
 		}
+		boolean wasAppUsingInternalCommandNames = app.getKernel().isUsingInternalCommandNames();
+		app.getKernel().setUseInternalCommandNames(true);
 		scriptText = substitutePlaceholders(text, evt);
 		String[] lines = scriptText.split("\n");
 		boolean success = true;
@@ -61,6 +63,7 @@ public class GgbScript extends Script {
 				// error handler should actually catch it
 			}
 		}
+		app.getKernel().setUseInternalCommandNames(wasAppUsingInternalCommandNames);
 		return success;
 	}
 

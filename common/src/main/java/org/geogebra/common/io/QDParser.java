@@ -19,6 +19,7 @@
 
 package org.geogebra.common.io;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.LinkedHashMap;
 import java.util.Stack;
@@ -84,10 +85,11 @@ public class QDParser {
 	 *            handler that receives document events
 	 * @param r
 	 *            source of XML data
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if XML is not valid
+	 * @throws IOException if accessing data from reader fails
 	 */
-	final public void parse(DocHandler doc, Reader r) throws Exception {
+	final public void parse(DocHandler doc, Reader r) throws IOException, XMLParseException {
 		// Stack stack = new Stack();
 		stack.clear();
 
@@ -442,7 +444,7 @@ public class QDParser {
 
 	}
 
-	private static void exc(String s, int line, int col) throws Exception {
-		throw new Exception(s + " near line " + line + ", column " + col);
+	private static void exc(String s, int line, int col) throws XMLParseException {
+		throw new XMLParseException(s + " near line " + line + ", column " + col);
 	}
 }

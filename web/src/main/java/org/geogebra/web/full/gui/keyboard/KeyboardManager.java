@@ -18,7 +18,7 @@ import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.AlgebraMathFieldProcessing;
-import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
+import org.geogebra.web.full.gui.dialog.text.GeoTextEditor;
 import org.geogebra.web.full.gui.dialog.text.TextEditPanelProcessing;
 import org.geogebra.web.full.gui.openfileview.HeaderFileView;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -26,11 +26,9 @@ import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
-import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
 import org.geogebra.web.full.util.keyboard.ScriptAreaProcessing;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -352,11 +350,8 @@ public class KeyboardManager
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
 		}
-		if (textField instanceof GTextBox) {
-			return new GTextBoxProcessing((GTextBox) textField);
-		}
-		if (textField instanceof TextEditPanel) {
-			return new TextEditPanelProcessing((TextEditPanel) textField);
+		if (textField instanceof GeoTextEditor) {
+			return new TextEditPanelProcessing((GeoTextEditor) textField);
 		}
 		if (textField instanceof AutoCompleteTextFieldW) {
 			return new AutocompleteProcessing(

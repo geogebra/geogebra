@@ -528,11 +528,6 @@ public class AppCommon extends App {
     }
 
     @Override
-    public boolean loadXML(String xml) {
-        return false;
-    }
-
-    @Override
     public void copyGraphicsViewToClipboard() {
 		// not needed with no UI
     }

@@ -658,12 +658,14 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
-			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)) {
+			} else if (geo.isGeoSurfaceCartesian() && preventTypeChange) {
 				n.setForceSurfaceCartesian();
 			} else if (geo instanceof GeoFunctionNVar) {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
 					n.setForceInequality();
 				}
+			} else if (geo.isGeoAngle() && preventTypeChange) {
+				n.setForceAngle();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -679,11 +681,6 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
-	}
-
-	private static boolean isForceSurfaceCartesian(ValidExpression newValue, GeoElementND geo) {
-		return geo.isGeoSurfaceCartesian()
-				&& !(newValue.wrap().getLeft() instanceof Function);
 	}
 
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
@@ -1158,11 +1155,11 @@ public class AlgebraProcessor {
 	 * @param cmd
 	 *            command
 	 * @return valid expression
-	 * @throws Exception
-	 *             exception
+	 * @throws ParseException
+	 *             exception if syntax is invalid
 	 */
 	public ValidExpression getValidExpressionNoExceptionHandling(
-			final String cmd) throws Exception {
+			final String cmd) throws ParseException {
 		return parser.parseGeoGebraExpression(cmd);
 	}
 
@@ -1962,11 +1959,11 @@ public class AlgebraProcessor {
 	 * @return resulting elements
 	 * @throws MyError
 	 *             e.g. for wrong syntax
-	 * @throws Exception
-	 *             e.g. for circular definition
+	 * @throws CircularDefinitionException
+	 *             for circular definition
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve)
-			throws MyError, Exception {
+			throws MyError, CircularDefinitionException {
 		return processValidExpression(ve,
 				new EvalInfo(!cons.isSuppressLabelsActive(), true));
 	}
@@ -1980,12 +1977,12 @@ public class AlgebraProcessor {
 	 *            processing information
 	 * @throws MyError
 	 *             e.g. on wrong syntax
-	 * @throws Exception
-	 *             e.g. for circular definition
+	 * @throws CircularDefinitionException
+	 *             for circular definition
 	 * @return resulting geos
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve,
-			EvalInfo info) throws MyError, Exception {
+			EvalInfo info) throws MyError, CircularDefinitionException {
 		EvalInfo evalInfo = info;
 		ValidExpression expression = ve;
 		// check for existing labels

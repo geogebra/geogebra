@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.util.function.Function;
 
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
@@ -288,5 +289,9 @@ public class BaseUnitTest {
 	protected void activateUndo() {
 		app.setUndoRedoMode(UndoRedoMode.GUI);
 		app.setUndoActive(true);
+	}
+
+	protected Drawable getDrawable(GeoElementND geo) {
+		return (Drawable) app.getActiveEuclidianView().getDrawableFor(geo);
 	}
 }

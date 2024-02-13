@@ -33,7 +33,7 @@ public class ObjectLabelHandler implements DocHandler {
 	}
 
 	@Override
-	public void text(String str) throws Exception {
+	public void text(String str) throws XMLParseException {
 		// really do not care
 	}
 

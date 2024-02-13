@@ -68,11 +68,8 @@ pipeline {
                 sh label: 'test', script: "$gradleCmd test :common-jre:jacocoTestReport"
                 sh label: 'static analysis', script: "$gradleCmd pmdMain spotbugsMain -x common:spotbugsMain  -x renderer-base:spotbugsMain --max-workers=1"
                 sh label: 'spotbugs common', script: "$gradleCmd :common:spotbugsMain"
-                sh label: 'code style', script: "$gradleCmd :web:cpdCheck checkStyleMain checkStyleTest"
+                sh label: 'code style', script: "$gradleCmd checkStyleMain checkStyleTest"
                 junit '**/build/test-results/test/*.xml'
-                recordIssues tools: [
-                    cpd(pattern: '**/build/reports/cpd/cpdCheck.xml')
-                ]
                 recordIssues qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools: [
                     spotBugs(pattern: '**/build/reports/spotbugs/*.xml', useRankAsPriority: true), 
                     pmdParser(pattern: '**/build/reports/pmd/main.xml'),

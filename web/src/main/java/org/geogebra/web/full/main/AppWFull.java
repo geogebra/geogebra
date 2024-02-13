@@ -431,7 +431,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	private void preloadAdvancedCommandsForSuiteCAS() {
 		if (isSuite() && "cas".equals(activity.getConfig().getSubAppCode())) {
-			getAsyncManager().prefetch(null, "advanced");
+			getAsyncManager().prefetch(null, "advanced", "giac");
 		}
 	}
 
@@ -1992,6 +1992,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void onMenuClosed() {
 		menuShowing = false;
 		updateMenuBtnStatus(false);
+		getAccessibilityManager().focusNext();
 	}
 
 	private void updateMenuBtnStatus(boolean expanded) {

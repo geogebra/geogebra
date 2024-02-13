@@ -27,6 +27,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -466,7 +467,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solutions(x*a^2=4*a, a)", "{4 / x, 0}");
 		t("Solutions(x^2=4x)", "{0, 4}");
 		t("Solutions({x=4x+y,y+x=2},{x, y})", "{{-1, 3}}");
-		t("Solutions(sin(x)=cos(x))",
+		t("Assume(-pi<x<pi, Solutions(sin(x)=cos(x)))",
 				"{-3 / 4 * " + pi + ", 1 / 4 * " + pi + "}");
 		t("Solutions(x^2=1)", "{-1, 1}");
 		t("Solutions({x+y=1, x-y=3})", "{{2, -1}}");
@@ -2157,6 +2158,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(add("h=If(x<a,a,x<b,b,x<c,c+1)"),
 				hasFormulaString("\\left\\{\\begin{array}{ll} a& : a > x"
 						+ "\\\\ b& : b > x\\\\ c + 1& : c > x \\end{array}\\right. "));
+		assertThat(add("x+x"), hasFormulaString("2 \\; x"));
 	}
 
 	@Test
@@ -2194,5 +2196,57 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void shouldExpandExpressionInIntegral() {
 		t("h=x^2", "x^(2)");
 		t("Integral(h,0,1)", "1 / 3");
+	}
+
+	@Test
+	public void booleansShouldNotHaveNumericValue() {
+		GeoSymbolic p = add("IsPrime(4)");
+		p.setSymbolicMode(false, true);
+		p.update();
+		assertThat(SymbolicUtil.shouldComputeNumericValue(p.getValue()), equalTo(false));
+		assertThat(p, hasValue("false"));
+	}
+
+	@Test
+	public void shouldNotHideParametricLabel() {
+		GeoElement[] parametric = new GeoElement[] {
+				add("g1: X=(1,2)+s (4,5)"),
+				add("g2: X=(1,2,3)+s (4,5,6)"),
+				add("g3: X=(1,2)+sin(s)*(4,5)+cos(s)*(7,8)"),
+				add("g4: X=(1,2,3)+sin(s)*(4,5,6)+cos(s)*(7,8,9)")
+		};
+		new LabelHiderCallback().callback(parametric);
+		for (GeoElement geo: parametric) {
+			assertThat(geo.getLabelSimple(), startsWith("g"));
+		}
+	}
+
+	@Test
+	public void shouldHideAutomaticLabel() {
+		GeoElement[] parametric = new GeoElement[] {
+				add("x=y"),
+				add("y=z+x")
+		};
+		new LabelHiderCallback().callback(parametric);
+		for (GeoElement geo: parametric) {
+			assertThat(geo.getLabelSimple(), startsWith(LabelManager.HIDDEN_PREFIX));
+		}
+	}
+
+	@Test
+	public void maxCommandShouldHaveSymbolicToggle() {
+		t("f(x) = x^2 * 0.6^x + 4", "(3 / 5)^(x) * x^(2) + 4");
+		t("A = Max(f, 0, 10)", "(-2 / ln(3 / 5), (4 * (3 / 5)^(-2 / ln(3 / 5)) + "
+				+ "4 * (ln(3 / 5))^(2)) / (ln(3 / 5))^(2))");
+		GeoSymbolic maxCommand = getSymbolic("A");
+		assertTrue(AlgebraItem.isSymbolicDiffers(maxCommand));
+	}
+
+	@Test
+	public void minCommandShouldHaveSymbolicToggle() {
+		t("f(x) = x^2 * 0.6^x + 4", "(3 / 5)^(x) * x^(2) + 4");
+		t("A = Min(f, 0, 5)", "(0, 4)");
+		GeoSymbolic minCommand = getSymbolic("A");
+		assertTrue(AlgebraItem.isSymbolicDiffers(minCommand));
 	}
 }

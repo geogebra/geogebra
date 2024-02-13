@@ -15,6 +15,7 @@ package org.geogebra.common.jre.util;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -36,13 +37,11 @@ public class DownloadManager {
 	 *            source file
 	 * @param dest
 	 *            target file
-	 * @throws Exception
+	 * @throws IOException
 	 *             if URL can't be opened or writing fails
 	 */
-	public static void copyURLToFile(URL src, File dest) throws Exception {
-		BufferedInputStream in = null;
-		FileOutputStream out = null;
-		try {
+	public static void copyURLToFile(URL src, File dest) throws IOException {
+
 			// open input stream to src URL
 			URLConnection srcConnection = src.openConnection();
 
@@ -71,14 +70,8 @@ public class DownloadManager {
 					done = true;
 				}
 			}
-
-			in = new BufferedInputStream(srcConnection.getInputStream());
-			// if (in == null)
-			// throw new NullPointerException("URL not found: " + src);
-
-			// create output file
-			out = new FileOutputStream(dest);
-
+		try (BufferedInputStream in = new BufferedInputStream(srcConnection.getInputStream());
+			 FileOutputStream out = new FileOutputStream(dest)) {
 			byte[] buf = new byte[BYTE_BUFFER_SIZE];
 			int len;
 			while ((len = in.read(buf)) > 0) {
@@ -89,12 +82,6 @@ public class DownloadManager {
 			if (!ok) {
 				Log.warn("Problem downloading " + src);
 			}
-			in.close();
-		} catch (Exception e) {
-			StreamUtil.closeSilent(in);
-			StreamUtil.closeSilent(out);
-
-			throw e;
 		}
 	}
 
