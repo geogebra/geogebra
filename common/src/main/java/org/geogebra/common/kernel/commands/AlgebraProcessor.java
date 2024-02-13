@@ -3208,7 +3208,7 @@ public class AlgebraProcessor {
 			return processText(n, eval);
 		} else if (eval instanceof MyList) {
 			return processList(n, (MyList) eval, info);
-		} else if (eval instanceof EquationValue) {
+		} else if (eval instanceof EquationValue && !n.unwrap().isGeoElement()) {
 			Equation eq = ((EquationValue) eval).getEquation();
 			eq.setFunctionDependent(true);
 			eq.setLabel(n.getLabel());
