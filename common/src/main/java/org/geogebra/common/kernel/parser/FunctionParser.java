@@ -81,11 +81,12 @@ public class FunctionParser {
 	 *            list of nodes that may be either fns or multiplications
 	 * @param giacParsing
 	 *            whether this is for Giac
+	 * @param nestedCommands number of commands/functions this one is nested in
 	 * @return function node
 	 */
 	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
 			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing,
-			boolean topLevelExpression) {
+			boolean topLevelExpression, int nestedCommands) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
 		ExpressionNode en;
 		if (giacParsing) {
@@ -166,13 +167,15 @@ public class FunctionParser {
 			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
 				if (!isCommand(funcName)
 						&& !forceCommand && funcName.length() == 1
+						&& nestedCommands < 1
 						&& kernel.getAlgebraProcessor().enableStructures()) {
 					if (topLevelExpression) {
 						ExpressionNode point = asPoint(myList, funcName);
 						if (point != null) {
 							return point;
 						}
-					} if (kernel.getSymbolicMode() == SymbolicMode.NONE && myList.size() == 1) {
+					} if (kernel.getSymbolicMode() == SymbolicMode.NONE
+							&& !geoGebraCASParsing && myList.size() == 1) {
 						return new ExpressionNode(kernel, new Variable(kernel, funcName),
 								Operation.MULTIPLY,	myList.getListElement(0));
 					}
