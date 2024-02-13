@@ -259,7 +259,9 @@ public class ContextMenuTV {
 	}
 
 	private void addImportData() {
-		addCommand(((AppWFull) app).getCsvHandler(), "ContextMenu.ImportData", "importData");
+		if (!app.isExamStarted()) {
+			addCommand(((AppWFull) app).getCsvHandler(), "ContextMenu.ImportData", "importData");
+		}
 	}
 
 	/**
