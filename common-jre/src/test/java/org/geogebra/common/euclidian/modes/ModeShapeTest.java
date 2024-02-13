@@ -2,14 +2,14 @@ package org.geogebra.common.euclidian.modes;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.BaseControllerTest;
+import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ModeShapeTest extends BaseControllerTest {
+public class ModeShapeTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void shapeMaskTool() {

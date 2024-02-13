@@ -180,7 +180,7 @@ public final class SpreadsheetController implements TabularSelection {
 					| viewportAdjuster.adjustViewportVerticallyIfNeeded(row, viewport);
 		}
 
-		if ((modifiers.rightButton || modifiers.ctrl) && controlsDelegate != null) {
+		if (modifiers.rightButton && controlsDelegate != null) {
 			selectionController.clearSelection();
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
@@ -189,7 +189,8 @@ public final class SpreadsheetController implements TabularSelection {
 		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
 		}
-		if (!modifiers.ctrl  && !modifiers.shift && selectionController.hasSelection()) {
+		boolean changed = false;
+		if (!modifiers.ctrl && !modifiers.shift && selectionController.hasSelection()) {
 			selectionController.clearSelection();
 			changed = true;
 		}

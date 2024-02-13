@@ -9,6 +9,7 @@ import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.Scrollable;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.gwtutil.NativePointerEvent;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -32,7 +33,6 @@ import jsinterop.base.Js;
 
 public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
-	private final Canvas spreadsheetWidget;
 	private final Spreadsheet spreadsheet;
 	private final GGraphics2DW graphics;
 	private final AppW app;
@@ -48,7 +48,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	 * @param app application
 	 */
 	public SpreadsheetPanel(AppW app) {
-		spreadsheetWidget = Canvas.createIfSupported();
+		Canvas spreadsheetWidget = Canvas.createIfSupported();
 		spreadsheetWidget.addStyleName("spreadsheetWidget");
 		graphics = new GGraphics2DW(spreadsheetWidget);
 		this.app = app;
@@ -78,8 +78,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
-			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr), getModifiers(ptr));
-			if (ptr.getButton() == 2) {
+			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
+					getModifiers(ptr));
+			if (ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey())) {
 				event.preventDefault();
 			}
 		});
@@ -141,7 +142,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private Modifiers getModifiers(NativePointerEvent ptr) {
 		return new Modifiers(ptr.getAltKey(), ptr.getCtrlKey(), ptr.getShiftKey(),
-				ptr.getButton() == 2);
+				ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey()));
 	}
 
 	private void updateTotalSize() {
@@ -159,10 +160,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		graphics.setDevicePixelRatio(app.getPixelRatio());
 		graphics.setCoordinateSpaceSize(getWidth(), getHeight());
 		onScroll();
-	}
-
-	private int toLogicalPx(int size) {
-		 return (int) Math.round(size * app.getPixelRatio());
 	}
 
 	private void repaint() {

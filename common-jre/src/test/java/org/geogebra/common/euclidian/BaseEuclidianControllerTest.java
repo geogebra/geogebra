@@ -14,7 +14,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
 
-public class BaseControllerTest extends BaseUnitTest {
+public class BaseEuclidianControllerTest extends BaseUnitTest {
 	private EuclidianController ec;
 
 	@Override
