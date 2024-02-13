@@ -29,7 +29,9 @@ import org.geogebra.web.full.gui.menu.action.SuiteMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
@@ -45,13 +47,6 @@ import org.gwtproject.user.client.ui.Widget;
  * Controller for the main menu in the apps.
  */
 public class MenuViewController implements EventRenderable, SetLabels, RequiresResize {
-
-	private static final String MENU_PANEL_GLASS = "menuPanelGlass";
-	private static final String MENU_PANEL_CONTAINER_STYLE = "menuPanelContainer";
-	private static final String MAIN_MENU_STYLE = "mainMenu";
-	private static final String SUB_MENU_STYLE = "subMenu";
-	private static final String TRANSITION_IN_STYLE = "transitionIn";
-	private static final String TRANSITION_OUT_STYLE = "transitionOut";
 
 	private MenuViewListener menuViewListener;
 
@@ -99,22 +94,22 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 
 	private void createViews() {
 		menuPanelGlass = new SimplePanel();
-		menuPanelGlass.addStyleName(MENU_PANEL_GLASS);
+		menuPanelGlass.addStyleName("menuPanelGlass");
 		floatingMenuView = new FloatingMenuView();
 		floatingMenuView.setVisible(false);
 
 		submenuContainer = new SimplePanel();
 		headerView = createHeaderView();
 		headerView.getBackButton().removeFromParent();
-		menuView = new MenuView();
+		menuView = new MenuView(this);
 		headeredMenuView = new HeaderedMenuView(menuView);
 		headeredMenuView.setHeaderView(headerView);
 		headeredMenuView.setTitleHeader(true);
-		headeredMenuView.addStyleName(MAIN_MENU_STYLE);
-		submenuContainer.addStyleName(SUB_MENU_STYLE);
+		headeredMenuView.addStyleName("mainMenu");
+		submenuContainer.addStyleName("subMenu");
 
 		FlowPanel menuPanelContainer = new FlowPanel();
-		menuPanelContainer.addStyleName(MENU_PANEL_CONTAINER_STYLE);
+		menuPanelContainer.addStyleName("menuPanelContainer");
 		menuPanelContainer.add(headeredMenuView);
 		menuPanelContainer.add(submenuContainer);
 
@@ -245,6 +240,10 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		updateMenuItemGroups();
 	}
 
+	public boolean isSubMenu(Widget widget) {
+		return submenuContainer.getWidget() == widget;
+	}
+
 	/**
 	 * Sets the menu visibility.
 	 * @param visible true to show the menu
@@ -252,9 +251,17 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	public void setMenuVisible(boolean visible) {
 		if (visible != floatingMenuView.isVisible()) {
 			floatingMenuView.setVisible(visible);
+			updateFocus();
 			notifyMenuViewVisibilityChanged(visible);
-			hideSubmenu();
 		}
+	}
+
+	private void updateFocus() {
+		hideSubmenuAndMoveFocus();
+		if (floatingMenuView.isVisible()) {
+			menuView.selectItem(0);
+		}
+		setMenuTransition(menuView, floatingMenuView.isVisible());
 	}
 
 	private void notifyMenuViewVisibilityChanged(boolean visible) {
@@ -275,17 +282,27 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		menuView.clear();
 		for (MenuItemGroup group : menuItemGroups) {
 			createMenuItemGroup(menuView, group);
+			if (!isLastGroupOfGroupList(group, menuItemGroups)) {
+				menuView.add(BaseWidgetFactory.INSTANCE.newDivider());
+			}
 		}
+	}
+
+	private boolean isLastGroupOfGroupList(MenuItemGroup group,
+			List<MenuItemGroup> menuItemGroups) {
+		return menuItemGroups.get(menuItemGroups.size() - 1).equals(group);
 	}
 
 	void showSubmenu(HeaderedMenuView headeredSubmenu) {
 		submenuContainer.setWidget(headeredSubmenu);
 		setSubmenuVisibility(true);
+
 	}
 
-	void hideSubmenu() {
+	void hideSubmenuAndMoveFocus() {
 		if (submenuContainer.getWidget() != null) {
 			setSubmenuVisibility(false);
+			menuView.selectItem(menuView.getSelectedIndex());
 		}
 	}
 
@@ -295,8 +312,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private void setMenuTransition(Widget widget, boolean transitionIn) {
-		widget.setStyleName(TRANSITION_IN_STYLE, transitionIn);
-		widget.setStyleName(TRANSITION_OUT_STYLE, !transitionIn);
+		Dom.toggleClass(widget, "transitionIn", "transitionOut", transitionIn);
 	}
 
 	HeaderView createHeaderView() {
@@ -312,19 +328,11 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private void createMenuItemGroup(MenuView menuView, MenuItemGroup menuItemGroup) {
-		String titleKey = menuItemGroup.getTitle();
-		String title = titleKey == null ? null : localization.getMenu(titleKey);
-		MenuItemGroupView view = new MenuItemGroupView(title);
 		for (MenuItem menuItem : menuItemGroup.getMenuItems()) {
-			createMenuItem(menuItem, view);
+			MenuItemView item = createMenuItemView(menuItem);
+			item.setScheduledCommand(() -> menuActionRouter.handleMenuItem(menuItem));
+			menuView.addItem(item);
 		}
-		menuView.add(view);
-	}
-
-	private void createMenuItem(final MenuItem menuItem, MenuItemGroupView parent) {
-		MenuItemView view = createMenuItemView(menuItem);
-		view.addFastClickHandler(source -> menuActionRouter.handleMenuItem(menuItem));
-		parent.add(view);
 	}
 
 	private MenuItemView createMenuItemView(MenuItem menuItem) {

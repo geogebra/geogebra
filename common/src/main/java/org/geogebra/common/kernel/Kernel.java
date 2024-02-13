@@ -4876,10 +4876,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		algProcessor = algebraProcessor;
 	}
 
-	public AlgebraProcessor getAlgPForAsync() {
-		return algProcessor;
-	}
-
 	/**
 	 * used in 3D
 	 * 
