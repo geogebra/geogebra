@@ -238,7 +238,8 @@ public class SpreadsheetTest extends BaseUnitTest {
 		fakeDownArrowPress(viewport);
 		int verticalScrollPosition = viewportAdjuster.getScrollable().getVerticalScrollPosition();
 		fakeUpArrowPress(viewport);
-		assertEquals(verticalScrollPosition, viewportAdjuster.getScrollable().getVerticalScrollPosition());
+		assertEquals(verticalScrollPosition,
+				viewportAdjuster.getScrollable().getVerticalScrollPosition());
 	}
 
 	private static class TestCellRenderableFactory implements CellRenderableFactory {

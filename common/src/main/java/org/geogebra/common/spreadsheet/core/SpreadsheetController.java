@@ -189,7 +189,6 @@ public final class SpreadsheetController implements TabularSelection {
 		if (row >= 0 && column >= 0 && isSelected(row, column)) {
 			return showCellEditor(row, column, viewport);
 		}
-		boolean changed = false;
 		if (!modifiers.ctrl && !modifiers.shift && selectionController.hasSelection()) {
 			selectionController.clearSelection();
 			changed = true;
@@ -328,10 +327,10 @@ public final class SpreadsheetController implements TabularSelection {
 			}
 		}
 		if (moveOccured) {
-			adjustViewportHorizontallyIfNeeded(viewport);
-			adjustViewportVerticallyIfNeeded(viewport);
+			return adjustViewportHorizontallyIfNeeded(viewport)
+					| adjustViewportVerticallyIfNeeded(viewport);
 		}
-		return moveOccured;
+		return false;
 	}
 
 	private void showCellEditorAtSelection(Rectangle viewport) {
@@ -373,30 +372,27 @@ public final class SpreadsheetController implements TabularSelection {
 	/**
 	 * Adjusts the viewport horizontally if the selected cell or column is not fully visible
 	 * @param viewport Viewport
+	 * @return True if something that requires repaint has changed
 	 */
-	private void adjustViewportHorizontallyIfNeeded(Rectangle viewport) {
-		if (canViewportBeAdjusted()) {
-			viewportAdjuster.adjustViewportHorizontallyIfNeeded(
+	private boolean adjustViewportHorizontallyIfNeeded(Rectangle viewport) {
+		if (getLastSelection() != null && viewportAdjuster != null) {
+			return viewportAdjuster.adjustViewportHorizontallyIfNeeded(
 					getLastSelection().getRange().getToColumn(), viewport);
 		}
+		return false;
 	}
 
 	/**
 	 * Adjusts the viewport vertically if the selected cell or row is not fully visible
 	 * @param viewport Viewport
+	 * @return True if something that requires repaint has changed
 	 */
-	private void adjustViewportVerticallyIfNeeded(Rectangle viewport) {
-		if (canViewportBeAdjusted()) {
-			viewportAdjuster.adjustViewportVerticallyIfNeeded(
+	private boolean adjustViewportVerticallyIfNeeded(Rectangle viewport) {
+		if (getLastSelection() != null && viewportAdjuster != null) {
+			return viewportAdjuster.adjustViewportVerticallyIfNeeded(
 					getLastSelection().getRange().getToRow(), viewport);
 		}
-	}
-
-	/**
-	 * @return True if the viewport can be adjusted, false else
-	 */
-	private boolean canViewportBeAdjusted() {
-		return getLastSelection() != null && viewportAdjuster != null;
+		return false;
 	}
 
 	@CheckForNull Selection getLastSelection() {
