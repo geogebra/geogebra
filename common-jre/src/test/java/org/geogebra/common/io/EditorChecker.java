@@ -67,7 +67,7 @@ class EditorChecker {
 			assertEquals(output, en.toString(StringTemplate.defaultTemplate));
 		} catch (ParseException e) {
 			Log.debug(e);
-			assertEquals(output, "Exception: " + e);
+			assertEquals(output, "Exception for " + exp + ":" + e);
 		}
 
 	}

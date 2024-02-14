@@ -109,11 +109,15 @@ public class GeoGebraSerializer extends SerializerAdapter {
 					stringBuilder.append("-");
 				}
 				stringBuilder.append("(");
-				serialize(mathFunction.getArgument(0), stringBuilder);
+				StringBuilder intPart = new StringBuilder();
+				serialize(mathFunction.getArgument(0), intPart);
+				stringBuilder.append(intPart);
 				if (isNegative) {
 					stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
 				}
-				stringBuilder.append(Unicode.INVISIBLE_PLUS);
+				if (java.lang.Character.isDigit(intPart.charAt(intPart.length() - 1))) {
+					stringBuilder.append(Unicode.INVISIBLE_PLUS);
+				}
 			} else {
 				stringBuilder.append('(');
 			}
