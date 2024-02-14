@@ -1,50 +1,21 @@
 package org.geogebra.common.gui.menubar;
 
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 /**
- * This class is not a superclass of OptionsMenu, only common method stack
+ * Provides lists and lookup for rounding menus.
+ * Can be used for global rounding, per-object rounding (GeoText), components with own rounding.
  */
-public class OptionsMenu {
+public class RoundingOptions {
 
-	private Localization localization;
+	private final Localization localization;
 
 	/**
 	 * @param localization
 	 *            localization
 	 */
-	public OptionsMenu(Localization localization) {
+	public RoundingOptions(Localization localization) {
 		this.localization = localization;
-	}
-
-	/**
-	 * 
-	 * @param kernel
-	 *            kernel
-	 * @param skipSeparator
-	 *            whether to skip the separator between DP and SF
-	 * @return position in rounding menu regarding current kernel settings
-	 */
-	final public int getMenuDecimalPosition(Kernel kernel,
-			boolean skipSeparator) {
-		int pos = -1;
-
-		if (kernel.useSignificantFigures) {
-			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < figuresLookupLength()) {
-				pos = figuresLookup(figures) - (skipSeparator ? 1 : 0);
-			}
-		} else {
-			int decimals = kernel.getPrintDecimals();
-
-			if (decimals >= 0 && decimals < decimalsLookupLength()) {
-				pos = decimalsLookup(decimals);
-			}
-		}
-
-		return pos;
 	}
 
 	/**
@@ -106,31 +77,5 @@ public class OptionsMenu {
 			return decimals[i];
 		}
 		return significant[i - decimals.length - 1];
-	}
-
-	/**
-	 * @param app
-	 *            app
-	 * @param id
-	 *            index of rounding option
-	 * @param figures
-	 *            whether to use significant figures
-	 */
-	public void setRounding(App app, int id, boolean figures) {
-		Kernel kernel = app.getKernel();
-		int rounding = roundingMenuLookup(id);
-		if (figures) {
-			kernel.setPrintFigures(rounding);
-		} else {
-			kernel.setPrintDecimals(rounding);
-		}
-
-		kernel.updateConstruction(false);
-		app.refreshViews();
-
-		// see ticket 79
-		kernel.updateConstruction(false);
-
-		app.setUnsaved();
 	}
 }

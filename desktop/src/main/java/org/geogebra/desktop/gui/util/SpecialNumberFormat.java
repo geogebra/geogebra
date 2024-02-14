@@ -7,7 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
-import org.geogebra.common.gui.menubar.OptionsMenu;
+import org.geogebra.common.gui.menubar.RoundingOptions;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.main.App;
@@ -27,7 +27,7 @@ public class SpecialNumberFormat implements ActionListener {
 
 	private AppD app;
 	private SpecialNumberFormatInterface invoker;
-	private OptionsMenu optionsMenu;
+	private RoundingOptions roundingOptions;
 
 	private JMenu menuDecimalPlaces;
 
@@ -48,7 +48,7 @@ public class SpecialNumberFormat implements ActionListener {
 
 		this.app = app;
 		this.invoker = invoker;
-		this.optionsMenu = new OptionsMenu(app.getLocalization());
+		this.roundingOptions = new RoundingOptions(app.getLocalization());
 	}
 
 	public int getPrintFigures() {
@@ -112,13 +112,13 @@ public class SpecialNumberFormat implements ActionListener {
 
 		if (printFigures >= 0) {
 			if (printFigures > 0
-					&& printFigures < optionsMenu.figuresLookupLength()) {
-				pos = optionsMenu.figuresLookup(printFigures);
+					&& printFigures < roundingOptions.figuresLookupLength()) {
+				pos = roundingOptions.figuresLookup(printFigures);
 			}
 		} else {
 			if (printDecimals > 0
-					&& printDecimals < optionsMenu.decimalsLookupLength()) {
-				pos = optionsMenu.decimalsLookup(printDecimals);
+					&& printDecimals < roundingOptions.decimalsLookupLength()) {
+				pos = roundingOptions.decimalsLookup(printDecimals);
 			}
 		}
 

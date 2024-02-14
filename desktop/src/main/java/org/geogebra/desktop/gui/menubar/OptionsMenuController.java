@@ -4,10 +4,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import org.geogebra.common.gui.menubar.MenuInterface;
-import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.LabelVisibility;
+import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.util.Util;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -19,7 +19,7 @@ public class OptionsMenuController {
 	private RadioButtonMenuBarD menuLabeling;
 	private final App app;
 	Kernel kernel;
-	private final OptionsMenu optionsMenu;
+	private final RoundingIndexProperty roundingProperty;
 
 	/**
 	 * @param app application
@@ -27,77 +27,27 @@ public class OptionsMenuController {
 	public OptionsMenuController(App app) {
 		this.app = app;
 		kernel = app.getKernel();
-		this.optionsMenu = new OptionsMenu(app.getLocalization());
+		this.roundingProperty = new RoundingIndexProperty(app, app.getLocalization());
 	}
 
-	/**
-	 * @param cmd command
-	 */
-	public void processActionPerformed(String cmd) {
-		// decimal places
-		if (cmd.endsWith("decimals")) {
-			try {
-				String decStr = cmd.substring(0, 2).trim();
-				int decimals = Integer.parseInt(decStr);
+	private void processRounding(Integer index) {
+		roundingProperty.setIndex(index > app.getLocalization().getDecimalPlaces().length
+				? index - 1 : index);
+	}
 
-				kernel.setPrintDecimals(decimals);
-				kernel.updateConstruction(false);
-				app.refreshViews();
-
-				// see ticket 79
-				kernel.updateConstruction(false);
-
-				app.setUnsaved();
-			} catch (Exception e) {
-				app.showGenericError(e);
-			}
-		}
-
-		// significant figures
-		else if (cmd.endsWith("figures")) {
-			try {
-				String decStr = cmd.substring(0, 2).trim();
-				int figures = Integer.parseInt(decStr);
-
-				kernel.setPrintFigures(figures);
-				kernel.updateConstruction(false);
-				app.refreshViews();
-
-				// see ticket 79
-				kernel.updateConstruction(false);
-
-				app.setUnsaved();
-			} catch (Exception e) {
-				app.showError(e.toString());
-			}
-		}
-
-		// font size
-		else if (cmd.endsWith("pt")) {
-			try {
-				app.setFontSize(Integer.parseInt(cmd.substring(0, 2)), true);
-				app.setUnsaved();
-			} catch (Exception e) {
-				app.showError(e.toString());
-			}
-		}
-
-		// Point capturing
-		else if (cmd.endsWith("PointCapturing")) {
-			int mode = Integer.parseInt(cmd.substring(0, 1));
-			app.getEuclidianView1().setPointCapturing(mode);
-			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-				app.getEuclidianView2(1).setPointCapturing(mode);
-			}
+	private void processFontSize(Integer index) {
+		try {
+			app.setFontSize(Util.menuFontSizes(index), true);
 			app.setUnsaved();
+		} catch (Exception e) {
+			app.showError(e.toString());
 		}
+	}
 
+	private void processLabeling(Integer index) {
 		// Labeling
-		else if (cmd.endsWith("labeling")) {
-			int style = Integer.parseInt(cmd.substring(0, 1));
-			app.setLabelingStyle(style);
-			app.setUnsaved();
-		}
+		app.setLabelingStyle(index);
+		app.setUnsaved();
 	}
 
 	/**
@@ -115,8 +65,8 @@ public class OptionsMenuController {
 		menuDecimalPlaces = newSubmenu();
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
-		menuDecimalPlaces.addRadioButtonMenuItems(menu,
-				strDecimalSpaces, App.getStrDecimalSpacesAC(), 0, false);
+		menuDecimalPlaces.addRadioButtonMenuItems(this::processRounding,
+				strDecimalSpaces, 0, false);
 
 		addMenuItem(menu, "Rounding", menuDecimalPlaces);
 
@@ -132,10 +82,8 @@ public class OptionsMenuController {
 
 		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
 				"Labeling.pointsOnly" };
-		String[] lastr = { "0_labeling", "1_labeling", "2_labeling",
-				"3_labeling" };
-		menuLabeling.addRadioButtonMenuItems(menu, lstr,
-				lastr, 0, true);
+		menuLabeling.addRadioButtonMenuItems(this::processLabeling, lstr,
+				 0, true);
 
 		addMenuItem(menu, "Labeling", menuLabeling);
 
@@ -162,11 +110,7 @@ public class OptionsMenuController {
 	public void addFontSizeMenu(OptionsMenuD menu) {
 		RadioButtonMenuBarD submenu = newSubmenu();
 
-		// String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt",
-		// "24 pt",
-		// "28 pt", "32 pt" };
 		String[] fsfi = new String[Util.menuFontSizesLength()];
-		String[] fontActionCommands = new String[Util.menuFontSizesLength()];
 
 		// find current pos
 		int fontSize = app.getFontSize();
@@ -177,11 +121,10 @@ public class OptionsMenuController {
 			}
 			fsfi[i] = app.getLocalization().getPlain("Apt",
 					Util.menuFontSizes(i) + "");
-			fontActionCommands[i] = Util.menuFontSizes(i) + " pt";
 		}
 
-		submenu.addRadioButtonMenuItems(menu, fsfi,
-				fontActionCommands, pos, false);
+		submenu.addRadioButtonMenuItems(this::processFontSize, fsfi,
+				pos, false);
 		addMenuItem(menu, "FontSize", submenu);
 	}
 
@@ -219,7 +162,7 @@ public class OptionsMenuController {
 			return;
 		}
 
-		int pos = optionsMenu.getMenuDecimalPosition(kernel, false);
+		int pos = roundingProperty.getMenuDecimalPosition(kernel, false);
 
 		try {
 			menuDecimalPlaces.setSelected(pos);
