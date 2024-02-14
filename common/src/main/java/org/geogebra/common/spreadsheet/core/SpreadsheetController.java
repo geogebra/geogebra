@@ -137,8 +137,12 @@ public final class SpreadsheetController implements TabularSelection {
 		return false;
 	}
 
-	private void hideCellEditor() {
+	/**
+	 * Process the editor input, update corresponding cell and hide the editor
+	 */
+	public void saveContentAndHideCellEditor() {
 		if (controlsDelegate != null && controlsDelegate.getCellEditor() != null) {
+			controlsDelegate.getCellEditor().onEnter();
 			controlsDelegate.getCellEditor().hide();
 		}
 	}
@@ -155,7 +159,7 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @return whether the event caused changes in spreadsheet requiring repaint
 	 */
 	public boolean handlePointerDown(int x, int y, Modifiers modifiers, Rectangle viewport) {
-		hideCellEditor();
+		saveContentAndHideCellEditor();
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
 		}
@@ -283,6 +287,7 @@ public final class SpreadsheetController implements TabularSelection {
 			case JavaKeyCodes.VK_LEFT:
 				moveLeft(modifiers.shift);
 				return true;
+			case JavaKeyCodes.VK_TAB:
 			case JavaKeyCodes.VK_RIGHT:
 				moveRight(modifiers.shift);
 				return true;

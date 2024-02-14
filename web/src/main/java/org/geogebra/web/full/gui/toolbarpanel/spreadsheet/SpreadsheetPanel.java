@@ -24,6 +24,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
+import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
 import elemental2.dom.DomGlobal;
@@ -40,6 +41,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	// on high-res screens
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
+	private Element spreadsheetElement;
 
 	/**
 	 * @param app application
@@ -60,12 +62,14 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
 		mathField = new MathTextFieldW(app);
-		spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegateW(app, this, mathField));
+
+		spreadsheet.setControlsDelegate(initDelegate());
+
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
 		add(scrollOverlay);
-		Element spreadsheetElement = scrollContent.getElement();
+		spreadsheetElement = scrollContent.getElement();
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
@@ -108,6 +112,16 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay.addScrollHandler(event -> {
 			onScroll();
 		});
+	}
+
+	private SpreadsheetControlsDelegateW initDelegate() {
+		SpreadsheetControlsDelegateW delegate = new SpreadsheetControlsDelegateW(app,
+				this, mathField, spreadsheet);
+		return delegate;
+	}
+
+	public void requestFocus() {
+		Scheduler.get().scheduleDeferred(() -> spreadsheetElement.focus());
 	}
 
 	private Modifiers getKeyboardModifiers(KeyEvent<?> evt) {
