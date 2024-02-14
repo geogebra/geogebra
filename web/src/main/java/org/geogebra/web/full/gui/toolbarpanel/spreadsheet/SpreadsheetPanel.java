@@ -24,13 +24,12 @@ import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
 import com.google.gwt.core.client.Scheduler;
-import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 
-public class SpreadsheetPanel extends FlowPanel implements RequiresResize, UnhandledArrowListener {
+public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private final Canvas spreadsheetWidget;
 	private final Spreadsheet spreadsheet;
@@ -63,7 +62,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize, Unhan
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
 		mathField = new MathTextFieldW(app);
-		mathField.setUnhandledArrowListener(this);
 
 		spreadsheet.setControlsDelegate(initDelegate());
 
@@ -118,10 +116,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize, Unhan
 
 	private SpreadsheetControlsDelegateW initDelegate() {
 		SpreadsheetControlsDelegateW delegate = new SpreadsheetControlsDelegateW(app,
-				this, mathField);
-		delegate.setOnTabCallback(() -> spreadsheet.getController().moveRight(false));
-		delegate.setRequestFocusCallback(this::requestFocus);
-
+				this, mathField, spreadsheet);
 		return delegate;
 	}
 
@@ -199,12 +194,5 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize, Unhan
 
 	public MathKeyboardListener getKeyboardListener() {
 		return mathField.getKeyboardListener();
-	}
-
-	@Override
-	public void onArrow(int keyCode) {
-		spreadsheet.getController().saveContentAndHideCellEditor();
-		spreadsheet.handleKeyPressed(KeyCodes.translateGWTcode(
-				keyCode).getJavaKeyCode(), "", new Modifiers(false, false, false, false));
 	}
 }

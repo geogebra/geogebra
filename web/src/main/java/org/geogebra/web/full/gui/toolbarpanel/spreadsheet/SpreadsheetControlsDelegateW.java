@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
@@ -22,7 +23,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.user.client.ui.Panel;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -34,25 +34,18 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
-		private final Panel parent;
+		private final SpreadsheetPanel parent;
 		private final AppW app;
 		private SpreadsheetEditorListener listener;
-		private Runnable onTabCallback;
-		private Runnable requestFocusCallback;
+		private final Spreadsheet spreadsheet;
 
-		public SpreadsheetCellEditorW(AppW app, Panel parent, MathTextFieldW mathField) {
+		public SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent, MathTextFieldW mathField,
+				Spreadsheet spreadsheet) {
 			this.mathField = mathField;
 			mathField.addStyleName("spreadsheetEditor");
 			this.parent = parent;
 			this.app = app;
-		}
-
-		public void setOnTabCallback(Runnable callback) {
-			onTabCallback = callback;
-		}
-
-		public void setRequestFocusCallback(Runnable requestFocus) {
-			requestFocusCallback = requestFocus;
+			this.spreadsheet = spreadsheet;
 		}
 
 		@Override
@@ -71,9 +64,10 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		@Override
 		public void setTargetCell(int row, int column) {
 			listener = new SpreadsheetEditorListener(mathField.getMathField().getInternal(),
-					app.getKernel(), row, column, this);
+					app.getKernel(), row, column, this, spreadsheet);
 			mathField.getMathField().getInternal().setFieldListener(
 					listener);
+			mathField.setUnhandledArrowListener(listener);
 		}
 
 		@Override
@@ -81,15 +75,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			if (listener != null) {
 				listener.onEnter();
 			}
-			requestFocus();
-		}
-
-		@Override
-		public void runOnTabCallback() {
-			if (onTabCallback != null) {
-				onTabCallback.run();
-			}
-			requestFocus();
 		}
 
 		@Override
@@ -116,13 +101,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		@Override
 		public void hide() {
 			mathField.setVisible(false);
-		}
-
-		@Override
-		public void requestFocus() {
-			if (requestFocusCallback != null) {
-				requestFocusCallback.run();
-			}
+			parent.requestFocus();
 		}
 	}
 
@@ -131,19 +110,13 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	 * @param app - application
 	 * @param parent - parent panel
 	 * @param mathTextField - math text field
+	 * @param spreadsheet - spreadsheet
 	 */
-	public SpreadsheetControlsDelegateW(AppW app, Panel parent, MathTextFieldW mathTextField) {
-		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
+	public SpreadsheetControlsDelegateW(AppW app, SpreadsheetPanel parent,
+			MathTextFieldW mathTextField, Spreadsheet spreadsheet) {
+		editor = new SpreadsheetCellEditorW(app, parent, mathTextField, spreadsheet);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
-	}
-
-	public void setOnTabCallback(Runnable callback) {
-		editor.setOnTabCallback(callback);
-	}
-
-	public void setRequestFocusCallback(Runnable requestFocus) {
-		editor.setRequestFocusCallback(requestFocus);
 	}
 
 	@Override

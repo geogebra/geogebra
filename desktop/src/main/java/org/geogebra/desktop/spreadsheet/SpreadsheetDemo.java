@@ -306,7 +306,7 @@ public class SpreadsheetDemo {
 			@Override
 			public void setTargetCell(int row, int column) {
 				mathField.getInternal().setFieldListener(new SpreadsheetEditorListener(
-						mathField.getInternal(), app.getKernel(), row, column, this));
+						mathField.getInternal(), app.getKernel(), row, column, this, spreadsheet));
 			}
 
 			@Override
@@ -341,11 +341,6 @@ public class SpreadsheetDemo {
 
 			@Override
 			public void runOnTabCallback() {
-				// not needed in demo
-			}
-
-			@Override
-			public void requestFocus() {
 				// not needed in demo
 			}
 		}
