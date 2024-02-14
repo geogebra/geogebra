@@ -12,7 +12,9 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public final class SpreadsheetEditorListener implements MathFieldListener, UnhandledArrowListener {
@@ -65,13 +67,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 
 	@Override
 	public boolean onEscape() {
-		GeoElement geo = kernel.lookupLabel(GeoElementSpreadsheet
-				.getSpreadsheetCellName(column, row));
-		String originalInput = "";
-		if (geo instanceof GeoNumeric) {
-			originalInput = ((GeoNumeric) geo).getValue() + "";
-		}
-		mathField.setPlainText(originalInput);
+		mathField.setPlainText("");
 		editor.hide();
 		return true;
 	}
@@ -85,13 +81,11 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 
 	@Override
 	public void onArrow(int keyCode) {
-		if (keyCode == VK_UP || keyCode == VK_DOWN) {
-			spreadsheet.getController().saveContentAndHideCellEditor();
-			if (keyCode == VK_UP) {
-				spreadsheet.getController().moveUp(false);
-			} else if (keyCode == VK_DOWN) {
-				spreadsheet.getController().moveDown(false);
-			}
+		if (keyCode == VK_UP) {
+			mathField.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_HOME));
+		}
+		if (keyCode == VK_DOWN) {
+			mathField.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_END));
 		}
 	}
 }

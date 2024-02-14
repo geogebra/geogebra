@@ -138,7 +138,7 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	/**
-	 *
+	 * Process the editor input, update corresponding cell and hide the editor
 	 */
 	public void saveContentAndHideCellEditor() {
 		if (controlsDelegate != null && controlsDelegate.getCellEditor() != null) {
