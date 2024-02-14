@@ -907,4 +907,15 @@ public class EditorTypingTest {
 		checker.insert("1+2+3+4").select(3, 5).right(1).type("x")
 				.checkAsciiMath("1+2+3+x4");
 	}
+
+	@Test
+	public void shouldNotSerializeEmptyIntPartOfMixedNumber() {
+		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.right(1).type("2").right(1).type("3")
+				.checkAsciiMath("((2)/(3))");
+		checker.type("1+")
+				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.right(1).type("2").right(1).type("3")
+				.checkGGBMath("1 + 2 / 3");
+	}
 }
