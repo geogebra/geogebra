@@ -43,6 +43,11 @@ public class TestSpreadsheetCellEditor
 		visible = false;
 	}
 
+	@Override
+	public void onEnter() {
+		// not needed
+	}
+
 	public Object getContent() {
 		return content;
 	}

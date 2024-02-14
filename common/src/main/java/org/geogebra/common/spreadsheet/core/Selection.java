@@ -74,10 +74,10 @@ final class Selection {
 	 */
 	public Selection getRight(int numberOfColumns, boolean extendSelection) {
 		if (this.type == SelectionType.ROWS) {
-			return getSingleCellSelection(this.range.getToRow(), numberOfColumns - 2);
+			return getSingleCellSelection(this.range.getToRow(), numberOfColumns - 1);
 		}
 
-		int rightColumnIndex = Math.min(this.range.getToColumn() + 1, numberOfColumns - 2);
+		int rightColumnIndex = Math.min(this.range.getToColumn() + 1, numberOfColumns - 1);
 		return new Selection(this.type, TabularRange.range(
 				extendSelection ? this.range.getFromRow() : this.range.getToRow(),
 				this.range.getToRow(), rightColumnIndex, rightColumnIndex));
@@ -108,10 +108,10 @@ final class Selection {
 	 */
 	public Selection getBottom(int numberOfRows, boolean extendSelection) {
 		if (this.type == SelectionType.COLUMNS) {
-			return getSingleCellSelection(numberOfRows - 2, this.range.getToColumn());
+			return getSingleCellSelection(numberOfRows - 1, this.range.getToColumn());
 		}
 
-		int underneathRowIndex = Math.min(this.range.getToRow() + 1, numberOfRows - 2);
+		int underneathRowIndex = Math.min(this.range.getToRow() + 1, numberOfRows - 1);
 		return new Selection(this.type, TabularRange.range(
 				underneathRowIndex, underneathRowIndex,
 				extendSelection ? this.range.getFromColumn() : this.range.getToColumn(),

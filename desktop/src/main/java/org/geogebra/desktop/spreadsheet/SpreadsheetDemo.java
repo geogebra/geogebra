@@ -306,7 +306,7 @@ public class SpreadsheetDemo {
 			@Override
 			public void setTargetCell(int row, int column) {
 				mathField.getInternal().setFieldListener(new SpreadsheetEditorListener(
-						mathField.getInternal(), app.getKernel(), row, column, this));
+						mathField.getInternal(), app.getKernel(), row, column, this, spreadsheet));
 			}
 
 			@Override
@@ -332,6 +332,11 @@ public class SpreadsheetDemo {
 			@Override
 			public void hide() {
 				editorBox.setVisible(false);
+			}
+
+			@Override
+			public void onEnter() {
+				// not needed in demo
 			}
 		}
 	}

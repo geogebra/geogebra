@@ -45,7 +45,7 @@ public class SpreadsheetControllerTest {
 
 		assertRangeEquals(controller.getLastSelection(),
 				Selection.getSingleCellSelection(3,
-						controller.getLayout().numberOfColumns() - 2));
+						controller.getLayout().numberOfColumns() - 1));
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class SpreadsheetControllerTest {
 		controller.moveDown(false);
 
 		assertRangeEquals(controller.getLastSelection(),
-				Selection.getSingleCellSelection(controller.getLayout().numberOfRows() - 2, 3));
+				Selection.getSingleCellSelection(controller.getLayout().numberOfRows() - 1, 3));
 	}
 
 	@Test

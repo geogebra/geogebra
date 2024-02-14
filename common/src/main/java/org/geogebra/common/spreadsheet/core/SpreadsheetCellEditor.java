@@ -17,4 +17,6 @@ public interface SpreadsheetCellEditor {
 	boolean isVisible();
 
 	void hide();
+
+	void onEnter();
 }
