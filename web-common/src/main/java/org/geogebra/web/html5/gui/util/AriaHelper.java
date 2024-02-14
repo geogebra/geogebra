@@ -104,4 +104,12 @@ public class AriaHelper {
 	public static void setTabIndex(UIObject uiObject, int tabIndex) {
 		uiObject.getElement().setAttribute("tabindex", tabIndex + "");
 	}
+
+	/**
+	 * @param uiObject - element
+	 * @param dataTest - element id for cypress
+	 */
+	public static void setDataTest(UIObject uiObject, String dataTest) {
+		uiObject.getElement().setAttribute("data-test", dataTest);
+	}
 }
