@@ -66,4 +66,4 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	protected ResourcePrototype getViewIcon() {
 		return null;
 	}
-} 
+}

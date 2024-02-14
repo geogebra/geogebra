@@ -176,7 +176,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		valuePanel.clear();
 
-		if (latex 
+		if (latex
 				&& (geo1.isLaTeXDrawableGeo()
 						|| AlgebraItem.isGeoFraction(geo1)
 						|| AlgebraItem.isGeoSurd(geo1))) {

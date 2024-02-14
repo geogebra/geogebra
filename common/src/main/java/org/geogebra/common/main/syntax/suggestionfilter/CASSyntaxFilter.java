@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.commands.Commands;
 
 public class CASSyntaxFilter implements SyntaxFilter {
     private LineSelector lineSelector = new LineSelector();
-    
+
     @Override
     public String getFilteredSyntax(String commandName, String syntax) {
         String[] syntaxArray = syntax.split("\n");

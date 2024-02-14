@@ -1255,7 +1255,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		sb.append(StringUtil.toHTMLString(s));
 	}
 
-	private static void addSpreadsheet(StringBuilder sb, 
+	private static void addSpreadsheet(StringBuilder sb,
 			Kernel kernel2) {
 		
 		GuiManagerInterface gm = kernel2.getApplication().getGuiManager();

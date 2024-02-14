@@ -89,7 +89,7 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 		setModel(model);
 
 		this.useTabbedPane = useTabbedPane;
-		model.setIncludeRandom(includeRandom); 
+		model.setIncludeRandom(includeRandom);
 
 		intervalPanel = new FlowPanel();
 		intervalPanel.setStyleName("sliderIntervalPanel");
