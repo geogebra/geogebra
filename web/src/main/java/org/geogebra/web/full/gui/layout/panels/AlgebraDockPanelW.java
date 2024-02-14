@@ -9,6 +9,7 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.toolbarpanel.AlgebraViewScroller;
+import org.geogebra.web.full.gui.view.algebra.AlgebraCanvasExporter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -19,6 +20,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * Classic (no toolbar) dock panel for algebra
@@ -235,5 +238,19 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			return 120;
 		}
 		return Math.max(inputTreeItem.getOffsetHeight(), 120);
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			Runnable callback, int left, int top) {
+		drawWhiteBackground(context2d, left, top);
+		context2d.save();
+		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
+		context2d.clip();
+		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(aview, context2d,
+				getOffsetWidth());
+		exporter.paintToCanvas(left, top);
+		context2d.restore();
+		callback.run();
 	}
 }

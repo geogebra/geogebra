@@ -1,10 +1,12 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.full.gui.util.Domvas;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
+import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.EventListener;
 
 /**
@@ -60,4 +62,19 @@ public abstract class ToolbarTab extends ScrollPanel implements ShowableTab, Set
 		return getElement().hasClassName("tab");
 	}
 
+	/**
+	 * @param context2d context
+	 * @param callback callback
+	 * @param left horizontal offset
+	 * @param top vertical offset
+	 */
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			Runnable callback, int left, int top) {
+		getElement().addClassName("ggbScreenshot");
+		Domvas.get().toImage(getElement(), (image) -> {
+			context2d.drawImage(image, left, top);
+			getElement().removeClassName("ggbScreenshot");
+			callback.run();
+		});
+	}
 }
