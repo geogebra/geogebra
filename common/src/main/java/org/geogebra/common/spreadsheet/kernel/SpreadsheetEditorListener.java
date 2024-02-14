@@ -4,9 +4,7 @@ import static com.himamis.retex.editor.share.util.JavaKeyCodes.VK_DOWN;
 import static com.himamis.retex.editor.share.util.JavaKeyCodes.VK_UP;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 
