@@ -4,7 +4,9 @@ import static com.himamis.retex.editor.share.util.JavaKeyCodes.VK_DOWN;
 import static com.himamis.retex.editor.share.util.JavaKeyCodes.VK_UP;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
@@ -65,6 +67,13 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 
 	@Override
 	public boolean onEscape() {
+		GeoElement geo = kernel.lookupLabel(GeoElementSpreadsheet
+				.getSpreadsheetCellName(column, row));
+		String originalInput = "";
+		if (geo instanceof GeoNumeric) {
+			originalInput = ((GeoNumeric) geo).getValue() + "";
+		}
+		mathField.setPlainText(originalInput);
 		editor.hide();
 		return true;
 	}
