@@ -338,11 +338,6 @@ public class SpreadsheetDemo {
 			public void onEnter() {
 				// not needed in demo
 			}
-
-			@Override
-			public void runOnTabCallback() {
-				// not needed in demo
-			}
 		}
 	}
 }
