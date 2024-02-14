@@ -2750,4 +2750,10 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("H({(1,2,3),(4,5,6),(7,8,9)})",
 				"{{{1}, {2}, {3}, {1}}, {{4}, {5}, {6}, {1}}, {{7}, {8}, {9}, {1}}}");
 	}
+
+	@Test
+	public void mistypedParametricShouldFail() {
+		t("X=(1,2,3)+r(1,2,3)", "X = ?");
+		t("X=(1,2)+s(1,2)", "X = (s(1, 2) + 1, 2)");
+	}
 }
