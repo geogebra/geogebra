@@ -433,8 +433,16 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public Coords getCoordsInD2IfInPlane(CoordSys coordSys) {
+		return getCoordsInD2IfInPlane(coordSys, false);
+	}
 
-		if (setCoords2D(coordSys)) {
+	@Override
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys) {
+		return getCoordsInD2IfInPlane(coordSys, true);
+	}
+
+	private Coords getCoordsInD2IfInPlane(CoordSys coordSys, boolean forceRealCoords) {
+		if (setCoords2D(coordSys, forceRealCoords)) {
 			return tmpCoordsLength3;
 		}
 
@@ -443,17 +451,17 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public Coords getCoordsInD2(CoordSys coordSys) {
-		setCoords2D(coordSys);
+		setCoords2D(coordSys, false);
 		return tmpCoordsLength3;
 	}
 
-	private boolean setCoords2D(CoordSys coordSys) {
+	private boolean setCoords2D(CoordSys coordSys, boolean forceRealCoords) {
 		Coords coords;
 		if (tmpCoords1 == null) {
 			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
 
-		if (hasWillingCoords()) {
+		if (hasWillingCoords() && !forceRealCoords) {
 			coords = getWillingCoords();
 		} else {
 			// use real coords
