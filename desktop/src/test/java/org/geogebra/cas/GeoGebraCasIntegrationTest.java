@@ -42,7 +42,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	 *            The expression to be evaluated, in geogebra's CAS syntax.
 	 * @return The string returned by GeogebraCAS.
 	 */
-	private String executeInCAS(String input) throws Throwable {
+	private String executeInCAS(String input) {
 		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 		CASparser parser = (CASparser) cas.getCASparser();
 		ValidExpression inputVe = parser
@@ -116,7 +116,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	/**
 	 * Tests that the given input produces a result that matches a given output.
 	 * 
-	 * The pattern for the output is basically a normal regular expression,
+	 * <p>The pattern for the output is basically a normal regular expression,
 	 * except that many RE special characters will be taken literally, e.g.
 	 * braces, parenthesis etc. Additionally, all whitespace will be optional
 	 * and character- class boxes (e.g. [a-z]) do not work!
@@ -2109,7 +2109,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	 * Test is ignored. Keepinput is no user command anymore, internal use seems
 	 * to meet our expectations.
 	 * 
-	 * Therefore we don't want to mess with this anytime soon, except somebody
+	 * <p>Therefore we don't want to mess with this anytime soon, except somebody
 	 * complains.
 	 */
 	@Test
@@ -2749,5 +2749,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 						+ " {Element(KL, j) * (0, 0, 1)}, {1}}, j, 1, Length(KL))");
 		t("H({(1,2,3),(4,5,6),(7,8,9)})",
 				"{{{1}, {2}, {3}, {1}}, {{4}, {5}, {6}, {1}}, {{7}, {8}, {9}, {1}}}");
+	}
+
+	@Test
+	public void dateFunctionShouldReload() {
+		add("JD(YY,MM,DD):= floor(365.25*(YY+4716-If(MM<=2,1,0))) "
+				+ "+ floor(30.6001*(MM+1+If(MM<=2,12,0))) + DD + 2 "
+				+ "- floor((YY-If(MM<=2,1,0))/100) + floor((YY-If(MM<=2,1,0))/400) -1524.5");
+		add("JD(2023,3,26.5)");
+		assertThat(lookup("$2").toValueString(StringTemplate.editTemplate),
+				equalTo("3465641 / 2"));
+		getApp().setXML(getApp().getXML(), true);
+		assertThat(lookup("$2").toValueString(StringTemplate.editTemplate),
+				equalTo("3465641 / 2"));
 	}
 }

@@ -2106,6 +2106,9 @@ public class GeoCasCell extends GeoElement
 			// evaluate in GeoGebra
 			ExpressionNode copy = ve.deepCopy(kernel).wrap();
 			copy.setLabel(ve.getLabel());
+			for (FunctionVariable functionVar: this.getFunctionVariables()) {
+				cons.registerFunctionVariable(functionVar.getSetVarString());
+			}
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
 					.doProcessValidExpression(copy,
 							new EvalInfo(false).withSimplifying(false));
@@ -2131,6 +2134,7 @@ public class GeoCasCell extends GeoElement
 			return null;
 		} finally {
 			kernel.setSilentMode(oldValue);
+			cons.registerFunctionVariable(null);
 		}
 	}
 
