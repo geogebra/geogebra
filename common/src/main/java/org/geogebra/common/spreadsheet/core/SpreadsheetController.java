@@ -375,9 +375,10 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @return True if something that requires repaint has changed
 	 */
 	private boolean adjustViewportHorizontallyIfNeeded(Rectangle viewport) {
-		if (getLastSelection() != null && viewportAdjuster != null) {
+		Selection lastSelection = getLastSelection();
+		if (lastSelection != null && viewportAdjuster != null) {
 			return viewportAdjuster.adjustViewportHorizontallyIfNeeded(
-					getLastSelection().getRange().getToColumn(), viewport);
+					lastSelection.getRange().getToColumn(), viewport);
 		}
 		return false;
 	}
@@ -388,9 +389,10 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @return True if something that requires repaint has changed
 	 */
 	private boolean adjustViewportVerticallyIfNeeded(Rectangle viewport) {
-		if (getLastSelection() != null && viewportAdjuster != null) {
+		Selection lastSelection = getLastSelection();
+		if (lastSelection != null && viewportAdjuster != null) {
 			return viewportAdjuster.adjustViewportVerticallyIfNeeded(
-					getLastSelection().getRange().getToRow(), viewport);
+					lastSelection.getRange().getToRow(), viewport);
 		}
 		return false;
 	}
