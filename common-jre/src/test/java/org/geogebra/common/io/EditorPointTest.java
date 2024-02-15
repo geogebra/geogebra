@@ -55,14 +55,6 @@ public class EditorPointTest {
 		checker.convertFormula(emptyPoint3D)
 				.right(2)
 				.right(1)
-				.checkPlaceholders("_,_,_|");
-	}
-
-	@Test
-	public void testEmptyPointWithCursorLastMoreRightPressInAV() {
-		checker.convertFormula(emptyPoint3D)
-				.right(2)
-				.right(5)
 				.checkPlaceholders("_,_,|");
 	}
 
@@ -259,5 +251,22 @@ public class EditorPointTest {
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.checkRaw("MathSequence[FnAPPLY[MathSequence[a, b], MathSequence[]]]");
 
+	}
+
+	@Test
+	public void testCursorCanExitFromEmptyPointInAV() {
+		checker.convertFormulaForAV(emptyPoint3D)
+				.right(2)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.right(3)
+				.checkCursorIsAtRoot();
+	}
+
+	@Test
+	public void testCursorCanGoBackToEmptyPointInAV() {
+		checker.convertFormulaForAV(emptyPoint3D)
+				.right(3)
+				.left(1)
+				.checkPlaceholders("_,_,|");
 	}
 }
