@@ -67,7 +67,7 @@ public enum ToolCategory {
      * others
      */
     OTHERS("Others"),
-    
+
     // specific to 3D Grapher
     /**
      * lines and polygons

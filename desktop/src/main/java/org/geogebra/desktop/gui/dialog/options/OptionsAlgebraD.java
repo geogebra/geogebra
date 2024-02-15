@@ -21,7 +21,7 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAlgebraD 
+public class OptionsAlgebraD
 		implements SetLabels, OptionPanelD {
 
 	private static final List<SortMode> SUPPORTED_MODES = Arrays.asList(

@@ -2067,6 +2067,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys) {
+		return getCoordsInD2IfInPlane(coordSys);
+	}
+
+	@Override
 	public Coords getCoordsInD2(CoordSys coordSys) {
 
 		setCoords2D(coordSys);

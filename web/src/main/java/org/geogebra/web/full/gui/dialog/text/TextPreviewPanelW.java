@@ -131,7 +131,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 	private static class PreviewEuclidianView extends EuclidianViewW {
 
 		public PreviewEuclidianView(TextPreviewEuclidianViewPanelW panel,
-				EuclidianController ec, 
+				EuclidianController ec,
 		        int evno, EuclidianSettings settings) {
 			super(panel, ec, evno, settings);
 

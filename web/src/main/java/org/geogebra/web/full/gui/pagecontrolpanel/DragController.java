@@ -42,7 +42,7 @@ class DragController {
 		 *            card index to get.
 		 * @return the card at given index
 		 */
-		PagePreviewCard cardAt(int index); 
+		PagePreviewCard cardAt(int index);
 
 		/**
 		 * Select the card.

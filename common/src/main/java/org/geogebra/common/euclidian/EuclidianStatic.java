@@ -426,7 +426,7 @@ public class EuclidianStatic {
 			double xPos, double yPos, boolean serif, EuclidianView view,
 			GColor col) {
 
-		return drawIndexedString(app, g3, str, xPos, yPos, serif, 
+		return drawIndexedString(app, g3, str, xPos, yPos, serif,
 				true, view, col);
 	}
 

@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
@@ -399,7 +400,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		if (getEuclidianView() != null) {
 			HTMLCanvasElement evCanvas =
 					Js.uncheckedCast(((EuclidianViewWInterface) getEuclidianView())
@@ -409,7 +410,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			context2d.drawImage(evCanvas, pixelRatio * left, pixelRatio * top);
 			context2d.scale(pixelRatio, pixelRatio);
 		}
-		callback.run();
+		if (counter != null) {
+			counter.decrement();
+		}
 	}
 
 	/**

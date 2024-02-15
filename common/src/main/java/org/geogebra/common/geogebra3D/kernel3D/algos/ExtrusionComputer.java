@@ -7,7 +7,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
  *
  */
 public class ExtrusionComputer {
-    
+
     private static final int MIN_COMPUTATIONS_VALIDATING_DRAGGING = 1;
 	private static final int MIN_COMPUTATIONS_VALIDATING_DRAGGING_AR = 15;
 

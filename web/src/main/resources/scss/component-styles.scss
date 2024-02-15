@@ -362,7 +362,7 @@
 		}
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {
-			background: colors.$black-12;
+			background: neutral(300);
 		}
 
 		&.show {
@@ -926,7 +926,7 @@
 		cursor: pointer;
 		display: inline-flex;
 		box-sizing: border-box;
-		border-bottom: 1px solid colors.$black-42;
+		border-bottom: 1px solid neutral(500);
 
 		.optionLabelHolder {
 			.label {

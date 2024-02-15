@@ -20,7 +20,6 @@ import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.ExtendedBoolean;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -33,7 +32,6 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.DockLayoutPanel;
 import org.gwtproject.user.client.ui.Panel;
@@ -42,6 +40,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
 import jsinterop.base.Js;
 
 /**
@@ -1742,36 +1741,17 @@ public class DockManagerW extends DockManager {
 	 * @param c canvas
 	 * @param callback consumer for the resulting base64 string (without marker)
 	 */
-	public void paintPanels(Canvas c, StringConsumer callback, double scale) {
+	public void paintPanels(HTMLCanvasElement c, StringConsumer callback, double scale) {
 		int width = (int) (rootPane.getOffsetWidth() * scale);
 		int height = (int) (rootPane.getOffsetHeight() * scale);
-		c.setCoordinateSpaceWidth(width);
-		c.setCoordinateSpaceHeight(height);
-		Runnable counter = new Runnable() {
-			private int count = dockPanels.size();
-			@Override
-			public void run() {
-				count--;
-				if (count == 0) {
-					callback.consume(StringUtil.removePngMarker(c.toDataUrl()));
-				}
-			}
-		};
+		c.width = width;
+		c.height = height;
 		CanvasRenderingContext2D context2d = Js.uncheckedCast(c.getContext("2d"));
 		// gray color for the dividers in Classic
 		context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of("rgb(200,200,200)");
 		context2d.fillRect(0, 0, width, height);
 		context2d.scale(scale, scale);
-		for (DockPanelW panel: dockPanels) {
-			if (panel.isAttached()) {
-				int left = (int) ((panel.getAbsoluteLeft() - rootPane.getAbsoluteLeft()) / app
-						.getGeoGebraElement().getScaleX());
-				int top = (int) ((panel.getAbsoluteTop() - rootPane.getAbsoluteTop()) / app
-						.getGeoGebraElement().getScaleY());
-				panel.paintToCanvas(context2d, counter, left, top);
-			} else {
-				counter.run();
-			}
-		}
+		ViewCounter counter = callback == null ? null : new ViewCounter(c, callback);
+		rootPane.paintToCanvas(context2d, counter, 0, 0);
 	}
 }

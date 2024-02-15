@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
 import org.geogebra.web.full.gui.view.spreadsheet.TableCanvasExporter;
@@ -103,7 +104,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 				+ EuclidianConstants.MODE_SPREADSHEET_MIN;
 	}
 
-	@Override 
+	@Override
 	public boolean isStyleBarVisible() {
 		if (app.isApplet() && !app.showMenuBar() && !app.isStyleBarAllowed()) {
 			return false;
@@ -140,7 +141,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		drawWhiteBackground(context2d, left, top);
 		context2d.save();
 		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
@@ -149,7 +150,9 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 				sview.getSpreadsheetTable(), app, getOffsetWidth(), getOffsetHeight(), context2d);
 		tableCanvasExporter.paintToCanvas(left, top);
 		context2d.restore();
-		callback.run();
+		if (counter != null) {
+			counter.decrement();
+		}
 	}
 
 }
