@@ -79,7 +79,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 				scrollable);
 		spreadsheet.getController().setViewportAdjuster(viewportAdjuster);
 
-		Element spreadsheetElement = scrollContent.getElement();
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
