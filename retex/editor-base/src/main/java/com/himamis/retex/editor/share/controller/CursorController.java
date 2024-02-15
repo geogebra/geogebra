@@ -36,12 +36,15 @@ public class CursorController {
 	 * @return whether we moved right
 	 */
 	public static boolean nextCharacter(EditorState editorState, boolean skipPlaceholders) {
+		int currentOffset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
 		if (isLastPlaceholderInProtectedParent(editorState)) {
+			if (currentOffset == currentField.size() - 1) {
+				return nextField(editorState);
+			}
 			return false;
 		}
 
-		int currentOffset = editorState.getCurrentOffset();
-		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset < currentField.size()) {
 			MathComponent component = currentField.getArgument(currentOffset);
 			return nextCharacterInCurrentField(component, editorState, skipPlaceholders);
@@ -177,7 +180,11 @@ public class CursorController {
 			component = (MathContainer) component.getArgument(current);
 		}
 		editorState.setCurrentField((MathSequence) component);
-		editorState.setCurrentOffset(component.size());
+		if (editorState.getCurrentField().getArgument(component.size() - 1) instanceof MathCharPlaceholder) {
+			editorState.setCurrentOffset(component.size() - 1);
+		} else {
+			editorState.setCurrentOffset(component.size());
+		}
 	}
 
 	/**

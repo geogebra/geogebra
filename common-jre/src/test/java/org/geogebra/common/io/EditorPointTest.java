@@ -55,6 +55,14 @@ public class EditorPointTest {
 		checker.convertFormula(emptyPoint3D)
 				.right(2)
 				.right(1)
+				.checkPlaceholders("_,_,_|");
+	}
+
+	@Test
+	public void testEmptyPointWithCursorLastMoreRightPressInAV() {
+		checker.convertFormula(emptyPoint3D)
+				.right(2)
+				.right(5)
 				.checkPlaceholders("_,_,|");
 	}
 
