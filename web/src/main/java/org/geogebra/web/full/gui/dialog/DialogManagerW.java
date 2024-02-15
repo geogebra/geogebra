@@ -453,7 +453,8 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * @return The "do you want to save" dialog, which does not have the input panel visible
+	 * @return The "do you want to save" dialog, 
+	 *     which does not have the input panel visible when offline
 	 */
 	public SaveDialogI getSaveCheckDialog() {
 		DialogData data = new DialogData("DoYouWantToSaveYourChanges",
