@@ -194,12 +194,8 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 	public void setTitle() {
 		app.getSaveController().updateSaveTitle(getInputField()
 						.getTextComponent(), getDefaultTitle());
-		inputPanel.setVisible(((AppW) app).getFileManager().isOnlineSavingPreferred());
+		inputPanel.setVisible(shouldInputPanelBeVisible());
 		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());
-	}
-
-	protected void setInputPanelVisible(boolean visible) {
-		inputPanel.setVisible(visible);
 	}
 
 	private String getDefaultTitle() {
@@ -213,4 +209,6 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 		super.show();
 		setTitle();
 	}
+
+	protected abstract boolean shouldInputPanelBeVisible();
 }

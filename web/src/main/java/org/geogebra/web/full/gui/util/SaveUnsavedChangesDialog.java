@@ -11,8 +11,7 @@ public class SaveUnsavedChangesDialog extends SaveFileDialog {
 	}
 
 	@Override
-	public void setTitle() {
-		super.setTitle();
-		setInputPanelVisible(false);
+	protected boolean shouldInputPanelBeVisible() {
+		return false;
 	}
 }

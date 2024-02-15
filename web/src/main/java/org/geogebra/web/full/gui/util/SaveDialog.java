@@ -148,8 +148,7 @@ public class SaveDialog extends SaveFileDialog {
 	}
 
 	@Override
-	public void setTitle() {
-		super.setTitle();
-		setInputPanelVisible(true);
+	protected boolean shouldInputPanelBeVisible() {
+		return true;
 	}
 }
