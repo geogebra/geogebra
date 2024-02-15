@@ -2593,7 +2593,7 @@ public class MyXMLHandler implements DocHandler {
 			macro = new Macro(kernel, myCmdName);
 			macro.setToolName(toolName);
 			macro.setCopyCaptionsAndVisibility(copyCaptions);
-			macro.setToolHelp(toolHelp); 
+			macro.setToolHelp(toolHelp);
 			macro.setIconFileName(iconFile);
 			String strShowInToolBar = attrs.get("showInToolBar");
 			boolean showTool = strShowInToolBar == null || parseBoolean(strShowInToolBar);

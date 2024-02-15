@@ -77,7 +77,7 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
                 if (primaryAction == ActionType.INPUT_TRANSLATE_MENU
                         || primaryAction == ActionType.INPUT_TRANSLATE_COMMAND
                         || primaryAction == ActionType.INPUT
-                        || (primaryAction == ActionType.CUSTOM 
+                        || (primaryAction == ActionType.CUSTOM
                             && button.getPrimaryActionName().equals(Action.RETURN_ENTER.name()))) {
                     button.addAction(Action.SWITCH_TO_123.toString(), ActionType.CUSTOM);
                 }

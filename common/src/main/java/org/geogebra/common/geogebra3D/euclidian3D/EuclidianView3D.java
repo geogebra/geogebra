@@ -3727,7 +3727,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public Previewable createPreviewPerpendicularLine(
-			ArrayList<GeoPointND> selectedPoints, 
+			ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoLineND> selectedLines,
 			ArrayList<GeoFunction> selectedFunctions) {
 		// not implemented in 3D

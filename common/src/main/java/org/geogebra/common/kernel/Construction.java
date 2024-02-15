@@ -1926,7 +1926,7 @@ public class Construction {
 		newGeo.setAllVisualProperties(oldGeo, false);
 		newGeo.setViewFlags(oldGeo.getViewSet());
 		newGeo.setScripting(oldGeo);
-		if (newGeo.getGeoClassType() != oldGeo.getGeoClassType() 
+		if (newGeo.getGeoClassType() != oldGeo.getGeoClassType()
 				&& newGeo.isFunctionOrEquationFromUser()) {
 			newGeo.setFixed(true);
 		}
@@ -2695,7 +2695,7 @@ public class Construction {
 			pref = prefix.substring(0, pos);
 		}
 		// TRAC-3519 avoid invalid labels like "Vertex(poly1')_1"
-		if (!LabelManager.isValidLabel(pref, kernel, null) 
+		if (!LabelManager.isValidLabel(pref, kernel, null)
 				&& !pref.equals(LabelManager.HIDDEN_PREFIX)) {
 			pref = "a";
 		}

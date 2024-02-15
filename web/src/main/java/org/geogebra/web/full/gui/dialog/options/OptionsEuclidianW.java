@@ -267,7 +267,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ncbGridTickAnglePanel.add(gridLabel3);
 			ncbGridTickAnglePanel.add(cbGridTickAngle);
 		
-			FlowPanel tickPanel = LayoutUtilW.panelRow(cbGridManualTick, ncbGridTickXPanel, 
+			FlowPanel tickPanel = LayoutUtilW.panelRow(cbGridManualTick, ncbGridTickXPanel,
 					ncbGridTickYPanel, ncbGridTickAnglePanel);
 			mainPanel.add(tickPanel);
 			

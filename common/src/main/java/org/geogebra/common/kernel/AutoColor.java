@@ -14,14 +14,14 @@ public enum AutoColor {
 			GeoGebraColorConstants.GGB_RED, GColor.BLUE,
 			GeoGebraColorConstants.GGB_ORANGE,
 			GeoGebraColorConstants.GGB_CLASSIC_PURPLE, GeoGebraColorConstants.GGB_GRAY,
-			GeoGebraColorConstants.GGB_BROWN }), 
+			GeoGebraColorConstants.GGB_BROWN }),
 	/** curves, function (graphing) */
 	CURVES_GRAPHING(new GColor[] { GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE,
 			GeoGebraColorConstants.PURPLE_600,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY }), 
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY }),
 	/** surfaces */
 	SURFACES(new GColor[] { GColor.MOW_MEBIS_TEAL,
 			GColor.PURPLE_A400,

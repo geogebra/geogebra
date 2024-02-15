@@ -38,7 +38,7 @@ public class CurveHitting {
 	 *            thickness of the hitting curve
 	 * @return whether the curve was hit
 	 */
-	public boolean hit(Hitting hitting, 
+	public boolean hit(Hitting hitting,
 			Path curve, double hitLineThickness) {
 		hittingPoint.setWillingCoords(hitting.getOrigin());
 		hittingPoint.setWillingDirection(hitting.getDirection());

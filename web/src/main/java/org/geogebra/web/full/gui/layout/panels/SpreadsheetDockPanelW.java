@@ -103,7 +103,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 				+ EuclidianConstants.MODE_SPREADSHEET_MIN;
 	}
 
-	@Override 
+	@Override
 	public boolean isStyleBarVisible() {
 		if (app.isApplet() && !app.showMenuBar() && !app.isStyleBarAllowed()) {
 			return false;

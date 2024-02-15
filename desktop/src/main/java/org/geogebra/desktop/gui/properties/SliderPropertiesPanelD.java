@@ -144,7 +144,7 @@ public class SliderPropertiesPanelD extends JPanel
 		tfields = new MyTextFieldD[5];
 		tLabels = new JLabel[5];
 		tfields[0] = tfMin;
-		tfields[1] = tfMax; 
+		tfields[1] = tfMax;
 		tfields[2] = tfWidth;
 		tfields[3] = tfBlobSize;
 		tfields[4] = tfLineThickness;

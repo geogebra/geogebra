@@ -40,7 +40,7 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoCasBaseSingleArgument(Construction cons, String label, CasEvaluableFunction f, 
+	public AlgoCasBaseSingleArgument(Construction cons, String label, CasEvaluableFunction f,
 			Commands cmd, EvalInfo info) {
 		super(cons, label, f, cmd, info);
 	}
