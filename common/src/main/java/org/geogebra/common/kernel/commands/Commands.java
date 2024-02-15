@@ -1212,7 +1212,7 @@ public enum Commands implements CommandsConstants,
 
 	TrigCombine(TABLE_FUNCTION),
 
-	nPr(TABLE_PROBABILITY),
+	nPr(TABLE_ENGLISH),
 
 	CASLoaded(TABLE_GEOGEBRA),
 
