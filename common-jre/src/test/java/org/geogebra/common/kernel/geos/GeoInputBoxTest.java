@@ -28,6 +28,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.JavaScriptAPI;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -886,6 +887,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5390")
 	public void asindThrowsNoErrorForAngleInputbox() {
 		add("a=22°");
 		GeoInputBox input = add("ib=InputBox(a)");
