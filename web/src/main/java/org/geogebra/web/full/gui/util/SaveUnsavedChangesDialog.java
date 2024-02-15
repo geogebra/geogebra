@@ -12,6 +12,6 @@ public class SaveUnsavedChangesDialog extends SaveFileDialog {
 
 	@Override
 	protected boolean shouldInputPanelBeVisible() {
-		return false;
+		return ((AppW) app).getFileManager().isOnlineSavingPreferred();
 	}
 }
