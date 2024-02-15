@@ -44,9 +44,9 @@ import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.ColorChooserW;
-import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
 import org.geogebra.web.full.gui.util.SaveDialog;
 import org.geogebra.web.full.gui.util.SaveDialogI;
+import org.geogebra.web.full.gui.util.SaveUnsavedChangesDialog;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
@@ -453,13 +453,13 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * @return the "do you want to save" dialog
+	 * @return The "do you want to save" dialog, which does not have the input panel visible
 	 */
 	public SaveDialogI getSaveCheckDialog() {
 		DialogData data = new DialogData("DoYouWantToSaveYourChanges",
 					"Discard", "Save");
 
-		return new DoYouWantToSaveChangesDialog((AppW) app, data, true);
+		return new SaveUnsavedChangesDialog((AppW) app, data, true);
 	}
 
 	public DialogData getSaveDialogData() {
