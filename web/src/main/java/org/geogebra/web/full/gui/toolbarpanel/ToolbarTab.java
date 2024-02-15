@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.full.gui.layout.PaintToCanvas;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.util.Domvas;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.dom.client.Style;
@@ -13,7 +15,8 @@ import elemental2.dom.EventListener;
  * Base class for Toolbar Tabs-
  * @author Laszlo
  */
-public abstract class ToolbarTab extends ScrollPanel implements ShowableTab, SetLabels {
+public abstract class ToolbarTab extends ScrollPanel implements ShowableTab, SetLabels,
+		PaintToCanvas {
 
 	public static final int TAB_HEIGHT = 100;
 	public static final String TAB_HEIGHT_PCT = TAB_HEIGHT + "%";
@@ -62,19 +65,16 @@ public abstract class ToolbarTab extends ScrollPanel implements ShowableTab, Set
 		return getElement().hasClassName("tab");
 	}
 
-	/**
-	 * @param context2d context
-	 * @param callback callback
-	 * @param left horizontal offset
-	 * @param top vertical offset
-	 */
+	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		getElement().addClassName("ggbScreenshot");
 		Domvas.get().toImage(getElement(), (image) -> {
 			context2d.drawImage(image, left, top);
 			getElement().removeClassName("ggbScreenshot");
-			callback.run();
+			if (counter != null) {
+				counter.decrement();
+			}
 		});
 	}
 }
