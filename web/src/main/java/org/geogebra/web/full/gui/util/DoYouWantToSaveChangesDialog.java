@@ -194,7 +194,6 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	public void setTitle() {
 		app.getSaveController().updateSaveTitle(getInputField()
 						.getTextComponent(), getDefaultTitle());
-		inputPanel.setVisible(((AppW) app).getFileManager().isOnlineSavingPreferred());
 		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());
 	}
 
