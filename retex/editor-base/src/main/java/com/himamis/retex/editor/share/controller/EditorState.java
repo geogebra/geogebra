@@ -606,14 +606,6 @@ public class EditorState {
 	}
 
 	/**
-	 *
-	 * @return Whether the current field is the root component itself.
-	 */
-	public boolean isAtRoot() {
-		return currentField == rootComponent;
-	}
-
-	/**
 	 * Select the topmost ancestor that's not root or root's child.
 	 */
 	public void selectUpToRootComponent() {

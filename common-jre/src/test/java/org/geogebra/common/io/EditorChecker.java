@@ -300,7 +300,6 @@ class EditorChecker {
 		assertTrue(mathField.getInternal().getEditorState().isInScript());
 	}
 
-
 	/**
 	 * Asserts if the cursor is NOT in super- or subscript.
 	 * Note: opposite of cursorInScript().
@@ -316,7 +315,8 @@ class EditorChecker {
 	 * Then '(1, |2)' is false, but '(1,2)|' or '|(1,2)' are true.
 	 */
 	public void checkCursorIsAtRoot() {
-		assertTrue(mathField.getInternal().getEditorState().isAtRoot());
+		EditorState editorState = mathField.getInternal().getEditorState();
+		assertEquals(editorState.getCurrentField(), editorState.getRootComponent());
 	}
 
 	public EditorChecker select(int from, int to) {

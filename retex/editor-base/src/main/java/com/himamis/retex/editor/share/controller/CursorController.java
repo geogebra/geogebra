@@ -180,20 +180,21 @@ public class CursorController {
 			component = (MathContainer) component.getArgument(current);
 		}
 		editorState.setCurrentField((MathSequence) component);
-		if (isLastFieldPlaceholder(editorState, component)) {
-			skipLastField(editorState, component);
+		if (isLastFieldPlaceholder(editorState.getCurrentField())) {
+			skipLastField(editorState);
 		} else {
 			editorState.setCurrentOffset(component.size());
 		}
 	}
 
-	private static void skipLastField(EditorState editorState, MathContainer component) {
-		editorState.setCurrentOffset(component.size() - 1);
+	private static void skipLastField(EditorState editorState) {
+		MathSequence currentField = editorState.getCurrentField();
+		editorState.setCurrentOffset(currentField.size() - 1);
 	}
 
-	private static boolean isLastFieldPlaceholder(EditorState editorState, MathContainer component) {
-		return editorState.getCurrentField()
-				.getArgument(component.size() - 1) instanceof MathCharPlaceholder;
+	private static boolean isLastFieldPlaceholder(MathSequence sequence) {
+		return sequence
+				.getArgument(sequence.size() - 1) instanceof MathCharPlaceholder;
 	}
 
 	/**
