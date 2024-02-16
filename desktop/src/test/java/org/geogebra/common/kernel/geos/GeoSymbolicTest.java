@@ -43,6 +43,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
@@ -2251,6 +2252,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	@Issue("APPS-5344")
 	public void mistypedParametricShouldFail() {
 		t("X=(1,2,3)+r(1,2,3)", "?");
 		t("X=(1,2)+s(1,2)", "(s(1, 2) + 1, 2)");
