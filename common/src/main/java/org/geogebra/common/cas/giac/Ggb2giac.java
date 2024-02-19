@@ -331,7 +331,7 @@ public class Ggb2giac {
 		p("Factor.2",
 				"[[ggbfacans:=%0],[ggbfacans:=ggbfactor(ggbfacans,ggb_is_variable(%1),0,1)],ggbfacans][2]");
 		String iFactor = "[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans);"
-				+ " else L:=lvar(cZeros(ggbfacans)); ggbfacans:=when(size(L)>0, factor(ggbfacans,L), ggbfactor(ggbfacans,%v,1,1)); fi],ggbfacans][2]";
+				+ " else L:=lvar(cZeros(ggbfacans)); ggbfacans:=when(size(L)>0, regroup(factor(ggbfacans,L)), ggbfactor(ggbfacans,%v,1,1)); fi],ggbfacans][2]";
 		// factor over irrationals
 		p("IFactor.1", iFactor.replace("%v", "x"));
 		p("IFactor.2", iFactor.replace("%v", "ggb_is_variable(%1)"));
