@@ -1151,9 +1151,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public EventDispatcher getEventDispatcher() {
 		if (eventDispatcher == null) {
-			eventDispatcher = new EventDispatcher(this);
+			eventDispatcher = newEventDispatcher();
 		}
 		return eventDispatcher;
+	}
+
+	protected EventDispatcher newEventDispatcher() {
+		return new EventDispatcher(this);
 	}
 
 	/**
