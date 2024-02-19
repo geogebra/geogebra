@@ -771,7 +771,7 @@ public class Construction {
 				// get current cell
 				GeoCasCell currCell = (GeoCasCell) ceList.get(i);
 				// we found the equation
-				if (currCell.getInput(StringTemplate.defaultTemplate)
+				if (currCell.getLocalizedInput()
 						.startsWith(label + "=")
 						&& ((ExpressionNode) currCell.getInputVE())
 								.getLeft() instanceof Equation) {

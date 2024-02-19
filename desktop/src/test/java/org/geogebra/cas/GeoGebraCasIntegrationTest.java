@@ -2618,7 +2618,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				false);
 
 		Assert.assertEquals("c(x) := x^2 * x",
-				a.getInput(StringTemplate.defaultTemplate));
+				a.getLocalizedInput());
 		Assert.assertFalse(a.isError());
 	}
 
@@ -2762,5 +2762,13 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		getApp().setXML(getApp().getXML(), true);
 		assertThat(lookup("$2").toValueString(StringTemplate.editTemplate),
 				equalTo("3465641 / 2"));
+	}
+
+	@Test
+	public void inputPrecisionPreservedOnReload() {
+		add("sqrt(30.6001)");
+		getApp().setXML(getApp().getXML(), true);
+		assertThat(((GeoCasCell) lookup("$1")).getLaTeXInput(),
+				equalTo("\\sqrt{30.6001}"));
 	}
 }

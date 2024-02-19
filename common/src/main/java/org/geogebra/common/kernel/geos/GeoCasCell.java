@@ -208,25 +208,23 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * Returns the input of this row. Command names are localized when
-	 * kernel.isPrintLocalizedCommandNames() is true, otherwise internal command
-	 * names are used.
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @return input string
+	 * @return the input of this row, using internal commands. Preserves input rounding.
 	 */
-	public String getInput(final StringTemplate tpl) {
-		if (tpl.isPrintLocalizedCommandNames()) {
-			// input with localized command names
-			if (currentLanguageTag == null
-					|| !currentLanguageTag.equals(getLoc().getLanguageTag())) {
-				updateLocalizedInput(tpl, input);
-			}
-			return localizedInput;
-		}
-		// input with internal command names
+	public String getInternalInput() {
 		return input;
+	}
+
+	/**
+	 * @return input localized into current language. Preserves input rounding.
+	 */
+	public String getLocalizedInput() {
+					// input with localized command names
+		if (currentLanguageTag == null
+				|| !currentLanguageTag.equals(getLoc().getLanguageTag())) {
+			updateLocalizedInput(input);
+		}
+		return localizedInput;
+
 	}
 
 	/**
@@ -676,7 +674,7 @@ public class GeoCasCell extends GeoElement
 		}
 
 		// for efficiency: input with localized command names
-		updateLocalizedInput(StringTemplate.defaultTemplate, input);
+		updateLocalizedInput(input);
 
 		// make sure computeOutput() knows that input has changed
 		firstComputeOutput = true;
@@ -688,11 +686,11 @@ public class GeoCasCell extends GeoElement
 		return true;
 	}
 
-	private void updateLocalizedInput(final StringTemplate tpl,
+	private void updateLocalizedInput(
 			final String input1) {
 		// for efficiency: localized input with local command names
 		currentLanguageTag = getLoc().getLanguageTag();
-		localizedInput = localizeInput(input1, tpl);
+		localizedInput = localizeInput(input1);
 	}
 
 	/**
@@ -742,7 +740,7 @@ public class GeoCasCell extends GeoElement
 				getAssignmentType());
 
 		// TODO this always translates input.
-		updateLocalizedInput(StringTemplate.defaultTemplate,
+		updateLocalizedInput(
 				getInputVE().toAssignmentString(StringTemplate.defaultTemplate,
 						getAssignmentType()));
 
@@ -1023,16 +1021,11 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * Returns the input using command names in the current language.
 	 */
-	private String localizeInput(final String input1,
-			final StringTemplate tpl) {
-		// replace all internal command names in input by local command names
-		if (tpl.isPrintLocalizedCommandNames()) {
-			// internal commands -> local commands
-			return GgbScript.script2LocalizedScript(kernel.getApplication(),
-					input1);
-		}
-		// keep internal commands
-		return input1;
+	private String localizeInput(final String input1) {
+		// internal commands -> local commands
+		return GgbScript.script2LocalizedScript(kernel.getApplication(),
+				input1);
+
 	}
 
 	/**
@@ -3603,15 +3596,13 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * @param tpl
-	 *            string template (might be MathQuill or JLM)
 	 * @return input in LaTeX form or null if only plain input present
 	 */
-	public @CheckForNull String getLaTeXInput(StringTemplate tpl) {
-
+	public @CheckForNull String getLaTeXInput() {
 		if (useAsText) {
 			return "\\text{" + this.commentText.getTextString() + "}";
 		}
+		StringTemplate tpl = StringTemplate.numericLatex;
 		return latexInput == null
 				? (inputVE == null ? null
 						: inputVE.toAssignmentString(tpl, getAssignmentType()))
@@ -3653,7 +3644,7 @@ public class GeoCasCell extends GeoElement
 	 * transforms evalComment into set of substitutions in case of Substitution
 	 * command
 	 * 
-	 * @return set of substitutions
+	 * @return list of substitutions
 	 */
 	private ArrayList<Vector<String>> getSubstListFromSubstComment(
 			String evalCommentStr) {

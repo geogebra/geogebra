@@ -118,7 +118,7 @@ public abstract class CASView implements Editing, SetLabels {
 	 */
 	public String getRowInputValue(int n) {
 		return getConsoleTable().getGeoCasCell(n)
-				.getInput(StringTemplate.defaultTemplate);
+				.getLocalizedInput();
 	}
 
 	/**
@@ -555,7 +555,7 @@ public abstract class CASView implements Editing, SetLabels {
 	public String getCellInput(int i) {
 		GeoCasCell casCell = getConsoleTable().getGeoCasCell(i);
 		if (casCell != null) {
-			return casCell.getInput(StringTemplate.xmlTemplate);
+			return casCell.getInternalInput();
 		}
 		return null;
 	}
