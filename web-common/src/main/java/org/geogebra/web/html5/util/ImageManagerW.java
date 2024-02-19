@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -204,9 +205,21 @@ public class ImageManagerW extends ImageManager {
 	 */
 	public void triggerSingleImageLoading(String imageFileName, Kernel kernel) {
 		HTMLImageElement img = getExternalImage(imageFileName, true);
-		img.addEventListener("load", (event) -> kernel.updateConstruction());
+		img.addEventListener("load", (event) ->
+				updateCascadeImages(kernel.getConstruction()));
 		img.src = externalImageSrcs.get(imageFileName).createUrl();
 	}
+
+	private void updateCascadeImages(Construction cons) {
+		HashMap<String, GeoElement> table = cons.getGeoTable();
+		if (table == null||table.isEmpty()) {
+			return;
+		}
+		List<GeoElement> list = table.values().stream()
+				.filter(t -> t.isGeoImage()).collect(Collectors.toList());
+		GeoElement.updateCascade(list);
+	}
+
 
 	/**
 	 * Load all images and tun callback after all are loaded.
