@@ -212,14 +212,14 @@ public class ImageManagerW extends ImageManager {
 
 	private void updateCascadeImages(Construction cons) {
 		HashMap<String, GeoElement> table = cons.getGeoTable();
-		if (table == null||table.isEmpty()) {
+		if (table == null || table.isEmpty()) {
 			return;
 		}
 		List<GeoElement> list = table.values().stream()
-				.filter(t -> t.isGeoImage()).collect(Collectors.toList());
+				.filter(t -> t.isGeoImage() || t.getFillType() == FillType.IMAGE)
+				.collect(Collectors.toList());
 		GeoElement.updateCascade(list);
 	}
-
 
 	/**
 	 * Load all images and tun callback after all are loaded.
