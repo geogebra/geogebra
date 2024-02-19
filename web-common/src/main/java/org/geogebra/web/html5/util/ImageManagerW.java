@@ -110,8 +110,10 @@ public class ImageManagerW extends ImageManager {
 	public String applyImage(String fileName0, String fileData, Kernel kernel) {
 		String fileName = ImageManagerW.getMD5FileName(fileName0, fileData);
 
-		addExternalImage(fileName, fileData);
-		triggerSingleImageLoading(fileName, kernel);
+		if (!externalImageSrcs.containsKey(fileName)) {
+			addExternalImage(fileName, fileData);
+			triggerSingleImageLoading(fileName, kernel);
+		}
 
 		return fileName;
 	}
