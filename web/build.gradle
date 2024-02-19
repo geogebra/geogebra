@@ -196,7 +196,7 @@ tasks.withType(org.docstr.gradle.plugins.gwt.AbstractGwtActionTask) {
 }
 
 
-def outputs = ['web', 'web3d', 'webSimple', 'solver', 'tablet3d','tabletWin']
+def outputs = ['web', 'web3d', 'webSimple', 'tablet3d','tabletWin']
 
 task cleanWar(type: Delete) {
     doLast {
@@ -261,20 +261,6 @@ task copyHandlebars(dependsOn: 'compileSass') {
             def templatePath =  "${handlebarsDir}/${app.id}-template.handlebars"
             file(templatePath).text = handlebars(replaceHtml(app, false, false, true))
         }
-        String solver = solverHtml()
-        def solverPath = "${handlebarsDir}/solver-template.handlebars"
-        file(solverPath).text = handlebars(solver)
-    }
-}
-
-task createSolverHtml(dependsOn: 'compileSass') {
-    doLast {
-        String solver = solverHtml()
-        // for localhost and autotest
-        file("war/solver.html").text = solver
-            .replace("<!--APP NAME-->", "Math Solver")
-            .replace("<!--SIGN IN-->", "Sign In")
-            .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
     }
 }
 
@@ -301,7 +287,7 @@ task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     }
 }
 
-task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {
+task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
     description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
     from compileGwt
     into warDirRel
@@ -340,7 +326,7 @@ class ReadableDev extends org.docstr.gradle.plugins.gwt.GwtDev {
     }
 }
 
-task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
+task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml']) {
     war = file(warDirRel)
     maxHeapSize = '4096m'
     logLevel = 'TRACE'
