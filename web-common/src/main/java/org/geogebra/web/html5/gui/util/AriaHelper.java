@@ -112,4 +112,12 @@ public class AriaHelper {
 	public static void setDataTest(UIObject uiObject, String dataTest) {
 		uiObject.getElement().setAttribute("data-test", dataTest);
 	}
+
+	/**
+	 * @param uiObject - element
+	 * @param pressed - true or false
+	 */
+	public static void setPressedState(UIObject uiObject, boolean pressed) {
+		uiObject.getElement().setAttribute("aria-pressed", String.valueOf(pressed));
+	}
 }

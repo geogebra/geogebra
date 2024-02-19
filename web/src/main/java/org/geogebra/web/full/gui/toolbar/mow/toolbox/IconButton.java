@@ -14,10 +14,12 @@ public class IconButton extends StandardButton {
 	public IconButton(int mode, AppW appW) {
 		super(GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode, appW),
 				appW.getToolName(mode), 24);
+		addStyleName("iconButton");
 	}
 
 	public IconButton(ResourcePrototype icon, String ariaLabel) {
 		super(icon, 24);
+		addStyleName("iconButton");
 		AriaHelper.setLabel(this, ariaLabel);
 	}
 
@@ -32,6 +34,11 @@ public class IconButton extends StandardButton {
 	}
 
 	public void setActive(boolean isActive) {
+		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
+	}
+
+	public boolean isActive() {
+		return getElement().hasClassName("active");
 	}
 }

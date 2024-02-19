@@ -5,6 +5,7 @@
 	.toolboxMow {
 		position: absolute;
 		top: 50%;
+		width: 48px;
 		transform: translateY(-50%);
 		border-radius: 36px;
 		padding: 8px;
@@ -20,14 +21,15 @@
 			background-color: neutral(300);
 		}
 
-		.actionButton {
+		.iconButton {
 			width: 24px;
 			height: 24px;
 			padding: 12px;
 			border-radius: 50%;
+			transition: background-color 150ms ease 0ms;
 
-			&:hover {
-				background-color: purple(100);
+			&:hover, &.active {
+				background-color: var(--ggb-light-color);
 			}
 		}
 	}
