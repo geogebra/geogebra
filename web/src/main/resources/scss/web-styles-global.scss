@@ -202,7 +202,7 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	height:50px;
 	margin-top:-25px;
 	border-radius:50%;
-	border:3px solid $mow_light;
+	border:3px solid var(--ggb-primary-color);
 	border-left-color:transparent;
 	background:transparent;
 	-webkit-animation:a 1s infinite linear;
