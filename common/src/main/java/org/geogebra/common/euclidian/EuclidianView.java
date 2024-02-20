@@ -2266,7 +2266,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)) {
 					focusTextField((GeoInputBox) geo);
-					((DrawInputBox) d).setWidgetVisible(true);
 					return true;
 				}
 
@@ -6208,6 +6207,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				drawInputBox.attachMathField(null);
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
+				drawInputBox.setWidgetVisible(true);
 			}
 		}
 	}
@@ -6232,7 +6232,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void refreshTextfieldFocus(GeoInputBox inputBox) {
 		focusTextField(inputBox);
 		if (!inputBox.isSymbolicMode()) {
-			viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
 			getTextField().setSelection(0, getTextField().getText().length());
 		}
 	}

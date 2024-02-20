@@ -276,6 +276,11 @@ public class ScreenReader {
 		public String transformBrackets(String left, String base, String right) {
 			return left + " " + base + right;
 		}
+
+		@Override
+		public String transformWrapper(String baseString) {
+			return ",".equals(baseString) ? ", " : baseString;
+		}
 	}
 
 	/**
