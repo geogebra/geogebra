@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -20,4 +21,9 @@ public class GeoBooleanTest extends BaseUnitTest {
 		assertThat(point, hasProperty("visible", GeoElement::isEuclidianVisible, false));
 	}
 
+	@Test
+	public void checkboxShouldAlwaysShowLabel() {
+		GeoElement bool = add("true");
+		assertTrue(bool.isLabelVisible());
+	}
 }
