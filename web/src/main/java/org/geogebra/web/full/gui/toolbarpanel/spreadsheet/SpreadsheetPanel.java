@@ -1,12 +1,11 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
+import org.geogebra.common.spreadsheet.core.Scrollable;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
-import org.geogebra.common.spreadsheet.core.ViewportAdjuster;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;
-import org.geogebra.common.util.Scrollable;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -43,7 +42,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	// on high-res screens
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
-	private final ViewportAdjuster viewportAdjuster;
 	private Element spreadsheetElement;
 
 	/**
@@ -75,9 +73,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		spreadsheetElement = scrollContent.getElement();
 
 		Scrollable scrollable = createScrollable();
-		viewportAdjuster = new ViewportAdjuster(spreadsheet.getController().getLayout(),
-				scrollable);
-		spreadsheet.getController().setViewportAdjuster(viewportAdjuster);
+		spreadsheet.getController().createViewportAdjuster(scrollable);
 
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
@@ -197,6 +193,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return scrollOverlay.getOffsetWidth();
 	}
 
+	/**
+	 * @return The width of the scrollbar used for dragging content with the left mouse button
+	 */
 	private int getScrollBarWidth() {
 		return getWidth() - scrollOverlay.getElement().getClientWidth();
 	}
@@ -213,18 +212,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			}
 
 			@Override
-			public int getVerticalScrollPosition() {
-				return scrollOverlay.getVerticalScrollPosition();
-			}
-
-			@Override
 			public void setHorizontalScrollPosition(int position) {
 				scrollOverlay.setHorizontalScrollPosition(position);
-			}
-
-			@Override
-			public int getHorizontalScrollPosition() {
-				return scrollOverlay.getHorizontalScrollPosition();
 			}
 
 			@Override

@@ -20,7 +20,7 @@ public class SpreadsheetCellEditorTest {
 	@Before
 	public void setupEditor() {
 		data = new TestTabularData();
-		controller = new SpreadsheetController(data);
+		controller = new SpreadsheetController(data, null);
 		editor = new TestSpreadsheetCellEditor();
 		controller.setControlsDelegate(new SpreadsheetControlsDelegate() {
 			@Override
@@ -50,10 +50,10 @@ public class SpreadsheetCellEditorTest {
 		data.setContent(0, 0, "foo");
 		data.setContent(1, 2, "bar");
 
-		controller.showCellEditor(0,  0, viewport);
+		controller.showCellEditor(0,  0);
 		assertEquals("foo", editor.getContent());
 
-		controller.showCellEditor(1,  2, viewport);
+		controller.showCellEditor(1,  2);
 		assertEquals("bar", editor.getContent());
 	}
 }

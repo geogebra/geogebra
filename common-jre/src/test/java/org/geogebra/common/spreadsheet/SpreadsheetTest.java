@@ -17,16 +17,15 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.Modifiers;
+import org.geogebra.common.spreadsheet.core.Scrollable;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetController;
 import org.geogebra.common.spreadsheet.core.TableLayout;
-import org.geogebra.common.spreadsheet.core.ViewportAdjuster;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
-import org.geogebra.common.util.Scrollable;
 import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +38,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 	private TestTabularData tabularData;
 	private SpreadsheetController controller;
 	private Rectangle viewport;
-	private ViewportAdjuster viewportAdjuster;
 
 	@Before
 	public void setupSpreadsheet() {
@@ -51,8 +49,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		viewport = new Rectangle(0, 100, 0, 120);
 		spreadsheet.setViewport(viewport);
 		controller = spreadsheet.getController();
-		viewportAdjuster = getViewportAdjuster();
-		controller.setViewportAdjuster(viewportAdjuster);
+		controller.createViewportAdjuster(getMockForScrollable());
 	}
 
 	@Test
@@ -156,90 +153,89 @@ public class SpreadsheetTest extends BaseUnitTest {
 	public void testViewportIsAdjustedRightwardsWithArrowKey() {
 		controller.selectCell(1, 1, false, false);
 		fakeRightArrowPress(viewport);
-		assertNotEquals(0, viewportAdjuster.getScrollable().getHorizontalScrollPosition());
+		assertNotEquals(0, viewport.getMinX(), 0);
 	}
 
 	@Test
 	public void testViewportIsAdjustedRightwardsWithMouseClick() {
 		spreadsheet.handlePointerDown(rowHeader + 90, colHeader + 10, Modifiers.NONE);
-		assertNotEquals(0, viewportAdjuster.getScrollable().getHorizontalScrollPosition());
+		assertNotEquals(0, viewport.getMinX(), 0);
 	}
 
 	@Test
 	public void testViewportIsNotAdjustedRightwardsWithArrowKey() {
-		viewport = new Rectangle(0, 500, 0, 500);
+		spreadsheet.setViewport(new Rectangle(0, 500, 0, 500));
 		controller.selectCell(2, 0, false, false);
 		fakeRightArrowPress(viewport);
-		assertEquals(0, viewportAdjuster.getScrollable().getHorizontalScrollPosition());
+		assertEquals(0, viewport.getMinX(), 0);
 	}
 
 	@Test
 	public void testViewportIsNotAdjustedRightwardsWithMouseClick() {
-		viewport = new Rectangle(0, 140, 0, 100);
-		spreadsheet.setViewport(viewport);
+		spreadsheet.setViewport(new Rectangle(0, 140, 0, 100));
+//		spreadsheet.setViewport(viewport);
 		spreadsheet.handlePointerDown(rowHeader + 60, colHeader + 5, Modifiers.NONE);
-		assertEquals(0, viewportAdjuster.getScrollable().getHorizontalScrollPosition());
+		assertEquals(0, viewport.getMinX(), 0);
 	}
 
 	@Test
 	public void testViewportShouldNotBeAdjustedWhenMovingLeftAtLeftmostPositionWithArrowKey() {
 		controller.selectCell(0, 0, false, false);
 		fakeLeftArrowPress(viewport);
-		assertEquals(0, viewportAdjuster.getScrollable().getHorizontalScrollPosition());
+		assertEquals(0, viewport.getMinX(), 0);
 	}
 
 	@Test
 	public void testViewportIsNotAdjustedHorizontallyWithArrowKey() {
-		viewport = new Rectangle(0, 300, 0, 300);
+		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));
 		controller.selectCell(2, 0, false, false);
 		fakeRightArrowPress(viewport);
-		assertEquals(0, viewportAdjuster.getScrollable().getHorizontalScrollPosition());
+		assertEquals(0, viewport.getMinX(), 0);
 		fakeLeftArrowPress(viewport);
-		assertEquals(0, viewportAdjuster.getScrollable().getHorizontalScrollPosition());
+		assertEquals(0, viewport.getMinX(), 0);
 	}
 
 	@Test
 	public void testViewportIsAdjustedDownwardsWithArrowKey() {
-		viewport = new Rectangle(0, 300, 0, 100);
+		spreadsheet.setViewport(new Rectangle(0, 300, 0, 100));
 		controller.selectCell(1, 1, false, false);
 		fakeDownArrowPress(viewport);
-		assertNotEquals(0, viewportAdjuster.getScrollable().getVerticalScrollPosition());
+		assertNotEquals(0, viewport.getMinY(), 0);
 	}
 
 	@Test
 	public void testViewportIsAdjustedDownwardsWithMouseClick() {
 		spreadsheet.handlePointerDown(rowHeader + 10, colHeader + 80, Modifiers.NONE);
-		assertNotEquals(0, viewportAdjuster.getScrollable().getVerticalScrollPosition());
+		assertNotEquals(0, viewport.getMinY(), 0);
 	}
 
 	@Test
 	public void testViewportIsNotAdjustedDownwardsWithArrowKey() {
 		controller.selectCell(0, 0, false, false);
 		fakeDownArrowPress(viewport);
-		assertEquals(0, viewportAdjuster.getScrollable().getVerticalScrollPosition());
+		assertEquals(0, viewport.getMinY(), 0);
 	}
 
 	@Test
 	public void testViewportIsNotAdjustedDownwardsWithMouseClick() {
 		spreadsheet.handlePointerDown(rowHeader + 10, colHeader + 30, Modifiers.NONE);
-		assertEquals(0, viewportAdjuster.getScrollable().getVerticalScrollPosition());
+		assertEquals(0, viewport.getMinY(), 0);
 	}
 
 	@Test
 	public void testViewportShouldNotBeAdjustedWhenMovingUpAtTopmostPositionWithArrowKey() {
 		controller.selectCell(0, 2, false, false);
 		fakeUpArrowPress(viewport);
-		assertEquals(0, viewportAdjuster.getScrollable().getVerticalScrollPosition());
+		assertEquals(0, viewport.getMinY(), 0);
 	}
 
 	@Test
 	public void testViewportIsNotAdjustedUpwardsWithArrowKey() {
 		controller.selectCell(2, 1, false, false);
 		fakeDownArrowPress(viewport);
-		int verticalScrollPosition = viewportAdjuster.getScrollable().getVerticalScrollPosition();
+		double verticalScrollPosition = viewport.getMinY();
 		fakeUpArrowPress(viewport);
-		assertEquals(verticalScrollPosition,
-				viewportAdjuster.getScrollable().getVerticalScrollPosition());
+		assertEquals(verticalScrollPosition, viewport.getMinY(), 0);
 	}
 
 	private static class TestCellRenderableFactory implements CellRenderableFactory {
@@ -253,22 +249,22 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	private void fakeLeftArrowPress(Rectangle viewport) {
 		KeyEvent e = fakeKeyEvent(37);
-		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE, viewport);
+		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
 	}
 
 	private void fakeUpArrowPress(Rectangle viewport) {
 		KeyEvent e = fakeKeyEvent(38);
-		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE, viewport);
+		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
 	}
 
 	private void fakeRightArrowPress(Rectangle viewport) {
 		KeyEvent e = fakeKeyEvent(39);
-		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE, viewport);
+		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
 	}
 
 	private void fakeDownArrowPress(Rectangle viewport) {
 		KeyEvent e = fakeKeyEvent(40);
-		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE, viewport);
+		controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
 	}
 
 	private KeyEvent fakeKeyEvent(int keyCode) {
@@ -276,10 +272,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 		when(event.getKeyCode()).thenReturn(keyCode);
 		when(event.getKeyChar()).thenReturn(' ');
 		return event;
-	}
-
-	private ViewportAdjuster getViewportAdjuster() {
-		return new ViewportAdjuster(controller.getLayout(), getMockForScrollable());
 	}
 
 	private Scrollable getMockForScrollable() {
@@ -294,10 +286,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 			viewport = viewport.translatedBy(position, 0);
 			return null;
 		}).when(scrollable).setHorizontalScrollPosition(anyInt());
-		when(scrollable.getVerticalScrollPosition()).thenAnswer(
-				invocation -> (int) viewport.getMinY());
-		when(scrollable.getHorizontalScrollPosition()).thenAnswer(
-				invocation -> (int) viewport.getMinX());
 		when(scrollable.getScrollBarWidth()).thenReturn(5);
 		return scrollable;
 	}

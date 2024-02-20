@@ -1,6 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import org.geogebra.common.util.Scrollable;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -35,17 +34,16 @@ public class ViewportAdjuster {
 	 * @return True if the viewport was adjusted horizontally, false else
 	 */
 	public boolean adjustViewportHorizontallyIfNeeded(int column, Rectangle viewport) {
-		int scrollAmount = 0;
+		double scrollAmount = 0;
 		if (shouldAdjustViewportHorizontallyRightwards(column, viewport)) {
-			scrollAmount = (int) (layout.getX(column + 1) - viewport.getMinX()
+			scrollAmount = Math.ceil(layout.getX(column + 1) - viewport.getMinX()
 					+ layout.getRowHeaderWidth() - viewport.getWidth()
 					+ scrollable.getScrollBarWidth() + SCROLL_INCREMENT);
 		} else if (shouldAdjustViewportHorizontallyLeftwards(column, viewport)) {
-			scrollAmount = (int) -(viewport.getMinX() - layout.getX(column));
+			scrollAmount = -Math.floor(viewport.getMinX() - layout.getX(column));
 		}
 		if (scrollAmount != 0) {
-			scrollable.setHorizontalScrollPosition(
-					scrollable.getHorizontalScrollPosition() + scrollAmount);
+			scrollable.setHorizontalScrollPosition((int) (viewport.getMinX() + scrollAmount));
 			return true;
 		}
 		return false;
@@ -57,23 +55,25 @@ public class ViewportAdjuster {
 	 * @return True if the viewport was adjusted vertically, false else
 	 */
 	public boolean adjustViewportVerticallyIfNeeded(int row, Rectangle viewport) {
-		int scrollAmount = 0;
+		double scrollAmount = 0;
 		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
-			scrollAmount = (int) (layout.getY(row + 1) - viewport.getMinY()
+			scrollAmount = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
 					+ layout.getColumnHeaderHeight() - viewport.getHeight()
 					+ scrollable.getScrollBarWidth() + SCROLL_INCREMENT);
 		} else if (shouldAdjustViewportVerticallyUpwards(row, viewport)) {
-			scrollAmount = (int) -(viewport.getMinY() - layout.getY(row));
+			scrollAmount = -Math.floor(viewport.getMinY() - layout.getY(row));
 		}
 		if (scrollAmount != 0) {
-			scrollable.setVerticalScrollPosition(
-					scrollable.getVerticalScrollPosition() + scrollAmount);
+			scrollable.setVerticalScrollPosition((int) (viewport.getMinY() + scrollAmount));
 			return true;
 		}
 		return false;
 	}
 
 	private boolean shouldAdjustViewportHorizontallyRightwards(int column, Rectangle viewport) {
+		if (cellIsWiderThanViewport(column, viewport)) {
+			return false;
+		}
 		return layout.getX(column + 1) - viewport.getMinX() + layout.getRowHeaderWidth()
 				> viewport.getWidth() - scrollable.getScrollBarWidth();
 	}
@@ -83,11 +83,22 @@ public class ViewportAdjuster {
 	}
 
 	private boolean shouldAdjustViewportVerticallyDownwards(int row, Rectangle viewport) {
+		if (cellIsHigherThanViewport(row, viewport)) {
+			return false;
+		}
 		return layout.getY(row + 1) - viewport.getMinY() + layout.getColumnHeaderHeight()
 				> viewport.getHeight() - scrollable.getScrollBarWidth();
 	}
 
 	private boolean shouldAdjustViewportVerticallyUpwards(int row, Rectangle viewport) {
 		return layout.getY(row) < viewport.getMinY();
+	}
+
+	private boolean cellIsWiderThanViewport(int column, Rectangle viewport) {
+		return layout.getWidth(column) + layout.getRowHeaderWidth() > viewport.getWidth();
+	}
+
+	private boolean cellIsHigherThanViewport(int row, Rectangle viewport) {
+		return layout.getHeight(row) + layout.getColumnHeaderHeight() > viewport.getHeight();
 	}
 }
