@@ -22,13 +22,6 @@ public class ViewportAdjuster {
 	}
 
 	/**
-	 * @return Scrollable
-	 */
-	public Scrollable getScrollable() {
-		return this.scrollable;
-	}
-
-	/**
 	 * @param column Row index
 	 * @param viewport Viewport
 	 * @return True if the viewport was adjusted horizontally, false else
