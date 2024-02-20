@@ -173,7 +173,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 	@Test
 	public void testViewportIsNotAdjustedRightwardsWithMouseClick() {
 		spreadsheet.setViewport(new Rectangle(0, 140, 0, 100));
-//		spreadsheet.setViewport(viewport);
 		spreadsheet.handlePointerDown(rowHeader + 60, colHeader + 5, Modifiers.NONE);
 		assertEquals(0, viewport.getMinX(), 0);
 	}
