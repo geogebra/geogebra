@@ -24,6 +24,7 @@ public class GeoBooleanTest extends BaseUnitTest {
 	@Test
 	public void checkboxShouldAlwaysShowLabel() {
 		GeoElement bool = add("true");
-		assertTrue(bool.isLabelVisible());
+		assertTrue("Newly created checkboxes should have a visible label per default!",
+				bool.isLabelVisible());
 	}
 }
