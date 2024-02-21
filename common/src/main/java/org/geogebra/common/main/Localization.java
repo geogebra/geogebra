@@ -624,18 +624,6 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * given 1, return eg 1st, 1e, 1:e according to the language, see
-	 * <a href="http://en.wikipedia.org/wiki/Ordinal_indicator">ordinal indicator</a>
-	 *
-	 * @param n
-	 *            number
-	 * @return corresponding ordinal number
-	 */
-	public String getOrdinalNumber(int n) {
-		return getLanguage().getOrdinalNumber(n);
-	}
-
-	/**
 	 * Prime notation ()' vs Leibniz notation d/dx for derivatives
 	 * 
 	 * @return whether to use prime notation
