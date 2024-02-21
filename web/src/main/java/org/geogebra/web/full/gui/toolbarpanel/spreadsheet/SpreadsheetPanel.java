@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
-import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;

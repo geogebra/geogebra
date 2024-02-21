@@ -16,7 +16,8 @@ public class ViewportAdjuster {
 	 * @param layout TableLayout
 	 * @param viewportAdjustmentHandler ViewportAdjustmentHandler
 	 */
-	public ViewportAdjuster(TableLayout layout, ViewportAdjustmentHandler viewportAdjustmentHandler) {
+	public ViewportAdjuster(TableLayout layout,
+			ViewportAdjustmentHandler viewportAdjustmentHandler) {
 		this.layout = layout;
 		this.viewportAdjustmentHandler = viewportAdjustmentHandler;
 	}
@@ -36,7 +37,8 @@ public class ViewportAdjuster {
 			scrollAmount = -Math.floor(viewport.getMinX() - layout.getX(column));
 		}
 		if (scrollAmount != 0) {
-			viewportAdjustmentHandler.setHorizontalScrollPosition((int) (viewport.getMinX() + scrollAmount));
+			viewportAdjustmentHandler.setHorizontalScrollPosition(
+					(int) (viewport.getMinX() + scrollAmount));
 			return true;
 		}
 		return false;
@@ -57,15 +59,15 @@ public class ViewportAdjuster {
 			scrollAmount = -Math.floor(viewport.getMinY() - layout.getY(row));
 		}
 		if (scrollAmount != 0) {
-			viewportAdjustmentHandler.setVerticalScrollPosition((int) (viewport.getMinY() + scrollAmount));
+			viewportAdjustmentHandler.setVerticalScrollPosition(
+					(int) (viewport.getMinY() + scrollAmount));
 			return true;
 		}
 		return false;
 	}
 
 	private boolean shouldAdjustViewportHorizontallyRightwards(int column, Rectangle viewport) {
-		if (!canViewportBeAdjustedHorizontally(column + 1)
-				|| cellIsWiderThanViewport(column, viewport)) {
+		if (!isValidColumnIndex(column + 1) || cellIsWiderThanViewport(column, viewport)) {
 			return false;
 		}
 		return layout.getX(column + 1) - viewport.getMinX() + layout.getRowHeaderWidth()
@@ -73,12 +75,11 @@ public class ViewportAdjuster {
 	}
 
 	private boolean shouldAdjustViewportHorizontallyLeftwards(int column, Rectangle viewport) {
-		return canViewportBeAdjustedHorizontally(column)
-				&& layout.getX(column) < viewport.getMinX();
+		return isValidColumnIndex(column) && layout.getX(column) < viewport.getMinX();
 	}
 
 	private boolean shouldAdjustViewportVerticallyDownwards(int row, Rectangle viewport) {
-		if (!canViewportBeAdjustedVertically(row + 1) || cellIsHigherThanViewport(row, viewport)) {
+		if (!isValidRowIndex(row + 1) || cellIsHigherThanViewport(row, viewport)) {
 			return false;
 		}
 		return layout.getY(row + 1) - viewport.getMinY() + layout.getColumnHeaderHeight()
@@ -86,22 +87,24 @@ public class ViewportAdjuster {
 	}
 
 	private boolean shouldAdjustViewportVerticallyUpwards(int row, Rectangle viewport) {
-		return canViewportBeAdjustedVertically(row) && layout.getY(row) < viewport.getMinY();
+		return isValidRowIndex(row) && layout.getY(row) < viewport.getMinY();
 	}
 
-	private boolean canViewportBeAdjustedHorizontally(int column) {
+	private boolean isValidColumnIndex(int column) {
 		return column >= 0 && column < layout.numberOfColumns();
 	}
 
-	private boolean canViewportBeAdjustedVertically(int row) {
+	private boolean isValidRowIndex(int row) {
 		return row >= 0 && row < layout.numberOfRows();
 	}
 
 	private boolean cellIsWiderThanViewport(int column, Rectangle viewport) {
-		return layout.getWidth(column) + layout.getRowHeaderWidth() > viewport.getWidth();
+		return isValidColumnIndex(column) &&
+				layout.getWidth(column) + layout.getRowHeaderWidth() > viewport.getWidth();
 	}
 
 	private boolean cellIsHigherThanViewport(int row, Rectangle viewport) {
-		return layout.getHeight(row) + layout.getColumnHeaderHeight() > viewport.getHeight();
+		return isValidRowIndex(row) &&
+				layout.getHeight(row) + layout.getColumnHeaderHeight() > viewport.getHeight();
 	}
 }
