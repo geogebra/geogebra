@@ -197,8 +197,9 @@ public class SpreadsheetDemo {
 
 				@Override
 				public void keyPressed(KeyEvent e) {
-					spreadsheet.handleKeyPressed(e.getKeyCode(), getModifiers(e));
-					repaint();
+					spreadsheet.handleKeyPressed(e.getKeyCode(),
+							e.getKeyChar() + "", getModifiers(e));
+                    repaint();
 				}
 
 				@Override
@@ -207,8 +208,10 @@ public class SpreadsheetDemo {
 				}
 			});
 
-			final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame, app);
 			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
+
+				final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame,
+						app, this);
 
 				private ClipboardInterface clipboard = new ClipboardD();
 
@@ -234,11 +237,6 @@ public class SpreadsheetDemo {
 					}
 					contextMenu.setVisible(true);
 					frame.revalidate();
-				}
-
-				@Override
-				public void hideCellEditor() {
-					editorBox.setVisible(false);
 				}
 
 				@Override
@@ -278,10 +276,13 @@ public class SpreadsheetDemo {
 
 			private final JFrame frame;
 			private final AppCommon app;
+			private final SpreadsheetControlsDelegate controls;
 
-			DesktopSpreadsheetCellEditor(JFrame frame, AppCommon app) {
+			DesktopSpreadsheetCellEditor(JFrame frame, AppCommon app,
+					SpreadsheetControlsDelegate controls) {
 				this.frame = frame;
 				this.app = app;
+				this.controls = controls;
 			}
 
 			@Override
@@ -303,12 +304,37 @@ public class SpreadsheetDemo {
 			@Override
 			public void setTargetCell(int row, int column) {
 				mathField.getInternal().setFieldListener(new SpreadsheetEditorListener(
-						mathField.getInternal(), app.getKernel(), row, column));
+						mathField.getInternal(), app.getKernel(), row, column, this, spreadsheet));
 			}
 
 			@Override
 			public void setContent(Object content) {
 				mathField.parse(new KernelDataSerializer().getStringForEditor(content));
+			}
+
+			@Override
+			public void setAlign(int align) {
+				// not needed
+			}
+
+			@Override
+			public void scrollHorizontally() {
+				// not needed in demo
+			}
+
+			@Override
+			public boolean isVisible() {
+				return editorBox.isVisible();
+			}
+
+			@Override
+			public void hide() {
+				editorBox.setVisible(false);
+			}
+
+			@Override
+			public void onEnter() {
+				// not needed in demo
 			}
 		}
 	}

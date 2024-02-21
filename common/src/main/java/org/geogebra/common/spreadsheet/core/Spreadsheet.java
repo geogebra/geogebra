@@ -161,12 +161,12 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.handlePointerMove(x, y, modifiers, viewport);
 	}
 
-	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
-		controller.handleKeyPressed(keyCode, modifiers);
-	}
+	public void handleKeyPressed(int keyCode, String key, Modifiers modifiers) {
+		controller.handleKeyPressed(keyCode, key, modifiers, viewport);
+    }
 
 	public SpreadsheetController getController() {
-		return controller;
+        return controller;
 	}
 
 	@Override
@@ -192,5 +192,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public double getTotalHeight() {
 		return controller.getLayout().getTotalHeight();
+	}
+
+	public boolean isEditorActive() {
+		return controller.isEditorActive();
 	}
 }

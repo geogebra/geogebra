@@ -12,8 +12,6 @@ public interface SpreadsheetControlsDelegate {
 
 	void showContextMenu(List<ContextMenuItem> actions, GPoint coords);
 
-	void hideCellEditor();
-
 	void hideContextMenu();
 
 	ClipboardInterface getClipboard();

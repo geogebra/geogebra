@@ -408,7 +408,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 	}
 
 	private boolean isValidKeyCombination(KeyEvent e) {
-		return !e.isControlDown() && (!e.isAltDown() || isSpecialCharacter(e));
+		return !e.isControlDown() && (!e.isAltDown() || isSpecialCharacter(e)) && !e.isMetaDown();
 	}
 
 	private boolean isSpecialCharacter(KeyEvent e) {

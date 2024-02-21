@@ -1272,8 +1272,7 @@ public class GeoFunctionNVar extends GeoElement
 		if (isIndependent()) {
 			ret = toValueString(tpl);
 		} else {
-
-			if (fun == null) {
+			if (fun == null || !isDefined) {
 				ret = "?";
 			} else {
 				ret = substituteNumbers ? fun.toValueString(tpl)

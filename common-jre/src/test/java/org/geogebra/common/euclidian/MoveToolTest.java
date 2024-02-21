@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -30,7 +29,7 @@ import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class MoveToolTest extends BaseControllerTest {
+public class MoveToolTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void moveWithMouseShouldChangeSegment1() {

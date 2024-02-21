@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -214,5 +215,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public CellFormat getFormat() {
 		return cellFormat;
+	}
+
+	@Override
+	public int getAlignment(int row, int column) {
+		return cellFormat.getAlignment(column, row, contentAt(row, column) instanceof GeoText);
 	}
 }
