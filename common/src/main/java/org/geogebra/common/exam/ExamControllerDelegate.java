@@ -1,5 +1,7 @@
 package org.geogebra.common.exam;
 
+import org.geogebra.common.SuiteSubApp;
+
 /**
  * The idea of this delegate is to "externalize" any functionality that does not fit into
  * the {@link ExamController} itself (either because it's platform-specific behaviour,
@@ -7,5 +9,7 @@ package org.geogebra.common.exam;
  */
 public interface ExamControllerDelegate {
 
-	void requestAction(ExamAction action);
+	void requestClearApps();
+	void requestClearClipboard();
+	void requestSwitchApp(SuiteSubApp subApp);
 }

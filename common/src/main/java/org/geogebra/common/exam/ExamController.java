@@ -83,7 +83,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	private ExamRestrictions examRestrictions;
 
 	private ExamState state = ExamState.IDLE;
-	private Date startDate, endDate;
+	private Date startDate, finishDate;
 	private final Set<ExamListener> listeners = new HashSet<ExamListener>();
 	private final TempStorage tempStorage = new TempStorage();
 	private CheatingEvents cheatingEvents = new CheatingEvents();
@@ -196,8 +196,19 @@ public final class ExamController implements PropertiesRegistryListener {
 	/**
 	 * @return The exam end date, if the exam has been stopped, or null otherwise.
 	 */
-	public Date getEndDate() {
-		return endDate;
+	public Date getFinishDate() {
+		return finishDate;
+	}
+
+	/**
+	 * @return The current exam duration in seconds. If the exam is currently active
+	 */
+	public Double getDuration() {
+		if (startDate == null) {
+			return 0.0;
+		}
+		Date untilDate = state == ExamState.ACTIVE ? new Date() : finishDate;
+		return (untilDate.getTime() - startDate.getTime()) * 1000.0;
 	}
 
 	/**
@@ -223,8 +234,10 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 		this.examType = examType;
 		applyRestrictions(examType, activeDependencies);
-		requestAction(ExamAction.CLEAR_CLIPBOARD);
-		requestAction(ExamAction.CLEAR_APPS);
+		if (delegate != null) {
+			delegate.requestClearApps();
+			delegate.requestClearClipboard();
+		}
 		tempStorage.clearTempMaterials();
 		cheatingEvents = new CheatingEvents();
 
@@ -233,32 +246,34 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Stops the exam.
+	 * Finishes the current exam.
 	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#ACTIVE ACTIVE}
 	 * state.
 	 */
-	public void stopExam() {
+	public void finishExam() {
 		if (state != ExamState.ACTIVE) {
 			throw new IllegalStateException();
 		}
-		endDate = new Date();
-		setState(ExamState.WRAPPING_UP);
+		finishDate = new Date();
+		setState(ExamState.FINISHED);
 	}
 
 	/**
-	 * Finishes the current exam.
+	 * Exits the exam.
 	 * @throws IllegalStateException if the exam controller is not in the
-	 * {@link ExamState#WRAPPING_UP WRAPPING_UP} state.
+	 * {@link ExamState#FINISHED FINISHED} state.
 	 */
-	public void finishExam() {
-		if (state != ExamState.WRAPPING_UP) {
+	public void exitExam() {
+		if (state != ExamState.FINISHED) {
 			throw new IllegalStateException();
 		}
 		unapplyRestrictions(activeDependencies);
 		tempStorage.clearTempMaterials();
-		requestAction(ExamAction.CLEAR_CLIPBOARD);
-		requestAction(ExamAction.CLEAR_APPS);
-		startDate = endDate = null;
+		if (delegate != null) {
+			delegate.requestClearApps();
+			delegate.requestClearClipboard();
+		}
+		startDate = finishDate = null;
 		setState(ExamState.IDLE);
 	}
 
@@ -276,17 +291,14 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void requestAction(ExamAction action) {
-		if (delegate != null) {
-			delegate.requestAction(action);
-		}
-	}
-
 	private void applyRestrictions(ExamRegion examType, ContextDependencies dependencies) {
 		// TODO app.resetCommandDict() (register as ExamRestrictable?)
 		examRestrictions = ExamRestrictions.forExamType(examType);
 		if (examRestrictions == null) {
 			return; // log/throw?
+		}
+		if (delegate != null) {
+			delegate.requestSwitchApp(examRestrictions.getDefaultSubApp());
 		}
 		if (dependencies != null) {
 			examRestrictions.apply(dependencies.commandDispatcher,
