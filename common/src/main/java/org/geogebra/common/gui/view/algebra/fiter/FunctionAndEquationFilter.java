@@ -90,6 +90,7 @@ public class FunctionAndEquationFilter {
             allowedCommands.add(Commands.Point);
             allowedCommands.add(Commands.Line);
             allowedCommands.addAll(fitCommands);
+            allowedCommands.add(Commands.RemoveUndefined);
         }
         return allowedCommands;
     }
