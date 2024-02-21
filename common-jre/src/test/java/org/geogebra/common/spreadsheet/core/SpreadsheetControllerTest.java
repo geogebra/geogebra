@@ -5,13 +5,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
-import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Test;
 
 public class SpreadsheetControllerTest {
 
 	private final SpreadsheetController controller =
-			new SpreadsheetController(new TestTabularData());
+			new SpreadsheetController(new TestTabularData(), null);
 
 	@Test
 	public void testMove() {
@@ -84,10 +83,9 @@ public class SpreadsheetControllerTest {
 
 	@Test
 	public void testExtendSelectionByHorizontalDrag() {
-		Rectangle viewport = new Rectangle(0, 500, 0, 500);
-		controller.handlePointerDown(101, 3, Modifiers.NONE, viewport);
-		controller.handlePointerMove(241, 3, Modifiers.NONE, viewport);
-		controller.handlePointerUp(241, 3, Modifiers.NONE, viewport);
+		controller.handlePointerDown(101, 3, Modifiers.NONE);
+		controller.handlePointerMove(241, 3, Modifiers.NONE);
+		controller.handlePointerUp(241, 3, Modifiers.NONE);
 
 		assertRangeEquals(controller.getLastSelection(),
 				new Selection(SelectionType.COLUMNS, TabularRange.range(-1, -1, 0, 1)));
@@ -95,10 +93,9 @@ public class SpreadsheetControllerTest {
 
 	@Test
 	public void testExtendSelectionByVerticalDrag() {
-		Rectangle viewport = new Rectangle(0, 500, 0, 500);
-		controller.handlePointerDown(3, 50, Modifiers.NONE, viewport);
-		controller.handlePointerMove(3, 150, Modifiers.NONE, viewport);
-		controller.handlePointerUp(3, 150, Modifiers.NONE, viewport);
+		controller.handlePointerDown(3, 50, Modifiers.NONE);
+		controller.handlePointerMove(3, 150, Modifiers.NONE);
+		controller.handlePointerUp(3, 150, Modifiers.NONE);
 
 		assertRangeEquals(controller.getLastSelection(),
 				new Selection(SelectionType.ROWS, TabularRange.range(0, 3, -1, -1)));
