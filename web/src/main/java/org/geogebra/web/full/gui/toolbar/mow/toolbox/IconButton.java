@@ -17,19 +17,37 @@ public class IconButton extends StandardButton {
 		addStyleName("iconButton");
 	}
 
-	public IconButton(ResourcePrototype icon, String ariaLabel) {
+	public IconButton(ResourcePrototype icon, String ariaLabel, Runnable onHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
 		AriaHelper.setLabel(this, ariaLabel);
+		addFastClickHandler(event -> onHandler.run());
 	}
 
-	public IconButton(SVGResource icon, String ariaLabel, String dataTitle, String dataTest) {
-		this(icon, ariaLabel);
+	public IconButton(ResourcePrototype icon, String ariaLabel, Runnable onHandler,
+			Runnable offHandler) {
+		super(icon, 24);
+		addStyleName("iconButton");
+		AriaHelper.setLabel(this, ariaLabel);
+		addFastClickHandler(event -> {
+			if (isActive() && offHandler != null) {
+				offHandler.run();
+			} else {
+				onHandler.run();
+			}
+			setActive(!isActive());
+		});
+	}
+
+	public IconButton(SVGResource icon, String ariaLabel, String dataTitle, String dataTest,
+			Runnable onHandler) {
+		this(icon, ariaLabel, onHandler);
 		AriaHelper.setTitle(this, dataTitle);
 		AriaHelper.setDataTest(this, dataTest);
 	}
 
 	public void setDisabled(boolean isDisabled) {
+		AriaHelper.setAriaDisabled(this, isDisabled);
 		Dom.toggleClass(this, "disabled", isDisabled);
 	}
 

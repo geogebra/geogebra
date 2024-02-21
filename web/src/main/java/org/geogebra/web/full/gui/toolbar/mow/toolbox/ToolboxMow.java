@@ -9,7 +9,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -54,12 +53,10 @@ public class ToolboxMow extends FlowPanel {
 	}
 
 	private void addActionButton(SVGResource image, Runnable handler) {
-		IconButton iconButton = new IconButton(image, "Spotlight");
-		iconButton.addFastClickHandler((event) -> {
+		IconButton iconButton = new IconButton(image, "Spotlight", () -> {
 			handler.run();
-			iconButton.setActive(!iconButton.isActive());
+			// handle switch on/off style
 		});
-
 		add(iconButton);
 	}
 

@@ -120,4 +120,20 @@ public class AriaHelper {
 	public static void setPressedState(UIObject uiObject, boolean pressed) {
 		uiObject.getElement().setAttribute("aria-pressed", String.valueOf(pressed));
 	}
+
+	/**
+	 * @param uiObject - element
+	 * @param disabled - true or false
+	 */
+	public static void setAriaDisabled(UIObject uiObject, boolean disabled) {
+		uiObject.getElement().setAttribute("aria-disabled", String.valueOf(disabled));
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param draggable - true or false
+	 */
+	public static void setDraggable(UIObject uiObject, boolean draggable) {
+		uiObject.getElement().setAttribute("draggable", String.valueOf(draggable));
+	}
 }
