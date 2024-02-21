@@ -99,12 +99,12 @@ public class ViewportAdjuster {
 	}
 
 	private boolean cellIsWiderThanViewport(int column, Rectangle viewport) {
-		return isValidColumnIndex(column) &&
-				layout.getWidth(column) + layout.getRowHeaderWidth() > viewport.getWidth();
+		return isValidColumnIndex(column)
+				&& layout.getWidth(column) + layout.getRowHeaderWidth() > viewport.getWidth();
 	}
 
 	private boolean cellIsHigherThanViewport(int row, Rectangle viewport) {
-		return isValidRowIndex(row) &&
-				layout.getHeight(row) + layout.getColumnHeaderHeight() > viewport.getHeight();
+		return isValidRowIndex(row)
+				&& layout.getHeight(row) + layout.getColumnHeaderHeight() > viewport.getHeight();
 	}
 }
