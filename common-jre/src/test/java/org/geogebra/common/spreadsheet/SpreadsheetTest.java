@@ -17,7 +17,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.Modifiers;
-import org.geogebra.common.spreadsheet.core.Scrollable;
+import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetController;
 import org.geogebra.common.spreadsheet.core.TableLayout;
@@ -49,7 +49,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		viewport = new Rectangle(0, 100, 0, 120);
 		spreadsheet.setViewport(viewport);
 		controller = spreadsheet.getController();
-		controller.createViewportAdjuster(getMockForScrollable());
+		controller.setViewportAdjustmentHandler(getMockForScrollable());
 	}
 
 	@Test
@@ -114,7 +114,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	@Test
 	public void testNoHeaderRowResize() {
-		controller.setViewportAdjuster(null);
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// initially we have 5 rows
@@ -273,19 +272,19 @@ public class SpreadsheetTest extends BaseUnitTest {
 		return event;
 	}
 
-	private Scrollable getMockForScrollable() {
-		Scrollable scrollable = mock(Scrollable.class);
+	private ViewportAdjustmentHandler getMockForScrollable() {
+		ViewportAdjustmentHandler viewportAdjustmentHandler = mock(ViewportAdjustmentHandler.class);
 		doAnswer(invocation -> {
 			int position = invocation.getArgument(0);
 			viewport = viewport.translatedBy(0, position);
 			return null;
-		}).when(scrollable).setVerticalScrollPosition(anyInt());
+		}).when(viewportAdjustmentHandler).setVerticalScrollPosition(anyInt());
 		doAnswer(invocation -> {
 			int position = invocation.getArgument(0);
 			viewport = viewport.translatedBy(position, 0);
 			return null;
-		}).when(scrollable).setHorizontalScrollPosition(anyInt());
-		when(scrollable.getScrollBarWidth()).thenReturn(5);
-		return scrollable;
+		}).when(viewportAdjustmentHandler).setHorizontalScrollPosition(anyInt());
+		when(viewportAdjustmentHandler.getScrollBarWidth()).thenReturn(5);
+		return viewportAdjustmentHandler;
 	}
 }

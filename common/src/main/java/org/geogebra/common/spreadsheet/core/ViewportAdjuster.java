@@ -9,16 +9,16 @@ import org.geogebra.common.util.shape.Rectangle;
 public class ViewportAdjuster {
 
 	private final TableLayout layout;
-	private final Scrollable scrollable;
+	private final ViewportAdjustmentHandler viewportAdjustmentHandler;
 	private final static int SCROLL_INCREMENT = 2;
 
 	/**
 	 * @param layout TableLayout
-	 * @param scrollable Scrollable
+	 * @param viewportAdjustmentHandler ViewportAdjustmentHandler
 	 */
-	public ViewportAdjuster(TableLayout layout, Scrollable scrollable) {
+	public ViewportAdjuster(TableLayout layout, ViewportAdjustmentHandler viewportAdjustmentHandler) {
 		this.layout = layout;
-		this.scrollable = scrollable;
+		this.viewportAdjustmentHandler = viewportAdjustmentHandler;
 	}
 
 	/**
@@ -31,12 +31,12 @@ public class ViewportAdjuster {
 		if (shouldAdjustViewportHorizontallyRightwards(column, viewport)) {
 			scrollAmount = Math.ceil(layout.getX(column + 1) - viewport.getMinX()
 					+ layout.getRowHeaderWidth() - viewport.getWidth()
-					+ scrollable.getScrollBarWidth() + SCROLL_INCREMENT);
+					+ viewportAdjustmentHandler.getScrollBarWidth() + SCROLL_INCREMENT);
 		} else if (shouldAdjustViewportHorizontallyLeftwards(column, viewport)) {
 			scrollAmount = -Math.floor(viewport.getMinX() - layout.getX(column));
 		}
 		if (scrollAmount != 0) {
-			scrollable.setHorizontalScrollPosition((int) (viewport.getMinX() + scrollAmount));
+			viewportAdjustmentHandler.setHorizontalScrollPosition((int) (viewport.getMinX() + scrollAmount));
 			return true;
 		}
 		return false;
@@ -52,39 +52,49 @@ public class ViewportAdjuster {
 		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
 			scrollAmount = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
 					+ layout.getColumnHeaderHeight() - viewport.getHeight()
-					+ scrollable.getScrollBarWidth() + SCROLL_INCREMENT);
+					+ viewportAdjustmentHandler.getScrollBarWidth() + SCROLL_INCREMENT);
 		} else if (shouldAdjustViewportVerticallyUpwards(row, viewport)) {
 			scrollAmount = -Math.floor(viewport.getMinY() - layout.getY(row));
 		}
 		if (scrollAmount != 0) {
-			scrollable.setVerticalScrollPosition((int) (viewport.getMinY() + scrollAmount));
+			viewportAdjustmentHandler.setVerticalScrollPosition((int) (viewport.getMinY() + scrollAmount));
 			return true;
 		}
 		return false;
 	}
 
 	private boolean shouldAdjustViewportHorizontallyRightwards(int column, Rectangle viewport) {
-		if (cellIsWiderThanViewport(column, viewport)) {
+		if (!canViewportBeAdjustedHorizontally(column + 1)
+				|| cellIsWiderThanViewport(column, viewport)) {
 			return false;
 		}
 		return layout.getX(column + 1) - viewport.getMinX() + layout.getRowHeaderWidth()
-				> viewport.getWidth() - scrollable.getScrollBarWidth();
+				> viewport.getWidth() - viewportAdjustmentHandler.getScrollBarWidth();
 	}
 
 	private boolean shouldAdjustViewportHorizontallyLeftwards(int column, Rectangle viewport) {
-		return layout.getX(column) < viewport.getMinX();
+		return canViewportBeAdjustedHorizontally(column)
+				&& layout.getX(column) < viewport.getMinX();
 	}
 
 	private boolean shouldAdjustViewportVerticallyDownwards(int row, Rectangle viewport) {
-		if (cellIsHigherThanViewport(row, viewport)) {
+		if (!canViewportBeAdjustedVertically(row + 1) || cellIsHigherThanViewport(row, viewport)) {
 			return false;
 		}
 		return layout.getY(row + 1) - viewport.getMinY() + layout.getColumnHeaderHeight()
-				> viewport.getHeight() - scrollable.getScrollBarWidth();
+				> viewport.getHeight() - viewportAdjustmentHandler.getScrollBarWidth();
 	}
 
 	private boolean shouldAdjustViewportVerticallyUpwards(int row, Rectangle viewport) {
-		return layout.getY(row) < viewport.getMinY();
+		return canViewportBeAdjustedVertically(row) && layout.getY(row) < viewport.getMinY();
+	}
+
+	private boolean canViewportBeAdjustedHorizontally(int column) {
+		return column >= 0 && column < layout.numberOfColumns();
+	}
+
+	private boolean canViewportBeAdjustedVertically(int row) {
+		return row >= 0 && row < layout.numberOfRows();
 	}
 
 	private boolean cellIsWiderThanViewport(int column, Rectangle viewport) {

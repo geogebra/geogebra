@@ -1,6 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-public interface Scrollable {
+public interface ViewportAdjustmentHandler {
 
 	void setVerticalScrollPosition(int position);
 

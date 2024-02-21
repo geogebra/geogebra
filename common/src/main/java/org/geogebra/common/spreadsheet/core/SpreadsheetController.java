@@ -163,12 +163,8 @@ public final class SpreadsheetController implements TabularSelection {
 		this.controlsDelegate = controlsDelegate;
 	}
 
-	public void setViewportAdjuster(ViewportAdjuster viewportAdjuster) {
-		this.viewportAdjuster = viewportAdjuster;
-	}
-
-	public void createViewportAdjuster(Scrollable scrollable) {
-		this.viewportAdjuster = new ViewportAdjuster(getLayout(), scrollable);
+	public void setViewportAdjustmentHandler(ViewportAdjustmentHandler viewportAdjustmentHandler) {
+		this.viewportAdjuster = new ViewportAdjuster(getLayout(), viewportAdjustmentHandler);
 	}
 
 	public void setViewport(Rectangle viewport) {

@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
-import org.geogebra.common.spreadsheet.core.Scrollable;
+import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
@@ -72,8 +72,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		add(scrollOverlay);
 		spreadsheetElement = scrollContent.getElement();
 
-		Scrollable scrollable = createScrollable();
-		spreadsheet.getController().createViewportAdjuster(scrollable);
+		ViewportAdjustmentHandler viewportAdjustmentHandler = createScrollable();
+		spreadsheet.getController().setViewportAdjustmentHandler(viewportAdjustmentHandler);
 
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
@@ -204,8 +204,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return mathField.getKeyboardListener();
 	}
 
-	private Scrollable createScrollable() {
-		return new Scrollable() {
+	private ViewportAdjustmentHandler createScrollable() {
+		return new ViewportAdjustmentHandler() {
 			@Override
 			public void setVerticalScrollPosition(int position) {
 				scrollOverlay.setVerticalScrollPosition(position);
