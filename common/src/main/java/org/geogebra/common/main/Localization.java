@@ -33,8 +33,6 @@ public abstract class Localization extends LocalizationI {
 
 	// Giac works to 13 sig digits (for "double" calculations)
 	private final int dimension;
-
-	private StringBuilder sbOrdinal = new StringBuilder();
 	private boolean isAutoCompletePossible = true;
 	// For Persian and Arabic.
 	private boolean isMinusOnRight = false;
