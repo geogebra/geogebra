@@ -44,6 +44,7 @@ public class GeoPointTest extends BaseUnitTest {
 	public void testMovedPointPrintsCorrectAmountOfDecimals3() {
 		getKernel().setPrintDecimals(4);
 		GeoPoint point = getKernel().getAlgoDispatcher().point(1.23456, 2, false);
-		assertThat(GeoPoint.pointMovedAural(getLocalization(), point), not(containsString("1.23456")));
+		assertThat(GeoPoint.pointMovedAural(getLocalization(), point),
+				not(containsString("1.23456")));
 	}
 }
