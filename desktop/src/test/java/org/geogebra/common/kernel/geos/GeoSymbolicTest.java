@@ -43,6 +43,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
@@ -2248,5 +2249,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("A = Min(f, 0, 5)", "(0, 4)");
 		GeoSymbolic minCommand = getSymbolic("A");
 		assertTrue(AlgebraItem.isSymbolicDiffers(minCommand));
+	}
+
+	@Test
+	@Issue("APPS-5454")
+	public void shouldUseFunctionVariables() {
+		GeoSymbolic jd = add("f(x)=floor(x)");
+		assertThat(jd.getFunctionVariables().length, equalTo(1));
+		assertThat(jd.getVarString(StringTemplate.defaultTemplate), equalTo("x"));
 	}
 }
