@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -7,9 +8,9 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.resources.client.ResourcePrototype;
 
 public class IconButton extends StandardButton {
+	private SVGResource image;
 
 	/**
 	 * Constructor
@@ -28,9 +29,10 @@ public class IconButton extends StandardButton {
 	 * @param ariaLabel - label
 	 * @param onHandler - on press handler
 	 */
-	public IconButton(ResourcePrototype icon, String ariaLabel, Runnable onHandler) {
+	public IconButton(SVGResource icon, String ariaLabel, Runnable onHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
+		image = icon;
 		AriaHelper.setLabel(this, ariaLabel);
 		addFastClickHandler(event -> onHandler.run());
 	}
@@ -42,10 +44,11 @@ public class IconButton extends StandardButton {
 	 * @param onHandler - switch on handler
 	 * @param offHandler - switch off handler
 	 */
-	public IconButton(ResourcePrototype icon, String ariaLabel, Runnable onHandler,
+	public IconButton(SVGResource icon, String ariaLabel, Runnable onHandler,
 			Runnable offHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
+		image = icon;
 		AriaHelper.setLabel(this, ariaLabel);
 		addFastClickHandler(event -> {
 			if (isActive() && offHandler != null) {
@@ -84,6 +87,7 @@ public class IconButton extends StandardButton {
 	private void setActive(boolean isActive) {
 		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
+		setIcon(image.withFill(isActive ? GColor.PURPLE_A700.toString() : GColor.BLACK.toString()));
 	}
 
 	private boolean isActive() {

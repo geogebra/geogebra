@@ -37,25 +37,27 @@ public class ToolboxMow extends FlowPanel {
 
 		addActionButton(ZoomPanelResources.INSTANCE.target(),
 				() -> {
-					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
+					/*DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
 							.getPanel(App.VIEW_EUCLIDIAN);
 					dp.getComponent().addStyleName("graphicsWithSpotlight");
 					appW.getActiveEuclidianView().getEuclidianController().spotlightOn();
 					//appW.getAppletFrame().add(ZoomPanelMow.this::initSpotlightOff);
-					appW.hideMenu();
+					appW.hideMenu();*/
 				});
 
+		addDivider();
 		addActionButton(ToolbarSvgResources.INSTANCE.mode_pen(),
 				() -> appW.setMoveMode());
-		addDivider();
-		addCategoryButton(MaterialDesignResources.INSTANCE.toolbar_tools(), Arrays.asList(MODE_PEN,
-				MODE_HIGHLIGHTER, MODE_ERASER));
+		//addCategoryButton(MaterialDesignResources.INSTANCE.toolbar_tools(), Arrays.asList(MODE_PEN,
+		//		MODE_HIGHLIGHTER, MODE_ERASER));
 	}
 
 	private void addActionButton(SVGResource image, Runnable handler) {
 		IconButton iconButton = new IconButton(image, "Spotlight", () -> {
 			handler.run();
 			// handle switch on/off style
+		}, () -> {
+			// nothing to do here for now!
 		});
 		add(iconButton);
 	}

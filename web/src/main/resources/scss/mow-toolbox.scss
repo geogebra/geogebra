@@ -28,8 +28,37 @@
 			border-radius: 50%;
 			transition: background-color 150ms ease 0ms;
 
-			&:hover, &.active {
+			img {
+				opacity: 0.54;
+			}
+
+			&:hover {
+				background-color: neutral(200);
+			}
+
+			&.active {
 				background-color: var(--ggb-light-color);
+
+				img {
+					opacity: 1;
+				}
+			}
+
+			&.disabled {
+				cursor: default;
+				opacity: 0.38;
+
+				&:hover {
+					background-color: white;
+				}
+			}
+
+			&.focused {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				outline-offset: 3px;
+				background: var(--ggb-light-color);
 			}
 		}
 	}
