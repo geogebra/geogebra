@@ -18,7 +18,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	private final SpreadsheetController controller;
 
-	private boolean needsRedraw = true;
 	private final SpreadsheetRenderer renderer;
 	private Rectangle viewport;
 
@@ -45,9 +44,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param graphics graphics to draw to
 	 */
 	public void draw(GGraphics2D graphics) {
-		if (!needsRedraw) {
-			return;
-		}
 		graphics.setPaint(GColor.WHITE);
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		List<TabularRange> visibleSelections = controller.getVisibleSelections();
@@ -64,7 +60,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (draggingDot != null) {
 			renderer.drawDraggingDot(draggingDot, graphics);
 		}
-		needsRedraw = false;
 	}
 
 	void drawCells(GGraphics2D graphics, Rectangle viewport) {
@@ -136,7 +131,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void setViewport(Rectangle viewport) {
 		this.viewport = viewport;
-		needsRedraw = true;
 	}
 
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
@@ -150,7 +144,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers) {
 		controller.handlePointerUp(x, y, modifiers, viewport);
-		needsRedraw = true;
 	}
 
 	/**
@@ -159,17 +152,17 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param modifiers alt/ctrl/shift
 	 */
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
-		needsRedraw = controller.handlePointerDown(x, y, modifiers, viewport);
+		controller.handlePointerDown(x, y, modifiers, viewport);
 
 		// start selecting
 	}
 
 	public void handlePointerMove(int x, int y, Modifiers modifiers) {
-		needsRedraw = controller.handlePointerMove(x, y, modifiers, viewport) || needsRedraw;
+		controller.handlePointerMove(x, y, modifiers, viewport);
 	}
 
 	public void handleKeyPressed(int keyCode, Modifiers modifiers) {
-		needsRedraw = controller.handleKeyPressed(keyCode, modifiers);
+		controller.handleKeyPressed(keyCode, modifiers);
 	}
 
 	public SpreadsheetController getController() {
@@ -179,7 +172,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	@Override
 	public void tabularDataDidChange(int row, int column) {
 		renderer.invalidate(row, column);
-		needsRedraw = true;
 	}
 
 	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
@@ -188,10 +180,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public void setHeightForRows(double height, int minRow, int maxRow) {
 		controller.getLayout().setHeightForRows(height, minRow, maxRow);
-	}
-
-	public boolean needsRedraw() {
-		return needsRedraw;
 	}
 
 	public MouseCursor getCursor(int x, int y) {
