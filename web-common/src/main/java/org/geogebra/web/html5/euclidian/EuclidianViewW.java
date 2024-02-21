@@ -833,7 +833,14 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
+		if (appW.getAppletFrame().isPageScrollHappened()) {
+			EuclidianController ec =
+					appW.getActiveEuclidianView().getEuclidianController();
+			ec.pageScrollHappened();
+		}
+
 		getCanvasElement().focus();
+
 		return true;
 	}
 

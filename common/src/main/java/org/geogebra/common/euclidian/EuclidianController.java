@@ -437,6 +437,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final GeoPriorityComparator priorityComparator;
 	private RotateBoundingBox rotateBoundingBox;
+	private boolean pageScrolling = false;
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -463,6 +464,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		spotlightController.clear();
 	}
 
+	public void pageScrollHappened() {
+		pageScrolling = true;
+	}
 	/**
 	 * state for selection tool over press/release
 	 */
@@ -8683,6 +8687,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void createNewPointForModeOther(Hits hits) {
+		if (pageScrolling) {
+			pageScrolling = false;
+			return;
+		}
 		createNewPoint(hits, true, false, true, true, false);
 	}
 
@@ -9003,6 +9011,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMousePressed(AbstractEvent event) {
+
 		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
