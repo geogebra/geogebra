@@ -11,12 +11,23 @@ import org.gwtproject.resources.client.ResourcePrototype;
 
 public class IconButton extends StandardButton {
 
+	/**
+	 * Constructor
+	 * @param mode - tool mode
+	 * @param appW - application
+	 */
 	public IconButton(int mode, AppW appW) {
 		super(GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode, appW),
 				appW.getToolName(mode), 24);
 		addStyleName("iconButton");
 	}
 
+	/**
+	 * Constructor
+	 * @param icon - image
+	 * @param ariaLabel - label
+	 * @param onHandler - on press handler
+	 */
 	public IconButton(ResourcePrototype icon, String ariaLabel, Runnable onHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
@@ -24,6 +35,13 @@ public class IconButton extends StandardButton {
 		addFastClickHandler(event -> onHandler.run());
 	}
 
+	/**
+	 * Constructor
+	 * @param icon - image
+	 * @param ariaLabel - label
+	 * @param onHandler - switch on handler
+	 * @param offHandler - switch off handler
+	 */
 	public IconButton(ResourcePrototype icon, String ariaLabel, Runnable onHandler,
 			Runnable offHandler) {
 		super(icon, 24);
@@ -39,6 +57,14 @@ public class IconButton extends StandardButton {
 		});
 	}
 
+	/**
+	 * Constructor
+	 * @param icon - image
+	 * @param ariaLabel - label
+	 * @param dataTitle - title
+	 * @param dataTest - test
+	 * @param onHandler - on press handler
+	 */
 	public IconButton(SVGResource icon, String ariaLabel, String dataTitle, String dataTest,
 			Runnable onHandler) {
 		this(icon, ariaLabel, onHandler);
@@ -46,17 +72,21 @@ public class IconButton extends StandardButton {
 		AriaHelper.setDataTest(this, dataTest);
 	}
 
+	/**
+	 * Disable button
+	 * @param isDisabled - whether is disabled or not
+	 */
 	public void setDisabled(boolean isDisabled) {
 		AriaHelper.setAriaDisabled(this, isDisabled);
 		Dom.toggleClass(this, "disabled", isDisabled);
 	}
 
-	public void setActive(boolean isActive) {
+	private void setActive(boolean isActive) {
 		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
 	}
 
-	public boolean isActive() {
+	private boolean isActive() {
 		return getElement().hasClassName("active");
 	}
 }
