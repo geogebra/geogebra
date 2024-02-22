@@ -1,15 +1,18 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
 public class IconButton extends StandardButton {
+	private Localization loc;
 	private SVGResource image;
 
 	/**
@@ -24,16 +27,18 @@ public class IconButton extends StandardButton {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor press icon button
+	 * @param loc - localization
 	 * @param icon - image
 	 * @param ariaLabel - label
 	 * @param onHandler - on press handler
 	 */
-	public IconButton(SVGResource icon, String ariaLabel, Runnable onHandler) {
+	public IconButton(Localization loc, SVGResource icon, String ariaLabel, Runnable onHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
+		this.loc = loc;
 		image = icon;
-		AriaHelper.setLabel(this, ariaLabel);
+		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
 				onHandler.run();
@@ -42,18 +47,20 @@ public class IconButton extends StandardButton {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor toggle icon button
+	 * @param loc - localization
 	 * @param icon - image
 	 * @param ariaLabel - label
 	 * @param onHandler - switch on handler
 	 * @param offHandler - switch off handler
 	 */
-	public IconButton(SVGResource icon, String ariaLabel, Runnable onHandler,
+	public IconButton(Localization loc, SVGResource icon, String ariaLabel, Runnable onHandler,
 			Runnable offHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
+		this.loc = loc;
 		image = icon;
-		AriaHelper.setLabel(this, ariaLabel);
+		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
 				if (isActive() && offHandler != null) {
@@ -67,18 +74,34 @@ public class IconButton extends StandardButton {
 	}
 
 	/**
+	 * Constructor toggle icon button with dataTest
+	 * @param loc - localization
+	 * @param icon - image
+	 * @param ariaLabel - label
+	 * @param dataTest - id for ui test
+	 * @param onHandler - switch on handler
+	 * @param offHandler - switch off handler
+	 */
+	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTest,
+			Runnable onHandler, Runnable offHandler) {
+		this(loc, icon, ariaLabel, onHandler, offHandler);
+		TestHarness.setAttr(this, dataTest);
+	}
+
+	/**
 	 * Constructor
+	 * @param loc - localization
 	 * @param icon - image
 	 * @param ariaLabel - label
 	 * @param dataTitle - title
 	 * @param dataTest - test
 	 * @param onHandler - on press handler
 	 */
-	public IconButton(SVGResource icon, String ariaLabel, String dataTitle, String dataTest,
-			Runnable onHandler) {
-		this(icon, ariaLabel, onHandler);
-		AriaHelper.setTitle(this, dataTitle);
-		AriaHelper.setDataTest(this, dataTest);
+	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTitle,
+			String dataTest, Runnable onHandler) {
+		this(loc, icon, ariaLabel, onHandler);
+		AriaHelper.setTitle(this, loc.getMenu(dataTitle));
+		TestHarness.setAttr(this, dataTest);
 	}
 
 	/**
