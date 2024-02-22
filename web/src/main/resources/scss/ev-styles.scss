@@ -294,10 +294,10 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 	.spotlightOffBtn {
 		position: absolute;
-		right: 8px;
-		top: 92px;
-		width: 40px;
-		height: 40px;
+		left: 24px;
+		top: 300px;
+		width: 48px;
+		height: 48px;
 		border-radius: 50%;
 		background-color: white;
 		cursor: pointer;
@@ -305,7 +305,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 		img {
 			opacity: 0.54;
-			padding: 8px;
 		}
 	}
 

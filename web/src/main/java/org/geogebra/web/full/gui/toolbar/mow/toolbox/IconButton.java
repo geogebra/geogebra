@@ -40,7 +40,7 @@ public class IconButton extends StandardButton {
 		image = icon;
 		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
 		addFastClickHandler(event -> {
-			if (!isDisabled()) {
+			if (!isDisabled() && onHandler != null) {
 				onHandler.run();
 			}
 		});
