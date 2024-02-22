@@ -15,10 +15,7 @@ public class OperationExpressionFilter implements ExpressionFilter {
 	}
 
 	private boolean isFilteredOperation(ExpressionValue expressionValue) {
-		return filteredOperations.stream()
-				.filter(operation -> expressionValue.isOperation(operation))
-				.findFirst()
-				.isPresent();
+		return filteredOperations.stream().anyMatch(expressionValue::isOperation);
 	}
 
 	@Override

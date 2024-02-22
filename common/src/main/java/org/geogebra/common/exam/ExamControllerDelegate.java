@@ -11,5 +11,6 @@ public interface ExamControllerDelegate {
 
 	void requestClearApps();
 	void requestClearClipboard();
-	void requestSwitchApp(SuiteSubApp subApp);
+	SuiteSubApp getCurrentSubApp();
+	void requestSwitchSubApp(SuiteSubApp subApp);
 }

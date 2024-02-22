@@ -1,5 +1,7 @@
 package org.geogebra.common.properties;
 
+import org.geogebra.common.ownership.NonOwning;
+
 public interface PropertiesRegistry {
 
 	/**
@@ -7,7 +9,7 @@ public interface PropertiesRegistry {
 	 *
 	 * @param listener A listener.
 	 */
-	void addListener(PropertiesRegistryListener listener);
+	void addListener(@NonOwning PropertiesRegistryListener listener);
 
 	/**
 	 * Remove a listener.
@@ -21,7 +23,7 @@ public interface PropertiesRegistry {
 	 *
 	 * @param context The current context (may be `null`).
 	 */
-	void setCurrentContext(Object context);
+	void setCurrentContext(@NonOwning Object context);
 
 	/**
 	 * Register a property with the registry in the current context.

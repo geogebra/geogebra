@@ -17,5 +17,5 @@ public interface ExamRestrictable {
 	 *
 	 * @param examRestrictions The restrictions for the current exam.
 	 */
-	void unapplyRestrictions(ExamRestrictions examRestrictions);
+	void revertRestrictions(ExamRestrictions examRestrictions);
 }

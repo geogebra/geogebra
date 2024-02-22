@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl;
 
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -9,7 +10,8 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	// TODO implement
 
 	@Override
-	public void addListener(PropertiesRegistryListener listener) {
+	public void addListener(@NonOwning PropertiesRegistryListener listener) {
+		// TODO try to use weak reference
 	}
 
 	@Override

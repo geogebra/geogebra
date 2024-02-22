@@ -134,7 +134,7 @@ public class ExamRestrictions {
 	/**
 	 * Revert the changes from {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}.
 	 */
-	public void unapply(CommandDispatcher commandDispatcher,
+	public void revert(CommandDispatcher commandDispatcher,
 			AlgebraProcessor algebraProcessor,
 			PropertiesRegistry propertiesRegistry,
 			Object context) {

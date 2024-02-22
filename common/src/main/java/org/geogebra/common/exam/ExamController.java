@@ -91,9 +91,14 @@ public final class ExamController implements PropertiesRegistryListener {
 	// TODO filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
 
+	/**
+	 * Creates a new ExamController. The ExamController will register itself as a listener
+	 * on the properties registry.
+	 * @param propertiesRegistry The properties registry.
+	 */
 	public ExamController(PropertiesRegistry propertiesRegistry) {
 		this.propertiesRegistry = propertiesRegistry;
-		propertiesRegistry.addListener(this);
+		propertiesRegistry.addListener(this); // TODO make sure weak references are used
 	}
 
 	/**
@@ -107,21 +112,27 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Set the active context (App instance) and its dependent objects.
+	 * Set the active context and associated dependencies.
 	 *
-	 * This needs to be called before an exam starts, and also when the App instance changes
-	 * during an exam, so what we can unapply the restrictions on the current dependencies,
+	 * The context can be <i>any object</i>, but it should correspond to or identify the current
+	 * app, or, in Suite, the currently active sub-app (Graphing, Geometry, etc). The only
+	 * requirement here is that when any of the dependencies (currently, the command dispatcher and
+	 * algebra processor) change, this should also mean a change in current context and be
+	 * communicated to the exam controller by calling this method.
+	 *
+	 * This method needs to be called before an exam starts, and also when the active context
+	 * changes during an exam, so what we can revert the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
 	public void setActiveContext(Object context,
 			CommandDispatcher commandDispatcher,
 			AlgebraProcessor algebraProcessor) {
-		// unapply restrictions for current dependencies, if exam is active
+		// revert restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
-			unapplyRestrictions(activeDependencies);
+			revertRestrictions(activeDependencies);
 			restrictables = new HashSet<>();
 		}
-		this.activeDependencies = new ContextDependencies(context,
+		activeDependencies = new ContextDependencies(context,
 				commandDispatcher,
 				algebraProcessor,
 				restrictables);
@@ -213,12 +224,12 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Get ready for a new exam.
-	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#IDLE INACTIVE}
+	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#IDLE IDLE}
 	 * state.
 	 */
 	public void prepareExam() {
 		if (state != ExamState.IDLE) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("expected to be in IDLE state, but is " + state);
 		}
 		setState(ExamState.PREPARING);
 	}
@@ -230,7 +241,10 @@ public final class ExamController implements PropertiesRegistryListener {
 	 */
 	public void startExam(ExamRegion examType) {
 		if (state != ExamState.PREPARING) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("expected to be in PREPARING state, but is " + state);
+		}
+		if (activeDependencies == null) {
+			throw new IllegalStateException("no active context; call setActiveContext() before attempting to start the exam");
 		}
 		this.examType = examType;
 		applyRestrictions(examType, activeDependencies);
@@ -252,7 +266,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	 */
 	public void finishExam() {
 		if (state != ExamState.ACTIVE) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("expected to be in ACTIVE state, but is " + state);
 		}
 		finishDate = new Date();
 		setState(ExamState.FINISHED);
@@ -265,9 +279,9 @@ public final class ExamController implements PropertiesRegistryListener {
 	 */
 	public void exitExam() {
 		if (state != ExamState.FINISHED) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("expected to be in FINISHED state, but is " + state);
 		}
-		unapplyRestrictions(activeDependencies);
+		revertRestrictions(activeDependencies);
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
 			delegate.requestClearApps();
@@ -293,13 +307,16 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	private void applyRestrictions(ExamRegion examType, ContextDependencies dependencies) {
 		// TODO app.resetCommandDict() (register as ExamRestrictable?)
-		examRestrictions = ExamRestrictions.forExamType(examType);
-		if (examRestrictions == null) {
+		ExamRestrictions newRestrictions = ExamRestrictions.forExamType(examType);
+		if (newRestrictions == null) {
 			return; // log/throw?
 		}
 		if (delegate != null) {
-			delegate.requestSwitchApp(examRestrictions.getDefaultSubApp());
+			if (newRestrictions.getDisabledSubApps().contains(delegate.getCurrentSubApp())) {
+				delegate.requestSwitchSubApp(newRestrictions.getDefaultSubApp());
+			}
 		}
+		examRestrictions = newRestrictions;
 		if (dependencies != null) {
 			examRestrictions.apply(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
@@ -312,21 +329,20 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void unapplyRestrictions(ContextDependencies dependencies) {
+	private void revertRestrictions(ContextDependencies dependencies) {
 		if (examRestrictions == null) {
 			return;
 		}
 		if (dependencies != null) {
-			examRestrictions.unapply(dependencies.commandDispatcher,
+			examRestrictions.revert(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context);
 			for (ExamRestrictable restrictable : dependencies.restrictables) {
-				restrictable.unapplyRestrictions(examRestrictions);
+				restrictable.revertRestrictions(examRestrictions);
 			}
 			// TODO enable syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 		}
-		examRestrictions = null;
 	}
 
 	public TempStorage getTempStorage() {

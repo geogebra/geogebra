@@ -3,42 +3,16 @@ package org.geogebra.common;
 import static org.geogebra.common.GeoGebraConstants.*;
 
 public enum SuiteSubApp {
-	GRAPHING() {
-		@Override
-		public String getAppCode() {
-			return GRAPHING_APPCODE;
-		}
-	},
-	GEOMETRY() {
-		@Override
-		public String getAppCode() {
-			return GEOMETRY_APPCODE;
-		}
-	},
-	G3D() {
-		@Override
-		public String getAppCode() {
-			return G3D_APPCODE;
-		}
-	},
-	CAS() {
-		@Override
-		public String getAppCode() {
-			return CAS_APPCODE;
-		}
-	},
-	PROBABILITY() {
-		@Override
-		public String getAppCode() {
-			return PROBABILITY_APPCODE;
-		}
-	},
-	SCIENTIFIC() {
-		@Override
-		public String getAppCode() {
-			return SCIENTIFIC_APPCODE;
-		}
-	};
+	GRAPHING(GRAPHING_APPCODE),
+	GEOMETRY(GEOMETRY_APPCODE),
+	G3D(G3D_APPCODE),
+	CAS(CAS_APPCODE),
+	PROBABILITY(PROBABILITY_APPCODE),
+	SCIENTIFIC(SCIENTIFIC_APPCODE);
 
-	public abstract String getAppCode();
+	final String appCode;
+
+	SuiteSubApp(String appCode) {
+		this.appCode = appCode;
+	}
 }
