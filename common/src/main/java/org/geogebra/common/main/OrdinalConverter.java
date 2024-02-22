@@ -46,11 +46,11 @@ public class OrdinalConverter {
 	private static String getOrdinalNumberForBulgarian(int number) {
 		switch (number % 10) {
 		case 1:
-			return number + "-ви";
+			return number + "-\u0432\u0438";
 		case 2:
-			return number + "-ри";
+			return number + "-\u0440\u0438";
 		default:
-			return number + "-ти";
+			return number + "-\u0442\u0438";
 		}
 	}
 
@@ -74,13 +74,6 @@ public class OrdinalConverter {
 		default:
 			return number + "e";
 		}
-	}
-
-	private static String getOrdinalNumberForFrench(int number) {
-		if (number == 1) {
-			return number + "er";
-		}
-		return number + "e";
 	}
 
 	/**
@@ -112,6 +105,13 @@ public class OrdinalConverter {
 		}
 	}
 
+	private static String getOrdinalNumberForFrench(int number) {
+		if (number == 1) {
+			return number + "er";
+		}
+		return number + "e";
+	}
+
 	/**
 	 * Prefix and Suffix
 	 * @param number Integer
@@ -131,15 +131,16 @@ public class OrdinalConverter {
 	}
 
 	/**
-	 * <li>All numbers that end with 1 or 2, except 11 and 12 --> :a</li>
+	 * <li>All numbers that end with 1 or 2, except those ending with 11 and 12 --> :a</li>
 	 * <li>All others --> :e</li>
 	 * @param number Integer
 	 * @return Corresponding ordinal number for the Swedish language
 	 */
 	private static String getOrdinalNumberForSwedish(int number) {
 		int unitsDigit = number % 10;
+		int lastTwoDigits = number % 100;
 
-		if (number == 11 || number == 12 || (unitsDigit != 1 && unitsDigit != 2)) {
+		if (lastTwoDigits == 11 || lastTwoDigits == 12 || (unitsDigit != 1 && unitsDigit != 2)) {
 			return number + ":e";
 		}
 		return number + ":a";
