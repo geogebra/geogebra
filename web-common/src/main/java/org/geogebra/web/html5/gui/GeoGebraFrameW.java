@@ -128,7 +128,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		app.getGlobalHandlers().addEventListener(e, "focusout", evt -> useDataParamBorder());
 	}
 
-
 	/**
 	 * The application loading continues in the splashDialog onLoad handler
 	 */
