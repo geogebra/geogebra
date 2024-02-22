@@ -38,8 +38,7 @@ public class ToolboxMow extends FlowPanel {
 				}, () -> {});
 
 		addDivider();
-		//addActionButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-		//		() -> appW.setMoveMode());
+		//addActionButton(ToolbarSvgResources.INSTANCE.mode_pen(), () -> appW.setMoveMode());
 	}
 
 	private void addToggleButton(SVGResource image, String ariaLabel, String dataTest,
