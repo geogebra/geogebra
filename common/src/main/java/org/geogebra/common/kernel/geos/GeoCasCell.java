@@ -24,6 +24,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -41,8 +43,6 @@ import org.geogebra.common.kernel.arithmetic.GeoSurfaceReplacer;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import org.geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -146,7 +146,7 @@ public class GeoCasCell extends GeoElement
 	private boolean nSolveCmdNeeded = false;
 	// make sure we don't enter setAssignmentVar from itself
 	private boolean ignoreSetAssignment = false;
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 
 	private ValidExpression expandedEvalVE;
 	private boolean pointList;
@@ -1910,7 +1910,7 @@ public class GeoCasCell extends GeoElement
 						|| ((Function) this.getInputVE())
 								.getFunctionExpression().getTopLevelCommand()
 								.getName().equals("SolveODE"))) {
-			MyArbitraryConstant myArbConst = cons.getArbitraryConsTable()
+			ArbitraryConstantRegistry myArbConst = cons.getArbitraryConsTable()
 					.get(this.row);
 			if (this.arbconst.getConstList().isEmpty() && myArbConst != null) {
 				ArrayList<GeoNumeric> constList = myArbConst.getConstList();
@@ -2292,7 +2292,7 @@ public class GeoCasCell extends GeoElement
 
 				if (!cons.getArbitraryConsTable().isEmpty()) {
 					// get abritraryConstant for this cell from construction
-					MyArbitraryConstant myArbconst = cons
+					ArbitraryConstantRegistry myArbconst = cons
 							.getArbitraryConsTable().get(this.row);
 					// case we found an arbconst
 					if (myArbconst != null && arbconst.getPosition() == 0) {

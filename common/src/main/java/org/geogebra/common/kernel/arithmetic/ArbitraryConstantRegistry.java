@@ -25,7 +25,7 @@ import com.google.j2objc.annotations.Weak;
  * Each scope (cas cell or CAS using algo) should have an own instance of this
  * class
  */
-public class MyArbitraryConstant {
+public class ArbitraryConstantRegistry {
 	/** arbitrary integer */
 	public static final int ARB_INT = 0;
 	/** arbitrary double */
@@ -33,9 +33,9 @@ public class MyArbitraryConstant {
 	/** arbitrary complex number */
 	public static final int ARB_COMPLEX = 2;
 
-	private ArrayList<GeoNumeric> consts = new ArrayList<>();
-	private ArrayList<GeoNumeric> ints = new ArrayList<>();
-	private ArrayList<GeoNumeric> complexNumbers = new ArrayList<>();
+	private final ArrayList<GeoNumeric> consts = new ArrayList<>();
+	private final ArrayList<GeoNumeric> ints = new ArrayList<>();
+	private final ArrayList<GeoNumeric> complexNumbers = new ArrayList<>();
 
 	@Weak
 	private ConstructionElement ce;
@@ -47,7 +47,7 @@ public class MyArbitraryConstant {
 	 * Creates new arbitrary constant handler
 	 * @param ce associated construction element
 	 */
-	public MyArbitraryConstant(ConstructionElement ce) {
+	public ArbitraryConstantRegistry(ConstructionElement ce) {
 		this.ce = ce;
 	}
 
@@ -159,11 +159,10 @@ public class MyArbitraryConstant {
 		SortedSet<GeoElement> after = ce.getConstruction().getGeoSetConstructionOrder()
 				.tailSet(geoElement.toGeoElement());
 		int found = 0;
-		for (ConstructionElement nextCE: after) {
-			if (!nextCE.isGeoElement()) {
+		for (GeoElement next: after) {
+			if (!next.isGeoElement()) {
 				continue;
 			}
-			GeoElement next = (GeoElement) nextCE;
 			if (next.getCorrespondingCasCell() != null) {
 				continue;
 			}
@@ -205,7 +204,8 @@ public class MyArbitraryConstant {
 	}
 
 	private GeoNumeric wrapInAlgo(GeoNumeric numeric) {
-		AlgoDependentArbconst algo = new AlgoDependentArbconst(ce.getConstruction(), numeric, ce);
+		AlgoDependentArbitraryConstant
+				algo = new AlgoDependentArbitraryConstant(ce.getConstruction(), numeric, ce);
 		ce.getConstruction().removeFromConstructionList(algo);
 		numeric.setIsDependentConst(true);
 		return numeric;
@@ -269,26 +269,20 @@ public class MyArbitraryConstant {
 	 * update of resulting geo. This is not meant to be contained in
 	 * construction protocol.
 	 */
-	public static class AlgoDependentArbconst extends AlgoElement {
-		private GeoElement constant;
+	public static class AlgoDependentArbitraryConstant extends AlgoElement {
+		private final GeoElement constant;
 		private ConstructionElement outCE;
-
-		// private ArrayList<AlgoElement> updateList;
 
 		/**
 		 * @param c construction
 		 * @param constant the constant as a (complex) number
 		 * @param outCE element that needs updating if the constant changes
 		 */
-		public AlgoDependentArbconst(Construction c, GeoElement constant,
+		public AlgoDependentArbitraryConstant(Construction c, GeoElement constant,
 				ConstructionElement outCE) {
 			super(c, false);
 			this.constant = constant;
 			this.outCE = outCE;
-			/**
-			 * if(outCE instanceof AlgoElement){ updateList = new ArrayList
-			 * <AlgoElement>(); updateList.add((AlgoElement)outCE); }
-			 */
 
 			setInputOutput();
 		}
@@ -296,6 +290,7 @@ public class MyArbitraryConstant {
 		@Override
 		protected void setInputOutput() {
 			input = new GeoElement[]{constant};
+			setOutput(new GeoElement[0]);
 			setDependencies();
 		}
 
@@ -374,8 +369,8 @@ public class MyArbitraryConstant {
 	 * Replaces arbconst(), arbint(), arbcomplex() by auxiliary numerics
 	 */
 	public static class ArbconstReplacer implements Traversing {
-		private MyArbitraryConstant arbconst;
-		private static ArbconstReplacer replacer = new ArbconstReplacer();
+		private ArbitraryConstantRegistry arbconst;
+		private static final ArbconstReplacer replacer = new ArbconstReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -443,7 +438,7 @@ public class MyArbitraryConstant {
 		 * @return replacer
 		 */
 		public static ArbconstReplacer getReplacer(
-				MyArbitraryConstant arbconst) {
+				ArbitraryConstantRegistry arbconst) {
 			replacer.arbconst = arbconst;
 			return replacer;
 		}

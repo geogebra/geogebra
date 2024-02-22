@@ -22,8 +22,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CopyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -586,7 +586,7 @@ public class FunctionNVar extends ValidExpression
 	 * @return resulting function
 	 */
 	final public FunctionNVar evalCasCommand(String ggbCasCmd, boolean symb,
-			MyArbitraryConstant arbconst) {
+			ArbitraryConstantRegistry arbconst) {
 		StringBuilder sb = new StringBuilder(80);
 		// remember expression and its CAS string
 		boolean useCaching = true;

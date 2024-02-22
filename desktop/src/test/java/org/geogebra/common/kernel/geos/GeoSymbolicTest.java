@@ -1264,6 +1264,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		slider.setValue(10);
 		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
 				equalTo("1 / 2 x² + 10"));
+		kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(slider, "9",
+				new EvalInfo(false), false, null, TestErrorHandler.INSTANCE);
+		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
+				equalTo("1 / 2 x² + 9"));
 	}
 
 	@Test

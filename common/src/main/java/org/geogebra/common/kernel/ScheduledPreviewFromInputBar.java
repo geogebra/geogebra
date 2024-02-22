@@ -28,6 +28,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private static final int DEFAULT_MAX_LENGTH = 1000;
 	@Weak
 	private final Kernel kernel;
+	private final int timeoutMs;
 	private String input = "";
 	// concurrent evaluation with CAS may set validInput to null
 	private @CheckForNull String validInput = "";
@@ -42,8 +43,13 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 *            kernel
 	 */
 	ScheduledPreviewFromInputBar(Kernel kernel) {
+		this(kernel, 200);
+	}
+
+	ScheduledPreviewFromInputBar(Kernel kernel, int timeoutMs) {
 		this.kernel = kernel;
 		notFirstInput = false;
+		this.timeoutMs = timeoutMs;
 	}
 
 	private void setInput(String str, ErrorHandler validation) {
@@ -85,7 +91,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		// maxLength is not written if the first preview computed
 		// needed in Android with old phones, probably some other thread
 		// makes the computation too long (so false positive)
-		if (notFirstInput && System.currentTimeMillis() > start + 200) {
+		if (notFirstInput && System.currentTimeMillis() > start + timeoutMs) {
 			maxLength = str.length();
 			validInput = null;
 		} else {
@@ -207,7 +213,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.setSilentMode(silentModeOld);
 			this.kernel.getConstruction().setSuppressLabelCreation(suppressLabelsOld);
 		}
-		if (System.currentTimeMillis() > start + 200) {
+		if (System.currentTimeMillis() > start + timeoutMs) {
 			maxLength = validInput == null ? 0 : validInput.length();
 			validInput = null;
 		}
@@ -215,16 +221,15 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 	private void previewRedefine(ValidExpression ve, GeoElement existingGeo, EvalInfo info) {
 		ve.setLabels(null);
+		resetIfValid(); // reset if no syntax error, command errors triggered below
 		GeoElementND[] inputGeos = evalValidExpression(ve, info);
 		if (inputGeos != null && inputGeos.length == 1) {
 			GeoElementND redefined = inputGeos[0];
 			if (redefined.getGeoClassType() == existingGeo.getGeoClassType()) {
 				existingGeo.set(redefined);
 				kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
-				return;
 			}
 		}
-		resetIfValid();
 	}
 
 	private void resetIfValid() {
