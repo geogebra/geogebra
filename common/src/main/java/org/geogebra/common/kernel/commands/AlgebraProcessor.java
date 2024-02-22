@@ -3205,7 +3205,7 @@ public class AlgebraProcessor {
 		} else if (eval instanceof Vector3DValue) {
 			return processPointVector3D(n, eval);
 		} else if (eval instanceof TextValue) {
-			return processText(n, eval);
+			return processText(n, eval, info);
 		} else if (eval instanceof MyList) {
 			return processList(n, (MyList) eval, info);
 		} else if (eval instanceof EquationValue) {
@@ -3397,7 +3397,7 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] processText(ExpressionNode n,
-			ExpressionValue evaluate) {
+			ExpressionValue evaluate, EvalInfo info) {
 		GeoElement ret;
 		String label = n.getLabel();
 
@@ -3409,7 +3409,9 @@ public class AlgebraProcessor {
 		} else {
 			ret = dependentText(n);
 		}
-		ret.setLabel(label);
+		if (info.isLabelOutput()) {
+			ret.setLabel(label);
+		}
 		return array(ret);
 	}
 

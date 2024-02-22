@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
-import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.TestEvent;
@@ -82,18 +81,9 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		add(listDef);
 		add("A=Point(l)");
 		ArrayList<String> updates = new ArrayList<>();
-		EventListener acc = new EventListener() {
-
-			@Override
-			public void sendEvent(Event evt) {
-				if (evt.getType() == EventType.UPDATE) {
-					updates.add(evt.target.getLabelSimple());
-				}
-			}
-
-			@Override
-			public void reset() {
-				// not needed
+		EventListener acc = evt -> {
+			if (evt.getType() == EventType.UPDATE) {
+				updates.add(evt.target.getLabelSimple());
 			}
 		};
 		getApp().getEventDispatcher().addEventListener(acc);
