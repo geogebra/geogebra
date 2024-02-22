@@ -12,7 +12,6 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
 public class IconButton extends StandardButton {
-	private Localization loc;
 	private SVGResource image;
 
 	/**
@@ -36,7 +35,6 @@ public class IconButton extends StandardButton {
 	public IconButton(Localization loc, SVGResource icon, String ariaLabel, Runnable onHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
-		this.loc = loc;
 		image = icon;
 		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
 		addFastClickHandler(event -> {
@@ -58,7 +56,6 @@ public class IconButton extends StandardButton {
 			Runnable offHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
-		this.loc = loc;
 		image = icon;
 		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
 		addFastClickHandler(event -> {

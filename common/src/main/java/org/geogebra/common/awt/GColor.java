@@ -57,10 +57,6 @@ public final class GColor implements GPaint {
 	public static final GColor PURPLE_A400 = newColor(213, 0, 249);
 	/** PURPLE A700*/
 	public static final GColor PURPLE_A700 = newColorRGB(0x5145A8);
-	/** MOW MEBIS TEAL */
-	public static final GColor MOW_MEBIS_TEAL = newColor(0, 168, 213);
-	/** MOW MEBIS TEAL with alpha */
-	public static final GColor MOW_MEBIS_TEAL_50 = newColor(0, 168, 213, 128);
 	/** MOW TEXT PRIMARY */
 	public static final GColor TEXT_PRIMARY = newColor(0, 0, 0, 138);
 	/** MOW WIDGET BACKGROUND */
@@ -79,11 +75,11 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_SUBGRID = newColor(229, 229, 229);
 
 	// Selection color for inline text and table in Tafel
-	public static final GColor MOW_SELECTION_COLOR = newColor(0, 168, 213, 31);
+	public static final GColor MOW_SELECTION_COLOR = newColor(151, 95, 168, 51);
 
 	public static final GColor TABLE_HEADING_COLOR = newColor(110, 101, 179, 122);
 
-	public static final GColor MOW_TABLE_HEADING_COLOR = newColor(65, 121, 140, 102);
+	public static final GColor MOW_TABLE_HEADING_COLOR = newColorRGB(0xD7D0DB);
 
 	public static final GColor DARK_RED = newColorRGB(0xD32F2F);
 
@@ -95,13 +91,13 @@ public final class GColor implements GPaint {
 
 	public static final GColor MIND_MAP_CHILD_BORDER_COLOR = newColor(153, 132, 255);
 
-	public static final GColor MOW_MIND_MAP_PARENT_BG_COLOR = newColorRGB(0xE2EAED);
+	public static final GColor MOW_MIND_MAP_PARENT_BG_COLOR = newColorRGB(0xD7D0DB);
 
-	public static final GColor MOW_MIND_MAP_PARENT_BORDER_COLOR = newColor(0, 121, 163);
+	public static final GColor MOW_MIND_MAP_PARENT_BORDER_COLOR = newColorRGB(0x350D49);
 
-	public static final GColor MOW_MIND_MAP_CHILD_BG_COLOR = newColorRGB(0xEBF8FC);
+	public static final GColor MOW_MIND_MAP_CHILD_BG_COLOR = newColorRGB(0xEADFEE);
 
-	public static final GColor MOW_MIND_MAP_CHILD_BORDER_COLOR = newColor(0, 168, 213);
+	public static final GColor MOW_MIND_MAP_CHILD_BORDER_COLOR = newColorRGB(0x975FA8);
 
 	public static final GColor MIND_MAP_PLUS_INACTIVE = newColor(189, 189, 189);
 
@@ -109,7 +105,7 @@ public final class GColor implements GPaint {
 
 	public static final GColor MIND_MAP_CONNECTION = newColorRGB(0xDEDEDE);
 
-	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
+	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = newColorRGB(0x975FA8);
 	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
 	public static final GColor DEFAULT_PURPLE = newColorRGB(0X6557D2);
