@@ -625,10 +625,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
-	// public static double startTime, endTime;
-	// public static double computeTime, updateTime;
-	// public static double counter;
-
 	@Override
 	@AutoreleasePool
 	public void update() {
@@ -636,22 +632,16 @@ public abstract class AlgoElement extends ConstructionElement
 			return;
 		}
 
-		updateUnlabeledRandomGeos();
+		setStopUpdateCascade(true);
 
-		// counter++;
-		// startTime = System.currentTimeMillis();
+		updateUnlabeledRandomGeos();
 
 		// compute output from input
 		compute();
 
-		// endTime = System.currentTimeMillis();
-		// computeTime += (endTime - startTime);
-		// startTime = System.currentTimeMillis();
-
 		updateDependentGeos();
 
-		// endTime = System.currentTimeMillis();
-		// updateTime += (endTime - startTime );
+		setStopUpdateCascade(false);
 	}
 
 	/**
