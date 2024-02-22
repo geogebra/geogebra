@@ -1,28 +1,37 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.common.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.geos.HasAuralText;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Localization;
-import org.gwtproject.timer.client.Timer;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 
-class AltTextTimer extends Timer {
+public class AltTextTimer implements GTimerListener {
 	public static final int DELAY_MILLIS = 700;
 	private final ScreenReaderAdapter screenReader;
 	private final Localization loc;
 	private final ArrayList<HasAuralText> queuedGeos = new ArrayList<>();
-	private HashMap<HasAuralText, String> lastReadText = new HashMap<>();
+	private final HashMap<HasAuralText, String> lastReadText = new HashMap<>();
+	private final GTimer timer;
 
+	/**
+	 * @param screenReader screen reader
+	 * @param loc localization
+	 */
 	public AltTextTimer(ScreenReaderAdapter screenReader, Localization loc) {
 		this.screenReader = screenReader;
 		this.loc = loc;
+		this.timer = UtilFactory.getPrototype() == null
+				? null : UtilFactory.getPrototype().newTimer(this, DELAY_MILLIS);
 	}
 
 	@Override
-	public void run() {
+	public void onRun() {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		for (HasAuralText textProvider: queuedGeos) {
 			String line = textProvider.getAuralText();
@@ -37,19 +46,28 @@ class AltTextTimer extends Timer {
 		queuedGeos.clear();
 	}
 
-	@Override
+	/**
+	 * Cancel the timer and clear queued texts
+	 */
 	public void cancel() {
-		super.cancel();
+		if (timer != null) {
+			timer.stop();
+		}
 		queuedGeos.clear();
 		lastReadText.clear();
 	}
 
+	/**
+	 * Adds a readable element to read when time interval expires
+	 *
+	 * @param textProvider text provider
+	 */
 	public void feed(HasAuralText textProvider) {
 		if (!queuedGeos.contains(textProvider) && textChanged(textProvider)) {
 			queuedGeos.add(textProvider);
 			lastReadText.remove(textProvider);
-			if (!isRunning()) {
-				schedule(DELAY_MILLIS);
+			if (timer != null && !timer.isRunning()) {
+				timer.start();
 			}
 		}
 	}

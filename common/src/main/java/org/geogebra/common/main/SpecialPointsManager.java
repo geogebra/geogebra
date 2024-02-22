@@ -379,11 +379,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	@Override
-	public void reset() {
-		// not needed
-	}
-
-	@Override
 	public void onCoordSystemChanged() {
 		updateSpecialPoints(null);
 	}

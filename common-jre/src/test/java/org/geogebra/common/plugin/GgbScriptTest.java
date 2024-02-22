@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.SymbolicEditorCommon;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -88,10 +89,8 @@ public class GgbScriptTest extends BaseUnitTest {
 				.getUndoManager().undoPossible(), equalTo(false));
 	}
 
-	/**
-	 * Related to APPS-5357
-	 */
 	@Test
+	@Issue("APPS-5357")
 	public void scriptShouldTranslateInterToIntersection() {
 		getApp().setLocale(Locale.UK);
 		add("l1 = {1, 2}");

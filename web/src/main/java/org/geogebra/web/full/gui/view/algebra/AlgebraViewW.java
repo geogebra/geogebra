@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -398,10 +399,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void update(GeoElement geo) {
 		long start = System.currentTimeMillis();
-		TreeItem node = nodeTable.get(geo);
+		RadioTreeItem item = nodeTable.get(geo);
 
-		if (node != null) {
-			RadioTreeItem item = RadioTreeItem.as(node);
+		if (item != null) {
 			repaint(item);
 			cancelEditingIfHasBeenEdited(item);
 			if (AlgebraItem.shouldShowSlider(geo)) {
@@ -1126,7 +1126,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (currentWidth != oldWidth && currentWidth != 0) {
 				resize(0);
 			}
-			RadioTreeItem.as(node).setItemWidth(currentWidth == 0 ? getFullWidth() : currentWidth);
+			node.setItemWidth(currentWidth == 0 ? getFullWidth() : currentWidth);
 
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
@@ -1659,12 +1659,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            whether to select or unselect
 	 */
 	public void selectRow(GeoElement geo, boolean select) {
-		TreeItem node = nodeTable.get(geo);
+		RadioTreeItem node = nodeTable.get(geo);
 		if (node == null) {
 			return;
 		}
 
-		RadioTreeItem.as(node).selectItem(select);
+		node.selectItem(select);
 	}
 
 	/**
@@ -1748,6 +1748,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
 			// check for attached needed for F2 when Algebra View closed
+			if (geo.isGeoText() && ((GeoText) geo).isLaTeX() && !geo.isTextCommand()) {
+				app.getDialogManager().showRedefineDialog(geo, true);
+				return;
+			}
 			if ((!geo.isIndependent() && !(geo
 					.getParentAlgorithm() instanceof AlgoCurveCartesian))
 					|| !attached) {
@@ -1805,7 +1809,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			app.getDialogManager().showRedefineDialog(geo, true);
 			return;
 		}
-		TreeItem node = nodeTable.get(geo);
+		RadioTreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
 			cancelEditItem();
@@ -1813,38 +1817,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			editItem = true;
 
 			setAnimationEnabled(false);
-			if (node instanceof RadioTreeItem) {
-				RadioTreeItem ri = RadioTreeItem.as(node);
-				expandAVToItem(ri);
-				if (!ri.enterEditMode(false)) {
-					cancelEditItem();
-					app.getDialogManager().showRedefineDialog(geo, true);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Clear selection
-	 */
-	public void clearSelection() {
-
-		// deselecting this causes a bug; it maybe fixed
-		// by changing the repaintView method too,
-		// adding setSelectedItem( some TreeItem ),
-		// but which TreeItem should be that if more are selected?
-		// that's why Arpad choosed to comment this out instead
-		// super.setSelectedItem(null);
-
-		for (int i = 0; i < getItemCount(); i++) {
-			if (!(getItem(i).getUserObject() instanceof GeoElement)) {
-				for (int j = 0; j < getItem(i).getChildCount(); j++) {
-					TreeItem item = getItem(i).getChild(j);
-					item.setSelected(false);
-					if (item instanceof RadioTreeItem) {
-						unselect(RadioTreeItem.as(item).getGeo());
-					}
-				}
+			expandAVToItem(node);
+			if (!node.enterEditMode(false)) {
+				cancelEditItem();
+				app.getDialogManager().showRedefineDialog(geo, true);
 			}
 		}
 	}
@@ -1922,6 +1898,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Resets all data-test attributes of the tree items after the deleted one
 	 * to support unique values that depends on the actual row
 	 * index after deleting a row.
+	 * FIXME: assumes that the tree is flat
 	 */
 	public void resetDataTestOnDelete(GeoElement geo) {
 		TreeItem node = nodeTable.get(geo);
@@ -1931,20 +1908,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		for (int i = indexOf(node) + 1; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
-
-			if (!(ti instanceof RadioTreeItem)) {
-				continue;
-			}
-
-			RadioTreeItem item = RadioTreeItem.as(ti);
-			item.setIndex(i);
-			if (!updateDataTests(ti)) {
-				if (ti.getWidget() instanceof GroupHeader) {
-					for (int j = 0; j < ti.getChildCount(); j++) {
-						RadioTreeItem.as(ti).setIndex(j);
-						updateDataTests(ti.getChild(j));
-					}
-				}
+			if (ti instanceof RadioTreeItem) {
+				RadioTreeItem item = RadioTreeItem.as(ti);
+				item.setIndex(i);
+				item.updateDataTest();
 			}
 		}
 		this.repaintView();
@@ -1958,14 +1925,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (ti instanceof RadioTreeItem) {
 			RadioTreeItem.as(ti).updateOnNextRepaint();
 			RadioTreeItem.as(ti).setLabels();
-			return true;
-		}
-		return false;
-	}
-
-	private static boolean updateDataTests(TreeItem ti) {
-		if (ti instanceof RadioTreeItem) {
-			RadioTreeItem.as(ti).updateDataTest();
 			return true;
 		}
 		return false;
@@ -1988,8 +1947,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/*
 	 * AV DockPanel resizing rules:
 	 *
-	 * maxItemWith: the longest item width.
-	 *
 	 * avWidth: the current width of AV dock panel.
 	 *
 	 * userWidth: the width that user sets using the splitter.
@@ -2010,19 +1967,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * - userWidth: if userWidth is greater than both editedWidth and avWidth
 	 *
 	 */
-
-	/**
-	 * Sets each tree item to a specific width
-	 *
-	 * @param width
-	 *            to set.
-	 */
-	public void setItemWidth(int width) {
-		if (width > maxItemWidth) {
-			maxItemWidth = width;
-		}
-		setWidths(getFullWidth());
-	}
 
 	private void setWidths(int width) {
 		if (inputPanelLatex != null) {
@@ -2110,8 +2054,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (geo == null) {
 			return;
 		}
-		TreeItem node = nodeTable.get(geo);
-		RadioTreeItem.as(node).selectItem(false);
+		RadioTreeItem node = nodeTable.get(geo);
+		node.selectItem(false);
 		selectRow(geo, false);
 	}
 
