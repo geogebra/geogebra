@@ -117,7 +117,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		updateScrollElement();
 		double scrollTop = scrollElement.scrollTop;
 		read(text);
-		anchor.focus();
+		FocusUtil.focusNoScroll(anchor);
 		scrollElement.scrollTop = scrollTop;
 	}
 
