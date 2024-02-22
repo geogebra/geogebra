@@ -25,14 +25,9 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-/**
- * @author csilla
- *
- */
 public class ZoomPanelMow extends FlowPanel
 		implements SetLabels, CoordSystemListener {
 	private final AppW appW;
-	private StandardButton spotlightOnBtn;
 	private StandardButton dragPadBtn;
 	private StandardButton zoomInBtn;
 	private StandardButton zoomOutBtn;
@@ -56,7 +51,6 @@ public class ZoomPanelMow extends FlowPanel
 	private void buildGui() {
 		addStyleName("mowZoomPanel");
 		addDragPadButton();
-		addSpotlightButton();
 		addZoomButtons();
 	}
 
@@ -106,71 +100,6 @@ public class ZoomPanelMow extends FlowPanel
 			}
 		});
 		add(dragPadBtn);
-	}
-
-	private void addSpotlightButton() {
-		spotlightOnBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.target(), null, 24);
-		spotlightOnBtn.setStyleName("zoomPanelBtn");
-		registerFocusable(spotlightOnBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_SPOTLIGHT);
-		TestHarness.setAttr(spotlightOnBtn, "spotlightTool");
-
-		ClickStartHandler.init(spotlightOnBtn, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
-						.getPanel(App.VIEW_EUCLIDIAN);
-				dp.getComponent().addStyleName("graphicsWithSpotlight");
-				getEuclidianController().spotlightOn();
-				appW.getAppletFrame().add(ZoomPanelMow.this::initSpotlightOff);
-				appW.hideMenu();
-			}
-		});
-		add(spotlightOnBtn);
-	}
-
-	private EuclidianController getEuclidianController() {
-		return appW.getActiveEuclidianView().getEuclidianController();
-	}
-
-	private SimplePanel initSpotlightOff() {
-		SimplePanel spotlightOff = new SimplePanel();
-		spotlightOff.addStyleName("spotlightOffBtn");
-
-		StandardButton spotlightOffBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.target(), null, 24);
-		setButtonTitleAndAltText(spotlightOffBtn, "Spotlight.Tool");
-		spotlightOffBtn.addStyleName("zoomPanelBtn");
-		appW.getEventDispatcher().addEventListener(new EventListener() {
-			@Override
-			public void sendEvent(Event evt) {
-				if (evt.getType() == EventType.REMOVE
-						&& evt.getTarget() != null && evt.getTarget().isSpotlight()
-				) {
-					EuclidianView view = appW.getActiveEuclidianView();
-					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
-							.getPanel(App.VIEW_EUCLIDIAN);
-					dp.getComponent().removeStyleName("graphicsWithSpotlight");
-					view.clearSpotlight();
-					spotlightOff.removeFromParent();
-					appW.getEventDispatcher().removeEventListener(this);
-				}
-			}
-
-			@Override
-			public void reset() {
-				// not needed
-			}
-		});
-		ClickStartHandler.init(spotlightOffBtn, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				getEuclidianController().spotlightOff();
-			}
-		});
-
-		spotlightOff.add(spotlightOffBtn);
-		return spotlightOff;
 	}
 
 	private void registerFocusable(StandardButton dragPadBtn,
@@ -253,7 +182,6 @@ public class ZoomPanelMow extends FlowPanel
 		setButtonTitleAndAltText(homeBtn, "StandardView");
 		setButtonTitleAndAltText(zoomOutBtn, "ZoomOut.Tool");
 		setButtonTitleAndAltText(zoomInBtn, "ZoomIn.Tool");
-		setButtonTitleAndAltText(spotlightOnBtn, "Spotlight.Tool");
 	}
 
 	private void setButtonTitleAndAltText(StandardButton btn, String string) {

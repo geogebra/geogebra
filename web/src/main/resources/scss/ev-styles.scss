@@ -292,22 +292,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		z-index: z-index.$z-spotlight-graphics;
 	}
 
-	.spotlightOffBtn {
-		position: absolute;
-		left: 24px;
-		top: 300px;
-		width: 48px;
-		height: 48px;
-		border-radius: 50%;
-		background-color: white;
-		cursor: pointer;
-		z-index: z-index.$z-spotlightOff-button;
-
-		img {
-			opacity: 0.54;
-		}
-	}
-
 	.pointerEventsNoneWhenDragging {
 		pointer-events: none;
 	}
