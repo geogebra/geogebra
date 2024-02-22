@@ -186,7 +186,6 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 
 	@Override
 	public final void compute() {
-
 		if (updateRunning) {
 			return;
 		}
