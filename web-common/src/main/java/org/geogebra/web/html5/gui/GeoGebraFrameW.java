@@ -77,7 +77,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * Callback from renderGGBElement to run, if everything is done
 	 */
 	private JsConsumer<Object> onLoadCallback = null;
-	private int windowScrollTop;
 
 	private GeoGebraFrameW(GLookAndFeelI laf, boolean mainTag) {
 		super(mainTag ? "main" : DivElement.TAG);
@@ -125,7 +124,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			if (!target.classList.contains("screenReaderStyle")) {
 				getApp().getGlobalKeyDispatcher().setEscPressed(false);
 			}
-			windowScrollTop = NavigatorUtil.getWindowScrollTop();
 		});
 		app.getGlobalHandlers().addEventListener(e, "focusout", evt -> useDataParamBorder());
 	}
@@ -767,16 +765,5 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	public void setNotesMode(int mode) {
 		// nothing to do here
-	}
-
-	/**
-	 *
-	 * @return if the page is scrolled automatically.
-	 */
-	public boolean isPageScrollHappened() {
-		int scrollTop = NavigatorUtil.getWindowScrollTop();
-		boolean scrolled = (windowScrollTop != scrollTop);
-		windowScrollTop = scrollTop;
-		return scrolled;
 	}
 }
