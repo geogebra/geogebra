@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -48,6 +49,21 @@ public class AlgoElementTest extends BaseUnitTest {
 				hasValue(unicode("((x + 1)^2) / 1")));
 		assertThat(inequalities2.getLeft().getLeft().getLeft().getIneq().getBorder(),
 				hasValue(unicode("((x + 2)^2) / 1")));
+	}
+
+	@Test
+	public void latexIntegralShouldHaveCorrectDerivativeVariable() {
+		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		assertThat(add("Integral(x-d,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}x - d\\,\\mathrm{d}x"));
+		assertThat(add("Integral(t-d,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}t - d\\,\\mathrm{d}d"));
+		assertThat(add("Integral(s-d,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}s - d\\,\\mathrm{d}d"));
+		assertThat(add("Integral(s-r,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}s - r\\,\\mathrm{d}r"));
+		assertThat(add("Integral(t-x,a,b)"), hasLaTeXDefinition(
+				"\\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x"));
 	}
 
 	private TypeSafeMatcher<GeoElement> hasLaTeXDefinition(String def) {
