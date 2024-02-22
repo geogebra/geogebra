@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;
@@ -70,6 +71,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
 		add(scrollOverlay);
 		spreadsheetElement = scrollContent.getElement();
+
+		ViewportAdjustmentHandler viewportAdjustmentHandler = createScrollable();
+		spreadsheet.getController().setViewportAdjustmentHandler(viewportAdjustmentHandler);
+
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
@@ -188,7 +193,33 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return scrollOverlay.getOffsetWidth();
 	}
 
+	/**
+	 * @return The width of the scrollbar used for dragging content with the left mouse button
+	 */
+	private int getScrollBarWidth() {
+		return getWidth() - scrollOverlay.getElement().getClientWidth();
+	}
+
 	public MathKeyboardListener getKeyboardListener() {
 		return mathField.getKeyboardListener();
+	}
+
+	private ViewportAdjustmentHandler createScrollable() {
+		return new ViewportAdjustmentHandler() {
+			@Override
+			public void setVerticalScrollPosition(int position) {
+				scrollOverlay.setVerticalScrollPosition(position);
+			}
+
+			@Override
+			public void setHorizontalScrollPosition(int position) {
+				scrollOverlay.setHorizontalScrollPosition(position);
+			}
+
+			@Override
+			public int getScrollBarWidth() {
+				return SpreadsheetPanel.this.getScrollBarWidth();
+			}
+		};
 	}
 }

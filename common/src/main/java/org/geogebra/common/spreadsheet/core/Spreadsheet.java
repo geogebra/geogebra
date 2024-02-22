@@ -26,10 +26,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param rendererFactory converts custom data type to rendable objects
 	 */
 	public Spreadsheet(TabularData<?> tabularData, CellRenderableFactory rendererFactory) {
-		controller = new SpreadsheetController(tabularData);
+		controller = new SpreadsheetController(tabularData, null);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle());
-		viewport = new Rectangle(0, 0, 0, 0);
+		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
 	}
 
@@ -56,7 +56,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawSelectionBorder(range, graphics,
 					viewport, controller.getLayout());
 		}
-		GPoint2D draggingDot = controller.getDraggingDot(viewport);
+		GPoint2D draggingDot = controller.getDraggingDot();
 		if (draggingDot != null) {
 			renderer.drawDraggingDot(draggingDot, graphics);
 		}
@@ -131,6 +131,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void setViewport(Rectangle viewport) {
 		this.viewport = viewport;
+		this.controller.setViewport(this.viewport);
 	}
 
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
@@ -143,7 +144,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param modifiers alt/ctrl/shift
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers) {
-		controller.handlePointerUp(x, y, modifiers, viewport);
+		controller.handlePointerUp(x, y, modifiers);
 	}
 
 	/**
@@ -152,18 +153,18 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param modifiers alt/ctrl/shift
 	 */
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
-		controller.handlePointerDown(x, y, modifiers, viewport);
+        controller.handlePointerDown(x, y, modifiers);
 
 		// start selecting
 	}
 
 	public void handlePointerMove(int x, int y, Modifiers modifiers) {
-		controller.handlePointerMove(x, y, modifiers, viewport);
+		controller.handlePointerMove(x, y, modifiers);
 	}
 
 	public void handleKeyPressed(int keyCode, String key, Modifiers modifiers) {
-		controller.handleKeyPressed(keyCode, key, modifiers, viewport);
-    }
+		controller.handleKeyPressed(keyCode, key, modifiers);
+	}
 
 	public SpreadsheetController getController() {
         return controller;
@@ -183,7 +184,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public MouseCursor getCursor(int x, int y) {
-		return controller.getDragAction(x, y, viewport).activeCursor;
+		return controller.getDragAction(x, y).activeCursor;
 	}
 
 	public double getTotalWidth() {
