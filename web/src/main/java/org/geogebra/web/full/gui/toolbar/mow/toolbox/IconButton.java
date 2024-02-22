@@ -46,18 +46,18 @@ public class IconButton extends StandardButton {
 
 	/**
 	 * Constructor toggle icon button
-	 * @param loc - localization
+	 * @param appW - application
 	 * @param icon - image
 	 * @param ariaLabel - label
 	 * @param onHandler - switch on handler
 	 * @param offHandler - switch off handler
 	 */
-	public IconButton(Localization loc, SVGResource icon, String ariaLabel, Runnable onHandler,
+	public IconButton(AppW appW, SVGResource icon, String ariaLabel, Runnable onHandler,
 			Runnable offHandler) {
 		super(icon, 24);
 		addStyleName("iconButton");
 		image = icon;
-		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
+		AriaHelper.setLabel(this, appW.getLocalization().getMenu(ariaLabel));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
 				if (isActive() && offHandler != null) {
@@ -65,23 +65,23 @@ public class IconButton extends StandardButton {
 				} else {
 					onHandler.run();
 				}
-				setActive(!isActive());
+				setActive(!isActive(), appW.getVendorSettings().getDarkColor());
 			}
 		});
 	}
 
 	/**
 	 * Constructor toggle icon button with dataTest
-	 * @param loc - localization
+	 * @param appW - application
 	 * @param icon - image
 	 * @param ariaLabel - label
 	 * @param dataTest - id for ui test
 	 * @param onHandler - switch on handler
 	 * @param offHandler - switch off handler
 	 */
-	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTest,
+	public IconButton(AppW appW, SVGResource icon, String ariaLabel, String dataTest,
 			Runnable onHandler, Runnable offHandler) {
-		this(loc, icon, ariaLabel, onHandler, offHandler);
+		this(appW, icon, ariaLabel, onHandler, offHandler);
 		TestHarness.setAttr(this, dataTest);
 	}
 
@@ -110,10 +110,10 @@ public class IconButton extends StandardButton {
 		Dom.toggleClass(this, "disabled", isDisabled);
 	}
 
-	private void setActive(boolean isActive) {
+	private void setActive(boolean isActive, GColor selectionColor) {
 		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
-		setIcon(image.withFill(isActive ? GColor.PURPLE_A700.toString() : GColor.BLACK.toString()));
+		setIcon(image.withFill(isActive ? selectionColor.toString() : GColor.BLACK.toString()));
 	}
 
 	private boolean isActive() {
