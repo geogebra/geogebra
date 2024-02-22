@@ -34,7 +34,11 @@ public class IconButton extends StandardButton {
 		addStyleName("iconButton");
 		image = icon;
 		AriaHelper.setLabel(this, ariaLabel);
-		addFastClickHandler(event -> onHandler.run());
+		addFastClickHandler(event -> {
+			if (!isDisabled()) {
+				onHandler.run();
+			}
+		});
 	}
 
 	/**
@@ -51,12 +55,14 @@ public class IconButton extends StandardButton {
 		image = icon;
 		AriaHelper.setLabel(this, ariaLabel);
 		addFastClickHandler(event -> {
-			if (isActive() && offHandler != null) {
-				offHandler.run();
-			} else {
-				onHandler.run();
+			if (!isDisabled()) {
+				if (isActive() && offHandler != null) {
+					offHandler.run();
+				} else {
+					onHandler.run();
+				}
+				setActive(!isActive());
 			}
-			setActive(!isActive());
 		});
 	}
 
@@ -92,5 +98,9 @@ public class IconButton extends StandardButton {
 
 	private boolean isActive() {
 		return getElement().hasClassName("active");
+	}
+
+	private boolean isDisabled() {
+		return getElement().hasClassName("disabled");
 	}
 }
