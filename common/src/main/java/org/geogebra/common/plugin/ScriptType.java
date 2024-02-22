@@ -52,7 +52,7 @@ public enum ScriptType {
 
 	/**
 	 * Get the script type's name
-	 * 
+	 *
 	 * @return the name of the script type
 	 */
 	public String getName() {
@@ -61,7 +61,7 @@ public enum ScriptType {
 
 	/**
 	 * Get the script type XML attribute name
-	 * 
+	 *
 	 * @return the XML attribute name
 	 */
 	public String getXMLName() {
@@ -82,5 +82,4 @@ public enum ScriptType {
 			xmlMap.put(tp.getXMLName(), tp);
 		}
 	}
-
 }

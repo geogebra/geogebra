@@ -28,6 +28,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.JavaScriptAPI;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -884,4 +885,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox input = add("ib=InputBox(a)");
 		assertEquals("ib", input.toString(StringTemplate.defaultTemplate));
 	}
+
+	@Test
+	@Issue("APPS-5390")
+	public void asindThrowsNoErrorForAngleInputbox() {
+		add("a=22°");
+		GeoInputBox input = add("ib=InputBox(a)");
+		String updated = "asind(0.5)";
+		input.updateLinkedGeo(updated);
+		assertFalse(input.hasError());
+		assertEquals("\\operatorname{sin⁻¹} \\left( 0.5 \\right)", input.getText());
+	}
+
 }

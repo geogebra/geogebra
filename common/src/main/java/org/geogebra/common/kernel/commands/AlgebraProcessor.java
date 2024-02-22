@@ -683,12 +683,14 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
-			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)) {
+			} else if (geo.isGeoSurfaceCartesian() && preventTypeChange) {
 				n.setForceSurfaceCartesian();
 			} else if (geo instanceof GeoFunctionNVar) {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
 					n.setForceInequality();
 				}
+			} else if (geo.isGeoAngle() && preventTypeChange) {
+				n.setForceAngle();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -704,11 +706,6 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
-	}
-
-	private static boolean isForceSurfaceCartesian(ValidExpression newValue, GeoElementND geo) {
-		return geo.isGeoSurfaceCartesian()
-				&& !(newValue.wrap().getLeft() instanceof Function);
 	}
 
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {

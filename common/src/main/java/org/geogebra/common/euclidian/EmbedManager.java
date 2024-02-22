@@ -1,6 +1,6 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.io.file.ZipFile;
@@ -96,11 +96,11 @@ public interface EmbedManager {
 	void embed(Material material);
 
 	/**
-	 * @param drawEmbed
-	 *            applet drawble
-	 * @return preview image
+	 * @param drawEmbed applet drawble
+	 * @param width width in pixels
+	 * @param height height in pixels
 	 */
-	MyImage getPreview(DrawEmbed drawEmbed);
+	void drawPreview(GGraphics2D g2, DrawEmbed drawEmbed, int width, int height, double angle);
 
 	/**
 	 * Executes an action in all embedded elements.

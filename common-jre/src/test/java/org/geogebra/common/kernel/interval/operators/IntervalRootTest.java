@@ -16,13 +16,13 @@ public class IntervalRootTest {
 
 	@Test
 	public void testSqrtPositive() {
-		assertEquals(interval(2, 3), 
+		assertEquals(interval(2, 3),
 				evaluator.sqrt(interval(4, 9)));
 	}
 
 	@Test
 	public void testSqrtMixed() {
-		assertEquals(interval(0, 3), 
+		assertEquals(interval(0, 3),
 				evaluator.sqrt(interval(-4, 9)));
 	}
 

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -83,6 +84,10 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	public void ggbOnInit() {
+		if (app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
+			return;
+		}
+
 		try {
 			tryTabletOnInit();
 			boolean standardJS = app.getKernel().getLibraryJavaScript()

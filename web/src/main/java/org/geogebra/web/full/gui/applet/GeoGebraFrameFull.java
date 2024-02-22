@@ -61,12 +61,9 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
-import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.event.dom.client.KeyCodes;
-import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
@@ -75,9 +72,12 @@ import org.gwtproject.user.client.Event.NativePreviewHandler;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.Js;
+
 /**
  * Frame for applets with GUI
- *
  */
 public class GeoGebraFrameFull
 		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
@@ -757,11 +757,6 @@ public class GeoGebraFrameFull
 				deselectDragBtn();
 			}
 		});
-		openMenuButton.addDomHandler(event -> {
-			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-				app.toggleMenu();
-			}
-		}, KeyUpEvent.getType());
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
 		new FocusableWidget(AccessibilityGroup.MENU, null, openMenuButton).attachTo(app);
@@ -1065,9 +1060,10 @@ public class GeoGebraFrameFull
 			super.getScreenshotBase64(callback, scale);
 			return;
 		}
-		Canvas c = Canvas.createIfSupported();
+		HTMLCanvasElement canvas = Js.uncheckedCast(DomGlobal
+				.document.createElement("canvas"));
 		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
-		((DockManagerW) dockManager).paintPanels(c, callback, scale);
+		((DockManagerW) dockManager).paintPanels(canvas, callback, scale);
 	}
 
 	@Override

@@ -2,8 +2,10 @@ package org.geogebra.common.plugin;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.LatexRendererSettings;
@@ -20,6 +22,7 @@ import org.geogebra.common.kernel.geos.SymbolicEditorCommon;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -84,6 +87,22 @@ public class GgbScriptTest extends BaseUnitTest {
 		pt.runClickScripts(null);
 		assertThat(getApp().getKernel().getConstruction()
 				.getUndoManager().undoPossible(), equalTo(false));
+	}
+
+	@Test
+	@Issue("APPS-5357")
+	public void scriptShouldTranslateInterToIntersection() {
+		getApp().setLocale(Locale.UK);
+		add("l1 = {1, 2}");
+		add("l2 = {2, 4}");
+		GgbScript listIntersection = makeScript("l3 = Intersection(l1, l2)");
+		getApp().setLocale(Locale.FRENCH);
+		try {
+			listIntersection.run(new Event(EventType.CLICK));
+		} catch (ScriptError e) {
+			fail("This script should run just fine!");
+		}
+		assertThat(lookup("l3"), hasValue("{2}"));
 	}
 
 	private GgbScript makeScript(String... lines) {

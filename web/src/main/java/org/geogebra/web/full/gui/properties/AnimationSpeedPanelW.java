@@ -61,7 +61,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	}
 
 	private void doActionPerformed() {
-		GeoNumberValue animSpeed = 
+		GeoNumberValue animSpeed =
 			app.getKernel().getAlgebraProcessor().evaluateToNumeric(tfAnimSpeed.getText(), false);
 		if (animSpeed != null) {
 			model.applySpeedChanges(animSpeed);
