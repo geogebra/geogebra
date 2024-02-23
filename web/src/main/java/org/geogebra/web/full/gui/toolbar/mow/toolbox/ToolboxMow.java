@@ -34,7 +34,7 @@ public class ToolboxMow extends FlowPanel {
 		decorator.positionLeft();
 
 		spotlightBtn = addToggleButton(ZoomPanelResources.INSTANCE.target(), "Spotlight.Tool",
-				"Spotlight.Tool","spotlightTool", () -> {
+				"Spotlight.Tool", "spotlightTool", () -> {
 					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
 							.getPanel(App.VIEW_EUCLIDIAN);
 					dp.getComponent().addStyleName("graphicsWithSpotlight");

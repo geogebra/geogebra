@@ -2,18 +2,11 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventListener;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -23,7 +16,6 @@ import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.SimplePanel;
 
 public class ZoomPanelMow extends FlowPanel
 		implements SetLabels, CoordSystemListener {
