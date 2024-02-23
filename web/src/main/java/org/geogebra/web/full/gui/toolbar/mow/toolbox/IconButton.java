@@ -12,6 +12,7 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
 public class IconButton extends StandardButton {
+	private static final int DEFAULT_BUTTON_WIDTH = 24;
 	private SVGResource image;
 
 	/**
@@ -21,7 +22,7 @@ public class IconButton extends StandardButton {
 	 */
 	public IconButton(int mode, AppW appW) {
 		super(GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode, appW),
-				appW.getToolName(mode), 24);
+				appW.getToolName(mode), DEFAULT_BUTTON_WIDTH);
 		addStyleName("iconButton");
 	}
 
@@ -33,15 +34,19 @@ public class IconButton extends StandardButton {
 	 * @param onHandler - on press handler
 	 */
 	public IconButton(Localization loc, SVGResource icon, String ariaLabel, Runnable onHandler) {
-		super(icon, 24);
-		addStyleName("iconButton");
-		image = icon;
-		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
+		this(loc, icon, ariaLabel);
 		addFastClickHandler(event -> {
 			if (!isDisabled() && onHandler != null) {
 				onHandler.run();
 			}
 		});
+	}
+
+	private IconButton(Localization loc, SVGResource icon, String ariaLabel) {
+		super(icon, DEFAULT_BUTTON_WIDTH);
+		addStyleName("iconButton");
+		image = icon;
+		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
 	}
 
 	/**
@@ -53,12 +58,9 @@ public class IconButton extends StandardButton {
 	 * @param onHandler - switch on handler
 	 * @param offHandler - switch off handler
 	 */
-	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTitle,
+	public IconButton(Localization loc, SVGResource icon, String ariaLabel,  String dataTitle,
 			Runnable onHandler, Runnable offHandler) {
-		super(icon, 24);
-		addStyleName("iconButton");
-		image = icon;
-		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
+		this(loc, icon, ariaLabel);
 		AriaHelper.setTitle(this, loc.getMenu(dataTitle));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {

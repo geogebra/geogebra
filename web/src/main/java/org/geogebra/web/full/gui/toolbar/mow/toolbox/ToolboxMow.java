@@ -75,14 +75,14 @@ public class ToolboxMow extends FlowPanel {
 	private void addPressButton(SVGResource image, String ariaLabel, String dataTest,
 			Runnable onHandler) {
 		IconButton iconButton = new IconButton(appW.getLocalization(), image, ariaLabel, ariaLabel,
-				dataTest, () -> onHandler.run());
+				dataTest, onHandler);
 		add(iconButton);
 	}
 
 	private IconButton addToggleButton(SVGResource image, String ariaLabel, String dataTitle,
 			String dataTest, Runnable onHandler, Runnable offHandler) {
 		IconButton iconButton = new IconButton(appW.getLocalization(), image, ariaLabel, dataTitle,
-				dataTest, () -> onHandler.run(), () -> offHandler.run());
+				dataTest, onHandler, offHandler);
 		add(iconButton);
 		return iconButton;
 	}
