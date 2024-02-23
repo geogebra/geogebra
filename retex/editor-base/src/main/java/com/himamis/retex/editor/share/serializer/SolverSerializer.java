@@ -68,19 +68,6 @@ public class SolverSerializer extends SerializerAdapter {
 			}
 			serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
 			break;
-		case MIXED_NUMBER:
-			//1[plus](2)/(3) changes into FnMixedNumber[MathSeq[1],MathSeq[2],MathSeq[3]]
-			//space between the 1 & 2 should be removed
-			if (parent != null) {
-				sb.append(openingBracket);
-				serialize(function.getArgument(0), sb);
-				sb.append(" ");
-				serialize(function.getArgument(1), sb);
-				sb.append("/");
-				serialize(function.getArgument(2), sb);
-				sb.append(closingBracket);
-			}
-			break;
 		case RECURRING_DECIMAL:
 			sb.append(openingBracket);
 			serialize(function.getArgument(0), sb);
@@ -286,6 +273,9 @@ public class SolverSerializer extends SerializerAdapter {
 		}
 
 		stringBuilder.insert(isMixedNumber(stringBuilder), openingBracket);
+		if (stringBuilder.charAt(stringBuilder.length() - 1) != ' ') {
+			stringBuilder.append(" ");
+		}
 		serialize(mathFunction.getArgument(0), stringBuilder);
 		stringBuilder.append("/");
 		serialize(mathFunction.getArgument(1), stringBuilder);

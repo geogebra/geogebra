@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
@@ -63,7 +63,7 @@ class EditorChecker {
 		String exp = GeoGebraSerializer.serialize(rootComponent);
 
 		try {
-			ExpressionNode en = parse(exp);
+			ValidExpression en = parse(exp);
 			assertEquals(output, en.toString(StringTemplate.defaultTemplate));
 		} catch (ParseException e) {
 			Log.debug(e);
@@ -259,8 +259,8 @@ class EditorChecker {
 		new EditorChecker(app).insert(input).checkAsciiMath(output);
 	}
 
-	public ExpressionNode parse(String exp) throws ParseException {
-		return app.getKernel().getParser().parseExpression(exp);
+	public ValidExpression parse(String exp) throws ParseException {
+		return app.getKernel().getParser().parseGeoGebraExpression(exp);
 	}
 
 	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {

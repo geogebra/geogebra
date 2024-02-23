@@ -934,4 +934,13 @@ public class EditorTypingTest {
 				.right(1).type("2").right(1).type("3")
 				.checkGGBMath("1" + Unicode.INVISIBLE_PLUS + "2 / 3");
 	}
+
+	@Test
+	public void shouldSerializeAssignment() {
+		checker.type("a=")
+				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.type("1")
+				.right(1).type("2").right(1).type("3")
+				.checkGGBMath("1" + Unicode.INVISIBLE_PLUS + "2 / 3");
+	}
 }
