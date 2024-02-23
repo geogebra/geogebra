@@ -199,9 +199,7 @@ public class SpreadsheetDemo {
 				public void keyPressed(KeyEvent e) {
 					spreadsheet.handleKeyPressed(e.getKeyCode(),
 							e.getKeyChar() + "", getModifiers(e));
-					if (spreadsheet.needsRedraw()) {
-						repaint();
-					}
+                    repaint();
 				}
 
 				@Override
