@@ -1,13 +1,8 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.*;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.css.ToolbarSvgResources;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.common.main.App;
+import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -32,22 +27,28 @@ public class ToolboxMow extends FlowPanel {
 	private void buildGui() {
 		decorator.positionLeft();
 
-		addActionButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-				() -> appW.setMoveMode());
+		addToggleButton(ZoomPanelResources.INSTANCE.target(), "Spotlight.Tool", "spotlightTool",
+				() -> {
+					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
+							.getPanel(App.VIEW_EUCLIDIAN);
+					dp.getComponent().addStyleName("graphicsWithSpotlight");
+					appW.getActiveEuclidianView().getEuclidianController().spotlightOn();
+					//appW.getAppletFrame().add(ZoomPanelMow.this::initSpotlightOff);
+					appW.hideMenu();
+				}, () -> {});
+
 		addDivider();
-		addCategoryButton(MaterialDesignResources.INSTANCE.toolbar_tools(), Arrays.asList(MODE_PEN,
-				MODE_HIGHLIGHTER, MODE_ERASER));
+		//addActionButton(ToolbarSvgResources.INSTANCE.mode_pen(), () -> appW.setMoveMode());
 	}
 
-	private void addActionButton(SVGResource image, Runnable handler) {
-		StandardButton actionBtn = new StandardButton(image, null, 24, 24);
-		actionBtn.addStyleName("actionButton");
-		actionBtn.addFastClickHandler((event) -> handler.run());
-
-		add(actionBtn);
+	private void addToggleButton(SVGResource image, String ariaLabel, String dataTest,
+			Runnable onHandler, Runnable offHandler) {
+		IconButton iconButton = new IconButton(appW.getLocalization(), image, ariaLabel, dataTest,
+				onHandler, offHandler);
+		add(iconButton);
 	}
 
-	private void addCategoryButton(SVGResource image, List<Integer> tools) {
+	/*private void addCategoryButton(SVGResource image, List<Integer> tools) {
 		StandardButton categoryBtn = new StandardButton(image, null, 24, 24);
 		categoryBtn.addStyleName("actionButton");
 		categoryBtn.addFastClickHandler((event)
@@ -59,7 +60,7 @@ public class ToolboxMow extends FlowPanel {
 		});
 
 		add(categoryBtn);
-	}
+	}*/
 
 	private void addDivider() {
 		SimplePanel divider = new SimplePanel();
