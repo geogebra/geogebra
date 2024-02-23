@@ -44,9 +44,7 @@ public class ToolboxMow extends FlowPanel {
 	private void addToggleButton(SVGResource image, String ariaLabel, String dataTest,
 			Runnable onHandler, Runnable offHandler) {
 		IconButton iconButton = new IconButton(appW, image, ariaLabel, dataTest,
-				() -> onHandler.run(), () -> {
-			offHandler.run();
-		});
+				onHandler, offHandler);
 		add(iconButton);
 	}
 
