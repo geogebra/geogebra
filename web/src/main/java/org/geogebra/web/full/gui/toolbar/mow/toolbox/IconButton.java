@@ -36,7 +36,7 @@ public class IconButton extends StandardButton {
 	public IconButton(Localization loc, SVGResource icon, String ariaLabel, Runnable onHandler) {
 		this(loc, icon, ariaLabel);
 		addFastClickHandler(event -> {
-			if (!isDisabled()) {
+			if (!isDisabled() && onHandler != null) {
 				onHandler.run();
 			}
 		});
@@ -54,12 +54,14 @@ public class IconButton extends StandardButton {
 	 * @param loc - localization
 	 * @param icon - image
 	 * @param ariaLabel - label
+	 * @param dataTitle - tooltip
 	 * @param onHandler - switch on handler
 	 * @param offHandler - switch off handler
 	 */
-	public IconButton(Localization loc, SVGResource icon, String ariaLabel, Runnable onHandler,
-			Runnable offHandler) {
+	public IconButton(Localization loc, SVGResource icon, String ariaLabel,  String dataTitle,
+			Runnable onHandler, Runnable offHandler) {
 		this(loc, icon, ariaLabel);
+		AriaHelper.setTitle(this, loc.getMenu(dataTitle));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
 				if (isActive() && offHandler != null) {
@@ -77,13 +79,14 @@ public class IconButton extends StandardButton {
 	 * @param loc - localization
 	 * @param icon - image
 	 * @param ariaLabel - label
+	 * @param dataTitle - tooltip
 	 * @param dataTest - id for ui test
 	 * @param onHandler - switch on handler
 	 * @param offHandler - switch off handler
 	 */
-	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTest,
-			Runnable onHandler, Runnable offHandler) {
-		this(loc, icon, ariaLabel, onHandler, offHandler);
+	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTitle,
+			String dataTest, Runnable onHandler, Runnable offHandler) {
+		this(loc, icon, ariaLabel, dataTitle, onHandler, offHandler);
 		TestHarness.setAttr(this, dataTest);
 	}
 
@@ -112,7 +115,10 @@ public class IconButton extends StandardButton {
 		Dom.toggleClass(this, "disabled", isDisabled);
 	}
 
-	private void setActive(boolean isActive) {
+	/**
+	 * @param isActive - whether is on or off
+	 */
+	public void setActive(boolean isActive) {
 		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
 		setIcon(image.withFill(isActive ? GColor.PURPLE_A700.toString() : GColor.BLACK.toString()));
