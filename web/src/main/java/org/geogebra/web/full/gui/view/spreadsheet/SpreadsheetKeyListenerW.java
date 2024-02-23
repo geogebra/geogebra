@@ -306,8 +306,6 @@ public class SpreadsheetKeyListenerW
 	private void handleKeyLeft(boolean ctrl, boolean shift,
 			GPoint pos) {
 		if (ctrl) {
-			// AppD.isControlDown(e)) {
-
 			if (model.getValueAt(pos.y, pos.x) != null) {
 				// move to left of current "block"
 				// if shift pressed, select cells too
@@ -339,7 +337,6 @@ public class SpreadsheetKeyListenerW
 	private void handleKeyUp(boolean ctrl, boolean shift,
 			GPoint pos) {
 		if (ctrl) {
-			// AppW.isControlDown(e)) {
 			if (model.getValueAt(pos.y, pos.x) != null) {
 				// move to top of current "block"
 				// if shift pressed, select cells too
@@ -381,8 +378,6 @@ public class SpreadsheetKeyListenerW
 			table.changeSelection(pos.y + 1, pos.x, shift);
 
 		} else if (ctrl) {
-			// AppD.isControlDown(e)) {
-
 			if (model.getValueAt(pos.y, pos.x) != null) {
 
 				// move to bottom of current "block"
@@ -436,8 +431,6 @@ public class SpreadsheetKeyListenerW
 			// (Java bug?)
 			table.changeSelection(pos.y, pos.x + 1, false);
 		} else if (ctrl) {
-			// AppD.isControlDown(e)) {
-
 			if (model.getValueAt(pos.y, pos.x) != null) {
 				// move to bottom of current "block"
 				// if shift pressed, select cells too
@@ -535,12 +528,10 @@ public class SpreadsheetKeyListenerW
 		// make sure e.g. SHIFT+ doesn't trigger default browser action
 		e.stopPropagation();
 
-		// prevent default action in all cases here except CTRL+V
-		// but how to detect CTRL+V? Just detect "V" and "v", and
-		// check e.ctrlKeyDown! This is only needed in Firefox, to
-		// properly trigger the "paste" event... in other browsers
-		// we could call preventDefault unconditionally (paste OK)
-		if (!e.isControlKeyDown()) {
+		// prevent default action in all cases here except
+		// Ctrl + V/C/X and Cmd + V/C/X
+		// because those are needed for cut/copy/paste in Safari and FireFox
+		if (!e.isControlKeyDown() && !e.isMetaKeyDown()) {
 			e.preventDefault();
 		} else if (e.getCharCode() != 86 && e.getCharCode() != 118 && // "V"
 				e.getCharCode() != 67 && e.getCharCode() != 99 && // "C"
