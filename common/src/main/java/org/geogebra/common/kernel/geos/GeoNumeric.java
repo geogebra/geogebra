@@ -605,8 +605,15 @@ public class GeoNumeric extends GeoElement
 			animationValue = value;
 		}
 
+		notifyScreenReader();
+	}
+
+	/**
+	 * Let screen reader announce the latest value update
+	 */
+	public void notifyScreenReader() {
 		if (isLabelSet() && isSliderable() && isSelected()) {
-			kernel.getApplication().readLater(this);
+			kernel.getApplication().getAccessibilityManager().readSliderUpdate(this);
 		}
 	}
 
@@ -1996,14 +2003,13 @@ public class GeoNumeric extends GeoElement
 	}
 
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
-		sb.appendMenuDefault("Slider", "Slider");
-		sb.appendSpace();
-
 		if (!addAuralCaption(sb)) {
+			sb.appendMenuDefault("Slider", "Slider");
+			sb.appendSpace();
 			sb.append(ScreenReader.convertToReadable(getLabelSimple(), app));
 		}
 
-		if (!getRawCaption().contains("%v")) {
+		if (!getRawCaption().contains("%v") && !hasDynamicCaption()) {
 			sb.append(getLabelDelimiterWithSpace(getApp().getScreenReaderTemplate()));
 			String valueString = toValueString(StringTemplate.defaultTemplate);
 			sb.appendDegreeIfNeeded(this, valueString);

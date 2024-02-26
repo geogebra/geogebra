@@ -70,7 +70,8 @@ public class ScriptInputPanelW extends FlowPanel implements
 		btPanel.setStyleName("optionsPanel");
 
 		languageSelector = new ListBox();
-		for (ScriptType type : ScriptType.values()) {
+
+		for (ScriptType type : app.getEventDispatcher().availableTypes()) {
 			languageSelector
 					.addItem(app.getLocalization().getMenu(type.getName()));
 		}
@@ -120,9 +121,12 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 */
 	void applyScript() {
 		String inputText = textArea.getText();
-		ScriptType type = ScriptType.values()[languageSelector
-				.getSelectedIndex()];
-		model.processInput(inputText, type);
+		int selectedIndex = languageSelector
+				.getSelectedIndex();
+		if (selectedIndex >= 0) {
+			ScriptType type = ScriptType.values()[selectedIndex];
+			model.processInput(inputText, type);
+		}
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class ScriptManagerJre extends ScriptManager {
@@ -22,6 +23,10 @@ public abstract class ScriptManagerJre extends ScriptManager {
 
     @Override
     public void ggbOnInit() {
+        if (app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
+            return;
+        }
+
         try {
             // call only if libraryJavaScript is not the default (ie do nothing)
             if (!app.getKernel().getLibraryJavaScript()

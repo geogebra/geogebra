@@ -7,10 +7,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 
@@ -37,7 +37,7 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 			Construction c,
 			ExpressionNode def,
 			ArrayList<GeoElement> vars,
-			MyArbitraryConstant constant,
+			ArbitraryConstantRegistry constant,
 			boolean addToConstructionList) {
 		super(c, addToConstructionList);
 		this.symbolic = new GeoSymbolic(cons);

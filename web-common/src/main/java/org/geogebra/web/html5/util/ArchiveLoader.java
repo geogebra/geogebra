@@ -150,7 +150,7 @@ public class ArchiveLoader {
 				Log.error(request.statusText + ":" + request.statusText);
 				app.afterLoadFileAppOrNot(false);
 				app.getToolTipManager().showBottomMessage(
-						app.getLocalization().getMenu("FileLoadingError"),
+						app.getLocalization().getError("FileLoadingError"),
 						app);
 				return null;
 			};

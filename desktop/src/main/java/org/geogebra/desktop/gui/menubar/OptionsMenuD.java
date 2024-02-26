@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.menubar;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -31,7 +30,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * The "Options" menu.
  */
 public class OptionsMenuD extends BaseMenu
-		implements ActionListener, MenuInterface {
+		implements MenuInterface {
 	private static final long serialVersionUID = -8032696074032177289L;
 
 	private AbstractAction showOptionsAction;
@@ -297,15 +296,6 @@ public class OptionsMenuD extends BaseMenu
 	@Override
 	public void update() {
 		getOptionsMenu().update();
-	}
-
-	/**
-	 * Execute a performed action.
-	 */
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		String cmd = event.getActionCommand();
-		getOptionsMenu().processActionPerformed(cmd);
 	}
 
 	private OptionsMenuController getOptionsMenu() {

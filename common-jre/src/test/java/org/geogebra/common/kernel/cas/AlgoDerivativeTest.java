@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Test;
 
@@ -37,6 +38,7 @@ public class   AlgoDerivativeTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5374")
 	public void fastDerivativeLogBase() {
 		add("b=3");
 		AlgoDerivative logDerivative = getFastDerivative(add("log(b,x)"));

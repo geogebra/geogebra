@@ -67,7 +67,7 @@ public class PointStylePopup extends PopupMenuButtonW
 	 */
 	public static PointStylePopup create(AppW app, int mode,
 			PointStyleModel model) {
-		return new PointStylePopup(app, null, 1, 
+		return new PointStylePopup(app, null, 1,
 				SelectionTable.MODE_ICON, false, true, model);
 	}
 
@@ -114,7 +114,7 @@ public class PointStylePopup extends PopupMenuButtonW
 			return null;
 		}
 		
-		boolean geosOK = model.checkGeos(); 
+		boolean geosOK = model.checkGeos();
 		
 		this.setVisible(geosOK);
 
@@ -152,7 +152,7 @@ public class PointStylePopup extends PopupMenuButtonW
 		return new ImageOrText();
 	}
 	
-	@Override 
+	@Override
 	public int getSliderValue() {
 		int val = super.getSliderValue();
 		return val == -1 ? DEFAULT_SIZE : val;

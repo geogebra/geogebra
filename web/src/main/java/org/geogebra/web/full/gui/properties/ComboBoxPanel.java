@@ -45,7 +45,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 		comboBox.setWidth("112px");
 		label = new FormLabel("").setFor(comboBox);
 		comboBox.setEnabled(true);
-		FlowPanel mainWidget = new FlowPanel(); 
+		FlowPanel mainWidget = new FlowPanel();
 		mainWidget.setStyleName("listBoxPanel");
 
 		mainWidget.add(label);
