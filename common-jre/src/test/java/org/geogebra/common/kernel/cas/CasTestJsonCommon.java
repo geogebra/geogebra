@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -221,10 +222,21 @@ public abstract class CasTestJsonCommon {
 							: normalizeExpected(expectedResult[0]);
 					failures.append("\n  in: ").append(input)
 							.append("\n exp: ").append(expected)
-							.append("\n out: ").append(result).append('\n');
+							.append("\n out: ").append(result)
+							.append("\n raw: ").append(toRaw(input)).append('\n');
 				}
 			}
 		}
+	}
+
+	private static String toRaw(String input) {
+		try {
+			return app.getKernel().getParser().parseGeoGebraCAS(input, null)
+					.toString(StringTemplate.giacTemplate);
+		} catch (ParseException e) {
+			Log.debug(e);
+		}
+		return "?";
 	}
 
 	private static String normalizeActual(String result) {
