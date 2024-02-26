@@ -355,8 +355,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testFactor() {
-		testCat("Factor");
+	public void testFactor1() {
+		testCat("Factor.1");
+	}
+
+	@Test
+	public void testFactor2() {
+		testCat("Factor.2");
 	}
 
 	@Test
@@ -391,8 +396,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testCFactor() {
-		testCat("CFactor");
+	public void testCFactor1() {
+		testCat("CFactor.1");
+	}
+
+	@Test
+	public void testCFactor2() {
+		testCat("CFactor.2");
 	}
 
 	@Test
@@ -1220,13 +1230,23 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testCIFactor() {
-		testCat("CIFactor");
+	public void testCIFactor1() {
+		testCat("CIFactor.1");
 	}
 
 	@Test
-	public void testIFactor() {
-		testCat("IFactor");
+	public void testCIFactor2() {
+		testCat("CIFactor.2");
+	}
+
+	@Test
+	public void testIFactor1() {
+		testCat("IFactor.1");
+	}
+
+	@Test
+	public void testIFactor2() {
+		testCat("IFactor.2");
 	}
 
 	@Test

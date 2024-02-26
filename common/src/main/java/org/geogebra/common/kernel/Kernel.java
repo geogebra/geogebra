@@ -31,12 +31,12 @@ import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DependentAlgo;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ArithmeticFactory;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
@@ -2624,7 +2624,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             on CAS error
 	 */
 	public String evaluateGeoGebraCAS(String casString,
-			MyArbitraryConstant arbconst) throws Throwable {
+			ArbitraryConstantRegistry arbconst) throws Throwable {
 		return evaluateGeoGebraCAS(casString, arbconst,
 				StringTemplate.numericNoLocal);
 	}
@@ -2644,7 +2644,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             on CAS error
 	 */
 	final public String evaluateGeoGebraCAS(String exp,
-			MyArbitraryConstant arbconst, StringTemplate tpl)
+			ArbitraryConstantRegistry arbconst, StringTemplate tpl)
 			throws CASException {
 		return evaluateGeoGebraCAS(exp, false, arbconst, tpl);
 	}
@@ -2664,7 +2664,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             on CAS error
 	 */
 	final public String evaluateCachedGeoGebraCAS(String exp,
-			MyArbitraryConstant arbconst) throws CASException {
+			ArbitraryConstantRegistry arbconst) throws CASException {
 		return evaluateGeoGebraCAS(exp, true, arbconst,
 				StringTemplate.numericNoLocal);
 	}
@@ -2680,7 +2680,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             when CAS failed
 	 */
 	private String evaluateGeoGebraCAS(String exp, boolean useCaching,
-			MyArbitraryConstant arbconst, StringTemplate tpl)
+			ArbitraryConstantRegistry arbconst, StringTemplate tpl)
 			throws CASException {
 		String result = null;
 		if (useCaching && hasCasCache()) {

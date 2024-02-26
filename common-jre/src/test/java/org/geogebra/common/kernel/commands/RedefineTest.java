@@ -7,6 +7,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -704,5 +705,15 @@ public class RedefineTest extends BaseUnitTest {
 		add("l={x}");
 		reload();
 		assertThat(lookup("b"), hasValue("false"));
+	}
+
+	@Test
+	public void simpleCopyShouldKeepType() {
+		add("A=(1,1)");
+		add("a:Line((0,0),A)");
+		GeoElement copy = add("b:a");
+		add("SetValue(A,(0,0))");
+		assertSame(lookup("b"), copy);
+		assertThat(copy, hasValue("?"));
 	}
 }

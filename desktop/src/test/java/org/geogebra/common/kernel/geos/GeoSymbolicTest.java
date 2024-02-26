@@ -43,6 +43,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
@@ -1263,6 +1264,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		slider.setValue(10);
 		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
 				equalTo("1 / 2 x² + 10"));
+		kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(slider, "9",
+				new EvalInfo(false), false, null, TestErrorHandler.INSTANCE);
+		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
+				equalTo("1 / 2 x² + 9"));
 	}
 
 	@Test
@@ -2248,5 +2253,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("A = Min(f, 0, 5)", "(0, 4)");
 		GeoSymbolic minCommand = getSymbolic("A");
 		assertTrue(AlgebraItem.isSymbolicDiffers(minCommand));
+	}
+
+	@Test
+	@Issue("APPS-5344")
+	public void mistypedParametricShouldFail() {
+		t("X=(1,2,3)+r(1,2,3)", "?");
+		t("X=(1,2)+s(1,2)", "(s(1, 2) + 1, 2)");
 	}
 }

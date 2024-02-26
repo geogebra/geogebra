@@ -1,5 +1,10 @@
 package org.geogebra.common.properties.impl.general;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+import java.util.Locale;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.test.TestStringUtil;
@@ -30,6 +35,14 @@ public class GeneralPropertiesTest extends BaseUnitTest {
 		rp.setIndex(5);
 		valueTextShouldBe("a", "a = 0.33333");
 		valueTextShouldBe("b", "b = 1.33333");
+	}
+
+	@Test
+	public void roundingShouldBeLocalized() {
+		RoundingIndexProperty rp = new RoundingIndexProperty(getApp(), getLocalization());
+		assertThat(rp.getValueNames()[0], equalTo("0 Decimal Place"));
+		getApp().setLocale(new Locale("de"));
+		assertThat(rp.getValueNames()[0], equalTo("0 Dezimalstelle"));
 	}
 
 	@Test

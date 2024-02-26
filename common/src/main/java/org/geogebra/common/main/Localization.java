@@ -774,62 +774,6 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * Prime notation ()' vs Leibniz notation d/dx for derivatives
-	 * 
-	 * @return whether to use prime notation
-	 */
-	public boolean primeNotation() {
-		return !languageIs("en");
-	}
-
-	/**
-	 * @param closed
-	 *            closed intercal
-	 * @param template
-	 *            template
-	 * @return interval start bracket
-	 */
-	public String intervalStartBracket(boolean closed,
-			StringTemplate template) {
-		if (closed) {
-			if (languageIs("cs")) {
-				return template.leftAngleBracket();
-			}
-
-			return template.leftSquareBracket();
-		}
-
-		if (languageIs("hu") || languageIs("fr")) {
-			return template.invertedLeftSquareBracket();
-		}
-
-		return template.leftBracket();
-	}
-
-	/**
-	 * @param closed
-	 *            closed intercal
-	 * @param template
-	 *            template
-	 * @return interval end bracket
-	 */
-	public String intervalEndBracket(boolean closed, StringTemplate template) {
-		if (closed) {
-			if (languageIs("cs")) {
-				return template.rightAngleBracket();
-			}
-
-			return template.rightSquareBracket();
-		}
-
-		if (languageIs("hu") || languageIs("fr")) {
-			return template.invertedRightSquareBracket();
-		}
-
-		return template.rightBracket();
-	}
-
-	/**
 	 * @return rounding menu items
 	 */
 	public String[] getRoundingMenu() {
