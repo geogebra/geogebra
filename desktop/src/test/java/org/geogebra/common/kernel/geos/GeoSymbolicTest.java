@@ -2167,6 +2167,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	@Issue("APPS-5428")
+	public void testFormulaStringIfCommand() {
+		assertThat(add("If(a,b,c)"), hasFormulaString("If \\left(a, b, c \\right)"));
+		assertThat(add("If(a<a+1,b,c)"), hasFormulaString("b"));
+	}
+
+	@Test
 	public void symbolicValueShouldBeUsedToComputeDescendants() {
 		GeoSymbolic a = add("a=sin(42deg)");
 		a.setSymbolicMode(false, true);
