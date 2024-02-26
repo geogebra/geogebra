@@ -51,4 +51,13 @@ public class ToolboxController {
 			}
 		});
 	}
+
+	public Runnable getRulerOnHandler() {
+		return () -> {
+			RulerPopup rulerPopup = new RulerPopup(appW);
+			rulerPopup.showAtPoint(100,100);
+		};
+	}
+
+
 }

@@ -13,6 +13,7 @@ public class ToolboxMow extends FlowPanel {
 	private ToolboxDecorator decorator;
 	private ToolboxController controller;
 	private IconButton spotlightBtn;
+	private IconButton rulerBtn;
 
 	/**
 	 * MOW toolbox
@@ -54,20 +55,6 @@ public class ToolboxMow extends FlowPanel {
 		return iconButton;
 	}
 
-	/*private void addCategoryButton(SVGResource image, List<Integer> tools) {
-		StandardButton categoryBtn = new StandardButton(image, null, 24, 24);
-		categoryBtn.addStyleName("actionButton");
-		categoryBtn.addFastClickHandler((event)
-				-> {
-			CategoryPopup popup = new CategoryPopup(appW, tools);
-			popup.show(categoryBtn.getElement().getAbsoluteRight() + 16,
-					categoryBtn.getElement().getAbsoluteTop()
-							- categoryBtn.getElement().getClientHeight() - 16);
-		});
-
-		add(categoryBtn);
-	}*/
-
 	private void addDivider() {
 		SimplePanel divider = new SimplePanel();
 		divider.setStyleName("divider");
@@ -86,6 +73,11 @@ public class ToolboxMow extends FlowPanel {
 	}
 
 	private void addRulerButton() {
+		rulerBtn = addToggleButton(ToolbarSvgResources.INSTANCE.mode_ruler(), "Ruler", "Ruler",
+				"rulerTool", controller.getRulerOnHandler(), () -> {});
+	}
 
+	public void updateRulerBtn(SVGResource image, String txt) {
+		rulerBtn.updateImgAndTxt(image, txt);
 	}
 }

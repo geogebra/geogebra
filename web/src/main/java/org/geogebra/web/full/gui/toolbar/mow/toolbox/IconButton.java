@@ -131,4 +131,9 @@ public class IconButton extends StandardButton {
 	private boolean isDisabled() {
 		return getElement().hasClassName("disabled");
 	}
+
+	public void updateImgAndTxt(SVGResource image, String txt) {
+		setIcon(image);
+		AriaHelper.setTitle(this, txt);
+	}
 }
