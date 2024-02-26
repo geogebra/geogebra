@@ -194,7 +194,7 @@ public class ExamRestrictions {
 	 * @param property A property.
 	 */
 	protected void freeze(Property property) {
-		property.freeze();
+		property.setFrozen(true);
 		if (property instanceof ValuedProperty) {
 			freezeValue((ValuedProperty) property);
 		}
@@ -206,14 +206,14 @@ public class ExamRestrictions {
 	 * @param property A property.
 	 */
 	protected void unfreeze(Property property) {
-		property.unfreeze();
+		property.setFrozen(false);
 		if (property instanceof ValuedProperty) {
 			freezeValue((ValuedProperty) property);
 		}
 	}
 
 	/**
-	 * Override to freeze the value of a property.
+	 * Override to freeze the value of a property to some fixed value.
 	 *
 	 * @param property A property whose value should be fixed during an exam.
 	 */

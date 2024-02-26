@@ -44,7 +44,7 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 
 	@Override
 	public final void setValue(S value) {
-		if (isFrozen) {
+		if (isFrozen()) {
 			return;
 		}
 		doSetValue(value);
@@ -75,12 +75,12 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 	public void freezeValue(S fixedValue) {
 		previousValue = getValue();
 		setValue(fixedValue);
-		freeze();
+		setFrozen(true);
 	}
 
 	@Override
 	public void unfreezeValue() {
-		unfreeze();
+		setFrozen(false);
 		setValue(previousValue);
 	}
 }

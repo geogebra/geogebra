@@ -11,7 +11,7 @@ public abstract class AbstractActionableProperty extends AbstractProperty implem
 
 	@Override
 	public void performAction() {
-		if (isFrozen) {
+		if (isFrozen()) {
 			return;
 		}
 		doPerformAction();

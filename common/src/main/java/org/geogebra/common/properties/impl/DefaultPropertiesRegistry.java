@@ -45,6 +45,7 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 
 	@Override
 	public void register(Property property, Object context) {
+		// TODO what if the previously registered property had registered listeners?
 		properties.put(new Key(property.getRawName(), context), property);
 		for (PropertiesRegistryListener listener : listeners) {
 			listener.propertyRegistered(property, context);

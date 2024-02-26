@@ -11,7 +11,10 @@ public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<Stri
 
 	public GlobalLanguageProperty(Localization localization,
 			PropertiesRegistry propertiesRegistry) {
-		super(localization, "Language", propertiesRegistry);
+		super(localization, "Language", null);
+		if (propertiesRegistry != null) {
+			propertiesRegistry.register(this, null); // register in global context
+		}
 		setupValues(localization);
 	}
 

@@ -13,9 +13,9 @@ public class AbstractPropertyTests extends BaseUnitTest {
 	@Test
 	public void testFreezing() {
 		DummyAbstractProperty property = new DummyAbstractProperty(getLocalization(), "Dummy");
-		property.freeze();
+		property.setFrozen(true);
 		assertTrue(property.isFrozen());
-		property.unfreeze();
+		property.setFrozen(false);
 		assertFalse(property.isFrozen());
 	}
 

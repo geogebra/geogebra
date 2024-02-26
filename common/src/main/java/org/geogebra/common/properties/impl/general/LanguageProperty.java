@@ -12,6 +12,7 @@ import com.google.j2objc.annotations.Weak;
 /**
  * Property for setting the language.
  */
+@Deprecated // use GlobalLanguageProperty instead
 public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
     @Weak

@@ -18,7 +18,7 @@ public class ProbabilityResultProperty implements Property {
 	 */
 	private PropertyResultPanel resultPanel;
 	private NumericPropertyUtil util;
-	private boolean isFrozen = false;
+	private boolean frozen = false;
 
 	/**
 	 * @param processor algebra processor
@@ -50,7 +50,7 @@ public class ProbabilityResultProperty implements Property {
 	 * @param text value of the input field
 	 */
 	public void setValue(EditableResultEntry entry, String text) {
-		if (isFrozen) {
+		if (isFrozen()) {
 			return;
 		}
 		GeoNumberValue value = util.parseInputString(text);
@@ -74,16 +74,11 @@ public class ProbabilityResultProperty implements Property {
 
 	@Override
 	public boolean isFrozen() {
-		return isFrozen;
+		return frozen;
 	}
 
 	@Override
-	public void freeze() {
-		isFrozen = true;
-	}
-
-	@Override
-	public void unfreeze() {
-		isFrozen = false;
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
 	}
 }

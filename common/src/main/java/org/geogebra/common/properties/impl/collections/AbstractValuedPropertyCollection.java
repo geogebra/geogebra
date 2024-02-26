@@ -14,7 +14,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 
 	private final T[] properties;
 	private final Set<PropertyValueObserver> observers = new HashSet<>();
-	private boolean isFrozen = false;
+	private boolean frozen = false;
 	private S previousValue = null;
 
 	AbstractValuedPropertyCollection(T[] properties) {
@@ -76,7 +76,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 
 	@Override
 	public void setValue(S value) {
-		if (isFrozen) {
+		if (isFrozen()) {
 			return;
 		}
 		callProperty(property -> property.setValue(value));
@@ -85,7 +85,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 
 	@Override
 	public void beginSetValue() {
-		if (isFrozen) {
+		if (isFrozen()) {
 			return;
 		}
 		callProperty(ValuedProperty::beginSetValue);
@@ -94,7 +94,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 
 	@Override
 	public void endSetValue() {
-		if (isFrozen) {
+		if (isFrozen()) {
 			return;
 		}
 		callProperty(ValuedProperty::endSetValue);
@@ -103,27 +103,24 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 
 	@Override
 	public boolean isFrozen() {
-		return isFrozen;
+		return frozen;
 	}
 
 	@Override
-	public void freeze() {
-		isFrozen = true;
-	}
-
-	@Override
-	public void unfreeze() {
-		isFrozen = false;
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
 	}
 
 	@Override
 	public void freezeValue(S fixedValue) {
 		previousValue = getValue();
 		setValue(fixedValue);
+		setFrozen(true);
 	}
 
 	@Override
 	public void unfreezeValue() {
+		setFrozen(false);
 		setValue(previousValue);
 	}
 }

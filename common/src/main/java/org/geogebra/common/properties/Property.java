@@ -29,7 +29,5 @@ public interface Property {
 
     boolean isFrozen();
 
-    void freeze();
-
-    void unfreeze();
+    void setFrozen(boolean frozen);
 }

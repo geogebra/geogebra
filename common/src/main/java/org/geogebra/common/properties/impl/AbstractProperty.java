@@ -11,7 +11,7 @@ public abstract class AbstractProperty implements Property {
 
 	private Localization localization;
 	private String name;
-	protected boolean isFrozen = false;
+	private boolean frozen = false;
 
 	/**
 	 * Constructs an abstract property.
@@ -55,16 +55,11 @@ public abstract class AbstractProperty implements Property {
 
 	@Override
 	public boolean isFrozen() {
-		return isFrozen;
+		return frozen;
 	}
 
 	@Override
-	public void freeze() {
-		isFrozen = true;
-	}
-
-	@Override
-	public void unfreeze() {
-		isFrozen = false;
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
 	}
 }
