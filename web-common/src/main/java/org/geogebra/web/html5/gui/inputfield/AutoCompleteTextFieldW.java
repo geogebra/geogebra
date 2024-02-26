@@ -335,6 +335,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			attachKeyboardButton(keyboardButton);
 		});
 
+		Dom.addEventListener(textField.getValueBox().getElement(), "contextmenu", (event) -> {
+			if  (app.isExam()) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		});
+
 		addContent(textField);
 		add(main);
 		textFieldController = createTextFieldController();
