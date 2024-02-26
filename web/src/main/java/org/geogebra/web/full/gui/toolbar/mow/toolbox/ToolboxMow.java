@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
@@ -60,7 +61,7 @@ public class ToolboxMow extends FlowPanel {
 							.getPanel(App.VIEW_EUCLIDIAN);
 					dp.getComponent().removeStyleName("graphicsWithSpotlight");
 					view.clearSpotlight();
-					spotlightBtn.setActive(false);
+					spotlightBtn.setActive(false, GColor.BLACK.toString());
 					appW.getEventDispatcher().removeEventListener(this);
 				}
 			}
