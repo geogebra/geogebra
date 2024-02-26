@@ -5,7 +5,6 @@ import org.geogebra.common.util.MimeType;
 import org.geogebra.common.util.StringUtil;
 
 import elemental2.core.JsArray;
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
