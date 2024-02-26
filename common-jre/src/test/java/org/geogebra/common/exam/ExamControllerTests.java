@@ -28,7 +28,6 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.junit.Before;
@@ -137,6 +136,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testStartExam() {
+		List<ExamState> listenerStates = new ArrayList<>();
+		examController.addListener(newState -> listenerStates.add(newState));
+
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamRegion.VLAANDEREN);
@@ -145,6 +147,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(examController.getFinishDate()); // not yet ended
 		assertEquals(ExamState.ACTIVE, examController.getState());
 		assertEquals(Arrays.asList(ExamState.PREPARING, ExamState.ACTIVE), examStates);
+		assertEquals(examStates, listenerStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
 	}
@@ -223,13 +226,21 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.prepareExam();
 
 		examController.startExam(ExamRegion.VLAANDEREN);
+
 		// command restrictions
 		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
+
 		// TODO commandArgumentFilters
+
 		// expression restrictions
 		assertNull(evaluate("true || false"));
-		Property angleUnit = propertiesRegistry.lookup("AngleUnit");
+
+		// property restrictions
+		AngleUnitProperty angleUnit = (AngleUnitProperty) propertiesRegistry.lookup("AngleUnit");
 		assertTrue(angleUnit.isFrozen());
+		Integer angleUnitValue = angleUnit.getValue();
+		angleUnit.setValue(angleUnitValue + 1);
+		assertEquals(angleUnitValue, angleUnit.getValue());
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
