@@ -96,9 +96,4 @@ public final class MultiuserManager implements EventListener {
 			}
 		}
 	}
-
-	@Override
-	public void reset() {
-		// not needed
-	}
 }

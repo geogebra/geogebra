@@ -10,6 +10,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 /**
@@ -27,6 +28,7 @@ public class PolynomialTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5291")
 	public void testMultiVariablesXYPolynomials() {
 		add("f(x,y)=x+y");
 		assertEquals("x + y", polynomial("f"));
@@ -35,12 +37,14 @@ public class PolynomialTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5291")
 	public void testMultiVariablesXYNonPolynomials() {
 		assertEquals("?", polynomial("(x+y)^-2"));
 		assertEquals("?", polynomial("(x+y)^(3/2)"));
 	}
 
 	@Test
+	@Issue("APPS-5291")
 	public void testMultiVariablesVarDegreePolynomials() {
 		add("k=-4");
 		GeoFunctionNVar varDegree = add("Polynomial((x+y)^k)");
@@ -55,6 +59,7 @@ public class PolynomialTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5291")
 	public void testMoreThanTwoVariablesShouldBeUndefined() {
 		add("f(x,y,z)=x+y+z");
 		GeoFunctionNVar poly = add("Polynomial(f)");
@@ -66,18 +71,21 @@ public class PolynomialTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5291")
 	public void testMultiCharVariables() {
 		add("f(abc,def)=(abc+def)^(2)");
 		assertEquals("abc\u00B2 + 2abc def + def\u00B2", polynomial("f"));
 	}
 
 	@Test
+	@Issue("APPS-5291")
 	public void testMultiVariablePolynomials() {
 		add("f(a,b)=a+b");
 		assertEquals("a + b", polynomial("f"));
 	}
 
 	@Test
+	@Issue("APPS-5291")
 	public void testExtraBrackets() {
 		assertEquals("-x y", polynomial("-x y"));
 		assertEquals("-x\u00b2 y", polynomial("-x^(2) y"));

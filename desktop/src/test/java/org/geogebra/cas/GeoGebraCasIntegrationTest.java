@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -2749,5 +2750,23 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 						+ " {Element(KL, j) * (0, 0, 1)}, {1}}, j, 1, Length(KL))");
 		t("H({(1,2,3),(4,5,6),(7,8,9)})",
 				"{{{1}, {2}, {3}, {1}}, {{4}, {5}, {6}, {1}}, {{7}, {8}, {9}, {1}}}");
+	}
+
+	@Test
+	@Issue("APPS-5344")
+	public void mistypedParametricShouldFail() {
+		t("X=(1,2,3)+r(1,2,3)", "X = ?");
+		t("X=(1,2)+s(1,2)", "X = (s(1, 2) + 1, 2)");
+	}
+
+	@Test
+	@Issue("APPS-5344")
+	public void vectorNumberAddition() {
+		t("v:=(1,2,3)", "(1,2,3)");
+		t("V:=(1,2,3)", "(1,2,3)");
+		t("5+V", "(6,7,8)");
+		t("V+5", "(6,7,8)");
+		t("5+v", "(6,7,8)");
+		t("v+5", "(6,7,8)");
 	}
 }
