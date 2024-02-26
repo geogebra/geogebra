@@ -55,8 +55,6 @@ public final class GColor implements GPaint {
 	public static final GColor PURPLE = newColor(102, 102, 255);
 	/** PURPLE A400 */
 	public static final GColor PURPLE_A400 = newColor(213, 0, 249);
-	/** PURPLE A700*/
-	public static final GColor PURPLE_A700 = newColorRGB(0x5145A8);
 	/** MOW TEXT PRIMARY */
 	public static final GColor TEXT_PRIMARY = newColor(0, 0, 0, 138);
 	/** MOW WIDGET BACKGROUND */
