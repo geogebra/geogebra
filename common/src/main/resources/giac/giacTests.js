@@ -2359,6 +2359,7 @@ var __giac = [
 { cat:"Solve", cmd:"Solve(((-a sqrt(a\u00B2 + x\u00B2) + x sqrt(a\u00B2 + x\u00B2) + x sqrt(a\u00B2 + (a - x)\u00B2)) / (sqrt(a\u00B2 + x\u00B2) sqrt(a\u00B2 + (a - x)\u00B2))),x)", result:"{x = 1 / 2 a}", notes:"Derivative of g(x):=sqrt(x^(2)+a^(2))+ sqrt((a-x)^(2)+a^(2)), Solve doesn't work, CSolve does" },
 { cat:"SolveIneq", cmd:"Solve(2x/(3x+2)<=3/(4x+1))", result:"{-1 / 4 < x \u2264 (sqrt(241) + 7) / 16, -2 / 3 < x \u2264 (-sqrt(241) + 7) / 16}|OR|{(-1/4)<x<=((\u221A241+7)/16),(-2/3)<x<=((-\u221A241+7)/16)}|OR|{x > -1 / 4 \u2227 (sqrt(241) + 7) / 16 \u2265 x, x > -2 / 3 \u2227 (-sqrt(241) + 7) / 16 \u2265 x}" },
 { cat:"Solutions", cmd:"Solutions((3^(2x)-6*3^(x))/(2*3^(x)+3)=-1  )", result:"{0, 1}" },
+{ cat:"Solutions", cmd: "Solutions({9*x^2-14*x+6*y+-587=0, 9*x^2+9*y^2-14*x-18*y-971=0},{x,y})", result:"{{-7, 8}, {77 / 9, 8}, {(2sqrt(1405) + 7) / 9, -16 / 3}, {(-2 sqrt(1405) + 7) / 9, -16 / 3}}"},
 { cat:"Eigenvalues.1", cmd:"Eigenvalues({{4,1,-2},{1,2,-1},{2,1,0}})", result:"{2, 2, 2}" },
 { cat:"Eigenvectors.1", cmd:"Eigenvectors({{4,1,-2},{1,2,-1},{2,1,0}})", result:"?|OR|{}", notes:"gives 'GIAC_ERROR: Not diagonalizable at eigenvalue 2' in JNI" },
 { cat:"JordanDiagonalization.1", cmd:"JordanDiagonalization({{4,1,-2},{1,2,-1},{2,1,0}})", result:"{{{1, 2, 1}, {0, 1, 0}, {1, 2, 0}}, {{2, 1, 0}, {0, 2, 1}, {0, 0, 2}}}" },
