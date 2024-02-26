@@ -28,7 +28,9 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
+import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -74,6 +76,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app = AppCommonFactory.create(createConfig(subApp));
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
+		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization(),
+				propertiesRegistry), app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor);
 	}
 
@@ -87,6 +91,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app = AppCommonFactory.create(createConfig(subApp));
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
+		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization(),
+				propertiesRegistry), app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor);
 	}
 
@@ -222,7 +228,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		// TODO commandArgumentFilters
 		// expression restrictions
 		assertNull(evaluate("true || false"));
-		// TODO properties
+		Property angleUnit = propertiesRegistry.lookup("AngleUnit");
+		assertTrue(angleUnit.isFrozen());
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));

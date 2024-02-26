@@ -26,20 +26,16 @@ public interface PropertiesRegistry {
 	void setCurrentContext(@NonOwning Object context);
 
 	/**
-	 * Register a property with the registry in the current context.
-	 *
-	 * If a property with the same raw name has been registered previously, the old
-	 * instance is unregistered before registering the new instance. This should prevent
-	 * issues when properties are potentially created and registered several times
-	 * (e.g., from UI that can be presented and dismissed multiple times).
+	 * Register a property with the registry in the current context. The registration key is the
+	 * property's raw (unlocalized) name.
+	 * <p/>
+	 * If a property with the same raw name has been registered previously (in the current context),
+	 * the old instance is overwritten with the new instance. This should prevent issues when
+	 * properties are potentially created and registered several times
+	 * (e.g., from UI that can be presented and dismissed multiple times while staying in the
+	 * same context).
 	 *
 	 * @param property A property.
-	 *
-	 * @implNote The registration key is the property's raw (unlocalized) name.
-	 *
-	 * @implNote The app may change (when switching calculators), and a new property
-	 * of the same type as a previously registered property may get registered, so we
-	 * probably need to register the (app, property) tuple, really.
 	 */
 	void register(Property property);
 
@@ -55,6 +51,7 @@ public interface PropertiesRegistry {
 	 * @param property A property that has previously been registered.
 	 */
 	void unregister(Property property);
+
 	/**
 	 * Same as {@link #unregister(Property)}, but using the provided context instead of the
 	 * current context.
@@ -68,6 +65,7 @@ public interface PropertiesRegistry {
 	 * @return The property if found, or null if no such property has been registered.
 	 */
 	Property lookup(String rawName);
+
 	/**
 	 * Same as {@link #lookup(String)}, but using the provided context instead of the
 	 * current context.
