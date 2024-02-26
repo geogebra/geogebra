@@ -352,13 +352,13 @@ public final class ExamController implements PropertiesRegistryListener {
 	// PropertiesRegistryListener
 
 	@Override
-	public void propertyRegistered(Property property) {
+	public void propertyRegistered(Property property, Object context) {
 		if (examRestrictions != null) {
 			examRestrictions.propertyRegistered(property);
 		}
 	}
 
 	@Override
-	public void propertyUnregistered(Property property) {
+	public void propertyUnregistered(Property property, Object context) {
 	}
 }

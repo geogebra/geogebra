@@ -46,6 +46,9 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	@Override
 	public void register(Property property, Object context) {
 		properties.put(new Key(property.getRawName(), context), property);
+		for (PropertiesRegistryListener listener : listeners) {
+			listener.propertyRegistered(property, context);
+		}
 	}
 
 	@Override
@@ -56,6 +59,9 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	@Override
 	public void unregister(Property property, Object context) {
 		properties.remove(new Key(property.getRawName(), context));
+		for (PropertiesRegistryListener listener : listeners) {
+			listener.propertyUnregistered(property, context);
+		}
 	}
 
 	@Override

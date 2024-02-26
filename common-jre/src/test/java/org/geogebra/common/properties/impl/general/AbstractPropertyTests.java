@@ -8,7 +8,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractProperty;
 import org.junit.Test;
 
-public class AbstractPropertyFreezeTests extends BaseUnitTest {
+public class AbstractPropertyTests extends BaseUnitTest {
 
 	@Test
 	public void testFreezing() {
