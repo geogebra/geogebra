@@ -43,13 +43,6 @@ public interface VendorSettings {
 	GColor getPrimaryColor();
 
 	/**
-	 * Returns the dark color.
-	 *
-	 * @return the dark color
-	 */
-	GColor getDarkColor();
-
-	/**
 	 * Transforms a localization key to the vendor specific version.
 	 *
 	 * @param key the default menu localization key

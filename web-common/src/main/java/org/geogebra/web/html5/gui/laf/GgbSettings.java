@@ -35,11 +35,6 @@ public class GgbSettings implements VendorSettings {
 	}
 
 	@Override
-	public GColor getDarkColor() {
-		return GColor.PURPLE_A700;
-	}
-
-	@Override
 	public String getMenuLocalizationKey(String key) {
 		return key;
 	}

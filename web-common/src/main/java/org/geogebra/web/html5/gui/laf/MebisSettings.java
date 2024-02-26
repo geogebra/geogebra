@@ -42,11 +42,6 @@ public class MebisSettings implements VendorSettings {
 	}
 
 	@Override
-	public GColor getDarkColor() {
-		return GColor.MEBIS_A400;
-	}
-
-	@Override
 	public String getMenuLocalizationKey(String key) {
 		return key + ".Mebis";
 	}

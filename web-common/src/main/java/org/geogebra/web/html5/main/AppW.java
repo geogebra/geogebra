@@ -3436,11 +3436,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public GColor getDarkColor() {
-		return getVendorSettings().getDarkColor();
-	}
-
-	@Override
 	public FpsProfiler getFpsProfiler() {
 		if (fpsProfiler == null) {
 			fpsProfiler = new FpsProfilerW();
