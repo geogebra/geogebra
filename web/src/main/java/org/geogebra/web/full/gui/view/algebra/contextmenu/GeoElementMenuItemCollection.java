@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.AddLabelItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.RemoveLabelItem;
@@ -17,7 +18,7 @@ public class GeoElementMenuItemCollection
 	 * Add "Add label" / "Remove label" to a menu
 	 * 
 	 */
-	public void addLabelingActions() {
-		addItems(new RemoveLabelItem(), new AddLabelItem());
+	public void addLabelingActions(Runnable actionCallback) {
+		addItems(new RemoveLabelItem(actionCallback), new AddLabelItem(actionCallback));
 	}
 }

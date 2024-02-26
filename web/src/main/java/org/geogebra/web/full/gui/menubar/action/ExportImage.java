@@ -6,10 +6,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports image.
  */
-public class ExportImage extends DefaultMenuAction<Void> {
+public class ExportImage extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		app.getActiveEuclidianView().getEuclidianController().widgetsToBackground();
 		app.getDialogManager().showExportImageDialog(null);
 	}

@@ -8,7 +8,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 /**
  * Exports SVG.
  */
-public class DownloadSvgAction extends DefaultMenuAction<Void> {
+public class DownloadSvgAction extends DefaultMenuAction<AppWFull> {
 
 	private ImageExporter imageExporter;
 
@@ -20,7 +20,7 @@ public class DownloadSvgAction extends DefaultMenuAction<Void> {
 	}
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		EuclidianViewWInterface ev = (EuclidianViewWInterface) app.getActiveEuclidianView();
 		ev.getEuclidianController().widgetsToBackground();
 		ev.getExportSVG(false, (svg) -> {

@@ -6,7 +6,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports PDF.
  */
-public class DownloadPdfAction extends DefaultMenuAction<Void> {
+public class DownloadPdfAction extends DefaultMenuAction<AppWFull> {
 
 	private ImageExporter imageExporter;
 
@@ -18,7 +18,7 @@ public class DownloadPdfAction extends DefaultMenuAction<Void> {
 	}
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		app.getGgbApi().exportPDF(1, null, (pdf) -> {
 			imageExporter.export(pdf);
 		}, null);

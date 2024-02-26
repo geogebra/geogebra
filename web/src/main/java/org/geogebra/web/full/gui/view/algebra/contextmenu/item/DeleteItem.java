@@ -13,9 +13,8 @@ public class DeleteItem extends MenuItem<GeoElement> {
 	/**
 	 * New delete action
 	 */
-	public DeleteItem() {
+	public DeleteItem(Runnable actionCallback) {
 		super("Delete",
-				MaterialDesignResources.INSTANCE.delete_black(),
-				new DeleteAction());
+				new DeleteAction(), actionCallback);
 	}
 }

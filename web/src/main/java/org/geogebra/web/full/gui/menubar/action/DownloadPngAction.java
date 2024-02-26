@@ -7,7 +7,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports PNG.
  */
-public class DownloadPngAction extends DefaultMenuAction<Void> {
+public class DownloadPngAction extends DefaultMenuAction<AppWFull> {
 
 	private AppWFull app;
 	private ImageExporter imageExporter;
@@ -21,7 +21,7 @@ public class DownloadPngAction extends DefaultMenuAction<Void> {
 	}
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		app.getActiveEuclidianView().getEuclidianController().widgetsToBackground();
 		imageExporter.export(getUrl());
 	}

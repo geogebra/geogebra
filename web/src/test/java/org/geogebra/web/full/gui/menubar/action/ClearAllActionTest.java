@@ -29,7 +29,7 @@ public class ClearAllActionTest {
 						.setAttribute("vendor", "mebis"));
 		ClearAllAction action = new ClearAllAction(true);
 		addObject("x");
-		action.execute(null, app);
+		action.execute(app);
 		app.getSaveController().cancel();
 		Assert.assertEquals(0, app.getKernel().getConstruction()
 				.getGeoSetConstructionOrder().size());
