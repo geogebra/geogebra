@@ -69,7 +69,7 @@ class EditorChecker {
 			Log.debug(e);
 			assertEquals(output, "Exception for " + exp + ":" + e);
 		}
-
+		fromParser("");
 	}
 
 	public EditorChecker checkPlaceholders(String expected) {
