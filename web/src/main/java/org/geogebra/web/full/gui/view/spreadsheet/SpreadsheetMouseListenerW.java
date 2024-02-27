@@ -475,8 +475,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		if (numberOfTouches == 1) {
 			event.stopPropagation();
 			handlePointerMove(event);
-			longTouchManager.rescheduleTimerIfRunning(this, 
-					getAbsoluteX(event), 
+			longTouchManager.rescheduleTimerIfRunning(this,
+					getAbsoluteX(event),
 					getAbsoluteY(event),
 					false);
 		} else {

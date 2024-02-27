@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
 
@@ -31,7 +31,7 @@ public class EvalInfo {
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private Predicate<String> labelFilter;
 	private RuleCollection redefinitionRule;
-	private MyArbitraryConstant constant;
+	private ArbitraryConstantRegistry constant;
 	private boolean isRedefinition = false;
 	private boolean useAnalytics;
 	private boolean forceFunctionsEnabled = false;
@@ -451,13 +451,13 @@ public class EvalInfo {
 	 * @param constant const
 	 * @return eval info
 	 */
-	public EvalInfo withArbitraryConstant(MyArbitraryConstant constant) {
+	public EvalInfo withArbitraryConstant(ArbitraryConstantRegistry constant) {
 		EvalInfo info = copy();
 		info.constant = constant;
 		return info;
 	}
 
-	public MyArbitraryConstant getArbitraryConstant() {
+	public ArbitraryConstantRegistry getArbitraryConstant() {
 		return constant;
 	}
 

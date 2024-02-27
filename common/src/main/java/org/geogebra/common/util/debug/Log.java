@@ -284,7 +284,7 @@ public abstract class Log {
 	 * @param message
 	 *            message to be printed
 	 */
-	public static void trace(String message) {
+	public static void trace(Object message) {
 		if (logger != null) {
 			logger.log(Level.TRACE, message);
 		}

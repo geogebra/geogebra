@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.ZipInputStream;
 
-import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -15,10 +14,13 @@ public final class MyXMLioCommon extends MyXMLioJre {
 	}
 
 	@Override
-	protected void readZip(ZipInputStream zip, boolean isGGTfile)
-			throws IOException, XMLParseException {
-		// TODO Auto-generated method stub
+	protected void loadSVG(String svg, String name) {
+		// not supported yet
+	}
 
+	@Override
+	protected void loadBitmap(ZipInputStream zip, String name) {
+		// not supported yet
 	}
 
 	@Override

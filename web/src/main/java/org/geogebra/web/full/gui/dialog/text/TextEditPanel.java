@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.handler.TextBuilder;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
@@ -119,20 +120,6 @@ public class TextEditPanel extends FlowPanel
 	@Override
 	public void updatePreviewPanel() {
 		updatePreviewPanel(false);
-	}
-
-	/**
-	 * Replaces _ to its unicode identifier on MOW
-	 * @param app - The application.
-	 * @param input - The text input.
-	 * @param latex - true if text is LaTeX.
-	 * @return the processed text.
-	 */
-	public static String handleUnderscores(App app, String input, boolean latex) {
-		if (app.isWhiteboardActive() && !latex) {
-			return input.replace("_", "\uFF3F");
-		}
-		return input;
 	}
 
 	@Override
@@ -323,14 +310,8 @@ public class TextEditPanel extends FlowPanel
 	 * Apply style to text
 	 * @param t - text to be updated
 	 */
-	public void updateTextStyle(GeoText t) {
-		t.setLaTeX(isLatex(), true);
-		t.setFontStyle(getFontStyle());
-		t.setSerifFont(isSerif());
-		// make sure for new LaTeX texts we get nice "x"s
-		if (isLatex()) {
-			t.setSerifFont(true);
-		}
+	public void updateTextStyle(TextBuilder t) {
+		t.setStyle(getFontStyle(), isSerif());
 	}
 
 	@Override
@@ -342,7 +323,7 @@ public class TextEditPanel extends FlowPanel
 		String inputValue = dTProcessor
 				.buildGeoGebraString(editor.getDynamicTextList(), isLatex());
 		boolean isLaTeX = previewer.updatePreviewText(editGeo,
-				handleUnderscores(app, inputValue, false), isLatex(),
+				inputValue, isLatex(),
 				byUser && mayDetectLaTeX);
 		if (!wasLaTeX && isLaTeX) {
 			btnLatex.setSelected(true);

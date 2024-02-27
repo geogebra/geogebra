@@ -12,9 +12,15 @@ public final class AccessibilityManagerNoGui
 		implements AccessibilityManagerInterface {
 
 	private final App app;
+	private final AltTextTimer timer;
 
+	/**
+	 * @param app application
+	 */
 	public AccessibilityManagerNoGui(App app) {
 		this.app = app;
+		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader(),
+				app.getLocalization());
 	}
 
 	@Override
@@ -91,7 +97,10 @@ public final class AccessibilityManagerNoGui
 
 	@Override
 	public void readSliderUpdate(GeoNumeric geo) {
-		// not used
+		if (!app.getKernel().getConstruction().isFileLoading()
+				&& !geo.isAnimating()) {
+			timer.feed(geo);
+		}
 	}
 
 }

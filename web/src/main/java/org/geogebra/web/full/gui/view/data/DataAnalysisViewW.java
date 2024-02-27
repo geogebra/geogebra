@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.SplitLayoutPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-public class DataAnalysisViewW extends FlowPanel implements View, 
+public class DataAnalysisViewW extends FlowPanel implements View,
 		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener,
 		PrintableW {
 	private AppW app;
@@ -305,7 +305,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		}
 
 		deferredDataPanelOnResize();
-	} 
+	}
 
 	public DataAnalysisControllerW getDaCtrl() {
 		return daCtrl;

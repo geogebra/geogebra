@@ -969,10 +969,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			hiddenTextArea.setId("hiddenCopyPasteLatexArea" + counter);
 			hiddenTextArea.getStyle().setOpacity(0);
 			clipDiv.getStyle().setZIndex(-32000);
-			//* although clip is for absolute position, necessary! 
-			//* as it is deprecated, may cause CSS challenges later 
+			// although clip is for absolute position, necessary!
+			// as it is deprecated, may cause CSS challenges later
 			clipDiv.getStyle().setProperty("clip", "rect(1em 1em 1em 1em)");
-			//* top/left will be specified dynamically, depending on scrollbar
+			// top/left will be specified dynamically, depending on scrollbar
 			clipDiv.getStyle().setHeight(1, Unit.PX);
 			clipDiv.getStyle().setWidth(1, Unit.PX);
 			clipDiv.getStyle().setPosition(Position.RELATIVE);

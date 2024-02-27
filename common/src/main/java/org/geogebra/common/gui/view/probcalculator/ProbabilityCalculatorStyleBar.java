@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.view.probcalculator;
 
-import org.geogebra.common.gui.menubar.OptionsMenu;
+import org.geogebra.common.gui.menubar.RoundingOptions;
 import org.geogebra.common.main.App;
 
 /**
@@ -14,7 +14,7 @@ public abstract class ProbabilityCalculatorStyleBar {
 
 	/** probabililty calculator */
 	private ProbabilityCalculatorView probCalc;
-	private OptionsMenu optionsMenu;
+	private RoundingOptions roundingOptions;
 
 	/**
 	 * @param app
@@ -26,7 +26,7 @@ public abstract class ProbabilityCalculatorStyleBar {
 			ProbabilityCalculatorView probCalc) {
 		this.probCalc = probCalc;
 		this.app = app;
-		this.setOptionsMenu(new OptionsMenu(app.getLocalization()));
+		this.setOptionsMenu(new RoundingOptions(app.getLocalization()));
 	}
 
 	protected App getApp() {
@@ -40,12 +40,12 @@ public abstract class ProbabilityCalculatorStyleBar {
 		return probCalc;
 	}
 
-	protected OptionsMenu getOptionsMenu() {
-		return optionsMenu;
+	protected RoundingOptions getOptionsMenu() {
+		return roundingOptions;
 	}
 
-	protected void setOptionsMenu(OptionsMenu optionsMenu) {
-		this.optionsMenu = optionsMenu;
+	protected void setOptionsMenu(RoundingOptions roundingOptions) {
+		this.roundingOptions = roundingOptions;
 	}
 
 }

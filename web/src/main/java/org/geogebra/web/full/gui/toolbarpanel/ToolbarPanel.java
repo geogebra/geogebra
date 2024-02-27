@@ -27,13 +27,13 @@ import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.SpreadsheetTab;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
-import org.geogebra.web.full.gui.util.Domvas;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
@@ -1348,22 +1348,17 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * Paint this on canvas
 	 * @param context2d context
-	 * @param callback after painting is done
+	 * @param counter decrease after painting is done
 	 * @param left distance from left canvas edge
 	 * @param top distance from top canvas edge
 	 */
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		navRail.paintToCanvas(context2d, left, top);
 		// if tool tabs is active, still paint algebra
 		ToolbarTab active = getSelectedTabId() == TabIds.TABLE
 				? getTab(TabIds.TABLE) : getTab(TabIds.ALGEBRA);
-		active.getElement().addClassName("ggbScreenshot");
-		Domvas.get().toImage(active.getElement(), (image) -> {
-			context2d.drawImage(image, left + 72, top);
-			active.getElement().removeClassName("ggbScreenshot");
-			callback.run();
-		});
+		active.paintToCanvas(context2d, counter, left + 72, top);
 	}
 
 	public void setAVIconNonSelect(boolean exam) {

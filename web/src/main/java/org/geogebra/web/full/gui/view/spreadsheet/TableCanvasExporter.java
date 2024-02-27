@@ -38,7 +38,7 @@ public class TableCanvasExporter {
 	 * @param offsetHeight parent panel height
 	 * @param context2d context
 	 */
-	public TableCanvasExporter(MyTableW table, AppW app, int offsetWidth, int offsetHeight, 
+	public TableCanvasExporter(MyTableW table, AppW app, int offsetWidth, int offsetHeight,
 			CanvasRenderingContext2D context2d) {
 		this.table = table;
 		this.app = app;

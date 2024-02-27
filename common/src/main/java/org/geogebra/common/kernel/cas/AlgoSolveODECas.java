@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -27,7 +27,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	private GeoPointND pt;
 	private String oldCASstring;
 	private boolean nocas = false;
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 
 	/**
 	 * @param cons
@@ -165,8 +165,8 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		}
 	}
 
-	private MyArbitraryConstant getSilentArbConst() {
-		return new MyArbitraryConstant(this) {
+	private ArbitraryConstantRegistry getSilentArbConst() {
+		return new ArbitraryConstantRegistry(this) {
 			@Override
 			protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
 					Map<Integer, GeoNumeric> map, String prefix,

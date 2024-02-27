@@ -79,5 +79,5 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
             this.subImage = subimage;
             this.rect = rect;
         }
-    } 
+    }
 }

@@ -12,8 +12,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
 
+import org.geogebra.common.jre.io.StreamUtil;
 import org.geogebra.desktop.util.LoggerD;
-import org.geogebra.desktop.util.UtilD;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.svg.SVGDocument;
 
@@ -40,7 +40,7 @@ public final class JSVGImageBuilder {
 	 */
 	public static SVGImage fromFile(File file) throws IOException {
 		FileInputStream is = new FileInputStream(file);
-		String content = UtilD.loadIntoString(is);
+		String content = StreamUtil.loadIntoString(is);
 		is.close();
 		return fromContent(content);
 	}
