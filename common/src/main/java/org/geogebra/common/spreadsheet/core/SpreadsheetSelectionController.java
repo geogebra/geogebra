@@ -5,12 +5,13 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+// TODO this should be directly unit-tested (not just indirectly via SpreadsheetController)
 final class SpreadsheetSelectionController {
 	private final ArrayList<Selection> selections = new ArrayList<>();
 
-	void setDimensions(int numberOfRows, int numberOfColumns) {
-		// stub
-	}
+//	void setDimensions(int numberOfRows, int numberOfColumns) {
+//		// stub
+//	}
 
 	 void clearSelection() {
 		selections.clear();

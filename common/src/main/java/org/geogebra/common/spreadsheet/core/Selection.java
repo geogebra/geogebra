@@ -12,6 +12,7 @@ import java.util.List;
  * Similarly, if toCol is less than fromCol, the selection handle is on
  * the left edge of the selection rangle, and on the right edge otherwise.
  */
+// TODO this should be directly unit-tested (not just indirectly via SpreadsheetController)
 final class Selection {
 
 	private final TabularRange range;
