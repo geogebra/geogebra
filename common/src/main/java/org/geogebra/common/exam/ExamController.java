@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
@@ -232,6 +233,7 @@ public final class ExamController implements PropertiesRegistryListener {
 			throw new IllegalStateException("expected to be in IDLE state, but is " + state);
 		}
 		setState(ExamState.PREPARING);
+		// save current material and restore after exit?
 	}
 
 	/**
@@ -248,13 +250,17 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 		this.examType = examType;
 		applyRestrictions(examType, activeDependencies);
+
+		tempStorage.clearTempMaterials();
+		Material material = tempStorage.newMaterial();
+
 		if (delegate != null) {
 			delegate.requestClearApps();
 			delegate.requestClearClipboard();
+			delegate.requestSetActiveMaterial(material);
 		}
-		tempStorage.clearTempMaterials();
-		cheatingEvents = new CheatingEvents();
 
+		cheatingEvents = new CheatingEvents();
 		startDate = new Date();
 		setState(ExamState.ACTIVE); // TODO suppress syntax in CommandErrorMessageBuilder
 	}
@@ -286,6 +292,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (delegate != null) {
 			delegate.requestClearApps();
 			delegate.requestClearClipboard();
+//			delegate.requestSetActiveMaterial(); ?? create new empty material?
 		}
 		startDate = finishDate = null;
 		setState(ExamState.IDLE);

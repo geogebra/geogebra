@@ -27,6 +27,7 @@ import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
@@ -45,9 +46,10 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private AlgebraProcessor previousAlgebraProcessor;
 	private SuiteSubApp currentSubApp;
 	private List<ExamState> examStates = new ArrayList<>();
-	private boolean didRequestClearApps = false;
-	private boolean didRequestClearClipboard = false;
-	private SuiteSubApp didRequestSwitchToSubApp = null;
+	private boolean didRequestClearApps;
+	private boolean didRequestClearClipboard;
+	private SuiteSubApp didRequestSwitchToSubApp;
+	private Material activeMaterial;
 
 	@Before
 	public void setUp() {
@@ -66,6 +68,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
 		didRequestSwitchToSubApp = null;
+		activeMaterial = null;
 	}
 
 	// Helpers
@@ -132,6 +135,10 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(examController.getFinishDate()); // not yet ended
 		assertEquals(ExamState.PREPARING, examController.getState());
 		assertEquals(Arrays.asList(ExamState.PREPARING), examStates);
+		assertFalse(didRequestClearApps);
+		assertFalse(didRequestClearClipboard);
+		assertNull(didRequestSwitchToSubApp);
+		assertNull(activeMaterial);
 	}
 
 	@Test
@@ -150,6 +157,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(examStates, listenerStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
+		assertNull(didRequestSwitchToSubApp);
+		assertNotNull(activeMaterial);
 	}
 
 	@Test
@@ -177,6 +186,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				ExamState.PREPARING,
 				ExamState.ACTIVE,
 				ExamState.FINISHED), examStates);
+		assertNull(activeMaterial);
 	}
 
 	@Test
@@ -200,6 +210,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				ExamState.IDLE), examStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
+		assertNull(didRequestSwitchToSubApp);
+		assertNull(activeMaterial);
 	}
 
 	// Restrictions
@@ -282,5 +294,10 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		if (!subApp.equals(currentSubApp)) {
 			switchApp(subApp);
 		}
+	}
+
+	@Override
+	public void requestSetActiveMaterial(Material material) {
+		activeMaterial = material;
 	}
 }

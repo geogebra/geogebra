@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+@Deprecated
 public enum Translation {
     EXAM_MODE,
     OK,
