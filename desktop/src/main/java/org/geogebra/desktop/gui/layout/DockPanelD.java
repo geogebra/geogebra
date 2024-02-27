@@ -923,11 +923,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * Update fonts.
 	 */
 	public void updateFonts() {
-		if (hasFocus && dockManager.hasFullFocusSystem()) {
-			titleLabel.setFont(app.getBoldFont());
-		} else {
-			titleLabel.setFont(app.getPlainFont());
-		}
+		setTitleLabelFocus();
 		updateIcons();
 	}
 
