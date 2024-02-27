@@ -739,7 +739,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 			if (newMode == EuclidianConstants.MODE_RULER
-					|| newMode == EuclidianConstants.MODE_PROTRACTOR) {
+					|| newMode == EuclidianConstants.MODE_PROTRACTOR
+					|| newMode == EuclidianConstants.MODE_TRIANGLE_PROTRACTOR) {
 				app.setMode(mode, ModeSetter.DOCK_PANEL);
 				return;
 			}

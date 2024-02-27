@@ -58,6 +58,4 @@ public class ToolboxController {
 			rulerPopup.showAtPoint(100,100);
 		};
 	}
-
-
 }

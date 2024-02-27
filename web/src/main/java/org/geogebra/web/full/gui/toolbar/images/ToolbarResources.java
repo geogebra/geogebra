@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.images;
 
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 @SuppressWarnings("javadoc")
@@ -296,4 +297,6 @@ public interface ToolbarResources {
 	ResourcePrototype mode_ruler();
 
 	ResourcePrototype mode_protractor();
+
+	ResourcePrototype mode_triangle_protractor();
 }

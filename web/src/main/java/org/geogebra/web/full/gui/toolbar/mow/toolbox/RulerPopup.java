@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
 
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -23,6 +24,10 @@ public class RulerPopup extends GPopupMenuW {
 
 		addItem(ToolbarSvgResources.INSTANCE.mode_protractor(),
 				getApp().getLocalization().getMenu("Protractor"), MODE_PROTRACTOR);
+
+		addItem(ToolbarSvgResources.INSTANCE.mode_protractor(),
+				getApp().getLocalization().getMenu("Triangle Protractor"),
+				MODE_TRIANGLE_PROTRACTOR);
 	}
 
 	private void addItem(SVGResource image, String text, int mode) {
