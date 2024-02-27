@@ -4,12 +4,7 @@ package org.geogebra.common.spreadsheet.core;
  * Class to convert TabularData to string.
  * Format: colunms are separated by \t and rows are separated by \n .
  */
-public final class TabularContent {
-	private final TabularData tabularData;
-
-	public TabularContent(TabularData tabularData) {
-		this.tabularData = tabularData;
-	}
+public final class TabularDataFormatter {
 
 	/**
 	 * Converts the range of cell values to a separated string
@@ -18,7 +13,7 @@ public final class TabularContent {
 	 * @param range to convert.
 	 * @return the string representation.
 	 */
-	String toString(TabularRange range) {
+	public static String format(TabularData tabularData, TabularRange range) {
 		StringBuilder sb = new StringBuilder();
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {

@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 public interface ViewportAdjustmentHandler {
 
+	// TODO I think all UI positions/sizes/rects should be float-valued
 	void setScrollPosition(int x, int y);
 
 	/**

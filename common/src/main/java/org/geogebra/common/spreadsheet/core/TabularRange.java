@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.Kernel;
  * For example TabularRange(2, 1, 5, 7) means an 3x6 sized area
  * begins from row 2 column 1 and ends at row 5 column 7
  */
-public class TabularRange {
+public final class TabularRange {
 	private final int anchorColumn;
 	private final int anchorRow;
 	private final int minColumn;
@@ -41,7 +41,7 @@ public class TabularRange {
 	/**
 	 * @param anchorRow anchor row
 	 * @param anchorColumn anchor column
-	 * @param row2 end row
+	 * @param row2 end row // TODO naming: provide meaningful name
 	 * @param col2 end column
 	 */
 	public TabularRange(int anchorRow, int anchorColumn, int row2, int col2) {
@@ -137,6 +137,7 @@ public class TabularRange {
 	}
 
 	/**
+	 * // TODO use the right types: don't use a (geometric) Point data type to represent row/column pairs
 	 * @param location point (column, row)
 	 * @return whether given point is part of this range
 	 */
@@ -173,6 +174,7 @@ public class TabularRange {
 	 *            whether to sort by column
 	 * @return list of all coords in the range
 	 */
+	// TODO visibility: does this really have to be public?
 	public ArrayList<GPoint> toCellList(boolean scanByColumn) {
 
 		ArrayList<GPoint> list = new ArrayList<>();
@@ -224,6 +226,7 @@ public class TabularRange {
 	/**
 	 * @return list of single column ranges that cover this range
 	 */
+	// TODO visibility: does this really have to be public?
 	public ArrayList<TabularRange> toPartialColumnList() {
 		ArrayList<TabularRange> list = new ArrayList<>();
 
@@ -269,6 +272,8 @@ public class TabularRange {
 	 * @param range other range
 	 * @return new range if this and the other range could be merged, null otherwise
 	 */
+	// TODO naming: Is there maybe a more specific name for this kind of merge operation?
+	//  ("merge" sounds very general -- I wouldn't have guessed what "merge" means here).
 	public @CheckForNull TabularRange merge(TabularRange range) {
 		if (minColumn == range.minColumn && maxColumn == range.maxColumn) {
 			if ((range.minRow >= minRow && range.minRow <= maxRow + 1)
@@ -346,8 +351,22 @@ public class TabularRange {
 	 * @param other other range
 	 * @return whether both ranges cover the same part of spreadsheet, ignoring their direction
 	 */
-	public boolean isEqualCells(TabularRange other) {
-		return minColumn == other.minColumn && maxColumn == other.maxColumn
-				&& minRow == other.minRow && maxRow == other.maxRow;
+	// TODO There is an API for equality in Java: Object.equals(), see below
+//	public boolean isEqualCells(TabularRange other) {
+//		return minColumn == other.minColumn && maxColumn == other.maxColumn
+//				&& minRow == other.minRow && maxRow == other.maxRow;
+//	}
+
+	// TODO This type has to implement equals() in a sensible way, probably like so:
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TabularRange)) {
+			return false;
+		}
+		TabularRange other = (TabularRange) obj;
+		return minColumn == other.minColumn
+				&& maxColumn == other.maxColumn
+				&& minRow == other.minRow
+				&& maxRow == other.maxRow;
 	}
 }

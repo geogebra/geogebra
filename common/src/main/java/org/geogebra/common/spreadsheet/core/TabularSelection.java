@@ -1,5 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
+// TODO design: Surprisingly, this is implemented by SpreadsheetController, but not SpreadsheetSelectionController.
+// TODO naming: This type does not represent a tabular selection.
+//  But I don't think we need this interface at all, so I'd remove it.
 interface TabularSelection {
 
 	void clearSelection();
@@ -13,7 +16,7 @@ interface TabularSelection {
 	 */
 	void selectColumn(int column, boolean extend, boolean addSelection);
 
-	boolean select(TabularRange selection, boolean extend, boolean addSelection);
+	void select(TabularRange selection, boolean extend, boolean addSelection);
 
 	void selectAll();
 }

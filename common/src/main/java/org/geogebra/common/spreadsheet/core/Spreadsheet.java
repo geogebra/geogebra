@@ -177,9 +177,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.handleKeyPressed(keyCode, key, modifiers);
 	}
 
-	public SpreadsheetController getController() {
-        return controller;
-	}
+	// TODO check where this is needed / why this is here (don't expose internals)
+//	public SpreadsheetController getController() {
+//        return controller;
+//	}
 
 	@Override
 	public void tabularDataDidChange(int row, int column) {
@@ -195,7 +196,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public MouseCursor getCursor(int x, int y) {
-		return controller.getDragAction(x, y).activeCursor;
+		return controller.getDragAction(x, y).cursor;
 	}
 
 	public double getTotalWidth() {

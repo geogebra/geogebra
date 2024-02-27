@@ -17,8 +17,11 @@ public class SpreadsheetControllerTest {
     private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
+    // TODO testing: I think it's better/safer to create a new instance of the system under test
+    // *for each test case*. This way, you cannot run into test interdependencies (a situation where
+    // one test depends on the final state of another test).
     private final SpreadsheetController controller =
-            new SpreadsheetController(new TestTabularData(), null);
+            new SpreadsheetController(new TestTabularData());
     private Rectangle viewport;
 
     @Before
@@ -45,6 +48,22 @@ public class SpreadsheetControllerTest {
         fakeRightArrowPress();
         assertNotEquals(0, viewport.getMinX(), 0);
     }
+
+	// TODO testing: all the selection logic tests should go into a SpreadsheetSelectionControllerTests
+	@Test
+	public void testMove() {
+		controller.selectCell(1, 1, false, false);
+		Selection initialSelection = controller.getLastSelection();
+
+		// TODO It would be better to test a scenario where the start and end states are different.
+		// Otherwise this test would succeed even if moveXx didn't do anything at all.
+		controller.moveRight(false);
+		controller.moveDown(false);
+		controller.moveLeft(false);
+		controller.moveUp(false);
+
+		assertEquals(initialSelection, Selection.getSingleCellSelection(1, 1));
+	}
 
     @Test
     public void testViewportIsAdjustedRightwardsWithMouseClick() {

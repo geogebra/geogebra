@@ -6,7 +6,9 @@ import org.geogebra.common.util.shape.Rectangle;
  * A utility class designed to adjust the viewport if a cell, row, or column that is not fully
  * visible is clicked
  */
-public class ViewportAdjuster {
+// TODO testing: This class contains a lot of tricky logic, so it should be directly unit-tested
+//  (not just indirectly via SpreadsheetController).
+public final class ViewportAdjuster {
 
 	private final TableLayout layout;
 	private final ViewportAdjustmentHandler viewportAdjustmentHandler;
