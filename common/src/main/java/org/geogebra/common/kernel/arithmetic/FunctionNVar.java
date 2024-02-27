@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -20,7 +23,6 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
@@ -50,7 +52,7 @@ import com.google.j2objc.annotations.Weak;
  * @author Markus Hohenwarter + mathieu
  */
 public class FunctionNVar extends ValidExpression
-		implements FunctionalNVar, VarString {
+		implements FunctionalNVar {
 
 	/** function expression */
 	protected ExpressionNode expression;
@@ -76,9 +78,6 @@ public class FunctionNVar extends ValidExpression
 	private boolean forceInequality;
 
 	private final static class RandomCheck implements Inspecting {
-		protected RandomCheck() {
-			// make this visible
-		}
 
 		@Override
 		public boolean check(ExpressionValue v) {
@@ -286,6 +285,19 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	/**
+	 * Sorts function variables in the same order as the other function
+	 * @param other function used as template for var ordering
+	 */
+	public void sortFunctionVariables(FunctionNVar other) {
+		ArrayList<String> otherVars = new ArrayList<>();
+		for (FunctionVariable fv : other.getFunctionVariables()) {
+			otherVars.add(fv.getSetVarString());
+		}
+		Arrays.sort(fVars, Comparator.comparing(var ->
+				otherVars.indexOf(var.getSetVarString())));
+	}
+
+	/**
 	 * Appends varstring to the builder
 	 * 
 	 * @param sb
@@ -336,9 +348,7 @@ public class FunctionNVar extends ValidExpression
 	public boolean initFunction(EvalInfo info) {
 
 		// replace function variables in tree
-		for (int i = 0; i < fVars.length; i++) {
-			FunctionVariable fVar = fVars[i];
-
+		for (FunctionVariable fVar : fVars) {
 			// look for Variable objects with name of function variable and
 			// replace them
 			// x, y got polynomials while parsing
@@ -630,7 +640,7 @@ public class FunctionNVar extends ValidExpression
 
 		// substitute % by expString in ggbCasCmd
 		String casString = ggbCasCmd.replaceAll("%", expString);
-		FunctionNVar resultFun = null;
+		FunctionNVar resultFun;
 
 		// eval with CAS
 		try {
@@ -1097,8 +1107,7 @@ public class FunctionNVar extends ValidExpression
 			if (left instanceof MyDouble && left.isConstant()) {
 				MyDouble num = (MyDouble) left;
 				double temp;
-				switch (en.getOperation()) {
-				case MULTIPLY:
+				if (en.isOperation(Operation.MULTIPLY)) {
 					temp = num.getDouble() / vx;
 					if (DoubleUtil.isEqual(1, temp)) {
 						expression = expression.replace(en, fVars[varNo])
@@ -1106,9 +1115,7 @@ public class FunctionNVar extends ValidExpression
 					} else {
 						num.set(temp);
 					}
-					return;
-
-				default:
+				} else {
 					en.setRight(multXnode(vx, varNo));
 				}
 			} else {

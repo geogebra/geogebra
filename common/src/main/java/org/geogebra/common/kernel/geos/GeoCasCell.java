@@ -2106,9 +2106,7 @@ public class GeoCasCell extends GeoElement
 					.doProcessValidExpression(copy,
 							new EvalInfo(false).withSimplifying(false));
 			if (ggbEval != null) {
-				if (ggbEval[0] instanceof GeoLine) {
-					((GeoLine) ggbEval[0]).setToUser();
-				}
+				updateTwinProperties(ggbEval[0]);
 				if (!allowFunction && (ggbEval[0] instanceof FunctionalNVar)
 						&& !wasFunction) {
 					return null;
@@ -2128,6 +2126,17 @@ public class GeoCasCell extends GeoElement
 		} finally {
 			kernel.setSilentMode(oldValue);
 			cons.registerFunctionVariable(null);
+		}
+	}
+
+	private void updateTwinProperties(GeoElement newTwin) {
+		if (newTwin instanceof GeoLine) {
+			((GeoLine) newTwin).setToUser();
+		} else if (newTwin instanceof GeoFunctionNVar && inputVE instanceof FunctionNVar) {
+			FunctionNVar function = ((GeoFunctionNVar) newTwin).getFunction();
+			if (function != null) {
+				function.sortFunctionVariables((FunctionNVar) inputVE);
+			}
 		}
 	}
 
