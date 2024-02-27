@@ -2,12 +2,12 @@ package org.geogebra.common.euclidian.draw;
 
 import static org.junit.Assert.assertEquals;
 
-import org.geogebra.common.euclidian.BaseControllerTest;
+import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.junit.Test;
 
-public class DrawImageTest extends BaseControllerTest {
+public class DrawImageTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void translateShouldNotFixateCorners() {

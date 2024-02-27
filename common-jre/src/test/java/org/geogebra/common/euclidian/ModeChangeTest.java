@@ -7,7 +7,7 @@ import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.junit.Test;
 
-public class ModeChangeTest extends BaseControllerTest {
+public class ModeChangeTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void previewPointsShouldBeRemovedOnCancel() {

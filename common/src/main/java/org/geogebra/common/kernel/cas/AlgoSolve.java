@@ -7,12 +7,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.traversing.DegreeVariableChecker;
@@ -35,7 +35,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	private GeoList solutions;
 	private GeoElement equations;
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 	private Commands type;
 	private GeoElement hint;
 

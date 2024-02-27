@@ -30,6 +30,11 @@ public class GeoScriptRunner implements EventListener {
 		if (script == null) {
 			return;
 		}
+
+		if (app.getEventDispatcher().isDisabled(script.getType())) {
+			return;
+		}
+
 		if (evt.type != EventType.CLICK) {
 			if (app.isBlockUpdateScripts() && !evt.isAlwaysDispatched()) {
 				return;
@@ -65,10 +70,5 @@ public class GeoScriptRunner implements EventListener {
 		if (eventsDuringClick) {
 			app.storeUndoInfo();
 		}
-	}
-
-	@Override
-	public void reset() {
-		// Nothing to do here as the script are removed with the geos.
 	}
 }

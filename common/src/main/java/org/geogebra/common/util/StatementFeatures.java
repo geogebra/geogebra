@@ -420,7 +420,7 @@ class StatementFeatures {
 
 		StringBuilder digraph = new StringBuilder("digraph dependencies { ");
 		Iterator<ArrayList<GeoElement>> it2 = deps.iterator();
-		digraph.append(statement.getLabelSimple()); 
+		digraph.append(statement.getLabelSimple());
 		digraph.append("_");
 		digraph.append(nodeComplexity.get(statement));
 		digraph.append(" [style=filled]; ");

@@ -97,7 +97,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
 					updateTrigConic(conic, coefX, coefY, coefZ);
 					conic.toParametric(fv[0].getSetVarString());
-					conic.setDefinition(buildParamEq(exp));
+					conic.setDefinition(buildParamEq(exp, label));
 					conic.setLabel(label);
 
 					return new GeoElement[] { conic };
@@ -135,6 +135,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 									coefZ[1].evaluateDouble() });
 					line.setCoord(start, v);
 					line.setToParametric(fv[0].getSetVarString());
+					line.setDefinition(buildParamEq(exp, label));
 					if (info.isLabelOutput()) {
 						line.setLabel(label);
 					}
@@ -162,7 +163,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
 					updateParabola(conic, coefX, coefY, coefZ);
 					conic.toParametric(fv[0].getSetVarString());
-					conic.setDefinition(buildParamEq(exp));
+					conic.setDefinition(buildParamEq(exp, label));
 					conic.setLabel(label);
 					return new GeoElement[] { conic };
 				}
@@ -193,7 +194,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			ExpressionValue[] coefZ, String label, FunctionVariable fv0,
 			boolean trig) {
 		AlgoDependentConic3D ellipseHyperbolaAlgo = new AlgoDependentConic3D(
-				cons, buildParamEq(exp), coefX, coefY, coefZ, trig);
+				cons, buildParamEq(exp, label), coefX, coefY, coefZ, trig);
 		ellipseHyperbolaAlgo.getConic3D().setLabel(label);
 		ellipseHyperbolaAlgo.getConic3D().toParametric(fv0.getSetVarString());
 		return new GeoElement[] { ellipseHyperbolaAlgo.getConic3D() };

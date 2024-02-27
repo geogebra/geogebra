@@ -38,7 +38,7 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 	 *            controller
 	 */
 	public InputDialogRotateW(AppW app, DialogData data,
-			InputHandler handler, GeoPolygon[] polys, 
+			InputHandler handler, GeoPolygon[] polys,
 			GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), data,
 				DEFAULT_ROTATE_ANGLE, handler, false);

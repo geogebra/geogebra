@@ -2,6 +2,7 @@ package org.geogebra.desktop.gui.menubar;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.util.function.Consumer;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
@@ -29,14 +30,13 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 	}
 
 	/**
-	 * @param alistener listener
+	 * @param listener listener
 	 * @param items items
-	 * @param actionCommands commands
 	 * @param selectedPos selected position
 	 * @param changeText whether to translate the options
 	 */
-	public void addRadioButtonMenuItems(final OptionsMenuD alistener,
-			String[] items, String[] actionCommands, int selectedPos,
+	public void addRadioButtonMenuItems(final Consumer<Integer> listener,
+			String[] items, int selectedPos,
 			boolean changeText) {
 
 		JRadioButtonMenuItem mi;
@@ -55,8 +55,8 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 				if (i == selectedPos) {
 					mi.setSelected(true);
 				}
-				mi.setActionCommand(actionCommands[i]);
-				mi.addActionListener(alistener);
+				final int index = i;
+				mi.addActionListener(evt -> listener.accept(index));
 
 				buttonGroup.add(mi);
 				add(mi);

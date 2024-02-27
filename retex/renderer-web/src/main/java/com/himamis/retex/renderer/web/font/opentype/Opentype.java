@@ -195,7 +195,7 @@ public class Opentype implements FontLoaderWrapper {
 
 	private void ensureMapExists() {
 		if (Js.isFalsy(OpentypeFontMap.map)) {
-			OpentypeFontMap.map = Js.uncheckedCast(JsPropertyMap.of());
+			OpentypeFontMap.map = JsPropertyMap.of();
 		}
 	}
 

@@ -156,11 +156,6 @@ public class ZoomPanelMow extends FlowPanel
 					appW.getEventDispatcher().removeEventListener(this);
 				}
 			}
-
-			@Override
-			public void reset() {
-				// not needed
-			}
 		});
 		ClickStartHandler.init(spotlightOffBtn, new ClickStartHandler() {
 			@Override

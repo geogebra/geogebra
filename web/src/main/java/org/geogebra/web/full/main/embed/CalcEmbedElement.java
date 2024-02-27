@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -10,13 +11,18 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.EmbedManagerW;
+import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 
 import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.Js;
 
 /**
  * Embedded GeoGebra calculator for Notes
@@ -77,8 +83,12 @@ public class CalcEmbedElement extends EmbedElement {
 	}
 
 	@Override
-	public void setJsEnabled(boolean jsEnabled) {
+	public void setJsEnabled(boolean jsEnabled, boolean runningEnabled) {
+
 		frame.getApp().getScriptManager().setJsEnabled(jsEnabled);
+
+		frame.getApp().getEventDispatcher().disableScriptType(ScriptType.JAVASCRIPT);
+
 		GuiManagerW guiManager = frame.getApp().getGuiManager();
 		if (guiManager != null) {
 			guiManager.updatePropertiesView();
@@ -210,5 +220,16 @@ public class CalcEmbedElement extends EmbedElement {
 
 	public GeoGebraFrameFull getFrame() {
 		return frame;
+	}
+
+	@Override
+	public void drawPreview(GGraphics2D g2, int width, int height, double angle) {
+		HTMLCanvasElement canvas = Js.uncheckedCast(DomGlobal.document.createElement("canvas"));
+		canvas.width = width;
+		canvas.height = height;
+		frame.getApp().getGuiManager().getLayout()
+				.getDockManager().paintPanels(canvas, null, 1);
+
+		((GGraphics2DW) g2).drawImage(canvas, 0, 0, width, height);
 	}
 }

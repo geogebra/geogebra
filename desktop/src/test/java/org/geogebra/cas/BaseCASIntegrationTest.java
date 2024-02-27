@@ -8,8 +8,8 @@ import java.util.Locale;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -33,7 +33,7 @@ public class BaseCASIntegrationTest {
 	 */
 	static CASTestLogger logger;
 
-	MyArbitraryConstant arbconst;
+	ArbitraryConstantRegistry arbconst;
 
 	/**
 	 * Create app and CAS.
@@ -52,7 +52,7 @@ public class BaseCASIntegrationTest {
 		// app.fillCasCommandDict();
 
 		kernel = app.getKernel();
-		arbconst = new MyArbitraryConstant(
+		arbconst = new ArbitraryConstantRegistry(
 				new GeoCasCell(kernel.getConstruction()));
 		logger = new CASTestLogger();
 

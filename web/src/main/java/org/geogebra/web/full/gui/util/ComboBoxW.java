@@ -55,7 +55,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		tf.addInsertHandler(this::onValueChange);
 	}
 
-	@Override 
+	@Override
 	protected void select(ListModelEvent event) {
 		if (isListPanelOpened()) {
 			return;

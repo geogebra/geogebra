@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASTable;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
@@ -219,7 +219,7 @@ public class CASTableW extends Grid implements CASTable {
 	 *            row index (starting from 0) where cell is deleted
 	 */
 	private void updateAfterDeleteArbConstTable(int row) {
-		MyArbitraryConstant arbConst = app.getKernel().getConstruction()
+		ArbitraryConstantRegistry arbConst = app.getKernel().getConstruction()
 				.getArbitraryConsTable().remove(row);
 		if (arbConst != null) {
 			for (GeoNumeric geoNum : arbConst.getConstList()) {
@@ -235,7 +235,7 @@ public class CASTableW extends Grid implements CASTable {
 			Integer max = Collections.max(app.getKernel().getConstruction()
 				.getArbitraryConsTable().keySet());
 			for (int key = row + 1; key <= max; key++) {
-				MyArbitraryConstant myArbConst = app.getKernel()
+				ArbitraryConstantRegistry myArbConst = app.getKernel()
 						.getConstruction()
 					.getArbitraryConsTable().get(key);
 				if (myArbConst != null) {
