@@ -167,9 +167,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					if (app.isApplet()) {
 						((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
 					} else {
-						app.setMoveMode();
-						app.getActiveEuclidianView().getEuclidianController().clearSelections();
-						app.getActiveEuclidianView().setSelectionRectangle(null);
+						handleEscapeForNonApplets();
 					}
 					handled = true;
 				} else {
@@ -195,6 +193,13 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		app.getSelectionManager().clearSelectedGeos();
 		boolean force = !((GuiManagerInterfaceW) app.getGuiManager()).isAlgebraViewActive();
 		app.getAccessibilityManager().focusInput(true, force);
+	}
+
+	private void handleEscapeForNonApplets() {
+		app.setMoveMode();
+		app.getActiveEuclidianView().getEuclidianController().clearSelections();
+		app.getActiveEuclidianView().setSelectionRectangle(null);
+		app.getActiveEuclidianView().getEuclidianController().resetLastMowHit();
 	}
 
 	public EventListener getGlobalShortcutHandler() {
