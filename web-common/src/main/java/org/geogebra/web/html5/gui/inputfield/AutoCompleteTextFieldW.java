@@ -297,7 +297,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		textField.sinkEvents(
 				Event.ONMOUSEMOVE | Event.ONMOUSEUP | Event.TOUCHEVENTS);
-		Browser.setAllowContextMenu(textField.getValueBox().getElement(), true);
 		if (columns > 0) {
 			setWidthInEm(columns);
 		}
@@ -336,9 +335,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		});
 
 		Dom.addEventListener(textField.getValueBox().getElement(), "contextmenu", (event) -> {
+			event.stopPropagation();
 			if  (app.isExam()) {
 				event.preventDefault();
-				event.stopPropagation();
 			}
 		});
 
