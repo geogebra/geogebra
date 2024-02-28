@@ -139,6 +139,9 @@ public class InternalClipboard {
 		ArrayList<ConstructionElement> ret = new ArrayList<>();
 
 		for (int i = conels.size() - 1; i >= 0; i--) {
+			if (!(conels.get(i) instanceof GeoElement)) {
+				continue;
+			}
 			GeoElement geo = (GeoElement) conels.get(i);
 
 			// also doing this here, which is not about the name of the method,
@@ -157,8 +160,7 @@ public class InternalClipboard {
 				if (ale instanceof AlgoTableToChart) {
 					continue;
 				}
-				ArrayList<ConstructionElement> ac = new ArrayList<>();
-				ac.addAll(Arrays.asList(ale.getInput()));
+				List<ConstructionElement> ac = Arrays.asList(ale.getInput());
 
 				if (conels.containsAll(ac) && !conels.contains(ale)) {
 					conels.add(ale);
