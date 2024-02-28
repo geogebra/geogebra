@@ -162,7 +162,7 @@ public abstract class SerializerAdapter implements Serializer {
 			} else if (Character.isDigit(stringBuilder.charAt(i))) {
 				isMixedNumber = true; // Only allow digits 0 - 9 here
 			} else if (isMixedNumber // Square bracket "[" needed for the SolverSerializer
-					&& " +-*/()[]=,;".contains(Character.toString(stringBuilder.charAt(i)))) {
+					&& " +-*/()[]{}=,;".contains(Character.toString(stringBuilder.charAt(i)))) {
 				return i + 1;
 			} else {
 				isMixedNumber = false;
