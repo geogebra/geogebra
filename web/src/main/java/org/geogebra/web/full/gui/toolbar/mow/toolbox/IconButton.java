@@ -124,7 +124,7 @@ public class IconButton extends StandardButton {
 		setIcon(image.withFill(isActive ? selectionColor.toString() : GColor.BLACK.toString()));
 	}
 
-	private boolean isActive() {
+	public boolean isActive() {
 		return getElement().hasClassName("active");
 	}
 

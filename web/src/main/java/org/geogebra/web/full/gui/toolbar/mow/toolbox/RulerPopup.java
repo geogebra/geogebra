@@ -13,6 +13,7 @@ import org.geogebra.web.resources.SVGResource;
 
 public class RulerPopup extends GPopupMenuW {
 	private RulerIconButton rulerButton;
+	private int activeRulerMode = MODE_RULER;
 
 	/**
 	 * Constructor
@@ -41,9 +42,13 @@ public class RulerPopup extends GPopupMenuW {
 	private void addItem(SVGResource image, String text, int mode) {
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				image.getSafeUri().asString(), text), true, () -> {
-			getApp().setMode(mode);
+			activeRulerMode = mode;
 			rulerButton.updateImgAndTxt(image, mode, getApp());
 		});
 		addItem(item);
+	}
+
+	public int getActiveRulerType() {
+		return activeRulerMode;
 	}
 }
