@@ -1504,6 +1504,10 @@ public class EuclidianSettings extends AbstractSettings {
 	 *            {@link BackgroundType}
 	 */
 	public void setBackgroundType(BackgroundType backgroundType) {
+		if (isGridType(this.backgroundType) && !isGridType(backgroundType)) {
+			setShowGridSetting(false);
+		}
+
 		this.backgroundType = backgroundType;
 		if (backgroundType == BackgroundType.ISOMETRIC) {
 			gridType = EuclidianView.GRID_ISOMETRIC;
@@ -1515,6 +1519,10 @@ public class EuclidianSettings extends AbstractSettings {
 			setShowGridSetting(false);
 		}
 		settingChanged();
+	}
+
+	private boolean isGridType(BackgroundType type) {
+		return type == BackgroundType.ISOMETRIC	|| type == BackgroundType.POLAR;
 	}
 
 	/**
