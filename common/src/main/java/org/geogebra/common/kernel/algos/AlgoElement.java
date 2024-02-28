@@ -91,6 +91,10 @@ public abstract class AlgoElement extends ConstructionElement
 	protected StringBuilder sbAE = new StringBuilder();
 	/** flag stating whether remove() on this algo was already called */
 	protected boolean removed = false;
+	/**
+	 * flag stating whether updateDependentGeos() was already called on this algo
+	 */
+	private boolean updatedDependentGeos = false;
 
 	/**
 	 * Creates new algorithm
@@ -625,10 +629,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
-	// public static double startTime, endTime;
-	// public static double computeTime, updateTime;
-	// public static double counter;
-
 	@Override
 	@AutoreleasePool
 	public void update() {
@@ -638,20 +638,14 @@ public abstract class AlgoElement extends ConstructionElement
 
 		updateUnlabeledRandomGeos();
 
-		// counter++;
-		// startTime = System.currentTimeMillis();
-
-		// compute output from input
 		compute();
 
-		// endTime = System.currentTimeMillis();
-		// computeTime += (endTime - startTime);
-		// startTime = System.currentTimeMillis();
+		if (!updatedDependentGeos) {
+			updatedDependentGeos = true;
+			updateDependentGeos();
+		}
 
-		updateDependentGeos();
-
-		// endTime = System.currentTimeMillis();
-		// updateTime += (endTime - startTime );
+		updatedDependentGeos = false;
 	}
 
 	/**
