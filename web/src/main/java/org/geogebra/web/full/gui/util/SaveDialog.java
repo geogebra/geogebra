@@ -36,6 +36,11 @@ public class SaveDialog extends SaveFileDialog {
 		} else {
 			templateCheckbox.setVisible(false);
 		}
+
+		if (app.getGoogleDriveOperation() != null) {
+			app.getGoogleDriveOperation().initGoogleDriveApi();
+		}
+
 		setOnPositiveAction(() -> {
 			if (templateCheckbox.isSelected()) {
 				setSaveType(Material.MaterialType.ggsTemplate);
