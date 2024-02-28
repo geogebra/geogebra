@@ -42,7 +42,7 @@ public class RulerPopup extends GPopupMenuW {
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				image.getSafeUri().asString(), text), true, () -> {
 			getApp().setMode(mode);
-			rulerButton.updateImgAndTxt(image, text);
+			rulerButton.updateImgAndTxt(image, mode, getApp());
 		});
 		addItem(item);
 	}

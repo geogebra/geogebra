@@ -138,7 +138,7 @@ public class IconButton extends StandardButton {
 	 * @param mode - tool mode
 	 * @param appW - application
 	 */
-	public void updateRulerBtn(SVGResource image, int mode, AppW appW) {
+	public void updateImgAndTxt(SVGResource image, int mode, AppW appW) {
 		this.image = image;
 		setIcon(image);
 		setAltText(appW.getToolName(mode) + ". " + appW.getToolHelp(mode));

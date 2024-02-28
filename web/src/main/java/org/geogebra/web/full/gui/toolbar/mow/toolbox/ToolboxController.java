@@ -11,6 +11,7 @@ import org.geogebra.web.html5.main.AppW;
 public class ToolboxController {
 	private final AppW appW;
 	private final ToolboxMow toolbox;
+	
 	/**
 	 * Controller
 	 * @param appW - application
