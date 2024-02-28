@@ -6,7 +6,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Test;
 
@@ -23,12 +25,28 @@ public class   AlgoDerivativeTest extends BaseUnitTest {
 	public void fastDerivativeDirac() {
 		t("f(x)=Dirac(x)", "Dirac(x)");
 		t("g(x)=Heaviside(x)", "Heaviside(x)");
+		AlgoDerivative der = getFastDerivative(lookup("f"));
+		assertThat(der.getResult(), hasValue("Dirac(x)"));
+		der = getFastDerivative(lookup("g"));
+		assertThat(der.getResult(), hasValue("Dirac(x)"));
+	}
+
+	private AlgoDerivative getFastDerivative(GeoElement function) {
 		EvalInfo info = new EvalInfo().withCAS(false);
-		AlgoDerivative der = new AlgoDerivative(getConstruction(),
-				(GeoFunction) lookup("f"), info);
-		assertThat(der.getResult(), hasValue("Dirac(x)"));
-		der = new AlgoDerivative(getConstruction(), (GeoFunction) lookup("g"), info);
-		assertThat(der.getResult(), hasValue("Dirac(x)"));
+		return new AlgoDerivative(getConstruction(),
+				(GeoFunction) function, info);
+	}
+
+	@Test
+	@Issue("APPS-5374")
+	public void fastDerivativeLogBase() {
+		add("b=3");
+		AlgoDerivative logDerivative = getFastDerivative(add("log(b,x)"));
+		assertThat(logDerivative.getResult(), hasValue("1 / x / ln(3)"));
+		add("SetValue(b,4)");
+		assertThat(logDerivative.getResult(), hasValue("1 / x / ln(4)"));
+		AlgoDerivative logDerivativeConst = getFastDerivative(add("log(e^5,x)"));
+		assertThat(logDerivativeConst.getResult(), hasValue("1 / x / 5"));
 	}
 
 	private void t(String s, String s1) {

@@ -152,7 +152,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 		predictionPanel = new FlowPanel();
 		
-		predictionPanel.add(LayoutUtilW.panelRow(lblEvaluate, new Label("x = "), fldInputX, 
+		predictionPanel.add(LayoutUtilW.panelRow(lblEvaluate, new Label("x = "), fldInputX,
 				new Label("y = "), lblOutputY, fldOutputY));
 	}
 

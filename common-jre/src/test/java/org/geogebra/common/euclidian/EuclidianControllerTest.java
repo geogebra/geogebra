@@ -13,10 +13,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
-import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.TestEvent;
+import org.geogebra.test.annotation.Issue;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -81,18 +81,9 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		add(listDef);
 		add("A=Point(l)");
 		ArrayList<String> updates = new ArrayList<>();
-		EventListener acc = new EventListener() {
-
-			@Override
-			public void sendEvent(Event evt) {
-				if (evt.getType() == EventType.UPDATE) {
-					updates.add(evt.target.getLabelSimple());
-				}
-			}
-
-			@Override
-			public void reset() {
-				// not needed
+		EventListener acc = evt -> {
+			if (evt.getType() == EventType.UPDATE) {
+				updates.add(evt.target.getLabelSimple());
 			}
 		};
 		getApp().getEventDispatcher().addEventListener(acc);
@@ -426,6 +417,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-5351")
 	public void rotateByAngleToolMultiplePointsToExistingPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("A = (1, -1)");
@@ -452,6 +444,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-5351")
 	public void rotateByAngleToolMultiplePointsToNewPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("A = (1, -1)");
@@ -465,6 +458,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-5351")
 	public void rotateByAngleToolObjectToExistingPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("t1 = Polygon((1,-1),(2,-2),(1,-2))");
@@ -477,6 +471,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-5351")
 	public void rotateByAngleToolMultipleObjectsToNewPoint() {
 		setMode(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
 		t("c = Circle((1, -1), 0.5)");

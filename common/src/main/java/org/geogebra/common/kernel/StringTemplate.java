@@ -1167,41 +1167,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else if ((left.evaluatesToNumber(false)
 					|| left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
-				// Log.debug(left.getClass()+" "+right.getClass());
-				// eg 10 + (1,2,3)
-				sb.append("((");
-				sb.append(rightStr);
-				sb.append(")[0]+");
-				sb.append(leftStr);
-				sb.append(",(");
-				sb.append(rightStr);
-				sb.append(")[1]+");
-				sb.append(leftStr);
-				sb.append(",(");
-				sb.append(rightStr);
-				sb.append(")[2]+");
-				sb.append(leftStr);
-				sb.append(')');
+				vector3DNumberOperation(rightStr, leftStr, '+', sb);
 
 				// don't use isNumberValue() as that leads to an evaluate()
 			} else if (left.evaluatesTo3DVector()
 					&& (right.evaluatesToNumber(false)
 							|| right instanceof NumberValue)) {
-				// Log.debug(left.getClass()+" "+right.getClass());
-				// eg (1,2,3) + 10
-				sb.append("((");
-				sb.append(leftStr);
-				sb.append(")[0]+");
-				sb.append(rightStr);
-				sb.append(",(");
-				sb.append(leftStr);
-				sb.append(")[1]+");
-				sb.append(rightStr);
-				sb.append(",(");
-				sb.append(leftStr);
-				sb.append(")[2]+");
-				sb.append(rightStr);
-				sb.append(')');
+				vector3DNumberOperation(leftStr, rightStr, '+', sb);
 
 			} else if (left.evaluatesToVectorNotPoint()
 					&& right.evaluatesToVectorNotPoint()) {
@@ -1374,6 +1346,23 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
+	private void vector3DNumberOperation(String vectorStr, String numberStr,
+			char operation, StringBuilder sb) {
+		sb.append("(xcoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(",ycoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(",zcoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(')');
+	}
+
 	/**
 	 * @param leftStr Left subtree as string
 	 * @param rightStr Right subtree as string
@@ -1448,50 +1437,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String rightSquareBracket() {
 		return right() + "]";
-	}
-
-	/**
-	 * Used for French and Hungarian open intervals (StepByStep)
-	 *
-	 * @return left ]
-	 */
-	public String invertedLeftSquareBracket() {
-		return left() + "]";
-	}
-
-	/**
-	 * Used for French and Hungarian open intervals (StepByStep)
-	 *
-	 * @return right [
-	 */
-	public String invertedRightSquareBracket() {
-		return right() + "[";
-	}
-
-	/**
-	 * Used for Czech closed intervals (StepByStep)
-	 *
-	 * @return left <
-	 */
-	public String leftAngleBracket() {
-		if (stringType.equals(StringType.LATEX)) {
-			return " \\left \\langle";
-		}
-
-		return "\u3008";
-	}
-
-	/**
-	 * Used for Czech closed intervals (StepByStep)
-	 *
-	 * @return right >
-	 */
-	public String rightAngleBracket() {
-		if (stringType.equals(StringType.LATEX)) {
-			return " \\right \\rangle";
-		}
-
-		return "\u3009";
 	}
 
 	private String right() {
@@ -1595,19 +1540,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					|| left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
 				// eg 10 - (1,2,3)
-				sb.append("(");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[0],");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[1],");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[2])");
+				vector3DNumberOperation(rightStr, leftStr, '-', sb);
 
 				// don't use isNumberValue(), isListValue as those lead to an
 				// evaluate()
@@ -1615,19 +1548,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& (right.evaluatesToNumber(false)
 							|| right instanceof NumberValue)) {
 				// eg (1,2,3) - 10
-				sb.append("((");
-				sb.append(leftStr);
-				sb.append(")[0]-(");
-				sb.append(rightStr);
-				sb.append("),(");
-				sb.append(leftStr);
-				sb.append(")[1]-(");
-				sb.append(rightStr);
-				sb.append("),(");
-				sb.append(leftStr);
-				sb.append(")[2]-(");
-				sb.append(rightStr);
-				sb.append("))");
+				vector3DNumberOperation(leftStr, rightStr, '-', sb);
 
 			} else if (left.evaluatesToVectorNotPoint()
 					&& right.evaluatesToVectorNotPoint()) {
@@ -1806,7 +1727,27 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return requiresBrackets(value.wrap().getLeft(), valueForm);
 		}
 
+		if (ExpressionNode.opID(value.unwrap()) == Operation.MULTIPLY.ordinal()) {
+			return isVectorMatrixMultiplication(value);
+		}
+
 		return ExpressionNode.opID(value.unwrap()) < Operation.MULTIPLY.ordinal();
+	}
+
+	/**
+	 * Multiplying a vector with another vector or a vector with a matrix should
+	 * append brackets left and right
+	 * @param value ExpressionValue
+	 * @return True if this is a vector * vector or vector * matrix multiplication, false else
+	 */
+	private boolean isVectorMatrixMultiplication(ExpressionValue value) {
+		ExpressionValue left = value.wrap().getLeft();
+		ExpressionValue right = value.wrap().getRight();
+		if (left != null && right != null) {
+			return ((left.evaluatesToList() || isNDvector(left)) && (isNDvector(right)))
+					|| (isNDvector(left) && (right.evaluatesToList() || isNDvector(right)));
+		}
+		return false;
 	}
 
 	/**
@@ -1862,8 +1803,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// vector * (matrix * vector) needs brackets; always use brackets
 			// for internal templates
-			if (useExtensiveBrackets()
-					|| (left.evaluatesToList() && isNDvector(right))) {
+			if (useExtensiveBrackets()) {
 				sb.append(leftBracket());
 			}
 
@@ -1884,9 +1824,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					}
 				}
 			} else {
-				sb.append(leftBracket());
-				sb.append(leftStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, leftStr);
 			}
 
 			// right wing
@@ -2010,15 +1948,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 						sb.append(multiplicationSpace());
 					}
 				}
-				sb.append(leftBracket());
-				sb.append(rightStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, rightStr);
 			}
 
 			// vector * (matrix * vector) needs brackets; always use brackets
 			// for internal templates
-			if (useExtensiveBrackets()
-					|| (left.evaluatesToList() && isNDvector(right))) {
+			if (useExtensiveBrackets()) {
 				sb.append(rightBracket());
 			}
 
@@ -3076,12 +3011,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *
 	 * @param sb
 	 *            builder
-	 * @param leftStr
-	 *            serialized expression
+	 * @param expression
+	 *            serialized expression (String)
 	 */
-	public void appendWithBrackets(StringBuilder sb, String leftStr) {
+	public void appendWithBrackets(StringBuilder sb, String expression) {
 		sb.append(leftBracket());
-		sb.append(leftStr);
+		sb.append(expression);
 		sb.append(rightBracket());
 	}
 

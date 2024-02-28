@@ -214,7 +214,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 
 		// eg 1 + sqrt(2)
 		// or -1 + sqrt(2)
-		// -sqrt(2) gets brackets, 
+		// -sqrt(2) gets brackets,
 		return str.contains("+") || str.contains("-");
 	}
 

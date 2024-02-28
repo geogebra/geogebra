@@ -468,13 +468,7 @@ public abstract class ValidExpression
 	 * @return deep check for function variable
 	 */
 	public final boolean containsFunctionVariable() {
-		return this.inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v instanceof FunctionVariable;
-			}
-		});
+		return this.inspect(v -> v instanceof FunctionVariable);
 	}
 
 	/**

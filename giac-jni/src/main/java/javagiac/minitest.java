@@ -16,12 +16,11 @@ public class minitest {
     }
   }
 
-  public static void main(String argv[]) 
-  {
-    context C=new context();
+  public static void main(String argv[]) {
+    context C = new context();
     String s = new String(argv[0]);
-    gen g=new gen(s,C);
-    g=g.eval(1,C);
+    gen g = new gen(s, C);
+    g = g.eval(1, C);
     System.out.println(g.print(C));
   }
 }

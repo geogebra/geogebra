@@ -10,10 +10,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
  */
 public class FragmentShader {
 
-	final private static String fragmentHeaderDesktop = 
+	final private static String fragmentHeaderDesktop =
 			"#if __VERSION__ >= 130\n"
 			+ "  #define varying in\n"
-			+ "  out vec4 mgl_FragColor;\n" 
+			+ "  out vec4 mgl_FragColor;\n"
 			+ "  #define texture2D texture\n"
 			+ "  #define gl_FragColor mgl_FragColor\n"
 			+ "#endif\n"
@@ -80,8 +80,8 @@ public class FragmentShader {
 				+ "{ \n"
 
 				+ "\n// this occurs when buffer parts have been \"removed\"\n"
-				+ "if (varying_Color.a < 0.0) {\n" 
-				+ "  discard;\n" 
+				+ "if (varying_Color.a < 0.0) {\n"
+				+ "  discard;\n"
 				+ "}\n"
 
 				+ "\n// remove parts out of clipping box\n"
@@ -98,7 +98,7 @@ public class FragmentShader {
 				+ "}\n"
 
 				+ "\n// set color, with eventually shine effect\n"
-				+ "vec4 color;\n" 
+				+ "vec4 color;\n"
 				+ (Renderer.TEST_DRAW_DEPTH_TO_COLOR
 						? "color = varying_Color;\n"
 						: light)
@@ -165,7 +165,7 @@ public class FragmentShader {
 						? "  gl_FragColor.a = 1.0;\n"
 						: "")
 				+ ";\n"
-				+ "  return;\n" 
+				+ "  return;\n"
 				+ "}\n "
 
 				+ "\n// default: no texture (e.g. for points)\n"

@@ -36,6 +36,14 @@ public class AlgebraOutputPanel extends FlowPanel {
 		valuePanel.addStyleName("avValue");
 	}
 
+	public Canvas getValCanvas() {
+		return this.valCanvas;
+	}
+
+	public FlowPanel getValuePanel() {
+		return this.valuePanel;
+	}
+
 	/**
 	 * @param text
 	 *            prefix
@@ -168,7 +176,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		valuePanel.clear();
 
-		if (latex 
+		if (latex
 				&& (geo1.isLaTeXDrawableGeo()
 						|| AlgebraItem.isGeoFraction(geo1)
 						|| AlgebraItem.isGeoSurd(geo1))) {

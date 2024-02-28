@@ -2067,6 +2067,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys) {
+		return getCoordsInD2IfInPlane(coordSys);
+	}
+
+	@Override
 	public Coords getCoordsInD2(CoordSys coordSys) {
 
 		setCoords2D(coordSys);
@@ -2902,13 +2907,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		if (!geoPoint.addAuralCaption(sb)) {
 			geoPoint.addAuralLabel(sb);
+		} else {
+			return sb.toString();
 		}
-
 		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
 		sbWithValue.appendDegreeIfNeeded(geoPoint,
 				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(),
 						geoPoint.getKernel().getApplication()));
-		return loc.getPlain("PointAMovedToB",
+		return loc.getPlainDefault("PointAMovedToB", "Point %0 moved to %1",
 				sb.toString(),
 				sbWithValue.toString());
 

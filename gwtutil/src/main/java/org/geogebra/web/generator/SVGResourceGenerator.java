@@ -42,11 +42,11 @@ public final class SVGResourceGenerator extends AbstractResourceGenerator {
 
 	@Override
 	public String createAssignment(
-			TreeLogger logger, ResourceContext context, ExecutableElement method)
+			TreeLogger logger, ResourceContext context, ExecutableElement method, String foo)
 			throws UnableToCompleteException {
 		ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
 
-		URL[] resources = resourceOracle.findResources(logger, method);
+		URL[] resources = resourceOracle.findResources(logger, method, foo);
 
 		if (resources.length != 1) {
 			logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);

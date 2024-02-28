@@ -32,7 +32,7 @@ public class JlmApi {
 	public final int ROMAN = TeXFont.ROMAN;
 	public final int TYPEWRITER = TeXFont.TYPEWRITER;
 
-	public FormulaRenderingResult drawLatex(JsPropertyMap opts) {
+	public FormulaRenderingResult drawLatex(JsPropertyMap<?> opts) {
 		//ctx, latex, size, style, x, y, fgColor, bgColor, cb
 		if (Js.isFalsy(opts.get("context")) && Js.isFalsy(opts.get("element"))) {
 			throw new IllegalArgumentException("drawLatex(opts): opts.context must not be null");
@@ -68,12 +68,12 @@ public class JlmApi {
 		return result;
 	}
 
-	private Object getContext(JsPropertyMap opts) {
+	private Object getContext(JsPropertyMap<?> opts) {
 		return Js.isTruthy(opts.get("context"))	? opts.get("context")
 				: ((HTMLCanvasElement) opts.get("element")).getContext("2d");
 	}
 
-	private int getInt(JsPropertyMap opts, String key, int fallback) {
+	private int getInt(JsPropertyMap<?> opts, String key, int fallback) {
 		Object val = opts.nestedGet(key);
 		return val == null ? fallback : Js.asInt(val);
 	}
