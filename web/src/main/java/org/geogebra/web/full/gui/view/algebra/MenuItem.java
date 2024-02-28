@@ -71,7 +71,6 @@ public class MenuItem<T> {
 		return image;
 	}
 
-
 	/**
 	 * Run this item's action
 	 * @param element parameter of the action
