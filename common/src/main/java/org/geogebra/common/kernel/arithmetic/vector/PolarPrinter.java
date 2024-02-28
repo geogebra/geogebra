@@ -10,6 +10,13 @@ class PolarPrinter implements Printer {
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
             PrintableVector vector) {
+        if (tpl.getStringType().isGiac()) {
+            return "point(("
+                    + expressionPrinter.print(vector.getX(), tpl)
+                    + ")*exp(i*("
+                    + expressionPrinter.print(vector.getY(), tpl)
+                    + ")))";
+        }
         return printLeftParenthesis(tpl)
                 + expressionPrinter.print(vector.getX(), tpl)
                 + printDelimiter()

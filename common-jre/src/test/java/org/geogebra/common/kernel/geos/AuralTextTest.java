@@ -172,6 +172,10 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\widehat{p}\")", "p with \u0302", "edit");
 		aural("LaTeX(\"\\underline{p}j\")", "pj", "edit");
+		aural("LaTeX(x-y)", "x minus y", "edit");
+		aural("LaTeX(\"x-y\")", "x minus y", "edit");
+		aural("LaTeX(\"\\text{x-y}\")", "x\u2010y", "edit");
+		aural("LaTeX((-1,2))", "open parenthesis  minus 1 comma  2 close parenthesis", "edit");
 	}
 
 	@Test

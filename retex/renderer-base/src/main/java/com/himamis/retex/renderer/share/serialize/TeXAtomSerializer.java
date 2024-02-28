@@ -24,6 +24,7 @@ import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.OgonekAtom;
 import com.himamis.retex.renderer.share.OverlinedAtom;
 import com.himamis.retex.renderer.share.PhantomAtom;
+import com.himamis.retex.renderer.share.ResizeAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.RuleAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
@@ -188,7 +189,8 @@ public class TeXAtomSerializer {
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
 		if (root instanceof HasTrueBase) {
 			Atom trueBase = ((HasTrueBase) root).getTrueBase();
-			return serialize(trueBase);
+			String baseString = serialize(trueBase);
+			return root instanceof ResizeAtom ? adapter.transformWrapper(baseString) : baseString;
 		}
 
 		if (root instanceof BigDelimiterAtom) {
