@@ -5,7 +5,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -16,7 +15,6 @@ public class ToolboxMow extends FlowPanel {
 	private ToolboxDecorator decorator;
 	private ToolboxController controller;
 	private IconButton spotlightBtn;
-	private IconButton rulerBtn;
 
 	/**
 	 * MOW toolbox
@@ -77,13 +75,9 @@ public class ToolboxMow extends FlowPanel {
 
 	private void addRulerButton() {
 		String ariaLabel = appW.getToolName(MODE_RULER) + ". " + appW.getToolHelp(MODE_RULER);
-		rulerBtn = addToggleButton(ToolbarSvgResources.INSTANCE.mode_ruler(), ariaLabel, "Ruler",
-				"selectModeButton" + MODE_RULER, controller.getRulerOnHandler(), () -> {});
-	}
-
-	public void updateRulerBtn(SVGResource image, int mode) {
-		rulerBtn.setIcon(image);
-		rulerBtn.setAltText(appW.getToolName(mode) + ". " + appW.getToolHelp(mode));
-		TestHarness.setAttr(rulerBtn, "selectModeButton" + mode);
+		RulerIconButton rulerBtn = new RulerIconButton(appW,
+				ToolbarSvgResources.INSTANCE.mode_ruler(), ariaLabel, "Ruler",
+				"selectModeButton" + MODE_RULER);
+		add(rulerBtn);
 	}
 }

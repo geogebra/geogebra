@@ -132,9 +132,16 @@ public class IconButton extends StandardButton {
 		return getElement().hasClassName("disabled");
 	}
 
-	public void updateImgAndTxt(SVGResource image, String txt) {
+	/**
+	 * Updates the image and the aria attributes
+	 * @param image - image
+	 * @param mode - tool mode
+	 * @param appW - application
+	 */
+	public void updateRulerBtn(SVGResource image, int mode, AppW appW) {
 		this.image = image;
 		setIcon(image);
-		AriaHelper.setTitle(this, txt);
+		setAltText(appW.getToolName(mode) + ". " + appW.getToolHelp(mode));
+		TestHarness.setAttr(this, "selectModeButton" + mode);
 	}
 }

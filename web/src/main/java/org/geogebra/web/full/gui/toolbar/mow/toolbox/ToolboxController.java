@@ -11,7 +11,6 @@ import org.geogebra.web.html5.main.AppW;
 public class ToolboxController {
 	private final AppW appW;
 	private final ToolboxMow toolbox;
-
 	/**
 	 * Controller
 	 * @param appW - application
@@ -58,15 +57,5 @@ public class ToolboxController {
 				// not needed
 			}
 		});
-	}
-
-	/**
-	 * @return show ruler type popup handler
-	 */
-	public Runnable getRulerOnHandler() {
-		return () -> {
-			RulerPopup rulerPopup = new RulerPopup(appW);
-			rulerPopup.showAtPoint(100, 100);
-		};
 	}
 }

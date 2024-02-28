@@ -12,13 +12,15 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 public class RulerPopup extends GPopupMenuW {
+	private RulerIconButton rulerButton;
 
 	/**
 	 * Constructor
 	 * @param app - application
 	 */
-	public RulerPopup(AppW app) {
+	public RulerPopup(AppW app, RulerIconButton rulerButton) {
 		super(app);
+		this.rulerButton = rulerButton;
 		buildGui();
 	}
 
@@ -40,7 +42,7 @@ public class RulerPopup extends GPopupMenuW {
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				image.getSafeUri().asString(), text), true, () -> {
 			getApp().setMode(mode);
-			// TODO update ruler button
+			rulerButton.updateImgAndTxt(image, text);
 		});
 		addItem(item);
 	}
