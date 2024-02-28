@@ -1472,7 +1472,7 @@ public class EuclidianViewW extends EuclidianView implements
 		overlayGraphics.setCoordinateSpaceSize(getWidth(), getHeight());
 		overlayGraphics.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
 				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
-		overlayGraphics.setColor(pen.getPenColor());
+		overlayGraphics.setColor(pen.getPenColorWithOpacity());
 	}
 
 	@Override
